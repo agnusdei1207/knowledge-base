@@ -10,19 +10,21 @@ permissions:
 concurrency:
   group: "pages"
   cancel-in-progress: false
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           path: my-garden
           fetch-depth: 0
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
-          # Quartz v5 currently breaks on newer 22.x patch lines during plugin install.
-          node-version: 22.16.0
+          node-version: 24
 
       - name: Clone Quartz v5
         run: git clone --depth 1 --branch v5 https://github.com/jackyzha0/quartz.git quartz-core
@@ -34,13 +36,13 @@ jobs:
           cp my-garden/quartz.config.yaml quartz-core/quartz.config.yaml
 
       - name: Cache npm
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node-22.16.0-quartz-v5
+          key: ${{ runner.os }}-node-24-quartz-v5
 
       - name: Cache Quartz plugins
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: quartz-core/.quartz/plugins
           key: ${{ runner.os }}-plugins-v5
