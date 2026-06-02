@@ -6,3 +6,6 @@ Thumbs.db
 *.tmp
 *~
 *.log
+
+# Local dependencies
+node_modules/

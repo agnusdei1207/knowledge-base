@@ -1,62 +1,67 @@
 name: Deploy Quartz to GitHub Pages
- 
 on:
   push:
     branches:
       - main
- 
 permissions:
   contents: read
   pages: write
   id-token: write
- 
 concurrency:
   group: "pages"
   cancel-in-progress: false
- 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # 1. Checkout our clean repository (has content/ and quartz.config.yaml)
       - uses: actions/checkout@v4
         with:
           path: my-garden
           fetch-depth: 0
- 
-      # 2. Setup Node.js
+
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
- 
-      # 3. Clone official Quartz repository
-      - name: Clone Quartz
-        run: git clone https://github.com/jackyzha0/quartz.git quartz-core
- 
-      # 4. Copy our notes and config into Quartz core
+          # Quartz v5 currently breaks on newer 22.x patch lines during plugin install.
+          node-version: 22.16.0
+
+      - name: Clone Quartz v5
+        run: git clone --depth 1 --branch v5 https://github.com/jackyzha0/quartz.git quartz-core
+
       - name: Prepare Quartz content
         run: |
-          # Remove default Quartz content
           rm -rf quartz-core/content/*
-          # Copy our content
-          cp -r my-garden/content/* quartz-core/content/
-          # Copy our config
+          cp -r my-garden/content/. quartz-core/content/
           cp my-garden/quartz.config.yaml quartz-core/quartz.config.yaml
- 
-      # 5. Install dependencies and build Quartz
-      - name: Build Quartz
-        run: |
-          cd quartz-core
-          npm ci
-          npm run install-plugins
-          npx quartz build
- 
-      # 6. Upload artifact for Pages deployment
+
+      - name: Cache npm
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-22.16.0-quartz-v5
+
+      - name: Cache Quartz plugins
+        uses: actions/cache@v4
+        with:
+          path: quartz-core/.quartz/plugins
+          key: ${{ runner.os }}-plugins-v5
+
+      - name: Install dependencies
+        working-directory: quartz-core
+        run: npm ci
+
+      - name: Install Quartz plugins
+        working-directory: quartz-core
+        run: npm run install-plugins
+
+      - name: Build
+        working-directory: quartz-core
+        run: npx quartz build --baseDir /knowlegebase
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: quartz-core/public
- 
+
   deploy:
     needs: build
     environment:
