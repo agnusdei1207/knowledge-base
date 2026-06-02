@@ -48,6 +48,7 @@ jobs:
         run: |
           cd quartz-core
           npm ci
+          npm run install-plugins
           npx quartz build
  
       # 6. Upload artifact for Pages deployment
