@@ -2,6 +2,8 @@
 
 Quartz는 Foam 마크다운 저장소를 활용해 초고속 웹 브라우저 뷰어를 만들어주는 최적의 동반자입니다.
 
+[GitHub에서 이 문서 수정](https://github.com/agnusdei1207/knowledge-base/edit/main/content/quartz-deployment.md)
+
 ---
 
 ## 🛠️ GitHub Actions를 이용한 무상 배포 (정석)
