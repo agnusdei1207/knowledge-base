@@ -13,9 +13,9 @@
 1. **에디터 설치:** [Visual Studio Code](https://code.visualstudio.com/)를 다운로드 및 설치합니다.
 2. **저장소 클론:** 이 GitHub 저장소를 본인의 PC에 클론(Clone) 받습니다.
    ```bash
-   git clone https://github.com/agnusdei1207/knowlegebase.git
+   git clone https://github.com/agnusdei1207/knowledge-base.git
    ```
-3. **폴더 열기:** VS Code에서 클론 받은 `knowledgebase` 폴더를 엽니다.
+3. **폴더 열기:** VS Code에서 클론 받은 저장소 폴더를 엽니다.
 4. **플러그인 설치:** 폴더를 열면 우측 하단에 **"추천 확장 프로그램을 설치하시겠습니까?"** 팝업이 뜹니다. `설치`를 누르면 Foam을 포함한 핵심 툴들이 자동으로 셋팅됩니다. (또는 `Ctrl+Shift+X`를 눌러 `Foam`을 직접 검색해 설치하세요.)
 5. **메인 화면 진입:** `index.md` 파일을 열고 글쓰기를 시작합니다!
 

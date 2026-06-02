@@ -1,26 +1,19 @@
 services:
   quartz-server:
-    image: node:24-alpine
+    image: node:alpine
     container_name: quartz-local-wiki
     ports:
       - "8080:8080"
       - "3001:3001"
     volumes:
-      - ./content:/my-garden/content
-      - ./quartz.config.yaml:/my-garden/quartz.config.yaml
-    working_dir: /quartz
+      - ./:/workspace
+    working_dir: /workspace
     environment:
       - PORT=8080
       - WS_PORT=3001
-    entrypoint: >
-      sh -c "
-      apk add --no-cache git &&
-      git clone --depth 1 --branch v5 https://github.com/jackyzha0/quartz.git /quartz &&
-      rm -rf /quartz/content/* &&
-      cp -r /my-garden/content/. /quartz/content/ &&
-      cp /my-garden/quartz.config.yaml /quartz/quartz.config.yaml &&
-      npm ci &&
-      npm run install-plugins &&
-      npx quartz build --serve --port 8080 --wsPort 3001
-      "
+      - BASE_DIR=/
+      - WORKSPACE=/workspace
+    entrypoint:
+      - /bin/sh
+      - /workspace/scripts/serve-quartz.sh
     restart: unless-stopped

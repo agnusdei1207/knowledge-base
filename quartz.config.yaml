@@ -7,7 +7,7 @@ configuration:
   analytics:
     provider: plausible
   locale: ko-KR
-  baseUrl: agnusdei1207.github.io/knowlegebase
+  baseUrl: agnusdei1207.github.io/knowledge-base
   ignorePatterns:
     - private
     - templates

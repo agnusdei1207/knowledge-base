@@ -9,3 +9,8 @@ Thumbs.db
 
 # Local dependencies
 node_modules/
+.quartz/
+.quartz-build/
+public/
+.cache/
+.parcel-cache/

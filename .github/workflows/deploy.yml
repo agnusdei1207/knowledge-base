@@ -10,8 +10,6 @@ permissions:
 concurrency:
   group: "pages"
   cancel-in-progress: false
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   build:
@@ -19,50 +17,17 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          path: my-garden
           fetch-depth: 0
 
-      - uses: actions/setup-node@v6
-        with:
-          node-version: 24
-
-      - name: Clone Quartz v5
-        run: git clone --depth 1 --branch v5 https://github.com/jackyzha0/quartz.git quartz-core
-
-      - name: Prepare Quartz content
-        run: |
-          rm -rf quartz-core/content/*
-          cp -r my-garden/content/. quartz-core/content/
-          cp my-garden/quartz.config.yaml quartz-core/quartz.config.yaml
-
-      - name: Cache npm
-        uses: actions/cache@v5
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-24-quartz-v5
-
-      - name: Cache Quartz plugins
-        uses: actions/cache@v5
-        with:
-          path: quartz-core/.quartz/plugins
-          key: ${{ runner.os }}-plugins-v5
-
-      - name: Install dependencies
-        working-directory: quartz-core
-        run: npm ci
-
-      - name: Install Quartz plugins
-        working-directory: quartz-core
-        run: npm run install-plugins
-
-      - name: Build
-        working-directory: quartz-core
-        run: npx quartz build --baseDir /knowlegebase
+      - name: Build Quartz in Docker
+        env:
+          BASE_DIR: /knowledge-base
+        run: bash scripts/build-quartz.sh .quartz-build/public
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: quartz-core/public
+          path: .quartz-build/public
 
   deploy:
     needs: build
