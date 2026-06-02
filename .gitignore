@@ -1,0 +1,14 @@
+# Local VS Code state
+.vscode/sftp.json
+.vscode/tasks.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Backup / temp files
+*.tmp
+*~
+
+# Log files
+*.log
