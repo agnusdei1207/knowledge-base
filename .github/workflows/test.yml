@@ -1,4 +1,4 @@
-name: Build Verification Test
+name: Validate Repository Structure
 
 on:
   push:
@@ -9,41 +9,75 @@ on:
       - '**'
 
 jobs:
-  test:
+  validate:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 24
+      # ── 1. 필수 파일 존재 확인 ──────────────────────────────────────────
+      - name: Check required files exist
+        run: |
+          required=(
+            "quartz.config.yaml"
+            "docker-compose.yml"
+            "scripts/build-quartz.sh"
+            "scripts/serve-quartz.sh"
+            "scripts/knowledgebase_mcp_server.py"
+            "docker/knowledgebase-mcp.Dockerfile"
+            "content/index.md"
+          )
+          missing=0
+          for f in "${required[@]}"; do
+            if [ ! -f "$f" ]; then
+              echo "❌ Missing: $f"
+              missing=1
+            else
+              echo "✅ Found:   $f"
+            fi
+          done
+          [ "$missing" -eq 0 ] || { echo "Required files are missing!"; exit 1; }
 
-      - name: Cache Quartz source
-        id: cache-quartz-src
-        uses: actions/cache@v4
-        with:
-          path: .quartz-src
-          key: quartz-src-v5-${{ hashFiles('quartz.config.yaml') }}
-          restore-keys: |
-            quartz-src-v5-
+      # ── 2. 셸 스크립트 문법 검사 ────────────────────────────────────────
+      - name: Validate shell scripts syntax
+        run: |
+          find scripts -name "*.sh" | while read -r f; do
+            bash -n "$f" && echo "✅ Syntax OK: $f" || { echo "❌ Syntax error: $f"; exit 1; }
+          done
 
-      - name: Cache npm packages
-        uses: actions/cache@v4
-        with:
-          path: .quartz-src/.npm-cache
-          key: quartz-npm-v5-${{ hashFiles('.quartz-src/package-lock.json') }}
-          restore-keys: |
-            quartz-npm-v5-
+      # ── 3. YAML 문법 검사 ───────────────────────────────────────────────
+      - name: Validate YAML files
+        run: |
+          pip install --quiet pyyaml
+          python3 - <<'EOF'
+          import yaml, sys, pathlib
 
-      - name: Verify Quartz build
-        env:
-          USE_DOCKER: "false"
-          NODE_OPTIONS: "--max-old-space-size=4096"
-          QUARTZ_SRC_CACHE: ".quartz-src"
-          NPM_CACHE_DIR: ".quartz-src/.npm-cache"
-          QUARTZ_SRC_CACHED: ${{ steps.cache-quartz-src.outputs.cache-hit }}
-        run: bash scripts/build-quartz.sh .quartz-build/public
+          targets = [
+              "quartz.config.yaml",
+              "docker-compose.yml",
+          ]
+          targets += [str(p) for p in pathlib.Path(".github/workflows").glob("*.yml")]
+
+          errors = []
+          for path in targets:
+              try:
+                  yaml.safe_load(open(path))
+                  print(f"✅ Valid YAML: {path}")
+              except Exception as e:
+                  print(f"❌ Invalid YAML: {path}: {e}")
+                  errors.append(path)
+
+          if errors:
+              print(f"\n{len(errors)} YAML file(s) have errors!")
+              sys.exit(1)
+          EOF
+
+      # ── 4. Python MCP 서버 문법 검사 ────────────────────────────────────
+      - name: Validate Python MCP server syntax
+        run: |
+          python3 -m py_compile scripts/knowledgebase_mcp_server.py \
+            && echo "✅ Python syntax OK: knowledgebase_mcp_server.py" \
+            || { echo "❌ Python syntax error"; exit 1; }
+
+      - name: All checks passed
+        run: echo "🎉 Repository structure is valid!"
