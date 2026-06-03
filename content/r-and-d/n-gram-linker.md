@@ -34,19 +34,26 @@ tags = ["r-and-d"]
 
 
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">마크다운 본문</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">코드블럭 등</div><div class="kb-diagram-note">임시 격리</div><div class="kb-diagram-node">Placeholder</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1~3어절 조합</div><div class="kb-diagram-note">수집</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">문서당 약 300개 조합</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3. 19,846개 키워드 해시 맵 (O</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">Hash Table Lookup) 대조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">* matched_kws = {c for c in candidates if c in keyword_map}</div><div class="kb-diagram-node">보통 5~20개로 필터링</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">4. 실제 검증된 소수 키워드만 1대1 정규식 치환 및 격리 해제</div>
-</div>
-</div>
+```text
+[마크다운 본문]
+    │
+    ├─ [코드블럭 등] 임시 격리 → [Placeholder]
+    │
+    ▼
+[1~3어절 조합 수집]
+    │
+    └─ 문서당 약 300개 조합
+    │
+    ▼
+[19,846개 키워드 해시 맵 대조]
+    │
+    ├─ O(1) Hash Table Lookup
+    └─ matched_kws = {c for c in candidates if c in keyword_map}
+       보통 5~20개로 필터링
+    │
+    ▼
+[실제 검증된 소수 키워드만 1대1 정규식 치환 및 격리 해제]
+```
 
 
 

@@ -418,8 +418,10 @@ footer {
   overflow-x: auto;
   border: 1px solid var(--lightgray);
   border-radius: 5px;
-  padding: 0.6rem 0.7rem;
+  padding: 0.7rem 0.85rem;
   background: color-mix(in srgb, var(--lightgray) 60%, transparent);
+  -webkit-overflow-scrolling: touch;
+  tab-size: 2;
 }
 
 .markdown-rendered pre code {
@@ -427,6 +429,10 @@ footer {
   padding: 0;
   color: var(--darkgray);
   display: block;
+  min-width: max-content;
+  font-size: 0.84rem;
+  line-height: 1.42;
+  white-space: pre;
 }
 
 .markdown-rendered table {
@@ -605,78 +611,6 @@ footer {
   border-radius: 8px;
   padding: 16px;
   background: var(--highlight);
-}
-
-.kb-diagram {
-  margin: 1.25rem 0;
-  border: 1px solid var(--lightgray);
-  border-radius: 8px;
-  background: color-mix(in srgb, var(--light) 92%, var(--secondary));
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
-  overflow: hidden;
-}
-
-.kb-diagram-flow {
-  display: flex;
-  flex-direction: column;
-  gap: 0.55rem;
-  padding: 0.9rem;
-}
-
-.kb-diagram-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: stretch;
-  justify-content: center;
-  gap: 0.45rem;
-}
-
-.kb-diagram-grid-row {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
-  justify-content: stretch;
-}
-
-.kb-diagram-node,
-.kb-diagram-cell,
-.kb-diagram-note,
-.kb-diagram-tree-item {
-  min-width: 0;
-  border: 1px solid var(--lightgray);
-  border-radius: 6px;
-  padding: 0.45rem 0.65rem;
-  background: var(--light);
-  color: var(--darkgray);
-  line-height: 1.35;
-  overflow-wrap: anywhere;
-}
-
-.kb-diagram-node {
-  font-weight: 700;
-  color: var(--dark);
-}
-
-.kb-diagram-cell {
-  min-height: 2.25rem;
-}
-
-.kb-diagram-note {
-  width: fit-content;
-  max-width: 100%;
-  background: var(--highlight);
-}
-
-.kb-diagram-connector {
-  align-self: center;
-  color: var(--secondary);
-  font-weight: 700;
-  padding: 0.1rem 0.25rem;
-  line-height: 1.2;
-}
-
-.kb-diagram-tree-item {
-  margin-left: calc(var(--depth, 0) * 1rem);
-  border-left: 3px solid var(--secondary);
 }
 
 @media (max-width: 1200px) {

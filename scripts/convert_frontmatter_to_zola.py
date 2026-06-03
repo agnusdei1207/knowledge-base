@@ -95,48 +95,6 @@ def render_strong_inner(inner: str) -> str | None:
     return text
 
 
-def normalize_diagram_html_line(line: str) -> str:
-    def replace_strong(match: re.Match[str]) -> str:
-        rendered = render_strong_inner(match.group(1))
-        if rendered is None:
-            rendered = match.group(1)
-        return f"<strong>{rendered}</strong>"
-
-    line = STRONG_RE.sub(replace_strong, line)
-    line = INLINE_CODE_TOKEN_RE.sub(r"<code>\1</code>", line)
-    return line
-
-
-def is_diagram_marker(text: str, index: int) -> bool:
-    prev_char = text[index - 1] if index > 0 else ""
-    next_index = index + 2
-    next_char = text[next_index] if next_index < len(text) else ""
-    if prev_char == "*" or next_char == "*":
-        return False
-    if prev_char.isdigit() and next_char.isdigit():
-        return False
-    if prev_char in {"/", "-"} or next_char in {"/", "-"}:
-        return False
-    return True
-
-
-def normalize_diagram_block(block: str) -> str:
-    block = block.replace("<strong>", "").replace("</strong>", "")
-    block = STRONG_RE.sub(lambda match: match.group(1), block)
-    block = INLINE_CODE_TOKEN_RE.sub(r"<code>\1</code>", block)
-    positions = [m.start() for m in re.finditer(r"\*\*", block) if is_diagram_marker(block, m.start())]
-    if not positions:
-        return block
-
-    out: list[str] = []
-    last = 0
-    for pos in positions:
-        out.append(block[last:pos])
-        last = pos + 2
-    out.append(block[last:])
-    return "".join(out)
-
-
 def normalize_strong_emphasis(body: str) -> str:
     """Fix Zola/CommonMark emphasis spans that fail next to Korean particles."""
     out: list[str] = []
@@ -154,24 +112,11 @@ def normalize_strong_emphasis(body: str) -> str:
             index += 1
             continue
 
-        if not in_fence and stripped.startswith('<div class="kb-diagram"'):
-            block: list[str] = []
-            depth = 0
-            while index < len(lines):
-                current = lines[index]
-                block.append(current)
-                depth += current.count("<div") - current.count("</div>")
-                index += 1
-                if depth <= 0:
-                    break
-            out.append(normalize_diagram_block("".join(block)))
-            continue
-
         lower = stripped.lower()
         if lower.startswith(("<div", "<section", "<table", "<pre", "<script", "<style")):
             in_html_block = True
         if in_fence or in_html_block:
-            out.append(normalize_diagram_html_line(line) if "kb-diagram-" in line else line)
+            out.append(line)
             if in_html_block and re.search(r"</(div|section|table|pre|script|style)>", lower):
                 in_html_block = False
             index += 1

@@ -84,17 +84,20 @@ Dgraph는 처음부터 <strong>대규모 수평 확장(Horizontal Scaling)</stro
 
 
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-note">1. 복잡한 추론 및 그래프 데이터 분석</div><div class="kb-diagram-node">PageRank, Centrality 등</div><div class="kb-diagram-note">이 필수적인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Neo4j 채택</div><div class="kb-diagram-node">풍부한 GDS 알고리즘 적극 활용</div></div>
-<div class="kb-diagram-tree-item" style="--depth:2">아니오</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">2. 데이터 크기가 테라바이트 급으로 확장되어 샤딩 및 고가용성 분산 환경이 절대적인가?</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Dgraph 채택</div><div class="kb-diagram-node">클라우드 분산 샤딩 효율성 극대화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">로컬 파일 기반 Quartz + Vector DB</div><div class="kb-diagram-node">현재 인프라 제로 협업 환경 유지</div></div>
-</div>
-</div>
+```text
+[1. 복잡한 추론 및 그래프 데이터 분석(PageRank, Centrality 등)이 필수적인가?]
+    ├─ 예  → [Neo4j 채택]
+    │        [풍부한 GDS 알고리즘 적극 활용]
+    │
+    └─ 아니오
+        ▼
+[2. 데이터 크기가 테라바이트 급으로 확장되어 샤딩 및 고가용성 분산 환경이 절대적인가?]
+    ├─ 예  → [Dgraph 채택]
+    │        [클라우드 분산 샤딩 효율성 극대화]
+    │
+    └─ 아니오 → [로컬 파일 기반 Quartz + Vector DB]
+                [현재 인프라 제로 협업 환경 유지]
+```
 
 
 

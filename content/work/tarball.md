@@ -34,13 +34,11 @@ tags = ["work"]
 
 
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">□□□□□□□□□□</div><div class="kb-diagram-connector">←</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터가 이렇게 줄줄</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저장됨</div></div>
-</div>
-</div>
+```text
+← □ □ □ □ □ □ □ □ □ □
+  데이터가 이렇게 줄줄
+  저장됨
+```
 
 
 

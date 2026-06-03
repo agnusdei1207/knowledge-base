@@ -257,20 +257,56 @@
     const colMuted = cs.getPropertyValue("--gray").trim() || "#8E8575"
 
     const degreeExtent = d3.extent(graphNodes, d => d.degree)
-    const radius = d3.scaleSqrt()
+    const radiusScale = d3.scaleSqrt()
       .domain([Math.max(1, degreeExtent[0] || 1), Math.max(2, degreeExtent[1] || 2)])
       .range([3.2, 13])
+    const nodeFromRef = (ref) => {
+      if (ref && typeof ref === "object") return ref
+      return nodeById.get(ref)
+    }
+    const nodeId = (ref) => {
+      const node = nodeFromRef(ref)
+      return node?.id || ref
+    }
+    const nodeRadius = (ref) => {
+      const node = nodeFromRef(ref)
+      if (!node) return 3.2
+      const base = radiusScale(Number(node.degree) || 1)
+      if (node.isCurrent) return Math.max(12, base + 3)
+      return node.section ? Math.max(7, base) : base
+    }
+    const defaultLabelVisible = (node) => {
+      return node.isCurrent || node.section || node.degree >= (degreeExtent[1] || 0) * 0.42
+    }
+    const finiteOr = (value, fallback) => Number.isFinite(value) ? value : fallback
+    const boundedX = (node) => {
+      const r = nodeRadius(node) + 8
+      return Math.max(r, Math.min(width - r, finiteOr(node.x, width / 2)))
+    }
+    const boundedY = (node) => {
+      const r = nodeRadius(node) + 12
+      return Math.max(r, Math.min(height - r, finiteOr(node.y, height / 2)))
+    }
     const groups = Array.from(new Set(graphNodes.map(d => d.group))).sort()
     const groupIndex = new Map(groups.map((group, index) => [group, index]))
     const clusterRadius = Math.min(width, height) * 0.34
     const clusterCenter = (group) => {
       const index = groupIndex.get(group) || 0
       const angle = groups.length <= 1 ? 0 : (index / groups.length) * Math.PI * 2
+      const x = width / 2 + Math.cos(angle) * clusterRadius
+      const y = height / 2 + Math.sin(angle) * clusterRadius * 0.72
       return {
-        x: width / 2 + Math.cos(angle) * clusterRadius,
-        y: height / 2 + Math.sin(angle) * clusterRadius * 0.72,
+        x: Math.max(28, Math.min(width - 28, x)),
+        y: Math.max(28, Math.min(height - 28, y)),
       }
     }
+    graphNodes.forEach((node, index) => {
+      const center = clusterCenter(node.group)
+      const angle = index * 2.399963229728653
+      const offset = (index % 5) * 2.5
+      node.x = finiteOr(node.x, center.x + Math.cos(angle) * offset)
+      node.y = finiteOr(node.y, center.y + Math.sin(angle) * offset)
+    })
 
     // SVG setup
     const svg = d3.select(container)
@@ -288,12 +324,12 @@
 
     // Force simulation
     const simulation = d3.forceSimulation(graphNodes)
-      .force("link", d3.forceLink(graphLinks).id(d => d.id).distance(d => 34 + Math.max(radius(d.source), radius(d.target)) * 3).strength(0.35))
-      .force("charge", d3.forceManyBody().strength(d => -70 - radius(d) * 18).distanceMax(260))
+      .force("link", d3.forceLink(graphLinks).id(d => d.id).distance(d => 34 + Math.max(nodeRadius(d.source), nodeRadius(d.target)) * 3).strength(0.35))
+      .force("charge", d3.forceManyBody().strength(d => -70 - nodeRadius(d) * 18).distanceMax(260))
       .force("center", d3.forceCenter(width / 2, height / 2))
       .force("x", d3.forceX(d => clusterCenter(d.group).x).strength(0.08))
       .force("y", d3.forceY(d => clusterCenter(d.group).y).strength(0.08))
-      .force("collide", d3.forceCollide(d => radius(d) + 2))
+      .force("collide", d3.forceCollide(d => nodeRadius(d) + 2))
       .alphaDecay(0.025)
 
     // Draw links
@@ -310,7 +346,7 @@
     const nodeEls = nodeGroup.selectAll("circle")
       .data(graphNodes)
       .join("circle")
-      .attr("r", d => d.isCurrent ? Math.max(12, radius(d) + 3) : (d.section ? Math.max(7, radius(d)) : radius(d)))
+      .attr("r", d => nodeRadius(d))
       .attr("fill", d => d.isCurrent ? colActive : colNode)
       .attr("stroke", d => d.isCurrent ? colActive : colMuted)
       .attr("stroke-width", d => d.isCurrent ? 2.2 : 0.7)
@@ -337,9 +373,9 @@
       .attr("font-family", "var(--bodyFont), sans-serif")
       .attr("fill", colLabel)
       .attr("text-anchor", "middle")
-      .attr("dy", d => -(radius(d) + 5))
+      .attr("dy", d => -(nodeRadius(d) + 5))
       .attr("pointer-events", "none")
-      .attr("opacity", d => d.isCurrent || d.section || d.degree >= (degreeExtent[1] || 0) * 0.42 ? 1 : 0)
+      .attr("opacity", d => defaultLabelVisible(d) ? 1 : 0)
 
     // Tooltip
     const tooltip = d3.select("body").append("div")
@@ -355,8 +391,8 @@
         nodeEls
           .attr("opacity", n => isConnected(d.id, n.id) ? 1 : 0.15)
         linkEls
-          .attr("stroke-opacity", l => (l.source.id === d.id || l.target.id === d.id) ? 0.85 : 0.04)
-          .attr("stroke-width", l => (l.source.id === d.id || l.target.id === d.id) ? 1.6 : 0.5)
+          .attr("stroke-opacity", l => (nodeId(l.source) === d.id || nodeId(l.target) === d.id) ? 0.85 : 0.04)
+          .attr("stroke-width", l => (nodeId(l.source) === d.id || nodeId(l.target) === d.id) ? 1.6 : 0.5)
         labelEls
           .attr("opacity", n => isConnected(d.id, n.id) ? 1 : 0)
       })
@@ -369,7 +405,7 @@
         tooltip.style("display", "none")
         nodeEls.attr("opacity", 1)
         linkEls.attr("stroke-opacity", 0.34).attr("stroke-width", 0.75)
-        labelEls.attr("opacity", d => d.isCurrent || d.section || d.degree >= (degreeExtent[1] || 0) * 0.42 ? 1 : 0)
+        labelEls.attr("opacity", d => defaultLabelVisible(d) ? 1 : 0)
       })
       .on("click", function (event, d) {
         if (d.url) window.location.href = d.url
@@ -377,11 +413,15 @@
 
     // Tick — update positions
     simulation.on("tick", () => {
+      graphNodes.forEach(node => {
+        node.x = boundedX(node)
+        node.y = boundedY(node)
+      })
       linkEls
-        .attr("x1", d => d.source.x)
-        .attr("y1", d => d.source.y)
-        .attr("x2", d => d.target.x)
-        .attr("y2", d => d.target.y)
+        .attr("x1", d => nodeFromRef(d.source)?.x || width / 2)
+        .attr("y1", d => nodeFromRef(d.source)?.y || height / 2)
+        .attr("x2", d => nodeFromRef(d.target)?.x || width / 2)
+        .attr("y2", d => nodeFromRef(d.target)?.y || height / 2)
       nodeEls
         .attr("cx", d => d.x)
         .attr("cy", d => d.y)
