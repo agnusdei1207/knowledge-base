@@ -19,10 +19,10 @@ slug:
   sanitize_replacement: "-"
 
 collections:
-  - name: docs
-    label: Documents
-    label_singular: Document
-    folder: content
+  - name: work
+    label: "🏢 Work Documents"
+    label_singular: "Work Document"
+    folder: content/work
     create: true
     extension: md
     format: yaml-frontmatter
@@ -31,17 +31,9 @@ collections:
     summary: "{{title}}"
     editor:
       preview: true
-    sortable_fields:
-      - title
-      - commit_date
-      - update_date
     fields:
-      - { label: Title, name: title, widget: string, required: false, hint: "기존 문서는 H1만 써도 되지만, 새 문서는 title frontmatter를 넣는 편이 안전합니다." }
-      - label: Tags
-        name: tags
-        widget: list
-        required: false
-        collapsed: false
+      - { label: Title, name: title, widget: string }
+      - { label: Tags, name: tags, widget: list, required: false }
       - label: Department
         name: department
         widget: select
@@ -52,9 +44,42 @@ collections:
           - Development
           - Operations
           - Sales
-      - label: Draft
-        name: draft
-        widget: boolean
-        required: false
-        default: false
+      - { label: Draft, name: draft, widget: boolean, required: false, default: false }
       - { label: Body, name: body, widget: markdown }
+
+  - name: personal
+    label: "🏠 Personal Documents"
+    label_singular: "Personal Document"
+    folder: content/personal
+    create: true
+    extension: md
+    format: yaml-frontmatter
+    preview_path: "{{slug}}"
+    identifier_field: title
+    summary: "{{title}}"
+    editor:
+      preview: true
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Tags, name: tags, widget: list, required: false }
+      - { label: Draft, name: draft, widget: boolean, required: false, default: false }
+      - { label: Body, name: body, widget: markdown }
+
+  - name: study
+    label: "🎓 Study & R&D Documents"
+    label_singular: "Study Document"
+    folder: content/study
+    create: true
+    extension: md
+    format: yaml-frontmatter
+    preview_path: "{{slug}}"
+    identifier_field: title
+    summary: "{{title}}"
+    editor:
+      preview: true
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Tags, name: tags, widget: list, required: false }
+      - { label: Draft, name: draft, widget: boolean, required: false, default: false }
+      - { label: Body, name: body, widget: markdown }
+
