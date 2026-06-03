@@ -46,6 +46,7 @@ R&D 문서는 "연구 결과 보관소"가 아니라, 가설과 검증 결과를
 - 관련 원칙: **[[studynote/04_software_engineering/index|소프트웨어 품질 및 형상관리론]]**
 
 ### D. 주요 연구개발 프로젝트
+*   **[[quartz-architecture|Quartz v5 아키텍처 분석]]**: 백링크·그래프 뷰 개념 구분, 빌드 파이프라인, 강점/한계, 타 SSG 비교, 스케일 전략.
 *   **[[r-and-d-roadmap]]**: 연구 개발 로드맵 및 핵심 아젠다.
 *   **[[n-gram-linker|N-gram 해시 링커 알고리즘]]**: 9,400개 스터디 노트를 백트래킹 없이 초고속으로 상호 연결한 링커 구조 설명.
 *   **[[graph-databases|Neo4j vs Dgraph 기술 비교]]**: 그래프 데이터베이스의 아키텍처 및 Graph RAG 분산 확장 전략 비교 분석.
