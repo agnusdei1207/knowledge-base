@@ -4,7 +4,7 @@ set -euo pipefail
 ROOT_DIR="$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 OUTPUT_DIR="${1:-$ROOT_DIR/.quartz-build/public}"
 BASE_DIR="${BASE_DIR:-/knowledge-base}"
-NODE_IMAGE="${NODE_IMAGE:-node:22-alpine}"
+NODE_IMAGE="${NODE_IMAGE:-node:24-alpine}"
 QUARTZ_REF="${QUARTZ_REF:-v5}"
 QUARTZ_TARBALL_URL="https://github.com/jackyzha0/quartz/archive/refs/heads/${QUARTZ_REF}.tar.gz"
 TMP_DIR="$(mktemp -d)"

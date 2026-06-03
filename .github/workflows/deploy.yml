@@ -22,9 +22,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json' # tarball 다운로드 형식이므로 root에 package.json이 없는 경우를 대비해 cache가 유연하도록 처리
+          node-version: 24
 
       - name: Build Quartz (High-Performance Native Mode)
         env:
