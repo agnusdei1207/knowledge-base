@@ -1,3 +1,197 @@
 @use "./variables.scss" as *;
 
 // put your custom CSS here!
+
+.rd-backlink-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  border: 1px solid var(--lightgray, #E5DEC9);
+  border-radius: 8px;
+  background: var(--highlight, rgba(166,91,50,0.08));
+  font-size: 0.9rem;
+
+  .card-a {
+    padding: 10px 14px;
+    border-radius: 6px;
+    border-left: 3px solid var(--secondary, #A65B32);
+  }
+
+  .arrow {
+    text-align: center;
+    font-size: 1.2rem;
+  }
+
+  .card-b {
+    padding: 10px 14px;
+    border-radius: 6px;
+    border-left: 3px solid var(--tertiary, #73826F);
+  }
+}
+
+.rd-graph-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  max-width: 260px;
+  padding: 16px;
+  border: 1px solid var(--lightgray, #E5DEC9);
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.95rem;
+
+  .node {
+    padding: 8px;
+    border-radius: 6px;
+  }
+  .node-sec {
+    @extend .node;
+    border: 2px solid var(--secondary, #A65B32);
+  }
+  .node-tert {
+    @extend .node;
+    border: 2px solid var(--tertiary, #73826F);
+  }
+
+  .arrows {
+    grid-column: 1/3;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--gray, #8E8575);
+    padding: 0 20px;
+  }
+
+  .caption {
+    grid-column: 1/3;
+    font-size: 0.8rem;
+    color: var(--gray, #8E8575);
+  }
+}
+
+.rd-pipeline-container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px;
+  border: 1px solid var(--lightgray, #E5DEC9);
+  border-radius: 8px;
+  font-size: 0.88rem;
+
+  .pipeline-step-head {
+    padding: 10px;
+    border-radius: 6px;
+    background: var(--highlight, rgba(166,91,50,0.08));
+    text-align: center;
+    font-weight: 600;
+  }
+
+  .pipeline-arrow {
+    text-align: center;
+    color: var(--gray, #8E8575);
+  }
+
+  .pipeline-step {
+    padding: 8px 12px;
+    border-radius: 6px;
+  }
+
+  .step-parse {
+    @extend .pipeline-step;
+    border-left: 3px solid #4A90D9;
+  }
+
+  .step-rehype {
+    @extend .pipeline-step;
+    border-left: 3px solid #7B68EE;
+  }
+
+  .step-plugins {
+    padding: 10px 12px;
+    border-radius: 6px;
+    border-left: 3px solid var(--secondary, #A65B32);
+
+    ul {
+      margin: 6px 0 0 0;
+      padding-left: 18px;
+      line-height: 1.6;
+    }
+  }
+
+  .step-ssr {
+    @extend .pipeline-step;
+    border-left: 3px solid #2ECC71;
+  }
+}
+
+.rd-memory-container {
+  padding: 16px;
+  border: 1px solid var(--lightgray, #E5DEC9);
+  border-radius: 8px;
+
+  .title {
+    font-weight: 600;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+  }
+
+  .chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    height: 120px;
+    padding-bottom: 4px;
+    border-bottom: 2px solid var(--gray, #8E8575);
+    border-left: 2px solid var(--gray, #8E8575);
+    position: relative;
+  }
+
+  .bar {
+    flex: 1;
+    border-radius: 3px 3px 0 0;
+  }
+
+  .bar-tert {
+    @extend .bar;
+    background: var(--tertiary, #73826F);
+  }
+
+  .bar-sec {
+    @extend .bar;
+    background: var(--secondary, #A65B32);
+  }
+
+  .bar-danger {
+    @extend .bar;
+    background: #c0392b;
+  }
+
+  .warning-badge {
+    position: absolute;
+    top: -18px;
+    right: -10px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .x-axis {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.7rem;
+    color: var(--gray, #8E8575);
+    margin-top: 4px;
+    padding-left: 2px;
+  }
+
+  .legend {
+    display: flex;
+    gap: 12px;
+    margin-top: 10px;
+    font-size: 0.75rem;
+    flex-wrap: wrap;
+  }
+}
+

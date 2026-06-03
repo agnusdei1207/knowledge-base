@@ -20,15 +20,17 @@ tags:
 
 **백링크**는 "이 문서를 언급(링크)한 다른 문서 목록"이다.
 
-<div style="display:flex; flex-direction:column; gap:8px; padding:16px; border:1px solid var(--lightgray, #E5DEC9); border-radius:8px; background:var(--highlight, rgba(166,91,50,0.08)); font-size:0.9rem;">
-  <div style="padding:10px 14px; border-radius:6px; border-left:3px solid var(--secondary, #A65B32);">
-    <strong>A.md</strong> 내용: <code>"이 개념은 [[B]]에서 파생된 것이다."</code>
+
+<div class="rd-backlink-container">
+  <div class="card-a">
+    A.md 내용: &ldquo;이 개념은 B에서 파생된 것이다.&rdquo;
   </div>
-  <div style="text-align:center; font-size:1.2rem;">⬇️</div>
-  <div style="padding:10px 14px; border-radius:6px; border-left:3px solid var(--tertiary, #73826F);">
-    <strong>B.md</strong> 하단 자동 표시: <em>"Backlinks: A가 이 문서를 링크함"</em>
+  <div class="arrow">⬇️</div>
+  <div class="card-b">
+    B.md 하단 자동 표시: <em>&ldquo;Backlinks: A가 이 문서를 링크함&rdquo;</em>
   </div>
 </div>
+
 
 - **본질**: 텍스트 기반 역참조 인덱스
 - **표시 위치**: 페이지 하단에 리스트 형태
@@ -39,14 +41,16 @@ tags:
 
 **그래프 뷰**는 백링크(+포워드 링크) 관계를 **노드(문서)와 엣지(링크)**로 시각화한 것이다.
 
-<div style="display:grid; grid-template-columns:1fr 1fr; gap:4px; max-width:260px; padding:16px; border:1px solid var(--lightgray, #E5DEC9); border-radius:8px; text-align:center; font-weight:600; font-size:0.95rem;">
-  <div style="padding:8px; border-radius:6px; border:2px solid var(--secondary, #A65B32);">A</div>
-  <div style="padding:8px; border-radius:6px; border:2px solid var(--secondary, #A65B32);">B</div>
-  <div style="grid-column:1/3; display:flex; justify-content:space-between; font-size:0.8rem; color:var(--gray, #8E8575); padding:0 20px;">↑ &nbsp;&nbsp;&nbsp;&nbsp; → &nbsp;&nbsp;&nbsp;&nbsp; ↓</div>
-  <div style="padding:8px; border-radius:6px; border:2px solid var(--tertiary, #73826F);">D</div>
-  <div style="padding:8px; border-radius:6px; border:2px solid var(--tertiary, #73826F);">C</div>
-  <div style="grid-column:1/3; font-size:0.8rem; color:var(--gray, #8E8575);">← 노드(문서)와 엣지(링크)의 시각적 관계</div>
+
+<div class="rd-graph-container">
+  <div class="node-sec">A</div>
+  <div class="node-sec">B</div>
+  <div class="arrows">↑ &nbsp;&nbsp;&nbsp;&nbsp; → &nbsp;&nbsp;&nbsp;&nbsp; ↓</div>
+  <div class="node-tert">D</div>
+  <div class="node-tert">C</div>
+  <div class="caption">노드(문서)와 엣지(링크)의 시각적 관계</div>
 </div>
+
 
 - **본질**: 백링크 데이터를 기반으로 렌더링하는 UI (D3.js 등)
 - **표시 위치**: 사이드바 또는 전용 페이지
@@ -71,29 +75,31 @@ tags:
 
 ### 2.1 빌드 파이프라인
 
-<div style="display:flex; flex-direction:column; gap:6px; padding:16px; border:1px solid var(--lightgray, #E5DEC9); border-radius:8px; font-size:0.88rem;">
-  <div style="padding:10px; border-radius:6px; background:var(--highlight, rgba(166,91,50,0.08)); text-align:center; font-weight:600;">📄 content/*.md (9,600+)</div>
-  <div style="text-align:center; color:var(--gray, #8E8575);">▼</div>
-  <div style="padding:8px 12px; border-radius:6px; border-left:3px solid #4A90D9;"><strong>①</strong> remark-parse: Markdown → MDAST (추상 구문 트리)</div>
-  <div style="text-align:center; color:var(--gray, #8E8575);">▼</div>
-  <div style="padding:8px 12px; border-radius:6px; border-left:3px solid #7B68EE;"><strong>②</strong> rehype: MDAST → HAST (HTML AST)</div>
-  <div style="text-align:center; color:var(--gray, #8E8575);">▼</div>
-  <div style="padding:10px 12px; border-radius:6px; border-left:3px solid var(--secondary, #A65B32);">
+
+<div class="rd-pipeline-container">
+  <div class="pipeline-step-head">📄 content/*.md (9,600+)</div>
+  <div class="pipeline-arrow">▼</div>
+  <div class="step-parse"><strong>①</strong> remark-parse: Markdown → MDAST (추상 구문 트리)</div>
+  <div class="pipeline-arrow">▼</div>
+  <div class="step-rehype"><strong>②</strong> rehype: MDAST → HAST (HTML AST)</div>
+  <div class="pipeline-arrow">▼</div>
+  <div class="step-plugins">
     <strong>③ 플러그인 체인</strong>
-    <ul style="margin:6px 0 0 0; padding-left:18px; line-height:1.6;">
-      <li>obsidian-flavored-markdown: <code>[[wikilink]]</code> 해석</li>
+    <ul>
+      <li>obsidian-flavored-markdown: wikilink 해석</li>
       <li>crawl-links: 전체 링크 그래프 구성</li>
       <li>backlinks: 역참조 인덱스 생성</li>
       <li>content-index: FlexSearch 전문 검색 인덱스</li>
       <li>graph: D3.js 그래프 데이터 생성</li>
-      <li><s>og-image: OG 이미지 렌더링</s> <span style="color:var(--tertiary, #73826F);">(비활성화 완료)</span></li>
+      <li><del>og-image: OG 이미지 렌더링</del> (비활성화 완료)</li>
     </ul>
   </div>
-  <div style="text-align:center; color:var(--gray, #8E8575);">▼</div>
-  <div style="padding:8px 12px; border-radius:6px; border-left:3px solid #2ECC71;"><strong>④</strong> Preact SSR: JSX → 정적 HTML</div>
-  <div style="text-align:center; color:var(--gray, #8E8575);">▼</div>
-  <div style="padding:10px; border-radius:6px; background:var(--highlight, rgba(166,91,50,0.08)); text-align:center; font-weight:600;">📁 public/ 출력</div>
+  <div class="pipeline-arrow">▼</div>
+  <div class="step-ssr"><strong>④</strong> Preact SSR: JSX → 정적 HTML</div>
+  <div class="pipeline-arrow">▼</div>
+  <div class="pipeline-step-head">📁 public/ 출력</div>
 </div>
+
 
 ### 2.2 강점
 
@@ -115,29 +121,31 @@ tags:
 | **증분 빌드 미지원** | 1개 파일 수정 → 전체 리빌드 | CI 비용 증가 |
 | **검색 인덱스 일체형** | FlexSearch 인덱스를 빌드 중 생성 → 추가 메모리 | 분리 불가 (Pagefind 대체 불가) |
 
-<div style="padding:16px; border:1px solid var(--lightgray, #E5DEC9); border-radius:8px;">
-  <div style="font-weight:600; margin-bottom:10px; font-size:0.9rem;">메모리 사용 패턴</div>
-  <div style="display:flex; align-items:flex-end; gap:3px; height:120px; padding-bottom:4px; border-bottom:2px solid var(--gray, #8E8575); border-left:2px solid var(--gray, #8E8575); position:relative;">
-    <div style="flex:1; background:var(--tertiary, #73826F); border-radius:3px 3px 0 0; height:15%; opacity:0.7;" title="0분: 시작"></div>
-    <div style="flex:1; background:var(--tertiary, #73826F); border-radius:3px 3px 0 0; height:25%;" title="AST 파싱"></div>
-    <div style="flex:1; background:var(--secondary, #A65B32); border-radius:3px 3px 0 0; height:40%;" title="플러그인 처리"></div>
-    <div style="flex:1; background:var(--secondary, #A65B32); border-radius:3px 3px 0 0; height:60%;" title="링크 그래프 구성"></div>
-    <div style="flex:1; background:#c0392b; border-radius:3px 3px 0 0; height:80%;" title="검색 인덱스 생성"></div>
-    <div style="flex:1; background:#c0392b; border-radius:3px 3px 0 0; height:95%; position:relative;" title="피크: 8GB">
-      <span style="position:absolute; top:-18px; right:-10px; font-size:0.7rem; font-weight:600; white-space:nowrap;">⚠️ 피크 ~8GB</span>
+
+<div class="rd-memory-container">
+  <div class="title">메모리 사용 패턴</div>
+  <div class="chart">
+    <div class="bar-tert" style="height: 15%; opacity: 0.7;" title="0분: 시작"></div>
+    <div class="bar-tert" style="height: 25%;" title="AST 파싱"></div>
+    <div class="bar-sec" style="height: 40%;" title="플러그인 처리"></div>
+    <div class="bar-sec" style="height: 60%;" title="링크 그래프 구성"></div>
+    <div class="bar-danger" style="height: 80%;" title="검색 인덱스 생성"></div>
+    <div class="bar-danger" style="height: 95%; position: relative;" title="피크: 8GB">
+      <span class="warning-badge">⚠️ 피크 ~8GB</span>
     </div>
-    <div style="flex:1; background:var(--secondary, #A65B32); border-radius:3px 3px 0 0; height:70%;" title="SSR 렌더링"></div>
-    <div style="flex:1; background:var(--tertiary, #73826F); border-radius:3px 3px 0 0; height:30%;" title="출력"></div>
+    <div class="bar-sec" style="height: 70%;" title="SSR 렌더링"></div>
+    <div class="bar-tert" style="height: 30%;" title="출력"></div>
   </div>
-  <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:var(--gray, #8E8575); margin-top:4px; padding-left:2px;">
+  <div class="x-axis">
     <span>0분</span><span>1분</span><span>2분</span><span>3분</span><span>4분</span>
   </div>
-  <div style="display:flex; gap:12px; margin-top:10px; font-size:0.75rem; flex-wrap:wrap;">
+  <div class="legend">
     <span>🟢 AST 파싱</span>
     <span>🟠 플러그인 + 링크 그래프</span>
     <span>🔴 검색 인덱스 (피크)</span>
   </div>
 </div>
+
 
 ### 2.4 적용한 최적화
 

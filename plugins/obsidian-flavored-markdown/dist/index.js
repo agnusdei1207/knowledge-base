@@ -24922,9 +24922,9 @@ var ObsidianFlavoredMarkdown = (userOpts) => {
               (node, index2, parent) => {
                 if (parent == null || index2 == null) return;
                 const wikilinkNode = node;
-                const fp = wikilinkNode.path?.trim() ?? "";
+                const fp = (wikilinkNode.path?.trim() ?? "").replace(/\\/g, "");
                 const anchor = wikilinkNode.heading?.trim() ?? "";
-                const aliasRaw = wikilinkNode.alias?.trim() ?? "";
+                const aliasRaw = (wikilinkNode.alias?.trim() ?? "").replace(/\\/g, "");
                 const alias = aliasRaw.length > 0 ? aliasRaw : void 0;
                 let replacement;
                 if (wikilinkNode.embedded) {

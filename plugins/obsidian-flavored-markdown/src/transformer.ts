@@ -206,9 +206,9 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<
                 if (parent == null || index == null) return;
                 const wikilinkNode = node as WikilinkNode;
 
-                const fp = wikilinkNode.path?.trim() ?? "";
+                const fp = (wikilinkNode.path?.trim() ?? "").replace(/\\/g, "");
                 const anchor = wikilinkNode.heading?.trim() ?? "";
-                const aliasRaw = wikilinkNode.alias?.trim() ?? "";
+                const aliasRaw = (wikilinkNode.alias?.trim() ?? "").replace(/\\/g, "");
                 const alias = aliasRaw.length > 0 ? aliasRaw : undefined;
 
                 let replacement: BlockContent | PhrasingContent | Html;
