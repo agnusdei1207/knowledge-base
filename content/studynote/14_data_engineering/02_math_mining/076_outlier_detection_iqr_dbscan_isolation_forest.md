@@ -1,23 +1,27 @@
----
-title: 76. 이상치 (Outlier) 탐지 - IQR, Z-Score, DBSCAN, Isolation Forest
-date: '2026-04-10'
-tags:
-- studynote-data-engineering
----
++++
+title = "76. 이상치 (Outlier) 탐지 - IQR, Z-Score, DBSCAN, Isolation Forest"
+date = 2026-04-10
+
+[taxonomies]
+tags = ["studynote-data-engineering"]
+
+[extra]
+tags = ["studynote-data-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 이상치(Outlier) 탐지는 정상 패턴에서 유난히 멀리 떨어진 [[001_dikw_pyramid|데이터]]를 찾아내는 기술이다.
+> 1. **본질**: 이상치(Outlier) 탐지는 정상 패턴에서 유난히 멀리 떨어진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 찾아내는 기술이다.
 > 2. **가치**: 전처리에서는 이상치를 제거·보정해 모델 왜곡을 막고, 사기 탐지나 불량품 검출에서는 이상치 자체가 핵심 신호가 된다.
-> 3. **판단 포인트**: IQR(Interquartile Range), Z-score, [[351_dbscan_density_based_clustering|DBSCAN]], [[195_isolation_concurrency_control|Isolation]] Forest는 각각 가정과 차원이 다르므로 [[001_dikw_pyramid|데이터]] 분포와 업무 목적에 맞게 골라야 한다.
+> 3. **판단 포인트**: IQR(Interquartile Range), Z-score, [DBSCAN](/knowledge-base/studynote/06_ict_convergence/05_data_science/351_dbscan_density_based_clustering/), [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) Forest는 각각 가정과 차원이 다르므로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포와 업무 목적에 맞게 골라야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-이상치는 평균과 표준편차를 흔들고, 회귀와 [[105_clustering_analysis|군집화]] 결과를 왜곡한다. 그래서 [[001_dikw_pyramid|데이터]] 분석에서는 먼저 "이 값이 정말 정상인가"를 봐야 한다. [[397_outlier_mahalanobis|이상치 탐지]]는 [[001_dikw_pyramid|데이터]] 청소의 출발점이자, 때로는 이상 행동을 찾는 탐지 모델의 본체이기도 하다.
+이상치는 평균과 표준편차를 흔들고, 회귀와 [군집화](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/) 결과를 왜곡한다. 그래서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석에서는 먼저 "이 값이 정말 정상인가"를 봐야 한다. [이상치 탐지](/knowledge-base/studynote/10_ai/05_data_science_ml/397_outlier_mahalanobis/)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 청소의 출발점이자, 때로는 이상 행동을 찾는 탐지 모델의 본체이기도 하다.
 
-문제는 이상치가 항상 나쁜 것이 아니라는 점이다. 임금 [[001_dikw_pyramid|데이터]]에서는 100억 원이 오류일 수 있지만, 신용카드 사기 탐지에서는 그 1건이 가장 중요한 사건일 수 있다. 따라서 "삭제할지, 살릴지"가 탐지 자체만큼 중요하다.
+문제는 이상치가 항상 나쁜 것이 아니라는 점이다. 임금 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서는 100억 원이 오류일 수 있지만, 신용카드 사기 탐지에서는 그 1건이 가장 중요한 사건일 수 있다. 따라서 "삭제할지, 살릴지"가 탐지 자체만큼 중요하다.
 
 ```text
 데이터 분포
@@ -37,14 +41,14 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[[397_outlier_mahalanobis|이상치 탐지]]는 크게 통계 기반, 밀도 기반, 분리 기반으로 나뉜다. 1차원 [[001_dikw_pyramid|데이터]]에는 IQR과 Z-score가 간단하고, 다차원 [[001_dikw_pyramid|데이터]]에는 DBSCAN과 [[195_isolation_concurrency_control|Isolation]] Forest가 더 유용하다.
+[이상치 탐지](/knowledge-base/studynote/10_ai/05_data_science_ml/397_outlier_mahalanobis/)는 크게 통계 기반, 밀도 기반, 분리 기반으로 나뉜다. 1차원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에는 IQR과 Z-score가 간단하고, 다차원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에는 DBSCAN과 [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) Forest가 더 유용하다.
 
 | 방법 | 원리 | 장점 | 한계 |
 | :-- | :-- | :-- | :-- |
 | IQR(Interquartile Range) | 사분위 범위 밖을 제거 | robust, 직관적 | 1차원 중심 |
 | Z-score | 평균에서 표준편차 몇 배 떨어졌는지 | 간단, 빠름 | 정규분포 가정 |
-| [[351_dbscan_density_based_clustering|DBSCAN]] | 밀도 낮은 점을 잡음으로 판단 | 군집 모양 유연 | 파라미터 민감 |
-| [[195_isolation_concurrency_control|Isolation]] Forest | 분할이 쉬운 점을 이상치로 간주 | 고차원에 강함 | 해석이 상대적으로 어려움 |
+| [DBSCAN](/knowledge-base/studynote/06_ict_convergence/05_data_science/351_dbscan_density_based_clustering/) | 밀도 낮은 점을 잡음으로 판단 | 군집 모양 유연 | 파라미터 민감 |
+| [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) Forest | 분할이 쉬운 점을 이상치로 간주 | 고차원에 강함 | 해석이 상대적으로 어려움 |
 
 IQR의 일반적 경계는 다음과 같다.
 
@@ -60,7 +64,7 @@ IQR의 일반적 경계는 다음과 같다.
                 이상치         이상치
 ```
 
-DBSCAN은 `eps`와 `min_samples`가 중요하고, [[195_isolation_concurrency_control|Isolation]] Forest는 `contamination`이 결과를 크게 좌우한다. 즉, 방법마다 "정답 파라미터"가 아니라 "[[001_dikw_pyramid|데이터]]에 맞는 감도"를 찾는 작업이 필요하다.
+DBSCAN은 `eps`와 `min_samples`가 중요하고, [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) Forest는 `contamination`이 결과를 크게 좌우한다. 즉, 방법마다 "정답 파라미터"가 아니라 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 맞는 감도"를 찾는 작업이 필요하다.
 
 - **📢 섹션 요약 비유**: 양팔 저울이 흔들리면 어디가 무거운지 알 수 있다. 각 방법은 저울의 기준이 다르다.
 
@@ -68,16 +72,16 @@ DBSCAN은 `eps`와 `min_samples`가 중요하고, [[195_isolation_concurrency_co
 
 ## Ⅲ. 비교 및 연결
 
-IQR과 Z-score는 통계적 규칙이 명확하고 설명하기 쉽다. 반면 DBSCAN과 [[195_isolation_concurrency_control|Isolation]] Forest는 다차원 패턴과 복잡한 구조를 잡는 데 강하다.
+IQR과 Z-score는 통계적 규칙이 명확하고 설명하기 쉽다. 반면 DBSCAN과 [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) Forest는 다차원 패턴과 복잡한 구조를 잡는 데 강하다.
 
-| 기준 | IQR | Z-score | [[351_dbscan_density_based_clustering|DBSCAN]] | [[195_isolation_concurrency_control|Isolation]] Forest |
+| 기준 | IQR | Z-score | [DBSCAN](/knowledge-base/studynote/06_ict_convergence/05_data_science/351_dbscan_density_based_clustering/) | [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) Forest |
 | :-- | :-- | :-- | :-- | :-- |
-| [[001_dikw_pyramid|데이터]] 차원 | 낮음 | 낮음 | 중~높음 | 중~높음 |
+| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 차원 | 낮음 | 낮음 | 중~높음 | 중~높음 |
 | 분포 가정 | 거의 없음 | 정규분포에 유리 | 없음 | 없음 |
 | 해석성 | 높음 | 높음 | 중간 | 중간 |
 | 주요 용도 | 전처리 | 간단한 경계선 | 군집 밖 점 찾기 | 다차원 이상 징후 |
 
-이렇게 보면 IQR과 Z-score는 "간단한 칼", DBSCAN과 [[195_isolation_concurrency_control|Isolation]] Forest는 "복잡한 레이더"다. 어떤 것을 쓸지는 [[001_dikw_pyramid|데이터]]의 모양과 목적이 결정한다.
+이렇게 보면 IQR과 Z-score는 "간단한 칼", DBSCAN과 [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) Forest는 "복잡한 레이더"다. 어떤 것을 쓸지는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 모양과 목적이 결정한다.
 
 - **📢 섹션 요약 비유**: 한 줄 서기에서는 자로 재면 되고, 미로에서는 드론이 필요하다. 상황에 맞는 도구가 다르다.
 
@@ -87,20 +91,20 @@ IQR과 Z-score는 통계적 규칙이 명확하고 설명하기 쉽다. 반면 D
 
 전처리 목적이라면 이상치를 제거하거나 capping/winsorizing으로 완화할 수 있다. 하지만 fraud, fault, intrusion처럼 희귀 사건이 중요한 문제에서는 이상치를 없애면 안 된다. 오히려 이상치가 정답 레이블이 된다.
 
-### [[435_checklist_based_testing|체크리스트]]
-1. [[001_dikw_pyramid|데이터]]가 거의 정규분포인가, 아니면 왜도가 큰가?
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+1. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 거의 정규분포인가, 아니면 왜도가 큰가?
 2. 1차원 규칙이면 충분한가, 다차원 구조를 봐야 하는가?
 3. 이상치를 삭제할지, 따로 태그할지, 보정할지 정했는가?
 4. 비즈니스가 이상치를 "오류"로 보는지 "사건"으로 보는지 확인했는가?
 5. 개입 후 모델 성능이 실제 업무 지표와 맞는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
-- Z-score를 모든 [[001_dikw_pyramid|데이터]]에 무작정 적용
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- Z-score를 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 무작정 적용
 - 이상치를 무조건 삭제
-- [[351_dbscan_density_based_clustering|DBSCAN]] 파라미터를 설명 없이 임의 [[009_config|설정]]
+- [DBSCAN](/knowledge-base/studynote/06_ict_convergence/05_data_science/351_dbscan_density_based_clustering/) 파라미터를 설명 없이 임의 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
 - 탐지 결과를 현업 검토 없이 자동 삭제
 
-기술사 답안에서는 "[[397_outlier_mahalanobis|이상치 탐지]]는 통계 청소와 사건 탐지의 두 얼굴을 가진다"고 정리하면 좋다.
+기술사 답안에서는 "[이상치 탐지](/knowledge-base/studynote/10_ai/05_data_science_ml/397_outlier_mahalanobis/)는 통계 청소와 사건 탐지의 두 얼굴을 가진다"고 정리하면 좋다.
 
 - **📢 섹션 요약 비유**: 반에서 조금 튀는 친구를 무조건 내보내면 안 된다. 그냥 다른 옷을 입은 것인지, 진짜 도움이 필요한 것인지 봐야 한다.
 
@@ -108,9 +112,9 @@ IQR과 Z-score는 통계적 규칙이 명확하고 설명하기 쉽다. 반면 D
 
 ## Ⅴ. 기대효과 및 결론
 
-[[397_outlier_mahalanobis|이상치 탐지]]는 모델 안정성, [[001_dikw_pyramid|데이터]] 품질, 이상 징후 탐지 성능을 모두 높인다. 하지만 기준을 잘못 잡으면 중요한 사건까지 지워 버릴 수 있다.
+[이상치 탐지](/knowledge-base/studynote/10_ai/05_data_science_ml/397_outlier_mahalanobis/)는 모델 안정성, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질, 이상 징후 탐지 성능을 모두 높인다. 하지만 기준을 잘못 잡으면 중요한 사건까지 지워 버릴 수 있다.
 
-따라서 [[397_outlier_mahalanobis|이상치 탐지]]는 "찾는 기술"이면서 동시에 "어떻게 다룰지 결정하는 기술"로 기억해야 한다. [[001_dikw_pyramid|데이터]] 분석에서 가장 중요한 것은 값이 튀었는지보다, 그 튐이 무엇을 의미하는지다.
+따라서 [이상치 탐지](/knowledge-base/studynote/10_ai/05_data_science_ml/397_outlier_mahalanobis/)는 "찾는 기술"이면서 동시에 "어떻게 다룰지 결정하는 기술"로 기억해야 한다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석에서 가장 중요한 것은 값이 튀었는지보다, 그 튐이 무엇을 의미하는지다.
 
 - **📢 섹션 요약 비유**: 눈에 띄는 점 하나를 봤을 때, 지우개로 지울지 별표를 달지 먼저 정해야 한다.
 
@@ -118,11 +122,11 @@ IQR과 Z-score는 통계적 규칙이 명확하고 설명하기 쉽다. 반면 D
 
 | 개념 | 연결 포인트 |
 | :-- | :-- |
-| IQR(Interquartile Range) | 사분위 기반 [[397_outlier_mahalanobis|이상치 탐지]] |
+| IQR(Interquartile Range) | 사분위 기반 [이상치 탐지](/knowledge-base/studynote/10_ai/05_data_science_ml/397_outlier_mahalanobis/) |
 | Z-score | 평균/표준편차 기반 |
-| [[351_dbscan_density_based_clustering|DBSCAN]] | 밀도 기반 군집/잡음 탐지 |
-| [[195_isolation_concurrency_control|Isolation]] Forest | 분리 용이성 기반 |
-| [[111_anomaly_detection|Anomaly Detection]] | 이상 징후 탐지 전반 |
+| [DBSCAN](/knowledge-base/studynote/06_ict_convergence/05_data_science/351_dbscan_density_based_clustering/) | 밀도 기반 군집/잡음 탐지 |
+| [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) Forest | 분리 용이성 기반 |
+| [Anomaly Detection](/knowledge-base/studynote/16_bigdata/05_analysis/111_anomaly_detection/) | 이상 징후 탐지 전반 |
 | Preprocessing | 모델 입력 정제 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -140,13 +144,13 @@ IQR과 Z-score는 통계적 규칙이 명확하고 설명하기 쉽다. 반면 D
 이상 탐지 + 사기/장애 모니터링
 ```
 
-이 흐름은 단순한 경계선 찾기에서 다차원 이상 징후 탐지로 확장된 과정을 보여준다. 앞으로는 [[397_outlier_mahalanobis|이상치 탐지]]와 원인 추적이 함께 묶여 더 자동화될 것이다.
+이 흐름은 단순한 경계선 찾기에서 다차원 이상 징후 탐지로 확장된 과정을 보여준다. 앞으로는 [이상치 탐지](/knowledge-base/studynote/10_ai/05_data_science_ml/397_outlier_mahalanobis/)와 원인 추적이 함께 묶여 더 자동화될 것이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 친구들 사이에서 너무 멀리 떨어진 사람은 눈에 띄어요.
 2. 그 사람이 그냥 혼자인지, 진짜 문제가 있는지 봐야 해요.
-3. [[397_outlier_mahalanobis|이상치 탐지]]는 튀는 점을 찾아서 어떻게 할지 정하는 일이에요.
+3. [이상치 탐지](/knowledge-base/studynote/10_ai/05_data_science_ml/397_outlier_mahalanobis/)는 튀는 점을 찾아서 어떻게 할지 정하는 일이에요.
 
 ---
 
@@ -154,7 +158,7 @@ IQR과 Z-score는 통계적 규칙이 명확하고 설명하기 쉽다. 반면 D
 
 **진행 상황**: 76 / 258
 
-← **이전**: [[075_conditional_probability_bayes_theorem_posterior|75. 조건부 확률(Conditional Probability)과 베이즈 정리(Bayes)]]
-**다음**: [[077_missing_value_imputation_mice_knn_dropna|77. 결측치 처리 - MICE 다중 대치법과 KNN 대치 보간]] →
+← **이전**: [75. 조건부 확률(Conditional Probability)과 베이즈 정리(Bayes)](/knowledge-base/studynote/14_data_engineering/02_math_mining/075_conditional_probability_bayes_theorem_posterior/)
+**다음**: [77. 결측치 처리 - MICE 다중 대치법과 KNN 대치 보간](/knowledge-base/studynote/14_data_engineering/02_math_mining/077_missing_value_imputation_mice_knn_dropna/) →
 
 ---

@@ -1,22 +1,25 @@
----
-title: 86. 지갑 멀티시그 (Multi-Sig, Multi-Signature) - 출금을 위해 N명 중 M명 이상의 서명이 필요한 보안 지갑
-  구조
-tags:
-- ict_convergence
----
++++
+title = "86. 지갑 멀티시그 (Multi-Sig, Multi-Signature) - 출금을 위해 N명 중 M명 이상의 서명이 필요한 보안 지갑 구조"
+
+[taxonomies]
+tags = ["ict_convergence"]
+
+[extra]
+tags = ["ict_convergence"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Multi-Signature (다중 서명) 지갑은 M-of-N 정책으로 출금을 승인하는 구조다.
-> 2. **가치**: 단일 키 탈취를 막고, 기업 재무나 [[054_dao_decentralized_autonomous_organization|DAO]] ([[054_dao_decentralized_autonomous_organization|Decentralized Autonomous Organization]]) 거버넌스에 잘 맞는다.
-> 3. **판단 포인트**: 임계값, [[658_ir_recovery|복구]] 절차, 서명자 [[136_variance|분산]]을 함께 설계해야 운영이 막히지 않는다.
+> 2. **가치**: 단일 키 탈취를 막고, 기업 재무나 [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) ([Decentralized Autonomous Organization](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/)) 거버넌스에 잘 맞는다.
+> 3. **판단 포인트**: 임계값, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 절차, 서명자 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 함께 설계해야 운영이 막히지 않는다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 멀티시그는 한 사람의 키만으로 자금을 옮길 수 없게 만든다. 여러 명의 승인 없이는 출금이 안 되므로 단일 실패 지점을 줄인다.
 
-그래서 기업 자금, 공동 계정, [[054_dao_decentralized_autonomous_organization|DAO]] 재무에 자주 쓰인다.
+그래서 기업 자금, 공동 계정, [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) 재무에 자주 쓰인다.
 - **📢 섹션 요약 비유**: 혼자 열 수 없는 금고를 만든다.
 
 ---
@@ -24,11 +27,11 @@ tags:
 ## Ⅱ. 아키텍처 및 핵심 원리
 | 요소 | 의미 | 설계 포인트 |
 |:---|:---|:---|
-| N | 전체 서명자 수 | [[136_variance|분산]] 정도 |
-| M | 필요한 최소 서명 수 | 보안/[[452_availability|가용성]] 균형 |
-| signer set | 서명 가능한 사람들 | 역할 분리, 지역 [[136_variance|분산]] |
-| [[164_policy|policy]] | 승인 규칙 | 금액별 임계값 등 |
-| [[658_ir_recovery|recovery]] | [[658_ir_recovery|복구]] 절차 | 키 분실, 퇴사 대응 |
+| N | 전체 서명자 수 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 정도 |
+| M | 필요한 최소 서명 수 | 보안/[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 균형 |
+| signer set | 서명 가능한 사람들 | 역할 분리, 지역 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) |
+| [policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 승인 규칙 | 금액별 임계값 등 |
+| [recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 절차 | 키 분실, 퇴사 대응 |
 
 ┌──────────┐   sig1   ┌──────────────┐
 │ Signer A │─────────▶│ Threshold    │
@@ -39,17 +42,17 @@ tags:
 ┌──────────┐   sig3        │
 │ Signer C │───────────────┘
 └──────────┘
-- **📢 섹션 요약 비유**: 임계값과 [[658_ir_recovery|복구]]가 핵심이다.
+- **📢 섹션 요약 비유**: 임계값과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 핵심이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 | 비교 항목 | Single-Sig | Multisig | MPC (Multi-Party Computation) |
 |:---|:---|:---|:---|
-| 키 구조 | 1개 키 | 여러 개 키 + 임계값 | 비밀 [[136_variance|분산]] 연산 |
+| 키 구조 | 1개 키 | 여러 개 키 + 임계값 | 비밀 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 연산 |
 | 장애 내성 | 낮음 | 높음 | 높음 |
 | 운영 난이도 | 낮음 | 중간~높음 | 높음 |
-| 대표 용도 | 개인 지갑 | 기업 재무, [[054_dao_decentralized_autonomous_organization|DAO]] | 고급 지갑 |
+| 대표 용도 | 개인 지갑 | 기업 재무, [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) | 고급 지갑 |
 
 멀티시그는 가장 직관적인 다중 승인 방식이고, MPC는 키를 직접 드러내지 않는 더 복잡한 방식이다.
 - **📢 섹션 요약 비유**: 단일 서명과 구조가 다르다.
@@ -58,14 +61,14 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 - [ ] N과 M을 자산 규모와 위험도에 맞게 정한다.
-- [ ] 서명자가 한 장소나 한 장치에만 몰리지 않도록 [[136_variance|분산]]한다.
-- [ ] 키 분실, 퇴사, 권한 변경 시 [[658_ir_recovery|복구]] 절차를 문서화한다.
-- [ ] 승인 로그와 [[606_auditing_linux_auditd|감사]] 추적이 남는지 확인한다.
+- [ ] 서명자가 한 장소나 한 장치에만 몰리지 않도록 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)한다.
+- [ ] 키 분실, 퇴사, 권한 변경 시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 절차를 문서화한다.
+- [ ] 승인 로그와 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적이 남는지 확인한다.
 
 - ❌ 모든 키를 한 사람의 휴대폰에 몰아넣는 것
 - ❌ 너무 낮은 임계값으로 사실상 단일 서명처럼 만드는 것
-- ❌ [[658_ir_recovery|복구]]용 [[555_backup_and_restore_strategy|백업]] 절차 없이 운영하는 것
-- **📢 섹션 요약 비유**: [[136_variance|분산]]과 운영성의 균형이 필요하다.
+- ❌ [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)용 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 절차 없이 운영하는 것
+- **📢 섹션 요약 비유**: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)과 운영성의 균형이 필요하다.
 
 ---
 
@@ -81,8 +84,8 @@ tags:
 |:---|:---|
 | Multi-Signature | 여러 사람의 승인을 모아 출금한다. |
 | M-of-N | N명 중 M명 이상이 필요하다. |
-| [[054_dao_decentralized_autonomous_organization|DAO]] ([[054_dao_decentralized_autonomous_organization|Decentralized Autonomous Organization]]) | 공동 재무와 거버넌스에 쓰인다. |
-| MPC (Multi-Party Computation) | 키를 [[136_variance|분산]]해 관리한다. |
+| [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) ([Decentralized Autonomous Organization](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/)) | 공동 재무와 거버넌스에 쓰인다. |
+| MPC (Multi-Party Computation) | 키를 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)해 관리한다. |
 | single point of failure | 단일 실패 지점을 줄인다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -103,7 +106,7 @@ tags:
 
 **진행 상황**: 86 / 552
 
-← **이전**: [[085_travel_rule_vasp_fatf|85. 가상자산 사업자 (VASP) 트래블 룰 (Travel Rule) - 자금 세탁 방지를 위해 가상자산 송/수신자 정보를 확인하는]]
-**다음**: [[087_account_abstraction_erc_4337|87. 계정 추상화 (Account Abstraction, ERC-4337) - 이더리움 지갑(EOA)을 스마트 컨트랙트(CA)처럼 프로그래밍]] →
+← **이전**: [85. 가상자산 사업자 (VASP) 트래블 룰 (Travel Rule) - 자금 세탁 방지를 위해 가상자산 송/수신자 정보를 확인하는](/knowledge-base/studynote/06_ict_convergence/01_blockchain/085_travel_rule_vasp_fatf/)
+**다음**: [87. 계정 추상화 (Account Abstraction, ERC-4337) - 이더리움 지갑(EOA)을 스마트 컨트랙트(CA)처럼 프로그래밍](/knowledge-base/studynote/06_ict_convergence/01_blockchain/087_account_abstraction_erc_4337/) →
 
 ---

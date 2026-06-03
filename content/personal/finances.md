@@ -1,8 +1,12 @@
----
-title: 💰 Finances & Wealth Plan
-tags:
-- personal
----
++++
+title = "💰 Finances & Wealth Plan"
+
+[taxonomies]
+tags = ["personal"]
+
+[extra]
+tags = ["personal"]
++++
 
 장기적인 경제적 자유를 이루기 위한 재정 관리 및 투자 일지입니다.
 

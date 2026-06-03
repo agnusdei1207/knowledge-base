@@ -1,13 +1,17 @@
----
-title: 64. Git Flow - 5개 브랜치 전략과 릴리스 관리
-date: '2026-04-10'
-tags:
-- studynote-devops
----
++++
+title = "64. Git Flow - 5개 브랜치 전략과 릴리스 관리"
+date = 2026-04-10
+
+[taxonomies]
+tags = ["studynote-devops"]
+
+[extra]
+tags = ["studynote-devops"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Git Flow는 develop, main, feature, release, hotfix의 다섯 브랜치를 기준으로 배포와 개발을 분리하는 브랜치 [[268_strategy_pattern|전략]]이다.
+> 1. **본질**: Git Flow는 develop, main, feature, release, hotfix의 다섯 브랜치를 기준으로 배포와 개발을 분리하는 브랜치 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 > 2. **가치**: 릴리스 관리와 핫픽스 흐름이 명확해져 대규모 팀에서 안정적인 배포가 쉬워진다.
 > 3. **판단**: Git Flow는 규칙이 많아 무겁지만, 릴리스 중심 조직에서는 충분히 유용하다.
 
@@ -15,7 +19,7 @@ tags:
 
 ## Ⅰ. 개요 및 필요성
 
-브랜치 [[268_strategy_pattern|전략]]이 없으면 누가 어떤 기능을 어디에 합쳤는지 헷갈린다. Git Flow는 이런 혼란을 줄이기 위해 역할별 브랜치를 명확히 나눈다.
+브랜치 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 없으면 누가 어떤 기능을 어디에 합쳤는지 헷갈린다. Git Flow는 이런 혼란을 줄이기 위해 역할별 브랜치를 명확히 나눈다.
 
 릴리스가 자주 명확하게 나뉘는 조직에서는 Git Flow가 특히 잘 맞는다.
 
@@ -35,7 +39,7 @@ feature → develop → release → main
 | feature | 기능 개발 |
 | develop | 통합 개발 |
 | release | 릴리스 준비 |
-| main | 배포된 안정 [[288_version_ihl_tos_total_length|버전]] |
+| main | 배포된 안정 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) |
 | hotfix | 긴급 수정 |
 
 Git Flow는 "개발 중"과 "배포 중"을 분리한다. 그래서 팀은 기능을 자유롭게 만들되, 배포는 안정적인 릴리스 브랜치에서만 관리할 수 있다.
@@ -46,10 +50,10 @@ Git Flow는 "개발 중"과 "배포 중"을 분리한다. 그래서 팀은 기�
 
 ## Ⅲ. 비교 및 연결
 
-| [[268_strategy_pattern|전략]] | 특징 | 장점 | 한계 |
+| [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 특징 | 장점 | 한계 |
 | :-- | :-- | :-- | :-- |
 | Git Flow | 브랜치가 많음 | 릴리스 관리 용이 | 복잡함 |
-| [[054_github_flow|GitHub Flow]] | 단순한 흐름 | 배우기 쉬움 | 릴리스 통제 약함 |
+| [GitHub Flow](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/054_github_flow/) | 단순한 흐름 | 배우기 쉬움 | 릴리스 통제 약함 |
 | Trunk-based | 메인 중심 | 빠른 통합 | 강한 테스트 필요 |
 
 | 브랜치 | 의미 |
@@ -66,7 +70,7 @@ Git Flow는 릴리스 주기가 명확한 팀에 잘 맞는다. 반대로 매우
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. feature, release, hotfix의 사용 기준이 명확한가?
 2. main과 develop의 역할을 구분하는가?
@@ -74,14 +78,14 @@ Git Flow는 릴리스 주기가 명확한 팀에 잘 맞는다. 반대로 매우
 4. 긴급 수정이 메인 라인을 방해하지 않는가?
 5. 팀 규모와 배포 빈도에 맞는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 모든 브랜치를 아무렇게나 쓰는 설계
 - release 브랜치를 장기간 방치하는 설계
 - hotfix가 개발 흐름을 망가뜨리는 설계
 - 팀이 작고 배포가 잦은데도 너무 무거운 흐름을 고집하는 설계
 
-기술사 관점에서는 Git Flow를 "정답"으로 외우지 말고, 조직의 배포 리듬에 맞는 선택지로 봐야 한다. 브랜치 [[268_strategy_pattern|전략]]은 프로세스 [[268_strategy_pattern|전략]]이기 때문이다.
+기술사 관점에서는 Git Flow를 "정답"으로 외우지 말고, 조직의 배포 리듬에 맞는 선택지로 봐야 한다. 브랜치 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 프로세스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이기 때문이다.
 
 - **📢 섹션 요약 비유**: 차선이 많다고 모두에게 좋은 것은 아니고, 차가 많은 길에 맞는 구조가 따로 있다.
 
@@ -91,7 +95,7 @@ Git Flow는 릴리스 주기가 명확한 팀에 잘 맞는다. 반대로 매우
 
 Git Flow는 릴리스 기준이 분명한 팀에서 안정성을 높여 준다. 브랜치 역할이 분명하면 충돌과 혼란이 줄어든다.
 
-결론적으로 Git Flow는 "많이 나누어 관리하는" 릴리스 중심 [[268_strategy_pattern|전략]]이다.
+결론적으로 Git Flow는 "많이 나누어 관리하는" 릴리스 중심 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 
 - **📢 섹션 요약 비유**: 칸이 나뉜 서랍장은 물건을 찾기 쉬워진다.
 
@@ -137,7 +141,7 @@ Git Flow는 그런 식으로 브랜치를 나누는 방법이에요.
 
 **진행 상황**: 64 / 373
 
-← **이전**: [[063_terraform_ansible|63. Terraform vs Ansible]]
-**다음**: [[065_github_flow_branch_strategy|65. GitHub Flow - 극단적 단순화 브랜치 전략과 CD]] →
+← **이전**: [63. Terraform vs Ansible](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/063_terraform_ansible/)
+**다음**: [65. GitHub Flow - 극단적 단순화 브랜치 전략과 CD](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/065_github_flow_branch_strategy/) →
 
 ---

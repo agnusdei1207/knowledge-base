@@ -1,22 +1,26 @@
----
-title: 1006. 망 신뢰도 (네트워크 토폴로지 연결도 계산법)
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "1006. 망 신뢰도 (네트워크 토폴로지 연결도 계산법)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 망 [[085_confidence_association_rule_conditional_probability|신뢰도]]는 [[282_performance_tactics|성능]] 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: 망 [[085_confidence_association_rule_conditional_probability|신뢰도]]를 이해하면 측정 정확도과 모델 적합성 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: 망 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: 망 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)를 이해하면 측정 정확도과 모델 적합성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 라우터나 광케이블에 물리적인 고장, 단선, 화재 등 재난이 발생했을 때, 네트워크 전체가 붕괴되지 않고 **우회로를 통해 얼마나 끈질기게 살아남아 정상적인 통신 상태(Connectivity)를 유지해 낼 수 있는가**를 나타내는 맷집(내결함성, [[800_system_architecture_fault_tolerance_dual|Fault Tolerance]]) 지표입니다.
-- **토폴로지(Topology)**: 기계와 선을 어떻게 엮었느냐(별 모양, 거미줄 모양 등)하는 기하학적 밑그림이 이 [[085_confidence_association_rule_conditional_probability|신뢰도]]를 99% 결정합니다.
+- **개념**: 라우터나 광케이블에 물리적인 고장, 단선, 화재 등 재난이 발생했을 때, 네트워크 전체가 붕괴되지 않고 **우회로를 통해 얼마나 끈질기게 살아남아 정상적인 통신 상태(Connectivity)를 유지해 낼 수 있는가**를 나타내는 맷집(내결함성, [Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/)) 지표입니다.
+- **토폴로지(Topology)**: 기계와 선을 어떻게 엮었느냐(별 모양, 거미줄 모양 등)하는 기하학적 밑그림이 이 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)를 99% 결정합니다.
 
 ```text
 [호손율 / 블로킹 확률]
@@ -27,7 +31,7 @@ tags:
     └──▶ [MTBF 통신망 생존성]
 ```
 
-- **📢 섹션 요약 비유**: 망 [[085_confidence_association_rule_conditional_probability|신뢰도]]는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [[170_selectivity_cardinality_distribution_tuning|선택도]] 쉬워진다.
+- **📢 섹션 요약 비유**: 망 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
@@ -44,7 +48,7 @@ tags:
     └──▶ [MTBF 통신망 생존성]
 ```
 
-- **📢 섹션 요약 비유**: 망 [[085_confidence_association_rule_conditional_probability|신뢰도]]의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
+- **📢 섹션 요약 비유**: 망 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
 ---
 
@@ -58,45 +62,45 @@ tags:
 
 어떻게 선을 꽂아야 안 터질까요?
 
-1. **스타(Star) 토폴로지**: 한가운데 중앙 [[238_switch_operation_principles|스위치]]를 두고 뻗은 별 모양. 
-   - **[[085_confidence_association_rule_conditional_probability|신뢰도]] 최악**: 중앙 [[238_switch_operation_principles|스위치]] 1대만 불타면([[454_spof|SPOF]]) 전 직원이 통신 멸망합니다.
-2. **링(Ring) 토폴로지 (896번 [[896_sonet_synchronous_optical_networking_oc_ring|SONET]])**: 동그랗게 원을 그린 모양. 
-   - **[[085_confidence_association_rule_conditional_probability|신뢰도]] 중간**: 선이 1번 끊어지면 반대 방향으로 빙 돌아가서 살아남습니다. 하지만 선이 2곳에서 뚝딱 끊어지면 망이 고립됩니다.
-3. **풀 [[389_mesh_topology|메시]](Full [[389_mesh_topology|Mesh]]) 토폴로지**: 모든 컴퓨터가 나머지 모든 컴퓨터와 빠짐없이 1:1 전용 랜선으로 미친 듯이 엉켜있는 거미줄 모양.
-   - **[[085_confidence_association_rule_conditional_probability|신뢰도]] 극강**: 노드가 $N$개면, 링크 수가 $\frac{N(N-1)}{2}$ 개로 폭발합니다. 선이 수십 가닥 잘려나가도 100% 다른 우회로가 존재해 좀비처럼 살아남습니다. 국가 국방망이나 코어망(코어 라우터 간 연결)에 돈을 떡칠해서 구축하는 궁극의 맷집입니다.
+1. **스타(Star) 토폴로지**: 한가운데 중앙 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 두고 뻗은 별 모양. 
+   - **[신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 최악**: 중앙 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 1대만 불타면([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)) 전 직원이 통신 멸망합니다.
+2. **링(Ring) 토폴로지 (896번 [SONET](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/896_sonet_synchronous_optical_networking_oc_ring/))**: 동그랗게 원을 그린 모양. 
+   - **[신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 중간**: 선이 1번 끊어지면 반대 방향으로 빙 돌아가서 살아남습니다. 하지만 선이 2곳에서 뚝딱 끊어지면 망이 고립됩니다.
+3. **풀 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)(Full [Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)) 토폴로지**: 모든 컴퓨터가 나머지 모든 컴퓨터와 빠짐없이 1:1 전용 랜선으로 미친 듯이 엉켜있는 거미줄 모양.
+   - **[신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 극강**: 노드가 $N$개면, 링크 수가 $\frac{N(N-1)}{2}$ 개로 폭발합니다. 선이 수십 가닥 잘려나가도 100% 다른 우회로가 존재해 좀비처럼 살아남습니다. 국가 국방망이나 코어망(코어 라우터 간 연결)에 돈을 떡칠해서 구축하는 궁극의 맷집입니다.
 
-망 [[085_confidence_association_rule_conditional_probability|신뢰도]]를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 호손율 / 블로킹 [[130_probability|확률]]이 기반 조건을 만든다면, 망 [[085_confidence_association_rule_conditional_probability|신뢰도]]는 그 위에서 핵심 메커니즘을 구현하고, [[450_mtbf|MTBF]] 통신망 생존성은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+망 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 호손율 / 블로킹 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 기반 조건을 만든다면, 망 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)는 그 위에서 핵심 메커니즘을 구현하고, [MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) 통신망 생존성은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | 호손율 / 블로킹 [[130_probability|확률]]의 기반 정리 | 망 [[085_confidence_association_rule_conditional_probability|신뢰도]]의 핵심 동작 | [[450_mtbf|MTBF]] 통신망 생존성의 확장 적용 |
+| 초점 | 호손율 / 블로킹 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)의 기반 정리 | 망 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)의 핵심 동작 | [MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) 통신망 생존성의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 측정 정확도 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 망 [[085_confidence_association_rule_conditional_probability|신뢰도]]는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
+- **📢 섹션 요약 비유**: 망 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 실제 데이터센터는 무식하게 풀 [[389_mesh_topology|메시]]를 깔 돈이 없습니다. 그래서 **[[456_dual_redundancy|이중화]](Redundancy)**라는 꼼수를 씁니다. 
-- "모든 선을 2개씩 꽂고(Active-Standby), 메인 라우터 옆에 [[555_backup_and_restore_strategy|백업]] 라우터 1대를 더 사서 나란히 둬라([[396_vrrp_virtual_router_redundancy_protocol|VRRP]] [[295_protocol_field_tcp_udp_icmp|프로토콜]])." 즉, 노드 연결도와 링크 연결도를 강제로 "2점(2가닥 끊어져야 죽음)" 이상으로 끌어올리는 최소한의 방어막 구축술입니다.
+- 실제 데이터센터는 무식하게 풀 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)를 깔 돈이 없습니다. 그래서 **[이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)(Redundancy)**라는 꼼수를 씁니다. 
+- "모든 선을 2개씩 꽂고(Active-Standby), 메인 라우터 옆에 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 라우터 1대를 더 사서 나란히 둬라([VRRP](/knowledge-base/studynote/03_network/07_network_layer_routing/396_vrrp_virtual_router_redundancy_protocol/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))." 즉, 노드 연결도와 링크 연결도를 강제로 "2점(2가닥 끊어져야 죽음)" 이상으로 끌어올리는 최소한의 방어막 구축술입니다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 망 [[085_confidence_association_rule_conditional_probability|신뢰도]](토폴로지 연결도)는 성을 지키는 **'우물과 수로의 맷집 테스트'**입니다. **스타(Star) 형**은 마을 한가운데 거대한 공동 우물(중앙 [[238_switch_operation_principles|스위치]])을 파고 100집이 [[123_pipe|파이프]] 1개씩 연결한 형태입니다. 편하지만 적군이 우물에 독을 타면(중앙 노드 마비) 100집이 다 몰살당하는 맷집 0점짜리 시스템입니다. **풀 [[389_mesh_topology|메시]](Full [[389_mesh_topology|Mesh]]) 형**은 이웃집 100곳이 각자 1:1로 비밀 지하 수로(링크)를 서로서로 미친 듯이 뚫어놓은 우주방어 성채입니다. 적군이 1번 집으로 가는 [[123_pipe|파이프]]를 50개 폭파해도, 1번 집은 남은 49개의 [[123_pipe|파이프]]를 통해 이웃집에서 어떻게든 물을 끌어와(우회 [[339_routing_overview_best_path_selection|라우팅]]) 살아남습니다. 연결도가 높다는 것은, 적군이 도끼로 [[123_pipe|파이프]]를 10번, 20번 내리찍어도 절대로 마을 전체의 물길이 고립되지 않고 샛길로 끈질기게 피가 도는(생존성 극대화) 불사조의 그물망을 의미합니다.
+- **📢 섹션 요약 비유**: 망 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)(토폴로지 연결도)는 성을 지키는 **'우물과 수로의 맷집 테스트'**입니다. **스타(Star) 형**은 마을 한가운데 거대한 공동 우물(중앙 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))을 파고 100집이 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 1개씩 연결한 형태입니다. 편하지만 적군이 우물에 독을 타면(중앙 노드 마비) 100집이 다 몰살당하는 맷집 0점짜리 시스템입니다. **풀 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)(Full [Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)) 형**은 이웃집 100곳이 각자 1:1로 비밀 지하 수로(링크)를 서로서로 미친 듯이 뚫어놓은 우주방어 성채입니다. 적군이 1번 집으로 가는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 50개 폭파해도, 1번 집은 남은 49개의 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 통해 이웃집에서 어떻게든 물을 끌어와(우회 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)) 살아남습니다. 연결도가 높다는 것은, 적군이 도끼로 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 10번, 20번 내리찍어도 절대로 마을 전체의 물길이 고립되지 않고 샛길로 끈질기게 피가 도는(생존성 극대화) 불사조의 그물망을 의미합니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-망 [[085_confidence_association_rule_conditional_probability|신뢰도]]는 [[282_performance_tactics|성능]] 평가와 고급 분석을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 측정 정확도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [[450_mtbf|MTBF]] 통신망 생존성, [[190_ai_llm_requirements_specification|AI]] 기반 [[282_performance_tactics|성능]] 예측, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [[190_ai_llm_requirements_specification|AI]] 기반 [[282_performance_tactics|성능]] 예측 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+망 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 측정 정확도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) 통신망 생존성, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: 망 [[085_confidence_association_rule_conditional_probability|신뢰도]]는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
+- **📢 섹션 요약 비유**: 망 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
 ---
 
@@ -104,10 +108,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 호손율 / 블로킹 [[130_probability|확률]] | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [[139_throughput|처리량]] ([[139_throughput|Throughput]]) | 실제 전달 [[282_performance_tactics|성능]]을 나타내는 대표 지표다. |
-| [[015_지연_데이터_관점|지연]] ([[141_latency|Latency]]) | 사용자 체감 품질을 좌우한다. |
-| [[450_mtbf|MTBF]] 통신망 생존성 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| 호손율 / 블로킹 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) | 실제 전달 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 나타내는 대표 지표다. |
+| [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) ([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) | 사용자 체감 품질을 좌우한다. |
+| [MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) 통신망 생존성 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -121,7 +125,7 @@ tags:
     └──▶ [확장 B: AI 기반 성능 예측]
 ```
 
-망 [[085_confidence_association_rule_conditional_probability|신뢰도]]는 호손율 / 블로킹 [[130_probability|확률]]에서 출발해 현재 메커니즘을 정교화하고, 이후 [[450_mtbf|MTBF]] 통신망 생존성와 [[190_ai_llm_requirements_specification|AI]] 기반 [[282_performance_tactics|성능]] 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+망 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)는 호손율 / 블로킹 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) 통신망 생존성와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -135,7 +139,7 @@ tags:
 
 **진행 상황**: 106 / 1120
 
-← **이전**: [[1005_blocking_probability_erlang_b_qos_call_drop|1005. 호손율 / 블로킹 확률 (Blocking Probability)]]
-**다음**: [[1007_mtbf_mean_time_between_failures_mttf_reliability|1007. MTBF (평균 무고장 시간) 통신망 생존성]] →
+← **이전**: [1005. 호손율 / 블로킹 확률 (Blocking Probability)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1005_blocking_probability_erlang_b_qos_call_drop/)
+**다음**: [1007. MTBF (평균 무고장 시간) 통신망 생존성](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1007_mtbf_mean_time_between_failures_mttf_reliability/) →
 
 ---

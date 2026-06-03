@@ -1,27 +1,31 @@
----
-title: 458. 예약 및 단독 장치 접근 제어 (Device Reservation Exclusive Access)
-date: '2026-05-09'
-tags:
-- studynote-operating-system
----
++++
+title = "458. 예약 및 단독 장치 접근 제어 (Device Reservation Exclusive Access)"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 예약 및 단독 장치 접근 제어는 CD-ROM 굽기, 테이프 드라이브, 특수 의료/공업용 로봇팔처럼 **절대로 '[[457_spooling|스풀링]]([[457_spooling|Spooling]])' 꼼수가 통하지 않고, 물리적으로 무조건 한 번에 딱 하나의 프로세스만 점유해야 하는 기계 장치(Exclusive Device)를 [[022_kernel_role|커널]]이 통제하는 잠금([[213_locking_mechanism_concurrency_control|Locking]]) 시스템**이다.
-> 2. **가치**: 다수의 프로세스가 동시에 덤벼들면 [[001_dikw_pyramid|데이터]]가 끔찍하게 섞여 CD가 뻑(굽기 실패) 나거나 기계가 오작동하는 치명적 붕괴를 막기 위해, **OS 차원에서 장치를 선점(Allocate/Reserve)한 놈 외에는 아예 접근(open) 자체를 원천 거부(EACCES 에러)하여 물리적 하드웨어를 완벽하게 [[571_protection_vs_security|보호]]**한다.
-> 3. **융합(한계)**: 이 깐깐한 독점 제어는 다중 프로그래밍의 병렬성([[266_other_transparency|Concurrency]])을 심각하게 파괴하고 무한 대기([[314_starvation_prevention|Starvation]])나 [[281_deadlock_definition|교착 상태]]([[281_deadlock_definition|Deadlock]])를 쉽게 유발하므로, OS는 **장치 예약 타임아웃과 강제 회수(Preemption)라는 우회 스케줄링 메커니즘을 반드시 융합**하여 서버 렉을 방어해야 한다.
+> 1. **본질**: 예약 및 단독 장치 접근 제어는 CD-ROM 굽기, 테이프 드라이브, 특수 의료/공업용 로봇팔처럼 **절대로 '[스풀링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/)([Spooling](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/))' 꼼수가 통하지 않고, 물리적으로 무조건 한 번에 딱 하나의 프로세스만 점유해야 하는 기계 장치(Exclusive Device)를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 통제하는 잠금([Locking](/knowledge-base/studynote/05_database/04_transactions_concurrency/213_locking_mechanism_concurrency_control/)) 시스템**이다.
+> 2. **가치**: 다수의 프로세스가 동시에 덤벼들면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 끔찍하게 섞여 CD가 뻑(굽기 실패) 나거나 기계가 오작동하는 치명적 붕괴를 막기 위해, **OS 차원에서 장치를 선점(Allocate/Reserve)한 놈 외에는 아예 접근(open) 자체를 원천 거부(EACCES 에러)하여 물리적 하드웨어를 완벽하게 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)**한다.
+> 3. **융합(한계)**: 이 깐깐한 독점 제어는 다중 프로그래밍의 병렬성([Concurrency](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/266_other_transparency/))을 심각하게 파괴하고 무한 대기([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))나 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))를 쉽게 유발하므로, OS는 **장치 예약 타임아웃과 강제 회수(Preemption)라는 우회 스케줄링 메커니즘을 반드시 융합**하여 서버 렉을 방어해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [[457_spooling|스풀링]]([[457_spooling|Spooling]])은 디스크에 가짜로 파일을 덤프쳐서 여러 놈이 동시에 기계를 쓰는 '착각'을 만들어 냈다. 하지만 세상엔 가짜가 안 통하는 기계가 있다. **단독 장치(Exclusive Device)**라 불리는 놈들이다. 운영체제는 이 장치들에 대해 "이 기계는 A 프로세스가 렌트(Reserve)했으니, B, C가 찌르면 무조건 접근 금지(Access Denied) 시켜라"라고 [[022_kernel_role|커널]] 레벨에서 거대한 울타리를 쳐버린다.
-- **필요성**: CD/DVD를 굽는 레코더(Burner)를 생각해 보자. 디스크에 레이저를 쏘면서 1바이트씩 굽고 있는데, [[457_spooling|스풀링]]이랍시고 다른 앱이 끼어들어 엉뚱한 [[001_dikw_pyramid|데이터]]를 섞어 쏘면 CD 전체가 에러가 나며 '뻑'이 나버린다. CD 한 장 날리는 셈이다. 더 무서운 건 병원 수술 로봇팔이다. 의사 앱이 메스를 움직이는데 엑셀 앱이 실수로 모터 값을 건드리면 환자가 죽는다. 이처럼 **"순서가 섞이거나 중간에 끊기면 기계 자체가 망가지거나 물리적 참사가 터지는 하드웨어"**를 지키기 위해, OS는 [[457_spooling|스풀링]]의 낭만을 버리고 "무조건 번호표 뽑고 한 놈 다 쓸 때까지 딴 놈은 손 떼!"라는 원시적이고 잔인한 독점 락(Exclusive [[510_lock|Lock]])을 강제해야만 했다.
+- **개념**: [스풀링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/)([Spooling](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/))은 디스크에 가짜로 파일을 덤프쳐서 여러 놈이 동시에 기계를 쓰는 '착각'을 만들어 냈다. 하지만 세상엔 가짜가 안 통하는 기계가 있다. **단독 장치(Exclusive Device)**라 불리는 놈들이다. 운영체제는 이 장치들에 대해 "이 기계는 A 프로세스가 렌트(Reserve)했으니, B, C가 찌르면 무조건 접근 금지(Access Denied) 시켜라"라고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨에서 거대한 울타리를 쳐버린다.
+- **필요성**: CD/DVD를 굽는 레코더(Burner)를 생각해 보자. 디스크에 레이저를 쏘면서 1바이트씩 굽고 있는데, [스풀링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/)이랍시고 다른 앱이 끼어들어 엉뚱한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 섞어 쏘면 CD 전체가 에러가 나며 '뻑'이 나버린다. CD 한 장 날리는 셈이다. 더 무서운 건 병원 수술 로봇팔이다. 의사 앱이 메스를 움직이는데 엑셀 앱이 실수로 모터 값을 건드리면 환자가 죽는다. 이처럼 **"순서가 섞이거나 중간에 끊기면 기계 자체가 망가지거나 물리적 참사가 터지는 하드웨어"**를 지키기 위해, OS는 [스풀링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/)의 낭만을 버리고 "무조건 번호표 뽑고 한 놈 다 쓸 때까지 딴 놈은 손 떼!"라는 원시적이고 잔인한 독점 락(Exclusive [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 강제해야만 했다.
 
 - **등장 배경 및 OS의 권력 남용 방지**:
-  1. **[[457_spooling|스풀링]]의 한계**: 레이저 굽기나 테이프 감기 등, 물리적 '연속성'과 '타이밍'이 목숨인 장치에는 [[457_spooling|스풀링]]([[001_dikw_pyramid|데이터]] 섞임/[[015_지연_데이터_관점|지연]])을 적용할 수 없음.
+  1. **[스풀링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/)의 한계**: 레이저 굽기나 테이프 감기 등, 물리적 '연속성'과 '타이밍'이 목숨인 장치에는 [스풀링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/)([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 섞임/[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))을 적용할 수 없음.
   2. **Race Condition의 물리적 파괴**: 메모리 변수가 깨지는 걸 넘어, 실제 기계 모터가 꼬여서 하드웨어가 박살 나는 것을 목격함.
-  3. **Device [[567_file_locking_shared_exclusive|File Locking]]**: OS가 `/dev/cdrom` 같은 장치 파일에 락([[510_lock|Lock]])을 걸어 접근 권한 자체를 [[022_kernel_role|커널]]단에서 틀어막아버리는 원시적 [[602_sandboxing_kernel_wrapper|샌드박싱]] 도입.
+  3. **Device [File Locking](/knowledge-base/studynote/02_operating_system/09_file_system/567_file_locking_shared_exclusive/)**: OS가 `/dev/cdrom` 같은 장치 파일에 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸어 접근 권한 자체를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)단에서 틀어막아버리는 원시적 [샌드박싱](/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/) 도입.
 
 ```text
 ┌──────────────────────────────────────────────────────────────────────┐
@@ -46,9 +50,9 @@ tags:
 │  - OS 커널 : "🔒Lock 해제! 자 이제 다음 사람 와서 써라!"             │
 └──────────────────────────────────────────────────────────────────────┘
 ```
-**[다이어그램 해설]** 가상 메모리나 CPU 스케줄러가 '어떻게든 속여서 같이 쓰게 만들어주는' 평화주의자라면, 단독 장치 제어는 '안 되는 건 절대 안 돼'라고 철퇴를 내리는 독재자다. 앱 B 입장에서는 시스템이 먹통이 된 것 같아 불쾌하지만, 저 철퇴가 없었다면 CD 수십 장이 뻑나고 공장 기계가 폭발하는 하드웨어 대형 참사를 맞았을 것이다. [[282_performance_tactics|성능]](UX)을 포기하고 하드웨어의 [[003_integrity|무결성]]([[003_integrity|Integrity]])을 수호한 가장 원초적인 방어막이다.
+**[다이어그램 해설]** 가상 메모리나 CPU 스케줄러가 '어떻게든 속여서 같이 쓰게 만들어주는' 평화주의자라면, 단독 장치 제어는 '안 되는 건 절대 안 돼'라고 철퇴를 내리는 독재자다. 앱 B 입장에서는 시스템이 먹통이 된 것 같아 불쾌하지만, 저 철퇴가 없었다면 CD 수십 장이 뻑나고 공장 기계가 폭발하는 하드웨어 대형 참사를 맞았을 것이다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(UX)을 포기하고 하드웨어의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)([Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))을 수호한 가장 원초적인 방어막이다.
 
-- **📢 섹션 요약 비유**: 수술실(단독 장치)에 외과 의사(앱 A)가 들어가서 배를 가르고 심장 수술을 하고 있습니다. 이때 치과 의사(앱 B)가 "나도 이 환자 사랑니 하나만 뽑을게!" 하고 수술실 문을 열고 들어오면 환자(기계)는 감염으로 즉사합니다. 수술실은 무조건 '수술 중 붉은불([[510_lock|Lock]])'을 켜고 문을 잠가 안에서 의사가 직접 문을 열고 나올 때까지 밖에서 아무도 못 들어오게 철통 방어를 해야 하는 특수 구역입니다.
+- **📢 섹션 요약 비유**: 수술실(단독 장치)에 외과 의사(앱 A)가 들어가서 배를 가르고 심장 수술을 하고 있습니다. 이때 치과 의사(앱 B)가 "나도 이 환자 사랑니 하나만 뽑을게!" 하고 수술실 문을 열고 들어오면 환자(기계)는 감염으로 즉사합니다. 수술실은 무조건 '수술 중 붉은불([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))'을 켜고 문을 잠가 안에서 의사가 직접 문을 열고 나올 때까지 밖에서 아무도 못 들어오게 철통 방어를 해야 하는 특수 구역입니다.
 
 ---
 
@@ -56,21 +60,21 @@ tags:
 
 ### 디바이스 예약(Allocate)과 해제(Free) 시스템 콜
 
-운영체제는 장치를 독점하기 위해 [[022_kernel_role|커널]] 내부에 거대한 상태 테이블을 유지한다.
-- `allocate_device()`: 프로세스가 기계를 찜한다. 만약 기계가 사용 중(Busy)이면 프로세스를 `Wait Queue(수면 상태)`로 던져서 영원히 잠재우거나, "지금 바빠(EBUSY)"라며 즉시 에러 코드를 뱉고 튕겨낸다(Non-[[122_sync_async_communication|blocking]]).
+운영체제는 장치를 독점하기 위해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부에 거대한 상태 테이블을 유지한다.
+- `allocate_device()`: 프로세스가 기계를 찜한다. 만약 기계가 사용 중(Busy)이면 프로세스를 `Wait Queue(수면 상태)`로 던져서 영원히 잠재우거나, "지금 바빠(EBUSY)"라며 즉시 에러 코드를 뱉고 튕겨낸다(Non-[blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)).
 - `free_device()`: 기계를 다 쓴 프로세스가 락을 풀고, 자고 있던 다음 놈을 깨워준다(Wake up).
-- **문제점**: 이 코딩 구조는 전형적인 [[224_semaphore|세마포어]]([[224_semaphore|Semaphore]]) 뮤텍스 락과 완전히 똑같다. 즉, 프로그래머가 `free_device()`를 부르는 걸 깜빡하고 앱을 끄거나 앱이 중간에 뻗어버리면? 기계는 영원히 락이 걸린 채로 잠겨서, 컴퓨터를 껐다 켜기(재부팅) 전까지 아무도 CD롬을 못 쓰는 환장할 버그([[281_deadlock_definition|Deadlock]])가 터지게 된다.
+- **문제점**: 이 코딩 구조는 전형적인 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)([Semaphore](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)) 뮤텍스 락과 완전히 똑같다. 즉, 프로그래머가 `free_device()`를 부르는 걸 깜빡하고 앱을 끄거나 앱이 중간에 뻗어버리면? 기계는 영원히 락이 걸린 채로 잠겨서, 컴퓨터를 껐다 켜기(재부팅) 전까지 아무도 CD롬을 못 쓰는 환장할 버그([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))가 터지게 된다.
 
 ---
 
-### [[281_deadlock_definition|Deadlock]] ([[281_deadlock_definition|교착 상태]])의 1등 공신
+### [Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) ([교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))의 1등 공신
 
 단독 장치 제어가 욕을 먹는 이유는 데드락을 유발하는 시한폭탄이기 때문이다.
-- 프로세스 A가 `테이프 드라이브 1`을 찜([[510_lock|Lock]])했다.
-- 프로세스 B가 `테이프 드라이브 2`를 찜([[510_lock|Lock]])했다.
-- 1초 뒤, 프로세스 A가 [[001_dikw_pyramid|데이터]]를 넘기려고 `테이프 드라이브 2`를 달라고 떼를 쓴다 (B가 줄 때까지 Block).
-- 1초 뒤, 프로세스 B도 [[001_dikw_pyramid|데이터]]를 받으려고 `테이프 드라이브 1`을 달라고 떼를 쓴다 (A가 줄 때까지 Block).
-- **파국**: A와 B가 서로의 기계를 꽉 쥔 채로 상대방 기계를 내놓으라고 영원히 대치하는 **'데드락([[281_deadlock_definition|Deadlock]])'**에 빠져버린다. CPU와 램은 텅텅 놀고 있는데, 컴퓨터 화면은 멈추고 서버가 기절하는 최악의 시스템 결함이다.
+- 프로세스 A가 `테이프 드라이브 1`을 찜([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))했다.
+- 프로세스 B가 `테이프 드라이브 2`를 찜([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))했다.
+- 1초 뒤, 프로세스 A가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 넘기려고 `테이프 드라이브 2`를 달라고 떼를 쓴다 (B가 줄 때까지 Block).
+- 1초 뒤, 프로세스 B도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받으려고 `테이프 드라이브 1`을 달라고 떼를 쓴다 (A가 줄 때까지 Block).
+- **파국**: A와 B가 서로의 기계를 꽉 쥔 채로 상대방 기계를 내놓으라고 영원히 대치하는 **'데드락([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))'**에 빠져버린다. CPU와 램은 텅텅 놀고 있는데, 컴퓨터 화면은 멈추고 서버가 기절하는 최악의 시스템 결함이다.
 
 - **📢 섹션 요약 비유**: 포크와 나이프 세트(단독 장치)가 하나씩 있습니다. 형(A)이 포크를 집고, 동생(B)이 나이프를 집었습니다. 스테이크를 먹으려면 둘 다 있어야 하는데, 형은 나이프 내놓으라고 버티고 동생은 포크 내놓으라고 버팁니다. 둘 중 하나가 포기(Release)하지 않으면 둘 다 영원히 스테이크를 한 입도 못 먹고 굶어 죽는(데드락) 미련한 상황입니다.
 
@@ -78,21 +82,21 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-### 비교 1: Shared (공유 장치) vs [[457_spooling|Spooling]] (스풀) vs Exclusive (단독 장치)
+### 비교 1: Shared (공유 장치) vs [Spooling](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/) (스풀) vs Exclusive (단독 장치)
 
 세상 모든 I/O 장비는 OS의 통제 방식에 따라 이 세 가지 신분으로 나뉜다.
 
-| 장치 [[104_classification_analysis|분류]] | OS의 개입 방식 | 다중 앱 동시 접근 | 대표 하드웨어 기기 | 데드락/렉 위험도 |
+| 장치 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | OS의 개입 방식 | 다중 앱 동시 접근 | 대표 하드웨어 기기 | 데드락/렉 위험도 |
 |:---|:---|:---|:---|:---|
-| **Shared (공유)** | 아무나 막 읽고 써도 됨 (알아서 섹터 찢어줌) | **100% 가능 (자유로움)** | [[465_hdd_structure|HDD]], [[327_ssd|SSD]], [[359_usb|USB]] 메모리 | 0% (매우 안전하고 빠름) |
-| **[[457_spooling|Spooling]] (스풀)**| 가짜로 다 받아서 디스크에 저장 후 줄 세움 | **가능은 함 (가짜 [[014_concurrency|동시성]])** | 레이저 프린터, 메일 서버 | 🔴 디스크 꽉 차면 뻗음 |
+| **Shared (공유)** | 아무나 막 읽고 써도 됨 (알아서 섹터 찢어줌) | **100% 가능 (자유로움)** | [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/), [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/), [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 메모리 | 0% (매우 안전하고 빠름) |
+| **[Spooling](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/) (스풀)**| 가짜로 다 받아서 디스크에 저장 후 줄 세움 | **가능은 함 (가짜 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/))** | 레이저 프린터, 메일 서버 | 🔴 디스크 꽉 차면 뻗음 |
 | **Exclusive (단독)**| 한 놈이 문 잠그면 다른 놈들은 얄짤없이 튕김 | **절대 불가능 (1명만 씀)** | CD-RW 굽기 툴, 마그네틱 테이프 | ☠️ 데드락 지뢰밭 (최악) |
 
-### 해결책: 강제 선점(Preemption)과 [[022_kernel_role|커널]]의 깡패 짓
-데드락과 시스템 마비를 막기 위해, 최신 리눅스 [[022_kernel_role|커널]]은 멍청하게 기다려주지 않고 **'강제 회수(Preemption)'**라는 깡패 같은 우회로를 쓴다.
-- 어떤 앱이 사운드 카드(마이크)를 독점([[510_lock|Lock]])하고 10분째 혼자 마이크를 쓰고 있다 치자.
-- 갑자기 '대통령 긴급 재난 알림(또는 OS 핵심 [[036_kernel_panic|커널 패닉]] 알림)'이 마이크와 스피커를 써야 한다!
-- OS는 자비를 베풀지 않는다. 마이크를 독점하던 앱의 **락([[510_lock|Lock]])을 강제로 망치로 부숴버리고**, 연결 세션을 강제 절단(`Revoke`)한 뒤 최상위 프로세스에게 마이크를 넘겨버린다.
+### 해결책: 강제 선점(Preemption)과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 깡패 짓
+데드락과 시스템 마비를 막기 위해, 최신 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 멍청하게 기다려주지 않고 **'강제 회수(Preemption)'**라는 깡패 같은 우회로를 쓴다.
+- 어떤 앱이 사운드 카드(마이크)를 독점([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))하고 10분째 혼자 마이크를 쓰고 있다 치자.
+- 갑자기 '대통령 긴급 재난 알림(또는 OS 핵심 [커널 패닉](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/) 알림)'이 마이크와 스피커를 써야 한다!
+- OS는 자비를 베풀지 않는다. 마이크를 독점하던 앱의 **락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 강제로 망치로 부숴버리고**, 연결 세션을 강제 절단(`Revoke`)한 뒤 최상위 프로세스에게 마이크를 넘겨버린다.
 - 독점 앱은 영문도 모른 채 `I/O Interrupted Error`를 맞고 피를 토하며 뻗어버리지만, 시스템 전체가 데드락에 빠져 죽는 것보다는 한 놈 희생시키는 것이 백배 이득이다.
 
 ```text
@@ -103,7 +107,7 @@ tags:
 │ 데드락 꼬임│ 화면 완전 멈춤│ 락 강제 부수기 💥│ 남은 놈들 살려냄    │
 └──────────┴────────────┴────────────┴────────────────────────────────┘
 ```
-**[매트릭스 해설]** 단독 장치 예약은 필연적으로 인간(프로그래머)의 실수로 인해 시스템이 터지는 버그를 유발한다. 그래서 OS는 앱에게 "네가 혼자 다 써!"라고 권한을 주면서도, 뒤로는 몰래 초시계([[319_timeout_prevention|Timeout]])를 켜두고 "10초 안에 방 안 빼면 내가 강제로 문 부수고 들어간다"는 예비 키(Revoke)를 항상 손에 쥐고 있어야만 시스템의 영속성이 보장된다.
+**[매트릭스 해설]** 단독 장치 예약은 필연적으로 인간(프로그래머)의 실수로 인해 시스템이 터지는 버그를 유발한다. 그래서 OS는 앱에게 "네가 혼자 다 써!"라고 권한을 주면서도, 뒤로는 몰래 초시계([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/))를 켜두고 "10초 안에 방 안 빼면 내가 강제로 문 부수고 들어간다"는 예비 키(Revoke)를 항상 손에 쥐고 있어야만 시스템의 영속성이 보장된다.
 
 - **📢 섹션 요약 비유**: 독서실 1인실(단독 장치)을 예약한 학생이 안에서 문을 잠그고 24시간 동안 안 나옵니다(데드락). 관리자(OS)가 밖에서 착하게 기다려주면 독서실 망합니다. 관리자는 12시간 지나면 경고 방송을 때리고, 마스터키로 강제로 문을 따서 짐을 복도에 내던져버린(Preemption) 뒤 다른 학생을 받아야 독서실이 평화롭게 돌아갑니다.
 
@@ -117,17 +121,17 @@ tags:
    - 구글 미트 화면이 까맣게 나오며 팝업이 뜬다. **"Camera is currently used by another application (Device or resource busy)"**
    - 왜 그럴까? 카메라(웹캠) 디바이스 드라이버(`/dev/video0`)는 완벽한 **단독 장치(Exclusive Device)**로 코딩되어 있기 때문이다. 
    - 줌(Zoom)이 `open()`으로 카메라의 락을 쥐고 영상을 빨아먹는 동안, OS 하드웨어 레벨에서 다른 앱의 접근(구글 미트의 `open` 요청)을 얄짤없이 `EBUSY` 에러로 쳐내버린 것이다.
-3. **[[015_virtualization|가상화]] 소프트웨어(OBS Virtual Cam)의 꼼수**:
+3. **[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 소프트웨어(OBS Virtual Cam)의 꼼수**:
    - 스트리머들은 줌, 유튜브, 트위치 3곳에 동시에 카메라를 띄운다. 어떻게 한 걸까?
    - 하드웨어 락을 깰 수는 없으니, **가짜 소프트웨어 가상 카메라(OBS Virtual Camera)**를 중간 미들웨어로 하나 띄웠다.
-   - OBS 앱 하나만 독점적으로 진짜 하드웨어 카메라(`/dev/video0`)를 점유([[510_lock|Lock]])한다.
-   - 그리고 OBS가 그 영상을 소프트웨어 램 버퍼([[118_shared_memory|공유 메모리]])로 수십 장 복사해서 줌, 유튜브, 트위치에 뿌려준다. 
+   - OBS 앱 하나만 독점적으로 진짜 하드웨어 카메라(`/dev/video0`)를 점유([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))한다.
+   - 그리고 OBS가 그 영상을 소프트웨어 램 버퍼([공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/))로 수십 장 복사해서 줌, 유튜브, 트위치에 뿌려준다. 
    - 즉, 하드웨어의 무식한 '단독 락'을 소프트웨어 계층의 '브로드캐스트(Broadcasting)'로 우회해 버린 실무 최적화의 교과서적 사례다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]: 안드로이드 오디오 포커스(Audio Focus) 꼬임 버그
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): 안드로이드 오디오 포커스(Audio Focus) 꼬임 버그
 모바일에서 음악을 듣다가 전화가 오면 음악이 꺼진다. 스피커/마이크(사운드 장치)를 전화 앱이 독점(Reserve)해서 빼앗아 갔기 때문이다. 
 전화가 끊기면 락이 풀리며 음악이 다시 재생되어야(Release) 한다. 그런데 전화 앱 개발자가 코딩을 멍청하게 해서 오디오 포커스를 반환하지 않고 앱을 죽여버렸다. 
-결과? 스마트폰의 사운드 디바이스가 영원히 독점 상태([[281_deadlock_definition|Deadlock]])에 빠져서, 유튜브를 틀든 멜론을 틀든 소리가 아예 안 나는 **"안드 폰 소리 먹통 버그"**가 터진다. 사용자는 폰을 재부팅(하드웨어 락 초기화)해야만 소리를 다시 들을 수 있다. 시스템 콜 해제의 중요성을 뼛속까지 느끼게 해주는 재앙이다.
+결과? 스마트폰의 사운드 디바이스가 영원히 독점 상태([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))에 빠져서, 유튜브를 틀든 멜론을 틀든 소리가 아예 안 나는 **"안드 폰 소리 먹통 버그"**가 터진다. 사용자는 폰을 재부팅(하드웨어 락 초기화)해야만 소리를 다시 들을 수 있다. 시스템 콜 해제의 중요성을 뼛속까지 느끼게 해주는 재앙이다.
 
 - **📢 섹션 요약 비유**: 마이크(단독 장치)가 딱 1개 있는 노래방입니다. 노래를 부르려면 마이크를 쥐어야 합니다. 줌(Zoom)이 마이크를 쥐고 노래 부르는 동안, 다른 애가 마이크를 뺏으려 하면 쥐어 터집니다(에러). 그래서 똑똑한 친구(OBS)가 마이크를 쥐고 혼자 노래 부른 다음, 그 소리를 거대한 스피커(가상 카메라)로 빵빵하게 틀어서 모든 방에 다 들리게 꼼수를 부리는 방송국 시스템입니다.
 
@@ -139,15 +143,15 @@ tags:
 
 | 구분 | 내용 |
 |:---|:---|
-| **하드웨어 물리적 파괴 완벽 방지**| 레이저, 로봇 모터 등 치명적 물리 타이밍이 꼬이면 칩셋이 타버리는 장치를, 무식하지만 완벽한 Lock으로 100% 안전하게 [[571_protection_vs_security|보호]] |
-| **[[213_race_condition|Race Condition]] (경합) 원천 봉쇄** | 서로 다른 프로세스의 0과 1이 교차하며 디바이스 레지스터에 쓰여서 끔찍한 쓰레기값이 도출되는 현상을 [[022_kernel_role|커널]] 입구에서 차단 |
-| **우회 [[015_virtualization|가상화]] 기술([[190_virtualization_computing_architecture_cloud|Virtualization]])의 촉진**| "한 번에 하나밖에 못 쓴다"는 빡빡한 제약이 개발자들을 빡치게 하여, OBS 가상 카메라나 V-Audio 같은 미들웨어 소프트웨어 생태계를 폭발시킴 |
+| **하드웨어 물리적 파괴 완벽 방지**| 레이저, 로봇 모터 등 치명적 물리 타이밍이 꼬이면 칩셋이 타버리는 장치를, 무식하지만 완벽한 Lock으로 100% 안전하게 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) |
+| **[Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/) (경합) 원천 봉쇄** | 서로 다른 프로세스의 0과 1이 교차하며 디바이스 레지스터에 쓰여서 끔찍한 쓰레기값이 도출되는 현상을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 입구에서 차단 |
+| **우회 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 기술([Virtualization](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/))의 촉진**| "한 번에 하나밖에 못 쓴다"는 빡빡한 제약이 개발자들을 빡치게 하여, OBS 가상 카메라나 V-Audio 같은 미들웨어 소프트웨어 생태계를 폭발시킴 |
 
 ### 결론 및 미래 전망
 
-예약 및 단독 장치 접근 제어 (Exclusive Access)는 다중 프로그래밍의 낭만([[014_concurrency|동시성]])이 "물리 세계의 딱딱하고 양보 없는 기계 덩어리"와 충돌했을 때 운영체제가 어쩔 수 없이 무릎을 꿇고 허락한 가장 원시적인 차단막이다. 효율과 스피드가 종교가 된 현대 컴퓨터 공학에서 "남이 쓸 때까지 무작정 기다려야 하는" 이 방식은 혐오의 대상이 되어, [[457_spooling|스풀링]](디스크 버퍼)이나 가상 드라이버(소프트웨어 [[016_replication_factor|복제]]) 같은 수백 가지 꼼수로 대체되어 겉모습을 감췄다. 그러나 그 껍데기를 다 벗기고 메인보드 [[014_transistor|트랜지스터]] 밑바닥으로 내려가 보면, 누군가 레이저를 쏘고 전압을 조절하는 그 최후의 순간만큼은 영원히 이 '독점적 예약([[510_lock|Lock]])'의 [[571_protection_vs_security|보호]] 없이는 성립될 수 없다는 하드웨어의 불변의 진리가 지금도 굳건히 시스템을 떠받치고 있다.
+예약 및 단독 장치 접근 제어 (Exclusive Access)는 다중 프로그래밍의 낭만([동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/))이 "물리 세계의 딱딱하고 양보 없는 기계 덩어리"와 충돌했을 때 운영체제가 어쩔 수 없이 무릎을 꿇고 허락한 가장 원시적인 차단막이다. 효율과 스피드가 종교가 된 현대 컴퓨터 공학에서 "남이 쓸 때까지 무작정 기다려야 하는" 이 방식은 혐오의 대상이 되어, [스풀링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/)(디스크 버퍼)이나 가상 드라이버(소프트웨어 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)) 같은 수백 가지 꼼수로 대체되어 겉모습을 감췄다. 그러나 그 껍데기를 다 벗기고 메인보드 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 밑바닥으로 내려가 보면, 누군가 레이저를 쏘고 전압을 조절하는 그 최후의 순간만큼은 영원히 이 '독점적 예약([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))'의 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 없이는 성립될 수 없다는 하드웨어의 불변의 진리가 지금도 굳건히 시스템을 떠받치고 있다.
 
-- **📢 섹션 요약 비유**: 교통카드 하나로 [[344_bus|버스]], 지하철, 택시를 환승([[457_spooling|스풀링]], [[015_virtualization|가상화]])하며 날아다니는 스마트 시대지만, 결국 마지막에 내 집 현관문을 열고 화장실(단독 장치) 변기에 앉을 때만큼은 누구와도 공간을 공유하지 않고 철컥! 하고 자물쇠를 잠가야(Exclusive [[510_lock|Lock]]) 비로소 일을 볼 수 있는 아날로그적 물리 법칙의 변치 않는 한계입니다.
+- **📢 섹션 요약 비유**: 교통카드 하나로 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/), 지하철, 택시를 환승([스풀링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/), [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/))하며 날아다니는 스마트 시대지만, 결국 마지막에 내 집 현관문을 열고 화장실(단독 장치) 변기에 앉을 때만큼은 누구와도 공간을 공유하지 않고 철컥! 하고 자물쇠를 잠가야(Exclusive [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 비로소 일을 볼 수 있는 아날로그적 물리 법칙의 변치 않는 한계입니다.
 
 ---
 
@@ -155,10 +159,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[456_caching|캐싱]] ([[456_caching|Caching]]) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [[457_spooling|스풀링]] ([[457_spooling|Spooling]], Simultaneous Peripheral [[329_delta_encoding|Operation]] On-Line) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| 블로킹 I/O ([[122_sync_async_communication|Blocking]] I/O) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| 논블로킹 I/O (Non-[[122_sync_async_communication|blocking]] I/O) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) ([Caching](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [스풀링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/) ([Spooling](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/), Simultaneous Peripheral [Operation](/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/) On-Line) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| 블로킹 I/O ([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/) I/O) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| 논블로킹 I/O (Non-[blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/) I/O) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -176,9 +180,9 @@ tags:
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 예약 및 단독 장치 접근 제어 (Device Reservation Exclusive Access)은 컴퓨터가 디스크와 장치가 [[001_dikw_pyramid|데이터]]를 주고받는 길을 정리하는 방법이에요.
-2. 먼저 [[457_spooling|스풀링]] ([[457_spooling|Spooling]], Simultaneous Peripheral [[329_delta_encoding|Operation]] On-Line)을 이해하면 예약 및 단독 장치 접근 제어 (Device Reservation Exclusive Access)이 왜 필요한지 더 쉽게 보여요.
-3. 그래서 예약 및 단독 장치 접근 제어 (Device Reservation Exclusive Access)을 잘 알면 나중에 블로킹 I/O ([[122_sync_async_communication|Blocking]] I/O)도 훨씬 쉽게 배울 수 있어요.
+1. 예약 및 단독 장치 접근 제어 (Device Reservation Exclusive Access)은 컴퓨터가 디스크와 장치가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받는 길을 정리하는 방법이에요.
+2. 먼저 [스풀링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/) ([Spooling](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/), Simultaneous Peripheral [Operation](/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/) On-Line)을 이해하면 예약 및 단독 장치 접근 제어 (Device Reservation Exclusive Access)이 왜 필요한지 더 쉽게 보여요.
+3. 그래서 예약 및 단독 장치 접근 제어 (Device Reservation Exclusive Access)을 잘 알면 나중에 블로킹 I/O ([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/) I/O)도 훨씬 쉽게 배울 수 있어요.
 
 ---
 
@@ -186,7 +190,7 @@ tags:
 
 **진행 상황**: 458 / 800
 
-← **이전**: [[457_spooling|457. 스풀링 (Spooling, Simultaneous Peripheral Operation On-Line) - 디스크를 대형 버퍼로]]
-**다음**: [[459_blocking_io|459. 블로킹 I/O (Blocking I/O) - I/O 완료 시까지 프로세스 대기]] →
+← **이전**: [457. 스풀링 (Spooling, Simultaneous Peripheral Operation On-Line) - 디스크를 대형 버퍼로](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/)
+**다음**: [459. 블로킹 I/O (Blocking I/O) - I/O 완료 시까지 프로세스 대기](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/459_blocking_io/) →
 
 ---

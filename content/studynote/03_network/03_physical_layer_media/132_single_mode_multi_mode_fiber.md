@@ -1,22 +1,26 @@
----
-title: 132. 단일모드 광섬유 (Single-mode Fiber, SMF) / 다중모드 광섬유 (MMF)
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "132. 단일모드 광섬유 (Single-mode Fiber, SMF) / 다중모드 광섬유 (MMF)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 광섬유의 코어 직경 차이(8~10µm vs 50~62.5µm)에 따라 허용되는 빛의 [[216_progress_in_synchronization|진행]] 경로(모드) 수가 결정되며, 이는 전송 [[140_bandwidth|대역폭]]과 거리를 지배하는 핵심 물리적 파라미터다.
-> 2. **가치**: SMF는 모드 [[136_variance|분산]]을 원천 차단하여 수십~수천 km의 백본망을 무한대에 가까운 [[140_bandwidth|대역폭]]으로 연결하고, MMF는 저렴한 송수신기와 결합해 [[801_data_center_3_tier_architecture_core_aggregation_access|데이터센터]] 내 근거리 연결망의 경제성을 극대화한다.
-> 3. **판단 포인트**: 현대 네트워크 인프라 설계 시 [[633_sdn_whitebox|SDN]] 및 클라우드 자원 배치와 맞물려, 랙 내부(East-West)는 MMF(OM 규격), 외부 연결(North-South)은 [[771_smf_upf_session_management_user_plane|SMF]](OS 규격)라는 철저한 계층적 물리망 융합을 이룬다.
+> 1. **본질**: 광섬유의 코어 직경 차이(8~10µm vs 50~62.5µm)에 따라 허용되는 빛의 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 경로(모드) 수가 결정되며, 이는 전송 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 거리를 지배하는 핵심 물리적 파라미터다.
+> 2. **가치**: SMF는 모드 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 원천 차단하여 수십~수천 km의 백본망을 무한대에 가까운 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)으로 연결하고, MMF는 저렴한 송수신기와 결합해 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 내 근거리 연결망의 경제성을 극대화한다.
+> 3. **판단 포인트**: 현대 네트워크 인프라 설계 시 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 및 클라우드 자원 배치와 맞물려, 랙 내부(East-West)는 MMF(OM 규격), 외부 연결(North-South)은 [SMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/)(OS 규격)라는 철저한 계층적 물리망 융합을 이룬다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-광통신 네트워크를 설계할 때 가장 먼저 결정해야 하는 물리 계층 [[121_transmission_media_guided_unguided|매체]]는 단일모드 광섬유 (Single-Mode Fiber, [[771_smf_upf_session_management_user_plane|SMF]])와 다중모드 광섬유 (Multi-Mode Fiber, MMF)이다. 광섬유는 굴절률이 높은 코어(Core)와 낮은 클래딩(Cladding)으로 구성되어 전반사 원리로 빛을 전송한다. [[459_quic_fec_forward_error_correction|초기]]에는 코어 직경이 커서 빛을 주입하기 쉬운 MMF가 주로 사용되었다. 그러나 여러 경로(다중 모드)로 [[216_progress_in_synchronization|진행]]하는 빛들이 도착 시간에 차이를 보이는 모드 [[136_variance|분산]](Modal [[133_dispersion_mode_chromatic|Dispersion]])으로 인해 장거리 고속 전송에 치명적인 병목이 발생했다.
-이를 극복하기 위해 코어의 직경을 빛의 파장 수준(약 8~10µm)으로 극단적으로 축소하여 단 하나의 경로(모드)만 허용하는 SMF가 고안되었다. SMF는 모드 [[136_variance|분산]]이 발생하지 않아 [[148_5g_embb_urllc_mmtc|초고속]] 장거리 전송의 표준이 되었으나, 정밀한 레이저(LD)와 얼라인먼트 공정이 필요해 단가가 급상승한다. 따라서 실무에서는 전송 거리와 [[140_bandwidth|대역폭]], 구축 예산(CAPEX)이라는 상충되는 목표를 해결하기 위해 SMF와 MMF를 철저히 분리 적용하는 아키텍처가 필수적이다.
+광통신 네트워크를 설계할 때 가장 먼저 결정해야 하는 물리 계층 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)는 단일모드 광섬유 (Single-Mode Fiber, [SMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/))와 다중모드 광섬유 (Multi-Mode Fiber, MMF)이다. 광섬유는 굴절률이 높은 코어(Core)와 낮은 클래딩(Cladding)으로 구성되어 전반사 원리로 빛을 전송한다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 코어 직경이 커서 빛을 주입하기 쉬운 MMF가 주로 사용되었다. 그러나 여러 경로(다중 모드)로 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)하는 빛들이 도착 시간에 차이를 보이는 모드 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)(Modal [Dispersion](/knowledge-base/studynote/03_network/03_physical_layer_media/133_dispersion_mode_chromatic/))으로 인해 장거리 고속 전송에 치명적인 병목이 발생했다.
+이를 극복하기 위해 코어의 직경을 빛의 파장 수준(약 8~10µm)으로 극단적으로 축소하여 단 하나의 경로(모드)만 허용하는 SMF가 고안되었다. SMF는 모드 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 발생하지 않아 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 장거리 전송의 표준이 되었으나, 정밀한 레이저(LD)와 얼라인먼트 공정이 필요해 단가가 급상승한다. 따라서 실무에서는 전송 거리와 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), 구축 예산(CAPEX)이라는 상충되는 목표를 해결하기 위해 SMF와 MMF를 철저히 분리 적용하는 아키텍처가 필수적이다.
 
 ```text
 이 도식은 코어 직경에 따른 빛의 전파 모드와 분산 발생의 근본적인 차이를 보여준다.
@@ -36,7 +40,7 @@ tags:
 │       => 단일 경로로 분산 없음 (파장 분산만 미세 존재) │
 └────────────────────────────────────────────────────────┘
 ```
-이 그림의 핵심은 코어의 폭이 빛의 전파 형태를 강제한다는 점이다. MMF는 넓은 공간 덕분에 다양한 입사각의 빛(다중 모드)을 수용하지만 그 대가로 도착 시간이 흩어지는 치명적 페널티를 안는다. 반면 SMF는 공간이 너무 좁아 오직 직진하는 기본 모드(Fundamental Mode)만 살아남으므로 펄스의 모양이 끝까지 유지된다. 따라서 [[140_bandwidth|대역폭]]의 한계는 SMF가 압도적으로 우위에 있다.
+이 그림의 핵심은 코어의 폭이 빛의 전파 형태를 강제한다는 점이다. MMF는 넓은 공간 덕분에 다양한 입사각의 빛(다중 모드)을 수용하지만 그 대가로 도착 시간이 흩어지는 치명적 페널티를 안는다. 반면 SMF는 공간이 너무 좁아 오직 직진하는 기본 모드(Fundamental Mode)만 살아남으므로 펄스의 모양이 끝까지 유지된다. 따라서 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)의 한계는 SMF가 압도적으로 우위에 있다.
 
 - **📢 섹션 요약 비유**: MMF가 여러 차선에서 차들이 섞여 달리다 톨게이트에서 병목이 생기는 넓은 국도라면, SMF는 앞지르기가 불가능해 모두가 1열 종대로 최고속력을 내는 단일 차선 KTX 철도와 같습니다.
 
@@ -44,14 +48,14 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-광섬유 내부의 모드 수를 결정하는 핵심 지표는 [[093_normalization|정규화]] 주파수(V-number)다. $V < 2.405$ 조건을 만족할 때만 단일 모드로 동작한다.
+광섬유 내부의 모드 수를 결정하는 핵심 지표는 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 주파수(V-number)다. $V < 2.405$ 조건을 만족할 때만 단일 모드로 동작한다.
 
-| 파라미터 | [[771_smf_upf_session_management_user_plane|SMF]] 구조적 특성 | MMF 구조적 특성 | 실무적 의미 |
+| 파라미터 | [SMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/) 구조적 특성 | MMF 구조적 특성 | 실무적 의미 |
 |:---|:---|:---|:---|
-| **Core 직경** | 8 ~ [[489_raid_10_hybrid|10]] µm | 50 또는 62.5 µm | 빛 주입([[195_coupling_levels|Coupling]]) 난이도 결정 |
+| **Core 직경** | 8 ~ [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) µm | 50 또는 62.5 µm | 빛 주입([Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)) 난이도 결정 |
 | **Cladding 직경**| 125 µm | 125 µm | 외부 피복 규격은 동일하여 툴 호환 |
 | **V-number** | 2.405 미만 | 수백 이상 (다중 모드) | 모드의 개수를 수식으로 통제 |
-| **광원 (Light)**| 정밀한 LD (Laser [[011_diode|Diode]]) | 저렴한 [[013_led|LED]] 또는 VCSEL | 송수신기([[153_transceiver_mau_sfp|Transceiver]]) 가격 지배 |
+| **광원 (Light)**| 정밀한 LD (Laser [Diode](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/)) | 저렴한 [LED](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/) 또는 VCSEL | 송수신기([Transceiver](/knowledge-base/studynote/03_network/03_physical_layer_media/153_transceiver_mau_sfp/)) 가격 지배 |
 | **주 파장대** | 1310nm, 1550nm | 850nm, 1300nm | 손실률(1550nm가 최소) 차이 |
 
 ```text
@@ -70,23 +74,23 @@ tags:
 │                                     수십~수천 km                │
 └─────────────────────────────────────────────────────────────────┘
 ```
-이 흐름의 핵심은 케이블 [[121_transmission_media_guided_unguided|매체]] 자체의 가격표보다, 케이블의 코어 크기가 강제하는 '광 [[153_transceiver_mau_sfp|트랜시버]] 광원'의 종류가 전체망 구축 비용을 결정한다는 사실이다. MMF는 코어가 넓어 저렴한 VCSEL 광원을 대충 정렬해도 빔이 잘 들어가지만, SMF는 머리카락 1/[[489_raid_10_hybrid|10]] 굵기의 코어에 레이저를 정밀 조준해야 하므로 패키징 비용이 기하급수적으로 뛴다. 실무에서는 이 트레이드오프가 아키텍처 결정의 절대적 기준이 된다.
+이 흐름의 핵심은 케이블 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 자체의 가격표보다, 케이블의 코어 크기가 강제하는 '광 [트랜시버](/knowledge-base/studynote/03_network/03_physical_layer_media/153_transceiver_mau_sfp/) 광원'의 종류가 전체망 구축 비용을 결정한다는 사실이다. MMF는 코어가 넓어 저렴한 VCSEL 광원을 대충 정렬해도 빔이 잘 들어가지만, SMF는 머리카락 1/[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 굵기의 코어에 레이저를 정밀 조준해야 하므로 패키징 비용이 기하급수적으로 뛴다. 실무에서는 이 트레이드오프가 아키텍처 결정의 절대적 기준이 된다.
 
-- **📢 섹션 요약 비유**: 넓은 깔때기(MMF)에는 물을 대충 부어도 되니 저렴한 주전자(VCSEL)를 쓰면 되고, 좁은 주사기([[771_smf_upf_session_management_user_plane|SMF]])에는 고압의 정밀 펌프(LD)를 써야만 물이 들어가는 구조적 차이와 같습니다.
+- **📢 섹션 요약 비유**: 넓은 깔때기(MMF)에는 물을 대충 부어도 되니 저렴한 주전자(VCSEL)를 쓰면 되고, 좁은 주사기([SMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/))에는 고압의 정밀 펌프(LD)를 써야만 물이 들어가는 구조적 차이와 같습니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-네트워크 설계 관점에서 두 [[121_transmission_media_guided_unguided|매체]]를 다각도로 분석한다.
+네트워크 설계 관점에서 두 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)를 다각도로 분석한다.
 
-| 비교 항목 | [[771_smf_upf_session_management_user_plane|SMF]] (Single-Mode) | MMF (Multi-Mode) | 판단 포인트 |
+| 비교 항목 | [SMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/) (Single-Mode) | MMF (Multi-Mode) | 판단 포인트 |
 |:---|:---|:---|:---|
 | **ISO 규격** | OS1, OS2 | OM1, OM2, OM3, OM4, OM5 | OS는 장거리, OM은 속도별 근거리 |
-| **[[136_variance|분산]]의 주원인**| 파장 [[136_variance|분산]] (색 [[136_variance|분산]]) | 모드 [[136_variance|분산]] (경로차) | 장비의 [[136_variance|분산]] 보상 기술 적용 방향 |
-| **[[140_bandwidth|대역폭]]-거리 곱**| 사실상 무제한 (>[[489_raid_10_hybrid|10]],000 GHz·km)| 제한적 (약 500~4700 MHz·km)| 100G 이상 전송 시 도달 거리 |
-| **케이블 외피 색상**| 주로 노란색 (Yellow) | 주황색(OM1/2), 아쿠아(OM3/4), 연녹색(OM5)| 현장 [[446_port_and_bus|포트]] 오결선 방지 직관적 표식 |
-| **적용 영역** | MAN, WAN, 해저 케이블, FTTH | LAN, [[493_san_storage_area_network|SAN]], [[801_data_center_3_tier_architecture_core_aggregation_access|데이터센터]] 랙 간 연결 | 넷플릭스/아마존의 네트워크 분할 기준 |
+| **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)의 주원인**| 파장 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) (색 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)) | 모드 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) (경로차) | 장비의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 보상 기술 적용 방향 |
+| **[대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)-거리 곱**| 사실상 무제한 (>[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000 GHz·km)| 제한적 (약 500~4700 MHz·km)| 100G 이상 전송 시 도달 거리 |
+| **케이블 외피 색상**| 주로 노란색 (Yellow) | 주황색(OM1/2), 아쿠아(OM3/4), 연녹색(OM5)| 현장 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 오결선 방지 직관적 표식 |
+| **적용 영역** | MAN, WAN, 해저 케이블, FTTH | LAN, [SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/), [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 랙 간 연결 | 넷플릭스/아마존의 네트워크 분할 기준 |
 
 ```text
 이 매트릭스는 대역폭(속도)과 거리에 따른 최적 광 매체 선택 기준을 보여준다.
@@ -98,19 +102,19 @@ tags:
 │ 1km 이상    │ SMF (OS1/OS2)│ SMF (OS2)    │ SMF (OS2)    │
 └─────────────┴──────────────┴──────────────┴──────────────┘
 ```
-이 비교표의 핵심은 속도가 10G에서 100G로 올라갈수록 MMF가 버틸 수 있는 거리가 급격히 줄어든다는 점이다. 100G 속도에서 MMF는 100~150m가 물리적 한계이며, 그 이상은 [[136_variance|분산]] 파괴로 인해 통신이 불가능하다. 따라서 [[148_5g_embb_urllc_mmtc|초고속]]망이 도입될수록 MMF의 영역은 랙 내로 좁아지고, SMF가 [[801_data_center_3_tier_architecture_core_aggregation_access|데이터센터]] 내부 깊숙한 곳까지 침투하는 현상(SMF화)이 발생한다.
+이 비교표의 핵심은 속도가 10G에서 100G로 올라갈수록 MMF가 버틸 수 있는 거리가 급격히 줄어든다는 점이다. 100G 속도에서 MMF는 100~150m가 물리적 한계이며, 그 이상은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 파괴로 인해 통신이 불가능하다. 따라서 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)망이 도입될수록 MMF의 영역은 랙 내로 좁아지고, SMF가 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 내부 깊숙한 곳까지 침투하는 현상(SMF화)이 발생한다.
 
-- **📢 섹션 요약 비유**: 마라톤(장거리/[[148_5g_embb_urllc_mmtc|초고속]])에는 전용 런닝화([[771_smf_upf_session_management_user_plane|SMF]])가 필수고, 동네 조깅(단거리/저속)에는 편한 운동화(MMF)가 가성비 최고인 이치입니다.
+- **📢 섹션 요약 비유**: 마라톤(장거리/[초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/))에는 전용 런닝화([SMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/))가 필수고, 동네 조깅(단거리/저속)에는 편한 운동화(MMF)가 가성비 최고인 이치입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-광케이블 인프라는 한번 포설하면 교체가 극히 어려운 '[[899_dark_fiber_unlit_infrastructure_lease|다크 파이버]]([[899_dark_fiber_unlit_infrastructure_lease|Dark Fiber]])' 자산이 되므로 [[459_quic_fec_forward_error_correction|초기]] 설계적 판단이 치명적이다.
+광케이블 인프라는 한번 포설하면 교체가 극히 어려운 '[다크 파이버](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/899_dark_fiber_unlit_infrastructure_lease/)([Dark Fiber](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/899_dark_fiber_unlit_infrastructure_lease/))' 자산이 되므로 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 설계적 판단이 치명적이다.
 
 - **실무 시나리오 1**: 신규 캠퍼스 네트워크 구축. 건물 간 거리는 800m. 
-  - **결정**: 건물 내 층간 연결은 OM4 MMF로 하되, 건물 간 백본은 무조건 OS2 SMF로 [[456_dual_redundancy|이중화]] 포설한다. 당장 10G만 필요하더라도 향후 100G/400G 업그레이드 시 거리가 300m를 넘으면 MMF로는 대응이 불가능하기 때문이다.
-- **[[128_water_scrum_fall_anti_pattern|안티패턴]]**: [[238_switch_operation_principles|스위치]] [[446_port_and_bus|포트]]에 SMF용 10GBASE-LR [[153_transceiver_mau_sfp|트랜시버]]를 꽂고, 패치코드는 MMF 주황색 선을 연결하는 실수. 코어 직경의 불일치(9µm 빔이 50µm 코어로 방사)와 모드 필드 직경 차이로 인해 극심한 감쇠(Attenuation)와 반사 손실이 발생해 링크가 즉각 다운된다.
+  - **결정**: 건물 내 층간 연결은 OM4 MMF로 하되, 건물 간 백본은 무조건 OS2 SMF로 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 포설한다. 당장 10G만 필요하더라도 향후 100G/400G 업그레이드 시 거리가 300m를 넘으면 MMF로는 대응이 불가능하기 때문이다.
+- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 SMF용 10GBASE-LR [트랜시버](/knowledge-base/studynote/03_network/03_physical_layer_media/153_transceiver_mau_sfp/)를 꽂고, 패치코드는 MMF 주황색 선을 연결하는 실수. 코어 직경의 불일치(9µm 빔이 50µm 코어로 방사)와 모드 필드 직경 차이로 인해 극심한 감쇠(Attenuation)와 반사 손실이 발생해 링크가 즉각 다운된다.
 
 ```text
 이 도식은 데이터센터 설계 시 거리 기반 매체 의사결정 트리를 나타낸다.
@@ -128,21 +132,21 @@ tags:
 │                 (건물 간, 층 간 장거리 보장)           │
 └────────────────────────────────────────────────────────┘
 ```
-이 흐름의 요지는 최단 거리에서는 구리선(DAC/AOC)의 경제성이 광섬유를 앞서고, 중간 구역은 MMF, 롱홀 구역은 SMF가 지배한다는 것이다. 실무 엔지니어는 속도뿐만 아니라 [[446_port_and_bus|포트]]당 소모 전력과 발열까지 고려하여 이 구간별 최적해를 혼합(Mix & Match)하여 아키텍처를 완성해야 한다.
+이 흐름의 요지는 최단 거리에서는 구리선(DAC/AOC)의 경제성이 광섬유를 앞서고, 중간 구역은 MMF, 롱홀 구역은 SMF가 지배한다는 것이다. 실무 엔지니어는 속도뿐만 아니라 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)당 소모 전력과 발열까지 고려하여 이 구간별 최적해를 혼합(Mix & Match)하여 아키텍처를 완성해야 한다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 골프채를 고를 때 핀까지의 거리에 따라 퍼터(DAC), 아이언(MMF), 드라이버([[771_smf_upf_session_management_user_plane|SMF]])를 정확히 골라 잡아야 스윙을 망치지 않는 것과 같은 현장 전략입니다.
+- **📢 섹션 요약 비유**: 골프채를 고를 때 핀까지의 거리에 따라 퍼터(DAC), 아이언(MMF), 드라이버([SMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/))를 정확히 골라 잡아야 스윙을 망치지 않는 것과 같은 현장 전략입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-MMF와 SMF는 각각의 경제성과 성능의 극한을 향해 진화 중이다. MMF는 OM5 표준을 통해 한 가닥에 4개의 파장을 실어 나르는 SWDM 기술로 생명력을 연장하고 있으며, SMF는 실리콘 포토닉스 기술 도입으로 고가의 [[153_transceiver_mau_sfp|트랜시버]] 단가를 낮추어 [[801_data_center_3_tier_architecture_core_aggregation_access|데이터센터]] 내부망을 전면 SMF로 대체하려는 융합 시도에 직면해 있다. 결국 두 [[121_transmission_media_guided_unguided|매체]]의 물리적 한계가 상호 보완적으로 작동하며 하이퍼스케일 클라우드망의 초연결을 뒷받침하는 핵심 근간이 된다. 향후에는 고속 광전송 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+MMF와 SMF는 각각의 경제성과 성능의 극한을 향해 진화 중이다. MMF는 OM5 표준을 통해 한 가닥에 4개의 파장을 실어 나르는 SWDM 기술로 생명력을 연장하고 있으며, SMF는 실리콘 포토닉스 기술 도입으로 고가의 [트랜시버](/knowledge-base/studynote/03_network/03_physical_layer_media/153_transceiver_mau_sfp/) 단가를 낮추어 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 내부망을 전면 SMF로 대체하려는 융합 시도에 직면해 있다. 결국 두 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)의 물리적 한계가 상호 보완적으로 작동하며 하이퍼스케일 클라우드망의 초연결을 뒷받침하는 핵심 근간이 된다. 향후에는 고속 광전송 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 각기 다른 재능을 가진 두 명의 장인(SMF와 MMF)이, 하나는 고속도로를 깔고 다른 하나는 골목길을 포장하며 거대한 물류 네트워크를 빈틈없이 완성해 가는 과정입니다.
 
@@ -152,11 +156,11 @@ MMF와 SMF는 각각의 경제성과 성능의 극한을 향해 진화 중이다
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 모드 [[136_variance|분산]] (Modal [[133_dispersion_mode_chromatic|Dispersion]]) | MMF의 [[140_bandwidth|대역폭]] 한계를 결정짓는 제1요인 |
+| 모드 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) (Modal [Dispersion](/knowledge-base/studynote/03_network/03_physical_layer_media/133_dispersion_mode_chromatic/)) | MMF의 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 한계를 결정짓는 제1요인 |
 | VCSEL (표면발광 레이저) | MMF의 경제성을 담보하는 저전력 근거리 광원 |
-| EDFA (에르븀 첨가 [[134_optical_amplifier_edfa_soa_raman|광증폭기]]) | SMF의 장거리 전송을 가능케 하는 광학 증폭기 |
-| WDM (파장 분할 [[071_다중화_Multiplexing|다중화]]) | SMF의 사실상 무한한 [[140_bandwidth|대역폭]]을 극대화하는 [[071_다중화_Multiplexing|다중화]] 기술 |
-| 실리콘 포토닉스 (Silicon Photonics) | [[771_smf_upf_session_management_user_plane|SMF]] [[153_transceiver_mau_sfp|트랜시버]]의 고비용 구조를 혁신할 차세대 집적 기술 |
+| EDFA (에르븀 첨가 [광증폭기](/knowledge-base/studynote/03_network/03_physical_layer_media/134_optical_amplifier_edfa_soa_raman/)) | SMF의 장거리 전송을 가능케 하는 광학 증폭기 |
+| WDM (파장 분할 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) | SMF의 사실상 무한한 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 극대화하는 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) 기술 |
+| 실리콘 포토닉스 (Silicon Photonics) | [SMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/) [트랜시버](/knowledge-base/studynote/03_network/03_physical_layer_media/153_transceiver_mau_sfp/)의 고비용 구조를 혁신할 차세대 집적 기술 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -170,7 +174,7 @@ MMF와 SMF는 각각의 경제성과 성능의 극한을 향해 진화 중이다
     └──▶ [확장 B: 고속 광전송 최적화]
 ```
 
-단일모드 광섬유 / 다중모드 광섬유는 멀티모드 언덕형 광섬유에서 출발해 현재 메커니즘을 정교화하고, 이후 [[136_variance|분산]]와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+단일모드 광섬유 / 다중모드 광섬유는 멀티모드 언덕형 광섬유에서 출발해 현재 메커니즘을 정교화하고, 이후 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -184,7 +188,7 @@ MMF와 SMF는 각각의 경제성과 성능의 극한을 향해 진화 중이다
 
 **진행 상황**: 253 / 1120
 
-← **이전**: [[131_multi_mode_graded_index|131. 멀티모드 언덕형 광섬유 (Multi-mode Graded-index)]]
-**다음**: [[133_dispersion_mode_chromatic|133. 분산 (Dispersion)]] →
+← **이전**: [131. 멀티모드 언덕형 광섬유 (Multi-mode Graded-index)](/knowledge-base/studynote/03_network/03_physical_layer_media/131_multi_mode_graded_index/)
+**다음**: [133. 분산 (Dispersion)](/knowledge-base/studynote/03_network/03_physical_layer_media/133_dispersion_mode_chromatic/) →
 
 ---

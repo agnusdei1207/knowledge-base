@@ -1,20 +1,24 @@
----
-title: 컨텍스트 스위칭 (Context Switch) 심화
-date: '2026-03-04'
-tags:
-- studynote-os
----
++++
+title = "컨텍스트 스위칭 (Context Switch) 심화"
+date = 2026-03-04
+
+[taxonomies]
+tags = ["studynote-os"]
+
+[extra]
+tags = ["studynote-os"]
++++
 
 > **핵심 인사이트 3줄**
-> 1. [[033_context|컨텍스트]] 스위칭([[211_context_switch|Context Switch]])은 CPU가 현재 실행 중인 프로세스/[[092_thread_lwp|스레드]]의 상태를 PCB/TCB에 저장하고 다른 프로세스/[[092_thread_lwp|스레드]]의 상태를 복원하는 OS 핵심 메커니즘이다.
-> 2. [[033_context|컨텍스트]] 스위칭은 순수 오버헤드(직접 비용: [[057_register|레지스터]] 저장/복원, 간접 비용: CPU 캐시·[[357_tlb|TLB]] 플러시)로, [[092_thread_lwp|스레드]] 간 전환이 프로세스 간 전환보다 훨씬 가볍다.
-> 3. [[092_thread_lwp|스레드]] 수가 CPU 코어 수보다 과도하게 많으면 스위칭 오버헤드가 실제 작업 시간을 압도하는 "[[033_context|컨텍스트]] [[238_switch_operation_principles|스위치]] 스톰"이 발생하므로, [[103_thread_pool|스레드 풀]] 크기 최적화가 [[282_performance_tactics|성능]] 튜닝의 핵심이다.
+> 1. [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 스위칭([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))은 CPU가 현재 실행 중인 프로세스/[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 상태를 PCB/TCB에 저장하고 다른 프로세스/[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 상태를 복원하는 OS 핵심 메커니즘이다.
+> 2. [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 스위칭은 순수 오버헤드(직접 비용: [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 저장/복원, 간접 비용: CPU 캐시·[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 플러시)로, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 간 전환이 프로세스 간 전환보다 훨씬 가볍다.
+> 3. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수가 CPU 코어 수보다 과도하게 많으면 스위칭 오버헤드가 실제 작업 시간을 압도하는 "[컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 스톰"이 발생하므로, [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 크기 최적화가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝의 핵심이다.
 
 ---
 
-## Ⅰ. [[033_context|컨텍스트]] 스위칭의 단계
+## Ⅰ. [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 스위칭의 단계
 
-[[033_context|컨텍스트]] 스위칭은 **[[016_interrupt_mechanism|인터럽트]]·시스템 콜·타임슬라이스 만료** 시 발생한다.
+[컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 스위칭은 **[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)·시스템 콜·타임슬라이스 만료** 시 발생한다.
 
 ```
 컨텍스트 스위칭 순서:
@@ -31,29 +35,29 @@ tags:
 5. 프로세스 B 실행 재개
 ```
 
-### PCB ([[300_process|Process]] Control Block) 저장 내용
+### PCB ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Control Block) 저장 내용
 
 | 항목              | 내용                        |
 |-----------------|---------------------------|
-| [[086_process_state|프로세스 상태]]     | Running/Ready/Blocked      |
-| [[164_pc|프로그램 카운터]]  | 다음 실행 명령 주소          |
-| [[166_sp|스택 포인터]]      | 현재 [[057_stack|스택]] 위치               |
-| [[162_gpr|범용 레지스터]]    | R0~R15 등                   |
-| 메모리 관리 정보 | [[353_page_table|페이지 테이블]] 기준 [[057_register|레지스터]]   |
-| I/O 상태 정보   | 열린 [[501_file_definition_logical_record|파일]]·I/O 요청 상태       |
+| [프로세스 상태](/knowledge-base/studynote/02_operating_system/02_process_thread/086_process_state/)     | Running/Ready/Blocked      |
+| [프로그램 카운터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)  | 다음 실행 명령 주소          |
+| [스택 포인터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/)      | 현재 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 위치               |
+| [범용 레지스터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/162_gpr/)    | R0~R15 등                   |
+| 메모리 관리 정보 | [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 기준 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)   |
+| I/O 상태 정보   | 열린 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)·I/O 요청 상태       |
 
-📢 **섹션 요약 비유**: [[033_context|컨텍스트]] 스위칭은 책갈피 교체다 — A 학생 책의 책갈피(PCB)를 꽂고, B 학생 책에서 책갈피를 빼서 그 [[286_page_frame|페이지]]부터 이어 읽는다.
+📢 **섹션 요약 비유**: [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 스위칭은 책갈피 교체다 — A 학생 책의 책갈피(PCB)를 꽂고, B 학생 책에서 책갈피를 빼서 그 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)부터 이어 읽는다.
 
 ---
 
-## Ⅱ. [[033_context|컨텍스트]] 스위칭 비용
+## Ⅱ. [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 스위칭 비용
 
-### 직접 비용 ([[176_direct_addressing|Direct]] Cost)
+### 직접 비용 ([Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) Cost)
 
-- [[057_register|레지스터]] 저장/복원: ~수십 나노초
-- [[022_kernel_role|커널]] 모드 전환: 특권 레벨 변경 오버헤드
+- [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 저장/복원: ~수십 나노초
+- [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드 전환: 특권 레벨 변경 오버헤드
 
-### 간접 비용 ([[177_indirect_addressing|Indirect]] Cost)
+### 간접 비용 ([Indirect](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) Cost)
 
 ```
 CPU 캐시 콜드 미스:
@@ -71,22 +75,22 @@ TLB 플러시:
 
 ---
 
-## Ⅲ. 프로세스 vs [[092_thread_lwp|스레드]] [[033_context|컨텍스트]] [[238_switch_operation_principles|스위치]]
+## Ⅲ. 프로세스 vs [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)
 
-| 항목            | 프로세스 간 전환          | [[092_thread_lwp|스레드]] 간 전환          |
+| 항목            | 프로세스 간 전환          | [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 간 전환          |
 |---------------|------------------------|----------------------|
-| 주소 공간      | 변경 ([[357_tlb|TLB]] 플러시 필수)   | 동일 ([[357_tlb|TLB]] 유지 가능)   |
-| [[057_register|레지스터]]       | 저장/복원                | 저장/복원              |
-| 메모리 맵      | 새 [[353_page_table|페이지 테이블]] 로딩     | 공유 (추가 비용 없음)  |
+| 주소 공간      | 변경 ([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 플러시 필수)   | 동일 ([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 유지 가능)   |
+| [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)       | 저장/복원                | 저장/복원              |
+| 메모리 맵      | 새 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 로딩     | 공유 (추가 비용 없음)  |
 | 비용           | 무겁다 (마이크로초 수준) | 가볍다 (수백 나노초)   |
 
-**[[141_coroutine|코루틴]]/그린 [[092_thread_lwp|스레드]]**: 사용자 공간에서 스케줄링 → [[022_kernel_role|커널]] 개입 없어 더욱 빠름 (수십 나노초)
+**[코루틴](/knowledge-base/studynote/02_operating_system/02_process_thread/141_coroutine/)/그린 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)**: 사용자 공간에서 스케줄링 → [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개입 없어 더욱 빠름 (수십 나노초)
 
-📢 **섹션 요약 비유**: [[092_thread_lwp|스레드]] 전환은 같은 책의 [[260_page_replacement|페이지 교체]](공유 주소 공간)이고, 프로세스 전환은 다른 책으로 교체(새 주소 공간·[[357_tlb|TLB]] 플러시)다.
+📢 **섹션 요약 비유**: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 전환은 같은 책의 [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/)(공유 주소 공간)이고, 프로세스 전환은 다른 책으로 교체(새 주소 공간·[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 플러시)다.
 
 ---
 
-## Ⅳ. [[033_context|컨텍스트]] [[238_switch_operation_principles|스위치]] 최적화 — [[103_thread_pool|스레드 풀]]
+## Ⅳ. [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 최적화 — [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)
 
 ```
 스레드 풀 최적 크기 공식 (Brian Goetz):
@@ -100,7 +104,7 @@ TLB 플러시:
   N_threads = 8 × (1 + 9) = 80
 ```
 
-### [[033_context|컨텍스트]] [[238_switch_operation_principles|스위치]] 스톰 방지
+### [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 스톰 방지
 
 ```
 문제: 스레드 1,000개 → 컨텍스트 스위치 오버헤드 > 실작업 시간
@@ -111,24 +115,24 @@ TLB 플러시:
   4. NUMA-aware 스레드 배치
 ```
 
-📢 **섹션 요약 비유**: [[103_thread_pool|스레드 풀]] 최적화는 요리사 수 결정이다 — 주방(CPU)보다 요리사([[092_thread_lwp|스레드]])가 너무 많으면 서로 길이 막혀([[033_context|컨텍스트]] [[238_switch_operation_principles|스위치]]) 실제 요리 시간이 줄어든다.
+📢 **섹션 요약 비유**: [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 최적화는 요리사 수 결정이다 — 주방(CPU)보다 요리사([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))가 너무 많으면 서로 길이 막혀([컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)) 실제 요리 시간이 줄어든다.
 
 ---
 
-## Ⅴ. 자발적 vs 비자발적 [[033_context|컨텍스트]] 스위칭
+## Ⅴ. 자발적 vs 비자발적 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 스위칭
 
 | 유형             | 발생 원인              | 예시                     |
 |----------------|----------------------|--------------------------|
 | 자발적 (Voluntary) | 프로세스가 스스로 양보  | sleep(), I/O 대기, yield() |
 | 비자발적 (Involuntary) | OS 스케줄러가 강제 교체 | 타임슬라이스 만료, 고우선순위 프로세스 도착 |
 
-**[[282_performance_tactics|성능]] 지표**:
+**[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표**:
 ```bash
 vmstat 1          # cs 컬럼 = 초당 컨텍스트 스위치 수
 pidstat -w 1      # 프로세스별 자발/비자발 스위치 수
 ```
 
-📢 **섹션 요약 비유**: 자발적 [[238_switch_operation_principles|스위치]]는 휴게시간에 교대하는 것이고, 비자발적 [[238_switch_operation_principles|스위치]]는 상사가 "잠깐 멈춰!"라고 중단시키는 것이다.
+📢 **섹션 요약 비유**: 자발적 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 휴게시간에 교대하는 것이고, 비자발적 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 상사가 "잠깐 멈춰!"라고 중단시키는 것이다.
 
 ---
 
@@ -180,9 +184,9 @@ pidstat -w 1      # 프로세스별 자발/비자발 스위치 수
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [[033_context|컨텍스트]] 스위칭은 숙제 교체다 — 수학 숙제(프로세스 A)를 하다가 잠깐 멈추고, 어디까지 했는지 책갈피(PCB)를 꽂은 뒤, 영어 숙제(프로세스 B)를 시작한다.
-2. [[092_thread_lwp|스레드]] 전환이 프로세스 전환보다 빠른 이유는 같은 책이기 때문이다 — 영어 문법 파트에서 영어 독해 파트로 넘어갈 때([[092_thread_lwp|스레드]])는 책 자체는 그대로이지만, 수학 책으로 교체(프로세스)는 책도 바꿔야 한다.
-3. 너무 많은 [[092_thread_lwp|스레드]]는 오히려 느리다 — 요리사가 100명인데 주방이 8칸이면, 요리보다 줄 서고 자리 바꾸는 데 더 많은 시간이 걸린다.
+1. [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 스위칭은 숙제 교체다 — 수학 숙제(프로세스 A)를 하다가 잠깐 멈추고, 어디까지 했는지 책갈피(PCB)를 꽂은 뒤, 영어 숙제(프로세스 B)를 시작한다.
+2. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 전환이 프로세스 전환보다 빠른 이유는 같은 책이기 때문이다 — 영어 문법 파트에서 영어 독해 파트로 넘어갈 때([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))는 책 자체는 그대로이지만, 수학 책으로 교체(프로세스)는 책도 바꿔야 한다.
+3. 너무 많은 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 오히려 느리다 — 요리사가 100명인데 주방이 8칸이면, 요리보다 줄 서고 자리 바꾸는 데 더 많은 시간이 걸린다.
 
 ---
 
@@ -190,7 +194,7 @@ pidstat -w 1      # 프로세스별 자발/비자발 스위치 수
 
 **진행 상황**: 34 / 800
 
-← **이전**: [[033_context|컨텍스트 (Context) / 컨텍스트 스위칭 (Context Switching)]]
-**다음**: [[035_core_dump|035. 코어 덤프 (Core Dump)]] →
+← **이전**: [컨텍스트 (Context) / 컨텍스트 스위칭 (Context Switching)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)
+**다음**: [035. 코어 덤프 (Core Dump)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/035_core_dump/) →
 
 ---

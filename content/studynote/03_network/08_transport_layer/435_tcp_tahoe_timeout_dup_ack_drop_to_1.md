@@ -1,27 +1,31 @@
----
-title: 435. TCP Tahoe (타임아웃, 3 Dup-ACK 모두 1로 하락) 모델
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "435. TCP Tahoe (타임아웃, 3 Dup-ACK 모두 1로 하락) 모델"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] Tahoe 모델은 전송 계층에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] Tahoe 모델을 이해하면 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]]과 [[015_지연_데이터_관점|지연]] 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Tahoe 모델은 전송 계층에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Tahoe 모델을 이해하면 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 4.3BSD Unix 운영체제의 Tahoe 릴리즈에 처음 도입된 [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] 혼잡 제어 메커니즘. [[430_slow_start_exponential_growth_cwnd|Slow Start]], Congestion Avoidance, [[433_fast_retransmit_3_dup_ack|Fast Retransmit]] 세 가지 요소를 포함하고 있다.
+- **개념**: 4.3BSD Unix 운영체제의 Tahoe 릴리즈에 처음 도입된 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 혼잡 제어 메커니즘. [Slow Start](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/), Congestion Avoidance, [Fast Retransmit](/knowledge-base/studynote/03_network/08_transport_layer/433_fast_retransmit_3_dup_ack/) 세 가지 요소를 포함하고 있다.
 - **필요성**: 1986년, 아무런 통제 없이 패킷을 쏟아붓던 인터넷이 40bps로 멈춰 서는 대재앙이 발생했다. 모두가 패킷이 유실될 때마다 똑같은 속도로 미친 듯이 재전송을 갈겨댔기 때문이다. **"야! 패킷이 죽었다는 건 길이 막혔다는 뜻이야! 무조건 속도를 1(바닥)로 확 줄이고 처음부터 살금살금 밟아 올라오게 법으로 강제해!!"** 인터넷을 멸망에서 구하기 위해 가장 원초적이고 확실한 브레이크 시스템이 필요했다.
 
-- **💡 비유**: [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] Tahoe는 융통성이라곤 1도 없는 **"FM(원칙주의자) 초보 운전 강사"**와 같습니다.
-  - 고속도로를 시속 100km로 달리다가 앞차가 급정거([[319_timeout_prevention|Timeout]])를 했습니다. 
+- **💡 비유**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Tahoe는 융통성이라곤 1도 없는 **"FM(원칙주의자) 초보 운전 강사"**와 같습니다.
+  - 고속도로를 시속 100km로 달리다가 앞차가 급정거([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/))를 했습니다. 
   - 강사는 기겁하며 조수석 브레이크를 꽉 밟아 차를 아예 **시속 0km(완전 정지, CWND 1)**로 세워버립니다. 
-  - 이번엔 길바닥에 작은 돌멩이(3 Dup-ACK, 패킷 1개 유실)가 하나 튀었습니다. 다른 차들은 그냥 속도만 줄이고 지나가는데, 이 원칙주의자 강사는 기겁을 하며 또다시 브레이크를 꽉 밟아 차를 **시속 0km(완전 정지, CWND 1)로 갓길에 세우고 1단 기어([[430_slow_start_exponential_growth_cwnd|Slow Start]])부터 다시 출발**시킵니다.
+  - 이번엔 길바닥에 작은 돌멩이(3 Dup-ACK, 패킷 1개 유실)가 하나 튀었습니다. 다른 차들은 그냥 속도만 줄이고 지나가는데, 이 원칙주의자 강사는 기겁을 하며 또다시 브레이크를 꽉 밟아 차를 **시속 0km(완전 정지, CWND 1)로 갓길에 세우고 1단 기어([Slow Start](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/))부터 다시 출발**시킵니다.
 
 ```text
 [빠른 회복]
@@ -32,7 +36,7 @@ tags:
     └──▶ [TCP Reno 모델]
 ```
 
-- **📢 섹션 요약 비유**: ** Tahoe [[001_algorithm_definition|알고리즘]]은 징검다리를 건너다가 발을 한 번 헛디뎌서 발목에 물이 튄(가벼운 유실) 상황인데도, "위험해! 다 무효야!"라며 징검다리 맨 앞(출발선)으로 쫓겨나 처음부터 다시 돌다리를 두드리며([[430_slow_start_exponential_growth_cwnd|Slow Start]]) 건너게 만드는 지독한 생존 본능의 산물입니다.
+- **📢 섹션 요약 비유**: ** Tahoe [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 징검다리를 건너다가 발을 한 번 헛디뎌서 발목에 물이 튄(가벼운 유실) 상황인데도, "위험해! 다 무효야!"라며 징검다리 맨 앞(출발선)으로 쫓겨나 처음부터 다시 돌다리를 두드리며([Slow Start](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/)) 건너게 만드는 지독한 생존 본능의 산물입니다.
 
 ---
 
@@ -40,23 +44,23 @@ tags:
 
 이 개념은 정보처리기사나 네트워크 엔지니어 면접에서 **"Tahoe와 Reno의 차이점을 그래프로 설명하라"**는 단골 질문으로 100% 출제된다.
 
-### 1. Tahoe가 가진 3가지 무기 ([[001_algorithm_definition|알고리즘]])
+### 1. Tahoe가 가진 3가지 무기 ([알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))
 Tahoe가 원시적이라 놀림받지만, 현대 혼잡 제어의 근간은 이 녀석이 다 만들었다.
-1. **[[430_slow_start_exponential_growth_cwnd|Slow Start]]**: 처음엔 무조건 1부터 시작해서 2배씩 올리자!
+1. **[Slow Start](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/)**: 처음엔 무조건 1부터 시작해서 2배씩 올리자!
 2. **Congestion Avoidance**: ssthresh에 닿으면 1개씩 찔끔찔끔 올리자!
-3. **[[433_fast_retransmit_3_dup_ack|Fast Retransmit]]**: "3번 중복 ACK(Dup-ACK)가 오면? 타이머 만료될 때까지 멍때리지 말고, 눈치껏 **즉시 재전송**을 갈기자!" (놀랍게도 빠른 재전송의 핑퐁 개념은 Tahoe가 최초 발명자다).
+3. **[Fast Retransmit](/knowledge-base/studynote/03_network/08_transport_layer/433_fast_retransmit_3_dup_ack/)**: "3번 중복 ACK(Dup-ACK)가 오면? 타이머 만료될 때까지 멍때리지 말고, 눈치껏 **즉시 재전송**을 갈기자!" (놀랍게도 빠른 재전송의 핑퐁 개념은 Tahoe가 최초 발명자다).
 
 ### 2. Tahoe의 치명적 한계점
-Tahoe의 문제는 3번째 무기인 '[[433_fast_retransmit_3_dup_ack|Fast Retransmit]]'을 쏜 직후의 행동 강령에 있다.
+Tahoe의 문제는 3번째 무기인 '[Fast Retransmit](/knowledge-base/studynote/03_network/08_transport_layer/433_fast_retransmit_3_dup_ack/)'을 쏜 직후의 행동 강령에 있다.
 - 3 Dup-ACK를 보고 눈치껏 3번 패킷을 빠르게 재전송하는 것까진 천재적이었다.
 - 그런데 재전송을 갈기고 나서, `ssthresh`를 절반으로 깎아둔 뒤 **속도(CWND)를 무조건 '1'로 박살 내고 1, 2, 4, 8... 슬로우 스타트를 다시 밟아버렸다.**
 - "아니! 3 Dup-ACK가 왔다는 건 내 다른 패킷들은 상대방한테 잘 가고 있다는 뜻(망이 뚫려있음)이잖아! 뭣 하러 1로 박살 내!"라는 비판이 쏟아졌다.
 
 ### 3. Reno의 등장과 Tahoe의 멸종
-몇 년 뒤 [[436_tcp_reno_fast_retransmit_recovery|TCP Reno]](레노)가 등장하며 '[[434_fast_recovery_skip_slow_start|Fast Recovery]]([[434_fast_recovery_skip_slow_start|빠른 회복]])'라는 새로운 무기를 들고나왔다.
-- **Tahoe의 반응 (모든 사고에 대해)**: `CWND = 1` ──▶ [[430_slow_start_exponential_growth_cwnd|Slow Start]]. (골짜기 발생).
+몇 년 뒤 [TCP Reno](/knowledge-base/studynote/03_network/08_transport_layer/436_tcp_reno_fast_retransmit_recovery/)(레노)가 등장하며 '[Fast Recovery](/knowledge-base/studynote/03_network/08_transport_layer/434_fast_recovery_skip_slow_start/)([빠른 회복](/knowledge-base/studynote/03_network/08_transport_layer/434_fast_recovery_skip_slow_start/))'라는 새로운 무기를 들고나왔다.
+- **Tahoe의 반응 (모든 사고에 대해)**: `CWND = 1` ──▶ [Slow Start](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/). (골짜기 발생).
 - **Reno의 반응 (3 Dup-ACK 사고 시)**: `CWND = ssthresh(절반)` ──▶ Congestion Avoidance(선형 증가). (골짜기 없이 톱니바퀴 모양 유지).
-- 단, Reno도 '[[319_timeout_prevention|Timeout]]'이라는 진짜 대형 사고 앞에서는 Tahoe처럼 똑같이 1로 박살 나고 슬로우 스타트를 한다.
+- 단, Reno도 '[Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)'이라는 진짜 대형 사고 앞에서는 Tahoe처럼 똑같이 1로 박살 나고 슬로우 스타트를 한다.
 
 ```text
  ┌─────────────────────────────────────────────────────────────┐
@@ -87,42 +91,42 @@ Tahoe의 문제는 3번째 무기인 '[[433_fast_retransmit_3_dup_ack|Fast Retra
 
 ## Ⅲ. 비교 및 연결
 
-[[405_tcp_transmission_control_protocol_connection_oriented|TCP]] Tahoe 모델을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [[434_fast_recovery_skip_slow_start|빠른 회복]]이 기반 조건을 만든다면, [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] Tahoe 모델은 그 위에서 핵심 메커니즘을 구현하고, [[436_tcp_reno_fast_retransmit_recovery|TCP Reno]] 모델은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]]과 [[015_지연_데이터_관점|지연]]에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Tahoe 모델을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [빠른 회복](/knowledge-base/studynote/03_network/08_transport_layer/434_fast_recovery_skip_slow_start/)이 기반 조건을 만든다면, [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Tahoe 모델은 그 위에서 핵심 메커니즘을 구현하고, [TCP Reno](/knowledge-base/studynote/03_network/08_transport_layer/436_tcp_reno_fast_retransmit_recovery/) 모델은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [[434_fast_recovery_skip_slow_start|빠른 회복]]의 기반 정리 | [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] Tahoe 모델의 핵심 동작 | [[436_tcp_reno_fast_retransmit_recovery|TCP Reno]] 모델의 확장 적용 |
-| 자원 관점 | 기본 조건 확보 | [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 초점 | [빠른 회복](/knowledge-base/studynote/03_network/08_transport_layer/434_fast_recovery_skip_slow_start/)의 기반 정리 | [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Tahoe 모델의 핵심 동작 | [TCP Reno](/knowledge-base/studynote/03_network/08_transport_layer/436_tcp_reno_fast_retransmit_recovery/) 모델의 확장 적용 |
+| 자원 관점 | 기본 조건 확보 | [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 최적화 | 규모와 범위 확대 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] Tahoe 모델은 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
+- **📢 섹션 요약 비유**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Tahoe 모델은 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] Tahoe 모델을 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [[434_fast_recovery_skip_slow_start|빠른 회복]] 수준의 기본 대책으로 충분한지, 아니면 [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] Tahoe 모델이 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [[436_tcp_reno_fast_retransmit_recovery|TCP Reno]] 모델와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Tahoe 모델을 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [빠른 회복](/knowledge-base/studynote/03_network/08_transport_layer/434_fast_recovery_skip_slow_start/) 수준의 기본 대책으로 충분한지, 아니면 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Tahoe 모델이 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [TCP Reno](/knowledge-base/studynote/03_network/08_transport_layer/436_tcp_reno_fast_retransmit_recovery/) 모델와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 현재 문제의 핵심이 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 부족인지, [[015_지연_데이터_관점|지연]] 악화인지 먼저 분리한다.
-2. [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] Tahoe 모델가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [[396_validation|확인]]한다.
-3. 도입 후에는 인접 기술인 [[436_tcp_reno_fast_retransmit_recovery|TCP Reno]] 모델와의 연계 방식을 함께 검증한다.
+1. 현재 문제의 핵심이 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 부족인지, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 악화인지 먼저 분리한다.
+2. [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Tahoe 모델가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+3. 도입 후에는 인접 기술인 [TCP Reno](/knowledge-base/studynote/03_network/08_transport_layer/436_tcp_reno_fast_retransmit_recovery/) 모델와의 연계 방식을 함께 검증한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] Tahoe 모델의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- [[434_fast_recovery_skip_slow_start|빠른 회복]]와의 경계를 정리하지 않아 중복 투자나 [[164_policy|정책]] 충돌을 만드는 설계
+- [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Tahoe 모델의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
+- [빠른 회복](/knowledge-base/studynote/03_network/08_transport_layer/434_fast_recovery_skip_slow_start/)와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
-- **📢 섹션 요약 비유**: [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] Tahoe 모델을 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
+- **📢 섹션 요약 비유**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Tahoe 모델을 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[[405_tcp_transmission_control_protocol_connection_oriented|TCP]] Tahoe 모델은 전송 계층을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [[436_tcp_reno_fast_retransmit_recovery|TCP Reno]] 모델, 적응형 저지연 전송, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 적응형 저지연 전송 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Tahoe 모델은 전송 계층을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [TCP Reno](/knowledge-base/studynote/03_network/08_transport_layer/436_tcp_reno_fast_retransmit_recovery/) 모델, 적응형 저지연 전송, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 적응형 저지연 전송 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] Tahoe 모델은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
+- **📢 섹션 요약 비유**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Tahoe 모델은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
 ---
 
@@ -130,10 +134,10 @@ Tahoe의 문제는 3번째 무기인 '[[433_fast_retransmit_3_dup_ack|Fast Retra
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[434_fast_recovery_skip_slow_start|빠른 회복]] | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| 세그먼트 ([[407_tcp_segment_header_structure_20_60_bytes|Segment]]) | 전송 계층이 다루는 기본 단위다. |
-| [[213_flow_control_buffer_overflow|흐름 제어]] ([[421_tcp_flow_control_sliding_window_algorithm|Flow Control]]) | 수신자 처리 속도를 넘지 않게 조절한다. |
-| [[436_tcp_reno_fast_retransmit_recovery|TCP Reno]] 모델 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [빠른 회복](/knowledge-base/studynote/03_network/08_transport_layer/434_fast_recovery_skip_slow_start/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 세그먼트 ([Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/)) | 전송 계층이 다루는 기본 단위다. |
+| [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/) ([Flow Control](/knowledge-base/studynote/03_network/08_transport_layer/421_tcp_flow_control_sliding_window_algorithm/)) | 수신자 처리 속도를 넘지 않게 조절한다. |
+| [TCP Reno](/knowledge-base/studynote/03_network/08_transport_layer/436_tcp_reno_fast_retransmit_recovery/) 모델 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -147,7 +151,7 @@ Tahoe의 문제는 3번째 무기인 '[[433_fast_retransmit_3_dup_ack|Fast Retra
     └──▶ [확장 B: 적응형 저지연 전송]
 ```
 
-[[405_tcp_transmission_control_protocol_connection_oriented|TCP]] Tahoe 모델는 [[434_fast_recovery_skip_slow_start|빠른 회복]]에서 출발해 현재 메커니즘을 정교화하고, 이후 [[436_tcp_reno_fast_retransmit_recovery|TCP Reno]] 모델와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Tahoe 모델는 [빠른 회복](/knowledge-base/studynote/03_network/08_transport_layer/434_fast_recovery_skip_slow_start/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [TCP Reno](/knowledge-base/studynote/03_network/08_transport_layer/436_tcp_reno_fast_retransmit_recovery/) 모델와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -161,7 +165,7 @@ Tahoe의 문제는 3번째 무기인 '[[433_fast_retransmit_3_dup_ack|Fast Retra
 
 **진행 상황**: 556 / 1120
 
-← **이전**: [[434_fast_recovery_skip_slow_start|434. 빠른 회복 (Fast Recovery)]]
-**다음**: [[436_tcp_reno_fast_retransmit_recovery|436. TCP Reno (빠른 재전송/빠른 회복 지원) 모델]] →
+← **이전**: [434. 빠른 회복 (Fast Recovery)](/knowledge-base/studynote/03_network/08_transport_layer/434_fast_recovery_skip_slow_start/)
+**다음**: [436. TCP Reno (빠른 재전송/빠른 회복 지원) 모델](/knowledge-base/studynote/03_network/08_transport_layer/436_tcp_reno_fast_retransmit_recovery/) →
 
 ---

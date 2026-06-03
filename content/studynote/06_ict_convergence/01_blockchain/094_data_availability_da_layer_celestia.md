@@ -1,38 +1,42 @@
----
-title: 94. 데이터 가용성 (Data Availability, DA) 계층
-date: '2024-05-15'
-tags:
-- studynote-ict-convergence
----
++++
+title = "94. 데이터 가용성 (Data Availability, DA) 계층"
+date = 2024-05-15
+
+[taxonomies]
+tags = ["studynote-ict-convergence"]
+
+[extra]
+tags = ["studynote-ict-convergence"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[001_dikw_pyramid|데이터]] [[452_availability|가용성]] ([[001_dikw_pyramid|Data]] [[452_availability|Availability]], [[104_da_as_is_analysis|DA]]) 계층은 [[004_blockchain|블록체인]] 네트워크에서 연산이나 합의를 제외하고, 오직 "모든 노드가 [[191_transaction_concept_states|트랜잭션]] 원본 [[001_dikw_pyramid|데이터]]를 다운로드하고 확인할 수 있는가?"만을 보장하는 전담 인프라다.
-> 2. **가치**: [[042_rollup_l2_solution|롤업]] ([[042_rollup_l2_solution|Rollup]]) L2 솔루션들이 겪던 L1(이더리움)의 살인적인 [[001_dikw_pyramid|데이터]] 기록 비용(CallData) 문제를 해결하여 수수료를 극단적으로 낮춘다.
-> 3. **판단 포인트**: L2 네트워크를 구축할 때, [[283_security_tactics|보안성]]을 최우선으로 하여 이더리움 L1에 [[001_dikw_pyramid|데이터]]를 올릴지, 비용을 위해 셀레스티아(Celestia) 같은 외부 [[104_da_as_is_analysis|DA]] 계층을 사용할지(Validium/Optimium) 트레이드오프를 결정해야 한다.
+> 1. **본질**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/)) 계층은 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 네트워크에서 연산이나 합의를 제외하고, 오직 "모든 노드가 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다운로드하고 확인할 수 있는가?"만을 보장하는 전담 인프라다.
+> 2. **가치**: [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) ([Rollup](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)) L2 솔루션들이 겪던 L1(이더리움)의 살인적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기록 비용(CallData) 문제를 해결하여 수수료를 극단적으로 낮춘다.
+> 3. **판단 포인트**: L2 네트워크를 구축할 때, [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)을 최우선으로 하여 이더리움 L1에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 올릴지, 비용을 위해 셀레스티아(Celestia) 같은 외부 [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 계층을 사용할지(Validium/Optimium) 트레이드오프를 결정해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[[001_dikw_pyramid|데이터]] [[452_availability|가용성]] ([[001_dikw_pyramid|Data]] [[452_availability|Availability]], [[104_da_as_is_analysis|DA]])은 블록을 생성하는 노드가 악의적으로 [[191_transaction_concept_states|트랜잭션]] [[001_dikw_pyramid|데이터]]를 숨기지 않고, 네트워크의 모든 참여자가 해당 [[001_dikw_pyramid|데이터]]를 온전히 다운로드하고 검증할 수 있는 상태를 의미한다. 전통적인 모놀리틱(Monolithic) [[004_blockchain|블록체인]]에서는 연산, 합의, [[001_dikw_pyramid|데이터]] [[452_availability|가용성]]을 하나의 네트워크가 모두 처리했다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/))은 블록을 생성하는 노드가 악의적으로 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 숨기지 않고, 네트워크의 모든 참여자가 해당 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 온전히 다운로드하고 검증할 수 있는 상태를 의미한다. 전통적인 모놀리틱(Monolithic) [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에서는 연산, 합의, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)을 하나의 네트워크가 모두 처리했다.
 
-L2 [[042_rollup_l2_solution|롤업]]([[042_rollup_l2_solution|Rollup]]) 기술이 등장하면서 딜레마가 생겼다. L2는 연산을 오프체인에서 빠르게 처리하지만, "우리가 조작하지 않았다"는 것을 증명하기 위해 거대한 [[347_compaction|압축]] [[001_dikw_pyramid|데이터]] 원본을 이더리움 L1에 주기적으로 저장해야 했다. 그러나 이더리움의 저장 공간(CallData)은 너무 비쌌고, 이는 L2 수수료 하락의 발목을 잡는 치명적인 병목이 되었다. 이를 해결하기 위해 [[001_dikw_pyramid|데이터]]를 싸고 안전하게 보관해 주는 전담 계층인 [[104_da_as_is_analysis|DA]] 레이어가 분리되어 탄생했다.
+L2 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)([Rollup](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)) 기술이 등장하면서 딜레마가 생겼다. L2는 연산을 오프체인에서 빠르게 처리하지만, "우리가 조작하지 않았다"는 것을 증명하기 위해 거대한 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 원본을 이더리움 L1에 주기적으로 저장해야 했다. 그러나 이더리움의 저장 공간(CallData)은 너무 비쌌고, 이는 L2 수수료 하락의 발목을 잡는 치명적인 병목이 되었다. 이를 해결하기 위해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 싸고 안전하게 보관해 주는 전담 계층인 [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 레이어가 분리되어 탄생했다.
 
-- **📢 섹션 요약 비유**: [[104_da_as_is_analysis|DA]] 계층은 대법원의 '외부 전용 문서 보관 창고'와 같다. 수만 건의 재판(연산) 기록을 비싼 대법원(이더리움 L1) 금고에 다 구겨 넣는 대신, 넓고 싼 경기도 문서 창고([[104_da_as_is_analysis|DA]] 계층)에 쌓아두고 대법원에는 창고 번호표만 보내는 방식이다.
+- **📢 섹션 요약 비유**: [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 계층은 대법원의 '외부 전용 문서 보관 창고'와 같다. 수만 건의 재판(연산) 기록을 비싼 대법원(이더리움 L1) 금고에 다 구겨 넣는 대신, 넓고 싼 경기도 문서 창고([DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 계층)에 쌓아두고 대법원에는 창고 번호표만 보내는 방식이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[[104_da_as_is_analysis|DA]] 계층의 대표 주자인 셀레스티아 (Celestia)의 핵심 원리는 '[[022_smart_contract|스마트 컨트랙트]] 실행 금지'와 '[[001_dikw_pyramid|데이터]] [[452_availability|가용성]] 샘플링 ([[001_dikw_pyramid|Data]] [[452_availability|Availability]] [[056_표본화_Sampling|Sampling]], [[339_das|DAS]])'에 있다.
+[DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 계층의 대표 주자인 셀레스티아 (Celestia)의 핵심 원리는 '[스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 실행 금지'와 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 샘플링 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) [Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/), [DAS](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/339_das/))'에 있다.
 
-1. **역할 분리**: [[104_da_as_is_analysis|DA]] 네트워크는 이더리움처럼 복잡한 코드를 실행하지 않는다. 오직 들어오는 [[001_dikw_pyramid|데이터]] 덩어리를 블록에 채우고 전파하는 단순 무식한 합의만 수행하여 처리량을 극대화한다.
-2. **[[339_das|DAS]] ([[001_dikw_pyramid|Data]] [[452_availability|Availability]] [[056_표본화_Sampling|Sampling]])**: 
-   - [[001_dikw_pyramid|데이터]]가 너무 크면 [[082_light_node_spv_simplified_payment_verification|라이트 노드]](Light Node) 스마트폰으로는 다운받을 수 없다.
-   - 따라서 소실 정정 코드 ([[681_erasure_coding|Erasure Coding]])를 이용해 [[001_dikw_pyramid|데이터]]를 뻥튀기한 뒤 쪼갠다.
-   - [[082_light_node_spv_simplified_payment_verification|라이트 노드]]는 뻥튀기된 조각 중 일부만 랜덤하게 찔러서 다운로드(샘플링)해 본다.
-   - 몇 번만 찔러봐도 "전체 [[001_dikw_pyramid|데이터]]가 100% 숨김없이 존재한다"는 것을 수학적 확률로 확신할 수 있다.
+1. **역할 분리**: [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 네트워크는 이더리움처럼 복잡한 코드를 실행하지 않는다. 오직 들어오는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 덩어리를 블록에 채우고 전파하는 단순 무식한 합의만 수행하여 처리량을 극대화한다.
+2. **[DAS](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/339_das/) ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) [Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/))**: 
+   - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 너무 크면 [라이트 노드](/knowledge-base/studynote/06_ict_convergence/01_blockchain/082_light_node_spv_simplified_payment_verification/)(Light Node) 스마트폰으로는 다운받을 수 없다.
+   - 따라서 소실 정정 코드 ([Erasure Coding](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/681_erasure_coding/))를 이용해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 뻥튀기한 뒤 쪼갠다.
+   - [라이트 노드](/knowledge-base/studynote/06_ict_convergence/01_blockchain/082_light_node_spv_simplified_payment_verification/)는 뻥튀기된 조각 중 일부만 랜덤하게 찔러서 다운로드(샘플링)해 본다.
+   - 몇 번만 찔러봐도 "전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 100% 숨김없이 존재한다"는 것을 수학적 확률로 확신할 수 있다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -53,24 +57,24 @@ L2 [[042_rollup_l2_solution|롤업]]([[042_rollup_l2_solution|Rollup]]) 기술�
 └──────────────────────────────────────────────────────────────┘
 ```
 
-위 다이어그램은 L2가 비싼 L1 대신 저렴한 [[104_da_as_is_analysis|DA]] 계층으로 무거운 화물을 돌려 보내는 [[430_index_fast_full_scan|병렬]] 구조를 보여준다. [[082_light_node_spv_simplified_payment_verification|라이트 노드]]는 전체를 다운받지 않고도 DAS를 통해 화물이 안전히 있음을 100% 확신한다.
+위 다이어그램은 L2가 비싼 L1 대신 저렴한 [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 계층으로 무거운 화물을 돌려 보내는 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 구조를 보여준다. [라이트 노드](/knowledge-base/studynote/06_ict_convergence/01_blockchain/082_light_node_spv_simplified_payment_verification/)는 전체를 다운받지 않고도 DAS를 통해 화물이 안전히 있음을 100% 확신한다.
 
-- **📢 섹션 요약 비유**: DAS는 대형 마트 수박([[001_dikw_pyramid|데이터]])의 당도를 검사하는 것과 같다. 1,000통의 수박을 다 쪼개어 먹어보지 않아도(전체 다운로드), 무작위로 10통만 찔러서 먹어보면(샘플링) 전체 수박이 달다는 것을 높은 확률로 확신할 수 있다.
+- **📢 섹션 요약 비유**: DAS는 대형 마트 수박([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))의 당도를 검사하는 것과 같다. 1,000통의 수박을 다 쪼개어 먹어보지 않아도(전체 다운로드), 무작위로 10통만 찔러서 먹어보면(샘플링) 전체 수박이 달다는 것을 높은 확률로 확신할 수 있다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-이더리움 진영도 외부 [[104_da_as_is_analysis|DA]] 레이어에 시장을 뺏기지 않기 위해 EIP-4844(덴쿤 업그레이드)를 통해 자체적인 임시 [[104_da_as_is_analysis|DA]] 공간을 만들었다. 설계 시 이 둘의 차이를 명확히 비교해야 한다.
+이더리움 진영도 외부 [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 레이어에 시장을 뺏기지 않기 위해 EIP-4844(덴쿤 업그레이드)를 통해 자체적인 임시 [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 공간을 만들었다. 설계 시 이 둘의 차이를 명확히 비교해야 한다.
 
-| 비교 항목 | 외부 [[104_da_as_is_analysis|DA]] (Celestia) | 이더리움 Blob (EIP-4844) |
+| 비교 항목 | 외부 [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) (Celestia) | 이더리움 Blob (EIP-4844) |
 | :--- | :--- | :--- |
-| **저장 위치** | 독립된 Celestia 네트워크 | 이더리움 블록 옆구리 ([[830_sidecar_proxy_architecture_envoy_decoupling|사이드카]]) |
-| **비용** | 극도로 저렴함 | CallData보단 싸지만 [[104_da_as_is_analysis|DA]] 전용보단 비쌈 |
+| **저장 위치** | 독립된 Celestia 네트워크 | 이더리움 블록 옆구리 ([사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)) |
+| **비용** | 극도로 저렴함 | CallData보단 싸지만 [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 전용보단 비쌈 |
 | **보존 기간** | 합의에 따라 다름 | 약 18일 후 자동 삭제 (휘발성) |
-| **[[283_security_tactics|보안성]](Trust)** | Celestia 검증자 신뢰 필요 | 이더리움 L1과 동일한 강력한 보안 |
+| **[보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)(Trust)** | Celestia 검증자 신뢰 필요 | 이더리움 L1과 동일한 강력한 보안 |
 
-독립 DA를 쓰면 비용은 극단적으로 줄지만, 이더리움 보안의 우산에서 살짝 벗어나게 된다. 반면 Blob을 쓰면 이더리움의 보안을 그대로 누리되, 일정 기간 후 [[001_dikw_pyramid|데이터]]가 삭제되므로 누군가(Archive Node) 백업을 해둬야 한다는 트레이드오프가 단점이 있다.
+독립 DA를 쓰면 비용은 극단적으로 줄지만, 이더리움 보안의 우산에서 살짝 벗어나게 된다. 반면 Blob을 쓰면 이더리움의 보안을 그대로 누리되, 일정 기간 후 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 삭제되므로 누군가(Archive Node) 백업을 해둬야 한다는 트레이드오프가 단점이 있다.
 
 - **📢 섹션 요약 비유**: 이더리움 Blob은 백화점 지하에 임시로 연 '팝업 스토어'다. 본점(L1) 안에 있어 접근성은 좋지만 한 달 뒤면 방을 빼야 한다. 외부 DA는 거리가 멀지만 싸고 넓은 전용 상설 매장이다.
 
@@ -78,30 +82,30 @@ L2 [[042_rollup_l2_solution|롤업]]([[042_rollup_l2_solution|Rollup]]) 기술�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-[[004_blockchain|블록체인]] 아키텍처를 설계하거나 기업용 L2를 런칭할 때, [[001_dikw_pyramid|데이터]] [[452_availability|가용성]]을 어디에 둘 것인가에 따라 시스템의 족보가 바뀐다.
+[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 아키텍처를 설계하거나 기업용 L2를 런칭할 때, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)을 어디에 둘 것인가에 따라 시스템의 족보가 바뀐다.
 
-### [[435_checklist_based_testing|체크리스트]] 및 의사결정 분기
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 의사결정 분기
 1. **금융/자산 등 최고 수준의 보안이 필요한가?**
-   - **판단**: 진정한 [[042_rollup_l2_solution|롤업]] (True [[042_rollup_l2_solution|Rollup]])을 선택해야 한다. 비싸더라도 이더리움 L1의 CallData나 Blob에 [[001_dikw_pyramid|데이터]]를 올려야 이더리움과 동일한 보안을 인정받는다.
-2. **소셜 미디어, 게임처럼 [[191_transaction_concept_states|트랜잭션]]이 많고 비용이 민감한가?**
-   - **판단**: 발리디움 (Validium)이나 옵티미움 (Optimium) 구조를 채택한다. 상태 증명만 L1에 올리고, 원본 [[001_dikw_pyramid|데이터]]는 Celestia나 자체 [[104_da_as_is_analysis|DA]] 서버에 던져 가스비를 0원에 가깝게 만든다.
-3. **[[104_da_as_is_analysis|DA]] 위원회 (DAC)를 신뢰할 수 있는가?**
-   - **판단**: 소수의 인가된 노드만으로 구성된 프라이빗 DA는 "담합하면 [[001_dikw_pyramid|데이터]]를 날려먹을 수 있다"는 [[454_spof|단일 장애점]]([[454_spof|SPOF]])을 지닌다. 중앙화 리스크를 수용할 수 있는지 판단해야 한다.
+   - **판단**: 진정한 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) (True [Rollup](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/))을 선택해야 한다. 비싸더라도 이더리움 L1의 CallData나 Blob에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 올려야 이더리움과 동일한 보안을 인정받는다.
+2. **소셜 미디어, 게임처럼 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 많고 비용이 민감한가?**
+   - **판단**: 발리디움 (Validium)이나 옵티미움 (Optimium) 구조를 채택한다. 상태 증명만 L1에 올리고, 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 Celestia나 자체 [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 서버에 던져 가스비를 0원에 가깝게 만든다.
+3. **[DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 위원회 (DAC)를 신뢰할 수 있는가?**
+   - **판단**: 소수의 인가된 노드만으로 구성된 프라이빗 DA는 "담합하면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 날려먹을 수 있다"는 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))을 지닌다. 중앙화 리스크를 수용할 수 있는지 판단해야 한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 수수료를 줄이겠다며 DA를 중앙화된 AWS S3 하나에만 올려놓고 "우리는 안전한 L2"라고 마케팅하는 기만적 아키텍처.
 
-- **📢 섹션 요약 비유**: 은행 금고 설계 시, 현금(자산)은 보안이 철저한 지하 금고(L1)에 두고, 매일 쌓이는 수만 장의 입출금 영수증(게임 [[568_logs_distributed_logging_elk_fluentd|로그]])은 싼 서류 창고(외부 [[104_da_as_is_analysis|DA]])에 두어 보관료를 아끼는 것이 실무적 판단이다.
+- **📢 섹션 요약 비유**: 은행 금고 설계 시, 현금(자산)은 보안이 철저한 지하 금고(L1)에 두고, 매일 쌓이는 수만 장의 입출금 영수증(게임 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))은 싼 서류 창고(외부 [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/))에 두어 보관료를 아끼는 것이 실무적 판단이다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[[001_dikw_pyramid|데이터]] [[452_availability|가용성]] 계층의 분리는 [[004_blockchain|블록체인]]을 '모든 것을 혼자 하는 만능 컴퓨터(Monolithic)'에서 '각 부품이 특화된 조립식 컴퓨터(Modular)'로 진화시켰다. 이로 인해 트릴레마(확장성, [[283_security_tactics|보안성]], [[010_decentralization|탈중앙화]]) 중 확장성 한계가 비약적으로 돌파되었으며, 새로운 L2들이 쉽게 생겨날 수 있는 인프라가 구축되었다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 계층의 분리는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)을 '모든 것을 혼자 하는 만능 컴퓨터(Monolithic)'에서 '각 부품이 특화된 조립식 컴퓨터(Modular)'로 진화시켰다. 이로 인해 트릴레마(확장성, [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/), [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/)) 중 확장성 한계가 비약적으로 돌파되었으며, 새로운 L2들이 쉽게 생겨날 수 있는 인프라가 구축되었다.
 
-그러나 모듈러 분리로 인한 한계도 명확하다. [[001_dikw_pyramid|데이터]] 파편화 현상이 발생하여, 여러 [[042_rollup_l2_solution|롤업]] 간의 [[287_interoperability_tactics|상호운용성]](Interop)과 유동성이 쪼개지는 부작용이 생겼다. 또한 이더리움 생태계 내에서 "자체 DA를 쓰지 않는 [[042_rollup_l2_solution|롤업]]은 이더리움의 자식이 아니다"라는 정치적 논쟁도 계속되고 있다. 결론적으로 [[104_da_as_is_analysis|DA]] 계층은 [[004_blockchain|블록체인]] 대중화를 위한 필수 인프라지만, 파편화를 다시 묶어내는 기술적 과제를 남겼다.
+그러나 모듈러 분리로 인한 한계도 명확하다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파편화 현상이 발생하여, 여러 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) 간의 [상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/)(Interop)과 유동성이 쪼개지는 부작용이 생겼다. 또한 이더리움 생태계 내에서 "자체 DA를 쓰지 않는 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)은 이더리움의 자식이 아니다"라는 정치적 논쟁도 계속되고 있다. 결론적으로 [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 계층은 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 대중화를 위한 필수 인프라지만, 파편화를 다시 묶어내는 기술적 과제를 남겼다.
 
-- **📢 섹션 요약 비유**: [[104_da_as_is_analysis|DA]] 계층은 레고 블록 놀이의 '초대형 회색 바닥판'을 제공한 것과 같다. 이제 누구나 그 위에 넓게 마을을 지을 수 있지만, 마을끼리 거리가 멀어져서 다리(브릿지)를 놔야 하는 숙제가 생겼다.
+- **📢 섹션 요약 비유**: [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 계층은 레고 블록 놀이의 '초대형 회색 바닥판'을 제공한 것과 같다. 이제 누구나 그 위에 넓게 마을을 지을 수 있지만, 마을끼리 거리가 멀어져서 다리(브릿지)를 놔야 하는 숙제가 생겼다.
 
 ---
 
@@ -109,10 +113,10 @@ L2 [[042_rollup_l2_solution|롤업]]([[042_rollup_l2_solution|Rollup]]) 기술�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[[095_modular_blockchain_execution_da_consensus|모듈러 블록체인]] ([[095_modular_blockchain_execution_da_consensus|Modular Blockchain]])** | [[004_blockchain|블록체인]]의 4대 기능(실행, 정산, 합의, [[104_da_as_is_analysis|DA]])을 분리하는 구조 철학 |
-| **[[042_rollup_l2_solution|롤업]] ([[042_rollup_l2_solution|Rollup]], L2)** | 실행을 분리하여 확장성을 높이지만, 결국 DA를 L1에 의존하던 기술 |
-| **[[339_das|DAS]] ([[001_dikw_pyramid|Data]] [[452_availability|Availability]] [[056_표본화_Sampling|Sampling]])** | [[104_da_as_is_analysis|DA]] 계층이 [[001_dikw_pyramid|데이터]]를 증명하기 위해 쓰는 샘플링 기술 |
-| **EIP-4844 (Blob)** | 외부 DA에 대항하여 이더리움이 내놓은 임시 [[001_dikw_pyramid|데이터]] 보관용 [[830_sidecar_proxy_architecture_envoy_decoupling|사이드카]] |
+| **[모듈러 블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/095_modular_blockchain_execution_da_consensus/) ([Modular Blockchain](/knowledge-base/studynote/06_ict_convergence/01_blockchain/095_modular_blockchain_execution_da_consensus/))** | [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 4대 기능(실행, 정산, 합의, [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/))을 분리하는 구조 철학 |
+| **[롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) ([Rollup](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/), L2)** | 실행을 분리하여 확장성을 높이지만, 결국 DA를 L1에 의존하던 기술 |
+| **[DAS](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/339_das/) ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) [Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/))** | [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 계층이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 증명하기 위해 쓰는 샘플링 기술 |
+| **EIP-4844 (Blob)** | 외부 DA에 대항하여 이더리움이 내놓은 임시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보관용 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -134,9 +138,9 @@ L2 롤업 등장 (CallData 저장 비용 폭발)
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 옛날에는 똑똑한 컴퓨터 하나가 계산도 하고 일기장([[001_dikw_pyramid|데이터]])도 다 혼자 적어서 너무 느렸어요.
+1. 옛날에는 똑똑한 컴퓨터 하나가 계산도 하고 일기장([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))도 다 혼자 적어서 너무 느렸어요.
 2. 그래서 똑똑한 애들은 계산만 하고, 크고 두꺼운 일기장만 전문으로 맡아서 보관해주는 '일기장 전용 창고'를 따로 만들었답니다.
-3. 이 일기장 창고가 바로 [[104_da_as_is_analysis|DA]] 계층이에요! 창고가 싸니까 우리가 내는 수수료도 엄청 싸졌어요.
+3. 이 일기장 창고가 바로 [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 계층이에요! 창고가 싸니까 우리가 내는 수수료도 엄청 싸졌어요.
 
 ---
 
@@ -144,7 +148,7 @@ L2 롤업 등장 (CallData 저장 비용 폭발)
 
 **진행 상황**: 94 / 552
 
-← **이전**: [[093_smart_contract_formal_verification|93. 스마트 컨트랙트 정형 검증 (Formal Verification) - 수학적 모델링을 통해 컨트랙트 코드 무결성 증명]]
-**다음**: [[095_modular_blockchain_execution_da_consensus|95. 모듈러 블록체인 (Modular Blockchain) - 실행(Execution), 합의(Consensus), 정산(Settlement),]] →
+← **이전**: [93. 스마트 컨트랙트 정형 검증 (Formal Verification) - 수학적 모델링을 통해 컨트랙트 코드 무결성 증명](/knowledge-base/studynote/06_ict_convergence/01_blockchain/093_smart_contract_formal_verification/)
+**다음**: [95. 모듈러 블록체인 (Modular Blockchain) - 실행(Execution), 합의(Consensus), 정산(Settlement),](/knowledge-base/studynote/06_ict_convergence/01_blockchain/095_modular_blockchain_execution_da_consensus/) →
 
 ---

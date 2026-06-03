@@ -1,31 +1,35 @@
----
-title: 91. PCB 요소 - PID, 상태, PC, 레지스터, 스케줄링 정보, 메모리 정보, 회계 정보, I/O 상태 정보
-date: '2026-03-21'
-tags:
-- studynote-operating-system
----
++++
+title = "91. PCB 요소 - PID, 상태, PC, 레지스터, 스케줄링 정보, 메모리 정보, 회계 정보, I/O 상태 정보"
+date = 2026-03-21
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: PCB ([[300_process|Process]] Control Block)의 내부 요소들은 [[001_operating_system_purpose|운영체제]] [[022_kernel_role|커널]]이 개별 프로세스를 식별하고 제어하기 위해 유지하는 방대한 C 언어 구조체의 필드들이다.
-> 2. **가치**: [[164_pc|프로그램 카운터]] ([[164_pc|PC]])와 [[057_register|레지스터]] 상태는 [[211_context_switch|문맥 교환]] 시 실행의 연속성을 보장하며, [[501_file_definition_logical_record|파일]] 디스크립터 (FD)와 메모리 맵 포인터는 자원의 고립과 정확한 회수를 가능하게 한다.
-> 3. **판단 포인트**: PCB 요소들은 [[104_process_creation|프로세스 생성]], [[632_state_transition_diagram_testing|상태 전이]], [[041_resource_allocation|자원 할당]] 등 모든 생명주기 이벤트의 단서이므로, 시스템 [[015_지연_데이터_관점|지연]]이나 권한 문제 발생 시 PCB 내 특정 필드의 갱신 한계점을 우선적으로 분석해야 한다.
+> 1. **본질**: PCB ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Control Block)의 내부 요소들은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 개별 프로세스를 식별하고 제어하기 위해 유지하는 방대한 C 언어 구조체의 필드들이다.
+> 2. **가치**: [프로그램 카운터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) ([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))와 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 상태는 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 시 실행의 연속성을 보장하며, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터 (FD)와 메모리 맵 포인터는 자원의 고립과 정확한 회수를 가능하게 한다.
+> 3. **판단 포인트**: PCB 요소들은 [프로세스 생성](/knowledge-base/studynote/02_operating_system/02_process_thread/104_process_creation/), [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/), [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) 등 모든 생명주기 이벤트의 단서이므로, 시스템 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이나 권한 문제 발생 시 PCB 내 특정 필드의 갱신 한계점을 우선적으로 분석해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-PCB ([[300_process|Process]] Control Block)는 단순한 [[001_dikw_pyramid|데이터]] 블록이 아니라, 프로세스 [[289_identification_flags_fragmentation_offset|식별자]], 하드웨어 문맥, 메모리 관리 구조, 스케줄링 파라미터 등 수많은 메타데이터가 집약된 핵심 [[001_dikw_pyramid|데이터]]베이스다. 리눅스에서는 `task_struct`라는 거대한 구조체로 표현된다.
+PCB ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Control Block)는 단순한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록이 아니라, 프로세스 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/), 하드웨어 문맥, 메모리 관리 구조, 스케줄링 파라미터 등 수많은 메타데이터가 집약된 핵심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스다. 리눅스에서는 `task_struct`라는 거대한 구조체로 표현된다.
 
-[[001_operating_system_purpose|운영체제]]는 시스템 내 수많은 프로세스의 상태를 동시에 추적하고 제어해야 한다. 특정 프로세스에게 CPU를 언제 할당할지, 이 프로세스가 어떤 메모리 영역에 접근할 수 있는지, 열어둔 네트워크 [[125_socket|소켓]]은 몇 개인지를 정확히 파악해야만 다중 프로그래밍이 성립한다. 이 모든 의사결정의 논리적 근거가 PCB 내의 개별 필드에 저장되기 때문에, PCB 요소가 없거나 손상되면 [[022_kernel_role|커널]]은 프로세스를 통제할 능력을 즉시 상실한다.
+[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 시스템 내 수많은 프로세스의 상태를 동시에 추적하고 제어해야 한다. 특정 프로세스에게 CPU를 언제 할당할지, 이 프로세스가 어떤 메모리 영역에 접근할 수 있는지, 열어둔 네트워크 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)은 몇 개인지를 정확히 파악해야만 다중 프로그래밍이 성립한다. 이 모든 의사결정의 논리적 근거가 PCB 내의 개별 필드에 저장되기 때문에, PCB 요소가 없거나 손상되면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 프로세스를 통제할 능력을 즉시 상실한다.
 
-- **📢 섹션 요약 비유**: PCB 요소들은 병원의 '환자 상세 차트'와 같다. 환자 번호(PID), 현재 병세(상태), 직전에 맞은 주사(PC와 [[057_register|레지스터]]), 배정된 병실 번호(메모리)가 모두 꼼꼼히 기록되어 있어야 의사([[001_operating_system_purpose|운영체제]])가 정확한 다음 처방을 내릴 수 있다.
+- **📢 섹션 요약 비유**: PCB 요소들은 병원의 '환자 상세 차트'와 같다. 환자 번호(PID), 현재 병세(상태), 직전에 맞은 주사(PC와 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)), 배정된 병실 번호(메모리)가 모두 꼼꼼히 기록되어 있어야 의사([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))가 정확한 다음 처방을 내릴 수 있다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-PCB 구조체 내부는 목적에 따라 여러 논리적 구역으로 명확히 나뉜다. 이 구조를 통해 [[022_kernel_role|커널]]은 필요한 정보에 빠르게 접근하고 갱신한다.
+PCB 구조체 내부는 목적에 따라 여러 논리적 구역으로 명확히 나뉜다. 이 구조를 통해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 필요한 정보에 빠르게 접근하고 갱신한다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -50,9 +54,9 @@ PCB 구조체 내부는 목적에 따라 여러 논리적 구역으로 명확히
 └──────────────────────────────────────────────────────────────┘
 ```
 
-가장 핵심적인 갱신은 [[211_context_switch|문맥 교환]]([[211_context_switch|Context Switch]]) 시 3번 영역인 하드웨어 문맥에서 일어난다. 프로세스가 중단될 때 하드웨어와 [[022_kernel_role|커널]]의 협력을 통해 CPU [[057_register|레지스터]] 값들이 이곳에 안전하게 복사(Save)되고, 나중에 다시 이 값들을 CPU로 밀어 넣어(Restore) 실행을 완벽하게 재개한다. FD 테이블은 [[107_process_termination|프로세스 종료]] 시 [[022_kernel_role|커널]]이 강제로 자원 누수를 막는 회수(Reaping) 루틴의 기준이 된다.
+가장 핵심적인 갱신은 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) 시 3번 영역인 하드웨어 문맥에서 일어난다. 프로세스가 중단될 때 하드웨어와 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 협력을 통해 CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 값들이 이곳에 안전하게 복사(Save)되고, 나중에 다시 이 값들을 CPU로 밀어 넣어(Restore) 실행을 완벽하게 재개한다. FD 테이블은 [프로세스 종료](/knowledge-base/studynote/02_operating_system/02_process_thread/107_process_termination/) 시 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 강제로 자원 누수를 막는 회수(Reaping) 루틴의 기준이 된다.
 
-- **📢 섹션 요약 비유**: PCB는 완벽하게 분류된 서류철이다. 첫 장에는 신분증(PID), 중간에는 직전 업무의 [[216_progress_in_synchronization|진행]] 상황 메모(하드웨어 문맥), 마지막 장에는 회사에서 지급받은 노트북과 법인카드 목록(I/O 및 메모리 자원)이 들어 있어 관리자가 즉시 상태를 통제할 수 있다.
+- **📢 섹션 요약 비유**: PCB는 완벽하게 분류된 서류철이다. 첫 장에는 신분증(PID), 중간에는 직전 업무의 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 상황 메모(하드웨어 문맥), 마지막 장에는 회사에서 지급받은 노트북과 법인카드 목록(I/O 및 메모리 자원)이 들어 있어 관리자가 즉시 상태를 통제할 수 있다.
 
 ---
 
@@ -62,13 +66,13 @@ PCB 필드들은 갱신 주기와 접근 패턴에 따라 정적 필드와 동�
 
 | 구분 항목 | 정적 필드 (Static Update) | 동적 필드 (Dynamic Update) | 아키텍처적 고려사항 |
 | :--- | :--- | :--- | :--- |
-| **핵심 요소** | PID, PPID, UID, 메모리 한계 | [[164_pc|PC]], [[057_register|레지스터]], [[272_state_pattern|State]], vruntime | [[001_dikw_pyramid|데이터]] 패킹(Packing) 최적화 |
-| **갱신 빈도** | [[104_process_creation|프로세스 생성]](`fork`), 권한 승격 시 | [[211_context_switch|문맥 교환]], 틱 [[016_interrupt_mechanism|인터럽트]] 발생 시 | 캐시 무효화 (Cache Invalidation) |
-| **보안 민감도** | 높음 (권한 탈취 해킹의 타겟) | 중간 (실행 흐름 제어의 타겟) | 읽기 전용/서명 [[395_verification_process_review|검증]] 적용 여부 |
+| **핵심 요소** | PID, PPID, UID, 메모리 한계 | [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/), vruntime | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패킹(Packing) 최적화 |
+| **갱신 빈도** | [프로세스 생성](/knowledge-base/studynote/02_operating_system/02_process_thread/104_process_creation/)(`fork`), 권한 승격 시 | [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/), 틱 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 발생 시 | 캐시 무효화 (Cache Invalidation) |
+| **보안 민감도** | 높음 (권한 탈취 해킹의 타겟) | 중간 (실행 흐름 제어의 타겟) | 읽기 전용/서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 적용 여부 |
 
-[[061_namespace|네임스페이스]]([[061_namespace|Namespace]]) 개념과 결합될 때 PCB의 역할은 완전히 달라진다. 현대의 리눅스 PCB(`task_struct`)에는 프로세스가 속한 [[061_namespace|네임스페이스]]를 가리키는 포인터가 추가되어 있다. 이를 통해 동일한 [[022_kernel_role|커널]]을 공유하면서도 프로세스마다 서로 다른 PID 1번 영역을 바라보게 만드는 환상, 즉 [[063_docker_architecture|도커]]([[063_docker_architecture|Docker]])와 같은 [[561_container_based_deployment|컨테이너]] 격리 기술이 실현된다.
+[네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)([Namespace](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)) 개념과 결합될 때 PCB의 역할은 완전히 달라진다. 현대의 리눅스 PCB(`task_struct`)에는 프로세스가 속한 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)를 가리키는 포인터가 추가되어 있다. 이를 통해 동일한 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 공유하면서도 프로세스마다 서로 다른 PID 1번 영역을 바라보게 만드는 환상, 즉 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))와 같은 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 격리 기술이 실현된다.
 
-- **📢 섹션 요약 비유**: 정적 필드가 한 번 발급받으면 바뀌지 않는 여권 번호라면, 동적 필드는 1분마다 찍히는 심박수 [[229_monitor|모니터]] 기기록과 같다. 두 정보의 성격이 달라서 시스템은 이들을 각기 다른 속도와 방식으로 관리해야 한다.
+- **📢 섹션 요약 비유**: 정적 필드가 한 번 발급받으면 바뀌지 않는 여권 번호라면, 동적 필드는 1분마다 찍히는 심박수 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 기기록과 같다. 두 정보의 성격이 달라서 시스템은 이들을 각기 다른 속도와 방식으로 관리해야 한다.
 
 ---
 
@@ -76,24 +80,24 @@ PCB 필드들은 갱신 주기와 접근 패턴에 따라 정적 필드와 동�
 
 실무에서 발생하는 많은 운영 장애는 결국 PCB 내부의 자원 한계치를 초과하거나 갱신 로직이 꼬이면서 발생한다.
 
-### [[435_checklist_based_testing|체크리스트]] 및 실무 판단 포인트
-1. **Too Many Open Files 장애 판단**: 웹 서버 로그에 접속 불가 에러가 도배된다면, PCB 내의 [[501_file_definition_logical_record|파일]] 디스크립터 [[055_array|배열]] 크기 한계(`ulimit -n`)를 넘긴 것이다. 시스템 한계와 프로세스별 한계를 파악하여 [[022_kernel_role|커널]] 파라미터 제한을 해제하는 조치가 필요하다.
-2. **비정상 `D (Uninterruptible Sleep)` 상태 대응**: `kill -9` 시그널조차 무시하는 프로세스는 디스크 장애 등으로 치명적인 [[022_kernel_role|커널]] I/O 락에 빠져있는 경우다. 이 시그널 정보는 PCB 안의 Pending 비트맵에만 마킹된 채 스케줄링이 되지 않아 읽히지 못하므로, 시스템 재부팅이나 스토리지 물리 점검으로 판단을 선회해야 한다.
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 실무 판단 포인트
+1. **Too Many Open Files 장애 판단**: 웹 서버 로그에 접속 불가 에러가 도배된다면, PCB 내의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 크기 한계(`ulimit -n`)를 넘긴 것이다. 시스템 한계와 프로세스별 한계를 파악하여 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 파라미터 제한을 해제하는 조치가 필요하다.
+2. **비정상 `D (Uninterruptible Sleep)` 상태 대응**: `kill -9` 시그널조차 무시하는 프로세스는 디스크 장애 등으로 치명적인 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) I/O 락에 빠져있는 경우다. 이 시그널 정보는 PCB 안의 Pending 비트맵에만 마킹된 채 스케줄링이 되지 않아 읽히지 못하므로, 시스템 재부팅이나 스토리지 물리 점검으로 판단을 선회해야 한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
-- **[[211_context_switch|문맥 교환]] 시 무조건적인 전체 [[057_register|레지스터]] 덤프**: 현대의 큰 부동소수점이나 AVX [[057_register|레지스터]]를 매 [[211_context_switch|문맥 교환]] 시 PCB에 강제로 복사하는 아키텍처 설계. 성능이 급감하므로, 썼을 때만 복사하는 [[380_computational_graph_lazy_eager_execution|Lazy]] Save([[015_지연_데이터_관점|지연]] 저장) 최적화가 없는지 확인하지 않고 방치하는 것은 치명적 [[128_water_scrum_fall_anti_pattern|안티패턴]]이다.
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- **[문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 시 무조건적인 전체 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 덤프**: 현대의 큰 부동소수점이나 AVX [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 매 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 시 PCB에 강제로 복사하는 아키텍처 설계. 성능이 급감하므로, 썼을 때만 복사하는 [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Save([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 저장) 최적화가 없는지 확인하지 않고 방치하는 것은 치명적 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다.
 
-- **📢 섹션 요약 비유**: 회사 직원이 출입증(PCB의 권한) 없이 사장실을 들어가려 하거나, 지급된 사물함(FD 테이블) 100개를 꽉 채웠는데 짐을 더 구겨 넣으려 할 때, 경비원([[022_kernel_role|커널]])이 출입을 즉시 막고 에러를 뿜어내는 것이 정확한 실무 통제다.
+- **📢 섹션 요약 비유**: 회사 직원이 출입증(PCB의 권한) 없이 사장실을 들어가려 하거나, 지급된 사물함(FD 테이블) 100개를 꽉 채웠는데 짐을 더 구겨 넣으려 할 때, 경비원([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))이 출입을 즉시 막고 에러를 뿜어내는 것이 정확한 실무 통제다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-PCB 요소들이 체계적으로 분리되고 확장됨으로써 [[001_operating_system_purpose|운영체제]]는 수만 개의 프로세스를 안정적으로 굴릴 수 있는 무한한 제어력을 확보했다. 
+PCB 요소들이 체계적으로 분리되고 확장됨으로써 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 수만 개의 프로세스를 안정적으로 굴릴 수 있는 무한한 제어력을 확보했다. 
 
-과거의 단순한 문맥 보존용 블록에서 출발한 PCB는 이제 CPU 과금 회계 처리, [[612_memory_leak_detection|메모리 누수]] 방지, [[561_container_based_deployment|컨테이너]] 격리, 시그널 통신까지 아우르는 클라우드 인프라의 핵심 통제 장부로 진화했다. 따라서 기술사는 단순히 "PCB는 정보를 담는다"는 수준을 넘어, "PCB 내 특정 필드의 조작이 시스템 전반의 보안과 자원 한계에 어떤 영향을 미치는가"를 구조적으로 꿰뚫어 보아야 한다.
+과거의 단순한 문맥 보존용 블록에서 출발한 PCB는 이제 CPU 과금 회계 처리, [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/) 방지, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 격리, 시그널 통신까지 아우르는 클라우드 인프라의 핵심 통제 장부로 진화했다. 따라서 기술사는 단순히 "PCB는 정보를 담는다"는 수준을 넘어, "PCB 내 특정 필드의 조작이 시스템 전반의 보안과 자원 한계에 어떤 영향을 미치는가"를 구조적으로 꿰뚫어 보아야 한다.
 
-- **📢 섹션 요약 비유**: 종이 한 장짜리 도서 대출 카드([[459_quic_fec_forward_error_correction|초기]] PCB)가 발전하여, 이제는 언제 어디서 어떤 책을 봤고 몇 권을 잃어버렸는지 중앙에서 [[229_monitor|모니터]]링하는 최첨단 스마트 도서관 관리 시스템(현대 PCB)으로 진화한 것과 같다.
+- **📢 섹션 요약 비유**: 종이 한 장짜리 도서 대출 카드([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) PCB)가 발전하여, 이제는 언제 어디서 어떤 책을 봤고 몇 권을 잃어버렸는지 중앙에서 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링하는 최첨단 스마트 도서관 관리 시스템(현대 PCB)으로 진화한 것과 같다.
 
 ---
 
@@ -101,10 +105,10 @@ PCB 요소들이 체계적으로 분리되고 확장됨으로써 [[001_operating
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[[211_context_switch|문맥 교환]] ([[211_context_switch|Context Switch]])** | CPU [[057_register|레지스터]] [[001_dikw_pyramid|데이터]]를 PCB의 하드웨어 문맥 영역과 맞교환하여 프로세스 실행을 중단/재개하는 절차 |
-| **[[501_file_definition_logical_record|파일]] 디스크립터 ([[501_file_definition_logical_record|File]] Descriptor)** | 유저 레벨의 단순 정수가 PCB 안의 포인터 [[055_array|배열]]을 거쳐 [[022_kernel_role|커널]]의 물리적 [[501_file_definition_logical_record|파일]]/[[125_socket|소켓]] 자원으로 매핑되는 통로 |
-| **시그널 ([[130_signal|Signal]])** | 외부의 비동기 제어 명령이 즉시 실행되지 않고 PCB 내부 비트맵에 우선 기록되었다가 안전하게 처리되는 메커니즘 |
-| **[[061_namespace|네임스페이스]] ([[061_namespace|Namespace]])** | 리눅스 PCB에 추가된 구조체 포인터로, 단일 OS 내에서 독립적인 [[561_container_based_deployment|컨테이너]] 환상을 만들어내는 클라우드 격리 기술 |
+| **[문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) ([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))** | CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 PCB의 하드웨어 문맥 영역과 맞교환하여 프로세스 실행을 중단/재개하는 절차 |
+| **[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터 ([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) Descriptor)** | 유저 레벨의 단순 정수가 PCB 안의 포인터 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 거쳐 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 물리적 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)/[소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 자원으로 매핑되는 통로 |
+| **시그널 ([Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))** | 외부의 비동기 제어 명령이 즉시 실행되지 않고 PCB 내부 비트맵에 우선 기록되었다가 안전하게 처리되는 메커니즘 |
+| **[네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) ([Namespace](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/))** | 리눅스 PCB에 추가된 구조체 포인터로, 단일 OS 내에서 독립적인 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 환상을 만들어내는 클라우드 격리 기술 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -126,9 +130,9 @@ POSIX 기반 시그널 비트맵 및 FD 자원 관리 체계 통합
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 컴퓨터 안의 각 프로그램은 [[022_kernel_role|커널]] 선생님이 관리하는 '개인 비밀 수첩(PCB)'을 하나씩 갖고 있어요.
-2. 이 수첩에는 이름표(PID)는 물론이고, 방금 전까지 하던 숙제의 [[286_page_frame|페이지]] 번호([[164_pc|PC]])가 꼼꼼히 적혀 있어서 언제든 숙제를 다시 이어할 수 있죠.
-3. 또 수첩 맨 뒤에는 반납해야 할 도서관 책 목록([[501_file_definition_logical_record|파일]] 정보)이 다 적혀 있어서, 프로그램이 갑자기 꺼져도 선생님이 안전하게 책을 회수해 준답니다!
+1. 컴퓨터 안의 각 프로그램은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 선생님이 관리하는 '개인 비밀 수첩(PCB)'을 하나씩 갖고 있어요.
+2. 이 수첩에는 이름표(PID)는 물론이고, 방금 전까지 하던 숙제의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 번호([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))가 꼼꼼히 적혀 있어서 언제든 숙제를 다시 이어할 수 있죠.
+3. 또 수첩 맨 뒤에는 반납해야 할 도서관 책 목록([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 정보)이 다 적혀 있어서, 프로그램이 갑자기 꺼져도 선생님이 안전하게 책을 회수해 준답니다!
 
 ---
 
@@ -136,7 +140,7 @@ POSIX 기반 시그널 비트맵 및 FD 자원 관리 체계 통합
 
 **진행 상황**: 91 / 800
 
-← **이전**: [[090_pcb_tcb|90. 프로세스 제어 블록 (PCB, Process Control Block) / 태스크 제어 블록 (TCB)]]
-**다음**: [[092_thread_lwp|92. 스레드 (Thread) - 경량 프로세스 (LWP)]] →
+← **이전**: [90. 프로세스 제어 블록 (PCB, Process Control Block) / 태스크 제어 블록 (TCB)](/knowledge-base/studynote/02_operating_system/02_process_thread/090_pcb_tcb/)
+**다음**: [92. 스레드 (Thread) - 경량 프로세스 (LWP)](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) →
 
 ---

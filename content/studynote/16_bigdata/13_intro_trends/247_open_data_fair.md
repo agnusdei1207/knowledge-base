@@ -1,14 +1,18 @@
----
-title: 035. 오픈데이터 원칙 — FAIR
-date: '2026-03-03'
-tags:
-- studynote-bigdata
----
++++
+title = "035. 오픈데이터 원칙 — FAIR"
+date = 2026-03-03
+
+[taxonomies]
+tags = ["studynote-bigdata"]
+
+[extra]
+tags = ["studynote-bigdata"]
++++
 
 > **핵심 인사이트**
-> 1. FAIR 원칙은 2016년 Nature Scientific Data에 발표된 [[001_dikw_pyramid|데이터]] 관리 원칙으로, 연구 및 오픈데이터가 기계 처리 가능하도록 F(Findable)·A(Accessible)·I(Interoperable)·R(Reusable) 4원칙을 충족해야 한다는 기준이다.
-> 2. FAIR는 [[001_dikw_pyramid|데이터]]를 '공개'하는 것이 아니라 '재사용 가능하게' 만드는 것에 중점을 두며, [[001_dikw_pyramid|데이터]]를 공개하지 않더라도 [[012_metadata|메타데이터]]를 FAIR하게 유지할 수 있다.
-> 3. EU의 연구 [[001_dikw_pyramid|데이터]] [[164_policy|정책]], 공공 [[001_dikw_pyramid|데이터]] 포털, 과학 [[001_dikw_pyramid|데이터]] 저장소에 FAIR 원칙이 의무적으로 적용되고 있으며, [[190_ai_llm_requirements_specification|AI]] 학습 [[001_dikw_pyramid|데이터]]의 품질 기준으로도 확산되고 있다.
+> 1. FAIR 원칙은 2016년 Nature Scientific Data에 발표된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리 원칙으로, 연구 및 오픈데이터가 기계 처리 가능하도록 F(Findable)·A(Accessible)·I(Interoperable)·R(Reusable) 4원칙을 충족해야 한다는 기준이다.
+> 2. FAIR는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 '공개'하는 것이 아니라 '재사용 가능하게' 만드는 것에 중점을 두며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 공개하지 않더라도 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 FAIR하게 유지할 수 있다.
+> 3. EU의 연구 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 공공 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포털, 과학 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소에 FAIR 원칙이 의무적으로 적용되고 있으며, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 품질 기준으로도 확산되고 있다.
 
 ---
 
@@ -38,10 +42,10 @@ R — Reusable (재사용 가능)
 
 | 원칙 | 핵심 요건                  | 실천 예시             |
 |-----|--------------------------|----------------------|
-| F   | 영구 [[289_identification_flags_fragmentation_offset|식별자]] (DOI, ORCID)  | DOI 부여, [[012_metadata|메타데이터]] 등록 |
-| A   | 개방 [[295_protocol_field_tcp_udp_icmp|프로토콜]] 접근         | [[477_rest_api_architecture|REST API]], SPARQL 엔드포인트 |
-| I   | 표준 어휘·온톨로지          | [[505_schema|Schema]].org, Dublin Core |
-| R   | 명확한 라이선스·출처        | [[883_common_criteria_iso_15408|CC]] BY 4.0, ODbL |
+| F   | 영구 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) (DOI, ORCID)  | DOI 부여, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 등록 |
+| A   | 개방 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 접근         | [REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/), SPARQL 엔드포인트 |
+| I   | 표준 어휘·온톨로지          | [Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/).org, Dublin Core |
+| R   | 명확한 라이선스·출처        | [CC](/knowledge-base/studynote/09_security/17_framework_compliance/883_common_criteria_iso_15408/) BY 4.0, ODbL |
 
 > 📢 **섹션 요약 비유**: 도서관 책처럼 — 제목·저자·ISBN(Findable), 누구나 빌릴 수 있는 규칙(Accessible), 다른 책과 연결되는 참고문헌(Interoperable), 재출판 허가 명시(Reusable).
 
@@ -64,7 +68,7 @@ F4. 데이터/메타데이터가 검색 가능한 저장소에 등록
     예: DataCite, Zenodo, Figshare
 ```
 
-> 📢 **섹션 요약 비유**: 도서관 책에 ISBN과 저자 정보가 없으면 찾을 수 없듯이 — [[001_dikw_pyramid|데이터]]도 고유 주소와 설명이 있어야 검색된다.
+> 📢 **섹션 요약 비유**: 도서관 책에 ISBN과 저자 정보가 없으면 찾을 수 없듯이 — [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 고유 주소와 설명이 있어야 검색된다.
 
 ---
 
@@ -83,15 +87,15 @@ A2. 데이터가 더 이상 없어도 메타데이터는 유지
 
 | 시나리오       | FAIR 충족 방법                |
 |-------------|------------------------------|
-| 완전 공개 [[001_dikw_pyramid|데이터]] | [[156_rest_representational_state_transfer|REST]] API로 직접 다운로드 허용  |
-| [[781_personal_information|개인정보]] 포함  | [[012_metadata|메타데이터]] 공개 + 접근 신청 절차 |
-| 삭제된 [[001_dikw_pyramid|데이터]]  | DOI 유지 + 삭제 이유 [[012_metadata|메타데이터]] |
+| 완전 공개 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) API로 직접 다운로드 허용  |
+| [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 포함  | [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 공개 + 접근 신청 절차 |
+| 삭제된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)  | DOI 유지 + 삭제 이유 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) |
 
-> 📢 **섹션 요약 비유**: 폐점한 가게도 주소(DOI)와 "현재 폐점" 안내문([[012_metadata|메타데이터]])은 남아있어야 한다.
+> 📢 **섹션 요약 비유**: 폐점한 가게도 주소(DOI)와 "현재 폐점" 안내문([메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/))은 남아있어야 한다.
 
 ---
 
-## [[288_version_ihl_tos_total_length|IV]]. Interoperable & Reusable
+## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). Interoperable & Reusable
 
 ```
 Interoperable:
@@ -111,11 +115,11 @@ Reusable:
   R1.3. 도메인 관련 커뮤니티 표준 충족
 ```
 
-> 📢 **섹션 요약 비유**: 악보([[001_dikw_pyramid|데이터]])가 국제 표준 음표(온톨로지)로 쓰여야 전 세계 어느 음악가도 연주(활용)할 수 있다.
+> 📢 **섹션 요약 비유**: 악보([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 국제 표준 음표(온톨로지)로 쓰여야 전 세계 어느 음악가도 연주(활용)할 수 있다.
 
 ---
 
-## V. 실무 적용 — [[190_ai_llm_requirements_specification|AI]] 학습 [[001_dikw_pyramid|데이터]]와 FAIR
+## V. 실무 적용 — [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 FAIR
 
 ```
 AI 데이터셋 FAIR 체크리스트:
@@ -131,12 +135,12 @@ EU AI Act: 고위험 AI 시스템의 학습 데이터는
 
 | 플랫폼           | FAIR 지원              |
 |----------------|------------------------|
-| Zenodo         | DOI 자동 발급, [[012_metadata|메타데이터]] |
-| Hugging Face   | [[001_dikw_pyramid|데이터]]셋 카드, 라이선스  |
-| CKAN           | 공공 [[001_dikw_pyramid|데이터]] 포털 표준    |
-| OpenAIRE       | EU 연구 [[001_dikw_pyramid|데이터]] 저장소    |
+| Zenodo         | DOI 자동 발급, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) |
+| Hugging Face   | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋 카드, 라이선스  |
+| CKAN           | 공공 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포털 표준    |
+| OpenAIRE       | EU 연구 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소    |
 
-> 📢 **섹션 요약 비유**: [[190_ai_llm_requirements_specification|AI]] 학습용 레시피([[001_dikw_pyramid|데이터]])도 재료 출처·분량·조리법([[012_metadata|메타데이터]])을 정확히 적어야 다른 요리사가 재현할 수 있다.
+> 📢 **섹션 요약 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습용 레시피([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))도 재료 출처·분량·조리법([메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/))을 정확히 적어야 다른 요리사가 재현할 수 있다.
 
 ---
 
@@ -190,9 +194,9 @@ FAIR + CARE (원주민 데이터 권리) 통합 논의
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. FAIR 원칙은 [[001_dikw_pyramid|데이터]]를 도서관 책처럼 잘 정리해서 누구나 찾고 쓸 수 있게 만드는 규칙이에요.
-2. 책에 ISBN, 저자, 빌리는 방법, [[583_ai_code_license_security_threats|저작권]]이 다 적혀있어야 유용하듯이, [[001_dikw_pyramid|데이터]]도 마찬가지예요.
-3. AI가 잘 배우려면 학습 [[001_dikw_pyramid|데이터]]도 FAIR하게 정리되어야 한답니다!
+1. FAIR 원칙은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 도서관 책처럼 잘 정리해서 누구나 찾고 쓸 수 있게 만드는 규칙이에요.
+2. 책에 ISBN, 저자, 빌리는 방법, [저작권](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/583_ai_code_license_security_threats/)이 다 적혀있어야 유용하듯이, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 마찬가지예요.
+3. AI가 잘 배우려면 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 FAIR하게 정리되어야 한답니다!
 
 ---
 
@@ -200,7 +204,7 @@ FAIR + CARE (원주민 데이터 권리) 통합 논의
 
 **진행 상황**: 247 / 262
 
-← **이전**: [[246_data_voucher|데이터바우처 사업 (Data Voucher Program)]]
-**다음**: [[248_european_data_strategy|036. 유럽 데이터 전략과 데이터 공간 (European Data Strategy & Data Spaces)]] →
+← **이전**: [데이터바우처 사업 (Data Voucher Program)](/knowledge-base/studynote/16_bigdata/13_intro_trends/246_data_voucher/)
+**다음**: [036. 유럽 데이터 전략과 데이터 공간 (European Data Strategy & Data Spaces)](/knowledge-base/studynote/16_bigdata/13_intro_trends/248_european_data_strategy/) →
 
 ---

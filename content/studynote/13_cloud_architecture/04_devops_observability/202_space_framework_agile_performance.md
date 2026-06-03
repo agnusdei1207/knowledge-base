@@ -1,9 +1,13 @@
----
-title: 202. SPACE 프레임워크 (SPACE Framework)
-date: '2026-04-21'
-tags:
-- studynote-cloud-architecture
----
++++
+title = "202. SPACE 프레임워크 (SPACE Framework)"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-cloud-architecture"]
+
+[extra]
+tags = ["studynote-cloud-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -15,13 +19,13 @@ tags:
 
 ## Ⅰ. 개요 및 필요성
 
-개발자 생산성을 어떻게 측정할 것인가? 이 질문은 소프트웨어 조직에서 가장 논쟁적인 주제 중 하나다. "코드 줄 수(LOC)"나 "[[067_pull_request_pr_merge_request_code_review|PR]] 수"는 측정하기 쉽지만, 많은 코드가 항상 좋은 것이 아니고 [[067_pull_request_pr_merge_request_code_review|PR]] 수가 많다고 팀이 효율적인 것도 아니다.
+개발자 생산성을 어떻게 측정할 것인가? 이 질문은 소프트웨어 조직에서 가장 논쟁적인 주제 중 하나다. "코드 줄 수(LOC)"나 "[PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 수"는 측정하기 쉽지만, 많은 코드가 항상 좋은 것이 아니고 [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 수가 많다고 팀이 효율적인 것도 아니다.
 
 2021년 GitHub, Microsoft Research, University of Victoria의 연구자들이 공동으로 발표한 "The SPACE of Developer Productivity" 논문이 이 문제를 해결하기 위해 SPACE 프레임워크를 제안했다. 이 프레임워크는 개발자 생산성의 복잡성을 인정하고, 5가지 상호 보완적 차원으로 측정하도록 권장한다.
 
 SPACE는 DORA의 보완재다. DORA가 파이프라인 속도·안정성에 집중한다면, SPACE는 개발자의 일상 경험(만족도, 웰빙)부터 시스템 효율(흐름 효율성)까지 더 넓은 스펙트럼을 다룬다.
 
-📢 **섹션 요약 비유**: SPACE는 의사가 환자 건강을 볼 때 혈압(Activity)만 보지 않고, 기분(Satisfaction), 실제 건강 상태([[282_performance_tactics|Performance]]), 몸의 기능(Efficiency), 소통 능력(Communication)까지 종합적으로 보는 것과 같다.
+📢 **섹션 요약 비유**: SPACE는 의사가 환자 건강을 볼 때 혈압(Activity)만 보지 않고, 기분(Satisfaction), 실제 건강 상태([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)), 몸의 기능(Efficiency), 소통 능력(Communication)까지 종합적으로 보는 것과 같다.
 
 ---
 
@@ -32,10 +36,10 @@ SPACE는 DORA의 보완재다. DORA가 파이프라인 속도·안정성에 집�
 | 차원 | 정의 | 측정 예시 |
 |:---|:---|:---|
 | **S**atisfaction & Well-being | 개발자 만족도·번아웃 여부 | 개발자 설문 NPS, 이직률, 번아웃 지수 |
-| **P**erformance | 실제 작업 결과의 품질·영향 | [[330_code_review|코드 리뷰]] 통과율, 버그 재발률, 기능 사용률 |
-| **A**ctivity | 측정 가능한 작업 단위 | [[067_pull_request_pr_merge_request_code_review|PR]] 수, 커밋 수, 빌드 수, [[330_code_review|코드 리뷰]] 완료 수 |
-| **C**ommunication & Collaboration | 팀 내외 협업 효율 | [[067_pull_request_pr_merge_request_code_review|PR]] 리뷰 [[138_response_time|응답 시간]], 문서화 품질, 지식 공유 |
-| **E**fficiency & Flow | 방해 없이 집중할 수 있는 환경 | 흐름 효율성, [[033_context|컨텍스트]] 전환 횟수, 대기 시간 |
+| **P**erformance | 실제 작업 결과의 품질·영향 | [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) 통과율, 버그 재발률, 기능 사용률 |
+| **A**ctivity | 측정 가능한 작업 단위 | [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 수, 커밋 수, 빌드 수, [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) 완료 수 |
+| **C**ommunication & Collaboration | 팀 내외 협업 효율 | [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 리뷰 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), 문서화 품질, 지식 공유 |
+| **E**fficiency & Flow | 방해 없이 집중할 수 있는 환경 | 흐름 효율성, [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 전환 횟수, 대기 시간 |
 
 ### SPACE 지표 구조도
 
@@ -57,8 +61,8 @@ SPACE는 DORA의 보완재다. DORA가 파이프라인 속도·안정성에 집�
 
 | 접근 | 방법 | 특징 |
 |:---|:---|:---|
-| 시스템/툴 [[001_dikw_pyramid|데이터]] | Git, [[090_configuration_item|CI]]/CD, 이슈 트래커 자동 수집 | 객관적, 행동 지표 |
-| 조사/설문 | [[058_dx_developer_experience|개발자 경험]] 설문 (분기별) | 주관적, 인식 지표 |
+| 시스템/툴 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | Git, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD, 이슈 트래커 자동 수집 | 객관적, 행동 지표 |
+| 조사/설문 | [개발자 경험](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/) 설문 (분기별) | 주관적, 인식 지표 |
 | 관찰/인터뷰 | 팀 리뷰, 1:1 미팅 | 맥락 이해, 질적 지표 |
 
 📢 **섹션 요약 비유**: SPACE를 측정하는 세 방법은 학생 성과를 평가하는 시험(A), 설문(S/C), 관찰(E/P)의 결합과 같다. 시험 점수만 보면 안 되고, 학생이 학교를 좋아하는지(만족도), 친구들과 잘 어울리는지(소통)도 봐야 전체 그림이 나온다.
@@ -67,23 +71,23 @@ SPACE는 DORA의 보완재다. DORA가 파이프라인 속도·안정성에 집�
 
 ## Ⅲ. 비교 및 연결
 
-### SPACE vs [[523_dhcp_dora_process|DORA]] 비교
+### SPACE vs [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 비교
 
-| 항목 | [[523_dhcp_dora_process|DORA]] | SPACE |
+| 항목 | [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) | SPACE |
 |:---|:---|:---|
-| 발표 | Google/[[523_dhcp_dora_process|DORA]] 팀 (2018~) | GitHub/Microsoft/UVic ([[477_owasp_top_10_2021|2021]]) |
-| 핵심 초점 | [[090_configuration_item|CI]]/CD 파이프라인 성과 | 개발자 생산성 전반 |
+| 발표 | Google/[DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 팀 (2018~) | GitHub/Microsoft/UVic ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/)) |
+| 핵심 초점 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인 성과 | 개발자 생산성 전반 |
 | 지표 유형 | 객관적 측정 (4개) | 5개 차원 복합 |
 | 인간 요소 | 간접적 (번아웃 etc.) | ✅ 직접 측정 |
 | 적용 레벨 | 팀/시스템 | 개인/팀/시스템 |
-| 보완 사용 | [[523_dhcp_dora_process|DORA]] + SPACE 함께 권장 | |
+| 보완 사용 | [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) + SPACE 함께 권장 | |
 
-### SPACE의 [[128_water_scrum_fall_anti_pattern|안티패턴]] 경고
+### SPACE의 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 경고
 
 | 잘못된 측정 | 문제점 |
 |:---|:---|
 | 커밋 수만 측정 | 불필요한 코드 양산, 의미 없는 커밋 조장 |
-| [[067_pull_request_pr_merge_request_code_review|PR]] 처리 속도만 측정 | 코드 품질 무시하고 빠르게 승인 |
+| [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 처리 속도만 측정 | 코드 품질 무시하고 빠르게 승인 |
 | Activity만 측정 | 번아웃 개발자를 "생산성 높음"으로 오진 |
 | 개인 순위 공개 | 협업 파괴, 지식 독점 유발 |
 
@@ -108,13 +112,13 @@ Step 3: 설문 + 자동화 데이터 결합
   - Activity(A)는 자동화로, Satisfaction(S)는 설문으로
 ```
 
-**[[058_dx_developer_experience|개발자 경험]]([[726_platform_engineering_idp_dx|DX]]) 개선 사례**:
+**[개발자 경험](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/)([DX](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/)) 개선 사례**:
 - Microsoft: 빌드 시간 30분 → 5분 단축으로 E(효율) 대폭 개선
-- GitHub: [[330_code_review|코드 리뷰]] 대기 시간 48시간 → 8시간으로 C(소통) 개선
-- Netflix: 배포 툴 표준화로 [[109_platform_engineering_cognitive_load|플랫폼 엔지니어링]]을 통한 E·A 동시 개선
+- GitHub: [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) 대기 시간 48시간 → 8시간으로 C(소통) 개선
+- Netflix: 배포 툴 표준화로 [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)을 통한 E·A 동시 개선
 
 **기술사 판단 포인트**:
-- SPACE의 핵심 [[659_ir_lessons_learned|교훈]]: "측정 대상이 목표가 되는 순간 좋은 지표가 아니게 된다(Goodhart's Law)"
+- SPACE의 핵심 [교훈](/knowledge-base/studynote/09_security/13_secops_ir_forensics/659_ir_lessons_learned/): "측정 대상이 목표가 되는 순간 좋은 지표가 아니게 된다(Goodhart's Law)"
 - 개발자 생산성 측정의 목적은 통제가 아닌 개선이어야 한다.
 - S(만족도)는 장기적으로 나머지 4개 차원에 가장 큰 영향을 미치는 선행 지표다.
 
@@ -126,14 +130,14 @@ Step 3: 설문 + 자동화 데이터 결합
 
 | 기대효과 | 설명 |
 |:---|:---|
-| 전인적 생산성 이해 | 숫자 너머의 [[058_dx_developer_experience|개발자 경험]] 파악 |
+| 전인적 생산성 이해 | 숫자 너머의 [개발자 경험](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/) 파악 |
 | 개선 방향 다변화 | 파이프라인 속도뿐 아니라 만족도·협업도 개선 |
 | 번아웃 조기 감지 | S 지표 하락이 이탈 전 경보 역할 |
 | 조직 신뢰 구축 | 투명한 지표로 관리자-개발자 신뢰 형성 |
 
-SPACE는 "개발자를 숫자로 환원하지 말라"는 메시지를 담고 있다. 생산성은 코드 줄 수가 아니라, 개발자가 의미 있는 일을 할 수 있는 환경과 그 결과물의 품질에 있다. DORA와 SPACE를 함께 사용하면 [[652_devops_calms_culture|DevOps]] 성과의 가장 완전한 그림을 그릴 수 있다.
+SPACE는 "개발자를 숫자로 환원하지 말라"는 메시지를 담고 있다. 생산성은 코드 줄 수가 아니라, 개발자가 의미 있는 일을 할 수 있는 환경과 그 결과물의 품질에 있다. DORA와 SPACE를 함께 사용하면 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 성과의 가장 완전한 그림을 그릴 수 있다.
 
-📢 **섹션 요약 비유**: SPACE는 훌륭한 선생님의 평가 방식과 같다. 시험 점수(Activity)만 보지 않고, 학생이 수업을 좋아하는지(Satisfaction), 친구들과 협력하는지(Communication), 배운 것을 잘 활용하는지([[282_performance_tactics|Performance]]), 집중할 환경이 갖춰졌는지(Efficiency)를 함께 본다.
+📢 **섹션 요약 비유**: SPACE는 훌륭한 선생님의 평가 방식과 같다. 시험 점수(Activity)만 보지 않고, 학생이 수업을 좋아하는지(Satisfaction), 친구들과 협력하는지(Communication), 배운 것을 잘 활용하는지([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)), 집중할 환경이 갖춰졌는지(Efficiency)를 함께 본다.
 
 ---
 
@@ -141,12 +145,12 @@ SPACE는 "개발자를 숫자로 환원하지 말라"는 메시지를 담고 있
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[201_dora_metrics_devops_performance|DORA Metrics]] | SPACE의 보완재, E 차원과 [[523_dhcp_dora_process|DORA]] 지표가 겹침 |
-| [[058_dx_developer_experience|개발자 경험]] ([[726_platform_engineering_idp_dx|DX]]) | SPACE의 S(만족도) 차원이 [[726_platform_engineering_idp_dx|DX]] 핵심 지표 |
-| [[109_platform_engineering_cognitive_load|플랫폼 엔지니어링]] | E(효율) 차원 개선의 핵심 방법론 |
+| [DORA Metrics](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/201_dora_metrics_devops_performance/) | SPACE의 보완재, E 차원과 [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 지표가 겹침 |
+| [개발자 경험](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/) ([DX](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/)) | SPACE의 S(만족도) 차원이 [DX](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/) 핵심 지표 |
+| [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) | E(효율) 차원 개선의 핵심 방법론 |
 | 심리적 안전감 | S(만족도)와 C(협업) 차원의 토대 |
 | Goodhart's Law | SPACE 지표 오용 경고의 이론적 근거 |
-| 번아웃 (Burnout) | S(만족도) 지표 하락의 가장 심각한 [[130_signal|신호]] |
+| 번아웃 (Burnout) | S(만족도) 지표 하락의 가장 심각한 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) |
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -174,7 +178,7 @@ SPACE Framework: 5차원 생산성 측정
 
 **진행 상황**: 201 / 371
 
-← **이전**: [[201_dora_metrics_devops_performance|201. DORA 메트릭스 (DORA Metrics)]]
-**다음**: [[203_finops_cloud_cost_optimization|203. 클라우드 비용 최적화 / FinOps]] →
+← **이전**: [201. DORA 메트릭스 (DORA Metrics)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/201_dora_metrics_devops_performance/)
+**다음**: [203. 클라우드 비용 최적화 / FinOps](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/203_finops_cloud_cost_optimization/) →
 
 ---

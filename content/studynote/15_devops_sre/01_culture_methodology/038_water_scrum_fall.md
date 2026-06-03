@@ -1,14 +1,18 @@
----
-title: 038. 워터스크럼폴 (WaterScrumFall) — 애자일 실패 패턴
-date: '2026-03-03'
-tags:
-- studynote-devops-sre
----
++++
+title = "038. 워터스크럼폴 (WaterScrumFall) — 애자일 실패 패턴"
+date = 2026-03-03
+
+[taxonomies]
+tags = ["studynote-devops-sre"]
+
+[extra]
+tags = ["studynote-devops-sre"]
++++
 
 > **핵심 인사이트**
-> 1. 워터스크럼폴(WaterScrumFall)은 기획과 배포는 전통적인 워터폴 방식으로, 개발만 [[062_scrum_framework_overview|스크럼]] 형태로 [[216_progress_in_synchronization|진행]]되는 반(半)[[004_agile_relation|애자일]] [[128_water_scrum_fall_anti_pattern|안티패턴]]으로, [[004_agile_relation|애자일]]의 핵심 가치인 "고객 피드백을 통한 지속적 적응"이 불가능한 형태다.
-> 2. 조직이 워터스크럼폴에 빠지는 가장 흔한 원인은 구조적 장벽 — 기획팀(PRD 고정), 개발팀([[067_sprint_timebox|스프린트]]), 운영팀(분기 별 릴리즈)이 각자의 [[002_silo_hyeonhyung|사일로]]에서 [[062_scrum_framework_overview|스크럼]] 프레임워크만 이식하고 전체 가치 흐름은 바꾸지 않기 때문이다.
-> 3. 진정한 [[004_agile_relation|애자일]] 전환은 팀 구조 변경(교차 기능팀)과 배포 [[123_pipe|파이프]]라인([[090_configuration_item|CI]]/CD) 모두가 바뀌어야 완성되며, [[062_scrum_framework_overview|스크럼]] 세리머니만 도입하는 것은 형식적 [[004_agile_relation|애자일]](Cargo Cult [[004_agile_relation|Agile]])에 불과하다.
+> 1. 워터스크럼폴(WaterScrumFall)은 기획과 배포는 전통적인 워터폴 방식으로, 개발만 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 형태로 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)되는 반(半)[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)으로, [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)의 핵심 가치인 "고객 피드백을 통한 지속적 적응"이 불가능한 형태다.
+> 2. 조직이 워터스크럼폴에 빠지는 가장 흔한 원인은 구조적 장벽 — 기획팀(PRD 고정), 개발팀([스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)), 운영팀(분기 별 릴리즈)이 각자의 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)에서 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 프레임워크만 이식하고 전체 가치 흐름은 바꾸지 않기 때문이다.
+> 3. 진정한 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 전환은 팀 구조 변경(교차 기능팀)과 배포 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD) 모두가 바뀌어야 완성되며, [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 세리머니만 도입하는 것은 형식적 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)(Cargo Cult [Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))에 불과하다.
 
 ---
 
@@ -41,11 +45,11 @@ tags:
   2주마다 프로덕션 배포 + 고객 피드백
 ```
 
-> 📢 **섹션 요약 비유**: 마라톤 코치가 경기 3개월 전에 훈련 계획을 완전히 고정한 뒤, 매일 "[[067_sprint_timebox|스프린트]]"라고 부르는 것 — 이름만 빠를 뿐 실제론 같은 속도.
+> 📢 **섹션 요약 비유**: 마라톤 코치가 경기 3개월 전에 훈련 계획을 완전히 고정한 뒤, 매일 "[스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)"라고 부르는 것 — 이름만 빠를 뿐 실제론 같은 속도.
 
 ---
 
-## II. [[004_agile_relation|애자일]] 실패 패턴
+## II. [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 실패 패턴
 
 ```
 흔한 애자일 실패 패턴:
@@ -74,7 +78,7 @@ tags:
   팀이 학습하고 적응할 기회 없음
 ```
 
-> 📢 **섹션 요약 비유**: [[062_scrum_framework_overview|스크럼]] 서적을 읽고 일일 스탠드업만 시작한 팀 — "어제 뭐 했어요" 물어보지만, 목표 달성 여부는 6개월 후에야 알 수 있음.
+> 📢 **섹션 요약 비유**: [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 서적을 읽고 일일 스탠드업만 시작한 팀 — "어제 뭐 했어요" 물어보지만, 목표 달성 여부는 6개월 후에야 알 수 있음.
 
 ---
 
@@ -106,11 +110,11 @@ tags:
   팀 KPI: 비즈니스 결과 (고객 전환율 등)
 ```
 
-> 📢 **섹션 요약 비유**: 릴레이 경주([[002_silo_hyeonhyung|사일로]])를 팀 구기 종목(교차 기능팀)으로 바꾸기 — 공 하나를 여러 포지션이 협력해서 같이 골 넣기.
+> 📢 **섹션 요약 비유**: 릴레이 경주([사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/))를 팀 구기 종목(교차 기능팀)으로 바꾸기 — 공 하나를 여러 포지션이 협력해서 같이 골 넣기.
 
 ---
 
-## [[288_version_ihl_tos_total_length|IV]]. 진정한 [[004_agile_relation|애자일]] 전환 요건
+## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 진정한 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 전환 요건
 
 ```
 기술적 요건:
@@ -139,7 +143,7 @@ tags:
   - MTTR (Mean Time to Recovery)
 ```
 
-> 📢 **섹션 요약 비유**: 진짜 [[004_agile_relation|애자일]]은 세리머니가 아니라 "고객에게 가치를 얼마나 빠르게 전달하는가"를 측정할 수 있어야 함.
+> 📢 **섹션 요약 비유**: 진짜 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)은 세리머니가 아니라 "고객에게 가치를 얼마나 빠르게 전달하는가"를 측정할 수 있어야 함.
 
 ---
 
@@ -226,9 +230,9 @@ DORA 연구 (2013~)
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 워터스크럼폴은 요리 재료 구매는 6개월 계획으로, 실제 요리만 매일 한다는 이름 붙인 것처럼 — 겉만 [[004_agile_relation|애자일]]이고 속은 워터폴인 패턴이에요.
-2. 진짜 [[004_agile_relation|애자일]]은 계획부터 배포까지 전체 흐름이 빨라야 하며, 2주마다 실제 고객이 사용할 수 있는 기능을 배포할 수 있어야 해요.
-3. [[523_dhcp_dora_process|DORA]] 4가지 지표(배포 빈도, 리드타임, 실패율, [[658_ir_recovery|복구]]시간)가 낮으면 워터스크럼폴 진단을 의심하고 [[090_configuration_item|CI]]/CD와 팀 구조를 바꿔야 해요!
+1. 워터스크럼폴은 요리 재료 구매는 6개월 계획으로, 실제 요리만 매일 한다는 이름 붙인 것처럼 — 겉만 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)이고 속은 워터폴인 패턴이에요.
+2. 진짜 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)은 계획부터 배포까지 전체 흐름이 빨라야 하며, 2주마다 실제 고객이 사용할 수 있는 기능을 배포할 수 있어야 해요.
+3. [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 4가지 지표(배포 빈도, 리드타임, 실패율, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)시간)가 낮으면 워터스크럼폴 진단을 의심하고 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD와 팀 구조를 바꿔야 해요!
 
 ---
 
@@ -236,7 +240,7 @@ DORA 연구 (2013~)
 
 **진행 상황**: 38 / 373
 
-← **이전**: [[037_agile_pmo|037. 애자일 PMO (Agile PMO)]]
-**다음**: [[039_feature_flag|039. 피처 플래그 (Feature Flag / Feature Toggle)]] →
+← **이전**: [037. 애자일 PMO (Agile PMO)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/037_agile_pmo/)
+**다음**: [039. 피처 플래그 (Feature Flag / Feature Toggle)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/039_feature_flag/) →
 
 ---

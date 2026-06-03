@@ -1,23 +1,27 @@
----
-title: 248. 식사하는 철학자 문제 (Dining-Philosophers Problem) - 교착상태 및 기아 상태 예방
-date: '2026-05-09'
-tags:
-- studynote-operating-system
----
++++
+title = "248. 식사하는 철학자 문제 (Dining-Philosophers Problem) - 교착상태 및 기아 상태 예방"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 식사하는 철학자 문제는 N개의 프로세스가 N개의 공유 자원을 순환 방식으로 점유하려 할 때 발생하는 [[281_deadlock_definition|교착 상태]] ([[281_deadlock_definition|Deadlock]])와 [[314_starvation_prevention|기아 상태]] ([[314_starvation_prevention|Starvation]])를 동시에 예방하는 [[212_synchronization_mechanisms|동기화]] 설계 문제다.
-> 2. **가치**: [[286_circular_wait|순환 대기]] ([[286_circular_wait|Circular Wait]]) 제거, 최대 동시 진입자 제한, 비대칭 접근 순서 등 세 가지 고전적 예방 전략을 명확히 보여주며, [[136_variance|분산]] 시스템의 [[041_resource_allocation|자원 할당]] [[001_algorithm_definition|알고리즘]] 설계의 원형이다.
-> 3. **융합**: 멀티스레드 [[002_database_definition|데이터베이스]] 락킹, 네트워크 라우터 버퍼 할당, [[136_variance|분산]] 자원 예약 시스템에서 동일한 순환 의존 구조가 반복된다.
+> 1. **본질**: 식사하는 철학자 문제는 N개의 프로세스가 N개의 공유 자원을 순환 방식으로 점유하려 할 때 발생하는 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) ([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))와 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) ([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))를 동시에 예방하는 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 설계 문제다.
+> 2. **가치**: [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/) ([Circular Wait](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/)) 제거, 최대 동시 진입자 제한, 비대칭 접근 순서 등 세 가지 고전적 예방 전략을 명확히 보여주며, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템의 [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 설계의 원형이다.
+> 3. **융합**: 멀티스레드 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 락킹, 네트워크 라우터 버퍼 할당, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 자원 예약 시스템에서 동일한 순환 의존 구조가 반복된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-에츠허르 다익스트라가 1965년 제안한 이 문제는 다음 상황을 모델링한다: 5명의 철학자가 원형 테이블에 앉아 있다. 테이블에는 5개의 젓가락이 각 철학자 사이에 하나씩 놓여 있다. 철학자는 생각(think)하다가 식사(eat)하려 할 때 양쪽 젓가락을 모두 집어야 한다. 단, 젓가락은 쪼갤 수 없다([[283_mutual_exclusion|상호 배제]]).
+에츠허르 다익스트라가 1965년 제안한 이 문제는 다음 상황을 모델링한다: 5명의 철학자가 원형 테이블에 앉아 있다. 테이블에는 5개의 젓가락이 각 철학자 사이에 하나씩 놓여 있다. 철학자는 생각(think)하다가 식사(eat)하려 할 때 양쪽 젓가락을 모두 집어야 한다. 단, 젓가락은 쪼갤 수 없다([상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)).
 
-**핵심 위험**: 모든 철학자가 동시에 왼쪽 젓가락을 집으면, 아무도 오른쪽 젓가락을 집지 못해 영원히 대기하는 [[281_deadlock_definition|교착 상태]]가 발생한다.
+**핵심 위험**: 모든 철학자가 동시에 왼쪽 젓가락을 집으면, 아무도 오른쪽 젓가락을 집지 못해 영원히 대기하는 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)가 발생한다.
 
 **💡 비유**: 5명이 원형으로 앉아 서로의 연필을 빌려 써야 그림을 완성할 수 있는 게임을 상상하라. 모두가 동시에 왼쪽 연필만 잡으면 아무도 그림을 완성하지 못한다.
 
@@ -46,13 +50,13 @@ tags:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-**📢 섹션 요약 비유**: 젓가락 게임은 [[281_deadlock_definition|교착 상태]]의 4가지 조건([[283_mutual_exclusion|상호 배제]], [[231_hold_and_wait|점유 대기]], [[285_no_preemption|비선점]], [[286_circular_wait|순환 대기]])이 모두 갖춰진 가장 단순한 시나리오입니다.
+**📢 섹션 요약 비유**: 젓가락 게임은 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)의 4가지 조건([상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/), [점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/), [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/), [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/))이 모두 갖춰진 가장 단순한 시나리오입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [[224_semaphore|세마포어]] 기반 잘못된 해법 (교착 유발)
+### [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) 기반 잘못된 해법 (교착 유발)
 
 ```c
 semaphore chopstick[5] = {1, 1, 1, 1, 1};
@@ -87,7 +91,7 @@ void philosopher(int i) {
 }
 ```
 
-[[286_circular_wait|순환 대기]] 조건이 깨진다. 최대 4명만 동시에 젓가락을 잡으려 하면, N=5개 젓가락에서 최소 한 사람은 두 개를 집을 수 있다.
+[순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/) 조건이 깨진다. 최대 4명만 동시에 젓가락을 잡으려 하면, N=5개 젓가락에서 최소 한 사람은 두 개를 집을 수 있다.
 
 ### 해결책 2: 비대칭 집기 (Asymmetric Solution)
 
@@ -123,9 +127,9 @@ void philosopher(int i) {
 └──────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 비대칭 해결책의 핵심은 [[286_circular_wait|순환 대기]]([[286_circular_wait|Circular Wait]]) 조건을 제거하는 것이다. 소수의 철학자(예: P0)가 반대 방향으로 젓가락을 집으면 모든 방향이 같은 방향 순환이 아니므로 [[281_deadlock_definition|교착 상태]]가 성립하지 않는다. 단, 이 방법도 [[314_starvation_prevention|기아 상태]]가 발생할 수 있으므로 기아 방지 추가 로직이 필요하다.
+**[다이어그램 해설]** 비대칭 해결책의 핵심은 [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/)([Circular Wait](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/)) 조건을 제거하는 것이다. 소수의 철학자(예: P0)가 반대 방향으로 젓가락을 집으면 모든 방향이 같은 방향 순환이 아니므로 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)가 성립하지 않는다. 단, 이 방법도 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)가 발생할 수 있으므로 기아 방지 추가 로직이 필요하다.
 
-### 해결책 3: [[229_monitor|모니터]] 기반 완전 해법 (교착+기아 예방)
+### 해결책 3: [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 기반 완전 해법 (교착+기아 예방)
 
 ```text
 ┌───────────────────────────────────────────────────────────┐
@@ -157,9 +161,9 @@ void philosopher(int i) {
 └───────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** [[229_monitor|모니터]] 해법은 양쪽 젓가락을 동시에 [[396_validation|확인]]·집기 때문에 [[231_hold_and_wait|점유 대기]]([[284_hold_and_wait|Hold-and-Wait]]) 조건 자체를 제거한다. 철학자는 두 젓가락이 모두 사용 가능할 때만 EATING 상태로 전이하고, 불가능하면 자신의 [[228_condition_variable|조건 변수]](self[i])에서 대기한다. 인접 철학자가 식사를 마치면 test()를 호출하여 대기 중인 철학자를 깨운다. 기아 방지를 위해서는 대기 시간 상한이나 [[411_aging_algorithm|에이징]]([[182_aging|Aging]]) 기법을 추가해야 한다.
+**[다이어그램 해설]** [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 해법은 양쪽 젓가락을 동시에 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)·집기 때문에 [점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/)([Hold-and-Wait](/knowledge-base/studynote/02_operating_system/05_deadlock/284_hold_and_wait/)) 조건 자체를 제거한다. 철학자는 두 젓가락이 모두 사용 가능할 때만 EATING 상태로 전이하고, 불가능하면 자신의 [조건 변수](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/)(self[i])에서 대기한다. 인접 철학자가 식사를 마치면 test()를 호출하여 대기 중인 철학자를 깨운다. 기아 방지를 위해서는 대기 시간 상한이나 [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/)) 기법을 추가해야 한다.
 
-**📢 섹션 요약 비유**: [[229_monitor|모니터]] 해법은 레스토랑 웨이터가 "두 젓가락 다 준비됐을 때만 가져다드릴게요"라고 관리하는 방식 — 절대 한쪽만 갖다 주지 않아 기다리는 낭비가 없습니다.
+**📢 섹션 요약 비유**: [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 해법은 레스토랑 웨이터가 "두 젓가락 다 준비됐을 때만 가져다드릴게요"라고 관리하는 방식 — 절대 한쪽만 갖다 주지 않아 기다리는 낭비가 없습니다.
 
 ---
 
@@ -180,32 +184,32 @@ void philosopher(int i) {
 ```
 
 ### 실무 연관 시스템
-- **[[002_database_definition|데이터베이스]] [[320_two_phase_locking_deadlock|2PL]]**: 점증적 락(순서 없이)은 식사 철학자와 동일한 교착 가능. [[276_lock_hierarchy|락 순서화]]([[317_lockdep_lock_ordering|Lock Ordering]])가 비대칭 집기와 동일한 원리.
-- **OS [[041_resource_allocation|자원 할당]]**: 은행원 [[001_algorithm_definition|알고리즘]]이 식사 철학자의 [[041_resource_allocation|자원 할당]] 문제를 일반화한 해법.
+- **[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [2PL](/knowledge-base/studynote/02_operating_system/05_deadlock/320_two_phase_locking_deadlock/)**: 점증적 락(순서 없이)은 식사 철학자와 동일한 교착 가능. [락 순서화](/knowledge-base/studynote/02_operating_system/04_synchronization/276_lock_hierarchy/)([Lock Ordering](/knowledge-base/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/))가 비대칭 집기와 동일한 원리.
+- **OS [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/)**: 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 식사 철학자의 [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) 문제를 일반화한 해법.
 
-**📢 섹션 요약 비유**: 식사하는 철학자는 [[041_resource_allocation|자원 할당]]의 순환 의존성을 가장 직관적으로 보여주는 모델 — 실무 교착 버그의 90%는 이 패턴의 변형입니다.
+**📢 섹션 요약 비유**: 식사하는 철학자는 [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/)의 순환 의존성을 가장 직관적으로 보여주는 모델 — 실무 교착 버그의 90%는 이 패턴의 변형입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **다중 락 획득**: 스레드가 [[510_lock|Lock]] A → [[510_lock|Lock]] B 순서로 잡고 다른 스레드가 [[510_lock|Lock]] B → [[510_lock|Lock]] A 순서로 잡으면 철학자 문제와 동일한 교착 발생. 해결: 전역 락 순서 규칙 ([[276_lock_hierarchy|Lock Hierarchy]]) [[009_config|설정]].
-2. **[[136_variance|분산]] 자원 예약**: 클라우드 인프라에서 VM이 여러 스토리지 볼륨을 동시에 요청할 때 [[286_circular_wait|순환 대기]] 가능. 은행원 [[001_algorithm_definition|알고리즘]] 기반 자원 예약 시스템으로 해결.
+1. **다중 락 획득**: 스레드가 [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) A → [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) B 순서로 잡고 다른 스레드가 [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) B → [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) A 순서로 잡으면 철학자 문제와 동일한 교착 발생. 해결: 전역 락 순서 규칙 ([Lock Hierarchy](/knowledge-base/studynote/02_operating_system/04_synchronization/276_lock_hierarchy/)) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/).
+2. **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 자원 예약**: 클라우드 인프라에서 VM이 여러 스토리지 볼륨을 동시에 요청할 때 [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/) 가능. 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 기반 자원 예약 시스템으로 해결.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - **단계적 락 없이 여러 락 획득**: 락 A를 잡은 상태로 락 B를 기다리는 코드가 중첩되면 즉시 교착 후보.
 - **기아 방지 누락**: 교착을 예방해도 특정 철학자가 항상 낮은 우선순위로 밀리면 기아 발생.
 
-**📢 섹션 요약 비유**: 여러 락을 다루는 코드는 마치 교차로 진입 차량처럼 — 진입 전에 전체 경로가 통과 가능한지 미리 [[396_validation|확인]]해야 교착(접촉 사고)을 막습니다.
+**📢 섹션 요약 비유**: 여러 락을 다루는 코드는 마치 교차로 진입 차량처럼 — 진입 전에 전체 경로가 통과 가능한지 미리 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 교착(접촉 사고)을 막습니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-식사하는 철학자 문제는 [[041_resource_allocation|자원 할당]] 설계의 세 가지 핵심 원칙을 가르쳐 준다: ① 자원 집합에 전역 순서를 부여하라, ② 동시 소유 가능한 최대 수를 제한하라, ③ 원자적 일괄 획득(모 아니면 도)으로 [[231_hold_and_wait|점유 대기]]를 제거하라. 이 원칙들은 멀티스레드, [[136_variance|분산]] 시스템, [[002_database_definition|데이터베이스]] 어디서나 동일하게 적용된다.
+식사하는 철학자 문제는 [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) 설계의 세 가지 핵심 원칙을 가르쳐 준다: ① 자원 집합에 전역 순서를 부여하라, ② 동시 소유 가능한 최대 수를 제한하라, ③ 원자적 일괄 획득(모 아니면 도)으로 [점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/)를 제거하라. 이 원칙들은 멀티스레드, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 어디서나 동일하게 적용된다.
 
-**📢 섹션 요약 비유**: 철학자 문제의 세 해결책은 교착 예방의 세 가지 무기 — '입장 제한'(착석 제한), '규칙 통일'(비대칭), '원자적 행동'([[229_monitor|모니터]]) — 을 각각 대표합니다.
+**📢 섹션 요약 비유**: 철학자 문제의 세 해결책은 교착 예방의 세 가지 무기 — '입장 제한'(착석 제한), '규칙 통일'(비대칭), '원자적 행동'([모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)) — 을 각각 대표합니다.
 
 ---
 
@@ -213,10 +217,10 @@ void philosopher(int i) {
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[246_bounded_buffer_producer_consumer|유한 버퍼 문제]] ([[246_bounded_buffer_producer_consumer|Bounded-Buffer Problem]]) / 생산자-소비자 (Producer-Consumer) 문제 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [[247_readers_writers_problem|독자-저자 문제]] ([[247_readers_writers_problem|Readers-Writers Problem]]) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [[249_java_synchronization|자바 동기화]] | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [[790_posix_threads_pthreads_standard_api|Pthreads]] [[212_synchronization_mechanisms|동기화]] | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [유한 버퍼 문제](/knowledge-base/studynote/02_operating_system/04_synchronization/246_bounded_buffer_producer_consumer/) ([Bounded-Buffer Problem](/knowledge-base/studynote/02_operating_system/04_synchronization/246_bounded_buffer_producer_consumer/)) / 생산자-소비자 (Producer-Consumer) 문제 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [독자-저자 문제](/knowledge-base/studynote/02_operating_system/04_synchronization/247_readers_writers_problem/) ([Readers-Writers Problem](/knowledge-base/studynote/02_operating_system/04_synchronization/247_readers_writers_problem/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [자바 동기화](/knowledge-base/studynote/02_operating_system/04_synchronization/249_java_synchronization/) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [Pthreads](/knowledge-base/studynote/02_operating_system/11_exam_summary/790_posix_threads_pthreads_standard_api/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -235,8 +239,8 @@ void philosopher(int i) {
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 5명의 친구가 둥근 테이블에 앉아 있는데, 양쪽 공용 크레용을 모두 잡아야 그림을 그릴 수 있어요.
-2. 모두가 동시에 왼쪽 크레용만 잡으면 아무도 그림을 못 그려요 — 이게 [[281_deadlock_definition|교착 상태]]예요!
-3. 해결 방법: 한 명은 오른쪽 먼저 잡거나(비대칭), 한 번에 5명 중 4명만 들어오게 하거나(착석 제한), 크레용 2개가 모두 있을 때만 잡게 해요([[229_monitor|모니터]]).
+2. 모두가 동시에 왼쪽 크레용만 잡으면 아무도 그림을 못 그려요 — 이게 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)예요!
+3. 해결 방법: 한 명은 오른쪽 먼저 잡거나(비대칭), 한 번에 5명 중 4명만 들어오게 하거나(착석 제한), 크레용 2개가 모두 있을 때만 잡게 해요([모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)).
 
 ---
 
@@ -244,7 +248,7 @@ void philosopher(int i) {
 
 **진행 상황**: 248 / 800
 
-← **이전**: [[247_readers_writers_problem|247. 독자-저자 문제 (Readers-Writers Problem) - 제1유형(독자 우선), 제2유형(저자 우선)]]
-**다음**: [[249_java_synchronization|249. 자바 동기화 (Java Synchronization)]] →
+← **이전**: [247. 독자-저자 문제 (Readers-Writers Problem) - 제1유형(독자 우선), 제2유형(저자 우선)](/knowledge-base/studynote/02_operating_system/04_synchronization/247_readers_writers_problem/)
+**다음**: [249. 자바 동기화 (Java Synchronization)](/knowledge-base/studynote/02_operating_system/04_synchronization/249_java_synchronization/) →
 
 ---

@@ -1,14 +1,18 @@
----
-title: 752. 프로토타입 버리기 모델 vs 진화적 모델
-date: '2026-05-08'
-tags:
-- studynote-software-engineering
----
++++
+title = "752. 프로토타입 버리기 모델 vs 진화적 모델"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-software-engineering"]
+
+[extra]
+tags = ["studynote-software-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[257_prototype_pattern_object_cloning|프로토타입]] 버리기 모델 vs 진화적 모델은(는) [[001_software_engineering_definition|소프트웨어 공학]]의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[[346_maintainability_portability|유지보수성]]·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) 버리기 모델 vs 진화적 모델은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
@@ -25,7 +29,7 @@ tags:
 
 ---
 
-다음은 [[257_prototype_pattern_object_cloning|프로토타입]] 버리기 모델 vs 진화적 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
+다음은 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) 버리기 모델 vs 진화적 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -40,7 +44,7 @@ tags:
 └─────────────────────────────────────────────────────────────┘
 ```
 
-이 다이어그램은 [[257_prototype_pattern_object_cloning|프로토타입]] 버리기 모델 vs 진화적 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
+이 다이어그램은 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) 버리기 모델 vs 진화적 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
 ---
 
@@ -50,13 +54,13 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-프로토타이핑은 목적을 달성한 후 그 [[257_prototype_pattern_object_cloning|프로토타입]](시제품)을 어떻게 처리할 것인지에 따라 두 가지 모델로 나뉜다.
+프로토타이핑은 목적을 달성한 후 그 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/)(시제품)을 어떻게 처리할 것인지에 따라 두 가지 모델로 나뉜다.
 
-- **📢 섹션 요약 비유**: [[257_prototype_pattern_object_cloning|프로토타입]] 버리기 모델 vs 진화적 모델은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) 버리기 모델 vs 진화적 모델은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 | 항목 | 설명 | 비고 |
 | :--- | :--- | :--- |
-| 핵심 특성 | [[257_prototype_pattern_object_cloning|프로토타입]] 버리기 모델 vs 진화적 모델의 핵심 특성과 동작 방식 | 필수 이해 요소 |
+| 핵심 특성 | [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) 버리기 모델 vs 진화적 모델의 핵심 특성과 동작 방식 | 필수 이해 요소 |
 | 적용 범위 | 어떤 프로젝트·상황에서 활용하는지 | 선택 기준 |
 | 제약 조건 | 적용 시 주의해야 할 전제·한계 | 트레이드오프 |
 
@@ -70,14 +74,14 @@ tags:
 
 프로토타이핑은 단독으로 쓰이기보다 다른 개발 방법론과 섞여서 쓰인다.
 
-| 비교 항목 | 폭포수 (Waterfall) | 프로토타이핑 (Prototyping) | [[658_agile_scrum_roles|애자일 스크럼]] ([[004_agile_relation|Agile]] [[658_agile_scrum_roles|Scrum]]) |
+| 비교 항목 | 폭포수 (Waterfall) | 프로토타이핑 (Prototyping) | [애자일 스크럼](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/) ([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/)) |
 |:---|:---|:---|:---|
 | **요구사항 확정**| 프로젝트 초기에 100% 픽스 | **시제품을 통해 초기에 픽스** | 스프린트마다 계속 바뀜 |
 | **산출물 전달** | 마지막 날에 한 번 | 중간에 껍데기 한 번, 마지막에 진짜 | 2주마다 '동작하는 소프트웨어' |
-| **위험([[096_risk_non_risk_architecture_evaluation_flaws|Risk]]) 관리**| 매우 취약함 | **요구사항 오해 위험 완벽 차단** | 매 순간 유연하게 대응 |
+| **위험([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)) 관리**| 매우 취약함 | **요구사항 오해 위험 완벽 차단** | 매 순간 유연하게 대응 |
 | **주요 문서** | 방대한 요구사항 정의서 | UI 스토리보드, 목업(Mockup) | 백로그 (Backlog) |
 
-진화적 프로토타이핑 모델이 계속 발전해서 "이걸 2주 단위로 무한히 반복하자!"라고 체계화된 것이 바로 현대의 **[[004_agile_relation|애자일]]([[004_agile_relation|Agile]])** 방법론이다.
+진화적 프로토타이핑 모델이 계속 발전해서 "이걸 2주 단위로 무한히 반복하자!"라고 체계화된 것이 바로 현대의 **[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))** 방법론이다.
 
 - **📢 섹션 요약 비유**: 폭포수 모델이 눈 감고 초상화를 그린 뒤 마지막에 보여주는 것이라면, 프로토타이핑은 스케치만 대충 슥슥 해서 "이 얼굴 맞아요?" 물어보고 색칠을 시작하는 것이다.
 
@@ -91,9 +95,9 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 프로토타이핑 모델을 쓸 때 벌어지는 최악의 참사는 **"버려야 할 [[257_prototype_pattern_object_cloning|프로토타입]]을 버리지 않는 것"**이다.
+실무에서 프로토타이핑 모델을 쓸 때 벌어지는 최악의 참사는 **"버려야 할 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/)을 버리지 않는 것"**이다.
 
-- **📢 섹션 요약 비유**: [[257_prototype_pattern_object_cloning|프로토타입]] 버리기 모델 vs 진화적 모델은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) 버리기 모델 vs 진화적 모델은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 ---
 
@@ -105,9 +109,9 @@ tags:
 
 프로토타이핑 기법을 적재적소에 사용하면 "사용자가 원했던 것"과 "개발자가 이해한 것" 사이의 끔찍한 간극(Gap)을 가장 싼 비용으로 극복할 수 있다. 특히 혁신적인 서비스나 세상에 없던 UX를 기획할 때, 백 장의 문서보다 한 번 클릭해 볼 수 있는 화면이 천 배의 가치를 지닌다.
 
-결론적으로 기술 리더는 [[257_prototype_pattern_object_cloning|프로토타입]]의 목적(요구사항 픽스인지, 뼈대 구축인지)을 명확히 정의하고 시작해야 한다. '버릴 코드'는 미련 없이 버리고, '키울 코드'는 처음부터 정교하게 짜는 판단력이야말로, 불확실성의 바다에서 프로젝트를 안전하게 항구로 이끄는 나침반이다.
+결론적으로 기술 리더는 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/)의 목적(요구사항 픽스인지, 뼈대 구축인지)을 명확히 정의하고 시작해야 한다. '버릴 코드'는 미련 없이 버리고, '키울 코드'는 처음부터 정교하게 짜는 판단력이야말로, 불확실성의 바다에서 프로젝트를 안전하게 항구로 이끄는 나침반이다.
 
-- **📢 섹션 요약 비유**: 미로를 탈출할 때 몸으로 직접 부딪히며 출구를 찾는 것(폭포수)보다, 조그만 드론([[257_prototype_pattern_object_cloning|프로토타입]])을 먼저 띄워서 위에서 길을 한 번 쓱 살펴보고 버리는 것이 훨씬 똑똑하고 안전한 생존법이다.
+- **📢 섹션 요약 비유**: 미로를 탈출할 때 몸으로 직접 부딪히며 출구를 찾는 것(폭포수)보다, 조그만 드론([프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/))을 먼저 띄워서 위에서 길을 한 번 쓱 살펴보고 버리는 것이 훨씬 똑똑하고 안전한 생존법이다.
 
 ---
 
@@ -121,10 +125,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[001_software_engineering_definition|소프트웨어 공학]] ([[001_software_engineering_definition|Software Engineering]]) | [[257_prototype_pattern_object_cloning|프로토타입]] 버리기 모델 vs 진화적 모델의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [[003_sdlc|소프트웨어 생명주기]] ([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]], Software Development Life Cycle) | [[257_prototype_pattern_object_cloning|프로토타입]] 버리기 모델 vs 진화적 모델은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | [[257_prototype_pattern_object_cloning|프로토타입]] 버리기 모델 vs 진화적 모델 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [[020_software_configuration_management|형상 관리]] ([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]]) | [[257_prototype_pattern_object_cloning|프로토타입]] 버리기 모델 vs 진화적 모델에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) 버리기 모델 vs 진화적 모델의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) 버리기 모델 vs 진화적 모델은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) 버리기 모델 vs 진화적 모델 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) 버리기 모델 vs 진화적 모델에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -144,13 +148,13 @@ tags:
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [[002_software_crisis|소프트웨어 위기]] 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [[257_prototype_pattern_object_cloning|프로토타입]] 버리기 모델 vs 진화적 모델은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) 버리기 모델 vs 진화적 모델은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
 
 ---
 
@@ -158,7 +162,7 @@ tags:
 
 **진행 상황**: 925 / 973
 
-← **이전**: [[751_software_crisis_cost_delay|751. 소프트웨어 위기 비용 지연 품질 문제]]
-**다음**: [[753_spiral_model_risk_analysis|753. 나선형 위험 분석 4단계 루프]] →
+← **이전**: [751. 소프트웨어 위기 비용 지연 품질 문제](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/751_software_crisis_cost_delay/)
+**다음**: [753. 나선형 위험 분석 4단계 루프](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/753_spiral_model_risk_analysis/) →
 
 ---

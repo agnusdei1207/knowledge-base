@@ -1,45 +1,49 @@
----
-title: 320. 버스트 모드 (Burst Mode)
-date: '2026-03-27'
-tags:
-- studynote-computer-architecture
----
++++
+title = "320. 버스트 모드 (Burst Mode)"
+date = 2026-03-27
+
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[344_bus|버스]]트 모드 (Burst Mode)는 [[344_bus|버스]] 마스터가 시작 주소와 전송 조건을 한 번 제시한 뒤, 연속한 여러 [[001_dikw_pyramid|데이터]]를 끊지 않고 묶음으로 전송하는 방식이다.
-> 2. **가치**: 주소 지정·중재·핸드셰이크 오버헤드를 [[001_dikw_pyramid|데이터]]마다 반복하지 않으므로, 같은 [[344_bus|버스]] 폭과 클럭에서도 실제 유효 [[140_bandwidth|대역폭]]을 크게 높일 수 있다.
-> 3. **판단 포인트**: [[344_bus|버스]]트 모드는 연속 [[001_dikw_pyramid|데이터]]와 대량 전송에 강하지만, [[344_bus|버스]]를 오래 점유해 CPU (Central Processing Unit)나 다른 장치의 [[015_지연_데이터_관점|지연]]을 키울 수 있으므로 길이·우선순위·공정성을 함께 설계해야 한다.
+> 1. **본질**: [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 모드 (Burst Mode)는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 마스터가 시작 주소와 전송 조건을 한 번 제시한 뒤, 연속한 여러 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 끊지 않고 묶음으로 전송하는 방식이다.
+> 2. **가치**: 주소 지정·중재·핸드셰이크 오버헤드를 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)마다 반복하지 않으므로, 같은 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 폭과 클럭에서도 실제 유효 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 크게 높일 수 있다.
+> 3. **판단 포인트**: [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 모드는 연속 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 대량 전송에 강하지만, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 오래 점유해 CPU (Central Processing Unit)나 다른 장치의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 키울 수 있으므로 길이·우선순위·공정성을 함께 설계해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[[344_bus|버스]]트 모드 (Burst Mode)는 메모리나 I/O (Input/Output) 장치로부터 [[001_dikw_pyramid|데이터]]를 한 개씩 떼어 받지 않고, 일정 길이의 블록으로 연속 전송하는 [[344_bus|버스]] 동작 방식이다. 한 번의 [[344_bus|버스]] 요청으로 시작 주소, 읽기/[[289_cqrs_db|쓰기]] 종류, 전송 길이를 정하면 그 다음 [[001_dikw_pyramid|데이터]]들은 주소를 매번 다시 보내지 않거나 내부적으로 자동 증가시키면서 이어서 이동한다. 즉 핵심은 **첫 전송의 준비 시간은 한 번만 치르고, 나머지는 흐름을 끊지 않는 것**이다.
+[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 모드 (Burst Mode)는 메모리나 I/O (Input/Output) 장치로부터 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한 개씩 떼어 받지 않고, 일정 길이의 블록으로 연속 전송하는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 동작 방식이다. 한 번의 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 요청으로 시작 주소, 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 종류, 전송 길이를 정하면 그 다음 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들은 주소를 매번 다시 보내지 않거나 내부적으로 자동 증가시키면서 이어서 이동한다. 즉 핵심은 **첫 전송의 준비 시간은 한 번만 치르고, 나머지는 흐름을 끊지 않는 것**이다.
 
-이 방식이 필요한 이유는 [[344_bus|버스]]가 느려서라기보다, **[[344_bus|버스]]에서 [[001_dikw_pyramid|데이터]] 외의 절차가 너무 자주 반복되면 실제 전송 시간이 잠식되기 때문**이다. 단일 전송 (Single Transfer)에서는 [[001_dikw_pyramid|데이터]] 1개마다 주소 지정, [[351_bus_arbitration|버스 중재]], 응답 대기, [[396_validation|확인]] [[130_signal|신호]]가 붙는다. 메모리 접근 [[015_지연_데이터_관점|지연]]이 큰 환경에서는 이 준비 시간이 [[001_dikw_pyramid|데이터]] 자체를 옮기는 시간보다 더 커질 수 있다.
+이 방식이 필요한 이유는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 느려서라기보다, **[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 외의 절차가 너무 자주 반복되면 실제 전송 시간이 잠식되기 때문**이다. 단일 전송 (Single Transfer)에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 1개마다 주소 지정, [버스 중재](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/351_bus_arbitration/), 응답 대기, [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 붙는다. 메모리 접근 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 큰 환경에서는 이 준비 시간이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체를 옮기는 시간보다 더 커질 수 있다.
 
-특히 캐시 미스 (Cache Miss) 처리, [[746_io_direct_memory_access_dma|DMA]] ([[318_dma|Direct Memory Access]]) 블록 복사, [[252_sdram|SDRAM]] ([[010_동기식_비동기식_전송|Synchronous]] Dynamic Random Access Memory) 연속 읽기처럼 [[001_dikw_pyramid|데이터]]가 원래 연속 주소에 놓여 있는 경우에는 [[344_bus|버스]]트 모드가 매우 잘 맞는다. CPU는 보통 1바이트가 아니라 캐시 라인 (Cache Line) 전체를 채워야 하고, 저장장치는 [[501_file_definition_logical_record|파일]] 블록을 뭉텅이로 옮긴다. 이때 매 워드마다 다시 협상하면 시스템은 [[344_bus|버스]] 위에서 말만 많고 실제 일은 적게 하게 된다.
+특히 캐시 미스 (Cache Miss) 처리, [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) ([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)) 블록 복사, [SDRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/252_sdram/) ([Synchronous](/knowledge-base/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/) Dynamic Random Access Memory) 연속 읽기처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 원래 연속 주소에 놓여 있는 경우에는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 모드가 매우 잘 맞는다. CPU는 보통 1바이트가 아니라 캐시 라인 (Cache Line) 전체를 채워야 하고, 저장장치는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 블록을 뭉텅이로 옮긴다. 이때 매 워드마다 다시 협상하면 시스템은 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 위에서 말만 많고 실제 일은 적게 하게 된다.
 
-- **📢 섹션 요약 비유**: [[344_bus|버스]]트 모드는 택배 상자를 하나씩 결제하는 것이 아니라, 한 번에 여러 상자를 카트에 담아 계산대를 한 번만 통과하는 방식과 같다. 문을 드나드는 절차가 한 번으로 줄어들수록 실제 짐을 옮기는 시간이 늘어난다.
+- **📢 섹션 요약 비유**: [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 모드는 택배 상자를 하나씩 결제하는 것이 아니라, 한 번에 여러 상자를 카트에 담아 계산대를 한 번만 통과하는 방식과 같다. 문을 드나드는 절차가 한 번으로 줄어들수록 실제 짐을 옮기는 시간이 늘어난다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[[344_bus|버스]]트 모드의 동작은 보통 **[[459_quic_fec_forward_error_correction|초기]] 준비 구간 + 연속 전송 구간**으로 나뉜다. 첫 번째 [[001_dikw_pyramid|데이터]]가 나오기 전에는 주소 해석, 행 활성화, [[344_bus|버스]] 획득 같은 준비가 필요하다. 하지만 첫 [[001_dikw_pyramid|데이터]]가 준비된 뒤에는 내부 버퍼, 주소 자동 증가, 파이프라인된 응답 덕분에 다음 [[001_dikw_pyramid|데이터]]가 매 클럭 또는 정해진 리듬에 따라 연속적으로 나온다.
+[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 모드의 동작은 보통 **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 준비 구간 + 연속 전송 구간**으로 나뉜다. 첫 번째 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 나오기 전에는 주소 해석, 행 활성화, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 획득 같은 준비가 필요하다. 하지만 첫 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 준비된 뒤에는 내부 버퍼, 주소 자동 증가, 파이프라인된 응답 덕분에 다음 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 매 클럭 또는 정해진 리듬에 따라 연속적으로 나온다.
 
-### [[344_bus|버스]]트 전송의 핵심 요소
+### [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 전송의 핵심 요소
 
 | 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
-| 시작 주소 | 첫 [[001_dikw_pyramid|데이터]] 위치 지정 | 정렬 (Alignment) 여부 |
-| [[344_bus|버스]]트 길이 (Burst Length) | 몇 개를 연속 전송할지 결정 | BL4, BL8, BL16 등 |
-| 주소 [[216_progress_in_synchronization|진행]] 방식 | 다음 주소 [[087_process_state_transition|생성]] | 순차 증가, 랩 어라운드 (Wrap Around) |
-| [[344_bus|버스]] 점유 시간 | 다른 마스터가 기다리는 시간 | 응답성·공정성 영향 |
-| 첫 단어 [[015_지연_데이터_관점|지연]] (First-word [[141_latency|Latency]]) | 첫 [[001_dikw_pyramid|데이터]]가 나오기까지의 준비 시간 | 메모리 특성과 중재 [[015_지연_데이터_관점|지연]] 반영 |
+| 시작 주소 | 첫 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위치 지정 | 정렬 (Alignment) 여부 |
+| [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 길이 (Burst Length) | 몇 개를 연속 전송할지 결정 | BL4, BL8, BL16 등 |
+| 주소 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 방식 | 다음 주소 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 순차 증가, 랩 어라운드 (Wrap Around) |
+| [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 점유 시간 | 다른 마스터가 기다리는 시간 | 응답성·공정성 영향 |
+| 첫 단어 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) (First-word [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) | 첫 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 나오기까지의 준비 시간 | 메모리 특성과 중재 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 반영 |
 
-다음 그림은 단일 전송과 [[344_bus|버스]]트 전송의 차이를 시간축으로 압축해서 보여준다. 중요한 점은 [[344_bus|버스]]트 모드가 **첫 [[001_dikw_pyramid|데이터]]는 비슷하게 늦을 수 있어도, 뒤의 [[001_dikw_pyramid|데이터]]들을 매우 싸게 가져온다**는 사실이다.
+다음 그림은 단일 전송과 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 전송의 차이를 시간축으로 압축해서 보여준다. 중요한 점은 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 모드가 **첫 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 비슷하게 늦을 수 있어도, 뒤의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들을 매우 싸게 가져온다**는 사실이다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────────────────────┐
@@ -53,29 +57,29 @@ tags:
 └──────────────────────────────────────────────────────────────────────────────┘
 ```
 
-예를 들어 64비트 [[344_bus|버스]]에서 캐시 라인 64바이트를 채운다고 가정하면, 단일 전송은 8바이트씩 8번 요청해야 한다. 반면 [[344_bus|버스]]트 길이 8의 전송이라면 첫 요청 후 8개의 워드를 연속으로 받아 한 번의 캐시 라인 필 (Fill)로 끝낼 수 있다. 그래서 메모리 계층에서는 [[344_bus|버스]]트 효율이 곧 캐시 미스 패널티를 줄이는 핵심 수단이 된다.
+예를 들어 64비트 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에서 캐시 라인 64바이트를 채운다고 가정하면, 단일 전송은 8바이트씩 8번 요청해야 한다. 반면 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 길이 8의 전송이라면 첫 요청 후 8개의 워드를 연속으로 받아 한 번의 캐시 라인 필 (Fill)로 끝낼 수 있다. 그래서 메모리 계층에서는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 효율이 곧 캐시 미스 패널티를 줄이는 핵심 수단이 된다.
 
-또한 SDRAM과 DDR ([[253_ddr_sdram|Double Data Rate]]) 계열 메모리는 내부적으로 연속 컬럼 접근을 잘 수행하도록 설계되어 있어 [[344_bus|버스]]트 모드와 궁합이 좋다. 메모리 컨트롤러는 행 (Row)을 한 번 열어 둔 상태에서 여러 컬럼 [[001_dikw_pyramid|데이터]]를 이어 읽어 오기 때문에, 랜덤 접근보다 연속 접근에서 훨씬 높은 유효 [[140_bandwidth|대역폭]]을 얻는다.
+또한 SDRAM과 DDR ([Double Data Rate](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/253_ddr_sdram/)) 계열 메모리는 내부적으로 연속 컬럼 접근을 잘 수행하도록 설계되어 있어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 모드와 궁합이 좋다. 메모리 컨트롤러는 행 (Row)을 한 번 열어 둔 상태에서 여러 컬럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 이어 읽어 오기 때문에, 랜덤 접근보다 연속 접근에서 훨씬 높은 유효 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 얻는다.
 
-- **📢 섹션 요약 비유**: [[344_bus|버스]]트 모드는 수도관을 연결할 때 첫 연결은 시간이 걸리지만, 한 번 연결되면 물이 컵마다 끊기지 않고 계속 나오는 것과 같다. 연결 작업을 반복하지 않을수록 실제 물 받는 속도가 빨라진다.
+- **📢 섹션 요약 비유**: [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 모드는 수도관을 연결할 때 첫 연결은 시간이 걸리지만, 한 번 연결되면 물이 컵마다 끊기지 않고 계속 나오는 것과 같다. 연결 작업을 반복하지 않을수록 실제 물 받는 속도가 빨라진다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-[[344_bus|버스]]트 모드를 제대로 이해하려면 단일 전송과 [[451_cycle_stealing|사이클 스틸링]] ([[451_cycle_stealing|Cycle Stealing]])을 함께 봐야 한다. 세 방식의 차이는 단순 속도 우열이 아니라, **[[344_bus|버스]]를 얼마나 오래 쥐고 있는지와 그 대가를 누가 치르는지**에 있다.
+[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 모드를 제대로 이해하려면 단일 전송과 [사이클 스틸링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/451_cycle_stealing/) ([Cycle Stealing](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/451_cycle_stealing/))을 함께 봐야 한다. 세 방식의 차이는 단순 속도 우열이 아니라, **[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 얼마나 오래 쥐고 있는지와 그 대가를 누가 치르는지**에 있다.
 
-| 항목 | 단일 전송 | [[451_cycle_stealing|사이클 스틸링]] ([[451_cycle_stealing|Cycle Stealing]]) | [[344_bus|버스]]트 모드 (Burst Mode) |
+| 항목 | 단일 전송 | [사이클 스틸링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/451_cycle_stealing/) ([Cycle Stealing](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/451_cycle_stealing/)) | [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 모드 (Burst Mode) |
 | :--- | :--- | :--- | :--- |
 | 전송 단위 | 1워드 중심 | 1워드씩 끊어서 전송 | 여러 워드를 연속 전송 |
-| [[344_bus|버스]] 점유 | 매우 짧음 | 짧지만 빈번함 | 길지만 효율적 |
-| CPU 영향 | 작음 | 미세한 [[015_지연_데이터_관점|지연]] 반복 | 길게 대기할 수 있음 |
-| 유효 [[140_bandwidth|대역폭]] | 낮음 | 중간 | 높음 |
-| 적합 상황 | 소량 제어 [[001_dikw_pyramid|데이터]] | 실시간 장치와 공존 | 대용량 연속 [[001_dikw_pyramid|데이터]] |
+| [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 점유 | 매우 짧음 | 짧지만 빈번함 | 길지만 효율적 |
+| CPU 영향 | 작음 | 미세한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 반복 | 길게 대기할 수 있음 |
+| 유효 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) | 낮음 | 중간 | 높음 |
+| 적합 상황 | 소량 제어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 실시간 장치와 공존 | 대용량 연속 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 
-단일 전송은 가장 단순하지만 준비 오버헤드를 줄이지 못한다. [[451_cycle_stealing|사이클 스틸링]]은 DMA가 CPU 사이에 끼어들어 한 번에 작은 단위만 가져가므로 응답성은 좋지만, 긴 블록 전송에서는 총 오버헤드가 다시 커진다. 반대로 [[344_bus|버스]]트 모드는 연속 전송 효율이 뛰어나지만 CPU나 다른 [[344_bus|버스]] 마스터에게는 긴 대기 시간을 강요할 수 있다.
+단일 전송은 가장 단순하지만 준비 오버헤드를 줄이지 못한다. [사이클 스틸링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/451_cycle_stealing/)은 DMA가 CPU 사이에 끼어들어 한 번에 작은 단위만 가져가므로 응답성은 좋지만, 긴 블록 전송에서는 총 오버헤드가 다시 커진다. 반대로 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 모드는 연속 전송 효율이 뛰어나지만 CPU나 다른 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 마스터에게는 긴 대기 시간을 강요할 수 있다.
 
-이 차이는 다른 개념과도 바로 연결된다. 캐시 라인, [[248_spatial_locality|공간적 지역성]] ([[248_spatial_locality|Spatial Locality]]), [[254_memory_interleaving|메모리 인터리빙]], [[252_sdram|SDRAM]] [[344_bus|버스]]트 길이, AXI (Advanced eXtensible Interface) [[344_bus|버스]]트 같은 개념은 모두 **연속 주소를 한 번에 다루면 시스템이 더 효율적이다**라는 같은 철학 위에 있다. 결국 [[344_bus|버스]]트 모드는 단독 기술이 아니라, 메모리 계층 최적화와 [[344_bus|버스]] [[295_protocol_field_tcp_udp_icmp|프로토콜]] 설계 전반을 관통하는 기본 [[268_strategy_pattern|전략]]이다.
+이 차이는 다른 개념과도 바로 연결된다. 캐시 라인, [공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/) ([Spatial Locality](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/)), [메모리 인터리빙](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/254_memory_interleaving/), [SDRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/252_sdram/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 길이, AXI (Advanced eXtensible Interface) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 같은 개념은 모두 **연속 주소를 한 번에 다루면 시스템이 더 효율적이다**라는 같은 철학 위에 있다. 결국 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 모드는 단독 기술이 아니라, 메모리 계층 최적화와 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 설계 전반을 관통하는 기본 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 
 ```text
 연속 데이터 존재
@@ -93,33 +97,33 @@ tags:
 유효 대역폭 증가 · 미스 패널티 완화
 ```
 
-- **📢 섹션 요약 비유**: 단일 전송은 손님 한 명씩 엘리베이터를 태우는 것이고, [[451_cycle_stealing|사이클 스틸링]]은 틈날 때 한 명씩 끼워 태우는 것이며, [[344_bus|버스]]트 모드는 같은 층으로 갈 사람들을 한 번에 태워 올리는 것이다. 목적지가 비슷할수록 한 번에 움직이는 편이 더 이득이다.
+- **📢 섹션 요약 비유**: 단일 전송은 손님 한 명씩 엘리베이터를 태우는 것이고, [사이클 스틸링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/451_cycle_stealing/)은 틈날 때 한 명씩 끼워 태우는 것이며, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 모드는 같은 층으로 갈 사람들을 한 번에 태워 올리는 것이다. 목적지가 비슷할수록 한 번에 움직이는 편이 더 이득이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 [[344_bus|버스]]트 모드는 "지원하느냐"보다 **어떤 길이와 정책으로 쓰느냐**가 더 중요하다. 저장장치 [[746_io_direct_memory_access_dma|DMA]], 그래픽 프레임 버퍼 전송, 메모리 컨트롤러의 캐시 라인 필처럼 큰 블록을 다룰 때는 [[344_bus|버스]]트 모드가 거의 필수다. 반대로 키보드, 센서, 제어 레지스터처럼 짧고 불규칙한 [[001_dikw_pyramid|데이터]]는 [[344_bus|버스]]트 이득이 작고, 오히려 긴 [[344_bus|버스]] 점유가 응답성을 해칠 수 있다.
+실무에서 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 모드는 "지원하느냐"보다 **어떤 길이와 정책으로 쓰느냐**가 더 중요하다. 저장장치 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/), 그래픽 프레임 버퍼 전송, 메모리 컨트롤러의 캐시 라인 필처럼 큰 블록을 다룰 때는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 모드가 거의 필수다. 반대로 키보드, 센서, 제어 레지스터처럼 짧고 불규칙한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 이득이 작고, 오히려 긴 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 점유가 응답성을 해칠 수 있다.
 
 ### 기술사 관점의 판단 기준
 
-1. **[[001_dikw_pyramid|데이터]]가 연속적인가?** 연속 주소가 보장될수록 [[344_bus|버스]]트 효율이 높다.
-2. **전송량이 충분히 큰가?** 너무 짧으면 [[009_config|설정]] 오버헤드 절감 효과가 제한적이다.
-3. **CPU [[015_지연_데이터_관점|지연]]을 감당할 수 있는가?** 긴 [[344_bus|버스]]트는 다른 마스터를 기다리게 만든다.
-4. **공정성 정책이 있는가?** 우선순위, 최대 [[344_bus|버스]]트 길이, 선점 가능성이 필요하다.
-5. **캐시·메모리 구조와 맞는가?** 캐시 라인 크기, 메모리 뱅크 구조, [[344_bus|버스]] 폭과 함께 봐야 한다.
+1. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 연속적인가?** 연속 주소가 보장될수록 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 효율이 높다.
+2. **전송량이 충분히 큰가?** 너무 짧으면 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 오버헤드 절감 효과가 제한적이다.
+3. **CPU [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 감당할 수 있는가?** 긴 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트는 다른 마스터를 기다리게 만든다.
+4. **공정성 정책이 있는가?** 우선순위, 최대 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 길이, 선점 가능성이 필요하다.
+5. **캐시·메모리 구조와 맞는가?** 캐시 라인 크기, 메모리 뱅크 구조, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 폭과 함께 봐야 한다.
 
 ### 대표 시나리오
 
-- **캐시 미스 처리**: CPU가 필요한 [[001_dikw_pyramid|데이터]] 8바이트만 요청하지 않고 64바이트 캐시 라인을 통째로 가져와 이후 접근을 대비한다.
-- **[[746_io_direct_memory_access_dma|DMA]] 블록 전송**: [[327_ssd|SSD]] ([[327_ssd|Solid State Drive]])나 [[587_nic_offloading|NIC]] (Network Interface Card)가 수 KB~수 MB 블록을 메모리에 밀어 넣을 때 전송당 오버헤드를 줄인다.
-- **메모리 컨트롤러 최적화**: 순차 접근 스트림에서는 [[344_bus|버스]]트 길이를 늘려 유효 [[140_bandwidth|대역폭]]을 높이고, 혼합 워크로드에서는 최대 길이를 제한해 [[015_지연_데이터_관점|지연]]을 관리한다.
+- **캐시 미스 처리**: CPU가 필요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 8바이트만 요청하지 않고 64바이트 캐시 라인을 통째로 가져와 이후 접근을 대비한다.
+- **[DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 블록 전송**: [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ([Solid State Drive](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))나 [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) (Network Interface Card)가 수 KB~수 MB 블록을 메모리에 밀어 넣을 때 전송당 오버헤드를 줄인다.
+- **메모리 컨트롤러 최적화**: 순차 접근 스트림에서는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 길이를 늘려 유효 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 높이고, 혼합 워크로드에서는 최대 길이를 제한해 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 관리한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 랜덤 접근이 많은 자료구조에 [[344_bus|버스]]트 효율을 과신하는 설계
-- 장치 [[015_지연_데이터_관점|지연]] 요구를 무시하고 지나치게 긴 [[344_bus|버스]]트만 허용하는 설계
-- 캐시 라인·정렬 조건을 고려하지 않아 여러 [[344_bus|버스]]트로 쪼개지는 설계
+- 랜덤 접근이 많은 자료구조에 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 효율을 과신하는 설계
+- 장치 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 요구를 무시하고 지나치게 긴 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트만 허용하는 설계
+- 캐시 라인·정렬 조건을 고려하지 않아 여러 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트로 쪼개지는 설계
 
 ```text
 ┌──────────────────────────────────────────────────────────────────────────────┐
@@ -133,21 +137,21 @@ tags:
 └──────────────────────────────────────────────────────────────────────────────┘
 ```
 
-따라서 답안에서는 "[[344_bus|버스]]트 모드는 빠르다"에서 멈추면 부족하다. **연속성·[[140_bandwidth|대역폭]]·[[015_지연_데이터_관점|지연]]·공정성의 교환 관계를 설명하고, 대용량 전송에는 채택하되 실시간 응답이 중요한 구간에서는 길이를 제어해야 한다**고 말해야 설계 판단이 된다.
+따라서 답안에서는 "[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 모드는 빠르다"에서 멈추면 부족하다. **연속성·[대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)·[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)·공정성의 교환 관계를 설명하고, 대용량 전송에는 채택하되 실시간 응답이 중요한 구간에서는 길이를 제어해야 한다**고 말해야 설계 판단이 된다.
 
-- **📢 섹션 요약 비유**: [[344_bus|버스]]트 모드는 고속도로에 화물차를 한 번에 여러 대 통과시키는 것과 같다. 물류량은 빨리 처리되지만, 너무 오래 막아 두면 뒤차들이 답답해지므로 통행량과 [[130_signal|신호]] 시간을 같이 조절해야 한다.
+- **📢 섹션 요약 비유**: [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 모드는 고속도로에 화물차를 한 번에 여러 대 통과시키는 것과 같다. 물류량은 빨리 처리되지만, 너무 오래 막아 두면 뒤차들이 답답해지므로 통행량과 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 시간을 같이 조절해야 한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[[344_bus|버스]]트 모드의 가장 큰 효과는 같은 하드웨어 자원으로 **실효 처리량을 끌어올린다**는 점이다. 주소 지정과 중재를 반복하지 않으므로 [[344_bus|버스]]가 실제 [[001_dikw_pyramid|데이터]]를 싣는 비율이 높아지고, 캐시 라인 필·메모리 스트리밍·대용량 DMA에서 [[282_performance_tactics|성능]] 향상이 뚜렷해진다. 특히 메모리 계층에서는 첫 단어 [[015_지연_데이터_관점|지연]]보다 이후 연속 워드의 저비용 전송이 전체 체감 [[282_performance_tactics|성능]]을 좌우한다.
+[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 모드의 가장 큰 효과는 같은 하드웨어 자원으로 **실효 처리량을 끌어올린다**는 점이다. 주소 지정과 중재를 반복하지 않으므로 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 싣는 비율이 높아지고, 캐시 라인 필·메모리 스트리밍·대용량 DMA에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상이 뚜렷해진다. 특히 메모리 계층에서는 첫 단어 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)보다 이후 연속 워드의 저비용 전송이 전체 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 좌우한다.
 
-하지만 모든 상황에서 긴 [[344_bus|버스]]트가 정답은 아니다. [[001_dikw_pyramid|데이터]]가 흩어져 있거나 [[015_지연_데이터_관점|지연]] 민감한 장치가 많으면 [[344_bus|버스]]트 독점이 전체 품질을 떨어뜨릴 수 있다. 그래서 현대 [[344_bus|버스]]와 메모리 인터페이스는 최대 길이 제한, 우선순위 제어, 분할 [[191_transaction_concept_states|트랜잭션]], 다중 큐 같은 장치로 [[344_bus|버스]]트의 장점은 살리고 부작용은 줄이는 방향으로 발전했다.
+하지만 모든 상황에서 긴 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트가 정답은 아니다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 흩어져 있거나 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 민감한 장치가 많으면 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 독점이 전체 품질을 떨어뜨릴 수 있다. 그래서 현대 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)와 메모리 인터페이스는 최대 길이 제한, 우선순위 제어, 분할 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/), 다중 큐 같은 장치로 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트의 장점은 살리고 부작용은 줄이는 방향으로 발전했다.
 
-결국 [[344_bus|버스]]트 모드는 "연속 [[001_dikw_pyramid|데이터]]는 묶어서 다뤄야 한다"는 컴퓨터 구조의 실용적 교훈이다. 기억할 핵심은 **첫 준비 비용을 여러 [[001_dikw_pyramid|데이터]]가 나눠 갖게 만드는 [[268_strategy_pattern|전략]]**이라는 점이며, 이 [[268_strategy_pattern|전략]]이 캐시·[[746_io_direct_memory_access_dma|DMA]]·[[252_sdram|SDRAM]]·고속 인터커넥트까지 넓게 이어진다.
+결국 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 모드는 "연속 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 묶어서 다뤄야 한다"는 컴퓨터 구조의 실용적 교훈이다. 기억할 핵심은 **첫 준비 비용을 여러 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 나눠 갖게 만드는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**이라는 점이며, 이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 캐시·[DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/)·[SDRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/252_sdram/)·고속 인터커넥트까지 넓게 이어진다.
 
-- **📢 섹션 요약 비유**: [[344_bus|버스]]트 모드는 [[344_bus|버스]]를 한 번 전세 내서 여러 사람을 함께 태우는 방식과 같다. 자리가 꽉 찰수록 효율은 좋아지지만, 다른 승객의 기다림까지 고려해야 진짜 좋은 운행이 된다.
+- **📢 섹션 요약 비유**: [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 모드는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 한 번 전세 내서 여러 사람을 함께 태우는 방식과 같다. 자리가 꽉 찰수록 효율은 좋아지지만, 다른 승객의 기다림까지 고려해야 진짜 좋은 운행이 된다.
 
 ---
 
@@ -155,12 +159,12 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[746_io_direct_memory_access_dma|DMA]] ([[318_dma|Direct Memory Access]]) | 대용량 블록 전송 시 [[344_bus|버스]]트 모드를 대표적으로 활용하는 주체 |
-| [[451_cycle_stealing|사이클 스틸링]] ([[451_cycle_stealing|Cycle Stealing]]) | [[344_bus|버스]]트 모드와 대비되는 [[746_io_direct_memory_access_dma|DMA]] [[344_bus|버스]] 점유 방식 |
-| 캐시 라인 (Cache Line) | [[344_bus|버스]]트 모드가 실제로 채우는 대표 전송 단위 |
-| [[248_spatial_locality|공간적 지역성]] ([[248_spatial_locality|Spatial Locality]]) | 연속 [[001_dikw_pyramid|데이터]]를 한 번에 가져와도 낭비가 적은 이유 |
-| [[252_sdram|SDRAM]] ([[010_동기식_비동기식_전송|Synchronous]] Dynamic Random Access Memory) | 연속 컬럼 접근과 [[344_bus|버스]]트 길이 개념을 제공하는 메모리 |
-| AXI (Advanced eXtensible Interface) [[344_bus|버스]]트 | 현대 [[131_soc|SoC]] ([[131_soc|System on Chip]]) [[344_bus|버스]]에서 [[344_bus|버스]]트 개념이 확장된 형태 |
+| [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) ([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)) | 대용량 블록 전송 시 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 모드를 대표적으로 활용하는 주체 |
+| [사이클 스틸링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/451_cycle_stealing/) ([Cycle Stealing](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/451_cycle_stealing/)) | [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 모드와 대비되는 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 점유 방식 |
+| 캐시 라인 (Cache Line) | [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 모드가 실제로 채우는 대표 전송 단위 |
+| [공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/) ([Spatial Locality](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/)) | 연속 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한 번에 가져와도 낭비가 적은 이유 |
+| [SDRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/252_sdram/) ([Synchronous](/knowledge-base/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/) Dynamic Random Access Memory) | 연속 컬럼 접근과 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 길이 개념을 제공하는 메모리 |
+| AXI (Advanced eXtensible Interface) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 | 현대 [SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) ([System on Chip](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/)) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에서 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 개념이 확장된 형태 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -181,11 +185,11 @@ DMA (Direct Memory Access) · 블록 전송 요구
 AXI (Advanced eXtensible Interface) 버스트 · 고속 인터커넥트 최적화
 ```
 
-이 흐름은 "한 개씩 옮기기 → 블록으로 묶기 → 메모리/[[344_bus|버스]] [[295_protocol_field_tcp_udp_icmp|프로토콜]] 차원의 정교한 연속 전송"으로 개념이 발전하는 과정을 보여준다.
+이 흐름은 "한 개씩 옮기기 → 블록으로 묶기 → 메모리/[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 차원의 정교한 연속 전송"으로 개념이 발전하는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [[344_bus|버스]]트 모드는 사탕을 한 알씩 받는 대신, 봉지째 한 번에 받는 방법이에요.
+1. [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 모드는 사탕을 한 알씩 받는 대신, 봉지째 한 번에 받는 방법이에요.
 2. 처음 봉지를 여는 데는 조금 시간이 걸리지만, 그다음에는 사탕이 계속 나와서 훨씬 빨라요.
 3. 다만 한 사람이 너무 오래 많이 가져가면 다른 친구들이 기다려야 하니까, 얼마나 많이 한 번에 줄지도 같이 정해야 해요.
 
@@ -195,7 +199,7 @@ AXI (Advanced eXtensible Interface) 버스트 · 고속 인터커넥트 최적�
 
 **진행 상황**: 321 / 803
 
-← **이전**: [[319_cycle_stealing|319. 사이클 스틸링 (Cycle Stealing)]]
-**다음**: [[321_iop_channel|321. IOP (I/O Processor / Channel)]] →
+← **이전**: [319. 사이클 스틸링 (Cycle Stealing)](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/319_cycle_stealing/)
+**다음**: [321. IOP (I/O Processor / Channel)](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/321_iop_channel/) →
 
 ---

@@ -1,18 +1,22 @@
----
-title: 040. 순수 관계 연산자 (Pure Relational Operators) — σ, π, ⋈, ÷
-date: '2026-03-19'
-tags:
-- studynote-database
----
++++
+title = "040. 순수 관계 연산자 (Pure Relational Operators) — σ, π, ⋈, ÷"
+date = 2026-03-19
+
+[taxonomies]
+tags = ["studynote-database"]
+
+[extra]
+tags = ["studynote-database"]
++++
 
 > **핵심 인사이트**
-> 1. 순수 [[083_relationship_in_er_model|관계]] 연산자(Pure Relational Operators)는 [[038_relational_algebra|관계 대수]]([[038_relational_algebra|Relational Algebra]])에서 [[083_relationship_in_er_model|관계]]형 모델 고유의 셀렉트(σ)·프로젝트(π)·조인(⋈)·[[411_division_operation|디비전]](÷) 4가지 연산자로, SQL SELECT의 WHERE/FROM/[[521_join|JOIN]] 등 모든 절이 이 연산자들을 조합한 것이다.
-> 2. 조인(⋈)은 두 [[061_relation_schema_instance|릴레이션]]의 카테시안 곱([[412_cartesian_product|Cartesian Product]]) + 셀렉트의 합성으로 실질적으로 가장 비용이 큰 연산이며, [[502_dbms|DBMS]] [[163_optimizer_sql_execution_plan_generator|옵티마이저]]의 핵심 과제는 어떤 [[176_join_order_optimization|조인 순서]]([[176_join_order_optimization|Join Order]])와 [[001_algorithm_definition|알고리즘]](NL/Hash/Merge)을 선택하느냐다.
-> 3. [[411_division_operation|디비전]](÷)은 "모든 B에 대해 A가 포함하는 [[063_relation_tuple_cardinality|튜플]]"을 찾는 연산으로 SQL에 직접 문법이 없어 이중 NOT [[435_exists_boolean_fast_search|EXISTS]] 서브쿼리로 구현하며, [[038_relational_algebra|관계 대수]] 완전성(Relational Completeness)을 보장하는 마지막 핵심 연산이다.
+> 1. 순수 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 연산자(Pure Relational Operators)는 [관계 대수](/knowledge-base/studynote/05_database/01_db_architecture_relational/038_relational_algebra/)([Relational Algebra](/knowledge-base/studynote/05_database/01_db_architecture_relational/038_relational_algebra/))에서 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 모델 고유의 셀렉트(σ)·프로젝트(π)·조인(⋈)·[디비전](/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/)(÷) 4가지 연산자로, SQL SELECT의 WHERE/FROM/[JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 등 모든 절이 이 연산자들을 조합한 것이다.
+> 2. 조인(⋈)은 두 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)의 카테시안 곱([Cartesian Product](/knowledge-base/studynote/05_database/07_exam_summary/412_cartesian_product/)) + 셀렉트의 합성으로 실질적으로 가장 비용이 큰 연산이며, [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)의 핵심 과제는 어떤 [조인 순서](/knowledge-base/studynote/05_database/03_relational_model/176_join_order_optimization/)([Join Order](/knowledge-base/studynote/05_database/03_relational_model/176_join_order_optimization/))와 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(NL/Hash/Merge)을 선택하느냐다.
+> 3. [디비전](/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/)(÷)은 "모든 B에 대해 A가 포함하는 [튜플](/knowledge-base/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/)"을 찾는 연산으로 SQL에 직접 문법이 없어 이중 NOT [EXISTS](/knowledge-base/studynote/05_database/07_exam_summary/435_exists_boolean_fast_search/) 서브쿼리로 구현하며, [관계 대수](/knowledge-base/studynote/05_database/01_db_architecture_relational/038_relational_algebra/) 완전성(Relational Completeness)을 보장하는 마지막 핵심 연산이다.
 
 ---
 
-## Ⅰ. 셀렉트 (σ, [[520_select|Select]])
+## Ⅰ. 셀렉트 (σ, [Select](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/))
 
 ```
 σ (Sigma, 셀렉트):
@@ -34,11 +38,11 @@ SQL 대응: WHERE 절
   - 조건: 비교 연산(=, <, >, ≤, ≥, ≠) + 논리(AND, OR, NOT)
 ```
 
-> 📢 **섹션 요약 비유**: σ(셀렉트)는 [[001_dikw_pyramid|데이터]] 테이블의 행 필터기 — 체를 통과하는 입자처럼 조건에 맞는 행만 아래로 내려옴.
+> 📢 **섹션 요약 비유**: σ(셀렉트)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 테이블의 행 필터기 — 체를 통과하는 입자처럼 조건에 맞는 행만 아래로 내려옴.
 
 ---
 
-## Ⅱ. 프로젝트 (π, [[042_relational_algebra_project|Project]])
+## Ⅱ. 프로젝트 (π, [Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/))
 
 ```
 π (Pi, 프로젝트):
@@ -68,7 +72,7 @@ SQL 대응: SELECT 절의 컬럼 목록
 
 ---
 
-## Ⅲ. 조인 (⋈, [[521_join|Join]])
+## Ⅲ. 조인 (⋈, [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))
 
 ```
 조인 (Join, ⋈):
@@ -104,7 +108,7 @@ SQL 대응: SELECT 절의 컬럼 목록
 
 ---
 
-## Ⅳ. [[411_division_operation|디비전]] (÷, [[411_division_operation|Division]])
+## Ⅳ. [디비전](/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/) (÷, [Division](/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/))
 
 ```
 디비전 (Division, ÷):
@@ -136,11 +140,11 @@ SQL 구현 (이중 NOT EXISTS):
   - "모든 과목 합격한 수험생"
 ```
 
-> 📢 **섹션 요약 비유**: [[411_division_operation|디비전]]은 "모든 선생님의 수업을 들은 학생 찾기" — 단 한 선생님이라도 빠지면 제외.
+> 📢 **섹션 요약 비유**: [디비전](/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/)은 "모든 선생님의 수업을 들은 학생 찾기" — 단 한 선생님이라도 빠지면 제외.
 
 ---
 
-## Ⅴ. 실무 시나리오 — [[298_qkv_attention|쿼리]] 최적화
+## Ⅴ. 실무 시나리오 — [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화
 
 ```
 쿼리 최적화 관점의 관계 연산 순서:
@@ -166,7 +170,7 @@ SQL 구현 (이중 NOT EXISTS):
 결과: 수백 배 성능 차이 가능
 ```
 
-> 📢 **섹션 요약 비유**: [[298_qkv_attention|쿼리]] 최적화는 요리 순서 최적화 — 재료를 먼저 손질(필터)하고 조리(조인)하면 전체 시간이 훨씬 단축.
+> 📢 **섹션 요약 비유**: [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화는 요리 순서 최적화 — 재료를 먼저 손질(필터)하고 조리(조인)하면 전체 시간이 훨씬 단축.
 
 ---
 
@@ -222,7 +226,7 @@ AI 기반 쿼리 최적화 연구
 
 1. σ(셀렉트)는 "키가 170cm 이상인 학생만 골라줘", π(프로젝트)는 "이름과 학년 열만 보여줘"처럼 테이블을 필터링하는 방법이에요.
 2. ⋈(조인)은 두 가지 목록을 공통된 번호(학번 등)로 이어 붙여서 하나의 큰 표를 만드는 것 — 학생 명단과 성적표를 합치기처럼요.
-3. ÷([[411_division_operation|디비전]])은 "모든 조건을 다 만족한 것만 찾기" — 예를 들어 모든 과목 시험에 다 응시한 학생만 찾을 때 사용해요!
+3. ÷([디비전](/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/))은 "모든 조건을 다 만족한 것만 찾기" — 예를 들어 모든 과목 시험에 다 응시한 학생만 찾을 때 사용해요!
 
 ---
 
@@ -230,7 +234,7 @@ AI 기반 쿼리 최적화 연구
 
 **진행 상황**: 40 / 600
 
-← **이전**: [[039_general_set_operators|039. 일반 집합 연산 (General Set Operators)]]
-**다음**: [[041_select_operator|041. 셀렉트 연산자 (Select Operator, σ) — 수평적 부분집합]] →
+← **이전**: [039. 일반 집합 연산 (General Set Operators)](/knowledge-base/studynote/05_database/01_db_architecture_relational/039_general_set_operators/)
+**다음**: [041. 셀렉트 연산자 (Select Operator, σ) — 수평적 부분집합](/knowledge-base/studynote/05_database/01_db_architecture_relational/041_select_operator/) →
 
 ---

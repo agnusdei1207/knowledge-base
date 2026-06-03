@@ -1,27 +1,31 @@
----
-title: 162. 직선 가시거리 통신 (LOS, Line-of-Sight)
-date: '2026-05-05'
-tags:
-- studynote-network
----
++++
+title = "162. 직선 가시거리 통신 (LOS, Line-of-Sight)"
+date = 2026-05-05
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: LOS (Line-of-Sight) 통신은 송신기와 수신기 사이에 직접 경로가 확보되어 고주파 전파가 큰 차폐 없이 전달되는 통신 조건이다.
-> 2. **가치**: LOS가 확보되면 [[154_radio_wave_classification|마이크로파]] [[1009_backhaul_network_base_station_core_connection|백홀]], 위성 링크, [[418_5g_embb_urllc_mmtc_slicing|5G]] [[156_mmwave_millimeter_wave|밀리미터파]]처럼 직진성이 강한 무선 시스템에서 높은 품질과 큰 용량을 안정적으로 얻을 수 있다.
-> 3. **판단 포인트**: LOS 판단은 단순히 눈에 보이느냐가 아니라 지구 곡률, 전파 굴절, 프레넬 존 ([[165_fresnel_zone_clearance|Fresnel Zone]]) 여유까지 포함해 검토해야 한다.
+> 2. **가치**: LOS가 확보되면 [마이크로파](/knowledge-base/studynote/03_network/03_physical_layer_media/154_radio_wave_classification/) [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/), 위성 링크, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [밀리미터파](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/)처럼 직진성이 강한 무선 시스템에서 높은 품질과 큰 용량을 안정적으로 얻을 수 있다.
+> 3. **판단 포인트**: LOS 판단은 단순히 눈에 보이느냐가 아니라 지구 곡률, 전파 굴절, 프레넬 존 ([Fresnel Zone](/knowledge-base/studynote/03_network/03_physical_layer_media/165_fresnel_zone_clearance/)) 여유까지 포함해 검토해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-직선 가시거리 통신은 송신 [[171_antenna_basic_dipole_resonance|안테나]]와 수신 [[171_antenna_basic_dipole_resonance|안테나]] 사이의 직접 경로가 열려 있어, 전파가 주요 에너지를 장애물에 막히지 않고 전달하는 방식이다. 특히 주파수가 높아질수록 회절이 약해지고 직진성이 강해지므로, LOS는 단순한 편의 조건이 아니라 링크 성립의 전제가 된다. 즉 LOS는 "잘 보이면 더 좋다" 수준이 아니라, 고주파 무선망에서 아예 통신 가능 여부를 가르는 기준이다.
+직선 가시거리 통신은 송신 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)와 수신 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 사이의 직접 경로가 열려 있어, 전파가 주요 에너지를 장애물에 막히지 않고 전달하는 방식이다. 특히 주파수가 높아질수록 회절이 약해지고 직진성이 강해지므로, LOS는 단순한 편의 조건이 아니라 링크 성립의 전제가 된다. 즉 LOS는 "잘 보이면 더 좋다" 수준이 아니라, 고주파 무선망에서 아예 통신 가능 여부를 가르는 기준이다.
 
-이 개념이 중요한 이유는 현대 무선 시스템의 [[140_bandwidth|대역폭]] 확대가 대부분 고주파 활용과 함께 진행되기 때문이다. [[154_radio_wave_classification|마이크로파]] 중계, 위성, 무선 [[1009_backhaul_network_base_station_core_connection|백홀]], [[418_5g_embb_urllc_mmtc_slicing|5G]] [[156_mmwave_millimeter_wave|밀리미터파]]는 넓은 채널 폭과 높은 [[171_antenna_basic_dipole_resonance|안테나]] 이득을 얻는 대신, 장애물과 곡률에 훨씬 민감해진다. 그래서 건물 하나, 언덕 하나, 심지어 프레넬 존을 침범하는 나무 한 줄도 [[090_service_kubernetes_network_load_balancing|서비스]] 품질을 크게 떨어뜨릴 수 있다.
+이 개념이 중요한 이유는 현대 무선 시스템의 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 확대가 대부분 고주파 활용과 함께 진행되기 때문이다. [마이크로파](/knowledge-base/studynote/03_network/03_physical_layer_media/154_radio_wave_classification/) 중계, 위성, 무선 [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/), [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [밀리미터파](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/)는 넓은 채널 폭과 높은 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 이득을 얻는 대신, 장애물과 곡률에 훨씬 민감해진다. 그래서 건물 하나, 언덕 하나, 심지어 프레넬 존을 침범하는 나무 한 줄도 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질을 크게 떨어뜨릴 수 있다.
 
 LOS를 무시하면 설계는 쉽게 낙관적으로 흐른다. 지도상 거리만 보고 링크를 잡았다가 실제 현장에서 건물 그림자, 지형 차폐, 계절별 수목 성장, 강우 감쇠 때문에 품질이 무너질 수 있다. 따라서 LOS는 물리계층 설계에서 가장 먼저 확인해야 하는 공간 제약 조건이다.
 
-- **📢 섹션 요약 비유**: LOS는 두 사람이 레이저 포인터로 [[130_signal|신호]]를 주고받는 것과 같다. 사이에 벽이 끼면 말을 크게 하는 것으로 해결되지 않고, 먼저 시야부터 열어야 한다.
+- **📢 섹션 요약 비유**: LOS는 두 사람이 레이저 포인터로 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 주고받는 것과 같다. 사이에 벽이 끼면 말을 크게 하는 것으로 해결되지 않고, 먼저 시야부터 열어야 한다.
 
 ---
 
@@ -35,8 +39,8 @@ LOS의 핵심은 단순한 직선 하나가 아니라, 직접 경로 주변의 �
 | :--- | :--- | :--- |
 | 직접 경로 | 송신기와 수신기 사이의 최단 전파 경로 | 건물·산·수목 차폐 여부 |
 | 프레넬 존 | 직접 경로 주변의 에너지 분포 영역 | 일반적으로 1차 존의 60% 이상 확보 권장 |
-| 전파적 지평선 | 지구 곡률과 대기 굴절을 반영한 실제 도달 한계 | [[171_antenna_basic_dipole_resonance|안테나]] 높이와 링크 거리 검토 |
-| [[171_antenna_basic_dipole_resonance|안테나]] 정렬 | 지향성 [[171_antenna_basic_dipole_resonance|안테나]]가 정확히 마주 보는 상태 | 빔폭, 기울기, 흔들림 관리 |
+| 전파적 지평선 | 지구 곡률과 대기 굴절을 반영한 실제 도달 한계 | [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 높이와 링크 거리 검토 |
+| [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 정렬 | 지향성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 정확히 마주 보는 상태 | 빔폭, 기울기, 흔들림 관리 |
 
 아래 그림은 LOS가 "보이는 직선"보다 넓은 개념임을 보여 준다.
 
@@ -58,7 +62,7 @@ LOS의 핵심은 단순한 직선 하나가 아니라, 직접 경로 주변의 �
 
 이 그림의 핵심은 장애물이 직접 경로를 완전히 가리지 않아도 손실이 커질 수 있다는 점이다. 프레넬 존을 침범하면 회절 손실과 다중 경로 왜곡이 증가하므로, 실제 링크 품질은 급격히 나빠질 수 있다. 그래서 실무에서는 단순히 "보인다"가 아니라, "프레넬 존까지 충분히 비어 있다"를 기준으로 본다.
 
-전파적 가시거리 계산도 중요하다. [[171_antenna_basic_dipole_resonance|안테나]] 높이가 각각 h1, h2 미터일 때 전파적 지평선은 대략 `d ≈ 4.12(√h1 + √h2)` km로 잡아 설계하며, 이 값은 대기 굴절을 반영한 근사치다. 즉 LOS는 감각적 개념이 아니라, 높이·거리·주파수·장애물 여유를 수치로 확인하는 공학적 개념이다.
+전파적 가시거리 계산도 중요하다. [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 높이가 각각 h1, h2 미터일 때 전파적 지평선은 대략 `d ≈ 4.12(√h1 + √h2)` km로 잡아 설계하며, 이 값은 대기 굴절을 반영한 근사치다. 즉 LOS는 감각적 개념이 아니라, 높이·거리·주파수·장애물 여유를 수치로 확인하는 공학적 개념이다.
 
 - **📢 섹션 요약 비유**: LOS 설계는 단순히 두 지점을 실로 잇는 일이 아니라, 그 실 주위에 풍선이 지나갈 공간까지 남겨 두는 일과 같다. 실만 안 닿으면 된다고 생각하면 실제로는 자꾸 걸린다.
 
@@ -66,18 +70,18 @@ LOS의 핵심은 단순한 직선 하나가 아니라, 직접 경로 주변의 �
 
 ## Ⅲ. 비교 및 연결
 
-LOS를 이해하려면 광학적 가시거리, 전파적 가시거리, 그리고 NLOS (Non-Line-of-Sight) 통신을 함께 봐야 한다. 광학적 가시거리는 사람이 보이는 직선 시야이고, 전파적 가시거리는 대기 굴절을 고려한 전파 경로 기준이다. NLOS는 직접 경로가 없더라도 반사·회절·[[164_scattering_reflection_radio_waves|산란]]·[[097_MIMO_다중_안테나_기술|MIMO]] ([[097_MIMO_다중_안테나_기술|Multiple-Input Multiple-Output]]) 처리를 이용해 통신을 유지하는 방식이다.
+LOS를 이해하려면 광학적 가시거리, 전파적 가시거리, 그리고 NLOS (Non-Line-of-Sight) 통신을 함께 봐야 한다. 광학적 가시거리는 사람이 보이는 직선 시야이고, 전파적 가시거리는 대기 굴절을 고려한 전파 경로 기준이다. NLOS는 직접 경로가 없더라도 반사·회절·[산란](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/)·[MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) ([Multiple-Input Multiple-Output](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/)) 처리를 이용해 통신을 유지하는 방식이다.
 
 | 구분 | LOS 통신 | NLOS 통신 |
 | :--- | :--- | :--- |
-| 경로 특성 | 직접 경로 중심 | 반사·회절·[[164_scattering_reflection_radio_waves|산란]] 경로 활용 |
-| 대표 분야 | [[154_radio_wave_classification|마이크로파]] 릴레이, 위성, [[156_mmwave_millimeter_wave|밀리미터파]] ([[156_mmwave_millimeter_wave|mmWave]], millimeter [[590_wave_ieee_802_11p_dsrc_v2x|wave]]) | 도심 셀룰러, 실내 Wi-Fi |
+| 경로 특성 | 직접 경로 중심 | 반사·회절·[산란](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/) 경로 활용 |
+| 대표 분야 | [마이크로파](/knowledge-base/studynote/03_network/03_physical_layer_media/154_radio_wave_classification/) 릴레이, 위성, [밀리미터파](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/) ([mmWave](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/), millimeter [wave](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/)) | 도심 셀룰러, 실내 Wi-Fi |
 | 장점 | 링크 예측 용이, 고이득·고용량 구현 쉬움 | 장애물 환경 대응 가능 |
-| 약점 | 차폐와 정렬 오차에 민감 | 품질 변동성, [[130_signal|신호]] 처리 복잡도 증가 |
+| 약점 | 차폐와 정렬 오차에 민감 | 품질 변동성, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리 복잡도 증가 |
 
-또한 LOS는 네트워크 상위 계층의 설계와도 연결된다. 물리계층에서 LOS 확보가 어렵다면, 중계기 증설·셀 분할·[[101_beamforming|빔포밍]] ([[101_beamforming|Beamforming]])·[[389_mesh_topology|메시]] 토폴로지 같은 대안이 필요해진다. 즉 LOS는 단일 전파 개념이 아니라, 기지국 배치와 망 토폴로지까지 영향을 주는 인프라 설계 변수다.
+또한 LOS는 네트워크 상위 계층의 설계와도 연결된다. 물리계층에서 LOS 확보가 어렵다면, 중계기 증설·셀 분할·[빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) ([Beamforming](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/))·[메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 토폴로지 같은 대안이 필요해진다. 즉 LOS는 단일 전파 개념이 아니라, 기지국 배치와 망 토폴로지까지 영향을 주는 인프라 설계 변수다.
 
-결국 기술사 관점에서는 LOS를 "직선 전파"로만 적기보다, 광학/전파 가시거리 차이와 NLOS 보완 기술까지 함께 언급해야 답안의 경계가 살아난다. 그래야 왜 어떤 [[090_service_kubernetes_network_load_balancing|서비스]]는 철탑 높이를 올리고, 어떤 [[090_service_kubernetes_network_load_balancing|서비스]]는 반사 경로를 적극 활용하는지 설명할 수 있다.
+결국 기술사 관점에서는 LOS를 "직선 전파"로만 적기보다, 광학/전파 가시거리 차이와 NLOS 보완 기술까지 함께 언급해야 답안의 경계가 살아난다. 그래야 왜 어떤 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 철탑 높이를 올리고, 어떤 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 반사 경로를 적극 활용하는지 설명할 수 있다.
 
 - **📢 섹션 요약 비유**: LOS는 정면 도로를 뚫는 방식이고, NLOS는 골목길과 우회로를 활용하는 방식이다. 목적지는 같지만 길을 확보하는 전략이 다르다.
 
@@ -85,18 +89,18 @@ LOS를 이해하려면 광학적 가시거리, 전파적 가시거리, 그리고
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 LOS가 필요한 링크일수록 현장 조사와 유지 관리가 중요하다. 옥상 간 무선 [[1009_backhaul_network_base_station_core_connection|백홀]]은 처음 설치할 때만 맞추면 끝나는 것이 아니라, 주변 신축 건물, 수목 성장, 타워 흔들림, [[171_antenna_basic_dipole_resonance|안테나]] 오정렬, 강우 감쇠까지 지속적으로 봐야 한다. 특히 [[418_5g_embb_urllc_mmtc_slicing|5G]] [[156_mmwave_millimeter_wave|밀리미터파]]와 고주파 [[154_radio_wave_classification|마이크로파]]는 빔이 좁고 손실이 커서 작은 차폐도 [[090_service_kubernetes_network_load_balancing|서비스]] 중단으로 이어질 수 있다.
+실무에서는 LOS가 필요한 링크일수록 현장 조사와 유지 관리가 중요하다. 옥상 간 무선 [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/)은 처음 설치할 때만 맞추면 끝나는 것이 아니라, 주변 신축 건물, 수목 성장, 타워 흔들림, [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 오정렬, 강우 감쇠까지 지속적으로 봐야 한다. 특히 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [밀리미터파](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/)와 고주파 [마이크로파](/knowledge-base/studynote/03_network/03_physical_layer_media/154_radio_wave_classification/)는 빔이 좁고 손실이 커서 작은 차폐도 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단으로 이어질 수 있다.
 
-위성 통신에서도 LOS는 절대 조건이다. 사용자는 위성을 직접 볼 수 없어도 [[171_antenna_basic_dipole_resonance|안테나]]가 향하는 하늘 방향에 건물이나 산이 있으면 링크가 끊긴다. 반면 도심 이동통신은 완전한 LOS를 기대하기 어려워 [[101_beamforming|빔포밍]], 소형 셀, 반사 경로 활용, [[556_handover_handoff_types_concept|핸드오버]] 최적화가 함께 필요하다.
+위성 통신에서도 LOS는 절대 조건이다. 사용자는 위성을 직접 볼 수 없어도 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 향하는 하늘 방향에 건물이나 산이 있으면 링크가 끊긴다. 반면 도심 이동통신은 완전한 LOS를 기대하기 어려워 [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/), 소형 셀, 반사 경로 활용, [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) 최적화가 함께 필요하다.
 
-### 판단 [[435_checklist_based_testing|체크리스트]]
+### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. **직접 경로뿐 아니라 프레넬 존 여유를 확보했는가?**
 2. **지형·건물·수목의 계절 변화까지 반영했는가?**
-3. **[[171_antenna_basic_dipole_resonance|안테나]] 높이와 지향각으로 전파적 지평선을 만족하는가?**
+3. **[안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 높이와 지향각으로 전파적 지평선을 만족하는가?**
 4. **LOS가 불안정할 경우 대체 경로나 중계 구성을 준비했는가?**
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 지도상 직선 거리만 보고 링크 가능하다고 판단하는 경우
 - 눈으로 보이면 충분하다고 생각해 프레넬 존을 무시하는 경우
@@ -108,7 +112,7 @@ LOS를 이해하려면 광학적 가시거리, 전파적 가시거리, 그리고
 
 ## Ⅴ. 기대효과 및 결론
 
-LOS를 올바르게 확보하면 고주파 무선 링크의 예측 가능성이 크게 높아진다. 손실 계산이 쉬워지고, 높은 [[171_antenna_basic_dipole_resonance|안테나]] 이득을 활용할 수 있으며, 불필요한 재전송과 간섭을 줄여 더 큰 처리량을 안정적으로 제공할 수 있다. 그래서 LOS는 단순한 전파 상식이 아니라, 무선망 품질을 설계 가능한 상태로 바꾸는 출발점이다.
+LOS를 올바르게 확보하면 고주파 무선 링크의 예측 가능성이 크게 높아진다. 손실 계산이 쉬워지고, 높은 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 이득을 활용할 수 있으며, 불필요한 재전송과 간섭을 줄여 더 큰 처리량을 안정적으로 제공할 수 있다. 그래서 LOS는 단순한 전파 상식이 아니라, 무선망 품질을 설계 가능한 상태로 바꾸는 출발점이다.
 
 반대로 LOS가 취약한 환경에서는 링크가 물리적으로 불안정해지고, 상위 계층에서 아무리 보정해도 근본 품질 한계가 남는다. 따라서 이 주제는 "서로 보이면 된다"가 아니라, "직접 경로와 주변 여유 공간을 함께 확보해야 고주파 무선망이 성립한다"는 관점으로 기억하는 것이 정확하다.
 
@@ -120,10 +124,10 @@ LOS를 올바르게 확보하면 고주파 무선 링크의 예측 가능성이 
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 프레넬 존 ([[165_fresnel_zone_clearance|Fresnel Zone]]) | LOS 링크에서 추가 손실을 줄이기 위해 비워야 하는 주변 공간이다. |
-| 전파적 지평선 | [[171_antenna_basic_dipole_resonance|안테나]] 높이와 지구 곡률을 반영한 LOS 거리 한계를 설명한다. |
-| [[154_radio_wave_classification|마이크로파]] 릴레이 | LOS 확보가 필수적인 대표 장거리 무선 [[1009_backhaul_network_base_station_core_connection|백홀]] 방식이다. |
-| NLOS (Non-Line-of-Sight) | LOS가 어려운 환경에서 반사·회절·[[164_scattering_reflection_radio_waves|산란]]을 활용하는 대안 기술이다. |
+| 프레넬 존 ([Fresnel Zone](/knowledge-base/studynote/03_network/03_physical_layer_media/165_fresnel_zone_clearance/)) | LOS 링크에서 추가 손실을 줄이기 위해 비워야 하는 주변 공간이다. |
+| 전파적 지평선 | [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 높이와 지구 곡률을 반영한 LOS 거리 한계를 설명한다. |
+| [마이크로파](/knowledge-base/studynote/03_network/03_physical_layer_media/154_radio_wave_classification/) 릴레이 | LOS 확보가 필수적인 대표 장거리 무선 [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/) 방식이다. |
+| NLOS (Non-Line-of-Sight) | LOS가 어려운 환경에서 반사·회절·[산란](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/)을 활용하는 대안 기술이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -147,9 +151,9 @@ LOS (Line-of-Sight) 확보 필요
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. LOS는 두 친구가 서로를 바로 보면서 [[130_signal|신호]]를 주고받는 거예요.
-2. 중간에 벽이나 나무가 끼면 [[130_signal|신호]]가 잘 못 가서 말이 끊겨요.
-3. 그래서 높은 곳에 올라가고, 앞 공간도 넓게 비워 두어야 [[130_signal|신호]]가 잘 통해요.
+1. LOS는 두 친구가 서로를 바로 보면서 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 주고받는 거예요.
+2. 중간에 벽이나 나무가 끼면 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 잘 못 가서 말이 끊겨요.
+3. 그래서 높은 곳에 올라가고, 앞 공간도 넓게 비워 두어야 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 잘 통해요.
 
 ---
 
@@ -157,7 +161,7 @@ LOS (Line-of-Sight) 확보 필요
 
 **진행 상황**: 283 / 1120
 
-← **이전**: [[161_ionospheric_reflection_tropospheric_scatter|161. 전리층 반사 / 대류권 산란]]
-**다음**: [[163_penetration_diffraction_radio_waves|163. 투과율 (Penetration) / 회절 (Diffraction)]] →
+← **이전**: [161. 전리층 반사 / 대류권 산란](/knowledge-base/studynote/03_network/03_physical_layer_media/161_ionospheric_reflection_tropospheric_scatter/)
+**다음**: [163. 투과율 (Penetration) / 회절 (Diffraction)](/knowledge-base/studynote/03_network/03_physical_layer_media/163_penetration_diffraction_radio_waves/) →
 
 ---

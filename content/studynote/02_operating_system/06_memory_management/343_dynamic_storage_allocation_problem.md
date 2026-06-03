@@ -1,27 +1,31 @@
----
-title: 343. 동적 메모리 할당 문제 (가변 분할 배치 알고리즘) (Dynamic Storage Allocation Problem)
-date: '2026-05-09'
-tags:
-- studynote-operating-system
----
++++
+title = "343. 동적 메모리 할당 문제 (가변 분할 배치 알고리즘) (Dynamic Storage Allocation Problem)"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 동적 메모리 할당 문제는 가변 분할 방식의 메모리 환경이나 애플리케이션의 힙([[078_heap_datastructure|Heap]]) 영역에서, 크기가 제각각인 빈 구멍(Free Hole)들의 리스트 중 **"새로운 프로세스(또는 객체)를 어느 빈 구멍에 넣는 것이 가장 효율적인가?"**를 결정하는 배치 [[001_algorithm_definition|알고리즘]] 선택 문제다.
-> 2. **가치**: 이 [[001_algorithm_definition|알고리즘]]의 선택에 따라 시스템의 **메모리 탐색 속도(Overhead)**와 버려지는 자투리 공간인 **[[342_external_fragmentation|외부 단편화]]([[342_external_fragmentation|External Fragmentation]])의 심각도**가 완전히 뒤바뀌며, 시스템 전체의 퍼포먼스를 좌우한다.
-> 3. **융합**: 운영체제의 물리 메모리 관리를 넘어, C언어의 `malloc()`이나 C++의 `new` 연산자, 자바의 [[591_mvcc_garbage_collection_vacuum|가비지 컬렉터]](GC) 등 사용자 레벨의 동적 메모리 할당기(Allocator)를 설계하는 가장 근본적인 코어 로직으로 활용된다.
+> 1. **본질**: 동적 메모리 할당 문제는 가변 분할 방식의 메모리 환경이나 애플리케이션의 힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 영역에서, 크기가 제각각인 빈 구멍(Free Hole)들의 리스트 중 **"새로운 프로세스(또는 객체)를 어느 빈 구멍에 넣는 것이 가장 효율적인가?"**를 결정하는 배치 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 선택 문제다.
+> 2. **가치**: 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 선택에 따라 시스템의 **메모리 탐색 속도(Overhead)**와 버려지는 자투리 공간인 **[외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)([External Fragmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/))의 심각도**가 완전히 뒤바뀌며, 시스템 전체의 퍼포먼스를 좌우한다.
+> 3. **융합**: 운영체제의 물리 메모리 관리를 넘어, C언어의 `malloc()`이나 C++의 `new` 연산자, 자바의 [가비지 컬렉터](/knowledge-base/studynote/05_database/uncategorized/591_mvcc_garbage_collection_vacuum/)(GC) 등 사용자 레벨의 동적 메모리 할당기(Allocator)를 설계하는 가장 근본적인 코어 로직으로 활용된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 동적 메모리 할당 문제는 크기가 `N`인 프로세스가 실행을 요청했을 때, 장부(Free List)에 흩어져 있는 수많은 빈 공간 중 어떤 공간을 쪼개서 할당할 것인가를 묻는 전형적인 '배낭 문제([[116_knapsack|Knapsack]] Problem)' 류의 스케줄링 과제다. 이를 해결하기 위해 대표적으로 `최초 적합(First-fit)`, `최적 적합(Best-fit)`, `최악 적합(Worst-fit)` 세 가지 전략이 제시된다.
-- **필요성**: 가변 분할 방식에서는 프로그램이 끝나고 나간 자리가 그대로 빈 구멍이 된다. 구멍들의 크기가 10MB, 40MB, 20MB로 제각각인데, 15MB짜리 프로그램이 들어오려고 한다. 40MB 구멍을 쪼개 줄 것인가? 아니면 20MB 구멍을 쪼개 줄 것인가? 아무 생각 없이 배정하면 남는 자투리 공간이 악성 [[342_external_fragmentation|외부 단편화]]가 되어 시스템을 마비시키고, 반대로 너무 고민하면 구멍을 찾는 연산 때문에 CPU 속도가 곤두박질친다. 이 트레이드오프의 최적점을 찾아야 한다.
+- **개념**: 동적 메모리 할당 문제는 크기가 `N`인 프로세스가 실행을 요청했을 때, 장부(Free List)에 흩어져 있는 수많은 빈 공간 중 어떤 공간을 쪼개서 할당할 것인가를 묻는 전형적인 '배낭 문제([Knapsack](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/116_knapsack/) Problem)' 류의 스케줄링 과제다. 이를 해결하기 위해 대표적으로 `최초 적합(First-fit)`, `최적 적합(Best-fit)`, `최악 적합(Worst-fit)` 세 가지 전략이 제시된다.
+- **필요성**: 가변 분할 방식에서는 프로그램이 끝나고 나간 자리가 그대로 빈 구멍이 된다. 구멍들의 크기가 10MB, 40MB, 20MB로 제각각인데, 15MB짜리 프로그램이 들어오려고 한다. 40MB 구멍을 쪼개 줄 것인가? 아니면 20MB 구멍을 쪼개 줄 것인가? 아무 생각 없이 배정하면 남는 자투리 공간이 악성 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)가 되어 시스템을 마비시키고, 반대로 너무 고민하면 구멍을 찾는 연산 때문에 CPU 속도가 곤두박질친다. 이 트레이드오프의 최적점을 찾아야 한다.
 
 - **등장 배경 및 딜레마 구조**:
   1. **가변 분할의 필연적 찌꺼기**: 프로세스 크기에 맞춰 방을 잘라주다 보니, 메모리에 무작위 크기의 빈 블록들이 산재하게 되었다.
-  2. **장부(Free List) 탐색의 비용**: 빈 블록들이 [[056_linked_list|연결 리스트]]([[056_linked_list|Linked List]])로 관리되는데, 메모리를 할당할 때마다 이 긴 리스트를 뒤적거리는 행위 자체가 운영체제의 막대한 CPU 자원을 소모(Overhead)시켰다.
-  3. **[[001_algorithm_definition|알고리즘]]의 3파전**: 시간(속도)을 아낄 것인가, 공간([[291_fragmentation_and_reassembly_process|단편화]])을 아낄 것인가를 두고 세 가지 철학적 접근이 충돌하며 동적 할당 [[001_algorithm_definition|알고리즘]]이 발전했다.
+  2. **장부(Free List) 탐색의 비용**: 빈 블록들이 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)([Linked List](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/))로 관리되는데, 메모리를 할당할 때마다 이 긴 리스트를 뒤적거리는 행위 자체가 운영체제의 막대한 CPU 자원을 소모(Overhead)시켰다.
+  3. **[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 3파전**: 시간(속도)을 아낄 것인가, 공간([단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))을 아낄 것인가를 두고 세 가지 철학적 접근이 충돌하며 동적 할당 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 발전했다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────────────┐
@@ -40,29 +44,29 @@ tags:
 │ 3. 이단아: "남는 공간이 오히려 제일 크게 남는 무식하게 큰 곳에 넣어!"│
 └──────────────────────────────────────────────────────────────────────┘
 ```
-**[다이어그램 해설]** 이 단순한 예시가 세 가지 [[001_algorithm_definition|알고리즘]]의 본질을 시험한다. Hole B(10MB)는 15MB 프로세스를 담을 수 없으므로 무조건 탈락이다. 남은 후보는 A(20), C(16), D(30)이다. 인간의 직관으로는 16MB 구멍에 넣고 1MB만 남기는 게 가장 깔끔해 보이지만, 컴퓨터 시스템의 최적화는 인간의 직관과 전혀 다른 통계적 결과를 도출해낸다.
+**[다이어그램 해설]** 이 단순한 예시가 세 가지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 본질을 시험한다. Hole B(10MB)는 15MB 프로세스를 담을 수 없으므로 무조건 탈락이다. 남은 후보는 A(20), C(16), D(30)이다. 인간의 직관으로는 16MB 구멍에 넣고 1MB만 남기는 게 가장 깔끔해 보이지만, 컴퓨터 시스템의 최적화는 인간의 직관과 전혀 다른 통계적 결과를 도출해낸다.
 
-- **📢 섹션 요약 비유**: 주차장에 차를 댈 때, 입구에서 가장 가까운 빈자리에 바로 박아버릴지([[344_first_fit|최초 적합]]), 내 차 크기에 가장 딱 맞는 좁은 자리를 땀 흘리며 찾아 주차할지([[345_best_fit|최적 적합]])를 결정하는 발렛파킹 직원의 딜레마입니다.
+- **📢 섹션 요약 비유**: 주차장에 차를 댈 때, 입구에서 가장 가까운 빈자리에 바로 박아버릴지([최초 적합](/knowledge-base/studynote/02_operating_system/06_memory_management/344_first_fit/)), 내 차 크기에 가장 딱 맞는 좁은 자리를 땀 흘리며 찾아 주차할지([최적 적합](/knowledge-base/studynote/02_operating_system/06_memory_management/345_best_fit/))를 결정하는 발렛파킹 직원의 딜레마입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 3대 배치 [[001_algorithm_definition|알고리즘]]의 동작 메커니즘
+### 3대 배치 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 동작 메커니즘
 
-각 [[001_algorithm_definition|알고리즘]]이 앞선 15MB 프로세스 예제를 어떻게 처리하는지 내부 동작을 해부해본다.
+각 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 앞선 15MB 프로세스 예제를 어떻게 처리하는지 내부 동작을 해부해본다.
 
-| [[001_algorithm_definition|알고리즘]] ([[001_algorithm_definition|Algorithm]]) | 탐색 [[369_logic_bomb|논리]] | 결과 위치 | 발생한 자투리 조각 | 비고 (특징) |
+| [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) ([Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) | 탐색 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) | 결과 위치 | 발생한 자투리 조각 | 비고 (특징) |
 |:---|:---|:---|:---|:---|
-| **[[344_first_fit|최초 적합]] ([[344_first_fit|First-Fit]])** | 리스트의 맨 처음부터 검색하다가 **들어갈 수 있는 첫 구멍** 발견 시 즉시 할당 후 검색 종료 | **Hole A (20MB)** | 20 - 15 = **5MB 조각 [[087_process_state_transition|생성]]** | 속도가 가장 빠름 |
-| **[[345_best_fit|최적 적합]] ([[345_best_fit|Best-Fit]])** | 리스트 전체를 처음부터 끝까지 다 뒤져서, **크기가 15MB 이상이면서 가장 작은(가장 딱 맞는) 구멍** 선택 | **Hole C (16MB)** | 16 - 15 = **1MB 조각 [[087_process_state_transition|생성]]** | 공간 낭비가 적어 보이나 악성 찌꺼기 양산 |
-| **[[346_worst_fit|최악 적합]] ([[346_worst_fit|Worst-Fit]])** | 리스트 전체를 다 뒤져서, **가장 거대하게 큰 구멍**을 선택 | **Hole D (30MB)** | 30 - 15 = **15MB 조각 [[087_process_state_transition|생성]]** | 큰 덩어리를 남겨 재활용을 노림 |
+| **[최초 적합](/knowledge-base/studynote/02_operating_system/06_memory_management/344_first_fit/) ([First-Fit](/knowledge-base/studynote/02_operating_system/06_memory_management/344_first_fit/))** | 리스트의 맨 처음부터 검색하다가 **들어갈 수 있는 첫 구멍** 발견 시 즉시 할당 후 검색 종료 | **Hole A (20MB)** | 20 - 15 = **5MB 조각 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)** | 속도가 가장 빠름 |
+| **[최적 적합](/knowledge-base/studynote/02_operating_system/06_memory_management/345_best_fit/) ([Best-Fit](/knowledge-base/studynote/02_operating_system/06_memory_management/345_best_fit/))** | 리스트 전체를 처음부터 끝까지 다 뒤져서, **크기가 15MB 이상이면서 가장 작은(가장 딱 맞는) 구멍** 선택 | **Hole C (16MB)** | 16 - 15 = **1MB 조각 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)** | 공간 낭비가 적어 보이나 악성 찌꺼기 양산 |
+| **[최악 적합](/knowledge-base/studynote/02_operating_system/06_memory_management/346_worst_fit/) ([Worst-Fit](/knowledge-base/studynote/02_operating_system/06_memory_management/346_worst_fit/))** | 리스트 전체를 다 뒤져서, **가장 거대하게 큰 구멍**을 선택 | **Hole D (30MB)** | 30 - 15 = **15MB 조각 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)** | 큰 덩어리를 남겨 재활용을 노림 |
 
 ---
 
-### [[282_performance_tactics|성능]] 비교 아키텍처 (속도 vs 공간)
+### [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비교 아키텍처 (속도 vs 공간)
 
-각 [[001_algorithm_definition|알고리즘]]은 자료구조(Free List)를 어떻게 정렬하고 순회(Traversal)하느냐에 따라 [[002_time_complexity|시간 복잡도]](Big-O)가 달라진다.
+각 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 자료구조(Free List)를 어떻게 정렬하고 순회(Traversal)하느냐에 따라 [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)(Big-O)가 달라진다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────────────────┐
@@ -85,17 +89,17 @@ tags:
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 컴퓨터 공학에서 '완벽한 맞춤([[345_best_fit|Best-Fit]])'은 종종 최악의 결과를 낳는다. 공간을 아끼려고 1MB 남짓한 부스러기들을 온 사방에 양산하는데, 이 부스러기들은 너무 작아서 OS의 장부(Free list)만 길어지게 만들고 정작 쓸모는 전혀 없다. 게다가 매번 100% 전체 리스트를 뒤져야 하므로 할당 속도마저 바닥을 친다. 수많은 통계적 시뮬레이션 결과, 속도와 공간 활용률 모두에서 '뇌를 비우고 처음 보이는 곳에 꽂아 넣는' First-Fit이 가장 우수하다는 결론이 도출되었다.
+**[다이어그램 해설]** 컴퓨터 공학에서 '완벽한 맞춤([Best-Fit](/knowledge-base/studynote/02_operating_system/06_memory_management/345_best_fit/))'은 종종 최악의 결과를 낳는다. 공간을 아끼려고 1MB 남짓한 부스러기들을 온 사방에 양산하는데, 이 부스러기들은 너무 작아서 OS의 장부(Free list)만 길어지게 만들고 정작 쓸모는 전혀 없다. 게다가 매번 100% 전체 리스트를 뒤져야 하므로 할당 속도마저 바닥을 친다. 수많은 통계적 시뮬레이션 결과, 속도와 공간 활용률 모두에서 '뇌를 비우고 처음 보이는 곳에 꽂아 넣는' First-Fit이 가장 우수하다는 결론이 도출되었다.
 
 ---
 
 ### 리스트 정렬 튜닝을 통한 최적화
 
-[[001_algorithm_definition|알고리즘]]의 약점을 극복하기 위해 자료구조의 정렬 방식을 튜닝하기도 한다.
-- **크기순 정렬**: Free List를 크기순(오름차순)으로 정렬해두면, [[344_first_fit|First-Fit]] 검색을 할 때 그게 곧 Best-Fit이 된다. (가장 먼저 조건에 맞는 것이 가장 핏이 맞는 것). 하지만 반환 시 정렬 오버헤드가 크다.
-- **주소순 정렬**: 메모리 [[323_physical_address|물리 주소]] 순서대로 정렬해두면, [[344_first_fit|First-Fit]] 검색 속도도 빠르고 인접한 빈 구멍을 하나로 합치는 병합(Coalescing) 작업이 극도로 쉬워진다. 현대 시스템은 대부분 주소순 정렬을 선호한다.
+[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 약점을 극복하기 위해 자료구조의 정렬 방식을 튜닝하기도 한다.
+- **크기순 정렬**: Free List를 크기순(오름차순)으로 정렬해두면, [First-Fit](/knowledge-base/studynote/02_operating_system/06_memory_management/344_first_fit/) 검색을 할 때 그게 곧 Best-Fit이 된다. (가장 먼저 조건에 맞는 것이 가장 핏이 맞는 것). 하지만 반환 시 정렬 오버헤드가 크다.
+- **주소순 정렬**: 메모리 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/) 순서대로 정렬해두면, [First-Fit](/knowledge-base/studynote/02_operating_system/06_memory_management/344_first_fit/) 검색 속도도 빠르고 인접한 빈 구멍을 하나로 합치는 병합(Coalescing) 작업이 극도로 쉬워진다. 현대 시스템은 대부분 주소순 정렬을 선호한다.
 
-- **📢 섹션 요약 비유**: 서랍에 물건을 넣을 때, 빈 곳 아무 데나 쑤셔 넣는 성격 급한 사람([[344_first_fit|First-Fit]])이 테트리스 하듯 딱 맞는 틈새를 찾아 넣는 완벽주의자([[345_best_fit|Best-Fit]])보다 결국 방 정리(할당)를 훨씬 빠르고 무난하게 끝낸다는 공학적 깨달음입니다.
+- **📢 섹션 요약 비유**: 서랍에 물건을 넣을 때, 빈 곳 아무 데나 쑤셔 넣는 성격 급한 사람([First-Fit](/knowledge-base/studynote/02_operating_system/06_memory_management/344_first_fit/))이 테트리스 하듯 딱 맞는 틈새를 찾아 넣는 완벽주의자([Best-Fit](/knowledge-base/studynote/02_operating_system/06_memory_management/345_best_fit/))보다 결국 방 정리(할당)를 훨씬 빠르고 무난하게 끝낸다는 공학적 깨달음입니다.
 
 ---
 
@@ -103,24 +107,24 @@ tags:
 
 ### 시뮬레이션 결과 매트릭스 (통계적 승자)
 
-수십 년간의 OS 연구 결과, 3가지 [[001_algorithm_definition|알고리즘]]의 우열은 명확히 판가름 났다.
+수십 년간의 OS 연구 결과, 3가지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 우열은 명확히 판가름 났다.
 
-| 비교 항목 | [[344_first_fit|First-Fit]] ([[344_first_fit|최초 적합]]) | [[345_best_fit|Best-Fit]] ([[345_best_fit|최적 적합]]) | [[346_worst_fit|Worst-Fit]] ([[346_worst_fit|최악 적합]]) |
+| 비교 항목 | [First-Fit](/knowledge-base/studynote/02_operating_system/06_memory_management/344_first_fit/) ([최초 적합](/knowledge-base/studynote/02_operating_system/06_memory_management/344_first_fit/)) | [Best-Fit](/knowledge-base/studynote/02_operating_system/06_memory_management/345_best_fit/) ([최적 적합](/knowledge-base/studynote/02_operating_system/06_memory_management/345_best_fit/)) | [Worst-Fit](/knowledge-base/studynote/02_operating_system/06_memory_management/346_worst_fit/) ([최악 적합](/knowledge-base/studynote/02_operating_system/06_memory_management/346_worst_fit/)) |
 |:---|:---|:---|:---|
-| **[[002_time_complexity|시간 복잡도]](속도)** | **가장 빠름** (발견 즉시 정지) | 느림 (전체 스캔 필수) | 느림 (전체 스캔 필수) |
-| **공간 이용률([[291_fragmentation_and_reassembly_process|단편화]])**| **우수함** (균형 잡힌 자투리) | 최악 (미세한 쓰레기 조각 양산) | 나쁨 (큰 구멍을 빨리 소진함) |
+| **[시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)(속도)** | **가장 빠름** (발견 즉시 정지) | 느림 (전체 스캔 필수) | 느림 (전체 스캔 필수) |
+| **공간 이용률([단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))**| **우수함** (균형 잡힌 자투리) | 최악 (미세한 쓰레기 조각 양산) | 나쁨 (큰 구멍을 빨리 소진함) |
 | **실무 채택 빈도** | **1위 (압도적 표준)** | 거의 쓰이지 않음 | 거의 쓰이지 않음 |
-| **50% 규칙 영향** | 약 33% 메모리 [[342_external_fragmentation|외부 단편화]] 손실 | First-fit보다 더 나쁜 손실률 발생 | 최악의 손실률 발생 |
+| **50% 규칙 영향** | 약 33% 메모리 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 손실 | First-fit보다 더 나쁜 손실률 발생 | 최악의 손실률 발생 |
 
-### 비교 2: [[348_buddy_system|버디 시스템]] ([[348_buddy_system|Buddy System]])과의 융합 차이
+### 비교 2: [버디 시스템](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/) ([Buddy System](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/))과의 융합 차이
 
-동적 할당의 [[291_fragmentation_and_reassembly_process|단편화]]와 속도 문제를 해결하기 위해, 현대 리눅스 [[022_kernel_role|커널]] 등은 '[[348_buddy_system|버디 시스템]]'이라는 독특한 하이브리드 할당기를 도입했다.
+동적 할당의 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)와 속도 문제를 해결하기 위해, 현대 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 등은 '[버디 시스템](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/)'이라는 독특한 하이브리드 할당기를 도입했다.
 
-| 항목 | 일반 가변 분할 동적 할당 | [[348_buddy_system|버디 시스템]] 할당기 ([[348_buddy_system|Buddy System]]) |
+| 항목 | 일반 가변 분할 동적 할당 | [버디 시스템](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/) 할당기 ([Buddy System](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/)) |
 |:---|:---|:---|
 | **분할 방식** | 요구한 크기(예: 13KB)만큼 정확히 자름 | 무조건 2의 승수 크기(예: 16KB)로만 반씩 쪼갬 |
-| **병합 속도** | 인접 주소를 찾아 병합 (상대적으로 느림) | 쪼개진 쌍둥이(Buddy)끼리 합치면 끝 ([[148_5g_embb_urllc_mmtc|초고속]] 병합) |
-| **[[291_fragmentation_and_reassembly_process|단편화]] 발생**| [[342_external_fragmentation|외부 단편화]] 발생, [[341_internal_fragmentation|내부 단편화]] 0 | 미세한 [[341_internal_fragmentation|내부 단편화]](3KB) 허용, [[342_external_fragmentation|외부 단편화]] 방어 |
+| **병합 속도** | 인접 주소를 찾아 병합 (상대적으로 느림) | 쪼개진 쌍둥이(Buddy)끼리 합치면 끝 ([초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 병합) |
+| **[단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 발생**| [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 발생, [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/) 0 | 미세한 [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)(3KB) 허용, [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 방어 |
 
 ```text
 ┌──────────┬────────────┬────────────┬────────────────────────┐
@@ -131,27 +135,27 @@ tags:
 │ Buddy Sys│ 매우 빠름   │ 초고속      │ 내부 단편화 감수     │
 └──────────┴────────────┴────────────┴────────────────────────┘
 ```
-**[매트릭스 해설]** 가변 분할 동적 할당 [[001_algorithm_definition|알고리즘]]은 결국 "[[342_external_fragmentation|외부 단편화]]"라는 한계를 넘지 못했다. 그래서 현대 OS [[022_kernel_role|커널]]들은 프로세스 내부의 동적 메모리(힙)를 할당할 때, 가변 분할의 융통성과 고정 분할의 정형성을 섞어놓은 [[348_buddy_system|버디 시스템]]이나 [[760_slab_allocator_object_caching|슬랩]]([[760_slab_allocator_object_caching|Slab]]) 할당기 같은 진보된 아키텍처로 진화해 문제를 우회했다.
+**[매트릭스 해설]** 가변 분할 동적 할당 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 결국 "[외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)"라는 한계를 넘지 못했다. 그래서 현대 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)들은 프로세스 내부의 동적 메모리(힙)를 할당할 때, 가변 분할의 융통성과 고정 분할의 정형성을 섞어놓은 [버디 시스템](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/)이나 [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/)([Slab](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/)) 할당기 같은 진보된 아키텍처로 진화해 문제를 우회했다.
 
-- **📢 섹션 요약 비유**: 첫 번째 남자를 고르는 소개팅([[344_first_fit|First-fit]])이 조건에 딱 맞는 완벽한 이상형을 평생 찾는 소개팅([[345_best_fit|Best-fit]])보다 결국 결혼 성공률(메모리 활용률)과 속도 면에서 통계적으로 훨씬 우수하다는 매운맛 교훈입니다.
+- **📢 섹션 요약 비유**: 첫 번째 남자를 고르는 소개팅([First-fit](/knowledge-base/studynote/02_operating_system/06_memory_management/344_first_fit/))이 조건에 딱 맞는 완벽한 이상형을 평생 찾는 소개팅([Best-fit](/knowledge-base/studynote/02_operating_system/06_memory_management/345_best_fit/))보다 결국 결혼 성공률(메모리 활용률)과 속도 면에서 통계적으로 훨씬 우수하다는 매운맛 교훈입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오: C언어 malloc()의 진화 (ptmalloc, jemalloc)
-운영체제의 가상 메모리가 [[259_paging|페이징]]으로 바뀐 뒤에도, '동적 메모리 배치 문제'는 C/C++ 개발자들의 `malloc()` 함수 내부에서 여전히 치열하게 벌어지고 있다.
-1. **과거의 malloc ([[344_first_fit|First-Fit]] / [[345_best_fit|Best-Fit]] 기반)**:
+운영체제의 가상 메모리가 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)으로 바뀐 뒤에도, '동적 메모리 배치 문제'는 C/C++ 개발자들의 `malloc()` 함수 내부에서 여전히 치열하게 벌어지고 있다.
+1. **과거의 malloc ([First-Fit](/knowledge-base/studynote/02_operating_system/06_memory_management/344_first_fit/) / [Best-Fit](/knowledge-base/studynote/02_operating_system/06_memory_management/345_best_fit/) 기반)**:
    - 과거에는 `malloc(200)`을 호출하면 힙 영역의 Free List를 뒤져서 메모리를 내어주었다.
-   - 단일 스레드에서는 문제가 없었으나, 멀티코어 환경이 되면서 수십 개의 스레드가 동시에 `malloc`을 호출하자, 하나의 Free List에 락([[510_lock|Lock]])을 걸고 [[344_first_fit|First-Fit]] 검색을 하느라 **병목 현상([[275_lock_contention_monitoring|Lock Contention]])**이 극에 달했다.
+   - 단일 스레드에서는 문제가 없었으나, 멀티코어 환경이 되면서 수십 개의 스레드가 동시에 `malloc`을 호출하자, 하나의 Free List에 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸고 [First-Fit](/knowledge-base/studynote/02_operating_system/06_memory_management/344_first_fit/) 검색을 하느라 **병목 현상([Lock Contention](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/))**이 극에 달했다.
 2. **현대 실무 할당기 (jemalloc, tcmalloc)**:
-   - Facebook이나 Google 같은 기업들은 이 스캔 오버헤드를 없애기 위해 기존의 단순한 [[344_first_fit|First-Fit]] 방식을 폐기했다.
-   - 스레드마다 각자의 독립된 빈 공간 장부([[092_thread_lwp|Thread]] Cache)를 주고, 객체 크기별(8바이트, 16바이트 등)로 미리 메모리를 고정 크기로 잘라놓는 [[760_slab_allocator_object_caching|Slab]] 방식을 융합한 `jemalloc` 등을 개발해 힙 할당 속도를 수백 배 끌어올렸다.
+   - Facebook이나 Google 같은 기업들은 이 스캔 오버헤드를 없애기 위해 기존의 단순한 [First-Fit](/knowledge-base/studynote/02_operating_system/06_memory_management/344_first_fit/) 방식을 폐기했다.
+   - 스레드마다 각자의 독립된 빈 공간 장부([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Cache)를 주고, 객체 크기별(8바이트, 16바이트 등)로 미리 메모리를 고정 크기로 잘라놓는 [Slab](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 방식을 융합한 `jemalloc` 등을 개발해 힙 할당 속도를 수백 배 끌어올렸다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]: [[291_fragmentation_and_reassembly_process|단편화]]를 유발하는 나쁜 코딩 습관
-개발자가 크기가 제각각인 객체(문자열 등)를 동적으로 할당하고 해제하는 것을 루프(반복문) 안에서 무수히 반복하면, 내부적으로 [[345_best_fit|Best-fit]]/[[344_first_fit|First-fit]] [[001_algorithm_definition|알고리즘]]이 돌면서 힙([[078_heap_datastructure|Heap]])이 갈기갈기 찢어진다. ([[342_external_fragmentation|외부 단편화]] 폭발). 이는 프로그램의 메모리 사용량을 기하급수적으로 부풀리고, 캐시 지역성을 파괴하여 [[282_performance_tactics|성능]]을 추락시킨다. [[369_memory_pool|메모리 풀]]([[369_memory_pool|Memory Pool]])을 사용해 고정된 크기만 재활용하는 것이 고성능 서버의 제1원칙이다.
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)를 유발하는 나쁜 코딩 습관
+개발자가 크기가 제각각인 객체(문자열 등)를 동적으로 할당하고 해제하는 것을 루프(반복문) 안에서 무수히 반복하면, 내부적으로 [Best-fit](/knowledge-base/studynote/02_operating_system/06_memory_management/345_best_fit/)/[First-fit](/knowledge-base/studynote/02_operating_system/06_memory_management/344_first_fit/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 돌면서 힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/))이 갈기갈기 찢어진다. ([외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 폭발). 이는 프로그램의 메모리 사용량을 기하급수적으로 부풀리고, 캐시 지역성을 파괴하여 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 추락시킨다. [메모리 풀](/knowledge-base/studynote/02_operating_system/06_memory_management/369_memory_pool/)([Memory Pool](/knowledge-base/studynote/02_operating_system/06_memory_management/369_memory_pool/))을 사용해 고정된 크기만 재활용하는 것이 고성능 서버의 제1원칙이다.
 
-- **📢 섹션 요약 비유**: 아무 데나 물건을 쑤셔 넣는 방식([[344_first_fit|First-fit]])이 한계에 다다르자, 아예 물건 크기별로 서랍 칸막이를 미리 다 짜맞춰 놓고(현대 [[369_memory_pool|메모리 풀]]) 그 규격 안에서만 노는 방식으로 정리의 달인이 된 것입니다.
+- **📢 섹션 요약 비유**: 아무 데나 물건을 쑤셔 넣는 방식([First-fit](/knowledge-base/studynote/02_operating_system/06_memory_management/344_first_fit/))이 한계에 다다르자, 아예 물건 크기별로 서랍 칸막이를 미리 다 짜맞춰 놓고(현대 [메모리 풀](/knowledge-base/studynote/02_operating_system/06_memory_management/369_memory_pool/)) 그 규격 안에서만 노는 방식으로 정리의 달인이 된 것입니다.
 
 ---
 
@@ -161,15 +165,15 @@ tags:
 
 | 구분 | 내용 |
 |:---|:---|
-| **할당 레이턴시 최적화** | [[344_first_fit|First-Fit]] 적용 시 전체 리스트를 훑지 않아 O(1)에 수렴하는 빠른 메모리 할당 응답속도 보장 |
-| **[[347_compaction|압축]] 비용 이연** | 최적의 배치 [[001_algorithm_definition|알고리즘]]을 통해 [[342_external_fragmentation|외부 단편화]] [[216_progress_in_synchronization|진행]] 속도를 늦추어, 값비싼 [[347_compaction|압축]]([[347_compaction|Compaction]]) 주기를 뒤로 미룸 |
-| **[[001_algorithm_definition|알고리즘]] 철학의 발전** | 메모리 관리뿐 아니라 [[501_file_definition_logical_record|파일]] 시스템 블록 할당, 네트워크 [[140_bandwidth|대역폭]] 분배 등 모든 IT 스케줄링의 기초 모델 제공 |
+| **할당 레이턴시 최적화** | [First-Fit](/knowledge-base/studynote/02_operating_system/06_memory_management/344_first_fit/) 적용 시 전체 리스트를 훑지 않아 O(1)에 수렴하는 빠른 메모리 할당 응답속도 보장 |
+| **[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 비용 이연** | 최적의 배치 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 통해 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 속도를 늦추어, 값비싼 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)) 주기를 뒤로 미룸 |
+| **[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 철학의 발전** | 메모리 관리뿐 아니라 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 블록 할당, 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 분배 등 모든 IT 스케줄링의 기초 모델 제공 |
 
 ### 결론 및 미래 전망
 
-동적 메모리 할당 (Dynamic Storage-Allocation Problem) 문제는 유한한 자원(빈 공간)을 무한히 다양한 요구(프로세스 크기)에 맞게 배분해야 하는 컴퓨터 공학의 영원한 숙제다. [[344_first_fit|최초 적합]]([[344_first_fit|First-Fit]])의 승리는 "때로는 지나친 꼼꼼함([[345_best_fit|Best-Fit]])이 전체 시스템의 효율을 망친다"는 [[210_heuristics_scheduling|휴리스틱]]([[210_heuristics_scheduling|Heuristics]])의 승리다. 현대의 범용 운영체제는 물리 메모리 레벨에서 [[259_paging|페이징]]([[259_paging|Paging]])을 도입해 이 골치 아픈 문제를 우회했지만, [[022_kernel_role|커널]] 내부 자료구조나 애플리케이션의 가상 힙 공간에서는 여전히 이 배치 [[001_algorithm_definition|알고리즘]]들이 [[760_slab_allocator_object_caching|슬랩]]([[760_slab_allocator_object_caching|Slab]]), 버디(Buddy) 시스템과 융합하여 더욱 빠르고 파편화 없는 진화를 거듭하고 있다.
+동적 메모리 할당 (Dynamic Storage-Allocation Problem) 문제는 유한한 자원(빈 공간)을 무한히 다양한 요구(프로세스 크기)에 맞게 배분해야 하는 컴퓨터 공학의 영원한 숙제다. [최초 적합](/knowledge-base/studynote/02_operating_system/06_memory_management/344_first_fit/)([First-Fit](/knowledge-base/studynote/02_operating_system/06_memory_management/344_first_fit/))의 승리는 "때로는 지나친 꼼꼼함([Best-Fit](/knowledge-base/studynote/02_operating_system/06_memory_management/345_best_fit/))이 전체 시스템의 효율을 망친다"는 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)([Heuristics](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/))의 승리다. 현대의 범용 운영체제는 물리 메모리 레벨에서 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))을 도입해 이 골치 아픈 문제를 우회했지만, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부 자료구조나 애플리케이션의 가상 힙 공간에서는 여전히 이 배치 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)들이 [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/)([Slab](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/)), 버디(Buddy) 시스템과 융합하여 더욱 빠르고 파편화 없는 진화를 거듭하고 있다.
 
-- **📢 섹션 요약 비유**: 수만 권의 책이 오고 가는 도서관에서 반납된 책을 딱 맞는 빈 칸에 꽂으려 고집([[345_best_fit|Best-fit]])하기보다, 그냥 맨 앞의 빈 카트에 꽂아두는 것([[344_first_fit|First-fit]])이 사서(OS)를 과로사로부터 구원한 가장 효율적인 시스템입니다.
+- **📢 섹션 요약 비유**: 수만 권의 책이 오고 가는 도서관에서 반납된 책을 딱 맞는 빈 칸에 꽂으려 고집([Best-fit](/knowledge-base/studynote/02_operating_system/06_memory_management/345_best_fit/))하기보다, 그냥 맨 앞의 빈 카트에 꽂아두는 것([First-fit](/knowledge-base/studynote/02_operating_system/06_memory_management/344_first_fit/))이 사서(OS)를 과로사로부터 구원한 가장 효율적인 시스템입니다.
 
 ---
 
@@ -177,10 +181,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[341_internal_fragmentation|내부 단편화]] ([[341_internal_fragmentation|Internal Fragmentation]]) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [[342_external_fragmentation|외부 단편화]] ([[342_external_fragmentation|External Fragmentation]]) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [[344_first_fit|최초 적합]] ([[344_first_fit|First-Fit]]) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [[345_best_fit|최적 적합]] ([[345_best_fit|Best-Fit]]) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/) ([Internal Fragmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) ([External Fragmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [최초 적합](/knowledge-base/studynote/02_operating_system/06_memory_management/344_first_fit/) ([First-Fit](/knowledge-base/studynote/02_operating_system/06_memory_management/344_first_fit/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [최적 적합](/knowledge-base/studynote/02_operating_system/06_memory_management/345_best_fit/) ([Best-Fit](/knowledge-base/studynote/02_operating_system/06_memory_management/345_best_fit/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -194,13 +198,13 @@ tags:
     └──▶ [최적 적합 (Best-Fit)]
 ```
 
-이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [[347_compaction|압축]]해 보여준다.
+이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 동적 메모리 할당 문제 (가변 분할 배치 [[001_algorithm_definition|알고리즘]]) (Dynamic Storage Allocation Problem)은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
-2. 먼저 [[342_external_fragmentation|외부 단편화]] ([[342_external_fragmentation|External Fragmentation]])을 이해하면 동적 메모리 할당 문제 (가변 분할 배치 [[001_algorithm_definition|알고리즘]]) (Dynamic Storage Allocation Problem)이 왜 필요한지 더 쉽게 보여요.
-3. 그래서 동적 메모리 할당 문제 (가변 분할 배치 [[001_algorithm_definition|알고리즘]]) (Dynamic Storage Allocation Problem)을 잘 알면 나중에 [[344_first_fit|최초 적합]] ([[344_first_fit|First-Fit]])도 훨씬 쉽게 배울 수 있어요.
+1. 동적 메모리 할당 문제 (가변 분할 배치 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) (Dynamic Storage Allocation Problem)은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
+2. 먼저 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) ([External Fragmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/))을 이해하면 동적 메모리 할당 문제 (가변 분할 배치 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) (Dynamic Storage Allocation Problem)이 왜 필요한지 더 쉽게 보여요.
+3. 그래서 동적 메모리 할당 문제 (가변 분할 배치 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) (Dynamic Storage Allocation Problem)을 잘 알면 나중에 [최초 적합](/knowledge-base/studynote/02_operating_system/06_memory_management/344_first_fit/) ([First-Fit](/knowledge-base/studynote/02_operating_system/06_memory_management/344_first_fit/))도 훨씬 쉽게 배울 수 있어요.
 
 ---
 
@@ -208,7 +212,7 @@ tags:
 
 **진행 상황**: 343 / 800
 
-← **이전**: [[342_external_fragmentation|342. 외부 단편화 (External Fragmentation) - 가용 공간은 충분하나 불연속적이라 할당 불가]]
-**다음**: [[344_first_fit|344. 최초 적합 (First-Fit) - 첫 번째 충분한 공간 할당 (속도 빠름)]] →
+← **이전**: [342. 외부 단편화 (External Fragmentation) - 가용 공간은 충분하나 불연속적이라 할당 불가](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)
+**다음**: [344. 최초 적합 (First-Fit) - 첫 번째 충분한 공간 할당 (속도 빠름)](/knowledge-base/studynote/02_operating_system/06_memory_management/344_first_fit/) →
 
 ---

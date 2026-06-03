@@ -1,14 +1,18 @@
----
-title: 494. RASP (Runtime Application Self-Protection)
-date: '2026-05-08'
-tags:
-- studynote-software-engineering
----
++++
+title = "494. RASP (Runtime Application Self-Protection)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-software-engineering"]
+
+[extra]
+tags = ["studynote-software-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[494_rasp_runtime_protection|RASP]] ([[494_rasp_runtime_protection|Runtime Application Self-Protection]])은(는) [[001_software_engineering_definition|소프트웨어 공학]]의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[[346_maintainability_portability|유지보수성]]·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: [RASP](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/494_rasp_runtime_protection/) ([Runtime Application Self-Protection](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/494_rasp_runtime_protection/))은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
@@ -17,13 +21,13 @@ tags:
 
 RASP는 애플리케이션이 실행되는 동안 스스로 공격을 감지하고 대응하는 기술이다. 외부 장비만 믿지 않고 앱이 직접 방어에 참여한다.
 
-런타임 [[571_protection_vs_security|보호]]가 필요한 환경에서 의미가 크다.
+런타임 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)가 필요한 환경에서 의미가 크다.
 
 - **📢 섹션 요약 비유**: 집에 경비원이 있는 것뿐 아니라, 문도 스스로 잠기는 것과 같다.
 
 ---
 
-다음은 [[494_rasp_runtime_protection|RASP]] (Runtime Applic의 핵심 구조와 흐름을 보여주는 다이어그램이다.
+다음은 [RASP](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/494_rasp_runtime_protection/) (Runtime Applic의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -38,7 +42,7 @@ RASP는 애플리케이션이 실행되는 동안 스스로 공격을 감지하�
 └─────────────────────────────────────────────────────────────┘
 ```
 
-이 다이어그램은 [[494_rasp_runtime_protection|RASP]] (Runtime Applic가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
+이 다이어그램은 [RASP](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/494_rasp_runtime_protection/) (Runtime Applic가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
 ---
 
@@ -56,7 +60,7 @@ RASP는 앱 내부에서 이벤트를 보고, 위험하면 차단한다.
 
 | 기능 | 의미 |
 |:---|:---|
-| 탐지 | 공격 징후 [[396_validation|확인]] |
+| 탐지 | 공격 징후 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
 | 차단 | 즉시 방어 |
 | 기록 | 사후 분석 |
 
@@ -72,15 +76,15 @@ RASP는 앱 내부에서 이벤트를 보고, 위험하면 차단한다.
 
 ## Ⅲ. 비교 및 연결
 
-RASP는 [[696_waf_web_application_firewall|WAF]] ([[242_waf_web_application_firewall_l7_protection|Web Application Firewall]])와 비슷해 보이지만, 앱 내부 문맥을 더 잘 안다.
+RASP는 [WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/) ([Web Application Firewall](/knowledge-base/studynote/09_security/05_web_app_security/242_waf_web_application_firewall_l7_protection/))와 비슷해 보이지만, 앱 내부 문맥을 더 잘 안다.
 
-| 구분 | [[494_rasp_runtime_protection|RASP]] | [[696_waf_web_application_firewall|WAF]] |
+| 구분 | [RASP](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/494_rasp_runtime_protection/) | [WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/) |
 |:---|:---|:---|
 | 위치 | 앱 내부 | 네트워크 경계 |
 | 문맥 | 높음 | 제한적 |
 | 대응 | 차단/기록 | 필터링 |
 
-IAST와도 가까운 개념이지만, 목적은 [[571_protection_vs_security|보호]]에 더 가깝다.
+IAST와도 가까운 개념이지만, 목적은 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)에 더 가깝다.
 
 - **📢 섹션 요약 비유**: 바깥 울타리와 집 안 경보기는 서로 다르다.
 
@@ -94,11 +98,11 @@ IAST와도 가까운 개념이지만, 목적은 [[571_protection_vs_security|보
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 민감 [[090_service_kubernetes_network_load_balancing|서비스]], [[014_api_posix|API]] [[571_protection_vs_security|보호]], 런타임 방어 정책에 사용한다.
+실무에서는 민감 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/), 런타임 방어 정책에 사용한다.
 
 검토 포인트는 다음과 같다.
 1. 차단 정책이 과도한 오탐을 만들지 않는가?
-2. [[282_performance_tactics|성능]] 오버헤드가 허용 가능한가?
+2. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 오버헤드가 허용 가능한가?
 3. 탐지와 차단 기록이 남는가?
 
 - **📢 섹션 요약 비유**: 자동문이 너무 민감하면 손님도 못 들어오고, 너무 둔하면 도둑도 들어온다.
@@ -129,10 +133,10 @@ RASP는 공격 대응을 앱 자체의 책임으로 끌어온다.
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[001_software_engineering_definition|소프트웨어 공학]] ([[001_software_engineering_definition|Software Engineering]]) | [[494_rasp_runtime_protection|RASP]] ([[494_rasp_runtime_protection|Runtime Application Self-Protection]])의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [[003_sdlc|소프트웨어 생명주기]] ([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]], Software Development Life Cycle) | [[494_rasp_runtime_protection|RASP]] ([[494_rasp_runtime_protection|Runtime Application Self-Protection]])은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | [[494_rasp_runtime_protection|RASP]] ([[494_rasp_runtime_protection|Runtime Application Self-Protection]]) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [[020_software_configuration_management|형상 관리]] ([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]]) | [[494_rasp_runtime_protection|RASP]] ([[494_rasp_runtime_protection|Runtime Application Self-Protection]])에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [RASP](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/494_rasp_runtime_protection/) ([Runtime Application Self-Protection](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/494_rasp_runtime_protection/))의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [RASP](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/494_rasp_runtime_protection/) ([Runtime Application Self-Protection](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/494_rasp_runtime_protection/))은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | [RASP](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/494_rasp_runtime_protection/) ([Runtime Application Self-Protection](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/494_rasp_runtime_protection/)) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [RASP](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/494_rasp_runtime_protection/) ([Runtime Application Self-Protection](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/494_rasp_runtime_protection/))에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -152,13 +156,13 @@ RASP (Runtime Application Self-Protection) 개념 정립
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [[002_software_crisis|소프트웨어 위기]] 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [[494_rasp_runtime_protection|RASP]] ([[494_rasp_runtime_protection|Runtime Application Self-Protection]])은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. [RASP](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/494_rasp_runtime_protection/) ([Runtime Application Self-Protection](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/494_rasp_runtime_protection/))은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
 
 ---
 
@@ -166,7 +170,7 @@ RASP (Runtime Application Self-Protection) 개념 정립
 
 **진행 상황**: 579 / 973
 
-← **이전**: [[493_iast_interactive_analysis|493. IAST (Interactive Application Security Testing) - SAST와 DAST 결합, 에이전트]]
-**다음**: [[494_rasp_runtime_protection|494. RASP (Runtime Application Self-Protection) - 실행 환경 내부에서 공격 실시간 방어]] →
+← **이전**: [493. IAST (Interactive Application Security Testing) - SAST와 DAST 결합, 에이전트](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/493_iast_interactive_analysis/)
+**다음**: [494. RASP (Runtime Application Self-Protection) - 실행 환경 내부에서 공격 실시간 방어](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/494_rasp_runtime_protection/) →
 
 ---

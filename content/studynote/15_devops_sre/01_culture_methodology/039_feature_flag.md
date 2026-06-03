@@ -1,18 +1,22 @@
----
-title: 039. 피처 플래그 (Feature Flag / Feature Toggle)
-date: '2026-03-04'
-tags:
-- studynote-devops-sre
----
++++
+title = "039. 피처 플래그 (Feature Flag / Feature Toggle)"
+date = 2026-03-04
+
+[taxonomies]
+tags = ["studynote-devops-sre"]
+
+[extra]
+tags = ["studynote-devops-sre"]
++++
 
 > **핵심 인사이트**
-> 1. [[576_feature_flag_ab_testing_rollout|피처 플래그]]([[576_feature_flag_ab_testing_rollout|Feature Flag]])는 코드 배포와 기능 활성화를 분리하는 기술로, "항상 배포 가능한 상태(Always Deployable)"를 유지하면서 특정 사용자/비율에게만 새 기능을 점진적으로 노출할 수 있는 현대 [[090_configuration_item|CI]]/CD의 핵심 요소다.
-> 2. [[576_feature_flag_ab_testing_rollout|피처 플래그]]의 유형 — 릴리즈 토글(배포 제어), 실험 토글(A/B 테스트), 운영 토글(회로 차단기), 권한 토글(사용자 세그먼트) — 각각 생명주기와 관리 방식이 다르므로 용도를 구분하여 사용해야 한다.
-> 3. [[576_feature_flag_ab_testing_rollout|피처 플래그]] 부채([[186_character_stuffing_dle_stx_etx|Flag]] Debt)는 주요 [[100_technical_debt_monitoring_release_policy|기술 부채]] 원인 — 사용 완료된 [[186_character_stuffing_dle_stx_etx|플래그]]를 정리하지 않으면 코드 복잡성이 기하급수적으로 증가하므로, [[186_character_stuffing_dle_stx_etx|플래그]] [[087_process_state_transition|생성]] 시 만료일(Expiry Date) [[009_config|설정]]이 필수 관례이다.
+> 1. [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)([Feature Flag](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/))는 코드 배포와 기능 활성화를 분리하는 기술로, "항상 배포 가능한 상태(Always Deployable)"를 유지하면서 특정 사용자/비율에게만 새 기능을 점진적으로 노출할 수 있는 현대 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD의 핵심 요소다.
+> 2. [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)의 유형 — 릴리즈 토글(배포 제어), 실험 토글(A/B 테스트), 운영 토글(회로 차단기), 권한 토글(사용자 세그먼트) — 각각 생명주기와 관리 방식이 다르므로 용도를 구분하여 사용해야 한다.
+> 3. [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/) 부채([Flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) Debt)는 주요 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 원인 — 사용 완료된 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)를 정리하지 않으면 코드 복잡성이 기하급수적으로 증가하므로, [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시 만료일(Expiry Date) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 필수 관례이다.
 
 ---
 
-## I. [[576_feature_flag_ab_testing_rollout|피처 플래그]] 동작 원리
+## I. [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/) 동작 원리
 
 ```
 코드 배포 vs 기능 활성화 분리:
@@ -42,11 +46,11 @@ tags:
   장기 피처 브랜치 불필요 (트렁크 기반 개발)
 ```
 
-> 📢 **섹션 요약 비유**: [[576_feature_flag_ab_testing_rollout|피처 플래그]]는 새 메뉴를 주방에 준비해두고 아직 메뉴판에는 없는 것 — 준비 완료되면 메뉴판에 추가([[186_character_stuffing_dle_stx_etx|플래그]] ON).
+> 📢 **섹션 요약 비유**: [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)는 새 메뉴를 주방에 준비해두고 아직 메뉴판에는 없는 것 — 준비 완료되면 메뉴판에 추가([플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) ON).
 
 ---
 
-## II. [[576_feature_flag_ab_testing_rollout|피처 플래그]] 유형
+## II. [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/) 유형
 
 ```
 피처 플래그 4가지 유형 (Martin Fowler):
@@ -80,7 +84,7 @@ tags:
 
 ---
 
-## III. [[115_canary_deployment_gradual_rollout|카나리 배포]] vs 블루-그린 vs [[576_feature_flag_ab_testing_rollout|피처 플래그]]
+## III. [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/) vs 블루-그린 vs [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)
 
 ```
 배포 전략 비교:
@@ -110,11 +114,11 @@ tags:
   기능 수준: 피처 플래그 (특정 사용자)
 ```
 
-> 📢 **섹션 요약 비유**: [[595_canary_stack_smashing_protector|카나리]]는 새 메뉴를 일부 테이블에만 제공, [[576_feature_flag_ab_testing_rollout|피처 플래그]]는 같은 주방에서 VIP 고객에게만 특별 [[090_service_kubernetes_network_load_balancing|서비스]] — 비용과 제어 수준 차이.
+> 📢 **섹션 요약 비유**: [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)는 새 메뉴를 일부 테이블에만 제공, [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)는 같은 주방에서 VIP 고객에게만 특별 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) — 비용과 제어 수준 차이.
 
 ---
 
-## [[288_version_ihl_tos_total_length|IV]]. [[576_feature_flag_ab_testing_rollout|피처 플래그]] 부채 관리
+## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/) 부채 관리
 
 ```
 피처 플래그 부채 (Flag Debt):
@@ -148,7 +152,7 @@ SaaS 도구:
   LaunchDarkly, Flagsmith, Unleash, Optimizely
 ```
 
-> 📢 **섹션 요약 비유**: [[186_character_stuffing_dle_stx_etx|플래그]] 부채는 방 청소 미루기 — 당장은 편하지만 쌓이면 방 전체를 청소해야 하는 상황이 됨.
+> 📢 **섹션 요약 비유**: [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 부채는 방 청소 미루기 — 당장은 편하지만 쌓이면 방 전체를 청소해야 하는 상황이 됨.
 
 ---
 
@@ -182,7 +186,7 @@ SaaS 도구:
   -> 코드 롤백 필요 없음!
 ```
 
-> 📢 **섹션 요약 비유**: A/B 테스트는 두 [[288_version_ihl_tos_total_length|버전]] 동시 운영으로 더 좋은 것 선택 — [[576_feature_flag_ab_testing_rollout|피처 플래그]]가 서버 재배포 없이 버튼 하나로 전환.
+> 📢 **섹션 요약 비유**: A/B 테스트는 두 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 동시 운영으로 더 좋은 것 선택 — [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)가 서버 재배포 없이 버튼 하나로 전환.
 
 ---
 
@@ -233,9 +237,9 @@ OpenFeature 표준 (CNCF)
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [[576_feature_flag_ab_testing_rollout|피처 플래그]]는 새 놀이기구를 놀이공원에 설치해두고 아직 문을 닫아두는 것처럼, 코드는 배포하되 기능은 준비될 때 열 수 있어요.
+1. [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)는 새 놀이기구를 놀이공원에 설치해두고 아직 문을 닫아두는 것처럼, 코드는 배포하되 기능은 준비될 때 열 수 있어요.
 2. 새 기능을 전체 사용자의 1%에게만 먼저 보여주고 문제가 없으면 점점 늘려가는 점진적 롤아웃으로 배포 위험을 최소화해요.
-3. [[576_feature_flag_ab_testing_rollout|피처 플래그]]를 많이 만들고 정리하지 않으면 "if A and not B or (C and D)" 같은 복잡한 조건이 쌓여 코드가 엉망이 되므로 만료일 [[009_config|설정]]이 필수예요!
+3. [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)를 많이 만들고 정리하지 않으면 "if A and not B or (C and D)" 같은 복잡한 조건이 쌓여 코드가 엉망이 되므로 만료일 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 필수예요!
 
 ---
 
@@ -243,7 +247,7 @@ OpenFeature 표준 (CNCF)
 
 **진행 상황**: 39 / 373
 
-← **이전**: [[038_water_scrum_fall|038. 워터스크럼폴 (WaterScrumFall) — 애자일 실패 패턴]]
-**다음**: [[040_trunk_based_development|040. 트렁크 기반 개발 (Trunk-Based Development)]] →
+← **이전**: [038. 워터스크럼폴 (WaterScrumFall) — 애자일 실패 패턴](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/038_water_scrum_fall/)
+**다음**: [040. 트렁크 기반 개발 (Trunk-Based Development)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/040_trunk_based_development/) →
 
 ---

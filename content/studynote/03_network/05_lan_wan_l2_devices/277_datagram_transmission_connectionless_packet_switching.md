@@ -1,24 +1,28 @@
----
-title: 277. 데이터그램 전송 방식 (비연결형 패킷 교환)
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "277. 데이터그램 전송 방식 (비연결형 패킷 교환)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[001_dikw_pyramid|데이터]]그램 전송 방식은 LAN/WAN과 2계층 장비에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: [[001_dikw_pyramid|데이터]]그램 전송 방식을 이해하면 스위칭 효율과 브로드캐스트 범위 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램 전송 방식은 LAN/WAN과 2계층 장비에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램 전송 방식을 이해하면 스위칭 효율과 브로드캐스트 범위 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [[276_packet_switching_vs_circuit_switching_message_switching|패킷 교환]] 방식의 두 가지 세부 갈래 중 하나로, 연결 [[009_config|설정]](Setup) 절차 없이 패킷([[001_dikw_pyramid|데이터]]그램)을 독립적으로 [[339_routing_overview_best_path_selection|라우팅]]하는 방식.
-- **필요성**: 전쟁이 나거나 자연재해가 터져 중간에 있는 라우터가 폭파되었을 때, 미리 길을 하나만 정해놓은 방식(연결형)은 통신이 완전히 박살 난다. 미 국방성(ARPANET)은 "어떤 라우터가 죽더라도 패킷들이 알아서 살아남은 다른 길을 냄새 맡고 뚫고 지나가게 만들자!"라는 생존성을 극대화하기 위해 [[001_dikw_pyramid|데이터]]그램 방식을 고안했다.
+- **개념**: [패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/) 방식의 두 가지 세부 갈래 중 하나로, 연결 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(Setup) 절차 없이 패킷([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램)을 독립적으로 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)하는 방식.
+- **필요성**: 전쟁이 나거나 자연재해가 터져 중간에 있는 라우터가 폭파되었을 때, 미리 길을 하나만 정해놓은 방식(연결형)은 통신이 완전히 박살 난다. 미 국방성(ARPANET)은 "어떤 라우터가 죽더라도 패킷들이 알아서 살아남은 다른 길을 냄새 맡고 뚫고 지나가게 만들자!"라는 생존성을 극대화하기 위해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램 방식을 고안했다.
 
-- **💡 비유**: [[001_dikw_pyramid|데이터]]그램 방식은 100장의 편지를 한 묶음으로 묶지 않고 **"100장의 편지봉투에 일일이 받는 사람 주소를 적어서 우체통에 던져넣는 것"**과 같습니다. 우체국은 1번 편지는 KTX로, 2번 편지는 고속버스로 보낼 수도 있습니다. 2번 편지가 1번보다 먼저 도착할 수도 있지만(순서 역전), KTX가 고장 나도 고속버스를 탄 편지들은 무사히 배달된다는 장점이 있습니다.
+- **💡 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램 방식은 100장의 편지를 한 묶음으로 묶지 않고 **"100장의 편지봉투에 일일이 받는 사람 주소를 적어서 우체통에 던져넣는 것"**과 같습니다. 우체국은 1번 편지는 KTX로, 2번 편지는 고속버스로 보낼 수도 있습니다. 2번 편지가 1번보다 먼저 도착할 수도 있지만(순서 역전), KTX가 고장 나도 고속버스를 탄 편지들은 무사히 배달된다는 장점이 있습니다.
 
 ```text
 [패킷 교환 vs 회선 교환 vs 메시지 교환]
@@ -29,13 +33,13 @@ tags:
     └──▶ [가상 회선 전송 방식 (연결형 패킷 교환]
 ```
 
-- **📢 섹션 요약 비유**: ** [[001_dikw_pyramid|데이터]]그램 전송은 목적지만 알려주고 100명의 병사에게 각자 알아서 목적지로 집결하라고 명령하는 **"각개전투(게릴라) 전술"**입니다. 지휘관(라우터)이 죽어도 병사들은 멈추지 않고 스스로 살길을 찾습니다.
+- **📢 섹션 요약 비유**: ** [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램 전송은 목적지만 알려주고 100명의 병사에게 각자 알아서 목적지로 집결하라고 명령하는 **"각개전투(게릴라) 전술"**입니다. 지휘관(라우터)이 죽어도 병사들은 멈추지 않고 스스로 살길을 찾습니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[[001_dikw_pyramid|데이터]]그램 전송 방식는 프레임 전달과 근거리 네트워크 장비의 동작을 설명하는 축라는 관점에서 이해해야 한다. [[276_packet_switching_vs_circuit_switching_message_switching|패킷 교환]] vs 회선 교환 vs 메시지 교환와 가상 회선 전송 방식 (연결형 [[276_packet_switching_vs_circuit_switching_message_switching|패킷 교환]] 사이의 연결점으로 놓고 보면 개념의 역할이 더 분명해진다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램 전송 방식는 프레임 전달과 근거리 네트워크 장비의 동작을 설명하는 축라는 관점에서 이해해야 한다. [패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/) vs 회선 교환 vs 메시지 교환와 가상 회선 전송 방식 (연결형 [패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/) 사이의 연결점으로 놓고 보면 개념의 역할이 더 분명해진다.
 
 ```text
 [패킷 교환 vs 회선 교환 vs 메시지 교환]
@@ -46,19 +50,19 @@ tags:
     └──▶ [가상 회선 전송 방식 (연결형 패킷 교환]
 ```
 
-- **📢 섹션 요약 비유**: [[001_dikw_pyramid|데이터]]그램 전송 방식의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
+- **📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램 전송 방식의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-[[001_dikw_pyramid|데이터]]를 보내기 전 수신자와 "나 지금 [[001_dikw_pyramid|데이터]] 보낼 건데 길 좀 열어줘"라고 허락을 구하는 과정(호 [[009_config|설정]], Setup)이 아예 없다. 
-보낼 [[001_dikw_pyramid|데이터]]가 생기면 라우터는 그냥 당장 1번 포트로 냅다 쏴버린다. 덕분에 통신 시작 시 [[459_quic_fec_forward_error_correction|초기]] [[015_지연_데이터_관점|지연]](Setup Delay)이 발생하지 않아 가벼운 통신에 유리하다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내기 전 수신자와 "나 지금 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보낼 건데 길 좀 열어줘"라고 허락을 구하는 과정(호 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), Setup)이 아예 없다. 
+보낼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 생기면 라우터는 그냥 당장 1번 포트로 냅다 쏴버린다. 덕분에 통신 시작 시 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Setup Delay)이 발생하지 않아 가벼운 통신에 유리하다.
 
 ### 2. 라우터의 홉-바이-홉(Hop-by-Hop) 독립적 계산
-- [[276_packet_switching_vs_circuit_switching_message_switching|패킷 교환]]망 내의 모든 라우터는 IP 주소가 적힌 [[339_routing_overview_best_path_selection|라우팅]] 테이블을 각자 가지고 있다.
+- [패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/)망 내의 모든 라우터는 IP 주소가 적힌 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블을 각자 가지고 있다.
 - 패킷이 라우터에 도착할 때마다, 라우터는 그 순간 가장 덜 막히는 최적의 경로를 실시간으로 계산해서 던져준다.
-- 1번 패킷이 통과한 직후 A 도로에 교통사고(링크 장애)가 났다면, 2번 패킷이 도착했을 때 라우터는 즉시 B 도로로 우회시켜 버린다. (동적 [[339_routing_overview_best_path_selection|라우팅]]의 핵심)
+- 1번 패킷이 통과한 직후 A 도로에 교통사고(링크 장애)가 났다면, 2번 패킷이 도착했을 때 라우터는 즉시 B 도로로 우회시켜 버린다. (동적 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)의 핵심)
 
 ```text
  ┌─────────────────────────────────────────────────────────────┐
@@ -80,38 +84,38 @@ tags:
  └─────────────────────────────────────────────────────────────┘
 ```
 
-### 3. 신뢰성의 결여와 상위 계층([[405_tcp_transmission_control_protocol_connection_oriented|TCP]])의 역할
-[[001_dikw_pyramid|데이터]]그램 자체(IP 패킷)는 순서가 뒤바뀌거나(Out-of-order) 중간에 큐가 꽉 차서 버려져도(Drop) 절대 복구해주지 않는 무책임한 방식(Best-Effort)이다. 
-이를 보완하기 위해, 도착지에 있는 PC의 **[[405_tcp_transmission_control_protocol_connection_oriented|TCP]](전송 계층) 모듈이 패킷의 일련번호(Sequence Number)를 보고 뒤죽박죽된 순서를 예쁘게 재조립하고, 못 받은 패킷은 다시 보내라고 요청**한다. 즉, 하위 망은 쿨하게 던지고, 상위 단말기가 머리를 쓰는 현대 인터넷의 사상이 바로 [[001_dikw_pyramid|데이터]]그램 전송에서 왔다.
+### 3. 신뢰성의 결여와 상위 계층([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))의 역할
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램 자체(IP 패킷)는 순서가 뒤바뀌거나(Out-of-order) 중간에 큐가 꽉 차서 버려져도(Drop) 절대 복구해주지 않는 무책임한 방식(Best-Effort)이다. 
+이를 보완하기 위해, 도착지에 있는 PC의 **[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)(전송 계층) 모듈이 패킷의 일련번호(Sequence Number)를 보고 뒤죽박죽된 순서를 예쁘게 재조립하고, 못 받은 패킷은 다시 보내라고 요청**한다. 즉, 하위 망은 쿨하게 던지고, 상위 단말기가 머리를 쓰는 현대 인터넷의 사상이 바로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램 전송에서 왔다.
 
-- **📢 섹션 요약 비유**: ** [[001_dikw_pyramid|데이터]]그램 방식은 쿨한 배달 기사입니다. 물건을 목적지 문 앞에 냅다 던져놓고 가버립니다(Best-Effort). 순서가 섞였는지 물건이 깨졌는지는 **"상자 속 물건을 꺼내보는 고객([[405_tcp_transmission_control_protocol_connection_oriented|TCP]])"**이 직접 확인하고 퍼즐을 맞춰야 합니다.
+- **📢 섹션 요약 비유**: ** [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램 방식은 쿨한 배달 기사입니다. 물건을 목적지 문 앞에 냅다 던져놓고 가버립니다(Best-Effort). 순서가 섞였는지 물건이 깨졌는지는 **"상자 속 물건을 꺼내보는 고객([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))"**이 직접 확인하고 퍼즐을 맞춰야 합니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 [[001_dikw_pyramid|데이터]]그램 전송 방식을 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [[276_packet_switching_vs_circuit_switching_message_switching|패킷 교환]] vs 회선 교환 vs 메시지 교환 수준의 기본 대책으로 충분한지, 아니면 [[001_dikw_pyramid|데이터]]그램 전송 방식이 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 가상 회선 전송 방식 (연결형 [[276_packet_switching_vs_circuit_switching_message_switching|패킷 교환]]와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램 전송 방식을 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/) vs 회선 교환 vs 메시지 교환 수준의 기본 대책으로 충분한지, 아니면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램 전송 방식이 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 가상 회선 전송 방식 (연결형 [패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/)와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 스위칭 효율 부족인지, 브로드캐스트 범위 악화인지 먼저 분리한다.
-2. [[001_dikw_pyramid|데이터]]그램 전송 방식가 추가하는 복잡도와 운영 이득이 균형을 이루는지 확인한다.
-3. 도입 후에는 인접 기술인 가상 회선 전송 방식 (연결형 [[276_packet_switching_vs_circuit_switching_message_switching|패킷 교환]]와의 연계 방식을 함께 검증한다.
+2. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램 전송 방식가 추가하는 복잡도와 운영 이득이 균형을 이루는지 확인한다.
+3. 도입 후에는 인접 기술인 가상 회선 전송 방식 (연결형 [패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/)와의 연계 방식을 함께 검증한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- [[001_dikw_pyramid|데이터]]그램 전송 방식의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- [[276_packet_switching_vs_circuit_switching_message_switching|패킷 교환]] vs 회선 교환 vs 메시지 교환와의 경계를 정리하지 않아 중복 투자나 [[164_policy|정책]] 충돌을 만드는 설계
+- [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램 전송 방식의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
+- [패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/) vs 회선 교환 vs 메시지 교환와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
-- **📢 섹션 요약 비유**: [[001_dikw_pyramid|데이터]]그램 전송 방식을 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
+- **📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램 전송 방식을 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[[001_dikw_pyramid|데이터]]그램 전송 방식은 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 스위칭 효율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 가상 회선 전송 방식 (연결형 [[276_packet_switching_vs_circuit_switching_message_switching|패킷 교환]], 지능형 캠퍼스 패브릭, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 지능형 캠퍼스 패브릭 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램 전송 방식은 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 스위칭 효율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 가상 회선 전송 방식 (연결형 [패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/), 지능형 캠퍼스 패브릭, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 지능형 캠퍼스 패브릭 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: [[001_dikw_pyramid|데이터]]그램 전송 방식은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
+- **📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램 전송 방식은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
 ---
 
@@ -119,10 +123,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[276_packet_switching_vs_circuit_switching_message_switching|패킷 교환]] vs 회선 교환 vs 메시지 교환 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [[673_mac_message_authentication_code|MAC]] 주소 ([[121_transmission_media_guided_unguided|Media]] [[547_access_control_rwx|Access Control]] Address) | 2계층 전달 대상을 식별하는 기본 주소다. |
-| [[238_switch_operation_principles|스위치]] ([[238_switch_operation_principles|Switch]]) | 프레임을 적절한 포트로 전달하는 핵심 장비다. |
-| 가상 회선 전송 방식 (연결형 [[276_packet_switching_vs_circuit_switching_message_switching|패킷 교환]] | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/) vs 회선 교환 vs 메시지 교환 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 ([Media](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) [Access Control](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/) Address) | 2계층 전달 대상을 식별하는 기본 주소다. |
+| [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) ([Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)) | 프레임을 적절한 포트로 전달하는 핵심 장비다. |
+| 가상 회선 전송 방식 (연결형 [패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -136,12 +140,12 @@ tags:
     └──▶ [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
-[[001_dikw_pyramid|데이터]]그램 전송 방식는 [[276_packet_switching_vs_circuit_switching_message_switching|패킷 교환]] vs 회선 교환 vs 메시지 교환에서 출발해 현재 메커니즘을 정교화하고, 이후 가상 회선 전송 방식 (연결형 [[276_packet_switching_vs_circuit_switching_message_switching|패킷 교환]]와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램 전송 방식는 [패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/) vs 회선 교환 vs 메시지 교환에서 출발해 현재 메커니즘을 정교화하고, 이후 가상 회선 전송 방식 (연결형 [패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/)와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 학교 우편함에 이름표가 붙어 있어야 편지가 엉뚱한 곳에 가지 않아요.
-2. 이 개념은 어느 교실로 보내야 할지 알아보는 [[104_classification_analysis|분류]] 규칙과 같아요.
+2. 이 개념은 어느 교실로 보내야 할지 알아보는 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 규칙과 같아요.
 3. 그래서 같은 건물 안에서도 편지가 더 빠르고 질서 있게 움직여요.
 
 ---
@@ -150,7 +154,7 @@ tags:
 
 **진행 상황**: 398 / 1120
 
-← **이전**: [[276_packet_switching_vs_circuit_switching_message_switching|276. 패킷 교환 (Packet Switching) vs 회선 교환 (Circuit Switching) vs 메시지 교환]]
-**다음**: [[278_virtual_circuit_transmission_connection_oriented_packet_switching|278. 가상 회선 전송 방식 (연결형 패킷 교환]] →
+← **이전**: [276. 패킷 교환 (Packet Switching) vs 회선 교환 (Circuit Switching) vs 메시지 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/)
+**다음**: [278. 가상 회선 전송 방식 (연결형 패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/278_virtual_circuit_transmission_connection_oriented_packet_switching/) →
 
 ---

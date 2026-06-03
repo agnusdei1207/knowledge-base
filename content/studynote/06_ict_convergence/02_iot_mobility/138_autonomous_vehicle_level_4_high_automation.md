@@ -1,9 +1,13 @@
----
-title: 138. 자율주행 Level 4 고도 자율 - 특정 영역 완전 무인
-date: '2026-04-19'
-tags:
-- studynote-ict-convergence
----
++++
+title = "138. 자율주행 Level 4 고도 자율 - 특정 영역 완전 무인"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-ict-convergence"]
+
+[extra]
+tags = ["studynote-ict-convergence"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: SAE Level 4는 **특정 ODD(지역·날씨·속도) 내에서 인간 개입 없이 완전 자율주행**이 가능하며, Takeover 요청이 없어 **운전석이 필요 없을 수 있다**.
@@ -38,7 +42,7 @@ L4는 **로보택시·무인 배달의 현실**이며, ODD 확장과 규제 정�
 | **L4** | 고도 자율 (ODD 한정) |
 | **Waymo** | L4 로보택시 |
 | **ODD** | 운행 설계 영역 |
-| **로보택시** | L4 핵심 [[090_service_kubernetes_network_load_balancing|서비스]] |
+| **로보택시** | L4 핵심 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) |
 | **L5** | 완전 자율 (미달성) |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -60,7 +64,7 @@ L4는 **로보택시·무인 배달의 현실**이며, ODD 확장과 규제 정�
 
 **진행 상황**: 138 / 552
 
-← **이전**: [[137_autonomous_vehicle_level_3_conditional|137. 자율주행 Level 3 조건부 자율 - 시스템 책임의 시작]]
-**다음**: [[139_sensor_fusion_camera_lidar_radar|139. 센서 퓨전 (Camera·LiDAR·Radar) - 자율주행 인지 통합]] →
+← **이전**: [137. 자율주행 Level 3 조건부 자율 - 시스템 책임의 시작](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/137_autonomous_vehicle_level_3_conditional/)
+**다음**: [139. 센서 퓨전 (Camera·LiDAR·Radar) - 자율주행 인지 통합](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/139_sensor_fusion_camera_lidar_radar/) →
 
 ---

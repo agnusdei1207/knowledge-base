@@ -1,9 +1,13 @@
----
-title: 895. SDH (동기식 디지털 위계)
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "895. SDH (동기식 디지털 위계)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -16,7 +20,7 @@ tags:
 ## Ⅰ. 개요 및 필요성
 
 - SDH 이전에 쓰던 PDH 방식은 각 전화국 장비마다 '자체 시계(클럭)'를 썼습니다.
-- **문제점 (비동기화)**: 서울 전화국 시계와 대전 전화국 시계가 조금 달라서, [[001_dikw_pyramid|데이터]]가 도착할 때마다 포장 박스를 몽땅 다 뜯고 다시 묶어서(디멀티플렉싱) 시간을 맞춰줘야 했습니다. 중간에 [[001_dikw_pyramid|데이터]]를 빼거나 넣을 때 장비가 미친 듯이 무거워지고 에러가 폭발했습니다.
+- **문제점 (비동기화)**: 서울 전화국 시계와 대전 전화국 시계가 조금 달라서, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 도착할 때마다 포장 박스를 몽땅 다 뜯고 다시 묶어서(디멀티플렉싱) 시간을 맞춰줘야 했습니다. 중간에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 빼거나 넣을 때 장비가 미친 듯이 무거워지고 에러가 폭발했습니다.
 
 ```text
 [OAM]
@@ -27,13 +31,13 @@ tags:
     └──▶ [SONET]
 ```
 
-- **📢 섹션 요약 비유**: SDH는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [[170_selectivity_cardinality_distribution_tuning|선택도]] 쉬워진다.
+- **📢 섹션 요약 비유**: SDH는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: ITU-T에서 제정한 국제 표준 광통신 전송 규격으로, 네트워크 상의 모든 통신 장비들의 **타이밍(클럭)을 고도의 정밀한 마스터 시계(원자시계, GPS)에 완벽하게 일치시키는 '동기식([[010_동기식_비동기식_전송|Synchronous]])' 방식**을 통해, 여러 가닥의 저속 디지털 [[130_signal|신호]]들을 묶어 거대한 고속 광케이블망(백본망)으로 쏘아 보내는 [[071_다중화_Multiplexing|다중화]]([[071_다중화_Multiplexing|Multiplexing]]) 위계 체계입니다.
+- **개념**: ITU-T에서 제정한 국제 표준 광통신 전송 규격으로, 네트워크 상의 모든 통신 장비들의 **타이밍(클럭)을 고도의 정밀한 마스터 시계(원자시계, GPS)에 완벽하게 일치시키는 '동기식([Synchronous](/knowledge-base/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/))' 방식**을 통해, 여러 가닥의 저속 디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)들을 묶어 거대한 고속 광케이블망(백본망)으로 쏘아 보내는 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)([Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 위계 체계입니다.
 - 주로 **유럽과 한국**을 비롯한 전 세계의 표준으로 채택되었습니다. (미국은 다음 896번 문서의 SONET을 씁니다.)
 
 ```text
@@ -53,16 +57,16 @@ tags:
 
 SDH는 짐을 실어 나르는 완벽하게 규격화된 '표준 박스'를 정의했습니다.
 
-### 1. 기본 블록: [[268_software_transactional_memory|STM]]-1 (155.52 Mbps)
+### 1. 기본 블록: [STM](/knowledge-base/studynote/02_operating_system/04_synchronization/268_software_transactional_memory/)-1 (155.52 Mbps)
 - SDH 세계를 이루는 가장 기본이 되는 첫 번째 레고 블록입니다. 
-- 가로 270바이트, 세로 9줄로 이루어진 이 박스 하나에 전화 통화나 [[001_dikw_pyramid|데이터]]를 구겨 넣으면, **155.52 Mbps**의 속도가 나옵니다. 
+- 가로 270바이트, 세로 9줄로 이루어진 이 박스 하나에 전화 통화나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 구겨 넣으면, **155.52 Mbps**의 속도가 나옵니다. 
 
-### 2. [[071_다중화_Multiplexing|다중화]] (위계, Hierarchy)의 예술
-- 더 빠른 속도가 필요하면 복잡한 변환 없이, 이 [[268_software_transactional_memory|STM]]-1 기본 박스들을 차곡차곡 곱하기 4씩 쌓아 올리면 끝납니다.
-- **[[268_software_transactional_memory|STM]]-4**: $155.52 \times 4 = \textbf{622 Mbps}$
-- **[[268_software_transactional_memory|STM]]-16**: $155.52 \times 16 = \textbf{2.5 Gbps}$
-- **[[268_software_transactional_memory|STM]]-64**: $155.52 \times 64 = \textbf{[[489_raid_10_hybrid|10]] Gbps}$
-- 박스 크기가 배수로 딱딱 맞아떨어지므로(동기식), 대전 우체국(중간 라우터)에서 서울행 택배 1개(음성 [[130_signal|신호]] 1채널)만 쏙 빼내고 싶을 때, 옛날(PDH)처럼 박스를 다 뜯지 않고 핀셋으로 **원하는 짐 하나만 1초 만에 쏙 뺐다 넣었다(Add/Drop [[041_multiplexer|Multiplexer]], [[066_적응형_델타_변조_ADM|ADM]])** 할 수 있는 마법이 성립합니다.
+### 2. [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) (위계, Hierarchy)의 예술
+- 더 빠른 속도가 필요하면 복잡한 변환 없이, 이 [STM](/knowledge-base/studynote/02_operating_system/04_synchronization/268_software_transactional_memory/)-1 기본 박스들을 차곡차곡 곱하기 4씩 쌓아 올리면 끝납니다.
+- **[STM](/knowledge-base/studynote/02_operating_system/04_synchronization/268_software_transactional_memory/)-4**: $155.52 \times 4 = \textbf{622 Mbps}$
+- **[STM](/knowledge-base/studynote/02_operating_system/04_synchronization/268_software_transactional_memory/)-16**: $155.52 \times 16 = \textbf{2.5 Gbps}$
+- **[STM](/knowledge-base/studynote/02_operating_system/04_synchronization/268_software_transactional_memory/)-64**: $155.52 \times 64 = \textbf{[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) Gbps}$
+- 박스 크기가 배수로 딱딱 맞아떨어지므로(동기식), 대전 우체국(중간 라우터)에서 서울행 택배 1개(음성 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 1채널)만 쏙 빼내고 싶을 때, 옛날(PDH)처럼 박스를 다 뜯지 않고 핀셋으로 **원하는 짐 하나만 1초 만에 쏙 뺐다 넣었다(Add/Drop [Multiplexer](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/041_multiplexer/), [ADM](/knowledge-base/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/))** 할 수 있는 마법이 성립합니다.
 
 SDH를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. OAM가 기반 조건을 만든다면, SDH는 그 위에서 핵심 메커니즘을 구현하고, SONET는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전송 용량과 자동 제어성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -70,7 +74,7 @@ SDH를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 |:---|:---|:---|:---|
 | 초점 | OAM의 기반 정리 | SDH의 핵심 동작 | SONET의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 전송 용량 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: SDH는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -78,10 +82,10 @@ SDH를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- [[268_software_transactional_memory|STM]] 박스 앞쪽에는 항상 **오버헤드(Overhead)**라는 이름의 꼬리표 공간이 있습니다. 
-- 여기에 에러 감시, [[238_switch_operation_principles|스위치]] 제어, 경보(Alarm) [[130_signal|신호]]를 적어 보냅니다. 바다 밑 광케이블이 끊어지면, 이 오버헤드 [[130_signal|신호]]를 읽고 전화국 장비가 50ms 만에 우회로로 꺾어주는(Self-Healing 링) 철통 방어 체계의 심장 역할을 했습니다.
+- [STM](/knowledge-base/studynote/02_operating_system/04_synchronization/268_software_transactional_memory/) 박스 앞쪽에는 항상 **오버헤드(Overhead)**라는 이름의 꼬리표 공간이 있습니다. 
+- 여기에 에러 감시, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 제어, 경보(Alarm) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 적어 보냅니다. 바다 밑 광케이블이 끊어지면, 이 오버헤드 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 읽고 전화국 장비가 50ms 만에 우회로로 꺾어주는(Self-Healing 링) 철통 방어 체계의 심장 역할을 했습니다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
@@ -93,10 +97,10 @@ SDH를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 
 ## Ⅴ. 기대효과 및 결론
 
-- SDH는 10Gbps([[268_software_transactional_memory|STM]]-64)까지는 완벽했습니다. 하지만 '음성 통화(TDM)'에 맞춰진 박스 규격이라, 크기가 들쭉날쭉하고 덩치가 큰 '인터넷 [[230_ethernet_structure_and_principles_ieee_802_3|이더넷]] [[001_dikw_pyramid|데이터]](IP)'를 담기에는 낭비가 너무 심했습니다.
-- 결국 100Gbps 이상의 [[418_5g_embb_urllc_mmtc_slicing|5G]], 유튜브 클라우드 시대가 오며, SDH 장비들은 은퇴하고 그 자리를 최신 강철 컨테이너인 **[[893_otn_optical_transport_network_g709_fec_container|OTN]](G.709, 893번)**에게 모두 물려주게 되었습니다. 향후에는 의미 기반 통신 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+- SDH는 10Gbps([STM](/knowledge-base/studynote/02_operating_system/04_synchronization/268_software_transactional_memory/)-64)까지는 완벽했습니다. 하지만 '음성 통화(TDM)'에 맞춰진 박스 규격이라, 크기가 들쭉날쭉하고 덩치가 큰 '인터넷 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(IP)'를 담기에는 낭비가 너무 심했습니다.
+- 결국 100Gbps 이상의 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/), 유튜브 클라우드 시대가 오며, SDH 장비들은 은퇴하고 그 자리를 최신 강철 컨테이너인 **[OTN](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/893_otn_optical_transport_network_g709_fec_container/)(G.709, 893번)**에게 모두 물려주게 되었습니다. 향후에는 의미 기반 통신 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: 과거 PDH 통신망은 각 나라의 시차(비동기)가 섞인 '엉망진창 공항 수하물 센터'였습니다. 짐을 묶어 보낼 때 크기와 시간이 다 달라서 경유지마다 가방을 다 뜯고 재조립하느라 비행기가 맨날 지연됐습니다. **SDH(동기식 디지털 위계)** 혁명은 전 세계 모든 수하물 센터의 벽시계를 '원자시계(동기식)'로 0.1초까지 100% 똑같이 맞추고, 모든 짐 가방을 **'[[268_software_transactional_memory|STM]]-1이라는 규격화된 플라스틱 박스'**로 통일해 버린 마법입니다. 이제 경유지 직원은 컨베이어 벨트가 지나갈 때 시간을 잴 필요 없이, 완벽한 타이밍에 자기가 원하는 플라스틱 박스 딱 하나만 핀셋으로 쏙 뽑아내면 되는(Add/Drop) 인류 역사상 가장 깔끔하고 정교한 광통신 물류 자동화 시스템입니다.
+- **📢 섹션 요약 비유**: 과거 PDH 통신망은 각 나라의 시차(비동기)가 섞인 '엉망진창 공항 수하물 센터'였습니다. 짐을 묶어 보낼 때 크기와 시간이 다 달라서 경유지마다 가방을 다 뜯고 재조립하느라 비행기가 맨날 지연됐습니다. **SDH(동기식 디지털 위계)** 혁명은 전 세계 모든 수하물 센터의 벽시계를 '원자시계(동기식)'로 0.1초까지 100% 똑같이 맞추고, 모든 짐 가방을 **'[STM](/knowledge-base/studynote/02_operating_system/04_synchronization/268_software_transactional_memory/)-1이라는 규격화된 플라스틱 박스'**로 통일해 버린 마법입니다. 이제 경유지 직원은 컨베이어 벨트가 지나갈 때 시간을 잴 필요 없이, 완벽한 타이밍에 자기가 원하는 플라스틱 박스 딱 하나만 핀셋으로 쏙 뽑아내면 되는(Add/Drop) 인류 역사상 가장 깔끔하고 정교한 광통신 물류 자동화 시스템입니다.
 
 ---
 
@@ -105,9 +109,9 @@ SDH를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 | 개념 | 연결 포인트 |
 |:---|:---|
 | OAM | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| 광 전송 (Optical Transport) | [[148_5g_embb_urllc_mmtc|초고속]] 백본의 기본 전달 수단이다. |
+| 광 전송 (Optical Transport) | [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 백본의 기본 전달 수단이다. |
 | 텔레메트리 (Telemetry) | 실시간 상태 측정과 제어 피드백을 가능하게 한다. |
-| [[896_sonet_synchronous_optical_networking_oc_ring|SONET]] | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [SONET](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/896_sonet_synchronous_optical_networking_oc_ring/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -135,7 +139,7 @@ SDH는 OAM에서 출발해 현재 메커니즘을 정교화하고, 이후 SONET�
 
 **진행 상황**: 1016 / 1120
 
-← **이전**: [[894_oam_operations_administration_maintenance_fault_management|894. OAM 망 결함 관리]]
-**다음**: [[896_sonet_synchronous_optical_networking_oc_ring|896. SONET (동기식 광통신망)]] →
+← **이전**: [894. OAM 망 결함 관리](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/894_oam_operations_administration_maintenance_fault_management/)
+**다음**: [896. SONET (동기식 광통신망)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/896_sonet_synchronous_optical_networking_oc_ring/) →
 
 ---

@@ -1,8 +1,12 @@
----
-title: 📓 Daily Journal
-tags:
-- personal
----
++++
+title = "📓 Daily Journal"
+
+[taxonomies]
+tags = ["personal"]
+
+[extra]
+tags = ["personal"]
++++
 
 매일의 생각과 감사한 일들, 그리고 내면의 목소리를 기록하는 곳입니다.
 아래 템플릿을 복사하여 자유롭게 일기를 써 보세요.

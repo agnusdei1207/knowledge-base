@@ -1,15 +1,19 @@
----
-title: 63. 도커 (Docker) 아키텍처
-date: '2026-03-21'
-tags:
-- studynote-operating-system
----
++++
+title = "63. 도커 (Docker) 아키텍처"
+date = 2026-03-21
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Docker는 클라이언트-서버 구조에서 Docker CLI, Docker Engine(dockerd), containerd, runc가 협업해 [[561_container_based_deployment|컨테이너]]를 만들고 실행하는 플랫폼이다.
-> 2. **가치**: 이미지(Image) 레이어, [[235_registry_immutable_tag|레지스트리]]([[235_registry_immutable_tag|Registry]]), [[628_container_runtime_oci|컨테이너 런타임]](Runtime)을 분리해 개발·배포·재현성을 크게 높인다.
-> 3. **판단**: Docker를 이해하려면 "[[158_instruction|명령어]]"보다 "이미지-런타임-[[022_kernel_role|커널]]-격리"의 연결 구조를 먼저 봐야 한다.
+> 1. **본질**: Docker는 클라이언트-서버 구조에서 Docker CLI, Docker Engine(dockerd), containerd, runc가 협업해 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 만들고 실행하는 플랫폼이다.
+> 2. **가치**: 이미지(Image) 레이어, [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)([Registry](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)), [컨테이너 런타임](/knowledge-base/studynote/02_operating_system/10_security/628_container_runtime_oci/)(Runtime)을 분리해 개발·배포·재현성을 크게 높인다.
+> 3. **판단**: Docker를 이해하려면 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)"보다 "이미지-런타임-[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)-격리"의 연결 구조를 먼저 봐야 한다.
 
 ---
 
@@ -17,7 +21,7 @@ tags:
 
 Docker는 "내 PC에서는 되는데 서버에서는 안 된다"는 문제를 줄이기 위해 등장했다. 애플리케이션과 실행 환경을 묶어 동일한 방식으로 어디서나 돌리는 것이 핵심이다.
 
-또한 Docker는 [[561_container_based_deployment|컨테이너]]를 직접 다루는 도구가 아니라, 이미지 빌드와 실행 과정을 표준화하는 플랫폼이다. 그래서 단순 실행기보다 훨씬 넓은 생태계를 가진다.
+또한 Docker는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 직접 다루는 도구가 아니라, 이미지 빌드와 실행 과정을 표준화하는 플랫폼이다. 그래서 단순 실행기보다 훨씬 넓은 생태계를 가진다.
 
 - **📢 섹션 요약 비유**: 요리법과 도시락 통이 함께 있어야, 같은 음식을 어디서든 다시 꺼내 먹을 수 있다.
 
@@ -43,12 +47,12 @@ Container
 | :-- | :-- |
 | Docker CLI | 사용자가 입력하는 명령 인터페이스 |
 | dockerd | Docker Engine의 핵심 데몬 |
-| containerd | [[561_container_based_deployment|컨테이너]] 생명주기 관리 |
-| [[667_container_runtime_hw_isolation|runc]] | [[333_process|OCI]]([[205_container_image_layer_oci_standard|Open Container Initiative]]) 호환 실행기 |
+| containerd | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 생명주기 관리 |
+| [runc](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/667_container_runtime_hw_isolation/) | [OCI](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/)([Open Container Initiative](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/205_container_image_layer_oci_standard/)) 호환 실행기 |
 | Image | 실행 가능한 읽기 전용 템플릿 |
-| [[235_registry_immutable_tag|Registry]] | 이미지를 저장/배포하는 저장소 |
+| [Registry](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) | 이미지를 저장/배포하는 저장소 |
 
-Docker는 이미지 레이어를 쌓아 올려 재사용을 극대화하고, 실행 시에는 [[022_kernel_role|커널]] 기능으로 프로세스를 분리한다. 즉, Docker 자체가 격리를 만드는 것이 아니라 Linux [[022_kernel_role|커널]] 기능을 조합해 격리를 구현한다.
+Docker는 이미지 레이어를 쌓아 올려 재사용을 극대화하고, 실행 시에는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 기능으로 프로세스를 분리한다. 즉, Docker 자체가 격리를 만드는 것이 아니라 Linux [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 기능을 조합해 격리를 구현한다.
 
 - **📢 섹션 요약 비유**: 레시피책, 조리대, 그리고 손질된 재료가 분업되어야 부엌이 빨라진다.
 
@@ -56,7 +60,7 @@ Docker는 이미지 레이어를 쌓아 올려 재사용을 극대화하고, 실
 
 ## Ⅲ. 비교 및 연결
 
-| 구분 | Image | [[194_container_virtualization_docker_namespace|Container]] | [[235_registry_immutable_tag|Registry]] |
+| 구분 | Image | [Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/) | [Registry](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) |
 | :-- | :-- | :-- | :-- |
 | 상태 | 정적인 템플릿 | 실행 중 인스턴스 | 저장소 |
 | 변경 가능성 | 낮음 | 높음 | 낮음 |
@@ -66,9 +70,9 @@ Docker는 이미지 레이어를 쌓아 올려 재사용을 극대화하고, 실
 | :-- | :-- | :-- |
 | Docker | 전체 사용자 경험 | 빌드/실행/배포 통합 |
 | containerd | 런타임 관리 | 경량화된 핵심 관리 |
-| [[667_container_runtime_hw_isolation|runc]] | 실제 실행 | [[333_process|OCI]] 표준 실행기 |
+| [runc](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/667_container_runtime_hw_isolation/) | 실제 실행 | [OCI](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/) 표준 실행기 |
 
-Docker는 [[561_container_based_deployment|컨테이너]] 생태계의 "완성된 사용자 경험"에 가깝다. 반면 containerd와 runc는 보다 아래 계층의 표준 구성요소다.
+Docker는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 생태계의 "완성된 사용자 경험"에 가깝다. 반면 containerd와 runc는 보다 아래 계층의 표준 구성요소다.
 
 - **📢 섹션 요약 비유**: 배달 앱은 주문 화면이고, 주방 시스템은 실제 음식이 움직이는 엔진이다.
 
@@ -76,20 +80,20 @@ Docker는 [[561_container_based_deployment|컨테이너]] 생태계의 "완성�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 이미지 빌드가 재현 가능한가?
 2. 태그와 버전이 명확한가?
-3. [[235_registry_immutable_tag|레지스트리]] 접근 제어가 있는가?
-4. [[561_container_based_deployment|컨테이너]]가 무상태 설계에 맞는가?
-5. [[568_logs_distributed_logging_elk_fluentd|로그]], 헬스체크, 리소스 제한이 들어가 있는가?
+3. [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) 접근 제어가 있는가?
+4. [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 무상태 설계에 맞는가?
+5. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 헬스체크, 리소스 제한이 들어가 있는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - latest 태그만 믿고 배포하는 설계
 - 이미지에 불필요한 도구를 잔뜩 넣는 설계
-- [[561_container_based_deployment|컨테이너]]를 VM처럼 오래 붙잡고 쓰는 설계
-- [[235_registry_immutable_tag|레지스트리]]와 빌드 파이프라인을 분리하지 않는 설계
+- [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 VM처럼 오래 붙잡고 쓰는 설계
+- [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)와 빌드 파이프라인을 분리하지 않는 설계
 
 기술사 관점에서는 Docker를 단순 실행 도구가 아니라 "패키징과 실행을 표준화하는 배포 단위"로 봐야 한다. 이미지의 품질이 결국 운영 품질을 결정한다.
 
@@ -99,9 +103,9 @@ Docker는 [[561_container_based_deployment|컨테이너]] 생태계의 "완성�
 
 ## Ⅴ. 기대효과 및 결론
 
-Docker는 개발 환경과 운영 환경의 차이를 줄이고, 배포를 반복 가능하게 만든다. 그래서 현대 [[090_configuration_item|CI]]/CD와 클라우드 네이티브의 기본 단위로 자리 잡았다.
+Docker는 개발 환경과 운영 환경의 차이를 줄이고, 배포를 반복 가능하게 만든다. 그래서 현대 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD와 클라우드 네이티브의 기본 단위로 자리 잡았다.
 
-결국 중요한 것은 "[[561_container_based_deployment|컨테이너]]를 띄운다"가 아니라 "어떤 이미지를 어떤 기준으로 재사용할 것인가"다.
+결국 중요한 것은 "[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 띄운다"가 아니라 "어떤 이미지를 어떤 기준으로 재사용할 것인가"다.
 
 - **📢 섹션 요약 비유**: 같은 상자에 같은 규격으로 담아야 어디서든 빠르게 옮길 수 있다.
 
@@ -140,7 +144,7 @@ Container Platform
 ## 어린이를 위한 3줄 비유 설명
 
 도커는 요리법을 상자에 담아 어디서나 똑같이 꺼내 먹게 해 줘요.  
-상자는 [[235_registry_immutable_tag|레지스트리]]에 보관하고, 꺼낼 때는 실행 엔진이 도와줘요.  
+상자는 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)에 보관하고, 꺼낼 때는 실행 엔진이 도와줘요.  
 그래서 컴퓨터가 달라도 같은 방식으로 프로그램을 돌릴 수 있어요.
 
 ---
@@ -149,7 +153,7 @@ Container Platform
 
 **진행 상황**: 63 / 800
 
-← **이전**: [[062_cgroups|62. 컨트롤 그룹 (cgroups) - 자원 할당 제어]]
-**다음**: [[064_rootfs_overlayfs|64. 루트 파일 시스템 (Root Filesystem) / 오버레이 파일 시스템 (OverlayFS)]] →
+← **이전**: [62. 컨트롤 그룹 (cgroups) - 자원 할당 제어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/)
+**다음**: [64. 루트 파일 시스템 (Root Filesystem) / 오버레이 파일 시스템 (OverlayFS)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/064_rootfs_overlayfs/) →
 
 ---

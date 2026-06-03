@@ -1,18 +1,22 @@
----
-title: 045. 시프트 레프트 — Shift Left Testing & Security
-date: '2026-04-05'
-tags:
-- studynote-devops-sre
----
++++
+title = "045. 시프트 레프트 — Shift Left Testing & Security"
+date = 2026-04-05
+
+[taxonomies]
+tags = ["studynote-devops-sre"]
+
+[extra]
+tags = ["studynote-devops-sre"]
++++
 
 > **핵심 인사이트**
-> 1. [[242_shift_left_sdlc|시프트 레프트]](Shift Left)는 테스팅·보안 활동을 개발 생명주기의 왼쪽([[459_quic_fec_forward_error_correction|초기]] 단계)으로 이동시키는 원칙 — [[352_defect_definition|결함]]은 발견이 늦을수록 수정 비용이 기하급수적으로 증가하며(IBM: 운영 단계 [[352_defect_definition|결함]] 수정 비용 = 설계 단계의 100×), [[459_quic_fec_forward_error_correction|초기]] 발견이 핵심이다.
-> 2. [[466_shift_left_testing|시프트 레프트 테스팅]]은 테스트 피라미드와 [[164_tdd_test_driven_development|TDD]]([[077_tdd_test_driven_development|테스트 주도 개발]])로 구현 — [[397_unit_test|단위 테스트]](70%)·[[400_integration_testing|통합 테스트]](20%)·[[265_e2e_end_to_ui_selenium|E2E]] 테스트([[489_raid_10_hybrid|10]]%) 비율로 빠른 [[005_feedback_loop|피드백 루프]]를 만들어 [[090_configuration_item|CI]]/CD [[123_pipe|파이프]]라인에서 자동 [[395_verification_process_review|검증]]한다.
-> 3. [[653_devsecops_shift_left|DevSecOps]]([[242_shift_left_sdlc|시프트 레프트]] 보안)는 보안을 개발 프로세스에 내재화 — [[491_sast_static_analysis|SAST]]([[331_static_analysis|정적 분석]])→[[492_dast_dynamic_analysis|DAST]]([[332_dynamic_analysis|동적 분석]])→[[453_sca|SCA]]([[191_oss_license_compliance|오픈소스]] 취약점)→[[561_container_based_deployment|컨테이너]] 스캔을 [[090_configuration_item|CI]]/CD [[123_pipe|파이프]]라인에 자동화하며, "보안은 보안팀의 일"이 아닌 "모두의 일"로 만든다.
+> 1. [시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)(Shift Left)는 테스팅·보안 활동을 개발 생명주기의 왼쪽([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계)으로 이동시키는 원칙 — [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)은 발견이 늦을수록 수정 비용이 기하급수적으로 증가하며(IBM: 운영 단계 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 수정 비용 = 설계 단계의 100×), [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 발견이 핵심이다.
+> 2. [시프트 레프트 테스팅](/knowledge-base/studynote/04_software_engineering/11_testing_validation/466_shift_left_testing/)은 테스트 피라미드와 [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)([테스트 주도 개발](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/077_tdd_test_driven_development/))로 구현 — [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)(70%)·[통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/)(20%)·[E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/) 테스트([10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%) 비율로 빠른 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)를 만들어 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
+> 3. [DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/)([시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) 보안)는 보안을 개발 프로세스에 내재화 — [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)([정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/))→[DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/)([동적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/332_dynamic_analysis/))→[SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/)([오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 취약점)→[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 스캔을 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에 자동화하며, "보안은 보안팀의 일"이 아닌 "모두의 일"로 만든다.
 
 ---
 
-## Ⅰ. [[242_shift_left_sdlc|시프트 레프트]] 개념
+## Ⅰ. [시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) 개념
 
 ```
 결함 수정 비용 곡선:
@@ -53,11 +57,11 @@ IBM 연구 (1970s, 여전히 통용):
   3. 성능 (Shift Left Performance)
 ```
 
-> 📢 **섹션 요약 비유**: [[242_shift_left_sdlc|시프트 레프트]]는 요리할 때 식재료 [[396_validation|확인]] — 완성 후 맛 없으면(운영 [[352_defect_definition|결함]]) 다 버려야. 재료 살 때(요구사항) 신선한지 [[396_validation|확인]]하면 훨씬 저렴!
+> 📢 **섹션 요약 비유**: [시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)는 요리할 때 식재료 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) — 완성 후 맛 없으면(운영 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)) 다 버려야. 재료 살 때(요구사항) 신선한지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하면 훨씬 저렴!
 
 ---
 
-## Ⅱ. [[466_shift_left_testing|시프트 레프트 테스팅]]
+## Ⅱ. [시프트 레프트 테스팅](/knowledge-base/studynote/04_software_engineering/11_testing_validation/466_shift_left_testing/)
 
 ```
 테스트 피라미드 (Test Pyramid):
@@ -103,11 +107,11 @@ CI 파이프라인 통합:
   실패 시 즉시 알림
 ```
 
-> 📢 **섹션 요약 비유**: 테스트 피라미드는 건물 기초 — [[397_unit_test|단위 테스트]](넓은 기초), [[400_integration_testing|통합 테스트]](벽), [[265_e2e_end_to_ui_selenium|E2E]](지붕). 기초가 탄탄해야 지붕이 올라가요. TDD는 청사진 먼저!
+> 📢 **섹션 요약 비유**: 테스트 피라미드는 건물 기초 — [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)(넓은 기초), [통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/)(벽), [E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/)(지붕). 기초가 탄탄해야 지붕이 올라가요. TDD는 청사진 먼저!
 
 ---
 
-## Ⅲ. [[242_shift_left_sdlc|시프트 레프트]] 보안 ([[653_devsecops_shift_left|DevSecOps]])
+## Ⅲ. [시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) 보안 ([DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/))
 
 ```
 DevSecOps 파이프라인:
@@ -163,11 +167,11 @@ DevSecOps 파이프라인:
    S3 버킷 public → 차단
 ```
 
-> 📢 **섹션 요약 비유**: DevSecOps는 공장 품질 검사 라인 — [[491_sast_static_analysis|SAST]](코드 검사기), [[453_sca|SCA]](부품 [[352_defect_definition|결함]] 검사), [[492_dast_dynamic_analysis|DAST]](완성품 충격 테스트), [[561_container_based_deployment|컨테이너]](포장 검사). 각 단계마다 검사!
+> 📢 **섹션 요약 비유**: DevSecOps는 공장 품질 검사 라인 — [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)(코드 검사기), [SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/)(부품 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 검사), [DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/)(완성품 충격 테스트), [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)(포장 검사). 각 단계마다 검사!
 
 ---
 
-## Ⅳ. [[090_configuration_item|CI]]/CD [[123_pipe|파이프]]라인 구성
+## Ⅳ. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 구성
 
 ```
 시프트 레프트 CI/CD 파이프라인:
@@ -213,11 +217,11 @@ Stage 5 (CD - 프로덕션):
   Medium 이하: 리포트만
 ```
 
-> 📢 **섹션 요약 비유**: [[242_shift_left_sdlc|시프트 레프트]] [[090_configuration_item|CI]]/CD는 공항 보안 검색 — 수하물(코드)이 여러 검색대(Stage)를 통과. [[459_quic_fec_forward_error_correction|초기]] 검색대(Pre-commit)에서 걸리면 가장 빠르고 저렴하게 해결!
+> 📢 **섹션 요약 비유**: [시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD는 공항 보안 검색 — 수하물(코드)이 여러 검색대(Stage)를 통과. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 검색대(Pre-commit)에서 걸리면 가장 빠르고 저렴하게 해결!
 
 ---
 
-## Ⅴ. 실무 시나리오 — 핀테크 [[653_devsecops_shift_left|DevSecOps]]
+## Ⅴ. 실무 시나리오 — 핀테크 [DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/)
 
 ```
 핀테크 스타트업 DevSecOps 도입:
@@ -265,7 +269,7 @@ ROI:
   보안팀 코드 리뷰 시간: 주 40시간 → 5시간
 ```
 
-> 📢 **섹션 요약 비유**: DevSecOps는 공장 품질 내재화 — 별도 품질팀(보안팀)이 마지막에 검사하는 대신, 각 작업자(개발자)가 만들면서 바로 검사. 불량(취약점) [[459_quic_fec_forward_error_correction|초기]]에 잡기!
+> 📢 **섹션 요약 비유**: DevSecOps는 공장 품질 내재화 — 별도 품질팀(보안팀)이 마지막에 검사하는 대신, 각 작업자(개발자)가 만들면서 바로 검사. 불량(취약점) [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 잡기!
 
 ---
 
@@ -325,8 +329,8 @@ SAST/DAST/SCA 자동화
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [[242_shift_left_sdlc|시프트 레프트]]는 조기 검사 — 완성된 제품(운영)에서 [[352_defect_definition|결함]] 발견이면 다 뜯어야. 재료 [[396_validation|확인]](요구사항)에서 미리 잡으면 훨씬 쉬워요!
-2. 테스트 피라미드는 집 기초 — [[397_unit_test|단위 테스트]](기초) 많이, 통합(벽) 적당히, [[265_e2e_end_to_ui_selenium|E2E]](지붕) 조금. 기초가 튼튼해야 집이 안전!
+1. [시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)는 조기 검사 — 완성된 제품(운영)에서 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발견이면 다 뜯어야. 재료 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(요구사항)에서 미리 잡으면 훨씬 쉬워요!
+2. 테스트 피라미드는 집 기초 — [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)(기초) 많이, 통합(벽) 적당히, [E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/)(지붕) 조금. 기초가 튼튼해야 집이 안전!
 3. DevSecOps는 모두가 보안팀 — 보안 전문가만 보안 책임지는 게 아니라, 개발자도 코딩할 때 자동으로 보안 체크. 팀 전체가 보안 수호자!
 
 ---
@@ -335,7 +339,7 @@ SAST/DAST/SCA 자동화
 
 **진행 상황**: 45 / 373
 
-← **이전**: [[044_tdd_bdd_test_driven_behavior_driven_development|044. TDD & BDD — 테스트 주도 개발]]
-**다음**: [[046_chatops_bot_collaboration|046. ChatOps — 봇 기반 협업 운영]] →
+← **이전**: [044. TDD & BDD — 테스트 주도 개발](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/044_tdd_bdd_test_driven_behavior_driven_development/)
+**다음**: [046. ChatOps — 봇 기반 협업 운영](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/046_chatops_bot_collaboration/) →
 
 ---

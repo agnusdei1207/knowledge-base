@@ -1,24 +1,28 @@
----
-title: 95. Nexus - 스크럼 팀 간 의존성 관리
-tags:
-- software_engineering
----
++++
+title = "95. Nexus - 스크럼 팀 간 의존성 관리"
+
+[taxonomies]
+tags = ["software_engineering"]
+
+[extra]
+tags = ["software_engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 넥서스 (Nexus)는 [[062_scrum_framework_overview|스크럼]]의 창시자 켄 슈와버가 제안한 [[092_scaled_agile_frameworks_overview|대규모 애자일]] ([[092_scaled_agile_frameworks_overview|Scaled Agile]]) 프레임워크로, 3~9개의 [[062_scrum_framework_overview|스크럼]] 팀이 단일 제품을 개발할 때 발생하는 코드 충돌과 파이프라인 의존성 (Dependency)을 통제하기 위한 확장형 방법론이다.
+> 1. **본질**: 넥서스 (Nexus)는 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)의 창시자 켄 슈와버가 제안한 [대규모 애자일](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/092_scaled_agile_frameworks_overview/) ([Scaled Agile](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/092_scaled_agile_frameworks_overview/)) 프레임워크로, 3~9개의 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 팀이 단일 제품을 개발할 때 발생하는 코드 충돌과 파이프라인 의존성 (Dependency)을 통제하기 위한 확장형 방법론이다.
 > 2. **가치**: 100명 이내의 대규모 개발에서 흔히 겪는 '통합의 늪(Integration Hell)'을 방지하기 위해, 오직 팀 간 교통정리와 빌드 통합만을 전담하는 별도의 '넥서스 통합팀 (NIT, Nexus Integration Team)'을 두어 매끄러운 딜리버리를 보장한다.
-> 3. **판단 포인트**: 기존 [[062_scrum_framework_overview|스크럼]]의 이벤트를 훼손하지 않고 넥서스 이벤트(전체 통합 계획, 전체 리뷰 등)를 껍질처럼 감싸는 형태로 덧붙이므로, 소규모 [[062_scrum_framework_overview|스크럼]]의 본질을 유지하면서도 팀 간 충돌을 최소화하려는 중간 규모 프로젝트에 최적화된 선택지다.
+> 3. **판단 포인트**: 기존 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)의 이벤트를 훼손하지 않고 넥서스 이벤트(전체 통합 계획, 전체 리뷰 등)를 껍질처럼 감싸는 형태로 덧붙이므로, 소규모 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)의 본질을 유지하면서도 팀 간 충돌을 최소화하려는 중간 규모 프로젝트에 최적화된 선택지다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[[658_agile_scrum_roles|애자일 스크럼]] ([[658_agile_scrum_roles|Scrum]])은 10명 이내의 소규모 단일 팀이 빠르게 소프트웨어를 배포하는 데에는 탁월한 성과를 보였다. 그러나 제품의 규모가 커져 3~9개의 [[062_scrum_framework_overview|스크럼]] 팀(약 30~100명)이 하나의 백로그 ([[066_product_backlog_grooming|Product Backlog]])를 공유하며 같은 소스코드를 만지기 시작하면 끔찍한 재앙이 펼쳐진다. 각 팀이 자신들의 [[067_sprint_timebox|스프린트]]를 마치고 코드를 합치려 할 때, 서로의 변수와 인터페이스를 물고 늘어지는 거대한 충돌([[068_git_merge_conflict_resolution_rebase|Merge Conflict]])과 의존성 에러가 폭발하는 것이다.
+[애자일 스크럼](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/) ([Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/))은 10명 이내의 소규모 단일 팀이 빠르게 소프트웨어를 배포하는 데에는 탁월한 성과를 보였다. 그러나 제품의 규모가 커져 3~9개의 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 팀(약 30~100명)이 하나의 백로그 ([Product Backlog](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/))를 공유하며 같은 소스코드를 만지기 시작하면 끔찍한 재앙이 펼쳐진다. 각 팀이 자신들의 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)를 마치고 코드를 합치려 할 때, 서로의 변수와 인터페이스를 물고 늘어지는 거대한 충돌([Merge Conflict](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/068_git_merge_conflict_resolution_rebase/))과 의존성 에러가 폭발하는 것이다.
 
-이른바 '통합의 지옥 (Integration Hell)'이라 불리는 이 현상을 통제하기 위해, 단순히 "팀끼리 알아서 소통해라"라고 방목하는 것은 실패의 지름길이다. [[062_scrum_framework_overview|스크럼]] 창시자는 여러 팀이 한 제품을 개발할 때는 무조건 누군가가 의존성 관리를 전담해야 한다고 판단했고, 기존 [[062_scrum_framework_overview|스크럼]]에 팀 간 '연결고리'를 강제하는 넥서스 (Nexus) 프레임워크를 발표하게 되었다. 넥서스는 복잡한 프로세스를 추가하는 대신 오직 '통합'이라는 하나의 목적표적만을 조준한다.
+이른바 '통합의 지옥 (Integration Hell)'이라 불리는 이 현상을 통제하기 위해, 단순히 "팀끼리 알아서 소통해라"라고 방목하는 것은 실패의 지름길이다. [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 창시자는 여러 팀이 한 제품을 개발할 때는 무조건 누군가가 의존성 관리를 전담해야 한다고 판단했고, 기존 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)에 팀 간 '연결고리'를 강제하는 넥서스 (Nexus) 프레임워크를 발표하게 되었다. 넥서스는 복잡한 프로세스를 추가하는 대신 오직 '통합'이라는 하나의 목적표적만을 조준한다.
 
-- **📢 섹션 요약 비유**: 작은 뗏목(단일 [[062_scrum_framework_overview|스크럼]])은 각자 노를 저어도 잘 가지만, 거대한 갤리선에 80명이 타서 각자 마음대로 노를 저으면 배가 박살 나거나 뱅뱅 돌기만 한다. 넥서스는 갤리선의 뱃머리에서 북을 치며 모두의 노 젓는 타이밍(통합)을 일치시켜 주는 시스템이다.
+- **📢 섹션 요약 비유**: 작은 뗏목(단일 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/))은 각자 노를 저어도 잘 가지만, 거대한 갤리선에 80명이 타서 각자 마음대로 노를 저으면 배가 박살 나거나 뱅뱅 돌기만 한다. 넥서스는 갤리선의 뱃머리에서 북을 치며 모두의 노 젓는 타이밍(통합)을 일치시켜 주는 시스템이다.
 
 ---
 
@@ -28,10 +32,10 @@ tags:
 
 | 구성 요소 | 역할 및 핵심 임무 |
 | :--- | :--- |
-| **넥서스 통합팀 (NIT)** | 8개의 개발팀이 뿜어내는 수만 줄의 코드가 충돌 없이 매일 하나의 시스템([[090_configuration_item|CI]]/CD)으로 병합되도록 돕는 통합 전담반 |
-| **[[063_product_owner_po|제품 책임자]] (PO)** | 전체 넥서스에 단 1명만 존재하며, 단일 [[066_product_backlog_grooming|제품 백로그]] ([[066_product_backlog_grooming|Product Backlog]])의 우선순위를 지휘함 |
-| **[[064_scrum_master_sm|스크럼 마스터]] ([[421_streaming_multiprocessor|SM]])** | 넥서스 레벨의 통합 장애물(Impediment)과 조직적 의존성을 제거하는 리더 |
-| **NIT 팀원 구성** | 개별 3~9개의 [[062_scrum_framework_overview|스크럼]] 팀에서 파견된 에이스 개발자들(대표자)이 모여 구성됨 |
+| **넥서스 통합팀 (NIT)** | 8개의 개발팀이 뿜어내는 수만 줄의 코드가 충돌 없이 매일 하나의 시스템([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)으로 병합되도록 돕는 통합 전담반 |
+| **[제품 책임자](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/063_product_owner_po/) (PO)** | 전체 넥서스에 단 1명만 존재하며, 단일 [제품 백로그](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/) ([Product Backlog](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/))의 우선순위를 지휘함 |
+| **[스크럼 마스터](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/064_scrum_master_sm/) ([SM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/))** | 넥서스 레벨의 통합 장애물(Impediment)과 조직적 의존성을 제거하는 리더 |
+| **NIT 팀원 구성** | 개별 3~9개의 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 팀에서 파견된 에이스 개발자들(대표자)이 모여 구성됨 |
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -57,7 +61,7 @@ tags:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-NIT 팀원들은 자신들만의 특정 기능(예: 결제, 로그인)을 코딩하지 않는다. 그들은 개별 팀으로 돌아가 가이드를 전파하고, 전체 팀의 빌드가 깨졌을 때 소방수처럼 달려가 해결하는 기술 지원 및 [[020_software_configuration_management|형상 관리]] 네트워크의 중심 [[152_hub_dummy_switching_intelligent|허브]]([[152_hub_dummy_switching_intelligent|Hub]])로 동작한다.
+NIT 팀원들은 자신들만의 특정 기능(예: 결제, 로그인)을 코딩하지 않는다. 그들은 개별 팀으로 돌아가 가이드를 전파하고, 전체 팀의 빌드가 깨졌을 때 소방수처럼 달려가 해결하는 기술 지원 및 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) 네트워크의 중심 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))로 동작한다.
 
 - **📢 섹션 요약 비유**: 넥서스 통합팀(NIT)은 교차로 한가운데 있는 솜씨 좋은 교통경찰이다. 각 자동차(개발팀)가 각자의 목적지(기능)로 달리지만, 교차로(코드 통합 지점)에서 서로 부딪혀 대형 사고가 나지 않도록 신호를 통제해 준다.
 
@@ -65,16 +69,16 @@ NIT 팀원들은 자신들만의 특정 기능(예: 결제, 로그인)을 코딩
 
 ## Ⅲ. 비교 및 연결
 
-[[092_scaled_agile_frameworks_overview|대규모 애자일]]에는 넥서스 외에도 [[093_safe_scaled_agile_framework_art_pi|SAFe]] ([[093_safe_scaled_agile_framework_art_pi|Scaled Agile Framework]])나 [[094_less_large_scale_scrum|LeSS]] ([[094_less_large_scale_scrum|Large-Scale Scrum]]) 같은 강력한 대안들이 존재하며, 규모와 통제 수준에 따라 선택이 갈린다.
+[대규모 애자일](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/092_scaled_agile_frameworks_overview/)에는 넥서스 외에도 [SAFe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) ([Scaled Agile Framework](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/))나 [LeSS](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/094_less_large_scale_scrum/) ([Large-Scale Scrum](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/094_less_large_scale_scrum/)) 같은 강력한 대안들이 존재하며, 규모와 통제 수준에 따라 선택이 갈린다.
 
-| 비교 항목 | Nexus (넥서스) | [[094_less_large_scale_scrum|LeSS]] (대규모 [[062_scrum_framework_overview|스크럼]]) | [[093_safe_scaled_agile_framework_art_pi|SAFe]] (스케일드 [[004_agile_relation|애자일]]) |
+| 비교 항목 | Nexus (넥서스) | [LeSS](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/094_less_large_scale_scrum/) (대규모 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)) | [SAFe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) (스케일드 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) |
 | :--- | :--- | :--- | :--- |
-| **적정 규모** | 3~9개 팀 (100명 이내) | 최대 8개 팀 (추가 시 [[094_less_large_scale_scrum|LeSS]] Huge) | 수백~수천 명의 전사 규모 |
-| **의존성 관리 방식** | 전담 부서(NIT)가 강제 통제 | 규칙을 최소화하여 팀 간 자율 소통 유도 | 포트폴리오, [[621_art_android_runtime|ART]] 등 수직적 계층으로 관리 |
-| **프레임워크 복잡도**| [[062_scrum_framework_overview|스크럼]]에 껍질만 씌운 형태 (낮음) | [[062_scrum_framework_overview|스크럼]] 철학 유지 (매우 낮음) | 관료제적 역할과 프로세스 방대함 (매우 높음) |
+| **적정 규모** | 3~9개 팀 (100명 이내) | 최대 8개 팀 (추가 시 [LeSS](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/094_less_large_scale_scrum/) Huge) | 수백~수천 명의 전사 규모 |
+| **의존성 관리 방식** | 전담 부서(NIT)가 강제 통제 | 규칙을 최소화하여 팀 간 자율 소통 유도 | 포트폴리오, [ART](/knowledge-base/studynote/02_operating_system/10_security/621_art_android_runtime/) 등 수직적 계층으로 관리 |
+| **프레임워크 복잡도**| [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)에 껍질만 씌운 형태 (낮음) | [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 철학 유지 (매우 낮음) | 관료제적 역할과 프로세스 방대함 (매우 높음) |
 | **핵심 철학** | "통합 에러를 전담반이 해결해라" | "통합은 팀들이 알아서 조율해라" | "기업 전체의 비전을 정렬해라" |
 
-넥서스는 [[062_scrum_framework_overview|스크럼]]의 기본 틀을 거의 변경하지 않고 '통합'이라는 레이어만 샌드위치처럼 덧댄다. LeSS가 방목형 자율주의라면, 넥서스는 NIT라는 물리적 실체를 두어 코드 의존성의 멱살을 잡고 끌고 가는 실용주의적 접근을 택하고 있다.
+넥서스는 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)의 기본 틀을 거의 변경하지 않고 '통합'이라는 레이어만 샌드위치처럼 덧댄다. LeSS가 방목형 자율주의라면, 넥서스는 NIT라는 물리적 실체를 두어 코드 의존성의 멱살을 잡고 끌고 가는 실용주의적 접근을 택하고 있다.
 
 - **📢 섹션 요약 비유**: SAFe가 거대한 '국가 행정 시스템'이고 LeSS가 규칙 없는 '자유로운 동아리'라면, Nexus는 지휘자(NIT)와 각 파트 수석들이 명확히 존재하는 100인조 '오케스트라'와 같아 가장 실용적으로 화음(통합)을 만들어 낸다.
 
@@ -82,25 +86,25 @@ NIT 팀원들은 자신들만의 특정 기능(예: 결제, 로그인)을 코딩
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-넥서스를 실무에 성공적으로 도입하려면 기존 [[062_scrum_framework_overview|스크럼]] 이벤트를 변형하는 것이 아니라 어떻게 포개어(Wrap) 운영할 것인지 판단해야 한다.
+넥서스를 실무에 성공적으로 도입하려면 기존 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 이벤트를 변형하는 것이 아니라 어떻게 포개어(Wrap) 운영할 것인지 판단해야 한다.
 
-### 넥서스 이벤트 실무 운영 [[435_checklist_based_testing|체크리스트]]
-1. **넥서스 [[068_sprint_planning|스프린트 계획 회의]]**: 개별 팀이 각자 방에 들어가 회의하기 전에, 반드시 각 팀 대표가 먼저 모여 "우리 팀이 이 기능 짤 때 너희 DB 테이블 건드릴 텐데, 괜찮아?"라며 거대한 의존성 지도를 그려내고 사전에 충돌을 조율했는가?
-2. **넥서스 일일 [[062_scrum_framework_overview|스크럼]] ([[069_daily_standup_scrum|Daily Scrum]])**: 매일 각 팀의 스탠드업 직전, 각 팀 대표들이 먼저 모여 크로스 팀 에러나 빌드 파괴 이슈를 공유하고, 그 정보를 즉각 자기 단일 팀 스탠드업으로 전파하는 2단 구조를 운영하고 있는가?
-3. **넥서스 [[070_sprint_review_demo|스프린트 리뷰]]**: 8개의 팀이 각자 흩어져서 자기 코드를 데모하는 [[128_water_scrum_fall_anti_pattern|안티패턴]]을 막고, 100명이 모인 자리에서 완벽하게 합쳐진 단 1개의 '통합 증분(Integrated Increment)' 시스템만을 PO([[063_product_owner_po|제품 책임자]])에게 시연하는가?
+### 넥서스 이벤트 실무 운영 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+1. **넥서스 [스프린트 계획 회의](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/068_sprint_planning/)**: 개별 팀이 각자 방에 들어가 회의하기 전에, 반드시 각 팀 대표가 먼저 모여 "우리 팀이 이 기능 짤 때 너희 DB 테이블 건드릴 텐데, 괜찮아?"라며 거대한 의존성 지도를 그려내고 사전에 충돌을 조율했는가?
+2. **넥서스 일일 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) ([Daily Scrum](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/069_daily_standup_scrum/))**: 매일 각 팀의 스탠드업 직전, 각 팀 대표들이 먼저 모여 크로스 팀 에러나 빌드 파괴 이슈를 공유하고, 그 정보를 즉각 자기 단일 팀 스탠드업으로 전파하는 2단 구조를 운영하고 있는가?
+3. **넥서스 [스프린트 리뷰](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/070_sprint_review_demo/)**: 8개의 팀이 각자 흩어져서 자기 코드를 데모하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)을 막고, 100명이 모인 자리에서 완벽하게 합쳐진 단 1개의 '통합 증분(Integrated Increment)' 시스템만을 PO([제품 책임자](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/063_product_owner_po/))에게 시연하는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]: NIT의 권력화
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): NIT의 권력화
 - NIT를 단순히 짬이 높은 '시니어 아키텍트'들만의 관리/감독 부서로 변질시키는 경우다. NIT는 코드 병합을 돕는 하인(Servant) 부대이지 명령을 내리는 관리자가 아니다. NIT 멤버는 각 개발 실무팀에 소속된 팀원 중에서 통합의 중요성을 아는 자들이 '겸직'하는 구조여야만 현장감을 잃지 않고 코드 통합 지옥을 방어할 수 있다.
 
-- **📢 섹션 요약 비유**: 넥서스 이벤트는 '아침마당 반상회'와 같다. 집집마다([[062_scrum_framework_overview|스크럼]] 팀) 청소(코딩)를 시작하기 전에, 각 집의 대표가 먼저 마당에 모여 "오늘 우리 집에서 먼지 날리니까 창문 닫으세요"라고 합의(넥서스 데일리)한 뒤 들어가야 동네 전체가 평화롭다.
+- **📢 섹션 요약 비유**: 넥서스 이벤트는 '아침마당 반상회'와 같다. 집집마다([스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 팀) 청소(코딩)를 시작하기 전에, 각 집의 대표가 먼저 마당에 모여 "오늘 우리 집에서 먼지 날리니까 창문 닫으세요"라고 합의(넥서스 데일리)한 뒤 들어가야 동네 전체가 평화롭다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-넥서스 프레임워크는 여러 팀이 엮일 때 필연적으로 폭발하는 소스코드 머지(Merge) [[015_지연_데이터_관점|지연]], 파이프라인 붕괴, 인터페이스 충돌 등의 리스크를 가장 작은 비용으로 차단하는 방어막이다. 기존 팀들에게 복잡한 [[004_agile_relation|애자일]] 용어나 관료적 프로세스를 새로 학습시킬 필요 없이, 오로지 '통합 전담팀 구성'과 '회의 전 사전 조율'이라는 껍질만 씌우면 되기에 [[459_quic_fec_forward_error_correction|초기]] 도입 저항이 매우 적다.
+넥서스 프레임워크는 여러 팀이 엮일 때 필연적으로 폭발하는 소스코드 머지(Merge) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 파이프라인 붕괴, 인터페이스 충돌 등의 리스크를 가장 작은 비용으로 차단하는 방어막이다. 기존 팀들에게 복잡한 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 용어나 관료적 프로세스를 새로 학습시킬 필요 없이, 오로지 '통합 전담팀 구성'과 '회의 전 사전 조율'이라는 껍질만 씌우면 되기에 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 도입 저항이 매우 적다.
 
-결론적으로 넥서스는 조직이 성장하면서 단일 [[062_scrum_framework_overview|스크럼]]의 한계에 부딪혔을 때 가장 직관적으로 확장할 수 있는 수단이다. "아무리 멋진 기능을 각자 짜와도, 하나로 합쳐서 돌려보지 않으면 쓰레기에 불과하다"는 소프트웨어 공학의 냉혹한 진리를 NIT라는 실체로 해결하는, 지극히 현실적이고 공학적인 [[092_scaled_agile_frameworks_overview|대규모 애자일]]의 교과서이다.
+결론적으로 넥서스는 조직이 성장하면서 단일 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)의 한계에 부딪혔을 때 가장 직관적으로 확장할 수 있는 수단이다. "아무리 멋진 기능을 각자 짜와도, 하나로 합쳐서 돌려보지 않으면 쓰레기에 불과하다"는 소프트웨어 공학의 냉혹한 진리를 NIT라는 실체로 해결하는, 지극히 현실적이고 공학적인 [대규모 애자일](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/092_scaled_agile_frameworks_overview/)의 교과서이다.
 
 - **📢 섹션 요약 비유**: 넥서스는 100개의 조각으로 나뉜 퍼즐을 조립할 때, 무작정 가운데로 밀어 넣는 것이 아니라 '퍼즐 테두리를 먼저 맞추는 전담반'을 두어 모두가 헤매지 않고 빠르고 정확하게 큰 그림을 완성하게 만드는 현명한 조립법이다.
 
@@ -110,10 +114,10 @@ NIT 팀원들은 자신들만의 특정 기능(예: 결제, 로그인)을 코딩
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **NIT (Nexus Integration Team)** | 넥서스의 척추. 개별 팀의 기능 개발보다 1개의 완성된 제품으로 통합되는 과정([[090_configuration_item|CI]]/CD)의 장애물을 제거하는 특수 조직. |
-| **[[093_safe_scaled_agile_framework_art_pi|SAFe]] ([[093_safe_scaled_agile_framework_art_pi|Scaled Agile Framework]])** | 넥서스가 해결하기 힘든 수백 명 이상의 전사적 포트폴리오 관리가 필요할 때 채택하는 초거대 엔터프라이즈 [[012_agile_methodology|애자일 방법론]]. |
+| **NIT (Nexus Integration Team)** | 넥서스의 척추. 개별 팀의 기능 개발보다 1개의 완성된 제품으로 통합되는 과정([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)의 장애물을 제거하는 특수 조직. |
+| **[SAFe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) ([Scaled Agile Framework](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/))** | 넥서스가 해결하기 힘든 수백 명 이상의 전사적 포트폴리오 관리가 필요할 때 채택하는 초거대 엔터프라이즈 [애자일 방법론](/knowledge-base/studynote/04_software_engineering/01_overview_principles/012_agile_methodology/). |
 | **의존성 (Dependency)** | 팀 A의 코드가 팀 B의 API에 기대고 있는 상태. 넥서스는 이 보이지 않는 거미줄을 일일 회의와 계획 회의에서 사전 통제하는 데 목숨을 건다. |
-| **단일 [[066_product_backlog_grooming|제품 백로그]] (Single [[066_product_backlog_grooming|Product Backlog]])** | 9개의 팀이 있더라도, 우선순위 목록(백로그)과 [[063_product_owner_po|제품 책임자]](PO)는 오직 단 1명만 존재하여 난개발을 방지한다. |
+| **단일 [제품 백로그](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/) (Single [Product Backlog](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/))** | 9개의 팀이 있더라도, 우선순위 목록(백로그)과 [제품 책임자](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/063_product_owner_po/)(PO)는 오직 단 1명만 존재하여 난개발을 방지한다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -133,7 +137,7 @@ NIT 팀원들은 자신들만의 특정 기능(예: 결제, 로그인)을 코딩
 넥서스 (Nexus) 프레임워크 도입 (NIT 및 넥서스 이벤트 샌드위치 적용)
 ```
 
-이 흐름도는 성공한 팀이 확장될 때 겪는 필연적인 소프트웨어 통합의 저주를, 어떻게 구조적인 전담팀 하나로 해결하며 [[092_scaled_agile_frameworks_overview|대규모 애자일]]로 넘어가는지를 명확히 보여준다.
+이 흐름도는 성공한 팀이 확장될 때 겪는 필연적인 소프트웨어 통합의 저주를, 어떻게 구조적인 전담팀 하나로 해결하며 [대규모 애자일](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/092_scaled_agile_frameworks_overview/)로 넘어가는지를 명확히 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -147,7 +151,7 @@ NIT 팀원들은 자신들만의 특정 기능(예: 결제, 로그인)을 코딩
 
 **진행 상황**: 95 / 973
 
-← **이전**: [[094_less_large_scale_scrum|94. LeSS (Large-Scale Scrum) - 다수 팀 스크럼 확장]]
-**다음**: [[096_spotify_model_tribe_squad|96. Spotify 모델 - Tribe, Squad, Chapter, Guild]] →
+← **이전**: [94. LeSS (Large-Scale Scrum) - 다수 팀 스크럼 확장](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/094_less_large_scale_scrum/)
+**다음**: [96. Spotify 모델 - Tribe, Squad, Chapter, Guild](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/096_spotify_model_tribe_squad/) →
 
 ---

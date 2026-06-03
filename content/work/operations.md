@@ -1,21 +1,25 @@
----
-title: ⚙️ 운영 허브
-tags:
-- work
----
++++
+title = "⚙️ 운영 허브"
+
+[taxonomies]
+tags = ["work"]
+
+[extra]
+tags = ["work"]
++++
 
 운영 절차, 배포 흐름, 문서 관리 규칙, 장애 대응 메모를 연결하는 상위 문서입니다.
 
 관련 문서:
-- [[quartz-deployment]]
-- [[development]]
-- [[sales]]
-- [[knowledgebase-decision-log]]
-- [[knowledge-pipeline]]
-- [[decap-cms]]
-- [[claude-code-mcp]]
-- [[mcp-client-setup]]
-- [[codex-sdk-operations]]
+- [quartz-deployment](/knowledge-base/work/quartz-deployment/)
+- [development](/knowledge-base/work/development/)
+- [sales](/knowledge-base/work/sales/)
+- [knowledgebase-decision-log](/knowledge-base/work/knowledgebase-decision-log/)
+- [knowledge-pipeline](/knowledge-base/work/knowledge-pipeline/)
+- [decap-cms](/knowledge-base/work/decap-cms/)
+- [claude-code-mcp](/knowledge-base/work/claude-code-mcp/)
+- [mcp-client-setup](/knowledge-base/work/mcp-client-setup/)
+- [codex-sdk-operations](/knowledge-base/work/codex-sdk-operations/)
 
 ---
 
@@ -53,11 +57,11 @@ tags:
 
 ## 3. 연결 문서
 
-- 배포 가이드: [[quartz-deployment]]
-- 구현 관점: [[development]]
-- 고객 대응과 전달 포인트: [[sales]]
-- 검색/적재 흐름: [[knowledge-pipeline]]
-- 웹 편집 계층: [[decap-cms]]
-- Claude Code 운영안: [[claude-code-mcp]]
-- MCP 클라이언트 표준: [[mcp-client-setup]]
-- Codex SDK 운영안: [[codex-sdk-operations]]
+- 배포 가이드: [quartz-deployment](/knowledge-base/work/quartz-deployment/)
+- 구현 관점: [development](/knowledge-base/work/development/)
+- 고객 대응과 전달 포인트: [sales](/knowledge-base/work/sales/)
+- 검색/적재 흐름: [knowledge-pipeline](/knowledge-base/work/knowledge-pipeline/)
+- 웹 편집 계층: [decap-cms](/knowledge-base/work/decap-cms/)
+- Claude Code 운영안: [claude-code-mcp](/knowledge-base/work/claude-code-mcp/)
+- MCP 클라이언트 표준: [mcp-client-setup](/knowledge-base/work/mcp-client-setup/)
+- Codex SDK 운영안: [codex-sdk-operations](/knowledge-base/work/codex-sdk-operations/)

@@ -1,14 +1,18 @@
----
-title: 119. 앙상블 보팅 (Ensemble Voting Methods) - 하드/소프트 보팅·다수결 원리
-date: '2026-04-19'
-tags:
-- studynote-dataengineering
----
++++
+title = "119. 앙상블 보팅 (Ensemble Voting Methods) - 하드/소프트 보팅·다수결 원리"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-dataengineering"]
+
+[extra]
+tags = ["studynote-dataengineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [[257_ensemble_learning|앙상블]] [[258_voting_ensemble|보팅]]은 **여러 분류기의 예측 결과를 투표([[258_voting_ensemble|Voting]])**로 결합하여 최종 예측을 도출하는 기법이며, **하드 [[258_voting_ensemble|보팅]](다수결)**과 **소프트 [[258_voting_ensemble|보팅]]([[130_probability|확률]] 평균)**으로 나뉜다.
+> 1. **본질**: [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) [보팅](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)은 **여러 분류기의 예측 결과를 투표([Voting](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/))**로 결합하여 최종 예측을 도출하는 기법이며, **하드 [보팅](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)(다수결)**과 **소프트 [보팅](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)([확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 평균)**으로 나뉜다.
 > 2. **가치**: 단일 모델의 예측은 편향·분산에 취약하지만, 서로 다른 모델을 결합하면 **개별 모델의 약점이 상쇄**되어 일반적으로 단일 모델보다 높은 정확도를 보인다("군중의 지혜").
-> 3. **판단 포인트**: 소프트 [[258_voting_ensemble|보팅]]은 [[130_probability|확률]]값의 평균을 사용하므로 **[[130_probability|확률]] 보정이 잘된 모델(calibrated)에서 더 효과적**이며, 다양성(Diversity)이 높은 모델 조합이 [[257_ensemble_learning|앙상블]] [[282_performance_tactics|성능]]의 핵심이다.
+> 3. **판단 포인트**: 소프트 [보팅](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)은 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)값의 평균을 사용하므로 **[확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 보정이 잘된 모델(calibrated)에서 더 효과적**이며, 다양성(Diversity)이 높은 모델 조합이 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 핵심이다.
 
 ---
 
@@ -30,22 +34,22 @@ tags:
 └───────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 하드 [[258_voting_ensemble|보팅]]은 선거(1인 1표, 다수결)이고, 소프트 [[258_voting_ensemble|보팅]]은 전문가 점수(확신도 반영)의 평균이다.
+- **📢 섹션 요약 비유**: 하드 [보팅](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)은 선거(1인 1표, 다수결)이고, 소프트 [보팅](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)은 전문가 점수(확신도 반영)의 평균이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [[258_voting_ensemble|보팅]] 유형
+### [보팅](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/) 유형
 
 | 유형 | 방법 | 장점 | 적합 |
 |:---|:---|:---|:---|
-| **하드 [[258_voting_ensemble|보팅]]** | 다수결 | 단순 | [[130_probability|확률]] 미제공 모델 |
-| **소프트 [[258_voting_ensemble|보팅]]** | [[130_probability|확률]] 평균 | **정보 활용 많음** | [[130_probability|확률]] 보정 모델 |
-| **가중 [[258_voting_ensemble|보팅]]** | [[267_weight_bias_activation|가중치]] 부여 | **우수 모델 반영** | [[282_performance_tactics|성능]] 차이 큰 경우 |
+| **하드 [보팅](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)** | 다수결 | 단순 | [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 미제공 모델 |
+| **소프트 [보팅](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)** | [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 평균 | **정보 활용 많음** | [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 보정 모델 |
+| **가중 [보팅](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)** | [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 부여 | **우수 모델 반영** | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이 큰 경우 |
 
 ### 다양성(Diversity)의 중요성
-모든 모델이 같은 패턴을 학습하면 [[258_voting_ensemble|보팅]] 효과가 없다. **서로 다른 [[001_algorithm_definition|알고리즘]]([[238_svm_margin_kernel_trick_naive_bayes|SVM]]+RF+LR)**을 조합해야 약점이 상쇄된다.
+모든 모델이 같은 패턴을 학습하면 [보팅](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/) 효과가 없다. **서로 다른 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/)+RF+LR)**을 조합해야 약점이 상쇄된다.
 
 - **📢 섹션 요약 비유**: 같은 과목 전문가 3명보다 국어·수학·영어 전문가 3명이 모여야 더 다양한 문제를 풀 수 있다.
 
@@ -53,11 +57,11 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | 단일 모델 | [[258_voting_ensemble|보팅]] | [[259_bagging_random_forest|배깅]] | [[127_boosting|부스팅]] |
+| 비교 | 단일 모델 | [보팅](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/) | [배깅](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/) | [부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/) |
 |:---|:---|:---|:---|:---|
 | **다양성** | 없음 | **이종 모델** | 동종 (샘플링) | 동종 (순차) |
 | **결합** | - | 투표/평균 | 평균 | 가중합 |
-| **대표** | - | VotingClassifier | **[[353_random_forest|Random Forest]]** | **XGBoost** |
+| **대표** | - | VotingClassifier | **[Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)** | **XGBoost** |
 
 ---
 
@@ -76,7 +80,7 @@ vc = VotingClassifier(
 
 ## Ⅴ. 기대효과 및 결론
 
-[[257_ensemble_learning|앙상블]] [[258_voting_ensemble|보팅]]은 **가장 단순하면서도 효과적인 [[257_ensemble_learning|앙상블]] 기법**이며, Kaggle 상위권 솔루션의 대부분이 [[258_voting_ensemble|보팅]]·스태킹 기반 [[257_ensemble_learning|앙상블]]을 사용한다.
+[앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) [보팅](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)은 **가장 단순하면서도 효과적인 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 기법**이며, Kaggle 상위권 솔루션의 대부분이 [보팅](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)·스태킹 기반 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)을 사용한다.
 
 ---
 
@@ -84,10 +88,10 @@ vc = VotingClassifier(
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **하드 [[258_voting_ensemble|보팅]]** | 다수결, 단순 |
-| **소프트 [[258_voting_ensemble|보팅]]** | [[130_probability|확률]] 평균, 정보량 많음 |
-| **[[259_bagging_random_forest|배깅]]** | 동종 모델 + 샘플링 ([[353_random_forest|Random Forest]]) |
-| **[[127_boosting|부스팅]]** | 동종 모델 + 순차 학습 (XGBoost) |
+| **하드 [보팅](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)** | 다수결, 단순 |
+| **소프트 [보팅](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)** | [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 평균, 정보량 많음 |
+| **[배깅](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)** | 동종 모델 + 샘플링 ([Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)) |
+| **[부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)** | 동종 모델 + 순차 학습 (XGBoost) |
 | **스태킹** | 메타 모델이 개별 모델 출력을 학습 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -109,8 +113,8 @@ vc = VotingClassifier(
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 하드 [[258_voting_ensemble|보팅]]은 **선거**예요. 3명이 투표해서 **많이 나온 답**이 정답이에요.
-2. 소프트 [[258_voting_ensemble|보팅]]은 각 사람이 **얼마나 확신하는지(점수)**를 평균 내서 결정해요.
+1. 하드 [보팅](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)은 **선거**예요. 3명이 투표해서 **많이 나온 답**이 정답이에요.
+2. 소프트 [보팅](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)은 각 사람이 **얼마나 확신하는지(점수)**를 평균 내서 결정해요.
 3. 여러 전문가가 모이면 **혼자보다 더 정확한 답**을 낼 수 있답니다!
 
 ---
@@ -119,7 +123,7 @@ vc = VotingClassifier(
 
 **진행 상황**: 119 / 258
 
-← **이전**: [[118_cross_entropy_kl_divergence|118. 교차 엔트로피와 KL 발산 (Cross-Entropy & KL Divergence) - 분류 손실 함수의 수학적 기반]]
-**다음**: [[120_concept|120. 부트스트래핑 (Bootstrapping) - 비모수 통계적 추론·신뢰 구간 추정]] →
+← **이전**: [118. 교차 엔트로피와 KL 발산 (Cross-Entropy & KL Divergence) - 분류 손실 함수의 수학적 기반](/knowledge-base/studynote/14_data_engineering/02_math_mining/118_cross_entropy_kl_divergence/)
+**다음**: [120. 부트스트래핑 (Bootstrapping) - 비모수 통계적 추론·신뢰 구간 추정](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/) →
 
 ---

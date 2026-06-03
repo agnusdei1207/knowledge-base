@@ -1,21 +1,25 @@
----
-title: 367. 이벤트 주도 아키텍처 (Event-Driven Architecture, EDA)
-date: '2026-05-10'
-tags:
-- studynote-design-supervision
----
++++
+title = "367. 이벤트 주도 아키텍처 (Event-Driven Architecture, EDA)"
+date = 2026-05-10
+
+[taxonomies]
+tags = ["studynote-design-supervision"]
+
+[extra]
+tags = ["studynote-design-supervision"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 이벤트 주도 아키텍처 ([[140_event_driven_architecture_eda|Event-Driven Architecture]], [[064_eda|EDA]])은 상태 변화나 업무 사실을 이벤트로 발행하고 구독해 비동기적으로 연결하는 아키텍처 스타일이다.
+> 1. **본질**: 이벤트 주도 아키텍처 ([Event-Driven Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/140_event_driven_architecture_eda/), [EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/))은 상태 변화나 업무 사실을 이벤트로 발행하고 구독해 비동기적으로 연결하는 아키텍처 스타일이다.
 > 2. **가치**: 확장성과 느슨한 결합, 비동기 처리량을 동시에 확보하게 해 준다.
-> 3. **판단 포인트**: EDA는 브로커 도입 자체보다 이벤트 계약, 재처리, [[194_consistency_database_integrity|일관성]] 모델을 함께 설명해야 설득력이 생긴다.
+> 3. **판단 포인트**: EDA는 브로커 도입 자체보다 이벤트 계약, 재처리, [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 모델을 함께 설명해야 설득력이 생긴다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-이벤트 주도 아키텍처 ([[140_event_driven_architecture_eda|Event-Driven Architecture]], [[064_eda|EDA]])은 상태 변화나 업무 사실을 이벤트로 발행하고 구독해 비동기적으로 연결하는 아키텍처 스타일이다. [[090_service_kubernetes_network_load_balancing|서비스]] 간 동기 호출이 늘어나면 결합과 장애 전파가 커져 느슨한 연결 방식이 필요해졌다. 이 개념이 필요한 이유는 상태 변화를 비동기 신호로 전달하는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 한 [[090_service_kubernetes_network_load_balancing|서비스]] 장애가 연쇄 호출 전체를 멈추고 시스템 확장성이 떨어진다.
+이벤트 주도 아키텍처 ([Event-Driven Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/140_event_driven_architecture_eda/), [EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/))은 상태 변화나 업무 사실을 이벤트로 발행하고 구독해 비동기적으로 연결하는 아키텍처 스타일이다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 동기 호출이 늘어나면 결합과 장애 전파가 커져 느슨한 연결 방식이 필요해졌다. 이 개념이 필요한 이유는 상태 변화를 비동기 신호로 전달하는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애가 연쇄 호출 전체를 멈추고 시스템 확장성이 떨어진다.
 
 아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
@@ -33,13 +37,13 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-이벤트 주도 아키텍처 ([[140_event_driven_architecture_eda|Event-Driven Architecture]], [[064_eda|EDA]])의 핵심 원리는 "상태 변화를 비동기 신호로 전달하는 일"을 구현 규칙으로 고정하는 데 있다. 실제 설계에서는 생산자, 브로커, 소비자, 이벤트 스키마를 중심으로 흐름을 구성해 시간적 결합을 낮춘다. 동시에 순서 보장, 중복 처리, 최종 [[194_consistency_database_integrity|일관성]] 관리가 어려워 운영 관찰성과 보상 설계가 필수다.
+이벤트 주도 아키텍처 ([Event-Driven Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/140_event_driven_architecture_eda/), [EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/))의 핵심 원리는 "상태 변화를 비동기 신호로 전달하는 일"을 구현 규칙으로 고정하는 데 있다. 실제 설계에서는 생산자, 브로커, 소비자, 이벤트 스키마를 중심으로 흐름을 구성해 시간적 결합을 낮춘다. 동시에 순서 보장, 중복 처리, 최종 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 관리가 어려워 운영 관찰성과 보상 설계가 필수다.
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
 | 핵심 문제 | 상태 변화를 비동기 신호로 전달하는 일 | 이 축이 흔들리면 설계 목적이 사라진다 |
 | 구현 방식 | 생산자, 브로커, 소비자, 이벤트 스키마를 중심으로 흐름을 구성해 시간적 결합을 낮춘다 | 코드·계층·배포 단위에 일관되게 반영해야 한다 |
-| 트레이드오프 | 순서 보장, 중복 처리, 최종 [[194_consistency_database_integrity|일관성]] 관리가 어려워 운영 관찰성과 보상 설계가 필수다 | 복잡도와 운영 비용을 함께 관리해야 한다 |
+| 트레이드오프 | 순서 보장, 중복 처리, 최종 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 관리가 어려워 운영 관찰성과 보상 설계가 필수다 | 복잡도와 운영 비용을 함께 관리해야 한다 |
 
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
@@ -49,7 +53,7 @@ tags:
 └──────────┘   └──────────┘   └──────────┘   └──────────┘
 ```
 
-이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [[346_maintainability_portability|유지보수성]], 테스트성, 운영 난도가 크게 달라진다.
+이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
 
 - **📢 섹션 요약 비유**: 도로망과 관제 센터가 분리된 도시처럼, 경계와 흐름을 함께 설계해야 운영이 안정된다.
 
@@ -57,15 +61,15 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-기술사 답안에서는 이벤트 주도 아키텍처 ([[140_event_driven_architecture_eda|Event-Driven Architecture]], [[064_eda|EDA]])을 단독 정의보다 대안 구조와 함께 써야 경계가 살아난다. 여기서는 **구조 적용 상태** 와 **경계 혼재 상태** 를 대비해 핵심 차이를 정리한다.
+기술사 답안에서는 이벤트 주도 아키텍처 ([Event-Driven Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/140_event_driven_architecture_eda/), [EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/))을 단독 정의보다 대안 구조와 함께 써야 경계가 살아난다. 여기서는 **구조 적용 상태** 와 **경계 혼재 상태** 를 대비해 핵심 차이를 정리한다.
 
 | 비교 축 | A | B |
 |:---|:---|:---|
 | 변경 대응 | 구조 적용 상태는 상태 변화를 비동기 신호로 전달하는 일에 맞춰 영향 범위를 줄인다 | 경계 혼재 상태는 변경이 주변 모듈로 번지기 쉽다 |
 | 구조 안정성 | 구조 적용 상태는 생산자, 브로커, 소비자, 이벤트 스키마를 중심으로 흐름을 구성해 시간적 결합을 낮춘다 | 경계 혼재 상태는 책임과 의존이 섞여 규칙이 흐려진다 |
-| 운영 결과 | 구조 적용 상태는 확장성과 느슨한 결합, 비동기 처리량을 동시에 확보하게 해 준다 | 경계 혼재 상태는 한 [[090_service_kubernetes_network_load_balancing|서비스]] 장애가 연쇄 호출 전체를 멈추고 시스템 확장성이 떨어진다 |
+| 운영 결과 | 구조 적용 상태는 확장성과 느슨한 결합, 비동기 처리량을 동시에 확보하게 해 준다 | 경계 혼재 상태는 한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애가 연쇄 호출 전체를 멈추고 시스템 확장성이 떨어진다 |
 
-연결 개념으로는 [[145_message_broker_sync_async|메시지 브로커]], [[305_saga|사가 패턴]] 같은 주변 주제를 함께 써 주면, 단순 암기보다 적용 맥락이 살아난다.
+연결 개념으로는 [메시지 브로커](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/145_message_broker_sync_async/), [사가 패턴](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/) 같은 주변 주제를 함께 써 주면, 단순 암기보다 적용 맥락이 살아난다.
 
 - **📢 섹션 요약 비유**: 계획도시와 무계획 확장을 비교해 보면 어디서 비용이 커지는지 바로 드러난다.
 
@@ -73,23 +77,23 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 이벤트 주도 아키텍처 ([[140_event_driven_architecture_eda|Event-Driven Architecture]], [[064_eda|EDA]])을 무조건 채택하기보다 EDA는 브로커 도입 자체보다 이벤트 계약, 재처리, [[194_consistency_database_integrity|일관성]] 모델을 함께 설명해야 설득력이 생긴다. 아래 [[435_checklist_based_testing|체크리스트]]는 설계 감리 시 최소한으로 확인해야 할 질문이다.
+실무에서는 이벤트 주도 아키텍처 ([Event-Driven Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/140_event_driven_architecture_eda/), [EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/))을 무조건 채택하기보다 EDA는 브로커 도입 자체보다 이벤트 계약, 재처리, [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 모델을 함께 설명해야 설득력이 생긴다. 아래 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)는 설계 감리 시 최소한으로 확인해야 할 질문이다.
 
-### 판단 [[435_checklist_based_testing|체크리스트]]
+### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 경계와 책임이 코드·문서·배포 단위에서 일치하는가?
-2. [[001_dikw_pyramid|데이터]] 소유권과 장애 전파 경로가 명확한가?
+2. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유권과 장애 전파 경로가 명확한가?
 3. 관찰가능성, 보안, 배포 전략이 구조와 함께 설계되었는가?
 4. 도입 복잡도가 조직 규모와 팀 성숙도에 맞는가?
 
 답안을 마무리할 때는 “어디에 쓰는가”만이 아니라 “언제 과한가”를 함께 적어야 한다. 그래야 설계 원칙, 패턴, 아키텍처가 구호가 아니라 의사결정 기준으로 읽힌다.
 
-- **📢 섹션 요약 비유**: 관제실의 운영 [[435_checklist_based_testing|체크리스트]]처럼, 경계·장애 전파·관찰가능성을 같이 봐야 한다.
+- **📢 섹션 요약 비유**: 관제실의 운영 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)처럼, 경계·장애 전파·관찰가능성을 같이 봐야 한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-이벤트 주도 아키텍처 ([[140_event_driven_architecture_eda|Event-Driven Architecture]], [[064_eda|EDA]])의 기대효과는 분명하다. 확장성과 느슨한 결합, 비동기 처리량을 동시에 확보하게 해 준다. 다만 순서 보장, 중복 처리, 최종 [[194_consistency_database_integrity|일관성]] 관리가 어려워 운영 관찰성과 보상 설계가 필수다. 결국 기억할 관점은 상태 변화를 비동기 신호로 전달하는 일을 구조 규칙으로 만드는 데 있다는 점이다.
+이벤트 주도 아키텍처 ([Event-Driven Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/140_event_driven_architecture_eda/), [EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/))의 기대효과는 분명하다. 확장성과 느슨한 결합, 비동기 처리량을 동시에 확보하게 해 준다. 다만 순서 보장, 중복 처리, 최종 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 관리가 어려워 운영 관찰성과 보상 설계가 필수다. 결국 기억할 관점은 상태 변화를 비동기 신호로 전달하는 일을 구조 규칙으로 만드는 데 있다는 점이다.
 
 - **📢 섹션 요약 비유**: 도시 운영 규정집처럼, 좋은 아키텍처는 기술보다 판단 기준을 오래 남긴다.
 
@@ -99,16 +103,16 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[145_message_broker_sync_async|메시지 브로커]] | 이벤트 주도 아키텍처 ([[140_event_driven_architecture_eda|Event-Driven Architecture]], [[064_eda|EDA]])을 설계하고 감리할 때 함께 보는 연관 개념 |
-| [[305_saga|사가 패턴]] | 이벤트 주도 아키텍처 ([[140_event_driven_architecture_eda|Event-Driven Architecture]], [[064_eda|EDA]])을 설계하고 감리할 때 함께 보는 연관 개념 |
-| [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]] | 이벤트 주도 아키텍처 ([[140_event_driven_architecture_eda|Event-Driven Architecture]], [[064_eda|EDA]])을 설계하고 감리할 때 함께 보는 연관 개념 |
-| 최종 [[194_consistency_database_integrity|일관성]] | 이벤트 주도 아키텍처 ([[140_event_driven_architecture_eda|Event-Driven Architecture]], [[064_eda|EDA]])을 설계하고 감리할 때 함께 보는 연관 개념 |
+| [메시지 브로커](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/145_message_broker_sync_async/) | 이벤트 주도 아키텍처 ([Event-Driven Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/140_event_driven_architecture_eda/), [EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/))을 설계하고 감리할 때 함께 보는 연관 개념 |
+| [사가 패턴](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/) | 이벤트 주도 아키텍처 ([Event-Driven Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/140_event_driven_architecture_eda/), [EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/))을 설계하고 감리할 때 함께 보는 연관 개념 |
+| [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) | 이벤트 주도 아키텍처 ([Event-Driven Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/140_event_driven_architecture_eda/), [EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/))을 설계하고 감리할 때 함께 보는 연관 개념 |
+| 최종 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) | 이벤트 주도 아키텍처 ([Event-Driven Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/140_event_driven_architecture_eda/), [EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/))을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[동기 호출 연결] → [[[064_eda|EDA]] 적용] → [비동기 이벤트 협업]
+[동기 호출 연결] → EDA 적용] → [비동기 이벤트 협업]
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 이벤트 주도 아키텍처 ([[140_event_driven_architecture_eda|Event-Driven Architecture]], [[064_eda|EDA]])은 학교 방송으로 알림을 보내 여러 반이 각자 필요한 행동을 하는 것처럼 약속을 먼저 정하는 거예요.
+1. 이벤트 주도 아키텍처 ([Event-Driven Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/140_event_driven_architecture_eda/), [EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/))은 학교 방송으로 알림을 보내 여러 반이 각자 필요한 행동을 하는 것처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 상태 변화를 비동기 신호로 전달하는 일이 더 중요해져요.
 
@@ -118,7 +122,7 @@ tags:
 
 **진행 상황**: 445 / 530
 
-← **이전**: [[366_process|366. 헥사고날 아키텍처 (Hexagonal Architecture)]]
-**다음**: [[368_cqrs|368. 명령-조회 책임 분리 (Command Query Responsibility Segregation, CQRS)]] →
+← **이전**: [366. 헥사고날 아키텍처 (Hexagonal Architecture)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/366_process/)
+**다음**: [368. 명령-조회 책임 분리 (Command Query Responsibility Segregation, CQRS)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/368_cqrs/) →
 
 ---

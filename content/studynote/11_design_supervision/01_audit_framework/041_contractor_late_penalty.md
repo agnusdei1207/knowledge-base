@@ -1,18 +1,22 @@
----
-title: 041. 데이터 품질 진단 (Data Quality Audit)
-date: '2026-04-05'
-tags:
-- studynote-design-supervision
----
++++
+title = "041. 데이터 품질 진단 (Data Quality Audit)"
+date = 2026-04-05
+
+[taxonomies]
+tags = ["studynote-design-supervision"]
+
+[extra]
+tags = ["studynote-design-supervision"]
++++
 
 > **핵심 인사이트**
-> 1. [[001_dikw_pyramid|데이터]] 품질 진단은 정보 시스템 내 [[001_dikw_pyramid|데이터]]가 의사결정과 업무 수행에 적합한지를 6대 품질 지표(완전성·유효성·[[194_consistency_database_integrity|일관성]]·[[002_bigdata_5v|정확성]]·적시성·[[283_security_tactics|보안성]])로 체계적으로 측정하고 개선하는 활동이다.
-> 2. [[001_dikw_pyramid|데이터]] 품질 문제는 "Garbage In, Garbage Out(GIGO)" 원칙에 따라 분석·[[190_ai_llm_requirements_specification|AI]]·의사결정 시스템의 신뢰성을 직접 훼손하므로, [[055_digital_transformation|디지털 전환]] 시대에 [[001_dikw_pyramid|데이터]] 품질 관리는 [[339_software_quality_definition|소프트웨어 품질]] 관리와 동등한 중요성을 갖는다.
-> 3. ISO 8000([[001_dikw_pyramid|데이터]] 품질), DQM([[270_data_quality_great_expectations|Data Quality]] [[372_management|Management]]) 국제 표준에서는 [[001_dikw_pyramid|데이터]] 품질을 "목적 적합성([[395_genetic_algorithm_ga_operators|Fitness]] for Purpose)"으로 정의하며, 절대적 [[002_bigdata_5v|정확성]]보다 사용 목적에 맞는 품질 수준이 중요하다고 강조한다.
+> 1. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 진단은 정보 시스템 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 의사결정과 업무 수행에 적합한지를 6대 품질 지표(완전성·유효성·[일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)·[정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)·적시성·[보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))로 체계적으로 측정하고 개선하는 활동이다.
+> 2. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 문제는 "Garbage In, Garbage Out(GIGO)" 원칙에 따라 분석·[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·의사결정 시스템의 신뢰성을 직접 훼손하므로, [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) 시대에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 관리는 [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/) 관리와 동등한 중요성을 갖는다.
+> 3. ISO 8000([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질), DQM([Data Quality](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/270_data_quality_great_expectations/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) 국제 표준에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질을 "목적 적합성([Fitness](/knowledge-base/studynote/06_ict_convergence/05_data_science/395_genetic_algorithm_ga_operators/) for Purpose)"으로 정의하며, 절대적 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)보다 사용 목적에 맞는 품질 수준이 중요하다고 강조한다.
 
 ---
 
-## Ⅰ. [[001_dikw_pyramid|데이터]] 품질 6대 지표
+## Ⅰ. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 6대 지표
 
 ```
 데이터 품질 6대 지표:
@@ -48,11 +52,11 @@ tags:
    예: 개인정보 암호화, 접근 로그
 ```
 
-> 📢 **섹션 요약 비유**: [[001_dikw_pyramid|데이터]] 품질 6대 지표는 식품 검사 기준 — 양(완전성), 유통기한(적시성), 성분 표기(유효성), 공장 간 일치([[194_consistency_database_integrity|일관성]]), 성분 정확도([[002_bigdata_5v|정확성]]), 위생([[283_security_tactics|보안성]]).
+> 📢 **섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 6대 지표는 식품 검사 기준 — 양(완전성), 유통기한(적시성), 성분 표기(유효성), 공장 간 일치([일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)), 성분 정확도([정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)), 위생([보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)).
 
 ---
 
-## Ⅱ. [[001_dikw_pyramid|데이터]] 품질 진단 프로세스
+## Ⅱ. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 진단 프로세스
 
 ```
 데이터 품질 진단 절차:
@@ -88,11 +92,11 @@ tags:
    주기적 재진단 (분기/반기)
 ```
 
-> 📢 **섹션 요약 비유**: [[001_dikw_pyramid|데이터]] 품질 진단은 건강검진 — 측정(혈압·혈당 검사), 원인 분석(진단), 개선(처방), 모니터링(정기 검진) 사이클.
+> 📢 **섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 진단은 건강검진 — 측정(혈압·혈당 검사), 원인 분석(진단), 개선(처방), 모니터링(정기 검진) 사이클.
 
 ---
 
-## Ⅲ. [[001_dikw_pyramid|데이터]] 품질 문제 유형
+## Ⅲ. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 문제 유형
 
 ```
 대표적 품질 문제:
@@ -122,11 +126,11 @@ tags:
   비식별화 대상 정보 노출
 ```
 
-> 📢 **섹션 요약 비유**: [[001_dikw_pyramid|데이터]] 품질 문제는 주소록 오류 — 전화번호 오기, 이사한 주소, 동명이인 혼동, 연락처 없는 이름처럼 다양한 유형이 공존.
+> 📢 **섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 문제는 주소록 오류 — 전화번호 오기, 이사한 주소, 동명이인 혼동, 연락처 없는 이름처럼 다양한 유형이 공존.
 
 ---
 
-## Ⅳ. DQM 체계와 [[052_data_governance_framework|데이터 거버넌스]]
+## Ⅳ. DQM 체계와 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)
 
 ```
 DQM (Data Quality Management) 체계:
@@ -160,7 +164,7 @@ DQM (Data Quality Management) 체계:
 
 ---
 
-## Ⅴ. 실무 시나리오 — 공공 [[001_dikw_pyramid|데이터]] 품질 진단
+## Ⅴ. 실무 시나리오 — 공공 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 진단
 
 ```
 A 기관 고객 DB 품질 진단 사례:
@@ -196,7 +200,7 @@ A 기관 고객 DB 품질 진단 사례:
   주요 지표 전반 50%+ 개선
 ```
 
-> 📢 **섹션 요약 비유**: 공공 [[001_dikw_pyramid|데이터]] 품질 진단은 우편물 주소 정확도 검사 — NULL(주소 없음), 형식 오류(번지 없음), 불일치(시스템마다 다른 주소)를 모두 체크.
+> 📢 **섹션 요약 비유**: 공공 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 진단은 우편물 주소 정확도 검사 — NULL(주소 없음), 형식 오류(번지 없음), 불일치(시스템마다 다른 주소)를 모두 체크.
 
 ---
 
@@ -246,9 +250,9 @@ Quality Gate as Code
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [[001_dikw_pyramid|데이터]] 품질 진단은 식품 안전 검사처럼 — [[001_dikw_pyramid|데이터]]가 올바른지([[002_bigdata_5v|정확성]]), 빠진 것이 없는지(완전성), 기한이 지나지 않았는지(적시성) 검사해요.
-2. 품질이 나쁜 [[001_dikw_pyramid|데이터]]를 AI에 넣으면 잘못된 결과가 나와요 — "쓰레기 입력 → 쓰레기 출력(GIGO)" 법칙!
-3. [[001_dikw_pyramid|데이터]] 품질은 한 번 검사로 끝이 아니라 정기적으로 계속 모니터링해야 해요, 마치 건강검진처럼요!
+1. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 진단은 식품 안전 검사처럼 — [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 올바른지([정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)), 빠진 것이 없는지(완전성), 기한이 지나지 않았는지(적시성) 검사해요.
+2. 품질이 나쁜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 AI에 넣으면 잘못된 결과가 나와요 — "쓰레기 입력 → 쓰레기 출력(GIGO)" 법칙!
+3. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질은 한 번 검사로 끝이 아니라 정기적으로 계속 모니터링해야 해요, 마치 건강검진처럼요!
 
 ---
 
@@ -256,7 +260,7 @@ Quality Gate as Code
 
 **진행 상황**: 58 / 530
 
-← **이전**: [[040_cloud_based_audit|40. 클라우드 기반 정보화 사업 감리 가이드 (Cloud-based Audit Guide)]]
-**다음**: [[041_data_quality_diagnosis|41. 데이터 품질 진단 (Data Quality Audit)]] →
+← **이전**: [40. 클라우드 기반 정보화 사업 감리 가이드 (Cloud-based Audit Guide)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/040_cloud_based_audit/)
+**다음**: [41. 데이터 품질 진단 (Data Quality Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/041_data_quality_diagnosis/) →
 
 ---

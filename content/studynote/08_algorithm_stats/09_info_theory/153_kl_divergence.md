@@ -1,21 +1,25 @@
----
-title: 4. KL 다이버전스 (KL Divergence, Kullback-Leibler Divergence) — 분포 차이
-date: '2026-04-21'
-tags:
-- studynote-algorithm
----
++++
+title = "4. KL 다이버전스 (KL Divergence, Kullback-Leibler Divergence) — 분포 차이"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-algorithm"]
+
+[extra]
+tags = ["studynote-algorithm"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: KL (Kullback-Leibler) 다이버전스 D_KL(P‖Q)는 분포 P를 Q로 *근사할 때 치르는 정보 비용* — 두 분포가 가까울수록 0에 수렴한다.
-> 2. **가치**: 비대칭성(D_KL(P‖Q) ≠ D_KL(Q‖P))이 핵심 설계 선택이 되며, [[315_autoencoder_vae|VAE]] ([[213_variational_autoencoder|Variational Autoencoder]]) 손실, 변분 추론, 모델 비교 등에서 방향 선택이 결과를 바꾼다.
-> 3. **판단 포인트**: [[154_cross_entropy|크로스 엔트로피]] = H(P) + D_KL(P‖Q) — [[143_mle|MLE]] 학습은 [[154_cross_entropy|크로스 엔트로피]] 최소화 = KL 최소화이며, P를 고정하면 완전히 동치다.
+> 2. **가치**: 비대칭성(D_KL(P‖Q) ≠ D_KL(Q‖P))이 핵심 설계 선택이 되며, [VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/) ([Variational Autoencoder](/knowledge-base/studynote/10_ai/03_llm_nlp/213_variational_autoencoder/)) 손실, 변분 추론, 모델 비교 등에서 방향 선택이 결과를 바꾼다.
+> 3. **판단 포인트**: [크로스 엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/) = H(P) + D_KL(P‖Q) — [MLE](/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/) 학습은 [크로스 엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/) 최소화 = KL 최소화이며, P를 고정하면 완전히 동치다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-두 [[130_probability|확률]] 분포 P와 Q가 주어졌을 때, **P를 Q로 얼마나 잘 근사할 수 있는가**를 측정하는 척도가 KL (Kullback-Leibler) 다이버전스다:
+두 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포 P와 Q가 주어졌을 때, **P를 Q로 얼마나 잘 근사할 수 있는가**를 측정하는 척도가 KL (Kullback-Leibler) 다이버전스다:
 
 ```
 D_KL(P‖Q) = Σ_{x} P(x) · log₂(P(x) / Q(x))   [bits]
@@ -33,8 +37,8 @@ D_KL(P‖Q) = ∫ p(x) · log(p(x)/q(x)) dx
 |:---|:---|
 | 비음수 | D_KL(P‖Q) ≥ 0 (깁스 부등식, Gibbs Inequality) |
 | 동일 시 0 | D_KL(P‖Q) = 0 ⟺ P = Q |
-| 비대칭 | D_KL(P‖Q) ≠ D_KL(Q‖P) (거리 [[342_routing_metric_hop_bandwidth_delay|메트릭]] 아님) |
-| 삼각 부등식 없음 | [[342_routing_metric_hop_bandwidth_delay|메트릭]] 공간을 이루지 않음 |
+| 비대칭 | D_KL(P‖Q) ≠ D_KL(Q‖P) (거리 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 아님) |
+| 삼각 부등식 없음 | [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 공간을 이루지 않음 |
 
 📢 **섹션 요약 비유**: KL 다이버전스는 "번역 오류 비용"이다 — P를 Q 언어로 번역할 때 생기는 정보 손실을 측정하며, 어느 방향으로 번역하느냐에 따라 오류 비용이 다르다.
 
@@ -42,7 +46,7 @@ D_KL(P‖Q) = ∫ p(x) · log(p(x)/q(x)) dx
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 정보량 [[083_relationship_in_er_model|관계]] 전체 구조
+### 정보량 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 전체 구조
 
 ```
        H(P)          D_KL(P‖Q)
@@ -52,8 +56,8 @@ D_KL(P‖Q) = ∫ p(x) · log(p(x)/q(x)) dx
        (고정)          (최소화 대상)
 ```
 
-- **[[154_cross_entropy|크로스 엔트로피]] H(P,Q) = H(P) + D_KL(P‖Q)**
-- P가 실제 분포, Q가 모델 분포 → 학습은 D_KL 최소화 = [[154_cross_entropy|크로스 엔트로피]] 최소화 (H(P) 고정)
+- **[크로스 엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/) H(P,Q) = H(P) + D_KL(P‖Q)**
+- P가 실제 분포, Q가 모델 분포 → 학습은 D_KL 최소화 = [크로스 엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/) 최소화 (H(P) 고정)
 
 ### 순방향 vs 역방향 KL
 
@@ -99,25 +103,25 @@ Jensen 부등식 + log의 오목성 (concavity):
 
 | 척도 | 수식 | 대칭 | 범위 | 용도 |
 |:---|:---|:---:|:---|:---|
-| KL 다이버전스 | Σ P log(P/Q) | ❌ | [0, ∞) | [[315_autoencoder_vae|VAE]], 변분 추론 |
-| JS 다이버전스 | (KL(P‖M)+KL(Q‖M))/2 | ✅ | [0, 1] | [[154_gan_generative_adversarial_network|GAN]] 이론적 분석 |
+| KL 다이버전스 | Σ P log(P/Q) | ❌ | [0, ∞) | [VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/), 변분 추론 |
+| JS 다이버전스 | (KL(P‖M)+KL(Q‖M))/2 | ✅ | [0, 1] | [GAN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/) 이론적 분석 |
 | 헬링거 거리 | √(Σ(√p-√q)²/2) | ✅ | [0, 1] | 통계 검정 |
 | 전변동 거리 | ½Σ\|p-q\| | ✅ | [0, 1] | 통계 검정 |
 | 와서스테인 거리 | Earth Mover Distance | ✅ | [0, ∞) | WGAN |
 
-- **JS (Jensen-Shannon) 다이버전스**: KL의 대칭화 [[288_version_ihl_tos_total_length|버전]], 중간 분포 M = (P+Q)/2 사용
-- [[154_gan_generative_adversarial_network|GAN]] ([[154_gan_generative_adversarial_network|Generative Adversarial Network]]) 에서 최적 판별자 = JS 다이버전스 최소화
+- **JS (Jensen-Shannon) 다이버전스**: KL의 대칭화 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), 중간 분포 M = (P+Q)/2 사용
+- [GAN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/) ([Generative Adversarial Network](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/)) 에서 최적 판별자 = JS 다이버전스 최소화
 
 ### VAE에서의 KL 다이버전스
 
-**[[315_autoencoder_vae|VAE]] ([[213_variational_autoencoder|Variational Autoencoder]])** 손실:
+**[VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/) ([Variational Autoencoder](/knowledge-base/studynote/10_ai/03_llm_nlp/213_variational_autoencoder/))** 손실:
 
 ```
 L = E[log p(x|z)]  -  D_KL(q(z|x) ‖ p(z))
      재구성 손실          KL 정규화 항
 ```
 
-- q(z|x): [[040_encoder|인코더]] (근사 사후 분포)
+- q(z|x): [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) (근사 사후 분포)
 - p(z): 사전 분포 (표준 정규분포 N(0,I))
 - KL 항이 잠재 공간을 정규분포에 가깝게 강제 → 매끄러운 잠재 공간
 
@@ -127,7 +131,7 @@ L = E[log p(x|z)]  -  D_KL(q(z|x) ‖ p(z))
 D_KL(N(μ,σ²) ‖ N(0,1)) = ½(σ² + μ² - 1 - log σ²)
 ```
 
-📢 **섹션 요약 비유**: VAE의 KL 항은 "캐릭터 [[347_compaction|압축]] 품질 관리"다 — 원본 캐릭터(x)를 [[347_compaction|압축]](z)하고 복원할 때, KL 항은 [[347_compaction|압축]] 공간이 너무 제멋대로 뭉치지 않도록 [[093_normalization|정규화]]한다.
+📢 **섹션 요약 비유**: VAE의 KL 항은 "캐릭터 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 품질 관리"다 — 원본 캐릭터(x)를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)(z)하고 복원할 때, KL 항은 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 공간이 너무 제멋대로 뭉치지 않도록 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)한다.
 
 ---
 
@@ -143,7 +147,7 @@ D_KL(N(μ,σ²) ‖ N(0,1)) = ½(σ² + μ² - 1 - log σ²)
 
 역방향 KL 사용 → q가 p의 한 모드에 집중하는 경향 (모드 붕괴).
 
-### [[252_knowledge_distillation_quantization_edge_slm_diffusion|지식 증류]] ([[252_knowledge_distillation_quantization_edge_slm_diffusion|Knowledge Distillation]])
+### [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/) ([Knowledge Distillation](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/))
 
 교사 모델 T, 학생 모델 S의 소프트 레이블 분포 간 KL 최소화:
 
@@ -161,18 +165,18 @@ L_KD = D_KL(T ‖ S) = Σ T(x)·log(T(x)/S(x))
 D_KL(P_A ‖ P_B) 크면 → 두 군의 행동 분포가 유의미하게 다름
 ```
 
-📢 **섹션 요약 비유**: [[252_knowledge_distillation_quantization_edge_slm_diffusion|지식 증류]]의 KL 최소화는 "제자가 스승 흉내 내기"다 — 학생(S)이 스승(T)의 답변 패턴을 최대한 따라 하도록 학습하는 것이 KL 최소화다.
+📢 **섹션 요약 비유**: [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)의 KL 최소화는 "제자가 스승 흉내 내기"다 — 학생(S)이 스승(T)의 답변 패턴을 최대한 따라 하도록 학습하는 것이 KL 최소화다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-KL 다이버전스는 **[[130_probability|확률]]론적 ML의 중심 손실 개념**이다. 비대칭성을 이해하고 방향을 올바르게 선택하는 것이 실무 설계의 핵심:
+KL 다이버전스는 **[확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)론적 ML의 중심 손실 개념**이다. 비대칭성을 이해하고 방향을 올바르게 선택하는 것이 실무 설계의 핵심:
 
 - **D_KL(P‖Q)**: P(실제)를 기준으로 Q(모델)를 평가 → MLE와 동치
 - **D_KL(Q‖P)**: 변분 추론, 모드 집중 원할 때
 
-"KL 다이버전스 ≥ 0"인 깁스 부등식은 단순하지만 [[150_information_theory|정보이론]] 전체 부등식 체계의 기반이 된다.
+"KL 다이버전스 ≥ 0"인 깁스 부등식은 단순하지만 [정보이론](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/150_information_theory/) 전체 부등식 체계의 기반이 된다.
 
 📢 **섹션 요약 비유**: KL 다이버전스는 "번역 점수"다 — P라는 언어를 Q로 번역하는 비용이며, 방향이 바뀌면 비용도 달라지는 비대칭 언어 장벽이다.
 
@@ -180,13 +184,13 @@ KL 다이버전스는 **[[130_probability|확률]]론적 ML의 중심 손실 개
 
 ### 📌 관련 개념 맵
 
-| 개념 | [[083_relationship_in_er_model|관계]] | 비고 |
+| 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 비고 |
 |:---|:---|:---|
-| KL 다이버전스 D_KL(P‖Q) | [[154_cross_entropy|크로스 엔트로피]] = H(P) + KL | 핵심 [[083_relationship_in_er_model|관계]] |
-| JS 다이버전스 | KL의 대칭화 | [[154_gan_generative_adversarial_network|GAN]] 이론 |
-| [[315_autoencoder_vae|VAE]] 손실 | 재구성 + KL [[093_normalization|정규화]] | [[087_process_state_transition|생성]] 모델 |
+| KL 다이버전스 D_KL(P‖Q) | [크로스 엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/) = H(P) + KL | 핵심 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
+| JS 다이버전스 | KL의 대칭화 | [GAN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/) 이론 |
+| [VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/) 손실 | 재구성 + KL [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) | [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델 |
 | 변분 추론 | D_KL(q‖p) 최소화 | 역방향 KL |
-| [[252_knowledge_distillation_quantization_edge_slm_diffusion|지식 증류]] | D_KL(T‖S) 최소화 | 모델 [[347_compaction|압축]] |
+| [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/) | D_KL(T‖S) 최소화 | 모델 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) |
 
 ---
 
@@ -211,7 +215,7 @@ KL 다이버전스는 **[[130_probability|확률]]론적 ML의 중심 손실 개
 [지식 증류]
 ```
 
-이 흐름도는 :---에서 출발해 [[252_knowledge_distillation_quantization_edge_slm_diffusion|지식 증류]]까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
+이 흐름도는 :---에서 출발해 [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -225,7 +229,7 @@ KL 다이버전스는 **[[130_probability|확률]]론적 ML의 중심 손실 개
 
 **진행 상황**: 153 / 175
 
-← **이전**: [[152_mutual_information|3. 상호 정보량 (Mutual Information) — 공유 정보 측정]]
-**다음**: [[154_cross_entropy|5. 크로스 엔트로피 (Cross-Entropy) — 분류 손실 함수]] →
+← **이전**: [3. 상호 정보량 (Mutual Information) — 공유 정보 측정](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/152_mutual_information/)
+**다음**: [5. 크로스 엔트로피 (Cross-Entropy) — 분류 손실 함수](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/) →
 
 ---

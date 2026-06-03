@@ -1,18 +1,22 @@
----
-title: 042. 그로스 해킹 마케팅 (Growth Hacking Marketing)
-date: '2026-04-05'
-tags:
-- studynote-enterprise-systems
----
++++
+title = "042. 그로스 해킹 마케팅 (Growth Hacking Marketing)"
+date = 2026-04-05
+
+[taxonomies]
+tags = ["studynote-enterprise-systems"]
+
+[extra]
+tags = ["studynote-enterprise-systems"]
++++
 
 > **핵심 인사이트**
-> 1. [[041_growth_hacking|그로스 해킹]]([[041_growth_hacking|Growth Hacking]])은 Sean Ellis(2010)가 정의한 개념으로, 마케팅·제품·[[001_dikw_pyramid|데이터]] 분석을 통합하여 "최소 비용·최단 시간에 지속 가능한 성장"을 달성하는 방법론이며, 모든 결정은 [[001_dikw_pyramid|데이터]] 실험으로 [[395_verification_process_review|검증]]한다.
-> 2. [[041_growth_hacking|그로스 해킹]]의 핵심 루프는 BML(Build-Measure-Learn) 사이클로, 가설 → A/B 실험 → 분석 → 확장(또는 폐기) 반복이며, 제품·마케팅 채널·온보딩 등 모든 접점을 실험 대상으로 삼는다.
-> 3. [[041_growth_hacking|그로스 해킹]]은 AARRR 퍼널([[042_aarrr_funnel|Acquisition]]→Activation→[[515_mvcc|Retention]]→Referral→Revenue)의 가장 취약한 병목([[617_io_bottleneck|Bottleneck]])을 [[655_ir_detection_analysis|식별]]하고 집중 개선하는 "[[123_pipe|파이프]] 뚫기" [[268_strategy_pattern|전략]]이 핵심이다.
+> 1. [그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/)([Growth Hacking](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/))은 Sean Ellis(2010)가 정의한 개념으로, 마케팅·제품·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석을 통합하여 "최소 비용·최단 시간에 지속 가능한 성장"을 달성하는 방법론이며, 모든 결정은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 실험으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
+> 2. [그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/)의 핵심 루프는 BML(Build-Measure-Learn) 사이클로, 가설 → A/B 실험 → 분석 → 확장(또는 폐기) 반복이며, 제품·마케팅 채널·온보딩 등 모든 접점을 실험 대상으로 삼는다.
+> 3. [그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/)은 AARRR 퍼널([Acquisition](/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/)→Activation→[Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/)→Referral→Revenue)의 가장 취약한 병목([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))을 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하고 집중 개선하는 "[파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 뚫기" [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 핵심이다.
 
 ---
 
-## Ⅰ. [[041_growth_hacking|그로스 해킹]]의 정의
+## Ⅰ. [그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/)의 정의
 
 ```
 그로스 해킹 (Growth Hacking):
@@ -45,11 +49,11 @@ Famous 그로스 해킹 사례:
   Airbnb: Craigslist 역연동 (Acquisition)
 ```
 
-> 📢 **섹션 요약 비유**: [[041_growth_hacking|그로스 해킹]]은 요리사+영양사+과학자 결합 — 맛있게(마케팅), 건강하게(제품), 실험실 [[395_verification_process_review|검증]]([[001_dikw_pyramid|데이터]])까지 통합.
+> 📢 **섹션 요약 비유**: [그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/)은 요리사+영양사+과학자 결합 — 맛있게(마케팅), 건강하게(제품), 실험실 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))까지 통합.
 
 ---
 
-## Ⅱ. [[041_growth_hacking|그로스 해킹]] 루프
+## Ⅱ. [그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/) 루프
 
 ```
 그로스 해킹 실험 루프 (ICE 프레임워크):
@@ -74,11 +78,11 @@ ICE 점수 = (I × C × E) / 3
   일반 팀: 월 1~2개
 ```
 
-> 📢 **섹션 요약 비유**: 그로스 루프는 과학 실험실 — 가설, 실험(A/B 테스트), [[395_verification_process_review|검증]](통계), 결론(확장 or 폐기).
+> 📢 **섹션 요약 비유**: 그로스 루프는 과학 실험실 — 가설, 실험(A/B 테스트), [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(통계), 결론(확장 or 폐기).
 
 ---
 
-## Ⅲ. 그로스 채널 [[268_strategy_pattern|전략]]
+## Ⅲ. 그로스 채널 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
 ```
 그로스 채널 분류 (Traction 책):
@@ -133,7 +137,7 @@ Product-Led Growth (PLG):
   Churn Rate 5% → 3%: LTV 67% 증가
 ```
 
-> 📢 **섹션 요약 비유**: 리텐션은 식당 단골 비율 — 새 손님([[042_aarrr_funnel|Acquisition]])만 많고 다시 안 오면(리텐션 낮음) 식당이 성장하지 못한다.
+> 📢 **섹션 요약 비유**: 리텐션은 식당 단골 비율 — 새 손님([Acquisition](/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/))만 많고 다시 안 오면(리텐션 낮음) 식당이 성장하지 못한다.
 
 ---
 
@@ -214,9 +218,9 @@ LLM으로 개인화 온보딩
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [[041_growth_hacking|그로스 해킹]]은 실험실 마케팅 — "이 버튼을 파란색으로 바꾸면 더 많이 클릭할까?"를 실제로 실험하고 [[001_dikw_pyramid|데이터]]로 [[396_validation|확인]]해요!
+1. [그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/)은 실험실 마케팅 — "이 버튼을 파란색으로 바꾸면 더 많이 클릭할까?"를 실제로 실험하고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해요!
 2. 핵심은 AARRR 퍼널에서 가장 많이 새는 구멍(취약 단계)을 찾아 막는 것 — 새 사용자를 100명 데려와도 99명이 바로 떠나면 의미 없어요.
-3. Dropbox는 친구 추천하면 무료 저장공간을 줘서 폭발적으로 성장했어요 — 이게 바로 [[041_growth_hacking|그로스 해킹]]의 대표 성공 사례예요!
+3. Dropbox는 친구 추천하면 무료 저장공간을 줘서 폭발적으로 성장했어요 — 이게 바로 [그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/)의 대표 성공 사례예요!
 
 ---
 
@@ -224,7 +228,7 @@ LLM으로 개인화 온보딩
 
 **진행 상황**: 42 / 482
 
-← **이전**: [[041_lean_startup_pivot|041. 피벗 (Pivot) — 전략적 방향 전환]]
-**다음**: [[043_aarrr_funnel_pirate_metrics|043. AARRR 퍼널 — 해적 지표 (Pirate Metrics)]] →
+← **이전**: [041. 피벗 (Pivot) — 전략적 방향 전환](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/041_lean_startup_pivot/)
+**다음**: [043. AARRR 퍼널 — 해적 지표 (Pirate Metrics)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/043_aarrr_funnel_pirate_metrics/) →
 
 ---

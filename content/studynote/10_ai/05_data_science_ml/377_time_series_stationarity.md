@@ -1,21 +1,25 @@
----
-title: 377. 시계열 정상성 (Stationarity)
-date: '2026-05-09'
-tags:
-- studynote-ai
----
++++
+title = "377. 시계열 정상성 (Stationarity)"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-ai"]
+
+[extra]
+tags = ["studynote-ai"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 정상성 (Stationarity)은 시계열의 평균·[[136_variance|분산]]·자기공분산이 시간에 따라 변하지 않는 성질로, [[342_arima_auto_regressive_integrated_moving_average|ARIMA]] ([[229_time_series_arima_stationarity_collaborative_filtering|AutoRegressive Integrated Moving Average]]) 등 고전 시계열 모델의 필수 전제 조건이다.
-> 2. **가치**: 비정상 시계열을 차분 (Differencing)·변환으로 정상화한 뒤 모델링하면 허위 회귀 (Spurious Regression)를 방지하고 예측 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]]을 높인다.
-> 3. **판단 포인트**: ADF (Augmented Dickey-Fuller) 검정과 KPSS (Kwiatkowski-Phillips-Schmidt-Shin) 검정을 상호 보완적으로 사용해 정상성 여부를 통계적으로 [[396_validation|확인]]해야 한다.
+> 1. **본질**: 정상성 (Stationarity)은 시계열의 평균·[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)·자기공분산이 시간에 따라 변하지 않는 성질로, [ARIMA](/knowledge-base/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/) ([AutoRegressive Integrated Moving Average](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/229_time_series_arima_stationarity_collaborative_filtering/)) 등 고전 시계열 모델의 필수 전제 조건이다.
+> 2. **가치**: 비정상 시계열을 차분 (Differencing)·변환으로 정상화한 뒤 모델링하면 허위 회귀 (Spurious Regression)를 방지하고 예측 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 높인다.
+> 3. **판단 포인트**: ADF (Augmented Dickey-Fuller) 검정과 KPSS (Kwiatkowski-Phillips-Schmidt-Shin) 검정을 상호 보완적으로 사용해 정상성 여부를 통계적으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-시계열 [[001_dikw_pyramid|데이터]]에는 세 가지 비정상 요소가 공존한다:
+시계열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에는 세 가지 비정상 요소가 공존한다:
 - **추세 (Trend)**: 장기적 상승/하락 경향
 - **계절성 (Seasonality)**: 일정 주기로 반복되는 패턴
 - **불규칙 변동 (Irregular)**: 예측 불가능한 노이즈
@@ -88,9 +92,9 @@ H₁: γ < 0 (정상)
 |:---|:---|:---|:---|
 | ADF | 비정상 (단위근) | 정상 | 비정상 |
 | KPSS | 정상 | 비정상 | 정상 |
-| [[015_payback_period|PP]] (Phillips-Perron) | 비정상 (단위근) | 정상 | 비정상 |
+| [PP](/knowledge-base/studynote/12_it_management/01_governance_strategy/015_payback_period/) (Phillips-Perron) | 비정상 (단위근) | 정상 | 비정상 |
 
-두 검정 병행: ADF p < 0.05 & KPSS p > 0.05 → 정상성 [[396_validation|확인]]
+두 검정 병행: ADF p < 0.05 & KPSS p > 0.05 → 정상성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
 
 - **📢 섹션 요약 비유**: ADF는 "범인(단위근)이 없다고 주장하는 경찰", KPSS는 "범인이 있다고 주장하는 검사"다. 두 주장이 모두 정상성을 지지할 때만 믿을 수 있다.
 
@@ -98,12 +102,12 @@ H₁: γ < 0 (정상)
 
 ## Ⅲ. 비교 및 연결
 
-| 구분 | 추세 정상화 | 계절 정상화 | [[136_variance|분산]] 정상화 |
+| 구분 | 추세 정상화 | 계절 정상화 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 정상화 |
 |:---|:---|:---|:---|
-| 방법 | 1차 차분, 회귀 추세 제거 | 계절 차분, [[330_dummy_variable|더미 변수]] | [[568_logs_distributed_logging_elk_fluentd|로그]] 변환, Box-Cox |
-| [[342_arima_auto_regressive_integrated_moving_average|ARIMA]] | d 차수 결정 | SARIMA의 D 차수 | 전처리로 선행 |
+| 방법 | 1차 차분, 회귀 추세 제거 | 계절 차분, [더미 변수](/knowledge-base/studynote/06_ict_convergence/05_data_science/330_dummy_variable/) | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 변환, Box-Cox |
+| [ARIMA](/knowledge-base/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/) | d 차수 결정 | SARIMA의 D 차수 | 전처리로 선행 |
 
-**[[342_arima_auto_regressive_integrated_moving_average|ARIMA]](p,d,q) 모델과 정상성**:
+**[ARIMA](/knowledge-base/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/)(p,d,q) 모델과 정상성**:
 - d = 차분 횟수 → 정상화를 위한 통합(Integration) 차수
 - 정상화 후 AR(p) + MA(q) 구조 추정
 
@@ -113,14 +117,14 @@ H₁: γ < 0 (정상)
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**주식 가격**: 전형적 비정상 (추세+[[136_variance|분산]] 증가) → [[568_logs_distributed_logging_elk_fluentd|로그]] 수익률 = log(Pₜ/Pₜ₋₁) 로 정상화
+**주식 가격**: 전형적 비정상 (추세+[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 증가) → [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 수익률 = log(Pₜ/Pₜ₋₁) 로 정상화
 **전력 수요**: 추세 + 주별·일별 계절성 → 차분 + 계절 차분 병행
-**[[130_signal|신호]] 처리**: [[126_fft|FFT]] (Fast Fourier Transform)로 주파수 성분 분석 후 계절성 분해
+**[신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리**: [FFT](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/) (Fast Fourier Transform)로 주파수 성분 분석 후 계절성 분해
 
 기술사 판단 포인트:
-1. 차분 횟수(d)는 최소화 → 과차분(Overdifferencing)은 [[136_variance|분산]] 증가
+1. 차분 횟수(d)는 최소화 → 과차분(Overdifferencing)은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 증가
 2. ADF 단독 사용 금지, KPSS 병행
-3. ACF (자기상관함수)/PACF ([[411_pacf_partial_autocorrelation|편자기상관함수]]) 플롯으로 모델 오더 결정
+3. ACF (자기상관함수)/PACF ([편자기상관함수](/knowledge-base/studynote/10_ai/05_data_science_ml/411_pacf_partial_autocorrelation/)) 플롯으로 모델 오더 결정
 
 - **📢 섹션 요약 비유**: 차분은 "오르막(추세)을 평지로 만드는 고도 조정"이다. 너무 많이 조정하면 땅이 파여(과차분) 오히려 걸어 다니기 더 힘들다.
 
@@ -128,7 +132,7 @@ H₁: γ < 0 (정상)
 
 ## Ⅴ. 기대효과 및 결론
 
-정상성 확보는 시계열 예측 모델의 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]]을 담보하는 핵심 전처리다. 딥러닝 [[292_lstm|LSTM]], [[246_transformer_self_attention_parallel_positional_encoding|Transformer]] 기반 시계열 모델에서도 정상화된 입력이 학습 안정성과 예측 [[282_performance_tactics|성능]]을 높인다. 허위 회귀 방지라는 통계적 엄밀성은 실무 의사결정의 품질을 직접 좌우한다.
+정상성 확보는 시계열 예측 모델의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 담보하는 핵심 전처리다. 딥러닝 [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/), [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 기반 시계열 모델에서도 정상화된 입력이 학습 안정성과 예측 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높인다. 허위 회귀 방지라는 통계적 엄밀성은 실무 의사결정의 품질을 직접 좌우한다.
 
 - **📢 섹션 요약 비유**: 정상성 확보는 요리 전 재료 손질이다. 재료가 신선하고 균일해야(정상 시계열) 맛있는 요리(정확한 예측)가 나온다.
 
@@ -138,12 +142,12 @@ H₁: γ < 0 (정상)
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 정상성 (Stationarity) | 평균·[[136_variance|분산]]·공분산 불변 / 시계열 모델링 전제 |
+| 정상성 (Stationarity) | 평균·[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)·공분산 불변 / 시계열 모델링 전제 |
 | 차분 (Differencing) | d, 단위근 제거 / 정상화 방법 |
-| ADF 검정 | 단위근, [[337_p_value_significance|p-value]] / 정상성 통계 검정 |
+| ADF 검정 | 단위근, [p-value](/knowledge-base/studynote/06_ict_convergence/05_data_science/337_p_value_significance/) / 정상성 통계 검정 |
 | KPSS 검정 | 정상성 귀무가설 / ADF 보완 검정 |
-| [[342_arima_auto_regressive_integrated_moving_average|ARIMA]] | p, d, q / 정상화 후 모델 |
-| 허위 회귀 | Spurious Regression / 비정상 [[001_dikw_pyramid|데이터]] 위험 |
+| [ARIMA](/knowledge-base/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/) | p, d, q / 정상화 후 모델 |
+| 허위 회귀 | Spurious Regression / 비정상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위험 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -153,9 +157,9 @@ H₁: γ < 0 (정상)
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 시계열 정상성은 "파도가 항상 같은 높이로 치는 조용한 호수"야. 예측 모델은 이런 잔잔한 [[001_dikw_pyramid|데이터]]를 좋아해.
+1. 시계열 정상성은 "파도가 항상 같은 높이로 치는 조용한 호수"야. 예측 모델은 이런 잔잔한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 좋아해.
 2. 차분은 마치 롤러코스터의 오르내림을 평평한 땅으로 만드는 과정이야. 한 번 내리막으로 빼면 더 평평해지거든.
-3. ADF 검정은 "[[001_dikw_pyramid|데이터]]가 진짜 잔잔한지 아닌지" 수학적으로 [[396_validation|확인]]하는 테스트야. KPSS는 반대 방향에서 한 번 더 [[396_validation|확인]]해주는 친구야.
+3. ADF 검정은 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 진짜 잔잔한지 아닌지" 수학적으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 테스트야. KPSS는 반대 방향에서 한 번 더 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해주는 친구야.
 
 ---
 
@@ -163,7 +167,7 @@ H₁: γ < 0 (정상)
 
 **진행 상황**: 377 / 420
 
-← **이전**: [[376_markov_chain|376. 마르코프 체인 (Markov Chain)]]
-**다음**: [[378_dtw|378. 동적 시간 워핑 (DTW, Dynamic Time Warping)]] →
+← **이전**: [376. 마르코프 체인 (Markov Chain)](/knowledge-base/studynote/10_ai/05_data_science_ml/376_markov_chain/)
+**다음**: [378. 동적 시간 워핑 (DTW, Dynamic Time Warping)](/knowledge-base/studynote/10_ai/05_data_science_ml/378_dtw/) →
 
 ---

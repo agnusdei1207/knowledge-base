@@ -1,22 +1,26 @@
----
-title: 223. 데이터 마트 (Data Mart)
-date: '2026-04-21'
-tags:
-- studynote-cloud-architecture
----
++++
+title = "223. 데이터 마트 (Data Mart)"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-cloud-architecture"]
+
+[extra]
+tags = ["studynote-cloud-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [[209_data_mart_kimball_star_schema|데이터 마트]]([[209_data_mart_kimball_star_schema|Data Mart]])는 전사 DW에서 특정 부서(영업·재무·마케팅)가 필요로 하는 [[001_dikw_pyramid|데이터]]만 추출·요약한 **부서 전용 소규모 분석 저장소**다.
-> 2. **가치**: 전사 DW의 방대한 테이블을 모두 조회하지 않고 **부서 관점에 최적화된 구조**로 미리 집계·재가공하여 [[298_qkv_attention|쿼리]] [[282_performance_tactics|성능]]과 사용 편의성을 극대화한다.
-> 3. **판단 포인트**: 독립형([[403_bottom_up_integration|Bottom-up]]) vs 종속형([[402_top_down_integration|Top-down]])의 구조 선택이 핵심이며, 과도한 독립 마트는 **[[001_dikw_pyramid|데이터]] [[002_silo_hyeonhyung|사일로]]**를 유발하므로 거버넌스 통제가 필요하다.
+> 1. **본질**: [데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/)([Data Mart](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/))는 전사 DW에서 특정 부서(영업·재무·마케팅)가 필요로 하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 추출·요약한 **부서 전용 소규모 분석 저장소**다.
+> 2. **가치**: 전사 DW의 방대한 테이블을 모두 조회하지 않고 **부서 관점에 최적화된 구조**로 미리 집계·재가공하여 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 사용 편의성을 극대화한다.
+> 3. **판단 포인트**: 독립형([Bottom-up](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/403_bottom_up_integration/)) vs 종속형([Top-down](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/))의 구조 선택이 핵심이며, 과도한 독립 마트는 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)**를 유발하므로 거버넌스 통제가 필요하다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[[209_data_warehouse_schema_on_write|데이터 웨어하우스]]([[209_data_warehouse_schema_on_write|DW]])는 전사 통합 [[001_dikw_pyramid|데이터]]를 보관하지만, 부서마다 필요한 [[001_dikw_pyramid|데이터]] 관점과 집계 방식이 다르다. 영업팀은 지역별 매출 추이를, 재무팀은 비용·손익 분석을, 마케팅팀은 캠페인 효과를 원한다. 전사 DW에서 모든 팀이 직접 복잡한 [[521_join|JOIN]]·집계를 실행하면 [[209_data_warehouse_schema_on_write|DW]] 리소스 경쟁이 발생하고, 각 팀의 분석가는 방대한 [[005_schema|스키마]]를 이해해야 하는 부담이 생긴다.
+[데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/))는 전사 통합 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보관하지만, 부서마다 필요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관점과 집계 방식이 다르다. 영업팀은 지역별 매출 추이를, 재무팀은 비용·손익 분석을, 마케팅팀은 캠페인 효과를 원한다. 전사 DW에서 모든 팀이 직접 복잡한 [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)·집계를 실행하면 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 리소스 경쟁이 발생하고, 각 팀의 분석가는 방대한 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)를 이해해야 하는 부담이 생긴다.
 
-[[209_data_mart_kimball_star_schema|데이터 마트]]는 이 문제를 해결하기 위해 **부서별 관심 영역(Subject Area)**에 특화된 별도 저장소를 구성한다.
+[데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/)는 이 문제를 해결하기 위해 **부서별 관심 영역(Subject Area)**에 특화된 별도 저장소를 구성한다.
 
 ```
 [데이터 마트 위치]
@@ -40,13 +44,13 @@ tags:
       Tableau         Excel         Power BI
 ```
 
-📢 **섹션 요약 비유**: [[209_data_mart_kimball_star_schema|데이터 마트]]는 대형 마트(전사 [[209_data_warehouse_schema_on_write|DW]])에서 특정 코너(부서)로 분리된 편의점이다. 대형 마트에서 원하는 상품을 매번 찾아다니는 대신, 필요한 상품만 구비된 편의점에서 빠르게 구매한다.
+📢 **섹션 요약 비유**: [데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/)는 대형 마트(전사 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/))에서 특정 코너(부서)로 분리된 편의점이다. 대형 마트에서 원하는 상품을 매번 찾아다니는 대신, 필요한 상품만 구비된 편의점에서 빠르게 구매한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 독립형 vs 종속형 [[209_data_mart_kimball_star_schema|데이터 마트]]
+### 독립형 vs 종속형 [데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/)
 
 ```
 [종속형 (Dependent) - Inmon 방식]
@@ -64,7 +68,7 @@ tags:
          구축 속도 빠름, 일관성 위험
 ```
 
-### [[296_star_schema|Star Schema]] vs [[313_snowflake_schema|Snowflake Schema]]
+### [Star Schema](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/296_star_schema/) vs [Snowflake Schema](/knowledge-base/studynote/12_it_management/05_security_compliance/313_snowflake_schema/)
 
 ```
 [Star Schema]                    [Snowflake Schema]
@@ -81,45 +85,45 @@ tags:
 BI 분석에 적합                복잡 집계에 적합
 ```
 
-| 비교 항목 | [[296_star_schema|Star Schema]] | [[313_snowflake_schema|Snowflake Schema]] |
+| 비교 항목 | [Star Schema](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/296_star_schema/) | [Snowflake Schema](/knowledge-base/studynote/12_it_management/05_security_compliance/313_snowflake_schema/) |
 |:---|:---|:---|
-| **[[521_join|JOIN]] 복잡도** | 낮음 (1단계) | 높음 (다단계) |
-| **[[298_qkv_attention|쿼리]] [[282_performance_tactics|성능]]** | 우수 | 보통 |
-| **저장 공간** | 큼 (비정규화) | 작음 ([[093_normalization|정규화]]) |
+| **[JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 복잡도** | 낮음 (1단계) | 높음 (다단계) |
+| **[쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)** | 우수 | 보통 |
+| **저장 공간** | 큼 (비정규화) | 작음 ([정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)) |
 | **유지보수** | 단순 | 복잡 |
 | **BI 도구 친화성** | 높음 | 보통 |
 
-📢 **섹션 요약 비유**: Star Schema는 바퀴살 자전거처럼 팩트(중심)에서 모든 차원(바퀴살)이 한 단계에 연결되어 빠르다. [[541_cassandra|Snowflake]] Schema는 지하철 노선도처럼 여러 역을 거쳐 목적지에 도달하므로 더 세밀하지만 복잡하다.
+📢 **섹션 요약 비유**: Star Schema는 바퀴살 자전거처럼 팩트(중심)에서 모든 차원(바퀴살)이 한 단계에 연결되어 빠르다. [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) Schema는 지하철 노선도처럼 여러 역을 거쳐 목적지에 도달하므로 더 세밀하지만 복잡하다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### [[209_data_mart_kimball_star_schema|데이터 마트]] 유형 [[104_classification_analysis|분류]]
+### [데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/) 유형 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)
 
 | 유형 | 특성 | 장점 | 단점 |
 |:---|:---|:---|:---|
-| **종속형 (Dependent)** | 중앙 DW에서 파생 | [[001_dikw_pyramid|데이터]] [[194_consistency_database_integrity|일관성]] 보장 | 구축 시간 소요 |
-| **독립형 (Independent)** | 소스에서 직접 [[215_etl_vs_elt_pipeline|ETL]] | 빠른 구축, 부서 자율성 | [[001_dikw_pyramid|데이터]] [[002_silo_hyeonhyung|사일로]], 불일치 위험 |
-| **하이브리드형** | 일부는 [[209_data_warehouse_schema_on_write|DW]] 파생, 일부 독자 | 유연성 | 관리 복잡 |
-| **가상형 (Virtual)** | 물리 [[016_replication_factor|복제]] 없이 뷰로 구현 | [[001_dikw_pyramid|데이터]] 중복 없음 | [[298_qkv_attention|쿼리]] 시 [[209_data_warehouse_schema_on_write|DW]] 부하 |
+| **종속형 (Dependent)** | 중앙 DW에서 파생 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 보장 | 구축 시간 소요 |
+| **독립형 (Independent)** | 소스에서 직접 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) | 빠른 구축, 부서 자율성 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/), 불일치 위험 |
+| **하이브리드형** | 일부는 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 파생, 일부 독자 | 유연성 | 관리 복잡 |
+| **가상형 (Virtual)** | 물리 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 없이 뷰로 구현 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중복 없음 | [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 시 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 부하 |
 
-### [[209_data_mart_kimball_star_schema|데이터 마트]] 설계 패턴
+### [데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/) 설계 패턴
 
-| 부서 | [[210_fact_dimension_table_snowflake_schema|팩트 테이블]] | 주요 차원 | [[018_kpi|KPI]] |
+| 부서 | [팩트 테이블](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/210_fact_dimension_table_snowflake_schema/) | 주요 차원 | [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) |
 |:---|:---|:---|:---|
 | **영업** | fact_sales | 날짜, 상품, 고객, 지역, 영업사원 | 매출액, 성장률, 달성률 |
-| **재무** | fact_finance | 날짜, 계정, 부서, 비용센터 | 순이익, 비용률, [[012_roi_return_on_investment|ROI]] |
-| **마케팅** | fact_campaign | 날짜, 채널, 캠페인, 고객 세그먼트 | [[090_ctr_mode|CTR]], CAC, ROAS |
+| **재무** | fact_finance | 날짜, 계정, 부서, 비용센터 | 순이익, 비용률, [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) |
+| **마케팅** | fact_campaign | 날짜, 채널, 캠페인, 고객 세그먼트 | [CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/), CAC, ROAS |
 | **물류** | fact_logistics | 날짜, 창고, 상품, 운송사 | 리드타임, 재고회전율 |
 
-📢 **섹션 요약 비유**: 독립형 마트는 각 동네에 생긴 편의점들이 본사([[209_data_warehouse_schema_on_write|DW]]) 없이 각자 거래처에서 물건을 사 오는 것과 같다. 빠르게 열 수 있지만, 가격([[001_dikw_pyramid|데이터]])이 편의점마다 달라질 수 있다.
+📢 **섹션 요약 비유**: 독립형 마트는 각 동네에 생긴 편의점들이 본사([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)) 없이 각자 거래처에서 물건을 사 오는 것과 같다. 빠르게 열 수 있지만, 가격([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 편의점마다 달라질 수 있다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[209_data_mart_kimball_star_schema|데이터 마트]] 구축 단계
+### [데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/) 구축 단계
 
 ```
 1. 비즈니스 요건 파악
@@ -144,9 +148,9 @@ BI 분석에 적합                복잡 집계에 적합
    - KPI 대시보드 게시
 ```
 
-**기술사 핵심 판단**: [[209_data_mart_kimball_star_schema|데이터 마트]] 설계 시 "왜 종속형인가/독립형인가"를 비즈니스 요건([[001_dikw_pyramid|데이터]] [[194_consistency_database_integrity|일관성]] vs 민첩성)으로 정당화하고, [[296_star_schema|Star Schema]] 선택 이유([[316_olap|OLAP]] [[298_qkv_attention|쿼리]] 최적화)를 논리적으로 서술한다.
+**기술사 핵심 판단**: [데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/) 설계 시 "왜 종속형인가/독립형인가"를 비즈니스 요건([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) vs 민첩성)으로 정당화하고, [Star Schema](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/296_star_schema/) 선택 이유([OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화)를 논리적으로 서술한다.
 
-📢 **섹션 요약 비유**: [[209_data_mart_kimball_star_schema|데이터 마트]] 구축은 지점 개설과 같다. 본사([[209_data_warehouse_schema_on_write|DW]])의 통합 [[001_dikw_pyramid|데이터]]를 기반으로 각 지역 특성에 맞는 상품을 구성하지만, 본사 가격 [[164_policy|정책]]([[052_data_governance_framework|데이터 거버넌스]])을 따라야 브랜드 [[194_consistency_database_integrity|일관성]]([[001_dikw_pyramid|데이터]] [[194_consistency_database_integrity|일관성]])이 유지된다.
+📢 **섹션 요약 비유**: [데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/) 구축은 지점 개설과 같다. 본사([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/))의 통합 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 기반으로 각 지역 특성에 맞는 상품을 구성하지만, 본사 가격 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)([데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/))을 따라야 브랜드 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))이 유지된다.
 
 ---
 
@@ -156,37 +160,37 @@ BI 분석에 적합                복잡 집계에 적합
 
 | 효과 | 내용 |
 |:---|:---|
-| **[[298_qkv_attention|쿼리]] [[282_performance_tactics|성능]] 향상** | 전사 [[209_data_warehouse_schema_on_write|DW]] 전체 스캔 대신 부서 특화 [[001_dikw_pyramid|데이터]]만 스캔 |
-| **사용자 경험** | 분석가가 이해하기 쉬운 비즈니스 [[064_relation_domain|도메인]] [[005_schema|스키마]] |
-| **[[209_data_warehouse_schema_on_write|DW]] 부하 감소** | 부서별 [[298_qkv_attention|쿼리]]를 마트에서 소화하여 [[209_data_warehouse_schema_on_write|DW]] 리소스 [[571_protection_vs_security|보호]] |
-| **시간 단축** | 사전 집계 테이블로 복잡 집계 [[298_qkv_attention|쿼리]] 즉시 응답 |
+| **[쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상** | 전사 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 전체 스캔 대신 부서 특화 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 스캔 |
+| **사용자 경험** | 분석가가 이해하기 쉬운 비즈니스 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) |
+| **[DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 부하 감소** | 부서별 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 마트에서 소화하여 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 리소스 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) |
+| **시간 단축** | 사전 집계 테이블로 복잡 집계 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 즉시 응답 |
 
 ### 한계 및 주의점
 
 | 한계 | 내용 |
 |:---|:---|
-| **[[001_dikw_pyramid|데이터]] [[002_silo_hyeonhyung|사일로]] 위험** | 독립형 마트 다수 운영 시 부서 간 [[001_dikw_pyramid|데이터]] 불일치 |
-| **유지보수 비용** | 마트 수가 늘수록 [[215_etl_vs_elt_pipeline|ETL]] 파이프라인 관리 복잡 |
-| **중복 저장** | DW와 마트에 유사 [[001_dikw_pyramid|데이터]] 이중 저장 비용 |
-| **[[005_schema|스키마]] 변경 연쇄** | [[209_data_warehouse_schema_on_write|DW]] [[005_schema|스키마]] 변경 시 연결된 모든 마트 수정 필요 |
+| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) 위험** | 독립형 마트 다수 운영 시 부서 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치 |
+| **유지보수 비용** | 마트 수가 늘수록 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 파이프라인 관리 복잡 |
+| **중복 저장** | DW와 마트에 유사 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이중 저장 비용 |
+| **[스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경 연쇄** | [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경 시 연결된 모든 마트 수정 필요 |
 
-📢 **섹션 요약 비유**: [[209_data_mart_kimball_star_schema|데이터 마트]]를 많이 만드는 건 각 팀마다 전용 냉장고를 사는 것과 같다. 처음엔 편하지만, 냉장고가 많아질수록 식재료([[001_dikw_pyramid|데이터]])를 각 냉장고에 최신 상태로 유지하는 관리 비용이 기하급수적으로 증가한다.
+📢 **섹션 요약 비유**: [데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/)를 많이 만드는 건 각 팀마다 전용 냉장고를 사는 것과 같다. 처음엔 편하지만, 냉장고가 많아질수록 식재료([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 각 냉장고에 최신 상태로 유지하는 관리 비용이 기하급수적으로 증가한다.
 
 ---
 
 ### 📌 관련 개념 맵
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[209_data_warehouse_schema_on_write|데이터 웨어하우스]] ([[209_data_warehouse_schema_on_write|DW]]) | [[209_data_mart_kimball_star_schema|데이터 마트]]의 소스, 종속형 마트의 상위 저장소 |
-| [[296_star_schema|Star Schema]] | [[209_data_mart_kimball_star_schema|데이터 마트]] 물리 설계 표준 패턴 |
-| [[316_olap|OLAP]] | [[209_data_mart_kimball_star_schema|데이터 마트]]가 지원하는 다차원 분석 [[298_qkv_attention|쿼리]] 패턴 |
-| [[215_etl_vs_elt_pipeline|ETL]] | [[209_data_warehouse_schema_on_write|DW]] → 마트 [[001_dikw_pyramid|데이터]] 이동의 핵심 메커니즘 |
-| BI 도구 ([[164_tableau|Tableau]]/[[165_power_bi|Power BI]]) | [[209_data_mart_kimball_star_schema|데이터 마트]]를 주요 [[001_dikw_pyramid|데이터]] 소스로 연결 |
-| [[001_dikw_pyramid|데이터]] [[002_silo_hyeonhyung|사일로]] | 독립형 마트 남발 시 발생하는 부작용 |
+| [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) ([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)) | [데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/)의 소스, 종속형 마트의 상위 저장소 |
+| [Star Schema](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/296_star_schema/) | [데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/) 물리 설계 표준 패턴 |
+| [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/) | [데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/)가 지원하는 다차원 분석 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 패턴 |
+| [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) | [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) → 마트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동의 핵심 메커니즘 |
+| BI 도구 ([Tableau](/knowledge-base/studynote/16_bigdata/08_visualization/164_tableau/)/[Power BI](/knowledge-base/studynote/16_bigdata/08_visualization/165_power_bi/)) | [데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/)를 주요 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스로 연결 |
+| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) | 독립형 마트 남발 시 발생하는 부작용 |
 | 구체화 뷰 | 마트 내 반복 집계 사전 계산 최적화 기법 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. [[209_data_mart_kimball_star_schema|데이터 마트]]는 큰 마트(전사 [[209_data_warehouse_schema_on_write|DW]])에서 우리 반이 필요한 준비물만 꺼내 작은 교실 사물함(부서 마트)에 넣어두는 것과 같다. 매번 큰 마트에 가지 않아도 되니 훨씬 편하다.
+1. [데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/)는 큰 마트(전사 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/))에서 우리 반이 필요한 준비물만 꺼내 작은 교실 사물함(부서 마트)에 넣어두는 것과 같다. 매번 큰 마트에 가지 않아도 되니 훨씬 편하다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -201,8 +205,8 @@ Data Mart: 부서/주제별 서브셋 (마케팅 · 재무 · 영업)
     ▼
 셀프서비스 BI: Looker · Tableau · Metabase
 ```
-2. 영업팀 마트는 영업 [[001_dikw_pyramid|데이터]]만, 재무팀 마트는 재무 [[001_dikw_pyramid|데이터]]만 있어서, 각 팀은 자기 팀에 필요한 정보를 빠르게 꺼내볼 수 있다.
-3. 단, 각 팀이 자기 사물함(마트)을 따로 만들어 쓰면 같은 물건이 다르게 기록([[001_dikw_pyramid|데이터]] 불일치)될 수 있으니, 큰 마트(중앙 [[209_data_warehouse_schema_on_write|DW]])에서 가져오는 규칙을 지켜야 한다.
+2. 영업팀 마트는 영업 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만, 재무팀 마트는 재무 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 있어서, 각 팀은 자기 팀에 필요한 정보를 빠르게 꺼내볼 수 있다.
+3. 단, 각 팀이 자기 사물함(마트)을 따로 만들어 쓰면 같은 물건이 다르게 기록([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치)될 수 있으니, 큰 마트(중앙 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/))에서 가져오는 규칙을 지켜야 한다.
 
 ---
 
@@ -210,7 +214,7 @@ Data Mart: 부서/주제별 서브셋 (마케팅 · 재무 · 영업)
 
 **진행 상황**: 222 / 371
 
-← **이전**: [[222_schema_on_write_etl_warehouse|222. 스키마 온 라이트 (Schema-on-Write)]]
-**다음**: [[224_data_lakehouse_delta_lake_databricks|224. 데이터 레이크하우스 (Data Lakehouse)]] →
+← **이전**: [222. 스키마 온 라이트 (Schema-on-Write)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/222_schema_on_write_etl_warehouse/)
+**다음**: [224. 데이터 레이크하우스 (Data Lakehouse)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/224_data_lakehouse_delta_lake_databricks/) →
 
 ---

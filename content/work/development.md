@@ -1,20 +1,24 @@
----
-title: 🧑‍💻 개발 허브
-tags:
-- work
----
++++
+title = "🧑‍💻 개발 허브"
+
+[taxonomies]
+tags = ["work"]
+
+[extra]
+tags = ["work"]
++++
 
 개발 문서, 아키텍처 메모, 구현 원칙, 릴리스 기준을 연결하는 상위 문서입니다.
 
 관련 문서:
-- [[tech-stack]]
-- [[r-and-d]]
-- [[operations]]
-- [[projects]]
-- [[knowledge-pipeline]]
-- [[claude-code-mcp]]
-- [[mcp-client-setup]]
-- [[codex-sdk-operations]]
+- [tech-stack](/knowledge-base/work/tech-stack/)
+- [r-and-d](/knowledge-base/r-and-d/)
+- [operations](/knowledge-base/work/operations/)
+- [projects](/knowledge-base/work/projects/)
+- [knowledge-pipeline](/knowledge-base/work/knowledge-pipeline/)
+- [claude-code-mcp](/knowledge-base/work/claude-code-mcp/)
+- [mcp-client-setup](/knowledge-base/work/mcp-client-setup/)
+- [codex-sdk-operations](/knowledge-base/work/codex-sdk-operations/)
 
 ---
 
@@ -56,10 +60,10 @@ tags:
 
 ## 3. 연결 문서
 
-- 기반 기술: [[tech-stack]]
-- 실험과 검증: [[r-and-d]]
-- 운영 기준: [[operations]]
-- 데이터 흐름: [[knowledge-pipeline]]
-- Claude Code + MCP: [[claude-code-mcp]]
-- 클라이언트 규격: [[mcp-client-setup]]
-- Codex SDK 운영안: [[codex-sdk-operations]]
+- 기반 기술: [tech-stack](/knowledge-base/work/tech-stack/)
+- 실험과 검증: [r-and-d](/knowledge-base/r-and-d/)
+- 운영 기준: [operations](/knowledge-base/work/operations/)
+- 데이터 흐름: [knowledge-pipeline](/knowledge-base/work/knowledge-pipeline/)
+- Claude Code + MCP: [claude-code-mcp](/knowledge-base/work/claude-code-mcp/)
+- 클라이언트 규격: [mcp-client-setup](/knowledge-base/work/mcp-client-setup/)
+- Codex SDK 운영안: [codex-sdk-operations](/knowledge-base/work/codex-sdk-operations/)

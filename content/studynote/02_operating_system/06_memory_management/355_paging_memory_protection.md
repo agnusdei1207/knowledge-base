@@ -1,27 +1,31 @@
----
-title: 355. 페이징의 메모리 보호 - 유효-무효 비트 (Valid-Invalid Bit)
-date: '2026-05-09'
-tags:
-- studynote-operating-system
----
++++
+title = "355. 페이징의 메모리 보호 - 유효-무효 비트 (Valid-Invalid Bit)"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[259_paging|페이징]] 환경에서의 [[307_memory_protection|메모리 보호]]는 [[353_page_table|페이지 테이블]]의 각 줄(Entry)마다 붙어있는 **[[386_valid_invalid_bit|유효-무효 비트]](Valid-Invalid [[086_fenwick_tree|Bit]])**와 **권한 [[073_bit|비트]](R/W/X)**를 통해 [[286_page_frame|페이지]] 단위로 극도로 세밀하게 하드웨어적인 접근 통제를 수행하는 방어 기제다.
-> 2. **가치**: 프로세스가 할당받지 않은 허공의 주소를 해킹이나 버그로 찌를 때, 혹은 읽기 전용 코드(Read-Only) 영역을 덮어쓰려 할 때 즉각 하드웨어 [[677_trap_based_system_call_implementation|트랩]]([[364_segmentation|Segmentation]] Fault)을 발생시켜 **시스템 [[022_kernel_role|커널]]과 타 프로세스를 완벽하게 격리([[602_sandboxing_kernel_wrapper|Sandboxing]])**한다.
-> 3. **융합**: [[381_virtual_memory|가상 메모리]]의 [[255_demand_paging|요구 페이징]]([[255_demand_paging|Demand Paging]]) 기법과 결합하여, 유효하지 않은(Invalid) [[073_bit|비트]]를 만났을 때 에러로 죽일지, 아니면 디스크 스왑(Swap) 영역에서 합법적으로 [[001_dikw_pyramid|데이터]]를 불러오는 '[[720_page_fault_isr|페이지 폴트]]([[387_page_fault|Page Fault]])'로 처리할지 [[001_operating_system_purpose|운영체제]]가 스마트하게 판단하는 분기점 역할을 한다.
+> 1. **본질**: [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 환경에서의 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/)는 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)의 각 줄(Entry)마다 붙어있는 **[유효-무효 비트](/knowledge-base/studynote/02_operating_system/07_virtual_memory/386_valid_invalid_bit/)(Valid-Invalid [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))**와 **권한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(R/W/X)**를 통해 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위로 극도로 세밀하게 하드웨어적인 접근 통제를 수행하는 방어 기제다.
+> 2. **가치**: 프로세스가 할당받지 않은 허공의 주소를 해킹이나 버그로 찌를 때, 혹은 읽기 전용 코드(Read-Only) 영역을 덮어쓰려 할 때 즉각 하드웨어 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)([Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) Fault)을 발생시켜 **시스템 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)과 타 프로세스를 완벽하게 격리([Sandboxing](/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/))**한다.
+> 3. **융합**: [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)([Demand Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)) 기법과 결합하여, 유효하지 않은(Invalid) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 만났을 때 에러로 죽일지, 아니면 디스크 스왑(Swap) 영역에서 합법적으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 불러오는 '[페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))'로 처리할지 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 스마트하게 판단하는 분기점 역할을 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 과거 [[523_contiguous_allocation|연속 할당]] 시절에는 베이스와 [[330_limit_register|한계 레지스터]]([[330_limit_register|Limit Register]]) 2개로 "0부터 100까지만 써!"라고 통짜로 락을 걸었다. [[259_paging|페이징]] 시스템에서는 메모리가 4KB 단위로 조각나 있으므로, [[571_protection_vs_security|보호]] 역시 4KB 조각마다 개별적으로 세팅되어야 한다. 이를 위해 [[353_page_table|페이지 테이블]] 내부에 [[571_protection_vs_security|보호]] 제어용 [[073_bit|비트]]([[086_fenwick_tree|Bit]])들을 달아놓고 MMU가 램에 접근하기 전 0.1초 먼저 문지기 검사를 수행한다.
-- **필요성**: 악성 해커가 배열의 인덱스를 무한대로 늘려서([[591_buffer_overflow|Buffer Overflow]]) 남의 카카오톡 비밀번호가 있는 물리 메모리를 훔쳐보려 한다 치자. [[259_paging|페이징]] 테이블에서 이 해커가 뻗은 가상 주소에 매핑된 물리 주소가 아예 없거나, '무효(Invalid)'라고 적혀 있다면 하드웨어는 즉시 철퇴를 내린다. 만약 이 촘촘한 [[073_bit|비트]] 검열망이 없다면 다중 사용자 [[001_operating_system_purpose|운영체제]]의 보안은 모래성처럼 붕괴된다.
+- **개념**: 과거 [연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/) 시절에는 베이스와 [한계 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/330_limit_register/)([Limit Register](/knowledge-base/studynote/02_operating_system/06_memory_management/330_limit_register/)) 2개로 "0부터 100까지만 써!"라고 통짜로 락을 걸었다. [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 시스템에서는 메모리가 4KB 단위로 조각나 있으므로, [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 역시 4KB 조각마다 개별적으로 세팅되어야 한다. 이를 위해 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 내부에 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 제어용 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))들을 달아놓고 MMU가 램에 접근하기 전 0.1초 먼저 문지기 검사를 수행한다.
+- **필요성**: 악성 해커가 배열의 인덱스를 무한대로 늘려서([Buffer Overflow](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/)) 남의 카카오톡 비밀번호가 있는 물리 메모리를 훔쳐보려 한다 치자. [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 테이블에서 이 해커가 뻗은 가상 주소에 매핑된 물리 주소가 아예 없거나, '무효(Invalid)'라고 적혀 있다면 하드웨어는 즉시 철퇴를 내린다. 만약 이 촘촘한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 검열망이 없다면 다중 사용자 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 보안은 모래성처럼 붕괴된다.
 
 - **등장 배경 및 아키텍처 고도화**:
-  1. **[[330_limit_register|한계 레지스터]]의 무용지물**: 메모리가 찢어져서 분산되다 보니, "크기가 100이하다"라는 선형적 비교만으로는 중간에 이빨이 빠진 불법 구역(Hole)으로의 침범을 막을 수 없었다.
-  2. **[[353_page_table|페이지 테이블]]에 [[012_metadata|메타데이터]] 삽입**: 주소 번역 장부([[353_page_table|Page Table]] Entry) 안에 주소만 적지 말고, 여유 공간 [[073_bit|비트]]에 '읽기/[[289_cqrs_db|쓰기]] 권한'과 '합법/불법(V/I)' 상태를 박아넣자는 아이디어가 도입되었다.
-  3. **[[381_virtual_memory|가상 메모리]] [[335_swapping|스와핑]]의 완성**: 이 V/I [[073_bit|비트]]는 보안을 넘어, "이 [[001_dikw_pyramid|데이터]]는 지금 RAM에 없고 하드디스크에 쫓겨나 있으니(Invalid), 에러 내지 말고 디스크에서 불러와!"라는 [[381_virtual_memory|가상 메모리]]의 핵심 시그널([[387_page_fault|Page Fault]])로 그 의미가 찬란하게 확장되었다.
+  1. **[한계 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/330_limit_register/)의 무용지물**: 메모리가 찢어져서 분산되다 보니, "크기가 100이하다"라는 선형적 비교만으로는 중간에 이빨이 빠진 불법 구역(Hole)으로의 침범을 막을 수 없었다.
+  2. **[페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)에 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 삽입**: 주소 번역 장부([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) Entry) 안에 주소만 적지 말고, 여유 공간 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)에 '읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 권한'과 '합법/불법(V/I)' 상태를 박아넣자는 아이디어가 도입되었다.
+  3. **[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)의 완성**: 이 V/I [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 보안을 넘어, "이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 지금 RAM에 없고 하드디스크에 쫓겨나 있으니(Invalid), 에러 내지 말고 디스크에서 불러와!"라는 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 핵심 시그널([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))로 그 의미가 찬란하게 확장되었다.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────┐
@@ -51,30 +55,30 @@ tags:
 │ 💥 결과: 운영체제에 Trap 발생 -> Segmentation Fault로 즉시 사살!   │
 └────────────────────────────────────────────────────────────────────┘
 ```
-**[다이어그램 해설]** 가상 주소 공간은 4GB(32비트 기준)로 무한정 넓어 보이지만, 실제 프로그램이 점유한 유효한 공간은 아주 작다. [[353_page_table|페이지 테이블]]은 이 4GB를 전부 덮는 장부를 가지고 있되, 할당되지 않은 모든 허공의 주소에는 'I (Invalid)' [[073_bit|비트]]를 찍어둔다. 앱이 미쳐서 엉뚱한 포인터를 참조하면 바로 이 I [[073_bit|비트]] 지뢰를 밟고 자폭하게 된다. 이 매커니즘이 C언어 포인터 에러가 날 때 뱉어내는 영원한 단골 에러 메세지(Segfault)의 근원이다.
+**[다이어그램 해설]** 가상 주소 공간은 4GB(32비트 기준)로 무한정 넓어 보이지만, 실제 프로그램이 점유한 유효한 공간은 아주 작다. [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)은 이 4GB를 전부 덮는 장부를 가지고 있되, 할당되지 않은 모든 허공의 주소에는 'I (Invalid)' [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 찍어둔다. 앱이 미쳐서 엉뚱한 포인터를 참조하면 바로 이 I [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 지뢰를 밟고 자폭하게 된다. 이 매커니즘이 C언어 포인터 에러가 날 때 뱉어내는 영원한 단골 에러 메세지(Segfault)의 근원이다.
 
-- **📢 섹션 요약 비유**: 놀이공원에서 지도([[381_virtual_memory|가상 메모리]])는 엄청 크게 주어지지만, 실제 내가 돈을 내고 탈 수 있는 놀이기구(Valid)와 돈을 안 내서 타면 안 되는 금지 구역(Invalid)을 팔찌의 바코드로 1차 검사하는 촘촘한 개찰구 시스템입니다.
+- **📢 섹션 요약 비유**: 놀이공원에서 지도([가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/))는 엄청 크게 주어지지만, 실제 내가 돈을 내고 탈 수 있는 놀이기구(Valid)와 돈을 안 내서 타면 안 되는 금지 구역(Invalid)을 팔찌의 바코드로 1차 검사하는 촘촘한 개찰구 시스템입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### PTE ([[353_page_table|Page Table]] Entry) 속의 보안 [[073_bit|비트]] 해부
+### PTE ([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) Entry) 속의 보안 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 해부
 
-[[353_page_table|페이지 테이블]]의 한 줄(보통 4Byte) 안에는 프레임 주소 외에도 [[307_memory_protection|메모리 보호]]를 위한 다채로운 [[073_bit|비트]] 스위치들이 박혀있다.
+[페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)의 한 줄(보통 4Byte) 안에는 프레임 주소 외에도 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/)를 위한 다채로운 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 스위치들이 박혀있다.
 
-| [[571_protection_vs_security|보호]] [[073_bit|비트]] | 약어 | 동작 매커니즘 (MMU의 판단) | 실무 적용 사례 |
+| [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) | 약어 | 동작 매커니즘 (MMU의 판단) | 실무 적용 사례 |
 |:---|:---|:---|:---|
-| **Valid / Invalid** | **V/I [[086_fenwick_tree|Bit]]** | `V`면 정상 접근 허용. `I`면 OS에 [[016_interrupt_mechanism|인터럽트]]([[677_trap_based_system_call_implementation|트랩]])를 날려 제어권을 넘김. | 1. 불법 메모리 침범 사살<br>2. 디스크에 있는 스왑 [[286_page_frame|페이지]]([[387_page_fault|Page Fault]]) 불러오기 |
-| **Read/Write** | **R/W [[086_fenwick_tree|Bit]]** | `R`만 있는 [[286_page_frame|페이지]]에 `Write` 명령이 오면 불법으로 간주하고 죽임. | 상수(Constant), 글로벌 변수 오염 방어, [[542_cow_file_system|Copy-on-Write]] ([[542_cow_file_system|CoW]]) |
-| **Execute Disable**| **[[335_nx_bit|NX Bit]]** (No-eXecute) | 이 [[286_page_frame|페이지]]에 있는 [[001_dikw_pyramid|데이터]]를 CPU 기계어 '[[158_instruction|명령어]]'로 실행하려고 하면 막아버림. | [[057_stack|스택]] [[095_overflow|오버플로우]]를 악용한 악성코드(쉘코드) 실행 원천 차단 |
-| **User/Supervisor**| **U/S [[086_fenwick_tree|Bit]]** | `U`는 일반 유저 접근 허용, `S`는 [[022_kernel_role|커널]] 모드(특권)에서만 접근 가능. | 일반 앱이 OS [[022_kernel_role|커널]] 메모리를 훔쳐보는 것을 하드웨어 레벨에서 격리 |
+| **Valid / Invalid** | **V/I [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)** | `V`면 정상 접근 허용. `I`면 OS에 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)([트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))를 날려 제어권을 넘김. | 1. 불법 메모리 침범 사살<br>2. 디스크에 있는 스왑 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)) 불러오기 |
+| **Read/Write** | **R/W [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)** | `R`만 있는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에 `Write` 명령이 오면 불법으로 간주하고 죽임. | 상수(Constant), 글로벌 변수 오염 방어, [Copy-on-Write](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) ([CoW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/)) |
+| **Execute Disable**| **[NX Bit](/knowledge-base/studynote/09_security/04_endpoint_security/335_nx_bit/)** (No-eXecute) | 이 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 CPU 기계어 '[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)'로 실행하려고 하면 막아버림. | [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)를 악용한 악성코드(쉘코드) 실행 원천 차단 |
+| **User/Supervisor**| **U/S [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)** | `U`는 일반 유저 접근 허용, `S`는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드(특권)에서만 접근 가능. | 일반 앱이 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리를 훔쳐보는 것을 하드웨어 레벨에서 격리 |
 
 ---
 
-### V/I [[073_bit|비트]]의 이중성 (보안 vs [[255_demand_paging|요구 페이징]])
+### V/I [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)의 이중성 (보안 vs [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/))
 
-`I (Invalid)` [[073_bit|비트]]를 밟았을 때 [[001_operating_system_purpose|운영체제]] [[022_kernel_role|커널]]([[387_page_fault|Page Fault]] Handler)로 제어권이 넘어가면, [[022_kernel_role|커널]]은 두 가지 중 하나를 판단한다. 이게 이 아키텍처의 가장 눈부신 예술적 융합이다.
+`I (Invalid)` [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 밟았을 때 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) Handler)로 제어권이 넘어가면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 두 가지 중 하나를 판단한다. 이게 이 아키텍처의 가장 눈부신 예술적 융합이다.
 
 ```text
 ┌───────────────────────────────────────────────────────────────────────────────┐
@@ -98,29 +102,29 @@ tags:
 └───────────────────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 초창기 [[259_paging|페이징]]에서 I [[073_bit|비트]]는 오직 '죽음(보안 위반)'만을 의미했다. 하지만 [[381_virtual_memory|가상 메모리]]([[255_demand_paging|요구 페이징]]) 시대가 열리면서 이 I [[073_bit|비트]]는 "지금 램(RAM)에 없으니 디스크에서 좀 퍼와라"는 **초인종([[387_page_fault|Page Fault]])** 역할로 진화했다. 즉, 보안 가드([[283_security_tactics|Security]] Guard)의 역할과 캐시 미스(Cache Miss) 알림의 역할을 동시에 수행하는 천재적인 [[073_bit|비트]] 설계다.
+**[다이어그램 해설]** 초창기 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)에서 I [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 오직 '죽음(보안 위반)'만을 의미했다. 하지만 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)([요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)) 시대가 열리면서 이 I [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 "지금 램(RAM)에 없으니 디스크에서 좀 퍼와라"는 **초인종([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))** 역할로 진화했다. 즉, 보안 가드([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Guard)의 역할과 캐시 미스(Cache Miss) 알림의 역할을 동시에 수행하는 천재적인 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 설계다.
 
-- **📢 섹션 요약 비유**: 식당 입구에서 종업원([[328_mmu|MMU]])이 명단(V/I [[073_bit|비트]])에 없는 손님을 잡았을 때, 매니저(OS)가 나와서 "아예 예약도 안 한 불청객(해커)이니 쫓아내!" 할 수도 있고, "아, 대기실(디스크)에서 기다리던 예약 손님(Swap)이니 모시고 들어와!" 하고 자리를 내어주는 이중 판별 시스템입니다.
+- **📢 섹션 요약 비유**: 식당 입구에서 종업원([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))이 명단(V/I [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))에 없는 손님을 잡았을 때, 매니저(OS)가 나와서 "아예 예약도 안 한 불청객(해커)이니 쫓아내!" 할 수도 있고, "아, 대기실(디스크)에서 기다리던 예약 손님(Swap)이니 모시고 들어와!" 하고 자리를 내어주는 이중 판별 시스템입니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 비교 1: PTLR (길이 [[057_register|레지스터]]) [[571_protection_vs_security|보호]] vs V/I [[073_bit|비트]] [[571_protection_vs_security|보호]]
+### 비교 1: PTLR (길이 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) vs V/I [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)
 
-[[259_paging|페이징]]에는 두 겹의 [[571_protection_vs_security|보호]]막이 있다. PTLR과 V/I [[073_bit|비트]]는 방어하는 영역이 조금 다르다.
+[페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)에는 두 겹의 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)막이 있다. PTLR과 V/I [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 방어하는 영역이 조금 다르다.
 
 | 방어막 | 방어 메커니즘 | 한계점 및 보완 |
 |:---|:---|:---|
-| **PTLR (길이 방어)** | "총 [[286_page_frame|페이지]] 수가 100개인데, 101번 [[286_page_frame|페이지]]를 달라고?" → 즉시 차단 | 전체 길이만 체크하므로, 0~100 중간에 이빨 빠진(Free) [[286_page_frame|페이지]]를 공격하면 못 막음 |
-| **V/I [[073_bit|비트]] (조각 방어)** | 테이블 내부 1~100번 줄을 일일이 검사. 50번이 I [[073_bit|비트]]면 중간 접근도 완벽 차단 | 조각 단위의 극히 세밀한 방어가 가능해 [[341_internal_fragmentation|내부 단편화]] 찌꺼기 공격도 100% 방어함 |
+| **PTLR (길이 방어)** | "총 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 수가 100개인데, 101번 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 달라고?" → 즉시 차단 | 전체 길이만 체크하므로, 0~100 중간에 이빨 빠진(Free) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 공격하면 못 막음 |
+| **V/I [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) (조각 방어)** | 테이블 내부 1~100번 줄을 일일이 검사. 50번이 I [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)면 중간 접근도 완벽 차단 | 조각 단위의 극히 세밀한 방어가 가능해 [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/) 찌꺼기 공격도 100% 방어함 |
 
-### NX [[073_bit|비트]](No-eXecute)와 하드웨어 보안 혁명
+### NX [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(No-eXecute)와 하드웨어 보안 혁명
 
-1990년대 해커들은 완벽해 보이는 [[259_paging|페이징]] 시스템을 뚫기 위해 기상천외한 공격을 감행했다.
-- **[[731_buffer_overflow_stack_heap_aslr|버퍼 오버플로우 공격]]**: 앱의 [[001_dikw_pyramid|데이터]] 입력(버퍼) 공간에 해커가 악성 기계어 코드(쉘코드)를 무식하게 쑤셔 넣는다.
-- 그리고 프로그램의 리턴 주소(Return Address)를 조작해, CPU가 이 [[001_dikw_pyramid|데이터]](문자열)를 '실행 코드'인 줄 알고 냅다 실행하게 만들었다. 테이블엔 `V` [[073_bit|비트]]가 찍혀있으니 MMU는 통과시켜 주었다.
-- **NX [[073_bit|비트]]의 등장**: 인텔과 AMD는 하드웨어 PTE 구조에 `NX(eXecute-Disable)` [[073_bit|비트]]를 박아넣었다. [[001_dikw_pyramid|데이터]] 저장용 [[286_page_frame|페이지]]에는 NX=1을 걸어두어, CPU가 이 [[286_page_frame|페이지]]를 실행(Execute)하려 시도하면 벼락([[677_trap_based_system_call_implementation|Trap]])을 내려 사살하게 만들었다. [[259_paging|페이징]] 기반 [[571_protection_vs_security|보호]] 체계가 소프트웨어 보안 역사에 기여한 가장 위대한 훈장 중 하나다.
+1990년대 해커들은 완벽해 보이는 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 시스템을 뚫기 위해 기상천외한 공격을 감행했다.
+- **[버퍼 오버플로우 공격](/knowledge-base/studynote/03_network/14_network_security_threats/731_buffer_overflow_stack_heap_aslr/)**: 앱의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 입력(버퍼) 공간에 해커가 악성 기계어 코드(쉘코드)를 무식하게 쑤셔 넣는다.
+- 그리고 프로그램의 리턴 주소(Return Address)를 조작해, CPU가 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(문자열)를 '실행 코드'인 줄 알고 냅다 실행하게 만들었다. 테이블엔 `V` [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 찍혀있으니 MMU는 통과시켜 주었다.
+- **NX [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)의 등장**: 인텔과 AMD는 하드웨어 PTE 구조에 `NX(eXecute-Disable)` [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 박아넣었다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장용 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에는 NX=1을 걸어두어, CPU가 이 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 실행(Execute)하려 시도하면 벼락([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))을 내려 사살하게 만들었다. [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 기반 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 체계가 소프트웨어 보안 역사에 기여한 가장 위대한 훈장 중 하나다.
 
 ```text
 ┌──────────┬────────────┬────────────┬───────────────────────┐
@@ -131,26 +135,26 @@ tags:
 │ NX 비트  │ Data (RW-) │ 코드 실행 시도│ DEP 차단 (사살)    │
 └──────────┴────────────┴────────────┴───────────────────────┘
 ```
-**[매트릭스 해설]** V/I [[073_bit|비트]]로 시작된 [[259_paging|페이징]] [[571_protection_vs_security|보호]]의 씨앗은, 현대 하드웨어 아키텍처의 철통같은 권한 제어 매트릭스로 만개했다. 이 [[073_bit|비트]]들은 단순히 메모리를 나누는 것을 넘어 [[001_operating_system_purpose|운영체제]]라는 성곽을 지키는 다층 방어막([[012_defense_in_depth|Defense in Depth]])의 물리적 콘크리트 역할을 한다.
+**[매트릭스 해설]** V/I [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)로 시작된 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)의 씨앗은, 현대 하드웨어 아키텍처의 철통같은 권한 제어 매트릭스로 만개했다. 이 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)들은 단순히 메모리를 나누는 것을 넘어 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)라는 성곽을 지키는 다층 방어막([Defense in Depth](/knowledge-base/studynote/09_security/01_intro_principles/012_defense_in_depth/))의 물리적 콘크리트 역할을 한다.
 
-- **📢 섹션 요약 비유**: 서랍장([[286_page_frame|페이지]])을 배정해 줄 때 이름표(V/I)만 붙여주는 게 아니라, "이 서랍은 보기만 해(R)", "이 서랍 물건은 절대 전원 콘센트에 꽂지 마(NX)"라는 안전 수칙 스티커를 일일이 다 붙여놓고 이를 어기면 전기 충격을 주는 철저한 안전망입니다.
+- **📢 섹션 요약 비유**: 서랍장([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))을 배정해 줄 때 이름표(V/I)만 붙여주는 게 아니라, "이 서랍은 보기만 해(R)", "이 서랍 물건은 절대 전원 콘센트에 꽂지 마(NX)"라는 안전 수칙 스티커를 일일이 다 붙여놓고 이를 어기면 전기 충격을 주는 철저한 안전망입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 실무 시나리오: [[542_cow_file_system|Copy-on-Write]] ([[542_cow_file_system|CoW]]) 마술과 R/W [[073_bit|비트]]
-리눅스 서버에서 자식 프로세스를 복사하는 `fork()` 시스템 콜은 V/I, R/W [[073_bit|비트]]의 예술적 활용의 극치다.
+### 실무 시나리오: [Copy-on-Write](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) ([CoW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/)) 마술과 R/W [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)
+리눅스 서버에서 자식 프로세스를 복사하는 `fork()` 시스템 콜은 V/I, R/W [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)의 예술적 활용의 극치다.
 1. **상황**: 1GB 램을 먹는 카카오톡이 자식 프로세스를 `fork`했다. 원칙대로라면 1GB 메모리를 물리적으로 몽땅 복사(Memcpy)해야 하므로 수 초의 렉과 메모리 고갈이 발생한다.
 2. **OS의 속임수 (공유 및 R/W 권한 변경)**:
-   - OS는 복사하지 않는다. 그저 자식의 [[353_page_table|페이지 테이블]]이 부모와 똑같은 물리 프레임을 가리키게 포인터만 복사한다.
-   - 그리고 **가장 중요한 흑마술**: 부모와 자식 테이블 모두 해당 [[286_page_frame|페이지]]의 **R/W [[073_bit|비트]]를 강제로 `Read-Only (읽기 전용)`로 조작**해버린다.
-3. **Write 시도와 [[677_trap_based_system_call_implementation|트랩]] 폭발**:
+   - OS는 복사하지 않는다. 그저 자식의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)이 부모와 똑같은 물리 프레임을 가리키게 포인터만 복사한다.
+   - 그리고 **가장 중요한 흑마술**: 부모와 자식 테이블 모두 해당 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 **R/W [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 강제로 `Read-Only (읽기 전용)`로 조작**해버린다.
+3. **Write 시도와 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 폭발**:
    - 둘이 사이좋게 읽기만 할 땐 메모리 공유로 잘 지낸다.
-   - 갑자기 자식이 "나 변수값 하나 바꿀래(Write)!" 하는 순간, 하드웨어 MMU가 "어? R/W [[073_bit|비트]]가 Read-Only인데 쓴다고? 불법!"이라며 [[677_trap_based_system_call_implementation|트랩]]([[387_page_fault|Page Fault]])을 던진다.
-4. **[[542_cow_file_system|Copy-on-Write]] 수행**:
-   - [[022_kernel_role|커널]]이 개입하여 "아, 얘네 [[542_cow_file_system|CoW]] 상태였지. 진짜 쓸 거면 이제 찢어져라." 하며 그제야 그 [[286_page_frame|페이지]](4KB) 하나만 몰래 복사해서 자식에게 내어주고 각자의 테이블을 R/W 가능으로 바꿔준다.
-   - 이를 통해 1GB 복사 오버헤드를 0으로 만들어버리는 실무 [[001_operating_system_purpose|운영체제]] 최강의 최적화가 완성된다.
+   - 갑자기 자식이 "나 변수값 하나 바꿀래(Write)!" 하는 순간, 하드웨어 MMU가 "어? R/W [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 Read-Only인데 쓴다고? 불법!"이라며 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))을 던진다.
+4. **[Copy-on-Write](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 수행**:
+   - [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 개입하여 "아, 얘네 [CoW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 상태였지. 진짜 쓸 거면 이제 찢어져라." 하며 그제야 그 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(4KB) 하나만 몰래 복사해서 자식에게 내어주고 각자의 테이블을 R/W 가능으로 바꿔준다.
+   - 이를 통해 1GB 복사 오버헤드를 0으로 만들어버리는 실무 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 최강의 최적화가 완성된다.
 
 - **📢 섹션 요약 비유**: 쌍둥이 형제에게 빵 한 개를 같이 먹으라고 주고 "절대 이빨로 베어 먹지는 마(Read Only)"라고 지시합니다. 한 명이 배가 고파 빵을 베어 물려고 하면(Write 시도), 엄마(OS)가 얼른 빵을 한 개 더 사 와서(Copy) 각자 하나씩 주는 극강의 가성비 육아법입니다.
 
@@ -162,15 +166,15 @@ tags:
 
 | 구분 | 내용 |
 |:---|:---|
-| **하드웨어 제로 [[015_지연_데이터_관점|지연]] 방어**| 소프트웨어(OS)의 IF문 분기 로직 없이, MMU의 [[073_bit|비트]] 게이트를 통해 0.001초의 딜레이도 없이 불법 접근 사살 |
-| **[[255_demand_paging|요구 페이징]]([[255_demand_paging|Demand Paging]]) 인프라**| I [[073_bit|비트]]를 스왑 영역에 쫓겨난 상태를 표시하는 트리거로 재활용하여 거대한 [[381_virtual_memory|가상 메모리]] [[335_swapping|스와핑]] 아키텍처 완성 |
-| **보안 메커니즘 융합** | 읽기/[[289_cqrs_db|쓰기]]/실행 방지(NX) [[073_bit|비트]]를 조각별로 쪼개 적용함으로써 [[591_buffer_overflow|버퍼 오버플로우]] 등 악성 해킹 원천 봉쇄 |
+| **하드웨어 제로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 방어**| 소프트웨어(OS)의 IF문 분기 로직 없이, MMU의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 게이트를 통해 0.001초의 딜레이도 없이 불법 접근 사살 |
+| **[요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)([Demand Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)) 인프라**| I [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 스왑 영역에 쫓겨난 상태를 표시하는 트리거로 재활용하여 거대한 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/) 아키텍처 완성 |
+| **보안 메커니즘 융합** | 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)/실행 방지(NX) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 조각별로 쪼개 적용함으로써 [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/) 등 악성 해킹 원천 봉쇄 |
 
 ### 결론 및 미래 전망
 
-[[259_paging|페이징]]의 [[307_memory_protection|메모리 보호]] (Valid-Invalid [[086_fenwick_tree|Bit]])는 단순히 "남의 땅을 밟지 마라"는 수비적인 울타리 역할을 넘어섰다. 이 1비트의 스위치는 쓸데없는 메모리를 스왑으로 날리고 필요할 때만 가져오는 '[[381_virtual_memory|가상 메모리]]([[255_demand_paging|요구 페이징]])'의 방아쇠가 되었고, 복사를 최대한 미루는 '[[542_cow_file_system|Copy-on-Write]]' 흑마술의 스위치가 되었으며, 코드를 [[571_protection_vs_security|보호]]하는 'NX 해킹 방어벽'의 초석이 되었다. 현대 [[001_operating_system_purpose|운영체제]]가 그토록 복잡한 멀티태스킹과 인터넷 해킹의 위협 속에서도 바위처럼 견고하게 버틸 수 있는 가장 근원적인 힘은, 바로 CPU와 메모리 사이를 흐르는 핏줄인 매핑 테이블 속 이 아주 작고 견고한 '[[073_bit|비트]]([[086_fenwick_tree|Bit]]) 방어선'에서 나온다.
+[페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/) (Valid-Invalid [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))는 단순히 "남의 땅을 밟지 마라"는 수비적인 울타리 역할을 넘어섰다. 이 1비트의 스위치는 쓸데없는 메모리를 스왑으로 날리고 필요할 때만 가져오는 '[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)([요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/))'의 방아쇠가 되었고, 복사를 최대한 미루는 '[Copy-on-Write](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/)' 흑마술의 스위치가 되었으며, 코드를 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하는 'NX 해킹 방어벽'의 초석이 되었다. 현대 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 그토록 복잡한 멀티태스킹과 인터넷 해킹의 위협 속에서도 바위처럼 견고하게 버틸 수 있는 가장 근원적인 힘은, 바로 CPU와 메모리 사이를 흐르는 핏줄인 매핑 테이블 속 이 아주 작고 견고한 '[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)) 방어선'에서 나온다.
 
-- **📢 섹션 요약 비유**: 문 앞에 단순히 자물쇠 하나 거는 수준을 넘어, 지문이 다르면 전기 충격을 주고, 안 쓰는 방의 전등을 자동으로 꺼주며, 불이 나면 소방서에 직통으로 연결되는([[387_page_fault|Page Fault]]) 최첨단 스마트홈 시큐리티 시스템의 완성입니다.
+- **📢 섹션 요약 비유**: 문 앞에 단순히 자물쇠 하나 거는 수준을 넘어, 지문이 다르면 전기 충격을 주고, 안 쓰는 방의 전등을 자동으로 꺼주며, 불이 나면 소방서에 직통으로 연결되는([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)) 최첨단 스마트홈 시큐리티 시스템의 완성입니다.
 
 ---
 
@@ -178,10 +182,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[353_page_table|페이지 테이블]] ([[353_page_table|Page Table]]) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [[354_ptbr_ptlr|PTBR]] ([[354_ptbr_ptlr|Page-Table Base Register]]) / PTLR ([[286_page_frame|Page]]-Table Length [[175_register_addressing|Register]]) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [[356_shared_pages|페이징에서의 공유 페이지]] ([[356_shared_pages|Shared Pages]]) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [[357_tlb|TLB]] ([[357_tlb|Translation Look-aside Buffer]]) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) ([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [PTBR](/knowledge-base/studynote/02_operating_system/06_memory_management/354_ptbr_ptlr/) ([Page-Table Base Register](/knowledge-base/studynote/02_operating_system/06_memory_management/354_ptbr_ptlr/)) / PTLR ([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)-Table Length [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [페이징에서의 공유 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/356_shared_pages/) ([Shared Pages](/knowledge-base/studynote/02_operating_system/06_memory_management/356_shared_pages/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) ([Translation Look-aside Buffer](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -199,9 +203,9 @@ tags:
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [[259_paging|페이징]]의 [[307_memory_protection|메모리 보호]]은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
-2. 먼저 [[354_ptbr_ptlr|PTBR]] ([[354_ptbr_ptlr|Page-Table Base Register]]) / PTLR ([[286_page_frame|Page]]-Table Length [[175_register_addressing|Register]])을 이해하면 [[259_paging|페이징]]의 [[307_memory_protection|메모리 보호]]이 왜 필요한지 더 쉽게 보여요.
-3. 그래서 [[259_paging|페이징]]의 [[307_memory_protection|메모리 보호]]을 잘 알면 나중에 [[356_shared_pages|페이징에서의 공유 페이지]] ([[356_shared_pages|Shared Pages]])도 훨씬 쉽게 배울 수 있어요.
+1. [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/)은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
+2. 먼저 [PTBR](/knowledge-base/studynote/02_operating_system/06_memory_management/354_ptbr_ptlr/) ([Page-Table Base Register](/knowledge-base/studynote/02_operating_system/06_memory_management/354_ptbr_ptlr/)) / PTLR ([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)-Table Length [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))을 이해하면 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/)이 왜 필요한지 더 쉽게 보여요.
+3. 그래서 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/)을 잘 알면 나중에 [페이징에서의 공유 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/356_shared_pages/) ([Shared Pages](/knowledge-base/studynote/02_operating_system/06_memory_management/356_shared_pages/))도 훨씬 쉽게 배울 수 있어요.
 
 ---
 
@@ -209,7 +213,7 @@ tags:
 
 **진행 상황**: 355 / 800
 
-← **이전**: [[354_ptbr_ptlr|354. PTBR (Page-Table Base Register) / PTLR (Page-Table Length Register)]]
-**다음**: [[356_shared_pages|356. 페이징에서의 공유 페이지 (Shared Pages) - 읽기 전용 코드(Reentrant code) 공유]] →
+← **이전**: [354. PTBR (Page-Table Base Register) / PTLR (Page-Table Length Register)](/knowledge-base/studynote/02_operating_system/06_memory_management/354_ptbr_ptlr/)
+**다음**: [356. 페이징에서의 공유 페이지 (Shared Pages) - 읽기 전용 코드(Reentrant code) 공유](/knowledge-base/studynote/02_operating_system/06_memory_management/356_shared_pages/) →
 
 ---

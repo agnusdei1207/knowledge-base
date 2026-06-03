@@ -1,19 +1,23 @@
----
-title: 3. 조건부 확률 (Conditional Probability) — P(A|B)
-date: '2026-04-21'
-tags:
-- studynote-algorithm
----
++++
+title = "3. 조건부 확률 (Conditional Probability) — P(A|B)"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-algorithm"]
+
+[extra]
+tags = ["studynote-algorithm"]
++++
 
 ## 핵심 인사이트
 
-> 조건부 [[130_probability|확률]] (Conditional [[130_probability|Probability]]) P(A|B) 는 "B라는 제약된 세계 안에서 A가 일어날 [[130_probability|확률]]"이다. 전체 표본공간을 B로 축소하는 것이 핵심이다.
-> 연쇄 법칙 (Chain Rule) 은 복잡한 결합 [[130_probability|확률]]을 조건부 [[130_probability|확률]]의 곱으로 분해하여, 베이즈 네트워크와 언어 모델의 수학적 기반을 이룬다.
-> 검사자 오류 (Prosecutor's Fallacy) 처럼 조건 방향을 뒤집으면 완전히 다른 [[130_probability|확률]]이 나오므로, P(A|B) ≠ P(B|A) 를 항상 명심해야 한다.
+> 조건부 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) (Conditional [Probability](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)) P(A|B) 는 "B라는 제약된 세계 안에서 A가 일어날 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)"이다. 전체 표본공간을 B로 축소하는 것이 핵심이다.
+> 연쇄 법칙 (Chain Rule) 은 복잡한 결합 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 조건부 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)의 곱으로 분해하여, 베이즈 네트워크와 언어 모델의 수학적 기반을 이룬다.
+> 검사자 오류 (Prosecutor's Fallacy) 처럼 조건 방향을 뒤집으면 완전히 다른 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 나오므로, P(A|B) ≠ P(B|A) 를 항상 명심해야 한다.
 
 ---
 
-## Ⅰ. 조건부 [[130_probability|확률]]의 정의와 기하학적 의미
+## Ⅰ. 조건부 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)의 정의와 기하학적 의미
 
 ### 공식 정의
 
@@ -25,7 +29,7 @@ P(A|B) = P(A∩B) / P(B),   단 P(B) > 0
 
 ### 기하학적 해석
 
-조건부 [[130_probability|확률]]은 표본공간을 **B로 축소**한 후, 그 안에서 A가 차지하는 비율이다.
+조건부 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)은 표본공간을 **B로 축소**한 후, 그 안에서 A가 차지하는 비율이다.
 
 ```
 ┌──────────────────────────────────────────────────┐
@@ -49,14 +53,14 @@ P(A|B) = P(A∩B) / P(B),   단 P(B) > 0
 └──────────────────────────────────────────────────┘
 ```
 
-**예시**: 주사위를 던져 짝수(B)가 나왔을 때, 6이 나올 [[130_probability|확률]](A)?
+**예시**: 주사위를 던져 짝수(B)가 나왔을 때, 6이 나올 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)(A)?
 ```
 P(A∩B) = P(6) = 1/6
 P(B) = P(짝수) = 3/6 = 1/2
 P(A|B) = (1/6) / (1/2) = 1/3
 ```
 
-📢 **섹션 요약 비유**: 조건부 [[130_probability|확률]]은 "전국 지도" 대신 "서울 지도"만 펼치고 그 안에서 길을 찾는 것이다 — 공간이 좁아지면 같은 위치도 다른 비율로 보인다.
+📢 **섹션 요약 비유**: 조건부 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)은 "전국 지도" 대신 "서울 지도"만 펼치고 그 안에서 길을 찾는 것이다 — 공간이 좁아지면 같은 위치도 다른 비율로 보인다.
 
 ---
 
@@ -64,7 +68,7 @@ P(A|B) = (1/6) / (1/2) = 1/3
 
 ### 곱셈 법칙 (Multiplication Rule)
 
-조건부 [[130_probability|확률]] 정의를 변형하면:
+조건부 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 정의를 변형하면:
 
 ```
 P(A∩B) = P(A|B) · P(B) = P(B|A) · P(A)
@@ -72,7 +76,7 @@ P(A∩B) = P(A|B) · P(B) = P(B|A) · P(A)
 
 ### 연쇄 법칙 (Chain Rule)
 
-n개 사건의 결합 [[130_probability|확률]]을 조건부 [[130_probability|확률]]의 곱으로 분해:
+n개 사건의 결합 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 조건부 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)의 곱으로 분해:
 
 ```
 P(A₁∩A₂∩...∩Aₙ)
@@ -97,15 +101,15 @@ P(나는 밥을 먹었다)
   = P(나는) × P(밥을|나는) × P(먹었다|나는,밥을)
 ```
 
-이것이 [[302_gpt_autoregressive|GPT]] 류 대형 언어 모델 ([[263_llm_large_language_model|LLM]], [[263_llm_large_language_model|Large Language Model]]) 의 핵심 수학이다.
+이것이 [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) 류 대형 언어 모델 ([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/), [Large Language Model](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)) 의 핵심 수학이다.
 
-📢 **섹션 요약 비유**: 연쇄 법칙은 "복잡한 요리의 레시피"를 단계별 조건("계란 후라이를 만들었을 때, 그 다음 볶음밥은?")으로 쪼개서 전체 [[130_probability|확률]]을 구하는 방식이다.
+📢 **섹션 요약 비유**: 연쇄 법칙은 "복잡한 요리의 레시피"를 단계별 조건("계란 후라이를 만들었을 때, 그 다음 볶음밥은?")으로 쪼개서 전체 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 구하는 방식이다.
 
 ---
 
-## Ⅲ. 수형도로 조건부 [[130_probability|확률]] [[003_bigdata_7v|시각화]]
+## Ⅲ. 수형도로 조건부 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)
 
-수형도 (Tree Diagram) 는 여러 단계로 이어지는 조건부 [[130_probability|확률]]을 직관적으로 표현한다.
+수형도 (Tree Diagram) 는 여러 단계로 이어지는 조건부 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 직관적으로 표현한다.
 
 ```
                     ┌─── P(A₁∩B₁) = 0.6×0.9 = 0.54
@@ -124,13 +128,13 @@ P(B₁) = P(B₁|A₁)·P(A₁) + P(B₁|A₂)·P(A₂)
       = 0.9×0.6 + 0.4×0.4 = 0.54+0.16 = 0.70
 ```
 
-📢 **섹션 요약 비유**: 수형도는 "가능한 모든 길"을 나뭇가지처럼 펼쳐 놓고, 각 분기점에서 [[130_probability|확률]]을 곱해가는 지도다.
+📢 **섹션 요약 비유**: 수형도는 "가능한 모든 길"을 나뭇가지처럼 펼쳐 놓고, 각 분기점에서 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 곱해가는 지도다.
 
 ---
 
 ## Ⅳ. 주요 응용 — ML 및 DB
 
-### ML에서 조건부 독립 (Conditional [[133_independence|Independence]])
+### ML에서 조건부 독립 (Conditional [Independence](/knowledge-base/studynote/08_algorithm_stats/08_stats/133_independence/))
 
 A와 B가 C에 대해 **조건부 독립**이면:
 
@@ -140,13 +144,13 @@ P(A∩B|C) = P(A|C) · P(B|C)
 ```
 
 **응용**:
-- [[264_naive_bayes|나이브 베이즈]]: 모든 특징이 클래스 레이블에 대해 조건부 독립 가정
-- [[140_markov_chain|마르코프 체인]] ([[140_markov_chain|Markov Chain]]): 미래 상태는 현재 상태에만 조건부 종속
-- 베이즈 네트워크: 조건부 독립 [[083_relationship_in_er_model|관계]]를 [[401_bayesian_network_dag_causality|DAG]] 로 명시적 표현
+- [나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/): 모든 특징이 클래스 레이블에 대해 조건부 독립 가정
+- [마르코프 체인](/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/) ([Markov Chain](/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/)): 미래 상태는 현재 상태에만 조건부 종속
+- 베이즈 네트워크: 조건부 독립 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) 로 명시적 표현
 
-### [[002_database_definition|데이터베이스]] [[298_qkv_attention|쿼리]] 최적화 — [[170_selectivity_cardinality_distribution_tuning|선택도]] ([[170_selectivity_cardinality_distribution_tuning|Selectivity]]) 추정
+### [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화 — [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) ([Selectivity](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/)) 추정
 
-[[298_qkv_attention|쿼리]] [[163_optimizer_sql_execution_plan_generator|옵티마이저]] (Query [[088_optimizer|Optimizer]]) 는 조건부 [[130_probability|확률]]로 필터 [[170_selectivity_cardinality_distribution_tuning|선택도]]를 추정한다:
+[쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) (Query [Optimizer](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_optimizer/)) 는 조건부 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 필터 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/)를 추정한다:
 
 ```sql
 SELECT * FROM orders
@@ -168,7 +172,7 @@ P(amount > 100K | region = 'Seoul')
 | 히스토그램 | 중간 | 중간 | 단일 컬럼 분포 |
 | 다차원 통계 | 높음 | 고비용 | 조인 컬럼 |
 
-📢 **섹션 요약 비유**: [[163_optimizer_sql_execution_plan_generator|옵티마이저]]가 "서울 사람이면서 고액 결제자"를 찾을 때, "서울 사람 중 고액 결제자 비율"을 아는 것이 "서울 사람 비율 × 고액 결제자 비율"보다 훨씬 정확한 것처럼, 조건부 [[130_probability|확률]]은 현실의 상관관계를 포착한다.
+📢 **섹션 요약 비유**: [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 "서울 사람이면서 고액 결제자"를 찾을 때, "서울 사람 중 고액 결제자 비율"을 아는 것이 "서울 사람 비율 × 고액 결제자 비율"보다 훨씬 정확한 것처럼, 조건부 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)은 현실의 상관관계를 포착한다.
 
 ---
 
@@ -189,28 +193,28 @@ P(amount > 100K | region = 'Seoul')
   → 유죄 추정(Prior)과 증거의 특이성(Likelihood)을 모두 고려해야 함
 ```
 
-**조건부 [[130_probability|확률]] vs 결합 [[130_probability|확률]] vs 주변 [[130_probability|확률]] 비교**:
+**조건부 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) vs 결합 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) vs 주변 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 비교**:
 
 | 종류 | 기호 | 의미 | 예시 |
 |:---:|:---:|:---|:---|
-| 주변 [[130_probability|확률]] (Marginal) | P(A) | A만의 [[130_probability|확률]] | P(비) = 0.3 |
-| 결합 [[130_probability|확률]] (Joint) | P(A∩B) | A와 B 동시 발생 | P(비∩우산) = 0.25 |
-| 조건부 [[130_probability|확률]] (Conditional) | P(A\|B) | B 주어졌을 때 A | P(비\|우산) = 0.83 |
+| 주변 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) (Marginal) | P(A) | A만의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) | P(비) = 0.3 |
+| 결합 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) (Joint) | P(A∩B) | A와 B 동시 발생 | P(비∩우산) = 0.25 |
+| 조건부 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) (Conditional) | P(A\|B) | B 주어졌을 때 A | P(비\|우산) = 0.83 |
 
-📢 **섹션 요약 비유**: "비 오는 날 우산을 들고 있을 [[130_probability|확률]]"과 "우산을 들었을 때 비가 올 [[130_probability|확률]]"은 완전히 다른 질문이다. 조건의 방향을 바꾸면 전혀 다른 세계가 열린다.
+📢 **섹션 요약 비유**: "비 오는 날 우산을 들고 있을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)"과 "우산을 들었을 때 비가 올 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)"은 완전히 다른 질문이다. 조건의 방향을 바꾸면 전혀 다른 세계가 열린다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 개념 | 연결 개념 | [[083_relationship_in_er_model|관계]] |
+| 개념 | 연결 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 |:---|:---|:---|
-| 조건부 [[130_probability|확률]] | 베이즈 정리 | P(A\|B)의 역방향 활용 |
-| 연쇄 법칙 | 언어 모델 ([[263_llm_large_language_model|LLM]]) | 문장 [[130_probability|확률]] 분해 |
-| 조건부 독립 | [[264_naive_bayes|나이브 베이즈]] | 단순화 가정 |
-| [[170_selectivity_cardinality_distribution_tuning|선택도]] 추정 | [[298_qkv_attention|쿼리]] [[163_optimizer_sql_execution_plan_generator|옵티마이저]] | DB [[282_performance_tactics|성능]] 최적화 |
+| 조건부 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) | 베이즈 정리 | P(A\|B)의 역방향 활용 |
+| 연쇄 법칙 | 언어 모델 ([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)) | 문장 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분해 |
+| 조건부 독립 | [나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/) | 단순화 가정 |
+| [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 추정 | [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) | DB [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 |
 | 검사자 오류 | 확증 편향 | 논리적 오류 유형 |
-| [[141_markov_property|마르코프 성질]] | [[140_markov_chain|마르코프 체인]] | 조건부 독립의 특수 형태 |
+| [마르코프 성질](/knowledge-base/studynote/08_algorithm_stats/08_stats/141_markov_property/) | [마르코프 체인](/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/) | 조건부 독립의 특수 형태 |
 
 ---
 
@@ -235,11 +239,11 @@ P(amount > 100K | region = 'Seoul')
 [검사자 오류]
 ```
 
-이 흐름도는 :---에서 출발해 [[170_selectivity_cardinality_distribution_tuning|선택도]] 추정까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
+이 흐름도는 :---에서 출발해 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 추정까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-- 전체 학생 중 축구를 좋아할 [[130_probability|확률]]이 아니라, "남자 학생 중" 축구를 좋아할 [[130_probability|확률]]처럼, 조건을 붙이면 계산 대상이 좁아져.
+- 전체 학생 중 축구를 좋아할 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 아니라, "남자 학생 중" 축구를 좋아할 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)처럼, 조건을 붙이면 계산 대상이 좁아져.
 - P(A|B)는 "B라는 울타리 안에서만 생각할게"라는 뜻이야.
 - 검사자 오류는 "우산 든 사람이 비 맞는다"고 착각하는 것처럼, 조건의 방향을 거꾸로 뒤집는 실수야.
 
@@ -249,7 +253,7 @@ P(amount > 100K | region = 'Seoul')
 
 **진행 상황**: 132 / 175
 
-← **이전**: [[131_bayes_theorem|2. 베이즈 정리 (Bayes' Theorem) — 사전/사후 확률 업데이트]]
-**다음**: [[133_independence|4. 독립 사건 (Independence) / 상호 배타적 사건 (Mutual Exclusivity)]] →
+← **이전**: [2. 베이즈 정리 (Bayes' Theorem) — 사전/사후 확률 업데이트](/knowledge-base/studynote/08_algorithm_stats/08_stats/131_bayes_theorem/)
+**다음**: [4. 독립 사건 (Independence) / 상호 배타적 사건 (Mutual Exclusivity)](/knowledge-base/studynote/08_algorithm_stats/08_stats/133_independence/) →
 
 ---

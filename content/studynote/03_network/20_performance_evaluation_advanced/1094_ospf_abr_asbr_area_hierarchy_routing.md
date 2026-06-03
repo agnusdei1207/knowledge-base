@@ -1,22 +1,26 @@
----
-title: 1094. OSPF ABR / ASBR Area 위계 분산망
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "1094. OSPF ABR / ASBR Area 위계 분산망"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[357_ospf_open_shortest_path_first_overview|OSPF]] ABR / ASBR Area 위계…는 [[282_performance_tactics|성능]] 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: [[357_ospf_open_shortest_path_first_overview|OSPF]] ABR / ASBR Area 위계…를 이해하면 측정 정확도과 모델 적합성 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) ABR / ASBR Area 위계…는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) ABR / ASBR Area 위계…를 이해하면 측정 정확도과 모델 적합성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **[[348_link_state_routing_dijkstra_spf|링크 상태]]([[348_link_state_routing_dijkstra_spf|Link State]]) [[339_routing_overview_best_path_selection|라우팅]]**: 모든 라우터는 남의 말을 믿지 않고, 남들이 보낸 퍼즐 조각(LSA 패킷)을 모아서 뱃속에 똑같은 '전체 지도([[961_ospf_link_state_database_dijkstra_spf_routing|LSDB]])'를 그린 뒤, 자기가 직접 **[[036_dijkstra|다익스트라]]([[036_dijkstra|Dijkstra]]) 수학 공식**을 돌려 최단 거리를 뽑아냅니다.
-- **재앙**: 라우터가 500대 이상 모인 상태에서 랜선 하나가 툭 빠졌다(링크 변화 현상) 꽂히면? 500대가 일제히 퍼즐 조각을 다시 쏘며(LSA Flooding) 무거운 [[036_dijkstra|다익스트라]] 연산을 미친 듯이 다시 돌리느라 CPU 메모리가 터지고 대역폭이 고갈됩니다.
+- **[링크 상태](/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/)([Link State](/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/)) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)**: 모든 라우터는 남의 말을 믿지 않고, 남들이 보낸 퍼즐 조각(LSA 패킷)을 모아서 뱃속에 똑같은 '전체 지도([LSDB](/knowledge-base/studynote/03_network/19_frequent_topics_terms/961_ospf_link_state_database_dijkstra_spf_routing/))'를 그린 뒤, 자기가 직접 **[다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)([Dijkstra](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)) 수학 공식**을 돌려 최단 거리를 뽑아냅니다.
+- **재앙**: 라우터가 500대 이상 모인 상태에서 랜선 하나가 툭 빠졌다(링크 변화 현상) 꽂히면? 500대가 일제히 퍼즐 조각을 다시 쏘며(LSA Flooding) 무거운 [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/) 연산을 미친 듯이 다시 돌리느라 CPU 메모리가 터지고 대역폭이 고갈됩니다.
 
 ```text
 [MPLS VPN L3 경로 격리 라벨 스위치]
@@ -27,14 +31,14 @@ tags:
     └──▶ [BGP 속성]
 ```
 
-- **📢 섹션 요약 비유**: [[357_ospf_open_shortest_path_first_overview|OSPF]] ABR / ASBR Area 위계…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [[170_selectivity_cardinality_distribution_tuning|선택도]] 쉬워진다.
+- **📢 섹션 요약 비유**: [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) ABR / ASBR Area 위계…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 - **개념**: 이 거대한 지도를 **Area(지역)**라는 논리적인 단위로 잘기잘기 쪼개어 격리시킵니다.
-- "자기 동네(Area) 지도는 자기가 완벽하게 그리고, 다른 동네 이야기는 그냥 '요약본([[300_summary|Summary]])'만 듣고 대충 가는 방향만 알자!"
+- "자기 동네(Area) 지도는 자기가 완벽하게 그리고, 다른 동네 이야기는 그냥 '요약본([Summary](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/300_summary/))'만 듣고 대충 가는 방향만 알자!"
 
 ```text
 [MPLS VPN L3 경로 격리 라벨 스위치]
@@ -45,7 +49,7 @@ tags:
     └──▶ [BGP 속성]
 ```
 
-- **📢 섹션 요약 비유**: [[357_ospf_open_shortest_path_first_overview|OSPF]] ABR / ASBR Area 위계…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
+- **📢 섹션 요약 비유**: [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) ABR / ASBR Area 위계…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
 ---
 
@@ -63,42 +67,42 @@ OSPF는 아무렇게나 쪼개면 안 되고, 반드시 '뼈대 구역'을 중�
 1. **내부 라우터 (Internal Router)**: 그냥 자기 Area 안에서만 노는 우물 안 개구리들입니다. 자기 동네 지도만 알면 됩니다.
 2. **ABR (Area Border Router, 에어리어 경계 라우터)**:
    - 한쪽 발은 Area 0(백본)에 담그고, 한쪽 발은 Area 1(일반 구역)에 담근 **'도 지사'급 관문 라우터**입니다.
-   - **요약의 마법사**: Area 1에서 [[238_switch_operation_principles|스위치]] 수십 개가 꺼지고 켜져도, 백본(Area 0) 쪽에는 "어~ Area 1에 `10.0.x.x` 대역들 잘 있어~"라고 **네트워크 대역폭을 요약([[300_summary|Summary]] LSA)해서 딱 1줄의 보고서만 올립니다.** 덕분에 백본 라우터들은 Area 1의 시시콜콜한 사고 소식에 CPU를 낭비하지 않고 평화를 유지합니다.
+   - **요약의 마법사**: Area 1에서 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 수십 개가 꺼지고 켜져도, 백본(Area 0) 쪽에는 "어~ Area 1에 `10.0.x.x` 대역들 잘 있어~"라고 **네트워크 대역폭을 요약([Summary](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/300_summary/) LSA)해서 딱 1줄의 보고서만 올립니다.** 덕분에 백본 라우터들은 Area 1의 시시콜콜한 사고 소식에 CPU를 낭비하지 않고 평화를 유지합니다.
 3. **ASBR (Autonomous System Boundary Router, 자율 시스템 경계 라우터)**:
-   - 한쪽 발은 [[357_ospf_open_shortest_path_first_overview|OSPF]] 마을에, 한쪽 발은 다른 [[295_protocol_field_tcp_udp_icmp|프로토콜]]([[365_bgp_border_gateway_protocol_path_vector|BGP]], [[355_eigrp_enhanced_igrp_dual_algorithm|EIGRP]] 등 아예 다른 외국)에 담근 **'외교관 라우터'**입니다.
-   - 외국에서 들어온 [[339_routing_overview_best_path_selection|라우팅]] 정보를 몽땅 번역(Redistribution)해서 [[357_ospf_open_shortest_path_first_overview|OSPF]] 마을 안으로 뿌려주는 최고 결정권자입니다.
+   - 한쪽 발은 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 마을에, 한쪽 발은 다른 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/), [EIGRP](/knowledge-base/studynote/03_network/07_network_layer_routing/355_eigrp_enhanced_igrp_dual_algorithm/) 등 아예 다른 외국)에 담근 **'외교관 라우터'**입니다.
+   - 외국에서 들어온 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 정보를 몽땅 번역(Redistribution)해서 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 마을 안으로 뿌려주는 최고 결정권자입니다.
 
-[[357_ospf_open_shortest_path_first_overview|OSPF]] ABR / ASBR Area 위계…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [[376_mpls_vpn_l3_vrf_bgp|MPLS VPN]] L3 경로 격리 라벨 [[238_switch_operation_principles|스위치]]가 기반 조건을 만든다면, [[357_ospf_open_shortest_path_first_overview|OSPF]] ABR / ASBR Area 위계…는 그 위에서 핵심 메커니즘을 구현하고, [[365_bgp_border_gateway_protocol_path_vector|BGP]] [[082_attribute_types_er_model|속성]]은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+[OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) ABR / ASBR Area 위계…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [MPLS VPN](/knowledge-base/studynote/03_network/07_network_layer_routing/376_mpls_vpn_l3_vrf_bgp/) L3 경로 격리 라벨 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 기반 조건을 만든다면, [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) ABR / ASBR Area 위계…는 그 위에서 핵심 메커니즘을 구현하고, [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [[376_mpls_vpn_l3_vrf_bgp|MPLS VPN]] L3 경로 격리 라벨 [[238_switch_operation_principles|스위치]]의 기반 정리 | [[357_ospf_open_shortest_path_first_overview|OSPF]] ABR / ASBR Area 위계…의 핵심 동작 | [[365_bgp_border_gateway_protocol_path_vector|BGP]] [[082_attribute_types_er_model|속성]]의 확장 적용 |
+| 초점 | [MPLS VPN](/knowledge-base/studynote/03_network/07_network_layer_routing/376_mpls_vpn_l3_vrf_bgp/) L3 경로 격리 라벨 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 기반 정리 | [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) ABR / ASBR Area 위계…의 핵심 동작 | [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 측정 정확도 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: [[357_ospf_open_shortest_path_first_overview|OSPF]] ABR / ASBR Area 위계…는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
+- **📢 섹션 요약 비유**: [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) ABR / ASBR Area 위계…는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- LSA 트래픽(퍼즐 조각) 플러딩이 자기 Area 안에서만 갇혀서 돕니다. 부산 Area에서 랜선이 빠져도 서울 Area 라우터들은 [[036_dijkstra|다익스트라]]([[495_spf_sender_policy_framework|SPF]]) 연산을 1도 돌릴 필요가 없어 CPU를 아낍니다. 수천 대가 물린 글로벌 통신망의 코어 [[339_routing_overview_best_path_selection|라우팅]]을 지탱하는 완벽한 확장성(Scalability)의 승리입니다.
+- LSA 트래픽(퍼즐 조각) 플러딩이 자기 Area 안에서만 갇혀서 돕니다. 부산 Area에서 랜선이 빠져도 서울 Area 라우터들은 [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)([SPF](/knowledge-base/studynote/03_network/09_application_layer_web_email/495_spf_sender_policy_framework/)) 연산을 1도 돌릴 필요가 없어 CPU를 아낍니다. 수천 대가 물린 글로벌 통신망의 코어 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 지탱하는 완벽한 확장성(Scalability)의 승리입니다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존의 **단일 [[357_ospf_open_shortest_path_first_overview|OSPF]] 망**은 전국의 5천만 국민이 모두 **'대한민국 전체의 10cm 단위 골목길 정밀 지도([[961_ospf_link_state_database_dijkstra_spf_routing|LSDB]])'를 머릿속에 다 외우고 다니는 미친 짓**입니다. 부산 해운대의 골목길 공사가 시작되면 전국의 5천만 명에게 "길 막힘!" 알람이 울려 모두가 뇌를 풀가동해 지도를 새로 그려야 합니다([[036_dijkstra|다익스트라]] 부하 폭발). **[[357_ospf_open_shortest_path_first_overview|OSPF]] Area 계층화**는 전국을 **'도/광역시 단위(Area)'로 쪼개고 중앙 통제실(Area 0 백본)'을 세운 지혜**입니다. 부산 시민(내부 라우터)은 부산 골목길만 달달 외웁니다. 부산 도지사(ABR 라우터)는 중앙 통제실(Area 0)에게 "부산으로 오려면 그냥 경부고속도로 타고 남쪽으로 내려오슈!"라고 퉁쳐서 한 줄로 요약([[300_summary|Summary]]) 보고를 올립니다. 서울 시민이 부산의 어느 골목에 가고 싶을 땐, 골목길 지도를 직접 외우지 않고 "일단 남쪽 고속도로(ABR)로 가자!"고 출발한 뒤, 부산에 도착해서야 그 동네 시민에게 골목길을 물어 찾아갑니다. 쓸데없는 정보의 확산을 완벽히 차단하여 전국 라우터의 두뇌(CPU)를 식혀주는 마법의 구획 정리 시스템입니다.
+- **📢 섹션 요약 비유**: 기존의 **단일 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 망**은 전국의 5천만 국민이 모두 **'대한민국 전체의 10cm 단위 골목길 정밀 지도([LSDB](/knowledge-base/studynote/03_network/19_frequent_topics_terms/961_ospf_link_state_database_dijkstra_spf_routing/))'를 머릿속에 다 외우고 다니는 미친 짓**입니다. 부산 해운대의 골목길 공사가 시작되면 전국의 5천만 명에게 "길 막힘!" 알람이 울려 모두가 뇌를 풀가동해 지도를 새로 그려야 합니다([다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/) 부하 폭발). **[OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) Area 계층화**는 전국을 **'도/광역시 단위(Area)'로 쪼개고 중앙 통제실(Area 0 백본)'을 세운 지혜**입니다. 부산 시민(내부 라우터)은 부산 골목길만 달달 외웁니다. 부산 도지사(ABR 라우터)는 중앙 통제실(Area 0)에게 "부산으로 오려면 그냥 경부고속도로 타고 남쪽으로 내려오슈!"라고 퉁쳐서 한 줄로 요약([Summary](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/300_summary/)) 보고를 올립니다. 서울 시민이 부산의 어느 골목에 가고 싶을 땐, 골목길 지도를 직접 외우지 않고 "일단 남쪽 고속도로(ABR)로 가자!"고 출발한 뒤, 부산에 도착해서야 그 동네 시민에게 골목길을 물어 찾아갑니다. 쓸데없는 정보의 확산을 완벽히 차단하여 전국 라우터의 두뇌(CPU)를 식혀주는 마법의 구획 정리 시스템입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[[357_ospf_open_shortest_path_first_overview|OSPF]] ABR / ASBR Area 위계…는 [[282_performance_tactics|성능]] 평가와 고급 분석을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 측정 정확도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [[365_bgp_border_gateway_protocol_path_vector|BGP]] [[082_attribute_types_er_model|속성]], [[190_ai_llm_requirements_specification|AI]] 기반 [[282_performance_tactics|성능]] 예측, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [[190_ai_llm_requirements_specification|AI]] 기반 [[282_performance_tactics|성능]] 예측 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+[OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) ABR / ASBR Area 위계…는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 측정 정확도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: [[357_ospf_open_shortest_path_first_overview|OSPF]] ABR / ASBR Area 위계…는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
+- **📢 섹션 요약 비유**: [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) ABR / ASBR Area 위계…는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
 ---
 
@@ -106,10 +110,10 @@ OSPF는 아무렇게나 쪼개면 안 되고, 반드시 '뼈대 구역'을 중�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[376_mpls_vpn_l3_vrf_bgp|MPLS VPN]] L3 경로 격리 라벨 [[238_switch_operation_principles|스위치]] | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [[139_throughput|처리량]] ([[139_throughput|Throughput]]) | 실제 전달 [[282_performance_tactics|성능]]을 나타내는 대표 지표다. |
-| [[015_지연_데이터_관점|지연]] ([[141_latency|Latency]]) | 사용자 체감 품질을 좌우한다. |
-| [[365_bgp_border_gateway_protocol_path_vector|BGP]] [[082_attribute_types_er_model|속성]] | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [MPLS VPN](/knowledge-base/studynote/03_network/07_network_layer_routing/376_mpls_vpn_l3_vrf_bgp/) L3 경로 격리 라벨 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) | 실제 전달 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 나타내는 대표 지표다. |
+| [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) ([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) | 사용자 체감 품질을 좌우한다. |
+| [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -123,7 +127,7 @@ OSPF는 아무렇게나 쪼개면 안 되고, 반드시 '뼈대 구역'을 중�
     └──▶ [확장 B: AI 기반 성능 예측]
 ```
 
-[[357_ospf_open_shortest_path_first_overview|OSPF]] ABR / ASBR Area 위계…는 [[376_mpls_vpn_l3_vrf_bgp|MPLS VPN]] L3 경로 격리 라벨 [[238_switch_operation_principles|스위치]]에서 출발해 현재 메커니즘을 정교화하고, 이후 [[365_bgp_border_gateway_protocol_path_vector|BGP]] [[082_attribute_types_er_model|속성]]와 [[190_ai_llm_requirements_specification|AI]] 기반 [[282_performance_tactics|성능]] 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+[OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) ABR / ASBR Area 위계…는 [MPLS VPN](/knowledge-base/studynote/03_network/07_network_layer_routing/376_mpls_vpn_l3_vrf_bgp/) L3 경로 격리 라벨 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -137,7 +141,7 @@ OSPF는 아무렇게나 쪼개면 안 되고, 반드시 '뼈대 구역'을 중�
 
 **진행 상황**: 203 / 1120
 
-← **이전**: [[1093_mpls_vpn_l3vpn_vrf_label_switching|1093. MPLS VPN L3 경로 격리 라벨 스위치]]
-**다음**: [[1095_bgp_attributes_local_pref_med_as_path|1095. BGP 속성 (Local Pref, MED, AS-path 구성비)]] →
+← **이전**: [1093. MPLS VPN L3 경로 격리 라벨 스위치](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1093_mpls_vpn_l3vpn_vrf_label_switching/)
+**다음**: [1095. BGP 속성 (Local Pref, MED, AS-path 구성비)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1095_bgp_attributes_local_pref_med_as_path/) →
 
 ---

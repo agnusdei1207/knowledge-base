@@ -1,23 +1,27 @@
----
-title: 642. 옵저버빌리티 (Observability) HW 텔레메트리
-date: '2026-05-08'
-tags:
-- studynote-computer-architecture
----
++++
+title = "642. 옵저버빌리티 (Observability) HW 텔레메트리"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 옵저버빌리티 (Observability) 하드웨어 텔레메트리는 중앙처리장치 (Central Processing Unit, CPU), 메모리, 저장장치, 네트워크 장비가 내놓는 전력·온도·오류·[[140_bandwidth|대역폭]] [[130_signal|신호]]를 수집해 시스템 내부 상태를 설명 가능하게 만든다.
+> 1. **본질**: 옵저버빌리티 (Observability) 하드웨어 텔레메트리는 중앙처리장치 (Central Processing Unit, CPU), 메모리, 저장장치, 네트워크 장비가 내놓는 전력·온도·오류·[대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 수집해 시스템 내부 상태를 설명 가능하게 만든다.
 > 2. **가치**: 소프트웨어 로그가 증상을 보여준다면 하드웨어 텔레메트리는 원인을 드러내므로, 열 스로틀링, 링크 오류, 정정 가능한 오류 같은 문제를 더 빨리 찾고 더 정확히 예측할 수 있다.
-> 3. **판단 포인트**: 좋은 텔레메트리는 [[001_dikw_pyramid|데이터]]가 많은 상태가 아니라 **오버헤드가 낮고, 시간 [[212_synchronization_mechanisms|동기화]]가 맞고, [[090_service_kubernetes_network_load_balancing|서비스]] 수준 목표와 연결된 지표만 남아 있는 상태**다.
+> 3. **판단 포인트**: 좋은 텔레메트리는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 많은 상태가 아니라 **오버헤드가 낮고, 시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 맞고, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 목표와 연결된 지표만 남아 있는 상태**다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-옵저버빌리티 하드웨어 텔레메트리는 서버와 장비가 스스로 내보내는 "물리적 생체 [[130_signal|신호]]"를 읽는 체계다. CPU 사용률처럼 [[001_operating_system_purpose|운영체제]]가 계산한 간접 지표만 보는 것이 아니라, 캐시 미스, 메모리 오류, 전력 소비, 팬 회전수, 저장장치 마모 같은 하부 [[130_signal|신호]]를 함께 읽어 왜 [[282_performance_tactics|성능]]이 흔들리는지 설명한다.
+옵저버빌리티 하드웨어 텔레메트리는 서버와 장비가 스스로 내보내는 "물리적 생체 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)"를 읽는 체계다. CPU 사용률처럼 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 계산한 간접 지표만 보는 것이 아니라, 캐시 미스, 메모리 오류, 전력 소비, 팬 회전수, 저장장치 마모 같은 하부 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 함께 읽어 왜 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 흔들리는지 설명한다.
 
-이 개념이 중요해진 이유는 최신 인프라의 병목이 소프트웨어 한 층에서만 생기지 않기 때문이다. [[231_ai_turing_test|인공지능]] 학습 서버는 랙 전력 제한 하나만으로도 그래픽 처리 장치 ([[418_gpu|Graphics Processing Unit]], [[418_gpu|GPU]]) 클럭이 흔들릴 수 있고, [[136_variance|분산]] 스토리지는 주변기기 연결 인터페이스 익스프레스 ([[355_pci|Peripheral Component Interconnect]] Express, [[356_pcie|PCIe]]) 재전송만 늘어도 응답 시간이 튄다. 이런 문제는 애플리케이션 로그만으로는 보이지 않고, 하드웨어 [[130_signal|신호]]를 같이 봐야 원인이 드러난다.
+이 개념이 중요해진 이유는 최신 인프라의 병목이 소프트웨어 한 층에서만 생기지 않기 때문이다. [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 학습 서버는 랙 전력 제한 하나만으로도 그래픽 처리 장치 ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 클럭이 흔들릴 수 있고, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 스토리지는 주변기기 연결 인터페이스 익스프레스 ([Peripheral Component Interconnect](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) Express, [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/)) 재전송만 늘어도 응답 시간이 튄다. 이런 문제는 애플리케이션 로그만으로는 보이지 않고, 하드웨어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 같이 봐야 원인이 드러난다.
 
 즉 텔레메트리는 단순한 계측이 아니라 "증상과 물리 원인을 잇는 다리"다. 시스템이 느려졌다는 사실보다, 열 때문인지 전력 제한 때문인지 메모리 오류 때문인지 구분해 내는 능력이 옵저버빌리티의 깊이를 결정한다.
 
@@ -27,14 +31,14 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-하드웨어 텔레메트리의 설계 포인트는 "어디서 읽고, 어떤 시간축으로 맞추며, 어느 경로로 내보낼 것인가"다. [[001_operating_system_purpose|운영체제]] 안에서 읽는 인밴드 방식은 세밀하지만 시스템 장애 시 같이 죽을 수 있고, 베이스보드 관리 컨트롤러 ([[710_bmc|Baseboard Management Controller]], [[710_bmc|BMC]])를 통한 아웃오브밴드 방식은 [[001_operating_system_purpose|운영체제]]가 멈춰도 살아 있지만 분해능이 더 거칠 수 있다. 실제 운영에서는 두 경로를 적절히 조합한다.
+하드웨어 텔레메트리의 설계 포인트는 "어디서 읽고, 어떤 시간축으로 맞추며, 어느 경로로 내보낼 것인가"다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 안에서 읽는 인밴드 방식은 세밀하지만 시스템 장애 시 같이 죽을 수 있고, 베이스보드 관리 컨트롤러 ([Baseboard Management Controller](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/710_bmc/), [BMC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/710_bmc/))를 통한 아웃오브밴드 방식은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 멈춰도 살아 있지만 분해능이 더 거칠 수 있다. 실제 운영에서는 두 경로를 적절히 조합한다.
 
-| 수집 원천 | 대표 [[130_signal|신호]] | 운영상 의미 |
+| 수집 원천 | 대표 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) | 운영상 의미 |
 | :--- | :--- | :--- |
-| [[609_performance_monitoring|성능 모니터링]] 유닛 ([[609_performance_monitoring|Performance Monitoring]] Unit, PMU) | 캐시 미스, 분기 실패, [[158_instruction|명령어]] 실행 수 | CPU 내부 병목 분석 |
-| [[710_bmc|BMC]] / 레드피시 (Redfish) 센서 | 전력, 온도, 팬, [[001_voltage|전압]] | 장애 생존성 높은 물리 상태 수집 |
-| 메모리·저장장치 오류 [[059_counter|카운터]] | 오류 정정 코드 (Error Correcting [[082_process_memory_structure|Code]], [[554_ecc_circuit|ECC]]) 오류, 자기 모니터링 분석 및 보고 기술 (Self-Monitoring, Analysis and Reporting Technology, SMART) 지표 | 부품 열화 조기 감지 |
-| 패브릭·입출력 [[059_counter|카운터]] | [[356_pcie|PCIe]] 오류, 네트워크 재전송, [[446_port_and_bus|포트]] 포화 | 경로 병목과 링크 건강도 판단 |
+| [성능 모니터링](/knowledge-base/studynote/02_operating_system/10_security/609_performance_monitoring/) 유닛 ([Performance Monitoring](/knowledge-base/studynote/02_operating_system/10_security/609_performance_monitoring/) Unit, PMU) | 캐시 미스, 분기 실패, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 실행 수 | CPU 내부 병목 분석 |
+| [BMC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/710_bmc/) / 레드피시 (Redfish) 센서 | 전력, 온도, 팬, [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) | 장애 생존성 높은 물리 상태 수집 |
+| 메모리·저장장치 오류 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) | 오류 정정 코드 (Error Correcting [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/), [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/)) 오류, 자기 모니터링 분석 및 보고 기술 (Self-Monitoring, Analysis and Reporting Technology, SMART) 지표 | 부품 열화 조기 감지 |
+| 패브릭·입출력 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) | [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 오류, 네트워크 재전송, [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 포화 | 경로 병목과 링크 건강도 판단 |
 
 아래 그림은 증상과 원인을 잇는 텔레메트리 경로를 보여준다.
 
@@ -54,25 +58,25 @@ tags:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-여기서 가장 자주 놓치는 요소는 시간 [[212_synchronization_mechanisms|동기화]]와 라벨 설계다. CPU 온도 스파이크와 저장장치 [[015_지연_데이터_관점|지연]]이 같은 시각에 일어난 사건인지, 아니면 서로 무관한지 판단하려면 장비 간 시계가 맞아야 한다. 또한 랙, 노드, 장치 세대, 작업 종류 같은 문맥 정보가 빠지면 숫자는 많아도 설명력은 급격히 떨어진다.
+여기서 가장 자주 놓치는 요소는 시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)와 라벨 설계다. CPU 온도 스파이크와 저장장치 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 같은 시각에 일어난 사건인지, 아니면 서로 무관한지 판단하려면 장비 간 시계가 맞아야 한다. 또한 랙, 노드, 장치 세대, 작업 종류 같은 문맥 정보가 빠지면 숫자는 많아도 설명력은 급격히 떨어진다.
 
-- **📢 섹션 요약 비유**: 동네 곳곳에 설치한 폐쇄회로 텔레비전 (Closed-Circuit Television, [[933_cctv|CCTV]])이 같은 시계를 쓰지 않으면 범인을 놓치기 쉽다. 텔레메트리도 센서 숫자 자체보다 "같은 사건으로 맞춰 보는 능력"이 핵심이다.
+- **📢 섹션 요약 비유**: 동네 곳곳에 설치한 폐쇄회로 텔레비전 (Closed-Circuit Television, [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/))이 같은 시계를 쓰지 않으면 범인을 놓치기 쉽다. 텔레메트리도 센서 숫자 자체보다 "같은 사건으로 맞춰 보는 능력"이 핵심이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-옵저버빌리티는 단순 모니터링보다 한 단계 깊다. 모니터링이 "정상/비정상"을 빠르게 알려주는 데 집중한다면, 옵저버빌리티는 "왜 이런 상태가 되었는가"를 추적할 수 있게 [[001_dikw_pyramid|데이터]]를 구조화한다. 하드웨어 텔레메트리가 추가되면 이 차이는 더 선명해진다.
+옵저버빌리티는 단순 모니터링보다 한 단계 깊다. 모니터링이 "정상/비정상"을 빠르게 알려주는 데 집중한다면, 옵저버빌리티는 "왜 이런 상태가 되었는가"를 추적할 수 있게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 구조화한다. 하드웨어 텔레메트리가 추가되면 이 차이는 더 선명해진다.
 
 | 구분 | 전통 모니터링 | 하드웨어 포함 옵저버빌리티 |
 | :--- | :--- | :--- |
 | 주 질문 | 살아 있는가 | 왜 이렇게 동작하는가 |
-| [[001_dikw_pyramid|데이터]] 깊이 | CPU %, 메모리 %, 단순 알람 | 미세 이벤트, 전력, 오류, [[348_link_state_routing_dijkstra_spf|링크 상태]] |
-| 대응 방식 | [[431_ssthresh_slow_start_threshold|임계치]] 초과 후 대응 | 원인 추적과 예측 대응 |
+| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 깊이 | CPU %, 메모리 %, 단순 알람 | 미세 이벤트, 전력, 오류, [링크 상태](/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/) |
+| 대응 방식 | [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 초과 후 대응 | 원인 추적과 예측 대응 |
 | 설명력 | 증상 중심 | 물리 원인까지 연결 |
 | 운영 결과 | 알람 과다 가능성 | 문제 재현과 최적화 용이 |
 
-또한 하드웨어 텔레메트리는 소프트웨어 관측과 경쟁 관계가 아니라 보완 관계다. 이비피에프 (extended [[069_ebpf|Berkeley Packet Filter]], [[615_ebpf|eBPF]])나 [[136_variance|분산]] 추적은 어느 함수와 어느 요청이 느렸는지 보여주고, 하드웨어 텔레메트리는 그 순간 실제로 캐시 미스가 급증했는지, 메모리 [[140_bandwidth|대역폭]]이 포화됐는지 알려 준다. 두 층이 연결되면 "느리다"에서 끝나지 않고 "왜 느린지"까지 닫힌 답을 만들 수 있다.
+또한 하드웨어 텔레메트리는 소프트웨어 관측과 경쟁 관계가 아니라 보완 관계다. 이비피에프 (extended [Berkeley Packet Filter](/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/), [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/))나 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 추적은 어느 함수와 어느 요청이 느렸는지 보여주고, 하드웨어 텔레메트리는 그 순간 실제로 캐시 미스가 급증했는지, 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 포화됐는지 알려 준다. 두 층이 연결되면 "느리다"에서 끝나지 않고 "왜 느린지"까지 닫힌 답을 만들 수 있다.
 
 - **📢 섹션 요약 비유**: 모니터링이 자동차 계기판이라면, 하드웨어 포함 옵저버빌리티는 정비소의 진단 장비까지 연결한 상태다. 속도가 떨어졌다는 사실만이 아니라 엔진, 냉각, 배선 중 어디가 원인인지까지 보여준다.
 
@@ -80,22 +84,22 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 대표적인 사례는 그래픽 처리 장치 ([[418_gpu|GPU]]) 클러스터의 [[282_performance_tactics|성능]] 흔들림 분석이다. 학습 코드와 프레임워크 로그만 보면 단순한 [[139_throughput|처리량]] 저하처럼 보이지만, 하드웨어 텔레메트리를 보면 특정 랙만 고대역폭 메모리 ([[495_hbm|High Bandwidth Memory]], [[495_hbm|HBM]]) 온도가 높아 클럭이 내려가거나, 전원 공급 장치 ([[069_type_1_2_error_statistical_power|Power]] Supply Unit, PSU) 한쪽 여유가 부족해 전력 제한이 걸리는 장면이 드러난다. 이때는 모델 튜닝보다 냉각·전력 [[136_variance|분산]]이 해법이 된다.
+실무에서 대표적인 사례는 그래픽 처리 장치 ([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 클러스터의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 흔들림 분석이다. 학습 코드와 프레임워크 로그만 보면 단순한 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 저하처럼 보이지만, 하드웨어 텔레메트리를 보면 특정 랙만 고대역폭 메모리 ([High Bandwidth Memory](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/), [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/)) 온도가 높아 클럭이 내려가거나, 전원 공급 장치 ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Supply Unit, PSU) 한쪽 여유가 부족해 전력 제한이 걸리는 장면이 드러난다. 이때는 모델 튜닝보다 냉각·전력 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 해법이 된다.
 
-또 다른 사례는 저장장치 플릿 관리다. [[141_latency|지연 시간]] 경보보다 먼저 자기 모니터링 분석 및 보고 기술 (Self-Monitoring, Analysis and Reporting Technology, SMART) 변화와 [[554_ecc_circuit|ECC]] 오류 추세를 보면, 아직 [[090_service_kubernetes_network_load_balancing|서비스]] 장애가 나지 않았어도 몇 주 뒤 교체해야 할 드라이브를 미리 분리할 수 있다. 즉 텔레메트리는 장애 후 분석보다 선제 정비에서 더 큰 가치를 만든다.
+또 다른 사례는 저장장치 플릿 관리다. [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 경보보다 먼저 자기 모니터링 분석 및 보고 기술 (Self-Monitoring, Analysis and Reporting Technology, SMART) 변화와 [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) 오류 추세를 보면, 아직 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애가 나지 않았어도 몇 주 뒤 교체해야 할 드라이브를 미리 분리할 수 있다. 즉 텔레메트리는 장애 후 분석보다 선제 정비에서 더 큰 가치를 만든다.
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. [[090_service_kubernetes_network_load_balancing|서비스]] 수준 목표 ([[123_slo_service_level_objective|Service Level Objective]], [[181_slo_service_level_objective|SLO]])와 직접 연결되는 지표부터 고르는가?
-2. 인밴드와 아웃오브밴드 수집 경로를 분리해 장애 시에도 [[001_dikw_pyramid|데이터]]를 남길 수 있는가?
+1. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 목표 ([Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/), [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/))와 직접 연결되는 지표부터 고르는가?
+2. 인밴드와 아웃오브밴드 수집 경로를 분리해 장애 시에도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 남길 수 있는가?
 3. 랙·노드·장치 세대·워크로드 라벨이 함께 저장되는가?
 4. 고해상도 원본과 장기 보관용 집계본을 분리해 비용을 제어하는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 모든 [[059_counter|카운터]]를 최고 해상도로 영구 보관해 저장 비용과 분석 부하를 폭증시키는 경우
+- 모든 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)를 최고 해상도로 영구 보관해 저장 비용과 분석 부하를 폭증시키는 경우
 - 센서 시간이 맞지 않아 서로 다른 사건을 같은 원인으로 오인하는 경우
-- 관리망과 [[090_service_kubernetes_network_load_balancing|서비스]]망을 뒤섞어 텔레메트리 경로 자체를 불안정하게 만드는 경우
+- 관리망과 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)망을 뒤섞어 텔레메트리 경로 자체를 불안정하게 만드는 경우
 
 - **📢 섹션 요약 비유**: 현장에 카메라는 많이 달았는데 어느 카메라가 어느 건물을 보는지 표지가 없다면 사고가 나도 찾기 어렵다. 텔레메트리도 숫자 수집보다 배치와 맥락 설계가 먼저다.
 
@@ -103,11 +107,11 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-하드웨어 텔레메트리가 잘 갖춰지면 장애 원인 규명 시간은 짧아지고, 불필요한 부품 교체와 추측성 튜닝은 줄어든다. 특히 전력 밀도가 높은 최신 [[001_dikw_pyramid|데이터]]센터에서는 [[282_performance_tactics|성능]] 문제와 물리 문제를 분리해 보는 것 자체가 불가능해지고 있기 때문에, 텔레메트리는 선택이 아니라 기본 관측 계층이 된다.
+하드웨어 텔레메트리가 잘 갖춰지면 장애 원인 규명 시간은 짧아지고, 불필요한 부품 교체와 추측성 튜닝은 줄어든다. 특히 전력 밀도가 높은 최신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터에서는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제와 물리 문제를 분리해 보는 것 자체가 불가능해지고 있기 때문에, 텔레메트리는 선택이 아니라 기본 관측 계층이 된다.
 
-다만 텔레메트리는 많이 모은다고 저절로 가치가 생기지 않는다. 낮은 오버헤드, 표준화된 모델, 시간 [[212_synchronization_mechanisms|동기화]], 보안이 함께 갖춰져야 진짜 설명력이 생긴다. 그래서 이 개념은 "센서를 다는 기술"이 아니라, **숨겨진 물리 상태를 운영 판단으로 번역하는 기술**로 기억하는 것이 맞다.
+다만 텔레메트리는 많이 모은다고 저절로 가치가 생기지 않는다. 낮은 오버헤드, 표준화된 모델, 시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), 보안이 함께 갖춰져야 진짜 설명력이 생긴다. 그래서 이 개념은 "센서를 다는 기술"이 아니라, **숨겨진 물리 상태를 운영 판단으로 번역하는 기술**로 기억하는 것이 맞다.
 
-- **📢 섹션 요약 비유**: 하드웨어 텔레메트리는 컴퓨터 몸속에 붙인 청진기와 같다. 소리가 많이 들리는 것이 중요한 게 아니라, 어떤 소리가 위험 [[130_signal|신호]]인지 정확히 알아듣는 것이 중요하다.
+- **📢 섹션 요약 비유**: 하드웨어 텔레메트리는 컴퓨터 몸속에 붙인 청진기와 같다. 소리가 많이 들리는 것이 중요한 게 아니라, 어떤 소리가 위험 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)인지 정확히 알아듣는 것이 중요하다.
 
 ---
 
@@ -115,11 +119,11 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[609_performance_monitoring|성능 모니터링]] 유닛 (PMU) | CPU 내부 이벤트를 저오버헤드로 드러내는 핵심 센서다 |
-| 베이스보드 관리 컨트롤러 ([[710_bmc|BMC]]) | [[001_operating_system_purpose|운영체제]]가 멈춰도 살아 있는 아웃오브밴드 관측 경로를 제공한다 |
+| [성능 모니터링](/knowledge-base/studynote/02_operating_system/10_security/609_performance_monitoring/) 유닛 (PMU) | CPU 내부 이벤트를 저오버헤드로 드러내는 핵심 센서다 |
+| 베이스보드 관리 컨트롤러 ([BMC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/710_bmc/)) | [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 멈춰도 살아 있는 아웃오브밴드 관측 경로를 제공한다 |
 | 레드피시 (Redfish) | 하드웨어 상태를 표준 인터페이스로 노출하는 관리 계층이다 |
-| 이비피에프 ([[615_ebpf|eBPF]]) | 소프트웨어 실행 맥락과 하드웨어 [[130_signal|신호]]를 연결해 준다 |
-| [[231_ai_turing_test|인공지능]] 기반 운영 ([[099_aiops_chatbot_itsm_automation|AIOps]]) | 대규모 텔레메트리에서 이상 징후를 자동으로 찾아낸다 |
+| 이비피에프 ([eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/)) | 소프트웨어 실행 맥락과 하드웨어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 연결해 준다 |
+| [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 기반 운영 ([AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/)) | 대규모 텔레메트리에서 이상 징후를 자동으로 찾아낸다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -153,7 +157,7 @@ tags:
 
 **진행 상황**: 643 / 803
 
-← **이전**: [[641_data_lake_storage|641. 데이터 레이크 (Data Lake) 스토리지 아키텍처]]
-**다음**: [[643_aiops_hardware|643. AIOps 기반 하드웨어 이상 탐지]] →
+← **이전**: [641. 데이터 레이크 (Data Lake) 스토리지 아키텍처](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/641_data_lake_storage/)
+**다음**: [643. AIOps 기반 하드웨어 이상 탐지](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/643_aiops_hardware/) →
 
 ---

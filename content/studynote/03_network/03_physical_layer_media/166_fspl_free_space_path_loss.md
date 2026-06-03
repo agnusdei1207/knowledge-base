@@ -1,23 +1,27 @@
----
-title: 166. 자유 공간 경로 손실 (FSPL, Free Space Path Loss)
-date: '2026-05-05'
-tags:
-- studynote-network
----
++++
+title = "166. 자유 공간 경로 손실 (FSPL, Free Space Path Loss)"
+date = 2026-05-05
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 자유 공간 경로 손실 (Free Space Path Loss, FSPL)은 장애물이나 반사가 없는 이상적인 공간에서도 전파 에너지가 넓게 퍼지면서 수신 전력이 감소하는 기본 손실 모델이다.
-> 2. **가치**: FSPL은 링크 버짓 (Link Budget)의 출발점으로, 거리·주파수·[[174_antenna_gain_dbi_dbd|안테나 이득]]을 정량적으로 계산해 기지국 배치, 위성 링크, 무선 [[1009_backhaul_network_base_station_core_connection|백홀]] 설계의 최소 성립 조건을 잡게 해 준다.
-> 3. **판단 포인트**: FSPL은 전체 전파 손실이 아니라 "기본 손실"이므로, 실제 설계에서는 가시선 (Line of Sight, LOS), [[165_fresnel_zone_clearance|프레넬 영역]], [[167_fading_large_scale_small_scale|페이딩]], 강우 감쇠, 여유 마진을 반드시 추가로 반영해야 한다.
+> 2. **가치**: FSPL은 링크 버짓 (Link Budget)의 출발점으로, 거리·주파수·[안테나 이득](/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/)을 정량적으로 계산해 기지국 배치, 위성 링크, 무선 [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/) 설계의 최소 성립 조건을 잡게 해 준다.
+> 3. **판단 포인트**: FSPL은 전체 전파 손실이 아니라 "기본 손실"이므로, 실제 설계에서는 가시선 (Line of Sight, LOS), [프레넬 영역](/knowledge-base/studynote/03_network/03_physical_layer_media/165_fresnel_zone_clearance/), [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/), 강우 감쇠, 여유 마진을 반드시 추가로 반영해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-자유 공간 경로 손실 (Free Space Path Loss, FSPL)은 송신 [[171_antenna_basic_dipole_resonance|안테나]]에서 방사된 전력이 장애물 없는 이상적인 공간에서 멀어질수록 넓은 면적으로 퍼지면서 수신점에서 약해지는 현상을 수치로 표현한 것이다. 핵심은 "무언가가 전파를 먹어서"가 아니라, 같은 에너지가 더 넓은 표면에 분산되기 때문에 단위 면적당 전력 밀도가 낮아진다는 점이다.
+자유 공간 경로 손실 (Free Space Path Loss, FSPL)은 송신 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)에서 방사된 전력이 장애물 없는 이상적인 공간에서 멀어질수록 넓은 면적으로 퍼지면서 수신점에서 약해지는 현상을 수치로 표현한 것이다. 핵심은 "무언가가 전파를 먹어서"가 아니라, 같은 에너지가 더 넓은 표면에 분산되기 때문에 단위 면적당 전력 밀도가 낮아진다는 점이다.
 
-이 개념이 중요한 이유는 모든 무선 설계가 먼저 "아무 방해가 없어도 이 정도는 약해진다"는 기준선을 알아야 하기 때문이다. 이 기본선을 모른 채 기지국 간격이나 [[174_antenna_gain_dbi_dbd|안테나 이득]]을 정하면, 실제 장애물과 [[167_fading_large_scale_small_scale|페이딩]]이 더해졌을 때 링크는 쉽게 실패한다. 즉 FSPL은 이상 조건에서의 최소 손실이자, 이후 추가 손실을 쌓아 올리는 출발점이다.
+이 개념이 중요한 이유는 모든 무선 설계가 먼저 "아무 방해가 없어도 이 정도는 약해진다"는 기준선을 알아야 하기 때문이다. 이 기본선을 모른 채 기지국 간격이나 [안테나 이득](/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/)을 정하면, 실제 장애물과 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)이 더해졌을 때 링크는 쉽게 실패한다. 즉 FSPL은 이상 조건에서의 최소 손실이자, 이후 추가 손실을 쌓아 올리는 출발점이다.
 
 이 그림은 전력이 왜 거리와 함께 약해지는지 직관적으로 보여준다.
 
@@ -42,22 +46,22 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-FSPL의 핵심 식은 프리스 전송 방정식 (Friis Transmission Equation)에서 나온다. 자유 공간에서는 수신 전력이 거리의 제곱에 반비례하고, 파장이 짧을수록 같은 조건에서 수신 [[171_antenna_basic_dipole_resonance|안테나]]가 받아들이는 유효 면적이 작아져 손실이 커진다. 이 때문에 같은 [[174_antenna_gain_dbi_dbd|안테나 이득]] 조건이라면 거리뿐 아니라 주파수도 FSPL에 직접 들어간다.
+FSPL의 핵심 식은 프리스 전송 방정식 (Friis Transmission Equation)에서 나온다. 자유 공간에서는 수신 전력이 거리의 제곱에 반비례하고, 파장이 짧을수록 같은 조건에서 수신 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 받아들이는 유효 면적이 작아져 손실이 커진다. 이 때문에 같은 [안테나 이득](/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/) 조건이라면 거리뿐 아니라 주파수도 FSPL에 직접 들어간다.
 
 | 변수 | 의미 | 설계 해석 |
 | :-- | :-- | :-- |
 | `d` | 송신기와 수신기 사이 거리 | 멀어질수록 손실 증가 |
 | `f` | 주파수 (Frequency) | 높을수록 손실 증가 |
 | `λ` | 파장 (Wavelength) | 짧을수록 손실 증가 |
-| `Gt`, `Gr` | 송수신 [[174_antenna_gain_dbi_dbd|안테나 이득]] | 손실 보상 수단 |
-| dB (decibel, dB) | [[568_logs_distributed_logging_elk_fluentd|로그]] 단위 표현 | 버짓 계산 단순화 |
+| `Gt`, `Gr` | 송수신 [안테나 이득](/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/) | 손실 보상 수단 |
+| dB (decibel, dB) | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 단위 표현 | 버짓 계산 단순화 |
 
 대표식은 다음과 같이 쓴다.
 
 - 선형식: `FSPL = (4πd / λ)^2`
-- [[568_logs_distributed_logging_elk_fluentd|로그]]식: `FSPL(dB) = 32.44 + 20log10(d[km]) + 20log10(f[MHz])`
+- [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)식: `FSPL(dB) = 32.44 + 20log10(d[km]) + 20log10(f[MHz])`
 
-이 식에서 자주 쓰는 판단 규칙이 있다. 거리가 2배가 되면 FSPL은 약 `+6 dB` 증가하고, 주파수가 2배가 되어도 역시 약 `+6 dB` 증가한다. 즉 거리와 주파수는 둘 다 [[568_logs_distributed_logging_elk_fluentd|로그]] 스케일에서 매우 민감한 변수다.
+이 식에서 자주 쓰는 판단 규칙이 있다. 거리가 2배가 되면 FSPL은 약 `+6 dB` 증가하고, 주파수가 2배가 되어도 역시 약 `+6 dB` 증가한다. 즉 거리와 주파수는 둘 다 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 스케일에서 매우 민감한 변수다.
 
 이 그림은 FSPL이 링크 버짓 계산으로 이어지는 구조를 보여준다.
 
@@ -78,7 +82,7 @@ FSPL의 핵심 식은 프리스 전송 방정식 (Friis Transmission Equation)�
 └──────────────────────────────────────────────────────────────┘
 ```
 
-여기서 주의할 점은 "주파수가 높아 손실이 커진다"는 말을 자유 공간 자체의 추가 흡수로 오해하면 안 된다는 것이다. FSPL의 주파수 항은 주로 파장과 [[171_antenna_basic_dipole_resonance|안테나]] 유효 개구면적 [[083_relationship_in_er_model|관계]]에서 나오며, 비·산소·수증기 흡수 같은 대기 손실은 별도 항으로 계산해야 한다. 이 구분이 [[418_5g_embb_urllc_mmtc_slicing|5G]] 밀리미터파나 위성 링크 설계에서 특히 중요하다.
+여기서 주의할 점은 "주파수가 높아 손실이 커진다"는 말을 자유 공간 자체의 추가 흡수로 오해하면 안 된다는 것이다. FSPL의 주파수 항은 주로 파장과 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 유효 개구면적 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)에서 나오며, 비·산소·수증기 흡수 같은 대기 손실은 별도 항으로 계산해야 한다. 이 구분이 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 밀리미터파나 위성 링크 설계에서 특히 중요하다.
 
 - **📢 섹션 요약 비유**: FSPL 계산은 여행 경비를 짤 때 기본 교통비를 먼저 넣는 것과 같다. 아직 식비나 숙박비는 안 넣었지만, 최소 얼마는 꼭 든다는 기준선을 잡아 주는 셈이다.
 
@@ -86,42 +90,42 @@ FSPL의 핵심 식은 프리스 전송 방정식 (Friis Transmission Equation)�
 
 ## Ⅲ. 비교 및 연결
 
-FSPL은 전파 손실 전체를 설명하지 않는다. 실제 무선 구간에서는 대규모 [[167_fading_large_scale_small_scale|페이딩]] (Large-scale [[167_fading_large_scale_small_scale|Fading]]), 소규모 [[167_fading_large_scale_small_scale|페이딩]] (Small-scale [[167_fading_large_scale_small_scale|Fading]]), 그림자 손실 (Shadowing), [[165_fresnel_zone_clearance|프레넬 영역]] 침범, 강우 감쇠가 추가로 붙는다. 따라서 FSPL은 "기본 손실 모델"이고, 나머지는 환경·지형·기상 조건에 따른 추가 손실 모델이라고 구분해야 한다.
+FSPL은 전파 손실 전체를 설명하지 않는다. 실제 무선 구간에서는 대규모 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) (Large-scale [Fading](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)), 소규모 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) (Small-scale [Fading](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)), 그림자 손실 (Shadowing), [프레넬 영역](/knowledge-base/studynote/03_network/03_physical_layer_media/165_fresnel_zone_clearance/) 침범, 강우 감쇠가 추가로 붙는다. 따라서 FSPL은 "기본 손실 모델"이고, 나머지는 환경·지형·기상 조건에 따른 추가 손실 모델이라고 구분해야 한다.
 
-| 항목 | FSPL | [[167_fading_large_scale_small_scale|페이딩]] / 그림자 손실 | [[165_fresnel_zone_clearance|프레넬 영역]] 문제 |
+| 항목 | FSPL | [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) / 그림자 손실 | [프레넬 영역](/knowledge-base/studynote/03_network/03_physical_layer_media/165_fresnel_zone_clearance/) 문제 |
 | :-- | :-- | :-- | :-- |
-| 원인 | 구면 확산, 파장 [[083_relationship_in_er_model|관계]] | 반사·[[164_scattering_reflection_radio_waves|산란]]·지형 차폐 | 경로 주변 공간 침범 |
+| 원인 | 구면 확산, 파장 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 반사·[산란](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/)·지형 차폐 | 경로 주변 공간 침범 |
 | 발생 조건 | 장애물 없는 이상 공간 | 실제 무선 환경 전반 | LOS가 있어도 발생 가능 |
 | 계산 성격 | 기본식으로 예측 가능 | 통계적 모델 필요 | 기하 계산 필요 |
-| 설계 대응 | 거리·주파수·[[174_antenna_gain_dbi_dbd|안테나 이득]] 조정 | 페이드 마진 확보 | [[171_antenna_basic_dipole_resonance|안테나]] 높이/경로 재설계 |
+| 설계 대응 | 거리·주파수·[안테나 이득](/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/) 조정 | 페이드 마진 확보 | [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 높이/경로 재설계 |
 
-주파수 대역 비교도 중요하다. 저주파는 같은 거리에서 FSPL이 작아 넓은 커버리지를 얻기 쉽지만, 대역폭이 제한적일 수 있다. 반대로 고주파는 더 넓은 대역폭을 제공하지만 FSPL과 환경 손실이 커져 셀 반경이 짧아지고, [[101_beamforming|빔포밍]] ([[101_beamforming|Beamforming]])과 고이득 [[171_antenna_basic_dipole_resonance|안테나]] 의존도가 커진다. 그래서 700MHz 대역은 광역 커버리지에, 28GHz 대역은 [[148_5g_embb_urllc_mmtc|초고속]] 핫스폿에 적합한 식으로 용도가 갈린다.
+주파수 대역 비교도 중요하다. 저주파는 같은 거리에서 FSPL이 작아 넓은 커버리지를 얻기 쉽지만, 대역폭이 제한적일 수 있다. 반대로 고주파는 더 넓은 대역폭을 제공하지만 FSPL과 환경 손실이 커져 셀 반경이 짧아지고, [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) ([Beamforming](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/))과 고이득 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 의존도가 커진다. 그래서 700MHz 대역은 광역 커버리지에, 28GHz 대역은 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 핫스폿에 적합한 식으로 용도가 갈린다.
 
-네트워크 과목 전체로 보면 FSPL은 LOS, [[165_fresnel_zone_clearance|프레넬 영역]], [[167_fading_large_scale_small_scale|페이딩]], 셀 계획, 위성 통신과 연결된다. 즉 FSPL은 전파 전달의 "기본선"이고, 나머지 개념은 그 기본선 위에 실제 세상을 덧그리는 도구다.
+네트워크 과목 전체로 보면 FSPL은 LOS, [프레넬 영역](/knowledge-base/studynote/03_network/03_physical_layer_media/165_fresnel_zone_clearance/), [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/), 셀 계획, 위성 통신과 연결된다. 즉 FSPL은 전파 전달의 "기본선"이고, 나머지 개념은 그 기본선 위에 실제 세상을 덧그리는 도구다.
 
-- **📢 섹션 요약 비유**: FSPL이 맑은 날 평지에서 달릴 때의 기본 연비라면, [[167_fading_large_scale_small_scale|페이딩]]과 차폐는 비·언덕·교통 체증 같은 추가 변수다. 자동차 성능은 기본 연비만 보고 판단할 수 없다.
+- **📢 섹션 요약 비유**: FSPL이 맑은 날 평지에서 달릴 때의 기본 연비라면, [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)과 차폐는 비·언덕·교통 체증 같은 추가 변수다. 자동차 성능은 기본 연비만 보고 판단할 수 없다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 FSPL을 링크 버짓의 첫 줄로 넣고, 그 위에 실제 손실과 여유 마진을 쌓는다. 예를 들어 3.5GHz 기지국을 설계할 때 셀 반경을 두 배로 늘리면 FSPL이 약 6dB 증가하므로, 같은 품질을 유지하려면 송신 전력을 올리거나 [[174_antenna_gain_dbi_dbd|안테나 이득]]을 높이거나 셀 밀도를 다시 조정해야 한다. 위성 통신에서는 거리가 워낙 길어 FSPL이 매우 커지므로, 고이득 접시 [[171_antenna_basic_dipole_resonance|안테나]]와 정밀 정렬이 필수다.
+실무에서는 FSPL을 링크 버짓의 첫 줄로 넣고, 그 위에 실제 손실과 여유 마진을 쌓는다. 예를 들어 3.5GHz 기지국을 설계할 때 셀 반경을 두 배로 늘리면 FSPL이 약 6dB 증가하므로, 같은 품질을 유지하려면 송신 전력을 올리거나 [안테나 이득](/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/)을 높이거나 셀 밀도를 다시 조정해야 한다. 위성 통신에서는 거리가 워낙 길어 FSPL이 매우 커지므로, 고이득 접시 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)와 정밀 정렬이 필수다.
 
 고주파 설계에서는 FSPL과 환경 손실을 분리해 보는 것이 특히 중요하다. 예를 들어 28GHz 링크가 짧은 이유를 전부 FSPL 탓으로만 돌리면, 실제로는 강우 감쇠나 빔 정렬 오차가 더 큰 병목일 수 있다. 반대로 실내 와이파이에서 감쇠를 벽 때문이라고만 생각하면, 기본적으로 5GHz가 2.4GHz보다 불리한 FSPL 조건이라는 사실을 놓치게 된다. 실무자는 항상 "기본 손실 + 환경 손실 + 마진" 순서로 판단해야 한다.
 
-### 판단 [[435_checklist_based_testing|체크리스트]]
+### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. FSPL 계산에 거리와 주파수 단위를 일관되게 넣었는가?
-2. 송수신 [[174_antenna_gain_dbi_dbd|안테나 이득]]과 케이블 손실을 링크 버짓에 함께 반영했는가?
-3. LOS와 [[165_fresnel_zone_clearance|프레넬 영역]] 확보 여부를 별도로 검토했는가?
+2. 송수신 [안테나 이득](/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/)과 케이블 손실을 링크 버짓에 함께 반영했는가?
+3. LOS와 [프레넬 영역](/knowledge-base/studynote/03_network/03_physical_layer_media/165_fresnel_zone_clearance/) 확보 여부를 별도로 검토했는가?
 4. 페이드 마진 (Fade Margin)과 기상 손실을 추가했는가?
 5. 규제상 허용되는 EIRP 한도를 넘지 않는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - FSPL만 계산하고 실제 환경 손실을 무시한 채 커버리지를 선언하는 설계
 - 주파수 항의 의미를 대기 흡수와 혼동해 잘못된 원인 분석을 하는 설명
-- [[174_antenna_gain_dbi_dbd|안테나 이득]]을 빼먹고 송신 전력만으로 링크 성립 여부를 판단하는 계산
+- [안테나 이득](/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/)을 빼먹고 송신 전력만으로 링크 성립 여부를 판단하는 계산
 
 - **📢 섹션 요약 비유**: FSPL만 보고 설계하는 것은 지도에서 직선거리만 보고 등산 시간을 정하는 것과 같다. 실제로는 경사, 바람, 짐 무게까지 함께 봐야 도착 시간을 맞출 수 있다.
 
@@ -129,7 +133,7 @@ FSPL은 전파 손실 전체를 설명하지 않는다. 실제 무선 구간에�
 
 ## Ⅴ. 기대효과 및 결론
 
-FSPL을 정확히 이해하면 무선 설계자는 막연한 감이 아니라 수치 기반으로 커버리지와 링크 성립 가능성을 판단할 수 있다. 이는 기지국 간격, 주파수 선택, [[174_antenna_gain_dbi_dbd|안테나 이득]], 위성 링크 예산, [[1009_backhaul_network_base_station_core_connection|백홀]] 설계의 출발점을 안정적으로 잡아 준다. 특히 여러 대역을 비교할 때 "왜 저주파는 멀리 가고, 고주파는 짧지만 빠른가"를 논리적으로 설명할 수 있게 된다.
+FSPL을 정확히 이해하면 무선 설계자는 막연한 감이 아니라 수치 기반으로 커버리지와 링크 성립 가능성을 판단할 수 있다. 이는 기지국 간격, 주파수 선택, [안테나 이득](/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/), 위성 링크 예산, [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/) 설계의 출발점을 안정적으로 잡아 준다. 특히 여러 대역을 비교할 때 "왜 저주파는 멀리 가고, 고주파는 짧지만 빠른가"를 논리적으로 설명할 수 있게 된다.
 
 다만 FSPL은 현실 세계를 단독으로 설명하지 못한다. 자유 공간은 기준 모델일 뿐이며, 실제 설계는 차폐·반사·강우·다중경로·장비 손실까지 함께 포함해야 한다. 따라서 FSPL은 "무선 손실의 정답"이 아니라, 모든 링크 버짓이 처음 출발하는 기준선으로 기억하는 것이 가장 정확하다.
 
@@ -143,10 +147,10 @@ FSPL을 정확히 이해하면 무선 설계자는 막연한 감이 아니라 �
 | :-- | :-- |
 | 프리스 전송 방정식 (Friis Transmission Equation) | FSPL의 수학적 출발점 |
 | 링크 버짓 (Link Budget) | FSPL을 첫 손실 항으로 반영하는 전체 설계 프레임 |
-| EIRP (Equivalent Isotropically Radiated [[069_type_1_2_error_statistical_power|Power]]) | 송신 전력과 [[174_antenna_gain_dbi_dbd|안테나 이득]]을 합쳐 비교하는 기준 |
-| [[165_fresnel_zone_clearance|프레넬 영역]] ([[165_fresnel_zone_clearance|Fresnel Zone]]) | LOS 외에도 경로 주변 공간 확보가 필요함을 보완 |
+| EIRP (Equivalent Isotropically Radiated [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/)) | 송신 전력과 [안테나 이득](/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/)을 합쳐 비교하는 기준 |
+| [프레넬 영역](/knowledge-base/studynote/03_network/03_physical_layer_media/165_fresnel_zone_clearance/) ([Fresnel Zone](/knowledge-base/studynote/03_network/03_physical_layer_media/165_fresnel_zone_clearance/)) | LOS 외에도 경로 주변 공간 확보가 필요함을 보완 |
 | 페이드 마진 (Fade Margin) | FSPL 이후 실제 환경 변동을 흡수하는 여유 |
-| [[101_beamforming|빔포밍]] ([[101_beamforming|Beamforming]]) | 고주파 FSPL 증가를 고이득 지향성으로 보완 |
+| [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) ([Beamforming](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/)) | 고주파 FSPL 증가를 고이득 지향성으로 보완 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -173,7 +177,7 @@ FSPL (기본 자유 공간 손실)
 
 1. 전파는 한 줄로 가는 것이 아니라 둥글게 퍼져 나가요.
 2. 그래서 멀리 갈수록 같은 힘이 넓게 퍼져 약해져요.
-3. 컴퓨터와 통신 장비는 이 약해지는 정도를 먼저 계산해서 [[171_antenna_basic_dipole_resonance|안테나]]와 거리를 정한답니다.
+3. 컴퓨터와 통신 장비는 이 약해지는 정도를 먼저 계산해서 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)와 거리를 정한답니다.
 
 ---
 
@@ -181,7 +185,7 @@ FSPL (기본 자유 공간 손실)
 
 **진행 상황**: 287 / 1120
 
-← **이전**: [[165_fresnel_zone_clearance|165. 프레넬 영역 (Fresnel Zone)]]
-**다음**: [[167_fading_large_scale_small_scale|167. 페이딩 (Fading) - 대규모(Large-scale) 페이딩 vs 소규모(Small-scale) 페이딩]] →
+← **이전**: [165. 프레넬 영역 (Fresnel Zone)](/knowledge-base/studynote/03_network/03_physical_layer_media/165_fresnel_zone_clearance/)
+**다음**: [167. 페이딩 (Fading) - 대규모(Large-scale) 페이딩 vs 소규모(Small-scale) 페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) →
 
 ---

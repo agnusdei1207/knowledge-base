@@ -1,35 +1,39 @@
----
-title: 162. 함수 기반 인덱스 (FBI, Function Based Index) - 산술식이나 함수가 적용된 결과 기준 인덱싱
-date: '2026-05-05'
-tags:
-- studynote-database
----
++++
+title = "162. 함수 기반 인덱스 (FBI, Function Based Index) - 산술식이나 함수가 적용된 결과 기준 인덱싱"
+date = 2026-05-05
+
+[taxonomies]
+tags = ["studynote-database"]
+
+[extra]
+tags = ["studynote-database"]
++++
 
 ## 핵심 인사이트
 
-> 1. **본질**: 함수 기반 [[154_database_index_b_tree_search_optimization|인덱스]] (FBI, Function Based [[154_database_index_b_tree_search_optimization|Index]])는 원본 컬럼 값이 아니라 **함수나 수식으로 계산된 결과 자체를 [[154_database_index_b_tree_search_optimization|인덱스]] 키로 저장**하는 [[154_database_index_b_tree_search_optimization|인덱스]]다.
-> 2. **가치**: `UPPER(email)`이나 `TRUNC(order_date)`처럼 조건절에 함수가 걸려 일반 [[154_database_index_b_tree_search_optimization|인덱스]]가 잘 타지 않는 [[298_qkv_attention|쿼리]]를, **[[298_qkv_attention|쿼리]] 재작성 없이도 [[154_database_index_b_tree_search_optimization|인덱스]] 접근 경로로 [[658_ir_recovery|복구]]**할 수 있다.
-> 3. **판단 포인트**: FBI는 읽기 [[282_performance_tactics|성능]]에는 강력하지만, 함수 계산과 [[154_database_index_b_tree_search_optimization|인덱스]] 유지 비용이 [[289_cqrs_db|쓰기]] 부하를 늘리므로 **결정적 함수·높은 조회 빈도·적절한 [[170_selectivity_cardinality_distribution_tuning|선택도]]**가 확보될 때 채택해야 한다.
+> 1. **본질**: 함수 기반 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) (FBI, Function Based [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))는 원본 컬럼 값이 아니라 **함수나 수식으로 계산된 결과 자체를 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 키로 저장**하는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)다.
+> 2. **가치**: `UPPER(email)`이나 `TRUNC(order_date)`처럼 조건절에 함수가 걸려 일반 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 잘 타지 않는 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를, **[쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 재작성 없이도 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 접근 경로로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)**할 수 있다.
+> 3. **판단 포인트**: FBI는 읽기 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에는 강력하지만, 함수 계산과 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 유지 비용이 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 부하를 늘리므로 **결정적 함수·높은 조회 빈도·적절한 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/)**가 확보될 때 채택해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-함수 기반 [[154_database_index_b_tree_search_optimization|인덱스]]는 `WHERE` 절이나 조인 조건에 사용되는 함수식의 결과를 미리 계산해 두는 [[154_database_index_b_tree_search_optimization|인덱스]] 기법이다. 일반 [[064_b_tree|B-Tree]] [[154_database_index_b_tree_search_optimization|인덱스]]는 원본 컬럼 순서에 맞춰 키를 저장하므로, 컬럼에 함수가 적용되면 [[163_optimizer_sql_execution_plan_generator|옵티마이저]]가 기존 [[154_database_index_b_tree_search_optimization|인덱스]]를 활용하기 어려워진다. 예를 들어 `UPPER(name) = 'KIM'`은 `name` [[154_database_index_b_tree_search_optimization|인덱스]]와 비교 기준이 달라, 적은 건수를 찾는 [[298_qkv_attention|쿼리]]라도 전체 스캔으로 무너질 수 있다.
+함수 기반 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 `WHERE` 절이나 조인 조건에 사용되는 함수식의 결과를 미리 계산해 두는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 기법이다. 일반 [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 원본 컬럼 순서에 맞춰 키를 저장하므로, 컬럼에 함수가 적용되면 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 기존 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 활용하기 어려워진다. 예를 들어 `UPPER(name) = 'KIM'`은 `name` [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)와 비교 기준이 달라, 적은 건수를 찾는 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)라도 전체 스캔으로 무너질 수 있다.
 
-이 기법이 필요한 이유는 실무 SQL이 항상 이상적으로 작성되지 않기 때문이다. 대소문자 무시 검색, 날짜 절삭, `NVL` 처리, [[172_maas_mobility_as_a_service|마스]]킹된 코드 비교처럼 함수가 자연스럽게 등장하는 업무가 많다. 특히 패키지 솔루션이나 레거시 시스템처럼 애플리케이션 SQL을 쉽게 바꾸기 어려운 환경에서는, [[002_database_definition|데이터베이스]] 계층에서 접근 경로를 보정할 수단이 필요하다.
+이 기법이 필요한 이유는 실무 SQL이 항상 이상적으로 작성되지 않기 때문이다. 대소문자 무시 검색, 날짜 절삭, `NVL` 처리, [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹된 코드 비교처럼 함수가 자연스럽게 등장하는 업무가 많다. 특히 패키지 솔루션이나 레거시 시스템처럼 애플리케이션 SQL을 쉽게 바꾸기 어려운 환경에서는, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 계층에서 접근 경로를 보정할 수단이 필요하다.
 
-즉 FBI는 "함수를 쓰지 말라"는 원칙이 지켜지지 않을 때의 응급처치이면서, 동시에 특정 조회 패턴을 구조적으로 최적화하는 설계 수단이다. 다만 근본 해결이 가능한 경우라면 먼저 [[298_qkv_attention|쿼리]] 재작성 가능성을 검토하는 것이 일반적으로 더 바람직하다.
+즉 FBI는 "함수를 쓰지 말라"는 원칙이 지켜지지 않을 때의 응급처치이면서, 동시에 특정 조회 패턴을 구조적으로 최적화하는 설계 수단이다. 다만 근본 해결이 가능한 경우라면 먼저 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 재작성 가능성을 검토하는 것이 일반적으로 더 바람직하다.
 
-- **📢 섹션 요약 비유**: 일반 [[154_database_index_b_tree_search_optimization|인덱스]]가 책 제목 순서로 꽂힌 도서관이라면, FBI는 "저자 성만 대문자로 바꾼 목록"처럼 자주 찾는 방식대로 별도 색인을 하나 더 만들어 두는 것과 같다.
+- **📢 섹션 요약 비유**: 일반 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 책 제목 순서로 꽂힌 도서관이라면, FBI는 "저자 성만 대문자로 바꾼 목록"처럼 자주 찾는 방식대로 별도 색인을 하나 더 만들어 두는 것과 같다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-FBI의 핵심은 **[[298_qkv_attention|쿼리]]의 비교식과 [[154_database_index_b_tree_search_optimization|인덱스]] 키의 형태를 맞추는 것**이다. [[002_database_definition|데이터베이스]]는 [[154_database_index_b_tree_search_optimization|인덱스]]를 만들 때 지정된 함수식을 각 행에 적용해 결과를 저장하고, 이후 같은 식이 조건절에 등장하면 그 결과 키를 이용해 탐색한다. 이때 함수는 보통 같은 입력에 같은 출력을 내는 결정적 함수여야 하며, 통계 정보가 함께 관리되어야 [[163_optimizer_sql_execution_plan_generator|옵티마이저]]가 올바른 비용 판단을 할 수 있다.
+FBI의 핵심은 **[쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)의 비교식과 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 키의 형태를 맞추는 것**이다. [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 만들 때 지정된 함수식을 각 행에 적용해 결과를 저장하고, 이후 같은 식이 조건절에 등장하면 그 결과 키를 이용해 탐색한다. 이때 함수는 보통 같은 입력에 같은 출력을 내는 결정적 함수여야 하며, 통계 정보가 함께 관리되어야 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 올바른 비용 판단을 할 수 있다.
 
-아래 그림은 왜 원본 [[154_database_index_b_tree_search_optimization|인덱스]]가 무력화되고, FBI가 이를 어떻게 [[658_ir_recovery|복구]]하는지 보여준다.
+아래 그림은 왜 원본 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 무력화되고, FBI가 이를 어떻게 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하는지 보여준다.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────┐
@@ -45,16 +49,16 @@ FBI의 핵심은 **[[298_qkv_attention|쿼리]]의 비교식과 [[154_database_i
 └────────────────────────────────────────────────────────────────────┘
 ```
 
-이 그림의 핵심은 FBI가 새로운 [[001_algorithm_definition|알고리즘]]을 만드는 것이 아니라, **비교 기준을 미리 맞춘 보조 [[154_database_index_b_tree_search_optimization|인덱스]]**라는 점이다. 그래서 원본 컬럼 [[154_database_index_b_tree_search_optimization|인덱스]]를 완전히 대체하기보다, 특정 표현식에 대한 추가 경로로 이해해야 한다.
+이 그림의 핵심은 FBI가 새로운 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 만드는 것이 아니라, **비교 기준을 미리 맞춘 보조 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)**라는 점이다. 그래서 원본 컬럼 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 완전히 대체하기보다, 특정 표현식에 대한 추가 경로로 이해해야 한다.
 
 | 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
-| 함수식 | [[154_database_index_b_tree_search_optimization|인덱스]] 키를 만드는 기준 | `UPPER`, `TRUNC`, 산술식 등 조회 패턴과 일치해야 함 |
-| [[154_database_index_b_tree_search_optimization|인덱스]] 엔트리 | 계산 결과와 행 위치 저장 | 결과 분포가 너무 치우치면 효과 제한 |
-| [[163_optimizer_sql_execution_plan_generator|옵티마이저]] | [[166_execution_plan_optimizer_navigation_tree|실행 계획]] 선택 | 통계 정보와 [[170_selectivity_cardinality_distribution_tuning|선택도]] 추정 [[002_bigdata_5v|정확성]]이 중요 |
-| [[083_dml|DML]] 유지 비용 | `INSERT/UPDATE/DELETE` 시 [[154_database_index_b_tree_search_optimization|인덱스]] 갱신 | 함수 계산 비용과 [[154_database_index_b_tree_search_optimization|인덱스]] [[289_cqrs_db|쓰기]] 오버헤드 발생 |
+| 함수식 | [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 키를 만드는 기준 | `UPPER`, `TRUNC`, 산술식 등 조회 패턴과 일치해야 함 |
+| [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 엔트리 | 계산 결과와 행 위치 저장 | 결과 분포가 너무 치우치면 효과 제한 |
+| [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) | [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 선택 | 통계 정보와 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 추정 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)이 중요 |
+| [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/) 유지 비용 | `INSERT/UPDATE/DELETE` 시 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 갱신 | 함수 계산 비용과 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 오버헤드 발생 |
 
-또한 FBI는 [[170_selectivity_cardinality_distribution_tuning|선택도]] ([[170_selectivity_cardinality_distribution_tuning|Selectivity]])와 카디널리티 (Cardinality) 해석이 중요하다. 함수 결과가 `Y/N`처럼 값 종류가 매우 적다면 [[154_database_index_b_tree_search_optimization|인덱스]]가 있어도 대량 랜덤 접근 때문에 기대 [[282_performance_tactics|성능]]이 작을 수 있다. 반대로 이메일 [[093_normalization|정규화]], 날짜 버킷, 복합 산술식처럼 결과 분포가 비교적 잘 퍼지고 조회 비중이 높다면 효과가 크다.
+또한 FBI는 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) ([Selectivity](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/))와 카디널리티 (Cardinality) 해석이 중요하다. 함수 결과가 `Y/N`처럼 값 종류가 매우 적다면 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 있어도 대량 랜덤 접근 때문에 기대 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 작을 수 있다. 반대로 이메일 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), 날짜 버킷, 복합 산술식처럼 결과 분포가 비교적 잘 퍼지고 조회 비중이 높다면 효과가 크다.
 
 - **📢 섹션 요약 비유**: FBI는 학생 원본 명단을 버리는 게 아니라, "생일 월별", "성씨 대문자 기준" 같은 자주 쓰는 검색 방식대로 보조 명부를 따로 만들어 두는 일과 같다.
 
@@ -62,41 +66,41 @@ FBI의 핵심은 **[[298_qkv_attention|쿼리]]의 비교식과 [[154_database_i
 
 ## Ⅲ. 비교 및 연결
 
-FBI를 이해하려면 일반 [[154_database_index_b_tree_search_optimization|인덱스]], 가상 컬럼 [[154_database_index_b_tree_search_optimization|인덱스]], [[298_qkv_attention|쿼리]] 재작성과의 경계를 함께 봐야 한다. 가장 좋은 경우는 함수가 없는 형태로 SQL을 바꾸는 것이다. 예를 들어 `TRUNC(order_date) = DATE '2026-05-05'` 대신 `order_date >= DATE '2026-05-05' AND order_date < DATE '2026-05-06'`처럼 바꾸면 원본 [[154_database_index_b_tree_search_optimization|인덱스]]를 그대로 활용할 수 있다.
+FBI를 이해하려면 일반 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), 가상 컬럼 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 재작성과의 경계를 함께 봐야 한다. 가장 좋은 경우는 함수가 없는 형태로 SQL을 바꾸는 것이다. 예를 들어 `TRUNC(order_date) = DATE '2026-05-05'` 대신 `order_date >= DATE '2026-05-05' AND order_date < DATE '2026-05-06'`처럼 바꾸면 원본 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 그대로 활용할 수 있다.
 
-하지만 SQL 수정이 어렵거나 표현식 자체가 비즈니스 규칙이라면 FBI가 현실적인 대안이 된다. 일부 시스템에서는 같은 효과를 가상 컬럼 (Virtual/Generated Column) + 일반 [[154_database_index_b_tree_search_optimization|인덱스]]로 구현하기도 한다. 이 방식은 식을 명시적 컬럼으로 드러내 관리성을 높일 수 있지만, [[005_schema|스키마]] 노출이 늘어난다는 차이가 있다.
+하지만 SQL 수정이 어렵거나 표현식 자체가 비즈니스 규칙이라면 FBI가 현실적인 대안이 된다. 일부 시스템에서는 같은 효과를 가상 컬럼 (Virtual/Generated Column) + 일반 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)로 구현하기도 한다. 이 방식은 식을 명시적 컬럼으로 드러내 관리성을 높일 수 있지만, [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 노출이 늘어난다는 차이가 있다.
 
-| 비교 항목 | 일반 [[154_database_index_b_tree_search_optimization|인덱스]] | 함수 기반 [[154_database_index_b_tree_search_optimization|인덱스]] | 가상 컬럼 + [[154_database_index_b_tree_search_optimization|인덱스]] |
+| 비교 항목 | 일반 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) | 함수 기반 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) | 가상 컬럼 + [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) |
 | :--- | :--- | :--- | :--- |
 | 기준 값 | 원본 컬럼 | 함수/수식 결과 | 계산 컬럼 결과 |
-| 장점 | 단순, 유지 비용 상대적으로 낮음 | 함수 조건 [[298_qkv_attention|쿼리]] 직접 최적화 | 표현식을 [[005_schema|스키마]]로 드러내 관리 가능 |
-| 약점 | 함수가 걸리면 활용 제한 | [[083_dml|DML]] 비용 증가, 함수 제약 존재 | [[005_schema|스키마]] 복잡도 증가 |
-| 우선순위 | 가장 기본 선택 | [[298_qkv_attention|쿼리]] 재작성 어려울 때 유용 | 모델링 차원에서 명시화할 때 적합 |
+| 장점 | 단순, 유지 비용 상대적으로 낮음 | 함수 조건 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 직접 최적화 | 표현식을 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)로 드러내 관리 가능 |
+| 약점 | 함수가 걸리면 활용 제한 | [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/) 비용 증가, 함수 제약 존재 | [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 복잡도 증가 |
+| 우선순위 | 가장 기본 선택 | [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 재작성 어려울 때 유용 | 모델링 차원에서 명시화할 때 적합 |
 
-또한 FBI는 [[163_optimizer_sql_execution_plan_generator|옵티마이저]], 통계 정보, [[170_selectivity_cardinality_distribution_tuning|선택도]], [[161_composite_index_leading_column|결합 인덱스]]와도 연결된다. 함수식이 포함된 조건이 조인이나 정렬과 함께 사용될 경우, FBI 하나만으로 충분하지 않을 수 있다. 결국 핵심은 "[[154_database_index_b_tree_search_optimization|인덱스]]가 있느냐"가 아니라, **실제 [[166_execution_plan_optimizer_navigation_tree|실행 계획]]에서 해당 식을 비용 효율적으로 사용할 수 있느냐**다.
+또한 FBI는 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/), 통계 정보, [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/), [결합 인덱스](/knowledge-base/studynote/05_database/03_relational_model/161_composite_index_leading_column/)와도 연결된다. 함수식이 포함된 조건이 조인이나 정렬과 함께 사용될 경우, FBI 하나만으로 충분하지 않을 수 있다. 결국 핵심은 "[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 있느냐"가 아니라, **실제 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)에서 해당 식을 비용 효율적으로 사용할 수 있느냐**다.
 
-- **📢 섹션 요약 비유**: 일반 [[154_database_index_b_tree_search_optimization|인덱스]]가 기본 사전이라면, FBI는 시험에 자주 나오는 형태만 따로 묶은 요약집이고, 가상 컬럼 [[154_database_index_b_tree_search_optimization|인덱스]]는 그 요약집을 아예 교과서 목차에 정식 편입한 [[288_version_ihl_tos_total_length|버전]]에 가깝다.
+- **📢 섹션 요약 비유**: 일반 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 기본 사전이라면, FBI는 시험에 자주 나오는 형태만 따로 묶은 요약집이고, 가상 컬럼 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 그 요약집을 아예 교과서 목차에 정식 편입한 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)에 가깝다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 FBI는 "[[282_performance_tactics|성능]]이 안 나온다"는 이유만으로 바로 만들기보다, 왜 기존 [[154_database_index_b_tree_search_optimization|인덱스]]가 안 타는지를 먼저 진단한 뒤 선택해야 한다. SQL을 고칠 수 있으면 먼저 고치고, 어려울 때 FBI를 검토하는 순서가 안전하다. 특히 고빈도 거래 테이블에서는 조회 한 건을 빠르게 만드는 대신, 모든 [[289_cqrs_db|쓰기]] 작업에 계산 비용을 얹게 된다는 점을 반드시 감안해야 한다.
+실무에서 FBI는 "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 안 나온다"는 이유만으로 바로 만들기보다, 왜 기존 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 안 타는지를 먼저 진단한 뒤 선택해야 한다. SQL을 고칠 수 있으면 먼저 고치고, 어려울 때 FBI를 검토하는 순서가 안전하다. 특히 고빈도 거래 테이블에서는 조회 한 건을 빠르게 만드는 대신, 모든 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 작업에 계산 비용을 얹게 된다는 점을 반드시 감안해야 한다.
 
 ### 채택이 유리한 경우
 
 1. 대소문자 무시 검색, 날짜 절삭, `NVL` 치환처럼 반복되는 함수 패턴이 명확한 경우
 2. 레거시 패키지나 외부 솔루션처럼 SQL 재작성 난도가 높은 경우
-3. 조회 비중이 높고, 함수 결과의 [[170_selectivity_cardinality_distribution_tuning|선택도]]가 너무 낮지 않은 경우
+3. 조회 비중이 높고, 함수 결과의 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/)가 너무 낮지 않은 경우
 
 ### 회피하거나 신중해야 하는 경우
 
-- 초당 대량 `INSERT/UPDATE`가 발생하는 [[289_cqrs_db|쓰기]] 중심 테이블
+- 초당 대량 `INSERT/UPDATE`가 발생하는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 중심 테이블
 - `SYSDATE` 같은 비결정적 함수나 결과 변동성이 큰 식
-- 값 종류가 너무 적어 [[154_database_index_b_tree_search_optimization|인덱스]] 효율이 낮은 조건
-- [[298_qkv_attention|쿼리]] 한두 개만을 위해 과도하게 많은 FBI를 중복 [[087_process_state_transition|생성]]하는 설계
+- 값 종류가 너무 적어 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 효율이 낮은 조건
+- [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 한두 개만을 위해 과도하게 많은 FBI를 중복 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 설계
 
-기술사 답안에서는 "함수 기반 [[154_database_index_b_tree_search_optimization|인덱스]]는 레거시 SQL 튜닝의 유용한 수단이지만, [[298_qkv_attention|쿼리]] 재작성·[[170_selectivity_cardinality_distribution_tuning|선택도]]·[[083_dml|DML]] 비용을 함께 판단해야 한다"는 식으로 균형 있게 정리하는 것이 좋다. 즉 FBI는 만능이 아니라, **읽기 최적화와 [[289_cqrs_db|쓰기]] 부담을 교환하는 선택**이다.
+기술사 답안에서는 "함수 기반 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 레거시 SQL 튜닝의 유용한 수단이지만, [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 재작성·[선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/)·[DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/) 비용을 함께 판단해야 한다"는 식으로 균형 있게 정리하는 것이 좋다. 즉 FBI는 만능이 아니라, **읽기 최적화와 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 부담을 교환하는 선택**이다.
 
 - **📢 섹션 요약 비유**: FBI는 막히는 길마다 새 고가도로를 까는 일과 비슷하다. 특정 구간은 빨라지지만, 만들고 유지하는 비용이 크므로 정말 자주 막히는 길에만 써야 한다.
 
@@ -104,11 +108,11 @@ FBI를 이해하려면 일반 [[154_database_index_b_tree_search_optimization|�
 
 ## Ⅴ. 기대효과 및 결론
 
-적절한 FBI는 함수 조건 때문에 무너진 [[166_execution_plan_optimizer_navigation_tree|실행 계획]]을 [[658_ir_recovery|복구]]하고, [[138_response_time|응답 시간]]을 크게 줄이며, 레거시 애플리케이션 변경 없이도 [[282_performance_tactics|성능]] 문제를 완화할 수 있다. 특히 운영 중인 대형 시스템에서 SQL 수정 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]가 큰 경우, FBI는 현실적인 [[282_performance_tactics|성능]] 개선 수단이 된다. 이는 단순한 [[154_database_index_b_tree_search_optimization|인덱스]] 추가가 아니라, 자주 쓰는 표현식을 [[001_dikw_pyramid|데이터]] 구조 차원에서 승격하는 접근이다.
+적절한 FBI는 함수 조건 때문에 무너진 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하고, [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)을 크게 줄이며, 레거시 애플리케이션 변경 없이도 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제를 완화할 수 있다. 특히 운영 중인 대형 시스템에서 SQL 수정 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 큰 경우, FBI는 현실적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 개선 수단이 된다. 이는 단순한 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 추가가 아니라, 자주 쓰는 표현식을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조 차원에서 승격하는 접근이다.
 
-하지만 전제조건도 분명하다. 함수의 결정성, 결과 분포, 통계 관리, [[083_dml|DML]] 부하를 무시하면 FBI는 오히려 시스템을 무겁게 만들 수 있다. 그래서 이 기법은 "함수를 써도 [[154_database_index_b_tree_search_optimization|인덱스]]가 된다"는 편의 기능이 아니라, **식 기반 접근 경로를 신중하게 설계하는 고급 인덱싱 [[268_strategy_pattern|전략]]**으로 기억해야 한다.
+하지만 전제조건도 분명하다. 함수의 결정성, 결과 분포, 통계 관리, [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/) 부하를 무시하면 FBI는 오히려 시스템을 무겁게 만들 수 있다. 그래서 이 기법은 "함수를 써도 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 된다"는 편의 기능이 아니라, **식 기반 접근 경로를 신중하게 설계하는 고급 인덱싱 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**으로 기억해야 한다.
 
-결론적으로 함수 기반 [[154_database_index_b_tree_search_optimization|인덱스]]는 "원본 값"이 아니라 "조회에 쓰는 표현식"을 인덱싱하는 기법이다. 이 관점을 잡으면 왜 일반 [[154_database_index_b_tree_search_optimization|인덱스]]가 무력화되는지, 언제 FBI가 효과적인지, 왜 [[289_cqrs_db|쓰기]] 비용과 함께 판단해야 하는지가 한 번에 정리된다.
+결론적으로 함수 기반 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 "원본 값"이 아니라 "조회에 쓰는 표현식"을 인덱싱하는 기법이다. 이 관점을 잡으면 왜 일반 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 무력화되는지, 언제 FBI가 효과적인지, 왜 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 비용과 함께 판단해야 하는지가 한 번에 정리된다.
 
 - **📢 섹션 요약 비유**: FBI는 자주 묻는 질문에 맞춰 미리 답안지를 정리해 두는 준비 노트와 같다. 시험장에서는 빠르지만, 교재 내용이 바뀔 때마다 그 노트도 같이 고쳐야 한다.
 
@@ -118,11 +122,11 @@ FBI를 이해하려면 일반 [[154_database_index_b_tree_search_optimization|�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[064_b_tree|B-Tree]] [[154_database_index_b_tree_search_optimization|인덱스]] | FBI도 기본적으로는 [[064_b_tree|B-Tree]] 구조 위에 표현식 결과를 저장 |
-| [[170_selectivity_cardinality_distribution_tuning|선택도]] ([[170_selectivity_cardinality_distribution_tuning|Selectivity]]) | 함수 결과 분포가 [[154_database_index_b_tree_search_optimization|인덱스]] 효율을 좌우 |
+| [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) | FBI도 기본적으로는 [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) 구조 위에 표현식 결과를 저장 |
+| [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) ([Selectivity](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/)) | 함수 결과 분포가 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 효율을 좌우 |
 | 카디널리티 (Cardinality) | 결과 값 종류 수가 비용 추정과 접근 방식에 영향 |
-| [[163_optimizer_sql_execution_plan_generator|옵티마이저]] ([[088_optimizer|Optimizer]]) | 통계 정보를 바탕으로 FBI 사용 여부 판단 |
-| 가상 컬럼 (Virtual Column) | FBI와 유사한 목적을 [[005_schema|스키마]] 차원에서 구현하는 방식 |
+| [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) ([Optimizer](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_optimizer/)) | 통계 정보를 바탕으로 FBI 사용 여부 판단 |
+| 가상 컬럼 (Virtual Column) | FBI와 유사한 목적을 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 차원에서 구현하는 방식 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -142,12 +146,12 @@ FBI를 이해하려면 일반 [[154_database_index_b_tree_search_optimization|�
 통계 기반 옵티마이저 튜닝
 ```
 
-이 흐름은 "원본 값 인덱싱 → 표현식 인덱싱 → 모델링·통계 최적화"로 [[002_database_definition|데이터베이스]] 튜닝이 확장되는 방향을 보여준다.
+이 흐름은 "원본 값 인덱싱 → 표현식 인덱싱 → 모델링·통계 최적화"로 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 튜닝이 확장되는 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 보통 사전은 원래 단어 순서로 찾게 되어 있어서, 단어를 이상하게 바꿔 찾으면 빨리 못 찾아요.
-2. 함수 기반 [[154_database_index_b_tree_search_optimization|인덱스]]는 사람들이 자주 바꿔서 찾는 모습대로 새 미니 사전을 하나 더 만드는 거예요.
+2. 함수 기반 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 사람들이 자주 바꿔서 찾는 모습대로 새 미니 사전을 하나 더 만드는 거예요.
 3. 그래서 찾기는 빨라지지만, 새 단어가 들어올 때마다 그 미니 사전도 같이 고쳐야 해요.
 
 ---
@@ -156,7 +160,7 @@ FBI를 이해하려면 일반 [[154_database_index_b_tree_search_optimization|�
 
 **진행 상황**: 162 / 600
 
-← **이전**: [[161_composite_index_leading_column|161. 결합 인덱스 (Composite Index) - 2개 이상 컬럼으로 구성 (선행 컬럼 순서 중요)]]
-**다음**: [[163_optimizer_sql_execution_plan_generator|163. 옵티마이저 (Optimizer) - SQL 실행 최적 경로(Execution Plan) 생성기]] →
+← **이전**: [161. 결합 인덱스 (Composite Index) - 2개 이상 컬럼으로 구성 (선행 컬럼 순서 중요)](/knowledge-base/studynote/05_database/03_relational_model/161_composite_index_leading_column/)
+**다음**: [163. 옵티마이저 (Optimizer) - SQL 실행 최적 경로(Execution Plan) 생성기](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) →
 
 ---

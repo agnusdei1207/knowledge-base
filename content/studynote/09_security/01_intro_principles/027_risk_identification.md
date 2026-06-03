@@ -1,14 +1,18 @@
----
-title: 27. 위험 식별 (Risk Identification) — 정보보호 위험 분석 1단계
-date: '2026-04-29'
-tags:
-- studynote-security
----
++++
+title = "27. 위험 식별 (Risk Identification) — 정보보호 위험 분석 1단계"
+date = 2026-04-29
+
+[taxonomies]
+tags = ["studynote-security"]
+
+[extra]
+tags = ["studynote-security"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 위험 [[655_ir_detection_analysis|식별]]([[096_risk_non_risk_architecture_evaluation_flaws|Risk]] [[289_identification_flags_fragmentation_offset|Identification]])은 정보보호 위험 관리 프로세스의 첫 번째 단계로, 자산(Asset)·위협(Threat)·취약점(Vulnerability)을 체계적으로 목록화하여 잠재적 보안 위험을 발견하는 활동이다. ISO 27001, NIST [[166_sp|SP]] 800-30, [[171_isms_p|ISMS-P]] 모두 위험 [[655_ir_detection_analysis|식별]]을 위험 관리의 출발점으로 정의한다.
-> 2. **가치**: [[655_ir_detection_analysis|식별]]되지 않은 위험은 관리할 수 없다. 위험 [[655_ir_detection_analysis|식별]]이 불완전하면 이후 위험 평가·처리 단계가 허점투성이가 된다. 특히 신규 [[090_service_kubernetes_network_load_balancing|서비스]]·시스템 도입 시 위험 [[655_ir_detection_analysis|식별]]을 소홀히 하면 운영 단계에서 예상치 못한 보안 사고로 이어진다.
-> 3. **판단 포인트**: 위험 = 자산 × 위협 × 취약점. 위험 [[655_ir_detection_analysis|식별]]의 핵심은 세 요소를 독립적으로 목록화한 뒤 연결하는 것이다. 위협은 외부에서 오지만 취약점은 내부에 존재하며, 위협이 취약점을 통해 자산에 피해를 주는 구조가 위험이다.
+> 1. **본질**: 위험 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) [Identification](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/))은 정보보호 위험 관리 프로세스의 첫 번째 단계로, 자산(Asset)·위협(Threat)·취약점(Vulnerability)을 체계적으로 목록화하여 잠재적 보안 위험을 발견하는 활동이다. ISO 27001, NIST [SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) 800-30, [ISMS-P](/knowledge-base/studynote/12_it_management/05_security_compliance/171_isms_p/) 모두 위험 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)을 위험 관리의 출발점으로 정의한다.
+> 2. **가치**: [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)되지 않은 위험은 관리할 수 없다. 위험 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)이 불완전하면 이후 위험 평가·처리 단계가 허점투성이가 된다. 특히 신규 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)·시스템 도입 시 위험 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)을 소홀히 하면 운영 단계에서 예상치 못한 보안 사고로 이어진다.
+> 3. **판단 포인트**: 위험 = 자산 × 위협 × 취약점. 위험 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)의 핵심은 세 요소를 독립적으로 목록화한 뒤 연결하는 것이다. 위협은 외부에서 오지만 취약점은 내부에 존재하며, 위협이 취약점을 통해 자산에 피해를 주는 구조가 위험이다.
 
 ---
 
@@ -28,22 +32,22 @@ tags:
 └─────────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 위험 [[655_ir_detection_analysis|식별]]은 집 안전 점검이다. 도둑(위협)이 침입할 수 있는 열린 창문(취약점)을 찾아내고, 그 창문 근처에 귀중품(자산)이 있는지 확인하는 것이다.
+- **📢 섹션 요약 비유**: 위험 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)은 집 안전 점검이다. 도둑(위협)이 침입할 수 있는 열린 창문(취약점)을 찾아내고, 그 창문 근처에 귀중품(자산)이 있는지 확인하는 것이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 위험 [[655_ir_detection_analysis|식별]] 절차
+### 위험 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 절차
 
 | 단계 | 활동 | 산출물 |
 |:---|:---|:---|
-| **1. 자산 목록화** | 정보자산 [[655_ir_detection_analysis|식별]]·[[104_classification_analysis|분류]]·가치 평가 | 자산 목록 |
+| **1. 자산 목록화** | 정보자산 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)·[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)·가치 평가 | 자산 목록 |
 | **2. 위협 목록화** | 해킹, 자연재해, 내부자 위협 등 | 위협 목록 |
 | **3. 취약점 목록화** | 기술·관리·물리적 취약점 | 취약점 목록 |
-| **4. 위험 [[655_ir_detection_analysis|식별]]** | 위협-취약점-자산 연결 | 위험 목록 |
+| **4. 위험 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)** | 위협-취약점-자산 연결 | 위험 목록 |
 
-### 위협 [[104_classification_analysis|분류]] ([[097_stride_convolutional_neural_network_downsampling|STRIDE]] 모델)
+### 위협 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) ([STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 모델)
 
 ```text
 S - Spoofing        (신분 위장)
@@ -60,27 +64,27 @@ E - Elevation of Privilege (권한 상승)
 
 ## Ⅲ. 비교 및 연결
 
-| 단계 | 위험 [[655_ir_detection_analysis|식별]] | 위험 평가 | 위험 처리 |
+| 단계 | 위험 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) | 위험 평가 | 위험 처리 |
 |:---|:---|:---|:---|
 | 목적 | 위험 발견 | 위험 우선순위화 | 위험 저감 |
 | 방법 | 자산·위협·취약점 목록화 | 정량/정성 분석 | 수용·전가·회피·감소 |
 | 산출물 | 위험 목록 | 위험 수준 (High/Med/Low) | 위험 처리 계획 |
 
-- **📢 섹션 요약 비유**: 위험 관리 3단계는 건강검진과 같다. [[655_ir_detection_analysis|식별]]=증상 발견, 평가=진단·심각도 결정, 처리=치료 방법 결정이다. 증상을 먼저 발견해야 치료할 수 있다.
+- **📢 섹션 요약 비유**: 위험 관리 3단계는 건강검진과 같다. [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)=증상 발견, 평가=진단·심각도 결정, 처리=치료 방법 결정이다. 증상을 먼저 발견해야 치료할 수 있다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 위험 [[655_ir_detection_analysis|식별]] 기법
-- **[[435_checklist_based_testing|체크리스트]]**: 산업 표준([[416_owasp_top_10|OWASP Top 10]], [[409_cve_lifecycle|CVE]]) 기반 취약점 목록 점검.
+### 위험 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 기법
+- **[체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)**: 산업 표준([OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/), [CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/)) 기반 취약점 목록 점검.
 - **인터뷰**: 업무 담당자·개발자 대상 위협 시나리오 청취.
 - **브레인스토밍**: 팀 기반 창의적 위협 발굴.
 - **취약점 스캐너**: Nessus, OpenVAS 자동화 스캔.
 
-### [[171_isms_p|ISMS-P]] 위험 [[655_ir_detection_analysis|식별]]
-- [[171_isms_p|ISMS-P]] [[303_authentication_authorization_patterns|인증]]에서 위험 [[655_ir_detection_analysis|식별]]은 연 1회 이상 수행.
-- 자산 가치 평가 기준: [[002_confidentiality|기밀성]](C)·[[003_integrity|무결성]](I)·[[452_availability|가용성]](A) 3가지 영향도.
+### [ISMS-P](/knowledge-base/studynote/12_it_management/05_security_compliance/171_isms_p/) 위험 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)
+- [ISMS-P](/knowledge-base/studynote/12_it_management/05_security_compliance/171_isms_p/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)에서 위험 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)은 연 1회 이상 수행.
+- 자산 가치 평가 기준: [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)(C)·[무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)(I)·[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)(A) 3가지 영향도.
 
 - **📢 섹션 요약 비유**: 취약점 스캐너는 집 안전 점검 드론이다. 드론이 자동으로 집 안 모든 창문·문·자물쇠를 스캔하여 열린 곳을 즉시 보고한다. 사람이 직접 확인하는 것보다 빠르고 누락이 없다.
 
@@ -92,11 +96,11 @@ E - Elevation of Privilege (권한 상승)
 |:---|:---|
 | **사각지대 최소화** | 체계적 목록화로 누락 위험 감소 |
 | **우선순위 기반 관리** | 고위험 자산·위협 집중 관리 |
-| **규제 준수** | [[171_isms_p|ISMS-P]], ISO 27001 요구사항 충족 |
+| **규제 준수** | [ISMS-P](/knowledge-base/studynote/12_it_management/05_security_compliance/171_isms_p/), ISO 27001 요구사항 충족 |
 
-[[190_ai_llm_requirements_specification|AI]] 기반 위험 [[655_ir_detection_analysis|식별]]([[190_ai_llm_requirements_specification|AI]] [[746_ti_threat_intelligence_ioc_stix_taxii|Threat Intelligence]])은 [[649_osint|OSINT]](공개 출처 정보)·다크웹·[[409_cve_lifecycle|CVE]] 데이터베이스를 실시간 분석하여 신규 위협을 자동으로 [[655_ir_detection_analysis|식별]]하고 조직 자산과 연결하는 방향으로 발전하고 있다.
+[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 위험 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [Threat Intelligence](/knowledge-base/studynote/03_network/14_network_security_threats/746_ti_threat_intelligence_ioc_stix_taxii/))은 [OSINT](/knowledge-base/studynote/09_security/13_secops_ir_forensics/649_osint/)(공개 출처 정보)·다크웹·[CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/) 데이터베이스를 실시간 분석하여 신규 위협을 자동으로 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하고 조직 자산과 연결하는 방향으로 발전하고 있다.
 
-- **📢 섹션 요약 비유**: [[190_ai_llm_requirements_specification|AI]] 위협 인텔리전스는 전 세계 범죄 정보를 실시간 수집하는 [[190_ai_llm_requirements_specification|AI]] 탐정이다. 새로운 해킹 수법이 다크웹에 올라오면 즉시 탐지하여 "우리 회사가 이 공격에 취약한지" 자동으로 확인한다.
+- **📢 섹션 요약 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 위협 인텔리전스는 전 세계 범죄 정보를 실시간 수집하는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 탐정이다. 새로운 해킹 수법이 다크웹에 올라오면 즉시 탐지하여 "우리 회사가 이 공격에 취약한지" 자동으로 확인한다.
 
 ---
 
@@ -104,11 +108,11 @@ E - Elevation of Privilege (권한 상승)
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **자산** | 위험 [[655_ir_detection_analysis|식별]]의 [[571_protection_vs_security|보호]] 대상 |
+| **자산** | 위험 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)의 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 대상 |
 | **위협** | 자산에 피해를 줄 수 있는 외부 요소 |
 | **취약점** | 위협이 자산에 도달하는 경로 |
-| **[[097_stride_convolutional_neural_network_downsampling|STRIDE]]** | 위협 [[104_classification_analysis|분류]] 6종 모델 |
-| **[[171_isms_p|ISMS-P]]** | 위험 [[655_ir_detection_analysis|식별]] 의무화 정보보호 [[303_authentication_authorization_patterns|인증]] 체계 |
+| **[STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)** | 위협 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 6종 모델 |
+| **[ISMS-P](/knowledge-base/studynote/12_it_management/05_security_compliance/171_isms_p/)** | 위험 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 의무화 정보보호 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 체계 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -130,7 +134,7 @@ E - Elevation of Privilege (권한 상승)
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 위험 [[655_ir_detection_analysis|식별]]은 집 점검이에요! 도둑(위협)이 들어올 수 있는 열린 창문(취약점)과 그 근처 귀중품(자산)을 목록으로 만들어요.
+1. 위험 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)은 집 점검이에요! 도둑(위협)이 들어올 수 있는 열린 창문(취약점)과 그 근처 귀중품(자산)을 목록으로 만들어요.
 2. STRIDE로 6종류 나쁜 행동(신분 사칭·위조·부인·유출·방해·권한 탈취)을 체계적으로 점검해요!
 3. AI가 전 세계 해킹 정보를 실시간으로 수집해서 새로운 위협을 자동으로 알려주는 시대가 됐답니다!
 
@@ -140,7 +144,7 @@ E - Elevation of Privilege (권한 상승)
 
 **진행 상황**: 27 / 1108
 
-← **이전**: [[026_risk_management_process|26. 위험 관리 프로세스 (Risk Management Process) — 정보보안 위험 식별·평가·처리 체계]]
-**다음**: [[028_quantitative_risk_analysis|28. 정량적 위험 분석 (Quantitative Risk Analysis)]] →
+← **이전**: [26. 위험 관리 프로세스 (Risk Management Process) — 정보보안 위험 식별·평가·처리 체계](/knowledge-base/studynote/09_security/01_intro_principles/026_risk_management_process/)
+**다음**: [28. 정량적 위험 분석 (Quantitative Risk Analysis)](/knowledge-base/studynote/09_security/01_intro_principles/028_quantitative_risk_analysis/) →
 
 ---

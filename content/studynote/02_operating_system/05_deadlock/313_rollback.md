@@ -1,27 +1,31 @@
----
-title: 313. 후퇴 (Rollback) - 프로세스를 안전한 상태로 롤백 후 재시작
-date: '2026-05-09'
-tags:
-- studynote-operating-system
----
++++
+title = "313. 후퇴 (Rollback) - 프로세스를 안전한 상태로 롤백 후 재시작"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[281_deadlock_definition|교착 상태]] 복구를 위해 누군가의 자원을 뺏었(Preempt)다면, 자원을 뺏겨 불구자가 된 그 프로세스를 무참히 쏴 죽이는 게 아니라, 자신이 쥐었던 상태 [[001_dikw_pyramid|데이터]]들을 **과거 멀쩡했던 안전 시점([[298_safe_state|Safe State]] / Checkpoint)으로 필사적으로 비틀고 감아 되돌리는 시간의 타임머신 마법(회생 절차)**이다.
-> 2. **가치**: [[098_rollback_strategy_pipeline_error_threshold|롤백]](Rollback)이 작동하기에 우리는 "데드락에 빠져 앱이 꺼졌다(Crash) 혹은 에러가 났다"는 파국 대신, "앱이 잠시 렉이 걸렸다가 무사히 다시 돌아가서 끝마쳤다"며 유저를 감쪽같이 속이고 프로세스를 재생시켜 내는 극강의 백그라운드 [[003_integrity|무결성]]([[003_integrity|Integrity]])을 완성한다.
-> 3. **융합**: 그러나 이 과거로 돌아가는 기술은 사실상 [[501_file_definition_logical_record|파일]] I/O나 [[229_monitor|모니터]] 출력 등에선 물리적으로 수습이 안 되기에 반쪽짜리며, 이를 완벽 통제하기 위해 오직 변경 전/후 숫자를 남겨두는 **`Undo Log` 아키텍처와 결속된 [[002_database_definition|데이터베이스]](RDBMS) [[014_concurrency|동시성]] 생태계에서만 만개한 제왕적 스킬**이다.
+> 1. **본질**: [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 복구를 위해 누군가의 자원을 뺏었(Preempt)다면, 자원을 뺏겨 불구자가 된 그 프로세스를 무참히 쏴 죽이는 게 아니라, 자신이 쥐었던 상태 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들을 **과거 멀쩡했던 안전 시점([Safe State](/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/) / Checkpoint)으로 필사적으로 비틀고 감아 되돌리는 시간의 타임머신 마법(회생 절차)**이다.
+> 2. **가치**: [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)(Rollback)이 작동하기에 우리는 "데드락에 빠져 앱이 꺼졌다(Crash) 혹은 에러가 났다"는 파국 대신, "앱이 잠시 렉이 걸렸다가 무사히 다시 돌아가서 끝마쳤다"며 유저를 감쪽같이 속이고 프로세스를 재생시켜 내는 극강의 백그라운드 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)([Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))을 완성한다.
+> 3. **융합**: 그러나 이 과거로 돌아가는 기술은 사실상 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O나 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 출력 등에선 물리적으로 수습이 안 되기에 반쪽짜리며, 이를 완벽 통제하기 위해 오직 변경 전/후 숫자를 남겨두는 **`Undo Log` 아키텍처와 결속된 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(RDBMS) [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 생태계에서만 만개한 제왕적 스킬**이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[[311_resource_preemption|자원 선점]] (Preemption)은 "쟤 쥐고 있는 마이크 뺏어와!" 라는 압수 명령이다.
+[자원 선점](/knowledge-base/studynote/02_operating_system/05_deadlock/311_resource_preemption/) (Preemption)은 "쟤 쥐고 있는 마이크 뺏어와!" 라는 압수 명령이다.
 근데 마이크를 빼앗긴 A 입장에서는 노래 부르다 말고 갑자기 마이크가 사라졌다. "어? 나 어디까지 불렀더라?" 메모리가 꼬이고 에러 덤프가 터지며 프로세스 전체가 치명적 충돌(Crash)에 직면한다. 데드락을 풀려다 애꿎은 멀쩡한 프로세스 1개를 블루스크린에 박아버린 거다.
 
 그래서 위대한 **후퇴(Rollback)**가 무조건 동반되어야 한다. 
 OS는 A의 마이크를 뺏는 순간, A를 무참히 죽이는 게 아니라 **"기억 지우개"**를 꺼내 들어 A가 부르던 악보 페이지를 가장 처음 안전한 1절 시작지점(혹은 체크포인트)으로 확 뒤짚어 감아버린다. 그래놓고 A에게 "너 마이크 뺏긴 적 없고 그냥 방금 대기열에 선 거야"라며 조용히 뒤로 돌려세워 다시 `재시작(Restart/Retry)` 시킨다. 
 
-**💡 비유**: 길을 거닐다 사다리(자원)를 놓고 벽돌을 반쯤 페인트칠하던 영수(데드락 걸림). OS가 살짝 영수의 사다리를 강제로 빼앗아버린다(선점). 붕 떠버린 영수는 다리가 부러짐? No! OS의 [[098_rollback_strategy_pipeline_error_threshold|롤백]] 타임머신이 영수를 1시간 전 페인트칠을 시작하기도 전인 안전한([[093_safe_scaled_agile_framework_art_pi|Safe]]) 땅바닥으로 타임워프시켜버리고 지우개로 벽을 원래대로 지워버린다. 영수는 다시 깨어나서 "아 붓 들고 줄 서야지~" 하고 재도전한다!
+**💡 비유**: 길을 거닐다 사다리(자원)를 놓고 벽돌을 반쯤 페인트칠하던 영수(데드락 걸림). OS가 살짝 영수의 사다리를 강제로 빼앗아버린다(선점). 붕 떠버린 영수는 다리가 부러짐? No! OS의 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 타임머신이 영수를 1시간 전 페인트칠을 시작하기도 전인 안전한([Safe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/)) 땅바닥으로 타임워프시켜버리고 지우개로 벽을 원래대로 지워버린다. 영수는 다시 깨어나서 "아 붓 들고 줄 서야지~" 하고 재도전한다!
 
 ```text
 ┌───────────────────────────────────────────────────────────────┐
@@ -46,7 +50,7 @@ OS는 A의 마이크를 뺏는 순간, A를 무참히 죽이는 게 아니라 **
 └───────────────────────────────────────────────────────────────┘
 ```
 
-**📢 섹션 요약 비유**: [[098_rollback_strategy_pipeline_error_threshold|롤백]](우회 뒤로 가기)은 뺏긴 아이를 죽이는 게 아니라, 조용히 세이브포인트로 강제 로드(Load) 시켜서 재도전 기회를 주는 무한 코인 회생 부활 시스템(Continue?) 입니다.
+**📢 섹션 요약 비유**: [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)(우회 뒤로 가기)은 뺏긴 아이를 죽이는 게 아니라, 조용히 세이브포인트로 강제 로드(Load) 시켜서 재도전 기회를 주는 무한 코인 회생 부활 시스템(Continue?) 입니다.
 
 ---
 
@@ -54,40 +58,40 @@ OS는 A의 마이크를 뺏는 순간, A를 무참히 죽이는 게 아니라 **
 
 ### 전면 후퇴 (Total) VS 부분 후퇴 (Checkpoint)
 
-[[098_rollback_strategy_pipeline_error_threshold|롤백]] 지점의 타깃을 어떻게 잡느냐에 따라 오버헤드의 깊이가 갈린다.
+[롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 지점의 타깃을 어떻게 잡느냐에 따라 오버헤드의 깊이가 갈린다.
 
-1. **전면 [[098_rollback_strategy_pipeline_error_threshold|롤백]] (Total Rollback - Abort & Restart)**: 
+1. **전면 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) (Total Rollback - Abort & Restart)**: 
    - 그냥 P1이 시작한 최초 `0초` 맨 처음으로 전부 되감고 다 지워버리는 무식한 세팅. 구현이 쉽지만(OS가 메모리를 날려버리면 되니까), 10시간 연산한 프로세스를 태초 마을로 보내버리므로 매몰 비용 손실이 뼈아프다.
-2. **부분 [[098_rollback_strategy_pipeline_error_threshold|롤백]] (Partial Rollback - Checkpoint)**:
-   - 똑똑한 OS나 [[191_transaction_concept_states|트랜잭션]] 시스템은 10분마다 스스로 '임시 저장(Checkpoint)' 깃발을 꽂아둔다. 
-   - 데드락 나서 뺏기면 딱 '데드락이 꼬이기 시작한 그 바로 직전 깃발 꼽힌 지점'까지만 10분어치만 슬쩍 [[098_rollback_strategy_pipeline_error_threshold|롤백]]하고 거기서부터 연산을 재개한다. (최적의 매몰-방어형 엔지니어링 [[282_performance_tactics|성능]] 폭발).
+2. **부분 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) (Partial Rollback - Checkpoint)**:
+   - 똑똑한 OS나 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 시스템은 10분마다 스스로 '임시 저장(Checkpoint)' 깃발을 꽂아둔다. 
+   - 데드락 나서 뺏기면 딱 '데드락이 꼬이기 시작한 그 바로 직전 깃발 꼽힌 지점'까지만 10분어치만 슬쩍 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)하고 거기서부터 연산을 재개한다. (최적의 매몰-방어형 엔지니어링 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 폭발).
 
-**📢 섹션 요약 비유**: [[098_rollback_strategy_pipeline_error_threshold|롤백]] 기술은 RPG 게임의 세이브 [[501_file_definition_logical_record|파일]] 조작입니다. 방금 마왕 잡다가 뺏겼다고 게임기 전원을 아예 끄고 레벨 1부터 다시 키우면(전면 [[098_rollback_strategy_pipeline_error_threshold|롤백]] 피눈물), 중간중간 모닥불 쉼터에서 세이브를 자동 저장(체크포인트) 해뒀다가 거기서 부활하면(부분 [[098_rollback_strategy_pipeline_error_threshold|롤백]]) 훨씬 이득이죠!
+**📢 섹션 요약 비유**: [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 기술은 RPG 게임의 세이브 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 조작입니다. 방금 마왕 잡다가 뺏겼다고 게임기 전원을 아예 끄고 레벨 1부터 다시 키우면(전면 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 피눈물), 중간중간 모닥불 쉼터에서 세이브를 자동 저장(체크포인트) 해뒀다가 거기서 부활하면(부분 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)) 훨씬 이득이죠!
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| [[121_transmission_media_guided_unguided|매체]] 및 [[064_relation_domain|도메인]] 성격 | [[098_rollback_strategy_pipeline_error_threshold|롤백]] (Rollback) 적용 강도 | 현실적 도입 결과 (치명적 한계) |
+| [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 및 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 성격 | [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) (Rollback) 적용 강도 | 현실적 도입 결과 (치명적 한계) |
 |:---|:---|:---|
-| 메모리 연산 변수 | [[555_backup_and_restore_strategy|백업]]값([[022_snapshot_backup_architecture|스냅샷]]) 덮어씌우면 끝 | 그럭저럭 잘 됨 (비교적 가벼움) |
-| 디스크/[[501_file_definition_logical_record|파일]] I/O | 하드 쓰여진 내역 추적해 지우고 덮음 | 오버헤드 폭발 ([[502_dbms|DBMS]] 제외 불가) |
-| **프린터, 외부 네트워크 Sockets** | **종이에 잉크 묻은 거 어떻게 돌림? 외부 결제망 쏜 거 어떻게 돌림?** | **물리적 / 네트워크 성질의 비가역성에 부딪혀 사실상 [[098_rollback_strategy_pipeline_error_threshold|롤백]] 전면 불가 단념** |
+| 메모리 연산 변수 | [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)값([스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)) 덮어씌우면 끝 | 그럭저럭 잘 됨 (비교적 가벼움) |
+| 디스크/[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O | 하드 쓰여진 내역 추적해 지우고 덮음 | 오버헤드 폭발 ([DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) 제외 불가) |
+| **프린터, 외부 네트워크 Sockets** | **종이에 잉크 묻은 거 어떻게 돌림? 외부 결제망 쏜 거 어떻게 돌림?** | **물리적 / 네트워크 성질의 비가역성에 부딪혀 사실상 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 전면 불가 단념** |
 
-**📢 섹션 요약 비유**: 수학 공식은 머릿속에서 지우개로 슥슥 되돌리면([[098_rollback_strategy_pipeline_error_threshold|롤백]]) 되지만, 물감으로 도화지에 그린 그림(프린터 IO)이나 이미 남의 집 우체통에 편지 넣고 발송(네트워크 전송)해 버린 일은, 신이 와도 과거로 [[098_rollback_strategy_pipeline_error_threshold|롤백]]할 수 없습니다. 이것이 [[098_rollback_strategy_pipeline_error_threshold|롤백]] 기술의 치명적 물리적 족쇄입니다.
+**📢 섹션 요약 비유**: 수학 공식은 머릿속에서 지우개로 슥슥 되돌리면([롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)) 되지만, 물감으로 도화지에 그린 그림(프린터 IO)이나 이미 남의 집 우체통에 편지 넣고 발송(네트워크 전송)해 버린 일은, 신이 와도 과거로 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)할 수 없습니다. 이것이 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 기술의 치명적 물리적 족쇄입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 시나리오**:
-1. **RDBMS (오라클/MySQL)의 [[393_undo|Undo]] Log 영광**: [[098_rollback_strategy_pipeline_error_threshold|롤백]] 후퇴라는 철학이 제왕적으로 지배하는 유일하고도 완벽한 땅이 Database다. [[191_transaction_concept_states|트랜잭션]] 도중 Victim으로 꼽힌 `T1`은 락 뺏기고 죽는 순간, 뒷단에서 [[449_mvcc|MVCC]] 엔진이 미친 듯 돌아가며 T1이 `Insert`쳤던 [[001_dikw_pyramid|데이터]] 1백만 줄을 [[393_undo|Undo]] Log(이전 [[022_snapshot_backup_architecture|스냅샷]] [[555_backup_and_restore_strategy|백업]]) 기록을 보고 [[074_byte|바이트]] 단위로 지워버려 완벽히 결벽증 환자처럼 예전 상태(Committed)로 돌려버린다! 이 무자비한 [[098_rollback_strategy_pipeline_error_threshold|롤백]]이 있기에 우리는 마음 놓고 카드를 그으며 데드락이 나도 다시 "주문하기"를 누를 수 있다!
+1. **RDBMS (오라클/MySQL)의 [Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) Log 영광**: [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 후퇴라는 철학이 제왕적으로 지배하는 유일하고도 완벽한 땅이 Database다. [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 도중 Victim으로 꼽힌 `T1`은 락 뺏기고 죽는 순간, 뒷단에서 [MVCC](/knowledge-base/studynote/11_design_supervision/06_exam_summary/449_mvcc/) 엔진이 미친 듯 돌아가며 T1이 `Insert`쳤던 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 1백만 줄을 [Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) Log(이전 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)) 기록을 보고 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 단위로 지워버려 완벽히 결벽증 환자처럼 예전 상태(Committed)로 돌려버린다! 이 무자비한 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)이 있기에 우리는 마음 놓고 카드를 그으며 데드락이 나도 다시 "주문하기"를 누를 수 있다!
 
-**[[128_water_scrum_fall_anti_pattern|안티패턴]]**:
-- **사용자 액션/외부 [[014_api_posix|API]] 락([[510_lock|Lock]])에 강제 [[098_rollback_strategy_pipeline_error_threshold|롤백]] 주입 로직**: 이 방식의 한계를 모른 채, 사용자가 은행 송금을 치는 외부 [[461_http_stateless_connection_oriented|HTTP]] [[014_api_posix|API]] 로직을 락 안에 걸어두고, 거기다 데드락 탐지기 붙인 뒤 [[098_rollback_strategy_pipeline_error_threshold|롤백]](Rollback) Retry를 걸어버린다? 
-   -> 외부 API가 한 번 날아가 돈 10만 원이 빠졌는데 데드락 때문에 [[098_rollback_strategy_pipeline_error_threshold|롤백]] 팅겼다 재시도(Retry)하며 10만 원이 또 빠져버리는! 즉 [[098_rollback_strategy_pipeline_error_threshold|롤백]]의 역풍인 `이중 멱살(Phantom Data Duplicate)` 대마비 폭동 사고가 난다. 외부 통신 블록에는 죽어도 이걸 끼워선 안 된다. 
+**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**:
+- **사용자 액션/외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))에 강제 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 주입 로직**: 이 방식의 한계를 모른 채, 사용자가 은행 송금을 치는 외부 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 로직을 락 안에 걸어두고, 거기다 데드락 탐지기 붙인 뒤 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)(Rollback) Retry를 걸어버린다? 
+   -> 외부 API가 한 번 날아가 돈 10만 원이 빠졌는데 데드락 때문에 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 팅겼다 재시도(Retry)하며 10만 원이 또 빠져버리는! 즉 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)의 역풍인 `이중 멱살(Phantom Data Duplicate)` 대마비 폭동 사고가 난다. 외부 통신 블록에는 죽어도 이걸 끼워선 안 된다. 
 
-**📢 섹션 요약 비유**: [[098_rollback_strategy_pipeline_error_threshold|롤백]] 기술을 외부 세계(결제 [[014_api_posix|API]] 송금)에 썼다간 돈이 두 번 빠져나가는 쌍코피가 터집니다. 지 안방(DB 저장소) 안에서 마음대로 지우고 장난칠 때만 완벽하게 돌아가는 방구석 최강자입니다.
+**📢 섹션 요약 비유**: [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 기술을 외부 세계(결제 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 송금)에 썼다간 돈이 두 번 빠져나가는 쌍코피가 터집니다. 지 안방(DB 저장소) 안에서 마음대로 지우고 장난칠 때만 완벽하게 돌아가는 방구석 최강자입니다.
 
 ---
 
@@ -96,9 +100,9 @@ OS는 A의 마이크를 뺏는 순간, A를 무참히 죽이는 게 아니라 **
 | 기준 | 강제 팅김/종료 (No Rollback) | 후퇴와 재시도 (Rollback + Retry) |
 |:---|:---|:---|
 | 소프트웨어 연속성 | 유저 화면 멈춤 및 프로세스 패닉 오류 | 속으로 버벅거린 뒤 스르륵 복원되는 신비주의 |
-| 구현 복잡성 / 코스트 | 그냥 `Ctrl+C` 죽이면 끝 (구현 1줄짜리) | 상태 저장([[272_state_pattern|State]]), 임시 저장소, [[555_backup_and_restore_strategy|백업]] 메모리 복원 등 거대 비용 수반 |
+| 구현 복잡성 / 코스트 | 그냥 `Ctrl+C` 죽이면 끝 (구현 1줄짜리) | 상태 저장([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)), 임시 저장소, [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 메모리 복원 등 거대 비용 수반 |
 
-`후퇴 (Rollback)` 메커니즘은 [[281_deadlock_definition|교착 상태]]가 "소프트웨어를 영원한 고장"으로 몰아넣는 함정이 아니라, 튕겨 맞고 제자리로 돌아와 안전하게 결승선에 합류케 하는 **[[233_recovery_database_restoration_overview|회복]] [[571_resiliency_fault_tolerance_patterns|탄력성]](Resilience)**의 진정한 핵심 꽃을 피우게 해 준 일등 공신이다. 오직 이 '이전 상태 복원력'의 철학이 있기에 선점(Preemption)이라는 무자비한 폭력이 가능했고, 이는 현대 컴퓨터 [[191_transaction_concept_states|트랜잭션]]과 [[619_msa_traffic_hardware|MSA]] [[551_compensating_transaction_logical_rollback|보상 트랜잭션]]([[305_saga_pattern|Saga Pattern]]) 등으로 무한 전송 확산된 핵심 이념이다.
+`후퇴 (Rollback)` 메커니즘은 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)가 "소프트웨어를 영원한 고장"으로 몰아넣는 함정이 아니라, 튕겨 맞고 제자리로 돌아와 안전하게 결승선에 합류케 하는 **[회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)(Resilience)**의 진정한 핵심 꽃을 피우게 해 준 일등 공신이다. 오직 이 '이전 상태 복원력'의 철학이 있기에 선점(Preemption)이라는 무자비한 폭력이 가능했고, 이는 현대 컴퓨터 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)과 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) [보상 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/)([Saga Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga_pattern/)) 등으로 무한 전송 확산된 핵심 이념이다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -108,10 +112,10 @@ OS는 A의 마이크를 뺏는 순간, A를 무참히 죽이는 게 아니라 **
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[311_resource_preemption|자원 선점]] ([[311_resource_preemption|Resource Preemption]]) 방식 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [[310_victim_selection|희생자 선택]] ([[310_victim_selection|Victim Selection]]) 최소 비용 기준 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [[314_starvation_prevention|기아 상태]] ([[314_starvation_prevention|Starvation]]) 발생 방지 ([[310_victim_selection|희생자 선택]]에 횟수 제한) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [[315_livelock_vs_deadlock|라이브락]] ([[315_livelock_vs_deadlock|Livelock]])과 [[281_deadlock_definition|교착 상태]]의 차이점 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [자원 선점](/knowledge-base/studynote/02_operating_system/05_deadlock/311_resource_preemption/) ([Resource Preemption](/knowledge-base/studynote/02_operating_system/05_deadlock/311_resource_preemption/)) 방식 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [희생자 선택](/knowledge-base/studynote/02_operating_system/05_deadlock/310_victim_selection/) ([Victim Selection](/knowledge-base/studynote/02_operating_system/05_deadlock/310_victim_selection/)) 최소 비용 기준 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) ([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) 발생 방지 ([희생자 선택](/knowledge-base/studynote/02_operating_system/05_deadlock/310_victim_selection/)에 횟수 제한) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [라이브락](/knowledge-base/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/) ([Livelock](/knowledge-base/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/))과 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)의 차이점 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -130,7 +134,7 @@ OS는 A의 마이크를 뺏는 순간, A를 무참히 죽이는 게 아니라 **
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 얽힌 싸움을 끝내려 선생님이 영수 엉덩이를 툭 치고 아이스크림(자원!)을 쏙 빼앗아 딴 친구를 먼저 줘버렸네요.
-2. 영수는 아이스크림 뺏겼다고 울면서 죽어버리는 게 아니라! 기절한 영수를 타임머신 태워 아이스크림을 고르기도 전의 5분 전 과거로 슝~([[098_rollback_strategy_pipeline_error_threshold|롤백]]) 날려 보냅니다.
+2. 영수는 아이스크림 뺏겼다고 울면서 죽어버리는 게 아니라! 기절한 영수를 타임머신 태워 아이스크림을 고르기도 전의 5분 전 과거로 슝~([롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)) 날려 보냅니다.
 3. 5분 전의 영수는 아무 억울함 없이 눈을 번쩍 뜨고 "음.. 나도 줄(대기) 서서 다시 내 순서(재시작) 기다려야지~" 하며 싸움과 피해를 전혀 기억 못 한 채 안전하게 무사 복귀하는 컴퓨터 부활의 세계랍니다!
 
 ---
@@ -139,7 +143,7 @@ OS는 A의 마이크를 뺏는 순간, A를 무참히 죽이는 게 아니라 **
 
 **진행 상황**: 313 / 800
 
-← **이전**: [[312_victim_selection_cost|312. 희생자 선택 (Victim Selection) 최소 비용 기준]]
-**다음**: [[314_starvation_prevention|314. 기아 상태 (Starvation) 발생 방지 (희생자 선택에 횟수 제한)]] →
+← **이전**: [312. 희생자 선택 (Victim Selection) 최소 비용 기준](/knowledge-base/studynote/02_operating_system/05_deadlock/312_victim_selection_cost/)
+**다음**: [314. 기아 상태 (Starvation) 발생 방지 (희생자 선택에 횟수 제한)](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) →
 
 ---

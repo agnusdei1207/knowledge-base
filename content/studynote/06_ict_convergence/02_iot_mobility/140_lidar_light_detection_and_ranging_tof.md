@@ -1,14 +1,18 @@
----
-title: 140. LiDAR (Light Detection and Ranging) - ToF 기반 3D 거리 측정
-date: '2026-04-19'
-tags:
-- studynote-ict-convergence
----
++++
+title = "140. LiDAR (Light Detection and Ranging) - ToF 기반 3D 거리 측정"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-ict-convergence"]
+
+[extra]
+tags = ["studynote-ict-convergence"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: LiDAR는 **레이저 펄스를 발사하여 반사 시간(ToF, Time of Flight)으로 물체까지의 거리를 정밀 측정**하고, 초당 수십만~수백만 포인트의 3D 포인트 클라우드를 생성하는 센서이다.
 > 2. **가치**: 카메라는 2D 이미지만 제공하고 깊이 추정이 부정확하지만, LiDAR는 **cm 단위의 정밀 3D 거리 측정**으로 자율주행·지형 측량·건설·로봇에 핵심이다.
-> 3. **판단 포인트**: 기계식(Velodyne, 고비용)→솔리드 [[272_state_pattern|스테이트]](저비용)→FMCW(속도+거리 동시 측정)로 진화하며, iPhone LiDAR(dToF)가 소비자 시장에 진입했다.
+> 3. **판단 포인트**: 기계식(Velodyne, 고비용)→솔리드 [스테이트](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)(저비용)→FMCW(속도+거리 동시 측정)로 진화하며, iPhone LiDAR(dToF)가 소비자 시장에 진입했다.
 
 ---
 
@@ -26,7 +30,7 @@ LiDAR 원리: 레이저 발사 → 반사 → 왕복 시간 × 빛의 속도 / 2
 
 ## Ⅱ~Ⅴ. 결론
 
-LiDAR는 **자율주행·측량의 핵심 센서**이며, 솔리드 [[272_state_pattern|스테이트]] LiDAR로 비용이 급락하고 있다.
+LiDAR는 **자율주행·측량의 핵심 센서**이며, 솔리드 [스테이트](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) LiDAR로 비용이 급락하고 있다.
 
 ---
 
@@ -36,8 +40,8 @@ LiDAR는 **자율주행·측량의 핵심 센서**이며, 솔리드 [[272_state_
 |:---|:---|
 | **LiDAR** | 레이저 거리 측정 |
 | **ToF** | 왕복 시간 |
-| **포인트 클라우드** | 3D 점 [[001_dikw_pyramid|데이터]] |
-| **솔리드 [[272_state_pattern|스테이트]]** | 저비용 차세대 |
+| **포인트 클라우드** | 3D 점 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
+| **솔리드 [스테이트](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)** | 저비용 차세대 |
 | **FMCW** | 속도+거리 동시 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -60,7 +64,7 @@ LiDAR는 **자율주행·측량의 핵심 센서**이며, 솔리드 [[272_state_
 
 **진행 상황**: 140 / 552
 
-← **이전**: [[139_sensor_fusion_camera_lidar_radar|139. 센서 퓨전 (Camera·LiDAR·Radar) - 자율주행 인지 통합]]
-**다음**: [[141_v2x_vehicle_to_everything_communication|141. V2X (Vehicle-to-Everything) 통신 - 차량-인프라 연결]] →
+← **이전**: [139. 센서 퓨전 (Camera·LiDAR·Radar) - 자율주행 인지 통합](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/139_sensor_fusion_camera_lidar_radar/)
+**다음**: [141. V2X (Vehicle-to-Everything) 통신 - 차량-인프라 연결](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/) →
 
 ---

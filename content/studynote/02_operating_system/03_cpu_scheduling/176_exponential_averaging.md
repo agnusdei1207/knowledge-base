@@ -1,25 +1,29 @@
----
-title: 176. 지수 평균법 (Exponential Averaging) - 다음 CPU 버스트 길이 예측
-date: '2026-03-22'
-tags:
-- studynote-operating-system
----
++++
+title = "176. 지수 평균법 (Exponential Averaging) - 다음 CPU 버스트 길이 예측"
+date = 2026-03-22
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 지수 평균법 (Exponential Averaging)은 직전 실제 CPU 버스트 (CPU Burst)와 직전 예측값을 가중합해 다음 CPU 버스트 길이를 추정하는 예측 기법이다.
-> 2. **가치**: 미래 버스트를 정확히 알 수 없다는 한계를 완화해 [[175_sjf_scheduling|SJF]] ([[175_sjf_scheduling|Shortest Job First]])와 [[177_srtf_scheduling|SRTF]] (Shortest Remaining Time First) 계열 정책을 현실 시스템에 근사 적용하게 해 준다.
-> 3. **판단 포인트**: [[267_weight_bias_activation|가중치]] `α`가 높으면 최근 변화에 빨리 반응하고, 낮으면 예측이 안정적이지만 둔해지므로 응답성과 안정성 사이의 균형을 의도적으로 잡아야 한다.
+> 2. **가치**: 미래 버스트를 정확히 알 수 없다는 한계를 완화해 [SJF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/) ([Shortest Job First](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/))와 [SRTF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/177_srtf_scheduling/) (Shortest Remaining Time First) 계열 정책을 현실 시스템에 근사 적용하게 해 준다.
+> 3. **판단 포인트**: [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) `α`가 높으면 최근 변화에 빨리 반응하고, 낮으면 예측이 안정적이지만 둔해지므로 응답성과 안정성 사이의 균형을 의도적으로 잡아야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-지수 평균법은 운영체제가 다음 CPU 버스트 길이를 미리 추정하기 위해 사용하는 대표적인 [[210_heuristics_scheduling|휴리스틱]] ([[236_a_star_heuristic_minimax_mcts_monte_carlo|Heuristic]])이다. 프로세스가 과거에 얼마나 오래 CPU를 점유했는지 관찰하고, 가장 최근 값에 더 큰 의미를 부여해 다음 번 실행 시간을 예측한다. 즉 "과거를 전부 잊지는 않되, 최근 행동을 더 믿는" 방식이라고 볼 수 있다.
+지수 평균법은 운영체제가 다음 CPU 버스트 길이를 미리 추정하기 위해 사용하는 대표적인 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) ([Heuristic](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/))이다. 프로세스가 과거에 얼마나 오래 CPU를 점유했는지 관찰하고, 가장 최근 값에 더 큰 의미를 부여해 다음 번 실행 시간을 예측한다. 즉 "과거를 전부 잊지는 않되, 최근 행동을 더 믿는" 방식이라고 볼 수 있다.
 
 이 기법이 필요한 이유는 SJF가 이론적으로 평균 대기 시간을 최소화하면서도, 실제로는 미래 burst를 알 수 없기 때문이다. 운영체제는 프로세스가 다음에 3 ms를 쓸지 30 ms를 쓸지 미리 알 수 없다. 결국 과거 기록을 이용해 근사 추정을 해야 하며, 이때 모든 과거를 똑같이 취급하면 최근의 성격 변화가 반영되지 않는다.
 
-아래 그림은 지수 평균법이 [[079_kube_scheduler_pod_placement|스케줄러]]의 의사결정 앞단에서 어떤 역할을 하는지 보여 준다.
+아래 그림은 지수 평균법이 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 의사결정 앞단에서 어떤 역할을 하는지 보여 준다.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────┐
@@ -38,7 +42,7 @@ tags:
 └────────────────────────────────────────────────────────────────────┘
 ```
 
-예를 들어 텍스트 편집기 프로세스는 평소에는 짧은 burst를 반복하다가, 사용자가 대용량 Portable [[037_document|Document]] Format (PDF) [[501_file_definition_logical_record|파일]] 출력 버튼을 누르는 순간 긴 burst로 바뀔 수 있다. [[079_kube_scheduler_pod_placement|스케줄러]]가 오래된 짧은 이력만 믿고 있으면 잘못된 우선순위를 계속 부여하게 된다. 지수 평균법은 이런 페이즈 변화 (Phase Change)를 조금이라도 빨리 감지하기 위해 등장한 현실적 타협이다.
+예를 들어 텍스트 편집기 프로세스는 평소에는 짧은 burst를 반복하다가, 사용자가 대용량 Portable [Document](/knowledge-base/studynote/14_data_engineering/01_infrastructure/037_document/) Format (PDF) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 출력 버튼을 누르는 순간 긴 burst로 바뀔 수 있다. [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 오래된 짧은 이력만 믿고 있으면 잘못된 우선순위를 계속 부여하게 된다. 지수 평균법은 이런 페이즈 변화 (Phase Change)를 조금이라도 빨리 감지하기 위해 등장한 현실적 타협이다.
 
 - **📢 섹션 요약 비유**: 지수 평균법은 친구가 평소엔 빨리 밥을 먹더라도 오늘은 유난히 느리다면, 오래전 습관보다 방금 본 행동을 더 믿고 다음 행동을 예상하는 눈치 게임과 같다.
 
@@ -56,14 +60,14 @@ tags:
 | :--- | :--- | :--- |
 | `t(n)` | 직전 실제 burst | 가장 최근 관측값 |
 | `τ(n)` | 직전 예측값 | 오래된 과거를 압축해 담은 값 |
-| `τ(n+1)` | 다음 burst 예측값 | [[079_kube_scheduler_pod_placement|스케줄러]]가 사용할 추정치 |
-| `α` | 최근값 [[267_weight_bias_activation|가중치]] | 높을수록 빠르게 추종, 낮을수록 부드럽게 평활 |
+| `τ(n+1)` | 다음 burst 예측값 | [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 사용할 추정치 |
+| `α` | 최근값 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) | 높을수록 빠르게 추종, 낮을수록 부드럽게 평활 |
 
 이 식을 풀어 보면 오래된 과거는 자동으로 지수적으로 감쇠한다.
 
 `τ(n+1) = αt(n) + α(1-α)t(n-1) + α(1-α)^2t(n-2) + ...`
 
-즉 오래전 burst일수록 영향력이 급격히 작아진다. 이 때문에 운영체제는 과거 모든 burst를 배열로 저장할 필요 없이, 직전 예측값 하나만 유지해도 된다. 계산 비용과 메모리 비용이 모두 `O(1)`이라는 점이 [[022_kernel_role|커널]] 친화적인 이유다.
+즉 오래전 burst일수록 영향력이 급격히 작아진다. 이 때문에 운영체제는 과거 모든 burst를 배열로 저장할 필요 없이, 직전 예측값 하나만 유지해도 된다. 계산 비용과 메모리 비용이 모두 `O(1)`이라는 점이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 친화적인 이유다.
 
 아래 예시는 프로세스가 갑자기 짧은 작업에서 긴 작업으로 바뀔 때 예측이 어떻게 따라가는지 보여 준다.
 
@@ -98,7 +102,7 @@ tags:
 
 지수 평균법은 SJF와 SRTF를 위한 입력값 역할도 한다. SJF는 "다음 burst가 가장 짧을 것 같은 프로세스"를 먼저 선택하고, SRTF는 실행 도중에도 남은 시간이 더 짧아 보이는 작업이 오면 선점한다. 완벽한 미래 정보는 없지만, 예측값이 있으면 적어도 짧은 작업을 우대하는 방향으로 시스템을 움직일 수 있다.
 
-또한 현대 운영체제의 [[691_mlfq_multi_level_feedback_queue|다단계 피드백 큐]] (Multilevel Feedback [[058_queue|Queue]], [[691_mlfq_multi_level_feedback_queue|MLFQ]])도 철학적으로는 비슷하다. 공식 자체를 그대로 쓰지 않더라도, 최근에 CPU를 오래 썼는지 짧게 쓰고 I/O로 빠졌는지에 따라 우선순위를 조정한다. 즉 지수 평균법은 수식 하나를 넘어, **최근 행동을 더 믿는다**는 스케줄링 설계 원리로 확장된다.
+또한 현대 운영체제의 [다단계 피드백 큐](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) (Multilevel Feedback [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/), [MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/))도 철학적으로는 비슷하다. 공식 자체를 그대로 쓰지 않더라도, 최근에 CPU를 오래 썼는지 짧게 쓰고 I/O로 빠졌는지에 따라 우선순위를 조정한다. 즉 지수 평균법은 수식 하나를 넘어, **최근 행동을 더 믿는다**는 스케줄링 설계 원리로 확장된다.
 
 - **📢 섹션 요약 비유**: 단순 평균이 오래된 성적표까지 모두 같은 비중으로 보는 담임 선생님이라면, 지수 평균법은 최근 시험 결과를 더 크게 반영하는 현실적인 평가 방식과 같다.
 
@@ -114,7 +118,7 @@ tags:
 | 인터랙티브, 페이즈 변화가 잦은 작업 | 중간 이상 | 최근 행동 변화를 빨리 반영해야 함 |
 | 관측값 노이즈가 큰 환경 | 너무 높지 않게 | 순간 spike를 실제 추세로 오인할 수 있음 |
 
-[[022_kernel_role|커널]] 구현 관점에서는 [[087_floating_point|부동소수점]] 연산을 그대로 쓰기보다 정수 연산이나 [[086_fixed_point|고정소수점]] (Fixed-Point) 근사를 쓰는 경우가 많다. [[079_kube_scheduler_pod_placement|스케줄러]]는 매우 자주 호출되므로 계산 자체도 가벼워야 하며, 예측 실패 시의 [[314_starvation_prevention|starvation]] 위험도 별도로 제어해야 한다. 즉 지수 평균법은 [[079_kube_scheduler_pod_placement|스케줄러]]의 핵심 전부가 아니라, 우선순위 결정을 돕는 한 요소다.
+[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 구현 관점에서는 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 연산을 그대로 쓰기보다 정수 연산이나 [고정소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/086_fixed_point/) (Fixed-Point) 근사를 쓰는 경우가 많다. [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 매우 자주 호출되므로 계산 자체도 가벼워야 하며, 예측 실패 시의 [starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) 위험도 별도로 제어해야 한다. 즉 지수 평균법은 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 핵심 전부가 아니라, 우선순위 결정을 돕는 한 요소다.
 
 아래 흐름은 `α`를 조정할 때 보는 실무 판단을 요약한다.
 
@@ -134,9 +138,9 @@ tags:
 1. **목표가 평균 대기 시간인가, 공정성인가?** 예측값만으로 모든 스케줄링 목표를 만족할 수는 없다.
 2. **프로세스 성격이 자주 바뀌는가?** 그렇다면 `α`를 너무 낮게 두면 변화 감지가 늦어진다.
 3. **노이즈가 큰가?** 그렇다면 `α`를 너무 높이면 순간 burst에 과민 반응한다.
-4. **[[022_kernel_role|커널]] 구현 비용이 작은가?** 공식은 단순해야 하고, 상태 유지도 가벼워야 한다.
+4. **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 구현 비용이 작은가?** 공식은 단순해야 하고, 상태 유지도 가벼워야 한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - `α = 1` 또는 `α = 0`처럼 극단값만 고정해 놓고 조정 의도를 설명하지 않는 것
 - 예측값을 실제 burst 길이처럼 절대값으로 믿는 것
@@ -148,7 +152,7 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-지수 평균법의 가장 큰 효과는 불가능한 미래 예측 문제를 매우 저렴한 방식으로 다룰 수 있게 해 준다는 점이다. 단 하나의 추정값만 유지하면 되므로 구현 부담이 작고, 최근 burst를 더 중시하기 때문에 짧은 작업 우대 정책을 실제 환경에 어느 정도 반영할 수 있다. 이 덕분에 평균 대기 시간 개선, 인터랙티브 작업 우대, [[079_kube_scheduler_pod_placement|스케줄러]] 판단의 [[194_consistency_database_integrity|일관성]] 확보에 도움을 준다.
+지수 평균법의 가장 큰 효과는 불가능한 미래 예측 문제를 매우 저렴한 방식으로 다룰 수 있게 해 준다는 점이다. 단 하나의 추정값만 유지하면 되므로 구현 부담이 작고, 최근 burst를 더 중시하기 때문에 짧은 작업 우대 정책을 실제 환경에 어느 정도 반영할 수 있다. 이 덕분에 평균 대기 시간 개선, 인터랙티브 작업 우대, [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 판단의 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 확보에 도움을 준다.
 
 물론 한계도 분명하다. 갑작스러운 페이즈 전환에는 오차가 생기며, 긴 작업 starvation이나 전반적인 공정성 문제는 별도 정책이 필요하다. 따라서 지수 평균법은 "정답을 알려 주는 공식"이 아니라, **최근 관측과 과거 관성을 압축해 다음 행동을 추정하는 가벼운 센서**로 이해하는 것이 정확하다.
 
@@ -163,10 +167,10 @@ tags:
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | CPU 버스트 (CPU Burst) | 지수 평균법이 예측하려는 직접 대상이다. |
-| [[175_sjf_scheduling|SJF]] ([[175_sjf_scheduling|Shortest Job First]]) | 다음 burst 예측값을 우선순위 판단에 활용하는 대표 정책이다. |
-| [[177_srtf_scheduling|SRTF]] (Shortest Remaining Time First) | 예측값을 더 적극적으로 사용해 선점까지 수행하는 확장형이다. |
-| `α` [[267_weight_bias_activation|가중치]] | 최근 관측과 과거 추정 사이의 균형을 결정한다. |
-| [[691_mlfq_multi_level_feedback_queue|다단계 피드백 큐]] ([[691_mlfq_multi_level_feedback_queue|MLFQ]]) | 최근 CPU 사용 행동을 더 믿는다는 철학을 계승한 현실형 스케줄링 구조다. |
+| [SJF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/) ([Shortest Job First](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/)) | 다음 burst 예측값을 우선순위 판단에 활용하는 대표 정책이다. |
+| [SRTF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/177_srtf_scheduling/) (Shortest Remaining Time First) | 예측값을 더 적극적으로 사용해 선점까지 수행하는 확장형이다. |
+| `α` [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) | 최근 관측과 과거 추정 사이의 균형을 결정한다. |
+| [다단계 피드백 큐](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) ([MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/)) | 최근 CPU 사용 행동을 더 믿는다는 철학을 계승한 현실형 스케줄링 구조다. |
 | 평활화 (Smoothing) | 지수 평균법이 노이즈를 줄이면서 추세를 따라가는 핵심 원리다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -188,7 +192,7 @@ predicted next burst
         └──────────────▶ MLFQ-like recent-behavior heuristics
 ```
 
-이 흐름도는 지수 평균법이 "미래를 모른다"는 문제에서 출발해, 과거 burst를 최근성 [[267_weight_bias_activation|가중치]]로 압축하고, 그 결과를 실제 스케줄링 정책의 입력값으로 사용하는 과정을 보여 준다.
+이 흐름도는 지수 평균법이 "미래를 모른다"는 문제에서 출발해, 과거 burst를 최근성 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)로 압축하고, 그 결과를 실제 스케줄링 정책의 입력값으로 사용하는 과정을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -202,7 +206,7 @@ predicted next burst
 
 **진행 상황**: 176 / 800
 
-← **이전**: [[175_sjf_scheduling|175. SJF (Shortest Job First) 스케줄링 - 최적의 평균 대기 시간]]
-**다음**: [[177_srtf_scheduling|177. SRTF (Shortest Remaining Time First) 스케줄링 - SJF의 선점형 버전]] →
+← **이전**: [175. SJF (Shortest Job First) 스케줄링 - 최적의 평균 대기 시간](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/)
+**다음**: [177. SRTF (Shortest Remaining Time First) 스케줄링 - SJF의 선점형 버전](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/177_srtf_scheduling/) →
 
 ---

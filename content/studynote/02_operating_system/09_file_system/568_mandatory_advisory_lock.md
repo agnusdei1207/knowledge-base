@@ -1,30 +1,34 @@
----
-title: 568. 강제적 잠금 (Mandatory Lock) vs 권고적 잠금 (Advisory Lock)
-date: '2026-05-09'
-tags:
-- studynote-operating-system
----
++++
+title = "568. 강제적 잠금 (Mandatory Lock) vs 권고적 잠금 (Advisory Lock)"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 앞선 567장의 '[[567_file_locking_shared_exclusive|파일 잠금]]' 은 엄청난 맹점을 안고 있었다. 리눅스의 기본 자물쇠(Advisory [[510_lock|Lock]]) 는 **"자물쇠 걸려있는지 검사하는 착한 앱" 들에게만 효과가 있을 뿐, 악성 해커 앱이 검사를 쌩까고(Bypass) 냅다 I/O `write()` 를 갈겨버리면 그냥 문이 부서지며 뚫려버리는 솜사탕 방검복** 이다.
-> 2. **가치**: 이 참사를 막기 위해 **강제적 잠금(Mandatory [[510_lock|Lock]] 록백)** 이 등장했다. 이건 유저 앱의 의지(검사 여부)와 1도 상관없이 OS [[022_kernel_role|커널]]([[517_virtual_file_system_vfs|VFS]]) 밑바닥 시스템콜(`read/write`) 단위에서 **"어? 이 [[501_file_definition_logical_record|파일]] 권한 배타적 상태네? 네놈 I/O 스트림 그냥 바로 차단 쾅!(Permission Denied 포팅!)"** 이 발동되어 그 어떠한 무지성 I/O 터널링도 100% 분쇄해 버리는 통치 기전이다.
-> 3. **한계**: 가장 끔찍한 데드락([[281_deadlock_definition|Deadlock]]) 폭발 딜레마. 옛날 유닉스는 Mandatory [[510_lock|Lock]] 을 좋아했지만, 현대 리눅스(Linus Torvalds)는 이걸 혐오하여 쳐내버렸다. 왜? **"악성 유저가 중요 시스템 [[501_file_definition_logical_record|파일]] [[568_logs_distributed_logging_elk_fluentd|로그]]인(passwd) [[501_file_definition_logical_record|파일]]에 냅다 Mandatory [[510_lock|Lock]] 1방 걸고 런(Run) 쳐버리면? 전체 서버 OS 가 [[568_logs_distributed_logging_elk_fluentd|로그]]인도 못 하고 뻗어버리는 디도스([[599_dos_ddos_attack|DoS]] [[573_timeout_retry_backoff_strategy|타임아웃]] 랙!) 공격"** 의 완벽한 먹잇감이 되기 때문이다 결착.
+> 1. **본질**: 앞선 567장의 '[파일 잠금](/knowledge-base/studynote/02_operating_system/09_file_system/567_file_locking_shared_exclusive/)' 은 엄청난 맹점을 안고 있었다. 리눅스의 기본 자물쇠(Advisory [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 는 **"자물쇠 걸려있는지 검사하는 착한 앱" 들에게만 효과가 있을 뿐, 악성 해커 앱이 검사를 쌩까고(Bypass) 냅다 I/O `write()` 를 갈겨버리면 그냥 문이 부서지며 뚫려버리는 솜사탕 방검복** 이다.
+> 2. **가치**: 이 참사를 막기 위해 **강제적 잠금(Mandatory [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 록백)** 이 등장했다. 이건 유저 앱의 의지(검사 여부)와 1도 상관없이 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)([VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/)) 밑바닥 시스템콜(`read/write`) 단위에서 **"어? 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 권한 배타적 상태네? 네놈 I/O 스트림 그냥 바로 차단 쾅!(Permission Denied 포팅!)"** 이 발동되어 그 어떠한 무지성 I/O 터널링도 100% 분쇄해 버리는 통치 기전이다.
+> 3. **한계**: 가장 끔찍한 데드락([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)) 폭발 딜레마. 옛날 유닉스는 Mandatory [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 을 좋아했지만, 현대 리눅스(Linus Torvalds)는 이걸 혐오하여 쳐내버렸다. 왜? **"악성 유저가 중요 시스템 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인(passwd) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 냅다 Mandatory [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 1방 걸고 런(Run) 쳐버리면? 전체 서버 OS 가 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인도 못 하고 뻗어버리는 디도스([DoS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/) [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 랙!) 공격"** 의 완벽한 먹잇감이 되기 때문이다 결착.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **Advisory [[510_lock|Lock]] (권고적 잠금 신사협정 늪)**: 유닉스 철학의 본질. "프로그래머들아, 너희들끼리 [[501_file_definition_logical_record|파일]] 고칠 때 `flock()` 으로 예의 바르게 노크하고 들어가라." 만약 나쁜 코드(C언어 충돌 봇)가 `flock()` 검사를 아예 안 하고 바로 `open()` $\to$ `write()` 포문을 열어버리면? [[022_kernel_role|커널]]은 그냥 "음 쟤는 노크 안 하네? 패스~" 하고 [[289_cqrs_db|쓰기]]를 100% 허용해 버려 [[501_file_definition_logical_record|파일]]이 산산조각 파단난다([[001_dikw_pyramid|Data]] Corruption). 
-  - **Mandatory [[510_lock|Lock]] (강제 잠금 [[517_virtual_file_system_vfs|VFS]] [[022_kernel_role|커널]] 철퇴 빔!)**: 윈도우(Windows OS) 의 철학 장막! 윈도우에서 엑셀 [[501_file_definition_logical_record|파일]] 열어놓고 휴지통에 버리려면 "사용 중이라 삭제할 수 없음(Access Denied 빔!)" 이 뜨지 않는가? 윈도우는 "네가 검사하든 말든 OS 단에서 [[517_virtual_file_system_vfs|VFS]] 길목 아예 하수구를 걸어 잠글 거야!" 라며 무지성 I/O 를 원천 봉쇄([[195_isolation_concurrency_control|Isolation]]) 해버린다.
-- **필요성**: 악의를 품은 해커나 버그투성이 레거시 코드 봇은 남의 [[501_file_definition_logical_record|파일]] 상태 따위 아랑곳하지 않는다. 하나의 거대한 클러스터에서 덜 만들어진 쓰레기 프로세스 1개가 공유 [[501_file_definition_logical_record|파일]]을 통째로 으깨버리는 사태를 방어하기 위해, **'앱의 룰' 이 아닌 'OS 계층의 물리 법칙' 으로 [[501_file_definition_logical_record|파일]] 무단 접근을 셧다운(Shutdown)** 시킬 거시 스토리지 아크가 필연적으로 부합 요구되었다 증명 록보장.
+  - **Advisory [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) (권고적 잠금 신사협정 늪)**: 유닉스 철학의 본질. "프로그래머들아, 너희들끼리 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 고칠 때 `flock()` 으로 예의 바르게 노크하고 들어가라." 만약 나쁜 코드(C언어 충돌 봇)가 `flock()` 검사를 아예 안 하고 바로 `open()` $\to$ `write()` 포문을 열어버리면? [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 그냥 "음 쟤는 노크 안 하네? 패스~" 하고 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 100% 허용해 버려 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 산산조각 파단난다([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Corruption). 
+  - **Mandatory [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) (강제 잠금 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 철퇴 빔!)**: 윈도우(Windows OS) 의 철학 장막! 윈도우에서 엑셀 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 열어놓고 휴지통에 버리려면 "사용 중이라 삭제할 수 없음(Access Denied 빔!)" 이 뜨지 않는가? 윈도우는 "네가 검사하든 말든 OS 단에서 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 길목 아예 하수구를 걸어 잠글 거야!" 라며 무지성 I/O 를 원천 봉쇄([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/)) 해버린다.
+- **필요성**: 악의를 품은 해커나 버그투성이 레거시 코드 봇은 남의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 상태 따위 아랑곳하지 않는다. 하나의 거대한 클러스터에서 덜 만들어진 쓰레기 프로세스 1개가 공유 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 통째로 으깨버리는 사태를 방어하기 위해, **'앱의 룰' 이 아닌 'OS 계층의 물리 법칙' 으로 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 무단 접근을 셧다운(Shutdown)** 시킬 거시 스토리지 아크가 필연적으로 부합 요구되었다 증명 록보장.
 
-  - (Advisory [[510_lock|Lock]] 신사협정 늪): 공원에 "잔디 밟지 마시오(Advisory [[510_lock|Lock]] 걸어둠)" 팻말을 세웠습니다. 착한 어른(정상 앱)들은 팻말을 보고 피해 갑니다([[571_protection_vs_security|보호]] 연산 렌더!). 하지만 글을 못 읽는 미친 멧돼지(악성 버그 앱)가 나타나면? 팻말이 있든 말든 그냥 잔디밭([[501_file_definition_logical_record|파일]] [[001_dikw_pyramid|데이터]] 랙!)을 뚫고 지나가 풀밭을 다 찢어발깁니다 오버라이트 붕괴 에러!
-  - **(Mandatory [[510_lock|Lock]] [[022_kernel_role|커널]] 전기 철조망 통달 기전!)**: 공원 관리장 리누스 토발즈(OS [[022_kernel_role|커널]])가 극대노 합니다! **[20미터 강철 콘크리트 1만 [[236_vault_dynamic_secrets_ttl|볼트]] 장벽(Mandatory 빔!)]** 을 개설합니다 스왑! 이제 멧돼지가 눈을 감고 철조망을 무시한 채 무지성 직진으로 달려들어도? 벽에 닿자마자 콰광(Permission Denied 튕겨냄 부스트!) 튕겨 나갑니다. 내 눈(앱 코드)으로 [[396_validation|확인]]하든 말든 환경 물리 법칙([[022_kernel_role|커널]] [[517_virtual_file_system_vfs|VFS]]) 이 아예 입장을 불허하는 무적 차단 [[123_pipe|파이프]]입니다 결속!
+  - (Advisory [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 신사협정 늪): 공원에 "잔디 밟지 마시오(Advisory [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 걸어둠)" 팻말을 세웠습니다. 착한 어른(정상 앱)들은 팻말을 보고 피해 갑니다([보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 연산 렌더!). 하지만 글을 못 읽는 미친 멧돼지(악성 버그 앱)가 나타나면? 팻말이 있든 말든 그냥 잔디밭([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 랙!)을 뚫고 지나가 풀밭을 다 찢어발깁니다 오버라이트 붕괴 에러!
+  - **(Mandatory [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 전기 철조망 통달 기전!)**: 공원 관리장 리누스 토발즈(OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))가 극대노 합니다! **[20미터 강철 콘크리트 1만 [볼트](/knowledge-base/studynote/15_devops_sre/05_devsecops/236_vault_dynamic_secrets_ttl/) 장벽(Mandatory 빔!)]** 을 개설합니다 스왑! 이제 멧돼지가 눈을 감고 철조망을 무시한 채 무지성 직진으로 달려들어도? 벽에 닿자마자 콰광(Permission Denied 튕겨냄 부스트!) 튕겨 나갑니다. 내 눈(앱 코드)으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하든 말든 환경 물리 법칙([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/)) 이 아예 입장을 불허하는 무적 차단 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)입니다 결속!
 
-- **Advisory vs Mandatory I/O Bypass 차단 [[103_ascii|ASCII]] 폭쇄 뷰**:
-동일하게 [[501_file_definition_logical_record|파일]] [[510_lock|Lock]] 을 걸었는데, 악성 코드가 들이받을 때 OS [[022_kernel_role|커널]]이 어떻게 두 가지 태도를 취하는지 렌더 체계를 까보면 다음과 같다.
+- **Advisory vs Mandatory I/O Bypass 차단 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 폭쇄 뷰**:
+동일하게 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 을 걸었는데, 악성 코드가 들이받을 때 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 어떻게 두 가지 태도를 취하는지 렌더 체계를 까보면 다음과 같다.
 
 ```text
   ┌─────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -53,7 +57,7 @@ tags:
   └─────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** [[501_file_definition_logical_record|파일]] 시스템 [[289_cqrs_db|쓰기]] [[571_protection_vs_security|보호]](Write [[571_protection_vs_security|Protection]])의 세계관 종결이다. Advisory [[510_lock|Lock]] 은 "[[501_file_definition_logical_record|파일]] 껍데기에 붙은 열쇠 뭉치" 일 뿐, [[501_file_definition_logical_record|파일]] 안의 실제 [[001_dikw_pyramid|데이터]] I/O 연산 자체를 막는 방어막이 아니다! 반면 Mandatory [[510_lock|Lock]] 은 517장 [[517_virtual_file_system_vfs|VFS]] 레이어 깊숙한 `vfs_read()` / `vfs_write()` 함수 최상단에 `if (is_locked) return ERROR;` 를 박아넣어 [[501_file_definition_logical_record|파일]] 입출력의 근원적 숨통을 조이는 무시무시한 [[001_operating_system_purpose|운영체제]] 거시 아키텍처 조율임을 도출.
+**[다이어그램 해설]** [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)(Write [Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/))의 세계관 종결이다. Advisory [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 은 "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 껍데기에 붙은 열쇠 뭉치" 일 뿐, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 안의 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) I/O 연산 자체를 막는 방어막이 아니다! 반면 Mandatory [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 은 517장 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 레이어 깊숙한 `vfs_read()` / `vfs_write()` 함수 최상단에 `if (is_locked) return ERROR;` 를 박아넣어 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 입출력의 근원적 숨통을 조이는 무시무시한 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 거시 아키텍처 조율임을 도출.
 
 - **📢 섹션 요약 비유**: 복잡한 창고에서 필요한 물건을 찾기 위해 먼저 구역과 표지판을 세우는 것과 같다.
 
@@ -62,24 +66,24 @@ tags:
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. 트레이드오프 전선 종결: 리눅스(자유방임) vs 윈도우(강제통치) 위상 차이
-왜 리눅스 서버에서 자꾸 [[501_file_definition_logical_record|파일]] 경쟁 상태(Race) [[568_logs_distributed_logging_elk_fluentd|로그]] 꼬임 오류가 나고 윈도우에선 안 나는지 [[100_sre_site_reliability_engineering_error_budget|SRE]] 쟁점 타결.
+왜 리눅스 서버에서 자꾸 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 경쟁 상태(Race) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 꼬임 오류가 나고 윈도우에선 안 나는지 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 쟁점 타결.
 
-| 락 메커니즘 아키텍처 뷰 | ✨ 리눅스 본진 `Advisory Lock` (권고 록백 [[571_protection_vs_security|보호]]) | 🔥 윈도우 디폴트 `Mandatory Lock` (강압 빔) |
+| 락 메커니즘 아키텍처 뷰 | ✨ 리눅스 본진 `Advisory Lock` (권고 록백 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)) | 🔥 윈도우 디폴트 `Mandatory Lock` (강압 빔) |
 |:---|:---|:---|
-| **설계 철학과 타겟 봇 [[085_confidence_association_rule_conditional_probability|신뢰도]] 늪** | "유닉스 정신! 프로그래머들은 똑똑하니 자기가 알아서 **매너 있게 코딩 짜서 서로 피할 거야 낭만 스피드."** | "야 사용자 앱은 100% 미친 버그 덩어리다! **OS 철권 통치로 하수구부터 잠가버려 [[667_zero_trust_runtime_integrity_measurement|제로 트러스트]] 렌더."** |
-| **개발자 편의성(디버깅) 및 유연 데들락** | [[501_file_definition_logical_record|파일]] 열렸어도 다른 툴로 쪼가리 **읽어보기(`cat`) 가 언제든 가능(O(1) 쾌적 관제 망).** | 누가 쥐고 있으면 삭제는커녕 이름 바꾸기조차 안 되어 **열받아 시스템 리부팅 치게 만드는 족쇄 마비 랙.** |
-| **[[001_operating_system_purpose|운영체제]] [[014_api_posix|API]] 지원 [[022_kernel_role|커널]] 함수 스왑** | 리눅스 기본 `flock()`, `fcntl()` **전부 Advisory 베이스 포팅.** | 윈도우 `LockFileEx` 가 뼛속부터 **Mandatory 베이스 강압 장막 통치 결속.** |
+| **설계 철학과 타겟 봇 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 늪** | "유닉스 정신! 프로그래머들은 똑똑하니 자기가 알아서 **매너 있게 코딩 짜서 서로 피할 거야 낭만 스피드."** | "야 사용자 앱은 100% 미친 버그 덩어리다! **OS 철권 통치로 하수구부터 잠가버려 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 렌더."** |
+| **개발자 편의성(디버깅) 및 유연 데들락** | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 열렸어도 다른 툴로 쪼가리 **읽어보기(`cat`) 가 언제든 가능(O(1) 쾌적 관제 망).** | 누가 쥐고 있으면 삭제는커녕 이름 바꾸기조차 안 되어 **열받아 시스템 리부팅 치게 만드는 족쇄 마비 랙.** |
+| **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 지원 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 함수 스왑** | 리눅스 기본 `flock()`, `fcntl()` **전부 Advisory 베이스 포팅.** | 윈도우 `LockFileEx` 가 뼛속부터 **Mandatory 베이스 강압 장막 통치 결속.** |
 
-### 2. 치명적 오버헤드 폭발: 리눅스 [[022_kernel_role|커널]] 5.15 버전에서의 Mandatory [[510_lock|Lock]] 완전 폐지(Delete) 학살 사건
-왜 그 좋은 강압 방패를 거대 리눅스 진영이 "이건 악성 종양이야!" 라며 [[022_kernel_role|커널]] 코드에서 아예 뜯어내 버렸을까 그 충격 현상을 해석한다.
+### 2. 치명적 오버헤드 폭발: 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 5.15 버전에서의 Mandatory [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 완전 폐지(Delete) 학살 사건
+왜 그 좋은 강압 방패를 거대 리눅스 진영이 "이건 악성 종양이야!" 라며 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드에서 아예 뜯어내 버렸을까 그 충격 현상을 해석한다.
 
-- **[[128_water_scrum_fall_anti_pattern|안티패턴]] 오염 발생 미스터리 ([[599_dos_ddos_attack|DoS]] 디도스 공격의 완벽한 재료 제물 파단 랙)**: 
+- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 오염 발생 미스터리 ([DoS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/) 디도스 공격의 완벽한 재료 제물 파단 랙)**: 
   - (해커 공격 시나리오 늪 스왑): 악의적인 일반 권한(Guest) 유저가 리눅스 서버에 들어왔다! 
-  - (서버 셧다운 폭파 빔 발동!): 만약 리눅스가 Mandatory Lock을 지원한다면? 해커는 `/etc/passwd` (시스템 전체 [[568_logs_distributed_logging_elk_fluentd|로그]]인 비밀번호 [[501_file_definition_logical_record|파일]]) 문서를 읽기(Read) 로 탁 연 다음, 무한정 대기하는 `무한 루프 Mandatory Lock` (내가 열고 잠수탄다!) 을 빙빙 걸어버린다!
-  - 파멸 결과: 해커는 찌끄레기 권한이지만, 이 거대한 `Mandatory Lock` 때문에 [[517_virtual_file_system_vfs|VFS]] 가 막혀버려, 최고 권한 관리자(Root)마저 [[568_logs_distributed_logging_elk_fluentd|로그]]인을 못하고 서버 [[303_authentication_authorization_patterns|인증]] 로직 전체가 뻗어버리는 디도스(Denial of [[090_service_kubernetes_network_load_balancing|Service]] 영구 결착 마비) 참사 붕괴 사태가 벌어진다 증명 록보장.
-- **[[100_sre_site_reliability_engineering_error_budget|SRE]] 극복 솔루션 패치 타결 조율 (리눅스 [[022_kernel_role|커널]]의 권고적 잠금 단일화 록백!!) / 자율 치유 방패**: 
-  - 리눅스 창시자의 1방!: 리누스 토발즈는 분노했다 "강제 잠금(Mandatory)은 구조적으로 무결하지도 않으면서 악용의 여지만 크다! [[022_kernel_role|커널]] 5.15버전부터 코드 싹 다 삭제해 폐기 처분해 버림 타격!" 
-  - 엔터프라이즈 스마트 포팅 로직: 지금 리눅스 환경에서 앱 충돌을 막고 싶으면? (1) 무조건 니네 개발자들 족쳐서 안전한 예방 코드(`flock()` 신사 규칙) 짜게 [[330_code_review|코드 리뷰]] 빡세게 해라! (2) 아니면 [[002_database_definition|데이터베이스]] 내부의 `Row-Level Lock` (567장 핀셋 잠금 빔!) 어플리케이션 통제를 써! OS [[022_kernel_role|커널]]한테 무식한 방패 짓거리를 떠넘기지 마라! 라며 책임을 앱 생태계로 전향시킨 [[100_sre_site_reliability_engineering_error_budget|SRE]] 진화의 정점이다 통달 [[396_validation|확인]].
+  - (서버 셧다운 폭파 빔 발동!): 만약 리눅스가 Mandatory Lock을 지원한다면? 해커는 `/etc/passwd` (시스템 전체 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인 비밀번호 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)) 문서를 읽기(Read) 로 탁 연 다음, 무한정 대기하는 `무한 루프 Mandatory Lock` (내가 열고 잠수탄다!) 을 빙빙 걸어버린다!
+  - 파멸 결과: 해커는 찌끄레기 권한이지만, 이 거대한 `Mandatory Lock` 때문에 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 가 막혀버려, 최고 권한 관리자(Root)마저 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인을 못하고 서버 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 로직 전체가 뻗어버리는 디도스(Denial of [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 영구 결착 마비) 참사 붕괴 사태가 벌어진다 증명 록보장.
+- **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 극복 솔루션 패치 타결 조율 (리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 권고적 잠금 단일화 록백!!) / 자율 치유 방패**: 
+  - 리눅스 창시자의 1방!: 리누스 토발즈는 분노했다 "강제 잠금(Mandatory)은 구조적으로 무결하지도 않으면서 악용의 여지만 크다! [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 5.15버전부터 코드 싹 다 삭제해 폐기 처분해 버림 타격!" 
+  - 엔터프라이즈 스마트 포팅 로직: 지금 리눅스 환경에서 앱 충돌을 막고 싶으면? (1) 무조건 니네 개발자들 족쳐서 안전한 예방 코드(`flock()` 신사 규칙) 짜게 [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) 빡세게 해라! (2) 아니면 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 내부의 `Row-Level Lock` (567장 핀셋 잠금 빔!) 어플리케이션 통제를 써! OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)한테 무식한 방패 짓거리를 떠넘기지 마라! 라며 책임을 앱 생태계로 전향시킨 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 진화의 정점이다 통달 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
 
 - **📢 섹션 요약 비유**: 공장 컨베이어벨트가 어떤 순서로 부품을 받아 가공하고 내보내는지 설계도를 펼쳐 보는 것과 같다.
 
@@ -87,16 +91,16 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-### 착한 권고적 잠금(Advisory [[510_lock|Lock]])을 구명 단추로 쓰는 현업의 궁극 `PID 락 파일` (Single Instance 로직) 뷰.
+### 착한 권고적 잠금(Advisory [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 구명 단추로 쓰는 현업의 궁극 `PID 락 파일` (Single Instance 로직) 뷰.
 리눅스는 권고만 남았으니, 데몬(Daemon 백그라운드 서버 봇)들이 중복 실행 랙을 막기 위해 스스로 창조한 스왑 기전.
 
-- **[[128_water_scrum_fall_anti_pattern|안티패턴]] 충돌 (Nginx 더블 스크립트 실행으로 [[446_port_and_bus|포트]] 80번 붕괴 마비 데들락 랙)**: 
+- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 충돌 (Nginx 더블 스크립트 실행으로 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 80번 붕괴 마비 데들락 랙)**: 
   - 급한 관리자가 웹서버 데몬 `service nginx start` 를 연속으로 따닥 2번 눌렀다. 
-  - 재앙 터짐: `nginx 봇 1번` 도 자기가 마스터인 줄 알고 [[446_port_and_bus|포트]] 80번 먹고 [[501_file_definition_logical_record|파일]] I/O 박으려 하고, `nginx 봇 2번` 도 0.1초 뒤에 깨어나 자기가 마스터인 줄 알고 메모리를 먹으려다 Address Already [[694_confidential_computing_data_in_use|In Use]] (주소 중복 폭주 바인딩) 에러를 뱉으며 서버가 완전 기절 샷 다운 되는 [[123_pipe|파이프]] 붕괴.
-- **[[100_sre_site_reliability_engineering_error_budget|SRE]] 엔지니어 도축 솔루션 (Advisory `nginx.pid` [[501_file_definition_logical_record|파일]] [[510_lock|Lock]] 선점 렌더 방어 빔!)**: 
-  - [[100_sre_site_reliability_engineering_error_budget|SRE]] 초격차 마스킹 발사!: 유닉스 개발자의 암묵적 국룰 1방! 
-  - 신사협정 선점 스왑: nginx 데몬이 켜지면 무조건 `/var/run/nginx.pid` (빈 껍데기 [[501_file_definition_logical_record|파일]]) 하나를 만든 뒤, 자기가 `flock()` Advisory 자물쇠를 걸어놓는다(점유 록백). 
-  - 1초 뒤 똑같이 켜진 nginx 2번이 "나도 켜질래!" 하고 저 pid [[501_file_definition_logical_record|파일]]에 락을 걸려다가, OS [[022_kernel_role|커널]]이 "어? 1번이 쓰고 있는데?" 라고 신사적인 실패 반환을 딱 던져준다. 그럼 2번은 "아! 우리 형이 이미 일하고 있구나, 난 그냥 종료할게 자살 컷!" 하며 클러스터 이중 실행 사고([[190_split_brain_zookeeper_fencing_quorum|Split Brain]])를 무위로 억제해 낸 자율 통치 기전의 궁극 완성이다 증명.
+  - 재앙 터짐: `nginx 봇 1번` 도 자기가 마스터인 줄 알고 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 80번 먹고 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O 박으려 하고, `nginx 봇 2번` 도 0.1초 뒤에 깨어나 자기가 마스터인 줄 알고 메모리를 먹으려다 Address Already [In Use](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/694_confidential_computing_data_in_use/) (주소 중복 폭주 바인딩) 에러를 뱉으며 서버가 완전 기절 샷 다운 되는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 붕괴.
+- **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 엔지니어 도축 솔루션 (Advisory `nginx.pid` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 선점 렌더 방어 빔!)**: 
+  - [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 초격차 마스킹 발사!: 유닉스 개발자의 암묵적 국룰 1방! 
+  - 신사협정 선점 스왑: nginx 데몬이 켜지면 무조건 `/var/run/nginx.pid` (빈 껍데기 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)) 하나를 만든 뒤, 자기가 `flock()` Advisory 자물쇠를 걸어놓는다(점유 록백). 
+  - 1초 뒤 똑같이 켜진 nginx 2번이 "나도 켜질래!" 하고 저 pid [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 락을 걸려다가, OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 "어? 1번이 쓰고 있는데?" 라고 신사적인 실패 반환을 딱 던져준다. 그럼 2번은 "아! 우리 형이 이미 일하고 있구나, 난 그냥 종료할게 자살 컷!" 하며 클러스터 이중 실행 사고([Split Brain](/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/))를 무위로 억제해 낸 자율 통치 기전의 궁극 완성이다 증명.
 
 - **📢 섹션 요약 비유**: 비슷해 보이는 공구를 나란히 놓고 언제 망치를 쓰고 언제 드라이버를 써야 하는지 구분하는 것과 같다.
 
@@ -104,9 +108,9 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- '강제적 잠금 vs 권고적 잠금 (`Mandatory` vs `Advisory` [[517_virtual_file_system_vfs|VFS]] 철퇴 결정권 렌더)' 아키텍처는 [[001_operating_system_purpose|운영체제]]가 [[501_file_definition_logical_record|파일]] 자원을 관리할 때 "신뢰(Trust) 기구로 남을 것인가, 아니면 공안 감시 통제(Control) 기구가 될 것인가" 라는 OS 50년 역사상 가장 치열했던 이데올로기 권력 [[238_switch_operation_principles|스위치]] 뼈대다.
-- 윈도우 진영은 무자비한 [[517_virtual_file_system_vfs|VFS]] 통치(Mandatory)를 통해 초보자 유저가 엑셀을 쓰다가 쓰레기 프로그램에 파사삭 날아가는 [[001_dikw_pyramid|Data]] Corruption 방어벽을 극강으로 쌓았고, 리눅스 진영은 강제 잠금에 따른 데드락([[281_deadlock_definition|Deadlock]] 도스 랙) 결함을 혐오하여 권고(Advisory) 체제로만 회귀([[129_fallback|Fallback]]) 함으로써, 극단의 두 엔터프라이즈 철학 생태계를 이원화시켜 안착시켰다 선고.
-- 비록 악성 봇이 활개 칠 잠재적 오픈 문짝 방관이라는 약점([[283_security_tactics|Security]] By Pass 오버헤드 늪 모순 데들락 랙)을 리눅스가 태생적으로 짊어졌으나, 개발자들의 엄격한 PID [[510_lock|Lock]] 튜닝 패턴과 [[002_database_definition|데이터베이스]] 자체 [[191_transaction_concept_states|트랜잭션]] 수호 방검복([[188_pl_sql_t_sql_procedural|Oracle]]/PostgreSQL ACID) 이 그 맹점을 완벽히 틀어막으며, 더 이상 [[022_kernel_role|커널]] [[517_virtual_file_system_vfs|VFS]] 무식한 전면 차단 오버헤드 없이 [[148_5g_embb_urllc_mmtc|초고속]] I/O 자유 민주주의 [[123_pipe|파이프]]라인 진화판으로 록백 보장.
+- '강제적 잠금 vs 권고적 잠금 (`Mandatory` vs `Advisory` [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 철퇴 결정권 렌더)' 아키텍처는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 자원을 관리할 때 "신뢰(Trust) 기구로 남을 것인가, 아니면 공안 감시 통제(Control) 기구가 될 것인가" 라는 OS 50년 역사상 가장 치열했던 이데올로기 권력 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 뼈대다.
+- 윈도우 진영은 무자비한 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 통치(Mandatory)를 통해 초보자 유저가 엑셀을 쓰다가 쓰레기 프로그램에 파사삭 날아가는 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Corruption 방어벽을 극강으로 쌓았고, 리눅스 진영은 강제 잠금에 따른 데드락([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 도스 랙) 결함을 혐오하여 권고(Advisory) 체제로만 회귀([Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/)) 함으로써, 극단의 두 엔터프라이즈 철학 생태계를 이원화시켜 안착시켰다 선고.
+- 비록 악성 봇이 활개 칠 잠재적 오픈 문짝 방관이라는 약점([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) By Pass 오버헤드 늪 모순 데들락 랙)을 리눅스가 태생적으로 짊어졌으나, 개발자들의 엄격한 PID [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 튜닝 패턴과 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 자체 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 수호 방검복([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/)/PostgreSQL ACID) 이 그 맹점을 완벽히 틀어막으며, 더 이상 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 무식한 전면 차단 오버헤드 없이 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) I/O 자유 민주주의 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 진화판으로 록백 보장.
 
 - **📢 섹션 요약 비유**: 운전자가 도로 상황에 따라 기어와 브레이크를 다르게 선택하는 것처럼 조건별 판단이 중요하다.
 
@@ -114,7 +118,7 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-강제적 잠금 (Mandatory [[510_lock|Lock]]) vs 권고적 잠금 (Advisory [[510_lock|Lock]])은 [[501_file_definition_logical_record|파일]] 시스템과 [[506_directory_structure_symbol_table|디렉터리]] 구조을 이해하는 연결 고리 역할을 한다. 이 개념을 익히면 시스템 동작을 더 예측 가능하게 설명할 수 있지만, 만능 해법은 아니므로 적용 전제와 한계를 함께 기억해야 한다. 앞으로는 [[569_sparse_file_holes|스파스 파일]] ([[569_sparse_file_holes|Sparse File]]) 저장 공간 절약 기술처럼 더 세분화된 기술과 결합되며 자동화·최적화 방향으로 발전한다.
+강제적 잠금 (Mandatory [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) vs 권고적 잠금 (Advisory [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템과 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 구조을 이해하는 연결 고리 역할을 한다. 이 개념을 익히면 시스템 동작을 더 예측 가능하게 설명할 수 있지만, 만능 해법은 아니므로 적용 전제와 한계를 함께 기억해야 한다. 앞으로는 [스파스 파일](/knowledge-base/studynote/02_operating_system/09_file_system/569_sparse_file_holes/) ([Sparse File](/knowledge-base/studynote/02_operating_system/09_file_system/569_sparse_file_holes/)) 저장 공간 절약 기술처럼 더 세분화된 기술과 결합되며 자동화·최적화 방향으로 발전한다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -124,10 +128,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[749_memory_mapped_file_mmap|mmap]] 기반 제로 카피 ([[566_mmap_zero_copy_sendfile|Zero-copy]]) 전송 기술 (sendfile) [[282_performance_tactics|성능]] 이점 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [[567_file_locking_shared_exclusive|파일 잠금]] ([[567_file_locking_shared_exclusive|File Locking]]) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [[569_sparse_file_holes|스파스 파일]] ([[569_sparse_file_holes|Sparse File]]) 저장 공간 절약 기술 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [[570_inotify_file_monitoring|리눅스 inotify 시스템]] | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [mmap](/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/) 기반 제로 카피 ([Zero-copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/)) 전송 기술 (sendfile) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 이점 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [파일 잠금](/knowledge-base/studynote/02_operating_system/09_file_system/567_file_locking_shared_exclusive/) ([File Locking](/knowledge-base/studynote/02_operating_system/09_file_system/567_file_locking_shared_exclusive/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [스파스 파일](/knowledge-base/studynote/02_operating_system/09_file_system/569_sparse_file_holes/) ([Sparse File](/knowledge-base/studynote/02_operating_system/09_file_system/569_sparse_file_holes/)) 저장 공간 절약 기술 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [리눅스 inotify 시스템](/knowledge-base/studynote/02_operating_system/09_file_system/570_inotify_file_monitoring/) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -145,9 +149,9 @@ tags:
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 멍청한 리눅스 관리자 방관 로봇(구식 Advisory [[510_lock|Lock]] 권고적 방식 늪!)은 화장실([[501_file_definition_logical_record|파일]] 영역 스왑!) 문 앞에 "사용 중 들어오지 마시오" 팻말만 걸어둬요. 대부분 착한 사람은 안 들어오지만, 눈이 먼 나쁜 미친 좀비(악성 오류 C언어 코드 프로그램 파단 랙!) 가 나타나면 팻말 무시하고 그냥 화장실 안에 쳐들어가서 볼일 보던 사람과 이리 치이고 저리 치이는 똥바다 대참사([[001_dikw_pyramid|Data]] Corruption [[501_file_definition_logical_record|파일]] 산산조각 붕괴 랙!) 멸망을 야기했어요 덜덜 마비!
-2. 그래서 똑똑한 윈도우 OS 경찰관이 **"강제 무적 철판 셔터 잠금! [[517_virtual_file_system_vfs|VFS]] 물리적 통제 빔!(Mandatory [[510_lock|Lock]] 통치 록백!)"** 마법을 결속해 줬어요! 팻말이 아니라 아예 화장실 입구를 2톤 강철 셔터로 막고 OS [[022_kernel_role|커널]]이 전기 충격기를 들고 섰어요! 눈먼 구식 좀비 봇이 팻말 안 읽고 무작정 돌진(I/O 바이패스 뚫기 타격!) 해와도, OS 철판 벽에 머리통 박고 기절([[013_system_call|System Call]] 에러 반환 튕겨냄 [[571_protection_vs_security|보호]] 스피드!) 하는 절대 입구 컷 통제를 달성해요 도출!
-3. 치명적 슬픔 악질 해커의 골탕 먹이기 디도스 사태 폭발 발생! 앗! 이 영원한 철판 셔터 강압 마법에도 끔찍한 모순 단점이 있어요. 나쁜 유저가 화장실에 들어가서 2톤 셔터를 닫아 달라고 (Mandatory [[510_lock|Lock]] 빔!) 시킨 뒤, 똥은 안 싸고 안에서 그대로 잠들어 버리면(무한 루프 데드락 해킹 [[268_strategy_pattern|전략]] 랙!)? 아예 경찰(관리자 Root)조차도 문을 못 부수고 마을 전체가 화장실 마비 폭주(Denial of [[090_service_kubernetes_network_load_balancing|Service]] 영원한 먹통 트레이드오프 파단!)에 걸려 시스템이 파산해 버려요. 그래서 똑똑한 리누스 토발즈는 "강제 잠금 저리 치워!" 하고 영원히 기능 삭제해 버리는 최후 결정을 하며 진화 랙이 생겼답니다 암막 진화 랙!
+1. 멍청한 리눅스 관리자 방관 로봇(구식 Advisory [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 권고적 방식 늪!)은 화장실([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 영역 스왑!) 문 앞에 "사용 중 들어오지 마시오" 팻말만 걸어둬요. 대부분 착한 사람은 안 들어오지만, 눈이 먼 나쁜 미친 좀비(악성 오류 C언어 코드 프로그램 파단 랙!) 가 나타나면 팻말 무시하고 그냥 화장실 안에 쳐들어가서 볼일 보던 사람과 이리 치이고 저리 치이는 똥바다 대참사([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Corruption [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 산산조각 붕괴 랙!) 멸망을 야기했어요 덜덜 마비!
+2. 그래서 똑똑한 윈도우 OS 경찰관이 **"강제 무적 철판 셔터 잠금! [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 물리적 통제 빔!(Mandatory [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 통치 록백!)"** 마법을 결속해 줬어요! 팻말이 아니라 아예 화장실 입구를 2톤 강철 셔터로 막고 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 전기 충격기를 들고 섰어요! 눈먼 구식 좀비 봇이 팻말 안 읽고 무작정 돌진(I/O 바이패스 뚫기 타격!) 해와도, OS 철판 벽에 머리통 박고 기절([System Call](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/) 에러 반환 튕겨냄 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 스피드!) 하는 절대 입구 컷 통제를 달성해요 도출!
+3. 치명적 슬픔 악질 해커의 골탕 먹이기 디도스 사태 폭발 발생! 앗! 이 영원한 철판 셔터 강압 마법에도 끔찍한 모순 단점이 있어요. 나쁜 유저가 화장실에 들어가서 2톤 셔터를 닫아 달라고 (Mandatory [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 빔!) 시킨 뒤, 똥은 안 싸고 안에서 그대로 잠들어 버리면(무한 루프 데드락 해킹 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 랙!)? 아예 경찰(관리자 Root)조차도 문을 못 부수고 마을 전체가 화장실 마비 폭주(Denial of [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 영원한 먹통 트레이드오프 파단!)에 걸려 시스템이 파산해 버려요. 그래서 똑똑한 리누스 토발즈는 "강제 잠금 저리 치워!" 하고 영원히 기능 삭제해 버리는 최후 결정을 하며 진화 랙이 생겼답니다 암막 진화 랙!
 
 ---
 
@@ -155,7 +159,7 @@ tags:
 
 **진행 상황**: 568 / 800
 
-← **이전**: [[567_file_locking_shared_exclusive|567. 파일 잠금 (File Locking) - 공유 잠금(Shared lock) vs 배타적 잠금(Exclusive lock)]]
-**다음**: [[569_sparse_file_holes|569. 스파스 파일 (Sparse File) 저장 공간 절약 기술]] →
+← **이전**: [567. 파일 잠금 (File Locking) - 공유 잠금(Shared lock) vs 배타적 잠금(Exclusive lock)](/knowledge-base/studynote/02_operating_system/09_file_system/567_file_locking_shared_exclusive/)
+**다음**: [569. 스파스 파일 (Sparse File) 저장 공간 절약 기술](/knowledge-base/studynote/02_operating_system/09_file_system/569_sparse_file_holes/) →
 
 ---

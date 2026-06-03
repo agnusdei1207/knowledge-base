@@ -1,23 +1,27 @@
----
-title: 289. 이미지 분할 (Image Segmentation)
-date: '2026-05-09'
-tags:
-- studynote-ai
----
++++
+title = "289. 이미지 분할 (Image Segmentation)"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-ai"]
+
+[extra]
+tags = ["studynote-ai"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 이미지 분할 (Image [[364_segmentation|Segmentation]])은 사진 속 모든 픽셀(Pixel)에 "이 픽셀은 고양이", "저 픽셀은 하늘"처럼 클래스 레이블을 붙이는 픽셀 단위 [[104_classification_analysis|분류]] 문제로, 물체 탐지([[288_object_detection_yolo_rcnn|Object Detection]])보다 훨씬 세밀한 [[233_precision_recall_f1_roc_auc_threshold|정밀도]]를 요구한다.
-> 2. **가치**: 자율주행 차량이 도로 vs 보행자 vs [[130_signal|신호]]등을 픽셀 수준으로 구분하고, 의료 영상에서 암 종양의 정확한 경계를 그려내는 핵심 기술로, 단순한 사각형 박스(Bounding Box)로는 절대 달성할 수 없는 정밀 분석을 가능하게 한다.
-> 3. **판단 포인트**: 시맨틱 분할 (Semantic [[364_segmentation|Segmentation]])은 같은 클래스의 물체를 하나로 합산하고, 인스턴스 분할 (Instance [[364_segmentation|Segmentation]])은 같은 클래스라도 개별 물체를 따로 구분한다는 차이를 기술사 시험에서 반드시 구별해야 한다.
+> 1. **본질**: 이미지 분할 (Image [Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/))은 사진 속 모든 픽셀(Pixel)에 "이 픽셀은 고양이", "저 픽셀은 하늘"처럼 클래스 레이블을 붙이는 픽셀 단위 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 문제로, 물체 탐지([Object Detection](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/))보다 훨씬 세밀한 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)를 요구한다.
+> 2. **가치**: 자율주행 차량이 도로 vs 보행자 vs [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등을 픽셀 수준으로 구분하고, 의료 영상에서 암 종양의 정확한 경계를 그려내는 핵심 기술로, 단순한 사각형 박스(Bounding Box)로는 절대 달성할 수 없는 정밀 분석을 가능하게 한다.
+> 3. **판단 포인트**: 시맨틱 분할 (Semantic [Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/))은 같은 클래스의 물체를 하나로 합산하고, 인스턴스 분할 (Instance [Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/))은 같은 클래스라도 개별 물체를 따로 구분한다는 차이를 기술사 시험에서 반드시 구별해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-자율주행 자동차의 카메라 센서가 도로 위 화면을 본다고 가정하자. 단순히 "사람이 있다"는 사각형 박스([[288_object_detection_yolo_rcnn|Object Detection]])로는 차가 어느 방향으로 핸들을 돌려야 할지 계산할 수 없다. 차량 컴퓨터는 "이 픽셀 구역은 아스팔트 도로", "저 픽셀 구역은 사람의 발", "이쪽은 하늘"이라고 모든 픽셀 한 장 한 장에 클래스 도장을 찍어야만 정확한 조향각을 계산할 수 있다.
+자율주행 자동차의 카메라 센서가 도로 위 화면을 본다고 가정하자. 단순히 "사람이 있다"는 사각형 박스([Object Detection](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/))로는 차가 어느 방향으로 핸들을 돌려야 할지 계산할 수 없다. 차량 컴퓨터는 "이 픽셀 구역은 아스팔트 도로", "저 픽셀 구역은 사람의 발", "이쪽은 하늘"이라고 모든 픽셀 한 장 한 장에 클래스 도장을 찍어야만 정확한 조향각을 계산할 수 있다.
 
-이 발상에서 탄생한 것이 **이미지 분할 (Image [[364_segmentation|Segmentation]])**이다. [[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]] ([[089_CNN_Convolutional|Convolutional Neural Network]]) 기반의 [[104_classification_analysis|분류]]망이 이미지 전체를 픽셀 단위로 쪼개어 각각 어느 클래스에 속하는지 예측한다. 기존 CNN이 "이 사진 전체는 고양이"라고 하나의 레이블만 뱉는 것과 달리, [[364_segmentation|세그멘테이션]] 망은 입력 이미지와 동일한 크기의 **[[364_segmentation|세그멘테이션]] 맵([[364_segmentation|Segmentation]] Map)**을 출력으로 돌려준다.
+이 발상에서 탄생한 것이 **이미지 분할 (Image [Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/))**이다. [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) ([Convolutional Neural Network](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/)) 기반의 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)망이 이미지 전체를 픽셀 단위로 쪼개어 각각 어느 클래스에 속하는지 예측한다. 기존 CNN이 "이 사진 전체는 고양이"라고 하나의 레이블만 뱉는 것과 달리, [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) 망은 입력 이미지와 동일한 크기의 **[세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) 맵([Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) Map)**을 출력으로 돌려준다.
 
 ```text
 ┌──────────────────────────────────────────────┐
@@ -34,7 +38,7 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-이미지 분할의 핵심 아키텍처는 **[[040_encoder|인코더]]-[[039_decoder|디코더]] ([[040_encoder|Encoder]]-[[039_decoder|Decoder]])** 구조다. [[040_encoder|인코더]]([[040_encoder|Encoder]])가 이미지를 점점 작은 특징 맵([[099_feature_map_activation_map_cnn_output|Feature Map]])으로 [[347_compaction|압축]]하여 고수준 의미를 추출하고, [[039_decoder|디코더]]([[039_decoder|Decoder]])가 이 [[347_compaction|압축]]된 특징 맵을 다시 원본 이미지 크기로 업샘플링(Upsampling)하며 픽셀별 클래스를 복원한다.
+이미지 분할의 핵심 아키텍처는 **[인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)-[디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) ([Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)-[Decoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/))** 구조다. [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)([Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/))가 이미지를 점점 작은 특징 맵([Feature Map](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/))으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하여 고수준 의미를 추출하고, [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)([Decoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/))가 이 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)된 특징 맵을 다시 원본 이미지 크기로 업샘플링(Upsampling)하며 픽셀별 클래스를 복원한다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────────┐
@@ -62,22 +66,22 @@ tags:
 
 | 모델 | 특징 | 주요 혁신 |
 |:---|:---|:---|
-| FCN (Fully Convolutional Network) | 최초의 픽셀별 분할 망, [[102_fully_connected_layer_dense_flatten_softmax|FC Layer]] 제거 | 전결합층 → [[228_cnn_1d_2d_3d_video_medical|합성곱]]으로 대체 |
+| FCN (Fully Convolutional Network) | 최초의 픽셀별 분할 망, [FC Layer](/knowledge-base/studynote/10_ai/02_dl_architecture_new/102_fully_connected_layer_dense_flatten_softmax/) 제거 | 전결합층 → [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)으로 대체 |
 | U-Net | 의료 영상 특화, Skip Connection | 저수준+고수준 특징 결합 |
-| DeepLab v3+ | Dilated (Atrous) [[284_convolution_stride_padding|Convolution]] | 수용 영역 확장, 해상도 유지 |
-| Mask R-[[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]] | 인스턴스 분할, [[012_roi_return_on_investment|ROI]] Align | 개별 물체 [[172_maas_mobility_as_a_service|마스]]크 [[087_process_state_transition|생성]] |
+| DeepLab v3+ | Dilated (Atrous) [Convolution](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/) | 수용 영역 확장, 해상도 유지 |
+| Mask R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) | 인스턴스 분할, [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) Align | 개별 물체 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)크 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
 
-- **📢 섹션 요약 비유**: [[040_encoder|인코더]]는 방 전체를 멀리서 바라보며 "방 구석에 뭔가 덩어리가 있네"라는 큰 그림을 그리는 독수리 눈이고, [[039_decoder|디코더]]는 그 큰 그림을 보고 "저 덩어리의 귀 픽셀은 고양이, 발 픽셀도 고양이"라고 확대 복원하는 현미경이다. Skip Connection은 독수리 눈과 현미경 사이에 놓인 사진 메모지로, [[347_compaction|압축]] 전 선명한 세부 묘사를 잊지 않게 끼워두는 치트 시트다.
+- **📢 섹션 요약 비유**: [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)는 방 전체를 멀리서 바라보며 "방 구석에 뭔가 덩어리가 있네"라는 큰 그림을 그리는 독수리 눈이고, [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)는 그 큰 그림을 보고 "저 덩어리의 귀 픽셀은 고양이, 발 픽셀도 고양이"라고 확대 복원하는 현미경이다. Skip Connection은 독수리 눈과 현미경 사이에 놓인 사진 메모지로, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 전 선명한 세부 묘사를 잊지 않게 끼워두는 치트 시트다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 구분 | 시맨틱 분할 (Semantic [[364_segmentation|Segmentation]]) | 인스턴스 분할 (Instance [[364_segmentation|Segmentation]]) | 파노픽 분할 (Panoptic [[364_segmentation|Segmentation]]) |
+| 구분 | 시맨틱 분할 (Semantic [Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)) | 인스턴스 분할 (Instance [Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)) | 파노픽 분할 (Panoptic [Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)) |
 |:---|:---|:---|:---|
 | 개념 | 모든 픽셀에 클래스 레이블 부여 | 같은 클래스도 개체별로 구분 | 시맨틱 + 인스턴스 통합 |
-| 예시 | 도로/하늘/나무 영역 색칠 | 사람1/사람2/사람3 개별 [[172_maas_mobility_as_a_service|마스]]크 | 모든 픽셀을 고유 ID+클래스로 구분 |
-| 대표 모델 | FCN, DeepLab | Mask R-[[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]], YOLACT | Panoptic FPN |
+| 예시 | 도로/하늘/나무 영역 색칠 | 사람1/사람2/사람3 개별 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)크 | 모든 픽셀을 고유 ID+클래스로 구분 |
+| 대표 모델 | FCN, DeepLab | Mask R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/), YOLACT | Panoptic FPN |
 | 자율주행 활용 | 도로 영역 추출 | 차량 개수 추적 | 전체 장면 완전 파악 |
 
 - **📢 섹션 요약 비유**: 시맨틱 분할은 지도에 "여기는 강, 여기는 산, 여기는 평야"라고 지역 구분만 한 것이고, 인스턴스 분할은 "강1(한강), 강2(낙동강), 산1(한라산)"처럼 개별 이름표까지 붙이는 것이다. 파노픽은 둘 다 합쳐 지도 위 모든 것에 고유 주소와 이름표를 붙이는 완벽한 국토 대장이다.
@@ -86,9 +90,9 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**자율주행 시스템**에서 이미지 분할은 라이다([[140_lidar_light_detection_and_ranging_tof|LiDAR]]) 포인트 클라우드와 융합하여 3D 공간에서 주행 가능 영역을 실시간 계산하는 데 쓰인다. 추론 속도(Inference Speed)가 30fps 이상이어야 실시간 처리가 가능하므로, 경량화된 **MobileNet + DeepLab** 조합이나 **TensorRT** 최적화가 필수다.
+**자율주행 시스템**에서 이미지 분할은 라이다([LiDAR](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/)) 포인트 클라우드와 융합하여 3D 공간에서 주행 가능 영역을 실시간 계산하는 데 쓰인다. 추론 속도(Inference Speed)가 30fps 이상이어야 실시간 처리가 가능하므로, 경량화된 **MobileNet + DeepLab** 조합이나 **TensorRT** 최적화가 필수다.
 
-**의료 영상** 분야에서는 U-Net이 소량의 라벨 [[001_dikw_pyramid|데이터]](의사가 직접 그린 [[172_maas_mobility_as_a_service|마스]]크)만으로도 높은 정확도를 보여 [[162_continuous_training_pipeline_model_retraining|CT]]/MRI 종양 [[364_segmentation|세그멘테이션]]에 광범위하게 사용된다. [[001_dikw_pyramid|데이터]] 증강([[001_dikw_pyramid|Data]] Augmentation, 회전·반전·탄성 변형)으로 훈련 [[001_dikw_pyramid|데이터]] 부족 문제를 극복한다.
+**의료 영상** 분야에서는 U-Net이 소량의 라벨 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(의사가 직접 그린 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)크)만으로도 높은 정확도를 보여 [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/)/MRI 종양 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)에 광범위하게 사용된다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증강([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Augmentation, 회전·반전·탄성 변형)으로 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 부족 문제를 극복한다.
 
 - **📢 섹션 요약 비유**: 이미지 분할이 자율주행에서 하는 역할은 어둠 속에서 수술하는 집도의의 손에 쥐어진 야광 형광펜이다. 형광펜 덕분에 "여기는 혈관, 저기는 종양, 이쪽은 절개해도 되는 부위"가 어둠 속에서도 낱낱이 보이고, 의사(차량 컴퓨터)는 0.03초 만에 정확한 시술(핸들 조작) 결정을 내릴 수 있다.
 
@@ -96,11 +100,11 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-이미지 분할 (Image [[364_segmentation|Segmentation]])은 [[190_ai_llm_requirements_specification|AI]] 비전(Computer Vision) 기술의 정점에 서 있는 픽셀 수준의 완전한 장면 이해 기술이다. 단순 [[104_classification_analysis|분류]]([[107_classification|Classification]])나 탐지([[961_deepfake_detection|Detection]])와는 달리 장면 속 모든 영역의 의미를 동시에 파악하므로, 자율주행·의료·위성 영상·증강현실(AR) 등 [[233_precision_recall_f1_roc_auc_threshold|정밀도]]가 생사를 가르는 분야에서 대체 불가능한 핵심 기술로 자리매김하고 있다.
+이미지 분할 (Image [Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/))은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 비전(Computer Vision) 기술의 정점에 서 있는 픽셀 수준의 완전한 장면 이해 기술이다. 단순 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)([Classification](/knowledge-base/studynote/12_it_management/03_ea_isp/107_classification/))나 탐지([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))와는 달리 장면 속 모든 영역의 의미를 동시에 파악하므로, 자율주행·의료·위성 영상·증강현실(AR) 등 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)가 생사를 가르는 분야에서 대체 불가능한 핵심 기술로 자리매김하고 있다.
 
-[[246_transformer_self_attention_parallel_positional_encoding|트랜스포머]]([[246_transformer_self_attention_parallel_positional_encoding|Transformer]]) 기반의 **SegFormer**, **SAM ([[407_tcp_segment_header_structure_20_60_bytes|Segment]] Anything Model)** 등 최신 모델은 사전 훈련된 대규모 비전 지식을 활용해 심지어 새로운 클래스도 프롬프트 하나로 즉시 분할하는 제로샷([[585_zero_skipping|Zero]]-Shot) [[364_segmentation|세그멘테이션]] 시대를 열고 있다.
+[트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)([Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)) 기반의 **SegFormer**, **SAM ([Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/) Anything Model)** 등 최신 모델은 사전 훈련된 대규모 비전 지식을 활용해 심지어 새로운 클래스도 프롬프트 하나로 즉시 분할하는 제로샷([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-Shot) [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) 시대를 열고 있다.
 
-- **📢 섹션 요약 비유**: 이미지 분할의 미래는 "신이 창조한 세계를 완전히 해독하는 [[190_ai_llm_requirements_specification|AI]] 지도 제작자"다. 과거 AI는 사진 한 장을 보고 "고양이다"라고만 외쳤지만, 이제 AI는 "이 픽셀은 고양이의 왼쪽 귀, 저 픽셀은 오른쪽 발톱"이라고 전지전능하게 세계 지도를 그려내고 있다. 이 지도 위에 자율주행, 의료, 우주 탐사 등 인류의 미래가 새겨지고 있다.
+- **📢 섹션 요약 비유**: 이미지 분할의 미래는 "신이 창조한 세계를 완전히 해독하는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 지도 제작자"다. 과거 AI는 사진 한 장을 보고 "고양이다"라고만 외쳤지만, 이제 AI는 "이 픽셀은 고양이의 왼쪽 귀, 저 픽셀은 오른쪽 발톱"이라고 전지전능하게 세계 지도를 그려내고 있다. 이 지도 위에 자율주행, 의료, 우주 탐사 등 인류의 미래가 새겨지고 있다.
 
 ---
 
@@ -108,11 +112,11 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]] ([[089_CNN_Convolutional|합성곱 신경망]]) | 특징 추출, [[285_pooling_layer|풀링]] / [[364_segmentation|세그멘테이션]] [[040_encoder|인코더]]의 기반 기술 |
+| [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) ([합성곱 신경망](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/)) | 특징 추출, [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) / [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)의 기반 기술 |
 | U-Net | Skip Connection, 의료 영상 / 대표적 시맨틱 분할 아키텍처 |
-| Mask R-[[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]] | 인스턴스 분할, [[012_roi_return_on_investment|ROI]] Align / 물체 개별 [[172_maas_mobility_as_a_service|마스]]크 [[087_process_state_transition|생성]] |
+| Mask R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) | 인스턴스 분할, [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) Align / 물체 개별 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)크 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
 | SAM | 제로샷, 프롬프트 / Meta AI의 범용 분할 모델 |
-| 자율주행 | [[140_lidar_light_detection_and_ranging_tof|LiDAR]] 융합, 실시간 추론 / 주행 가능 영역 계산에 직접 적용 |
+| 자율주행 | [LiDAR](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/) 융합, 실시간 추론 / 주행 가능 영역 계산에 직접 적용 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -122,9 +126,9 @@ tags:
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 사진을 보고 "고양이 있어요!"라고만 하는 건 **물체 탐지([[288_object_detection_yolo_rcnn|Object Detection]])**인데, 이미지 분할은 그림 속 모든 점 하나하나에 **"이 점은 고양이 귀, 저 점은 하늘, 이 점은 나무"** 라고 색깔 스티커를 붙이는 거예요!
+1. 사진을 보고 "고양이 있어요!"라고만 하는 건 **물체 탐지([Object Detection](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/))**인데, 이미지 분할은 그림 속 모든 점 하나하나에 **"이 점은 고양이 귀, 저 점은 하늘, 이 점은 나무"** 라고 색깔 스티커를 붙이는 거예요!
 2. 마치 색칠공부 책에서 **고양이 그림 안쪽만 노란색으로, 하늘은 파란색으로** 색칠하는 것처럼, 컴퓨터가 사진 전체를 색깔별로 칸칸이 나눠 칠하는 거랍니다.
-3. 자동차가 스스로 운전할 때 "어디가 도로고 어디가 사람인지" **픽셀마다 [[396_validation|확인]]**해야 사고 없이 달릴 수 있어서, 이 기술이 정말 중요해요!
+3. 자동차가 스스로 운전할 때 "어디가 도로고 어디가 사람인지" **픽셀마다 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**해야 사고 없이 달릴 수 있어서, 이 기술이 정말 중요해요!
 
 ---
 
@@ -132,7 +136,7 @@ tags:
 
 **진행 상황**: 289 / 420
 
-← **이전**: [[288_object_detection_yolo_rcnn|288. 객체 탐지 (Object Detection)]]
-**다음**: [[290_rnn_recurrent|290. RNN (Recurrent Neural Network)]] →
+← **이전**: [288. 객체 탐지 (Object Detection)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/)
+**다음**: [290. RNN (Recurrent Neural Network)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/290_rnn_recurrent/) →
 
 ---

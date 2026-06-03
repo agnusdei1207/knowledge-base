@@ -1,33 +1,37 @@
----
-title: 217. 지연 평가 / DAG 최적화 (Lazy Evaluation)
-date: '2026-04-21'
-tags:
-- studynote-cloud-architecture
----
++++
+title = "217. 지연 평가 / DAG 최적화 (Lazy Evaluation)"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-cloud-architecture"]
+
+[extra]
+tags = ["studynote-cloud-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Spark의 [[023_lazy_evaluation|지연 평가]]([[023_lazy_evaluation|Lazy Evaluation]])는 트랜스포메이션(map, filter 등) 연산을 즉시 실행하지 않고 [[401_bayesian_network_dag_causality|DAG]](유향 비순환 [[070_graph_datastructure|그래프]])에 기록했다가, 액션(count, save 등)이 호출될 때 Catalyst Optimizer가 전체 [[166_execution_plan_optimizer_navigation_tree|실행 계획]]을 최적화한 후 한 번에 실행하는 방식이다.
-> 2. **가치**: 개별 연산을 즉시 실행하면 불필요한 중간 [[001_dikw_pyramid|데이터]]가 생성되지만, [[023_lazy_evaluation|지연 평가]]를 통해 Optimizer가 연산 순서 재배치·불필요한 단계 제거·푸시다운(Predicate Pushdown) 등의 최적화를 적용하여 실제 실행 비용을 최소화한다.
-> 3. **판단 포인트**: [[023_lazy_evaluation|지연 평가]]는 Spark [[282_performance_tactics|성능]] 최적화의 핵심이지만, 잘못 이해하면 `collect()`를 루프 안에서 호출하거나 불필요한 `show()`를 남발하여 오히려 [[282_performance_tactics|성능]]을 해치는 함정에 빠질 수 있다.
+> 1. **본질**: Spark의 [지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)([Lazy Evaluation](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/))는 트랜스포메이션(map, filter 등) 연산을 즉시 실행하지 않고 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/)(유향 비순환 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/))에 기록했다가, 액션(count, save 등)이 호출될 때 Catalyst Optimizer가 전체 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 최적화한 후 한 번에 실행하는 방식이다.
+> 2. **가치**: 개별 연산을 즉시 실행하면 불필요한 중간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 생성되지만, [지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)를 통해 Optimizer가 연산 순서 재배치·불필요한 단계 제거·푸시다운(Predicate Pushdown) 등의 최적화를 적용하여 실제 실행 비용을 최소화한다.
+> 3. **판단 포인트**: [지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)는 Spark [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화의 핵심이지만, 잘못 이해하면 `collect()`를 루프 안에서 호출하거나 불필요한 `show()`를 남발하여 오히려 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 해치는 함정에 빠질 수 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-수학에서 함수 `f(x) = 2x + 1`을 정의할 때, x 값을 알지 못해도 함수를 정의할 수 있다. x가 주어질 때(즉, 실제 계산이 필요할 때)만 결과가 계산된다. Spark의 [[023_lazy_evaluation|지연 평가]]는 이와 정확히 같은 원리다.
+수학에서 함수 `f(x) = 2x + 1`을 정의할 때, x 값을 알지 못해도 함수를 정의할 수 있다. x가 주어질 때(즉, 실제 계산이 필요할 때)만 결과가 계산된다. Spark의 [지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)는 이와 정확히 같은 원리다.
 
-`df.filter(df.age > 30).groupBy("dept").count()`라는 Spark 코드를 작성할 때, 처음 두 연산(filter, groupBy)은 즉시 실행되지 않는다. `.count()` 액션이 호출될 때, Spark의 Catalyst Optimizer가 이 세 연산 전체를 하나의 [[166_execution_plan_optimizer_navigation_tree|실행 계획]]으로 보고 최적화를 수행한 후 클러스터에 제출한다.
+`df.filter(df.age > 30).groupBy("dept").count()`라는 Spark 코드를 작성할 때, 처음 두 연산(filter, groupBy)은 즉시 실행되지 않는다. `.count()` 액션이 호출될 때, Spark의 Catalyst Optimizer가 이 세 연산 전체를 하나의 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)으로 보고 최적화를 수행한 후 클러스터에 제출한다.
 
-[[023_lazy_evaluation|지연 평가]]의 핵심 이점은 **전체 맥락을 알고 최적화한다**는 것이다. 각 연산을 따로 실행하면 filter의 결과를 임시 저장 후 groupBy에 전달해야 하지만, [[023_lazy_evaluation|지연 평가]]를 통해 Optimizer가 "filter를 먼저 하면 groupBy의 [[001_dikw_pyramid|데이터]] 크기가 줄어든다"는 것을 알고 최적 순서로 실행한다.
+[지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)의 핵심 이점은 **전체 맥락을 알고 최적화한다**는 것이다. 각 연산을 따로 실행하면 filter의 결과를 임시 저장 후 groupBy에 전달해야 하지만, [지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)를 통해 Optimizer가 "filter를 먼저 하면 groupBy의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기가 줄어든다"는 것을 알고 최적 순서로 실행한다.
 
-📢 **섹션 요약 비유**: [[023_lazy_evaluation|지연 평가]]는 출장 여행 계획과 같다. 서울→부산→광주→서울 순서를 바로 예약하지 않고, 모든 방문지를 먼저 정한 후 여행사([[088_optimizer|Optimizer]])에게 최적 경로(비용·시간 최소화)를 계산해달라고 맡기는 방식이다.
+📢 **섹션 요약 비유**: [지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)는 출장 여행 계획과 같다. 서울→부산→광주→서울 순서를 바로 예약하지 않고, 모든 방문지를 먼저 정한 후 여행사([Optimizer](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_optimizer/))에게 최적 경로(비용·시간 최소화)를 계산해달라고 맡기는 방식이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [[401_bayesian_network_dag_causality|DAG]] [[166_execution_plan_optimizer_navigation_tree|실행 계획]] 최적화 과정
+### [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 최적화 과정
 
 ```
   사용자 코드 (PySpark/Scala)
@@ -59,13 +63,13 @@ tags:
 
 | 최적화 | 설명 | 효과 |
 |:---|:---|:---|
-| **Predicate Pushdown** | 조건(filter)을 [[001_dikw_pyramid|데이터]] 소스에 최대한 가까이 적용 | 읽는 [[001_dikw_pyramid|데이터]] 양 감소 |
-| **Column [[435_pruning_hardware|Pruning]]** | 필요한 컬럼만 선택하여 읽기 | I/O 최소화 |
-| **[[521_join|Join]] 재정렬** | 작은 테이블을 먼저 처리 | 네트워크 셔플 감소 |
+| **Predicate Pushdown** | 조건(filter)을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스에 최대한 가까이 적용 | 읽는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 양 감소 |
+| **Column [Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)** | 필요한 컬럼만 선택하여 읽기 | I/O 최소화 |
+| **[Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 재정렬** | 작은 테이블을 먼저 처리 | 네트워크 셔플 감소 |
 | **Constant Folding** | 상수 표현식을 컴파일 타임에 계산 | 런타임 오버헤드 제거 |
-| **Broadcast [[521_join|Join]]** | 작은 테이블을 모든 노드에 브로드캐스트 | 대규모 셔플 제거 |
+| **Broadcast [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)** | 작은 테이블을 모든 노드에 브로드캐스트 | 대규모 셔플 제거 |
 
-### [[023_lazy_evaluation|지연 평가]] 실습 예시
+### [지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/) 실습 예시
 
 ```python
 # 모두 트랜스포메이션 - 즉시 실행 안 됨, DAG에 기록만
@@ -84,15 +88,15 @@ result.show()    # 이 순간 실행! Optimizer가 최적화 후 클러스터에
 result.explain(mode="extended")  # 논리적/물리적 계획 출력
 ```
 
-📢 **섹션 요약 비유**: Catalyst Optimizer는 GPS 내비게이션과 같다. 출발지·경유지·도착지를 모두 입력받은 후(모든 트랜스포메이션 수집), 최적 경로를 계산하여([[166_execution_plan_optimizer_navigation_tree|실행 계획]] 최적화), 한 번에 안내를 시작한다(액션 실행). 경유지마다 경로를 따로 계산하지 않는다.
+📢 **섹션 요약 비유**: Catalyst Optimizer는 GPS 내비게이션과 같다. 출발지·경유지·도착지를 모두 입력받은 후(모든 트랜스포메이션 수집), 최적 경로를 계산하여([실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 최적화), 한 번에 안내를 시작한다(액션 실행). 경유지마다 경로를 따로 계산하지 않는다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### Eager Evaluation vs [[023_lazy_evaluation|Lazy Evaluation]]
+### Eager Evaluation vs [Lazy Evaluation](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)
 
-| 항목 | Eager Evaluation | [[023_lazy_evaluation|Lazy Evaluation]] (Spark) |
+| 항목 | Eager Evaluation | [Lazy Evaluation](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/) (Spark) |
 |:---|:---|:---|
 | 실행 시점 | 각 연산 즉시 | 액션 호출 시 일괄 |
 | 최적화 가능성 | 낮음 (개별 최적화) | 높음 (전체 맥락 최적화) |
@@ -100,7 +104,7 @@ result.explain(mode="extended")  # 논리적/물리적 계획 출력
 | 메모리 효율 | 낮음 (중간 결과 저장) | 높음 (파이프라인 융합) |
 | 언어 | Python(기본), pandas | Spark, Haskell |
 
-### 함수 합성([[082_pipeline|Pipeline]] Fusion)
+### 함수 합성([Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/) Fusion)
 
 ```python
 # 지연 평가 없이 (가정):
@@ -113,13 +117,13 @@ step3 = step2.map(f3)     # 1M 행 처리
 # 불필요한 중간 결과 저장 없음, 메모리 효율 최대화
 ```
 
-📢 **섹션 요약 비유**: [[082_pipeline|Pipeline]] Fusion은 공장 컨베이어 벨트와 같다. 자동차 부품을 1단계 가공 후 창고에 저장하고, 다시 꺼내서 2단계 가공 후 저장하는 대신, 컨베이어 벨트에서 1→2→3단계를 연속으로 처리하여 중간 저장 없이 완성차를 만든다.
+📢 **섹션 요약 비유**: [Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/) Fusion은 공장 컨베이어 벨트와 같다. 자동차 부품을 1단계 가공 후 창고에 저장하고, 다시 꺼내서 2단계 가공 후 저장하는 대신, 컨베이어 벨트에서 1→2→3단계를 연속으로 처리하여 중간 저장 없이 완성차를 만든다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[[023_lazy_evaluation|지연 평가]]의 함정 - 흔한 실수**:
+**[지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)의 함정 - 흔한 실수**:
 ```python
 # ❌ 잘못된 패턴: 루프에서 collect() 호출
 for user_id in user_ids:  # user_ids = large list
@@ -139,7 +143,7 @@ filtered.show()               # Job 실행 1번 + 캐시
 filtered.groupBy().show()     # 캐시에서 즉시 처리
 ```
 
-**`explain()`으로 [[166_execution_plan_optimizer_navigation_tree|실행 계획]] 분석**:
+**`explain()`으로 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 분석**:
 ```python
 # 실행 계획 확인 (성능 진단의 시작)
 df.filter(df.age > 30).groupBy("dept").count().explain()
@@ -156,7 +160,7 @@ df.filter(df.age > 30).groupBy("dept").count().explain()
 
 **기술사 판단 포인트**:
 - `explain()` 출력에서 `FileScan`의 컬럼 수가 적으면 Column Pruning이, Filter가 FileScan 바로 위에 있으면 Predicate Pushdown이 적용된 것이다.
-- [[023_lazy_evaluation|지연 평가]]로 인해 에러가 액션 시점에서야 발생한다. 개발 단계에서 `sample()`로 소량 [[001_dikw_pyramid|데이터]]로 먼저 테스트하면 빠른 디버깅이 가능하다.
+- [지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)로 인해 에러가 액션 시점에서야 발생한다. 개발 단계에서 `sample()`로 소량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 먼저 테스트하면 빠른 디버깅이 가능하다.
 - `adaptive query execution(AQE)` (Spark 3.0+): 실행 중 통계 기반으로 동적 계획 재최적화.
 
 📢 **섹션 요약 비유**: `explain()`은 GPS 내비게이션에서 "경로 상세 보기"를 누르는 것과 같다. 어떤 도로를 왜 선택했는지, 어디서 최적화가 이루어졌는지 확인할 수 있다.
@@ -170,11 +174,11 @@ df.filter(df.age > 30).groupBy("dept").count().explain()
 | 자동 최적화 | 개발자가 최적화를 몰라도 Catalyst가 처리 |
 | 불필요한 연산 제거 | 사용하지 않는 컬럼·조건을 자동 제거 |
 | 파이프라인 융합 | 여러 연산을 하나의 단계로 합쳐 중간 저장 제거 |
-| Pushdown 최적화 | [[001_dikw_pyramid|데이터]] 소스 레벨에서 필터링으로 I/O 최소화 |
+| Pushdown 최적화 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스 레벨에서 필터링으로 I/O 최소화 |
 
-[[023_lazy_evaluation|지연 평가]]는 Spark를 단순한 [[136_variance|분산]] 처리 엔진을 넘어 **자동 최적화 플랫폼**으로 만드는 핵심이다. 개발자는 "무엇을 처리할 것인가"(논리적 계획)만 표현하고, Catalyst Optimizer가 "어떻게 처리할 것인가"(물리적 계획)를 결정한다. 이 선언적([[219_declarative_yaml|Declarative]]) 프로그래밍 모델이 Spark DataFrame의 가장 강력한 특성이다.
+[지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)는 Spark를 단순한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 엔진을 넘어 **자동 최적화 플랫폼**으로 만드는 핵심이다. 개발자는 "무엇을 처리할 것인가"(논리적 계획)만 표현하고, Catalyst Optimizer가 "어떻게 처리할 것인가"(물리적 계획)를 결정한다. 이 선언적([Declarative](/knowledge-base/studynote/15_devops_sre/05_devsecops/219_declarative_yaml/)) 프로그래밍 모델이 Spark DataFrame의 가장 강력한 특성이다.
 
-📢 **섹션 요약 비유**: [[023_lazy_evaluation|지연 평가]]와 Catalyst Optimizer의 관계는 요리사(개발자)와 자동 주방 시스템([[088_optimizer|Optimizer]])의 관계다. 요리사는 "오늘 메뉴는 파스타, 스테이크, 디저트"만 결정하고, 시스템이 재료 구매 순서·조리 시간·오븐 온도를 자동으로 최적화한다.
+📢 **섹션 요약 비유**: [지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)와 Catalyst Optimizer의 관계는 요리사(개발자)와 자동 주방 시스템([Optimizer](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_optimizer/))의 관계다. 요리사는 "오늘 메뉴는 파스타, 스테이크, 디저트"만 결정하고, 시스템이 재료 구매 순서·조리 시간·오븐 온도를 자동으로 최적화한다.
 
 ---
 
@@ -182,16 +186,16 @@ df.filter(df.age > 30).groupBy("dept").count().explain()
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[057_catalyst_optimizer|Catalyst Optimizer]] | [[023_lazy_evaluation|지연 평가]]를 활용하여 [[166_execution_plan_optimizer_navigation_tree|실행 계획]]을 최적화하는 Spark 핵심 |
-| [[401_bayesian_network_dag_causality|DAG]] (방향성 비순환 [[070_graph_datastructure|그래프]]) | 트랜스포메이션 연산들이 기록되는 [[166_execution_plan_optimizer_navigation_tree|실행 계획]] 구조 |
-| Predicate Pushdown | [[001_dikw_pyramid|데이터]] 소스로 필터 조건을 내려보내는 I/O 최적화 |
-| [[310_audit|RDD]] / DataFrame | [[023_lazy_evaluation|지연 평가]]가 적용되는 Spark [[001_dikw_pyramid|데이터]] [[198_abstraction_control_data_process|추상화]] |
-| cache() / persist() | 반복 사용 [[001_dikw_pyramid|데이터]]를 메모리에 유지하여 재계산 방지 |
+| [Catalyst Optimizer](/knowledge-base/studynote/16_bigdata/03_spark/057_catalyst_optimizer/) | [지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)를 활용하여 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 최적화하는 Spark 핵심 |
+| [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) (방향성 비순환 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)) | 트랜스포메이션 연산들이 기록되는 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 구조 |
+| Predicate Pushdown | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스로 필터 조건을 내려보내는 I/O 최적화 |
+| [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) / DataFrame | [지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)가 적용되는 Spark [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) |
+| cache() / persist() | 반복 사용 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 메모리에 유지하여 재계산 방지 |
 | AQE (Adaptive Query Execution) | Spark 3.0의 실행 중 동적 최적화 기능 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [[023_lazy_evaluation|지연 평가]]는 여행 계획을 세울 때, 각 교통편을 바로 예약하는 대신 모든 일정을 다 정한 후 여행사에 최적 루트를 부탁하는 것이야.
+1. [지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)는 여행 계획을 세울 때, 각 교통편을 바로 예약하는 대신 모든 일정을 다 정한 후 여행사에 최적 루트를 부탁하는 것이야.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -207,7 +211,7 @@ Lazy Evaluation: DAG 구축 → Action 호출 시 실행
 Adaptive Query Execution (AQE): 런타임 동적 최적화
 ```
 2. Spark도 filter, groupBy, count 같은 연산을 모두 모아두었다가, "결과를 줘!"(액션) 할 때 한 번에 최적화해서 실행해.
-3. 덕분에 "필요한 자료만 가져오기(Pushdown)", "중간 저장 없이 연속 처리([[082_pipeline|Pipeline]] Fusion)" 등의 자동 최적화가 가능해.
+3. 덕분에 "필요한 자료만 가져오기(Pushdown)", "중간 저장 없이 연속 처리([Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/) Fusion)" 등의 자동 최적화가 가능해.
 
 ---
 
@@ -215,7 +219,7 @@ Adaptive Query Execution (AQE): 런타임 동적 최적화
 
 **진행 상황**: 216 / 371
 
-← **이전**: [[216_rdd_resilient_distributed_dataset|216. RDD (Resilient Distributed Dataset)]]
-**다음**: [[218_spark_streaming_realtime_processing|218. 스파크 스트리밍 / Structured Streaming]] →
+← **이전**: [216. RDD (Resilient Distributed Dataset)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/216_rdd_resilient_distributed_dataset/)
+**다음**: [218. 스파크 스트리밍 / Structured Streaming](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/218_spark_streaming_realtime_processing/) →
 
 ---

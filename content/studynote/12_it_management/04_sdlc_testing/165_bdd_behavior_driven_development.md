@@ -1,9 +1,13 @@
----
-title: 165. BDD (Behavior Driven Development, 행위 주도 개발)
-date: '2026-04-21'
-tags:
-- studynote-it-management
----
++++
+title = "165. BDD (Behavior Driven Development, 행위 주도 개발)"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-it-management"]
+
+[extra]
+tags = ["studynote-it-management"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -15,11 +19,11 @@ tags:
 
 ## Ⅰ. 개요 및 필요성
 
-BDD는 "무엇을 만들어야 하는가"를 먼저 언어로 명확히 한 뒤 구현에 들어가는 접근이다. [[077_tdd_test_driven_development|테스트 주도 개발]] ([[411_process|Test-Driven Development]], [[164_tdd_test_driven_development|TDD]])이 개발자 중심의 작은 단위 [[395_verification_process_review|검증]]에 강하다면, BDD는 사용자와 비즈니스가 이해할 수 있는 기능 행위 수준에서 명세를 정렬하는 데 강하다.
+BDD는 "무엇을 만들어야 하는가"를 먼저 언어로 명확히 한 뒤 구현에 들어가는 접근이다. [테스트 주도 개발](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/077_tdd_test_driven_development/) ([Test-Driven Development](/knowledge-base/studynote/11_design_supervision/06_exam_summary/411_process/), [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/))이 개발자 중심의 작은 단위 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에 강하다면, BDD는 사용자와 비즈니스가 이해할 수 있는 기능 행위 수준에서 명세를 정렬하는 데 강하다.
 
-이 방식이 필요한 이유는 요구사항 문서와 개발 해석 사이의 간극 때문이다. 같은 "로그인 실패 처리"라도 기획자는 보안 [[164_policy|정책]]을, QA는 오류 메시지를, 개발자는 예외 흐름을 떠올린다. BDD는 이 차이를 Given/When/Then 형식의 구체 시나리오로 끌어내어, 애매한 표현을 실행 가능한 약속으로 바꾼다.
+이 방식이 필요한 이유는 요구사항 문서와 개발 해석 사이의 간극 때문이다. 같은 "로그인 실패 처리"라도 기획자는 보안 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을, QA는 오류 메시지를, 개발자는 예외 흐름을 떠올린다. BDD는 이 차이를 Given/When/Then 형식의 구체 시나리오로 끌어내어, 애매한 표현을 실행 가능한 약속으로 바꾼다.
 
-특히 복잡한 업무 규칙이 있는 [[064_relation_domain|도메인]]에서 효과가 크다. 예를 들어 보험 청구, 금융 이체, 쿠폰 [[164_policy|정책]]은 코드보다 예외 규칙이 더 어렵다. 이때 행위를 문장으로 먼저 명확히 하면 개발 착수 전부터 누락 규칙과 충돌 [[164_policy|정책]]을 발견할 수 있다.
+특히 복잡한 업무 규칙이 있는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에서 효과가 크다. 예를 들어 보험 청구, 금융 이체, 쿠폰 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 코드보다 예외 규칙이 더 어렵다. 이때 행위를 문장으로 먼저 명확히 하면 개발 착수 전부터 누락 규칙과 충돌 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 발견할 수 있다.
 
 - **📢 섹션 요약 비유**: BDD는 공연 리허설 전에 대본을 함께 읽는 과정과 같다. 배우마다 자기 식으로 해석하기 전에, 어떤 장면에서 누가 무엇을 하고 어떤 결과가 나와야 하는지 먼저 맞춰 보는 것이다.
 
@@ -27,9 +31,9 @@ BDD는 "무엇을 만들어야 하는가"를 먼저 언어로 명확히 한 뒤 
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-BDD의 핵심은 자연어 명세와 자동화 테스트를 끊지 않고 연결하는 것이다. 보통 기능 요구를 발견하고, 시나리오로 공식화하고, 이를 스텝 정의 (Step Definition) 코드에 연결한 뒤, [[076_ci_continuous_integration|지속적 통합]]/[[020_continuous_delivery|지속적 전달]] ([[019_continuous_integration|Continuous Integration]]/[[164_continuous_delivery|Continuous Delivery]], [[090_configuration_item|CI]]/CD) 파이프라인에서 반복 실행한다.
+BDD의 핵심은 자연어 명세와 자동화 테스트를 끊지 않고 연결하는 것이다. 보통 기능 요구를 발견하고, 시나리오로 공식화하고, 이를 스텝 정의 (Step Definition) 코드에 연결한 뒤, [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)/[지속적 전달](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/020_continuous_delivery/) ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)/[Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD) 파이프라인에서 반복 실행한다.
 
-아래 흐름은 BDD가 단순 문서 작성이 아니라 협업, 자동화, [[395_verification_process_review|검증]]이 이어지는 구조임을 보여준다.
+아래 흐름은 BDD가 단순 문서 작성이 아니라 협업, 자동화, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 이어지는 구조임을 보여준다.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────┐
@@ -52,7 +56,7 @@ BDD의 핵심은 자연어 명세와 자동화 테스트를 끊지 않고 연결
 └────────────────────────────────────────────────────────────────────┘
 ```
 
-이 구조에서 중요한 연결점은 Gherkin이다. 거킨 (Gherkin)은 BDD 시나리오를 표현하는 [[064_relation_domain|도메인]] 특화 언어 (Domain-Specific Language, DSL)로, 비기술자도 읽을 수 있으면서 도구가 파싱할 수 있다. 아래 예시는 명세와 [[395_verification_process_review|검증]]이 같은 문장 구조를 공유한다.
+이 구조에서 중요한 연결점은 Gherkin이다. 거킨 (Gherkin)은 BDD 시나리오를 표현하는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 언어 (Domain-Specific Language, DSL)로, 비기술자도 읽을 수 있으면서 도구가 파싱할 수 있다. 아래 예시는 명세와 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 같은 문장 구조를 공유한다.
 
 ```gherkin
 Feature: 송금 한도 검증
@@ -67,10 +71,10 @@ Feature: 송금 한도 검증
 | 요소 | 의미 | 설계 포인트 |
 | :-- | :-- | :-- |
 | Feature | 사용자 가치 단위 | 기능 이름보다 비즈니스 목적이 드러나야 한다 |
-| Scenario | 하나의 [[395_verification_process_review|검증]] 가능한 사례 | 한 시나리오에는 한 행동만 담는 편이 좋다 |
-| Given | 사전 상태 | [[001_dikw_pyramid|데이터]]와 전제를 구체적으로 적는다 |
+| Scenario | 하나의 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 사례 | 한 시나리오에는 한 행동만 담는 편이 좋다 |
+| Given | 사전 상태 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 전제를 구체적으로 적는다 |
 | When | 사용자 행위/이벤트 | UI 클릭보다 의미 있는 행동으로 쓴다 |
-| Then | 기대 결과 | 화면, 상태, 규칙 [[395_verification_process_review|검증]]을 명확히 쓴다 |
+| Then | 기대 결과 | 화면, 상태, 규칙 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 명확히 쓴다 |
 | Examples | 여러 입력 조합 | 시나리오 중복을 줄여 준다 |
 
 - **📢 섹션 요약 비유**: BDD는 요리책에서 "재료 준비(Given) → 조리 행동(When) → 완성 상태(Then)"를 적는 것과 같다. 레시피가 정확해야 누구가 요리해도 같은 맛이 난다.
@@ -79,19 +83,19 @@ Feature: 송금 한도 검증
 
 ## Ⅲ. 비교 및 연결
 
-BDD는 TDD를 대체하는 기법이 아니라 다른 [[198_abstraction_control_data_process|추상화]] 수준을 담당하는 보완재다. TDD가 함수와 클래스 수준의 설계를 다듬는다면, BDD는 기능과 [[164_policy|정책]] 수준에서 팀의 공통 이해를 만든다. 또한 인수 [[077_tdd_test_driven_development|테스트 주도 개발]] (Acceptance [[411_process|Test-Driven Development]], [[710_atdd_acceptance_test_driven_development|ATDD]])과도 닿아 있지만, BDD는 특히 대화와 예시 중심 협업을 더 강조한다.
+BDD는 TDD를 대체하는 기법이 아니라 다른 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 수준을 담당하는 보완재다. TDD가 함수와 클래스 수준의 설계를 다듬는다면, BDD는 기능과 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 수준에서 팀의 공통 이해를 만든다. 또한 인수 [테스트 주도 개발](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/077_tdd_test_driven_development/) (Acceptance [Test-Driven Development](/knowledge-base/studynote/11_design_supervision/06_exam_summary/411_process/), [ATDD](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/710_atdd_acceptance_test_driven_development/))과도 닿아 있지만, BDD는 특히 대화와 예시 중심 협업을 더 강조한다.
 
-| 구분 | [[164_tdd_test_driven_development|TDD]] | BDD | [[710_atdd_acceptance_test_driven_development|ATDD]] |
+| 구분 | [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) | BDD | [ATDD](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/710_atdd_acceptance_test_driven_development/) |
 | :-- | :-- | :-- | :-- |
-| 주 초점 | 구현 [[002_bigdata_5v|정확성]] | 기대 행위 공유 | [[165_acceptance_criteria_definition|인수 기준]] 합의 |
+| 주 초점 | 구현 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/) | 기대 행위 공유 | [인수 기준](/knowledge-base/studynote/04_software_engineering/03_design_architecture/165_acceptance_criteria_definition/) 합의 |
 | 주요 독자 | 개발자 | 비즈니스 + 개발 + QA | 고객/비즈니스 + QA |
-| 표현 방식 | 테스트 코드 | 자연어 시나리오 + 코드 | [[165_acceptance_criteria_definition|인수 기준]] 시나리오 |
-| 테스트 레벨 | [[397_unit_test|단위 테스트]] 중심 | 기능/행위 테스트 중심 | [[406_acceptance_test_uat|인수 테스트]] 중심 |
+| 표현 방식 | 테스트 코드 | 자연어 시나리오 + 코드 | [인수 기준](/knowledge-base/studynote/04_software_engineering/03_design_architecture/165_acceptance_criteria_definition/) 시나리오 |
+| 테스트 레벨 | [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 중심 | 기능/행위 테스트 중심 | [인수 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/) 중심 |
 | 대표 질문 | "이 함수가 맞게 동작하는가?" | "사용자는 무엇을 기대하는가?" | "이 기능을 완료로 볼 수 있는가?" |
 
-BDD의 핵심 협업 방식으로는 쓰리 아미고스 (Three Amigos) 회의가 자주 언급된다. 여기서 [[063_product_owner_po|제품 책임자]] (Product Owner, PO)는 비즈니스 규칙을, 개발자는 구현 가능성을, QA는 [[395_verification_process_review|검증]] 관점을 제시한다. 이 세 관점이 충돌하는 지점에서 좋은 시나리오가 만들어진다.
+BDD의 핵심 협업 방식으로는 쓰리 아미고스 (Three Amigos) 회의가 자주 언급된다. 여기서 [제품 책임자](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/063_product_owner_po/) (Product Owner, PO)는 비즈니스 규칙을, 개발자는 구현 가능성을, QA는 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 관점을 제시한다. 이 세 관점이 충돌하는 지점에서 좋은 시나리오가 만들어진다.
 
-또한 BDD는 생존 문서 (Living [[378_software_documentation|Documentation]]) 개념과 연결된다. 시나리오가 자동화 테스트와 연결되어 있으면 문서는 정적 산출물이 아니라 실제 동작과 함께 유지되는 실행형 명세가 된다. 따라서 문서와 시스템이 따로 노는 문제를 줄일 수 있다.
+또한 BDD는 생존 문서 (Living [Documentation](/knowledge-base/studynote/04_software_engineering/06_software_architecture/378_software_documentation/)) 개념과 연결된다. 시나리오가 자동화 테스트와 연결되어 있으면 문서는 정적 산출물이 아니라 실제 동작과 함께 유지되는 실행형 명세가 된다. 따라서 문서와 시스템이 따로 노는 문제를 줄일 수 있다.
 
 - **📢 섹션 요약 비유**: TDD가 부품 하나하나를 점검하는 정비라면, BDD는 운전자가 실제로 차를 몰았을 때 기대하는 경험을 점검하는 시승 테스트다. 둘 다 필요하지만 보는 높이가 다르다.
 
@@ -99,19 +103,19 @@ BDD의 핵심 협업 방식으로는 쓰리 아미고스 (Three Amigos) 회의�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 BDD는 로그인처럼 단순한 기능보다 [[164_policy|정책]]성 규칙이 많은 영역에서 빛난다. 예를 들어 전자상거래 쿠폰 기능은 "신규 회원만 가능", "중복 할인 불가", "유효기간 만료 시 거절" 같은 규칙이 얽혀 있다. 이때 시나리오를 먼저 정리하면 구현 전에 누락 [[164_policy|정책]]과 예외 흐름을 발견할 수 있다.
+실무에서 BDD는 로그인처럼 단순한 기능보다 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)성 규칙이 많은 영역에서 빛난다. 예를 들어 전자상거래 쿠폰 기능은 "신규 회원만 가능", "중복 할인 불가", "유효기간 만료 시 거절" 같은 규칙이 얽혀 있다. 이때 시나리오를 먼저 정리하면 구현 전에 누락 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 예외 흐름을 발견할 수 있다.
 
-좋은 BDD 시나리오는 구체적이고, UI 세부보다 행위 중심이며, 비즈니스 언어를 사용한다. 반대로 나쁜 시나리오는 버튼 클릭 순서만 적거나, 하나의 시나리오에 여러 [[164_policy|정책]]을 몰아넣어 실패 원인을 अस्पष्ट하게 만든다. 따라서 시나리오 수를 줄이는 것보다 **책임이 명확한 시나리오**를 만드는 것이 중요하다.
+좋은 BDD 시나리오는 구체적이고, UI 세부보다 행위 중심이며, 비즈니스 언어를 사용한다. 반대로 나쁜 시나리오는 버튼 클릭 순서만 적거나, 하나의 시나리오에 여러 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 몰아넣어 실패 원인을 अस्पष्ट하게 만든다. 따라서 시나리오 수를 줄이는 것보다 **책임이 명확한 시나리오**를 만드는 것이 중요하다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 시나리오를 PO, 개발자, QA가 함께 검토했는가?
-2. Given이 [[001_dikw_pyramid|데이터]] 전제를 충분히 드러내는가?
+2. Given이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전제를 충분히 드러내는가?
 3. When이 UI 조작이 아닌 사용자 의도를 표현하는가?
-4. Then이 관찰 가능한 결과를 [[395_verification_process_review|검증]]하는가?
-5. 자동화 후 [[090_configuration_item|CI]]/CD에서 [[410_regression_test|회귀 테스트]]로 계속 실행되는가?
+4. Then이 관찰 가능한 결과를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는가?
+5. 자동화 후 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD에서 [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/)로 계속 실행되는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 개발자가 혼자 Gherkin 문법만 작성하고 협업을 생략하는 경우
 - 테스트 도구 도입만 하고 예시 기반 대화를 하지 않는 경우
@@ -123,7 +127,7 @@ BDD의 핵심 협업 방식으로는 쓰리 아미고스 (Three Amigos) 회의�
 
 ## Ⅴ. 기대효과 및 결론
 
-BDD를 제대로 적용하면 요구사항과 테스트와 구현의 간격이 줄어든다. 팀은 기능을 "대충 이해하고 구현한 뒤 수정"하는 대신, 먼저 시나리오를 통해 완료 기준을 선명하게 만든다. 그 결과 [[410_regression_test|회귀 테스트]] 품질이 좋아지고, 신규 인력도 시나리오만 읽어 핵심 [[164_policy|정책]]을 빠르게 이해할 수 있다.
+BDD를 제대로 적용하면 요구사항과 테스트와 구현의 간격이 줄어든다. 팀은 기능을 "대충 이해하고 구현한 뒤 수정"하는 대신, 먼저 시나리오를 통해 완료 기준을 선명하게 만든다. 그 결과 [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/) 품질이 좋아지고, 신규 인력도 시나리오만 읽어 핵심 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 빠르게 이해할 수 있다.
 
 물론 BDD가 모든 프로젝트에 무조건 필요한 것은 아니다. 규칙이 단순하고 팀 규모가 작다면 오히려 작성 비용이 부담이 될 수 있다. 또 시나리오를 지나치게 세분화하면 문서 유지 비용이 커지고, 비즈니스 언어가 아니라 구현 용어가 들어오면 금방 낡은 테스트가 된다.
 
@@ -140,8 +144,8 @@ BDD를 제대로 적용하면 요구사항과 테스트와 구현의 간격이 �
 | BDD (Behavior Driven Development) | 행위 중심 시나리오로 요구사항과 테스트를 연결하는 핵심 방법론 |
 | Gherkin | BDD 시나리오를 표현하는 대표 문법 |
 | 쓰리 아미고스 (Three Amigos) | PO·개발·QA가 예시를 통해 공통 이해를 만드는 협업 방식 |
-| [[164_tdd_test_driven_development|TDD]] ([[411_process|Test-Driven Development]]) | 구현 단위 설계를 다듬는 보완 기법 |
-| 생존 문서 (Living [[378_software_documentation|Documentation]]) | 실행되는 시나리오가 최신 명세가 되는 개념 |
+| [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) ([Test-Driven Development](/knowledge-base/studynote/11_design_supervision/06_exam_summary/411_process/)) | 구현 단위 설계를 다듬는 보완 기법 |
+| 생존 문서 (Living [Documentation](/knowledge-base/studynote/04_software_engineering/06_software_architecture/378_software_documentation/)) | 실행되는 시나리오가 최신 명세가 되는 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -162,7 +166,7 @@ BDD (Behavior Driven Development)
 CI/CD 회귀 테스트 · 생존 문서 (Living Documentation)
 ```
 
-이 흐름은 구두 요구사항이 예시와 시나리오를 거쳐 실행 가능한 명세와 지속 [[395_verification_process_review|검증]] 체계로 발전하는 과정을 보여준다.
+이 흐름은 구두 요구사항이 예시와 시나리오를 거쳐 실행 가능한 명세와 지속 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 체계로 발전하는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -176,7 +180,7 @@ CI/CD 회귀 테스트 · 생존 문서 (Living Documentation)
 
 **진행 상황**: 279 / 587
 
-← **이전**: [[164_tdd_test_driven_development|164. TDD (Test Driven Development, 테스트 주도 개발)]]
-**다음**: [[166_cicd_continuous_integration_deployment|166. CI/CD (Continuous Integration/Continuous Deployment, 지속적 통합/배포)]] →
+← **이전**: [164. TDD (Test Driven Development, 테스트 주도 개발)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)
+**다음**: [166. CI/CD (Continuous Integration/Continuous Deployment, 지속적 통합/배포)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/166_cicd_continuous_integration_deployment/) →
 
 ---

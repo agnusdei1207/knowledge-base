@@ -1,27 +1,31 @@
----
-title: 433. 메모리 월 (Memory Wall)
-date: '2026-03-20'
-tags:
-- studynote-computer-architecture
----
++++
+title = "433. 메모리 월 (Memory Wall)"
+date = 2026-03-20
+
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 메모리 월 (Memory Wall)은 프로세서의 연산 속도보다 메모리 접근 [[015_지연_데이터_관점|지연]]과 [[140_bandwidth|대역폭]] 증가가 훨씬 느려서, 시스템 [[282_performance_tactics|성능]]이 계산기가 아니라 [[001_dikw_pyramid|데이터]] 이동 속도에 묶이는 현상이다.
-> 2. **가치**: 특히 [[231_ai_turing_test|인공지능]] ([[190_ai_llm_requirements_specification|AI]], [[001_artificial_intelligence|Artificial Intelligence]]) 가속기에서는 초당 연산량 (TOPS, Tera Operations Per Second)보다 [[001_dikw_pyramid|데이터]]를 얼마나 가까이 두고 여러 번 재사용하느냐가 실제 처리량과 전력 효율을 좌우한다.
-> 3. **판단 포인트**: 메모리 월 대응은 단순히 더 빠른 코어를 사는 문제가 아니라, 캐시·온칩 버퍼·타일링·[[434_quantization|양자화]]·고대역폭 메모리 ([[495_hbm|HBM]], [[495_hbm|High Bandwidth Memory]])·메모리 내 연산까지 포함한 [[001_dikw_pyramid|데이터]] 이동 최소화 전략의 선택 문제다.
+> 1. **본질**: 메모리 월 (Memory Wall)은 프로세서의 연산 속도보다 메모리 접근 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 증가가 훨씬 느려서, 시스템 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 계산기가 아니라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 속도에 묶이는 현상이다.
+> 2. **가치**: 특히 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) ([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), [Artificial Intelligence](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/)) 가속기에서는 초당 연산량 (TOPS, Tera Operations Per Second)보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 얼마나 가까이 두고 여러 번 재사용하느냐가 실제 처리량과 전력 효율을 좌우한다.
+> 3. **판단 포인트**: 메모리 월 대응은 단순히 더 빠른 코어를 사는 문제가 아니라, 캐시·온칩 버퍼·타일링·[양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)·고대역폭 메모리 ([HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/), [High Bandwidth Memory](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/))·메모리 내 연산까지 포함한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 최소화 전략의 선택 문제다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-메모리 월 (Memory Wall)은 중앙처리장치 (CPU, Central Processing Unit)나 그래픽처리장치 ([[418_gpu|GPU]], [[418_gpu|Graphics Processing Unit]])가 계산은 매우 빨리 끝내는데, 주기억장치인 동적 램 ([[251_dram|DRAM]], Dynamic Random Access Memory)에서 다음 [[001_dikw_pyramid|데이터]]를 가져오는 시간이 상대적으로 너무 길어 발생하는 구조적 병목이다. 즉 컴퓨터 [[282_performance_tactics|성능]]의 중심축이 "연산기 속도"에서 "[[001_dikw_pyramid|데이터]] 공급 속도"로 이동한 상태를 가리킨다.
+메모리 월 (Memory Wall)은 중앙처리장치 (CPU, Central Processing Unit)나 그래픽처리장치 ([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))가 계산은 매우 빨리 끝내는데, 주기억장치인 동적 램 ([DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/), Dynamic Random Access Memory)에서 다음 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가져오는 시간이 상대적으로 너무 길어 발생하는 구조적 병목이다. 즉 컴퓨터 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 중심축이 "연산기 속도"에서 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공급 속도"로 이동한 상태를 가리킨다.
 
-초기의 시스템에서는 코어 수가 적고 동작 주파수도 낮아, 메모리 [[015_지연_데이터_관점|지연]]이 체감상 덜 치명적이었다. 그러나 멀티코어, 벡터 연산, 텐서 코어가 확산되면서 한 사이클에 소비하는 [[001_dikw_pyramid|데이터]] 양이 급증했고, 반대로 오프칩 메모리는 핀 수, 배선 길이, 전력, 패키징 제약 때문에 같은 비율로 빨라지지 못했다. 그래서 현대 시스템은 계산 능력을 더 넣을수록 오히려 "기다리는 코어"가 늘어나는 역설을 겪는다.
+초기의 시스템에서는 코어 수가 적고 동작 주파수도 낮아, 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 체감상 덜 치명적이었다. 그러나 멀티코어, 벡터 연산, 텐서 코어가 확산되면서 한 사이클에 소비하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 양이 급증했고, 반대로 오프칩 메모리는 핀 수, 배선 길이, 전력, 패키징 제약 때문에 같은 비율로 빨라지지 못했다. 그래서 현대 시스템은 계산 능력을 더 넣을수록 오히려 "기다리는 코어"가 늘어나는 역설을 겪는다.
 
-특히 [[231_ai_turing_test|인공지능]] 추론과 학습은 거대한 [[267_weight_bias_activation|가중치]]와 활성값을 반복적으로 읽고 쓰므로 메모리 월의 영향을 정면으로 받는다. [[582_llm_based_code_generation_tools|대규모 언어 모델]] 추론에서 토큰 하나를 생성할 때마다 수많은 파라미터를 메모리에서 다시 읽어야 하므로, 이 작업은 계산 집약적이라기보다 메모리 바운드 (Memory-Bound)인 경우가 많다. 따라서 [[190_ai_llm_requirements_specification|AI]] 하드웨어 [[282_performance_tactics|성능]]을 논할 때는 [[087_floating_point|부동소수점]] 연산 [[282_performance_tactics|성능]] ([[137_flops|FLOPS]], [[087_floating_point|Floating Point]] Operations Per Second)만이 아니라 [[140_bandwidth|대역폭]], [[015_지연_데이터_관점|지연]], [[001_dikw_pyramid|데이터]] 재사용 구조를 함께 봐야 한다.
+특히 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 추론과 학습은 거대한 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)와 활성값을 반복적으로 읽고 쓰므로 메모리 월의 영향을 정면으로 받는다. [대규모 언어 모델](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/582_llm_based_code_generation_tools/) 추론에서 토큰 하나를 생성할 때마다 수많은 파라미터를 메모리에서 다시 읽어야 하므로, 이 작업은 계산 집약적이라기보다 메모리 바운드 (Memory-Bound)인 경우가 많다. 따라서 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 하드웨어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 논할 때는 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 연산 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) ([FLOPS](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/137_flops/), [Floating Point](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) Operations Per Second)만이 아니라 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재사용 구조를 함께 봐야 한다.
 
-이 그림은 왜 연산기가 놀게 되는지를 시간축으로 [[347_compaction|압축]]해 보여준다.
+이 그림은 왜 연산기가 놀게 되는지를 시간축으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────────┐
@@ -38,7 +42,7 @@ tags:
 └────────────────────────────────────────────────────────────────────────────┘
 ```
 
-핵심은 메모리 월이 메모리가 "느리다"는 단순 불평이 아니라, **연산기와 메모리의 발전 속도 차이가 시스템 설계 전체를 바꾸게 만든 현상**이라는 점이다. 이 병목을 무시하면 코어를 늘릴수록 [[282_performance_tactics|성능]] 향상은 둔화되고, 전력과 비용만 빠르게 증가한다.
+핵심은 메모리 월이 메모리가 "느리다"는 단순 불평이 아니라, **연산기와 메모리의 발전 속도 차이가 시스템 설계 전체를 바꾸게 만든 현상**이라는 점이다. 이 병목을 무시하면 코어를 늘릴수록 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상은 둔화되고, 전력과 비용만 빠르게 증가한다.
 
 - **📢 섹션 요약 비유**: 메모리 월은 100명이 동시에 요리할 수 있는 대형 주방인데, 식재료가 들어오는 문이 한 개뿐인 상황과 같다. 요리사 수를 더 늘려도 출입문이 그대로면 주방은 더 붐비기만 한다.
 
@@ -46,19 +50,19 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-메모리 월을 이해하려면 "메모리 계층"과 "[[001_dikw_pyramid|데이터]] 재사용"을 함께 봐야 한다. 프로세서는 [[057_register|레지스터]], 온칩 [[250_sram|SRAM]] (Static Random Access Memory), L2/L3 캐시, [[495_hbm|HBM]], DRAM처럼 가까운 곳일수록 작고 빠르며, 먼 곳일수록 크지만 느린 저장공간을 계층적으로 둔다. [[282_performance_tactics|성능]]은 가능한 한 [[001_dikw_pyramid|데이터]]를 위쪽 계층에 오래 머물게 하느냐에 달려 있다.
+메모리 월을 이해하려면 "메모리 계층"과 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재사용"을 함께 봐야 한다. 프로세서는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), 온칩 [SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/) (Static Random Access Memory), L2/L3 캐시, [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/), DRAM처럼 가까운 곳일수록 작고 빠르며, 먼 곳일수록 크지만 느린 저장공간을 계층적으로 둔다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 가능한 한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 위쪽 계층에 오래 머물게 하느냐에 달려 있다.
 
 | 계층 | 위치 | 특성 | 메모리 월 관점의 의미 |
 | :--- | :--- | :--- | :--- |
-| [[057_register|레지스터]] ([[175_register_addressing|Register]]) | 연산기 바로 옆 | 가장 빠름, 용량 매우 작음 | 같은 [[001_dikw_pyramid|데이터]]를 여러 연산에 재사용할수록 유리 |
-| 공유 [[250_sram|SRAM]] / 로컬 버퍼 | 코어 또는 [[421_streaming_multiprocessor|스트리밍 멀티프로세서]] ([[421_streaming_multiprocessor|SM]], [[421_streaming_multiprocessor|Streaming Multiprocessor]]) 내부 | 빠르고 [[430_index_fast_full_scan|병렬]] 접근 가능 | 타일링 (Tiling)의 핵심 공간 |
+| [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) ([Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)) | 연산기 바로 옆 | 가장 빠름, 용량 매우 작음 | 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 연산에 재사용할수록 유리 |
+| 공유 [SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/) / 로컬 버퍼 | 코어 또는 [스트리밍 멀티프로세서](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/) ([SM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/), [Streaming Multiprocessor](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/)) 내부 | 빠르고 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 접근 가능 | 타일링 (Tiling)의 핵심 공간 |
 | L2/L3 캐시 | 칩 내부 | 자동 관리 또는 공유 버퍼 | 불규칙 접근 완화, 히트율이 중요 |
-| [[495_hbm|HBM]] ([[495_hbm|High Bandwidth Memory]]) | 패키지 근접 | [[140_bandwidth|대역폭]] 높음, 용량 제한 | [[190_ai_llm_requirements_specification|AI]] 가속기 [[282_performance_tactics|성능]]을 좌우하는 공급원 |
-| [[251_dram|DRAM]] | 보드 외부 또는 원거리 | 용량 큼, [[015_지연_데이터_관점|지연]] 큼 | 메모리 월이 가장 크게 드러나는 지점 |
+| [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) ([High Bandwidth Memory](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/)) | 패키지 근접 | [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 높음, 용량 제한 | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속기 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 좌우하는 공급원 |
+| [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) | 보드 외부 또는 원거리 | 용량 큼, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 큼 | 메모리 월이 가장 크게 드러나는 지점 |
 
-[[190_ai_llm_requirements_specification|AI]] 가속기는 이 계층을 따라 [[001_dikw_pyramid|데이터]]를 한 번 가져오면 여러 곱셈-누적 연산 ([[673_mac_message_authentication_code|MAC]], [[428_mac_operation|Multiply-Accumulate]])에 재사용하도록 설계된다. 예를 들어 행렬 곱셈에서 입력 타일과 [[267_weight_bias_activation|가중치]] 타일을 온칩 버퍼에 올려 두고, 그 안에서 수십~수백 번 재사용하면 오프칩 접근 횟수를 크게 줄일 수 있다. 반대로 타일 크기가 작거나 [[001_dikw_pyramid|데이터]] 배치가 나쁘면, 연산기는 매번 HBM이나 DRAM을 다시 찾게 되어 메모리 월에 곧바로 막힌다.
+[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속기는 이 계층을 따라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한 번 가져오면 여러 곱셈-누적 연산 ([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/), [Multiply-Accumulate](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/428_mac_operation/))에 재사용하도록 설계된다. 예를 들어 행렬 곱셈에서 입력 타일과 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 타일을 온칩 버퍼에 올려 두고, 그 안에서 수십~수백 번 재사용하면 오프칩 접근 횟수를 크게 줄일 수 있다. 반대로 타일 크기가 작거나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치가 나쁘면, 연산기는 매번 HBM이나 DRAM을 다시 찾게 되어 메모리 월에 곧바로 막힌다.
 
-이 그림은 [[190_ai_llm_requirements_specification|AI]] 가속기에서 [[001_dikw_pyramid|데이터]]가 어디서 병목되는지를 보여준다.
+이 그림은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속기에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어디서 병목되는지를 보여준다.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────────┐
@@ -75,9 +79,9 @@ tags:
 └────────────────────────────────────────────────────────────────────────────┘
 ```
 
-이를 정량적으로 보는 대표 개념이 산술 집약도 (Arithmetic Intensity)다. 이는 읽고 쓴 [[074_byte|바이트]] 수 대비 얼마나 많은 연산을 수행했는지를 뜻하며, 값이 낮을수록 메모리 바운드, 높을수록 계산 바운드에 가깝다. 같은 100 TFLOPS급 가속기라도 산술 집약도가 낮은 워크로드는 이론 [[282_performance_tactics|성능]]의 일부만 쓰고, 집약도가 높은 행렬 연산은 연산기를 더 잘 채운다.
+이를 정량적으로 보는 대표 개념이 산술 집약도 (Arithmetic Intensity)다. 이는 읽고 쓴 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 수 대비 얼마나 많은 연산을 수행했는지를 뜻하며, 값이 낮을수록 메모리 바운드, 높을수록 계산 바운드에 가깝다. 같은 100 TFLOPS급 가속기라도 산술 집약도가 낮은 워크로드는 이론 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 일부만 쓰고, 집약도가 높은 행렬 연산은 연산기를 더 잘 채운다.
 
-따라서 메모리 월 대응의 핵심 원리는 네 가지로 요약된다. 첫째, **가까이 두기**(온칩 버퍼 확대), 둘째, **여러 번 [[289_cqrs_db|쓰기]]**(재사용 증대), 셋째, **미리 가져오기**(프리페치), 넷째, **덜 옮기기**([[347_compaction|압축]]·[[434_quantization|양자화]]·연산 융합)다. [[190_ai_llm_requirements_specification|AI]] 하드웨어의 발전은 결국 이 네 가지를 얼마나 하드웨어와 컴파일러가 함께 실현하느냐의 경쟁이라고 볼 수 있다.
+따라서 메모리 월 대응의 핵심 원리는 네 가지로 요약된다. 첫째, **가까이 두기**(온칩 버퍼 확대), 둘째, **여러 번 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)**(재사용 증대), 셋째, **미리 가져오기**(프리페치), 넷째, **덜 옮기기**([압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)·[양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)·연산 융합)다. [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 하드웨어의 발전은 결국 이 네 가지를 얼마나 하드웨어와 컴파일러가 함께 실현하느냐의 경쟁이라고 볼 수 있다.
 
 - **📢 섹션 요약 비유**: 메모리 계층은 공장 안의 부품 창고 구조와 같다. 작업대 위 상자에 부품이 있으면 바로 조립하지만, 공장 밖 대형 창고까지 매번 뛰어가야 하면 숙련공도 속도를 못 낸다.
 
@@ -85,44 +89,44 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-메모리 월 대응 전략은 전통 CPU와 [[190_ai_llm_requirements_specification|AI]] 가속기에서 비슷해 보이지만, 실제 초점은 다르다. CPU는 불규칙한 분기와 다양한 프로그램을 처리해야 하므로 큰 캐시와 추측 실행, [[238_out_of_order_execution|비순차 실행]] (Out-of-Order Execution)으로 평균 [[015_지연_데이터_관점|지연]]을 숨기는 데 강하다. 반면 GPU나 신경망처리장치 ([[424_npu|NPU]], [[424_npu|Neural Processing Unit]])는 규칙적인 대량 연산을 전제로 하므로, 자동 캐시보다 명시적 버퍼 관리와 대규모 [[430_index_fast_full_scan|병렬]] [[001_dikw_pyramid|데이터]] 흐름 최적화에 더 집중한다.
+메모리 월 대응 전략은 전통 CPU와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속기에서 비슷해 보이지만, 실제 초점은 다르다. CPU는 불규칙한 분기와 다양한 프로그램을 처리해야 하므로 큰 캐시와 추측 실행, [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) (Out-of-Order Execution)으로 평균 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 숨기는 데 강하다. 반면 GPU나 신경망처리장치 ([NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/), [Neural Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/))는 규칙적인 대량 연산을 전제로 하므로, 자동 캐시보다 명시적 버퍼 관리와 대규모 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 최적화에 더 집중한다.
 
-| 구분 | CPU 중심 접근 | [[190_ai_llm_requirements_specification|AI]] 가속기 중심 접근 | 왜 차이가 나는가 |
+| 구분 | CPU 중심 접근 | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속기 중심 접근 | 왜 차이가 나는가 |
 | :--- | :--- | :--- | :--- |
-| 주된 대응 | 캐시 계층, [[231_branch_prediction|분기 예측]], [[238_out_of_order_execution|비순차 실행]] | 타일링, 온칩 버퍼, [[001_dikw_pyramid|데이터]]플로 | 워크로드 규칙성과 [[430_index_fast_full_scan|병렬]]도 차이 |
-| 병목 완화 방식 | [[015_지연_데이터_관점|지연]] 숨기기 ([[141_latency|Latency]] Hiding) | [[001_dikw_pyramid|데이터]] 이동 자체 축소 | AI는 동일 [[001_dikw_pyramid|데이터]] 반복 사용이 많음 |
-| [[282_performance_tactics|성능]] 지표 | [[117_ipc|IPC]], 캐시 히트율 | 전력당 연산량 (TOPS/W, Tera Operations Per Second per Watt), [[495_hbm|HBM]] [[140_bandwidth|대역폭]] 활용률 | 전력 대비 처리량이 더 중요 |
-| 소프트웨어 연계 | 컴파일러 + 하드웨어 자동 최적화 | [[022_kernel_role|커널]] fusion, layout 변환, 스케줄링 | 개발자가 [[001_dikw_pyramid|데이터]] 배치를 더 강하게 의식 |
+| 주된 대응 | 캐시 계층, [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/), [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) | 타일링, 온칩 버퍼, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)플로 | 워크로드 규칙성과 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)도 차이 |
+| 병목 완화 방식 | [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 숨기기 ([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) Hiding) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 자체 축소 | AI는 동일 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 반복 사용이 많음 |
+| [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표 | [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/), 캐시 히트율 | 전력당 연산량 (TOPS/W, Tera Operations Per Second per Watt), [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 활용률 | 전력 대비 처리량이 더 중요 |
+| 소프트웨어 연계 | 컴파일러 + 하드웨어 자동 최적화 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) fusion, layout 변환, 스케줄링 | 개발자가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치를 더 강하게 의식 |
 
-또한 메모리 월은 컴퓨터구조 한 과목에만 머무르지 않는다. 운영체제에서는 [[377_numa_allocation|NUMA]] ([[377_numa_allocation|Non-Uniform Memory Access]]) 배치와 [[286_page_frame|페이지]] 배치 정책으로 이어지고, [[001_dikw_pyramid|데이터]]베이스에서는 버퍼 풀과 순차 접근 최적화로 연결되며, [[190_ai_llm_requirements_specification|AI]] 시스템에서는 배치 크기, [[434_quantization|양자화]], 키-값 캐시 ([[291_kv_cache|KV Cache]], [[291_kv_cache|Key-Value Cache]]) 관리 전략으로 이어진다. 즉 메모리 월은 "하드웨어 하층 이슈"가 아니라, 시스템 전 계층이 함께 대응해야 하는 공통 제약이다.
+또한 메모리 월은 컴퓨터구조 한 과목에만 머무르지 않는다. 운영체제에서는 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) ([Non-Uniform Memory Access](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)) 배치와 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 배치 정책으로 이어지고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스에서는 버퍼 풀과 순차 접근 최적화로 연결되며, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시스템에서는 배치 크기, [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/), 키-값 캐시 ([KV Cache](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/291_kv_cache/), [Key-Value Cache](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/291_kv_cache/)) 관리 전략으로 이어진다. 즉 메모리 월은 "하드웨어 하층 이슈"가 아니라, 시스템 전 계층이 함께 대응해야 하는 공통 제약이다.
 
-최근에는 대응 방식도 단계적으로 진화하고 있다. 먼저 캐시와 프리페치로 숨기고, 다음으로 HBM과 2.5D/3D 패키징으로 공급 통로를 넓히며, 더 나아가 처리-메모리 근접화 (Near-Memory Computing)와 메모리 내 연산 ([[430_pim|PIM]], [[430_pim|Processing-In-Memory]]), 메모리 기반 계산 ([[432_cim|CIM]], [[432_cim|Computing-In-Memory]])으로 "움직이지 않고 계산하기"를 시도한다. 이는 메모리 월이 단순 개선이 아니라 아키텍처 패러다임 이동을 강제하고 있음을 보여준다.
+최근에는 대응 방식도 단계적으로 진화하고 있다. 먼저 캐시와 프리페치로 숨기고, 다음으로 HBM과 2.5D/3D 패키징으로 공급 통로를 넓히며, 더 나아가 처리-메모리 근접화 (Near-Memory Computing)와 메모리 내 연산 ([PIM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/), [Processing-In-Memory](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/)), 메모리 기반 계산 ([CIM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/432_cim/), [Computing-In-Memory](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/432_cim/))으로 "움직이지 않고 계산하기"를 시도한다. 이는 메모리 월이 단순 개선이 아니라 아키텍처 패러다임 이동을 강제하고 있음을 보여준다.
 
-- **📢 섹션 요약 비유**: CPU식 대응이 교통체증을 피하려고 [[130_signal|신호]] 체계를 똑똑하게 바꾸는 것이라면, [[190_ai_llm_requirements_specification|AI]] 가속기식 대응은 애초에 공장과 창고를 같은 건물 안에 붙여 버리는 것에 가깝다.
+- **📢 섹션 요약 비유**: CPU식 대응이 교통체증을 피하려고 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 체계를 똑똑하게 바꾸는 것이라면, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속기식 대응은 애초에 공장과 창고를 같은 건물 안에 붙여 버리는 것에 가깝다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 가장 중요한 질문은 "지금 느린 이유가 계산 부족인가, 메모리 월인가"다. 프로파일링에서 연산기 사용률이 낮은데 메모리 [[140_bandwidth|대역폭]] 사용률이 높고, 캐시 미스 또는 [[495_hbm|HBM]] 트래픽이 포화 상태라면 더 강한 코어보다 [[001_dikw_pyramid|데이터]] 이동 최적화가 먼저다. 이 판단을 잘못하면 비싼 가속기를 도입하고도 처리량이 거의 늘지 않는다.
+실무에서 가장 중요한 질문은 "지금 느린 이유가 계산 부족인가, 메모리 월인가"다. 프로파일링에서 연산기 사용률이 낮은데 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 사용률이 높고, 캐시 미스 또는 [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) 트래픽이 포화 상태라면 더 강한 코어보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 최적화가 먼저다. 이 판단을 잘못하면 비싼 가속기를 도입하고도 처리량이 거의 늘지 않는다.
 
-### 실무 판단 [[435_checklist_based_testing|체크리스트]]
+### 실무 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **산술 집약도 [[396_validation|확인]]**: 연산량 대비 메모리 이동량이 큰가?
-2. **[[140_bandwidth|대역폭]] 포화 여부 [[396_validation|확인]]**: [[495_hbm|HBM]]/[[251_dram|DRAM]] [[140_bandwidth|대역폭]]이 이미 상한에 가까운가?
-3. **온칩 재사용 구조 [[396_validation|확인]]**: 타일링, [[118_shared_memory|shared memory]], [[175_register_addressing|register]] blocking이 충분한가?
-4. **[[001_dikw_pyramid|데이터]] 형식 점검**: [[087_floating_point|부동소수점]] 16비트 (FP16, 16-bit [[087_floating_point|Floating Point]]) 대신 정수 8비트 (INT8, 8-bit Integer)나 저정밀 포맷으로 줄일 수 있는가?
-5. **연산 융합 여부 [[396_validation|확인]]**: 연산자 fusion으로 중간 텐서의 메모리 왕복을 줄일 수 있는가?
+1. **산술 집약도 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 연산량 대비 메모리 이동량이 큰가?
+2. **[대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 포화 여부 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/)/[DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 이미 상한에 가까운가?
+3. **온칩 재사용 구조 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 타일링, [shared memory](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/), [register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/) blocking이 충분한가?
+4. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 형식 점검**: [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 16비트 (FP16, 16-bit [Floating Point](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/)) 대신 정수 8비트 (INT8, 8-bit Integer)나 저정밀 포맷으로 줄일 수 있는가?
+5. **연산 융합 여부 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 연산자 fusion으로 중간 텐서의 메모리 왕복을 줄일 수 있는가?
 
-예를 들어 [[582_llm_based_code_generation_tools|대규모 언어 모델]] 추론에서 첫 토큰 [[015_지연_데이터_관점|지연]]이 길고 [[418_gpu|GPU]] 사용률이 낮다면, 모델 자체가 느린 것이 아니라 [[267_weight_bias_activation|가중치]]와 KV 캐시를 반복적으로 이동시키느라 병목이 발생했을 가능성이 크다. 이때는 코어 수가 더 많은 GPU로 바꾸기보다, [[434_quantization|양자화]], 연속 배치 (Continuous [[389_bulk_insert_batching_optimization|Batching]]), PagedAttention, 프리필과 디코드 분리 같은 메모리 중심 최적화가 더 큰 효과를 낸다.
+예를 들어 [대규모 언어 모델](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/582_llm_based_code_generation_tools/) 추론에서 첫 토큰 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 길고 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 사용률이 낮다면, 모델 자체가 느린 것이 아니라 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)와 KV 캐시를 반복적으로 이동시키느라 병목이 발생했을 가능성이 크다. 이때는 코어 수가 더 많은 GPU로 바꾸기보다, [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/), 연속 배치 (Continuous [Batching](/knowledge-base/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/)), PagedAttention, 프리필과 디코드 분리 같은 메모리 중심 최적화가 더 큰 효과를 낸다.
 
-반대로 대형 행렬 곱셈처럼 산술 집약도가 매우 높은 훈련 구간에서는 메모리 월보다 연산기 포화가 먼저 올 수 있다. 따라서 모든 워크로드를 동일하게 보지 말고, [[022_kernel_role|커널]]별로 메모리 바운드와 계산 바운드를 분리해 처방해야 한다. 기술사 관점에서도 "메모리 월 대응책"은 범용 정답 하나가 아니라, 워크로드·[[233_precision_recall_f1_roc_auc_threshold|정밀도]]·패키징 비용·전력 예산을 함께 보는 선택 문제다.
+반대로 대형 행렬 곱셈처럼 산술 집약도가 매우 높은 훈련 구간에서는 메모리 월보다 연산기 포화가 먼저 올 수 있다. 따라서 모든 워크로드를 동일하게 보지 말고, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)별로 메모리 바운드와 계산 바운드를 분리해 처방해야 한다. 기술사 관점에서도 "메모리 월 대응책"은 범용 정답 하나가 아니라, 워크로드·[정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)·패키징 비용·전력 예산을 함께 보는 선택 문제다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 모델 크기만 보고 무조건 더 높은 TOPS 장비를 도입하는 판단
-- 텐서 레이아웃을 무시해 비연속 메모리 접근을 남발하는 [[022_kernel_role|커널]] 설계
-- 작은 연산을 여러 [[022_kernel_role|커널]]로 쪼개 중간 결과를 HBM에 반복 저장하는 구현
+- 텐서 레이아웃을 무시해 비연속 메모리 접근을 남발하는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 설계
+- 작은 연산을 여러 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 쪼개 중간 결과를 HBM에 반복 저장하는 구현
 
 - **📢 섹션 요약 비유**: 메모리 월 대응은 무조건 더 센 엔진을 다는 일이 아니라, 길이 막혔는지 창고 동선이 꼬였는지 먼저 보는 물류 설계와 같다. 길이 막혔는데 엔진만 키우면 연료만 더 든다.
 
@@ -130,13 +134,13 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-메모리 월을 잘 다루면 같은 하드웨어에서도 체감 [[282_performance_tactics|성능]]과 전력 효율이 크게 달라진다. [[001_dikw_pyramid|데이터]] 재사용을 높이고 오프칩 접근을 줄이면, 처리량은 늘고 [[015_지연_데이터_관점|지연]]은 줄며 와트당 [[282_performance_tactics|성능]]도 개선된다. 그래서 현대 [[190_ai_llm_requirements_specification|AI]] 칩 설계는 단순 코어 증설보다 메모리 근접성, 패키징, 컴파일러 스케줄링을 함께 최적화하는 방향으로 움직인다.
+메모리 월을 잘 다루면 같은 하드웨어에서도 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 전력 효율이 크게 달라진다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재사용을 높이고 오프칩 접근을 줄이면, 처리량은 늘고 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 줄며 와트당 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)도 개선된다. 그래서 현대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 칩 설계는 단순 코어 증설보다 메모리 근접성, 패키징, 컴파일러 스케줄링을 함께 최적화하는 방향으로 움직인다.
 
-다만 모든 해법에는 대가가 있다. HBM은 [[140_bandwidth|대역폭]]은 뛰어나지만 가격과 용량 제약이 크고, 큰 온칩 SRAM은 면적과 누설전력을 늘리며, [[430_pim|PIM]]/CIM은 프로그래밍 모델과 정확도 검증이 아직 어렵다. 즉 메모리 월은 "해결 완료"된 문제가 아니라, 어떤 비용을 감수하고 어느 정도까지 완화할지를 계속 선택해야 하는 구조적 현실이다.
+다만 모든 해법에는 대가가 있다. HBM은 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)은 뛰어나지만 가격과 용량 제약이 크고, 큰 온칩 SRAM은 면적과 누설전력을 늘리며, [PIM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/)/CIM은 프로그래밍 모델과 정확도 검증이 아직 어렵다. 즉 메모리 월은 "해결 완료"된 문제가 아니라, 어떤 비용을 감수하고 어느 정도까지 완화할지를 계속 선택해야 하는 구조적 현실이다.
 
-앞으로의 방향은 세 가지가 유력하다. 첫째, HBM3E와 3D 적층으로 공급 통로를 더 넓히는 것, 둘째, 컴파일러가 [[001_dikw_pyramid|데이터]] 배치와 타일링을 자동 최적화하는 것, 셋째, [[430_pim|PIM]]/CIM처럼 [[001_dikw_pyramid|데이터]] 이동 자체를 줄이는 계산 패러다임으로 가는 것이다. 결국 메모리 월은 "빠른 계산기"보다 "잘 먹여 주는 시스템"이 더 강하다는 사실을 기억하게 만드는 개념이다.
+앞으로의 방향은 세 가지가 유력하다. 첫째, HBM3E와 3D 적층으로 공급 통로를 더 넓히는 것, 둘째, 컴파일러가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치와 타일링을 자동 최적화하는 것, 셋째, [PIM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/)/CIM처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 자체를 줄이는 계산 패러다임으로 가는 것이다. 결국 메모리 월은 "빠른 계산기"보다 "잘 먹여 주는 시스템"이 더 강하다는 사실을 기억하게 만드는 개념이다.
 
-- **📢 섹션 요약 비유**: 좋은 [[190_ai_llm_requirements_specification|AI]] 하드웨어는 힘센 운동선수 한 명이 아니라, 물과 음식이 끊기지 않게 공급되는 팀 운영과 같다. 선수만 강하고 보급이 끊기면 경기에서 오래 버티지 못한다.
+- **📢 섹션 요약 비유**: 좋은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 하드웨어는 힘센 운동선수 한 명이 아니라, 물과 음식이 끊기지 않게 공급되는 팀 운영과 같다. 선수만 강하고 보급이 끊기면 경기에서 오래 버티지 못한다.
 
 ---
 
@@ -144,12 +148,12 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[259_cache_memory|캐시 메모리]] ([[259_cache_memory|Cache Memory]]) | 자주 쓰는 [[001_dikw_pyramid|데이터]]를 가까운 계층에 두어 메모리 [[015_지연_데이터_관점|지연]]을 숨긴다. |
-| [[019_data_locality|데이터 지역성]] ([[019_data_locality|Data Locality]]) | 시간적·공간적 재사용이 높을수록 메모리 월 완화 효과가 커진다. |
-| [[539_loop_tiling|루프 타일링]] ([[539_loop_tiling|Loop Tiling]]) | 큰 작업을 작은 블록으로 나눠 온칩 버퍼 재사용을 높인다. |
-| [[495_hbm|HBM]] ([[495_hbm|High Bandwidth Memory]]) | 오프칩 병목을 줄이기 위해 패키지 근접 [[140_bandwidth|대역폭]]을 크게 높인 메모리다. |
-| [[430_pim|PIM]] ([[430_pim|Processing-In-Memory]]) | [[001_dikw_pyramid|데이터]]를 멀리 옮기지 않고 메모리 가까이서 계산하려는 접근이다. |
-| 루프라인 모델 (Roofline Model) | 산술 집약도와 [[140_bandwidth|대역폭]] 한계로 메모리 바운드/계산 바운드를 구분한다. |
+| [캐시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/259_cache_memory/) ([Cache Memory](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/259_cache_memory/)) | 자주 쓰는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가까운 계층에 두어 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 숨긴다. |
+| [데이터 지역성](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/) ([Data Locality](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/)) | 시간적·공간적 재사용이 높을수록 메모리 월 완화 효과가 커진다. |
+| [루프 타일링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/539_loop_tiling/) ([Loop Tiling](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/539_loop_tiling/)) | 큰 작업을 작은 블록으로 나눠 온칩 버퍼 재사용을 높인다. |
+| [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) ([High Bandwidth Memory](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/)) | 오프칩 병목을 줄이기 위해 패키지 근접 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 크게 높인 메모리다. |
+| [PIM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/) ([Processing-In-Memory](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/)) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 멀리 옮기지 않고 메모리 가까이서 계산하려는 접근이다. |
+| 루프라인 모델 (Roofline Model) | 산술 집약도와 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 한계로 메모리 바운드/계산 바운드를 구분한다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -169,7 +173,7 @@ HBM · 2.5D/3D 패키징 · 대역폭 확장
 PIM · CIM · Near-Memory Computing
 ```
 
-이 흐름은 "[[015_지연_데이터_관점|지연]] 숨기기 → 재사용 확대 → 공급 통로 확장 → 이동 자체 축소"로 메모리 월 대응 철학이 깊어지는 과정을 보여준다.
+이 흐름은 "[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 숨기기 → 재사용 확대 → 공급 통로 확장 → 이동 자체 축소"로 메모리 월 대응 철학이 깊어지는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -183,7 +187,7 @@ PIM · CIM · Near-Memory Computing
 
 **진행 상황**: 434 / 803
 
-← **이전**: [[432_cim|432. CIM (Computing-In-Memory)]]
-**다음**: [[434_quantization|434. 양자화 (Quantization, INT8, INT4)]] →
+← **이전**: [432. CIM (Computing-In-Memory)](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/432_cim/)
+**다음**: [434. 양자화 (Quantization, INT8, INT4)](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) →
 
 ---

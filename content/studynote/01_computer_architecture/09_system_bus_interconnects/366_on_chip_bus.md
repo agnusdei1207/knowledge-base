@@ -1,25 +1,29 @@
----
-title: 366. 온칩 버스 (AMBA, AXI, AHB, APB)
-date: '2026-03-27'
-tags:
-- studynote-computer-architecture
----
++++
+title = "366. 온칩 버스 (AMBA, AXI, AHB, APB)"
+date = 2026-03-27
+
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 온칩 [[344_bus|버스]] (On-Chip [[344_bus|Bus]])는 시스템 온 칩 ([[131_soc|SoC]], [[131_soc|System on Chip]]) 내부의 중앙 처리 장치 (CPU, Central Processing Unit), 그래픽 처리 장치 ([[418_gpu|GPU]], [[418_gpu|Graphics Processing Unit]]), 메모리 컨트롤러, 주변장치 지식재산 블록 (IP, Intellectual Property block)을 하나의 규칙으로 연결하는 칩 내부 통신 골격이다.
-> 2. **가치**: AMBA (Advanced [[130_microcontroller|Microcontroller]] [[344_bus|Bus]] [[319_architecture|Architecture]])는 속도와 전력 특성이 다른 블록을 AXI (Advanced eXtensible Interface), AHB (Advanced High-performance [[344_bus|Bus]]), APB (Advanced Peripheral [[344_bus|Bus]])로 계층화하여 재사용성, [[395_verification_process_review|검증]] 용이성, IP 호환성을 크게 높였다.
-> 3. **판단 포인트**: 모든 블록에 가장 빠른 [[344_bus|버스]]를 붙이는 것이 정답이 아니라, 필요한 [[140_bandwidth|대역폭]]·지연시간·전력·설계 복잡도에 맞는 인터커넥트를 고르는 것이 좋은 온칩 [[344_bus|버스]] 설계다.
+> 1. **본질**: 온칩 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) (On-Chip [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))는 시스템 온 칩 ([SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/), [System on Chip](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/)) 내부의 중앙 처리 장치 (CPU, Central Processing Unit), 그래픽 처리 장치 ([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)), 메모리 컨트롤러, 주변장치 지식재산 블록 (IP, Intellectual Property block)을 하나의 규칙으로 연결하는 칩 내부 통신 골격이다.
+> 2. **가치**: AMBA (Advanced [Microcontroller](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/) [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))는 속도와 전력 특성이 다른 블록을 AXI (Advanced eXtensible Interface), AHB (Advanced High-performance [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)), APB (Advanced Peripheral [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))로 계층화하여 재사용성, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 용이성, IP 호환성을 크게 높였다.
+> 3. **판단 포인트**: 모든 블록에 가장 빠른 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 붙이는 것이 정답이 아니라, 필요한 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)·지연시간·전력·설계 복잡도에 맞는 인터커넥트를 고르는 것이 좋은 온칩 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 설계다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-온칩 [[344_bus|버스]] (On-Chip [[344_bus|Bus]])는 칩 내부 블록들이 주소, [[001_dikw_pyramid|데이터]], 제어 [[130_signal|신호]]를 주고받는 표준화된 연결 체계다. [[459_quic_fec_forward_error_correction|초기]] 집적회로에서는 CPU와 메모리, 주변 기능이 단순했고 전용 배선으로도 연결이 가능했지만, 현대 SoC는 중앙 처리 장치 (CPU, Central Processing Unit), 그래픽 처리 장치 ([[418_gpu|GPU]], [[418_gpu|Graphics Processing Unit]]), 직접 메모리 접근기 ([[746_io_direct_memory_access_dma|DMA]], [[318_dma|Direct Memory Access]]), 암호 엔진, 센서 컨트롤러처럼 성격이 전혀 다른 블록이 한 다이에 함께 들어간다. 이때 블록마다 [[130_signal|신호]] 규칙이 제각각이면 통합 비용이 폭증하고, [[395_verification_process_review|검증]]도 블록 수의 제곱에 가깝게 어려워진다.
+온칩 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) (On-Chip [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))는 칩 내부 블록들이 주소, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 주고받는 표준화된 연결 체계다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 집적회로에서는 CPU와 메모리, 주변 기능이 단순했고 전용 배선으로도 연결이 가능했지만, 현대 SoC는 중앙 처리 장치 (CPU, Central Processing Unit), 그래픽 처리 장치 ([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)), 직접 메모리 접근기 ([DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/), [Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)), 암호 엔진, 센서 컨트롤러처럼 성격이 전혀 다른 블록이 한 다이에 함께 들어간다. 이때 블록마다 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 규칙이 제각각이면 통합 비용이 폭증하고, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)도 블록 수의 제곱에 가깝게 어려워진다.
 
-AMBA는 이 문제를 해결하기 위해 등장한 대표적인 칩 내부 [[344_bus|버스]] 표준이다. 핵심 아이디어는 "모든 블록을 같은 속도로 묶지 말고, 필요한 [[282_performance_tactics|성능]] 등급별로 [[344_bus|버스]]를 나누자"는 것이다. 메모리 시스템처럼 [[140_bandwidth|대역폭]]이 중요한 곳은 고성능 인터커넥트를, 타이머·범용 입출력 (GPIO, General Purpose Input/Output)·범용 비동기 송수신기 (UART, Universal Asynchronous Receiver/Transmitter) 같은 저속 주변장치는 단순 저전력 [[344_bus|버스]]를 쓰게 하면 전체 칩이 더 예측 가능해진다.
+AMBA는 이 문제를 해결하기 위해 등장한 대표적인 칩 내부 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 표준이다. 핵심 아이디어는 "모든 블록을 같은 속도로 묶지 말고, 필요한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 등급별로 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 나누자"는 것이다. 메모리 시스템처럼 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 중요한 곳은 고성능 인터커넥트를, 타이머·범용 입출력 (GPIO, General Purpose Input/Output)·범용 비동기 송수신기 (UART, Universal Asynchronous Receiver/Transmitter) 같은 저속 주변장치는 단순 저전력 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 쓰게 하면 전체 칩이 더 예측 가능해진다.
 
-이 그림은 [[131_soc|SoC]] 안에서 왜 [[344_bus|버스]] 계층이 필요한지를 보여준다. 같은 칩 안이라도 트래픽의 성격이 다르기 때문에, 하나의 공용 길로 모두를 처리하면 빠른 블록도 느린 블록 때문에 묶이게 된다.
+이 그림은 [SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) 안에서 왜 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 계층이 필요한지를 보여준다. 같은 칩 안이라도 트래픽의 성격이 다르기 때문에, 하나의 공용 길로 모두를 처리하면 빠른 블록도 느린 블록 때문에 묶이게 된다.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────────┐
@@ -46,25 +50,25 @@ AMBA는 이 문제를 해결하기 위해 등장한 대표적인 칩 내부 [[34
 └────────────────────────────────────────────────────────────────────────────┘
 ```
 
-핵심은 [[344_bus|버스]]가 단순 배선이 아니라, 칩 내부의 교통 정책이라는 점이다. 설계자는 어떤 블록이 얼마나 자주, 얼마나 큰 [[001_dikw_pyramid|데이터]]를, 어느 지연시간 안에 보내야 하는지 기준으로 상위 [[344_bus|버스]]와 하위 [[344_bus|버스]]를 나눈다.
+핵심은 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 단순 배선이 아니라, 칩 내부의 교통 정책이라는 점이다. 설계자는 어떤 블록이 얼마나 자주, 얼마나 큰 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를, 어느 지연시간 안에 보내야 하는지 기준으로 상위 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)와 하위 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 나눈다.
 
-- **📢 섹션 요약 비유**: 온칩 [[344_bus|버스]]는 대형 쇼핑몰의 동선 설계와 같다. 화물 엘리베이터, 일반 통로, 직원 전용 문을 분리해야 손님과 물류가 서로 막지 않는다.
+- **📢 섹션 요약 비유**: 온칩 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 대형 쇼핑몰의 동선 설계와 같다. 화물 엘리베이터, 일반 통로, 직원 전용 문을 분리해야 손님과 물류가 서로 막지 않는다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-AMBA 계열의 온칩 [[344_bus|버스]]는 보통 마스터, 슬레이브, 인터커넥트, [[260_bridge_pattern_abstraction_implementation|브리지]]로 구성된다. 마스터는 읽기·[[289_cqrs_db|쓰기]]를 시작하는 주체이고, 슬레이브는 주소를 받아 응답하는 대상이며, 인터커넥트는 여러 요청을 중재하고 경로를 연결한다. [[260_bridge_pattern_abstraction_implementation|브리지]]는 속도와 [[295_protocol_field_tcp_udp_icmp|프로토콜]]이 다른 두 계층 사이에서 [[130_signal|신호]]를 변환하고, 필요하면 [[607_clock_domain_crossing|클럭 도메인 교차]] ([[217_cdc_binlog_change_capture_debezium|CDC]], [[607_clock_domain_crossing|Clock Domain Crossing]])도 함께 처리한다.
+AMBA 계열의 온칩 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 보통 마스터, 슬레이브, 인터커넥트, [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)로 구성된다. 마스터는 읽기·[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 시작하는 주체이고, 슬레이브는 주소를 받아 응답하는 대상이며, 인터커넥트는 여러 요청을 중재하고 경로를 연결한다. [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)는 속도와 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 다른 두 계층 사이에서 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 변환하고, 필요하면 [클럭 도메인 교차](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/607_clock_domain_crossing/) ([CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/), [Clock Domain Crossing](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/607_clock_domain_crossing/))도 함께 처리한다.
 
-특히 AXI는 주소 채널과 [[001_dikw_pyramid|데이터]] 채널을 분리하고 읽기와 [[289_cqrs_db|쓰기]]를 독립적으로 흘릴 수 있어 높은 처리량에 유리하다. 반면 AHB는 구조가 더 단순하며 단일 공유 [[344_bus|버스]]나 멀티레이어 [[344_bus|버스]]에서 여전히 많이 쓰인다. APB는 파이프라이닝이나 복잡한 [[344_bus|버스]]트보다 "짧은 제어 명령을 저렴하게 전달하는 것"에 초점을 둔다.
+특히 AXI는 주소 채널과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널을 분리하고 읽기와 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 독립적으로 흘릴 수 있어 높은 처리량에 유리하다. 반면 AHB는 구조가 더 단순하며 단일 공유 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)나 멀티레이어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에서 여전히 많이 쓰인다. APB는 파이프라이닝이나 복잡한 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트보다 "짧은 제어 명령을 저렴하게 전달하는 것"에 초점을 둔다.
 
-| [[344_bus|버스]] | 주 용도 | 핵심 특징 | 설계 시 판단 기준 |
+| [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) | 주 용도 | 핵심 특징 | 설계 시 판단 기준 |
 | :--- | :--- | :--- | :--- |
-| AXI (Advanced eXtensible Interface) | CPU-메모리, 고성능 [[746_io_direct_memory_access_dma|DMA]], 고속 가속기 | 읽기/[[289_cqrs_db|쓰기]] 채널 분리, burst, ID 기반 다중 [[191_transaction_concept_states|트랜잭션]] | 최고 [[140_bandwidth|대역폭]], 낮은 병목, 높은 구현 복잡도 |
-| AHB (Advanced High-performance [[344_bus|Bus]]) | 범용 고속 주변장치, 중간급 [[001_dikw_pyramid|데이터]] 이동 | 단순한 [[295_protocol_field_tcp_udp_icmp|프로토콜]], 파이프라이닝, 비교적 쉬운 [[395_verification_process_review|검증]] | 적당한 [[282_performance_tactics|성능]]과 구현 난이도 균형 |
-| APB (Advanced Peripheral [[344_bus|Bus]]) | [[057_register|레지스터]] 접근, 저속 제어 주변장치 | 비파이프라인, 저전력, 저면적 | 아주 낮은 전력과 단순 회로 |
+| AXI (Advanced eXtensible Interface) | CPU-메모리, 고성능 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/), 고속 가속기 | 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 채널 분리, burst, ID 기반 다중 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) | 최고 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), 낮은 병목, 높은 구현 복잡도 |
+| AHB (Advanced High-performance [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)) | 범용 고속 주변장치, 중간급 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 | 단순한 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/), 파이프라이닝, 비교적 쉬운 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 적당한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 구현 난이도 균형 |
+| APB (Advanced Peripheral [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)) | [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 접근, 저속 제어 주변장치 | 비파이프라인, 저전력, 저면적 | 아주 낮은 전력과 단순 회로 |
 
-이 그림은 하나의 읽기 요청이 어떤 식으로 흐르는지 보여준다. 단순한 배선 연결이 아니라, 주소 판별, 중재, [[260_bridge_pattern_abstraction_implementation|브리지]] 변환, 응답 복귀가 차례로 일어난다.
+이 그림은 하나의 읽기 요청이 어떤 식으로 흐르는지 보여준다. 단순한 배선 연결이 아니라, 주소 판별, 중재, [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 변환, 응답 복귀가 차례로 일어난다.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────────┐
@@ -84,7 +88,7 @@ AMBA 계열의 온칩 [[344_bus|버스]]는 보통 마스터, 슬레이브, 인�
 └────────────────────────────────────────────────────────────────────────────┘
 ```
 
-여기서 병목은 보통 세 군데에서 생긴다. 첫째, 여러 마스터가 동시에 같은 슬레이브를 향해 요청할 때의 중재 지연이다. 둘째, AXI에서 APB로 내려갈 때처럼 [[344_bus|버스]] 폭과 클럭이 급격히 낮아지는 [[260_bridge_pattern_abstraction_implementation|브리지]] 구간이다. 셋째, [[344_bus|버스]]트 트래픽이 짧은 제어 트래픽과 같은 자원을 공유할 때 발생하는 품질 저하이다. 그래서 실제 SoC는 [[344_bus|버스]] 분리, 전용 경로, 버퍼, 우선순위 제어를 함께 사용한다.
+여기서 병목은 보통 세 군데에서 생긴다. 첫째, 여러 마스터가 동시에 같은 슬레이브를 향해 요청할 때의 중재 지연이다. 둘째, AXI에서 APB로 내려갈 때처럼 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 폭과 클럭이 급격히 낮아지는 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 구간이다. 셋째, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 트래픽이 짧은 제어 트래픽과 같은 자원을 공유할 때 발생하는 품질 저하이다. 그래서 실제 SoC는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 분리, 전용 경로, 버퍼, 우선순위 제어를 함께 사용한다.
 
 - **📢 섹션 요약 비유**: AXI, AHB, APB는 같은 도로가 아니라 화물 터미널·일반 도로·골목길의 조합이다. 짐의 크기와 목적지에 맞는 길을 골라야 도시가 멈추지 않는다.
 
@@ -92,56 +96,56 @@ AMBA 계열의 온칩 [[344_bus|버스]]는 보통 마스터, 슬레이브, 인�
 
 ## Ⅲ. 비교 및 연결
 
-온칩 [[344_bus|버스]]를 이해하려면 칩 내부 연결과 칩 외부 연결을 구분해야 한다. 온칩 [[344_bus|버스]]는 배선 길이가 짧고 노이즈 환경이 상대적으로 안정적이어서 넓은 [[430_index_fast_full_scan|병렬]] [[001_dikw_pyramid|데이터]] 폭과 낮은 [[001_voltage|전압]] 스윙을 활용하기 쉽다. 반면 [[356_pcie|PCIe]] ([[355_pci|Peripheral Component Interconnect]] Express) 같은 칩 외부 인터페이스는 핀 수, 보드 배선 길이, [[130_signal|신호]] [[003_integrity|무결성]] 제약 때문에 고속 [[149_serial_communication_rs232_rs485|직렬]]화가 더 유리하다. 즉 "칩 안에서는 넓고 짧게", "칩 밖에서는 좁고 빠르게"가 기본 전략이다.
+온칩 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 이해하려면 칩 내부 연결과 칩 외부 연결을 구분해야 한다. 온칩 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 배선 길이가 짧고 노이즈 환경이 상대적으로 안정적이어서 넓은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 폭과 낮은 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 스윙을 활용하기 쉽다. 반면 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) ([Peripheral Component Interconnect](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) Express) 같은 칩 외부 인터페이스는 핀 수, 보드 배선 길이, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 제약 때문에 고속 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화가 더 유리하다. 즉 "칩 안에서는 넓고 짧게", "칩 밖에서는 좁고 빠르게"가 기본 전략이다.
 
 또한 AXI·AHB·APB의 차이는 단순 속도 차이만이 아니다. AXI는 동시성과 확장성, AHB는 단순성과 범용성, APB는 전력과 면적 효율을 우선한다. 이 차이를 이해해야 어떤 블록을 어디에 붙일지 판단할 수 있다.
 
-| 비교 항목 | 온칩 [[344_bus|버스]] (AMBA 계열) | 칩 외부 [[127_system_bus|시스템 버스]] (예: [[356_pcie|PCIe]]) |
+| 비교 항목 | 온칩 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) (AMBA 계열) | 칩 외부 [시스템 버스](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/) (예: [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/)) |
 | :--- | :--- | :--- |
 | 물리 환경 | 단일 다이 내부의 짧은 배선 | 패키지 밖 보드/커넥터를 지나는 긴 배선 |
-| 최적화 방향 | 넓은 [[430_index_fast_full_scan|병렬]] 폭, 낮은 지연시간 | 고속 [[149_serial_communication_rs232_rs485|직렬]], [[130_signal|신호]] [[003_integrity|무결성]] 확보 |
-| 주요 관심사 | 중재, [[260_bridge_pattern_abstraction_implementation|브리지]], 전력 [[064_relation_domain|도메인]] 분리 | [[149_serial_communication_rs232_rs485|직렬]]화, [[658_ir_recovery|복구]], 링크 트레이닝 |
-| 대표 사용처 | CPU-메모리-주변장치 내부 연결 | [[327_ssd|SSD]], [[418_gpu|GPU]], 확장 카드 연결 |
+| 최적화 방향 | 넓은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 폭, 낮은 지연시간 | 고속 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/), [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 확보 |
+| 주요 관심사 | 중재, [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/), 전력 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 분리 | [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 링크 트레이닝 |
+| 대표 사용처 | CPU-메모리-주변장치 내부 연결 | [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/), [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), 확장 카드 연결 |
 
-이 문서는 공용 [[344_bus|버스]] 중심의 SoC를 다루지만, 코어 수가 매우 많아지면 네트워크 온 칩 ([[367_noc|NoC]], [[367_noc|Network on Chip]])으로 확장된다. 다시 말해 온칩 [[344_bus|버스]]는 작은 도시의 간선도로 설계이고, NoC는 초대형 도시의 격자 교통망 설계에 가깝다. 둘은 대체 관계이면서도, 실제 칩에서는 고성능 영역에 NoC를 쓰고 저속 주변부에는 여전히 APB를 두는 식으로 공존하기도 한다.
+이 문서는 공용 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 중심의 SoC를 다루지만, 코어 수가 매우 많아지면 네트워크 온 칩 ([NoC](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/367_noc/), [Network on Chip](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/367_noc/))으로 확장된다. 다시 말해 온칩 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 작은 도시의 간선도로 설계이고, NoC는 초대형 도시의 격자 교통망 설계에 가깝다. 둘은 대체 관계이면서도, 실제 칩에서는 고성능 영역에 NoC를 쓰고 저속 주변부에는 여전히 APB를 두는 식으로 공존하기도 한다.
 
-- **📢 섹션 요약 비유**: 온칩 [[344_bus|버스]]와 PCIe의 차이는 건물 내부 복도와 도시 간 고속철도의 차이와 같다. 둘 다 이동 수단이지만, 거리와 제약이 달라 설계 철학이 완전히 다르다.
+- **📢 섹션 요약 비유**: 온칩 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)와 PCIe의 차이는 건물 내부 복도와 도시 간 고속철도의 차이와 같다. 둘 다 이동 수단이지만, 거리와 제약이 달라 설계 철학이 완전히 다르다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 가장 흔한 판단은 "이 IP에 어느 [[344_bus|버스]]를 붙일 것인가"이다. 예를 들어 4K 영상 [[001_dikw_pyramid|데이터]]를 지속적으로 메모리에 밀어 넣는 카메라 엔진은 AXI급 [[140_bandwidth|대역폭]]과 burst 전송이 필요하다. 반대로 온도 센서 [[009_config|설정]] [[057_register|레지스터]]를 가끔 읽는 블록은 APB면 충분하며, 오히려 AXI를 붙이면 [[395_verification_process_review|검증]] 범위와 실리콘 면적만 커진다. 즉 [[282_performance_tactics|성능]]이 남는 [[344_bus|버스]]를 쓰는 것이 아니라, 요구사항을 만족하는 가장 단순한 [[344_bus|버스]]를 쓰는 것이 좋은 설계다.
+실무에서 가장 흔한 판단은 "이 IP에 어느 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 붙일 것인가"이다. 예를 들어 4K 영상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 지속적으로 메모리에 밀어 넣는 카메라 엔진은 AXI급 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 burst 전송이 필요하다. 반대로 온도 센서 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 가끔 읽는 블록은 APB면 충분하며, 오히려 AXI를 붙이면 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 범위와 실리콘 면적만 커진다. 즉 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 남는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 쓰는 것이 아니라, 요구사항을 만족하는 가장 단순한 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 쓰는 것이 좋은 설계다.
 
-또 하나의 핵심은 [[260_bridge_pattern_abstraction_implementation|브리지]]와 클럭 [[064_relation_domain|도메인]] 관리다. CPU 클러스터가 1.5 GHz로 동작하고 주변장치 블록이 100 MHz로 동작할 때, 단순 직결은 메타안정성 위험과 [[001_dikw_pyramid|데이터]] 유실을 만든다. 이 경우 비동기 [[261_fifo_page_replacement|FIFO]] (First-In, First-Out) 버퍼, [[212_synchronization_mechanisms|동기화]] [[051_flip_flop|플립플롭]], [[260_bridge_pattern_abstraction_implementation|브리지]] 내부 버퍼링을 통해 속도 차이를 흡수해야 한다.
+또 하나의 핵심은 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)와 클럭 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 관리다. CPU 클러스터가 1.5 GHz로 동작하고 주변장치 블록이 100 MHz로 동작할 때, 단순 직결은 메타안정성 위험과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실을 만든다. 이 경우 비동기 [FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) (First-In, First-Out) 버퍼, [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/), [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 내부 버퍼링을 통해 속도 차이를 흡수해야 한다.
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 대상 블록의 최대 [[140_bandwidth|대역폭]]과 허용 지연시간이 무엇인가?
-2. [[057_register|레지스터]] 접근 중심인가, 연속 [[001_dikw_pyramid|데이터]] 스트림 중심인가?
-3. 서로 다른 클럭/전력 [[064_relation_domain|도메인]]을 건너는가?
-4. [[260_bridge_pattern_abstraction_implementation|브리지]]에서 [[344_bus|버스]] 폭 축소나 burst 분해가 필요한가?
-5. [[090_service_kubernetes_network_load_balancing|서비스]] 품질 ([[388_qos_quality_of_service_best_effort_intserv_diffserv|QoS]], [[388_qos_quality_of_service_best_effort_intserv_diffserv|Quality of Service]]) 우선순위를 따로 줘야 하는가?
+1. 대상 블록의 최대 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 허용 지연시간이 무엇인가?
+2. [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 접근 중심인가, 연속 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스트림 중심인가?
+3. 서로 다른 클럭/전력 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 건너는가?
+4. [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)에서 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 폭 축소나 burst 분해가 필요한가?
+5. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질 ([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/), [Quality of Service](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)) 우선순위를 따로 줘야 하는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 저속 제어 블록에 불필요하게 AXI를 적용해 면적과 [[395_verification_process_review|검증]] 복잡도만 키우는 설계
-- 고대역폭 엔진 여러 개를 하나의 저사양 공유 [[344_bus|버스]]에 몰아넣는 설계
-- [[260_bridge_pattern_abstraction_implementation|브리지]] 지연과 [[217_cdc_binlog_change_capture_debezium|CDC]] [[571_protection_vs_security|보호]] 없이 "같은 칩이니 괜찮다"고 가정하는 설계
+- 저속 제어 블록에 불필요하게 AXI를 적용해 면적과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 복잡도만 키우는 설계
+- 고대역폭 엔진 여러 개를 하나의 저사양 공유 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에 몰아넣는 설계
+- [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 지연과 [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 없이 "같은 칩이니 괜찮다"고 가정하는 설계
 
-- **📢 섹션 요약 비유**: 온칩 [[344_bus|버스]] 선택은 모든 직원에게 대형 화물차를 지급하는 일이 아니다. 택배 기사에게는 트럭이 필요하지만, 경비실에는 자전거 한 대면 충분하다.
+- **📢 섹션 요약 비유**: 온칩 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 선택은 모든 직원에게 대형 화물차를 지급하는 일이 아니다. 택배 기사에게는 트럭이 필요하지만, 경비실에는 자전거 한 대면 충분하다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-좋은 온칩 [[344_bus|버스]] 구조는 [[131_soc|SoC]] 개발을 조립 가능한 플랫폼으로 바꾼다. 표준 인터페이스가 있으면 외부 IP를 빠르게 통합할 수 있고, [[395_verification_process_review|검증]] 범위도 "[[344_bus|버스]] 규격 준수 여부" 중심으로 정리된다. 그 결과 개발 기간 단축, 재사용률 향상, 기능 확장의 유연성이 커진다.
+좋은 온칩 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 구조는 [SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) 개발을 조립 가능한 플랫폼으로 바꾼다. 표준 인터페이스가 있으면 외부 IP를 빠르게 통합할 수 있고, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 범위도 "[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 규격 준수 여부" 중심으로 정리된다. 그 결과 개발 기간 단축, 재사용률 향상, 기능 확장의 유연성이 커진다.
 
-다만 공용 [[344_bus|버스]] 기반 구조는 마스터 수와 트래픽이 크게 늘면 한계가 분명하다. AXI를 잘 설계해도 모든 통신 패턴을 무한히 흡수할 수는 없고, 고성능 [[190_ai_llm_requirements_specification|AI]] 가속기나 매니코어 프로세서에서는 NoC나 전용 인터커넥트가 더 적합해진다. 따라서 온칩 [[344_bus|버스]]는 "칩 내부 연결의 기본 언어"이지만, 칩 규모가 커질수록 더 큰 교통 체계와 함께 설계되어야 한다.
+다만 공용 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 기반 구조는 마스터 수와 트래픽이 크게 늘면 한계가 분명하다. AXI를 잘 설계해도 모든 통신 패턴을 무한히 흡수할 수는 없고, 고성능 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속기나 매니코어 프로세서에서는 NoC나 전용 인터커넥트가 더 적합해진다. 따라서 온칩 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 "칩 내부 연결의 기본 언어"이지만, 칩 규모가 커질수록 더 큰 교통 체계와 함께 설계되어야 한다.
 
-결국 온칩 [[344_bus|버스]]의 핵심은 가장 빠른 [[344_bus|버스]]를 선택하는 것이 아니라, [[001_dikw_pyramid|데이터]]의 성격에 맞는 계층을 설계해 전체 시스템의 병목과 전력을 함께 다스리는 데 있다. 이 관점으로 보면 AXI, AHB, APB는 단순한 규격 이름이 아니라 [[131_soc|SoC]] 내부 역할 분담의 원칙이다.
+결국 온칩 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)의 핵심은 가장 빠른 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 선택하는 것이 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 성격에 맞는 계층을 설계해 전체 시스템의 병목과 전력을 함께 다스리는 데 있다. 이 관점으로 보면 AXI, AHB, APB는 단순한 규격 이름이 아니라 [SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) 내부 역할 분담의 원칙이다.
 
-- **📢 섹션 요약 비유**: 좋은 온칩 [[344_bus|버스]] 설계는 모든 길을 고속도로로 만드는 일이 아니라, 도시 전체가 가장 덜 막히게 도로 체계를 짜는 일이다.
+- **📢 섹션 요약 비유**: 좋은 온칩 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 설계는 모든 길을 고속도로로 만드는 일이 아니라, 도시 전체가 가장 덜 막히게 도로 체계를 짜는 일이다.
 
 ---
 
@@ -149,11 +153,11 @@ AMBA 계열의 온칩 [[344_bus|버스]]는 보통 마스터, 슬레이브, 인�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[131_soc|SoC]] ([[131_soc|System on Chip]]) | 온칩 [[344_bus|버스]]가 연결하는 물리적 무대이며, 여러 IP 블록을 한 칩에 통합한다. |
-| AXI Interconnect | 고성능 마스터와 메모리·가속기 사이의 핵심 [[001_dikw_pyramid|데이터]] 통로를 형성한다. |
-| [[260_bridge_pattern_abstraction_implementation|Bridge]] | AXI-AHB, AHB-APB처럼 서로 다른 [[282_performance_tactics|성능]] 계층과 클럭 [[064_relation_domain|도메인]]을 이어 준다. |
-| [[746_io_direct_memory_access_dma|DMA]] ([[318_dma|Direct Memory Access]]) | CPU 개입 없이 대량 전송을 수행하므로 [[344_bus|버스]] [[140_bandwidth|대역폭]] 설계의 주요 수요처가 된다. |
-| [[367_noc|NoC]] ([[367_noc|Network on Chip]]) | 공용 [[344_bus|버스]]가 감당하기 어려운 대규모 코어 구조에서 온칩 연결을 확장하는 다음 단계다. |
+| [SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) ([System on Chip](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/)) | 온칩 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 연결하는 물리적 무대이며, 여러 IP 블록을 한 칩에 통합한다. |
+| AXI Interconnect | 고성능 마스터와 메모리·가속기 사이의 핵심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통로를 형성한다. |
+| [Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) | AXI-AHB, AHB-APB처럼 서로 다른 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 계층과 클럭 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 이어 준다. |
+| [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) ([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)) | CPU 개입 없이 대량 전송을 수행하므로 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 설계의 주요 수요처가 된다. |
+| [NoC](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/367_noc/) ([Network on Chip](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/367_noc/)) | 공용 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 감당하기 어려운 대규모 코어 구조에서 온칩 연결을 확장하는 다음 단계다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -173,11 +177,11 @@ Bridge · CDC (Clock Domain Crossing) · QoS (Quality of Service)
 고성능 인터커넥트 확장 → NoC (Network on Chip)
 ```
 
-이 흐름은 "단순 연결 → 표준화 → 계층화 → 이종 [[064_relation_domain|도메인]] 통합 → 대규모 네트워크화"로 온칩 인터커넥트가 발전하는 방향을 보여준다.
+이 흐름은 "단순 연결 → 표준화 → 계층화 → 이종 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 통합 → 대규모 네트워크화"로 온칩 인터커넥트가 발전하는 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 온칩 [[344_bus|버스]]는 아주 작은 컴퓨터 도시 안에서 부품들이 이야기를 주고받는 길이에요.
+1. 온칩 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 아주 작은 컴퓨터 도시 안에서 부품들이 이야기를 주고받는 길이에요.
 2. 큰 짐을 빨리 보내는 길과, 작은 쪽지를 천천히 보내는 길을 나눠야 길이 안 막혀요.
 3. 그래서 똑똑한 칩은 모든 길을 똑같이 만들지 않고, 필요한 곳에 맞는 길을 골라서 깔아요.
 
@@ -187,7 +191,7 @@ Bridge · CDC (Clock Domain Crossing) · QoS (Quality of Service)
 
 **진행 상황**: 367 / 803
 
-← **이전**: [[365_fsb|365. 프론트 사이드 버스 (FSB)]]
-**다음**: [[367_noc|367. NoC (Network on Chip)]] →
+← **이전**: [365. 프론트 사이드 버스 (FSB)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/365_fsb/)
+**다음**: [367. NoC (Network on Chip)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/367_noc/) →
 
 ---

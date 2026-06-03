@@ -1,49 +1,53 @@
----
-title: 735. i-node 직접/간접 포인터 인덱스 (Inode Direct Indirect Pointer Index)
-date: '2026-05-09'
-tags:
-- studynote-operating-system
----
++++
+title = "735. i-node 직접/간접 포인터 인덱스 (Inode Direct Indirect Pointer Index)"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: i-node([[528_unix_inode_mechanism|Index Node]])는 유닉스/리눅스 [[501_file_definition_logical_record|파일]] 시스템에서 [[501_file_definition_logical_record|파일]]의 [[012_metadata|메타데이터]](크기, 권한 등)와 [[501_file_definition_logical_record|파일]]의 실제 [[001_dikw_pyramid|데이터]]가 저장된 **디스크 블록 주소들의 '목차([[154_database_index_b_tree_search_optimization|Index]])'를 담고 있는 고정 크기(보통 128~256바이트)의 자료구조**다.
-> 2. **메커니즘 (비대칭 포인터)**: 작은 [[501_file_definition_logical_record|파일]]은 빠르게 읽기 위해 주소를 직접 가리키는 **직접 포인터([[176_direct_addressing|Direct]] Pointer)** 12개를 사용하며, [[501_file_definition_logical_record|파일]]이 커지면 주소록이 들어있는 블록을 가리키는 **1차, 2차, 3차 간접 포인터([[177_indirect_addressing|Indirect]] Pointer)**를 사용하여 적은 i-node 용량으로도 수 테라바이트(TB)의 거대 [[501_file_definition_logical_record|파일]]을 매핑해 낸다.
-> 3. **가치**: 이 천재적인 트리(Tree) 구조 덕분에 전체 [[501_file_definition_logical_record|파일]]의 90%를 차지하는 48KB 이하의 '작은 [[501_file_definition_logical_record|파일]]'들은 추가적인 디스크 I/O 없이 초고속으로 접근하고, 가끔 등장하는 '거대 [[501_file_definition_logical_record|파일]]'도 한계 없이 저장할 수 있는 극강의 확장성을 확보하게 되었다.
+> 1. **본질**: i-node([Index Node](/knowledge-base/studynote/02_operating_system/09_file_system/528_unix_inode_mechanism/))는 유닉스/리눅스 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)(크기, 권한 등)와 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 저장된 **디스크 블록 주소들의 '목차([Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))'를 담고 있는 고정 크기(보통 128~256바이트)의 자료구조**다.
+> 2. **메커니즘 (비대칭 포인터)**: 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 빠르게 읽기 위해 주소를 직접 가리키는 **직접 포인터([Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) Pointer)** 12개를 사용하며, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 커지면 주소록이 들어있는 블록을 가리키는 **1차, 2차, 3차 간접 포인터([Indirect](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) Pointer)**를 사용하여 적은 i-node 용량으로도 수 테라바이트(TB)의 거대 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 매핑해 낸다.
+> 3. **가치**: 이 천재적인 트리(Tree) 구조 덕분에 전체 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 90%를 차지하는 48KB 이하의 '작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)'들은 추가적인 디스크 I/O 없이 초고속으로 접근하고, 가끔 등장하는 '거대 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)'도 한계 없이 저장할 수 있는 극강의 확장성을 확보하게 되었다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **i-node ([[528_unix_inode_mechanism|Index Node]])**: 리눅스에서 [[501_file_definition_logical_record|파일]] 1개가 생성될 때 무조건 1개씩 짝지어 생성되는 고유한 [[001_dikw_pyramid|데이터]] 블록. ([[501_file_definition_logical_record|파일]] 이름은 디렉터리가 갖고, i-node는 그 외의 모든 정보를 가짐)
-  - **직접 포인터 ([[176_direct_addressing|Direct]] Pointer)**: 실제 [[001_dikw_pyramid|데이터]]가 들어있는 디스크 블록의 주소를 바로 적어놓은 칸.
-  - **간접 포인터 ([[177_indirect_addressing|Indirect]] Pointer)**: [[001_dikw_pyramid|데이터]]가 아니라, "진짜 [[001_dikw_pyramid|데이터]] 주소들이 잔뜩 적힌 또 다른 블록([[154_database_index_b_tree_search_optimization|인덱스]] 블록)"의 주소를 적어놓은 칸.
+  - **i-node ([Index Node](/knowledge-base/studynote/02_operating_system/09_file_system/528_unix_inode_mechanism/))**: 리눅스에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1개가 생성될 때 무조건 1개씩 짝지어 생성되는 고유한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록. ([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이름은 디렉터리가 갖고, i-node는 그 외의 모든 정보를 가짐)
+  - **직접 포인터 ([Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) Pointer)**: 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 들어있는 디스크 블록의 주소를 바로 적어놓은 칸.
+  - **간접 포인터 ([Indirect](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) Pointer)**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 아니라, "진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 주소들이 잔뜩 적힌 또 다른 블록([인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 블록)"의 주소를 적어놓은 칸.
 
-- **필요성 ([[154_database_index_b_tree_search_optimization|인덱스]] 블록 크기의 딜레마)**: 
-  - [[526_indexed_allocation|색인 할당]]([[526_indexed_allocation|Indexed Allocation]])을 쓰기로 했다. [[501_file_definition_logical_record|파일]]의 [[001_dikw_pyramid|데이터]] 블록 주소를 한곳에 모아두면 빠르기 때문이다.
-  - 그런데 [[154_database_index_b_tree_search_optimization|인덱스]] 블록을 얼마나 크게 만들어야 할까? 
-  - 10GB짜리 영화 [[501_file_definition_logical_record|파일]]을 매핑하려면 포인터가 수백만 개 필요하니 [[154_database_index_b_tree_search_optimization|인덱스]] 블록을 10MB로 아주 크게 만들어야 한다.
-  - 하지만 디스크에 저장된 [[501_file_definition_logical_record|파일]]의 90%는 10KB도 안 되는 작은 텍스트 [[501_file_definition_logical_record|파일]]이다. 작은 [[501_file_definition_logical_record|파일]] 하나 저장하려고 10MB짜리 거대한 목차 블록을 만들면 디스크가 순식간에 낭비로 터져버린다.
-  - **해결책**: "작은 [[501_file_definition_logical_record|파일]]은 i-node 안의 작은 빈칸(직접 포인터)으로 해결하고, 큰 [[501_file_definition_logical_record|파일]]일 때만 꼬리에 꼬리를 무는 마트료시카 [[154_database_index_b_tree_search_optimization|인덱스]] 블록(간접 포인터)을 동적으로 붙여주자!"
+- **필요성 ([인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 블록 크기의 딜레마)**: 
+  - [색인 할당](/knowledge-base/studynote/02_operating_system/09_file_system/526_indexed_allocation/)([Indexed Allocation](/knowledge-base/studynote/02_operating_system/09_file_system/526_indexed_allocation/))을 쓰기로 했다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록 주소를 한곳에 모아두면 빠르기 때문이다.
+  - 그런데 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 블록을 얼마나 크게 만들어야 할까? 
+  - 10GB짜리 영화 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 매핑하려면 포인터가 수백만 개 필요하니 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 블록을 10MB로 아주 크게 만들어야 한다.
+  - 하지만 디스크에 저장된 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 90%는 10KB도 안 되는 작은 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이다. 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 하나 저장하려고 10MB짜리 거대한 목차 블록을 만들면 디스크가 순식간에 낭비로 터져버린다.
+  - **해결책**: "작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 i-node 안의 작은 빈칸(직접 포인터)으로 해결하고, 큰 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)일 때만 꼬리에 꼬리를 무는 마트료시카 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 블록(간접 포인터)을 동적으로 붙여주자!"
 
   - **직접 포인터**: 사장님 수첩에 "직원 A의 전화번호: 010-1234"라고 바로 적혀있는 것. (빠름, 공간 차지 적음)
   - **1차 간접 포인터**: 직원 1,000명의 번호를 수첩에 다 적을 수 없어서 "인사팀 캐비닛 1번 서랍에 가면 직원 1,000명의 전화번호부가 있다"고 수첩에 서랍 위치만 적어둔 것.
   - **2차 간접 포인터**: 직원이 100만 명이다. 수첩에는 "지하 2층 문서 창고 번호"를 적어두고, 문서 창고에 가면 "각 부서별 전화번호부가 들어있는 서랍 번호 1,000개"가 있고, 그 서랍을 열면 비로소 직원 전화번호가 나오는 방식. (무한 확장 가능)
 
 - **발전 과정**:
-  1. **[[459_quic_fec_forward_error_correction|초기]] Unix i-node**: 12개의 직접 포인터와 3개의 간접 포인터로 구성된 고전적 트리 구조 확립.
-  2. **Ext4 / XFS**: i-node의 간접 포인터 뎁스가 깊어질수록 느려지는 문제를 해결하기 위해 [[531_extent_allocation|Extent]](블록 덩어리) 방식 포인터로 진화.
+  1. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) Unix i-node**: 12개의 직접 포인터와 3개의 간접 포인터로 구성된 고전적 트리 구조 확립.
+  2. **Ext4 / XFS**: i-node의 간접 포인터 뎁스가 깊어질수록 느려지는 문제를 해결하기 위해 [Extent](/knowledge-base/studynote/02_operating_system/09_file_system/531_extent_allocation/)(블록 덩어리) 방식 포인터로 진화.
 
-- **📢 섹션 요약 비유**: 작은 지갑(i-node) 안에 동전(직접 포인터)은 그냥 넣고 다닙니다. 하지만 집문서나 땅문서 같은 큰 재산(거대 [[501_file_definition_logical_record|파일]])은 지갑에 다 안 들어가니까, 지갑에는 "강남역 3번 출구 은행 금고 열쇠(간접 포인터)" 하나만 달랑 넣어두는 현명한 자산 관리법입니다.
+- **📢 섹션 요약 비유**: 작은 지갑(i-node) 안에 동전(직접 포인터)은 그냥 넣고 다닙니다. 하지만 집문서나 땅문서 같은 큰 재산(거대 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))은 지갑에 다 안 들어가니까, 지갑에는 "강남역 3번 출구 은행 금고 열쇠(간접 포인터)" 하나만 달랑 넣어두는 현명한 자산 관리법입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### i-node의 15개 [[423_non_clustered_index|포인터 배열]] 구조 (전통적 ext2/ext3 기준)
+### i-node의 15개 [포인터 배열](/knowledge-base/studynote/05_database/07_exam_summary/423_non_clustered_index/) 구조 (전통적 ext2/ext3 기준)
 
-i-node 객체 크기는 128바이트이며, 그중 [[001_dikw_pyramid|데이터]] 블록을 가리키는 [[423_non_clustered_index|포인터 배열]]은 딱 **15칸**이다.
+i-node 객체 크기는 128바이트이며, 그중 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록을 가리키는 [포인터 배열](/knowledge-base/studynote/05_database/07_exam_summary/423_non_clustered_index/)은 딱 **15칸**이다.
 블록 크기가 4KB, 포인터 크기가 4바이트라고 가정하고 계산해 본다.
 
 ```text
@@ -70,40 +74,40 @@ i-node 객체 크기는 128바이트이며, 그중 [[001_dikw_pyramid|데이터]
   └───────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 이 구조는 극단적으로 **비대칭적(Asymmetric)**이다. 48KB짜리 텍스트 [[501_file_definition_logical_record|파일]]을 읽을 때는 [[154_database_index_b_tree_search_optimization|인덱스]]를 뒤지느라 디스크를 더 읽을 필요가 없다. 1번만 I/O를 치면 바로 [[001_dikw_pyramid|데이터]]가 나온다. 반면 3GB짜리 영화를 읽으려면 14번 칸(이중 간접)을 타야 하므로, 실제 [[001_dikw_pyramid|데이터]]를 읽기 전에 [[154_database_index_b_tree_search_optimization|인덱스]] 블록만 2번을 더 읽어야 하는 오버헤드(Double I/O)가 발생한다. 
+**[다이어그램 해설]** 이 구조는 극단적으로 **비대칭적(Asymmetric)**이다. 48KB짜리 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 읽을 때는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 뒤지느라 디스크를 더 읽을 필요가 없다. 1번만 I/O를 치면 바로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 나온다. 반면 3GB짜리 영화를 읽으려면 14번 칸(이중 간접)을 타야 하므로, 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽기 전에 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 블록만 2번을 더 읽어야 하는 오버헤드(Double I/O)가 발생한다. 
 
 ---
 
-### i-node와 [[501_file_definition_logical_record|파일]] 크기에 따른 탐색 오버헤드
+### i-node와 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 크기에 따른 탐색 오버헤드
 
-이중 간접 포인터를 타고 1GB [[501_file_definition_logical_record|파일]]의 끝부분 [[001_dikw_pyramid|데이터]]를 읽을 때 하드웨어에서 일어나는 일:
+이중 간접 포인터를 타고 1GB [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 끝부분 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽을 때 하드웨어에서 일어나는 일:
 
-1. 디스크에서 해당 [[501_file_definition_logical_record|파일]]의 **i-node 블록**을 읽는다. (1 I/O)
-2. 14번 칸(이중 간접) 주소를 보고 **1차 [[154_database_index_b_tree_search_optimization|인덱스]] 블록**을 읽는다. (2 I/O)
-3. 1차 [[154_database_index_b_tree_search_optimization|인덱스]] 안의 주소를 보고 **2차 [[154_database_index_b_tree_search_optimization|인덱스]] 블록**을 읽는다. (3 I/O)
-4. 2차 [[154_database_index_b_tree_search_optimization|인덱스]] 안의 주소를 보고 비로소 **진짜 [[001_dikw_pyramid|데이터]] 블록**을 읽는다. (4 I/O)
+1. 디스크에서 해당 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 **i-node 블록**을 읽는다. (1 I/O)
+2. 14번 칸(이중 간접) 주소를 보고 **1차 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 블록**을 읽는다. (2 I/O)
+3. 1차 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 안의 주소를 보고 **2차 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 블록**을 읽는다. (3 I/O)
+4. 2차 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 안의 주소를 보고 비로소 **진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록**을 읽는다. (4 I/O)
 
-- **📢 섹션 요약 비유**: i-node는 '다단계 하도급' 구조입니다. [[501_file_definition_logical_record|파일]]이 작을 때는 내가 직접 일을 처리하지만(직접 포인터), [[501_file_definition_logical_record|파일]]이 너무 크면 하청업체(1차 간접)에 맡기고, 하청업체가 또 재하청(2차 간접)을 줍니다. 하청이 깊어질수록 내 지시가 말단 노동자([[001_dikw_pyramid|데이터]])에게 전달되는 시간(탐색 [[015_지연_데이터_관점|지연]])은 길어집니다.
+- **📢 섹션 요약 비유**: i-node는 '다단계 하도급' 구조입니다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 작을 때는 내가 직접 일을 처리하지만(직접 포인터), [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 너무 크면 하청업체(1차 간접)에 맡기고, 하청업체가 또 재하청(2차 간접)을 줍니다. 하청이 깊어질수록 내 지시가 말단 노동자([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))에게 전달되는 시간(탐색 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))은 길어집니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### i-node(간접 포인터) vs [[525_fat_file_allocation_table|FAT]]([[524_linked_allocation|연결 할당]]) vs [[531_extent_allocation|Extent]](최신 할당)
+### i-node(간접 포인터) vs [FAT](/knowledge-base/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/)([연결 할당](/knowledge-base/studynote/02_operating_system/09_file_system/524_linked_allocation/)) vs [Extent](/knowledge-base/studynote/02_operating_system/09_file_system/531_extent_allocation/)(최신 할당)
 
-| 비교 항목 | [[525_fat_file_allocation_table|FAT]] (Windows [[359_usb|USB]]) | i-node 간접 포인터 (전통적 Linux) | [[531_extent_allocation|Extent]] (최신 ext4, XFS) |
+| 비교 항목 | [FAT](/knowledge-base/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/) (Windows [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/)) | i-node 간접 포인터 (전통적 Linux) | [Extent](/knowledge-base/studynote/02_operating_system/09_file_system/531_extent_allocation/) (최신 ext4, XFS) |
 |:---|:---|:---|:---|
-| **[[012_metadata|메타데이터]] 저장** | 디스크 앞부분 거대 테이블 | 개별 i-node 블록 (128B) | 개별 i-node 내부에 Tree 구조 |
-| **큰 [[501_file_definition_logical_record|파일]] 탐색 속도** | $O(N)$ (링크 추적 필요) | **$O(\log N)$ (트리 뎁스만큼 I/O 발생)**| **$O(1)$ (연속된 블록은 범위로 묶음)** |
-| **공간 낭비** | [[501_file_definition_logical_record|파일]] 개수만큼 테이블 커짐 | 간접 [[154_database_index_b_tree_search_optimization|인덱스]] 블록 자체가 용량 낭비 | 낭비 거의 없음 |
-| **조각화 내성** | 심한 파편화에 매우 약함 | 조각나 있어도 [[154_database_index_b_tree_search_optimization|인덱스]]로 쉽게 접근 가능 | [[523_contiguous_allocation|연속 할당]] 지향이라 조각이 잘 안 남 |
+| **[메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 저장** | 디스크 앞부분 거대 테이블 | 개별 i-node 블록 (128B) | 개별 i-node 내부에 Tree 구조 |
+| **큰 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 탐색 속도** | $O(N)$ (링크 추적 필요) | **$O(\log N)$ (트리 뎁스만큼 I/O 발생)**| **$O(1)$ (연속된 블록은 범위로 묶음)** |
+| **공간 낭비** | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 개수만큼 테이블 커짐 | 간접 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 블록 자체가 용량 낭비 | 낭비 거의 없음 |
+| **조각화 내성** | 심한 파편화에 매우 약함 | 조각나 있어도 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)로 쉽게 접근 가능 | [연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/) 지향이라 조각이 잘 안 남 |
 
 ### 과목 융합 관점
 
-- **자료구조 ([[001_dikw_pyramid|Data]] Structure)**: i-node의 이중/삼중 간접 포인터는 사실상 **불균형 트리(Unbalanced Tree)** 또는 **[[087_trie|트라이]]([[066_trie|Trie]])** 자료구조와 같다. 하지만 트리의 깊이(Depth)가 4를 넘어가지 않으므로, 최악의 경우에도 $O(1)$(상수 시간 4번 I/O)을 보장하는 매우 실용적인 하드웨어 특화 자료구조다.
-- **[[001_operating_system_purpose|운영체제]] (OS Cache)**: "큰 [[501_file_definition_logical_record|파일]] 읽을 때마다 [[154_database_index_b_tree_search_optimization|인덱스]] 읽느라 I/O 3번씩 치면 너무 느린 거 아냐?" 당연히 느리다. 그래서 리눅스 커널의 [[517_virtual_file_system_vfs|VFS]](가상 [[501_file_definition_logical_record|파일]] 시스템)는 빈번히 접근하는 1차, 2차 **[[154_database_index_b_tree_search_optimization|인덱스]] 블록 자체를 램(RAM)의 버퍼 캐시에 통째로 올려버린다.** 캐시 히트가 나면 디스크 I/O 없이 램 속도로 [[154_database_index_b_tree_search_optimization|인덱스]]를 타고 내려가므로 [[282_performance_tactics|성능]] 저하가 99% 무마된다.
+- **자료구조 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Structure)**: i-node의 이중/삼중 간접 포인터는 사실상 **불균형 트리(Unbalanced Tree)** 또는 **[트라이](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/087_trie/)([Trie](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/066_trie/))** 자료구조와 같다. 하지만 트리의 깊이(Depth)가 4를 넘어가지 않으므로, 최악의 경우에도 $O(1)$(상수 시간 4번 I/O)을 보장하는 매우 실용적인 하드웨어 특화 자료구조다.
+- **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (OS Cache)**: "큰 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 읽을 때마다 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 읽느라 I/O 3번씩 치면 너무 느린 거 아냐?" 당연히 느리다. 그래서 리눅스 커널의 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/)(가상 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템)는 빈번히 접근하는 1차, 2차 **[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 블록 자체를 램(RAM)의 버퍼 캐시에 통째로 올려버린다.** 캐시 히트가 나면 디스크 I/O 없이 램 속도로 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 타고 내려가므로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하가 99% 무마된다.
 
-- **📢 섹션 요약 비유**: 전통적 i-node는 1바이트짜리 블록 주소를 100만 번 빼곡히 적는 '노가다 장부'입니다. Extent는 "10번부터 1,000번 블록 연속!"이라고 한 줄로 퉁치는 '엑셀 수식'입니다. 현대 [[501_file_definition_logical_record|파일]] 시스템은 노가다 장부를 버리고 스마트한 수식을 씁니다.
+- **📢 섹션 요약 비유**: 전통적 i-node는 1바이트짜리 블록 주소를 100만 번 빼곡히 적는 '노가다 장부'입니다. Extent는 "10번부터 1,000번 블록 연속!"이라고 한 줄로 퉁치는 '엑셀 수식'입니다. 현대 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템은 노가다 장부를 버리고 스마트한 수식을 씁니다.
 
 ---
 
@@ -111,13 +115,13 @@ i-node 객체 크기는 128바이트이며, 그중 [[001_dikw_pyramid|데이터]
 
 ### 실무 시나리오
 
-1. **시나리오 — i-node 고갈 (No space left on device) 트러블슈팅**: 개발 서버 디스크 용량이 50%나 남았는데, [[063_docker_architecture|도커]] 이미지를 빌드하거나 npm install을 할 때 자꾸 "디스크가 꽉 찼습니다" 에러가 뜸.
-   - **원인 분석**: [[501_file_definition_logical_record|파일]] 시스템을 ext4로 포맷할 때, i-node의 총개수는 고정(Static)된다 (보통 16KB당 1개). 수만 개의 1KB짜리 자잘한 `.js`, `.py` 소스 코드 [[501_file_definition_logical_record|파일]]이 깔리면서, [[001_dikw_pyramid|데이터]] 용량은 텅텅 비었는데 **i-node(128바이트짜리 명함) 개수가 먼저 100% 바닥나버린 것이다**. (명함이 없어서 새 직원을 못 뽑는 상태)
-   - **대응 (기술사적 가이드)**: `df -i` 명령어로 i-node 사용량을 확인한다. 100%라면 의미 없는 로그나 임시 캐시 [[501_file_definition_logical_record|파일]] 수십만 개를 찾아 `find . -type f -delete`로 지워야 한다. 궁극적으로는 이런 자잘한 [[501_file_definition_logical_record|파일]]이 많은 서버는 XFS나 Btrfs처럼 **i-node를 동적(Dynamic)으로 할당**하는 [[501_file_definition_logical_record|파일]] 시스템으로 인프라를 갈아타야 한다.
+1. **시나리오 — i-node 고갈 (No space left on device) 트러블슈팅**: 개발 서버 디스크 용량이 50%나 남았는데, [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 이미지를 빌드하거나 npm install을 할 때 자꾸 "디스크가 꽉 찼습니다" 에러가 뜸.
+   - **원인 분석**: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템을 ext4로 포맷할 때, i-node의 총개수는 고정(Static)된다 (보통 16KB당 1개). 수만 개의 1KB짜리 자잘한 `.js`, `.py` 소스 코드 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 깔리면서, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 용량은 텅텅 비었는데 **i-node(128바이트짜리 명함) 개수가 먼저 100% 바닥나버린 것이다**. (명함이 없어서 새 직원을 못 뽑는 상태)
+   - **대응 (기술사적 가이드)**: `df -i` 명령어로 i-node 사용량을 확인한다. 100%라면 의미 없는 로그나 임시 캐시 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 수십만 개를 찾아 `find . -type f -delete`로 지워야 한다. 궁극적으로는 이런 자잘한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 많은 서버는 XFS나 Btrfs처럼 **i-node를 동적(Dynamic)으로 할당**하는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템으로 인프라를 갈아타야 한다.
 
-2. **시나리오 — 거대 DB [[501_file_definition_logical_record|파일]]의 [[282_performance_tactics|성능]] 저하와 [[531_extent_allocation|Extent]] 도입 (ext3 $\rightarrow$ ext4)**: [[188_pl_sql_t_sql_procedural|Oracle]] DB의 [[001_dikw_pyramid|데이터]] [[501_file_definition_logical_record|파일]](수백 GB)을 ext3 [[501_file_definition_logical_record|파일]] 시스템에 올려뒀더니, [[298_qkv_attention|쿼리]] 속도가 알 수 없이 버벅거림.
-   - **원인 분석**: ext3는 고전적인 i-node(1, 2, 3차 간접 포인터)를 쓴다. 수백 GB짜리 [[501_file_definition_logical_record|파일]]은 4KB [[001_dikw_pyramid|데이터]] 블록 수천만 개로 쪼개져 있고, 이 수천만 개의 블록 번호를 i-node [[154_database_index_b_tree_search_optimization|인덱스]] 블록에 일일이 다 적어놓았다. DB가 순차 스캔(Full Scan)을 할 때, 헤드는 [[001_dikw_pyramid|데이터]] 1번 읽고 [[154_database_index_b_tree_search_optimization|인덱스]] 블록 읽고를 미친 듯이 반복하며 시스템 버스가 터졌다.
-   - **아키텍처 적용**: [[501_file_definition_logical_record|파일]] 시스템을 **ext4**로 마이그레이션한다. ext4는 간접 포인터 대신 **[[531_extent_allocation|Extent]] Tree([[064_b_tree|B-Tree]] 구조)**를 쓴다. 수천만 개의 주소를 다 적는 대신, `[시작 블록: 1000, 연속된 블록 개수: 500000]` 이렇게 단 한 줄로 퉁친다. [[012_metadata|메타데이터]] 크기가 1/1000로 줄어들고, [[154_database_index_b_tree_search_optimization|인덱스]]를 찾기 위한 추가적인 디스크 I/O가 완벽하게 사라져 DB 스캔 속도가 수 배 뛴다.
+2. **시나리오 — 거대 DB [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하와 [Extent](/knowledge-base/studynote/02_operating_system/09_file_system/531_extent_allocation/) 도입 (ext3 $\rightarrow$ ext4)**: [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) DB의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(수백 GB)을 ext3 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템에 올려뒀더니, [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 속도가 알 수 없이 버벅거림.
+   - **원인 분석**: ext3는 고전적인 i-node(1, 2, 3차 간접 포인터)를 쓴다. 수백 GB짜리 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 4KB [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록 수천만 개로 쪼개져 있고, 이 수천만 개의 블록 번호를 i-node [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 블록에 일일이 다 적어놓았다. DB가 순차 스캔(Full Scan)을 할 때, 헤드는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 1번 읽고 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 블록 읽고를 미친 듯이 반복하며 시스템 버스가 터졌다.
+   - **아키텍처 적용**: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템을 **ext4**로 마이그레이션한다. ext4는 간접 포인터 대신 **[Extent](/knowledge-base/studynote/02_operating_system/09_file_system/531_extent_allocation/) Tree([B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) 구조)**를 쓴다. 수천만 개의 주소를 다 적는 대신, `[시작 블록: 1000, 연속된 블록 개수: 500000]` 이렇게 단 한 줄로 퉁친다. [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 크기가 1/1000로 줄어들고, [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 찾기 위한 추가적인 디스크 I/O가 완벽하게 사라져 DB 스캔 속도가 수 배 뛴다.
 
 ### 의사결정 및 튜닝 플로우
 
@@ -144,12 +148,12 @@ i-node 객체 크기는 128바이트이며, 그중 [[001_dikw_pyramid|데이터]
   └───────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 리눅스 [[501_file_definition_logical_record|파일]]은 이름표([[501_file_definition_logical_record|File]] name)와 주민등록증(i-node)이 분리되어 있다. 이름표 10개가 1개의 주민등록증을 가리킬 수 있다([[511_hard_link|Hard Link]]). [[501_file_definition_logical_record|파일]]질라나 FTP로 [[501_file_definition_logical_record|파일]]을 지울 때, 사실 [[501_file_definition_logical_record|파일]] [[001_dikw_pyramid|데이터]](4KB 블록)에 0을 덮어써서 지우는 게 아니다. 그저 이 i-node 구조체 안에 있는 '직접/간접 포인터' 연결선만 툭 끊어버릴(Unlink) 뿐이다. 그래서 [[501_file_definition_logical_record|파일]] 삭제는 빛의 속도 1초 만에 끝나는 것이다.
+**[다이어그램 해설]** 리눅스 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 이름표([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) name)와 주민등록증(i-node)이 분리되어 있다. 이름표 10개가 1개의 주민등록증을 가리킬 수 있다([Hard Link](/knowledge-base/studynote/02_operating_system/09_file_system/511_hard_link/)). [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)질라나 FTP로 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 지울 때, 사실 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(4KB 블록)에 0을 덮어써서 지우는 게 아니다. 그저 이 i-node 구조체 안에 있는 '직접/간접 포인터' 연결선만 툭 끊어버릴(Unlink) 뿐이다. 그래서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 삭제는 빛의 속도 1초 만에 끝나는 것이다.
 
-### 도입 [[435_checklist_based_testing|체크리스트]]
-- **블록 크기 (Block Size) 튜닝**: [[501_file_definition_logical_record|파일]] 시스템을 포맷할 때 블록 크기를 1KB로 하면 간접 포인터가 커버할 수 있는 용량이 확 줄어들어 삼중 간접 포인터가 더 빨리 호출([[282_performance_tactics|성능]] 저하)된다. 반대로 4KB나 8KB로 키우면 포인터 하나가 덮는 영역이 커져 [[282_performance_tactics|성능]]은 좋아지나, 작은 [[501_file_definition_logical_record|파일]] 저장 시 [[341_internal_fragmentation|내부 단편화]] 낭비가 심해진다. 저장할 [[001_dikw_pyramid|데이터]]의 평균 크기를 계산하여 4KB(디폴트)를 유지할지 판단했는가?
+### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+- **블록 크기 (Block Size) 튜닝**: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템을 포맷할 때 블록 크기를 1KB로 하면 간접 포인터가 커버할 수 있는 용량이 확 줄어들어 삼중 간접 포인터가 더 빨리 호출([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하)된다. 반대로 4KB나 8KB로 키우면 포인터 하나가 덮는 영역이 커져 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 좋아지나, 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 저장 시 [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/) 낭비가 심해진다. 저장할 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 평균 크기를 계산하여 4KB(디폴트)를 유지할지 판단했는가?
 
-- **📢 섹션 요약 비유**: 작은 구멍가게(작은 [[501_file_definition_logical_record|파일]])는 사장님 머릿속(직접 포인터)에 재고 위치가 다 들어있습니다. 대형 마트(거대 [[501_file_definition_logical_record|파일]])는 매대, 창고, 외부 물류센터까지 위치를 기록한 3중 엑셀 [[501_file_definition_logical_record|파일]](삼중 간접 포인터)이 필요합니다. i-node는 이 구멍가게와 대형 마트를 128바이트짜리 종이 한 장으로 모두 품어낸 천재적인 양식입니다.
+- **📢 섹션 요약 비유**: 작은 구멍가게(작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))는 사장님 머릿속(직접 포인터)에 재고 위치가 다 들어있습니다. 대형 마트(거대 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))는 매대, 창고, 외부 물류센터까지 위치를 기록한 3중 엑셀 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(삼중 간접 포인터)이 필요합니다. i-node는 이 구멍가게와 대형 마트를 128바이트짜리 종이 한 장으로 모두 품어낸 천재적인 양식입니다.
 
 ---
 
@@ -157,19 +161,19 @@ i-node 객체 크기는 128바이트이며, 그중 [[001_dikw_pyramid|데이터]
 
 ### 정량/정성 기대효과
 
-| 구분 | 연속/[[524_linked_allocation|연결 할당]] 시스템 | i-node 구조 (다중 간접 포인터 적용) | 개선 효과 |
+| 구분 | 연속/[연결 할당](/knowledge-base/studynote/02_operating_system/09_file_system/524_linked_allocation/) 시스템 | i-node 구조 (다중 간접 포인터 적용) | 개선 효과 |
 |:---|:---|:---|:---|
-| **정량 (탐색 속도)** | [[501_file_definition_logical_record|파일]] 끝 탐색 시 $O(N)$ [[015_지연_데이터_관점|지연]] | **크기에 무관하게 최대 4번 I/O 내 접근** | 임의 접근(Random Access) 속도 최상 |
-| **정량 ([[012_metadata|메타데이터]])**| 연결 포인터가 [[001_dikw_pyramid|데이터]] 블록 훼손 | **독립된 i-node 테이블로 분리 관리** | [[001_dikw_pyramid|데이터]] 블록(4KB)의 100% 온전한 사용 보장 |
-| **정성 (공간 효율성)**| 거대 [[501_file_definition_logical_record|파일]] 저장 불가 ([[523_contiguous_allocation|연속 할당]]) | **48KB 이하는 포인터 블록 낭비 0%** | 소형/대형 [[501_file_definition_logical_record|파일]]의 트레이드오프 완벽 극복 |
+| **정량 (탐색 속도)** | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 끝 탐색 시 $O(N)$ [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | **크기에 무관하게 최대 4번 I/O 내 접근** | 임의 접근(Random Access) 속도 최상 |
+| **정량 ([메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/))**| 연결 포인터가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록 훼손 | **독립된 i-node 테이블로 분리 관리** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록(4KB)의 100% 온전한 사용 보장 |
+| **정성 (공간 효율성)**| 거대 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 저장 불가 ([연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/)) | **48KB 이하는 포인터 블록 낭비 0%** | 소형/대형 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 트레이드오프 완벽 극복 |
 
 ### 미래 전망
-- **B-Tree와 B+Tree [[501_file_definition_logical_record|파일]] 시스템의 지배**: 전통적인 1, 2, 3차 간접 포인터 구조는 최신 [[501_file_definition_logical_record|파일]] 시스템(Btrfs, ZFS, APFS)에서 완전히 자취를 감추었다. 대신 [[012_metadata|메타데이터]]와 [[501_file_definition_logical_record|파일]] [[001_dikw_pyramid|데이터]] 위치 자체를 거대한 [[064_b_tree|B-Tree]]([[002_database_definition|데이터베이스]] [[154_database_index_b_tree_search_optimization|인덱스]]와 동일)에 때려 박아 넣어, [[501_file_definition_logical_record|파일]] 조각이 수천만 개로 쪼개져 있어도 나무뿌리부터 나뭇잎까지 단 몇 번의 $O(\log N)$ 탐색만으로 디스크 조각을 긁어모으는 트리 기반 아키텍처가 시장을 지배하고 있다.
+- **B-Tree와 B+Tree [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템의 지배**: 전통적인 1, 2, 3차 간접 포인터 구조는 최신 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템(Btrfs, ZFS, APFS)에서 완전히 자취를 감추었다. 대신 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)와 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위치 자체를 거대한 [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/)([데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)와 동일)에 때려 박아 넣어, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 조각이 수천만 개로 쪼개져 있어도 나무뿌리부터 나뭇잎까지 단 몇 번의 $O(\log N)$ 탐색만으로 디스크 조각을 긁어모으는 트리 기반 아키텍처가 시장을 지배하고 있다.
 
 ### 결론
-i-node의 직접/간접 포인터 [[154_database_index_b_tree_search_optimization|인덱스]]는 "자원의 90%는 작고 평범하지만, [[489_raid_10_hybrid|10]]%의 예외적인 거대 자원도 포용해야 한다"는 파레토 법칙(Pareto Principle)을 [[001_operating_system_purpose|운영체제]] 설계에 완벽하게 녹여낸 걸작이다. 작은 [[501_file_definition_logical_record|파일]]에는 군더더기 없는 광속의 직접 접근을 허락하고, 거대 [[501_file_definition_logical_record|파일]]에는 재귀적인 마트료시카 구조(간접 블록)를 무한히 펼쳐 한계를 부수었다. 이 128바이트짜리 작은 자료구조야말로 지난 50년간 전 세계 모든 유닉스와 리눅스 서버의 [[501_file_definition_logical_record|파일]] 시스템이 붕괴하지 않고 테라바이트 시대를 맞이할 수 있게 한 가장 견고한 주춧돌이다.
+i-node의 직접/간접 포인터 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 "자원의 90%는 작고 평범하지만, [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%의 예외적인 거대 자원도 포용해야 한다"는 파레토 법칙(Pareto Principle)을 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 설계에 완벽하게 녹여낸 걸작이다. 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에는 군더더기 없는 광속의 직접 접근을 허락하고, 거대 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에는 재귀적인 마트료시카 구조(간접 블록)를 무한히 펼쳐 한계를 부수었다. 이 128바이트짜리 작은 자료구조야말로 지난 50년간 전 세계 모든 유닉스와 리눅스 서버의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템이 붕괴하지 않고 테라바이트 시대를 맞이할 수 있게 한 가장 견고한 주춧돌이다.
 
-- **📢 섹션 요약 비유**: 1층짜리 단독 주택(작은 [[501_file_definition_logical_record|파일]])을 지을 때는 사다리 하나(직접 포인터)면 지붕까지 닿습니다. 하지만 63빌딩(거대 [[501_file_definition_logical_record|파일]])을 지을 때는 엘리베이터를 타고 올라가서 층별 안내도(간접 포인터)를 봐야 방을 찾을 수 있습니다. i-node는 이 사다리와 엘리베이터 도면을 하나의 서류 봉투에 담아낸 만능 설계도입니다.
+- **📢 섹션 요약 비유**: 1층짜리 단독 주택(작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))을 지을 때는 사다리 하나(직접 포인터)면 지붕까지 닿습니다. 하지만 63빌딩(거대 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))을 지을 때는 엘리베이터를 타고 올라가서 층별 안내도(간접 포인터)를 봐야 방을 찾을 수 있습니다. i-node는 이 사다리와 엘리베이터 도면을 하나의 서류 봉투에 담아낸 만능 설계도입니다.
 
 ---
 
@@ -177,10 +181,10 @@ i-node의 직접/간접 포인터 [[154_database_index_b_tree_search_optimizatio
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[501_file_definition_logical_record|파일]] 시스템 연속, 연결, [[526_indexed_allocation|색인 할당]] | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [[525_fat_file_allocation_table|FAT]] 방식 [[524_linked_allocation|연결 할당]] 최적화 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [[511_hard_link|하드 링크]] / [[512_symbolic_link|심볼릭 링크]] 차이 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [[517_virtual_file_system_vfs|VFS]] 가상 [[501_file_definition_logical_record|파일]] 시스템 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 연속, 연결, [색인 할당](/knowledge-base/studynote/02_operating_system/09_file_system/526_indexed_allocation/) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [FAT](/knowledge-base/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/) 방식 [연결 할당](/knowledge-base/studynote/02_operating_system/09_file_system/524_linked_allocation/) 최적화 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [하드 링크](/knowledge-base/studynote/02_operating_system/09_file_system/511_hard_link/) / [심볼릭 링크](/knowledge-base/studynote/02_operating_system/09_file_system/512_symbolic_link/) 차이 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 가상 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -208,7 +212,7 @@ i-node의 직접/간접 포인터 [[154_database_index_b_tree_search_optimizatio
 
 **진행 상황**: 735 / 800
 
-← **이전**: [[734_fat_file_allocation_table_optimization|734. FAT 방식 연결 할당 최적화 (Fat File Allocation Table Optimization)]]
-**다음**: [[736_hard_link_vs_symbolic_link|736. 하드 링크 / 심볼릭 링크 차이 (Hard Link Vs Symbolic Link)]] →
+← **이전**: [734. FAT 방식 연결 할당 최적화 (Fat File Allocation Table Optimization)](/knowledge-base/studynote/02_operating_system/11_exam_summary/734_fat_file_allocation_table_optimization/)
+**다음**: [736. 하드 링크 / 심볼릭 링크 차이 (Hard Link Vs Symbolic Link)](/knowledge-base/studynote/02_operating_system/11_exam_summary/736_hard_link_vs_symbolic_link/) →
 
 ---

@@ -1,19 +1,23 @@
----
-title: 이진 탐색 트리 (Binary Search Tree, BST)
-date: '2026-03-05'
-tags:
-- studynote-algorithm
----
++++
+title = "이진 탐색 트리 (Binary Search Tree, BST)"
+date = 2026-03-05
+
+[taxonomies]
+tags = ["studynote-algorithm"]
+
+[extra]
+tags = ["studynote-algorithm"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **핵심 원리**: 모든 노드에 대해 '왼쪽 서브트리 < 루트 < 오른쪽 서브트리'의 크기 관계를 유지하여 탐색 효율을 극대화한 자료구조다.
-> 2. **[[282_performance_tactics|성능]] 특징**: 평균적으로 O(log n)의 탐색/삽입/삭제 [[282_performance_tactics|성능]]을 보이나, [[001_dikw_pyramid|데이터]]가 한쪽으로 치우쳐 편향 트리(Skewed Tree)가 될 경우 O(n)으로 [[282_performance_tactics|성능]]이 저하된다.
-> 3. **활용 가치**: 정렬된 상태로 [[001_dikw_pyramid|데이터]]를 유지하면서 동적인 삽입/삭제가 빈번한 환경에서 기본이 되는 탐색 트리 모델이다.
+> 2. **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 특징**: 평균적으로 O(log n)의 탐색/삽입/삭제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보이나, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 한쪽으로 치우쳐 편향 트리(Skewed Tree)가 될 경우 O(n)으로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 저하된다.
+> 3. **활용 가치**: 정렬된 상태로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 유지하면서 동적인 삽입/삭제가 빈번한 환경에서 기본이 되는 탐색 트리 모델이다.
 
 ---
 
-### Ⅰ. 개요 ([[033_context|Context]] & Background)
-[[031_binary_search_algorithm|이진 탐색]] 트리([[031_binary_search_algorithm|Binary Search]] Tree)는 [[060_binary_tree|이진 트리]]의 특수한 형태로, 효율적인 검색을 목적으로 설계되었다. 배열의 [[031_binary_search_algorithm|이진 탐색]]([[031_binary_search_algorithm|Binary Search]])은 정렬된 상태에서만 가능하고 삽입/삭제가 비효율적인 반면, BST는 트리 구조를 통해 정렬 상태를 유지하면서도 동적인 [[001_dikw_pyramid|데이터]] 변화에 유연하게 대응할 수 있도록 고안되었다. 중복된 키를 허용하지 않는 것이 일반적이며, 중위 순회(In-order Traversal) 시 오름차순으로 정렬된 결과를 얻을 수 있다는 특징이 있다.
+### Ⅰ. 개요 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Background)
+[이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) 트리([Binary Search](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) Tree)는 [이진 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/060_binary_tree/)의 특수한 형태로, 효율적인 검색을 목적으로 설계되었다. 배열의 [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/)([Binary Search](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/))은 정렬된 상태에서만 가능하고 삽입/삭제가 비효율적인 반면, BST는 트리 구조를 통해 정렬 상태를 유지하면서도 동적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변화에 유연하게 대응할 수 있도록 고안되었다. 중복된 키를 허용하지 않는 것이 일반적이며, 중위 순회(In-order Traversal) 시 오름차순으로 정렬된 결과를 얻을 수 있다는 특징이 있다.
 
 ---
 
@@ -41,29 +45,29 @@ tags:
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
-| 구분 | 일반 [[060_binary_tree|이진 트리]] ([[060_binary_tree|Binary Tree]]) | [[031_binary_search_algorithm|이진 탐색]] 트리 (BST) | 균형 탐색 트리 (AVL/RB) |
+| 구분 | 일반 [이진 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/060_binary_tree/) ([Binary Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/060_binary_tree/)) | [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) 트리 (BST) | 균형 탐색 트리 (AVL/RB) |
 |:---|:---|:---|:---|
-| **[[001_dikw_pyramid|데이터]] 순서** | 규칙 없음 | 고정된 크기 규칙 (L < P < R) | 크기 규칙 + 높이 균형 규칙 |
-| **[[324_seek_time|탐색 시간]] (평균)** | O(n) | **O(log n)** | O(log n) |
-| **[[324_seek_time|탐색 시간]] (최악)** | O(n) | **O(n)** (편향 시) | **O(log n)** (항상 유지) |
-| **주요 용도** | 계층 구조 표현 | 기본 탐색 자료구조 | [[002_database_definition|데이터베이스]] [[154_database_index_b_tree_search_optimization|인덱스]], STL map/set |
+| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 순서** | 규칙 없음 | 고정된 크기 규칙 (L < P < R) | 크기 규칙 + 높이 균형 규칙 |
+| **[탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/) (평균)** | O(n) | **O(log n)** | O(log n) |
+| **[탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/) (최악)** | O(n) | **O(n)** (편향 시) | **O(log n)** (항상 유지) |
+| **주요 용도** | 계층 구조 표현 | 기본 탐색 자료구조 | [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), STL map/set |
 
 ---
 
-### Ⅳ. 실무 적용 및 기술사적 판단 ([[268_strategy_pattern|Strategy]] & Decision)
-BST는 구현이 매우 간단하여 프로토타입이나 소규모 [[001_dikw_pyramid|데이터]]셋에서 빠른 검색이 필요할 때 유리하다. 그러나 실제 운영 환경에서 [[001_dikw_pyramid|데이터]]가 정렬된 순서대로 들어올 경우 트리가 일직선으로 길어지는 **편향(Skewed)** 문제가 발생하여 연결 리스트와 다를 바 없는 [[282_performance_tactics|성능]]을 보이게 된다. 따라서 실무에서는 [[001_dikw_pyramid|데이터]]의 입력 순서를 보장할 수 없다면 AVL 트리나 [[063_red_black_tree|레드-블랙 트리]]와 같은 **자가 균형 [[031_binary_search_algorithm|이진 탐색]] 트리(Self-Balancing BST)**를 사용하는 것이 기술사적 판단으로 적절하다.
+### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
+BST는 구현이 매우 간단하여 프로토타입이나 소규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋에서 빠른 검색이 필요할 때 유리하다. 그러나 실제 운영 환경에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 정렬된 순서대로 들어올 경우 트리가 일직선으로 길어지는 **편향(Skewed)** 문제가 발생하여 연결 리스트와 다를 바 없는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보이게 된다. 따라서 실무에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 입력 순서를 보장할 수 없다면 AVL 트리나 [레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/)와 같은 **자가 균형 [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) 트리(Self-Balancing BST)**를 사용하는 것이 기술사적 판단으로 적절하다.
 
 ---
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
-[[031_binary_search_algorithm|이진 탐색]] 트리는 컴퓨터 과학의 가장 기초적이면서도 강력한 추상 자료형(ADT) 중 하나다. 비록 편향성이라는 한계가 존재하지만, 이를 극복하기 위한 수많은 변형(AVL, RB-Tree, [[064_b_tree|B-Tree]])들의 모태가 되었다는 점에서 그 가치가 크다. 향후 대규모 메모리 내 [[001_dikw_pyramid|데이터]] 처리([[139_inmemory_db|In-memory DB]])에서도 이러한 트리 기반의 인덱싱 기술은 핵심적인 표준으로 지속될 것이다.
+[이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) 트리는 컴퓨터 과학의 가장 기초적이면서도 강력한 추상 자료형(ADT) 중 하나다. 비록 편향성이라는 한계가 존재하지만, 이를 극복하기 위한 수많은 변형(AVL, RB-Tree, [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/))들의 모태가 되었다는 점에서 그 가치가 크다. 향후 대규모 메모리 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리([In-memory DB](/knowledge-base/studynote/16_bigdata/06_nosql/139_inmemory_db/))에서도 이러한 트리 기반의 인덱싱 기술은 핵심적인 표준으로 지속될 것이다.
 
 ---
 
-### 📌 관련 개념 맵 ([[160_knowledge_graph_graphrag_integration|Knowledge Graph]])
-- **부모 자료구조**: [[060_binary_tree|이진 트리]] ([[060_binary_tree|Binary Tree]])
-- **자식 자료구조**: AVL 트리, [[063_red_black_tree|레드-블랙 트리]], 2-3 트리
-- **관련 [[001_algorithm_definition|알고리즘]]**: [[031_binary_search_algorithm|이진 탐색]] ([[031_binary_search_algorithm|Binary Search]]), 중위 순회 (In-order Traversal)
+### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
+- **부모 자료구조**: [이진 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/060_binary_tree/) ([Binary Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/060_binary_tree/))
+- **자식 자료구조**: AVL 트리, [레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/), 2-3 트리
+- **관련 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**: [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) ([Binary Search](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/)), 중위 순회 (In-order Traversal)
 
 ---
 
@@ -85,10 +89,10 @@ BST는 구현이 매우 간단하여 프로토타입이나 소규모 [[001_dikw_
 [B-Tree — 디스크 인덱스]
 ```
 
-BST는 [[031_binary_search_algorithm|이진 탐색]]의 아이디어를 트리로 확장해 균형 트리와 B-트리로 발전한다.
+BST는 [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/)의 아이디어를 트리로 확장해 균형 트리와 B-트리로 발전한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. [[031_binary_search_algorithm|이진 탐색]] 트리는 번호표대로 책을 정리하는 **똑똑한 도서관 선반**과 같아요.
+1. [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) 트리는 번호표대로 책을 정리하는 **똑똑한 도서관 선반**과 같아요.
 2. 찾으려는 번호보다 작은 책은 왼쪽 칸에, 큰 책은 오른쪽 칸에 두어서 금방 찾을 수 있죠.
 3. 하지만 책을 한쪽으로만 계속 쌓으면 선반이 길어져서 찾기 힘드니 조심해야 해요!
 
@@ -98,7 +102,7 @@ BST는 [[031_binary_search_algorithm|이진 탐색]]의 아이디어를 트리�
 
 **진행 상황**: 61 / 175
 
-← **이전**: [[060_binary_tree|이진 트리 (Binary Tree)]]
-**다음**: [[062_avl_tree|AVL 트리 (Adelson-Velsky and Landis Tree)]] →
+← **이전**: [이진 트리 (Binary Tree)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/060_binary_tree/)
+**다음**: [AVL 트리 (Adelson-Velsky and Landis Tree)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/062_avl_tree/) →
 
 ---

@@ -1,25 +1,29 @@
----
-title: 254. RCU (Read-Copy-Update) - 리눅스 고성능 동기화 (읽기는 락 프리, 쓰기는 복사 후 갱신)
-date: '2026-05-09'
-tags:
-- studynote-operating-system
----
++++
+title = "254. RCU (Read-Copy-Update) - 리눅스 고성능 동기화 (읽기는 락 프리, 쓰기는 복사 후 갱신)"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: RCU (Read-Copy-Update)는 독자(Reader)에게 락 없이 읽기를 허용하고, 저자(Writer)는 데이터의 복사본을 수정한 뒤 포인터 교체로 업데이트하여, 독자와 저자가 서로를 차단하지 않는 리눅스 [[022_kernel_role|커널]] 핵심 [[212_synchronization_mechanisms|동기화]] 기법이다.
-> 2. **가치**: [[195_real_time_scheduling|SMP]] (Symmetric Multiprocessing) 환경에서 수천 개의 CPU가 동시에 같은 데이터를 읽을 수 있으며, 읽기 경로의 오버헤드가 사실상 0에 가깝다. 리눅스 [[022_kernel_role|커널]]에서 수천 개 코드 경로에 적용된다.
-> 3. **융합**: RCU는 [[247_readers_writers_problem|독자-저자 문제]] ([[247_readers_writers_problem|Readers-Writers Problem]])의 산업적 해법이며, 가비지 콜렉션의 "시대 기반 회수" (epoch-based reclamation), Rust의 Arc 소유권 모델과 깊이 연결된다.
+> 1. **본질**: RCU (Read-Copy-Update)는 독자(Reader)에게 락 없이 읽기를 허용하고, 저자(Writer)는 데이터의 복사본을 수정한 뒤 포인터 교체로 업데이트하여, 독자와 저자가 서로를 차단하지 않는 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 핵심 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 기법이다.
+> 2. **가치**: [SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) (Symmetric Multiprocessing) 환경에서 수천 개의 CPU가 동시에 같은 데이터를 읽을 수 있으며, 읽기 경로의 오버헤드가 사실상 0에 가깝다. 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 수천 개 코드 경로에 적용된다.
+> 3. **융합**: RCU는 [독자-저자 문제](/knowledge-base/studynote/02_operating_system/04_synchronization/247_readers_writers_problem/) ([Readers-Writers Problem](/knowledge-base/studynote/02_operating_system/04_synchronization/247_readers_writers_problem/))의 산업적 해법이며, 가비지 콜렉션의 "시대 기반 회수" (epoch-based reclamation), Rust의 Arc 소유권 모델과 깊이 연결된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-리눅스 [[022_kernel_role|커널]]의 핵심 자료구조([[339_routing_overview_best_path_selection|라우팅]] 테이블, 프로세스 목록, [[501_file_definition_logical_record|파일]] 시스템 [[516_mount_mechanism|마운트]] 정보)는 읽기가 [[289_cqrs_db|쓰기]]보다 수백 배 빈번하다. 전통적인 ReadWriteLock조차 읽기 측 오버헤드(원자적 [[059_counter|카운터]] 증감)가 존재하고, [[195_real_time_scheduling|SMP]] 환경에서 캐시라인 경합을 유발한다.
+리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 핵심 자료구조([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블, 프로세스 목록, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 정보)는 읽기가 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)보다 수백 배 빈번하다. 전통적인 ReadWriteLock조차 읽기 측 오버헤드(원자적 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 증감)가 존재하고, [SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) 환경에서 캐시라인 경합을 유발한다.
 
-RCU는 이 문제를 근본적으로 해결한다. 읽기는 완전한 락 프리 ([[256_lock_free_data_structures|Lock-Free]])로, [[289_cqrs_db|쓰기]]는 복사→수정→포인터 교체→유예 기간(Grace Period) 후 원본 해제의 4단계로 처리한다.
+RCU는 이 문제를 근본적으로 해결한다. 읽기는 완전한 락 프리 ([Lock-Free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/))로, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)는 복사→수정→포인터 교체→유예 기간(Grace Period) 후 원본 해제의 4단계로 처리한다.
 
-**💡 비유**: 도서관에서 책을 빌려주는 방법 중 가장 혁신적인 방법 — 새 [[288_version_ihl_tos_total_length|버전]] 책이 나오면(저자), 기존 책을 빌려간 사람들(독자)이 모두 반납할 때까지 원본을 보존하고, 새 사람들에게는 새 [[288_version_ihl_tos_total_length|버전]]을 준다.
+**💡 비유**: 도서관에서 책을 빌려주는 방법 중 가장 혁신적인 방법 — 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 책이 나오면(저자), 기존 책을 빌려간 사람들(독자)이 모두 반납할 때까지 원본을 보존하고, 새 사람들에게는 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 준다.
 
 ```text
 ┌───────────────────────────────────────────────────────────────┐
@@ -85,9 +89,9 @@ Grace Period는 RCU의 가장 중요한 개념이다. 저자가 포인터를 교
 └────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** Grace Period의 핵심은 "교체 시점에 이미 읽고 있던 독자"가 모두 완료될 때까지만 기다리면 된다는 점이다. 교체 이후에 시작한 독자(Reader2, Reader3)는 이미 new_data를 읽으므로 Grace Period 계산에 포함되지 않는다. 리눅스는 각 CPU의 선점 포인트([[211_context_switch|context switch]], [[016_interrupt_mechanism|인터럽트]] 처리 완료)를 Quiescent [[272_state_pattern|State]](정지점)로 사용하여, 모든 CPU가 최소 1번 Quiescent State를 통과하면 Grace Period가 완료다.
+**[다이어그램 해설]** Grace Period의 핵심은 "교체 시점에 이미 읽고 있던 독자"가 모두 완료될 때까지만 기다리면 된다는 점이다. 교체 이후에 시작한 독자(Reader2, Reader3)는 이미 new_data를 읽으므로 Grace Period 계산에 포함되지 않는다. 리눅스는 각 CPU의 선점 포인트([context switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/), [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리 완료)를 Quiescent [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)(정지점)로 사용하여, 모든 CPU가 최소 1번 Quiescent State를 통과하면 Grace Period가 완료다.
 
-### [[014_api_posix|API]] 사용 패턴
+### [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 사용 패턴
 
 ```c
 // 독자 측 (Reader) — 선점이 비활성화되는 것만으로 충분
@@ -130,24 +134,24 @@ call_rcu(&old->rcu_head, free_callback);
 └──────────────────────┴──────────────────┴───────────────────────┘
 ```
 
-### 리눅스 [[022_kernel_role|커널]] RCU 적용 사례
-- **[[339_routing_overview_best_path_selection|라우팅]] 테이블**: 네트워크 패킷 포워딩 경로 (RCU 읽기 수백만 회/초)
+### 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) RCU 적용 사례
+- **[라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블**: 네트워크 패킷 포워딩 경로 (RCU 읽기 수백만 회/초)
 - **프로세스 목록**: `task_list` 순회 (`for_each_process()`)
-- **[[517_virtual_file_system_vfs|VFS]] 덴트리 캐시**: [[501_file_definition_logical_record|파일]] 경로 조회 고속화
+- **[VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 덴트리 캐시**: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 경로 조회 고속화
 
-**📢 섹션 요약 비유**: RCU는 [[247_readers_writers_problem|독자-저자 문제]]에서 '읽기 차선'과 '[[289_cqrs_db|쓰기]] 차선'을 완전히 분리한 고속도로 설계 — 읽기 차선에는 신호등이 없어 항상 전속력으로 달릴 수 있습니다.
+**📢 섹션 요약 비유**: RCU는 [독자-저자 문제](/knowledge-base/studynote/02_operating_system/04_synchronization/247_readers_writers_problem/)에서 '읽기 차선'과 '[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 차선'을 완전히 분리한 고속도로 설계 — 읽기 차선에는 신호등이 없어 항상 전속력으로 달릴 수 있습니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **[[511_dns_hierarchical_distributed_architecture|DNS]] 조회 캐시**: 읽기가 압도적(수만 QPS), [[289_cqrs_db|쓰기]]는 [[294_ttl_time_to_live_looping_prevention|TTL]] 만료 시만 발생. RCU로 읽기 경로 오버헤드 제거.
-2. **공유 [[009_config|설정]] 객체**: 마이크로서비스가 공유 [[009_config|설정]]을 빈번히 읽고 관리자가 드물게 업데이트. RCU 패턴으로 읽기 [[282_performance_tactics|성능]] 최대화.
+1. **[DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 조회 캐시**: 읽기가 압도적(수만 QPS), [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)는 [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) 만료 시만 발생. RCU로 읽기 경로 오버헤드 제거.
+2. **공유 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 객체**: 마이크로서비스가 공유 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 빈번히 읽고 관리자가 드물게 업데이트. RCU 패턴으로 읽기 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최대화.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
-- **Grace Period 전 해제**: `synchronize_rcu()` 없이 원본 해제 → 기존 독자가 해제된 메모리 접근 → [[351_use_after_free|Use-After-Free]].
-- **rcu_read_lock 중 스케줄링**: `rcu_read_lock()` 구간에서 `schedule()` 호출 → RCU 규칙 위반 (해당 CPU가 Quiescent State로 진입하지 않아 Grace Period [[015_지연_데이터_관점|지연]]).
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- **Grace Period 전 해제**: `synchronize_rcu()` 없이 원본 해제 → 기존 독자가 해제된 메모리 접근 → [Use-After-Free](/knowledge-base/studynote/09_security/04_endpoint_security/351_use_after_free/).
+- **rcu_read_lock 중 스케줄링**: `rcu_read_lock()` 구간에서 `schedule()` 호출 → RCU 규칙 위반 (해당 CPU가 Quiescent State로 진입하지 않아 Grace Period [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)).
 
 **📢 섹션 요약 비유**: Grace Period를 지키지 않은 RCU는 새 책을 출판했지만 도서관에서 구 책을 아직 읽고 있는 독자가 있는데 불태워버리는 것과 같습니다.
 
@@ -157,11 +161,11 @@ call_rcu(&old->rcu_head, free_callback);
 
 | 구분 | ReadWriteLock | RCU |
 |:---|:---|:---|
-| 읽기 [[139_throughput|처리량]] | 코어 수 증가 시 경합 | 선형 확장 |
-| 캐시라인 경합 | [[059_counter|카운터]]로 발생 | 없음 |
-| 저자 레이턴시 | 즉시 반영 | Grace Period만큼 [[015_지연_데이터_관점|지연]] |
+| 읽기 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) | 코어 수 증가 시 경합 | 선형 확장 |
+| 캐시라인 경합 | [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)로 발생 | 없음 |
+| 저자 레이턴시 | 즉시 반영 | Grace Period만큼 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
 
-RCU는 [[195_real_time_scheduling|SMP]] 시스템에서 읽기 집중형 자료구조의 표준 [[212_synchronization_mechanisms|동기화]] 기법으로 자리잡았다. 단, 저자 측에 일시적 메모리 오버헤드와 복잡한 [[416_memory_barrier|메모리 배리어]] 관리가 요구된다.
+RCU는 [SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) 시스템에서 읽기 집중형 자료구조의 표준 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 기법으로 자리잡았다. 단, 저자 측에 일시적 메모리 오버헤드와 복잡한 [메모리 배리어](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/) 관리가 요구된다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -172,9 +176,9 @@ RCU는 [[195_real_time_scheduling|SMP]] 시스템에서 읽기 집중형 자료�
 | 개념 | 연결 포인트 |
 |:---|:---|
 | 이벤트 객체 (Event Object) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| 리눅스 [[212_synchronization_mechanisms|동기화]] | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| 리눅스 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
 | SeqLock (순차 락) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [[256_lock_free_data_structures|락-프리]] ([[256_lock_free_data_structures|Lock-free]]) 자료구조 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [락-프리](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) ([Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)) 자료구조 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -202,7 +206,7 @@ RCU는 [[195_real_time_scheduling|SMP]] 시스템에서 읽기 집중형 자료�
 
 **진행 상황**: 254 / 800
 
-← **이전**: [[253_locality_of_reference|253. 참조의 지역성 (Locality of Reference)]]
-**다음**: [[255_demand_paging|255. 요구 페이징 (Demand Paging)]] →
+← **이전**: [253. 참조의 지역성 (Locality of Reference)](/knowledge-base/studynote/02_operating_system/04_synchronization/253_locality_of_reference/)
+**다음**: [255. 요구 페이징 (Demand Paging)](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/) →
 
 ---

@@ -1,32 +1,36 @@
----
-title: 514. 시크릿(Secret) 관리 도구 - 하드코딩 금지, HashiCorp Vault, AWS Secrets Manager 활용
-date: '2026-05-08'
-tags:
-- studynote-software-engineering
----
++++
+title = "514. 시크릿(Secret) 관리 도구 - 하드코딩 금지, HashiCorp Vault, AWS Secrets Manager 활용"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-software-engineering"]
+
+[extra]
+tags = ["studynote-software-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 시크릿(Secret) 관리 도구 - 하드코딩 금지, HashiCorp [[567_vault|Vault]], AWS Secrets Manager 활용은(는) [[001_software_engineering_definition|소프트웨어 공학]]의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[[346_maintainability_portability|유지보수성]]·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 시크릿(Secret) 관리 도구 - 하드코딩 금지, HashiCorp [Vault](/knowledge-base/studynote/09_security/11_iam_access_control/567_vault/), AWS Secrets Manager 활용은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 시스템이 돌려면 '시크릿(Secret)'이 필요하다. DB 접속 비밀번호, 카카오톡 푸시 알림을 쏘는 [[014_api_posix|API]] [[067_db_key_uniqueness_minimality|Key]], [[549_jwt_json_web_token|JWT]] 토큰을 서명하는 [[141_master_secret|Master Secret]] [[067_db_key_uniqueness_minimality|Key]] 등이다. [[177_secrets_management_vault_kubernetes|시크릿 관리]] 도구(HashiCorp [[567_vault|Vault]], AWS Secrets Manager)는 이 **'시스템의 심장을 여는 만능열쇠 뭉치'들을 소스코드나 개발자 노트북에서 완전히 압수(Decoupling)**하여, 군사급 보안이 쳐진 거대한 중앙 은행 금고 안에 넣어두고, 권한을 증명한 기계(서버)에게만 0.1초 동안 빌려주고 뺏는 기술이다.
+- **개념**: 시스템이 돌려면 '시크릿(Secret)'이 필요하다. DB 접속 비밀번호, 카카오톡 푸시 알림을 쏘는 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/), [JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/) 토큰을 서명하는 [Master Secret](/knowledge-base/studynote/09_security/03_network_security/141_master_secret/) [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) 등이다. [시크릿 관리](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/177_secrets_management_vault_kubernetes/) 도구(HashiCorp [Vault](/knowledge-base/studynote/09_security/11_iam_access_control/567_vault/), AWS Secrets Manager)는 이 **'시스템의 심장을 여는 만능열쇠 뭉치'들을 소스코드나 개발자 노트북에서 완전히 압수(Decoupling)**하여, 군사급 보안이 쳐진 거대한 중앙 은행 금고 안에 넣어두고, 권한을 증명한 기계(서버)에게만 0.1초 동안 빌려주고 뺏는 기술이다.
 
-- **필요성**: 수백억을 들여 넷플릭스 앱을 만들고 AWS 방화벽을 3중으로 쳤다. 1달 뒤 중국 해커가 고객 DB 1천만 건을 싹 긁어갔다. 원인을 까보니, 주니어 개발자가 `DB_PASSWORD=admin1234` 라고 코드에 떡하니 쌩코딩(하드코딩)을 해놓고 퍼블릭(Public) 깃허브에 무심코 푸시(Push)한 것이다. 깃허브를 24시간 크롤링하던 해커 봇(Bot)이 1초 만에 그 비번을 낚아채서 정문 방화벽을 당당히 열고 들어갔다. **"문짝을 100미터 강철로 만들면 뭐 하나, 열쇠를 문 앞에 포스트잇으로 붙여놨는데!"** 이 인류 [[001_software_engineering_definition|소프트웨어 공학]]의 가장 허무하고 멍청한 비극(Human Error)을 시스템의 힘으로 강제 종식 시키기 위해 시크릿 툴이 탄생했다.
+- **필요성**: 수백억을 들여 넷플릭스 앱을 만들고 AWS 방화벽을 3중으로 쳤다. 1달 뒤 중국 해커가 고객 DB 1천만 건을 싹 긁어갔다. 원인을 까보니, 주니어 개발자가 `DB_PASSWORD=admin1234` 라고 코드에 떡하니 쌩코딩(하드코딩)을 해놓고 퍼블릭(Public) 깃허브에 무심코 푸시(Push)한 것이다. 깃허브를 24시간 크롤링하던 해커 봇(Bot)이 1초 만에 그 비번을 낚아채서 정문 방화벽을 당당히 열고 들어갔다. **"문짝을 100미터 강철로 만들면 뭐 하나, 열쇠를 문 앞에 포스트잇으로 붙여놨는데!"** 이 인류 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 가장 허무하고 멍청한 비극(Human Error)을 시스템의 힘으로 강제 종식 시키기 위해 시크릿 툴이 탄생했다.
 
-- **💡 비유**: [[177_secrets_management_vault_kubernetes|시크릿 관리]] 도구는 은행의 **'지점장용 마스터키 금고 시스템'**과 똑같습니다. 옛날(하드코딩)엔 지점장이 자기 책상 서랍에 금고 열쇠를 넣어두고 퇴근했습니다(코드 유출 시 100% 털림). 시크릿 도입 후, 금고 열쇠는 **'지문 인식과 홍채 인식을 동시에 해야만 10분 동안 스르륵 튀어나왔다 들어가는 100억짜리 중앙 통제 금고([[567_vault|Vault]])'** 안에 보관됩니다. 도둑이 지점장의 책상을 아무리 훔쳐가도 열쇠 자체가 없으니 은행 금고(DB)는 절대 털리지 않는 완벽한 헛수고(무력화)를 선사합니다.
+- **💡 비유**: [시크릿 관리](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/177_secrets_management_vault_kubernetes/) 도구는 은행의 **'지점장용 마스터키 금고 시스템'**과 똑같습니다. 옛날(하드코딩)엔 지점장이 자기 책상 서랍에 금고 열쇠를 넣어두고 퇴근했습니다(코드 유출 시 100% 털림). 시크릿 도입 후, 금고 열쇠는 **'지문 인식과 홍채 인식을 동시에 해야만 10분 동안 스르륵 튀어나왔다 들어가는 100억짜리 중앙 통제 금고([Vault](/knowledge-base/studynote/09_security/11_iam_access_control/567_vault/))'** 안에 보관됩니다. 도둑이 지점장의 책상을 아무리 훔쳐가도 열쇠 자체가 없으니 은행 금고(DB)는 절대 털리지 않는 완벽한 헛수고(무력화)를 선사합니다.
 
 - **등장 배경 및 발전 과정**:
   1. **하드코딩의 낭만 시대 (2000년대)**: 소스 코드는 회사 사내망(SVN)에만 있으니까 안전하다고 믿고, 코드 안에 `String apiKey = "1234"` 라고 무지성으로 박아 넣었다.
-  2. **[[156_environment_variables|환경 변수]](.env)의 분리 (2010년대)**: 깃허브(Git) 시대가 오면서 코드가 유출되자, "아! `.env` [[501_file_definition_logical_record|파일]]에 비번을 빼놓고, 깃허브에는 올리지 말자(`.gitignore`)!" 라는 1차원적인 시프트가 일어났다. 하지만 서버 하드디스크가 털리면 `.env` [[501_file_definition_logical_record|파일]]이 평문으로 읽혀 똑같이 털렸다.
-  3. **KMS와 Vault의 강림 (현재)**: [[619_msa_traffic_hardware|MSA]] 시대에 서버가 100대로 늘자 `.env` [[501_file_definition_logical_record|파일]] 100개를 복사해 넣는 것도 불가능해졌다. **HashiCorp [[567_vault|Vault]]**나 **AWS Secrets Manager** 같은 중앙 금고 서버가 등장하여, 100대 서버가 부팅될 때 이 중앙 금고에 접근해 메모리(RAM) 위로만 비번을 쏙 빼가고, 하드디스크에는 단 1바이트의 비밀번호 찌꺼기도 남기지 않는 런타임(Runtime) 궁극의 방패 시대가 완성되었다.
+  2. **[환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/)(.env)의 분리 (2010년대)**: 깃허브(Git) 시대가 오면서 코드가 유출되자, "아! `.env` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 비번을 빼놓고, 깃허브에는 올리지 말자(`.gitignore`)!" 라는 1차원적인 시프트가 일어났다. 하지만 서버 하드디스크가 털리면 `.env` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 평문으로 읽혀 똑같이 털렸다.
+  3. **KMS와 Vault의 강림 (현재)**: [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 시대에 서버가 100대로 늘자 `.env` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 100개를 복사해 넣는 것도 불가능해졌다. **HashiCorp [Vault](/knowledge-base/studynote/09_security/11_iam_access_control/567_vault/)**나 **AWS Secrets Manager** 같은 중앙 금고 서버가 등장하여, 100대 서버가 부팅될 때 이 중앙 금고에 접근해 메모리(RAM) 위로만 비번을 쏙 빼가고, 하드디스크에는 단 1바이트의 비밀번호 찌꺼기도 남기지 않는 런타임(Runtime) 궁극의 방패 시대가 완성되었다.
 
-- **📢 섹션 요약 비유**: 하드코딩된 비번은 군대에서 **'초소 암구호를 병사들 이마에 매직으로 써놓는 짓'**입니다. 스파이가 눈으로 스윽 보면 뚫립니다. [[156_environment_variables|환경 변수]](`.env`)는 **'암구호를 종이에 적어 주머니에 넣는 짓'**입니다. 병사가 납치당해 주머니가 털리면 끝장납니다. [[567_vault|Vault]]([[177_secrets_management_vault_kubernetes|시크릿 관리]])는 **'매일 밤 12시 0.1초 찰나에, 오직 지휘관의 무전기(메모리)로만 1회용 암구호가 암호화되어 날아오고 즉시 귀에서 증발해버리는'** 훔칠래야 훔칠 실물조차 존재하지 않는 가장 우아하고 비싼 암호 통신망입니다.
+- **📢 섹션 요약 비유**: 하드코딩된 비번은 군대에서 **'초소 암구호를 병사들 이마에 매직으로 써놓는 짓'**입니다. 스파이가 눈으로 스윽 보면 뚫립니다. [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/)(`.env`)는 **'암구호를 종이에 적어 주머니에 넣는 짓'**입니다. 병사가 납치당해 주머니가 털리면 끝장납니다. [Vault](/knowledge-base/studynote/09_security/11_iam_access_control/567_vault/)([시크릿 관리](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/177_secrets_management_vault_kubernetes/))는 **'매일 밤 12시 0.1초 찰나에, 오직 지휘관의 무전기(메모리)로만 1회용 암구호가 암호화되어 날아오고 즉시 귀에서 증발해버리는'** 훔칠래야 훔칠 실물조차 존재하지 않는 가장 우아하고 비싼 암호 통신망입니다.
 
 ---
 
@@ -55,12 +59,12 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-시크릿(Secret) 관리 도구 - 하드코딩 금지, HashiCorp [[567_vault|Vault]], AWS Secrets Manager 활용의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
+시크릿(Secret) 관리 도구 - 하드코딩 금지, HashiCorp [Vault](/knowledge-base/studynote/09_security/11_iam_access_control/567_vault/), AWS Secrets Manager 활용의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
 
 | 구성 요소 | 역할 | 적용 기준 |
 | :--- | :--- | :--- |
-| 개념 정의 | 핵심 용어와 범위를 명확히 [[009_config|설정]] | 용어 혼용·오해 방지 |
-| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | [[194_consistency_database_integrity|일관성]]·품질 기준 |
+| 개념 정의 | 핵심 용어와 범위를 명확히 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | 용어 혼용·오해 방지 |
+| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)·품질 기준 |
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
@@ -85,7 +89,7 @@ tags:
 | 조직 요건 | 팀 전체의 공통 이해와 훈련 필요 | 개인 역량 의존 |
 | 측정 가능성 | 정량적 지표로 성과 측정 가능 | 주관적 판단에 의존 |
 
-다른 [[001_software_engineering_definition|소프트웨어 공학]] 개념과의 연결을 보면, 시크릿(Secret) 관리 도구은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 [[020_software_configuration_management|형상 관리]]([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]])와 긴밀하게 연계된다.
+다른 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 개념과의 연결을 보면, 시크릿(Secret) 관리 도구은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/))와 긴밀하게 연계된다.
 
 - **📢 섹션 요약 비유**: 시크릿(Secret) 관리 도구과 유사 대안의 차이는 지도를 가지고 산에 오르는 것과 감으로만 오르는 차이와 같다. 지도(체계적 방법)가 있으면 정상까지 최단 경로를 찾을 수 있지만, 없으면 같은 곳을 맴돌거나 낭떠러지에 빠질 수 있다.
 
@@ -107,21 +111,21 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-시크릿(Secret) 관리 도구을(를) 올바르게 적용하면 [[339_software_quality_definition|소프트웨어 품질]]·[[346_maintainability_portability|유지보수성]]·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [[459_quic_fec_forward_error_correction|초기]] 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
+시크릿(Secret) 관리 도구을(를) 올바르게 적용하면 [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/)·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
 
 **한계와 전제 조건**:
 - 소규모 프로젝트에서는 오버헤드가 발생할 수 있다
 - 팀 전체의 충분한 교육과 실습 기간이 필요하다
-- 도구 지원 환경 구축에 [[459_quic_fec_forward_error_correction|초기]] 비용이 발생한다
+- 도구 지원 환경 구축에 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용이 발생한다
 
 **미래 발전 방향**:
-- [[190_ai_llm_requirements_specification|AI]]·[[263_llm_large_language_model|LLM]] 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [[531_cloud_native_architecture|클라우드 네이티브]]·[[652_devops_calms_culture|DevOps]] 환경에서의 진화적 적용
+- [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 시크릿(Secret) 관리 도구은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: 시크릿(Secret) 관리 도구의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [[001_software_engineering_definition|소프트웨어 공학]]의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
+- **📢 섹션 요약 비유**: 시크릿(Secret) 관리 도구의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
 
 ---
 
@@ -133,10 +137,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[001_software_engineering_definition|소프트웨어 공학]] ([[001_software_engineering_definition|Software Engineering]]) | 시크릿(Secret) 관리 도구의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [[003_sdlc|소프트웨어 생명주기]] ([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]], Software Development Life Cycle) | 시크릿(Secret) 관리 도구은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 시크릿(Secret) 관리 도구의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 시크릿(Secret) 관리 도구은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 시크릿(Secret) 관리 도구 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [[020_software_configuration_management|형상 관리]] ([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]]) | 시크릿(Secret) 관리 도구에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 시크릿(Secret) 관리 도구에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -156,13 +160,13 @@ tags:
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [[002_software_crisis|소프트웨어 위기]] 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 시크릿(Secret) 관리 도구은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
 
 ---
 
@@ -170,7 +174,7 @@ tags:
 
 **진행 상황**: 620 / 973
 
-← **이전**: [[514_secret_management|514. 시크릿(Secret) 관리 도구]]
-**다음**: [[515_kubernetes_security|515. 쿠버네티스 (Kubernetes) 보안]] →
+← **이전**: [514. 시크릿(Secret) 관리 도구](/knowledge-base/studynote/04_software_engineering/11_testing_validation/514_secret_management/)
+**다음**: [515. 쿠버네티스 (Kubernetes) 보안](/knowledge-base/studynote/04_software_engineering/11_testing_validation/515_kubernetes_security/) →
 
 ---

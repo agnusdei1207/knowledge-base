@@ -1,35 +1,39 @@
----
-title: 754. 문맥 교환 비용 (레지스터 저장 복원) (Context Switch Cost)
-date: '2026-05-09'
-tags:
-- studynote-operating-system
----
++++
+title = "754. 문맥 교환 비용 (레지스터 저장 복원) (Context Switch Cost)"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[211_context_switch|문맥 교환]] ([[211_context_switch|Context Switch]])은 CPU가 현재 실행 중인 프로세스의 상태(문맥, [[057_register|레지스터]] 값 등)를 메모리(PCB)에 백업하고, 다음 프로세스의 상태를 덮어씌워 실행을 이어가는 **[[001_operating_system_purpose|운영체제]]의 핵심 스케줄링 전환 작업**이다.
-> 2. **가치**: 하나의 CPU가 수백 개의 프로그램을 동시에 돌리는 듯한 [[675_multitasking_terminology_preemptive|멀티태스킹]]([[673_multiprogramming_bottleneck_resource|다중 프로그래밍]])의 환상(Illusion)을 만들어내는 근간이지만, 그 이면에는 수 마이크로초(µs) 동안 CPU가 어떤 유효한 연산도 하지 못하는 막대한 낭비(Overhead)가 숨어 있다.
-> 3. **융합**: 가시적인 '[[057_register|레지스터]] 저장/복원' 연산보다 더 무서운 것은, 캐시 라인(L1/L2)이 오염되고 [[357_tlb|TLB]](주소 변환 캐시)가 비워지는 '보이지 않는 파괴 효과'다. 현대 [[022_kernel_role|커널]]([[360_asid|ASID]] 지원)과 멀티스레드(유저 레벨 [[092_thread_lwp|스레드]]) 아키텍처는 이 숨은 비용을 최소화하는 방향으로 진화해 왔다.
+> 1. **본질**: [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) ([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))은 CPU가 현재 실행 중인 프로세스의 상태(문맥, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 값 등)를 메모리(PCB)에 백업하고, 다음 프로세스의 상태를 덮어씌워 실행을 이어가는 **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 핵심 스케줄링 전환 작업**이다.
+> 2. **가치**: 하나의 CPU가 수백 개의 프로그램을 동시에 돌리는 듯한 [멀티태스킹](/knowledge-base/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/)([다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/))의 환상(Illusion)을 만들어내는 근간이지만, 그 이면에는 수 마이크로초(µs) 동안 CPU가 어떤 유효한 연산도 하지 못하는 막대한 낭비(Overhead)가 숨어 있다.
+> 3. **융합**: 가시적인 '[레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 저장/복원' 연산보다 더 무서운 것은, 캐시 라인(L1/L2)이 오염되고 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/)(주소 변환 캐시)가 비워지는 '보이지 않는 파괴 효과'다. 현대 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)([ASID](/knowledge-base/studynote/02_operating_system/06_memory_management/360_asid/) 지원)과 멀티스레드(유저 레벨 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)) 아키텍처는 이 숨은 비용을 최소화하는 방향으로 진화해 왔다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - 문맥([[033_context|Context]])이란 CPU가 특정 순간에 프로세스를 실행하기 위해 쥐고 있는 모든 하드웨어 환경값([[164_pc|프로그램 카운터]], [[166_sp|스택 포인터]], [[162_gpr|범용 레지스터]], 메모리 맵 포인터 등)의 총합이다.
-  - [[211_context_switch|문맥 교환]]은 [[016_interrupt_mechanism|인터럽트]]나 스케줄러에 의해 현재 프로세스를 중단하고 $\rightarrow$ 이 문맥을 메모리의 **PCB([[300_process|Process]] Control Block)**에 안전하게 저장한 뒤 $\rightarrow$ 대기 중이던 다른 프로세스의 PCB에서 문맥을 꺼내 CPU에 주입하는 행위다.
+  - 문맥([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))이란 CPU가 특정 순간에 프로세스를 실행하기 위해 쥐고 있는 모든 하드웨어 환경값([프로그램 카운터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), [스택 포인터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/), [범용 레지스터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/162_gpr/), 메모리 맵 포인터 등)의 총합이다.
+  - [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)은 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)나 스케줄러에 의해 현재 프로세스를 중단하고 $\rightarrow$ 이 문맥을 메모리의 **PCB([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Control Block)**에 안전하게 저장한 뒤 $\rightarrow$ 대기 중이던 다른 프로세스의 PCB에서 문맥을 꺼내 CPU에 주입하는 행위다.
 
 - **필요성(문제의식)**: 
   - 카카오톡을 하면서 유튜브를 듣고 브라우저를 동시에 쓰려면, CPU가 1개뿐이어도 시간을 아주 잘게 쪼개서(Time Slicing) 번갈아 가며 실행해야 한다.
-  - 하지만 CPU 안의 [[057_register|레지스터]](저장 공간)는 한 세트뿐이다. A 프로그램이 [[057_register|레지스터]]에 연산 중간 결과를 저장해 뒀는데, B 프로그램이 훅 들어와 덮어써 버리면 A는 완전히 망가진다.
-  - **해결책**: "선수(프로세스)를 교체할 때마다, 현재 선수가 쓰던 책상([[057_register|레지스터]])의 상태를 사진 찍어 보관함(PCB)에 넣어두고, 새 선수의 옛날 사진을 꺼내서 책상을 그대로 세팅해주자!"
+  - 하지만 CPU 안의 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)(저장 공간)는 한 세트뿐이다. A 프로그램이 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 연산 중간 결과를 저장해 뒀는데, B 프로그램이 훅 들어와 덮어써 버리면 A는 완전히 망가진다.
+  - **해결책**: "선수(프로세스)를 교체할 때마다, 현재 선수가 쓰던 책상([레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/))의 상태를 사진 찍어 보관함(PCB)에 넣어두고, 새 선수의 옛날 사진을 꺼내서 책상을 그대로 세팅해주자!"
 
   - 책상 1개(CPU)에서 두 명의 작가(프로세스)가 번갈아 가며 원고를 쓴다.
   - 1번 작가가 1시간 쓰고 비켜줄 때, 자기가 펴놓은 수십 권의 참고서와 펜의 위치를 가방(PCB)에 모조리 싸서 치워야 한다(Save). 그리고 2번 작가가 와서 자기 가방에서 책을 꺼내 다시 책상에 세팅한다(Restore).
-  - 이 '가방을 싸고 푸는 짐 정리 시간' 동안은 원고를 단 한 글자도 쓰지 못하는 순수한 시간 낭비가 발생하는데, 이것이 바로 [[211_context_switch|문맥 교환]] 오버헤드다.
+  - 이 '가방을 싸고 푸는 짐 정리 시간' 동안은 원고를 단 한 글자도 쓰지 못하는 순수한 시간 낭비가 발생하는데, 이것이 바로 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 오버헤드다.
 
 - **등장 배경**: 
-  - 과거 일괄 처리(Batch) 시스템에서는 하나의 작업이 끝날 때까지 CPU를 독점했으므로 [[211_context_switch|문맥 교환]]이 없었다. 시분할(Time-sharing) 시스템의 등장과 함께 탄생한 숙명적 그림자다.
+  - 과거 일괄 처리(Batch) 시스템에서는 하나의 작업이 끝날 때까지 CPU를 독점했으므로 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)이 없었다. 시분할(Time-sharing) 시스템의 등장과 함께 탄생한 숙명적 그림자다.
 
 ```text
   ┌─────────────────────────────────────────────────────────────┐
@@ -57,26 +61,26 @@ tags:
   └─────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 다이어그램 중앙의 OS [[022_kernel_role|커널]]이 작동하는 시간(박스 구간)은 사용자 애플리케이션 입장에서는 세상이 멈춘 '블랙아웃(Blackout)' 시간이다. 이 틈에 OS는 단순히 수십 개의 CPU [[162_gpr|범용 레지스터]] 값을 RAM에 복사하는(Save) 작업뿐만 아니라, [[307_memory_protection|메모리 보호]] 구역을 나누는 CR3 [[057_register|레지스터]]([[353_page_table|페이지 테이블]] 포인터)를 B의 것으로 갈아치우는 치명적으로 무거운 하드웨어 제어를 단행한다. 이 모든 준비가 끝나고 다시 유저 모드로 전환(iret [[158_instruction|명령어]])되어 프로세스 B가 깨어날 때까지 약 1~5 마이크로초(µs)의 클럭이 연기처럼 증발한다.
+**[다이어그램 해설]** 다이어그램 중앙의 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 작동하는 시간(박스 구간)은 사용자 애플리케이션 입장에서는 세상이 멈춘 '블랙아웃(Blackout)' 시간이다. 이 틈에 OS는 단순히 수십 개의 CPU [범용 레지스터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/162_gpr/) 값을 RAM에 복사하는(Save) 작업뿐만 아니라, [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/) 구역을 나누는 CR3 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)([페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 포인터)를 B의 것으로 갈아치우는 치명적으로 무거운 하드웨어 제어를 단행한다. 이 모든 준비가 끝나고 다시 유저 모드로 전환(iret [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))되어 프로세스 B가 깨어날 때까지 약 1~5 마이크로초(µs)의 클럭이 연기처럼 증발한다.
 
-- **📢 섹션 요약 비유**: 무대에서 배우를 교체할 때 막을 내리고 배경 세트장, 조명, 소품을 전부 다 갈아치우는 암전의 시간입니다. 막이 내려가 있는 동안 관객(사용자)은 아무런 연극([[001_dikw_pyramid|데이터]] 처리)도 볼 수 없는 필수 불가결한 낭비 시간입니다.
+- **📢 섹션 요약 비유**: 무대에서 배우를 교체할 때 막을 내리고 배경 세트장, 조명, 소품을 전부 다 갈아치우는 암전의 시간입니다. 막이 내려가 있는 동안 관객(사용자)은 아무런 연극([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리)도 볼 수 없는 필수 불가결한 낭비 시간입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [[211_context_switch|문맥 교환]] 비용의 2가지 구성 요소 (직접 비용 vs 간접 비용)
+### [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 비용의 2가지 구성 요소 (직접 비용 vs 간접 비용)
 
-[[211_context_switch|문맥 교환]] 오버헤드는 눈에 보이는 시간보다 눈에 보이지 않는 폭풍의 여파가 훨씬 더 파괴적이다.
+[문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 오버헤드는 눈에 보이는 시간보다 눈에 보이지 않는 폭풍의 여파가 훨씬 더 파괴적이다.
 
 | 비용 유형 | 발생 원리 및 항목 | 체감 소요 시간 | 기술적 의미 |
 |:---|:---|:---|:---|
-| **직접 비용 ([[176_direct_addressing|Direct]] Cost)** | OS가 실제로 스크립트처럼 코드를 실행하며 소비하는 하드웨어 시간. | 빠름 (수 µs 이내) | - CPU 범용 / [[087_floating_point|부동소수점]] [[057_register|레지스터]] 저장 및 복원<br>- 스케줄링 [[001_algorithm_definition|알고리즘]] 로직 실행 ([[204_red_black_tree_cfs|Red-Black Tree]] 탐색 등)<br>- [[357_tlb|TLB]] 전체 초기화 (Flush) [[158_instruction|명령어]] 실행 |
-| **간접 비용 ([[177_indirect_addressing|Indirect]] Cost)**| [[211_context_switch|문맥 교환]] 직후 **캐시 오염(Cache Pollution)**으로 인해 발생하는 [[282_performance_tactics|성능]] 저하 | **극도로 느림 (수십 µs 이상)** | - L1/L2 캐시에 가득 찬 예전 A 프로세스의 찌꺼기<br>- B 프로세스가 깨어나서 [[001_dikw_pyramid|데이터]]를 읽으려 할 때마다 수천 번의 **Cache Miss** 폭탄 발생 $\rightarrow$ 메모리 왕복 대기! |
+| **직접 비용 ([Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) Cost)** | OS가 실제로 스크립트처럼 코드를 실행하며 소비하는 하드웨어 시간. | 빠름 (수 µs 이내) | - CPU 범용 / [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 저장 및 복원<br>- 스케줄링 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 로직 실행 ([Red-Black Tree](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/204_red_black_tree_cfs/) 탐색 등)<br>- [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 전체 초기화 (Flush) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 실행 |
+| **간접 비용 ([Indirect](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) Cost)**| [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 직후 **캐시 오염(Cache Pollution)**으로 인해 발생하는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 | **극도로 느림 (수십 µs 이상)** | - L1/L2 캐시에 가득 찬 예전 A 프로세스의 찌꺼기<br>- B 프로세스가 깨어나서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽으려 할 때마다 수천 번의 **Cache Miss** 폭탄 발생 $\rightarrow$ 메모리 왕복 대기! |
 
-### [[357_tlb|TLB]] 플러시(Flush)와 [[360_asid|ASID]] 융합 아키텍처
+### [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 플러시(Flush)와 [ASID](/knowledge-base/studynote/02_operating_system/06_memory_management/360_asid/) 융합 아키텍처
 
-[[211_context_switch|문맥 교환]] 시 가장 무서운 순간은 메모리 맵([[353_page_table|페이지 테이블]] 포인터)을 교체할 때다. 프로세스 A의 가상 주소 100번지와 프로세스 B의 100번지는 전혀 다른 물리 메모리다. 따라서 기존에 하드웨어가 외워두었던 **[[357_tlb|TLB]] (주소 변환 캐시)**를 전부 쓰레기통에 비워버려야(Flush) 한다. 이로 인해 교환 직후 엄청난 메모리 [[015_지연_데이터_관점|지연]]이 발생했다.
+[문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 시 가장 무서운 순간은 메모리 맵([페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 포인터)을 교체할 때다. 프로세스 A의 가상 주소 100번지와 프로세스 B의 100번지는 전혀 다른 물리 메모리다. 따라서 기존에 하드웨어가 외워두었던 **[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) (주소 변환 캐시)**를 전부 쓰레기통에 비워버려야(Flush) 한다. 이로 인해 교환 직후 엄청난 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 발생했다.
 
 ```text
   ┌───────────────────────────────────────────────────────────────────┐
@@ -98,31 +102,31 @@ tags:
   └───────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 이것이 [[001_operating_system_purpose|운영체제]] 설계자와 CPU 설계자(인텔, ARM)가 손잡고 이뤄낸 마스터피스다. 캐시를 지우는 것은 너무 뼈아프기 때문에, [[357_tlb|TLB]] 칩에 아예 프로세스의 고유 번호([[360_asid|ASID]])를 같이 엮어서 저장하도록 하드웨어를 바꿨다. 프로세스를 교체해도 [[357_tlb|TLB]] 캐시를 살려둘 수 있으므로, [[211_context_switch|문맥 교환]]의 가장 무서운 적이었던 "간접 비용(캐시 폴트 폭풍)" 중 주소 변환 병목을 완벽히 제거해 냈다. 이 작은 태그 하나가 클라우드 서버 전체의 응답 속도를 20% 이상 끌어올렸다.
+**[다이어그램 해설]** 이것이 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 설계자와 CPU 설계자(인텔, ARM)가 손잡고 이뤄낸 마스터피스다. 캐시를 지우는 것은 너무 뼈아프기 때문에, [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 칩에 아예 프로세스의 고유 번호([ASID](/knowledge-base/studynote/02_operating_system/06_memory_management/360_asid/))를 같이 엮어서 저장하도록 하드웨어를 바꿨다. 프로세스를 교체해도 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 캐시를 살려둘 수 있으므로, [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)의 가장 무서운 적이었던 "간접 비용(캐시 폴트 폭풍)" 중 주소 변환 병목을 완벽히 제거해 냈다. 이 작은 태그 하나가 클라우드 서버 전체의 응답 속도를 20% 이상 끌어올렸다.
 
-- **📢 섹션 요약 비유**: 이사 갈 때마다 집안의 비싼 가구를 몽땅 버리고 새집에서 전부 새로 사야만 했던 구형 이사법에서, 가구마다 각자의 이름표([[360_asid|ASID]])를 붙여두어 집을 합치더라도 자기 이름표가 붙은 가구만 쏙쏙 골라 바로 쓸 수 있게 한 최첨단 이사법입니다.
+- **📢 섹션 요약 비유**: 이사 갈 때마다 집안의 비싼 가구를 몽땅 버리고 새집에서 전부 새로 사야만 했던 구형 이사법에서, 가구마다 각자의 이름표([ASID](/knowledge-base/studynote/02_operating_system/06_memory_management/360_asid/))를 붙여두어 집을 합치더라도 자기 이름표가 붙은 가구만 쏙쏙 골라 바로 쓸 수 있게 한 최첨단 이사법입니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 프로세스 [[211_context_switch|문맥 교환]] vs [[092_thread_lwp|스레드]] [[211_context_switch|문맥 교환]]
+### 프로세스 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) vs [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)
 
-모든 [[211_context_switch|문맥 교환]]이 똑같이 무거운 것은 아니다. 내가 방(프로세스)을 통째로 바꾸는지, 같은 방 안에서 의자([[092_thread_lwp|스레드]])만 바꾸는지에 따라 비용이 수십 배 차이 난다.
+모든 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)이 똑같이 무거운 것은 아니다. 내가 방(프로세스)을 통째로 바꾸는지, 같은 방 안에서 의자([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))만 바꾸는지에 따라 비용이 수십 배 차이 난다.
 
-| 비교 항목 | 프로세스 간 [[211_context_switch|문맥 교환]] ([[300_process|Process]] [[211_context_switch|Context Switch]]) | [[092_thread_lwp|스레드]] 간 [[211_context_switch|문맥 교환]] ([[092_thread_lwp|Thread]] [[211_context_switch|Context Switch]]) |
+| 비교 항목 | 프로세스 간 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) [Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) | [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 간 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) ([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) |
 |:---|:---|:---|
-| **저장/복원 대상** | CPU [[057_register|레지스터]] 전체 + **[[381_virtual_memory|가상 메모리]] 맵 ([[353_page_table|페이지 테이블]])** 통교체 | CPU [[057_register|레지스터]]([[164_pc|PC]], [[057_stack|Stack]])만 교체 |
-| **캐시/[[357_tlb|TLB]] 파괴력**| **매우 치명적**. [[353_page_table|페이지 테이블]]이 바뀌어 [[402_cache_coherence|캐시 일관성]] 붕괴 및 [[357_tlb|TLB]] 플러시 유발 위험 큼 | **미미함**. 동일한 [[381_virtual_memory|가상 메모리]] 공간을 공유하므로 [[357_tlb|TLB]] 플러시 필요 없음 |
-| **[[001_operating_system_purpose|운영체제]] 개입** | [[022_kernel_role|커널]]의 최상위 스케줄러가 완전 개입 (비용 최악) | [[022_kernel_role|커널]] 개입 필요(OS [[092_thread_lwp|스레드]]) 하거나, 아예 [[022_kernel_role|커널]] 개입 0(User [[092_thread_lwp|스레드]]) 가능 |
+| **저장/복원 대상** | CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 전체 + **[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 맵 ([페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))** 통교체 | CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))만 교체 |
+| **캐시/[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 파괴력**| **매우 치명적**. [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)이 바뀌어 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 붕괴 및 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 플러시 유발 위험 큼 | **미미함**. 동일한 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 공간을 공유하므로 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 플러시 필요 없음 |
+| **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 개입** | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 최상위 스케줄러가 완전 개입 (비용 최악) | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개입 필요(OS [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)) 하거나, 아예 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개입 0(User [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)) 가능 |
 | **실무 비유** | 아예 다른 건물 사무실로 이사를 가는 것 (주소지가 바뀜) | 같은 사무실에서 동료와 자리만 살짝 바꿔 앉는 것 |
 
 ### 과목 융합 관점
 
-- **컴퓨터 구조 ([[057_register|레지스터]] 윈도우, [[175_register_addressing|Register]] Window)**: SPARC 아키텍처 같은 일부 [[195_risc|RISC]] 칩은 [[211_context_switch|문맥 교환]] 시 [[057_register|레지스터]]를 메모리로 복사하는 시간조차 아까워서, CPU 안에 [[057_register|레지스터]] 세트를 아예 100개씩 만들어 놓고 [[211_context_switch|문맥 교환]]이 일어나면 물리적으로 포인터(Window)만 '딸깍' 돌려버리는 하드웨어 사치 기법을 써서 [[211_context_switch|문맥 교환]] [[015_지연_데이터_관점|지연]]을 나노초 단위로 없앴다.
-- **[[015_virtualization|가상화]] ([[054_hypervisor|Hypervisor]])**: 클라우드 환경에서는 최악의 사태가 벌어진다. 가상 머신([[598_vm_migration_nic|VM]]) 내부에서의 [[211_context_switch|문맥 교환]]과 물리 호스트의 [[054_hypervisor|하이퍼바이저]] 단위 [[211_context_switch|문맥 교환]]([[598_vm_migration_nic|VM]] Exit/Entry)이 겹치는 "더블 [[211_context_switch|문맥 교환]]" 오버헤드가 발생한다. 이를 줄이기 위해 [[059_hardware_assisted_virtualization|하드웨어 보조 가상화]]([[658_intel_vtx|Intel VT-x]])가 필사적으로 도입되었다.
+- **컴퓨터 구조 ([레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 윈도우, [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/) Window)**: SPARC 아키텍처 같은 일부 [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) 칩은 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 시 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 메모리로 복사하는 시간조차 아까워서, CPU 안에 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 세트를 아예 100개씩 만들어 놓고 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)이 일어나면 물리적으로 포인터(Window)만 '딸깍' 돌려버리는 하드웨어 사치 기법을 써서 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 나노초 단위로 없앴다.
+- **[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) ([Hypervisor](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/))**: 클라우드 환경에서는 최악의 사태가 벌어진다. 가상 머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 내부에서의 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)과 물리 호스트의 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 단위 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit/Entry)이 겹치는 "더블 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)" 오버헤드가 발생한다. 이를 줄이기 위해 [하드웨어 보조 가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/)([Intel VT-x](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/658_intel_vtx/))가 필사적으로 도입되었다.
 
-- **📢 섹션 요약 비유**: 몸만 훌쩍 와서 일하다가 바로 교대할 수 있는 동네 알바([[092_thread_lwp|스레드]] 교환)와 달리, 프로세스 교환은 전 재산과 살림살이 트럭([[353_page_table|페이지 테이블]])을 모두 끌고 와서 집터 자체를 통째로 갈아엎는 대규모 이주 공사입니다.
+- **📢 섹션 요약 비유**: 몸만 훌쩍 와서 일하다가 바로 교대할 수 있는 동네 알바([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 교환)와 달리, 프로세스 교환은 전 재산과 살림살이 트럭([페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))을 모두 끌고 와서 집터 자체를 통째로 갈아엎는 대규모 이주 공사입니다.
 
 ---
 
@@ -131,11 +135,11 @@ tags:
 ### 실무 시나리오 및 최적화 아키텍처
 
 1. **시나리오 — 고부하 웹 서버의 초당 10만 건 요청 마비 현상**: Apache 구형 프리포크(Prefork) 방식으로 띄운 웹 서버에 트래픽이 몰리자, CPU 사용량(`top`)의 `sy(System 커널 영역)` 수치가 80%를 넘으면서 서버가 뻗었다.
-   - **원인 분석**: 클라이언트 요청 1개당 프로세스 1개를 1:1로 매핑하는 아키텍처 탓에, 만 명의 유저가 붙자 만 개의 프로세스가 생성되었다. OS 스케줄러가 이 만 개의 프로세스에 골고루 CPU 시간을 주려고 1밀리초마다 맹렬하게 [[211_context_switch|문맥 교환]]을 시도하다 보니, 진짜 웹 [[286_page_frame|페이지]]를 렌더링하는 시간(us)보다 짐을 싸고 푸는 [[211_context_switch|문맥 교환]] 시간(sy)에 CPU의 힘을 다 써버린 '[[257_thrashing|스래싱]]([[257_thrashing|Thrashing]])' 현상이다.
-   - **아키텍트 판단 (비동기 [[142_event_loop|이벤트 루프]] 전환)**: 프로세스나 OS [[092_thread_lwp|스레드]]를 찍어내는 아키텍처를 당장 폐기해야 한다. Nginx, Node.js, Redis처럼 1개의 메인 [[092_thread_lwp|스레드]]가 `epoll`을 이용해 수만 개의 커넥션을 폴링하는 **Event-Driven, Non-blocking I/O 아키텍처**로 갈아탄다. 이 구조에서는 1개의 프로세스가 CPU에 딱 달라붙어 절대 자리를 내주지 않으므로 [[211_context_switch|문맥 교환]] 오버헤드가 사실상 '0'으로 수렴하며 TPS([[139_throughput|처리량]])가 수십 배 폭증한다.
+   - **원인 분석**: 클라이언트 요청 1개당 프로세스 1개를 1:1로 매핑하는 아키텍처 탓에, 만 명의 유저가 붙자 만 개의 프로세스가 생성되었다. OS 스케줄러가 이 만 개의 프로세스에 골고루 CPU 시간을 주려고 1밀리초마다 맹렬하게 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)을 시도하다 보니, 진짜 웹 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 렌더링하는 시간(us)보다 짐을 싸고 푸는 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 시간(sy)에 CPU의 힘을 다 써버린 '[스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))' 현상이다.
+   - **아키텍트 판단 (비동기 [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/) 전환)**: 프로세스나 OS [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 찍어내는 아키텍처를 당장 폐기해야 한다. Nginx, Node.js, Redis처럼 1개의 메인 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 `epoll`을 이용해 수만 개의 커넥션을 폴링하는 **Event-Driven, Non-blocking I/O 아키텍처**로 갈아탄다. 이 구조에서는 1개의 프로세스가 CPU에 딱 달라붙어 절대 자리를 내주지 않으므로 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 오버헤드가 사실상 '0'으로 수렴하며 TPS([처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))가 수십 배 폭증한다.
 
-2. **시나리오 — 언어 레벨 초경량 [[092_thread_lwp|스레드]] ([[096_user_level_thread|User-Level Thread]] / [[141_coroutine|Coroutine]]) 도입**: 최근 마이크로서비스에서 대용량 [[014_api_posix|API]] 동시 호출을 처리하기 위해 C++나 Java로 Pthread를 수만 개 만들면 여전히 [[211_context_switch|문맥 교환]] 비용이 무거워 메모리가 고갈된다.
-   - **아키텍트 판단 (Go [[140_goroutine|Goroutine]] / [[141_coroutine|코루틴]] 융합)**: [[001_operating_system_purpose|운영체제]]([[022_kernel_role|Kernel]])에게 [[211_context_switch|문맥 교환]]을 맡기지 말고, 사용자 공간(User Space)에서 애플리케이션 프로그래머가 직접 [[211_context_switch|문맥 교환]]을 통제하는 기법을 채택한다. Go 언어의 [[140_goroutine|고루틴]]([[140_goroutine|Goroutine]])이나 [[141_coroutine|코루틴]]([[141_coroutine|Coroutine]])은 [[022_kernel_role|커널]] 개입 없이 단 2KB의 [[057_stack|스택]]과 몇 개의 [[057_register|레지스터]] 포인터만 유저 메모리에서 휙휙 바꿔치기한다. OS는 그냥 1개의 큰 작업이 도는 줄 알기 때문에 권한 모드 스위칭(Ring 3 $\rightarrow$ Ring 0)의 치명적 병목이 제거되어 수백만 개의 동시 처리가 거뜬해진다.
+2. **시나리오 — 언어 레벨 초경량 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) ([User-Level Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/096_user_level_thread/) / [Coroutine](/knowledge-base/studynote/02_operating_system/02_process_thread/141_coroutine/)) 도입**: 최근 마이크로서비스에서 대용량 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 동시 호출을 처리하기 위해 C++나 Java로 Pthread를 수만 개 만들면 여전히 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 비용이 무거워 메모리가 고갈된다.
+   - **아키텍트 판단 (Go [Goroutine](/knowledge-base/studynote/02_operating_system/02_process_thread/140_goroutine/) / [코루틴](/knowledge-base/studynote/02_operating_system/02_process_thread/141_coroutine/) 융합)**: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))에게 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)을 맡기지 말고, 사용자 공간(User Space)에서 애플리케이션 프로그래머가 직접 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)을 통제하는 기법을 채택한다. Go 언어의 [고루틴](/knowledge-base/studynote/02_operating_system/02_process_thread/140_goroutine/)([Goroutine](/knowledge-base/studynote/02_operating_system/02_process_thread/140_goroutine/))이나 [코루틴](/knowledge-base/studynote/02_operating_system/02_process_thread/141_coroutine/)([Coroutine](/knowledge-base/studynote/02_operating_system/02_process_thread/141_coroutine/))은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개입 없이 단 2KB의 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)과 몇 개의 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 포인터만 유저 메모리에서 휙휙 바꿔치기한다. OS는 그냥 1개의 큰 작업이 도는 줄 알기 때문에 권한 모드 스위칭(Ring 3 $\rightarrow$ Ring 0)의 치명적 병목이 제거되어 수백만 개의 동시 처리가 거뜬해진다.
 
 ```text
   ┌───────────────────────────────────────────────────────────────────┐
@@ -158,12 +162,12 @@ tags:
   └───────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 이 표는 지난 20년간 백엔드 서버 아키텍처가 "[[211_context_switch|문맥 교환]] 비용을 어떻게든 피해 보려는 눈물겨운 발버둥"의 역사임을 증명한다. [[211_context_switch|문맥 교환]]은 공짜가 아니다. 동시접속자가 적을 땐 OS가 해주는 자동 교환([[092_thread_lwp|스레드]])이 프로그래머에게 편안함을 주지만, 임계점을 넘으면 OS의 친절한 스케줄링이 곧 서버를 암살하는 독약이 된다. 현대 고성능 백엔드 프레임워크는 모조리 OS [[022_kernel_role|커널]]의 손을 뿌리치고([[022_kernel_role|Kernel]] Bypass), 애플리케이션 스스로 유저 공간에서 아주 얇고 가벼운 [[211_context_switch|문맥 교환]]([[141_coroutine|Coroutine]])을 통제하는 방향으로 진화했다.
+**[다이어그램 해설]** 이 표는 지난 20년간 백엔드 서버 아키텍처가 "[문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 비용을 어떻게든 피해 보려는 눈물겨운 발버둥"의 역사임을 증명한다. [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)은 공짜가 아니다. 동시접속자가 적을 땐 OS가 해주는 자동 교환([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))이 프로그래머에게 편안함을 주지만, 임계점을 넘으면 OS의 친절한 스케줄링이 곧 서버를 암살하는 독약이 된다. 현대 고성능 백엔드 프레임워크는 모조리 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 손을 뿌리치고([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Bypass), 애플리케이션 스스로 유저 공간에서 아주 얇고 가벼운 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Coroutine](/knowledge-base/studynote/02_operating_system/02_process_thread/141_coroutine/))을 통제하는 방향으로 진화했다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
-- **의미 없는 [[103_thread_pool|스레드 풀]] 과다 [[009_config|설정]]**: "우리 서버 코어는 8개니까 동시성을 극대화하기 위해 [[103_thread_pool|스레드 풀]]([[103_thread_pool|Thread Pool]]) 크기를 1,000개로 넉넉하게 잡자!"라는 주니어 개발자의 전형적 실수. 8개의 책상에 1,000명을 앉히면 1초에 수천 번씩 의자 뺏기 놀이([[211_context_switch|Context Switch]] [[257_thrashing|Thrashing]])만 하다가 서버가 터진다. CPU Bound 작업이라면 [[103_thread_pool|스레드 풀]] 크기는 `코어 수 + 1`이 정답이다. [[211_context_switch|문맥 교환]]은 피할수록 좋은 악(Evil)이다.
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- **의미 없는 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 과다 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**: "우리 서버 코어는 8개니까 동시성을 극대화하기 위해 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)([Thread Pool](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)) 크기를 1,000개로 넉넉하게 잡자!"라는 주니어 개발자의 전형적 실수. 8개의 책상에 1,000명을 앉히면 1초에 수천 번씩 의자 뺏기 놀이([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) [Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))만 하다가 서버가 터진다. CPU Bound 작업이라면 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 크기는 `코어 수 + 1`이 정답이다. [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)은 피할수록 좋은 악(Evil)이다.
 
-- **📢 섹션 요약 비유**: 요리사(CPU)가 2명인데 주방에 도마([[092_thread_lwp|스레드]])를 100개 펼쳐놓으면, 요리사가 도마 사이를 뛰어다니며 칼을 내려놓고(Save) 집어 드는(Restore) 시간 때문에 정작 요리는 하나도 못 만듭니다. 도마는 요리사 수에 딱 맞춰서 2~3개만 두는 게 가장 빠릅니다.
+- **📢 섹션 요약 비유**: 요리사(CPU)가 2명인데 주방에 도마([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))를 100개 펼쳐놓으면, 요리사가 도마 사이를 뛰어다니며 칼을 내려놓고(Save) 집어 드는(Restore) 시간 때문에 정작 요리는 하나도 못 만듭니다. 도마는 요리사 수에 딱 맞춰서 2~3개만 두는 게 가장 빠릅니다.
 
 ---
 
@@ -171,23 +175,23 @@ tags:
 
 ### 정량/정성 기대효과
 
-| 구분 | 레거시 프로세스 스케줄링 | 최신 [[141_coroutine|코루틴]]/[[142_event_loop|이벤트 루프]] 스케줄링 | 개선 효과 |
+| 구분 | 레거시 프로세스 스케줄링 | 최신 [코루틴](/knowledge-base/studynote/02_operating_system/02_process_thread/141_coroutine/)/[이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/) 스케줄링 | 개선 효과 |
 |:---|:---|:---|:---|
-| **정량 ([[211_context_switch|문맥 교환]] 소요 시간)**| [[022_kernel_role|커널]] 진입/복원(약 1~5 마이크로초) | 유저 레벨 [[057_register|레지스터]] 덮어쓰기 (수십 나노초) | 스위칭 [[141_latency|지연 시간]] 1/100 수준으로 [[347_compaction|압축]] |
-| **정량 (동시 연결성 C10K)**| 1만 개 프로세스 띄울 시 RAM 20GB 폭발 | [[141_coroutine|코루틴]] 100만 개 띄워도 RAM 2GB 방어 | 한 대의 물리 서버로 수십만 명의 [[125_socket|소켓]] 커넥션 유지 |
-| **정성 (캐시 친화성)** | 빈번한 교체로 L1/L2 캐시 [[264_hit_ratio|적중률]]([[263_cache_hit_miss|Hit]]) 파탄 | 특정 코어 독점 실행으로 캐시 [[264_hit_ratio|적중률]] 99% 달성 | 런타임 [[282_performance_tactics|성능]]의 예측 가능성 확보 |
+| **정량 ([문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 소요 시간)**| [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 진입/복원(약 1~5 마이크로초) | 유저 레벨 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 덮어쓰기 (수십 나노초) | 스위칭 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 1/100 수준으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) |
+| **정량 (동시 연결성 C10K)**| 1만 개 프로세스 띄울 시 RAM 20GB 폭발 | [코루틴](/knowledge-base/studynote/02_operating_system/02_process_thread/141_coroutine/) 100만 개 띄워도 RAM 2GB 방어 | 한 대의 물리 서버로 수십만 명의 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 커넥션 유지 |
+| **정성 (캐시 친화성)** | 빈번한 교체로 L1/L2 캐시 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)([Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)) 파탄 | 특정 코어 독점 실행으로 캐시 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/) 99% 달성 | 런타임 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 예측 가능성 확보 |
 
 ### 미래 전망
-- **Fiber(파이버) 및 유저 모드 스케줄링(UMS)**: [[001_operating_system_purpose|운영체제]]의 블랙박스였던 스케줄링 권한을 애플리케이션 레이어로 대폭 이양하는 기술이 윈도우(Fiber)와 구글의 클라우드 인프라에서 실험되고 있다. [[022_kernel_role|커널]]은 덩치 큰 리소스 배분만 하고, 실시간 [[211_context_switch|문맥 교환]]의 자잘한 컨트롤은 앱 자체가 [[256_lock_free_data_structures|락-프리]]([[256_lock_free_data_structures|Lock-free]]) 기반으로 처리해 오버헤드를 극소화하는 추세다.
-- **하드웨어 [[033_context|컨텍스트]] 스레딩 ([[400_smt|SMT]] / [[199_interrupt_scheduling|하이퍼스레딩]])**: 소프트웨어의 교환 [[015_지연_데이터_관점|지연]]을 참다못한 인텔과 AMD는 CPU 코어 안에 물리적인 [[057_register|레지스터]] 세트와 상태 보관함을 아예 2개씩 심어버렸다. 하나의 파이프라인이 멈칫할 때 OS 개입 없이 하드웨어 레벨에서 0 클럭 [[015_지연_데이터_관점|지연]]으로 문맥을 딸깍 전환해버리는 [[400_smt|SMT]](Simultaneous [[095_multithreading_benefits|Multithreading]]) 기술이 이제 모든 칩의 표준이 되었다.
+- **Fiber(파이버) 및 유저 모드 스케줄링(UMS)**: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 블랙박스였던 스케줄링 권한을 애플리케이션 레이어로 대폭 이양하는 기술이 윈도우(Fiber)와 구글의 클라우드 인프라에서 실험되고 있다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 덩치 큰 리소스 배분만 하고, 실시간 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)의 자잘한 컨트롤은 앱 자체가 [락-프리](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)([Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)) 기반으로 처리해 오버헤드를 극소화하는 추세다.
+- **하드웨어 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 스레딩 ([SMT](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/) / [하이퍼스레딩](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/199_interrupt_scheduling/))**: 소프트웨어의 교환 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 참다못한 인텔과 AMD는 CPU 코어 안에 물리적인 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 세트와 상태 보관함을 아예 2개씩 심어버렸다. 하나의 파이프라인이 멈칫할 때 OS 개입 없이 하드웨어 레벨에서 0 클럭 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)으로 문맥을 딸깍 전환해버리는 [SMT](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/)(Simultaneous [Multithreading](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/)) 기술이 이제 모든 칩의 표준이 되었다.
 
 ### 참고 표준
-- **POSIX [[790_posix_threads_pthreads_standard_api|Pthreads]]**: 유닉스 시스템의 [[092_thread_lwp|스레드]] 구현 표준으로 OS [[092_thread_lwp|스레드]] 매핑(1:1, M:N)을 통제.
-- **ucontext.h / setjmp.h**: C/C++에서 [[022_kernel_role|커널]]을 우회하여 유저 레벨에서 [[057_register|레지스터]] 문맥을 직접 저장(`getcontext`)하고 교체(`setcontext`)할 수 있도록 지원하는 고전적 [[336_library_vs_framework|라이브러리]] (현대 [[141_coroutine|코루틴]]의 조상).
+- **POSIX [Pthreads](/knowledge-base/studynote/02_operating_system/11_exam_summary/790_posix_threads_pthreads_standard_api/)**: 유닉스 시스템의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 구현 표준으로 OS [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 매핑(1:1, M:N)을 통제.
+- **ucontext.h / setjmp.h**: C/C++에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 우회하여 유저 레벨에서 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 문맥을 직접 저장(`getcontext`)하고 교체(`setcontext`)할 수 있도록 지원하는 고전적 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) (현대 [코루틴](/knowledge-base/studynote/02_operating_system/02_process_thread/141_coroutine/)의 조상).
 
-[[211_context_switch|문맥 교환]]은 컴퓨터 공학의 필요악(Necessary Evil)이다. 세상의 모든 프로그램이 자신만 혼자 컴퓨터를 쓴다고 착각하게 만들어주는 눈물겨운 [[001_operating_system_purpose|운영체제]]의 희생이다. 하지만 무거운 짐을 싸고 푸는 낭비는 물리적 법칙을 벗어날 수 없기에, 시스템 아키텍트의 진정한 실력은 "어떻게 하면 [[211_context_switch|문맥 교환]]을 빠르고 효율적으로 할까?"가 아니라, **"어떻게 하면 아키텍처 설계를 비틀어서 [[211_context_switch|문맥 교환]] 자체가 아예 발생하지 않게([[585_zero_skipping|Zero]] [[211_context_switch|Context Switch]]) 억제할 수 있을까?"**를 고민하는 데서 시작된다. 
+[문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)은 컴퓨터 공학의 필요악(Necessary Evil)이다. 세상의 모든 프로그램이 자신만 혼자 컴퓨터를 쓴다고 착각하게 만들어주는 눈물겨운 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 희생이다. 하지만 무거운 짐을 싸고 푸는 낭비는 물리적 법칙을 벗어날 수 없기에, 시스템 아키텍트의 진정한 실력은 "어떻게 하면 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)을 빠르고 효율적으로 할까?"가 아니라, **"어떻게 하면 아키텍처 설계를 비틀어서 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 자체가 아예 발생하지 않게([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) 억제할 수 있을까?"**를 고민하는 데서 시작된다. 
 
-- **📢 섹션 요약 비유**: 이삿짐센터 직원([[022_kernel_role|커널]])이 짐을 싸고 푸는 속도를 훈련시키는 것보다 훨씬 위대한 혁신은, 아예 몸만 휙휙 돌아다닐 수 있는 초경량 캠핑용 텐트([[141_coroutine|코루틴]], [[142_event_loop|이벤트 루프]])를 발명해서 이사 자체를 없애버린 것입니다.
+- **📢 섹션 요약 비유**: 이삿짐센터 직원([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))이 짐을 싸고 푸는 속도를 훈련시키는 것보다 훨씬 위대한 혁신은, 아예 몸만 휙휙 돌아다닐 수 있는 초경량 캠핑용 텐트([코루틴](/knowledge-base/studynote/02_operating_system/02_process_thread/141_coroutine/), [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/))를 발명해서 이사 자체를 없애버린 것입니다.
 
 ---
 
@@ -195,9 +199,9 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[752_interrupt_driven_io|인터럽트 구동 입출력]] | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [[205_priority_inversion|우선순위 역전]] ([[205_priority_inversion|Priority Inversion]]) 방지 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| 고아 [[109_zombie_process|좀비 프로세스]] init 처리 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [인터럽트 구동 입출력](/knowledge-base/studynote/02_operating_system/11_exam_summary/752_interrupt_driven_io/) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [우선순위 역전](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/) ([Priority Inversion](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/)) 방지 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| 고아 [좀비 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/109_zombie_process/) init 처리 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
 | 시스템 콜 오버헤드 이유 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -212,13 +216,13 @@ tags:
     └──▶ [시스템 콜 오버헤드 이유]
 ```
 
-이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [[347_compaction|압축]]해 보여준다.
+이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 철수가 책상 하나에서 그림도 그리고 숙제도 하려면, 그림 도구를 싹 다 가방에 넣고 다시 숙제 노트를 꺼내는 '짐 정리 시간'이 필요해요.
-2. 컴퓨터의 두뇌(CPU)도 게임과 유튜브를 번갈아 돌릴 때, 쓰던 생각들([[057_register|레지스터]])을 박스에 담아 치우고 새 생각을 꺼내는 짐 정리 시간이 필요한데 이걸 '[[211_context_switch|문맥 교환]]'이라고 해요.
-3. 이 짐을 싸고 푸는 동안에는 아무것도 못 해서 컴퓨터가 살짝 느려지는 손해를 보는데, 똑똑한 엔지니어들은 이 짐을 아예 안 싸고도 일을 빨리 넘길 수 있는 마법([[141_coroutine|코루틴]])을 만들었답니다!
+2. 컴퓨터의 두뇌(CPU)도 게임과 유튜브를 번갈아 돌릴 때, 쓰던 생각들([레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/))을 박스에 담아 치우고 새 생각을 꺼내는 짐 정리 시간이 필요한데 이걸 '[문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)'이라고 해요.
+3. 이 짐을 싸고 푸는 동안에는 아무것도 못 해서 컴퓨터가 살짝 느려지는 손해를 보는데, 똑똑한 엔지니어들은 이 짐을 아예 안 싸고도 일을 빨리 넘길 수 있는 마법([코루틴](/knowledge-base/studynote/02_operating_system/02_process_thread/141_coroutine/))을 만들었답니다!
 
 ---
 
@@ -226,7 +230,7 @@ tags:
 
 **진행 상황**: 754 / 800
 
-← **이전**: [[753_priority_inversion_prevention|753. 우선순위 역전 (Priority Inversion) 방지]]
-**다음**: [[755_orphan_zombie_process_init|755. 고아 좀비 프로세스 init 처리 (Orphan Zombie Process Init)]] →
+← **이전**: [753. 우선순위 역전 (Priority Inversion) 방지](/knowledge-base/studynote/02_operating_system/11_exam_summary/753_priority_inversion_prevention/)
+**다음**: [755. 고아 좀비 프로세스 init 처리 (Orphan Zombie Process Init)](/knowledge-base/studynote/02_operating_system/11_exam_summary/755_orphan_zombie_process_init/) →
 
 ---

@@ -1,14 +1,18 @@
----
-title: 65. GitHub Flow - 극단적 단순화 브랜치 전략과 CD
-date: '2026-04-10'
-tags:
-- studynote-devops
----
++++
+title = "65. GitHub Flow - 극단적 단순화 브랜치 전략과 CD"
+date = 2026-04-10
+
+[taxonomies]
+tags = ["studynote-devops"]
+
+[extra]
+tags = ["studynote-devops"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: GitHub Flow는 main과 짧은 feature 브랜치만으로 개발과 배포를 단순화하는 브랜치 [[268_strategy_pattern|전략]]이다.
-> 2. **가치**: 빠른 [[067_pull_request_pr_merge_request_code_review|PR]] 검토와 [[090_configuration_item|CI]]/CD 결합이 쉬워서, 연속 배포([[165_continuous_deployment|Continuous Deployment]])에 잘 맞는다.
+> 1. **본질**: GitHub Flow는 main과 짧은 feature 브랜치만으로 개발과 배포를 단순화하는 브랜치 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
+> 2. **가치**: 빠른 [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 검토와 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 결합이 쉬워서, 연속 배포([Continuous Deployment](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/165_continuous_deployment/))에 잘 맞는다.
 > 3. **판단**: Git Flow보다 단순하지만, 테스트와 자동화 품질이 낮으면 오히려 위험할 수 있다.
 
 ---
@@ -48,13 +52,13 @@ GitHub Flow는 릴리스 브랜치를 따로 두지 않고, main에 머지된 �
 
 ## Ⅲ. 비교 및 연결
 
-| [[268_strategy_pattern|전략]] | 특징 | 장점 | 한계 |
+| [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 특징 | 장점 | 한계 |
 | :-- | :-- | :-- | :-- |
 | Git Flow | 브랜치 많음 | 릴리스 제어 | 복잡함 |
-| [[054_github_flow|GitHub Flow]] | 매우 단순 | 빠른 CD | 테스트 의존 |
+| [GitHub Flow](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/054_github_flow/) | 매우 단순 | 빠른 CD | 테스트 의존 |
 | Trunk-based | 메인 중심 | 통합 빠름 | 강한 규율 필요 |
 
-GitHub Flow는 Git Flow보다 가볍고, [[040_trunk_based_development|트렁크 기반 개발]]보다 이해하기 쉽다. 그러나 짧은 브랜치와 높은 자동화 품질이 전제되어야 한다.
+GitHub Flow는 Git Flow보다 가볍고, [트렁크 기반 개발](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/040_trunk_based_development/)보다 이해하기 쉽다. 그러나 짧은 브랜치와 높은 자동화 품질이 전제되어야 한다.
 
 - **📢 섹션 요약 비유**: 길이 짧고 직선이면 빠르지만, 튼튼한 다리가 있어야 건널 수 있다.
 
@@ -62,24 +66,24 @@ GitHub Flow는 Git Flow보다 가볍고, [[040_trunk_based_development|트렁크
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. feature 브랜치가 짧게 유지되는가?
-2. [[067_pull_request_pr_merge_request_code_review|PR]] 리뷰와 CI가 자동화되어 있는가?
+2. [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 리뷰와 CI가 자동화되어 있는가?
 3. main이 항상 배포 가능한 상태인가?
-4. [[098_rollback_strategy_pipeline_error_threshold|롤백]]과 배포가 단순한가?
+4. [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)과 배포가 단순한가?
 5. 테스트 품질이 충분한가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - feature 브랜치를 오래 끌고 가는 설계
 - main에 바로 푸시하는 설계
 - 테스트 없이 merge만 하는 설계
 - 배포 자동화 없이 GitHub Flow만 흉내 내는 설계
 
-기술사 관점에서는 GitHub Flow를 "브랜치 [[268_strategy_pattern|전략]]"이 아니라 "[[090_configuration_item|CI]]/CD [[268_strategy_pattern|전략]]과 맞물린 개발 운영 방식"으로 봐야 한다.
+기술사 관점에서는 GitHub Flow를 "브랜치 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)"이 아니라 "[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 맞물린 개발 운영 방식"으로 봐야 한다.
 
-- **📢 섹션 요약 비유**: 만든 뒤 바로 [[396_validation|확인]]하고, 바로 내보내는 간단한 공장 시스템이다.
+- **📢 섹션 요약 비유**: 만든 뒤 바로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 바로 내보내는 간단한 공장 시스템이다.
 
 ---
 
@@ -87,7 +91,7 @@ GitHub Flow는 Git Flow보다 가볍고, [[040_trunk_based_development|트렁크
 
 GitHub Flow는 팀이 빠르게 변경하고 빨리 배포하는 데 적합하다. 간단한 규칙이지만 자동화가 받쳐 줘야 효과가 크다.
 
-결론적으로 GitHub Flow는 단순성과 지속 배포를 추구하는 [[268_strategy_pattern|전략]]이다.
+결론적으로 GitHub Flow는 단순성과 지속 배포를 추구하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 
 - **📢 섹션 요약 비유**: 서랍이 적을수록 정리는 쉬워지지만, 내용물은 잘 라벨링해야 한다.
 
@@ -124,7 +128,7 @@ CI/CD
 ## 어린이를 위한 3줄 비유 설명
 
 작은 가지에서 만들고 바로 큰 줄기에 붙여요.  
-붙이기 전에 꼭 [[396_validation|확인]]해요.  
+붙이기 전에 꼭 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해요.  
 GitHub Flow는 그런 단순한 브랜치 방법이에요.
 
 ---
@@ -133,7 +137,7 @@ GitHub Flow는 그런 단순한 브랜치 방법이에요.
 
 **진행 상황**: 65 / 373
 
-← **이전**: [[064_git_flow_branch_strategy_release|64. Git Flow - 5개 브랜치 전략과 릴리스 관리]]
-**다음**: [[066_gitlab_flow_environment_branch_strategy|66. GitLab Flow - 환경(Environment) 기반 분기 및 배포 전략]] →
+← **이전**: [64. Git Flow - 5개 브랜치 전략과 릴리스 관리](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/064_git_flow_branch_strategy_release/)
+**다음**: [66. GitLab Flow - 환경(Environment) 기반 분기 및 배포 전략](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/) →
 
 ---

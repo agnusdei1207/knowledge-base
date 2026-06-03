@@ -1,14 +1,18 @@
----
-title: 322. 객체지향 프로그래밍 (OOP)의 4대 특징 - 캡슐화, 상속, 다형성, 추상화
-date: '2026-05-08'
-tags:
-- studynote-software-engineering
----
++++
+title = "322. 객체지향 프로그래밍 (OOP)의 4대 특징 - 캡슐화, 상속, 다형성, 추상화"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-software-engineering"]
+
+[extra]
+tags = ["studynote-software-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 객체지향 프로그래밍 (OOP)의 4대 특징 - 캡슐화, [[234_uml_class_relationships_generalization_dependency|상속]], 다형성, [[198_abstraction_control_data_process|추상화]]은(는) [[001_software_engineering_definition|소프트웨어 공학]]의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[[346_maintainability_portability|유지보수성]]·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 객체지향 프로그래밍 (OOP)의 4대 특징 - 캡슐화, [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/), 다형성, [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
@@ -17,16 +21,16 @@ tags:
 
 - **개념**: OOP(Object-Oriented Programming)는 프로그램이라는 거대한 기계를 톱니바퀴, 나사, 모터 같은 독립된 '객체(Object)'들의 조립품으로 보고 설계하는 방법론이다. 이 객체들이 얽히고설켜 굴러가기 위해 반드시 지켜야 하는 4가지 문법적/철학적 특징이 존재한다.
 
-- **필요성**: 수천 줄의 코드로 은행 프로그램을 짰다(절차적 지향). 고객의 잔고(`balance`) 변수를 아무 함수나 마구잡이로 가져다 더하고 뺐다. 어느 날 잔고가 마이너스 통장이 되는 버그가 터졌는데, 도대체 수천 개의 함수 중 누가 이 변수를 건드렸는지 범인을 찾을 수가 없다(스파게티 코드). 그래서 변수([[001_dikw_pyramid|데이터]])와 그 변수를 만지는 함수를 단단한 캡슐 하나에 묶어서 남들이 함부로 만지지 못하게 잠가버릴 절대적인 필요성(캡슐화)이 대두되었다.
+- **필요성**: 수천 줄의 코드로 은행 프로그램을 짰다(절차적 지향). 고객의 잔고(`balance`) 변수를 아무 함수나 마구잡이로 가져다 더하고 뺐다. 어느 날 잔고가 마이너스 통장이 되는 버그가 터졌는데, 도대체 수천 개의 함수 중 누가 이 변수를 건드렸는지 범인을 찾을 수가 없다(스파게티 코드). 그래서 변수([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))와 그 변수를 만지는 함수를 단단한 캡슐 하나에 묶어서 남들이 함부로 만지지 못하게 잠가버릴 절대적인 필요성(캡슐화)이 대두되었다.
 
-- **💡 비유**: 자동차 공장과 같습니다. 자동차를 통짜 쇳덩어리 하나로 주물러서 만들지 않습니다. 엔진, 바퀴, 핸들(객체)을 각자 따로 만듭니다. 엔진 내부에 폭발이 어떻게 일어나는지 운전자는 알 필요 없이 엑셀만 밟으면 됩니다(**캡슐화와 [[198_abstraction_control_data_process|추상화]]**). 구형 바퀴를 떼어내고 규격만 맞으면 신형 바퀴를 바로 껴서 돌릴 수 있습니다(**다형성**). 옛날 자동차의 설계도를 가져와 약간만 고쳐서 트럭을 새로 만들어 냅니다(**[[234_uml_class_relationships_generalization_dependency|상속]]**).
+- **💡 비유**: 자동차 공장과 같습니다. 자동차를 통짜 쇳덩어리 하나로 주물러서 만들지 않습니다. 엔진, 바퀴, 핸들(객체)을 각자 따로 만듭니다. 엔진 내부에 폭발이 어떻게 일어나는지 운전자는 알 필요 없이 엑셀만 밟으면 됩니다(**캡슐화와 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)**). 구형 바퀴를 떼어내고 규격만 맞으면 신형 바퀴를 바로 껴서 돌릴 수 있습니다(**다형성**). 옛날 자동차의 설계도를 가져와 약간만 고쳐서 트럭을 새로 만들어 냅니다(**[상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)**).
 
 - **등장 배경 및 발전 과정**:
   1. **절차적 한계와 Simula/Smalltalk (1960s)**: 시뮬레이션 프로그램을 돌리기 위해, 현실의 배나 사람을 코드로 모델링하는 `Class`와 `Object`의 개념이 최초로 제안되었다.
   2. **C++의 등장 (1980s)**: 기존 시스템 프로그래밍의 왕인 C언어에 '객체'라는 개념을 덧붙여(C with Classes), 성능과 객체지향이라는 두 마리 토끼를 잡으며 전 세계를 장악했다.
-  3. **Java와 [[251_design_patterns_gof_overview|디자인 패턴]]의 완성 (1990s~)**: C++의 복잡성(다중 [[234_uml_class_relationships_generalization_dependency|상속]], 포인터)을 쳐내고 순수한 4대 특징에 집중한 Java가 탄생했으며, 이 4대 특징을 극한으로 응용한 구조적 해법들이 모여 'GoF [[251_design_patterns_gof_overview|디자인 패턴]]'이라는 절대 법전으로 집대성되었다.
+  3. **Java와 [디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/)의 완성 (1990s~)**: C++의 복잡성(다중 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/), 포인터)을 쳐내고 순수한 4대 특징에 집중한 Java가 탄생했으며, 이 4대 특징을 극한으로 응용한 구조적 해법들이 모여 'GoF [디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/)'이라는 절대 법전으로 집대성되었다.
 
-- **📢 섹션 요약 비유**: OOP 4대 특징은 복잡한 레고 블록 놀이를 하기 위한 절대 규칙 4가지입니다. 남의 블록 속을 파헤치지 마라(캡슐화), 불필요한 장식은 빼고 뼈대만 봐라([[198_abstraction_control_data_process|추상화]]), 아빠 블록의 능력을 물려받아라([[234_uml_class_relationships_generalization_dependency|상속]]), 상황에 따라 다른 무기로 변신해라(다형성)입니다.
+- **📢 섹션 요약 비유**: OOP 4대 특징은 복잡한 레고 블록 놀이를 하기 위한 절대 규칙 4가지입니다. 남의 블록 속을 파헤치지 마라(캡슐화), 불필요한 장식은 빼고 뼈대만 봐라([추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)), 아빠 블록의 능력을 물려받아라([상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)), 상황에 따라 다른 무기로 변신해라(다형성)입니다.
 
 ---
 
@@ -55,12 +59,12 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-객체지향 프로그래밍 (OOP)의 4대 특징 - 캡슐화, [[234_uml_class_relationships_generalization_dependency|상속]], 다형성, [[198_abstraction_control_data_process|추상화]]의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
+객체지향 프로그래밍 (OOP)의 4대 특징 - 캡슐화, [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/), 다형성, [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
 
 | 구성 요소 | 역할 | 적용 기준 |
 | :--- | :--- | :--- |
-| 개념 정의 | 핵심 용어와 범위를 명확히 [[009_config|설정]] | 용어 혼용·오해 방지 |
-| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | [[194_consistency_database_integrity|일관성]]·품질 기준 |
+| 개념 정의 | 핵심 용어와 범위를 명확히 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | 용어 혼용·오해 방지 |
+| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)·품질 기준 |
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
@@ -85,7 +89,7 @@ tags:
 | 조직 요건 | 팀 전체의 공통 이해와 훈련 필요 | 개인 역량 의존 |
 | 측정 가능성 | 정량적 지표로 성과 측정 가능 | 주관적 판단에 의존 |
 
-다른 [[001_software_engineering_definition|소프트웨어 공학]] 개념과의 연결을 보면, 객체지향 프로그래밍 (OOP)의 4대 특징은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 [[020_software_configuration_management|형상 관리]]([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]])와 긴밀하게 연계된다.
+다른 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 개념과의 연결을 보면, 객체지향 프로그래밍 (OOP)의 4대 특징은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/))와 긴밀하게 연계된다.
 
 - **📢 섹션 요약 비유**: 객체지향 프로그래밍 (OOP)의 4대 특징과 유사 대안의 차이는 지도를 가지고 산에 오르는 것과 감으로만 오르는 차이와 같다. 지도(체계적 방법)가 있으면 정상까지 최단 경로를 찾을 수 있지만, 없으면 같은 곳을 맴돌거나 낭떠러지에 빠질 수 있다.
 
@@ -107,21 +111,21 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-객체지향 프로그래밍 (OOP)의 4대 특징을(를) 올바르게 적용하면 [[339_software_quality_definition|소프트웨어 품질]]·[[346_maintainability_portability|유지보수성]]·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [[459_quic_fec_forward_error_correction|초기]] 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
+객체지향 프로그래밍 (OOP)의 4대 특징을(를) 올바르게 적용하면 [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/)·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
 
 **한계와 전제 조건**:
 - 소규모 프로젝트에서는 오버헤드가 발생할 수 있다
 - 팀 전체의 충분한 교육과 실습 기간이 필요하다
-- 도구 지원 환경 구축에 [[459_quic_fec_forward_error_correction|초기]] 비용이 발생한다
+- 도구 지원 환경 구축에 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용이 발생한다
 
 **미래 발전 방향**:
-- [[190_ai_llm_requirements_specification|AI]]·[[263_llm_large_language_model|LLM]] 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [[531_cloud_native_architecture|클라우드 네이티브]]·[[652_devops_calms_culture|DevOps]] 환경에서의 진화적 적용
+- [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 객체지향 프로그래밍 (OOP)의 4대 특징은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: 객체지향 프로그래밍 (OOP)의 4대 특징의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [[001_software_engineering_definition|소프트웨어 공학]]의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
+- **📢 섹션 요약 비유**: 객체지향 프로그래밍 (OOP)의 4대 특징의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
 
 ---
 
@@ -133,10 +137,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[001_software_engineering_definition|소프트웨어 공학]] ([[001_software_engineering_definition|Software Engineering]]) | 객체지향 프로그래밍 (OOP)의 4대 특징의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [[003_sdlc|소프트웨어 생명주기]] ([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]], Software Development Life Cycle) | 객체지향 프로그래밍 (OOP)의 4대 특징은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 객체지향 프로그래밍 (OOP)의 4대 특징의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 객체지향 프로그래밍 (OOP)의 4대 특징은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 객체지향 프로그래밍 (OOP)의 4대 특징 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [[020_software_configuration_management|형상 관리]] ([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]]) | 객체지향 프로그래밍 (OOP)의 4대 특징에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 객체지향 프로그래밍 (OOP)의 4대 특징에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -156,13 +160,13 @@ tags:
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [[002_software_crisis|소프트웨어 위기]] 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 객체지향 프로그래밍 (OOP)의 4대 특징은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
 
 ---
 
@@ -170,7 +174,7 @@ tags:
 
 **진행 상황**: 322 / 973
 
-← **이전**: [[321_programming_paradigms|321. 프로그래밍 패러다임 - 절차적, 객체지향, 함수형, 논리형]]
-**다음**: [[323_overloading_vs_overriding|323. 오버로딩 (Overloading) vs 오버라이딩 (Overriding)]] →
+← **이전**: [321. 프로그래밍 패러다임 - 절차적, 객체지향, 함수형, 논리형](/knowledge-base/studynote/04_software_engineering/06_software_architecture/321_programming_paradigms/)
+**다음**: [323. 오버로딩 (Overloading) vs 오버라이딩 (Overriding)](/knowledge-base/studynote/04_software_engineering/06_software_architecture/323_overloading_vs_overriding/) →
 
 ---

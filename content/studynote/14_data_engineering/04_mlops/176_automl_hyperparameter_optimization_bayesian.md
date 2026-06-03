@@ -1,31 +1,35 @@
----
-title: 176. AutoML (Automated Machine Learning) 하이퍼파라미터 최적화 베이지안 탐색
-date: '2026-04-21'
-tags:
-- studynote-data-engineering
----
++++
+title = "176. AutoML (Automated Machine Learning) 하이퍼파라미터 최적화 베이지안 탐색"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-data-engineering"]
+
+[extra]
+tags = ["studynote-data-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: AutoML (Automated Machine [[240_switch_learning_forwarding_flooding|Learning]])에서 하이퍼파라미터 최적화는 모델 [[282_performance_tactics|성능]]을 만드는 비싼 블랙박스 함수를 적은 실험으로 최대한 잘 탐색하는 문제이며, 베이지안 탐색은 그 블랙박스를 [[130_probability|확률]]적으로 근사해 다음 실험을 고른다.
+> 1. **본질**: AutoML (Automated Machine [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))에서 하이퍼파라미터 최적화는 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 만드는 비싼 블랙박스 함수를 적은 실험으로 최대한 잘 탐색하는 문제이며, 베이지안 탐색은 그 블랙박스를 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적으로 근사해 다음 실험을 고른다.
 > 2. **가치**: Grid Search처럼 모든 조합을 훑지 않고도, 지금까지의 실험 결과를 학습해 더 유망한 후보에 계산 자원을 집중하므로 비용과 시간을 크게 줄인다.
-> 3. **판단 포인트**: 실험 1회 비용이 높고 [[430_index_fast_full_scan|병렬]] 수가 제한적이면 베이지안 최적화가 강하고, 실험이 아주 많고 값이 싸거나 [[281_early_stopping|조기 종료]]가 중요하면 Hyperband 계열과 결합한 방식이 더 실용적이다.
+> 3. **판단 포인트**: 실험 1회 비용이 높고 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 수가 제한적이면 베이지안 최적화가 강하고, 실험이 아주 많고 값이 싸거나 [조기 종료](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/)가 중요하면 Hyperband 계열과 결합한 방식이 더 실용적이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-AutoML에서 하이퍼파라미터 최적화(Hyperparameter Optimization, HPO)는 모델 구조는 정해져 있지만 [[080_gradient_descent_learning_rate|학습률]], [[093_normalization|정규화]] 계수, 트리 깊이, 배치 크기처럼 사람이 미리 정해야 하는 외부 [[009_config|설정]]값을 가장 좋은 조합으로 찾는 문제다. 같은 [[001_algorithm_definition|알고리즘]]이라도 HPO 결과에 따라 정확도, 학습 시간, 추론 비용이 크게 달라지므로, 모델 선택 이후의 부가 작업이 아니라 **[[282_performance_tactics|성능]]을 완성하는 핵심 단계**에 가깝다.
+AutoML에서 하이퍼파라미터 최적화(Hyperparameter Optimization, HPO)는 모델 구조는 정해져 있지만 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/), [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 계수, 트리 깊이, 배치 크기처럼 사람이 미리 정해야 하는 외부 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)값을 가장 좋은 조합으로 찾는 문제다. 같은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이라도 HPO 결과에 따라 정확도, 학습 시간, 추론 비용이 크게 달라지므로, 모델 선택 이후의 부가 작업이 아니라 **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 완성하는 핵심 단계**에 가깝다.
 
-문제는 목적함수 평가가 매우 비싸다는 점이다. 후보 하나를 평가하려면 교차검증을 여러 번 돌리거나 [[418_gpu|Graphics Processing Unit]] ([[418_gpu|GPU]])에서 수시간 학습해야 할 수 있다. 이 상황에서 Grid Search는 차원이 늘수록 조합 폭발에 빠지고, 숙련자 감에 의존한 수동 튜닝은 재현성과 조직 확장성이 떨어진다.
+문제는 목적함수 평가가 매우 비싸다는 점이다. 후보 하나를 평가하려면 교차검증을 여러 번 돌리거나 [Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))에서 수시간 학습해야 할 수 있다. 이 상황에서 Grid Search는 차원이 늘수록 조합 폭발에 빠지고, 숙련자 감에 의존한 수동 튜닝은 재현성과 조직 확장성이 떨어진다.
 
 베이지안 탐색이 중요한 이유는 "많이 시도하기"가 아니라 "의미 있게 시도하기" 때문이다. 이전 실험으로부터 얻은 정보를 버리지 않고 다음 후보 선택에 반영함으로써, 비싼 실험 예산을 정보량이 큰 지점에 배분할 수 있다.
 
 | 난점 | 수동/무차별 탐색의 한계 | 베이지안 탐색이 주는 변화 |
 | :--- | :--- | :--- |
-| 탐색 공간이 큼 | 중요하지 않은 축에도 실험 낭비 | [[282_performance_tactics|성능]]이 민감한 구간에 샘플 집중 |
+| 탐색 공간이 큼 | 중요하지 않은 축에도 실험 낭비 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 민감한 구간에 샘플 집중 |
 | 1회 학습 비용이 큼 | 실험 수가 곧 비용 폭증 | 적은 실험으로 개선 방향 학습 |
-| 결과가 노이즈를 가짐 | 감으로 판단하면 편향 발생 | [[130_probability|확률]] 모델로 불확실성까지 고려 |
+| 결과가 노이즈를 가짐 | 감으로 판단하면 편향 발생 | [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 모델로 불확실성까지 고려 |
 | 팀이 커짐 | 사람별 튜닝 방식이 달라짐 | 탐색 규칙과 로그를 표준화 가능 |
 
 - **📢 섹션 요약 비유**: 베이지안 HPO는 미로를 무작정 뛰어다니는 방식이 아니라, 지나온 길을 지도에 기록하며 다음에 가장 가능성 높은 통로를 고르는 탐험과 같다.
@@ -34,15 +38,15 @@ AutoML에서 하이퍼파라미터 최적화(Hyperparameter Optimization, HPO)�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-베이지안 최적화(Bayesian Optimization)는 "하이퍼파라미터 조합 x를 넣으면 모델 점수 y가 나온다"는 비싼 함수를 직접 분석하지 못할 때 사용하는 우회 [[268_strategy_pattern|전략]]이다. 핵심은 실제 모델 대신 **대리 모델(Surrogate Model)**을 학습해 현재까지 관측한 결과로 점수 분포를 예측하고, **획득 함수([[042_aarrr_funnel|Acquisition]] Function)**가 다음 실험 지점을 정하는 구조다.
+베이지안 최적화(Bayesian Optimization)는 "하이퍼파라미터 조합 x를 넣으면 모델 점수 y가 나온다"는 비싼 함수를 직접 분석하지 못할 때 사용하는 우회 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다. 핵심은 실제 모델 대신 **대리 모델(Surrogate Model)**을 학습해 현재까지 관측한 결과로 점수 분포를 예측하고, **획득 함수([Acquisition](/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/) Function)**가 다음 실험 지점을 정하는 구조다.
 
 | 구성 요소 | 역할 | 대표 선택지 |
 | :--- | :--- | :--- |
 | 탐색 공간 | 실험 가능한 하이퍼파라미터 범위 정의 | 연속형, 이산형, 조건부 파라미터 |
-| 대리 모델 | `x → 성능 분포`를 근사 | Gaussian [[300_process|Process]], Tree-structured Parzen Estimator (TPE) |
-| 획득 함수 | 탐색과 활용의 균형으로 다음 후보 결정 | Expected Improvement, Upper [[085_confidence_association_rule_conditional_probability|Confidence]] Bound |
-| 평가기 | 실제 모델 학습 및 [[395_verification_process_review|검증]] 점수 산출 | 교차검증, 홀드아웃, [[281_early_stopping|조기 종료]] |
-| 실험 저장소 | 결과·시드·[[075_artifact_management_nexus_docker_registry|아티팩트]] 기록 | [[180_mlflow|MLflow]], Optuna Storage |
+| 대리 모델 | `x → 성능 분포`를 근사 | Gaussian [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/), Tree-structured Parzen Estimator (TPE) |
+| 획득 함수 | 탐색과 활용의 균형으로 다음 후보 결정 | Expected Improvement, Upper [Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) Bound |
+| 평가기 | 실제 모델 학습 및 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 점수 산출 | 교차검증, 홀드아웃, [조기 종료](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/) |
+| 실험 저장소 | 결과·시드·[아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) 기록 | [MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/), Optuna Storage |
 
 아래 그림은 베이지안 HPO의 반복 루프를 보여준다.
 
@@ -74,9 +78,9 @@ AutoML에서 하이퍼파라미터 최적화(Hyperparameter Optimization, HPO)�
                                                  └──────────────▶ 반복
 ```
 
-이 과정에서 Gaussian [[300_process|Process]] (GP)는 저차원 연속 공간에서 불확실성 표현이 뛰어나고, TPE (Tree-structured Parzen Estimator)는 혼합형·조건부 공간에서 실무 적응력이 좋다. 획득 함수도 역할이 다르다. Expected Improvement (EI)는 현재 최고 [[282_performance_tactics|성능]]보다 얼마나 더 좋아질지를 기대값으로 계산하고, Upper [[085_confidence_association_rule_conditional_probability|Confidence]] Bound (UCB)는 평균 [[282_performance_tactics|성능]]과 불확실성을 함께 보며 아직 덜 탐색된 영역에 기회를 준다.
+이 과정에서 Gaussian [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) (GP)는 저차원 연속 공간에서 불확실성 표현이 뛰어나고, TPE (Tree-structured Parzen Estimator)는 혼합형·조건부 공간에서 실무 적응력이 좋다. 획득 함수도 역할이 다르다. Expected Improvement (EI)는 현재 최고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 얼마나 더 좋아질지를 기대값으로 계산하고, Upper [Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) Bound (UCB)는 평균 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 불확실성을 함께 보며 아직 덜 탐색된 영역에 기회를 준다.
 
-중요한 포인트는 베이지안 최적화가 단순히 "좋아 보이는 점"만 고르지 않는다는 점이다. 이미 좋아 보이는 근처를 더 파는 **활용(exploitation)**과, 아직 정보가 적지만 잠재력이 있을 수 있는 영역을 보는 **탐색([[315_exploration_exploitation|exploration]])**을 동시에 관리한다. 이 균형이 무너지면 지역 최적해에 갇히거나, 반대로 실험을 너무 흩뿌려 효율을 잃는다.
+중요한 포인트는 베이지안 최적화가 단순히 "좋아 보이는 점"만 고르지 않는다는 점이다. 이미 좋아 보이는 근처를 더 파는 **활용(exploitation)**과, 아직 정보가 적지만 잠재력이 있을 수 있는 영역을 보는 **탐색([exploration](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/))**을 동시에 관리한다. 이 균형이 무너지면 지역 최적해에 갇히거나, 반대로 실험을 너무 흩뿌려 효율을 잃는다.
 
 - **📢 섹션 요약 비유**: 대리 모델은 부동산 중개 지도의 시세 예측이고, 획득 함수는 "지금 당장 살 만한 집"과 "아직 안 가봤지만 크게 오를 동네" 사이에서 다음 방문지를 정하는 의사결정자다.
 
@@ -84,19 +88,19 @@ AutoML에서 하이퍼파라미터 최적화(Hyperparameter Optimization, HPO)�
 
 ## Ⅲ. 비교 및 연결
 
-베이지안 탐색의 강점은 실험당 비용이 높을수록 더 분명해진다. 반대로 [[430_index_fast_full_scan|병렬]] 실험을 수백 개 동시에 돌릴 수 있고 각 실험이 매우 싸다면, 단순 Random Search나 Latin [[391_hypercube|Hypercube]] Sampling이 운영상 더 편할 수 있다. 따라서 HPO는 "무조건 최신 [[001_algorithm_definition|알고리즘]]"이 아니라 **예산 구조와 워크로드 특성에 맞는 탐색 [[268_strategy_pattern|전략]] 선택**이 핵심이다.
+베이지안 탐색의 강점은 실험당 비용이 높을수록 더 분명해진다. 반대로 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실험을 수백 개 동시에 돌릴 수 있고 각 실험이 매우 싸다면, 단순 Random Search나 Latin [Hypercube](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/391_hypercube/) Sampling이 운영상 더 편할 수 있다. 따라서 HPO는 "무조건 최신 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)"이 아니라 **예산 구조와 워크로드 특성에 맞는 탐색 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 선택**이 핵심이다.
 
-| 방법 | 샘플 효율 | 자원 효율 | [[430_index_fast_full_scan|병렬]] 친화성 | 잘 맞는 상황 |
+| 방법 | 샘플 효율 | 자원 효율 | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 친화성 | 잘 맞는 상황 |
 | :--- | :--- | :--- | :--- | :--- |
-| [[251_grid_search_random_search|Grid Search]] | 낮음 | 낮음 | 높음 | 파라미터 수가 매우 적고 범위가 좁을 때 |
-| Random Search | 중간 | 중간 | 높음 | 빠른 [[025_baseline|기준선]], 고차원 공간의 [[459_quic_fec_forward_error_correction|초기]] 탐색 |
+| [Grid Search](/knowledge-base/studynote/10_ai/03_llm_nlp/251_grid_search_random_search/) | 낮음 | 낮음 | 높음 | 파라미터 수가 매우 적고 범위가 좁을 때 |
+| Random Search | 중간 | 중간 | 높음 | 빠른 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/), 고차원 공간의 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 탐색 |
 | Bayesian Optimization | 높음 | 중간 | 낮음~중간 | 1회 실험이 비싸고 순차 학습 가치가 클 때 |
-| Hyperband | 중간 | 높음 | 높음 | [[281_early_stopping|조기 종료]]가 가능한 학습형 모델 |
-| BOHB (Bayesian Optimization and HyperBand) | 높음 | 높음 | 중간~높음 | 딥러닝·[[136_variance|분산]] 환경에서 탐색과 [[281_early_stopping|조기 종료]]를 함께 쓸 때 |
+| Hyperband | 중간 | 높음 | 높음 | [조기 종료](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/)가 가능한 학습형 모델 |
+| BOHB (Bayesian Optimization and HyperBand) | 높음 | 높음 | 중간~높음 | 딥러닝·[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 탐색과 [조기 종료](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/)를 함께 쓸 때 |
 
-AutoML 전체 그림에서 베이지안 HPO는 독립 [[192_module_independence|모듈]]이 아니라 전처리, 모델 선택, [[247_feature_label_variables|피처]] [[087_process_state_transition|생성]], 실험 추적과 연결된다. [[247_feature_label_variables|피처]]가 잘못 설계되면 HPO가 아무리 좋아도 상한선이 낮고, 평가 지표가 비즈니스 목표와 어긋나면 "최적화"가 오히려 잘못된 방향으로 갈 수 있다. 그래서 HPO는 AutoML의 중심이지만, [[001_dikw_pyramid|데이터]] 파이프라인과 실험 거버넌스 위에 올라가는 계층으로 이해해야 한다.
+AutoML 전체 그림에서 베이지안 HPO는 독립 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 아니라 전처리, 모델 선택, [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 실험 추적과 연결된다. [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)가 잘못 설계되면 HPO가 아무리 좋아도 상한선이 낮고, 평가 지표가 비즈니스 목표와 어긋나면 "최적화"가 오히려 잘못된 방향으로 갈 수 있다. 그래서 HPO는 AutoML의 중심이지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파이프라인과 실험 거버넌스 위에 올라가는 계층으로 이해해야 한다.
 
-또한 Neural [[319_architecture|Architecture]] Search ([[492_nas_network_attached_storage|NAS]])는 모델 구조 자체를 바꾸는 문제이고, 베이지안 HPO는 구조가 정해진 뒤 세부 [[009_config|설정]]을 다듬는 문제다. 둘을 섞어 말하면 범위가 흐려진다. 기술사 답안에서는 이 경계를 분명히 해 두는 편이 좋다.
+또한 Neural [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Search ([NAS](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/))는 모델 구조 자체를 바꾸는 문제이고, 베이지안 HPO는 구조가 정해진 뒤 세부 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 다듬는 문제다. 둘을 섞어 말하면 범위가 흐려진다. 기술사 답안에서는 이 경계를 분명히 해 두는 편이 좋다.
 
 - **📢 섹션 요약 비유**: 베이지안 HPO는 좋은 자동차를 산 뒤 서스펜션과 타이어 압력을 맞추는 작업이고, NAS는 차체와 엔진 구조 자체를 새로 설계하는 작업이다.
 
@@ -104,41 +108,41 @@ AutoML 전체 그림에서 베이지안 HPO는 독립 [[192_module_independence|
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무 의사결정의 출발점은 "실험 1회가 얼마나 비싼가"와 "중간 성적을 보고 일찍 자를 수 있는가"다. 예를 들어 표형 [[001_dikw_pyramid|데이터]] 기반 Gradient Boosting은 한 번 평가하는 데 수분~수십 분이면 끝나므로 TPE 기반 베이지안 탐색이 잘 맞는다. 반면 딥러닝은 epoch 초반 곡선만 보고도 탈락시킬 수 있는 경우가 많아 Asynchronous Successive [[062_bitcoin_halving_supply_shock|Halving]] [[001_algorithm_definition|Algorithm]] (ASHA)나 BOHB가 더 실용적이다.
+실무 의사결정의 출발점은 "실험 1회가 얼마나 비싼가"와 "중간 성적을 보고 일찍 자를 수 있는가"다. 예를 들어 표형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 Gradient Boosting은 한 번 평가하는 데 수분~수십 분이면 끝나므로 TPE 기반 베이지안 탐색이 잘 맞는다. 반면 딥러닝은 epoch 초반 곡선만 보고도 탈락시킬 수 있는 경우가 많아 Asynchronous Successive [Halving](/knowledge-base/studynote/06_ict_convergence/01_blockchain/062_bitcoin_halving_supply_shock/) [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (ASHA)나 BOHB가 더 실용적이다.
 
 | 시나리오 | 권장 방식 | 이유 |
 | :--- | :--- | :--- |
-| 탭형 [[001_dikw_pyramid|데이터]], 수십~수백 trials | TPE 기반 Bayesian Optimization | 조건부 파라미터와 혼합형 공간 처리에 유리 |
+| 탭형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 수십~수백 trials | TPE 기반 Bayesian Optimization | 조건부 파라미터와 혼합형 공간 처리에 유리 |
 | 저차원 연속형 파라미터, 고비용 실험 | GP 기반 Bayesian Optimization | 불확실성 추정이 정교함 |
-| 딥러닝, epoch 기반 [[281_early_stopping|조기 종료]] 가능 | ASHA / Hyperband / BOHB | 자원 낭비를 크게 줄임 |
-| 값싼 실험을 대규모 [[430_index_fast_full_scan|병렬]] 처리 | Random Search + 제약 조건 | 순차형 베이지안의 이점이 줄어듦 |
+| 딥러닝, epoch 기반 [조기 종료](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/) 가능 | ASHA / Hyperband / BOHB | 자원 낭비를 크게 줄임 |
+| 값싼 실험을 대규모 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 | Random Search + 제약 조건 | 순차형 베이지안의 이점이 줄어듦 |
 | 정확도와 추론 지연을 함께 봐야 함 | 다목적 Bayesian Optimization | 단일 점수 최적화의 함정 회피 |
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 탐색 전에 목적 지표와 예산(시간, [[418_gpu|GPU]], trial 수)을 먼저 고정했는가?
-2. [[001_dikw_pyramid|데이터]] 분할, 시드, 전처리 버전을 실험 기록과 함께 남기는가?
+1. 탐색 전에 목적 지표와 예산(시간, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), trial 수)을 먼저 고정했는가?
+2. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분할, 시드, 전처리 버전을 실험 기록과 함께 남기는가?
 3. 불가능한 파라미터 조합을 search space에서 미리 제거했는가?
-4. [[281_early_stopping|조기 종료]]를 쓰더라도 최종 후보는 충분한 자원으로 재평가하는가?
+4. [조기 종료](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/)를 쓰더라도 최종 후보는 충분한 자원으로 재평가하는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 테스트셋 [[282_performance_tactics|성능]]을 직접 최적화해 [[001_dikw_pyramid|데이터]] 누수를 만드는 경우
-- [[080_gradient_descent_learning_rate|학습률]], [[093_normalization|정규화]] 범위를 근거 없이 무한정 넓게 잡는 경우
+- 테스트셋 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 직접 최적화해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 누수를 만드는 경우
+- [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/), [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 범위를 근거 없이 무한정 넓게 잡는 경우
 - 비용이 다른 모델들을 단일 정확도만으로 비교하는 경우
-- 실험 추적 없이 "좋아 보였던 [[009_config|설정]]"만 수동 메모하는 경우
+- 실험 추적 없이 "좋아 보였던 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)"만 수동 메모하는 경우
 
-베이지안 HPO는 도구보다 운영 습관이 더 중요하다. Optuna, Ray Tune, Vertex [[190_ai_llm_requirements_specification|AI]] Vizier 같은 플랫폼을 써도 평가 지표가 흔들리거나 [[001_dikw_pyramid|데이터]] 버전이 달라지면 탐색 결과는 금방 신뢰를 잃는다. 그래서 HPO는 탐색 [[001_algorithm_definition|알고리즘]]과 [[220_mlops_machine_learning_operations|Machine Learning Operations]] ([[348_mlops|MLOps]]) 재현성 체계를 함께 설계해야 한다.
+베이지안 HPO는 도구보다 운영 습관이 더 중요하다. Optuna, Ray Tune, Vertex [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Vizier 같은 플랫폼을 써도 평가 지표가 흔들리거나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 버전이 달라지면 탐색 결과는 금방 신뢰를 잃는다. 그래서 HPO는 탐색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)과 [Machine Learning Operations](/knowledge-base/studynote/12_it_management/05_security_compliance/220_mlops_machine_learning_operations/) ([MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/)) 재현성 체계를 함께 설계해야 한다.
 
-- **📢 섹션 요약 비유**: 좋은 탐색기는 나침반만 좋은 사람이 아니라, 지도 기록과 연료 계산을 함께 하는 원정대장이다. [[001_algorithm_definition|알고리즘]]이 좋아도 기록이 엉망이면 같은 길을 다시 잃는다.
+- **📢 섹션 요약 비유**: 좋은 탐색기는 나침반만 좋은 사람이 아니라, 지도 기록과 연료 계산을 함께 하는 원정대장이다. [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 좋아도 기록이 엉망이면 같은 길을 다시 잃는다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-베이지안 기반 AutoML HPO를 도입하면 적은 실험으로 더 나은 모델 [[009_config|설정]]을 찾을 가능성이 높아진다. 이는 단순히 정확도를 올리는 것뿐 아니라, 모델 [[282_performance_tactics|성능]] 개선 속도·컴퓨팅 예산 통제·실험 재현성까지 함께 끌어올린다. 특히 조직 차원에서는 "누가 튜닝을 잘하느냐"를 "어떤 탐색 체계를 운영하느냐"로 바꾸는 효과가 크다.
+베이지안 기반 AutoML HPO를 도입하면 적은 실험으로 더 나은 모델 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 찾을 가능성이 높아진다. 이는 단순히 정확도를 올리는 것뿐 아니라, 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 개선 속도·컴퓨팅 예산 통제·실험 재현성까지 함께 끌어올린다. 특히 조직 차원에서는 "누가 튜닝을 잘하느냐"를 "어떤 탐색 체계를 운영하느냐"로 바꾸는 효과가 크다.
 
-하지만 만능은 아니다. [[001_dikw_pyramid|데이터]] 품질이 낮거나 [[247_feature_label_variables|피처]] 설계가 잘못된 상황에서는 HPO가 구조적 문제를 덮어 주지 못한다. 또 순차성이 강한 베이지안 탐색은 매우 큰 [[430_index_fast_full_scan|병렬]] 클러스터에서는 효율이 떨어질 수 있고, 노이즈가 큰 [[395_verification_process_review|검증]] 점수는 잘못된 사후분포를 만들 수 있다.
+하지만 만능은 아니다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질이 낮거나 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 설계가 잘못된 상황에서는 HPO가 구조적 문제를 덮어 주지 못한다. 또 순차성이 강한 베이지안 탐색은 매우 큰 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 클러스터에서는 효율이 떨어질 수 있고, 노이즈가 큰 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 점수는 잘못된 사후분포를 만들 수 있다.
 
 앞으로는 메타러닝 기반 warm start, 정확도와 비용을 동시에 다루는 다목적 최적화, 제약식이 있는 운영 환경을 반영한 constrained Bayesian Optimization이 더 중요해질 것이다. 따라서 이 주제는 "자동으로 다 해준다"보다 **비싼 실험 예산을 정보량 높은 순서로 배분하는 지능형 탐색**으로 기억하는 편이 정확하다.
 
@@ -150,12 +154,12 @@ AutoML 전체 그림에서 베이지안 HPO는 독립 [[192_module_independence|
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| HPO (Hyperparameter Optimization) | 모델 외부 [[009_config|설정]]값을 최적화하는 AutoML의 핵심 [[192_module_independence|모듈]] |
-| Bayesian Optimization | 비싼 목적함수를 [[130_probability|확률]] 모델로 근사해 다음 실험을 선택하는 방식 |
-| Gaussian [[300_process|Process]] | 저차원 연속 탐색에서 불확실성 표현이 강한 대리 모델 |
+| HPO (Hyperparameter Optimization) | 모델 외부 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)값을 최적화하는 AutoML의 핵심 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) |
+| Bayesian Optimization | 비싼 목적함수를 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 모델로 근사해 다음 실험을 선택하는 방식 |
+| Gaussian [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) | 저차원 연속 탐색에서 불확실성 표현이 강한 대리 모델 |
 | TPE (Tree-structured Parzen Estimator) | 혼합형·조건부 파라미터 공간에 강한 실무형 대리 모델 |
-| Hyperband | [[281_early_stopping|조기 종료]]로 자원 낭비를 줄이는 탐색 [[079_kube_scheduler_pod_placement|스케줄러]] |
-| BOHB (Bayesian Optimization and HyperBand) | 샘플 효율과 자원 효율을 함께 노리는 결합형 [[268_strategy_pattern|전략]] |
+| Hyperband | [조기 종료](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/)로 자원 낭비를 줄이는 탐색 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) |
+| BOHB (Bayesian Optimization and HyperBand) | 샘플 효율과 자원 효율을 함께 노리는 결합형 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -192,7 +196,7 @@ BOHB · 다목적 AutoML · 메타러닝 Warm Start
 
 **진행 상황**: 176 / 258
 
-← **이전**: [[175_rlhf_ranking_reward_model_human_labeler|175. Reinforcement Learning from Human Feedback (RLHF) 기반 랭킹 선호 모델과 인간 라벨러]]
-**다음**: [[177_delta_lakehouse_time_travel_transaction|177. 델타 레이크하우스 (Delta Lakehouse) - Time Travel과 트랜잭션]] →
+← **이전**: [175. Reinforcement Learning from Human Feedback (RLHF) 기반 랭킹 선호 모델과 인간 라벨러](/knowledge-base/studynote/14_data_engineering/04_mlops/175_rlhf_ranking_reward_model_human_labeler/)
+**다음**: [177. 델타 레이크하우스 (Delta Lakehouse) - Time Travel과 트랜잭션](/knowledge-base/studynote/14_data_engineering/04_mlops/177_delta_lakehouse_time_travel_transaction/) →
 
 ---

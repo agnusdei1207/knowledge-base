@@ -1,18 +1,22 @@
----
-title: 048. 컴플라이언스 애즈 코드 — Compliance as Code
-date: '2026-04-05'
-tags:
-- studynote-it-management
----
++++
+title = "048. 컴플라이언스 애즈 코드 — Compliance as Code"
+date = 2026-04-05
+
+[taxonomies]
+tags = ["studynote-it-management"]
+
+[extra]
+tags = ["studynote-it-management"]
++++
 
 > **핵심 인사이트**
-> 1. [[058_it_compliance_sox_basel_gdpr_isms|Compliance]] [[344_as_autonomous_system_asn|as]] [[082_process_memory_structure|Code]]([[525_compliance_as_code_automation|컴플라이언스 애즈 코드]])는 규정 준수 정책을 코드로 표현하여 자동화된 검사와 집행을 실현 — [[606_auditing_linux_auditd|감사]]자가 수동으로 확인하는 전통 컴플라이언스 대신, 인프라 변경 시마다 코드로 정의된 정책을 자동 검사하여 지속적 규정 준수를 보장한다.
-> 2. [[164_policy|Policy]] [[344_as_autonomous_system_asn|as]] Code와 Infrastructure [[344_as_autonomous_system_asn|as]] Code의 교차점 — IaC로 인프라를 코드화하면 자연스럽게 정책도 코드로 표현 가능해지며, [[237_opa_open_policy_agent_gatekeeper|Open Policy Agent]]([[237_opa_open_policy_agent_gatekeeper|OPA]])·AWS [[009_config|Config]] Rules·Azure [[164_policy|Policy]] 등이 이 패러다임을 구현한다.
-> 3. [[242_shift_left_sdlc|Shift-Left]] Compliance의 핵심 가치 — 운영 중 [[606_auditing_linux_auditd|감사]] 발견에서 개발/배포 단계로 컴플라이언스 검사 시점을 당기면, 비용과 시간이 100배 이상 절감되고 개발 속도도 저해되지 않는다.
+> 1. [Compliance](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)([컴플라이언스 애즈 코드](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/525_compliance_as_code_automation/))는 규정 준수 정책을 코드로 표현하여 자동화된 검사와 집행을 실현 — [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)자가 수동으로 확인하는 전통 컴플라이언스 대신, 인프라 변경 시마다 코드로 정의된 정책을 자동 검사하여 지속적 규정 준수를 보장한다.
+> 2. [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) Code와 Infrastructure [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) Code의 교차점 — IaC로 인프라를 코드화하면 자연스럽게 정책도 코드로 표현 가능해지며, [Open Policy Agent](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/)([OPA](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/))·AWS [Config](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) Rules·Azure [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 등이 이 패러다임을 구현한다.
+> 3. [Shift-Left](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) Compliance의 핵심 가치 — 운영 중 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 발견에서 개발/배포 단계로 컴플라이언스 검사 시점을 당기면, 비용과 시간이 100배 이상 절감되고 개발 속도도 저해되지 않는다.
 
 ---
 
-## Ⅰ. [[058_it_compliance_sox_basel_gdpr_isms|Compliance]] [[344_as_autonomous_system_asn|as]] [[082_process_memory_structure|Code]] 개요
+## Ⅰ. [Compliance](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 개요
 
 ```
 전통 컴플라이언스 vs Compliance as Code:
@@ -50,11 +54,11 @@ Compliance as Code:
   "컴플라이언스 = 코드 빌드 테스트와 동일 레벨"
 ```
 
-> 📢 **섹션 요약 비유**: [[058_it_compliance_sox_basel_gdpr_isms|Compliance]] [[344_as_autonomous_system_asn|as]] [[082_process_memory_structure|Code]] = 자동 [[130_signal|신호]]등 — 전통(교통 경찰이 주기적으로 점검). CaC([[130_signal|신호]] 위반 시 즉시 카메라로 탐지+통보). 속도 위반 없이 실시간 집행!
+> 📢 **섹션 요약 비유**: [Compliance](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) = 자동 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등 — 전통(교통 경찰이 주기적으로 점검). CaC([신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 위반 시 즉시 카메라로 탐지+통보). 속도 위반 없이 실시간 집행!
 
 ---
 
-## Ⅱ. [[237_opa_open_policy_agent_gatekeeper|OPA]] ([[237_opa_open_policy_agent_gatekeeper|Open Policy Agent]])
+## Ⅱ. [OPA](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/) ([Open Policy Agent](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/))
 
 ```
 OPA (Open Policy Agent):
@@ -110,11 +114,11 @@ OPA 통합 포인트:
   API 게이트웨이: Envoy + OPA
 ```
 
-> 📢 **섹션 요약 비유**: [[237_opa_open_policy_agent_gatekeeper|OPA]] = 법전 코드화 — "특권 [[561_container_based_deployment|컨테이너]] 금지(법)"를 Rego 코드로. [[561_container_based_deployment|컨테이너]] 배포 시 자동으로 법전 검사. 위반 즉시 거부. [[606_auditing_linux_auditd|감사]]관 없이도 24×7 법 집행!
+> 📢 **섹션 요약 비유**: [OPA](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/) = 법전 코드화 — "특권 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 금지(법)"를 Rego 코드로. [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 배포 시 자동으로 법전 검사. 위반 즉시 거부. [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)관 없이도 24×7 법 집행!
 
 ---
 
-## Ⅲ. AWS [[009_config|Config]] + [[283_security_tactics|Security]] [[152_hub_dummy_switching_intelligent|Hub]]
+## Ⅲ. AWS [Config](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) + [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) [Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)
 
 ```
 AWS Config:
@@ -161,11 +165,11 @@ AWS Security Hub:
   IAM 비밀번호 정책 위반 → 자동 정책 업데이트
 ```
 
-> 📢 **섹션 요약 비유**: AWS [[009_config|Config]] = 자동 건물 점검 로봇 — S3 문(버킷) 열렸나 매초 감시. 열리면 즉시 닫음(자동 교정) + 관리자 알림. 24×7 자동 규정 준수!
+> 📢 **섹션 요약 비유**: AWS [Config](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) = 자동 건물 점검 로봇 — S3 문(버킷) 열렸나 매초 감시. 열리면 즉시 닫음(자동 교정) + 관리자 알림. 24×7 자동 규정 준수!
 
 ---
 
-## Ⅳ. [[195_terraform_hashicorp_agnostic_aws_gcp|Terraform]] Sentinel
+## Ⅳ. [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) Sentinel
 
 ```
 Terraform Sentinel:
@@ -219,7 +223,7 @@ Conftest (오픈소스 대안):
   Terraform Cloud 없이도 사용 가능
 ```
 
-> 📢 **섹션 요약 비유**: [[195_terraform_hashicorp_agnostic_aws_gcp|Terraform]] Sentinel = 공사 착공 전 허가 — 설계도([[195_terraform_hashicorp_agnostic_aws_gcp|Terraform]] plan) 제출 시 법규 자동 검사. 태그 없음(필수 서류 미비) → 착공 불허. 공사 중 문제가 아닌 착공 전 예방!
+> 📢 **섹션 요약 비유**: [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) Sentinel = 공사 착공 전 허가 — 설계도([Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) plan) 제출 시 법규 자동 검사. 태그 없음(필수 서류 미비) → 착공 불허. 공사 중 문제가 아닌 착공 전 예방!
 
 ---
 
@@ -272,7 +276,7 @@ CaC 구축:
   지적 사항: 3건 → 0건
 ```
 
-> 📢 **섹션 요약 비유**: 핀테크 CaC = 자동 규정 준수 비서 — 코드 배포 시 규정집 자동 대조, 위반 즉시 차단, 대시보드로 실시간 점수. [[606_auditing_linux_auditd|감사]] 준비 2주 → 1일. 개발자도 "미리 알려줘서 좋아요"!
+> 📢 **섹션 요약 비유**: 핀테크 CaC = 자동 규정 준수 비서 — 코드 배포 시 규정집 자동 대조, 위반 즉시 차단, 대시보드로 실시간 점수. [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 준비 2주 → 1일. 개발자도 "미리 알려줘서 좋아요"!
 
 ---
 
@@ -333,9 +337,9 @@ LLM 기반 정책 생성
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [[058_it_compliance_sox_basel_gdpr_isms|Compliance]] [[344_as_autonomous_system_asn|as]] [[082_process_memory_structure|Code]] = 자동 [[130_signal|신호]]등 — 전통(경찰관 주기 점검) vs CaC(카메라 24시간 감시 + 위반 즉시 통보). 실시간 규정 준수!
-2. [[237_opa_open_policy_agent_gatekeeper|OPA]] Rego = 법전 코드화 — "특권 [[561_container_based_deployment|컨테이너]] 금지"를 코드로. 배포 시 자동 법전 검사. 위반 즉시 거부!
-3. [[242_shift_left_sdlc|Shift-Left]] [[058_it_compliance_sox_basel_gdpr_isms|Compliance]] = 출발 전 점검 — 운영 중 발견(100배 비용) 대신 배포 전 CI에서 발견(1 비용). 미리 고치면 싸요!
+1. [Compliance](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) = 자동 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등 — 전통(경찰관 주기 점검) vs CaC(카메라 24시간 감시 + 위반 즉시 통보). 실시간 규정 준수!
+2. [OPA](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/) Rego = 법전 코드화 — "특권 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 금지"를 코드로. 배포 시 자동 법전 검사. 위반 즉시 거부!
+3. [Shift-Left](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) [Compliance](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/) = 출발 전 점검 — 운영 중 발견(100배 비용) 대신 배포 전 CI에서 발견(1 비용). 미리 고치면 싸요!
 
 ---
 
@@ -343,7 +347,7 @@ LLM 기반 정책 생성
 
 **진행 상황**: 87 / 587
 
-← **이전**: [[047_it_compliance_gdpr_sox_control_framework|047. IT 컴플라이언스 — GDPR·SOX·통제 프레임워크]]
-**다음**: [[049_shadow_it|49. 섀도우 IT (Shadow IT)]] →
+← **이전**: [047. IT 컴플라이언스 — GDPR·SOX·통제 프레임워크](/knowledge-base/studynote/12_it_management/01_governance_strategy/047_it_compliance_gdpr_sox_control_framework/)
+**다음**: [49. 섀도우 IT (Shadow IT)](/knowledge-base/studynote/12_it_management/01_governance_strategy/049_shadow_it/) →
 
 ---

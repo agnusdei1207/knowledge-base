@@ -1,36 +1,40 @@
----
-title: 23. EA 기반 감리 (EA-based Information System Audit)
-date: '2026-04-29'
-tags:
-- studynote-design-supervision
----
++++
+title = "23. EA 기반 감리 (EA-based Information System Audit)"
+date = 2026-04-29
+
+[taxonomies]
+tags = ["studynote-design-supervision"]
+
+[extra]
+tags = ["studynote-design-supervision"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [[110_enterprise_architecture_ea|EA]] ([[010_ea_enterprise_architecture|Enterprise Architecture]], [[242_ea_architecture_planning|전사 아키텍처]]) 기반 감리는 개별 정보시스템 프로젝트가 기관 전체의 비즈니스·[[001_dikw_pyramid|데이터]]·[[106_ta_as_is_analysis|기술 아키텍처]] **[[116_reference_model|참조 모델]]([[117_brm_business_reference_model|BRM]]·[[119_drm_data_reference_model_standard|DRM]]·[[118_srm_service_reference_model|SRM]]·[[120_trm_technical_reference_model|TRM]]·[[121_prm_performance_reference_model_it_roi|PRM]])에 정렬(Alignment)되었는지**를 [[395_verification_process_review|검증]]함으로써 중복 투자·[[001_dikw_pyramid|데이터]] [[002_silo_hyeonhyung|사일로]]·[[287_interoperability_tactics|상호운용성]] [[352_defect_definition|결함]]을 원천 차단하는 거시적 감리 체계다.
-> 2. **가치**: 기존 감리가 "이 시스템이 요구사항대로 동작하는가?"(내부 [[003_integrity|무결성]])를 따졌다면, [[110_enterprise_architecture_ea|EA]] 기반 감리는 "이 시스템이 전사 생태계와 유기적으로 통합되는가?"([[084_blockchain_interoperability_polkadot_cosmos|Interoperability]])를 따지며 **수백억 규모 공공 SI 사업의 중복 투자와 레거시 파편화**를 방어한다.
-> 3. **판단 포인트**: "신규 시스템의 DB 컬럼명이 기관 표준 단어 사전([[119_drm_data_reference_model_standard|DRM]])에 등재된 용어를 사용하는가?"—이 하나의 질문이 [[110_enterprise_architecture_ea|EA]] 감리의 핵심 척도이며, 위반 시 산출물 전체를 [[352_defect_definition|결함]](Fault) 처리해 대금 지급을 보류할 수 있는 강력한 제재 수단이다.
+> 1. **본질**: [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) ([Enterprise Architecture](/knowledge-base/studynote/12_it_management/01_governance_strategy/010_ea_enterprise_architecture/), [전사 아키텍처](/knowledge-base/studynote/12_it_management/05_security_compliance/242_ea_architecture_planning/)) 기반 감리는 개별 정보시스템 프로젝트가 기관 전체의 비즈니스·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·[기술 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/) **[참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/)([BRM](/knowledge-base/studynote/12_it_management/03_ea_isp/117_brm_business_reference_model/)·[DRM](/knowledge-base/studynote/12_it_management/03_ea_isp/119_drm_data_reference_model_standard/)·[SRM](/knowledge-base/studynote/12_it_management/03_ea_isp/118_srm_service_reference_model/)·[TRM](/knowledge-base/studynote/12_it_management/03_ea_isp/120_trm_technical_reference_model/)·[PRM](/knowledge-base/studynote/12_it_management/03_ea_isp/121_prm_performance_reference_model_it_roi/))에 정렬(Alignment)되었는지**를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)함으로써 중복 투자·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)·[상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/) [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 원천 차단하는 거시적 감리 체계다.
+> 2. **가치**: 기존 감리가 "이 시스템이 요구사항대로 동작하는가?"(내부 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))를 따졌다면, [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 기반 감리는 "이 시스템이 전사 생태계와 유기적으로 통합되는가?"([Interoperability](/knowledge-base/studynote/06_ict_convergence/01_blockchain/084_blockchain_interoperability_polkadot_cosmos/))를 따지며 **수백억 규모 공공 SI 사업의 중복 투자와 레거시 파편화**를 방어한다.
+> 3. **판단 포인트**: "신규 시스템의 DB 컬럼명이 기관 표준 단어 사전([DRM](/knowledge-base/studynote/12_it_management/03_ea_isp/119_drm_data_reference_model_standard/))에 등재된 용어를 사용하는가?"—이 하나의 질문이 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 감리의 핵심 척도이며, 위반 시 산출물 전체를 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)(Fault) 처리해 대금 지급을 보류할 수 있는 강력한 제재 수단이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[[110_enterprise_architecture_ea|EA]] ([[010_ea_enterprise_architecture|Enterprise Architecture]]) 기반 감리는 [[187_information_system_audit|정보시스템 감리]] 시 단순 프로젝트 요구사항 충족 여부를 넘어, 기관이 수립한 [[242_ea_architecture_planning|전사 아키텍처]] 표준([[110_enterprise_architecture_ea|EA]] [[116_reference_model|참조 모델]])과의 **정합성(Alignment)**을 [[395_verification_process_review|검증]]하는 감리 방법론이다.
+[EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) ([Enterprise Architecture](/knowledge-base/studynote/12_it_management/01_governance_strategy/010_ea_enterprise_architecture/)) 기반 감리는 [정보시스템 감리](/knowledge-base/studynote/12_it_management/05_security_compliance/187_information_system_audit/) 시 단순 프로젝트 요구사항 충족 여부를 넘어, 기관이 수립한 [전사 아키텍처](/knowledge-base/studynote/12_it_management/05_security_compliance/242_ea_architecture_planning/) 표준([EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/))과의 **정합성(Alignment)**을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 감리 방법론이다.
 
-### 1. 개별 단위 감리의 실패 — IT [[002_silo_hyeonhyung|사일로]]([[002_silo_hyeonhyung|Silo]])의 탄생
+### 1. 개별 단위 감리의 실패 — IT [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/))의 탄생
 
 2000년대 초반 대기업·공공기관의 전형적인 IT 투자 패턴을 보자.
 
-- **재무팀**: 자체 [[081_erp_enterprise_resource_planning|ERP]] ([[081_erp_enterprise_resource_planning|Enterprise Resource Planning]]) 결제 [[192_module_independence|모듈]] 개발 → 감리 합격
-- **영업팀**: 별도 [[107_crm_customer_relationship_management|CRM]] ([[026_three_c_analysis|Customer]] [[083_relationship_in_er_model|Relationship]] [[372_management|Management]]) 결제 [[192_module_independence|모듈]] 개발 → 감리 합격
-- **인사팀**: 독립 HR 결제 [[192_module_independence|모듈]] 개발 → 감리 합격
+- **재무팀**: 자체 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) ([Enterprise Resource Planning](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)) 결제 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 개발 → 감리 합격
+- **영업팀**: 별도 [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) ([Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Relationship](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) 결제 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 개발 → 감리 합격
+- **인사팀**: 독립 HR 결제 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 개발 → 감리 합격
 
-결과: 3개 시스템 모두 요구사항을 충족하지만 서로 다른 DB [[005_schema|스키마]], 다른 코드 체계, 다른 인터페이스로 **5년 후 전사 통합 프로젝트에 100억 추가 투자 필요**.
+결과: 3개 시스템 모두 요구사항을 충족하지만 서로 다른 DB [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/), 다른 코드 체계, 다른 인터페이스로 **5년 후 전사 통합 프로젝트에 100억 추가 투자 필요**.
 
-각 단위 감리는 "방 안의 완벽한 가구"를 인증했지만, 방들이 모인 "아파트 전체의 배관"이 맞지 않는다는 사실을 아무도 [[396_validation|확인]]하지 않았다.
+각 단위 감리는 "방 안의 완벽한 가구"를 인증했지만, 방들이 모인 "아파트 전체의 배관"이 맞지 않는다는 사실을 아무도 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하지 않았다.
 
-### 2. [[110_enterprise_architecture_ea|EA]] 프레임워크 도입과 감리의 진화
+### 2. [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 도입과 감리의 진화
 
-[[015_ita_information_technology_architecture|ITA]] ([[015_ita_information_technology_architecture|Information Technology Architecture]]) 법 제정(2005) 이후, 범정부 [[110_enterprise_architecture_ea|EA]] ([[115_gea_government_ea_framework|GEA]], Government [[010_ea_enterprise_architecture|Enterprise Architecture]]) 체계가 수립되었다. 이에 따라 공공 정보화 사업의 감리는 단순 요구사항 [[395_verification_process_review|검증]]을 넘어 **[[110_enterprise_architecture_ea|EA]] [[116_reference_model|참조 모델]] 준수 여부 [[395_verification_process_review|검증]]**을 핵심 의무로 포함하게 되었다.
+[ITA](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/015_ita_information_technology_architecture/) ([Information Technology Architecture](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/015_ita_information_technology_architecture/)) 법 제정(2005) 이후, 범정부 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) ([GEA](/knowledge-base/studynote/12_it_management/03_ea_isp/115_gea_government_ea_framework/), Government [Enterprise Architecture](/knowledge-base/studynote/12_it_management/01_governance_strategy/010_ea_enterprise_architecture/)) 체계가 수립되었다. 이에 따라 공공 정보화 사업의 감리는 단순 요구사항 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 넘어 **[EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/) 준수 여부 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**을 핵심 의무로 포함하게 되었다.
 
 ```text
 ┌─────────────────────────────────────────────────────────┐
@@ -60,13 +64,13 @@ tags:
 └─────────────────────────────────────────────────────────┘
 ```
 
-📢 **섹션 요약 비유**: 기존 감리가 "각 방의 가구가 튼튼한지 검사"라면, [[110_enterprise_architecture_ea|EA]] 기반 감리는 "전국 건물 모두가 시청의 도시계획도([[110_enterprise_architecture_ea|EA]] [[116_reference_model|참조 모델]])에 맞게 지어졌는지, 상하수도([[001_dikw_pyramid|데이터]] 연계)가 도시 규격대로 연결되는지를 수석 도시 건축가가 [[396_validation|확인]]"하는 것이다.
+📢 **섹션 요약 비유**: 기존 감리가 "각 방의 가구가 튼튼한지 검사"라면, [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 기반 감리는 "전국 건물 모두가 시청의 도시계획도([EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/))에 맞게 지어졌는지, 상하수도([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연계)가 도시 규격대로 연결되는지를 수석 도시 건축가가 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)"하는 것이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 1. 범정부 [[110_enterprise_architecture_ea|EA]] ([[115_gea_government_ea_framework|GEA]]) 5대 [[116_reference_model|참조 모델]]과 감리 매핑
+### 1. 범정부 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) ([GEA](/knowledge-base/studynote/12_it_management/03_ea_isp/115_gea_government_ea_framework/)) 5대 [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/)과 감리 매핑
 
 ```text
 ┌──────────────────────────────────────────────────────────────────┐
@@ -96,9 +100,9 @@ tags:
 └──────────────────────────┴───────────────────────────────────────┘
 ```
 
-### 2. [[119_drm_data_reference_model_standard|DRM]] 기반 [[001_dikw_pyramid|데이터]] 표준 준수 [[395_verification_process_review|검증]] 메커니즘
+### 2. [DRM](/knowledge-base/studynote/12_it_management/03_ea_isp/119_drm_data_reference_model_standard/) 기반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 표준 준수 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 메커니즘
 
-[[119_drm_data_reference_model_standard|DRM]] ([[001_dikw_pyramid|Data]] [[116_reference_model|Reference Model]]) [[395_verification_process_review|검증]]이 [[110_enterprise_architecture_ea|EA]] 감리의 가장 빈번한 [[352_defect_definition|결함]] 발생 영역이다.
+[DRM](/knowledge-base/studynote/12_it_management/03_ea_isp/119_drm_data_reference_model_standard/) ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Reference Model](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/)) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 감리의 가장 빈번한 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발생 영역이다.
 
 ```text
 신규 DB 설계(ERD) 제출
@@ -125,91 +129,91 @@ tags:
 └──────────────────┘
 ```
 
-📢 **섹션 요약 비유**: [[119_drm_data_reference_model_standard|DRM]] [[395_verification_process_review|검증]]은 "도로 표지판 검사"와 같다. 전국의 모든 표지판이 "서울"을 제각각 다른 표기로 적으면 GPS([[001_dikw_pyramid|데이터]] 연계 시스템)가 먹통이 된다. DRM이 "전국 표준 지명 사전"이고, 감리원이 "표지판 표기 검사관"이다.
+📢 **섹션 요약 비유**: [DRM](/knowledge-base/studynote/12_it_management/03_ea_isp/119_drm_data_reference_model_standard/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 "도로 표지판 검사"와 같다. 전국의 모든 표지판이 "서울"을 제각각 다른 표기로 적으면 GPS([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연계 시스템)가 먹통이 된다. DRM이 "전국 표준 지명 사전"이고, 감리원이 "표지판 표기 검사관"이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 1. 일반 [[187_information_system_audit|정보시스템 감리]] vs [[110_enterprise_architecture_ea|EA]] 기반 감리 비교
+### 1. 일반 [정보시스템 감리](/knowledge-base/studynote/12_it_management/05_security_compliance/187_information_system_audit/) vs [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 기반 감리 비교
 
-| 비교 항목 | 일반 [[187_information_system_audit|정보시스템 감리]] | [[110_enterprise_architecture_ea|EA]] 기반 감리 |
+| 비교 항목 | 일반 [정보시스템 감리](/knowledge-base/studynote/12_it_management/05_security_compliance/187_information_system_audit/) | [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 기반 감리 |
 |:---|:---|:---|
-| **점검 기준** | RFP, SRS ([[149_software_requirements_specification_srs|소프트웨어 요구사항 명세서]]) | RFP + SRS + [[110_enterprise_architecture_ea|EA]] [[116_reference_model|참조 모델]] ([[120_trm_technical_reference_model|TRM]]/[[119_drm_data_reference_model_standard|DRM]] 등) |
-| **핵심 관점** | 단일 시스템 내부 [[003_integrity|무결성]] | 전사 시스템 간 [[287_interoperability_tactics|상호운용성]]·재사용성 |
-| **감리 시기 비중** | 구현·종료 단계 집중 | **기획([[101_isp_information_strategy_planning_4_steps|ISP]])·요구정의 단계에 역량 집중** |
-| **주요 [[352_defect_definition|결함]] 유형** | 요구사항 미반영, [[282_performance_tactics|성능]] 미달 | **표준 단어 위반, 공통 [[603_component_independent_deployment_unit|컴포넌트]] 미사용** |
-| **[[316_reference_pattern_nosql|참조]] 프레임워크** | 없음 (요구사항이 기준) | [[112_zachman_framework|Zachman Framework]], [[113_togaf|TOGAF]], [[115_gea_government_ea_framework|GEA]] |
-| **속도 vs 거버넌스** | 빠른 개발·유연성 우선 | **표준 준수 오버헤드 — 일정 [[015_지연_데이터_관점|지연]] [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]** |
+| **점검 기준** | RFP, SRS ([소프트웨어 요구사항 명세서](/knowledge-base/studynote/04_software_engineering/03_design_architecture/149_software_requirements_specification_srs/)) | RFP + SRS + [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/) ([TRM](/knowledge-base/studynote/12_it_management/03_ea_isp/120_trm_technical_reference_model/)/[DRM](/knowledge-base/studynote/12_it_management/03_ea_isp/119_drm_data_reference_model_standard/) 등) |
+| **핵심 관점** | 단일 시스템 내부 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) | 전사 시스템 간 [상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/)·재사용성 |
+| **감리 시기 비중** | 구현·종료 단계 집중 | **기획([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))·요구정의 단계에 역량 집중** |
+| **주요 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 유형** | 요구사항 미반영, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 미달 | **표준 단어 위반, 공통 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 미사용** |
+| **[참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 프레임워크** | 없음 (요구사항이 기준) | [Zachman Framework](/knowledge-base/studynote/12_it_management/03_ea_isp/112_zachman_framework/), [TOGAF](/knowledge-base/studynote/12_it_management/03_ea_isp/113_togaf/), [GEA](/knowledge-base/studynote/12_it_management/03_ea_isp/115_gea_government_ea_framework/) |
+| **속도 vs 거버넌스** | 빠른 개발·유연성 우선 | **표준 준수 오버헤드 — 일정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)** |
 
-### 2. [[110_enterprise_architecture_ea|EA]] 기반 감리의 핵심 트레이드오프
+### 2. [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 기반 감리의 핵심 트레이드오프
 
 **트레이드오프: 표준 거버넌스 vs 기술 혁신 속도 (Agility)**
 
-전사 TRM에 "[[188_pl_sql_t_sql_procedural|Oracle]] DB, Spring Framework만 표준"으로 등재된 상황에서 개발팀이 [[540_mongodb|MongoDB]] + Node.js 도입을 원한다면:
+전사 TRM에 "[Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) DB, Spring Framework만 표준"으로 등재된 상황에서 개발팀이 [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/) + Node.js 도입을 원한다면:
 
-- [[110_enterprise_architecture_ea|EA]] 감리원: "[[120_trm_technical_reference_model|TRM]] 위반 — 표준 목록에 없는 기술 → [[352_defect_definition|결함]] 처리"
-- 개발팀: "[[282_performance_tactics|성능]] 10배 차이 — [[540_mongodb|MongoDB]] 없이는 실시간 [[001_dikw_pyramid|데이터]] 처리 불가능"
+- [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 감리원: "[TRM](/knowledge-base/studynote/12_it_management/03_ea_isp/120_trm_technical_reference_model/) 위반 — 표준 목록에 없는 기술 → [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 처리"
+- 개발팀: "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 10배 차이 — [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/) 없이는 실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 불가능"
 
-→ 이 충돌이 [[110_enterprise_architecture_ea|EA]] 기반 감리의 본질적 딜레마. **[[120_trm_technical_reference_model|TRM]] 등재 기술 목록의 최신화 주기**가 거버넌스 효용성을 결정한다.
+→ 이 충돌이 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 기반 감리의 본질적 딜레마. **[TRM](/knowledge-base/studynote/12_it_management/03_ea_isp/120_trm_technical_reference_model/) 등재 기술 목록의 최신화 주기**가 거버넌스 효용성을 결정한다.
 
-📢 **섹션 요약 비유**: [[110_enterprise_architecture_ea|EA]] 감리는 "자동차 검사소"에 비유할 수 있다. 안전 기준([[120_trm_technical_reference_model|TRM]])에 맞는 차(시스템)만 도로(전사 인프라)에 올릴 수 있다. 문제는 1990년대 기준(낡은 [[120_trm_technical_reference_model|TRM]])으로 전기차(신기술)를 "배기가스 검사 항목 없음 — 불합격"으로 내치는 경직성이다. 검사 기준이 기술 변화를 따라가야 한다.
+📢 **섹션 요약 비유**: [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 감리는 "자동차 검사소"에 비유할 수 있다. 안전 기준([TRM](/knowledge-base/studynote/12_it_management/03_ea_isp/120_trm_technical_reference_model/))에 맞는 차(시스템)만 도로(전사 인프라)에 올릴 수 있다. 문제는 1990년대 기준(낡은 [TRM](/knowledge-base/studynote/12_it_management/03_ea_isp/120_trm_technical_reference_model/))으로 전기차(신기술)를 "배기가스 검사 항목 없음 — 불합격"으로 내치는 경직성이다. 검사 기준이 기술 변화를 따라가야 한다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 1. 공공 차세대 사업 감리 대응 [[435_checklist_based_testing|체크리스트]]
+### 1. 공공 차세대 사업 감리 대응 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 | 단계 | 필수 준비 항목 | 핵심 증적 자료 |
 |:---|:---|:---|
-| **기획([[101_isp_information_strategy_planning_4_steps|ISP]])** | [[110_enterprise_architecture_ea|EA]] 현행([[178_as_is_to_be_analysis|As-Is]]) 분석 및 목표(To-Be) 아키텍처 수립 | [[110_enterprise_architecture_ea|EA]] 아키텍처 전환 계획서 |
-| **요구정의** | 기능 요구사항 ↔ [[117_brm_business_reference_model|BRM]] 업무 [[104_classification_analysis|분류]] 매핑 | 기능 요구사항-[[117_brm_business_reference_model|BRM]] 매핑 매트릭스 |
-| **설계** | 테이블명·컬럼명 ↔ [[119_drm_data_reference_model_standard|DRM]] 표준 단어 사전 매핑 | [[119_drm_data_reference_model_standard|DRM]] 준수 [[395_verification_process_review|검증]] 엑셀 + ERD |
-| **구현** | eGovFrame (전자정부 표준 프레임워크) 적용 | 프레임워크 적용 [[396_validation|확인]]서 |
-| **시험** | [[120_trm_technical_reference_model|TRM]] 표준 기술 목록과 실제 도입 기술 대조 | HW/SW 구성도 + [[120_trm_technical_reference_model|TRM]] 매핑 표 |
+| **기획([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))** | [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 현행([As-Is](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)) 분석 및 목표(To-Be) 아키텍처 수립 | [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 아키텍처 전환 계획서 |
+| **요구정의** | 기능 요구사항 ↔ [BRM](/knowledge-base/studynote/12_it_management/03_ea_isp/117_brm_business_reference_model/) 업무 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 매핑 | 기능 요구사항-[BRM](/knowledge-base/studynote/12_it_management/03_ea_isp/117_brm_business_reference_model/) 매핑 매트릭스 |
+| **설계** | 테이블명·컬럼명 ↔ [DRM](/knowledge-base/studynote/12_it_management/03_ea_isp/119_drm_data_reference_model_standard/) 표준 단어 사전 매핑 | [DRM](/knowledge-base/studynote/12_it_management/03_ea_isp/119_drm_data_reference_model_standard/) 준수 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 엑셀 + ERD |
+| **구현** | eGovFrame (전자정부 표준 프레임워크) 적용 | 프레임워크 적용 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)서 |
+| **시험** | [TRM](/knowledge-base/studynote/12_it_management/03_ea_isp/120_trm_technical_reference_model/) 표준 기술 목록과 실제 도입 기술 대조 | HW/SW 구성도 + [TRM](/knowledge-base/studynote/12_it_management/03_ea_isp/120_trm_technical_reference_model/) 매핑 표 |
 
-### 2. 기술사 빈출 [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### 2. 기술사 빈출 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-**[[128_water_scrum_fall_anti_pattern|안티패턴]] 1: [[110_enterprise_architecture_ea|EA]] [[125_asis_update_ea_maintenance_synchronization|현행화]] [[015_지연_데이터_관점|지연]] ([[110_enterprise_architecture_ea|EA]] Repository 방치)**
-- 증상: [[110_enterprise_architecture_ea|EA]] 포털이 2015년 [[001_dikw_pyramid|데이터]]로 고정되어 실제 운영 시스템과 심각한 괴리. 감리원이 "현행 [[110_enterprise_architecture_ea|EA]] 기준 위반"을 남발.
-- 해결: [[110_enterprise_architecture_ea|EA]] Repository를 [[091_cmdb|CMDB]] ([[091_cmdb|Configuration Management Database]])와 연동, 시스템 변경 시 [[110_enterprise_architecture_ea|EA]] 자동 반영.
+**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 1: [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) [현행화](/knowledge-base/studynote/12_it_management/03_ea_isp/125_asis_update_ea_maintenance_synchronization/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) ([EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) Repository 방치)**
+- 증상: [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 포털이 2015년 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 고정되어 실제 운영 시스템과 심각한 괴리. 감리원이 "현행 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 기준 위반"을 남발.
+- 해결: [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) Repository를 [CMDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/091_cmdb/) ([Configuration Management Database](/knowledge-base/studynote/12_it_management/02_itsm_itil/091_cmdb/))와 연동, 시스템 변경 시 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 자동 반영.
 
-**[[128_water_scrum_fall_anti_pattern|안티패턴]] 2: [[119_drm_data_reference_model_standard|DRM]] 매핑 형식주의**
-- 증상: 컬럼명을 표준 단어로 변경했지만, 실제 [[001_dikw_pyramid|데이터]] 정의([[064_relation_domain|도메인]]·길이·코드 체계)는 기관 표준과 다름.
-- 해결: 컬럼명 + [[001_dikw_pyramid|데이터]] 타입 + 허용값 [[064_relation_domain|도메인]]까지 DRM과 전체 정합성 [[395_verification_process_review|검증]].
+**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 2: [DRM](/knowledge-base/studynote/12_it_management/03_ea_isp/119_drm_data_reference_model_standard/) 매핑 형식주의**
+- 증상: 컬럼명을 표준 단어로 변경했지만, 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정의([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)·길이·코드 체계)는 기관 표준과 다름.
+- 해결: 컬럼명 + [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입 + 허용값 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)까지 DRM과 전체 정합성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/).
 
-**[[128_water_scrum_fall_anti_pattern|안티패턴]] 3: [[120_trm_technical_reference_model|TRM]] 예외 처리 루프 남발**
-- 증상: 표준 목록에 없는 신기술마다 예외 승인 신청 → 예외가 일반화되어 [[120_trm_technical_reference_model|TRM]] 자체가 유명무실화.
-- 해결: [[120_trm_technical_reference_model|TRM]] 분기별 업데이트 의무화 + 예외 승인 건수 [[018_kpi|KPI]] 관리.
+**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 3: [TRM](/knowledge-base/studynote/12_it_management/03_ea_isp/120_trm_technical_reference_model/) 예외 처리 루프 남발**
+- 증상: 표준 목록에 없는 신기술마다 예외 승인 신청 → 예외가 일반화되어 [TRM](/knowledge-base/studynote/12_it_management/03_ea_isp/120_trm_technical_reference_model/) 자체가 유명무실화.
+- 해결: [TRM](/knowledge-base/studynote/12_it_management/03_ea_isp/120_trm_technical_reference_model/) 분기별 업데이트 의무화 + 예외 승인 건수 [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) 관리.
 
-📢 **섹션 요약 비유**: [[110_enterprise_architecture_ea|EA]] 감리 대응은 "건축 허가 신청"과 같다. 집(시스템)을 다 짓고 나서 구청(감리단)에 허가 신청하면 "이 동네는 빨간 지붕 의무([[119_drm_data_reference_model_standard|DRM]] 표준)"인데 파란 지붕을 얹었다며 철거 명령이 떨어진다. 설계 도면 첫 줄에 "빨간 지붕 예정"을 명시(매핑 증적 선제 준비)해야 승인이 난다.
+📢 **섹션 요약 비유**: [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 감리 대응은 "건축 허가 신청"과 같다. 집(시스템)을 다 짓고 나서 구청(감리단)에 허가 신청하면 "이 동네는 빨간 지붕 의무([DRM](/knowledge-base/studynote/12_it_management/03_ea_isp/119_drm_data_reference_model_standard/) 표준)"인데 파란 지붕을 얹었다며 철거 명령이 떨어진다. 설계 도면 첫 줄에 "빨간 지붕 예정"을 명시(매핑 증적 선제 준비)해야 승인이 난다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-### 1. [[110_enterprise_architecture_ea|EA]] 기반 감리 도입 효과
+### 1. [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 기반 감리 도입 효과
 
 | 효과 영역 | 세부 효과 | 정량적 기대치 |
 |:---|:---|:---|
-| **중복 투자 방지** | [[117_brm_business_reference_model|BRM]] 기반 기능 중복 사전 탐지 | 공공 IT 예산 낭비 [[489_raid_10_hybrid|10]]~15% 절감 |
-| **[[126_data_standardization_word_domain_term|데이터 표준화]]** | [[119_drm_data_reference_model_standard|DRM]] 준수로 전사 [[001_dikw_pyramid|데이터]] 품질 향상 | [[001_dikw_pyramid|데이터]] 통합 연계 비용 30% 절감 |
-| **기술 표준화** | [[120_trm_technical_reference_model|TRM]] 준수로 이기종 기술 파편화 방지 | 운영 유지보수 비용 20% 절감 |
-| **[[287_interoperability_tactics|상호운용성]] 확보** | 시스템 간 인터페이스 표준화 | 차세대 통합 프로젝트 비용 40% 절감 |
+| **중복 투자 방지** | [BRM](/knowledge-base/studynote/12_it_management/03_ea_isp/117_brm_business_reference_model/) 기반 기능 중복 사전 탐지 | 공공 IT 예산 낭비 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~15% 절감 |
+| **[데이터 표준화](/knowledge-base/studynote/05_database/02_modeling_normalization/126_data_standardization_word_domain_term/)** | [DRM](/knowledge-base/studynote/12_it_management/03_ea_isp/119_drm_data_reference_model_standard/) 준수로 전사 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 향상 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합 연계 비용 30% 절감 |
+| **기술 표준화** | [TRM](/knowledge-base/studynote/12_it_management/03_ea_isp/120_trm_technical_reference_model/) 준수로 이기종 기술 파편화 방지 | 운영 유지보수 비용 20% 절감 |
+| **[상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/) 확보** | 시스템 간 인터페이스 표준화 | 차세대 통합 프로젝트 비용 40% 절감 |
 
 ### 2. 미래 발전 방향
 
-**방향 1: [[014_api_posix|API]] 거버넌스 중심 [[110_enterprise_architecture_ea|EA]] 감리**
-[[619_msa_traffic_hardware|MSA]] ([[122_msa_microservices_architecture|Microservices Architecture]]) 확산으로 "중앙집중 DB 통합" 강제가 현실적으로 불가능해졌다. 미래 [[110_enterprise_architecture_ea|EA]] 감리는 개별 [[090_service_kubernetes_network_load_balancing|서비스]]의 DB보다 **[[090_service_kubernetes_network_load_balancing|서비스]] 간 [[014_api_posix|API]] 표준(OpenAPI Spec, [[246_graphql_query_language_overfetching_solution|GraphQL]] [[005_schema|스키마]])**이 기관 표준에 부합하는지를 핵심 감리 지표로 전환할 것이다.
+**방향 1: [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 거버넌스 중심 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 감리**
+[MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) ([Microservices Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/)) 확산으로 "중앙집중 DB 통합" 강제가 현실적으로 불가능해졌다. 미래 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 감리는 개별 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 DB보다 **[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 표준(OpenAPI Spec, [GraphQL](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/) [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/))**이 기관 표준에 부합하는지를 핵심 감리 지표로 전환할 것이다.
 
-**방향 2: [[190_ai_llm_requirements_specification|AI]] 기반 자율 감리 (Automated [[058_it_compliance_sox_basel_gdpr_isms|Compliance]])**
-설계 [[012_metadata|메타데이터]](ERD, XMI)를 [[090_configuration_item|CI]]/CD 파이프라인에 업로드하면, AI가 수만 개 컬럼을 [[119_drm_data_reference_model_standard|DRM]] 표준과 자동 대조해 [[352_defect_definition|결함]] 목록을 10초 내 생성하는 **지능형 [[110_enterprise_architecture_ea|EA]] 감리 자동화** 시스템이 도입되고 있다.
+**방향 2: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 자율 감리 (Automated [Compliance](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/))**
+설계 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)(ERD, XMI)를 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인에 업로드하면, AI가 수만 개 컬럼을 [DRM](/knowledge-base/studynote/12_it_management/03_ea_isp/119_drm_data_reference_model_standard/) 표준과 자동 대조해 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 목록을 10초 내 생성하는 **지능형 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 감리 자동화** 시스템이 도입되고 있다.
 
-**방향 3: [[531_cloud_native_architecture|클라우드 네이티브]] [[110_enterprise_architecture_ea|EA]] (Cloud-Native [[120_trm_technical_reference_model|TRM]])**
-AWS, Azure, GCP 환경에서의 [[110_enterprise_architecture_ea|EA]] [[116_reference_model|참조 모델]](C-[[120_trm_technical_reference_model|TRM]], Cloud [[120_trm_technical_reference_model|TRM]])이 각 기관별로 수립되고 있으며, [[196_kubernetes_k8s_container_orchestration|쿠버네티스]] [[061_namespace|네임스페이스]]·[[526_iam|IAM]] [[164_policy|정책]]·[[836_vpc_virtual_private_cloud_subnet_isolation|VPC]] 설계 표준이 새로운 [[120_trm_technical_reference_model|TRM]] 항목으로 등재되는 추세다.
+**방향 3: [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) (Cloud-Native [TRM](/knowledge-base/studynote/12_it_management/03_ea_isp/120_trm_technical_reference_model/))**
+AWS, Azure, GCP 환경에서의 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/)(C-[TRM](/knowledge-base/studynote/12_it_management/03_ea_isp/120_trm_technical_reference_model/), Cloud [TRM](/knowledge-base/studynote/12_it_management/03_ea_isp/120_trm_technical_reference_model/))이 각 기관별로 수립되고 있으며, [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)·[IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)·[VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/) 설계 표준이 새로운 [TRM](/knowledge-base/studynote/12_it_management/03_ea_isp/120_trm_technical_reference_model/) 항목으로 등재되는 추세다.
 
-📢 **섹션 요약 비유**: [[110_enterprise_architecture_ea|EA]] 감리의 미래는 "도면 감리인이 눈으로 종이 도면을 검사"하던 아날로그 시대에서, "BIM (Building Information Modeling, 빌딩 정보 모델링) 소프트웨어가 모든 배관·전기 배선 충돌을 자동으로 탐지"하는 [[126_digital_twin_concept|디지털 트윈]] 감리로 진화하는 것이다.
+📢 **섹션 요약 비유**: [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 감리의 미래는 "도면 감리인이 눈으로 종이 도면을 검사"하던 아날로그 시대에서, "BIM (Building Information Modeling, 빌딩 정보 모델링) 소프트웨어가 모든 배관·전기 배선 충돌을 자동으로 탐지"하는 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 감리로 진화하는 것이다.
 
 ---
 
@@ -217,13 +221,13 @@ AWS, Azure, GCP 환경에서의 [[110_enterprise_architecture_ea|EA]] [[116_refe
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[[115_gea_government_ea_framework|GEA]] (Government [[010_ea_enterprise_architecture|Enterprise Architecture]])** | 범정부 [[110_enterprise_architecture_ea|EA]] 체계; 공공 정보화 사업의 [[110_enterprise_architecture_ea|EA]] 기반 감리 법적 근거 |
-| **ITA법 (정보기술아키텍처법)** | 40억 이상 공공 정보화 사업 [[110_enterprise_architecture_ea|EA]] 적용 의무화 법령 |
-| **[[112_zachman_framework|Zachman Framework]]** | [[110_enterprise_architecture_ea|EA]] 6x6 매트릭스; Who·What·When·Where·Why·How x [[198_abstraction_control_data_process|추상화]] 레벨 |
-| **[[113_togaf|TOGAF]] ([[066_적응형_델타_변조_ADM|ADM]])** | [[113_togaf|The Open Group]] [[319_architecture|Architecture]] Framework; [[110_enterprise_architecture_ea|EA]] 개발 방법론 [[066_적응형_델타_변조_ADM|ADM]] 9단계 |
-| **eGovFrame** | 전자정부 표준 프레임워크; [[118_srm_service_reference_model|SRM]] 준수의 핵심 구현체 |
-| **[[091_cmdb|CMDB]]** | [[089_configuration_management|구성 관리]] [[002_database_definition|데이터베이스]]; [[110_enterprise_architecture_ea|EA]] Repository 실시간 [[125_asis_update_ea_maintenance_synchronization|현행화]]의 인프라 기반 |
-| **[[014_api_posix|API]] 거버넌스** | [[619_msa_traffic_hardware|MSA]] 환경에서 [[110_enterprise_architecture_ea|EA]] 감리의 새로운 핵심 축; OpenAPI Spec 표준 준수 [[395_verification_process_review|검증]] |
+| **[GEA](/knowledge-base/studynote/12_it_management/03_ea_isp/115_gea_government_ea_framework/) (Government [Enterprise Architecture](/knowledge-base/studynote/12_it_management/01_governance_strategy/010_ea_enterprise_architecture/))** | 범정부 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 체계; 공공 정보화 사업의 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 기반 감리 법적 근거 |
+| **ITA법 (정보기술아키텍처법)** | 40억 이상 공공 정보화 사업 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 적용 의무화 법령 |
+| **[Zachman Framework](/knowledge-base/studynote/12_it_management/03_ea_isp/112_zachman_framework/)** | [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 6x6 매트릭스; Who·What·When·Where·Why·How x [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 레벨 |
+| **[TOGAF](/knowledge-base/studynote/12_it_management/03_ea_isp/113_togaf/) ([ADM](/knowledge-base/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/))** | [The Open Group](/knowledge-base/studynote/12_it_management/03_ea_isp/113_togaf/) [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Framework; [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 개발 방법론 [ADM](/knowledge-base/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/) 9단계 |
+| **eGovFrame** | 전자정부 표준 프레임워크; [SRM](/knowledge-base/studynote/12_it_management/03_ea_isp/118_srm_service_reference_model/) 준수의 핵심 구현체 |
+| **[CMDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/091_cmdb/)** | [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/); [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) Repository 실시간 [현행화](/knowledge-base/studynote/12_it_management/03_ea_isp/125_asis_update_ea_maintenance_synchronization/)의 인프라 기반 |
+| **[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 거버넌스** | [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경에서 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 감리의 새로운 핵심 축; OpenAPI Spec 표준 준수 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -248,11 +252,11 @@ AWS, Azure, GCP 환경에서의 [[110_enterprise_architecture_ea|EA]] [[116_refe
 [디지털 트윈 EA — 실시간 아키텍처 현행화 + 자동 컴플라이언스]
 ```
 
-단위 프로젝트 감리 → 전사 [[110_enterprise_architecture_ea|EA]] 정합성 [[395_verification_process_review|검증]] → 클라우드·[[619_msa_traffic_hardware|MSA]] 적응 → [[190_ai_llm_requirements_specification|AI]] 자율화의 경로로 진화하며, 핵심 변수는 [[110_enterprise_architecture_ea|EA]] [[116_reference_model|참조 모델]]의 [[125_asis_update_ea_maintenance_synchronization|현행화]] 주기와 자동화 수준이다.
+단위 프로젝트 감리 → 전사 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 정합성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) → 클라우드·[MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 적응 → [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 자율화의 경로로 진화하며, 핵심 변수는 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/)의 [현행화](/knowledge-base/studynote/12_it_management/03_ea_isp/125_asis_update_ea_maintenance_synchronization/) 주기와 자동화 수준이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 아파트 단지를 지을 때 각 동마다 "내 방은 잘 만들었어요" 검사(기존 감리)만 하면, 동 사이의 배관이 엉켜서 물이 안 나오는 사고가 생겨요.
-2. [[110_enterprise_architecture_ea|EA]] 기반 감리는 아파트 단지 전체의 설계도([[110_enterprise_architecture_ea|EA]] [[116_reference_model|참조 모델]])를 들고 "배관·전기·도로가 전부 규격대로 연결되는지" 도시 건축가가 [[396_validation|확인]]하는 것이에요.
+2. [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 기반 감리는 아파트 단지 전체의 설계도([EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/))를 들고 "배관·전기·도로가 전부 규격대로 연결되는지" 도시 건축가가 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것이에요.
 3. 한 동이 아무리 예쁘게 잘 지어져도, 전체 단지 도면에서 벗어나면 "다시 지으세요"라고 할 수 있는 강력한 감시 시스템이랍니다.
 
 ---
@@ -261,7 +265,7 @@ AWS, Azure, GCP 환경에서의 [[110_enterprise_architecture_ea|EA]] [[116_refe
 
 **진행 상황**: 25 / 530
 
-← **이전**: [[022_cisa_certification_audit|22. CISA (Certified Information Systems Auditor) - 국제 공인 정보시스템 감사사]]
-**다음**: [[024_risk_based_audit|24. 위험 기반 감리 (Risk-based Audit)]] →
+← **이전**: [22. CISA (Certified Information Systems Auditor) - 국제 공인 정보시스템 감사사](/knowledge-base/studynote/11_design_supervision/01_audit_framework/022_cisa_certification_audit/)
+**다음**: [24. 위험 기반 감리 (Risk-based Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/024_risk_based_audit/) →
 
 ---

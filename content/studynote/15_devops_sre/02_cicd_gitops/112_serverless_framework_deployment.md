@@ -1,20 +1,24 @@
----
-title: 112. 서버리스 프레임워크 배포 (Serverless Framework Deployment) - FaaS IaC 자동화
-date: '2026-04-19'
-tags:
-- studynote-devops-sre
----
++++
+title = "112. 서버리스 프레임워크 배포 (Serverless Framework Deployment) - FaaS IaC 자동화"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-devops-sre"]
+
+[extra]
+tags = ["studynote-devops-sre"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [[206_serverless_cold_start|Serverless]] Framework는 AWS [[216_lambda_kappa_architecture_batch_realtime|Lambda]]·Azure Functions·GCP Cloud Functions 등 **[[342_faas|FaaS]](Function [[344_as_autonomous_system_asn|as]] a [[090_service_kubernetes_network_load_balancing|Service]])의 인프라·코드·이벤트 [[507_acid_properties|트리거]]를 `serverless.yml` 하나로 선언**하고, `sls deploy` 한 줄로 클라우드에 배포하는 [[191_oss_license_compliance|오픈소스]] [[793_iac_idempotency_template|IaC]]([[062_infrastructure_as_code|Infrastructure as Code]]) 도구다.
-> 2. **가치**: [[216_lambda_kappa_architecture_batch_realtime|Lambda]] 함수 1개를 수동 배포하려면 [[526_iam|IAM]] Role·[[542_api_gateway|API Gateway]]·CloudWatch·DLQ를 콘솔에서 각각 [[009_config|설정]]해야 하지만, [[206_serverless_cold_start|Serverless]] Framework는 YAML 선언만으로 **모든 종속 리소스를 CloudFormation [[057_stack|스택]]으로 자동 [[087_process_state_transition|생성]]**한다.
-> 3. **판단 포인트**: [[206_serverless_cold_start|Serverless]] Framework(범용)·[[113_aws_sam_serverless_model|AWS SAM]](AWS 전용)·SST(TypeScript 네이티브)의 트레이드오프를 이해하고, **[[347_cold_start_problem|Cold Start]] 최적화·[[229_monitor|모니터]]링 통합·[[090_configuration_item|CI]]/CD [[123_pipe|파이프]]라인 연결**까지 고려해야 프로덕션 수준이 된다.
+> 1. **본질**: [Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) Framework는 AWS [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)·Azure Functions·GCP Cloud Functions 등 **[FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/)(Function [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))의 인프라·코드·이벤트 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)를 `serverless.yml` 하나로 선언**하고, `sls deploy` 한 줄로 클라우드에 배포하는 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/)([Infrastructure as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/)) 도구다.
+> 2. **가치**: [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 함수 1개를 수동 배포하려면 [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) Role·[API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/)·CloudWatch·DLQ를 콘솔에서 각각 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)해야 하지만, [Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) Framework는 YAML 선언만으로 **모든 종속 리소스를 CloudFormation [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)으로 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)**한다.
+> 3. **판단 포인트**: [Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) Framework(범용)·[AWS SAM](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/113_aws_sam_serverless_model/)(AWS 전용)·SST(TypeScript 네이티브)의 트레이드오프를 이해하고, **[Cold Start](/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/) 최적화·[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 통합·[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 연결**까지 고려해야 프로덕션 수준이 된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-FaaS는 서버 관리 없이 함수 단위로 코드를 실행하지만, 실제 배포 시에는 **[[526_iam|IAM]] [[164_policy|정책]]·[[542_api_gateway|API Gateway]] 엔드포인트·DLQ(Dead Letter [[058_queue|Queue]])·[[836_vpc_virtual_private_cloud_subnet_isolation|VPC]] [[009_config|설정]]·[[156_environment_variables|환경 변수]]** 등 수십 가지 인프라를 구성해야 한다.
+FaaS는 서버 관리 없이 함수 단위로 코드를 실행하지만, 실제 배포 시에는 **[IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)·[API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/) 엔드포인트·DLQ(Dead Letter [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))·[VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)·[환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/)** 등 수십 가지 인프라를 구성해야 한다.
 
 ```text
 ┌───────────────────────────────────────────────────────┐
@@ -32,13 +36,13 @@ FaaS는 서버 관리 없이 함수 단위로 코드를 실행하지만, 실제 
 └───────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 수동 배포는 레고 설명서 없이 100조각을 맞추는 것이고, [[206_serverless_cold_start|Serverless]] Framework는 설명서(YAML) 대로 로봇이 자동으로 조립하는 것이다.
+- **📢 섹션 요약 비유**: 수동 배포는 레고 설명서 없이 100조각을 맞추는 것이고, [Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) Framework는 설명서(YAML) 대로 로봇이 자동으로 조립하는 것이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [[206_serverless_cold_start|serverless]].yml 핵심 구조
+### [serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/).yml 핵심 구조
 
 ```yaml
 service: my-api
@@ -61,48 +65,48 @@ functions:
 
 | 도구 | 멀티클라우드 | 언어 | 특징 |
 |:---|:---|:---|:---|
-| **[[206_serverless_cold_start|Serverless]] Framework** | ✅ (AWS/Azure/GCP) | YAML | 범용, 플러그인 생태계 풍부 |
-| **[[113_aws_sam_serverless_model|AWS SAM]]** | AWS 전용 | YAML | CloudFormation 네이티브 |
+| **[Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) Framework** | ✅ (AWS/Azure/GCP) | YAML | 범용, 플러그인 생태계 풍부 |
+| **[AWS SAM](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/113_aws_sam_serverless_model/)** | AWS 전용 | YAML | CloudFormation 네이티브 |
 | **SST (v3)** | AWS 전용 | TypeScript | 타입 안전, 핫 리로드 |
 | **Pulumi** | ✅ | 범용 언어 | 코드로 인프라 (TypeScript/Python) |
 
-- **📢 섹션 요약 비유**: [[206_serverless_cold_start|Serverless]] Framework는 만능 리모컨(멀티클라우드)이고, SAM은 삼성 TV 전용 리모컨이며, SST는 스마트폰 앱(타입 안전)이다.
+- **📢 섹션 요약 비유**: [Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) Framework는 만능 리모컨(멀티클라우드)이고, SAM은 삼성 TV 전용 리모컨이며, SST는 스마트폰 앱(타입 안전)이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | 수동 콘솔 | [[206_serverless_cold_start|Serverless]] Framework |
+| 비교 | 수동 콘솔 | [Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) Framework |
 |:---|:---|:---|
 | **배포 시간** | 30분+ | **3분** |
 | **재현성** | 수동 (실수 위험) | **YAML 선언, 100% 재현** |
-| **[[288_version_ihl_tos_total_length|버전]] 관리** | 불가 | **Git으로 [[793_iac_idempotency_template|IaC]] 이력 관리** |
-| **[[098_rollback_strategy_pipeline_error_threshold|롤백]]** | 수동 복원 | **sls [[313_rollback|rollback]] (자동)** |
+| **[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리** | 불가 | **Git으로 [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) 이력 관리** |
+| **[롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)** | 수동 복원 | **sls [rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/) (자동)** |
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[090_configuration_item|CI]]/CD 통합 [[435_checklist_based_testing|체크리스트]]
+### [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 통합 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. **GitHub Actions**: `on: push` → `sls deploy --stage prod`.
-2. **스테이지 분리**: `--stage dev/staging/prod`로 환경별 독립 [[057_stack|스택]].
-3. **[[347_cold_start_problem|Cold Start]] 최적화**: [[202_provisioned_concurrency_serverless_cold_start|Provisioned Concurrency]] 또는 WarmUp 플러그인.
-4. **[[229_monitor|모니터]]링**: [[206_serverless_cold_start|Serverless]] Dashboard 또는 Datadog [[216_lambda_kappa_architecture_batch_realtime|Lambda]] Layer.
+2. **스테이지 분리**: `--stage dev/staging/prod`로 환경별 독립 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/).
+3. **[Cold Start](/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/) 최적화**: [Provisioned Concurrency](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/202_provisioned_concurrency_serverless_cold_start/) 또는 WarmUp 플러그인.
+4. **[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링**: [Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) Dashboard 또는 Datadog [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) Layer.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
-- **단일 거대 함수**: [[216_lambda_kappa_architecture_batch_realtime|Lambda]] 1개에 모든 로직 → 모놀리스 회귀. 함수별 [[355_process|단일 책임 원칙]] 준수.
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- **단일 거대 함수**: [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 1개에 모든 로직 → 모놀리스 회귀. 함수별 [단일 책임 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/355_process/) 준수.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-| 지표 | 수동 배포 | [[206_serverless_cold_start|Serverless]] Framework | 개선 |
+| 지표 | 수동 배포 | [Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) Framework | 개선 |
 |:---|:---|:---|:---|
 | 배포 시간 | 30분+ | **3분** | 90% 단축 |
-| 인프라 재현성 | 낮음 | **100%** | [[793_iac_idempotency_template|IaC]] 확보 |
+| 인프라 재현성 | 낮음 | **100%** | [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) 확보 |
 | 운영 비용 | 인스턴스 상시 과금 | **요청당 과금** | 유휴 비용 0 |
 
-[[206_serverless_cold_start|Serverless]] Framework v4는 [[190_ai_llm_requirements_specification|AI]] 기반 자동 최적화(메모리·[[573_timeout_retry_backoff_strategy|타임아웃]] 자동 튜닝)를 내장하여, 함수 [[282_performance_tactics|성능]]과 비용의 최적점을 자동으로 찾아주는 방향으로 진화하고 있다.
+[Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) Framework v4는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 자동 최적화(메모리·[타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 자동 튜닝)를 내장하여, 함수 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 비용의 최적점을 자동으로 찾아주는 방향으로 진화하고 있다.
 
 ---
 
@@ -110,11 +114,11 @@ functions:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[[342_faas|FaaS]] ([[216_lambda_kappa_architecture_batch_realtime|Lambda]])** | [[206_serverless_cold_start|Serverless]] Framework가 배포하는 대상 |
-| **[[793_iac_idempotency_template|IaC]] ([[062_infrastructure_as_code|Infrastructure as Code]])** | YAML 선언으로 인프라를 코드화 |
-| **CloudFormation** | AWS에서 YAML → 실제 리소스 [[087_process_state_transition|생성]] 엔진 |
-| **[[542_api_gateway|API Gateway]]** | [[216_lambda_kappa_architecture_batch_realtime|Lambda]] [[507_acid_properties|트리거]], [[461_http_stateless_connection_oriented|HTTP]] 엔드포인트 자동 [[087_process_state_transition|생성]] |
-| **[[347_cold_start_problem|Cold Start]]** | [[342_faas|FaaS]] 최초 실행 시 [[015_지연_데이터_관점|지연]], 최적화 필수 |
+| **[FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/) ([Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/))** | [Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) Framework가 배포하는 대상 |
+| **[IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) ([Infrastructure as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/))** | YAML 선언으로 인프라를 코드화 |
+| **CloudFormation** | AWS에서 YAML → 실제 리소스 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 엔진 |
+| **[API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/)** | [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/), [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 엔드포인트 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
+| **[Cold Start](/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/)** | [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/) 최초 실행 시 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 최적화 필수 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -136,7 +140,7 @@ functions:
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 옛날에는 레고를 만들 때 **설명서 없이 100조각**을 혼자 맞춰야 했어요.
-2. [[206_serverless_cold_start|Serverless]] Framework는 **설명서(YAML)**를 주면 로봇이 자동으로 조립해줘요!
+2. [Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) Framework는 **설명서(YAML)**를 주면 로봇이 자동으로 조립해줘요!
 3. 덕분에 개발자는 레고 디자인(코드)에만 집중하고, 조립(배포)은 로봇에게 맡길 수 있답니다!
 
 ---
@@ -145,7 +149,7 @@ functions:
 
 **진행 상황**: 112 / 373
 
-← **이전**: [[111_micro_frontends_deployment|111. 마이크로 프론트엔드 배포 (Micro Frontends Deployment) - 독립 배포·Module Federation]]
-**다음**: [[113_aws_sam_serverless_model|113. AWS SAM (Serverless Application Model) - CloudFormation 네이티브 FaaS 배포]] →
+← **이전**: [111. 마이크로 프론트엔드 배포 (Micro Frontends Deployment) - 독립 배포·Module Federation](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/111_micro_frontends_deployment/)
+**다음**: [113. AWS SAM (Serverless Application Model) - CloudFormation 네이티브 FaaS 배포](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/113_aws_sam_serverless_model/) →
 
 ---

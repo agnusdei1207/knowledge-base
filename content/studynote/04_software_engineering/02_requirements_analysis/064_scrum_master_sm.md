@@ -1,20 +1,24 @@
----
-title: 64. 스크럼 마스터 (Scrum Master) - 가이드, 장애 제거
-tags:
-- software_engineering
----
++++
+title = "64. 스크럼 마스터 (Scrum Master) - 가이드, 장애 제거"
+
+[taxonomies]
+tags = ["software_engineering"]
+
+[extra]
+tags = ["software_engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[062_scrum_framework_overview|스크럼]] 마스터([[658_agile_scrum_roles|Scrum]] Master, [[421_streaming_multiprocessor|SM]])는 팀이 [[062_scrum_framework_overview|스크럼]] 원칙과 이벤트를 올바르게 수행하도록 돕는 서번트 리더(Servant Leader)다.
-> 2. **가치**: SM은 장애물을 제거하고, 팀이 개발에 집중하도록 [[571_protection_vs_security|보호]]해 생산성과 협업 품질을 높인다.
-> 3. **판단**: PO(Product Owner)와 PM([[042_relational_algebra_project|Project]] Manager)와 역할이 다르며, 팀의 자기조직화를 촉진하는 것이 핵심이다.
+> 1. **본질**: [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 마스터([Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/) Master, [SM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/))는 팀이 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 원칙과 이벤트를 올바르게 수행하도록 돕는 서번트 리더(Servant Leader)다.
+> 2. **가치**: SM은 장애물을 제거하고, 팀이 개발에 집중하도록 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)해 생산성과 협업 품질을 높인다.
+> 3. **판단**: PO(Product Owner)와 PM([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) Manager)와 역할이 다르며, 팀의 자기조직화를 촉진하는 것이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[[004_agile_relation|애자일]] 팀은 빠르게 배우고 조정해야 하므로, 회의만 많고 실행이 막히면 안 된다. SM은 이런 막힘을 줄여 팀이 [[067_sprint_timebox|스프린트]] 목표에 집중하게 만든다.
+[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 팀은 빠르게 배우고 조정해야 하므로, 회의만 많고 실행이 막히면 안 된다. SM은 이런 막힘을 줄여 팀이 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 목표에 집중하게 만든다.
 
 즉 SM은 지시하는 사람이 아니라, 팀이 스스로 일할 수 있게 환경을 정리하는 사람이다.
 
@@ -36,13 +40,13 @@ Continuous Improvement
 
 | 역할 | 핵심 행동 |
 | :-- | :-- |
-| [[658_agile_scrum_roles|Scrum]] Master | [[062_scrum_framework_overview|스크럼]] 실천 지원, 장애 제거 |
+| [Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/) Master | [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 실천 지원, 장애 제거 |
 | Product Owner | 백로그와 가치 우선순위 |
-| [[065_development_team_scrum|Development Team]] | 구현과 기술 품질 |
+| [Development Team](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/065_development_team_scrum/) | 구현과 기술 품질 |
 
-SM은 데일리 [[062_scrum_framework_overview|스크럼]], [[067_sprint_timebox|스프린트]] 계획, 리뷰, 회고가 제대로 돌아가게 돕는다. 그리고 팀이 외부 압력과 내부 병목에서 벗어나도록 중재한다.
+SM은 데일리 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/), [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 계획, 리뷰, 회고가 제대로 돌아가게 돕는다. 그리고 팀이 외부 압력과 내부 병목에서 벗어나도록 중재한다.
 
-- **📢 섹션 요약 비유**: 교실에서 [[216_progress_in_synchronization|진행]] 흐름을 지켜 주고, 막힌 문을 열어 주는 조교와 같다.
+- **📢 섹션 요약 비유**: 교실에서 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 흐름을 지켜 주고, 막힌 문을 열어 주는 조교와 같다.
 
 ---
 
@@ -50,9 +54,9 @@ SM은 데일리 [[062_scrum_framework_overview|스크럼]], [[067_sprint_timebox
 
 | 역할 | 초점 | 오해 |
 | :-- | :-- | :-- |
-| [[658_agile_scrum_roles|Scrum]] Master | 프로세스와 팀 [[571_protection_vs_security|보호]] | 팀장으로 오해 |
+| [Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/) Master | 프로세스와 팀 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | 팀장으로 오해 |
 | Product Owner | 제품 가치와 우선순위 | 기술 지시자로 오해 |
-| [[042_relational_algebra_project|Project]] Manager | 일정과 자원 관리 | [[062_scrum_framework_overview|스크럼]] 책임자로 오해 |
+| [Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) Manager | 일정과 자원 관리 | [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 책임자로 오해 |
 
 SM은 권한으로 팀을 통제하지 않는다. 대신 질문, 코칭, 장애 제거를 통해 팀이 스스로 움직이게 만든다.
 
@@ -62,22 +66,22 @@ SM은 권한으로 팀을 통제하지 않는다. 대신 질문, 코칭, 장애 
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 팀의 방해 요소를 지속적으로 찾는가?
-2. [[062_scrum_framework_overview|스크럼]] 이벤트가 목적에 맞게 운영되는가?
+2. [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 이벤트가 목적에 맞게 운영되는가?
 3. 팀이 스스로 문제를 풀도록 코칭하는가?
 4. PO와 개발팀 사이의 역할 경계를 지키는가?
 5. 회고 결과가 실제 개선으로 이어지는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- SM이 회의 [[216_progress_in_synchronization|진행]]만 하는 설계
+- SM이 회의 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)만 하는 설계
 - SM이 업무 지시를 직접 하는 설계
 - 장애 제거 대신 보고서만 만드는 설계
 - 팀의 자율성을 줄이는 설계
 
-기술사 관점에서는 SM을 "프로젝트 [[216_progress_in_synchronization|진행]]자"가 아니라 "팀 퍼실리테이터"로 봐야 한다. 그래야 [[004_agile_relation|애자일]]의 본질인 자기조직화를 설명할 수 있다.
+기술사 관점에서는 SM을 "프로젝트 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)자"가 아니라 "팀 퍼실리테이터"로 봐야 한다. 그래야 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)의 본질인 자기조직화를 설명할 수 있다.
 
 - **📢 섹션 요약 비유**: 길 안내자는 차를 몰지 않고, 길만 잘 보이게 해 준다.
 
@@ -85,9 +89,9 @@ SM은 권한으로 팀을 통제하지 않는다. 대신 질문, 코칭, 장애 
 
 ## Ⅴ. 기대효과 및 결론
 
-[[062_scrum_framework_overview|스크럼]] 마스터가 잘 작동하면 팀은 회의보다 실행에 더 집중하고, 문제를 빨리 발견하고 고친다. 결국 SM은 생산성을 직접 올리기보다 생산성을 막는 벽을 없앤다.
+[스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 마스터가 잘 작동하면 팀은 회의보다 실행에 더 집중하고, 문제를 빨리 발견하고 고친다. 결국 SM은 생산성을 직접 올리기보다 생산성을 막는 벽을 없앤다.
 
-결론적으로 SM은 [[062_scrum_framework_overview|스크럼]]의 흐름을 지키는 [[571_protection_vs_security|보호]]자다.
+결론적으로 SM은 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)의 흐름을 지키는 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)자다.
 
 - **📢 섹션 요약 비유**: 물길이 막히지 않게 돌을 치워 주는 사람이다.
 
@@ -124,7 +128,7 @@ Team Improvement
 ## 어린이를 위한 3줄 비유 설명
 
 팀이 뛰려면 길이 막히면 안 돼요.  
-[[062_scrum_framework_overview|스크럼]] 마스터는 막힌 길을 치워 주는 사람이에요.  
+[스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 마스터는 막힌 길을 치워 주는 사람이에요.  
 그래서 팀이 스스로 잘 움직일 수 있어요.
 
 ---
@@ -133,7 +137,7 @@ Team Improvement
 
 **진행 상황**: 64 / 973
 
-← **이전**: [[063_product_owner_po|63. 제품 책임자 (Product Owner, PO)]]
-**다음**: [[065_development_team_scrum|65. 개발 팀 (Development Team) - 자기 조직화, 다기능 팀]] →
+← **이전**: [63. 제품 책임자 (Product Owner, PO)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/063_product_owner_po/)
+**다음**: [65. 개발 팀 (Development Team) - 자기 조직화, 다기능 팀](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/065_development_team_scrum/) →
 
 ---

@@ -1,21 +1,25 @@
----
-title: 회귀 분석 지표 (Regression Metrics) - MSE, RMSE, MAE
-date: '2026-03-04'
-tags:
-- studynote-data-engineering
----
++++
+title = "회귀 분석 지표 (Regression Metrics) - MSE, RMSE, MAE"
+date = 2026-03-04
+
+[taxonomies]
+tags = ["studynote-data-engineering"]
+
+[extra]
+tags = ["studynote-data-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[149_regression_analysis|회귀 분석]] 지표(Regression [[567_metrics_time_series_prometheus_grafana|Metrics]])는 기계학습 모델이 예측한 연속형 결과값과 실제 [[001_dikw_pyramid|데이터]] 사이의 '오차(Error)'를 수학적으로 요약하여 모델의 [[282_performance_tactics|성능]]을 정량화하는 기준이다.
-> 2. **가치**: 예측이 얼마나 빗나갔는지를 측정함으로써, 딥러닝과 [[241_machine_learning_basics|머신러닝]] 모델이 [[267_weight_bias_activation|가중치]]를 수정하는 [[075_loss_function_cost_function|손실 함수]]([[087_loss_function|Loss Function]])의 방향을 결정하고 비즈니스적 손실을 평가하게 해준다.
-> 3. **판단 포인트**: 큰 오차에 가혹한 패널티를 줄 때는 제곱 기반의 [[076_mse_mean_squared_error_regression|MSE]]/RMSE를 선택하고, [[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]]([[076_outlier_detection_iqr_dbscan_isolation_forest|Outlier]])의 영향을 줄여 직관적인 평균 오차를 보고 싶을 때는 절대값 기반의 MAE를 선택해야 한다.
+> 1. **본질**: [회귀 분석](/knowledge-base/studynote/08_algorithm_stats/08_stats/149_regression_analysis/) 지표(Regression [Metrics](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/))는 기계학습 모델이 예측한 연속형 결과값과 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 사이의 '오차(Error)'를 수학적으로 요약하여 모델의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 정량화하는 기준이다.
+> 2. **가치**: 예측이 얼마나 빗나갔는지를 측정함으로써, 딥러닝과 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델이 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 수정하는 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)([Loss Function](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_loss_function/))의 방향을 결정하고 비즈니스적 손실을 평가하게 해준다.
+> 3. **판단 포인트**: 큰 오차에 가혹한 패널티를 줄 때는 제곱 기반의 [MSE](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/)/RMSE를 선택하고, [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)([Outlier](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/))의 영향을 줄여 직관적인 평균 오차를 보고 싶을 때는 절대값 기반의 MAE를 선택해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-회귀(Regression)는 주가, 집값, 온도 등 연속적인 수치를 예측하는 기법이다. [[104_classification_analysis|분류]]([[107_classification|Classification]]) 모델이 정답과 오답 여부만 따진다면, 회귀 모델은 "얼마나 차이 나게 틀렸는가"를 측정해야 한다. 이때 예측값($\hat{Y}$)과 실제값($Y$)의 차이를 오차(Error)라고 한다.
+회귀(Regression)는 주가, 집값, 온도 등 연속적인 수치를 예측하는 기법이다. [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)([Classification](/knowledge-base/studynote/12_it_management/03_ea_isp/107_classification/)) 모델이 정답과 오답 여부만 따진다면, 회귀 모델은 "얼마나 차이 나게 틀렸는가"를 측정해야 한다. 이때 예측값($\hat{Y}$)과 실제값($Y$)의 차이를 오차(Error)라고 한다.
 
 단순히 오차를 합산하면 양수 오차와 음수 오차가 서로 상쇄되어 0이 되는 문제가 발생한다. 이를 막기 위해 오차를 제곱하거나 절대값을 씌워 양수로 만든 뒤 평균을 내는 지표들이 필수적으로 등장했다. 이 지표들은 모델을 학습시킬 때 "이쪽으로 수정해!"라고 알려주는 나침반 역할을 한다.
 
@@ -29,9 +33,9 @@ tags:
 
 | 지표 | 전체 명칭 | 수식 | 핵심 원리 및 특징 |
 | :--- | :--- | :--- | :--- |
-| **[[076_mse_mean_squared_error_regression|MSE]]** | [[076_mse_mean_squared_error_regression|Mean Squared Error]] | $\frac{1}{n} \sum (Y - \hat{Y})^2$ | 오차를 제곱하여 음수를 제거. 미분 가능하여 최적화에 유리. 큰 오차(>1)에 제곱 벌점. |
-| **RMSE** | Root [[076_mse_mean_squared_error_regression|Mean Squared Error]] | $\sqrt{[[076_mse_mean_squared_error_regression|MSE]]}$ | MSE에 루트를 씌워 원래 [[001_dikw_pyramid|데이터]]와 단위를 맞춤. 큰 오차에 대한 패널티를 유지하며 해석력 확보. |
-| **MAE** | Mean Absolute Error | $\frac{1}{n} \sum \|Y - \hat{Y}\|$ | 오차의 절대값 평균. [[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]]([[076_outlier_detection_iqr_dbscan_isolation_forest|Outlier]])에 강건(Robust)하며 직관적인 '평균 차이'를 제공. |
+| **[MSE](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/)** | [Mean Squared Error](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/) | $\frac{1}{n} \sum (Y - \hat{Y})^2$ | 오차를 제곱하여 음수를 제거. 미분 가능하여 최적화에 유리. 큰 오차(>1)에 제곱 벌점. |
+| **RMSE** | Root [Mean Squared Error](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/) | $\sqrt{[MSE](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/)}$ | MSE에 루트를 씌워 원래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 단위를 맞춤. 큰 오차에 대한 패널티를 유지하며 해석력 확보. |
+| **MAE** | Mean Absolute Error | $\frac{1}{n} \sum \|Y - \hat{Y}\|$ | 오차의 절대값 평균. [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)([Outlier](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/))에 강건(Robust)하며 직관적인 '평균 차이'를 제공. |
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -48,7 +52,7 @@ tags:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-MSE는 수식적으로 부드러운 곡선을 띄어 경사하강법([[165_gradient_descent|Gradient Descent]])에서 미분하기 쉬운 장점이 있다. 반면, [[001_dikw_pyramid|데이터]]의 단위(예: 달러)가 제곱(달러²)이 되어 사람이 직관적으로 이해하기 어렵다는 단점을 RMSE가 해결한다.
+MSE는 수식적으로 부드러운 곡선을 띄어 경사하강법([Gradient Descent](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/))에서 미분하기 쉬운 장점이 있다. 반면, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 단위(예: 달러)가 제곱(달러²)이 되어 사람이 직관적으로 이해하기 어렵다는 단점을 RMSE가 해결한다.
 
 - **📢 섹션 요약 비유**: MSE는 5cm 빗나간 화살에 25점의 벌점을 주는 '엄격한 코치'이고, MAE는 5cm 빗나가면 정직하게 5점만 벌점을 주는 '다정한 코치'다.
 
@@ -56,39 +60,39 @@ MSE는 수식적으로 부드러운 곡선을 띄어 경사하강법([[165_gradi
 
 ## Ⅲ. 비교 및 연결
 
-회귀 지표는 [[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]]([[076_outlier_detection_iqr_dbscan_isolation_forest|Outlier]])에 대한 저항성(Robustness)에서 가장 극명한 차이를 보인다. 어떤 [[001_dikw_pyramid|데이터]]를 학습시킬 것인가에 따라 평가지표가 모델의 성향을 결정한다.
+회귀 지표는 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)([Outlier](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/))에 대한 저항성(Robustness)에서 가장 극명한 차이를 보인다. 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 학습시킬 것인가에 따라 평가지표가 모델의 성향을 결정한다.
 
-| 비교 항목 | [[076_mse_mean_squared_error_regression|MSE]] / RMSE (제곱 기반) | MAE (절대값 기반) | MAPE (비율 기반) |
+| 비교 항목 | [MSE](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/) / RMSE (제곱 기반) | MAE (절대값 기반) | MAPE (비율 기반) |
 | :--- | :--- | :--- | :--- |
-| **[[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]]([[076_outlier_detection_iqr_dbscan_isolation_forest|Outlier]]) 민감도** | 매우 높음 (큰 오차에 [[267_weight_bias_activation|가중치]] 부여) | 낮음 (Robust, 둔감함) | 중간 (단, 실제값이 0에 가까우면 불안정) |
-| **단위 일치성** | 불일치([[076_mse_mean_squared_error_regression|MSE]]) / 일치(RMSE) | 일치 | % 단위 (스케일 무관) |
-| **목적** | 딥러닝 손실함수, 큰 오차 방어 | 절대적 오차 파악, 노이즈 무시 | 스케일이 다른 [[001_dikw_pyramid|데이터]] [[282_performance_tactics|성능]] 비교 |
+| **[이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)([Outlier](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)) 민감도** | 매우 높음 (큰 오차에 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 부여) | 낮음 (Robust, 둔감함) | 중간 (단, 실제값이 0에 가까우면 불안정) |
+| **단위 일치성** | 불일치([MSE](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/)) / 일치(RMSE) | 일치 | % 단위 (스케일 무관) |
+| **목적** | 딥러닝 손실함수, 큰 오차 방어 | 절대적 오차 파악, 노이즈 무시 | 스케일이 다른 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비교 |
 
-이 지표들은 모델의 절대적인 오차량만 나타내므로, 상대적으로 [[001_dikw_pyramid|데이터]]를 얼마나 잘 설명하는지 보여주는 결정계수 ($R^2$, R-Squared)와 반드시 결합하여 분석해야 한다.
+이 지표들은 모델의 절대적인 오차량만 나타내므로, 상대적으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 얼마나 잘 설명하는지 보여주는 결정계수 ($R^2$, R-Squared)와 반드시 결합하여 분석해야 한다.
 
-- **📢 섹션 요약 비유**: 도로 제한속도를 넘겼을 때, 10km 초과면 10만 원, 20km 초과면 40만 원의 벌금을 물려 대형 사고(큰 오차)를 막는 것이 [[076_mse_mean_squared_error_regression|MSE]]/RMSE 방식이고, 1km 초과당 무조건 1만 원씩 물리는 것이 MAE 방식이다.
+- **📢 섹션 요약 비유**: 도로 제한속도를 넘겼을 때, 10km 초과면 10만 원, 20km 초과면 40만 원의 벌금을 물려 대형 사고(큰 오차)를 막는 것이 [MSE](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/)/RMSE 방식이고, 1km 초과당 무조건 1만 원씩 물리는 것이 MAE 방식이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 지표의 선택은 단순히 수학적 취향이 아니라, 비즈니스의 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 허용도([[096_risk_non_risk_architecture_evaluation_flaws|Risk]] Tolerance)를 반영하는 아키텍처 의사결정이다.
+실무에서 지표의 선택은 단순히 수학적 취향이 아니라, 비즈니스의 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 허용도([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Tolerance)를 반영하는 아키텍처 의사결정이다.
 
-### 실무 판단 가이드 ([[435_checklist_based_testing|체크리스트]])
+### 실무 판단 가이드 ([체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/))
 1. **치명적 오차 회피 시 (RMSE 채택)**: 비행기 고도 예측, 의료 수치 예측처럼 단 한 번의 큰 예측 실패가 시스템 전체에 치명적인 결과를 낳는 경우, 큰 오차를 강하게 때리는 RMSE를 최적화 기준으로 삼아야 한다.
-2. **노이즈 및 [[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]] 포용 시 (MAE 채택)**: 쇼핑몰 수요 예측처럼 일부 [[638_mutation_testing_test_case_verification|돌연변이]] 고객(대량 구매자)이 존재할 때, 이들에게 모델이 휘둘리지 않고 평범한 다수의 패턴을 찾길 원한다면 MAE를 써야 한다.
-3. **스케일 보정 고려 (RMSLE 사용)**: 타겟값의 범위가 너무 넓을 때(예: 가격이 천 원~수십 억 원)는 [[568_logs_distributed_logging_elk_fluentd|로그]] 변환을 거친 RMSLE (Root Mean Squared Logarithmic Error)를 적용해 오차의 상대적 비율을 맞춰야 한다.
+2. **노이즈 및 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 포용 시 (MAE 채택)**: 쇼핑몰 수요 예측처럼 일부 [돌연변이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/) 고객(대량 구매자)이 존재할 때, 이들에게 모델이 휘둘리지 않고 평범한 다수의 패턴을 찾길 원한다면 MAE를 써야 한다.
+3. **스케일 보정 고려 (RMSLE 사용)**: 타겟값의 범위가 너무 넓을 때(예: 가격이 천 원~수십 억 원)는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 변환을 거친 RMSLE (Root Mean Squared Logarithmic Error)를 적용해 오차의 상대적 비율을 맞춰야 한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - R-Squared(설명력) 없이 RMSE(절대 오차) 하나만 보고서에 기재하여 모델의 실제 유효성을 입증하지 못하는 오류.
 
-- **📢 섹션 요약 비유**: 병원에서 암 종양 크기를 예측할 때(치명적 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]])는 아주 작은 오차도 큰 벌점을 주는 엄격한 체중계(RMSE)를 써야 하고, 동네 빵집 수요를 예측할 때(노이즈 존재)는 한두 명의 폭식 손님에게 휘둘리지 않는 둥글둥글한 잣대(MAE)를 써야 한다.
+- **📢 섹션 요약 비유**: 병원에서 암 종양 크기를 예측할 때(치명적 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))는 아주 작은 오차도 큰 벌점을 주는 엄격한 체중계(RMSE)를 써야 하고, 동네 빵집 수요를 예측할 때(노이즈 존재)는 한두 명의 폭식 손님에게 휘둘리지 않는 둥글둥글한 잣대(MAE)를 써야 한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-적절한 회귀 지표의 선택은 모델 학습이 엉뚱한 방향([[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]] 과적합 등)으로 빠지는 것을 막고, 예측 모델의 한계점과 신뢰 구간을 명확하게 정의한다. 이를 통해 비즈니스 관계자에게 모델의 [[282_performance_tactics|성능]]을 투명하게 설득할 수 있다.
+적절한 회귀 지표의 선택은 모델 학습이 엉뚱한 방향([이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 과적합 등)으로 빠지는 것을 막고, 예측 모델의 한계점과 신뢰 구간을 명확하게 정의한다. 이를 통해 비즈니스 관계자에게 모델의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 투명하게 설득할 수 있다.
 
 앞으로의 기계학습 모델링에서는 단순 점 추정치(Point Estimation)의 지표를 넘어, 불확실성(Uncertainty)을 함께 제공하는 확률적 지표의 중요성이 커질 것이다. 결국 기술사는 "비즈니스가 어떤 종류의 실패(Error)를 더 두려워하는가?"라는 질문을 지표로 번역하는 역할을 수행해야 한다.
 
@@ -100,10 +104,10 @@ MSE는 수식적으로 부드러운 곡선을 띄어 경사하강법([[165_gradi
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[[087_loss_function|Loss Function]] ([[075_loss_function_cost_function|손실 함수]])** | 모델이 학습 중 [[267_weight_bias_activation|가중치]]를 업데이트하기 위해 최소화하려는 회귀 지표의 목표 |
-| **R-Squared ($R^2$, 결정계수)** | 절대 오차(MAE/RMSE)의 한계를 보완해, [[001_dikw_pyramid|데이터]]의 분산을 모델이 얼마나 설명하는지 비율(0~1)로 나타냄 |
-| **[[076_outlier_detection_iqr_dbscan_isolation_forest|Outlier]] ([[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]])** | RMSE를 급격히 상승시켜 지표 왜곡을 일으키는 극단적 [[001_dikw_pyramid|데이터]] 포인트 |
-| **[[165_gradient_descent|Gradient Descent]] (경사하강법)** | MSE의 미분 가능성이라는 장점을 활용하여 오차가 최소가 되는 지점을 찾아가는 [[001_algorithm_definition|알고리즘]] |
+| **[Loss Function](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_loss_function/) ([손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/))** | 모델이 학습 중 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 업데이트하기 위해 최소화하려는 회귀 지표의 목표 |
+| **R-Squared ($R^2$, 결정계수)** | 절대 오차(MAE/RMSE)의 한계를 보완해, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 분산을 모델이 얼마나 설명하는지 비율(0~1)로 나타냄 |
+| **[Outlier](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) ([이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/))** | RMSE를 급격히 상승시켜 지표 왜곡을 일으키는 극단적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포인트 |
+| **[Gradient Descent](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/) (경사하강법)** | MSE의 미분 가능성이라는 장점을 활용하여 오차가 최소가 되는 지점을 찾아가는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -123,7 +127,7 @@ MSE는 수식적으로 부드러운 곡선을 띄어 경사하강법([[165_gradi
 확률적 회귀 평가 (Quantile Loss, 신뢰 구간 등)
 ```
 
-이 흐름도는 단순한 '거리 계산'에서 시작하여, 큰 오차에 대한 징벌, 단위를 맞추는 실용성 개선, 그리고 복잡한 [[001_dikw_pyramid|데이터]] 스케일을 포용하는 방향으로 지표가 고도화되는 과정을 보여준다.
+이 흐름도는 단순한 '거리 계산'에서 시작하여, 큰 오차에 대한 징벌, 단위를 맞추는 실용성 개선, 그리고 복잡한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스케일을 포용하는 방향으로 지표가 고도화되는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -137,7 +141,7 @@ MSE는 수식적으로 부드러운 곡선을 띄어 경사하강법([[165_gradi
 
 **진행 상황**: 97 / 258
 
-← **이전**: [[096_oversampling_smote|불균형 데이터 증강 (Oversampling) - SMOTE]]
-**다음**: [[098_coefficient_of_determination_r_squared|결정 계수 (Coefficient of Determination) - R-Squared]] →
+← **이전**: [불균형 데이터 증강 (Oversampling) - SMOTE](/knowledge-base/studynote/14_data_engineering/02_math_mining/096_oversampling_smote/)
+**다음**: [결정 계수 (Coefficient of Determination) - R-Squared](/knowledge-base/studynote/14_data_engineering/02_math_mining/098_coefficient_of_determination_r_squared/) →
 
 ---

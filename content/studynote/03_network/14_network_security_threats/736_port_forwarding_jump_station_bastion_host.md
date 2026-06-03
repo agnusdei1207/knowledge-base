@@ -1,22 +1,26 @@
----
-title: 736. 포트 포워딩 (Port Forwarding 역방향 타격 문제 제어 원격 포트/점프 스테이션 보안 규정 체계제안)
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "736. 포트 포워딩 (Port Forwarding 역방향 타격 문제 제어 원격 포트/점프 스테이션 보안 규정 체계제안)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[446_port_and_bus|포트]] 포워딩은 [[1117_network_security_zero_trust_policy|네트워크 보안]] 위협과 대응에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: [[446_port_and_bus|포트]] 포워딩을 이해하면 탐지 가능성과 복구성 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 포워딩은 [네트워크 보안](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 위협과 대응에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 포워딩을 이해하면 탐지 가능성과 복구성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 외부 인터넷 망에서, 공유기나 [[307_nat_network_address_translation_router_principles|NAT]](네트워크 주소 변환) 장비 내부에 숨어있는 사설 IP 대역의 특정 컴퓨터(서버)로 직접 접속할 수 있도록, **공유기의 특정 [[446_port_and_bus|포트]] 번호로 들어오는 패킷을 내부 컴퓨터의 특정 [[446_port_and_bus|포트]]로 '전달(Forwarding)'하도록 길을 뚫어주는 기능**입니다.
-- **예시**: 회사 밖에서 집안의 개인 NAS나 마인크래프트 게임 서버, [[538_ssh_vs_telnet_secure_remote|SSH]] 원격 접속을 할 때 가장 필수적으로 공유기에 세팅하는 설정입니다.
+- **개념**: 외부 인터넷 망에서, 공유기나 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)(네트워크 주소 변환) 장비 내부에 숨어있는 사설 IP 대역의 특정 컴퓨터(서버)로 직접 접속할 수 있도록, **공유기의 특정 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호로 들어오는 패킷을 내부 컴퓨터의 특정 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 '전달(Forwarding)'하도록 길을 뚫어주는 기능**입니다.
+- **예시**: 회사 밖에서 집안의 개인 NAS나 마인크래프트 게임 서버, [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 원격 접속을 할 때 가장 필수적으로 공유기에 세팅하는 설정입니다.
 
 ```text
 [비인가 AP]
@@ -27,16 +31,16 @@ tags:
     └──▶ [백도어]
 ```
 
-- **📢 섹션 요약 비유**: [[446_port_and_bus|포트]] 포워딩은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [[170_selectivity_cardinality_distribution_tuning|선택도]] 쉬워진다.
+- **📢 섹션 요약 비유**: [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 포워딩은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[[446_port_and_bus|포트]] 포워딩은 집에서 혼자 놀 때는 유용하지만, 기업망에서 쓰면 회사를 말아먹는 주범이 됩니다.
+[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 포워딩은 집에서 혼자 놀 때는 유용하지만, 기업망에서 쓰면 회사를 말아먹는 주범이 됩니다.
 
-1. **[[690_firewall_generation_evolution|방화벽]] 무력화 (Bypass)**: 회사 메인 [[690_firewall_generation_evolution|방화벽]]이 외부 접속을 꽁꽁 막아놓아도, 개발팀 김 대리가 귀찮다고 자기 맘대로 공유기에 22번([[538_ssh_vs_telnet_secure_remote|SSH]]) [[446_port_and_bus|포트]] 포워딩을 뚫어놓는 순간, 거대한 성벽의 개구멍이 열립니다. 해커는 이 개구멍(오픈 [[446_port_and_bus|포트]])을 [[446_port_and_bus|포트]] 스캐닝으로 기가 막히게 찾아내어 들어옵니다.
-2. **사내망 내부 횡적 이동 (Lateral Movement)**: 해커가 [[446_port_and_bus|포트]] 포워딩된 김 대리의 [[164_pc|PC]] 하나만 뚫고 들어가면, 그 PC를 숙주(교두보)로 삼아 밖에서는 접근할 수 없었던 회사의 인사팀 DB 서버, 재무팀 서버 등 사내망 내부를 활개 치고 다니며 모조리 감염시켜 버립니다(역방향 내부망 타격).
+1. **[방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 무력화 (Bypass)**: 회사 메인 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 외부 접속을 꽁꽁 막아놓아도, 개발팀 김 대리가 귀찮다고 자기 맘대로 공유기에 22번([SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/)) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 포워딩을 뚫어놓는 순간, 거대한 성벽의 개구멍이 열립니다. 해커는 이 개구멍(오픈 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))을 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 스캐닝으로 기가 막히게 찾아내어 들어옵니다.
+2. **사내망 내부 횡적 이동 (Lateral Movement)**: 해커가 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 포워딩된 김 대리의 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 하나만 뚫고 들어가면, 그 PC를 숙주(교두보)로 삼아 밖에서는 접근할 수 없었던 회사의 인사팀 DB 서버, 재무팀 서버 등 사내망 내부를 활개 치고 다니며 모조리 감염시켜 버립니다(역방향 내부망 타격).
 
 ```text
 [비인가 AP]
@@ -47,57 +51,57 @@ tags:
     └──▶ [백도어]
 ```
 
-- **📢 섹션 요약 비유**: [[446_port_and_bus|포트]] 포워딩의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
+- **📢 섹션 요약 비유**: [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 포워딩의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-그렇다면 밖에서 출장 간 직원이 안전하게 사내 서버를 원격 관리하려면 어떻게 해야 할까요? [[446_port_and_bus|포트]] 포워딩이라는 야매 샛길 대신, 정문 옆에 깐깐한 초소를 하나 짓습니다.
+그렇다면 밖에서 출장 간 직원이 안전하게 사내 서버를 원격 관리하려면 어떻게 해야 할까요? [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 포워딩이라는 야매 샛길 대신, 정문 옆에 깐깐한 초소를 하나 짓습니다.
 
-- **점프 스테이션 (또는 [[218_bastion_host_dmz_security|베스천 호스트]], [[218_bastion_host_dmz_security|Bastion Host]])**: 외부 인터넷과 내부 사내망 사이에 툭 튀어나온 완충 지대([[219_demilitarized_zone_dmz_public_subnet|DMZ]])에 설치된 **'유일한 원격 접속 전용 중계 서버'**입니다.
+- **점프 스테이션 (또는 [베스천 호스트](/knowledge-base/studynote/09_security/05_web_app_security/218_bastion_host_dmz_security/), [Bastion Host](/knowledge-base/studynote/09_security/05_web_app_security/218_bastion_host_dmz_security/))**: 외부 인터넷과 내부 사내망 사이에 툭 튀어나온 완충 지대([DMZ](/knowledge-base/studynote/09_security/05_web_app_security/219_demilitarized_zone_dmz_public_subnet/))에 설치된 **'유일한 원격 접속 전용 중계 서버'**입니다.
 - **동작 프로세스 (보안 규정 체계)**:
-  1. 외부 출장 간 직원은 절대 사내 DB 서버로 직접 접속([[446_port_and_bus|포트]] 포워딩)할 수 없습니다.
-  2. 직원은 반드시 1차로 이 **'점프 서버'**에 접속하여 혹독한 신분 검사([[552_mfa|MFA]] 이중 [[303_authentication_authorization_patterns|인증]], [[748_otp|OTP]] 등)를 거쳐야만 합니다.
+  1. 외부 출장 간 직원은 절대 사내 DB 서버로 직접 접속([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 포워딩)할 수 없습니다.
+  2. 직원은 반드시 1차로 이 **'점프 서버'**에 접속하여 혹독한 신분 검사([MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/) 이중 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), [OTP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/748_otp/) 등)를 거쳐야만 합니다.
   3. 무사히 점프 서버에 들어온 직원은, 그제야 **점프 서버의 터미널 창을 딛고 다시 한 번(Jump)** 내부망의 진짜 서버들로 원격 접속을 튕겨서 들어갑니다.
-- **장점**: 해커가 아무리 용을 써도 외부에서 보이는 입구는 점프 서버 딱 1개뿐입니다. 관리자는 이 점프 서버 한 대만 미친 듯이 감시([[568_logs_distributed_logging_elk_fluentd|로그]] 녹화, 2FA 적용)하면 되므로, 수백 대의 서버를 열어두는 것보다 압도적으로 안전한 중앙 통제 체계가 완성됩니다. (아마존 AWS나 클라우드 망 설계의 가장 완벽한 기본 아키텍처입니다.)
+- **장점**: 해커가 아무리 용을 써도 외부에서 보이는 입구는 점프 서버 딱 1개뿐입니다. 관리자는 이 점프 서버 한 대만 미친 듯이 감시([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 녹화, 2FA 적용)하면 되므로, 수백 대의 서버를 열어두는 것보다 압도적으로 안전한 중앙 통제 체계가 완성됩니다. (아마존 AWS나 클라우드 망 설계의 가장 완벽한 기본 아키텍처입니다.)
 
-[[446_port_and_bus|포트]] 포워딩을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 비인가 AP가 기반 조건을 만든다면, [[446_port_and_bus|포트]] 포워딩은 그 위에서 핵심 메커니즘을 구현하고, [[737_backdoor_c2_beacon_behavior_analysis|백도어]]는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 탐지 가능성과 복구성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 포워딩을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 비인가 AP가 기반 조건을 만든다면, [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 포워딩은 그 위에서 핵심 메커니즘을 구현하고, [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 탐지 가능성과 복구성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | 비인가 AP의 기반 정리 | [[446_port_and_bus|포트]] 포워딩의 핵심 동작 | [[737_backdoor_c2_beacon_behavior_analysis|백도어]]의 확장 적용 |
+| 초점 | 비인가 AP의 기반 정리 | [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 포워딩의 핵심 동작 | [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/)의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 탐지 가능성 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: [[446_port_and_bus|포트]] 포워딩은 거대한 군부대 철책선에 뚫어놓은 '비밀 개구멍'입니다. 간부가 편하게 출퇴근하려고 뚫어놨지만, 밤이 되면 무장공비(해커)가 이 개구멍으로 들어와 막사 전체를 피바다로 만듭니다. 반면 점프 스테이션([[218_bastion_host_dmz_security|Bastion Host]])은 부대 정문 옆에 세워둔 콘크리트 '면회 초소'입니다. 부대에 들어오고 싶은 자는 무조건 이 면회 초소 한 곳으로만 들어와 신원조회를 빡세게 받고 신분증을 내야만, 헌병의 안내를 받아 부대 내부로 '점프'해서 들어갈 수 있는 완벽한 통제소입니다.
+- **📢 섹션 요약 비유**: [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 포워딩은 거대한 군부대 철책선에 뚫어놓은 '비밀 개구멍'입니다. 간부가 편하게 출퇴근하려고 뚫어놨지만, 밤이 되면 무장공비(해커)가 이 개구멍으로 들어와 막사 전체를 피바다로 만듭니다. 반면 점프 스테이션([Bastion Host](/knowledge-base/studynote/09_security/05_web_app_security/218_bastion_host_dmz_security/))은 부대 정문 옆에 세워둔 콘크리트 '면회 초소'입니다. 부대에 들어오고 싶은 자는 무조건 이 면회 초소 한 곳으로만 들어와 신원조회를 빡세게 받고 신분증을 내야만, 헌병의 안내를 받아 부대 내부로 '점프'해서 들어갈 수 있는 완벽한 통제소입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 [[446_port_and_bus|포트]] 포워딩을 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 비인가 [[572_ap_access_point_ds_distribution_system|AP]] 수준의 기본 대책으로 충분한지, 아니면 [[446_port_and_bus|포트]] 포워딩이 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [[737_backdoor_c2_beacon_behavior_analysis|백도어]]와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 포워딩을 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 비인가 [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 수준의 기본 대책으로 충분한지, 아니면 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 포워딩이 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/)와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 탐지 가능성 부족인지, 복구성 악화인지 먼저 분리한다.
-2. [[446_port_and_bus|포트]] 포워딩가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [[396_validation|확인]]한다.
-3. 도입 후에는 인접 기술인 [[737_backdoor_c2_beacon_behavior_analysis|백도어]]와의 연계 방식을 함께 검증한다.
+2. [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 포워딩가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+3. 도입 후에는 인접 기술인 [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/)와의 연계 방식을 함께 검증한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- [[446_port_and_bus|포트]] 포워딩의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- 비인가 AP와의 경계를 정리하지 않아 중복 투자나 [[164_policy|정책]] 충돌을 만드는 설계
+- [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 포워딩의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
+- 비인가 AP와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
-- **📢 섹션 요약 비유**: [[446_port_and_bus|포트]] 포워딩을 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
+- **📢 섹션 요약 비유**: [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 포워딩을 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[[446_port_and_bus|포트]] 포워딩은 [[1117_network_security_zero_trust_policy|네트워크 보안]] 위협과 대응을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 탐지 가능성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [[737_backdoor_c2_beacon_behavior_analysis|백도어]], 예측형 위협 대응, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 예측형 위협 대응 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 포워딩은 [네트워크 보안](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 위협과 대응을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 탐지 가능성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/), 예측형 위협 대응, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 예측형 위협 대응 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: [[446_port_and_bus|포트]] 포워딩은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
+- **📢 섹션 요약 비유**: [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 포워딩은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
 ---
 
@@ -105,10 +109,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 비인가 [[572_ap_access_point_ds_distribution_system|AP]] | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 비인가 [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
 | 공격 표면 (Attack Surface) | 위협이 침투할 수 있는 노출 지점을 뜻한다. |
-| [[236_anomaly_based_detection_zero_day_false_positive|이상 탐지]] ([[111_anomaly_detection|Anomaly Detection]]) | 정상 패턴과 다른 징후를 찾아낸다. |
-| [[737_backdoor_c2_beacon_behavior_analysis|백도어]] | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) ([Anomaly Detection](/knowledge-base/studynote/16_bigdata/05_analysis/111_anomaly_detection/)) | 정상 패턴과 다른 징후를 찾아낸다. |
+| [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -122,7 +126,7 @@ tags:
     └──▶ [확장 B: 예측형 위협 대응]
 ```
 
-[[446_port_and_bus|포트]] 포워딩는 비인가 AP에서 출발해 현재 메커니즘을 정교화하고, 이후 [[737_backdoor_c2_beacon_behavior_analysis|백도어]]와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 포워딩는 비인가 AP에서 출발해 현재 메커니즘을 정교화하고, 이후 [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/)와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -136,7 +140,7 @@ tags:
 
 **진행 상황**: 857 / 1120
 
-← **이전**: [[735_rogue_ap_evil_twin_wips_defense|735. 비인가 AP (Rogue AP 무선망 트래픽 위조 가로채기 이블트윈 공격 / WIPS 방어 적용망)]]
-**다음**: [[737_backdoor_c2_beacon_behavior_analysis|737. 백도어 (Backdoor 포트 / C2 서버 Beacon 정주기 통신 이상 징후 망 행위 분석 대응 기계학습 모델 개발 방향)]] →
+← **이전**: [735. 비인가 AP (Rogue AP 무선망 트래픽 위조 가로채기 이블트윈 공격 / WIPS 방어 적용망)](/knowledge-base/studynote/03_network/14_network_security_threats/735_rogue_ap_evil_twin_wips_defense/)
+**다음**: [737. 백도어 (Backdoor 포트 / C2 서버 Beacon 정주기 통신 이상 징후 망 행위 분석 대응 기계학습 모델 개발 방향)](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) →
 
 ---

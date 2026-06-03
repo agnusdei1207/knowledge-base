@@ -1,9 +1,13 @@
----
-title: 579. 무선 LAN 보안 진화 (WEP -> WPA -> WPA2 -> WPA3)
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "579. 무선 LAN 보안 진화 (WEP -> WPA -> WPA2 -> WPA3)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -15,7 +19,7 @@ tags:
 
 ## Ⅰ. 개요 및 필요성
 
-유선 랜(LAN)은 도둑이 내 컴퓨터에 물리적으로 선을 꽂아야만 해킹할 수 있지만, 무선 랜은 공유기 전파 반경(수십 미터) 안에만 있으면 누구나 공기 중에 떠다니는 패킷을 수집(Sniffing)할 수 있습니다. 따라서 **무선 링크 구간의 강력한 암호화(Encryption)**와 올바른 사용자만 접속하게 하는 **[[303_authentication_authorization_patterns|인증]]([[604_authentication_factors|Authentication]])**이 필수적입니다.
+유선 랜(LAN)은 도둑이 내 컴퓨터에 물리적으로 선을 꽂아야만 해킹할 수 있지만, 무선 랜은 공유기 전파 반경(수십 미터) 안에만 있으면 누구나 공기 중에 떠다니는 패킷을 수집(Sniffing)할 수 있습니다. 따라서 **무선 링크 구간의 강력한 암호화(Encryption)**와 올바른 사용자만 접속하게 하는 **[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/))**이 필수적입니다.
 
 ```text
 [11be]
@@ -26,34 +30,34 @@ tags:
     └──▶ [WEP]
 ```
 
-- **📢 섹션 요약 비유**: 무선 LAN 보안 진화는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [[170_selectivity_cardinality_distribution_tuning|선택도]] 쉬워진다.
+- **📢 섹션 요약 비유**: 무선 LAN 보안 진화는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 1. 1세대: [[580_wep_wired_equivalent_privacy_rc4|WEP]] ([[580_wep_wired_equivalent_privacy_rc4|Wired Equivalent Privacy]]) - "1997년"
-- **개념**: "유선 랜과 비슷한 수준의 프라이버시를 보장하자"는 목표로 만든 가장 초창기 802.[[308_static_dynamic_nat_pat_port_address_translation|11]] 기본 암호화 표준입니다.
-- **방식**: **[[081_rc4_stream_cipher|RC4]] [[001_algorithm_definition|알고리즘]]**을 사용하며, 공유기와 단말기가 **하나의 고정된 비밀번호(정적 키)**를 계속 똑같이 사용합니다.
-- **치명적 [[352_defect_definition|결함]]**: [[288_version_ihl_tos_total_length|IV]](초기화 벡터)라는 암호화 씨앗 값이 너무 짧아 쉽게 반복됩니다. 해커가 허공의 패킷을 5분만 뜰채로 떠서 암호해독 툴(Aircrack-ng)을 돌리면 **비밀번호가 100% 털려버리는(Crack) 휴지조각**이 되었습니다. 현재는 절대 사용해선 안 됩니다.
+### 1. 1세대: [WEP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/580_wep_wired_equivalent_privacy_rc4/) ([Wired Equivalent Privacy](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/580_wep_wired_equivalent_privacy_rc4/)) - "1997년"
+- **개념**: "유선 랜과 비슷한 수준의 프라이버시를 보장하자"는 목표로 만든 가장 초창기 802.[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) 기본 암호화 표준입니다.
+- **방식**: **[RC4](/knowledge-base/studynote/09_security/02_crypto/081_rc4_stream_cipher/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**을 사용하며, 공유기와 단말기가 **하나의 고정된 비밀번호(정적 키)**를 계속 똑같이 사용합니다.
+- **치명적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)**: [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(초기화 벡터)라는 암호화 씨앗 값이 너무 짧아 쉽게 반복됩니다. 해커가 허공의 패킷을 5분만 뜰채로 떠서 암호해독 툴(Aircrack-ng)을 돌리면 **비밀번호가 100% 털려버리는(Crack) 휴지조각**이 되었습니다. 현재는 절대 사용해선 안 됩니다.
 
-### 2. 2세대: [[581_wpa_tkip_802_1x_eap|WPA]] (Wi-Fi Protected Access) - "2003년"
+### 2. 2세대: [WPA](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/581_wpa_tkip_802_1x_eap/) (Wi-Fi Protected Access) - "2003년"
 - **개념**: WEP가 너무 허무하게 뚫리자, 다급해진 Wi-Fi Alliance 협회가 정식 802.11i 표준이 완성되기 전에 급하게 내놓은 땜질용 임시 보안 규격입니다.
-- **방식**: WEP와 똑같은 [[081_rc4_stream_cipher|RC4]] [[001_algorithm_definition|알고리즘]]을 쓰되, **TKIP (Temporal [[078_key_integrity|Key Integrity]] [[295_protocol_field_tcp_udp_icmp|Protocol]])**이라는 마법을 더했습니다. 패킷을 보낼 때마다 **암호키를 계속 다른 무작위 키로 바꿔버리는(동적 키 할당)** 방식을 써서 WEP의 취약점을 막아냈습니다.
+- **방식**: WEP와 똑같은 [RC4](/knowledge-base/studynote/09_security/02_crypto/081_rc4_stream_cipher/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 쓰되, **TKIP (Temporal [Key Integrity](/knowledge-base/studynote/05_database/02_modeling_normalization/078_key_integrity/) [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))**이라는 마법을 더했습니다. 패킷을 보낼 때마다 **암호키를 계속 다른 무작위 키로 바꿔버리는(동적 키 할당)** 방식을 써서 WEP의 취약점을 막아냈습니다.
 
-### 3. 3세대: [[582_wpa2_aes_ccmp_personal_enterprise|WPA2]] (802.11i 표준) - "2004년"
+### 3. 3세대: [WPA2](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/) (802.11i 표준) - "2004년"
 - **개념**: IEEE가 드디어 완성한 정식 보안 표준(802.11i)을 그대로 가져온 완벽한 무선 보안 체계입니다. 지난 15년 넘게 전 세계 공유기의 기본 세팅으로 군림했습니다.
-- **방식**: 허접한 [[081_rc4_stream_cipher|RC4]] [[001_algorithm_definition|알고리즘]]을 완전히 버리고, 미국 정부가 쓰는 최강의 암호화 표준인 **[[656_aes_advanced_encryption_standard_rijndael|AES]] ([[656_aes_advanced_encryption_standard_rijndael|Advanced Encryption Standard]])**와 이를 무선에 맞춘 **CCMP [[295_protocol_field_tcp_udp_icmp|프로토콜]]**을 적용하여 철통같은 암호화를 자랑합니다. (단, 2017년에 KRACK 이라는 심각한 취약점이 발견되긴 했습니다.)
+- **방식**: 허접한 [RC4](/knowledge-base/studynote/09_security/02_crypto/081_rc4_stream_cipher/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 완전히 버리고, 미국 정부가 쓰는 최강의 암호화 표준인 **[AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) ([Advanced Encryption Standard](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))**와 이를 무선에 맞춘 **CCMP [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)**을 적용하여 철통같은 암호화를 자랑합니다. (단, 2017년에 KRACK 이라는 심각한 취약점이 발견되긴 했습니다.)
 
-### 4. 4세대: [[583_wpa3_sae_owe_enhanced_open|WPA3]] - "2018년"
-- **개념**: [[101_iot_concept|IoT]] 시대에 맞춰 WPA2의 오프라인 사전 공격 취약점을 보완한 최신 무선 보안 표준입니다.
+### 4. 4세대: [WPA3](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/583_wpa3_sae_owe_enhanced_open/) - "2018년"
+- **개념**: [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 시대에 맞춰 WPA2의 오프라인 사전 공격 취약점을 보완한 최신 무선 보안 표준입니다.
 - **방식**: 
-  - **SAE (Simultaneous [[604_authentication_factors|Authentication]] of Equals)** 기술을 도입하여, 비밀번호 추측용 무차별 대입 공격(Brute-force)을 막아냅니다. 비밀번호를 몇 번 틀리면 락이 걸려버립니다.
+  - **SAE (Simultaneous [Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/) of Equals)** 기술을 도입하여, 비밀번호 추측용 무차별 대입 공격(Brute-force)을 막아냅니다. 비밀번호를 몇 번 틀리면 락이 걸려버립니다.
   - 오픈 와이파이(스타벅스 무료 와이파이 등)에 접속할 때 비밀번호를 치지 않아도, OWE 기술을 통해 허공의 전파를 개별적으로 암호화하여 옆 사람이 스니핑할 수 없게 만들어줍니다 (Enhanced Open).
 
-> - **[[580_wep_wired_equivalent_privacy_rc4|WEP]]**: 현관문에 자물쇠를 걸었지만 비밀번호가 항상 '0000'으로 고정되어 있어 도둑이 금방 열고 들어옵니다.
-> - **[[581_wpa_tkip_802_1x_eap|WPA]]**: 자물쇠는 그대로지만, 문을 열 때마다 비밀번호가 '1234', '5678'로 매번 자동으로 바뀌게(TKIP) 만들었습니다.
-> - **[[582_wpa2_aes_ccmp_personal_enterprise|WPA2]]**: 자물쇠 자체를 아예 폭탄이 터져도 안 부서지는 티타늄 군사용 특수 자물쇠([[656_aes_advanced_encryption_standard_rijndael|AES]])로 교체해 버렸습니다.
+> - **[WEP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/580_wep_wired_equivalent_privacy_rc4/)**: 현관문에 자물쇠를 걸었지만 비밀번호가 항상 '0000'으로 고정되어 있어 도둑이 금방 열고 들어옵니다.
+> - **[WPA](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/581_wpa_tkip_802_1x_eap/)**: 자물쇠는 그대로지만, 문을 열 때마다 비밀번호가 '1234', '5678'로 매번 자동으로 바뀌게(TKIP) 만들었습니다.
+> - **[WPA2](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/)**: 자물쇠 자체를 아예 폭탄이 터져도 안 부서지는 티타늄 군사용 특수 자물쇠([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))로 교체해 버렸습니다.
 
 ```text
 [11be]
@@ -76,7 +80,7 @@ tags:
 |:---|:---|:---|:---|
 | 초점 | 11be의 기반 정리 | 무선 LAN 보안 진화의 핵심 동작 | WEP의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 스펙트럼 효율 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: 무선 LAN 보안 진화는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -84,18 +88,18 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 무선 LAN 보안 진화를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [[578_802_11be_wifi_7_mlo_4k_qam|11be]] 수준의 기본 대책으로 충분한지, 아니면 무선 LAN 보안 진화가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 WEP와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 무선 LAN 보안 진화를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [11be](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/578_802_11be_wifi_7_mlo_4k_qam/) 수준의 기본 대책으로 충분한지, 아니면 무선 LAN 보안 진화가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 WEP와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 스펙트럼 효율 부족인지, 이동성 악화인지 먼저 분리한다.
-2. 무선 LAN 보안 진화가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [[396_validation|확인]]한다.
+2. 무선 LAN 보안 진화가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
 3. 도입 후에는 인접 기술인 WEP와의 연계 방식을 함께 검증한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 무선 LAN 보안 진화의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- 11be와의 경계를 정리하지 않아 중복 투자나 [[164_policy|정책]] 충돌을 만드는 설계
+- 11be와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: 무선 LAN 보안 진화를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -103,7 +107,7 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-무선 LAN 보안 진화는 무선·이동통신을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 스펙트럼 효율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [[580_wep_wired_equivalent_privacy_rc4|WEP]], 지능형 무선 자원 제어, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 지능형 무선 자원 제어 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+무선 LAN 보안 진화는 무선·이동통신을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 스펙트럼 효율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [WEP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/580_wep_wired_equivalent_privacy_rc4/), 지능형 무선 자원 제어, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 지능형 무선 자원 제어 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 무선 LAN 보안 진화는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -113,10 +117,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[578_802_11be_wifi_7_mlo_4k_qam|11be]] | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| 셀 (Cell) | 무선 [[090_service_kubernetes_network_load_balancing|서비스]] 범위를 나누는 기본 단위다. |
-| [[556_handover_handoff_types_concept|핸드오버]] ([[556_handover_handoff_types_concept|Handover]]) | 이동 중에도 연결을 유지하게 만든다. |
-| [[580_wep_wired_equivalent_privacy_rc4|WEP]] | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [11be](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/578_802_11be_wifi_7_mlo_4k_qam/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 셀 (Cell) | 무선 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 범위를 나누는 기본 단위다. |
+| [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) ([Handover](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)) | 이동 중에도 연결을 유지하게 만든다. |
+| [WEP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/580_wep_wired_equivalent_privacy_rc4/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -144,7 +148,7 @@ tags:
 
 **진행 상황**: 700 / 1120
 
-← **이전**: [[578_802_11be_wifi_7_mlo_4k_qam|578. 11be (Wi-Fi 7)]]
-**다음**: [[580_wep_wired_equivalent_privacy_rc4|580. WEP (Wired Equivalent Privacy)]] →
+← **이전**: [578. 11be (Wi-Fi 7)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/578_802_11be_wifi_7_mlo_4k_qam/)
+**다음**: [580. WEP (Wired Equivalent Privacy)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/580_wep_wired_equivalent_privacy_rc4/) →
 
 ---

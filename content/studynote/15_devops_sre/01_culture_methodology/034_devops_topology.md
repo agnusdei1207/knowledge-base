@@ -1,20 +1,24 @@
----
-title: DevOps 토폴로지 (DevOps Topology)
-date: '2026-03-04'
-tags:
-- studynote-devops
----
++++
+title = "DevOps 토폴로지 (DevOps Topology)"
+date = 2026-03-04
+
+[taxonomies]
+tags = ["studynote-devops"]
+
+[extra]
+tags = ["studynote-devops"]
++++
 
 > **핵심 인사이트 3줄**
-> 1. [[652_devops_calms_culture|DevOps]] 토폴로지([[652_devops_calms_culture|DevOps]] Topology)는 조직이 DevOps를 구현하는 다양한 팀 [[258_structural_patterns_overview|구조 패턴]]을 [[104_classification_analysis|분류]]한 프레임워크로, "Anti-Type A(Dev와 Ops 완전 분리)"부터 "Type 5(NoOps·[[206_serverless_cold_start|서버리스]])"까지 조직 성숙도별 모델을 제시한다.
-> 2. Team Topologies와 연계해 조직의 [[686_cognitive_load_team_topologies|인지 부하]]·팀 간 의존성·플랫폼 성숙도를 종합 고려해 적절한 [[652_devops_calms_culture|DevOps]] 토폴로지를 선택해야 하며, 하나의 정답 패턴은 존재하지 않는다.
-> 3. 가장 흔한 [[128_water_scrum_fall_anti_pattern|안티패턴]]은 "Dev-QA-Ops 3단 [[002_silo_hyeonhyung|사일로]]"와 "DevOps팀 = Ops팀 이름 변경"으로, 이는 조직 경계를 강화할 뿐 DevOps의 목표인 협업·흐름·피드백 개선을 달성하지 못한다.
+> 1. [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 토폴로지([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) Topology)는 조직이 DevOps를 구현하는 다양한 팀 [구조 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/)을 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)한 프레임워크로, "Anti-Type A(Dev와 Ops 완전 분리)"부터 "Type 5(NoOps·[서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/))"까지 조직 성숙도별 모델을 제시한다.
+> 2. Team Topologies와 연계해 조직의 [인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/)·팀 간 의존성·플랫폼 성숙도를 종합 고려해 적절한 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 토폴로지를 선택해야 하며, 하나의 정답 패턴은 존재하지 않는다.
+> 3. 가장 흔한 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)은 "Dev-QA-Ops 3단 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)"와 "DevOps팀 = Ops팀 이름 변경"으로, 이는 조직 경계를 강화할 뿐 DevOps의 목표인 협업·흐름·피드백 개선을 달성하지 못한다.
 
 ---
 
-## Ⅰ. [[652_devops_calms_culture|DevOps]] 토폴로지 유형
+## Ⅰ. [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 토폴로지 유형
 
-### 주요 [[652_devops_calms_culture|DevOps]] 토폴로지 패턴 (Matthew Skelton [[104_classification_analysis|분류]])
+### 주요 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 토폴로지 패턴 (Matthew Skelton [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/))
 
 ```
 Type 1 — Dev와 Ops 완전 통합:
@@ -33,13 +37,13 @@ Type 5 — NoOps:
   → AWS Lambda, Google Cloud Run
 ```
 
-📢 **섹션 요약 비유**: [[652_devops_calms_culture|DevOps]] 토폴로지는 주방 운영 방식이다 — 요리사가 직접 서빙(Type 1), 전담 웨이터가 팀별 배치(Type 2), 중간 코디네이터 운영(Type 3), 키오스크 자동화(NoOps).
+📢 **섹션 요약 비유**: [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 토폴로지는 주방 운영 방식이다 — 요리사가 직접 서빙(Type 1), 전담 웨이터가 팀별 배치(Type 2), 중간 코디네이터 운영(Type 3), 키오스크 자동화(NoOps).
 
 ---
 
-## Ⅱ. [[652_devops_calms_culture|DevOps]] [[128_water_scrum_fall_anti_pattern|안티패턴]] (Anti-Type)
+## Ⅱ. [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) (Anti-Type)
 
-### 가장 흔한 [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### 가장 흔한 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 ```
 Anti-Type A — Dev vs Ops 완전 분리:
@@ -63,7 +67,7 @@ Anti-Type D — QA/Ops 격리:
 
 ---
 
-## Ⅲ. [[100_sre_site_reliability_engineering_error_budget|SRE]] 모델 — Google의 [[652_devops_calms_culture|DevOps]] 토폴로지
+## Ⅲ. [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 모델 — Google의 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 토폴로지
 
 ```
 Google SRE 모델:
@@ -84,7 +88,7 @@ Google SRE 모델:
 
 ---
 
-## Ⅳ. [[109_platform_engineering_cognitive_load|Platform Engineering]] 토폴로지
+## Ⅳ. [Platform Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) 토폴로지
 
 ```
 Platform Engineering 모델:
@@ -99,11 +103,11 @@ Platform Engineering 모델:
   → 개발팀 인지 부하 감소 + Platform Team 중앙 통제 균형
 ```
 
-📢 **섹션 요약 비유**: Platform Engineering은 레고 키트다 — 레고 회사(Platform Team)가 표준 블록([[536_idp_identity_provider|IDP]])을 제공하면, 어린이(개발팀)가 설명서 없이도 원하는 것을 만든다.
+📢 **섹션 요약 비유**: Platform Engineering은 레고 키트다 — 레고 회사(Platform Team)가 표준 블록([IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/))을 제공하면, 어린이(개발팀)가 설명서 없이도 원하는 것을 만든다.
 
 ---
 
-## Ⅴ. [[652_devops_calms_culture|DevOps]] 토폴로지 성숙도 진화
+## Ⅴ. [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 토폴로지 성숙도 진화
 
 ```
 단계 1 (초기):
@@ -123,7 +127,7 @@ Platform Engineering 모델:
   지속적 개선 문화 정착
 ```
 
-📢 **섹션 요약 비유**: [[652_devops_calms_culture|DevOps]] 성숙도는 운전 실력이다 — 처음엔 누군가 가르쳐주고(단계 1~2), 혼자 운전하다가(단계 3), 결국 자율주행(NoOps)까지 발전한다.
+📢 **섹션 요약 비유**: [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 성숙도는 운전 실력이다 — 처음엔 누군가 가르쳐주고(단계 1~2), 혼자 운전하다가(단계 3), 결국 자율주행(NoOps)까지 발전한다.
 
 ---
 
@@ -174,9 +178,9 @@ SRE 에러 버짓 → 신뢰성 관리 → Platform Engineering → NoOps
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [[652_devops_calms_culture|DevOps]] 토폴로지는 주방 팀 구성 방식이다 — 요리사가 직접 서빙하거나(통합), 전담 웨이터가 팀별 배치되거나(분리), 키오스크로 자동화(NoOps)하는 다양한 방식이 있다.
+1. [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 토폴로지는 주방 팀 구성 방식이다 — 요리사가 직접 서빙하거나(통합), 전담 웨이터가 팀별 배치되거나(분리), 키오스크로 자동화(NoOps)하는 다양한 방식이 있다.
 2. Anti-Type A는 의사와 간호사가 메모지로만 소통하는 병원이다 — 개발팀과 운영팀이 티켓으로만 소통하면 환자(소프트웨어)가 제때 치료받지 못한다.
-3. [[100_sre_site_reliability_engineering_error_budget|SRE]] 에러 버짓은 장애 용돈이다 — 한 달에 쓸 수 있는 장애 시간이 정해져 있고, 다 쓰면 새 기능 배포가 금지된다.
+3. [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 에러 버짓은 장애 용돈이다 — 한 달에 쓸 수 있는 장애 시간이 정해져 있고, 다 쓰면 새 기능 배포가 금지된다.
 
 ---
 
@@ -184,7 +188,7 @@ SRE 에러 버짓 → 신뢰성 관리 → Platform Engineering → NoOps
 
 **진행 상황**: 34 / 373
 
-← **이전**: [[033_conway_s_law|콘웨이의 법칙과 역 콘웨이 기동 (Conway's Law & Inverse Conway Maneuver)]]
-**다음**: [[035_blameless_postmortem|035. 무결함 사후 검토 (Blameless Postmortem)]] →
+← **이전**: [콘웨이의 법칙과 역 콘웨이 기동 (Conway's Law & Inverse Conway Maneuver)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/033_conway_s_law/)
+**다음**: [035. 무결함 사후 검토 (Blameless Postmortem)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/035_blameless_postmortem/) →
 
 ---

@@ -1,23 +1,27 @@
----
-title: 428. 경로 커버리지 (Path Coverage)
-date: '2026-05-08'
-tags:
-- studynote-software-engineering
----
++++
+title = "428. 경로 커버리지 (Path Coverage)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-software-engineering"]
+
+[extra]
+tags = ["studynote-software-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 경로 커버리지 (Path Coverage)은(는) [[001_software_engineering_definition|소프트웨어 공학]]의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[[346_maintainability_portability|유지보수성]]·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 경로 커버리지 (Path Coverage)은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-경로 커버리지(Path Coverage)는 제어 흐름 [[070_graph_datastructure|그래프]]([[186_control_flow_instructions|Control Flow]] [[104_graph|Graph]])의 모든 실행 경로를 확인하는 기법이다. 분기 하나만 보는 것이 아니라, 어떤 순서로 분기가 이어지는지까지 본다.
+경로 커버리지(Path Coverage)는 제어 흐름 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)([Control Flow](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/186_control_flow_instructions/) [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))의 모든 실행 경로를 확인하는 기법이다. 분기 하나만 보는 것이 아니라, 어떤 순서로 분기가 이어지는지까지 본다.
 
-이 기법이 중요한 이유는 같은 분기라도 순서가 달라지면 결과가 달라질 수 있기 때문이다. 중첩 조건과 예외 처리가 많을수록 경로 기반 [[395_verification_process_review|검증]]의 필요성이 커진다.
+이 기법이 중요한 이유는 같은 분기라도 순서가 달라지면 결과가 달라질 수 있기 때문이다. 중첩 조건과 예외 처리가 많을수록 경로 기반 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 필요성이 커진다.
 
 - **📢 섹션 요약 비유**: 목적지에 가는 길이 여러 개면, 어떤 길이 막히는지도 함께 확인해야 한다.
 
@@ -38,7 +42,7 @@ tags:
 └─────────────────────────────────────────────────────────────┘
 ```
 
-이 다이어그램은 경로 커버리지 (Path Covera가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [[395_verification_process_review|검증]]된 결과물을 산출하는 흐름을 보여준다.
+이 다이어그램은 경로 커버리지 (Path Covera가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
 
 ---
 
@@ -60,7 +64,7 @@ Start -> A? -> B? -> End
 | 항목 | 설명 |
 |:---|:---|
 | 경로 | 시작에서 종료까지의 실행 순서 |
-| 제어 흐름 [[070_graph_datastructure|그래프]] | 프로그램의 흐름을 노드와 간선으로 표현 |
+| 제어 흐름 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) | 프로그램의 흐름을 노드와 간선으로 표현 |
 | 순환 복잡도 | 독립 경로 수를 계산하는 기준 |
 
 경로 수가 많아질수록 테스트가 폭발하므로, 실무에서는 독립 경로 중심으로 접근한다.
@@ -77,11 +81,11 @@ Start -> A? -> B? -> End
 
 ## Ⅲ. 비교 및 연결
 
-경로 커버리지는 [[423_decision_coverage|결정 커버리지]]보다 넓은 관점을 제공한다. [[423_decision_coverage|결정 커버리지]]가 각 분기의 참/거짓이라면, 경로 커버리지는 그 분기들이 이어진 전체 흐름이다.
+경로 커버리지는 [결정 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/)보다 넓은 관점을 제공한다. [결정 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/)가 각 분기의 참/거짓이라면, 경로 커버리지는 그 분기들이 이어진 전체 흐름이다.
 
 | 구분 | 본다 | 한계 |
 |:---|:---|:---|
-| [[423_decision_coverage|결정 커버리지]] | 분기 결과 | 경로 조합은 놓칠 수 있음 |
+| [결정 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/) | 분기 결과 | 경로 조합은 놓칠 수 있음 |
 | 경로 커버리지 | 실행 순서 전체 | 반복문에서 무한해질 수 있음 |
 
 이 때문에 경로 커버리지는 기초 경로 테스팅(Basis Path Testing)과 함께 자주 언급된다.
@@ -98,7 +102,7 @@ Start -> A? -> B? -> End
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 분기 구조가 복잡한 승인 흐름, 예외 처리, [[632_state_transition_diagram_testing|상태 전이]] 로직에 쓰인다. 다만 전체 경로를 다 보는 것은 비현실적일 수 있으므로, 중요한 독립 경로부터 우선한다.
+실무에서는 분기 구조가 복잡한 승인 흐름, 예외 처리, [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 로직에 쓰인다. 다만 전체 경로를 다 보는 것은 비현실적일 수 있으므로, 중요한 독립 경로부터 우선한다.
 
 체크 포인트는 다음과 같다.
 1. 반복문이 있는지 먼저 확인한다.
@@ -117,9 +121,9 @@ Start -> A? -> B? -> End
 
 ## Ⅴ. 기대효과 및 결론
 
-경로 커버리지는 흐름의 맥락까지 [[395_verification_process_review|검증]]해 주기 때문에 복잡한 로직에서 유용하다. 하지만 경로 수가 늘어나면 유지 비용이 커진다.
+경로 커버리지는 흐름의 맥락까지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해 주기 때문에 복잡한 로직에서 유용하다. 하지만 경로 수가 늘어나면 유지 비용이 커진다.
 
-결론적으로 이 기법은 "흐름 전체를 보는 강한 [[395_verification_process_review|검증]]"이다. 그러나 실무에서는 독립 경로 중심으로 줄여서 써야 한다.
+결론적으로 이 기법은 "흐름 전체를 보는 강한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"이다. 그러나 실무에서는 독립 경로 중심으로 줄여서 써야 한다.
 
 - **📢 섹션 요약 비유**: 여행 일정을 짤 때 모든 우회로를 다 넣지 않고 핵심 경로부터 확인하는 것과 같다.
 
@@ -133,10 +137,10 @@ Start -> A? -> B? -> End
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[001_software_engineering_definition|소프트웨어 공학]] ([[001_software_engineering_definition|Software Engineering]]) | 경로 커버리지 (Path Coverage)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [[003_sdlc|소프트웨어 생명주기]] ([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]], Software Development Life Cycle) | 경로 커버리지 (Path Coverage)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | 경로 커버리지 (Path Coverage) 적용 결과는 QA 활동을 통해 [[395_verification_process_review|검증]]되고 측정된다 |
-| [[020_software_configuration_management|형상 관리]] ([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]]) | 경로 커버리지 (Path Coverage)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 경로 커버리지 (Path Coverage)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 경로 커버리지 (Path Coverage)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | 경로 커버리지 (Path Coverage) 적용 결과는 QA 활동을 통해 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되고 측정된다 |
+| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 경로 커버리지 (Path Coverage)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -156,13 +160,13 @@ Start -> A? -> B? -> End
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [[002_software_crisis|소프트웨어 위기]] 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 경로 커버리지 (Path Coverage)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
 
 ---
 
@@ -170,7 +174,7 @@ Start -> A? -> B? -> End
 
 **진행 상황**: 447 / 973
 
-← **이전**: [[427_multiple_condition_coverage|427. 다중 조건 커버리지 (Multiple Condition Coverage) - 개별 조건의 모든 가능한 진리값 조합 (2^N)]]
-**다음**: [[428_path_coverage|428. 경로 커버리지 (Path Coverage) - 가능한 모든 실행 경로를 테스트]] →
+← **이전**: [427. 다중 조건 커버리지 (Multiple Condition Coverage) - 개별 조건의 모든 가능한 진리값 조합 (2^N)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/427_multiple_condition_coverage/)
+**다음**: [428. 경로 커버리지 (Path Coverage) - 가능한 모든 실행 경로를 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/428_path_coverage/) →
 
 ---

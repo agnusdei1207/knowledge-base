@@ -1,16 +1,20 @@
----
-title: 💼 사업 문서 허브
-tags:
-- work
----
++++
+title = "💼 사업 문서 허브"
+
+[taxonomies]
+tags = ["work"]
+
+[extra]
+tags = ["work"]
++++
 
 사업 관련 기획, 파이프라인, 고객 요구, 수익 모델 메모를 모으는 상위 문서입니다.
 
 관련 문서:
-- [[knowledgebase-decision-log]]
-- [[business-pipeline]]
-- [[go-to-market]]
-- [[r-and-d]]
+- [knowledgebase-decision-log](/knowledge-base/work/knowledgebase-decision-log/)
+- [business-pipeline](/knowledge-base/work/business-pipeline/)
+- [go-to-market](/knowledge-base/work/go-to-market/)
+- [r-and-d](/knowledge-base/r-and-d/)
 
 ---
 
@@ -61,7 +65,7 @@ tags:
 
 ## 4. 연결 문서
 
-- 파이프라인 운영 관점: [[business-pipeline]]
-- 시장 진입 관점: [[go-to-market]]
-- 기술 검증 관점: [[r-and-d]]
-- 선택 배경과 운영 철학: [[knowledgebase-decision-log]]
+- 파이프라인 운영 관점: [business-pipeline](/knowledge-base/work/business-pipeline/)
+- 시장 진입 관점: [go-to-market](/knowledge-base/work/go-to-market/)
+- 기술 검증 관점: [r-and-d](/knowledge-base/r-and-d/)
+- 선택 배경과 운영 철학: [knowledgebase-decision-log](/knowledge-base/work/knowledgebase-decision-log/)

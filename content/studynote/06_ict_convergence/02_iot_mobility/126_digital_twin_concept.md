@@ -1,14 +1,18 @@
----
-title: 126. 디지털 트윈 (Digital Twin) - 물리 세계의 가상 복제와 시뮬레이션
-date: '2026-04-19'
-tags:
-- studynote-ict-convergence
----
++++
+title = "126. 디지털 트윈 (Digital Twin) - 물리 세계의 가상 복제와 시뮬레이션"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-ict-convergence"]
+
+[extra]
+tags = ["studynote-ict-convergence"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 디지털 트윈은 **물리적 자산·프로세스·시스템의 가상 복제본**을 만들어, [[101_iot_concept|IoT]] 센서 [[001_dikw_pyramid|데이터]]를 실시간 반영하면서 **시뮬레이션·예측·최적화**를 수행하는 기술이다.
+> 1. **본질**: 디지털 트윈은 **물리적 자산·프로세스·시스템의 가상 복제본**을 만들어, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실시간 반영하면서 **시뮬레이션·예측·최적화**를 수행하는 기술이다.
 > 2. **가치**: 실제 공장·건물·도시를 변경하기 전에 가상으로 시뮬레이션하여 **위험 없이 최적 방안을 탐색**할 수 있으며, 예측 정비(고장 전 감지)로 다운타임을 50%+ 감소시킨다.
-> 3. **판단 포인트**: 디지털 트윈은 [[101_iot_concept|IoT]]([[001_dikw_pyramid|데이터]] 수집)+3D 모델링([[003_bigdata_7v|시각화]])+[[190_ai_llm_requirements_specification|AI]](예측)+시뮬레이션(실험)의 **융합 기술**이며, GE(항공)·Siemens(제조)·BMW(자동차)가 대표 적용 사례이다.
+> 3. **판단 포인트**: 디지털 트윈은 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집)+3D 모델링([시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/))+[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)(예측)+시뮬레이션(실험)의 **융합 기술**이며, GE(항공)·Siemens(제조)·BMW(자동차)가 대표 적용 사례이다.
 
 ---
 
@@ -29,7 +33,7 @@ tags:
 └───────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 디지털 트윈은 건물의 **미니어처(축소 모형)**에 실시간 센서 [[001_dikw_pyramid|데이터]]를 연결한 것이다. 미니어처에서 실험하고 결과를 실제 건물에 적용한다.
+- **📢 섹션 요약 비유**: 디지털 트윈은 건물의 **미니어처(축소 모형)**에 실시간 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 연결한 것이다. 미니어처에서 실험하고 결과를 실제 건물에 적용한다.
 
 ---
 
@@ -40,10 +44,10 @@ tags:
 | 구성 | 역할 |
 |:---|:---|
 | **물리 개체** | 실제 자산·설비 |
-| **[[101_iot_concept|IoT]] 센서** | 실시간 [[001_dikw_pyramid|데이터]] 수집 |
+| **[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서** | 실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 |
 | **가상 모델** | 3D/수학적 모델 |
-| **[[190_ai_llm_requirements_specification|AI]]/분석** | 예측·[[236_anomaly_based_detection_zero_day_false_positive|이상 탐지]] |
-| **양방향 연결** | 물리↔디지털 [[212_synchronization_mechanisms|동기화]] |
+| **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/분석** | 예측·[이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) |
+| **양방향 연결** | 물리↔디지털 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) |
 
 - **📢 섹션 요약 비유**: 디지털 트윈은 의사의 **환자 MRI 영상**이다. 환자(물리)를 직접 절개하지 않고 MRI(디지털)로 상태를 파악·진단한다.
 
@@ -53,25 +57,25 @@ tags:
 
 | 비교 | 3D 모델 | 시뮬레이션 | 디지털 트윈 |
 |:---|:---|:---|:---|
-| **실시간** | 없음 | 없음 | **[[101_iot_concept|IoT]] 실시간** |
+| **실시간** | 없음 | 없음 | **[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 실시간** |
 | **양방향** | 없음 | 없음 | **물리↔디지털** |
-| **[[190_ai_llm_requirements_specification|AI]]** | 없음 | 제한적 | **예측·최적화** |
+| **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)** | 없음 | 제한적 | **예측·최적화** |
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 적용 분야
-- 제조: [[166_smart_factory|스마트 팩토리]] (GE·Siemens).
+- 제조: [스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/) (GE·Siemens).
 - 건축: 스마트 빌딩 에너지 최적화.
-- 도시: [[171_smart_city_platform_architecture|스마트 시티]] 교통 시뮬레이션.
+- 도시: [스마트 시티](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/171_smart_city_platform_architecture/) 교통 시뮬레이션.
 - 의료: 환자 디지털 트윈 (개인 맞춤 치료).
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-디지털 트윈은 **물리 세계의 "What-if" 실험을 가능하게 하는 핵심 기술**이며, [[101_iot_concept|IoT]]·[[190_ai_llm_requirements_specification|AI]]·5G의 발전으로 적용 범위가 빠르게 확장되고 있다.
+디지털 트윈은 **물리 세계의 "What-if" 실험을 가능하게 하는 핵심 기술**이며, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)·[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·5G의 발전으로 적용 범위가 빠르게 확장되고 있다.
 
 ---
 
@@ -79,11 +83,11 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[[101_iot_concept|IoT]]** | 디지털 트윈의 [[001_dikw_pyramid|데이터]] 수집층 |
-| **[[167_cps_cyber_physical_system|CPS]]** | 사이버-물리 시스템 (디지털 트윈의 이론 기반) |
+| **[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)** | 디지털 트윈의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집층 |
+| **[CPS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/167_cps_cyber_physical_system/)** | 사이버-물리 시스템 (디지털 트윈의 이론 기반) |
 | **시뮬레이션** | 디지털 트윈의 핵심 기능 |
-| **[[122_plm_product_lifecycle_management|PLM]]** | 디지털 트윈의 제품 [[001_dikw_pyramid|데이터]] 원천 |
-| **[[594_metaverse_realtime_sync_rendering_offloading|메타버스]]** | 디지털 트윈의 [[003_bigdata_7v|시각화]] 확장 |
+| **[PLM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/122_plm_product_lifecycle_management/)** | 디지털 트윈의 제품 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 원천 |
+| **[메타버스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/)** | 디지털 트윈의 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 확장 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -114,7 +118,7 @@ tags:
 
 **진행 상황**: 126 / 552
 
-← **이전**: [[125_wireless_sniffing_replay_attack|125. 무선 스니핑 & 리플레이 공격 - IoT/무선 환경 도청·재전송 위협]]
-**다음**: [[127_digital_twin_three_elements|127. 디지털 트윈 3요소 - 물리 개체·가상 모델·연결의 삼각 구조]] →
+← **이전**: [125. 무선 스니핑 & 리플레이 공격 - IoT/무선 환경 도청·재전송 위협](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/125_wireless_sniffing_replay_attack/)
+**다음**: [127. 디지털 트윈 3요소 - 물리 개체·가상 모델·연결의 삼각 구조](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/127_digital_twin_three_elements/) →
 
 ---

@@ -1,14 +1,18 @@
----
-title: 142. 요구 분석 & 갈등 해결 - 이해관계자 간 상충 요구 조정
-date: '2026-04-19'
-tags:
-- studynote-software-engineering
----
++++
+title = "142. 요구 분석 & 갈등 해결 - 이해관계자 간 상충 요구 조정"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-software-engineering"]
+
+[extra]
+tags = ["studynote-software-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 요구 분석 갈등 해결은 **[[173_stakeholder_identification_impact_matrix|이해관계자]] 간 상충되는 요구(보안↔편의, [[282_performance_tactics|성능]]↔비용)를 [[655_ir_detection_analysis|식별]]·협상·우선순위화**하여 합의를 도출하는 과정이다.
-> 2. **가치**: 갈등을 방치하면 프로젝트 중반에 **요구 변경 폭발([[161_scope_creep_requirements_inflation_prevention|Scope Creep]])**이 발생하며, 초기에 갈등을 해결하면 변경 비용을 **[[489_raid_10_hybrid|10]]~100배** 절감한다.
-> 3. **판단 포인트**: MoSCoW(Must·Should·Could·Won't)·AHP([[213_swot_ahp_analytic_hierarchy_process_decision_making|Analytic Hierarchy Process]])·Kano 모델이 우선순위화 기법이며, 트레이드오프 매트릭스로 갈등을 [[003_bigdata_7v|시각화]]한다.
+> 1. **본질**: 요구 분석 갈등 해결은 **[이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 간 상충되는 요구(보안↔편의, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)↔비용)를 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)·협상·우선순위화**하여 합의를 도출하는 과정이다.
+> 2. **가치**: 갈등을 방치하면 프로젝트 중반에 **요구 변경 폭발([Scope Creep](/knowledge-base/studynote/04_software_engineering/03_design_architecture/161_scope_creep_requirements_inflation_prevention/))**이 발생하며, 초기에 갈등을 해결하면 변경 비용을 **[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~100배** 절감한다.
+> 3. **판단 포인트**: MoSCoW(Must·Should·Could·Won't)·AHP([Analytic Hierarchy Process](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/213_swot_ahp_analytic_hierarchy_process_decision_making/))·Kano 모델이 우선순위화 기법이며, 트레이드오프 매트릭스로 갈등을 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)한다.
 
 ---
 
@@ -34,11 +38,11 @@ Kano: 기본(당연)·성능(비례)·매력(감동) 요구 분류
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **MoSCoW** | 우선순위 [[104_classification_analysis|분류]] |
-| **AHP** | 정량적 [[267_weight_bias_activation|가중치]] |
-| **Kano** | 요구 유형 [[104_classification_analysis|분류]] |
-| **트레이드오프** | 상충 요구 [[003_bigdata_7v|시각화]] |
-| **[[161_scope_creep_requirements_inflation_prevention|Scope Creep]]** | 미해결 갈등의 결과 |
+| **MoSCoW** | 우선순위 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) |
+| **AHP** | 정량적 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) |
+| **Kano** | 요구 유형 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) |
+| **트레이드오프** | 상충 요구 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) |
+| **[Scope Creep](/knowledge-base/studynote/04_software_engineering/03_design_architecture/161_scope_creep_requirements_inflation_prevention/)** | 미해결 갈등의 결과 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -59,7 +63,7 @@ Kano: 기본(당연)·성능(비례)·매력(감동) 요구 분류
 
 **진행 상황**: 142 / 973
 
-← **이전**: [[141_focus_group_interview_fgi|141. 포커스 그룹 인터뷰 (FGI) - 그룹 심층 인터뷰 기법]]
-**다음**: [[143_structured_analysis_dfd_dd_minispec|143. 구조적 분석 (Structured Analysis) - DFD·DD·Mini-Spec]] →
+← **이전**: [141. 포커스 그룹 인터뷰 (FGI) - 그룹 심층 인터뷰 기법](/knowledge-base/studynote/04_software_engineering/03_design_architecture/141_focus_group_interview_fgi/)
+**다음**: [143. 구조적 분석 (Structured Analysis) - DFD·DD·Mini-Spec](/knowledge-base/studynote/04_software_engineering/03_design_architecture/143_structured_analysis_dfd_dd_minispec/) →
 
 ---

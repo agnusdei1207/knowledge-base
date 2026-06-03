@@ -1,23 +1,27 @@
----
-title: 403. 스누핑 프로토콜 (Snooping Protocol)
-date: '2026-03-20'
-tags:
-- studynote-computer-architecture
----
++++
+title = "403. 스누핑 프로토콜 (Snooping Protocol)"
+date = 2026-03-20
+
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 스누핑 [[295_protocol_field_tcp_udp_icmp|프로토콜]] (Snooping [[295_protocol_field_tcp_udp_icmp|Protocol]])은 각 코어의 캐시 컨트롤러가 공유 [[344_bus|버스]]의 [[191_transaction_concept_states|트랜잭션]]을 모두 감시해, [[402_cache_coherence|캐시 일관성]] ([[402_cache_coherence|Cache Coherence]])을 분산적으로 유지하는 방식이다.
-> 2. **가치**: 중앙 [[506_directory_structure_symbol_table|디렉터리]] 없이도 읽기·[[289_cqrs_db|쓰기]] 충돌을 빠르게 처리할 수 있어, 소수 코어 기반의 대칭형 멀티프로세서와 온칩 공유 [[344_bus|버스]] 구조에서 [[015_지연_데이터_관점|지연]] 시간이 짧다.
-> 3. **판단 포인트**: 모든 코어가 모든 요청을 듣는 브로드캐스트 구조이므로, 코어 수와 트래픽이 커질수록 [[344_bus|버스]] [[140_bandwidth|대역폭]]과 전력 소모가 급격히 악화되어 확장성 한계가 분명하다.
+> 1. **본질**: 스누핑 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) (Snooping [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))은 각 코어의 캐시 컨트롤러가 공유 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 모두 감시해, [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) ([Cache Coherence](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/))을 분산적으로 유지하는 방식이다.
+> 2. **가치**: 중앙 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 없이도 읽기·[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 충돌을 빠르게 처리할 수 있어, 소수 코어 기반의 대칭형 멀티프로세서와 온칩 공유 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 구조에서 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간이 짧다.
+> 3. **판단 포인트**: 모든 코어가 모든 요청을 듣는 브로드캐스트 구조이므로, 코어 수와 트래픽이 커질수록 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 전력 소모가 급격히 악화되어 확장성 한계가 분명하다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-스누핑 [[295_protocol_field_tcp_udp_icmp|프로토콜]]은 멀티코어 시스템에서 각 코어가 가진 사본 캐시를 서로 맞추기 위한 하드웨어 기반 감시 규칙이다. 여러 CPU (Central Processing Unit) 코어가 같은 메모리 주소를 각자의 L1 (Level 1) 캐시에 복제해 두면, 한 코어의 [[289_cqrs_db|쓰기]]가 다른 코어의 오래된 사본과 충돌한다. 이때 누가 최신 값을 갖고 있는지 모르면 프로그램은 같은 변수에 대해 서로 다른 현실을 보게 된다.
+스누핑 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 멀티코어 시스템에서 각 코어가 가진 사본 캐시를 서로 맞추기 위한 하드웨어 기반 감시 규칙이다. 여러 CPU (Central Processing Unit) 코어가 같은 메모리 주소를 각자의 L1 (Level 1) 캐시에 복제해 두면, 한 코어의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)가 다른 코어의 오래된 사본과 충돌한다. 이때 누가 최신 값을 갖고 있는지 모르면 프로그램은 같은 변수에 대해 서로 다른 현실을 보게 된다.
 
-문제가 커지는 이유는 캐시가 빠르기 때문이다. 메인 메모리보다 훨씬 빠른 캐시를 적극적으로 쓰려면, "빠르지만 틀릴 수 있는 사본"을 "빠르고도 믿을 수 있는 사본"으로 유지해야 한다. 스누핑은 이 요구를 가장 직관적으로 해결한다. 모든 코어가 공유 [[344_bus|버스]]를 함께 본다는 점을 이용해, 어떤 코어가 [[289_cqrs_db|쓰기]] 요청을 내면 다른 코어들이 그 신호를 즉시 듣고 자기 캐시 상태를 수정한다.
+문제가 커지는 이유는 캐시가 빠르기 때문이다. 메인 메모리보다 훨씬 빠른 캐시를 적극적으로 쓰려면, "빠르지만 틀릴 수 있는 사본"을 "빠르고도 믿을 수 있는 사본"으로 유지해야 한다. 스누핑은 이 요구를 가장 직관적으로 해결한다. 모든 코어가 공유 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 함께 본다는 점을 이용해, 어떤 코어가 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청을 내면 다른 코어들이 그 신호를 즉시 듣고 자기 캐시 상태를 수정한다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -33,7 +37,7 @@ tags:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-핵심은 "모두가 같은 [[344_bus|버스]]를 듣는다"는 공유 매체의 특성을 [[194_consistency_database_integrity|일관성]] 유지 메커니즘으로 바꿨다는 점이다. 그래서 스누핑은 작은 규모의 [[118_shared_memory|공유 메모리]] 시스템에서 자연스럽고 구현도 비교적 단순한 출발점이 되었다.
+핵심은 "모두가 같은 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 듣는다"는 공유 매체의 특성을 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 유지 메커니즘으로 바꿨다는 점이다. 그래서 스누핑은 작은 규모의 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 시스템에서 자연스럽고 구현도 비교적 단순한 출발점이 되었다.
 
 - **📢 섹션 요약 비유**: 스누핑은 같은 교실 학생들이 공지 방송을 동시에 듣는 것과 같다. 한 학생이 숙제 답을 고쳤다고 방송하면, 다른 학생들은 자기 공책의 옛 답을 바로 지워서 서로 다른 답안을 들고 있지 않게 된다.
 
@@ -41,16 +45,16 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-스누핑 시스템의 중심은 캐시 컨트롤러와 공유 [[344_bus|버스]]다. 각 캐시 컨트롤러는 자기 코어의 메모리 요청만 처리하는 것이 아니라, [[344_bus|버스]]를 지나가는 다른 코어의 읽기·[[289_cqrs_db|쓰기]] 요청도 감시한다. 이 감시 결과에 따라 캐시 라인의 상태를 `유효`, `공유`, `수정`, `무효`처럼 바꾸며, 보통 MESI (Modified, Exclusive, Shared, Invalid) 같은 상태 기계를 함께 사용한다.
+스누핑 시스템의 중심은 캐시 컨트롤러와 공유 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)다. 각 캐시 컨트롤러는 자기 코어의 메모리 요청만 처리하는 것이 아니라, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 지나가는 다른 코어의 읽기·[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청도 감시한다. 이 감시 결과에 따라 캐시 라인의 상태를 `유효`, `공유`, `수정`, `무효`처럼 바꾸며, 보통 MESI (Modified, Exclusive, Shared, Invalid) 같은 상태 기계를 함께 사용한다.
 
-대표 [[164_policy|정책]]은 [[289_cqrs_db|쓰기]] 무효화 ([[405_write_invalidate|Write-Invalidate]])다. 어떤 코어가 특정 주소를 쓰려 하면, [[344_bus|버스]]에 "이 주소를 내가 갱신한다"는 신호를 내보낸다. 그러면 같은 라인을 들고 있던 다른 캐시들은 자신의 사본을 무효화한다. 이후 그 코어만 최신 값을 가진 상태가 되고, 다른 코어가 다시 읽을 때는 최신 값을 재획득한다. [[289_cqrs_db|쓰기]] 갱신 ([[406_write_update|Write-Update]])처럼 [[001_dikw_pyramid|데이터]]를 그대로 퍼뜨리는 방식도 가능하지만, 일반적으로는 트래픽 때문에 무효화가 더 널리 쓰인다.
+대표 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 무효화 ([Write-Invalidate](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/405_write_invalidate/))다. 어떤 코어가 특정 주소를 쓰려 하면, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에 "이 주소를 내가 갱신한다"는 신호를 내보낸다. 그러면 같은 라인을 들고 있던 다른 캐시들은 자신의 사본을 무효화한다. 이후 그 코어만 최신 값을 가진 상태가 되고, 다른 코어가 다시 읽을 때는 최신 값을 재획득한다. [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 갱신 ([Write-Update](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/406_write_update/))처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 그대로 퍼뜨리는 방식도 가능하지만, 일반적으로는 트래픽 때문에 무효화가 더 널리 쓰인다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
-| 공유 [[344_bus|버스]] (Shared [[344_bus|Bus]]) | 모든 메모리 [[191_transaction_concept_states|트랜잭션]]을 브로드캐스트 | 모든 캐시가 같은 요청을 볼 수 있어야 함 |
+| 공유 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) (Shared [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)) | 모든 메모리 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 브로드캐스트 | 모든 캐시가 같은 요청을 볼 수 있어야 함 |
 | 캐시 컨트롤러 | 로컬 요청 처리 + 외부 요청 감시 | 태그 비교와 상태 전이를 동시에 수행 |
-| 스누프 로직 (Snoop Logic) | [[344_bus|버스]] 주소와 로컬 캐시 라인 비교 | 감시 [[015_지연_데이터_관점|지연]]이 길어지면 파이프라인에 부담 |
-| 상태 [[295_protocol_field_tcp_udp_icmp|프로토콜]] | MESI 등으로 라인 상태 관리 | 불필요한 무효화와 [[344_bus|버스]] 점유를 줄여야 함 |
+| 스누프 로직 (Snoop Logic) | [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 주소와 로컬 캐시 라인 비교 | 감시 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 길어지면 파이프라인에 부담 |
+| 상태 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) | MESI 등으로 라인 상태 관리 | 불필요한 무효화와 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 점유를 줄여야 함 |
 
 아래 흐름은 스누핑이 실제로 어떻게 동작하는지를 보여준다.
 
@@ -67,7 +71,7 @@ tags:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-이 방식의 장점은 반응이 빠르다는 점이다. 별도 중앙 장부를 조회하지 않아도 [[344_bus|버스]] 한 번으로 모든 관련 캐시가 즉시 반응할 수 있다. 반면 모든 코어가 매 [[191_transaction_concept_states|트랜잭션]]마다 태그 비교를 해야 하므로, 코어 수가 늘수록 하드웨어 감시 비용과 [[344_bus|버스]] 부하가 함께 증가한다.
+이 방식의 장점은 반응이 빠르다는 점이다. 별도 중앙 장부를 조회하지 않아도 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 한 번으로 모든 관련 캐시가 즉시 반응할 수 있다. 반면 모든 코어가 매 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)마다 태그 비교를 해야 하므로, 코어 수가 늘수록 하드웨어 감시 비용과 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 부하가 함께 증가한다.
 
 - **📢 섹션 요약 비유**: 스누핑은 아파트 방송 설비와 비슷하다. 관리실이 "401호 공용창고 비밀번호 바뀜"이라고 한 번만 방송하면, 그 번호를 적어 둔 집들은 자기 메모를 지우고 새 번호가 필요할 때 다시 확인한다.
 
@@ -75,36 +79,36 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-스누핑을 제대로 이해하려면 [[404_directory_based_protocol|디렉터리 기반 프로토콜]] ([[404_directory_based_protocol|Directory-based Protocol]])과 비교해야 한다. 스누핑은 모든 코어가 모든 요청을 듣는 브로드캐스트 방식이고, [[506_directory_structure_symbol_table|디렉터리]]는 "누가 그 라인을 갖고 있는지"를 별도 [[506_directory_structure_symbol_table|디렉터리]] 엔트리가 추적한 뒤 필요한 대상에게만 [[389_mesh_topology|메시]]지를 보낸다. 즉 스누핑은 단순성과 저지연이 강점이고, [[506_directory_structure_symbol_table|디렉터리]]는 확장성이 강점이다.
+스누핑을 제대로 이해하려면 [디렉터리 기반 프로토콜](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/404_directory_based_protocol/) ([Directory-based Protocol](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/404_directory_based_protocol/))과 비교해야 한다. 스누핑은 모든 코어가 모든 요청을 듣는 브로드캐스트 방식이고, [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)는 "누가 그 라인을 갖고 있는지"를 별도 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 엔트리가 추적한 뒤 필요한 대상에게만 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 보낸다. 즉 스누핑은 단순성과 저지연이 강점이고, [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)는 확장성이 강점이다.
 
-| 비교 항목 | 스누핑 [[295_protocol_field_tcp_udp_icmp|프로토콜]] | [[404_directory_based_protocol|디렉터리 기반 프로토콜]] |
+| 비교 항목 | 스누핑 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) | [디렉터리 기반 프로토콜](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/404_directory_based_protocol/) |
 | :--- | :--- | :--- |
-| 감시 방식 | 모든 캐시가 [[344_bus|버스]] [[191_transaction_concept_states|트랜잭션]] 전체 감시 | [[506_directory_structure_symbol_table|디렉터리]]가 소유자/공유자 추적 |
-| 통신 형태 | 브로드캐스트 중심 | 대상 지정 [[389_mesh_topology|메시]]지 중심 |
-| 유리한 규모 | 소수 코어, 공유 [[344_bus|버스]] 구조 | 다수 코어, [[389_mesh_topology|메시]] 네트워크 구조 |
-| 병목 | [[344_bus|버스]] [[140_bandwidth|대역폭]], snoop storm | [[506_directory_structure_symbol_table|디렉터리]] 저장 비용, [[339_routing_overview_best_path_selection|라우팅]] 복잡도 |
-| 대표 연결 개념 | MESI, [[351_bus_arbitration|버스 중재]], [[409_false_sharing|거짓 공유]] | [[377_numa_allocation|NUMA]] ([[377_numa_allocation|Non-Uniform Memory Access]]), [[367_noc|NoC]] (Network-on-Chip) |
+| 감시 방식 | 모든 캐시가 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 전체 감시 | [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)가 소유자/공유자 추적 |
+| 통신 형태 | 브로드캐스트 중심 | 대상 지정 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 중심 |
+| 유리한 규모 | 소수 코어, 공유 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 구조 | 다수 코어, [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 네트워크 구조 |
+| 병목 | [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), snoop storm | [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 저장 비용, [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 복잡도 |
+| 대표 연결 개념 | MESI, [버스 중재](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/351_bus_arbitration/), [거짓 공유](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/) | [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) ([Non-Uniform Memory Access](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)), [NoC](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/367_noc/) (Network-on-Chip) |
 
-또한 스누핑은 [[402_cache_coherence|캐시 일관성]]의 구현 방식이지, [[410_memory_consistency_model|메모리 일관성 모델]] ([[410_memory_consistency_model|Memory Consistency Model]]) 자체와는 다르다. 전자는 하드웨어가 사본을 맞추는 문제이고, 후자는 프로그램이 읽기·[[289_cqrs_db|쓰기]] 순서를 어떤 규칙으로 관찰하는지의 문제다. 운영체제와 [[430_index_fast_full_scan|병렬]] 프로그래밍 관점에서는 스누핑이 투명하게 동작하더라도, 여전히 메모리 장벽과 [[212_synchronization_mechanisms|동기화]] 명령은 필요하다.
+또한 스누핑은 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)의 구현 방식이지, [메모리 일관성 모델](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/410_memory_consistency_model/) ([Memory Consistency Model](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/410_memory_consistency_model/)) 자체와는 다르다. 전자는 하드웨어가 사본을 맞추는 문제이고, 후자는 프로그램이 읽기·[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 순서를 어떤 규칙으로 관찰하는지의 문제다. 운영체제와 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 프로그래밍 관점에서는 스누핑이 투명하게 동작하더라도, 여전히 메모리 장벽과 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 명령은 필요하다.
 
-스누핑은 뒤이어 나오는 [[405_write_invalidate|무효화 정책]], MESI, MOESI (Modified, Owned, Exclusive, Shared, Invalid), [[409_false_sharing|거짓 공유]] ([[409_false_sharing|False Sharing]])와 직접 이어진다. 특히 [[409_false_sharing|거짓 공유]]는 논리적으로 독립적인 [[001_dikw_pyramid|데이터]]가 같은 캐시 라인에 있다는 이유만으로 불필요한 스누핑 무효화가 반복되는 현상이라, 스누핑 구조의 실질적 비용을 가장 잘 보여주는 사례다.
+스누핑은 뒤이어 나오는 [무효화 정책](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/405_write_invalidate/), MESI, MOESI (Modified, Owned, Exclusive, Shared, Invalid), [거짓 공유](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/) ([False Sharing](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/))와 직접 이어진다. 특히 [거짓 공유](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/)는 논리적으로 독립적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 같은 캐시 라인에 있다는 이유만으로 불필요한 스누핑 무효화가 반복되는 현상이라, 스누핑 구조의 실질적 비용을 가장 잘 보여주는 사례다.
 
-- **📢 섹션 요약 비유**: 스누핑은 동네 전체 방송이고, [[506_directory_structure_symbol_table|디렉터리]]는 관리대장이 필요한 집에만 전화를 거는 방식이다. 사람이 적을 때는 방송이 빠르지만, 단지가 커지면 필요한 집만 콕 집어 연락하는 쪽이 더 조용하고 효율적이다.
+- **📢 섹션 요약 비유**: 스누핑은 동네 전체 방송이고, [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)는 관리대장이 필요한 집에만 전화를 거는 방식이다. 사람이 적을 때는 방송이 빠르지만, 단지가 커지면 필요한 집만 콕 집어 연락하는 쪽이 더 조용하고 효율적이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 스누핑은 개발자가 직접 "선택"하기보다, 하드웨어가 가진 특성을 이해하고 소프트웨어 구조를 맞추는 문제로 나타난다. 작은 [[118_shared_memory|공유 메모리]] 시스템에서는 스누핑 덕분에 [[402_cache_coherence|캐시 일관성]]이 자동으로 유지되지만, 잦은 [[289_cqrs_db|쓰기]] 공유 패턴이 생기면 [[344_bus|버스]] 무효화 트래픽이 급증한다. 따라서 설계자는 공유 [[001_dikw_pyramid|데이터]] 구조를 만들 때 "정말로 한 캐시 라인을 여러 코어가 함께 두드리는가"를 먼저 봐야 한다.
+실무에서 스누핑은 개발자가 직접 "선택"하기보다, 하드웨어가 가진 특성을 이해하고 소프트웨어 구조를 맞추는 문제로 나타난다. 작은 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 시스템에서는 스누핑 덕분에 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)이 자동으로 유지되지만, 잦은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 공유 패턴이 생기면 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 무효화 트래픽이 급증한다. 따라서 설계자는 공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조를 만들 때 "정말로 한 캐시 라인을 여러 코어가 함께 두드리는가"를 먼저 봐야 한다.
 
-대표적인 판단 포인트는 [[409_false_sharing|거짓 공유]] 회피다. 예를 들어 여러 [[092_thread_lwp|스레드]]가 독립 카운터를 각자 증가시키더라도, 그 카운터들이 우연히 같은 64바이트 캐시 라인에 들어 있으면 스누핑은 이를 모두 같은 공유 [[001_dikw_pyramid|데이터]]처럼 취급한다. 이 경우 계산량보다 무효화 비용이 더 커져, 코어를 늘렸는데도 [[282_performance_tactics|성능]]이 떨어질 수 있다. [[098_padding_convolutional_neural_network_same_valid|패딩]], 구조체 분리, [[113_thread_local_storage|스레드 로컬 저장소]] 사용은 이런 문제를 줄이는 대표 해법이다.
+대표적인 판단 포인트는 [거짓 공유](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/) 회피다. 예를 들어 여러 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 독립 카운터를 각자 증가시키더라도, 그 카운터들이 우연히 같은 64바이트 캐시 라인에 들어 있으면 스누핑은 이를 모두 같은 공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)처럼 취급한다. 이 경우 계산량보다 무효화 비용이 더 커져, 코어를 늘렸는데도 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 떨어질 수 있다. [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/), 구조체 분리, [스레드 로컬 저장소](/knowledge-base/studynote/02_operating_system/02_process_thread/113_thread_local_storage/) 사용은 이런 문제를 줄이는 대표 해법이다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 자주 쓰는 공유 변수가 동일 캐시 라인에 과밀 배치되어 있지 않은가?
-2. 읽기 위주 [[001_dikw_pyramid|데이터]]와 [[289_cqrs_db|쓰기]] 위주 [[001_dikw_pyramid|데이터]]를 같은 객체에 묶어 불필요한 무효화를 만들고 있지 않은가?
-3. 락 변수나 카운터가 모든 코어의 공용 핫스폿이 되어 [[344_bus|버스]] 트래픽을 키우고 있지 않은가?
-4. 코어 수가 큰 시스템이라면 하드웨어가 이미 [[506_directory_structure_symbol_table|디렉터리]] 혼합 구조인지, [[377_numa_allocation|NUMA]] 배치가 [[282_performance_tactics|성능]]에 더 큰 영향을 주는지 확인했는가?
+2. 읽기 위주 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 위주 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 같은 객체에 묶어 불필요한 무효화를 만들고 있지 않은가?
+3. 락 변수나 카운터가 모든 코어의 공용 핫스폿이 되어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 트래픽을 키우고 있지 않은가?
+4. 코어 수가 큰 시스템이라면 하드웨어가 이미 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 혼합 구조인지, [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 배치가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 더 큰 영향을 주는지 확인했는가?
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -121,7 +125,7 @@ tags:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-기술사 답안 관점에서는 "소형 [[195_real_time_scheduling|SMP]] (Symmetric Multiprocessing)에는 적합하지만, 대규모 다코어 확장에는 불리하다"는 문장을 명확히 남겨야 한다. 즉 스누핑은 우수한 기본 해법이지만, 설계 규모가 커질수록 자동으로 최선인 해법은 아니다.
+기술사 답안 관점에서는 "소형 [SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) (Symmetric Multiprocessing)에는 적합하지만, 대규모 다코어 확장에는 불리하다"는 문장을 명확히 남겨야 한다. 즉 스누핑은 우수한 기본 해법이지만, 설계 규모가 커질수록 자동으로 최선인 해법은 아니다.
 
 - **📢 섹션 요약 비유**: 스누핑 환경에서는 여러 사람이 하나의 화이트보드 주변에서 동시에 지우개를 들고 있는 셈이다. 서로 다른 칸을 쓰는 것 같아도 너무 가까이 붙어 쓰면 누군가 지울 때 옆칸까지 같이 지워져서 일이 느려진다.
 
@@ -129,11 +133,11 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-스누핑 [[295_protocol_field_tcp_udp_icmp|프로토콜]]의 가장 큰 효과는 [[402_cache_coherence|캐시 일관성]] 문제를 하드웨어가 빠르고 투명하게 처리해 준다는 점이다. 덕분에 프로그래머는 여러 코어가 같은 메모리를 공유하더라도, 최소한 각 캐시 사본의 최신성 유지까지 직접 관리할 필요는 없다. 이는 범용 멀티코어 프로세서가 대중화되는 데 중요한 기반이 되었다.
+스누핑 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 가장 큰 효과는 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 문제를 하드웨어가 빠르고 투명하게 처리해 준다는 점이다. 덕분에 프로그래머는 여러 코어가 같은 메모리를 공유하더라도, 최소한 각 캐시 사본의 최신성 유지까지 직접 관리할 필요는 없다. 이는 범용 멀티코어 프로세서가 대중화되는 데 중요한 기반이 되었다.
 
-하지만 장점은 구조적 전제 위에서만 성립한다. 공유 [[344_bus|버스]]가 효과적으로 동작하고, 코어 수가 상대적으로 적으며, 브로드캐스트 비용이 감당 가능한 범위여야 한다. 시스템이 더 커지면 [[506_directory_structure_symbol_table|디렉터리]] 기반 추적, 계층형 [[402_cache_coherence|캐시 일관성]], 온칩 네트워크 최적화가 함께 필요해진다.
+하지만 장점은 구조적 전제 위에서만 성립한다. 공유 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 효과적으로 동작하고, 코어 수가 상대적으로 적으며, 브로드캐스트 비용이 감당 가능한 범위여야 한다. 시스템이 더 커지면 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 기반 추적, 계층형 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/), 온칩 네트워크 최적화가 함께 필요해진다.
 
-결국 스누핑은 "작고 빠른 공유 세계"에 최적화된 [[402_cache_coherence|캐시 일관성]] 해법으로 기억하는 것이 좋다. 핵심은 단순성 덕분에 빠르지만, 그 단순성이 곧 확장성 한계의 원인이 된다는 점이다.
+결국 스누핑은 "작고 빠른 공유 세계"에 최적화된 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 해법으로 기억하는 것이 좋다. 핵심은 단순성 덕분에 빠르지만, 그 단순성이 곧 확장성 한계의 원인이 된다는 점이다.
 
 - **📢 섹션 요약 비유**: 스누핑은 소규모 회의실에서 모두가 한마디씩 듣고 바로 맞추는 방식이다. 회의실이 작을 때는 가장 빠르지만, 참석자가 너무 많아지면 사회자 없이 진행할 수 없게 되는 것과 같다.
 
@@ -143,11 +147,11 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[402_cache_coherence|캐시 일관성]] ([[402_cache_coherence|Cache Coherence]]) | 스누핑이 해결하려는 상위 문제로, 여러 캐시 사본의 최신성 유지가 목표다. |
-| [[405_write_invalidate|무효화 정책]] ([[405_write_invalidate|Write-Invalidate]]) | 스누핑에서 가장 널리 쓰이는 갱신 방식으로, 다른 캐시 사본을 먼저 무효화한다. |
-| MESI [[295_protocol_field_tcp_udp_icmp|프로토콜]] | 스누핑 시 캐시 라인의 상태 전이를 정의하는 대표 상태 기계다. |
-| [[404_directory_based_protocol|디렉터리 기반 프로토콜]] ([[404_directory_based_protocol|Directory-based Protocol]]) | 스누핑의 브로드캐스트 한계를 보완하는 확장형 [[194_consistency_database_integrity|일관성]] 방식이다. |
-| [[409_false_sharing|거짓 공유]] ([[409_false_sharing|False Sharing]]) | 스누핑 환경에서 불필요한 무효화 트래픽을 일으키는 대표 [[282_performance_tactics|성능]] 병목이다. |
+| [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) ([Cache Coherence](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)) | 스누핑이 해결하려는 상위 문제로, 여러 캐시 사본의 최신성 유지가 목표다. |
+| [무효화 정책](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/405_write_invalidate/) ([Write-Invalidate](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/405_write_invalidate/)) | 스누핑에서 가장 널리 쓰이는 갱신 방식으로, 다른 캐시 사본을 먼저 무효화한다. |
+| MESI [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) | 스누핑 시 캐시 라인의 상태 전이를 정의하는 대표 상태 기계다. |
+| [디렉터리 기반 프로토콜](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/404_directory_based_protocol/) ([Directory-based Protocol](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/404_directory_based_protocol/)) | 스누핑의 브로드캐스트 한계를 보완하는 확장형 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 방식이다. |
+| [거짓 공유](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/) ([False Sharing](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/)) | 스누핑 환경에서 불필요한 무효화 트래픽을 일으키는 대표 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -170,7 +174,7 @@ tags:
 디렉터리 기반 프로토콜 (Directory-based Protocol)
 ```
 
-이 흐름은 "공유 [[001_dikw_pyramid|데이터]] 등장 → 사본 정합성 문제 → 스누핑으로 저지연 해결 → 규모 확대로 [[506_directory_structure_symbol_table|디렉터리]] 전환"이라는 진화를 보여준다.
+이 흐름은 "공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 등장 → 사본 정합성 문제 → 스누핑으로 저지연 해결 → 규모 확대로 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 전환"이라는 진화를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -184,7 +188,7 @@ tags:
 
 **진행 상황**: 404 / 803
 
-← **이전**: [[402_cache_coherence|402. 캐시 일관성 (Cache Coherence)]]
-**다음**: [[404_directory_based_protocol|404. 디렉터리 기반 프로토콜 (Directory-based Protocol)]] →
+← **이전**: [402. 캐시 일관성 (Cache Coherence)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)
+**다음**: [404. 디렉터리 기반 프로토콜 (Directory-based Protocol)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/404_directory_based_protocol/) →
 
 ---

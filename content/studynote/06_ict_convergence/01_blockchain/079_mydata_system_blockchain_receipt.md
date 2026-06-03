@@ -1,31 +1,35 @@
----
-title: 079. 마이데이터 체계와 블록체인 데이터 영수증 (MyData & Blockchain Receipt)
-date: '2026-05-05'
-tags:
-- studynote-ict-convergence
----
++++
+title = "079. 마이데이터 체계와 블록체인 데이터 영수증 (MyData & Blockchain Receipt)"
+date = 2026-05-05
+
+[taxonomies]
+tags = ["studynote-ict-convergence"]
+
+[extra]
+tags = ["studynote-ict-convergence"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [[012_mydata|마이데이터]]([[266_mydata_open_api_token_security|MyData]])는 기관(은행, 통신사)이 독점하던 내 [[781_personal_information|개인정보]]의 통제권([[809_data_sovereignty|데이터 주권]])을 개인에게 돌려주어 자유로운 이동과 융합을 강제하는 법적/기술적 거버넌스이며, **[[004_blockchain|블록체인]] [[001_dikw_pyramid|데이터]] 영수증**은 이 [[001_dikw_pyramid|데이터]] 이동의 승인 내역을 위변조 불가능하게 박제하는 신뢰 앵커(Trust Anchor)다.
-> 2. **가치**: 고객이 "내 신용카드 결제 내역을 A 핀테크 앱으로 보내!"라고 동의(Consent)할 때, 그 동의 내역이 중앙 서버가 아닌 [[004_blockchain|블록체인]] 원장에 영수증으로 기록됨으로써 [[001_dikw_pyramid|데이터]] 제공자와 수신자 간의 '책임 공방(부인 방지)'을 원천 차단한다.
-> 3. **판단 포인트**: [[012_mydata|마이데이터]] 플랫폼 아키텍처 설계 시, 엄청난 트래픽의 실제 [[781_personal_information|개인정보]] 원본(PII)은 [[004_blockchain|블록체인]]에 올리지 않고 [[916_p2p_peer_to_peer_networking_super_node_gnutella|P2P]]([[014_api_posix|API]])로 직접 전송하되, 오직 '동의의 증명(Hash)' 트랜잭션만 [[004_blockchain|블록체인]]에 영수증으로 기록하는 오프체인(Off-chain) [[001_dikw_pyramid|데이터]] 융합 패턴이 필수다.
+> 1. **본질**: [마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/)([MyData](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/266_mydata_open_api_token_security/))는 기관(은행, 통신사)이 독점하던 내 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)의 통제권([데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/))을 개인에게 돌려주어 자유로운 이동과 융합을 강제하는 법적/기술적 거버넌스이며, **[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 영수증**은 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동의 승인 내역을 위변조 불가능하게 박제하는 신뢰 앵커(Trust Anchor)다.
+> 2. **가치**: 고객이 "내 신용카드 결제 내역을 A 핀테크 앱으로 보내!"라고 동의(Consent)할 때, 그 동의 내역이 중앙 서버가 아닌 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 원장에 영수증으로 기록됨으로써 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 제공자와 수신자 간의 '책임 공방(부인 방지)'을 원천 차단한다.
+> 3. **판단 포인트**: [마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/) 플랫폼 아키텍처 설계 시, 엄청난 트래픽의 실제 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 원본(PII)은 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 올리지 않고 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/)([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))로 직접 전송하되, 오직 '동의의 증명(Hash)' 트랜잭션만 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 영수증으로 기록하는 오프체인(Off-chain) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 융합 패턴이 필수다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-우리는 평생 살며 엄청난 [[001_dikw_pyramid|데이터]]를 만들어낸다. 신용카드 결제, 병원 진료, 통신사 통화 기록. 그런데 이 [[001_dikw_pyramid|데이터]]는 내가 만들었는데 정작 꿀은 대기업(플랫폼)들이 독점하며 광고 수익을 올렸다. 내가 가계부 앱에 내 카드 내역을 불러오려면 아이디/비밀번호를 통째로 앱에 넘겨서 무식하게 화면을 긁어오게(스크래핑, Scraping) 만들어야 했다. 보안은 박살 나고 [[809_data_sovereignty|데이터 주권]]은 유린당했다.
+우리는 평생 살며 엄청난 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 만들어낸다. 신용카드 결제, 병원 진료, 통신사 통화 기록. 그런데 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 내가 만들었는데 정작 꿀은 대기업(플랫폼)들이 독점하며 광고 수익을 올렸다. 내가 가계부 앱에 내 카드 내역을 불러오려면 아이디/비밀번호를 통째로 앱에 넘겨서 무식하게 화면을 긁어오게(스크래핑, Scraping) 만들어야 했다. 보안은 박살 나고 [데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/)은 유린당했다.
 
-이 끔찍한 구조를 박살 내기 위해 국가가 나서서 법을 바꾼 것이 **[[012_mydata|마이데이터]]([[266_mydata_open_api_token_security|MyData]], 본인신용정보관리업)**다. 고객이 동의만 하면, A은행은 B앱으로 [[001_dikw_pyramid|데이터]]를 무조건 안전한 표준 API로 쏴주어야 한다. 하지만 여기서 새로운 의심이 싹튼다. "내가 동의한 적도 없는데 내 정보가 팔리면? 나중에 은행이 자기는 동의서 받은 적 없다고 오리발을 내밀면?" 이 신뢰의 공백을 완벽하게 틀어막는 쇳덩어리 기계적 보증 수표가 바로 [[004_blockchain|블록체인]] 네트워크에 박제되는 **[[001_dikw_pyramid|데이터]] 영수증([[004_blockchain|Blockchain]] Receipt)** 시스템이다.
+이 끔찍한 구조를 박살 내기 위해 국가가 나서서 법을 바꾼 것이 **[마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/)([MyData](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/266_mydata_open_api_token_security/), 본인신용정보관리업)**다. 고객이 동의만 하면, A은행은 B앱으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 무조건 안전한 표준 API로 쏴주어야 한다. 하지만 여기서 새로운 의심이 싹튼다. "내가 동의한 적도 없는데 내 정보가 팔리면? 나중에 은행이 자기는 동의서 받은 적 없다고 오리발을 내밀면?" 이 신뢰의 공백을 완벽하게 틀어막는 쇳덩어리 기계적 보증 수표가 바로 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 네트워크에 박제되는 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 영수증([Blockchain](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) Receipt)** 시스템이다.
 
-- **📢 섹션 요약 비유**: [[012_mydata|마이데이터]]는 '내 지갑 속 영수증 뺏어오기'다. 전에는 마트(은행)가 내 구매 내역을 자기 금고에 가두고 안 보여줬다면, 이젠 내가 요구하면 마트가 내 비서(핀테크 앱)에게 장부를 무조건 복사해 줘야 한다. 이때 [[004_blockchain|블록체인]] 영수증은 "내가 줘도 된다고 도장 찍었다"는 사실을 광화문 돌비석([[136_variance|분산]] 원장)에 새겨넣어, 마트나 비서가 나중에 딴소리(부인)를 절대 못하게 막는 절대 증거물이다.
+- **📢 섹션 요약 비유**: [마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/)는 '내 지갑 속 영수증 뺏어오기'다. 전에는 마트(은행)가 내 구매 내역을 자기 금고에 가두고 안 보여줬다면, 이젠 내가 요구하면 마트가 내 비서(핀테크 앱)에게 장부를 무조건 복사해 줘야 한다. 이때 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 영수증은 "내가 줘도 된다고 도장 찍었다"는 사실을 광화문 돌비석([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 원장)에 새겨넣어, 마트나 비서가 나중에 딴소리(부인)를 절대 못하게 막는 절대 증거물이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 전송 요구권([[795_data_portability|Data Portability]])과 [[004_blockchain|블록체인]] 융합 아키텍처
-[[012_mydata|마이데이터]] 시스템은 '[[001_dikw_pyramid|데이터]]의 흐름'과 '동의(Consent)의 흐름'을 2-Tier 아키텍처로 철저히 물리적으로 분리한다.
+### 전송 요구권([Data Portability](/knowledge-base/studynote/09_security/16_data_privacy/795_data_portability/))과 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 융합 아키텍처
+[마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/) 시스템은 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 흐름'과 '동의(Consent)의 흐름'을 2-Tier 아키텍처로 철저히 물리적으로 분리한다.
 
 ```text
 ┌────────────────────────────────────────────────────────┐
@@ -50,50 +54,50 @@ tags:
 └────────────────────────────────────────────────────────┘
 ```
 
-사용자는 언제든 '[[012_mydata|마이데이터]] 종합포털'에 들어가 [[004_blockchain|블록체인]]에 기록된 자신의 [[001_dikw_pyramid|데이터]] 영수증([[022_smart_contract|Smart Contract]] [[568_logs_distributed_logging_elk_fluentd|로그]])을 열람하고, "어? 내가 이 앱에는 [[001_dikw_pyramid|데이터]] 제공 동의를 철회할래"라고 즉시 연결을 끊어버릴 수 있는 중앙 통제소(Control Tower) 권한을 획득한다.
+사용자는 언제든 '[마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/) 종합포털'에 들어가 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 기록된 자신의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 영수증([Smart Contract](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))을 열람하고, "어? 내가 이 앱에는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 제공 동의를 철회할래"라고 즉시 연결을 끊어버릴 수 있는 중앙 통제소(Control Tower) 권한을 획득한다.
 
-- **📢 섹션 요약 비유**: 이 융합 구조는 '택배 배송과 [[988_digital_signature|전자 서명]]'이다. 택배 상자(실제 개인 금융 [[001_dikw_pyramid|데이터]]) 자체를 [[004_blockchain|블록체인]] 고속도로에 올리면 무거워서 고속도로가 무너진다. 택배는 전용 화물기([[014_api_posix|API]])로 다이렉트로 보내고, 물건을 받았다는 '인수증 서명(해시값)' 쪼가리 하나만 [[004_blockchain|블록체인]] 우체국에 영원히 박제해 두는 가장 스마트한 분업이다.
+- **📢 섹션 요약 비유**: 이 융합 구조는 '택배 배송과 [전자 서명](/knowledge-base/studynote/03_network/19_frequent_topics_terms/988_digital_signature/)'이다. 택배 상자(실제 개인 금융 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 자체를 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 고속도로에 올리면 무거워서 고속도로가 무너진다. 택배는 전용 화물기([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))로 다이렉트로 보내고, 물건을 받았다는 '인수증 서명(해시값)' 쪼가리 하나만 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 우체국에 영원히 박제해 두는 가장 스마트한 분업이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 스크래핑(Scraping) 방식 vs [[012_mydata|마이데이터]]([[014_api_posix|API]] + [[004_blockchain|블록체인]]) 방식
-오픈뱅킹과 [[012_mydata|마이데이터]] 법제화 전후의 아키텍처 진화다.
+### 스크래핑(Scraping) 방식 vs [마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/)([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) + [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)) 방식
+오픈뱅킹과 [마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/) 법제화 전후의 아키텍처 진화다.
 
-| 비교 항목 | 과거: 화면 스크래핑 (Screen Scraping) | 현재: [[012_mydata|마이데이터]] + [[004_blockchain|블록체인]] 영수증 |
+| 비교 항목 | 과거: 화면 스크래핑 (Screen Scraping) | 현재: [마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/) + [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 영수증 |
 |:---|:---|:---|
-| **[[001_dikw_pyramid|데이터]] 수집 경로**| 고객의 ID/PW를 앱이 받아서 은행 사이트에 대신 [[568_logs_distributed_logging_elk_fluentd|로그]]인 후 HTML 크롤링 | **은행이 표준화된 [[343_json|JSON]] API로 앱에 직접([[176_direct_addressing|Direct]]) 전송** |
-| **[[303_authentication_authorization_patterns|인증]] 및 동의** | 앱에 아이디/비밀번호 노출 (치명적 보안 취약점) | **OAuth 2.0 기반 토큰 발급 및 [[004_blockchain|블록체인]] 동의 원장 기록** |
-| **[[001_dikw_pyramid|데이터]] 범위 제어**| 은행 화면에 보이는 모든 정보가 다 털림 | **고객이 "카드 내역만 보내"라고 정밀 타겟팅(영수증 기록) 가능** |
-| **법적 책임 (부인 방지)**| 털리면 누구 책임인지 [[396_validation|확인]] 불가 ([[568_logs_distributed_logging_elk_fluentd|로그]]인 [[160_session_controlling_terminal|세션]] 꼬임) | **[[004_blockchain|블록체인]] 영수증을 증거로 완벽한 사후 [[606_auditing_linux_auditd|감사]]([[363_audit|Audit]]) 가능** |
+| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 경로**| 고객의 ID/PW를 앱이 받아서 은행 사이트에 대신 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인 후 HTML 크롤링 | **은행이 표준화된 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) API로 앱에 직접([Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/)) 전송** |
+| **[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 및 동의** | 앱에 아이디/비밀번호 노출 (치명적 보안 취약점) | **OAuth 2.0 기반 토큰 발급 및 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 동의 원장 기록** |
+| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 범위 제어**| 은행 화면에 보이는 모든 정보가 다 털림 | **고객이 "카드 내역만 보내"라고 정밀 타겟팅(영수증 기록) 가능** |
+| **법적 책임 (부인 방지)**| 털리면 누구 책임인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 불가 ([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 꼬임) | **[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 영수증을 증거로 완벽한 사후 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) 가능** |
 
-스크래핑 시절에는 핀테크 앱이 해킹당하면 고객의 전 은행 비밀번호가 몽땅 털렸다. [[012_mydata|마이데이터]] 아키텍처는 비밀번호 대신 일회용 티켓(OAuth 토큰)을 발급하고, 이 티켓 발급 대장을 [[004_blockchain|블록체인]](영수증)에 올려놓아 플랫폼 간의 완벽한 [[667_zero_trust_runtime_integrity_measurement|제로 트러스트]]([[667_zero_trust_runtime_integrity_measurement|Zero Trust]]) 거래를 성립시켰다.
+스크래핑 시절에는 핀테크 앱이 해킹당하면 고객의 전 은행 비밀번호가 몽땅 털렸다. [마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/) 아키텍처는 비밀번호 대신 일회용 티켓(OAuth 토큰)을 발급하고, 이 티켓 발급 대장을 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)(영수증)에 올려놓아 플랫폼 간의 완벽한 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)) 거래를 성립시켰다.
 
-- **📢 섹션 요약 비유**: 스크래핑이 내 금고 '마스터키'를 남에게 줘버려서 그 사람이 내 금고 안의 일기장까지 다 훔쳐볼 수 있게 만든 아찔한 상황이라면, [[012_mydata|마이데이터]] API는 은행원이 '내가 딱 지정한 통장 사본'만 복사해서 서류봉투에 담아 넘겨주는 완벽히 통제된 안전 시스템이다.
+- **📢 섹션 요약 비유**: 스크래핑이 내 금고 '마스터키'를 남에게 줘버려서 그 사람이 내 금고 안의 일기장까지 다 훔쳐볼 수 있게 만든 아찔한 상황이라면, [마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/) API는 은행원이 '내가 딱 지정한 통장 사본'만 복사해서 서류봉투에 담아 넘겨주는 완벽히 통제된 안전 시스템이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **금융보안원 중심의 [[012_mydata|마이데이터]] 통합 [[303_authentication_authorization_patterns|인증]] (CBA, Cloud-Based [[604_authentication_factors|Authentication]])**: 고객이 10개 은행의 [[001_dikw_pyramid|데이터]]를 핀테크 앱에 모으려면 10번 동의를 해야 한다. 아키텍트는 10번의 불편함을 막기 위해 금융결제원의 통합 [[303_authentication_authorization_patterns|인증]]서를 활용하여 '한 번의 동의(Single Consent)'로 10개 기관의 [[014_api_posix|API]] 문을 동시에 열어젖히는 릴레이 토큰 시스템을 구축한다. 이때 생성된 통합 동의 내역은 [[020_private_blockchain|프라이빗 블록체인]]([[058_hyperledger_fabric_private_blockchain|Hyperledger Fabric]] 등) 망에 멀티 채널 렛저(Ledger)로 기록되어 각 은행의 노드(Node) 간 [[001_dikw_pyramid|데이터]] 무결성을 [[212_synchronization_mechanisms|동기화]]한다.
-2. **동의 철회(Revocation)와 잊힐 권리 구현의 오프체인 [[212_synchronization_mechanisms|동기화]]**: 고객이 [[004_blockchain|블록체인]] 영수증을 보고 "A 핀테크 앱에 더 이상 [[001_dikw_pyramid|데이터]] 주지 마!"라고 철회(Revocation) 트랜잭션을 날리면, [[004_blockchain|블록체인]]의 스마트 컨트랙트가 작동하여 상태를 'Revoked'로 바꾼다. 이 상태 변경 이벤트가 A 은행 [[014_api_posix|API]] 게이트웨이로 쏴지고, 은행은 즉시 OAuth Access Token을 파기해 버린다. 다음 초(sec)부터 핀테크 앱이 [[001_dikw_pyramid|데이터]]를 요구해도 "[[004_blockchain|블록체인]]에서 권한 뺏겼음!"이라며 `401 Unauthorized` 에러를 뱉어내는 완벽한 즉시 차단 매커니즘이다.
+1. **금융보안원 중심의 [마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/) 통합 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) (CBA, Cloud-Based [Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/))**: 고객이 10개 은행의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 핀테크 앱에 모으려면 10번 동의를 해야 한다. 아키텍트는 10번의 불편함을 막기 위해 금융결제원의 통합 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 활용하여 '한 번의 동의(Single Consent)'로 10개 기관의 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 문을 동시에 열어젖히는 릴레이 토큰 시스템을 구축한다. 이때 생성된 통합 동의 내역은 [프라이빗 블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/020_private_blockchain/)([Hyperledger Fabric](/knowledge-base/studynote/06_ict_convergence/01_blockchain/058_hyperledger_fabric_private_blockchain/) 등) 망에 멀티 채널 렛저(Ledger)로 기록되어 각 은행의 노드(Node) 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 무결성을 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)한다.
+2. **동의 철회(Revocation)와 잊힐 권리 구현의 오프체인 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)**: 고객이 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 영수증을 보고 "A 핀테크 앱에 더 이상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 주지 마!"라고 철회(Revocation) 트랜잭션을 날리면, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 스마트 컨트랙트가 작동하여 상태를 'Revoked'로 바꾼다. 이 상태 변경 이벤트가 A 은행 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이로 쏴지고, 은행은 즉시 OAuth Access Token을 파기해 버린다. 다음 초(sec)부터 핀테크 앱이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 요구해도 "[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에서 권한 뺏겼음!"이라며 `401 Unauthorized` 에러를 뱉어내는 완벽한 즉시 차단 매커니즘이다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
-- **[[004_blockchain|블록체인]] [[002_database_definition|데이터베이스]](On-chain) 비대화 및 [[783_pipa_korea|개인정보보호법]](PIPL/[[791_gdpr_eu|GDPR]]) 위반**: "위변조가 불가능하니까 고객의 주민번호와 통장 잔액 [[001_dikw_pyramid|데이터]] 원본도 [[004_blockchain|블록체인]]에 영원히 저장해 두자!"라고 아키텍처를 짜는 순간 시스템은 교도소행이다. 사용자가 나중에 [[012_mydata|마이데이터]] 탈퇴를 선언하며 "내 정보 다 지워줘(잊힐 권리)"라고 요구할 때, [[004_blockchain|블록체인]]에 기록된 [[001_dikw_pyramid|데이터]]는 물리적으로 지울 수 없으므로([[298_immutable|Immutable]]) 기업은 수십억 원의 벌금 폭탄을 맞고 파산한다. [[004_blockchain|블록체인]] 온체인(On-chain)에는 오직 **해시(Hash)값과 [[012_metadata|메타데이터]](동의 시간, 대상 [[289_identification_flags_fragmentation_offset|식별자]])**만 올려야 한다.
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- **[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(On-chain) 비대화 및 [개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/)(PIPL/[GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/)) 위반**: "위변조가 불가능하니까 고객의 주민번호와 통장 잔액 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 원본도 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 영원히 저장해 두자!"라고 아키텍처를 짜는 순간 시스템은 교도소행이다. 사용자가 나중에 [마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/) 탈퇴를 선언하며 "내 정보 다 지워줘(잊힐 권리)"라고 요구할 때, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 기록된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 물리적으로 지울 수 없으므로([Immutable](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/)) 기업은 수십억 원의 벌금 폭탄을 맞고 파산한다. [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 온체인(On-chain)에는 오직 **해시(Hash)값과 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)(동의 시간, 대상 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/))**만 올려야 한다.
 
-- **📢 섹션 요약 비유**: [[004_blockchain|블록체인]]에 [[781_personal_information|개인정보]]를 올리는 것은 '석빙고 벽돌에 내 일기장을 깎아 새기는 것'이다. 나중에 부끄러워서 지우고 싶어도 끌을 가져와 돌벽 자체를 부수지 않는 이상 영원히 지워지지 않는 대참사가 벌어진다. 돌벽에는 "내가 일기장을 줬다"는 사인(해시)만 남겨야 한다.
+- **📢 섹션 요약 비유**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)를 올리는 것은 '석빙고 벽돌에 내 일기장을 깎아 새기는 것'이다. 나중에 부끄러워서 지우고 싶어도 끌을 가져와 돌벽 자체를 부수지 않는 이상 영원히 지워지지 않는 대참사가 벌어진다. 돌벽에는 "내가 일기장을 줬다"는 사인(해시)만 남겨야 한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[[012_mydata|마이데이터]]와 [[004_blockchain|블록체인]]의 결합은 "[[001_dikw_pyramid|데이터]]는 21세기의 원유(Oil)이며, 그 원유의 소유권은 채굴자(은행/플랫폼)가 아닌 매장된 땅의 주인(개인)에게 있다"는 웹 3.0(Web 3.0) 철학의 가장 강력한 실물 경제적 구현체다.
+[마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/)와 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 결합은 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 21세기의 원유(Oil)이며, 그 원유의 소유권은 채굴자(은행/플랫폼)가 아닌 매장된 땅의 주인(개인)에게 있다"는 웹 3.0(Web 3.0) 철학의 가장 강력한 실물 경제적 구현체다.
 
-[[004_blockchain|블록체인]] [[001_dikw_pyramid|데이터]] 영수증은 서로 믿지 못하는 금융사, 빅테크, 그리고 고객 사이에서 제3자([[329_ttp|TTP]]) 없이도 [[001_dikw_pyramid|데이터]] 유통의 법적 효력을 증명하는 기계적 판사 역할을 수행한다. 의료 [[012_mydata|마이데이터]], 공공 [[012_mydata|마이데이터]] 등 사회 전 분야로 [[809_data_sovereignty|데이터 주권]]([[410_ai_intellectual_property_data_sovereignty_data_act|Data Sovereignty]])이 확장되는 시대에, [[136_variance|분산]] 원장에 기반한 동의 궤적(Consent Trail) 추적 기술은 가장 필수적이고 기초적인 디지털 신뢰 인프라가 될 것이다.
+[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 영수증은 서로 믿지 못하는 금융사, 빅테크, 그리고 고객 사이에서 제3자([TTP](/knowledge-base/studynote/09_security/04_endpoint_security/329_ttp/)) 없이도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유통의 법적 효력을 증명하는 기계적 판사 역할을 수행한다. 의료 [마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/), 공공 [마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/) 등 사회 전 분야로 [데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/)([Data Sovereignty](/knowledge-base/studynote/06_ict_convergence/05_data_science/410_ai_intellectual_property_data_sovereignty_data_act/))이 확장되는 시대에, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 원장에 기반한 동의 궤적(Consent Trail) 추적 기술은 가장 필수적이고 기초적인 디지털 신뢰 인프라가 될 것이다.
 
-- **📢 섹션 요약 비유**: [[012_mydata|마이데이터]]와 [[004_blockchain|블록체인]] 영수증은 '[[001_dikw_pyramid|데이터]] 해방군과 무결점 블랙박스'다. 해방군은 대기업이 독점하던 내 [[001_dikw_pyramid|데이터]]를 구출해 나에게 가져다주고, 블랙박스는 그 구출 작전 과정에서 누구 하나 거짓말([[001_dikw_pyramid|데이터]] 도둑질)을 할 수 없게 모든 대화 내용(동의 내역)을 녹음해 두는 완벽한 콤비 플레이를 보여준다.
+- **📢 섹션 요약 비유**: [마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/)와 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 영수증은 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 해방군과 무결점 블랙박스'다. 해방군은 대기업이 독점하던 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 구출해 나에게 가져다주고, 블랙박스는 그 구출 작전 과정에서 누구 하나 거짓말([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 도둑질)을 할 수 없게 모든 대화 내용(동의 내역)을 녹음해 두는 완벽한 콤비 플레이를 보여준다.
 
 ---
 
@@ -101,9 +105,9 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **오픈 [[014_api_posix|API]] ([[247_open_api_gateway_security_throttling_rate_limiting|Open API]])** | 과거의 위험한 화면 긁어오기(Scraping)를 박살 내고, [[012_mydata|마이데이터]] [[001_dikw_pyramid|데이터]]를 표준화된 통로로 안전하고 빠르게 전송해 주는 핵심 쇳덩어리 배관망 |
-| **[[231_did_decentralized_identity|DID]] ([[136_variance|분산]] 신원 증명)** | [[012_mydata|마이데이터]]에서 개인이 "나 진짜 홍길동 맞으니까 내 [[001_dikw_pyramid|데이터]] A앱으로 보내!"라고 [[303_authentication_authorization_patterns|인증]]할 때, 중앙 서버 없이 스마트폰 지갑으로 증명하는 찰떡궁합 신원 [[303_authentication_authorization_patterns|인증]] 아키텍처 |
-| **OAuth 2.0** | 아이디/비밀번호를 통째로 넘기지 않고, "카드 내역만 볼 수 있는 1시간짜리 임시 출입증(Access Token)"을 핀테크 앱에 발급해 주는 [[012_mydata|마이데이터]] 보안의 권한 위임 [[295_protocol_field_tcp_udp_icmp|프로토콜]] |
+| **오픈 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([Open API](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/247_open_api_gateway_security_throttling_rate_limiting/))** | 과거의 위험한 화면 긁어오기(Scraping)를 박살 내고, [마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 표준화된 통로로 안전하고 빠르게 전송해 주는 핵심 쇳덩어리 배관망 |
+| **[DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) ([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 신원 증명)** | [마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/)에서 개인이 "나 진짜 홍길동 맞으니까 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) A앱으로 보내!"라고 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)할 때, 중앙 서버 없이 스마트폰 지갑으로 증명하는 찰떡궁합 신원 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 아키텍처 |
+| **OAuth 2.0** | 아이디/비밀번호를 통째로 넘기지 않고, "카드 내역만 볼 수 있는 1시간짜리 임시 출입증(Access Token)"을 핀테크 앱에 발급해 주는 [마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/) 보안의 권한 위임 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -123,13 +127,13 @@ tags:
 블록체인 분산 원장 융합 ──▶ 동의 내역의 스마트 컨트랙트화 (데이터 영수증 / Consent Receipt 발행)
 ```
 
-이 흐름도는 "기업의 [[001_dikw_pyramid|데이터]] 독점 → 법/제도적 해방([[012_mydata|마이데이터]]) → 안전한 유통망([[014_api_posix|API]]) 구축 → 유통 사실의 암호학적 신뢰 보증([[004_blockchain|블록체인]])"으로 이어지는 [[809_data_sovereignty|데이터 주권]] 거버넌스의 완벽한 진화 궤적을 보여준다.
+이 흐름도는 "기업의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 독점 → 법/제도적 해방([마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/)) → 안전한 유통망([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 구축 → 유통 사실의 암호학적 신뢰 보증([블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/))"으로 이어지는 [데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/) 거버넌스의 완벽한 진화 궤적을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [[012_mydata|마이데이터]]는 장난감 가게 사장님이 몰래 가지고 있던 '내 장난감 구매 포인트 장부'를 내가 달라고 하면 무조건 줘야 하는 마법의 법이에요.
+1. [마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/)는 장난감 가게 사장님이 몰래 가지고 있던 '내 장난감 구매 포인트 장부'를 내가 달라고 하면 무조건 줘야 하는 마법의 법이에요.
 2. 내가 그 장부를 다른 게임 회사로 넘겨주라고 허락할 때, 나중에 사장님이 "너 그런 허락 한 적 없잖아?"라고 거짓말할까 봐 걱정되잖아요?
-3. 그래서 [[004_blockchain|블록체인]] [[001_dikw_pyramid|데이터]] 영수증이라는 절대 지워지지 않는 마법 돌판에 "내가 허락했음!" 하고 도장을 쾅 찍어놔서 아무도 오리발을 못 내밀게 막는 거랍니다!
+3. 그래서 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 영수증이라는 절대 지워지지 않는 마법 돌판에 "내가 허락했음!" 하고 도장을 쾅 찍어놔서 아무도 오리발을 못 내밀게 막는 거랍니다!
 
 ---
 
@@ -137,7 +141,7 @@ tags:
 
 **진행 상황**: 79 / 552
 
-← **이전**: [[078_web3_social_network_mastodon_nostr|78. 웹3.0 소셜 네트워크 (Mastodon, Bluesky, Nostr 기반 프로토콜)]]
-**다음**: [[080_cbdc_offline_payment_protocol|080. CBDC 오프라인 결제 프로토콜 (CBDC Offline Payment)]] →
+← **이전**: [78. 웹3.0 소셜 네트워크 (Mastodon, Bluesky, Nostr 기반 프로토콜)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/078_web3_social_network_mastodon_nostr/)
+**다음**: [080. CBDC 오프라인 결제 프로토콜 (CBDC Offline Payment)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/080_cbdc_offline_payment_protocol/) →
 
 ---

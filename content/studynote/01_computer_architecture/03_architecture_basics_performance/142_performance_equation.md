@@ -1,23 +1,27 @@
----
-title: 142. 컴퓨터 성능 방정식 (Performance Equation)
-date: '2026-04-19'
-tags:
-- studynote-computer-architecture
----
++++
+title = "142. 컴퓨터 성능 방정식 (Performance Equation)"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 컴퓨터 [[282_performance_tactics|성능]] 방정식 ([[282_performance_tactics|Performance]] Equation)은 CPU 실행 시간 (CPU [[327_execution_time_binding|Execution Time]])을 **[[158_instruction|명령어]] 수, [[158_instruction|명령어]]당 사이클 수, 클럭 시간**으로 분해해 병목의 위치를 보이게 만드는 분석 틀이다.
-> 2. **가치**: 같은 프로그램이 느린 이유가 소프트웨어의 비효율인지, 마이크로아키텍처의 정체인지, [[009_semiconductor|반도체]] 타이밍 한계인지를 구분하게 해 준다.
-> 3. **판단 포인트**: [[282_performance_tactics|성능]] 개선은 한 항목만 키우는 경쟁이 아니라, **[[158_instruction|명령어]] 수·[[158_instruction|명령어]]당 사이클 수·클럭 시간의 곱**을 가장 작게 만드는 균형 설계다.
+> 1. **본질**: 컴퓨터 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 방정식 ([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) Equation)은 CPU 실행 시간 (CPU [Execution Time](/knowledge-base/studynote/02_operating_system/06_memory_management/327_execution_time_binding/))을 **[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)당 사이클 수, 클럭 시간**으로 분해해 병목의 위치를 보이게 만드는 분석 틀이다.
+> 2. **가치**: 같은 프로그램이 느린 이유가 소프트웨어의 비효율인지, 마이크로아키텍처의 정체인지, [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 타이밍 한계인지를 구분하게 해 준다.
+> 3. **판단 포인트**: [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 개선은 한 항목만 키우는 경쟁이 아니라, **[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수·[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)당 사이클 수·클럭 시간의 곱**을 가장 작게 만드는 균형 설계다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-컴퓨터 [[282_performance_tactics|성능]] 방정식 ([[282_performance_tactics|Performance]] Equation)은 프로그램 하나를 끝내는 데 걸리는 **CPU 실행 시간 (CPU [[327_execution_time_binding|Execution Time]])** 을 `Instruction Count × Cycles Per Instruction × Clock Cycle Time`으로 표현하는 [[282_performance_tactics|성능]] 분석식이다. 겉으로는 단순한 곱셈이지만, 이 식이 중요한 이유는 “왜 느린가?”라는 질문을 막연한 체감이 아니라 측정 가능한 세 변수로 바꿔 주기 때문이다. 즉 느린 시스템을 볼 때 단순히 CPU (Central Processing Unit) 클럭만 탓하지 않고, 실행해야 할 [[158_instruction|명령어]] 수가 과도한지, [[158_instruction|명령어]]가 자주 멈추는지, 한 사이클 자체가 긴지를 분리해서 볼 수 있다.
+컴퓨터 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 방정식 ([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) Equation)은 프로그램 하나를 끝내는 데 걸리는 **CPU 실행 시간 (CPU [Execution Time](/knowledge-base/studynote/02_operating_system/06_memory_management/327_execution_time_binding/))** 을 `Instruction Count × Cycles Per Instruction × Clock Cycle Time`으로 표현하는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 분석식이다. 겉으로는 단순한 곱셈이지만, 이 식이 중요한 이유는 “왜 느린가?”라는 질문을 막연한 체감이 아니라 측정 가능한 세 변수로 바꿔 주기 때문이다. 즉 느린 시스템을 볼 때 단순히 CPU (Central Processing Unit) 클럭만 탓하지 않고, 실행해야 할 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수가 과도한지, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 자주 멈추는지, 한 사이클 자체가 긴지를 분리해서 볼 수 있다.
 
-이 식이 필요해진 배경은 고클럭 경쟁만으로는 실제 [[282_performance_tactics|성능]]을 설명할 수 없었기 때문이다. 예를 들어 클럭 주파수는 높아졌는데도 캐시 미스와 분기 실패가 많으면 사용자가 느끼는 속도는 크게 오르지 않는다. 반대로 클럭이 약간 낮아도 [[001_algorithm_definition|알고리즘]] 개선으로 [[158_instruction|명령어]] 수가 줄면 전체 실행 시간은 더 짧아질 수 있다. [[282_performance_tactics|성능]] 방정식은 이런 혼란을 정리해, **소프트웨어·아키텍처·[[009_semiconductor|반도체]] 공정이 각각 어디에 기여하는지** 공통 언어로 보여준다.
+이 식이 필요해진 배경은 고클럭 경쟁만으로는 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 설명할 수 없었기 때문이다. 예를 들어 클럭 주파수는 높아졌는데도 캐시 미스와 분기 실패가 많으면 사용자가 느끼는 속도는 크게 오르지 않는다. 반대로 클럭이 약간 낮아도 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 개선으로 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수가 줄면 전체 실행 시간은 더 짧아질 수 있다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 방정식은 이런 혼란을 정리해, **소프트웨어·아키텍처·[반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 공정이 각각 어디에 기여하는지** 공통 언어로 보여준다.
 
 - **📢 섹션 요약 비유**: 이 식은 요리 완성 시간을 따지는 방식과 같다. 만들어야 할 요리 단계 수가 많거나, 한 단계마다 손이 많이 가거나, 불이 약하면 전체 식사가 늦어진다.
 
@@ -25,18 +29,18 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[[282_performance_tactics|성능]] 방정식의 핵심은 CPU 실행 시간이 하나의 숫자가 아니라 세 층의 원인이 곱해진 결과라는 점이다. 보통 다음과 같이 쓴다.
+[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 방정식의 핵심은 CPU 실행 시간이 하나의 숫자가 아니라 세 층의 원인이 곱해진 결과라는 점이다. 보통 다음과 같이 쓴다.
 
 - `CPU Execution Time = Instruction Count × Cycles Per Instruction × Clock Cycle Time`
 - 또는 `CPU Execution Time = (Instruction Count × Cycles Per Instruction) / Clock Rate`
 
-여기서 **IC ([[158_instruction|Instruction]] Count)** 는 프로그램을 수행하기 위해 실제로 실행된 [[158_instruction|명령어]] 수이고, **[[158_cpi_cost_performance_index|CPI]] ([[134_cpi|Cycles Per Instruction]])** 는 [[158_instruction|명령어]] 1개를 처리하는 데 평균 몇 사이클이 필요한지를 뜻한다. 마지막으로 **[[133_clock_cycle_time|Clock Cycle Time]]** 은 한 사이클의 길이이며, 클럭 주파수와 역수 관계다. 따라서 클럭이 빨라져도 IC나 CPI가 악화되면 최종 시간은 줄지 않을 수 있다.
+여기서 **IC ([Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Count)** 는 프로그램을 수행하기 위해 실제로 실행된 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수이고, **[CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) ([Cycles Per Instruction](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/134_cpi/))** 는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 1개를 처리하는 데 평균 몇 사이클이 필요한지를 뜻한다. 마지막으로 **[Clock Cycle Time](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/133_clock_cycle_time/)** 은 한 사이클의 길이이며, 클럭 주파수와 역수 관계다. 따라서 클럭이 빨라져도 IC나 CPI가 악화되면 최종 시간은 줄지 않을 수 있다.
 
 | 요소 | 의미 | 주로 영향을 주는 영역 | 대표 개선 방법 |
 | :--- | :--- | :--- | :--- |
-| IC ([[158_instruction|Instruction]] Count) | 총 실행 [[158_instruction|명령어]] 수 | [[001_algorithm_definition|알고리즘]], 컴파일러, [[157_isa|ISA]] ([[157_isa|Instruction Set Architecture]]) | [[001_algorithm_definition|알고리즘]] 개선, 불필요 연산 제거, 컴파일 최적화 |
-| [[158_cpi_cost_performance_index|CPI]] ([[134_cpi|Cycles Per Instruction]]) | [[158_instruction|명령어]]당 평균 소요 사이클 | 파이프라인, 캐시, [[231_branch_prediction|분기 예측]], 메모리 계층 | 캐시 [[264_hit_ratio|적중률]] 향상, 해저드 감소, [[430_index_fast_full_scan|병렬]] 실행 |
-| [[133_clock_cycle_time|Clock Cycle Time]] | 1사이클의 실제 시간 | 회로 경로 [[015_지연_데이터_관점|지연]], 공정, [[001_voltage|전압]]·발열 | 임계 경로 단축, 공정 개선, 타이밍 최적화 |
+| IC ([Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Count) | 총 실행 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/), 컴파일러, [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) ([Instruction Set Architecture](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)) | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 개선, 불필요 연산 제거, 컴파일 최적화 |
+| [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) ([Cycles Per Instruction](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/134_cpi/)) | [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)당 평균 소요 사이클 | 파이프라인, 캐시, [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/), 메모리 계층 | 캐시 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/) 향상, 해저드 감소, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행 |
+| [Clock Cycle Time](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/133_clock_cycle_time/) | 1사이클의 실제 시간 | 회로 경로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 공정, [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)·발열 | 임계 경로 단축, 공정 개선, 타이밍 최적화 |
 
 아래 그림은 세 요소가 서로 다른 계층을 담당한다는 점을 보여준다.
 
@@ -54,7 +58,7 @@ tags:
 └──────────────────────────────────────────────────────────────────────────┘
 ```
 
-예를 들어 어떤 프로그램이 `IC = 1,000,000`, `CPI = 2`, `Clock Cycle Time = 0.5ns`라면 CPU 실행 시간은 `1,000,000 × 2 × 0.5ns = 1ms`다. 여기서 클럭만 20% 올려 `0.4ns`로 만들어도, 동시에 분기 실패 증가로 CPI가 2.5가 되면 실행 시간은 다시 `1ms`가 된다. 즉 [[282_performance_tactics|성능]] 방정식은 “더 빠른 부품을 넣었는데 왜 안 빨라졌는가?”를 설명하는 최소 단위다.
+예를 들어 어떤 프로그램이 `IC = 1,000,000`, `CPI = 2`, `Clock Cycle Time = 0.5ns`라면 CPU 실행 시간은 `1,000,000 × 2 × 0.5ns = 1ms`다. 여기서 클럭만 20% 올려 `0.4ns`로 만들어도, 동시에 분기 실패 증가로 CPI가 2.5가 되면 실행 시간은 다시 `1ms`가 된다. 즉 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 방정식은 “더 빠른 부품을 넣었는데 왜 안 빨라졌는가?”를 설명하는 최소 단위다.
 
 - **📢 섹션 요약 비유**: 공장을 빨리 돌리려면 주문서 길이, 작업대의 막힘, 벨트 속도를 같이 봐야 한다. 벨트만 빠르게 돌리면 작업자가 따라오지 못해 오히려 병목이 커질 수 있다.
 
@@ -62,15 +66,15 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-[[282_performance_tactics|성능]] 방정식은 단순 계산식이 아니라, 서로 다른 최적화 전략을 같은 기준으로 비교하게 해 준다. 대표적으로 **[[195_risc|RISC]] (Reduced [[158_instruction|Instruction]] Set Computer)** 와 **[[196_cisc|CISC]] (Complex [[158_instruction|Instruction]] Set Computer)** 의 차이를 보면, 한쪽은 IC를 줄이는 데 강하고 다른 한쪽은 CPI를 낮추기 쉬운 구조를 지향한다. 이때 중요한 것은 어느 쪽이 절대적으로 우월하냐가 아니라, 세 변수의 곱이 실제 workload에서 어떻게 나오느냐다.
+[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 방정식은 단순 계산식이 아니라, 서로 다른 최적화 전략을 같은 기준으로 비교하게 해 준다. 대표적으로 **[RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) (Reduced [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer)** 와 **[CISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/) (Complex [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer)** 의 차이를 보면, 한쪽은 IC를 줄이는 데 강하고 다른 한쪽은 CPI를 낮추기 쉬운 구조를 지향한다. 이때 중요한 것은 어느 쪽이 절대적으로 우월하냐가 아니라, 세 변수의 곱이 실제 workload에서 어떻게 나오느냐다.
 
-| 비교 축 | IC 중심 최적화 | [[158_cpi_cost_performance_index|CPI]] 중심 최적화 | 읽어야 할 포인트 |
+| 비교 축 | IC 중심 최적화 | [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) 중심 최적화 | 읽어야 할 포인트 |
 | :--- | :--- | :--- | :--- |
 | 소프트웨어 관점 | 더 적은 명령으로 같은 작업 수행 | 명령은 많아도 각 명령이 빨리 흐름 | 코드 크기와 컴파일러 영향 |
-| 하드웨어 관점 | 복잡한 명령 해석 비용 증가 가능 | 단순 파이프라인 구성 유리 | 디코드 복잡도와 [[220_pipeline_depth|파이프라인 깊이]] |
-| 최종 판단 | IC 감소가 [[158_cpi_cost_performance_index|CPI]] 증가를 상쇄하는가 | [[158_cpi_cost_performance_index|CPI]] 감소가 IC 증가를 상쇄하는가 | 곱셈 결과가 실제 시간을 줄였는가 |
+| 하드웨어 관점 | 복잡한 명령 해석 비용 증가 가능 | 단순 파이프라인 구성 유리 | 디코드 복잡도와 [파이프라인 깊이](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/220_pipeline_depth/) |
+| 최종 판단 | IC 감소가 [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) 증가를 상쇄하는가 | [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) 감소가 IC 증가를 상쇄하는가 | 곱셈 결과가 실제 시간을 줄였는가 |
 
-이 식은 다른 [[282_performance_tactics|성능]] 지표의 한계도 드러낸다. 예를 들어 [[201_mips|MIPS]] (Million Instructions Per Second)는 초당 처리 [[158_instruction|명령어]] 수를 보여 주지만, 어떤 프로그램은 [[158_instruction|명령어]] 수가 원래 적어서 낮은 MIPS로도 더 빨리 끝날 수 있다. 또한 [[139_throughput|처리량]] ([[139_throughput|Throughput]])은 여러 작업을 얼마나 많이 끝내는지에 가깝고, [[138_response_time|응답 시간]] ([[138_response_time|Response Time]])은 한 작업이 얼마나 빨리 끝나는지를 본다. [[282_performance_tactics|성능]] 방정식은 이 중 특히 **한 프로그램의 CPU 시간**을 해부하는 도구이며, 암달의 법칙 (Amdahl's Law)은 그 위에서 “어느 부분을 개선해야 전체가 빨라지는가”를 더 상위에서 판단하게 해 준다.
+이 식은 다른 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표의 한계도 드러낸다. 예를 들어 [MIPS](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/) (Million Instructions Per Second)는 초당 처리 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수를 보여 주지만, 어떤 프로그램은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수가 원래 적어서 낮은 MIPS로도 더 빨리 끝날 수 있다. 또한 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))은 여러 작업을 얼마나 많이 끝내는지에 가깝고, [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) ([Response Time](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/))은 한 작업이 얼마나 빨리 끝나는지를 본다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 방정식은 이 중 특히 **한 프로그램의 CPU 시간**을 해부하는 도구이며, 암달의 법칙 (Amdahl's Law)은 그 위에서 “어느 부분을 개선해야 전체가 빨라지는가”를 더 상위에서 판단하게 해 준다.
 
 - **📢 섹션 요약 비유**: 어떤 팀은 한 번에 큰 상자를 적게 옮기고, 어떤 팀은 작은 상자를 많이 옮긴다. 중요한 것은 팔 동작 횟수가 아니라 창고 비우는 총시간이다.
 
@@ -78,30 +82,30 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 [[282_performance_tactics|성능]] 저하 원인을 세 변수 중 어디에 둘 것인지부터 판단해야 한다. 예를 들어 SQL (Structured Query Language) 실행 로직을 개선해 쓸데없는 반복문을 제거했다면 IC가 줄어든 것이다. 반면 코드 변화는 거의 없는데 캐시 미스와 메모리 [[015_지연_데이터_관점|지연]]으로 CPU stall이 늘었다면 [[158_cpi_cost_performance_index|CPI]] 문제에 가깝다. 또 같은 아키텍처에서 공정 개선이나 클럭 조정으로 속도가 바뀌는 경우는 [[133_clock_cycle_time|Clock Cycle Time]] 영역으로 본다.
+실무에서는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 원인을 세 변수 중 어디에 둘 것인지부터 판단해야 한다. 예를 들어 SQL (Structured Query Language) 실행 로직을 개선해 쓸데없는 반복문을 제거했다면 IC가 줄어든 것이다. 반면 코드 변화는 거의 없는데 캐시 미스와 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)으로 CPU stall이 늘었다면 [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) 문제에 가깝다. 또 같은 아키텍처에서 공정 개선이나 클럭 조정으로 속도가 바뀌는 경우는 [Clock Cycle Time](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/133_clock_cycle_time/) 영역으로 본다.
 
-### 실무 판단 [[435_checklist_based_testing|체크리스트]]
+### 실무 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. **IC 문제인가?**
-   - [[001_algorithm_definition|알고리즘]] 복잡도가 과도한가?
+   - [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 복잡도가 과도한가?
    - 컴파일러 최적화 또는 벡터화가 빠져 있는가?
    - 같은 계산을 중복 수행하고 있지 않은가?
-2. **[[158_cpi_cost_performance_index|CPI]] 문제인가?**
+2. **[CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) 문제인가?**
    - 캐시 미스, 분기 실패, 메모리 대기가 잦은가?
-   - [[221_pipeline_hazards|파이프라인 해저드]]나 [[212_synchronization_mechanisms|동기화]] 대기가 많은가?
-   - [[158_instruction|명령어]] 수는 비슷한데 실행 시간이 늘어났는가?
-3. **[[133_clock_cycle_time|Clock Cycle Time]] 문제인가?**
+   - [파이프라인 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/221_pipeline_hazards/)나 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 대기가 많은가?
+   - [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수는 비슷한데 실행 시간이 늘어났는가?
+3. **[Clock Cycle Time](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/133_clock_cycle_time/) 문제인가?**
    - 목표 주파수가 임계 경로를 넘어서 타이밍 여유가 부족한가?
    - 발열·전력 한계로 주파수를 유지하지 못하는가?
    - 회로 분할이나 파이프라인 재구성이 필요한가?
 
-### 자주 나오는 [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### 자주 나오는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- **GHz (Gigahertz)만 비교하는 평가**: 클럭이 높아도 CPI가 나쁘면 체감 [[282_performance_tactics|성능]]은 낮다.
+- **GHz (Gigahertz)만 비교하는 평가**: 클럭이 높아도 CPI가 나쁘면 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 낮다.
 - **CPI만 보고 최적화 실패로 오해**: 복잡한 명령이 줄고 무거운 명령만 남으면 평균 CPI는 오를 수 있어도 총시간은 줄 수 있다.
-- **벤치마크 지표 과신**: 특정 workload에서 좋아진 수치를 일반 [[282_performance_tactics|성능]] 향상으로 일반화하면 오판하기 쉽다.
+- **벤치마크 지표 과신**: 특정 workload에서 좋아진 수치를 일반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상으로 일반화하면 오판하기 쉽다.
 
-기술사 답안 관점에서는 “어떤 항목을 개선할 것인가”보다 “왜 그 항목이 현재 병목인가”를 먼저 말해야 한다. 예를 들어 메모리 바운드 workload인데 클럭만 올리는 것은 비용 대비 효과가 낮다. 반대로 연산 밀도가 높고 파이프라인이 잘 유지되는 workload라면 주파수 향상이나 [[370_simd|SIMD]] (Single [[158_instruction|Instruction]], Multiple [[001_dikw_pyramid|Data]]) 확장이 더 직접적인 효과를 낼 수 있다.
+기술사 답안 관점에서는 “어떤 항목을 개선할 것인가”보다 “왜 그 항목이 현재 병목인가”를 먼저 말해야 한다. 예를 들어 메모리 바운드 workload인데 클럭만 올리는 것은 비용 대비 효과가 낮다. 반대로 연산 밀도가 높고 파이프라인이 잘 유지되는 workload라면 주파수 향상이나 [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) (Single [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/), Multiple [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 확장이 더 직접적인 효과를 낼 수 있다.
 
 - **📢 섹션 요약 비유**: 병원 대기 시간을 줄일 때 의사 수를 늘릴지, 접수 절차를 줄일지, 검사 장비 속도를 높일지 먼저 구분해야 한다. 대기 원인을 잘못 짚으면 돈만 쓰고 줄은 그대로다.
 
@@ -109,9 +113,9 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-컴퓨터 [[282_performance_tactics|성능]] 방정식의 가장 큰 효과는 [[282_performance_tactics|성능]] 문제를 감각의 영역에서 구조의 영역으로 바꾼다는 점이다. 이 식을 사용하면 “느리다”는 현상을 세부 원인으로 분해하여, 소프트웨어 팀과 하드웨어 팀이 같은 언어로 논의할 수 있다. 또한 개선안을 제시할 때도 클럭 상승, 캐시 개선, [[001_algorithm_definition|알고리즘]] 변경 중 무엇이 본질적 처방인지 더 명확하게 판단할 수 있다.
+컴퓨터 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 방정식의 가장 큰 효과는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제를 감각의 영역에서 구조의 영역으로 바꾼다는 점이다. 이 식을 사용하면 “느리다”는 현상을 세부 원인으로 분해하여, 소프트웨어 팀과 하드웨어 팀이 같은 언어로 논의할 수 있다. 또한 개선안을 제시할 때도 클럭 상승, 캐시 개선, [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 변경 중 무엇이 본질적 처방인지 더 명확하게 판단할 수 있다.
 
-다만 이 식이 모든 것을 설명하는 것은 아니다. 실제 시스템 [[282_performance_tactics|성능]]에는 입출력 (I/O), [[001_operating_system_purpose|운영체제]] 스케줄링, [[430_index_fast_full_scan|병렬]] 처리, 네트워크 [[015_지연_데이터_관점|지연]]도 크게 작용한다. 그래서 이 식은 **CPU 중심의 미시 분석 도구**로 기억하고, 필요하면 암달의 법칙이나 메모리 계층 분석과 함께 연결해야 한다. 결국 기억할 핵심은 하나다. **좋은 [[282_performance_tactics|성능]]은 가장 화려한 한 축이 아니라, 세 축의 곱을 가장 작게 만든 설계에서 나온다.**
+다만 이 식이 모든 것을 설명하는 것은 아니다. 실제 시스템 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에는 입출력 (I/O), [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 스케줄링, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리, 네트워크 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)도 크게 작용한다. 그래서 이 식은 **CPU 중심의 미시 분석 도구**로 기억하고, 필요하면 암달의 법칙이나 메모리 계층 분석과 함께 연결해야 한다. 결국 기억할 핵심은 하나다. **좋은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 가장 화려한 한 축이 아니라, 세 축의 곱을 가장 작게 만든 설계에서 나온다.**
 
 - **📢 섹션 요약 비유**: 좋은 합주는 한 악기만 크게 키운다고 완성되지 않는다. 악보 길이, 연주 숙련도, 템포가 함께 맞아야 곡이 깔끔하게 끝난다.
 
@@ -121,11 +125,11 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[158_cpi_cost_performance_index|CPI]] ([[134_cpi|Cycles Per Instruction]]) | [[221_pipeline_hazards|파이프라인 해저드]], 캐시 미스, 분기 실패가 모여 실행 시간을 늘리는 직접 변수 |
-| [[133_clock_cycle_time|클럭 주기]] ([[133_clock_cycle_time|Clock Cycle Time]]) | 회로의 임계 경로와 공정 기술이 결정하는 물리적 시간 단위 |
-| [[201_mips|MIPS]] (Million Instructions Per Second) | IC를 직접 반영하지 못해 실제 [[282_performance_tactics|성능]]과 어긋날 수 있는 보조 지표 |
+| [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) ([Cycles Per Instruction](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/134_cpi/)) | [파이프라인 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/221_pipeline_hazards/), 캐시 미스, 분기 실패가 모여 실행 시간을 늘리는 직접 변수 |
+| [클럭 주기](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/133_clock_cycle_time/) ([Clock Cycle Time](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/133_clock_cycle_time/)) | 회로의 임계 경로와 공정 기술이 결정하는 물리적 시간 단위 |
+| [MIPS](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/) (Million Instructions Per Second) | IC를 직접 반영하지 못해 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 어긋날 수 있는 보조 지표 |
 | 암달의 법칙 (Amdahl's Law) | 어떤 병목을 줄였을 때 전체 시스템이 얼마나 빨라질지 상위 관점에서 판단하는 법칙 |
-| [[139_throughput|처리량]] ([[139_throughput|Throughput]]) | 여러 작업의 총 완료량을 보는 지표로, 단일 프로그램 CPU 시간과 구분해서 봐야 함 |
+| [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) | 여러 작업의 총 완료량을 보는 지표로, 단일 프로그램 CPU 시간과 구분해서 봐야 함 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -145,7 +149,7 @@ tags:
               암달의 법칙 · Speedup · 시스템 병목 분석
 ```
 
-이 흐름은 단일 CPU 시간 분석에서 출발해, 세부 원인별 최적화와 상위 수준의 [[282_performance_tactics|성능]] 향상 판단으로 확장되는 구조를 보여준다.
+이 흐름은 단일 CPU 시간 분석에서 출발해, 세부 원인별 최적화와 상위 수준의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 판단으로 확장되는 구조를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -159,7 +163,7 @@ tags:
 
 **진행 상황**: 142 / 803
 
-← **이전**: [[141_latency|141. 지연 시간 (Latency)]]
-**다음**: [[143_amdahls_law|143. 암달의 법칙 (Amdahl's Law)]] →
+← **이전**: [141. 지연 시간 (Latency)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)
+**다음**: [143. 암달의 법칙 (Amdahl's Law)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/143_amdahls_law/) →
 
 ---

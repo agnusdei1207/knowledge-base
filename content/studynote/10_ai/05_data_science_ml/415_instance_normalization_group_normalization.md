@@ -1,21 +1,25 @@
----
-title: 415. 인스턴스 정규화 vs 그룹 정규화 (Instance Normalization vs Group Normalization)
-date: '2026-05-09'
-tags:
-- studynote-ai
----
++++
+title = "415. 인스턴스 정규화 vs 그룹 정규화 (Instance Normalization vs Group Normalization)"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-ai"]
+
+[extra]
+tags = ["studynote-ai"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 인스턴스 [[093_normalization|정규화]] (Instance [[093_normalization|Normalization]], IN)와 그룹 [[093_normalization|정규화]] (Group [[093_normalization|Normalization]], GN)는 배치 전체가 아니라 **샘플 내부 통계량**으로 활성값을 [[093_normalization|정규화]]해, 작은 배치에서도 안정적인 학습을 가능하게 하는 기법이다.
-> 2. **가치**: [[282_batch_normalization|배치 정규화]] ([[282_batch_normalization|Batch Normalization]], BN)가 배치 크기와 [[136_variance|분산]] 학습 환경에 민감한 반면, IN/GN은 **배치 크기 독립성** 덕분에 스타일 전이, 객체 검출, [[364_segmentation|세그멘테이션]]처럼 메모리 제약이 큰 [[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]] ([[089_CNN_Convolutional|Convolutional Neural Network]]) 작업에서 특히 유리하다.
-> 3. **판단 포인트**: IN은 채널별 스타일 성분을 강하게 제거해 스타일 변환에 적합하고, GN은 채널 그룹 단위로 표현력을 보존해 **소배치 CNN의 일반 목적 대안**으로 적합하다. 순환 구조에서는 보통 레이어 [[093_normalization|정규화]] (Layer [[093_normalization|Normalization]], LN)가 더 자연스럽다.
+> 1. **본질**: 인스턴스 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) (Instance [Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), IN)와 그룹 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) (Group [Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), GN)는 배치 전체가 아니라 **샘플 내부 통계량**으로 활성값을 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)해, 작은 배치에서도 안정적인 학습을 가능하게 하는 기법이다.
+> 2. **가치**: [배치 정규화](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/) ([Batch Normalization](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/), BN)가 배치 크기와 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 학습 환경에 민감한 반면, IN/GN은 **배치 크기 독립성** 덕분에 스타일 전이, 객체 검출, [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)처럼 메모리 제약이 큰 [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) ([Convolutional Neural Network](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/)) 작업에서 특히 유리하다.
+> 3. **판단 포인트**: IN은 채널별 스타일 성분을 강하게 제거해 스타일 변환에 적합하고, GN은 채널 그룹 단위로 표현력을 보존해 **소배치 CNN의 일반 목적 대안**으로 적합하다. 순환 구조에서는 보통 레이어 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) (Layer [Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), LN)가 더 자연스럽다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[[093_normalization|정규화]]의 목적은 층마다 입력 분포가 급격히 흔들리는 현상을 줄여, 학습을 더 안정적으로 만드는 데 있다. 문제는 BN이 평균과 [[136_variance|분산]]을 **배치 축**에서 계산한다는 점이다. [[418_gpu|GPU]] 메모리 한계로 배치 크기를 2~4 정도로 줄이면 추정된 통계량의 [[136_variance|분산]]이 커지고, 멀티 [[418_gpu|GPU]] 환경에서는 디바이스마다 통계량이 달라져 학습 품질이 흔들린다.
+[정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)의 목적은 층마다 입력 분포가 급격히 흔들리는 현상을 줄여, 학습을 더 안정적으로 만드는 데 있다. 문제는 BN이 평균과 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 **배치 축**에서 계산한다는 점이다. [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리 한계로 배치 크기를 2~4 정도로 줄이면 추정된 통계량의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 커지고, 멀티 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 환경에서는 디바이스마다 통계량이 달라져 학습 품질이 흔들린다.
 
 이 한계를 해결하기 위해 등장한 것이 IN과 GN이다. 둘 다 통계량 계산 범위를 배치 밖에서 찾지 않고, 현재 샘플 내부로 가져온다. 그래서 배치 크기가 1이어도 수식이 성립하고, 추론 시에도 학습 시와 다른 이동 평균을 붙잡고 흔들릴 일이 적다.
 
@@ -39,13 +43,13 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-입력 텐서를 `x ∈ R^{N×C×H×W}`라고 하자. [[093_normalization|정규화]]는 기본적으로 `x̂ = (x - μ) / sqrt(σ² + ε)` 형태를 따른다. 차이는 평균 `μ`와 [[136_variance|분산]] `σ²`를 어떤 축에서 계산하느냐다.
+입력 텐서를 `x ∈ R^{N×C×H×W}`라고 하자. [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)는 기본적으로 `x̂ = (x - μ) / sqrt(σ² + ε)` 형태를 따른다. 차이는 평균 `μ`와 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) `σ²`를 어떤 축에서 계산하느냐다.
 
-| 기법   | 평균/[[136_variance|분산]] 계산 범위          | 장점                    | 약점                     |
+| 기법   | 평균/[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 계산 범위          | 장점                    | 약점                     |
 | :----- | :--------------------------- | :---------------------- | :----------------------- |
-| **BN** | 배치 `N`과 공간 축 `H, W`    | 대규모 배치에서 강력    | 소배치, [[136_variance|분산]] 환경에 민감 |
-| **IN** | 샘플 내부 채널별 `H, W`      | 스타일 성분 제거에 강함 | [[104_classification_analysis|분류]]용 표현력 감소 가능  |
-| **GN** | 샘플 내부 그룹별 `C/G, H, W` | 소배치 CNN에 안정적     | 그룹 수 [[009_config|설정]]이 필요      |
+| **BN** | 배치 `N`과 공간 축 `H, W`    | 대규모 배치에서 강력    | 소배치, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에 민감 |
+| **IN** | 샘플 내부 채널별 `H, W`      | 스타일 성분 제거에 강함 | [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)용 표현력 감소 가능  |
+| **GN** | 샘플 내부 그룹별 `C/G, H, W` | 소배치 CNN에 안정적     | 그룹 수 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 필요      |
 
 대표 수식은 다음과 같이 이해하면 된다.
 
@@ -73,7 +77,7 @@ $$
 └──────────────────────────────────────────────────────────────┘
 ```
 
-CNN에서는 GN이 특히 유용하다. 객체 검출과 [[364_segmentation|세그멘테이션]]은 입력 해상도가 커서 배치 크기를 크게 가져가기 어렵기 때문이다. 반대로 [[244_rnn_time_series_lstm_cell_gate_long_term_dependency|RNN]] ([[244_rnn_time_series_lstm_cell_gate_long_term_dependency|Recurrent Neural Network]])은 시간축 의존성이 강하고 채널 [[535_grouping_counting_free_space|그룹화]]보다 은닉 상태 전체 정렬이 중요해, 실무에서는 보통 LN이 더 자주 쓰인다. 따라서 "[[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]] 소배치 문제"냐 "순환 은닉 상태 안정화"냐에 따라 선택 축이 갈린다.
+CNN에서는 GN이 특히 유용하다. 객체 검출과 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)은 입력 해상도가 커서 배치 크기를 크게 가져가기 어렵기 때문이다. 반대로 [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/) ([Recurrent Neural Network](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/))은 시간축 의존성이 강하고 채널 [그룹화](/knowledge-base/studynote/02_operating_system/09_file_system/535_grouping_counting_free_space/)보다 은닉 상태 전체 정렬이 중요해, 실무에서는 보통 LN이 더 자주 쓰인다. 따라서 "[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 소배치 문제"냐 "순환 은닉 상태 안정화"냐에 따라 선택 축이 갈린다.
 
 - **📢 섹션 요약 비유**: IN은 각 방을 따로 청소하는 방식이고, GN은 비슷한 방 몇 개를 묶어 구역 단위로 청소하는 방식이다. 반 전체가 모일 때까지 기다리는 BN보다 훨씬 빠르게 일할 수 있다.
 
@@ -81,18 +85,18 @@ CNN에서는 GN이 특히 유용하다. 객체 검출과 [[364_segmentation|세�
 
 ## Ⅲ. 비교 및 연결
 
-[[134_regularization_dropout_batch_norm|정규화 기법]]은 결국 "어떤 통계량이 현재 문제의 [[130_signal|신호]]를 가장 덜 왜곡하는가"를 묻는다.
+[정규화 기법](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/)은 결국 "어떤 통계량이 현재 문제의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 가장 덜 왜곡하는가"를 묻는다.
 
 | 비교 축           | IN        | GN   | BN   | LN   |
 | :---------------- | :-------- | :--- | :--- | :--- |
 | 배치 크기 의존성  | 없음      | 없음 | 큼   | 없음 |
-| [[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]] 소배치 학습   | 보통      | 강함 | 약함 | 보통 |
+| [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 소배치 학습   | 보통      | 강함 | 약함 | 보통 |
 | 스타일 정보 제거  | 매우 강함 | 중간 | 약함 | 중간 |
-| [[244_rnn_time_series_lstm_cell_gate_long_term_dependency|RNN]]/시퀀스 적합성 | 낮음      | 보통 | 낮음 | 강함 |
+| [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/)/시퀀스 적합성 | 낮음      | 보통 | 낮음 | 강함 |
 
-IN은 스타일 전이 (Style Transfer)에서 강점을 보인다. 샘플별 평균과 [[136_variance|분산]]이 이미지의 스타일 성분과 밀접하기 때문에, 이를 [[093_normalization|정규화]]하면 내용 구조는 남기고 스타일 편차를 줄이기 쉽다. GN은 이보다 덜 공격적으로 [[093_normalization|정규화]]해 [[104_classification_analysis|분류]], 검출, [[364_segmentation|세그멘테이션]]처럼 의미 표현을 유지해야 하는 작업에 더 적합하다.
+IN은 스타일 전이 (Style Transfer)에서 강점을 보인다. 샘플별 평균과 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 이미지의 스타일 성분과 밀접하기 때문에, 이를 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)하면 내용 구조는 남기고 스타일 편차를 줄이기 쉽다. GN은 이보다 덜 공격적으로 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)해 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), 검출, [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)처럼 의미 표현을 유지해야 하는 작업에 더 적합하다.
 
-또한 GN은 SyncBN (Synchronized [[282_batch_normalization|Batch Normalization]])의 대안으로 자주 거론된다. SyncBN은 여러 GPU의 배치 통계를 강제로 모아 BN을 유지하는 방식이고, GN은 애초에 배치 통계를 쓰지 않으므로 통신 오버헤드를 줄인다. 즉, [[136_variance|분산]] 학습 환경에서 네트워크 비용까지 고려하면 GN이 더 실용적일 수 있다.
+또한 GN은 SyncBN (Synchronized [Batch Normalization](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/))의 대안으로 자주 거론된다. SyncBN은 여러 GPU의 배치 통계를 강제로 모아 BN을 유지하는 방식이고, GN은 애초에 배치 통계를 쓰지 않으므로 통신 오버헤드를 줄인다. 즉, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 학습 환경에서 네트워크 비용까지 고려하면 GN이 더 실용적일 수 있다.
 
 - **📢 섹션 요약 비유**: IN은 사진 필터 앱처럼 이미지의 분위기를 과감히 정리하는 데 맞고, GN은 팀별로 역할을 유지한 채 정돈하는 방식이라 경기력을 덜 망가뜨린다.
 
@@ -100,35 +104,35 @@ IN은 스타일 전이 (Style Transfer)에서 강점을 보인다. 샘플별 평
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 배치 크기가 8 미만으로 떨어지는가?
 2. 작업이 스타일 전이처럼 샘플별 스타일 편차 제거에 민감한가?
-3. 객체 검출·[[364_segmentation|세그멘테이션]]처럼 고해상도 입력 때문에 소배치가 불가피한가?
-4. [[244_rnn_time_series_lstm_cell_gate_long_term_dependency|RNN]]/[[292_lstm|LSTM]] ([[292_lstm|Long Short-Term Memory]])처럼 시간축 정렬이 핵심인 구조인가?
-5. 다중 GPU에서 통계량 [[212_synchronization_mechanisms|동기화]] 비용을 감당할 수 있는가?
+3. 객체 검출·[세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)처럼 고해상도 입력 때문에 소배치가 불가피한가?
+4. [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/)/[LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) ([Long Short-Term Memory](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/))처럼 시간축 정렬이 핵심인 구조인가?
+5. 다중 GPU에서 통계량 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 비용을 감당할 수 있는가?
 
 ### 실무 판단
 
-소배치 CNN에서는 먼저 GN을 검토하는 편이 안전하다. 검출·[[364_segmentation|세그멘테이션]] 백본에서 BN이 흔들리면 SyncBN으로 가거나 GN으로 바꾸게 되는데, 통신 병목과 구현 단순성까지 보면 GN이 더 실무적인 경우가 많다. 반면 스타일 전이나 [[087_process_state_transition|생성]] 모델의 스타일 제어에서는 IN이 더 직접적이다.
+소배치 CNN에서는 먼저 GN을 검토하는 편이 안전하다. 검출·[세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) 백본에서 BN이 흔들리면 SyncBN으로 가거나 GN으로 바꾸게 되는데, 통신 병목과 구현 단순성까지 보면 GN이 더 실무적인 경우가 많다. 반면 스타일 전이나 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델의 스타일 제어에서는 IN이 더 직접적이다.
 
-[[244_rnn_time_series_lstm_cell_gate_long_term_dependency|RNN]] 계열에서는 GN을 무리하게 넣기보다 LN을 우선 검토하는 편이 낫다. 순환 은닉 상태는 시간 단계별 분포 안정화가 중요해서, 채널 그룹 기준보다는 레이어 전체 기준이 더 자연스럽기 때문이다. 시험 답안에서는 "GN은 [[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]] 소배치 대안, LN은 [[244_rnn_time_series_lstm_cell_gate_long_term_dependency|RNN]]/[[246_transformer_self_attention_parallel_positional_encoding|Transformer]] 대안"으로 정리하면 경계가 선명해진다.
+[RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/) 계열에서는 GN을 무리하게 넣기보다 LN을 우선 검토하는 편이 낫다. 순환 은닉 상태는 시간 단계별 분포 안정화가 중요해서, 채널 그룹 기준보다는 레이어 전체 기준이 더 자연스럽기 때문이다. 시험 답안에서는 "GN은 [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 소배치 대안, LN은 [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/)/[Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 대안"으로 정리하면 경계가 선명해진다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 배치가 매우 작은데도 관성적으로 BN을 유지하는 설계
 - 스타일 보존이 중요한데 IN을 써서 표현력을 과도하게 지워 버리는 설계
 - GN의 그룹 수를 채널 구조와 무관하게 임의로 잡아 표현을 깨뜨리는 설계
 
-- **📢 섹션 요약 비유**: 작은 회의실에서 참석자가 3명뿐인데도 회사 전체 평균 의견을 들고 와 의사결정하는 것은 BN의 [[128_water_scrum_fall_anti_pattern|안티패턴]]과 같다. 지금 방 안 사람들 기준으로 판단해야 한다.
+- **📢 섹션 요약 비유**: 작은 회의실에서 참석자가 3명뿐인데도 회사 전체 평균 의견을 들고 와 의사결정하는 것은 BN의 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)과 같다. 지금 방 안 사람들 기준으로 판단해야 한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-IN과 GN은 "배치가 작아도 학습이 흔들리지 않게 하자"는 현실적 요구에서 나온 [[093_normalization|정규화]] 해법이다. IN은 스타일 성분 제어에 강하고, GN은 소배치 CNN의 범용 대안으로 자리 잡았다.
+IN과 GN은 "배치가 작아도 학습이 흔들리지 않게 하자"는 현실적 요구에서 나온 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 해법이다. IN은 스타일 성분 제어에 강하고, GN은 소배치 CNN의 범용 대안으로 자리 잡았다.
 
-결론적으로 이 주제의 핵심은 [[134_regularization_dropout_batch_norm|정규화 기법]]의 우열이 아니라 **통계량을 어떤 축에서 계산해야 현재 문제의 [[130_signal|신호]]를 덜 망가뜨리는가**에 있다. 소배치 CNN이면 GN, 스타일 변환이면 IN, 시퀀스 모델이면 LN이 우선 후보라는 식으로 기억하면 실무 판단이 빨라진다.
+결론적으로 이 주제의 핵심은 [정규화 기법](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/)의 우열이 아니라 **통계량을 어떤 축에서 계산해야 현재 문제의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 덜 망가뜨리는가**에 있다. 소배치 CNN이면 GN, 스타일 변환이면 IN, 시퀀스 모델이면 LN이 우선 후보라는 식으로 기억하면 실무 판단이 빨라진다.
 
 - **📢 섹션 요약 비유**: 모두에게 같은 교복 치수를 강요하는 대신, 사람 수와 체형에 따라 재는 기준을 바꾸는 일이다. 기준을 잘 바꾸면 움직임이 훨씬 자연스러워진다.
 
@@ -138,11 +142,11 @@ IN과 GN은 "배치가 작아도 학습이 흔들리지 않게 하자"는 현실
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[282_batch_normalization|Batch Normalization]] (BN) | 대배치 학습에서 강하지만 소배치에서 흔들림 |
-| Layer [[093_normalization|Normalization]] (LN) | [[244_rnn_time_series_lstm_cell_gate_long_term_dependency|RNN]], Transformer에서 자주 쓰는 배치 독립 [[093_normalization|정규화]] |
+| [Batch Normalization](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/) (BN) | 대배치 학습에서 강하지만 소배치에서 흔들림 |
+| Layer [Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) (LN) | [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/), Transformer에서 자주 쓰는 배치 독립 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) |
 | Style Transfer | IN의 대표 적용 분야 |
-| SyncBN | [[136_variance|분산]] 환경에서 BN 통계를 [[212_synchronization_mechanisms|동기화]]하는 대안 |
-| Small Batch [[588_mlops_pipeline_automation|Training]] | GN이 실무적으로 많이 선택되는 배경 |
+| SyncBN | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 BN 통계를 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)하는 대안 |
+| Small Batch [Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/) | GN이 실무적으로 많이 선택되는 배경 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -153,7 +157,7 @@ IN과 GN은 "배치가 작아도 학습이 흔들리지 않게 하자"는 현실
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 친구들 키를 잴 때 반 전체 평균으로만 재면 사람이 적을 때 자꾸 헷갈려요.
-2. 인스턴스 [[093_normalization|정규화]]와 그룹 [[093_normalization|정규화]]는 각 친구 안에서, 또는 비슷한 친구끼리만 기준을 잡는 방법이에요.
+2. 인스턴스 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)와 그룹 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)는 각 친구 안에서, 또는 비슷한 친구끼리만 기준을 잡는 방법이에요.
 3. 그래서 사람이 적어도 덜 흔들리고, 컴퓨터가 더 차분하게 공부할 수 있어요.
 
 ---
@@ -162,7 +166,7 @@ IN과 GN은 "배치가 작아도 학습이 흔들리지 않게 하자"는 현실
 
 **진행 상황**: 415 / 420
 
-← **이전**: [[414_knowledge_distillation_temperature_scaling|414. 지식 증류 (Knowledge Distillation)]]
-**다음**: [[416_dp_sgd_model_inversion_defense|416. 모델 역산 공격 방어와 DP-SGD (Differentially Private Stochastic Gradient Descent)]] →
+← **이전**: [414. 지식 증류 (Knowledge Distillation)](/knowledge-base/studynote/10_ai/05_data_science_ml/414_knowledge_distillation_temperature_scaling/)
+**다음**: [416. 모델 역산 공격 방어와 DP-SGD (Differentially Private Stochastic Gradient Descent)](/knowledge-base/studynote/10_ai/05_data_science_ml/416_dp_sgd_model_inversion_defense/) →
 
 ---

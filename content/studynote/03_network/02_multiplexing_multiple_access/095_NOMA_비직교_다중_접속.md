@@ -1,25 +1,28 @@
----
-title: 95. NOMA (Non-Orthogonal Multiple Access) - 비직교 다중 접속 (5G/6G 기술)
-date: '2026-03-31'
-description: 5G 및 6G 통신의 핵심 후보 기술인 NOMA의 개념, 전력 도메인 중첩 원리, 그리고 SIC(순차적 간섭 제거) 수신 메커니즘
-  분석
-tags:
-- network
----
++++
+title = "95. NOMA (Non-Orthogonal Multiple Access) - 비직교 다중 접속 (5G/6G 기술)"
+description = "5G 및 6G 통신의 핵심 후보 기술인 NOMA의 개념, 전력 도메인 중첩 원리, 그리고 SIC(순차적 간섭 제거) 수신 메커니즘 분석"
+date = 2026-03-31
+
+[taxonomies]
+tags = ["network"]
+
+[extra]
+tags = ["network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: NOMA (Non-Orthogonal [[087_다중접속_Multiple_Access|Multiple Access]])는 여러 사용자의 데이터를 동일한 주파수와 시간 자원에 중첩하여 전송하되, 전력 [[064_relation_domain|도메인]] ([[069_type_1_2_error_statistical_power|Power]] [[064_relation_domain|Domain]])에서 차이를 두어 구분하는 비직교 [[087_다중접속_Multiple_Access|다중 접속]] 방식이다.
-> 2. **가치**: 기존 OFDMA의 엄격한 [[083_직교성_Orthogonality|직교성]] 제약을 깨고 한정된 자원 내에 더 많은 단말을 수용함으로써, [[418_5g_embb_urllc_mmtc_slicing|5G]] 이후와 6G에서 요구되는 초연결 [[602_m2m_machine_to_machine_telemetry|사물 통신]] ([[762_mmtc_massive_machine_type_communications|mMTC]])의 폭발적인 기기 접속 수를 감당할 수 있는 용량 극대화를 달성한다.
-> 3. **판단 포인트**: 기지국은 거리에 따라 사용자 간 송신 전력을 달리 할당하며, 수신단은 SIC (Successive Interference Cancellation, 순차적 간섭 제거) [[001_algorithm_definition|알고리즘]]을 사용해 강한 [[130_signal|신호]]부터 차례로 해독하고 제거하여 자신의 약한 [[130_signal|신호]]를 발라낸다.
+> 1. **본질**: NOMA (Non-Orthogonal [Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))는 여러 사용자의 데이터를 동일한 주파수와 시간 자원에 중첩하여 전송하되, 전력 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))에서 차이를 두어 구분하는 비직교 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 방식이다.
+> 2. **가치**: 기존 OFDMA의 엄격한 [직교성](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/) 제약을 깨고 한정된 자원 내에 더 많은 단말을 수용함으로써, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 이후와 6G에서 요구되는 초연결 [사물 통신](/knowledge-base/studynote/03_network/12_iot_wpan_edge/602_m2m_machine_to_machine_telemetry/) ([mMTC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/762_mmtc_massive_machine_type_communications/))의 폭발적인 기기 접속 수를 감당할 수 있는 용량 극대화를 달성한다.
+> 3. **판단 포인트**: 기지국은 거리에 따라 사용자 간 송신 전력을 달리 할당하며, 수신단은 SIC (Successive Interference Cancellation, 순차적 간섭 제거) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 사용해 강한 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)부터 차례로 해독하고 제거하여 자신의 약한 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 발라낸다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-네트워크 통신의 [[087_다중접속_Multiple_Access|다중 접속]] ([[087_다중접속_Multiple_Access|Multiple Access]]) 역사는 사용자 간의 [[130_signal|신호]] 충돌(간섭)을 막기 위해 자원을 분리하는 방향으로 진화해 왔다. 주파수를 나누는 [[088_주파수_분할_다중접속_FDMA|FDMA]], 시간을 나누는 [[089_시분할_다중접속_TDMA|TDMA]], 코드로 구별하는 CDMA를 거쳐 4G [[752_lte_long_term_evolution_4g|LTE]] 시대에는 시간과 주파수를 완벽히 직교(Orthogonal)하는 블록으로 분할하는 OFDMA가 표준으로 자리 잡았다. 이들의 공통된 원칙은 "타인의 자원 영역을 결코 침범하지 않는다"는 엄격한 [[083_직교성_Orthogonality|직교성]]([[083_직교성_Orthogonality|Orthogonality]])에 기반한다.
+네트워크 통신의 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) ([Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/)) 역사는 사용자 간의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 충돌(간섭)을 막기 위해 자원을 분리하는 방향으로 진화해 왔다. 주파수를 나누는 [FDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/088_주파수_분할_다중접속_FDMA/), 시간을 나누는 [TDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/), 코드로 구별하는 CDMA를 거쳐 4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 시대에는 시간과 주파수를 완벽히 직교(Orthogonal)하는 블록으로 분할하는 OFDMA가 표준으로 자리 잡았다. 이들의 공통된 원칙은 "타인의 자원 영역을 결코 침범하지 않는다"는 엄격한 [직교성](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/)([Orthogonality](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/))에 기반한다.
 
-하지만 [[418_5g_embb_urllc_mmtc_slicing|5G]] 및 다가올 [[419_6g_ntn_thz_ris_next_gen|6G]] 시대에는 사람의 스마트폰뿐만 아니라 수백억 개의 [[101_iot_concept|IoT]] 센서와 자율주행차가 동시에 접속하는 초대규모 [[602_m2m_machine_to_machine_telemetry|사물 통신]] ([[762_mmtc_massive_machine_type_communications|mMTC]], massive Machine Type Communications) 환경이 도래한다. OFDMA처럼 자원 블록을 물리적으로 하나씩 쪼개어 나눠주는 방식으로는 수학적으로 더 이상 접속 기기의 기하급수적 증가를 감당할 대역폭이 부족해진다. 이를 타개하기 위해, 주파수와 시간을 나누지 않고 동일한 자원 덩어리에 여러 사용자를 억지로 겹쳐서 전송하는 혁명적 발상인 NOMA (비직교 [[087_다중접속_Multiple_Access|다중 접속]])가 등장하게 되었다.
+하지만 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 및 다가올 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 시대에는 사람의 스마트폰뿐만 아니라 수백억 개의 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서와 자율주행차가 동시에 접속하는 초대규모 [사물 통신](/knowledge-base/studynote/03_network/12_iot_wpan_edge/602_m2m_machine_to_machine_telemetry/) ([mMTC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/762_mmtc_massive_machine_type_communications/), massive Machine Type Communications) 환경이 도래한다. OFDMA처럼 자원 블록을 물리적으로 하나씩 쪼개어 나눠주는 방식으로는 수학적으로 더 이상 접속 기기의 기하급수적 증가를 감당할 대역폭이 부족해진다. 이를 타개하기 위해, 주파수와 시간을 나누지 않고 동일한 자원 덩어리에 여러 사용자를 억지로 겹쳐서 전송하는 혁명적 발상인 NOMA (비직교 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))가 등장하게 되었다.
 
 - **📢 섹션 요약 비유**: 기존 직교 방식(OMA)이 호텔 방을 손님 한 명에게 각각 하나씩 철저히 배정해 주어 객실 수의 한계에 부딪힌다면, NOMA(비직교)는 아주 넓은 한 방에 여러 명을 겹쳐 머물게 하고 소음(전력) 크기를 다르게 하여 모두가 알아서 자기 할 일을 하도록 수용량을 2배 늘린 독특한 게스트하우스다.
 
@@ -27,12 +30,12 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-NOMA가 [[083_직교성_Orthogonality|직교성]]을 파괴하고도 통신을 성공시키는 비결은 송신단의 **중첩 부호화 ([[219_quantum_superposition_qubit|Superposition]] Coding)**와 수신단의 **순차적 간섭 제거 (SIC)**라는 두 기둥에 있다.
+NOMA가 [직교성](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/)을 파괴하고도 통신을 성공시키는 비결은 송신단의 **중첩 부호화 ([Superposition](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/219_quantum_superposition_qubit/) Coding)**와 수신단의 **순차적 간섭 제거 (SIC)**라는 두 기둥에 있다.
 
 | 구성 기술 | 역할 및 동작 원리 |
 | :--- | :--- |
-| **[[219_quantum_superposition_qubit|Superposition]] Coding (송신)** | 기지국이 동일 주파수 자원에 여러 단말의 [[130_signal|신호]]를 더해(중첩해) 전송한다. 전파가 좋은 근거리 사용자에겐 약한 전력을, 전파가 나쁜 원거리 사용자에겐 강한 전력을 배분한다. |
-| **SIC (수신)** | 수신된 복합 [[130_signal|신호]] 속에서 가장 [[130_signal|신호]] 강도가 센 타인의 데이터를 먼저 해독한 뒤 원본에서 빼버리고(Cancellation), 남은 미약한 자신의 [[130_signal|신호]]를 최종 해독한다. |
+| **[Superposition](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/219_quantum_superposition_qubit/) Coding (송신)** | 기지국이 동일 주파수 자원에 여러 단말의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 더해(중첩해) 전송한다. 전파가 좋은 근거리 사용자에겐 약한 전력을, 전파가 나쁜 원거리 사용자에겐 강한 전력을 배분한다. |
+| **SIC (수신)** | 수신된 복합 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 속에서 가장 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 강도가 센 타인의 데이터를 먼저 해독한 뒤 원본에서 빼버리고(Cancellation), 남은 미약한 자신의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 최종 해독한다. |
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -53,7 +56,7 @@ NOMA가 [[083_직교성_Orthogonality|직교성]]을 파괴하고도 통신을 �
 └──────────────────────────────────────────────────────────────┘
 ```
 
-가까이 있는 단말 A는 귀가 매우 밝다. 하지만 기지국이 자신에겐 약하게, 멀리 있는 단말 B에겐 강하게 [[130_signal|신호]]를 쏘았으므로, A에게 도착한 덩어리는 B의 시끄러운 [[130_signal|신호]]에 A의 작은 [[130_signal|신호]]가 묻힌 형태다. A는 자신의 우수한 전파 환경을 이용해 가장 시끄럽게 들리는 B의 [[130_signal|신호]]를 먼저 완벽히 해독해 내고, 전체 파형에서 B의 몫을 수학적으로 제거해 버린다(SIC). 시끄러운 소음이 사라진 뒤, A는 온전히 남은 자신의 작은 [[130_signal|신호]]를 읽어내는 천재적인 역발상을 보여준다.
+가까이 있는 단말 A는 귀가 매우 밝다. 하지만 기지국이 자신에겐 약하게, 멀리 있는 단말 B에겐 강하게 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 쏘았으므로, A에게 도착한 덩어리는 B의 시끄러운 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)에 A의 작은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 묻힌 형태다. A는 자신의 우수한 전파 환경을 이용해 가장 시끄럽게 들리는 B의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 먼저 완벽히 해독해 내고, 전체 파형에서 B의 몫을 수학적으로 제거해 버린다(SIC). 시끄러운 소음이 사라진 뒤, A는 온전히 남은 자신의 작은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 읽어내는 천재적인 역발상을 보여준다.
 
 - **📢 섹션 요약 비유**: 시끄러운 카페에서 앞사람(A)의 속삭임과 옆 테이블(B)의 큰 목소리가 겹쳐 들릴 때, 귀가 밝은 나는 옆 테이블의 큰 목소리가 무슨 내용인지 파악하여 뇌에서 지워버린 뒤(SIC), 방해 없이 앞사람의 작은 속삭임을 선명하게 이해하는 원리다.
 
@@ -61,17 +64,17 @@ NOMA가 [[083_직교성_Orthogonality|직교성]]을 파괴하고도 통신을 �
 
 ## Ⅲ. 비교 및 연결
 
-NOMA는 직교 [[087_다중접속_Multiple_Access|다중 접속]](OMA) 방식인 OFDMA와 철학이 상반되며, 자원 효율성 한계를 돌파하기 위한 설계의 차이를 극명하게 보여준다.
+NOMA는 직교 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/)(OMA) 방식인 OFDMA와 철학이 상반되며, 자원 효율성 한계를 돌파하기 위한 설계의 차이를 극명하게 보여준다.
 
-| 비교 항목 | [[945_ofdma_orthogonal_frequency_division_multiple_access_resource_block|OFDMA]] (4G/[[418_5g_embb_urllc_mmtc_slicing|5G]] 주력 OMA) | NOMA ([[418_5g_embb_urllc_mmtc_slicing|5G]]/[[419_6g_ntn_thz_ris_next_gen|6G]] 비직교) |
+| 비교 항목 | [OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) (4G/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 주력 OMA) | NOMA ([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)/[6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 비직교) |
 | :--- | :--- | :--- |
-| **[[041_resource_allocation|자원 할당]] 축** | 시간, 주파수 [[064_relation_domain|도메인]] 분할 | 전력 ([[069_type_1_2_error_statistical_power|Power]]) [[064_relation_domain|도메인]] 중첩 |
+| **[자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) 축** | 시간, 주파수 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 분할 | 전력 ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/)) [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 중첩 |
 | **동시 접속 허용** | 불가능 (자원이 분할되어야 함) | 가능 (동일 블록에 다수 단말 중첩) |
-| **수용 용량 (Capacity)** | 가용 주파수 대역의 수에 한계 종속 | 중첩을 통해 한계 초과 수용 가능 ([[762_mmtc_massive_machine_type_communications|mMTC]] 유리) |
+| **수용 용량 (Capacity)** | 가용 주파수 대역의 수에 한계 종속 | 중첩을 통해 한계 초과 수용 가능 ([mMTC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/762_mmtc_massive_machine_type_communications/) 유리) |
 | **단말 연산 복잡도** | 비교적 단순함 | SIC 연산으로 인해 CPU, 배터리 소모 큼 |
-| **셀 외곽 품질** | 간섭 회피로 인해 [[282_performance_tactics|성능]] 저하 가능 | 기지국이 셀 외곽 단말에 전력을 몰아주어 품질 보장 |
+| **셀 외곽 품질** | 간섭 회피로 인해 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 가능 | 기지국이 셀 외곽 단말에 전력을 몰아주어 품질 보장 |
 
-정보이론적으로 볼 때, NOMA는 통신 채널의 용량 한계선 ([[021_샤논의_채널_용량|Shannon Capacity]] Region)에 가장 근접할 수 있는 방식으로 증명되어 있다. OFDMA가 직선적으로 파이를 잘라 나눠주며 낭비되는 구역을 발생시킨다면, NOMA는 곡선형으로 파이를 겹쳐 낭비되는 자원 대역을 100% 효율로 꽉 채워 쓴다.
+정보이론적으로 볼 때, NOMA는 통신 채널의 용량 한계선 ([Shannon Capacity](/knowledge-base/studynote/03_network/01_data_communication/021_샤논의_채널_용량/) Region)에 가장 근접할 수 있는 방식으로 증명되어 있다. OFDMA가 직선적으로 파이를 잘라 나눠주며 낭비되는 구역을 발생시킨다면, NOMA는 곡선형으로 파이를 겹쳐 낭비되는 자원 대역을 100% 효율로 꽉 채워 쓴다.
 
 - **📢 섹션 요약 비유**: OFDMA는 피자를 정확히 반으로 잘라 먹어서 토핑 없는 빵 테두리는 안 먹고 버려지지만, NOMA는 한 명은 빵만 얇게 먹고 다른 명은 치즈 토핑만 두껍게 걷어 먹어 피자 한 판의 열량을 단 1%도 버리지 않고 완벽하게 흡수하는 것과 같다.
 
@@ -81,12 +84,12 @@ NOMA는 직교 [[087_다중접속_Multiple_Access|다중 접속]](OMA) 방식인
 
 이론상 완벽에 가까운 NOMA이지만, 실무 이동통신 네트워크 설계 시 다음과 같은 강력한 제약과 트레이드오프를 판단해야 한다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]] 및 의사결정
-1. **단말 사용자 페어링 (User Pairing) 최적화**: 아무 단말기나 중첩해서는 안 된다. NOMA의 핵심은 전력 차이를 명확히 두는 것이므로, 기지국 스케줄러는 반드시 전파 품질 차이가 극심한([[024_신호_대_잡음비|SNR]] 이득 차이가 큰) 셀 중심부 사용자와 가장자리 사용자를 짝지어야 한다. 거리가 비슷한 두 단말을 묶으면 전력 차이가 없어 수신단에서 SIC [[001_algorithm_definition|알고리즘]]이 붕괴된다.
-2. **배터리 소모와 저지연 ([[141_latency|Latency]]) 타협**: 단말기가 타인의 [[130_signal|신호]]를 먼저 복원하고 차감하는 SIC 과정은 막대한 DSP (디지털 [[130_signal|신호]] 처리) 연산을 유발한다. 따라서 [[101_iot_concept|IoT]] 센서 같은 저전력 기기에 너무 복잡한 다중 NOMA 중첩을 요구하면 배터리가 방전되거나 5G의 핵심인 초저지연 ([[761_urllc_ultra_reliable_low_latency|URLLC]])을 저해할 수 있다. 실무에선 최대 2~3명까지만 페어링을 제한하는 부분적 NOMA (Fractional NOMA)를 도입해야 한다.
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 의사결정
+1. **단말 사용자 페어링 (User Pairing) 최적화**: 아무 단말기나 중첩해서는 안 된다. NOMA의 핵심은 전력 차이를 명확히 두는 것이므로, 기지국 스케줄러는 반드시 전파 품질 차이가 극심한([SNR](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/) 이득 차이가 큰) 셀 중심부 사용자와 가장자리 사용자를 짝지어야 한다. 거리가 비슷한 두 단말을 묶으면 전력 차이가 없어 수신단에서 SIC [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 붕괴된다.
+2. **배터리 소모와 저지연 ([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 타협**: 단말기가 타인의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 먼저 복원하고 차감하는 SIC 과정은 막대한 DSP (디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리) 연산을 유발한다. 따라서 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서 같은 저전력 기기에 너무 복잡한 다중 NOMA 중첩을 요구하면 배터리가 방전되거나 5G의 핵심인 초저지연 ([URLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/))을 저해할 수 있다. 실무에선 최대 2~3명까지만 페어링을 제한하는 부분적 NOMA (Fractional NOMA)를 도입해야 한다.
 
-### 보안 및 프라이버시 [[128_water_scrum_fall_anti_pattern|안티패턴]]
-- 가까운 단말 A는 통신 원리상 무조건 원거리 단말 B의 [[130_signal|신호]]를 100% 완벽히 해독해 내야 한다. 만약 B의 데이터가 상위 계층(App/Transport)에서 강력하게 암호화되어 있지 않다면, [[673_mac_message_authentication_code|MAC]]/PHY 계층 구조만으로 A가 B의 개인 패킷을 엿듣는 끔찍한 프라이버시 탈취(Eavesdropping)가 발생한다. NOMA 적용 구간에서는 강력한 페이로드 (Payload) 암호화가 필수 전제조건이다.
+### 보안 및 프라이버시 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- 가까운 단말 A는 통신 원리상 무조건 원거리 단말 B의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 100% 완벽히 해독해 내야 한다. 만약 B의 데이터가 상위 계층(App/Transport)에서 강력하게 암호화되어 있지 않다면, [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)/PHY 계층 구조만으로 A가 B의 개인 패킷을 엿듣는 끔찍한 프라이버시 탈취(Eavesdropping)가 발생한다. NOMA 적용 구간에서는 강력한 페이로드 (Payload) 암호화가 필수 전제조건이다.
 
 - **📢 섹션 요약 비유**: NOMA는 무거운 사람(큰 전력)과 가벼운 사람(작은 전력)을 정밀하게 계산해 시소 양끝에 태우는 서커스다. 무게가 똑같은 사람 둘을 태우거나, 한 번에 다섯 명을 태우려 들면 시소 축(SIC)이 부러져 서커스(통신) 전체가 망가진다.
 
@@ -94,11 +97,11 @@ NOMA는 직교 [[087_다중접속_Multiple_Access|다중 접속]](OMA) 방식인
 
 ## Ⅴ. 기대효과 및 결론
 
-NOMA는 주파수라는 유한한 물리적 자원을 쪼개어 쓴다는 수십 년간의 통신 대원칙을 '전력을 다르게 겹쳐 쓰고 덜어낸다'는 차원으로 승격시킨 진정한 [[087_다중접속_Multiple_Access|다중 접속]]의 패러다임 시프트다. 이를 통해 주파수 효율 (Spectral Efficiency)의 극한을 끌어내며 초연결 ([[762_mmtc_massive_machine_type_communications|mMTC]]) 서비스를 위한 넓은 활주로를 열었다.
+NOMA는 주파수라는 유한한 물리적 자원을 쪼개어 쓴다는 수십 년간의 통신 대원칙을 '전력을 다르게 겹쳐 쓰고 덜어낸다'는 차원으로 승격시킨 진정한 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/)의 패러다임 시프트다. 이를 통해 주파수 효율 (Spectral Efficiency)의 극한을 끌어내며 초연결 ([mMTC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/762_mmtc_massive_machine_type_communications/)) 서비스를 위한 넓은 활주로를 열었다.
 
-하지만 SIC 기반의 단말기 복잡도와 보안 문제로 인해 [[418_5g_embb_urllc_mmtc_slicing|5G]] [[459_quic_fec_forward_error_correction|초기]] 표준에서는 지배적으로 채택되지 못했다. 미래 6G에서는 [[231_ai_turing_test|인공지능]] ([[190_ai_llm_requirements_specification|AI]]/ML)을 융합하여 기지국이 찰나의 순간에 최적의 단말 페어링을 찾아내고, 디바이스의 연산력이 향상되면서 의도된 간섭을 능동적으로 상쇄시키는 가장 강력한 무선 통신 뼈대로 자리 잡을 것이다. [[083_직교성_Orthogonality|직교성]]이라는 금기를 깨고 간섭을 포용하는 NOMA는 한계에 봉착한 네트워크 용량 문제를 돌파하는 가장 확실한 열쇠다.
+하지만 SIC 기반의 단말기 복잡도와 보안 문제로 인해 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 표준에서는 지배적으로 채택되지 못했다. 미래 6G에서는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) ([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/ML)을 융합하여 기지국이 찰나의 순간에 최적의 단말 페어링을 찾아내고, 디바이스의 연산력이 향상되면서 의도된 간섭을 능동적으로 상쇄시키는 가장 강력한 무선 통신 뼈대로 자리 잡을 것이다. [직교성](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/)이라는 금기를 깨고 간섭을 포용하는 NOMA는 한계에 봉착한 네트워크 용량 문제를 돌파하는 가장 확실한 열쇠다.
 
-- **📢 섹션 요약 비유**: NOMA는 막히는 고속도로에서 앞차와 뒷차가 서로 거리를 두는(직교) 방식 대신, 아예 범퍼를 자석으로 맞대고 한 덩어리가 되어 [[148_5g_embb_urllc_mmtc|초고속]] 군집 주행(플래투닝)을 함으로써 공기 저항과 공간 낭비를 최소화해 통행량을 2배로 늘리는 미래 모빌리티 혁명이다.
+- **📢 섹션 요약 비유**: NOMA는 막히는 고속도로에서 앞차와 뒷차가 서로 거리를 두는(직교) 방식 대신, 아예 범퍼를 자석으로 맞대고 한 덩어리가 되어 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 군집 주행(플래투닝)을 함으로써 공기 저항과 공간 낭비를 최소화해 통행량을 2배로 늘리는 미래 모빌리티 혁명이다.
 
 ---
 
@@ -106,9 +109,9 @@ NOMA는 주파수라는 유한한 물리적 자원을 쪼개어 쓴다는 수십
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **SIC (Successive Interference Cancellation)** | 수신기가 겹친 [[130_signal|신호]] 중 큰 것부터 차례로 해독하여 삭감해 나가는 NOMA의 핵심 두뇌 [[001_algorithm_definition|알고리즘]] |
-| **[[762_mmtc_massive_machine_type_communications|mMTC]] (Massive Machine Type Communications)** | 평방 킬로미터당 100만 개 이상의 기기가 폭발적으로 동시 접속해야 하는 [[418_5g_embb_urllc_mmtc_slicing|5G]]/[[419_6g_ntn_thz_ris_next_gen|6G]] 요구사항으로 NOMA가 필요한 이유 |
-| **[[945_ofdma_orthogonal_frequency_division_multiple_access_resource_block|OFDMA]] (Orthogonal Frequency [[411_division_operation|Division]] [[087_다중접속_Multiple_Access|Multiple Access]])** | NOMA가 극복하고자 하는 과거의 [[087_다중접속_Multiple_Access|다중 접속]] 방식으로, [[083_직교성_Orthogonality|직교성]](겹침 불가) 규칙 때문에 자원 고갈 한계에 도달함 |
+| **SIC (Successive Interference Cancellation)** | 수신기가 겹친 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 중 큰 것부터 차례로 해독하여 삭감해 나가는 NOMA의 핵심 두뇌 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
+| **[mMTC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/762_mmtc_massive_machine_type_communications/) (Massive Machine Type Communications)** | 평방 킬로미터당 100만 개 이상의 기기가 폭발적으로 동시 접속해야 하는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)/[6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 요구사항으로 NOMA가 필요한 이유 |
+| **[OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) (Orthogonal Frequency [Division](/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/) [Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))** | NOMA가 극복하고자 하는 과거의 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 방식으로, [직교성](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/)(겹침 불가) 규칙 때문에 자원 고갈 한계에 도달함 |
 | **사용자 페어링 (User Pairing)** | NOMA의 성공 여부를 가르는 핵심으로, 거리가 멀고 가까운 단말을 적절히 짝지어 전력 차이를 만들어 내는 기지국 기술 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -143,7 +146,7 @@ AI/ML 기반 동적 페어링 및 공간 분할(MIMO) 결합 (6G 진화 방향)
 
 **진행 상황**: 95 / 1120
 
-← **이전**: [[094_OFDMA|94. OFDMA (Orthogonal Frequency Division Multiple Access) - LTE, 5G]]
-**다음**: [[096_공간_분할_다중_접속_SDMA|96. 공간 분할 다중 접속 (SDMA, Space Division Multiple Access)]] →
+← **이전**: [94. OFDMA (Orthogonal Frequency Division Multiple Access) - LTE, 5G](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/094_OFDMA/)
+**다음**: [96. 공간 분할 다중 접속 (SDMA, Space Division Multiple Access)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/096_공간_분할_다중_접속_SDMA/) →
 
 ---

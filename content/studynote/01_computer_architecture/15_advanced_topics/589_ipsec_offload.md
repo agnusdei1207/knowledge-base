@@ -1,23 +1,27 @@
----
-title: 589. IPsec (Internet Protocol Security) 오프로드 가속기
-date: '2026-05-08'
-tags:
-- studynote-computer-architecture
----
++++
+title = "589. IPsec (Internet Protocol Security) 오프로드 가속기"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: IPsec (Internet [[295_protocol_field_tcp_udp_icmp|Protocol]] [[283_security_tactics|Security]]) 오프로드 가속기는 보안 연관 ([[283_security_tactics|Security]] Association, [[767_sa_standalone_5g_core_network|SA]]) 조회, [[382_esp_encapsulating_security_payload_confidentiality|ESP]] ([[382_esp_encapsulating_security_payload_confidentiality|Encapsulating Security Payload]]) 캡슐화, 암·복호화, [[003_integrity|무결성]] [[395_verification_process_review|검증]] 같은 반복 [[001_dikw_pyramid|데이터]] 평면 작업을 [[587_nic_offloading|네트워크 인터페이스 카드]] (Network Interface Card, [[587_nic_offloading|NIC]]) 또는 [[001_dikw_pyramid|데이터]] 처리 장치 ([[229_dpu_ipu_infrastructure_accelerator_offloading|Data Processing Unit]], [[436_dpu|DPU]])로 옮기는 구조다.
-> 2. **가치**: 25GbE·100GbE급 링크에서 중앙처리장치 (Central Processing Unit, CPU)가 패킷 [[571_protection_vs_security|보호]] 작업에 잠식되는 문제를 줄여, 보안 강화를 [[139_throughput|처리량]] 하락이 아니라 선로 속도와 낮은 지터로 바꾸는 데 도움이 된다.
-> 3. **판단 포인트**: 진짜 의사결정 기준은 "하드웨어 암호화가 있느냐"가 아니라 inline/ lookaside 배치, [[001_algorithm_definition|알고리즘]] 지원 범위, [[767_sa_standalone_5g_core_network|SA]] 수용량, 그리고 인터넷 키 교환 ([[383_ike_isakmp_sa_security_association|Internet Key Exchange]], [[383_ike_isakmp_sa_security_association|IKE]])·재키잉 같은 제어 평면이 여전히 호스트에 남는다는 사실까지 함께 보는 것이다.
+> 1. **본질**: IPsec (Internet [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) 오프로드 가속기는 보안 연관 ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Association, [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/)) 조회, [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) ([Encapsulating Security Payload](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/)) 캡슐화, 암·복호화, [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 같은 반복 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면 작업을 [네트워크 인터페이스 카드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) (Network Interface Card, [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)) 또는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 장치 ([Data Processing Unit](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/229_dpu_ipu_infrastructure_accelerator_offloading/), [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/))로 옮기는 구조다.
+> 2. **가치**: 25GbE·100GbE급 링크에서 중앙처리장치 (Central Processing Unit, CPU)가 패킷 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 작업에 잠식되는 문제를 줄여, 보안 강화를 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 하락이 아니라 선로 속도와 낮은 지터로 바꾸는 데 도움이 된다.
+> 3. **판단 포인트**: 진짜 의사결정 기준은 "하드웨어 암호화가 있느냐"가 아니라 inline/ lookaside 배치, [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 지원 범위, [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) 수용량, 그리고 인터넷 키 교환 ([Internet Key Exchange](/knowledge-base/studynote/03_network/07_network_layer_routing/383_ike_isakmp_sa_security_association/), [IKE](/knowledge-base/studynote/03_network/07_network_layer_routing/383_ike_isakmp_sa_security_association/))·재키잉 같은 제어 평면이 여전히 호스트에 남는다는 사실까지 함께 보는 것이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-IPsec 오프로드 가속기는 네트워크 계층 보안을 선로 속도에 가깝게 유지하려는 시도에서 나온 구조다. 사이트 간 [[983_vpn_virtual_private_network|가상 사설망]] (Virtual Private Network, [[983_vpn_virtual_private_network|VPN]])이나 [[801_data_center_3_tier_architecture_core_aggregation_access|데이터센터]] 동서 트래픽 [[571_protection_vs_security|보호]]에서는 패킷마다 헤더를 분석하고, 어떤 SA를 쓸지 찾고, 시퀀스 번호를 붙이고, 암호화와 [[303_authentication_authorization_patterns|인증]]을 수행해야 한다. 이 과정을 전부 CPU가 맡으면 애플리케이션을 위한 코어보다 "보안을 위한 코어"가 더 많이 필요해지는 역전 현상이 생긴다.
+IPsec 오프로드 가속기는 네트워크 계층 보안을 선로 속도에 가깝게 유지하려는 시도에서 나온 구조다. 사이트 간 [가상 사설망](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) (Virtual Private Network, [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/))이나 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 동서 트래픽 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)에서는 패킷마다 헤더를 분석하고, 어떤 SA를 쓸지 찾고, 시퀀스 번호를 붙이고, 암호화와 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 수행해야 한다. 이 과정을 전부 CPU가 맡으면 애플리케이션을 위한 코어보다 "보안을 위한 코어"가 더 많이 필요해지는 역전 현상이 생긴다.
 
-특히 패킷 크기가 작고 연결 수가 많을수록 문제는 더 커진다. 순수 소프트웨어 경로는 [[074_byte|바이트]] 단위 암호 연산뿐 아니라 패킷 단위 상태 관리까지 감당해야 하므로, 총 [[139_throughput|처리량]]보다 [[015_지연_데이터_관점|지연]] 시간의 흔들림이 먼저 나타나기도 한다. IPsec 오프로드는 이 반복 경로를 [[587_nic_offloading|NIC]] 또는 [[436_dpu|DPU]] 내부의 전용 파이프라인으로 넘겨, 호스트는 [[164_policy|정책]]과 [[160_session_controlling_terminal|세션]] 관리에 집중하고 [[001_dikw_pyramid|데이터]] 변환은 하드웨어가 맡게 만든다.
+특히 패킷 크기가 작고 연결 수가 많을수록 문제는 더 커진다. 순수 소프트웨어 경로는 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 단위 암호 연산뿐 아니라 패킷 단위 상태 관리까지 감당해야 하므로, 총 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)보다 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간의 흔들림이 먼저 나타나기도 한다. IPsec 오프로드는 이 반복 경로를 [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) 또는 [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 내부의 전용 파이프라인으로 넘겨, 호스트는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 관리에 집중하고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변환은 하드웨어가 맡게 만든다.
 
 이 그림은 왜 보안 처리가 CPU 병목으로 바뀌는지, 그리고 오프로드가 무엇을 떼어 가는지 보여 준다.
 
@@ -36,7 +40,7 @@ IPsec 오프로드 가속기는 네트워크 계층 보안을 선로 속도에 �
 └────────────────────────────────────────────────────────────────────────────┘
 ```
 
-IPsec 오프로드가 뜻하는 바는 "보안을 NIC에 전부 던진다"가 아니다. [[164_policy|정책]] 설치, [[383_ike_isakmp_sa_security_association|IKE]] 협상, 키 교체, 예외 패킷 처리 같은 제어 평면은 여전히 호스트가 맡고, 가장 반복적이고 비싼 fast path만 하드웨어가 담당한다. 그래서 이 기술의 핵심은 기능 전체의 대체가 아니라 **반복 경로의 전문화**다.
+IPsec 오프로드가 뜻하는 바는 "보안을 NIC에 전부 던진다"가 아니다. [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 설치, [IKE](/knowledge-base/studynote/03_network/07_network_layer_routing/383_ike_isakmp_sa_security_association/) 협상, 키 교체, 예외 패킷 처리 같은 제어 평면은 여전히 호스트가 맡고, 가장 반복적이고 비싼 fast path만 하드웨어가 담당한다. 그래서 이 기술의 핵심은 기능 전체의 대체가 아니라 **반복 경로의 전문화**다.
 
 - **📢 섹션 요약 비유**: 매번 금고 비밀번호를 손으로 돌리던 경비원이 너무 바빠지자, 출입 허가 여부는 경비실이 판단하고 실제 잠금·봉인은 자동 금고 장치가 맡는 것과 같다. 규칙은 사람이 정하지만 반복 작업은 기계가 처리해야 전체 건물이 버틴다.
 
@@ -44,15 +48,15 @@ IPsec 오프로드가 뜻하는 바는 "보안을 NIC에 전부 던진다"가 �
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-IPsec 오프로드 아키텍처의 핵심은 "[[164_policy|정책]] 결정"과 "패킷 변환"의 분리다. 호스트는 어떤 흐름이 어떤 SA를 써야 하는지 결정하고 키를 내려보내며, [[587_nic_offloading|NIC]]/DPU는 실제 송수신 패킷에 대해 [[382_esp_encapsulating_security_payload_confidentiality|ESP]] 헤더 추가, 시퀀스 번호 증가, AES-GCM ([[656_aes_advanced_encryption_standard_rijndael|Advanced Encryption Standard]] Galois/[[059_counter|Counter]] Mode) 기반 암·복호화, [[303_authentication_authorization_patterns|인증]] 태그 [[395_verification_process_review|검증]], anti-replay window 확인을 수행한다. 즉 하드웨어는 복잡한 [[164_policy|정책]] 언어를 해석하기보다, 이미 정해진 보안 상태를 빠르게 반복 실행한다.
+IPsec 오프로드 아키텍처의 핵심은 "[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 결정"과 "패킷 변환"의 분리다. 호스트는 어떤 흐름이 어떤 SA를 써야 하는지 결정하고 키를 내려보내며, [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)/DPU는 실제 송수신 패킷에 대해 [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) 헤더 추가, 시퀀스 번호 증가, AES-GCM ([Advanced Encryption Standard](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) Galois/[Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) Mode) 기반 암·복호화, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 태그 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), anti-replay window 확인을 수행한다. 즉 하드웨어는 복잡한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 언어를 해석하기보다, 이미 정해진 보안 상태를 빠르게 반복 실행한다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
-| [[767_sa_standalone_5g_core_network|SA]] 테이블 | 키, [[001_algorithm_definition|알고리즘]], 터널 목적지, 시퀀스 상태를 저장한다. | 동시 터널 수와 tenant 수를 감당할 수 있어야 한다. |
-| 암호화 엔진 | AES-GCM 같은 대칭키 연산과 [[303_authentication_authorization_patterns|인증]] 태그 생성을 수행한다. | line rate와 [[001_algorithm_definition|알고리즘]] 호환성이 핵심이다. |
-| 패킷 변환기 | [[382_esp_encapsulating_security_payload_confidentiality|ESP]] 캡슐화·역캡슐화, 헤더 재작성, [[098_padding_convolutional_neural_network_same_valid|패딩]] 처리를 맡는다. | transport mode와 tunnel mode를 구분해야 한다. |
+| [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) 테이블 | 키, [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/), 터널 목적지, 시퀀스 상태를 저장한다. | 동시 터널 수와 tenant 수를 감당할 수 있어야 한다. |
+| 암호화 엔진 | AES-GCM 같은 대칭키 연산과 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 태그 생성을 수행한다. | line rate와 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 호환성이 핵심이다. |
+| 패킷 변환기 | [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) 캡슐화·역캡슐화, 헤더 재작성, [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 처리를 맡는다. | transport mode와 tunnel mode를 구분해야 한다. |
 | 재전송 방지 로직 | 시퀀스 번호를 관리하고 재생 공격을 차단한다. | 보안 정확성과 out-of-order 허용 범위가 중요하다. |
-| 전송 큐 / [[450_dma_direct_memory_access|직접 메모리 접근]] ([[318_dma|Direct Memory Access]], [[746_io_direct_memory_access_dma|DMA]]) 경로 | 호스트 메모리와 [[587_nic_offloading|NIC]] 사이에서 버퍼를 주고받는다. | 큐 균형과 메모리 복사 최소화가 성능을 좌우한다. |
+| 전송 큐 / [직접 메모리 접근](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/450_dma_direct_memory_access/) ([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/), [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/)) 경로 | 호스트 메모리와 [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) 사이에서 버퍼를 주고받는다. | 큐 균형과 메모리 복사 최소화가 성능을 좌우한다. |
 
 이 그림은 송신과 수신에서 오프로드 파이프라인이 어떻게 작동하는지 요약한다.
 
@@ -68,7 +72,7 @@ IPsec 오프로드 아키텍처의 핵심은 "[[164_policy|정책]] 결정"과 "
 └────────────────────────────────────────────────────────────────────────────┘
 ```
 
-여기서 자주 나뉘는 구현이 inline과 lookaside다. inline 오프로드는 NIC가 실제 전송 경로 한가운데서 패킷을 바로 [[571_protection_vs_security|보호]]·해제하므로 CPU 개입이 가장 적다. 반면 lookaside 오프로드는 호스트가 패킷 조립을 일부 맡고, 암호 연산만 별도 가속기에 맡기는 구조라 통합은 쉽지만 버퍼 왕복과 소프트웨어 잔여 비용이 더 남는다.
+여기서 자주 나뉘는 구현이 inline과 lookaside다. inline 오프로드는 NIC가 실제 전송 경로 한가운데서 패킷을 바로 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)·해제하므로 CPU 개입이 가장 적다. 반면 lookaside 오프로드는 호스트가 패킷 조립을 일부 맡고, 암호 연산만 별도 가속기에 맡기는 구조라 통합은 쉽지만 버퍼 왕복과 소프트웨어 잔여 비용이 더 남는다.
 
 - **📢 섹션 요약 비유**: inline은 톨게이트를 지나며 차가 자동 결제되는 방식이고, lookaside는 창구에 한 번 들러 결제만 맡기고 다시 차를 몰고 가는 방식이다. 둘 다 일을 덜어 주지만, 진짜 흐름이 매끄러운 쪽은 길 위에서 바로 처리하는 구조다.
 
@@ -76,17 +80,17 @@ IPsec 오프로드 아키텍처의 핵심은 "[[164_policy|정책]] 결정"과 "
 
 ## Ⅲ. 비교 및 연결
 
-IPsec 오프로드를 이해할 때 가장 많이 헷갈리는 비교 대상은 CPU [[158_instruction|명령어]] 가속, lookaside 가속, inline 오프로드다. 세 방식은 모두 암호화를 빠르게 만들 수 있지만, CPU가 어디까지 패킷 경로를 계속 책임지느냐가 다르다. 따라서 "하드웨어 가속이 있다"는 말만으로는 실제 시스템 부담을 판단할 수 없다.
+IPsec 오프로드를 이해할 때 가장 많이 헷갈리는 비교 대상은 CPU [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 가속, lookaside 가속, inline 오프로드다. 세 방식은 모두 암호화를 빠르게 만들 수 있지만, CPU가 어디까지 패킷 경로를 계속 책임지느냐가 다르다. 따라서 "하드웨어 가속이 있다"는 말만으로는 실제 시스템 부담을 판단할 수 없다.
 
 | 방식 | CPU가 계속 맡는 부분 | 장점 | 한계 |
 | :--- | :--- | :--- | :--- |
-| CPU 내 암호 [[158_instruction|명령어]] 가속 | 패킷 조립, [[767_sa_standalone_5g_core_network|SA]] 조회, 시퀀스 관리, 암호화 호출 모두 호스트가 수행 | 유연성이 높고 소프트웨어 수정이 쉽다 | 코어 사용량과 지터가 크게 남는다 |
-| Lookaside IPsec 가속 | 패킷 경로 상당 부분과 [[160_session_controlling_terminal|세션]] 상태 관리는 호스트가 유지 | 기존 스택에 붙이기 쉽다 | 버퍼 왕복과 일부 소프트웨어 비용이 남는다 |
-| Inline IPsec 오프로드 | [[164_policy|정책]] 설치와 제어 평면만 호스트가 유지 | CPU 절감폭과 [[139_throughput|처리량]]이 가장 크다 | 지원 [[001_algorithm_definition|알고리즘]]·모드가 하드웨어 기능에 묶인다 |
+| CPU 내 암호 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 가속 | 패킷 조립, [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) 조회, 시퀀스 관리, 암호화 호출 모두 호스트가 수행 | 유연성이 높고 소프트웨어 수정이 쉽다 | 코어 사용량과 지터가 크게 남는다 |
+| Lookaside IPsec 가속 | 패킷 경로 상당 부분과 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 상태 관리는 호스트가 유지 | 기존 스택에 붙이기 쉽다 | 버퍼 왕복과 일부 소프트웨어 비용이 남는다 |
+| Inline IPsec 오프로드 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 설치와 제어 평면만 호스트가 유지 | CPU 절감폭과 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 가장 크다 | 지원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)·모드가 하드웨어 기능에 묶인다 |
 
-또 다른 비교 대상은 전송 계층 보안 (Transport Layer [[283_security_tactics|Security]], [[694_thread_local_storage_tls|TLS]]) 오프로드다. [[694_thread_local_storage_tls|TLS]] 오프로드가 애플리케이션 [[160_session_controlling_terminal|세션]] 종단과 [[303_authentication_authorization_patterns|인증]]서를 중심으로 동작한다면, IPsec 오프로드는 호스트 간 또는 게이트웨이 간 패킷 [[571_protection_vs_security|보호]]를 담당한다. 즉 둘은 경쟁 관계라기보다 **[[571_protection_vs_security|보호]] 계층이 다른 [[430_index_fast_full_scan|병렬]] 수단**이며, 최근 DPU는 이 둘을 함께 처리하는 방향으로 진화하고 있다.
+또 다른 비교 대상은 전송 계층 보안 (Transport Layer [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/), [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)) 오프로드다. [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 오프로드가 애플리케이션 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 종단과 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 중심으로 동작한다면, IPsec 오프로드는 호스트 간 또는 게이트웨이 간 패킷 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)를 담당한다. 즉 둘은 경쟁 관계라기보다 **[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 계층이 다른 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 수단**이며, 최근 DPU는 이 둘을 함께 처리하는 방향으로 진화하고 있다.
 
-결국 IPsec 오프로드는 일반적인 [[587_nic_offloading|네트워크 인터페이스 카드]] (Network Interface Card, [[587_nic_offloading|NIC]]) 오프로딩이나 [[588_toe|TOE]] ([[405_tcp_transmission_control_protocol_connection_oriented|TCP]]/IP Offload Engine)보다 더 강한 보안 상태를 다뤄야 한다는 점에서 어렵다. 체크섬이나 세그먼트 분할처럼 stateless한 작업과 달리, IPsec은 키·시퀀스 번호·재전송 방지 윈도우를 정확히 유지해야 하므로 하드웨어 설계의 정합성이 더 중요하다.
+결국 IPsec 오프로드는 일반적인 [네트워크 인터페이스 카드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) (Network Interface Card, [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)) 오프로딩이나 [TOE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/588_toe/) ([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP Offload Engine)보다 더 강한 보안 상태를 다뤄야 한다는 점에서 어렵다. 체크섬이나 세그먼트 분할처럼 stateless한 작업과 달리, IPsec은 키·시퀀스 번호·재전송 방지 윈도우를 정확히 유지해야 하므로 하드웨어 설계의 정합성이 더 중요하다.
 
 - **📢 섹션 요약 비유**: 단순 포장 자동화가 상자만 접는 기계라면, IPsec 오프로드는 고객별 자물쇠 번호까지 기억하는 금고 배송 시스템에 가깝다. 빠르기만 해서는 안 되고, 누구 물건인지 끝까지 틀리지 않아야 한다.
 
@@ -94,23 +98,23 @@ IPsec 오프로드를 이해할 때 가장 많이 헷갈리는 비교 대상은 
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 가장 위험한 오판은 "NIC이 IPsec 지원"이라는 문구를 보고 모든 트래픽이 자동으로 하드웨어 처리된다고 가정하는 일이다. 실제 제품은 특정 [[001_algorithm_definition|알고리즘]], 특정 모드, 특정 패킷 형태만 오프로드하고 나머지는 소프트웨어 slow path로 되돌리는 경우가 많다. 따라서 설계자는 평균 [[139_throughput|처리량]]뿐 아니라 **[[129_fallback|fallback]] 비율, 예외 패킷 비중, [[767_sa_standalone_5g_core_network|SA]] churn**까지 같이 봐야 한다.
+실무에서 가장 위험한 오판은 "NIC이 IPsec 지원"이라는 문구를 보고 모든 트래픽이 자동으로 하드웨어 처리된다고 가정하는 일이다. 실제 제품은 특정 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/), 특정 모드, 특정 패킷 형태만 오프로드하고 나머지는 소프트웨어 slow path로 되돌리는 경우가 많다. 따라서 설계자는 평균 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)뿐 아니라 **[fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/) 비율, 예외 패킷 비중, [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) churn**까지 같이 봐야 한다.
 
-예를 들어 [[801_data_center_3_tier_architecture_core_aggregation_access|데이터센터]] 게이트웨이는 대형 터널 수와 높은 대역폭이 중요하고, 원격 접속 [[983_vpn_virtual_private_network|VPN]] 장비는 작은 패킷이 많아 패킷당 오버헤드가 먼저 병목이 되기 쉽다. 전자는 line rate 유지가, 후자는 CPU 지터와 [[160_session_controlling_terminal|세션]] 밀도가 더 중요할 수 있다. 그래서 같은 "IPsec 가속"이라도 어떤 트래픽에 쓰느냐에 따라 평가 지표가 달라진다.
+예를 들어 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 게이트웨이는 대형 터널 수와 높은 대역폭이 중요하고, 원격 접속 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 장비는 작은 패킷이 많아 패킷당 오버헤드가 먼저 병목이 되기 쉽다. 전자는 line rate 유지가, 후자는 CPU 지터와 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 밀도가 더 중요할 수 있다. 그래서 같은 "IPsec 가속"이라도 어떤 트래픽에 쓰느냐에 따라 평가 지표가 달라진다.
 
-### 적용 판단 [[435_checklist_based_testing|체크리스트]]
+### 적용 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 필요한 cipher와 mode가 하드웨어에서 실제 지원되는가?
-2. 동시 [[767_sa_standalone_5g_core_network|SA]] 수와 tenant 수가 [[587_nic_offloading|NIC]]/[[436_dpu|DPU]] 테이블 한도 안에 들어오는가?
-3. [[383_ike_isakmp_sa_security_association|IKE]] 협상, 재키잉, 장애 시 재동기화 같은 제어 평면 부하를 호스트가 감당하는가?
-4. 터널 오버헤드 때문에 최대 전송 단위 ([[292_packet_encapsulation_mtu_ethernet_1500_bytes|Maximum Transmission Unit]], MTU) 문제가 생기지 않는가?
-5. 오프로드 miss, [[303_authentication_authorization_patterns|인증]] 실패, replay drop을 관찰할 수 있는 telemetry가 준비되어 있는가?
+2. 동시 [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) 수와 tenant 수가 [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)/[DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 테이블 한도 안에 들어오는가?
+3. [IKE](/knowledge-base/studynote/03_network/07_network_layer_routing/383_ike_isakmp_sa_security_association/) 협상, 재키잉, 장애 시 재동기화 같은 제어 평면 부하를 호스트가 감당하는가?
+4. 터널 오버헤드 때문에 최대 전송 단위 ([Maximum Transmission Unit](/knowledge-base/studynote/03_network/06_network_layer_ip/292_packet_encapsulation_mtu_ethernet_1500_bytes/), MTU) 문제가 생기지 않는가?
+5. 오프로드 miss, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 실패, replay drop을 관찰할 수 있는 telemetry가 준비되어 있는가?
 
-### 피해야 할 [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### 피해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 지원하지 않는 [[001_algorithm_definition|알고리즘]]이나 모드를 선택해 결국 대부분의 패킷을 소프트웨어로 되돌리는 구성
+- 지원하지 않는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이나 모드를 선택해 결국 대부분의 패킷을 소프트웨어로 되돌리는 구성
 - 하드웨어가 암호화만 빨라지면 제어 평면 병목도 사라질 것이라 착각하는 설계
-- MTU와 분편화를 무시해 터널은 안전하지만 실제 [[139_throughput|처리량]]은 오히려 떨어지는 배치
+- MTU와 분편화를 무시해 터널은 안전하지만 실제 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 오히려 떨어지는 배치
 - 장애 분석 도구 없이 오프로드를 켜 놓고, slow path 전환 여부를 나중에야 알아차리는 운영
 
 - **📢 섹션 요약 비유**: 자동 금고차를 도입해 놓고 정작 열쇠 관리와 배송 목록 정리는 사람이 엉망으로 하면 소용이 없다. 빠른 금고차는 큰 도움을 주지만, 어떤 상자를 태울지 정하는 장부가 정확해야 진짜 효과가 난다.
@@ -119,11 +123,11 @@ IPsec 오프로드를 이해할 때 가장 많이 헷갈리는 비교 대상은 
 
 ## Ⅴ. 기대효과 및 결론
 
-IPsec 오프로드 가속기를 잘 적용하면 보안 트래픽이 더 이상 호스트 CPU의 세금처럼 느껴지지 않는다. 암호화로 잡아먹히던 코어를 애플리케이션과 [[015_virtualization|가상화]] 관리에 돌릴 수 있고, 패킷 처리 [[015_지연_데이터_관점|지연]]도 더 일정해져 [[090_service_kubernetes_network_load_balancing|서비스]] 품질이 안정된다. 특히 전용 회로는 범용 CPU보다 와트당 [[139_throughput|처리량]]이 높아, [[801_data_center_3_tier_architecture_core_aggregation_access|데이터센터]] 관점에서는 전력 효율 개선 효과도 크다.
+IPsec 오프로드 가속기를 잘 적용하면 보안 트래픽이 더 이상 호스트 CPU의 세금처럼 느껴지지 않는다. 암호화로 잡아먹히던 코어를 애플리케이션과 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 관리에 돌릴 수 있고, 패킷 처리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)도 더 일정해져 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질이 안정된다. 특히 전용 회로는 범용 CPU보다 와트당 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 높아, [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 관점에서는 전력 효율 개선 효과도 크다.
 
-물론 한계는 분명하다. 지원 [[001_algorithm_definition|알고리즘]]과 기능이 하드웨어에 묶이고, 디버깅 가시성은 소프트웨어보다 떨어지며, 제어 평면과 예외 패킷 처리는 여전히 호스트 책임이다. 앞으로는 IPsec·[[694_thread_local_storage_tls|TLS]]·[[630_vswitch_vnf_overhead|vSwitch]]·스토리지 보안까지 한 칩 안에서 묶어 처리하는 DPU가 늘어나면서, 오프로드의 단위가 "기능 하나"가 아니라 "[[001_dikw_pyramid|데이터]] 경로 전체"로 넓어질 가능성이 크다.
+물론 한계는 분명하다. 지원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)과 기능이 하드웨어에 묶이고, 디버깅 가시성은 소프트웨어보다 떨어지며, 제어 평면과 예외 패킷 처리는 여전히 호스트 책임이다. 앞으로는 IPsec·[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)·[vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)·스토리지 보안까지 한 칩 안에서 묶어 처리하는 DPU가 늘어나면서, 오프로드의 단위가 "기능 하나"가 아니라 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로 전체"로 넓어질 가능성이 크다.
 
-결론적으로 IPsec 오프로드 가속기는 **보안 [[164_policy|정책]]은 호스트가 결정하되, 반복적인 패킷 [[571_protection_vs_security|보호]]는 전용 파이프라인에 맡기는 구조적 분업**으로 기억하는 것이 가장 정확하다. 핵심은 암호화를 빠르게 하는 것보다, 보안 때문에 시스템 전체가 느려지지 않게 만드는 데 있다.
+결론적으로 IPsec 오프로드 가속기는 **보안 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 호스트가 결정하되, 반복적인 패킷 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)는 전용 파이프라인에 맡기는 구조적 분업**으로 기억하는 것이 가장 정확하다. 핵심은 암호화를 빠르게 하는 것보다, 보안 때문에 시스템 전체가 느려지지 않게 만드는 데 있다.
 
 - **📢 섹션 요약 비유**: 좋은 공항 보안은 승객 정보를 중앙에서 관리하되, 수하물 스캔은 전용 장비가 초고속으로 처리하는 구조다. 판정은 중앙이 하고, 반복 검사는 기계가 맡아야 공항 전체가 막히지 않는다.
 
@@ -133,12 +137,12 @@ IPsec 오프로드 가속기를 잘 적용하면 보안 트래픽이 더 이상 
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 보안 연관 ([[283_security_tactics|Security]] Association, [[767_sa_standalone_5g_core_network|SA]]) | 어떤 키와 [[001_algorithm_definition|알고리즘]]으로 패킷을 [[571_protection_vs_security|보호]]할지 결정하는 IPsec의 핵심 상태다. |
-| [[382_esp_encapsulating_security_payload_confidentiality|ESP]] ([[382_esp_encapsulating_security_payload_confidentiality|Encapsulating Security Payload]]) | 실제 [[001_dikw_pyramid|데이터]] 암호화와 [[003_integrity|무결성]] [[571_protection_vs_security|보호]]가 적용되는 주된 패킷 형식이다. |
-| 인터넷 키 교환 ([[383_ike_isakmp_sa_security_association|Internet Key Exchange]], [[383_ike_isakmp_sa_security_association|IKE]]) | 오프로드가 빠르게 돌기 전에 필요한 키 합의와 재키잉을 담당한다. |
-| AES-GCM | 현대 IPsec 오프로드가 가장 자주 최적화하는 결합형 암호화·[[303_authentication_authorization_patterns|인증]] 방식이다. |
+| 보안 연관 ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Association, [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/)) | 어떤 키와 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 패킷을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)할지 결정하는 IPsec의 핵심 상태다. |
+| [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) ([Encapsulating Security Payload](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/)) | 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 암호화와 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)가 적용되는 주된 패킷 형식이다. |
+| 인터넷 키 교환 ([Internet Key Exchange](/knowledge-base/studynote/03_network/07_network_layer_routing/383_ike_isakmp_sa_security_association/), [IKE](/knowledge-base/studynote/03_network/07_network_layer_routing/383_ike_isakmp_sa_security_association/)) | 오프로드가 빠르게 돌기 전에 필요한 키 합의와 재키잉을 담당한다. |
+| AES-GCM | 현대 IPsec 오프로드가 가장 자주 최적화하는 결합형 암호화·[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 방식이다. |
 | Anti-Replay Window | 중복 패킷과 재생 공격을 차단해 "빠르지만 틀린" 오프로드를 막는 안전장치다. |
-| [[001_dikw_pyramid|데이터]] 처리 장치 ([[229_dpu_ipu_infrastructure_accelerator_offloading|Data Processing Unit]], [[436_dpu|DPU]]) | IPsec을 포함한 네트워크·보안·[[015_virtualization|가상화]] 오프로드를 통합하는 진화형 플랫폼이다. |
+| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 장치 ([Data Processing Unit](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/229_dpu_ipu_infrastructure_accelerator_offloading/), [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/)) | IPsec을 포함한 네트워크·보안·[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 오프로드를 통합하는 진화형 플랫폼이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -172,7 +176,7 @@ DPU 기반 통합 보안 데이터 평면
 
 **진행 상황**: 589 / 803
 
-← **이전**: [[588_toe|588. TCP 오프로드 엔진 (TOE)]]
-**다음**: [[590_vswitch_offload|590. 가상 스위치 오프로드 (vSwitch Offload)]] →
+← **이전**: [588. TCP 오프로드 엔진 (TOE)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/588_toe/)
+**다음**: [590. 가상 스위치 오프로드 (vSwitch Offload)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/590_vswitch_offload/) →
 
 ---

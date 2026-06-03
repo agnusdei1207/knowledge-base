@@ -1,9 +1,13 @@
----
-title: 943. 펄스부호변조 (PCM)
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "943. 펄스부호변조 (PCM)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -15,8 +19,8 @@ tags:
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 마이크로 들어온 **연속적인 [[003_아날로그_신호_vs_디지털_신호|아날로그 신호]](음성, 음악)를 '[[056_표본화_Sampling|표본화]] ➜ [[434_quantization|양자화]] ➜ 부호화'라는 3단계 컨베이어 벨트를 거쳐 0과 1의 불연속적인 디지털 [[073_bit|비트]] 스트림([[086_fenwick_tree|Bit]] [[467_http2_stream_multiplexing_tcp_hol|Stream]])으로 변환하는 통신/[[347_compaction|압축]] 방식의 글로벌 표준 규격**입니다.
-- 우리가 컴퓨터로 듣는 MP3 [[501_file_definition_logical_record|파일]], 전화 통화 소리(G.711 코덱), WAV [[501_file_definition_logical_record|파일]]의 근본 뼈대가 바로 이 PCM 덩어리입니다.
+- **개념**: 마이크로 들어온 **연속적인 [아날로그 신호](/knowledge-base/studynote/03_network/01_data_communication/003_아날로그_신호_vs_디지털_신호/)(음성, 음악)를 '[표본화](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/) ➜ [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) ➜ 부호화'라는 3단계 컨베이어 벨트를 거쳐 0과 1의 불연속적인 디지털 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 스트림([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/))으로 변환하는 통신/[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 방식의 글로벌 표준 규격**입니다.
+- 우리가 컴퓨터로 듣는 MP3 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 전화 통화 소리(G.711 코덱), WAV [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 근본 뼈대가 바로 이 PCM 덩어리입니다.
 
 ```text
 [에일리어싱]
@@ -27,26 +31,26 @@ tags:
     └──▶ [다중화기 / 역다중화기]
 ```
 
-- **📢 섹션 요약 비유**: 펄스부호변조는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [[170_selectivity_cardinality_distribution_tuning|선택도]] 쉬워진다.
+- **📢 섹션 요약 비유**: 펄스부호변조는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-아날로그 파동을 컴퓨터 [[501_file_definition_logical_record|파일]]로 만드는 공장 라인입니다.
+아날로그 파동을 컴퓨터 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 만드는 공장 라인입니다.
 
-### 1단계: [[056_표본화_Sampling|표본화]] ([[056_표본화_Sampling|Sampling]]) - "칼질하기" 🌟
+### 1단계: [표본화](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/) ([Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/)) - "칼질하기" 🌟
 - 연속된 소리의 물결 곡선(파동) 위에 1초마다 몇 개의 '점(표본)'을 찍어서 값을 추출할지 결정합니다.
 - 942번 문서에서 배운 **나이퀴스트 정리**에 따라, 인간의 일반적인 전화 통화 최고 음역대인 **4,000Hz (4kHz)**를 살려내기 위해 1초에 최소 2배인 **8,000번 (8kHz)**의 칼질을 해서 점을 톡톡 찍어냅니다.
 
-### 2단계: [[434_quantization|양자화]] ([[434_quantization|Quantization]]) - "반올림하여 줄 세우기" 🌟
-- [[056_표본화_Sampling|표본화]]로 찍은 점의 높이가 '3.141592V'처럼 무한 소수라면 컴퓨터에 저장할 수 없습니다.
+### 2단계: [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) ([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)) - "반올림하여 줄 세우기" 🌟
+- [표본화](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/)로 찍은 점의 높이가 '3.141592V'처럼 무한 소수라면 컴퓨터에 저장할 수 없습니다.
 - 이 점의 높이를 가장 가까운 정수 칸막이(예: 3V 또는 4V)로 강제로 끌어당겨 **'반올림'** 해버립니다.
-- **[[060_양자화_잡음_양자화_스텝|양자화 잡음]] ([[434_quantization|Quantization]] Noise) 🌟**: 3.14V를 3V로 깎아버렸으니, 원본 목소리에서 0.14V만큼의 [[001_dikw_pyramid|데이터]]가 파괴되어 날아갔습니다. 이 강제 반올림 때문에 스피커에서 들리는 미세한 쇳소리(잡음)를 [[060_양자화_잡음_양자화_스텝|양자화 잡음]]이라고 하며, PCM의 숙명적인 맹점입니다. 이 잡음을 줄이려면 반올림 칸막이([[073_bit|비트]] 수)를 8비트에서 16비트로 엄청나게 촘촘하게 썰어야 합니다.
+- **[양자화 잡음](/knowledge-base/studynote/03_network/01_data_communication/060_양자화_잡음_양자화_스텝/) ([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) Noise) 🌟**: 3.14V를 3V로 깎아버렸으니, 원본 목소리에서 0.14V만큼의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 파괴되어 날아갔습니다. 이 강제 반올림 때문에 스피커에서 들리는 미세한 쇳소리(잡음)를 [양자화 잡음](/knowledge-base/studynote/03_network/01_data_communication/060_양자화_잡음_양자화_스텝/)이라고 하며, PCM의 숙명적인 맹점입니다. 이 잡음을 줄이려면 반올림 칸막이([비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수)를 8비트에서 16비트로 엄청나게 촘촘하게 썰어야 합니다.
 
 ### 3단계: 부호화 (Encoding) - "0과 1로 번역하기"
-- [[434_quantization|양자화]]로 반올림된 정수값 '3'을 컴퓨터가 읽을 수 있는 8비트 이진수(예: `00000011`)로 변환합니다.
-- 결과적으로 1초에 8,000번 점을 찍고, 1개 점당 8비트의 숫자를 부여했으니, 1초의 전화 통화 [[001_dikw_pyramid|데이터]]는 **$8,000 \times 8 = 64,000 bps (64Kbps)$**의 인터넷 트래픽을 잡아먹게 됩니다. (전 세계 전화기 ISDN의 절대 표준 속도)
+- [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)로 반올림된 정수값 '3'을 컴퓨터가 읽을 수 있는 8비트 이진수(예: `00000011`)로 변환합니다.
+- 결과적으로 1초에 8,000번 점을 찍고, 1개 점당 8비트의 숫자를 부여했으니, 1초의 전화 통화 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 **$8,000 \times 8 = 64,000 bps (64Kbps)$**의 인터넷 트래픽을 잡아먹게 됩니다. (전 세계 전화기 ISDN의 절대 표준 속도)
 
 ```text
 [에일리어싱]
@@ -63,36 +67,36 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-반올림 오차(잡음)를 줄이려고 무작정 16비트, 24비트로 용량을 늘리면 [[001_dikw_pyramid|데이터]]가 터집니다. 
-- **[[061_컴팬딩_압신_mu_law_A_law|컴팬딩]] ([[061_컴팬딩_압신_mu_law_A_law|Companding]] / 압신)**: 사람의 귀는 '큰 소리의 오차'는 둔감하고, '작은 속삭임의 오차'에는 엄청 예민합니다. 
-- 그래서 [[434_quantization|양자화]] 칸막이를 자를 때 일정한 간격(선형)으로 자르지 않고, **작은 소리 구간은 칸막이를 엄청 촘촘하게(세밀하게 반올림) 자르고, 큰 폭발음 소리 구간은 칸막이를 듬성듬성(대충 반올림) 잘라서(비선형 [[434_quantization|양자화]])** [[001_dikw_pyramid|데이터]] 용량은 아끼면서 귀에 들리는 잡음은 기가 막히게 날려버리는 마법을 씁니다. ($\mu$-law, A-law 등)
+반올림 오차(잡음)를 줄이려고 무작정 16비트, 24비트로 용량을 늘리면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 터집니다. 
+- **[컴팬딩](/knowledge-base/studynote/03_network/01_data_communication/061_컴팬딩_압신_mu_law_A_law/) ([Companding](/knowledge-base/studynote/03_network/01_data_communication/061_컴팬딩_압신_mu_law_A_law/) / 압신)**: 사람의 귀는 '큰 소리의 오차'는 둔감하고, '작은 속삭임의 오차'에는 엄청 예민합니다. 
+- 그래서 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) 칸막이를 자를 때 일정한 간격(선형)으로 자르지 않고, **작은 소리 구간은 칸막이를 엄청 촘촘하게(세밀하게 반올림) 자르고, 큰 폭발음 소리 구간은 칸막이를 듬성듬성(대충 반올림) 잘라서(비선형 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/))** [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 용량은 아끼면서 귀에 들리는 잡음은 기가 막히게 날려버리는 마법을 씁니다. ($\mu$-law, A-law 등)
 
-펄스부호변조를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [[057_에일리어싱_Aliasing|에일리어싱]]이 기반 조건을 만든다면, 펄스부호변조는 그 위에서 핵심 메커니즘을 구현하고, [[944_mux_demux_multiplexer_demultiplexer_circuit_sharing|다중화기]] / 역다중화기는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 구분 명확성과 설명력에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+펄스부호변조를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [에일리어싱](/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/)이 기반 조건을 만든다면, 펄스부호변조는 그 위에서 핵심 메커니즘을 구현하고, [다중화기](/knowledge-base/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/) / 역다중화기는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 구분 명확성과 설명력에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [[057_에일리어싱_Aliasing|에일리어싱]]의 기반 정리 | 펄스부호변조의 핵심 동작 | [[944_mux_demux_multiplexer_demultiplexer_circuit_sharing|다중화기]] / 역다중화기의 확장 적용 |
+| 초점 | [에일리어싱](/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/)의 기반 정리 | 펄스부호변조의 핵심 동작 | [다중화기](/knowledge-base/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/) / 역다중화기의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 구분 명확성 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: PCM(펄스부호변조)은 구불구불 이어져 있는 '아날로그 롤러코스터 레일'을 엑셀(디지털 숫자)로 그려내는 도축 작업입니다. 첫째, **[[056_표본화_Sampling|표본화]]([[056_표본화_Sampling|Sampling]])**는 롤러코스터 레일 위에 1미터 간격으로 페인트 점을 8,000개 찍는 칼질입니다. 둘째, **[[434_quantization|양자화]]([[434_quantization|Quantization]])**는 각 페인트 점의 지상 높이가 [[489_raid_10_hybrid|10]].3미터일 때, 자재를 아끼기 위해 반올림하여 강제로 10미터짜리 철골 기둥에 맞춰버리는 억지 작업입니다. 이때 0.3미터의 오차가 생겨 레일이 약간 덜컹거리는데 이것이 **'[[060_양자화_잡음_양자화_스텝|양자화 잡음]]'**입니다. 셋째, **부호화(Encoding)**는 이 반올림한 높이 '[[489_raid_10_hybrid|10]]'을 이메일로 보내기 위해 '01010'이라는 텍스트 숫자로 바꿔 타자 치는 것입니다. 목적지(수신자 컴퓨터)는 이 텍스트 숫자를 보고 기둥을 세운 뒤 그 위로 레일(파동)을 부드럽게 덮어 씌우면, 아무리 먼 거리를 전송했더라도 원본 롤러코스터와 거의 똑같은 복제품이 100% 디지털로 뚝딱 부활하는 마법의 아키텍처입니다.
+- **📢 섹션 요약 비유**: PCM(펄스부호변조)은 구불구불 이어져 있는 '아날로그 롤러코스터 레일'을 엑셀(디지털 숫자)로 그려내는 도축 작업입니다. 첫째, **[표본화](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/)([Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/))**는 롤러코스터 레일 위에 1미터 간격으로 페인트 점을 8,000개 찍는 칼질입니다. 둘째, **[양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/))**는 각 페인트 점의 지상 높이가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).3미터일 때, 자재를 아끼기 위해 반올림하여 강제로 10미터짜리 철골 기둥에 맞춰버리는 억지 작업입니다. 이때 0.3미터의 오차가 생겨 레일이 약간 덜컹거리는데 이것이 **'[양자화 잡음](/knowledge-base/studynote/03_network/01_data_communication/060_양자화_잡음_양자화_스텝/)'**입니다. 셋째, **부호화(Encoding)**는 이 반올림한 높이 '[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)'을 이메일로 보내기 위해 '01010'이라는 텍스트 숫자로 바꿔 타자 치는 것입니다. 목적지(수신자 컴퓨터)는 이 텍스트 숫자를 보고 기둥을 세운 뒤 그 위로 레일(파동)을 부드럽게 덮어 씌우면, 아무리 먼 거리를 전송했더라도 원본 롤러코스터와 거의 똑같은 복제품이 100% 디지털로 뚝딱 부활하는 마법의 아키텍처입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 펄스부호변조를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [[057_에일리어싱_Aliasing|에일리어싱]] 수준의 기본 대책으로 충분한지, 아니면 펄스부호변조가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [[944_mux_demux_multiplexer_demultiplexer_circuit_sharing|다중화기]] / 역다중화기와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 펄스부호변조를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [에일리어싱](/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/) 수준의 기본 대책으로 충분한지, 아니면 펄스부호변조가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [다중화기](/knowledge-base/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/) / 역다중화기와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 구분 명확성 부족인지, 설명력 악화인지 먼저 분리한다.
-2. 펄스부호변조가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [[396_validation|확인]]한다.
-3. 도입 후에는 인접 기술인 [[944_mux_demux_multiplexer_demultiplexer_circuit_sharing|다중화기]] / 역다중화기와의 연계 방식을 함께 검증한다.
+2. 펄스부호변조가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+3. 도입 후에는 인접 기술인 [다중화기](/knowledge-base/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/) / 역다중화기와의 연계 방식을 함께 검증한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 펄스부호변조의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- [[057_에일리어싱_Aliasing|에일리어싱]]와의 경계를 정리하지 않아 중복 투자나 [[164_policy|정책]] 충돌을 만드는 설계
+- [에일리어싱](/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/)와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: 펄스부호변조를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -100,7 +104,7 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-펄스부호변조는 빈출 주제와 용어를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 구분 명확성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [[944_mux_demux_multiplexer_demultiplexer_circuit_sharing|다중화기]] / 역다중화기, [[033_context|컨텍스트]] 기반 용어 해석, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [[033_context|컨텍스트]] 기반 용어 해석 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+펄스부호변조는 빈출 주제와 용어를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 구분 명확성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [다중화기](/knowledge-base/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/) / 역다중화기, [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 펄스부호변조는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -110,10 +114,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[057_에일리어싱_Aliasing|에일리어싱]] | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [에일리어싱](/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
 | 정의 (Definition) | 용어의 시작점을 분명하게 만든다. |
 | 비교 (Comparison) | 헷갈리는 개념의 경계를 드러낸다. |
-| [[944_mux_demux_multiplexer_demultiplexer_circuit_sharing|다중화기]] / 역다중화기 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [다중화기](/knowledge-base/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/) / 역다중화기 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -127,7 +131,7 @@ tags:
     └──▶ [확장 B: 컨텍스트 기반 용어 해석]
 ```
 
-펄스부호변조는 [[057_에일리어싱_Aliasing|에일리어싱]]에서 출발해 현재 메커니즘을 정교화하고, 이후 [[944_mux_demux_multiplexer_demultiplexer_circuit_sharing|다중화기]] / 역다중화기와 [[033_context|컨텍스트]] 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+펄스부호변조는 [에일리어싱](/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [다중화기](/knowledge-base/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/) / 역다중화기와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -141,7 +145,7 @@ tags:
 
 **진행 상황**: 1064 / 1120
 
-← **이전**: [[942_aliasing_nyquist_sampling_theorem_distortion|942. 에일리어싱 (Aliasing)]]
-**다음**: [[944_mux_demux_multiplexer_demultiplexer_circuit_sharing|944. 다중화기 (MUX) / 역다중화기 (DEMUX)]] →
+← **이전**: [942. 에일리어싱 (Aliasing)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/942_aliasing_nyquist_sampling_theorem_distortion/)
+**다음**: [944. 다중화기 (MUX) / 역다중화기 (DEMUX)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/) →
 
 ---

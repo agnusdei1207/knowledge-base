@@ -1,14 +1,18 @@
----
-title: 039. 일반 집합 연산 (General Set Operators)
-date: '2026-03-04'
-tags:
-- studynote-database
----
++++
+title = "039. 일반 집합 연산 (General Set Operators)"
+date = 2026-03-04
+
+[taxonomies]
+tags = ["studynote-database"]
+
+[extra]
+tags = ["studynote-database"]
++++
 
 > **핵심 인사이트**
-> 1. [[038_relational_algebra|관계 대수]]의 일반 집합 연산(합집합·교집합·차집합·[[412_cartesian_product|카티션 프로덕트]])은 수학의 집합 이론을 [[061_relation_schema_instance|릴레이션]]에 적용한 것으로, UNION/INTERSECT/EXCEPT/CROSS JOIN으로 SQL에 직접 구현된다.
-> 2. 합집합 [[344_compatibility_usability|호환성]](Union-Compatible) — 두 [[061_relation_schema_instance|릴레이션]]이 집합 연산에 참여하려면 [[082_attribute_types_er_model|속성]] 개수가 같고 대응 [[082_attribute_types_er_model|속성]]의 [[064_relation_domain|도메인]]이 호환되어야 한다 — 이 조건을 위반하면 의미 있는 합집합이 불가능하다.
-> 3. [[412_cartesian_product|카티션 프로덕트]]([[412_cartesian_product|Cartesian Product]], ×)는 모든 집합 연산의 기초로, JOIN은 결국 "[[412_cartesian_product|카티션 프로덕트]] + 조건 선택([[022_mcts_four_stages|Selection]])"이며 규모가 큰 테이블의 [[412_cartesian_product|카티션 프로덕트]]는 결과 크기가 기하급수적으로 커져 반드시 최적화가 필요하다.
+> 1. [관계 대수](/knowledge-base/studynote/05_database/01_db_architecture_relational/038_relational_algebra/)의 일반 집합 연산(합집합·교집합·차집합·[카티션 프로덕트](/knowledge-base/studynote/05_database/07_exam_summary/412_cartesian_product/))은 수학의 집합 이론을 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)에 적용한 것으로, UNION/INTERSECT/EXCEPT/CROSS JOIN으로 SQL에 직접 구현된다.
+> 2. 합집합 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)(Union-Compatible) — 두 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)이 집합 연산에 참여하려면 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 개수가 같고 대응 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)의 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)이 호환되어야 한다 — 이 조건을 위반하면 의미 있는 합집합이 불가능하다.
+> 3. [카티션 프로덕트](/knowledge-base/studynote/05_database/07_exam_summary/412_cartesian_product/)([Cartesian Product](/knowledge-base/studynote/05_database/07_exam_summary/412_cartesian_product/), ×)는 모든 집합 연산의 기초로, JOIN은 결국 "[카티션 프로덕트](/knowledge-base/studynote/05_database/07_exam_summary/412_cartesian_product/) + 조건 선택([Selection](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/))"이며 규모가 큰 테이블의 [카티션 프로덕트](/knowledge-base/studynote/05_database/07_exam_summary/412_cartesian_product/)는 결과 크기가 기하급수적으로 커져 반드시 최적화가 필요하다.
 
 ---
 
@@ -86,7 +90,7 @@ SQL:
 
 ---
 
-## III. [[412_cartesian_product|카티션 프로덕트]]
+## III. [카티션 프로덕트](/knowledge-base/studynote/05_database/07_exam_summary/412_cartesian_product/)
 
 ```
 카티션 프로덕트 (×): R × S
@@ -115,11 +119,11 @@ SQL:
   SELECT * FROM 학생 CROSS JOIN 과목; -- 명시적
 ```
 
-> 📢 **섹션 요약 비유**: [[412_cartesian_product|카티션 프로덕트]]는 모든 티셔츠(R)와 모든 바지(S)의 조합 — 입어볼 수 있는 모든 패션 조합 목록.
+> 📢 **섹션 요약 비유**: [카티션 프로덕트](/knowledge-base/studynote/05_database/07_exam_summary/412_cartesian_product/)는 모든 티셔츠(R)와 모든 바지(S)의 조합 — 입어볼 수 있는 모든 패션 조합 목록.
 
 ---
 
-## [[288_version_ihl_tos_total_length|IV]]. JOIN과의 [[083_relationship_in_er_model|관계]]
+## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). JOIN과의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
 ```
 JOIN = 카티션 프로덕트 + 조건 선택
@@ -149,11 +153,11 @@ SQL 최적화:
      선택 먼저 -> 카티션 프로덕트 결과 최소화
 ```
 
-> 📢 **섹션 요약 비유**: JOIN은 선택 조건이 있는 스마트한 [[412_cartesian_product|카티션 프로덕트]] — "같은 학번끼리만" 조합해 결과를 최소화.
+> 📢 **섹션 요약 비유**: JOIN은 선택 조건이 있는 스마트한 [카티션 프로덕트](/knowledge-base/studynote/05_database/07_exam_summary/412_cartesian_product/) — "같은 학번끼리만" 조합해 결과를 최소화.
 
 ---
 
-## V. 실무 시나리오 — UNION ALL [[282_performance_tactics|성능]] 최적화
+## V. 실무 시나리오 — UNION ALL [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화
 
 ```
 요구사항: 지난 1년간 전체 주문 내역 조회
@@ -183,7 +187,7 @@ SQL 최적화:
   -> 더 나은 장기 설계
 ```
 
-> 📢 **섹션 요약 비유**: 두 출석부 합칠 때 학생이 두 반에 절대 겹칠 수 없다면 굳이 중복 [[396_validation|확인]] 안 해도 됨 — UNION ALL은 "겹칠 거 없으니 그냥 붙이기".
+> 📢 **섹션 요약 비유**: 두 출석부 합칠 때 학생이 두 반에 절대 겹칠 수 없다면 굳이 중복 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 안 해도 됨 — UNION ALL은 "겹칠 거 없으니 그냥 붙이기".
 
 ---
 
@@ -232,8 +236,8 @@ Spark SQL: UNION ALL 파티션 병렬 처리
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. 합집합은 두 반 출석부를 하나로 합치기, 교집합은 두 반 모두 다니는 학생 찾기, 차집합은 한 반에만 있는 학생 찾기예요.
-2. [[412_cartesian_product|카티션 프로덕트]]는 모든 티셔츠와 모든 바지를 한 번씩 다 조합해보는 것처럼, 두 테이블의 모든 조합을 만들어요.
-3. JOIN은 [[412_cartesian_product|카티션 프로덕트]]에서 "같은 학번끼리만" 조건을 붙여 의미 있는 조합만 남기는 스마트한 [[288_version_ihl_tos_total_length|버전]]이에요!
+2. [카티션 프로덕트](/knowledge-base/studynote/05_database/07_exam_summary/412_cartesian_product/)는 모든 티셔츠와 모든 바지를 한 번씩 다 조합해보는 것처럼, 두 테이블의 모든 조합을 만들어요.
+3. JOIN은 [카티션 프로덕트](/knowledge-base/studynote/05_database/07_exam_summary/412_cartesian_product/)에서 "같은 학번끼리만" 조건을 붙여 의미 있는 조합만 남기는 스마트한 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이에요!
 
 ---
 
@@ -241,7 +245,7 @@ Spark SQL: UNION ALL 파티션 병렬 처리
 
 **진행 상황**: 39 / 600
 
-← **이전**: [[038_relational_algebra|038. 관계 대수 (Relational Algebra)]]
-**다음**: [[040_pure_relational_operators|040. 순수 관계 연산자 (Pure Relational Operators) — σ, π, ⋈, ÷]] →
+← **이전**: [038. 관계 대수 (Relational Algebra)](/knowledge-base/studynote/05_database/01_db_architecture_relational/038_relational_algebra/)
+**다음**: [040. 순수 관계 연산자 (Pure Relational Operators) — σ, π, ⋈, ÷](/knowledge-base/studynote/05_database/01_db_architecture_relational/040_pure_relational_operators/) →
 
 ---

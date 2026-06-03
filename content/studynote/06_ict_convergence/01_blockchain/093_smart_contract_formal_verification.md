@@ -1,37 +1,41 @@
----
-title: 93. 스마트 컨트랙트 정형 검증 (Formal Verification) - 수학적 모델링을 통해 컨트랙트 코드 무결성 증명
-tags:
-- ict_convergence
----
++++
+title = "93. 스마트 컨트랙트 정형 검증 (Formal Verification) - 수학적 모델링을 통해 컨트랙트 코드 무결성 증명"
+
+[taxonomies]
+tags = ["ict_convergence"]
+
+[extra]
+tags = ["ict_convergence"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 정형 [[395_verification_process_review|검증]] (Formal [[395_verification_process_review|Verification]])은 [[022_smart_contract|스마트 컨트랙트]] 코드를 수학적 [[369_logic_bomb|논리]] 모델로 변환하여, 사전에 정의된 명제(규칙)가 절대 깨지지 않음을 알고리즘적으로 증명하는 극한의 [[606_auditing_linux_auditd|감사]] 기법이다.
-> 2. **가치**: 한 번 배포하면 수정이 불가능하고(불변성), 해킹 시 천문학적 금전 피해가 즉각 발생하는 [[004_blockchain|블록체인]] 환경에서 "취약점이 0%에 수렴함"을 이론적으로 보장한다.
-> 3. **판단 포인트**: 시간과 비용이 엄청나게 소모되므로 모든 코드에 적용할 수는 없으며, 거액의 자산이 묶이는 [[033_defi_decentralized_finance|DeFi]] 프로토콜이나 핵심 코어 컨트랙트에 선별적으로 적용하는 것이 실무적 판단이다.
+> 1. **본질**: 정형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) (Formal [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))은 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 코드를 수학적 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 모델로 변환하여, 사전에 정의된 명제(규칙)가 절대 깨지지 않음을 알고리즘적으로 증명하는 극한의 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 기법이다.
+> 2. **가치**: 한 번 배포하면 수정이 불가능하고(불변성), 해킹 시 천문학적 금전 피해가 즉각 발생하는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 환경에서 "취약점이 0%에 수렴함"을 이론적으로 보장한다.
+> 3. **판단 포인트**: 시간과 비용이 엄청나게 소모되므로 모든 코드에 적용할 수는 없으며, 거액의 자산이 묶이는 [DeFi](/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/) 프로토콜이나 핵심 코어 컨트랙트에 선별적으로 적용하는 것이 실무적 판단이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-정형 [[395_verification_process_review|검증]] (Formal [[395_verification_process_review|Verification]])은 소프트웨어가 명세서([[148_requirements_specification_formal_informal|Specification]])에 따라 정확하게 동작하는지를 수학적으로 꼼꼼하게 증명하는 과정이다. 과거에는 우주선 제어, 원자력 발전소, 의료 기기처럼 생명과 직결된 크리티컬 시스템에서만 제한적으로 사용되던 고급 기술이었다.
+정형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) (Formal [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))은 소프트웨어가 명세서([Specification](/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/))에 따라 정확하게 동작하는지를 수학적으로 꼼꼼하게 증명하는 과정이다. 과거에는 우주선 제어, 원자력 발전소, 의료 기기처럼 생명과 직결된 크리티컬 시스템에서만 제한적으로 사용되던 고급 기술이었다.
 
-이 무거운 기술이 [[004_blockchain|블록체인]]으로 넘어온 이유는 [[022_smart_contract|스마트 컨트랙트]] 특유의 '불변성(Immutability)'과 '자산 직접 통제' 성격 때문이다. 전통적인 웹 서비스는 버그가 터지면 서버를 내리고 패치하면 그만이지만, [[004_blockchain|블록체인]]에 배포된 코드는 수정할 수 없으며, 단 1줄의 버그(예: 재진입 공격)로 수천억 원이 순식간에 탈취당한다(The [[054_dao_decentralized_autonomous_organization|DAO]] 해킹 사건 등). 일반적인 QA 테스트만으로는 해커가 찾아내는 수만 분의 1의 틈새를 막을 수 없기에, '오류 없음'을 증명하는 수학적 방패가 필요해졌다.
+이 무거운 기술이 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)으로 넘어온 이유는 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 특유의 '불변성(Immutability)'과 '자산 직접 통제' 성격 때문이다. 전통적인 웹 서비스는 버그가 터지면 서버를 내리고 패치하면 그만이지만, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 배포된 코드는 수정할 수 없으며, 단 1줄의 버그(예: 재진입 공격)로 수천억 원이 순식간에 탈취당한다(The [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) 해킹 사건 등). 일반적인 QA 테스트만으로는 해커가 찾아내는 수만 분의 1의 틈새를 막을 수 없기에, '오류 없음'을 증명하는 수학적 방패가 필요해졌다.
 
-- **📢 섹션 요약 비유**: 일반 테스트가 그물로 물고기를 잡으며 "이 정도면 다 잡았겠지" 하는 것이라면, 정형 [[395_verification_process_review|검증]]은 호수의 물을 완전히 말라붙게 만들어서 "물고기가 단 한 마리도 없음"을 두 눈으로 확인시켜 주는 극단적인 증명법이다.
+- **📢 섹션 요약 비유**: 일반 테스트가 그물로 물고기를 잡으며 "이 정도면 다 잡았겠지" 하는 것이라면, 정형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 호수의 물을 완전히 말라붙게 만들어서 "물고기가 단 한 마리도 없음"을 두 눈으로 확인시켜 주는 극단적인 증명법이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-정형 [[395_verification_process_review|검증]]은 코드를 실행해보는 것이 아니라, 코드를 '수식'으로 바꾸어 모순이 없는지 참/거짓을 판별하는 정리 증명(Theorem Proving)이나 모델 체킹(Model Checking) 방식을 사용한다.
+정형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 코드를 실행해보는 것이 아니라, 코드를 '수식'으로 바꾸어 모순이 없는지 참/거짓을 판별하는 정리 증명(Theorem Proving)이나 모델 체킹(Model Checking) 방식을 사용한다.
 
 | 구성 요소 | 역할 | 상세 동작 |
 | :--- | :--- | :--- |
-| **명세서 ([[148_requirements_specification_formal_informal|Specification]])** | [[395_verification_process_review|검증]]할 절대 규칙 정의 | 예: "총 잔고(Total Supply)는 항상 금고의 돈과 같아야 한다." |
-| **[[369_logic_bomb|논리]] 모델 변환 (Modeling)** | 코드를 수학적 상태 머신으로 변환 | [[057_solidity_smart_contract_language|Solidity]] 코드를 기계가 이해하는 [[369_logic_bomb|논리]]식으로 매핑 |
+| **명세서 ([Specification](/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/))** | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 절대 규칙 정의 | 예: "총 잔고(Total Supply)는 항상 금고의 돈과 같아야 한다." |
+| **[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 모델 변환 (Modeling)** | 코드를 수학적 상태 머신으로 변환 | [Solidity](/knowledge-base/studynote/06_ict_convergence/01_blockchain/057_solidity_smart_contract_language/) 코드를 기계가 이해하는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)식으로 매핑 |
 | **증명 엔진 (Prover Engine)** | Z3, Coq 등을 이용한 연산 수행 | 수식을 풀어내어 예외(Counter-example)가 존재하는지 탐색 |
-| **[[395_verification_process_review|검증]] 결과 ([[395_verification_process_review|Verification]])** | 참(True) 또는 반례(Fail) 출력 | 반례가 나오면 취약점 발견, 참이면 100% 안전 보장 |
+| **[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 결과 ([Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))** | 참(True) 또는 반례(Fail) 출력 | 반례가 나오면 취약점 발견, 참이면 100% 안전 보장 |
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -51,47 +55,47 @@ tags:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-이 그림에서 핵심은 코드를 '실행'하는 것이 아니라 '해석'한다는 점이다. 엔진은 재진입([[056_smart_contract_vulnerability_reentrancy|Re-entrancy]])이나 [[095_overflow|오버플로우]]([[095_overflow|Overflow]]) 같은 해커의 악의적 입력값을 수학적 변수 범주로 취급하여, 모든 경로(Path)에서 불변 규칙이 유지되는지 증명한다.
+이 그림에서 핵심은 코드를 '실행'하는 것이 아니라 '해석'한다는 점이다. 엔진은 재진입([Re-entrancy](/knowledge-base/studynote/06_ict_convergence/01_blockchain/056_smart_contract_vulnerability_reentrancy/))이나 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)([Overflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)) 같은 해커의 악의적 입력값을 수학적 변수 범주로 취급하여, 모든 경로(Path)에서 불변 규칙이 유지되는지 증명한다.
 
-- **📢 섹션 요약 비유**: 정형 [[395_verification_process_review|검증]]은 미로를 직접 걸어 다니며 출구를 찾는 게 아니라, 헬기를 타고 미로 전체 도면을 내려다보며 "여기로 들어가면 무조건 막힌다"는 것을 한눈에 증명해 내는 시야의 확장이다.
+- **📢 섹션 요약 비유**: 정형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 미로를 직접 걸어 다니며 출구를 찾는 게 아니라, 헬기를 타고 미로 전체 도면을 내려다보며 "여기로 들어가면 무조건 막힌다"는 것을 한눈에 증명해 내는 시야의 확장이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-[[022_smart_contract|스마트 컨트랙트]]의 안전을 담보하는 방법에는 정형 [[395_verification_process_review|검증]] 외에도 [[397_unit_test|단위 테스트]]([[397_unit_test|Unit Test]])와 퍼징(Fuzzing)이 있다. 이들은 대체재가 아니라 보안 계층을 이루는 상호 보완재다.
+[스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)의 안전을 담보하는 방법에는 정형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 외에도 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)([Unit Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/))와 퍼징(Fuzzing)이 있다. 이들은 대체재가 아니라 보안 계층을 이루는 상호 보완재다.
 
-| [[395_verification_process_review|검증]] 기법 | 방식 | 커버리지 | 장점 | 단점 |
+| [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기법 | 방식 | 커버리지 | 장점 | 단점 |
 | :--- | :--- | :--- | :--- | :--- |
-| **[[397_unit_test|단위 테스트]] ([[397_unit_test|Unit Test]])** | 사람이 예상한 입력값 주입 | 낮음 | 구현이 쉽고 빠름 | 예상치 못한 엣지 케이스 놓침 |
-| **퍼징 (Fuzzing)** | 무작위 가비지 [[001_dikw_pyramid|데이터]] 무한 주입 | 중간 | 런타임 크래시 발견에 탁월 | 100% 안전을 보장하지 않음 |
-| **정형 [[395_verification_process_review|검증]] (Formal [[395_verification_process_review|Verification]])** | 수학적 [[369_logic_bomb|논리]]로 상태 공간 증명 | 100% | 이론적 [[003_integrity|무결성]] 완벽 보장 | 도입 비용이 막대하고 전문 인력 필요 |
+| **[단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) ([Unit Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/))** | 사람이 예상한 입력값 주입 | 낮음 | 구현이 쉽고 빠름 | 예상치 못한 엣지 케이스 놓침 |
+| **퍼징 (Fuzzing)** | 무작위 가비지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 무한 주입 | 중간 | 런타임 크래시 발견에 탁월 | 100% 안전을 보장하지 않음 |
+| **정형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) (Formal [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))** | 수학적 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)로 상태 공간 증명 | 100% | 이론적 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 완벽 보장 | 도입 비용이 막대하고 전문 인력 필요 |
 
-퍼징이 해커처럼 무식하게 문을 수만 번 걷어차 보는 행동이라면, 정형 [[395_verification_process_review|검증]]은 문 자체의 분자 구조를 분석해 부서질 수 없는 재질임을 증명하는 것에 가깝다. 비용 문제로 테스트와 퍼징을 먼저 거친 후, 최후의 보루로 정형 [[395_verification_process_review|검증]]을 수행한다.
+퍼징이 해커처럼 무식하게 문을 수만 번 걷어차 보는 행동이라면, 정형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 문 자체의 분자 구조를 분석해 부서질 수 없는 재질임을 증명하는 것에 가깝다. 비용 문제로 테스트와 퍼징을 먼저 거친 후, 최후의 보루로 정형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 수행한다.
 
-- **📢 섹션 요약 비유**: [[397_unit_test|단위 테스트]]가 면접관의 '준비된 질문'이고, 퍼징이 '압박 질문 폭격'이라면, 정형 [[395_verification_process_review|검증]]은 지원자의 '뇌 구조 자체를 스캔'하여 거짓말을 할 수 없는 사람임을 과학적으로 증명하는 것이다.
+- **📢 섹션 요약 비유**: [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)가 면접관의 '준비된 질문'이고, 퍼징이 '압박 질문 폭격'이라면, 정형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 지원자의 '뇌 구조 자체를 스캔'하여 거짓말을 할 수 없는 사람임을 과학적으로 증명하는 것이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-정형 [[395_verification_process_review|검증]]은 강력하지만 '은통알(Silver Bullet)'은 아니다. 실무에서는 정형 [[395_verification_process_review|검증]]의 한계점과 비용([[012_roi_return_on_investment|ROI]])을 냉정하게 판단해야 한다.
+정형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 강력하지만 '은통알(Silver Bullet)'은 아니다. 실무에서는 정형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 한계점과 비용([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/))을 냉정하게 판단해야 한다.
 
 ### 실무 판단 가이드
 
-- **적용 대상 (채택)**: [[022_smart_contract|스마트 컨트랙트]] 내부에 TVL(Total Value Locked)이 수백억 원 이상 묶이는 [[033_defi_decentralized_finance|DeFi]] 프로토콜의 코어 엔진, 토큰 발행 규칙, 크로스체인 브릿지 코드.
-- **비적용 대상 (회피)**: 단순한 NFT [[012_metadata|메타데이터]] 업데이트 로직, 자산 이동이 없는 UI 관련 컨트랙트. 여기에는 정형 [[395_verification_process_review|검증]] 수억 원을 태우는 대신 코드 오딧([[363_audit|Audit]])과 버그 바운티가 효율적이다.
-- **[[128_water_scrum_fall_anti_pattern|안티패턴]] 주의**: "명세서([[148_requirements_specification_formal_informal|Specification]]) 자체의 오류". 사람이 규칙을 잘못 짜면(예: "해커가 돈을 가져가도 된다"고 명세함), 엔진은 그 잘못된 규칙이 100% 달성된다고 기쁜 마음으로 증명해 준다. 비즈니스 로직 오류는 막지 못한다.
+- **적용 대상 (채택)**: [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 내부에 TVL(Total Value Locked)이 수백억 원 이상 묶이는 [DeFi](/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/) 프로토콜의 코어 엔진, 토큰 발행 규칙, 크로스체인 브릿지 코드.
+- **비적용 대상 (회피)**: 단순한 NFT [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 업데이트 로직, 자산 이동이 없는 UI 관련 컨트랙트. 여기에는 정형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 수억 원을 태우는 대신 코드 오딧([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))과 버그 바운티가 효율적이다.
+- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 주의**: "명세서([Specification](/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/)) 자체의 오류". 사람이 규칙을 잘못 짜면(예: "해커가 돈을 가져가도 된다"고 명세함), 엔진은 그 잘못된 규칙이 100% 달성된다고 기쁜 마음으로 증명해 준다. 비즈니스 로직 오류는 막지 못한다.
 
-- **📢 섹션 요약 비유**: 정형 [[395_verification_process_review|검증]]은 100억짜리 다이아몬드를 운반할 때 쓰는 특수 장갑차와 같다. 안전하지만 대여비가 비싸서, 동네 슈퍼에 두부 사러 갈 때(단순 컨트랙트) 타고 가면 배보다 배꼽이 더 커진다.
+- **📢 섹션 요약 비유**: 정형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 100억짜리 다이아몬드를 운반할 때 쓰는 특수 장갑차와 같다. 안전하지만 대여비가 비싸서, 동네 슈퍼에 두부 사러 갈 때(단순 컨트랙트) 타고 가면 배보다 배꼽이 더 커진다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-정형 [[395_verification_process_review|검증]]이 완료된 [[022_smart_contract|스마트 컨트랙트]]는 코드 오딧 리포트에 'Verified' 마크를 달게 되며, 이는 투자자와 사용자들에게 가장 강력한 신뢰의 징표가 된다. 복잡성이 증가하는 Web3 생태계에서 단일 취약점이 생태계 전체의 붕괴(예: 테라-루나 사태, 브릿지 해킹)로 이어질 수 있기에 그 중요성은 계속 커지고 있다.
+정형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 완료된 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)는 코드 오딧 리포트에 'Verified' 마크를 달게 되며, 이는 투자자와 사용자들에게 가장 강력한 신뢰의 징표가 된다. 복잡성이 증가하는 Web3 생태계에서 단일 취약점이 생태계 전체의 붕괴(예: 테라-루나 사태, 브릿지 해킹)로 이어질 수 있기에 그 중요성은 계속 커지고 있다.
 
-결론적으로 [[022_smart_contract|스마트 컨트랙트]] 정형 [[395_verification_process_review|검증]]은 "비용과 수학을 태워 완벽한 신뢰를 사는 행위"다. [[004_blockchain|블록체인]]이 '코드 가 곧 법([[082_process_memory_structure|Code]] is Law)'이라면, 정형 [[395_verification_process_review|검증]]은 그 법에 위헌 요소가 없음을 헌법재판소가 영구적으로 확정판결을 내리는 것과 같다.
+결론적으로 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 정형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 "비용과 수학을 태워 완벽한 신뢰를 사는 행위"다. [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)이 '코드 가 곧 법([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) is Law)'이라면, 정형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 그 법에 위헌 요소가 없음을 헌법재판소가 영구적으로 확정판결을 내리는 것과 같다.
 
 - **📢 섹션 요약 비유**: 완벽한 수학 공식으로 지은 집은 아무리 센 태풍이 와도 무너지지 않는다. 비록 설계도 그리는 데 시간은 오래 걸렸지만, 평생 발 뻗고 잘 수 있는 극강의 방어막이다.
 
@@ -101,10 +105,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[[022_smart_contract|스마트 컨트랙트]] ([[022_smart_contract|Smart Contract]])** | 정형 [[395_verification_process_review|검증]]의 핵심 대상이 되는 [[004_blockchain|블록체인]] 상의 불변 코드 |
-| **퍼징 (Fuzzing)** | 정형 [[395_verification_process_review|검증]] 전 단계에서 무작위 값으로 오류를 털어내는 테스트 기법 |
-| **The [[054_dao_decentralized_autonomous_organization|DAO]] 해킹 사건** | 재진입 취약점 하나로 [[004_blockchain|블록체인]]이 분기(하드포크)된 정형 [[395_verification_process_review|검증]]의 역사적 배경 |
-| **정리 증명 (Theorem Proving)** | 정형 [[395_verification_process_review|검증]]을 수행하는 컴퓨터 공학의 수학적 엔진 기법 |
+| **[스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) ([Smart Contract](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/))** | 정형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 핵심 대상이 되는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 상의 불변 코드 |
+| **퍼징 (Fuzzing)** | 정형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 전 단계에서 무작위 값으로 오류를 털어내는 테스트 기법 |
+| **The [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) 해킹 사건** | 재진입 취약점 하나로 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)이 분기(하드포크)된 정형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 역사적 배경 |
+| **정리 증명 (Theorem Proving)** | 정형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 수행하는 컴퓨터 공학의 수학적 엔진 기법 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -124,11 +128,11 @@ tags:
 자동화된 정형 검증 툴 (Certora, Z3 기반 도구) 대중화
 ```
 
-이 흐름도는 [[004_blockchain|블록체인]] 코드의 취약성을 막기 위해 테스트 기법이 점점 인간의 경험(감)에서 수학적 완벽성(이성)으로 진화해 온 과정을 보여준다.
+이 흐름도는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 코드의 취약성을 막기 위해 테스트 기법이 점점 인간의 경험(감)에서 수학적 완벽성(이성)으로 진화해 온 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 정형 [[395_verification_process_review|검증]]은 레고로 만든 성이 절대 안 무너진다는 걸 확인하는 방법이에요.
+1. 정형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 레고로 만든 성이 절대 안 무너진다는 걸 확인하는 방법이에요.
 2. 손으로 마구 때려보는 게 아니라, 천재 수학자가 현미경으로 레고 블록 모양을 계산해서 "이건 헐크가 때려도 100% 안 부서짐!" 하고 증명서를 써주는 거죠.
 3. 계산이 너무 어려워서 비싸지만, 그만큼 세상에서 제일 튼튼한 성보호막을 얻을 수 있답니다!
 
@@ -138,7 +142,7 @@ tags:
 
 **진행 상황**: 93 / 552
 
-← **이전**: [[092_decentralized_escrow_trust|92. 탈중앙화 신탁 관리 (Decentralized Escrow)]]
-**다음**: [[094_data_availability_da_layer_celestia|94. 데이터 가용성 (Data Availability, DA) 계층]] →
+← **이전**: [92. 탈중앙화 신탁 관리 (Decentralized Escrow)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/092_decentralized_escrow_trust/)
+**다음**: [94. 데이터 가용성 (Data Availability, DA) 계층](/knowledge-base/studynote/06_ict_convergence/01_blockchain/094_data_availability_da_layer_celestia/) →
 
 ---

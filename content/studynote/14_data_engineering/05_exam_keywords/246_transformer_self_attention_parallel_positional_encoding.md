@@ -1,27 +1,31 @@
----
-title: 246. 트랜스포머 (Transformer) 셀프 어텐션 병렬 처리 포지셔널 인코딩
-date: '2026-04-21'
-tags:
-- studynote-data-engineering
----
++++
+title = "246. 트랜스포머 (Transformer) 셀프 어텐션 병렬 처리 포지셔널 인코딩"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-data-engineering"]
+
+[extra]
+tags = ["studynote-data-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Transformer는 RNN을 완전히 제거하고 셀프 어텐션([[124_self_attention|Self-Attention]])만으로 시퀀스 내 모든 위치 간의 의존성을 O(1)의 경로 길이로 포착하는, 현대 딥러닝의 핵심 아키텍처다.
-> 2. **가치**: Q(Query)·K([[067_db_key_uniqueness_minimality|Key]])·V(Value) 행렬 연산을 통한 스케일드 닷-프로덕트 어텐션([[381_scaled_dot_product_attention|Scaled Dot-Product Attention]])과 멀티헤드(Multi-Head) [[430_index_fast_full_scan|병렬]] 어텐션이 다양한 [[083_relationship_in_er_model|관계]]를 동시에 포착한다.
-> 3. **판단 포인트**: [[300_positional_encoding|포지셔널 인코딩]]([[300_positional_encoding|Positional Encoding]])은 순서 정보가 없는 어텐션에 위치 정보를 삽입하는 핵심 설계 결정이며, 사인·코사인 함수 기반 절대 인코딩과 RoPE 같은 상대적 방법이 있다.
+> 1. **본질**: Transformer는 RNN을 완전히 제거하고 셀프 어텐션([Self-Attention](/knowledge-base/studynote/10_ai/02_dl_architecture_new/124_self_attention/))만으로 시퀀스 내 모든 위치 간의 의존성을 O(1)의 경로 길이로 포착하는, 현대 딥러닝의 핵심 아키텍처다.
+> 2. **가치**: Q(Query)·K([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))·V(Value) 행렬 연산을 통한 스케일드 닷-프로덕트 어텐션([Scaled Dot-Product Attention](/knowledge-base/studynote/10_ai/05_data_science_ml/381_scaled_dot_product_attention/))과 멀티헤드(Multi-Head) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 어텐션이 다양한 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 동시에 포착한다.
+> 3. **판단 포인트**: [포지셔널 인코딩](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/)([Positional Encoding](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/))은 순서 정보가 없는 어텐션에 위치 정보를 삽입하는 핵심 설계 결정이며, 사인·코사인 함수 기반 절대 인코딩과 RoPE 같은 상대적 방법이 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-2017년 구글의 논문 "Attention Is All You Need"(Vaswani et al.)는 [[244_rnn_time_series_lstm_cell_gate_long_term_dependency|RNN]]/LSTM의 두 가지 근본적 한계를 어텐션만으로 해결했다.
+2017년 구글의 논문 "Attention Is All You Need"(Vaswani et al.)는 [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/)/LSTM의 두 가지 근본적 한계를 어텐션만으로 해결했다.
 
 | RNN의 한계 | Transformer의 해결 |
 |:---|:---|
-| 순차 처리 → [[418_gpu|GPU]] [[430_index_fast_full_scan|병렬]]화 불가 | 모든 토큰 동시 처리 ([[430_index_fast_full_scan|병렬]]화) |
+| 순차 처리 → [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 불가 | 모든 토큰 동시 처리 ([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화) |
 | 거리 비례 정보 감쇠 | 임의 거리 토큰도 직접 어텐션 |
-| [[088_vanishing_gradient_relu_skip_connection|기울기 소실]] | 직접 연결로 기울기 안정 |
-| O(n) 훈련 시간 | O(n²) 어텐션이지만 [[430_index_fast_full_scan|병렬]] |
+| [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) | 직접 연결로 기울기 안정 |
+| O(n) 훈련 시간 | O(n²) 어텐션이지만 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) |
 
 📢 **섹션 요약 비유**: Transformer는 독서 토론 방식의 혁신이다. 기존 RNN은 책을 처음부터 끝까지 순서대로 읽어야 했다면, Transformer는 모든 참가자가 책 전체를 동시에 펼쳐 놓고 서로 관련된 부분끼리 바로바로 대화한다.
 
@@ -29,7 +33,7 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 스케일드 닷-프로덕트 어텐션 ([[381_scaled_dot_product_attention|Scaled Dot-Product Attention]])
+### 스케일드 닷-프로덕트 어텐션 ([Scaled Dot-Product Attention](/knowledge-base/studynote/10_ai/05_data_science_ml/381_scaled_dot_product_attention/))
 
 ```
 입력 시퀀스 X (n × d_model)
@@ -55,7 +59,7 @@ Attention(Q, K, V) = softmax(Q·K^T / √d_k) · V
 → 각 토큰이 다른 모든 토큰과의 관련성 가중치
 ```
 
-### 멀티헤드 어텐션 ([[299_multi_head_attention|Multi-Head Attention]])
+### 멀티헤드 어텐션 ([Multi-Head Attention](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/299_multi_head_attention/))
 
 ```
 MultiHead(Q, K, V) = Concat(head_1, ..., head_h) · W_O
@@ -93,9 +97,9 @@ Transformer 인코더 블록 구조
 └─────────────────────────────────────────────┘
 ```
 
-### [[300_positional_encoding|포지셔널 인코딩]] ([[300_positional_encoding|Positional Encoding]])
+### [포지셔널 인코딩](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/) ([Positional Encoding](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/))
 
-어텐션은 순서를 모른다 → 위치 정보를 [[278_instruction_tuning|임베딩]]에 더한다.
+어텐션은 순서를 모른다 → 위치 정보를 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)에 더한다.
 
 ```
 PE(pos, 2i)   = sin(pos / 10000^{2i/d_model})
@@ -115,17 +119,17 @@ X_input = Token_Embedding + Positional_Encoding
 | 방법 | 특징 | 사용 모델 |
 |:---|:---|:---|
 | 절대 위치 인코딩 (sin/cos) | 고정, 훈련 불필요 | 원 Transformer |
-| 학습 가능 위치 [[278_instruction_tuning|임베딩]] | 훈련 [[001_dikw_pyramid|데이터]] 의존 | [[301_bert_mlm|BERT]], [[302_gpt_autoregressive|GPT]] |
-| RoPE (Rotary Position [[278_instruction_tuning|Embedding]]) | 상대적 위치, 긴 [[033_context|컨텍스트]] | LLaMA, [[302_gpt_autoregressive|GPT]]-NeoX |
+| 학습 가능 위치 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) | 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존 | [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/), [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) |
+| RoPE (Rotary Position [Embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)) | 상대적 위치, 긴 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) | LLaMA, [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-NeoX |
 | ALiBi | 어텐션 편향으로 위치 표현 | BLOOM, MPT |
 
-📢 **섹션 요약 비유**: [[300_positional_encoding|포지셔널 인코딩]]은 단체 사진의 번호표다. 모든 사람이 동시에 서 있으면 누가 몇 번째인지 알 수 없으니, 각자에게 고유한 번호표를 달아준다.
+📢 **섹션 요약 비유**: [포지셔널 인코딩](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/)은 단체 사진의 번호표다. 모든 사람이 동시에 서 있으면 누가 몇 번째인지 알 수 없으니, 각자에게 고유한 번호표를 달아준다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### [[040_encoder|인코더]]-[[039_decoder|디코더]] 전체 아키텍처
+### [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)-[디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) 전체 아키텍처
 
 ```
 인코더 (6 블록)                  디코더 (6 블록)
@@ -142,15 +146,15 @@ Cross-Attention: 인코더 K,V + 디코더 Q → 번역 시 원문 참조
 Masked Attention: 미래 토큰 차단 (자동회귀 생성 보장)
 ```
 
-### [[244_rnn_time_series_lstm_cell_gate_long_term_dependency|RNN]] vs Transformer 비교
+### [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/) vs Transformer 비교
 
-| 특성 | [[244_rnn_time_series_lstm_cell_gate_long_term_dependency|RNN]] / [[292_lstm|LSTM]] | Transformer |
+| 특성 | [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/) / [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) | Transformer |
 |:---|:---|:---|
-| [[430_index_fast_full_scan|병렬]]화 | ❌ 순차 처리 | ✅ 완전 [[430_index_fast_full_scan|병렬]] |
+| [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 | ❌ 순차 처리 | ✅ 완전 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) |
 | 최대 경로 길이 | O(n) | O(1) |
 | 메모리 복잡도 | O(n) | O(n²) |
 | 장거리 의존성 | 약함 | 강함 |
-| 훈련 속도 | 느림 | 빠름 ([[430_index_fast_full_scan|병렬]]) |
+| 훈련 속도 | 느림 | 빠름 ([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)) |
 | 추론 속도 | 빠름 | 느림 (n² 어텐션) |
 
 📢 **섹션 요약 비유**: RNN이 전화 릴레이라면, Transformer는 화상 회의다. 릴레이는 순서대로 전달해 오래 걸리고 처음 정보가 왜곡되지만, 화상 회의는 모두가 동시에 직접 소통한다.
@@ -181,11 +185,11 @@ n=32768: 1G 연산      (책 한 권 → 메모리 부족!)
 |:---|:---|:---|:---|:---|
 | Transformer (Base) | 6 | 8 | 512 | 65M |
 | Transformer (Large) | 6 | 16 | 1024 | 213M |
-| [[301_bert_mlm|BERT]]-Base | 12 | 12 | 768 | 110M |
-| [[302_gpt_autoregressive|GPT]]-3 | 96 | 96 | 12288 | 175B |
-| [[302_gpt_autoregressive|GPT]]-4 (추정) | - | - | - | ~1.8T |
+| [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)-Base | 12 | 12 | 768 | 110M |
+| [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-3 | 96 | 96 | 12288 | 175B |
+| [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4 (추정) | - | - | - | ~1.8T |
 
-📢 **섹션 요약 비유**: Transformer 크기를 늘리는 것은 회의실에 사람을 더 넣는 것과 같다. 사람이 많을수록(파라미터 증가) 더 많은 [[083_relationship_in_er_model|관계]]를 파악하지만, 비용(메모리·연산)도 기하급수적으로 늘어난다.
+📢 **섹션 요약 비유**: Transformer 크기를 늘리는 것은 회의실에 사람을 더 넣는 것과 같다. 사람이 많을수록(파라미터 증가) 더 많은 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 파악하지만, 비용(메모리·연산)도 기하급수적으로 늘어난다.
 
 ---
 
@@ -207,25 +211,25 @@ Transformer (2017)
 ### 기술사 시험 핵심 포인트
 
 1. **Q·K·V 어텐션 수식**: `softmax(QK^T / √d_k) · V`
-2. **[[249_scaling_normalization_standardization|스케일링]](√d_k) 이유**: 내적 값 증가로 [[270_softmax|softmax]] 포화 방지
-3. **멀티헤드 어텐션**: 다양한 [[083_relationship_in_er_model|관계]] 동시 포착
-4. **[[300_positional_encoding|포지셔널 인코딩]]**: 사인·코사인 함수로 위치 정보 삽입
-5. **[[040_encoder|인코더]] vs [[039_decoder|디코더]]**: 셀프 어텐션 vs 마스크드+크로스 어텐션
+2. **[스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)(√d_k) 이유**: 내적 값 증가로 [softmax](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) 포화 방지
+3. **멀티헤드 어텐션**: 다양한 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 동시 포착
+4. **[포지셔널 인코딩](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/)**: 사인·코사인 함수로 위치 정보 삽입
+5. **[인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) vs [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)**: 셀프 어텐션 vs 마스크드+크로스 어텐션
 
-📢 **섹션 요약 비유**: Transformer는 [[190_ai_llm_requirements_specification|AI]] 세계의 인터넷과 같다. 인터넷이 모든 정보를 연결하듯, Transformer는 시퀀스 내 모든 위치를 직접 연결한다. 이 연결성이 언어, 이미지, 단백질, 코드 등 모든 분야를 혁신하는 기반이 되었다.
+📢 **섹션 요약 비유**: Transformer는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 세계의 인터넷과 같다. 인터넷이 모든 정보를 연결하듯, Transformer는 시퀀스 내 모든 위치를 직접 연결한다. 이 연결성이 언어, 이미지, 단백질, 코드 등 모든 분야를 혁신하는 기반이 되었다.
 
 ---
 
 ### 📌 관련 개념 맵
-| [[083_relationship_in_er_model|관계]] | 개념 | 설명 |
+| [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
 |:---|:---|:---|
-| 핵심 연산 | 셀프 어텐션 ([[124_self_attention|Self-Attention]]) | 시퀀스 내 모든 위치 간 [[083_relationship_in_er_model|관계]] 포착 |
-| 어텐션 구성 | Q·K·V 행렬 | [[298_qkv_attention|쿼리]]·키·값으로 어텐션 계산 |
-| [[430_index_fast_full_scan|병렬]]화 방법 | 멀티헤드 어텐션 | 다양한 [[083_relationship_in_er_model|관계]] 동시 학습 |
-| 위치 정보 | [[300_positional_encoding|포지셔널 인코딩]] | 순서 없는 어텐션에 위치 삽입 |
+| 핵심 연산 | 셀프 어텐션 ([Self-Attention](/knowledge-base/studynote/10_ai/02_dl_architecture_new/124_self_attention/)) | 시퀀스 내 모든 위치 간 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 포착 |
+| 어텐션 구성 | Q·K·V 행렬 | [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)·키·값으로 어텐션 계산 |
+| [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 방법 | 멀티헤드 어텐션 | 다양한 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 동시 학습 |
+| 위치 정보 | [포지셔널 인코딩](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/) | 순서 없는 어텐션에 위치 삽입 |
 | 안정화 기법 | 잔차 연결 + LayerNorm | 심층 훈련 안정화 |
 | 전진 레이어 | 피드포워드 (FFN) | 비선형 변환 추가 |
-| 파생 모델 | [[301_bert_mlm|BERT]], [[302_gpt_autoregressive|GPT]], T5 | Transformer 기반 사전 학습 |
+| 파생 모델 | [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/), [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/), T5 | Transformer 기반 사전 학습 |
 | 최적화 | Flash Attention | 메모리 효율적 어텐션 구현 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -245,7 +249,7 @@ Transformer: Self-Attention + Positional Encoding
 Encoder (BERT) / Decoder (GPT) / Enc-Dec (T5)
 ```
 2. 멀티헤드 어텐션은 같은 문장을 여러 명의 전문가(문법 선생님, 의미 분석가, 번역가)가 동시에 읽고 각자의 관점을 합치는 것이야.
-3. [[300_positional_encoding|포지셔널 인코딩]]은 순서를 모르는 어텐션에게 "이 단어는 세 번째야"라고 번호를 붙여주는 이름표야.
+3. [포지셔널 인코딩](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/)은 순서를 모르는 어텐션에게 "이 단어는 세 번째야"라고 번호를 붙여주는 이름표야.
 
 ---
 
@@ -253,7 +257,7 @@ Encoder (BERT) / Decoder (GPT) / Enc-Dec (T5)
 
 **진행 상황**: 246 / 258
 
-← **이전**: [[245_seq2seq_context_vector_attention_dynamic_weight|245. Seq2Seq (Sequence-to-Sequence) 컨텍스트 벡터 (Context Vector) 어텐션 동적 가중]]
-**다음**: [[247_foundation_model_llm_parameter_emergence_self_supervised|247. 파운데이션 모델 (Foundation Model) LLM 파라미터 창발성 (Emergence) 자기 지도 학습]] →
+← **이전**: [245. Seq2Seq (Sequence-to-Sequence) 컨텍스트 벡터 (Context Vector) 어텐션 동적 가중](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/245_seq2seq_context_vector_attention_dynamic_weight/)
+**다음**: [247. 파운데이션 모델 (Foundation Model) LLM 파라미터 창발성 (Emergence) 자기 지도 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/247_foundation_model_llm_parameter_emergence_self_supervised/) →
 
 ---

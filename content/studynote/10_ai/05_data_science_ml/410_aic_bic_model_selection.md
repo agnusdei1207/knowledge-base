@@ -1,15 +1,19 @@
----
-title: 410. AIC/BIC 모델 선택 (Akaike Information Criterion / Bayesian Information Criterion)
-date: '2026-05-09'
-tags:
-- studynote-ai
----
++++
+title = "410. AIC/BIC 모델 선택 (Akaike Information Criterion / Bayesian Information Criterion)"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-ai"]
+
+[extra]
+tags = ["studynote-ai"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: AIC (Akaike Information Criterion)와 BIC (Bayesian Information Criterion)는 모델의 적합도와 복잡도 사이의 균형을 수치화하는 정보 기준이다.
-> 2. **가치**: 우도 (Likelihood)만 보면 파라미터가 많은 모델이 항상 유리해지므로, 복잡도 패널티를 추가해 과적합을 [[656_ir_containment|억제]]한다.
-> 3. **판단 포인트**: AIC는 예측 [[282_performance_tactics|성능]] 중심, BIC는 더 강한 패널티로 간결한 모델을 선호하므로 목적에 따라 다르게 써야 한다.
+> 2. **가치**: 우도 (Likelihood)만 보면 파라미터가 많은 모델이 항상 유리해지므로, 복잡도 패널티를 추가해 과적합을 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)한다.
+> 3. **판단 포인트**: AIC는 예측 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 중심, BIC는 더 강한 패널티로 간결한 모델을 선호하므로 목적에 따라 다르게 써야 한다.
 
 ---
 
@@ -17,7 +21,7 @@ tags:
 
 모델 선택은 "가장 잘 맞는 것"과 "너무 복잡하지 않은 것"을 동시에 만족시켜야 한다. AIC와 BIC는 이 문제를 우도에 패널티를 더하는 방식으로 해결한다.
 
-특히 [[105_clustering_analysis|군집화]], 회귀, 시계열, 혼합모형([[360_gmm_em_algorithm|GMM]])처럼 후보 모델이 여러 개일 때, 단순 점수만 비교하면 파라미터 수가 많은 모델이 무조건 유리해진다. 정보 기준은 이런 편향을 보정한다.
+특히 [군집화](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/), 회귀, 시계열, 혼합모형([GMM](/knowledge-base/studynote/10_ai/05_data_science_ml/360_gmm_em_algorithm/))처럼 후보 모델이 여러 개일 때, 단순 점수만 비교하면 파라미터 수가 많은 모델이 무조건 유리해진다. 정보 기준은 이런 편향을 보정한다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -37,10 +41,10 @@ tags:
 
 | 기준 | 수식 | 패널티 성향 | 해석 |
 |:---|:---|:---|:---|
-| **AIC** | `AIC = 2k - 2 ln(L)` | 중간 | 예측 [[282_performance_tactics|성능]]과 복잡도의 균형 |
+| **AIC** | `AIC = 2k - 2 ln(L)` | 중간 | 예측 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 복잡도의 균형 |
 | **BIC** | `BIC = k ln(n) - 2 ln(L)` | 강함 | 더 단순한 모델 선호 |
 
-여기서 `k`는 파라미터 수, `n`은 샘플 수, `L`은 우도다. `n`이 커질수록 BIC의 패널티가 더 커지므로, 대규모 [[001_dikw_pyramid|데이터]]에서는 BIC가 더 보수적으로 동작한다.
+여기서 `k`는 파라미터 수, `n`은 샘플 수, `L`은 우도다. `n`이 커질수록 BIC의 패널티가 더 커지므로, 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서는 BIC가 더 보수적으로 동작한다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -53,7 +57,7 @@ tags:
 
 ### 후보 모델 비교 절차
 
-1. 후보 모델들을 같은 [[001_dikw_pyramid|데이터]]에서 학습한다.
+1. 후보 모델들을 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 학습한다.
 2. 각 모델의 우도와 파라미터 수를 구한다.
 3. AIC/BIC를 계산한다.
 4. 값이 가장 작은 모델을 우선 선택한다.
@@ -66,12 +70,12 @@ tags:
 
 | 항목 | AIC | BIC | 엘보우 / 실루엣 |
 |:---|:---|:---|:---|
-| 기준 | 예측 [[282_performance_tactics|성능]] | 설명력과 간결성 | 거리 기반 구조 |
+| 기준 | 예측 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 설명력과 간결성 | 거리 기반 구조 |
 | 패널티 | 고정 `2k` | `k ln(n)` | 없음(경험적) |
 | 강점 | 유연함 | 단순 모델 선호 | 직관적 |
 | 약점 | 복잡한 모델을 덜 벌줌 | 과소적합 가능 | 주관성 존재 |
 
-AIC/BIC는 409번의 K-Means 엘보우·실루엣과도 연결된다. 엘보우가 군집의 거리 구조를 보는 경험적 지표라면, AIC/BIC는 [[130_probability|확률]]모형의 적합도와 복잡도를 함께 보는 모델 선택 기준이다.
+AIC/BIC는 409번의 K-Means 엘보우·실루엣과도 연결된다. 엘보우가 군집의 거리 구조를 보는 경험적 지표라면, AIC/BIC는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)모형의 적합도와 복잡도를 함께 보는 모델 선택 기준이다.
 
 - **📢 섹션 요약 비유**: 엘보우가 "반을 몇 개로 나눌까"를 보는 학교 운영표라면, AIC/BIC는 "반을 더 늘릴 가치가 있는가"를 따지는 예산 심사다.
 
@@ -79,20 +83,20 @@ AIC/BIC는 409번의 K-Means 엘보우·실루엣과도 연결된다. 엘보우�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 모델 간 비교가 같은 [[001_dikw_pyramid|데이터]]셋과 같은 전처리 조건에서 이루어졌는가?
+1. 모델 간 비교가 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋과 같은 전처리 조건에서 이루어졌는가?
 2. 예측이 목적이면 AIC를, 설명과 간결성이 중요하면 BIC를 우선 고려했는가?
 3. 파라미터 수 `k`를 정확히 센 뒤 비교했는가?
-4. AIC/BIC가 비슷하면 교차검증 ([[083_cross_validation|Cross Validation]])이나 [[064_relation_domain|도메인]] 기준을 추가했는가?
+4. AIC/BIC가 비슷하면 교차검증 ([Cross Validation](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_cross_validation/))이나 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 기준을 추가했는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 우도만 보고 파라미터가 많은 모델을 선택
 - AIC/BIC가 낮다는 이유만으로 비즈니스 해석을 무시
 - 샘플 수가 작은데 BIC를 절대 기준처럼 사용
 
-기술사 관점에서는 "정보 기준은 답이 아니라 경고등"이라고 설명하는 것이 좋다. 점수 차이가 크면 선택 근거가 강해지고, 차이가 작으면 추가 [[395_verification_process_review|검증]]이 필요하다.
+기술사 관점에서는 "정보 기준은 답이 아니라 경고등"이라고 설명하는 것이 좋다. 점수 차이가 크면 선택 근거가 강해지고, 차이가 작으면 추가 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 필요하다.
 
 - **📢 섹션 요약 비유**: 점수가 비슷한 두 가방 중에서, 더 무거운 가방이 꼭 좋은 것은 아니다. 필요한 만큼만 넣은 가방이 더 실용적이다.
 
@@ -112,11 +116,11 @@ AIC/BIC를 쓰면 모델 선택이 감이 아니라 기준이 된다. 특히 시
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| Likelihood (우도) | [[001_dikw_pyramid|데이터]]가 주어졌을 때 모델의 설명력 |
-| AIC | 예측 [[282_performance_tactics|성능]] 중심 정보 기준 |
+| Likelihood (우도) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 주어졌을 때 모델의 설명력 |
+| AIC | 예측 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 중심 정보 기준 |
 | BIC | 간결성 중심 정보 기준 |
-| [[360_gmm_em_algorithm|GMM]] ([[114_gaussian_mixture_model|Gaussian Mixture Model]]) | AIC/BIC로 [[603_component_independent_deployment_unit|컴포넌트]] 수 선택 |
-| [[342_arima_auto_regressive_integrated_moving_average|ARIMA]] | 시계열 모형 선택에 활용 |
+| [GMM](/knowledge-base/studynote/10_ai/05_data_science_ml/360_gmm_em_algorithm/) ([Gaussian Mixture Model](/knowledge-base/studynote/14_data_engineering/02_math_mining/114_gaussian_mixture_model/)) | AIC/BIC로 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 수 선택 |
+| [ARIMA](/knowledge-base/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/) | 시계열 모형 선택에 활용 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -136,7 +140,7 @@ AIC/BIC를 쓰면 모델 선택이 감이 아니라 기준이 된다. 특히 시
 
 **진행 상황**: 410 / 420
 
-← **이전**: [[409_kmeans_elbow_silhouette|409. K-Means 최적 K 선택 (Kmeans Elbow Silhouette)]]
-**다음**: [[411_pacf_partial_autocorrelation|411. 편자기상관함수 (PACF, Partial Autocorrelation Function)]] →
+← **이전**: [409. K-Means 최적 K 선택 (Kmeans Elbow Silhouette)](/knowledge-base/studynote/10_ai/05_data_science_ml/409_kmeans_elbow_silhouette/)
+**다음**: [411. 편자기상관함수 (PACF, Partial Autocorrelation Function)](/knowledge-base/studynote/10_ai/05_data_science_ml/411_pacf_partial_autocorrelation/) →
 
 ---

@@ -1,13 +1,17 @@
----
-title: 344. AS (Autonomous System, 자율 시스템) / ASN 분배
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "344. AS (Autonomous System, 자율 시스템) / ASN 분배"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: AS / ASN 분배는 [[339_routing_overview_best_path_selection|라우팅]]과 경로 제어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 1. **본질**: AS / ASN 분배는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
 > 2. **가치**: AS / ASN 분배를 이해하면 수렴 속도과 확장성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
@@ -15,12 +19,12 @@ tags:
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 단일 관리 [[064_relation_domain|도메인]](통신사, 대학교, 글로벌 기업 등) 내에서 공통된 [[339_routing_overview_best_path_selection|라우팅]] [[164_policy|정책]]을 사용하여 운영되는 일련의 라우터와 네트워크 집합. 인터넷을 구성하는 가장 거대한 블록 단위다.
-- **필요성**: 인터넷은 거미줄이다. 내 집 공유기, KT 라우터, 태평양 해저 케이블, 미국 AT&T 라우터, 구글 본사 라우터가 다 엮여 있다. 만약 OSPF로 이 모든 라우터가 "나 여기 살아있어!"라고 2초마다 떠든다면 인터넷은 통신하기도 전에 지들끼리 안부 묻느라 마비될 것이다. **"지구 전체를 통짜로 관리하는 건 불가능하니, 'KT의 땅', '구글의 땅'처럼 국경선(AS)을 긋고, 각 나라 내부 살림([[345_igp_interior_gateway_protocol_rip_ospf|IGP]])은 알아서 하되 나라와 나라 사이의 외교([[365_bgp_border_gateway_protocol_path_vector|BGP]])만 조율하자!"**는 위대한 대타협의 산물이다.
+- **개념**: 단일 관리 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)(통신사, 대학교, 글로벌 기업 등) 내에서 공통된 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 사용하여 운영되는 일련의 라우터와 네트워크 집합. 인터넷을 구성하는 가장 거대한 블록 단위다.
+- **필요성**: 인터넷은 거미줄이다. 내 집 공유기, KT 라우터, 태평양 해저 케이블, 미국 AT&T 라우터, 구글 본사 라우터가 다 엮여 있다. 만약 OSPF로 이 모든 라우터가 "나 여기 살아있어!"라고 2초마다 떠든다면 인터넷은 통신하기도 전에 지들끼리 안부 묻느라 마비될 것이다. **"지구 전체를 통짜로 관리하는 건 불가능하니, 'KT의 땅', '구글의 땅'처럼 국경선(AS)을 긋고, 각 나라 내부 살림([IGP](/knowledge-base/studynote/03_network/07_network_layer_routing/345_igp_interior_gateway_protocol_rip_ospf/))은 알아서 하되 나라와 나라 사이의 외교([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/))만 조율하자!"**는 위대한 대타협의 산물이다.
 
 - **💡 비유**: AS는 인터넷 세계의 **"독립 국가(Country)"**입니다. 
-  - 대한민국(AS 1번) 안에서는 KTX, 무궁화호([[357_ospf_open_shortest_path_first_overview|OSPF]], [[351_rip_routing_information_protocol_distance_vector_hop|RIP]])가 이리저리 돌아다닙니다. 미국(AS 2번) 안에서는 암트랙([[355_eigrp_enhanced_igrp_dual_algorithm|EIGRP]])이 돌아다닙니다.
-  - 한국인([[001_dikw_pyramid|데이터]])이 미국에 가려면 기차를 타고 그대로 가는 게 아니라, 국가 간 관문인 인천공항([[365_bgp_border_gateway_protocol_path_vector|BGP]] 라우터)을 통해 여권(ASN)을 깐 뒤 국제선 비행기를 타고 넘어가야 합니다.
+  - 대한민국(AS 1번) 안에서는 KTX, 무궁화호([OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/), [RIP](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/))가 이리저리 돌아다닙니다. 미국(AS 2번) 안에서는 암트랙([EIGRP](/knowledge-base/studynote/03_network/07_network_layer_routing/355_eigrp_enhanced_igrp_dual_algorithm/))이 돌아다닙니다.
+  - 한국인([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 미국에 가려면 기차를 타고 그대로 가는 게 아니라, 국가 간 관문인 인천공항([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 라우터)을 통해 여권(ASN)을 깐 뒤 국제선 비행기를 타고 넘어가야 합니다.
 
 ```text
 [관리 거리]
@@ -31,16 +35,16 @@ tags:
     └──▶ [IGP]
 ```
 
-- **📢 섹션 요약 비유**: ** AS(자율 시스템)는 인터넷이라는 거대한 피자를 수만 개의 먹기 좋은 조각으로 자른 **"독립된 영지(영토)"**입니다. 각 영지 영주들(통신사)은 자기 땅 안에서의 규칙([[345_igp_interior_gateway_protocol_rip_ospf|IGP]])은 맘대로 정하지만, 영지와 영지 사이를 넘어갈 때([[365_bgp_border_gateway_protocol_path_vector|BGP]])는 전 세계 공통의 외교 규칙을 지켜야만 합니다.
+- **📢 섹션 요약 비유**: ** AS(자율 시스템)는 인터넷이라는 거대한 피자를 수만 개의 먹기 좋은 조각으로 자른 **"독립된 영지(영토)"**입니다. 각 영지 영주들(통신사)은 자기 땅 안에서의 규칙([IGP](/knowledge-base/studynote/03_network/07_network_layer_routing/345_igp_interior_gateway_protocol_rip_ospf/))은 맘대로 정하지만, 영지와 영지 사이를 넘어갈 때([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/))는 전 세계 공통의 외교 규칙을 지켜야만 합니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. IGP와 BGP의 경계선
-AS라는 거대한 울타리를 치는 순간, [[339_routing_overview_best_path_selection|라우팅]]의 세계는 명확하게 두 조각으로 쪼개진다.
-- **[[345_igp_interior_gateway_protocol_rip_ospf|IGP]] ([[345_igp_interior_gateway_protocol_rip_ospf|Interior Gateway Protocol]])**: AS "내부"에서만 도는 [[295_protocol_field_tcp_udp_icmp|프로토콜]] ([[357_ospf_open_shortest_path_first_overview|OSPF]], [[351_rip_routing_information_protocol_distance_vector_hop|RIP]], [[355_eigrp_enhanced_igrp_dual_algorithm|EIGRP]]). 외부 인터넷에는 아예 나가지 않는 우리 회사만의 사내망 지도다. 이 지도에는 말단 부서 PC부터 공장 스위치까지 아주 세세한 골목길 정보가 다 적혀 있다.
-- **[[365_bgp_border_gateway_protocol_path_vector|BGP]] ([[365_bgp_border_gateway_protocol_path_vector|Border Gateway Protocol]])**: AS와 AS "사이"를 이어주는 [[295_protocol_field_tcp_udp_icmp|프로토콜]]. 각 회사의 관문(Border) 라우터끼리만 대화를 나눈다. BGP는 골목길 정보는 싹 버리고, "우리나라(AS 1번)에는 [[489_raid_10_hybrid|10]].x.x.x 국민들이 살고 있어!"라고 통째로 요약해서 남의 나라(AS 2번) 관문 라우터에 던져준다.
+AS라는 거대한 울타리를 치는 순간, [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)의 세계는 명확하게 두 조각으로 쪼개진다.
+- **[IGP](/knowledge-base/studynote/03_network/07_network_layer_routing/345_igp_interior_gateway_protocol_rip_ospf/) ([Interior Gateway Protocol](/knowledge-base/studynote/03_network/07_network_layer_routing/345_igp_interior_gateway_protocol_rip_ospf/))**: AS "내부"에서만 도는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) ([OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/), [RIP](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/), [EIGRP](/knowledge-base/studynote/03_network/07_network_layer_routing/355_eigrp_enhanced_igrp_dual_algorithm/)). 외부 인터넷에는 아예 나가지 않는 우리 회사만의 사내망 지도다. 이 지도에는 말단 부서 PC부터 공장 스위치까지 아주 세세한 골목길 정보가 다 적혀 있다.
+- **[BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) ([Border Gateway Protocol](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/))**: AS와 AS "사이"를 이어주는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/). 각 회사의 관문(Border) 라우터끼리만 대화를 나눈다. BGP는 골목길 정보는 싹 버리고, "우리나라(AS 1번)에는 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).x.x.x 국민들이 살고 있어!"라고 통째로 요약해서 남의 나라(AS 2번) 관문 라우터에 던져준다.
 
 ```text
  ┌─────────────────────────────────────────────────────────────┐
@@ -60,28 +64,28 @@ AS라는 거대한 울타리를 치는 순간, [[339_routing_overview_best_path_
 ```
 
 ### 2. AS Number (ASN)
-전 세계의 AS들은 자기가 누구인지 밝힐 때 IP 주소가 아니라 **ASN (자율 시스템 번호)**이라는 고유 [[655_ir_detection_analysis|식별]] 번호를 사용한다. (IANA에서 발급함).
+전 세계의 AS들은 자기가 누구인지 밝힐 때 IP 주소가 아니라 **ASN (자율 시스템 번호)**이라는 고유 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 번호를 사용한다. (IANA에서 발급함).
 - **16비트 (과거)**: 1 ~ 65,535. 인터넷이 커지면서 이 번호마저 고갈될 위기에 처했다.
 - **32비트 (현재)**: 42억 개로 늘려서 발급 중이다.
-- **사설 ASN**: IP에 사설 IP가 있듯, 외부 인터넷([[365_bgp_border_gateway_protocol_path_vector|BGP]])으로 안 나가고 우리 회사 그룹사들끼리만 내부 BGP를 돌릴 때 공짜로 막 쓸 수 있는 사설 ASN(64512 ~ 65534) 대역도 존재한다.
+- **사설 ASN**: IP에 사설 IP가 있듯, 외부 인터넷([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/))으로 안 나가고 우리 회사 그룹사들끼리만 내부 BGP를 돌릴 때 공짜로 막 쓸 수 있는 사설 ASN(64512 ~ 65534) 대역도 존재한다.
 
-### 3. 인터넷의 실체 = [[365_bgp_border_gateway_protocol_path_vector|BGP]] 테이블
-우리가 "인터넷이 된다"라고 말하는 것은, 내 [[001_dikw_pyramid|데이터]]가 수십 개의 AS 통신사 망을 징검다리 밟듯 건너가 목적지 AS로 들어갈 수 있다는 뜻이다.
-전 세계 최고의 1티어 통신사 라우터(Default-Free Zone)는 **전 세계 모든 약 90만 개의 AS 경로 지도([[365_bgp_border_gateway_protocol_path_vector|BGP]] Full [[339_routing_overview_best_path_selection|Routing]] Table)**를 메모리에 모조리 외우고 있는 무시무시한 괴물들이다.
+### 3. 인터넷의 실체 = [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 테이블
+우리가 "인터넷이 된다"라고 말하는 것은, 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 수십 개의 AS 통신사 망을 징검다리 밟듯 건너가 목적지 AS로 들어갈 수 있다는 뜻이다.
+전 세계 최고의 1티어 통신사 라우터(Default-Free Zone)는 **전 세계 모든 약 90만 개의 AS 경로 지도([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Full [Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) Table)**를 메모리에 모조리 외우고 있는 무시무시한 괴물들이다.
 
-- **📢 섹션 요약 비유**: ** ASN(자율 시스템 번호)은 인터넷이라는 거대한 UN(국제연합) 총회에 참석하기 위해 각 통신사와 대기업들이 부여받은 **"국가 고유 [[655_ir_detection_analysis|식별]] 코드"**입니다. 이 명패(ASN)가 있어야만 국제회의([[365_bgp_border_gateway_protocol_path_vector|BGP]])에 참석하여 발언권(우리 동네 IP는 이거야!)을 얻을 수 있습니다.
+- **📢 섹션 요약 비유**: ** ASN(자율 시스템 번호)은 인터넷이라는 거대한 UN(국제연합) 총회에 참석하기 위해 각 통신사와 대기업들이 부여받은 **"국가 고유 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 코드"**입니다. 이 명패(ASN)가 있어야만 국제회의([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/))에 참석하여 발언권(우리 동네 IP는 이거야!)을 얻을 수 있습니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-AS / ASN 분배를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [[343_administrative_distance_ad_protocol_priority|관리 거리]]가 기반 조건을 만든다면, AS / ASN 분배는 그 위에서 핵심 메커니즘을 구현하고, IGP는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 수렴 속도과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+AS / ASN 분배를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [관리 거리](/knowledge-base/studynote/03_network/07_network_layer_routing/343_administrative_distance_ad_protocol_priority/)가 기반 조건을 만든다면, AS / ASN 분배는 그 위에서 핵심 메커니즘을 구현하고, IGP는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 수렴 속도과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [[343_administrative_distance_ad_protocol_priority|관리 거리]]의 기반 정리 | AS / ASN 분배의 핵심 동작 | IGP의 확장 적용 |
+| 초점 | [관리 거리](/knowledge-base/studynote/03_network/07_network_layer_routing/343_administrative_distance_ad_protocol_priority/)의 기반 정리 | AS / ASN 분배의 핵심 동작 | IGP의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 수렴 속도 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: AS / ASN 분배는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -89,18 +93,18 @@ AS / ASN 분배를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 AS / ASN 분배를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [[343_administrative_distance_ad_protocol_priority|관리 거리]] 수준의 기본 대책으로 충분한지, 아니면 AS / ASN 분배가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 IGP와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 AS / ASN 분배를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [관리 거리](/knowledge-base/studynote/03_network/07_network_layer_routing/343_administrative_distance_ad_protocol_priority/) 수준의 기본 대책으로 충분한지, 아니면 AS / ASN 분배가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 IGP와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 수렴 속도 부족인지, 확장성 악화인지 먼저 분리한다.
-2. AS / ASN 분배가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [[396_validation|확인]]한다.
+2. AS / ASN 분배가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
 3. 도입 후에는 인접 기술인 IGP와의 연계 방식을 함께 검증한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - AS / ASN 분배의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- [[343_administrative_distance_ad_protocol_priority|관리 거리]]와의 경계를 정리하지 않아 중복 투자나 [[164_policy|정책]] 충돌을 만드는 설계
+- [관리 거리](/knowledge-base/studynote/03_network/07_network_layer_routing/343_administrative_distance_ad_protocol_priority/)와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: AS / ASN 분배를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -108,7 +112,7 @@ AS / ASN 분배를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체
 
 ## Ⅴ. 기대효과 및 결론
 
-AS / ASN 분배는 [[339_routing_overview_best_path_selection|라우팅]]과 경로 제어를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 수렴 속도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [[345_igp_interior_gateway_protocol_rip_ospf|IGP]], 의도 기반 [[339_routing_overview_best_path_selection|라우팅]], 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의도 기반 [[339_routing_overview_best_path_selection|라우팅]] 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+AS / ASN 분배는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 수렴 속도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [IGP](/knowledge-base/studynote/03_network/07_network_layer_routing/345_igp_interior_gateway_protocol_rip_ospf/), 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: AS / ASN 분배는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -118,10 +122,10 @@ AS / ASN 분배는 [[339_routing_overview_best_path_selection|라우팅]]과 경
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[343_administrative_distance_ad_protocol_priority|관리 거리]] | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [[339_routing_overview_best_path_selection|라우팅]] 테이블 ([[339_routing_overview_best_path_selection|Routing]] Table) | 패킷 전달 의사결정의 기준이 된다. |
-| [[342_routing_metric_hop_bandwidth_delay|메트릭]] ([[342_routing_metric_hop_bandwidth_delay|Metric]]) | 최적 경로를 선택하는 비교 척도다. |
-| [[345_igp_interior_gateway_protocol_rip_ospf|IGP]] | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [관리 거리](/knowledge-base/studynote/03_network/07_network_layer_routing/343_administrative_distance_ad_protocol_priority/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 ([Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) Table) | 패킷 전달 의사결정의 기준이 된다. |
+| [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) ([Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)) | 최적 경로를 선택하는 비교 척도다. |
+| [IGP](/knowledge-base/studynote/03_network/07_network_layer_routing/345_igp_interior_gateway_protocol_rip_ospf/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -135,7 +139,7 @@ AS / ASN 분배는 [[339_routing_overview_best_path_selection|라우팅]]과 경
     └──▶ [확장 B: 의도 기반 라우팅]
 ```
 
-AS / ASN 분배는 [[343_administrative_distance_ad_protocol_priority|관리 거리]]에서 출발해 현재 메커니즘을 정교화하고, 이후 IGP와 의도 기반 [[339_routing_overview_best_path_selection|라우팅]] 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+AS / ASN 분배는 [관리 거리](/knowledge-base/studynote/03_network/07_network_layer_routing/343_administrative_distance_ad_protocol_priority/)에서 출발해 현재 메커니즘을 정교화하고, 이후 IGP와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -149,7 +153,7 @@ AS / ASN 분배는 [[343_administrative_distance_ad_protocol_priority|관리 거
 
 **진행 상황**: 465 / 1120
 
-← **이전**: [[343_administrative_distance_ad_protocol_priority|343. 관리 거리 (AD, Administrative Distance)]]
-**다음**: [[345_igp_interior_gateway_protocol_rip_ospf|345. IGP (Interior Gateway Protocol)]] →
+← **이전**: [343. 관리 거리 (AD, Administrative Distance)](/knowledge-base/studynote/03_network/07_network_layer_routing/343_administrative_distance_ad_protocol_priority/)
+**다음**: [345. IGP (Interior Gateway Protocol)](/knowledge-base/studynote/03_network/07_network_layer_routing/345_igp_interior_gateway_protocol_rip_ospf/) →
 
 ---

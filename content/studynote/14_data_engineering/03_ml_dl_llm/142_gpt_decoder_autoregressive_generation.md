@@ -1,14 +1,18 @@
----
-title: 142. GPT Decoder - 자기회귀 생성 모델 상세
-date: '2026-04-19'
-tags:
-- studynote-dataengineering
----
++++
+title = "142. GPT Decoder - 자기회귀 생성 모델 상세"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-dataengineering"]
+
+[extra]
+tags = ["studynote-dataengineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [[302_gpt_autoregressive|GPT]] Decoder는 **[[246_transformer_self_attention_parallel_positional_encoding|Transformer]] Decoder에서 Masked [[124_self_attention|Self-Attention]](Causal Mask)을 사용**하여 왼→오 방향으로만 문맥을 참조하며 다음 토큰을 예측(CLM)하는 자기회귀 [[087_process_state_transition|생성]] 모델이다.
-> 2. **가치**: [[301_bert_mlm|BERT]](양방향)는 [[087_process_state_transition|생성]] 불가이지만, [[302_gpt_autoregressive|GPT]]([[008_단방향_반이중_전이중|단방향]])는 **토큰을 하나씩 순차 [[087_process_state_transition|생성]]**하여 텍스트·코드·대화를 자연스럽게 만들어낸다. [[087_process_state_transition|생성]] 시 [[386_llm_temperature|Temperature]]·[[414_llm_decoder_top_k_temperature|Top-k]]·Top-p로 다양성을 제어한다.
-> 3. **판단 포인트**: KV Cache로 이전 토큰의 [[067_db_key_uniqueness_minimality|Key]]·Value를 재사용하여 **추론 속도를 O(n²)→O(n)으로 최적화**하며, Speculative Decoding이 추가 가속 기법이다.
+> 1. **본질**: [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) Decoder는 **[Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) Decoder에서 Masked [Self-Attention](/knowledge-base/studynote/10_ai/02_dl_architecture_new/124_self_attention/)(Causal Mask)을 사용**하여 왼→오 방향으로만 문맥을 참조하며 다음 토큰을 예측(CLM)하는 자기회귀 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델이다.
+> 2. **가치**: [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)(양방향)는 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 불가이지만, [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)([단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/))는 **토큰을 하나씩 순차 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)**하여 텍스트·코드·대화를 자연스럽게 만들어낸다. [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시 [Temperature](/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/)·[Top-k](/knowledge-base/studynote/06_ict_convergence/05_data_science/414_llm_decoder_top_k_temperature/)·Top-p로 다양성을 제어한다.
+> 3. **판단 포인트**: KV Cache로 이전 토큰의 [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)·Value를 재사용하여 **추론 속도를 O(n²)→O(n)으로 최적화**하며, Speculative Decoding이 추가 가속 기법이다.
 
 ---
 
@@ -27,7 +31,7 @@ KV Cache: 이전 K,V 재사용 → 추론 가속
 
 ## Ⅱ~Ⅴ. 결론
 
-[[302_gpt_autoregressive|GPT]] Decoder는 **텍스트 [[087_process_state_transition|생성]]의 핵심 아키텍처**이며, KV Cache와 Speculative Decoding이 추론 최적화의 핵심이다.
+[GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) Decoder는 **텍스트 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)의 핵심 아키텍처**이며, KV Cache와 Speculative Decoding이 추론 최적화의 핵심이다.
 
 ---
 
@@ -37,9 +41,9 @@ KV Cache: 이전 K,V 재사용 → 추론 가속
 |:---|:---|
 | **Causal Mask** | 미래 토큰 차단 |
 | **CLM** | 다음 토큰 예측 |
-| **[[291_kv_cache|KV Cache]]** | 추론 가속 |
-| **[[386_llm_temperature|Temperature]]** | [[087_process_state_transition|생성]] 다양성 |
-| **Top-p** | [[387_topk_topp_sampling|Nucleus Sampling]] |
+| **[KV Cache](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/291_kv_cache/)** | 추론 가속 |
+| **[Temperature](/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/)** | [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 다양성 |
+| **Top-p** | [Nucleus Sampling](/knowledge-base/studynote/10_ai/05_data_science_ml/387_topk_topp_sampling/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -61,7 +65,7 @@ KV Cache: 이전 K,V 재사용 → 추론 가속
 
 **진행 상황**: 142 / 258
 
-← **이전**: [[141_bert_encoder_mlm_bidirectional|141. BERT Encoder - MLM 양방향 사전 학습 상세]]
-**다음**: [[143_foundation_model_llm_pretraining|143. Foundation Model & LLM 사전 학습 - 기반 모델의 원리]] →
+← **이전**: [141. BERT Encoder - MLM 양방향 사전 학습 상세](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/141_bert_encoder_mlm_bidirectional/)
+**다음**: [143. Foundation Model & LLM 사전 학습 - 기반 모델의 원리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/143_foundation_model_llm_pretraining/) →
 
 ---

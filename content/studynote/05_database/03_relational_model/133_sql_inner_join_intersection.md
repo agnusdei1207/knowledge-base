@@ -1,14 +1,18 @@
----
-title: 133. SQL INNER JOIN - 교집합 결합의 기본
-date: '2026-04-19'
-tags:
-- studynote-database
----
++++
+title = "133. SQL INNER JOIN - 교집합 결합의 기본"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-database"]
+
+[extra]
+tags = ["studynote-database"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: INNER JOIN은 **두 테이블에서 조인 조건을 만족하는 행만 반환**하는 교집합(∩) 연산이며, 가장 기본적이고 빈번한 [[521_join|JOIN]] 유형이다.
-> 2. **가치**: [[093_normalization|정규화]]로 분리된 테이블의 [[001_dikw_pyramid|데이터]]를 **의미 있는 하나의 결과로 결합**하며, 매칭되지 않는 행은 자동 제외되므로 **결과가 항상 완전한 [[001_dikw_pyramid|데이터]]**이다(NULL 없음).
-> 3. **판단 포인트**: Equi-[[521_join|Join]](=), Non-Equi-[[521_join|Join]](<,>), [[413_natural_join|Natural Join]](동일 컬럼명 자동 매칭)을 구분하고, **[[154_database_index_b_tree_search_optimization|인덱스]]가 [[521_join|JOIN]] [[282_performance_tactics|성능]]을 결정**한다.
+> 1. **본질**: INNER JOIN은 **두 테이블에서 조인 조건을 만족하는 행만 반환**하는 교집합(∩) 연산이며, 가장 기본적이고 빈번한 [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 유형이다.
+> 2. **가치**: [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)로 분리된 테이블의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 **의미 있는 하나의 결과로 결합**하며, 매칭되지 않는 행은 자동 제외되므로 **결과가 항상 완전한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)**이다(NULL 없음).
+> 3. **판단 포인트**: Equi-[Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)(=), Non-Equi-[Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)(<,>), [Natural Join](/knowledge-base/studynote/05_database/07_exam_summary/413_natural_join/)(동일 컬럼명 자동 매칭)을 구분하고, **[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 결정**한다.
 
 ---
 
@@ -26,17 +30,17 @@ FROM emp e INNER JOIN dept d ON e.dept_id = d.id
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-| [[521_join|JOIN]] [[001_algorithm_definition|알고리즘]] | 설명 |
+| [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 설명 |
 |:---|:---|
-| **[[431_nested_loop_join|Nested Loop]]** | 소규모, [[154_database_index_b_tree_search_optimization|인덱스]] 활용 |
-| **[[174_hash_join|Hash Join]]** | 대규모, 동등 조건 |
-| **Merge [[521_join|Join]]** | 정렬된 [[001_dikw_pyramid|데이터]] |
+| **[Nested Loop](/knowledge-base/studynote/05_database/07_exam_summary/431_nested_loop_join/)** | 소규모, [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 활용 |
+| **[Hash Join](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/)** | 대규모, 동등 조건 |
+| **Merge [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)** | 정렬된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 
 ---
 
 ## Ⅲ~Ⅴ. 결론
 
-INNER JOIN은 **SQL의 가장 기본 연산**이며, [[154_database_index_b_tree_search_optimization|인덱스]]·[[166_execution_plan_optimizer_navigation_tree|실행 계획]] 최적화가 [[282_performance_tactics|성능]]의 핵심이다.
+INNER JOIN은 **SQL의 가장 기본 연산**이며, [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)·[실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 최적화가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 핵심이다.
 
 ---
 
@@ -44,11 +48,11 @@ INNER JOIN은 **SQL의 가장 기본 연산**이며, [[154_database_index_b_tree
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **INNER [[521_join|JOIN]]** | 교집합 (양쪽 매칭) |
-| **Equi-[[521_join|Join]]** | = 조건 |
-| **[[413_natural_join|Natural Join]]** | 동일 컬럼 자동 매칭 |
-| **[[174_hash_join|Hash Join]]** | 대규모 최적화 |
-| **[[166_execution_plan_optimizer_navigation_tree|실행 계획]]** | EXPLAIN ANALYZE |
+| **INNER [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)** | 교집합 (양쪽 매칭) |
+| **Equi-[Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)** | = 조건 |
+| **[Natural Join](/knowledge-base/studynote/05_database/07_exam_summary/413_natural_join/)** | 동일 컬럼 자동 매칭 |
+| **[Hash Join](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/)** | 대규모 최적화 |
+| **[실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)** | EXPLAIN ANALYZE |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -69,7 +73,7 @@ INNER JOIN은 **SQL의 가장 기본 연산**이며, [[154_database_index_b_tree
 
 **진행 상황**: 133 / 600
 
-← **이전**: [[132_sql_join_types_overview|132. SQL JOIN 유형 총정리 - INNER·LEFT·RIGHT·FULL·CROSS·SELF]]
-**다음**: [[134_sql_outer_join_left_right_full|134. SQL OUTER JOIN (LEFT·RIGHT·FULL) - 비매칭 행도 포함하는 결합]] →
+← **이전**: [132. SQL JOIN 유형 총정리 - INNER·LEFT·RIGHT·FULL·CROSS·SELF](/knowledge-base/studynote/05_database/03_relational_model/132_sql_join_types_overview/)
+**다음**: [134. SQL OUTER JOIN (LEFT·RIGHT·FULL) - 비매칭 행도 포함하는 결합](/knowledge-base/studynote/05_database/03_relational_model/134_sql_outer_join_left_right_full/) →
 
 ---

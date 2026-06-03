@@ -1,23 +1,27 @@
----
-title: 17. 신뢰 구간 (Confidence Interval) — 모수 추정의 불확실성
-date: '2026-04-21'
-tags:
-- studynote-algorithm
----
++++
+title = "17. 신뢰 구간 (Confidence Interval) — 모수 추정의 불확실성"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-algorithm"]
+
+[extra]
+tags = ["studynote-algorithm"]
++++
 
 ## 핵심 인사이트
 
-> 신뢰 구간([[085_confidence_association_rule_conditional_probability|Confidence]] Interval)의 올바른 해석은 "이 구간이 모수를 포함할 [[130_probability|확률]]이 95%"가 아니라, "이 방법을 반복 사용하면 구간들의 95%가 모수를 포함한다"는 절차적 보장이다 — 모수는 고정값이므로 [[130_probability|확률]] 대상이 될 수 없다.
-> 신뢰 구간 폭은 표본 크기 n의 제곱근에 반비례(∝ 1/√n)하므로, [[233_precision_recall_f1_roc_auc_threshold|정밀도]]를 2배로 높이려면 표본을 4배 늘려야 한다 — [[001_dikw_pyramid|데이터]] 수집 비용과 [[233_precision_recall_f1_roc_auc_threshold|정밀도]]의 트레이드오프다.
-> 학생 t-분포(Student t-Distribution)는 모표준편차를 모를 때 소표본(Small Sample)에서 [[138_normal_distribution|정규 분포]] 대신 사용하며, 자유도(Degrees of Freedom)가 증가할수록 표준 [[138_normal_distribution|정규 분포]]에 수렴한다.
+> 신뢰 구간([Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) Interval)의 올바른 해석은 "이 구간이 모수를 포함할 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 95%"가 아니라, "이 방법을 반복 사용하면 구간들의 95%가 모수를 포함한다"는 절차적 보장이다 — 모수는 고정값이므로 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 대상이 될 수 없다.
+> 신뢰 구간 폭은 표본 크기 n의 제곱근에 반비례(∝ 1/√n)하므로, [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)를 2배로 높이려면 표본을 4배 늘려야 한다 — [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 비용과 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)의 트레이드오프다.
+> 학생 t-분포(Student t-Distribution)는 모표준편차를 모를 때 소표본(Small Sample)에서 [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/) 대신 사용하며, 자유도(Degrees of Freedom)가 증가할수록 표준 [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/)에 수렴한다.
 
 ---
 
 ## Ⅰ. 신뢰 구간의 정의와 구성
 
-**신뢰 구간 ([[085_confidence_association_rule_conditional_probability|Confidence]] Interval, [[090_configuration_item|CI]])**: 모수 θ의 추정치와 불확실성을 구간으로 표현.
+**신뢰 구간 ([Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) Interval, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/))**: 모수 θ의 추정치와 불확실성을 구간으로 표현.
 
-**95% [[090_configuration_item|CI]] 공식 (σ 알 때)**:
+**95% [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 공식 (σ 알 때)**:
 
 ```
 CI = x̄ ± z_{α/2} · (σ/√n)
@@ -26,7 +30,7 @@ z_{0.025} = 1.96 (양측 95% CI)
 z_{0.005} = 2.576 (양측 99% CI)
 ```
 
-**95% [[090_configuration_item|CI]] 공식 (σ 모를 때, t-분포 사용)**:
+**95% [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 공식 (σ 모를 때, t-분포 사용)**:
 
 ```
 CI = x̄ ± t_{α/2, n-1} · (s/√n)
@@ -55,7 +59,7 @@ MoE = z_{α/2} · (σ/√n) = CI 반폭
                                     ↑ 모수 μ (고정값)
 ```
 
-📢 **섹션 요약 비유**: 신뢰 구간은 "낚시 그물의 크기"와 같다. 그물을 100번 던지면 약 95번은 물고기(모수)를 잡는다 — 물고기가 그물 안에 있을 [[130_probability|확률]]이 95%가 아니라, 그물을 던지는 방법이 95% 성공률을 보장하는 것이다.
+📢 **섹션 요약 비유**: 신뢰 구간은 "낚시 그물의 크기"와 같다. 그물을 100번 던지면 약 95번은 물고기(모수)를 잡는다 — 물고기가 그물 안에 있을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 95%가 아니라, 그물을 던지는 방법이 95% 성공률을 보장하는 것이다.
 
 ---
 
@@ -63,13 +67,13 @@ MoE = z_{α/2} · (σ/√n) = CI 반폭
 
 **학생 t-분포 (Student t-Distribution)**는 영국 통계학자 윌리엄 고셋(W.S. Gosset)이 맥주 품질 관리를 위해 개발 (필명 "Student").
 
-**t-분포 vs [[138_normal_distribution|정규 분포]]**:
+**t-분포 vs [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/)**:
 
-| 특성 | [[138_normal_distribution|정규 분포]] N(0,1) | t-분포 t(df) |
+| 특성 | [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/) N(0,1) | t-분포 t(df) |
 |:---|:---:|:---:|
 | 사용 조건 | σ 알 때, 또는 n 클 때 | σ 모를 때, 소표본 |
 | 꼬리 두께 | 얇음 | 두꺼움 (Heavy Tail) |
-| df = ∞ | — | [[138_normal_distribution|정규 분포]]로 수렴 |
+| df = ∞ | — | [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/)로 수렴 |
 | df = 1 | — | 코시 분포 (가장 두꺼운 꼬리) |
 
 꼬리가 두꺼운 이유: σ를 모르고 s로 추정하는 **추가적 불확실성**을 반영.
@@ -79,16 +83,16 @@ MoE = z_{α/2} · (σ/√n) = CI 반폭
 - 독립 이표본: df ≈ n₁ + n₂ - 2 (등분산 가정)
 - 대응 표본: df = n - 1 (차이값 기준)
 
-df가 커질수록 t-분포는 [[138_normal_distribution|정규 분포]]에 수렴:
-- df = 30 이상이면 실용적으로 [[138_normal_distribution|정규 분포]]와 거의 동일
+df가 커질수록 t-분포는 [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/)에 수렴:
+- df = 30 이상이면 실용적으로 [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/)와 거의 동일
 
-📢 **섹션 요약 비유**: t-분포는 "작은 마을의 선거 여론 조사"와 같다. 주민이 1,000만 명인 도시(대표본)에선 표준 [[138_normal_distribution|정규 분포]]로 충분하지만, 주민 30명의 작은 마을(소표본)에선 더 두꺼운 오차 범위(t-분포)가 필요하다.
+📢 **섹션 요약 비유**: t-분포는 "작은 마을의 선거 여론 조사"와 같다. 주민이 1,000만 명인 도시(대표본)에선 표준 [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/)로 충분하지만, 주민 30명의 작은 마을(소표본)에선 더 두꺼운 오차 범위(t-분포)가 필요하다.
 
 ---
 
 ## Ⅲ. 신뢰 구간 폭과 표본 크기
 
-**신뢰 구간 폭과 표본 크기의 [[083_relationship_in_er_model|관계]]**:
+**신뢰 구간 폭과 표본 크기의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)**:
 
 ```
 폭 = 2 × z_{α/2} × σ/√n
@@ -102,16 +106,16 @@ df가 커질수록 t-분포는 [[138_normal_distribution|정규 분포]]에 수�
 n = (z_{α/2} · σ / MoE)²
 ```
 
-**표본 크기별 95% [[090_configuration_item|CI]] 폭 변화**:
+**표본 크기별 95% [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 폭 변화**:
 
-| n | 상대적 [[090_configuration_item|CI]] 폭 | 설명 |
+| n | 상대적 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 폭 | 설명 |
 |:---:|:---:|:---|
 | 25 | 100% (기준) | |
 | 100 | 50% | n 4배 → 폭 2배 감소 |
 | 400 | 25% | n 16배 → 폭 4배 감소 |
 | 900 | 16.7% | n 36배 → 폭 6배 감소 |
 
-**핵심 법칙**: [[233_precision_recall_f1_roc_auc_threshold|정밀도]](폭)를 k배 높이려면 표본 크기를 k²배 늘려야 한다.
+**핵심 법칙**: [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)(폭)를 k배 높이려면 표본 크기를 k²배 늘려야 한다.
 
 ```
 ┌──────────────────────────────────────────────┐
@@ -125,32 +129,32 @@ n = (z_{α/2} · σ / MoE)²
               x̄ 중심
 ```
 
-📢 **섹션 요약 비유**: [[090_configuration_item|CI]] 폭과 표본 크기는 "확성기 음량과 거리"와 같다. 거리를 4배 늘리면 소리가 반으로 줄듯, 표본을 4배 늘려야 [[090_configuration_item|CI]] 폭이 반으로 줄어 — [[233_precision_recall_f1_roc_auc_threshold|정밀도]] 향상에는 제곱 비용이 든다.
+📢 **섹션 요약 비유**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 폭과 표본 크기는 "확성기 음량과 거리"와 같다. 거리를 4배 늘리면 소리가 반으로 줄듯, 표본을 4배 늘려야 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 폭이 반으로 줄어 — [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 향상에는 제곱 비용이 든다.
 
 ---
 
 ## Ⅳ. 부트스트랩 신뢰 구간
 
-**부트스트랩 신뢰 구간 (Bootstrap [[085_confidence_association_rule_conditional_probability|Confidence]] Interval)**은 비모수적(Non-Parametric) 방법으로, 분포 가정 없이 CI를 추정한다.
+**부트스트랩 신뢰 구간 (Bootstrap [Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) Interval)**은 비모수적(Non-Parametric) 방법으로, 분포 가정 없이 CI를 추정한다.
 
 **절차**:
-1. 원본 [[001_dikw_pyramid|데이터]](n개)에서 복원 추출([[056_표본화_Sampling|Sampling]] with Replacement)로 B개 부트스트랩 표본 [[087_process_state_transition|생성]]
+1. 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(n개)에서 복원 추출([Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/) with Replacement)로 B개 부트스트랩 표본 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
 2. 각 표본에서 통계량(평균, 중앙값 등) 계산 → {θ̂*₁, ..., θ̂*_B}
-3. 이 B개 통계량의 경험적 분포로 [[090_configuration_item|CI]] 구성
+3. 이 B개 통계량의 경험적 분포로 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 구성
 
-**방법별 부트스트랩 [[090_configuration_item|CI]]**:
+**방법별 부트스트랩 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)**:
 - **백분위수(Percentile) 방법**: θ̂*의 2.5%, 97.5% 분위수
-- **BCa (Bias-Corrected and Accelerated)**: 편향과 [[064_skewness_kurtosis_log_transformation|왜도]] 보정, 가장 정확
+- **BCa (Bias-Corrected and Accelerated)**: 편향과 [왜도](/knowledge-base/studynote/14_data_engineering/02_math_mining/064_skewness_kurtosis_log_transformation/) 보정, 가장 정확
 
-**사용 시점**: 이론적 분포 유도가 어려운 중앙값, 상관계수, 복잡한 모델의 [[090_configuration_item|CI]] 추정에 활용.
+**사용 시점**: 이론적 분포 유도가 어려운 중앙값, 상관계수, 복잡한 모델의 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 추정에 활용.
 
-📢 **섹션 요약 비유**: 부트스트랩은 "내가 가진 [[001_dikw_pyramid|데이터]]로 가상 실험 수천 번 하기"와 같다. 실제로 새 [[001_dikw_pyramid|데이터]]를 수집하는 대신, 기존 [[001_dikw_pyramid|데이터]]를 섞고 뽑아 "만약 이런 표본이었다면?"을 무수히 반복해 불확실성을 추정한다.
+📢 **섹션 요약 비유**: 부트스트랩은 "내가 가진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 가상 실험 수천 번 하기"와 같다. 실제로 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수집하는 대신, 기존 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 섞고 뽑아 "만약 이런 표본이었다면?"을 무수히 반복해 불확실성을 추정한다.
 
 ---
 
 ## Ⅴ. 응용: A/B 테스팅과 임상 시험
 
-**A/B 테스팅**: 두 [[288_version_ihl_tos_total_length|버전]](A, B)의 전환율 차이의 [[090_configuration_item|CI]]
+**A/B 테스팅**: 두 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(A, B)의 전환율 차이의 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)
 
 ```
 CI for (p_B - p_A):
@@ -160,37 +164,37 @@ CI for (p_B - p_A):
 CI가 0을 포함하면 → 통계적으로 유의미한 차이 없음  
 CI가 0을 포함하지 않으면 → 유의미한 차이 있음
 
-**임상 시험 (Clinical Trial)**: 새 약품의 효과 크기 [[090_configuration_item|CI]]
-- 규제 기관(FDA)은 단순 p-값이 아닌 **효과 크기의 [[090_configuration_item|CI]]** 요구
-- [[090_configuration_item|CI]] 하한이 최소 임상 유의 차이(MCID)를 초과해야 승인
+**임상 시험 (Clinical Trial)**: 새 약품의 효과 크기 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)
+- 규제 기관(FDA)은 단순 p-값이 아닌 **효과 크기의 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)** 요구
+- [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 하한이 최소 임상 유의 차이(MCID)를 초과해야 승인
 
 **선거 여론 조사**:
-- "A 후보 지지율 48% ± 3.5% (95% [[090_configuration_item|CI]])"
+- "A 후보 지지율 48% ± 3.5% (95% [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/))"
 - MoE = 3.5%이면 n ≈ 784명 (σ_p = 0.5 가정)
 
-**z-분포 vs t-분포 [[090_configuration_item|CI]] 비교**:
+**z-분포 vs t-분포 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 비교**:
 
-| 조건 | 사용 분포 | 95% [[090_configuration_item|CI]] 임계값 |
+| 조건 | 사용 분포 | 95% [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 임계값 |
 |:---|:---:|:---:|
 | σ 알고, n 큼 | N(0,1) | ±1.96 |
-| σ 모름, n=[[489_raid_10_hybrid|10]] | t(9) | ±2.262 |
+| σ 모름, n=[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) | t(9) | ±2.262 |
 | σ 모름, n=30 | t(29) | ±2.045 |
 | σ 모름, n=100 | t(99) | ±1.984 |
 
-📢 **섹션 요약 비유**: A/B 테스팅의 CI는 "저울로 재는 체중 차이"와 같다. 체중 차이가 1kg인데 저울 오차가 ±3kg이면 의미 없듯, 전환율 차이가 [[090_configuration_item|CI]] 안에 있으면 "그냥 우연의 차이"라고 봐야 한다.
+📢 **섹션 요약 비유**: A/B 테스팅의 CI는 "저울로 재는 체중 차이"와 같다. 체중 차이가 1kg인데 저울 오차가 ±3kg이면 의미 없듯, 전환율 차이가 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 안에 있으면 "그냥 우연의 차이"라고 봐야 한다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 개념 | 연결 개념 | [[083_relationship_in_er_model|관계]] |
+| 개념 | 연결 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 |:---|:---|:---|
-| 신뢰 구간 | 표본 크기 n | [[090_configuration_item|CI]] 폭 ∝ 1/√n |
-| 신뢰 구간 | [[068_significance_level_alpha_p_value_hypothesis|유의 수준]] α | α 낮으면 [[090_configuration_item|CI]] 넓어짐 |
-| 학생 t-분포 | 자유도 df | df → ∞이면 [[138_normal_distribution|정규 분포]] |
-| 부트스트랩 [[090_configuration_item|CI]] | 비모수 방법 | 분포 가정 불필요 |
-| 신뢰 구간 | [[145_hypothesis_testing|가설 검정]] | CI에 귀무값 포함 여부 = p > α |
-| 베이즈 Credible Interval | CI와 비교 | 해석 차이 (θ를 [[134_random_variable|확률 변수]] 취급) |
+| 신뢰 구간 | 표본 크기 n | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 폭 ∝ 1/√n |
+| 신뢰 구간 | [유의 수준](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/) α | α 낮으면 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 넓어짐 |
+| 학생 t-분포 | 자유도 df | df → ∞이면 [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/) |
+| 부트스트랩 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) | 비모수 방법 | 분포 가정 불필요 |
+| 신뢰 구간 | [가설 검정](/knowledge-base/studynote/08_algorithm_stats/08_stats/145_hypothesis_testing/) | CI에 귀무값 포함 여부 = p > α |
+| 베이즈 Credible Interval | CI와 비교 | 해석 차이 (θ를 [확률 변수](/knowledge-base/studynote/08_algorithm_stats/08_stats/134_random_variable/) 취급) |
 
 ---
 
@@ -219,7 +223,7 @@ CI가 0을 포함하지 않으면 → 유의미한 차이 있음
 ### 👶 어린이를 위한 3줄 비유 설명
 
 낚시 그물을 100번 던지면 95번쯤은 물고기를 잡아 — 95% 신뢰 구간은 "이 방법을 쓰면 100번 중 95번은 정답 범위 안에 들어온다"는 보장이야.
-표본을 4배 많이 모아야 오차가 반으로 줄어 — 더 정확하게 알고 싶을수록 훨씬 더 많은 [[001_dikw_pyramid|데이터]]가 필요해!
+표본을 4배 많이 모아야 오차가 반으로 줄어 — 더 정확하게 알고 싶을수록 훨씬 더 많은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 필요해!
 작은 반(소표본)에서 여론 조사하면 t-분포를 써야 해 — 정규분포보다 오차 범위를 더 넓게 잡아야 "혹시 모를 실수"를 보완할 수 있거든.
 
 ---
@@ -228,7 +232,7 @@ CI가 0을 포함하지 않으면 → 유의미한 차이 있음
 
 **진행 상황**: 146 / 175
 
-← **이전**: [[145_hypothesis_testing|16. 가설 검정 (Hypothesis Testing) — 귀무가설, p-값]]
-**다음**: [[147_chi_square_test|18. 카이제곱 검정 (Chi-Square Test) — 독립성/적합도 검정]] →
+← **이전**: [16. 가설 검정 (Hypothesis Testing) — 귀무가설, p-값](/knowledge-base/studynote/08_algorithm_stats/08_stats/145_hypothesis_testing/)
+**다음**: [18. 카이제곱 검정 (Chi-Square Test) — 독립성/적합도 검정](/knowledge-base/studynote/08_algorithm_stats/08_stats/147_chi_square_test/) →
 
 ---

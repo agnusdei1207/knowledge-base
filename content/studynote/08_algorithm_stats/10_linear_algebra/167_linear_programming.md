@@ -1,14 +1,18 @@
----
-title: 8. 선형 프로그래밍 (LP, Linear Programming) — 심플렉스법
-date: '2026-04-21'
-tags:
-- studynote-algorithm
----
++++
+title = "8. 선형 프로그래밍 (LP, Linear Programming) — 심플렉스법"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-algorithm"]
+
+[extra]
+tags = ["studynote-algorithm"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: LP (Linear Programming, 선형 계획법) 는 *목적 함수와 제약 조건이 모두 선형*인 최적화 — 가능 영역이 볼록 다면체(Polytope)이고 최적해는 반드시 꼭짓점에 존재한다.
-> 2. **가치**: 심플렉스법 ([[406_linear_programming_simplex|Simplex]] Method) 이 실용적으로 빠르고, 내점법 (Interior Point Method) 이 이론적으로 [[195_polynomial_generator_crc|다항식]] 복잡도를 보장하며, 쌍대 LP가 경제 해석과 [[001_algorithm_definition|알고리즘]] 분석에 활용된다.
+> 2. **가치**: 심플렉스법 ([Simplex](/knowledge-base/studynote/06_ict_convergence/05_data_science/406_linear_programming_simplex/) Method) 이 실용적으로 빠르고, 내점법 (Interior Point Method) 이 이론적으로 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 복잡도를 보장하며, 쌍대 LP가 경제 해석과 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 분석에 활용된다.
 > 3. **판단 포인트**: LP 완화 (LP Relaxation) — 정수 계획법을 LP로 풀어 하한 경계 획득, 분기 한정법 (Branch & Bound) 과 결합해 정수 최적화의 기반이 된다.
 
 ---
@@ -68,7 +72,7 @@ x₂
 
 심플렉스법: O → B → D (꼭짓점을 따라 이동하며 목적값 증가).
 
-### 심플렉스 [[001_algorithm_definition|알고리즘]] ([[406_linear_programming_simplex|Simplex]] Method)
+### 심플렉스 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) ([Simplex](/knowledge-base/studynote/06_ict_convergence/05_data_science/406_linear_programming_simplex/) Method)
 
 ```
 1. 초기 기저 가능해 (BFS) 설정 (꼭짓점)
@@ -80,7 +84,7 @@ x₂
 
 **복잡도**:
 - 최악: 지수 시간 (Klee-Minty 예시: 모든 꼭짓점 방문)
-- 실용: 평균 [[195_polynomial_generator_crc|다항식]] 시간 (m+n개 꼭짓점 정도 탐색)
+- 실용: 평균 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 시간 (m+n개 꼭짓점 정도 탐색)
 
 ### 내점법 (Interior Point Method)
 
@@ -93,7 +97,7 @@ min f(x) s.t. hⱼ(x) ≤ 0
 t → ∞ 이면 원 문제에 수렴
 ```
 
-카마르카 (Karmarkar) [[001_algorithm_definition|알고리즘]] (1984): 최초 [[195_polynomial_generator_crc|다항식]] 시간 LP [[001_algorithm_definition|알고리즘]].
+카마르카 (Karmarkar) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (1984): 최초 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 시간 LP [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/).
 현대 내점법: O(n³·√n)이지만 실용적으로는 심플렉스와 비교하며 선택.
 
 ### LP 쌍대 문제 (LP Duality)
@@ -124,8 +128,8 @@ min bᵀy,   s.t. Aᵀy ≥ c, y ≥ 0
 
 | 항목 | 심플렉스 | 내점법 |
 |:---|:---|:---|
-| 이론 복잡도 | 지수 최악 | [[195_polynomial_generator_crc|다항식]] 보장 |
-| 실용 [[282_performance_tactics|성능]] | 보통 빠름 | 대규모 희소 LP에 빠름 |
+| 이론 복잡도 | 지수 최악 | [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 보장 |
+| 실용 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 보통 빠름 | 대규모 희소 LP에 빠름 |
 | 수렴 경로 | 꼭짓점 경유 | 내부 통과 |
 | 구현 | 단순 | 복잡 |
 | 재최적화 | 빠름 (Warm Start) | 느림 |
@@ -181,7 +185,7 @@ s.t. 2xA + xB  ≤ 100   (원자재)
 |:---|:---|:---|
 | CPLEX (IBM) | 상용 | 산업 표준, 심플렉스+내점 |
 | Gurobi | 상용 | 고성능, LP+MIP |
-| GLPK | [[191_oss_license_compliance|오픈소스]] | GNU LP Kit |
+| GLPK | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) | GNU LP Kit |
 | SciPy linprog | Python | 소규모 교육용 |
 | OR-Tools | Google | 다양한 최적화 문제 |
 
@@ -197,13 +201,13 @@ s.t. 2xA + xB  ≤ 100   (원자재)
 
 ## Ⅴ. 기대효과 및 결론
 
-LP는 **20세기 가장 영향력 있는 최적화 기법** 중 하나 — 항공 [[208_schedule_history_transaction_execution_order|스케줄]]링, 물류 최적화, 금융 포트폴리오, 전력망 운영의 핵심이다.
+LP는 **20세기 가장 영향력 있는 최적화 기법** 중 하나 — 항공 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링, 물류 최적화, 금융 포트폴리오, 전력망 운영의 핵심이다.
 
 실용적 활용 현황:
-- 항공사 운항 [[208_schedule_history_transaction_execution_order|스케줄]] 최적화: LP + 정수 계획법
+- 항공사 운항 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 최적화: LP + 정수 계획법
 - 구글 광고 입찰: LP 기반 실시간 최적화
 - 전력망 경제 급전: LP 매 5분 실행
-- 물류 [[339_routing_overview_best_path_selection|라우팅]]: LP + 네트워크 플로우
+- 물류 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/): LP + 네트워크 플로우
 
 딥러닝 시대에도 LP는 해석 가능하고 전역 최적이 보장되므로 규제 요구사항이 있는 산업(금융, 의료)에서 여전히 핵심이다.
 
@@ -217,8 +221,8 @@ LP는 **20세기 가장 영향력 있는 최적화 기법** 중 하나 — 항�
 |:---|:---|:---|
 | LP 표준형 | max cᵀx, Ax≤b, x≥0 | 모든 LP의 기반 |
 | 심플렉스 | 꼭짓점 이동 | 실용 LP 솔버 |
-| 내점법 | 내부 통과, [[195_polynomial_generator_crc|다항식]] | 대규모 LP |
-| LP 쌍대 | min bᵀy, Aᵀy≥c | Shadow Price, [[238_svm_margin_kernel_trick_naive_bayes|SVM]] |
+| 내점법 | 내부 통과, [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) | 대규모 LP |
+| LP 쌍대 | min bᵀy, Aᵀy≥c | Shadow Price, [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) |
 | LP 완화 | 정수 → 연속 | 분기 한정법 기반 |
 
 ---
@@ -241,7 +245,7 @@ LP는 **20세기 가장 영향력 있는 최적화 기법** 중 하나 — 항�
 [SVM / 포트폴리오 최적화 — 산업 응용]
 ```
 
-LP 최적화 이론이 단순 선형 문제에서 정수 계획과 [[241_machine_learning_basics|머신러닝]] 응용으로 확장된 흐름이다.
+LP 최적화 이론이 단순 선형 문제에서 정수 계획과 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 응용으로 확장된 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -255,7 +259,7 @@ LP 최적화 이론이 단순 선형 문제에서 정수 계획과 [[241_machine
 
 **진행 상황**: 167 / 175
 
-← **이전**: [[166_lagrange_multiplier|7. 라그랑주 승수법 (Lagrange Multiplier) — 제약 최적화]]
-**다음**: [[168_integer_programming|9. 정수 프로그래밍 (IP, Integer Programming) — 분기 한정, MILP]] →
+← **이전**: [7. 라그랑주 승수법 (Lagrange Multiplier) — 제약 최적화](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/166_lagrange_multiplier/)
+**다음**: [9. 정수 프로그래밍 (IP, Integer Programming) — 분기 한정, MILP](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/168_integer_programming/) →
 
 ---

@@ -1,21 +1,25 @@
----
-title: 411. 편자기상관함수 (PACF, Partial Autocorrelation Function)
-date: '2026-05-09'
-tags:
-- studynote-ai
----
++++
+title = "411. 편자기상관함수 (PACF, Partial Autocorrelation Function)"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-ai"]
+
+[extra]
+tags = ["studynote-ai"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: PACF (Partial Autocorrelation Function)는 각 시차(lag)의 직접 영향만 남기고 중간 시차의 간접 효과를 제거한 자기상관이다.
-> 2. **가치**: 시계열에서 AR ([[248_bert_encoder_mlm_gpt_decoder_autoregressive_comparison|Autoregressive]]) 차수 `p`를 고를 때 가장 중요한 [[167_sql_hint_optimizer_override|힌트]]를 준다.
-> 3. **판단 포인트**: ACF (Autocorrelation Function)와 혼동하지 말고, 유의구간 밖의 [[129_spike_agile_technical_investigation|스파이크]]가 어디까지 이어지는지를 봐야 한다.
+> 2. **가치**: 시계열에서 AR ([Autoregressive](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/248_bert_encoder_mlm_gpt_decoder_autoregressive_comparison/)) 차수 `p`를 고를 때 가장 중요한 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)를 준다.
+> 3. **판단 포인트**: ACF (Autocorrelation Function)와 혼동하지 말고, 유의구간 밖의 [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)가 어디까지 이어지는지를 봐야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-시계열 [[001_dikw_pyramid|데이터]]는 과거 값이 현재 값에 영향을 준다. 하지만 그 영향은 직접적일 수도 있고, 여러 시차를 거쳐 간접적으로 전달될 수도 있다. PACF는 바로 이 중간 경로를 걷어내고 "직접 연결"만 보여 준다.
+시계열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 과거 값이 현재 값에 영향을 준다. 하지만 그 영향은 직접적일 수도 있고, 여러 시차를 거쳐 간접적으로 전달될 수도 있다. PACF는 바로 이 중간 경로를 걷어내고 "직접 연결"만 보여 준다.
 
 따라서 PACF는 AR 모형의 차수 `p`를 정할 때 매우 유용하다. 예를 들어 PACF가 lag 3까지 유의하면 AR(3)을 후보로 고려할 수 있다.
 
@@ -38,8 +42,8 @@ PACF는 `x_t`와 `x_{t-k}`의 상관을 보되, `x_{t-1}...x_{t-k+1}`의 영향�
 
 | 지표 | 의미 | 주 용도 |
 |:---|:---|:---|
-| **ACF** | 전체 자기상관 | MA 차수, 계절성 [[396_validation|확인]] |
-| **PACF** | 직접 자기상관 | AR 차수 `p` [[396_validation|확인]] |
+| **ACF** | 전체 자기상관 | MA 차수, 계절성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
+| **PACF** | 직접 자기상관 | AR 차수 `p` [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
 
 수식적으로는 다음과 같이 볼 수 있다.
 
@@ -54,7 +58,7 @@ PACF는 `x_t`와 `x_{t-k}`의 상관을 보되, `x_{t-1}...x_{t-k+1}`의 영향�
 └──────────────────────────────────────────────────────────────┘
 ```
 
-보통 AR(p)에서는 PACF가 p 이후 급격히 작아지고, MA(q)에서는 ACF가 q 이후 끊기는 경향이 있다. 물론 현실 [[001_dikw_pyramid|데이터]]는 완벽하지 않으므로, "딱 끊긴다"보다 "어디까지 유의한가"를 보는 것이 더 정확하다.
+보통 AR(p)에서는 PACF가 p 이후 급격히 작아지고, MA(q)에서는 ACF가 q 이후 끊기는 경향이 있다. 물론 현실 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 완벽하지 않으므로, "딱 끊긴다"보다 "어디까지 유의한가"를 보는 것이 더 정확하다.
 
 - **📢 섹션 요약 비유**: 전화 돌려 말한 내용은 빼고, 첫 번째 사람이 직접 들은 핵심만 보자는 것이다.
 
@@ -66,7 +70,7 @@ PACF는 `x_t`와 `x_{t-k}`의 상관을 보되, `x_{t-1}...x_{t-k+1}`의 영향�
 |:---|:---|:---|:---|
 | 보는 것 | 전체 상관 | 직접 상관 | 모형 차수 추정 |
 | 간접 효과 | 포함 | 제거 | AR 차수 판단 |
-| 대표 활용 | 계절성 탐지 | AR(p) 선택 | [[342_arima_auto_regressive_integrated_moving_average|ARIMA]] 설계 |
+| 대표 활용 | 계절성 탐지 | AR(p) 선택 | [ARIMA](/knowledge-base/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/) 설계 |
 
 PACF는 특히 시계열 예측에서 중요하다. `p`를 과하게 잡으면 불필요한 파라미터가 늘고, 너무 작게 잡으면 패턴을 놓친다. 그래서 PACF는 모델의 복잡도를 줄이는 첫 관문이다.
 
@@ -76,18 +80,18 @@ PACF는 특히 시계열 예측에서 중요하다. `p`를 과하게 잡으면 �
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 시계열이 정상성 ([[377_time_series_stationarity|Stationarity]])을 만족하는가?
+1. 시계열이 정상성 ([Stationarity](/knowledge-base/studynote/10_ai/05_data_science_ml/377_time_series_stationarity/))을 만족하는가?
 2. 차분(differencing) 후 PACF를 해석하고 있는가?
 3. 유의구간(보통 `±1.96/√N`) 밖의 lag를 기준으로 차수를 추정하는가?
-4. 계절성이 있으면 seasonal lag도 따로 [[396_validation|확인]]하는가?
+4. 계절성이 있으면 seasonal lag도 따로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는가?
 5. PACF만 보지 않고 ACF와 함께 판단하는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 원시 시계열에 바로 PACF를 적용하고 해석
-- 유의하지 않은 작은 [[129_spike_agile_technical_investigation|스파이크]]를 과대해석
+- 유의하지 않은 작은 [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)를 과대해석
 - AR 차수만 보고 MA/seasonal 구조를 무시
 
 기술사 관점에서는 "PACF는 후보를 좁히는 도구일 뿐, 최종 결정은 잔차 진단이 해야 한다"는 점을 분명히 해야 한다.
@@ -98,7 +102,7 @@ PACF는 특히 시계열 예측에서 중요하다. `p`를 과하게 잡으면 �
 
 ## Ⅴ. 기대효과 및 결론
 
-PACF를 올바르게 쓰면 [[342_arima_auto_regressive_integrated_moving_average|ARIMA]], SARIMA 같은 시계열 모델의 차수 선택이 훨씬 안정적이 된다. 이는 예측 오차를 줄이는 것뿐 아니라, 해석 가능한 모델을 만드는 데도 도움이 된다.
+PACF를 올바르게 쓰면 [ARIMA](/knowledge-base/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/), SARIMA 같은 시계열 모델의 차수 선택이 훨씬 안정적이 된다. 이는 예측 오차를 줄이는 것뿐 아니라, 해석 가능한 모델을 만드는 데도 도움이 된다.
 
 결론적으로 PACF는 **'직접 영향만 남긴 자기상관'**이므로, 우리는 이를 통해 AR 구조의 깊이를 최소한으로, 그러나 충분하게 잡아야 한다.
 
@@ -110,10 +114,10 @@ PACF를 올바르게 쓰면 [[342_arima_auto_regressive_integrated_moving_averag
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| ACF | 전체 자기상관 [[396_validation|확인]] |
+| ACF | 전체 자기상관 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
 | PACF | AR 차수 `p` 추정 |
-| [[377_time_series_stationarity|Stationarity]] | [[341_time_series_ar_ma_arma|시계열 분석]]의 전제 |
-| [[342_arima_auto_regressive_integrated_moving_average|ARIMA]] | PACF/ACF를 이용한 차수 설계 |
+| [Stationarity](/knowledge-base/studynote/10_ai/05_data_science_ml/377_time_series_stationarity/) | [시계열 분석](/knowledge-base/studynote/06_ict_convergence/05_data_science/341_time_series_ar_ma_arma/)의 전제 |
+| [ARIMA](/knowledge-base/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/) | PACF/ACF를 이용한 차수 설계 |
 | Yule-Walker | AR 계수 추정과 연결 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -134,7 +138,7 @@ PACF를 올바르게 쓰면 [[342_arima_auto_regressive_integrated_moving_averag
 
 **진행 상황**: 411 / 420
 
-← **이전**: [[410_aic_bic_model_selection|410. AIC/BIC 모델 선택 (Akaike Information Criterion / Bayesian Information Criterion)]]
-**다음**: [[412_svr_support_vector_regression|412. 서포트 벡터 회귀 (SVR, Support Vector Regression)]] →
+← **이전**: [410. AIC/BIC 모델 선택 (Akaike Information Criterion / Bayesian Information Criterion)](/knowledge-base/studynote/10_ai/05_data_science_ml/410_aic_bic_model_selection/)
+**다음**: [412. 서포트 벡터 회귀 (SVR, Support Vector Regression)](/knowledge-base/studynote/10_ai/05_data_science_ml/412_svr_support_vector_regression/) →
 
 ---

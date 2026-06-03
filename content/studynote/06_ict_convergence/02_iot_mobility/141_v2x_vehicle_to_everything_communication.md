@@ -1,14 +1,18 @@
----
-title: 141. V2X (Vehicle-to-Everything) 통신 - 차량-인프라 연결
-date: '2026-04-19'
-tags:
-- studynote-ict-convergence
----
++++
+title = "141. V2X (Vehicle-to-Everything) 통신 - 차량-인프라 연결"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-ict-convergence"]
+
+[extra]
+tags = ["studynote-ict-convergence"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: V2X는 **차량이 다른 차량(V2V)·인프라(V2I)·보행자(V2P)·네트워크(V2N)와 통신**하여 교통 안전·효율을 향상시키는 기술이며, [[1025_c_v2x_wave_dsrc|DSRC]](802.11p)와 [[143_c_v2x_cellular_based_communication|C-V2X]](셀룰러)가 대표 규격이다.
-> 2. **가치**: 자율주행 센서(카메라·[[140_lidar_light_detection_and_ranging_tof|LiDAR]])는 **시야 범위 내**만 감지하지만, V2X는 **교차로 너머·커브 뒤** 등 비가시(Non-Line-of-Sight) 정보를 제공하여 안전성을 획기적으로 향상시킨다.
-> 3. **판단 포인트**: [[1025_c_v2x_wave_dsrc|DSRC]](전용 주파수, 저지연)→[[143_c_v2x_cellular_based_communication|C-V2X]]([[763_5g_nr_new_radio_scalable_numerology|5G NR]], 고대역)로 주류 전환 중이며, 인프라([[913_v2i_rsu_road_side_unit_mec_autonomous_driving|RSU]]) 구축과 표준 통일이 핵심 과제이다.
+> 1. **본질**: V2X는 **차량이 다른 차량(V2V)·인프라(V2I)·보행자(V2P)·네트워크(V2N)와 통신**하여 교통 안전·효율을 향상시키는 기술이며, [DSRC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1025_c_v2x_wave_dsrc/)(802.11p)와 [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/)(셀룰러)가 대표 규격이다.
+> 2. **가치**: 자율주행 센서(카메라·[LiDAR](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/))는 **시야 범위 내**만 감지하지만, V2X는 **교차로 너머·커브 뒤** 등 비가시(Non-Line-of-Sight) 정보를 제공하여 안전성을 획기적으로 향상시킨다.
+> 3. **판단 포인트**: [DSRC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1025_c_v2x_wave_dsrc/)(전용 주파수, 저지연)→[C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/)([5G NR](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/), 고대역)로 주류 전환 중이며, 인프라([RSU](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/913_v2i_rsu_road_side_unit_mec_autonomous_driving/)) 구축과 표준 통일이 핵심 과제이다.
 
 ---
 
@@ -27,7 +31,7 @@ V2N: 차량↔네트워크 (클라우드 교통 정보)
 
 ## Ⅱ~Ⅴ. 결론
 
-V2X는 **자율주행의 비가시 정보 보완 핵심**이며, [[143_c_v2x_cellular_based_communication|C-V2X]]([[763_5g_nr_new_radio_scalable_numerology|5G NR]])가 차세대 표준으로 수렴 중이다.
+V2X는 **자율주행의 비가시 정보 보완 핵심**이며, [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/)([5G NR](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/))가 차세대 표준으로 수렴 중이다.
 
 ---
 
@@ -38,8 +42,8 @@ V2X는 **자율주행의 비가시 정보 보완 핵심**이며, [[143_c_v2x_cel
 | **V2X** | 차량-모든 것 통신 |
 | **V2V** | 차량 간 |
 | **V2I** | 차량-인프라 |
-| **[[143_c_v2x_cellular_based_communication|C-V2X]]** | [[418_5g_embb_urllc_mmtc_slicing|5G]] 셀룰러 기반 |
-| **[[1025_c_v2x_wave_dsrc|DSRC]]** | 전용 주파수 기반 |
+| **[C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/)** | [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 셀룰러 기반 |
+| **[DSRC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1025_c_v2x_wave_dsrc/)** | 전용 주파수 기반 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -60,7 +64,7 @@ V2X는 **자율주행의 비가시 정보 보완 핵심**이며, [[143_c_v2x_cel
 
 **진행 상황**: 141 / 552
 
-← **이전**: [[140_lidar_light_detection_and_ranging_tof|140. LiDAR (Light Detection and Ranging) - ToF 기반 3D 거리 측정]]
-**다음**: [[142_wave_dsrc_autonomous_vehicle_communication|142. WAVE/DSRC - 자율주행 전용 단거리 통신 규격]] →
+← **이전**: [140. LiDAR (Light Detection and Ranging) - ToF 기반 3D 거리 측정](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/)
+**다음**: [142. WAVE/DSRC - 자율주행 전용 단거리 통신 규격](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/142_wave_dsrc_autonomous_vehicle_communication/) →
 
 ---

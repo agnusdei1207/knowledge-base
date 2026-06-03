@@ -1,17 +1,21 @@
----
-title: B-트리 (B-Tree)
-date: '2026-03-05'
-tags:
-- studynote-algorithm
----
++++
+title = "B-트리 (B-Tree)"
+date = 2026-03-05
+
+[taxonomies]
+tags = ["studynote-algorithm"]
+
+[extra]
+tags = ["studynote-algorithm"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 - **다분 탐색 트리(Multi-way Search Tree)**의 일종으로, 모든 리프 노드가 같은 깊이를 가지는 균형 트리(Balanced Tree)임.
-- 노드 내 [[001_dikw_pyramid|데이터]]가 정렬된 상태를 유지하며, 하나의 노드에 여러 자식 노드를 가질 수 있어 대량의 [[001_dikw_pyramid|데이터]]를 처리하는 **디스크 기반 [[002_database_definition|데이터베이스]] 및 [[501_file_definition_logical_record|파일]] 시스템**에 최적화됨.
-- [[061_binary_search_tree_bst|이진 탐색 트리]]와 달리 노드당 키 개수를 늘려 트리의 높이를 낮춤으로써 **디스크 I/O 횟수를 최소화**함.
+- 노드 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 정렬된 상태를 유지하며, 하나의 노드에 여러 자식 노드를 가질 수 있어 대량의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리하는 **디스크 기반 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 및 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템**에 최적화됨.
+- [이진 탐색 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/061_binary_search_tree_bst/)와 달리 노드당 키 개수를 늘려 트리의 높이를 낮춤으로써 **디스크 I/O 횟수를 최소화**함.
 
-### Ⅰ. 개요 ([[033_context|Context]] & Background)
-- **배경:** 대용량 [[001_dikw_pyramid|데이터]]를 처리할 때 주메모리보다 느린 보조기억장치([[465_hdd_structure|HDD]], [[327_ssd|SSD]]) 접근 비용이 [[282_performance_tactics|성능]] 병목이 됨. [[061_binary_search_tree_bst|이진 탐색 트리]]는 트리가 깊어질수록 디스크 접근 횟수가 늘어나는 단점이 있음.
+### Ⅰ. 개요 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Background)
+- **배경:** 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리할 때 주메모리보다 느린 보조기억장치([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/), [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)) 접근 비용이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목이 됨. [이진 탐색 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/061_binary_search_tree_bst/)는 트리가 깊어질수록 디스크 접근 횟수가 늘어나는 단점이 있음.
 - **정의:** 노드 하나에 여러 개의 키를 저장하고 여러 개의 자식을 가질 수 있도록 설계된 균형 다분 탐색 트리임.
 - **특징:** 모든 리프 노드는 동일한 레벨에 위치하며, 각 노드는 최소 $\lceil M/2 \rceil - 1$개에서 최대 $M-1$개의 키를 가짐 ($M$은 트리의 차수).
 
@@ -29,28 +33,28 @@ tags:
  [5,7] [12] [18]    [25] [35]  [45,50]  <-- Leaf Nodes (Same Level)
 ```
 - **탐색(Search):** 루트에서 시작하여 노드 내 키와 비교하며 적절한 포인터를 따라 리프까지 내려감 ($O(\log n)$).
-- **삽입(Insertion):** 리프 노드에 삽입 후, 노드가 가득 차면([[095_overflow|Overflow]]) 중앙값을 부모로 올리고 노드를 분할(Split)함.
-- **삭제(Deletion):** 리프 노드에서 삭제 후, 최소 키 개수 미달 시([[096_underflow|Underflow]]) 형제 노드에서 빌려오거나(Redistribution) 병합(Merge)을 수행함.
+- **삽입(Insertion):** 리프 노드에 삽입 후, 노드가 가득 차면([Overflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)) 중앙값을 부모로 올리고 노드를 분할(Split)함.
+- **삭제(Deletion):** 리프 노드에서 삭제 후, 최소 키 개수 미달 시([Underflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/)) 형제 노드에서 빌려오거나(Redistribution) 병합(Merge)을 수행함.
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
-| 비교 항목 | [[061_binary_search_tree_bst|이진 탐색 트리]] (BST) | B-트리 (B-Tree) |
+| 비교 항목 | [이진 탐색 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/061_binary_search_tree_bst/) (BST) | B-트리 (B-Tree) |
 | :--- | :--- | :--- |
 | **자식 노드 수** | 최대 2개 | 최대 M개 (차수만큼) |
 | **노드당 키 수** | 1개 | M-1개 |
-| **주요 목적** | 주메모리 상의 빠른 검색 | 디스크 I/O 최소화 (DB [[154_database_index_b_tree_search_optimization|인덱스]]) |
+| **주요 목적** | 주메모리 상의 빠른 검색 | 디스크 I/O 최소화 (DB [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) |
 | **균형 유지** | 불균형 가능성 높음 | 항상 완벽한 균형 유지 |
 
-### Ⅳ. 실무 적용 및 기술사적 판단 ([[268_strategy_pattern|Strategy]] & Decision)
-- **적용 사례:** [[188_pl_sql_t_sql_procedural|Oracle]], MySQL(InnoDB)의 [[154_database_index_b_tree_search_optimization|인덱스]] 구조, NTFS/Ext4 [[501_file_definition_logical_record|파일]] 시스템의 [[506_directory_structure_symbol_table|디렉터리]] 구조.
-- **기술사적 판단:** 현대 시스템에서는 CPU 연산 속도보다 저장장치의 Latency가 훨씬 크므로, [[286_page_frame|페이지]] 단위 읽기에 최적화된 B-트리 계열을 사용하는 것이 [[001_dikw_pyramid|데이터]] 일관성과 [[282_performance_tactics|성능]] 확보의 핵심 전략임.
+### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
+- **적용 사례:** [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/), MySQL(InnoDB)의 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 구조, NTFS/Ext4 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템의 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 구조.
+- **기술사적 판단:** 현대 시스템에서는 CPU 연산 속도보다 저장장치의 Latency가 훨씬 크므로, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위 읽기에 최적화된 B-트리 계열을 사용하는 것이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 일관성과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 확보의 핵심 전략임.
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
-- **기대효과:** 트리의 높이를 낮게 유지(Low Fan-out)하여 수백만 건의 [[001_dikw_pyramid|데이터]]도 3~4번의 디스크 접근만으로 탐색 가능하게 함.
-- **결론:** B-트리는 대규모 [[001_dikw_pyramid|데이터]] 저장소의 [[282_performance_tactics|성능]] 보장을 위한 표준 알고리즘이며, 최근에는 SSD의 특성에 맞춘 [[377_lsm_tree_storage_engine|LSM-Tree]] 등으로 발전하고 있으나 여전히 인덱싱의 근간을 이룸.
+- **기대효과:** 트리의 높이를 낮게 유지(Low Fan-out)하여 수백만 건의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 3~4번의 디스크 접근만으로 탐색 가능하게 함.
+- **결론:** B-트리는 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 보장을 위한 표준 알고리즘이며, 최근에는 SSD의 특성에 맞춘 [LSM-Tree](/knowledge-base/studynote/05_database/06_dw_olap_trends/377_lsm_tree_storage_engine/) 등으로 발전하고 있으나 여전히 인덱싱의 근간을 이룸.
 
-### 📌 관련 개념 맵 ([[160_knowledge_graph_graphrag_integration|Knowledge Graph]])
+### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 - **상위 개념:** Balanced Search Tree, Multi-way Tree
-- **하위/확장 개념:** B+Tree (리프 연결), B*Tree (분할 [[656_ir_containment|억제]]), 2-3 Tree, [[062_avl_tree|AVL Tree]]
+- **하위/확장 개념:** B+Tree (리프 연결), B*Tree (분할 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)), 2-3 Tree, [AVL Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/062_avl_tree/)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -70,11 +74,11 @@ tags:
 [데이터베이스 인덱스 (Database Index) — 대용량 스토리지 탐색]
 ```
 
-이 흐름은 [[061_binary_search_tree_bst|이진 탐색 트리]]의 한계를 보완하기 위해 다중 키 균형과 리프 연결을 도입하고, 결국 [[002_database_definition|데이터베이스]] [[154_database_index_b_tree_search_optimization|인덱스]]의 표준 구조로 발전하는 과정을 보여준다.
+이 흐름은 [이진 탐색 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/061_binary_search_tree_bst/)의 한계를 보완하기 위해 다중 키 균형과 리프 연결을 도입하고, 결국 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)의 표준 구조로 발전하는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 - 한 층에 책이 수천 권 있는 거대한 도서관에서 책을 찾는 것과 같아요.
-- 일반적인 계단(BST) 대신, 한 번에 수십 층씩 올라가는 [[148_5g_embb_urllc_mmtc|초고속]] 엘리베이터(B-Tree)를 타고 올라가요.
+- 일반적인 계단(BST) 대신, 한 번에 수십 층씩 올라가는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 엘리베이터(B-Tree)를 타고 올라가요.
 - 엘리베이터 문이 열릴 때마다 내가 찾는 층이 어디인지 정확히 알려줘서 아주 빨리 도착할 수 있답니다.
 
 ---
@@ -83,7 +87,7 @@ tags:
 
 **진행 상황**: 64 / 175
 
-← **이전**: [[063_red_black_tree|레드-블랙 트리 (Red-Black Tree, RBT)]]
-**다음**: [[065_b_plus_tree|B+트리 (B+Tree)]] →
+← **이전**: [레드-블랙 트리 (Red-Black Tree, RBT)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/)
+**다음**: [B+트리 (B+Tree)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/065_b_plus_tree/) →
 
 ---

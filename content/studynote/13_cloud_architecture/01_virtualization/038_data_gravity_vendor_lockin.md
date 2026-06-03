@@ -1,18 +1,22 @@
----
-title: 038. 데이터 중력과 벤더 종속 (Data Gravity & Vendor Lock-in)
-date: '2026-03-03'
-tags:
-- studynote-cloud-architecture
----
++++
+title = "038. 데이터 중력과 벤더 종속 (Data Gravity & Vendor Lock-in)"
+date = 2026-03-03
+
+[taxonomies]
+tags = ["studynote-cloud-architecture"]
+
+[extra]
+tags = ["studynote-cloud-architecture"]
++++
 
 > **핵심 인사이트**
-> 1. [[001_dikw_pyramid|데이터]] 중력([[001_dikw_pyramid|Data]] Gravity)은 [[001_dikw_pyramid|데이터]]가 축적될수록 그 [[001_dikw_pyramid|데이터]]를 처리하는 애플리케이션과 [[090_service_kubernetes_network_load_balancing|서비스]]가 [[001_dikw_pyramid|데이터]]가 있는 곳으로 끌려오는 현상으로, 클라우드 탈출 비용([[189_egress|Egress]] Cost)과 [[015_지연_데이터_관점|지연]]([[141_latency|Latency]]) 때문에 [[001_dikw_pyramid|데이터]]를 이동하기 어려워져 특정 클라우드에 묶이는 [[051_vendor_lock_in_cloud_computing|벤더 종속]]의 핵심 원인이다.
-> 2. [[051_vendor_lock_in_cloud_computing|벤더 종속]]의 세 가지 차원 — 기술 종속(AWS [[216_lambda_kappa_architecture_batch_realtime|Lambda]]/[[545_dynamodb|DynamoDB]] 등 독점 [[090_service_kubernetes_network_load_balancing|서비스]]), [[001_dikw_pyramid|데이터]] 종속(S3에 쌓인 수십 페타바이트), 계약 종속(장기 약정 할인) — 을 구분하여 각각 다른 [[268_strategy_pattern|전략]]으로 관리해야 한다.
-> 3. 탈출 [[268_strategy_pattern|전략]]의 핵심은 이식 가능성(Portability) 확보 — 오픈 표준([[205_kubernetes_container_orchestration|Kubernetes]], [[195_terraform_hashicorp_agnostic_aws_gcp|Terraform]]), 멀티클라우드 아키텍처, [[001_dikw_pyramid|데이터]] 페더레이션([[001_dikw_pyramid|Data]] [[543_federation|Federation]])을 통해 종속성을 관리하되, 완전한 회피는 비용 효율성을 포기하는 것임을 인식해야 한다.
+> 1. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중력([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Gravity)은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 축적될수록 그 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리하는 애플리케이션과 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있는 곳으로 끌려오는 현상으로, 클라우드 탈출 비용([Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) Cost)과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 때문에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 이동하기 어려워져 특정 클라우드에 묶이는 [벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/)의 핵심 원인이다.
+> 2. [벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/)의 세 가지 차원 — 기술 종속(AWS [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)/[DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/) 등 독점 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 종속(S3에 쌓인 수십 페타바이트), 계약 종속(장기 약정 할인) — 을 구분하여 각각 다른 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 관리해야 한다.
+> 3. 탈출 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 핵심은 이식 가능성(Portability) 확보 — 오픈 표준([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/), [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)), 멀티클라우드 아키텍처, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 페더레이션([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Federation](/knowledge-base/studynote/09_security/11_iam_access_control/543_federation/))을 통해 종속성을 관리하되, 완전한 회피는 비용 효율성을 포기하는 것임을 인식해야 한다.
 
 ---
 
-## I. [[001_dikw_pyramid|데이터]] 중력 원리
+## I. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중력 원리
 
 ```
 데이터 중력 (Dave McCrory, 2010):
@@ -35,11 +39,11 @@ Egress 비용:
   + 중단 시간, 재검증 비용 추가
 ```
 
-> 📢 **섹션 요약 비유**: 대도시(AWS)에 집([[001_dikw_pyramid|데이터]])을 지으면 학교, 병원, 직장이 주변에 생겨 이사가 점점 어려워지는 것 — [[001_dikw_pyramid|데이터]] 중력은 도시 형성 원리.
+> 📢 **섹션 요약 비유**: 대도시(AWS)에 집([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 지으면 학교, 병원, 직장이 주변에 생겨 이사가 점점 어려워지는 것 — [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중력은 도시 형성 원리.
 
 ---
 
-## II. [[051_vendor_lock_in_cloud_computing|벤더 종속]] 유형
+## II. [벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/) 유형
 
 ```
 벤더 종속 (Vendor Lock-in) 차원:
@@ -68,14 +72,14 @@ Egress 비용:
 | 종속 유형  | 탈출 어려움 | 주요 위험       |
 |---------|---------|-------------|
 | 기술 종속  | 중간      | 재개발 비용      |
-| [[001_dikw_pyramid|데이터]] 종속 | 매우 높음  | [[189_egress|Egress]] 비용   |
+| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 종속 | 매우 높음  | [Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) 비용   |
 | 계약 종속  | 기간 내 높음| 위약금, 기회비용  |
 
-> 📢 **섹션 요약 비유**: 기술 종속은 특정 도구 스킬 의존, [[001_dikw_pyramid|데이터]] 종속은 이삿짐이 너무 많은 것, 계약 종속은 위약금 있는 임대 계약.
+> 📢 **섹션 요약 비유**: 기술 종속은 특정 도구 스킬 의존, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 종속은 이삿짐이 너무 많은 것, 계약 종속은 위약금 있는 임대 계약.
 
 ---
 
-## III. 탈출 [[268_strategy_pattern|전략]]
+## III. 탈출 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
 ```
 멀티클라우드 전략:
@@ -104,7 +108,7 @@ Egress 비용:
 
 ---
 
-## [[288_version_ihl_tos_total_length|IV]]. 비용-편익 분석
+## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 비용-편익 분석
 
 ```
 종속 허용 vs 회피 결정:
@@ -129,7 +133,7 @@ Egress 비용:
   Tier 3 (실험/개발): 독점 서비스 적극 활용
 ```
 
-> 📢 **섹션 요약 비유**: 모든 달걀을 한 바구니에 담지 않되, 바구니 [[136_variance|분산]] 비용도 고려 — 티어별로 다른 [[268_strategy_pattern|전략]]이 현실적.
+> 📢 **섹션 요약 비유**: 모든 달걀을 한 바구니에 담지 않되, 바구니 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 비용도 고려 — 티어별로 다른 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 현실적.
 
 ---
 
@@ -164,7 +168,7 @@ Egress 비용:
   가용성 99.99% -> 99.999% 개선
 ```
 
-> 📢 **섹션 요약 비유**: AWS만 쓰다가 Azure [[360_ospf_dr_bdr_designated_router_lsa_flooding|DR]] 구성하자마자 AWS가 할인 제안 — 대안이 있어야 협상이 된다.
+> 📢 **섹션 요약 비유**: AWS만 쓰다가 Azure [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 구성하자마자 AWS가 할인 제안 — 대안이 있어야 협상이 된다.
 
 ---
 
@@ -215,8 +219,8 @@ FinOps 영역 성숙
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [[001_dikw_pyramid|데이터]] 중력은 물건이 많아질수록 이사하기 힘들어지는 것처럼, 클라우드에 [[001_dikw_pyramid|데이터]]가 쌓일수록 다른 클라우드로 이동하기 어려워지는 현상이에요.
-2. [[051_vendor_lock_in_cloud_computing|벤더 종속]]을 피하려면 여러 클라우드에서 동작하는 표준 도구([[205_kubernetes_container_orchestration|Kubernetes]] 등)를 쓰고, [[001_dikw_pyramid|데이터]]를 표준 형식으로 저장해야 해요.
+1. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중력은 물건이 많아질수록 이사하기 힘들어지는 것처럼, 클라우드에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 쌓일수록 다른 클라우드로 이동하기 어려워지는 현상이에요.
+2. [벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/)을 피하려면 여러 클라우드에서 동작하는 표준 도구([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 등)를 쓰고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 표준 형식으로 저장해야 해요.
 3. 금융기관이 AWS에만 의존하다가 Azure DR을 구축하자마자 AWS가 할인을 제공한 것처럼, 대안이 있어야 협상력이 생겨요!
 
 ---
@@ -225,7 +229,7 @@ FinOps 영역 성숙
 
 **진행 상황**: 37 / 371
 
-← **이전**: [[037_cloud_broker_msp|037. 클라우드 브로커와 MSP (Cloud Broker & MSP)]]
-**다음**: [[039_kvm_ovf|039. KVM과 OVF (Kernel-based Virtual Machine & Open Virtualization Format)]] →
+← **이전**: [037. 클라우드 브로커와 MSP (Cloud Broker & MSP)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/037_cloud_broker_msp/)
+**다음**: [039. KVM과 OVF (Kernel-based Virtual Machine & Open Virtualization Format)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/039_kvm_ovf/) →
 
 ---

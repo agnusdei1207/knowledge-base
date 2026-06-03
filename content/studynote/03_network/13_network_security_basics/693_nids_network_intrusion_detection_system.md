@@ -1,22 +1,26 @@
----
-title: 693. NIDS (Network Intrusion Detection System 분산 탐지) 공격
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "693. NIDS (Network Intrusion Detection System 분산 탐지) 공격"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: NIDS 공격은 [[1117_network_security_zero_trust_policy|네트워크 보안]] 기본에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: NIDS 공격을 이해하면 [[002_confidentiality|기밀성]]과 [[003_integrity|무결성]] 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: NIDS 공격은 [네트워크 보안](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 기본에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: NIDS 공격을 이해하면 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 컴퓨터 시스템이나 네트워크에서 발생하는 모든 이벤트를 실시간으로 모니터링하고 분석하여, 해킹, 악성코드 감염, 비정상적인 접근 등 **보안 [[164_policy|정책]]을 위반하는 침입(Intrusion) 행위를 '탐지([[961_deepfake_detection|Detection]])'하고 관리자에게 '경고(Alert)'를 보내는 보안 시스템**입니다.
-- [[690_firewall_generation_evolution|방화벽]]이 '사전 접근 제어(문단속)'라면, IDS는 '사후 감시 및 탐지(순찰)'를 담당합니다.
+- **개념**: 컴퓨터 시스템이나 네트워크에서 발생하는 모든 이벤트를 실시간으로 모니터링하고 분석하여, 해킹, 악성코드 감염, 비정상적인 접근 등 **보안 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 위반하는 침입(Intrusion) 행위를 '탐지([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))'하고 관리자에게 '경고(Alert)'를 보내는 보안 시스템**입니다.
+- [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 '사전 접근 제어(문단속)'라면, IDS는 '사후 감시 및 탐지(순찰)'를 담당합니다.
 
 ```text
 [상태 기반 감시 기술의 원리]
@@ -27,7 +31,7 @@ tags:
     └──▶ [스노트, Suricata 와 오용 탐지 vs…]
 ```
 
-- **📢 섹션 요약 비유**: NIDS 공격은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [[170_selectivity_cardinality_distribution_tuning|선택도]] 쉬워진다.
+- **📢 섹션 요약 비유**: NIDS 공격은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
@@ -35,16 +39,16 @@ tags:
 
 어디에 CCTV를 설치하느냐에 따라 NIDS와 HIDS로 나뉩니다.
 
-### 1. NIDS (Network [[601_ids_ips_syscall_tracing|IDS]], 네트워크 [[601_ids_ips_syscall_tracing|침입 탐지 시스템]])
-- **설치 위치**: 서버나 [[164_pc|PC]] 내부가 아니라, **네트워크 길목([[238_switch_operation_principles|스위치]] 미러 [[446_port_and_bus|포트]], 라우터 뒷단)**에 독자적인 장비로 설치됩니다.
-- **원리 ([[701_sniffing_eavesdropping_promiscuous|도청]] 장치)**: 회사 랜선을 돌아다니는 모든 패킷을 [[238_switch_operation_principles|스위치]]의 [[446_port_and_bus|포트]] [[333_raid_1|미러링]]([[446_port_and_bus|Port]] Mirroring) 기능을 이용해 전부 '복사'해서 자기 쪽으로 가져옵니다. 그리고 그 패킷 뭉치 속에 [[600_port_scanning|포트 스캐닝]], 디도스(DDoS) 공격, 웜 [[589_virus|바이러스]] 징후가 있는지 샅샅이 뒤집니다.
-- **장점 (은폐성)**: 해커가 서버를 뚫고 들어와도, NIDS 장비는 투명 인간처럼 네트워크 밖에서 [[701_sniffing_eavesdropping_promiscuous|도청]]만 하고 있으므로 해커가 NIDS의 존재를 눈치채거나 장비를 꺼버리기가 매우 힘듭니다. (공격자에게 IP가 보이지 않는 Promiscuous 모드로 동작)
-- **단점**: 요즘처럼 모든 웹 통신이 [[471_https_http_over_tls|HTTPS]](SSL)로 암호화되어 버리면, NIDS는 겉 껍데기만 볼 뿐 알맹이(Payload)의 내용을 풀지 못해 해킹 여부를 알 수 없는 까막눈이 됩니다.
+### 1. NIDS (Network [IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/), 네트워크 [침입 탐지 시스템](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/))
+- **설치 위치**: 서버나 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 내부가 아니라, **네트워크 길목([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 미러 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 라우터 뒷단)**에 독자적인 장비로 설치됩니다.
+- **원리 ([도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 장치)**: 회사 랜선을 돌아다니는 모든 패킷을 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) Mirroring) 기능을 이용해 전부 '복사'해서 자기 쪽으로 가져옵니다. 그리고 그 패킷 뭉치 속에 [포트 스캐닝](/knowledge-base/studynote/02_operating_system/10_security/600_port_scanning/), 디도스(DDoS) 공격, 웜 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/) 징후가 있는지 샅샅이 뒤집니다.
+- **장점 (은폐성)**: 해커가 서버를 뚫고 들어와도, NIDS 장비는 투명 인간처럼 네트워크 밖에서 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)만 하고 있으므로 해커가 NIDS의 존재를 눈치채거나 장비를 꺼버리기가 매우 힘듭니다. (공격자에게 IP가 보이지 않는 Promiscuous 모드로 동작)
+- **단점**: 요즘처럼 모든 웹 통신이 [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)(SSL)로 암호화되어 버리면, NIDS는 겉 껍데기만 볼 뿐 알맹이(Payload)의 내용을 풀지 못해 해킹 여부를 알 수 없는 까막눈이 됩니다.
 
-### 2. HIDS (Host [[601_ids_ips_syscall_tracing|IDS]], 호스트 [[601_ids_ips_syscall_tracing|침입 탐지 시스템]])
-- **설치 위치**: 윈도우, 리눅스 같은 **개별 서버나 중요 [[164_pc|PC]] '내부'에 백신 소프트웨어처럼 직접 설치**됩니다.
-- **원리**: 밖에서 날아오는 네트워크 패킷이 아니라, 서버 내부의 상태(누가 로그인 실패를 5번 했나?, 누가 윈도우 [[665_windows_registry_configuration_manager|시스템 레지스트리]] 파일을 갑자기 바꿨나?)를 감시합니다.
-- **장점**: 암호화된 트래픽([[471_https_http_over_tls|HTTPS]])이라도, 어차피 서버 내부에 도착하면 평문으로 풀리므로 **암호화를 무력화하고 정확한 탐지**가 가능합니다. 트로이 목마나 [[737_backdoor_c2_beacon_behavior_analysis|백도어]] 탐지에 탁월합니다.
+### 2. HIDS (Host [IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/), 호스트 [침입 탐지 시스템](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/))
+- **설치 위치**: 윈도우, 리눅스 같은 **개별 서버나 중요 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) '내부'에 백신 소프트웨어처럼 직접 설치**됩니다.
+- **원리**: 밖에서 날아오는 네트워크 패킷이 아니라, 서버 내부의 상태(누가 로그인 실패를 5번 했나?, 누가 윈도우 [시스템 레지스트리](/knowledge-base/studynote/02_operating_system/10_security/665_windows_registry_configuration_manager/) 파일을 갑자기 바꿨나?)를 감시합니다.
+- **장점**: 암호화된 트래픽([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/))이라도, 어차피 서버 내부에 도착하면 평문으로 풀리므로 **암호화를 무력화하고 정확한 탐지**가 가능합니다. 트로이 목마나 [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) 탐지에 탁월합니다.
 - **단점**: 서버 CPU를 잡아먹어 서버를 느려지게 만들며, 해커가 서버 관리자 권한(Root)을 탈취하면 HIDS 소프트웨어부터 강제로 꺼버릴 수 있습니다.
 
 ```text
@@ -62,35 +66,35 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-- NIDS의 가장 큰 약점은 이름 그대로 **'탐지([[961_deepfake_detection|Detection]])'만 할 뿐 '차단(Prevention)'을 하지 못한다는 점**입니다.
-- 네트워크에 해커가 SQL [[480_injection|인젝션]] 공격을 던지면, NIDS는 그걸 보고 "삐용삐용! 해커가 들어왔습니다!"라고 알람 메일만 보냅니다. 알람이 울린 순간 이미 해커의 악성 코드는 서버에 도달해 버린 뒤입니다. (이 수동성을 극복하기 위해 나온 방어 장비가 다음 695번의 IPS입니다.)
+- NIDS의 가장 큰 약점은 이름 그대로 **'탐지([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))'만 할 뿐 '차단(Prevention)'을 하지 못한다는 점**입니다.
+- 네트워크에 해커가 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 공격을 던지면, NIDS는 그걸 보고 "삐용삐용! 해커가 들어왔습니다!"라고 알람 메일만 보냅니다. 알람이 울린 순간 이미 해커의 악성 코드는 서버에 도달해 버린 뒤입니다. (이 수동성을 극복하기 위해 나온 방어 장비가 다음 695번의 IPS입니다.)
 
-NIDS 공격을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [[692_stateful_inspection_firewall_principle|상태 기반 감시]] 기술의 원리가 기반 조건을 만든다면, NIDS 공격은 그 위에서 핵심 메커니즘을 구현하고, [[694_snort_suricata_misuse_anomaly_detection|스노트]], [[240_suricata_multithreaded_nids_ids_ips_engine|Suricata]] 와 오용 탐지 vs…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [[002_confidentiality|기밀성]]과 [[003_integrity|무결성]]에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+NIDS 공격을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [상태 기반 감시](/knowledge-base/studynote/03_network/13_network_security_basics/692_stateful_inspection_firewall_principle/) 기술의 원리가 기반 조건을 만든다면, NIDS 공격은 그 위에서 핵심 메커니즘을 구현하고, [스노트](/knowledge-base/studynote/03_network/13_network_security_basics/694_snort_suricata_misuse_anomaly_detection/), [Suricata](/knowledge-base/studynote/09_security/05_web_app_security/240_suricata_multithreaded_nids_ids_ips_engine/) 와 오용 탐지 vs…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [[692_stateful_inspection_firewall_principle|상태 기반 감시]] 기술의 원리의 기반 정리 | NIDS 공격의 핵심 동작 | [[694_snort_suricata_misuse_anomaly_detection|스노트]], [[240_suricata_multithreaded_nids_ids_ips_engine|Suricata]] 와 오용 탐지 vs…의 확장 적용 |
-| 자원 관점 | 기본 조건 확보 | [[002_confidentiality|기밀성]] 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 초점 | [상태 기반 감시](/knowledge-base/studynote/03_network/13_network_security_basics/692_stateful_inspection_firewall_principle/) 기술의 원리의 기반 정리 | NIDS 공격의 핵심 동작 | [스노트](/knowledge-base/studynote/03_network/13_network_security_basics/694_snort_suricata_misuse_anomaly_detection/), [Suricata](/knowledge-base/studynote/09_security/05_web_app_security/240_suricata_multithreaded_nids_ids_ips_engine/) 와 오용 탐지 vs…의 확장 적용 |
+| 자원 관점 | 기본 조건 확보 | [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) 최적화 | 규모와 범위 확대 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: NIDS는 고속도로 톨게이트 옥상에 달린 '과속 단속 카메라'입니다. [[690_firewall_generation_evolution|방화벽]](톨게이트 바리케이드)이 정상 요금을 낸 트럭을 통과시키면, 이 트럭이 도로 위에서 과속을 하거나 난폭운전을 하는지 지켜보는 것은 카메라(NIDS)의 역할입니다. NIDS는 얌전하게 위장한 트럭(해킹 패킷)이 갑자기 폭주하는 것을 발견하면 "저 차 미쳤음!" 하고 사진을 찍어 본부에 경고 알람을 보내주지만, 직접 도로로 뛰어들어 트럭을 멈춰 세울 권한(차단)은 없습니다.
+- **📢 섹션 요약 비유**: NIDS는 고속도로 톨게이트 옥상에 달린 '과속 단속 카메라'입니다. [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)(톨게이트 바리케이드)이 정상 요금을 낸 트럭을 통과시키면, 이 트럭이 도로 위에서 과속을 하거나 난폭운전을 하는지 지켜보는 것은 카메라(NIDS)의 역할입니다. NIDS는 얌전하게 위장한 트럭(해킹 패킷)이 갑자기 폭주하는 것을 발견하면 "저 차 미쳤음!" 하고 사진을 찍어 본부에 경고 알람을 보내주지만, 직접 도로로 뛰어들어 트럭을 멈춰 세울 권한(차단)은 없습니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 NIDS 공격을 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [[692_stateful_inspection_firewall_principle|상태 기반 감시]] 기술의 원리 수준의 기본 대책으로 충분한지, 아니면 NIDS 공격이 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [[694_snort_suricata_misuse_anomaly_detection|스노트]], [[240_suricata_multithreaded_nids_ids_ips_engine|Suricata]] 와 오용 탐지 vs…와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 NIDS 공격을 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [상태 기반 감시](/knowledge-base/studynote/03_network/13_network_security_basics/692_stateful_inspection_firewall_principle/) 기술의 원리 수준의 기본 대책으로 충분한지, 아니면 NIDS 공격이 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [스노트](/knowledge-base/studynote/03_network/13_network_security_basics/694_snort_suricata_misuse_anomaly_detection/), [Suricata](/knowledge-base/studynote/09_security/05_web_app_security/240_suricata_multithreaded_nids_ids_ips_engine/) 와 오용 탐지 vs…와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 현재 문제의 핵심이 [[002_confidentiality|기밀성]] 부족인지, [[003_integrity|무결성]] 악화인지 먼저 분리한다.
-2. NIDS 공격가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [[396_validation|확인]]한다.
-3. 도입 후에는 인접 기술인 [[694_snort_suricata_misuse_anomaly_detection|스노트]], [[240_suricata_multithreaded_nids_ids_ips_engine|Suricata]] 와 오용 탐지 vs…와의 연계 방식을 함께 검증한다.
+1. 현재 문제의 핵심이 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) 부족인지, [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 악화인지 먼저 분리한다.
+2. NIDS 공격가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+3. 도입 후에는 인접 기술인 [스노트](/knowledge-base/studynote/03_network/13_network_security_basics/694_snort_suricata_misuse_anomaly_detection/), [Suricata](/knowledge-base/studynote/09_security/05_web_app_security/240_suricata_multithreaded_nids_ids_ips_engine/) 와 오용 탐지 vs…와의 연계 방식을 함께 검증한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - NIDS 공격의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- [[692_stateful_inspection_firewall_principle|상태 기반 감시]] 기술의 원리와의 경계를 정리하지 않아 중복 투자나 [[164_policy|정책]] 충돌을 만드는 설계
+- [상태 기반 감시](/knowledge-base/studynote/03_network/13_network_security_basics/692_stateful_inspection_firewall_principle/) 기술의 원리와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: NIDS 공격을 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -98,7 +102,7 @@ NIDS 공격을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐
 
 ## Ⅴ. 기대효과 및 결론
 
-NIDS 공격은 [[1117_network_security_zero_trust_policy|네트워크 보안]] 기본을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 [[002_confidentiality|기밀성]] 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [[694_snort_suricata_misuse_anomaly_detection|스노트]], [[240_suricata_multithreaded_nids_ids_ips_engine|Suricata]] 와 오용 탐지 vs…, 자동화된 신뢰 체계, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 자동화된 신뢰 체계 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+NIDS 공격은 [네트워크 보안](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 기본을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [스노트](/knowledge-base/studynote/03_network/13_network_security_basics/694_snort_suricata_misuse_anomaly_detection/), [Suricata](/knowledge-base/studynote/09_security/05_web_app_security/240_suricata_multithreaded_nids_ids_ips_engine/) 와 오용 탐지 vs…, 자동화된 신뢰 체계, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 자동화된 신뢰 체계 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: NIDS 공격은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -108,10 +112,10 @@ NIDS 공격은 [[1117_network_security_zero_trust_policy|네트워크 보안]] �
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[692_stateful_inspection_firewall_principle|상태 기반 감시]] 기술의 원리 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [[303_authentication_authorization_patterns|인증]] ([[604_authentication_factors|Authentication]]) | 통신 상대가 진짜인지 [[396_validation|확인]]한다. |
+| [상태 기반 감시](/knowledge-base/studynote/03_network/13_network_security_basics/692_stateful_inspection_firewall_principle/) 기술의 원리 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) ([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/)) | 통신 상대가 진짜인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다. |
 | 암호화 (Encryption) | 데이터를 읽지 못하게 보호한다. |
-| [[694_snort_suricata_misuse_anomaly_detection|스노트]], [[240_suricata_multithreaded_nids_ids_ips_engine|Suricata]] 와 오용 탐지 vs… | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [스노트](/knowledge-base/studynote/03_network/13_network_security_basics/694_snort_suricata_misuse_anomaly_detection/), [Suricata](/knowledge-base/studynote/09_security/05_web_app_security/240_suricata_multithreaded_nids_ids_ips_engine/) 와 오용 탐지 vs… | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -125,12 +129,12 @@ NIDS 공격은 [[1117_network_security_zero_trust_policy|네트워크 보안]] �
     └──▶ [확장 B: 자동화된 신뢰 체계]
 ```
 
-NIDS 공격는 [[692_stateful_inspection_firewall_principle|상태 기반 감시]] 기술의 원리에서 출발해 현재 메커니즘을 정교화하고, 이후 [[694_snort_suricata_misuse_anomaly_detection|스노트]], [[240_suricata_multithreaded_nids_ids_ips_engine|Suricata]] 와 오용 탐지 vs…와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+NIDS 공격는 [상태 기반 감시](/knowledge-base/studynote/03_network/13_network_security_basics/692_stateful_inspection_firewall_principle/) 기술의 원리에서 출발해 현재 메커니즘을 정교화하고, 이후 [스노트](/knowledge-base/studynote/03_network/13_network_security_basics/694_snort_suricata_misuse_anomaly_detection/), [Suricata](/knowledge-base/studynote/09_security/05_web_app_security/240_suricata_multithreaded_nids_ids_ips_engine/) 와 오용 탐지 vs…와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 비밀 편지를 보낼 때는 자물쇠와 비밀번호가 필요해요.
-2. 이 개념은 누가 진짜 친구인지 [[396_validation|확인]]하고, 편지가 바뀌지 않았는지도 살펴봐요.
+2. 이 개념은 누가 진짜 친구인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 편지가 바뀌지 않았는지도 살펴봐요.
 3. 그래서 나쁜 사람이 중간에 훔쳐보거나 바꾸기 어려워져요.
 
 ---
@@ -139,7 +143,7 @@ NIDS 공격는 [[692_stateful_inspection_firewall_principle|상태 기반 감시
 
 **진행 상황**: 814 / 1120
 
-← **이전**: [[692_stateful_inspection_firewall_principle|692. 상태 기반 감시 (Stateful Inspection / 세션 테이블 체크 메모리) 기술의 원리]]
-**다음**: [[694_snort_suricata_misuse_anomaly_detection|694. 스노트 (Snort), Suricata (병렬 룰 지원) 와 오용 탐지(Misuse) vs 이상 탐지(Anomaly) 엔진]] →
+← **이전**: [692. 상태 기반 감시 (Stateful Inspection / 세션 테이블 체크 메모리) 기술의 원리](/knowledge-base/studynote/03_network/13_network_security_basics/692_stateful_inspection_firewall_principle/)
+**다음**: [694. 스노트 (Snort), Suricata (병렬 룰 지원) 와 오용 탐지(Misuse) vs 이상 탐지(Anomaly) 엔진](/knowledge-base/studynote/03_network/13_network_security_basics/694_snort_suricata_misuse_anomaly_detection/) →
 
 ---

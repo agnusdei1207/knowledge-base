@@ -1,14 +1,18 @@
----
-title: 048. 소프트웨어 산출물 검증 — Deliverables Verification
-date: '2026-04-05'
-tags:
-- studynote-design-supervision
----
++++
+title = "048. 소프트웨어 산출물 검증 — Deliverables Verification"
+date = 2026-04-05
+
+[taxonomies]
+tags = ["studynote-design-supervision"]
+
+[extra]
+tags = ["studynote-design-supervision"]
++++
 
 > **핵심 인사이트**
-> 1. 소프트웨어 산출물 [[395_verification_process_review|검증]]은 "만든 것이 올바른가([[395_verification_process_review|Verification]])"와 "올바른 것을 만들었는가([[396_validation|Validation]])"의 두 관점 — Verification은 명세 준수, Validation은 고객 요구 충족으로, 두 활동 모두 각 개발 단계에서 수행되어야 [[352_defect_definition|결함]] 발견 비용을 최소화한다.
-> 2. [[352_defect_definition|결함]] 발견 비용의 법칙 — 요구사항 단계 [[352_defect_definition|결함]]을 수정하는 비용을 1로 할 때, 운영 단계에서 발견하면 100~200배까지 증가하므로, [[459_quic_fec_forward_error_correction|초기]] 단계 산출물 [[395_verification_process_review|검증]]이 가장 비용 효율적이다.
-> 3. 공식 검토(Formal [[153_requirements_review_inspection_walkthrough|Review]])와 자동화 [[395_verification_process_review|검증]]의 결합 — [[330_code_review|코드 리뷰]], [[161_inspection_formal_review|인스펙션]] 같은 인간 검토와 [[331_static_analysis|정적 분석]], [[090_configuration_item|CI]] 파이프라인 같은 자동화 도구를 결합해야 가장 높은 [[352_defect_definition|결함]] 탐지율을 달성한다.
+> 1. 소프트웨어 산출물 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 "만든 것이 올바른가([Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))"와 "올바른 것을 만들었는가([Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))"의 두 관점 — Verification은 명세 준수, Validation은 고객 요구 충족으로, 두 활동 모두 각 개발 단계에서 수행되어야 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발견 비용을 최소화한다.
+> 2. [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발견 비용의 법칙 — 요구사항 단계 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 수정하는 비용을 1로 할 때, 운영 단계에서 발견하면 100~200배까지 증가하므로, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계 산출물 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 가장 비용 효율적이다.
+> 3. 공식 검토(Formal [Review](/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/))와 자동화 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 결합 — [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/), [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/) 같은 인간 검토와 [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 파이프라인 같은 자동화 도구를 결합해야 가장 높은 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 탐지율을 달성한다.
 
 ---
 
@@ -57,11 +61,11 @@ V 모델:
 좌측: 개발(Verification)  우측: 테스트(Validation)
 ```
 
-> 📢 **섹션 요약 비유**: V&V = 설계도 vs 고객 만족 — [[395_verification_process_review|Verification]](설계도대로 집 지었나?), [[396_validation|Validation]](고객이 실제 살기 편한가?). 설계도대로 지어도 고객이 싫어할 수 있음. 둘 다 필요!
+> 📢 **섹션 요약 비유**: V&V = 설계도 vs 고객 만족 — [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(설계도대로 집 지었나?), [Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(고객이 실제 살기 편한가?). 설계도대로 지어도 고객이 싫어할 수 있음. 둘 다 필요!
 
 ---
 
-## Ⅱ. 산출물 유형과 [[395_verification_process_review|검증]] 방법
+## Ⅱ. 산출물 유형과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 방법
 
 ```
 개발 단계별 산출물:
@@ -114,7 +118,7 @@ V 모델:
   UAT (사용자 수용 테스트)
 ```
 
-> 📢 **섹션 요약 비유**: 산출물 [[395_verification_process_review|검증]] = 공사 단계별 점검 — 설계도(요구사항 리뷰), 기둥 세우기(설계 리뷰), 벽 마감([[330_code_review|코드 리뷰]]), 최종 점검(UAT). 단계마다 검사해야 완성 후 재작업 없어요!
+> 📢 **섹션 요약 비유**: 산출물 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) = 공사 단계별 점검 — 설계도(요구사항 리뷰), 기둥 세우기(설계 리뷰), 벽 마감([코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/)), 최종 점검(UAT). 단계마다 검사해야 완성 후 재작업 없어요!
 
 ---
 
@@ -164,11 +168,11 @@ V 모델:
   → 조합하면 90%+ 탐지 가능
 ```
 
-> 📢 **섹션 요약 비유**: 공식 검토 강도 — [[162_walkthrough_informal_review|워크스루]](친구에게 설명), 리뷰(팀원 의견 수렴), [[161_inspection_formal_review|인스펙션]](교수님 논문 심사). 강도 높을수록 [[352_defect_definition|결함]] 탐지율 상승. 미션 크리티컬은 [[161_inspection_formal_review|인스펙션]]!
+> 📢 **섹션 요약 비유**: 공식 검토 강도 — [워크스루](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/)(친구에게 설명), 리뷰(팀원 의견 수렴), [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/)(교수님 논문 심사). 강도 높을수록 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 탐지율 상승. 미션 크리티컬은 [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/)!
 
 ---
 
-## Ⅳ. 자동화 [[395_verification_process_review|검증]]
+## Ⅳ. 자동화 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)
 
 ```
 CI 파이프라인 기반 자동 검증:
@@ -214,11 +218,11 @@ CI 파이프라인 기반 자동 검증:
   각 단계 산출물 → 자동/수동 검토 통과 → 다음 단계 진입
 ```
 
-> 📢 **섹션 요약 비유**: [[090_configuration_item|CI]] 자동 [[395_verification_process_review|검증]] = 공장 자동 품질 검사 — 컨베이어 벨트([[090_configuration_item|CI]])에서 무게 측정([[079_sonarqube|SonarQube]]), X선 검사([[491_sast_static_analysis|SAST]]), 충격 테스트([[446_load_test|부하 테스트]]) 자동화. 불량품 자동 걸러내기!
+> 📢 **섹션 요약 비유**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) = 공장 자동 품질 검사 — 컨베이어 벨트([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/))에서 무게 측정([SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/)), X선 검사([SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)), 충격 테스트([부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/)) 자동화. 불량품 자동 걸러내기!
 
 ---
 
-## Ⅴ. 실무 시나리오 — 금융 시스템 산출물 [[395_verification_process_review|검증]]
+## Ⅴ. 실무 시나리오 — 금융 시스템 산출물 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)
 
 ```
 금융 코어 뱅킹 시스템 감리:
@@ -273,7 +277,7 @@ CI 파이프라인 기반 자동 검증:
   → ROI 16배
 ```
 
-> 📢 **섹션 요약 비유**: 금융 시스템 감리 = 비행기 출발 전 점검 — 요구사항(비행 계획), 설계(정비), 구현(각 부품 점검). [[604_sql_injection|SQL Injection]] 발견은 이륙 전 엔진 [[352_defect_definition|결함]] 발견. 감리 비용 3억, 장애 예방 50억!
+> 📢 **섹션 요약 비유**: 금융 시스템 감리 = 비행기 출발 전 점검 — 요구사항(비행 계획), 설계(정비), 구현(각 부품 점검). [SQL Injection](/knowledge-base/studynote/09_security/uncategorized/604_sql_injection/) 발견은 이륙 전 엔진 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발견. 감리 비용 3억, 장애 예방 50억!
 
 ---
 
@@ -330,9 +334,9 @@ LLM 기반 취약점 탐지
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [[395_verification_process_review|Verification]] vs [[396_validation|Validation]] = 설계도 vs 고객 만족 — 설계도대로 지었나?(V), 고객이 살기 편한가?(V). 둘 다 YES여야 완성!
-2. [[161_inspection_formal_review|인스펙션]] = 엄격한 논문 심사 — 3~5명이 사전에 읽고 [[352_defect_definition|결함]] 목록 작성. 회의에서 수정 필요 여부 결정. [[352_defect_definition|결함]] 70% 탐지!
-3. Quality Gate = 출발 전 [[435_checklist_based_testing|체크리스트]] — 버그 0, 커버리지 80%, 보안 취약점 0 만족해야 배포. 비행기 이륙 전 안전 점검!
+1. [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) vs [Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) = 설계도 vs 고객 만족 — 설계도대로 지었나?(V), 고객이 살기 편한가?(V). 둘 다 YES여야 완성!
+2. [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/) = 엄격한 논문 심사 — 3~5명이 사전에 읽고 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 목록 작성. 회의에서 수정 필요 여부 결정. [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 70% 탐지!
+3. Quality Gate = 출발 전 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) — 버그 0, 커버리지 80%, 보안 취약점 0 만족해야 배포. 비행기 이륙 전 안전 점검!
 
 ---
 
@@ -340,7 +344,7 @@ LLM 기반 취약점 탐지
 
 **진행 상황**: 72 / 530
 
-← **이전**: [[047_rtm_requirements_traceability_matrix_validation|047. 요구사항 추적 매트릭스 — RTM 심화]]
-**다음**: [[049_hand_over_education_manual_audit|49. 유지보수 이관 및 운영자 교육·매뉴얼 적정성 진단 (Hand-over, Training and Manual Audit)]] →
+← **이전**: [047. 요구사항 추적 매트릭스 — RTM 심화](/knowledge-base/studynote/11_design_supervision/01_audit_framework/047_rtm_requirements_traceability_matrix_validation/)
+**다음**: [49. 유지보수 이관 및 운영자 교육·매뉴얼 적정성 진단 (Hand-over, Training and Manual Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/049_hand_over_education_manual_audit/) →
 
 ---

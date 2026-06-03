@@ -1,18 +1,22 @@
----
-title: 037. 애자일 PMO (Agile PMO)
-date: '2026-03-03'
-tags:
-- studynote-devops-sre
----
++++
+title = "037. 애자일 PMO (Agile PMO)"
+date = 2026-03-03
+
+[taxonomies]
+tags = ["studynote-devops-sre"]
+
+[extra]
+tags = ["studynote-devops-sre"]
++++
 
 > **핵심 인사이트**
-> 1. [[004_agile_relation|애자일]] [[059_pmo_project_management_office|PMO]]([[004_agile_relation|Agile]] [[059_pmo_project_management_office|Project Management Office]])는 전통적 PMO의 통제·감시 기능에서 벗어나 팀의 자율성을 존중하면서 조직 수준의 [[004_agile_relation|애자일]] 확장·장애물 제거·[[268_strategy_pattern|전략]] 정렬을 지원하는 가치 전달 [[152_hub_dummy_switching_intelligent|허브]]다.
-> 2. 전통 PMO가 "계획 준수 감시자"라면 [[004_agile_relation|애자일]] PMO는 "흐름 최적화 촉진자" — 산출물(Deliverable) 중심에서 가치(Value) 중심으로, 프로젝트 단위에서 제품 [[446_port_and_bus|포트]]폴리오 단위로 전환이 핵심이다.
-> 3. [[093_safe_scaled_agile_framework_art_pi|SAFe]]([[093_safe_scaled_agile_framework_art_pi|Scaled Agile Framework]])의 LACE([[087_lean_software_development_7_principles|Lean]]-[[004_agile_relation|Agile]] Center of Excellence), Spotify 모델의 길드(Guild), LeSS의 중앙 지원팀이 각각 조직 규모와 문화에 맞는 [[004_agile_relation|애자일]] [[059_pmo_project_management_office|PMO]] 구현 방식이다.
+> 1. [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [PMO](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [Project Management Office](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/))는 전통적 PMO의 통제·감시 기능에서 벗어나 팀의 자율성을 존중하면서 조직 수준의 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 확장·장애물 제거·[전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 정렬을 지원하는 가치 전달 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)다.
+> 2. 전통 PMO가 "계획 준수 감시자"라면 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) PMO는 "흐름 최적화 촉진자" — 산출물(Deliverable) 중심에서 가치(Value) 중심으로, 프로젝트 단위에서 제품 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오 단위로 전환이 핵심이다.
+> 3. [SAFe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/)([Scaled Agile Framework](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/))의 LACE([Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/)-[Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) Center of Excellence), Spotify 모델의 길드(Guild), LeSS의 중앙 지원팀이 각각 조직 규모와 문화에 맞는 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [PMO](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/) 구현 방식이다.
 
 ---
 
-## I. 전통 [[059_pmo_project_management_office|PMO]] vs [[004_agile_relation|애자일]] [[059_pmo_project_management_office|PMO]]
+## I. 전통 [PMO](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/) vs [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [PMO](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/)
 
 ```
 전통 PMO (Directive PMO):
@@ -28,19 +32,19 @@ tags:
   속도: 지속적 흐름, 스프린트 단위
 ```
 
-| 비교    | 전통 [[059_pmo_project_management_office|PMO]]          | [[004_agile_relation|애자일]] [[059_pmo_project_management_office|PMO]]          |
+| 비교    | 전통 [PMO](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/)          | [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [PMO](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/)          |
 |-------|-----------------|---------------------|
 | 역할   | 감시자, 보고자    | 촉진자, 코치          |
 | 집중   | 계획 준수        | 가치 전달             |
 | 속도   | 느린 승인 프로세스| 빠른 실험·학습        |
-| 측정   | 예산·일정 준수    | [[039_okr_objectives_key_results|OKR]], 비즈니스 임팩트  |
-| [[083_relationship_in_er_model|관계]]   | 위에서 아래로     | 서번트 리더십          |
+| 측정   | 예산·일정 준수    | [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/), 비즈니스 임팩트  |
+| [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)   | 위에서 아래로     | 서번트 리더십          |
 
-> 📢 **섹션 요약 비유**: 전통 PMO는 교통 경찰(규칙 위반 감시), [[004_agile_relation|애자일]] PMO는 교통 엔지니어(교통 흐름 최적화).
+> 📢 **섹션 요약 비유**: 전통 PMO는 교통 경찰(규칙 위반 감시), [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) PMO는 교통 엔지니어(교통 흐름 최적화).
 
 ---
 
-## II. [[004_agile_relation|애자일]] PMO의 3가지 기능
+## II. [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) PMO의 3가지 기능
 
 ```
 1. 전략 정렬 (Strategic Alignment):
@@ -57,11 +61,11 @@ tags:
    제품 오너 CoP (제품 전략 공유)
 ```
 
-> 📢 **섹션 요약 비유**: [[004_agile_relation|애자일]] PMO는 팀에게 물고기를 주는 게 아니라 낚시하는 법을 가르치고, 낚시터를 청소하는 역할.
+> 📢 **섹션 요약 비유**: [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) PMO는 팀에게 물고기를 주는 게 아니라 낚시하는 법을 가르치고, 낚시터를 청소하는 역할.
 
 ---
 
-## III. [[004_agile_relation|애자일]] 확장 프레임워크와 [[059_pmo_project_management_office|PMO]]
+## III. [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 확장 프레임워크와 [PMO](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/)
 
 ```
 SAFe (Scaled Agile Framework):
@@ -85,7 +89,7 @@ LeSS (Large Scale Scrum):
 
 ---
 
-## [[288_version_ihl_tos_total_length|IV]]. [[004_agile_relation|애자일]] PMO의 핵심 지표 ([[018_kpi|KPI]])
+## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) PMO의 핵심 지표 ([KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/))
 
 ```
 가치 전달 지표:
@@ -106,11 +110,11 @@ LeSS (Large Scale Scrum):
   - 기술적 부채 비율
 ```
 
-> 📢 **섹션 요약 비유**: [[004_agile_relation|애자일]] PMO의 성공 척도는 "회의 몇 번 했나"가 아니라 "고객에게 가치를 얼마나 빠르게 전달했나" — 결과 중심.
+> 📢 **섹션 요약 비유**: [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) PMO의 성공 척도는 "회의 몇 번 했나"가 아니라 "고객에게 가치를 얼마나 빠르게 전달했나" — 결과 중심.
 
 ---
 
-## V. 실무 시나리오 — 대기업 [[004_agile_relation|애자일]] 전환 [[059_pmo_project_management_office|PMO]]
+## V. 실무 시나리오 — 대기업 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 전환 [PMO](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/)
 
 ```
 상황:
@@ -135,7 +139,7 @@ LeSS (Large Scale Scrum):
   + 팀 만족도: 3.2 → 4.1 (5점 만점)
 ```
 
-> 📢 **섹션 요약 비유**: 60개 팀이 각자 다른 음악을 연주하는 것을 [[004_agile_relation|애자일]] [[059_pmo_project_management_office|PMO]] 지휘자가 같은 박자와 조화로 이끄는 것 — 각 팀의 자율성은 유지하면서 전체 [[257_ensemble_learning|앙상블]]을 조율.
+> 📢 **섹션 요약 비유**: 60개 팀이 각자 다른 음악을 연주하는 것을 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [PMO](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/) 지휘자가 같은 박자와 조화로 이끄는 것 — 각 팀의 자율성은 유지하면서 전체 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)을 조율.
 
 ---
 
@@ -192,9 +196,9 @@ OKR + Flow Metrics 통합 대시보드
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [[004_agile_relation|애자일]] PMO는 팀을 감시하는 감독관이 아니라 팀이 잘 달릴 수 있도록 장애물을 치워주는 코치예요.
-2. 옛날 PMO가 "계획대로 했냐?"를 감시했다면, [[004_agile_relation|애자일]] PMO는 "고객에게 가치를 전달했냐?"를 중시해요.
-3. 60개 팀이 각자 열심히 하지만 방향이 다르면 회사 목표를 이룰 수 없어서, [[004_agile_relation|애자일]] PMO가 모두를 같은 방향으로 정렬시켜줘요!
+1. [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) PMO는 팀을 감시하는 감독관이 아니라 팀이 잘 달릴 수 있도록 장애물을 치워주는 코치예요.
+2. 옛날 PMO가 "계획대로 했냐?"를 감시했다면, [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) PMO는 "고객에게 가치를 전달했냐?"를 중시해요.
+3. 60개 팀이 각자 열심히 하지만 방향이 다르면 회사 목표를 이룰 수 없어서, [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) PMO가 모두를 같은 방향으로 정렬시켜줘요!
 
 ---
 
@@ -202,7 +206,7 @@ OKR + Flow Metrics 통합 대시보드
 
 **진행 상황**: 37 / 373
 
-← **이전**: [[036_psychological_safety|036. 심리적 안전 (Psychological Safety)]]
-**다음**: [[038_water_scrum_fall|038. 워터스크럼폴 (WaterScrumFall) — 애자일 실패 패턴]] →
+← **이전**: [036. 심리적 안전 (Psychological Safety)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/036_psychological_safety/)
+**다음**: [038. 워터스크럼폴 (WaterScrumFall) — 애자일 실패 패턴](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/038_water_scrum_fall/) →
 
 ---

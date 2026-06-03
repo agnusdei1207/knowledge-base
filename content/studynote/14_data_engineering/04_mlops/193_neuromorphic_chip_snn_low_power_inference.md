@@ -1,32 +1,36 @@
----
-title: 193. 뉴로모픽 반도체 (Neuromorphic Chip) SNN 저전력 추론
-date: '2026-04-21'
-tags:
-- studynote-data-engineering
----
++++
+title = "193. 뉴로모픽 반도체 (Neuromorphic Chip) SNN 저전력 추론"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-data-engineering"]
+
+[extra]
+tags = ["studynote-data-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [[445_neuromorphic_computing|뉴로모픽 컴퓨팅]]([[445_neuromorphic_computing|Neuromorphic Computing]])은 인간 뇌의 신경 회로를 모방한 비폰노이만(Non-von Neumann) 아키텍처로, 이벤트 구동(Event-Driven) 처리로 대기 전력을 거의 제로로 만든다.
-> 2. **가치**: [[446_snn|SNN]](Spiking Neural Network)은 [[129_spike_agile_technical_investigation|스파이크]](전기 펄스)가 있을 때만 연산하므로 기존 [[350_ann|ANN]] 대비 에너지 효율이 100~1,000배 높아 배터리 기반 엣지 디바이스에 혁신적이다.
-> 3. **판단 포인트**: 현재는 학습 어려움과 정확도 한계로 실용화 [[459_quic_fec_forward_error_correction|초기]] 단계이나, [[101_iot_concept|IoT]]/웨어러블/자율주행 저전력 추론 분야에서 [[418_gpu|GPU]] 대체 후보로 부상하고 있다.
+> 1. **본질**: [뉴로모픽 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/445_neuromorphic_computing/)([Neuromorphic Computing](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/445_neuromorphic_computing/))은 인간 뇌의 신경 회로를 모방한 비폰노이만(Non-von Neumann) 아키텍처로, 이벤트 구동(Event-Driven) 처리로 대기 전력을 거의 제로로 만든다.
+> 2. **가치**: [SNN](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/446_snn/)(Spiking Neural Network)은 [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)(전기 펄스)가 있을 때만 연산하므로 기존 [ANN](/knowledge-base/studynote/05_database/06_dw_olap_trends/350_ann/) 대비 에너지 효율이 100~1,000배 높아 배터리 기반 엣지 디바이스에 혁신적이다.
+> 3. **판단 포인트**: 현재는 학습 어려움과 정확도 한계로 실용화 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계이나, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)/웨어러블/자율주행 저전력 추론 분야에서 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 대체 후보로 부상하고 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### 1.1 [[445_neuromorphic_computing|뉴로모픽 컴퓨팅]] ([[445_neuromorphic_computing|Neuromorphic Computing]]) 정의
+### 1.1 [뉴로모픽 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/445_neuromorphic_computing/) ([Neuromorphic Computing](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/445_neuromorphic_computing/)) 정의
 
-[[445_neuromorphic_computing|뉴로모픽 컴퓨팅]]은 인간 뇌의 **뉴런(Neuron)** 과 **시냅스(Synapse)** 구조를 반도체로 직접 모방하여, 기존 폰노이만 아키텍처(CPU/[[418_gpu|GPU]])의 메모리 병목과 에너지 비효율을 근본적으로 해결하는 컴퓨팅 패러다임이다.
+[뉴로모픽 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/445_neuromorphic_computing/)은 인간 뇌의 **뉴런(Neuron)** 과 **시냅스(Synapse)** 구조를 반도체로 직접 모방하여, 기존 폰노이만 아키텍처(CPU/[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))의 메모리 병목과 에너지 비효율을 근본적으로 해결하는 컴퓨팅 패러다임이다.
 
 ### 1.2 폰노이만 vs 뉴로모픽 아키텍처
 
-| 항목 | 폰노이만 ([[418_gpu|GPU]]/CPU) | 뉴로모픽 |
+| 항목 | 폰노이만 ([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)/CPU) | 뉴로모픽 |
 |:---|:---|:---|
-| [[001_dikw_pyramid|데이터]] 처리 방식 | 동기식 클럭 기반 | 비동기식 이벤트 기반 |
+| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 방식 | 동기식 클럭 기반 | 비동기식 이벤트 기반 |
 | 메모리-연산 분리 | 메모리 병목 존재 | 처리와 메모리 동일 위치 |
 | 유휴 전력 | 항상 클럭 소비 | 이벤트 없으면 0 |
-| [[430_index_fast_full_scan|병렬]]성 | 행렬 연산 [[430_index_fast_full_scan|병렬]] | 뉴런 단위 완전 [[430_index_fast_full_scan|병렬]] |
-| 프로그래밍 | 명시적 [[001_algorithm_definition|알고리즘]] | 학습으로 파라미터 결정 |
+| [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 | 행렬 연산 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) | 뉴런 단위 완전 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) |
+| 프로그래밍 | 명시적 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 학습으로 파라미터 결정 |
 
 ### 1.3 에너지 문제의 심각성
 
@@ -44,15 +48,15 @@ IoT 디바이스 배터리: 수십 mWh
 → 뉴로모픽이 유일한 해결책 중 하나
 ```
 
-📢 **섹션 요약 비유**: 뉴로모픽 칩은 형광등([[418_gpu|GPU]], 항상 켜짐) 대신 동작 감지 [[013_led|LED]](뉴로모픽, 움직임 있을 때만 켜짐)를 쓰는 것이다. 사람이 없는 시간에도 전기를 낭비하지 않는다.
+📢 **섹션 요약 비유**: 뉴로모픽 칩은 형광등([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), 항상 켜짐) 대신 동작 감지 [LED](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/)(뉴로모픽, 움직임 있을 때만 켜짐)를 쓰는 것이다. 사람이 없는 시간에도 전기를 낭비하지 않는다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 2.1 [[446_snn|SNN]] (Spiking Neural Network) 원리
+### 2.1 [SNN](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/446_snn/) (Spiking Neural Network) 원리
 
-SNN은 뉴런이 전기 [[129_spike_agile_technical_investigation|스파이크]]([[129_spike_agile_technical_investigation|Spike]] = 0/1 펄스)를 통해 정보를 시간적으로 인코딩하는 신경망이다.
+SNN은 뉴런이 전기 [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)([Spike](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) = 0/1 펄스)를 통해 정보를 시간적으로 인코딩하는 신경망이다.
 
 ```
 일반 ANN (Artificial Neural Network)
@@ -71,7 +75,7 @@ SNN (Spiking Neural Network)
   (이진 신호, 이벤트 있을 때만 연산)
 ```
 
-#### [[446_snn|SNN]] 뉴런 모델: LIF (Leaky Integrate-and-Fire)
+#### [SNN](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/446_snn/) 뉴런 모델: LIF (Leaky Integrate-and-Fire)
 
 ```
 막전위 변화:
@@ -91,10 +95,10 @@ SNN (Spiking Neural Network)
 | 칩 | 개발사 | 뉴런 수 | 시냅스 수 | 전력 | 특징 |
 |:---|:---|:---|:---|:---|:---|
 | Intel Loihi 2 | Intel | 1M | 120M | ~1W | 온칩 학습, LAVA 프레임워크 |
-| IBM TrueNorth | IBM | 1M | 256M | 70mW | 4096 코어 [[430_index_fast_full_scan|병렬]] |
+| IBM TrueNorth | IBM | 1M | 256M | 70mW | 4096 코어 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) |
 | BrainScaleS 2 | Heidelberg Univ | 512 | - | 1W | 아날로그 회로 |
-| [[093_spinnaker_multi_cloud_cd_canary_analysis|SpiNNaker]] 2 | Manchester Univ | 10M | - | 1W | ARM 코어 기반 |
-| Tianjic | Tsinghua Univ | 40K | - | - | [[350_ann|ANN]]+[[446_snn|SNN]] 하이브리드 |
+| [SpiNNaker](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/093_spinnaker_multi_cloud_cd_canary_analysis/) 2 | Manchester Univ | 10M | - | 1W | ARM 코어 기반 |
+| Tianjic | Tsinghua Univ | 40K | - | - | [ANN](/knowledge-base/studynote/05_database/06_dw_olap_trends/350_ann/)+[SNN](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/446_snn/) 하이브리드 |
 
 ### 2.3 뉴로모픽 칩 내부 구조
 
@@ -126,30 +130,30 @@ SNN (Spiking Neural Network)
 
 | 플랫폼 | 전력 (추론) | TOPS/W | 에너지 효율 |
 |:---|:---|:---|:---|
-| NVIDIA A100 [[418_gpu|GPU]] | 400W | 1.25 TOPS/W | 기준 |
-| Google [[425_tpu|TPU]] v4 | 170W | ~[[489_raid_10_hybrid|10]] TOPS/W | 8x |
-| ARM Cortex-A [[424_npu|NPU]] | 5W | 4 TOPS/W | 3x |
-| Intel Loihi 2 | 1W | ~100 TOPS/W ([[446_snn|SNN]]) | 80x |
+| NVIDIA A100 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) | 400W | 1.25 TOPS/W | 기준 |
+| Google [TPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/425_tpu/) v4 | 170W | ~[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) TOPS/W | 8x |
+| ARM Cortex-A [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) | 5W | 4 TOPS/W | 3x |
+| Intel Loihi 2 | 1W | ~100 TOPS/W ([SNN](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/446_snn/)) | 80x |
 | 인간 뇌 | 20W | 극도로 효율적 | 1000x+ |
 
-📢 **섹션 요약 비유**: SNN은 잠 잘 때는 꿈을 꾸지 않는 뇌와 같다. 입력 자극([[129_spike_agile_technical_investigation|스파이크]])이 있을 때만 깨어나서 처리하고, 조용할 때는 에너지를 거의 쓰지 않는다.
+📢 **섹션 요약 비유**: SNN은 잠 잘 때는 꿈을 꾸지 않는 뇌와 같다. 입력 자극([스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/))이 있을 때만 깨어나서 처리하고, 조용할 때는 에너지를 거의 쓰지 않는다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 3.1 [[418_gpu|GPU]] vs [[424_npu|NPU]] vs 뉴로모픽 비교
+### 3.1 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) vs [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) vs 뉴로모픽 비교
 
-| 항목 | [[418_gpu|GPU]] | [[424_npu|NPU]] (신경처리장치) | 뉴로모픽 |
+| 항목 | [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) | [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) (신경처리장치) | 뉴로모픽 |
 |:---|:---|:---|:---|
-| 처리 방식 | [[430_index_fast_full_scan|병렬]] [[087_floating_point|부동소수점]] | 행렬 연산 가속 | [[129_spike_agile_technical_investigation|스파이크]] 이벤트 |
+| 처리 방식 | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) | 행렬 연산 가속 | [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) 이벤트 |
 | 학습 가능 | Yes (메인스트림) | 제한적 | Yes (온칩 STDP) |
 | 저전력 | No | 중간 | 극저전력 |
-| 프로그래밍 | [[420_cuda|CUDA]]/cuDNN | 제조사 SDK | LAVA/PyNN |
-| 생태계 | 풍부 | 중간 | [[459_quic_fec_forward_error_correction|초기]] 단계 |
-| 적합 [[150_task|태스크]] | 복잡한 [[190_ai_llm_requirements_specification|AI]] 학습 | 모바일 [[190_ai_llm_requirements_specification|AI]] 추론 | 이벤트 센서 처리 |
+| 프로그래밍 | [CUDA](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/420_cuda/)/cuDNN | 제조사 SDK | LAVA/PyNN |
+| 생태계 | 풍부 | 중간 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계 |
+| 적합 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) | 복잡한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습 | 모바일 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 추론 | 이벤트 센서 처리 |
 
-### 3.2 [[446_snn|SNN]] 학습 [[001_algorithm_definition|알고리즘]]
+### 3.2 [SNN](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/446_snn/) 학습 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 
 ```
 ANN 학습: 역전파(Backpropagation)
@@ -176,7 +180,7 @@ SNN 학습 도전:
 
 | 분야 | 현황 | 뉴로모픽 활용 포인트 |
 |:---|:---|:---|
-| [[101_iot_concept|IoT]] 센서 | 연구 단계 | 이벤트 카메라 + DVS 센서 |
+| [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서 | 연구 단계 | 이벤트 카메라 + DVS 센서 |
 | 자율주행 | 파일럿 | 동작 감지, 레인 추적 |
 | 웨어러블 | 일부 상용화 | EEG 분석, 제스처 인식 |
 | 스마트 엣지 | 연구 단계 | 음성 인식, 키워드 감지 |
@@ -188,7 +192,7 @@ SNN 학습 도전:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 4.1 [[445_neuromorphic_computing|뉴로모픽 컴퓨팅]] 성숙도 평가 (Gartner Hype Cycle)
+### 4.1 [뉴로모픽 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/445_neuromorphic_computing/) 성숙도 평가 (Gartner Hype Cycle)
 
 ```
 성숙도 수준
@@ -230,10 +234,10 @@ dense = Dense.Dense(weights=W)       # 시냅스 가중치
 
 | 논점 | 핵심 내용 |
 |:---|:---|
-| 뉴로모픽 vs [[418_gpu|GPU]] 선택 | 에너지 제약이 없으면 [[418_gpu|GPU]], 배터리 기반이면 뉴로모픽 고려 |
-| [[446_snn|SNN]] 실용화 장벽 | 학습 [[001_algorithm_definition|알고리즘]] 미성숙, 소프트웨어 생태계 부족 |
-| 적합 [[150_task|태스크]] | 시간적 패턴, 이벤트 기반 센서, 희소 [[001_dikw_pyramid|데이터]] |
-| 부적합 [[150_task|태스크]] | 고정밀 이미지 [[104_classification_analysis|분류]], 언어 모델 (현재 기준) |
+| 뉴로모픽 vs [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 선택 | 에너지 제약이 없으면 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), 배터리 기반이면 뉴로모픽 고려 |
+| [SNN](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/446_snn/) 실용화 장벽 | 학습 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 미성숙, 소프트웨어 생태계 부족 |
+| 적합 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) | 시간적 패턴, 이벤트 기반 센서, 희소 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
+| 부적합 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) | 고정밀 이미지 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), 언어 모델 (현재 기준) |
 
 ### 4.4 뉴로모픽과 엣지 AI의 결합
 
@@ -265,14 +269,14 @@ dense = Dense.Dense(weights=W)       # 시냅스 가중치
 
 ## Ⅴ. 기대효과 및 결론
 
-### 5.1 [[445_neuromorphic_computing|뉴로모픽 컴퓨팅]] 기대효과
+### 5.1 [뉴로모픽 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/445_neuromorphic_computing/) 기대효과
 
 | 기대 효과 | 목표 수치 | 현재 달성도 |
 |:---|:---|:---|
-| 에너지 효율 | [[418_gpu|GPU]] 대비 1,000배 | 100배 수준 달성 |
-| 추론 [[015_지연_데이터_관점|지연]] | 서브 밀리초(< 1ms) | 특정 [[150_task|태스크]] 달성 |
+| 에너지 효율 | [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 대비 1,000배 | 100배 수준 달성 |
+| 추론 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | 서브 밀리초(< 1ms) | 특정 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 달성 |
 | 온칩 학습 | 실시간 적응 | 실험적 구현 |
-| 배터리 수명 | 10년+ [[101_iot_concept|IoT]] 디바이스 | 연구 단계 |
+| 배터리 수명 | 10년+ [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 디바이스 | 연구 단계 |
 
 ### 5.2 상용화 로드맵
 
@@ -291,25 +295,25 @@ dense = Dense.Dense(weights=W)       # 시냅스 가중치
 
 ### 5.3 결론 요약
 
-[[445_neuromorphic_computing|뉴로모픽 컴퓨팅]]은 현재 기술 성숙도가 낮으나, 에너지 효율에서의 근본적 혁신 가능성으로 [[101_iot_concept|IoT]]·자율주행·웨어러블의 미래 핵심 기술이다. 기술사 관점에서는 **현재의 [[418_gpu|GPU]]/NPU와 미래 뉴로모픽의 보완적 [[083_relationship_in_er_model|관계]]**를 명확히 이해하고, 에너지 제약이 극도로 중요한 환경에서의 적용 가능성을 평가할 수 있어야 한다.
+[뉴로모픽 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/445_neuromorphic_computing/)은 현재 기술 성숙도가 낮으나, 에너지 효율에서의 근본적 혁신 가능성으로 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)·자율주행·웨어러블의 미래 핵심 기술이다. 기술사 관점에서는 **현재의 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)/NPU와 미래 뉴로모픽의 보완적 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)**를 명확히 이해하고, 에너지 제약이 극도로 중요한 환경에서의 적용 가능성을 평가할 수 있어야 한다.
 
-📢 **섹션 요약 비유**: [[445_neuromorphic_computing|뉴로모픽 컴퓨팅]]은 전기차 기술과 같다. 지금은 충전 인프라(소프트웨어 생태계)가 부족하고 비싸지만, 에너지 효율이라는 근본적 장점이 명확해서 미래에는 주류가 될 가능성이 높다.
+📢 **섹션 요약 비유**: [뉴로모픽 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/445_neuromorphic_computing/)은 전기차 기술과 같다. 지금은 충전 인프라(소프트웨어 생태계)가 부족하고 비싸지만, 에너지 효율이라는 근본적 장점이 명확해서 미래에는 주류가 될 가능성이 높다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| [[083_relationship_in_er_model|관계]] | 개념 | 설명 |
+| [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
 |:---|:---|:---|
-| 아키텍처 | [[445_neuromorphic_computing|Neuromorphic Computing]] ([[445_neuromorphic_computing|뉴로모픽 컴퓨팅]]) | 뇌 모방 비폰노이만 컴퓨팅 |
-| 신경망 모델 | [[446_snn|SNN]] (Spiking Neural Network) | [[129_spike_agile_technical_investigation|스파이크]] 기반 신경망 |
-| 뉴런 모델 | LIF (Leaky Integrate-and-Fire) | 가장 대중적 [[446_snn|SNN]] 뉴런 모델 |
-| 학습 규칙 | STDP ([[129_spike_agile_technical_investigation|Spike]]-Timing-Dependent Plasticity) | 생물학적 시냅스 가소성 |
+| 아키텍처 | [Neuromorphic Computing](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/445_neuromorphic_computing/) ([뉴로모픽 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/445_neuromorphic_computing/)) | 뇌 모방 비폰노이만 컴퓨팅 |
+| 신경망 모델 | [SNN](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/446_snn/) (Spiking Neural Network) | [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) 기반 신경망 |
+| 뉴런 모델 | LIF (Leaky Integrate-and-Fire) | 가장 대중적 [SNN](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/446_snn/) 뉴런 모델 |
+| 학습 규칙 | STDP ([Spike](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)-Timing-Dependent Plasticity) | 생물학적 시냅스 가소성 |
 | 칩 | Intel Loihi 2 | Intel 최신 뉴로모픽 칩 |
 | 칩 | IBM TrueNorth | 1M 뉴런 뉴로모픽 칩 |
-| 프레임워크 | LAVA | Intel Loihi용 [[446_snn|SNN]] 프레임워크 |
+| 프레임워크 | LAVA | Intel Loihi용 [SNN](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/446_snn/) 프레임워크 |
 | 센서 | DVS (Dynamic Vision Sensor) | 이벤트 기반 카메라 |
-| 비교 | [[424_npu|NPU]] ([[424_npu|Neural Processing Unit]]) | 모바일 [[190_ai_llm_requirements_specification|AI]] 가속기 |
+| 비교 | [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) ([Neural Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)) | 모바일 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속기 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -334,7 +338,7 @@ Von Neumann 아키텍처 (CPU · GPU): 메모리-연산 분리
     ▼
 ANN-SNN 변환 · 뉴로모픽 학습 알고리즘 (STDP)
 ```
-2. SNN의 [[129_spike_agile_technical_investigation|스파이크]]는 심장이 뛰는 박동과 같아요. 박동이 있을 때만 피(정보)가 흐르고, 박동 사이에는 에너지를 쓰지 않아요.
+2. SNN의 [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)는 심장이 뛰는 박동과 같아요. 박동이 있을 때만 피(정보)가 흐르고, 박동 사이에는 에너지를 쓰지 않아요.
 3. 일반 GPU가 항상 켜진 슈퍼컴퓨터라면, 뉴로모픽 칩은 필요할 때만 깨어나는 스마트 워치예요. 훨씬 작고 배터리가 오래 가죠.
 
 ---
@@ -343,7 +347,7 @@ ANN-SNN 변환 · 뉴로모픽 학습 알고리즘 (STDP)
 
 **진행 상황**: 193 / 258
 
-← **이전**: [[192_edge_ai_onnx_tensorrt_model_serialization|192. 엣지 AI 컴파일러 (Edge AI - ONNX, TensorRT) 모델 직렬화 패키징 배포망]]
-**다음**: [[194_medallion_architecture_bronze_silver_gold|194. 메달리온 아키텍처 (Medallion Architecture) Bronze/Silver/Gold 테이블 정제 적재]] →
+← **이전**: [192. 엣지 AI 컴파일러 (Edge AI - ONNX, TensorRT) 모델 직렬화 패키징 배포망](/knowledge-base/studynote/14_data_engineering/04_mlops/192_edge_ai_onnx_tensorrt_model_serialization/)
+**다음**: [194. 메달리온 아키텍처 (Medallion Architecture) Bronze/Silver/Gold 테이블 정제 적재](/knowledge-base/studynote/14_data_engineering/04_mlops/194_medallion_architecture_bronze_silver_gold/) →
 
 ---

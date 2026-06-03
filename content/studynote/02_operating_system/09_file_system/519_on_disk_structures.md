@@ -1,31 +1,35 @@
----
-title: 519. 디스크 상의 구조 (On Disk Structures)
-date: '2026-05-09'
-tags:
-- studynote-operating-system
----
++++
+title = "519. 디스크 상의 구조 (On Disk Structures)"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 컴퓨터 전원을 끄면 메모리(RAM)에 있던 [[517_virtual_file_system_vfs|VFS]] 객체(슈퍼블록, 덴트리)들은 싹 다 증발한다. 따라서 하드디스크라는 영원한 철판 위에 **"부팅 코드, [[514_partition_slice_volume|파티션]] 전체 정보, 폴더 이름 장부, 실제 [[502_file_attributes_metadata|파일 속성]]"** 을 반드시 기록해 둬야 다음 날 컴퓨터를 켤 때 이 세계관이 다시 되살아날 수 있다.
-> 2. **가치**: 디스크를 포맷할 때, [[501_file_definition_logical_record|파일]] 시스템은 [[514_partition_slice_volume|파티션]]을 4개의 철저한 물리 구역인 **부트 제어 블록(Boot [[082_process_memory_structure|Code]]), 볼륨 제어 블록([[518_vfs_objects_superblock_inode_dentry_file|Superblock]]), [[506_directory_structure_symbol_table|디렉터리]] 구조체, FCB/아이노드([[501_file_definition_logical_record|File]] Control Block)** 로 칼질해 잘라 박아 넣는다. 이 정해진 레이아웃 덕분에 OS는 0번지부터 차례대로 읽으며 시스템을 안전하게 일으켜 세울 수 있다.
-> 3. **한계**: FCB(아이노드 표) 공간은 디스크를 포맷하는 그 순간에 "총 1,000만 개 작성 가능!" 이라고 쇳덩어리에 공구리(Hardcoded) 쳐진다. 나중에 1KB짜리 작은 텍스트 [[501_file_definition_logical_record|파일]]을 1,000만 번 넘게 만들면, 정작 1TB 하드디스크 공간은 텅텅 비었는데 FCB 장부 칸이 바닥나서(No Inodes left) 새 [[501_file_definition_logical_record|파일]] 쓰기가 거부되는 황당한 고갈 멸망 상태에 빠질 수 있다.
+> 1. **본질**: 컴퓨터 전원을 끄면 메모리(RAM)에 있던 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 객체(슈퍼블록, 덴트리)들은 싹 다 증발한다. 따라서 하드디스크라는 영원한 철판 위에 **"부팅 코드, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 전체 정보, 폴더 이름 장부, 실제 [파일 속성](/knowledge-base/studynote/02_operating_system/09_file_system/502_file_attributes_metadata/)"** 을 반드시 기록해 둬야 다음 날 컴퓨터를 켤 때 이 세계관이 다시 되살아날 수 있다.
+> 2. **가치**: 디스크를 포맷할 때, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템은 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 4개의 철저한 물리 구역인 **부트 제어 블록(Boot [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)), 볼륨 제어 블록([Superblock](/knowledge-base/studynote/02_operating_system/09_file_system/518_vfs_objects_superblock_inode_dentry_file/)), [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 구조체, FCB/아이노드([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) Control Block)** 로 칼질해 잘라 박아 넣는다. 이 정해진 레이아웃 덕분에 OS는 0번지부터 차례대로 읽으며 시스템을 안전하게 일으켜 세울 수 있다.
+> 3. **한계**: FCB(아이노드 표) 공간은 디스크를 포맷하는 그 순간에 "총 1,000만 개 작성 가능!" 이라고 쇳덩어리에 공구리(Hardcoded) 쳐진다. 나중에 1KB짜리 작은 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 1,000만 번 넘게 만들면, 정작 1TB 하드디스크 공간은 텅텅 비었는데 FCB 장부 칸이 바닥나서(No Inodes left) 새 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 쓰기가 거부되는 황당한 고갈 멸망 상태에 빠질 수 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: **디스크 상의 구조(On-Disk Structures)** 는 전원이 공급되지 않는 비휘발성 스토리지([[465_hdd_structure|HDD]]/[[327_ssd|SSD]]) 물리 [[121_transmission_media_guided_unguided|매체]] 자체에 각인되어 영구 보존(Persistent)되는 [[501_file_definition_logical_record|파일]] 시스템의 정적인 레이아웃(Layout) 설계도다. OS가 부팅되고 [[516_mount_mechanism|마운트]]될 때, 이 디스크의 구획들을 읽어 들여 앞 518장의 [[517_virtual_file_system_vfs|VFS]] 메모리 4대 객체로 변환(Parsing) 조립한다.
-- **필요성**: 디스크에 [[501_file_definition_logical_record|파일]] [[001_dikw_pyramid|데이터]](블록)만 꽉 채워버리면, 다음번 컴퓨터를 켰을 때 "어? C드라이브 용량이 몇이지? 빈 공간이 어딘가? 윈도우 OS 부팅 엔진(GRUB)은 어디 숨어있지?" 를 전혀 알 턱이 없다. 이 거대한 창고의 [[154_database_index_b_tree_search_optimization|인덱스]]([[154_database_index_b_tree_search_optimization|Index]]) 정보들을 디스크 맨 앞의 명당자리부터 차곡차곡 약속된 규칙대로 새겨놔야, 어떤 외계 컴퓨터 커널이 와서 하드디스크를 꽂아 읽어도 0.1초 만에 "아 여긴 [[514_partition_slice_volume|파티션]]이 2개고, 여긴 빈 공간 장부([[518_vfs_objects_superblock_inode_dentry_file|Superblock]])구나!" 하고 우주를 재구성할 수 있는 표준화 I/O 부트스트랩 인프라가 태동 장악되었다.
+- **개념**: **디스크 상의 구조(On-Disk Structures)** 는 전원이 공급되지 않는 비휘발성 스토리지([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/)/[SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)) 물리 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 자체에 각인되어 영구 보존(Persistent)되는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템의 정적인 레이아웃(Layout) 설계도다. OS가 부팅되고 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/)될 때, 이 디스크의 구획들을 읽어 들여 앞 518장의 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 메모리 4대 객체로 변환(Parsing) 조립한다.
+- **필요성**: 디스크에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(블록)만 꽉 채워버리면, 다음번 컴퓨터를 켰을 때 "어? C드라이브 용량이 몇이지? 빈 공간이 어딘가? 윈도우 OS 부팅 엔진(GRUB)은 어디 숨어있지?" 를 전혀 알 턱이 없다. 이 거대한 창고의 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)([Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) 정보들을 디스크 맨 앞의 명당자리부터 차곡차곡 약속된 규칙대로 새겨놔야, 어떤 외계 컴퓨터 커널이 와서 하드디스크를 꽂아 읽어도 0.1초 만에 "아 여긴 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)이 2개고, 여긴 빈 공간 장부([Superblock](/knowledge-base/studynote/02_operating_system/09_file_system/518_vfs_objects_superblock_inode_dentry_file/))구나!" 하고 우주를 재구성할 수 있는 표준화 I/O 부트스트랩 인프라가 태동 장악되었다.
 
   - 1️⃣ **부트 제어 블록**: 단지 입구의 `경비실(부팅 마스터)`! 무조건 단지 맨 앞 1번 게이트에 있어야 합니다.
   - 2️⃣ **볼륨(슈퍼블록)**: `단지 전체 조감도와 공실 현황표`! 총 100세대 중 남은 빈집 10개를 록백 기록합니다.
-  - 3️⃣ **[[506_directory_structure_symbol_table|디렉터리]] 구조**: 아파트 동 앞에 붙여진 `101동 104호 거주자 문패(이름표) 지도` 입니다!
+  - 3️⃣ **[디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 구조**: 아파트 동 앞에 붙여진 `101동 104호 거주자 문패(이름표) 지도` 입니다!
   - 4️⃣ **FCB (아이노드)**: 104호 집의 실제 `평수, 방 개수, 관리비 체납 내역(권한/메타정보) 대장` 입니다! 
   이렇게 물리적 철판 위에 도장이 쾅쾅 찍혀 영구 영원 보존되어야, 내일 아침 경비원이 출근해서도 건물을 그대로 운영 마스킹할 수 있는 S/W 전제 조건입니다!
 
-- **물리 디스크를 4조각 내는 On-Disk [[514_partition_slice_volume|파티션]] 포맷 레이아웃 다이어그램**:
-[[001_operating_system_purpose|운영체제]]가 디스크를 `ext4` 나 `NTFS` 로 포맷(Format)할 때 텅 빈 쓰레기 깡통을 어떻게 구획별로 칼질해 인프라를 짜는지 ASCII로 분해하면 다음과 같다.
+- **물리 디스크를 4조각 내는 On-Disk [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 포맷 레이아웃 다이어그램**:
+[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 디스크를 `ext4` 나 `NTFS` 로 포맷(Format)할 때 텅 빈 쓰레기 깡통을 어떻게 구획별로 칼질해 인프라를 짜는지 ASCII로 분해하면 다음과 같다.
 
 ```text
   ┌──────────────────────────────────────────────────────────────────────────────┐
@@ -51,73 +55,73 @@ tags:
   └──────────────────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 초보자들은 1TB 디스크를 사면 내가 1TB [[001_dikw_pyramid|데이터]]를 빵빵하게 다 쓸 수 있을 거라 착각한다. 하지만 포맷(Format)을 누르는 순간 1~4번의 [[012_metadata|메타데이터]](장부표) I/O 집 주소가 미리 거대하게 선점 구축 타격을 당한다. 특히 4번의 `FCB(아이노드 테이블)` 구역은 나중에 [[501_file_definition_logical_record|파일]] 1,000만 개가 생길 것에 대비해 디스크 용량의 1~2% 정도를 미리 깡통으로 뜯어내 장부 칸으로 낭비(Overhead 확보)해 둔다. 이것이 1TB 외장 하드를 샀는데 포맷하고 꽂아보면 내 컴퓨터에서는 왜 "사용 가능 용량: 931GB" 로 손해를 보는 증발 오차가 렌더되는지(물리 진폭 계산 1024 오차 외에도) 그 가장 강력한 구조적 뼈대 이유 중 하나다.
+**[다이어그램 해설]** 초보자들은 1TB 디스크를 사면 내가 1TB [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 빵빵하게 다 쓸 수 있을 거라 착각한다. 하지만 포맷(Format)을 누르는 순간 1~4번의 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)(장부표) I/O 집 주소가 미리 거대하게 선점 구축 타격을 당한다. 특히 4번의 `FCB(아이노드 테이블)` 구역은 나중에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1,000만 개가 생길 것에 대비해 디스크 용량의 1~2% 정도를 미리 깡통으로 뜯어내 장부 칸으로 낭비(Overhead 확보)해 둔다. 이것이 1TB 외장 하드를 샀는데 포맷하고 꽂아보면 내 컴퓨터에서는 왜 "사용 가능 용량: 931GB" 로 손해를 보는 증발 오차가 렌더되는지(물리 진폭 계산 1024 오차 외에도) 그 가장 강력한 구조적 뼈대 이유 중 하나다.
 
-- **📢 섹션 요약 비유**: 이 디스크 상의 포맷(Format) 4대 구조는 텅 빈 공터에 **"학교 건물 기초 설계 공구리 타설"** 을 하는 것과 같습니다!! 운동장 공터(새 디스크 1TB)를 샀어요! 학생([[001_dikw_pyramid|데이터]])을 받으려면, 먼저 1번 **[정문 수위실(부트 블록)]** 을 짓고, 2번 **[교장실 전체 행정망(슈퍼블록)]** 을 깝니다. 그리고 3번 **[1학년 반 명패표([[506_directory_structure_symbol_table|디렉터리]])]** 와 4번 **[학생 1만 명용 출석부 장부(FCB 아이노드칸)]** 를 미리 쫙 만들어 놔야 하죠! 이 필수 뼈대 장부가 빈 공터 1TB 중에 10GB 정도를 미리 잡아먹습니다! 이 토대가 영원히 각인(On-Disk) 되어야 내일 전기가 끊겨도 학생들이 길을 안 잃고 자기 교실 [[001_dikw_pyramid|데이터]]를 무결 보존 타격 찾아갈 수 있답니다!
+- **📢 섹션 요약 비유**: 이 디스크 상의 포맷(Format) 4대 구조는 텅 빈 공터에 **"학교 건물 기초 설계 공구리 타설"** 을 하는 것과 같습니다!! 운동장 공터(새 디스크 1TB)를 샀어요! 학생([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 받으려면, 먼저 1번 **[정문 수위실(부트 블록)]** 을 짓고, 2번 **[교장실 전체 행정망(슈퍼블록)]** 을 깝니다. 그리고 3번 **[1학년 반 명패표([디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/))]** 와 4번 **[학생 1만 명용 출석부 장부(FCB 아이노드칸)]** 를 미리 쫙 만들어 놔야 하죠! 이 필수 뼈대 장부가 빈 공터 1TB 중에 10GB 정도를 미리 잡아먹습니다! 이 토대가 영원히 각인(On-Disk) 되어야 내일 전기가 끊겨도 학생들이 길을 안 잃고 자기 교실 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 무결 보존 타격 찾아갈 수 있답니다!
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 1. 부팅과 [[514_partition_slice_volume|파티션]] 통치 구역 (부트 블록 & 슈퍼블록)
+### 1. 부팅과 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 통치 구역 (부트 블록 & 슈퍼블록)
 가장 물리적으로 아사하면 안 되는 핵심 로드맵 0순위. 바이러스가 디스크 0번지를 제일 좋아하며 박살 내는 이유 폭파 지점이다.
 
-| 디스크 On-Disk 관리 물리 구역 | 시스템 메커니즘 부팅 렌더 및 구조 기록 정보 방어 타격 | [[100_sre_site_reliability_engineering_error_budget|SRE]] 치명적 손실 ([[454_spof|SPOF]]) 방탄 패치 우회 [[268_strategy_pattern|전략]] |
+| 디스크 On-Disk 관리 물리 구역 | 시스템 메커니즘 부팅 렌더 및 구조 기록 정보 방어 타격 | [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 치명적 손실 ([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)) 방탄 패치 우회 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
 |:---|:---|:---|
-| **1️⃣ 부트 제어 블록 (Boot Control Block 마스터 칩)** | 1파티션 딱 1개 구역! UFS/Mac은 부트 블록, NTFS는 [[514_partition_slice_volume|파티션]] 부트 섹터라 부름. 시스템 전원이 켜졌을 때 OS 알맹이 코드를 램으로 끌어올리는 아주 짧은 생명 스로틀 머신 코드. | 바이러스가 부트섹터 512바이트 덮어쓰기 테러하면 "Non-System Disk Error" 뜨며 벽돌 멸망. (GPT는 뒤쪽에 [[555_backup_and_restore_strategy|백업]] 복사본 파생 패치로 이 515장 록을 방어). |
-| **2️⃣ 볼륨 제어 블록 ([[518_vfs_objects_superblock_inode_dentry_file|Superblock]] 전체 대장 장부)** | [[514_partition_slice_volume|파티션]] 1개당 1개! 볼륨 전체의 평수(총 1TB), 빈 블록 남은 리스트(Free Block), FCB 포인터 [[154_database_index_b_tree_search_optimization|인덱스]]를 담은 "[[516_mount_mechanism|마운트]]의 심장". | 이 놈이 뻑나면 `ext4` [[516_mount_mechanism|마운트]] 자체가 [[573_timeout_retry_backoff_strategy|타임아웃]] 튕기며 `Unmountable Boot Volume` 블루스크린 폭발! 리눅스는 복사본 [[555_backup_and_restore_strategy|백업]] 슈퍼블록을 방마다 [[016_replication_factor|복제]] [[136_variance|분산]] 록백함. |
+| **1️⃣ 부트 제어 블록 (Boot Control Block 마스터 칩)** | 1파티션 딱 1개 구역! UFS/Mac은 부트 블록, NTFS는 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 부트 섹터라 부름. 시스템 전원이 켜졌을 때 OS 알맹이 코드를 램으로 끌어올리는 아주 짧은 생명 스로틀 머신 코드. | 바이러스가 부트섹터 512바이트 덮어쓰기 테러하면 "Non-System Disk Error" 뜨며 벽돌 멸망. (GPT는 뒤쪽에 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 복사본 파생 패치로 이 515장 록을 방어). |
+| **2️⃣ 볼륨 제어 블록 ([Superblock](/knowledge-base/studynote/02_operating_system/09_file_system/518_vfs_objects_superblock_inode_dentry_file/) 전체 대장 장부)** | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 1개당 1개! 볼륨 전체의 평수(총 1TB), 빈 블록 남은 리스트(Free Block), FCB 포인터 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 담은 "[마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/)의 심장". | 이 놈이 뻑나면 `ext4` [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 자체가 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 튕기며 `Unmountable Boot Volume` 블루스크린 폭발! 리눅스는 복사본 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 슈퍼블록을 방마다 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 록백함. |
 
-### 2. [[501_file_definition_logical_record|파일]] 고유 객체 식별소 ([[506_directory_structure_symbol_table|디렉터리]] 구조 & FCB / Inode)
-실제로 "[[501_file_definition_logical_record|파일]]" 이라는 추상(가림막)이 디스크 철판 위에서 어떻게 [[501_file_definition_logical_record|파일]] 이름(Text)과 번호, 상태로 분리 찢기는지 보여주는 장부 구역이다. [[506_directory_structure_symbol_table|디렉터리]]와 FCB는 무조건 분리(Decoupling 결착)된다. [[511_hard_link|하드 링크]](511번 장)의 마법을 빚어낸 원점이 여기다!
+### 2. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 고유 객체 식별소 ([디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 구조 & FCB / Inode)
+실제로 "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)" 이라는 추상(가림막)이 디스크 철판 위에서 어떻게 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이름(Text)과 번호, 상태로 분리 찢기는지 보여주는 장부 구역이다. [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)와 FCB는 무조건 분리(Decoupling 결착)된다. [하드 링크](/knowledge-base/studynote/02_operating_system/09_file_system/511_hard_link/)(511번 장)의 마법을 빚어낸 원점이 여기다!
 
-| 디스크 On-Disk 네비게이트 구역 | 스토리지 [[501_file_definition_logical_record|파일]] 트리 탐색 메커니즘 통달 S/W | 디스크 [[157_oom_killer|OOM]] 누수 및 한계 늪 타결 보장 |
+| 디스크 On-Disk 네비게이트 구역 | 스토리지 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 트리 탐색 메커니즘 통달 S/W | 디스크 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 누수 및 한계 늪 타결 보장 |
 |:---|:---|:---|
-| **3️⃣ [[506_directory_structure_symbol_table|디렉터리]] 구조 ([[506_directory_structure_symbol_table|Directory]] 원장)** | 사람만 볼 수 있는 텍스트 문자열 [[501_file_definition_logical_record|파일]] 이름(`A.txt`) 폴더 구조를 "기계 번호표(Inode No. 104번)" 와 매핑해 주는 이름 장부 연락처! | [[501_file_definition_logical_record|파일]] 이름이 아무리 1,000자로 미친 듯이 늘어나도 FCB는 뚱뚱해지지 않음! [[506_directory_structure_symbol_table|디렉터리]] 장부 껍데기만 뚱뚱해지도록 두 개를 분리한 [[100_sre_site_reliability_engineering_error_budget|SRE]] 모터! |
-| **4️⃣ FCB ([[501_file_definition_logical_record|File]] Control Block [[501_file_definition_logical_record|파일]] 제어 블록 / 리눅스 Inode)** | 104번 FCB칸(아이노드)을 펴보면, 권한(`chmod 777`), 소유자, 그리고 "내 알맹이 [[001_dikw_pyramid|데이터]]는 디스크 블록 800번지 구석 철판에 박혀있다!" 는 주소 포인터를 기록한 생명 육체줄. | 디스크를 포맷할 때 FCB 장부 칸 개수가 "100만 개" 로 영원히 못 박힘! 작은 [[501_file_definition_logical_record|파일]]을 101만 개 쓰면? 빈 디스크가 넘쳐도 못 쓰는 멸망(Inode [[314_starvation_prevention|Starvation]] 늪)! |
+| **3️⃣ [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 구조 ([Directory](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 원장)** | 사람만 볼 수 있는 텍스트 문자열 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이름(`A.txt`) 폴더 구조를 "기계 번호표(Inode No. 104번)" 와 매핑해 주는 이름 장부 연락처! | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이름이 아무리 1,000자로 미친 듯이 늘어나도 FCB는 뚱뚱해지지 않음! [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 장부 껍데기만 뚱뚱해지도록 두 개를 분리한 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 모터! |
+| **4️⃣ FCB ([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) Control Block [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 제어 블록 / 리눅스 Inode)** | 104번 FCB칸(아이노드)을 펴보면, 권한(`chmod 777`), 소유자, 그리고 "내 알맹이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 디스크 블록 800번지 구석 철판에 박혀있다!" 는 주소 포인터를 기록한 생명 육체줄. | 디스크를 포맷할 때 FCB 장부 칸 개수가 "100만 개" 로 영원히 못 박힘! 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 101만 개 쓰면? 빈 디스크가 넘쳐도 못 쓰는 멸망(Inode [Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) 늪)! |
 
 ### 3. 디스크 On-Disk vs 메모리 In-Memory 융합
-컴퓨터를 켜면, 이 깡통 철도면에 새겨진 On-Disk 정보 4개가 시스템 RAM으로 빨려 들어가(Parsing) 이전 과목인 "518장. 인메모리 [[517_virtual_file_system_vfs|VFS]] 4대 객체" 로 마왕처럼 둔갑 렌더 부활한다!
+컴퓨터를 켜면, 이 깡통 철도면에 새겨진 On-Disk 정보 4개가 시스템 RAM으로 빨려 들어가(Parsing) 이전 과목인 "518장. 인메모리 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 4대 객체" 로 마왕처럼 둔갑 렌더 부활한다!
 
-- **On-Disk 볼륨 제어 블록** ──▶ (램 [[456_caching|캐싱]] 부하 복사) ──▶ **In-Memory 슈퍼블록 객체**
-- **On-Disk FCB(아이노드표)** ──▶ ([[501_file_definition_logical_record|파일]] 열 때 램으로 상승) ──▶ **In-Memory 아이노드 객체**
-- **On-Disk [[506_directory_structure_symbol_table|디렉터리]] 구조표** ──▶ (ls 칠 때 경로 포팅) ──▶ **In-Memory Dentry (덴트리) 캐시 객체**
-이것이 "죽어있는 쇳덩어리 [[001_dikw_pyramid|데이터]](디스크)가 살아서 발동하는 동적 프로세스 생명체(메모리 [[517_virtual_file_system_vfs|VFS]])" 로 재탄생하는 위대한 [[501_file_definition_logical_record|파일]] I/O 영혼 스왑 톱니바퀴의 궁극이다.
+- **On-Disk 볼륨 제어 블록** ──▶ (램 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 부하 복사) ──▶ **In-Memory 슈퍼블록 객체**
+- **On-Disk FCB(아이노드표)** ──▶ ([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 열 때 램으로 상승) ──▶ **In-Memory 아이노드 객체**
+- **On-Disk [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 구조표** ──▶ (ls 칠 때 경로 포팅) ──▶ **In-Memory Dentry (덴트리) 캐시 객체**
+이것이 "죽어있는 쇳덩어리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(디스크)가 살아서 발동하는 동적 프로세스 생명체(메모리 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/))" 로 재탄생하는 위대한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O 영혼 스왑 톱니바퀴의 궁극이다.
 
-- **📢 섹션 요약 비유**: 이 디스크 On-Disk 구획 장부와 Memory 램 객체의 상승 관계는, 관공서의 **"먼지 쌓인 지하 보관 문서(디스크)를 업무 책상(메모리) 위로 퍼 올리기"** 와 같습니다! 평소에 새벽(컴 끄기)엔 지하 문서창고 쇠 책장(하드디스크 On-Disk)에 "아파트 대장 원본(슈퍼블록)" 과 "철수집 호구조사표 원본(FCB)" 이 딱딱 자물쇠 잠겨 각인 영구 보관돼 있습니다! 공무원이 아침 출근(부팅 [[516_mount_mechanism|Mount]])해서, 그 지하 무거운 장부를 복사 떠갖고 자기 책상 위(RAM 메모리 518 객체 공간)에 활짝 펼쳐놓고 연필로 슥삭슥삭 실시간 작업 I/O를 칩니다!! 퇴근(Unmount 종료)할 땐 책상의 최신 내용들을 다시 지하 쇠 책장에 덮어씌워 보존(Sync 캐시 반영 록)하고 퇴근하는 이 절대 뼈대 보존 S/W 마스킹 투하랍니다!
+- **📢 섹션 요약 비유**: 이 디스크 On-Disk 구획 장부와 Memory 램 객체의 상승 관계는, 관공서의 **"먼지 쌓인 지하 보관 문서(디스크)를 업무 책상(메모리) 위로 퍼 올리기"** 와 같습니다! 평소에 새벽(컴 끄기)엔 지하 문서창고 쇠 책장(하드디스크 On-Disk)에 "아파트 대장 원본(슈퍼블록)" 과 "철수집 호구조사표 원본(FCB)" 이 딱딱 자물쇠 잠겨 각인 영구 보관돼 있습니다! 공무원이 아침 출근(부팅 [Mount](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/))해서, 그 지하 무거운 장부를 복사 떠갖고 자기 책상 위(RAM 메모리 518 객체 공간)에 활짝 펼쳐놓고 연필로 슥삭슥삭 실시간 작업 I/O를 칩니다!! 퇴근(Unmount 종료)할 땐 책상의 최신 내용들을 다시 지하 쇠 책장에 덮어씌워 보존(Sync 캐시 반영 록)하고 퇴근하는 이 절대 뼈대 보존 S/W 마스킹 투하랍니다!
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
 ### AWS 서버 다운 타임 미스테리: "디스크(df -h) 텅 빈 공간 OOM의 재앙"
-인프라 [[652_devops_calms_culture|DevOps]] 엔지니어가 평생 1번은 맞아보는 가장 당황스럽고 기괴한 디스크 장애 증상 [[128_water_scrum_fall_anti_pattern|안티패턴]] 분석 컷. [[001_operating_system_purpose|운영체제]] 디스크 뼈대(FCB 구조량 고정)를 이해 못하면 서버를 영원히 포기하고 포맷해야 한다.
+인프라 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 엔지니어가 평생 1번은 맞아보는 가장 당황스럽고 기괴한 디스크 장애 증상 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 분석 컷. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 디스크 뼈대(FCB 구조량 고정)를 이해 못하면 서버를 영원히 포기하고 포맷해야 한다.
 
-- **[[128_water_scrum_fall_anti_pattern|안티패턴]] 현상 폭파 (FCB/Inode 소진 멸절 에러)**: 고객들이 썸네일 이미지 [[501_file_definition_logical_record|파일]](크기 1바이트 콩알)을 캡쳐해 쇼핑몰에 하루 100만 개씩 올렸다. 어느 날 `No space left on device(용량 꽉참 포팅 록!!)` 에러가 뿜어지며 쇼핑몰 [[501_file_definition_logical_record|파일]] 업로드 결제가 터져 다운됐다.
+- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 현상 폭파 (FCB/Inode 소진 멸절 에러)**: 고객들이 썸네일 이미지 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(크기 1바이트 콩알)을 캡쳐해 쇼핑몰에 하루 100만 개씩 올렸다. 어느 날 `No space left on device(용량 꽉참 포팅 록!!)` 에러가 뿜어지며 쇼핑몰 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 업로드 결제가 터져 다운됐다.
   - 놀란 엔지니어가 `df -h (전체 디스크 바이트 용량 확인)` 을 쳐보니, 디스크는 **10TB 중 고작 1TB만 썼고 구석탱이 빈 공간이 90%** 나 남아도는 평온한 상태였다!
   - 멘탈이 나간다. 빈 공간이 넘치는데 왜 저장 용량 부족 에러가 날까? 도대체 서버에 무슨 우주 펑크 블랙홀이 터진 걸까?
-- **[[100_sre_site_reliability_engineering_error_budget|SRE]] 트러블슈팅 복원 스로틀 타결 (FCB 명부 테이블 고갈 원인 도출)**: 정답은 `df -i (Inode 번호표 장부 남은 칸 확인)` [[158_instruction|명령어]] 빔에 숨어있다!
+- **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 트러블슈팅 복원 스로틀 타결 (FCB 명부 테이블 고갈 원인 도출)**: 정답은 `df -i (Inode 번호표 장부 남은 칸 확인)` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 빔에 숨어있다!
   - 리눅스를 최초 포맷할 때 On-Disk 구조로 **"FCB(아이노드 장부) 총 개수는 2,000만 개 한정 세팅!"** 이라고 공구리 록백 박았었다.
-  - 그런데 개발자가 1바이트짜리 콩알 쓰레기 [[501_file_definition_logical_record|파일]]을 2,000만 1개째를 써버렸다. [[001_dikw_pyramid|데이터]] 용량은 티끌만 차지했지만, **새 [[501_file_definition_logical_record|파일]] 텍스트 명부를 기록할 "4️⃣ 디스크의 FCB 출석부 장부 빈칸 똥줄"이 단 1칸도 남김없이 오링 소진([[314_starvation_prevention|Starvation]])** 되어 [[501_file_definition_logical_record|파일]] [[087_process_state_transition|생성]] 접근 권한을 거부 [[573_timeout_retry_backoff_strategy|타임아웃]] 맞은 것이다!!
+  - 그런데 개발자가 1바이트짜리 콩알 쓰레기 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 2,000만 1개째를 써버렸다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 용량은 티끌만 차지했지만, **새 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 텍스트 명부를 기록할 "4️⃣ 디스크의 FCB 출석부 장부 빈칸 똥줄"이 단 1칸도 남김없이 오링 소진([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))** 되어 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 접근 권한을 거부 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 맞은 것이다!!
   - 해결책은 `find` S/W 로 돌려 의미 없는 1바이트짜리 `/var/spool` 캐시 영수증 폴더 찌꺼기를 `rm -rf` 로 수백만 개를 모조리 싹 도륙 소각해 빈 FCB 명부 칸 카운트를 반환(GC 확보)시켜야만 극적 구원 서버 부활 기전이 성취 전개된다!
 
-| 스토리지 생존 폭파 On-Disk 한계 뷰 | [[001_dikw_pyramid|데이터]] 블록 고갈 (Real Payload [[074_byte|바이트]] [[001_dikw_pyramid|Data]] 터짐) | FCB(Inode) 메타 장부 장벽 고갈 에러 늪 타격 |
+| 스토리지 생존 폭파 On-Disk 한계 뷰 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록 고갈 (Real Payload [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 터짐) | FCB(Inode) 메타 장부 장벽 고갈 에러 늪 타격 |
 |:---|:---|:---|
-| **정량 (물리 사이즈의 배신 [[100_sre_site_reliability_engineering_error_budget|SRE]] 충돌 Rate)** | 누군가 100GB 거대 영화를 올려서 **진짜 물리적 디스크 [[074_byte|바이트]] 철판이 0%로 오링 소진됨 멸망.** | 1바이트 조각 구름 [[501_file_definition_logical_record|파일]] 수천만 개를 올려서, **철판은 텅텅 비었는데 장부 칸(FCB [[154_database_index_b_tree_search_optimization|인덱스]] 번호 개수) 명부가 털려 마비됨.** |
-| **정성 (자원 [[459_quic_fec_forward_error_correction|초기]] 포맷 튜닝 아키텍트 보장 스펙 구조)** | 돈 주고(AWS EBS) 볼륨 용량 테라바이트 사이즈를 더 크게 찰흙 LVM [[516_mount_mechanism|마운트]]로 붙여버리면 동적 확장 탈출 구원 생존! | **[[514_partition_slice_volume|파티션]] 포맷할 때 쳐박힌 고정 룰(Fixed [[055_array|Array]])** 이라, 용량 추가로 해결 절대 안 됨. 무조건 쓸데없는 작은 캐시 [[501_file_definition_logical_record|파일]]을 삭제 스윕 소각해야만 장착 유지됨 찰나의 역린. |
+| **정량 (물리 사이즈의 배신 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 충돌 Rate)** | 누군가 100GB 거대 영화를 올려서 **진짜 물리적 디스크 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 철판이 0%로 오링 소진됨 멸망.** | 1바이트 조각 구름 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 수천만 개를 올려서, **철판은 텅텅 비었는데 장부 칸(FCB [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 번호 개수) 명부가 털려 마비됨.** |
+| **정성 (자원 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 포맷 튜닝 아키텍트 보장 스펙 구조)** | 돈 주고(AWS EBS) 볼륨 용량 테라바이트 사이즈를 더 크게 찰흙 LVM [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/)로 붙여버리면 동적 확장 탈출 구원 생존! | **[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 포맷할 때 쳐박힌 고정 룰(Fixed [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/))** 이라, 용량 추가로 해결 절대 안 됨. 무조건 쓸데없는 작은 캐시 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 삭제 스윕 소각해야만 장착 유지됨 찰나의 역린. |
 
 ### Ⅳ. 기대효과 및 결론
-- '디스크 상의 구조 (On-Disk Structures 부트, 슈퍼블록, 덴트리, FCB 4단 칼질 레이아웃)' 아키텍처는 [[001_operating_system_purpose|운영체제]]가 무식하게 광활한 [[327_ssd|SSD]] 모래사장에 어떻게 정밀 콘크리트 인프라 측량 눈금을 새겨 영구 보존(Persistent 락백) 스토리지를 건설하는지를 증명하는 도시공학 토목 설계 시스템의 마스터피스 도면이다. 
-- 이 정적인 구획들은 "컴퓨터 전원이 꺼지면 모든 뇌(RAM)가 백지가 된다" 는 폰노이만 아키텍처의 절대 약점을 극복하게 한 영원불멸의 나침반 장부 덩어리다. 특히 모든 것을 통달하는 슈퍼블록과 개별 알맹이를 지시하는 FCB(Inode), 인간 뷰를 투영하는 [[506_directory_structure_symbol_table|디렉터리]] 이름표의 철저한 하드 [[179_table_partitioning_concept|파티셔닝]] 구조 분리(Decoupling 컷) 덕분에, 리눅스는 디스크의 한 구역([[506_directory_structure_symbol_table|디렉터리]])이 배드 섹터로 깨져도 다른 구역 [[001_dikw_pyramid|데이터]](FCB [[555_backup_and_restore_strategy|백업]] 본체)를 살려내는 극강의 [[800_system_architecture_fault_tolerance_dual|Fault Tolerance]] 고립 복원 체제를 성취했다. 물론 "포맷 시 결정(Format time Limit)" 되는 FCB 한계치로 인해 수많은 DevOps의 오장육부를 갈아먹는 FCB 고갈 멸망 에러의 원인 뼈대이긴 렌더하지만, 0번지부터 톱니바퀴 이빨이 물리며 로드되어 [[501_file_definition_logical_record|파일]] 트리 우주 전체를 마법처럼 복원 융합 [[016_replication_factor|복제]]시키는 현대 클라우드 영구 저장 기틀의 가장 경이로운 [[517_virtual_file_system_vfs|VFS]] 하드 코딩 팩트 기반 결산이다.
+- '디스크 상의 구조 (On-Disk Structures 부트, 슈퍼블록, 덴트리, FCB 4단 칼질 레이아웃)' 아키텍처는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 무식하게 광활한 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 모래사장에 어떻게 정밀 콘크리트 인프라 측량 눈금을 새겨 영구 보존(Persistent 락백) 스토리지를 건설하는지를 증명하는 도시공학 토목 설계 시스템의 마스터피스 도면이다. 
+- 이 정적인 구획들은 "컴퓨터 전원이 꺼지면 모든 뇌(RAM)가 백지가 된다" 는 폰노이만 아키텍처의 절대 약점을 극복하게 한 영원불멸의 나침반 장부 덩어리다. 특히 모든 것을 통달하는 슈퍼블록과 개별 알맹이를 지시하는 FCB(Inode), 인간 뷰를 투영하는 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 이름표의 철저한 하드 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) 구조 분리(Decoupling 컷) 덕분에, 리눅스는 디스크의 한 구역([디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/))이 배드 섹터로 깨져도 다른 구역 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(FCB [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 본체)를 살려내는 극강의 [Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/) 고립 복원 체제를 성취했다. 물론 "포맷 시 결정(Format time Limit)" 되는 FCB 한계치로 인해 수많은 DevOps의 오장육부를 갈아먹는 FCB 고갈 멸망 에러의 원인 뼈대이긴 렌더하지만, 0번지부터 톱니바퀴 이빨이 물리며 로드되어 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 트리 우주 전체를 마법처럼 복원 융합 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)시키는 현대 클라우드 영구 저장 기틀의 가장 경이로운 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 하드 코딩 팩트 기반 결산이다.
 
-- **📢 섹션 요약 비유**: 요약하자면, 이 On-Disk 4대 포맷 구획 장부는 놀이공원 **"에버랜드 텅 빈 부지의 기초 토목 인프라 구역 나누기 공사도"** 랑 정확히 100% 동일한 맥락 뷰 매핑입니다! 허허벌판 10만 평(새 하드디스크 1TB)을 샀어요! 거기다 기구([[001_dikw_pyramid|데이터]] [[501_file_definition_logical_record|파일]])를 막 들이기 전에 반드시 공구리 칼질([[514_partition_slice_volume|파티션]] 포맷)을 쳐야죠! 첫 번째 0번 구역 **정문 매표소(부트블록)**, 1번 구역 **전체 조감도 행정실(슈퍼블록 남은 땅 크기 기록)**, 2번 구역 **사파리 안내 명패([[506_directory_structure_symbol_table|디렉터리]] 구조)**, 길목 3번 구역엔 **기구별 안전진단/티켓표 장부실(FCB 권한 통치 락백)**! 이 인프라 뼈대를 먼저 박아놔야 내일 아침 직원이 출근(부팅)해도 꼬임 에러 폭발 없이 수억 명 [[001_dikw_pyramid|데이터]]를 질서 있게 운영 보존 타결 마스킹 유지할 수 있는 기막힌 철판 섭리랍니다!
+- **📢 섹션 요약 비유**: 요약하자면, 이 On-Disk 4대 포맷 구획 장부는 놀이공원 **"에버랜드 텅 빈 부지의 기초 토목 인프라 구역 나누기 공사도"** 랑 정확히 100% 동일한 맥락 뷰 매핑입니다! 허허벌판 10만 평(새 하드디스크 1TB)을 샀어요! 거기다 기구([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))를 막 들이기 전에 반드시 공구리 칼질([파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 포맷)을 쳐야죠! 첫 번째 0번 구역 **정문 매표소(부트블록)**, 1번 구역 **전체 조감도 행정실(슈퍼블록 남은 땅 크기 기록)**, 2번 구역 **사파리 안내 명패([디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 구조)**, 길목 3번 구역엔 **기구별 안전진단/티켓표 장부실(FCB 권한 통치 락백)**! 이 인프라 뼈대를 먼저 박아놔야 내일 아침 직원이 출근(부팅)해도 꼬임 에러 폭발 없이 수억 명 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 질서 있게 운영 보존 타결 마스킹 유지할 수 있는 기막힌 철판 섭리랍니다!
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 디스크 상의 구조 (On Disk Structures)을 도입하거나 조정할 때 평균 성능만 보지 않고 실패 시 영향 범위와 운영 복잡도까지 함께 확인해야 한다. 예를 들어 트래픽 급증, 장애 [[658_ir_recovery|복구]], 보안 격리 같은 상황에서는 디스크 상의 구조 (On Disk Structures)이 어떤 [[571_protection_vs_security|보호]]막을 제공하는지, 반대로 어떤 오버헤드를 유발하는지 판단해야 한다. 따라서 모니터링 지표와 운영 절차를 함께 설계하는 것이 기술사 관점의 핵심이다.
+실무에서는 디스크 상의 구조 (On Disk Structures)을 도입하거나 조정할 때 평균 성능만 보지 않고 실패 시 영향 범위와 운영 복잡도까지 함께 확인해야 한다. 예를 들어 트래픽 급증, 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 보안 격리 같은 상황에서는 디스크 상의 구조 (On Disk Structures)이 어떤 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)막을 제공하는지, 반대로 어떤 오버헤드를 유발하는지 판단해야 한다. 따라서 모니터링 지표와 운영 절차를 함께 설계하는 것이 기술사 관점의 핵심이다.
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 현재 워크로드가 디스크 상의 구조 (On Disk Structures)의 장점을 실제로 활용하는가?
 2. 병목이 생길 경우 메모리 내의 구조 수준에서 보완할 여지가 있는가?
 3. 장애나 보안 이슈가 발생했을 때 영향 범위를 빠르게 격리할 수 있는가?
@@ -128,7 +132,7 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-디스크 상의 구조 (On Disk Structures)은 [[501_file_definition_logical_record|파일]] 시스템과 [[506_directory_structure_symbol_table|디렉터리]] 구조을 이해하는 연결 고리 역할을 한다. 이 개념을 익히면 시스템 동작을 더 예측 가능하게 설명할 수 있지만, 만능 해법은 아니므로 적용 전제와 한계를 함께 기억해야 한다. 앞으로는 메모리 내의 구조처럼 더 세분화된 기술과 결합되며 자동화·최적화 방향으로 발전한다.
+디스크 상의 구조 (On Disk Structures)은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템과 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 구조을 이해하는 연결 고리 역할을 한다. 이 개념을 익히면 시스템 동작을 더 예측 가능하게 설명할 수 있지만, 만능 해법은 아니므로 적용 전제와 한계를 함께 기억해야 한다. 앞으로는 메모리 내의 구조처럼 더 세분화된 기술과 결합되며 자동화·최적화 방향으로 발전한다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -138,10 +142,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[517_virtual_file_system_vfs|VFS]] ([[517_virtual_file_system_vfs|Virtual File System]]) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [[517_virtual_file_system_vfs|VFS]] 객체 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) ([Virtual File System](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 객체 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
 | 메모리 내의 구조 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [[521_open_file_table|열린 파일 테이블]] ([[521_open_file_table|Open File Table]]) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [열린 파일 테이블](/knowledge-base/studynote/02_operating_system/09_file_system/521_open_file_table/) ([Open File Table](/knowledge-base/studynote/02_operating_system/09_file_system/521_open_file_table/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -159,9 +163,9 @@ tags:
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 텅 빈 새로운 거대 컴퓨터 하드디스크(창고)를 샀어요! 당장 게임 [[501_file_definition_logical_record|파일]]([[001_dikw_pyramid|데이터]])을 넣을 수 없어요. 먼저 창고 안에 반듯하게 선을 긋고(포맷) 중요한 "장부 바구니 4구역" 기초 공사 뼈대 인프라를 지어놔야 하거든요!
-2. 1번 자리는 **[입구 경비실(부트블록)]**, 2번 자리는 **[창고 빈 공간 지도 팻말(슈퍼블록)]**, 3번 자리는 **[물건 이름표 안내([[506_directory_structure_symbol_table|디렉터리]])]**, 4번 자리는 물건의 크기, 주인의 **[비밀 명부 기록표 100만 칸 락백(FCB/아이노드 장부)]** 을 미리 만들어 각인해 영구 보관해 둬야 해요!!
-3. 컴퓨터 전원이 툭 끊겨도 이 4개의 철판 장부는 영원히 날아가지 않아요(On-Disk 구조 장점)! 그래서 내일 컴퓨터를 켜면([[516_mount_mechanism|마운트]]), [[001_operating_system_purpose|운영체제]] 아저씨가 이걸 보고 "아! 빈 공간이 여치고 아이노드가 저기구나!" 0.1초 만에 어제 우주를 무결점으로 부활시켜 살려내는 완벽한 [[501_file_definition_logical_record|파일]] [[571_protection_vs_security|보호]] 기초 공사 체제랍니다!
+1. 텅 빈 새로운 거대 컴퓨터 하드디스크(창고)를 샀어요! 당장 게임 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 넣을 수 없어요. 먼저 창고 안에 반듯하게 선을 긋고(포맷) 중요한 "장부 바구니 4구역" 기초 공사 뼈대 인프라를 지어놔야 하거든요!
+2. 1번 자리는 **[입구 경비실(부트블록)]**, 2번 자리는 **[창고 빈 공간 지도 팻말(슈퍼블록)]**, 3번 자리는 **[물건 이름표 안내([디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/))]**, 4번 자리는 물건의 크기, 주인의 **[비밀 명부 기록표 100만 칸 락백(FCB/아이노드 장부)]** 을 미리 만들어 각인해 영구 보관해 둬야 해요!!
+3. 컴퓨터 전원이 툭 끊겨도 이 4개의 철판 장부는 영원히 날아가지 않아요(On-Disk 구조 장점)! 그래서 내일 컴퓨터를 켜면([마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/)), [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 아저씨가 이걸 보고 "아! 빈 공간이 여치고 아이노드가 저기구나!" 0.1초 만에 어제 우주를 무결점으로 부활시켜 살려내는 완벽한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 기초 공사 체제랍니다!
 
 ---
 
@@ -169,7 +173,7 @@ tags:
 
 **진행 상황**: 519 / 800
 
-← **이전**: [[518_vfs_objects_superblock_inode_dentry_file|518. VFS 객체 - 슈퍼블록 (Superblock), 아이노드 (inode), 덴트리 (dentry), 파일 객체 (file object)]]
-**다음**: [[520_in_memory_structures|520. 메모리 내의 구조 - 마운트 테이블, 시스템 전체 열린 파일 테이블 (System-wide Open File Table), 프로세스별]] →
+← **이전**: [518. VFS 객체 - 슈퍼블록 (Superblock), 아이노드 (inode), 덴트리 (dentry), 파일 객체 (file object)](/knowledge-base/studynote/02_operating_system/09_file_system/518_vfs_objects_superblock_inode_dentry_file/)
+**다음**: [520. 메모리 내의 구조 - 마운트 테이블, 시스템 전체 열린 파일 테이블 (System-wide Open File Table), 프로세스별](/knowledge-base/studynote/02_operating_system/09_file_system/520_in_memory_structures/) →
 
 ---

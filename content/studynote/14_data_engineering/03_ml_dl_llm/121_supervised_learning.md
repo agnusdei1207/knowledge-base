@@ -1,14 +1,18 @@
----
-title: 121. 지도 학습 (Supervised Learning) - 라벨 기반 학습·분류·회귀
-date: '2026-04-19'
-tags:
-- studynote-dataengineering
----
++++
+title = "121. 지도 학습 (Supervised Learning) - 라벨 기반 학습·분류·회귀"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-dataengineering"]
+
+[extra]
+tags = ["studynote-dataengineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 지도 학습은 **입력(X)과 정답 라벨(y)의 쌍**으로 구성된 학습 [[001_dikw_pyramid|데이터]]를 통해 모델이 **X→y 매핑 함수를 학습**하는 ML 패러다임이며, [[104_classification_analysis|분류]]([[107_classification|Classification]])와 회귀(Regression)로 나뉜다.
-> 2. **가치**: 정답 라벨이 주어지므로 **명확한 평가 기준(정확도·[[076_mse_mean_squared_error_regression|MSE]])**이 있어 모델 성능을 객관적으로 측정할 수 있으며, 가장 성숙하고 실무에서 널리 사용되는 ML 방식이다.
-> 3. **판단 포인트**: 지도 학습의 핵심 과제는 **라벨링 비용(인건비·시간)**이며, 이를 줄이기 위한 Semi-supervised [[240_switch_learning_forwarding_flooding|Learning]]·[[266_self_supervised_learning|Self-supervised Learning]]·[[483_active_vs_passive_ftp|Active]] Learning이 대안으로 발전했다.
+> 1. **본질**: 지도 학습은 **입력(X)과 정답 라벨(y)의 쌍**으로 구성된 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 통해 모델이 **X→y 매핑 함수를 학습**하는 ML 패러다임이며, [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)([Classification](/knowledge-base/studynote/12_it_management/03_ea_isp/107_classification/))와 회귀(Regression)로 나뉜다.
+> 2. **가치**: 정답 라벨이 주어지므로 **명확한 평가 기준(정확도·[MSE](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/))**이 있어 모델 성능을 객관적으로 측정할 수 있으며, 가장 성숙하고 실무에서 널리 사용되는 ML 방식이다.
+> 3. **판단 포인트**: 지도 학습의 핵심 과제는 **라벨링 비용(인건비·시간)**이며, 이를 줄이기 위한 Semi-supervised [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)·[Self-supervised Learning](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/266_self_supervised_learning/)·[Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) Learning이 대안으로 발전했다.
 
 ---
 
@@ -28,7 +32,7 @@ tags:
 └───────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: [[104_classification_analysis|분류]]는 "이 동물이 고양이인가 개인가?" (카테고리)이고, 회귀는 "이 집의 가격은 얼마인가?" (숫자)이다.
+- **📢 섹션 요약 비유**: [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 "이 동물이 고양이인가 개인가?" (카테고리)이고, 회귀는 "이 집의 가격은 얼마인가?" (숫자)이다.
 
 ---
 
@@ -38,10 +42,10 @@ tags:
 
 | 패러다임 | 라벨 | 목표 | 대표 |
 |:---|:---|:---|:---|
-| **지도** | **있음** | 예측 | [[104_classification_analysis|분류]]·회귀 |
-| **비지도** | 없음 | 구조 발견 | 클러스터링·[[163_pca|PCA]] |
+| **지도** | **있음** | 예측 | [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)·회귀 |
+| **비지도** | 없음 | 구조 발견 | 클러스터링·[PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) |
 | **강화** | 보상 | 행동 최적화 | 게임·로봇 |
-| **자기 지도** | 자동 [[087_process_state_transition|생성]] | 표현 학습 | **[[301_bert_mlm|BERT]]·[[302_gpt_autoregressive|GPT]]** |
+| **자기 지도** | 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 표현 학습 | **[BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)·[GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)** |
 
 - **📢 섹션 요약 비유**: 지도 학습은 선생님(라벨)이 정답을 알려주는 수업, 비지도는 혼자 규칙을 찾는 탐구, 강화는 게임에서 점수를 올리며 배우는 것이다.
 
@@ -49,26 +53,26 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | [[104_classification_analysis|분류]] | 회귀 |
+| 비교 | [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 회귀 |
 |:---|:---|:---|
 | **출력** | 이산 (카테고리) | **연속 (숫자)** |
-| **손실** | [[154_cross_entropy|Cross-Entropy]] | **[[076_mse_mean_squared_error_regression|MSE]]** |
+| **손실** | [Cross-Entropy](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/) | **[MSE](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/)** |
 | **평가** | Accuracy, F1 | **R², RMSE** |
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 라벨링 비용 절감 [[268_strategy_pattern|전략]]
-1. **[[214_active_learning|Active Learning]]**: 불확실한 샘플만 라벨링 요청.
+### 라벨링 비용 절감 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
+1. **[Active Learning](/knowledge-base/studynote/10_ai/03_llm_nlp/214_active_learning/)**: 불확실한 샘플만 라벨링 요청.
 2. **Semi-supervised**: 소량 라벨 + 대량 비라벨 활용.
-3. **Self-supervised**: [[001_dikw_pyramid|데이터]] 자체에서 라벨 자동 [[087_process_state_transition|생성]] ([[301_bert_mlm|BERT]] 마스킹).
+3. **Self-supervised**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체에서 라벨 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) ([BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) 마스킹).
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-지도 학습은 ML의 **가장 기본이자 실무 적용이 가장 광범위한 패러다임**이며, [[266_self_supervised_learning|Self-supervised Learning]]([[301_bert_mlm|BERT]]·[[302_gpt_autoregressive|GPT]])이 라벨링 비용 문제를 혁신적으로 해결하면서 새로운 지평을 열고 있다.
+지도 학습은 ML의 **가장 기본이자 실무 적용이 가장 광범위한 패러다임**이며, [Self-supervised Learning](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/266_self_supervised_learning/)([BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)·[GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/))이 라벨링 비용 문제를 혁신적으로 해결하면서 새로운 지평을 열고 있다.
 
 ---
 
@@ -76,11 +80,11 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[[104_classification_analysis|분류]]** | 이산값 예측 (스팸 탐지·이미지 [[104_classification_analysis|분류]]) |
+| **[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)** | 이산값 예측 (스팸 탐지·이미지 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)) |
 | **회귀** | 연속값 예측 (가격·매출 예측) |
 | **라벨링 비용** | 지도 학습의 핵심 과제 |
-| **Self-supervised** | 라벨 없이 학습 ([[301_bert_mlm|BERT]]·[[302_gpt_autoregressive|GPT]]) |
-| **[[110_bias_variance_tradeoff|편향-분산 트레이드오프]]** | 지도 학습 모델 선택의 기준 |
+| **Self-supervised** | 라벨 없이 학습 ([BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)·[GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)) |
+| **[편향-분산 트레이드오프](/knowledge-base/studynote/14_data_engineering/02_math_mining/110_bias_variance_tradeoff/)** | 지도 학습 모델 선택의 기준 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -111,7 +115,7 @@ tags:
 
 **진행 상황**: 121 / 258
 
-← **이전**: [[120_concept|120. 부트스트래핑 (Bootstrapping) - 비모수 통계적 추론·신뢰 구간 추정]]
-**다음**: [[122_unsupervised_learning|122. 비지도 학습 (Unsupervised Learning) - 라벨 없는 데이터의 구조 발견]] →
+← **이전**: [120. 부트스트래핑 (Bootstrapping) - 비모수 통계적 추론·신뢰 구간 추정](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/)
+**다음**: [122. 비지도 학습 (Unsupervised Learning) - 라벨 없는 데이터의 구조 발견](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/) →
 
 ---

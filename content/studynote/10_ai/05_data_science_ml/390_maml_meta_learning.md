@@ -1,25 +1,29 @@
----
-title: 390. 메타 러닝 MAML (Model-Agnostic Meta-Learning)
-date: '2026-05-09'
-tags:
-- studynote-ai
----
++++
+title = "390. 메타 러닝 MAML (Model-Agnostic Meta-Learning)"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-ai"]
+
+[extra]
+tags = ["studynote-ai"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: MAML (Model-Agnostic Meta-[[240_switch_learning_forwarding_flooding|Learning]])은 "소수의 예시로 빠르게 새 [[150_task|태스크]]에 적응하는 [[459_quic_fec_forward_error_correction|초기]] 파라미터"를 학습하는 [[470_meta_learning_maml|메타 러닝]] [[001_algorithm_definition|알고리즘]]으로, 이중 루프 최적화로 외부(outer) 루프는 [[459_quic_fec_forward_error_correction|초기]] 파라미터, 내부(inner) 루프는 [[150_task|태스크]] 적응을 담당한다.
-> 2. **가치**: 모델 구조에 무관하게 (Model-Agnostic) 적용 가능하며, 단 몇 번의 그래디언트 스텝으로 새 [[150_task|태스크]]에 적응하는 "빠른 학습" 능력을 갖춘 파라미터 [[459_quic_fec_forward_error_correction|초기]]값을 찾는다.
-> 3. **판단 포인트**: 이중 도함수(2nd-order Derivative) 계산이 핵심 계산 병목이며, FOMAML (First-Order MAML)은 2차 항을 생략해 계산 효율을 높이면서도 유사한 [[282_performance_tactics|성능]]을 달성한다.
+> 1. **본질**: MAML (Model-Agnostic Meta-[Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))은 "소수의 예시로 빠르게 새 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)에 적응하는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 파라미터"를 학습하는 [메타 러닝](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/470_meta_learning_maml/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로, 이중 루프 최적화로 외부(outer) 루프는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 파라미터, 내부(inner) 루프는 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 적응을 담당한다.
+> 2. **가치**: 모델 구조에 무관하게 (Model-Agnostic) 적용 가능하며, 단 몇 번의 그래디언트 스텝으로 새 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)에 적응하는 "빠른 학습" 능력을 갖춘 파라미터 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)값을 찾는다.
+> 3. **판단 포인트**: 이중 도함수(2nd-order Derivative) 계산이 핵심 계산 병목이며, FOMAML (First-Order MAML)은 2차 항을 생략해 계산 효율을 높이면서도 유사한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 달성한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-Few-shot [[240_switch_learning_forwarding_flooding|Learning]] (소수 샷 학습)의 핵심 과제: 새 클래스가 3~5개 예시만 있을 때 학습 가능?
+Few-shot [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) (소수 샷 학습)의 핵심 과제: 새 클래스가 3~5개 예시만 있을 때 학습 가능?
 
-일반 딥러닝은 수천 개 샘플이 필요하다. MAML은 이를 "좋은 [[459_quic_fec_forward_error_correction|초기]] 파라미터"로 해결한다. 즉, 어떤 [[150_task|태스크]]가 와도 몇 번만 업데이트하면 잘 작동하는 공통 출발점을 찾는 것이다.
+일반 딥러닝은 수천 개 샘플이 필요하다. MAML은 이를 "좋은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 파라미터"로 해결한다. 즉, 어떤 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)가 와도 몇 번만 업데이트하면 잘 작동하는 공통 출발점을 찾는 것이다.
 
-구분: 학습하는 방법을 학습 = **[[470_meta_learning_maml|메타 러닝]] ([[240_switch_learning_forwarding_flooding|Learning]] to Learn)**
+구분: 학습하는 방법을 학습 = **[메타 러닝](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/470_meta_learning_maml/) ([Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) to Learn)**
 
 ```text
 ┌──────────────────────────────────────────────┐
@@ -45,7 +49,7 @@ Few-shot [[240_switch_learning_forwarding_flooding|Learning]] (소수 샷 학습
                    태스크별 업데이트 후 파라미터
 ```
 
-**내부 루프 (Inner Loop) - [[150_task|태스크]] 적응**:
+**내부 루프 (Inner Loop) - [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 적응**:
 ```
 1. 태스크 τᵢ에서 서포트 셋 (Support Set) 샘플링
 2. 빠른 적응: θ'ᵢ = θ - α∇_θ L_{τᵢ}(θ)
@@ -74,7 +78,7 @@ Few-shot [[240_switch_learning_forwarding_flooding|Learning]] (소수 샷 학습
 └──────────────────────────────────────────────────────┘
 ```
 
-| 방법 | 2차 도함수 | 계산 비용 | [[282_performance_tactics|성능]] |
+| 방법 | 2차 도함수 | 계산 비용 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) |
 |:---|:---|:---|:---|
 | MAML | 포함 | 높음 | 기준 |
 | FOMAML | 생략 | 낮음 | MAML과 유사 |
@@ -87,25 +91,25 @@ Few-shot [[240_switch_learning_forwarding_flooding|Learning]] (소수 샷 학습
 
 ## Ⅲ. 비교 및 연결
 
-| [[470_meta_learning_maml|메타 러닝]] 방법 | 접근 방식 | 대표 |
+| [메타 러닝](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/470_meta_learning_maml/) 방법 | 접근 방식 | 대표 |
 |:---|:---|:---|
-| 최적화 기반 | [[459_quic_fec_forward_error_correction|초기]] 파라미터 학습 | MAML, Reptile |
-| [[342_routing_metric_hop_bandwidth_delay|메트릭]] 기반 | 유사도 함수 학습 | ProtoNet, Matching Net |
-| 모델 기반 | 빠른 [[267_weight_bias_activation|가중치]] [[087_process_state_transition|생성]] | SNAIL, HyperNet |
+| 최적화 기반 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 파라미터 학습 | MAML, Reptile |
+| [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 기반 | 유사도 함수 학습 | ProtoNet, Matching Net |
+| 모델 기반 | 빠른 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | SNAIL, HyperNet |
 
 **N-way K-shot**: N개 클래스, 각 K개 예시 → K=1(1-shot), K=5(5-shot)
 
-- **📢 섹션 요약 비유**: MAML은 "만능 선수", ProtoNet은 "유사도 측정기", SNAIL은 "메모리가 있는 학습기"다. 각자 다른 방식으로 적은 [[001_dikw_pyramid|데이터]] 학습 문제를 해결한다.
+- **📢 섹션 요약 비유**: MAML은 "만능 선수", ProtoNet은 "유사도 측정기", SNAIL은 "메모리가 있는 학습기"다. 각자 다른 방식으로 적은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 학습 문제를 해결한다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**강화학습 MAML**: RL² - 다양한 환경에서 빠른 적응 [[164_policy|정책]] 학습
-**NLP MAML**: 새 [[064_relation_domain|도메인]] 파인튜닝 [[001_dikw_pyramid|데이터]]가 극히 적을 때
+**강화학습 MAML**: RL² - 다양한 환경에서 빠른 적응 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 학습
+**NLP MAML**: 새 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 파인튜닝 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 극히 적을 때
 **로봇 공학**: 다양한 물리적 환경에서 빠른 적응
 
-계산 비용 문제로 실무에서는 FOMAML 또는 Reptile을 선호하며, 현대에는 프롬프트 기반 in-[[033_context|context]] learning이 few-shot 학습의 더 실용적 대안으로 부상했다.
+계산 비용 문제로 실무에서는 FOMAML 또는 Reptile을 선호하며, 현대에는 프롬프트 기반 in-[context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) learning이 few-shot 학습의 더 실용적 대안으로 부상했다.
 
 - **📢 섹션 요약 비유**: FOMAML은 "경사의 굽은 정도는 무시하고 방향만 보고 내려가는" 빠른 하산 방법이다. 정확도가 약간 낮지만 훨씬 빠르다.
 
@@ -113,9 +117,9 @@ Few-shot [[240_switch_learning_forwarding_flooding|Learning]] (소수 샷 학습
 
 ## Ⅴ. 기대효과 및 결론
 
-MAML은 [[470_meta_learning_maml|메타 러닝]]의 이론적 기반을 확립하고, "학습하는 방법을 학습한다"는 패러다임을 구체적 [[001_algorithm_definition|알고리즘]]으로 실현했다. 이중 루프 최적화와 이중 도함수는 계산 비용이 높지만, FOMAML과 Reptile의 등장으로 실용화됐다. Few-shot 학습은 LLM의 in-[[033_context|context]] learning과 함께 [[190_ai_llm_requirements_specification|AI]] 범용화의 핵심 연구 주제다.
+MAML은 [메타 러닝](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/470_meta_learning_maml/)의 이론적 기반을 확립하고, "학습하는 방법을 학습한다"는 패러다임을 구체적 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 실현했다. 이중 루프 최적화와 이중 도함수는 계산 비용이 높지만, FOMAML과 Reptile의 등장으로 실용화됐다. Few-shot 학습은 LLM의 in-[context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) learning과 함께 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 범용화의 핵심 연구 주제다.
 
-- **📢 섹션 요약 비유**: MAML이 학습한 [[459_quic_fec_forward_error_correction|초기]] 파라미터는 "유연한 악기 연주 능력"이다. 첼로를 처음 배우더라도 3번 연습하면 기본 연주를 할 수 있는 음악적 기초 체력이다.
+- **📢 섹션 요약 비유**: MAML이 학습한 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 파라미터는 "유연한 악기 연주 능력"이다. 첼로를 처음 배우더라도 3번 연습하면 기본 연주를 할 수 있는 음악적 기초 체력이다.
 
 ---
 
@@ -123,12 +127,12 @@ MAML은 [[470_meta_learning_maml|메타 러닝]]의 이론적 기반을 확립�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| MAML | 이중 루프, [[459_quic_fec_forward_error_correction|초기]] 파라미터 / 최적화 기반 [[470_meta_learning_maml|메타 러닝]] |
-| 내부 루프 | [[150_task|태스크]] 적응, 서포트 셋 / [[150_task|태스크]]별 빠른 학습 |
-| 외부 루프 | 메타 업데이트, [[298_qkv_attention|쿼리]] 셋 / [[459_quic_fec_forward_error_correction|초기]] 파라미터 개선 |
-| FOMAML | 1차 근사, 계산 효율 / MAML 실용화 [[288_version_ihl_tos_total_length|버전]] |
-| N-way K-shot | Few-shot [[009_config|설정]] / [[470_meta_learning_maml|메타 러닝]] 평가 기준 |
-| Reptile | 방향 근사, SGD 기반 / 가장 단순한 [[470_meta_learning_maml|메타 러닝]] |
+| MAML | 이중 루프, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 파라미터 / 최적화 기반 [메타 러닝](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/470_meta_learning_maml/) |
+| 내부 루프 | [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 적응, 서포트 셋 / [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)별 빠른 학습 |
+| 외부 루프 | 메타 업데이트, [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 셋 / [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 파라미터 개선 |
+| FOMAML | 1차 근사, 계산 효율 / MAML 실용화 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) |
+| N-way K-shot | Few-shot [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) / [메타 러닝](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/470_meta_learning_maml/) 평가 기준 |
+| Reptile | 방향 근사, SGD 기반 / 가장 단순한 [메타 러닝](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/470_meta_learning_maml/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -140,7 +144,7 @@ MAML은 [[470_meta_learning_maml|메타 러닝]]의 이론적 기반을 확립�
 
 1. MAML은 "어떤 운동이든 빠르게 배울 수 있는 유연한 몸"을 만드는 훈련이야. 특정 운동을 잘하는 게 아니라 배우는 능력 자체를 키워.
 2. 내부 루프는 "새 운동을 3번 연습"하는 것, 외부 루프는 "그 3번 연습이 잘 되게 만드는 몸 상태를 만드는 것"이야.
-3. FOMAML은 계산을 줄이기 위해 "경사의 굽은 정도는 무시하고 방향만 보고 내려가는" 간소화 [[288_version_ihl_tos_total_length|버전]]이야.
+3. FOMAML은 계산을 줄이기 위해 "경사의 굽은 정도는 무시하고 방향만 보고 내려가는" 간소화 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이야.
 
 ---
 
@@ -148,7 +152,7 @@ MAML은 [[470_meta_learning_maml|메타 러닝]]의 이론적 기반을 확립�
 
 **진행 상황**: 390 / 420
 
-← **이전**: [[389_knowledge_distillation_soft_target|389. 지식 증류 소프트 타겟 (Soft Target)]]
-**다음**: [[391_diffusion_reverse_process|391. 디퓨전 역과정 (Reverse Diffusion Process)]] →
+← **이전**: [389. 지식 증류 소프트 타겟 (Soft Target)](/knowledge-base/studynote/10_ai/05_data_science_ml/389_knowledge_distillation_soft_target/)
+**다음**: [391. 디퓨전 역과정 (Reverse Diffusion Process)](/knowledge-base/studynote/10_ai/05_data_science_ml/391_diffusion_reverse_process/) →
 
 ---

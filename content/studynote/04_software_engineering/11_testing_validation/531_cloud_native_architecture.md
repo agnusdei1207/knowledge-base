@@ -1,14 +1,18 @@
----
-title: 531. 클라우드 네이티브 (Cloud Native) 아키텍처 철학
-date: '2026-05-08'
-tags:
-- studynote-software-engineering
----
++++
+title = "531. 클라우드 네이티브 (Cloud Native) 아키텍처 철학"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-software-engineering"]
+
+[extra]
+tags = ["studynote-software-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 클라우드 네이티브 ([[199_cloud_native_architecture_msa_cicd_devops|Cloud Native]]) 아키텍처 철학은(는) [[001_software_engineering_definition|소프트웨어 공학]]의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[[346_maintainability_portability|유지보수성]]·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 클라우드 네이티브 ([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/)) 아키텍처 철학은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
@@ -48,7 +52,7 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-Cloud Native는 [[561_container_based_deployment|컨테이너]], [[073_container_orchestration_tools|오케스트레이션]], 선언형 인프라를 선호한다.
+Cloud Native는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/), [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/), 선언형 인프라를 선호한다.
 
 ```text
 애플리케이션 -> 컨테이너 -> 오케스트레이션 -> 자동화/관측
@@ -57,7 +61,7 @@ Cloud Native는 [[561_container_based_deployment|컨테이너]], [[073_container
 | 요소 | 의미 |
 |:---|:---|
 | Elasticity | 탄력적 확장 |
-| [[642_observability_telemetry|Observability]] | 관측성 |
+| [Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) | 관측성 |
 | Automation | 자동화 |
 
 - **📢 섹션 요약 비유**: 고무줄처럼 늘었다 줄었다 할 수 있는 구조다.
@@ -72,15 +76,15 @@ Cloud Native는 [[561_container_based_deployment|컨테이너]], [[073_container
 
 ## Ⅲ. 비교 및 연결
 
-전통적인 모놀리식보다 배포와 [[658_ir_recovery|복구]]가 유연하다.
+전통적인 모놀리식보다 배포와 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 유연하다.
 
-| 구분 | 전통 아키텍처 | [[199_cloud_native_architecture_msa_cicd_devops|Cloud Native]] |
+| 구분 | 전통 아키텍처 | [Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/) |
 |:---|:---|:---|
 | 배포 | 수동 | 자동 |
 | 확장 | 고정 | 탄력 |
-| [[658_ir_recovery|복구]] | 느림 | 빠름 |
+| [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | 느림 | 빠름 |
 
-[[653_devsecops_shift_left|DevSecOps]], [[205_kubernetes_container_orchestration|Kubernetes]], [[090_service_kubernetes_network_load_balancing|서비스]] 메쉬와 잘 맞는다.
+[DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/), [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/), [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 메쉬와 잘 맞는다.
 
 - **📢 섹션 요약 비유**: 고정된 가구보다 조립식 가구가 이사하기 쉽다.
 
@@ -94,11 +98,11 @@ Cloud Native는 [[561_container_based_deployment|컨테이너]], [[073_container
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 [[532_microservices_decomposition_patterns|마이크로서비스]], [[561_container_based_deployment|컨테이너]], 관측성, 자동 [[658_ir_recovery|복구]]를 설계에 반영한다.
+실무에서는 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/), [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/), 관측성, 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 설계에 반영한다.
 
 점검 포인트는 다음과 같다.
 1. 배포 자동화가 되는가?
-2. 장애 시 자동 [[658_ir_recovery|복구]]가 되는가?
+2. 장애 시 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 되는가?
 3. 상태를 잘 관측할 수 있는가?
 
 - **📢 섹션 요약 비유**: 혼자 움직이는 로봇처럼 스스로 대응해야 한다.
@@ -129,10 +133,10 @@ Cloud Native는 변화가 많은 환경에서 시스템을 더 민첩하게 만�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[001_software_engineering_definition|소프트웨어 공학]] ([[001_software_engineering_definition|Software Engineering]]) | 클라우드 네이티브 ([[199_cloud_native_architecture_msa_cicd_devops|Cloud Native]]) 아키텍처 철학의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [[003_sdlc|소프트웨어 생명주기]] ([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]], Software Development Life Cycle) | 클라우드 네이티브 ([[199_cloud_native_architecture_msa_cicd_devops|Cloud Native]]) 아키텍처 철학은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | 클라우드 네이티브 ([[199_cloud_native_architecture_msa_cicd_devops|Cloud Native]]) 아키텍처 철학 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [[020_software_configuration_management|형상 관리]] ([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]]) | 클라우드 네이티브 ([[199_cloud_native_architecture_msa_cicd_devops|Cloud Native]]) 아키텍처 철학에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 클라우드 네이티브 ([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/)) 아키텍처 철학의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 클라우드 네이티브 ([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/)) 아키텍처 철학은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | 클라우드 네이티브 ([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/)) 아키텍처 철학 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 클라우드 네이티브 ([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/)) 아키텍처 철학에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -152,13 +156,13 @@ Cloud Native는 변화가 많은 환경에서 시스템을 더 민첩하게 만�
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [[002_software_crisis|소프트웨어 위기]] 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 클라우드 네이티브 ([[199_cloud_native_architecture_msa_cicd_devops|Cloud Native]]) 아키텍처 철학은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. 클라우드 네이티브 ([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/)) 아키텍처 철학은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
 
 ---
 
@@ -166,7 +170,7 @@ Cloud Native는 변화가 많은 환경에서 시스템을 더 민첩하게 만�
 
 **진행 상황**: 653 / 973
 
-← **이전**: [[530_segregation_of_duties_sod|530. 보안 조직 분리 정책 위반(SoD, Segregation of Duties)의 SW 통제 로직]]
-**다음**: [[531_cloud_native_architecture|531. 클라우드 네이티브 아키텍처 (Cloud Native Architecture) 철학]] →
+← **이전**: [530. 보안 조직 분리 정책 위반(SoD, Segregation of Duties)의 SW 통제 로직](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/530_segregation_of_duties_sod/)
+**다음**: [531. 클라우드 네이티브 아키텍처 (Cloud Native Architecture) 철학](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) →
 
 ---

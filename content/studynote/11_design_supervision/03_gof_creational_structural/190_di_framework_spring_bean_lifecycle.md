@@ -1,23 +1,27 @@
----
-title: 190. DI 프레임워크와 스프링 빈 생명주기 (DI Framework & Spring Bean Lifecycle)
-date: '2026-05-10'
-tags:
-- studynote-design-supervision
----
++++
+title = "190. DI 프레임워크와 스프링 빈 생명주기 (DI Framework & Spring Bean Lifecycle)"
+date = 2026-05-10
+
+[taxonomies]
+tags = ["studynote-design-supervision"]
+
+[extra]
+tags = ["studynote-design-supervision"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[190_enterprise_di_framework_lifecycle|DI]]([[337_dependency_injection|의존성 주입]]) 프레임워크는 객체 [[087_process_state_transition|생성]]·의존성 연결·생명주기 관리의 책임을 애플리케이션 코드에서 프레임워크(IoC [[561_container_based_deployment|컨테이너]])로 역전시키며, 스프링(Spring)의 빈 생명주기는 인스턴스화 → [[337_dependency_injection|의존성 주입]] → 초기화(PostConstruct) → 사용 → 소멸(PreDestroy) 단계로 이루어진다.
-> 2. **가치**: [[190_enterprise_di_framework_lifecycle|DI]] [[561_container_based_deployment|컨테이너]]가 객체 [[087_process_state_transition|생성]]과 의존성 연결을 관리하므로, 개발자가 직접 `new`로 객체를 [[087_process_state_transition|생성]]하는 의존 관계를 제거하여 결합도를 낮추고, [[462_mock_test_double|Mock]] 주입을 통한 테스트 용이성을 획기적으로 높인다.
-> 3. **판단 포인트**: 스프링 빈의 기본 스코프([[512_oauth_scope|Scope]])는 싱글턴이므로, 빈이 상태([[272_state_pattern|State]])를 가지면 [[014_concurrency|동시성]] 문제가 발생한다. 빈은 반드시 무상태([[239_stateless_redis|Stateless]])로 설계하거나, 상태가 필요하면 [[257_prototype_pattern_object_cloning|Prototype]] 스코프 또는 `@RequestScope`를 사용해야 한다.
+> 1. **본질**: [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/)([의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/)) 프레임워크는 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·의존성 연결·생명주기 관리의 책임을 애플리케이션 코드에서 프레임워크(IoC [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))로 역전시키며, 스프링(Spring)의 빈 생명주기는 인스턴스화 → [의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/) → 초기화(PostConstruct) → 사용 → 소멸(PreDestroy) 단계로 이루어진다.
+> 2. **가치**: [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)과 의존성 연결을 관리하므로, 개발자가 직접 `new`로 객체를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 의존 관계를 제거하여 결합도를 낮추고, [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/) 주입을 통한 테스트 용이성을 획기적으로 높인다.
+> 3. **판단 포인트**: 스프링 빈의 기본 스코프([Scope](/knowledge-base/studynote/09_security/05_web_app_security/512_oauth_scope/))는 싱글턴이므로, 빈이 상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))를 가지면 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 문제가 발생한다. 빈은 반드시 무상태([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/))로 설계하거나, 상태가 필요하면 [Prototype](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) 스코프 또는 `@RequestScope`를 사용해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[[337_dependency_injection|의존성 주입]]([[190_enterprise_di_framework_lifecycle|DI]], [[337_dependency_injection|Dependency Injection]])은 IoC(Inversion of Control, 제어의 역전) 원칙의 구현으로, 객체가 자신의 의존성을 직접 [[087_process_state_transition|생성]]하는 대신 외부([[561_container_based_deployment|컨테이너]])에서 주입받는 방식이다. 스프링 프레임워크는 IoC [[561_container_based_deployment|컨테이너]](`ApplicationContext`)로 빈(Bean)의 [[087_process_state_transition|생성]]·의존성 연결·생명주기를 관리한다.
+[의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/)([DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/), [Dependency Injection](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/))은 IoC(Inversion of Control, 제어의 역전) 원칙의 구현으로, 객체가 자신의 의존성을 직접 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 대신 외부([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))에서 주입받는 방식이다. 스프링 프레임워크는 IoC [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)(`ApplicationContext`)로 빈(Bean)의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·의존성 연결·생명주기를 관리한다.
 
-[[190_enterprise_di_framework_lifecycle|DI]] 없이 객체를 직접 [[087_process_state_transition|생성]]하면: `OrderService service = new OrderServiceImpl(new OrderRepository(...))` — 클라이언트가 모든 의존성 구체 클래스를 알아야 한다. [[190_enterprise_di_framework_lifecycle|DI]] [[561_container_based_deployment|컨테이너]]는 이 의존성 그래프를 자동으로 [[087_process_state_transition|생성]]하고 주입한다.
+[DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) 없이 객체를 직접 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하면: `OrderService service = new OrderServiceImpl(new OrderRepository(...))` — 클라이언트가 모든 의존성 구체 클래스를 알아야 한다. [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 이 의존성 그래프를 자동으로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하고 주입한다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -43,17 +47,17 @@ tags:
 └─────────────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: [[190_enterprise_di_framework_lifecycle|DI]] [[561_container_based_deployment|컨테이너]]는 건설회사(스프링)가 건물(Bean)을 짓고, 필요한 자재(의존성)를 조달하며, 준공 후(PostConstruct) 사용자에게 인도하고, 폐건물 철거(PreDestroy)까지 책임지는 방식이다.
+- **📢 섹션 요약 비유**: [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 건설회사(스프링)가 건물(Bean)을 짓고, 필요한 자재(의존성)를 조달하며, 준공 후(PostConstruct) 사용자에게 인도하고, 폐건물 철거(PreDestroy)까지 책임지는 방식이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[[190_enterprise_di_framework_lifecycle|DI]] 주입 방식은 세 가지다. ① [[087_process_state_transition|생성]]자 주입(Constructor [[480_injection|Injection]]): 스프링 권장 방식, 의존성 불변·필수 의존성 보장, [[316_synchronization_bug_debugging|순환 의존성]] 컴파일 타임 감지, ② 세터 주입(Setter [[480_injection|Injection]]): 선택적 의존성에 적합, ③ 필드 주입(Field [[480_injection|Injection]]): `@Autowired` 필드 직접 주입 - 테스트 어려움으로 비권장.
+[DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) 주입 방식은 세 가지다. ① [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자 주입(Constructor [Injection](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/)): 스프링 권장 방식, 의존성 불변·필수 의존성 보장, [순환 의존성](/knowledge-base/studynote/02_operating_system/05_deadlock/316_synchronization_bug_debugging/) 컴파일 타임 감지, ② 세터 주입(Setter [Injection](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/)): 선택적 의존성에 적합, ③ 필드 주입(Field [Injection](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/)): `@Autowired` 필드 직접 주입 - 테스트 어려움으로 비권장.
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
-| [[087_process_state_transition|생성]]자 주입 | 불변, 필수 의존성, 테스트 용이 | 권장 |
+| [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자 주입 | 불변, 필수 의존성, 테스트 용이 | 권장 |
 | 세터 주입 | 선택적 의존성, 변경 가능 | 선택적 사용 |
 | 필드 주입 | 간결하지만 테스트 어려움 | 비권장 |
 
@@ -68,69 +72,69 @@ tags:
 └─────────────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: [[087_process_state_transition|생성]]자 주입은 집(빈) 설계도를 그릴 때 필요한 재료(의존성) 목록을 명시하는 것이다. 집이 완성되면 재료 목록은 변경할 수 없어(불변) 안전하다.
+- **📢 섹션 요약 비유**: [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자 주입은 집(빈) 설계도를 그릴 때 필요한 재료(의존성) 목록을 명시하는 것이다. 집이 완성되면 재료 목록은 변경할 수 없어(불변) 안전하다.
 
 ---
 ## Ⅲ. 비교 및 연결
 
-필드 주입(`@Autowired` 필드)을 권장하지 않는 이유: ① `new` 로 직접 [[087_process_state_transition|생성]] 시 [[337_dependency_injection|의존성 주입]] 불가 → 단위 테스트에서 [[462_mock_test_double|Mock]] 주입 불가, ② [[316_synchronization_bug_debugging|순환 의존성]]이 런타임에서야 감지, ③ 의존성이 숨겨져 클래스의 책임이 불명확. [[087_process_state_transition|생성]]자 주입은 이 세 가지 문제를 모두 해결한다.
+필드 주입(`@Autowired` 필드)을 권장하지 않는 이유: ① `new` 로 직접 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시 [의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/) 불가 → 단위 테스트에서 [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/) 주입 불가, ② [순환 의존성](/knowledge-base/studynote/02_operating_system/05_deadlock/316_synchronization_bug_debugging/)이 런타임에서야 감지, ③ 의존성이 숨겨져 클래스의 책임이 불명확. [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자 주입은 이 세 가지 문제를 모두 해결한다.
 
 | 비교 축 | A | B |
 |:---|:---|:---|
-| 테스트 | 어려움 (리플렉션 필요) | 쉬움 ([[087_process_state_transition|생성]]자로 [[462_mock_test_double|Mock]] 주입) |
+| 테스트 | 어려움 (리플렉션 필요) | 쉬움 ([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자로 [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/) 주입) |
 | 불변성 | 없음 | 있음 (final 가능) |
-| [[316_synchronization_bug_debugging|순환 의존성]] | 런타임 감지 | 컴파일 타임 감지 |
+| [순환 의존성](/knowledge-base/studynote/02_operating_system/05_deadlock/316_synchronization_bug_debugging/) | 런타임 감지 | 컴파일 타임 감지 |
 | 의존성 명시성 | 숨겨짐 | 명시적 |
 
-- **📢 섹션 요약 비유**: 필드 주입은 집(빈)이 완성된 후 비밀 통로(리플렉션)로 자재(의존성)를 반입하는 것이다. [[087_process_state_transition|생성]]자 주입은 착공 시 자재 목록을 명시하여 투명하게 관리한다.
+- **📢 섹션 요약 비유**: 필드 주입은 집(빈)이 완성된 후 비밀 통로(리플렉션)로 자재(의존성)를 반입하는 것이다. [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자 주입은 착공 시 자재 목록을 명시하여 투명하게 관리한다.
 
 ---
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-스프링 빈 생명주기 훅 활용: `@PostConstruct`는 DB 초기화·캐시 워밍업에, `@PreDestroy`는 리소스 반환(DB 연결 종료, [[079_kube_scheduler_pod_placement|스케줄러]] 중지)에 사용한다. `BeanPostProcessor`는 AOP [[264_proxy_pattern_surrogate_access_control|프록시]] [[087_process_state_transition|생성]] 등 모든 빈에 공통 처리를 적용하는 핵심 확장 포인트다.
+스프링 빈 생명주기 훅 활용: `@PostConstruct`는 DB 초기화·캐시 워밍업에, `@PreDestroy`는 리소스 반환(DB 연결 종료, [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 중지)에 사용한다. `BeanPostProcessor`는 AOP [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 등 모든 빈에 공통 처리를 적용하는 핵심 확장 포인트다.
 
-### 판단 [[435_checklist_based_testing|체크리스트]]
+### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 스프링 빈이 싱글턴 스코프에서 상태(인스턴스 변수)를 갖지 않고 무상태로 설계되어 있는가?
-2. [[337_dependency_injection|의존성 주입]]이 [[087_process_state_transition|생성]]자 주입으로 이루어져 테스트 가능성과 불변성을 보장하는가?
+2. [의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/)이 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자 주입으로 이루어져 테스트 가능성과 불변성을 보장하는가?
 3. 필드 주입(`@Autowired` 필드 직접 사용)을 사용하지 않는가?
 4. `@PostConstruct`와 `@PreDestroy`가 초기화·소멸 로직에 올바르게 사용되는가?
-5. [[316_synchronization_bug_debugging|순환 의존성]]이 없는가? ([[087_process_state_transition|생성]]자 주입 사용 시 컴파일 타임에 감지됨)
+5. [순환 의존성](/knowledge-base/studynote/02_operating_system/05_deadlock/316_synchronization_bug_debugging/)이 없는가? ([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자 주입 사용 시 컴파일 타임에 감지됨)
 
-- **📢 섹션 요약 비유**: [[190_enterprise_di_framework_lifecycle|DI]] [[561_container_based_deployment|컨테이너]]는 레스토랑 주방처럼, 셰프(빈)에게 재료(의존성)를 준비해주고, 영업 시작 전(PostConstruct) 점검하며, 영업 종료 후(PreDestroy) 정리한다.
+- **📢 섹션 요약 비유**: [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 레스토랑 주방처럼, 셰프(빈)에게 재료(의존성)를 준비해주고, 영업 시작 전(PostConstruct) 점검하며, 영업 종료 후(PreDestroy) 정리한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[[190_enterprise_di_framework_lifecycle|DI]] 프레임워크를 사용하면 객체 [[087_process_state_transition|생성]]·의존성 관리가 [[561_container_based_deployment|컨테이너]]로 위임되어 코드가 단순해지고, [[087_process_state_transition|생성]]자 주입으로 단위 테스트에서 Mock을 쉽게 주입할 수 있어 테스트 가능성이 높아진다. [[746_ocp|OCP]]·[[247_dip_dependency_inversion_principle|DIP]] 원칙이 자연스럽게 달성된다.
+[DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) 프레임워크를 사용하면 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·의존성 관리가 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)로 위임되어 코드가 단순해지고, [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자 주입으로 단위 테스트에서 Mock을 쉽게 주입할 수 있어 테스트 가능성이 높아진다. [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/)·[DIP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/) 원칙이 자연스럽게 달성된다.
 
-한계는 [[190_enterprise_di_framework_lifecycle|DI]] [[561_container_based_deployment|컨테이너]]의 학습 비용과, 싱글턴 빈의 상태 관리 실수로 인한 [[014_concurrency|동시성]] 버그다. 스프링 부트가 자동 [[009_config|설정]](Auto Configuration)으로 [[190_enterprise_di_framework_lifecycle|DI]] [[009_config|설정]] 복잡성을 크게 낮췄다.
+한계는 [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 학습 비용과, 싱글턴 빈의 상태 관리 실수로 인한 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 버그다. 스프링 부트가 자동 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(Auto Configuration)으로 [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 복잡성을 크게 낮췄다.
 
-미래 방향으로는 ① Quarkus·Micronaut의 컴파일 타임 [[190_enterprise_di_framework_lifecycle|DI]](GraalVM 네이티브 이미지 최적화), ② Kotlin의 함수형 빈 등록 방식이 발전하고 있다.
+미래 방향으로는 ① Quarkus·Micronaut의 컴파일 타임 [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/)(GraalVM 네이티브 이미지 최적화), ② Kotlin의 함수형 빈 등록 방식이 발전하고 있다.
 
-- **📢 섹션 요약 비유**: [[190_enterprise_di_framework_lifecycle|DI]] [[561_container_based_deployment|컨테이너]]는 인사팀처럼, 각 부서(빈)에 필요한 직원(의존성)을 채용하고 배치하며, 부서 시작(PostConstruct)과 종료(PreDestroy) 시 지원한다.
+- **📢 섹션 요약 비유**: [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 인사팀처럼, 각 부서(빈)에 필요한 직원(의존성)을 채용하고 배치하며, 부서 시작(PostConstruct)과 종료(PreDestroy) 시 지원한다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-[IoC 원칙] → [[[190_enterprise_di_framework_lifecycle|DI]]([[337_dependency_injection|의존성 주입]])] → [스프링 IoC 컨테이너] → [빈 생명주기] → [AOP·BeanPostProcessor]
+[IoC 원칙] → DI([의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/))] → [스프링 IoC 컨테이너] → [빈 생명주기] → [AOP·BeanPostProcessor]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
 | IoC (제어의 역전) | DI의 근본 원칙 |
 | BeanPostProcessor | 모든 빈에 공통 처리를 적용하는 확장 포인트 |
-| AOP | BeanPostProcessor를 통한 [[264_proxy_pattern_surrogate_access_control|프록시]] [[087_process_state_transition|생성]] |
-| [[144_singleton_pattern|싱글턴 패턴]] | 스프링 빈의 기본 스코프 |
+| AOP | BeanPostProcessor를 통한 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
+| [싱글턴 패턴](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/144_singleton_pattern/) | 스프링 빈의 기본 스코프 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[수동 객체 [[087_process_state_transition|생성]] 문제] → [IoC·[[190_enterprise_di_framework_lifecycle|DI]] 개념] → [스프링 IoC 컨테이너] → [스프링 부트 자동 설정] → [Quarkus 컴파일 타임 [[190_enterprise_di_framework_lifecycle|DI]]]
+[수동 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 문제] → [IoC·[DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) 개념] → [스프링 IoC 컨테이너] → [스프링 부트 자동 설정] → [Quarkus 컴파일 타임 [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/)]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [[190_enterprise_di_framework_lifecycle|DI]] [[561_container_based_deployment|컨테이너]]는 학교(스프링)가 선생님(빈)에게 필요한 교재(의존성)를 준비해주는 것이에요.
-2. 선생님이 직접 교재를 구하러 다니지([[087_process_state_transition|new]] 직접 [[087_process_state_transition|생성]]) 않아도 돼요.
+1. [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 학교(스프링)가 선생님(빈)에게 필요한 교재(의존성)를 준비해주는 것이에요.
+2. 선생님이 직접 교재를 구하러 다니지([new](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 직접 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)) 않아도 돼요.
 3. 학교가 교재를 바꾸면(의존성 교체) 선생님은 그냥 같은 방식으로 가르치면(코드 변경 없이) 돼요!
 
 ---
@@ -139,7 +143,7 @@ tags:
 
 **진행 상황**: 250 / 530
 
-← **이전**: [[189_sidecar_logging_monitoring|189. 사이드카·로깅·모니터링 패턴 (Sidecar, Logging & Monitoring Pattern)]]
-**다음**: [[190_enterprise_di_framework_lifecycle|190. 엔터프라이즈 모듈 분리 의존성 주입(DI) 프레임워크 생명주기 관리 구조 (Spring Bean Lifecycle)]] →
+← **이전**: [189. 사이드카·로깅·모니터링 패턴 (Sidecar, Logging & Monitoring Pattern)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/189_sidecar_logging_monitoring/)
+**다음**: [190. 엔터프라이즈 모듈 분리 의존성 주입(DI) 프레임워크 생명주기 관리 구조 (Spring Bean Lifecycle)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) →
 
 ---

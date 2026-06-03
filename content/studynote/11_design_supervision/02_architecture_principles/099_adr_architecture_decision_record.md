@@ -1,23 +1,27 @@
----
-title: 99. ADR (Architecture Decision Record) - 아키텍처 설계 결정 기록
-date: '2026-03-04'
-tags:
-- studynote-design-supervision
----
++++
+title = "99. ADR (Architecture Decision Record) - 아키텍처 설계 결정 기록"
+date = 2026-03-04
+
+[taxonomies]
+tags = ["studynote-design-supervision"]
+
+[extra]
+tags = ["studynote-design-supervision"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[231_adr_architecture_decision_record_documentation|ADR]]([[231_adr_architecture_decision_record_documentation|Architecture Decision Record]])은 소프트웨어 프로젝트의 생명주기 동안 발생한 중요한 기술적 의사결정의 맥락, 선택 내용, 그리고 파급 효과를 기록하는 마크다운(Markdown) 기반의 경량 문서다.
-> 2. **가치**: "이 코드는 왜 이 기술 스택과 구조를 썼는가?"에 대한 '이유(Why)'를 명확히 남김으로써, 후임자의 반복된 고민을 막고 섣부른 구조 변경으로 인한 [[100_technical_debt_monitoring_release_policy|기술 부채]] 누적을 방지한다.
+> 1. **본질**: [ADR](/knowledge-base/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/)([Architecture Decision Record](/knowledge-base/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/))은 소프트웨어 프로젝트의 생명주기 동안 발생한 중요한 기술적 의사결정의 맥락, 선택 내용, 그리고 파급 효과를 기록하는 마크다운(Markdown) 기반의 경량 문서다.
+> 2. **가치**: "이 코드는 왜 이 기술 스택과 구조를 썼는가?"에 대한 '이유(Why)'를 명확히 남김으로써, 후임자의 반복된 고민을 막고 섣부른 구조 변경으로 인한 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 누적을 방지한다.
 > 3. **판단 포인트**: 방대한 통합 아키텍처 명세서(SAD)를 작성하는 대신, 결정이 일어나는 시점마다 소스코드 저장소(Git) 내에 가볍고 점진적으로 추가하여 문서와 코드의 괴리를 없애는 것이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[[231_adr_architecture_decision_record_documentation|ADR]]([[231_adr_architecture_decision_record_documentation|Architecture Decision Record]])은 시스템 설계와 관련된 중대한 결정 사항을 건별로 짧게 기록하는 문서화 기법이다. 과거의 [[201_software_architecture_definition|소프트웨어 아키텍처]] 문서(SAD)는 프로젝트 [[459_quic_fec_forward_error_correction|초기]]에 수백 페이지로 작성되었지만, 요구사항이 변하고 [[004_agile_relation|애자일]]([[004_agile_relation|Agile]]) 방식으로 개발이 진행되면서 문서가 코드의 실제 모습을 반영하지 못하는 죽은 문서가 되곤 했다.
+[ADR](/knowledge-base/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/)([Architecture Decision Record](/knowledge-base/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/))은 시스템 설계와 관련된 중대한 결정 사항을 건별로 짧게 기록하는 문서화 기법이다. 과거의 [소프트웨어 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/) 문서(SAD)는 프로젝트 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 수백 페이지로 작성되었지만, 요구사항이 변하고 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 방식으로 개발이 진행되면서 문서가 코드의 실제 모습을 반영하지 못하는 죽은 문서가 되곤 했다.
 
-[[619_msa_traffic_hardware|MSA]]([[122_msa_microservices_architecture|Microservices Architecture]])와 클라우드 환경에서는 프레임워크 선택, DB 분리, 통신 [[295_protocol_field_tcp_udp_icmp|프로토콜]] 결정 등 수많은 의사결정이 빈번하게 일어난다. 이때 어떤 대안들을 검토했고 왜 하필 그 기술을 채택했는지 기록해두지 않으면, 몇 달 뒤 팀원조차 자신의 결정을 기억하지 못하게 되며, 새로운 엔지니어는 기존 설계의 의도를 모른 채 코드를 뒤엎는 재앙이 발생한다.
+[MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)([Microservices Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/))와 클라우드 환경에서는 프레임워크 선택, DB 분리, 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 결정 등 수많은 의사결정이 빈번하게 일어난다. 이때 어떤 대안들을 검토했고 왜 하필 그 기술을 채택했는지 기록해두지 않으면, 몇 달 뒤 팀원조차 자신의 결정을 기억하지 못하게 되며, 새로운 엔지니어는 기존 설계의 의도를 모른 채 코드를 뒤엎는 재앙이 발생한다.
 
 - **📢 섹션 요약 비유**: ADR은 길을 걷다 갈림길이 나왔을 때 "왜 오른쪽 길을 택했는지, 왼쪽 길은 왜 피했는지"를 적어두는 이정표다. 이정표가 없으면 뒤따라오는 사람들은 매번 똑같이 헤매고 고민해야 한다.
 
@@ -29,11 +33,11 @@ ADR은 마이클 나이가드(Michael Nygard)가 제안한 템플릿이 사실�
 
 | 구성 요소 | 핵심 역할 | 작성 방향 |
 | :--- | :--- | :--- |
-| **Title (제목)** | 문서 [[655_ir_detection_analysis|식별]] | `[ADR-001] 사용자 DB로 PostgreSQL 채택` 형태로 명확히 작성 |
+| **Title (제목)** | 문서 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) | `[ADR-001] 사용자 DB로 PostgreSQL 채택` 형태로 명확히 작성 |
 | **Status (상태)** | 의사결정의 생명주기 표기 | Proposed(제안), Accepted(승인), Superseded(대체됨) 등 명시 |
-| **[[033_context|Context]] (배경)** | 문제 상황과 제약 조건 설명 | "왜 지금 이 결정을 내려야 하는가?", 대안 기술 비교 등 |
+| **[Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) (배경)** | 문제 상황과 제약 조건 설명 | "왜 지금 이 결정을 내려야 하는가?", 대안 기술 비교 등 |
 | **Decision (결정 사항)** | 최종 채택된 아키텍처 기술 | 어떤 패턴이나 툴을 쓰기로 합의했는지 확정적 서술 |
-| **Consequences (파급 효과)** | 긍정/부정적 결과 명시 | 트레이드오프 인정 (예: [[282_performance_tactics|성능]]은 좋지만, 학습 곡선이 높음) |
+| **Consequences (파급 효과)** | 긍정/부정적 결과 명시 | 트레이드오프 인정 (예: [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 좋지만, 학습 곡선이 높음) |
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -52,24 +56,24 @@ ADR은 마이클 나이가드(Michael Nygard)가 제안한 템플릿이 사실�
 └──────────────────────────────────────────────────────────────┘
 ```
 
-가장 중요한 항목은 **Consequences(파급 효과)**다. 완벽한 설계는 존재하지 않으므로, 이 결정으로 인해 감수해야 할 단점이나 [[100_technical_debt_monitoring_release_policy|기술 부채]]([[100_technical_debt_monitoring_release_policy|Technical Debt]])를 투명하게 기록해야 미래의 리스크를 관리할 수 있다.
+가장 중요한 항목은 **Consequences(파급 효과)**다. 완벽한 설계는 존재하지 않으므로, 이 결정으로 인해 감수해야 할 단점이나 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)([Technical Debt](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/))를 투명하게 기록해야 미래의 리스크를 관리할 수 있다.
 
-- **📢 섹션 요약 비유**: [[231_adr_architecture_decision_record_documentation|ADR]] 작성은 약의 효능뿐만 아니라 부작용을 적어두는 처방전과 같다. "이 약을 먹으면 열은 내리지만 졸릴 수 있다"는 사실을 알아야 나중에 운전(운영)을 할 때 사고를 피할 수 있다.
+- **📢 섹션 요약 비유**: [ADR](/knowledge-base/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/) 작성은 약의 효능뿐만 아니라 부작용을 적어두는 처방전과 같다. "이 약을 먹으면 열은 내리지만 졸릴 수 있다"는 사실을 알아야 나중에 운전(운영)을 할 때 사고를 피할 수 있다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-ADR은 무거운 전통적 명세서를 대체하는 것이 아니라, [[004_agile_relation|애자일]] 환경에 맞게 포맷과 생명주기를 경량화한 실용적 접근이다.
+ADR은 무거운 전통적 명세서를 대체하는 것이 아니라, [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 환경에 맞게 포맷과 생명주기를 경량화한 실용적 접근이다.
 
-| 비교 항목 | 전통적 아키텍처 명세서 (SAD) | [[231_adr_architecture_decision_record_documentation|ADR]] ([[231_adr_architecture_decision_record_documentation|Architecture Decision Record]]) |
+| 비교 항목 | 전통적 아키텍처 명세서 (SAD) | [ADR](/knowledge-base/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/) ([Architecture Decision Record](/knowledge-base/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/)) |
 | :--- | :--- | :--- |
-| **초점** | 시스템 전체의 [[603_component_independent_deployment_unit|컴포넌트]] 구조와 뷰 (What) | 특정 결정의 **배경과 트레이드오프 (Why)** |
-| **관리 위치** | 외부 위키(Wiki), [[037_document|문서 저장소]] ([[075_word|Word]], PDF) | 소스코드와 동일한 **Git 저장소 (Markdown)** |
-| **작성 시점** | 프로젝트 [[459_quic_fec_forward_error_correction|초기]] 빅뱅(Big-bang) 작성 | 의사결정이 필요할 때마다 **점진적(Incremental) 추가** |
+| **초점** | 시스템 전체의 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 구조와 뷰 (What) | 특정 결정의 **배경과 트레이드오프 (Why)** |
+| **관리 위치** | 외부 위키(Wiki), [문서 저장소](/knowledge-base/studynote/14_data_engineering/01_infrastructure/037_document/) ([Word](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/), PDF) | 소스코드와 동일한 **Git 저장소 (Markdown)** |
+| **작성 시점** | 프로젝트 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 빅뱅(Big-bang) 작성 | 의사결정이 필요할 때마다 **점진적(Incremental) 추가** |
 | **대상 독자** | 외부 감리원, 스폰서, 고객 | 현재 팀원 및 미래의 유지보수 개발자 |
 
-코드의 "어떻게(How)"는 주석과 소스코드가 말해주지만, "왜(Why)"는 코드로 알 수 없다. ADR은 바로 이 잃어버린 'Why'를 개발자의 워크플로(Git) 안으로 끌어들여 [[020_software_configuration_management|형상 관리]] 시스템과 결합시켰다는 데 큰 의의가 있다.
+코드의 "어떻게(How)"는 주석과 소스코드가 말해주지만, "왜(Why)"는 코드로 알 수 없다. ADR은 바로 이 잃어버린 'Why'를 개발자의 워크플로(Git) 안으로 끌어들여 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) 시스템과 결합시켰다는 데 큰 의의가 있다.
 
 - **📢 섹션 요약 비유**: 전통적인 명세서가 건물의 완성된 조감도를 보여준다면, ADR은 "왜 벽돌 대신 철근을 썼고, 왜 창문 크기를 줄였는지"를 기록한 현장 감독의 생생한 일지다.
 
@@ -77,14 +81,14 @@ ADR은 무거운 전통적 명세서를 대체하는 것이 아니라, [[004_agi
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 ADR을 도입할 때 가장 경계해야 할 점은 문서화를 위한 문서화로 전락하는 것이다. 자명한 툴 교체나 사소한 [[336_library_vs_framework|라이브러리]] 추가까지 전부 ADR로 남기면 팀의 피로도만 높아진다.
+실무에서 ADR을 도입할 때 가장 경계해야 할 점은 문서화를 위한 문서화로 전락하는 것이다. 자명한 툴 교체나 사소한 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 추가까지 전부 ADR로 남기면 팀의 피로도만 높아진다.
 
-### [[435_checklist_based_testing|체크리스트]]
-1. **의사결정의 무게감**: 시스템의 [[282_performance_tactics|성능]], 보안, 확장성에 중대한 영향을 미치거나 팀원 간 의견 충돌이 발생한 주제인가?
-2. **리뷰 프로세스 연동**: [[231_adr_architecture_decision_record_documentation|ADR]] 마크다운 파일이 Git Pull Request를 통해 코드 리뷰와 동일하게 팀 내 합의를 거치고 있는가?
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+1. **의사결정의 무게감**: 시스템의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 보안, 확장성에 중대한 영향을 미치거나 팀원 간 의견 충돌이 발생한 주제인가?
+2. **리뷰 프로세스 연동**: [ADR](/knowledge-base/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/) 마크다운 파일이 Git Pull Request를 통해 코드 리뷰와 동일하게 팀 내 합의를 거치고 있는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
-- '[[033_context|Context]]'에 여러 대안에 대한 기술적 트레이드오프 분석 없이, 오직 채택된 기술의 장점만 나열하는 것. 이는 의사결정 기록이 아니라 제품 홍보 브로셔에 불과하다.
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- '[Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)'에 여러 대안에 대한 기술적 트레이드오프 분석 없이, 오직 채택된 기술의 장점만 나열하는 것. 이는 의사결정 기록이 아니라 제품 홍보 브로셔에 불과하다.
 
 - **📢 섹션 요약 비유**: 일기장에 "오늘 숨을 쉬었다" 같은 뻔한 일상을 적지 않듯, ADR에는 "프레임워크를 바꿨다", "데이터베이스를 쪼갰다"처럼 프로젝트의 운명을 바꾸는 중요한 분기점만을 엄선해서 기록해야 한다.
 
@@ -94,7 +98,7 @@ ADR은 무거운 전통적 명세서를 대체하는 것이 아니라, [[004_agi
 
 ADR을 체계적으로 운영하면 팀의 온보딩(On-boarding) 비용이 극적으로 감소한다. 신규 입사자가 "왜 우리 회사는 여기서 NoSQL을 안 쓰고 RDB를 고집하나요?"라고 물을 때, 과거의 ADR을 건네주면 당시의 치열한 기술적 고민과 제약사항을 단번에 이해시킬 수 있다.
 
-[[201_software_architecture_definition|소프트웨어 아키텍처]]는 정답을 찾는 과정이 아니라 제약 속에서 최선을 선택하는 트레이드오프의 연속이다. ADR은 이 불안정한 여정 속에서 팀의 사고 궤적을 보존하여, 과거의 결정이 미래의 발목을 잡지 않도록 돕는 가장 강력하고 저렴한 안전망이다.
+[소프트웨어 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/)는 정답을 찾는 과정이 아니라 제약 속에서 최선을 선택하는 트레이드오프의 연속이다. ADR은 이 불안정한 여정 속에서 팀의 사고 궤적을 보존하여, 과거의 결정이 미래의 발목을 잡지 않도록 돕는 가장 강력하고 저렴한 안전망이다.
 
 - **📢 섹션 요약 비유**: ADR은 체스 게임에서 기보(棋譜)를 남기는 것과 같다. 나중에 돌이켜보았을 때 어떤 포석과 수읽기로 그 말을 움직였는지 알 수 있어야 실력이 늘고 패배를 반복하지 않는다.
 
@@ -104,10 +108,10 @@ ADR을 체계적으로 운영하면 팀의 온보딩(On-boarding) 비용이 극�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[[201_software_architecture_definition|소프트웨어 아키텍처]] ([[201_software_architecture_definition|Software Architecture]])** | ADR이 기록하고자 하는 대상이자 뼈대 설계 |
-| **[[100_technical_debt_monitoring_release_policy|기술 부채]] ([[100_technical_debt_monitoring_release_policy|Technical Debt]])** | 잘못된 설계나 임시방편적 결정으로 쌓이는 짐. ADR은 이를 시각화하고 방어함. |
-| **마크다운 & Git (Markdown & Git)** | ADR을 작성하고 [[020_software_configuration_management|형상 관리]]하여 코드와 동기화하는 기술적 도구 |
-| **[[004_agile_relation|애자일]] ([[004_agile_relation|Agile]])** | 문서를 가볍게 유지하고 점진적으로 진화시키는 ADR의 사상적 기반 |
+| **[소프트웨어 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/) ([Software Architecture](/knowledge-base/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/))** | ADR이 기록하고자 하는 대상이자 뼈대 설계 |
+| **[기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) ([Technical Debt](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/))** | 잘못된 설계나 임시방편적 결정으로 쌓이는 짐. ADR은 이를 시각화하고 방어함. |
+| **마크다운 & Git (Markdown & Git)** | ADR을 작성하고 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)하여 코드와 동기화하는 기술적 도구 |
+| **[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) ([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))** | 문서를 가볍게 유지하고 점진적으로 진화시키는 ADR의 사상적 기반 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -139,7 +143,7 @@ ADR 상태 관리 (Superseded 처리)를 통한 설계 진화 내역 추적
 
 **진행 상황**: 142 / 530
 
-← **이전**: [[098_saam_software_architecture_analysis_method|98. SAAM (Software Architecture Analysis Method) - 소프트웨어 아키텍처 평가법의 시초]]
-**다음**: [[100_architecture_tactics_quality_attributes|100. 아키텍처 전술 (Architecture Tactics) - 품질 속성 달성을 위한 설계 전략]] →
+← **이전**: [98. SAAM (Software Architecture Analysis Method) - 소프트웨어 아키텍처 평가법의 시초](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/098_saam_software_architecture_analysis_method/)
+**다음**: [100. 아키텍처 전술 (Architecture Tactics) - 품질 속성 달성을 위한 설계 전략](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/100_architecture_tactics_quality_attributes/) →
 
 ---

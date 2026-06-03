@@ -1,14 +1,18 @@
----
-title: 009. 버텍스 커버 — Vertex Cover
-date: '2026-04-05'
-tags:
-- studynote-algorithm-stats
----
++++
+title = "009. 버텍스 커버 — Vertex Cover"
+date = 2026-04-05
+
+[taxonomies]
+tags = ["studynote-algorithm-stats"]
+
+[extra]
+tags = ["studynote-algorithm-stats"]
++++
 
 > **핵심 인사이트**
 > 1. 버텍스 커버(Vertex Cover)란 그래프의 모든 엣지에 대해 최소한 하나의 끝점을 포함하는 정점 집합으로 — k-버텍스 커버 결정 문제(크기 k 이하의 버텍스 커버가 존재하는가?)는 클리크(Clique)로부터 다항 시간 귀납에 의해 NP-완전임이 증명된다.
-> 2. 버텍스 커버와 독립 집합은 "서로 보완 [[083_relationship_in_er_model|관계]]"로 — G의 버텍스 커버 C이면 G에서 C를 제외한 집합 V-C가 독립 집합이 되어, 버텍스 커버 최소화 = 독립 집합 최대화와 동치이며 이 두 문제는 같은 NP-하드 문제이다.
-> 3. 최소 버텍스 커버 문제는 NP-하드이지만 — 간단한 2-[[012_approximation_algorithm|근사 알고리즘]](최대 매칭 기반)이 존재하고, FPT [[001_algorithm_definition|알고리즘]](k^k × n)으로 k가 작을 때 실용적이며, 실제 [[1117_network_security_zero_trust_policy|네트워크 보안]](감시 카메라 최소 배치)·최적화(공장 검사 로봇)에 활용된다.
+> 2. 버텍스 커버와 독립 집합은 "서로 보완 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)"로 — G의 버텍스 커버 C이면 G에서 C를 제외한 집합 V-C가 독립 집합이 되어, 버텍스 커버 최소화 = 독립 집합 최대화와 동치이며 이 두 문제는 같은 NP-하드 문제이다.
+> 3. 최소 버텍스 커버 문제는 NP-하드이지만 — 간단한 2-[근사 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/)(최대 매칭 기반)이 존재하고, FPT [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(k^k × n)으로 k가 작을 때 실용적이며, 실제 [네트워크 보안](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/)(감시 카메라 최소 배치)·최적화(공장 검사 로봇)에 활용된다.
 
 ---
 
@@ -101,7 +105,7 @@ König의 정리 (이분 그래프):
 
 ---
 
-## Ⅲ. [[012_approximation_algorithm|근사 알고리즘]]
+## Ⅲ. [근사 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/)
 
 ```
 버텍스 커버 근사 알고리즘:
@@ -146,7 +150,7 @@ FPT 알고리즘 (Fixed-Parameter Tractable):
   실용: k가 작거나 그래프가 희소할 때
 ```
 
-> 📢 **섹션 요약 비유**: 2-[[012_approximation_algorithm|근사 알고리즘]]은 "둘 다 잡기" — 복도(엣지)에서 감시자 배치 시, 양쪽 방(양 끝점)에 모두 카메라 설치. 최적보다 2배 쓰지만 빠르고 보장된 해.
+> 📢 **섹션 요약 비유**: 2-[근사 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/)은 "둘 다 잡기" — 복도(엣지)에서 감시자 배치 시, 양쪽 방(양 끝점)에 모두 카메라 설치. 최적보다 2배 쓰지만 빠르고 보장된 해.
 
 ---
 
@@ -189,7 +193,7 @@ FPT 알고리즘 (Fixed-Parameter Tractable):
 
 ---
 
-## Ⅴ. 실무 시나리오 — [[1117_network_security_zero_trust_policy|네트워크 보안]] 감시
+## Ⅴ. 실무 시나리오 — [네트워크 보안](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 감시
 
 ```
 기업 내부 네트워크 보안 감시 최적화:
@@ -229,7 +233,7 @@ FPT 알고리즘 (Fixed-Parameter Tractable):
   대규모: 그래프 파티셔닝 후 개별 최적화
 ```
 
-> 📢 **섹션 요약 비유**: 네트워크 [[601_ids_ips_syscall_tracing|IDS]] 배치는 최소 CCTV로 전 복도 커버 — 모든 통신(복도)을 감시하는 최소 서버(교차점)를 찾아 [[601_ids_ips_syscall_tracing|IDS]] 설치. 2-근사로 빠르게 좋은 답을 구해요!
+> 📢 **섹션 요약 비유**: 네트워크 [IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/) 배치는 최소 CCTV로 전 복도 커버 — 모든 통신(복도)을 감시하는 최소 서버(교차점)를 찾아 [IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/) 설치. 2-근사로 빠르게 좋은 답을 구해요!
 
 ---
 
@@ -285,7 +289,7 @@ k 파라미터로 실용화
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. 버텍스 커버는 최소 감시 카메라 — 모든 복도(엣지)를 감시하는 최소한의 카메라(정점) 배치예요. "최소로 모두 커버"!
-2. 독립 집합과 보완 [[083_relationship_in_er_model|관계]] — 커버에 선택된 정점의 나머지가 독립 집합. 커버 최소화 = 독립 집합 최대화로 변환!
+2. 독립 집합과 보완 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) — 커버에 선택된 정점의 나머지가 독립 집합. 커버 최소화 = 독립 집합 최대화로 변환!
 3. 2-근사는 "둘 다 잡기" — 복도 양쪽 방에 모두 카메라 달면 최적보다 최대 2배. 느린 최적해 대신 빠른 2배 근사 사용!
 
 ---
@@ -294,7 +298,7 @@ k 파라미터로 실용화
 
 **진행 상황**: 114 / 175
 
-← **이전**: [[113_clique_problem|008. 클리크 문제 — Clique Problem]]
-**다음**: [[115_tsp_np|010. TSP NP — 외판원 문제]] →
+← **이전**: [008. 클리크 문제 — Clique Problem](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/113_clique_problem/)
+**다음**: [010. TSP NP — 외판원 문제](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/115_tsp_np/) →
 
 ---

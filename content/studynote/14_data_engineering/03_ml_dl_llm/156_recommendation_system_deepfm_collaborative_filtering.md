@@ -1,36 +1,40 @@
----
-title: 156. 추천 시스템 DeepFM (Deep Factorization Machine) 협업 필터링
-date: '2026-04-21'
-tags:
-- studynote-data-engineering
----
++++
+title = "156. 추천 시스템 DeepFM (Deep Factorization Machine) 협업 필터링"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-data-engineering"]
+
+[extra]
+tags = ["studynote-data-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 딥러닝 기반 [[211_recommendation_system|추천 시스템]]은 [[345_collaborative_filtering|협업 필터링]]([[186_graph_db_recommendation_collaborative_filtering_cold_start|Collaborative Filtering]])의 잠재 요인과 딥러닝의 비선형 특징 상호작용을 결합해, 사용자-아이템 매핑의 복잡한 패턴을 포착한다.
-> 2. **가치**: DeepFM은 특징 공학 없이 저차원(Linear)과 고차원(Deep) 상호작용을 동시에 학습해 클릭률([[090_ctr_mode|CTR]]) 예측에서 최고 성능을 달성한다.
-> 3. **판단 포인트**: 콘텐츠 기반 필터링은 신규 아이템에 강하고, [[345_collaborative_filtering|협업 필터링]]은 신규 사용자([[347_cold_start_problem|Cold Start]])에 취약하며, 딥러닝 투 타워(Two-Tower) 모델이 현대 대규모 추천의 표준이다.
+> 1. **본질**: 딥러닝 기반 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)은 [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/)([Collaborative Filtering](/knowledge-base/studynote/14_data_engineering/04_mlops/186_graph_db_recommendation_collaborative_filtering_cold_start/))의 잠재 요인과 딥러닝의 비선형 특징 상호작용을 결합해, 사용자-아이템 매핑의 복잡한 패턴을 포착한다.
+> 2. **가치**: DeepFM은 특징 공학 없이 저차원(Linear)과 고차원(Deep) 상호작용을 동시에 학습해 클릭률([CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/)) 예측에서 최고 성능을 달성한다.
+> 3. **판단 포인트**: 콘텐츠 기반 필터링은 신규 아이템에 강하고, [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/)은 신규 사용자([Cold Start](/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/))에 취약하며, 딥러닝 투 타워(Two-Tower) 모델이 현대 대규모 추천의 표준이다.
 
 ## Ⅰ. 개요 및 필요성
 
-넷플릭스 시청 이력, 유튜브 좋아요, 쿠팡 구매 이력을 바탕으로 다음에 볼 것, 살 것을 예측하는 것이 [[211_recommendation_system|추천 시스템]]이다. 넷플릭스는 추천 알고리즘으로 연간 10억 달러 이상의 가치를 창출한다.
+넷플릭스 시청 이력, 유튜브 좋아요, 쿠팡 구매 이력을 바탕으로 다음에 볼 것, 살 것을 예측하는 것이 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)이다. 넷플릭스는 추천 알고리즘으로 연간 10억 달러 이상의 가치를 창출한다.
 
-**[[211_recommendation_system|추천 시스템]] [[104_classification_analysis|분류]]**
-- [[345_collaborative_filtering|협업 필터링]] ([[186_graph_db_recommendation_collaborative_filtering_cold_start|Collaborative Filtering]]): "비슷한 사용자가 좋아한 것"
+**[추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)**
+- [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/) ([Collaborative Filtering](/knowledge-base/studynote/14_data_engineering/04_mlops/186_graph_db_recommendation_collaborative_filtering_cold_start/)): "비슷한 사용자가 좋아한 것"
 - 콘텐츠 기반 (Content-Based): "내가 좋아한 것과 비슷한 것"
 - 하이브리드: 두 가지 결합
 - 딥러닝 기반: 복잡한 상호작용 학습
 
-📢 **섹션 요약 비유**: [[345_collaborative_filtering|협업 필터링]]은 "나와 취향이 비슷한 친구가 좋아하는 것을 추천"하는 것이고, 콘텐츠 기반은 "내가 좋아한 영화와 비슷한 장르를 추천"하는 것이다.
+📢 **섹션 요약 비유**: [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/)은 "나와 취향이 비슷한 친구가 좋아하는 것을 추천"하는 것이고, 콘텐츠 기반은 "내가 좋아한 영화와 비슷한 장르를 추천"하는 것이다.
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 | 모델 | 특징 | 발전 연도 |
 |:---|:---|:---|
-| [[348_matrix_factorization|Matrix Factorization]] (MF) | 사용자-아이템 [[161_matrix_decomposition|행렬 분해]] | 2009 |
+| [Matrix Factorization](/knowledge-base/studynote/06_ict_convergence/05_data_science/348_matrix_factorization/) (MF) | 사용자-아이템 [행렬 분해](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/) | 2009 |
 | Factorization Machine (FM) | 특징 간 2차 상호작용 | 2010 |
 | DeepFM | FM + Deep Network 결합 | 2017 |
 | Two-Tower | 사용자/아이템 독립 인코딩 | 2019 |
-| BERT4Rec | [[246_transformer_self_attention_parallel_positional_encoding|Transformer]] 기반 순차 추천 | 2019 |
+| BERT4Rec | [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 기반 순차 추천 | 2019 |
 
 ```
 [DeepFM 아키텍처]
@@ -68,7 +72,7 @@ tags:
         유사도 점수 → 추천
 ```
 
-**[[161_matrix_decomposition|행렬 분해]] ([[348_matrix_factorization|Matrix Factorization]])**
+**[행렬 분해](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/) ([Matrix Factorization](/knowledge-base/studynote/06_ict_convergence/05_data_science/348_matrix_factorization/))**
 - 사용자-아이템 평점 행렬 R ≈ U·V^T
 - U: 사용자 잠재 요인 행렬 (|사용자| × k)
 - V: 아이템 잠재 요인 행렬 (|아이템| × k)
@@ -78,58 +82,58 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-| 항목 | [[345_collaborative_filtering|협업 필터링]] | 콘텐츠 기반 | DeepFM/Two-Tower |
+| 항목 | [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/) | 콘텐츠 기반 | DeepFM/Two-Tower |
 |:---|:---|:---|:---|
-| [[347_cold_start_problem|Cold Start]] (신규 사용자) | ❌ 취약 | ✅ 가능 | ✅ (콘텐츠 결합) |
+| [Cold Start](/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/) (신규 사용자) | ❌ 취약 | ✅ 가능 | ✅ (콘텐츠 결합) |
 | 다양성 | ✅ 높음 | ❌ 낮음 (편향) | ✅ 높음 |
 | 특징 활용 | ❌ 부족 | ✅ 활용 | ✅ 풍부 |
 | 확장성 | ❌ 행렬 크기 문제 | ✅ | ✅ (Two-Tower) |
 | 해석 가능성 | 보통 | 높음 | ❌ 낮음 |
 
-**[[211_recommendation_system|추천 시스템]] 파이프라인 (대규모)**
-1. 후보 [[087_process_state_transition|생성]] (Candidate Generation): 수백만 → 수백개 Two-Tower
+**[추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 파이프라인 (대규모)**
+1. 후보 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) (Candidate Generation): 수백만 → 수백개 Two-Tower
 2. 랭킹 (Ranking): 수백 → Top-10 DeepFM/DIN
 3. 재랭킹 (Re-ranking): 다양성·신선도·비즈니스 규칙 적용
 
-📢 **섹션 요약 비유**: 대규모 추천은 도서관에서 관련 책 수백 권을 먼저 추리고(후보 [[087_process_state_transition|생성]]), 그 중 가장 내 취향인 10권을 고르는(랭킹) 2단계 과정이다.
+📢 **섹션 요약 비유**: 대규모 추천은 도서관에서 관련 책 수백 권을 먼저 추리고(후보 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)), 그 중 가장 내 취향인 10권을 고르는(랭킹) 2단계 과정이다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[[211_recommendation_system|추천 시스템]] 평가 지표**
-- [[233_precision_recall_f1_roc_auc_threshold|Precision]]@K: 상위 K개 중 실제 관련 비율
-- [[254_recall_sensitivity|Recall]]@K: 전체 관련 아이템 중 상위 K개에 포함 비율
+**[추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 평가 지표**
+- [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)@K: 상위 K개 중 실제 관련 비율
+- [Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/)@K: 전체 관련 아이템 중 상위 K개에 포함 비율
 - NDCG (Normalized Discounted Cumulative Gain): 순위 가중 정확도
-- [[090_ctr_mode|CTR]] (Click-Through Rate): 클릭률 A/B 테스트
+- [CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/) (Click-Through Rate): 클릭률 A/B 테스트
 
-**[[347_cold_start_problem|Cold Start]] 해결 [[268_strategy_pattern|전략]]**
+**[Cold Start](/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/) 해결 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**
 - 인기 아이템 추천 (Popularity-based)
-- 콘텐츠 기반 [[459_quic_fec_forward_error_correction|초기]] 추천
-- LLM으로 아이템 설명 [[278_instruction_tuning|임베딩]] [[087_process_state_transition|생성]]
+- 콘텐츠 기반 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 추천
+- LLM으로 아이템 설명 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
 
 **기술사 출제 포인트**
-- "[[345_collaborative_filtering|협업 필터링]]의 [[347_cold_start_problem|Cold Start]] 문제를 설명하고 해결 방안을 제시하시오"
+- "[협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/)의 [Cold Start](/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/) 문제를 설명하고 해결 방안을 제시하시오"
 - "DeepFM의 FM 컴포넌트와 Deep 컴포넌트의 역할 분담을 설명하시오"
 
 📢 **섹션 요약 비유**: Two-Tower 모델은 사용자와 아이템을 각각 독립적인 '언어'로 변환해, 같은 공간에서 얼마나 가까운지로 추천을 결정한다.
 
 ## Ⅴ. 기대효과 및 결론
 
-딥러닝 기반 [[211_recommendation_system|추천 시스템]]은 유튜브, 넷플릭스, 틱톡, 아마존의 핵심 경쟁력이다. Two-Tower + DeepFM 조합은 수억 명 사용자에게 실시간 개인화 추천을 가능하게 한다. LLM과의 통합으로 자연어 기반 추천("나는 판타지 소설인데 해피엔딩인 것 추천해줘")이 새로운 트렌드다.
+딥러닝 기반 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)은 유튜브, 넷플릭스, 틱톡, 아마존의 핵심 경쟁력이다. Two-Tower + DeepFM 조합은 수억 명 사용자에게 실시간 개인화 추천을 가능하게 한다. LLM과의 통합으로 자연어 기반 추천("나는 판타지 소설인데 해피엔딩인 것 추천해줘")이 새로운 트렌드다.
 
-📢 **섹션 요약 비유**: [[211_recommendation_system|추천 시스템]]은 수억 명의 취향을 수백만 개 아이템과 연결하는 거대한 중매 플랫폼이다.
+📢 **섹션 요약 비유**: [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)은 수억 명의 취향을 수백만 개 아이템과 연결하는 거대한 중매 플랫폼이다.
 
 ### 📌 관련 개념 맵
-| [[083_relationship_in_er_model|관계]] | 개념 | 설명 |
+| [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
 |:---|:---|:---|
-| 기반 | [[345_collaborative_filtering|협업 필터링]] | 사용자-아이템 공동 패턴 |
-| 기반 | [[161_matrix_decomposition|행렬 분해]] (MF) | 잠재 요인 분해 |
+| 기반 | [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/) | 사용자-아이템 공동 패턴 |
+| 기반 | [행렬 분해](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/) (MF) | 잠재 요인 분해 |
 | 발전 | DeepFM | FM + DNN 결합 |
 | 발전 | Two-Tower | 대규모 추천 표준 |
-| 문제 | [[347_cold_start_problem|Cold Start]] | 신규 사용자/아이템 |
-| 평가 | NDCG, [[090_ctr_mode|CTR]] | 추천 품질 지표 |
+| 문제 | [Cold Start](/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/) | 신규 사용자/아이템 |
+| 평가 | NDCG, [CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/) | 추천 품질 지표 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. [[211_recommendation_system|추천 시스템]]은 "나와 비슷한 친구가 좋아하는 것"을 자동으로 찾아주는 [[190_ai_llm_requirements_specification|AI]] 큐레이터예요.
+1. [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)은 "나와 비슷한 친구가 좋아하는 것"을 자동으로 찾아주는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 큐레이터예요.
 2. DeepFM은 여러 정보(나이, 취향, 시간대)를 모두 섞어서 가장 좋아할 것을 예측해요.
 3. 유튜브나 넷플릭스에서 "다음에 볼 것" 추천이 잘 맞는 이유가 이 기술 덕분이에요.
 
@@ -162,7 +166,7 @@ LLM 기반 대화형 추천 (Conversational RecSys)
 
 **진행 상황**: 156 / 258
 
-← **이전**: [[155_ai_agents_function_calling_agentic_loop|155. AI 에이전트 (AI Agents) 도구 함수 호출 (Function Calling) 자동 과업 루프]]
-**다음**: [[157_time_series_deep_learning_tcn_transformer|157. 시계열 예측 딥러닝 TCN (Temporal Convolutional Network) 병렬 합성곱]] →
+← **이전**: [155. AI 에이전트 (AI Agents) 도구 함수 호출 (Function Calling) 자동 과업 루프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/155_ai_agents_function_calling_agentic_loop/)
+**다음**: [157. 시계열 예측 딥러닝 TCN (Temporal Convolutional Network) 병렬 합성곱](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/157_time_series_deep_learning_tcn_transformer/) →
 
 ---

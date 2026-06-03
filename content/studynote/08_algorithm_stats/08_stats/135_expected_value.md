@@ -1,21 +1,25 @@
----
-title: 6. 기댓값 (Expected Value, E[X]) — 확률 가중 평균
-date: '2026-04-21'
-tags:
-- studynote-algorithm
----
++++
+title = "6. 기댓값 (Expected Value, E[X]) — 확률 가중 평균"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-algorithm"]
+
+[extra]
+tags = ["studynote-algorithm"]
++++
 
 ## 핵심 인사이트
 
-> 기댓값 (Expected Value) E[X] 은 "무한히 반복하면 평균적으로 얻을 값"이 아니라, [[130_probability|확률]]로 가중된 가중 평균 (Probability-Weighted Average) 이다.
-> 기댓값의 선형성 (Linearity of Expectation) 은 독립성 여부와 무관하게 항상 성립하는 강력한 도구로, 복잡한 [[001_algorithm_definition|알고리즘]] 분석을 극적으로 단순화한다.
-> 전체 기댓값 법칙 (Law of Total Expectation) 은 조건부 기댓값을 [[014_recursion|재귀]]적으로 활용해 복잡한 기댓값을 단계별로 계산하는 핵심 기법이다.
+> 기댓값 (Expected Value) E[X] 은 "무한히 반복하면 평균적으로 얻을 값"이 아니라, [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 가중된 가중 평균 (Probability-Weighted Average) 이다.
+> 기댓값의 선형성 (Linearity of Expectation) 은 독립성 여부와 무관하게 항상 성립하는 강력한 도구로, 복잡한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 분석을 극적으로 단순화한다.
+> 전체 기댓값 법칙 (Law of Total Expectation) 은 조건부 기댓값을 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)적으로 활용해 복잡한 기댓값을 단계별로 계산하는 핵심 기법이다.
 
 ---
 
 ## Ⅰ. 기댓값의 정의
 
-### 이산 [[134_random_variable|확률 변수]]
+### 이산 [확률 변수](/knowledge-base/studynote/08_algorithm_stats/08_stats/134_random_variable/)
 
 ```
 E[X] = Σₓ x · P(X=x) = x₁·p₁ + x₂·p₂ + ... + xₙ·pₙ
@@ -29,7 +33,7 @@ E[X] = 1·(1/6) + 2·(1/6) + 3·(1/6) + 4·(1/6) + 5·(1/6) + 6·(1/6)
 
 주사위를 던져 3.5가 나오는 경우는 없지만, 기댓값은 3.5다 — 이것이 "기댓값은 실제 가능한 값이 아닐 수 있다"는 의미다.
 
-### 연속 [[134_random_variable|확률 변수]]
+### 연속 [확률 변수](/knowledge-base/studynote/08_algorithm_stats/08_stats/134_random_variable/)
 
 ```
 E[X] = ∫₋∞^{+∞} x · f(x) dx
@@ -95,9 +99,9 @@ X⊥Y이면: E[XY] = E[X] · E[Y]
 
 ---
 
-## Ⅲ. 기댓값 분석 — 퀵정렬 평균 [[002_time_complexity|시간 복잡도]]
+## Ⅲ. 기댓값 분석 — 퀵정렬 평균 [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)
 
-기댓값의 선형성이 [[001_algorithm_definition|알고리즘]] 분석에 어떻게 활용되는지 보여주는 대표 예시다.
+기댓값의 선형성이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 분석에 어떻게 활용되는지 보여주는 대표 예시다.
 
 ### 랜덤 퀵정렬 (Randomized QuickSort) 분석
 
@@ -114,7 +118,7 @@ E[X] = Σ_{i<j} E[X_{ij}]    ← 선형성 적용!
       ≈ n·H(n) ≈ n·ln(n) = O(n log n)
 ```
 
-선형성 덕분에 각 쌍의 비교 [[130_probability|확률]]만 계산하면 전체 기댓값이 나온다.
+선형성 덕분에 각 쌍의 비교 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)만 계산하면 전체 기댓값이 나온다.
 
 ```
 ┌────────────────────────────────────────────────────────┐
@@ -156,7 +160,7 @@ E[X] = Σ_{i<j} E[X_{ij}]    ← 선형성 적용!
 | 공격적 투자 | +200만원 | -500만원 | +130만원 |
 | 무위험 예금 | +50만원 | +50만원 | 50만원 |
 
-기댓값만으로는 "공격적 투자 > 보수적 > 예금"이지만, 위험 회피 ([[096_risk_non_risk_architecture_evaluation_flaws|Risk]] Aversion) 를 고려하면 효용 함수 (Utility Function) 로 재계산 필요.
+기댓값만으로는 "공격적 투자 > 보수적 > 예금"이지만, 위험 회피 ([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Aversion) 를 고려하면 효용 함수 (Utility Function) 로 재계산 필요.
 
 📢 **섹션 요약 비유**: 기댓값 기반 의사결정은 "복권 여러 장 살지 vs 한 번 산다"를 수익 기댓값으로 비교하는 것이다 — 하지만 실제 선택에는 위험 허용도도 함께 고려해야 한다.
 
@@ -172,7 +176,7 @@ E[X] = E[E[X|Y]]
      = ∫ E[X|Y=y] · f_Y(y) dy   (연속)
 ```
 
-### 응용 — [[014_recursion|재귀]] [[001_algorithm_definition|알고리즘]] 분석
+### 응용 — [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 분석
 
 ```
 랜덤 퀵정렬 T(n):
@@ -183,7 +187,7 @@ E[X] = E[E[X|Y]]
            → T(n) = O(n log n) 도출
 ```
 
-### 응용 — 이중 [[130_probability|확률]] 계산
+### 응용 — 이중 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 계산
 
 ```
 보험 청구 총액 S = X₁+X₂+...+X_N (N: 랜덤 청구 건수)
@@ -201,14 +205,14 @@ E[S] = E[E[S|N]]
 
 ### 📌 관련 개념 맵
 
-| 개념 | 연결 개념 | [[083_relationship_in_er_model|관계]] |
+| 개념 | 연결 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 |:---|:---|:---|
-| 기댓값 | [[136_variance|분산]] ([[136_variance|Variance]]) | E[X²] - (E[X])² |
-| 선형성 | 랜덤 [[001_algorithm_definition|알고리즘]] 분석 | 복잡도 기댓값 계산 |
-| 전체 기댓값 법칙 | [[014_recursion|재귀]] 점화식 | T(n) 분석 도구 |
+| 기댓값 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) ([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)) | E[X²] - (E[X])² |
+| 선형성 | 랜덤 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 분석 | 복잡도 기댓값 계산 |
+| 전체 기댓값 법칙 | [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 점화식 | T(n) 분석 도구 |
 | 기대 효용 | 위험 관리, 게임 이론 | 의사결정 기반 |
-| LOTUS 법칙 | [[136_variance|분산]], 모멘트 계산 | 변환 후 기댓값 |
-| 표본 평균 | [[074_law_of_large_numbers_lln_convergence_probability|대수의 법칙]] | E[X]의 추정량 |
+| LOTUS 법칙 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/), 모멘트 계산 | 변환 후 기댓값 |
+| 표본 평균 | [대수의 법칙](/knowledge-base/studynote/14_data_engineering/02_math_mining/074_law_of_large_numbers_lln_convergence_probability/) | E[X]의 추정량 |
 
 ---
 
@@ -227,12 +231,12 @@ E[S] = E[E[S|N]]
 [중심극한정리 (CLT, Central Limit Theorem)]
 ```
 
-이 흐름도는 [[130_probability|확률]] 분포에서 기댓값과 [[136_variance|분산]]을 거쳐 중심극한정리로 확장되는 흐름을 보여준다.
+이 흐름도는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포에서 기댓값과 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 거쳐 중심극한정리로 확장되는 흐름을 보여준다.
 ### 👶 어린이를 위한 3줄 비유 설명
 
 - 기댓값은 "주사위를 아주 많이 던지면 평균적으로 몇이 나올까"를 미리 계산하는 것이야 — 실제로 3.5가 나올 수는 없지만, 평균은 3.5야.
 - 선형성 덕분에 복잡한 게임 점수의 기댓값도 각 파트별로 쪼개서 더하면 돼 — 독립이든 아니든 상관없이!
-- [[001_algorithm_definition|알고리즘]] 설계자들은 기댓값으로 "평균적으로 얼마나 빠른가"를 계산해서 좋은 [[001_algorithm_definition|알고리즘]]을 고른다.
+- [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 설계자들은 기댓값으로 "평균적으로 얼마나 빠른가"를 계산해서 좋은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 고른다.
 
 ---
 
@@ -240,7 +244,7 @@ E[S] = E[E[S|N]]
 
 **진행 상황**: 135 / 175
 
-← **이전**: [[134_random_variable|5. 확률 변수 (Random Variable) — 이산/연속]]
-**다음**: [[136_variance|7. 분산 (Variance) / 표준편차 (Standard Deviation) — 산포도]] →
+← **이전**: [5. 확률 변수 (Random Variable) — 이산/연속](/knowledge-base/studynote/08_algorithm_stats/08_stats/134_random_variable/)
+**다음**: [7. 분산 (Variance) / 표준편차 (Standard Deviation) — 산포도](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) →
 
 ---

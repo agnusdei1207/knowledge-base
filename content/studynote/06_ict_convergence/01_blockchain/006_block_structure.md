@@ -1,39 +1,43 @@
----
-title: 6. 블록의 구조 - 블록 헤더 (버전, 이전 블록 해시, 머클 루트, 타임스탬프, 난이도, 논스) + 바디
-tags:
-- ict_convergence
----
++++
+title = "6. 블록의 구조 - 블록 헤더 (버전, 이전 블록 해시, 머클 루트, 타임스탬프, 난이도, 논스) + 바디"
+
+[taxonomies]
+tags = ["ict_convergence"]
+
+[extra]
+tags = ["ict_convergence"]
++++
 
 # 06. 블록의 구조
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 블록은 [[004_blockchain|블록체인]] 네트워크에서 거래 [[001_dikw_pyramid|데이터]]를 저장하는 기본 단위이며, 블록 헤더(Block Header)와 블록 바디(Block Body)로 구성된다. 블록 헤더는 [[012_metadata|메타데이터]]를, 바디는 실제 거래 목록을 포함하며, 각 블록은 이전 블록의 해시값으로 연결되어 사슬 구조를 형성한다.
-> 2. **가치**: 블록 구조의 해시 체인(Hash Chain) 연결 방식은 [[001_dikw_pyramid|데이터]]의改竄 불가능성(Immutability)을 보장하며, [[008_merkle_root|머클 루트]]([[008_merkle_root|Merkle Root]])를 통해 거래 목록의 [[003_integrity|무결성]]을 효율적으로 [[395_verification_process_review|검증]]할 수 있다.
-> 3. **융합**: [[007_merkle_tree|머클 트리]]([[007_merkle_tree|Merkle Tree]]) 구조와 SHA-256 해시 알고리즘이 결합되어 비트코인과 이더리움을はじめとする 모든 [[004_blockchain|블록체인]] 플랫폼에서 일관되게 활용된다.
+> 1. **본질**: 블록은 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 네트워크에서 거래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저장하는 기본 단위이며, 블록 헤더(Block Header)와 블록 바디(Block Body)로 구성된다. 블록 헤더는 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를, 바디는 실제 거래 목록을 포함하며, 각 블록은 이전 블록의 해시값으로 연결되어 사슬 구조를 형성한다.
+> 2. **가치**: 블록 구조의 해시 체인(Hash Chain) 연결 방식은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의改竄 불가능성(Immutability)을 보장하며, [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)([Merkle Root](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/))를 통해 거래 목록의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 효율적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있다.
+> 3. **융합**: [머클 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/)([Merkle Tree](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/)) 구조와 SHA-256 해시 알고리즘이 결합되어 비트코인과 이더리움을はじめとする 모든 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 플랫폼에서 일관되게 활용된다.
 
 ---
 
-## Ⅰ. 개요 및 필요성 ([[033_context|Context]] & Necessity)
+## Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
 ### 개념의 정의
 
-블록(Block)은 [[004_blockchain|블록체인]] 네트워크에서 거래 [[001_dikw_pyramid|데이터]]를 담아 저장하고 전송하는 기본 단위이다. 물리적 구조는 크게 블록 헤더(Block Header)와 블록 바디(Block Body)로 나뉜다. 블록 헤더는 [[288_version_ihl_tos_total_length|버전]](Version), 이전 블록 해시(Previous Block Hash), [[008_merkle_root|머클 루트]]([[008_merkle_root|Merkle Root]]), 타임스탬프(Timestamp), 난이도 목표(Difficulty Target), 논스([[519_oidc_nonce|Nonce]])의 6개 [[012_metadata|메타데이터]] 필드로 구성된다. 블록 바디에는 실제 처리될 거래 목록([[191_transaction_concept_states|Transaction]] List)이 저장된다. 각 블록은 이전 블록의 해시값을 자신의 헤더에 포함하므로, 모든 블록은 시간 순서대로 사슬처럼 연결된다.
+블록(Block)은 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 네트워크에서 거래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 담아 저장하고 전송하는 기본 단위이다. 물리적 구조는 크게 블록 헤더(Block Header)와 블록 바디(Block Body)로 나뉜다. 블록 헤더는 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(Version), 이전 블록 해시(Previous Block Hash), [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)([Merkle Root](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)), 타임스탬프(Timestamp), 난이도 목표(Difficulty Target), 논스([Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/))의 6개 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 필드로 구성된다. 블록 바디에는 실제 처리될 거래 목록([Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) List)이 저장된다. 각 블록은 이전 블록의 해시값을 자신의 헤더에 포함하므로, 모든 블록은 시간 순서대로 사슬처럼 연결된다.
 
 ### 탄생 배경과 필요성
 
-인터넷이 보급되면서 디지털 거래의 수가爆发적으로 증가하였고, 이를 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 있게 기록할 수 있는 체계적인 방법의 필요성이 대두되었다. 기존 중앙화된 [[002_database_definition|데이터베이스]] 방식에서는 서버 관리자가 [[001_dikw_pyramid|데이터]]를 조작할 수 있는 권한을 보유하고 있어 신뢰에 근거한 중앙 관리자(Trusted Third Party)가 필요하였다. 블록 구조의 등장은 이러한 중앙化管理의 문제를 해결하기 위한 혁신적 접근이다. 모든 거래를 블록이라는固定大小的 단위로 묶어, 각 블록을 해시 체인으로 연결함으로써 [[001_dikw_pyramid|데이터]]를改竄하려면 이후 모든 블록의 해시를 다시 계산해야 하는計算量적障壁를 만들어냈다.
+인터넷이 보급되면서 디지털 거래의 수가爆发적으로 증가하였고, 이를 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 있게 기록할 수 있는 체계적인 방법의 필요성이 대두되었다. 기존 중앙화된 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 방식에서는 서버 관리자가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 조작할 수 있는 권한을 보유하고 있어 신뢰에 근거한 중앙 관리자(Trusted Third Party)가 필요하였다. 블록 구조의 등장은 이러한 중앙化管理의 문제를 해결하기 위한 혁신적 접근이다. 모든 거래를 블록이라는固定大小的 단위로 묶어, 각 블록을 해시 체인으로 연결함으로써 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를改竄하려면 이후 모든 블록의 해시를 다시 계산해야 하는計算量적障壁를 만들어냈다.
 
 ### 💡 analogy
 
-블록 구조는항해 일지(航海日誌)와 비슷하다. 항해 일지는 항해의매일의 항해 상황, 위치, 기상,乘組員 현황 등을記録한다. 각 [[286_page_frame|페이지]]の下部에는前のページの特定の記述内容에 대한 요약(해시 값)이 기재되어 있다. 만약 선원이 과거의某一 صفحة의 내용을 위조하면, 그 [[286_page_frame|페이지]]下部の 요약과 실제 내용이 맞지 않게 되어 조작 사실이即座에发觉된다. 블록도 마찬가지로, 특정 블록의 거래 내용을 바꾸면 그 블록의 해시값이 변하고, 이후 모든 블록의 연결이 깨져서 조작이不可能해진다.
+블록 구조는항해 일지(航海日誌)와 비슷하다. 항해 일지는 항해의매일의 항해 상황, 위치, 기상,乘組員 현황 등을記録한다. 각 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)の下部에는前のページの特定の記述内容에 대한 요약(해시 값)이 기재되어 있다. 만약 선원이 과거의某一 صفحة의 내용을 위조하면, 그 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)下部の 요약과 실제 내용이 맞지 않게 되어 조작 사실이即座에发觉된다. 블록도 마찬가지로, 특정 블록의 거래 내용을 바꾸면 그 블록의 해시값이 변하고, 이후 모든 블록의 연결이 깨져서 조작이不可能해진다.
 
 ### 배경 설명
 
-비트코인에서 블록은平均 10분마다生成된다. 이것은工作量증명(PoW) Consensus Algorithmic의 난이도 조정을 통해実現된다. 거래가 일어나면 먼저 Mempool(거래 풀)에 모이고, 채굴자들은 이 거래들 중에서 유효한 것들을 선택하여 새 블록을 구성한다. 이때 채굴자는 논스([[519_oidc_nonce|Nonce]]) 값을 변화시키며 해시 퍼즐을 解読하려고 시도하고, 가장 먼저 正解을 찾은 채굴자가 새 블록을 [[087_process_state_transition|생성]]하고 보상을 받는다. 채굴难易度は過去 2016개 블록の生成時間을基に調整され,常に平均 10분을維持しようとする.
+비트코인에서 블록은平均 10분마다生成된다. 이것은工作量증명(PoW) Consensus Algorithmic의 난이도 조정을 통해実現된다. 거래가 일어나면 먼저 Mempool(거래 풀)에 모이고, 채굴자들은 이 거래들 중에서 유효한 것들을 선택하여 새 블록을 구성한다. 이때 채굴자는 논스([Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/)) 값을 변화시키며 해시 퍼즐을 解読하려고 시도하고, 가장 먼저 正解을 찾은 채굴자가 새 블록을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하고 보상을 받는다. 채굴难易度は過去 2016개 블록の生成時間을基に調整され,常に平均 10분을維持しようとする.
 
 ### 📢 비유 요약
 
-블록 구조는기업의 결산 보고서와 같다. 보고서의 맨 앞 [[286_page_frame|페이지]](헤더)에는「보고서 번호, 이전 보고서 [[316_reference_pattern_nosql|참조]] 번호, 작성 일시, 작성자, 승인자」등의 메타정보가 기재되어 있다. 본문(바디)에는 해당 기간 동안의 모든 거래 내역(매출, 비용, 이익 등)이 列挙된다. 만약 과거의 어느 보고서의 내용을 바꾸려면, 그것을 [[316_reference_pattern_nosql|참조]]한 이후 모든 보고서의相互 [[316_reference_pattern_nosql|참조]] 번호를修正해야 하고, [[606_auditing_linux_auditd|감사]]法人의 [[606_auditing_linux_auditd|감사]]를 받아야 하는 등 현실적으로不可能하다.
+블록 구조는기업의 결산 보고서와 같다. 보고서의 맨 앞 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(헤더)에는「보고서 번호, 이전 보고서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 번호, 작성 일시, 작성자, 승인자」등의 메타정보가 기재되어 있다. 본문(바디)에는 해당 기간 동안의 모든 거래 내역(매출, 비용, 이익 등)이 列挙된다. 만약 과거의 어느 보고서의 내용을 바꾸려면, 그것을 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)한 이후 모든 보고서의相互 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 번호를修正해야 하고, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)法人의 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)를 받아야 하는 등 현실적으로不可能하다.
 
 ---
 
@@ -79,13 +83,13 @@ tags:
 └──────────────────────────────────────────────────────────────────┘
 ```
 
-블록 헤더의 각 필드는 중요한 역할을 수행한다. [[288_version_ihl_tos_total_length|버전]] 필드는 [[295_protocol_field_tcp_udp_icmp|프로토콜]] 변경 사항을追跡하는 역할을 하며, 소프트 포크(Soft Fork) 등에서 노드들이 새로운 규칙을 적용할지 판단하는 기준이 된다. 이전 블록 해시 필드는 체인 연결의 핵심으로, 이전 블록의 헤더를 SHA-256으로 두 번 해시(Doublesha-256)한 값이다. 이것이 현재 블록과 이전 블록을暗号学적으로 연결한다.
+블록 헤더의 각 필드는 중요한 역할을 수행한다. [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 필드는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 변경 사항을追跡하는 역할을 하며, 소프트 포크(Soft Fork) 등에서 노드들이 새로운 규칙을 적용할지 판단하는 기준이 된다. 이전 블록 해시 필드는 체인 연결의 핵심으로, 이전 블록의 헤더를 SHA-256으로 두 번 해시(Doublesha-256)한 값이다. 이것이 현재 블록과 이전 블록을暗号学적으로 연결한다.
 
-### [[007_merkle_tree|머클 트리]]와 [[008_merkle_root|머클 루트]]
+### [머클 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/)와 [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)
 
-[[008_merkle_root|머클 루트]]([[008_merkle_root|Merkle Root]])는 블록 내 모든 거래를 [[007_merkle_tree|머클 트리]]([[007_merkle_tree|Merkle Tree]]) 구조로 배열하여 [[087_process_state_transition|생성]]한 단일 해시값이다. [[007_merkle_tree|머클 트리]]는 모든 거래를 해시한 후, 이 해시값들을 두 개씩 쌍으로 묶어 다시 해시하는 과정을반복하여最終적으로 단일 루트 해시값을얻는二叉木(バイナリツリー) 구조이다.
+[머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)([Merkle Root](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/))는 블록 내 모든 거래를 [머클 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/)([Merkle Tree](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/)) 구조로 배열하여 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한 단일 해시값이다. [머클 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/)는 모든 거래를 해시한 후, 이 해시값들을 두 개씩 쌍으로 묶어 다시 해시하는 과정을반복하여最終적으로 단일 루트 해시값을얻는二叉木(バイナリツリー) 구조이다.
 
-[[007_merkle_tree|머클 트리]]의構造를 圖解하면如下이다:
+[머클 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/)의構造를 圖解하면如下이다:
 
 ```
 거래 목록:
@@ -106,51 +110,51 @@ TX1, TX2, TX3, TX4, TX5, TX6, TX7, TX8
    해시       해시               해시       해시
 ```
 
-만약 8개의 거래가 있다면, [[007_merkle_tree|머클 트리]]는首先각 거래를 해시하여 8개의 리프 노드를 만든다.次に隣接한 리프 노드를 두 개씩 쌍으로 묶어 해시하여 4개의 중간 노드를 만든다. 同様に 4개의 중간 노드를 두 개씩 묶어 해시하여 2개의 노드를 만들고, 이를 다시 해시하여 최종 [[008_merkle_root|머클 루트]]를얻는다. 만약 어떤 거래 한 건이 바뀌면 그 거래의 해시값이 변하고, 最终 [[008_merkle_root|머클 루트]] 값도 변하게 되어 조작이发觉된다.
+만약 8개의 거래가 있다면, [머클 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/)는首先각 거래를 해시하여 8개의 리프 노드를 만든다.次に隣接한 리프 노드를 두 개씩 쌍으로 묶어 해시하여 4개의 중간 노드를 만든다. 同様に 4개의 중간 노드를 두 개씩 묶어 해시하여 2개의 노드를 만들고, 이를 다시 해시하여 최종 [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)를얻는다. 만약 어떤 거래 한 건이 바뀌면 그 거래의 해시값이 변하고, 最终 [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/) 값도 변하게 되어 조작이发觉된다.
 
 ### 📢 비유 요약
 
-블록의 구조는교회의 공동주택 Documents와 같다. 각 집의 소유권 변동 내역(거래)이 기록되고, 각 [[286_page_frame|페이지]]에는 이전 [[286_page_frame|페이지]]의 요약(Previous Hash)이 언급된다. 만약 누군가 과거 기록을 위조하면, 그 [[286_page_frame|페이지]]의 요약(해시)과 이후 모든 [[286_page_frame|페이지]]의相互参照가 맞지 않게 되어 조작 사실이 드러난다. [[008_merkle_root|머클 루트]]는共同住宅 전체의 상황 을 요약表示한 것이며, 이것이 변하면 전체 기록의 [[003_integrity|무결성]]이 깨졌음을알 수 있다.
+블록의 구조는교회의 공동주택 Documents와 같다. 각 집의 소유권 변동 내역(거래)이 기록되고, 각 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에는 이전 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 요약(Previous Hash)이 언급된다. 만약 누군가 과거 기록을 위조하면, 그 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 요약(해시)과 이후 모든 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의相互参照가 맞지 않게 되어 조작 사실이 드러난다. [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)는共同住宅 전체의 상황 을 요약表示한 것이며, 이것이 변하면 전체 기록의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)이 깨졌음을알 수 있다.
 
 ---
 
 ## Ⅲ. 구현 및 실무 응용 (Implementation & Practice)
 
-### 비트코인 블록 크기와 [[139_throughput|처리량]]
+### 비트코인 블록 크기와 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)
 
-비트코인에서 블록 크기는初期에는 제한이 없었으나, 2010년에 1MB로 제한되었다가, 2021년 세그윗(SegWit, Segregated Witness) 업그레이드를 통해 실제로 약 2MB까지 확대되었다. 平均적으로 약 2,500건의 거래가 하나의 블록에 포함되며, 이는초당 약 4.6건(TPS)의 [[139_throughput|처리량]]을 의미한다. 거래 크기는入力(Input)과出力(Output)의 수에 따라 다르나,平均約 500바이트이다.
+비트코인에서 블록 크기는初期에는 제한이 없었으나, 2010년에 1MB로 제한되었다가, 2021년 세그윗(SegWit, Segregated Witness) 업그레이드를 통해 실제로 약 2MB까지 확대되었다. 平均적으로 약 2,500건의 거래가 하나의 블록에 포함되며, 이는초당 약 4.6건(TPS)의 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 의미한다. 거래 크기는入力(Input)과出力(Output)의 수에 따라 다르나,平均約 500바이트이다.
 
 ### 이더리움 블록 구조의 차이
 
-이더리움의 블록 구조는 비트코인과는다른 특징을 가지고 있다. 이더리움은アカウントモデル(Account Model)를 사용하여, 각 계정의 잔액(Balance)을 مباشرة 기록한다. 반면 비트코인은 UTXO(Unspent [[191_transaction_concept_states|Transaction]] Output) 모델을 사용한다. 이더리움의 블록 헤더에는 [[008_merkle_root|머클 루트]] 외에 receipts root, [[272_state_pattern|state]] root 등도 함께 포함되어 있어, 스마트 컨트랙트의 실행 결과와 계정 [[065_state_diagram|상태도]] 함께 기록할 수 있다. 이더리움의 블록 [[087_process_state_transition|생성]] 시간은약 12초로, 비트코인보다かなり 빠르게 블록이 [[087_process_state_transition|생성]]된다.
+이더리움의 블록 구조는 비트코인과는다른 특징을 가지고 있다. 이더리움은アカウントモデル(Account Model)를 사용하여, 각 계정의 잔액(Balance)을 مباشرة 기록한다. 반면 비트코인은 UTXO(Unspent [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Output) 모델을 사용한다. 이더리움의 블록 헤더에는 [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/) 외에 receipts root, [state](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) root 등도 함께 포함되어 있어, 스마트 컨트랙트의 실행 결과와 계정 [상태도](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/065_state_diagram/) 함께 기록할 수 있다. 이더리움의 블록 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시간은약 12초로, 비트코인보다かなり 빠르게 블록이 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된다.
 
 ### 블록Explorer 활용
 
-블록エクスプローラー(Explorer)는 [[004_blockchain|블록체인]] 네트워크의 모든 블록과 거래를 시각적으로 검색할 수 있는 도구이다. 블록숙박([[471_https_http_over_tls|https]]://[[004_blockchain|blockchain]].info/), 이더스캔([[471_https_http_over_tls|https]]://etherscan.io/) 등이 대표적이다. Explorer에서는 특정 블록의 높이, 해시값, 포함된 거래 수, 채굴자, 보상금, 블록 [[087_process_state_transition|생성]] 시각 등을 확인할 수 있다. Explorer의Backend에서는 실제로各 블록의헤더와 바디를解析하여 使用자에게友好的인界面로 제공한다.
+블록エクスプローラー(Explorer)는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 네트워크의 모든 블록과 거래를 시각적으로 검색할 수 있는 도구이다. 블록숙박([https](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)://[blockchain](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/).info/), 이더스캔([https](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)://etherscan.io/) 등이 대표적이다. Explorer에서는 특정 블록의 높이, 해시값, 포함된 거래 수, 채굴자, 보상금, 블록 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시각 등을 확인할 수 있다. Explorer의Backend에서는 실제로各 블록의헤더와 바디를解析하여 使用자에게友好的인界面로 제공한다.
 
 ### 📢 비유 요약
 
-블록 구조의 실무 활용은항만 창고의 입출고 기록 시스템과 같다. 각 블록은 특정 시간 동안 입출고된 모든 화물 목록을 포함한다. [[008_merkle_root|머클 루트]]는 입출고 목록全体の整合性を確認하는 도장 또는 승인 도장과 같다. 만약 목록의 한 건이라도 위조하면, 도장의 해시값이 달라져서 조작 사실이 드러난다.
+블록 구조의 실무 활용은항만 창고의 입출고 기록 시스템과 같다. 각 블록은 특정 시간 동안 입출고된 모든 화물 목록을 포함한다. [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)는 입출고 목록全体の整合性を確認하는 도장 또는 승인 도장과 같다. 만약 목록의 한 건이라도 위조하면, 도장의 해시값이 달라져서 조작 사실이 드러난다.
 
 ---
 
 ## Ⅳ. 품질 관리 및 테스트 (Quality & Testing)
 
-### 블록 [[003_integrity|무결성]] [[395_verification_process_review|검증]]
+### 블록 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)
 
-블록 구조의品質管理에서 가장 중요한 것은 각 블록의 [[003_integrity|무결성]] [[395_verification_process_review|검증]]이다. 새로 수신한 블록이 올바른 해시값을 가지고 있는지, 이전 블록의 해시와 올바르게 연결되어 있는지를 检查한다. 비트코인 Core等のクライアントでは、受信したブロックのヘッダー情報を逐一検証し、不正なブロックを即座に排斥する. 또한 블록 헤더의 Timestamp가 적절한 범위 내에 있는지(과거 아니고 미래 too far 아닌지), 난이도가 올바른지를検証한다.
+블록 구조의品質管理에서 가장 중요한 것은 각 블록의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이다. 새로 수신한 블록이 올바른 해시값을 가지고 있는지, 이전 블록의 해시와 올바르게 연결되어 있는지를 检查한다. 비트코인 Core等のクライアントでは、受信したブロックのヘッダー情報を逐一検証し、不正なブロックを即座に排斥する. 또한 블록 헤더의 Timestamp가 적절한 범위 내에 있는지(과거 아니고 미래 too far 아닌지), 난이도가 올바른지를検証한다.
 
-### [[008_merkle_root|머클 루트]] [[395_verification_process_review|검증]]
+### [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)
 
-특정 거래가 특정 블록에 포함되어 있는지를証明하는 방식은 머클 증명(Merkle Proof)을 利用한다. 머클 증명은 해당 거래의 해시값부터 [[008_merkle_root|머클 루트]]까지의 경로에 있는 모든 중간 해시값들의 목록이다. 어떤 거래가 블록에 포함되어 있다면, 제공된 머클 증명으로부터 [[008_merkle_root|머클 루트]]를 再計算하여 실제 블록의 [[008_merkle_root|머클 루트]]와 일치하는지를 확인함으로써 [[395_verification_process_review|검증]]할 수 있다. [[082_light_node_spv_simplified_payment_verification|라이트 노드]](Light Node)는 전체 블록을 다운로드하지 않고도 머클 증명만을利用하여 특정 거래의 존재를 [[395_verification_process_review|검증]]할 수 있다.
+특정 거래가 특정 블록에 포함되어 있는지를証明하는 방식은 머클 증명(Merkle Proof)을 利用한다. 머클 증명은 해당 거래의 해시값부터 [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)까지의 경로에 있는 모든 중간 해시값들의 목록이다. 어떤 거래가 블록에 포함되어 있다면, 제공된 머클 증명으로부터 [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)를 再計算하여 실제 블록의 [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)와 일치하는지를 확인함으로써 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있다. [라이트 노드](/knowledge-base/studynote/06_ict_convergence/01_blockchain/082_light_node_spv_simplified_payment_verification/)(Light Node)는 전체 블록을 다운로드하지 않고도 머클 증명만을利用하여 특정 거래의 존재를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있다.
 
-### [[082_light_node_spv_simplified_payment_verification|라이트 노드]]와 Simplified Payment [[395_verification_process_review|Verification]]
+### [라이트 노드](/knowledge-base/studynote/06_ict_convergence/01_blockchain/082_light_node_spv_simplified_payment_verification/)와 Simplified Payment [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)
 
-[[082_light_node_spv_simplified_payment_verification|라이트 노드]](SPV, Simplified Payment [[395_verification_process_review|Verification]])는 모든 블록을 저장하는 대신, 블록 헤더만 다운로드하여 거래를 [[395_verification_process_review|검증]]하는 방식이다. 이 방식은 모바일 지갑等服务에서 주로 利用된다. 블록 헤더의 크기는 약 80바이트로, 전체 블록(비트코인의 경우 최대 1MB)을 저장하는 것보다 훨씬 적다. 현재까지 [[087_process_state_transition|생성]]된 블록의 수는 약 80만 개이며, 이를 저장하는 데 필요한 공간은 약 64MB에 불과하다. [[082_light_node_spv_simplified_payment_verification|라이트 노드]]는 거래를 [[395_verification_process_review|검증]]할 때 해당 거래의 머클 증명을 요청하여間接적으로 [[395_verification_process_review|검증]]한다.
+[라이트 노드](/knowledge-base/studynote/06_ict_convergence/01_blockchain/082_light_node_spv_simplified_payment_verification/)(SPV, Simplified Payment [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))는 모든 블록을 저장하는 대신, 블록 헤더만 다운로드하여 거래를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 방식이다. 이 방식은 모바일 지갑等服务에서 주로 利用된다. 블록 헤더의 크기는 약 80바이트로, 전체 블록(비트코인의 경우 최대 1MB)을 저장하는 것보다 훨씬 적다. 현재까지 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 블록의 수는 약 80만 개이며, 이를 저장하는 데 필요한 공간은 약 64MB에 불과하다. [라이트 노드](/knowledge-base/studynote/06_ict_convergence/01_blockchain/082_light_node_spv_simplified_payment_verification/)는 거래를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 때 해당 거래의 머클 증명을 요청하여間接적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
 
 ### 📢 비유 요약
 
-블록 [[003_integrity|무결성]] [[395_verification_process_review|검증]]은은행의 지폐 감정과 같다. 은행원은 지폐를 받으면 지문의 위치, 엠보싱, watermarks 등 여러 보안 요소를 检查한다. 블록 [[395_verification_process_review|검증]]도 마찬가지로, 이전 블록의 해시, [[008_merkle_root|머클 루트]], 논스 등 여러 기술적 보안 요소를 检查하여 수신한 블록이 진짜인지 아닌지를 판단한다.
+블록 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은은행의 지폐 감정과 같다. 은행원은 지폐를 받으면 지문의 위치, 엠보싱, watermarks 등 여러 보안 요소를 检查한다. 블록 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)도 마찬가지로, 이전 블록의 해시, [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/), 논스 등 여러 기술적 보안 요소를 检查하여 수신한 블록이 진짜인지 아닌지를 판단한다.
 
 ---
 
@@ -158,23 +162,23 @@ TX1, TX2, TX3, TX4, TX5, TX6, TX7, TX8
 
 ### 세그윗(SegWit)과 블록 구조 변화
 
-세그윗(SegWit, Segregated Witness)은 2017년 비트코인에 적용된 업그레이드로, 거래 서명(Signature) 정보를 거래 [[001_dikw_pyramid|데이터]](바디)에서 분리하여 블록 헤더 근처에 기록하도록 변경하였다. 이를 통해相同한 블록 크기(1MB) 내에서 더 많은数の取引を容纳할 수 있게 되었으며, 실질적 [[139_throughput|처리량]]이약 2배 증가하였다. 또한 세그윗은 [[191_transaction_concept_states|트랜잭션]] 회귀성([[191_transaction_concept_states|Transaction]] Malleability) 문제를解決하여 라이트닝 네트워크(Lightning Network)等の 레이어 2 솔루션의 구축을 가능하게 하였다.
+세그윗(SegWit, Segregated Witness)은 2017년 비트코인에 적용된 업그레이드로, 거래 서명(Signature) 정보를 거래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(바디)에서 분리하여 블록 헤더 근처에 기록하도록 변경하였다. 이를 통해相同한 블록 크기(1MB) 내에서 더 많은数の取引を容纳할 수 있게 되었으며, 실질적 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이약 2배 증가하였다. 또한 세그윗은 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 회귀성([Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Malleability) 문제를解決하여 라이트닝 네트워크(Lightning Network)等の 레이어 2 솔루션의 구축을 가능하게 하였다.
 
 ### 무제한 블록 크기争论과 BCH/BSV 분기
 
-비트코인 커뮤니티에서는 2015~2017년경부터 블록 크기 제한(1MB)을 둘러싸고熱い議論が展开了. 대容量 бл록 크기，支持派는 거래 수수료 절감을 위해 블록 크기를大幅으로 확대해야 한다고 주장하였다. 이争论의 결과로 2017년 8월 비트코인 캐시(BCH)가 분기되었고, 이후 다시 비트코인 [[157_sv_schedule_variance|SV]](BSV)로 분기되어, 각각 8MB, 현재는 대규모 블록(최대 2GB)을 지원하고 있다. 그러나 이러한 대용량 블록 접근법은 노드의集中化(스토리지 및 [[140_bandwidth|대역폭]]要件 증가)라는 새로운 문제을 야기하였다.
+비트코인 커뮤니티에서는 2015~2017년경부터 블록 크기 제한(1MB)을 둘러싸고熱い議論が展开了. 대容量 бл록 크기，支持派는 거래 수수료 절감을 위해 블록 크기를大幅으로 확대해야 한다고 주장하였다. 이争论의 결과로 2017년 8월 비트코인 캐시(BCH)가 분기되었고, 이후 다시 비트코인 [SV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/157_sv_schedule_variance/)(BSV)로 분기되어, 각각 8MB, 현재는 대규모 블록(최대 2GB)을 지원하고 있다. 그러나 이러한 대용량 블록 접근법은 노드의集中化(스토리지 및 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)要件 증가)라는 새로운 문제을 야기하였다.
 
 ### 📢 비유 요약
 
-블록 크기 문제는고속도로 차선 수와 교통량 관계에 비유할 수 있다. 블록 크기 1MB는 4차선 고속도로에 해당한다. 세그윗은 4차선 안에서 차량(거래)의 크기를축소하여 더 많은 차량을容纳하는 방법이다. 대용량 블록 크기 확대론은 차선을 8차선으로 확장하는 것에 해당한다. 그러나 차선을 넓히면建設비가 증가하듯, 큰 블록은 노드 운영 비용을 증가시켜 네트워크의 [[010_decentralization|탈중앙화]] 수준을저해하는Tradoff이 존재한다.
+블록 크기 문제는고속도로 차선 수와 교통량 관계에 비유할 수 있다. 블록 크기 1MB는 4차선 고속도로에 해당한다. 세그윗은 4차선 안에서 차량(거래)의 크기를축소하여 더 많은 차량을容纳하는 방법이다. 대용량 블록 크기 확대론은 차선을 8차선으로 확장하는 것에 해당한다. 그러나 차선을 넓히면建設비가 증가하듯, 큰 블록은 노드 운영 비용을 증가시켜 네트워크의 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 수준을저해하는Tradoff이 존재한다.
 
 ### 결론
 
-블록 구조는 [[004_blockchain|블록체인]] 기술의 가장 기본적이고 중요한 [[001_dikw_pyramid|데이터]] 단위이다. 블록 헤더와 바디의 명확한 분리, 해시 체인을 통한 연결, [[008_merkle_root|머클 루트]]에 의한 효율적 거래 [[395_verification_process_review|검증]] 등의 설계는 2009년 비트코인의 첫 번째 블록부터 현재까지 이어져 왔다. 세그윗, 레이어 2 솔루션 등 기술적 발전에도 불구하고, 기본 구조의 개념은 변하지 않고 있으며, 이것이 [[004_blockchain|블록체인]] 기술의 기반이 된다. 앞으로 새로운 Consensus Algorithm이나 확장성 솔루션이开发되더라도, 블록이라는 基本단위의 구조는 계속 유지될 것으로 전망된다.
+블록 구조는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 기술의 가장 기본적이고 중요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 단위이다. 블록 헤더와 바디의 명확한 분리, 해시 체인을 통한 연결, [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)에 의한 효율적 거래 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 등의 설계는 2009년 비트코인의 첫 번째 블록부터 현재까지 이어져 왔다. 세그윗, 레이어 2 솔루션 등 기술적 발전에도 불구하고, 기본 구조의 개념은 변하지 않고 있으며, 이것이 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 기술의 기반이 된다. 앞으로 새로운 Consensus Algorithm이나 확장성 솔루션이开发되더라도, 블록이라는 基本단위의 구조는 계속 유지될 것으로 전망된다.
 
 ---
 
-## 핵심 인사이트 [[103_ascii|ASCII]] 다이어그램 ([[120_concept|Concept]] Map)
+## 핵심 인사이트 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 ([Concept](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/) Map)
 
 ```
 +------------------------------------------------------------------+
@@ -224,10 +228,10 @@ TX1, TX2, TX3, TX4, TX5, TX6, TX7, TX8
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[[191_transaction_concept_states|트랜잭션]]** | 블록에 기록될 [[001_dikw_pyramid|데이터]]를 모으는 시작점 |
-| **해시** | [[001_dikw_pyramid|데이터]] [[003_integrity|무결성]]을 [[395_verification_process_review|검증]]하는 연결 고리 |
-| **블록 헤더** | 블록의 메타정보와 [[395_verification_process_review|검증]] 기준을 담는 부분 |
-| **[[007_merkle_tree|머클 트리]]** | 여러 거래를 효율적으로 [[395_verification_process_review|검증]]하는 구조 |
+| **[트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)** | 블록에 기록될 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모으는 시작점 |
+| **해시** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 연결 고리 |
+| **블록 헤더** | 블록의 메타정보와 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기준을 담는 부분 |
+| **[머클 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/)** | 여러 거래를 효율적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 구조 |
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
@@ -243,18 +247,18 @@ TX1, TX2, TX3, TX4, TX5, TX6, TX7, TX8
 [머클 트리 (Merkle Tree)]
 ```
 
-이 흐름도는 [[191_transaction_concept_states|트랜잭션]]이 블록과 [[007_merkle_tree|머클 트리]]로 조직되는 [[395_verification_process_review|검증]] 과정을 보여준다.
+이 흐름도는 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 블록과 [머클 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/)로 조직되는 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 과정을 보여준다.
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 거래 내역은 먼저 한 줄씩 모여서 블록이 된다.
 2. 해시는 블록이 바뀌었는지 바로 알아보게 해 준다.
-3. [[007_merkle_tree|머클 트리]]는 여러 거래를 빠르게 확인하는 나무 구조다.
+3. [머클 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/)는 여러 거래를 빠르게 확인하는 나무 구조다.
 ## 참고
 - 모든 약어는 반드시 전체 명칭과 함께 표기
 - 일어/중국어 절대 사용 금지
 - 각 섹션 끝에 📢 요약 비유 반드시 추가
-- 최소 800자/[[501_file_definition_logical_record|파일]]
-- [[501_file_definition_logical_record|파일]]명: 01_, 02_, 03_... 형식 (2자리 숫자)
+- 최소 800자/[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)
+- [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)명: 01_, 02_, 03_... 형식 (2자리 숫자)
 
 ---
 
@@ -262,7 +266,7 @@ TX1, TX2, TX3, TX4, TX5, TX6, TX7, TX8
 
 **진행 상황**: 6 / 552
 
-← **이전**: [[005_genesis_block|5. 제네시스 블록 (Genesis Block) - 블록체인의 첫 번째 블록]]
-**다음**: [[007_merkle_tree|7. 머클 트리 (Merkle Tree / Hash Tree) - 트랜잭션 무결성 검증을 위한 해시 트리]] →
+← **이전**: [5. 제네시스 블록 (Genesis Block) - 블록체인의 첫 번째 블록](/knowledge-base/studynote/06_ict_convergence/01_blockchain/005_genesis_block/)
+**다음**: [7. 머클 트리 (Merkle Tree / Hash Tree) - 트랜잭션 무결성 검증을 위한 해시 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/) →
 
 ---

@@ -1,19 +1,23 @@
----
-title: 86. BPR과 ERP의 관계 - 시스템에 맞춰 업무를 변경할 것인가(BPR 선행), 업무에 맞춰 시스템을 고칠 것인가(커스터마이징)
-tags:
-- enterprise_systems
----
++++
+title = "86. BPR과 ERP의 관계 - 시스템에 맞춰 업무를 변경할 것인가(BPR 선행), 업무에 맞춰 시스템을 고칠 것인가(커스터마이징)"
+
+[taxonomies]
+tags = ["enterprise_systems"]
+
+[extra]
+tags = ["enterprise_systems"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[127_bpr_business_process_reengineering_radical_redesign|BPR]] ([[127_bpr_business_process_reengineering_radical_redesign|Business Process Reengineering]])은 업무를 다시 설계하고, [[081_erp_enterprise_resource_planning|ERP]] ([[081_erp_enterprise_resource_planning|Enterprise Resource Planning]])는 표준 프로세스에 맞춰 운영하는 [[268_strategy_pattern|전략]]이다.
+> 1. **본질**: [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/) ([Business Process Reengineering](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/))은 업무를 다시 설계하고, [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) ([Enterprise Resource Planning](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/))는 표준 프로세스에 맞춰 운영하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 > 2. **가치**: 시스템에 맞춰 업무를 바꿀지, 업무에 맞춰 시스템을 바꿀지 결정하게 해 준다.
 > 3. **판단 포인트**: 핵심 경쟁력인지, 표준화 가능한지, 업그레이드 비용을 감당할 수 있는지를 먼저 봐야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
-[[081_erp_enterprise_resource_planning|ERP]] 도입은 단순 설치가 아니라 업무 기준의 재정렬이다. 기존 프로세스를 그대로 옮기면 표준 패키지의 장점을 잃고, 반대로 표준만 고집하면 현업의 차별점이 무너진다.
+[ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 도입은 단순 설치가 아니라 업무 기준의 재정렬이다. 기존 프로세스를 그대로 옮기면 표준 패키지의 장점을 잃고, 반대로 표준만 고집하면 현업의 차별점이 무너진다.
 
 그래서 BPR과 커스터마이징은 항상 함께 논의된다.
 - **📢 섹션 요약 비유**: 업무와 시스템의 방향을 먼저 정해야 한다.
@@ -23,16 +27,16 @@ tags:
 ## Ⅱ. 아키텍처 및 핵심 원리
   | 구분 | 의미 | 판단 포인트 |
   |:---|:---|:---|
-  | [[178_as_is_to_be_analysis|AS-IS]] (현행) | 현재 업무 | 비효율, 중복, 수작업 |
+  | [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) (현행) | 현재 업무 | 비효율, 중복, 수작업 |
   | TO-BE (목표 상태) | 목표 업무 | 표준화, 자동화 |
   | Fit-Gap | 패키지와 업무의 차이 | 핵심 경쟁력인지 여부 |
-  | [[127_bpr_business_process_reengineering_radical_redesign|BPR]] | 업무 자체를 재설계 | 표준으로 흡수 가능 여부 |
+  | [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/) | 업무 자체를 재설계 | 표준으로 흡수 가능 여부 |
   | Customization | ERP를 수정 | 규제/산업 특수성 |
-  | [[016_tco|TCO]] (Total Cost of Ownership) | [[006_tco_total_cost_of_ownership|총 소유 비용]] | 업그레이드·유지보수 포함 |
+  | [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) (Total Cost of Ownership) | [총 소유 비용](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/006_tco_total_cost_of_ownership/) | 업그레이드·유지보수 포함 |
 
-  ┌──────────── [[178_as_is_to_be_analysis|AS-IS]] (현행) 업무 ────────────┐
+  ┌──────────── [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) (현행) 업무 ────────────┐
   ▼                                           ▼
-Fit-Gap ────▶ 표준으로 흡수 가능? ── yes ─▶ [[127_bpr_business_process_reengineering_radical_redesign|BPR]]
+Fit-Gap ────▶ 표준으로 흡수 가능? ── yes ─▶ [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/)
   │
   no
   ▼
@@ -42,11 +46,11 @@ Customization ─▶ 시스템 수정 ─▶ 운영/업그레이드 영향 검�
 ---
 
 ## Ⅲ. 비교 및 연결
-| 비교 항목 | [[127_bpr_business_process_reengineering_radical_redesign|BPR]] 선행 | 커스터마이징 선행 | 하이브리드 |
+| 비교 항목 | [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/) 선행 | 커스터마이징 선행 | 하이브리드 |
 |:---|:---|:---|:---|
 | 방향 | 업무를 바꿈 | 시스템을 바꿈 | 핵심만 예외 |
 | 장점 | 표준화, 단순화 | 현업 적합성 | 균형 |
-| 단점 | 조직 [[003_resistance|저항]] | 업그레이드 비용 증가 | 관리 복잡성 |
+| 단점 | 조직 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) | 업그레이드 비용 증가 | 관리 복잡성 |
 | 적합 상황 | 범용 프로세스 | 규제/차별화 프로세스 | 대규모 조직 |
 
 BPR과 커스터마이징은 경쟁 개념이 아니라 표준과 예외를 나누는 도구다.
@@ -56,7 +60,7 @@ BPR과 커스터마이징은 경쟁 개념이 아니라 표준과 예외를 나�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 - [ ] 해당 프로세스가 핵심 경쟁력인지 먼저 판단한다.
-- [ ] 법규, [[606_auditing_linux_auditd|감사]], 회계처럼 반드시 지켜야 할 예외를 구분한다.
+- [ ] 법규, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/), 회계처럼 반드시 지켜야 할 예외를 구분한다.
 - [ ] 업그레이드 주기와 유지보수 비용을 TCO로 본다.
 - [ ] 현업 편의 때문에 표준 구조를 무너뜨리지 않는다.
 
@@ -68,7 +72,7 @@ BPR과 커스터마이징은 경쟁 개념이 아니라 표준과 예외를 나�
 ---
 
 ## Ⅴ. 기대효과 및 결론
-좋은 [[081_erp_enterprise_resource_planning|ERP]] 도입은 시스템에 억지로 맞추는 것도, 업무를 무한 커스터마이징하는 것도 아니다. 핵심은 표준화할 부분과 예외로 남길 부분을 가르는 일이다.
+좋은 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 도입은 시스템에 억지로 맞추는 것도, 업무를 무한 커스터마이징하는 것도 아니다. 핵심은 표준화할 부분과 예외로 남길 부분을 가르는 일이다.
 - **📢 섹션 요약 비유**: 핵심은 시스템이 아니라 업무 기준의 선택이다.
 
 ---
@@ -77,11 +81,11 @@ BPR과 커스터마이징은 경쟁 개념이 아니라 표준과 예외를 나�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[127_bpr_business_process_reengineering_radical_redesign|BPR]] | 업무를 근본적으로 다시 설계한다. |
-| [[081_erp_enterprise_resource_planning|ERP]] | 표준 패키지로 전사 프로세스를 통합한다. |
+| [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/) | 업무를 근본적으로 다시 설계한다. |
+| [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) | 표준 패키지로 전사 프로세스를 통합한다. |
 | 커스터마이징 | 예외 업무를 시스템에 반영한다. |
 | Fit-Gap | 표준과 현업의 차이를 찾는다. |
-| [[016_tco|TCO]] (Total Cost of Ownership) | 도입 후 유지비까지 본다. |
+| [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) (Total Cost of Ownership) | 도입 후 유지비까지 본다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -101,7 +105,7 @@ AS-IS (현행) → Fit-Gap 분석 → 표준으로 흡수 가능? → yes/BPR, n
 
 **진행 상황**: 86 / 482
 
-← **이전**: [[085_erp_implementation_lifecycle|85. ERP 구축 생명주기 - 패키지 선정 -> 커스터마이징 / CBO (Custom Built Object) -> 데이터 이관 ->]]
-**다음**: [[087_erp_package_advantages_best_practice|87. ERP 패키지의 장점 - 베스트 프랙티스(Best Practice) 내재화, 통합 데이터베이스 구축, 유지보수 용이]] →
+← **이전**: [85. ERP 구축 생명주기 - 패키지 선정 -> 커스터마이징 / CBO (Custom Built Object) -> 데이터 이관 ->](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/085_erp_implementation_lifecycle/)
+**다음**: [87. ERP 패키지의 장점 - 베스트 프랙티스(Best Practice) 내재화, 통합 데이터베이스 구축, 유지보수 용이](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/087_erp_package_advantages_best_practice/) →
 
 ---

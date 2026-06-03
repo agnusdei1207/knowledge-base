@@ -1,35 +1,39 @@
----
-title: 205. 데이터 윤리 (Data Ethics) — 알고리즘 편향/공정성/투명성
-date: '2026-04-21'
-tags:
-- studynote-bigdata
----
++++
+title = "205. 데이터 윤리 (Data Ethics) — 알고리즘 편향/공정성/투명성"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-bigdata"]
+
+[extra]
+tags = ["studynote-bigdata"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-- **본질**: [[001_dikw_pyramid|데이터]] 윤리([[001_dikw_pyramid|Data]] Ethics)는 공정성(Fairness)·투명성(Transparency)·책임성(Accountability)·프라이버시(Privacy)·선익(Beneficence)의 5원칙으로 구성되며, [[190_ai_llm_requirements_specification|AI]] 시스템이 사회적 편견을 강화·증폭하지 않도록 방어하는 규범 체계다.
-- **가치**: [[327_shap|SHAP]] ([[327_shap|SHapley Additive exPlanations]]), [[326_lime|LIME]] ([[326_lime|Local Interpretable Model-Agnostic Explanations]]) 등 [[227_xai_explainable_ai_lime_shap|XAI]]([[255_xai_lime_shap_explainable_contribution|Explainable AI]]) 기법과 EU [[190_ai_llm_requirements_specification|AI]] Act(2024) [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] [[104_classification_analysis|분류]] 체계가 결합하여 책임 있는 [[190_ai_llm_requirements_specification|AI]] 구현의 기술·규제 프레임워크를 형성한다.
-- **판단 포인트**: [[001_algorithm_definition|알고리즘]] 편향은 [[001_dikw_pyramid|데이터]] 수집 단계(Representation [[094_bias|Bias]])에서 시작하여 모델 출력([[087_deployment_kubernetes_workload_rolling_update|Deployment]] [[094_bias|Bias]])까지 전 [[123_pipe|파이프]]라인에서 발생하므로, 편향 [[606_auditing_linux_auditd|감사]]([[094_bias|Bias]] [[363_audit|Audit]])는 일회성이 아닌 지속적 [[229_monitor|모니터]]링 프로세스여야 한다.
+- **본질**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 윤리([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Ethics)는 공정성(Fairness)·투명성(Transparency)·책임성(Accountability)·프라이버시(Privacy)·선익(Beneficence)의 5원칙으로 구성되며, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시스템이 사회적 편견을 강화·증폭하지 않도록 방어하는 규범 체계다.
+- **가치**: [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) ([SHapley Additive exPlanations](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/)), [LIME](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/326_lime/) ([Local Interpretable Model-Agnostic Explanations](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/326_lime/)) 등 [XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/)([Explainable AI](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/255_xai_lime_shap_explainable_contribution/)) 기법과 EU [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Act(2024) [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계가 결합하여 책임 있는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 구현의 기술·규제 프레임워크를 형성한다.
+- **판단 포인트**: [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 편향은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 단계(Representation [Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))에서 시작하여 모델 출력([Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) [Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))까지 전 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 발생하므로, 편향 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/) [Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))는 일회성이 아닌 지속적 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 프로세스여야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### [[001_algorithm_definition|알고리즘]] 편향의 현실 사례
+### [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 편향의 현실 사례
 
 - **COMPAS 재범 예측 시스템**: 흑인 피고인의 재범 가능성을 백인 피고인 대비 거짓 양성(False Positive)으로 2배 높게 예측 — ProPublica 2016년 조사 (Angwin et al.)
-- **Amazon 채용 [[190_ai_llm_requirements_specification|AI]](2018)**: 이력서 스크리닝 AI가 여성 지원자를 불리하게 평가 — 역사적으로 IT 채용에 남성 지원자가 많았던 훈련 [[001_dikw_pyramid|데이터]] 반영
-- **의료 이미지 [[190_ai_llm_requirements_specification|AI]]**: 흑인 환자 [[001_dikw_pyramid|데이터]]가 훈련 [[001_dikw_pyramid|데이터]]에서 과소 표현되어 피부 질환 진단 정확도 낮음
+- **Amazon 채용 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)(2018)**: 이력서 스크리닝 AI가 여성 지원자를 불리하게 평가 — 역사적으로 IT 채용에 남성 지원자가 많았던 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 반영
+- **의료 이미지 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)**: 흑인 환자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 과소 표현되어 피부 질환 진단 정확도 낮음
 
-이처럼 [[001_algorithm_definition|알고리즘]] 편향은 **역사적 불평등을 [[001_dikw_pyramid|데이터]]에서 학습하여 더 체계적으로 재생산**하는 위험이 있다.
+이처럼 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 편향은 **역사적 불평등을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 학습하여 더 체계적으로 재생산**하는 위험이 있다.
 
-**📢 섹션 요약 비유**: [[001_algorithm_definition|알고리즘]] 편향은 **오래된 지도로 항해하는 것**과 같다. 과거의 편향된 현실을 반영한 [[001_dikw_pyramid|데이터]](오래된 지도)로 AI를 학습시키면, AI는 그 편향을 "정확한 사실"로 학습하여 미래에도 같은 경로(편향된 결정)를 반복한다.
+**📢 섹션 요약 비유**: [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 편향은 **오래된 지도로 항해하는 것**과 같다. 과거의 편향된 현실을 반영한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(오래된 지도)로 AI를 학습시키면, AI는 그 편향을 "정확한 사실"로 학습하여 미래에도 같은 경로(편향된 결정)를 반복한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 편향 유형별 [[190_ai_llm_requirements_specification|AI]] [[123_pipe|파이프]]라인 매핑
+### 편향 유형별 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 매핑
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -76,16 +80,16 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-### [[227_xai_explainable_ai_lime_shap|XAI]] ([[255_xai_lime_shap_explainable_contribution|Explainable AI]], 설명 가능한 [[190_ai_llm_requirements_specification|AI]]) 기법 비교
+### [XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) ([Explainable AI](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/255_xai_lime_shap_explainable_contribution/), 설명 가능한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) 기법 비교
 
 | 기법 | 범위 | 원리 | 특징 |
 |:---|:---|:---|:---|
-| **[[327_shap|SHAP]]** | 전역+지역 | 게임이론 Shapley Value — 각 특성의 한계 기여도 | 이론적 보장, 계산 비용 높음 |
-| **[[326_lime|LIME]]** | 지역 | 예측 근방 선형 모델 근사 | 모델 무관, 빠름, 불안정 가능 |
-| **Attention** | 모델 내부 | 신경망 어텐션 [[267_weight_bias_activation|가중치]] [[003_bigdata_7v|시각화]] | [[246_transformer_self_attention_parallel_positional_encoding|Transformer]] 특화 |
+| **[SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/)** | 전역+지역 | 게임이론 Shapley Value — 각 특성의 한계 기여도 | 이론적 보장, 계산 비용 높음 |
+| **[LIME](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/326_lime/)** | 지역 | 예측 근방 선형 모델 근사 | 모델 무관, 빠름, 불안정 가능 |
+| **Attention** | 모델 내부 | 신경망 어텐션 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) | [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 특화 |
 | **Counterfactual** | 지역 | "X를 바꾸면 결과가 달라진다" | 직관적, 실행 가능한 설명 |
 
-### EU [[190_ai_llm_requirements_specification|AI]] Act (2024) [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] [[104_classification_analysis|분류]]
+### EU [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Act (2024) [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)
 
 ```
 금지 (Prohibited)
@@ -106,22 +110,22 @@ tags:
   └─ 스팸 필터, 게임 AI
 ```
 
-**📢 섹션 요약 비유**: EU [[190_ai_llm_requirements_specification|AI]] Act [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] [[104_classification_analysis|분류]]는 **의약품 허가 등급**과 같다. 감기약(최소 위험)은 약국에서 자유 판매지만, 항암제(고위험)는 임상시험·허가·처방전이 필요하고, 독성 화합물(금지)은 아예 판매 불가다.
+**📢 섹션 요약 비유**: EU [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Act [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 **의약품 허가 등급**과 같다. 감기약(최소 위험)은 약국에서 자유 판매지만, 항암제(고위험)는 임상시험·허가·처방전이 필요하고, 독성 화합물(금지)은 아예 판매 불가다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[001_algorithm_definition|알고리즘]] 영향 평가(Algorithmic Impact Assessment, [[194_authority_information_access_aia_ocsp|AIA]])
+### [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 영향 평가(Algorithmic Impact Assessment, [AIA](/knowledge-base/studynote/09_security/04_endpoint_security/194_authority_information_access_aia_ocsp/))
 
-고위험 [[190_ai_llm_requirements_specification|AI]] 시스템 배포 전 수행해야 하는 체계적 평가:
+고위험 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시스템 배포 전 수행해야 하는 체계적 평가:
 
-1. **시스템 범위 정의**: [[190_ai_llm_requirements_specification|AI]] 시스템의 용도, 대상 사용자, 영향 받는 집단
-2. **[[213_data_audit|데이터 감사]]**: 훈련 [[001_dikw_pyramid|데이터]]의 그룹별 표현 비율, 레이블 품질
+1. **시스템 범위 정의**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시스템의 용도, 대상 사용자, 영향 받는 집단
+2. **[데이터 감사](/knowledge-base/studynote/16_bigdata/10_governance/213_data_audit/)**: 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 그룹별 표현 비율, 레이블 품질
 3. **편향 테스트**: 그룹별 공정성 지표 측정 (Demographic Parity, Equal Opportunity)
-4. **설명 가능성 평가**: 결정 과정이 충분히 설명 가능한가? ([[327_shap|SHAP]], [[326_lime|LIME]] 적용)
-5. **[[173_stakeholder_identification_impact_matrix|이해관계자]] 검토**: 영향 받는 집단 대표자 포함 검토
-6. **거버넌스 계획**: 배포 후 지속적 [[229_monitor|모니터]]링, 이의 제기 절차
+4. **설명 가능성 평가**: 결정 과정이 충분히 설명 가능한가? ([SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/), [LIME](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/326_lime/) 적용)
+5. **[이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 검토**: 영향 받는 집단 대표자 포함 검토
+6. **거버넌스 계획**: 배포 후 지속적 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링, 이의 제기 절차
 
 ### 실무에서의 Fairness-Accuracy 트레이드오프
 
@@ -145,33 +149,33 @@ Accuracy-Fairness Frontier:
 
 ## Ⅴ. 기대효과 및 결론
 
-### [[001_dikw_pyramid|데이터]] 윤리 내재화 기대효과
+### [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 윤리 내재화 기대효과
 
 | 영역 | 효과 |
 |:---|:---|
-| **법적 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]** | EU [[190_ai_llm_requirements_specification|AI]] Act 위반 과징금(최대 매출 7%) 예방 |
-| **사회적 신뢰** | 편향 없는 AI로 브랜드 [[085_confidence_association_rule_conditional_probability|신뢰도]]·ESG 점수 향상 |
+| **법적 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)** | EU [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Act 위반 과징금(최대 매출 7%) 예방 |
+| **사회적 신뢰** | 편향 없는 AI로 브랜드 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)·ESG 점수 향상 |
 | **의사결정 품질** | 다양한 사용자에게 공정하게 작동하는 견고한 모델 |
-| **책임 추적** | [[606_auditing_linux_auditd|감사]] 추적·XAI로 결정 근거 사후 [[395_verification_process_review|검증]] 가능 |
+| **책임 추적** | [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적·XAI로 결정 근거 사후 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능 |
 
 ### 결론
 
-[[001_dikw_pyramid|데이터]] 윤리는 더 이상 "좋으면 좋고, 없어도 그만인" 선택 사항이 아니다. EU [[190_ai_llm_requirements_specification|AI]] Act, [[791_gdpr_eu|GDPR]] Article 22(자동화된 의사결정 이의 제기권), 각국 [[190_ai_llm_requirements_specification|AI]] 윤리 가이드라인이 법적 의무로 전환되고 있다. 정보통신기술사는 [[190_ai_llm_requirements_specification|AI]] 시스템 설계 시 편향 [[606_auditing_linux_auditd|감사]] 프로세스, [[227_xai_explainable_ai_lime_shap|XAI]] [[192_module_independence|모듈]], 인간 개입(Human-in-the-Loop) 설계를 핵심 아키텍처 요소로 반영해야 한다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 윤리는 더 이상 "좋으면 좋고, 없어도 그만인" 선택 사항이 아니다. EU [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Act, [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) Article 22(자동화된 의사결정 이의 제기권), 각국 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 윤리 가이드라인이 법적 의무로 전환되고 있다. 정보통신기술사는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시스템 설계 시 편향 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 프로세스, [XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/), 인간 개입(Human-in-the-Loop) 설계를 핵심 아키텍처 요소로 반영해야 한다.
 
-**📢 섹션 요약 비유**: [[001_dikw_pyramid|데이터]] 윤리를 내재화한 AI는 **교통 [[130_signal|신호]]등**과 같다. 공정하게 모든 방향에 동등한 기회를 주고, 작동 이유를 명확히 표시하며(투명성), 오작동 시 사람이 개입할 수 있도록 설계되어야 한다.
+**📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 윤리를 내재화한 AI는 **교통 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등**과 같다. 공정하게 모든 방향에 동등한 기회를 주고, 작동 이유를 명확히 표시하며(투명성), 오작동 시 사람이 개입할 수 있도록 설계되어야 한다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 개념 | [[083_relationship_in_er_model|관계]] | 설명 |
+| 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
 |:---|:---|:---|
-| Representation [[094_bias|Bias]] | 편향 유형 | [[001_dikw_pyramid|데이터]] 수집 단계의 그룹 과소 표현 |
+| Representation [Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/) | 편향 유형 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 단계의 그룹 과소 표현 |
 | Demographic Parity | 공정성 지표 | 그룹별 긍정 예측 비율 동일 요건 |
-| [[327_shap|SHAP]] | [[227_xai_explainable_ai_lime_shap|XAI]] 기법 | Shapley Value 기반 특성 기여도 설명 |
-| [[326_lime|LIME]] | [[227_xai_explainable_ai_lime_shap|XAI]] 기법 | 지역 선형 근사 기반 모델 무관 설명 |
-| EU [[190_ai_llm_requirements_specification|AI]] Act | 규제 프레임워크 | [[190_ai_llm_requirements_specification|AI]] 시스템 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] [[104_classification_analysis|분류]] 및 의무 규정 |
-| Algorithmic Impact Assessment | 거버넌스 도구 | 고위험 [[190_ai_llm_requirements_specification|AI]] 배포 전 의무적 위험 평가 |
+| [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) | [XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) 기법 | Shapley Value 기반 특성 기여도 설명 |
+| [LIME](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/326_lime/) | [XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) 기법 | 지역 선형 근사 기반 모델 무관 설명 |
+| EU [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Act | 규제 프레임워크 | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시스템 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 및 의무 규정 |
+| Algorithmic Impact Assessment | 거버넌스 도구 | 고위험 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 배포 전 의무적 위험 평가 |
 | Human-in-the-Loop | 설계 원칙 | 고위험 결정에 인간 검토 단계 포함 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -191,13 +195,13 @@ Accuracy-Fairness Frontier:
     ▼
 [EU AI Act / 알고리즘 영향 평가 (AIA) — 법적 의무화]
 ```
-[[001_dikw_pyramid|데이터]] 편향은 수집 단계에서 시작해 모델 훈련을 통해 증폭되며, XAI로 투명성을 확보하고 공정성 지표 [[395_verification_process_review|검증]]을 거쳐 EU [[190_ai_llm_requirements_specification|AI]] Act 같은 규제 의무 이행까지 이어지는 전주기 거버넌스가 필요하다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 편향은 수집 단계에서 시작해 모델 훈련을 통해 증폭되며, XAI로 투명성을 확보하고 공정성 지표 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 거쳐 EU [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Act 같은 규제 의무 이행까지 이어지는 전주기 거버넌스가 필요하다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-- AI가 편향되는 것은 **인종차별적인 선생님에게 배운 학생**과 같아요: 선생님의 편견(편향된 훈련 [[001_dikw_pyramid|데이터]])을 학생([[190_ai_llm_requirements_specification|AI]])이 그대로 배워서 더 체계적으로 차별할 수 있어요.
-- [[227_xai_explainable_ai_lime_shap|XAI]](설명 가능한 [[190_ai_llm_requirements_specification|AI]])는 AI가 "왜 이 결정을 했는지" 알려주는 것이에요 — "이 사람이 대출 거절된 이유는 신용점수가 낮아서"라고 설명해 줘야 억울하지 않잖아요.
-- EU [[190_ai_llm_requirements_specification|AI]] Act는 AI도 자동차처럼 **안전 검사 의무**가 있다는 규칙이에요: 생명에 영향 주는 [[190_ai_llm_requirements_specification|AI]](의료·채용·사법)는 출시 전 엄격한 공정성 검사를 받아야 해요.
+- AI가 편향되는 것은 **인종차별적인 선생님에게 배운 학생**과 같아요: 선생님의 편견(편향된 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 학생([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))이 그대로 배워서 더 체계적으로 차별할 수 있어요.
+- [XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/)(설명 가능한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))는 AI가 "왜 이 결정을 했는지" 알려주는 것이에요 — "이 사람이 대출 거절된 이유는 신용점수가 낮아서"라고 설명해 줘야 억울하지 않잖아요.
+- EU [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Act는 AI도 자동차처럼 **안전 검사 의무**가 있다는 규칙이에요: 생명에 영향 주는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)(의료·채용·사법)는 출시 전 엄격한 공정성 검사를 받아야 해요.
 
 ---
 
@@ -205,7 +209,7 @@ Accuracy-Fairness Frontier:
 
 **진행 상황**: 211 / 262
 
-← **이전**: [[210_synthetic_data|204. 합성 데이터 (Synthetic Data) — 통계적 특성 보존 개인정보 대체]]
-**다음**: [[212_bigdata_disputes|206. 빅데이터 분쟁 (Big Data Legal Disputes) — 데이터 소유권/수집 동의/목적 외 사용]] →
+← **이전**: [204. 합성 데이터 (Synthetic Data) — 통계적 특성 보존 개인정보 대체](/knowledge-base/studynote/16_bigdata/10_governance/210_synthetic_data/)
+**다음**: [206. 빅데이터 분쟁 (Big Data Legal Disputes) — 데이터 소유권/수집 동의/목적 외 사용](/knowledge-base/studynote/16_bigdata/10_governance/212_bigdata_disputes/) →
 
 ---

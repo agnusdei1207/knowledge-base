@@ -1,24 +1,28 @@
----
-title: 123. 파이프 (Pipe) - 단방향(Half-duplex), 부모-자식 간
-date: '2026-05-08'
-tags:
-- studynote-operating-system
----
++++
+title = "123. 파이프 (Pipe) - 단방향(Half-duplex), 부모-자식 간"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 파이프 (Pipe)는 UNIX 계열 [[001_operating_system_purpose|운영체제]]에서 [[105_parent_child_process|부모 프로세스]]([[105_parent_child_process|Parent Process]])와 자식 프로세스(Child [[300_process|Process]]) 간에 반수신(Half-Duplex) 방식으로 [[074_byte|바이트]] 스트림([[074_byte|Byte]] [[467_http2_stream_multiplexing_tcp_hol|Stream]]) [[001_dikw_pyramid|데이터]]를 전달하는 가장 기본적인 [[117_ipc|IPC]] (Inter-[[300_process|Process]] Communication) 메커니즘이다.
-> 2. **가치**: `pipe()` 시스템 콜 한 번으로 두 개의 [[501_file_definition_logical_record|파일]] 디스크립터([[501_file_definition_logical_record|File]] Descriptor, [[289_cqrs_db|쓰기]] 전용과 읽기 전용)를 생성하여 [[117_ipc|프로세스 간 통신]] 채널을 즉시 확보할 수 있으며, [[022_kernel_role|커널]] 내부의 순환 버퍼(Circular Buffer)를 기반으로 동작하므로 디스크 I/O 없이 메모리 상에서만 [[001_dikw_pyramid|데이터]]가 전달된다.
-> 3. **융합**: 쉘([[044_shell|Shell]])의 파이프라인 연산자 `|`의 근간이 되며, `PIPE_BUF` 크기 이하의 [[289_cqrs_db|쓰기]]는 [[193_atomicity_all_or_nothing|원자성]]([[193_atomicity_all_or_nothing|Atomicity]])이 보장된다. 명명된 파이프(Named Pipe / [[261_fifo_page_replacement|FIFO]])로 확장하면 혈연 관계가 없는 임의의 [[117_ipc|프로세스 간 통신]]도 가능해진다.
+> 1. **본질**: 파이프 (Pipe)는 UNIX 계열 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에서 [부모 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/105_parent_child_process/)([Parent Process](/knowledge-base/studynote/02_operating_system/02_process_thread/105_parent_child_process/))와 자식 프로세스(Child [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/)) 간에 반수신(Half-Duplex) 방식으로 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 스트림([Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/)) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전달하는 가장 기본적인 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) (Inter-[Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Communication) 메커니즘이다.
+> 2. **가치**: `pipe()` 시스템 콜 한 번으로 두 개의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) Descriptor, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 전용과 읽기 전용)를 생성하여 [프로세스 간 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 채널을 즉시 확보할 수 있으며, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부의 순환 버퍼(Circular Buffer)를 기반으로 동작하므로 디스크 I/O 없이 메모리 상에서만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 전달된다.
+> 3. **융합**: 쉘([Shell](/knowledge-base/studynote/02_operating_system/01_overview_architecture/044_shell/))의 파이프라인 연산자 `|`의 근간이 되며, `PIPE_BUF` 크기 이하의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)는 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)([Atomicity](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/))이 보장된다. 명명된 파이프(Named Pipe / [FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/))로 확장하면 혈연 관계가 없는 임의의 [프로세스 간 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/)도 가능해진다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 파이프 (Pipe)는 [[001_operating_system_purpose|운영체제]] [[022_kernel_role|커널]]이 관리하는 순환 버퍼(Circular Buffer)를 매개로, 한 프로세스가 [[289_cqrs_db|쓰기]] 전용 [[501_file_definition_logical_record|파일]] 디스크립터(fd[1])에 [[001_dikw_pyramid|데이터]]를 쓰면 다른 프로세스가 읽기 전용 [[501_file_definition_logical_record|파일]] 디스크립터(fd[0])를 통해 [[001_dikw_pyramid|데이터]]를 읽는 [[008_단방향_반이중_전이중|단방향]] 통신 채널이다. 반수신(Half-Duplex) 동작이 원칙이므로 한 번에 한 방향으로만 [[001_dikw_pyramid|데이터]]가 흐른다.
-- **필요성**: UNIX 철학의 핵심인 "하나의 프로그램은 하나의 일만 잘하라"를 실현하기 위해, 작고 단일 목적의 [[158_instruction|명령어]]([[271_command_pattern|Command]])들을 조합하여 복잡한 작업을 수행하는 파이프라인([[082_pipeline|Pipeline]]) 패러다임이 필요했다. 예를 들어 `ls | grep "txt" | sort | wc -l`처럼 네 개의 독립 프로세스가 파이프를 통해 [[001_dikw_pyramid|데이터]]를 순차적으로 가공하는 모델에서, 각 프로세스 간의 [[001_dikw_pyramid|데이터]] 전달을 안전하고 효율적으로 수행하는 메커니즘이 필수적이었다.
+- **개념**: 파이프 (Pipe)는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 관리하는 순환 버퍼(Circular Buffer)를 매개로, 한 프로세스가 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 전용 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터(fd[1])에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓰면 다른 프로세스가 읽기 전용 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터(fd[0])를 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽는 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 통신 채널이다. 반수신(Half-Duplex) 동작이 원칙이므로 한 번에 한 방향으로만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 흐른다.
+- **필요성**: UNIX 철학의 핵심인 "하나의 프로그램은 하나의 일만 잘하라"를 실현하기 위해, 작고 단일 목적의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/))들을 조합하여 복잡한 작업을 수행하는 파이프라인([Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/)) 패러다임이 필요했다. 예를 들어 `ls | grep "txt" | sort | wc -l`처럼 네 개의 독립 프로세스가 파이프를 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 순차적으로 가공하는 모델에서, 각 프로세스 간의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전달을 안전하고 효율적으로 수행하는 메커니즘이 필수적이었다.
 
-- **등장 배경**: 1973년 Ken Thompson이 UNIX [[288_version_ihl_tos_total_length|버전]] 3에 `pipe()` 시스템 콜과 쉘 파이프라인 연산자 `|`를 도입하였다. 이는 1964년 Douglas McIlroy가 제안한 "소프트웨어 부품을 파이프처럼 연결하라"는 철학의 실현이었으며, 이후 POSIX 표준에 편입되어 모든 UNIX 계열 [[001_operating_system_purpose|운영체제]]의 기본 IPC로 자리 잡았다.
+- **등장 배경**: 1973년 Ken Thompson이 UNIX [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 3에 `pipe()` 시스템 콜과 쉘 파이프라인 연산자 `|`를 도입하였다. 이는 1964년 Douglas McIlroy가 제안한 "소프트웨어 부품을 파이프처럼 연결하라"는 철학의 실현이었으며, 이후 POSIX 표준에 편입되어 모든 UNIX 계열 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 기본 IPC로 자리 잡았다.
 
 ```text
   ┌──────────────────────────────────────────────────────────────────────┐
@@ -54,9 +58,9 @@ tags:
   └──────────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 이 다이어그램은 파이프의 전체 생명주기를 세 단계로 보여준다. 첫째, `pipe()` 시스템 콜이 [[022_kernel_role|커널]] 내부에 순환 버퍼(Circular Buffer)를 생성하고 두 개의 [[501_file_definition_logical_record|파일]] 디스크립터 fd[0](읽기 전용)과 fd[1](쓰기 전용)를 반환한다. 둘째, `fork()`가 호출되면 자식 프로세스는 부모의 [[501_file_definition_logical_record|파일]] 디스크립터 테이블을 복사하여 상속받으므로, 양쪽 프로세스 모두 동일한 파이프 버퍼에 접근할 수 있게 된다. 셋째, 부모는 자신이 사용하지 않는 읽기 끝(fd[0])을 닫고 자식은 [[289_cqrs_db|쓰기]] 끝(fd[1])을 닫아, 명확한 [[008_단방향_반이중_전이중|단방향]] [[001_dikw_pyramid|데이터]] 흐름(Parent→Child)을 확립한다. 파이프 버퍼는 [[316_reference_pattern_nosql|참조]] 카운트([[316_reference_pattern_nosql|Reference]] Count)로 관리되며, 모든 프로세스가 [[501_file_definition_logical_record|파일]] 디스크립터를 닫아 [[316_reference_pattern_nosql|참조]] 카운트가 0이 되면 [[022_kernel_role|커널]]이 자동으로 해제하므로 [[612_memory_leak_detection|메모리 누수]]([[612_memory_leak_detection|Memory Leak]])를 방지한다.
+**[다이어그램 해설]** 이 다이어그램은 파이프의 전체 생명주기를 세 단계로 보여준다. 첫째, `pipe()` 시스템 콜이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부에 순환 버퍼(Circular Buffer)를 생성하고 두 개의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터 fd[0](읽기 전용)과 fd[1](쓰기 전용)를 반환한다. 둘째, `fork()`가 호출되면 자식 프로세스는 부모의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터 테이블을 복사하여 상속받으므로, 양쪽 프로세스 모두 동일한 파이프 버퍼에 접근할 수 있게 된다. 셋째, 부모는 자신이 사용하지 않는 읽기 끝(fd[0])을 닫고 자식은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 끝(fd[1])을 닫아, 명확한 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름(Parent→Child)을 확립한다. 파이프 버퍼는 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 카운트([Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) Count)로 관리되며, 모든 프로세스가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터를 닫아 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 카운트가 0이 되면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 자동으로 해제하므로 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)([Memory Leak](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/))를 방지한다.
 
-- **📢 섹션 요약 비유**: 부모가 물을 붓는 깔때기([[289_cqrs_db|쓰기]] 끝)와 자식이 물을 받는 컵(읽기 끝)이 수도관([[022_kernel_role|커널]] 버퍼)으로 연결된 구조이며, 연결이 끊어지면(양쪽 모두 닫히면) 수도관도 자동으로 철거되는 시스템과 같습니다.
+- **📢 섹션 요약 비유**: 부모가 물을 붓는 깔때기([쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 끝)와 자식이 물을 받는 컵(읽기 끝)이 수도관([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 버퍼)으로 연결된 구조이며, 연결이 끊어지면(양쪽 모두 닫히면) 수도관도 자동으로 철거되는 시스템과 같습니다.
 
 ---
 
@@ -66,13 +70,13 @@ tags:
 
 | 특성 | 설명 | 실무적 의미 |
 |:---|:---|:---|
-| **반수신 (Half-Duplex)** | [[001_dikw_pyramid|데이터]]가 한 방향으로만 흐름 | 양방향 통신 시 파이프 2개 필요 |
-| **[[074_byte|바이트]] 스트림 ([[074_byte|Byte]] [[467_http2_stream_multiplexing_tcp_hol|Stream]])** | 메시지 경계(Message Boundary)가 없음 | 읽기 측이 원하는 크기로 읽을 수 있음 |
-| **[[261_fifo_page_replacement|FIFO]] 순서 보장** | 먼저 쓴 [[001_dikw_pyramid|데이터]]가 먼저 읽힘 | [[001_dikw_pyramid|데이터]] 순서가 항상 보존됨 |
-| **PIPE_BUF [[193_atomicity_all_or_nothing|원자성]]** | `PIPE_BUF` 이하 [[289_cqrs_db|쓰기]]는 인터리빙 없이 원자적 | 다중 [[289_cqrs_db|쓰기]] 프로세스 환경에서 [[001_dikw_pyramid|데이터]] [[442_consistency_integrity|무결성 보장]] |
-| **[[022_kernel_role|커널]] 버퍼 기반** | 디스크를 거치지 않고 메모리에서만 전달 | [[501_file_definition_logical_record|파일]] I/O보다 수십~수백 배 빠름 |
+| **반수신 (Half-Duplex)** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 한 방향으로만 흐름 | 양방향 통신 시 파이프 2개 필요 |
+| **[바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 스트림 ([Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/))** | 메시지 경계(Message Boundary)가 없음 | 읽기 측이 원하는 크기로 읽을 수 있음 |
+| **[FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) 순서 보장** | 먼저 쓴 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 먼저 읽힘 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 순서가 항상 보존됨 |
+| **PIPE_BUF [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)** | `PIPE_BUF` 이하 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)는 인터리빙 없이 원자적 | 다중 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 프로세스 환경에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성 보장](/knowledge-base/studynote/05_database/07_exam_summary/442_consistency_integrity/) |
+| **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 버퍼 기반** | 디스크를 거치지 않고 메모리에서만 전달 | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O보다 수십~수백 배 빠름 |
 
-### PIPE_BUF와 [[193_atomicity_all_or_nothing|원자성]]([[193_atomicity_all_or_nothing|Atomicity]]) 보장
+### PIPE_BUF와 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)([Atomicity](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)) 보장
 
 ```text
   ┌─────────────────────────────────────────────────────────────────────┐
@@ -105,9 +109,9 @@ tags:
   └─────────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** PIPE_BUF는 POSIX 표준이 보장하는 [[193_atomicity_all_or_nothing|원자성]]([[193_atomicity_all_or_nothing|Atomicity]])의 경계 크기다. 리눅스에서 기본값은 4,096바이트([[352_page_size|페이지 크기]])이며, `getconf PIPE_BUF` 명령으로 확인할 수 있다. 한 번의 `write()` 호출로 PIPE_BUF 이하의 [[001_dikw_pyramid|데이터]]를 쓰면, [[022_kernel_role|커널]]은 내부적으로 락([[510_lock|Lock]])을 획득하여 다른 프로세스의 [[289_cqrs_db|쓰기]]가 끼어들지 못하도록 보호한다. 따라서 여러 프로세스가 동시에 파이프에 쓰더라도 각 [[289_cqrs_db|쓰기]] [[001_dikw_pyramid|데이터]]가 분리되어 유지된다. 그러나 PIPE_BUF를 초과하는 크기를 쓰면 [[022_kernel_role|커널]]은 락을 걸지 않으므로, 두 프로세스의 [[001_dikw_pyramid|데이터]]가 인터리빙(Interleaving)되어 섞일 수 있다. 이는 다중 [[289_cqrs_db|쓰기]] 프로세스 환경에서 [[001_dikw_pyramid|데이터]] [[003_integrity|무결성]]을 보장하기 위해 `PIPE_BUF` 크기를 설계 기준으로 삼아야 하는 이유다.
+**[다이어그램 해설]** PIPE_BUF는 POSIX 표준이 보장하는 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)([Atomicity](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/))의 경계 크기다. 리눅스에서 기본값은 4,096바이트([페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/))이며, `getconf PIPE_BUF` 명령으로 확인할 수 있다. 한 번의 `write()` 호출로 PIPE_BUF 이하의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓰면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 내부적으로 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 획득하여 다른 프로세스의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)가 끼어들지 못하도록 보호한다. 따라서 여러 프로세스가 동시에 파이프에 쓰더라도 각 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 분리되어 유지된다. 그러나 PIPE_BUF를 초과하는 크기를 쓰면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 락을 걸지 않으므로, 두 프로세스의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 인터리빙(Interleaving)되어 섞일 수 있다. 이는 다중 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 프로세스 환경에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 보장하기 위해 `PIPE_BUF` 크기를 설계 기준으로 삼아야 하는 이유다.
 
-### 파이프의 블로킹([[122_sync_async_communication|Blocking]]) 동작 조건
+### 파이프의 블로킹([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 동작 조건
 
 ```text
   ┌────────────────────────────────────────────────────────────────────┐
@@ -141,26 +145,26 @@ tags:
   └────────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 이 표는 파이프의 모든 블로킹 조건을 체계적으로 정리한 기술사 필수 참고 자료다. 가장 주의해야 할 상황은 두 가지다. 첫째, 버퍼가 가득 찬 상태에서 `write()`를 호출하면 프로세스가 블로킹된다. 이는 파이프가 유한 용량 버퍼(Bounded Buffer) 모델이기 때문이며, 이 블로킹 동작이 자연스러운 역압(Back-pressure) 메커니즘으로 작동한다. 둘째, 읽기 측 프로세스가 모든 fd[0]를 닫은 상태에서 `write()`를 호출하면 [[022_kernel_role|커널]]은 SIGPIPE 시그널을 발생시켜 기본 동작으로 프로세스를 강제 종료한다. 이는 파이프의 생존 감지(Liveness [[961_deepfake_detection|Detection]]) 기능이지만, 예외 처리 없이 SIGPIPE로 프로세스가 비정상 종료되면 디버깅이 어렵다. 따라서 실무에서는 반드시 `signal(SIGPIPE, SIG_IGN)`으로 시그널을 무시하거나 `write()` 반환값에서 `errno == EPIPE`를 확인하여 우아하게 처리해야 한다.
+**[다이어그램 해설]** 이 표는 파이프의 모든 블로킹 조건을 체계적으로 정리한 기술사 필수 참고 자료다. 가장 주의해야 할 상황은 두 가지다. 첫째, 버퍼가 가득 찬 상태에서 `write()`를 호출하면 프로세스가 블로킹된다. 이는 파이프가 유한 용량 버퍼(Bounded Buffer) 모델이기 때문이며, 이 블로킹 동작이 자연스러운 역압(Back-pressure) 메커니즘으로 작동한다. 둘째, 읽기 측 프로세스가 모든 fd[0]를 닫은 상태에서 `write()`를 호출하면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 SIGPIPE 시그널을 발생시켜 기본 동작으로 프로세스를 강제 종료한다. 이는 파이프의 생존 감지(Liveness [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/)) 기능이지만, 예외 처리 없이 SIGPIPE로 프로세스가 비정상 종료되면 디버깅이 어렵다. 따라서 실무에서는 반드시 `signal(SIGPIPE, SIG_IGN)`으로 시그널을 무시하거나 `write()` 반환값에서 `errno == EPIPE`를 확인하여 우아하게 처리해야 한다.
 
-- **📢 섹션 요약 비유**: 물통(파이프 버퍼)이 가득 차면 더 이상 물을 부을 수 없어 기다려야 하고([[289_cqrs_db|쓰기]] 블로킹), 물통의 받는 쪽 구멍을 막아버리면 물을 부을 때 물이 튀어 사람이 다치니(SIGPIPE) 항상 안전 수칙을 지켜야 합니다.
+- **📢 섹션 요약 비유**: 물통(파이프 버퍼)이 가득 차면 더 이상 물을 부을 수 없어 기다려야 하고([쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 블로킹), 물통의 받는 쪽 구멍을 막아버리면 물을 부을 때 물이 튀어 사람이 다치니(SIGPIPE) 항상 안전 수칙을 지켜야 합니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 파이프 vs [[125_socket|소켓]] vs [[118_shared_memory|공유 메모리]] 비교
+### 파이프 vs [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) vs [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 비교
 
-| 평가 기준 | 파이프 (Pipe) | [[125_socket|소켓]] ([[125_socket|Socket]]) | [[118_shared_memory|공유 메모리]] ([[118_shared_memory|Shared Memory]]) |
+| 평가 기준 | 파이프 (Pipe) | [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) ([Socket](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)) | [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) ([Shared Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)) |
 |:---|:---|:---|:---|
-| **통신 방향** | [[008_단방향_반이중_전이중|단방향]] (Half-Duplex) | 양방향 (Full-Duplex) | 양방향 (구현에 따라) |
+| **통신 방향** | [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) (Half-Duplex) | 양방향 (Full-Duplex) | 양방향 (구현에 따라) |
 | **통신 범위** | 부모-자식 (동일 머신) | 네트워크 (이기종 머신) | 동일 머신 |
-| **[[001_dikw_pyramid|데이터]] 형태** | [[074_byte|바이트]] 스트림 (경계 없음) | [[074_byte|바이트]] 스트림 또는 [[001_dikw_pyramid|데이터]]그램 | 임의의 메모리 구조 |
-| **[[193_atomicity_all_or_nothing|원자성]]** | PIPE_BUF 이하 보장 | TCP는 스트림, UDP는 [[001_dikw_pyramid|데이터]]그램 | 개발자가 [[212_synchronization_mechanisms|동기화]]로 보장 |
-| **디스크 I/O** | 없음 ([[022_kernel_role|커널]] 메모리만) | 네트워크 경유 | 없음 (메모리 직접) |
-| **복잡도** | 매우 낮음 | 중간 ~ 높음 | 높음 ([[212_synchronization_mechanisms|동기화]] 필수) |
+| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 형태** | [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 스트림 (경계 없음) | [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 스트림 또는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램 | 임의의 메모리 구조 |
+| **[원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)** | PIPE_BUF 이하 보장 | TCP는 스트림, UDP는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램 | 개발자가 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)로 보장 |
+| **디스크 I/O** | 없음 ([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리만) | 네트워크 경유 | 없음 (메모리 직접) |
+| **복잡도** | 매우 낮음 | 중간 ~ 높음 | 높음 ([동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 필수) |
 
-- **📢 섹션 요약 비유**: 파이프는 '집 안의 일방향 수도관'(간단하지만 제한적), [[125_socket|소켓]]은 '국제 우편 [[090_service_kubernetes_network_load_balancing|서비스]]'(범용적이지만 복잡), [[118_shared_memory|공유 메모리]]는 '두 집 사이에 만든 공용 창고'(가장 빠르지만 직접 관리해야 함)와 같습니다.
+- **📢 섹션 요약 비유**: 파이프는 '집 안의 일방향 수도관'(간단하지만 제한적), [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)은 '국제 우편 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)'(범용적이지만 복잡), [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)는 '두 집 사이에 만든 공용 창고'(가장 빠르지만 직접 관리해야 함)와 같습니다.
 
 ---
 
@@ -168,16 +172,16 @@ tags:
 
 ### 실무 시나리오
 
-1. **시나리오 -- 쉘 파이프라인의 효율적 [[001_dikw_pyramid|데이터]] 처리**: 대용량 [[568_logs_distributed_logging_elk_fluentd|로그]] [[501_file_definition_logical_record|파일]]에서 에러 행을 추출하고 정렬하여 중복을 제거하는 `cat server.log | grep "ERROR" | sort | uniq -c | sort -rn` 파이프라인. 각 [[158_instruction|명령어]]는 독립 프로세스로 실행되며, 파이프를 통해 [[001_dikw_pyramid|데이터]]가 순차적으로 흐른다. [[022_kernel_role|커널]] 버퍼를 경유하므로 임시 [[501_file_definition_logical_record|파일]]을 디스크에 쓰지 않아도 되며, `grep`이 [[001_dikw_pyramid|데이터]]를 가공하는 동안 `cat`과 `sort`가 [[430_index_fast_full_scan|병렬]]로 동작하여 전체 처리 시간이 단축된다.
+1. **시나리오 -- 쉘 파이프라인의 효율적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리**: 대용량 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에서 에러 행을 추출하고 정렬하여 중복을 제거하는 `cat server.log | grep "ERROR" | sort | uniq -c | sort -rn` 파이프라인. 각 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 독립 프로세스로 실행되며, 파이프를 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 순차적으로 흐른다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 버퍼를 경유하므로 임시 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 디스크에 쓰지 않아도 되며, `grep`이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가공하는 동안 `cat`과 `sort`가 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 동작하여 전체 처리 시간이 단축된다.
 
-2. **시나리오 -- 파이프 버퍼 고갈로 인한 데드락([[281_deadlock_definition|Deadlock]])**: [[105_parent_child_process|부모 프로세스]]가 자식에게 파이프로 1MB [[001_dikw_pyramid|데이터]]를 쓰려 하지만, 파이프 버퍼(64KB)가 가득 차서 부모가 블로킹되고, 동시에 자식도 부모로부터 다른 파이프로 [[001_dikw_pyramid|데이터]]를 쓰려 하지만 그쪽도 가득 차서 블로킹되는 [[281_deadlock_definition|교착 상태]]. 해결책은 `fork()` 후 부모와 자식이 각각 먼저 읽기를 수행하거나, 비동기 I/O(`O_NONBLOCK`) 또는 스레드를 사용하여 읽기와 [[289_cqrs_db|쓰기]]를 동시에 수행하는 것이다.
+2. **시나리오 -- 파이프 버퍼 고갈로 인한 데드락([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))**: [부모 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/105_parent_child_process/)가 자식에게 파이프로 1MB [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓰려 하지만, 파이프 버퍼(64KB)가 가득 차서 부모가 블로킹되고, 동시에 자식도 부모로부터 다른 파이프로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓰려 하지만 그쪽도 가득 차서 블로킹되는 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/). 해결책은 `fork()` 후 부모와 자식이 각각 먼저 읽기를 수행하거나, 비동기 I/O(`O_NONBLOCK`) 또는 스레드를 사용하여 읽기와 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 동시에 수행하는 것이다.
 
-### 도입 [[435_checklist_based_testing|체크리스트]]
-- **기술적**: 파이프 버퍼 크기(`/proc/sys/fs/pipe-max-size`)가 전송할 메시지의 최대 크기를 수용할 수 있는가? `PIPE_BUF` [[193_atomicity_all_or_nothing|원자성]] 경계 내에서 [[289_cqrs_db|쓰기]]를 수행하도록 `write()` 호출 크기를 제한하였는가?
-- **운영 보안적**: SIGPIPE 시그널을 무시 처리(`SIG_IGN`)하거나 `write()` 반환값을 검사하여 EPIPE 에러를 우아하게(Gracefully) 처리하였는가? 파이프 fd를 사용 완료 후 반드시 `close()`를 호출하여 [[316_reference_pattern_nosql|참조]] 카운트를 감소시키는 코드를 구현하였는가?
+### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+- **기술적**: 파이프 버퍼 크기(`/proc/sys/fs/pipe-max-size`)가 전송할 메시지의 최대 크기를 수용할 수 있는가? `PIPE_BUF` [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/) 경계 내에서 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 수행하도록 `write()` 호출 크기를 제한하였는가?
+- **운영 보안적**: SIGPIPE 시그널을 무시 처리(`SIG_IGN`)하거나 `write()` 반환값을 검사하여 EPIPE 에러를 우아하게(Gracefully) 처리하였는가? 파이프 fd를 사용 완료 후 반드시 `close()`를 호출하여 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 카운트를 감소시키는 코드를 구현하였는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
-- **단일 파이프로 양방향 통신 시도**: 하나의 파이프로 부모와 자식이 동시에 읽고 쓰려고 하면, 버퍼가 가득 찼을 때 양쪽 모두 [[289_cqrs_db|쓰기]] 대기 상태가 되어 데드락([[281_deadlock_definition|Deadlock]])이 발생한다. 반드시 두 개의 파이프를 생성하여 각각 [[008_단방향_반이중_전이중|단방향]] 채널로 사용해야 한다.
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- **단일 파이프로 양방향 통신 시도**: 하나의 파이프로 부모와 자식이 동시에 읽고 쓰려고 하면, 버퍼가 가득 찼을 때 양쪽 모두 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 대기 상태가 되어 데드락([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))이 발생한다. 반드시 두 개의 파이프를 생성하여 각각 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 채널로 사용해야 한다.
 
 - **📢 섹션 요약 비유**: 일방통행 도로(파이프)에서 양방향으로 차를 몰려고 하면 정면 충돌(데드락)이 일어나니, 반드시 각 방향별로 별도의 도로(파이프 2개)를 만들어야 하는 것과 같습니다.
 
@@ -187,23 +191,23 @@ tags:
 
 ### 정량/정성 기대효과
 
-| 구분 | 임시 [[501_file_definition_logical_record|파일]] 기반 | 파이프 (Pipe) 도입 | 개선 효과 |
+| 구분 | 임시 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 기반 | 파이프 (Pipe) 도입 | 개선 효과 |
 |:---|:---|:---|:---|
-| **정량** | 디스크 I/O 경유 | [[022_kernel_role|커널]] 메모리 버퍼만 사용 | [[001_dikw_pyramid|데이터]] [[017_전송_지연|전송 지연]] **수십~수백 배 단축** |
-| **정량** | [[430_index_fast_full_scan|병렬]] 처리 불가 | 파이프라인 [[430_index_fast_full_scan|병렬]] 처리 | 총 처리 시간 **대폭 단축** |
-| **정성** | 임시 [[501_file_definition_logical_record|파일]] 정리 코드 필요 | fd 닫기만으로 자동 해제 | **[[346_maintainability_portability|유지보수성]] 향상** |
+| **정량** | 디스크 I/O 경유 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리 버퍼만 사용 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [전송 지연](/knowledge-base/studynote/03_network/01_data_communication/017_전송_지연/) **수십~수백 배 단축** |
+| **정량** | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 불가 | 파이프라인 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 | 총 처리 시간 **대폭 단축** |
+| **정성** | 임시 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 정리 코드 필요 | fd 닫기만으로 자동 해제 | **[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/) 향상** |
 
 ### 미래 전망
 - **io_uring과 파이프의 결합**: 리눅스 5.1+의 `io_uring`을 사용하면 파이프 I/O를 비동기적으로 처리하여, 블로킹 없이 고성능 파이프라인을 구현할 수 있다. 이는 전통적인 `select()`/`poll()` 기반의 비동기 파이프 처리보다 시스템 콜 오버헤드를 극소화한다.
-- **splice()/[[478_tee|tee]]() 제로 카피 파이프**: `splice()` 시스템 콜은 [[001_dikw_pyramid|데이터]]를 사용자 공간으로 복사하지 않고 [[022_kernel_role|커널]] 공간 내에서 파이프 버퍼 간에 직접 전송하여 제로 카피([[566_mmap_zero_copy_sendfile|Zero-Copy]]) 파이프라인을 구현한다. [[264_proxy_pattern_surrogate_access_control|프록시]] 서버나 미디어 스트리밍에서 [[501_file_definition_logical_record|파일]] [[125_socket|소켓]] 간 [[001_dikw_pyramid|데이터]]를 고속 전송하는 데 활용된다.
+- **splice()/[tee](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/)() 제로 카피 파이프**: `splice()` 시스템 콜은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 사용자 공간으로 복사하지 않고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간 내에서 파이프 버퍼 간에 직접 전송하여 제로 카피([Zero-Copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/)) 파이프라인을 구현한다. [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 서버나 미디어 스트리밍에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 고속 전송하는 데 활용된다.
 
 ### 참고 표준
 - **IEEE Std 1003.1 (POSIX.1)**: `pipe()`, `PIPE_BUF`, `O_NONBLOCK` 플래그에 대한 파이프 동작 표준.
-- **Linux pipe(7) man [[286_page_frame|page]]**: 리눅스 [[022_kernel_role|커널]] 파이프 구현의 세부 사양과 제한 사항 문서.
+- **Linux pipe(7) man [page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)**: 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 파이프 구현의 세부 사양과 제한 사항 문서.
 
-파이프는 UNIX 철학의 가장 아름다운 실현체 중 하나로, `pipe()` 시스템 콜 한 번과 쉘 연산자 `|` 하나로 [[117_ipc|프로세스 간 통신]]을 가능하게 하는 최소주의(Minimalism)의 결정체다. [[022_kernel_role|커널]] 메모리 버퍼 기반으로 디스크 I/O 없이 [[001_dikw_pyramid|데이터]]를 전달하며, PIPE_BUF [[193_atomicity_all_or_nothing|원자성]] 보장으로 다중 [[289_cqrs_db|쓰기]] 환경에서도 [[001_dikw_pyramid|데이터]] [[003_integrity|무결성]]을 유지한다. [[008_단방향_반이중_전이중|단방향]](Half-Duplex)이라는 제한이 있지만, 두 개의 파이프를 조합하면 양방향 통신도 가능하며, 쉘 파이프라인, 부모-자식 프로세스 통신, 간단한 [[001_dikw_pyramid|데이터]] 처리 파이프라인 등 UNIX 시스템의 근간을 이루는 가장 기본적이고 필수적인 IPC다.
+파이프는 UNIX 철학의 가장 아름다운 실현체 중 하나로, `pipe()` 시스템 콜 한 번과 쉘 연산자 `|` 하나로 [프로세스 간 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/)을 가능하게 하는 최소주의(Minimalism)의 결정체다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리 버퍼 기반으로 디스크 I/O 없이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전달하며, PIPE_BUF [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/) 보장으로 다중 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 환경에서도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 유지한다. [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/)(Half-Duplex)이라는 제한이 있지만, 두 개의 파이프를 조합하면 양방향 통신도 가능하며, 쉘 파이프라인, 부모-자식 프로세스 통신, 간단한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 파이프라인 등 UNIX 시스템의 근간을 이루는 가장 기본적이고 필수적인 IPC다.
 
-- **📢 섹션 요약 비유**: 레고 블록처럼 작고 단순한 조각([[158_instruction|명령어]])을 파이프(연결부)로 꽂아서 거대한 구조물(복잡한 시스템)을 만들 수 있는 것이 UNIX 파이프라인의 천재적 발명이며, 이 모든 것이 단순한 수도관(파이프) 하나에서 시작되었습니다.
+- **📢 섹션 요약 비유**: 레고 블록처럼 작고 단순한 조각([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))을 파이프(연결부)로 꽂아서 거대한 구조물(복잡한 시스템)을 만들 수 있는 것이 UNIX 파이프라인의 천재적 발명이며, 이 모든 것이 단순한 수도관(파이프) 하나에서 시작되었습니다.
 
 ---
 
@@ -211,10 +215,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[121_indirect_communication|간접 통신]] ([[121_indirect_communication|Indirect Communication]]) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [[122_sync_async_communication|동기식 통신]] ([[122_sync_async_communication|Blocking]]) vs 비동기식 통신 (Non-[[122_sync_async_communication|blocking]]) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [[124_named_pipe_fifo|지명 파이프]] (Named Pipe / [[261_fifo_page_replacement|FIFO]]) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [[125_socket|소켓]] ([[125_socket|Socket]]) 통신 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [간접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/121_indirect_communication/) ([Indirect Communication](/knowledge-base/studynote/02_operating_system/02_process_thread/121_indirect_communication/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [동기식 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/) ([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) vs 비동기식 통신 (Non-[blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [지명 파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/124_named_pipe_fifo/) (Named Pipe / [FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) ([Socket](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)) 통신 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -232,7 +236,7 @@ tags:
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 파이프는 부모님([[105_parent_child_process|부모 프로세스]])이 아이(자식 프로세스)에게 장난감([[001_dikw_pyramid|데이터]])을 건네줄 때, 중간에 놓인 일방향 터널([[022_kernel_role|커널]] 버퍼)이에요.
+1. 파이프는 부모님([부모 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/105_parent_child_process/))이 아이(자식 프로세스)에게 장난감([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 건네줄 때, 중간에 놓인 일방향 터널([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 버퍼)이에요.
 2. 터널 한쪽에 장난감을 넣으면 다른 쪽에서 순서대로(First-In-First-Out) 튀어나오고, 터널이 꽉 차면 더 넣을 수 없어서 기다려야 해요.
 3. 터널의 반대편 문을 아무도 열어주지 않으면(읽는 사람이 없으면) 넣는 쪽에서 경고음(SIGPIPE)이 울려서 "아무도 안 받아!"라고 알려준답니다!
 
@@ -242,7 +246,7 @@ tags:
 
 **진행 상황**: 123 / 800
 
-← **이전**: [[122_sync_async_communication|122. 동기식 통신 (Blocking) vs 비동기식 통신 (Non-blocking)]]
-**다음**: [[124_named_pipe_fifo|124. 지명 파이프 (Named Pipe / FIFO) - 양방향 가능, 부모-자식 관계 무관]] →
+← **이전**: [122. 동기식 통신 (Blocking) vs 비동기식 통신 (Non-blocking)](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)
+**다음**: [124. 지명 파이프 (Named Pipe / FIFO) - 양방향 가능, 부모-자식 관계 무관](/knowledge-base/studynote/02_operating_system/02_process_thread/124_named_pipe_fifo/) →
 
 ---

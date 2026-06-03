@@ -1,14 +1,18 @@
----
-title: 29. 정성적 위험 분석 (Qualitative Risk Analysis)
-date: '2026-04-29'
-tags:
-- studynote-security
----
++++
+title = "29. 정성적 위험 분석 (Qualitative Risk Analysis)"
+date = 2026-04-29
+
+[taxonomies]
+tags = ["studynote-security"]
+
+[extra]
+tags = ["studynote-security"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 정성적 위험 분석(Qualitative [[096_risk_non_risk_architecture_evaluation_flaws|Risk]] Analysis)은 위험을 High/Medium/Low 또는 1~5 척도로 정의하고 위협 발생 가능성(Likelihood)과 영향도(Impact)를 주관적으로 평가하여 위험 매트릭스([[096_risk_non_risk_architecture_evaluation_flaws|Risk]] Matrix)에 위치시키는 방법론이다.
+> 1. **본질**: 정성적 위험 분석(Qualitative [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Analysis)은 위험을 High/Medium/Low 또는 1~5 척도로 정의하고 위협 발생 가능성(Likelihood)과 영향도(Impact)를 주관적으로 평가하여 위험 매트릭스([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Matrix)에 위치시키는 방법론이다.
 > 2. **가치**: 정확한 자산 가치·발생 확률을 수치화하기 어려운 상황에서 빠르게 위험 우선순위를 도출한다. 전문가 인터뷰, 설문, 브레인스토밍으로 단기간에 전체 위험 지도를 그릴 수 있다.
-> 3. **판단 포인트**: 정성적 분석의 한계는 주관성과 편향이다. "[[863_hipaa|HIPAA]] 위반 위험이 High인가?"는 평가자마다 다를 수 있다. 정량적 분석과 병행하고, 위험 매트릭스 기준을 조직 차원에서 사전 정의해야 재현 가능한 결과를 얻을 수 있다.
+> 3. **판단 포인트**: 정성적 분석의 한계는 주관성과 편향이다. "[HIPAA](/knowledge-base/studynote/09_security/17_framework_compliance/863_hipaa/) 위반 위험이 High인가?"는 평가자마다 다를 수 있다. 정량적 분석과 병행하고, 위험 매트릭스 기준을 조직 차원에서 사전 정의해야 재현 가능한 결과를 얻을 수 있다.
 
 ---
 
@@ -60,12 +64,12 @@ tags:
 
 ### 위험 처리 (AAMT)
 
-| [[268_strategy_pattern|전략]] | 의미 | 예시 |
+| [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 의미 | 예시 |
 |:---|:---|:---|
 | **Accept** | 수용 (Low 위험) | 연 1회 단순 장애 수용 |
 | **Avoid** | 회피 (활동 중단) | 위험 기능 비활성화 |
-| **Mitigate** | 완화 (통제 적용) | [[690_firewall_generation_evolution|방화벽]]·암호화 구현 |
-| **Transfer** | 전가 (보험·외주) | [[1027_cyber_insurance|사이버 보험]] 가입 |
+| **Mitigate** | 완화 (통제 적용) | [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)·암호화 구현 |
+| **Transfer** | 전가 (보험·외주) | [사이버 보험](/knowledge-base/studynote/09_security/20_extra_exam_prep/1027_cyber_insurance/) 가입 |
 
 - **📢 섹션 요약 비유**: 위험 처리 AAMT는 운전 시 도로 위험 대응이다. 수용(Accept)=작은 과속방지턱 그냥 통과, 회피(Avoid)=위험 도로 우회, 완화(Mitigate)=안전벨트·에어백 착용, 전가(Transfer)=자동차 보험 가입.
 
@@ -114,9 +118,9 @@ NIST 800-30:
 | **우선순위 도출** | 한정 예산 내 고위험 우선 처리 |
 | **조직 합의** | 전문가 합의 기반 공통 인식 |
 
-[[190_ai_llm_requirements_specification|AI]] 기반 자동화 정성적 위험 분석이 발전하고 있다. 위협 인텔리전스 피드, [[409_cve_lifecycle|CVE]] [[002_database_definition|데이터베이스]], 인터넷 노출 스캔을 자동 분석하여 실시간 위험 매트릭스를 생성하는 [[624_siem|SIEM]]·[[745_soar_security_orchestration_automation_response|SOAR]] 통합 플랫폼이 등장했다.
+[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 자동화 정성적 위험 분석이 발전하고 있다. 위협 인텔리전스 피드, [CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), 인터넷 노출 스캔을 자동 분석하여 실시간 위험 매트릭스를 생성하는 [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/)·[SOAR](/knowledge-base/studynote/03_network/14_network_security_threats/745_soar_security_orchestration_automation_response/) 통합 플랫폼이 등장했다.
 
-- **📢 섹션 요약 비유**: [[190_ai_llm_requirements_specification|AI]] 자동 위험 분석은 실시간 건강 모니터링 앱이다. 웨어러블이 심박수·혈압을 실시간 측정하고 이상 징후를 즉시 알리듯, AI가 보안 위험 지표를 실시간 수집해서 위험 매트릭스를 자동 업데이트한다.
+- **📢 섹션 요약 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 자동 위험 분석은 실시간 건강 모니터링 앱이다. 웨어러블이 심박수·혈압을 실시간 측정하고 이상 징후를 즉시 알리듯, AI가 보안 위험 지표를 실시간 수집해서 위험 매트릭스를 자동 업데이트한다.
 
 ---
 
@@ -124,11 +128,11 @@ NIST 800-30:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **위험 매트릭스** | 가능성×영향도 [[003_bigdata_7v|시각화]] 도구 |
-| **AAMT** | 위험 처리 4가지 [[268_strategy_pattern|전략]] |
+| **위험 매트릭스** | 가능성×영향도 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 도구 |
+| **AAMT** | 위험 처리 4가지 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
 | **ISO 27001** | 정성적 위험 분석 표준 |
 | **정량적 분석** | 정성적 분석의 심화 보완 |
-| **[[097_stride_convolutional_neural_network_downsampling|STRIDE]]** | [[611_threat_modeling|위협 모델링]] 방법론 |
+| **[STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)** | [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/) 방법론 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -160,7 +164,7 @@ NIST 800-30:
 
 **진행 상황**: 29 / 1108
 
-← **이전**: [[028_quantitative_risk_analysis|28. 정량적 위험 분석 (Quantitative Risk Analysis)]]
-**다음**: [[030_sle_single_loss_expectancy|30. SLE·ALE — 단일·연간 손실 기대값]] →
+← **이전**: [28. 정량적 위험 분석 (Quantitative Risk Analysis)](/knowledge-base/studynote/09_security/01_intro_principles/028_quantitative_risk_analysis/)
+**다음**: [30. SLE·ALE — 단일·연간 손실 기대값](/knowledge-base/studynote/09_security/01_intro_principles/030_sle_single_loss_expectancy/) →
 
 ---

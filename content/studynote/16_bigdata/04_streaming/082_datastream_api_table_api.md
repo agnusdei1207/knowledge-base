@@ -1,21 +1,25 @@
----
-title: 07. DataStream API / Table API & SQL — Flink 두 계층 처리
-date: '2026-04-21'
-tags:
-- studynote-bigdata
----
++++
+title = "07. DataStream API / Table API & SQL — Flink 두 계층 처리"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-bigdata"]
+
+[extra]
+tags = ["studynote-bigdata"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-- **본질**: Apache Flink는 두 가지 프로그래밍 계층을 제공한다. DataStream [[014_api_posix|API]] ([[001_dikw_pyramid|데이터]]스트림 [[014_api_posix|API]])는 이벤트 단위의 세밀한 [[229_stream_processing_kafka_flink|스트림 처리]]를 위한 저수준 API이고, Table [[014_api_posix|API]] & SQL (테이블 [[014_api_posix|API]])은 [[083_relationship_in_er_model|관계]]형 테이블 개념을 스트림에 적용한 고수준 선언적 API로, 두 계층은 내부적으로 동일한 DataStream 실행 엔진으로 컴파일된다.
-- **가치**: SQL을 아는 [[001_dikw_pyramid|데이터]] 엔지니어는 Table [[014_api_posix|API]]/SQL로 스트리밍 집계·조인·윈도우를 신속하게 개발하고, 복잡한 상태 관리나 커스텀 타임스탬프 추출이 필요한 경우 DataStream API로 세밀하게 제어하는 **계층화된 유연성**이 Flink의 큰 장점이다.
-- **판단 포인트**: Table [[014_api_posix|API]]/SQL은 선언적이라 Flink가 최적화(술어 푸시다운, 공통 부분식 제거 등)를 자동으로 수행하지만, DataStream API는 개발자가 직접 최적화해야 하므로 운영 경험과 스트리밍 지식이 더 많이 요구된다.
+- **본질**: Apache Flink는 두 가지 프로그래밍 계층을 제공한다. DataStream [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)스트림 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))는 이벤트 단위의 세밀한 [스트림 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/)를 위한 저수준 API이고, Table [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) & SQL (테이블 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))은 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 테이블 개념을 스트림에 적용한 고수준 선언적 API로, 두 계층은 내부적으로 동일한 DataStream 실행 엔진으로 컴파일된다.
+- **가치**: SQL을 아는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어는 Table [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)/SQL로 스트리밍 집계·조인·윈도우를 신속하게 개발하고, 복잡한 상태 관리나 커스텀 타임스탬프 추출이 필요한 경우 DataStream API로 세밀하게 제어하는 **계층화된 유연성**이 Flink의 큰 장점이다.
+- **판단 포인트**: Table [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)/SQL은 선언적이라 Flink가 최적화(술어 푸시다운, 공통 부분식 제거 등)를 자동으로 수행하지만, DataStream API는 개발자가 직접 최적화해야 하므로 운영 경험과 스트리밍 지식이 더 많이 요구된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### 1. Flink [[014_api_posix|API]] 계층 구조
+### 1. Flink [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 계층 구조
 
 ```
 사용자 편의성 ↑          ↑ 표현력
@@ -32,18 +36,18 @@ tags:
 
 ### 2. 각 API의 사용 상황
 
-- **SQL**: "[[179_kafka_flink_watermark_time_window|Kafka]] 토픽에서 5분 집계를 구하라" — BI 엔지니어, 빠른 프로토타이핑
-- **Table [[014_api_posix|API]]**: SQL이지만 프로그래밍 방식으로 동적 [[298_qkv_attention|쿼리]] [[087_process_state_transition|생성]] 필요 시
-- **DataStream [[014_api_posix|API]]**: 커스텀 타임스탬프 추출, 복잡한 상태 로직, ML 모델 인라인 실행
+- **SQL**: "[Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 토픽에서 5분 집계를 구하라" — BI 엔지니어, 빠른 프로토타이핑
+- **Table [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)**: SQL이지만 프로그래밍 방식으로 동적 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 필요 시
+- **DataStream [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)**: 커스텀 타임스탬프 추출, 복잡한 상태 로직, ML 모델 인라인 실행
 
 **📢 섹션 요약 비유**
-> Flink의 두 계층은 "자동 변속기(Table/SQL)와 수동 변속기(DataStream [[014_api_posix|API]])"와 같다. 일반 운전에는 자동이 편리하지만, 험한 오프로드(복잡한 비즈니스 로직)는 수동이 더 정밀하게 제어된다.
+> Flink의 두 계층은 "자동 변속기(Table/SQL)와 수동 변속기(DataStream [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))"와 같다. 일반 운전에는 자동이 편리하지만, 험한 오프로드(복잡한 비즈니스 로직)는 수동이 더 정밀하게 제어된다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 1. DataStream [[014_api_posix|API]] 핵심 구조
+### 1. DataStream [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 핵심 구조
 
 ```java
 // Java DataStream API 예시
@@ -73,7 +77,7 @@ result.addSink(new ElasticsearchSink<>(...));
 env.execute("UserActivityAggregation");
 ```
 
-### 2. Table [[014_api_posix|API]] & SQL 핵심 구조
+### 2. Table [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) & SQL 핵심 구조
 
 ```java
 // Java Table API + SQL 예시
@@ -102,7 +106,7 @@ DataStream<Row> outputStream = tableEnv.toDataStream(result);
 
 ### 3. 연산자 비교
 
-| 연산 | DataStream [[014_api_posix|API]] | Table [[014_api_posix|API]] / SQL |
+| 연산 | DataStream [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) | Table [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) / SQL |
 |:---|:---|:---|
 | 필터 | `.filter(pred)` | `WHERE condition` |
 | 변환 | `.map(func)` | `SELECT expr` |
@@ -112,13 +116,13 @@ DataStream<Row> outputStream = tableEnv.toDataStream(result);
 | 상태 | `ValueState`, `MapState` 직접 사용 | 내부 자동 처리 |
 
 **📢 섹션 요약 비유**
-> DataStream API는 "재료를 직접 손질하고 요리하는 셰프"이고, Table [[014_api_posix|API]]/SQL은 "레시피 카드(SQL)대로 로봇이 자동으로 조리하는 방식"이다. 셰프는 더 창의적이지만 기술이 필요하고, 로봇은 빠르고 표준화되어 있다.
+> DataStream API는 "재료를 직접 손질하고 요리하는 셰프"이고, Table [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)/SQL은 "레시피 카드(SQL)대로 로봇이 자동으로 조리하는 방식"이다. 셰프는 더 창의적이지만 기술이 필요하고, 로봇은 빠르고 표준화되어 있다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 1. Table [[014_api_posix|API]] SQL의 Flink 고유 SQL 확장
+### 1. Table [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) SQL의 Flink 고유 SQL 확장
 
 표준 SQL에 없는 스트리밍 전용 구문들:
 
@@ -142,7 +146,7 @@ ON a.user_id = b.user_id
 AND b.event_time BETWEEN a.event_time AND a.event_time + INTERVAL '30' MINUTE;
 ```
 
-### 2. [[014_api_posix|API]] 간 상호 변환
+### 2. [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 간 상호 변환
 
 ```java
 // Table → DataStream (복잡한 로직 처리 후 Table로 복귀)
@@ -152,35 +156,35 @@ Table backToTable = tableEnv.fromDataStream(processed);
 ```
 
 **📢 섹션 요약 비유**
-> Flink의 두 [[014_api_posix|API]] 전환은 "번역가(Table [[014_api_posix|API]]/SQL)와 원어민 대화(DataStream [[014_api_posix|API]])를 필요에 따라 섞어 쓰는 것"이다. 표준 대화는 번역기로 충분하지만, 세밀한 감정 표현은 원어민과 직접 소통해야 한다.
+> Flink의 두 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 전환은 "번역가(Table [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)/SQL)와 원어민 대화(DataStream [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))를 필요에 따라 섞어 쓰는 것"이다. 표준 대화는 번역기로 충분하지만, 세밀한 감정 표현은 원어민과 직접 소통해야 한다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 1. [[014_api_posix|API]] 선택 가이드
+### 1. [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 선택 가이드
 
-| 요구사항 | 권장 [[014_api_posix|API]] |
+| 요구사항 | 권장 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) |
 |:---|:---|
-| [[179_kafka_flink_watermark_time_window|Kafka]] 이벤트 SQL 집계/필터 | Table [[014_api_posix|API]] / SQL |
+| [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 이벤트 SQL 집계/필터 | Table [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) / SQL |
 | 5분 윈도우 집계 대시보드 | SQL (TUMBLE 윈도우) |
-| 커스텀 타임스탬프 파싱 | DataStream [[014_api_posix|API]] |
-| ML 모델 인라인 호출 | DataStream [[014_api_posix|API]] |
-| [[217_cdc_binlog_change_capture_debezium|CDC]]([[217_cdc_binlog_change_capture_debezium|Change Data Capture]]) 처리 | Table [[014_api_posix|API]] (Upsert 커넥터) |
-| 복잡한 패턴 매칭 ([[098_cep|CEP]]) | DataStream [[014_api_posix|API]] + Flink [[098_cep|CEP]] [[336_library_vs_framework|라이브러리]] |
+| 커스텀 타임스탬프 파싱 | DataStream [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) |
+| ML 모델 인라인 호출 | DataStream [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) |
+| [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)([Change Data Capture](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)) 처리 | Table [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) (Upsert 커넥터) |
+| 복잡한 패턴 매칭 ([CEP](/knowledge-base/studynote/16_bigdata/04_streaming/098_cep/)) | DataStream [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) + Flink [CEP](/knowledge-base/studynote/16_bigdata/04_streaming/098_cep/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) |
 
 ### 2. 주요 커넥터 (Source/Sink)
 
 | 커넥터 | 방향 | 비고 |
 |:---|:---|:---|
-| [[214_kafka_pubsub_topic_partition_offset_broker|Apache Kafka]] Connector | Source + Sink | Exactly-Once 지원 |
+| [Apache Kafka](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/) Connector | Source + Sink | Exactly-Once 지원 |
 | JDBC Connector | Source + Sink | MySQL, PostgreSQL |
-| [[302_cdc|Elasticsearch]] Connector | Sink | 검색 [[154_database_index_b_tree_search_optimization|인덱스]] 업데이트 |
-| [[843_hadoop_rack_awareness_data_replication_topology|Hadoop]] FileSystem | Source + Sink | [[013_hdfs|HDFS]], S3 |
-| Apache [[543_hbase|HBase]] Connector | Source + Sink | 랜덤 읽기/[[289_cqrs_db|쓰기]] |
+| [Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/) Connector | Sink | 검색 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 업데이트 |
+| [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) FileSystem | Source + Sink | [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/), S3 |
+| Apache [HBase](/knowledge-base/studynote/05_database/04_transactions_concurrency/543_hbase/) Connector | Source + Sink | 랜덤 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) |
 
 **📢 섹션 요약 비유**
-> DataStream API는 "맞춤 양복", Table [[014_api_posix|API]]/SQL은 "기성복"이다. 기성복(SQL)이 대부분 상황에 잘 맞고 빠르지만, 특별한 체형(복잡한 비즈니스 로직)에는 맞춤 양복(DataStream)이 필요하다.
+> DataStream API는 "맞춤 양복", Table [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)/SQL은 "기성복"이다. 기성복(SQL)이 대부분 상황에 잘 맞고 빠르지만, 특별한 체형(복잡한 비즈니스 로직)에는 맞춤 양복(DataStream)이 필요하다.
 
 ---
 
@@ -191,28 +195,28 @@ Table backToTable = tableEnv.fromDataStream(processed);
 | 효과 | 설명 |
 |:---|:---|
 | 개발 생산성 | SQL 알면 스트리밍 앱 빠르게 개발 가능 |
-| 최적화 자동화 | Table [[014_api_posix|API]]/SQL은 Flink [[163_optimizer_sql_execution_plan_generator|옵티마이저]]가 자동 최적화 |
-| 유연성 | 두 [[014_api_posix|API]] 혼용으로 선언적+절차적 처리 결합 |
-| 생태계 통합 | JDBC, [[179_kafka_flink_watermark_time_window|Kafka]], ES 등 다양한 커넥터 |
+| 최적화 자동화 | Table [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)/SQL은 Flink [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 자동 최적화 |
+| 유연성 | 두 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 혼용으로 선언적+절차적 처리 결합 |
+| 생태계 통합 | JDBC, [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), ES 등 다양한 커넥터 |
 
 ### 2. 결론
 
-Flink의 DataStream API와 Table [[014_api_posix|API]]/SQL은 **상호 보완적인 두 층의 프로그래밍 모델**이다. 기술사 답안에서는 두 API의 [[198_abstraction_control_data_process|추상화]] 수준 차이, 내부적으로 동일한 실행 엔진으로 컴파일된다는 통합성, 그리고 스트리밍 SQL의 고유 구문(TUMBLE, HOP, [[160_session_controlling_terminal|SESSION]] 윈도우)을 서술하는 것이 핵심이다.
+Flink의 DataStream API와 Table [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)/SQL은 **상호 보완적인 두 층의 프로그래밍 모델**이다. 기술사 답안에서는 두 API의 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 수준 차이, 내부적으로 동일한 실행 엔진으로 컴파일된다는 통합성, 그리고 스트리밍 SQL의 고유 구문(TUMBLE, HOP, [SESSION](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 윈도우)을 서술하는 것이 핵심이다.
 
 **📢 섹션 요약 비유**
-> Flink의 두 API는 "같은 공장의 두 입구"다. 자동화 생산 라인(Table [[014_api_posix|API]]/SQL)으로 들어가면 로봇이 알아서 처리하고, 수작업 라인(DataStream [[014_api_posix|API]])으로 들어가면 세밀하게 직접 제어한다. 두 라인의 결과물은 같은 공장 창고에 모인다.
+> Flink의 두 API는 "같은 공장의 두 입구"다. 자동화 생산 라인(Table [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)/SQL)으로 들어가면 로봇이 알아서 처리하고, 수작업 라인(DataStream [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))으로 들어가면 세밀하게 직접 제어한다. 두 라인의 결과물은 같은 공장 창고에 모인다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 개념 | [[083_relationship_in_er_model|관계]] | 설명 |
+| 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
 |:---|:---|:---|
 | Flink 아키텍처 | 실행 환경 | DataStream/Table API의 실행 기반 |
-| [[086_window_operations|윈도우 연산]] | 핵심 활용 | TUMBLE/HOP/[[160_session_controlling_terminal|SESSION]] 윈도우 |
-| [[085_watermark|Watermark]] | 연동 개념 | Table API의 [[085_watermark|WATERMARK]] 정의와 연동 |
-| [[179_kafka_flink_watermark_time_window|Kafka]] 커넥터 | Source/Sink | 가장 많이 사용되는 스트리밍 소스 |
-| [[098_cep|CEP]] ([[098_cep|Complex Event Processing]]) | 확장 기능 | DataStream [[014_api_posix|API]] 위의 패턴 감지 [[336_library_vs_framework|라이브러리]] |
+| [윈도우 연산](/knowledge-base/studynote/16_bigdata/04_streaming/086_window_operations/) | 핵심 활용 | TUMBLE/HOP/[SESSION](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 윈도우 |
+| [Watermark](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/) | 연동 개념 | Table API의 [WATERMARK](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/) 정의와 연동 |
+| [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 커넥터 | Source/Sink | 가장 많이 사용되는 스트리밍 소스 |
+| [CEP](/knowledge-base/studynote/16_bigdata/04_streaming/098_cep/) ([Complex Event Processing](/knowledge-base/studynote/16_bigdata/04_streaming/098_cep/)) | 확장 기능 | DataStream [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 위의 패턴 감지 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -232,11 +236,11 @@ Flink의 DataStream API와 Table [[014_api_posix|API]]/SQL은 **상호 보완적
 [Kappa 아키텍처]
 ```
 
-Flink의 스트리밍 API가 저수준 RDD에서 고수준 SQL까지 통합되며 [[096_kappa_architecture|카파 아키텍처]]로 수렴하는 흐름이다.
+Flink의 스트리밍 API가 저수준 RDD에서 고수준 SQL까지 통합되며 [카파 아키텍처](/knowledge-base/studynote/16_bigdata/04_streaming/096_kappa_architecture/)로 수렴하는 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-Flink에는 두 가지 요리 방법이 있어요. Table [[014_api_posix|API]]/SQL은 "레시피대로 요리하는 방법"(편리하고 빠름)이고, DataStream API는 "셰프가 직접 창의적으로 요리하는 방법"(어렵지만 자유로움)이에요. 같은 Flink 주방(실행 엔진)에서 요리하지만, 어떤 방법으로 요청하느냐가 다를 뿐이고 최종 음식(결과 [[001_dikw_pyramid|데이터]])은 같은 품질이랍니다!
+Flink에는 두 가지 요리 방법이 있어요. Table [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)/SQL은 "레시피대로 요리하는 방법"(편리하고 빠름)이고, DataStream API는 "셰프가 직접 창의적으로 요리하는 방법"(어렵지만 자유로움)이에요. 같은 Flink 주방(실행 엔진)에서 요리하지만, 어떤 방법으로 요청하느냐가 다를 뿐이고 최종 음식(결과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 같은 품질이랍니다!
 
 ---
 
@@ -244,7 +248,7 @@ Flink에는 두 가지 요리 방법이 있어요. Table [[014_api_posix|API]]/S
 
 **진행 상황**: 82 / 262
 
-← **이전**: [[081_flink_architecture|06. Flink 아키텍처 (Flink Architecture) — JobManager/TaskManager/JobGraph]]
-**다음**: [[083_flink_savepoint_checkpoint|08. Flink Savepoint / Checkpoint — 상태 저장 및 재시작 지점]] →
+← **이전**: [06. Flink 아키텍처 (Flink Architecture) — JobManager/TaskManager/JobGraph](/knowledge-base/studynote/16_bigdata/04_streaming/081_flink_architecture/)
+**다음**: [08. Flink Savepoint / Checkpoint — 상태 저장 및 재시작 지점](/knowledge-base/studynote/16_bigdata/04_streaming/083_flink_savepoint_checkpoint/) →
 
 ---

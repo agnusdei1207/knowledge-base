@@ -1,24 +1,28 @@
----
-title: 208. 비례 배분 스케줄링 (Proportionate Share Scheduling)
-date: '2026-05-08'
-tags:
-- studynote-operating-system
----
++++
+title = "208. 비례 배분 스케줄링 (Proportionate Share Scheduling)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 고정 우선순위 스케줄링은 프로세스가 생성될 때 관리자나 설계자에 의해 한 번 부여된 **우선순위(Priority)가 시스템이 종료될 때까지 영구적으로 변하지 않는** 가장 정적이고 단순한 스케줄링 모델이다.
-> 2. **가치**: [[079_kube_scheduler_pod_placement|스케줄러]]가 매 틱([[073_tick_jiffies|Tick]])마다 점수를 재계산할 필요가 없어 [[022_kernel_role|커널]] 오버헤드가 제로(0)에 가깝고, 시스템의 동작(응답)을 100% 결정론적(Deterministic)으로 설계할 수 있어 하드 리얼타임 OS의 핵심 근간으로 사용된다.
-> 3. **융합**: 하지만 하위 프로세스가 영원히 굶어 죽는 [[314_starvation_prevention|기아 상태]]([[314_starvation_prevention|Starvation]])를 내재하고 있으므로, 범용 운영체제에서는 이를 극복하기 위해 시간의 흐름에 따라 점수가 변하는 '동적 우선순위(Dynamic Priority)'와 융합되어 사용된다.
+> 2. **가치**: [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 매 틱([Tick](/knowledge-base/studynote/02_operating_system/01_overview_architecture/073_tick_jiffies/))마다 점수를 재계산할 필요가 없어 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 오버헤드가 제로(0)에 가깝고, 시스템의 동작(응답)을 100% 결정론적(Deterministic)으로 설계할 수 있어 하드 리얼타임 OS의 핵심 근간으로 사용된다.
+> 3. **융합**: 하지만 하위 프로세스가 영원히 굶어 죽는 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))를 내재하고 있으므로, 범용 운영체제에서는 이를 극복하기 위해 시간의 흐름에 따라 점수가 변하는 '동적 우선순위(Dynamic Priority)'와 융합되어 사용된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [[079_kube_scheduler_pod_placement|스케줄러]]가 다음 실행할 프로세스를 선택할 때, 각 프로세스에 붙어있는 우선순위 딱지 하나만 보고 무조건 숫자가 높은 녀석(보통 숫자가 작을수록 높음)에게 CPU를 몰아주는 방식 중, 그 딱지의 값이 절대로 변하지 않는(Fixed) 형태를 말한다.
-- **필요성**: 우주선이나 공장 로봇 제어 시스템에는 수십 개의 태스크가 돌아간다. 만약 [[079_kube_scheduler_pod_placement|스케줄러]]가 융통성을 발휘한답시고 임의로 순위를 바꿨다가 엔진 제어 태스크가 1ms라도 밀리면 시스템은 폭발한다. 시스템 설계자는 "내가 1등이라고 못 박은 놈은, 죽었다 깨어나도 1등이어야 한다"는 융통성 제로의 절대적인 통제력이 필요했다.
+- **개념**: [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 다음 실행할 프로세스를 선택할 때, 각 프로세스에 붙어있는 우선순위 딱지 하나만 보고 무조건 숫자가 높은 녀석(보통 숫자가 작을수록 높음)에게 CPU를 몰아주는 방식 중, 그 딱지의 값이 절대로 변하지 않는(Fixed) 형태를 말한다.
+- **필요성**: 우주선이나 공장 로봇 제어 시스템에는 수십 개의 태스크가 돌아간다. 만약 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 융통성을 발휘한답시고 임의로 순위를 바꿨다가 엔진 제어 태스크가 1ms라도 밀리면 시스템은 폭발한다. 시스템 설계자는 "내가 1등이라고 못 박은 놈은, 죽었다 깨어나도 1등이어야 한다"는 융통성 제로의 절대적인 통제력이 필요했다.
 
-- **등장 배경**: 과거부터 산업용 임베디드 장비는 컴퓨팅 파워가 극도로 빈약했다. CPU 사이클을 1Hz라도 아끼기 위해 "스케줄링 [[001_algorithm_definition|알고리즘]] 자체가 무거우면 안 된다"는 철학 하에, 단순한 [[055_array|배열]] 큐에 우선순위별로 꽂아두고 위에서부터 무조건 빼서 쓰는 O(1) 수준의 멍청하지만 확실한 [[079_kube_scheduler_pod_placement|스케줄러]]가 탑재되었다.
+- **등장 배경**: 과거부터 산업용 임베디드 장비는 컴퓨팅 파워가 극도로 빈약했다. CPU 사이클을 1Hz라도 아끼기 위해 "스케줄링 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 자체가 무거우면 안 된다"는 철학 하에, 단순한 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 큐에 우선순위별로 꽂아두고 위에서부터 무조건 빼서 쓰는 O(1) 수준의 멍청하지만 확실한 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 탑재되었다.
 
 ```text
   [고정 우선순위(Fixed) vs 동적 우선순위(Dynamic) 스케줄러의 철학 차이]
@@ -33,7 +37,7 @@ tags:
   - 런타임 결과: B가 너무 오래 굶자, 커널이 불쌍해서 B를 1.5순위로 임시 승급시킴 (Aging).
   - 사용처: 데스크톱 Windows, Linux (응답성 및 공정성 확보)
 ```
-**[다이어그램 해설]** 고정 우선순위의 가장 큰 특징은 "비정함"이다. [[079_kube_scheduler_pod_placement|스케줄러]]는 피도 눈물도 없이 오직 [[459_quic_fec_forward_error_correction|초기]] 설정값만 믿고 밀어붙인다. 이 비정함이 일반 [[164_pc|PC]] 유저에겐 마우스가 얼어붙는 끔찍한 경험을 주지만, 무기 체계에서는 "핵심 부품이 절대 멈추지 않는다"는 완벽한 신뢰의 보증수표가 된다.
+**[다이어그램 해설]** 고정 우선순위의 가장 큰 특징은 "비정함"이다. [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 피도 눈물도 없이 오직 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 설정값만 믿고 밀어붙인다. 이 비정함이 일반 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 유저에겐 마우스가 얼어붙는 끔찍한 경험을 주지만, 무기 체계에서는 "핵심 부품이 절대 멈추지 않는다"는 완벽한 신뢰의 보증수표가 된다.
 
 - **📢 섹션 요약 비유**: 왕족은 태어날 때부터 평생 왕족이고 노비는 평생 노비인 철저한 **신분제 사회**입니다. 노비 입장에선 숨이 막히지만, 국가(시스템) 전체가 흔들림 없이 설계된 기계처럼 굴러가게 만드는 가장 강력하고 값싼 통치 수단입니다.
 
@@ -42,12 +46,12 @@ tags:
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 고정 우선순위의 구현 (비트맵 O(1) 탐색)
-우선순위가 고정되어 있다는 것은, 큐를 [[055_array|배열]]([[055_array|Array]])로 미리 만들어 놓을 수 있다는 뜻이다.
+우선순위가 고정되어 있다는 것은, 큐를 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)([Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/))로 미리 만들어 놓을 수 있다는 뜻이다.
 
-1. 우선순위 개수(예: 1~256)만큼 Ready 큐 [[055_array|배열]]을 하드코딩으로 생성한다.
+1. 우선순위 개수(예: 1~256)만큼 Ready 큐 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 하드코딩으로 생성한다.
 2. 각 큐에 프로세스를 링크드 리스트로 매달아 놓는다.
 3. 256비트(32바이트)짜리 비트맵(Bitmap) 변수를 두고, 큐에 프로세스가 하나라도 있으면 해당 비트를 1로 켠다.
-4. **스케줄링**: 하드웨어 [[158_instruction|명령어]](`clz` 등)로 256비트 중 가장 앞쪽에 1이 켜진 위치를 1클럭 만에 찾는다. 그 큐에서 무조건 첫 번째 놈을 빼서 CPU를 준다.
+4. **스케줄링**: 하드웨어 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(`clz` 등)로 256비트 중 가장 앞쪽에 1이 켜진 위치를 1클럭 만에 찾는다. 그 큐에서 무조건 첫 번째 놈을 빼서 CPU를 준다.
 
 ```text
   ┌─────────────────────────────────────────────────────────────────────────┐
@@ -69,7 +73,7 @@ tags:
   │  (P_A나 P_B가 큐에 존재하는 한 P_C는 절대 영원히 실행 불가)             │
   └─────────────────────────────────────────────────────────────────────────┘
 ```
-**[다이어그램 해설]** 고정 우선순위 시스템에서 [[079_kube_scheduler_pod_placement|스케줄러]]의 역할은 계산이 아니라 그냥 '지정된 서랍 열기'에 불과하다. CPU 사이클을 낭비하는 복잡한 수식이나 트리 정렬(O(log N))이 전혀 없기 때문에, 이 [[079_kube_scheduler_pod_placement|스케줄러]]는 인터럽트가 발생한 직후 1마이크로초도 안 되는 찰나에 다음 타깃을 찾아내는 궁극의 디스패치 속도를 자랑한다.
+**[다이어그램 해설]** 고정 우선순위 시스템에서 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 역할은 계산이 아니라 그냥 '지정된 서랍 열기'에 불과하다. CPU 사이클을 낭비하는 복잡한 수식이나 트리 정렬(O(log N))이 전혀 없기 때문에, 이 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 인터럽트가 발생한 직후 1마이크로초도 안 되는 찰나에 다음 타깃을 찾아내는 궁극의 디스패치 속도를 자랑한다.
 
 - **📢 섹션 요약 비유**: 우편물을 256개의 서랍에 꽂아놓고, 무조건 1번 서랍부터 열어봐서 편지가 있으면 꺼내고, 없으면 2번 서랍을 여는 극도로 단순한 로봇 팔과 같습니다.
 
@@ -77,32 +81,32 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-### 고정 우선순위 기반의 세부 [[001_algorithm_definition|알고리즘]] [[104_classification_analysis|분류]] ([[197_rm_rate_monotonic_scheduling|RM]] vs DM)
+### 고정 우선순위 기반의 세부 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) ([RM](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/) vs DM)
 
-우선순위가 변하지 않는다는 뼈대 위에, "그럼 처음에 무슨 기준으로 순위를 매길 것인가?"에 따라 두 [[001_algorithm_definition|알고리즘]]이 나뉜다.
+우선순위가 변하지 않는다는 뼈대 위에, "그럼 처음에 무슨 기준으로 순위를 매길 것인가?"에 따라 두 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 나뉜다.
 
-| [[001_algorithm_definition|알고리즘]] | 순위 결정 기준 ([[342_routing_metric_hop_bandwidth_delay|Metric]]) | 설명 및 특징 |
+| [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 순위 결정 기준 ([Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)) | 설명 및 특징 |
 |:---|:---|:---|
-| **[[197_rm_rate_monotonic_scheduling|RM]] ([[197_rm_rate_monotonic_scheduling|Rate Monotonic]])** | **주기 (Period)** | "얼마나 자주 오는가?" 주기가 가장 짧은 놈에게 1등 번호표를 줌. (주기와 데드라인이 같을 때 가장 완벽한 수학적 최적 모델) |
-| **DM ([[766_realtime_scheduling_deadline|Deadline]] Monotonic)** | **마감 시간 ([[766_realtime_scheduling_deadline|Deadline]])** | 주기가 길어도 "상대적 데드라인이 짧은 놈"에게 1등 번호표를 줌. (주기보다 데드라인이 더 짧은 특수 환경에서 RM보다 우수함) |
-| **[[207_deadline_scheduling|EDF]] (비교군, 동적)** | 매 순간 남은 시간 (Absolute) | 런타임에 순위가 휙휙 바뀌므로 '고정 우선순위' 가문에 끼지 못함. |
+| **[RM](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/) ([Rate Monotonic](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/))** | **주기 (Period)** | "얼마나 자주 오는가?" 주기가 가장 짧은 놈에게 1등 번호표를 줌. (주기와 데드라인이 같을 때 가장 완벽한 수학적 최적 모델) |
+| **DM ([Deadline](/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/) Monotonic)** | **마감 시간 ([Deadline](/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/))** | 주기가 길어도 "상대적 데드라인이 짧은 놈"에게 1등 번호표를 줌. (주기보다 데드라인이 더 짧은 특수 환경에서 RM보다 우수함) |
+| **[EDF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/207_deadline_scheduling/) (비교군, 동적)** | 매 순간 남은 시간 (Absolute) | 런타임에 순위가 휙휙 바뀌므로 '고정 우선순위' 가문에 끼지 못함. |
 
-### 치명적 한계: [[314_starvation_prevention|기아 상태]]([[314_starvation_prevention|Starvation]])의 방치
+### 치명적 한계: [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))의 방치
 고정 우선순위는 시스템 전체에 **"너희는 굶어 죽어라"**라고 공식적으로 선고하는 것과 같다.
-일반 범용 OS(Windows)에서는 이 [[314_starvation_prevention|기아 상태]]를 막기 위해 [[411_aging_algorithm|에이징]]([[182_aging|Aging]])을 써서 우선순위를 올려준다(동적 변화). 하지만 하드 실시간 OS에서는 [[411_aging_algorithm|에이징]]을 **절대 허용하지 않는다**. 10등짜리 쩌리 태스크가 오래 굶었다고 1등석으로 쳐들어오면, 원래 1등석에 앉아서 미사일 궤도를 맞춰야 할 VIP 태스크가 쩌리 때문에 밀려나서 미사일이 오폭되는 초대형 사고가 터지기 때문이다.
-즉, RTOS 환경에서 [[314_starvation_prevention|기아 상태]]는 "버그"가 아니라 "시스템의 안전을 위해 하위 태스크를 합법적으로 꼬리 자르기 하는 방어 기제"로 쓰인다.
+일반 범용 OS(Windows)에서는 이 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)를 막기 위해 [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/))을 써서 우선순위를 올려준다(동적 변화). 하지만 하드 실시간 OS에서는 [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)을 **절대 허용하지 않는다**. 10등짜리 쩌리 태스크가 오래 굶었다고 1등석으로 쳐들어오면, 원래 1등석에 앉아서 미사일 궤도를 맞춰야 할 VIP 태스크가 쩌리 때문에 밀려나서 미사일이 오폭되는 초대형 사고가 터지기 때문이다.
+즉, RTOS 환경에서 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)는 "버그"가 아니라 "시스템의 안전을 위해 하위 태스크를 합법적으로 꼬리 자르기 하는 방어 기제"로 쓰인다.
 
-- **📢 섹션 요약 비유**: 타이타닉 호가 침몰할 때, "1등석 승객부터 무조건 보트에 태운다"는 것이 고정 우선순위입니다. 3등석 승객이 오래 기다렸다고 보트에 먼저 태우면([[411_aging_algorithm|에이징]]) 질서가 붕괴됩니다. 3등석 승객의 희생([[314_starvation_prevention|기아 상태]])을 담보로 시스템의 규칙을 지키는 비정한 아키텍처입니다.
+- **📢 섹션 요약 비유**: 타이타닉 호가 침몰할 때, "1등석 승객부터 무조건 보트에 태운다"는 것이 고정 우선순위입니다. 3등석 승객이 오래 기다렸다고 보트에 먼저 태우면([에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)) 질서가 붕괴됩니다. 3등석 승객의 희생([기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))을 담보로 시스템의 규칙을 지키는 비정한 아키텍처입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **리눅스 SCHED_FIFO [[164_policy|정책]] 튜닝 (실무 고정 우선순위)**: 리눅스 서버에서 네트워크 패킷 유실을 막기 위해 튜닝할 때, 범용 `SCHED_OTHER`가 아닌 `SCHED_FIFO`에 우선순위 99(최고치)를 줘서 프로세스를 띄운다.
-   - **실무의 공포**: `SCHED_FIFO`는 타임 [[331_neuromorphic_ai_db|슬라이스]](퀀텀)의 개념조차 없는 가장 무식한 고정 우선순위다. 이 프로세스 안에 `while(true) {}` 버그가 하나라도 섞여 있다면? 이 녀석의 우선순위는 영원히 99로 '고정'되어 있으므로 다른 어떤 프로세스(심지어 [[538_ssh_vs_telnet_secure_remote|ssh]] 접속 쉘이나 리부팅 데몬마저도)도 실행되지 못해 서버가 완전히 벽돌(Hang)이 된다.
-   - **아키텍트 조치**: 개발자가 `SCHED_FIFO`를 쓴다고 하면 무조건 [[330_code_review|코드 리뷰]] 시 `sleep()` 이나 I/O 대기(블로킹) 구간이 확실히 존재하는지 악착같이 검증해야만 서버 폭파를 막을 수 있다.
-2. **우선순위 할당 규칙 (RMA, [[197_rm_rate_monotonic_scheduling|Rate Monotonic]] Analysis)**: 임베디드 장비(드론)를 짤 때, 5개의 센서 읽기 스레드를 띄웠다. 개발자 맘대로 우선순위 1~5를 대충 부여하면 10분쯤 비행하다가 타이밍이 꼬여 추락한다.
+1. **리눅스 SCHED_FIFO [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 튜닝 (실무 고정 우선순위)**: 리눅스 서버에서 네트워크 패킷 유실을 막기 위해 튜닝할 때, 범용 `SCHED_OTHER`가 아닌 `SCHED_FIFO`에 우선순위 99(최고치)를 줘서 프로세스를 띄운다.
+   - **실무의 공포**: `SCHED_FIFO`는 타임 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)(퀀텀)의 개념조차 없는 가장 무식한 고정 우선순위다. 이 프로세스 안에 `while(true) {}` 버그가 하나라도 섞여 있다면? 이 녀석의 우선순위는 영원히 99로 '고정'되어 있으므로 다른 어떤 프로세스(심지어 [ssh](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 접속 쉘이나 리부팅 데몬마저도)도 실행되지 못해 서버가 완전히 벽돌(Hang)이 된다.
+   - **아키텍트 조치**: 개발자가 `SCHED_FIFO`를 쓴다고 하면 무조건 [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) 시 `sleep()` 이나 I/O 대기(블로킹) 구간이 확실히 존재하는지 악착같이 검증해야만 서버 폭파를 막을 수 있다.
+2. **우선순위 할당 규칙 (RMA, [Rate Monotonic](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/) Analysis)**: 임베디드 장비(드론)를 짤 때, 5개의 센서 읽기 스레드를 띄웠다. 개발자 맘대로 우선순위 1~5를 대충 부여하면 10분쯤 비행하다가 타이밍이 꼬여 추락한다.
    - **실무 조치**: 반드시 엑셀을 켜고 각 스레드의 호출 주기(Period)를 적은 뒤, **"주기가 짧은 순서대로 1등부터 5등까지 우선순위를 고정(하드코딩)"**해야 한다. 이것이 RMA 기법이며, 이 순서를 지켰을 때 전체 CPU 점유율이 69% 이하라면 이 드론은 수학적으로 평생 추락하지 않음이 보장된다.
 
 ```text
@@ -136,11 +140,11 @@ tags:
 ## Ⅴ. 기대효과 및 결론
 
 ### 기대효과
-고정 우선순위 스케줄링을 채택하면 운영체제의 디스패치 로직을 어셈블리어 몇 줄로 끝낼 수 있을 만큼 극도로 경량화할 수 있으며, 시스템 동작의 **'100% 수학적 예측(Deterministic Analysis)'**이 가능해져 항공, 우주, 의료 기기의 필수 안전 [[303_authentication_authorization_patterns|인증]](ISO 26262 등)을 통과할 수 있는 논리적 기반을 마련한다.
+고정 우선순위 스케줄링을 채택하면 운영체제의 디스패치 로직을 어셈블리어 몇 줄로 끝낼 수 있을 만큼 극도로 경량화할 수 있으며, 시스템 동작의 **'100% 수학적 예측(Deterministic Analysis)'**이 가능해져 항공, 우주, 의료 기기의 필수 안전 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)(ISO 26262 등)을 통과할 수 있는 논리적 기반을 마련한다.
 
 ### 결론 및 미래 전망
-순수한 의미의 "고정 우선순위" [[001_algorithm_definition|알고리즘]]은 일반 데스크톱(Windows/[[673_mac_message_authentication_code|Mac]])이나 모바일 환경에서는 동적 [[411_aging_algorithm|에이징]]([[182_aging|Aging]])과 융합된 형태([[691_mlfq_multi_level_feedback_queue|MLFQ]], CFS)로 흡수되어 흔적만 남아있다. 
-그러나 사람의 목숨이 달린 **임베디드 하드 리얼타임 OS (FreeRTOS, VxWorks) 생태계에서는 여전히, 그리고 앞으로도 영원히 이 '고정 우선순위([[197_rm_rate_monotonic_scheduling|RM]]/DM)'가 유일무이한 표준**으로 군림할 것이다. 복잡한 계산([[207_deadline_scheduling|EDF]])을 런타임에 하는 것은 리스크가 너무 크기 때문에, 컴파일러와 분석 도구가 배포 전에 미리 오프라인에서 수학적 증명을 끝내고, 기계는 멍청하지만 확실하게 고정된 순서대로만 움직이는 보수적 아키텍처가 실시간 시스템의 절대 진리이기 때문이다.
+순수한 의미의 "고정 우선순위" [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 일반 데스크톱(Windows/[Mac](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))이나 모바일 환경에서는 동적 [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/))과 융합된 형태([MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/), CFS)로 흡수되어 흔적만 남아있다. 
+그러나 사람의 목숨이 달린 **임베디드 하드 리얼타임 OS (FreeRTOS, VxWorks) 생태계에서는 여전히, 그리고 앞으로도 영원히 이 '고정 우선순위([RM](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/)/DM)'가 유일무이한 표준**으로 군림할 것이다. 복잡한 계산([EDF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/207_deadline_scheduling/))을 런타임에 하는 것은 리스크가 너무 크기 때문에, 컴파일러와 분석 도구가 배포 전에 미리 오프라인에서 수학적 증명을 끝내고, 기계는 멍청하지만 확실하게 고정된 순서대로만 움직이는 보수적 아키텍처가 실시간 시스템의 절대 진리이기 때문이다.
 
 - **📢 섹션 요약 비유**: 똑똑한 로봇(동적 스케줄링)은 상황에 맞춰 유연하게 대처하지만 가끔 예상치 못한 오류를 냅니다. 하지만 톱니바퀴로 짜인 아날로그시계(고정 우선순위)는 멍청해 보여도 100년 동안 단 1초도 틀리지 않고 똑같은 속도로 돕니다. 목숨을 걸어야 할 땐 화려한 인공지능보다 투박한 톱니바퀴가 정답입니다.
 
@@ -150,10 +154,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[197_rm_rate_monotonic_scheduling|RM]] ([[206_priority_inheritance|Rate-Monotonic]]) 스케줄링 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [[207_deadline_scheduling|EDF]] ([[207_deadline_scheduling|Earliest Deadline First]]) 스케줄링 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| POSIX 스케줄링 [[014_api_posix|API]] | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| 리눅스 O(1) [[079_kube_scheduler_pod_placement|스케줄러]] | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [RM](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/) ([Rate-Monotonic](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/206_priority_inheritance/)) 스케줄링 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [EDF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/207_deadline_scheduling/) ([Earliest Deadline First](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/207_deadline_scheduling/)) 스케줄링 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| POSIX 스케줄링 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| 리눅스 O(1) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -172,7 +176,7 @@ tags:
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 게임방에서 "1번 컴퓨터는 무조건 회장님(VIP) 전용이야!"라고 딱 못을 박아놓고 절대 안 바꿔주는 규칙이 **고정 우선순위**예요.
-2. 회장님이 1년 내내 컴퓨터를 쓰면, 다른 친구들은 1년 내내 옆에서 구경만 하다 굶어 죽는 슬픈 일([[314_starvation_prevention|기아 상태]])이 무조건 생겨요.
+2. 회장님이 1년 내내 컴퓨터를 쓰면, 다른 친구들은 1년 내내 옆에서 구경만 하다 굶어 죽는 슬픈 일([기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))이 무조건 생겨요.
 3. 하지만 이렇게 무식하고 꽉 막힌 규칙을 쓰는 이유는, 우주선이나 로봇을 조종할 때 "진짜 중요한 명령은 다른 자잘한 일에 절대 방해받지 않고 0.001초 만에 실행된다"는 100% 믿음을 주니까요!
 
 ---
@@ -181,7 +185,7 @@ tags:
 
 **진행 상황**: 208 / 800
 
-← **이전**: [[207_deadline_scheduling|207. EDF (Earliest Deadline First) 스케줄링 - 마감시간이 빠를수록 높은 우선순위 (동적 우선순위)]]
-**다음**: [[209_dynamic_priority_scheduling|209. POSIX 스케줄링 API (Dynamic Priority Scheduling)]] →
+← **이전**: [207. EDF (Earliest Deadline First) 스케줄링 - 마감시간이 빠를수록 높은 우선순위 (동적 우선순위)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/207_deadline_scheduling/)
+**다음**: [209. POSIX 스케줄링 API (Dynamic Priority Scheduling)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/209_dynamic_priority_scheduling/) →
 
 ---

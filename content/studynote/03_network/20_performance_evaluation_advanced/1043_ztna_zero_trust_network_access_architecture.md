@@ -1,22 +1,26 @@
----
-title: 1043. 제로 트러스트 구조
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "1043. 제로 트러스트 구조"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[667_zero_trust_runtime_integrity_measurement|제로 트러스트]] 구조는 [[282_performance_tactics|성능]] 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: [[667_zero_trust_runtime_integrity_measurement|제로 트러스트]] 구조를 이해하면 측정 정확도과 모델 적합성 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 구조는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 구조를 이해하면 측정 정확도과 모델 적합성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **M&M (Marshmallow & Macaroni) 보안**: 겉([[690_firewall_generation_evolution|방화벽]])은 딱딱하지만, 속(내부망)은 마시멜로처럼 뚫리면 끝장나는 물렁물렁한 구조였습니다.
-- 해커는 악성 메일([[752_phishing|피싱]])로 말단 직원의 [[164_pc|PC]](내부망) 1대를 감염시킵니다. 이미 성벽 안에 들어왔으니 [[690_firewall_generation_evolution|방화벽]]은 무용지물입니다. 해커는 내부망에서 왕처럼 돌아다니며(Lateral Movement, 횡적 이동) 인사 서버, DB 서버를 야금야금 다 털어갑니다.
+- **M&M (Marshmallow & Macaroni) 보안**: 겉([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))은 딱딱하지만, 속(내부망)은 마시멜로처럼 뚫리면 끝장나는 물렁물렁한 구조였습니다.
+- 해커는 악성 메일([피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/))로 말단 직원의 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(내부망) 1대를 감염시킵니다. 이미 성벽 안에 들어왔으니 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 무용지물입니다. 해커는 내부망에서 왕처럼 돌아다니며(Lateral Movement, 횡적 이동) 인사 서버, DB 서버를 야금야금 다 털어갑니다.
 
 ```text
 [SASE 네트워킹/보안 융합 클라우드]
@@ -27,21 +31,21 @@ tags:
     └──▶ [마이크로 세그멘테이션]
 ```
 
-- **📢 섹션 요약 비유**: [[667_zero_trust_runtime_integrity_measurement|제로 트러스트]] 구조는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [[170_selectivity_cardinality_distribution_tuning|선택도]] 쉬워진다.
+- **📢 섹션 요약 비유**: [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 구조는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 2010년 포레스터 리서치(Forrester Research)의 존 킨더박이 주창했습니다.
-- **"Never Trust, Always Verify" (절대 믿지 말고, 항상 [[395_verification_process_review|검증]]하라)**
+- **"Never Trust, Always Verify" (절대 믿지 말고, 항상 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하라)**
 - 네트워크 내부냐 외부냐(위치)는 아무런 의미가 없습니다. 회사 빌딩 안에서 꽂은 랜선이든, 카페 와이파이든 똑같이 "가장 위험한 적성 구역"으로 간주합니다.
 
 NIST(미국 국립표준기술연구소)에서 정의한 뼈대입니다.
-- **PEP ([[164_policy|정책]] 실행 지점)**: 사용자와 서버 사이의 진짜 문지기입니다. (예: [[690_firewall_generation_evolution|방화벽]], 게이트웨이)
-- **PDP ([[164_policy|정책]] 결정 지점)**: "홍길동 들여보내 줄까?" 판단하는 뇌입니다.
-  - **[[164_policy|정책]] 엔진 (PE)**: 신뢰도를 계산합니다. (위치, 비밀번호 등 점수화)
-  - **[[164_policy|정책]] 관리자 (PA)**: PE의 결정을 받고 PEP에게 "문 열어라!" 명령을 내립니다.
+- **PEP ([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 실행 지점)**: 사용자와 서버 사이의 진짜 문지기입니다. (예: [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), 게이트웨이)
+- **PDP ([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 결정 지점)**: "홍길동 들여보내 줄까?" 판단하는 뇌입니다.
+  - **[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 엔진 (PE)**: 신뢰도를 계산합니다. (위치, 비밀번호 등 점수화)
+  - **[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 관리자 (PA)**: PE의 결정을 받고 PEP에게 "문 열어라!" 명령을 내립니다.
 
 ```text
 [SASE 네트워킹/보안 융합 클라우드]
@@ -52,62 +56,62 @@ NIST(미국 국립표준기술연구소)에서 정의한 뼈대입니다.
     └──▶ [마이크로 세그멘테이션]
 ```
 
-- **📢 섹션 요약 비유**: 기존 [[690_firewall_generation_evolution|방화벽]] 보안은 **'클럽 입구의 기도(가드)'**였습니다. 신분증 내고 한 번 클럽 안에 들어가면, 그 안에서 VIP 룸을 가든 화장실을 가든 춤을 추든 아무도 검사하지 않았습니다(내부망 무한 신뢰). 해커([[461_spy_test_double|스파이]])가 환풍구로 클럽 안에 떨어지기만 하면 VIP 금고를 마음대로 털 수 있었습니다. **[[667_zero_trust_runtime_integrity_measurement|제로 트러스트]]([[667_zero_trust_runtime_integrity_measurement|Zero Trust]])**는 클럽 안을 **'수만 개의 레이저 보안 철창([[1044_micro_segmentation_east_west_traffic_security|마이크로 세그멘테이션]])'**으로 다 쪼개버린 미친 교도소입니다. 클럽에 들어와서 1번 테이블에서 2번 테이블로 1미터만 이동하려 해도, 테이블 사이의 가드가 튀어나와 "신분증 내놔! 홍채 인식해!(지속적 [[395_verification_process_review|검증]])"라고 총을 들이밉니다. 게다가 내 신분으론 1번 테이블만 보이게 허락되었고(최소 권한), 2번 테이블 너머는 아예 투명 망토를 씌워 보이지도 않게 만들어 해커가 침투해도 단 한 발짝도 나아가지 못하고 굶어 죽게 만드는 극강의 내부 감시 아키텍처입니다.
+- **📢 섹션 요약 비유**: 기존 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 보안은 **'클럽 입구의 기도(가드)'**였습니다. 신분증 내고 한 번 클럽 안에 들어가면, 그 안에서 VIP 룸을 가든 화장실을 가든 춤을 추든 아무도 검사하지 않았습니다(내부망 무한 신뢰). 해커([스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/))가 환풍구로 클럽 안에 떨어지기만 하면 VIP 금고를 마음대로 털 수 있었습니다. **[제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/))**는 클럽 안을 **'수만 개의 레이저 보안 철창([마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/))'**으로 다 쪼개버린 미친 교도소입니다. 클럽에 들어와서 1번 테이블에서 2번 테이블로 1미터만 이동하려 해도, 테이블 사이의 가드가 튀어나와 "신분증 내놔! 홍채 인식해!(지속적 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))"라고 총을 들이밉니다. 게다가 내 신분으론 1번 테이블만 보이게 허락되었고(최소 권한), 2번 테이블 너머는 아예 투명 망토를 씌워 보이지도 않게 만들어 해커가 침투해도 단 한 발짝도 나아가지 못하고 굶어 죽게 만드는 극강의 내부 감시 아키텍처입니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 1. 지속적이고 동적인 [[303_authentication_authorization_patterns|인증]] (Continuous [[395_verification_process_review|Verification]])
+### 1. 지속적이고 동적인 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) (Continuous [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))
 - 아침에 지문 찍고 로그인했다고 끝이 아닙니다.
 - 기밀문서를 누르려는 찰나, 시스템이 AI로 분석합니다. "어? 홍길동 대리는 맨날 서울에서 맥북으로 접속했는데, 지금 갑자기 아프리카 IP 윈도우 PC에서 접속 중이네?" 
-- 아이디/비번이 맞더라도 위치, 기기 상태, 접속 시간을 실시간 점검하여 조금이라도 이상하면 즉시 [[748_otp|OTP]] 2차 [[303_authentication_authorization_patterns|인증]]을 때려버리는([[552_mfa|MFA]]) 끈질긴 감시 체계입니다.
+- 아이디/비번이 맞더라도 위치, 기기 상태, 접속 시간을 실시간 점검하여 조금이라도 이상하면 즉시 [OTP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/748_otp/) 2차 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 때려버리는([MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/)) 끈질긴 감시 체계입니다.
 
-### 2. 최소 권한의 원칙 ([[010_least_privilege|Least Privilege]])
+### 2. 최소 권한의 원칙 ([Least Privilege](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/))
 - 옛날 VPN은 접속하면 회사 네트워크 전체의 로컬 IP(192.168.x.x) 대역을 통째로 뚫어주어 이방 저방 다 볼 수 있었습니다.
-- **[[339_ztna|ZTNA]] ([[667_zero_trust_runtime_integrity_measurement|제로 트러스트]] 네트워크 접속)**: 접속해도 네트워크 전체를 안 보여줍니다. 홍길동 대리에게는 오직 **'사내 그룹웨어 웹페이지 1개(애플리케이션)'에만 접속할 수 있는 바늘구멍 같은 단 1개의 통로**만 열어주고, 옆에 있는 회계 서버나 DB 서버는 아예 IP 자체를 캄캄하게 숨겨버려(Dark Cloud) 해커의 횡적 이동을 원천 차단합니다.
+- **[ZTNA](/knowledge-base/studynote/12_it_management/05_security_compliance/339_ztna/) ([제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 네트워크 접속)**: 접속해도 네트워크 전체를 안 보여줍니다. 홍길동 대리에게는 오직 **'사내 그룹웨어 웹페이지 1개(애플리케이션)'에만 접속할 수 있는 바늘구멍 같은 단 1개의 통로**만 열어주고, 옆에 있는 회계 서버나 DB 서버는 아예 IP 자체를 캄캄하게 숨겨버려(Dark Cloud) 해커의 횡적 이동을 원천 차단합니다.
 
-### 3. [[1044_micro_segmentation_east_west_traffic_security|마이크로 세그멘테이션]] ([[059_micro_segmentation_east_west_traffic|Micro-segmentation]]) 🌟 (1044번 연계)
+### 3. [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/) ([Micro-segmentation](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/059_micro_segmentation_east_west_traffic/)) 🌟 (1044번 연계)
 - 하나의 거대한 회사 내부망(서브넷)을 잘근잘근 다져버립니다.
-- "인사 서버와 회계 서버 사이에, 그리고 DB 서버 앞에도 모조리 미니 [[690_firewall_generation_evolution|방화벽]]을 촘촘하게 세워라!"
+- "인사 서버와 회계 서버 사이에, 그리고 DB 서버 앞에도 모조리 미니 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 촘촘하게 세워라!"
 - 해커가 말단 PC를 뚫더라도, 그 PC가 속한 1평짜리 작은 감옥(세그먼트) 밖으로는 1mm도 전진할 수 없게 내부망 자체를 수만 개의 방폭문으로 쪼개버리는 기술입니다.
 
-[[667_zero_trust_runtime_integrity_measurement|제로 트러스트]] 구조를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [[740_sase_secure_access_service_edge_sdwan_cloud|SASE]] 네트워킹/보안 융합 클라우드가 기반 조건을 만든다면, [[667_zero_trust_runtime_integrity_measurement|제로 트러스트]] 구조는 그 위에서 핵심 메커니즘을 구현하고, [[1044_micro_segmentation_east_west_traffic_security|마이크로 세그멘테이션]]은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+[제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 구조를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/) 네트워킹/보안 융합 클라우드가 기반 조건을 만든다면, [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 구조는 그 위에서 핵심 메커니즘을 구현하고, [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [[740_sase_secure_access_service_edge_sdwan_cloud|SASE]] 네트워킹/보안 융합 클라우드의 기반 정리 | [[667_zero_trust_runtime_integrity_measurement|제로 트러스트]] 구조의 핵심 동작 | [[1044_micro_segmentation_east_west_traffic_security|마이크로 세그멘테이션]]의 확장 적용 |
+| 초점 | [SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/) 네트워킹/보안 융합 클라우드의 기반 정리 | [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 구조의 핵심 동작 | [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/)의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 측정 정확도 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: [[667_zero_trust_runtime_integrity_measurement|제로 트러스트]] 구조는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
+- **📢 섹션 요약 비유**: [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 구조는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 [[667_zero_trust_runtime_integrity_measurement|제로 트러스트]] 구조를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [[740_sase_secure_access_service_edge_sdwan_cloud|SASE]] 네트워킹/보안 융합 클라우드 수준의 기본 대책으로 충분한지, 아니면 [[667_zero_trust_runtime_integrity_measurement|제로 트러스트]] 구조가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [[1044_micro_segmentation_east_west_traffic_security|마이크로 세그멘테이션]]와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 구조를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/) 네트워킹/보안 융합 클라우드 수준의 기본 대책으로 충분한지, 아니면 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 구조가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/)와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 측정 정확도 부족인지, 모델 적합성 악화인지 먼저 분리한다.
-2. [[667_zero_trust_runtime_integrity_measurement|제로 트러스트]] 구조가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [[396_validation|확인]]한다.
-3. 도입 후에는 인접 기술인 [[1044_micro_segmentation_east_west_traffic_security|마이크로 세그멘테이션]]와의 연계 방식을 함께 [[395_verification_process_review|검증]]한다.
+2. [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 구조가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+3. 도입 후에는 인접 기술인 [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/)와의 연계 방식을 함께 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- [[667_zero_trust_runtime_integrity_measurement|제로 트러스트]] 구조의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- [[740_sase_secure_access_service_edge_sdwan_cloud|SASE]] 네트워킹/보안 융합 클라우드와의 경계를 정리하지 않아 중복 투자나 [[164_policy|정책]] 충돌을 만드는 설계
+- [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 구조의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
+- [SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/) 네트워킹/보안 융합 클라우드와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
-- **📢 섹션 요약 비유**: [[667_zero_trust_runtime_integrity_measurement|제로 트러스트]] 구조를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
+- **📢 섹션 요약 비유**: [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 구조를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[[667_zero_trust_runtime_integrity_measurement|제로 트러스트]] 구조는 [[282_performance_tactics|성능]] 평가와 고급 분석을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 측정 정확도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [[1044_micro_segmentation_east_west_traffic_security|마이크로 세그멘테이션]], [[190_ai_llm_requirements_specification|AI]] 기반 [[282_performance_tactics|성능]] 예측, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [[190_ai_llm_requirements_specification|AI]] 기반 [[282_performance_tactics|성능]] 예측 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+[제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 구조는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 측정 정확도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: [[667_zero_trust_runtime_integrity_measurement|제로 트러스트]] 구조는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
+- **📢 섹션 요약 비유**: [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 구조는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
 ---
 
@@ -115,10 +119,10 @@ NIST(미국 국립표준기술연구소)에서 정의한 뼈대입니다.
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[740_sase_secure_access_service_edge_sdwan_cloud|SASE]] 네트워킹/보안 융합 클라우드 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [[139_throughput|처리량]] ([[139_throughput|Throughput]]) | 실제 전달 [[282_performance_tactics|성능]]을 나타내는 대표 지표다. |
-| [[015_지연_데이터_관점|지연]] ([[141_latency|Latency]]) | 사용자 체감 품질을 좌우한다. |
-| [[1044_micro_segmentation_east_west_traffic_security|마이크로 세그멘테이션]] | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/) 네트워킹/보안 융합 클라우드 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) | 실제 전달 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 나타내는 대표 지표다. |
+| [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) ([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) | 사용자 체감 품질을 좌우한다. |
+| [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -132,7 +136,7 @@ NIST(미국 국립표준기술연구소)에서 정의한 뼈대입니다.
     └──▶ [확장 B: AI 기반 성능 예측]
 ```
 
-[[667_zero_trust_runtime_integrity_measurement|제로 트러스트]] 구조는 [[740_sase_secure_access_service_edge_sdwan_cloud|SASE]] 네트워킹/보안 융합 클라우드에서 출발해 현재 메커니즘을 정교화하고, 이후 [[1044_micro_segmentation_east_west_traffic_security|마이크로 세그멘테이션]]와 [[190_ai_llm_requirements_specification|AI]] 기반 [[282_performance_tactics|성능]] 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+[제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 구조는 [SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/) 네트워킹/보안 융합 클라우드에서 출발해 현재 메커니즘을 정교화하고, 이후 [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -146,7 +150,7 @@ NIST(미국 국립표준기술연구소)에서 정의한 뼈대입니다.
 
 **진행 상황**: 147 / 1120
 
-← **이전**: [[1042_sase_secure_access_service_edge_cloud|1042. SASE 네트워킹/보안 융합 클라우드]]
-**다음**: [[1044_micro_segmentation_east_west_traffic_security|1044. 마이크로 세그멘테이션]] →
+← **이전**: [1042. SASE 네트워킹/보안 융합 클라우드](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1042_sase_secure_access_service_edge_cloud/)
+**다음**: [1044. 마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/) →
 
 ---

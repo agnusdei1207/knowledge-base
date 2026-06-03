@@ -1,22 +1,26 @@
----
-title: 88. FDMA (Frequency Division Multiple Access)
-date: '2026-03-30'
-description: 초기 무선 통신에서 대역폭을 쪼개어 채널을 할당하는 FDMA의 한계와 실무적 낭비 요인
-tags:
-- network
----
++++
+title = "88. FDMA (Frequency Division Multiple Access)"
+description = "초기 무선 통신에서 대역폭을 쪼개어 채널을 할당하는 FDMA의 한계와 실무적 낭비 요인"
+date = 2026-03-30
+
+[taxonomies]
+tags = ["network"]
+
+[extra]
+tags = ["network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: FDMA (Frequency [[411_division_operation|Division]] [[087_다중접속_Multiple_Access|Multiple Access]])는 통신 시스템의 전체 주파수 대역을 좁은 [[140_bandwidth|대역폭]]의 여러 채널로 쪼개어 다수의 사용자에게 고정 할당하는 [[087_다중접속_Multiple_Access|다중 접속]] 기술이다.
-> 2. **가치**: 사용자가 자신만의 주파수 차선을 독점하므로 통신 [[015_지연_데이터_관점|지연]]이 거의 발생하지 않으며, 아날로그 음성이나 방송처럼 연속적인 [[130_signal|신호]] 전송에 매우 안정적인 구조를 제공한다.
-> 3. **판단 포인트**: 각 채널 사이에 상호 간섭을 막기 위한 여유 공간([[946_guard_band_fdm_adjacent_channel_interference|Guard Band]])이 필수적이라 [[140_bandwidth|대역폭]] 낭비가 크고, [[001_dikw_pyramid|데이터]] 통신처럼 트래픽이 불규칙한 현대망에서는 비효율적이므로 채택을 지양해야 한다.
+> 1. **본질**: FDMA (Frequency [Division](/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/) [Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))는 통신 시스템의 전체 주파수 대역을 좁은 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)의 여러 채널로 쪼개어 다수의 사용자에게 고정 할당하는 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 기술이다.
+> 2. **가치**: 사용자가 자신만의 주파수 차선을 독점하므로 통신 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 거의 발생하지 않으며, 아날로그 음성이나 방송처럼 연속적인 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 전송에 매우 안정적인 구조를 제공한다.
+> 3. **판단 포인트**: 각 채널 사이에 상호 간섭을 막기 위한 여유 공간([Guard Band](/knowledge-base/studynote/03_network/19_frequent_topics_terms/946_guard_band_fdm_adjacent_channel_interference/))이 필수적이라 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비가 크고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신처럼 트래픽이 불규칙한 현대망에서는 비효율적이므로 채택을 지양해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-과거 1세대(1G) 아날로그 이동통신 환경에서는 다수의 사용자가 하나의 기지국을 동시에 이용해야 했다. 주파수가 겹치면 [[130_signal|신호]]가 충돌하여 통화가 혼선되므로, 전체 [[140_bandwidth|대역폭]]을 쪼개어 사용자마다 독립적인 "주파수 통로"를 부여하는 FDMA가 도입되었다.
+과거 1세대(1G) 아날로그 이동통신 환경에서는 다수의 사용자가 하나의 기지국을 동시에 이용해야 했다. 주파수가 겹치면 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 충돌하여 통화가 혼선되므로, 전체 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 쪼개어 사용자마다 독립적인 "주파수 통로"를 부여하는 FDMA가 도입되었다.
 
 이 방식은 송신자와 수신자 사이에 끊김 없는 물리적 경로를 만들어주어 제어가 매우 단순하다. 그러나 특정 주파수 채널을 배정받은 사용자가 말을 하지 않는 순간에도 그 주파수를 다른 사람이 재사용할 수 없어 자원이 낭비되는 근본적인 한계가 발생한다.
 
@@ -26,13 +30,13 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-FDMA 시스템은 [[140_bandwidth|대역폭]] 분할과 필터링을 통해 사용자 간 [[083_직교성_Orthogonality|직교성]]을 유지한다.
+FDMA 시스템은 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 분할과 필터링을 통해 사용자 간 [직교성](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/)을 유지한다.
 
 | 핵심 구성요소 | 역할 및 동작 원리 |
 | :--- | :--- |
-| Channel (채널) | 전체 [[140_bandwidth|대역폭]]을 `f1`, `f2`, `f3` 등의 서브 대역으로 일정하게 분할한 고정 경로 |
-| [[946_guard_band_fdm_adjacent_channel_interference|Guard Band]] ([[074_보호_대역_Guard_Band|보호 대역]]) | 인접한 채널 간의 [[130_signal|신호]]가 겹치지 않도록 채널과 채널 사이에 두는 빈 주파수 공간 |
-| [[069_ebpf|BPF]] (Band-Pass Filter) | 수신기에서 자신에게 할당된 특정 주파수 대역의 [[130_signal|신호]]만 통과시키고 나머지는 차단 |
+| Channel (채널) | 전체 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 `f1`, `f2`, `f3` 등의 서브 대역으로 일정하게 분할한 고정 경로 |
+| [Guard Band](/knowledge-base/studynote/03_network/19_frequent_topics_terms/946_guard_band_fdm_adjacent_channel_interference/) ([보호 대역](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/074_보호_대역_Guard_Band/)) | 인접한 채널 간의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 겹치지 않도록 채널과 채널 사이에 두는 빈 주파수 공간 |
+| [BPF](/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/) (Band-Pass Filter) | 수신기에서 자신에게 할당된 특정 주파수 대역의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)만 통과시키고 나머지는 차단 |
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -58,16 +62,16 @@ FDMA 시스템은 [[140_bandwidth|대역폭]] 분할과 필터링을 통해 사�
 
 ## Ⅲ. 비교 및 연결
 
-[[087_다중접속_Multiple_Access|다중 접속]] 기술은 자원을 어떻게 나누느냐에 따라 세대로 진화해 왔다.
+[다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 기술은 자원을 어떻게 나누느냐에 따라 세대로 진화해 왔다.
 
-| 비교 축 | FDMA (Frequency [[411_division_operation|Division]]) | [[089_시분할_다중접속_TDMA|TDMA]] (Time [[411_division_operation|Division]]) | [[945_ofdma_orthogonal_frequency_division_multiple_access_resource_block|OFDMA]] (Orthogonal FDMA) |
+| 비교 축 | FDMA (Frequency [Division](/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/)) | [TDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/) (Time [Division](/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/)) | [OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) (Orthogonal FDMA) |
 | :--- | :--- | :--- | :--- |
-| 자원 분할 축 | 주파수 대역 분할 | 시간(Time Slot) 분할 | 직교 [[085_부반송파_Subcarrier|부반송파]] 분할 |
-| 낭비 요인 | [[946_guard_band_fdm_adjacent_channel_interference|Guard Band]] (주파수 낭비) | Guard Time (시간 낭비) | [[083_직교성_Orthogonality|직교성]] 덕분에 낭비 최소화 |
-| 통신 적합성 | 연속적인 아날로그 음성 (1G) | 디지털 음성 및 저속 [[001_dikw_pyramid|데이터]] (2G) | 고속 모바일 광대역 [[001_dikw_pyramid|데이터]] (4G/[[418_5g_embb_urllc_mmtc_slicing|5G]]) |
-| 장비 복잡도 | [[069_ebpf|BPF]] 등 아날로그 필터링 복잡 | 시간 [[212_synchronization_mechanisms|동기화]](Sync) 복잡 | [[126_fft|FFT]]/IFFT 디지털 [[130_signal|신호]] 처리 필수 |
+| 자원 분할 축 | 주파수 대역 분할 | 시간(Time Slot) 분할 | 직교 [부반송파](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/085_부반송파_Subcarrier/) 분할 |
+| 낭비 요인 | [Guard Band](/knowledge-base/studynote/03_network/19_frequent_topics_terms/946_guard_band_fdm_adjacent_channel_interference/) (주파수 낭비) | Guard Time (시간 낭비) | [직교성](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/) 덕분에 낭비 최소화 |
+| 통신 적합성 | 연속적인 아날로그 음성 (1G) | 디지털 음성 및 저속 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (2G) | 고속 모바일 광대역 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (4G/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)) |
+| 장비 복잡도 | [BPF](/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/) 등 아날로그 필터링 복잡 | 시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)(Sync) 복잡 | [FFT](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/)/IFFT 디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리 필수 |
 
-FDMA는 주파수를 쪼개어 "공간"을 나누고, TDMA는 주파수를 통째로 쓰되 "시간"을 교대로 쓴다. OFDMA는 FDMA의 진화형으로, [[130_signal|신호]] 간 [[083_직교성_Orthogonality|직교성]]([[083_직교성_Orthogonality|Orthogonality]])을 이용해 Guard Band를 없애고 주파수를 촘촘하게 겹쳐 써서 [[140_bandwidth|대역폭]] 효율을 극대화했다.
+FDMA는 주파수를 쪼개어 "공간"을 나누고, TDMA는 주파수를 통째로 쓰되 "시간"을 교대로 쓴다. OFDMA는 FDMA의 진화형으로, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 간 [직교성](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/)([Orthogonality](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/))을 이용해 Guard Band를 없애고 주파수를 촘촘하게 겹쳐 써서 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 효율을 극대화했다.
 
 - 📢 섹션 요약 비유: FDMA가 뷔페에서 각자 자기 접시를 들고 따로 먹는 거라면, TDMA는 하나의 큰 접시를 시간제한을 두고 교대로 먹는 것이고, OFDMA는 식판에 반찬 칸을 빈틈없이 겹쳐 완벽히 세팅해 먹는 것이다.
 
@@ -77,21 +81,21 @@ FDMA는 주파수를 쪼개어 "공간"을 나누고, TDMA는 주파수를 통�
 
 현대 통신망을 설계할 때 FDMA 기반 구조는 구체적인 환경 요인을 기준으로 판별해야 한다.
 
-- 아날로그 TV 방송, FM 라디오, 혹은 위성 통신의 특정 [[1009_backhaul_network_base_station_core_connection|백홀]]([[1009_backhaul_network_base_station_core_connection|Backhaul]]) 링크처럼, [[001_dikw_pyramid|데이터]] 발생이 버스트(Burst)하지 않고 항상 일정한 [[140_bandwidth|대역폭]]을 점유하는 환경에서는 [[015_지연_데이터_관점|지연]] 없는 FDMA가 여전히 유효한 설계다.
-- 반면, 웹 서핑이나 패킷 [[001_dikw_pyramid|데이터]] 통신처럼 "[[001_dikw_pyramid|데이터]]를 보냈다가 한참 쉬는" 트래픽 패턴에서는 주파수를 고정 점유하는 FDMA를 적용하면 네트워크 수용 용량(Capacity)이 극도로 저하되므로 절대 기피해야 한다.
+- 아날로그 TV 방송, FM 라디오, 혹은 위성 통신의 특정 [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/)([Backhaul](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/)) 링크처럼, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 발생이 버스트(Burst)하지 않고 항상 일정한 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 점유하는 환경에서는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 없는 FDMA가 여전히 유효한 설계다.
+- 반면, 웹 서핑이나 패킷 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신처럼 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보냈다가 한참 쉬는" 트래픽 패턴에서는 주파수를 고정 점유하는 FDMA를 적용하면 네트워크 수용 용량(Capacity)이 극도로 저하되므로 절대 기피해야 한다.
 - `FDD (Frequency Division Duplex, 주파수 분할 이중통신)` 장비 설계 시, 송신 대역과 수신 대역 간의 간섭을 막는 듀플렉서(Duplexer) 비용과 크기가 기지국이나 단말기 소형화에 치명적인 병목이 됨을 인지해야 한다.
 
-- 📢 섹션 요약 비유: 끊임없이 물이 나오는 호스(방송)를 연결할 때는 독립된 [[123_pipe|파이프]](FDMA)가 좋지만, 찔끔찔끔 나오는 여러 수도꼭지([[001_dikw_pyramid|데이터]])를 각 [[123_pipe|파이프]]에 물리면 빈 [[123_pipe|파이프]]만 많아져 낭비가 심하다.
+- 📢 섹션 요약 비유: 끊임없이 물이 나오는 호스(방송)를 연결할 때는 독립된 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(FDMA)가 좋지만, 찔끔찔끔 나오는 여러 수도꼭지([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 각 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)에 물리면 빈 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)만 많아져 낭비가 심하다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-FDMA는 다수의 통신자가 충돌 없이 무선 자원을 공유하는 가장 기본적이고 직관적인 기술적 기틀을 마련했다. 하드웨어 제어가 직관적이며 연속된 [[130_signal|신호]] 품질 보장이라는 확실한 장점을 남겼다.
+FDMA는 다수의 통신자가 충돌 없이 무선 자원을 공유하는 가장 기본적이고 직관적인 기술적 기틀을 마련했다. 하드웨어 제어가 직관적이며 연속된 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 품질 보장이라는 확실한 장점을 남겼다.
 
-그러나 주파수 스펙트럼은 매우 비싼 한정 자원이기 때문에, Guard Band와 유휴 시간 채널 점유로 인한 비효율성은 모바일 시대에 한계를 맞았다. 따라서 FDMA는 단독 기술로서의 생명력은 다했지만, 주파수를 분할한다는 핵심 철학은 후속 [[087_다중접속_Multiple_Access|다중 접속]] 기술의 기본 논리적 토대로 영구히 자리 잡았다.
+그러나 주파수 스펙트럼은 매우 비싼 한정 자원이기 때문에, Guard Band와 유휴 시간 채널 점유로 인한 비효율성은 모바일 시대에 한계를 맞았다. 따라서 FDMA는 단독 기술로서의 생명력은 다했지만, 주파수를 분할한다는 핵심 철학은 후속 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 기술의 기본 논리적 토대로 영구히 자리 잡았다.
 
-- 📢 섹션 요약 비유: 비싼 땅을 낭비하며 넓게 집을 짓던 옛날 방식이 한계에 부딪혔지만, 땅을 구획 정리한다는 개념 자체는 현대의 아파트([[945_ofdma_orthogonal_frequency_division_multiple_access_resource_block|OFDMA]])를 짓는 기초가 되었다.
+- 📢 섹션 요약 비유: 비싼 땅을 낭비하며 넓게 집을 짓던 옛날 방식이 한계에 부딪혔지만, 땅을 구획 정리한다는 개념 자체는 현대의 아파트([OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/))를 짓는 기초가 되었다.
 
 ---
 
@@ -99,10 +103,10 @@ FDMA는 다수의 통신자가 충돌 없이 무선 자원을 공유하는 가�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[087_다중접속_Multiple_Access|Multiple Access]] ([[087_다중접속_Multiple_Access|다중 접속]]) | 한정된 무선 자원을 여러 기기가 간섭 없이 나누어 쓰는 상위 기술 범주 |
-| [[946_guard_band_fdm_adjacent_channel_interference|Guard Band]] ([[074_보호_대역_Guard_Band|보호 대역]]) | 인접 주파수 채널 간의 [[130_signal|신호]] 간섭을 막기 위한 필수적인 완충 주파수 |
-| ACI (Adjacent Channel Interference) | 채널을 좁게 붙였을 때 옆 채널의 [[130_signal|신호]]가 필터를 넘어와 내 통신을 방해하는 현상 |
-| [[945_ofdma_orthogonal_frequency_division_multiple_access_resource_block|OFDMA]] (직교 주파수 분할 [[087_다중접속_Multiple_Access|다중 접속]]) | [[946_guard_band_fdm_adjacent_channel_interference|Guard Band]] 없이 [[085_부반송파_Subcarrier|부반송파]]를 촘촘히 겹쳐 FDMA의 주파수 낭비를 해결한 4G/[[418_5g_embb_urllc_mmtc_slicing|5G]] 기술 |
+| [Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) ([다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/)) | 한정된 무선 자원을 여러 기기가 간섭 없이 나누어 쓰는 상위 기술 범주 |
+| [Guard Band](/knowledge-base/studynote/03_network/19_frequent_topics_terms/946_guard_band_fdm_adjacent_channel_interference/) ([보호 대역](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/074_보호_대역_Guard_Band/)) | 인접 주파수 채널 간의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 간섭을 막기 위한 필수적인 완충 주파수 |
+| ACI (Adjacent Channel Interference) | 채널을 좁게 붙였을 때 옆 채널의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 필터를 넘어와 내 통신을 방해하는 현상 |
+| [OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) (직교 주파수 분할 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/)) | [Guard Band](/knowledge-base/studynote/03_network/19_frequent_topics_terms/946_guard_band_fdm_adjacent_channel_interference/) 없이 [부반송파](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/085_부반송파_Subcarrier/)를 촘촘히 겹쳐 FDMA의 주파수 낭비를 해결한 4G/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기술 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -134,7 +138,7 @@ OFDMA (직교성을 통한 Guard Band 제거 및 부반송파 분배로 효율 �
 
 **진행 상황**: 88 / 1120
 
-← **이전**: [[087_다중접속_Multiple_Access|87. 다중 접속 (Multiple Access) 개념 (MAC 계층 연관)]]
-**다음**: [[089_시분할_다중접속_TDMA|89. TDMA (Time Division Multiple Access) - 슬롯 할당]] →
+← **이전**: [87. 다중 접속 (Multiple Access) 개념 (MAC 계층 연관)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/)
+**다음**: [89. TDMA (Time Division Multiple Access) - 슬롯 할당](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/) →
 
 ---

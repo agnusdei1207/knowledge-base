@@ -1,37 +1,41 @@
----
-title: 107. 초연결 사회 (Hyper-connected Society)
-tags:
-- ict_convergence
----
++++
+title = "107. 초연결 사회 (Hyper-connected Society)"
+
+[taxonomies]
+tags = ["ict_convergence"]
+
+[extra]
+tags = ["ict_convergence"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 초연결 사회 (Hyper-connected Society)는 사람과 사람의 연결을 넘어 사물, 공간, [[001_dikw_pyramid|데이터]] 등 세상의 모든 요소가 인터넷망과 [[418_5g_embb_urllc_mmtc_slicing|5G]] 등으로 24시간 끊김 없이 상호 연결된 융합 유기체적 사회다.
-> 2. **가치**: 이 사회는 [[101_iot_concept|IoT]] 센서가 거두어들인 빅데이터를 클라우드와 AI가 실시간으로 분석하여, 인간의 명시적 개입 없이도 최적화된 자율형 [[090_service_kubernetes_network_load_balancing|서비스]]([[171_smart_city_platform_architecture|스마트 시티]], 자율주행)를 제공한다.
+> 1. **본질**: 초연결 사회 (Hyper-connected Society)는 사람과 사람의 연결을 넘어 사물, 공간, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 등 세상의 모든 요소가 인터넷망과 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 등으로 24시간 끊김 없이 상호 연결된 융합 유기체적 사회다.
+> 2. **가치**: 이 사회는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서가 거두어들인 빅데이터를 클라우드와 AI가 실시간으로 분석하여, 인간의 명시적 개입 없이도 최적화된 자율형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)([스마트 시티](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/171_smart_city_platform_architecture/), 자율주행)를 제공한다.
 > 3. **판단 포인트**: 초연결성은 엄청난 편리함을 주지만, 동시에 단일 진입점 해킹이 물리적 생명 위협이나 국가 마비로 이어지는 '초위험 사회'의 양날의 검이므로 강력한 보안 내재화가 필수적이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-초연결 사회는 사람(Human), 사물(Thing), 공간(Space)이 통신 인프라를 통해 거미줄처럼 밀접하게 연결되어, 오프라인의 물리적 현실이 디지털 [[001_dikw_pyramid|데이터]]로 실시간 동기화되는 세상을 뜻한다. 
+초연결 사회는 사람(Human), 사물(Thing), 공간(Space)이 통신 인프라를 통해 거미줄처럼 밀접하게 연결되어, 오프라인의 물리적 현실이 디지털 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 실시간 동기화되는 세상을 뜻한다. 
 
-과거 [[164_pc|PC]] 기반의 인터넷이 '공간의 제약'을 극복하고, 스마트폰 기반의 모바일 웹이 '시간의 제약'을 없앴다면, 이제는 연결의 주체가 '만물'로 확장되었다. 이 개념이 필요한 이유는 인구 증가와 자원 고갈, 도시화로 인한 복잡한 사회 문제를 해결하기 위해, 인간의 인지 능력을 뛰어넘어 사물들이 스스로 소통하고 제어하는([[602_m2m_machine_to_machine_telemetry|M2M]], Machine to Machine) 지능화된 자동화 인프라가 필수적이기 때문이다.
+과거 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 기반의 인터넷이 '공간의 제약'을 극복하고, 스마트폰 기반의 모바일 웹이 '시간의 제약'을 없앴다면, 이제는 연결의 주체가 '만물'로 확장되었다. 이 개념이 필요한 이유는 인구 증가와 자원 고갈, 도시화로 인한 복잡한 사회 문제를 해결하기 위해, 인간의 인지 능력을 뛰어넘어 사물들이 스스로 소통하고 제어하는([M2M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/602_m2m_machine_to_machine_telemetry/), Machine to Machine) 지능화된 자동화 인프라가 필수적이기 때문이다.
 
-- **📢 섹션 요약 비유**: 초연결 사회는 지구 전체에 신경망을 덮어씌운 것과 같다. 손끝이 뜨거우면 뇌가 판단하기 전에 몸이 먼저 반응하듯, 도시의 센서가 [[001_dikw_pyramid|데이터]]를 수집하면 AI가 알아서 신호등과 전력을 조절하는 살아있는 생명체가 되는 것이다.
+- **📢 섹션 요약 비유**: 초연결 사회는 지구 전체에 신경망을 덮어씌운 것과 같다. 손끝이 뜨거우면 뇌가 판단하기 전에 몸이 먼저 반응하듯, 도시의 센서가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수집하면 AI가 알아서 신호등과 전력을 조절하는 살아있는 생명체가 되는 것이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-초연결 사회를 지탱하는 아키텍처는 [[001_dikw_pyramid|데이터]]의 '수집-전달-분석-행동'이라는 거대한 순환 루프로 구성된다. 이를 기술적으로 뒷받침하는 것이 AICBM([[190_ai_llm_requirements_specification|AI]], [[101_iot_concept|IoT]], Cloud, Big [[001_dikw_pyramid|Data]], Mobile) 인프라다.
+초연결 사회를 지탱하는 아키텍처는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 '수집-전달-분석-행동'이라는 거대한 순환 루프로 구성된다. 이를 기술적으로 뒷받침하는 것이 AICBM([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), Cloud, Big [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), Mobile) 인프라다.
 
 | 핵심 계층 | 핵심 기술 요소 | 역할 및 메커니즘 |
 | :--- | :--- | :--- |
-| **인지 (Perception)** | [[101_iot_concept|사물인터넷]] ([[101_iot_concept|IoT]]), 센서 | 현실 세계의 온도, 위치, 상태를 디지털 [[001_dikw_pyramid|데이터]]로 변환 |
-| **전달 (Network)** | [[418_5g_embb_urllc_mmtc_slicing|5G]], [[419_6g_ntn_thz_ris_next_gen|6G]] 통신망 | 초저지연([[761_urllc_ultra_reliable_low_latency|URLLC]]), 초연결([[762_mmtc_massive_machine_type_communications|mMTC]])로 방대한 [[001_dikw_pyramid|데이터]]를 실시간 전송 |
-| **분석 (Processing)** | 클라우드 (Cloud), 빅데이터 | 끝없이 밀려오는 비정형 [[001_dikw_pyramid|데이터]]를 저장하고 구조화 |
-| **판단 및 제어 (Action)** | [[231_ai_turing_test|인공지능]] ([[190_ai_llm_requirements_specification|AI]]), [[235_edge_computing_smart_factory|엣지 컴퓨팅]] | [[001_dikw_pyramid|데이터]]를 학습해 통찰을 도출하고 사물에 자율 동작 명령 하달 |
+| **인지 (Perception)** | [사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) ([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)), 센서 | 현실 세계의 온도, 위치, 상태를 디지털 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 변환 |
+| **전달 (Network)** | [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/), [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 통신망 | 초저지연([URLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/)), 초연결([mMTC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/762_mmtc_massive_machine_type_communications/))로 방대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실시간 전송 |
+| **분석 (Processing)** | 클라우드 (Cloud), 빅데이터 | 끝없이 밀려오는 비정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저장하고 구조화 |
+| **판단 및 제어 (Action)** | [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) ([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)), [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 학습해 통찰을 도출하고 사물에 자율 동작 명령 하달 |
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -45,7 +49,7 @@ tags:
 │ 지능형 엣지 노드      ◀──(AI 모델)── 클라우드 AI 분석 엔진  │
 └──────────────────────────────────────────────────────────────┘
 ```
-이 그림의 핵심은 사람이 개입하는 단계가 사라지고, 사물에서 발생한 [[001_dikw_pyramid|데이터]]가 클라우드의 AI로 넘어가 최적의 판단을 거친 뒤 다시 물리적 세계를 조작하는 **완전한 자동 [[005_feedback_loop|피드백 루프]]**를 형성한다는 점이다.
+이 그림의 핵심은 사람이 개입하는 단계가 사라지고, 사물에서 발생한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 클라우드의 AI로 넘어가 최적의 판단을 거친 뒤 다시 물리적 세계를 조작하는 **완전한 자동 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)**를 형성한다는 점이다.
 
 - **📢 섹션 요약 비유**: IoT는 세상의 '눈과 귀'이고, 5G는 가장 빠른 '혈관'이며, 클라우드와 AI는 그 혈관을 타고 온 정보를 처리하는 거대한 '두뇌'다. 이 셋이 합쳐져 지구라는 하나의 뇌를 깨운다.
 
@@ -57,12 +61,12 @@ tags:
 
 | 항목 | 유선 인터넷 (Web 1.0/2.0) | 모바일 인터넷 (모바일 시대) | 초연결 사회 (현재/미래) |
 | :--- | :--- | :--- | :--- |
-| **연결 주체** | 사람 ↔ 컴퓨터 | 사람 ↔ 스마트폰 ↔ 사람 | 사물 ↔ 사물 ([[602_m2m_machine_to_machine_telemetry|M2M]]), 만물 융합 |
+| **연결 주체** | 사람 ↔ 컴퓨터 | 사람 ↔ 스마트폰 ↔ 사람 | 사물 ↔ 사물 ([M2M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/602_m2m_machine_to_machine_telemetry/)), 만물 융합 |
 | **연결 규모** | 수억 대 | 수십억 대 | 수백억 ~ 수천억 대 |
-| **[[001_dikw_pyramid|데이터]] 성격** | 문서, 텍스트 기반 | 사진, 영상, 실시간 스트림 | 센서 시계열 [[001_dikw_pyramid|데이터]], 비정형 패턴 |
-| **상호 작용** | 인간의 검색(Pull) | 인간의 소셜 상호작용(Push) | [[190_ai_llm_requirements_specification|AI]] 기반의 자율적 판단 및 제어 |
+| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 성격** | 문서, 텍스트 기반 | 사진, 영상, 실시간 스트림 | 센서 시계열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 비정형 패턴 |
+| **상호 작용** | 인간의 검색(Pull) | 인간의 소셜 상호작용(Push) | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반의 자율적 판단 및 제어 |
 
-이전 시대가 [[001_dikw_pyramid|데이터]]의 '공유'에 초점을 맞췄다면, 초연결 사회는 [[001_dikw_pyramid|데이터]]를 통한 물리적 세계의 '지능적 통제'에 방점이 찍힌다. [[126_digital_twin_concept|디지털 트윈]]([[126_digital_twin_concept|Digital Twin]])과 메타버스는 이러한 연결성을 시각적, 공간적으로 구현한 확장 개념이다.
+이전 시대가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 '공유'에 초점을 맞췄다면, 초연결 사회는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 통한 물리적 세계의 '지능적 통제'에 방점이 찍힌다. [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)([Digital Twin](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/))과 메타버스는 이러한 연결성을 시각적, 공간적으로 구현한 확장 개념이다.
 
 - **📢 섹션 요약 비유**: 과거가 사람들이 우체국을 통해 편지를 주고받는 시대라면, 초연결 사회는 우체통, 편지, 배달부, 심지어 날씨까지 서로 눈빛만 보고도 알아서 최적의 길을 찾아 움직이는 텔레파시 세상이다.
 
@@ -70,24 +74,24 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-초연결 아키텍처를 설계하는 실무자나 기술사는 폭발하는 [[001_dikw_pyramid|데이터]] 처리와 치명적인 보안 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 사이에서 균형을 잡아야 한다.
+초연결 아키텍처를 설계하는 실무자나 기술사는 폭발하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리와 치명적인 보안 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 사이에서 균형을 잡아야 한다.
 
-**[ 아키텍처 설계 [[435_checklist_based_testing|체크리스트]] ]**
-1. **[[235_edge_computing_smart_factory|엣지 컴퓨팅]] 도입**: 수백억 개의 사물이 중앙 클라우드로만 통신하면 [[140_bandwidth|대역폭]]이 붕괴된다. 지연에 민감한 [[001_dikw_pyramid|데이터]](자율주행 제동 등)는 엣지(단말 근처)에서 즉시 처리하도록 [[136_variance|분산]] 설계했는가?
-2. **보안 내재화 ([[058_security_by_design|Security by Design]])**: 모든 사물이 인터넷에 열려있으므로 [[667_zero_trust_runtime_integrity_measurement|제로 트러스트]]([[667_zero_trust_runtime_integrity_measurement|Zero Trust]]) 기반 [[303_authentication_authorization_patterns|인증]] 체계를 갖추었는가?
+**[ 아키텍처 설계 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) ]**
+1. **[엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) 도입**: 수백억 개의 사물이 중앙 클라우드로만 통신하면 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 붕괴된다. 지연에 민감한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(자율주행 제동 등)는 엣지(단말 근처)에서 즉시 처리하도록 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 설계했는가?
+2. **보안 내재화 ([Security by Design](/knowledge-base/studynote/09_security/01_intro_principles/058_security_by_design/))**: 모든 사물이 인터넷에 열려있으므로 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)) 기반 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 체계를 갖추었는가?
 
 **[ 기술사적 의사결정 ]**
-- **[[452_availability|가용성]] vs [[002_confidentiality|기밀성]] 판단**: 스마트 팩토리나 헬스케어 인프라에서는 연결 단절이 곧 물리적 피해(생명, 천문학적 손실)로 이어진다. 따라서 단일 실패점([[454_spof|SPOF]])을 제거하는 [[071_다중화_Multiplexing|다중화]] 설계가 최우선이며, 그 다음이 경량 암호화를 통한 [[002_confidentiality|기밀성]] 확보다.
+- **[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) vs [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) 판단**: 스마트 팩토리나 헬스케어 인프라에서는 연결 단절이 곧 물리적 피해(생명, 천문학적 손실)로 이어진다. 따라서 단일 실패점([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))을 제거하는 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) 설계가 최우선이며, 그 다음이 경량 암호화를 통한 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) 확보다.
 
-- **📢 섹션 요약 비유**: 100만 대의 차가 다니는 초연결 고속도로를 설계할 때는, 단순히 도로 폭([[140_bandwidth|대역폭]])만 넓힐 것이 아니라, 사고 났을 때 연쇄 추돌을 막는 방어벽(보안)과 현장 즉시 구호소([[235_edge_computing_smart_factory|엣지 컴퓨팅]])를 반드시 같이 지어야 한다.
+- **📢 섹션 요약 비유**: 100만 대의 차가 다니는 초연결 고속도로를 설계할 때는, 단순히 도로 폭([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))만 넓힐 것이 아니라, 사고 났을 때 연쇄 추돌을 막는 방어벽(보안)과 현장 즉시 구호소([엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/))를 반드시 같이 지어야 한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-초연결 사회는 에너지 효율 최적화, 맞춤형 의료 [[090_service_kubernetes_network_load_balancing|서비스]], [[171_smart_city_platform_architecture|스마트 시티]] 구현 등 인류 삶의 질을 근본적으로 혁신하는 기대효과를 갖는다. [[001_dikw_pyramid|데이터]]가 곧 자본이 되며, 산업 간의 경계가 무너지는 융합 비즈니스가 창출된다.
+초연결 사회는 에너지 효율 최적화, 맞춤형 의료 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), [스마트 시티](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/171_smart_city_platform_architecture/) 구현 등 인류 삶의 질을 근본적으로 혁신하는 기대효과를 갖는다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 곧 자본이 되며, 산업 간의 경계가 무너지는 융합 비즈니스가 창출된다.
 
-그러나 완벽한 연결은 완벽한 종속을 뜻하기도 한다. 사이버-물리 시스템([[167_cps_cyber_physical_system|CPS]])에 대한 해킹 공격은 현실 세계의 물리적 타격으로 이어지며, 프라이버시 상실과 [[190_ai_llm_requirements_specification|AI]] 빅브라더의 통제 위험이라는 숙제를 남긴다. 결론적으로 초연결 사회의 성공은 "얼마나 많이 연결하느냐"가 아니라, "얼마나 안전하고 신뢰할 수 있게 연결을 통제하느냐"에 달려 있다.
+그러나 완벽한 연결은 완벽한 종속을 뜻하기도 한다. 사이버-물리 시스템([CPS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/167_cps_cyber_physical_system/))에 대한 해킹 공격은 현실 세계의 물리적 타격으로 이어지며, 프라이버시 상실과 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 빅브라더의 통제 위험이라는 숙제를 남긴다. 결론적으로 초연결 사회의 성공은 "얼마나 많이 연결하느냐"가 아니라, "얼마나 안전하고 신뢰할 수 있게 연결을 통제하느냐"에 달려 있다.
 
 - **📢 섹션 요약 비유**: 모든 방이 문 없이 뚫려 있는 초대형 저택은 돌아다니기 최고로 편하지만, 도둑 한 명이 들어오면 모든 방이 털린다. 초연결의 편리함은 강력한 잠금장치가 보장될 때만 축복이 된다.
 
@@ -97,10 +101,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[101_iot_concept|IoT]] (Internet of Things) | 초연결 사회의 기본 세포이자 [[001_dikw_pyramid|데이터]]를 생성하는 수십억 개의 감각 기관 |
-| [[418_5g_embb_urllc_mmtc_slicing|5G]] / [[419_6g_ntn_thz_ris_next_gen|6G]] | 대규모 기기를 끊김 없이 초저지연으로 연결하는 필수 통신 인프라 |
-| [[235_edge_computing_smart_factory|엣지 컴퓨팅]] ([[235_edge_computing_smart_factory|Edge Computing]]) | 클라우드의 병목을 해소하기 위해 [[001_dikw_pyramid|데이터]] 발생지 근처에서 처리하는 기술 |
-| [[667_zero_trust_runtime_integrity_measurement|제로 트러스트]] ([[667_zero_trust_runtime_integrity_measurement|Zero Trust]]) | 모든 연결이 뚫릴 수 있음을 전제하고 끊임없이 검증하는 최신 보안 철학 |
+| [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) (Internet of Things) | 초연결 사회의 기본 세포이자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 생성하는 수십억 개의 감각 기관 |
+| [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) / [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) | 대규모 기기를 끊김 없이 초저지연으로 연결하는 필수 통신 인프라 |
+| [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) ([Edge Computing](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)) | 클라우드의 병목을 해소하기 위해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 발생지 근처에서 처리하는 기술 |
+| [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) ([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)) | 모든 연결이 뚫릴 수 있음을 전제하고 끊임없이 검증하는 최신 보안 철학 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -120,7 +124,7 @@ tags:
 디지털 트윈 (Digital Twin) · 메타버스 융합
 ```
 
-이 흐름도는 연결의 대상이 사람에서 사물로, 수동적 [[001_dikw_pyramid|데이터]] 교환에서 [[190_ai_llm_requirements_specification|AI]] 기반의 자율적 융합 및 [[015_virtualization|가상화]] 공간으로 진화하는 과정을 보여준다.
+이 흐름도는 연결의 대상이 사람에서 사물로, 수동적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 교환에서 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반의 자율적 융합 및 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 공간으로 진화하는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -134,7 +138,7 @@ tags:
 
 **진행 상황**: 107 / 552
 
-← **이전**: [[106_fog_computing_cisco_architecture|106. 포그 컴퓨팅 (Fog Computing) - 시스코 제안, 클라우드와 엣지 사이의 지역 노드(게이트웨이) 단에서 분산 처리]]
-**다음**: [[108_iot_wireless_networks_wpan_wlan_lpwan|108. IoT 무선 통신 기술 분류 (WPAN, WLAN, LPWAN)]] →
+← **이전**: [106. 포그 컴퓨팅 (Fog Computing) - 시스코 제안, 클라우드와 엣지 사이의 지역 노드(게이트웨이) 단에서 분산 처리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/106_fog_computing_cisco_architecture/)
+**다음**: [108. IoT 무선 통신 기술 분류 (WPAN, WLAN, LPWAN)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/108_iot_wireless_networks_wpan_wlan_lpwan/) →
 
 ---

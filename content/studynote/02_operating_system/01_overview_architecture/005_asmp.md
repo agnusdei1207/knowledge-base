@@ -1,30 +1,34 @@
----
-title: 5. 비대칭 다중 처리 (ASMP, Asymmetric Multiprocessing)
-date: '2026-03-21'
-tags:
-- studynote-operating-system
----
++++
+title = "5. 비대칭 다중 처리 (ASMP, Asymmetric Multiprocessing)"
+date = 2026-03-21
 
-# [[194_numa_scheduling|비대칭 다중 처리]] ([[194_numa_scheduling|ASMP]], Asymmetric Multiprocessing)
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
+
+# [비대칭 다중 처리](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/194_numa_scheduling/) ([ASMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/194_numa_scheduling/), Asymmetric Multiprocessing)
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [[194_numa_scheduling|비대칭 다중 처리]] ([[194_numa_scheduling|ASMP]], Asymmetric Multiprocessing)는 하나의 마스터 (Master) 프로세서가 [[001_operating_system_purpose|운영체제]] (OS)를 실행하며 전체 시스템 자원과 스케줄링을 전담하고, 나머지 슬레이브 (Slave) 프로세서들은 마스터의 지시에 따라 사용자 작업만을 수행하는 주종 [[083_relationship_in_er_model|관계]] 기반의 아키텍처다.
-> 2. **가치**: [[382_smp|대칭형 다중 처리]] ([[195_real_time_scheduling|SMP]]) 대비 [[022_kernel_role|커널]]의 [[212_synchronization_mechanisms|동기화]] 및 락 ([[510_lock|Lock]]) 경합 문제를 단순화할 수 있어 설계가 용이하며, [[459_quic_fec_forward_error_correction|초기]] 다중 처리 시스템이나 특정 연산 전용 가속기 환경에서 효율적인 통제를 가능하게 한다.
-> 3. **융합**: 현대에는 빅리틀 (big.LITTLE) 아키텍처와 같은 [[439_heterogeneous_computing|이기종 컴퓨팅]] ([[439_heterogeneous_computing|Heterogeneous Computing]])으로 진화하여, [[282_performance_tactics|성능]] 중심 코어와 전력 효율 중심 코어를 비대칭적으로 운영하는 저전력 [[268_strategy_pattern|전략]]의 핵심이 되고 있다.
+> 1. **본질**: [비대칭 다중 처리](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/194_numa_scheduling/) ([ASMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/194_numa_scheduling/), Asymmetric Multiprocessing)는 하나의 마스터 (Master) 프로세서가 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (OS)를 실행하며 전체 시스템 자원과 스케줄링을 전담하고, 나머지 슬레이브 (Slave) 프로세서들은 마스터의 지시에 따라 사용자 작업만을 수행하는 주종 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 기반의 아키텍처다.
+> 2. **가치**: [대칭형 다중 처리](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/382_smp/) ([SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/)) 대비 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 및 락 ([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 경합 문제를 단순화할 수 있어 설계가 용이하며, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 다중 처리 시스템이나 특정 연산 전용 가속기 환경에서 효율적인 통제를 가능하게 한다.
+> 3. **융합**: 현대에는 빅리틀 (big.LITTLE) 아키텍처와 같은 [이기종 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/439_heterogeneous_computing/) ([Heterogeneous Computing](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/439_heterogeneous_computing/))으로 진화하여, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 중심 코어와 전력 효율 중심 코어를 비대칭적으로 운영하는 저전력 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 핵심이 되고 있다.
 
 ---
 
-## Ⅰ. 개요 및 필요성 ([[033_context|Context]] & Necessity)
+## Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-- **개념**: [[194_numa_scheduling|비대칭 다중 처리]] ([[194_numa_scheduling|ASMP]], Asymmetric Multiprocessing)는 시스템 내의 여러 프로세서 중 단 하나(Master)만이 [[022_kernel_role|커널]] 코드 실행, I/O (Input/Output) 처리, 스케줄링 등 시스템 관리 권한을 독점하는 구조다. 슬레이브 (Slave) 프로세서들은 [[001_operating_system_purpose|운영체제]]에 직접 접근할 수 없으며, 마스터에 의해 할당된 실행 코드를 단순 연산 처리하는 역할에 국한된다.
+- **개념**: [비대칭 다중 처리](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/194_numa_scheduling/) ([ASMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/194_numa_scheduling/), Asymmetric Multiprocessing)는 시스템 내의 여러 프로세서 중 단 하나(Master)만이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드 실행, I/O (Input/Output) 처리, 스케줄링 등 시스템 관리 권한을 독점하는 구조다. 슬레이브 (Slave) 프로세서들은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에 직접 접근할 수 없으며, 마스터에 의해 할당된 실행 코드를 단순 연산 처리하는 역할에 국한된다.
 
-- **필요성**: 여러 프로세서가 동시에 [[001_operating_system_purpose|운영체제]] [[022_kernel_role|커널]]에 접근하면 공유 자원 ([[001_dikw_pyramid|데이터]] 구조 등)을 보호하기 위해 매우 복잡한 락 ([[213_locking_mechanism_concurrency_control|Locking]]) 메커니즘이 필요하다. ASMP는 '관리자는 오직 하나'라는 단순한 철학을 통해 이러한 [[022_kernel_role|커널]] 복잡도를 획기적으로 낮춘다. 또한 특수 목적의 연산 (DSP, [[418_gpu|GPU]] 연산 등)을 지원하는 보조 프로세서가 포함된 시스템에서 중앙 제어를 명확히 하기 위해 도입되었다.
+- **필요성**: 여러 프로세서가 동시에 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 접근하면 공유 자원 ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조 등)을 보호하기 위해 매우 복잡한 락 ([Locking](/knowledge-base/studynote/05_database/04_transactions_concurrency/213_locking_mechanism_concurrency_control/)) 메커니즘이 필요하다. ASMP는 '관리자는 오직 하나'라는 단순한 철학을 통해 이러한 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 복잡도를 획기적으로 낮춘다. 또한 특수 목적의 연산 (DSP, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 연산 등)을 지원하는 보조 프로세서가 포함된 시스템에서 중앙 제어를 명확히 하기 위해 도입되었다.
 
 - **💡 비유**: ASMP는 "한 명의 감독관과 여러 명의 단순 노무자"가 있는 공장과 같다. 감독관만이 설계도(OS)를 보고 일감을 배정하며, 노무자들은 받은 일감(사용자 코드)만 묵묵히 처리하는 형태다.
 
-- **기존 한계와 ASMP의 위치**: [[195_real_time_scheduling|SMP]] 기술이 성숙하기 전, 하드웨어적으로 여러 CPU를 연결하면서도 소프트웨어의 복잡성을 피하기 위해 널리 사용되었다. 현대에는 임베디드 시스템이나 특화된 [[190_ai_llm_requirements_specification|AI]] 가속기 시스템에서 여전히 유효한 구조로 활용된다.
+- **기존 한계와 ASMP의 위치**: [SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) 기술이 성숙하기 전, 하드웨어적으로 여러 CPU를 연결하면서도 소프트웨어의 복잡성을 피하기 위해 널리 사용되었다. 현대에는 임베디드 시스템이나 특화된 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속기 시스템에서 여전히 유효한 구조로 활용된다.
 
-이 도식은 ASMP의 핵심인 주종 [[083_relationship_in_er_model|관계]] (Master-Slave) 토폴로지를 시각적으로 표현한다.
+이 도식은 ASMP의 핵심인 주종 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) (Master-Slave) 토폴로지를 시각적으로 표현한다.
 
 ```text
 ┌───────────────────────────────────────────────────────────────────┐
@@ -47,7 +51,7 @@ tags:
 └───────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** [[194_numa_scheduling|비대칭 다중 처리]] ([[194_numa_scheduling|ASMP]], Asymmetric Multiprocessing) 시스템에서 Master CPU는 [[001_operating_system_purpose|운영체제]]의 [[022_kernel_role|커널]]을 전독적으로 실행한다. 시스템의 모든 [[017_hardware_interrupt|하드웨어 인터럽트]] ([[016_interrupt_mechanism|Interrupt]])와 I/O 요청은 오직 Master에게만 전달된다. 반면 Slave CPU들은 마스터로부터 전달받은 사용자 프로세스나 스레드만을 실행하며, 만약 I/O가 필요하거나 시스템 서비스를 호출해야 할 경우 Master에게 요청을 보낸 뒤 결과를 기다려야 한다. 이러한 구조는 [[022_kernel_role|커널]] 수준의 [[212_synchronization_mechanisms|동기화]] 오버헤드를 줄여 설계 비용을 낮추지만, 모든 시스템 관리가 단일 CPU에 집중되므로 Master의 [[282_performance_tactics|성능]]이 전체 시스템의 한계 ([[617_io_bottleneck|Bottleneck]])를 결정짓는 결정적 요인이 된다.
+**[다이어그램 해설]** [비대칭 다중 처리](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/194_numa_scheduling/) ([ASMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/194_numa_scheduling/), Asymmetric Multiprocessing) 시스템에서 Master CPU는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 전독적으로 실행한다. 시스템의 모든 [하드웨어 인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/) ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))와 I/O 요청은 오직 Master에게만 전달된다. 반면 Slave CPU들은 마스터로부터 전달받은 사용자 프로세스나 스레드만을 실행하며, 만약 I/O가 필요하거나 시스템 서비스를 호출해야 할 경우 Master에게 요청을 보낸 뒤 결과를 기다려야 한다. 이러한 구조는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 수준의 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 오버헤드를 줄여 설계 비용을 낮추지만, 모든 시스템 관리가 단일 CPU에 집중되므로 Master의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 전체 시스템의 한계 ([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))를 결정짓는 결정적 요인이 된다.
 
 - **📢 섹션 요약 비유**: 복잡한 오케스트라에서 지휘자만이 악보를 보고 각 연주자에게 연주 시점을 지시하며, 연주자들은 지휘자의 손짓에 따라서만 소리를 내는 엄격한 지휘 체계와 같습니다.
 
@@ -59,11 +63,11 @@ tags:
 
 | 요소명 | 역할 | 내부 동작 | 비유 |
 |:---|:---|:---|:---|
-| **Master 프로세서** | 시스템 관리 및 의사결정 | [[022_kernel_role|커널]] 실행, 스케줄링, I/O 처리 전담 | 총괄 매니저 |
+| **Master 프로세서** | 시스템 관리 및 의사결정 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 실행, 스케줄링, I/O 처리 전담 | 총괄 매니저 |
 | **Slave 프로세서** | 실제 사용자 작업 수행 | 마스터가 배정한 사용자 코드 연산 | 생산 라인 직원 |
-| **작업 [[168_dispatcher|디스패처]]** | 마스터 내에서 슬레이브로 작업 전달 | 준비 큐에서 작업을 꺼내 슬레이브 메모리에 로드 | 작업 지시서 전달 |
-| **[[117_ipc|IPC]] 메커니즘** | 프로세서 간 통신 (Inter-processor) | 마스터와 슬레이브 간의 상태 공유 및 요청 전달 | 사내 인터폰 |
-| **[[118_shared_memory|공유 메모리]]** | 코드 및 [[386_data_clean_room_sharing|데이터 공유]] 공간 | 모든 프로세서가 접근 가능한 통합 메모리 공간 | 공용 자재 창고 |
+| **작업 [디스패처](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/168_dispatcher/)** | 마스터 내에서 슬레이브로 작업 전달 | 준비 큐에서 작업을 꺼내 슬레이브 메모리에 로드 | 작업 지시서 전달 |
+| **[IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 메커니즘** | 프로세서 간 통신 (Inter-processor) | 마스터와 슬레이브 간의 상태 공유 및 요청 전달 | 사내 인터폰 |
+| **[공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)** | 코드 및 [데이터 공유](/knowledge-base/studynote/05_database/06_dw_olap_trends/386_data_clean_room_sharing/) 공간 | 모든 프로세서가 접근 가능한 통합 메모리 공간 | 공용 자재 창고 |
 
 ---
 
@@ -81,11 +85,11 @@ tags:
 4. [Master 처리] ──▶ [I/O 장치 인터럽트 수신] ──▶ [결과 전달] ──▶ [Slave 재개]
 ```
 
-**[다이어그램 해설]** [[194_numa_scheduling|ASMP]] 환경에서 슬레이브 (Slave) 프로세서는 반쪽짜리 주권만을 가진다. 위 흐름도에서 보듯, 슬레이브에서 실행 중인 작업이 디스크 읽기나 네트워크 전송 같은 I/O를 필요로 하면, 슬레이브는 스스로 하드웨어를 제어할 수 없으므로 마스터 (Master)에게 시스템 콜 ([[013_system_call|System Call]]) 형태의 요청을 보낸다. 마스터는 이 요청을 받아 대신 하드웨어를 조작하고 [[016_interrupt_mechanism|인터럽트]]를 처리한 뒤 결과를 다시 슬레이브에게 넘겨준다. 이 과정에서 슬레이브는 유휴 상태 ([[611_cpu_idle_wait_optimization|Idle]])에 빠지게 되며, 많은 슬레이브가 동시에 마스터에게 요청을 보낼 경우 마스터의 작업 큐가 급격히 쌓이는 '마스터 병목 현상'이 발생한다. 따라서 ASMP는 슬레이브 수가 적거나, I/O 비중이 매우 낮은 연산 집약적 작업 환경에서 효율적이다.
+**[다이어그램 해설]** [ASMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/194_numa_scheduling/) 환경에서 슬레이브 (Slave) 프로세서는 반쪽짜리 주권만을 가진다. 위 흐름도에서 보듯, 슬레이브에서 실행 중인 작업이 디스크 읽기나 네트워크 전송 같은 I/O를 필요로 하면, 슬레이브는 스스로 하드웨어를 제어할 수 없으므로 마스터 (Master)에게 시스템 콜 ([System Call](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/)) 형태의 요청을 보낸다. 마스터는 이 요청을 받아 대신 하드웨어를 조작하고 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 처리한 뒤 결과를 다시 슬레이브에게 넘겨준다. 이 과정에서 슬레이브는 유휴 상태 ([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/))에 빠지게 되며, 많은 슬레이브가 동시에 마스터에게 요청을 보낼 경우 마스터의 작업 큐가 급격히 쌓이는 '마스터 병목 현상'이 발생한다. 따라서 ASMP는 슬레이브 수가 적거나, I/O 비중이 매우 낮은 연산 집약적 작업 환경에서 효율적이다.
 
 ---
 
-### 마스터 병목 현상 (Master [[617_io_bottleneck|Bottleneck]]) [[003_bigdata_7v|시각화]]
+### 마스터 병목 현상 (Master [Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/)) [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)
 
 프로세서 수가 늘어남에 따라 마스터의 부하가 어떻게 임계치에 도달하는지 보여준다.
 
@@ -99,7 +103,7 @@ tags:
        (슬레이브들은 마스터의 처리가 끝날 때까지 모두 정지 상태)
 ```
 
-**[다이어그램 해설]** 비대칭 구조의 가장 치명적인 단점은 확장성 (Scalability)의 한계다. 도식에서 보듯 Slave CPU의 개수가 증가할수록 마스터가 처리해야 할 관리 업무 ([[016_interrupt_mechanism|인터럽트]], [[041_resource_allocation|자원 할당]], [[117_ipc|IPC]])는 기하급수적으로 늘어난다. 어느 시점에 도달하면 마스터는 100% 가동되지만 슬레이브들은 마스터의 승인을 기다리느라 놀게 되는 현상이 발생한다. 이를 마스터 병목 (Master [[617_io_bottleneck|Bottleneck]])이라 하며, 이 때문에 범용 서버 시장에서는 [[194_numa_scheduling|ASMP]] 대신 모든 CPU가 관리 기능을 나누어 갖는 [[195_real_time_scheduling|SMP]] (Symmetric Multiprocessing)로 패러다임이 완전히 전환되었다. 하지만 [[282_performance_tactics|성능]]이 낮은 소형 코어와 고성능 코어를 섞어 쓰는 특수 목적 [[131_soc|SoC]] ([[131_soc|System on Chip]])에서는 여전히 제어의 단순성을 위해 이 구조가 변형되어 사용된다.
+**[다이어그램 해설]** 비대칭 구조의 가장 치명적인 단점은 확장성 (Scalability)의 한계다. 도식에서 보듯 Slave CPU의 개수가 증가할수록 마스터가 처리해야 할 관리 업무 ([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/), [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/))는 기하급수적으로 늘어난다. 어느 시점에 도달하면 마스터는 100% 가동되지만 슬레이브들은 마스터의 승인을 기다리느라 놀게 되는 현상이 발생한다. 이를 마스터 병목 (Master [Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))이라 하며, 이 때문에 범용 서버 시장에서는 [ASMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/194_numa_scheduling/) 대신 모든 CPU가 관리 기능을 나누어 갖는 [SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) (Symmetric Multiprocessing)로 패러다임이 완전히 전환되었다. 하지만 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 낮은 소형 코어와 고성능 코어를 섞어 쓰는 특수 목적 [SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) ([System on Chip](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/))에서는 여전히 제어의 단순성을 위해 이 구조가 변형되어 사용된다.
 
 - **📢 섹션 요약 비유**: 한 명의 사장이 모든 결재를 직접 하는 중소기업에서, 직원이 늘어날수록 사장실 앞에 결재 서류가 쌓여 회사가 멈추는 상황과 같습니다.
 
@@ -107,43 +111,43 @@ tags:
 
 ## Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
-### [[194_numa_scheduling|ASMP]] vs [[195_real_time_scheduling|SMP]] 아키텍처 다각도 분석
+### [ASMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/194_numa_scheduling/) vs [SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) 아키텍처 다각도 분석
 
-| 비교 항목 | [[194_numa_scheduling|비대칭 다중 처리]] ([[194_numa_scheduling|ASMP]]) | [[382_smp|대칭형 다중 처리]] ([[195_real_time_scheduling|SMP]]) |
+| 비교 항목 | [비대칭 다중 처리](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/194_numa_scheduling/) ([ASMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/194_numa_scheduling/)) | [대칭형 다중 처리](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/382_smp/) ([SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/)) |
 |:---|:---|:---|
-| **[[022_kernel_role|커널]] 설계** | 단순 (Master만 [[022_kernel_role|커널]] 실행) | 복잡 (모든 CPU가 [[022_kernel_role|커널]] 공유) |
-| **자원 경쟁** | 없음 (Master가 독점 관리) | 극심 ([[510_lock|Lock]]/[[224_semaphore|Semaphore]] 필수) |
+| **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 설계** | 단순 (Master만 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 실행) | 복잡 (모든 CPU가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공유) |
+| **자원 경쟁** | 없음 (Master가 독점 관리) | 극심 ([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)/[Semaphore](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) 필수) |
 | **장애 내성** | Master 고장 시 시스템 전체 중단 | CPU 하나 고장 나도 가동 가능 |
-| **하드웨어 구성** | 프로세서 간 [[282_performance_tactics|성능]] 차이 가능 | 보통 동일한 [[282_performance_tactics|성능]]의 CPU 사용 |
-| **주요 용도** | 특수 목적 가속기, [[459_quic_fec_forward_error_correction|초기]] 임베디드 | 범용 서버, [[164_pc|PC]], 스마트폰 |
+| **하드웨어 구성** | 프로세서 간 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이 가능 | 보통 동일한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 CPU 사용 |
+| **주요 용도** | 특수 목적 가속기, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 임베디드 | 범용 서버, [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), 스마트폰 |
 
 ### 현대적 진화: big.LITTLE과 ASMP의 시너지
 
 현대 모바일 프로세서의 big.LITTLE 아키텍처는 ASMP의 철학을 계층적으로 수용한다.
 - **big 코어**: 고성능, 고전력 (Master 업무 및 고부하 앱 실행).
 - **LITTLE 코어**: 저성능, 저전력 (백그라운드 작업 실행).
-- **시너지**: [[001_operating_system_purpose|운영체제]]는 작업의 부하에 따라 비대칭적으로 CPU를 할당함으로써 배터리 소모를 획기적으로 줄이는 '전력 효율적 다중 처리'를 구현한다.
+- **시너지**: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 작업의 부하에 따라 비대칭적으로 CPU를 할당함으로써 배터리 소모를 획기적으로 줄이는 '전력 효율적 다중 처리'를 구현한다.
 
 - **📢 섹션 요약 비유**: 모든 업무를 완벽히 똑같이 나누는 것이 아니라, 쉬운 일은 아르바이트생(Slave/LITTLE)에게, 결정적인 일은 숙련된 팀장(Master/big)에게 맡기는 효율적인 인력 배치와 같습니다.
 
 ---
 
-## Ⅳ. 실무 적용 및 기술사적 판단 ([[268_strategy_pattern|Strategy]] & Decision)
+## Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 
 ### 실무 적용 시나리오 및 아키텍처 판단 기준
 
-1. **시나리오 — 레거시 하드웨어의 [[071_다중화_Multiplexing|다중화]] 구현**: 기존의 단일 프로세서용 OS를 다중 CPU 환경으로 확장해야 할 때, [[022_kernel_role|커널]] 전체를 다시 설계하는 비용이 너무 크다면 [[194_numa_scheduling|ASMP]] 방식을 선택한다. Master CPU에게만 OS를 맡기고 나머지 CPU는 계산 엔진으로만 활용함으로써, 최소한의 수정으로 멀티 CPU의 계산 능력을 활용할 수 있다.
+1. **시나리오 — 레거시 하드웨어의 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) 구현**: 기존의 단일 프로세서용 OS를 다중 CPU 환경으로 확장해야 할 때, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 전체를 다시 설계하는 비용이 너무 크다면 [ASMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/194_numa_scheduling/) 방식을 선택한다. Master CPU에게만 OS를 맡기고 나머지 CPU는 계산 엔진으로만 활용함으로써, 최소한의 수정으로 멀티 CPU의 계산 능력을 활용할 수 있다.
 
-2. **시나리오 — 실시간 제어와 연산의 분리**: 산업용 로봇 제어 시스템에서 정밀한 타이밍 제어 (Real-time [[150_task|Task]])는 Master CPU가 전담하고, 복잡한 이미지 인식이나 경로 계산 (Heavy [[150_task|Task]])은 Slave CPU들에게 뿌려주는 구조를 설계한다. 이는 제어의 결정성 (Determinism)을 보장하면서도 연산 능력을 확보하는 최적의 [[268_strategy_pattern|전략]]이 된다.
+2. **시나리오 — 실시간 제어와 연산의 분리**: 산업용 로봇 제어 시스템에서 정밀한 타이밍 제어 (Real-time [Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))는 Master CPU가 전담하고, 복잡한 이미지 인식이나 경로 계산 (Heavy [Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))은 Slave CPU들에게 뿌려주는 구조를 설계한다. 이는 제어의 결정성 (Determinism)을 보장하면서도 연산 능력을 확보하는 최적의 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 된다.
 
-### 도입 시 [[435_checklist_based_testing|체크리스트]]
+### 도입 시 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 - **마스터 가동률**: 시스템 피크 타임 시 Master CPU의 점유율이 80%를 넘지 않는가?
-- **장애 전이 [[268_strategy_pattern|전략]]**: Master CPU 장애 발생 시 특정 Slave를 Master로 승격시킬 수 있는 소프트웨어적 장치가 있는가?
+- **장애 전이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**: Master CPU 장애 발생 시 특정 Slave를 Master로 승격시킬 수 있는 소프트웨어적 장치가 있는가?
 - **I/O 집중도**: 시스템의 워크로드가 I/O 바운드인가, CPU 바운드인가? (I/O 바운드라면 ASMP는 피해야 함)
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
-- **Slave 수의 무분별한 증설**: 마스터의 [[282_performance_tactics|성능]]을 고려하지 않고 슬레이브 CPU만 늘리면 [[282_performance_tactics|성능]] 향상은커녕 관리 오버헤드 때문에 시스템 전체 속도가 오히려 느려질 수 있다.
-- **Slave에서의 [[022_kernel_role|커널]] 직접 호출**: 슬레이브가 [[022_kernel_role|커널]] 코드를 직접 실행하려고 시도하면 [[001_dikw_pyramid|데이터]] 일관성이 깨지고 시스템이 붕괴 (Panic)될 수 있으므로 하드웨어적 격리가 필수적이다.
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- **Slave 수의 무분별한 증설**: 마스터의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 고려하지 않고 슬레이브 CPU만 늘리면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상은커녕 관리 오버헤드 때문에 시스템 전체 속도가 오히려 느려질 수 있다.
+- **Slave에서의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 직접 호출**: 슬레이브가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드를 직접 실행하려고 시도하면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 일관성이 깨지고 시스템이 붕괴 (Panic)될 수 있으므로 하드웨어적 격리가 필수적이다.
 
 - **📢 섹션 요약 비유**: 사장의 능력은 100인데 직원을 1,000명 뽑으면, 사장이 보고받느라 잠도 못 자고 회사는 마비되는 '관리의 역설'을 주의해야 합니다.
 
@@ -151,33 +155,33 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론 (Future & Standard)
 
-### [[194_numa_scheduling|ASMP]] 도입의 정량/정성적 효과
+### [ASMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/194_numa_scheduling/) 도입의 정량/정성적 효과
 
-| 구분 | 도입 전 (Single CPU) | 도입 후 ([[194_numa_scheduling|ASMP]]) | 기대 효과 |
+| 구분 | 도입 전 (Single CPU) | 도입 후 ([ASMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/194_numa_scheduling/)) | 기대 효과 |
 |:---|:---|:---|:---|
-| **개발 비용** | 100 (표준 OS) | 120 ([[022_kernel_role|커널]] 최소 수정) | [[195_real_time_scheduling|SMP]] 대비 낮은 비용으로 [[282_performance_tactics|성능]] 향상 |
-| **연산 [[282_performance_tactics|성능]]** | n (단일 연산) | 3~5n ([[430_index_fast_full_scan|병렬]] 연산) | 연산 집약적 작업 [[139_throughput|처리량]] 증대 |
-| **시스템 복잡도** | 낮음 | 중간 ([[195_real_time_scheduling|SMP]] 대비 훨씬 낮음) | 유지보수 및 디버깅 용이성 확보 |
+| **개발 비용** | 100 (표준 OS) | 120 ([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 최소 수정) | [SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) 대비 낮은 비용으로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 |
+| **연산 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)** | n (단일 연산) | 3~5n ([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산) | 연산 집약적 작업 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 증대 |
+| **시스템 복잡도** | 낮음 | 중간 ([SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) 대비 훨씬 낮음) | 유지보수 및 디버깅 용이성 확보 |
 
 ### 미래 전망
-앞으로의 ASMP는 **기능적 비대칭성 (Functional Asymmetry)**으로 진화할 것이다. 단순히 관리와 실행의 분리가 아니라, 보안 전담 CPU ([[390_enclave|Enclave]]), [[190_ai_llm_requirements_specification|AI]] 전담 CPU, 네트워크 전담 CPU 등이 각자의 영역에서 Master 역할을 수행하는 '다중 마스터 비대칭 시스템'이 보편화될 것이다. 또한 클라우드 환경에서 하드웨어 자원을 중앙에서 통제하는 [[436_dpu|DPU]] ([[229_dpu_ipu_infrastructure_accelerator_offloading|Data Processing Unit]])의 등장은 네트워크 인터페이스가 시스템의 새로운 Master 역할을 수행하는 ASMP의 현대적 변용으로 볼 수 있다.
+앞으로의 ASMP는 **기능적 비대칭성 (Functional Asymmetry)**으로 진화할 것이다. 단순히 관리와 실행의 분리가 아니라, 보안 전담 CPU ([Enclave](/knowledge-base/studynote/09_security/04_endpoint_security/390_enclave/)), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 전담 CPU, 네트워크 전담 CPU 등이 각자의 영역에서 Master 역할을 수행하는 '다중 마스터 비대칭 시스템'이 보편화될 것이다. 또한 클라우드 환경에서 하드웨어 자원을 중앙에서 통제하는 [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) ([Data Processing Unit](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/229_dpu_ipu_infrastructure_accelerator_offloading/))의 등장은 네트워크 인터페이스가 시스템의 새로운 Master 역할을 수행하는 ASMP의 현대적 변용으로 볼 수 있다.
 
 ### 참고 표준
 - **AMP (Asymmetric Multiprocessing) Framework**: 임베디드 멀티코어 간 통신 및 관리를 위한 표준 프레임워크.
-- **OpenAMP**: 비대칭 멀티프로세싱 환경에서 [[001_operating_system_purpose|운영체제]] 간 통신을 위한 오픈 표준 프로젝트.
+- **OpenAMP**: 비대칭 멀티프로세싱 환경에서 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 간 통신을 위한 오픈 표준 프로젝트.
 
 - **📢 섹션 요약 비유**: 모든 조직원이 관리자가 될 필요는 없습니다. 한 명의 탁월한 리더와 각 분야의 숙련된 전문가들이 정해진 역할에 집중할 때, 가장 단순하면서도 강력한 효율이 나옵니다.
 
 ---
 
-### 📌 관련 개념 맵 ([[160_knowledge_graph_graphrag_integration|Knowledge Graph]])
-| 개념 명칭 | [[083_relationship_in_er_model|관계]] 및 시너지 설명 |
+### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
+| 개념 명칭 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 및 시너지 설명 |
 |:---|:---|
-| **주종 [[083_relationship_in_er_model|관계]] (Master-Slave)** | ASMP의 근간이 되는 계층적 프로세서 운영 체계 |
-| **마스터 병목 (Master [[617_io_bottleneck|Bottleneck]])** | 관리 업무가 단일 프로세서에 집중되어 시스템 확장이 제한되는 현상 |
-| **[[195_real_time_scheduling|SMP]] (Symmetric Multiprocessing)** | 모든 CPU가 동등한 권한을 갖는 ASMP의 대척점 기술 |
-| **big.LITTLE** | 서로 다른 [[282_performance_tactics|성능]]/전력 특성을 가진 코어를 비대칭적으로 운영하는 현대적 응용 기술 |
-| **[[022_kernel_role|커널]] ([[022_kernel_role|Kernel]])** | ASMP에서 오직 Master만이 실행할 수 있는 [[001_operating_system_purpose|운영체제]]의 핵심 영역 |
+| **주종 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) (Master-Slave)** | ASMP의 근간이 되는 계층적 프로세서 운영 체계 |
+| **마스터 병목 (Master [Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))** | 관리 업무가 단일 프로세서에 집중되어 시스템 확장이 제한되는 현상 |
+| **[SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) (Symmetric Multiprocessing)** | 모든 CPU가 동등한 권한을 갖는 ASMP의 대척점 기술 |
+| **big.LITTLE** | 서로 다른 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)/전력 특성을 가진 코어를 비대칭적으로 운영하는 현대적 응용 기술 |
+| **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) ([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))** | ASMP에서 오직 Master만이 실행할 수 있는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 핵심 영역 |
 
 ---
 
@@ -199,7 +203,7 @@ tags:
 [커널 (Kernel)]
 ```
 
-이 흐름도는 주종 [[083_relationship_in_er_model|관계]] (Master-Slave)에서 출발해 [[022_kernel_role|커널]] ([[022_kernel_role|Kernel]])까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
+이 흐름도는 주종 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) (Master-Slave)에서 출발해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) ([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. ASMP는 컴퓨터 안에 **"대장 두뇌와 일꾼 두뇌들"**이 있는 것과 같아요.
@@ -212,7 +216,7 @@ tags:
 
 **진행 상황**: 5 / 800
 
-← **이전**: [[004_multiprocessing_system|4. 다중 처리 시스템 (Multiprocessing System)]]
-**다음**: [[006_smp|6. 대칭 다중 처리 (SMP, Symmetric Multiprocessing)]] →
+← **이전**: [4. 다중 처리 시스템 (Multiprocessing System)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/004_multiprocessing_system/)
+**다음**: [6. 대칭 다중 처리 (SMP, Symmetric Multiprocessing)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/006_smp/) →
 
 ---

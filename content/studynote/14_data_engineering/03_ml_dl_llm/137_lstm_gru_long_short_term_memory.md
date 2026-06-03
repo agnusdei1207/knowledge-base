@@ -1,14 +1,18 @@
----
-title: 137. LSTM & GRU - 장기 의존성을 해결한 순환 신경망
-date: '2026-04-19'
-tags:
-- studynote-dataengineering
----
++++
+title = "137. LSTM & GRU - 장기 의존성을 해결한 순환 신경망"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-dataengineering"]
+
+[extra]
+tags = ["studynote-dataengineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [[292_lstm|LSTM]]([[292_lstm|Long Short-Term Memory]])은 **Forget·Input·Output 3개의 게이트로 셀 상태(Cell [[272_state_pattern|State]])를 제어**하여 Vanilla RNN의 [[291_long_term_dependency|장기 의존성]]([[240_relu_vanishing_gradient_softmax_backprop_chain|Vanishing Gradient]]) 문제를 해결한 순환 신경망이며, GRU는 LSTM을 **2개 게이트(Reset·Update)로 단순화**한 경량 변형이다.
+> 1. **본질**: [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/)([Long Short-Term Memory](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/))은 **Forget·Input·Output 3개의 게이트로 셀 상태(Cell [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))를 제어**하여 Vanilla RNN의 [장기 의존성](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/291_long_term_dependency/)([Vanishing Gradient](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/)) 문제를 해결한 순환 신경망이며, GRU는 LSTM을 **2개 게이트(Reset·Update)로 단순화**한 경량 변형이다.
 > 2. **가치**: RNN은 "어제 비가 왔다"는 기억하지만 "한 달 전 비가 왔다"는 잊지만, LSTM은 **중요한 정보를 셀 상태에 장기 보존**하여 먼 과거의 맥락도 활용한다.
-> 3. **판단 포인트**: 성능은 [[292_lstm|LSTM]]≈GRU이나 GRU가 파라미터가 적어(학습 빠름) 소규모 데이터에 유리하며, 현재는 **Transformer가 대부분 대체**했으나 시계열·온디바이스에서 여전히 사용된다.
+> 3. **판단 포인트**: 성능은 [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/)≈GRU이나 GRU가 파라미터가 적어(학습 빠름) 소규모 데이터에 유리하며, 현재는 **Transformer가 대부분 대체**했으나 시계열·온디바이스에서 여전히 사용된다.
 
 ---
 
@@ -30,7 +34,7 @@ GRU 2 Gate: Reset + Update (LSTM 단순화)
 
 ## Ⅱ~Ⅴ. 결론
 
-[[292_lstm|LSTM]]/GRU는 **시퀀스 모델링의 중요한 이정표**이며, [[246_transformer_self_attention_parallel_positional_encoding|Transformer]] 이전의 NLP·음성·시계열 핵심 아키텍처였다.
+[LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/)/GRU는 **시퀀스 모델링의 중요한 이정표**이며, [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 이전의 NLP·음성·시계열 핵심 아키텍처였다.
 
 ---
 
@@ -38,11 +42,11 @@ GRU 2 Gate: Reset + Update (LSTM 단순화)
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[[292_lstm|LSTM]]** | 3 Gate + Cell [[272_state_pattern|State]] |
-| **[[294_gru|GRU]]** | 2 Gate (경량) |
-| **Cell [[272_state_pattern|State]]** | 장기 기억 고속도로 |
-| **[[240_relu_vanishing_gradient_softmax_backprop_chain|Vanishing Gradient]]** | [[244_rnn_time_series_lstm_cell_gate_long_term_dependency|RNN]] 문제 → [[292_lstm|LSTM]] 해결 |
-| **[[246_transformer_self_attention_parallel_positional_encoding|Transformer]]** | [[292_lstm|LSTM]] 대체 ([[430_index_fast_full_scan|병렬]]) |
+| **[LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/)** | 3 Gate + Cell [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) |
+| **[GRU](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/)** | 2 Gate (경량) |
+| **Cell [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)** | 장기 기억 고속도로 |
+| **[Vanishing Gradient](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/)** | [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/) 문제 → [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) 해결 |
+| **[Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)** | [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) 대체 ([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -64,7 +68,7 @@ GRU 2 Gate: Reset + Update (LSTM 단순화)
 
 **진행 상황**: 137 / 258
 
-← **이전**: [[136_rnn_recurrent_neural_network|136. RNN (Recurrent Neural Network) - 순환 신경망과 시퀀스 처리]]
-**다음**: [[138_attention_mechanism_dynamic_weight|138. Attention Mechanism - 동적 가중치로 핵심 정보에 집중]] →
+← **이전**: [136. RNN (Recurrent Neural Network) - 순환 신경망과 시퀀스 처리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/136_rnn_recurrent_neural_network/)
+**다음**: [138. Attention Mechanism - 동적 가중치로 핵심 정보에 집중](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/138_attention_mechanism_dynamic_weight/) →
 
 ---

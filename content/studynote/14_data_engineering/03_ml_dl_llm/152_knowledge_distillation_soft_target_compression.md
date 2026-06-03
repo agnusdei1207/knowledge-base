@@ -1,35 +1,39 @@
----
-title: 152. 지식 증류 (Knowledge Distillation) - 깡통 모델에 100억 파라미터 뇌파 강제 이식 수술
-date: '2026-05-03'
-tags:
-- studynote-data-engineering
----
++++
+title = "152. 지식 증류 (Knowledge Distillation) - 깡통 모델에 100억 파라미터 뇌파 강제 이식 수술"
+date = 2026-05-03
+
+[taxonomies]
+tags = ["studynote-data-engineering"]
+
+[extra]
+tags = ["studynote-data-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [[252_knowledge_distillation_quantization_edge_slm_diffusion|지식 증류]]([[252_knowledge_distillation_quantization_edge_slm_diffusion|Knowledge Distillation]])는 100억 개 파라미터를 가진 초거대 천재 스승 모델(Teacher)의 뇌파([[389_knowledge_distillation_soft_target|Soft Target]] [[130_probability|확률]] 분포)를 뽑아내어, 1억 개짜리 쥐똥만 한 멍청한 제자 모델(Student)의 뇌 속에 **도끼로 쑤셔 박아 [[347_compaction|압축]] 복사 세뇌시키는 궁극의 [[231_ai_turing_test|인공지능]] 다이어트 흑마법**이다.
-> 2. **가치**: 챗GPT 같은 초거대 LLM을 스마트폰이나 워치(Edge Device) 뱃속 로컬 환경에 그대로 쑤셔 넣으면 램(RAM) 100GB가 타죽어 폭파 뻗는다([[157_oom_killer|OOM]] 파국). 파라미터 쇳덩이를 1/100 토막으로 도륙 내면서도 스승의 정답률(Accuracy) 95% 이상을 무결점 100% 기만 보존 [[234_uml_class_relationships_generalization_dependency|상속]]시켜 오프라인 모바일 쾌속 런타임을 뚫어내는 유일한 차원 이탈 쉴드다.
-> 3. **판단 포인트**: 이 마법의 심장 뼈대는 그냥 "정답은 고양이(Hard Label)"라고 외우게 시키는 구시대식 깡통 암기를 찢어버리고! ➔ 스승 봇이 뿜어내는 **"이 사진은 70% 고양이고, 20% 개고, [[489_raid_10_hybrid|10]]% 호랑이 느낌도 나네 ㅋ" 라는 미세한 오답들의 뉘앙스 비율(Soft Label 암묵지 지식)** 전체를 통째로 온도([[386_llm_temperature|Temperature]]) 믹서기에 녹여 제자 뇌에 강제 주입(Transfer) 록온 치는 데 있다.
+> 1. **본질**: [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)([Knowledge Distillation](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/))는 100억 개 파라미터를 가진 초거대 천재 스승 모델(Teacher)의 뇌파([Soft Target](/knowledge-base/studynote/10_ai/05_data_science_ml/389_knowledge_distillation_soft_target/) [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포)를 뽑아내어, 1억 개짜리 쥐똥만 한 멍청한 제자 모델(Student)의 뇌 속에 **도끼로 쑤셔 박아 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 복사 세뇌시키는 궁극의 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 다이어트 흑마법**이다.
+> 2. **가치**: 챗GPT 같은 초거대 LLM을 스마트폰이나 워치(Edge Device) 뱃속 로컬 환경에 그대로 쑤셔 넣으면 램(RAM) 100GB가 타죽어 폭파 뻗는다([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 파국). 파라미터 쇳덩이를 1/100 토막으로 도륙 내면서도 스승의 정답률(Accuracy) 95% 이상을 무결점 100% 기만 보존 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)시켜 오프라인 모바일 쾌속 런타임을 뚫어내는 유일한 차원 이탈 쉴드다.
+> 3. **판단 포인트**: 이 마법의 심장 뼈대는 그냥 "정답은 고양이(Hard Label)"라고 외우게 시키는 구시대식 깡통 암기를 찢어버리고! ➔ 스승 봇이 뿜어내는 **"이 사진은 70% 고양이고, 20% 개고, [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 호랑이 느낌도 나네 ㅋ" 라는 미세한 오답들의 뉘앙스 비율(Soft Label 암묵지 지식)** 전체를 통째로 온도([Temperature](/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/)) 믹서기에 녹여 제자 뇌에 강제 주입(Transfer) 록온 치는 데 있다.
 
 ---
 
-## Ⅰ. 개요 및 왜 '[[252_knowledge_distillation_quantization_edge_slm_diffusion|지식 증류]]' [[509_authorization_models_rbac_abac|인가]]? ([[033_context|Context]] & Necessity)
+## Ⅰ. 개요 및 왜 '[지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)' [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)? ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-2020년대 [[263_llm_large_language_model|LLM]] 대항해 시대. OpenAI와 구글이 파라미터 1,750억 개짜리 뚱땡이 고질라 괴물([[302_gpt_autoregressive|GPT]]-3, [[301_bert_mlm|BERT]]-Large)을 쏘아 올렸다. "와 [[282_performance_tactics|성능]] 쩐다 우주 최강 ㅋ" 
-**대재앙의 딜레마 발동 💥**: 이 똑똑한 1,750억 개짜리 뇌를 돌리려면 H100 [[418_gpu|GPU]] 서버 수백 대가 붙어서 전기세 수억 원을 허공에 태워 먹어야 한다. 삼성전자 갤럭시 폰이나 애플워치 기기 뱃속(On-device Edge) 인터넷 끊긴 비행기 모드에서는 램 용량 8GB 턱도 없이 터져 [[573_timeout_retry_backoff_strategy|타임아웃]] 셧다운 뻗음 멸망 파국이다 💀.
+2020년대 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 대항해 시대. OpenAI와 구글이 파라미터 1,750억 개짜리 뚱땡이 고질라 괴물([GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-3, [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)-Large)을 쏘아 올렸다. "와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 쩐다 우주 최강 ㅋ" 
+**대재앙의 딜레마 발동 💥**: 이 똑똑한 1,750억 개짜리 뇌를 돌리려면 H100 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 서버 수백 대가 붙어서 전기세 수억 원을 허공에 태워 먹어야 한다. 삼성전자 갤럭시 폰이나 애플워치 기기 뱃속(On-device Edge) 인터넷 끊긴 비행기 모드에서는 램 용량 8GB 턱도 없이 터져 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 셧다운 뻗음 멸망 파국이다 💀.
 
-**제프 힌튼(Geoffrey Hinton)의 도끼 척살 🪓**: "야 이 미친 비만 쇳덩이들아 멈춰 쾅!!! 하늘이 두 쪽 나도 거대 뚱땡이 봇(Teacher)은 클라우드 서버 깊숙한 밀실에 짱박아 두고 절대 밖으로 꺼내지 마 락([[510_lock|Lock]]) 쳐!! 
+**제프 힌튼(Geoffrey Hinton)의 도끼 척살 🪓**: "야 이 미친 비만 쇳덩이들아 멈춰 쾅!!! 하늘이 두 쪽 나도 거대 뚱땡이 봇(Teacher)은 클라우드 서버 깊숙한 밀실에 짱박아 두고 절대 밖으로 꺼내지 마 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 쳐!! 
 대신 폰(Edge)에다가는 파라미터 1억 개짜리 **[존나 가벼운 백지 깡통 꼬마 봇(Student)]** 1마리를 심어놔 쾅!! 
-그리고 수술대에 둘을 같이 눕혀 놓고 ➔ **천재 스승 뇌에서 수백억 장의 문서 [[001_dikw_pyramid|데이터]]를 씹고 뜯으며 얻어낸 그 '직관적 통찰력 엑기스(Dark Knowledge 암묵지)' 주사액을 쫙 뽑아내서 ➔ 꼬마 봇 뇌 혈관에 다이렉트 100% 수직 꽂아 강제 융합 세뇌 다운로드 펌핑 [[621_scale_up_system_bus|스케일 업]](Distillation 증류) 쳐버려 🚀!!!**" 
+그리고 수술대에 둘을 같이 눕혀 놓고 ➔ **천재 스승 뇌에서 수백억 장의 문서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 씹고 뜯으며 얻어낸 그 '직관적 통찰력 엑기스(Dark Knowledge 암묵지)' 주사액을 쫙 뽑아내서 ➔ 꼬마 봇 뇌 혈관에 다이렉트 100% 수직 꽂아 강제 융합 세뇌 다운로드 펌핑 [스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)(Distillation 증류) 쳐버려 🚀!!!**" 
 이 위대한 영혼 이식술 덕분에, 크기는 1/100 좁쌀만 하면서 지능은 천재 챗GPT 뺨을 후려치는 경량화 꼬마 에이전트 제국(DistilBERT 등)이 스마트폰 뱃속을 무정단 쾌속 지배하게 된 것이다.
 
-- **📢 섹션 요약 비유**: [[252_knowledge_distillation_quantization_edge_slm_diffusion|지식 증류]]는 **'미슐랭 3스타 주방장(Teacher)의 평생 짬바 노하우를 ➔ 백지 알바생(Student) 뇌에 1달 만에 USB로 다운로드 꽂기'**와 완벽히 100% 똑같습니다. 알바생한테 10년 치 프랑스 요리책(거대 학습 [[001_dikw_pyramid|데이터]])을 던져주고 생으로 무식하게 독학 풀스캔 뺑뺑이 돌리게 하면 머리 터져 뻗어 죽습니다(일반 학습의 파국 💥). 천재 주방장(스승)이 **"야 레시피 보지 마! 내가 고기 구울 때 손목 스냅 30도 꺾고 소금 3꼬집 탁 치는 이 감각(Soft Label 뉘앙스)만 걍 눈으로 무지성 100% 보고 똑같이 카피 쳐 복붙해 쾅 🚀!"** 족집게 엑기스 족보만 떠먹여 세뇌 락킹을 치니까 ➔ 알바생이 한 달 만에 미슐랭 3스타의 95% 맛을 똑같이 렌더링 뿜어내는 극강의 가성비 다이어트 매직입니다.
+- **📢 섹션 요약 비유**: [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)는 **'미슐랭 3스타 주방장(Teacher)의 평생 짬바 노하우를 ➔ 백지 알바생(Student) 뇌에 1달 만에 USB로 다운로드 꽂기'**와 완벽히 100% 똑같습니다. 알바생한테 10년 치 프랑스 요리책(거대 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 던져주고 생으로 무식하게 독학 풀스캔 뺑뺑이 돌리게 하면 머리 터져 뻗어 죽습니다(일반 학습의 파국 💥). 천재 주방장(스승)이 **"야 레시피 보지 마! 내가 고기 구울 때 손목 스냅 30도 꺾고 소금 3꼬집 탁 치는 이 감각(Soft Label 뉘앙스)만 걍 눈으로 무지성 100% 보고 똑같이 카피 쳐 복붙해 쾅 🚀!"** 족집게 엑기스 족보만 떠먹여 세뇌 락킹을 치니까 ➔ 알바생이 한 달 만에 미슐랭 3스타의 95% 맛을 똑같이 렌더링 뿜어내는 극강의 가성비 다이어트 매직입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
 "아니 씨발 작은 깡통 뇌에 거대 뇌의 지능이 어떻게 다 들어가냐고 사기 치지 마 ㅠ" 
-아키텍트가 던지는 **하드 타겟(Hard Target)** 멸망과 **소프트 타겟([[389_knowledge_distillation_soft_target|Soft Target]])** 융합 부활의 십자 도해다.
+아키텍트가 던지는 **하드 타겟(Hard Target)** 멸망과 **소프트 타겟([Soft Target](/knowledge-base/studynote/10_ai/05_data_science_ml/389_knowledge_distillation_soft_target/))** 융합 부활의 십자 도해다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -65,85 +69,85 @@ tags:
 ```
 
 **[아키텍트의 피 터지는 핵심 원리: 왜 오답(Soft Label)을 가르치는가? ✨]**
-"야 100% 정답만 외우면 깔끔한데 굳이 왜 고양이 20% 오답 찌끄레기 [[130_probability|확률]]까지 제자한테 복사 강요 치냐 미친아 쾅?"
-딥러닝의 심장 통찰 팩폭이다. 사과(Apple)와 바나나(Banana) 사진을 구별할 때, 정답지만 달달 외우면 모델은 걍 색깔(빨강/노랑) 1개 단순 무식 패턴만 외우고 끝난다(과적합 [[245_overfitting_variance|Overfitting]] 붕괴 💥). 
-하지만 스승 봇이 뱉어낸 **"이 사과 사진은 바나나랑 5% 비슷하고, 토마토랑 40% 비슷해"** 라는 이 미세한 오답 [[130_probability|확률]] 분포([[389_knowledge_distillation_soft_target|Soft Target]]) 숫자 덩어리야말로 ➔ **[과일이라는 상위 카테고리 기하학 구조, 둥근 질감, 빨간색 텐서 우주 매핑 좌표]**의 모든 피 터지는 추론 과정 엑기스 논리가 통째로 100% [[347_compaction|압축]] 암호화된 기적의 황금 보물 지도 쇳덩이인 것이다 🚀. 
+"야 100% 정답만 외우면 깔끔한데 굳이 왜 고양이 20% 오답 찌끄레기 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)까지 제자한테 복사 강요 치냐 미친아 쾅?"
+딥러닝의 심장 통찰 팩폭이다. 사과(Apple)와 바나나(Banana) 사진을 구별할 때, 정답지만 달달 외우면 모델은 걍 색깔(빨강/노랑) 1개 단순 무식 패턴만 외우고 끝난다(과적합 [Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/) 붕괴 💥). 
+하지만 스승 봇이 뱉어낸 **"이 사과 사진은 바나나랑 5% 비슷하고, 토마토랑 40% 비슷해"** 라는 이 미세한 오답 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포([Soft Target](/knowledge-base/studynote/10_ai/05_data_science_ml/389_knowledge_distillation_soft_target/)) 숫자 덩어리야말로 ➔ **[과일이라는 상위 카테고리 기하학 구조, 둥근 질감, 빨간색 텐서 우주 매핑 좌표]**의 모든 피 터지는 추론 과정 엑기스 논리가 통째로 100% [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 암호화된 기적의 황금 보물 지도 쇳덩이인 것이다 🚀. 
 제자 봇(Student)이 이 '오답들의 미세한 비율'까지 100% 억지로 모방(Mimic) 록온 카피하다 보면 ➔ 지 뇌 용량 파라미터는 1/100밖에 안 되지만 스승이 수백억 장 사진 보며 깨달은 4차원 시야(Generalization 일반화 맷집 쉴드)를 단숨에 우회 기만 스킵 텔레포트 획득해 버리는 우주 마법 연금술이 성립된다.
 
-- **📢 섹션 요약 비유**: 이 [[389_knowledge_distillation_soft_target|Soft Target]] 세뇌 수술은, **'전설의 수학 1타 강사의 오답 노트 훔쳐 오기'**와 100% 똑같습니다. 일반 바보 학생(Hard Label)은 문제 정답이 '3번'이라는 것만 딸랑 외워서, 내일 숫자만 바뀌면 다 틀리고 시험 망칩니다 💀. 천재 1타 강사(Teacher)는 정답이 3번이라고 체크하면서, 밑에 메모로 **"이건 1번 함정 파둔 거랑 존나 헷갈리네 ㅋ 2번도 공식 잘못 쓰면 낚이기 딱 좋음"** 이라고 미세한 뉘앙스(오답 [[130_probability|확률]] Soft Label)를 다 적어놓습니다. 제자 학생(Student)이 이 1타 강사의 오답 노트 메모(뉘앙스 통찰력)를 100% 통째로 암기 복붙 세뇌해 버리면 ➔ 걍 정답 1개 외우는 거보다 1,000배 깊은 수학적 맷집 우주 방어막(일반화 능력)을 단 며칠 만에 사기 템으로 장착해 버리는 압살 쾌속 튜닝입니다 🚀.
+- **📢 섹션 요약 비유**: 이 [Soft Target](/knowledge-base/studynote/10_ai/05_data_science_ml/389_knowledge_distillation_soft_target/) 세뇌 수술은, **'전설의 수학 1타 강사의 오답 노트 훔쳐 오기'**와 100% 똑같습니다. 일반 바보 학생(Hard Label)은 문제 정답이 '3번'이라는 것만 딸랑 외워서, 내일 숫자만 바뀌면 다 틀리고 시험 망칩니다 💀. 천재 1타 강사(Teacher)는 정답이 3번이라고 체크하면서, 밑에 메모로 **"이건 1번 함정 파둔 거랑 존나 헷갈리네 ㅋ 2번도 공식 잘못 쓰면 낚이기 딱 좋음"** 이라고 미세한 뉘앙스(오답 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) Soft Label)를 다 적어놓습니다. 제자 학생(Student)이 이 1타 강사의 오답 노트 메모(뉘앙스 통찰력)를 100% 통째로 암기 복붙 세뇌해 버리면 ➔ 걍 정답 1개 외우는 거보다 1,000배 깊은 수학적 맷집 우주 방어막(일반화 능력)을 단 며칠 만에 사기 템으로 장착해 버리는 압살 쾌속 튜닝입니다 🚀.
 
 ---
 
 ## Ⅲ. 융합 비교 및 다각도 분석
 
-"야 모델 무거우면 걍 숫자 잘라내는 다이어트 딴 거 쓰면 안 됨 ㅋ?" [[263_llm_large_language_model|LLM]] 경량화 3대장 도끼 찢기 트레이드오프 비교 심판대다.
+"야 모델 무거우면 걍 숫자 잘라내는 다이어트 딴 거 쓰면 안 됨 ㅋ?" [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 경량화 3대장 도끼 찢기 트레이드오프 비교 심판대다.
 
-| 경량화([[159_compression|Compression]]) 메스 🪓 | 🧠 [[252_knowledge_distillation_quantization_edge_slm_diffusion|지식 증류]] ([[252_knowledge_distillation_quantization_edge_slm_diffusion|Knowledge Distillation]]) | 🔪 [[435_pruning_hardware|가지치기]] ([[435_pruning_hardware|Pruning]]) | 📉 [[434_quantization|양자화]] ([[434_quantization|Quantization]]) |
+| 경량화([Compression](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/)) 메스 🪓 | 🧠 [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/) ([Knowledge Distillation](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)) | 🔪 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) ([Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)) | 📉 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) ([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)) |
 |:---|:---|:---|:---|
-| **다이어트 찢기 원리** | 뚱땡이 뇌파([[130_probability|확률]] 분포)만 쭉 뽑아 ➔ **아예 백지짜리 새 꼬마 뇌(Student)에 복사 주사 이식 세뇌 쾅!** | 뚱땡이 뇌 신경망 열어서 **안 쓰는 뉴런 연결선(0에 가까운 [[267_weight_bias_activation|가중치]] 쇳덩이) 가위로 싹둑 다 도끼 절단 쳐 삭제 폐기 소각 💥.** | 뇌 신경망 [[267_weight_bias_activation|가중치]] 숫자 소수점 `0.12345` 를 ➔ 걍 대충 `0.1` 1바이트 덩어리로 **무지성 [[347_compaction|압축]] 뭉개 찌그러뜨림 쾅!** |
-| **모델 아키텍처 (뼈대)**| 스승이랑 제자가 구조 1도 안 똑같아도 됨! ([[287_resnet_skip_connection|ResNet]] 스승 ➔ MobileNet 제자 이식 쌉가능 융합 무적 ✨). | 원본 모델 뼈대 유지되는데 중간 듬성듬성 이빨 빠진 좀비 희소(Sparse) 모델 됨 💀. | 원본 모델 뼈대 100% 똑같이 그대로 유지 됨. |
-| **[[347_compaction|압축]] [[282_performance_tactics|성능]] 펌핑 (Size)**| **[우주 최강 다이어트 🚀]** 1/100 Томак 수준 극단적 나노 [[347_compaction|압축]] 개조 완전 환생 창조. | 1/2 ~ 1/[[489_raid_10_hybrid|10]] 토막 (이빨 너무 많이 빼면 봇 멍청이 바보 돼서 뻗음 파국 터짐 💥). | 1/4 토막 (Float32 ➔ INT8 [[073_bit|비트]] 강등 변환 스위칭). |
-| **실무 아키텍트 타점** | [[301_bert_mlm|BERT]] 너무 무거워서 모바일 폰에 못 박을 때 **[DistilBERT]** 전용 꼬마 봇 런칭 창조할 때 원툴 제왕 👑. | 걍 클라우드 AWS 서버 램(RAM) 요금 좀 아끼려고 쥐어짤 때 쓰는 잔돈 줍기 스킬. | 딥러닝 런타임 추론(Inference) 속도 10배 광속 스피드 땡길 때 1번으로 제일 많이 바르는 0순위 코팅막 쉴드. |
+| **다이어트 찢기 원리** | 뚱땡이 뇌파([확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포)만 쭉 뽑아 ➔ **아예 백지짜리 새 꼬마 뇌(Student)에 복사 주사 이식 세뇌 쾅!** | 뚱땡이 뇌 신경망 열어서 **안 쓰는 뉴런 연결선(0에 가까운 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 쇳덩이) 가위로 싹둑 다 도끼 절단 쳐 삭제 폐기 소각 💥.** | 뇌 신경망 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 숫자 소수점 `0.12345` 를 ➔ 걍 대충 `0.1` 1바이트 덩어리로 **무지성 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 뭉개 찌그러뜨림 쾅!** |
+| **모델 아키텍처 (뼈대)**| 스승이랑 제자가 구조 1도 안 똑같아도 됨! ([ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/) 스승 ➔ MobileNet 제자 이식 쌉가능 융합 무적 ✨). | 원본 모델 뼈대 유지되는데 중간 듬성듬성 이빨 빠진 좀비 희소(Sparse) 모델 됨 💀. | 원본 모델 뼈대 100% 똑같이 그대로 유지 됨. |
+| **[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 펌핑 (Size)**| **[우주 최강 다이어트 🚀]** 1/100 Томак 수준 극단적 나노 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 개조 완전 환생 창조. | 1/2 ~ 1/[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 토막 (이빨 너무 많이 빼면 봇 멍청이 바보 돼서 뻗음 파국 터짐 💥). | 1/4 토막 (Float32 ➔ INT8 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 강등 변환 스위칭). |
+| **실무 아키텍트 타점** | [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) 너무 무거워서 모바일 폰에 못 박을 때 **[DistilBERT]** 전용 꼬마 봇 런칭 창조할 때 원툴 제왕 👑. | 걍 클라우드 AWS 서버 램(RAM) 요금 좀 아끼려고 쥐어짤 때 쓰는 잔돈 줍기 스킬. | 딥러닝 런타임 추론(Inference) 속도 10배 광속 스피드 땡길 때 1번으로 제일 많이 바르는 0순위 코팅막 쉴드. |
 
-**[🚨 아키텍트의 피 터지는 결단: [[263_llm_large_language_model|LLM]] ([[302_gpt_autoregressive|GPT]]-4) 시대의 십자 융합 생태계 ✨]**
-현대 [[190_ai_llm_requirements_specification|AI]] 초지능 대항해 시대에 아키텍트는 저 3개 중 하나만 무지성으로 고르지 않는다. 
+**[🚨 아키텍트의 피 터지는 결단: [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) ([GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4) 시대의 십자 융합 생태계 ✨]**
+현대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 초지능 대항해 시대에 아키텍트는 저 3개 중 하나만 무지성으로 고르지 않는다. 
 "야 이 씨발 라마(LLaMA) 70B 모델 스마트폰에 절대 안 들어가 CPU 녹아 타죽어 쾅 💀!!! 
 하늘이 두 쪽 나도 당장 수술대 올려 십자 융합 메스 3연타 콤보 타격 꽂아 록온 쳐 쾅!!! 
-**1타: LLaMA 70B 스승 뇌파를 ➔ LLaMA 8B 꼬마 제자 봇한테 [지식 증류(KD) 강제 주입 복사] 쳐서 1/[[489_raid_10_hybrid|10]] 다이어트 찢고 🚀!!** 
-**2타: 그 꼬마 봇 신경망 쇳덩이에 [INT4 [[434_quantization|양자화]]([[434_quantization|Quantization]]) [[347_compaction|압축]] 프레스기] 찍어 눌러서 용량 1/8 토막 한 번 더 찌부러뜨려 썰어버리고 ✨!!** 
-**3타: 최종 2GB짜리 깃털 모델 완성품을 애플 아이폰(Edge [[424_npu|NPU]]) 뱃속 칩셋 실리콘에 오프라인 영구 용접 락킹 이식 쳐버려 쾅!!!**" 
-이것이 클라우드 핑퐁 통신 랙([[141_latency|Latency]]) 0.1초조차 허용치 않고 오프라인 비행기 모드에서도 초지능 챗봇이 무결점 무정단 생존 쾌속 질주하는 온디바이스 [[190_ai_llm_requirements_specification|AI]] (On-Device Edge) 제국의 궁극 무적 생태계 융합술이다.
+**1타: LLaMA 70B 스승 뇌파를 ➔ LLaMA 8B 꼬마 제자 봇한테 [지식 증류(KD) 강제 주입 복사] 쳐서 1/[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 다이어트 찢고 🚀!!** 
+**2타: 그 꼬마 봇 신경망 쇳덩이에 [INT4 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 프레스기] 찍어 눌러서 용량 1/8 토막 한 번 더 찌부러뜨려 썰어버리고 ✨!!** 
+**3타: 최종 2GB짜리 깃털 모델 완성품을 애플 아이폰(Edge [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)) 뱃속 칩셋 실리콘에 오프라인 영구 용접 락킹 이식 쳐버려 쾅!!!**" 
+이것이 클라우드 핑퐁 통신 랙([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 0.1초조차 허용치 않고 오프라인 비행기 모드에서도 초지능 챗봇이 무결점 무정단 생존 쾌속 질주하는 온디바이스 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) (On-Device Edge) 제국의 궁극 무적 생태계 융합술이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-초보 코더가 "우왕 스승 모델 로짓(Logit) 뽑아서 증류 때렸음 ㅋ" 하다가 학생 봇이 지적 장애 걸려 파산하는 [[128_water_scrum_fall_anti_pattern|안티패턴]] 방어 룰이다.
+초보 코더가 "우왕 스승 모델 로짓(Logit) 뽑아서 증류 때렸음 ㅋ" 하다가 학생 봇이 지적 장애 걸려 파산하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 방어 룰이다.
 
 ### 실무 판단 시나리오
-1. **온도([[386_llm_temperature|Temperature]]) 밸브 록온 실패 파국 💀 (The [[151_entropy|Entropy]] Squeeze 💥)**: 
-   주니어 코더가 스승 봇(Teacher) 출력 [[130_probability|확률]] 분포를 뽑아서 학생 봇에 주입(Distillation) 시켰다. 
-   **대재앙 발동 💥**: 학생 봇 정답률 채점 쳤더니 걍 깡통 [[159_baseline_requirements_configuration_management|베이스라인]] 모델보다 못한 [[489_raid_10_hybrid|10]]% 오답 쓰레기 백치 바보 로봇이 탄생함 💀!! 
-   - **아키텍트 온도 조절 메스 🪓**: "야 이 미친 좆소 눈먼 장님 새끼야!! 내가 하늘이 두 쪽 나도 스승 봇 대가리 출력 포트에 **[온도(T) [[238_switch_operation_principles|스위치]] 밸브]** 를 T=5 로 팍 돌려 뜨겁게 예열 조절해서 록온 박으라고 했지 쾅!!! 
-   스승 놈 [[130_probability|확률]]이 `[정답 99%, 오답 0.01%, 오답 0.001%]` 꼬라지면 ➔ 오답 찌끄레기 숫자(암묵지 엑스레이 지식)가 0에 너무 가까워서 텐서 행렬 곱셈 칠 때 [[096_underflow|언더플로우]]([[096_underflow|Underflow]]) 증발 삭제 소멸 뻗어버리잖아 미친아 💀!! 
-   당장 **[[270_softmax|Softmax]] 공식 분모에 온도(T) 텐션값 팍 쑤셔 넣어서 ➔ 1등 정답 [[130_probability|확률]]은 50%로 팍 깎아버리고(평활화 Smoothing), 꼴등 오답 [[130_probability|확률]]들을 [[489_raid_10_hybrid|10]]% 위로 멱살 잡아 수면 위로 펌핑 [[621_scale_up_system_bus|스케일 업]] 부상 융합 시켜라 쾅!!!** 
-   그래야 학생 봇이 오답들의 미세한 높낮이 비율 뉘앙스(Dark Knowledge)를 100% 흡수 [[016_replication_factor|복제]] 체화 세뇌시켜 진정한 스승의 맷집 통찰력 방패를 우주 복원해 낼 수 있는 절대 온도 해킹술이다 🚀!"
+1. **온도([Temperature](/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/)) 밸브 록온 실패 파국 💀 (The [Entropy](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) Squeeze 💥)**: 
+   주니어 코더가 스승 봇(Teacher) 출력 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포를 뽑아서 학생 봇에 주입(Distillation) 시켰다. 
+   **대재앙 발동 💥**: 학생 봇 정답률 채점 쳤더니 걍 깡통 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) 모델보다 못한 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 오답 쓰레기 백치 바보 로봇이 탄생함 💀!! 
+   - **아키텍트 온도 조절 메스 🪓**: "야 이 미친 좆소 눈먼 장님 새끼야!! 내가 하늘이 두 쪽 나도 스승 봇 대가리 출력 포트에 **[온도(T) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 밸브]** 를 T=5 로 팍 돌려 뜨겁게 예열 조절해서 록온 박으라고 했지 쾅!!! 
+   스승 놈 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 `[정답 99%, 오답 0.01%, 오답 0.001%]` 꼬라지면 ➔ 오답 찌끄레기 숫자(암묵지 엑스레이 지식)가 0에 너무 가까워서 텐서 행렬 곱셈 칠 때 [언더플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/)([Underflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/)) 증발 삭제 소멸 뻗어버리잖아 미친아 💀!! 
+   당장 **[Softmax](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) 공식 분모에 온도(T) 텐션값 팍 쑤셔 넣어서 ➔ 1등 정답 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)은 50%로 팍 깎아버리고(평활화 Smoothing), 꼴등 오답 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)들을 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 위로 멱살 잡아 수면 위로 펌핑 [스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/) 부상 융합 시켜라 쾅!!!** 
+   그래야 학생 봇이 오답들의 미세한 높낮이 비율 뉘앙스(Dark Knowledge)를 100% 흡수 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 체화 세뇌시켜 진정한 스승의 맷집 통찰력 방패를 우주 복원해 낼 수 있는 절대 온도 해킹술이다 🚀!"
 2. **학생 봇 과잉 통제 (Capacity Mismatch) 폭파 멸망 💥**: 
-   스승 모델은 1,000억 파라미터 [[302_gpt_autoregressive|GPT]]-3 뚱땡이고, 제자 모델은 1,000만 파라미터 초소형 꼬마 봇이다. 
-   **파국**: [[252_knowledge_distillation_quantization_edge_slm_diffusion|지식 증류]] 때려 붓는데 제자 봇 램(RAM) 뇌가 다 타죽어 뻗고 Loss(오차) [[070_graph_datastructure|그래프]]가 수직 발광 널뛰기 치며 수렴(Convergence) 실패 학습 붕괴 셧다운 터짐 💀. 
-   - **판단**: 천재 아인슈타인 대학 교수(스승)가 ➔ 5살짜리 유치원생(제자 봇)한테 양자역학 미적분 공식([[389_knowledge_distillation_soft_target|Soft Target]])을 100% 욱여넣으려다 애 뇌가 타 죽어 병신 뻗은 꼬라지다(Capacity Mismatch). 
-   **아키텍트 우회 기만 수술 🛡️**: "야 이 병신아 그릇 사이즈가 안 맞는데 억지로 부으면 다 터져 다 뒤져 쾅!! 당장 [[252_knowledge_distillation_quantization_edge_slm_diffusion|지식 증류]] 파이프라인 중간에 **[조교 봇 (Teacher Assistant Model)]** 1억 파라미터짜리 미들웨어 방폭문 쿠션을 1대 더 띄워 강제 중간 락킹 브릿지 쳐 쾅!!! 
+   스승 모델은 1,000억 파라미터 [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-3 뚱땡이고, 제자 모델은 1,000만 파라미터 초소형 꼬마 봇이다. 
+   **파국**: [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/) 때려 붓는데 제자 봇 램(RAM) 뇌가 다 타죽어 뻗고 Loss(오차) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)가 수직 발광 널뛰기 치며 수렴(Convergence) 실패 학습 붕괴 셧다운 터짐 💀. 
+   - **판단**: 천재 아인슈타인 대학 교수(스승)가 ➔ 5살짜리 유치원생(제자 봇)한테 양자역학 미적분 공식([Soft Target](/knowledge-base/studynote/10_ai/05_data_science_ml/389_knowledge_distillation_soft_target/))을 100% 욱여넣으려다 애 뇌가 타 죽어 병신 뻗은 꼬라지다(Capacity Mismatch). 
+   **아키텍트 우회 기만 수술 🛡️**: "야 이 병신아 그릇 사이즈가 안 맞는데 억지로 부으면 다 터져 다 뒤져 쾅!! 당장 [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/) 파이프라인 중간에 **[조교 봇 (Teacher Assistant Model)]** 1억 파라미터짜리 미들웨어 방폭문 쿠션을 1대 더 띄워 강제 중간 락킹 브릿지 쳐 쾅!!! 
    1,000억 스승 ➔ 1억 조교 봇한테 1차 번역 증류 세탁 핑퐁 ➔ 1억 조교 봇이 다시 1,000만 제자 봇한테 2차 이유식 요약 씹어 먹여 증류 주사 투입 🚀!! 
-   격차가 너무 큰 뇌파 간극을 다단(Multi-stage) 증류 계층 텐트 쉴드로 쪼개 완충 충격 흡수시켜야만 100% 무결점 지식 [[234_uml_class_relationships_generalization_dependency|상속]] 다운로드가 완성 록온 치게 된다 미친아 ✨!"
+   격차가 너무 큰 뇌파 간극을 다단(Multi-stage) 증류 계층 텐트 쉴드로 쪼개 완충 충격 흡수시켜야만 100% 무결점 지식 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 다운로드가 완성 록온 치게 된다 미친아 ✨!"
 
-- **📢 섹션 요약 비유**: 이 온도(T) 조절 밸브의 마법은, 돋보기(현미경)의 **'초점 흐리기 렌즈 튜닝'**과 완벽히 100% 똑같습니다. 온도(T=1)가 차가운 기본 렌즈면, 진짜 정답 1개(99%)만 눈부시게 빛나서 옆에 숨어있는 오답 [[167_sql_hint_optimizer_override|힌트]] 찌끄레기(0.01%)들이 어둠 속에 묻혀 장님 1도 안 보입니다([[252_knowledge_distillation_quantization_edge_slm_diffusion|지식 증류]] 실패 💥). 근데 온도(T=5) 다이얼을 윙~ 돌려 렌즈 초점을 일부러 흐릿하고 뿌옇게(Smoothing) 망가뜨려 뭉개버리면 ✨?! 1등 정답 불빛이 좀 꺼지면서 ➔ 어둠 속에 숨어있던 오답 찌끄레기들의 미세한 밝기 차이 패턴 윤곽(암묵지 보물 지도)이 100% 엑스레이 스캔 레이더처럼 내 눈깔에 팍 까발려져 도출 선명하게 튀어나오는 기적의 시야 해킹 우회 기만술입니다 🚀.
+- **📢 섹션 요약 비유**: 이 온도(T) 조절 밸브의 마법은, 돋보기(현미경)의 **'초점 흐리기 렌즈 튜닝'**과 완벽히 100% 똑같습니다. 온도(T=1)가 차가운 기본 렌즈면, 진짜 정답 1개(99%)만 눈부시게 빛나서 옆에 숨어있는 오답 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) 찌끄레기(0.01%)들이 어둠 속에 묻혀 장님 1도 안 보입니다([지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/) 실패 💥). 근데 온도(T=5) 다이얼을 윙~ 돌려 렌즈 초점을 일부러 흐릿하고 뿌옇게(Smoothing) 망가뜨려 뭉개버리면 ✨?! 1등 정답 불빛이 좀 꺼지면서 ➔ 어둠 속에 숨어있던 오답 찌끄레기들의 미세한 밝기 차이 패턴 윤곽(암묵지 보물 지도)이 100% 엑스레이 스캔 레이더처럼 내 눈깔에 팍 까발려져 도출 선명하게 튀어나오는 기적의 시야 해킹 우회 기만술입니다 🚀.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[[252_knowledge_distillation_quantization_edge_slm_diffusion|지식 증류]]([[252_knowledge_distillation_quantization_edge_slm_diffusion|Knowledge Distillation]])는 거대 쇳덩이 [[190_ai_llm_requirements_specification|AI]] 제국이 독점하던 클라우드 파라미터 폭주 비용(Cost)의 폭력적 노예 사슬을 도끼로 끊어발기고, 온디바이스(On-device Edge) 엣지 혁명의 서막을 찢어 연 초거대 [[190_ai_llm_requirements_specification|AI]] 경량화의 마스터피스 대관식이다.
+[지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)([Knowledge Distillation](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/))는 거대 쇳덩이 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 제국이 독점하던 클라우드 파라미터 폭주 비용(Cost)의 폭력적 노예 사슬을 도끼로 끊어발기고, 온디바이스(On-device Edge) 엣지 혁명의 서막을 찢어 연 초거대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 경량화의 마스터피스 대관식이다.
 
-과거 "모델 파라미터를 키울수록 [[282_performance_tactics|성능]]이 우주 뚫는다"는 [[249_scaling_normalization_standardization|스케일링]] 법칙(Scaling Law)의 뽕에 취해 수천억 원의 엔비디아 GPU를 떡칠 불태우며 무지성 몸집 뚱땡이 키우기에 미쳐있던 빅테크들의 광기 💀. 
-하지만 아키텍트 힌튼(Hinton)은 이 오만을 도륙 낸다. **"야!! 거대 모델의 쇳덩이 뇌세포 100% 전체에 진짜 지능이 골고루 박혀있는 게 아냐 미친놈들아 쾅!! 대부분은 [[001_dikw_pyramid|데이터]] 외우느라 팽창한 잉여 쓰레기 깡통 여백(Redundancy)일 뿐이다!! 하늘이 두 쪽 나도 그 뚱땡이 뱃속에 숨겨진 1% 찐 통찰력 엑기스([[389_knowledge_distillation_soft_target|Soft Target]] [[130_probability|확률]] 분포) 영혼만 현미경 핀셋으로 쪽 빨아 추출해 내서 ➔ 깃털같이 가벼운 꼬마 모바일 봇 신경망 뱃속에 100% 욱여넣어 영혼 [[016_replication_factor|복제]] 아바타(Student) 이식 스위칭 환생 창조를 이룩해 록온 쳐 쾅🚀!!!"**
+과거 "모델 파라미터를 키울수록 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 우주 뚫는다"는 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 법칙(Scaling Law)의 뽕에 취해 수천억 원의 엔비디아 GPU를 떡칠 불태우며 무지성 몸집 뚱땡이 키우기에 미쳐있던 빅테크들의 광기 💀. 
+하지만 아키텍트 힌튼(Hinton)은 이 오만을 도륙 낸다. **"야!! 거대 모델의 쇳덩이 뇌세포 100% 전체에 진짜 지능이 골고루 박혀있는 게 아냐 미친놈들아 쾅!! 대부분은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 외우느라 팽창한 잉여 쓰레기 깡통 여백(Redundancy)일 뿐이다!! 하늘이 두 쪽 나도 그 뚱땡이 뱃속에 숨겨진 1% 찐 통찰력 엑기스([Soft Target](/knowledge-base/studynote/10_ai/05_data_science_ml/389_knowledge_distillation_soft_target/) [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포) 영혼만 현미경 핀셋으로 쪽 빨아 추출해 내서 ➔ 깃털같이 가벼운 꼬마 모바일 봇 신경망 뱃속에 100% 욱여넣어 영혼 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 아바타(Student) 이식 스위칭 환생 창조를 이룩해 록온 쳐 쾅🚀!!!"**
 
-비록 스승 모델을 한 번 띄워 로짓(Logit)을 뽑아내는 사전 오프라인 노가다 전처리 파이프라인 랙과 연산 비용을 한 번 지불해야 하는 [[459_quic_fec_forward_error_correction|초기]] 오버헤드 출혈 딜레마를 짊어질지언정!! 
-이 지독한 '스승-제자 영혼 전이 수술 텐트 쉴드'가 완료되는 순간 ➔ 우리 회사 스마트폰 모바일 앱 뱃속에 장착된 1GB짜리 쥐똥만 한 언어 모델(DistilBERT) 봇 1마리가 ➔ 클라우드 100GB짜리 거대 [[302_gpt_autoregressive|GPT]] 본체 서버 [[014_api_posix|API]] 핑퐁 호출(Network [[141_latency|Latency]] 랙 500ms 💥)을 1바이트 찌르지도 않고 100% 네트워크 단절 끊긴 오프라인 비행기 모드 속에서도!! 
-오직 자기 폰 뱃속 자체 [[424_npu|NPU]] 연산 0.01초 컷 찰나의 광속 스피드 쾌속 텐서 계산만으로 ➔ 스승 챗GPT의 95% [[282_performance_tactics|성능]] 퀄리티 지능을 100% 무정단 평화 생존 무결점 복원 재현 뿜어내는 궁극의 [[136_variance|분산]] 엣지 초지능 오토 [[202_scale_out_distributed_horizontal_expansion|스케일 아웃]] 우주 대통합 제국이 영구 불멸 록온 완성되는 것이다 🚀✨.
+비록 스승 모델을 한 번 띄워 로짓(Logit)을 뽑아내는 사전 오프라인 노가다 전처리 파이프라인 랙과 연산 비용을 한 번 지불해야 하는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 오버헤드 출혈 딜레마를 짊어질지언정!! 
+이 지독한 '스승-제자 영혼 전이 수술 텐트 쉴드'가 완료되는 순간 ➔ 우리 회사 스마트폰 모바일 앱 뱃속에 장착된 1GB짜리 쥐똥만 한 언어 모델(DistilBERT) 봇 1마리가 ➔ 클라우드 100GB짜리 거대 [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) 본체 서버 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 핑퐁 호출(Network [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 랙 500ms 💥)을 1바이트 찌르지도 않고 100% 네트워크 단절 끊긴 오프라인 비행기 모드 속에서도!! 
+오직 자기 폰 뱃속 자체 [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) 연산 0.01초 컷 찰나의 광속 스피드 쾌속 텐서 계산만으로 ➔ 스승 챗GPT의 95% [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 퀄리티 지능을 100% 무정단 평화 생존 무결점 복원 재현 뿜어내는 궁극의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 엣지 초지능 오토 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) 우주 대통합 제국이 영구 불멸 록온 완성되는 것이다 🚀✨.
 
-- **📢 섹션 요약 비유**: [[252_knowledge_distillation_quantization_edge_slm_diffusion|지식 증류]]의 파괴적 자본주의 혁명은, 수천억 원짜리 거대 **'초대형 원자력 발전소(거대 스승 모델 💥)'**를 ➔ 손목에 차는 **'아이언맨 아크 리액터 소형 배터리(증류된 꼬마 제자 봇 ✨)'**로 수축 압살 변태 [[347_compaction|압축]]시켜버린 영화 같은 기적입니다 🚀. 원자력 발전소를 통째로 들고 다닐 수는 없잖아요(클라우드 종속 파국 💀). 하지만 발전소에서 1만 번 돌리며 터득한 '궁극의 우주 융합 코어 플라즈마 [[055_array|배열]] 공식(Soft Label 오답 노트 엑기스 족보)' 문서 딱 1장 종이만 USB로 빼돌려서 ➔ 쪼꼬만 동전 배터리 뱃속 칩에 강제 록온([[510_lock|Lock]]) 주입 세뇌시켜 덮어써 버리면!! ➔ 발전소 연결 전선 코드를 싹 다 가위로 찢어 끊어버려도 배터리 지 혼자서 원자력 발전소 95% 파워를 100% 자가 발전 무한 오토 뿜어내며 아이언맨이 하늘 우주로 무정단 쾌속 비행 생존 질주 돌파해 내는 극강의 스텔스 축지법 [[347_compaction|압축]] 마법입니다.
+- **📢 섹션 요약 비유**: [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)의 파괴적 자본주의 혁명은, 수천억 원짜리 거대 **'초대형 원자력 발전소(거대 스승 모델 💥)'**를 ➔ 손목에 차는 **'아이언맨 아크 리액터 소형 배터리(증류된 꼬마 제자 봇 ✨)'**로 수축 압살 변태 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)시켜버린 영화 같은 기적입니다 🚀. 원자력 발전소를 통째로 들고 다닐 수는 없잖아요(클라우드 종속 파국 💀). 하지만 발전소에서 1만 번 돌리며 터득한 '궁극의 우주 융합 코어 플라즈마 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 공식(Soft Label 오답 노트 엑기스 족보)' 문서 딱 1장 종이만 USB로 빼돌려서 ➔ 쪼꼬만 동전 배터리 뱃속 칩에 강제 록온([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 주입 세뇌시켜 덮어써 버리면!! ➔ 발전소 연결 전선 코드를 싹 다 가위로 찢어 끊어버려도 배터리 지 혼자서 원자력 발전소 95% 파워를 100% 자가 발전 무한 오토 뿜어내며 아이언맨이 하늘 우주로 무정단 쾌속 비행 생존 질주 돌파해 내는 극강의 스텔스 축지법 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 마법입니다.
 
 ---
 
-### 📌 관련 개념 맵 ([[160_knowledge_graph_graphrag_integration|Knowledge Graph]])
+### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 
-| 개념 명칭 | [[083_relationship_in_er_model|관계]] 및 시너지 설명 |
+| 개념 명칭 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 및 시너지 설명 |
 | :--- | :--- |
-| **[[389_knowledge_distillation_soft_target|Soft Target]] (소프트 레이블 엑기스 🧠)** | "정답 고양이 100%" 같은 멍청한 암기 주입 쇳덩이(Hard Label)를 찢어버린 증류 마법의 핵심 0순위 성배 핏줄. 스승 봇이 뱉어내는 "고양이 70%, 개 20%" [[130_probability|확률]] 분포 그 자체. 제자는 이 오답 찌끄레기의 뉘앙스 비율(지식)을 100% 똑같이 흉내 록온 락킹 복사 치는 게 존재 목적임. |
-| **[[386_llm_temperature|Temperature]] (온도 T 밸브 텐트 조절기 🎛️)** | 스승 봇 대가리 출력구에 달아놓는 핵심 보일러 [[238_switch_operation_principles|스위치]]. T=1(기본)이면 1등 정답만 뾰족하게 빛나서 오답 [[167_sql_hint_optimizer_override|힌트]]가 다 숨어 뒤져버림 파국 💥. 아키텍트가 T=5로 온도 [[238_switch_operation_principles|스위치]] 확 팍 올려 녹여버리면 ➔ [[130_probability|확률]]이 펑퍼짐하게 뭉개지며 숨겨진 오답 뉘앙스(암묵지 보물 지도)가 수면 위로 1초 컷 엑스레이 까발려 도출 색출됨 ✨. |
-| **[[434_quantization|Quantization]] ([[434_quantization|양자화]] [[347_compaction|압축]] 프레스 📉)** | [[252_knowledge_distillation_quantization_edge_slm_diffusion|지식 증류]]의 영혼의 단짝 라이벌이자 십자 융합 파트너 쉴드. 증류가 '뇌 크기(파라미터 수)'를 줄인다면, [[434_quantization|양자화]]는 파라미터 소수점 숫자 자체를 `Float32`에서 `INT8` 1바이트 깡통 덩어리로 찌부러뜨려 램(RAM) 다이어트 스케일 다운을 4배로 우주 더블 펌핑시키는 기계적 절단 도끼. |
-| **DistilBERT (증류된 꼬마 천재 봇 🚀)** | 구글 무거운 원본 [[301_bert_mlm|BERT]] 쇳덩이를 ➔ [[252_knowledge_distillation_quantization_edge_slm_diffusion|지식 증류]] 수술대에 눕히고 온도 믹서기 윙 갈아서 ➔ 크기 40% 다이어트 썰고 쾌속 스피드 60% 향상 시킨 뒤 스승 [[282_performance_tactics|성능]] 97% 록온 락 보존 달성해 낸 허깅페이스(HuggingFace) 역사상 가장 완벽한 국민 1타 NLP 꼬마 증류 봇 마스터피스. |
-| **[[153_kl_divergence|KL Divergence]] Loss (쿨백-라이블러 발산 오차 채찍 🪓)** | 제자 봇 뇌 개조 수술 채점 척도 공식. "야 씨발 제자 너 방금 뱉은 [[130_probability|확률]] 곡선 모양이랑 ➔ 저기 스승님 뱉은 뭉개진 [[130_probability|확률]]([[389_knowledge_distillation_soft_target|Soft Target]]) 모양 곡선이랑 존나 다르잖아 짝짝이네 뒤져 쾅!!" 두 [[130_probability|확률]] 분포 [[070_graph_datastructure|그래프]] 모양의 차이(오차)를 수학적으로 1초 컷 측정 스캔 때려서 오차 0 될 때까지 채찍질 때려 맞추는 통치 헌법. |
+| **[Soft Target](/knowledge-base/studynote/10_ai/05_data_science_ml/389_knowledge_distillation_soft_target/) (소프트 레이블 엑기스 🧠)** | "정답 고양이 100%" 같은 멍청한 암기 주입 쇳덩이(Hard Label)를 찢어버린 증류 마법의 핵심 0순위 성배 핏줄. 스승 봇이 뱉어내는 "고양이 70%, 개 20%" [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포 그 자체. 제자는 이 오답 찌끄레기의 뉘앙스 비율(지식)을 100% 똑같이 흉내 록온 락킹 복사 치는 게 존재 목적임. |
+| **[Temperature](/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/) (온도 T 밸브 텐트 조절기 🎛️)** | 스승 봇 대가리 출력구에 달아놓는 핵심 보일러 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/). T=1(기본)이면 1등 정답만 뾰족하게 빛나서 오답 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)가 다 숨어 뒤져버림 파국 💥. 아키텍트가 T=5로 온도 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 확 팍 올려 녹여버리면 ➔ [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 펑퍼짐하게 뭉개지며 숨겨진 오답 뉘앙스(암묵지 보물 지도)가 수면 위로 1초 컷 엑스레이 까발려 도출 색출됨 ✨. |
+| **[Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) ([양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 프레스 📉)** | [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)의 영혼의 단짝 라이벌이자 십자 융합 파트너 쉴드. 증류가 '뇌 크기(파라미터 수)'를 줄인다면, [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)는 파라미터 소수점 숫자 자체를 `Float32`에서 `INT8` 1바이트 깡통 덩어리로 찌부러뜨려 램(RAM) 다이어트 스케일 다운을 4배로 우주 더블 펌핑시키는 기계적 절단 도끼. |
+| **DistilBERT (증류된 꼬마 천재 봇 🚀)** | 구글 무거운 원본 [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) 쇳덩이를 ➔ [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/) 수술대에 눕히고 온도 믹서기 윙 갈아서 ➔ 크기 40% 다이어트 썰고 쾌속 스피드 60% 향상 시킨 뒤 스승 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 97% 록온 락 보존 달성해 낸 허깅페이스(HuggingFace) 역사상 가장 완벽한 국민 1타 NLP 꼬마 증류 봇 마스터피스. |
+| **[KL Divergence](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/153_kl_divergence/) Loss (쿨백-라이블러 발산 오차 채찍 🪓)** | 제자 봇 뇌 개조 수술 채점 척도 공식. "야 씨발 제자 너 방금 뱉은 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 곡선 모양이랑 ➔ 저기 스승님 뱉은 뭉개진 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)([Soft Target](/knowledge-base/studynote/10_ai/05_data_science_ml/389_knowledge_distillation_soft_target/)) 모양 곡선이랑 존나 다르잖아 짝짝이네 뒤져 쾅!!" 두 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모양의 차이(오차)를 수학적으로 1초 컷 측정 스캔 때려서 오차 0 될 때까지 채찍질 때려 맞추는 통치 헌법. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -165,9 +169,9 @@ On-Device Edge AI (온디바이스 엣지 초지능 제국 현재) ✨ / 클라�
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **[[252_knowledge_distillation_quantization_edge_slm_diffusion|지식 증류]]([[252_knowledge_distillation_quantization_edge_slm_diffusion|Knowledge Distillation]])**는 엄청 무겁고 똑똑한 아인슈타인 할아버지 로봇(거대 스승 모델)의 천재적인 생각 엑기스를 ➔ 작고 멍청한 꼬마 아기 로봇(제자 모델)의 뇌 속에 1초 만에 그대로 [[359_usb|USB]] 다운로드 복사 슝~ 이식시켜 버리는 **'천재 영혼 [[016_replication_factor|복제]] 텔레포트 마법'**이에요!
+1. **[지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)([Knowledge Distillation](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/))**는 엄청 무겁고 똑똑한 아인슈타인 할아버지 로봇(거대 스승 모델)의 천재적인 생각 엑기스를 ➔ 작고 멍청한 꼬마 아기 로봇(제자 모델)의 뇌 속에 1초 만에 그대로 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 다운로드 복사 슝~ 이식시켜 버리는 **'천재 영혼 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 텔레포트 마법'**이에요!
 2. 바보 꼬마 로봇한테 교과서 100권(정답 Hard Label)을 무작정 주고 혼자 외우라고 시키면 뇌가 터져버려서 고장 나 죽어버려요 ㅠ(일반 학습 멸망 💥).
-3. 그래서 할아버지 로봇이 "야 책 다 버려! 그냥 내 눈알([[130_probability|확률]] 뇌파 [[389_knowledge_distillation_soft_target|Soft Target]])만 똑바로 쳐다보고 내 느낌, 내 찍기 감각 뉘앙스 그대로 100% 거울 보듯 무지성 따라 해 쾅 🚀!!" 하고 족집게 세뇌 훈련(온도 조절 믹서기 ✨)을 시키니까 ➔ 꼬마 로봇이 한 달 만에 할아버지 로봇의 95% 천재 지능을 똑같이 따라 하며 스마트폰 뱃속 아주 좁은 방 안에서도 쌩쌩 잘 굴러가는 기적이 탄생한 거랍니다!
+3. 그래서 할아버지 로봇이 "야 책 다 버려! 그냥 내 눈알([확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 뇌파 [Soft Target](/knowledge-base/studynote/10_ai/05_data_science_ml/389_knowledge_distillation_soft_target/))만 똑바로 쳐다보고 내 느낌, 내 찍기 감각 뉘앙스 그대로 100% 거울 보듯 무지성 따라 해 쾅 🚀!!" 하고 족집게 세뇌 훈련(온도 조절 믹서기 ✨)을 시키니까 ➔ 꼬마 로봇이 한 달 만에 할아버지 로봇의 95% 천재 지능을 똑같이 따라 하며 스마트폰 뱃속 아주 좁은 방 안에서도 쌩쌩 잘 굴러가는 기적이 탄생한 거랍니다!
 
 ---
 
@@ -175,7 +179,7 @@ On-Device Edge AI (온디바이스 엣지 초지능 제국 현재) ✨ / 클라�
 
 **진행 상황**: 152 / 258
 
-← **이전**: [[151_vector_database_embedding_ann_search|151. 벡터 데이터베이스 (Vector DB) 임베딩과 ANN (근사 최근접) 검색 알고리즘]]
-**다음**: [[153_diffusion_model_stable_diffusion_denoising|153. 디퓨전 모델 (Diffusion Model) - 파괴와 복원의 노이즈 예술, 생성형 AI의 제왕]] →
+← **이전**: [151. 벡터 데이터베이스 (Vector DB) 임베딩과 ANN (근사 최근접) 검색 알고리즘](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/151_vector_database_embedding_ann_search/)
+**다음**: [153. 디퓨전 모델 (Diffusion Model) - 파괴와 복원의 노이즈 예술, 생성형 AI의 제왕](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/) →
 
 ---

@@ -1,12 +1,14 @@
----
-title: Quartz v5 아키텍처 분석 — 백링크·그래프 뷰·빌드 한계
-tags:
-- r-and-d
-- quartz
-- knowledge-base
----
++++
+title = "Quartz v5 아키텍처 분석 — 백링크·그래프 뷰·빌드 한계"
 
-[ [[index|종합 지식 포털]] ] > [[r-and-d/index|R&D]] > **Quartz 분석**
+[taxonomies]
+tags = ["r-and-d", "quartz", "knowledge-base"]
+
+[extra]
+tags = ["r-and-d", "quartz", "knowledge-base"]
++++
+
+[ 종합 지식 포털 ] > R&D > **Quartz 분석**
 
 ---
 
@@ -34,7 +36,7 @@ tags:
 
 - **본질**: 텍스트 기반 역참조 인덱스
 - **표시 위치**: 페이지 하단에 리스트 형태
-- **데이터 흐름**: 빌드타임에 전체 파일 간 `[[wikilink]]`를 스캔 → 역방향 매핑 생성
+- **데이터 흐름**: 빌드타임에 전체 파일 간 `wikilink`를 스캔 → 역방향 매핑 생성
 - **용도**: "이 개념이 어디서 쓰이고 있는가?" — 지식 탐색의 핵심
 
 ### 1.2 그래프 뷰 — 시각화
@@ -105,7 +107,7 @@ tags:
 
 | 기능 | 상세 |
 |------|------|
-| **Obsidian 네이티브 호환** | `[[wikilink]]`, 캘러스, 캔버스, 프로퍼티 등 그대로 사용 |
+| **Obsidian 네이티브 호환** | `wikilink`, 캘러스, 캔버스, 프로퍼티 등 그대로 사용 |
 | **백링크 + 그래프 뷰** | 둘 다 빌드타임 자동 생성 — 별도 설정 불필요 |
 | **SPA 네비게이션** | `enableSPA: true`로 페이지 전환 시 전체 리로드 없음 |
 | **FlexSearch** | 한국어 포함 전문 검색 지원 |

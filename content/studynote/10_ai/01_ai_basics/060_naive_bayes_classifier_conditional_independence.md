@@ -1,21 +1,25 @@
----
-title: 60. 나이브 베이즈 분류기 (Naive Bayes) - 조건부 독립과 스팸 필터링
-date: '2026-04-07'
-tags:
-- studynote-ai
----
++++
+title = "60. 나이브 베이즈 분류기 (Naive Bayes) - 조건부 독립과 스팸 필터링"
+date = 2026-04-07
+
+[taxonomies]
+tags = ["studynote-ai"]
+
+[extra]
+tags = ["studynote-ai"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[264_naive_bayes|나이브 베이즈]]는 조건부 독립을 가정하고 베이즈 정리로 클래스 [[130_probability|확률]]을 계산하는 [[104_classification_analysis|분류]]기다.
-> 2. **가치**: 매우 빠르고, 적은 [[001_dikw_pyramid|데이터]]로도 잘 동작하며, 텍스트 [[104_classification_analysis|분류]]와 스팸 필터에서 특히 강하다.
-> 3. **판단 포인트**: 변수 상관성이 강한 [[002_structured_data|정형 데이터]]에는 약하고, [[350_laplace_smoothing|라플라스 스무딩]]이 중요하다.
+> 1. **본질**: [나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/)는 조건부 독립을 가정하고 베이즈 정리로 클래스 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 계산하는 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기다.
+> 2. **가치**: 매우 빠르고, 적은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로도 잘 동작하며, 텍스트 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)와 스팸 필터에서 특히 강하다.
+> 3. **판단 포인트**: 변수 상관성이 강한 [정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/)에는 약하고, [라플라스 스무딩](/knowledge-base/studynote/10_ai/05_data_science_ml/350_laplace_smoothing/)이 중요하다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-스팸 메일 필터처럼 "빠르게 대략 맞추는" 문제가 있을 때 [[264_naive_bayes|나이브 베이즈]]는 아주 강하다. 복잡한 상관관계를 깊게 보지 않고도 [[130_probability|확률]]만으로 빠르게 판단한다.
+스팸 메일 필터처럼 "빠르게 대략 맞추는" 문제가 있을 때 [나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/)는 아주 강하다. 복잡한 상관관계를 깊게 보지 않고도 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)만으로 빠르게 판단한다.
 
 이 모델은 "특징들이 서로 독립적이다"라는 순진한 가정을 한다. 하지만 텍스트처럼 단어가 많고 희소한 문제에서는 이 가정이 의외로 잘 먹힌다.
 
@@ -25,7 +29,7 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-베이즈 정리는 사전 [[130_probability|확률]]과 우도를 결합해 사후 [[130_probability|확률]]을 구한다. [[264_naive_bayes|나이브 베이즈]]는 여기에 조건부 독립 가정을 붙여 계산을 단순화한다.
+베이즈 정리는 사전 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)과 우도를 결합해 사후 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 구한다. [나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/)는 여기에 조건부 독립 가정을 붙여 계산을 단순화한다.
 
 ```text
 입력 특징 x1, x2, x3...
@@ -43,7 +47,7 @@ P(C) × Π P(xi|C)
 | Bernoulli NB | 존재/부재에 강함 |
 | Gaussian NB | 연속형 수치에 강함 |
 
-[[350_laplace_smoothing|라플라스 스무딩]]은 한 번도 본 적 없는 단어 때문에 [[130_probability|확률]]이 0이 되는 문제를 막는다. 이것이 없으면 곱셈 한 번에 전체 [[130_probability|확률]]이 0이 될 수 있다.
+[라플라스 스무딩](/knowledge-base/studynote/10_ai/05_data_science_ml/350_laplace_smoothing/)은 한 번도 본 적 없는 단어 때문에 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 0이 되는 문제를 막는다. 이것이 없으면 곱셈 한 번에 전체 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 0이 될 수 있다.
 
 - **📢 섹션 요약 비유**: 단어별 점수를 각각 더해 보고, 가장 점수가 높은 팀을 고르는 방식이다.
 
@@ -51,14 +55,14 @@ P(C) × Π P(xi|C)
 
 ## Ⅲ. 비교 및 연결
 
-| 항목 | [[264_naive_bayes|나이브 베이즈]] | [[238_svm_margin_kernel_trick_naive_bayes|SVM]]/[[227_logistic_regression_clt_pvalue_type_error|로지스틱 회귀]] |
+| 항목 | [나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/) | [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/)/[로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/) |
 | :-- | :-- | :-- |
 | 학습 속도 | 매우 빠름 | 상대적으로 느림 |
 | 해석성 | 높음 | 보통 |
 | 독립성 가정 | 강함 | 약함 |
 | 적합한 문제 | 텍스트/스팸 | 복잡한 경계 문제 |
 
-[[264_naive_bayes|나이브 베이즈]]는 변수들 간 상관성이 약할수록 유리하다. 그래서 문맥이 복잡한 문제보다 단어 등장 패턴처럼 희소한 문제에서 빛난다.
+[나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/)는 변수들 간 상관성이 약할수록 유리하다. 그래서 문맥이 복잡한 문제보다 단어 등장 패턴처럼 희소한 문제에서 빛난다.
 
 - **📢 섹션 요약 비유**: 빨리 고르는 대신, 각 재료의 점수만 단순하게 더하는 요리 평가법이다.
 
@@ -66,16 +70,16 @@ P(C) × Π P(xi|C)
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-스팸 필터, 뉴스 [[104_classification_analysis|분류]], [[105_exploratory_data_analysis|감성 분석]] 같은 텍스트 작업에서 강하다. 하지만 월급/연봉처럼 강한 상관관계가 있는 [[002_structured_data|정형 데이터]]에서는 과대평가가 생길 수 있다.
+스팸 필터, 뉴스 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/) 같은 텍스트 작업에서 강하다. 하지만 월급/연봉처럼 강한 상관관계가 있는 [정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/)에서는 과대평가가 생길 수 있다.
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 특징들이 대체로 독립적인가?
-2. 텍스트/문자열 같은 희소 [[001_dikw_pyramid|데이터]]인가?
-3. [[350_laplace_smoothing|라플라스 스무딩]]을 적용했는가?
-4. Gaussian NB가 필요하면 분포 가정을 [[396_validation|확인]]했는가?
+2. 텍스트/문자열 같은 희소 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)인가?
+3. [라플라스 스무딩](/knowledge-base/studynote/10_ai/05_data_science_ml/350_laplace_smoothing/)을 적용했는가?
+4. Gaussian NB가 필요하면 분포 가정을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)했는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 상관성이 강한 숫자 변수에 무조건 적용
 - 스무딩 없이 희귀 단어를 그대로 0으로 처리
@@ -87,7 +91,7 @@ P(C) × Π P(xi|C)
 
 ## Ⅴ. 기대효과 및 결론
 
-[[264_naive_bayes|나이브 베이즈]]는 "단순함이 곧 약함은 아니다"를 보여준다. 빠른 [[104_classification_analysis|분류]]와 적은 [[001_dikw_pyramid|데이터]]에서의 안정성이 큰 강점이다.
+[나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/)는 "단순함이 곧 약함은 아니다"를 보여준다. 빠른 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)와 적은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서의 안정성이 큰 강점이다.
 
 결국 이 모델은 복잡한 수학보다 문제 구조를 잘 고르는 것이 중요하다는 점을 알려 준다.
 
@@ -125,7 +129,7 @@ P(C) × Π P(xi|C)
 
 ## 어린이를 위한 3줄 비유 설명
 
-[[264_naive_bayes|나이브 베이즈]]는 각 증상을 따로 점수 매겨서 병을 찾는 방법이에요.  
+[나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/)는 각 증상을 따로 점수 매겨서 병을 찾는 방법이에요.  
 좀 단순하지만 아주 빨라요.  
 그래서 스팸 메일처럼 빨리 골라야 할 때 좋아요.
 
@@ -135,7 +139,7 @@ P(C) × Π P(xi|C)
 
 **진행 상황**: 60 / 420
 
-← **이전**: [[059_kernel_trick_rbf_polynomial|59. 커널 트릭 (Kernel Trick) - 비선형 분류를 위한 고차원 암시적 매핑 (RBF, Polynomial)]]
-**다음**: [[061_artificial_neural_network_ann_neuron_model|61. 인공 신경망 (ANN, Artificial Neural Network)]] →
+← **이전**: [59. 커널 트릭 (Kernel Trick) - 비선형 분류를 위한 고차원 암시적 매핑 (RBF, Polynomial)](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/)
+**다음**: [61. 인공 신경망 (ANN, Artificial Neural Network)](/knowledge-base/studynote/10_ai/01_ai_basics/061_artificial_neural_network_ann_neuron_model/) →
 
 ---

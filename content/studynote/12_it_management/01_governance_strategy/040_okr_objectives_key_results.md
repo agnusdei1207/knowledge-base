@@ -1,18 +1,22 @@
----
-title: 040. OKR (Objectives and Key Results) — 목표와 핵심 결과
-date: '2026-04-21'
-tags:
-- studynote-it-management
----
++++
+title = "040. OKR (Objectives and Key Results) — 목표와 핵심 결과"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-it-management"]
+
+[extra]
+tags = ["studynote-it-management"]
++++
 
 > **핵심 인사이트**
-> 1. [[039_okr_objectives_key_results|OKR]](Objectives and [[067_db_key_uniqueness_minimality|Key]] Results)은 Intel에서 시작해 Google이 확산시킨 목표 관리 프레임워크로, O(Objective, 도전적 질적 목표)와 KR([[067_db_key_uniqueness_minimality|Key]] Results, 측정 가능한 결과)의 조합으로 "무엇을 달성할 것인가(Why)"와 "어떻게 측정할 것인가(How much)"를 분리한다.
+> 1. [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/)(Objectives and [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Results)은 Intel에서 시작해 Google이 확산시킨 목표 관리 프레임워크로, O(Objective, 도전적 질적 목표)와 KR([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Results, 측정 가능한 결과)의 조합으로 "무엇을 달성할 것인가(Why)"와 "어떻게 측정할 것인가(How much)"를 분리한다.
 > 2. OKR의 핵심은 야심찬 목표(Stretch Goals)로, KR 달성률 70%를 성공으로 간주하며 100% 달성은 목표가 낮았음을 의미한다 — 이는 KPI의 "달성 = 성공" 패러다임과 근본적으로 다른 철학이다.
-> 3. OKR은 분기 단위(Quarterly) 빠른 사이클, 상향식([[403_bottom_up_integration|Bottom-up]]) [[009_config|설정]](60%), 팀 간 투명한 공유, 보상과 분리를 4대 원칙으로 하며, [[025_mbo_management_by_objectives|MBO]](목표에 의한 관리)의 연간 단위·하향식·보상 연계의 한계를 극복한 현대적 대안이다.
+> 3. OKR은 분기 단위(Quarterly) 빠른 사이클, 상향식([Bottom-up](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/403_bottom_up_integration/)) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(60%), 팀 간 투명한 공유, 보상과 분리를 4대 원칙으로 하며, [MBO](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/025_mbo_management_by_objectives/)(목표에 의한 관리)의 연간 단위·하향식·보상 연계의 한계를 극복한 현대적 대안이다.
 
 ---
 
-## Ⅰ. [[039_okr_objectives_key_results|OKR]] 구조
+## Ⅰ. [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) 구조
 
 ```
 OKR 구조:
@@ -45,7 +49,7 @@ Initiative (이니셔티브):
 
 ---
 
-## Ⅱ. [[039_okr_objectives_key_results|OKR]] vs [[018_kpi|KPI]] vs [[025_mbo_management_by_objectives|MBO]]
+## Ⅱ. [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) vs [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) vs [MBO](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/025_mbo_management_by_objectives/)
 
 ```
 비교:
@@ -73,7 +77,7 @@ Google 창립 OKR 사례:
 
 ---
 
-## Ⅲ. [[039_okr_objectives_key_results|OKR]] [[009_config|설정]] 원칙
+## Ⅲ. [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 원칙
 
 ```
 좋은 OKR 설정:
@@ -101,11 +105,11 @@ OKR 개수:
   분기: 채점 + 다음 OKR 설정
 ```
 
-> 📢 **섹션 요약 비유**: 좋은 OKR은 GPS 목적지 [[009_config|설정]] — 목적지(O)는 "부산 해운대 도착", 도착 [[396_validation|확인]](KR)은 "오전 11시 이전, 기름 반 이상 남김".
+> 📢 **섹션 요약 비유**: 좋은 OKR은 GPS 목적지 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) — 목적지(O)는 "부산 해운대 도착", 도착 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(KR)은 "오전 11시 이전, 기름 반 이상 남김".
 
 ---
 
-## Ⅳ. [[039_okr_objectives_key_results|OKR]] 운영 사이클
+## Ⅳ. [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) 운영 사이클
 
 ```
 OKR 분기 사이클:
@@ -134,11 +138,11 @@ OKR 분기 사이클:
 13주차: 회고 + 다음 분기 OKR 설계
 ```
 
-> 📢 **섹션 요약 비유**: [[039_okr_objectives_key_results|OKR]] 사이클은 [[067_sprint_timebox|스프린트]] 계획과 회고 반복 — 3개월마다 새 목표를 세우고 달성률을 솔직하게 채점하는 [[005_feedback_loop|피드백 루프]].
+> 📢 **섹션 요약 비유**: [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) 사이클은 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 계획과 회고 반복 — 3개월마다 새 목표를 세우고 달성률을 솔직하게 채점하는 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/).
 
 ---
 
-## Ⅴ. 실무 시나리오 — IT 스타트업 [[039_okr_objectives_key_results|OKR]]
+## Ⅴ. 실무 시나리오 — IT 스타트업 [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/)
 
 ```
 IT 스타트업 B사 OKR 도입 (Series A 투자 후):
@@ -172,7 +176,7 @@ IT 스타트업 B사 OKR 도입 (Series A 투자 후):
 총평: 3개 KR 모두 0.7 이상 -> OKR 성공
 ```
 
-> 📢 **섹션 요약 비유**: 스타트업 OKR은 성장 나침반 — 모든 팀이 같은 방향(회사 O)을 향하되, 각자 방식(팀 KR)으로 기여하는 [[136_variance|분산]] 협력.
+> 📢 **섹션 요약 비유**: 스타트업 OKR은 성장 나침반 — 모든 팀이 같은 방향(회사 O)을 향하되, 각자 방식(팀 KR)으로 기여하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 협력.
 
 ---
 
@@ -234,7 +238,7 @@ AI 기반 OKR 진행도 자동 추적 도구 등장
 
 1. OKR은 소풍 목표 세우기 — "재미있는 소풍(O)" + "사진 30장 찍기, 점심 30분 안에 먹기(KR)"처럼 꿈과 측정 기준을 함께 정하는 방법이에요.
 2. OKR은 70점이 성공이에요 — 너무 쉬운 목표는 100점이지만 성장이 없고, 어려운 목표에서 70%는 대단한 도전이기 때문이에요.
-3. 구글, 애플, 아마존 같은 큰 회사들이 이 방법으로 모든 직원이 같은 방향을 바라보게 하고 투명하게 [[216_progress_in_synchronization|진행]] 상황을 공유해요!
+3. 구글, 애플, 아마존 같은 큰 회사들이 이 방법으로 모든 직원이 같은 방향을 바라보게 하고 투명하게 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 상황을 공유해요!
 
 ---
 
@@ -242,7 +246,7 @@ AI 기반 OKR 진행도 자동 추적 도구 등장
 
 **진행 상황**: 72 / 587
 
-← **이전**: [[040_design_thinking|40. 디자인 씽킹 (Design Thinking)]]
-**다음**: [[041_aarrr_funnel|041. AARRR 퍼널 / 그로스 해킹 (Growth Hacking)]] →
+← **이전**: [40. 디자인 씽킹 (Design Thinking)](/knowledge-base/studynote/12_it_management/01_governance_strategy/040_design_thinking/)
+**다음**: [041. AARRR 퍼널 / 그로스 해킹 (Growth Hacking)](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_aarrr_funnel/) →
 
 ---

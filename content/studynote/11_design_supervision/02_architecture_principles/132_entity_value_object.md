@@ -1,23 +1,27 @@
----
-title: 132. 엔티티와 값 객체 (Entity and Value Object)
-date: '2026-05-10'
-tags:
-- studynote-design-supervision
----
++++
+title = "132. 엔티티와 값 객체 (Entity and Value Object)"
+date = 2026-05-10
+
+[taxonomies]
+tags = ["studynote-design-supervision"]
+
+[extra]
+tags = ["studynote-design-supervision"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 엔티티 (Entity)는 고유 [[289_identification_flags_fragmentation_offset|식별자]](ID)로 구별되는 [[064_relation_domain|도메인]] 객체로 시간이 지나도 동일성이 유지되는 반면, 값 객체 (Value Object)는 [[289_identification_flags_fragmentation_offset|식별자]] 없이 [[082_attribute_types_er_model|속성]] 값 전체로 동일성이 결정되는 불변([[298_immutable|Immutable]]) [[064_relation_domain|도메인]] 개념으로, 복사·비교·교체가 자유롭다.
-> 2. **가치**: 엔티티와 값 객체를 올바르게 구분하면 [[064_relation_domain|도메인]] 모델의 명확성이 높아지고, 값 객체의 불변성 덕분에 [[014_concurrency|동시성]] 버그·복사 오류가 예방되며, [[064_relation_domain|도메인]] 개념이 코드에 정확히 표현된다.
+> 1. **본질**: 엔티티 (Entity)는 고유 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)(ID)로 구별되는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 객체로 시간이 지나도 동일성이 유지되는 반면, 값 객체 (Value Object)는 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) 없이 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 값 전체로 동일성이 결정되는 불변([Immutable](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/)) [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 개념으로, 복사·비교·교체가 자유롭다.
+> 2. **가치**: 엔티티와 값 객체를 올바르게 구분하면 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델의 명확성이 높아지고, 값 객체의 불변성 덕분에 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 버그·복사 오류가 예방되며, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 개념이 코드에 정확히 표현된다.
 > 3. **판단 포인트**: 판단 기준은 '이 객체가 시간이 지나도 추적되어야 하는가?'다. 추적이 필요하면 엔티티(ID 부여), 추적 없이 값 자체가 의미를 가지면 값 객체(불변)로 설계한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-DDD에서 [[064_relation_domain|도메인]] 객체는 크게 엔티티와 값 객체로 분류된다. 이 구분은 비즈니스 [[064_relation_domain|도메인]]을 정확히 모델링하는 데 핵심적이다.
+DDD에서 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 객체는 크게 엔티티와 값 객체로 분류된다. 이 구분은 비즈니스 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 정확히 모델링하는 데 핵심적이다.
 
-엔티티의 예: '주문 #1001'은 주문 내용이 바뀌어도(항목 추가, 상태 변경) 여전히 '주문 #1001'이다. 반면 '₩[[489_raid_10_hybrid|10]],000'은 어디서 왔든 같은 금액이면 동일한 값 객체다. 같은 금액의 서로 다른 지폐를 구별할 필요가 없듯이.
+엔티티의 예: '주문 #1001'은 주문 내용이 바뀌어도(항목 추가, 상태 변경) 여전히 '주문 #1001'이다. 반면 '₩[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000'은 어디서 왔든 같은 금액이면 동일한 값 객체다. 같은 금액의 서로 다른 지폐를 구별할 필요가 없듯이.
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -45,11 +49,11 @@ DDD에서 [[064_relation_domain|도메인]] 객체는 크게 엔티티와 값 �
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
-| 동일성 기준 | 고유 ID | 모든 [[082_attribute_types_er_model|속성]] 값 |
-| 가변성 | 가변([[082_attribute_types_er_model|속성]] 변경 가능) | 불변(교체만 가능) |
+| 동일성 기준 | 고유 ID | 모든 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 값 |
+| 가변성 | 가변([속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 변경 가능) | 불변(교체만 가능) |
 | 생명주기 | 추적(영속화·조회 필요) | 추적 불필요 |
-| 비교 방식 | ID 비교 | [[082_attribute_types_er_model|속성]] 전체 비교 |
-| 공유 가능성 | 위험([[316_reference_pattern_nosql|참조]] 공유 시 부작용) | 안전(불변이므로 공유 OK) |
+| 비교 방식 | ID 비교 | [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 전체 비교 |
+| 공유 가능성 | 위험([참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 공유 시 부작용) | 안전(불변이므로 공유 OK) |
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -64,7 +68,7 @@ DDD에서 [[064_relation_domain|도메인]] 객체는 크게 엔티티와 값 �
 └─────────────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 값 객체는 수표(Check)처럼 금액이 적혀 있으면([[082_attribute_types_er_model|속성]]값) 어느 수표든 같다. 찢어지면 같은 금액의 새 수표(새 객체)를 발행하면 된다.
+- **📢 섹션 요약 비유**: 값 객체는 수표(Check)처럼 금액이 적혀 있으면([속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)값) 어느 수표든 같다. 찢어지면 같은 금액의 새 수표(새 객체)를 발행하면 된다.
 
 ---
 ## Ⅲ. 비교 및 연결
@@ -74,51 +78,51 @@ DDD에서 [[064_relation_domain|도메인]] 객체는 크게 엔티티와 값 �
 | 비교 축 | A | B |
 |:---|:---|:---|
 | 적합한 경우 | 고유 추적 필요 (Order, User) | 불변 개념 (Money, Address) |
-| 부적합한 경우 | [[082_attribute_types_er_model|속성]]값으로 충분한 개념 | 생명주기 추적이 필요한 개념 |
+| 부적합한 경우 | [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)값으로 충분한 개념 | 생명주기 추적이 필요한 개념 |
 | 대표 예시 | Order, User, Product | Money, Address, DateRange |
 
-- **📢 섹션 요약 비유**: [[064_relation_domain|도메인]] 개념이 엔티티인지 값 객체인지 불분명하면 비즈니스 전문가에게 '이것을 ID로 추적해야 합니까?'라고 질문한다.
+- **📢 섹션 요약 비유**: [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 개념이 엔티티인지 값 객체인지 불분명하면 비즈니스 전문가에게 '이것을 ID로 추적해야 합니까?'라고 질문한다.
 
 ---
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-엔티티는 여권(ID 추적)처럼, 값 객체는 동전([[082_attribute_types_er_model|속성]]값으로 동일성 결정)처럼 설계한다. 여권은 유효기간이 바뀌어도 동일 인물의 여권이지만, 동전은 동일 금액이면 모두 같다.
+엔티티는 여권(ID 추적)처럼, 값 객체는 동전([속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)값으로 동일성 결정)처럼 설계한다. 여권은 유효기간이 바뀌어도 동일 인물의 여권이지만, 동전은 동일 금액이면 모두 같다.
 
-### 판단 [[435_checklist_based_testing|체크리스트]]
-1. [[289_identification_flags_fragmentation_offset|식별자]](ID)가 필요한 [[064_relation_domain|도메인]] 개념은 엔티티로, [[082_attribute_types_er_model|속성]]값이 동일성을 결정하는 개념은 값 객체로 설계되어 있는가?
-2. 값 객체가 불변([[298_immutable|Immutable]])으로 구현되어 있으며 수정 시 새 객체로 교체하는가?
-3. Money, Address, DateRange 등 [[064_relation_domain|도메인]] 개념이 원시 타입(int, String) 대신 값 객체로 표현되어 있는가?
-4. 엔티티 간 [[316_reference_pattern_nosql|참조]]가 직접 객체 [[316_reference_pattern_nosql|참조]] 대신 ID [[316_reference_pattern_nosql|참조]]로 이루어지는가?
-5. 값 객체가 에그리게이트 내에서만 사용되고 [[131_aggregate_root|에그리게이트 루트]]를 통해 접근되는가?
+### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+1. [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)(ID)가 필요한 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 개념은 엔티티로, [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)값이 동일성을 결정하는 개념은 값 객체로 설계되어 있는가?
+2. 값 객체가 불변([Immutable](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/))으로 구현되어 있으며 수정 시 새 객체로 교체하는가?
+3. Money, Address, DateRange 등 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 개념이 원시 타입(int, String) 대신 값 객체로 표현되어 있는가?
+4. 엔티티 간 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)가 직접 객체 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 대신 ID [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)로 이루어지는가?
+5. 값 객체가 에그리게이트 내에서만 사용되고 [에그리게이트 루트](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/131_aggregate_root/)를 통해 접근되는가?
 
-- **📢 섹션 요약 비유**: 엔티티는 여권(ID 추적)처럼, 값 객체는 동전([[082_attribute_types_er_model|속성]]값으로 동일성 결정)처럼 설계한다.
+- **📢 섹션 요약 비유**: 엔티티는 여권(ID 추적)처럼, 값 객체는 동전([속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)값으로 동일성 결정)처럼 설계한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-엔티티·값 객체 구분으로 [[064_relation_domain|도메인]] 모델의 의도가 코드에 명확히 표현되고, 불변 값 객체 덕분에 [[014_concurrency|동시성]] 버그와 복사 부작용이 예방된다. 값 객체를 통한 Primitive Obsession(원시 타입 남용) 해소로 타입 안전성도 향상된다.
+엔티티·값 객체 구분으로 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델의 의도가 코드에 명확히 표현되고, 불변 값 객체 덕분에 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 버그와 복사 부작용이 예방된다. 값 객체를 통한 Primitive Obsession(원시 타입 남용) 해소로 타입 안전성도 향상된다.
 
 한계는 값 객체 설계 시 불변성 구현 비용과, 일부 ORM(JPA 등)에서 값 객체 영속화가 복잡할 수 있다는 점이다. 함수형 프로그래밍의 불변 자료구조와 값 객체의 융합이 미래 방향이다.
 
-- **📢 섹션 요약 비유**: 엔티티는 이름이 바뀌어도 동일인 취급(ID 추적), 값 객체는 같은 금액이면 동일 취급([[082_attribute_types_er_model|속성]]값 비교). 이 두 가지 구분이 [[064_relation_domain|도메인]] 모델의 핵심이다.
+- **📢 섹션 요약 비유**: 엔티티는 이름이 바뀌어도 동일인 취급(ID 추적), 값 객체는 같은 금액이면 동일 취급([속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)값 비교). 이 두 가지 구분이 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델의 핵심이다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-[[[310_architecture|DDD]] 엔티티·값 객체] → [에그리게이트 설계] → [불변 Value Object] → [[[306_cqrs|CQRS]] 읽기 모델 최적화]
+DDD 엔티티·값 객체] → [에그리게이트 설계] → [불변 Value Object] → CQRS 읽기 모델 최적화]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[131_aggregate_root|에그리게이트 루트]] | 엔티티를 포함하는 [[194_consistency_database_integrity|일관성]] 경계 |
-| [[220_ubiquitous_language_ddd_communication|유비쿼터스 언어]] | 엔티티·값 객체의 이름 기준 |
-| 리포지토리 | 엔티티([[131_aggregate_root|에그리게이트 루트]])를 영속화 |
-| [[064_relation_domain|Domain]] Primitive | 비즈니스 규칙을 포함한 값 객체 패턴 |
+| [에그리게이트 루트](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/131_aggregate_root/) | 엔티티를 포함하는 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 경계 |
+| [유비쿼터스 언어](/knowledge-base/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/) | 엔티티·값 객체의 이름 기준 |
+| 리포지토리 | 엔티티([에그리게이트 루트](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/131_aggregate_root/))를 영속화 |
+| [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Primitive | 비즈니스 규칙을 포함한 값 객체 패턴 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[프리미티브 타입 남용] → [값 객체·엔티티 구분(Evans)] → [불변 Value Object] → [[[064_relation_domain|Domain]] Primitive 패턴] → [함수형 불변 자료구조 융합]
+[프리미티브 타입 남용] → [값 객체·엔티티 구분(Evans)] → [불변 Value Object] → Domain Primitive 패턴] → [함수형 불변 자료구조 융합]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -132,7 +136,7 @@ DDD에서 [[064_relation_domain|도메인]] 객체는 크게 엔티티와 값 �
 
 **진행 상황**: 188 / 530
 
-← **이전**: [[131_aggregate_root|131. 에그리게이트 루트 (Aggregate Root)]]
-**다음**: [[133_anti_corruption_layer|133. 부패 방지 레이어 (Anti-Corruption Layer (ACL))]] →
+← **이전**: [131. 에그리게이트 루트 (Aggregate Root)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/131_aggregate_root/)
+**다음**: [133. 부패 방지 레이어 (Anti-Corruption Layer (ACL))](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/133_anti_corruption_layer/) →
 
 ---

@@ -1,26 +1,29 @@
----
-title: 11. 직무 분리 원칙 (Separation of Duties) — 4눈 원칙, 분산 통제
-date: '2026-03-25'
-description: 보안 사고를 예방하기 위해 단일 사용자나 프로세스에 과도한 권한이 집중되지 않도록 직무를 분할하고 상호 견제하게 만드는 핵심
-  통제 원칙
-tags:
-- security
----
++++
+title = "11. 직무 분리 원칙 (Separation of Duties) — 4눈 원칙, 분산 통제"
+description = "보안 사고를 예방하기 위해 단일 사용자나 프로세스에 과도한 권한이 집중되지 않도록 직무를 분할하고 상호 견제하게 만드는 핵심 통제 원칙"
+date = 2026-03-25
 
-# [[308_static_dynamic_nat_pat_port_address_translation|11]]. [[578_sod_segregation_of_duties|직무 분리]] 원칙 (Separation of Duties)
+[taxonomies]
+tags = ["security"]
+
+[extra]
+tags = ["security"]
++++
+
+# [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/) 원칙 (Separation of Duties)
 
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 권한과 책임의 독점을 방지하여, 한 개인이 단독으로 시스템을 위협하거나 부정행위를 저지르지 못하도록 하는 '상호 견제(Checks and Balances)' 메커니즘이다.
-> 2. **가치**: 내부자 위협(Insider Threat)과 휴먼 에러를 원천적으로 차단하며, 특히 [[171_isms_p|ISMS-P]], SOX, PCI-DSS 등 규제 컴플라이언스에서 필수적으로 요구하는 [[606_auditing_linux_auditd|감사]]의 핵심 기준이다.
-> 3. **융합**: [[010_least_privilege|최소 권한 원칙]](PoLP)과 결합되어 [[569_rbac|RBAC]](역할 기반 [[387_access_control_pattern|접근 통제]]) 모델을 설계하는 기반이 되며, 최근에는 [[090_configuration_item|CI]]/CD 파이프라인의 배포 승인 등 [[653_devsecops_shift_left|DevSecOps]] 워크플로우에 자동화된 형태로 내재화되고 있다.
+> 2. **가치**: 내부자 위협(Insider Threat)과 휴먼 에러를 원천적으로 차단하며, 특히 [ISMS-P](/knowledge-base/studynote/12_it_management/05_security_compliance/171_isms_p/), SOX, PCI-DSS 등 규제 컴플라이언스에서 필수적으로 요구하는 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)의 핵심 기준이다.
+> 3. **융합**: [최소 권한 원칙](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/)(PoLP)과 결합되어 [RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/)(역할 기반 [접근 통제](/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/)) 모델을 설계하는 기반이 되며, 최근에는 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인의 배포 승인 등 [DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) 워크플로우에 자동화된 형태로 내재화되고 있다.
 
 ---
 
-### Ⅰ. 개요 및 필요성 ([[033_context|Context]] & Necessity)
+### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-[[578_sod_segregation_of_duties|직무 분리]] 원칙(SoD, Separation of Duties)은 중요한 비즈니스 프로세스나 IT 자원에 대한 권한을 여러 사람이나 그룹에 분산시켜, 한 사람이 단독으로 부정행위를 저지르거나 치명적인 실수를 유발할 수 없게 만드는 보안 원칙이다. 이는 단일 사용자에게 너무 많은 권한이 집중될 때 발생하는 권한 남용의 위험을 통제하기 위해 고안되었다.
+[직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/) 원칙(SoD, Separation of Duties)은 중요한 비즈니스 프로세스나 IT 자원에 대한 권한을 여러 사람이나 그룹에 분산시켜, 한 사람이 단독으로 부정행위를 저지르거나 치명적인 실수를 유발할 수 없게 만드는 보안 원칙이다. 이는 단일 사용자에게 너무 많은 권한이 집중될 때 발생하는 권한 남용의 위험을 통제하기 위해 고안되었다.
 
-과거에는 수퍼유저(root/admin) 한 명이 개발, 테스트, 운영 서버 접근 및 [[002_database_definition|데이터베이스]] 수정까지 모두 수행하는 경우가 흔했다. 이러한 구조에서는 관리자 계정 하나가 탈취되거나 관리자가 악의적인 마음을 품을 경우, 시스템 전체가 파괴되거나 중요한 데이터가 흔적 없이 유출되는 재앙이 발생한다. 따라서 현재의 비즈니스 및 IT 환경에서는 '개발과 운영', '요청과 승인', '보안 설정과 시스템 [[606_auditing_linux_auditd|감사]]'를 반드시 분리하여 [[454_spof|단일 장애점]](Human [[454_spof|SPOF]])을 제거하는 것이 핵심 요구사항이다.
+과거에는 수퍼유저(root/admin) 한 명이 개발, 테스트, 운영 서버 접근 및 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 수정까지 모두 수행하는 경우가 흔했다. 이러한 구조에서는 관리자 계정 하나가 탈취되거나 관리자가 악의적인 마음을 품을 경우, 시스템 전체가 파괴되거나 중요한 데이터가 흔적 없이 유출되는 재앙이 발생한다. 따라서 현재의 비즈니스 및 IT 환경에서는 '개발과 운영', '요청과 승인', '보안 설정과 시스템 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)'를 반드시 분리하여 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)(Human [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))을 제거하는 것이 핵심 요구사항이다.
 
 💡 **비유하자면**, 영화관에서 표를 판매하는 직원과 입장할 때 표를 확인하고 찢는 직원이 분리되어 있는 것과 같습니다. 한 명이 두 가지를 모두 하면 돈을 빼돌리고 표 없이 사람을 들여보내는 부정을 쉽게 저지를 수 있기 때문입니다.
 
@@ -34,7 +37,7 @@ tags:
 └────────────────────┴──────────────────────────┘
 ```
 
-이 다이어그램은 권한 분리가 없는 환경에서 단일 사용자가 모든 생명주기를 통제할 때 발생하는 위험을 보여준다. 이런 배치는 권한 남용뿐만 아니라 공격자에게 '매력적인 단일 타겟'을 제공하기 때문이며, 따라서 관리자 계정 침해는 곧바로 시스템 전체의 장악과 [[568_logs_distributed_logging_elk_fluentd|로그]] 삭제를 통한 증거 인멸로 이어진다. 실무에서는 이러한 수퍼유저 패턴을 강력하게 제한해야 한다.
+이 다이어그램은 권한 분리가 없는 환경에서 단일 사용자가 모든 생명주기를 통제할 때 발생하는 위험을 보여준다. 이런 배치는 권한 남용뿐만 아니라 공격자에게 '매력적인 단일 타겟'을 제공하기 때문이며, 따라서 관리자 계정 침해는 곧바로 시스템 전체의 장악과 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 삭제를 통한 증거 인멸로 이어진다. 실무에서는 이러한 수퍼유저 패턴을 강력하게 제한해야 한다.
 
 📢 **섹션 요약 비유**: 미사일을 발사하기 위해 두 명의 장교가 동시에 서로 다른 열쇠를 돌려야 하는 '투맨 룰(Two-Man Rule)'과 같습니다.
 
@@ -42,15 +45,15 @@ tags:
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-[[578_sod_segregation_of_duties|직무 분리]]는 시스템 아키텍처와 프로세스 흐름 상에 상호 배타적인 역할을 설정함으로써 구현된다.
+[직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/)는 시스템 아키텍처와 프로세스 흐름 상에 상호 배타적인 역할을 설정함으로써 구현된다.
 
 | 구성 요소 | 역할 | 내부 동작 | 통제 메커니즘 | 비유 |
 |:---|:---|:---|:---|:---|
-| **Initiator (기안자)** | 작업 요청 및 시작 | 코드 작성, 비용 지출 기안, 인프라 변경 요청 [[087_process_state_transition|생성]] | 권한 [[087_process_state_transition|생성]] 시 승인 권한 배제 | 기획안 작성자 |
-| **Approver (승인자)** | 작업의 타당성 검토 및 승인 | [[067_pull_request_pr_merge_request_code_review|PR]]([[067_pull_request_pr_merge_request_code_review|Pull Request]]) 리뷰, 예산 결재, 배포 승인 | 기안자와 동일 인물일 수 없음 (SoD 충돌 룰) | 부서장 / 검토자 |
-| **Executor (실행자)** | 승인된 작업의 실제 시스템 반영 | [[090_configuration_item|CI]]/CD 파이프라인 [[507_acid_properties|트리거]], DBA의 [[298_qkv_attention|쿼리]] 실행 | 승인된 스크립트만 실행, 임의 변경 불가 | 시스템 봇 / 실행 부서 |
-| **Auditor ([[606_auditing_linux_auditd|감사]]자)** | 전체 프로세스의 규정 준수 검토 | [[624_siem|SIEM]] [[119_log_analysis|로그 분석]], 권한 부여 이력 검토 | 운영/개발 시스템 변경 권한 일체 없음 | 외부 회계/[[606_auditing_linux_auditd|감사]] 법인 |
-| **SoD Matrix** | 역할 간 충돌(Conflict) 정의 테이블 | [[526_iam|IAM]] 시스템에서 역할 할당 시 충돌 여부 자동 [[395_verification_process_review|검증]] | [[574_xacml|XACML]] [[164_policy|정책]] 평가, [[569_rbac|RBAC]] 제약 | [[578_sod_segregation_of_duties|직무 분리]] 규정집 |
+| **Initiator (기안자)** | 작업 요청 및 시작 | 코드 작성, 비용 지출 기안, 인프라 변경 요청 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 권한 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시 승인 권한 배제 | 기획안 작성자 |
+| **Approver (승인자)** | 작업의 타당성 검토 및 승인 | [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)([Pull Request](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)) 리뷰, 예산 결재, 배포 승인 | 기안자와 동일 인물일 수 없음 (SoD 충돌 룰) | 부서장 / 검토자 |
+| **Executor (실행자)** | 승인된 작업의 실제 시스템 반영 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/), DBA의 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 실행 | 승인된 스크립트만 실행, 임의 변경 불가 | 시스템 봇 / 실행 부서 |
+| **Auditor ([감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)자)** | 전체 프로세스의 규정 준수 검토 | [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/) [로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/), 권한 부여 이력 검토 | 운영/개발 시스템 변경 권한 일체 없음 | 외부 회계/[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 법인 |
+| **SoD Matrix** | 역할 간 충돌(Conflict) 정의 테이블 | [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) 시스템에서 역할 할당 시 충돌 여부 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | [XACML](/knowledge-base/studynote/09_security/11_iam_access_control/574_xacml/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 평가, [RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/) 제약 | [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/) 규정집 |
 
 ```text
 [직무 분리(SoD)를 적용한 권한 통제 워크플로우]
@@ -68,9 +71,9 @@ tags:
                          [Auditor / SOC]
 ```
 
-이 구조도의 핵심은 시스템의 상태를 변경하는 전체 파이프라인이 기안, 승인, 실행, [[606_auditing_linux_auditd|감사]]의 독립적인 주체로 쪼개져 있다는 점이다. 이러한 배치는 어떤 한 개인이 악의적 의도를 갖더라도 타인의 동조(공모, Collusion) 없이는 프로덕션 환경을 변경할 수 없도록 강제하기 위함이다. 따라서 내부자 위협에 대한 저항성이 극대화되며, [[606_auditing_linux_auditd|감사]]자(Auditor)를 별도로 분리하여 투명성을 보장한다. 실무에서는 이 파이프라인을 [[526_iam|IAM]] 및 [[745_soar_security_orchestration_automation_response|SOAR]] 도구와 연동하여 물리적/논리적으로 강제하는 것이 중요하다.
+이 구조도의 핵심은 시스템의 상태를 변경하는 전체 파이프라인이 기안, 승인, 실행, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)의 독립적인 주체로 쪼개져 있다는 점이다. 이러한 배치는 어떤 한 개인이 악의적 의도를 갖더라도 타인의 동조(공모, Collusion) 없이는 프로덕션 환경을 변경할 수 없도록 강제하기 위함이다. 따라서 내부자 위협에 대한 저항성이 극대화되며, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)자(Auditor)를 별도로 분리하여 투명성을 보장한다. 실무에서는 이 파이프라인을 [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) 및 [SOAR](/knowledge-base/studynote/03_network/14_network_security_threats/745_soar_security_orchestration_automation_response/) 도구와 연동하여 물리적/논리적으로 강제하는 것이 중요하다.
 
-[[578_sod_segregation_of_duties|직무 분리]]의 내부 메커니즘은 철저하게 **상호 배타적 역할(Mutually Exclusive Roles)**에 기반한다. 예를 들어, 시스템에서 '구매 요청자' 역할과 '구매 승인자' 역할을 정의하고, SoD 매트릭스에 의해 한 사용자가 두 역할을 동시에 가질 수 없도록 [[569_rbac|RBAC]] 제약 조건(Constraints)을 설정한다. 사용자에게 권한을 할당하는 [[528_provisioning|프로비저닝]] 단계에서 이 룰을 위반하는 요청이 발생하면 [[526_iam|IAM]] 시스템이 자동으로 할당을 거부([[459_fail_safe|Fail-Safe]])한다.
+[직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/)의 내부 메커니즘은 철저하게 **상호 배타적 역할(Mutually Exclusive Roles)**에 기반한다. 예를 들어, 시스템에서 '구매 요청자' 역할과 '구매 승인자' 역할을 정의하고, SoD 매트릭스에 의해 한 사용자가 두 역할을 동시에 가질 수 없도록 [RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/) 제약 조건(Constraints)을 설정한다. 사용자에게 권한을 할당하는 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) 단계에서 이 룰을 위반하는 요청이 발생하면 [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) 시스템이 자동으로 할당을 거부([Fail-Safe](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/))한다.
 
 📢 **섹션 요약 비유**: 은행에서 금고 문을 여는 비밀번호를 아는 사람과 금고 열쇠를 가진 사람을 철저히 분리하여, 혼자서는 절대 금고를 열 수 없게 설계한 것과 같습니다.
 
@@ -78,14 +81,14 @@ tags:
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
-[[578_sod_segregation_of_duties|직무 분리]](SoD)는 종종 [[010_least_privilege|최소 권한 원칙]](PoLP)과 혼동되지만, 이 둘은 목적과 적용 방식이 다르며 함께 사용될 때 강력한 시너지를 낸다.
+[직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/)(SoD)는 종종 [최소 권한 원칙](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/)(PoLP)과 혼동되지만, 이 둘은 목적과 적용 방식이 다르며 함께 사용될 때 강력한 시너지를 낸다.
 
-| 비교 항목 | [[578_sod_segregation_of_duties|직무 분리]] 원칙 (SoD) | [[010_least_privilege|최소 권한 원칙]] (PoLP) | 실무 판단 포인트 |
+| 비교 항목 | [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/) 원칙 (SoD) | [최소 권한 원칙](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/) (PoLP) | 실무 판단 포인트 |
 |:---|:---|:---|:---|
 | **핵심 목적** | 권한 독점 방지 및 상호 견제 (단일 사용자 위협 제거) | 과도한 권한 부여 방지 (탈취 시 피해 범위 최소화) | 내부자 공모 방지(SoD) vs 공격 표면 축소(PoLP) |
-| **통제 방식** | 프로세스 분할, 역할의 **상호 배타성(Conflict)** 정의 | 역할의 **깊이와 범위** 제한, 시간적 제한([[568_jit_access|JIT]]) | 프로세스의 수평적 분할(SoD)과 수직적 제어(PoLP) |
+| **통제 방식** | 프로세스 분할, 역할의 **상호 배타성(Conflict)** 정의 | 역할의 **깊이와 범위** 제한, 시간적 제한([JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/)) | 프로세스의 수평적 분할(SoD)과 수직적 제어(PoLP) |
 | **주요 위협** | 내부자 부정행위, 결제 사기, 무단 배포 | 자격 증명 탈취 후 횡적 이동(Lateral Movement) | 두 가지가 결합되어야 방어 시너지 발생 |
-| **적용 사례** | 개발자와 운영자의 권한 분리, 결재의 4눈 원칙 | DBA에게 [[520_select|SELECT]] 권한만 부여하고 DROP 권한 회수 | SoD 매트릭스와 최소 권한 롤 정의의 병행 |
+| **적용 사례** | 개발자와 운영자의 권한 분리, 결재의 4눈 원칙 | DBA에게 [SELECT](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/) 권한만 부여하고 DROP 권한 회수 | SoD 매트릭스와 최소 권한 롤 정의의 병행 |
 
 ```text
 [권한 제어 모델의 2차원 매트릭스]
@@ -102,24 +105,24 @@ tags:
              약                   권한 범위 제한 (PoLP)  강
 ```
 
-이 매트릭스의 핵심은 [[578_sod_segregation_of_duties|직무 분리]](SoD)와 [[010_least_privilege|최소 권한 원칙]](PoLP) 중 하나만 높일 경우 보안의 불균형이 발생한다는 점이다. SoD만 강하면 권한은 분리되어 있지만 각자가 너무 큰 권한을 가져 위험하고, PoLP만 강하면 권한은 작지만 한 사람이 여러 역할을 수행해 룰을 우회할 수 있다. 따라서 이상적인 보안 상태는 역할이 철저히 분리되면서도 각 역할이 가지는 권한이 최소화된 우상단 영역에 위치한다. 실무에서는 이 두 가지를 동시에 충족하기 위해 [[164_policy|정책]]적 설계와 시스템 자동화가 수반되어야 한다.
+이 매트릭스의 핵심은 [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/)(SoD)와 [최소 권한 원칙](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/)(PoLP) 중 하나만 높일 경우 보안의 불균형이 발생한다는 점이다. SoD만 강하면 권한은 분리되어 있지만 각자가 너무 큰 권한을 가져 위험하고, PoLP만 강하면 권한은 작지만 한 사람이 여러 역할을 수행해 룰을 우회할 수 있다. 따라서 이상적인 보안 상태는 역할이 철저히 분리되면서도 각 역할이 가지는 권한이 최소화된 우상단 영역에 위치한다. 실무에서는 이 두 가지를 동시에 충족하기 위해 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)적 설계와 시스템 자동화가 수반되어야 한다.
 
-📢 **섹션 요약 비유**: 최소 권한이 직원에게 '필요한 마스터키만 주는 것'이라면, [[578_sod_segregation_of_duties|직무 분리]]는 '마스터키를 반으로 쪼개어 두 명에게 나눠주는 것'입니다.
+📢 **섹션 요약 비유**: 최소 권한이 직원에게 '필요한 마스터키만 주는 것'이라면, [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/)는 '마스터키를 반으로 쪼개어 두 명에게 나눠주는 것'입니다.
 
 ---
 
-### Ⅳ. 실무 적용 및 기술사적 판단 ([[268_strategy_pattern|Strategy]] & Decision)
+### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 
-실무에서 [[578_sod_segregation_of_duties|직무 분리]]를 적용할 때는 비즈니스 민첩성(Agility)과의 충돌을 가장 주의해야 한다. 무분별한 [[578_sod_segregation_of_duties|직무 분리]]는 심각한 병목 현상을 유발한다.
+실무에서 [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/)를 적용할 때는 비즈니스 민첩성(Agility)과의 충돌을 가장 주의해야 한다. 무분별한 [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/)는 심각한 병목 현상을 유발한다.
 
 #### 1. 실무 시나리오 및 의사결정
-- **소규모 스타트업의 [[652_devops_calms_culture|DevOps]] 환경**: 인력이 부족하여 개발자가 운영(배포)까지 담당해야 하는 상황이다. 물리적 [[578_sod_segregation_of_duties|직무 분리]]가 불가능하므로, '논리적 [[578_sod_segregation_of_duties|직무 분리]]'를 적용한다. 즉, 개발자가 직접 배포하더라도 반드시 GitHub Actions/GitLab [[090_configuration_item|CI]] 등 자동화된 파이프라인을 통해서만 배포하도록 강제하고, 프로덕션 서버에 대한 직접 [[538_ssh_vs_telnet_secure_remote|SSH]] 접속은 차단(Break-Glass 시에만 허용)한다.
-- **금융권 결제 시스템 개발**: 강력한 SoD가 법적으로 요구된다. 개발계, [[395_verification_process_review|검증]]계(Staging), 운영계의 망과 계정을 물리적으로 완전히 분리한다. 개발 조직은 소스코드를 형상관리 시스템에 커밋하고 팀장의 [[067_pull_request_pr_merge_request_code_review|PR]] 승인(4눈 원칙)을 거친 후, 분리된 운영 조직이 정해진 배포 윈도우에 배포를 실행한다.
-- **클라우드 [[526_iam|IAM]] 권한 설계**: AWS [[526_iam|IAM]] [[164_policy|정책]]을 짤 때, 계정을 [[087_process_state_transition|생성]]할 수 있는 권한([[526_iam|IAM]] Full Access)과 권한 [[164_policy|정책]]을 수정할 수 있는 권한을 서로 다른 그룹에 분리하여, 권한 [[087_process_state_transition|생성]]자가 스스로에게 관리자 권한을 부여하는 [[356_privilege_escalation|권한 상승]]([[356_privilege_escalation|Privilege Escalation]])을 방지한다.
+- **소규모 스타트업의 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경**: 인력이 부족하여 개발자가 운영(배포)까지 담당해야 하는 상황이다. 물리적 [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/)가 불가능하므로, '논리적 [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/)'를 적용한다. 즉, 개발자가 직접 배포하더라도 반드시 GitHub Actions/GitLab [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 등 자동화된 파이프라인을 통해서만 배포하도록 강제하고, 프로덕션 서버에 대한 직접 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 접속은 차단(Break-Glass 시에만 허용)한다.
+- **금융권 결제 시스템 개발**: 강력한 SoD가 법적으로 요구된다. 개발계, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)계(Staging), 운영계의 망과 계정을 물리적으로 완전히 분리한다. 개발 조직은 소스코드를 형상관리 시스템에 커밋하고 팀장의 [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 승인(4눈 원칙)을 거친 후, 분리된 운영 조직이 정해진 배포 윈도우에 배포를 실행한다.
+- **클라우드 [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) 권한 설계**: AWS [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 짤 때, 계정을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 수 있는 권한([IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) Full Access)과 권한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 수정할 수 있는 권한을 서로 다른 그룹에 분리하여, 권한 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자가 스스로에게 관리자 권한을 부여하는 [권한 상승](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/)([Privilege Escalation](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/))을 방지한다.
 
-#### 2. 도입 [[128_water_scrum_fall_anti_pattern|안티패턴]] 및 실패 사례
-- **가짜 4눈 원칙 (Rubber Stamping)**: [[578_sod_segregation_of_duties|직무 분리]]를 위해 승인 단계를 만들었으나, 승인자가 내용을 검토하지 않고 맹목적으로 승인(OK) 버튼만 누르는 경우. 이는 [[283_security_tactics|보안성]] 향상 없이 프로세스만 지연시킨다.
-- **공모(Collusion) [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 간과**: 직무를 분리해 둔 두 명의 직원이 서로 짜고 부정행위를 저지르는 경우. SoD는 공모를 완벽히 막을 수 없으므로, 강력한 [[054_detective_controls|탐지 통제]]([[606_auditing_linux_auditd|감사]] [[568_logs_distributed_logging_elk_fluentd|로그]], [[624_siem|SIEM]] 기반 이상 행위 탐지)가 반드시 백업으로 존재해야 한다.
+#### 2. 도입 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 및 실패 사례
+- **가짜 4눈 원칙 (Rubber Stamping)**: [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/)를 위해 승인 단계를 만들었으나, 승인자가 내용을 검토하지 않고 맹목적으로 승인(OK) 버튼만 누르는 경우. 이는 [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) 향상 없이 프로세스만 지연시킨다.
+- **공모(Collusion) [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 간과**: 직무를 분리해 둔 두 명의 직원이 서로 짜고 부정행위를 저지르는 경우. SoD는 공모를 완벽히 막을 수 없으므로, 강력한 [탐지 통제](/knowledge-base/studynote/09_security/01_intro_principles/054_detective_controls/)([감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/) 기반 이상 행위 탐지)가 반드시 백업으로 존재해야 한다.
 - **예외 처리 남용**: '긴급 배포'라는 명목하에 SoD 원칙을 우회하는 예외 계정을 만들어 두고 일상적으로 사용하는 경우.
 
 ```text
@@ -138,7 +141,7 @@ tags:
                 정당성 검토 후 비밀번호 즉시 로테이션 (비활성화)
 ```
 
-이 플로우의 핵심은 [[578_sod_segregation_of_duties|직무 분리]] 원칙이 장애 상황에서 가용성을 해치지 않도록 합법적인 우회(Break-Glass) 절차를 설계하되, 사후 [[606_auditing_linux_auditd|감사]] 비용을 극대화하여 남용을 억제한다는 점이다. 이런 배치는 가용성과 기밀성의 트레이드오프를 해결하기 때문이며, 따라서 기업은 시스템 마비라는 최악의 사태를 막으면서도 책임 추적성을 잃지 않게 된다. 실무에서는 Firecall 계정 사용 시 경영진에게 즉시 SMS 알림이 가도록 설정해야 한다.
+이 플로우의 핵심은 [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/) 원칙이 장애 상황에서 가용성을 해치지 않도록 합법적인 우회(Break-Glass) 절차를 설계하되, 사후 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 비용을 극대화하여 남용을 억제한다는 점이다. 이런 배치는 가용성과 기밀성의 트레이드오프를 해결하기 때문이며, 따라서 기업은 시스템 마비라는 최악의 사태를 막으면서도 책임 추적성을 잃지 않게 된다. 실무에서는 Firecall 계정 사용 시 경영진에게 즉시 SMS 알림이 가도록 설정해야 한다.
 
 📢 **섹션 요약 비유**: 비상 시에 소화기 유리를 깨고 사용하는 것처럼, 평소에는 철저히 잠가두되 위급 상황에서는 즉시 사용할 수 있도록 사후 추적이 가능한 예외 경로를 두는 것과 같습니다.
 
@@ -146,27 +149,27 @@ tags:
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 
-[[578_sod_segregation_of_duties|직무 분리]] 원칙의 철저한 도입은 내부 통제 강화의 핵심이다. ISO 27001(A.6.1.2 [[578_sod_segregation_of_duties|직무 분리]]) 및 [[889_fss_cyber_supervision|금융감독원]] [[888_electronic_financial_supervision_regulation|전자금융감독규정]] 등 국내외 주요 보안 표준과 컴플라이언스에서 이를 명시적으로 요구하고 있다.
+[직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/) 원칙의 철저한 도입은 내부 통제 강화의 핵심이다. ISO 27001(A.6.1.2 [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/)) 및 [금융감독원](/knowledge-base/studynote/09_security/17_framework_compliance/889_fss_cyber_supervision/) [전자금융감독규정](/knowledge-base/studynote/09_security/17_framework_compliance/888_electronic_financial_supervision_regulation/) 등 국내외 주요 보안 표준과 컴플라이언스에서 이를 명시적으로 요구하고 있다.
 
 | 도입 전 | 도입 후 (기대 효과) |
 |:---|:---|
 | 단일 관리자에 의한 시스템 장악 및 은폐 가능 | 최소 2인 이상 공모 없이는 부정행위 및 인멸 불가 |
-| 권한 구조가 평면적이어서 컴플라이언스 심사 탈락 | SoD 매트릭스 기반의 체계적 권한 관리로 [[606_auditing_linux_auditd|감사]] 통과 보장 |
-| 배포 및 변경 작업 중 치명적인 휴먼 에러 발생 빈도 높음 | [[163_peer_review|동료 검토]]([[163_peer_review|Peer Review]]) 및 승인 절차를 통한 에러율 획기적 감소 |
+| 권한 구조가 평면적이어서 컴플라이언스 심사 탈락 | SoD 매트릭스 기반의 체계적 권한 관리로 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 통과 보장 |
+| 배포 및 변경 작업 중 치명적인 휴먼 에러 발생 빈도 높음 | [동료 검토](/knowledge-base/studynote/12_it_management/04_sdlc_testing/163_peer_review/)([Peer Review](/knowledge-base/studynote/12_it_management/04_sdlc_testing/163_peer_review/)) 및 승인 절차를 통한 에러율 획기적 감소 |
 
-미래의 [[578_sod_segregation_of_duties|직무 분리]]는 고정적인 권한 테이블을 넘어, **문맥 기반의 동적 통제([[572_abac|ABAC]])**와 결합하는 방향으로 진화하고 있다. 즉, 평상시에는 권한이 분리되어 있다가 사용자의 위치, 시간, [[216_progress_in_synchronization|진행]] 중인 [[096_iso_iec_20000_itsm_certification|ITSM]](IT [[090_service_kubernetes_network_load_balancing|서비스]] 관리) 티켓의 상태에 따라 자동으로 일시적인 권한과 승인 플로우가 매핑되는 지능형 권한 관리([[619_id_governance_iga|IGA]]) 시스템이 표준이 될 것이다.
+미래의 [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/)는 고정적인 권한 테이블을 넘어, **문맥 기반의 동적 통제([ABAC](/knowledge-base/studynote/09_security/11_iam_access_control/572_abac/))**와 결합하는 방향으로 진화하고 있다. 즉, 평상시에는 권한이 분리되어 있다가 사용자의 위치, 시간, [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중인 [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/)(IT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 관리) 티켓의 상태에 따라 자동으로 일시적인 권한과 승인 플로우가 매핑되는 지능형 권한 관리([IGA](/knowledge-base/studynote/09_security/12_identity_threat_advanced/619_id_governance_iga/)) 시스템이 표준이 될 것이다.
 
-📢 **섹션 요약 비유**: 잘 설계된 [[578_sod_segregation_of_duties|직무 분리]]는 마치 다축 톱니바퀴처럼 서로 맞물려 돌아가면서, 하나의 톱니가 고장 나거나 폭주하더라도 전체 기계가 무너지지 않도록 지탱해주는 안전 장치입니다.
+📢 **섹션 요약 비유**: 잘 설계된 [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/)는 마치 다축 톱니바퀴처럼 서로 맞물려 돌아가면서, 하나의 톱니가 고장 나거나 폭주하더라도 전체 기계가 무너지지 않도록 지탱해주는 안전 장치입니다.
 
 ---
 
-### 📌 관련 개념 맵 ([[160_knowledge_graph_graphrag_integration|Knowledge Graph]])
+### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 
-- **[[010_least_privilege|Least Privilege]] (최소 권한)** | [[578_sod_segregation_of_duties|직무 분리]]와 함께 [[387_access_control_pattern|접근 통제]]의 양대 산맥으로, 권한의 깊이를 제한함
-- **[[569_rbac|RBAC]] ([[569_rbac|Role-Based Access Control]])** | [[578_sod_segregation_of_duties|직무 분리]]를 시스템적으로 구현하기 위한 역할 기반 접근 제어 모델
-- **Four-Eyes Principle (4눈 원칙)** | 중요한 결정이나 행동은 반드시 두 사람의 확인을 거치도록 하는 [[578_sod_segregation_of_duties|직무 분리]]의 하위 개념
-- **Break-Glass Procedure** | 긴급 상황 시 [[578_sod_segregation_of_duties|직무 분리]] 등의 통제를 일시적으로 우회하기 위한 사후 통제 기반 비상 절차
-- **Collusion (공모)** | [[578_sod_segregation_of_duties|직무 분리]]를 무력화하기 위해 분리된 권한을 가진 2인 이상이 담합하는 내부자 위협
+- **[Least Privilege](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/) (최소 권한)** | [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/)와 함께 [접근 통제](/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/)의 양대 산맥으로, 권한의 깊이를 제한함
+- **[RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/) ([Role-Based Access Control](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/))** | [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/)를 시스템적으로 구현하기 위한 역할 기반 접근 제어 모델
+- **Four-Eyes Principle (4눈 원칙)** | 중요한 결정이나 행동은 반드시 두 사람의 확인을 거치도록 하는 [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/)의 하위 개념
+- **Break-Glass Procedure** | 긴급 상황 시 [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/) 등의 통제를 일시적으로 우회하기 위한 사후 통제 기반 비상 절차
+- **Collusion (공모)** | [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/)를 무력화하기 위해 분리된 권한을 가진 2인 이상이 담합하는 내부자 위협
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -186,12 +189,12 @@ tags:
 [내부 감사 (Internal Audit) / SOX 준수 — 직무 분리 통제 적정성 정기 검증]
 ```
 
-이 흐름은 [[010_least_privilege|최소 권한 원칙]]에서 출발해 [[578_sod_segregation_of_duties|직무 분리]]→2인 통제→[[569_rbac|RBAC]]→[[606_auditing_linux_auditd|감사]] 프레임워크로 이어지는 내부 통제 체계 진화를 나타낸다.
+이 흐름은 [최소 권한 원칙](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/)에서 출발해 [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/)→2인 통제→[RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/)→[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 프레임워크로 이어지는 내부 통제 체계 진화를 나타낸다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 게임에서 최종 보스 방을 열려면 '빨간 열쇠'와 '파란 열쇠'가 모두 필요해요.
 2. 만약 한 명이 두 열쇠를 다 가지고 있으면, 마음대로 보스 방을 열고 보물을 혼자 차지할 수 있어서 위험해요.
-3. 그래서 두 명의 친구가 각각 다른 색깔의 열쇠를 나눠 가지고, 꼭 둘이서 허락하고 합쳐야만 문이 열리게 만든 것이 '[[578_sod_segregation_of_duties|직무 분리]]'랍니다.
+3. 그래서 두 명의 친구가 각각 다른 색깔의 열쇠를 나눠 가지고, 꼭 둘이서 허락하고 합쳐야만 문이 열리게 만든 것이 '[직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/)'랍니다.
 
 ---
 
@@ -199,7 +202,7 @@ tags:
 
 **진행 상황**: 11 / 1108
 
-← **이전**: [[010_least_privilege|10. 최소 권한 원칙 (Principle of Least Privilege) — 필요 알 권리]]
-**다음**: [[012_defense_in_depth|12. 다단계 인증 원칙 (Defense in Depth) — 심층 방어]] →
+← **이전**: [10. 최소 권한 원칙 (Principle of Least Privilege) — 필요 알 권리](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/)
+**다음**: [12. 다단계 인증 원칙 (Defense in Depth) — 심층 방어](/knowledge-base/studynote/09_security/01_intro_principles/012_defense_in_depth/) →
 
 ---

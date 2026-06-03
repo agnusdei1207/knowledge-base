@@ -1,25 +1,29 @@
----
-title: 250. SRAM (Static RAM)
-date: '2026-04-20'
-tags:
-- studynote-computer-architecture
----
++++
+title = "250. SRAM (Static RAM)"
+date = 2026-04-20
+
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: SRAM (Static Random Access Memory)은 교차 결합 인버터와 접근 [[014_transistor|트랜지스터]]로 만든 쌍안정 래치에 비트를 붙잡아 두는, 초저지연 휘발성 메모리다.
-> 2. **가치**: 리프레시가 필요한 [[251_dram|DRAM]] (Dynamic Random Access Memory)과 달리 읽기/[[289_cqrs_db|쓰기]] 경로가 짧고 비파괴적이어서 CPU (Central Processing Unit) 바로 옆 캐시 계층을 구성하는 데 가장 적합하다.
+> 1. **본질**: SRAM (Static Random Access Memory)은 교차 결합 인버터와 접근 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)로 만든 쌍안정 래치에 비트를 붙잡아 두는, 초저지연 휘발성 메모리다.
+> 2. **가치**: 리프레시가 필요한 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory)과 달리 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 경로가 짧고 비파괴적이어서 CPU (Central Processing Unit) 바로 옆 캐시 계층을 구성하는 데 가장 적합하다.
 > 3. **판단 포인트**: SRAM의 핵심 trade-off는 "속도와 예측 가능성"을 얻는 대신 "면적, 비용, 누설전력"을 크게 지불한다는 점이며, 그래서 대용량 주기억장치가 아니라 소용량 고속 버퍼에 배치된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-SRAM (Static Random Access Memory)은 전원이 유지되는 동안 내부 래치가 스스로 0과 1의 상태를 붙잡아 두는 [[009_semiconductor|반도체]] 메모리다. 이름의 "Static"은 영구 저장을 뜻하는 것이 아니라, [[001_dikw_pyramid|데이터]]를 유지하기 위해 DRAM처럼 주기적 리프레시를 하지 않아도 된다는 뜻이다. 따라서 SRAM은 비휘발성 메모리가 아니라 **[[148_5g_embb_urllc_mmtc|초고속]] 휘발성 메모리**로 이해해야 정확하다.
+SRAM (Static Random Access Memory)은 전원이 유지되는 동안 내부 래치가 스스로 0과 1의 상태를 붙잡아 두는 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 메모리다. 이름의 "Static"은 영구 저장을 뜻하는 것이 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 유지하기 위해 DRAM처럼 주기적 리프레시를 하지 않아도 된다는 뜻이다. 따라서 SRAM은 비휘발성 메모리가 아니라 **[초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 휘발성 메모리**로 이해해야 정확하다.
 
 이 메모리가 중요해진 이유는 CPU의 연산 속도와 외부 메모리의 응답 속도 사이 간극이 너무 커졌기 때문이다. 코어는 수 GHz로 동작해 1ns 안팎의 판단을 원하지만, 메인 메모리는 수십 ns 이상이 흔하다. 이 차이를 그대로 두면 파이프라인은 계산보다 대기 시간이 길어지고, 결과적으로 비싼 연산 장치가 메모리를 기다리며 놀게 된다.
 
-SRAM은 이 지점에서 "용량"이 아니라 "즉시성"을 담당한다. 아주 비싸고 면적이 크더라도 CPU 바로 옆에 두어 L1 캐시 ([[260_l1_cache|Level 1 Cache]]), L2 캐시 ([[261_l2_cache|Level 2 Cache]]), [[057_register|레지스터]] [[501_file_definition_logical_record|파일]] 같은 초근접 저장소를 구성하면, 자주 쓰는 [[001_dikw_pyramid|데이터]]는 DRAM까지 가지 않고도 공급할 수 있다. 즉 SRAM의 존재 이유는 메모리 계층에서 최상단의 응답 시간을 보장하는 데 있다.
+SRAM은 이 지점에서 "용량"이 아니라 "즉시성"을 담당한다. 아주 비싸고 면적이 크더라도 CPU 바로 옆에 두어 L1 캐시 ([Level 1 Cache](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/260_l1_cache/)), L2 캐시 ([Level 2 Cache](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/261_l2_cache/)), [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 같은 초근접 저장소를 구성하면, 자주 쓰는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 DRAM까지 가지 않고도 공급할 수 있다. 즉 SRAM의 존재 이유는 메모리 계층에서 최상단의 응답 시간을 보장하는 데 있다.
 
 아래 그림은 SRAM이 왜 필요한지를 "거리"가 아니라 "시간 차이"로 보여준다.
 
@@ -45,9 +49,9 @@ SRAM은 이 지점에서 "용량"이 아니라 "즉시성"을 담당한다. 아�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-가장 대표적인 SRAM 셀은 **6T (6-Transistor) 셀**이다. 네 개의 [[014_transistor|트랜지스터]]가 두 개의 인버터를 이루고, 이 인버터가 서로를 되먹임하면서 `Q`와 `Q_bar` 중 하나는 높고 다른 하나는 낮은 안정 상태를 만든다. 여기에 두 개의 접근 [[014_transistor|트랜지스터]]를 붙여 워드라인 ([[075_word|Word]] Line)이 열릴 때만 비트라인 ([[086_fenwick_tree|Bit]] Line)과 연결한다. 그래서 SRAM은 "전하를 잠깐 담아 두는 구조"가 아니라 "[[369_logic_bomb|논리]] 상태를 계속 재생산하는 구조"다.
+가장 대표적인 SRAM 셀은 **6T (6-Transistor) 셀**이다. 네 개의 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)가 두 개의 인버터를 이루고, 이 인버터가 서로를 되먹임하면서 `Q`와 `Q_bar` 중 하나는 높고 다른 하나는 낮은 안정 상태를 만든다. 여기에 두 개의 접근 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)를 붙여 워드라인 ([Word](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) Line)이 열릴 때만 비트라인 ([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Line)과 연결한다. 그래서 SRAM은 "전하를 잠깐 담아 두는 구조"가 아니라 "[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 상태를 계속 재생산하는 구조"다.
 
-읽기와 [[289_cqrs_db|쓰기]]의 성질도 이 구조에서 나온다. 읽을 때는 비트라인 쌍을 미리 프리차지한 뒤 워드라인을 열고, 셀 내부의 미세한 [[001_voltage|전압]] 차이를 센스 앰프 (Sense Amplifier)가 증폭한다. 쌍안정 래치가 원래 상태를 유지하므로 DRAM과 달리 비파괴적 읽기가 가능하다. 쓸 때는 비트라인에 강한 0/1 패턴을 걸어 내부 래치의 균형을 뒤집는다.
+읽기와 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)의 성질도 이 구조에서 나온다. 읽을 때는 비트라인 쌍을 미리 프리차지한 뒤 워드라인을 열고, 셀 내부의 미세한 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 차이를 센스 앰프 (Sense Amplifier)가 증폭한다. 쌍안정 래치가 원래 상태를 유지하므로 DRAM과 달리 비파괴적 읽기가 가능하다. 쓸 때는 비트라인에 강한 0/1 패턴을 걸어 내부 래치의 균형을 뒤집는다.
 
 아래 그림은 6T 셀의 저장 방식과 접근 경로를 한눈에 보여준다.
 
@@ -68,16 +72,16 @@ SRAM은 이 지점에서 "용량"이 아니라 "즉시성"을 담당한다. 아�
 └──────────────────────────────────────────────────────────────────────────┘
 ```
 
-설계자는 단순히 "빠른가"만 보지 않는다. 읽기 안정성(Read [[021_stability|Stability]]), [[289_cqrs_db|쓰기]] 가능성(Write Ability), 대기 누설전력(Leakage [[069_type_1_2_error_statistical_power|Power]]), 셀 면적(Cell Area)을 함께 맞춰야 한다. 셀을 너무 작게 줄이면 읽기 중 상태가 뒤집히기 쉽고, 너무 강한 래치는 [[289_cqrs_db|쓰기]]가 어려워진다. 그래서 SRAM 설계는 디지털처럼 보이지만 실제로는 상당히 아날로그적인 [[001_voltage|전압]] 마진 설계이기도 하다.
+설계자는 단순히 "빠른가"만 보지 않는다. 읽기 안정성(Read [Stability](/knowledge-base/studynote/08_algorithm_stats/02_sorting/021_stability/)), [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 가능성(Write Ability), 대기 누설전력(Leakage [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/)), 셀 면적(Cell Area)을 함께 맞춰야 한다. 셀을 너무 작게 줄이면 읽기 중 상태가 뒤집히기 쉽고, 너무 강한 래치는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)가 어려워진다. 그래서 SRAM 설계는 디지털처럼 보이지만 실제로는 상당히 아날로그적인 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 마진 설계이기도 하다.
 
 | 구성 요소 | 역할 | 설계 시 보는 포인트 |
 | :--- | :--- | :--- |
-| 교차 결합 인버터 | `Q`와 `Q_bar`의 안정 상태 유지 | [[001_dikw_pyramid|데이터]] 유지 안정성 |
-| 접근 [[014_transistor|트랜지스터]] | 셀과 비트라인 연결 | 읽기 충격 최소화 |
-| 비트라인 쌍 | 읽기/[[289_cqrs_db|쓰기]] [[001_dikw_pyramid|데이터]] 경로 | 배선 용량과 [[015_지연_데이터_관점|지연]] |
-| 센스 앰프 | 작은 [[001_voltage|전압]] 차이 증폭 | 속도와 오판독 방지 |
+| 교차 결합 인버터 | `Q`와 `Q_bar`의 안정 상태 유지 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유지 안정성 |
+| 접근 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) | 셀과 비트라인 연결 | 읽기 충격 최소화 |
+| 비트라인 쌍 | 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로 | 배선 용량과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
+| 센스 앰프 | 작은 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 차이 증폭 | 속도와 오판독 방지 |
 
-즉 SRAM의 핵심 원리는 "비트를 저장한다"보다 "비트가 스스로 무너지지 않게 되먹임으로 붙잡고, 필요할 때만 빠르게 꺼낸다"에 있다. 이 원리 덕분에 [[015_지연_데이터_관점|지연]]시간은 매우 짧지만, 셀 하나당 [[014_transistor|트랜지스터]] 수가 많아 면적과 비용은 크게 증가한다.
+즉 SRAM의 핵심 원리는 "비트를 저장한다"보다 "비트가 스스로 무너지지 않게 되먹임으로 붙잡고, 필요할 때만 빠르게 꺼낸다"에 있다. 이 원리 덕분에 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간은 매우 짧지만, 셀 하나당 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 수가 많아 면적과 비용은 크게 증가한다.
 
 - **📢 섹션 요약 비유**: SRAM 셀은 공이 한쪽 골짜기에 굴러가면 그 상태를 계속 유지하는 두 개의 홈과 같다. 문을 열어 확인해도 공이 그대로 남아 있으니 빨리 읽을 수 있지만, 이런 홈을 하나하나 만드는 데 공간이 많이 든다.
 
@@ -87,18 +91,18 @@ SRAM은 이 지점에서 "용량"이 아니라 "즉시성"을 담당한다. 아�
 
 SRAM을 제대로 이해하려면 DRAM과의 차이를 "빠르다/느리다" 수준이 아니라 저장 방식의 차이로 봐야 한다. DRAM은 커패시터에 전하를 잠깐 담아 두는 방식이어서 셀은 작고 싸지만, 시간이 지나면 방전되고 읽는 과정도 복원 단계를 동반한다. 반면 SRAM은 래치 기반이라 전원이 있는 동안 상태가 안정적으로 유지되고 읽기도 비파괴적이다.
 
-| 비교 항목 | SRAM (Static Random Access Memory) | [[251_dram|DRAM]] (Dynamic Random Access Memory) |
+| 비교 항목 | SRAM (Static Random Access Memory) | [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory) |
 | :--- | :--- | :--- |
 | 저장 방식 | 6T 래치의 쌍안정 상태 | 1T1C 셀의 전하 저장 |
 | 리프레시 | 불필요 | 필수 |
 | 읽기 특성 | 비파괴적 읽기 | 복원 부담 존재 |
-| [[015_지연_데이터_관점|지연]]시간 | 매우 짧음, 캐시에 적합 | 상대적으로 김, 주기억장치에 적합 |
+| [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 | 매우 짧음, 캐시에 적합 | 상대적으로 김, 주기억장치에 적합 |
 | 집적도 | 낮음 | 높음 |
-| 대표 위치 | CPU 캐시, [[057_register|레지스터]] [[501_file_definition_logical_record|파일]], 온칩 버퍼 | 메인 메모리, 대용량 버퍼 |
+| 대표 위치 | CPU 캐시, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 온칩 버퍼 | 메인 메모리, 대용량 버퍼 |
 
-이 차이는 [[252_memory_hierarchy|메모리 계층 구조]] 전체를 만든다. [[057_register|레지스터]] [[501_file_definition_logical_record|파일]]은 가장 작은 대신 가장 빠르고, 그 아래 L1/L2/L3 캐시가 SRAM으로 구성되어 지역성을 흡수한다. 그 아래 큰 용량은 DRAM이 맡고, 더 아래에서는 SSD와 HDD가 비용을 낮춘다. 다시 말해 SRAM은 혼자 완전한 메모리가 아니라, 다른 메모리의 약점을 덮는 "상위 계층 재료"다.
+이 차이는 [메모리 계층 구조](/knowledge-base/studynote/02_operating_system/04_synchronization/252_memory_hierarchy/) 전체를 만든다. [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 가장 작은 대신 가장 빠르고, 그 아래 L1/L2/L3 캐시가 SRAM으로 구성되어 지역성을 흡수한다. 그 아래 큰 용량은 DRAM이 맡고, 더 아래에서는 SSD와 HDD가 비용을 낮춘다. 다시 말해 SRAM은 혼자 완전한 메모리가 아니라, 다른 메모리의 약점을 덮는 "상위 계층 재료"다.
 
-또한 SRAM은 캐시뿐 아니라 네트워크 장비의 룩업 테이블, 임베디드 시스템의 온칩 스크래치패드, 고속 [[261_fifo_page_replacement|FIFO]] (First In First Out) 버퍼와도 연결된다. 공통점은 모두 "접근 패턴이 빠르고 불규칙하며, 응답 [[015_지연_데이터_관점|지연]]이 즉시 문제로 번지는 영역"이라는 점이다. 이때 설계자는 DRAM의 대용량보다 SRAM의 짧은 레이턴시를 우선한다.
+또한 SRAM은 캐시뿐 아니라 네트워크 장비의 룩업 테이블, 임베디드 시스템의 온칩 스크래치패드, 고속 [FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) (First In First Out) 버퍼와도 연결된다. 공통점은 모두 "접근 패턴이 빠르고 불규칙하며, 응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 즉시 문제로 번지는 영역"이라는 점이다. 이때 설계자는 DRAM의 대용량보다 SRAM의 짧은 레이턴시를 우선한다.
 
 따라서 SRAM vs DRAM의 비교는 부품 경쟁이 아니라 역할 분담으로 이해해야 한다. 하나가 다른 하나를 대체하는 것이 아니라, 속도와 용량의 균형을 맞추기 위해 각기 다른 층에서 협업하는 구조다.
 
@@ -108,34 +112,34 @@ SRAM을 제대로 이해하려면 DRAM과의 차이를 "빠르다/느리다" 수
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 SRAM 채택 여부는 "최고 [[282_performance_tactics|성능]]이 필요한가?"보다 "[[015_지연_데이터_관점|지연]]시간이 예측 가능해야 하는가?"로 판단하는 편이 정확하다. 예를 들어 L1 캐시나 [[291_tlb|Translation Lookaside Buffer]] 주변 구조처럼 매 클럭 접근이 일어나는 영역은 몇 ns의 차이도 전체 파이프라인을 흔든다. 이런 곳에서는 비싸더라도 SRAM이 사실상 유일한 선택이다.
+실무에서 SRAM 채택 여부는 "최고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 필요한가?"보다 "[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간이 예측 가능해야 하는가?"로 판단하는 편이 정확하다. 예를 들어 L1 캐시나 [Translation Lookaside Buffer](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/) 주변 구조처럼 매 클럭 접근이 일어나는 영역은 몇 ns의 차이도 전체 파이프라인을 흔든다. 이런 곳에서는 비싸더라도 SRAM이 사실상 유일한 선택이다.
 
-반대로 수십 MB를 넘어 수백 MB, GB 단위 용량이 필요하면 SRAM은 금방 비현실적이 된다. 셀 면적이 크고 누설전력이 커서 다이 면적, 수율, 정적전력 비용이 급격히 상승하기 때문이다. 그래서 "큰 버퍼가 필요하다"는 요구만 보고 SRAM을 선택하면, [[282_performance_tactics|성능]] 이득보다 면적·전력 손실이 더 커질 수 있다.
+반대로 수십 MB를 넘어 수백 MB, GB 단위 용량이 필요하면 SRAM은 금방 비현실적이 된다. 셀 면적이 크고 누설전력이 커서 다이 면적, 수율, 정적전력 비용이 급격히 상승하기 때문이다. 그래서 "큰 버퍼가 필요하다"는 요구만 보고 SRAM을 선택하면, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 이득보다 면적·전력 손실이 더 커질 수 있다.
 
 ### 설계 판단 체크포인트
 
-1. **접근 [[015_지연_데이터_관점|지연]] 상한이 엄격한가?**  
+1. **접근 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 상한이 엄격한가?**  
    1~3ns 수준의 응답이 필요하면 SRAM을 우선 검토한다.
 2. **용량 요구가 작고 국소적인가?**  
-   수 KB~수 MB 범위의 [[675_hot_data_caching|핫 데이터]] 저장소에 적합하다.
+   수 KB~수 MB 범위의 [핫 데이터](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/675_hot_data_caching/) 저장소에 적합하다.
 3. **대기전력이 중요한가?**  
-   항상 켜져 있는 대형 SRAM 블록은 누설전력이 부담이므로 파워 게이팅 ([[471_power_gating|Power Gating]]) 전략이 필요하다.
-4. **동시 [[446_port_and_bus|포트]]가 필요한가?**  
-   [[057_register|레지스터]] [[501_file_definition_logical_record|파일]]처럼 다중 읽기/[[289_cqrs_db|쓰기]]가 필요하면 멀티포트 SRAM이 필요하지만, 면적 비용이 더 커진다.
+   항상 켜져 있는 대형 SRAM 블록은 누설전력이 부담이므로 파워 게이팅 ([Power Gating](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/)) 전략이 필요하다.
+4. **동시 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 필요한가?**  
+   [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)처럼 다중 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)가 필요하면 멀티포트 SRAM이 필요하지만, 면적 비용이 더 커진다.
 
 ### 대표 적용 예시
 
-- **CPU 캐시**: 지역성이 있는 [[001_dikw_pyramid|데이터]]를 코어 근처에 두어 [[251_dram|DRAM]] 접근을 줄인다.
-- **MCU ([[130_microcontroller|Microcontroller]] Unit) 내장 메모리**: 외부 [[251_dram|DRAM]] 없이도 짧고 예측 가능한 접근 시간을 확보한다.
-- **고속 네트워크 버퍼/룩업 테이블**: 랜덤 액세스가 많아도 [[015_지연_데이터_관점|지연]]시간을 낮게 유지한다.
+- **CPU 캐시**: 지역성이 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 코어 근처에 두어 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 접근을 줄인다.
+- **MCU ([Microcontroller](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/) Unit) 내장 메모리**: 외부 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 없이도 짧고 예측 가능한 접근 시간을 확보한다.
+- **고속 네트워크 버퍼/룩업 테이블**: 랜덤 액세스가 많아도 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간을 낮게 유지한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 캐시 [[264_hit_ratio|적중률]] 분석 없이 무작정 SRAM 용량만 늘리는 설계
+- 캐시 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/) 분석 없이 무작정 SRAM 용량만 늘리는 설계
 - 누설전력 대책 없이 대형 온칩 SRAM을 상시 활성화하는 설계
-- 멀티포트 요구를 단일 [[446_port_and_bus|포트]] SRAM으로 버티려다 구조적 병목을 만드는 설계
+- 멀티포트 요구를 단일 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) SRAM으로 버티려다 구조적 병목을 만드는 설계
 
-결국 실무 판단은 단순하다. **"[[675_hot_data_caching|핫 데이터]]에 대한 확정적 저지연"**이 목표면 SRAM, **"대용량 저장"**이 목표면 다른 메모리를 우선 고려해야 한다. 기술사 관점에서도 SRAM은 [[282_performance_tactics|성능]] 문제를 해결하는 만능 해답이 아니라, 좁고 중요한 병목 구간을 뚫는 고비용 도구로 설명하는 것이 적절하다.
+결국 실무 판단은 단순하다. **"[핫 데이터](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/675_hot_data_caching/)에 대한 확정적 저지연"**이 목표면 SRAM, **"대용량 저장"**이 목표면 다른 메모리를 우선 고려해야 한다. 기술사 관점에서도 SRAM은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제를 해결하는 만능 해답이 아니라, 좁고 중요한 병목 구간을 뚫는 고비용 도구로 설명하는 것이 적절하다.
 
 - **📢 섹션 요약 비유**: SRAM은 응급실의 바로 옆 약품 카트와 같다. 자주 급히 쓰는 약은 손 닿는 곳에 둬야 하지만, 병원 전체 재고를 그 카트에 실으려 하면 공간과 비용이 먼저 무너진다.
 
@@ -143,11 +147,11 @@ SRAM을 제대로 이해하려면 DRAM과의 차이를 "빠르다/느리다" 수
 
 ## Ⅴ. 기대효과 및 결론
 
-SRAM을 적절한 위치에 쓰면 시스템은 평균 [[282_performance_tactics|성능]]보다 **최악 [[015_지연_데이터_관점|지연]]시간**을 더 안정적으로 줄일 수 있다. 캐시 적중 시 응답이 짧고 예측 가능하므로 파이프라인 제어가 쉬워지고, 메모리 벽을 상당 부분 숨길 수 있다. 또한 리프레시 오버헤드가 없어 제어 로직이 단순하고, 비파괴적 읽기 덕분에 자주 접근하는 경로에서 효율이 좋다.
+SRAM을 적절한 위치에 쓰면 시스템은 평균 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 **최악 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간**을 더 안정적으로 줄일 수 있다. 캐시 적중 시 응답이 짧고 예측 가능하므로 파이프라인 제어가 쉬워지고, 메모리 벽을 상당 부분 숨길 수 있다. 또한 리프레시 오버헤드가 없어 제어 로직이 단순하고, 비파괴적 읽기 덕분에 자주 접근하는 경로에서 효율이 좋다.
 
-하지만 한계도 분명하다. 셀 면적이 커서 대용량 확장이 어렵고, 공정 미세화가 진행될수록 누설전력과 안정성 마진 관리가 더 까다로워진다. 그래서 최근에는 eDRAM (embedded [[251_dram|DRAM]]), MRAM (Magnetoresistive Random Access Memory), 3D 적층 캐시 같은 대안이 연구되지만, 여전히 가장 짧고 예측 가능한 온칩 메모리의 표준은 SRAM이다.
+하지만 한계도 분명하다. 셀 면적이 커서 대용량 확장이 어렵고, 공정 미세화가 진행될수록 누설전력과 안정성 마진 관리가 더 까다로워진다. 그래서 최근에는 eDRAM (embedded [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/)), MRAM (Magnetoresistive Random Access Memory), 3D 적층 캐시 같은 대안이 연구되지만, 여전히 가장 짧고 예측 가능한 온칩 메모리의 표준은 SRAM이다.
 
-정리하면 SRAM은 "가장 빠른 메모리"라서 중요한 것이 아니라, **비용을 감수하고서라도 CPU의 시간 감각에 맞춰 줄 수 있는 메모리**라서 중요하다. 기억해야 할 관점은 하나다. SRAM은 용량 경쟁의 승자가 아니라, 메모리 계층에서 [[015_지연_데이터_관점|지연]]시간을 사 오는 가장 대표적인 투자 수단이다.
+정리하면 SRAM은 "가장 빠른 메모리"라서 중요한 것이 아니라, **비용을 감수하고서라도 CPU의 시간 감각에 맞춰 줄 수 있는 메모리**라서 중요하다. 기억해야 할 관점은 하나다. SRAM은 용량 경쟁의 승자가 아니라, 메모리 계층에서 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간을 사 오는 가장 대표적인 투자 수단이다.
 
 - **📢 섹션 요약 비유**: SRAM은 비싼 고속도로 하이패스 전용 차선과 같다. 모든 차를 거기로 보낼 수는 없지만, 가장 막히면 안 되는 차량을 통과시킬 때 전체 흐름이 살아난다.
 
@@ -157,11 +161,11 @@ SRAM을 적절한 위치에 쓰면 시스템은 평균 [[282_performance_tactics
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[259_cache_memory|캐시 메모리]] ([[259_cache_memory|Cache Memory]]) | SRAM의 대표적 활용처로, 지역성을 이용해 [[251_dram|DRAM]] 접근을 숨긴다. |
-| [[251_dram|DRAM]] (Dynamic Random Access Memory) | 대용량·저비용을 담당하며 SRAM과 함께 메모리 계층을 이룬다. |
-| [[057_register|레지스터]] [[501_file_definition_logical_record|파일]] ([[175_register_addressing|Register]] [[501_file_definition_logical_record|File]]) | SRAM과 유사한 고속 셀 기반 구조로 코어 내부 최상위 저장소를 담당한다. |
-| 센스 앰프 (Sense Amplifier) | 비트라인의 작은 [[001_voltage|전압]] 차이를 판독해 읽기 속도를 결정한다. |
-| 파워 게이팅 ([[471_power_gating|Power Gating]]) | 대형 SRAM 블록의 누설전력을 줄이기 위한 실무적 보완 기술이다. |
+| [캐시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/259_cache_memory/) ([Cache Memory](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/259_cache_memory/)) | SRAM의 대표적 활용처로, 지역성을 이용해 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 접근을 숨긴다. |
+| [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory) | 대용량·저비용을 담당하며 SRAM과 함께 메모리 계층을 이룬다. |
+| [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) ([Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/) [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)) | SRAM과 유사한 고속 셀 기반 구조로 코어 내부 최상위 저장소를 담당한다. |
+| 센스 앰프 (Sense Amplifier) | 비트라인의 작은 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 차이를 판독해 읽기 속도를 결정한다. |
+| 파워 게이팅 ([Power Gating](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/)) | 대형 SRAM 블록의 누설전력을 줄이기 위한 실무적 보완 기술이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -195,7 +199,7 @@ SRAM을 적절한 위치에 쓰면 시스템은 평균 [[282_performance_tactics
 
 **진행 상황**: 250 / 803
 
-← **이전**: [[249_sequential_locality|249. 순차적 지역성 (Sequential Locality)]]
-**다음**: [[251_dram|251. DRAM (Dynamic RAM)]] →
+← **이전**: [249. 순차적 지역성 (Sequential Locality)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/249_sequential_locality/)
+**다음**: [251. DRAM (Dynamic RAM)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) →
 
 ---

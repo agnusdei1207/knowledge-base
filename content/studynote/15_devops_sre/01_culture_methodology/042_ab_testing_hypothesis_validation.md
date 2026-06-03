@@ -1,14 +1,18 @@
----
-title: 042. A/B 테스팅 가설 검증
-date: '2026-04-05'
-tags:
-- studynote-devops-sre
----
++++
+title = "042. A/B 테스팅 가설 검증"
+date = 2026-04-05
+
+[taxonomies]
+tags = ["studynote-devops-sre"]
+
+[extra]
+tags = ["studynote-devops-sre"]
++++
 
 > **핵심 인사이트**
-> 1. A/B 테스팅은 제품 변경사항의 효과를 통계적으로 [[395_verification_process_review|검증]]하는 실험 방법론으로, [[652_devops_calms_culture|DevOps]]/[[100_sre_site_reliability_engineering_error_budget|SRE]] 관점에서 [[576_feature_flag_ab_testing_rollout|피처 플래그]]([[576_feature_flag_ab_testing_rollout|Feature Flag]])와 결합하면 코드 배포 없이 실험을 제어하고 [[098_rollback_strategy_pipeline_error_threshold|롤백]] [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 없이 사용자 경험을 개선할 수 있다.
-> 2. A/B 테스트의 통계적 유의성(p < 0.05)과 충분한 표본 크기(Statistical [[069_type_1_2_error_statistical_power|Power]] 80% 이상)는 신뢰할 수 있는 실험 결론을 위한 필수 조건이며, 이를 무시한 조기 결론(p-hacking, Peeking)은 거짓 양성(False Positive) 결과로 이어져 잘못된 제품 의사결정을 초래한다.
-> 3. Multi-armed Bandit(MAB) [[001_algorithm_definition|알고리즘]]은 전통 A/B 테스트의 탐색/활용 트레이드오프를 해결하여 실험 중에도 높은 성과 변형에 더 많은 트래픽을 자동 배분하므로, 빠른 반복과 비용 최소화가 중요한 환경에서 우수한 대안이 된다.
+> 1. A/B 테스팅은 제품 변경사항의 효과를 통계적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 실험 방법론으로, [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)/[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 관점에서 [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)([Feature Flag](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/))와 결합하면 코드 배포 없이 실험을 제어하고 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 없이 사용자 경험을 개선할 수 있다.
+> 2. A/B 테스트의 통계적 유의성(p < 0.05)과 충분한 표본 크기(Statistical [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) 80% 이상)는 신뢰할 수 있는 실험 결론을 위한 필수 조건이며, 이를 무시한 조기 결론(p-hacking, Peeking)은 거짓 양성(False Positive) 결과로 이어져 잘못된 제품 의사결정을 초래한다.
+> 3. Multi-armed Bandit(MAB) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 전통 A/B 테스트의 탐색/활용 트레이드오프를 해결하여 실험 중에도 높은 성과 변형에 더 많은 트래픽을 자동 배분하므로, 빠른 반복과 비용 최소화가 중요한 환경에서 우수한 대안이 된다.
 
 ---
 
@@ -88,7 +92,7 @@ p-hacking / 피킹(Peeking) 위험:
 
 ---
 
-## Ⅲ. [[576_feature_flag_ab_testing_rollout|피처 플래그]]와 A/B 통합
+## Ⅲ. [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)와 A/B 통합
 
 ```
 피처 플래그 (Feature Flag) A/B 통합 구조:
@@ -125,7 +129,7 @@ DevOps 통합:
   세그먼트별 실험 (국가, 디바이스, 사용자 등급)
 ```
 
-> 📢 **섹션 요약 비유**: [[576_feature_flag_ab_testing_rollout|피처 플래그]] A/B는 영화관 불빛 조절 — 영화관 전체를 새로 짓지 않고 조명만 바꾸면서 관객 반응을 테스트할 수 있어요.
+> 📢 **섹션 요약 비유**: [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/) A/B는 영화관 불빛 조절 — 영화관 전체를 새로 짓지 않고 조명만 바꾸면서 관객 반응을 테스트할 수 있어요.
 
 ---
 
@@ -276,8 +280,8 @@ MAB + DRL (딥 강화학습)
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. A/B 테스팅은 두 가지 간판 비교 — 절반 손님에게는 빨간 간판 가게, 나머지에게는 파란 간판 가게를 보여주고 어느 쪽이 더 잘 팔리는지 [[396_validation|확인]]해요!
-2. p-value는 우연히 이런 결과가 나올 [[130_probability|확률]] — 5% 이하이면 우연이 아니라 진짜 차이라고 믿어요.
+1. A/B 테스팅은 두 가지 간판 비교 — 절반 손님에게는 빨간 간판 가게, 나머지에게는 파란 간판 가게를 보여주고 어느 쪽이 더 잘 팔리는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해요!
+2. p-value는 우연히 이런 결과가 나올 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) — 5% 이하이면 우연이 아니라 진짜 차이라고 믿어요.
 3. Multi-armed Bandit은 영리한 슬롯머신 — 어떤 레버가 잘 나오는지 자동으로 학습해서 좋은 레버를 더 자주 당겨줘요!
 
 ---
@@ -286,7 +290,7 @@ MAB + DRL (딥 강화학습)
 
 **진행 상황**: 42 / 373
 
-← **이전**: [[041_trunk_based_development_tbd|041. TBD 심화: CI/CD 통합 및 코드 리뷰 (Trunk-Based Development Advanced)]]
-**다음**: [[043_dark_launching_shadow_traffic|043. 다크 런칭 & 섀도우 트래픽]] →
+← **이전**: [041. TBD 심화: CI/CD 통합 및 코드 리뷰 (Trunk-Based Development Advanced)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/041_trunk_based_development_tbd/)
+**다음**: [043. 다크 런칭 & 섀도우 트래픽](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/043_dark_launching_shadow_traffic/) →
 
 ---

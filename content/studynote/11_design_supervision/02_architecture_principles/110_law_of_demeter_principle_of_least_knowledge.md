@@ -1,21 +1,25 @@
----
-title: 110. 최소 지식의 원칙 (Law of Demeter, Principle of Least Knowledge)
-date: '2026-05-10'
-tags:
-- studynote-design-supervision
----
++++
+title = "110. 최소 지식의 원칙 (Law of Demeter, Principle of Least Knowledge)"
+date = 2026-05-10
+
+[taxonomies]
+tags = ["studynote-design-supervision"]
+
+[extra]
+tags = ["studynote-design-supervision"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 디미터 법칙 ([[110_law_of_demeter|Law of Demeter]], LoD)은 객체가 협력할 때 "직접적인 이웃([[174_immediate_addressing|immediate]] neighbor)"하고만 대화하고, 이웃의 내부 구조를 탐색하여 깊은 체이닝([[103_chaining|chaining]])으로 다른 객체에 접근하는 것을 금지하는 [[110_law_of_demeter|최소 지식의 원칙]](Principle of Least Knowledge)이다.
+> 1. **본질**: 디미터 법칙 ([Law of Demeter](/knowledge-base/studynote/11_design_supervision/09_design_principles/110_law_of_demeter/), LoD)은 객체가 협력할 때 "직접적인 이웃([immediate](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/174_immediate_addressing/) neighbor)"하고만 대화하고, 이웃의 내부 구조를 탐색하여 깊은 체이닝([chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/))으로 다른 객체에 접근하는 것을 금지하는 [최소 지식의 원칙](/knowledge-base/studynote/11_design_supervision/09_design_principles/110_law_of_demeter/)(Principle of Least Knowledge)이다.
 > 2. **가치**: `a.getB().getC().doSomething()` 같은 메서드 체이닝은 A가 B의 내부 구조와 C의 존재를 모두 알아야 하는 강한 구조적 결합을 만든다. LoD를 따르면 내부 구조 변경이 외부로 전파되는 충격이 차단된다.
-> 3. **판단 포인트**: "점([[519_dot_dns_over_tls|dot]])을 두 번 이상 찍는 코드는 LoD 위반 후보"라는 경험칙을 적용하되, 플루언트 인터페이스(Fluent Interface)나 [[380_builder_pattern_summary|빌더 패턴]]([[148_builder_pattern|Builder Pattern]])처럼 동일 객체에 연속 호출하는 경우는 예외로 처리해야 한다.
+> 3. **판단 포인트**: "점([dot](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/519_dot_dns_over_tls/))을 두 번 이상 찍는 코드는 LoD 위반 후보"라는 경험칙을 적용하되, 플루언트 인터페이스(Fluent Interface)나 [빌더 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/380_builder_pattern_summary/)([Builder Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/148_builder_pattern/))처럼 동일 객체에 연속 호출하는 경우는 예외로 처리해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-디미터 법칙은 1987년 미국 노스이스턴 대학교(Northeastern University)의 디미터 프로젝트(Demeter [[042_relational_algebra_project|Project]])에서 이안 홀랜드(Ian Holland)가 제안한 객체지향 설계 원칙이다. 원래는 자동화된 소프트웨어 성장 시스템을 연구하면서 발견된 패턴이었지만, 이후 객체 간 [[195_coupling_levels|결합도]]([[195_coupling_levels|coupling]])를 낮추는 실용적 설계 원칙으로 광범위하게 채택되었다.
+디미터 법칙은 1987년 미국 노스이스턴 대학교(Northeastern University)의 디미터 프로젝트(Demeter [Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/))에서 이안 홀랜드(Ian Holland)가 제안한 객체지향 설계 원칙이다. 원래는 자동화된 소프트웨어 성장 시스템을 연구하면서 발견된 패턴이었지만, 이후 객체 간 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)([coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/))를 낮추는 실용적 설계 원칙으로 광범위하게 채택되었다.
 
 LoD가 없으면 클라이언트 객체는 협력 객체의 내부 구조 전체를 알아야 한다. `order.getCustomer().getAddress().getCity()` 같은 코드에서 Order는 Customer의 구조, Address의 구조, City 표현 방식까지 모두 안다. `Address`를 `Location`으로 리팩토링하면 이 체인을 사용하는 모든 코드를 찾아 수정해야 한다.
 
@@ -49,7 +53,7 @@ LoD를 실현하는 핵심 기법은 위임(Delegation)이다. 클라이언트�
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
 | 주문 배송지 조회 | `order.getCustomer().getAddress().getCity()` | `order.getShippingCity()` 위임 메서드 추가 |
-| 사용자 권한 [[396_validation|확인]] | `user.getRole().getPermissions().has("read")` | `user.canRead()` 위임 |
+| 사용자 권한 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | `user.getRole().getPermissions().has("read")` | `user.canRead()` 위임 |
 | 설정값 접근 | `config.getDb().getPool().getMaxSize()` | `config.getDbPoolMaxSize()` 위임 |
 | 계층 탐색 | `dept.getCompany().getCeo().getEmail()` | 직접 관계가 아니면 설계 재검토 |
 
@@ -74,30 +78,30 @@ LoD를 실현하는 핵심 기법은 위임(Delegation)이다. 클라이언트�
 ---
 ## Ⅲ. 비교 및 연결
 
-LoD는 [[199_information_hiding_encapsulation|정보 은닉]]([[199_information_hiding_encapsulation|Information Hiding]])과 캡슐화(Encapsulation)를 강화하는 원칙으로, [[195_coupling_levels|결합도]]([[195_coupling_levels|Coupling]])를 낮추는 여러 원칙 중 가장 구체적인 코드 수준 지침이다.
+LoD는 [정보 은닉](/knowledge-base/studynote/04_software_engineering/04_testing_quality/199_information_hiding_encapsulation/)([Information Hiding](/knowledge-base/studynote/04_software_engineering/04_testing_quality/199_information_hiding_encapsulation/))과 캡슐화(Encapsulation)를 강화하는 원칙으로, [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)([Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/))를 낮추는 여러 원칙 중 가장 구체적인 코드 수준 지침이다.
 
 | 비교 축 | A | B |
 |:---|:---|:---|
 | **핵심 메시지** | "이웃하고만 대화하라" | "먼저 연락하지 마라, 우리가 연락한다" |
-| **[[195_coupling_levels|결합도]] 방향** | 수평적 객체 간 결합 최소화 | 상하위 [[192_module_independence|모듈]] 간 제어 방향 전환 |
+| **[결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 방향** | 수평적 객체 간 결합 최소화 | 상하위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간 제어 방향 전환 |
 | **주요 기법** | 위임 메서드 추가 | 콜백·이벤트·IoC |
-| **적용 범위** | 메서드 내 호출 체인 | [[192_module_independence|모듈]]·프레임워크 설계 |
+| **적용 범위** | 메서드 내 호출 체인 | [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)·프레임워크 설계 |
 
-LoD는 [[310_architecture|DDD]] ([[127_ddd_domain_driven_design|Domain-Driven Design]])에서 [[222_aggregate_ddd_transaction_consistency|애그리게이트]]([[222_aggregate_ddd_transaction_consistency|Aggregate]]) 설계 원칙과 자연스럽게 연결된다. [[222_aggregate_ddd_transaction_consistency|애그리게이트]] 루트([[131_aggregate_root|Aggregate Root]])를 통해서만 내부 엔티티에 접근하게 하는 것이 LoD의 [[064_relation_domain|도메인]] 수준 표현이다. 외부에서 `Order.getOrderLine(0).getProduct().getPrice()`처럼 [[222_aggregate_ddd_transaction_consistency|애그리게이트]] 내부를 탐색하는 것을 금지하고, `Order.getTotalPrice()`로 위임한다.
+LoD는 [DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) ([Domain-Driven Design](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/127_ddd_domain_driven_design/))에서 [애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/)([Aggregate](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/)) 설계 원칙과 자연스럽게 연결된다. [애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) 루트([Aggregate Root](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/131_aggregate_root/))를 통해서만 내부 엔티티에 접근하게 하는 것이 LoD의 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 수준 표현이다. 외부에서 `Order.getOrderLine(0).getProduct().getPrice()`처럼 [애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) 내부를 탐색하는 것을 금지하고, `Order.getTotalPrice()`로 위임한다.
 
-- **📢 섹션 요약 비유**: 외국 대사관과 소통할 때 대사를 통해 공문을 전달하지, 대사의 비서, 비서의 부하 직원, 그 직원의 담당 부서를 직접 찾아다니지 않는다. 공식 창구([[222_aggregate_ddd_transaction_consistency|애그리게이트]] 루트)만이 유일한 접점이다.
+- **📢 섹션 요약 비유**: 외국 대사관과 소통할 때 대사를 통해 공문을 전달하지, 대사의 비서, 비서의 부하 직원, 그 직원의 담당 부서를 직접 찾아다니지 않는다. 공식 창구([애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) 루트)만이 유일한 접점이다.
 
 ---
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 코드 리뷰에서 LoD 위반을 탐지하는 가장 빠른 방법은 `.` 체이닝 횟수를 세는 것이다. 단, 플루언트 인터페이스(`builder.setName("A").setAge(10).build()`)는 동일 객체에 대한 연속 호출이므로 LoD 위반이 아니다. 진짜 LoD 위반은 서로 다른 객체를 탐색하는 체인이다.
 
-### 판단 [[435_checklist_based_testing|체크리스트]]
+### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 메서드 내에서 두 번 이상의 점(`.`) 체인으로 서로 다른 객체를 탐색하고 있는가?
 2. 중간 객체의 내부 구조가 바뀌면 이 코드도 함께 수정해야 하는가?
 3. 위임 메서드를 추가하면 테스트가 더 쉬워지는가?
-4. 플루언트 인터페이스나 [[380_builder_pattern_summary|빌더 패턴]]처럼 동일 객체에 대한 체인인가? (예외 처리)
-5. [[222_aggregate_ddd_transaction_consistency|애그리게이트]] 경계를 넘어 내부 엔티티에 직접 접근하는 코드가 있는가?
+4. 플루언트 인터페이스나 [빌더 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/380_builder_pattern_summary/)처럼 동일 객체에 대한 체인인가? (예외 처리)
+5. [애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) 경계를 넘어 내부 엔티티에 직접 접근하는 코드가 있는가?
 
 - **📢 섹션 요약 비유**: 회사 신입사원이 CEO에게 직접 보고하지 않고 팀장을 통하듯, 각 객체는 자신의 직접 상관(인스턴스 변수)하고만 대화해야 조직이 질서 있게 돌아간다.
 
@@ -107,13 +111,13 @@ LoD는 [[310_architecture|DDD]] ([[127_ddd_domain_driven_design|Domain-Driven De
 
 LoD를 시스템 전반에 적용하면 내부 구조 변경의 파급 범위가 명확하게 제한된다. `Address` 클래스를 리팩토링해도 Order가 위임 메서드를 내부에서 처리하고 있으므로, 외부 클라이언트 코드는 전혀 영향을 받지 않는다. 이는 대규모 레거시 시스템 리팩토링에서 특히 강력한 장점이다.
 
-한계는 위임 메서드의 증가다. 규모가 큰 [[064_relation_domain|도메인]] 모델에서는 수십 개의 위임 메서드가 생겨 객체의 인터페이스가 방대해질 수 있다. 이때는 인터페이스를 적절한 역할로 분리하는 [[101_isp_information_strategy_planning_4_steps|ISP]] ([[246_isp_interface_segregation_principle|Interface Segregation Principle]], [[358_architecture|인터페이스 분리 원칙]])를 함께 적용하여 균형을 맞춘다.
+한계는 위임 메서드의 증가다. 규모가 큰 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델에서는 수십 개의 위임 메서드가 생겨 객체의 인터페이스가 방대해질 수 있다. 이때는 인터페이스를 적절한 역할로 분리하는 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) ([Interface Segregation Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/246_isp_interface_segregation_principle/), [인터페이스 분리 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/358_architecture/))를 함께 적용하여 균형을 맞춘다.
 
-미래 방향으로는 ① 함수형 프로그래밍에서 파이프라인 합성으로 LoD를 대체, ② [[331_static_analysis|정적 분석]] 도구의 LoD 위반 자동 탐지, ③ [[310_architecture|DDD]] [[222_aggregate_ddd_transaction_consistency|애그리게이트]] 자동 경계 감지 도구 발전이 진행되고 있다.
+미래 방향으로는 ① 함수형 프로그래밍에서 파이프라인 합성으로 LoD를 대체, ② [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 도구의 LoD 위반 자동 탐지, ③ [DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) [애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) 자동 경계 감지 도구 발전이 진행되고 있다.
 
-LoD는 "객체가 필요 이상으로 많이 알수록 [[195_coupling_levels|결합도]]가 올라가고 유지보수가 어려워진다"는 사실을 코드 수준의 규칙으로 구체화한 것으로, "최소 지식으로 최대 협력"을 달성하는 설계 원칙으로 기억해야 한다.
+LoD는 "객체가 필요 이상으로 많이 알수록 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)가 올라가고 유지보수가 어려워진다"는 사실을 코드 수준의 규칙으로 구체화한 것으로, "최소 지식으로 최대 협력"을 달성하는 설계 원칙으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: [[461_spy_test_double|스파이]] 조직에서 비밀 임무는 "알 필요가 있는 사람에게만 알려준다([[013_need_to_know|need-to-know]] basis)" 원칙으로 운영된다. 각 객체도 자신의 임무에 필요한 최소한의 정보만 알아야 보안(캡슐화)이 유지된다.
+- **📢 섹션 요약 비유**: [스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/) 조직에서 비밀 임무는 "알 필요가 있는 사람에게만 알려준다([need-to-know](/knowledge-base/studynote/09_security/01_intro_principles/013_need_to_know/) basis)" 원칙으로 운영된다. 각 객체도 자신의 임무에 필요한 최소한의 정보만 알아야 보안(캡슐화)이 유지된다.
 
 ---
 
@@ -124,13 +128,13 @@ LoD는 "객체가 필요 이상으로 많이 알수록 [[195_coupling_levels|결
 | 개념 | 연결 포인트 |
 |:---|:---|
 | 캡슐화 (Encapsulation) | LoD는 캡슐화를 객체 간 통신 규칙으로 강화 |
-| [[222_aggregate_ddd_transaction_consistency|애그리게이트]] 루트 | DDD에서 LoD의 [[064_relation_domain|도메인]] 수준 표현 |
-| [[195_coupling_levels|결합도]] ([[195_coupling_levels|Coupling]]) | LoD 준수가 [[195_coupling_levels|결합도]]를 직접 낮추는 메커니즘 |
-| [[199_information_hiding_encapsulation|정보 은닉]] | LoD를 통해 내부 구조 변경이 외부로 전파되지 않게 차단 |
+| [애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) 루트 | DDD에서 LoD의 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 수준 표현 |
+| [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) ([Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)) | LoD 준수가 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)를 직접 낮추는 메커니즘 |
+| [정보 은닉](/knowledge-base/studynote/04_software_engineering/04_testing_quality/199_information_hiding_encapsulation/) | LoD를 통해 내부 구조 변경이 외부로 전파되지 않게 차단 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[강결합 메서드 체이닝] → [디미터 법칙(LoD) 정립] → [위임 메서드 기법] → [캡슐화·[[199_information_hiding_encapsulation|정보 은닉]] 강화] → [[[310_architecture|DDD]] [[222_aggregate_ddd_transaction_consistency|애그리게이트]] 경계 설계] → [정적 분석 도구 LoD 자동 탐지]
+[강결합 메서드 체이닝] → [디미터 법칙(LoD) 정립] → [위임 메서드 기법] → [캡슐화·[정보 은닉](/knowledge-base/studynote/04_software_engineering/04_testing_quality/199_information_hiding_encapsulation/) 강화] → DDD [애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) 경계 설계] → [정적 분석 도구 LoD 자동 탐지]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -144,7 +148,7 @@ LoD는 "객체가 필요 이상으로 많이 알수록 [[195_coupling_levels|결
 
 **진행 상황**: 163 / 530
 
-← **이전**: [[110_law_of_demeter|110. 최소 지식의 원칙 (Law of Demeter)]]
-**다음**: [[111_hollywood_principle|111. 할리우드 원칙 (Hollywood Principle)]] →
+← **이전**: [110. 최소 지식의 원칙 (Law of Demeter)](/knowledge-base/studynote/11_design_supervision/09_design_principles/110_law_of_demeter/)
+**다음**: [111. 할리우드 원칙 (Hollywood Principle)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/111_hollywood_principle/) →
 
 ---

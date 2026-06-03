@@ -1,20 +1,24 @@
----
-title: 231. 카프카 토픽 / 파티션 / 컨슈머 그룹
-date: '2026-04-21'
-tags:
-- studynote-cloud-architecture
----
++++
+title = "231. 카프카 토픽 / 파티션 / 컨슈머 그룹"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-cloud-architecture"]
+
+[extra]
+tags = ["studynote-cloud-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 카프카의 Topic([[369_logic_bomb|논리]] 채널)·[[514_partition_slice_volume|Partition]](물리 분할)·[[191_consumer_group_kafka_partition_load_balancing|Consumer Group]]([[430_index_fast_full_scan|병렬]] 소비)은 **[[139_throughput|처리량]] 확장과 메시지 순서 보장을 동시에 달성**하기 위한 3-Layer 설계다.
-> 2. **가치**: [[514_partition_slice_volume|파티션]] 수만큼 [[430_index_fast_full_scan|병렬]] 처리 수준이 결정되고, [[191_consumer_group_kafka_partition_load_balancing|컨슈머 그룹]] 내 각 컨슈머가 전담 [[514_partition_slice_volume|파티션]]을 가져가므로 **소비자 수를 늘리기만 해도 [[139_throughput|처리량]]이 선형 확장**된다.
-> 3. **판단 포인트**: [[514_partition_slice_volume|파티션]] 내 메시지 순서만 보장되므로, 동일 고객 ID의 이벤트를 순서대로 처리하려면 **고객 ID를 [[514_partition_slice_volume|파티션]] 키로 [[009_config|설정]]**해야 같은 [[514_partition_slice_volume|파티션]]으로 [[339_routing_overview_best_path_selection|라우팅]]된다.
+> 1. **본질**: 카프카의 Topic([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 채널)·[Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)(물리 분할)·[Consumer Group](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/)([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 소비)은 **[처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 확장과 메시지 순서 보장을 동시에 달성**하기 위한 3-Layer 설계다.
+> 2. **가치**: [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수만큼 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 수준이 결정되고, [컨슈머 그룹](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/) 내 각 컨슈머가 전담 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 가져가므로 **소비자 수를 늘리기만 해도 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 선형 확장**된다.
+> 3. **판단 포인트**: [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 내 메시지 순서만 보장되므로, 동일 고객 ID의 이벤트를 순서대로 처리하려면 **고객 ID를 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**해야 같은 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)으로 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-카프카의 확장성과 순서 보장은 Topic-[[514_partition_slice_volume|Partition]]-[[191_consumer_group_kafka_partition_load_balancing|Consumer Group]] 3계층 구조로 실현된다. 이 구조를 이해하지 못하면 핫스팟(특정 [[514_partition_slice_volume|파티션]]에만 메시지 집중), 순서 보장 실패, 소비자 리밸런싱 폭풍 등 실무 장애를 만나게 된다.
+카프카의 확장성과 순서 보장은 Topic-[Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)-[Consumer Group](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/) 3계층 구조로 실현된다. 이 구조를 이해하지 못하면 핫스팟(특정 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에만 메시지 집중), 순서 보장 실패, 소비자 리밸런싱 폭풍 등 실무 장애를 만나게 된다.
 
 ```
 [3계층 구조]
@@ -33,7 +37,7 @@ Consumer Group "analytics"
 └── Consumer Y  ──▶ Partition 2 (1개 담당)
 ```
 
-**핵심 설계 원칙**: [[191_consumer_group_kafka_partition_load_balancing|컨슈머 그룹]]은 독립적이므로, 동일 토픽을 "order-processor" 그룹과 "analytics" 그룹이 완전히 별도로 소비할 수 있다. 한 그룹의 소비가 다른 그룹에 영향을 주지 않는다.
+**핵심 설계 원칙**: [컨슈머 그룹](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/)은 독립적이므로, 동일 토픽을 "order-processor" 그룹과 "analytics" 그룹이 완전히 별도로 소비할 수 있다. 한 그룹의 소비가 다른 그룹에 영향을 주지 않는다.
 
 📢 **섹션 요약 비유**: Topic은 신문, Partition은 신문의 섹션(정치·경제·스포츠), Consumer Group은 독자 그룹이다. 각 독자 그룹은 서로 다른 목적으로 같은 신문을 읽고, 각 섹션은 담당 독자가 읽는다.
 
@@ -41,7 +45,7 @@ Consumer Group "analytics"
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [[514_partition_slice_volume|파티션]] 키와 [[339_routing_overview_best_path_selection|라우팅]] [[268_strategy_pattern|전략]]
+### [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키와 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
 ```
 [파티션 키 기반 라우팅]
@@ -72,7 +76,7 @@ Consumer A 현재 오프셋: 3 (배송시작까지 처리 완료)
   Exactly-Once: 트랜잭션 + 멱등성 프로듀서 조합
 ```
 
-### [[191_consumer_group_kafka_partition_load_balancing|컨슈머 그룹]] 리밸런싱
+### [컨슈머 그룹](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/) 리밸런싱
 
 ```
 [리밸런싱 시나리오]
@@ -88,43 +92,43 @@ Consumer A 현재 오프셋: 3 (배송시작까지 처리 완료)
 리밸런싱 중: 파티션 재할당 동안 소비 일시 중단
 ```
 
-| 리밸런싱 [[295_protocol_field_tcp_udp_icmp|프로토콜]] | 설명 | 특성 |
+| 리밸런싱 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) | 설명 | 특성 |
 |:---|:---|:---|
-| **Eager Rebalance** | 모든 [[514_partition_slice_volume|파티션]] 해제 후 재할당 | 단순하지만 처리 중단 시간 김 |
-| **Cooperative (Incremental) Rebalance** | 필요한 [[514_partition_slice_volume|파티션]]만 재할당 | 중단 시간 최소화, [[179_kafka_flink_watermark_time_window|Kafka]] 2.4+ |
+| **Eager Rebalance** | 모든 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 해제 후 재할당 | 단순하지만 처리 중단 시간 김 |
+| **Cooperative (Incremental) Rebalance** | 필요한 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)만 재할당 | 중단 시간 최소화, [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 2.4+ |
 
-📢 **섹션 요약 비유**: 리밸런싱은 계산대([[514_partition_slice_volume|파티션]]) 재배정이다. 계산원(컨슈머) 한 명이 퇴근하면 남은 계산원들이 담당 계산대를 나눠 맡는 과정이다. 이 과정에서 잠시 계산이 멈추는(처리 중단) 불편이 있다.
+📢 **섹션 요약 비유**: 리밸런싱은 계산대([파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)) 재배정이다. 계산원(컨슈머) 한 명이 퇴근하면 남은 계산원들이 담당 계산대를 나눠 맡는 과정이다. 이 과정에서 잠시 계산이 멈추는(처리 중단) 불편이 있다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### [[514_partition_slice_volume|파티션]] 수 설계 기준
+### [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 설계 기준
 
 | 고려사항 | 권장 값 | 이유 |
 |:---|:---|:---|
-| **목표 [[139_throughput|처리량]]** | [[514_partition_slice_volume|파티션]] 수 ≥ 목표 TPS / [[514_partition_slice_volume|파티션]]당 최대 TPS | [[139_throughput|처리량]] 확보 |
-| **컨슈머 최대 수** | [[514_partition_slice_volume|파티션]] 수 = 최대 컨슈머 수 | 모든 컨슈머 활용 |
-| **리텐션 크기** | [[514_partition_slice_volume|파티션]] 수 × 예상 크기 ≤ 브로커 디스크 | 스토리지 관리 |
-| **리더 [[136_variance|분산]]** | [[514_partition_slice_volume|파티션]] 수 = 브로커 수의 배수 | 리더 균등 분배 |
+| **목표 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)** | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 ≥ 목표 TPS / [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)당 최대 TPS | [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 확보 |
+| **컨슈머 최대 수** | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 = 최대 컨슈머 수 | 모든 컨슈머 활용 |
+| **리텐션 크기** | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 × 예상 크기 ≤ 브로커 디스크 | 스토리지 관리 |
+| **리더 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)** | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 = 브로커 수의 배수 | 리더 균등 분배 |
 | **실무 권장** | 시작: 6~12개, 나중에 증가 | 나중에 줄이기 불가 |
 
-### [[191_consumer_group_kafka_partition_load_balancing|컨슈머 그룹]] vs 단일 소비자 패턴
+### [컨슈머 그룹](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/) vs 단일 소비자 패턴
 
 | 패턴 | 설명 | 사용 사례 |
 |:---|:---|:---|
-| **단일 소비자** | 모든 [[514_partition_slice_volume|파티션]] 읽기, 순서 보장 | [[568_logs_distributed_logging_elk_fluentd|로그]] 집계, [[606_auditing_linux_auditd|감사]] |
-| **[[191_consumer_group_kafka_partition_load_balancing|컨슈머 그룹]]** | [[514_partition_slice_volume|파티션]] [[136_variance|분산]] 소비, [[430_index_fast_full_scan|병렬]] 처리 | 이벤트 처리, [[215_etl_vs_elt_pipeline|ETL]] |
+| **단일 소비자** | 모든 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 읽기, 순서 보장 | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 집계, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) |
+| **[컨슈머 그룹](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/)** | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 소비, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 | 이벤트 처리, [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) |
 | **다중 그룹** | 동일 토픽 여러 팀 독립 소비 | 분석+처리 동시 |
-| **KStream ([[179_kafka_flink_watermark_time_window|Kafka]] Streams)** | [[060_spark_streaming_dstream|DStream]] 내부 처리 | 단순 스트림 변환 |
+| **KStream ([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) Streams)** | [DStream](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/) 내부 처리 | 단순 스트림 변환 |
 
-📢 **섹션 요약 비유**: [[514_partition_slice_volume|파티션]] 수와 컨슈머 수의 관계는 고속도로 차선과 차량의 관계다. 차선([[514_partition_slice_volume|파티션]])이 6개인데 차(컨슈머)가 3대면 3개 차선이 비어 낭비되고, 차가 10대면 4대는 차선이 없어 대기해야 한다. 차선수 = 최대 차량 수가 이상적이다.
+📢 **섹션 요약 비유**: [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수와 컨슈머 수의 관계는 고속도로 차선과 차량의 관계다. 차선([파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))이 6개인데 차(컨슈머)가 3대면 3개 차선이 비어 낭비되고, 차가 10대면 4대는 차선이 없어 대기해야 한다. 차선수 = 최대 차량 수가 이상적이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[514_partition_slice_volume|파티션]] 키 설계 [[268_strategy_pattern|전략]]
+### [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키 설계 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
 ```
 [좋은 파티션 키 설계]
@@ -183,37 +187,37 @@ while True:
 
 | 효과 | 내용 |
 |:---|:---|
-| **선형 확장** | [[514_partition_slice_volume|파티션]] 수 증가 → 컨슈머 수 증가 → [[139_throughput|처리량]] 선형 확장 |
-| **순서 보장** | [[514_partition_slice_volume|파티션]] 키 기반 [[339_routing_overview_best_path_selection|라우팅]]으로 동일 개체 이벤트 순서 보장 |
-| **장애 [[658_ir_recovery|복구]]** | 오프셋 기반 재처리로 장애 후 [[001_dikw_pyramid|데이터]] 손실 없이 재개 |
-| **멀티 소비** | 동일 토픽을 여러 [[191_consumer_group_kafka_partition_load_balancing|컨슈머 그룹]]이 독립 소비 |
+| **선형 확장** | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 증가 → 컨슈머 수 증가 → [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 선형 확장 |
+| **순서 보장** | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)으로 동일 개체 이벤트 순서 보장 |
+| **장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)** | 오프셋 기반 재처리로 장애 후 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실 없이 재개 |
+| **멀티 소비** | 동일 토픽을 여러 [컨슈머 그룹](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/)이 독립 소비 |
 
 ### 한계 및 주의점
 
 | 한계 | 내용 |
 |:---|:---|
-| **[[514_partition_slice_volume|파티션]] 수 증가만 가능** | [[514_partition_slice_volume|파티션]] 줄이기 불가 (처음부터 충분히 설계) |
+| **[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 증가만 가능** | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 줄이기 불가 (처음부터 충분히 설계) |
 | **리밸런싱 중단** | 컨슈머 변경 시 일시적 처리 중단 |
-| **핫스팟 위험** | [[514_partition_slice_volume|파티션]] 키 카디널리티 낮으면 특정 [[514_partition_slice_volume|파티션]]에 편중 |
-| **[[514_partition_slice_volume|파티션]] 간 순서 미보장** | 전체 토픽 순서 보장은 [[514_partition_slice_volume|파티션]] 1개로만 가능 ([[139_throughput|처리량]] 희생) |
+| **핫스팟 위험** | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키 카디널리티 낮으면 특정 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 편중 |
+| **[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 간 순서 미보장** | 전체 토픽 순서 보장은 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 1개로만 가능 ([처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 희생) |
 
-📢 **섹션 요약 비유**: [[514_partition_slice_volume|파티션]] 수를 늘리는 것은 도로 확장 공사와 같다. 차선을 늘리면([[514_partition_slice_volume|파티션]] 증가) 더 많은 차(메시지)가 동시에 달릴 수 있지만, 차선을 줄이는 공사([[514_partition_slice_volume|파티션]] 감소)는 불가능하고 공사 중(리밸런싱)에는 잠깐 교통이 막힌다.
+📢 **섹션 요약 비유**: [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수를 늘리는 것은 도로 확장 공사와 같다. 차선을 늘리면([파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 증가) 더 많은 차(메시지)가 동시에 달릴 수 있지만, 차선을 줄이는 공사([파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 감소)는 불가능하고 공사 중(리밸런싱)에는 잠깐 교통이 막힌다.
 
 ---
 
 ### 📌 관련 개념 맵
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[214_kafka_pubsub_topic_partition_offset_broker|Apache Kafka]] | 토픽·[[514_partition_slice_volume|파티션]]·[[191_consumer_group_kafka_partition_load_balancing|컨슈머 그룹]]이 구현되는 시스템 |
-| 오프셋 (Offset) | [[514_partition_slice_volume|파티션]] 내 소비 위치 추적, 재처리의 핵심 |
-| [[005_schema|스키마]] [[235_registry_immutable_tag|레지스트리]] | 토픽 메시지의 [[005_schema|스키마]] [[288_version_ihl_tos_total_length|버전]] 관리 ([[094_reinforcement_learning|Confluent]]) |
-| [[217_cdc_binlog_change_capture_debezium|CDC]] / Debezium | [[514_partition_slice_volume|파티션]] 키로 테이블 PK 사용, 순서 보장 |
-| [[191_consumer_group_kafka_partition_load_balancing|컨슈머 그룹]] 코디네이터 | 리밸런싱 조정 역할 ([[179_kafka_flink_watermark_time_window|Kafka]] Broker 내) |
-| KRaft | [[798_distributed_lock_zookeeper_consensus|ZooKeeper]] 없이 [[179_kafka_flink_watermark_time_window|Kafka]] 자체 [[203_metadata_management|메타데이터 관리]] ([[179_kafka_flink_watermark_time_window|Kafka]] 3.x+) |
-| [[229_stream_processing_kafka_flink|스트림 처리]] (Flink) | [[179_kafka_flink_watermark_time_window|Kafka]] [[514_partition_slice_volume|파티션]]을 소스로 [[430_index_fast_full_scan|병렬]] 처리 |
+| [Apache Kafka](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/) | 토픽·[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)·[컨슈머 그룹](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/)이 구현되는 시스템 |
+| 오프셋 (Offset) | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 내 소비 위치 추적, 재처리의 핵심 |
+| [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) | 토픽 메시지의 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 ([Confluent](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/)) |
+| [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) / Debezium | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키로 테이블 PK 사용, 순서 보장 |
+| [컨슈머 그룹](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/) 코디네이터 | 리밸런싱 조정 역할 ([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) Broker 내) |
+| KRaft | [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) 없이 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 자체 [메타데이터 관리](/knowledge-base/studynote/16_bigdata/10_governance/203_metadata_management/) ([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 3.x+) |
+| [스트림 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/) (Flink) | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 소스로 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 토픽은 택배 [[104_classification_analysis|분류]] 벨트, [[514_partition_slice_volume|파티션]]은 벨트를 여러 줄로 나눈 것이다. 여러 줄([[514_partition_slice_volume|파티션]])에서 여러 [[104_classification_analysis|분류]]원(컨슈머)이 동시에 택배를 [[104_classification_analysis|분류]]하면 훨씬 빠르다.
+1. 토픽은 택배 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 벨트, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 벨트를 여러 줄로 나눈 것이다. 여러 줄([파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))에서 여러 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)원(컨슈머)이 동시에 택배를 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하면 훨씬 빠르다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -228,7 +232,7 @@ Partition: 수평 분할 → 병렬 소비
     ▼
 Rebalancing · Sticky Assignor → 안정적 파티션 할당
 ```
-2. [[191_consumer_group_kafka_partition_load_balancing|컨슈머 그룹]]은 택배 회사와 같다. CJ택배(그룹 A)와 한진택배(그룹 B)가 동시에 같은 벨트에서 각자 자기 택배만 가져간다. 두 회사가 서로 방해하지 않는다.
+2. [컨슈머 그룹](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/)은 택배 회사와 같다. CJ택배(그룹 A)와 한진택배(그룹 B)가 동시에 같은 벨트에서 각자 자기 택배만 가져간다. 두 회사가 서로 방해하지 않는다.
 3. 오프셋은 택배 추적 번호다. "나는 100번 택배까지 받았어요"라고 표시해두면, 다음에 다시 시작할 때 101번부터 받을 수 있고, 틀렸다면 95번으로 돌아가 다시 받을 수 있다.
 
 ---
@@ -237,7 +241,7 @@ Rebalancing · Sticky Assignor → 안정적 파티션 할당
 
 **진행 상황**: 230 / 371
 
-← **이전**: [[230_apache_kafka_distributed_messaging|230. 아파치 카프카 (Apache Kafka)]]
-**다음**: [[232_cdc_change_data_capture_debezium|232. CDC (Change Data Capture / 변경 데이터 캡처)]] →
+← **이전**: [230. 아파치 카프카 (Apache Kafka)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/230_apache_kafka_distributed_messaging/)
+**다음**: [232. CDC (Change Data Capture / 변경 데이터 캡처)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/232_cdc_change_data_capture_debezium/) →
 
 ---

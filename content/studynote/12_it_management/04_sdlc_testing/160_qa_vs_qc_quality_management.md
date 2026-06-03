@@ -1,25 +1,29 @@
----
-title: 160. QA vs QC (Quality Assurance vs Quality Control, 품질 보증 vs 품질 통제)
-date: '2026-04-21'
-tags:
-- studynote-it-management
----
++++
+title = "160. QA vs QC (Quality Assurance vs Quality Control, 품질 보증 vs 품질 통제)"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-it-management"]
+
+[extra]
+tags = ["studynote-it-management"]
++++
 
 ## 핵심 인사이트
 
-> 1. **본질**: QA (Quality Assurance, 품질 보증)는 올바른 프로세스로 품질을 예방하는 활동이고, QC (Quality Control, 품질 통제)는 만들어진 산출물에서 [[352_defect_definition|결함]]을 검출하는 활동이다.
-> 2. **가치**: QA와 QC를 분리해 이해해야 [[349_cost_of_quality|품질 비용]] (CoQ, [[349_cost_of_quality|Cost of Quality]])을 최적화할 수 있으며, [[352_defect_definition|결함]]을 늦게 잡을수록 수정 비용이 급격히 커진다는 사실을 관리 체계에 반영할 수 있다.
-> 3. **판단 포인트**: 테스트만 많이 한다고 QA가 되는 것은 아니다. QA는 표준·절차·[[606_auditing_linux_auditd|감사]]·예방 체계이고, QC는 리뷰·테스트·측정으로 실제 [[352_defect_definition|결함]]을 찾아내는 실행 단계다.
+> 1. **본질**: QA (Quality Assurance, 품질 보증)는 올바른 프로세스로 품질을 예방하는 활동이고, QC (Quality Control, 품질 통제)는 만들어진 산출물에서 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 검출하는 활동이다.
+> 2. **가치**: QA와 QC를 분리해 이해해야 [품질 비용](/knowledge-base/studynote/04_software_engineering/06_software_architecture/349_cost_of_quality/) (CoQ, [Cost of Quality](/knowledge-base/studynote/04_software_engineering/06_software_architecture/349_cost_of_quality/))을 최적화할 수 있으며, [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 늦게 잡을수록 수정 비용이 급격히 커진다는 사실을 관리 체계에 반영할 수 있다.
+> 3. **판단 포인트**: 테스트만 많이 한다고 QA가 되는 것은 아니다. QA는 표준·절차·[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)·예방 체계이고, QC는 리뷰·테스트·측정으로 실제 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 찾아내는 실행 단계다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-소프트웨어 품질은 출시 직전 검사만으로 확보되지 않는다. 요구사항이 애매하거나 개발 절차가 들쭉날쭉하면, 테스트 단계에서 아무리 많은 [[352_defect_definition|결함]]을 찾아도 재작업 비용이 커지고 일정은 무너지기 쉽다. 그래서 품질 관리는 처음부터 두 축으로 나뉜다. 하나는 [[352_defect_definition|결함]]이 생기지 않도록 프로세스를 설계하는 QA이고, 다른 하나는 실제 산출물에서 [[352_defect_definition|결함]]을 검출하는 QC다.
+소프트웨어 품질은 출시 직전 검사만으로 확보되지 않는다. 요구사항이 애매하거나 개발 절차가 들쭉날쭉하면, 테스트 단계에서 아무리 많은 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 찾아도 재작업 비용이 커지고 일정은 무너지기 쉽다. 그래서 품질 관리는 처음부터 두 축으로 나뉜다. 하나는 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 생기지 않도록 프로세스를 설계하는 QA이고, 다른 하나는 실제 산출물에서 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 검출하는 QC다.
 
-QA는 조직과 프로젝트가 표준 절차를 따르도록 만드는 예방 활동이다. 코딩 표준 수립, [[020_software_configuration_management|형상 관리]] 절차, 리뷰 프로세스, 테스트 [[268_strategy_pattern|전략]], 프로세스 [[606_auditing_linux_auditd|감사]]가 여기에 속한다. QC는 요구사항 명세서, 설계서, 코드, 빌드 결과물, 운영 릴리스 후보를 검사해 품질 기준 충족 여부를 [[396_validation|확인]]하는 발견 활동이다. 두 개념을 구분해야 품질을 "만드는 활동"과 "검사하는 활동"을 혼동하지 않게 된다.
+QA는 조직과 프로젝트가 표준 절차를 따르도록 만드는 예방 활동이다. 코딩 표준 수립, [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) 절차, 리뷰 프로세스, 테스트 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), 프로세스 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)가 여기에 속한다. QC는 요구사항 명세서, 설계서, 코드, 빌드 결과물, 운영 릴리스 후보를 검사해 품질 기준 충족 여부를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 발견 활동이다. 두 개념을 구분해야 품질을 "만드는 활동"과 "검사하는 활동"을 혼동하지 않게 된다.
 
-- **📢 섹션 요약 비유**: QA는 요리 전에 주방과 레시피를 정돈하는 일이고, QC는 완성된 음식을 맛보고 기준에 맞는지 [[396_validation|확인]]하는 일이다. 주방이 엉망이면 맛보기만으로는 문제를 다 막을 수 없다.
+- **📢 섹션 요약 비유**: QA는 요리 전에 주방과 레시피를 정돈하는 일이고, QC는 완성된 음식을 맛보고 기준에 맞는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 일이다. 주방이 엉망이면 맛보기만으로는 문제를 다 막을 수 없다.
 
 ---
 
@@ -27,7 +31,7 @@ QA는 조직과 프로젝트가 표준 절차를 따르도록 만드는 예방 �
 
 QA와 QC의 가장 중요한 차이는 초점과 시점이다. QA는 프로세스 중심이며 사전에 작동하고, QC는 제품 중심이며 산출물이 나온 뒤에 작동한다. 하지만 둘은 분리된 부서 이름이 아니라 하나의 품질 루프를 이룬다. QA가 기준과 절차를 만들고, QC가 그 결과를 측정해 다시 QA 개선으로 되돌려 주는 구조다.
 
-아래 그림은 [[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]] (Software Development Life Cycle, 소프트웨어 개발 생명주기) 전반에서 QA와 QC가 어떻게 배치되는지를 보여 준다.
+아래 그림은 [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/) (Software Development Life Cycle, 소프트웨어 개발 생명주기) 전반에서 QA와 QC가 어떻게 배치되는지를 보여 준다.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────────┐
@@ -43,35 +47,35 @@ QA와 QC의 가장 중요한 차이는 초점과 시점이다. QA는 프로세�
 └────────────────────────────────────────────────────────────────────────────┘
 ```
 
-이 그림의 핵심은 QA와 QC가 경쟁 [[083_relationship_in_er_model|관계]]가 아니라 순환 [[083_relationship_in_er_model|관계]]라는 점이다. QA가 없으면 QC는 [[352_defect_definition|결함]]을 뒤늦게 많이 잡게 되고, QC가 없으면 QA는 실제 품질 수준을 증명할 근거를 잃는다.
+이 그림의 핵심은 QA와 QC가 경쟁 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 아니라 순환 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)라는 점이다. QA가 없으면 QC는 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 뒤늦게 많이 잡게 되고, QC가 없으면 QA는 실제 품질 수준을 증명할 근거를 잃는다.
 
 | 구분 | QA | QC |
 | :--- | :--- | :--- |
 | 초점 | 프로세스 | 산출물 |
-| 목적 | [[352_defect_definition|결함]] 예방 | [[352_defect_definition|결함]] 발견 |
-| 시점 | 사전·전 과정 | 산출물 [[087_process_state_transition|생성]] 후·[[395_verification_process_review|검증]] 시점 |
-| 대표 활동 | 표준 수립, [[606_auditing_linux_auditd|감사]], 교육, 절차 정의 | 리뷰, 테스트, 검수, [[352_defect_definition|결함]] 측정 |
-| 책임 범위 | 조직 차원의 품질 체계 | 프로젝트/제품 단위 품질 [[396_validation|확인]] |
+| 목적 | [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 예방 | [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발견 |
+| 시점 | 사전·전 과정 | 산출물 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 후·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 시점 |
+| 대표 활동 | 표준 수립, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/), 교육, 절차 정의 | 리뷰, 테스트, 검수, [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 측정 |
+| 책임 범위 | 조직 차원의 품질 체계 | 프로젝트/제품 단위 품질 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
 
-[[349_cost_of_quality|품질 비용]] 관점에서도 차이가 분명하다. QA는 예방 비용과 일부 평가 비용을 차지하지만, 이를 줄이면 내부 실패 비용과 외부 실패 비용이 급격히 커진다. 그래서 품질 관리는 "검사비를 줄이는 일"이 아니라 "예방과 평가에 적절히 투자해 실패 비용을 줄이는 일"로 봐야 한다.
+[품질 비용](/knowledge-base/studynote/04_software_engineering/06_software_architecture/349_cost_of_quality/) 관점에서도 차이가 분명하다. QA는 예방 비용과 일부 평가 비용을 차지하지만, 이를 줄이면 내부 실패 비용과 외부 실패 비용이 급격히 커진다. 그래서 품질 관리는 "검사비를 줄이는 일"이 아니라 "예방과 평가에 적절히 투자해 실패 비용을 줄이는 일"로 봐야 한다.
 
-- **📢 섹션 요약 비유**: QA는 우산을 챙기는 일이고, QC는 비를 맞은 뒤 옷이 젖었는지 [[396_validation|확인]]하는 일이다. 우산을 챙기면 검사할 일 자체가 줄어든다.
+- **📢 섹션 요약 비유**: QA는 우산을 챙기는 일이고, QC는 비를 맞은 뒤 옷이 젖었는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 일이다. 우산을 챙기면 검사할 일 자체가 줄어든다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-QA와 QC를 제대로 이해하려면 테스트, [[161_inspection_formal_review|인스펙션]], 표준, 성숙도 모델과의 연결을 같이 봐야 한다. 테스트는 대표적인 QC 활동이지만, 테스트 [[268_strategy_pattern|전략]]을 정의하고 자동화 기준을 세우는 일은 QA에 가깝다. [[133_cmmi_capability_maturity_model_integration_levels|CMMI]] (Capability [[011_maturity_model|Maturity Model]] Integration)나 ISO 9001은 조직의 프로세스 성숙도와 품질 체계를 다루므로 QA 측면이 강하고, ISO/IEC 25010은 제품 품질 특성을 정의하므로 QC 기준으로 활용된다.
+QA와 QC를 제대로 이해하려면 테스트, [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/), 표준, 성숙도 모델과의 연결을 같이 봐야 한다. 테스트는 대표적인 QC 활동이지만, 테스트 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 정의하고 자동화 기준을 세우는 일은 QA에 가깝다. [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) (Capability [Maturity Model](/knowledge-base/studynote/12_it_management/01_governance_strategy/011_maturity_model/) Integration)나 ISO 9001은 조직의 프로세스 성숙도와 품질 체계를 다루므로 QA 측면이 강하고, ISO/IEC 25010은 제품 품질 특성을 정의하므로 QC 기준으로 활용된다.
 
-| 연결 개념 | QA와의 [[083_relationship_in_er_model|관계]] | QC와의 [[083_relationship_in_er_model|관계]] |
+| 연결 개념 | QA와의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | QC와의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 | :--- | :--- | :--- |
 | ISO 9001 | 품질경영시스템의 틀 제공 | 직접 검사 기준보다는 관리 체계 기준 |
-| [[133_cmmi_capability_maturity_model_integration_levels|CMMI]] | 조직 프로세스 성숙도 향상 | 간접적으로 품질 수준에 영향 |
-| ISO/IEC 25010 | 품질 특성을 사전에 정의 | 기능성·[[282_performance_tactics|성능]]·[[283_security_tactics|보안성]] 등을 실제 측정 |
-| [[161_inspection_formal_review|인스펙션]] (Inspection) | 리뷰 절차와 [[435_checklist_based_testing|체크리스트]]를 제도화 | 산출물 [[352_defect_definition|결함]]을 공식적으로 검출 |
-| 테스트 자동화 | 자동화 정책과 기준 수립 | 실행으로 [[352_defect_definition|결함]]을 반복 검출 |
+| [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) | 조직 프로세스 성숙도 향상 | 간접적으로 품질 수준에 영향 |
+| ISO/IEC 25010 | 품질 특성을 사전에 정의 | 기능성·[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·[보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) 등을 실제 측정 |
+| [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/) (Inspection) | 리뷰 절차와 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)를 제도화 | 산출물 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 공식적으로 검출 |
+| 테스트 자동화 | 자동화 정책과 기준 수립 | 실행으로 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 반복 검출 |
 
-또한 [[652_devops_calms_culture|DevOps]] 환경에서는 Shift Left가 중요하다. 이는 QC를 개발 초기로 당기자는 뜻이지만, 동시에 QA 관점에서 요구사항 명확화, [[330_code_review|코드 리뷰]] 문화, [[331_static_analysis|정적 분석]] 기준을 앞단에 심는 일과 연결된다. 결국 품질 수준은 QA와 QC 중 하나를 선택하는 것이 아니라, 둘을 어디서 어떻게 연결하느냐에 의해 결정된다.
+또한 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서는 Shift Left가 중요하다. 이는 QC를 개발 초기로 당기자는 뜻이지만, 동시에 QA 관점에서 요구사항 명확화, [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) 문화, [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 기준을 앞단에 심는 일과 연결된다. 결국 품질 수준은 QA와 QC 중 하나를 선택하는 것이 아니라, 둘을 어디서 어떻게 연결하느냐에 의해 결정된다.
 
 - **📢 섹션 요약 비유**: QA는 학교의 수업 규칙과 교과 과정이고, QC는 시험과 채점이다. 규칙이 좋아도 시험이 없으면 실력을 모르고, 시험만 많아도 수업이 엉망이면 성적이 안 오른다.
 
@@ -79,16 +83,16 @@ QA와 QC를 제대로 이해하려면 테스트, [[161_inspection_formal_review|
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 가장 흔한 오류는 "품질팀이 테스트하니 QA가 되고 있다"고 생각하는 것이다. 그러나 테스트 수행은 QC일 뿐이며, [[352_defect_definition|결함]]이 반복 발생하는 구조를 고치는 활동은 QA다. 예를 들어 릴리스마다 동일한 유형의 [[352_defect_definition|결함]]이 나온다면 테스트 케이스를 늘리는 것만으로는 부족하다. 요구사항 템플릿, [[330_code_review|코드 리뷰]] 항목, 배포 승인 절차, 자동화 파이프라인 기준을 손봐야 한다.
+실무에서 가장 흔한 오류는 "품질팀이 테스트하니 QA가 되고 있다"고 생각하는 것이다. 그러나 테스트 수행은 QC일 뿐이며, [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 반복 발생하는 구조를 고치는 활동은 QA다. 예를 들어 릴리스마다 동일한 유형의 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 나온다면 테스트 케이스를 늘리는 것만으로는 부족하다. 요구사항 템플릿, [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) 항목, 배포 승인 절차, 자동화 파이프라인 기준을 손봐야 한다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 반복 [[352_defect_definition|결함]]의 근본 원인을 프로세스 수준에서 분석하고 있는가?
-2. 테스트, [[161_inspection_formal_review|인스펙션]], UAT (User [[406_acceptance_test_uat|Acceptance Test]], 사용자 [[406_acceptance_test_uat|인수 테스트]])를 QC로 분류해 관리하고 있는가?
-3. QA 메트릭과 QC 메트릭을 분리하고 있는가? 예: 프로세스 준수율 vs [[355_defect_density|결함 밀도]]
-4. 외부 실패 비용을 줄이기 위해 운영 [[352_defect_definition|결함]] 데이터를 QA 개선에 반영하고 있는가?
+1. 반복 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)의 근본 원인을 프로세스 수준에서 분석하고 있는가?
+2. 테스트, [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/), UAT (User [Acceptance Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/), 사용자 [인수 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/))를 QC로 분류해 관리하고 있는가?
+3. QA 메트릭과 QC 메트릭을 분리하고 있는가? 예: 프로세스 준수율 vs [결함 밀도](/knowledge-base/studynote/04_software_engineering/06_software_architecture/355_defect_density/)
+4. 외부 실패 비용을 줄이기 위해 운영 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 데이터를 QA 개선에 반영하고 있는가?
 
-### 대표 [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### 대표 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - QA를 테스트 부서의 별칭처럼 사용하는 경우
 - 문서와 절차만 많고 실제 QC 데이터가 없어 개선이 닫히지 않는 경우
@@ -100,9 +104,9 @@ QA와 QC를 제대로 이해하려면 테스트, [[161_inspection_formal_review|
 
 ## Ⅴ. 기대효과 및 결론
 
-QA와 QC를 균형 있게 운영하면 [[352_defect_definition|결함]] 예방, 조기 발견, 재작업 감소, 고객 신뢰 향상이라는 효과를 동시에 얻을 수 있다. QA는 조직 차원의 품질 문화를 만들고, QC는 실제 품질 수준을 수치와 사례로 보여 준다. 두 활동이 선순환하면 [[349_cost_of_quality|품질 비용]] 총액은 낮아지고, 출시 속도와 안정성의 균형도 좋아진다.
+QA와 QC를 균형 있게 운영하면 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 예방, 조기 발견, 재작업 감소, 고객 신뢰 향상이라는 효과를 동시에 얻을 수 있다. QA는 조직 차원의 품질 문화를 만들고, QC는 실제 품질 수준을 수치와 사례로 보여 준다. 두 활동이 선순환하면 [품질 비용](/knowledge-base/studynote/04_software_engineering/06_software_architecture/349_cost_of_quality/) 총액은 낮아지고, 출시 속도와 안정성의 균형도 좋아진다.
 
-반대로 QA 없이 QC만 강화하면 품질은 항상 뒤늦게 잡히고, QC 없이 QA만 강조하면 현장의 실질 품질이 [[395_verification_process_review|검증]]되지 않는다. 따라서 QA와 QC는 "예방 vs 발견"이라는 역할 분담 속에서 함께 설계해야 한다. 기억할 핵심은 품질이 검사로만 생기는 것이 아니라, 올바른 프로세스 위에서 검사와 피드백이 반복될 때 비로소 안정적으로 축적된다는 점이다.
+반대로 QA 없이 QC만 강화하면 품질은 항상 뒤늦게 잡히고, QC 없이 QA만 강조하면 현장의 실질 품질이 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되지 않는다. 따라서 QA와 QC는 "예방 vs 발견"이라는 역할 분담 속에서 함께 설계해야 한다. 기억할 핵심은 품질이 검사로만 생기는 것이 아니라, 올바른 프로세스 위에서 검사와 피드백이 반복될 때 비로소 안정적으로 축적된다는 점이다.
 
 - **📢 섹션 요약 비유**: QA와 QC는 자전거의 두 바퀴와 같다. 한쪽만 커도 앞으로 나아가기 어렵고, 둘이 함께 굴러야 품질이라는 방향으로 안정적으로 움직일 수 있다.
 
@@ -112,11 +116,11 @@ QA와 QC를 균형 있게 운영하면 [[352_defect_definition|결함]] 예방, 
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| CoQ ([[349_cost_of_quality|Cost of Quality]]) | 예방·평가·실패 비용을 묶어 품질 투자 효율을 판단 |
-| [[133_cmmi_capability_maturity_model_integration_levels|CMMI]] | QA 중심의 프로세스 성숙도 평가 모델 |
+| CoQ ([Cost of Quality](/knowledge-base/studynote/04_software_engineering/06_software_architecture/349_cost_of_quality/)) | 예방·평가·실패 비용을 묶어 품질 투자 효율을 판단 |
+| [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) | QA 중심의 프로세스 성숙도 평가 모델 |
 | ISO 9001 | 조직 차원의 품질 경영 체계를 규정 |
 | ISO/IEC 25010 | QC에서 제품 품질을 평가하는 대표 기준 |
-| Inspection | 실행 전 정적 산출물 [[352_defect_definition|결함]]을 찾는 QC 기법 |
+| Inspection | 실행 전 정적 산출물 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 찾는 QC 기법 |
 | Shift Left | QC를 앞당기고 QA와 조기 연결하는 방향 |
 
 ### 관련 키워드 및 발전 흐름도
@@ -142,8 +146,8 @@ QC: 리뷰 · 테스트 · 검수 · 결함 측정
 ### 어린이 비유 설명
 
 1. QA는 숙제를 틀리지 않게 하려고 공부 방법과 규칙을 잘 만드는 거예요.
-2. QC는 숙제를 다 한 뒤에 정말 맞았는지 [[396_validation|확인]]하는 거예요.
-3. 둘 중 하나만 하면 자꾸 같은 실수를 하게 되니까, 미리 준비하고 나중에 [[396_validation|확인]]도 해야 해요.
+2. QC는 숙제를 다 한 뒤에 정말 맞았는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 거예요.
+3. 둘 중 하나만 하면 자꾸 같은 실수를 하게 되니까, 미리 준비하고 나중에 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)도 해야 해요.
 
 ---
 
@@ -151,7 +155,7 @@ QC: 리뷰 · 테스트 · 검수 · 결함 측정
 
 **진행 상황**: 274 / 587
 
-← **이전**: [[159_spi_schedule_performance_index|159. SPI (Schedule Performance Index, 일정 성과 지수)]]
-**다음**: [[161_inspection_formal_review|161. 인스펙션 (Inspection, 공식 검토)]] →
+← **이전**: [159. SPI (Schedule Performance Index, 일정 성과 지수)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/)
+**다음**: [161. 인스펙션 (Inspection, 공식 검토)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/) →
 
 ---

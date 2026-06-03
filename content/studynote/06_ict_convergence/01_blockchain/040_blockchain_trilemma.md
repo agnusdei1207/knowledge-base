@@ -1,14 +1,18 @@
----
-title: 040. 블록체인 트릴레마 (Blockchain Trilemma)
-date: '2026-03-19'
-tags:
-- studynote-ict-convergence
----
++++
+title = "040. 블록체인 트릴레마 (Blockchain Trilemma)"
+date = 2026-03-19
+
+[taxonomies]
+tags = ["studynote-ict-convergence"]
+
+[extra]
+tags = ["studynote-ict-convergence"]
++++
 
 > **핵심 인사이트**
-> 1. [[004_blockchain|블록체인]] 트릴레마([[482_blockchain_trilemma_scalability_decentralization_security|Blockchain Trilemma]])는 Vitalik Buterin이 명명한 개념으로, 분산화([[010_decentralization|Decentralization]])·[[283_security_tactics|보안성]]([[283_security_tactics|Security]])·확장성(Scalability) 세 가지를 동시에 완벽히 달성할 수 없다는 근본적 제약이다.
-> 2. 비트코인·이더리움 1.0은 분산화+[[283_security_tactics|보안성]]을 선택했고(TPS 7~15), Solana·BSC는 확장성+[[283_security_tactics|보안성]]을 선택했으며(TPS 수천), Layer 2 솔루션([[042_rollup_l2_solution|Rollup]])은 트릴레마를 "우회"하는 현재 최선의 해법이다.
-> 3. 트릴레마 해결 시도는 [[280_sharding|샤딩]]([[243_sharding_horizontal_scaling_database|Sharding]])·PoS([[015_pos_proof_of_stake|지분 증명]])·[[408_layer2_rollup_optimistic_zk|Layer 2 rollup]] 등 다양하지만, 보안-분산화-확장성을 모두 완벽히 만족하는 방법은 아직 미해결 과제로 남아 있어 [[004_blockchain|블록체인]] 기술 발전의 핵심 방향을 결정한다.
+> 1. [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 트릴레마([Blockchain Trilemma](/knowledge-base/studynote/06_ict_convergence/01_blockchain/482_blockchain_trilemma_scalability_decentralization_security/))는 Vitalik Buterin이 명명한 개념으로, 분산화([Decentralization](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/))·[보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))·확장성(Scalability) 세 가지를 동시에 완벽히 달성할 수 없다는 근본적 제약이다.
+> 2. 비트코인·이더리움 1.0은 분산화+[보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)을 선택했고(TPS 7~15), Solana·BSC는 확장성+[보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)을 선택했으며(TPS 수천), Layer 2 솔루션([Rollup](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/))은 트릴레마를 "우회"하는 현재 최선의 해법이다.
+> 3. 트릴레마 해결 시도는 [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)([Sharding](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/))·PoS([지분 증명](/knowledge-base/studynote/06_ict_convergence/01_blockchain/015_pos_proof_of_stake/))·[Layer 2 rollup](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/408_layer2_rollup_optimistic_zk/) 등 다양하지만, 보안-분산화-확장성을 모두 완벽히 만족하는 방법은 아직 미해결 과제로 남아 있어 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 기술 발전의 핵심 방향을 결정한다.
 
 ---
 
@@ -106,11 +110,11 @@ Layer 2 해결책:
     비트코인 Lightning Network
 ```
 
-> 📢 **섹션 요약 비유**: [[280_sharding|샤딩]]은 한 줄 계산대를 여러 줄로 늘리기, Layer 2는 계산 결과만 메인 체인에 올리는 요약 영수증 방식.
+> 📢 **섹션 요약 비유**: [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)은 한 줄 계산대를 여러 줄로 늘리기, Layer 2는 계산 결과만 메인 체인에 올리는 요약 영수증 방식.
 
 ---
 
-## Ⅳ. [[283_security_tactics|보안성]]과 공격 벡터
+## Ⅳ. [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)과 공격 벡터
 
 ```
 보안성 위협:
@@ -133,11 +137,11 @@ Sybil 공격:
   -> 공격 비용 매우 높음
 ```
 
-> 📢 **섹션 요약 비유**: [[283_security_tactics|보안성]]은 금고 잠금 장치 — 공격자가 금고를 열려면 담보물의 절반 이상을 써야 하므로 스스로 손해를 입는 구조.
+> 📢 **섹션 요약 비유**: [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)은 금고 잠금 장치 — 공격자가 금고를 열려면 담보물의 절반 이상을 써야 하므로 스스로 손해를 입는 구조.
 
 ---
 
-## Ⅴ. 실무 시나리오 — 금융 [[033_defi_decentralized_finance|DeFi]] 선택
+## Ⅴ. 실무 시나리오 — 금융 [DeFi](/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/) 선택
 
 ```
 DeFi (탈중앙화 금융) 플랫폼 선택 기준:
@@ -166,7 +170,7 @@ DeFi (탈중앙화 금융) 플랫폼 선택 기준:
   게임 NFT: 확장성 > 비용 > 보안 (부분 타협)
 ```
 
-> 📢 **섹션 요약 비유**: [[033_defi_decentralized_finance|DeFi]] 플랫폼 선택은 이사할 동네 고르기 — 안전(보안), 교통(확장성), 독립성(분산화) 중 어디를 더 중시하냐의 선택.
+> 📢 **섹션 요약 비유**: [DeFi](/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/) 플랫폼 선택은 이사할 동네 고르기 — 안전(보안), 교통(확장성), 독립성(분산화) 중 어디를 더 중시하냐의 선택.
 
 ---
 
@@ -227,7 +231,7 @@ ZK 증명 기술 고도화
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [[004_blockchain|블록체인]] 트릴레마는 "맛있고, 싸고, 빠른" 음식을 동시에 만들 수 없는 것처럼, [[004_blockchain|블록체인]]도 세 가지 좋은 점을 동시에 다 가질 수 없다는 거예요.
+1. [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 트릴레마는 "맛있고, 싸고, 빠른" 음식을 동시에 만들 수 없는 것처럼, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)도 세 가지 좋은 점을 동시에 다 가질 수 없다는 거예요.
 2. 비트코인은 느리지만 매우 안전하고 공평한 시스템을 선택했고, Solana는 빠른 처리를 위해 일부 공평함을 포기했어요.
 3. Layer 2는 이 문제를 "메인 체인 위에 작은 빠른 채널을 만들기"로 해결하려는 영리한 방법이에요!
 
@@ -237,7 +241,7 @@ ZK 증명 기술 고도화
 
 **진행 상황**: 40 / 552
 
-← **이전**: [[039_layer1_mainnet|039. 레이어1 메인넷 (Layer 1 Mainnet) — 블록체인 기반 계층]]
-**다음**: [[041_layer2_scaling_solution|041. 레이어 2 스케일링 솔루션 (Layer 2 Scaling Solution)]] →
+← **이전**: [039. 레이어1 메인넷 (Layer 1 Mainnet) — 블록체인 기반 계층](/knowledge-base/studynote/06_ict_convergence/01_blockchain/039_layer1_mainnet/)
+**다음**: [041. 레이어 2 스케일링 솔루션 (Layer 2 Scaling Solution)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/041_layer2_scaling_solution/) →
 
 ---

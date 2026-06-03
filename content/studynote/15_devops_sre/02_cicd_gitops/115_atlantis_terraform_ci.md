@@ -1,14 +1,18 @@
----
-title: 115. Atlantis Terraform CI - PR 기반 IaC 자동 Plan·Apply 워크플로
-date: '2026-04-19'
-tags:
-- studynote-devops-sre
----
++++
+title = "115. Atlantis Terraform CI - PR 기반 IaC 자동 Plan·Apply 워크플로"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-devops-sre"]
+
+[extra]
+tags = ["studynote-devops-sre"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Atlantis는 [[195_terraform_hashicorp_agnostic_aws_gcp|Terraform]]/OpenTofu의 **[[067_pull_request_pr_merge_request_code_review|PR]]([[067_pull_request_pr_merge_request_code_review|Pull Request]]) 기반 자동 Plan/Apply 워크플로**를 제공하는 [[191_oss_license_compliance|OSS]] 도구로, PR을 열면 자동으로 `terraform plan` 결과를 코멘트로 달고, 승인 후 `atlantis apply`로 적용한다.
-> 2. **가치**: 개발자가 로컬에서 `terraform apply`를 실행하면 [[272_state_pattern|State]] 충돌·[[606_auditing_linux_auditd|감사]] 불가·리뷰 없는 변경이 발생하지만, Atlantis는 **모든 인프라 변경을 [[067_pull_request_pr_merge_request_code_review|PR]] 리뷰 프로세스**에 통합하여 IaC의 GitOps를 실현한다.
-> 3. **판단 포인트**: Atlantis는 자체 호스팅(GitHub/GitLab [[498_webhook_rest_api_reverse_callback|Webhook]] 연동)이 필요하며, [[195_terraform_hashicorp_agnostic_aws_gcp|Terraform]] Cloud/Spacelift 같은 [[309_saas|SaaS]] 대안과 비교하여 **비용 0 + 완전 제어**가 장점이다.
+> 1. **본질**: Atlantis는 [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)/OpenTofu의 **[PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)([Pull Request](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)) 기반 자동 Plan/Apply 워크플로**를 제공하는 [OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 도구로, PR을 열면 자동으로 `terraform plan` 결과를 코멘트로 달고, 승인 후 `atlantis apply`로 적용한다.
+> 2. **가치**: 개발자가 로컬에서 `terraform apply`를 실행하면 [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) 충돌·[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 불가·리뷰 없는 변경이 발생하지만, Atlantis는 **모든 인프라 변경을 [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 리뷰 프로세스**에 통합하여 IaC의 GitOps를 실현한다.
+> 3. **판단 포인트**: Atlantis는 자체 호스팅(GitHub/GitLab [Webhook](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/) 연동)이 필요하며, [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) Cloud/Spacelift 같은 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 대안과 비교하여 **비용 0 + 완전 제어**가 장점이다.
 
 ---
 
@@ -29,7 +33,7 @@ tags:
 └───────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: Atlantis는 인프라 변경의 **4-eyes 원칙(이중 [[396_validation|확인]])**을 자동화한 것이다. 혼자 몰래 서버를 바꿀 수 없고, 반드시 [[067_pull_request_pr_merge_request_code_review|PR]] 리뷰를 거쳐야 한다.
+- **📢 섹션 요약 비유**: Atlantis는 인프라 변경의 **4-eyes 원칙(이중 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))**을 자동화한 것이다. 혼자 몰래 서버를 바꿀 수 없고, 반드시 [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 리뷰를 거쳐야 한다.
 
 ---
 
@@ -39,43 +43,43 @@ tags:
 
 | 기능 | 설명 |
 |:---|:---|
-| **Auto Plan** | [[067_pull_request_pr_merge_request_code_review|PR]] [[087_process_state_transition|생성]] 시 자동 plan 실행 |
-| **[[067_pull_request_pr_merge_request_code_review|PR]] Comment** | Plan 결과를 [[067_pull_request_pr_merge_request_code_review|PR]] 코멘트로 표시 |
-| **[[213_locking_mechanism_concurrency_control|Locking]]** | 동일 [[506_directory_structure_symbol_table|디렉터리]] 동시 변경 방지 |
-| **Apply Require** | [[067_pull_request_pr_merge_request_code_review|PR]] Approve 후에만 apply 허용 |
+| **Auto Plan** | [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시 자동 plan 실행 |
+| **[PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) Comment** | Plan 결과를 [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 코멘트로 표시 |
+| **[Locking](/knowledge-base/studynote/05_database/04_transactions_concurrency/213_locking_mechanism_concurrency_control/)** | 동일 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 동시 변경 방지 |
+| **Apply Require** | [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) Approve 후에만 apply 허용 |
 | **Custom Workflow** | pre-plan/post-apply 훅 지원 |
 
-### Atlantis vs [[195_terraform_hashicorp_agnostic_aws_gcp|Terraform]] Cloud
+### Atlantis vs [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) Cloud
 
-| 비교 | Atlantis | [[195_terraform_hashicorp_agnostic_aws_gcp|Terraform]] Cloud |
+| 비교 | Atlantis | [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) Cloud |
 |:---|:---|:---|
-| **호스팅** | 자체 ([[063_docker_architecture|Docker]]) | **[[309_saas|SaaS]]** |
+| **호스팅** | 자체 ([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)) | **[SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/)** |
 | **비용** | 무료 | 유료 |
 | **제어** | **완전** | HashiCorp 의존 |
-| **[[272_state_pattern|State]]** | 별도 관리 (S3) | 내장 |
-| **Sentinel** | ✗ | ✅ ([[164_policy|정책]]) |
+| **[State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)** | 별도 관리 (S3) | 내장 |
+| **Sentinel** | ✗ | ✅ ([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)) |
 
-- **📢 섹션 요약 비유**: Atlantis는 자가용(직접 관리, 비용 0)이고, [[195_terraform_hashicorp_agnostic_aws_gcp|Terraform]] Cloud는 택시(편리하지만 비용 있음)이다.
+- **📢 섹션 요약 비유**: Atlantis는 자가용(직접 관리, 비용 0)이고, [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) Cloud는 택시(편리하지만 비용 있음)이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | 로컬 apply | Atlantis | [[195_terraform_hashicorp_agnostic_aws_gcp|Terraform]] Cloud |
+| 비교 | 로컬 apply | Atlantis | [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) Cloud |
 |:---|:---|:---|:---|
-| **리뷰** | 없음 | **[[067_pull_request_pr_merge_request_code_review|PR]] 필수** | [[067_pull_request_pr_merge_request_code_review|PR]] 필수 |
-| **[[606_auditing_linux_auditd|감사]]** | 불가 | **Git 이력** | 내장 |
-| **[[272_state_pattern|State]] 충돌** | 빈번 | **Lock으로 방지** | 내장 |
+| **리뷰** | 없음 | **[PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 필수** | [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 필수 |
+| **[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)** | 불가 | **Git 이력** | 내장 |
+| **[State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) 충돌** | 빈번 | **Lock으로 방지** | 내장 |
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 배포 [[435_checklist_based_testing|체크리스트]]
+### 배포 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. Atlantis 서버를 K8s/Docker에 배포.
-2. GitHub/GitLab [[498_webhook_rest_api_reverse_callback|Webhook]] 연결.
-3. `atlantis.yaml`에 프로젝트 [[506_directory_structure_symbol_table|디렉터리]]·워크플로 정의.
-4. [[067_pull_request_pr_merge_request_code_review|PR]] Approve → `atlantis apply` 코멘트로 적용.
+2. GitHub/GitLab [Webhook](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/) 연결.
+3. `atlantis.yaml`에 프로젝트 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)·워크플로 정의.
+4. [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) Approve → `atlantis apply` 코멘트로 적용.
 
 ---
 
@@ -83,11 +87,11 @@ tags:
 
 | 지표 | 로컬 apply | Atlantis | 개선 |
 |:---|:---|:---|:---|
-| 인프라 변경 [[606_auditing_linux_auditd|감사]] | 불가 | **[[067_pull_request_pr_merge_request_code_review|PR]] 이력** | 100% |
-| [[272_state_pattern|State]] 충돌 | 빈번 | **[[510_lock|Lock]]** | 0건 |
-| 비용 | - | **무료** | [[309_saas|SaaS]] 대비 절감 |
+| 인프라 변경 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) | 불가 | **[PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 이력** | 100% |
+| [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) 충돌 | 빈번 | **[Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)** | 0건 |
+| 비용 | - | **무료** | [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 대비 절감 |
 
-Atlantis는 [[119_gitops_single_source_of_truth|GitOps]] + Terraform의 가장 실용적인 조합이며, [[067_pull_request_pr_merge_request_code_review|PR]] 리뷰 문화가 정착된 팀에서 인프라 거버넌스를 비용 없이 확보할 수 있는 최적의 도구다.
+Atlantis는 [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) + Terraform의 가장 실용적인 조합이며, [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 리뷰 문화가 정착된 팀에서 인프라 거버넌스를 비용 없이 확보할 수 있는 최적의 도구다.
 
 ---
 
@@ -95,11 +99,11 @@ Atlantis는 [[119_gitops_single_source_of_truth|GitOps]] + Terraform의 가장 �
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[[195_terraform_hashicorp_agnostic_aws_gcp|Terraform]]** | Atlantis가 자동화하는 [[793_iac_idempotency_template|IaC]] 도구 |
-| **[[119_gitops_single_source_of_truth|GitOps]]** | [[067_pull_request_pr_merge_request_code_review|PR]] 기반 인프라 관리 = [[793_iac_idempotency_template|IaC]] [[119_gitops_single_source_of_truth|GitOps]] |
-| **[[195_terraform_hashicorp_agnostic_aws_gcp|Terraform]] Cloud** | [[309_saas|SaaS]] 경쟁 도구 |
-| **Spacelift** | 또 다른 [[195_terraform_hashicorp_agnostic_aws_gcp|Terraform]] [[090_configuration_item|CI]] [[309_saas|SaaS]] 대안 |
-| **[[067_pull_request_pr_merge_request_code_review|PR]] [[153_requirements_review_inspection_walkthrough|Review]]** | Atlantis가 강제하는 변경 리뷰 프로세스 |
+| **[Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)** | Atlantis가 자동화하는 [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) 도구 |
+| **[GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/)** | [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 기반 인프라 관리 = [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) |
+| **[Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) Cloud** | [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 경쟁 도구 |
+| **Spacelift** | 또 다른 [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 대안 |
+| **[PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) [Review](/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/)** | Atlantis가 강제하는 변경 리뷰 프로세스 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -130,7 +134,7 @@ Atlantis는 [[119_gitops_single_source_of_truth|GitOps]] + Terraform의 가장 �
 
 **진행 상황**: 115 / 373
 
-← **이전**: [[114_kayenta_canary_analysis|114. Kayenta 카나리 분석 (Kayenta Canary Analysis) - 자동 배포 판단·ACA]]
-**다음**: [[116_infrastructure_drift_detection|116. 인프라 드리프트 감지 (Infrastructure Drift Detection) - IaC 상태 불일치 자동 탐지]] →
+← **이전**: [114. Kayenta 카나리 분석 (Kayenta Canary Analysis) - 자동 배포 판단·ACA](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/114_kayenta_canary_analysis/)
+**다음**: [116. 인프라 드리프트 감지 (Infrastructure Drift Detection) - IaC 상태 불일치 자동 탐지](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/116_infrastructure_drift_detection/) →
 
 ---

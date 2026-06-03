@@ -1,23 +1,27 @@
----
-title: 111. 할리우드 원칙 (Hollywood Principle)
-date: '2026-05-10'
-tags:
-- studynote-design-supervision
----
++++
+title = "111. 할리우드 원칙 (Hollywood Principle)"
+date = 2026-05-10
+
+[taxonomies]
+tags = ["studynote-design-supervision"]
+
+[extra]
+tags = ["studynote-design-supervision"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 할리우드 원칙 (Hollywood Principle)은 "먼저 연락하지 마라, 우리가 연락할 것이다 (Don't [[189_subroutine_call_return|call]] us, we'll [[189_subroutine_call_return|call]] you)"라는 표현으로, 상위 [[192_module_independence|모듈]]이 하위 [[192_module_independence|모듈]]의 호출 시점과 방법을 결정하는 제어 역전(IoC, Inversion of Control)의 철학적 근간이다.
-> 2. **가치**: 하위 [[192_module_independence|모듈]]이 상위 프레임워크에 의존하지 않고 인터페이스만 구현하면, 프레임워크가 적절한 시점에 하위 [[192_module_independence|모듈]]을 호출함으로써 하위 [[192_module_independence|모듈]]과 상위 [[192_module_independence|모듈]] 간의 [[316_synchronization_bug_debugging|순환 의존성]](circular dependency)이 사라진다.
-> 3. **판단 포인트**: 콜백(callback), 이벤트 리스너(event listener), [[269_template_method_pattern|템플릿 메서드]]([[269_template_method_pattern|Template Method]]), [[337_dependency_injection|의존성 주입]]([[190_enterprise_di_framework_lifecycle|DI]]) 모두 할리우드 원칙의 구체적 표현이므로, 프레임워크 설계 시 "하위가 상위를 직접 호출하는 구조"가 보이면 원칙 위반 후보다.
+> 1. **본질**: 할리우드 원칙 (Hollywood Principle)은 "먼저 연락하지 마라, 우리가 연락할 것이다 (Don't [call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) us, we'll [call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) you)"라는 표현으로, 상위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 하위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 호출 시점과 방법을 결정하는 제어 역전(IoC, Inversion of Control)의 철학적 근간이다.
+> 2. **가치**: 하위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 상위 프레임워크에 의존하지 않고 인터페이스만 구현하면, 프레임워크가 적절한 시점에 하위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 호출함으로써 하위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)과 상위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간의 [순환 의존성](/knowledge-base/studynote/02_operating_system/05_deadlock/316_synchronization_bug_debugging/)(circular dependency)이 사라진다.
+> 3. **판단 포인트**: 콜백(callback), 이벤트 리스너(event listener), [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)([Template Method](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)), [의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/)([DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/)) 모두 할리우드 원칙의 구체적 표현이므로, 프레임워크 설계 시 "하위가 상위를 직접 호출하는 구조"가 보이면 원칙 위반 후보다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-할리우드 원칙은 영화 오디션 문화에서 유래한 비유다. 오디션을 본 배우(하위 [[192_module_independence|모듈]])는 합격 여부를 알기 위해 제작사(상위 프레임워크)에 매일 전화하지 않는다. 제작사가 결정이 나면 배우에게 연락한다. 이 역전된 제어 흐름이 원칙의 핵심이다.
+할리우드 원칙은 영화 오디션 문화에서 유래한 비유다. 오디션을 본 배우(하위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))는 합격 여부를 알기 위해 제작사(상위 프레임워크)에 매일 전화하지 않는다. 제작사가 결정이 나면 배우에게 연락한다. 이 역전된 제어 흐름이 원칙의 핵심이다.
 
-전통적 [[336_library_vs_framework|라이브러리]] 방식에서는 개발자가 직접 [[336_library_vs_framework|라이브러리]]를 호출했다. `Math.sqrt(4)`처럼 개발자 코드가 [[336_library_vs_framework|라이브러리]]를 호출하고 결과를 받는다. 반면 프레임워크는 개발자의 코드를 호출한다. Spring Framework가 `@Controller`의 핸들러 메서드를 [[461_http_stateless_connection_oriented|HTTP]] 요청이 들어올 때 호출하는 것이 대표적이다. 이 차이가 [[336_library_vs_framework|라이브러리]]와 프레임워크를 구분하는 본질이다.
+전통적 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 방식에서는 개발자가 직접 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 호출했다. `Math.sqrt(4)`처럼 개발자 코드가 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 호출하고 결과를 받는다. 반면 프레임워크는 개발자의 코드를 호출한다. Spring Framework가 `@Controller`의 핸들러 메서드를 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 요청이 들어올 때 호출하는 것이 대표적이다. 이 차이가 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)와 프레임워크를 구분하는 본질이다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -37,22 +41,22 @@ tags:
 └─────────────────────────────────────────────────────────────┘
 ```
 
-할리우드 원칙이 없으면 하위 [[192_module_independence|모듈]]이 상위 [[192_module_independence|모듈]]에 직접 의존하여 [[316_synchronization_bug_debugging|순환 의존성]]이 생기거나, 하위 [[192_module_independence|모듈]]이 실행 시점을 스스로 결정하는 [[448_polling_programmed_io|폴링]]([[747_io_polling_overhead|polling]]) 방식이 되어 자원 낭비와 타이밍 불일치가 발생한다.
+할리우드 원칙이 없으면 하위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 상위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)에 직접 의존하여 [순환 의존성](/knowledge-base/studynote/02_operating_system/05_deadlock/316_synchronization_bug_debugging/)이 생기거나, 하위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 실행 시점을 스스로 결정하는 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)([polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)) 방식이 되어 자원 낭비와 타이밍 불일치가 발생한다.
 
-- **📢 섹션 요약 비유**: 오디션에 합격한 배우는 촬영 일정을 스스로 정하지 않는다. 감독이 "내일 오전 9시에 스튜디오 3번 방으로 오세요"라고 연락한다. 배우(하위 [[192_module_independence|모듈]])는 준비만 하면 된다.
+- **📢 섹션 요약 비유**: 오디션에 합격한 배우는 촬영 일정을 스스로 정하지 않는다. 감독이 "내일 오전 9시에 스튜디오 3번 방으로 오세요"라고 연락한다. 배우(하위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))는 준비만 하면 된다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-할리우드 원칙이 구체화되는 주요 패턴은 네 가지다. ① 콜백(Callback): 함수를 인자로 전달하고 특정 이벤트 시 프레임워크가 호출, ② 이벤트 리스너: 이벤트 발생 시 등록된 핸들러를 시스템이 호출, ③ [[392_process|템플릿 메서드 패턴]]: 부모 클래스가 [[001_algorithm_definition|알고리즘]] 뼈대를 제어하고 자식 클래스의 추상 메서드를 호출, ④ [[190_enterprise_di_framework_lifecycle|DI]] [[561_container_based_deployment|컨테이너]]: 객체 생성과 생명주기를 프레임워크가 관리하고 필요 시 주입.
+할리우드 원칙이 구체화되는 주요 패턴은 네 가지다. ① 콜백(Callback): 함수를 인자로 전달하고 특정 이벤트 시 프레임워크가 호출, ② 이벤트 리스너: 이벤트 발생 시 등록된 핸들러를 시스템이 호출, ③ [템플릿 메서드 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/392_process/): 부모 클래스가 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 뼈대를 제어하고 자식 클래스의 추상 메서드를 호출, ④ [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/): 객체 생성과 생명주기를 프레임워크가 관리하고 필요 시 주입.
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
-| 콜백 | [[142_event_loop|이벤트 루프]], 비동기 엔진 / 콜백 함수 | Node.js, JavaScript 이벤트 |
-| 이벤트 리스너 | [[539_event_bus_stream_processing|이벤트 버스]], GUI 프레임워크 / 리스너 클래스 | Java Swing, Android |
-| [[269_template_method_pattern|템플릿 메서드]] | 추상 클래스의 훅(hook) 메서드 / 구체 클래스 오버라이딩 | JUnit, 웹 프레임워크 필터 |
-| [[190_enterprise_di_framework_lifecycle|DI]] [[561_container_based_deployment|컨테이너]] | Spring IoC [[561_container_based_deployment|컨테이너]] / @[[603_component_independent_deployment_unit|Component]], @[[090_service_kubernetes_network_load_balancing|Service]] | Spring, Guice |
+| 콜백 | [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/), 비동기 엔진 / 콜백 함수 | Node.js, JavaScript 이벤트 |
+| 이벤트 리스너 | [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/), GUI 프레임워크 / 리스너 클래스 | Java Swing, Android |
+| [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/) | 추상 클래스의 훅(hook) 메서드 / 구체 클래스 오버라이딩 | JUnit, 웹 프레임워크 필터 |
+| [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) | Spring IoC [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) / @[Component](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/), @[Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | Spring, Guice |
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -70,33 +74,33 @@ tags:
 
 할리우드 원칙을 과도하게 적용하면 코드 실행 흐름을 추적하기 어려워지는 "프레임워크 블랙박스" 문제가 생긴다. 어디서 어떤 코드가 호출되는지 IDE에서 추적하기 어렵고, 디버깅이 복잡해진다.
 
-- **📢 섹션 요약 비유**: 콘서트 무대는 조명감독이 지휘한다. 각 조명 담당자(하위 [[192_module_independence|모듈]])는 "큐" 신호가 오면 맡은 조명을 켠다. 각자가 임의로 켜고 끄면 무대는 혼돈이 된다.
+- **📢 섹션 요약 비유**: 콘서트 무대는 조명감독이 지휘한다. 각 조명 담당자(하위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))는 "큐" 신호가 오면 맡은 조명을 켠다. 각자가 임의로 켜고 끄면 무대는 혼돈이 된다.
 
 ---
 ## Ⅲ. 비교 및 연결
 
-할리우드 원칙은 [[247_dip_dependency_inversion_principle|DIP]]([[106_dip_dependency_inversion_principle|의존성 역전 원칙]])와 깊이 연결되지만, 적용 관점이 다르다.
+할리우드 원칙은 [DIP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/)([의존성 역전 원칙](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/106_dip_dependency_inversion_principle/))와 깊이 연결되지만, 적용 관점이 다르다.
 
 | 비교 축 | A | B |
 |:---|:---|:---|
 | **핵심 질문** | 누가 언제 호출하는가 (제어 흐름) | 무엇에 의존하는가 (의존성 방향) |
 | **강조점** | 제어의 역전 (IoC) | 추상화에 의존 |
-| **구현 기법** | 콜백, 이벤트, 훅 메서드 | 인터페이스, [[190_enterprise_di_framework_lifecycle|DI]] |
-| **결과** | 프레임워크가 실행 시점 결정 | 고수준 [[192_module_independence|모듈]]이 저수준을 모름 |
+| **구현 기법** | 콜백, 이벤트, 훅 메서드 | 인터페이스, [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) |
+| **결과** | 프레임워크가 실행 시점 결정 | 고수준 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 저수준을 모름 |
 
-[[606_observer_pattern_pub_sub|옵저버 패턴]]([[267_observer_pattern|Observer Pattern]])도 할리우드 원칙의 표현이다. 구독자([[267_observer_pattern|Observer]])는 발행자(Subject)에게 "나를 등록해 줘"라고 알리고 대기한다. 이벤트가 발생하면 Subject가 Observer를 호출한다. Observer는 Subject의 내부 상태 변화를 [[448_polling_programmed_io|폴링]]하지 않는다.
+[옵저버 패턴](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/606_observer_pattern_pub_sub/)([Observer Pattern](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/))도 할리우드 원칙의 표현이다. 구독자([Observer](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/))는 발행자(Subject)에게 "나를 등록해 줘"라고 알리고 대기한다. 이벤트가 발생하면 Subject가 Observer를 호출한다. Observer는 Subject의 내부 상태 변화를 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)하지 않는다.
 
-- **📢 섹션 요약 비유**: 알림 설정을 켜두면 앱이 새 소식이 생길 때 스마트폰에 푸시 알림을 보낸다. 사용자([[267_observer_pattern|Observer]])가 5분마다 앱을 열어 [[396_validation|확인]]([[448_polling_programmed_io|폴링]])할 필요가 없다.
+- **📢 섹션 요약 비유**: 알림 설정을 켜두면 앱이 새 소식이 생길 때 스마트폰에 푸시 알림을 보낸다. 사용자([Observer](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/))가 5분마다 앱을 열어 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)([폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/))할 필요가 없다.
 
 ---
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-Spring Boot, React의 useEffect, Node.js의 [[142_event_loop|이벤트 루프]] 모두 할리우드 원칙을 기반으로 동작한다. 실무에서 이 원칙의 위반은 주로 비즈니스 코드가 프레임워크를 직접 참조하거나, 하위 서비스가 상위 서비스를 직접 호출하는 역방향 의존성으로 나타난다.
+Spring Boot, React의 useEffect, Node.js의 [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/) 모두 할리우드 원칙을 기반으로 동작한다. 실무에서 이 원칙의 위반은 주로 비즈니스 코드가 프레임워크를 직접 참조하거나, 하위 서비스가 상위 서비스를 직접 호출하는 역방향 의존성으로 나타난다.
 
-### 판단 [[435_checklist_based_testing|체크리스트]]
-1. 하위 [[192_module_independence|모듈]]이 상위 프레임워크 클래스를 직접 import·참조하고 있는가?
+### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+1. 하위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 상위 프레임워크 클래스를 직접 import·참조하고 있는가?
 2. 하위 서비스가 상위 서비스를 직접 호출하는 역방향 의존성이 존재하는가?
-3. 이벤트 기반으로 전환 가능한 [[448_polling_programmed_io|폴링]]([[747_io_polling_overhead|polling]]) 로직이 있는가?
+3. 이벤트 기반으로 전환 가능한 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)([polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)) 로직이 있는가?
 4. 콜백·이벤트 리스너가 너무 중첩되어 "콜백 지옥(callback hell)"이 형성되고 있는가?
 5. 프레임워크의 생명주기 훅(@PostConstruct, @PreDestroy)을 올바르게 활용하고 있는가?
 
@@ -106,37 +110,37 @@ Spring Boot, React의 useEffect, Node.js의 [[142_event_loop|이벤트 루프]] 
 
 ## Ⅴ. 기대효과 및 결론
 
-할리우드 원칙을 체계적으로 적용하면 하위 [[192_module_independence|모듈]]이 프레임워크로부터 독립성을 얻는다. 비즈니스 로직 클래스가 프레임워크 API를 직접 참조하지 않으므로, 프레임워크 교체나 [[288_version_ihl_tos_total_length|버전]] 업그레이드의 충격이 최소화된다. 단위 테스트에서도 프레임워크 [[033_context|컨텍스트]] 없이 POJO (Plain Old Java Object)를 직접 테스트할 수 있다.
+할리우드 원칙을 체계적으로 적용하면 하위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 프레임워크로부터 독립성을 얻는다. 비즈니스 로직 클래스가 프레임워크 API를 직접 참조하지 않으므로, 프레임워크 교체나 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 업그레이드의 충격이 최소화된다. 단위 테스트에서도 프레임워크 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 없이 POJO (Plain Old Java Object)를 직접 테스트할 수 있다.
 
-한계는 디버깅 복잡성이다. 실행 흐름이 프레임워크 내부를 거쳐 역방향으로 호출되므로, [[057_stack|스택]] 트레이스([[057_stack|stack]] trace)가 복잡해지고 "이 코드가 언제, 왜 호출되는가"를 파악하는 데 더 많은 노력이 필요하다. 적절한 로깅([[526_security_logging_and_monitoring_failures|logging]])과 문서화가 이 한계를 보완한다.
+한계는 디버깅 복잡성이다. 실행 흐름이 프레임워크 내부를 거쳐 역방향으로 호출되므로, [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 트레이스([stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) trace)가 복잡해지고 "이 코드가 언제, 왜 호출되는가"를 파악하는 데 더 많은 노력이 필요하다. 적절한 로깅([logging](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/526_security_logging_and_monitoring_failures/))과 문서화가 이 한계를 보완한다.
 
-미래 방향으로는 ① 리액티브 프로그래밍([[327_reactive_programming|Reactive Programming]])에서 할리우드 원칙의 스트림([[467_http2_stream_multiplexing_tcp_hol|Stream]]) 수준 확장, ② [[206_serverless_cold_start|서버리스]]([[206_serverless_cold_start|Serverless]]) 아키텍처에서 함수가 클라우드 [[507_acid_properties|트리거]]에 의해 호출되는 극단적 IoC, ③ [[190_ai_llm_requirements_specification|AI]] 에이전트 [[073_container_orchestration_tools|오케스트레이션]]에서 에이전트가 오케스트레이터의 호출을 기다리는 패턴이 주목받고 있다.
+미래 방향으로는 ① 리액티브 프로그래밍([Reactive Programming](/knowledge-base/studynote/04_software_engineering/06_software_architecture/327_reactive_programming/))에서 할리우드 원칙의 스트림([Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/)) 수준 확장, ② [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)([Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)) 아키텍처에서 함수가 클라우드 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)에 의해 호출되는 극단적 IoC, ③ [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 에이전트 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)에서 에이전트가 오케스트레이터의 호출을 기다리는 패턴이 주목받고 있다.
 
-할리우드 원칙은 "제어권을 상위 프레임워크에 위임하고, 하위 [[192_module_independence|모듈]]은 규약(인터페이스)만 충실히 구현하면 된다"는 현대 프레임워크 설계의 근본 철학으로 기억해야 한다.
+할리우드 원칙은 "제어권을 상위 프레임워크에 위임하고, 하위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 규약(인터페이스)만 충실히 구현하면 된다"는 현대 프레임워크 설계의 근본 철학으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: 자판기는 고객이 버튼을 누를 때만 음료를 내보낸다. 자판기가 스스로 음료를 꺼내거나, 창고 담당자에게 "지금 음료를 꺼내도 될까요?"라고 묻지 않는다. [[507_acid_properties|트리거]](버튼)가 오면 반응하는 것이 핵심이다.
+- **📢 섹션 요약 비유**: 자판기는 고객이 버튼을 누를 때만 음료를 내보낸다. 자판기가 스스로 음료를 꺼내거나, 창고 담당자에게 "지금 음료를 꺼내도 될까요?"라고 묻지 않는다. [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)(버튼)가 오면 반응하는 것이 핵심이다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-[전통 [[336_library_vs_framework|라이브러리]] 호출] → [할리우드 원칙] → [IoC/[[190_enterprise_di_framework_lifecycle|DI]]] → [프레임워크 설계] → [리액티브 프로그래밍]
+[전통 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 호출] → [할리우드 원칙] → [IoC/[DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/)] → [프레임워크 설계] → [리액티브 프로그래밍]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
 | IoC (Inversion of Control) | 할리우드 원칙을 아키텍처 패턴으로 구체화한 개념 |
-| [[392_process|템플릿 메서드 패턴]] | 부모가 자식 메서드를 호출하는 할리우드 원칙 패턴 구현 |
-| [[606_observer_pattern_pub_sub|옵저버 패턴]] | 이벤트 기반 할리우드 원칙의 GoF 패턴 표현 |
-| Spring IoC [[561_container_based_deployment|컨테이너]] | 할리우드 원칙을 엔터프라이즈 수준에서 구현한 프레임워크 |
+| [템플릿 메서드 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/392_process/) | 부모가 자식 메서드를 호출하는 할리우드 원칙 패턴 구현 |
+| [옵저버 패턴](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/606_observer_pattern_pub_sub/) | 이벤트 기반 할리우드 원칙의 GoF 패턴 표현 |
+| Spring IoC [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) | 할리우드 원칙을 엔터프라이즈 수준에서 구현한 프레임워크 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[라이브러리 직접 호출] → [콜백 패턴] → [할리우드 원칙 정립] → [IoC/[[190_enterprise_di_framework_lifecycle|DI]] 프레임워크] → [리액티브 스트림] → [서버리스 [[342_faas|FaaS]] 트리거] → [[[190_ai_llm_requirements_specification|AI]] 에이전트 오케스트레이션]
+[라이브러리 직접 호출] → [콜백 패턴] → [할리우드 원칙 정립] → [IoC/[DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) 프레임워크] → [리액티브 스트림] → [서버리스 [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/) 트리거] → AI 에이전트 오케스트레이션]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 오디션을 보고 집에서 기다리면 제작사에서 "합격했어요, 내일 촬영 오세요"라고 연락이 와요.
-2. 배우(하위 [[192_module_independence|모듈]])가 매일 제작사에 전화해 "저 뽑혔나요?"라고 묻는 것은 할리우드 원칙 위반이에요.
+2. 배우(하위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))가 매일 제작사에 전화해 "저 뽑혔나요?"라고 묻는 것은 할리우드 원칙 위반이에요.
 3. 위에서 부를 때까지 자기 역할을 준비하고 기다리는 것, 그것이 할리우드 원칙이에요!
 
 ---
@@ -145,7 +149,7 @@ Spring Boot, React의 useEffect, Node.js의 [[142_event_loop|이벤트 루프]] 
 
 **진행 상황**: 164 / 530
 
-← **이전**: [[110_law_of_demeter_principle_of_least_knowledge|110. 최소 지식의 원칙 (Law of Demeter, Principle of Least Knowledge)]]
-**다음**: [[111_hollywood_principle|111. 할리우드 원칙 (Hollywood Principle)]] →
+← **이전**: [110. 최소 지식의 원칙 (Law of Demeter, Principle of Least Knowledge)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/110_law_of_demeter_principle_of_least_knowledge/)
+**다음**: [111. 할리우드 원칙 (Hollywood Principle)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/111_hollywood_principle/) →
 
 ---

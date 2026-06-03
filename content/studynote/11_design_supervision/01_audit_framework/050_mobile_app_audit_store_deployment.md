@@ -1,22 +1,19 @@
----
-title: '모바일 앱 감리 — 스토어 배포 기준 (Mobile App Audit: Store Deployment)'
-date: '2025-01-01'
-description: 모바일 앱 감리의 스토어 배포 기준, 앱 스토어 정책 준수, 보안 검증(OWASP MASVS), 접근성 심사를 다룬다.
-tags:
-- App Store Connect
-- OWASP MASVS
-- Play Store
-- accessibility
-- app store
-- mobile audit
-- mobile security
-- studynote-design
----
++++
+title = "모바일 앱 감리 — 스토어 배포 기준 (Mobile App Audit: Store Deployment)"
+description = "모바일 앱 감리의 스토어 배포 기준, 앱 스토어 정책 준수, 보안 검증(OWASP MASVS), 접근성 심사를 다룬다."
+date = 2025-01-01
+
+[taxonomies]
+tags = ["App Store Connect", "OWASP MASVS", "Play Store", "accessibility", "app store", "mobile audit", "mobile security", "studynote-design"]
+
+[extra]
+tags = ["App Store Connect", "OWASP MASVS", "Play Store", "accessibility", "app store", "mobile audit", "mobile security", "studynote-design"]
++++
 
 > **핵심 인사이트 3줄**
-> 1. 모바일 앱 감리는 기능·[[282_performance_tactics|성능]]·보안·[[292_accessibility_kwcag_wcag|접근성]]을 포함하며, 앱 스토어(Google Play·Apple App Store) 게재 [[164_policy|정책]] 준수가 배포 전 필수 [[395_verification_process_review|검증]] 항목이다.
-> 2. OWASP MASVS(Mobile Application [[283_security_tactics|Security]] [[395_verification_process_review|Verification]] Standard)는 모바일 보안 [[395_verification_process_review|검증]]의 국제 기준으로, L1(기본)~L2(심화) 수준 [[395_verification_process_review|검증]]을 제공한다.
-> 3. 공공앱 감리에서는 웹 [[292_accessibility_kwcag_wcag|접근성]](WCAG), 한국 장애인 차별금지법 기반 모바일 [[292_accessibility_kwcag_wcag|접근성]] 지침 준수 여부가 주요 감리 항목이다.
+> 1. 모바일 앱 감리는 기능·[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·보안·[접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)을 포함하며, 앱 스토어(Google Play·Apple App Store) 게재 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 준수가 배포 전 필수 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 항목이다.
+> 2. OWASP MASVS(Mobile Application [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) Standard)는 모바일 보안 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 국제 기준으로, L1(기본)~L2(심화) 수준 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 제공한다.
+> 3. 공공앱 감리에서는 웹 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)(WCAG), 한국 장애인 차별금지법 기반 모바일 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) 지침 준수 여부가 주요 감리 항목이다.
 
 ---
 
@@ -24,14 +21,14 @@ tags:
 
 ### 1.1 감리 범위
 
-| 영역         | 주요 [[396_validation|확인]] 항목                                    |
+| 영역         | 주요 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 항목                                    |
 |------------|--------------------------------------------------|
-| [[342_functional_suitability|기능 적합성]]  | 요구사항 충족 여부, 화면 흐름, 오류 처리          |
-| [[282_performance_tactics|성능]]        | [[138_response_time|응답 시간]], 배터리 소비, [[612_memory_leak_detection|메모리 누수]]               |
-| 보안        | OWASP MASVS 준수, [[001_dikw_pyramid|데이터]] 암호화, [[303_authentication_authorization_patterns|인증]]             |
-| [[292_accessibility_kwcag_wcag|접근성]]      | 모바일 [[292_accessibility_kwcag_wcag|접근성]] 지침, 스크린 리더 지원              |
-| 배포 [[164_policy|정책]]   | 앱 스토어 심사 가이드라인 준수                    |
-| [[781_personal_information|개인정보]]    | 수집 동의, 최소 권한, [[781_personal_information|개인정보]]처리방침             |
+| [기능 적합성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/342_functional_suitability/)  | 요구사항 충족 여부, 화면 흐름, 오류 처리          |
+| [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)        | [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), 배터리 소비, [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)               |
+| 보안        | OWASP MASVS 준수, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 암호화, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)             |
+| [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)      | 모바일 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) 지침, 스크린 리더 지원              |
+| 배포 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)   | 앱 스토어 심사 가이드라인 준수                    |
+| [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)    | 수집 동의, 최소 권한, [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)처리방침             |
 
 ### 1.2 감리 시점
 
@@ -42,27 +39,27 @@ tags:
                     스토어 제출 전 2~4주
 ```
 
-📢 **섹션 요약 비유**: 자동차 출고 전 국가 안전 검사처럼 — 스토어 등록 전에 기능·보안·[[292_accessibility_kwcag_wcag|접근성]]을 공식 [[396_validation|확인]]한다.
+📢 **섹션 요약 비유**: 자동차 출고 전 국가 안전 검사처럼 — 스토어 등록 전에 기능·보안·[접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)을 공식 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
 
 ---
 
-## Ⅱ. 앱 스토어 배포 [[164_policy|정책]] 감리
+## Ⅱ. 앱 스토어 배포 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 감리
 
-### 2.1 Google Play 주요 [[164_policy|정책]]
+### 2.1 Google Play 주요 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)
 
-| [[164_policy|정책]] 항목              | 감리 [[396_validation|확인]] 사항                           |
+| [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 항목              | 감리 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 사항                           |
 |----------------------|----------------------------------------|
-| [[781_personal_information|개인정보]] 섹션 ([[001_dikw_pyramid|Data]] Safety) | 수집 [[001_dikw_pyramid|데이터]] 종류·목적 정확 신고    |
-| 타겟 [[014_api_posix|API]] 수준         | 최신 Android [[014_api_posix|API]] 레벨 준수 (현재 34+) |
-| 64비트 지원          | 64비트 [[336_library_vs_framework|라이브러리]] 포함 여부             |
+| [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 섹션 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Safety) | 수집 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 종류·목적 정확 신고    |
+| 타겟 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 수준         | 최신 Android [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 레벨 준수 (현재 34+) |
+| 64비트 지원          | 64비트 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 포함 여부             |
 | 콘텐츠 등급          | IARC 등급 자체 심사 결과 일치 여부     |
 
-### 2.2 Apple App Store 주요 [[164_policy|정책]]
+### 2.2 Apple App Store 주요 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)
 
-| [[164_policy|정책]] 항목              | 감리 [[396_validation|확인]] 사항                           |
+| [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 항목              | 감리 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 사항                           |
 |----------------------|----------------------------------------|
-| Privacy Manifest     | [[781_personal_information|개인정보]] 접근 [[014_api_posix|API]] 사용 목적 명시        |
-| App Transport [[283_security_tactics|Security]] | [[461_http_stateless_connection_oriented|HTTP]] 예외 최소화, ATS 준수           |
+| Privacy Manifest     | [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 접근 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 사용 목적 명시        |
+| App Transport [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) | [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 예외 최소화, ATS 준수           |
 | 권한 사용 목적 문자열  | NSCameraUsageDescription 등 필수 기재 |
 | 심사 가이드라인 4.2   | 최소 기능 기준 충족                    |
 
@@ -84,21 +81,21 @@ MASVS-CODE       : 코드 품질·역공학 방지
 MASVS-RESILIENCE : 루팅/탈옥 탐지, 코드 난독화
 ```
 
-### 3.2 공공앱 최소 감리 [[435_checklist_based_testing|체크리스트]]
+### 3.2 공공앱 최소 감리 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 - [ ] 루트/탈옥 기기에서 동작 거부 또는 경고
 - [ ] 로컬 저장소에 민감 정보(패스워드, 토큰) 평문 저장 없음
-- [ ] [[303_authentication_authorization_patterns|인증]]서 고정([[182_certificate_pinning_ssl_tls_security|Certificate Pinning]]) 적용
-- [ ] 로그에 [[781_personal_information|개인정보]] 출력 없음
-- [ ] WebView JavaScript [[260_bridge_pattern_abstraction_implementation|Bridge]] 최소화
+- [ ] [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 고정([Certificate Pinning](/knowledge-base/studynote/09_security/04_endpoint_security/182_certificate_pinning_ssl_tls_security/)) 적용
+- [ ] 로그에 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 출력 없음
+- [ ] WebView JavaScript [Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 최소화
 
 📢 **섹션 요약 비유**: MASVS는 자동차 안전 기준 목록 — 브레이크, 에어백, 안전벨트(각 항목)를 하나씩 체크한다.
 
 ---
 
-## Ⅳ. 모바일 [[292_accessibility_kwcag_wcag|접근성]] 감리
+## Ⅳ. 모바일 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) 감리
 
-### 4.1 한국 모바일 [[292_accessibility_kwcag_wcag|접근성]] 지침 (KMAG)
+### 4.1 한국 모바일 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) 지침 (KMAG)
 
 ```
 인식의 용이성: 텍스트 대안(alt text), 색상 대비
@@ -109,23 +106,23 @@ MASVS-RESILIENCE : 루팅/탈옥 탐지, 코드 난독화
 
 ### 4.2 스크린 리더 감리 포인트
 
-| 플랫폼  | 도구           | [[396_validation|확인]] 항목                       |
+| 플랫폼  | 도구           | [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 항목                       |
 |--------|--------------|--------------------------------|
 | Android | TalkBack     | contentDescription, labelFor  |
-| iOS     | VoiceOver    | accessibilityLabel, [[167_sql_hint_optimizer_override|hint]]       |
+| iOS     | VoiceOver    | accessibilityLabel, [hint](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)       |
 
-📢 **섹션 요약 비유**: [[292_accessibility_kwcag_wcag|접근성]] 감리는 시각장애인도 앱을 사용할 수 있는지 [[396_validation|확인]] — 점자 메뉴판이 없는 식당처럼 불편해선 안 된다.
+📢 **섹션 요약 비유**: [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) 감리는 시각장애인도 앱을 사용할 수 있는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) — 점자 메뉴판이 없는 식당처럼 불편해선 안 된다.
 
 ---
 
 ## Ⅴ. 감리 보고서와 후속 조치
 
-### 5.1 감리 결과 [[104_classification_analysis|분류]]
+### 5.1 감리 결과 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)
 
 | 등급   | 기준                             | 조치                       |
 |------|--------------------------------|--------------------------|
-| 필수  | 법령·스토어 [[164_policy|정책]] 위반, 보안 취약점 | 배포 전 필수 수정           |
-| 권고  | 품질·[[282_performance_tactics|성능]] 개선 항목               | 다음 버전에서 반영 가능      |
+| 필수  | 법령·스토어 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 위반, 보안 취약점 | 배포 전 필수 수정           |
+| 권고  | 품질·[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 개선 항목               | 다음 버전에서 반영 가능      |
 | 참고  | 코드 품질, UI 개선 제안           | 팀 판단으로 적용            |
 
 ### 5.2 재감리 절차
@@ -176,15 +173,15 @@ Google Privacy Sandbox / Apple Privacy Manifest (2021~)
 지속적 모바일 앱 보안 감리 자동화 (현재~)
 ```
 
-**핵심 키워드**: OWASP MASVS, Privacy Manifest, KMAG, TalkBack, [[303_authentication_authorization_patterns|인증]]서 고정, 재감리
+**핵심 키워드**: OWASP MASVS, Privacy Manifest, KMAG, TalkBack, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 고정, 재감리
 
 ---
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 모바일 앱 감리는 자동차 출고 전 안전 검사 — 브레이크(보안), 좌석([[292_accessibility_kwcag_wcag|접근성]]), 문서([[164_policy|정책]])를 다 [[396_validation|확인]]해.
-2. MASVS는 [[435_checklist_based_testing|체크리스트]]처럼 보안 항목을 하나씩 [[396_validation|확인]]하는 것 — 모두 통과해야 앱이 안전하다고 인정돼.
-3. [[292_accessibility_kwcag_wcag|접근성]] 감리는 시력이 나쁜 친구도 쓸 수 있는지 [[396_validation|확인]] — 모두를 위한 앱을 만드는 거야.
+1. 모바일 앱 감리는 자동차 출고 전 안전 검사 — 브레이크(보안), 좌석([접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)), 문서([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))를 다 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해.
+2. MASVS는 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)처럼 보안 항목을 하나씩 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것 — 모두 통과해야 앱이 안전하다고 인정돼.
+3. [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) 감리는 시력이 나쁜 친구도 쓸 수 있는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) — 모두를 위한 앱을 만드는 거야.
 
 ---
 
@@ -192,7 +189,7 @@ Google Privacy Sandbox / Apple Privacy Manifest (2021~)
 
 **진행 상황**: 76 / 530
 
-← **이전**: [[050_mobile_app_audit|50. 모바일 앱 사업 감리 (Mobile App Audit)]]
-**다음**: [[051_ai_bigdata_project_audit|51. AI / 빅데이터 사업 감리 (AI Audit)]] →
+← **이전**: [50. 모바일 앱 사업 감리 (Mobile App Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/050_mobile_app_audit/)
+**다음**: [51. AI / 빅데이터 사업 감리 (AI Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/051_ai_bigdata_project_audit/) →
 
 ---

@@ -1,25 +1,29 @@
----
-title: 223. DORA 메트릭스 (DORA Metrics)
-date: '2026-05-08'
-tags:
-- studynote-enterprise
----
++++
+title = "223. DORA 메트릭스 (DORA Metrics)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-enterprise"]
+
+[extra]
+tags = ["studynote-enterprise"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[523_dhcp_dora_process|DORA]] Metrics는 소프트웨어 전달 체계를 사람별 생산성이 아니라 시스템의 속도와 안정성으로 측정하는 지표 묶음이다.
-> 2. **가치**: 배포 빈도 ([[087_deployment_kubernetes_workload_rolling_update|Deployment]] Frequency), 변경 [[085_lead_time_cycle_time|리드 타임]] ([[024_lead_time_for_changes|Lead Time for Changes]]), 평균 [[658_ir_recovery|복구]] 시간 (Mean Time to Restore), 변경 실패율 ([[025_change_failure_rate_cfr|Change Failure Rate]])을 함께 보면 병목과 품질 저하를 동시에 드러낼 수 있다.
-> 3. **판단 포인트**: DORA는 숫자를 많이 모으는 것이 목적이 아니라, 배포 단위를 작게 만들고 [[658_ir_recovery|복구]]를 빠르게 하도록 팀 구조와 자동화를 바꾸는 데 써야 효과가 난다.
+> 1. **본질**: [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) Metrics는 소프트웨어 전달 체계를 사람별 생산성이 아니라 시스템의 속도와 안정성으로 측정하는 지표 묶음이다.
+> 2. **가치**: 배포 빈도 ([Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) Frequency), 변경 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) ([Lead Time for Changes](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/024_lead_time_for_changes/)), 평균 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 (Mean Time to Restore), 변경 실패율 ([Change Failure Rate](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/025_change_failure_rate_cfr/))을 함께 보면 병목과 품질 저하를 동시에 드러낼 수 있다.
+> 3. **판단 포인트**: DORA는 숫자를 많이 모으는 것이 목적이 아니라, 배포 단위를 작게 만들고 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 빠르게 하도록 팀 구조와 자동화를 바꾸는 데 써야 효과가 난다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[[523_dhcp_dora_process|DORA]] Metrics는 [[652_devops_calms_culture|DevOps]] Research and Assessment에서 정리한 대표적인 소프트웨어 전달 성과 지표 체계다. 핵심은 코드 라인 수나 개인 커밋 수처럼 왜곡되기 쉬운 수치 대신, 아이디어가 운영 환경에 안전하게 도달하는 전체 흐름을 측정한다는 점이다.
+[DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) Metrics는 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) Research and Assessment에서 정리한 대표적인 소프트웨어 전달 성과 지표 체계다. 핵심은 코드 라인 수나 개인 커밋 수처럼 왜곡되기 쉬운 수치 대신, 아이디어가 운영 환경에 안전하게 도달하는 전체 흐름을 측정한다는 점이다.
 
-이 지표가 필요한 이유는 많은 조직이 "빨리 배포하면 불안정해진다"는 오래된 가정을 아직도 운영하고 있기 때문이다. 그래서 개발팀은 속도를, 운영팀은 안정성을 따로 지키려 하며 승인 절차와 대기 시간이 늘어난다. DORA는 고성과 팀이 오히려 작은 변경을 자주 내보내고, 실패해도 빨리 [[658_ir_recovery|복구]]하기 때문에 속도와 안정성을 동시에 높인다는 사실을 보여 준다.
+이 지표가 필요한 이유는 많은 조직이 "빨리 배포하면 불안정해진다"는 오래된 가정을 아직도 운영하고 있기 때문이다. 그래서 개발팀은 속도를, 운영팀은 안정성을 따로 지키려 하며 승인 절차와 대기 시간이 늘어난다. DORA는 고성과 팀이 오히려 작은 변경을 자주 내보내고, 실패해도 빨리 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하기 때문에 속도와 안정성을 동시에 높인다는 사실을 보여 준다.
 
-아래 그림은 DORA가 깨뜨린 전통적 오해를 요약한다. 큰 배포를 드물게 하는 것이 안정의 본질이 아니라, 작은 변경을 빠르게 [[395_verification_process_review|검증]]하고 되돌릴 수 있는 구조가 안정의 본질이다.
+아래 그림은 DORA가 깨뜨린 전통적 오해를 요약한다. 큰 배포를 드물게 하는 것이 안정의 본질이 아니라, 작은 변경을 빠르게 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하고 되돌릴 수 있는 구조가 안정의 본질이다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -43,16 +47,16 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[[523_dhcp_dora_process|DORA]] Metrics의 핵심 원리는 네 개 지표를 서로 보완적으로 해석하는 데 있다. 배포 빈도와 변경 [[085_lead_time_cycle_time|리드 타임]]은 흐름 속도를, 평균 [[658_ir_recovery|복구]] 시간과 변경 실패율은 운영 안정성을 보여 준다. 한 지표만 떼어 보면 왜곡되기 쉬우므로 반드시 함께 봐야 한다.
+[DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) Metrics의 핵심 원리는 네 개 지표를 서로 보완적으로 해석하는 데 있다. 배포 빈도와 변경 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)은 흐름 속도를, 평균 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간과 변경 실패율은 운영 안정성을 보여 준다. 한 지표만 떼어 보면 왜곡되기 쉬우므로 반드시 함께 봐야 한다.
 
 | 지표 | 의미 | 대표 산식 또는 측정점 | 해석 포인트 |
 | :--- | :--- | :--- | :--- |
 | 배포 빈도 (DF) | 운영 환경에 변경을 내보내는 빈도 | 기간 내 production 배포 횟수 | 배포를 작고 자주 할 수 있는가 |
-| 변경 [[085_lead_time_cycle_time|리드 타임]] (LTFC) | 커밋부터 운영 반영까지 걸린 시간 | deploy time - commit time | 승인·테스트·대기 병목이 있는가 |
-| 평균 [[658_ir_recovery|복구]] 시간 ([[451_mttr|MTTR]]) | 장애 인지부터 정상화까지 시간 | restore time - incident start | 감지·[[098_rollback_strategy_pipeline_error_threshold|롤백]]·우회가 빠른가 |
-| 변경 실패율 ([[025_change_failure_rate_cfr|CFR]]) | 문제를 일으킨 배포의 비율 | failed deployments / total deployments | 품질 내재화 수준이 어떤가 |
+| 변경 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) (LTFC) | 커밋부터 운영 반영까지 걸린 시간 | deploy time - commit time | 승인·테스트·대기 병목이 있는가 |
+| 평균 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 ([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)) | 장애 인지부터 정상화까지 시간 | restore time - incident start | 감지·[롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)·우회가 빠른가 |
+| 변경 실패율 ([CFR](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/025_change_failure_rate_cfr/)) | 문제를 일으킨 배포의 비율 | failed deployments / total deployments | 품질 내재화 수준이 어떤가 |
 
-아래 그림은 DORA가 [[123_pipe|파이프]]라인 어디를 측정하는지 보여 준다. 중요한 점은 이 지표가 개발팀만이 아니라 배포 자동화, [[229_monitor|모니터]]링, incident 대응 체계까지 포함한다는 것이다.
+아래 그림은 DORA가 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 어디를 측정하는지 보여 준다. 중요한 점은 이 지표가 개발팀만이 아니라 배포 자동화, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링, incident 대응 체계까지 포함한다는 것이다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -68,7 +72,7 @@ tags:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-이 구조에서 배포 단위를 작게 만들수록 LTFC와 CFR이 함께 낮아질 가능성이 커진다. 변경량이 작으면 리뷰와 테스트가 짧아지고, 장애가 나도 원인 범위를 좁히기 쉬워 MTTR도 줄어든다. 그래서 DORA는 결국 자동화, [[040_trunk_based_development|trunk-based development]], [[642_observability_telemetry|observability]] 같은 설계 선택과 연결된다.
+이 구조에서 배포 단위를 작게 만들수록 LTFC와 CFR이 함께 낮아질 가능성이 커진다. 변경량이 작으면 리뷰와 테스트가 짧아지고, 장애가 나도 원인 범위를 좁히기 쉬워 MTTR도 줄어든다. 그래서 DORA는 결국 자동화, [trunk-based development](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/040_trunk_based_development/), [observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) 같은 설계 선택과 연결된다.
 
 - **📢 섹션 요약 비유**: DORA는 식당 주방의 전체 동선을 재는 것과 같다. 주문이 빨리 나가는지뿐 아니라 음식이 잘못 나갔을 때 얼마나 빨리 다시 만들 수 있는지도 같이 재야 주방이 건강한지 알 수 있다.
 
@@ -76,16 +80,16 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-[[523_dhcp_dora_process|DORA]] Metrics는 기존 생산성 지표와 관점이 다르다. 개인 활동량을 재는 지표는 사람을 바쁘게 만들 수는 있어도 고객 가치 전달 속도를 보장하지 못한다. 반면 DORA는 팀 단위의 전달 시스템을 바라본다.
+[DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) Metrics는 기존 생산성 지표와 관점이 다르다. 개인 활동량을 재는 지표는 사람을 바쁘게 만들 수는 있어도 고객 가치 전달 속도를 보장하지 못한다. 반면 DORA는 팀 단위의 전달 시스템을 바라본다.
 
 | 지표 체계 | 무엇을 주로 재는가 | 강점 | 한계 |
 | :--- | :--- | :--- | :--- |
-| [[201_dora_metrics_devops_performance|DORA Metrics]] | 배포 흐름의 속도와 안정성 | delivery 체계 병목을 직접 드러냄 | 제품 성과나 사용자 만족도는 별도 필요 |
-| Velocity / [[082_story_point_velocity|Story Point]] | [[067_sprint_timebox|스프린트]] 내 계획 대비 [[139_throughput|처리량]] | 팀 계획 정확도 파악에 유용 | [[090_service_kubernetes_network_load_balancing|서비스]] 안정성, 운영 품질 반영이 약함 |
+| [DORA Metrics](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/201_dora_metrics_devops_performance/) | 배포 흐름의 속도와 안정성 | delivery 체계 병목을 직접 드러냄 | 제품 성과나 사용자 만족도는 별도 필요 |
+| Velocity / [Story Point](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/082_story_point_velocity/) | [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 내 계획 대비 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) | 팀 계획 정확도 파악에 유용 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 안정성, 운영 품질 반영이 약함 |
 | 개인 생산성 지표 | 커밋 수, LoC, 티켓 수 | 기록은 쉬움 | 잘못 쓰면 경쟁과 왜곡 유발 |
-| [[030_value_stream_mapping|VSM]] ([[088_value_stream_mapping_vsm|Value Stream Mapping]]) | 전체 가치 흐름의 대기와 작업 시간 | 대기 구간까지 포함한 병목 발견 | 운영 장애 [[658_ir_recovery|복구]] 품질은 별도 보완 필요 |
+| [VSM](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/) ([Value Stream Mapping](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/088_value_stream_mapping_vsm/)) | 전체 가치 흐름의 대기와 작업 시간 | 대기 구간까지 포함한 병목 발견 | 운영 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 품질은 별도 보완 필요 |
 
-따라서 DORA는 VSM과 함께 쓰면 더 강하다. VSM이 "어디서 기다리는가"를 보여 준다면, DORA는 "배포와 장애 대응이 실제로 빨라졌는가"를 보여 준다. 또한 [[100_sre_site_reliability_engineering_error_budget|SRE]] ([[100_sre_site_reliability_engineering_error_budget|Site Reliability Engineering]])의 [[102_sli_slo_service_level_indicator_objective|SLI]]/SLO는 사용자 체감 품질을, DORA는 delivery 시스템의 실행 품질을 보여 주므로 서로 보완적이다.
+따라서 DORA는 VSM과 함께 쓰면 더 강하다. VSM이 "어디서 기다리는가"를 보여 준다면, DORA는 "배포와 장애 대응이 실제로 빨라졌는가"를 보여 준다. 또한 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))의 [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)/SLO는 사용자 체감 품질을, DORA는 delivery 시스템의 실행 품질을 보여 주므로 서로 보완적이다.
 
 - **📢 섹션 요약 비유**: 운동선수 평가에서 팔굽혀펴기 횟수만 재는 것과 경기 기록을 재는 것은 다르다. DORA는 연습량보다 실제 경기에서 얼마나 빠르고 안정적으로 뛰는지를 보는 기록표다.
 
@@ -95,32 +99,32 @@ tags:
 
 실무에서 DORA를 적용할 때 가장 먼저 정해야 할 것은 측정 경계다. 무엇을 production deploy로 볼지, hotfix와 planned maintenance를 어떻게 구분할지, monolith와 microservice를 같은 기준으로 볼지 정의하지 않으면 숫자 비교가 무의미해진다. 또한 DORA를 개인 평가 도구로 전환하면 팀은 숫자를 방어하려고 배포를 쪼개거나 장애 기록을 숨기게 된다.
 
-### 적용 [[435_checklist_based_testing|체크리스트]]
+### 적용 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. [[288_version_ihl_tos_total_length|버전]]관리, [[090_configuration_item|CI]]/CD, incident 관리 도구에서 동일한 [[090_service_kubernetes_network_load_balancing|서비스]] [[289_identification_flags_fragmentation_offset|식별자]]를 연결했는가?
+1. [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)관리, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD, incident 관리 도구에서 동일한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)를 연결했는가?
 2. 배포 이벤트와 장애 이벤트의 기준 시점을 자동 수집하도록 구성했는가?
-3. 지표를 개인이 아닌 [[090_service_kubernetes_network_load_balancing|서비스]] 또는 팀 단위로 해석하고 있는가?
+3. 지표를 개인이 아닌 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 또는 팀 단위로 해석하고 있는가?
 4. 낮은 DF를 문제로 보기 전에 승인 대기, 테스트 대기, 릴리즈 윈도우 제한을 함께 분석했는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - DORA를 인사 평가 점수로 환산하는 운영
-- 장애를 숨기기 위해 [[313_rollback|rollback]] 대신 임시 우회만 반복하는 운영
+- 장애를 숨기기 위해 [rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/) 대신 임시 우회만 반복하는 운영
 - MTTR만 줄이고 근본 원인 분석은 생략하는 운영
 
-기술사 관점에서는 DORA를 단순 KPI로 적는 것보다, 자동화 수준·배포 단위·[[658_ir_recovery|복구]] 체계와 연결해 설명해야 한다. 숫자만 좋아도 운영 철학이 바뀌지 않으면 지속적인 개선이 되지 않는다.
+기술사 관점에서는 DORA를 단순 KPI로 적는 것보다, 자동화 수준·배포 단위·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 체계와 연결해 설명해야 한다. 숫자만 좋아도 운영 철학이 바뀌지 않으면 지속적인 개선이 되지 않는다.
 
-- **📢 섹션 요약 비유**: [[523_dhcp_dora_process|DORA]] 도입은 시험 점수표를 벽에 붙이는 일이 아니다. 어떤 문제를 틀렸는지 보고 공부법까지 바꾸는 과정이어야 성적이 계속 오른다.
+- **📢 섹션 요약 비유**: [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 도입은 시험 점수표를 벽에 붙이는 일이 아니다. 어떤 문제를 틀렸는지 보고 공부법까지 바꾸는 과정이어야 성적이 계속 오른다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[[523_dhcp_dora_process|DORA]] Metrics를 올바르게 쓰면 배포 [[123_pipe|파이프]]라인의 병목이 감이 아니라 [[001_dikw_pyramid|데이터]]로 드러난다. 승인 절차가 문제인지, 자동 테스트가 부족한지, 장애 [[658_ir_recovery|복구]] 루틴이 약한지 논쟁 대신 근거를 가지고 투자 우선순위를 정할 수 있다. 결과적으로 release batch size가 작아지고, 실험 주기가 빨라지며, 장애 충격도 줄어든다.
+[DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) Metrics를 올바르게 쓰면 배포 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 병목이 감이 아니라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 드러난다. 승인 절차가 문제인지, 자동 테스트가 부족한지, 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 루틴이 약한지 논쟁 대신 근거를 가지고 투자 우선순위를 정할 수 있다. 결과적으로 release batch size가 작아지고, 실험 주기가 빨라지며, 장애 충격도 줄어든다.
 
 다만 DORA만으로 제품 성공을 판단할 수는 없다. 고객 가치, 수익, 기능 채택률, 사용자 경험 같은 지표가 함께 있어야 한다. 따라서 DORA는 "팀이 바쁜가"를 재는 지표가 아니라 "가치 전달 시스템이 건강한가"를 재는 지표로 기억하는 것이 맞다.
 
-- **📢 섹션 요약 비유**: DORA는 농구 경기에서 슛 수만 세는 것이 아니라 성공률과 수비 전환 속도까지 함께 보는 기록표다. 많이 던지는 것보다 잘 넣고 빨리 [[233_recovery_database_restoration_overview|회복]]하는 팀이 강하다.
+- **📢 섹션 요약 비유**: DORA는 농구 경기에서 슛 수만 세는 것이 아니라 성공률과 수비 전환 속도까지 함께 보는 기록표다. 많이 던지는 것보다 잘 넣고 빨리 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)하는 팀이 강하다.
 
 ---
 
@@ -128,11 +132,11 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[090_configuration_item|CI]]/CD ([[019_continuous_integration|Continuous Integration]] / [[164_continuous_delivery|Continuous Delivery]]) | [[523_dhcp_dora_process|DORA]] 지표를 실제로 개선하는 자동화 기반이다. |
-| [[451_mttr|MTTR]] | 운영 [[658_ir_recovery|복구]] 역량과 [[111_observability_metrics_logs_traces|관측 가능성]] 수준을 보여 준다. |
-| [[025_change_failure_rate_cfr|CFR]] | 변경 품질과 테스트 내재화 수준을 드러낸다. |
-| [[030_value_stream_mapping|VSM]] | 배포 전 대기 구간까지 포함해 병목을 찾게 해 준다. |
-| [[100_sre_site_reliability_engineering_error_budget|SRE]] | 사용자 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]]과 incident 대응 체계를 보완한다. |
+| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/) / [Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/)) | [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 지표를 실제로 개선하는 자동화 기반이다. |
+| [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) | 운영 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 역량과 [관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/) 수준을 보여 준다. |
+| [CFR](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/025_change_failure_rate_cfr/) | 변경 품질과 테스트 내재화 수준을 드러낸다. |
+| [VSM](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/) | 배포 전 대기 구간까지 포함해 병목을 찾게 해 준다. |
+| [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) | 사용자 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)과 incident 대응 체계를 보완한다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -152,7 +156,7 @@ Automation + observability
 Fast and safe software delivery
 ```
 
-이 흐름은 개인 생산성 중심 측정이 자동화된 delivery 시스템 측정으로 진화한 과정을 [[347_compaction|압축]]한다.
+이 흐름은 개인 생산성 중심 측정이 자동화된 delivery 시스템 측정으로 진화한 과정을 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -166,7 +170,7 @@ Fast and safe software delivery
 
 **진행 상황**: 223 / 482
 
-← **이전**: [[222_cobit_2019_governance|222. COBIT 2019 거버넌스 (COBIT 2019 Governance)]]
-**다음**: [[224_vsm_value_stream_mapping|224. 가치 흐름 매핑 (Value Stream Mapping)]] →
+← **이전**: [222. COBIT 2019 거버넌스 (COBIT 2019 Governance)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/222_cobit_2019_governance/)
+**다음**: [224. 가치 흐름 매핑 (Value Stream Mapping)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/224_vsm_value_stream_mapping/) →
 
 ---

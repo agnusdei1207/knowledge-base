@@ -1,15 +1,19 @@
----
-title: 066. PASTA (Process for Attack Simulation and Threat Analysis) — 7단계 위협 모델링
-date: '2026-04-05'
-tags:
-- studynote-security
----
++++
+title = "066. PASTA (Process for Attack Simulation and Threat Analysis) — 7단계 위협 모델링"
+date = 2026-04-05
+
+[taxonomies]
+tags = ["studynote-security"]
+
+[extra]
+tags = ["studynote-security"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: PASTA는 비즈니스 목표에서 시작해 공격 시뮬레이션과 위협 분석까지 이어지는 7단계 [[611_threat_modeling|위협 모델링]] 프레임워크다.
-> 2. **가치**: STRIDE처럼 위협을 [[104_classification_analysis|분류]]하는 것에서 끝나지 않고, 위험 영향과 공격 경로를 단계적으로 분석한다.
-> 3. **판단**: PASTA는 보안팀만의 도구가 아니라, 아키텍처와 비즈니스 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]를 함께 보는 협업 프레임이다.
+> 1. **본질**: PASTA는 비즈니스 목표에서 시작해 공격 시뮬레이션과 위협 분석까지 이어지는 7단계 [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/) 프레임워크다.
+> 2. **가치**: STRIDE처럼 위협을 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는 것에서 끝나지 않고, 위험 영향과 공격 경로를 단계적으로 분석한다.
+> 3. **판단**: PASTA는 보안팀만의 도구가 아니라, 아키텍처와 비즈니스 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 함께 보는 협업 프레임이다.
 
 ---
 
@@ -47,7 +51,7 @@ Risk Management
 | 6 | 공격 시뮬레이션 |
 | 7 | 위험 및 대응 결정 |
 
-PASTA는 단순 [[435_checklist_based_testing|체크리스트]]가 아니라 공격자 관점과 비즈니스 관점을 연결하는 분석 흐름이다.
+PASTA는 단순 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)가 아니라 공격자 관점과 비즈니스 관점을 연결하는 분석 흐름이다.
 
 - **📢 섹션 요약 비유**: 퍼즐의 큰 그림부터 맞춘 뒤, 조각을 하나씩 놓는 방식이다.
 
@@ -57,11 +61,11 @@ PASTA는 단순 [[435_checklist_based_testing|체크리스트]]가 아니라 공
 
 | 프레임 | 초점 | 특징 |
 | :-- | :-- | :-- |
-| [[097_stride_convolutional_neural_network_downsampling|STRIDE]] | 위협 [[104_classification_analysis|분류]] | 빠른 [[104_classification_analysis|분류]] |
+| [STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) | 위협 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 빠른 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) |
 | DREAD | 위험 점수화 | 우선순위 |
 | PASTA | 공격 시뮬레이션 | 비즈니스 연계 |
 
-PASTA는 보안 평가를 더 구조적으로 만들며, 설계와 운영 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]를 함께 바라보게 한다.
+PASTA는 보안 평가를 더 구조적으로 만들며, 설계와 운영 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 함께 바라보게 한다.
 
 - **📢 섹션 요약 비유**: 위험 이름표를 붙이는 것보다, 실제로 어떻게 다칠 수 있는지 연극처럼 재현하는 것이다.
 
@@ -69,7 +73,7 @@ PASTA는 보안 평가를 더 구조적으로 만들며, 설계와 운영 [[096_
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 비즈니스 목표부터 정의했는가?
 2. 공격 경로와 자산을 함께 봤는가?
@@ -77,14 +81,14 @@ PASTA는 보안 평가를 더 구조적으로 만들며, 설계와 운영 [[096_
 4. 대응책이 아키텍처에 반영되었는가?
 5. 결과를 팀 간 합의로 남겼는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 기술만 보고 시작하는 설계
 - 위협만 나열하고 시뮬레이션하지 않는 설계
 - 비즈니스 영향도를 고려하지 않는 설계
 - 보안팀 단독 문서로 끝내는 설계
 
-기술사 관점에서는 PASTA를 "보안 프로세스"가 아니라 "[[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 중심 설계 대화"로 봐야 한다.
+기술사 관점에서는 PASTA를 "보안 프로세스"가 아니라 "[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 중심 설계 대화"로 봐야 한다.
 
 - **📢 섹션 요약 비유**: 그냥 무서운 이야기를 모으는 게 아니라, 실제로 어디가 위험한지 현장 답사를 하는 셈이다.
 
@@ -140,7 +144,7 @@ PASTA는 그런 보안 생각 순서예요.
 
 **진행 상황**: 66 / 1108
 
-← **이전**: [[065_stride_model|065. STRIDE 모델 — Spoofing/Tampering/Repudiation/Information Disclosure/DoS/Elevation]]
-**다음**: [[067_attack_surface_analysis|067. Attack Surface Analysis — 공격 표면 관리]] →
+← **이전**: [065. STRIDE 모델 — Spoofing/Tampering/Repudiation/Information Disclosure/DoS/Elevation](/knowledge-base/studynote/09_security/01_intro_principles/065_stride_model/)
+**다음**: [067. Attack Surface Analysis — 공격 표면 관리](/knowledge-base/studynote/09_security/01_intro_principles/067_attack_surface_analysis/) →
 
 ---

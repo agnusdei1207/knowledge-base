@@ -1,8 +1,12 @@
----
-title: 🎨 Hobby & Library
-tags:
-- personal
----
++++
+title = "🎨 Hobby & Library"
+
+[taxonomies]
+tags = ["personal"]
+
+[extra]
+tags = ["personal"]
++++
 
 내가 읽은 책, 본 영화, 다녀온 여행지 등 삶의 영감을 주는 모든 것들을 모으는 공간입니다.
 

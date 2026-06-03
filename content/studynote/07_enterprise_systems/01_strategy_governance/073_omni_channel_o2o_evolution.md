@@ -1,14 +1,18 @@
----
-title: 73. 옴니채널 (Omni-Channel) - 오프라인, 온라인, 모바일 등 모든 채널을 통합해 일관된 고객 경험 제공 (O2O의 진화)
-tags:
-- enterprise_systems
----
++++
+title = "73. 옴니채널 (Omni-Channel) - 오프라인, 온라인, 모바일 등 모든 채널을 통합해 일관된 고객 경험 제공 (O2O의 진화)"
+
+[taxonomies]
+tags = ["enterprise_systems"]
+
+[extra]
+tags = ["enterprise_systems"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 옴니채널은 모든 접점에서 하나의 고객 경험을 제공하는 [[268_strategy_pattern|전략]]이다.
+> 1. **본질**: 옴니채널은 모든 접점에서 하나의 고객 경험을 제공하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 > 2. **가치**: 채널 간 끊김을 줄여 고객 만족과 전환율을 높인다.
-> 3. **판단**: 멀티채널보다 통합된 [[001_dikw_pyramid|데이터]]와 운영이 중요하다.
+> 3. **판단**: 멀티채널보다 통합된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 운영이 중요하다.
 
 ---
 
@@ -33,8 +37,8 @@ Customer Experience
 | 요소 | 의미 |
 | :-- | :-- |
 | Channel Integration | 통합 |
-| [[194_consistency_database_integrity|Consistency]] | [[194_consistency_database_integrity|일관성]] |
-| [[001_dikw_pyramid|Data]] Sync | [[001_dikw_pyramid|데이터]] [[212_synchronization_mechanisms|동기화]] |
+| [Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) | [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) |
+| [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Sync | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) |
 
 옴니채널은 모든 접점을 하나의 여정으로 연결한다.
 
@@ -48,12 +52,12 @@ Customer Experience
 | :-- | :-- | :-- |
 | 채널 | 여러 개 | 통합 |
 | 경험 | 분리 | 일관 |
-| [[001_dikw_pyramid|데이터]] | [[136_variance|분산]] | 공유 |
+| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) | 공유 |
 
 | 연관 | 의미 |
 | :-- | :-- |
-| [[139_o2o_online_to_offline_platform|O2O]] | 온오프 연계 |
-| [[726_platform_engineering_idp_dx|DX]] | [[055_digital_transformation|디지털 전환]] |
+| [O2O](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/139_o2o_online_to_offline_platform/) | 온오프 연계 |
+| [DX](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/) | [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) |
 
 옴니채널은 단순 채널 추가가 아니라 고객 여정을 통합하는 것이다.
 
@@ -63,22 +67,22 @@ Customer Experience
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 채널 [[001_dikw_pyramid|데이터]]가 통합되는가?
-2. 고객 [[655_ir_detection_analysis|식별]]이 일관적인가?
+1. 채널 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 통합되는가?
+2. 고객 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)이 일관적인가?
 3. 경험이 끊기지 않는가?
-4. 운영 [[164_policy|정책]]이 통합되는가?
+4. 운영 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 통합되는가?
 5. O2O를 넘어서는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 채널만 늘리는 설계
-- [[001_dikw_pyramid|데이터]]가 분리된 설계
+- [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 분리된 설계
 - 고객 경험이 끊기는 설계
 - 통합 없이 마케팅만 하는 설계
 
-기술사 관점에서는 옴니채널을 "채널 통합 기반 고객 경험 [[268_strategy_pattern|전략]]"으로 설명해야 한다.
+기술사 관점에서는 옴니채널을 "채널 통합 기반 고객 경험 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)"으로 설명해야 한다.
 
 - **📢 섹션 요약 비유**: 어느 문으로 와도 같은 집처럼 느껴지게 한다.
 
@@ -88,7 +92,7 @@ Customer Experience
 
 옴니채널은 고객 경험과 전환을 높인다.
 
-결론적으로 옴니채널은 모든 채널을 통합해 일관된 경험을 주는 [[268_strategy_pattern|전략]]이다.
+결론적으로 옴니채널은 모든 채널을 통합해 일관된 경험을 주는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 
 - **📢 섹션 요약 비유**: 어디서 와도 같은 친절을 받는 것이다.
 
@@ -122,7 +126,7 @@ Customer Journey
 
 어디로 와도 같아요.  
 기분 좋은 경험이 이어져요.  
-옴니채널은 그런 [[268_strategy_pattern|전략]]이에요.
+옴니채널은 그런 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이에요.
 
 ---
 
@@ -130,7 +134,7 @@ Customer Journey
 
 **진행 상황**: 73 / 482
 
-← **이전**: [[072_platform_business_two_sided_market|72. 플랫폼 비즈니스 (Platform Business) - 양면 시장 (Two-sided Market) 연결 구조]]
-**다음**: [[074_data_literacy_democratization|74. 데이터 리터러시 (Data Literacy) 민주화]] →
+← **이전**: [72. 플랫폼 비즈니스 (Platform Business) - 양면 시장 (Two-sided Market) 연결 구조](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/072_platform_business_two_sided_market/)
+**다음**: [74. 데이터 리터러시 (Data Literacy) 민주화](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/074_data_literacy_democratization/) →
 
 ---

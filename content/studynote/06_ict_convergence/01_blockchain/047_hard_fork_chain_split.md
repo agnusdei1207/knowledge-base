@@ -1,14 +1,18 @@
----
-title: 047. 하드 포크 — Hard Fork & Chain Split
-date: '2026-04-05'
-tags:
-- studynote-ict-convergence
----
++++
+title = "047. 하드 포크 — Hard Fork & Chain Split"
+date = 2026-04-05
+
+[taxonomies]
+tags = ["studynote-ict-convergence"]
+
+[extra]
+tags = ["studynote-ict-convergence"]
++++
 
 > **핵심 인사이트**
-> 1. 하드 포크(Hard Fork)는 [[004_blockchain|블록체인]] 프로토콜을 이전 [[288_version_ihl_tos_total_length|버전]]과 호환되지 않는 방식으로 업그레이드하는 것 — 과반수 노드가 새 규칙을 채택하지 않으면 체인이 영구 분리(Chain Split)되며, 이더리움 [[054_dao_decentralized_autonomous_organization|DAO]] 사건과 비트코인 캐시 분리가 대표적 실례다.
-> 2. 소프트 포크 vs 하드 포크의 핵심 차이 — 소프트 포크는 이전 [[288_version_ihl_tos_total_length|버전]] 노드가 새 블록을 유효하다고 판단(하위 호환), 하드 포크는 이전 [[288_version_ihl_tos_total_length|버전]] 노드가 새 블록을 무효로 판단(비호환). 이더리움 PoS 전환(Merge)은 체인 분리 없는 하드 포크의 예다.
-> 3. 체인 분리 시 리플레이 어택([[274_replay_attack|Replay Attack]])이 새로운 보안 위협 — 한 체인의 서명된 트랜잭션이 다른 체인에도 유효해 의도치 않은 자산 이동이 발생하며, 체인 ID 분리와 리플레이 [[571_protection_vs_security|보호]] 구현이 필수다.
+> 1. 하드 포크(Hard Fork)는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 프로토콜을 이전 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)과 호환되지 않는 방식으로 업그레이드하는 것 — 과반수 노드가 새 규칙을 채택하지 않으면 체인이 영구 분리(Chain Split)되며, 이더리움 [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) 사건과 비트코인 캐시 분리가 대표적 실례다.
+> 2. 소프트 포크 vs 하드 포크의 핵심 차이 — 소프트 포크는 이전 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 노드가 새 블록을 유효하다고 판단(하위 호환), 하드 포크는 이전 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 노드가 새 블록을 무효로 판단(비호환). 이더리움 PoS 전환(Merge)은 체인 분리 없는 하드 포크의 예다.
+> 3. 체인 분리 시 리플레이 어택([Replay Attack](/knowledge-base/studynote/09_security/03_network_security/274_replay_attack/))이 새로운 보안 위협 — 한 체인의 서명된 트랜잭션이 다른 체인에도 유효해 의도치 않은 자산 이동이 발생하며, 체인 ID 분리와 리플레이 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 구현이 필수다.
 
 ---
 
@@ -103,7 +107,7 @@ tags:
   (이전 체인 소멸, 단일 체인 유지)
 ```
 
-> 📢 **섹션 요약 비유**: [[118_eth|ETH]] vs ETC는 도시 분열 — 해킹 사건 후 "피해 보상해야([[118_eth|ETH]])" vs "원칙 지켜야(ETC)" 의견 충돌. 도시가 둘로 분리, 각자의 법으로 독립!
+> 📢 **섹션 요약 비유**: [ETH](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/) vs ETC는 도시 분열 — 해킹 사건 후 "피해 보상해야([ETH](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/))" vs "원칙 지켜야(ETC)" 의견 충돌. 도시가 둘로 분리, 각자의 법으로 독립!
 
 ---
 
@@ -194,7 +198,7 @@ Polkadot 거버넌스:
   → 빠른 업그레이드 가능
 ```
 
-> 📢 **섹션 요약 비유**: [[004_blockchain|블록체인]] 거버넌스는 마을 회의 — 비트코인은 개발자+채굴자 비공식 합의(마을 원로 회의), 이더리움은 EIP 공식 과정, DeFi는 토큰 투표(주주총회). 모두 민주적이지만 방식이 달라요!
+> 📢 **섹션 요약 비유**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 거버넌스는 마을 회의 — 비트코인은 개발자+채굴자 비공식 합의(마을 원로 회의), 이더리움은 EIP 공식 과정, DeFi는 토큰 투표(주주총회). 모두 민주적이지만 방식이 달라요!
 
 ---
 
@@ -305,7 +309,7 @@ PoS 전환 성공
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 하드 포크는 나라 분열 — 마을([[004_blockchain|블록체인]]) 규칙을 바꾸는데 모두 동의 안 하면? 마을이 둘로 갈라져요. [[118_eth|ETH]] vs ETC가 그 예!
+1. 하드 포크는 나라 분열 — 마을([블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)) 규칙을 바꾸는데 모두 동의 안 하면? 마을이 둘로 갈라져요. [ETH](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/) vs ETC가 그 예!
 2. 리플레이 어택은 복사 도장 — 한 마을 영수증을 다른 마을에 그대로 내밀어 물건 받기. 체인 ID(마을 도장)로 구별해서 방지!
 3. 거버넌스는 마을 회의 — BIP/EIP로 제안하고 투표. 과반수 동의하면 규칙 변경. 동의 안 하면 분열(논쟁 포크) 위험!
 
@@ -315,7 +319,7 @@ PoS 전환 성공
 
 **진행 상황**: 47 / 552
 
-← **이전**: [[046_sharding_parallel_processing|046. 블록체인 샤딩 — Blockchain Sharding]]
-**다음**: [[048_soft_fork_backward_compatibility|048. 소프트 포크 — Soft Fork & 하위 호환성]] →
+← **이전**: [046. 블록체인 샤딩 — Blockchain Sharding](/knowledge-base/studynote/06_ict_convergence/01_blockchain/046_sharding_parallel_processing/)
+**다음**: [048. 소프트 포크 — Soft Fork & 하위 호환성](/knowledge-base/studynote/06_ict_convergence/01_blockchain/048_soft_fork_backward_compatibility/) →
 
 ---

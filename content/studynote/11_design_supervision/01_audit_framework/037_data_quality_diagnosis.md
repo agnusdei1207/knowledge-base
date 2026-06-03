@@ -1,18 +1,22 @@
----
-title: 037. 데이터 품질 진단 (Data Quality Diagnosis)
-date: '2026-03-03'
-tags:
-- studynote-design-supervision
----
++++
+title = "037. 데이터 품질 진단 (Data Quality Diagnosis)"
+date = 2026-03-03
+
+[taxonomies]
+tags = ["studynote-design-supervision"]
+
+[extra]
+tags = ["studynote-design-supervision"]
++++
 
 > **핵심 인사이트**
-> 1. [[041_contractor_late_penalty|데이터 품질 진단]]은 [[002_bigdata_5v|정확성]]·완전성·[[194_consistency_database_integrity|일관성]]·유효성·최신성·유일성의 6대 품질 차원을 기준으로 [[001_dikw_pyramid|데이터]]의 결함을 체계적으로 측정하고, [[001_dikw_pyramid|데이터]] 기반 의사결정의 신뢰성을 보장하는 활동이다.
-> 2. "쓰레기 입력, 쓰레기 출력(GIGO: Garbage In, Garbage Out)" — 아무리 정교한 [[190_ai_llm_requirements_specification|AI]]·분석 모델도 품질이 낮은 [[001_dikw_pyramid|데이터]]로 학습하면 잘못된 결과를 낸다. [[001_dikw_pyramid|데이터]] 품질은 디지털 전환의 기반이다.
-> 3. 행정안전부 [[001_dikw_pyramid|데이터]] 품질관리 지침([[477_owasp_top_10_2021|2021]])과 ISO 8000 [[001_dikw_pyramid|데이터]] 품질 표준이 공공·민간 분야의 [[041_contractor_late_penalty|데이터 품질 진단]] 기준이며, [[001_dikw_pyramid|데이터]] 감리의 핵심 점검 항목이다.
+> 1. [데이터 품질 진단](/knowledge-base/studynote/11_design_supervision/01_audit_framework/041_contractor_late_penalty/)은 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)·완전성·[일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)·유효성·최신성·유일성의 6대 품질 차원을 기준으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 결함을 체계적으로 측정하고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 의사결정의 신뢰성을 보장하는 활동이다.
+> 2. "쓰레기 입력, 쓰레기 출력(GIGO: Garbage In, Garbage Out)" — 아무리 정교한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·분석 모델도 품질이 낮은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 학습하면 잘못된 결과를 낸다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질은 디지털 전환의 기반이다.
+> 3. 행정안전부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질관리 지침([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/))과 ISO 8000 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 표준이 공공·민간 분야의 [데이터 품질 진단](/knowledge-base/studynote/11_design_supervision/01_audit_framework/041_contractor_late_penalty/) 기준이며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 감리의 핵심 점검 항목이다.
 
 ---
 
-## I. [[001_dikw_pyramid|데이터]] 품질 6대 차원
+## I. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 6대 차원
 
 ```
 6대 품질 차원 (ISO 8000 / 행안부 기준):
@@ -42,7 +46,7 @@ tags:
    예: 고객 ID 중복률이 0%인가
 ```
 
-> 📢 **섹션 요약 비유**: [[001_dikw_pyramid|데이터]]는 식재료 — [[002_bigdata_5v|정확성]](신선한가), 완전성(빠진 재료 없는가), [[194_consistency_database_integrity|일관성]](레시피대로인가), 유효성(먹어도 되는가), 최신성(유통기한 지났나), 유일성(같은 재료 두 번 안 넣었나).
+> 📢 **섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 식재료 — [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)(신선한가), 완전성(빠진 재료 없는가), [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)(레시피대로인가), 유효성(먹어도 되는가), 최신성(유통기한 지났나), 유일성(같은 재료 두 번 안 넣었나).
 
 ---
 
@@ -72,11 +76,11 @@ tags:
   대시보드로 지속 모니터링
 ```
 
-> 📢 **섹션 요약 비유**: [[041_contractor_late_penalty|데이터 품질 진단]]은 건강검진 — 단순 측정에서 그치지 않고 이상 지표를 원인 분석하고 치료(개선)까지 연결.
+> 📢 **섹션 요약 비유**: [데이터 품질 진단](/knowledge-base/studynote/11_design_supervision/01_audit_framework/041_contractor_late_penalty/)은 건강검진 — 단순 측정에서 그치지 않고 이상 지표를 원인 분석하고 치료(개선)까지 연결.
 
 ---
 
-## III. [[267_data_profiling|데이터 프로파일링]] ([[267_data_profiling|Data Profiling]])
+## III. [데이터 프로파일링](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/267_data_profiling/) ([Data Profiling](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/267_data_profiling/))
 
 ```
 데이터 프로파일링 주요 분석:
@@ -108,14 +112,14 @@ SQL 예시:
 |-----------|-------------|------------------------|
 | NULL 비율  | 필수 < 1%   | 수집 프로세스 개선       |
 | 중복 비율  | 0%          | 중복 제거 배치 수행      |
-| 형식 오류  | < 0.1%      | [[601_input_validation|입력 검증]] 강화           |
-| [[075_referential_integrity_foreign_key_cascade|참조 무결성]]| 100%        | FK 제약 조건 추가        |
+| 형식 오류  | < 0.1%      | [입력 검증](/knowledge-base/studynote/09_security/uncategorized/601_input_validation/) 강화           |
+| [참조 무결성](/knowledge-base/studynote/05_database/02_modeling_normalization/075_referential_integrity_foreign_key_cascade/)| 100%        | FK 제약 조건 추가        |
 
-> 📢 **섹션 요약 비유**: [[267_data_profiling|데이터 프로파일링]]은 혈액검사 — 표면만 보지 않고 항목별 수치로 정확히 어디가 문제인지 찾아낸다.
+> 📢 **섹션 요약 비유**: [데이터 프로파일링](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/267_data_profiling/)은 혈액검사 — 표면만 보지 않고 항목별 수치로 정확히 어디가 문제인지 찾아낸다.
 
 ---
 
-## [[288_version_ihl_tos_total_length|IV]]. 행안부 [[001_dikw_pyramid|데이터]] 품질관리 지침 핵심
+## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 행안부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질관리 지침 핵심
 
 ```
 대상 기관: 중앙행정기관, 지방자치단체, 공공기관
@@ -138,11 +142,11 @@ SQL 예시:
   + 품질 개선 계획의 구체성
 ```
 
-> 📢 **섹션 요약 비유**: 공공 [[001_dikw_pyramid|데이터]] 품질관리 지침은 식품 위생 기준 — 의무이고, 정기 점검이 있고, 불합격이면 시정 조치를 받는다.
+> 📢 **섹션 요약 비유**: 공공 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질관리 지침은 식품 위생 기준 — 의무이고, 정기 점검이 있고, 불합격이면 시정 조치를 받는다.
 
 ---
 
-## V. 실무 시나리오 — 금융 대출 심사 [[041_contractor_late_penalty|데이터 품질 진단]]
+## V. 실무 시나리오 — 금융 대출 심사 [데이터 품질 진단](/knowledge-base/studynote/11_design_supervision/01_audit_framework/041_contractor_late_penalty/)
 
 ```
 문제:
@@ -165,7 +169,7 @@ SQL 예시:
   AI 모델 F1-Score: 0.72 -> 0.89 (+23.6%)
 ```
 
-> 📢 **섹션 요약 비유**: AI가 틀린 게 아니라 [[001_dikw_pyramid|데이터]]가 틀렸다 — 품질 진단 후 [[001_dikw_pyramid|데이터]]를 고쳤더니 [[190_ai_llm_requirements_specification|AI]] 성능이 극적으로 개선.
+> 📢 **섹션 요약 비유**: AI가 틀린 게 아니라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 틀렸다 — 품질 진단 후 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 고쳤더니 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 성능이 극적으로 개선.
 
 ---
 
@@ -217,9 +221,9 @@ Feature Store, Data Contract 등장
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [[041_contractor_late_penalty|데이터 품질 진단]]은 정보가 정확한지, 빠진 것은 없는지, 두 곳에서 다르게 저장되지 않았는지 검사하는 거예요.
-2. 나쁜 [[001_dikw_pyramid|데이터]]로 AI를 가르치면 나쁜 AI가 되니까, [[001_dikw_pyramid|데이터]] 청소가 [[190_ai_llm_requirements_specification|AI]] 개발의 첫 번째 단계예요.
-3. 은행이나 병원처럼 중요한 곳에서는 [[001_dikw_pyramid|데이터]] 품질이 사람의 생활에 직접 영향을 주기 때문에 법으로 관리해요!
+1. [데이터 품질 진단](/knowledge-base/studynote/11_design_supervision/01_audit_framework/041_contractor_late_penalty/)은 정보가 정확한지, 빠진 것은 없는지, 두 곳에서 다르게 저장되지 않았는지 검사하는 거예요.
+2. 나쁜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 AI를 가르치면 나쁜 AI가 되니까, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 청소가 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 개발의 첫 번째 단계예요.
+3. 은행이나 병원처럼 중요한 곳에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질이 사람의 생활에 직접 영향을 주기 때문에 법으로 관리해요!
 
 ---
 
@@ -227,7 +231,7 @@ Feature Store, Data Contract 등장
 
 **진행 상황**: 50 / 530
 
-← **이전**: [[036_cloud_based_audit|036. 클라우드 기반 감리 (Cloud-Based Audit)]]
-**다음**: [[037_pmo_project_management_office|37. PMO (Project Management Office)]] →
+← **이전**: [036. 클라우드 기반 감리 (Cloud-Based Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/036_cloud_based_audit/)
+**다음**: [37. PMO (Project Management Office)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/037_pmo_project_management_office/) →
 
 ---

@@ -1,21 +1,25 @@
----
-title: 1054. IBN(의도기반망) 선행 AI 설계
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "1054. IBN(의도기반망) 선행 AI 설계"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[857_ibn_intent_based_networking_declarative_automation|IBN]] 선행 [[190_ai_llm_requirements_specification|AI]] 설계는 [[282_performance_tactics|성능]] 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: [[857_ibn_intent_based_networking_declarative_automation|IBN]] 선행 [[190_ai_llm_requirements_specification|AI]] 설계를 이해하면 측정 정확도과 모델 적합성 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 선행 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 설계는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 선행 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 설계를 이해하면 측정 정확도과 모델 적합성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- 850번 [[633_sdn_whitebox|SDN]](소프트웨어 정의 네트워크)이 중앙에서 [[238_switch_operation_principles|스위치]]를 조종해 줬지만, 여전히 엔지니어는 컨트롤러에 들어가서 `permit tcp any any eq 80` 처럼 기계가 알아먹는 낮은 수준의 코딩(명령형, How-to)을 수동으로 입력해야 했습니다.
+- 850번 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)(소프트웨어 정의 네트워크)이 중앙에서 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 조종해 줬지만, 여전히 엔지니어는 컨트롤러에 들어가서 `permit tcp any any eq 80` 처럼 기계가 알아먹는 낮은 수준의 코딩(명령형, How-to)을 수동으로 입력해야 했습니다.
 - 사람의 실수는 필연적이고, 복잡한 클라우드 망에서 수동 코딩은 속도를 따라가지 못합니다.
 
 ```text
@@ -27,14 +31,14 @@ tags:
     └──▶ [화이트박스 OCP 스위치]
 ```
 
-- **📢 섹션 요약 비유**: [[857_ibn_intent_based_networking_declarative_automation|IBN]] 선행 [[190_ai_llm_requirements_specification|AI]] 설계는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [[170_selectivity_cardinality_distribution_tuning|선택도]] 쉬워진다.
+- **📢 섹션 요약 비유**: [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 선행 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 설계는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-가트너가 밀고 시스코([[539_netflow_sflow_traffic_monitoring|Cisco]] DNA)가 상용화한 네트워크 자동화의 정점입니다.
-- **개념**: 관리자가 "어떻게(How)" 통신망을 세팅할지 기계어 코딩을 하는 게 아니라, 비즈니스 수준에서 **"무엇을(What) 원한다"는 큰 그림(의도, [[416_prompt_injection_semantic_routing|Intent]])만 선언적으로 입력하면, AI와 [[241_machine_learning_basics|머신러닝]](ML) 기반의 시스템이 스스로 네트워크 장비의 [[009_config|설정]] 코드를 자동 번역·배포하고 상태를 지속적으로 모니터링·치유(Closed-loop)하는 지능형 네트워크 시스템**입니다.
+가트너가 밀고 시스코([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/) DNA)가 상용화한 네트워크 자동화의 정점입니다.
+- **개념**: 관리자가 "어떻게(How)" 통신망을 세팅할지 기계어 코딩을 하는 게 아니라, 비즈니스 수준에서 **"무엇을(What) 원한다"는 큰 그림(의도, [Intent](/knowledge-base/studynote/06_ict_convergence/05_data_science/416_prompt_injection_semantic_routing/))만 선언적으로 입력하면, AI와 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)(ML) 기반의 시스템이 스스로 네트워크 장비의 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 코드를 자동 번역·배포하고 상태를 지속적으로 모니터링·치유(Closed-loop)하는 지능형 네트워크 시스템**입니다.
 
 ```text
 [Spine-Leaf 대용량 클로스 구조]
@@ -45,69 +49,69 @@ tags:
     └──▶ [화이트박스 OCP 스위치]
 ```
 
-- **📢 섹션 요약 비유**: [[857_ibn_intent_based_networking_declarative_automation|IBN]] 선행 [[190_ai_llm_requirements_specification|AI]] 설계의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
+- **📢 섹션 요약 비유**: [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 선행 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 설계의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-엔지니어의 머리(뇌)를 대체하는 [[190_ai_llm_requirements_specification|AI]] 자동화 프로세스입니다.
+엔지니어의 머리(뇌)를 대체하는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 자동화 프로세스입니다.
 
-### 1. 의도 변환 (Translation & [[396_validation|Validation]]) - "인간의 말을 기계어로"
+### 1. 의도 변환 (Translation & [Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)) - "인간의 말을 기계어로"
 - 인간이 대시보드에 적습니다. `[의도: 인사팀 직원들은 유튜브 접속 금지]`
-- [[857_ibn_intent_based_networking_declarative_automation|IBN]] 뇌(번역기)가 이 문장을 읽고, "인사팀 서브넷 IP는 뭐지? [[238_switch_operation_principles|스위치]] [[549_acl_access_control_list|ACL]](접속 제어) 명령어는 어떻게 짜야 하지?"를 고민하여 수천 줄의 기계어 [[009_config|설정]] 스크립트로 자동 번역합니다. 
-- 쏘기 전에 샌드박스에서 시뮬레이션([[396_validation|Validation]])을 돌려 "이거 치면 회사망 뻗나 안 뻗나?"를 수학적으로 검증까지 마칩니다.
+- [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 뇌(번역기)가 이 문장을 읽고, "인사팀 서브넷 IP는 뭐지? [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)(접속 제어) 명령어는 어떻게 짜야 하지?"를 고민하여 수천 줄의 기계어 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 스크립트로 자동 번역합니다. 
+- 쏘기 전에 샌드박스에서 시뮬레이션([Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))을 돌려 "이거 치면 회사망 뻗나 안 뻗나?"를 수학적으로 검증까지 마칩니다.
 
-### 2. 자동 배포 (Automated Implementation) - "[[238_switch_operation_principles|스위치]] 폭격"
-- 검증된 룰셋을 857번 NETCONF나 YANG 모델(1057번)을 이용해 전국 1,000대의 라우터와 [[238_switch_operation_principles|스위치]] 장비에 1초 만에 쫙 쏟아부어([[528_provisioning|Provisioning]]) 일괄 세팅해버립니다.
+### 2. 자동 배포 (Automated Implementation) - "[스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 폭격"
+- 검증된 룰셋을 857번 NETCONF나 YANG 모델(1057번)을 이용해 전국 1,000대의 라우터와 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비에 1초 만에 쫙 쏟아부어([Provisioning](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)) 일괄 세팅해버립니다.
 
 ### 3. 지속적 모니터링 (Awareness & Telemetry) - "매의 눈"
-- 1058번 텔레메트리 기술을 이용해 [[238_switch_operation_principles|스위치]]들이 패킷 상태를 1초 단위로 [[857_ibn_intent_based_networking_declarative_automation|IBN]] 서버에 계속 쏴 올립니다. AI가 딥러닝으로 네트워크 상태를 24시간 감시합니다.
+- 1058번 텔레메트리 기술을 이용해 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들이 패킷 상태를 1초 단위로 [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 서버에 계속 쏴 올립니다. AI가 딥러닝으로 네트워크 상태를 24시간 감시합니다.
 
-### 4. 지속적 검증과 자동 [[658_ir_recovery|복구]] (Assurance & Remediation) - "자가 치유"
+### 4. 지속적 검증과 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) (Assurance & Remediation) - "자가 치유"
 - 인간의 의도는 `[화상 회의 끊김 금지]` 였습니다.
-- AI가 텔레메트리 데이터를 보다가 "어? 서울 [[238_switch_operation_principles|스위치]]에 유튜브 보는 놈이 많아져서 화상 회의 핑이 튀기 시작하네? 관리자의 원래 의도에서 벗어나려 한다!"라고 탐지합니다.
-- 즉시 AI가 개입하여 **스스로 우회 [[339_routing_overview_best_path_selection|라우팅]] 경로를 다시 짜서 유튜브 대역폭을 깎고 화상 회의 트래픽 길을 넓히는 수정 코드를 다시 쏴버립니다(자가 [[658_ir_recovery|복구]]).** 이것이 IBN의 심장인 **클로즈드 루프(Closed-Loop, 무한 순환 보정)** 아키텍처입니다.
+- AI가 텔레메트리 데이터를 보다가 "어? 서울 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 유튜브 보는 놈이 많아져서 화상 회의 핑이 튀기 시작하네? 관리자의 원래 의도에서 벗어나려 한다!"라고 탐지합니다.
+- 즉시 AI가 개입하여 **스스로 우회 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 경로를 다시 짜서 유튜브 대역폭을 깎고 화상 회의 트래픽 길을 넓히는 수정 코드를 다시 쏴버립니다(자가 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)).** 이것이 IBN의 심장인 **클로즈드 루프(Closed-Loop, 무한 순환 보정)** 아키텍처입니다.
 
-- **[[633_sdn_whitebox|SDN]]**: 중앙에서 제어하지만 결국 멍청한 로봇 팔입니다. 인간(엔지니어)이 조이스틱(코딩)으로 룰을 다 입력해 줘야 움직입니다.
-- **[[857_ibn_intent_based_networking_declarative_automation|IBN]]**: 목적지만 찍어주면 운전대와 엑셀을 자기가 알아서 밟는 자율주행 자동차([[190_ai_llm_requirements_specification|AI]])입니다. (SDN의 뼈대 위에서 [[190_ai_llm_requirements_specification|AI]] 소프트웨어가 얹어진 상위 개념입니다.)
+- **[SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)**: 중앙에서 제어하지만 결국 멍청한 로봇 팔입니다. 인간(엔지니어)이 조이스틱(코딩)으로 룰을 다 입력해 줘야 움직입니다.
+- **[IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/)**: 목적지만 찍어주면 운전대와 엑셀을 자기가 알아서 밟는 자율주행 자동차([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))입니다. (SDN의 뼈대 위에서 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 소프트웨어가 얹어진 상위 개념입니다.)
 
-[[857_ibn_intent_based_networking_declarative_automation|IBN]] 선행 [[190_ai_llm_requirements_specification|AI]] 설계를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. Spine-Leaf 대용량 클로스 구조가 기반 조건을 만든다면, [[857_ibn_intent_based_networking_declarative_automation|IBN]] 선행 [[190_ai_llm_requirements_specification|AI]] 설계는 그 위에서 핵심 메커니즘을 구현하고, 화이트박스 [[746_ocp|OCP]] [[238_switch_operation_principles|스위치]]는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+[IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 선행 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 설계를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. Spine-Leaf 대용량 클로스 구조가 기반 조건을 만든다면, [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 선행 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 설계는 그 위에서 핵심 메커니즘을 구현하고, 화이트박스 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | Spine-Leaf 대용량 클로스 구조의 기반 정리 | [[857_ibn_intent_based_networking_declarative_automation|IBN]] 선행 [[190_ai_llm_requirements_specification|AI]] 설계의 핵심 동작 | 화이트박스 [[746_ocp|OCP]] [[238_switch_operation_principles|스위치]]의 확장 적용 |
+| 초점 | Spine-Leaf 대용량 클로스 구조의 기반 정리 | [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 선행 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 설계의 핵심 동작 | 화이트박스 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 측정 정확도 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 기존 네트워크 관리는 택시 기사([[238_switch_operation_principles|스위치]])에게 **"앞으로 100m 가서 좌회전하고 2차선 타다가 신호등에서 우회전해라(명령형 코딩)"**라고 일일이 지시하는 피곤한 짓이었습니다. 길을 잘못 들거나 차가 막히면 뒷자리에서 직접 지도를 펴고 경로를 다시 짜줘야 했습니다(수동 [[658_ir_recovery|복구]]). **[[857_ibn_intent_based_networking_declarative_automation|IBN]](의도 기반 네트워킹)**은 기사 없는 **'테슬라 완전 자율주행 택시([[190_ai_llm_requirements_specification|AI]] 시스템)'**에 타는 것입니다. 뒷자리에 앉은 사장님은 내비게이션에 딱 한마디만 합니다. **"강남역까지 멀미 안 나고 가장 편안하게 가줘(선언적 의도 [[416_prompt_injection_semantic_routing|Intent]])."** 택시 안의 AI는 현재 강남역까지의 모든 막히는 길을 스스로 계산하여 핸들을 꺾고(자동 배포), 가다가 앞차에서 사고가 나면(네트워크 장애) 0.1초 만에 샛길을 찾아 실시간으로 핸들을 다시 꺾어 원래 목표인 '편안한 도착'을 100% 보장해 내는(자가 치유, 클로즈드 루프) 완벽한 네트워크 딥러닝 뇌입니다.
+- **📢 섹션 요약 비유**: 기존 네트워크 관리는 택시 기사([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))에게 **"앞으로 100m 가서 좌회전하고 2차선 타다가 신호등에서 우회전해라(명령형 코딩)"**라고 일일이 지시하는 피곤한 짓이었습니다. 길을 잘못 들거나 차가 막히면 뒷자리에서 직접 지도를 펴고 경로를 다시 짜줘야 했습니다(수동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)). **[IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/)(의도 기반 네트워킹)**은 기사 없는 **'테슬라 완전 자율주행 택시([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시스템)'**에 타는 것입니다. 뒷자리에 앉은 사장님은 내비게이션에 딱 한마디만 합니다. **"강남역까지 멀미 안 나고 가장 편안하게 가줘(선언적 의도 [Intent](/knowledge-base/studynote/06_ict_convergence/05_data_science/416_prompt_injection_semantic_routing/))."** 택시 안의 AI는 현재 강남역까지의 모든 막히는 길을 스스로 계산하여 핸들을 꺾고(자동 배포), 가다가 앞차에서 사고가 나면(네트워크 장애) 0.1초 만에 샛길을 찾아 실시간으로 핸들을 다시 꺾어 원래 목표인 '편안한 도착'을 100% 보장해 내는(자가 치유, 클로즈드 루프) 완벽한 네트워크 딥러닝 뇌입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 [[857_ibn_intent_based_networking_declarative_automation|IBN]] 선행 [[190_ai_llm_requirements_specification|AI]] 설계를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 Spine-Leaf 대용량 클로스 구조 수준의 기본 대책으로 충분한지, 아니면 [[857_ibn_intent_based_networking_declarative_automation|IBN]] 선행 [[190_ai_llm_requirements_specification|AI]] 설계가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 화이트박스 [[746_ocp|OCP]] [[238_switch_operation_principles|스위치]]와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 선행 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 설계를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 Spine-Leaf 대용량 클로스 구조 수준의 기본 대책으로 충분한지, 아니면 [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 선행 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 설계가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 화이트박스 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 측정 정확도 부족인지, 모델 적합성 악화인지 먼저 분리한다.
-2. [[857_ibn_intent_based_networking_declarative_automation|IBN]] 선행 [[190_ai_llm_requirements_specification|AI]] 설계가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [[396_validation|확인]]한다.
-3. 도입 후에는 인접 기술인 화이트박스 [[746_ocp|OCP]] [[238_switch_operation_principles|스위치]]와의 연계 방식을 함께 검증한다.
+2. [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 선행 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 설계가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+3. 도입 후에는 인접 기술인 화이트박스 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와의 연계 방식을 함께 검증한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- [[857_ibn_intent_based_networking_declarative_automation|IBN]] 선행 [[190_ai_llm_requirements_specification|AI]] 설계의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- Spine-Leaf 대용량 클로스 구조와의 경계를 정리하지 않아 중복 투자나 [[164_policy|정책]] 충돌을 만드는 설계
+- [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 선행 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 설계의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
+- Spine-Leaf 대용량 클로스 구조와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
-- **📢 섹션 요약 비유**: [[857_ibn_intent_based_networking_declarative_automation|IBN]] 선행 [[190_ai_llm_requirements_specification|AI]] 설계를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
+- **📢 섹션 요약 비유**: [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 선행 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 설계를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[[857_ibn_intent_based_networking_declarative_automation|IBN]] 선행 [[190_ai_llm_requirements_specification|AI]] 설계는 [[282_performance_tactics|성능]] 평가와 고급 분석을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 측정 정확도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 화이트박스 [[746_ocp|OCP]] [[238_switch_operation_principles|스위치]], [[190_ai_llm_requirements_specification|AI]] 기반 [[282_performance_tactics|성능]] 예측, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [[190_ai_llm_requirements_specification|AI]] 기반 [[282_performance_tactics|성능]] 예측 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+[IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 선행 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 설계는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 측정 정확도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 화이트박스 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: [[857_ibn_intent_based_networking_declarative_automation|IBN]] 선행 [[190_ai_llm_requirements_specification|AI]] 설계는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
+- **📢 섹션 요약 비유**: [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 선행 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 설계는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
 ---
 
@@ -116,9 +120,9 @@ tags:
 | 개념 | 연결 포인트 |
 |:---|:---|
 | Spine-Leaf 대용량 클로스 구조 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [[139_throughput|처리량]] ([[139_throughput|Throughput]]) | 실제 전달 [[282_performance_tactics|성능]]을 나타내는 대표 지표다. |
-| [[015_지연_데이터_관점|지연]] ([[141_latency|Latency]]) | 사용자 체감 품질을 좌우한다. |
-| 화이트박스 [[746_ocp|OCP]] [[238_switch_operation_principles|스위치]] | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) | 실제 전달 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 나타내는 대표 지표다. |
+| [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) ([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) | 사용자 체감 품질을 좌우한다. |
+| 화이트박스 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -132,7 +136,7 @@ tags:
     └──▶ [확장 B: AI 기반 성능 예측]
 ```
 
-[[857_ibn_intent_based_networking_declarative_automation|IBN]] 선행 [[190_ai_llm_requirements_specification|AI]] 설계는 Spine-Leaf 대용량 클로스 구조에서 출발해 현재 메커니즘을 정교화하고, 이후 화이트박스 [[746_ocp|OCP]] [[238_switch_operation_principles|스위치]]와 [[190_ai_llm_requirements_specification|AI]] 기반 [[282_performance_tactics|성능]] 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+[IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 선행 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 설계는 Spine-Leaf 대용량 클로스 구조에서 출발해 현재 메커니즘을 정교화하고, 이후 화이트박스 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -146,7 +150,7 @@ tags:
 
 **진행 상황**: 159 / 1120
 
-← **이전**: [[1053_spine_leaf_clos_architecture_data_center|1053. Spine-Leaf 대용량 클로스 구조]]
-**다음**: [[1055_whitebox_switch_ocp_open_networking|1055. 화이트박스 OCP 스위치]] →
+← **이전**: [1053. Spine-Leaf 대용량 클로스 구조](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1053_spine_leaf_clos_architecture_data_center/)
+**다음**: [1055. 화이트박스 OCP 스위치](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1055_whitebox_switch_ocp_open_networking/) →
 
 ---

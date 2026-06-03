@@ -1,15 +1,19 @@
----
-title: 61. CBDC (Central Bank Digital Currency) - 중앙은행 디지털 화폐
-date: '2026-04-07'
-tags:
-- studynote-ict-convergence
----
++++
+title = "61. CBDC (Central Bank Digital Currency) - 중앙은행 디지털 화폐"
+date = 2026-04-07
+
+[taxonomies]
+tags = ["studynote-ict-convergence"]
+
+[extra]
+tags = ["studynote-ict-convergence"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: CBDC (Central Bank Digital Currency)는 중앙은행이 직접 발행하고 가치를 보증하는 공식 디지털 법정화폐다.
-> 2. **가치**: 민간 암호화폐와 달리 가격 변동성이 거의 없고, 결제·송금·[[164_policy|정책]] 집행을 디지털로 정교하게 다룰 수 있다.
-> 3. **판단**: 소매형(Retail)과 도매형(Wholesale) 설계가 다르며, [[781_personal_information|개인정보]] [[571_protection_vs_security|보호]]와 통제성의 균형이 핵심이다.
+> 2. **가치**: 민간 암호화폐와 달리 가격 변동성이 거의 없고, 결제·송금·[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 집행을 디지털로 정교하게 다룰 수 있다.
+> 3. **판단**: 소매형(Retail)과 도매형(Wholesale) 설계가 다르며, [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)와 통제성의 균형이 핵심이다.
 
 ---
 
@@ -40,7 +44,7 @@ CBDC는 이런 환경에서 국가가 직접 발행하는 디지털 현금에 �
 | Retail CBDC | 일반 국민과 기업이 쓰는 범용 화폐 |
 | Wholesale CBDC | 은행 간 정산과 기관 결제용 |
 
-CBDC는 단순한 코인이 아니라 화폐 인프라다. 그래서 기술뿐 아니라 통화정책, 금융 안정성, [[781_personal_information|개인정보]] [[571_protection_vs_security|보호]], 오프라인 결제까지 함께 설계해야 한다.
+CBDC는 단순한 코인이 아니라 화폐 인프라다. 그래서 기술뿐 아니라 통화정책, 금융 안정성, [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/), 오프라인 결제까지 함께 설계해야 한다.
 
 - **📢 섹션 요약 비유**: 장난감 동전이 아니라, 은행 시스템 전체와 연결된 디지털 지폐다.
 
@@ -50,10 +54,10 @@ CBDC는 단순한 코인이 아니라 화폐 인프라다. 그래서 기술뿐 �
 
 | 항목 | 현금 | 민간 암호화폐 | CBDC |
 | :-- | :-- | :-- | :-- |
-| 발행 주체 | 국가 | [[136_variance|분산]] 네트워크 | 중앙은행 |
+| 발행 주체 | 국가 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 네트워크 | 중앙은행 |
 | 가치 | 법정통화 | 시장 변동 | 법정통화와 동일 |
-| 결제 속도 | 오프라인 강점 | 네트워크 의존 | [[164_policy|정책]]에 따라 최적화 가능 |
-| 추적성 | 낮음 | 설계에 따라 다름 | [[164_policy|정책]]에 따라 높거나 낮게 설계 가능 |
+| 결제 속도 | 오프라인 강점 | 네트워크 의존 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)에 따라 최적화 가능 |
+| 추적성 | 낮음 | 설계에 따라 다름 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)에 따라 높거나 낮게 설계 가능 |
 
 Retail CBDC는 국민이 직접 쓰는 지갑형 서비스에 가깝고, Wholesale CBDC는 금융기관 간 대량 정산에 가깝다. 둘은 같은 이름을 쓰지만 목적과 규제가 다르다.
 
@@ -63,22 +67,22 @@ Retail CBDC는 국민이 직접 쓰는 지갑형 서비스에 가깝고, Wholesa
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 지급 결제의 목표가 소매인지 도매인지 구분했는가?
-2. [[781_personal_information|개인정보]] [[571_protection_vs_security|보호]]와 거래 추적성의 균형이 있는가?
+2. [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)와 거래 추적성의 균형이 있는가?
 3. 오프라인 사용과 장애 복원 계획이 있는가?
 4. 금융기관, 중앙은행, 이용자 간 역할이 명확한가?
-5. 현금, 기존 전자결제와 공존하는 이행 [[268_strategy_pattern|전략]]이 있는가?
+5. 현금, 기존 전자결제와 공존하는 이행 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 있는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 민간 암호화폐와 CBDC를 같은 범주로 취급하는 설계
 - 모든 거래를 무조건 과도하게 추적하는 설계
-- 중앙은행의 [[164_policy|정책]] 목적 없이 기술만 앞세우는 설계
-- 기존 결제망과의 공존 [[268_strategy_pattern|전략]] 없이 단독 도입하는 설계
+- 중앙은행의 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 목적 없이 기술만 앞세우는 설계
+- 기존 결제망과의 공존 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 없이 단독 도입하는 설계
 
-기술사 관점에서는 CBDC를 "새 코인"이 아니라 "국가 결제 인프라의 재설계"로 봐야 한다. 기술, [[164_policy|정책]], 규제가 함께 맞아야 실제로 작동한다.
+기술사 관점에서는 CBDC를 "새 코인"이 아니라 "국가 결제 인프라의 재설계"로 봐야 한다. 기술, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 규제가 함께 맞아야 실제로 작동한다.
 
 - **📢 섹션 요약 비유**: 새 지갑을 만드는 일이 아니라, 나라의 돈 흐름도를 다시 그리는 일이다.
 
@@ -86,7 +90,7 @@ Retail CBDC는 국민이 직접 쓰는 지갑형 서비스에 가깝고, Wholesa
 
 ## Ⅴ. 기대효과 및 결론
 
-CBDC는 디지털 시대의 법정화폐를 다시 정의하려는 시도다. 제대로 설계하면 결제 효율과 [[164_policy|정책]] 대응력을 높일 수 있지만, [[781_personal_information|개인정보]]와 금융 안정성 문제를 같이 풀어야 한다.
+CBDC는 디지털 시대의 법정화폐를 다시 정의하려는 시도다. 제대로 설계하면 결제 효율과 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 대응력을 높일 수 있지만, [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)와 금융 안정성 문제를 같이 풀어야 한다.
 
 결국 CBDC는 기술 경쟁이 아니라, 돈의 신뢰를 디지털로 옮기는 사회적 설계 문제다.
 
@@ -138,7 +142,7 @@ CBDC는 종이돈을 스마트폰에 넣은 것처럼 보이지만, 실제 주�
 
 **진행 상황**: 61 / 552
 
-← **이전**: [[060_hyperledger_architecture_peer_orderer_msp|60. 하이퍼레저 아키텍처 - 피어(Peer), 오더러(Orderer), MSP(Membership Service Provider)]]
-**다음**: [[062_bitcoin_halving_supply_shock|62. 비트코인 반감기 (Halving) - 약 4년마다 채굴 보상이 절반으로 줄어드는 메커니즘]] →
+← **이전**: [60. 하이퍼레저 아키텍처 - 피어(Peer), 오더러(Orderer), MSP(Membership Service Provider)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/060_hyperledger_architecture_peer_orderer_msp/)
+**다음**: [62. 비트코인 반감기 (Halving) - 약 4년마다 채굴 보상이 절반으로 줄어드는 메커니즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/062_bitcoin_halving_supply_shock/) →
 
 ---

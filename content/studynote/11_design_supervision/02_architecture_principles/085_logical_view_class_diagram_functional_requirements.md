@@ -1,25 +1,29 @@
----
-title: 85. 논리 뷰 (Logical View) - 최종 사용자 요구사항 개념 설계
-date: '2026-04-10'
-tags:
-- studynote-design
----
++++
+title = "85. 논리 뷰 (Logical View) - 최종 사용자 요구사항 개념 설계"
+date = 2026-04-10
+
+[taxonomies]
+tags = ["studynote-design"]
+
+[extra]
+tags = ["studynote-design"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> **본질**: 기능적 요구사항은 "무엇을 해야 하는가"이고, [[369_logic_bomb|논리]] 뷰(Logical [[151_sql_view_virtual_table|View]])는 그 요구를 책임 중심 구조로 번역한 설계 관점이다.
-> **가치**: [[233_class_diagram_static_structure_uml|클래스 다이어그램]]([[233_class_diagram_static_structure_uml|Class Diagram]])은 구현 기술이 바뀌어도 유지되는 정적 구조를 보여 주어, 개발·테스트·검토의 공통 언어가 된다.
-> **판단 포인트**: 유스케이스에서 클래스 책임으로 내려오는 추적성이 없으면, [[369_logic_bomb|논리]] 뷰는 예쁜 그림일 뿐 설계 [[395_verification_process_review|검증]] 도구가 되지 못한다.
+> **본질**: 기능적 요구사항은 "무엇을 해야 하는가"이고, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 뷰(Logical [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))는 그 요구를 책임 중심 구조로 번역한 설계 관점이다.
+> **가치**: [클래스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/233_class_diagram_static_structure_uml/)([Class Diagram](/knowledge-base/studynote/04_software_engineering/04_testing_quality/233_class_diagram_static_structure_uml/))은 구현 기술이 바뀌어도 유지되는 정적 구조를 보여 주어, 개발·테스트·검토의 공통 언어가 된다.
+> **판단 포인트**: 유스케이스에서 클래스 책임으로 내려오는 추적성이 없으면, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 뷰는 예쁜 그림일 뿐 설계 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 도구가 되지 못한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[[369_logic_bomb|논리]] 뷰(Logical [[151_sql_view_virtual_table|View]])는 4+1 뷰 모델(4+1 [[151_sql_view_virtual_table|View]] Model)에서 기능과 [[064_relation_domain|도메인]] 구조를 설명하는 관점이다. 화면 배치나 서버 대수보다 먼저 "어떤 객체가 어떤 책임을 지는가"를 정리해, 기능적 요구사항을 설계 언어로 번역한다.
+[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 뷰(Logical [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))는 4+1 뷰 모델(4+1 [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) Model)에서 기능과 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 구조를 설명하는 관점이다. 화면 배치나 서버 대수보다 먼저 "어떤 객체가 어떤 책임을 지는가"를 정리해, 기능적 요구사항을 설계 언어로 번역한다.
 
-필요성은 복잡한 시스템에서 요구사항의 의미가 팀마다 달라지는 것을 막는 데 있다. 같은 주문 처리라도 프론트엔드는 버튼과 상태, 백엔드는 [[395_verification_process_review|검증]]과 [[191_transaction_concept_states|트랜잭션]], 테스트는 시나리오와 예외를 보게 되는데, [[369_logic_bomb|논리]] 뷰가 없으면 이 셋이 서로 다른 그림을 그리게 된다.
+필요성은 복잡한 시스템에서 요구사항의 의미가 팀마다 달라지는 것을 막는 데 있다. 같은 주문 처리라도 프론트엔드는 버튼과 상태, 백엔드는 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/), 테스트는 시나리오와 예외를 보게 되는데, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 뷰가 없으면 이 셋이 서로 다른 그림을 그리게 된다.
 
-[[232_uml_unified_modeling_language_overview|UML]] ([[232_uml_unified_modeling_language_overview|Unified Modeling Language]]) 관점에서 보면 [[369_logic_bomb|논리]] 뷰는 기능을 객체 책임으로 쪼개는 첫 단계다. 이 단계가 선명해야 이후 [[603_component_independent_deployment_unit|컴포넌트]] 설계와 배포 구조가 흔들리지 않는다.
+[UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) ([Unified Modeling Language](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/)) 관점에서 보면 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 뷰는 기능을 객체 책임으로 쪼개는 첫 단계다. 이 단계가 선명해야 이후 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 설계와 배포 구조가 흔들리지 않는다.
 
 - 📢 섹션 요약 비유: 설계 번역기
 
@@ -27,7 +31,7 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[[233_class_diagram_static_structure_uml|클래스 다이어그램]]은 경계(Boundary) - 제어(Control) - 엔티티(Entity)처럼 책임을 나누는 데 유용하다. Boundary는 외부와의 접점, Control은 유스케이스 흐름, Entity는 [[064_relation_domain|도메인]] 규칙을 품는다. 여기에 연관(Association), 집합(Aggregation), 합성(Composition), 일반화(Generalization), 의존(Dependency)을 붙여 협력 구조를 드러낸다.
+[클래스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/233_class_diagram_static_structure_uml/)은 경계(Boundary) - 제어(Control) - 엔티티(Entity)처럼 책임을 나누는 데 유용하다. Boundary는 외부와의 접점, Control은 유스케이스 흐름, Entity는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 규칙을 품는다. 여기에 연관(Association), 집합(Aggregation), 합성(Composition), 일반화(Generalization), 의존(Dependency)을 붙여 협력 구조를 드러낸다.
 
 ```text
 요구사항 -> 유스케이스 -> Boundary/Control/Entity -> 클래스 다이어그램
@@ -38,11 +42,11 @@ tags:
 
 | 요소 | 역할 | 체크 포인트 |
 | --- | --- | --- |
-| Boundary | 외부 입력/출력 | [[014_api_posix|API]], UI, 메시지 경계가 과도하게 비대해지지 않는가 |
+| Boundary | 외부 입력/출력 | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), UI, 메시지 경계가 과도하게 비대해지지 않는가 |
 | Control | 유스케이스 흐름 | 절차만 있고 규칙이 없는 빈 껍데기가 아닌가 |
-| Entity | [[064_relation_domain|도메인]] 규칙 | 핵심 규칙이 [[090_service_kubernetes_network_load_balancing|서비스]] 클래스가 아니라 엔티티에 남는가 |
+| Entity | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 규칙 | 핵심 규칙이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 클래스가 아니라 엔티티에 남는가 |
 
-이 구조의 핵심은 화면·DB·메시지 큐보다 먼저 규칙의 경계를 세우는 것이다. [[233_class_diagram_static_structure_uml|클래스 다이어그램]]은 객체의 이름표가 아니라, 책임의 중복과 누락을 찾는 점검표다.
+이 구조의 핵심은 화면·DB·메시지 큐보다 먼저 규칙의 경계를 세우는 것이다. [클래스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/233_class_diagram_static_structure_uml/)은 객체의 이름표가 아니라, 책임의 중복과 누락을 찾는 점검표다.
 
 - 📢 섹션 요약 비유: 역할 분담표
 
@@ -50,15 +54,15 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-[[369_logic_bomb|논리]] 뷰는 [[603_component_independent_deployment_unit|컴포넌트]] 뷰([[603_component_independent_deployment_unit|Component]] [[151_sql_view_virtual_table|View]])나 배포 뷰([[087_deployment_kubernetes_workload_rolling_update|Deployment]] [[151_sql_view_virtual_table|View]])와 다르다. [[369_logic_bomb|논리]] 뷰가 "무엇과 무엇이 협력하는가"를 보여 준다면, [[603_component_independent_deployment_unit|컴포넌트]] 뷰는 "어떤 [[192_module_independence|모듈]]로 묶이는가", 배포 뷰는 "어디에 올라가는가"를 보여 준다. 또한 [[233_class_diagram_static_structure_uml|클래스 다이어그램]]은 정적 구조이고, [[235_sequence_diagram_dynamic_interaction_uml|시퀀스 다이어그램]]([[235_sequence_diagram_dynamic_interaction_uml|Sequence Diagram]])은 동적 메시지 흐름이다.
+[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 뷰는 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 뷰([Component](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))나 배포 뷰([Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))와 다르다. [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 뷰가 "무엇과 무엇이 협력하는가"를 보여 준다면, [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 뷰는 "어떤 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)로 묶이는가", 배포 뷰는 "어디에 올라가는가"를 보여 준다. 또한 [클래스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/233_class_diagram_static_structure_uml/)은 정적 구조이고, [시퀀스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/235_sequence_diagram_dynamic_interaction_uml/)([Sequence Diagram](/knowledge-base/studynote/04_software_engineering/04_testing_quality/235_sequence_diagram_dynamic_interaction_uml/))은 동적 메시지 흐름이다.
 
-| 비교 대상 | [[369_logic_bomb|논리]] 뷰와의 차이 |
+| 비교 대상 | [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 뷰와의 차이 |
 | --- | --- |
-| [[233_class_diagram_static_structure_uml|클래스 다이어그램]] vs [[235_sequence_diagram_dynamic_interaction_uml|시퀀스 다이어그램]] | 구조 vs 실행 흐름 |
-| [[369_logic_bomb|논리]] 뷰 vs [[603_component_independent_deployment_unit|컴포넌트]] 뷰 | 책임 구조 vs [[192_module_independence|모듈]] 경계 |
-| 기능적 요구사항 vs 비기능적 요구사항 | 기능 정의 vs [[282_performance_tactics|성능]]/[[452_availability|가용성]] 제약 |
+| [클래스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/233_class_diagram_static_structure_uml/) vs [시퀀스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/235_sequence_diagram_dynamic_interaction_uml/) | 구조 vs 실행 흐름 |
+| [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 뷰 vs [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 뷰 | 책임 구조 vs [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 경계 |
+| 기능적 요구사항 vs 비기능적 요구사항 | 기능 정의 vs [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)/[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 제약 |
 
-따라서 [[369_logic_bomb|논리]] 뷰는 기능적 요구사항을 객체 책임으로 묶고, 다른 뷰가 그 책임을 어떻게 배치·실행할지 이어받게 만든다.
+따라서 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 뷰는 기능적 요구사항을 객체 책임으로 묶고, 다른 뷰가 그 책임을 어떻게 배치·실행할지 이어받게 만든다.
 
 - 📢 섹션 요약 비유: 지도와 배치도의 차이
 
@@ -66,27 +70,27 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 유스케이스 1개당 주요 책임 객체가 무엇인지 먼저 적고, 그 다음에 [[233_class_diagram_static_structure_uml|클래스 다이어그램]]을 그려야 한다. 요구사항 문장에 있는 동사와 명사를 그대로 옮기기보다, 규칙·상태·예외를 분리해 누가 [[395_verification_process_review|검증]]하고 누가 저장하는지 결정한다. 그 과정에서 추적성 매트릭스([[228_blockchain_smart_contract_traceability|Traceability]] Matrix)를 두면 요구 변경이 어느 클래스에 영향을 주는지 바로 보인다.
+실무에서는 유스케이스 1개당 주요 책임 객체가 무엇인지 먼저 적고, 그 다음에 [클래스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/233_class_diagram_static_structure_uml/)을 그려야 한다. 요구사항 문장에 있는 동사와 명사를 그대로 옮기기보다, 규칙·상태·예외를 분리해 누가 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하고 누가 저장하는지 결정한다. 그 과정에서 추적성 매트릭스([Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/) Matrix)를 두면 요구 변경이 어느 클래스에 영향을 주는지 바로 보인다.
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 유스케이스의 예외 처리와 정상 흐름이 모두 구조에 반영되었는가?
 2. DB 테이블명을 클래스명으로 착각한 부분은 없는가?
 3. 제어 로직이 특정 화면이나 특정 프레임워크에 과도하게 묶이지 않았는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 테이블 구조를 먼저 그리고 그 위에 클래스를 억지로 얹는 설계
-- 모든 규칙을 [[090_service_kubernetes_network_load_balancing|서비스]] 클래스 한 곳에 몰아넣는 설계
+- 모든 규칙을 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 클래스 한 곳에 몰아넣는 설계
 - 다이어그램은 많지만 유스케이스와 연결되지 않는 설계
 
-- 📢 섹션 요약 비유: 검사관 [[435_checklist_based_testing|체크리스트]]
+- 📢 섹션 요약 비유: 검사관 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[[369_logic_bomb|논리]] 뷰가 잘 서면 요구사항 변경이 와도 영향 범위를 빠르게 읽을 수 있고, 테스트 케이스도 책임 단위로 분해된다. 반대로 [[369_logic_bomb|논리]] 뷰가 약하면 구현은 빨라 보여도 규칙 중복과 결합도가 쌓여, 유지보수 시점에 더 큰 비용으로 돌아온다. 이 관점에서 [[369_logic_bomb|논리]] 뷰는 "예쁜 [[232_uml_unified_modeling_language_overview|UML]]"이 아니라 기능 요구를 실행 가능한 설계로 바꾸는 번역기다.
+[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 뷰가 잘 서면 요구사항 변경이 와도 영향 범위를 빠르게 읽을 수 있고, 테스트 케이스도 책임 단위로 분해된다. 반대로 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 뷰가 약하면 구현은 빨라 보여도 규칙 중복과 결합도가 쌓여, 유지보수 시점에 더 큰 비용으로 돌아온다. 이 관점에서 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 뷰는 "예쁜 [UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/)"이 아니라 기능 요구를 실행 가능한 설계로 바꾸는 번역기다.
 
-앞으로는 [[310_architecture|DDD]] ([[127_ddd_domain_driven_design|Domain-Driven Design]])와 결합해, 유스케이스-클래스-[[603_component_independent_deployment_unit|컴포넌트]] 사이의 연결을 더 명확히 추적하는 방향으로 쓰인다. 다만 배포 구조, [[282_performance_tactics|성능]] [[431_ssthresh_slow_start_threshold|임계치]], 장애 [[658_ir_recovery|복구]] 전략은 별도의 뷰에서 보완해야 한다.
+앞으로는 [DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) ([Domain-Driven Design](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/127_ddd_domain_driven_design/))와 결합해, 유스케이스-클래스-[컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 사이의 연결을 더 명확히 추적하는 방향으로 쓰인다. 다만 배포 구조, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/), 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 전략은 별도의 뷰에서 보완해야 한다.
 
 - 📢 섹션 요약 비유: 레고 설명서
 
@@ -96,9 +100,9 @@ tags:
 | --- | --- |
 | 기능적 요구사항 | 시스템이 해야 할 일의 출발점 |
 | 유스케이스 | 사용자 관점 시나리오 |
-| [[369_logic_bomb|논리]] 뷰 | 책임 분해 관점 |
-| [[233_class_diagram_static_structure_uml|클래스 다이어그램]] | 정적 협력 구조 |
-| [[603_component_independent_deployment_unit|컴포넌트]]/배포 뷰 | 구현·운영 단계로 확장 |
+| [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 뷰 | 책임 분해 관점 |
+| [클래스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/233_class_diagram_static_structure_uml/) | 정적 협력 구조 |
+| [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)/배포 뷰 | 구현·운영 단계로 확장 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -118,8 +122,8 @@ tags:
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [[369_logic_bomb|논리]] 뷰는 큰 레고 상자를 열어 "이 블록은 뭐 하는 블록인지"를 적는 설명서예요.
-2. [[233_class_diagram_static_structure_uml|클래스 다이어그램]]은 블록들이 서로 어떻게 붙는지 보여 주는 조립도예요.
+1. [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 뷰는 큰 레고 상자를 열어 "이 블록은 뭐 하는 블록인지"를 적는 설명서예요.
+2. [클래스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/233_class_diagram_static_structure_uml/)은 블록들이 서로 어떻게 붙는지 보여 주는 조립도예요.
 3. 설명서가 있으면 친구가 바뀌어도 같은 장난감을 다시 만들 수 있어요.
 
 ---
@@ -128,7 +132,7 @@ tags:
 
 **진행 상황**: 128 / 530
 
-← **이전**: [[084_philippe_kruchten_4_1_view_architecture_model|84. 필립 크루첸 (Philippe Kruchten)의 4+1 View 모델]]
-**다음**: [[086_process_view_sequence_diagram_concurrency|86. 프로세스 뷰 (Process View) - 시스템의 동시성 및 동적 성능 설계]] →
+← **이전**: [84. 필립 크루첸 (Philippe Kruchten)의 4+1 View 모델](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/084_philippe_kruchten_4_1_view_architecture_model/)
+**다음**: [86. 프로세스 뷰 (Process View) - 시스템의 동시성 및 동적 성능 설계](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/086_process_view_sequence_diagram_concurrency/) →
 
 ---

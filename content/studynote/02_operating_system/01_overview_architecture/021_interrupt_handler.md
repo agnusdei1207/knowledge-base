@@ -1,31 +1,35 @@
----
-title: 21. 인터럽트 핸들러 (Interrupt Handler)
-date: '2026-03-21'
-tags:
-- studynote-operating-system
----
++++
+title = "21. 인터럽트 핸들러 (Interrupt Handler)"
+date = 2026-03-21
 
-# [[016_interrupt_mechanism|인터럽트]] 핸들러 ([[016_interrupt_mechanism|Interrupt]] Handler)
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
+
+# [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 핸들러 ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Handler)
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [[016_interrupt_mechanism|인터럽트]] 핸들러 ([[016_interrupt_mechanism|Interrupt]] Handler)는 [[017_hardware_interrupt|하드웨어 인터럽트]] 발생 시 [[022_kernel_role|커널]]에 의해 기동되는 최상위 관리 로직으로, [[016_interrupt_mechanism|인터럽트]] 벡터와 [[020_isr|ISR]] ([[317_isr|Interrupt Service Routine]])을 포함하여 장치 [[655_ir_detection_analysis|식별]], 상태 관리, 후속 작업 스케줄링을 총괄하는 소프트웨어 아키텍처이다.
-> 2. **가치**: [[016_interrupt_mechanism|인터럽트]] 처리를 즉시 처리해야 할 **상위 절반 (Top Half)**과 [[015_지연_데이터_관점|지연]] 처리가 가능한 **하위 절반 (Bottom Half)**으로 계층화하여, [[016_interrupt_mechanism|인터럽트]] 금지 시간을 최소화함으로써 시스템의 전체적인 응답성과 [[001_dikw_pyramid|데이터]] [[139_throughput|처리량]] ([[139_throughput|Throughput]]) 사이의 균형을 맞춘다.
-> 3. **융합**: 리눅스의 SoftIRQ, Tasklet, Workqueue나 윈도우의 DPC (Deferred Procedure [[189_subroutine_call_return|Call]])와 같은 [[022_kernel_role|커널]] 메커니즘과 연동되어, 멀티코어 환경에서 [[016_interrupt_mechanism|인터럽트]] 부하 [[136_variance|분산]] ([[196_hard_soft_real_time|Load Balancing]]) 및 [[430_index_fast_full_scan|병렬]] [[001_dikw_pyramid|데이터]] 처리를 실현하는 기반이 된다.
+> 1. **본질**: [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 핸들러 ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Handler)는 [하드웨어 인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/) 발생 시 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 의해 기동되는 최상위 관리 로직으로, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 벡터와 [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) ([Interrupt Service Routine](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/317_isr/))을 포함하여 장치 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/), 상태 관리, 후속 작업 스케줄링을 총괄하는 소프트웨어 아키텍처이다.
+> 2. **가치**: [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리를 즉시 처리해야 할 **상위 절반 (Top Half)**과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 처리가 가능한 **하위 절반 (Bottom Half)**으로 계층화하여, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 금지 시간을 최소화함으로써 시스템의 전체적인 응답성과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) 사이의 균형을 맞춘다.
+> 3. **융합**: 리눅스의 SoftIRQ, Tasklet, Workqueue나 윈도우의 DPC (Deferred Procedure [Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/))와 같은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메커니즘과 연동되어, 멀티코어 환경에서 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 부하 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) ([Load Balancing](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/)) 및 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리를 실현하는 기반이 된다.
 
 ---
 
-### Ⅰ. 개요 및 필요성 ([[033_context|Context]] & Necessity)
+### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-- **개념**: [[016_interrupt_mechanism|인터럽트]] 핸들러 ([[016_interrupt_mechanism|Interrupt]] Handler)는 운영체제가 [[016_interrupt_mechanism|인터럽트]]라는 [[017_hardware_interrupt|비동기적]] 사건을 처리하기 위해 운용하는 논리적 프레임워크다. 단순히 특정 코드를 실행하는 것을 넘어, 여러 장치로부터 쏟아지는 [[016_interrupt_mechanism|인터럽트]]의 순서를 정하고, 무거운 작업이 시스템을 점유하지 않도록 관리하며, 최종적으로 사용자 프로세스에게 [[001_dikw_pyramid|데이터]]를 전달하는 '전체 처리 공정'을 의미한다.
+- **개념**: [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 핸들러 ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Handler)는 운영체제가 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)라는 [비동기적](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/) 사건을 처리하기 위해 운용하는 논리적 프레임워크다. 단순히 특정 코드를 실행하는 것을 넘어, 여러 장치로부터 쏟아지는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)의 순서를 정하고, 무거운 작업이 시스템을 점유하지 않도록 관리하며, 최종적으로 사용자 프로세스에게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전달하는 '전체 처리 공정'을 의미한다.
 
-- **필요성**: 고속 네트워크 카드나 고성능 SSD는 초당 수만 건 이상의 [[016_interrupt_mechanism|인터럽트]]를 발생시킨다. 만약 핸들러가 이 모든 요청을 들어오는 대로 끝까지 처리하려 든다면, 시스템은 다른 작업(사용자 앱, 타이머 등)을 수행할 시간을 잃고 굳어버리게 된다. [[016_interrupt_mechanism|인터럽트]] 핸들러는 "지금 당장 해야 할 일"과 "나중에 해도 되는 일"을 영리하게 구분하여 시스템의 생존성과 [[282_performance_tactics|성능]]을 동시에 확보하기 위해 존재한다.
+- **필요성**: 고속 네트워크 카드나 고성능 SSD는 초당 수만 건 이상의 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 발생시킨다. 만약 핸들러가 이 모든 요청을 들어오는 대로 끝까지 처리하려 든다면, 시스템은 다른 작업(사용자 앱, 타이머 등)을 수행할 시간을 잃고 굳어버리게 된다. [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 핸들러는 "지금 당장 해야 할 일"과 "나중에 해도 되는 일"을 영리하게 구분하여 시스템의 생존성과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 동시에 확보하기 위해 존재한다.
 
-- **💡 비유**: [[016_interrupt_mechanism|인터럽트]] 핸들러는 대형 병원의 "응급실 [[104_classification_analysis|분류]] 체계 (Triage)"와 같다. 환자가 들어오자마자 숙련된 간호사(Top Half)가 상태를 보고 지혈(시급한 조치)만 한 뒤, 수술이나 정밀 검사(무거운 작업)는 일반 병실이나 수술실(Bottom Half)로 넘겨 응급실이 마비되는 것을 막는 관리 시스템이다.
+- **💡 비유**: [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 핸들러는 대형 병원의 "응급실 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계 (Triage)"와 같다. 환자가 들어오자마자 숙련된 간호사(Top Half)가 상태를 보고 지혈(시급한 조치)만 한 뒤, 수술이나 정밀 검사(무거운 작업)는 일반 병실이나 수술실(Bottom Half)로 넘겨 응급실이 마비되는 것을 막는 관리 시스템이다.
 
 - **기존 구조의 한계와 계층화의 등장**:
-  단일 계층 핸들러 구조에서는 [[020_isr|ISR]] 실행 중 모든 [[016_interrupt_mechanism|인터럽트]]가 차단되었다. 이로 인해 마우스를 움직이는 도중 디스크 쓰기가 발생하면 화면이 툭툭 끊기는 현상이 발생했다. 현대 운영체제는 이러한 사용자 경험 저하를 막기 위해 [[016_interrupt_mechanism|인터럽트]] 처리를 시간적으로 분리하는 '계층형 핸들링' 기법을 도입했다.
+  단일 계층 핸들러 구조에서는 [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) 실행 중 모든 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 차단되었다. 이로 인해 마우스를 움직이는 도중 디스크 쓰기가 발생하면 화면이 툭툭 끊기는 현상이 발생했다. 현대 운영체제는 이러한 사용자 경험 저하를 막기 위해 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리를 시간적으로 분리하는 '계층형 핸들링' 기법을 도입했다.
 
-  [[016_interrupt_mechanism|인터럽트]] 핸들러가 작업을 분할하여 처리하는 시간적 흐름과 시스템 상태 변화를 시각화하면 다음과 같다.
+  [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 핸들러가 작업을 분할하여 처리하는 시간적 흐름과 시스템 상태 변화를 시각화하면 다음과 같다.
 
 ```text
   ┌──────────────────────────────────────────────────────────────────┐
@@ -52,26 +56,26 @@ tags:
   └──────────────────────────────────────────────────────────────────┘
 ```
 
-  **[다이어그램 해설]** 이 구조의 핵심은 '[[016_interrupt_mechanism|인터럽트]] 허용 시점'이다. 상위 절반 (Top Half)은 하드웨어와 직접 대화하는 구간이므로 매우 빠르고 원자적으로 실행되어야 하며, 이때는 다른 [[016_interrupt_mechanism|인터럽트]]가 개입하지 못하도록 CPU가 [[016_interrupt_mechanism|인터럽트]] 라인을 잠근다. 하지만 작업 등록 직후 상위 절반이 종료되면 즉시 [[016_interrupt_mechanism|인터럽트]] 잠금이 해제된다. 하위 절반 (Bottom Half)은 다른 [[016_interrupt_mechanism|인터럽트]]가 들어와도 상관없는 안전한 환경에서 천천히 무거운 연산을 수행한다. 이 '2단계 분리' 덕분에 현대 컴퓨터는 백그라운드에서 대량의 [[001_dikw_pyramid|데이터]]를 다운로드하면서도 마우스 클릭에 즉각 반응할 수 있는 부드러움을 유지하게 된다.
+  **[다이어그램 해설]** 이 구조의 핵심은 '[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 허용 시점'이다. 상위 절반 (Top Half)은 하드웨어와 직접 대화하는 구간이므로 매우 빠르고 원자적으로 실행되어야 하며, 이때는 다른 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 개입하지 못하도록 CPU가 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 라인을 잠근다. 하지만 작업 등록 직후 상위 절반이 종료되면 즉시 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 잠금이 해제된다. 하위 절반 (Bottom Half)은 다른 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 들어와도 상관없는 안전한 환경에서 천천히 무거운 연산을 수행한다. 이 '2단계 분리' 덕분에 현대 컴퓨터는 백그라운드에서 대량의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다운로드하면서도 마우스 클릭에 즉각 반응할 수 있는 부드러움을 유지하게 된다.
 
-- **📢 섹션 요약 비유**: [[016_interrupt_mechanism|인터럽트]] 핸들러는 급한 불을 끄는 소방관(Top Half)과 나중에 화재 원인을 조사하는 조사관(Bottom Half)이 역할을 나누어 현장 혼란을 최소화하는 체계와 같습니다.
+- **📢 섹션 요약 비유**: [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 핸들러는 급한 불을 끄는 소방관(Top Half)과 나중에 화재 원인을 조사하는 조사관(Bottom Half)이 역할을 나누어 현장 혼란을 최소화하는 체계와 같습니다.
 
 ---
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-- **[[016_interrupt_mechanism|인터럽트]] 핸들링 주요 메커니즘 및 구성 요소**:
+- **[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 핸들링 주요 메커니즘 및 구성 요소**:
 
 | 요소명 | 역할 | 내부 구현 방식 | 특징 |
 |:---|:---|:---|:---|
-| **Hard IRQ (Top Half)** | 즉각적인 장치 제어 및 응답 | 하드웨어 [[020_isr|ISR]] | 최소 시간 점유, 선점 불가 |
-| **SoftIRQ** | 가장 빠른 [[015_지연_데이터_관점|지연]] 처리 방식 | [[022_kernel_role|커널]] 내 고정 핸들러 | 동일 타입 [[430_index_fast_full_scan|병렬]] 실행 가능 (멀티코어) |
-| **Tasklet** | SoftIRQ 기반의 직렬화 처리 | 동적 [[001_dikw_pyramid|데이터]] 구조 | 한 번에 하나의 CPU에서만 실행 보장 |
-| **Workqueue** | 프로세스 문맥의 [[015_지연_데이터_관점|지연]] 처리 | [[022_kernel_role|커널]] [[092_thread_lwp|스레드]] (Worker) | Sleep 가능, 무거운 작업에 적합 |
-| **DPC (Window)** | [[015_지연_데이터_관점|지연]]된 프로시저 호출 | 전용 큐 및 스케줄링 | 윈도우 OS의 표준 [[015_지연_데이터_관점|지연]] 처리 방식 |
+| **Hard IRQ (Top Half)** | 즉각적인 장치 제어 및 응답 | 하드웨어 [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) | 최소 시간 점유, 선점 불가 |
+| **SoftIRQ** | 가장 빠른 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 처리 방식 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내 고정 핸들러 | 동일 타입 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행 가능 (멀티코어) |
+| **Tasklet** | SoftIRQ 기반의 직렬화 처리 | 동적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조 | 한 번에 하나의 CPU에서만 실행 보장 |
+| **Workqueue** | 프로세스 문맥의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 처리 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) (Worker) | Sleep 가능, 무거운 작업에 적합 |
+| **DPC (Window)** | [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)된 프로시저 호출 | 전용 큐 및 스케줄링 | 윈도우 OS의 표준 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 처리 방식 |
 
-- **하위 절반 (Bottom Half)의 세부 동작 및 코어 [[136_variance|분산]]**:
-  멀티코어 환경에서 하부 절반 작업들이 어떻게 [[136_variance|분산]]되어 실행되는지, 그리고 특정 코어에 부하가 쏠릴 때의 대응 방식을 시각화한다.
+- **하위 절반 (Bottom Half)의 세부 동작 및 코어 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)**:
+  멀티코어 환경에서 하부 절반 작업들이 어떻게 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)되어 실행되는지, 그리고 특정 코어에 부하가 쏠릴 때의 대응 방식을 시각화한다.
 
 ```text
   ┌────────────────────────────────────────────────────────────────────┐
@@ -95,10 +99,10 @@ tags:
   └────────────────────────────────────────────────────────────────────┘
 ```
 
-  **[다이어그램 해설]** 상위 절반이 [[016_interrupt_mechanism|인터럽트]]를 받은 그 코어에서 즉시 실행된다면, 하위 절반인 SoftIRQ는 운영체제의 정책에 따라 다른 코어로 넘겨질 수 있다. 리눅스 [[022_kernel_role|커널]]은 코어마다 `ksoftirqd`라는 전용 [[092_thread_lwp|스레드]]를 두어, 상위 절반이 등록하고 간 [[015_지연_데이터_관점|지연]] 작업들을 처리한다. 여기서 주의할 점은 SoftIRQ 자체가 너무 많아지면 [[022_kernel_role|커널]] [[092_thread_lwp|스레드]]가 CPU를 100% 점유하여 일반 사용자 프로그램이 아예 멈추는 'Soft Lockup' 현상이 발생할 수 있다는 것이다. 실무적으로는 `/proc/softirqs` 통계를 통해 특정 종류의 [[015_지연_데이터_관점|지연]] 처리가 병목을 일으키는지 상시 모니터링해야 한다.
+  **[다이어그램 해설]** 상위 절반이 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 받은 그 코어에서 즉시 실행된다면, 하위 절반인 SoftIRQ는 운영체제의 정책에 따라 다른 코어로 넘겨질 수 있다. 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 코어마다 `ksoftirqd`라는 전용 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 두어, 상위 절반이 등록하고 간 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 작업들을 처리한다. 여기서 주의할 점은 SoftIRQ 자체가 너무 많아지면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 CPU를 100% 점유하여 일반 사용자 프로그램이 아예 멈추는 'Soft Lockup' 현상이 발생할 수 있다는 것이다. 실무적으로는 `/proc/softirqs` 통계를 통해 특정 종류의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 처리가 병목을 일으키는지 상시 모니터링해야 한다.
 
 - **심층 제어 흐름 (핸들러 등록 및 호출)**:
-  디바이스 드라이버가 [[022_kernel_role|커널]]에 자신의 핸들러를 등록하고, 실제 사건 발생 시 호출되는 경로를 상세히 분석한다.
+  디바이스 드라이버가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 자신의 핸들러를 등록하고, 실제 사건 발생 시 호출되는 경로를 상세히 분석한다.
 
 ```c
 /* 디바이스 드라이버의 핸들러 등록 예시 */
@@ -120,7 +124,7 @@ static irqreturn_t my_interrupt_handler(int irq, void *dev_id) {
 }
 ```
 
-  **[다이어그램 해설]** 드라이버 개발자는 `request_irq` 함수를 통해 운영체제에게 "앞으로 N번 [[016_interrupt_mechanism|인터럽트]]가 오면 이 핸들러를 실행해줘"라고 예약한다. 이때 `flags`에 `IRQF_SHARED`를 설정하면 여러 장치가 하나의 [[016_interrupt_mechanism|인터럽트]] 라인을 공유할 수 있게 된다. 이 경우 핸들러는 호출되자마자 "진짜 내 장치가 신호를 보낸 게 맞나?"를 먼저 [[396_validation|확인]](`read_device_status`)해야 한다. 만약 자기 장치가 아니면 즉시 `IRQ_NONE`을 리턴하여 다른 공유 핸들러에게 기회를 넘겨야 한다. 이 정교한 '체인(Chain)' 구조가 [[016_interrupt_mechanism|인터럽트]] 핸들러의 논리적 아키텍처를 형성한다.
+  **[다이어그램 해설]** 드라이버 개발자는 `request_irq` 함수를 통해 운영체제에게 "앞으로 N번 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 오면 이 핸들러를 실행해줘"라고 예약한다. 이때 `flags`에 `IRQF_SHARED`를 설정하면 여러 장치가 하나의 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 라인을 공유할 수 있게 된다. 이 경우 핸들러는 호출되자마자 "진짜 내 장치가 신호를 보낸 게 맞나?"를 먼저 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(`read_device_status`)해야 한다. 만약 자기 장치가 아니면 즉시 `IRQ_NONE`을 리턴하여 다른 공유 핸들러에게 기회를 넘겨야 한다. 이 정교한 '체인(Chain)' 구조가 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 핸들러의 논리적 아키텍처를 형성한다.
 
 - **📢 섹션 요약 비유**: 하위 절반 처리는 "지금 당장 먹어야 하는 요리(Top Half)"와 "나중에 설거지해야 하는 그릇(Bottom Half)"을 나누어, 주방(CPU)이 요리 시간에 설거지 때문에 멈추지 않게 하는 효율적인 식당 운영 규칙과 같습니다.
 
@@ -132,14 +136,14 @@ static irqreturn_t my_interrupt_handler(int irq, void *dev_id) {
 
 | 비교 항목 | SoftIRQ | Tasklet | Workqueue |
 |:---|:---|:---|:---|
-| **실행 문맥** | [[016_interrupt_mechanism|인터럽트]] 문맥 (Atomic) | [[016_interrupt_mechanism|인터럽트]] 문맥 (Atomic) | 프로세스 문맥 ([[022_kernel_role|Kernel]] [[092_thread_lwp|Thread]]) |
-| **Sleep 가능성** | **절대 불가능** | **절대 불가능** | **가능 ([[122_sync_async_communication|Blocking]] OK)** |
-| **[[430_index_fast_full_scan|병렬]] 실행** | 동일 타입도 코어별 [[430_index_fast_full_scan|병렬]] 가능 | 동일 타입은 한 번에 하나만 실행 | [[103_thread_pool|스레드 풀]] 내에서 자유롭게 실행 |
-| **우선순위** | 매우 높음 | 중간 | [[079_kube_scheduler_pod_placement|스케줄러]] 우선순위에 따름 |
-| **복잡도** | 매우 높음 (재진입 고려) | 중간 | 낮음 (일반 [[092_thread_lwp|스레드]]와 유사) |
-| **주 사용처** | 네트워크, 블록 I/O ([[282_performance_tactics|성능]] 중심) | 대부분의 일반 드라이버 | 긴 대기가 필요한 I/O 처리 |
+| **실행 문맥** | [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 문맥 (Atomic) | [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 문맥 (Atomic) | 프로세스 문맥 ([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)) |
+| **Sleep 가능성** | **절대 불가능** | **절대 불가능** | **가능 ([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/) OK)** |
+| **[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행** | 동일 타입도 코어별 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 가능 | 동일 타입은 한 번에 하나만 실행 | [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 내에서 자유롭게 실행 |
+| **우선순위** | 매우 높음 | 중간 | [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 우선순위에 따름 |
+| **복잡도** | 매우 높음 (재진입 고려) | 중간 | 낮음 (일반 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)와 유사) |
+| **주 사용처** | 네트워크, 블록 I/O ([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 중심) | 대부분의 일반 드라이버 | 긴 대기가 필요한 I/O 처리 |
 
-  [[016_interrupt_mechanism|인터럽트]] 핸들링 전략은 시스템의 목적에 따라 달라진다. [[139_throughput|처리량]]([[139_throughput|Throughput]])이 중요한 서버는 SoftIRQ 위주로, 응답성(Responsiveness)이 중요한 실시간 시스템은 하드 IRQ 내에서 최대한 끝내는 전략을 취한다.
+  [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 핸들링 전략은 시스템의 목적에 따라 달라진다. [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))이 중요한 서버는 SoftIRQ 위주로, 응답성(Responsiveness)이 중요한 실시간 시스템은 하드 IRQ 내에서 최대한 끝내는 전략을 취한다.
 
 ```text
   ┌───────────────────────────────────────────────────────────────────┐
@@ -159,20 +163,20 @@ static irqreturn_t my_interrupt_handler(int irq, void *dev_id) {
   └───────────────────────────────────────────────────────────────────┘
 ```
 
-  **[다이어그램 해설]** [[016_interrupt_mechanism|인터럽트]] 핸들러 설계의 가장 큰 트레이드오프는 '[[211_context_switch|문맥 교환]] 오버헤드'다. 하위 절반으로 작업을 넘길 때마다 CPU는 현재 상태를 저장하고 나중에 다시 불러와야 하는 비용을 지불한다. 따라서 [[001_dikw_pyramid|데이터]] 양이 적은 경우에는 하위 절반으로 넘기지 않고 상위 절반에서 즉시 끝내는 것이 더 빠를 수 있다. 반면, [[001_dikw_pyramid|데이터]]가 쏟아지는 서버 환경에서는 상위 절반을 최소화하여 더 많은 [[016_interrupt_mechanism|인터럽트]]를 '수용'하는 것이 전체 [[139_throughput|처리량]] 면에서 압도적으로 유리하다. 실무에서는 [[016_interrupt_mechanism|인터럽트]]가 특정 횟수 모일 때까지 기다렸다가 한 번에 핸들러를 깨우는 '[[016_interrupt_mechanism|인터럽트]] 병합 ([[016_interrupt_mechanism|Interrupt]] Coalescing)' 기술을 병행하여 이 오버헤드를 극단적으로 낮춘다.
+  **[다이어그램 해설]** [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 핸들러 설계의 가장 큰 트레이드오프는 '[문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 오버헤드'다. 하위 절반으로 작업을 넘길 때마다 CPU는 현재 상태를 저장하고 나중에 다시 불러와야 하는 비용을 지불한다. 따라서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 양이 적은 경우에는 하위 절반으로 넘기지 않고 상위 절반에서 즉시 끝내는 것이 더 빠를 수 있다. 반면, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 쏟아지는 서버 환경에서는 상위 절반을 최소화하여 더 많은 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 '수용'하는 것이 전체 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 면에서 압도적으로 유리하다. 실무에서는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 특정 횟수 모일 때까지 기다렸다가 한 번에 핸들러를 깨우는 '[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 병합 ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Coalescing)' 기술을 병행하여 이 오버헤드를 극단적으로 낮춘다.
 
-- **📢 섹션 요약 비유**: 핸들링 전략의 선택은 "패스트푸드점([[139_throughput|처리량]] 중심)"과 "고급 레스토랑(개별 응답 중심)" 중 어떤 [[090_service_kubernetes_network_load_balancing|서비스]] 모델을 택하느냐에 따라 주방 시스템(핸들러 구조)이 달라지는 것과 같습니다.
+- **📢 섹션 요약 비유**: 핸들링 전략의 선택은 "패스트푸드점([처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 중심)"과 "고급 레스토랑(개별 응답 중심)" 중 어떤 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델을 택하느냐에 따라 주방 시스템(핸들러 구조)이 달라지는 것과 같습니다.
 
 ---
 
-### Ⅳ. 실무 적용 및 기술사적 판단 ([[268_strategy_pattern|Strategy]] & Decision)
+### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 
 - **실무 시나리오 및 트러블슈팅**:
-  1. **[[496_interrupt_sharing_msi_msix|인터럽트 공유]] (IRQ Sharing) 병목**: 두 장치가 하나의 IRQ 라인을 공유하는데, 한 장치의 핸들러가 `IRQ_NONE`을 늦게 리턴하면 다른 장치의 [[001_dikw_pyramid|데이터]] 처리가 [[015_지연_데이터_관점|지연]]된다. 실무에서는 `lspci -v` 명령을 통해 IRQ 공유 현황을 파악하고, 가능하면 [[561_msi|MSI]] ([[561_msi|Message Signaled Interrupts]]) 방식으로 전환하여 공유를 원천 제거해야 한다.
-  2. **SoftIRQ 폭주 (Softirq [[314_starvation_prevention|Starvation]])**: 네트워크 트래픽이 너무 많아 SoftIRQ 처리만 하느라 정작 사용자 애플리케이션 (웹 서버 등)이 실행되지 못하는 상태다. 이때는 [[016_interrupt_mechanism|인터럽트]] 친화성 ([[778_process_affinity_scheduling_pinning|Affinity]])을 조정하여 특정 코어는 [[016_interrupt_mechanism|인터럽트]] 전전용으로, 다른 코어는 애플리케이션 전용으로 격리하는 전략이 유효하다.
-  3. **잘못된 문맥에서의 Sleep**: 핸들러(Top/Bottom Half) 내에서 파일을 읽거나 세마포어를 기다리는 `Sleep`을 호출하면 '[[036_kernel_panic|커널 패닉]]'이 발생한다. 반드시 프로세스 문맥인 `Workqueue`를 사용하고 있는지 [[396_validation|확인]]해야 한다.
+  1. **[인터럽트 공유](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/496_interrupt_sharing_msi_msix/) (IRQ Sharing) 병목**: 두 장치가 하나의 IRQ 라인을 공유하는데, 한 장치의 핸들러가 `IRQ_NONE`을 늦게 리턴하면 다른 장치의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리가 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)된다. 실무에서는 `lspci -v` 명령을 통해 IRQ 공유 현황을 파악하고, 가능하면 [MSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/) ([Message Signaled Interrupts](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/)) 방식으로 전환하여 공유를 원천 제거해야 한다.
+  2. **SoftIRQ 폭주 (Softirq [Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))**: 네트워크 트래픽이 너무 많아 SoftIRQ 처리만 하느라 정작 사용자 애플리케이션 (웹 서버 등)이 실행되지 못하는 상태다. 이때는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 친화성 ([Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/))을 조정하여 특정 코어는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 전전용으로, 다른 코어는 애플리케이션 전용으로 격리하는 전략이 유효하다.
+  3. **잘못된 문맥에서의 Sleep**: 핸들러(Top/Bottom Half) 내에서 파일을 읽거나 세마포어를 기다리는 `Sleep`을 호출하면 '[커널 패닉](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/)'이 발생한다. 반드시 프로세스 문맥인 `Workqueue`를 사용하고 있는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다.
 
-  운영 중인 서버의 [[016_interrupt_mechanism|인터럽트]] 핸들링 효율을 진단하고 튜닝하는 실무 워크플로우는 다음과 같다.
+  운영 중인 서버의 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 핸들링 효율을 진단하고 튜닝하는 실무 워크플로우는 다음과 같다.
 
 ```text
   ┌───────────────────────────────────────────────────────────────────┐
@@ -189,30 +193,30 @@ static irqreturn_t my_interrupt_handler(int irq, void *dev_id) {
   └───────────────────────────────────────────────────────────────────┘
 ```
 
-  **[다이어그램 해설]** 리눅스 서버에서 네트워크 처리 [[282_performance_tactics|성능]]이 안 나올 때 90% 이상의 원인은 [[016_interrupt_mechanism|인터럽트]] 핸들러의 '불균형'이다. 단일 큐를 사용하는 구형 NIC은 한 코어만 SoftIRQ 부하로 고통받게 만든다. 이를 해결하기 위해 하드웨어적으로 멀티 큐를 지원하는 RSS (Receive Side Scaling) 기술을 활성화하거나, 소프트웨어적으로 패킷을 [[136_variance|분산]]해주는 RPS/RFS 설정을 적용하면 핸들러 부하가 전 코어로 골고루 퍼지며 [[282_performance_tactics|성능]]이 선형적으로 확장된다. 기술사적 판단으로, 핸들러 튜닝은 하드웨어 [[282_performance_tactics|성능]]을 소프트웨어 아키텍처로 끌어올리는 가장 가성비 높은 최적화 수단이다.
+  **[다이어그램 해설]** 리눅스 서버에서 네트워크 처리 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 안 나올 때 90% 이상의 원인은 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 핸들러의 '불균형'이다. 단일 큐를 사용하는 구형 NIC은 한 코어만 SoftIRQ 부하로 고통받게 만든다. 이를 해결하기 위해 하드웨어적으로 멀티 큐를 지원하는 RSS (Receive Side Scaling) 기술을 활성화하거나, 소프트웨어적으로 패킷을 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)해주는 RPS/RFS 설정을 적용하면 핸들러 부하가 전 코어로 골고루 퍼지며 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 선형적으로 확장된다. 기술사적 판단으로, 핸들러 튜닝은 하드웨어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 소프트웨어 아키텍처로 끌어올리는 가장 가성비 높은 최적화 수단이다.
 
-- **📢 섹션 요약 비유**: [[016_interrupt_mechanism|인터럽트]] 핸들러 튜닝은 "모든 계산대에 줄이 길게 늘어섰는데 점원은 한 명뿐인 마트"에서, 노는 점원들을 불러 계산대를 골고루 열어주는(코어 [[136_variance|분산]]) 효율적인 매장 관리와 같습니다.
+- **📢 섹션 요약 비유**: [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 핸들러 튜닝은 "모든 계산대에 줄이 길게 늘어섰는데 점원은 한 명뿐인 마트"에서, 노는 점원들을 불러 계산대를 골고루 열어주는(코어 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)) 효율적인 매장 관리와 같습니다.
 
 ---
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 
-- **기대효과**: 계층형 [[016_interrupt_mechanism|인터럽트]] 핸들러 아키텍처는 시스템에 '강인함'과 '유연함'을 동시에 제공한다. 어떠한 고부하 상황에서도 최소한의 장치 응답(Top Half)을 보장하여 시스템 붕괴를 막고, 복잡한 비즈니스 로직(Bottom Half)은 하드웨어 간섭 없이 안전하게 처리하게 한다. 이는 현대 운영체제가 [[452_availability|가용성]] ([[452_availability|Availability]]) 99.999%를 달성할 수 있게 한 일등 공신이다.
+- **기대효과**: 계층형 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 핸들러 아키텍처는 시스템에 '강인함'과 '유연함'을 동시에 제공한다. 어떠한 고부하 상황에서도 최소한의 장치 응답(Top Half)을 보장하여 시스템 붕괴를 막고, 복잡한 비즈니스 로직(Bottom Half)은 하드웨어 간섭 없이 안전하게 처리하게 한다. 이는 현대 운영체제가 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) ([Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)) 99.999%를 달성할 수 있게 한 일등 공신이다.
 
-- **미래 전망**: 100G/400G 네트워크 시대가 도래함에 따라, [[022_kernel_role|커널]] [[016_interrupt_mechanism|인터럽트]] 핸들러의 경로조차도 '너무 길다'는 비판이 나오고 있다. 이에 따라 사용자 모드에서 [[016_interrupt_mechanism|인터럽트]] 없이 [[001_dikw_pyramid|데이터]]를 직접 긁어가는 `DPDK (Data Plane Development Kit)`나 `io_uring` 같은 '[[566_mmap_zero_copy_sendfile|Zero-copy]] / [[747_io_polling_overhead|Polling]]' 기반의 새로운 핸들링 패러다임이 [[022_kernel_role|커널]] 내부 핸들러와 경쟁하거나 공존하며 발전할 것이다.
+- **미래 전망**: 100G/400G 네트워크 시대가 도래함에 따라, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 핸들러의 경로조차도 '너무 길다'는 비판이 나오고 있다. 이에 따라 사용자 모드에서 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 없이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직접 긁어가는 `DPDK (Data Plane Development Kit)`나 `io_uring` 같은 '[Zero-copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/) / [Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)' 기반의 새로운 핸들링 패러다임이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부 핸들러와 경쟁하거나 공존하며 발전할 것이다.
 
-- **📢 섹션 요약 비유**: [[016_interrupt_mechanism|인터럽트]] 핸들러는 디지털 세계의 "교통 경찰"과 같아서, 쏟아지는 차량([[001_dikw_pyramid|데이터]]) 속에서도 구급차(급한 [[016_interrupt_mechanism|인터럽트]])를 먼저 보내고 정체 구간을 해소하여 도시 전체가 마비되지 않게 관리하는 필수적인 공공 질서 시스템입니다.
+- **📢 섹션 요약 비유**: [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 핸들러는 디지털 세계의 "교통 경찰"과 같아서, 쏟아지는 차량([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 속에서도 구급차(급한 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))를 먼저 보내고 정체 구간을 해소하여 도시 전체가 마비되지 않게 관리하는 필수적인 공공 질서 시스템입니다.
 
 ---
 
-### 📌 관련 개념 맵 ([[160_knowledge_graph_graphrag_integration|Knowledge Graph]])
-| 개념 명칭 | [[083_relationship_in_er_model|관계]] 및 시너지 설명 |
+### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
+| 개념 명칭 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 및 시너지 설명 |
 |:---|:---|
-| **Top Half / Bottom Half** | [[016_interrupt_mechanism|인터럽트]] 핸들러가 작업을 시급성에 따라 분리하여 처리하는 핵심 설계 패턴. |
-| **SoftIRQ / Tasklet** | [[016_interrupt_mechanism|인터럽트]] 문맥에서 실행되는 가장 빠른 [[015_지연_데이터_관점|지연]] 처리 메커니즘. |
-| **Workqueue** | 프로세스 문맥에서 실행되어 [[015_지연_데이터_관점|지연]] 처리 중 대기(Sleep)가 가능한 메커니즘. |
-| **[[016_interrupt_mechanism|Interrupt]] Coalescing** | 핸들러 호출 빈도를 낮추기 위해 여러 [[016_interrupt_mechanism|인터럽트]]를 하나로 묶어 처리하는 기술. |
-| **IRQ [[778_process_affinity_scheduling_pinning|Affinity]]** | 특정 장치의 [[016_interrupt_mechanism|인터럽트]] 핸들러를 특정 CPU 코어에 고정하여 캐시 효율을 높이는 기법. |
+| **Top Half / Bottom Half** | [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 핸들러가 작업을 시급성에 따라 분리하여 처리하는 핵심 설계 패턴. |
+| **SoftIRQ / Tasklet** | [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 문맥에서 실행되는 가장 빠른 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 처리 메커니즘. |
+| **Workqueue** | 프로세스 문맥에서 실행되어 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 처리 중 대기(Sleep)가 가능한 메커니즘. |
+| **[Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Coalescing** | 핸들러 호출 빈도를 낮추기 위해 여러 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 하나로 묶어 처리하는 기술. |
+| **IRQ [Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/)** | 특정 장치의 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 핸들러를 특정 CPU 코어에 고정하여 캐시 효율을 높이는 기법. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -231,12 +235,12 @@ static irqreturn_t my_interrupt_handler(int irq, void *dev_id) {
     ▼
 [DPDK / io_uring — 커널 우회 Zero-copy 폴링 (차세대)]
 ```
-[[016_interrupt_mechanism|인터럽트]] 핸들러는 시급한 최소 처리(Top Half)와 [[015_지연_데이터_관점|지연]] 가능한 나머지(Bottom Half)를 분리하여 응답성과 [[139_throughput|처리량]]을 동시에 달성하며, 100G 네트워크 시대에는 [[671_dpdk|DPDK]] 같은 [[022_kernel_role|커널]] 우회 [[448_polling_programmed_io|폴링]] 방식으로 진화한다.
+[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 핸들러는 시급한 최소 처리(Top Half)와 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 가능한 나머지(Bottom Half)를 분리하여 응답성과 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 동시에 달성하며, 100G 네트워크 시대에는 [DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) 같은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 우회 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 방식으로 진화한다.
 
 ---
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. [[016_interrupt_mechanism|인터럽트]] 핸들러는 컴퓨터 안의 "질서 지키기 대장"이에요. 마우스, 키보드, 인터넷에서 서로 도와달라고 할 때 순서를 정해주는 역할을 하죠.
+1. [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 핸들러는 컴퓨터 안의 "질서 지키기 대장"이에요. 마우스, 키보드, 인터넷에서 서로 도와달라고 할 때 순서를 정해주는 역할을 하죠.
 2. 대장은 "지금 바로 해야 할 일"과 "조금 이따가 해도 되는 일"을 나눠서, 컴퓨터가 한꺼번에 너무 많은 일을 하다가 지치지 않게 관리해요.
 3. 이 대장님 덕분에 우리는 게임을 하면서 노래도 듣고 채팅도 할 수 있는 거랍니다!
 
@@ -246,7 +250,7 @@ static irqreturn_t my_interrupt_handler(int irq, void *dev_id) {
 
 **진행 상황**: 21 / 800
 
-← **이전**: [[020_isr|20. 인터럽트 서비스 루틴 (ISR, Interrupt Service Routine)]]
-**다음**: [[022_kernel_role|22. 커널 (Kernel)의 역할]] →
+← **이전**: [20. 인터럽트 서비스 루틴 (ISR, Interrupt Service Routine)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/)
+**다음**: [22. 커널 (Kernel)의 역할](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) →
 
 ---

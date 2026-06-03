@@ -1,14 +1,18 @@
----
-title: 115. DBSCAN 클러스터링 - 밀도 기반 군집화·노이즈 분리·비구형 클러스터
-date: '2026-04-19'
-tags:
-- studynote-dataengineering
----
++++
+title = "115. DBSCAN 클러스터링 - 밀도 기반 군집화·노이즈 분리·비구형 클러스터"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-dataengineering"]
+
+[extra]
+tags = ["studynote-dataengineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [[351_dbscan_density_based_clustering|DBSCAN]]([[357_dbscan|Density-Based Spatial Clustering]] of Applications with Noise)은 **[[001_dikw_pyramid|데이터]] 밀도가 높은 영역을 클러스터로 묶고**, 밀도가 낮은 영역의 [[001_dikw_pyramid|데이터]]를 **노이즈([[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]])**로 자동 분리하는 밀도 기반 클러스터링 알고리즘이다.
+> 1. **본질**: [DBSCAN](/knowledge-base/studynote/06_ict_convergence/05_data_science/351_dbscan_density_based_clustering/)([Density-Based Spatial Clustering](/knowledge-base/studynote/10_ai/05_data_science_ml/357_dbscan/) of Applications with Noise)은 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 밀도가 높은 영역을 클러스터로 묶고**, 밀도가 낮은 영역의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 **노이즈([이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/))**로 자동 분리하는 밀도 기반 클러스터링 알고리즘이다.
 > 2. **가치**: K-Means가 K(클러스터 수)를 사전 지정해야 하고 원형 클러스터만 탐지하는 반면, DBSCAN은 **K를 자동 결정**하고 **비구형(초승달·고리 형태) 클러스터**도 탐지하며 **노이즈를 자동 분리**한다.
-> 3. **판단 포인트**: 두 파라미터 **ε(epsilon, 반경)**과 **MinPts(최소 이웃 수)**가 결과를 결정하며, ε이 너무 크면 모든 [[001_dikw_pyramid|데이터]]가 1개 클러스터, 너무 작으면 모두 노이즈가 되는 민감성이 있다.
+> 3. **판단 포인트**: 두 파라미터 **ε(epsilon, 반경)**과 **MinPts(최소 이웃 수)**가 결과를 결정하며, ε이 너무 크면 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 1개 클러스터, 너무 작으면 모두 노이즈가 되는 민감성이 있다.
 
 ---
 
@@ -38,9 +42,9 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [[351_dbscan_density_based_clustering|DBSCAN]] vs K-Means
+### [DBSCAN](/knowledge-base/studynote/06_ict_convergence/05_data_science/351_dbscan_density_based_clustering/) vs K-Means
 
-| 비교 | K-Means | [[351_dbscan_density_based_clustering|DBSCAN]] |
+| 비교 | K-Means | [DBSCAN](/knowledge-base/studynote/06_ict_convergence/05_data_science/351_dbscan_density_based_clustering/) |
 |:---|:---|:---|
 | **K 지정** | 필수 | **자동 결정** |
 | **클러스터 형태** | 원형 | **비구형 (자유 형태)** |
@@ -54,7 +58,7 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | K-Means | [[351_dbscan_density_based_clustering|DBSCAN]] | HDBSCAN |
+| 비교 | K-Means | [DBSCAN](/knowledge-base/studynote/06_ict_convergence/05_data_science/351_dbscan_density_based_clustering/) | HDBSCAN |
 |:---|:---|:---|:---|
 | **K 지정** | 필수 | 불필요 | 불필요 |
 | **밀도 변화** | 대응 불가 | **대응 불가** | **대응 가능** |
@@ -65,19 +69,19 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### ε·MinPts [[009_config|설정]] 가이드
+### ε·MinPts [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 가이드
 - **ε**: k-distance 그래프의 "팔꿈치(elbow)" 지점.
 - **MinPts**: 일반적으로 `2 × 차원 수`. 2D → MinPts=4.
 
 ### 활용 시나리오
 1. **지리적 클러스터링**: GPS 좌표로 상점 밀집 지역 탐지.
-2. **[[236_anomaly_based_detection_zero_day_false_positive|이상 탐지]]**: 네트워크 트래픽에서 정상 패턴 밖 접근 = 노이즈(공격).
+2. **[이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)**: 네트워크 트래픽에서 정상 패턴 밖 접근 = 노이즈(공격).
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-DBSCAN은 K-Means가 실패하는 **비구형·노이즈 혼재 [[001_dikw_pyramid|데이터]]**에서 강력하며, HDBSCAN으로 확장하면 밀도 변화까지 대응 가능하다.
+DBSCAN은 K-Means가 실패하는 **비구형·노이즈 혼재 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)**에서 강력하며, HDBSCAN으로 확장하면 밀도 변화까지 대응 가능하다.
 
 ---
 
@@ -86,7 +90,7 @@ DBSCAN은 K-Means가 실패하는 **비구형·노이즈 혼재 [[001_dikw_pyram
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **Core Point** | ε 내 MinPts 이상 이웃을 가진 핵심 점 |
-| **Noise** | 어떤 클러스터에도 속하지 않는 [[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]] |
+| **Noise** | 어떤 클러스터에도 속하지 않는 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) |
 | **ε (epsilon)** | 이웃 탐색 반경, 민감 파라미터 |
 | **HDBSCAN** | DBSCAN의 밀도 변화 대응 확장 |
 | **K-Means** | 원형·K 지정 클러스터링 (비교 대상) |
@@ -120,7 +124,7 @@ DBSCAN은 K-Means가 실패하는 **비구형·노이즈 혼재 [[001_dikw_pyram
 
 **진행 상황**: 115 / 258
 
-← **이전**: [[114_gaussian_mixture_model|114. 가우시안 혼합 모델 (GMM, Gaussian Mixture Model) - EM 알고리즘·소프트 클러스터링]]
-**다음**: [[116_kernel_density_estimation|116. 커널 밀도 추정 (KDE, Kernel Density Estimation) - 비모수 확률 밀도 추정]] →
+← **이전**: [114. 가우시안 혼합 모델 (GMM, Gaussian Mixture Model) - EM 알고리즘·소프트 클러스터링](/knowledge-base/studynote/14_data_engineering/02_math_mining/114_gaussian_mixture_model/)
+**다음**: [116. 커널 밀도 추정 (KDE, Kernel Density Estimation) - 비모수 확률 밀도 추정](/knowledge-base/studynote/14_data_engineering/02_math_mining/116_kernel_density_estimation/) →
 
 ---

@@ -1,27 +1,31 @@
----
-title: 439. Cgroups 메모리 서브시스템의 자원 제한 (Memory Limit) 동작
-date: '2026-05-09'
-tags:
-- studynote-operating-system
----
++++
+title = "439. Cgroups 메모리 서브시스템의 자원 제한 (Memory Limit) 동작"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[062_cgroups|Cgroups]]([[668_cgroups_hw_resource_allocation|Control Groups]]) 메모리 서브시스템은 램이 부족할 때 무자비하게 남의 램을 뺏어 쓰는 리눅스의 **'[[399_global_replacement|전역 교체]]([[399_global_replacement|Global Replacement]])' 야생성을 통제하기 위해, 특정 프로세스 무리([[561_container_based_deployment|컨테이너]])에게 보이지 않는 강철 철창(Memory Limit)을 씌워 메모리 상한선을 강제하는 [[022_kernel_role|커널]] 레벨의 [[602_sandboxing_kernel_wrapper|샌드박싱]] 기술**이다.
-> 2. **가치**: 한 [[561_container_based_deployment|컨테이너]]에 메모리 릭(Leak) 버그가 터져 램을 미친 듯이 빨아들여도 그 철창 안에서 자기들끼리만 [[257_thrashing|스래싱]]([[400_local_replacement|Local Replacement]])을 겪다가 혼자서 [[157_oom_killer|OOM]]([[157_oom_killer|Out of Memory]])으로 죽게 만들어, **같은 서버(Node)에 떠 있는 다른 수십 개의 [[561_container_based_deployment|컨테이너]](Noisy Neighbor)가 절대 피해를 보지 않도록 완벽한 격리([[195_isolation_concurrency_control|Isolation]]) 생태계를 보장**한다.
-> 3. **융합**: 이 [[022_kernel_role|커널]]의 족쇄 기술은 **[[063_docker_architecture|도커]]([[063_docker_architecture|Docker]])와 [[196_kubernetes_k8s_container_orchestration|쿠버네티스]]([[205_kubernetes_container_orchestration|Kubernetes]])의 `Resource: Limit` [[009_config|설정]](YAML)과 100% 1:1로 융합**되어, 현대 클라우드 데이터센터가 수백만 개의 앱을 한 서버에 욱여넣고 안전하게 과금할 수 있는 거대한 자본주의 인프라의 척추가 되었다.
+> 1. **본질**: [Cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/)([Control Groups](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/668_cgroups_hw_resource_allocation/)) 메모리 서브시스템은 램이 부족할 때 무자비하게 남의 램을 뺏어 쓰는 리눅스의 **'[전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)([Global Replacement](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/))' 야생성을 통제하기 위해, 특정 프로세스 무리([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))에게 보이지 않는 강철 철창(Memory Limit)을 씌워 메모리 상한선을 강제하는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨의 [샌드박싱](/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/) 기술**이다.
+> 2. **가치**: 한 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)에 메모리 릭(Leak) 버그가 터져 램을 미친 듯이 빨아들여도 그 철창 안에서 자기들끼리만 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Local Replacement](/knowledge-base/studynote/02_operating_system/07_virtual_memory/400_local_replacement/))을 겪다가 혼자서 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)([Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))으로 죽게 만들어, **같은 서버(Node)에 떠 있는 다른 수십 개의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)(Noisy Neighbor)가 절대 피해를 보지 않도록 완벽한 격리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/)) 생태계를 보장**한다.
+> 3. **융합**: 이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 족쇄 기술은 **[도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))와 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/))의 `Resource: Limit` [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(YAML)과 100% 1:1로 융합**되어, 현대 클라우드 데이터센터가 수백만 개의 앱을 한 서버에 욱여넣고 안전하게 과금할 수 있는 거대한 자본주의 인프라의 척추가 되었다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [[062_cgroups|cgroups]]([[062_cgroups|컨트롤 그룹]])는 구글(Google) 엔지니어들이 리눅스 [[022_kernel_role|커널]]에 추가한 자원 통제 모듈이다. CPU, 네트워크 등 여러 서브시스템이 있지만 그중 **메모리(Memory) 서브시스템**은 특정 프로세스 트리(PIDs)가 사용할 수 있는 최대 물리 램(RAM)과 스왑(Swap)의 상한선(Limit) [[074_byte|바이트]] 수를 바위처럼 굳게 [[009_config|설정]]한다. 이 선을 넘으면 얄짤없이 램 징수나 사형([[157_oom_killer|OOM]] Kill)이 집행된다.
-- **필요성**: 2010년대 클라우드 시대가 열리며 서버 1대에 100개 회사의 앱(가상 머신/[[561_container_based_deployment|컨테이너]])을 구겨 넣는 [[888_multi_tenant_cloud_resource_isolation_noisy_neighbor|멀티 테넌트]]([[888_multi_tenant_cloud_resource_isolation_noisy_neighbor|Multi-tenant]]) 환경이 대세가 되었다. 리눅스는 태생이 '[[399_global_replacement|전역 교체]]'다. A 회사 앱이 램을 10GB 달라고 떼쓰면, OS는 B, C, D 회사의 멀쩡한 램 프레임을 싹 다 뺏어다가 A에게 상납해 버린다. 결과적으로 A의 실수 때문에 아무 죄 없는 다른 회사 서버들이 전부 뻗어버리는 최악의 **시끄러운 이웃(Noisy Neighbor)** 재앙이 터졌다. 클라우드 사업자들은 피눈물을 흘리며 "프로세스마다 보이지 않는 벽을 쳐서, 남의 램은 절대 뺏어올 수 없게 막는 깐깐한 배급 통제소"를 [[022_kernel_role|커널]] 심장부에 박아넣어야만 했다.
+- **개념**: [cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/)([컨트롤 그룹](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/))는 구글(Google) 엔지니어들이 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 추가한 자원 통제 모듈이다. CPU, 네트워크 등 여러 서브시스템이 있지만 그중 **메모리(Memory) 서브시스템**은 특정 프로세스 트리(PIDs)가 사용할 수 있는 최대 물리 램(RAM)과 스왑(Swap)의 상한선(Limit) [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 수를 바위처럼 굳게 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)한다. 이 선을 넘으면 얄짤없이 램 징수나 사형([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Kill)이 집행된다.
+- **필요성**: 2010년대 클라우드 시대가 열리며 서버 1대에 100개 회사의 앱(가상 머신/[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))을 구겨 넣는 [멀티 테넌트](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/)([Multi-tenant](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/)) 환경이 대세가 되었다. 리눅스는 태생이 '[전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)'다. A 회사 앱이 램을 10GB 달라고 떼쓰면, OS는 B, C, D 회사의 멀쩡한 램 프레임을 싹 다 뺏어다가 A에게 상납해 버린다. 결과적으로 A의 실수 때문에 아무 죄 없는 다른 회사 서버들이 전부 뻗어버리는 최악의 **시끄러운 이웃(Noisy Neighbor)** 재앙이 터졌다. 클라우드 사업자들은 피눈물을 흘리며 "프로세스마다 보이지 않는 벽을 쳐서, 남의 램은 절대 뺏어올 수 없게 막는 깐깐한 배급 통제소"를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 심장부에 박아넣어야만 했다.
 
-- **등장 배경 및 [[561_container_based_deployment|컨테이너]] 혁명의 조건**:
-  1. **가상 머신([[598_vm_migration_nic|VM]])의 무거움**: [[598_vm_migration_nic|VM]]([[713_kvm_over_ip|KVM]]/VMware)은 하드웨어 단에서 램을 찢어줘서 안전했지만, OS를 띄우느라 너무 느리고 무거웠다.
-  2. **가볍고 안전한 격리([[195_isolation_concurrency_control|Isolation]])의 열망**: 리눅스 프로세스(`chroot`, `namespace`) 수준에서 가볍게 띄우되, 자원 뺏기를 막을 강력한 장치가 필요했다.
-  3. **cgroups의 등장**: 프로세스 그룹에 하드 리밋(Hard Limit)을 거는 [[062_cgroups|cgroups]] v1(그리고 더 정교한 v2)이 [[022_kernel_role|커널]]에 병합되며 마침내 가벼운 [[063_docker_architecture|도커]]([[063_docker_architecture|Docker]])의 시대가 폭발적으로 열렸다.
+- **등장 배경 및 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 혁명의 조건**:
+  1. **가상 머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))의 무거움**: [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)([KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/)/VMware)은 하드웨어 단에서 램을 찢어줘서 안전했지만, OS를 띄우느라 너무 느리고 무거웠다.
+  2. **가볍고 안전한 격리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))의 열망**: 리눅스 프로세스(`chroot`, `namespace`) 수준에서 가볍게 띄우되, 자원 뺏기를 막을 강력한 장치가 필요했다.
+  3. **cgroups의 등장**: 프로세스 그룹에 하드 리밋(Hard Limit)을 거는 [cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) v1(그리고 더 정교한 v2)이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 병합되며 마침내 가벼운 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))의 시대가 폭발적으로 열렸다.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────────┐
@@ -44,60 +48,60 @@ tags:
 │  ✅ 결과: 미친놈 A 하나만 깔끔하게 죽고, B는 평화롭게 로켓 속도로 생존!    │
 └────────────────────────────────────────────────────────────────────────────┘
 ```
-**[다이어그램 해설]** cgroups는 리눅스 메모리 관리의 가장 큰 아이러니를 보여준다. 전체 램(RAM)이 12GB나 텅텅 비어있는데도, 프로세스를 "메모리가 부족하다([[157_oom_killer|OOM]])"며 무참히 쏴 죽이는 인위적이고 융통성 없는 에러를 발생시킨다. 자원의 활용도(Efficiency)를 기꺼이 포기하고, 그 대가로 타인에 대한 방어막([[195_isolation_concurrency_control|Isolation]])과 시스템 전체의 생존([[021_stability|Stability]])을 쟁취한 클라우드 아키텍처의 비정한 선택이다.
+**[다이어그램 해설]** cgroups는 리눅스 메모리 관리의 가장 큰 아이러니를 보여준다. 전체 램(RAM)이 12GB나 텅텅 비어있는데도, 프로세스를 "메모리가 부족하다([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))"며 무참히 쏴 죽이는 인위적이고 융통성 없는 에러를 발생시킨다. 자원의 활용도(Efficiency)를 기꺼이 포기하고, 그 대가로 타인에 대한 방어막([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))과 시스템 전체의 생존([Stability](/knowledge-base/studynote/08_algorithm_stats/02_sorting/021_stability/))을 쟁취한 클라우드 아키텍처의 비정한 선택이다.
 
-- **📢 섹션 요약 비유**: 은행(서버) 금고에 현금이 100억(16GB 램)이 쌓여있어도, 마이너스 통장 한도가 1천만 원([[062_cgroups|cgroups]] 4GB)인 고객이 와서 "내 통장에서 1천 1백만 원 꺼내 줘!" 하면 은행원은 가차 없이 "잔액 부족([[157_oom_killer|OOM]])입니다" 하고 쫓아냅니다. 은행 전체 돈이 내 돈이 아니듯, 철저한 한도 관리가 금융 사고를 막는 1원칙입니다.
+- **📢 섹션 요약 비유**: 은행(서버) 금고에 현금이 100억(16GB 램)이 쌓여있어도, 마이너스 통장 한도가 1천만 원([cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) 4GB)인 고객이 와서 "내 통장에서 1천 1백만 원 꺼내 줘!" 하면 은행원은 가차 없이 "잔액 부족([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))입니다" 하고 쫓아냅니다. 은행 전체 돈이 내 돈이 아니듯, 철저한 한도 관리가 금융 사고를 막는 1원칙입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [[400_local_replacement|Local Replacement]] ([[400_local_replacement|지역 교체]])의 부활
+### [Local Replacement](/knowledge-base/studynote/02_operating_system/07_virtual_memory/400_local_replacement/) ([지역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/400_local_replacement/))의 부활
 
-앞 장에서 리눅스는 "무조건 남의 램을 뺏는 [[399_global_replacement|전역 교체]]([[399_global_replacement|Global Replacement]])"를 쓴다고 했다. 그런데 cgroups를 씌우는 순간 **[[400_local_replacement|지역 교체]]([[400_local_replacement|Local Replacement]])가 마법처럼 부활**한다.
-- 프로세스가 cgroup에 [[009_config|설정]]된 `memory.limit_in_bytes` (예: 2GB)에 도달했다 치자.
-- 프로세스가 새 [[286_page_frame|페이지]](4KB)를 달라고 폴트를 냈다.
-- [[022_kernel_role|커널]]은 시스템의 전체 Free List에서 램을 가져오지 않는다. 오직 **이 프로세스가 속한 cgroup 안에 있는 [[286_page_frame|페이지]]들만을 뱅글뱅글 도는 전용 [[262_lru_page_replacement|LRU]] 리스트(cgroup 단위의 [[045_clock|Clock]] [[001_algorithm_definition|알고리즘]])**를 뒤진다.
-- 그리고 같은 cgroup 철창 안에 있는 불쌍한 자기 자신의 과거 [[286_page_frame|페이지]] 하나를 골라 스왑으로 쫓아낸다 (돌려막기).
-- 즉, **cgroups는 광활한 바다(전체 램)에 떠 있던 리눅스의 전역망을, 작은 어항([[561_container_based_deployment|컨테이너]]) 단위의 수백 개의 독립된 [[400_local_replacement|지역 교체]] 생태계로 갈기갈기 찢어놓는** 위대한 격리 아키텍처다.
+앞 장에서 리눅스는 "무조건 남의 램을 뺏는 [전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)([Global Replacement](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/))"를 쓴다고 했다. 그런데 cgroups를 씌우는 순간 **[지역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/400_local_replacement/)([Local Replacement](/knowledge-base/studynote/02_operating_system/07_virtual_memory/400_local_replacement/))가 마법처럼 부활**한다.
+- 프로세스가 cgroup에 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)된 `memory.limit_in_bytes` (예: 2GB)에 도달했다 치자.
+- 프로세스가 새 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(4KB)를 달라고 폴트를 냈다.
+- [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 시스템의 전체 Free List에서 램을 가져오지 않는다. 오직 **이 프로세스가 속한 cgroup 안에 있는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들만을 뱅글뱅글 도는 전용 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 리스트(cgroup 단위의 [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))**를 뒤진다.
+- 그리고 같은 cgroup 철창 안에 있는 불쌍한 자기 자신의 과거 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 하나를 골라 스왑으로 쫓아낸다 (돌려막기).
+- 즉, **cgroups는 광활한 바다(전체 램)에 떠 있던 리눅스의 전역망을, 작은 어항([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)) 단위의 수백 개의 독립된 [지역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/400_local_replacement/) 생태계로 갈기갈기 찢어놓는** 위대한 격리 아키텍처다.
 
 ---
 
-### [[157_oom_killer|OOM]] Killer의 하청 (cgroup [[157_oom_killer|OOM]])
+### [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer의 하청 (cgroup [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))
 
-[[062_cgroups|cgroups]] 안에서 [[400_local_replacement|지역 교체]]로 낑낑대며 돌려막기를 하다가, 스왑 공간마저 다 쓰거나(또는 스왑 옵션을 꺼놔서) 도저히 빈 [[286_page_frame|페이지]]를 못 내는 순간이 온다.
-- 이때 [[022_kernel_role|커널]]은 전체 시스템(Node) 레벨의 거대한 [[157_oom_killer|OOM]] Killer를 깨우지 않는다.
-- 대신 해당 cgroup에 딸린 **소규모 전용 킬러 (cgroup [[425_oom_killer_score|OOM Killer]])**를 조용히 파견한다.
-- 이 킬러는 다른 [[561_container_based_deployment|컨테이너]]는 쳐다보지도 않고, 오직 Limit을 초과한 그 불량 cgroup 철창 안에 있는 프로세스(PID)들만 평가(Score)해서 제일 뚱뚱한 놈의 머리통을 날린다(`SIGKILL`).
-- 이 덕분에 AWS나 GCP에서 내 [[561_container_based_deployment|컨테이너]]가 뻗어 죽었어도, 내가 돌리던 옆의 [[561_container_based_deployment|컨테이너]]들이나 호스트 OS의 관리 데몬은 생채기 하나 없이 살아서 무사히 "님 서버 죽었어요"라고 알람(Health Check)을 보낼 수 있는 것이다.
+[cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) 안에서 [지역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/400_local_replacement/)로 낑낑대며 돌려막기를 하다가, 스왑 공간마저 다 쓰거나(또는 스왑 옵션을 꺼놔서) 도저히 빈 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 못 내는 순간이 온다.
+- 이때 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 전체 시스템(Node) 레벨의 거대한 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer를 깨우지 않는다.
+- 대신 해당 cgroup에 딸린 **소규모 전용 킬러 (cgroup [OOM Killer](/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/))**를 조용히 파견한다.
+- 이 킬러는 다른 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 쳐다보지도 않고, 오직 Limit을 초과한 그 불량 cgroup 철창 안에 있는 프로세스(PID)들만 평가(Score)해서 제일 뚱뚱한 놈의 머리통을 날린다(`SIGKILL`).
+- 이 덕분에 AWS나 GCP에서 내 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 뻗어 죽었어도, 내가 돌리던 옆의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)들이나 호스트 OS의 관리 데몬은 생채기 하나 없이 살아서 무사히 "님 서버 죽었어요"라고 알람(Health Check)을 보낼 수 있는 것이다.
 
-- **📢 섹션 요약 비유**: 옛날엔 서울(서버)에서 범죄(메모리 릭)가 터지면 전국 경찰(Global [[157_oom_killer|OOM]])이 출동해 나라 전체를 통제하며 범인을 잡았습니다. 지금은 강남구, 서초구마다 관할 경찰서(cgroup [[157_oom_killer|OOM]])를 둬서, 강남에서 터진 사고는 강남 경찰이 알아서 그 동네 안에서만 조용히 범인을 사살하고 끝내기 때문에 다른 동네 주민들은 사건이 났는지도 모르게 평화로운 일상을 보냅니다.
+- **📢 섹션 요약 비유**: 옛날엔 서울(서버)에서 범죄(메모리 릭)가 터지면 전국 경찰(Global [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))이 출동해 나라 전체를 통제하며 범인을 잡았습니다. 지금은 강남구, 서초구마다 관할 경찰서(cgroup [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))를 둬서, 강남에서 터진 사고는 강남 경찰이 알아서 그 동네 안에서만 조용히 범인을 사살하고 끝내기 때문에 다른 동네 주민들은 사건이 났는지도 모르게 평화로운 일상을 보냅니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 비교 1: Memory Limit vs Memory Request ([[196_kubernetes_k8s_container_orchestration|쿠버네티스]]의 2중 장부)
+### 비교 1: Memory Limit vs Memory Request ([쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)의 2중 장부)
 
-cgroups를 조종하는 [[196_kubernetes_k8s_container_orchestration|쿠버네티스]](k8s)는 개발자에게 2가지 값을 쓰라고 강요한다. 이 두 값의 하드웨어적 본질은 완전히 다르다.
+cgroups를 조종하는 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(k8s)는 개발자에게 2가지 값을 쓰라고 강요한다. 이 두 값의 하드웨어적 본질은 완전히 다르다.
 
-| [[009_config|설정]] 값 | 리눅스 [[022_kernel_role|커널]]의 물리적 맵핑 ([[062_cgroups|cgroups]]) | 역할 및 튜닝의 의미 |
+| [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 값 | 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 물리적 맵핑 ([cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/)) | 역할 및 튜닝의 의미 |
 |:---|:---|:---|
-| **Request** (요구량)| `memory.soft_limit_in_bytes` | 스케줄러가 서버에 빈자리(램)가 있는지 검사할 때 쓰는 **최소 보장 보증금**. 이 값은 cgroup이 강제로 앱을 죽이는 락([[510_lock|Lock]])으로 작용하지 않음. |
-| **Limit** (제한량) | `memory.limit_in_bytes` | 이 선을 넘으면 하늘이 두 쪽 나도 **[[157_oom_killer|OOM]] 총알이 발사되는 강철 지붕(Hard Limit)**. 무조건 이 선 아래서 교체와 쫓겨남이 일어남. |
+| **Request** (요구량)| `memory.soft_limit_in_bytes` | 스케줄러가 서버에 빈자리(램)가 있는지 검사할 때 쓰는 **최소 보장 보증금**. 이 값은 cgroup이 강제로 앱을 죽이는 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))으로 작용하지 않음. |
+| **Limit** (제한량) | `memory.limit_in_bytes` | 이 선을 넘으면 하늘이 두 쪽 나도 **[OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 총알이 발사되는 강철 지붕(Hard Limit)**. 무조건 이 선 아래서 교체와 쫓겨남이 일어남. |
 
-- 만약 Request = 1GB, Limit = 4GB 로 [[009_config|설정]]했다면?
-  - [[561_container_based_deployment|컨테이너]]는 평소에 1GB는 보장받고 맘 편히 쓴다. ([[265_working_set|워킹 셋]] 보장).
-  - 1GB를 넘어 3GB를 쓰고 있는데 서버 전체 램이 모자라기 시작하면, [[022_kernel_role|커널]]은 이 [[561_container_based_deployment|컨테이너]]의 1GB 초과분(2GB 잉여분)을 0순위로 스왑으로 쫓아낸다(Reclaim). 죽이지는 않는다.
+- 만약 Request = 1GB, Limit = 4GB 로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)했다면?
+  - [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 평소에 1GB는 보장받고 맘 편히 쓴다. ([워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/) 보장).
+  - 1GB를 넘어 3GB를 쓰고 있는데 서버 전체 램이 모자라기 시작하면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 1GB 초과분(2GB 잉여분)을 0순위로 스왑으로 쫓아낸다(Reclaim). 죽이지는 않는다.
   - 하지만 앱이 미쳐서 4GB 선을 찌르는 순간, 램이 아무리 남아돌아도 자비 없이 OOM으로 즉사시킨다.
 
-### [[286_page_frame|Page]] Cache ([[536_buffer_cache_page_cache|버퍼 캐시]]) 도둑의 비극
-개발자들이 [[063_docker_architecture|도커]]를 띄우고 가장 억울해하며 많이 당하는 버그다.
-- 내 자바 앱 힙 메모리([[078_heap_datastructure|Heap]])는 2GB로 넉넉하게 짰고, [[062_cgroups|cgroups]] Limit은 3GB로 [[009_config|설정]]했다. "절대 안 죽겠지?"
-- 자바 앱이 10GB짜리 [[568_logs_distributed_logging_elk_fluentd|로그]] [[501_file_definition_logical_record|파일]]을 열어 계속 썼다(`write`).
-- 리눅스는 이 [[501_file_definition_logical_record|파일]] 기록을 **[[286_page_frame|Page]] Cache([[392_file_backed_memory|파일 지원 메모리]])**에 쌓아둔다.
-- 🚨 **핵심**: cgroups의 `memory.limit_in_bytes` 카운터는 순수 힙([[391_anonymous_memory|익명 메모리]])뿐만 아니라, **이 앱이 낳은 거대한 [[286_page_frame|Page]] Cache [[501_file_definition_logical_record|파일]] 조각들의 무게까지 몽땅 합산하여 한도를 깎아 먹는다!**
-- 결국 힙은 2GB밖에 안 썼는데, [[568_logs_distributed_logging_elk_fluentd|로그]] [[501_file_definition_logical_record|파일]] [[286_page_frame|Page]] Cache가 1.5GB 쌓이면서 총 3.5GB가 되어 Limit(3GB)을 돌파, 어이없게도 멀쩡한 자바 앱이 [[157_oom_killer|OOM]] Killer에게 암살당한다. 실무 백엔드에서 90% 이상 겪게 되는 "원인 모를 [[063_docker_architecture|도커]] 튕김"의 진짜 범인이다.
+### [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache ([버퍼 캐시](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/)) 도둑의 비극
+개발자들이 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)를 띄우고 가장 억울해하며 많이 당하는 버그다.
+- 내 자바 앱 힙 메모리([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/))는 2GB로 넉넉하게 짰고, [cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) Limit은 3GB로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)했다. "절대 안 죽겠지?"
+- 자바 앱이 10GB짜리 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 열어 계속 썼다(`write`).
+- 리눅스는 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 기록을 **[Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache([파일 지원 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/392_file_backed_memory/))**에 쌓아둔다.
+- 🚨 **핵심**: cgroups의 `memory.limit_in_bytes` 카운터는 순수 힙([익명 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/391_anonymous_memory/))뿐만 아니라, **이 앱이 낳은 거대한 [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 조각들의 무게까지 몽땅 합산하여 한도를 깎아 먹는다!**
+- 결국 힙은 2GB밖에 안 썼는데, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache가 1.5GB 쌓이면서 총 3.5GB가 되어 Limit(3GB)을 돌파, 어이없게도 멀쩡한 자바 앱이 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer에게 암살당한다. 실무 백엔드에서 90% 이상 겪게 되는 "원인 모를 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 튕김"의 진짜 범인이다.
 
 ```text
 ┌──────────┬────────────┬────────────┬──────────────────────────┐
@@ -107,29 +111,29 @@ cgroups를 조종하는 [[196_kubernetes_k8s_container_orchestration|쿠버네�
 │ OS의 채점  │ 2GB        │ + 1.5GB 누적│ 💥 3.5GB > 3GB (OOM)  │
 └──────────┴────────────┴────────────┴──────────────────────────┘
 ```
-**[매트릭스 해설]** cgroups는 무자비한 사채업자다. 네가 빌려 간 힙 메모리 원금뿐만 아니라, 네가 몰래 [[501_file_definition_logical_record|파일]] 시스템에 싸질러놓은 더티 [[286_page_frame|페이지]] 캐시 이자까지 모두 합산해서 청구서를 들이민다. 이것을 막으려면 자바 앱 실행 시 [[501_file_definition_logical_record|파일]] 로깅을 끄거나 O_DIRECT를 써서 [[286_page_frame|페이지]] 캐시 우회를 시도해야만 [[157_oom_killer|OOM]] 폭사를 막을 수 있다.
+**[매트릭스 해설]** cgroups는 무자비한 사채업자다. 네가 빌려 간 힙 메모리 원금뿐만 아니라, 네가 몰래 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템에 싸질러놓은 더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시 이자까지 모두 합산해서 청구서를 들이민다. 이것을 막으려면 자바 앱 실행 시 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 로깅을 끄거나 O_DIRECT를 써서 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시 우회를 시도해야만 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 폭사를 막을 수 있다.
 
-- **📢 섹션 요약 비유**: 비행기 수화물 제한(Limit)이 20kg입니다. 나는 캐리어(힙 메모리)를 딱 15kg 맞춰 싸서 안심하고 공항에 갔습니다. 그런데 승무원([[062_cgroups|cgroups]])이 내가 등 뒤에 멘 작은 백팩과 손에 든 면세점 쇼핑백([[286_page_frame|Page]] Cache)의 무게까지 모조리 저울에 올려놓더니 총 22kg이라며 비행기 탑승을 거부([[157_oom_killer|OOM]])해 버리는, 자비 없는 전체 무게 합산 룰입니다.
+- **📢 섹션 요약 비유**: 비행기 수화물 제한(Limit)이 20kg입니다. 나는 캐리어(힙 메모리)를 딱 15kg 맞춰 싸서 안심하고 공항에 갔습니다. 그런데 승무원([cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/))이 내가 등 뒤에 멘 작은 백팩과 손에 든 면세점 쇼핑백([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache)의 무게까지 모조리 저울에 올려놓더니 총 22kg이라며 비행기 탑승을 거부([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))해 버리는, 자비 없는 전체 무게 합산 룰입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 실무 시나리오: [[062_cgroups|cgroups]] v2와 PSI (Pressure Stall Information)의 구원
-1. **과거 [[062_cgroups|cgroups]] v1의 무식함**: v1 시절에는 Limit에 다다르면 무작정 앱을 죽이거나 디스크 스왑을 치면서 렉을 만들어냈다. 시스템 엔지니어는 앱이 죽고 나서야 "아 Limit을 너무 낮게 잡았구나" 후회하며 수동으로 YAML [[501_file_definition_logical_record|파일]]의 램 용량을 올려주는 뒷북을 쳤다.
+### 실무 시나리오: [cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) v2와 PSI (Pressure Stall Information)의 구원
+1. **과거 [cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) v1의 무식함**: v1 시절에는 Limit에 다다르면 무작정 앱을 죽이거나 디스크 스왑을 치면서 렉을 만들어냈다. 시스템 엔지니어는 앱이 죽고 나서야 "아 Limit을 너무 낮게 잡았구나" 후회하며 수동으로 YAML [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 램 용량을 올려주는 뒷북을 쳤다.
 2. **페이스북의 구원 (PSI 도입)**:
-   - 페이스북 [[022_kernel_role|커널]] 엔지니어들은 이 장님 같은 [[157_oom_killer|OOM]] 관리에 빡쳐서 **PSI (메모리 압박 [[015_지연_데이터_관점|지연]] 정보)**라는 신기능을 [[062_cgroups|cgroups]] v2에 박아넣어 리눅스 본가에 기증했다.
-   - 앱이 Limit 철창에 부딪히기 직전, 메모리를 달라고 헐떡이는 '기다림의 시간(Delay time)'을 0.001초 단위로 측정해서 `memory.pressure` [[501_file_definition_logical_record|파일]]에 "이 [[561_container_based_deployment|컨테이너]] 지금 램 모자라서 1초 중 0.2초를 멍때리고(Stall) 있습니다!"라고 실시간 스트리밍 경고를 뿜어낸다.
+   - 페이스북 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 엔지니어들은 이 장님 같은 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 관리에 빡쳐서 **PSI (메모리 압박 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 정보)**라는 신기능을 [cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) v2에 박아넣어 리눅스 본가에 기증했다.
+   - 앱이 Limit 철창에 부딪히기 직전, 메모리를 달라고 헐떡이는 '기다림의 시간(Delay time)'을 0.001초 단위로 측정해서 `memory.pressure` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 "이 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 지금 램 모자라서 1초 중 0.2초를 멍때리고(Stall) 있습니다!"라고 실시간 스트리밍 경고를 뿜어낸다.
 3. **오토 스케일링의 예술**:
-   - 이제 [[196_kubernetes_k8s_container_orchestration|쿠버네티스]]와 모니터링 툴(Datadog 등)은 앱이 OOM으로 터져 죽기 한참 전에 이 PSI 압박 지수를 듣는다.
-   - "오! 1번 [[561_container_based_deployment|컨테이너]] 램 압박 지수가 20%를 넘었어! 죽기 전에 빨리 옆에 똑같은 [[561_container_based_deployment|컨테이너]]를 3개 더 띄워서 트래픽을 분산시켜라!(Horizontal [[198_pod_kubernetes_minimum_deployment_unit|Pod]] Autoscaling)" 
-   - [[062_cgroups|cgroups]] v2의 발전으로 클라우드는 앱이 죽는 사후 대처에서 죽기 전에 미리 살려내는 **예측적 자동 확장(Predictive Scaling)**의 시대로 진입했다.
+   - 이제 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)와 모니터링 툴(Datadog 등)은 앱이 OOM으로 터져 죽기 한참 전에 이 PSI 압박 지수를 듣는다.
+   - "오! 1번 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 램 압박 지수가 20%를 넘었어! 죽기 전에 빨리 옆에 똑같은 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 3개 더 띄워서 트래픽을 분산시켜라!(Horizontal [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) Autoscaling)" 
+   - [cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) v2의 발전으로 클라우드는 앱이 죽는 사후 대처에서 죽기 전에 미리 살려내는 **예측적 자동 확장(Predictive Scaling)**의 시대로 진입했다.
 
-### [[157_oom_killer|OOM]] 킬러 비활성화 옵션 (OOMKillDisable)의 함정
-[[063_docker_architecture|도커]] [[009_config|설정]]에 `--oom-kill-disable` 이라는 무적 같은 옵션이 있다. 
-"와, 이거 켜면 램 꽉 차도 내 앱이 안 죽겠지?" 하고 켜는 순간 당신의 서버는 영원한 냉동 인간이 된다. Limit에 도달했는데 [[157_oom_killer|OOM]] 킬러마저 안 쏘면, cgroups는 그 앱의 스레드를 영원히 대기 상태(Uninterruptible Sleep)로 묶어버린다. 차라리 깔끔하게 죽고 [[561_container_based_deployment|컨테이너]]가 1초 만에 재시작(Restart)되는 게 100배 나은데, 죽지도 살지도 못한 채 트래픽을 다 잡아먹으며 굳어버리는 최악의 좀비 [[561_container_based_deployment|컨테이너]] 안티패턴이다. 클라우드에서는 "빨리 죽이는(Fail-fast)" 것이 미덕이다.
+### [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러 비활성화 옵션 (OOMKillDisable)의 함정
+[도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에 `--oom-kill-disable` 이라는 무적 같은 옵션이 있다. 
+"와, 이거 켜면 램 꽉 차도 내 앱이 안 죽겠지?" 하고 켜는 순간 당신의 서버는 영원한 냉동 인간이 된다. Limit에 도달했는데 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러마저 안 쏘면, cgroups는 그 앱의 스레드를 영원히 대기 상태(Uninterruptible Sleep)로 묶어버린다. 차라리 깔끔하게 죽고 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 1초 만에 재시작(Restart)되는 게 100배 나은데, 죽지도 살지도 못한 채 트래픽을 다 잡아먹으며 굳어버리는 최악의 좀비 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 안티패턴이다. 클라우드에서는 "빨리 죽이는(Fail-fast)" 것이 미덕이다.
 
-- **📢 섹션 요약 비유**: 심장이 멈추면(Limit 도달) 바로 제세동기([[157_oom_killer|OOM]] 후 재시작)를 쳐서 살려내야 하는데, 제세동기 전기 충격이 아프다며 스위치를 꺼버린([[157_oom_killer|OOM]] Disable) 격입니다. 결국 환자는 영원한 코마 상태에 빠져 병원 침대만 축내게 됩니다. 빨리 죽이고 빨리 부활시키는 게 클라우드 불사조의 생존법입니다.
+- **📢 섹션 요약 비유**: 심장이 멈추면(Limit 도달) 바로 제세동기([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 후 재시작)를 쳐서 살려내야 하는데, 제세동기 전기 충격이 아프다며 스위치를 꺼버린([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Disable) 격입니다. 결국 환자는 영원한 코마 상태에 빠져 병원 침대만 축내게 됩니다. 빨리 죽이고 빨리 부활시키는 게 클라우드 불사조의 생존법입니다.
 
 ---
 
@@ -139,15 +143,15 @@ cgroups를 조종하는 [[196_kubernetes_k8s_container_orchestration|쿠버네�
 
 | 구분 | 내용 |
 |:---|:---|
-| **[[888_multi_tenant_cloud_resource_isolation_noisy_neighbor|멀티 테넌트]]([[888_multi_tenant_cloud_resource_isolation_noisy_neighbor|Multi-tenant]]) 완벽 격리**| 하나의 물리 서버에 수백 개의 서로 다른 회사 [[561_container_based_deployment|컨테이너]]를 구겨 넣어도, 남의 램을 뺏지 못하게 막아 보안과 가용성을 100% 보장 |
-| **[[532_microservices_decomposition_patterns|마이크로서비스]] 비용 산정(Billing)**| "1GB 램 [[561_container_based_deployment|컨테이너]]당 월 만 원"이라는 클라우드 비즈니스 모델을 수학적/물리적으로 증명하고 강제 집행하는 하드코어 장부 |
-| **[[257_thrashing|스래싱]]([[257_thrashing|Thrashing]])의 국지화(Localize)**| 램 파편화의 연쇄 폭발을 시스템 전체가 아닌 단일 철창(cgroup) 안으로 고립시켜 서버 메인 [[022_kernel_role|커널]]의 패닉을 영구 면제 |
+| **[멀티 테넌트](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/)([Multi-tenant](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/)) 완벽 격리**| 하나의 물리 서버에 수백 개의 서로 다른 회사 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 구겨 넣어도, 남의 램을 뺏지 못하게 막아 보안과 가용성을 100% 보장 |
+| **[마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 비용 산정(Billing)**| "1GB 램 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)당 월 만 원"이라는 클라우드 비즈니스 모델을 수학적/물리적으로 증명하고 강제 집행하는 하드코어 장부 |
+| **[스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))의 국지화(Localize)**| 램 파편화의 연쇄 폭발을 시스템 전체가 아닌 단일 철창(cgroup) 안으로 고립시켜 서버 메인 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 패닉을 영구 면제 |
 
 ### 결론 및 미래 전망
 
-[[062_cgroups|Cgroups]] 메모리 서브시스템의 자원 제한 (Memory Limit) 동작은, "모두의 램은 내 램이다"라고 외치던 리눅스의 무정부주의적 [[399_global_replacement|전역 교체]]([[399_global_replacement|Global Replacement]]) 낭만에 차가운 자본주의의 철창을 들이민 위대한 아키텍처적 선 긋기다. 이 철창이 없었다면 [[063_docker_architecture|도커]]([[063_docker_architecture|Docker]])도, [[196_kubernetes_k8s_container_orchestration|쿠버네티스]]([[205_kubernetes_container_orchestration|Kubernetes]])도, 지금의 AWS 클라우드 생태계도 모래성처럼 무너져 내렸을 것이다. 우리는 cgroups를 통해 하드웨어 가상 머신([[713_kvm_over_ip|KVM]])의 무거운 이중 [[259_paging|페이징]] 렉을 피하면서도, 마치 독립된 컴퓨터를 통째로 산 것과 같은 완벽한 램 샌드박스를 단 1초 만에 공짜로 띄울 수 있게 되었다. 미래의 리눅스 [[022_kernel_role|커널]]([[615_ebpf|eBPF]] 융합 등)은 이 [[062_cgroups|cgroups]] 제한을 단순히 용량(Bytes)을 자르는 것을 넘어, 캐시 [[140_bandwidth|대역폭]]([[262_l3_cache|L3 Cache]] Allocation Technology)과 메모리 [[344_bus|버스]] 속도까지 정밀하게 쪼개어 배급하는 극초정밀 자원 스케줄링 머신으로 진화하며 현대 백엔드의 신(God)으로 군림할 것이다.
+[Cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) 메모리 서브시스템의 자원 제한 (Memory Limit) 동작은, "모두의 램은 내 램이다"라고 외치던 리눅스의 무정부주의적 [전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)([Global Replacement](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)) 낭만에 차가운 자본주의의 철창을 들이민 위대한 아키텍처적 선 긋기다. 이 철창이 없었다면 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))도, [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/))도, 지금의 AWS 클라우드 생태계도 모래성처럼 무너져 내렸을 것이다. 우리는 cgroups를 통해 하드웨어 가상 머신([KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/))의 무거운 이중 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 렉을 피하면서도, 마치 독립된 컴퓨터를 통째로 산 것과 같은 완벽한 램 샌드박스를 단 1초 만에 공짜로 띄울 수 있게 되었다. 미래의 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)([eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 융합 등)은 이 [cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) 제한을 단순히 용량(Bytes)을 자르는 것을 넘어, 캐시 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)([L3 Cache](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/262_l3_cache/) Allocation Technology)과 메모리 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 속도까지 정밀하게 쪼개어 배급하는 극초정밀 자원 스케줄링 머신으로 진화하며 현대 백엔드의 신(God)으로 군림할 것이다.
 
-- **📢 섹션 요약 비유**: 수백 명의 죄수(앱)가 거대한 하나의 감옥 식당(전역 램)에서 밥을 먹다 매일 밥그릇 싸움([[257_thrashing|스래싱]])이 터져 피바다가 되던 폭동의 시대가 있었습니다. 교도소장(구글)이 식당을 부수고 모든 죄수를 독방([[062_cgroups|cgroups]])에 가둔 뒤 밥구멍으로 정해진 정량의 식판(Limit)만 넣어주기 시작하자, 배고파 죽는 죄수([[157_oom_killer|OOM]])는 생길지언정 교도소 전체의 평화와 폭동 방지는 완벽하게 달성된 가장 차갑고 효율적인 통제 시스템입니다.
+- **📢 섹션 요약 비유**: 수백 명의 죄수(앱)가 거대한 하나의 감옥 식당(전역 램)에서 밥을 먹다 매일 밥그릇 싸움([스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))이 터져 피바다가 되던 폭동의 시대가 있었습니다. 교도소장(구글)이 식당을 부수고 모든 죄수를 독방([cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/))에 가둔 뒤 밥구멍으로 정해진 정량의 식판(Limit)만 넣어주기 시작하자, 배고파 죽는 죄수([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))는 생길지언정 교도소 전체의 평화와 폭동 방지는 완벽하게 달성된 가장 차갑고 효율적인 통제 시스템입니다.
 
 ---
 
@@ -155,10 +159,10 @@ cgroups를 조종하는 [[196_kubernetes_k8s_container_orchestration|쿠버네�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[437_memory_encryption_virtualization|메모리 암호화 가상화]] (AMD SME/SEV, [[480_intel_sgx|Intel SGX]]) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [[438_unified_buffer_cache_page_cache|파일시스템 버퍼 캐시]]([[536_buffer_cache_page_cache|Buffer Cache]])와 [[381_virtual_memory|가상 메모리]] [[286_page_frame|페이지]] 캐시([[286_page_frame|Page]] Cache)의 통합 원리 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [[615_ebpf|eBPF]] 기반 메모리 할당 트레이싱 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| I/O 장치의 [[104_classification_analysis|분류]] | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [메모리 암호화 가상화](/knowledge-base/studynote/02_operating_system/07_virtual_memory/437_memory_encryption_virtualization/) (AMD SME/SEV, [Intel SGX](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/480_intel_sgx/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [파일시스템 버퍼 캐시](/knowledge-base/studynote/02_operating_system/07_virtual_memory/438_unified_buffer_cache_page_cache/)([Buffer Cache](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/))와 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache)의 통합 원리 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 기반 메모리 할당 트레이싱 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| I/O 장치의 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -176,9 +180,9 @@ cgroups를 조종하는 [[196_kubernetes_k8s_container_orchestration|쿠버네�
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [[062_cgroups|Cgroups]] 메모리 서브시스템의 자원 제한 (Memory Limit) 동작은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
-2. 먼저 [[438_unified_buffer_cache_page_cache|파일시스템 버퍼 캐시]]([[536_buffer_cache_page_cache|Buffer Cache]])와 [[381_virtual_memory|가상 메모리]] [[286_page_frame|페이지]] 캐시([[286_page_frame|Page]] Cache)의 통합 원리을 이해하면 [[062_cgroups|Cgroups]] 메모리 서브시스템의 자원 제한 (Memory Limit) 동작이 왜 필요한지 더 쉽게 보여요.
-3. 그래서 [[062_cgroups|Cgroups]] 메모리 서브시스템의 자원 제한 (Memory Limit) 동작을 잘 알면 나중에 [[615_ebpf|eBPF]] 기반 메모리 할당 트레이싱도 훨씬 쉽게 배울 수 있어요.
+1. [Cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) 메모리 서브시스템의 자원 제한 (Memory Limit) 동작은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
+2. 먼저 [파일시스템 버퍼 캐시](/knowledge-base/studynote/02_operating_system/07_virtual_memory/438_unified_buffer_cache_page_cache/)([Buffer Cache](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/))와 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache)의 통합 원리을 이해하면 [Cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) 메모리 서브시스템의 자원 제한 (Memory Limit) 동작이 왜 필요한지 더 쉽게 보여요.
+3. 그래서 [Cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) 메모리 서브시스템의 자원 제한 (Memory Limit) 동작을 잘 알면 나중에 [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 기반 메모리 할당 트레이싱도 훨씬 쉽게 배울 수 있어요.
 
 ---
 
@@ -186,7 +190,7 @@ cgroups를 조종하는 [[196_kubernetes_k8s_container_orchestration|쿠버네�
 
 **진행 상황**: 439 / 800
 
-← **이전**: [[438_unified_buffer_cache_page_cache|438. 파일시스템 버퍼 캐시(Buffer Cache)와 가상 메모리 페이지 캐시(Page Cache)의 통합 원리]]
-**다음**: [[440_ebpf_memory_tracing|440. eBPF 기반 메모리 할당 트레이싱 (Ebpf Memory Tracing)]] →
+← **이전**: [438. 파일시스템 버퍼 캐시(Buffer Cache)와 가상 메모리 페이지 캐시(Page Cache)의 통합 원리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/438_unified_buffer_cache_page_cache/)
+**다음**: [440. eBPF 기반 메모리 할당 트레이싱 (Ebpf Memory Tracing)](/knowledge-base/studynote/02_operating_system/07_virtual_memory/440_ebpf_memory_tracing/) →
 
 ---

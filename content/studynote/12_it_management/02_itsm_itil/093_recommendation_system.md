@@ -1,38 +1,42 @@
----
-title: 93. 카파 아키텍처 — 스트리밍만으로 단순화, Kafka + Flink
-date: '2026-04-05'
-description: 추천 시스템의 개념, 협업 필터링, 콘텐츠 기반 필터링, 딥러닝 기반 추천, 실전 적용 사례
-tags:
-- it_management
----
++++
+title = "93. 카파 아키텍처 — 스트리밍만으로 단순화, Kafka + Flink"
+description = "추천 시스템의 개념, 협업 필터링, 콘텐츠 기반 필터링, 딥러닝 기반 추천, 실전 적용 사례"
+date = 2026-04-05
+
+[taxonomies]
+tags = ["it_management"]
+
+[extra]
+tags = ["it_management"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[211_recommendation_system|추천 시스템]] (Recommendation System)은 정보 과부하 시대에 사용자의 과거 행동과 취향 [[001_dikw_pyramid|데이터]]를 분석하여, 사용자가 능동적으로 검색하기 전에 가장 적합한 아이템을 먼저 제안하는 큐레이션 엔진이다.
-> 2. **가치**: 고객이 플랫폼에 머무는 시간([[515_mvcc|Retention]])을 극대화하고 숨겨진 롱테일(Long-tail) 상품의 매출을 끌어올려, 넷플릭스나 아마존 같은 거대 IT 기업의 핵심 수익 창출 인프라로 작용한다.
-> 3. **판단 포인트**: 아이템 자체의 특징을 분석할지(콘텐츠 기반), 다른 사용자들의 패턴을 커닝할지([[345_collaborative_filtering|협업 필터링]]) 선택해야 하며, [[001_dikw_pyramid|데이터]] 희소성(Sparsity)과 [[559_serverless_cold_start_mitigation|콜드 스타트]](Cold-Start) 문제를 해결하는 하이브리드 설계 능력이 추천의 정확도를 결정한다.
+> 1. **본질**: [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/) (Recommendation System)은 정보 과부하 시대에 사용자의 과거 행동과 취향 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석하여, 사용자가 능동적으로 검색하기 전에 가장 적합한 아이템을 먼저 제안하는 큐레이션 엔진이다.
+> 2. **가치**: 고객이 플랫폼에 머무는 시간([Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/))을 극대화하고 숨겨진 롱테일(Long-tail) 상품의 매출을 끌어올려, 넷플릭스나 아마존 같은 거대 IT 기업의 핵심 수익 창출 인프라로 작용한다.
+> 3. **판단 포인트**: 아이템 자체의 특징을 분석할지(콘텐츠 기반), 다른 사용자들의 패턴을 커닝할지([협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/)) 선택해야 하며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 희소성(Sparsity)과 [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/)(Cold-Start) 문제를 해결하는 하이브리드 설계 능력이 추천의 정확도를 결정한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[[211_recommendation_system|추천 시스템]]은 방대한 정보 속에서 사용자의 선호도를 예측하여 맞춤형 콘텐츠나 상품을 제공하는 알고리즘이다. 인터넷에 존재하는 아이템의 수가 인간이 평생 검색할 수 있는 한계를 넘어서면서(정보 과부하), 사용자가 검색창에 키워드를 치는 수동적 방식에서 시스템이 알아서 떠먹여 주는 능동적 방식으로 패러다임이 전환되었다.
+[추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)은 방대한 정보 속에서 사용자의 선호도를 예측하여 맞춤형 콘텐츠나 상품을 제공하는 알고리즘이다. 인터넷에 존재하는 아이템의 수가 인간이 평생 검색할 수 있는 한계를 넘어서면서(정보 과부하), 사용자가 검색창에 키워드를 치는 수동적 방식에서 시스템이 알아서 떠먹여 주는 능동적 방식으로 패러다임이 전환되었다.
 
-만약 넷플릭스에 [[211_recommendation_system|추천 시스템]]이 없다면 사용자는 수만 편의 영화 목록을 스크롤하다 지쳐 앱을 종료할 것이다. 기업 입장에서는 베스트셀러에만 매출이 집중되는 현상을 막고, 창고에 쌓인 비인기 상품(롱테일)과 잠재 고객을 연결하여 매출을 극대화하기 위해 [[211_recommendation_system|추천 시스템]]이 필수불가결한 생존 도구가 되었다.
+만약 넷플릭스에 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)이 없다면 사용자는 수만 편의 영화 목록을 스크롤하다 지쳐 앱을 종료할 것이다. 기업 입장에서는 베스트셀러에만 매출이 집중되는 현상을 막고, 창고에 쌓인 비인기 상품(롱테일)과 잠재 고객을 연결하여 매출을 극대화하기 위해 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)이 필수불가결한 생존 도구가 되었다.
 
-- **📢 섹션 요약 비유**: [[211_recommendation_system|추천 시스템]]은 단골 식당의 눈치 빠른 주방장과 같다. 손님이 메뉴판을 보며 고민하기 전에 "오늘 날씨도 쌀쌀한데 지난번에 맛있게 드셨던 짬뽕 어떠세요?"라고 먼저 제안하여 손님의 만족도와 식당의 매상을 동시에 올린다.
+- **📢 섹션 요약 비유**: [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)은 단골 식당의 눈치 빠른 주방장과 같다. 손님이 메뉴판을 보며 고민하기 전에 "오늘 날씨도 쌀쌀한데 지난번에 맛있게 드셨던 짬뽕 어떠세요?"라고 먼저 제안하여 손님의 만족도와 식당의 매상을 동시에 올린다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[[211_recommendation_system|추천 시스템]]은 크게 세 가지 엔진(콘텐츠 기반, [[345_collaborative_filtering|협업 필터링]], 하이브리드)으로 작동하며, [[161_matrix_decomposition|행렬 분해]]([[348_matrix_factorization|Matrix Factorization]])와 같은 수학적 모델링이 뒷받침된다.
+[추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)은 크게 세 가지 엔진(콘텐츠 기반, [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/), 하이브리드)으로 작동하며, [행렬 분해](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/)([Matrix Factorization](/knowledge-base/studynote/06_ict_convergence/05_data_science/348_matrix_factorization/))와 같은 수학적 모델링이 뒷받침된다.
 
-| 추천 방식 | 작동 원리 | 핵심 [[001_dikw_pyramid|데이터]] |
+| 추천 방식 | 작동 원리 | 핵심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 | :--- | :--- | :--- |
-| [[346_content_based_filtering|콘텐츠 기반 필터링]] (Content-Based) | 아이템의 [[082_attribute_types_er_model|속성]](장르, 키워드)과 사용자 프로필의 유사도 매칭 | 아이템 [[012_metadata|메타데이터]] |
-| 사용자 기반 [[345_collaborative_filtering|협업 필터링]] (User-Based CF) | 나와 취향이 비슷한 '이웃 사용자'가 구매한 아이템 추천 | 평점 교집합 |
-| 아이템 기반 [[345_collaborative_filtering|협업 필터링]] (Item-Based CF) | 내가 과거에 높게 평가한 아이템과 '비슷한 평점 패턴'을 가진 아이템 추천 | 평점 분포 |
+| [콘텐츠 기반 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/346_content_based_filtering/) (Content-Based) | 아이템의 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(장르, 키워드)과 사용자 프로필의 유사도 매칭 | 아이템 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) |
+| 사용자 기반 [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/) (User-Based CF) | 나와 취향이 비슷한 '이웃 사용자'가 구매한 아이템 추천 | 평점 교집합 |
+| 아이템 기반 [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/) (Item-Based CF) | 내가 과거에 높게 평가한 아이템과 '비슷한 평점 패턴'을 가진 아이템 추천 | 평점 분포 |
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -51,54 +55,54 @@ tags:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-이 그림의 핵심은 수백만 명의 사용자가 모든 상품을 평가할 수 없어 발생하는 '희소성(Sparsity)' 문제를, [[161_matrix_decomposition|행렬 분해]]를 통한 차원 축소로 해결하여 숨겨진 평점 빈칸(?)을 예측해 낸다는 점이다.
+이 그림의 핵심은 수백만 명의 사용자가 모든 상품을 평가할 수 없어 발생하는 '희소성(Sparsity)' 문제를, [행렬 분해](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/)를 통한 차원 축소로 해결하여 숨겨진 평점 빈칸(?)을 예측해 낸다는 점이다.
 
-- **📢 섹션 요약 비유**: 콘텐츠 기반이 "이 손님은 소고기를 좋아하니 다음에도 소고기를 주자"라면, [[345_collaborative_filtering|협업 필터링]]은 "이 손님과 입맛이 비슷한 옆 테이블 아저씨가 돼지고기를 맛있게 먹었으니, 이 손님에게도 돼지고기를 추천해 보자"라고 추론하는 방식이다.
+- **📢 섹션 요약 비유**: 콘텐츠 기반이 "이 손님은 소고기를 좋아하니 다음에도 소고기를 주자"라면, [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/)은 "이 손님과 입맛이 비슷한 옆 테이블 아저씨가 돼지고기를 맛있게 먹었으니, 이 손님에게도 돼지고기를 추천해 보자"라고 추론하는 방식이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-각 추천 알고리즘은 뚜렷한 장단점을 가지며, 이를 보완하기 위해 실전에서는 다중 모델을 결합한 하이브리드(Hybrid)나 딥러닝(Deep [[240_switch_learning_forwarding_flooding|Learning]]) 방식이 주로 쓰인다.
+각 추천 알고리즘은 뚜렷한 장단점을 가지며, 이를 보완하기 위해 실전에서는 다중 모델을 결합한 하이브리드(Hybrid)나 딥러닝(Deep [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)) 방식이 주로 쓰인다.
 
-| 항목 | [[345_collaborative_filtering|협업 필터링]] (CF) | [[346_content_based_filtering|콘텐츠 기반 필터링]] (CBF) |
+| 항목 | [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/) (CF) | [콘텐츠 기반 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/346_content_based_filtering/) (CBF) |
 | :--- | :--- | :--- |
-| [[347_cold_start_problem|콜드 스타트 문제]] | 취약함 (신규 가입자/상품 추천 불가) | 강함 (상품 [[082_attribute_types_er_model|속성]]만으로 추천 가능) |
+| [콜드 스타트 문제](/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/) | 취약함 (신규 가입자/상품 추천 불가) | 강함 (상품 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)만으로 추천 가능) |
 | 참신성 (다양성) | 높음 (예상치 못한 관심사 발견 가능) | 낮음 (비슷한 장르에만 갇히는 필터 버블) |
-| [[064_relation_domain|도메인]] 지식 의존도 | 낮음 ([[001_dikw_pyramid|데이터]] 패턴만 봄) | 높음 (상품 [[082_attribute_types_er_model|속성]] 태깅 작업 필요) |
+| [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식 의존도 | 낮음 ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패턴만 봄) | 높음 (상품 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 태깅 작업 필요) |
 
-최근의 NCF (Neural [[186_graph_db_recommendation_collaborative_filtering_cold_start|Collaborative Filtering]]) 같은 딥러닝 기반 추천은 CF의 선형적 내적 연산(행렬 곱) 한계를 넘어, 비선형적인 사용자-아이템 상호작용 패턴을 [[266_mlp_hidden_layers|다층 퍼셉트론]](MLP)으로 학습하여 추천의 정확도를 극단적으로 끌어올린다.
+최근의 NCF (Neural [Collaborative Filtering](/knowledge-base/studynote/14_data_engineering/04_mlops/186_graph_db_recommendation_collaborative_filtering_cold_start/)) 같은 딥러닝 기반 추천은 CF의 선형적 내적 연산(행렬 곱) 한계를 넘어, 비선형적인 사용자-아이템 상호작용 패턴을 [다층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/266_mlp_hidden_layers/)(MLP)으로 학습하여 추천의 정확도를 극단적으로 끌어올린다.
 
-- **📢 섹션 요약 비유**: [[345_collaborative_filtering|협업 필터링]]은 친구들의 추천(입소문)이고, 콘텐츠 기반은 책 뒤표지의 장르 설명(스펙)이다. 새 학교에 전학 온 첫날([[559_serverless_cold_start_mitigation|콜드 스타트]])에는 친구가 없으니 스펙만 보고 골라야 하지만, 친구가 많아질수록 입소문의 정확도가 훨씬 높아진다.
+- **📢 섹션 요약 비유**: [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/)은 친구들의 추천(입소문)이고, 콘텐츠 기반은 책 뒤표지의 장르 설명(스펙)이다. 새 학교에 전학 온 첫날([콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/))에는 친구가 없으니 스펙만 보고 골라야 하지만, 친구가 많아질수록 입소문의 정확도가 훨씬 높아진다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 완벽한 단일 [[211_recommendation_system|추천 시스템]]은 없다. 상황(신규 유입, [[001_dikw_pyramid|데이터]] 볼륨, [[064_relation_domain|도메인]] 특성)에 맞춰 모델을 교체하고 섞어 쓰는 아키텍처적 결단이 필요하다.
+실무에서 완벽한 단일 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)은 없다. 상황(신규 유입, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 볼륨, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특성)에 맞춰 모델을 교체하고 섞어 쓰는 아키텍처적 결단이 필요하다.
 
-### 판단 및 [[435_checklist_based_testing|체크리스트]]
+### 판단 및 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **[[559_serverless_cold_start_mitigation|콜드 스타트]](Cold-Start) 대비책이 있는가?** 신규 가입자에게 무작정 추천 엔진을 돌리면 에러가 난다. 가입 시점에 관심사를 선택(온보딩)하게 하거나, 인구통계학적 기반의 베스트셀러를 기본값으로 추천하는 [[129_fallback|Fallback]] 전략이 필수다.
-2. **희소성(Sparsity)이 99%를 넘지 않는가?** 사용자 수명과 상품 수가 너무 많아 평점 행렬이 텅 비어있다면, 단순 CF로는 계산이 붕괴된다. [[161_matrix_decomposition|행렬 분해]]([[230_svd_matrix_factorization_random_forest_xgboost_boosting|SVD]])나 딥러닝 임베딩을 통해 차원을 강제로 압축해야 한다.
-3. **탐색([[315_exploration_exploitation|Exploration]])과 활용(Exploitation)의 균형을 맞췄는가?** 정확도만 높여서 매일 똑같은 장르만 보여주면 사용자 피로도가 급증한다(필터 버블). 가끔 [[489_raid_10_hybrid|10]]%의 확률로 전혀 다른 엉뚱한 장르를 끼워 넣어 새로운 취향을 발굴해야 한다.
+1. **[콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/)(Cold-Start) 대비책이 있는가?** 신규 가입자에게 무작정 추천 엔진을 돌리면 에러가 난다. 가입 시점에 관심사를 선택(온보딩)하게 하거나, 인구통계학적 기반의 베스트셀러를 기본값으로 추천하는 [Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/) 전략이 필수다.
+2. **희소성(Sparsity)이 99%를 넘지 않는가?** 사용자 수명과 상품 수가 너무 많아 평점 행렬이 텅 비어있다면, 단순 CF로는 계산이 붕괴된다. [행렬 분해](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/)([SVD](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/))나 딥러닝 임베딩을 통해 차원을 강제로 압축해야 한다.
+3. **탐색([Exploration](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/))과 활용(Exploitation)의 균형을 맞췄는가?** 정확도만 높여서 매일 똑같은 장르만 보여주면 사용자 피로도가 급증한다(필터 버블). 가끔 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%의 확률로 전혀 다른 엉뚱한 장르를 끼워 넣어 새로운 취향을 발굴해야 한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 사용자의 클릭(명시적 피드백)만 믿고, 체류 시간이나 장바구니 담기(암묵적 피드백) 등 풍부한 로그를 버려두는 설계.
 
-- **📢 섹션 요약 비유**: [[211_recommendation_system|추천 시스템]] 운영은 편식하는 아이에게 밥을 먹이는 것과 같다. 아이가 좋아하는 소시지(정확도/활용)만 주면 건강이 나빠지니, 가끔은 한 번도 안 먹어본 시금치(참신성/탐색)를 몰래 섞어 먹여야 장기적으로 튼튼한 서비스가 된다.
+- **📢 섹션 요약 비유**: [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 운영은 편식하는 아이에게 밥을 먹이는 것과 같다. 아이가 좋아하는 소시지(정확도/활용)만 주면 건강이 나빠지니, 가끔은 한 번도 안 먹어본 시금치(참신성/탐색)를 몰래 섞어 먹여야 장기적으로 튼튼한 서비스가 된다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[[211_recommendation_system|추천 시스템]]은 사용자의 탐색 비용을 획기적으로 줄여주고, 롱테일 상품 소비를 촉진하여 비즈니스의 구조적 수익성을 극대화한다. 잘 구축된 엔진은 충성도를 높이는 락인([[362_lock_in_portability|Lock-in]]) 효과를 만든다.
+[추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)은 사용자의 탐색 비용을 획기적으로 줄여주고, 롱테일 상품 소비를 촉진하여 비즈니스의 구조적 수익성을 극대화한다. 잘 구축된 엔진은 충성도를 높이는 락인([Lock-in](/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/)) 효과를 만든다.
 
 하지만 과도한 개인화는 사용자를 확증 편향에 빠뜨리는 필터 버블(Filter Bubble)을 유발하고, 사생활 침해(Privacy) 우려를 낳는 한계가 있다.
 
-결론적으로 [[211_recommendation_system|추천 시스템]]은 알고리즘의 수학적 고도화를 넘어, [[559_serverless_cold_start_mitigation|콜드 스타트]]의 약점을 비즈니스 시나리오로 메우고 사용자에게 "발견의 기쁨"을 주는 종합적인 사용자 경험(UX) 설계로 기억되어야 한다.
+결론적으로 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)은 알고리즘의 수학적 고도화를 넘어, [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/)의 약점을 비즈니스 시나리오로 메우고 사용자에게 "발견의 기쁨"을 주는 종합적인 사용자 경험(UX) 설계로 기억되어야 한다.
 
-- **📢 섹션 요약 비유**: 나침반이 탐험가에게 방향을 알려주듯, [[211_recommendation_system|추천 시스템]]은 정보의 바다에서 익사하지 않도록 길을 터주는 내비게이션이다. 다만 내비게이션이 알려주는 길만 가다 보면 나만의 숨겨진 명소를 영영 찾지 못할 수도 있음을 경계해야 한다.
+- **📢 섹션 요약 비유**: 나침반이 탐험가에게 방향을 알려주듯, [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)은 정보의 바다에서 익사하지 않도록 길을 터주는 내비게이션이다. 다만 내비게이션이 알려주는 길만 가다 보면 나만의 숨겨진 명소를 영영 찾지 못할 수도 있음을 경계해야 한다.
 
 ---
 
@@ -106,10 +110,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 롱테일 (Long-tail) 법칙 | 베스트셀러가 아닌 비인기 다수 상품이 큰 매출을 만드는 현상으로, [[211_recommendation_system|추천 시스템]]의 주 목표 |
-| 희소성 (Sparsity) 행렬 | 전체 사용자와 전체 상품 조합 대비 실제 평점 [[001_dikw_pyramid|데이터]]가 극도로 부족한 상태 |
-| [[559_serverless_cold_start_mitigation|콜드 스타트]] (Cold-Start) | [[001_dikw_pyramid|데이터]]가 없는 신규 사용자나 신규 상품에 대해 추천을 내릴 수 없는 초기화 문제 |
-| 필터 버블 (Filter Bubble) | [[211_recommendation_system|추천 시스템]]에 갇혀 자신의 취향이나 이념에 맞는 정보만 편식하게 되는 부작용 |
+| 롱테일 (Long-tail) 법칙 | 베스트셀러가 아닌 비인기 다수 상품이 큰 매출을 만드는 현상으로, [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)의 주 목표 |
+| 희소성 (Sparsity) 행렬 | 전체 사용자와 전체 상품 조합 대비 실제 평점 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 극도로 부족한 상태 |
+| [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/) (Cold-Start) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 없는 신규 사용자나 신규 상품에 대해 추천을 내릴 수 없는 초기화 문제 |
+| 필터 버블 (Filter Bubble) | [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)에 갇혀 자신의 취향이나 이념에 맞는 정보만 편식하게 되는 부작용 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -131,7 +135,7 @@ tags:
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [[211_recommendation_system|추천 시스템]]은 도서관 사서 선생님 같아요.
+1. [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)은 도서관 사서 선생님 같아요.
 2. 내가 그동안 빌려본 책들의 제목을 쓱 보시더니, 내가 묻기도 전에 "너 이 책도 엄청 좋아할걸?" 하고 딱 꺼내주신답니다.
 3. 선생님은 다른 친구들이 재미있게 읽은 책 정보까지 다 알고 계셔서, 나한테 딱 맞는 진짜 재미있는 책을 찾아주시는 거예요.
 
@@ -141,7 +145,7 @@ tags:
 
 **진행 상황**: 170 / 587
 
-← **이전**: [[093_itscm|93. IT 서비스 연속성 관리 (ITSCM, IT Service Continuity Management)]]
-**다음**: [[094_capacity_management|94. 용량 관리 (Capacity Management)]] →
+← **이전**: [93. IT 서비스 연속성 관리 (ITSCM, IT Service Continuity Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/093_itscm/)
+**다음**: [94. 용량 관리 (Capacity Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_capacity_management/) →
 
 ---

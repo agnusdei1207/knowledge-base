@@ -1,14 +1,18 @@
----
-title: 121. 데이터 아키텍처 프레임워크 (Zachman Framework) - 엔터프라이즈 데이터 설계 체계
-date: '2026-04-19'
-tags:
-- studynote-database
----
++++
+title = "121. 데이터 아키텍처 프레임워크 (Zachman Framework) - 엔터프라이즈 데이터 설계 체계"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-database"]
+
+[extra]
+tags = ["studynote-database"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [[243_zachman_framework_matrix|Zachman]] Framework는 **6가지 관점(Planner·Owner·Designer·[[256_builder_pattern_step_by_step_creation|Builder]]·Subcontractor·User) × 6가지 질문(What·How·Where·Who·When·Why)**의 36셀 매트릭스로 엔터프라이즈 아키텍처를 **체계적으로 [[104_classification_analysis|분류]]·정리**하는 [[104_classification_analysis|분류]] 체계다.
-> 2. **가치**: [[001_dikw_pyramid|데이터]] 아키텍처를 설계할 때 "누구의 관점에서, 무엇을 정의하는가"를 명확히 하여, **개념→[[369_logic_bomb|논리]]→물리 모델링의 각 산출물이 어디에 위치하는지** 체계적으로 관리할 수 있다.
-> 3. **판단 포인트**: Zachman은 **방법론이 아닌 [[104_classification_analysis|분류]] 체계(Taxonomy)**이며, [[113_togaf|TOGAF]](방법론)과 함께 사용하여 "어떻게 진행하는가"를 보완한다.
+> 1. **본질**: [Zachman](/knowledge-base/studynote/12_it_management/05_security_compliance/243_zachman_framework_matrix/) Framework는 **6가지 관점(Planner·Owner·Designer·[Builder](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/)·Subcontractor·User) × 6가지 질문(What·How·Where·Who·When·Why)**의 36셀 매트릭스로 엔터프라이즈 아키텍처를 **체계적으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)·정리**하는 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계다.
+> 2. **가치**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 아키텍처를 설계할 때 "누구의 관점에서, 무엇을 정의하는가"를 명확히 하여, **개념→[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)→물리 모델링의 각 산출물이 어디에 위치하는지** 체계적으로 관리할 수 있다.
+> 3. **판단 포인트**: Zachman은 **방법론이 아닌 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계(Taxonomy)**이며, [TOGAF](/knowledge-base/studynote/12_it_management/03_ea_isp/113_togaf/)(방법론)과 함께 사용하여 "어떻게 진행하는가"를 보완한다.
 
 ---
 
@@ -28,46 +32,46 @@ tags:
 └───────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: Zachman은 건축에서 건축주(Owner)·설계사(Designer)·시공자([[256_builder_pattern_step_by_step_creation|Builder]]) 각각이 같은 건물을 다른 관점에서 보는 것이다.
+- **📢 섹션 요약 비유**: Zachman은 건축에서 건축주(Owner)·설계사(Designer)·시공자([Builder](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/)) 각각이 같은 건물을 다른 관점에서 보는 것이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [[243_zachman_framework_matrix|Zachman]] vs [[113_togaf|TOGAF]]
+### [Zachman](/knowledge-base/studynote/12_it_management/05_security_compliance/243_zachman_framework_matrix/) vs [TOGAF](/knowledge-base/studynote/12_it_management/03_ea_isp/113_togaf/)
 
-| 비교 | [[243_zachman_framework_matrix|Zachman]] | [[113_togaf|TOGAF]] |
+| 비교 | [Zachman](/knowledge-base/studynote/12_it_management/05_security_compliance/243_zachman_framework_matrix/) | [TOGAF](/knowledge-base/studynote/12_it_management/03_ea_isp/113_togaf/) |
 |:---|:---|:---|
-| **유형** | **[[104_classification_analysis|분류]] 체계** | **방법론 ([[066_적응형_델타_변조_ADM|ADM]])** |
+| **유형** | **[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계** | **방법론 ([ADM](/knowledge-base/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/))** |
 | **질문** | What/How/Where/Who/When/Why | 아키텍처 개발 단계 |
-| **[[083_relationship_in_er_model|관계]]** | 산출물 정리 | **프로세스 정의** |
+| **[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)** | 산출물 정리 | **프로세스 정의** |
 
-- **📢 섹션 요약 비유**: Zachman은 서랍장([[104_classification_analysis|분류]])이고, TOGAF는 정리 순서(방법론)이다. 둘 다 필요하다.
+- **📢 섹션 요약 비유**: Zachman은 서랍장([분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/))이고, TOGAF는 정리 순서(방법론)이다. 둘 다 필요하다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | [[243_zachman_framework_matrix|Zachman]] | [[113_togaf|TOGAF]] | DoDAF |
+| 비교 | [Zachman](/knowledge-base/studynote/12_it_management/05_security_compliance/243_zachman_framework_matrix/) | [TOGAF](/knowledge-base/studynote/12_it_management/03_ea_isp/113_togaf/) | DoDAF |
 |:---|:---|:---|:---|
-| **용도** | 범용 [[110_enterprise_architecture_ea|EA]] | 범용 [[110_enterprise_architecture_ea|EA]] | 국방 |
-| **특징** | [[104_classification_analysis|분류]] 체계 | **방법론** | 뷰포인트 |
+| **용도** | 범용 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) | 범용 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) | 국방 |
+| **특징** | [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계 | **방법론** | 뷰포인트 |
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[001_dikw_pyramid|데이터]] 아키텍처에서의 활용
-- What([[001_dikw_pyramid|데이터]]) × Planner = 주제 영역(Subject Area).
+### [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 아키텍처에서의 활용
+- What([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) × Planner = 주제 영역(Subject Area).
 - What × Owner = 개념 ERD.
-- What × Designer = [[369_logic_bomb|논리]] ERD.
-- What × [[256_builder_pattern_step_by_step_creation|Builder]] = 물리 [[005_schema|스키마]].
+- What × Designer = [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) ERD.
+- What × [Builder](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/) = 물리 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/).
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[[243_zachman_framework_matrix|Zachman]] Framework는 **[[110_enterprise_architecture_ea|EA]]([[010_ea_enterprise_architecture|Enterprise Architecture]])의 원조 [[104_classification_analysis|분류]] 체계**로서, [[001_dikw_pyramid|데이터]]·프로세스·네트워크·조직 등 모든 아키텍처 산출물을 체계적으로 관리하는 데 필수적이다.
+[Zachman](/knowledge-base/studynote/12_it_management/05_security_compliance/243_zachman_framework_matrix/) Framework는 **[EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/)([Enterprise Architecture](/knowledge-base/studynote/12_it_management/01_governance_strategy/010_ea_enterprise_architecture/))의 원조 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계**로서, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·프로세스·네트워크·조직 등 모든 아키텍처 산출물을 체계적으로 관리하는 데 필수적이다.
 
 ---
 
@@ -75,11 +79,11 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[[243_zachman_framework_matrix|Zachman]]** | [[110_enterprise_architecture_ea|EA]] [[104_classification_analysis|분류]] 체계 (6×6 매트릭스) |
-| **[[113_togaf|TOGAF]]** | [[110_enterprise_architecture_ea|EA]] 방법론 ([[066_적응형_델타_변조_ADM|ADM]] 프로세스) |
+| **[Zachman](/knowledge-base/studynote/12_it_management/05_security_compliance/243_zachman_framework_matrix/)** | [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계 (6×6 매트릭스) |
+| **[TOGAF](/knowledge-base/studynote/12_it_management/03_ea_isp/113_togaf/)** | [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 방법론 ([ADM](/knowledge-base/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/) 프로세스) |
 | **개념 모델** | Zachman의 Owner 행, What 열 |
-| **[[369_logic_bomb|논리]] 모델** | Zachman의 Designer 행, What 열 |
-| **물리 모델** | Zachman의 [[256_builder_pattern_step_by_step_creation|Builder]] 행, What 열 |
+| **[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 모델** | Zachman의 Designer 행, What 열 |
+| **물리 모델** | Zachman의 [Builder](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/) 행, What 열 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -110,7 +114,7 @@ tags:
 
 **진행 상황**: 121 / 600
 
-← **이전**: [[120_data_reverse_engineering|120. 데이터 역공학 (Data Reverse Engineering) - 기존 DB에서 ERD·모델 복원]]
-**다음**: [[122_master_data_management_db_perspective|122. 마스터 데이터 관리 (MDM, Master Data Management) - 데이터 품질·일관성의 근간]] →
+← **이전**: [120. 데이터 역공학 (Data Reverse Engineering) - 기존 DB에서 ERD·모델 복원](/knowledge-base/studynote/05_database/02_modeling_normalization/120_data_reverse_engineering/)
+**다음**: [122. 마스터 데이터 관리 (MDM, Master Data Management) - 데이터 품질·일관성의 근간](/knowledge-base/studynote/05_database/02_modeling_normalization/122_master_data_management_db_perspective/) →
 
 ---

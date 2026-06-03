@@ -1,13 +1,17 @@
----
-title: 1090. RSVP 자원 예약 플로우
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "1090. RSVP 자원 예약 플로우"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: RSVP 자원 예약 플로우는 [[282_performance_tactics|성능]] 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 1. **본질**: RSVP 자원 예약 플로우는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
 > 2. **가치**: RSVP 자원 예약 플로우를 이해하면 측정 정확도과 모델 적합성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
@@ -15,7 +19,7 @@ tags:
 
 ## Ⅰ. 개요 및 필요성
 
-- **1089번 DiffServ의 한계**: 패킷 이마에 VIP(EF) 도장을 찍는 건 좋습니다. 그런데 VIP 도장을 단 패킷이 1개면 쾌속 통과지만, 수백만 명이 다 VIP 도장을 찍고 몰려들면 결국 VIP 큐(대기열) 안에서도 병목이 생겨 딜레이([[454_buffering|버퍼링]])가 터집니다. (상대적 [[090_service_kubernetes_network_load_balancing|서비스]]이지, 100% 절대 보장이 아닙니다.)
+- **1089번 DiffServ의 한계**: 패킷 이마에 VIP(EF) 도장을 찍는 건 좋습니다. 그런데 VIP 도장을 단 패킷이 1개면 쾌속 통과지만, 수백만 명이 다 VIP 도장을 찍고 몰려들면 결국 VIP 큐(대기열) 안에서도 병목이 생겨 딜레이([버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/))가 터집니다. (상대적 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)이지, 100% 절대 보장이 아닙니다.)
 
 ```text
 [DiffServ DSCP 분류 PHB]
@@ -26,14 +30,14 @@ tags:
     └──▶ [GRE 일반 캡슐화 포맷 오버헤드]
 ```
 
-- **📢 섹션 요약 비유**: RSVP 자원 예약 플로우는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [[170_selectivity_cardinality_distribution_tuning|선택도]] 쉬워진다.
+- **📢 섹션 요약 비유**: RSVP 자원 예약 플로우는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **[[389_intserv_integrated_services_rsvp|IntServ]] 모델**: "어중간한 차별 대우 안 한다. 화상 회의를 시작하기 전에, 양 끝단([[401_transport_layer_role_end_to_end_multiplexing|End-to-End]])까지 이어지는 모든 길목 라우터들의 **[[140_bandwidth|대역폭]]([[140_bandwidth|Bandwidth]])과 버퍼 자원을 100% 강제로 사전 예약(Reservation)해 두고 뺏기지 않게 꽉 붙잡아두는 절대적 [[388_qos_quality_of_service_best_effort_intserv_diffserv|QoS]] 아키텍처**입니다.
-- **RSVP (Resource ReSerVation [[295_protocol_field_tcp_udp_icmp|Protocol]]) 🌟**: 이 [[389_intserv_integrated_services_rsvp|IntServ]] 모델을 구현하기 위해, 징검다리 라우터들을 찾아다니며 **"자리 비워둬!"라고 예약 장부([[272_state_pattern|State]])를 쓰게 명령하는 심부름꾼([[130_signal|신호]]) [[295_protocol_field_tcp_udp_icmp|프로토콜]]**입니다.
+- **[IntServ](/knowledge-base/studynote/03_network/07_network_layer_routing/389_intserv_integrated_services_rsvp/) 모델**: "어중간한 차별 대우 안 한다. 화상 회의를 시작하기 전에, 양 끝단([End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/))까지 이어지는 모든 길목 라우터들의 **[대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))과 버퍼 자원을 100% 강제로 사전 예약(Reservation)해 두고 뺏기지 않게 꽉 붙잡아두는 절대적 [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 아키텍처**입니다.
+- **RSVP (Resource ReSerVation [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)) 🌟**: 이 [IntServ](/knowledge-base/studynote/03_network/07_network_layer_routing/389_intserv_integrated_services_rsvp/) 모델을 구현하기 위해, 징검다리 라우터들을 찾아다니며 **"자리 비워둬!"라고 예약 장부([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))를 쓰게 명령하는 심부름꾼([신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)**입니다.
 
 ```text
 [DiffServ DSCP 분류 PHB]
@@ -58,21 +62,21 @@ tags:
 
 ### 2단계: RESV 메시지 (거꾸로 돌아오며 자리 예약하기) 🌟
 가장 중요한 핵심입니다. **예약은 쏘는 놈이 아니라 받는 놈(수신자)이 요청**합니다.
-- 100Mbps가 필요하다는 PATH 패킷을 받은 뉴욕 [[164_pc|PC]](수신자)가 "콜! 그 길 그대로 예약 잡아라!"라며 이번엔 거꾸로 역방향으로 **`RESV (Reservation)` 패킷**을 쏩니다.
+- 100Mbps가 필요하다는 PATH 패킷을 받은 뉴욕 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(수신자)가 "콜! 그 길 그대로 예약 잡아라!"라며 이번엔 거꾸로 역방향으로 **`RESV (Reservation)` 패킷**을 쏩니다.
 - RESV 패킷은 아까 오토바이가 왔던 길(R3 ➜ R2 ➜ R1)을 똑같이 역주행합니다. 
-- 라우터 R3는 이 패킷을 받고 자기 장부에 씁니다. "아, 사장님 전용 100Mbps [[140_bandwidth|대역폭]] 건드리지 말고 꽉 비워두자!" 이렇게 모든 라우터가 예약 장부([[272_state_pattern|State]])를 쓰면 완벽한 전용 [[123_pipe|파이프]](가상 회선)가 개통됩니다.
+- 라우터 R3는 이 패킷을 받고 자기 장부에 씁니다. "아, 사장님 전용 100Mbps [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 건드리지 말고 꽉 비워두자!" 이렇게 모든 라우터가 예약 장부([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))를 쓰면 완벽한 전용 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(가상 회선)가 개통됩니다.
 
-### 3단계: 전용차로 질주 (실제 [[001_dikw_pyramid|데이터]] 전송)
+### 3단계: 전용차로 질주 (실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송)
 - 길이 뚫렸다는 알람이 오면, 그때서야 서울 사장님 폰에서 4K 영상 패킷을 쏩니다.
-- 패킷은 100Mbps가 텅텅 비워진 완벽한 무주공산 VIP 전용 철도를 타고 뉴욕까지 [[141_latency|지연 시간]](Jitter) 0%로 완벽하게 질주합니다.
+- 패킷은 100Mbps가 텅텅 비워진 완벽한 무주공산 VIP 전용 철도를 타고 뉴욕까지 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)(Jitter) 0%로 완벽하게 질주합니다.
 
-RSVP 자원 예약 플로우를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [[390_diffserv_differentiated_services_dscp_phb|DiffServ]] DSCP [[104_classification_analysis|분류]] PHB가 기반 조건을 만든다면, RSVP 자원 예약 플로우는 그 위에서 핵심 메커니즘을 구현하고, [[378_gre_generic_routing_encapsulation|GRE]] 일반 캡슐화 포맷 오버헤드는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+RSVP 자원 예약 플로우를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [DiffServ](/knowledge-base/studynote/03_network/07_network_layer_routing/390_diffserv_differentiated_services_dscp_phb/) DSCP [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) PHB가 기반 조건을 만든다면, RSVP 자원 예약 플로우는 그 위에서 핵심 메커니즘을 구현하고, [GRE](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) 일반 캡슐화 포맷 오버헤드는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [[390_diffserv_differentiated_services_dscp_phb|DiffServ]] DSCP [[104_classification_analysis|분류]] PHB의 기반 정리 | RSVP 자원 예약 플로우의 핵심 동작 | [[378_gre_generic_routing_encapsulation|GRE]] 일반 캡슐화 포맷 오버헤드의 확장 적용 |
+| 초점 | [DiffServ](/knowledge-base/studynote/03_network/07_network_layer_routing/390_diffserv_differentiated_services_dscp_phb/) DSCP [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) PHB의 기반 정리 | RSVP 자원 예약 플로우의 핵심 동작 | [GRE](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) 일반 캡슐화 포맷 오버헤드의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 측정 정확도 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: RSVP 자원 예약 플로우는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -82,23 +86,23 @@ RSVP 자원 예약 플로우를 볼 때는 앞뒤 개념과의 경계를 함께 
 
 이론상 최고인데 왜 지금 인터넷은 모두 1089번 DiffServ를 쓸까요?
 - **확장성(Scalability)의 재앙**: 
-  - 라우터 1대 입장에서, 예약한 놈이 1명이면 장부([[272_state_pattern|State]]) 1줄만 적으면 됩니다. 
-  - 근데 전 세계 인터넷 백본망 코어 라우터에는 1초에 수천만 명의 유저가 쏟아집니다. **라우터가 수천만 명의 100Mbps 예약 장부 상태(Soft [[272_state_pattern|State]])를 일일이 기억하고 메모리에 유지해야 합니다.**
-  - 라우터 메모리가 미친 듯이 터져버리고, 라우터가 껐다 켜지면 수천만 명의 예약이 다 날아가는 끔찍한 오버헤드 때문에 글로벌 인터넷망(WAN)에서는 결국 적용이 불가능해져 멸망했습니다. (현재는 사내망 좁은 곳이나 MPLS-TE 같은 특정 [[377_tunneling_mechanism_overview|터널링]] 용도로만 씁니다.)
+  - 라우터 1대 입장에서, 예약한 놈이 1명이면 장부([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) 1줄만 적으면 됩니다. 
+  - 근데 전 세계 인터넷 백본망 코어 라우터에는 1초에 수천만 명의 유저가 쏟아집니다. **라우터가 수천만 명의 100Mbps 예약 장부 상태(Soft [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))를 일일이 기억하고 메모리에 유지해야 합니다.**
+  - 라우터 메모리가 미친 듯이 터져버리고, 라우터가 껐다 켜지면 수천만 명의 예약이 다 날아가는 끔찍한 오버헤드 때문에 글로벌 인터넷망(WAN)에서는 결국 적용이 불가능해져 멸망했습니다. (현재는 사내망 좁은 곳이나 MPLS-TE 같은 특정 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 용도로만 씁니다.)
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 **[[390_diffserv_differentiated_services_dscp_phb|DiffServ]](차등 [[090_service_kubernetes_network_load_balancing|서비스]])**가 VIP 손님 이마에 도장을 찍어 놀이공원 기구를 빨리 타게 해주는 **'하이패스 새치기 꼼수'**라면(손님이 1만 명 오면 결국 하이패스 줄도 막힘), **RSVP(자원 예약 [[295_protocol_field_tcp_udp_icmp|프로토콜]])**는 사장님이 롯데월드에 가기 3일 전에 비서(PATH/RESV 패킷)를 파견해 롤러코스터, 후렌치레볼루션 등 탈 기구 5개의 **'시간대별 좌석을 아예 100% 텅텅 비워 통째로 대관해 버리는 돈지랄(전용망 확보)'**입니다. 사장님(비디오 패킷)이 당일 날 도착하면 무조건 0초 대기로 기구를 타는 완벽한 품질([[388_qos_quality_of_service_best_effort_intserv_diffserv|QoS]])이 보장됩니다. 하지만 롯데월드 직원(라우터) 입장에서는 수백만 명의 사장님이 동시에 자리를 통째로 대관해 달라고 요구하면, 직원 머리통(메모리)이 수백만 개의 예약 장부를 외우다 펑 터져버리는 끔찍한 확장성의 한계 때문에 동네 작은 놀이터(사내망)에서만 쓸 수 있는 실패한 귀족 [[090_service_kubernetes_network_load_balancing|서비스]]입니다.
+- **📢 섹션 요약 비유**: 기존 **[DiffServ](/knowledge-base/studynote/03_network/07_network_layer_routing/390_diffserv_differentiated_services_dscp_phb/)(차등 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))**가 VIP 손님 이마에 도장을 찍어 놀이공원 기구를 빨리 타게 해주는 **'하이패스 새치기 꼼수'**라면(손님이 1만 명 오면 결국 하이패스 줄도 막힘), **RSVP(자원 예약 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))**는 사장님이 롯데월드에 가기 3일 전에 비서(PATH/RESV 패킷)를 파견해 롤러코스터, 후렌치레볼루션 등 탈 기구 5개의 **'시간대별 좌석을 아예 100% 텅텅 비워 통째로 대관해 버리는 돈지랄(전용망 확보)'**입니다. 사장님(비디오 패킷)이 당일 날 도착하면 무조건 0초 대기로 기구를 타는 완벽한 품질([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/))이 보장됩니다. 하지만 롯데월드 직원(라우터) 입장에서는 수백만 명의 사장님이 동시에 자리를 통째로 대관해 달라고 요구하면, 직원 머리통(메모리)이 수백만 개의 예약 장부를 외우다 펑 터져버리는 끔찍한 확장성의 한계 때문에 동네 작은 놀이터(사내망)에서만 쓸 수 있는 실패한 귀족 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-RSVP 자원 예약 플로우는 [[282_performance_tactics|성능]] 평가와 고급 분석을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 측정 정확도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [[378_gre_generic_routing_encapsulation|GRE]] 일반 캡슐화 포맷 오버헤드, [[190_ai_llm_requirements_specification|AI]] 기반 [[282_performance_tactics|성능]] 예측, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [[190_ai_llm_requirements_specification|AI]] 기반 [[282_performance_tactics|성능]] 예측 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+RSVP 자원 예약 플로우는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 측정 정확도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [GRE](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) 일반 캡슐화 포맷 오버헤드, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: RSVP 자원 예약 플로우는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -108,10 +112,10 @@ RSVP 자원 예약 플로우는 [[282_performance_tactics|성능]] 평가와 고
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[390_diffserv_differentiated_services_dscp_phb|DiffServ]] DSCP [[104_classification_analysis|분류]] PHB | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [[139_throughput|처리량]] ([[139_throughput|Throughput]]) | 실제 전달 [[282_performance_tactics|성능]]을 나타내는 대표 지표다. |
-| [[015_지연_데이터_관점|지연]] ([[141_latency|Latency]]) | 사용자 체감 품질을 좌우한다. |
-| [[378_gre_generic_routing_encapsulation|GRE]] 일반 캡슐화 포맷 오버헤드 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [DiffServ](/knowledge-base/studynote/03_network/07_network_layer_routing/390_diffserv_differentiated_services_dscp_phb/) DSCP [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) PHB | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) | 실제 전달 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 나타내는 대표 지표다. |
+| [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) ([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) | 사용자 체감 품질을 좌우한다. |
+| [GRE](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) 일반 캡슐화 포맷 오버헤드 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -125,7 +129,7 @@ RSVP 자원 예약 플로우는 [[282_performance_tactics|성능]] 평가와 고
     └──▶ [확장 B: AI 기반 성능 예측]
 ```
 
-RSVP 자원 예약 플로우는 [[390_diffserv_differentiated_services_dscp_phb|DiffServ]] DSCP [[104_classification_analysis|분류]] PHB에서 출발해 현재 메커니즘을 정교화하고, 이후 [[378_gre_generic_routing_encapsulation|GRE]] 일반 캡슐화 포맷 오버헤드와 [[190_ai_llm_requirements_specification|AI]] 기반 [[282_performance_tactics|성능]] 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+RSVP 자원 예약 플로우는 [DiffServ](/knowledge-base/studynote/03_network/07_network_layer_routing/390_diffserv_differentiated_services_dscp_phb/) DSCP [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) PHB에서 출발해 현재 메커니즘을 정교화하고, 이후 [GRE](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) 일반 캡슐화 포맷 오버헤드와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -139,7 +143,7 @@ RSVP 자원 예약 플로우는 [[390_diffserv_differentiated_services_dscp_phb|
 
 **진행 상황**: 199 / 1120
 
-← **이전**: [[108_CSMA_CA_무선LAN_충돌회피|108. CSMA/CA (무선 LAN 충돌 회피)]]
-**다음**: [[1091_gre_generic_routing_encapsulation_tunneling|1091. GRE 일반 캡슐화 포맷 오버헤드]] →
+← **이전**: [108. CSMA/CA (무선 LAN 충돌 회피)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/108_CSMA_CA_무선LAN_충돌회피/)
+**다음**: [1091. GRE 일반 캡슐화 포맷 오버헤드](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1091_gre_generic_routing_encapsulation_tunneling/) →
 
 ---

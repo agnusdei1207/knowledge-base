@@ -1,13 +1,17 @@
----
-title: 1053. Spine-Leaf 대용량 클로스 구조
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "1053. Spine-Leaf 대용량 클로스 구조"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Spine-Leaf 대용량 클로스 구조는 [[282_performance_tactics|성능]] 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 1. **본질**: Spine-Leaf 대용량 클로스 구조는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
 > 2. **가치**: Spine-Leaf 대용량 클로스 구조를 이해하면 측정 정확도과 모델 적합성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
@@ -17,7 +21,7 @@ tags:
 
 - **구조**: 코어(최상위) ➜ 분배(중간) ➜ 액세스(말단 서버 연결)
 - 과거 인터넷 웹서핑 시절(외부망 ➜ 서버, North-South 트래픽)엔 이 구조가 좋았습니다.
-- **몰락 원인**: 빅데이터, [[843_hadoop_rack_awareness_data_replication_topology|하둡]], 마이크로서비스가 터지면서 서버 1번이 서버 2번과 대화하는 **내부망 트래픽(East-West 횡적 트래픽)이 전체의 80%를 차지**하게 되었습니다. 액세스 [[238_switch_operation_principles|스위치]]에 물린 패킷이 윗동네 분배 [[238_switch_operation_principles|스위치]]를 거쳐 코어를 찍고 빙빙 돌아오느라 트래픽 병목([[617_io_bottleneck|Bottleneck]])과 심각한 딜레이가 터졌습니다. [[570_stp_vs_mtp|STP]]([[959_spanning_tree_protocol_stp_loop_avoidance|스패닝 트리]]) 때문에 절반의 선은 아예 차단되어 놀고 있었습니다.
+- **몰락 원인**: 빅데이터, [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/), 마이크로서비스가 터지면서 서버 1번이 서버 2번과 대화하는 **내부망 트래픽(East-West 횡적 트래픽)이 전체의 80%를 차지**하게 되었습니다. 액세스 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 물린 패킷이 윗동네 분배 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 거쳐 코어를 찍고 빙빙 돌아오느라 트래픽 병목([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))과 심각한 딜레이가 터졌습니다. [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/)([스패닝 트리](/knowledge-base/studynote/03_network/19_frequent_topics_terms/959_spanning_tree_protocol_stp_loop_avoidance/)) 때문에 절반의 선은 아예 차단되어 놀고 있었습니다.
 
 ```text
 [EVPN-VXLAN BGP 컨트롤 플레인 전…]
@@ -28,13 +32,13 @@ tags:
     └──▶ [IBN 선행 AI 설계]
 ```
 
-- **📢 섹션 요약 비유**: Spine-Leaf 대용량 클로스 구조는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [[170_selectivity_cardinality_distribution_tuning|선택도]] 쉬워진다.
+- **📢 섹션 요약 비유**: Spine-Leaf 대용량 클로스 구조는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 1950년대 찰스 클로스(Charles Clos)가 전화 교환망을 위해 고안한 '클로스 네트워크(Clos Network)' 구조를 현대 [[801_data_center_3_tier_architecture_core_aggregation_access|데이터센터]] [[238_switch_operation_principles|스위치]] 망에 부활시킨 **2-Tier(2계층) 수평적 확장형 뼈대 구조**입니다.
+- **개념**: 1950년대 찰스 클로스(Charles Clos)가 전화 교환망을 위해 고안한 '클로스 네트워크(Clos Network)' 구조를 현대 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 망에 부활시킨 **2-Tier(2계층) 수평적 확장형 뼈대 구조**입니다.
 
 ```text
 [EVPN-VXLAN BGP 컨트롤 플레인 전…]
@@ -51,29 +55,29 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-왜 구글과 페이스북은 이 구조로 [[801_data_center_3_tier_architecture_core_aggregation_access|데이터센터]]를 도배했을까요?
+왜 구글과 페이스북은 이 구조로 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)를 도배했을까요?
 
-- **리프(Leaf) [[238_switch_operation_principles|스위치]]**: 1층입니다. 서버([[164_pc|PC]])가 직접 랜선으로 꽂히는 말단 [[238_switch_operation_principles|스위치]]입니다. 리프끼리는 절대 선을 연결하지 않습니다.
-- **스파인(Spine) [[238_switch_operation_principles|스위치]]**: 2층(척추)입니다. 오직 밑에 있는 리프 [[238_switch_operation_principles|스위치]]들과만 통신합니다.
-- **클로스의 마법**: **모든 리프 [[238_switch_operation_principles|스위치]]는 무조건, 빠짐없이 위의 모든 스파인 [[238_switch_operation_principles|스위치]]와 1:1로 굵은 광케이블(Uplink)로 연결됩니다.** (완벽한 직조 거미줄)
+- **리프(Leaf) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)**: 1층입니다. 서버([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))가 직접 랜선으로 꽂히는 말단 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)입니다. 리프끼리는 절대 선을 연결하지 않습니다.
+- **스파인(Spine) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)**: 2층(척추)입니다. 오직 밑에 있는 리프 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들과만 통신합니다.
+- **클로스의 마법**: **모든 리프 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 무조건, 빠짐없이 위의 모든 스파인 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 1:1로 굵은 광케이블(Uplink)로 연결됩니다.** (완벽한 직조 거미줄)
 
-### 2. 무조건 딱 2칸! 확정적 초저지연 (Deterministic [[141_latency|Latency]]) 🌟
+### 2. 무조건 딱 2칸! 확정적 초저지연 (Deterministic [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 🌟
 가장 위대한 장점입니다.
 - 서버 A(리프 1번)에서 서버 B(리프 50번)로 데이터를 쏠 때 거치는 경로는 무조건 **`[리프 1] ➜ [아무 스파인이나 1개] ➜ [리프 50]`**입니다. 
-- [[801_data_center_3_tier_architecture_core_aggregation_access|데이터센터]]에 서버가 100대 있든 10만 대 있든, [[238_switch_operation_principles|스위치]]가 10개든 1,000개든 상관없이 **어떤 서버 간의 통신이든 무조건 [[238_switch_operation_principles|스위치]] '홉(Hop) 수'가 딱 3번([[238_switch_operation_principles|스위치]] 2개 경유)으로 고정**됩니다. 이로 인해 트래픽이 널뛰기하지 않고 나노초 단위의 100% 예측 가능한 확정적 [[015_지연_데이터_관점|지연]] 시간이 딥러닝 [[190_ai_llm_requirements_specification|AI]] 클러스터 연산을 완벽하게 보장합니다.
+- [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)에 서버가 100대 있든 10만 대 있든, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 10개든 1,000개든 상관없이 **어떤 서버 간의 통신이든 무조건 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) '홉(Hop) 수'가 딱 3번([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 2개 경유)으로 고정**됩니다. 이로 인해 트래픽이 널뛰기하지 않고 나노초 단위의 100% 예측 가능한 확정적 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간이 딥러닝 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 클러스터 연산을 완벽하게 보장합니다.
 
-### 3. 무한의 수평 확장 ([[202_scale_out_distributed_horizontal_expansion|Scale-Out]])과 [[804_ecmp_equal_cost_multi_path_routing_load_balancing|ECMP]]
+### 3. 무한의 수평 확장 ([Scale-Out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))과 [ECMP](/knowledge-base/studynote/03_network/16_data_center_cloud/804_ecmp_equal_cost_multi_path_routing_load_balancing/)
 - 회장님(코어) 1대가 뻗으면 회사가 망하던 피라미드 구조와 다릅니다.
-- **확장성**: 서버가 더 필요하면 1층에 리프 [[238_switch_operation_principles|스위치]]를 하나 사서 꽂고 모든 스파인에 선만 연결하면 끝납니다. [[238_switch_operation_principles|스위치]]가 뻗으면? 스파인 [[238_switch_operation_principles|스위치]]는 옆에 [[430_index_fast_full_scan|병렬]]로 수십 개를 더 꽂을 수 있습니다.
-- **[[804_ecmp_equal_cost_multi_path_routing_load_balancing|ECMP]] ([[804_ecmp_equal_cost_multi_path_routing_load_balancing|Equal-Cost Multi-Path]])**: 리프에서 스파인으로 올라가는 길이 10개면, 843번 [[570_stp_vs_mtp|STP]](길 막기)를 끄고 10개 길을 모두 다 뻥 뚫어서 **짐을 1/10로 쪼개어 동시에 [[430_index_fast_full_scan|병렬]] [[136_variance|분산]] 전송(로드밸런싱)**합니다. 선을 놀리지 않고 대역폭을 1,000% 쥐어짜 냅니다.
+- **확장성**: 서버가 더 필요하면 1층에 리프 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 하나 사서 꽂고 모든 스파인에 선만 연결하면 끝납니다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 뻗으면? 스파인 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 옆에 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 수십 개를 더 꽂을 수 있습니다.
+- **[ECMP](/knowledge-base/studynote/03_network/16_data_center_cloud/804_ecmp_equal_cost_multi_path_routing_load_balancing/) ([Equal-Cost Multi-Path](/knowledge-base/studynote/03_network/16_data_center_cloud/804_ecmp_equal_cost_multi_path_routing_load_balancing/))**: 리프에서 스파인으로 올라가는 길이 10개면, 843번 [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/)(길 막기)를 끄고 10개 길을 모두 다 뻥 뚫어서 **짐을 1/10로 쪼개어 동시에 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 전송(로드밸런싱)**합니다. 선을 놀리지 않고 대역폭을 1,000% 쥐어짜 냅니다.
 
-Spine-Leaf 대용량 클로스 구조를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. EVPN-VXLAN [[365_bgp_border_gateway_protocol_path_vector|BGP]] 컨트롤 플레인 전…가 기반 조건을 만든다면, Spine-Leaf 대용량 클로스 구조는 그 위에서 핵심 메커니즘을 구현하고, [[857_ibn_intent_based_networking_declarative_automation|IBN]] 선행 [[190_ai_llm_requirements_specification|AI]] 설계는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+Spine-Leaf 대용량 클로스 구조를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. EVPN-VXLAN [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 컨트롤 플레인 전…가 기반 조건을 만든다면, Spine-Leaf 대용량 클로스 구조는 그 위에서 핵심 메커니즘을 구현하고, [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 선행 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 설계는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | EVPN-VXLAN [[365_bgp_border_gateway_protocol_path_vector|BGP]] 컨트롤 플레인 전…의 기반 정리 | Spine-Leaf 대용량 클로스 구조의 핵심 동작 | [[857_ibn_intent_based_networking_declarative_automation|IBN]] 선행 [[190_ai_llm_requirements_specification|AI]] 설계의 확장 적용 |
+| 초점 | EVPN-VXLAN [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 컨트롤 플레인 전…의 기반 정리 | Spine-Leaf 대용량 클로스 구조의 핵심 동작 | [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 선행 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 설계의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 측정 정확도 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: Spine-Leaf 대용량 클로스 구조는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -81,21 +85,21 @@ Spine-Leaf 대용량 클로스 구조를 볼 때는 앞뒤 개념과의 경계�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 스파인-리프 기계적 뼈대(Underlay) 위에, 앞서 배운 EVPN-VXLAN 소프트웨어 껍데기(Overlay)를 올려서 길을 찾아주는 것이 현재 전 세계 모든 현대식 클라우드 [[801_data_center_3_tier_architecture_core_aggregation_access|데이터센터]] 인프라의 100% 완벽한 정답(Standard) 아키텍처입니다.
+- 스파인-리프 기계적 뼈대(Underlay) 위에, 앞서 배운 EVPN-VXLAN 소프트웨어 껍데기(Overlay)를 올려서 길을 찾아주는 것이 현재 전 세계 모든 현대식 클라우드 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 인프라의 100% 완벽한 정답(Standard) 아키텍처입니다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 **3-Tier(피라미드) 구조**는 **'군대의 수직적 결재 라인'**이었습니다. 말단 1소대 이등병(서버 A)이 2소대 이등병(서버 B)에게 삽을 빌리려 해도, 중대장 ➜ 대대장(코어 [[238_switch_operation_principles|스위치]]) ➜ 옆 중대장 ➜ 2소대장에게 결재를 빙빙 돌려받아야 해서 시간이 미치도록 걸렸습니다. **Spine-Leaf(스파인-리프) 구조**는 이 답답한 군대를 **'가운데 거대한 십차로 원형 교차로(Spine)'를 품은 평등한 거미줄 도시**로 뜯어고친 혁명입니다. 10만 명의 이등병(Leaf)들은 각자의 방에서 문만 열면 무조건 이 거대한 교차로로 나가는 전용 고속도로가 뚫려 있습니다. 이등병 A가 이등병 Z에게 갈 때 중대장 결재 따윈 필요 없습니다. 문 열고 원형 교차로(스파인)로 진입한 뒤, Z의 방으로 직행하는 출구로 빠지면 끝입니다. 전 군의 병사가 누구를 찾아가든 무조건 **'내 방 문 열기 ➜ 교차로 ➜ 네 방 문 열기'** 딱 2번의 스텝(일정한 딜레이)만 거치면 도착하는 궁극의 수평적 쾌속 로켓 [[801_data_center_3_tier_architecture_core_aggregation_access|데이터센터]] 뼈대입니다.
+- **📢 섹션 요약 비유**: 기존 **3-Tier(피라미드) 구조**는 **'군대의 수직적 결재 라인'**이었습니다. 말단 1소대 이등병(서버 A)이 2소대 이등병(서버 B)에게 삽을 빌리려 해도, 중대장 ➜ 대대장(코어 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)) ➜ 옆 중대장 ➜ 2소대장에게 결재를 빙빙 돌려받아야 해서 시간이 미치도록 걸렸습니다. **Spine-Leaf(스파인-리프) 구조**는 이 답답한 군대를 **'가운데 거대한 십차로 원형 교차로(Spine)'를 품은 평등한 거미줄 도시**로 뜯어고친 혁명입니다. 10만 명의 이등병(Leaf)들은 각자의 방에서 문만 열면 무조건 이 거대한 교차로로 나가는 전용 고속도로가 뚫려 있습니다. 이등병 A가 이등병 Z에게 갈 때 중대장 결재 따윈 필요 없습니다. 문 열고 원형 교차로(스파인)로 진입한 뒤, Z의 방으로 직행하는 출구로 빠지면 끝입니다. 전 군의 병사가 누구를 찾아가든 무조건 **'내 방 문 열기 ➜ 교차로 ➜ 네 방 문 열기'** 딱 2번의 스텝(일정한 딜레이)만 거치면 도착하는 궁극의 수평적 쾌속 로켓 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 뼈대입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-Spine-Leaf 대용량 클로스 구조는 [[282_performance_tactics|성능]] 평가와 고급 분석을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 측정 정확도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [[857_ibn_intent_based_networking_declarative_automation|IBN]] 선행 [[190_ai_llm_requirements_specification|AI]] 설계, [[190_ai_llm_requirements_specification|AI]] 기반 [[282_performance_tactics|성능]] 예측, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [[190_ai_llm_requirements_specification|AI]] 기반 [[282_performance_tactics|성능]] 예측 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+Spine-Leaf 대용량 클로스 구조는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 측정 정확도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 선행 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 설계, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: Spine-Leaf 대용량 클로스 구조는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -105,10 +109,10 @@ Spine-Leaf 대용량 클로스 구조는 [[282_performance_tactics|성능]] 평�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| EVPN-VXLAN [[365_bgp_border_gateway_protocol_path_vector|BGP]] 컨트롤 플레인 전… | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [[139_throughput|처리량]] ([[139_throughput|Throughput]]) | 실제 전달 [[282_performance_tactics|성능]]을 나타내는 대표 지표다. |
-| [[015_지연_데이터_관점|지연]] ([[141_latency|Latency]]) | 사용자 체감 품질을 좌우한다. |
-| [[857_ibn_intent_based_networking_declarative_automation|IBN]] 선행 [[190_ai_llm_requirements_specification|AI]] 설계 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| EVPN-VXLAN [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 컨트롤 플레인 전… | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) | 실제 전달 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 나타내는 대표 지표다. |
+| [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) ([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) | 사용자 체감 품질을 좌우한다. |
+| [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 선행 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 설계 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -122,7 +126,7 @@ Spine-Leaf 대용량 클로스 구조는 [[282_performance_tactics|성능]] 평�
     └──▶ [확장 B: AI 기반 성능 예측]
 ```
 
-Spine-Leaf 대용량 클로스 구조는 EVPN-VXLAN [[365_bgp_border_gateway_protocol_path_vector|BGP]] 컨트롤 플레인 전…에서 출발해 현재 메커니즘을 정교화하고, 이후 [[857_ibn_intent_based_networking_declarative_automation|IBN]] 선행 [[190_ai_llm_requirements_specification|AI]] 설계와 [[190_ai_llm_requirements_specification|AI]] 기반 [[282_performance_tactics|성능]] 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+Spine-Leaf 대용량 클로스 구조는 EVPN-VXLAN [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 컨트롤 플레인 전…에서 출발해 현재 메커니즘을 정교화하고, 이후 [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 선행 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 설계와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -136,7 +140,7 @@ Spine-Leaf 대용량 클로스 구조는 EVPN-VXLAN [[365_bgp_border_gateway_pro
 
 **진행 상황**: 158 / 1120
 
-← **이전**: [[1052_evpn_vxlan_bgp_control_plane_routing|1052. EVPN-VXLAN BGP 컨트롤 플레인 전이]]
-**다음**: [[1054_ibn_intent_based_networking_ai_automation|1054. IBN(의도기반망) 선행 AI 설계]] →
+← **이전**: [1052. EVPN-VXLAN BGP 컨트롤 플레인 전이](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1052_evpn_vxlan_bgp_control_plane_routing/)
+**다음**: [1054. IBN(의도기반망) 선행 AI 설계](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1054_ibn_intent_based_networking_ai_automation/) →
 
 ---

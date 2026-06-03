@@ -1,27 +1,31 @@
----
-title: 330. 한계 레지스터 (Limit Register) - 메모리 보호, 주소 범위 검사
-date: '2026-05-09'
-tags:
-- studynote-operating-system
----
++++
+title = "330. 한계 레지스터 (Limit Register) - 메모리 보호, 주소 범위 검사"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 한계 [[057_register|레지스터]] (Limit [[175_register_addressing|Register]])는 CPU가 접근하려는 [[322_logical_virtual_address|논리 주소]]가 프로세스에게 할당된 합법적인 메모리 크기(범위)를 초과하지 않는지 감시하는 **하드웨어 경계 검사(Boundary Check) 장치**이다.
-> 2. **가치**: 이 [[057_register|레지스터]]가 존재함으로써 악의적이거나 버그가 있는 프로그램이 [[001_operating_system_purpose|운영체제]] [[022_kernel_role|커널]]이나 타 사용자의 메모리 공간을 엿보거나 파괴하는 것을 원천 차단하여, 시스템 전체의 **보안성과 안정성([[307_memory_protection|Memory Protection]])**을 하드웨어 레벨에서 보장한다.
-> 3. **융합**: [[329_base_register|베이스 레지스터]] ([[329_base_register|Base Register]])와 쌍을 이루어 [[328_mmu|MMU]] ([[328_mmu|Memory-Management Unit]]) 내에서 동작하며, 이 두 특수 [[057_register|레지스터]]의 조작은 반드시 [[022_kernel_role|커널]] 모드([[022_kernel_role|Kernel]] Mode)의 특권 명령어로만 수행되도록 시스템 [[571_protection_vs_security|보호]] 링([[571_protection_vs_security|Protection]] Ring) 구조와 결합된다.
+> 1. **본질**: 한계 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) (Limit [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))는 CPU가 접근하려는 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/)가 프로세스에게 할당된 합법적인 메모리 크기(범위)를 초과하지 않는지 감시하는 **하드웨어 경계 검사(Boundary Check) 장치**이다.
+> 2. **가치**: 이 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)가 존재함으로써 악의적이거나 버그가 있는 프로그램이 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이나 타 사용자의 메모리 공간을 엿보거나 파괴하는 것을 원천 차단하여, 시스템 전체의 **보안성과 안정성([Memory Protection](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/))**을 하드웨어 레벨에서 보장한다.
+> 3. **융합**: [베이스 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/) ([Base Register](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/))와 쌍을 이루어 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) ([Memory-Management Unit](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/)) 내에서 동작하며, 이 두 특수 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)의 조작은 반드시 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Mode)의 특권 명령어로만 수행되도록 시스템 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 링([Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) Ring) 구조와 결합된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 한계 [[057_register|레지스터]] (Limit [[175_register_addressing|Register]])는 현재 실행 중인 프로세스의 [[369_logic_bomb|논리]]적 크기(예: 100,000 [[074_byte|바이트]])를 저장하는 [[057_register|레지스터]]이다. CPU가 주소를 요청할 때마다 해당 주소가 0에서 한계 [[057_register|레지스터]] 값 사이에 있는지 하드웨어적으로 즉각 비교한다.
-- **필요성**: [[673_multiprogramming_bottleneck_resource|다중 프로그래밍]] 환경에서는 물리 메모리라는 거대한 공유 자원에 [[001_operating_system_purpose|운영체제]]와 여러 사용자 프로세스가 혼재한다. [[329_base_register|베이스 레지스터]]만 있다면 시작 위치는 변환할 수 있지만, 프로그램이 자신의 할당량을 넘어 이웃의 [[001_dikw_pyramid|데이터]]를 침범하는 "월권행위"를 막을 수 없다. 포인터 연산 오류(버그)나 [[591_buffer_overflow|버퍼 오버플로우]](해킹) 공격으로부터 시스템을 격리([[195_isolation_concurrency_control|Isolation]])하기 위해서는 하드웨어 차원의 문지기가 절대적으로 필요했다.
+- **개념**: 한계 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) (Limit [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))는 현재 실행 중인 프로세스의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 크기(예: 100,000 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/))를 저장하는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)이다. CPU가 주소를 요청할 때마다 해당 주소가 0에서 한계 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 값 사이에 있는지 하드웨어적으로 즉각 비교한다.
+- **필요성**: [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 환경에서는 물리 메모리라는 거대한 공유 자원에 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 여러 사용자 프로세스가 혼재한다. [베이스 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/)만 있다면 시작 위치는 변환할 수 있지만, 프로그램이 자신의 할당량을 넘어 이웃의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 침범하는 "월권행위"를 막을 수 없다. 포인터 연산 오류(버그)나 [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/)(해킹) 공격으로부터 시스템을 격리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))하기 위해서는 하드웨어 차원의 문지기가 절대적으로 필요했다.
 
 - **등장 배경 및 발생 문제**:
-  1. **[[459_quic_fec_forward_error_correction|초기]] OS의 붕괴**: 초창기 메모리 관리에서는 프로세스의 접근 경계를 소프트웨어로만 검사하거나 아예 검사하지 못했다. 한 프로그램의 버그(무한 루프 포인터 증가 등)가 OS 영역을 덮어써 블루스크린([[036_kernel_panic|Kernel Panic]])을 유발하는 일이 빈번했다.
+  1. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) OS의 붕괴**: 초창기 메모리 관리에서는 프로세스의 접근 경계를 소프트웨어로만 검사하거나 아예 검사하지 못했다. 한 프로그램의 버그(무한 루프 포인터 증가 등)가 OS 영역을 덮어써 블루스크린([Kernel Panic](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/))을 유발하는 일이 빈번했다.
   2. **소프트웨어 검사의 한계**: 메모리에 접근할 때마다 OS 코드가 소프트웨어적으로 범위를 검사한다면 CPU 성능이 심각하게 저하된다. 속도 저하 없는 실시간 검열이 요구되었다.
-  3. **하드웨어 융합 [[571_protection_vs_security|보호]]**: 이에 따라 [[328_mmu|MMU]] 내부에 [[043_comparator|비교기]]([[043_comparator|Comparator]]) 회로와 한계 [[057_register|레지스터]]가 추가되어, 메모리 접근 명령과 동시에 병렬로 하드웨어적인 범위 [[395_verification_process_review|검증]]을 수행하는 현대적 [[571_protection_vs_security|보호]] 아키텍처가 탄생했다.
+  3. **하드웨어 융합 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)**: 이에 따라 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 내부에 [비교기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/)([Comparator](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/)) 회로와 한계 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)가 추가되어, 메모리 접근 명령과 동시에 병렬로 하드웨어적인 범위 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 수행하는 현대적 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 아키텍처가 탄생했다.
 
 ```text
 ┌───────────────────────────────────────────────────────────────────┐
@@ -41,9 +45,9 @@ tags:
 │  결과: A가 B의 비밀번호를 훔쳐보거나 데이터를 파괴함! (침해)      │
 └───────────────────────────────────────────────────────────────────┘
 ```
-**[다이어그램 해설]** [[329_base_register|베이스 레지스터]]가 "위치 이동"의 자유를 주었다면, 한계 [[057_register|레지스터]]는 "공간의 제약"을 부여한다. 위 그림처럼 악의적인 프로세스가 고의로 큰 [[322_logical_virtual_address|논리 주소]] 값을 발출할 때, 이를 차단할 기계적 수단이 없으면 [[307_memory_protection|메모리 보호]]는 완전히 무너진다. 한계 [[057_register|레지스터]]의 도입은 개별 프로세스를 완벽한 모래상자(Sandbox) 안에 가두는 핵심 기둥이다.
+**[다이어그램 해설]** [베이스 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/)가 "위치 이동"의 자유를 주었다면, 한계 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)는 "공간의 제약"을 부여한다. 위 그림처럼 악의적인 프로세스가 고의로 큰 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/) 값을 발출할 때, 이를 차단할 기계적 수단이 없으면 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/)는 완전히 무너진다. 한계 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)의 도입은 개별 프로세스를 완벽한 모래상자(Sandbox) 안에 가두는 핵심 기둥이다.
 
-- **📢 섹션 요약 비유**: 은행 창구 직원이 아무 금고나 열지 못하도록, 신분증(베이스) 확인은 물론이고 "당신은 1번부터 5번 서랍까지만 열 수 있습니다"라고 물리적 잠금장치(한계 [[057_register|레지스터]])를 걸어두는 보안 시스템과 같습니다.
+- **📢 섹션 요약 비유**: 은행 창구 직원이 아무 금고나 열지 못하도록, 신분증(베이스) 확인은 물론이고 "당신은 1번부터 5번 서랍까지만 열 수 있습니다"라고 물리적 잠금장치(한계 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/))를 걸어두는 보안 시스템과 같습니다.
 
 ---
 
@@ -53,16 +57,16 @@ tags:
 
 | 요소명 | 역할 | 내부 동작 | 관련 기술 | 비유 |
 |:---|:---|:---|:---|:---|
-| **[[322_logical_virtual_address|논리 주소]] (Logical Address)** | CPU가 요청한 메모리 번지 | 항상 0번지부터 시작하는 상대적 크기 | [[057_register|레지스터]] 발출 | 놀이공원 자유이용권의 이용 횟수 |
-| **한계 [[057_register|레지스터]] (Limit [[175_register_addressing|Register]])** | 프로세스 최대 크기 보관 | [[211_context_switch|문맥 교환]] 시 PCB에서 읽어와 하드웨어에 로드 | [[328_mmu|MMU]] 내부 [[057_register|레지스터]] | 티켓에 적힌 최대 허용 횟수 |
-| **[[043_comparator|비교기]] ([[043_comparator|Comparator]])** | [[322_logical_virtual_address|논리 주소]] < 한계 값 검사 | 하드웨어 [[369_logic_bomb|논리]] 게이트로 [[148_5g_embb_urllc_mmtc|초고속]] 크기 비교 수행 | 로직 게이트 | 검표원의 실시간 횟수 검사 |
-| **[[677_trap_based_system_call_implementation|트랩]] ([[677_trap_based_system_call_implementation|Trap]] / Exception)** | 위반 시 OS로 제어권 넘김 | 검사 실패 시 [[017_hardware_interrupt|하드웨어 인터럽트]]([[364_segmentation|Segmentation]] Fault) 발생 | [[016_interrupt_mechanism|Interrupt]] Handling | 경찰 출동 및 강제 퇴장 |
+| **[논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/) (Logical Address)** | CPU가 요청한 메모리 번지 | 항상 0번지부터 시작하는 상대적 크기 | [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 발출 | 놀이공원 자유이용권의 이용 횟수 |
+| **한계 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) (Limit [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))** | 프로세스 최대 크기 보관 | [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 시 PCB에서 읽어와 하드웨어에 로드 | [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 내부 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) | 티켓에 적힌 최대 허용 횟수 |
+| **[비교기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/) ([Comparator](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/))** | [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/) < 한계 값 검사 | 하드웨어 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 게이트로 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 크기 비교 수행 | 로직 게이트 | 검표원의 실시간 횟수 검사 |
+| **[트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) ([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) / Exception)** | 위반 시 OS로 제어권 넘김 | 검사 실패 시 [하드웨어 인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/)([Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) Fault) 발생 | [Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Handling | 경찰 출동 및 강제 퇴장 |
 
 ---
 
-### 베이스/한계 [[057_register|레지스터]] 연동 [[571_protection_vs_security|보호]] 아키텍처
+### 베이스/한계 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 연동 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 아키텍처
 
-한계 [[057_register|레지스터]]는 단독으로 쓰이기보다 [[329_base_register|베이스 레지스터]]와 파이프라인([[082_pipeline|Pipeline]])처럼 [[149_serial_communication_rs232_rs485|직렬]] 연결되어, **범위 [[395_verification_process_review|검증]] 후 [[323_physical_address|물리 주소]] 변환**이라는 2단계 하드웨어 보안벽을 형성한다.
+한계 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)는 단독으로 쓰이기보다 [베이스 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/)와 파이프라인([Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/))처럼 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 연결되어, **범위 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 후 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/) 변환**이라는 2단계 하드웨어 보안벽을 형성한다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────────────┐
@@ -87,40 +91,40 @@ tags:
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 이 구조도는 [[307_memory_protection|메모리 보호]]의 철학을 보여준다. 주소를 변환하기 전에 한계(Limit)를 먼저 검사하는 순서가 매우 중요하다. [[043_comparator|비교기]]([[043_comparator|Comparator]]) 회로는 덧셈기(Adder)를 거치기 전의 순수 [[322_logical_virtual_address|논리 주소]] 값이 프로그램의 실제 크기인 1000을 넘지 않는지 확인한다. 346 < 1000 이므로 조건(Yes)을 통과하고 비로소 [[329_base_register|베이스 레지스터]]의 값이 더해진다. 만약 1001번지를 요청했다면 하드웨어 [[043_comparator|비교기]]가 즉시 신호를 차단하고 [[001_operating_system_purpose|운영체제]]에 치명적 오류 [[677_trap_based_system_call_implementation|트랩]]([[677_trap_based_system_call_implementation|Trap]])을 던져 해당 프로세스를 처단한다. 이 모든 과정이 소프트웨어 개입 없이 하드웨어 로직 게이트만으로 나노초 단위로 일어난다.
+**[다이어그램 해설]** 이 구조도는 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/)의 철학을 보여준다. 주소를 변환하기 전에 한계(Limit)를 먼저 검사하는 순서가 매우 중요하다. [비교기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/)([Comparator](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/)) 회로는 덧셈기(Adder)를 거치기 전의 순수 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/) 값이 프로그램의 실제 크기인 1000을 넘지 않는지 확인한다. 346 < 1000 이므로 조건(Yes)을 통과하고 비로소 [베이스 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/)의 값이 더해진다. 만약 1001번지를 요청했다면 하드웨어 [비교기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/)가 즉시 신호를 차단하고 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에 치명적 오류 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))을 던져 해당 프로세스를 처단한다. 이 모든 과정이 소프트웨어 개입 없이 하드웨어 로직 게이트만으로 나노초 단위로 일어난다.
 
 ---
 
 ### 심층 동작 원리 및 특권 명령
 
-한계 [[057_register|레지스터]]의 값을 설정하거나 수정하는 작업은 막강한 권한을 요구한다. 만약 일반 응용 프로그램이 자신의 한계 [[057_register|레지스터]] 값을 임의로 999999로 늘릴 수 있다면 [[571_protection_vs_security|보호]] 장치는 무용지물이 되기 때문이다.
-1. **[[022_kernel_role|커널]] 모드 진입**: [[016_interrupt_mechanism|인터럽트]]나 시스템 콜로 인해 CPU가 [[022_kernel_role|커널]] 모드([[012_mode_bit|Mode Bit]]=0)로 전환될 때만 한계 [[057_register|레지스터]] 수정이 가능하다.
-2. **[[211_context_switch|문맥 교환]] 시 갱신**: [[001_operating_system_purpose|운영체제]]의 디스패처가 다음 실행할 프로세스의 PCB([[300_process|Process]] Control Block)에서 베이스 및 한계 값을 읽어 MMU에 적재한다.
-3. **사용자 모드 실행**: 사용자 모드([[012_mode_bit|Mode Bit]]=1)에서는 [[057_register|레지스터]]를 읽는 것조차 제한될 수 있으며 오직 CPU의 주소 발출에만 수동적으로 반응한다.
+한계 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)의 값을 설정하거나 수정하는 작업은 막강한 권한을 요구한다. 만약 일반 응용 프로그램이 자신의 한계 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 값을 임의로 999999로 늘릴 수 있다면 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 장치는 무용지물이 되기 때문이다.
+1. **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드 진입**: [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)나 시스템 콜로 인해 CPU가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드([Mode Bit](/knowledge-base/studynote/02_operating_system/01_overview_architecture/012_mode_bit/)=0)로 전환될 때만 한계 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 수정이 가능하다.
+2. **[문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 시 갱신**: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 디스패처가 다음 실행할 프로세스의 PCB([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Control Block)에서 베이스 및 한계 값을 읽어 MMU에 적재한다.
+3. **사용자 모드 실행**: 사용자 모드([Mode Bit](/knowledge-base/studynote/02_operating_system/01_overview_architecture/012_mode_bit/)=1)에서는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 읽는 것조차 제한될 수 있으며 오직 CPU의 주소 발출에만 수동적으로 반응한다.
 
-- **📢 섹션 요약 비유**: 여권 심사대([[043_comparator|비교기]])에서 "이 비자의 체류 기간(한계)을 넘기셨습니까?"를 먼저 확인한 뒤에야, "입국장 문(베이스 변환)"을 열어주는 이중 보안 출입국 시스템과 같습니다.
+- **📢 섹션 요약 비유**: 여권 심사대([비교기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/))에서 "이 비자의 체류 기간(한계)을 넘기셨습니까?"를 먼저 확인한 뒤에야, "입국장 문(베이스 변환)"을 열어주는 이중 보안 출입국 시스템과 같습니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 비교 1: 한계 [[057_register|레지스터]] [[571_protection_vs_security|보호]] vs [[364_segmentation|세그멘테이션]] ([[364_segmentation|Segmentation]])
+### 비교 1: 한계 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) vs [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) ([Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/))
 
-현대의 복잡한 [[571_protection_vs_security|보호]] 메커니즘은 단일 한계 [[057_register|레지스터]] 방식에서 출발하여 세그먼트 기반 [[571_protection_vs_security|보호]]로 진화했다.
+현대의 복잡한 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 메커니즘은 단일 한계 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 방식에서 출발하여 세그먼트 기반 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)로 진화했다.
 
-| 비교 항목 | [[523_contiguous_allocation|연속 할당]] (단일 한계 [[057_register|레지스터]]) | [[364_segmentation|세그멘테이션]] (다중 한계 [[057_register|레지스터]]) |
+| 비교 항목 | [연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/) (단일 한계 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)) | [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) (다중 한계 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)) |
 |:---|:---|:---|
-| **[[571_protection_vs_security|보호]] 단위** | 프로세스 전체를 하나의 덩어리로 크기 검사 | 코드, [[001_dikw_pyramid|데이터]], [[057_stack|스택]] 등 의미 단위([[407_tcp_segment_header_structure_20_60_bytes|Segment]])별 검사 |
-| **보안 [[233_precision_recall_f1_roc_auc_threshold|정밀도]]** | 단순 크기 초과 여부만 판단 (낮음) | 코드 영역은 Read-only, [[001_dikw_pyramid|데이터]] 영역은 Read/Write 등 세밀한 제어 (높음) |
-| **하드웨어 복잡도** | [[057_register|레지스터]] 1개 (구현 단순, [[148_5g_embb_urllc_mmtc|초고속]]) | 세그먼트 테이블과 다수의 [[057_register|레지스터]] 필요 (복잡도 상승) |
+| **[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 단위** | 프로세스 전체를 하나의 덩어리로 크기 검사 | 코드, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 등 의미 단위([Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/))별 검사 |
+| **보안 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)** | 단순 크기 초과 여부만 판단 (낮음) | 코드 영역은 Read-only, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 영역은 Read/Write 등 세밀한 제어 (높음) |
+| **하드웨어 복잡도** | [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 1개 (구현 단순, [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)) | 세그먼트 테이블과 다수의 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 필요 (복잡도 상승) |
 
-### 비교 2: 한계 [[057_register|레지스터]] vs [[286_page_frame|페이지]] [[571_protection_vs_security|보호]] ([[286_page_frame|Page]] [[571_protection_vs_security|Protection]])
+### 비교 2: 한계 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) vs [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) ([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) [Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/))
 
-| 항목     | 한계 [[057_register|레지스터]] (Limit) | [[353_page_table|페이지 테이블]] ([[286_page_frame|Page]] [[571_protection_vs_security|Protection]] Bits) |
+| 항목     | 한계 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) (Limit) | [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) ([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) [Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) Bits) |
 |:---------|:-------------------|:-----------------------------------|
-| **검사 방식** | (크기 기반) 연속된 주소의 최대 경계값과 단순 크기 비교 | (권한 기반) 각 [[286_page_frame|페이지]] 단위로 설정된 접근 제어 [[073_bit|비트]](Read/Write/Execute) 검사 |
-| **[[291_fragmentation_and_reassembly_process|단편화]]**   | 프로세스 전체가 연속되어야 하므로 [[342_external_fragmentation|외부 단편화]] 심각 | [[286_page_frame|페이지]] 단위 [[136_variance|분산]] 배치가 가능해 [[291_fragmentation_and_reassembly_process|단편화]] 문제 해결 |
-| **주류 환경**| 과거 단순 일괄/[[004_multiprocessing_system|다중 처리 시스템]] | 현대 Linux/Windows 등 범용 OS ([[259_paging|페이징]] 기반) |
+| **검사 방식** | (크기 기반) 연속된 주소의 최대 경계값과 단순 크기 비교 | (권한 기반) 각 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위로 설정된 접근 제어 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(Read/Write/Execute) 검사 |
+| **[단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)**   | 프로세스 전체가 연속되어야 하므로 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 심각 | [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 배치가 가능해 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 문제 해결 |
+| **주류 환경**| 과거 단순 일괄/[다중 처리 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/004_multiprocessing_system/) | 현대 Linux/Windows 등 범용 OS ([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 기반) |
 
 ```text
 ┌──────────┬────────────┬────────────┬─────────────────────────────────────────────┐
@@ -131,30 +135,30 @@ tags:
 │ 페이징 비트│ 일정한 블록 │ 가장 높음   │ 가상 메모리 스와핑과 결합 시 압도적 효율│
 └──────────┴────────────┴────────────┴─────────────────────────────────────────────┘
 ```
-**[매트릭스 해설]** 단일 한계 [[057_register|레지스터]] 방식은 속도 면에서 극대화된 장점을 가지지만, 프로그램 내부의 '코드'와 '[[001_dikw_pyramid|데이터]]'를 구분하지 못하고 뭉뚱그려 [[571_protection_vs_security|보호]]한다는 치명적 한계가 있다. 즉, 크기 안에만 있으면 코드를 덮어쓰는(Write) 버그를 막을 수 없다. 따라서 현대 아키텍처는 한계 [[057_register|레지스터]]의 개념을 확장하여, [[286_page_frame|페이지]]나 세그먼트마다 각각의 접근 권한 [[073_bit|비트]](r/w/x)를 두어 다층적인 방어를 수행하는 쪽으로 발전했다.
+**[매트릭스 해설]** 단일 한계 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 방식은 속도 면에서 극대화된 장점을 가지지만, 프로그램 내부의 '코드'와 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'를 구분하지 못하고 뭉뚱그려 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)한다는 치명적 한계가 있다. 즉, 크기 안에만 있으면 코드를 덮어쓰는(Write) 버그를 막을 수 없다. 따라서 현대 아키텍처는 한계 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)의 개념을 확장하여, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)나 세그먼트마다 각각의 접근 권한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(r/w/x)를 두어 다층적인 방어를 수행하는 쪽으로 발전했다.
 
-- **📢 섹션 요약 비유**: 과거에는 성벽 하나(단일 한계)만 넘으면 성 안의 모든 창고를 털 수 있었지만, 현대의 성([[259_paging|페이징]] [[571_protection_vs_security|보호]])은 각 창고마다 별도의 자물쇠와 지문 인식기를 달아놓은 것과 같은 방어력 차이입니다.
+- **📢 섹션 요약 비유**: 과거에는 성벽 하나(단일 한계)만 넘으면 성 안의 모든 창고를 털 수 있었지만, 현대의 성([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/))은 각 창고마다 별도의 자물쇠와 지문 인식기를 달아놓은 것과 같은 방어력 차이입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 실무 시나리오: [[591_buffer_overflow|버퍼 오버플로우]] 방어와 [[364_segmentation|Segmentation]] Fault
+### 실무 시나리오: [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/) 방어와 [Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) Fault
 
-1. **상황**: C언어로 작성된 서버 프로그램에서 [[055_array|배열]] `int arr[10]`을 선언하고 루프를 돌며 [[001_dikw_pyramid|데이터]]를 채우다가, 버그로 인해 `arr[15000]` 위치에 [[289_cqrs_db|쓰기]](Write)를 시도했다.
+1. **상황**: C언어로 작성된 서버 프로그램에서 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) `int arr[10]`을 선언하고 루프를 돌며 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 채우다가, 버그로 인해 `arr[15000]` 위치에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Write)를 시도했다.
 2. **동작**:
-   - [[322_logical_virtual_address|논리 주소]]는 [[055_array|배열]] 시작 주소 + 15000 [[074_byte|바이트]]로 매우 큰 값이 계산된다.
-   - 하드웨어 MMU로 이 [[322_logical_virtual_address|논리 주소]]가 전달된다.
-   - 한계 [[057_register|레지스터]]의 값(예: 10000)과 [[043_comparator|비교기]] 회로에서 즉각 충돌이 발생한다 (`15000 > 10000`).
-   - [[677_trap_based_system_call_implementation|트랩]]이 발생하며 [[022_kernel_role|커널]]로 제어권이 넘어가고, OS는 해당 프로세스에 `SIGSEGV (Segmentation Fault)` 시그널을 보내 즉시 강제 종료([[035_core_dump|Core Dump]])시킨다.
+   - [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/)는 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 시작 주소 + 15000 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)로 매우 큰 값이 계산된다.
+   - 하드웨어 MMU로 이 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/)가 전달된다.
+   - 한계 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)의 값(예: 10000)과 [비교기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/) 회로에서 즉각 충돌이 발생한다 (`15000 > 10000`).
+   - [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)이 발생하며 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 제어권이 넘어가고, OS는 해당 프로세스에 `SIGSEGV (Segmentation Fault)` 시그널을 보내 즉시 강제 종료([Core Dump](/knowledge-base/studynote/02_operating_system/01_overview_architecture/035_core_dump/))시킨다.
 3. **실무적 의사결정**:
-   - 시스템 관리자는 이 [[035_core_dump|Core Dump]] 로그를 분석하여 메모리 침범 버그를 패치해야 전반적인 시스템의 [[003_integrity|무결성]]을 보장할 수 있다.
-   - 만약 한계 [[057_register|레지스터]]와 같은 [[571_protection_vs_security|보호]] 장치가 없었다면, 이 [[095_overflow|오버플로우]] 공격은 옆에서 실행 중인 [[002_database_definition|데이터베이스]] 캐시를 조용히 오염시켜 추적 불가능한 [[001_dikw_pyramid|데이터]] [[003_integrity|무결성]] 훼손을 초래했을 것이다.
+   - 시스템 관리자는 이 [Core Dump](/knowledge-base/studynote/02_operating_system/01_overview_architecture/035_core_dump/) 로그를 분석하여 메모리 침범 버그를 패치해야 전반적인 시스템의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 보장할 수 있다.
+   - 만약 한계 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)와 같은 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 장치가 없었다면, 이 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) 공격은 옆에서 실행 중인 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 캐시를 조용히 오염시켜 추적 불가능한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 훼손을 초래했을 것이다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]] (운영의 맹점)
-- 가상 메모리를 사용하지 않는 제한적인 실시간 [[010_embedded_system|임베디드 시스템]](RTOS) 환경 등에서, 속도 최적화를 핑계로 [[307_memory_protection|메모리 보호]] 장치([[328_mmu|MMU]] 및 한계 검사)를 비활성화(Disable)하는 경우가 있다. 이는 단 한 줄의 포인터 에러가 전체 로봇 기기의 제어 불능 상태로 직결되는 최악의 [[128_water_scrum_fall_anti_pattern|안티패턴]]이다. 속도가 다소 희생되더라도 [[307_memory_protection|메모리 보호]] 하드웨어는 결코 끌 수 없는 생명선이다.
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) (운영의 맹점)
+- 가상 메모리를 사용하지 않는 제한적인 실시간 [임베디드 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/010_embedded_system/)(RTOS) 환경 등에서, 속도 최적화를 핑계로 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/) 장치([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 및 한계 검사)를 비활성화(Disable)하는 경우가 있다. 이는 단 한 줄의 포인터 에러가 전체 로봇 기기의 제어 불능 상태로 직결되는 최악의 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다. 속도가 다소 희생되더라도 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/) 하드웨어는 결코 끌 수 없는 생명선이다.
 
-- **📢 섹션 요약 비유**: 도로에 중앙분리대(한계 [[057_register|레지스터]])를 설치하면 차선 변경이 불편해질 수 있지만, 졸음운전(버그) 차량이 마주 오는 트럭([[022_kernel_role|커널]])과 정면충돌하는 대참사를 막는 유일한 물리적 수단이기에 절대 철거해서는 안 되는 것과 같습니다.
+- **📢 섹션 요약 비유**: 도로에 중앙분리대(한계 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/))를 설치하면 차선 변경이 불편해질 수 있지만, 졸음운전(버그) 차량이 마주 오는 트럭([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))과 정면충돌하는 대참사를 막는 유일한 물리적 수단이기에 절대 철거해서는 안 되는 것과 같습니다.
 
 ---
 
@@ -164,15 +168,15 @@ tags:
 
 | 구분 | 내용 |
 |:---|:---|
-| **시스템 크래시 방지** | 개별 앱의 메모리 버그가 [[001_operating_system_purpose|운영체제]] [[022_kernel_role|커널]]의 패닉(Panic)으로 이어지는 것을 100% 차단 |
-| **보안 격리 ([[195_isolation_concurrency_control|Isolation]])**| 다중 사용자 환경에서 서로의 [[001_dikw_pyramid|데이터]]를 훔쳐보는 악의적 해킹 공격의 하드웨어적 봉쇄 |
-| **디버깅 용이성** | 메모리 침범 시점의 상태를 덤프([[035_core_dump|Core Dump]])로 남겨 개발자의 원인 추적을 강력히 지원 |
+| **시스템 크래시 방지** | 개별 앱의 메모리 버그가 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 패닉(Panic)으로 이어지는 것을 100% 차단 |
+| **보안 격리 ([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))**| 다중 사용자 환경에서 서로의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 훔쳐보는 악의적 해킹 공격의 하드웨어적 봉쇄 |
+| **디버깅 용이성** | 메모리 침범 시점의 상태를 덤프([Core Dump](/knowledge-base/studynote/02_operating_system/01_overview_architecture/035_core_dump/))로 남겨 개발자의 원인 추적을 강력히 지원 |
 
 ### 결론 및 미래 전망
 
-한계 [[057_register|레지스터]] (Limit [[175_register_addressing|Register]])는 [[459_quic_fec_forward_error_correction|초기]] [[673_multiprogramming_bottleneck_resource|다중 프로그래밍]] 시대에 '신뢰할 수 없는 소프트웨어'로부터 시스템을 지키기 위해 고안된 가장 원초적이고 강력한 하드웨어 백신이었다. 이 단순한 크기 비교 [[369_logic_bomb|논리]] 게이트는 현대 컴퓨터 구조에서 각 프로세스에 독립된 [[382_virtual_address_space|가상 주소 공간]]([[382_virtual_address_space|Virtual Address Space]])이라는 '안전한 감옥'을 부여하는 철학적 기반이 되었다. 오늘날에는 ARM의 TrustZone이나 인텔의 SGX처럼 메모리를 더욱 잘게 쪼개어 하드웨어적으로 격리하는 [[478_tee|TEE]]([[972_tee_based_ml|Trusted Execution Environment]]) 기술로 그 방어의 패러다임이 끝없이 정밀하게 진화하고 있다. 
+한계 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) (Limit [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 시대에 '신뢰할 수 없는 소프트웨어'로부터 시스템을 지키기 위해 고안된 가장 원초적이고 강력한 하드웨어 백신이었다. 이 단순한 크기 비교 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 게이트는 현대 컴퓨터 구조에서 각 프로세스에 독립된 [가상 주소 공간](/knowledge-base/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/)([Virtual Address Space](/knowledge-base/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/))이라는 '안전한 감옥'을 부여하는 철학적 기반이 되었다. 오늘날에는 ARM의 TrustZone이나 인텔의 SGX처럼 메모리를 더욱 잘게 쪼개어 하드웨어적으로 격리하는 [TEE](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/)([Trusted Execution Environment](/knowledge-base/studynote/09_security/19_ai_advanced_security/972_tee_based_ml/)) 기술로 그 방어의 패러다임이 끝없이 정밀하게 진화하고 있다. 
 
-- **📢 섹션 요약 비유**: 각 죄수에게 정확히 자기 감방 크기만큼의 족쇄 줄(한계 [[057_register|레지스터]])만 허용함으로써, 감옥 전체의 평화와 질서를 유지하는 견고한 보안 아키텍처의 완성입니다.
+- **📢 섹션 요약 비유**: 각 죄수에게 정확히 자기 감방 크기만큼의 족쇄 줄(한계 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/))만 허용함으로써, 감옥 전체의 평화와 질서를 유지하는 견고한 보안 아키텍처의 완성입니다.
 
 ---
 
@@ -180,10 +184,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[328_mmu|MMU]] ([[328_mmu|Memory-Management Unit]]) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [[329_base_register|베이스 레지스터]] (Base/Relocation [[175_register_addressing|Register]]) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [[331_dynamic_loading|동적 적재]] ([[331_dynamic_loading|Dynamic Loading]]) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [[332_dynamic_linking|동적 연결]] ([[332_dynamic_linking|Dynamic Linking]]) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) ([Memory-Management Unit](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [베이스 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/) (Base/Relocation [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [동적 적재](/knowledge-base/studynote/02_operating_system/06_memory_management/331_dynamic_loading/) ([Dynamic Loading](/knowledge-base/studynote/02_operating_system/06_memory_management/331_dynamic_loading/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [동적 연결](/knowledge-base/studynote/02_operating_system/06_memory_management/332_dynamic_linking/) ([Dynamic Linking](/knowledge-base/studynote/02_operating_system/06_memory_management/332_dynamic_linking/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -201,9 +205,9 @@ tags:
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 한계 [[057_register|레지스터]] (Limit [[175_register_addressing|Register]])은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
-2. 먼저 [[329_base_register|베이스 레지스터]] (Base/Relocation [[175_register_addressing|Register]])을 이해하면 한계 [[057_register|레지스터]] (Limit [[175_register_addressing|Register]])이 왜 필요한지 더 쉽게 보여요.
-3. 그래서 한계 [[057_register|레지스터]] (Limit [[175_register_addressing|Register]])을 잘 알면 나중에 [[331_dynamic_loading|동적 적재]] ([[331_dynamic_loading|Dynamic Loading]])도 훨씬 쉽게 배울 수 있어요.
+1. 한계 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) (Limit [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
+2. 먼저 [베이스 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/) (Base/Relocation [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))을 이해하면 한계 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) (Limit [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))이 왜 필요한지 더 쉽게 보여요.
+3. 그래서 한계 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) (Limit [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))을 잘 알면 나중에 [동적 적재](/knowledge-base/studynote/02_operating_system/06_memory_management/331_dynamic_loading/) ([Dynamic Loading](/knowledge-base/studynote/02_operating_system/06_memory_management/331_dynamic_loading/))도 훨씬 쉽게 배울 수 있어요.
 
 ---
 
@@ -211,7 +215,7 @@ tags:
 
 **진행 상황**: 330 / 800
 
-← **이전**: [[329_base_register|329. 베이스 레지스터 (Base/Relocation Register) - 물리 시작 주소 보유]]
-**다음**: [[331_dynamic_loading|331. 동적 적재 (Dynamic Loading) - 루틴 호출 시점에 메모리 적재 (효율성)]] →
+← **이전**: [329. 베이스 레지스터 (Base/Relocation Register) - 물리 시작 주소 보유](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/)
+**다음**: [331. 동적 적재 (Dynamic Loading) - 루틴 호출 시점에 메모리 적재 (효율성)](/knowledge-base/studynote/02_operating_system/06_memory_management/331_dynamic_loading/) →
 
 ---

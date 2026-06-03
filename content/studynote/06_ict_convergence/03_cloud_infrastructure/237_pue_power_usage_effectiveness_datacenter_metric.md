@@ -1,21 +1,25 @@
----
-title: 237. PUE (Power Usage Effectiveness)
-date: '2026-05-08'
-tags:
-- studynote-ict-convergence
----
++++
+title = "237. PUE (Power Usage Effectiveness)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-ict-convergence"]
+
+[extra]
+tags = ["studynote-ict-convergence"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: PUE ([[623_datacenter_pue|Power Usage Effectiveness]]): [[801_data_center_3_tier_architecture_core_aggregation_access|데이터센터]] 전력 효율 지표 (총 소비 전력 / IT 장비 전력), 1에 가까울수록 고효율를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.
-> 2. **가치**: 이 주제를 제대로 잡으면 [[571_resiliency_fault_tolerance_patterns|탄력성]], 운영 민첩성, 비용 최적화뿐 아니라 용량 계획, 병목 분석, [[085_sla|SLA]] 해석까지 한 번에 연결해서 설명할 수 있다.
-> 3. **판단 포인트**: 기술사 답안에서는 [[452_availability|가용성]], [[015_지연_데이터_관점|지연]], 보안 경계, 운영 복잡도, 벤더 [[008_dependencies|종속성]]과 측정 대상·기간·분산을 함께 제시해야 하며, 정의보다 적용 경계를 말할 수 있어야 한다.
+> 1. **본질**: PUE ([Power Usage Effectiveness](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/623_datacenter_pue/)): [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 전력 효율 지표 (총 소비 전력 / IT 장비 전력), 1에 가까울수록 고효율를 이해하는 핵심 개념으로, 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 설명하는 데 쓰인다.
+> 2. **가치**: 이 주제를 제대로 잡으면 [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/), 운영 민첩성, 비용 최적화뿐 아니라 용량 계획, 병목 분석, [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 해석까지 한 번에 연결해서 설명할 수 있다.
+> 3. **판단 포인트**: 기술사 답안에서는 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 보안 경계, 운영 복잡도, 벤더 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)과 측정 대상·기간·분산을 함께 제시해야 하며, 정의보다 적용 경계를 말할 수 있어야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-PUE ([[623_datacenter_pue|Power Usage Effectiveness]]): [[801_data_center_3_tier_architecture_core_aggregation_access|데이터센터]] 전력 효율 지표 (총 소비 전력 / IT 장비 전력), 1에 가까울수록 고효율를 다루는 개념이다. 이 주제가 중요한 이유는 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 단순한 선언이 아니라 실제 설계 항목으로 바꾸기 때문이다. 다시 말해, "왜 필요한가"를 묻는 순간 이 개념은 문제를 구조화하는 언어가 된다.
+PUE ([Power Usage Effectiveness](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/623_datacenter_pue/)): [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 전력 효율 지표 (총 소비 전력 / IT 장비 전력), 1에 가까울수록 고효율를 다루는 개념이다. 이 주제가 중요한 이유는 변동하는 워크로드를 자동화된 자원 구조로 안정적으로 수용해야 하는 문제를 단순한 선언이 아니라 실제 설계 항목으로 바꾸기 때문이다. 다시 말해, "왜 필요한가"를 묻는 순간 이 개념은 문제를 구조화하는 언어가 된다.
 
 현업에서 이 개념이 빠지면 보통 중앙 승인형 정산 구조에 기대게 된다. 그 방식은 출발은 쉽지만 규모가 커질수록 병목, 수작업, 책임 불분명 같은 문제가 누적되기 쉽다. 반대로 이 개념을 기준으로 보면 문제의 위치와 제어 지점을 분리해서 설명할 수 있어, 설계와 운영 모두에서 판단이 선명해진다.
 
@@ -38,14 +42,14 @@ PUE ([[623_datacenter_pue|Power Usage Effectiveness]]): [[801_data_center_3_tier
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-PUE의 핵심은 입력, 처리, [[395_verification_process_review|검증]], 결과의 흐름을 한 세트로 보는 데 있다. 구현 기술이 달라도 결국 [[801_data_center_3_tier_architecture_core_aggregation_access|데이터센터]] 전력 효율 지표 (총 소비 전력 / IT 장비 전력), 1에 가까울수록 고효율를 안정적으로 수행하려면 어떤 입력이 들어오고, 어떤 규칙으로 처리되며, 어떤 제어 지점에서 품질을 보장하는지가 정리되어야 한다. 이 메커니즘을 이해해야 실제 시스템에서 튜닝 포인트를 잡을 수 있다.
+PUE의 핵심은 입력, 처리, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 결과의 흐름을 한 세트로 보는 데 있다. 구현 기술이 달라도 결국 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 전력 효율 지표 (총 소비 전력 / IT 장비 전력), 1에 가까울수록 고효율를 안정적으로 수행하려면 어떤 입력이 들어오고, 어떤 규칙으로 처리되며, 어떤 제어 지점에서 품질을 보장하는지가 정리되어야 한다. 이 메커니즘을 이해해야 실제 시스템에서 튜닝 포인트를 잡을 수 있다.
 
 | 구성 관점 | 해당 기술에서 보는 의미 | 설계 포인트 |
 | :--- | :--- | :--- |
-| 측정 대상 | PUE가 무엇을 얼마나 처리하거나 얼마나 오래 [[015_지연_데이터_관점|지연]]시키는지 본다. | 단위와 측정 구간을 먼저 고정한다. |
-| 산출 방식 | 이벤트·거래·요청을 시간 창 또는 확정 상태 기준으로 집계한다. | 평균뿐 아니라 분산과 꼬리 [[015_지연_데이터_관점|지연]]도 함께 본다. |
-| 해석 기준 | 숫자를 단독으로 보지 않고 품질과 비용을 같이 읽는다. | [[452_availability|가용성]], [[015_지연_데이터_관점|지연]], 보안 경계, 운영 복잡도, 벤더 [[008_dependencies|종속성]]을 함께 해석한다. |
-| 운영 활용 | 용량 계획, 병목 분석, [[085_sla|SLA]] 관리의 기준선이 된다. | 대시보드와 경보 기준을 같이 설계한다. |
+| 측정 대상 | PUE가 무엇을 얼마나 처리하거나 얼마나 오래 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시키는지 본다. | 단위와 측정 구간을 먼저 고정한다. |
+| 산출 방식 | 이벤트·거래·요청을 시간 창 또는 확정 상태 기준으로 집계한다. | 평균뿐 아니라 분산과 꼬리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)도 함께 본다. |
+| 해석 기준 | 숫자를 단독으로 보지 않고 품질과 비용을 같이 읽는다. | [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 보안 경계, 운영 복잡도, 벤더 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)을 함께 해석한다. |
+| 운영 활용 | 용량 계획, 병목 분석, [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 관리의 기준선이 된다. | 대시보드와 경보 기준을 같이 설계한다. |
 
 아래 구조도는 이 개념이 실제 시스템 안에서 어떻게 흘러가는지 보여 준다.
 
@@ -57,7 +61,7 @@ PUE의 핵심은 입력, 처리, [[395_verification_process_review|검증]], 결
 └──────────────────────────────────────────────────────────────┘
 ```
 
-핵심은 어느 한 단계만 좋아서는 전체 품질이 좋아지지 않는다는 점이다. 입력 조건이 흔들리면 뒤 단계가 좋아도 결과는 불안정하고, [[395_verification_process_review|검증]] 지점이 없으면 일시적으로 빠르게 보여도 운영 안정성이 무너진다. 따라서 이 개념은 개별 기능이 아니라 흐름 전체를 맞추는 설계 문제로 이해해야 한다.
+핵심은 어느 한 단계만 좋아서는 전체 품질이 좋아지지 않는다는 점이다. 입력 조건이 흔들리면 뒤 단계가 좋아도 결과는 불안정하고, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 지점이 없으면 일시적으로 빠르게 보여도 운영 안정성이 무너진다. 따라서 이 개념은 개별 기능이 아니라 흐름 전체를 맞추는 설계 문제로 이해해야 한다.
 
 - **📢 섹션 요약 비유**: 증설과 복구가 예약된 공유 공장과 같다.
 
@@ -65,16 +69,16 @@ PUE의 핵심은 입력, 처리, [[395_verification_process_review|검증]], 결
 
 ## Ⅲ. 비교 및 연결
 
-PUE의 경계를 드러내려면 **중앙 승인형 정산 구조** 과 비교하는 것이 가장 빠르다. 중앙 승인형 정산 구조이 익숙함과 단순성을 제공한다면, 이 개념은 [[571_resiliency_fault_tolerance_patterns|탄력성]], 운영 민첩성, 비용 최적화 같은 가치와 용량 계획, 병목 분석, [[085_sla|SLA]] 해석를 얻기 위해 구조적 통제를 더 가져가는 쪽에 가깝다. 차이는 기술 이름보다도 어떤 제약을 우선 해결하려는지에서 생긴다.
+PUE의 경계를 드러내려면 **중앙 승인형 정산 구조** 과 비교하는 것이 가장 빠르다. 중앙 승인형 정산 구조이 익숙함과 단순성을 제공한다면, 이 개념은 [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/), 운영 민첩성, 비용 최적화 같은 가치와 용량 계획, 병목 분석, [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 해석를 얻기 위해 구조적 통제를 더 가져가는 쪽에 가깝다. 차이는 기술 이름보다도 어떤 제약을 우선 해결하려는지에서 생긴다.
 
 | 비교 항목 | PUE | 중앙 승인형 정산 구조 |
 | :--- | :--- | :--- |
-| 설계 초점 | [[801_data_center_3_tier_architecture_core_aggregation_access|데이터센터]] 전력 효율 지표 (총 소비 전력 / IT 장비 전력), 1에 가까울수록 고효율를 체계적으로 다루는 구조 | 익숙한 방식으로 빠르게 구현하는 구조 |
-| 강점 | [[571_resiliency_fault_tolerance_patterns|탄력성]], 운영 민첩성, 비용 최적화 같은 가치와 용량 계획, 병목 분석, [[085_sla|SLA]] 해석 확보에 유리 | [[459_quic_fec_forward_error_correction|초기]] 진입과 단순 운영에 유리 |
+| 설계 초점 | [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 전력 효율 지표 (총 소비 전력 / IT 장비 전력), 1에 가까울수록 고효율를 체계적으로 다루는 구조 | 익숙한 방식으로 빠르게 구현하는 구조 |
+| 강점 | [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/), 운영 민첩성, 비용 최적화 같은 가치와 용량 계획, 병목 분석, [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 해석 확보에 유리 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 진입과 단순 운영에 유리 |
 | 약점 | 운영 기준과 예외 처리까지 설계해야 효과가 난다 | 규모 확대 시 병목과 수작업이 누적되기 쉽다 |
-| 연결 관점 | 콜드 아일 / 핫 아일 ([[236_cold_aisle_hot_aisle_containment_datacenter|Hot Aisle]]) 차폐 [[801_data_center_3_tier_architecture_core_aggregation_access|데이터센터]] 공조 설계를 배경으로 그린 IT / [[469_carbon_aware_computing|탄소 인지 컴퓨팅]] 클라우드 전력 리전 스위칭로 확장된다 | 독립 운영은 쉬우나 구조 확장성은 제한될 수 있다 |
+| 연결 관점 | 콜드 아일 / 핫 아일 ([Hot Aisle](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/236_cold_aisle_hot_aisle_containment_datacenter/)) 차폐 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 공조 설계를 배경으로 그린 IT / [탄소 인지 컴퓨팅](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/469_carbon_aware_computing/) 클라우드 전력 리전 스위칭로 확장된다 | 독립 운영은 쉬우나 구조 확장성은 제한될 수 있다 |
 
-또한 콜드 아일 / 핫 아일 ([[236_cold_aisle_hot_aisle_containment_datacenter|Hot Aisle]]) 차폐 [[801_data_center_3_tier_architecture_core_aggregation_access|데이터센터]] 공조 설계는 왜 이 주제가 등장했는지 보여 주는 선행 개념이고, 그린 IT / [[469_carbon_aware_computing|탄소 인지 컴퓨팅]] 클라우드 전력 리전 스위칭는 실제 [[090_service_kubernetes_network_load_balancing|서비스]] 확장 또는 세부 기술로 이어지는 인접 개념이다. 시험 답안에서는 이런 연결선을 함께 말해야 현재 개념의 위치가 살아난다.
+또한 콜드 아일 / 핫 아일 ([Hot Aisle](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/236_cold_aisle_hot_aisle_containment_datacenter/)) 차폐 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 공조 설계는 왜 이 주제가 등장했는지 보여 주는 선행 개념이고, 그린 IT / [탄소 인지 컴퓨팅](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/469_carbon_aware_computing/) 클라우드 전력 리전 스위칭는 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 확장 또는 세부 기술로 이어지는 인접 개념이다. 시험 답안에서는 이런 연결선을 함께 말해야 현재 개념의 위치가 살아난다.
 
 - **📢 섹션 요약 비유**: 한 건물보다 유연한 모듈형 설비실과 같다.
 
@@ -82,13 +86,13 @@ PUE의 경계를 드러내려면 **중앙 승인형 정산 구조** 과 비교�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 보통 애플리케이션 노드 약 50대를 운영하면서 배포를 하루 20회 이상 수행해야 하는 [[309_saas|SaaS]] 환경에서 이 개념을 검토한다. 이때 중요한 것은 "좋은 기술인가"가 아니라 "어떤 요구사항에서 이 방식이 합리적인가"를 설명하는 일이다. 즉, [[282_performance_tactics|성능]]·운영·보안·비용의 우선순위를 먼저 정한 뒤, 이 개념이 그 우선순위를 실제로 만족시키는지 [[395_verification_process_review|검증]]해야 한다.
+실무에서는 보통 애플리케이션 노드 약 50대를 운영하면서 배포를 하루 20회 이상 수행해야 하는 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 환경에서 이 개념을 검토한다. 이때 중요한 것은 "좋은 기술인가"가 아니라 "어떤 요구사항에서 이 방식이 합리적인가"를 설명하는 일이다. 즉, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·운영·보안·비용의 우선순위를 먼저 정한 뒤, 이 개념이 그 우선순위를 실제로 만족시키는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다.
 
 ### 적용 판단 체크포인트
 
-1. 현재 병목이 수치 기준으로 [[282_performance_tactics|성능]]을 판단하는 문제인지, 아니면 단순 운영 미숙인지 먼저 분리한다.
-2. 목표 지표를 정한 뒤 [[452_availability|가용성]], [[015_지연_데이터_관점|지연]], 보안 경계, 운영 복잡도, 벤더 [[008_dependencies|종속성]] 중 무엇을 최우선으로 둘지 합의한다.
-3. 파일럿 [[282_performance_tactics|성능]]뿐 아니라 [[568_logs_distributed_logging_elk_fluentd|로그]], 모니터링, 장애복구, 표준 호환성까지 운영 관점으로 [[395_verification_process_review|검증]]한다.
+1. 현재 병목이 수치 기준으로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 판단하는 문제인지, 아니면 단순 운영 미숙인지 먼저 분리한다.
+2. 목표 지표를 정한 뒤 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 보안 경계, 운영 복잡도, 벤더 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 중 무엇을 최우선으로 둘지 합의한다.
+3. 파일럿 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)뿐 아니라 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 모니터링, 장애복구, 표준 호환성까지 운영 관점으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
 
 ### 채택/회피 기준
 
@@ -103,9 +107,9 @@ PUE의 경계를 드러내려면 **중앙 승인형 정산 구조** 과 비교�
 
 ## Ⅴ. 기대효과 및 결론
 
-이 개념을 올바르게 적용하면 배포 속도 향상과 자원 활용률 개선를 기대할 수 있다. 더 중요한 점은 구조가 분명해질수록 자동화, 표준화, [[282_performance_tactics|성능]] 튜닝, 장애 분석의 기준점도 함께 선명해진다는 것이다. 즉, 이 개념의 가치는 기능 하나보다도 시스템을 설명 가능한 형태로 바꿔 준다는 데 있다.
+이 개념을 올바르게 적용하면 배포 속도 향상과 자원 활용률 개선를 기대할 수 있다. 더 중요한 점은 구조가 분명해질수록 자동화, 표준화, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝, 장애 분석의 기준점도 함께 선명해진다는 것이다. 즉, 이 개념의 가치는 기능 하나보다도 시스템을 설명 가능한 형태로 바꿔 준다는 데 있다.
 
-물론 이 개념이 만능은 아니다. 입력 품질이 낮거나 운영 정책이 비어 있거나, 조직 역량보다 과한 복잡도를 도입하면 오히려 관리 비용만 늘어난다. 앞으로는 [[109_platform_engineering_cognitive_load|플랫폼 엔지니어링]]와 [[344_finops|FinOps]]·[[099_aiops_chatbot_itsm_automation|AIOps]] 방향으로 더 진화하겠지만, 그 출발점은 여전히 기본 원리와 적용 경계를 정확히 이해하는 데 있다.
+물론 이 개념이 만능은 아니다. 입력 품질이 낮거나 운영 정책이 비어 있거나, 조직 역량보다 과한 복잡도를 도입하면 오히려 관리 비용만 늘어난다. 앞으로는 [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)와 [FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/)·[AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/) 방향으로 더 진화하겠지만, 그 출발점은 여전히 기본 원리와 적용 경계를 정확히 이해하는 데 있다.
 
 정리하면 이 개념은 "무엇인가"보다 "언제, 왜, 어떤 조건에서 써야 하는가"로 기억해야 한다. 그래야 시험에서도 비교형 답안을 안정적으로 쓸 수 있고, 실무에서도 기술 도입 우선순위를 흔들림 없이 정할 수 있다.
 
@@ -117,10 +121,10 @@ PUE의 경계를 드러내려면 **중앙 승인형 정산 구조** 과 비교�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 콜드 아일 / 핫 아일 ([[236_cold_aisle_hot_aisle_containment_datacenter|Hot Aisle]]) 차폐 [[801_data_center_3_tier_architecture_core_aggregation_access|데이터센터]] 공조 설계 | 현재 개념이 등장하게 된 배경 또는 선행 개념이다. |
+| 콜드 아일 / 핫 아일 ([Hot Aisle](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/236_cold_aisle_hot_aisle_containment_datacenter/)) 차폐 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 공조 설계 | 현재 개념이 등장하게 된 배경 또는 선행 개념이다. |
 | PUE | 클라우드 인프라 맥락에서 현재 설계 판단의 중심 개념이다. |
-| 그린 IT / [[469_carbon_aware_computing|탄소 인지 컴퓨팅]] 클라우드 전력 리전 스위칭 | 현재 개념을 다음 응용 단계로 연결하는 인접 개념이다. |
-| [[109_platform_engineering_cognitive_load|플랫폼 엔지니어링]] | 현재 개념 이후의 고도화 방향을 보여 준다. |
+| 그린 IT / [탄소 인지 컴퓨팅](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/469_carbon_aware_computing/) 클라우드 전력 리전 스위칭 | 현재 개념을 다음 응용 단계로 연결하는 인접 개념이다. |
+| [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) | 현재 개념 이후의 고도화 방향을 보여 준다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -134,7 +138,7 @@ PUE의 경계를 드러내려면 **중앙 승인형 정산 구조** 과 비교�
     └──▶ [플랫폼 엔지니어링 / FinOps·AIOps]
 ```
 
-이 흐름도는 콜드 아일 / 핫 아일 ([[236_cold_aisle_hot_aisle_containment_datacenter|Hot Aisle]]) 차폐 [[801_data_center_3_tier_architecture_core_aggregation_access|데이터센터]] 공조 설계에서 출발해 현재 개념을 거쳐 그린 IT / [[469_carbon_aware_computing|탄소 인지 컴퓨팅]] 클라우드 전력 리전 스위칭와 [[109_platform_engineering_cognitive_load|플랫폼 엔지니어링]] 방향으로 확장되는 학습 흐름을 보여 준다. 즉, 현재 개념은 독립된 섬이 아니라 앞 개념의 문제를 받아 다음 단계의 설계 선택으로 넘겨 주는 연결 고리다.
+이 흐름도는 콜드 아일 / 핫 아일 ([Hot Aisle](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/236_cold_aisle_hot_aisle_containment_datacenter/)) 차폐 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 공조 설계에서 출발해 현재 개념을 거쳐 그린 IT / [탄소 인지 컴퓨팅](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/469_carbon_aware_computing/) 클라우드 전력 리전 스위칭와 [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) 방향으로 확장되는 학습 흐름을 보여 준다. 즉, 현재 개념은 독립된 섬이 아니라 앞 개념의 문제를 받아 다음 단계의 설계 선택으로 넘겨 주는 연결 고리다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 이 개념은 복잡한 일을 한눈에 보이게 정리해서 모두가 같은 규칙으로 움직이게 해 줘.
@@ -147,7 +151,7 @@ PUE의 경계를 드러내려면 **중앙 승인형 정산 구조** 과 비교�
 
 **진행 상황**: 237 / 552
 
-← **이전**: [[236_cold_aisle_hot_aisle_containment_datacenter|236. 콜드 아일 / 핫 아일 (Hot Aisle) 차폐 데이터센터 공조 설계 (Cold Aisle)]]
-**다음**: [[238_carbon_aware_computing_green_it|238. 그린 IT / 탄소 인지 컴퓨팅 클라우드 전력 리전 스위칭 (Carbon-Aware Computing)]] →
+← **이전**: [236. 콜드 아일 / 핫 아일 (Hot Aisle) 차폐 데이터센터 공조 설계 (Cold Aisle)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/236_cold_aisle_hot_aisle_containment_datacenter/)
+**다음**: [238. 그린 IT / 탄소 인지 컴퓨팅 클라우드 전력 리전 스위칭 (Carbon-Aware Computing)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/238_carbon_aware_computing_green_it/) →
 
 ---

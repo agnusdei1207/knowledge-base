@@ -10,6 +10,7 @@ Thumbs.db
 # Node / Quartz build
 node_modules/
 public/
+static/assets/data/
 .quartz-build/
 .quartz-src/
 .cache/

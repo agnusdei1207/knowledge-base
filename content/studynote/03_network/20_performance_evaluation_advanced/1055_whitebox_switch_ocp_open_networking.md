@@ -1,22 +1,26 @@
----
-title: 1055. 화이트박스 OCP 스위치
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "1055. 화이트박스 OCP 스위치"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 화이트박스 [[746_ocp|OCP]] [[238_switch_operation_principles|스위치]]는 [[282_performance_tactics|성능]] 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: 화이트박스 [[746_ocp|OCP]] [[238_switch_operation_principles|스위치]]를 이해하면 측정 정확도과 모델 적합성 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: 화이트박스 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: 화이트박스 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 이해하면 측정 정확도과 모델 적합성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- 시스코, 주니퍼 같은 거대 공룡(벤더)이 팔던 기존 [[238_switch_operation_principles|스위치]]는 **하드웨어 기계와 소프트웨어(OS)가 본드로 찰싹 붙어있는 '블랙박스'**였습니다.
-- 기계 안이 어떻게 도는지 볼 수 없고, 원하는 [[339_routing_overview_best_path_selection|라우팅]] 기능을 마음대로 추가할 수 없으며, 기곗값이 부르는 게 값이었습니다([[051_vendor_lock_in_cloud_computing|벤더 종속]], [[254_cloud_vendor_lock_in_avoidance_portability_multi_cloud|Vendor Lock-in]]).
+- 시스코, 주니퍼 같은 거대 공룡(벤더)이 팔던 기존 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 **하드웨어 기계와 소프트웨어(OS)가 본드로 찰싹 붙어있는 '블랙박스'**였습니다.
+- 기계 안이 어떻게 도는지 볼 수 없고, 원하는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 기능을 마음대로 추가할 수 없으며, 기곗값이 부르는 게 값이었습니다([벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/), [Vendor Lock-in](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/254_cloud_vendor_lock_in_avoidance_portability_multi_cloud/)).
 
 ```text
 [IBN 선행 AI 설계]
@@ -27,14 +31,14 @@ tags:
     └──▶ [ONOS / OpenDaylight 구조 모…]
 ```
 
-- **📢 섹션 요약 비유**: 화이트박스 [[746_ocp|OCP]] [[238_switch_operation_principles|스위치]]는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [[170_selectivity_cardinality_distribution_tuning|선택도]] 쉬워진다.
+- **📢 섹션 요약 비유**: 화이트박스 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-(859번 화이트박스 심화 및 [[746_ocp|OCP]] 연계)
-- **개념**: PC처럼 **하드웨어 껍데기(Bare-metal [[238_switch_operation_principles|Switch]])와 소프트웨어(Network OS)를 완벽하게 분리(Decoupling)**하여, 사용자가 싸구려 범용 [[238_switch_operation_principles|스위치]] 하드웨어를 구매한 뒤 원하는 개방형 네트워크 [[001_operating_system_purpose|운영체제]](NOS)를 입맛대로 골라 설치할 수 있는 오픈 생태계 [[238_switch_operation_principles|스위치]]입니다.
+(859번 화이트박스 심화 및 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) 연계)
+- **개념**: PC처럼 **하드웨어 껍데기(Bare-metal [Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))와 소프트웨어(Network OS)를 완벽하게 분리(Decoupling)**하여, 사용자가 싸구려 범용 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 하드웨어를 구매한 뒤 원하는 개방형 네트워크 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(NOS)를 입맛대로 골라 설치할 수 있는 오픈 생태계 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)입니다.
 
 ```text
 [IBN 선행 AI 설계]
@@ -45,58 +49,58 @@ tags:
     └──▶ [ONOS / OpenDaylight 구조 모…]
 ```
 
-- **📢 섹션 요약 비유**: 화이트박스 [[746_ocp|OCP]] [[238_switch_operation_principles|스위치]]의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
+- **📢 섹션 요약 비유**: 화이트박스 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
 ### 1. 범용 스위칭 실리콘 칩 (Merchant Silicon)
-- 옛날엔 시스코가 자기들만의 비밀 [[009_semiconductor|반도체]]([[070_asic|ASIC]])를 썼지만, 요즘은 브로드컴(Broadcom)이나 인텔(Intel)이 만든 '범용 싸구려 대량 생산 [[238_switch_operation_principles|스위치]] 칩셋(Merchant Silicon)' [[282_performance_tactics|성능]]이 미치도록 좋아졌습니다.
-- 대만 제조사(Accton 등)가 이 칩을 사서 네모난 쇳덩어리 [[238_switch_operation_principles|스위치]] 깡통(하드웨어)을 마구 찍어냅니다. 이걸 **베어메탈 [[238_switch_operation_principles|스위치]]**라고 부릅니다.
+- 옛날엔 시스코가 자기들만의 비밀 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/))를 썼지만, 요즘은 브로드컴(Broadcom)이나 인텔(Intel)이 만든 '범용 싸구려 대량 생산 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 칩셋(Merchant Silicon)' [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 미치도록 좋아졌습니다.
+- 대만 제조사(Accton 등)가 이 칩을 사서 네모난 쇳덩어리 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 깡통(하드웨어)을 마구 찍어냅니다. 이걸 **베어메탈 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)**라고 부릅니다.
 
-### 2. [[884_onie_open_network_install_environment_bootloader|ONIE]] (오픈 네트워크 설치 환경) - "윈도우 [[359_usb|USB]] 부팅 [[359_usb|USB]]"
-- 깡통 [[238_switch_operation_principles|스위치]]를 사 오면 제일 먼저 마주하는 화면입니다.
-- **[[884_onie_open_network_install_environment_bootloader|ONIE]] (Open Network Install [[066_gitlab_flow_environment_branch_strategy|Environment]])**: 하드웨어 제조사가 칩 안에 살짝 심어놓은 '소형 [[029_bootloader|부트로더]](설치 마법사)'입니다. 빈 깡통 [[238_switch_operation_principles|스위치]]에 랜선을 꽂으면 ONIE가 켜지면서 네트워크 너머에 있는 리눅스 [[238_switch_operation_principles|스위치]] OS(소프트웨어)를 쫙 빨아당겨 기계 안에 자동으로 설치(OS 인스톨)해 주는 징검다리입니다.
+### 2. [ONIE](/knowledge-base/studynote/03_network/17_sdn_nfv/884_onie_open_network_install_environment_bootloader/) (오픈 네트워크 설치 환경) - "윈도우 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 부팅 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/)"
+- 깡통 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 사 오면 제일 먼저 마주하는 화면입니다.
+- **[ONIE](/knowledge-base/studynote/03_network/17_sdn_nfv/884_onie_open_network_install_environment_bootloader/) (Open Network Install [Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/))**: 하드웨어 제조사가 칩 안에 살짝 심어놓은 '소형 [부트로더](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/)(설치 마법사)'입니다. 빈 깡통 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 랜선을 꽂으면 ONIE가 켜지면서 네트워크 너머에 있는 리눅스 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) OS(소프트웨어)를 쫙 빨아당겨 기계 안에 자동으로 설치(OS 인스톨)해 주는 징검다리입니다.
 
 ### 3. 분리형 네트워크 OS (Network OS, NOS)
-- 깡통에 깔리는 영혼(소프트웨어)입니다. Cumulus Linux, [[883_sonic_software_for_open_networking_in_the_cloud|SONiC]](마이크로소프트 주도) 등이 대표적입니다.
-- 리눅스 기반이므로 개발자가 시스코 자격증(CCNA) [[158_instruction|명령어]] 따위 외울 필요 없이, 그냥 파이썬 코딩이나 리눅스 `iptables` [[158_instruction|명령어]]로 [[238_switch_operation_principles|스위치]]의 [[365_bgp_border_gateway_protocol_path_vector|BGP]] [[339_routing_overview_best_path_selection|라우팅]]과 ACL을 마음대로 주무르고 개조할 수 있는([[633_sdn_whitebox|SDN]] 완벽 지원) 엄청난 자유도를 얻습니다.
+- 깡통에 깔리는 영혼(소프트웨어)입니다. Cumulus Linux, [SONiC](/knowledge-base/studynote/03_network/17_sdn_nfv/883_sonic_software_for_open_networking_in_the_cloud/)(마이크로소프트 주도) 등이 대표적입니다.
+- 리눅스 기반이므로 개발자가 시스코 자격증(CCNA) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 따위 외울 필요 없이, 그냥 파이썬 코딩이나 리눅스 `iptables` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 ACL을 마음대로 주무르고 개조할 수 있는([SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 완벽 지원) 엄청난 자유도를 얻습니다.
 
-화이트박스 [[746_ocp|OCP]] [[238_switch_operation_principles|스위치]]를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [[857_ibn_intent_based_networking_declarative_automation|IBN]] 선행 [[190_ai_llm_requirements_specification|AI]] 설계가 기반 조건을 만든다면, 화이트박스 [[746_ocp|OCP]] [[238_switch_operation_principles|스위치]]는 그 위에서 핵심 메커니즘을 구현하고, ONOS / OpenDaylight 구조 모…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+화이트박스 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 선행 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 설계가 기반 조건을 만든다면, 화이트박스 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 그 위에서 핵심 메커니즘을 구현하고, ONOS / OpenDaylight 구조 모…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [[857_ibn_intent_based_networking_declarative_automation|IBN]] 선행 [[190_ai_llm_requirements_specification|AI]] 설계의 기반 정리 | 화이트박스 [[746_ocp|OCP]] [[238_switch_operation_principles|스위치]]의 핵심 동작 | ONOS / OpenDaylight 구조 모…의 확장 적용 |
+| 초점 | [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 선행 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 설계의 기반 정리 | 화이트박스 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 핵심 동작 | ONOS / OpenDaylight 구조 모…의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 측정 정확도 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 화이트박스 [[746_ocp|OCP]] [[238_switch_operation_principles|스위치]]는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
+- **📢 섹션 요약 비유**: 화이트박스 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 누가 이 생태계를 이끌까요? 바로 페이스북(Meta)입니다.
-- 시스코 장비값에 피눈물을 흘리던 페이스북이 2011년에 **[[746_ocp|OCP]] ([[640_open_compute_project|Open Compute Project]])**를 창설했습니다.
-- "야, 전 세계 서버, 스토리지, 화이트박스 [[238_switch_operation_principles|스위치]]의 설계도(도면)를 인터넷에 싹 다 공짜로 오픈 소스로 까버리자!"
-- 제조사들은 이 공짜 도면을 보고 하드웨어를 찍어내고, 구글/아마존/페이스북은 그 싸구려 도면 장비를 수십만 대씩 사들여 자기들의 자체 클라우드 OS([[883_sonic_software_for_open_networking_in_the_cloud|SONiC]] 등)를 깔아 데이터센터를 지배했습니다. 장비 원가를 50% 이상 후려친 거대 클라우드 기업의 승리입니다.
+- 시스코 장비값에 피눈물을 흘리던 페이스북이 2011년에 **[OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) ([Open Compute Project](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/640_open_compute_project/))**를 창설했습니다.
+- "야, 전 세계 서버, 스토리지, 화이트박스 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 설계도(도면)를 인터넷에 싹 다 공짜로 오픈 소스로 까버리자!"
+- 제조사들은 이 공짜 도면을 보고 하드웨어를 찍어내고, 구글/아마존/페이스북은 그 싸구려 도면 장비를 수십만 대씩 사들여 자기들의 자체 클라우드 OS([SONiC](/knowledge-base/studynote/03_network/17_sdn_nfv/883_sonic_software_for_open_networking_in_the_cloud/) 등)를 깔아 데이터센터를 지배했습니다. 장비 원가를 50% 이상 후려친 거대 클라우드 기업의 승리입니다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 **시스코 블랙박스 [[238_switch_operation_principles|스위치]]**는 애플의 **'아이폰(iPhone)'**과 같습니다. 기계(하드웨어)도 훌륭하고 iOS(소프트웨어)도 완벽하지만, 둘이 하나로 완전히 용접되어 있어 껍데기만 사서 안드로이드를 깔거나 내 맘대로 개조하는 게 100% 불가능한 폐쇄적 독재품(비쌈)이었습니다. 반면 **화이트박스 [[746_ocp|OCP]] [[238_switch_operation_principles|스위치]]**는 용산 전자상가에서 부품을 주워다 맞춘 **'조립식 깡통 [[164_pc|PC]]'**입니다. 껍데기 기계(베어메탈)는 대만 공장에서 부품만 사다 원가로 조립해 만듭니다. 처음 전원을 켜면 깡통이지만, 윈도우 설치 [[359_usb|USB]]([[884_onie_open_network_install_environment_bootloader|ONIE]] [[029_bootloader|부트로더]])를 꽂아 무료 리눅스 OS(개방형 NOS)를 입맛대로 설치합니다. 기계값은 아이폰의 반의반 값이고, 안에 깔린 리눅스는 내가 프로그래밍([[633_sdn_whitebox|SDN]])으로 마음대로 뜯어고쳐 방화벽으로 쓰든 라우터로 쓰든 변신시킬 수 있는, 무한의 자유도를 가진 클라우드 시대의 저가형 [[246_transformer_self_attention_parallel_positional_encoding|트랜스포머]] 장비입니다.
+- **📢 섹션 요약 비유**: 기존 **시스코 블랙박스 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)**는 애플의 **'아이폰(iPhone)'**과 같습니다. 기계(하드웨어)도 훌륭하고 iOS(소프트웨어)도 완벽하지만, 둘이 하나로 완전히 용접되어 있어 껍데기만 사서 안드로이드를 깔거나 내 맘대로 개조하는 게 100% 불가능한 폐쇄적 독재품(비쌈)이었습니다. 반면 **화이트박스 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)**는 용산 전자상가에서 부품을 주워다 맞춘 **'조립식 깡통 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)'**입니다. 껍데기 기계(베어메탈)는 대만 공장에서 부품만 사다 원가로 조립해 만듭니다. 처음 전원을 켜면 깡통이지만, 윈도우 설치 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/)([ONIE](/knowledge-base/studynote/03_network/17_sdn_nfv/884_onie_open_network_install_environment_bootloader/) [부트로더](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/))를 꽂아 무료 리눅스 OS(개방형 NOS)를 입맛대로 설치합니다. 기계값은 아이폰의 반의반 값이고, 안에 깔린 리눅스는 내가 프로그래밍([SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/))으로 마음대로 뜯어고쳐 방화벽으로 쓰든 라우터로 쓰든 변신시킬 수 있는, 무한의 자유도를 가진 클라우드 시대의 저가형 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 장비입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-화이트박스 [[746_ocp|OCP]] [[238_switch_operation_principles|스위치]]는 [[282_performance_tactics|성능]] 평가와 고급 분석을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 측정 정확도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 ONOS / OpenDaylight 구조 모…, [[190_ai_llm_requirements_specification|AI]] 기반 [[282_performance_tactics|성능]] 예측, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [[190_ai_llm_requirements_specification|AI]] 기반 [[282_performance_tactics|성능]] 예측 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+화이트박스 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 측정 정확도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 ONOS / OpenDaylight 구조 모…, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: 화이트박스 [[746_ocp|OCP]] [[238_switch_operation_principles|스위치]]는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
+- **📢 섹션 요약 비유**: 화이트박스 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
 ---
 
@@ -104,9 +108,9 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[857_ibn_intent_based_networking_declarative_automation|IBN]] 선행 [[190_ai_llm_requirements_specification|AI]] 설계 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [[139_throughput|처리량]] ([[139_throughput|Throughput]]) | 실제 전달 [[282_performance_tactics|성능]]을 나타내는 대표 지표다. |
-| [[015_지연_데이터_관점|지연]] ([[141_latency|Latency]]) | 사용자 체감 품질을 좌우한다. |
+| [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 선행 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 설계 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) | 실제 전달 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 나타내는 대표 지표다. |
+| [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) ([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) | 사용자 체감 품질을 좌우한다. |
 | ONOS / OpenDaylight 구조 모… | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -121,7 +125,7 @@ tags:
     └──▶ [확장 B: AI 기반 성능 예측]
 ```
 
-화이트박스 [[746_ocp|OCP]] [[238_switch_operation_principles|스위치]]는 [[857_ibn_intent_based_networking_declarative_automation|IBN]] 선행 [[190_ai_llm_requirements_specification|AI]] 설계에서 출발해 현재 메커니즘을 정교화하고, 이후 ONOS / OpenDaylight 구조 모…와 [[190_ai_llm_requirements_specification|AI]] 기반 [[282_performance_tactics|성능]] 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+화이트박스 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 선행 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 설계에서 출발해 현재 메커니즘을 정교화하고, 이후 ONOS / OpenDaylight 구조 모…와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -135,7 +139,7 @@ tags:
 
 **진행 상황**: 160 / 1120
 
-← **이전**: [[1054_ibn_intent_based_networking_ai_automation|1054. IBN(의도기반망) 선행 AI 설계]]
-**다음**: [[1056_onos_opendaylight_sdn_controller_comparison|1056. ONOS / OpenDaylight 구조 모델 비교]] →
+← **이전**: [1054. IBN(의도기반망) 선행 AI 설계](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1054_ibn_intent_based_networking_ai_automation/)
+**다음**: [1056. ONOS / OpenDaylight 구조 모델 비교](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1056_onos_opendaylight_sdn_controller_comparison/) →
 
 ---

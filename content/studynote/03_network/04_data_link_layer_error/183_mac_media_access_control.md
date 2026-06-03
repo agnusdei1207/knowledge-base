@@ -1,25 +1,29 @@
----
-title: 183. 매체 접근 제어 (MAC, Media Access Control) - IEEE 802.3~802.11
-date: '2026-05-06'
-tags:
-- studynote-network
----
++++
+title = "183. 매체 접근 제어 (MAC, Media Access Control) - IEEE 802.3~802.11"
+date = 2026-05-06
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[673_mac_message_authentication_code|MAC]] ([[121_transmission_media_guided_unguided|Media]] [[547_access_control_rwx|Access Control]])은 [[001_dikw_pyramid|데이터]] 링크 계층 하위 부계층에서 **누가 언제 전송할지 정하고, 프레임에 [[323_physical_address|물리 주소]]와 오류 검출 정보를 붙여 실제 [[121_transmission_media_guided_unguided|매체]] 위로 내보내는 규칙**이다.
-> 2. **가치**: 공유 [[121_transmission_media_guided_unguided|매체]]에서 충돌을 줄이고, 수신 측이 "이 프레임이 누구 것인지"와 "깨졌는지"를 빠르게 판단하게 만들어, 링크 계층의 실질적 전달 품질을 책임진다.
-> 3. **판단 포인트**: 같은 MAC이라도 [[230_ethernet_structure_and_principles_ieee_802_3|Ethernet]] (IEEE 802.3)과 Wi-Fi (IEEE 802.[[308_static_dynamic_nat_pat_port_address_translation|11]])는 [[121_transmission_media_guided_unguided|매체]] 특성이 달라 접근 방식이 다르며, [[673_mac_message_authentication_code|MAC]] 주소·접근 제어·프레임 포맷을 한 덩어리로 뭉뚱그려 설명하면 안 된다.
+> 1. **본질**: [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) ([Media](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) [Access Control](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/))은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층 하위 부계층에서 **누가 언제 전송할지 정하고, 프레임에 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)와 오류 검출 정보를 붙여 실제 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 위로 내보내는 규칙**이다.
+> 2. **가치**: 공유 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)에서 충돌을 줄이고, 수신 측이 "이 프레임이 누구 것인지"와 "깨졌는지"를 빠르게 판단하게 만들어, 링크 계층의 실질적 전달 품질을 책임진다.
+> 3. **판단 포인트**: 같은 MAC이라도 [Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) (IEEE 802.3)과 Wi-Fi (IEEE 802.[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/))는 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 특성이 달라 접근 방식이 다르며, [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소·접근 제어·프레임 포맷을 한 덩어리로 뭉뚱그려 설명하면 안 된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-MAC은 **[[001_dikw_pyramid|데이터]] 링크 계층에서 물리 [[121_transmission_media_guided_unguided|매체]]와 가장 가깝게 붙어 있는 운영 규칙**이다. 상위의 [[744_load_line_calibration|LLC]] (Logical Link Control)가 어떤 상위 [[295_protocol_field_tcp_udp_icmp|프로토콜]] [[001_dikw_pyramid|데이터]]인지를 [[369_logic_bomb|논리]]적으로 구분한다면, MAC은 실제 전송 시점과 프레임 형식을 책임진다. 쉽게 말해 LLC가 "무슨 문서인가"를 다루는 창구라면, MAC은 **"지금 이 문서를 누가 길 위로 보낼 수 있는가"** 를 정하는 현장 규칙이다.
+MAC은 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층에서 물리 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)와 가장 가깝게 붙어 있는 운영 규칙**이다. 상위의 [LLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/) (Logical Link Control)가 어떤 상위 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)인지를 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 구분한다면, MAC은 실제 전송 시점과 프레임 형식을 책임진다. 쉽게 말해 LLC가 "무슨 문서인가"를 다루는 창구라면, MAC은 **"지금 이 문서를 누가 길 위로 보낼 수 있는가"** 를 정하는 현장 규칙이다.
 
-이 규칙이 필요한 이유는 하나의 선로나 무선 채널을 여러 장치가 함께 [[289_cqrs_db|쓰기]] 때문이다. 공유 [[121_transmission_media_guided_unguided|매체]]에서 여러 노드가 동시에 전송하면 충돌 ([[563_hash_collision_chaining_linear_probing|Collision]])이 생기고, 수신 측은 프레임 경계와 수신 대상도 판별해야 한다. 따라서 MAC은 단순 주소 표기만이 아니라, **접근 제어, 프레임화, 오류 검출, 로컬 전달 규칙**을 함께 제공한다.
+이 규칙이 필요한 이유는 하나의 선로나 무선 채널을 여러 장치가 함께 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때문이다. 공유 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)에서 여러 노드가 동시에 전송하면 충돌 ([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))이 생기고, 수신 측은 프레임 경계와 수신 대상도 판별해야 한다. 따라서 MAC은 단순 주소 표기만이 아니라, **접근 제어, 프레임화, 오류 검출, 로컬 전달 규칙**을 함께 제공한다.
 
-IEEE (Institute of Electrical and Electronics Engineers) 802 구조에서 MAC은 PHY (Physical Layer) 바로 위, [[744_load_line_calibration|LLC]] 바로 아래에 위치한다. 이 위치 때문에 MAC은 물리 [[121_transmission_media_guided_unguided|매체]]의 성격을 강하게 반영한다. 유선 [[344_bus|버스]]와 무선 전파는 충돌을 다루는 방식이 같을 수 없기 때문이다.
+IEEE (Institute of Electrical and Electronics Engineers) 802 구조에서 MAC은 PHY (Physical Layer) 바로 위, [LLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/) 바로 아래에 위치한다. 이 위치 때문에 MAC은 물리 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)의 성격을 강하게 반영한다. 유선 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)와 무선 전파는 충돌을 다루는 방식이 같을 수 없기 때문이다.
 
 ```text
 ┌───────────────────────────────────────────────────────────────────┐
@@ -44,16 +48,16 @@ IEEE (Institute of Electrical and Electronics Engineers) 802 구조에서 MAC은
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-MAC의 핵심 원리는 크게 네 가지로 정리된다. **프레임 캡슐화, [[673_mac_message_authentication_code|MAC]] 주소 기반 [[655_ir_detection_analysis|식별]], [[121_transmission_media_guided_unguided|매체]] 접근 제어, 오류 검출**이다. 송신 측은 상위 계층 [[001_dikw_pyramid|데이터]]를 받아 프레임 헤더와 트레일러를 붙이고, 수신 측은 목적지 주소와 FCS (Frame Check Sequence)를 검사해 프레임을 수용하거나 폐기한다. 공유 [[121_transmission_media_guided_unguided|매체]] 환경이라면 그 전에 "지금 보내도 되는가"를 결정해야 한다.
+MAC의 핵심 원리는 크게 네 가지로 정리된다. **프레임 캡슐화, [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 기반 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/), [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 접근 제어, 오류 검출**이다. 송신 측은 상위 계층 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받아 프레임 헤더와 트레일러를 붙이고, 수신 측은 목적지 주소와 FCS (Frame Check Sequence)를 검사해 프레임을 수용하거나 폐기한다. 공유 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 환경이라면 그 전에 "지금 보내도 되는가"를 결정해야 한다.
 
 | 기능 | 내용 | 대표 포인트 |
 | :--- | :--- | :--- |
 | 프레임 캡슐화 | 헤더/트레일러 부착 | 프레임 경계와 길이 명확화 |
-| 주소 지정 | 출발지/목적지 [[673_mac_message_authentication_code|MAC]] 주소 기록 | 동일 링크 내 수신 대상 [[655_ir_detection_analysis|식별]] |
-| 접근 제어 | 전송 시점 결정 | [[104_csma|CSMA]]/CD, [[104_csma|CSMA]]/[[089_contract_account_smart_contract|CA]], 토큰 방식 등 |
-| 오류 검출 | FCS/[[113_crc|CRC]] ([[113_crc|Cyclic Redundancy Check]]) 기반 [[395_verification_process_review|검증]] | 깨진 프레임의 조기 폐기 |
+| 주소 지정 | 출발지/목적지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 기록 | 동일 링크 내 수신 대상 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) |
+| 접근 제어 | 전송 시점 결정 | [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD, [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/[CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/), 토큰 방식 등 |
+| 오류 검출 | FCS/[CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) ([Cyclic Redundancy Check](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)) 기반 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 깨진 프레임의 조기 폐기 |
 
-Ethernet과 Wi-Fi 모두 [[673_mac_message_authentication_code|MAC]] 주소와 프레임 검사는 공통으로 가지지만, **접근 제어 메커니즘은 [[121_transmission_media_guided_unguided|매체]] 특성에 따라 달라진다.** 유선 공유 [[344_bus|버스]] 기반 Ethernet은 역사적으로 [[104_csma|CSMA]]/CD (Carrier Sense [[087_다중접속_Multiple_Access|Multiple Access]] with [[106_CSMA_CD_유선이더넷_충돌감지|Collision Detection]])를 썼고, 무선 LAN (Local Area Network)은 송신 중 동시에 충돌을 정확히 감지하기 어려워 [[104_csma|CSMA]]/[[089_contract_account_smart_contract|CA]] (Carrier Sense [[087_다중접속_Multiple_Access|Multiple Access]] with [[563_hash_collision_chaining_linear_probing|Collision]] Avoidance)와 ACK (Acknowledgement) 중심으로 동작한다.
+Ethernet과 Wi-Fi 모두 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소와 프레임 검사는 공통으로 가지지만, **접근 제어 메커니즘은 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 특성에 따라 달라진다.** 유선 공유 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 기반 Ethernet은 역사적으로 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD (Carrier Sense [Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) with [Collision Detection](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/106_CSMA_CD_유선이더넷_충돌감지/))를 썼고, 무선 LAN (Local Area Network)은 송신 중 동시에 충돌을 정확히 감지하기 어려워 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/[CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) (Carrier Sense [Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) with [Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/) Avoidance)와 ACK (Acknowledgement) 중심으로 동작한다.
 
 ```text
 ┌───────────────────────────────────────────────────────────────────┐
@@ -68,9 +72,9 @@ Ethernet과 Wi-Fi 모두 [[673_mac_message_authentication_code|MAC]] 주소와 �
 └───────────────────────────────────────────────────────────────────┘
 ```
 
-또한 MAC은 단순히 "보내는 규칙"만이 아니라 프레임 구조도 제공한다. 예를 들어 [[230_ethernet_structure_and_principles_ieee_802_3|Ethernet]] 계열 프레임은 일반적으로 **Destination [[673_mac_message_authentication_code|MAC]] / Source [[673_mac_message_authentication_code|MAC]] / Type or Length / Payload / FCS** 같은 구조를 가진다. 이 정보 덕분에 수신 노드는 자신이 받아야 할 프레임인지, 상위로 올릴 가치가 있는지, 중간에 깨지지 않았는지를 판단할 수 있다.
+또한 MAC은 단순히 "보내는 규칙"만이 아니라 프레임 구조도 제공한다. 예를 들어 [Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 계열 프레임은 일반적으로 **Destination [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) / Source [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) / Type or Length / Payload / FCS** 같은 구조를 가진다. 이 정보 덕분에 수신 노드는 자신이 받아야 할 프레임인지, 상위로 올릴 가치가 있는지, 중간에 깨지지 않았는지를 판단할 수 있다.
 
-즉 MAC은 링크 계층의 하단에서 **전송권 배분 + 로컬 [[655_ir_detection_analysis|식별]] + 프레임 [[395_verification_process_review|검증]]**을 한 번에 수행하는 실무 계층이다.
+즉 MAC은 링크 계층의 하단에서 **전송권 배분 + 로컬 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) + 프레임 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**을 한 번에 수행하는 실무 계층이다.
 
 - **📢 섹션 요약 비유**: MAC은 택배 상자에 받는 사람 주소를 붙이고, 봉인 스티커를 붙인 뒤, 좁은 골목길에 한 차씩만 들어가게 교통 정리까지 해 주는 현장 관리자와 같다.
 
@@ -78,62 +82,62 @@ Ethernet과 Wi-Fi 모두 [[673_mac_message_authentication_code|MAC]] 주소와 �
 
 ## Ⅲ. 비교 및 연결
 
-MAC을 설명할 때 가장 자주 헷갈리는 비교는 **[[230_ethernet_structure_and_principles_ieee_802_3|Ethernet]] MAC과 Wi-Fi MAC의 차이**, 그리고 **[[673_mac_message_authentication_code|MAC]] 주소와 IP (Internet [[295_protocol_field_tcp_udp_icmp|Protocol]]) 주소의 역할 차이**다. 둘 다 "주소"를 다루지만 계층과 범위가 다르고, 접근 제어 방식도 [[121_transmission_media_guided_unguided|매체]]에 따라 다르다.
+MAC을 설명할 때 가장 자주 헷갈리는 비교는 **[Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) MAC과 Wi-Fi MAC의 차이**, 그리고 **[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소와 IP (Internet [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)) 주소의 역할 차이**다. 둘 다 "주소"를 다루지만 계층과 범위가 다르고, 접근 제어 방식도 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)에 따라 다르다.
 
-| 비교 항목 | [[230_ethernet_structure_and_principles_ieee_802_3|Ethernet]] [[673_mac_message_authentication_code|MAC]] (IEEE 802.3) | Wi-Fi [[673_mac_message_authentication_code|MAC]] (IEEE 802.[[308_static_dynamic_nat_pat_port_address_translation|11]]) |
+| 비교 항목 | [Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) (IEEE 802.3) | Wi-Fi [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) (IEEE 802.[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/)) |
 | :--- | :--- | :--- |
-| 주 [[121_transmission_media_guided_unguided|매체]] | 유선 링크 | 무선 채널 |
-| 전통적 접근 방식 | [[104_csma|CSMA]]/CD | [[104_csma|CSMA]]/[[089_contract_account_smart_contract|CA]] |
+| 주 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) | 유선 링크 | 무선 채널 |
+| 전통적 접근 방식 | [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD | [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/[CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) |
 | 충돌 처리 관점 | 충돌 감지 중심 | 충돌 회피 + ACK/재전송 중심 |
-| 현대 운영 현실 | [[238_switch_operation_principles|스위치]] 기반 Full-Duplex로 충돌 희박 | 여전히 공유 채널 경쟁이 중요 |
-| 추가 고려사항 | 스위칭, [[224_vlan_virtual_lan_broadcast_domain|VLAN]] (Virtual Local Area Network) | Hidden Node, RTS/CTS (Request to Send / Clear to Send), [[388_qos_quality_of_service_best_effort_intserv_diffserv|QoS]] ([[388_qos_quality_of_service_best_effort_intserv_diffserv|Quality of Service]]) |
+| 현대 운영 현실 | [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 기반 Full-Duplex로 충돌 희박 | 여전히 공유 채널 경쟁이 중요 |
+| 추가 고려사항 | 스위칭, [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) (Virtual Local Area Network) | Hidden Node, RTS/CTS (Request to Send / Clear to Send), [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) ([Quality of Service](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)) |
 
-유선 Ethernet은 오늘날 대부분 [[238_switch_operation_principles|스위치]] 기반 Full-Duplex 환경이므로, 교재에서 배우는 [[104_csma|CSMA]]/CD는 역사적 의미가 더 크다. 반면 Wi-Fi는 여전히 공중 채널을 여럿이 공유하므로, 백오프와 재전송, 숨은 단말 문제 같은 [[673_mac_message_authentication_code|MAC]] 이슈가 매우 실질적이다. 즉 **"MAC은 같다"가 아니라 "MAC의 책임은 같고 구현 방식은 다르다"**가 정확한 표현이다.
+유선 Ethernet은 오늘날 대부분 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 기반 Full-Duplex 환경이므로, 교재에서 배우는 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD는 역사적 의미가 더 크다. 반면 Wi-Fi는 여전히 공중 채널을 여럿이 공유하므로, 백오프와 재전송, 숨은 단말 문제 같은 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 이슈가 매우 실질적이다. 즉 **"MAC은 같다"가 아니라 "MAC의 책임은 같고 구현 방식은 다르다"**가 정확한 표현이다.
 
-또한 [[673_mac_message_authentication_code|MAC]] 주소는 링크 로컬 [[655_ir_detection_analysis|식별]]자이고, IP 주소는 네트워크 간 경로 지정 [[655_ir_detection_analysis|식별]]자다. [[238_switch_operation_principles|스위치]]가 [[673_mac_message_authentication_code|MAC]] 주소를 보고 프레임을 전달한다면, 라우터는 IP 주소를 보고 패킷을 다른 네트워크로 넘긴다. 그래서 MAC을 IP와 같은 개념처럼 설명하면 계층 분리가 무너진다.
+또한 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소는 링크 로컬 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)자이고, IP 주소는 네트워크 간 경로 지정 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)자다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 보고 프레임을 전달한다면, 라우터는 IP 주소를 보고 패킷을 다른 네트워크로 넘긴다. 그래서 MAC을 IP와 같은 개념처럼 설명하면 계층 분리가 무너진다.
 
-MAC은 [[744_load_line_calibration|LLC]], [[238_switch_operation_principles|스위치]], [[260_bridge_pattern_abstraction_implementation|브리지]], 무선 액세스 포인트와도 연결된다. LLC가 상위 [[295_protocol_field_tcp_udp_icmp|프로토콜]]을 구분하고, MAC이 로컬 전달을 수행하며, [[238_switch_operation_principles|스위치]]는 [[673_mac_message_authentication_code|MAC]] 주소 학습으로 프레임 포워딩 결정을 내린다. 즉 MAC은 **링크 계층 내부의 실질 동작 축**이다.
+MAC은 [LLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/), [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/), 무선 액세스 포인트와도 연결된다. LLC가 상위 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 구분하고, MAC이 로컬 전달을 수행하며, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 학습으로 프레임 포워딩 결정을 내린다. 즉 MAC은 **링크 계층 내부의 실질 동작 축**이다.
 
-- **📢 섹션 요약 비유**: [[673_mac_message_authentication_code|MAC]] 주소가 아파트 동·호수라면, IP 주소는 도시 주소에 가깝다. 택배 기사([[238_switch_operation_principles|스위치]])는 아파트 단지 안에서 동·호수를 보고 움직이고, 장거리 운송 기사(라우터)는 도시 주소를 보고 움직인다.
+- **📢 섹션 요약 비유**: [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소가 아파트 동·호수라면, IP 주소는 도시 주소에 가깝다. 택배 기사([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))는 아파트 단지 안에서 동·호수를 보고 움직이고, 장거리 운송 기사(라우터)는 도시 주소를 보고 움직인다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 MAC은 교과서 정의보다 **[[121_transmission_media_guided_unguided|매체]] 환경에 맞는 운영 판단**으로 자주 등장한다. 유선 LAN에서는 [[238_switch_operation_principles|스위치]]와 Full-Duplex 구성이 충돌 가능성을 거의 제거하므로, [[673_mac_message_authentication_code|MAC]] 이슈가 주소 학습·[[224_vlan_virtual_lan_broadcast_domain|VLAN]]·프레임 [[395_verification_process_review|검증]] 쪽에 더 가깝다. 반면 Wi-Fi 환경에서는 채널 경쟁, 간섭, 숨은 단말, 재전송이 체감 성능을 크게 바꾼다.
+실무에서 MAC은 교과서 정의보다 **[매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 환경에 맞는 운영 판단**으로 자주 등장한다. 유선 LAN에서는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 Full-Duplex 구성이 충돌 가능성을 거의 제거하므로, [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 이슈가 주소 학습·[VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/)·프레임 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 쪽에 더 가깝다. 반면 Wi-Fi 환경에서는 채널 경쟁, 간섭, 숨은 단말, 재전송이 체감 성능을 크게 바꾼다.
 
 ### 실무 판단 기준
 
-1. **공유 [[121_transmission_media_guided_unguided|매체]]인가, 점대점 Full-Duplex인가?** 충돌 문제의 실질성부터 달라진다.
+1. **공유 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)인가, 점대점 Full-Duplex인가?** 충돌 문제의 실질성부터 달라진다.
 2. **무선 간섭과 숨은 단말이 심한가?** 필요하면 RTS/CTS (Request to Send / Clear to Send) 같은 보조 기법을 검토해야 한다.
-3. **[[673_mac_message_authentication_code|MAC]] 필터링을 보안처럼 과신하고 있지 않은가?** [[673_mac_message_authentication_code|MAC]] 주소는 스푸핑이 가능하므로 강한 보안 수단이 아니다.
+3. **[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 필터링을 보안처럼 과신하고 있지 않은가?** [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소는 스푸핑이 가능하므로 강한 보안 수단이 아니다.
 4. **오류 검출과 재전송 책임이 어디까지인가?** Ethernet과 Wi-Fi는 링크 계층 동작 방식이 다르다.
 
 ### 실무 예시
 
-- **[[238_switch_operation_principles|스위치]] [[230_ethernet_structure_and_principles_ieee_802_3|Ethernet]]**: [[673_mac_message_authentication_code|MAC]] 주소 학습으로 [[446_port_and_bus|포트]] 단위 전달을 최적화하고 충돌 도메인을 분리한다.
-- **무선 LAN**: 혼잡 채널에서는 백오프와 재전송이 지연을 키우므로 채널 계획과 [[572_ap_access_point_ds_distribution_system|AP]] ([[572_ap_access_point_ds_distribution_system|Access Point]]) 배치가 중요하다.
-- **산업/실시간 네트워크**: [[546_tsn_hardware|TSN]] ([[168_industrial_ethernet_tsn|Time-Sensitive Networking]])은 [[673_mac_message_authentication_code|MAC]] 수준 스케줄링을 강화해 결정적 지연을 추구한다.
+- **[스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)**: [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 학습으로 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 단위 전달을 최적화하고 충돌 도메인을 분리한다.
+- **무선 LAN**: 혼잡 채널에서는 백오프와 재전송이 지연을 키우므로 채널 계획과 [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) ([Access Point](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/)) 배치가 중요하다.
+- **산업/실시간 네트워크**: [TSN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/) ([Time-Sensitive Networking](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/168_industrial_ethernet_tsn/))은 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 수준 스케줄링을 강화해 결정적 지연을 추구한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- [[673_mac_message_authentication_code|MAC]] 주소 필터만으로 무선 보안이 충분하다고 보는 설계
-- 현대 [[238_switch_operation_principles|스위치]] [[230_ethernet_structure_and_principles_ieee_802_3|Ethernet]] 환경에서도 [[104_csma|CSMA]]/CD가 항상 핵심 동작이라고 설명하는 오류
-- MAC과 [[744_load_line_calibration|LLC]], [[673_mac_message_authentication_code|MAC]] 주소와 IP 주소를 구분하지 못해 계층 설명이 뒤섞이는 답안
+- [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 필터만으로 무선 보안이 충분하다고 보는 설계
+- 현대 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 환경에서도 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD가 항상 핵심 동작이라고 설명하는 오류
+- MAC과 [LLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/), [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소와 IP 주소를 구분하지 못해 계층 설명이 뒤섞이는 답안
 
-기술사 답안에서는 MAC을 단순히 "[[323_physical_address|물리 주소]]"로 축소하지 말고, **접근 제어·프레임 포맷·오류 검출·[[121_transmission_media_guided_unguided|매체]]별 구현 차이**를 함께 말해야 한다. 그래야 IEEE 802.3과 802.11을 하나의 개념 아래에서 정확히 묶어 설명할 수 있다.
+기술사 답안에서는 MAC을 단순히 "[물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)"로 축소하지 말고, **접근 제어·프레임 포맷·오류 검출·[매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)별 구현 차이**를 함께 말해야 한다. 그래야 IEEE 802.3과 802.11을 하나의 개념 아래에서 정확히 묶어 설명할 수 있다.
 
-- **📢 섹션 요약 비유**: 같은 도로 규칙이라도 지하 주차장과 공항 활주로는 운영 방식이 다르다. MAC도 이름은 같지만, [[121_transmission_media_guided_unguided|매체]]가 바뀌면 실제 교통 통제 방식이 달라진다.
+- **📢 섹션 요약 비유**: 같은 도로 규칙이라도 지하 주차장과 공항 활주로는 운영 방식이 다르다. MAC도 이름은 같지만, [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)가 바뀌면 실제 교통 통제 방식이 달라진다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-MAC이 잘 설계되면 같은 링크 위의 여러 장치가 서로 방해를 최소화하면서 [[001_dikw_pyramid|데이터]]를 주고받을 수 있다. 또한 프레임 수준에서 주소와 오류 검출이 정리되므로, 상위 계층은 [[121_transmission_media_guided_unguided|매체]] 세부 사항을 모두 몰라도 된다. 즉 MAC은 [[001_dikw_pyramid|데이터]] 링크 계층을 **"실제 전송 가능한 규칙 집합"** 으로 만들어 주는 핵심 장치다.
+MAC이 잘 설계되면 같은 링크 위의 여러 장치가 서로 방해를 최소화하면서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받을 수 있다. 또한 프레임 수준에서 주소와 오류 검출이 정리되므로, 상위 계층은 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 세부 사항을 모두 몰라도 된다. 즉 MAC은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층을 **"실제 전송 가능한 규칙 집합"** 으로 만들어 주는 핵심 장치다.
 
-다만 MAC만으로 모든 문제가 해결되지는 않는다. 네트워크 혼잡, 보안, 종단 간 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]], 라우팅은 다른 계층의 도움을 받아야 한다. MAC은 어디까지나 **링크 로컬 범위의 질서 유지**에 강하다. 그래서 현대 네트워크는 스위칭, [[388_qos_quality_of_service_best_effort_intserv_diffserv|QoS]], 무선 스케줄링, [[546_tsn_hardware|TSN]], [[945_ofdma_orthogonal_frequency_division_multiple_access_resource_block|OFDMA]] (Orthogonal Frequency [[411_division_operation|Division]] [[087_다중접속_Multiple_Access|Multiple Access]]) 같은 확장 기법으로 MAC의 한계를 보완한다.
+다만 MAC만으로 모든 문제가 해결되지는 않는다. 네트워크 혼잡, 보안, 종단 간 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/), 라우팅은 다른 계층의 도움을 받아야 한다. MAC은 어디까지나 **링크 로컬 범위의 질서 유지**에 강하다. 그래서 현대 네트워크는 스위칭, [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/), 무선 스케줄링, [TSN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/), [OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) (Orthogonal Frequency [Division](/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/) [Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/)) 같은 확장 기법으로 MAC의 한계를 보완한다.
 
-정리하면 MAC은 **"주소를 붙이는 계층을 넘어, 공유 [[121_transmission_media_guided_unguided|매체]]에서 전송권과 프레임 무결성을 관리하는 현장 규칙"** 으로 기억하는 것이 가장 정확하다.
+정리하면 MAC은 **"주소를 붙이는 계층을 넘어, 공유 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)에서 전송권과 프레임 무결성을 관리하는 현장 규칙"** 으로 기억하는 것이 가장 정확하다.
 
 - **📢 섹션 요약 비유**: MAC은 놀이터에서 아이들 이름표를 확인하고, 그네를 누가 먼저 탈지 정하고, 줄이 끊어졌는지도 살피는 선생님과 같다. 이름표만 보는 역할이 아니라 질서를 만드는 역할이다.
 
@@ -143,14 +147,14 @@ MAC이 잘 설계되면 같은 링크 위의 여러 장치가 서로 방해를 �
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[744_load_line_calibration|LLC]] (Logical Link Control) | [[673_mac_message_authentication_code|MAC]] 위에서 상위 [[295_protocol_field_tcp_udp_icmp|프로토콜]] [[655_ir_detection_analysis|식별]]과 [[369_logic_bomb|논리]] 서비스를 담당한다 |
-| PHY (Physical Layer) | MAC이 실제 [[130_signal|신호]] 전송을 의뢰하는 하위 계층이다 |
-| [[673_mac_message_authentication_code|MAC]] Address | 링크 로컬 수신 대상을 [[655_ir_detection_analysis|식별]]하는 [[323_physical_address|물리 주소]]다 |
+| [LLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/) (Logical Link Control) | [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 위에서 상위 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)과 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 서비스를 담당한다 |
+| PHY (Physical Layer) | MAC이 실제 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 전송을 의뢰하는 하위 계층이다 |
+| [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) Address | 링크 로컬 수신 대상을 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하는 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)다 |
 | FCS (Frame Check Sequence) | MAC이 프레임 손상을 검출하는 핵심 정보다 |
-| [[104_csma|CSMA]]/CD | 공유 유선 [[121_transmission_media_guided_unguided|매체]]의 전통적 접근 제어 방식이다 |
-| [[104_csma|CSMA]]/[[089_contract_account_smart_contract|CA]] | 무선 채널의 충돌 회피 중심 접근 제어 방식이다 |
-| [[238_switch_operation_principles|Switch]] / [[260_bridge_pattern_abstraction_implementation|Bridge]] | [[673_mac_message_authentication_code|MAC]] 주소 학습을 통해 프레임 포워딩을 수행한다 |
-| RTS/CTS | 무선 숨은 단말 문제를 완화하는 [[673_mac_message_authentication_code|MAC]] 보조 절차다 |
+| [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD | 공유 유선 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)의 전통적 접근 제어 방식이다 |
+| [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/[CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) | 무선 채널의 충돌 회피 중심 접근 제어 방식이다 |
+| [Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) / [Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) | [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 학습을 통해 프레임 포워딩을 수행한다 |
+| RTS/CTS | 무선 숨은 단말 문제를 완화하는 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 보조 절차다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -166,7 +170,7 @@ MAC 기반 접근 제어와 프레임화
         └──────────────▶ TSN · OFDMA · QoS 기반 MAC 고도화
 ```
 
-이 흐름도는 MAC이 단순 주소 표기에서 끝나는 개념이 아니라, 공유 [[121_transmission_media_guided_unguided|매체]] 제어에서 출발해 유선 스위칭과 무선 고도화까지 확장되는 링크 운영 규칙임을 보여 준다.
+이 흐름도는 MAC이 단순 주소 표기에서 끝나는 개념이 아니라, 공유 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 제어에서 출발해 유선 스위칭과 무선 고도화까지 확장되는 링크 운영 규칙임을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -180,7 +184,7 @@ MAC 기반 접근 제어와 프레임화
 
 **진행 상황**: 304 / 1120
 
-← **이전**: [[182_llc_logical_link_control|182. 논리적 링크 제어 (LLC, Logical Link Control) - IEEE 802.2]]
-**다음**: [[184_framing_mechanism|184. 프레이밍 (Framing) 메커니즘]] →
+← **이전**: [182. 논리적 링크 제어 (LLC, Logical Link Control) - IEEE 802.2](/knowledge-base/studynote/03_network/04_data_link_layer_error/182_llc_logical_link_control/)
+**다음**: [184. 프레이밍 (Framing) 메커니즘](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/) →
 
 ---

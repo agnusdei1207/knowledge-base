@@ -1,14 +1,18 @@
----
-title: 57. 모델 주도 아키텍처 (MDA, Model Driven Architecture) - PIM, PSM 매핑
-tags:
-- software_engineering
----
++++
+title = "57. 모델 주도 아키텍처 (MDA, Model Driven Architecture) - PIM, PSM 매핑"
+
+[taxonomies]
+tags = ["software_engineering"]
+
+[extra]
+tags = ["software_engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: MDA (Model Driven [[319_architecture|Architecture]])는 코드를 먼저 [[289_cqrs_db|쓰기]]보다 모델을 먼저 만들고, 그 모델을 플랫폼 코드로 변환하는 접근이다.
+> 1. **본질**: MDA (Model Driven [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))는 코드를 먼저 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)보다 모델을 먼저 만들고, 그 모델을 플랫폼 코드로 변환하는 접근이다.
 > 2. **가치**: 비즈니스 로직을 플랫폼에서 분리하면 Java, Spring, .NET 같은 기술이 바뀌어도 핵심 설계를 오래 재사용할 수 있다.
-> 3. **판단 포인트**: [[432_cim|CIM]], [[430_pim|PIM]], PSM의 역할을 구분하고, 변환 규칙과 도구의 품질을 함께 봐야 한다.
+> 3. **판단 포인트**: [CIM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/432_cim/), [PIM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/), PSM의 역할을 구분하고, 변환 규칙과 도구의 품질을 함께 봐야 한다.
 
 ---
 
@@ -16,7 +20,7 @@ tags:
 
 소프트웨어는 기술 플랫폼이 자주 바뀌지만, 비즈니스 규칙은 오래 남는다. 이 차이를 줄이기 위해 MDA가 등장했다.
 
-MDA는 [[232_uml_unified_modeling_language_overview|UML]] ([[232_uml_unified_modeling_language_overview|Unified Modeling Language]]) 같은 모델을 먼저 정리하고, 그 모델을 바탕으로 실제 코드를 만들어 내는 방식이다.
+MDA는 [UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) ([Unified Modeling Language](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/)) 같은 모델을 먼저 정리하고, 그 모델을 바탕으로 실제 코드를 만들어 내는 방식이다.
 
 - **📢 섹션 요약 비유**: MDA는 집을 바로 짓지 않고 먼저 설계도를 완성한 뒤 공장을 돌리는 방식이다.
 
@@ -36,8 +40,8 @@ PSM (Platform Specific Model)
 코드 생성
 ```
 
-- **[[432_cim|CIM]]**은 업무 관점의 요구사항이다.
-- **[[430_pim|PIM]]**은 기술을 뺀 [[369_logic_bomb|논리]] 모델이다.
+- **[CIM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/432_cim/)**은 업무 관점의 요구사항이다.
+- **[PIM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/)**은 기술을 뺀 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 모델이다.
 - **PSM**은 특정 플랫폼에 맞춘 구체 모델이다.
 
 이 구분이 있어야 업무와 기술을 분리해 생각할 수 있다.
@@ -46,9 +50,9 @@ PSM (Platform Specific Model)
 
 ---
 
-## Ⅲ. 변환과 코드 [[087_process_state_transition|생성]]
+## Ⅲ. 변환과 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
 
-MDA의 핵심은 모델 간 변환이다. 도구가 규칙에 따라 PIM을 PSM으로 바꾸고, 최종 코드를 [[087_process_state_transition|생성]]한다.
+MDA의 핵심은 모델 간 변환이다. 도구가 규칙에 따라 PIM을 PSM으로 바꾸고, 최종 코드를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다.
 
 이 과정에서 중요한 것은 변환 규칙(Transformation Rule)이다. 규칙이 잘 정의되어야 같은 모델에서 같은 코드가 안정적으로 나온다.
 
@@ -72,7 +76,7 @@ MDA는 대규모 시스템에서 유지보수와 플랫폼 이식성을 높이�
 
 ## Ⅴ. 장점, 한계, 그리고 비교
 
-MDA의 장점은 재사용성과 플랫폼 독립성이다. 반대로 한계는 도구 의존성과 [[459_quic_fec_forward_error_correction|초기]] 모델링 비용이다.
+MDA의 장점은 재사용성과 플랫폼 독립성이다. 반대로 한계는 도구 의존성과 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 모델링 비용이다.
 
 코드 중심 개발은 빠르게 시작할 수 있지만 기술 변화에 취약하다. MDA는 시작은 무거워도 장기적인 구조를 정리하는 데 유리하다.
 
@@ -98,8 +102,8 @@ PSM
 
 1. 코드 중심 개발 → 플랫폼 의존성 증가
 2. 모델 중심 사고 → 업무와 기술 분리
-3. [[432_cim|CIM]] / [[430_pim|PIM]] / PSM → [[198_abstraction_control_data_process|추상화]] 계층 정립
-4. 변환 도구와 템플릿 → 자동 코드 [[087_process_state_transition|생성]] 확산
+3. [CIM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/432_cim/) / [PIM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/) / PSM → [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층 정립
+4. 변환 도구와 템플릿 → 자동 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 확산
 5. 모델 주도 엔지니어링 → 대규모 시스템 설계의 표준화 시도
 
 ---
@@ -108,7 +112,7 @@ PSM
 
 MDA는 그림으로 집을 먼저 그리는 거예요.  
 그림이 있으면 어떤 재료로 지어도 같은 집을 만들 수 있어요.  
-그래서 나중에 재료가 바뀌어도 다시 [[289_cqrs_db|쓰기]] 쉬워요.
+그래서 나중에 재료가 바뀌어도 다시 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 쉬워요.
 
 ---
 
@@ -116,7 +120,7 @@ MDA는 그림으로 집을 먼저 그리는 거예요.
 
 **진행 상황**: 57 / 973
 
-← **이전**: [[056_togaf_ea_framework|56. TOGAF EA Framework]]
-**다음**: [[058_methodology_tailoring|58. 방법론 테일러링 (Tailoring) - 표준 프로세스를 프로젝트에 맞게 최적화]] →
+← **이전**: [56. TOGAF EA Framework](/knowledge-base/studynote/04_software_engineering/01_overview_principles/056_togaf_ea_framework/)
+**다음**: [58. 방법론 테일러링 (Tailoring) - 표준 프로세스를 프로젝트에 맞게 최적화](/knowledge-base/studynote/04_software_engineering/01_overview_principles/058_methodology_tailoring/) →
 
 ---

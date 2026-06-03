@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="ko" dir="ltr" saved-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="generator" content="Zola">
+  <title>{% block title %}{% if page %}{{ page.title }}{% elif section %}{{ section.title }}{% else %}{{ config.title }}{% endif %}{% endblock title %}</title>
+  <meta name="description" content="{% if page and page.description %}{{ page.description }}{% elif section and section.description %}{{ section.description }}{% else %}{{ config.description }}{% endif %}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;700&family=Source+Sans+Pro:ital,wght@0,400;0,600;1,400;1,600&family=IBM+Plex+Mono:wght@400;600&display=swap">
+  <link rel="icon" type="image/svg+xml" href="https://api.iconify.design/lucide:brain-circuit.svg?color=%23E2A06E">
+  <link rel="stylesheet" href="{{ get_url(path='assets/css/style.css') }}">
+  <link rel="stylesheet" href="{{ get_url(path='_pagefind/pagefind-ui.css') }}">
+  {% block head %}{% endblock head %}
+</head>
+<body data-basepath="{{ config.base_url }}">
+  <div id="quartz-root" class="page" data-frame="default">
+    <div id="quartz-body">
+      <aside class="left sidebar">
+        <h2 class="page-title"><a href="{{ config.base_url | safe }}">{{ config.title }}</a></h2>
+        <div class="mobile-spacer"></div>
+        <div class="toolbar">
+          <div class="search">
+            <button class="search-button" type="button" aria-label="검색" aria-expanded="false" data-search-open>
+              <span class="icon-search" aria-hidden="true"></span>
+              <span>검색</span>
+            </button>
+          </div>
+          <button class="darkmode" type="button" aria-label="다크 모드" data-theme-toggle>
+            <span class="sun-icon" aria-hidden="true"></span>
+            <span class="moon-icon" aria-hidden="true"></span>
+          </button>
+        </div>
+        <nav class="explorer nav-files-container" aria-label="Explorer">
+          <button type="button" class="explorer-toggle mobile-explorer hide-until-loaded" data-mobile-explorer aria-label="Explorer">
+            <span class="hamburger" aria-hidden="true"></span>
+          </button>
+          <button type="button" class="title-button explorer-toggle desktop-explorer" aria-expanded="true">
+            <h2>Explorer</h2>
+          </button>
+          <div id="explorer-1" class="explorer-content" aria-expanded="false" role="group">
+            <ul class="explorer-ul overflow" id="explorer-tree"></ul>
+          </div>
+        </nav>
+      </aside>
+
+      <main class="center">
+        <div class="page-header">
+          {% block page_header %}
+          <div class="popover-hint">
+            <details class="note-properties metadata-container" open>
+              <summary class="note-properties-header">
+                <span class="note-properties-title">Properties</span>
+                <span class="note-properties-count">{% if page and page.extra.tags %}{{ page.extra.tags | length }}{% elif section and section.extra.tags %}{{ section.extra.tags | length }}{% else %}0{% endif %}</span>
+              </summary>
+              <table class="note-properties-table">
+                <tbody>
+                  {% set tags = [] %}
+                  {% if page and page.extra.tags %}{% set tags = page.extra.tags %}{% elif section and section.extra.tags %}{% set tags = section.extra.tags %}{% endif %}
+                  {% if tags | length > 0 %}
+                  <tr class="note-properties-row metadata-property">
+                    <td class="note-properties-key metadata-property-key">tags</td>
+                    <td class="note-properties-value metadata-property-value">
+                      <span class="note-properties-tags">
+                        {% for tag in tags %}<span class="tag-link">{{ tag }}</span>{% if not loop.last %} {% endif %}{% endfor %}
+                      </span>
+                    </td>
+                  </tr>
+                  {% endif %}
+                </tbody>
+              </table>
+            </details>
+            <p class="content-meta">
+              {% if page and page.date %}<time datetime="{{ page.date }}">{{ page.date }}</time>{% elif section and section.extra.date %}<time datetime="{{ section.extra.date }}">{{ section.extra.date }}</time>{% endif %}
+            </p>
+          </div>
+          {% endblock page_header %}
+        </div>
+        <article class="popover-hint markdown-preview-view markdown-rendered" data-pagefind-body>
+          {% block content %}{% endblock content %}
+        </article>
+      </main>
+
+      <aside class="right sidebar">
+        <div class="toc">
+          <button type="button" class="toc-header" aria-controls="toc-1" aria-expanded="true">
+            <h3>목차</h3>
+          </button>
+          <ul id="toc-1" class="toc-content overflow">
+            {% block toc %}{% endblock toc %}
+          </ul>
+        </div>
+        <div class="global-graph">
+          <h3>Graph View</h3>
+          <div class="global-graph-outer"><canvas id="global-graph" width="300" height="220"></canvas></div>
+        </div>
+        <div class="backlinks">
+          <h3>백링크</h3>
+          <ul id="backlinks-list" class="overflow" data-current-path="{% if page %}{{ page.path }}{% elif section %}{{ section.path }}{% endif %}"></ul>
+        </div>
+      </aside>
+
+      <footer>
+        <p>Created with <a href="https://www.getzola.org/">Zola</a> and <a href="https://pagefind.app/">Pagefind</a></p>
+      </footer>
+    </div>
+  </div>
+
+  <div class="search-container" data-search-modal hidden>
+    <div class="search-space">
+      <button type="button" class="search-close" aria-label="검색 닫기" data-search-close></button>
+      <div id="search" class="pagefind-search" data-placeholder="검색어를 입력하세요"></div>
+    </div>
+  </div>
+  <script src="{{ get_url(path='_pagefind/pagefind-ui.js') }}"></script>
+  <script src="{{ get_url(path='assets/js/site.js') }}"></script>
+</body>
+</html>

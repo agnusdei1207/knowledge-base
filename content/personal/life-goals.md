@@ -1,8 +1,12 @@
----
-title: 🧭 Life Goals & Bucket List
-tags:
-- personal
----
++++
+title = "🧭 Life Goals & Bucket List"
+
+[taxonomies]
+tags = ["personal"]
+
+[extra]
+tags = ["personal"]
++++
 
 내가 가고자 하는 방향과 도달하고 싶은 삶의 이정표들입니다.
 

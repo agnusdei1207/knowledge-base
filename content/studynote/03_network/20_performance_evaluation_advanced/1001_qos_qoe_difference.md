@@ -1,25 +1,29 @@
----
-title: 1001. QoS / QoE 차이 비교
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "1001. QoS / QoE 차이 비교"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[388_qos_quality_of_service_best_effort_intserv_diffserv|QoS]] / QoE 차이 비교는 [[282_performance_tactics|성능]] 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: [[388_qos_quality_of_service_best_effort_intserv_diffserv|QoS]] / QoE 차이 비교를 이해하면 측정 정확도과 모델 적합성 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) / QoE 차이 비교는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) / QoE 차이 비교를 이해하면 측정 정확도과 모델 적합성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 통신 장비(라우터, [[238_switch_operation_principles|스위치]])가 네트워크 상에서 [[001_dikw_pyramid|데이터]]를 전송할 때 측정하는 **객관적이고 정량적인 물리적 [[282_performance_tactics|성능]] 지표**입니다.
+- **개념**: 통신 장비(라우터, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))가 네트워크 상에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송할 때 측정하는 **객관적이고 정량적인 물리적 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표**입니다.
 - **주요 측정 지표**:
-  1. **[[140_bandwidth|대역폭]] ([[140_bandwidth|Bandwidth]])**: 1초에 보낼 수 있는 [[001_dikw_pyramid|데이터]] 최대량 (Mbps).
-  2. **[[015_지연_데이터_관점|지연]] (Delay / [[141_latency|Latency]])**: 출발지에서 목적지까지 도달하는 시간 (ms).
-  3. **지터 (Jitter)**: 패킷이 도착하는 [[141_latency|지연 시간]]의 들쭉날쭉한 편차 (ms).
+  1. **[대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) ([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))**: 1초에 보낼 수 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 최대량 (Mbps).
+  2. **[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) (Delay / [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))**: 출발지에서 목적지까지 도달하는 시간 (ms).
+  3. **지터 (Jitter)**: 패킷이 도착하는 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)의 들쭉날쭉한 편차 (ms).
   4. **패킷 손실률 (Packet Loss)**: 중간에 터져서 버려진 패킷의 비율 (%).
 - **특징**: 네트워크 엔지니어가 망을 설계하고 튜닝할 때 쓰는 차가운 기계적 목표치입니다.
 
@@ -32,16 +36,16 @@ tags:
     └──▶ [네트워크 지연]
 ```
 
-- **📢 섹션 요약 비유**: [[388_qos_quality_of_service_best_effort_intserv_diffserv|QoS]] / QoE 차이 비교는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [[170_selectivity_cardinality_distribution_tuning|선택도]] 쉬워진다.
+- **📢 섹션 요약 비유**: [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) / QoE 차이 비교는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 최종 사용자(End-User)가 특정 [[090_service_kubernetes_network_load_balancing|서비스]](유튜브, 카톡, 줌)를 실제로 이용했을 때 주관적으로 느끼는 **총체적인 체감 품질과 만족도**입니다. (909번 [[909_mos_mean_opinion_score_qoe_emodel|MOS]] 문서와 직결됩니다.)
+- **개념**: 최종 사용자(End-User)가 특정 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(유튜브, 카톡, 줌)를 실제로 이용했을 때 주관적으로 느끼는 **총체적인 체감 품질과 만족도**입니다. (909번 [MOS](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/909_mos_mean_opinion_score_qoe_emodel/) 문서와 직결됩니다.)
 - **주요 측정 지표**:
   - 동영상 버퍼링이 걸린 횟수, 화면이 모자이크로 깨진 정도, 앱 로딩에 걸린 시간, 음성 통화 시 기계음 섞임 정도 등.
-- **특징**: 1점(최악)부터 5점(완벽)까지 점수를 매기는 [[909_mos_mean_opinion_score_qoe_emodel|MOS]](Mean Opinion Score) 같은 주관적 평가를 통해 측정합니다.
+- **특징**: 1점(최악)부터 5점(완벽)까지 점수를 매기는 [MOS](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/909_mos_mean_opinion_score_qoe_emodel/)(Mean Opinion Score) 같은 주관적 평가를 통해 측정합니다.
 
 ```text
 [클라우드 네이티브 네트워크]
@@ -52,7 +56,7 @@ tags:
     └──▶ [네트워크 지연]
 ```
 
-- **📢 섹션 요약 비유**: [[388_qos_quality_of_service_best_effort_intserv_diffserv|QoS]] / QoE 차이 비교의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
+- **📢 섹션 요약 비유**: [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) / QoE 차이 비교의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
 ---
 
@@ -61,50 +65,50 @@ tags:
 QoS가 완벽하다고 QoE가 100점이 나오는 건 절대 아닙니다.
 
 1. **디바이스(단말기)의 한계**: 
-   - 통신망([[388_qos_quality_of_service_best_effort_intserv_diffserv|QoS]])은 기가인터넷을 쏴줬는데, 내 스마트폰 CPU가 너무 낡아서 유튜브 영상을 화면에 그리는(디코딩) 데 버벅댑니다. 사람은 "이거 인터넷 왜 이렇게 느려!"라고 화를 냅니다(QoE 바닥).
+   - 통신망([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/))은 기가인터넷을 쏴줬는데, 내 스마트폰 CPU가 너무 낡아서 유튜브 영상을 화면에 그리는(디코딩) 데 버벅댑니다. 사람은 "이거 인터넷 왜 이렇게 느려!"라고 화를 냅니다(QoE 바닥).
 2. **콘텐츠 서버의 한계**:
    - 통신망은 완벽한데 넷플릭스 본사 서버가 터져서 영상을 늦게 쏴줍니다. 사용자는 넷플릭스가 아니라 통신사(SKT)를 욕합니다.
 3. **애플리케이션의 보정(은닉) 능력 (908번 연계)**:
-   - 반대의 경우도 있습니다. 통신망이 구려서 패킷이 [[489_raid_10_hybrid|10]]%나 유실되었습니다([[388_qos_quality_of_service_best_effort_intserv_diffserv|QoS]] 바닥).
-   - 그런데 줌(Zoom) 화상 회의 앱이 미친 [[231_ai_turing_test|인공지능]]([[190_ai_llm_requirements_specification|AI]])을 돌려 깨진 목소리 [[489_raid_10_hybrid|10]]%를 감쪽같이 가짜로 그려 넣어 보정해버렸습니다(손실 은닉 기법). 
+   - 반대의 경우도 있습니다. 통신망이 구려서 패킷이 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%나 유실되었습니다([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 바닥).
+   - 그런데 줌(Zoom) 화상 회의 앱이 미친 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))을 돌려 깨진 목소리 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%를 감쪽같이 가짜로 그려 넣어 보정해버렸습니다(손실 은닉 기법). 
    - 사용자는 "오! 오늘 통화 엄청 깨끗하네!" 라며 별점 5점(QoE 최고)을 줍니다. (QoS는 똥인데 QoE는 높은 기적)
 
-[[388_qos_quality_of_service_best_effort_intserv_diffserv|QoS]] / QoE 차이 비교를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [[1000_cni_cloud_native_network|클라우드 네이티브 네트워크]]가 기반 조건을 만든다면, [[388_qos_quality_of_service_best_effort_intserv_diffserv|QoS]] / QoE 차이 비교는 그 위에서 핵심 메커니즘을 구현하고, [[1002_network_delay_rtt_oneway_delay_components|네트워크 지연]]은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) / QoE 차이 비교를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [클라우드 네이티브 네트워크](/knowledge-base/studynote/03_network/16_data_center_cloud/1000_cni_cloud_native_network/)가 기반 조건을 만든다면, [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) / QoE 차이 비교는 그 위에서 핵심 메커니즘을 구현하고, [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [[1000_cni_cloud_native_network|클라우드 네이티브 네트워크]]의 기반 정리 | [[388_qos_quality_of_service_best_effort_intserv_diffserv|QoS]] / QoE 차이 비교의 핵심 동작 | [[1002_network_delay_rtt_oneway_delay_components|네트워크 지연]]의 확장 적용 |
+| 초점 | [클라우드 네이티브 네트워크](/knowledge-base/studynote/03_network/16_data_center_cloud/1000_cni_cloud_native_network/)의 기반 정리 | [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) / QoE 차이 비교의 핵심 동작 | [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/)의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 측정 정확도 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: **[[388_qos_quality_of_service_best_effort_intserv_diffserv|QoS]]**는 피자 배달 오토바이의 '계기판 수치'입니다. 배달부가 "나는 시속 100km([[140_bandwidth|대역폭]])로 달렸고, 10분([[141_latency|지연 시간]]) 만에 도착했고, 방지턱에서 딱 2번(지터) 흔들렸습니다!"라고 완벽한 스펙을 자랑합니다. 반면 **QoE**는 피자 박스를 열어본 '고객의 빡침 정도'입니다. 오토바이가 아무리 10분 만에 완벽하게 왔어도([[388_qos_quality_of_service_best_effort_intserv_diffserv|QoS]] 최고), 배달부가 피자를 거꾸로 들어서 치즈가 박스 뚜껑에 다 늘러붙어 있으면 고객은 별점 1점(QoE 최악)을 테러합니다. 반대로 오토바이가 30분 늦게 왔더라도([[388_qos_quality_of_service_best_effort_intserv_diffserv|QoS]] 폭망), 사장님이 미안하다며 치즈오븐 스파게티를 공짜로 [[090_service_kubernetes_network_load_balancing|서비스]](앱의 보정 기술)로 넣어주면 고객은 감동하여 별점 5점(QoE 최고)을 주는, 기계의 스펙과 인간의 감정 사이의 극명한 차이점입니다.
+- **📢 섹션 요약 비유**: **[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)**는 피자 배달 오토바이의 '계기판 수치'입니다. 배달부가 "나는 시속 100km([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))로 달렸고, 10분([지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 만에 도착했고, 방지턱에서 딱 2번(지터) 흔들렸습니다!"라고 완벽한 스펙을 자랑합니다. 반면 **QoE**는 피자 박스를 열어본 '고객의 빡침 정도'입니다. 오토바이가 아무리 10분 만에 완벽하게 왔어도([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 최고), 배달부가 피자를 거꾸로 들어서 치즈가 박스 뚜껑에 다 늘러붙어 있으면 고객은 별점 1점(QoE 최악)을 테러합니다. 반대로 오토바이가 30분 늦게 왔더라도([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 폭망), 사장님이 미안하다며 치즈오븐 스파게티를 공짜로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(앱의 보정 기술)로 넣어주면 고객은 감동하여 별점 5점(QoE 최고)을 주는, 기계의 스펙과 인간의 감정 사이의 극명한 차이점입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 [[388_qos_quality_of_service_best_effort_intserv_diffserv|QoS]] / QoE 차이 비교를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [[1000_cni_cloud_native_network|클라우드 네이티브 네트워크]] 수준의 기본 대책으로 충분한지, 아니면 [[388_qos_quality_of_service_best_effort_intserv_diffserv|QoS]] / QoE 차이 비교가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [[1002_network_delay_rtt_oneway_delay_components|네트워크 지연]]와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) / QoE 차이 비교를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [클라우드 네이티브 네트워크](/knowledge-base/studynote/03_network/16_data_center_cloud/1000_cni_cloud_native_network/) 수준의 기본 대책으로 충분한지, 아니면 [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) / QoE 차이 비교가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/)와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 측정 정확도 부족인지, 모델 적합성 악화인지 먼저 분리한다.
-2. [[388_qos_quality_of_service_best_effort_intserv_diffserv|QoS]] / QoE 차이 비교가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [[396_validation|확인]]한다.
-3. 도입 후에는 인접 기술인 [[1002_network_delay_rtt_oneway_delay_components|네트워크 지연]]와의 연계 방식을 함께 검증한다.
+2. [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) / QoE 차이 비교가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+3. 도입 후에는 인접 기술인 [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/)와의 연계 방식을 함께 검증한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- [[388_qos_quality_of_service_best_effort_intserv_diffserv|QoS]] / QoE 차이 비교의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- [[1000_cni_cloud_native_network|클라우드 네이티브 네트워크]]와의 경계를 정리하지 않아 중복 투자나 [[164_policy|정책]] 충돌을 만드는 설계
+- [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) / QoE 차이 비교의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
+- [클라우드 네이티브 네트워크](/knowledge-base/studynote/03_network/16_data_center_cloud/1000_cni_cloud_native_network/)와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
-- **📢 섹션 요약 비유**: [[388_qos_quality_of_service_best_effort_intserv_diffserv|QoS]] / QoE 차이 비교를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
+- **📢 섹션 요약 비유**: [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) / QoE 차이 비교를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[[388_qos_quality_of_service_best_effort_intserv_diffserv|QoS]] / QoE 차이 비교는 [[282_performance_tactics|성능]] 평가와 고급 분석을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 측정 정확도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [[1002_network_delay_rtt_oneway_delay_components|네트워크 지연]], [[190_ai_llm_requirements_specification|AI]] 기반 [[282_performance_tactics|성능]] 예측, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [[190_ai_llm_requirements_specification|AI]] 기반 [[282_performance_tactics|성능]] 예측 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) / QoE 차이 비교는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 측정 정확도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: [[388_qos_quality_of_service_best_effort_intserv_diffserv|QoS]] / QoE 차이 비교는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
+- **📢 섹션 요약 비유**: [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) / QoE 차이 비교는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
 ---
 
@@ -112,10 +116,10 @@ QoS가 완벽하다고 QoE가 100점이 나오는 건 절대 아닙니다.
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[1000_cni_cloud_native_network|클라우드 네이티브 네트워크]] | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [[139_throughput|처리량]] ([[139_throughput|Throughput]]) | 실제 전달 [[282_performance_tactics|성능]]을 나타내는 대표 지표다. |
-| [[015_지연_데이터_관점|지연]] ([[141_latency|Latency]]) | 사용자 체감 품질을 좌우한다. |
-| [[1002_network_delay_rtt_oneway_delay_components|네트워크 지연]] | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [클라우드 네이티브 네트워크](/knowledge-base/studynote/03_network/16_data_center_cloud/1000_cni_cloud_native_network/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) | 실제 전달 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 나타내는 대표 지표다. |
+| [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) ([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) | 사용자 체감 품질을 좌우한다. |
+| [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -129,7 +133,7 @@ QoS가 완벽하다고 QoE가 100점이 나오는 건 절대 아닙니다.
     └──▶ [확장 B: AI 기반 성능 예측]
 ```
 
-[[388_qos_quality_of_service_best_effort_intserv_diffserv|QoS]] / QoE 차이 비교는 [[1000_cni_cloud_native_network|클라우드 네이티브 네트워크]]에서 출발해 현재 메커니즘을 정교화하고, 이후 [[1002_network_delay_rtt_oneway_delay_components|네트워크 지연]]와 [[190_ai_llm_requirements_specification|AI]] 기반 [[282_performance_tactics|성능]] 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) / QoE 차이 비교는 [클라우드 네이티브 네트워크](/knowledge-base/studynote/03_network/16_data_center_cloud/1000_cni_cloud_native_network/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -143,7 +147,7 @@ QoS가 완벽하다고 QoE가 100점이 나오는 건 절대 아닙니다.
 
 **진행 상황**: 101 / 1120
 
-← **이전**: [[1000_cni_cloud_native_network|1000. 클라우드 네이티브 네트워크 (CNI)]]
-**다음**: [[1002_network_delay_rtt_oneway_delay_components|1002. 네트워크 지연 (Rtt vs 단방향 Delay)]] →
+← **이전**: [1000. 클라우드 네이티브 네트워크 (CNI)](/knowledge-base/studynote/03_network/16_data_center_cloud/1000_cni_cloud_native_network/)
+**다음**: [1002. 네트워크 지연 (Rtt vs 단방향 Delay)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/) →
 
 ---

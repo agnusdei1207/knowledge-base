@@ -1,38 +1,42 @@
----
-title: 515. PCA, LDA, SVD 차원 축소 행렬 분해 (PCA LDA SVD Dimensionality Reduction)
-date: '2026-05-09'
-tags:
-- studynote-ict-convergence
----
++++
+title = "515. PCA, LDA, SVD 차원 축소 행렬 분해 (PCA LDA SVD Dimensionality Reduction)"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-ict-convergence"]
+
+[extra]
+tags = ["studynote-ict-convergence"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[163_pca|PCA]]([[163_pca|Principal Component Analysis]], [[338_pca_principal_component_analysis|주성분 분석]])는 비지도 방식으로 [[136_variance|분산]]을 최대화하는 직교 축을 찾고, LDA(Linear Discriminant Analysis, [[082_lda_linear_discriminant_analysis_classification|선형 판별 분석]])는 클래스 레이블을 활용해 클래스 간 분리를 최대화한다.
-> 2. **가치**: [[230_svd_matrix_factorization_random_forest_xgboost_boosting|SVD]]([[230_svd_matrix_factorization_random_forest_xgboost_boosting|Singular Value Decomposition]], [[342_svd|특이값 분해]])는 PCA의 수학적 토대이자 [[211_recommendation_system|추천 시스템]]·이미지 [[347_compaction|압축]]·NLP에 범용으로 쓰이는 행렬 분해의 핵심 도구다.
-> 3. **판단 포인트**: 레이블 없으면 [[163_pca|PCA]], 레이블 있고 [[104_classification_analysis|분류]] 목적이면 LDA — 스크리 플롯(Scree Plot)으로 주성분 수를 결정하고 누적 설명 [[136_variance|분산]] 비율 ≥ 95% 기준을 적용한다.
+> 1. **본질**: [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/)([Principal Component Analysis](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/), [주성분 분석](/knowledge-base/studynote/06_ict_convergence/05_data_science/338_pca_principal_component_analysis/))는 비지도 방식으로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 최대화하는 직교 축을 찾고, LDA(Linear Discriminant Analysis, [선형 판별 분석](/knowledge-base/studynote/14_data_engineering/02_math_mining/082_lda_linear_discriminant_analysis_classification/))는 클래스 레이블을 활용해 클래스 간 분리를 최대화한다.
+> 2. **가치**: [SVD](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/)([Singular Value Decomposition](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/), [특이값 분해](/knowledge-base/studynote/10_ai/05_data_science_ml/342_svd/))는 PCA의 수학적 토대이자 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)·이미지 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)·NLP에 범용으로 쓰이는 행렬 분해의 핵심 도구다.
+> 3. **판단 포인트**: 레이블 없으면 [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/), 레이블 있고 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 목적이면 LDA — 스크리 플롯(Scree Plot)으로 주성분 수를 결정하고 누적 설명 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 비율 ≥ 95% 기준을 적용한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-고차원 [[001_dikw_pyramid|데이터]]는 차원의 저주([[080_curse_of_dimensionality|Curse of Dimensionality]]) — [[001_dikw_pyramid|데이터]] 희소성, 과적합, 계산 비용 증가 — 를 유발한다. [[081_dimensionality_reduction_pca_principal_component_analysis|차원 축소]]는 중요한 정보를 보존하면서 차원을 줄이는 해법이다.
+고차원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 차원의 저주([Curse of Dimensionality](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_curse_of_dimensionality/)) — [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 희소성, 과적합, 계산 비용 증가 — 를 유발한다. [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/)는 중요한 정보를 보존하면서 차원을 줄이는 해법이다.
 
-### [[081_dimensionality_reduction_pca_principal_component_analysis|차원 축소]] 필요성
+### [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/) 필요성
 
-| 문제 | 증상 | [[081_dimensionality_reduction_pca_principal_component_analysis|차원 축소]] 효과 |
+| 문제 | 증상 | [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/) 효과 |
 |:---|:---|:---|
 | 차원의 저주 | 고차원에서 거리 개념 붕괴 | 유의미한 차원만 유지 |
 | 다중공선성 | 독립변수 간 상관 | 직교 성분으로 분리 |
-| [[003_bigdata_7v|시각화]] 불가 | 4D+ 직관적 표현 불가 | 2-3D로 축소해 [[003_bigdata_7v|시각화]] |
+| [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 불가 | 4D+ 직관적 표현 불가 | 2-3D로 축소해 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) |
 | 계산 비용 | 특성 수 ∝ 연산량 | 특성 수 대폭 감소 |
 
-- **📢 섹션 요약 비유**: [[081_dimensionality_reduction_pca_principal_component_analysis|차원 축소]]는 3D 조각상을 2D 사진으로 찍는 것처럼, 모든 정보를 다 담을 순 없지만 핵심 모양([[136_variance|분산]])을 최대한 살려 적은 공간에 담아내는 거야.
+- **📢 섹션 요약 비유**: [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/)는 3D 조각상을 2D 사진으로 찍는 것처럼, 모든 정보를 다 담을 순 없지만 핵심 모양([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))을 최대한 살려 적은 공간에 담아내는 거야.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [[163_pca|PCA]] vs LDA vs [[230_svd_matrix_factorization_random_forest_xgboost_boosting|SVD]] 구조
+### [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) vs LDA vs [SVD](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/) 구조
 
 ```
 원본 데이터 X (n × p 행렬)
@@ -49,7 +53,7 @@ tags:
                특이값,우특이벡터)
 ```
 
-### [[230_svd_matrix_factorization_random_forest_xgboost_boosting|SVD]] 분해: A = UΣVᵀ
+### [SVD](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/) 분해: A = UΣVᵀ
 
 | 행렬 | 크기 | 의미 |
 |:---|:---|:---|
@@ -57,12 +61,12 @@ tags:
 | Σ (시그마) | m × n | 대각 특이값 (내림차순 정렬) |
 | Vᵀ | n × n | 우 특이 벡터 (열 공간) |
 
-**절단 [[230_svd_matrix_factorization_random_forest_xgboost_boosting|SVD]] (Truncated [[230_svd_matrix_factorization_random_forest_xgboost_boosting|SVD]])**: 상위 k개 특이값만 사용 → PCA와 동일한 결과 (영평균 [[001_dikw_pyramid|데이터]] 기준).
+**절단 [SVD](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/) (Truncated [SVD](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/))**: 상위 k개 특이값만 사용 → PCA와 동일한 결과 (영평균 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기준).
 
-**[[341_eigenvalue_decomposition|고유값 분해]]와 [[163_pca|PCA]] 연결**:
+**[고유값 분해](/knowledge-base/studynote/10_ai/05_data_science_ml/341_eigenvalue_decomposition/)와 [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) 연결**:
 - X의 공분산 행렬 C = XᵀX / (n−1)
 - C의 고유벡터(Eigenvector) = 주성분 방향
-- 고유값(Eigenvalue) = 해당 성분의 설명 [[136_variance|분산]]
+- 고유값(Eigenvalue) = 해당 성분의 설명 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)
 
 - **📢 섹션 요약 비유**: SVD는 지도를 세 장(U, Σ, Vᵀ)으로 분해하는 것처럼, 복잡한 행렬을 단순한 성분들로 쪼개서 가장 중요한 성분(큰 특이값)만 남기면 원본과 비슷한 근사 행렬을 만들 수 있어.
 
@@ -70,21 +74,21 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-### [[163_pca|PCA]] vs LDA 핵심 비교
+### [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) vs LDA 핵심 비교
 
-| 기준 | [[163_pca|PCA]] | LDA |
+| 기준 | [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) | LDA |
 |:---|:---|:---|
 | 학습 방식 | 비지도 (Unsupervised) | 지도 (Supervised) |
-| 목표 | [[136_variance|분산]] 최대화 ([[001_dikw_pyramid|데이터]] [[136_variance|분산]]) | 클래스 분리 최대화 |
+| 목표 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 최대화 ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)) | 클래스 분리 최대화 |
 | 주성분 수 | 최대 min(n−1, p) | 최대 C−1 (클래스 수−1) |
-| 활용 | 특성 추출, 전처리 | [[104_classification_analysis|분류]] 전 [[081_dimensionality_reduction_pca_principal_component_analysis|차원 축소]] |
-| 가정 | 없음 | 클래스 별 [[138_normal_distribution|정규 분포]], 등공분산 |
+| 활용 | 특성 추출, 전처리 | [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 전 [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/) |
+| 가정 | 없음 | 클래스 별 [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/), 등공분산 |
 
 ### 스크리 플롯 (Scree Plot)
 
-- X축: 주성분 번호, Y축: 고유값 (설명 [[136_variance|분산]]).
+- X축: 주성분 번호, Y축: 고유값 (설명 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)).
 - **엘보우 기준**: 고유값 감소 기울기가 급격히 완만해지는 지점에서 주성분 수 결정.
-- **누적 [[136_variance|분산]] 기준**: 누적 설명 [[136_variance|분산]] 비율 ≥ 95%인 최소 주성분 수 선택.
+- **누적 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 기준**: 누적 설명 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 비율 ≥ 95%인 최소 주성분 수 선택.
 
 - **📢 섹션 요약 비유**: PCA는 "이 사진에서 가장 특징적인 각도는 어디야?"라고 묻는 거고, LDA는 "남자와 여자를 가장 잘 구별하는 각도는 어디야?"라고 묻는 거야 — 목적이 다르다.
 
@@ -92,37 +96,37 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**시나리오 1 - 이미지 [[347_compaction|압축]] ([[230_svd_matrix_factorization_random_forest_xgboost_boosting|SVD]])**:
-- 1,000 × 1,000 픽셀 이미지 → [[230_svd_matrix_factorization_random_forest_xgboost_boosting|SVD]] 분해.
+**시나리오 1 - 이미지 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) ([SVD](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/))**:
+- 1,000 × 1,000 픽셀 이미지 → [SVD](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/) 분해.
 - 상위 50개 특이값만 유지 → 원본의 5% 저장 공간으로 시각적으로 유사한 이미지 복원.
 - 정보 보존율 = Σ(k개 특이값²) / Σ(전체 특이값²) = 92%.
 
-**시나리오 2 - 고객 세분화 전처리 ([[163_pca|PCA]])**:
-- 고객 [[001_dikw_pyramid|데이터]] 50개 특성 → [[163_pca|PCA]] 적용.
-- 스크리 플롯으로 PC1~PC8이 누적 [[136_variance|분산]] 96.2% 설명 [[396_validation|확인]] → 8차원으로 축소.
+**시나리오 2 - 고객 세분화 전처리 ([PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/))**:
+- 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 50개 특성 → [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) 적용.
+- 스크리 플롯으로 PC1~PC8이 누적 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 96.2% 설명 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) → 8차원으로 축소.
 - K-Means 클러스터링 입력으로 사용 → 속도 15배 향상, 실루엣 점수 0.62 (원본 0.48 대비 향상).
 
-**시나리오 3 - 텍스트 [[104_classification_analysis|분류]] 전처리 (LDA)**:
-- [[232_tfidf_cosine_similarity_text_embedding_confusion_matrix|TF-IDF]] 행렬 (5,000 단어) → LDA로 5개 클래스 분리.
-- 4개 판별 축(LD)으로 축소 → [[238_svm_margin_kernel_trick_naive_bayes|SVM]] [[104_classification_analysis|분류]] 정확도 89% ([[163_pca|PCA]] 전처리 84% 대비 향상).
+**시나리오 3 - 텍스트 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 전처리 (LDA)**:
+- [TF-IDF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/) 행렬 (5,000 단어) → LDA로 5개 클래스 분리.
+- 4개 판별 축(LD)으로 축소 → [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 정확도 89% ([PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) 전처리 84% 대비 향상).
 
 **기술사 판단 포인트**:
-- [[163_pca|PCA]] 전처리 필수: 특성 스케일 표준화(Standardization) 선행 (단위 차이가 주성분 왜곡).
-- LDA 가정 위배: QDA(Quadratic Discriminant Analysis) 또는 [[022_kernel_role|커널]] LDA 검토.
+- [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) 전처리 필수: 특성 스케일 표준화(Standardization) 선행 (단위 차이가 주성분 왜곡).
+- LDA 가정 위배: QDA(Quadratic Discriminant Analysis) 또는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) LDA 검토.
 
-- **📢 섹션 요약 비유**: PCA로 미리 차원을 줄이면 이후 클러스터링·[[104_classification_analysis|분류]] 모델이 더 빠르고 정확해져. 핵심만 담긴 요약본(주성분)이 원본 전체보다 학습에 더 효율적인 것처럼.
+- **📢 섹션 요약 비유**: PCA로 미리 차원을 줄이면 이후 클러스터링·[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델이 더 빠르고 정확해져. 핵심만 담긴 요약본(주성분)이 원본 전체보다 학습에 더 효율적인 것처럼.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[[163_pca|PCA]]·LDA·SVD를 목적에 맞게 선택하면 차원의 저주를 극복하고 모델 [[282_performance_tactics|성능]]·계산 효율·[[003_bigdata_7v|시각화]] 가능성을 동시에 확보할 수 있다.
+[PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/)·LDA·SVD를 목적에 맞게 선택하면 차원의 저주를 극복하고 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·계산 효율·[시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 가능성을 동시에 확보할 수 있다.
 
 - **학습 속도 개선**: 특성 수 감소로 훈련 시간 대폭 단축.
-- **과적합 방지**: 노이즈 성분 제거로 일반화 [[282_performance_tactics|성능]] 향상.
-- **해석 가능성**: 2-3D [[003_bigdata_7v|시각화]]로 [[001_dikw_pyramid|데이터]] 군집 구조 직관적 [[396_validation|확인]].
+- **과적합 방지**: 노이즈 성분 제거로 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상.
+- **해석 가능성**: 2-3D [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 군집 구조 직관적 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
 
-- **📢 섹션 요약 비유**: [[081_dimensionality_reduction_pca_principal_component_analysis|차원 축소]]는 긴 책을 핵심 요약본으로 만드는 것이야. 내용을 완벽히 보존할 수는 없지만, 가장 중요한 부분([[136_variance|분산]]이 큰 방향)을 남겨서 더 빠르고 정확한 이해를 가능하게 해.
+- **📢 섹션 요약 비유**: [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/)는 긴 책을 핵심 요약본으로 만드는 것이야. 내용을 완벽히 보존할 수는 없지만, 가장 중요한 부분([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 큰 방향)을 남겨서 더 빠르고 정확한 이해를 가능하게 해.
 
 ---
 
@@ -130,11 +134,11 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[163_pca|PCA]] | [[341_eigenvalue_decomposition|고유값 분해]], 스크리 플롯 · 전처리, [[003_bigdata_7v|시각화]] |
-| LDA | 클래스 분리, 피셔 기준 · 지도 [[081_dimensionality_reduction_pca_principal_component_analysis|차원 축소]] |
-| [[230_svd_matrix_factorization_random_forest_xgboost_boosting|SVD]] | [[163_pca|PCA]], 행렬 근사, [[211_recommendation_system|추천 시스템]] · 이미지·텍스트 [[347_compaction|압축]] |
+| [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) | [고유값 분해](/knowledge-base/studynote/10_ai/05_data_science_ml/341_eigenvalue_decomposition/), 스크리 플롯 · 전처리, [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) |
+| LDA | 클래스 분리, 피셔 기준 · 지도 [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/) |
+| [SVD](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/) | [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/), 행렬 근사, [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/) · 이미지·텍스트 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) |
 | 차원의 저주 | 과적합, 거리 붕괴 · 고차원 문제 동기 |
-| Scree Plot | 누적 [[136_variance|분산]], 주성분 수 결정 · [[163_pca|PCA]] 모델 선택 |
+| Scree Plot | 누적 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/), 주성분 수 결정 · [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) 모델 선택 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -145,7 +149,7 @@ tags:
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. PCA는 사진을 찍을 때 가장 잘 보이는 각도를 찾아서 3D 물체를 2D 사진으로 담는 방법이야.
-2. LDA는 남자 얼굴과 여자 얼굴을 구별하는 특징을 찾아서 딱 그 방향으로 사진을 찍는 거야 — 목적이 [[104_classification_analysis|분류]]니까.
+2. LDA는 남자 얼굴과 여자 얼굴을 구별하는 특징을 찾아서 딱 그 방향으로 사진을 찍는 거야 — 목적이 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)니까.
 3. SVD는 복잡한 퍼즐을 중요한 조각 순서로 분해한 다음, 가장 중요한 조각들만 모아 비슷한 그림을 만드는 방법이야!
 
 ---
@@ -154,7 +158,7 @@ tags:
 
 **진행 상황**: 515 / 552
 
-← **이전**: [[514_regression_ols_vif_multicollinearity|514. 회귀 분석: OLS, VIF, 다중공선성 (Regression OLS VIF Multicollinearity)]]
-**다음**: [[516_markov_chain_absorbing_ergodic_transition|516. 마르코프 체인: 흡수, 에르고딕, 전이 상태 (Markov Chain Absorbing Ergodic Transition)]] →
+← **이전**: [514. 회귀 분석: OLS, VIF, 다중공선성 (Regression OLS VIF Multicollinearity)](/knowledge-base/studynote/06_ict_convergence/05_data_science/514_regression_ols_vif_multicollinearity/)
+**다음**: [516. 마르코프 체인: 흡수, 에르고딕, 전이 상태 (Markov Chain Absorbing Ergodic Transition)](/knowledge-base/studynote/06_ict_convergence/05_data_science/516_markov_chain_absorbing_ergodic_transition/) →
 
 ---

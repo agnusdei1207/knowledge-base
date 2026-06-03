@@ -1,27 +1,31 @@
----
-title: 349. 슬랩 할당기 (Slab Allocator) - 커널 객체 캐싱, 단편화 방지 및 속도 향상
-date: '2026-05-09'
-tags:
-- studynote-operating-system
----
++++
+title = "349. 슬랩 할당기 (Slab Allocator) - 커널 객체 캐싱, 단편화 방지 및 속도 향상"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[760_slab_allocator_object_caching|슬랩]] 할당기([[760_slab_allocator_object_caching|Slab]] Allocator)는 자주 [[087_process_state_transition|생성]]되고 소멸하는 **작은 크기의 [[022_kernel_role|커널]] 객체(예: PCB, [[501_file_definition_logical_record|파일]] [[289_identification_flags_fragmentation_offset|식별자]])들을 미리 할당된 크기별 맞춤 방(캐시)에 보관해두고 재사용(Object [[456_caching|Caching]])**하는 [[148_5g_embb_urllc_mmtc|초고속]] [[022_kernel_role|커널]] 메모리 할당 아키텍처다.
-> 2. **가치**: 100바이트 남짓한 작은 객체를 위해 [[348_buddy_system|버디 시스템]]이 4KB(1페이지)를 던져주어 발생하는 극악의 **[[341_internal_fragmentation|내부 단편화]]([[341_internal_fragmentation|Internal Fragmentation]])를 완전히 소거**하며, 매번 메모리를 [[459_quic_fec_forward_error_correction|초기]]화(0으로 리셋)하는 오버헤드를 제거해 성능을 극대화한다.
-> 3. **융합**: 리눅스나 솔라리스 등 현대 [[001_operating_system_purpose|운영체제]] [[022_kernel_role|커널]] 내부에서 **[[348_buddy_system|버디 시스템]](거대 메모리 공급)의 상위에 얹혀(Layered) 미세한 칼질을 담당**하는 투트랙(Two-track) 융합 메모리 관리 체계의 완성형이다.
+> 1. **본질**: [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 할당기([Slab](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) Allocator)는 자주 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되고 소멸하는 **작은 크기의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 객체(예: PCB, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/))들을 미리 할당된 크기별 맞춤 방(캐시)에 보관해두고 재사용(Object [Caching](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/))**하는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리 할당 아키텍처다.
+> 2. **가치**: 100바이트 남짓한 작은 객체를 위해 [버디 시스템](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/)이 4KB(1페이지)를 던져주어 발생하는 극악의 **[내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)([Internal Fragmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/))를 완전히 소거**하며, 매번 메모리를 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화(0으로 리셋)하는 오버헤드를 제거해 성능을 극대화한다.
+> 3. **융합**: 리눅스나 솔라리스 등 현대 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부에서 **[버디 시스템](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/)(거대 메모리 공급)의 상위에 얹혀(Layered) 미세한 칼질을 담당**하는 투트랙(Two-track) 융합 메모리 관리 체계의 완성형이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [[760_slab_allocator_object_caching|슬랩]]([[760_slab_allocator_object_caching|Slab]])은 하나 이상의 연속된 물리 [[286_page_frame|페이지]]([[286_page_frame|Page]])들로 구성된 큰 덩어리다. [[760_slab_allocator_object_caching|슬랩]] 할당기는 이 거대한 [[760_slab_allocator_object_caching|슬랩]] 안에 동일한 크기의 특정 객체(예: 80바이트짜리 [[224_semaphore|세마포어]] 구조체)를 담을 수 있는 '틀(캐시)'을 수십 개 파놓고, 요청이 올 때마다 그 틀 중 하나를 내어주고 반환받는 기법이다.
-- **필요성**: [[001_operating_system_purpose|운영체제]] [[022_kernel_role|커널]]은 초당 수만 개의 작은 객체들(프로세스 정보 덩어리, 네트워크 [[125_socket|소켓]] 등)을 만들고 파괴한다. 이 작은 놈들을 [[022_kernel_role|커널]]의 기본 메모리 할당기인 '[[348_buddy_system|버디 시스템]](기본 단위 4KB)'에 요청하면, 80바이트 쓰겠다고 4096바이트를 내어주어 4016바이트가 버려지는 대참사([[341_internal_fragmentation|내부 단편화]])가 발생한다. 또한 빈 메모리를 찾아서 포인터를 [[459_quic_fec_forward_error_correction|초기]]화하는 데 드는 CPU 연산 낭비도 너무 컸다. "자주 쓰는 놈들은 아예 전용 붕어빵 틀을 만들어놓고 찍어내자"는 아이디어가 [[760_slab_allocator_object_caching|슬랩]]의 탄생 배경이다.
+- **개념**: [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/)([Slab](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/))은 하나 이상의 연속된 물리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))들로 구성된 큰 덩어리다. [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 할당기는 이 거대한 [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 안에 동일한 크기의 특정 객체(예: 80바이트짜리 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) 구조체)를 담을 수 있는 '틀(캐시)'을 수십 개 파놓고, 요청이 올 때마다 그 틀 중 하나를 내어주고 반환받는 기법이다.
+- **필요성**: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 초당 수만 개의 작은 객체들(프로세스 정보 덩어리, 네트워크 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 등)을 만들고 파괴한다. 이 작은 놈들을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 기본 메모리 할당기인 '[버디 시스템](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/)(기본 단위 4KB)'에 요청하면, 80바이트 쓰겠다고 4096바이트를 내어주어 4016바이트가 버려지는 대참사([내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/))가 발생한다. 또한 빈 메모리를 찾아서 포인터를 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화하는 데 드는 CPU 연산 낭비도 너무 컸다. "자주 쓰는 놈들은 아예 전용 붕어빵 틀을 만들어놓고 찍어내자"는 아이디어가 [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/)의 탄생 배경이다.
 
 - **등장 배경 및 아키텍처 진화 (SunOS)**:
-  1. **[[459_quic_fec_forward_error_correction|초기]] 객체 할당의 비효율**: 80년대 UNIX 계열 [[022_kernel_role|커널]]들은 작은 구조체를 할당할 때 일반 동적 할당기([[344_first_fit|First-fit]] 등)를 써서 [[022_kernel_role|커널]] 메모리를 파편화 지옥으로 만들었다.
-  2. **오브젝트 [[456_caching|캐싱]](Object [[456_caching|Caching]])의 도입**: 1994년 Sun Microsystems의 Jeff Bonwick이 Solaris OS를 위해 논문을 발표했다. 객체의 껍데기 자체를 지우지 말고 메모리상에 '캐시'해 두자는 혁명적 제안이었다.
-  3. **Linux Kernel의 수용**: 그 효용성이 너무나 압도적이어서, Linux [[022_kernel_role|커널]]도 2.2 버전부터 이 [[760_slab_allocator_object_caching|슬랩]] 할당기 아이디어를 차용(이후 SLUB, SLOB 등으로 진화)하여 [[022_kernel_role|커널]] 메모리 관리의 표준으로 삼았다.
+  1. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 객체 할당의 비효율**: 80년대 UNIX 계열 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)들은 작은 구조체를 할당할 때 일반 동적 할당기([First-fit](/knowledge-base/studynote/02_operating_system/06_memory_management/344_first_fit/) 등)를 써서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리를 파편화 지옥으로 만들었다.
+  2. **오브젝트 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)(Object [Caching](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/))의 도입**: 1994년 Sun Microsystems의 Jeff Bonwick이 Solaris OS를 위해 논문을 발표했다. 객체의 껍데기 자체를 지우지 말고 메모리상에 '캐시'해 두자는 혁명적 제안이었다.
+  3. **Linux Kernel의 수용**: 그 효용성이 너무나 압도적이어서, Linux [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)도 2.2 버전부터 이 [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 할당기 아이디어를 차용(이후 SLUB, SLOB 등으로 진화)하여 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리 관리의 표준으로 삼았다.
 
 ```text
 ┌───────────────────────────────────────────────────────────────────┐
@@ -40,30 +44,30 @@ tags:
 │      [빈방][빈방][빈방][빈방] ──장기 미사용 시 Buddy로 반납──▶    │
 └───────────────────────────────────────────────────────────────────┘
 ```
-**[다이어그램 해설]** [[760_slab_allocator_object_caching|슬랩]]은 객체 종류별로 캐시(Cache)라는 전용 장부를 둔다. 예를 들어 [[090_pcb_tcb|프로세스 제어 블록]](PCB) 전용 캐시, 네트워크 패킷 전용 캐시 등이다. 이 캐시 안에는 여러 개의 [[760_slab_allocator_object_caching|슬랩]](보통 1~4개의 연속된 [[286_page_frame|페이지]] 덩어리)이 존재한다. [[760_slab_allocator_object_caching|슬랩]] 할당기는 Partial(일부만 찬) [[760_slab_allocator_object_caching|슬랩]]에서 빈 객체를 O(1) 속도로 꺼내준다. 덕분에 [[341_internal_fragmentation|내부 단편화]]가 0에 가깝게 소거된다.
+**[다이어그램 해설]** [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/)은 객체 종류별로 캐시(Cache)라는 전용 장부를 둔다. 예를 들어 [프로세스 제어 블록](/knowledge-base/studynote/02_operating_system/02_process_thread/090_pcb_tcb/)(PCB) 전용 캐시, 네트워크 패킷 전용 캐시 등이다. 이 캐시 안에는 여러 개의 [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/)(보통 1~4개의 연속된 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 덩어리)이 존재한다. [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 할당기는 Partial(일부만 찬) [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/)에서 빈 객체를 O(1) 속도로 꺼내준다. 덕분에 [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)가 0에 가깝게 소거된다.
 
-- **📢 섹션 요약 비유**: 식당에서 손님이 올 때마다 밀가루 반죽을 새로 해서 면을 뽑는(일반 메모리 할당) 대신, 아예 1인분씩 면을 미리 삶아서 그릇([[760_slab_allocator_object_caching|슬랩]]) 수십 개에 담아두고 주문 즉시 육수만 부어 나가는(객체 [[456_caching|캐싱]]) 무시무시한 회전율의 국밥집입니다.
+- **📢 섹션 요약 비유**: 식당에서 손님이 올 때마다 밀가루 반죽을 새로 해서 면을 뽑는(일반 메모리 할당) 대신, 아예 1인분씩 면을 미리 삶아서 그릇([슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/)) 수십 개에 담아두고 주문 즉시 육수만 부어 나가는(객체 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)) 무시무시한 회전율의 국밥집입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [[022_kernel_role|커널]] 객체 라이프사이클 낭비 제거 (Object [[456_caching|Caching]])
+### [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 객체 라이프사이클 낭비 제거 (Object [Caching](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/))
 
-[[760_slab_allocator_object_caching|슬랩]]의 진짜 무서운 점은 [[291_fragmentation_and_reassembly_process|단편화]] 제거를 넘어 **'객체 [[459_quic_fec_forward_error_correction|초기]]화 비용'**을 날려버린다는 것이다.
-- [[022_kernel_role|커널]] 객체(예: [[224_semaphore|세마포어]])를 하나 만들려면, 빈 메모리를 할당받은 뒤 `mutex = 0`, `wait_list = NULL` 등 내부 변수들을 [[459_quic_fec_forward_error_correction|초기]]화(Initialization)하는 CPU 연산이 반드시 들어간다. 객체를 다 쓰고 지울 때(Destroy)도 뒷정리 연산이 필요하다.
-- **[[760_slab_allocator_object_caching|슬랩]]의 마법**: [[760_slab_allocator_object_caching|슬랩]] 할당기는 객체를 다 썼다고 메모리를 [[001_operating_system_purpose|운영체제]](버디)에 반납하지 않는다! 그 상태 그대로 [[760_slab_allocator_object_caching|슬랩]] 방 안에 "사용 가능(Free)" 딱지만 붙여 [[456_caching|캐싱]]([[456_caching|Caching]])해둔다. 
-- 다음에 누군가 또 [[224_semaphore|세마포어]]를 요청하면, 그 방에 있던 (이미 [[459_quic_fec_forward_error_correction|초기]]화 세팅이 다 끝나있는) 객체 껍데기를 그대로 재활용하여 내어준다. [[087_process_state_transition|생성]]과 소멸 사이클 연산이 0으로 수렴한다.
+[슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/)의 진짜 무서운 점은 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 제거를 넘어 **'객체 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 비용'**을 날려버린다는 것이다.
+- [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 객체(예: [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/))를 하나 만들려면, 빈 메모리를 할당받은 뒤 `mutex = 0`, `wait_list = NULL` 등 내부 변수들을 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화(Initialization)하는 CPU 연산이 반드시 들어간다. 객체를 다 쓰고 지울 때(Destroy)도 뒷정리 연산이 필요하다.
+- **[슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/)의 마법**: [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 할당기는 객체를 다 썼다고 메모리를 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(버디)에 반납하지 않는다! 그 상태 그대로 [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 방 안에 "사용 가능(Free)" 딱지만 붙여 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)([Caching](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/))해둔다. 
+- 다음에 누군가 또 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)를 요청하면, 그 방에 있던 (이미 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 세팅이 다 끝나있는) 객체 껍데기를 그대로 재활용하여 내어준다. [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)과 소멸 사이클 연산이 0으로 수렴한다.
 
 ---
 
-### [[760_slab_allocator_object_caching|슬랩]]의 상태([[272_state_pattern|State]]) 기반 할당 [[001_algorithm_definition|알고리즘]]
+### [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/)의 상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) 기반 할당 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 
-캐시 내의 수많은 [[760_slab_allocator_object_caching|슬랩]]([[760_slab_allocator_object_caching|Slab]] 덩어리)들은 3가지 상태 중 하나로 관리된다. 메모리 할당 요청이 오면 [[760_slab_allocator_object_caching|슬랩]] 할당기는 다음과 같은 우선순위로 탐색한다.
+캐시 내의 수많은 [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/)([Slab](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 덩어리)들은 3가지 상태 중 하나로 관리된다. 메모리 할당 요청이 오면 [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 할당기는 다음과 같은 우선순위로 탐색한다.
 
-1. **Partial (부분 점유)** [[760_slab_allocator_object_caching|슬랩]]: 방이 일부만 차 있는 [[760_slab_allocator_object_caching|슬랩]]. 최우선으로 여기서 빈 객체를 찾아 내어준다.
-2. **Empty (완전 빈)** [[760_slab_allocator_object_caching|슬랩]]: Partial [[760_slab_allocator_object_caching|슬랩]]이 꽉 차면(Full이 되면), 그제야 텅 빈 [[760_slab_allocator_object_caching|슬랩]]에서 객체를 꺼내 [[289_cqrs_db|쓰기]] 시작한다.
-3. **Full (꽉 찬)** [[760_slab_allocator_object_caching|슬랩]]: 모든 [[760_slab_allocator_object_caching|슬랩]]이 Full 상태라면? [[760_slab_allocator_object_caching|슬랩]] 할당기는 당황하지 않고 **하단의 [[348_buddy_system|버디 시스템]]([[348_buddy_system|Buddy System]])에게 전화를 걸어 "[[286_page_frame|페이지]] 몇 장만 더 줘!"라고 요청**하여 새로운 Empty [[760_slab_allocator_object_caching|슬랩]]을 찍어낸다.
+1. **Partial (부분 점유)** [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/): 방이 일부만 차 있는 [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/). 최우선으로 여기서 빈 객체를 찾아 내어준다.
+2. **Empty (완전 빈)** [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/): Partial [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/)이 꽉 차면(Full이 되면), 그제야 텅 빈 [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/)에서 객체를 꺼내 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시작한다.
+3. **Full (꽉 찬)** [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/): 모든 [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/)이 Full 상태라면? [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 할당기는 당황하지 않고 **하단의 [버디 시스템](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/)([Buddy System](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/))에게 전화를 걸어 "[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 몇 장만 더 줘!"라고 요청**하여 새로운 Empty [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/)을 찍어낸다.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────┐
@@ -87,27 +91,27 @@ tags:
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 이 아름다운 협업 구조가 리눅스를 서버 시장의 제왕으로 만든 일등 공신이다. 거칠게 잘라서 남는 공간이 펑펑 버려지던 [[348_buddy_system|버디 시스템]]의 약점([[341_internal_fragmentation|내부 단편화]])을, [[760_slab_allocator_object_caching|슬랩]] 할당기라는 촘촘한 그물망이 완벽하게 필터링해준다. [[348_buddy_system|버디 시스템]] 입장에서는 자잘한 요청에 시달리지 않고 큰 [[286_page_frame|페이지]](4KB 단위)만 쿨하게 던져주면 되니 서로의 장점만 극대화된다.
+**[다이어그램 해설]** 이 아름다운 협업 구조가 리눅스를 서버 시장의 제왕으로 만든 일등 공신이다. 거칠게 잘라서 남는 공간이 펑펑 버려지던 [버디 시스템](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/)의 약점([내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/))을, [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 할당기라는 촘촘한 그물망이 완벽하게 필터링해준다. [버디 시스템](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/) 입장에서는 자잘한 요청에 시달리지 않고 큰 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(4KB 단위)만 쿨하게 던져주면 되니 서로의 장점만 극대화된다.
 
-- **📢 섹션 요약 비유**: 대형 정육점([[348_buddy_system|버디 시스템]])에서는 무조건 돼지 반 마리 단위로만 크게 썰어 팔지만, 그 고기를 떼어온 동네 식당([[760_slab_allocator_object_caching|슬랩]] 할당기)이 주방에서 100g 단위 얇은 불고기용(작은 객체)으로 정밀하게 썰어 손님에게 파는 완벽한 도소매 유통망입니다.
+- **📢 섹션 요약 비유**: 대형 정육점([버디 시스템](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/))에서는 무조건 돼지 반 마리 단위로만 크게 썰어 팔지만, 그 고기를 떼어온 동네 식당([슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 할당기)이 주방에서 100g 단위 얇은 불고기용(작은 객체)으로 정밀하게 썰어 손님에게 파는 완벽한 도소매 유통망입니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 비교 1: 일반 [[369_memory_pool|메모리 풀]]([[369_memory_pool|Memory Pool]]) vs [[760_slab_allocator_object_caching|슬랩]] 할당기 ([[760_slab_allocator_object_caching|Slab]] Allocator)
+### 비교 1: 일반 [메모리 풀](/knowledge-base/studynote/02_operating_system/06_memory_management/369_memory_pool/)([Memory Pool](/knowledge-base/studynote/02_operating_system/06_memory_management/369_memory_pool/)) vs [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 할당기 ([Slab](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) Allocator)
 
-사용자 앱(C++)에서 흔히 짜는 오브젝트 풀과 [[022_kernel_role|커널]]의 [[760_slab_allocator_object_caching|슬랩]]은 철학은 같으나 유연성에서 차이가 난다.
+사용자 앱(C++)에서 흔히 짜는 오브젝트 풀과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/)은 철학은 같으나 유연성에서 차이가 난다.
 
-| 비교 항목 | 일반 애플리케이션 Object Pool | 리눅스 [[760_slab_allocator_object_caching|Slab]] 할당기 |
+| 비교 항목 | 일반 애플리케이션 Object Pool | 리눅스 [Slab](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 할당기 |
 |:---|:---|:---|
-| **메모리 확보** | 앱 켤 때 100MB 푹 떼어서 풀을 만듦 | 필요할 때마다 [[348_buddy_system|버디 시스템]]에서 동적으로 떼옴 |
+| **메모리 확보** | 앱 켤 때 100MB 푹 떼어서 풀을 만듦 | 필요할 때마다 [버디 시스템](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/)에서 동적으로 떼옴 |
 | **반환(Reclaim)**| 앱 끌 때까지 메모리를 쥐고 놔주지 않음 | Empty 상태로 오래 있으면 OS(버디)에게 방 빼서 돌려줌 |
-| **목적** | [[380_garbage_collection|가비지 컬렉션]](GC)이나 STW [[015_지연_데이터_관점|지연]] 회피 | [[022_kernel_role|커널]] [[341_internal_fragmentation|내부 단편화]] 제거 및 객체 [[087_process_state_transition|생성]] CPU 연산 절감 |
+| **목적** | [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)(GC)이나 STW [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 회피 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/) 제거 및 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) CPU 연산 절감 |
 
-### 리눅스 [[760_slab_allocator_object_caching|Slab]] 할당기의 진화 ([[760_slab_allocator_object_caching|SLAB]] -> SLUB -> SLOB)
+### 리눅스 [Slab](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 할당기의 진화 ([SLAB](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) -> SLUB -> SLOB)
 
-현대 리눅스 [[022_kernel_role|커널]]은 환경에 맞춰 [[760_slab_allocator_object_caching|슬랩]] 할당기도 세 가지 맛으로 진화시켰다.
+현대 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 환경에 맞춰 [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 할당기도 세 가지 맛으로 진화시켰다.
 
 ```text
 ┌──────────┬────────────┬────────────┬────────────────────────────────────┐
@@ -118,25 +122,25 @@ tags:
 │ SLOB     │ 코드 크기 초경량화│ 램 사용량 극소화│ 임베디드 (라즈베리파이)│
 └──────────┴────────────┴────────────┴────────────────────────────────────┘
 ```
-**[매트릭스 해설]** 원조 SLAB은 큐([[058_queue|Queue]])를 여러 개 유지하느라 구조체가 너무 뚱뚱해져서, 수백 코어를 가진 현대 서버에서는 캐시 장부 관리 자체가 짐이 되었다. 그래서 장부([[012_metadata|메타데이터]])를 [[286_page_frame|페이지]] 프레임 안으로 욱여넣어 구조를 극도로 심플하게 만든 **SLUB (Unqueued [[760_slab_allocator_object_caching|Slab]])**이 현대 데스크탑/서버 리눅스의 기본 할당기로 채택되었다. 반면 메모리가 몇 메가바이트뿐인 소형 라즈베리파이 같은 기기에서는 코드가 가장 가벼운 SLOB을 쓴다.
+**[매트릭스 해설]** 원조 SLAB은 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))를 여러 개 유지하느라 구조체가 너무 뚱뚱해져서, 수백 코어를 가진 현대 서버에서는 캐시 장부 관리 자체가 짐이 되었다. 그래서 장부([메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/))를 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 프레임 안으로 욱여넣어 구조를 극도로 심플하게 만든 **SLUB (Unqueued [Slab](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/))**이 현대 데스크탑/서버 리눅스의 기본 할당기로 채택되었다. 반면 메모리가 몇 메가바이트뿐인 소형 라즈베리파이 같은 기기에서는 코드가 가장 가벼운 SLOB을 쓴다.
 
-- **📢 섹션 요약 비유**: 커피 자판기([[459_quic_fec_forward_error_correction|초기]] [[760_slab_allocator_object_caching|SLAB]])에서 기능이 너무 많아 잔고장이 나자, 부품을 빼고 극도로 심플하게 만들어 고장이 안 나게 개조한 신형 자판기(현대 SLUB)로 모두 교체된 셈입니다.
+- **📢 섹션 요약 비유**: 커피 자판기([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [SLAB](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/))에서 기능이 너무 많아 잔고장이 나자, 부품을 빼고 극도로 심플하게 만들어 고장이 안 나게 개조한 신형 자판기(현대 SLUB)로 모두 교체된 셈입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 실무 시나리오: [[022_kernel_role|커널]] [[612_memory_leak_detection|메모리 누수]] 추적 (Slabinfo)
-1. **상황**: 리눅스 서버가 특별한 유저 애플리케이션을 안 띄웠는데도 메모리가 16GB 꽉 차서 버벅거린다([[022_kernel_role|Kernel]] [[612_memory_leak_detection|Memory Leak]]).
+### 실무 시나리오: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/) 추적 (Slabinfo)
+1. **상황**: 리눅스 서버가 특별한 유저 애플리케이션을 안 띄웠는데도 메모리가 16GB 꽉 차서 버벅거린다([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [Memory Leak](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)).
 2. **원인 분석 (`cat /proc/slabinfo`)**:
    - 엔지니어는 서버에 들어가 `slabtop` 명령어나 `cat /proc/slabinfo`를 친다.
-   - 출력 결과, `dentry` (디렉토리 엔트리 캐시) 객체가 무려 천만 개나 [[087_process_state_transition|생성]]되어 [[760_slab_allocator_object_caching|슬랩]] 메모리 10GB를 혼자 쳐묵쳐묵 하고 있는 것을 발견한다.
-   - "아! 어떤 멍청한 백그라운드 스크립트가 존재하지도 않는 수백만 개의 [[501_file_definition_logical_record|파일]]을 계속 열려고 시도해서 [[501_file_definition_logical_record|파일]] 시스템 캐시(dentry [[760_slab_allocator_object_caching|slab]])가 폭발했구나!"
+   - 출력 결과, `dentry` (디렉토리 엔트리 캐시) 객체가 무려 천만 개나 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되어 [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 메모리 10GB를 혼자 쳐묵쳐묵 하고 있는 것을 발견한다.
+   - "아! 어떤 멍청한 백그라운드 스크립트가 존재하지도 않는 수백만 개의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 계속 열려고 시도해서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 캐시(dentry [slab](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/))가 폭발했구나!"
 3. **실무적 해결**:
-   - `echo 2 > /proc/sys/vm/drop_caches` 명령을 쳐서 리눅스 [[022_kernel_role|커널]]에게 "당장 꽉 찬 Empty [[760_slab_allocator_object_caching|슬랩]]들을 다 부숴서 [[348_buddy_system|버디 시스템]]으로 반환해!"라고 강제 회수(Reclaim) 명령을 내려 메모리를 되찾는다.
+   - `echo 2 > /proc/sys/vm/drop_caches` 명령을 쳐서 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에게 "당장 꽉 찬 Empty [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/)들을 다 부숴서 [버디 시스템](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/)으로 반환해!"라고 강제 회수(Reclaim) 명령을 내려 메모리를 되찾는다.
 
-### 실무에서의 [[659_ir_lessons_learned|교훈]] (객체 풀링의 위력)
-[[760_slab_allocator_object_caching|슬랩]] 할당기의 이 "오브젝트 [[456_caching|캐싱]]" 사상은 현대 백엔드 개발자들에게 큰 영감을 주었다. DB Connection Pool (미리 DB 연결을 맺어두고 껍데기만 빌려주기)이나 [[103_thread_pool|Thread Pool]] (스레드를 죽이지 않고 살려두어 재활용하기) 아키텍처가 모두 이 [[022_kernel_role|커널]] [[760_slab_allocator_object_caching|슬랩]] 할당기가 보여준 "[[459_quic_fec_forward_error_correction|초기]]화 비용 파괴" 철학의 후손들이다.
+### 실무에서의 [교훈](/knowledge-base/studynote/09_security/13_secops_ir_forensics/659_ir_lessons_learned/) (객체 풀링의 위력)
+[슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 할당기의 이 "오브젝트 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)" 사상은 현대 백엔드 개발자들에게 큰 영감을 주었다. DB Connection Pool (미리 DB 연결을 맺어두고 껍데기만 빌려주기)이나 [Thread Pool](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) (스레드를 죽이지 않고 살려두어 재활용하기) 아키텍처가 모두 이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 할당기가 보여준 "[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 비용 파괴" 철학의 후손들이다.
 
 - **📢 섹션 요약 비유**: 매번 자동차를 새로 조립해서 렌트해주는 게 아니라, 주차장에 100대를 렌트카(Pool)로 미리 시동 걸어놓고 키만 넘겨주는 방식이 얼마나 위대한 속도 혁명을 낳았는지를 증명하는 실무 사례입니다.
 
@@ -148,15 +152,15 @@ tags:
 
 | 구분 | 내용 |
 |:---|:---|
-| **[[341_internal_fragmentation|내부 단편화]](Internal) 소거**| 80바이트 객체에 4KB를 할당하던 [[348_buddy_system|버디 시스템]]의 낭비를 없애, [[022_kernel_role|커널]] 메모리 효율을 99% 이상으로 상승 |
-| **객체 [[087_process_state_transition|생성]] [[015_지연_데이터_관점|지연]]([[141_latency|Latency]]) 0화**| 메모리 0 [[459_quic_fec_forward_error_correction|초기]]화 및 변수 세팅 과정(Constructor/Destructor)을 생략하여 [[022_kernel_role|커널]] 응답성 극대화 |
-| **캐시 지역성(Locality) 향상**| 동일한 종류의 객체들이 인접한 물리 메모리에 모여있어 하드웨어 L1/L2 캐시 [[264_hit_ratio|적중률]]([[359_effective_access_time|Hit Ratio]])이 비약적으로 상승 |
+| **[내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)(Internal) 소거**| 80바이트 객체에 4KB를 할당하던 [버디 시스템](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/)의 낭비를 없애, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리 효율을 99% 이상으로 상승 |
+| **객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 0화**| 메모리 0 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 및 변수 세팅 과정(Constructor/Destructor)을 생략하여 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 응답성 극대화 |
+| **캐시 지역성(Locality) 향상**| 동일한 종류의 객체들이 인접한 물리 메모리에 모여있어 하드웨어 L1/L2 캐시 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)([Hit Ratio](/knowledge-base/studynote/02_operating_system/06_memory_management/359_effective_access_time/))이 비약적으로 상승 |
 
 ### 결론 및 미래 전망
 
-[[760_slab_allocator_object_caching|슬랩]] 할당기 ([[760_slab_allocator_object_caching|Slab]] Allocator)는 거시적 자원 관리([[348_buddy_system|버디 시스템]])와 미시적 자원 관리([[760_slab_allocator_object_caching|슬랩]])를 역할 분담시킨 모듈화 아키텍처의 눈부신 걸작이다. 이 두 할당기의 완벽한 상호보완 덕분에 리눅스 [[022_kernel_role|커널]]은 아무리 작고 복잡한 시스템 콜이 폭풍처럼 쏟아져도 메모리 파편화 없이 바위처럼 굳건하게 서버를 지탱할 수 있게 되었다. 객체를 썼다가 버리지 않고 씻어서 다시 쓴다는 친환경적(?) [[456_caching|캐싱]] 철학은, 앞으로도 고성능 인메모리(In-Memory) 데이터베이스나 HFT(초고빈도 매매) 시스템 등 극한의 성능을 추구하는 모든 C/C++ 아키텍처에서 교과서적인 최적화 패턴으로 영원히 존경받을 것이다.
+[슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 할당기 ([Slab](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) Allocator)는 거시적 자원 관리([버디 시스템](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/))와 미시적 자원 관리([슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/))를 역할 분담시킨 모듈화 아키텍처의 눈부신 걸작이다. 이 두 할당기의 완벽한 상호보완 덕분에 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 아무리 작고 복잡한 시스템 콜이 폭풍처럼 쏟아져도 메모리 파편화 없이 바위처럼 굳건하게 서버를 지탱할 수 있게 되었다. 객체를 썼다가 버리지 않고 씻어서 다시 쓴다는 친환경적(?) [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 철학은, 앞으로도 고성능 인메모리(In-Memory) 데이터베이스나 HFT(초고빈도 매매) 시스템 등 극한의 성능을 추구하는 모든 C/C++ 아키텍처에서 교과서적인 최적화 패턴으로 영원히 존경받을 것이다.
 
-- **📢 섹션 요약 비유**: 거대한 공터(물리 램)를 불도저로 크게 썰어 구획을 나누는 일([[348_buddy_system|버디 시스템]])과, 그 구획 안에 똑같은 크기의 레고 집을 정밀하게 조립해 넣는 일([[760_slab_allocator_object_caching|슬랩]] 할당기)을 완벽하게 분업화한 컴퓨터 공학의 신도시 건설 프로젝트입니다.
+- **📢 섹션 요약 비유**: 거대한 공터(물리 램)를 불도저로 크게 썰어 구획을 나누는 일([버디 시스템](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/))과, 그 구획 안에 똑같은 크기의 레고 집을 정밀하게 조립해 넣는 일([슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 할당기)을 완벽하게 분업화한 컴퓨터 공학의 신도시 건설 프로젝트입니다.
 
 ---
 
@@ -164,10 +168,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[347_compaction|압축]] ([[347_compaction|Compaction]]) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [[348_buddy_system|버디 시스템]] ([[348_buddy_system|Buddy System]]) 할당기 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [[350_non_contiguous_memory_allocation|비연속 메모리 할당]] ([[350_non_contiguous_memory_allocation|Non-contiguous Memory Allocation]]) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [[259_paging|페이징]] ([[259_paging|Paging]]) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) ([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [버디 시스템](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/) ([Buddy System](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/)) 할당기 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [비연속 메모리 할당](/knowledge-base/studynote/02_operating_system/06_memory_management/350_non_contiguous_memory_allocation/) ([Non-contiguous Memory Allocation](/knowledge-base/studynote/02_operating_system/06_memory_management/350_non_contiguous_memory_allocation/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) ([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -181,13 +185,13 @@ tags:
     └──▶ [페이징 (Paging)]
 ```
 
-이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [[347_compaction|압축]]해 보여준다.
+이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [[760_slab_allocator_object_caching|슬랩]] 할당기 ([[760_slab_allocator_object_caching|Slab]] Allocator)은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
-2. 먼저 [[348_buddy_system|버디 시스템]] ([[348_buddy_system|Buddy System]]) 할당기을 이해하면 [[760_slab_allocator_object_caching|슬랩]] 할당기 ([[760_slab_allocator_object_caching|Slab]] Allocator)이 왜 필요한지 더 쉽게 보여요.
-3. 그래서 [[760_slab_allocator_object_caching|슬랩]] 할당기 ([[760_slab_allocator_object_caching|Slab]] Allocator)을 잘 알면 나중에 [[350_non_contiguous_memory_allocation|비연속 메모리 할당]] ([[350_non_contiguous_memory_allocation|Non-contiguous Memory Allocation]])도 훨씬 쉽게 배울 수 있어요.
+1. [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 할당기 ([Slab](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) Allocator)은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
+2. 먼저 [버디 시스템](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/) ([Buddy System](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/)) 할당기을 이해하면 [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 할당기 ([Slab](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) Allocator)이 왜 필요한지 더 쉽게 보여요.
+3. 그래서 [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) 할당기 ([Slab](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/) Allocator)을 잘 알면 나중에 [비연속 메모리 할당](/knowledge-base/studynote/02_operating_system/06_memory_management/350_non_contiguous_memory_allocation/) ([Non-contiguous Memory Allocation](/knowledge-base/studynote/02_operating_system/06_memory_management/350_non_contiguous_memory_allocation/))도 훨씬 쉽게 배울 수 있어요.
 
 ---
 
@@ -195,7 +199,7 @@ tags:
 
 **진행 상황**: 349 / 800
 
-← **이전**: [[348_buddy_system|348. 버디 시스템 (Buddy System) 할당기 - 2의 승수로 분할 및 병합 (외부 단편화 절충)]]
-**다음**: [[350_non_contiguous_memory_allocation|350. 비연속 메모리 할당 (Non-contiguous Memory Allocation)]] →
+← **이전**: [348. 버디 시스템 (Buddy System) 할당기 - 2의 승수로 분할 및 병합 (외부 단편화 절충)](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/)
+**다음**: [350. 비연속 메모리 할당 (Non-contiguous Memory Allocation)](/knowledge-base/studynote/02_operating_system/06_memory_management/350_non_contiguous_memory_allocation/) →
 
 ---

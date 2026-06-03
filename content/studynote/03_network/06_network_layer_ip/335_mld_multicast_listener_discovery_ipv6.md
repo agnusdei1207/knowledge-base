@@ -1,9 +1,13 @@
----
-title: 335. MLD (Multicast Listener Discovery)
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "335. MLD (Multicast Listener Discovery)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -15,12 +19,12 @@ tags:
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [[324_ipv6_128bit_next_generation_address|IPv6]] 라우터가 자신에게 바로 연결된 링크(서브넷) 내에 어떤 [[298_ip_classes_a_b_c_d_multicast_e_experimental|멀티캐스트]] 주소에 가입한 리스너(Listener, 수신자)가 존재하는지 파악하기 위해 사용하는 제어 [[295_protocol_field_tcp_udp_icmp|프로토콜]] (RFC 2710). 
-- **필요성**: IPv4에서 IGMP가 했던 역할("나 11번 채널 볼래!")이 [[324_ipv6_128bit_next_generation_address|IPv6]] 세계에서도 똑같이 필요했다. 하지만 IPv6는 헤더 크기가 커지고 [[295_protocol_field_tcp_udp_icmp|프로토콜]] 구조가 바뀌었기 때문에 옛날 [[333_igmp_internet_group_management_protocol_multicast|IGMP]] 메시지 포맷을 그대로 갖다 쓸 수가 없었다. 그래서 **"역할은 똑같이 하되, 껍데기 포장만 IPv6와 ICMPv6 규격에 맞게 싹 리모델링한 새로운 이름"**이 MLD다.
+- **개념**: [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 라우터가 자신에게 바로 연결된 링크(서브넷) 내에 어떤 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 주소에 가입한 리스너(Listener, 수신자)가 존재하는지 파악하기 위해 사용하는 제어 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) (RFC 2710). 
+- **필요성**: IPv4에서 IGMP가 했던 역할("나 11번 채널 볼래!")이 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 세계에서도 똑같이 필요했다. 하지만 IPv6는 헤더 크기가 커지고 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 구조가 바뀌었기 때문에 옛날 [IGMP](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/) 메시지 포맷을 그대로 갖다 쓸 수가 없었다. 그래서 **"역할은 똑같이 하되, 껍데기 포장만 IPv6와 ICMPv6 규격에 맞게 싹 리모델링한 새로운 이름"**이 MLD다.
 
 - **💡 비유**: 
-  - **[[333_igmp_internet_group_management_protocol_multicast|IGMP]]**: 아날로그 TV 시절, 케이블 기사님에게 "저희 집 유선 방송 스포츠 채널 뚫어주세요!"라고 쓰던 **"종이 신청서([[286_ipv4_internet_protocol_version_4_rfc_791|IPv4]])"**.
-  - **MLD**: 넷플릭스 스마트 TV 시대에, 리모컨으로 화면에서 "구독하기" 버튼을 누르면 서버로 날아가는 **"디지털 [[988_digital_signature|전자 서명]] 신청서([[324_ipv6_128bit_next_generation_address|IPv6]])"**. 역할은 똑같은데 폼이 세련되게 바뀌었습니다.
+  - **[IGMP](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/)**: 아날로그 TV 시절, 케이블 기사님에게 "저희 집 유선 방송 스포츠 채널 뚫어주세요!"라고 쓰던 **"종이 신청서([IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/))"**.
+  - **MLD**: 넷플릭스 스마트 TV 시대에, 리모컨으로 화면에서 "구독하기" 버튼을 누르면 서버로 날아가는 **"디지털 [전자 서명](/knowledge-base/studynote/03_network/19_frequent_topics_terms/988_digital_signature/) 신청서([IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/))"**. 역할은 똑같은데 폼이 세련되게 바뀌었습니다.
 
 ```text
 [IGMP Snooping]
@@ -31,28 +35,28 @@ tags:
     └──▶ [NDP]
 ```
 
-- **📢 섹션 요약 비유**: ** MLD는 구형 가스보일러([[333_igmp_internet_group_management_protocol_multicast|IGMP]])를 철거하고, 똑같은 난방 역할을 하지만 최신형 아파트([[324_ipv6_128bit_next_generation_address|IPv6]]) 규격에 딱 들어맞는 **스마트 전기보일러(MLD)로 교체한 것**과 같습니다. 이름만 다를 뿐 99% 똑같은 작동 원리를 갖습니다.
+- **📢 섹션 요약 비유**: ** MLD는 구형 가스보일러([IGMP](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/))를 철거하고, 똑같은 난방 역할을 하지만 최신형 아파트([IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/)) 규격에 딱 들어맞는 **스마트 전기보일러(MLD)로 교체한 것**과 같습니다. 이름만 다를 뿐 99% 똑같은 작동 원리를 갖습니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 1. MLD와 IGMP의 [[099_one_to_one_model|일대일]] 매칭 구조
+### 1. MLD와 IGMP의 [일대일](/knowledge-base/studynote/02_operating_system/02_process_thread/099_one_to_one_model/) 매칭 구조
 MLD는 백지에서 새로 만든 게 아니라 IGMPv2의 기능을 100% 베껴서 이름만 바꾼 수준이다.
 
-| 기능 (동작) | [[286_ipv4_internet_protocol_version_4_rfc_791|IPv4]] 이름 ([[333_igmp_internet_group_management_protocol_multicast|IGMP]]) | [[324_ipv6_128bit_next_generation_address|IPv6]] 이름 (MLD) | 비고 |
+| 기능 (동작) | [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 이름 ([IGMP](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/)) | [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 이름 (MLD) | 비고 |
 |:---|:---|:---|:---|
 | 라우터가 동네에 방송 쏠 사람 있냐고 물어봄 | General Query | **Multicast Listener Query** | Type 130 |
 | PC가 "나 이 채널 볼래!"라고 가입 신청 | Membership Report | **Multicast Listener Report** | Type 131 |
 | PC가 "나 이제 이 채널 끌래!"라고 해지 | Leave Group | **Multicast Listener Done** | Type 132 |
 
-*(MLDv2는 IGMPv3에 대응되어 소스 지정 [[298_ip_classes_a_b_c_d_multicast_e_experimental|멀티캐스트]](SSM) 기능을 추가 지원한다).*
+*(MLDv2는 IGMPv3에 대응되어 소스 지정 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)(SSM) 기능을 추가 지원한다).*
 
 ### 2. ICMPv6로의 통폐합 (가벼워진 구조)
-가장 큰 설계적 차이점은, **MLD는 독자적인 [[295_protocol_field_tcp_udp_icmp|프로토콜]]이 아니라는 점**이다.
-- [[286_ipv4_internet_protocol_version_4_rfc_791|IPv4]] 시절의 `IGMP`는 3계층 IP 헤더 위에 [[295_protocol_field_tcp_udp_icmp|프로토콜]] 번호 2번을 달고 독자적인 방을 썼다.
+가장 큰 설계적 차이점은, **MLD는 독자적인 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 아니라는 점**이다.
+- [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 시절의 `IGMP`는 3계층 IP 헤더 위에 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 번호 2번을 달고 독자적인 방을 썼다.
 - IPv6에서는 "어차피 둘 다 네트워크 제어용 메시지인데 뭐하러 방을 따로 쓰냐? 그냥 에러/진단 메시지 모음집인 **ICMPv6 (Next Header = 58) 뱃속에 MLD를 다 집어넣어라!**"라고 구조조정을 단행했다.
-- 덕분에 라우터는 ICMPv6 [[192_module_independence|모듈]] 하나만 까보면 핑(Ping)도 처리하고 MLD 가입 신청서도 한 큐에 처리할 수 있게 되어 연산 효율이 좋아졌다.
+- 덕분에 라우터는 ICMPv6 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 하나만 까보면 핑(Ping)도 처리하고 MLD 가입 신청서도 한 큐에 처리할 수 있게 되어 연산 효율이 좋아졌다.
 
 ```text
  ┌─────────────────────────────────────────────────────────────┐
@@ -71,21 +75,21 @@ MLD는 백지에서 새로 만든 게 아니라 IGMPv2의 기능을 100% 베껴�
 ```
 
 ### 3. MLD Snooping (스위치의 최적화)
-[[333_igmp_internet_group_management_protocol_multicast|IGMP]] Snooping과 완벽하게 똑같다. L2 스위치들은 MLD 패킷이 지나갈 때마다 그걸 훔쳐보고(Snooping), "아! 3번 포트에 있는 PC가 `ff02::abcd` [[298_ip_classes_a_b_c_d_multicast_e_experimental|멀티캐스트]] 채널에 가입(Report)했구나!"라고 수첩에 적어둔 뒤, 그 채널의 영상이 내려오면 3번 포트로만 쏙 던져주어 10Gbps의 엄청난 플러딩(Flooding) 부하를 방지한다.
+[IGMP](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/) Snooping과 완벽하게 똑같다. L2 스위치들은 MLD 패킷이 지나갈 때마다 그걸 훔쳐보고(Snooping), "아! 3번 포트에 있는 PC가 `ff02::abcd` [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 채널에 가입(Report)했구나!"라고 수첩에 적어둔 뒤, 그 채널의 영상이 내려오면 3번 포트로만 쏙 던져주어 10Gbps의 엄청난 플러딩(Flooding) 부하를 방지한다.
 
-- **📢 섹션 요약 비유**: ** MLD는 자동차(네트워크)의 엔진(엔드포인트)과 변속기(라우터) 사이에서 기어를 바꿔주는 오일과 같습니다. 과거 가솔린차([[286_ipv4_internet_protocol_version_4_rfc_791|IPv4]]) 시절엔 미션 오일([[333_igmp_internet_group_management_protocol_multicast|IGMP]])이라 불렀고, 전기차([[324_ipv6_128bit_next_generation_address|IPv6]]) 시대에는 감속기 오일(MLD)이라 부르지만, 결국 **동력이 낭비되지 않게([[140_bandwidth|대역폭]] 절약) 연결을 매끄럽게 제어해 주는 본질은 100% 동일**합니다.
+- **📢 섹션 요약 비유**: ** MLD는 자동차(네트워크)의 엔진(엔드포인트)과 변속기(라우터) 사이에서 기어를 바꿔주는 오일과 같습니다. 과거 가솔린차([IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/)) 시절엔 미션 오일([IGMP](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/))이라 불렀고, 전기차([IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/)) 시대에는 감속기 오일(MLD)이라 부르지만, 결국 **동력이 낭비되지 않게([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 절약) 연결을 매끄럽게 제어해 주는 본질은 100% 동일**합니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-MLD를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [[333_igmp_internet_group_management_protocol_multicast|IGMP]] Snooping가 기반 조건을 만든다면, MLD는 그 위에서 핵심 메커니즘을 구현하고, NDP는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 주소 효율과 도달성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+MLD를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [IGMP](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/) Snooping가 기반 조건을 만든다면, MLD는 그 위에서 핵심 메커니즘을 구현하고, NDP는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 주소 효율과 도달성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [[333_igmp_internet_group_management_protocol_multicast|IGMP]] Snooping의 기반 정리 | MLD의 핵심 동작 | NDP의 확장 적용 |
+| 초점 | [IGMP](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/) Snooping의 기반 정리 | MLD의 핵심 동작 | NDP의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 주소 효율 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: MLD는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -93,18 +97,18 @@ MLD를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 MLD를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [[334_igmp_snooping_multicast_traffic_control|IGMP Snooping]] 수준의 기본 대책으로 충분한지, 아니면 MLD가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 NDP와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 MLD를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [IGMP Snooping](/knowledge-base/studynote/03_network/06_network_layer_ip/334_igmp_snooping_multicast_traffic_control/) 수준의 기본 대책으로 충분한지, 아니면 MLD가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 NDP와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 주소 효율 부족인지, 도달성 악화인지 먼저 분리한다.
-2. MLD가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [[396_validation|확인]]한다.
+2. MLD가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
 3. 도입 후에는 인접 기술인 NDP와의 연계 방식을 함께 검증한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - MLD의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- [[333_igmp_internet_group_management_protocol_multicast|IGMP]] Snooping와의 경계를 정리하지 않아 중복 투자나 [[164_policy|정책]] 충돌을 만드는 설계
+- [IGMP](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/) Snooping와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: MLD를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -112,7 +116,7 @@ MLD를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 
 ## Ⅴ. 기대효과 및 결론
 
-MLD는 네트워크 계층과 IP를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 주소 효율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [[336_ndp_neighbor_discovery_protocol_ipv6|NDP]], 대규모 주소 자동화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 대규모 주소 자동화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+MLD는 네트워크 계층과 IP를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 주소 효율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [NDP](/knowledge-base/studynote/03_network/06_network_layer_ip/336_ndp_neighbor_discovery_protocol_ipv6/), 대규모 주소 자동화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 대규모 주소 자동화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: MLD는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -122,10 +126,10 @@ MLD는 네트워크 계층과 IP를 이해할 때 핵심 축을 잡아 주는 �
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[334_igmp_snooping_multicast_traffic_control|IGMP Snooping]] | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| IP 주소 (Internet [[295_protocol_field_tcp_udp_icmp|Protocol]] Address) | 종단 위치를 논리적으로 식별한다. |
+| [IGMP Snooping](/knowledge-base/studynote/03_network/06_network_layer_ip/334_igmp_snooping_multicast_traffic_control/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| IP 주소 (Internet [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) Address) | 종단 위치를 논리적으로 식별한다. |
 | 서브넷 (Subnet) | 주소 공간을 쪼개 관리 단위를 만든다. |
-| [[336_ndp_neighbor_discovery_protocol_ipv6|NDP]] | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [NDP](/knowledge-base/studynote/03_network/06_network_layer_ip/336_ndp_neighbor_discovery_protocol_ipv6/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -139,7 +143,7 @@ MLD는 네트워크 계층과 IP를 이해할 때 핵심 축을 잡아 주는 �
     └──▶ [확장 B: 대규모 주소 자동화]
 ```
 
-MLD는 [[333_igmp_internet_group_management_protocol_multicast|IGMP]] Snooping에서 출발해 현재 메커니즘을 정교화하고, 이후 NDP와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+MLD는 [IGMP](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/) Snooping에서 출발해 현재 메커니즘을 정교화하고, 이후 NDP와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -153,7 +157,7 @@ MLD는 [[333_igmp_internet_group_management_protocol_multicast|IGMP]] Snooping�
 
 **진행 상황**: 456 / 1120
 
-← **이전**: [[334_igmp_snooping_multicast_traffic_control|334. IGMP Snooping (스위치가 멀티캐스트 트래픽 불필요한 포트에 차단)]]
-**다음**: [[336_ndp_neighbor_discovery_protocol_ipv6|336. NDP (Neighbor Discovery Protocol)]] →
+← **이전**: [334. IGMP Snooping (스위치가 멀티캐스트 트래픽 불필요한 포트에 차단)](/knowledge-base/studynote/03_network/06_network_layer_ip/334_igmp_snooping_multicast_traffic_control/)
+**다음**: [336. NDP (Neighbor Discovery Protocol)](/knowledge-base/studynote/03_network/06_network_layer_ip/336_ndp_neighbor_discovery_protocol_ipv6/) →
 
 ---

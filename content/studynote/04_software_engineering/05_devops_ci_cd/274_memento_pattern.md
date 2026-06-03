@@ -1,23 +1,27 @@
----
-title: 274. 메멘토 (Memento) - 객체 상태 저장 및 복원
-date: '2026-05-08'
-tags:
-- studynote-software-engineering
----
++++
+title = "274. 메멘토 (Memento) - 객체 상태 저장 및 복원"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-software-engineering"]
+
+[extra]
+tags = ["studynote-software-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 메멘토 (Memento) - 객체 상태 저장 및 복원은(는) [[001_software_engineering_definition|소프트웨어 공학]]의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[[346_maintainability_portability|유지보수성]]·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 메멘토 (Memento) - 객체 상태 저장 및 복원은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 메멘토 패턴은 [[178_as_is_to_be_analysis|현재 상태]]를 저장할 원본 객체(`Originator`), 상태를 캡슐화한 저장소(`Memento`), 그리고 이 저장소를 보관만 하고 절대로 열어보지 않는 보관자(`Caretaker`) 세 객체의 협력으로 이루어지는 상태 [[555_backup_and_restore_strategy|백업]] 패턴이다.
+- **개념**: 메멘토 패턴은 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)를 저장할 원본 객체(`Originator`), 상태를 캡슐화한 저장소(`Memento`), 그리고 이 저장소를 보관만 하고 절대로 열어보지 않는 보관자(`Caretaker`) 세 객체의 협력으로 이루어지는 상태 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 패턴이다.
 
-- **필요성**: RPG 게임 캐릭터의 [[178_as_is_to_be_analysis|현재 상태]](HP, MP, X/Y 좌표, 인벤토리)를 세이브(저장)해야 한다. 만약 메인 게임 루프(Caretaker)가 `Character.getHP()`, `getInventory()` 등 수많은 Getter를 호출해 직접 변수에 저장해 둔다면, 나중에 캐릭터 클래스 내부 구조(예: MP가 분노 게이지로 바뀜)가 바뀔 때 메인 게임 루프의 저장 로직도 싹 다 고쳐야 한다(강한 결합). 객체의 상태를 [[555_backup_and_restore_strategy|백업]]하려면 캡슐화(Encapsulation)를 깨지 않고 안전하게 덩어리째 넘겨주는 방식이 필요했다.
+- **필요성**: RPG 게임 캐릭터의 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)(HP, MP, X/Y 좌표, 인벤토리)를 세이브(저장)해야 한다. 만약 메인 게임 루프(Caretaker)가 `Character.getHP()`, `getInventory()` 등 수많은 Getter를 호출해 직접 변수에 저장해 둔다면, 나중에 캐릭터 클래스 내부 구조(예: MP가 분노 게이지로 바뀜)가 바뀔 때 메인 게임 루프의 저장 로직도 싹 다 고쳐야 한다(강한 결합). 객체의 상태를 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)하려면 캡슐화(Encapsulation)를 깨지 않고 안전하게 덩어리째 넘겨주는 방식이 필요했다.
 
 - **💡 비유**: 비밀 금고(Originator)의 물건을 이사 갈 때 보관업체(Caretaker)에 맡기는 것과 같습니다. 금고 주인은 물건을 상자(Memento)에 담고 자물쇠를 채워 보관업체에 넘깁니다. 보관업체는 상자를 안전하게 보관만 할 뿐, 절대 자물쇠를 열고 그 안을 들여다보거나(Getter) 수정할 수 없습니다.
 
@@ -25,7 +29,7 @@ tags:
   1. **캡슐화 파괴의 위험성**: 상태 복원을 위해 객체의 모든 멤버 변수를 public이나 getter로 열어두면, 객체 지향의 근간인 정보 은닉이 파괴되어 누구나 객체의 상태를 오염시킬 수 있었다.
   2. **좁은 인터페이스와 넓은 인터페이스 (Two Interfaces)**: 자바의 패키지 접근 제어자(default, protected)나 C++의 `friend` 키워드를 활용해, 상태를 보관하는 `Caretaker`에게는 닫혀 있고(좁은 인터페이스), 상태를 만든 `Originator`에게만 열려 있는(넓은 인터페이스) 메멘토 객체가 고안되었다.
 
-- **📢 섹션 요약 비유**: 게임 중간에 저장(세이브 [[501_file_definition_logical_record|파일]])을 하면, 게임기(Originator)가 팩(Memento)을 만들어 서랍(Caretaker)에 넣어둡니다. 서랍은 팩을 보관할 뿐 내용을 수정할 수 없고, 나중에 팩을 다시 게임기에 꽂으면 그 순간으로 뿅 하고 돌아갑니다.
+- **📢 섹션 요약 비유**: 게임 중간에 저장(세이브 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))을 하면, 게임기(Originator)가 팩(Memento)을 만들어 서랍(Caretaker)에 넣어둡니다. 서랍은 팩을 보관할 뿐 내용을 수정할 수 없고, 나중에 팩을 다시 게임기에 꽂으면 그 순간으로 뿅 하고 돌아갑니다.
 
 ---
 
@@ -58,8 +62,8 @@ tags:
 
 | 구성 요소 | 역할 | 적용 기준 |
 | :--- | :--- | :--- |
-| 개념 정의 | 핵심 용어와 범위를 명확히 [[009_config|설정]] | 용어 혼용·오해 방지 |
-| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | [[194_consistency_database_integrity|일관성]]·품질 기준 |
+| 개념 정의 | 핵심 용어와 범위를 명확히 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | 용어 혼용·오해 방지 |
+| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)·품질 기준 |
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
@@ -84,7 +88,7 @@ tags:
 | 조직 요건 | 팀 전체의 공통 이해와 훈련 필요 | 개인 역량 의존 |
 | 측정 가능성 | 정량적 지표로 성과 측정 가능 | 주관적 판단에 의존 |
 
-다른 [[001_software_engineering_definition|소프트웨어 공학]] 개념과의 연결을 보면, 메멘토 (Memento)은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 [[020_software_configuration_management|형상 관리]]([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]])와 긴밀하게 연계된다.
+다른 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 개념과의 연결을 보면, 메멘토 (Memento)은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/))와 긴밀하게 연계된다.
 
 - **📢 섹션 요약 비유**: 메멘토 (Memento)과 유사 대안의 차이는 지도를 가지고 산에 오르는 것과 감으로만 오르는 차이와 같다. 지도(체계적 방법)가 있으면 정상까지 최단 경로를 찾을 수 있지만, 없으면 같은 곳을 맴돌거나 낭떠러지에 빠질 수 있다.
 
@@ -106,21 +110,21 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-메멘토 (Memento)을(를) 올바르게 적용하면 [[339_software_quality_definition|소프트웨어 품질]]·[[346_maintainability_portability|유지보수성]]·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [[459_quic_fec_forward_error_correction|초기]] 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
+메멘토 (Memento)을(를) 올바르게 적용하면 [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/)·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
 
 **한계와 전제 조건**:
 - 소규모 프로젝트에서는 오버헤드가 발생할 수 있다
 - 팀 전체의 충분한 교육과 실습 기간이 필요하다
-- 도구 지원 환경 구축에 [[459_quic_fec_forward_error_correction|초기]] 비용이 발생한다
+- 도구 지원 환경 구축에 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용이 발생한다
 
 **미래 발전 방향**:
-- [[190_ai_llm_requirements_specification|AI]]·[[263_llm_large_language_model|LLM]] 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [[531_cloud_native_architecture|클라우드 네이티브]]·[[652_devops_calms_culture|DevOps]] 환경에서의 진화적 적용
+- [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 메멘토 (Memento)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: 메멘토 (Memento)의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [[001_software_engineering_definition|소프트웨어 공학]]의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
+- **📢 섹션 요약 비유**: 메멘토 (Memento)의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
 
 ---
 
@@ -132,10 +136,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[001_software_engineering_definition|소프트웨어 공학]] ([[001_software_engineering_definition|Software Engineering]]) | 메멘토 (Memento)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [[003_sdlc|소프트웨어 생명주기]] ([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]], Software Development Life Cycle) | 메멘토 (Memento)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 메멘토 (Memento)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 메멘토 (Memento)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 메멘토 (Memento) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [[020_software_configuration_management|형상 관리]] ([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]]) | 메멘토 (Memento)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 메멘토 (Memento)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -155,13 +159,13 @@ tags:
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [[002_software_crisis|소프트웨어 위기]] 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 메멘토 (Memento)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
 
 ---
 
@@ -169,7 +173,7 @@ tags:
 
 **진행 상황**: 274 / 973
 
-← **이전**: [[273_mediator_pattern|273. 중재자 (Mediator) - 객체 간의 복잡한 상호작용을 캡슐화하여 결합도 저하]]
-**다음**: [[275_visitor_pattern|275. 방문자 (Visitor) - 객체 구조 변경 없이 새로운 연산 추가]] →
+← **이전**: [273. 중재자 (Mediator) - 객체 간의 복잡한 상호작용을 캡슐화하여 결합도 저하](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/)
+**다음**: [275. 방문자 (Visitor) - 객체 구조 변경 없이 새로운 연산 추가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) →
 
 ---

@@ -1,15 +1,19 @@
----
-title: '242. 지도 학습 (Supervised Learning) : 분류와 회귀'
-date: '2026-05-09'
-tags:
-- studynote-ai
----
++++
+title = "242. 지도 학습 (Supervised Learning) : 분류와 회귀"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-ai"]
+
+[extra]
+tags = ["studynote-ai"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[121_supervised_learning|지도 학습]]([[121_supervised_learning|Supervised Learning]])은 수만 개의 문제에 **"이건 정답이야!"라고 인간이 친절하게 라벨(Label)을 꼼꼼히 붙여준 과외 선생님의 완벽한 족보([[001_dikw_pyramid|데이터]]셋)**를 컴퓨터에 쑤셔 넣고, 기계가 문제와 정답 사이의 비밀 공식을 수학적으로 외워버리게 만드는 가장 원초적이고 강력한 [[190_ai_llm_requirements_specification|AI]] 훈련법이다.
-> 2. **가치**: 인류가 AI로 돈을 버는 비즈니스 모델(B2B/B2C)의 90% 이상이 이 [[121_supervised_learning|지도 학습]] 위에서 돌아간다. 사진을 보고 암세포인지 정상 세포인지 '이름표'를 맞추는 **[[104_classification_analysis|분류]]([[107_classification|Classification]])**와, 내일 아파트값이 얼마 떨어질지 '연속된 숫자'를 맞추는 **회귀(Regression)**라는 두 개의 톱니바퀴가 현대 산업의 예측 인프라를 지배하고 있다.
-> 3. **판단 포인트**: 모델이 얼마나 똑똑해졌는지 채점하려면, 선생님이 준 정답지(훈련 [[001_dikw_pyramid|데이터]])로만 시험을 치면 안 된다. 모델이 달달 암기만 하는 꼼수(과적합)를 부렸는지 잡기 위해, 아키텍트는 반드시 [[001_dikw_pyramid|데이터]] 뭉치를 **훈련용(Train)과 실전 모의고사용(Test)으로 8:2로 찢어두고 낯선 환경에서의 일반화(Generalization) 능력을 가혹하게 평가**해야 한다.
+> 1. **본질**: [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)([Supervised Learning](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/))은 수만 개의 문제에 **"이건 정답이야!"라고 인간이 친절하게 라벨(Label)을 꼼꼼히 붙여준 과외 선생님의 완벽한 족보([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋)**를 컴퓨터에 쑤셔 넣고, 기계가 문제와 정답 사이의 비밀 공식을 수학적으로 외워버리게 만드는 가장 원초적이고 강력한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 훈련법이다.
+> 2. **가치**: 인류가 AI로 돈을 버는 비즈니스 모델(B2B/B2C)의 90% 이상이 이 [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/) 위에서 돌아간다. 사진을 보고 암세포인지 정상 세포인지 '이름표'를 맞추는 **[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)([Classification](/knowledge-base/studynote/12_it_management/03_ea_isp/107_classification/))**와, 내일 아파트값이 얼마 떨어질지 '연속된 숫자'를 맞추는 **회귀(Regression)**라는 두 개의 톱니바퀴가 현대 산업의 예측 인프라를 지배하고 있다.
+> 3. **판단 포인트**: 모델이 얼마나 똑똑해졌는지 채점하려면, 선생님이 준 정답지(훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))로만 시험을 치면 안 된다. 모델이 달달 암기만 하는 꼼수(과적합)를 부렸는지 잡기 위해, 아키텍트는 반드시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 뭉치를 **훈련용(Train)과 실전 모의고사용(Test)으로 8:2로 찢어두고 낯선 환경에서의 일반화(Generalization) 능력을 가혹하게 평가**해야 한다.
 
 ---
 
@@ -19,9 +23,9 @@ tags:
 이 10년 치 뇌 구조를 컴퓨터에 심기 위해, 초창기 공학자들은 "까만 점이 3cm 넘으면 암, 아니면 정상"이라는 룰(Rule)을 하드코딩하려 했지만 엑스레이의 노이즈와 예외 상황 때문에 즉각 폐기 처분되었다.
 
 대신 공학자들은 컴퓨터를 방에 가두고 엑스레이 사진 10만 장을 던져주었다. 여기서 중요한 건 사진 뒤에 인간 의사 100명을 고용해 **"이건 폐암(정답)", "이건 정상(정답)"이라고 완벽한 정답지(Label/Target)**를 써 붙여 놓았다는 것이다.
-컴퓨터는 수백만 번 사진과 정답지를 대조하며 내부의 미적분 [[130_probability|확률]]을 미친 듯이 깎아 나갔고, 마침내 "오호! 사진의 우상단 픽셀들이 이렇게 뭉쳐있을 땐 폐암일 [[130_probability|확률]]이 99%구나!"라는 자신만의 함수(모델)를 터득했다. 
+컴퓨터는 수백만 번 사진과 정답지를 대조하며 내부의 미적분 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 미친 듯이 깎아 나갔고, 마침내 "오호! 사진의 우상단 픽셀들이 이렇게 뭉쳐있을 땐 폐암일 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 99%구나!"라는 자신만의 함수(모델)를 터득했다. 
 
-이것이 [[231_ai_turing_test|인공지능]] 역사상 가장 정확도가 높고 상업적으로 대성공을 거둔 **[[121_supervised_learning|지도 학습]] ([[121_supervised_learning|Supervised Learning]])**이다. 선생님(인간 라벨러)이 정답(지도, Supervise)을 떠먹여 주면, 기계가 새로운 미지의 사진이 들어왔을 때 귀신같이 정답을 찍어 맞추는 궁극의 예측 공장이 탄생한 것이다.
+이것이 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 역사상 가장 정확도가 높고 상업적으로 대성공을 거둔 **[지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/) ([Supervised Learning](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/))**이다. 선생님(인간 라벨러)이 정답(지도, Supervise)을 떠먹여 주면, 기계가 새로운 미지의 사진이 들어왔을 때 귀신같이 정답을 찍어 맞추는 궁극의 예측 공장이 탄생한 것이다.
 
 ```text
 ┌──────────────────────────────────────────────┐
@@ -32,13 +36,13 @@ tags:
 └──────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: [[121_supervised_learning|지도 학습]]은 '수능 1타 강사의 주입식 교육'이다. 강사(인간)가 1만 개의 수학 문제([[001_dikw_pyramid|데이터]]) 밑에 빨간펜으로 완벽한 정답과 해설(라벨)을 꽉꽉 채워 적어서 학생([[190_ai_llm_requirements_specification|AI]])에게 던져준다. 학생은 문제와 정답을 번갈아 보며 "아! 루트가 나오면 이렇게 푸는구나" 하고 패턴을 뇌에 각인시킨다. 나중에 수능(새로운 실전 [[001_dikw_pyramid|데이터]])에서 처음 보는 숫자가 나와도, 외워둔 패턴을 적용해 번개처럼 정답을 적어내는 가장 확실하고 무식한 엘리트 양성 코스다.
+- **📢 섹션 요약 비유**: [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)은 '수능 1타 강사의 주입식 교육'이다. 강사(인간)가 1만 개의 수학 문제([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 밑에 빨간펜으로 완벽한 정답과 해설(라벨)을 꽉꽉 채워 적어서 학생([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))에게 던져준다. 학생은 문제와 정답을 번갈아 보며 "아! 루트가 나오면 이렇게 푸는구나" 하고 패턴을 뇌에 각인시킨다. 나중에 수능(새로운 실전 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))에서 처음 보는 숫자가 나와도, 외워둔 패턴을 적용해 번개처럼 정답을 적어내는 가장 확실하고 무식한 엘리트 양성 코스다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[[121_supervised_learning|지도 학습]] [[123_pipe|파이프]]라인은 문제집을 푸는 훈련([[588_mlops_pipeline_automation|Training]])과, 모르는 문제를 찍어 맞추는 실전(Inference) 단계로 아키텍처가 칼같이 분리되며, 도출하는 정답의 모양에 따라 **[[104_classification_analysis|분류]]**와 **회귀** 두 갈래로 나뉜다.
+[지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 문제집을 푸는 훈련([Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/))과, 모르는 문제를 찍어 맞추는 실전(Inference) 단계로 아키텍처가 칼같이 분리되며, 도출하는 정답의 모양에 따라 **[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)**와 **회귀** 두 갈래로 나뉜다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -63,62 +67,62 @@ tags:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-**핵심 원리 (오차 [[272_backpropagation|역전파]]와 [[087_loss_function|Loss Function]])**:
-[[121_supervised_learning|지도 학습]]이 똑똑해지는 수학적 심장은 **[[075_loss_function_cost_function|손실 함수]]([[087_loss_function|Loss Function]])**다. 
-처음 깡통 로봇에게 고양이 사진을 주면, 로봇은 "강아지!"라고 멍청한 오답(Prediction)을 뱉는다. 이때 훈련 시스템이 "땡! 정답(Label)은 고양이야. 너의 멍청함(오차/Loss)은 100점이야!"라고 혼낸다. 기계는 이 100점짜리 오차를 0점으로 깎아내리기 위해, 뇌 속의 방정식 기울기를 살짝 뒤트는 미분 마법인 **[[275_gradient_descent_sgd|경사 하강법]]([[165_gradient_descent|Gradient Descent]])**을 발동하여 스스로 [[267_weight_bias_activation|가중치]]([[267_weight_bias_activation|Weight]])를 교정한다. 이 매 맞고 고치는 루프를 100만 번 반복하면 오차가 0.01로 수렴하며 무적의 모델이 된다.
+**핵심 원리 (오차 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)와 [Loss Function](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_loss_function/))**:
+[지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)이 똑똑해지는 수학적 심장은 **[손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)([Loss Function](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_loss_function/))**다. 
+처음 깡통 로봇에게 고양이 사진을 주면, 로봇은 "강아지!"라고 멍청한 오답(Prediction)을 뱉는다. 이때 훈련 시스템이 "땡! 정답(Label)은 고양이야. 너의 멍청함(오차/Loss)은 100점이야!"라고 혼낸다. 기계는 이 100점짜리 오차를 0점으로 깎아내리기 위해, 뇌 속의 방정식 기울기를 살짝 뒤트는 미분 마법인 **[경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/)([Gradient Descent](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/))**을 발동하여 스스로 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))를 교정한다. 이 매 맞고 고치는 루프를 100만 번 반복하면 오차가 0.01로 수렴하며 무적의 모델이 된다.
 
 | 요소 | 역할 |
 |:---|:---|
 | 특성 공학 | 문제 구조를 모델이 학습 가능한 형태로 바꾸는 출발점이다. |
 | 평가 지표 | 같은 정확도여도 비즈니스 위험은 지표 선택에 따라 달라진다. |
-| 모델 선택 | 문제의 선형성, [[001_dikw_pyramid|데이터]] 크기, 해석성 요구를 반영한다. |
-| 최적화 | 탐색·튜닝을 통해 [[282_performance_tactics|성능]]과 비용의 균형점을 찾는다. |
+| 모델 선택 | 문제의 선형성, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기, 해석성 요구를 반영한다. |
+| 최적화 | 탐색·튜닝을 통해 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 비용의 균형점을 찾는다. |
 
-- **📢 섹션 요약 비유**: [[104_classification_analysis|분류]]([[107_classification|Classification]])는 '수박 감별사'다. 과일을 툭툭 두드려보고 [익음 / 안 익음 / 썩음]이라는 3개의 바구니(이름표) 중 하나로 딱딱 던져 넣는 직업이다. 회귀(Regression)는 '날씨 캐스터'다. 내일 날씨가 [덥다/춥다]가 아니라, 기압과 풍속을 계산해서 [23.5도]라는 구체적이고 끝없이 이어지는 '소수점 숫자'를 칠판에 적어내는 직업이다. 둘 다 정답지(과거의 경험)를 보고 배웠다는 점은 똑같은 [[121_supervised_learning|지도 학습]] 형제다.
+- **📢 섹션 요약 비유**: [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)([Classification](/knowledge-base/studynote/12_it_management/03_ea_isp/107_classification/))는 '수박 감별사'다. 과일을 툭툭 두드려보고 [익음 / 안 익음 / 썩음]이라는 3개의 바구니(이름표) 중 하나로 딱딱 던져 넣는 직업이다. 회귀(Regression)는 '날씨 캐스터'다. 내일 날씨가 [덥다/춥다]가 아니라, 기압과 풍속을 계산해서 [23.5도]라는 구체적이고 끝없이 이어지는 '소수점 숫자'를 칠판에 적어내는 직업이다. 둘 다 정답지(과거의 경험)를 보고 배웠다는 점은 똑같은 [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/) 형제다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-[[121_supervised_learning|지도 학습]] 대륙을 점령한 대표적인 검투사([[001_algorithm_definition|알고리즘]])들은 풀어야 할 [[001_dikw_pyramid|데이터]]의 모양(표 [[001_dikw_pyramid|데이터]]냐, 사진이냐)에 따라 완벽하게 세대교체와 파벌 붕괴를 거쳐왔다.
+[지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/) 대륙을 점령한 대표적인 검투사([알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))들은 풀어야 할 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 모양(표 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)냐, 사진이냐)에 따라 완벽하게 세대교체와 파벌 붕괴를 거쳐왔다.
 
-| [[121_supervised_learning|지도 학습]] [[001_algorithm_definition|알고리즘]] | 작동 철학 (어떻게 정답을 찍는가?) | 킬러 [[064_relation_domain|도메인]] (가장 잘하는 일) | 치명적 한계 (버그) |
+| [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 작동 철학 (어떻게 정답을 찍는가?) | 킬러 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) (가장 잘하는 일) | 치명적 한계 (버그) |
 |:---|:---|:---|:---|
-| **[[124_decision_tree|의사결정 트리]] ([[124_decision_tree|Decision Tree]])** | "스무고개". 나이가 30살 넘어? (Yes) $\rightarrow$ 소득이 5천 넘어? (No) $\rightarrow$ 대출 거절! | 이프-엘스(If-Then) 트리로 그려져서 사람이 왜 이런 결과가 나왔는지 **해석(White-box)하기 최고로 쉬움.** | [[001_dikw_pyramid|데이터]]가 조금만 바뀌어도 트리가 미친 듯이 요동치며 부서지는 **극도의 과적합([[245_overfitting_variance|Overfitting]]) 병목.** |
-| **[[353_random_forest|랜덤 포레스트]] / XGBoost ([[257_ensemble_learning|Ensemble]])** | **"집단 지성 투표"**. 멍청한 트리 1,000개를 만들어서 1,000명이 동시에 투표한 다수결로 최종 정답을 찍음! | 엑셀(표/Tabular) [[001_dikw_pyramid|데이터]] 예측에서는 딥러닝 뺨 때리고 **Kaggle 우승을 싹쓸이하는 신계의 [[001_algorithm_definition|알고리즘]].** | 1,000개의 뇌가 얽혀있어 **블랙박스화** 됨. 비전(사진)이나 자연어(텍스트) 같은 [[004_unstructured_data|비정형 데이터]]에선 바보가 됨. |
-| **[[238_svm_margin_kernel_trick_naive_bayes|SVM]] ([[104_svm_support_vector_machine|서포트 벡터 머신]])** | 두 개의 [[001_dikw_pyramid|데이터]] 그룹(고양이, 개) 사이에 **가장 넓고 안전한 고속도로(여백, Margin) 선을 찍- 그어버림.** | 딥러닝 나오기 전 2000년대 고전 [[241_machine_learning_basics|머신러닝]]의 황제. 적은 [[001_dikw_pyramid|데이터]]로도 짱짱한 방어력을 뽐냄. | [[001_dikw_pyramid|데이터]]가 수십만 개로 늘어나면 선을 긋는 수학 공식 행렬([[059_kernel_trick_rbf_polynomial|커널 트릭]]) 계산이 뻥 터지면서 **메모리 폭발 [[157_oom_killer|OOM]] 사망.** |
-| **[[061_artificial_neural_network_ann_neuron_model|인공 신경망]] (딥러닝 [[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]]/[[244_rnn_time_series_lstm_cell_gate_long_term_dependency|RNN]])** | 인간의 뉴런 구조를 모방. 미분과 [[272_backpropagation|역전파]]로 수천만 개의 뇌세포 [[267_weight_bias_activation|가중치]]를 스스로 다듬으며 패턴을 흡수함. | 사진([[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]]), 텍스트([[246_transformer_self_attention_parallel_positional_encoding|Transformer]]), 오디오 등 **인간의 오감(비정형) [[001_dikw_pyramid|데이터]]를 인식하는 압도적인 끝판왕.** | 정답이 달린 [[001_dikw_pyramid|데이터]]가 10만 장 이상 없거나, 비싼 GPU가 없으면 학습 자체가 시작도 안 되는 **귀족 기술.** |
+| **[의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/) ([Decision Tree](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/))** | "스무고개". 나이가 30살 넘어? (Yes) $\rightarrow$ 소득이 5천 넘어? (No) $\rightarrow$ 대출 거절! | 이프-엘스(If-Then) 트리로 그려져서 사람이 왜 이런 결과가 나왔는지 **해석(White-box)하기 최고로 쉬움.** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 조금만 바뀌어도 트리가 미친 듯이 요동치며 부서지는 **극도의 과적합([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/)) 병목.** |
+| **[랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/) / XGBoost ([Ensemble](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/))** | **"집단 지성 투표"**. 멍청한 트리 1,000개를 만들어서 1,000명이 동시에 투표한 다수결로 최종 정답을 찍음! | 엑셀(표/Tabular) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 예측에서는 딥러닝 뺨 때리고 **Kaggle 우승을 싹쓸이하는 신계의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/).** | 1,000개의 뇌가 얽혀있어 **블랙박스화** 됨. 비전(사진)이나 자연어(텍스트) 같은 [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)에선 바보가 됨. |
+| **[SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) ([서포트 벡터 머신](/knowledge-base/studynote/14_data_engineering/02_math_mining/104_svm_support_vector_machine/))** | 두 개의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 그룹(고양이, 개) 사이에 **가장 넓고 안전한 고속도로(여백, Margin) 선을 찍- 그어버림.** | 딥러닝 나오기 전 2000년대 고전 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)의 황제. 적은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로도 짱짱한 방어력을 뽐냄. | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 수십만 개로 늘어나면 선을 긋는 수학 공식 행렬([커널 트릭](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/)) 계산이 뻥 터지면서 **메모리 폭발 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 사망.** |
+| **[인공 신경망](/knowledge-base/studynote/10_ai/01_ai_basics/061_artificial_neural_network_ann_neuron_model/) (딥러닝 [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)/[RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/))** | 인간의 뉴런 구조를 모방. 미분과 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)로 수천만 개의 뇌세포 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 스스로 다듬으며 패턴을 흡수함. | 사진([CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)), 텍스트([Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)), 오디오 등 **인간의 오감(비정형) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 인식하는 압도적인 끝판왕.** | 정답이 달린 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 10만 장 이상 없거나, 비싼 GPU가 없으면 학습 자체가 시작도 안 되는 **귀족 기술.** |
 
-B2B 현업에서는 아직도 "딥러닝 무새"를 경계한다. 은행 대출 심사처럼 사장님 엑셀(CSV) 표로 정리된 [[001_dikw_pyramid|데이터]] 1만 줄을 다룰 때는 무거운 딥러닝(PyTorch)을 띄우는 건 미친 짓이다. 1초 만에 학습이 끝나고 [[282_performance_tactics|성능]]도 미쳐 날뛰는 **XGBoost([[257_ensemble_learning|앙상블]] [[121_supervised_learning|지도 학습]])** 깡통 코드가 최고의 가성비 솔루션이다.
+B2B 현업에서는 아직도 "딥러닝 무새"를 경계한다. 은행 대출 심사처럼 사장님 엑셀(CSV) 표로 정리된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 1만 줄을 다룰 때는 무거운 딥러닝(PyTorch)을 띄우는 건 미친 짓이다. 1초 만에 학습이 끝나고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)도 미쳐 날뛰는 **XGBoost([앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/))** 깡통 코드가 최고의 가성비 솔루션이다.
 
-- **📢 섹션 요약 비유**: [[124_decision_tree|의사결정 트리]]는 '경찰의 심문'이다. "너 어제 9시에 어디 있었어? 칼은 샀어?" 하나하나 물어서 범인을 잡지만, 억울한 사람을 범인으로 몰기 십상(과적합)이다. [[257_ensemble_learning|앙상블]](XGBoost)은 '국민 참여 배심원 1,000명 투표'다. 1,000명이 각자 엉성하게 심문한 다음 다수결로 범인을 찍으니 절대 억울한 사람이 안 나온다(엑셀 표의 신). 딥러닝은 '[[933_cctv|CCTV]] 10만 대를 100배속으로 돌려보는 [[190_ai_llm_requirements_specification|AI]] 감시 카메라'다. 말(엑셀)로는 못 잡는 범인의 걸음걸이, 얼굴 생김새(사진, 영상)의 미세한 떨림을 귀신같이 잡아내는 비정형 범죄 색출의 신이다.
+- **📢 섹션 요약 비유**: [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)는 '경찰의 심문'이다. "너 어제 9시에 어디 있었어? 칼은 샀어?" 하나하나 물어서 범인을 잡지만, 억울한 사람을 범인으로 몰기 십상(과적합)이다. [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)(XGBoost)은 '국민 참여 배심원 1,000명 투표'다. 1,000명이 각자 엉성하게 심문한 다음 다수결로 범인을 찍으니 절대 억울한 사람이 안 나온다(엑셀 표의 신). 딥러닝은 '[CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 10만 대를 100배속으로 돌려보는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 감시 카메라'다. 말(엑셀)로는 못 잡는 범인의 걸음걸이, 얼굴 생김새(사진, 영상)의 미세한 떨림을 귀신같이 잡아내는 비정형 범죄 색출의 신이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-[[348_mlops|MLOps]] 엔지니어가 암 진단([[121_supervised_learning|지도 학습]] [[104_classification_analysis|분류]] 모델)을 런칭할 때, [[001_dikw_pyramid|데이터]] 분할([[001_dikw_pyramid|Data]] Split)과 평가 지표([[342_routing_metric_hop_bandwidth_delay|Metric]])를 엑셀 다루듯 대충 세팅하면 사람을 죽이는 의료 사고가 터진다.
+[MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 엔지니어가 암 진단([지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델)을 런칭할 때, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분할([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Split)과 평가 지표([Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))를 엑셀 다루듯 대충 세팅하면 사람을 죽이는 의료 사고가 터진다.
 
-### 실무 아키텍처 판단 ([[435_checklist_based_testing|체크리스트]])
-1. **훈련(Train) / [[395_verification_process_review|검증]](Val) / 테스트(Test)의 엄격한 3중 격리**: 선생님이 수학 문제 100문제를 주고 정답(Label)을 외우게 했다(Train [[001_dikw_pyramid|Data]]). 그리고 학생을 평가한답시고 똑같은 100문제를 또 내면 무조건 100점([[245_overfitting_variance|Overfitting]])이 나온다. 실무에서는 절대 이렇게 안 한다. 100문제가 있으면 **80문제는 훈련용(Train)**으로 던져주고, **10문제는 공부 방향이 맞는지 중간고사 점검용([[396_validation|Validation]])**으로 빼두고, 나머지 **10문제는 모델이 배포되기 직전 수능 날 단 한 번만 까보는 절대 밀봉 금고([[444_test_data_management|Test Data]])**로 물리적으로 찢어발겨 격리해야만 모델의 진짜 실력(일반화, Generalization)을 측정할 수 있다.
-2. **불균형 [[001_dikw_pyramid|데이터]]([[356_imbalanced_data_sampling|Imbalanced Data]])의 평가지표 붕괴 타파**: 희귀 암 진단 모델을 짰다. 환자 100명 중 99명은 정상이고 딱 1명만 암 환자다(불균형). 깡통 모델이 그냥 눈 감고 "100명 다 정상이야!"라고 대답해도 이 모델의 **정확도(Accuracy)**는 무려 99%가 뜬다. 사장님은 99%라며 만세를 부르겠지만, 정작 진짜 암 환자 1명은 놔둬서 죽어버린다. 극단적인 불균형 라벨을 다룰 때는 가짜 99% Accuracy 지표를 쓰레기통에 버리고, "실제 암 환자 중에 네가 진짜 암이라고 잡아낸 비율이 몇이냐?"를 묻는 **[[092_recall_sensitivity_hit_rate|재현율]]([[254_recall_sensitivity|Recall]])**이나 **[[255_f1_score|F1-Score]]**라는 깐깐한 독극물 탐지 지표로 모델을 평가해야 법정 구속을 면한다.
+### 실무 아키텍처 판단 ([체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/))
+1. **훈련(Train) / [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(Val) / 테스트(Test)의 엄격한 3중 격리**: 선생님이 수학 문제 100문제를 주고 정답(Label)을 외우게 했다(Train [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)). 그리고 학생을 평가한답시고 똑같은 100문제를 또 내면 무조건 100점([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))이 나온다. 실무에서는 절대 이렇게 안 한다. 100문제가 있으면 **80문제는 훈련용(Train)**으로 던져주고, **10문제는 공부 방향이 맞는지 중간고사 점검용([Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))**으로 빼두고, 나머지 **10문제는 모델이 배포되기 직전 수능 날 단 한 번만 까보는 절대 밀봉 금고([Test Data](/knowledge-base/studynote/04_software_engineering/11_testing_validation/444_test_data_management/))**로 물리적으로 찢어발겨 격리해야만 모델의 진짜 실력(일반화, Generalization)을 측정할 수 있다.
+2. **불균형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Imbalanced Data](/knowledge-base/studynote/06_ict_convergence/05_data_science/356_imbalanced_data_sampling/))의 평가지표 붕괴 타파**: 희귀 암 진단 모델을 짰다. 환자 100명 중 99명은 정상이고 딱 1명만 암 환자다(불균형). 깡통 모델이 그냥 눈 감고 "100명 다 정상이야!"라고 대답해도 이 모델의 **정확도(Accuracy)**는 무려 99%가 뜬다. 사장님은 99%라며 만세를 부르겠지만, 정작 진짜 암 환자 1명은 놔둬서 죽어버린다. 극단적인 불균형 라벨을 다룰 때는 가짜 99% Accuracy 지표를 쓰레기통에 버리고, "실제 암 환자 중에 네가 진짜 암이라고 잡아낸 비율이 몇이냐?"를 묻는 **[재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)([Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/))**이나 **[F1-Score](/knowledge-base/studynote/10_ai/03_llm_nlp/255_f1_score/)**라는 깐깐한 독극물 탐지 지표로 모델을 평가해야 법정 구속을 면한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
-- **라벨링 노이즈 (Noisy Labels) 방치 후 무지성 훈련 버그**: [[121_supervised_learning|지도 학습]]의 절대 법칙은 "쓰레기가 들어가면 쓰레기가 나온다(Garbage In, Garbage Out)"다. 알바생 100명을 고용해 강아지 사진 10만 장에 라벨을 다는데, 졸면서 강아지 사진 5,000장에 "고양이"라고 잘못된 정답표(노이즈)를 달아버렸다. 이걸 그대로 모델에 먹이면, 딥러닝 뇌가 "어? 귀가 축 쳐져 있는데 왜 고양이지?" 하며 내적 수학 공식이 붕괴하고 훈련 로스(Loss)가 절대 0으로 안 떨어지는 발작을 일으킨다. [[121_supervised_learning|지도 학습]]을 태우기 전에 훈련 [[001_dikw_pyramid|데이터]]의 라벨 오류를 자동 색출하는 **클린랩(Cleanlab)이나 [[250_cross_validation_kfold|교차 검증]] 전처리 인프라**를 안 까는 것은 서버의 [[418_gpu|GPU]] 전기세를 허공에 태우는 [[128_water_scrum_fall_anti_pattern|안티패턴]]이다.
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- **라벨링 노이즈 (Noisy Labels) 방치 후 무지성 훈련 버그**: [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)의 절대 법칙은 "쓰레기가 들어가면 쓰레기가 나온다(Garbage In, Garbage Out)"다. 알바생 100명을 고용해 강아지 사진 10만 장에 라벨을 다는데, 졸면서 강아지 사진 5,000장에 "고양이"라고 잘못된 정답표(노이즈)를 달아버렸다. 이걸 그대로 모델에 먹이면, 딥러닝 뇌가 "어? 귀가 축 쳐져 있는데 왜 고양이지?" 하며 내적 수학 공식이 붕괴하고 훈련 로스(Loss)가 절대 0으로 안 떨어지는 발작을 일으킨다. [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)을 태우기 전에 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 라벨 오류를 자동 색출하는 **클린랩(Cleanlab)이나 [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/) 전처리 인프라**를 안 까는 것은 서버의 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 전기세를 허공에 태우는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다.
 
-- **📢 섹션 요약 비유**: 불균형 [[001_dikw_pyramid|데이터]] 평가지표의 붕괴는 '양치기 소년과 마을 방범대'다. 마을에 늑대가 1년에 1번 온다(불균형). 멍청한 방범대원(Accuracy 99% 모델)은 365일 내내 "늑대 없어! 평화로워!"라고만 외친다. 이 대원은 364일 맞췄으니 99.7점의 우수 대원 표창을 받는다. 하지만 늑대가 진짜 온 1번의 날에 마을 양 떼는 다 죽는다. 진정한 촌장(아키텍트)이라면 방범대원을 평가할 때 "네가 평화로운 날을 얼마나 잘 맞췄냐"가 아니라, "진짜 늑대가 온 그 1번([[254_recall_sensitivity|Recall]])을 네가 울렸냐 못 울렸냐"의 독한 잣대([[255_f1_score|F1-Score]]) 하나만으로 모가지를 평가해야 마을이 생존한다.
+- **📢 섹션 요약 비유**: 불균형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평가지표의 붕괴는 '양치기 소년과 마을 방범대'다. 마을에 늑대가 1년에 1번 온다(불균형). 멍청한 방범대원(Accuracy 99% 모델)은 365일 내내 "늑대 없어! 평화로워!"라고만 외친다. 이 대원은 364일 맞췄으니 99.7점의 우수 대원 표창을 받는다. 하지만 늑대가 진짜 온 1번의 날에 마을 양 떼는 다 죽는다. 진정한 촌장(아키텍트)이라면 방범대원을 평가할 때 "네가 평화로운 날을 얼마나 잘 맞췄냐"가 아니라, "진짜 늑대가 온 그 1번([Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/))을 네가 울렸냐 못 울렸냐"의 독한 잣대([F1-Score](/knowledge-base/studynote/10_ai/03_llm_nlp/255_f1_score/)) 하나만으로 모가지를 평가해야 마을이 생존한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[[121_supervised_learning|지도 학습]]([[121_supervised_learning|Supervised Learning]])은 인류가 "기계에게 룰을 알려주는 시대"를 끝내고, **"기계에게 대량의 경험(과거의 정답 [[001_dikw_pyramid|데이터]])을 주입해 스스로 법칙을 깨우치게 하는" [[190_ai_llm_requirements_specification|AI]] 르네상스의 거대한 축포를 쏘아 올린 역사적인 패러다임 시프트**다.
+[지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)([Supervised Learning](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/))은 인류가 "기계에게 룰을 알려주는 시대"를 끝내고, **"기계에게 대량의 경험(과거의 정답 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 주입해 스스로 법칙을 깨우치게 하는" [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 르네상스의 거대한 축포를 쏘아 올린 역사적인 패러다임 시프트**다.
 
-현재 우리가 누리고 있는 실생활 [[190_ai_llm_requirements_specification|AI]] [[090_service_kubernetes_network_load_balancing|서비스]]의 절대다수는 이 [[121_supervised_learning|지도 학습]]의 산물이다. 카메라가 얼굴을 인식해 스마트폰 잠금을 풀어주고([[104_classification_analysis|분류]]), 테슬라가 앞에 있는 물체가 사람인지 쓰레기통인지 0.1초 만에 구별하며([[104_classification_analysis|분류]]), 유튜브 [[001_algorithm_definition|알고리즘]]이 내가 이 영상을 클릭할 [[130_probability|확률]]을 소수점으로 계산해 낸다(회귀). 인간이 라벨(정답)을 다는 수천억 원의 노가다([[001_dikw_pyramid|데이터]] 라벨링 산업)가 있었기에, 그 뼈를 깎는 정답지 위에서 기계는 미분과 행렬곱의 날개를 달고 인간의 인지 능력을 초월하는 [[104_classification_analysis|분류]]기로 성장할 수 있었다.
+현재 우리가 누리고 있는 실생활 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 절대다수는 이 [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)의 산물이다. 카메라가 얼굴을 인식해 스마트폰 잠금을 풀어주고([분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)), 테슬라가 앞에 있는 물체가 사람인지 쓰레기통인지 0.1초 만에 구별하며([분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)), 유튜브 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 내가 이 영상을 클릭할 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 소수점으로 계산해 낸다(회귀). 인간이 라벨(정답)을 다는 수천억 원의 노가다([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 라벨링 산업)가 있었기에, 그 뼈를 깎는 정답지 위에서 기계는 미분과 행렬곱의 날개를 달고 인간의 인지 능력을 초월하는 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기로 성장할 수 있었다.
 
-하지만 [[121_supervised_learning|지도 학습]]의 황금기는 '인간 노가다(Labeling)'의 한계에 부딪혔다. 100억 장의 사진에 사람이 일일이 "개, 고양이" 정답표를 달아주는 건 물리적으로, 자본적으로 불가능해졌다. 결국 [[190_ai_llm_requirements_specification|AI]] 산업의 왕좌는 정답지가 없어도 [[001_dikw_pyramid|데이터]] [[459_dummy_test_double|더미]]에서 자기들끼리 규칙을 찾아내는 [[122_unsupervised_learning|비지도 학습]]과, [[263_llm_large_language_model|LLM]](거대 언어 모델)의 거대한 파도인 '[[266_self_supervised_learning|자기 지도 학습]]([[266_self_supervised_learning|Self-Supervised Learning]])'으로 영토를 옮겨가고 있다. 그럼에도 불구하고, 비즈니스의 마지막 단추에서 "돈을 갚을 놈인가, 뗄 놈인가"를 100% 확실하게 찍어내어 통장에 돈을 꽂아주는 가장 강력하고 신뢰받는 현업의 타자(Hitter)는 영원히 [[121_supervised_learning|지도 학습]](Supervised)의 몫으로 남을 것이다.
+하지만 [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)의 황금기는 '인간 노가다(Labeling)'의 한계에 부딪혔다. 100억 장의 사진에 사람이 일일이 "개, 고양이" 정답표를 달아주는 건 물리적으로, 자본적으로 불가능해졌다. 결국 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 산업의 왕좌는 정답지가 없어도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)에서 자기들끼리 규칙을 찾아내는 [비지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/)과, [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)(거대 언어 모델)의 거대한 파도인 '[자기 지도 학습](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/266_self_supervised_learning/)([Self-Supervised Learning](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/266_self_supervised_learning/))'으로 영토를 옮겨가고 있다. 그럼에도 불구하고, 비즈니스의 마지막 단추에서 "돈을 갚을 놈인가, 뗄 놈인가"를 100% 확실하게 찍어내어 통장에 돈을 꽂아주는 가장 강력하고 신뢰받는 현업의 타자(Hitter)는 영원히 [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)(Supervised)의 몫으로 남을 것이다.
 
-- **📢 섹션 요약 비유**: [[121_supervised_learning|지도 학습]]은 '엘리트 과외 선생님이 키워낸 모범생'이다. 선생님(인간 라벨러)이 피땀 흘려 완벽한 모의고사 해설지([[001_dikw_pyramid|데이터]]+정답)를 10만 장 만들어 먹였더니, 학생([[190_ai_llm_requirements_specification|AI]])이 수능(실전)에서 무조건 100점을 찍어내는 기적을 쓴다. 하지만 선생님이 해설지를 만들어주는 데 너무 돈과 시간이 많이 든다(라벨링 병목). 이제 대학생이 된 AI는 "선생님 정답지 없어도([[122_unsupervised_learning|비지도 학습]]), 저 혼자 도서관 책(인터넷 텍스트) 싹 다 읽고 스스로 원리를 깨우칠게요([[266_self_supervised_learning|자기 지도 학습]], [[263_llm_large_language_model|LLM]])!"라고 부모로부터 독립을 선언하며 새로운 진화의 문을 열어젖히고 있는 중이다.
+- **📢 섹션 요약 비유**: [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)은 '엘리트 과외 선생님이 키워낸 모범생'이다. 선생님(인간 라벨러)이 피땀 흘려 완벽한 모의고사 해설지([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)+정답)를 10만 장 만들어 먹였더니, 학생([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))이 수능(실전)에서 무조건 100점을 찍어내는 기적을 쓴다. 하지만 선생님이 해설지를 만들어주는 데 너무 돈과 시간이 많이 든다(라벨링 병목). 이제 대학생이 된 AI는 "선생님 정답지 없어도([비지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/)), 저 혼자 도서관 책(인터넷 텍스트) 싹 다 읽고 스스로 원리를 깨우칠게요([자기 지도 학습](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/266_self_supervised_learning/), [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))!"라고 부모로부터 독립을 선언하며 새로운 진화의 문을 열어젖히고 있는 중이다.
 
 ---
 
@@ -126,10 +130,10 @@ B2B 현업에서는 아직도 "딥러닝 무새"를 경계한다. 은행 대출 
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[[104_classification_analysis|분류]] ([[107_classification|Classification]]) vs 회귀 (Regression)** | [[121_supervised_learning|지도 학습]]이 세상을 양분하는 두 개의 출구. 메일이 '스팸인가(1) 정상인가(0)' 이름표를 딱딱 자르면 [[104_classification_analysis|분류]], 내일 삼성전자 주식이 '얼마인가(81,500원)' 쭉 이어지는 숫자를 뱉으면 회귀다. |
-| **라벨링 (Labeling / [[001_dikw_pyramid|Data]] Annotation)** | [[121_supervised_learning|지도 학습]]이 돌아가기 위해 사람이 겪어야 하는 피눈물 나는 노가다. 사진 100만 장에 쥐꼬리만 한 월급을 받고 네모 박스를 쳐주며 "이건 자동차, 이건 사람" 정답지를 달아주는 [[001_dikw_pyramid|데이터]] 댐 공사 |
-| **[[122_unsupervised_learning|비지도 학습]] ([[122_unsupervised_learning|Unsupervised Learning]])** | [[121_supervised_learning|지도 학습]]의 쌍벽. "알바생 고용해서 정답표(Label) 달아줄 돈이 어딨어! 그냥 사진 10만 장 다 던져줄 테니까 기계 네가 알아서 둥근 거, 네모난 거 알아서 [[104_classification_analysis|분류]]해 봐!"라고 시키는 야생의 훈련법 |
-| **과적합 ([[245_overfitting_variance|Overfitting]])** | [[121_supervised_learning|지도 학습]]의 영원한 적. 훈련 문제집 정답(라벨)을 너무 심하게 외워버려서, 훈련장에선 백발백중인데 새로운 문제가 나오는 모의고사장에선 0점을 쳐맞는 불쌍한 암기 기계 상태 |
+| **[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) ([Classification](/knowledge-base/studynote/12_it_management/03_ea_isp/107_classification/)) vs 회귀 (Regression)** | [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)이 세상을 양분하는 두 개의 출구. 메일이 '스팸인가(1) 정상인가(0)' 이름표를 딱딱 자르면 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), 내일 삼성전자 주식이 '얼마인가(81,500원)' 쭉 이어지는 숫자를 뱉으면 회귀다. |
+| **라벨링 (Labeling / [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Annotation)** | [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)이 돌아가기 위해 사람이 겪어야 하는 피눈물 나는 노가다. 사진 100만 장에 쥐꼬리만 한 월급을 받고 네모 박스를 쳐주며 "이건 자동차, 이건 사람" 정답지를 달아주는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 댐 공사 |
+| **[비지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/) ([Unsupervised Learning](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/))** | [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)의 쌍벽. "알바생 고용해서 정답표(Label) 달아줄 돈이 어딨어! 그냥 사진 10만 장 다 던져줄 테니까 기계 네가 알아서 둥근 거, 네모난 거 알아서 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)해 봐!"라고 시키는 야생의 훈련법 |
+| **과적합 ([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))** | [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)의 영원한 적. 훈련 문제집 정답(라벨)을 너무 심하게 외워버려서, 훈련장에선 백발백중인데 새로운 문제가 나오는 모의고사장에선 0점을 쳐맞는 불쌍한 암기 기계 상태 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -139,9 +143,9 @@ B2B 현업에서는 아직도 "딥러닝 무새"를 경계한다. 은행 대출 
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **[[121_supervised_learning|지도 학습]]([[121_supervised_learning|Supervised Learning]])**은 똑똑한 강아지 훈련법이에요. 강아지한테 사과를 보여주고 **"이건 사과야!(정답)"**, 바나나를 보여주고 **"이건 바나나야!(정답)"**라고 친절하게 계속 가르쳐 주는 거예요.
+1. **[지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)([Supervised Learning](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/))**은 똑똑한 강아지 훈련법이에요. 강아지한테 사과를 보여주고 **"이건 사과야!(정답)"**, 바나나를 보여주고 **"이건 바나나야!(정답)"**라고 친절하게 계속 가르쳐 주는 거예요.
 2. 이걸 만 번 반복하면, 강아지 뇌 속에 마법의 규칙(모델)이 생겨서 태어나서 **처음 보는 사과를 휙 던져줘도 "멍멍! 사과!"**라고 1초 만에 기가 막히게 정답을 맞추게 되죠.
-3. 이렇게 정답을 **이름표(사과/바나나)**로 맞추면 **'[[104_classification_analysis|분류]]([[107_classification|Classification]])'**, 내일 비가 얼마나 올지 **정확한 숫자(15mm)**로 맞추면 **'회귀(Regression)'**라고 부르는 엄청난 마법이랍니다!
+3. 이렇게 정답을 **이름표(사과/바나나)**로 맞추면 **'[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)([Classification](/knowledge-base/studynote/12_it_management/03_ea_isp/107_classification/))'**, 내일 비가 얼마나 올지 **정확한 숫자(15mm)**로 맞추면 **'회귀(Regression)'**라고 부르는 엄청난 마법이랍니다!
 
 ---
 
@@ -149,7 +153,7 @@ B2B 현업에서는 아직도 "딥러닝 무새"를 경계한다. 은행 대출 
 
 **진행 상황**: 242 / 420
 
-← **이전**: [[241_machine_learning_basics|241. 머신러닝 (경험 기반 학습) 기초]]
-**다음**: [[243_unsupervised_learning|243. 비지도 학습 (군집화, 연관성, 차원 축소)]] →
+← **이전**: [241. 머신러닝 (경험 기반 학습) 기초](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)
+**다음**: [243. 비지도 학습 (군집화, 연관성, 차원 축소)](/knowledge-base/studynote/10_ai/03_llm_nlp/243_unsupervised_learning/) →
 
 ---

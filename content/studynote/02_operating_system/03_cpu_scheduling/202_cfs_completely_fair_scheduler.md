@@ -1,24 +1,28 @@
----
-title: 202. 완전 공정 스케줄러 (CFS, Completely Fair Scheduler)
-date: '2026-05-08'
-tags:
-- studynote-operating-system
----
++++
+title = "202. 완전 공정 스케줄러 (CFS, Completely Fair Scheduler)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 리눅스의 CFS(Completely Fair Scheduler)는 전통적인 우선순위 큐와 타임 [[331_neuromorphic_ai_db|슬라이스]](Time [[690_round_robin_time_quantum|Quantum]]) 개념을 폐기하고, 오직 **'[[203_virtual_runtime_vruntime|가상 실행 시간]](vruntime, Virtual Runtime)'이라는 단일 지표를 [[063_red_black_tree|레드-블랙 트리]]([[204_red_black_tree_cfs|Red-Black Tree]])에 정렬**하여 가장 적게 실행된 프로세스에게 무조건 CPU를 내어주는 혁명적인 [[079_kube_scheduler_pod_placement|스케줄러]]다.
-> 2. **가치**: [[079_kube_scheduler_pod_placement|스케줄러]]가 "이 놈이 대화형(I/O)[[509_authorization_models_rbac_abac|인가]]?"를 추측하는 더러운 [[210_heuristics_scheduling|휴리스틱]]([[210_heuristics_scheduling|Heuristics]]) 코드를 전부 삭제하고, 적게 일하고 대기한 프로세스는 자연스럽게 vruntime이 낮아져 즉각적인 응답성([[138_response_time|Response Time]])을 획득하는 **'수학적으로 완벽한 공정성(Fairness)'**을 증명해 냈다.
-> 3. **융합**: [[188_guaranteed_scheduling|보장 스케줄링]](Guaranteed)의 철학과 다중 큐(MQA), [[561_container_based_deployment|컨테이너]] 자원 격리([[062_cgroups|cgroups]])를 O(log N)의 가벼운 트리 탐색 구조 위에서 하나로 융합해 낸, 2007년 이후 현재까지 전 세계 클라우드와 안드로이드를 지배하고 있는 현대 운영체제의 마스터피스다.
+> 1. **본질**: 리눅스의 CFS(Completely Fair Scheduler)는 전통적인 우선순위 큐와 타임 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)(Time [Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/)) 개념을 폐기하고, 오직 **'[가상 실행 시간](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/203_virtual_runtime_vruntime/)(vruntime, Virtual Runtime)'이라는 단일 지표를 [레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/)([Red-Black Tree](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/204_red_black_tree_cfs/))에 정렬**하여 가장 적게 실행된 프로세스에게 무조건 CPU를 내어주는 혁명적인 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)다.
+> 2. **가치**: [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 "이 놈이 대화형(I/O)[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)?"를 추측하는 더러운 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)([Heuristics](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)) 코드를 전부 삭제하고, 적게 일하고 대기한 프로세스는 자연스럽게 vruntime이 낮아져 즉각적인 응답성([Response Time](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/))을 획득하는 **'수학적으로 완벽한 공정성(Fairness)'**을 증명해 냈다.
+> 3. **융합**: [보장 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/188_guaranteed_scheduling/)(Guaranteed)의 철학과 다중 큐(MQA), [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 자원 격리([cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/))를 O(log N)의 가벼운 트리 탐색 구조 위에서 하나로 융합해 낸, 2007년 이후 현재까지 전 세계 클라우드와 안드로이드를 지배하고 있는 현대 운영체제의 마스터피스다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 잉고 몰나르(Ingo Molnar)가 리눅스 2.6.23 버전에 도입한 디폴트 [[079_kube_scheduler_pod_placement|스케줄러]]다. 완벽한 다중 처리기(Ideal Multi-tasking CPU)를 모델링하여, $N$개의 프로세스가 동시에 실행된다면 각 프로세스가 정확히 $\frac{1}{N}$의 속도로 CPU를 나눠 쓰고 있다는 환상을 심어주는 알고리즘이다.
-- **필요성**: 이전의 O(1) [[079_kube_scheduler_pod_placement|스케줄러]]는 속도는 빨랐지만, 프로세스가 착한지 나쁜지(I/O 바운드인지 CPU 바운드인지) 찍어 맞추는 경험적 편법([[210_heuristics_scheduling|Heuristics]])에 찌들어 동영상 재생이나 3D 게임 환경에서 끔찍한 렉(Jitter)을 뿜어냈다. 인간의 얄팍한 추측을 버리고, 누가 얼마나 굶었는지 **과거의 팩트(실제 사용 시간)**만을 절대 기준으로 삼는 투명하고 우아한 시스템이 절실했다.
+- **개념**: 잉고 몰나르(Ingo Molnar)가 리눅스 2.6.23 버전에 도입한 디폴트 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)다. 완벽한 다중 처리기(Ideal Multi-tasking CPU)를 모델링하여, $N$개의 프로세스가 동시에 실행된다면 각 프로세스가 정확히 $\frac{1}{N}$의 속도로 CPU를 나눠 쓰고 있다는 환상을 심어주는 알고리즘이다.
+- **필요성**: 이전의 O(1) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 속도는 빨랐지만, 프로세스가 착한지 나쁜지(I/O 바운드인지 CPU 바운드인지) 찍어 맞추는 경험적 편법([Heuristics](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/))에 찌들어 동영상 재생이나 3D 게임 환경에서 끔찍한 렉(Jitter)을 뿜어냈다. 인간의 얄팍한 추측을 버리고, 누가 얼마나 굶었는지 **과거의 팩트(실제 사용 시간)**만을 절대 기준으로 삼는 투명하고 우아한 시스템이 절실했다.
 
-- **등장 배경**: 콘 콜리바스(Con Kolivas)가 만든 데스크톱 환경의 부드러움을 극대화한 RSDL [[079_kube_scheduler_pod_placement|스케줄러]]에서 영감을 받아, 리눅스 핵심 해커들이 "서버의 [[139_throughput|처리량]]과 데스크톱의 응답성을 복잡한 코드 없이 하나의 수학적 철학으로 통합하자"고 결의하여 탄생했다.
+- **등장 배경**: 콘 콜리바스(Con Kolivas)가 만든 데스크톱 환경의 부드러움을 극대화한 RSDL [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)에서 영감을 받아, 리눅스 핵심 해커들이 "서버의 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)과 데스크톱의 응답성을 복잡한 코드 없이 하나의 수학적 철학으로 통합하자"고 결의하여 탄생했다.
 
 ```text
   [기존 타임 슬라이스(O(1)) vs CFS의 가상 시간(vruntime) 철학 비교]
@@ -41,18 +45,18 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 1. [[203_virtual_runtime_vruntime|가상 실행 시간]] (vruntime)의 수학적 계산
+### 1. [가상 실행 시간](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/203_virtual_runtime_vruntime/) (vruntime)의 수학적 계산
 
 CFS의 모든 결정은 오직 이 `vruntime` 변수 하나로 이루어진다.
-> **vruntime = 실제 쓴 CPU 시간 (actual runtime) × (NICE_0_LOAD / 프로세스의 [[267_weight_bias_activation|가중치]] [[267_weight_bias_activation|Weight]])**
+> **vruntime = 실제 쓴 CPU 시간 (actual runtime) × (NICE_0_LOAD / 프로세스의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) [Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))**
 
-- **공평함의 마법**: 우선순위가 높은(NICE 값이 낮은, [[267_weight_bias_activation|가중치]]가 큰) VIP 프로세스는 CPU를 10ms 실제 썼더라도, 분모([[267_weight_bias_activation|가중치]])가 커서 장부(vruntime)에는 2ms 쓴 걸로 깎아서 기록해 준다.
-- **결과**: 장부 점수가 낮으므로 [[079_kube_scheduler_pod_placement|스케줄러]]가 "아이고 우리 VIP님 아직도 배가 고프시구나" 하고 계속 CPU를 던져준다. 즉, **CFS 환경에서 우선순위란 "시간이 얼마나 천천히 흐르는가(시간의 무게)"를 의미**한다.
+- **공평함의 마법**: 우선순위가 높은(NICE 값이 낮은, [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 큰) VIP 프로세스는 CPU를 10ms 실제 썼더라도, 분모([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))가 커서 장부(vruntime)에는 2ms 쓴 걸로 깎아서 기록해 준다.
+- **결과**: 장부 점수가 낮으므로 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 "아이고 우리 VIP님 아직도 배가 고프시구나" 하고 계속 CPU를 던져준다. 즉, **CFS 환경에서 우선순위란 "시간이 얼마나 천천히 흐르는가(시간의 무게)"를 의미**한다.
 
-### 2. [[063_red_black_tree|레드-블랙 트리]] ([[204_red_black_tree_cfs|Red-Black Tree]])를 통한 O(log N) 정렬
+### 2. [레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/) ([Red-Black Tree](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/204_red_black_tree_cfs/))를 통한 O(log N) 정렬
 
-CFS는 140개의 복잡한 큐([[055_array|Array]])를 다 버리고, 오직 **[[063_red_black_tree|레드-블랙 트리]]([[061_binary_search_tree_bst|이진 탐색 트리]])** 딱 1개만 쓴다.
-- 트리의 노드는 각 프로세스를 의미하며, 노드를 정렬하는 기준값([[067_db_key_uniqueness_minimality|Key]])은 오직 `vruntime`이다.
+CFS는 140개의 복잡한 큐([Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/))를 다 버리고, 오직 **[레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/)([이진 탐색 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/061_binary_search_tree_bst/))** 딱 1개만 쓴다.
+- 트리의 노드는 각 프로세스를 의미하며, 노드를 정렬하는 기준값([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))은 오직 `vruntime`이다.
 - 가장 덜 먹은 놈(가장 vruntime이 작은 놈)은 **무조건 트리의 가장 왼쪽 아래 끝(Leftmost Node)**에 위치한다.
 
 ```text
@@ -79,7 +83,7 @@ CFS는 140개의 복잡한 큐([[055_array|Array]])를 다 버리고, 오직 **[
   │  7. 새로운 Leftmost Node가 된 P_A(30)가 영광의 CPU를 쟁취함!           │
   └────────────────────────────────────────────────────────────────────────┘
 ```
-**[다이어그램 해설]** [[079_kube_scheduler_pod_placement|스케줄러]]가 하는 일은 너무나 단순하다. 타이머 인터럽트가 뜰 때마다 1. 트리 맨 왼쪽 놈을 꺼내서 일 시키고, 2. 일한 만큼 장부(vruntime) 점수 올린 다음, 3. 다시 트리에 던져 넣는 것뿐이다. 트리 정렬 비용은 $O(\log N)$이므로 10만 개의 프로세스가 떠 있어도 고작 17번의 탐색만으로 완벽히 공정한 타깃을 찾아낸다.
+**[다이어그램 해설]** [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 하는 일은 너무나 단순하다. 타이머 인터럽트가 뜰 때마다 1. 트리 맨 왼쪽 놈을 꺼내서 일 시키고, 2. 일한 만큼 장부(vruntime) 점수 올린 다음, 3. 다시 트리에 던져 넣는 것뿐이다. 트리 정렬 비용은 $O(\log N)$이므로 10만 개의 프로세스가 떠 있어도 고작 17번의 탐색만으로 완벽히 공정한 타깃을 찾아낸다.
 
 - **📢 섹션 요약 비유**: 운동장 한가운데에 몸무게(vruntime) 순서대로 아이들을 트리 모양으로 세워둡니다. 가장 가벼운 아이(맨 왼쪽)부터 불러내어 밥을 먹이면 몸무게가 찝니다. 밥 먹은 아이를 다시 트리에 밀어 넣으면 살찐 만큼 자연스럽게 오른쪽으로 밀려나고, 그사이에 뒤에 있던 두 번째로 가벼웠던 아이가 맨 왼쪽으로 나와 밥을 먹게 되는 환상적인 자가 조절(Self-regulating) 시스템입니다.
 
@@ -87,35 +91,35 @@ CFS는 140개의 복잡한 큐([[055_array|Array]])를 다 버리고, 오직 **[
 
 ## Ⅲ. 비교 및 연결
 
-### 고전적 타임 [[331_neuromorphic_ai_db|슬라이스]] 방식 (O(1)) vs 대상 [[141_latency|지연 시간]] 방식 (CFS)
+### 고전적 타임 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) 방식 (O(1)) vs 대상 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 방식 (CFS)
 
 CFS는 "고정된 타임 퀀텀(예: 무조건 10ms)"이라는 개념을 아예 파괴해 버렸다.
 
-| 비교 | 기존 O(1) [[079_kube_scheduler_pod_placement|스케줄러]] | 현대 CFS [[079_kube_scheduler_pod_placement|스케줄러]] |
+| 비교 | 기존 O(1) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) | 현대 CFS [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) |
 |:---|:---|:---|
-| **할당 방식** | 절대량 배급 ("너 10ms 써", "너 100ms 써") | **비율 지분제** (목표 [[015_지연_데이터_관점|지연]]시간을 프로세스 수 N으로 나눔) |
-| **타임 퀀텀** | 고정되어 있음 | **동적(Dynamic)**. 큐에 프로세스가 많아지면 [[331_neuromorphic_ai_db|슬라이스]]가 잘게 쪼개짐 |
-| **I/O 대화형 판별** | [[210_heuristics_scheduling|휴리스틱]] 코드로 추측해서 보너스 부여 | 추측 안 함. I/O 대기하느라 vruntime이 멈춰있었으므로 깨어나면 무조건 1등 먹음 |
+| **할당 방식** | 절대량 배급 ("너 10ms 써", "너 100ms 써") | **비율 지분제** (목표 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간을 프로세스 수 N으로 나눔) |
+| **타임 퀀텀** | 고정되어 있음 | **동적(Dynamic)**. 큐에 프로세스가 많아지면 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)가 잘게 쪼개짐 |
+| **I/O 대화형 판별** | [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 코드로 추측해서 보너스 부여 | 추측 안 함. I/O 대기하느라 vruntime이 멈춰있었으므로 깨어나면 무조건 1등 먹음 |
 | **오버헤드** | $O(1)$ 로 극강의 속도 | $O(\log N)$ 트리를 타야 하므로 살짝 무겁지만 완벽한 방어 가능 |
 
-### 목표 [[141_latency|지연 시간]] (Target [[141_latency|Latency]])의 도입
-CFS는 파이([[338_pie|Pie]])의 크기를 먼저 정한다. 만약 [[022_kernel_role|커널]] 목표 [[141_latency|지연 시간]]이 20ms라고 치자.
+### 목표 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) (Target [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))의 도입
+CFS는 파이([Pie](/knowledge-base/studynote/09_security/04_endpoint_security/338_pie/))의 크기를 먼저 정한다. 만약 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 목표 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)이 20ms라고 치자.
 - 프로세스가 2개면: 20ms / 2 = 각자 10ms씩 타임 퀀텀을 부여받는다.
 - 프로세스가 4개면: 20ms / 4 = 각자 5ms씩 부여받는다.
-- 프로세스가 100개면: 20ms / 100 = 0.2ms... 인데, 너무 작으면 [[257_thrashing|스래싱]](문맥교환 폭주)이 터지므로 **최소 보장 퀀텀(Minimum Granularity, 예: 1ms)** 이하로는 쪼개지지 않도록 방어막을 쳐둔다.
+- 프로세스가 100개면: 20ms / 100 = 0.2ms... 인데, 너무 작으면 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)(문맥교환 폭주)이 터지므로 **최소 보장 퀀텀(Minimum Granularity, 예: 1ms)** 이하로는 쪼개지지 않도록 방어막을 쳐둔다.
 
-- **📢 섹션 요약 비유**: 피자를 나눌 때 예전에는 무조건 "1인당 손바닥만 한 조각!"이라고 정해놔서 사람이 늘어나면 피자가 모자랐습니다. CFS는 "일단 1판(Target [[141_latency|Latency]]) 안에서 온 사람이 다 나눠 먹어라!" 하고 사람 수대로 칼집을 미세하게 내어주는 완벽한 비율 분배 경제입니다.
+- **📢 섹션 요약 비유**: 피자를 나눌 때 예전에는 무조건 "1인당 손바닥만 한 조각!"이라고 정해놔서 사람이 늘어나면 피자가 모자랐습니다. CFS는 "일단 1판(Target [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 안에서 온 사람이 다 나눠 먹어라!" 하고 사람 수대로 칼집을 미세하게 내어주는 완벽한 비율 분배 경제입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **서버 응답성 vs [[139_throughput|처리량]]([[139_throughput|Throughput]]) [[022_kernel_role|커널]] 파라미터 튜닝**: 리눅스 [[022_kernel_role|커널]] 관리자는 `sysctl`을 통해 CFS의 성격을 마법처럼 바꿀 수 있다.
-   - `sched_latency_ns` (목표 [[141_latency|지연 시간]]): 이 값을 짧게 주면(예: 10ms) 화면 반응이 즉각적으로 변하는 데스크톱 환경이 된다. 길게 주면(예: 100ms) 프로세스 교체가 안 일어나 캐시 히트율이 극강이 되는 배치/DB 서버 환경이 된다.
-   - `sched_min_granularity_ns` (최소 조각 단위): 1만 개의 [[092_thread_lwp|스레드]]가 떴을 때 [[033_context|컨텍스트]] [[238_switch_operation_principles|스위치]] 지옥을 막기 위해 최소 3ms 이하로는 쪼개지 말라고 방어벽을 세우는 필수 튜닝이다.
-2. **신규 프로세스(Fork)의 무한 증식 꼼수 방어**: 해커가 `fork()`를 미친 듯이 호출해 자식 프로세스를 10만 개 띄웠다. 이 자식들이 vruntime 0으로 태어나면 세상의 모든 CPU를 다 선점해 버린다([[174_convoy_effect|호위 효과]]).
-   - **CFS의 실무 조치**: 자식이 태어날 때 부모의 무거운 vruntime 값을 고스란히 [[234_uml_class_relationships_generalization_dependency|상속]](Inherit)받거나, 현재 큐의 `min_vruntime`보다 크게 설정하여 태어나게 만듦으로써 꼼수로 CPU를 탈취하려는 시도를 수학적으로 완벽히 격리(Penalty)시킨다.
+1. **서버 응답성 vs [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 파라미터 튜닝**: 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 관리자는 `sysctl`을 통해 CFS의 성격을 마법처럼 바꿀 수 있다.
+   - `sched_latency_ns` (목표 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)): 이 값을 짧게 주면(예: 10ms) 화면 반응이 즉각적으로 변하는 데스크톱 환경이 된다. 길게 주면(예: 100ms) 프로세스 교체가 안 일어나 캐시 히트율이 극강이 되는 배치/DB 서버 환경이 된다.
+   - `sched_min_granularity_ns` (최소 조각 단위): 1만 개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 떴을 때 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 지옥을 막기 위해 최소 3ms 이하로는 쪼개지 말라고 방어벽을 세우는 필수 튜닝이다.
+2. **신규 프로세스(Fork)의 무한 증식 꼼수 방어**: 해커가 `fork()`를 미친 듯이 호출해 자식 프로세스를 10만 개 띄웠다. 이 자식들이 vruntime 0으로 태어나면 세상의 모든 CPU를 다 선점해 버린다([호위 효과](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/174_convoy_effect/)).
+   - **CFS의 실무 조치**: 자식이 태어날 때 부모의 무거운 vruntime 값을 고스란히 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)(Inherit)받거나, 현재 큐의 `min_vruntime`보다 크게 설정하여 태어나게 만듦으로써 꼼수로 CPU를 탈취하려는 시도를 수학적으로 완벽히 격리(Penalty)시킨다.
 
 ```text
   ┌────────────────────────────────────────────────────────────────────┐
@@ -137,20 +141,20 @@ CFS는 파이([[338_pie|Pie]])의 크기를 먼저 정한다. 만약 [[022_kerne
   │   뒤에 재충전될 때까지 유배(Sleep) 보내어 완벽한 SLA를 보장한다.   │
   └────────────────────────────────────────────────────────────────────┘
 ```
-**[다이어그램 해설]** 단순히 [[092_thread_lwp|스레드]] 1개만 트리에 넣는 것이 아니다. 그룹([[062_cgroups|Cgroups]]) 자체를 거대한 하나의 노드로 만들어 트리에 넣는 **'계층적 스케줄링(Hierarchical Scheduling)'**이 CFS의 진정한 실무적 가치다. [[063_docker_architecture|Docker]] [[561_container_based_deployment|컨테이너]]에 CPU Limit을 0.5로 걸었을 때 정확히 50%에서 모가지가 잘리는 이유가 바로 CFS [[140_bandwidth|대역폭]] 제어(CFS [[140_bandwidth|Bandwidth]] Control) 매커니즘이 작동하기 때문이다.
+**[다이어그램 해설]** 단순히 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 1개만 트리에 넣는 것이 아니다. 그룹([Cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/)) 자체를 거대한 하나의 노드로 만들어 트리에 넣는 **'계층적 스케줄링(Hierarchical Scheduling)'**이 CFS의 진정한 실무적 가치다. [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)에 CPU Limit을 0.5로 걸었을 때 정확히 50%에서 모가지가 잘리는 이유가 바로 CFS [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 제어(CFS [Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) Control) 매커니즘이 작동하기 때문이다.
 
-- **📢 섹션 요약 비유**: CFS 트리는 마트료시카(인형 속에 인형) 같습니다. 구글 클라우드라는 큰 트리 안에 넷플릭스라는 노드가 있고, 그 넷플릭스 노드 안을 열어보면 또 트리가 있어서 각 [[092_thread_lwp|스레드]]들이 자기들끼리 싸웁니다. 넷플릭스가 돈 낸 만큼(50%)만 정확히 놀 수 있게 큰 트리가 숨통을 조였다 풀었다(Throttling) 합니다.
+- **📢 섹션 요약 비유**: CFS 트리는 마트료시카(인형 속에 인형) 같습니다. 구글 클라우드라는 큰 트리 안에 넷플릭스라는 노드가 있고, 그 넷플릭스 노드 안을 열어보면 또 트리가 있어서 각 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)들이 자기들끼리 싸웁니다. 넷플릭스가 돈 낸 만큼(50%)만 정확히 놀 수 있게 큰 트리가 숨통을 조였다 풀었다(Throttling) 합니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
 ### 기대효과
-[[210_heuristics_scheduling|휴리스틱]] 코드(땜질 처방)의 삭제로 [[022_kernel_role|커널]]이 가벼워지고 버그가 근절되었으며, O(log N)의 안정적인 탐색 속도와 완벽한 기아([[314_starvation_prevention|Starvation]]) 방어 메커니즘을 통해 슈퍼컴퓨터의 배치 연산부터 스마트폰의 부드러운 터치 스크롤링까지 단 하나의 [[079_kube_scheduler_pod_placement|스케줄러]]로 전부 포괄하는 '통일장 이론'을 완성했다.
+[휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 코드(땜질 처방)의 삭제로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 가벼워지고 버그가 근절되었으며, O(log N)의 안정적인 탐색 속도와 완벽한 기아([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) 방어 메커니즘을 통해 슈퍼컴퓨터의 배치 연산부터 스마트폰의 부드러운 터치 스크롤링까지 단 하나의 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)로 전부 포괄하는 '통일장 이론'을 완성했다.
 
 ### 결론 및 미래 전망
-리눅스의 CFS(Completely Fair Scheduler)는 스케줄링 이론이 도달한 하나의 정점이자 21세기 IT 인프라의 심장이다. 세상 모든 웹 서버, 안드로이드 폰, [[196_kubernetes_k8s_container_orchestration|쿠버네티스]] 노드가 지금 이 순간에도 vruntime 트리를 갱신하고 있다.
-미래에는 여기서 한 발 더 나아가, ARM big.LITTLE 코어 구조처럼 전력 효율이 다른 코어들에 프로세스를 던질 때, 전력 소모량(W)을 vruntime 계산에 융합하는 **EAS (Energy Aware Scheduling)** 기술과, [[022_kernel_role|커널]]을 수정하지 않고 개발자가 eBPF를 통해 vruntime 트리의 [[267_weight_bias_activation|가중치]]를 런타임에 마음대로 조작하는 **Bpf-based Custom Scheduler (sched_ext)**의 시대로 거대한 패러다임 쉬프트가 일어나고 있다.
+리눅스의 CFS(Completely Fair Scheduler)는 스케줄링 이론이 도달한 하나의 정점이자 21세기 IT 인프라의 심장이다. 세상 모든 웹 서버, 안드로이드 폰, [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 노드가 지금 이 순간에도 vruntime 트리를 갱신하고 있다.
+미래에는 여기서 한 발 더 나아가, ARM big.LITTLE 코어 구조처럼 전력 효율이 다른 코어들에 프로세스를 던질 때, 전력 소모량(W)을 vruntime 계산에 융합하는 **EAS (Energy Aware Scheduling)** 기술과, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 수정하지 않고 개발자가 eBPF를 통해 vruntime 트리의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 런타임에 마음대로 조작하는 **Bpf-based Custom Scheduler (sched_ext)**의 시대로 거대한 패러다임 쉬프트가 일어나고 있다.
 
 - **📢 섹션 요약 비유**: 복잡한 편법과 오지랖(O(1) 시절)을 다 버리고, "공정한 장부(vruntime) 하나만 남기자"는 단순함의 미학이 결국 세상을 지배했습니다. CFS는 컴퓨터 과학 역사상 가장 위대한 "뺄셈의 철학(더러운 코드 삭제)"이 만들어낸 마스터피스입니다.
 
@@ -160,10 +164,10 @@ CFS는 파이([[338_pie|Pie]])의 크기를 먼저 정한다. 만약 [[022_kerne
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 이기종 [[193_smp_symmetric_multiprocessing|다중 처리기 스케줄링]] (HMP) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| 이기종 [다중 처리기 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/193_smp_symmetric_multiprocessing/) (HMP) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
 | 실시간 스케줄링 (Real-time Scheduling) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
 | 경성 실시간 (Hard Real-time) 시스템 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [[141_latency|지연 시간]] ([[141_latency|Latency]]) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) ([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -191,7 +195,7 @@ CFS는 파이([[338_pie|Pie]])의 크기를 먼저 정한다. 만약 [[022_kerne
 
 **진행 상황**: 202 / 800
 
-← **이전**: [[201_linux_o1_scheduler|201. 리눅스 O(1) 스케줄러 (Linux O1 Scheduler)]]
-**다음**: [[203_virtual_runtime_vruntime|203. 가상 실행 시간 (vruntime, Virtual Runtime)]] →
+← **이전**: [201. 리눅스 O(1) 스케줄러 (Linux O1 Scheduler)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/201_linux_o1_scheduler/)
+**다음**: [203. 가상 실행 시간 (vruntime, Virtual Runtime)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/203_virtual_runtime_vruntime/) →
 
 ---

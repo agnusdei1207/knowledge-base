@@ -1,22 +1,26 @@
----
-title: 23. 파이브 포스 모델 (Five Forces Model)
-date: '2026-04-29'
-tags:
-- studynote-it-management
----
++++
+title = "23. 파이브 포스 모델 (Five Forces Model)"
+date = 2026-04-29
+
+[taxonomies]
+tags = ["studynote-it-management"]
+
+[extra]
+tags = ["studynote-it-management"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 파이브 포스 모델([[023_five_forces|Five Forces]] Model)은 마이클 포터(Michael E. Porter)가 1979년 제시한 산업 구조 분석 프레임워크로, 신규 진입자 위협·공급자 교섭력·구매자 교섭력·대체재 위협·기존 경쟁자 간 경쟁이라는 5가지 힘이 산업의 수익성(Profitability)을 결정한다는 이론이다.
-> 2. **가치**: IT 기업의 경쟁 [[268_strategy_pattern|전략]] 수립 시 포터의 5 Forces로 산업 매력도를 정량·정성 평가하면, 진입 장벽(Entry Barrier)을 높이거나 교섭력을 강화할 [[268_strategy_pattern|전략]]적 포지셔닝(Strategic Positioning) 방향을 도출할 수 있다.
-> 3. **판단 포인트**: 디지털 플랫폼 경제에서는 [[253_network_effect_metcalfe|네트워크 효과]]([[032_network_effect|Network Effect]])가 기존 경쟁자 간 경쟁의 패턴을 바꾸고, [[001_dikw_pyramid|데이터]] 독점이 새로운 진입 장벽이 되며, 플랫폼 자체가 공급자·구매자 양면을 지배하는 방식으로 5 Forces 분석이 재해석되고 있다.
+> 1. **본질**: 파이브 포스 모델([Five Forces](/knowledge-base/studynote/12_it_management/01_governance_strategy/023_five_forces/) Model)은 마이클 포터(Michael E. Porter)가 1979년 제시한 산업 구조 분석 프레임워크로, 신규 진입자 위협·공급자 교섭력·구매자 교섭력·대체재 위협·기존 경쟁자 간 경쟁이라는 5가지 힘이 산업의 수익성(Profitability)을 결정한다는 이론이다.
+> 2. **가치**: IT 기업의 경쟁 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수립 시 포터의 5 Forces로 산업 매력도를 정량·정성 평가하면, 진입 장벽(Entry Barrier)을 높이거나 교섭력을 강화할 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 포지셔닝(Strategic Positioning) 방향을 도출할 수 있다.
+> 3. **판단 포인트**: 디지털 플랫폼 경제에서는 [네트워크 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/)([Network Effect](/knowledge-base/studynote/12_it_management/01_governance_strategy/032_network_effect/))가 기존 경쟁자 간 경쟁의 패턴을 바꾸고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 독점이 새로운 진입 장벽이 되며, 플랫폼 자체가 공급자·구매자 양면을 지배하는 방식으로 5 Forces 분석이 재해석되고 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-파이브 포스 모델([[023_five_forces|Five Forces]] Model)은 하버드 경영대학원 마이클 포터 교수가 제시한 산업 경쟁 분석 도구로, 기업의 수익성은 내부 역량만이 아니라 5가지 외부 경쟁 세력의 구조적 압력에 의해 결정된다는 것을 체계화한 모델이다.
+파이브 포스 모델([Five Forces](/knowledge-base/studynote/12_it_management/01_governance_strategy/023_five_forces/) Model)은 하버드 경영대학원 마이클 포터 교수가 제시한 산업 경쟁 분석 도구로, 기업의 수익성은 내부 역량만이 아니라 5가지 외부 경쟁 세력의 구조적 압력에 의해 결정된다는 것을 체계화한 모델이다.
 
-SWOT 분석이 내부·외부를 단편적으로 나열하는 것과 달리, 파이브 포스는 산업의 구조적 수익성을 체계적으로 진단하여 "어느 산업에 진입할 것인가" 또는 "현재 산업에서 어떻게 포지셔닝할 것인가"의 [[268_strategy_pattern|전략]]적 의사결정을 지원한다. IT [[268_strategy_pattern|전략]] 기획 및 디지털 비즈니스 포트폴리오 결정에서 필수 분석 도구다.
+SWOT 분석이 내부·외부를 단편적으로 나열하는 것과 달리, 파이브 포스는 산업의 구조적 수익성을 체계적으로 진단하여 "어느 산업에 진입할 것인가" 또는 "현재 산업에서 어떻게 포지셔닝할 것인가"의 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 의사결정을 지원한다. IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 기획 및 디지털 비즈니스 포트폴리오 결정에서 필수 분석 도구다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -44,10 +48,10 @@ SWOT 분석이 내부·외부를 단편적으로 나열하는 것과 달리, 파
 
 | 경쟁 세력 | 강화 요인 | IT 산업 적용 예시 |
 |:---|:---|:---|
-| **신규 진입자 위협** | 낮은 [[459_quic_fec_forward_error_correction|초기]] 투자, 규제 완화 | 클라우드 덕분에 스타트업이 대기업 IT 시장 진입 용이 |
-| **공급자 교섭력** | 공급자 집중, 대체 공급처 없음 | AWS/Azure/GCP 3사 독점 → [[475_csp|CSP]] 교섭력 높음 |
-| **구매자 교섭력** | 구매자 집중, 전환 비용 낮음 | [[309_saas|SaaS]] 구독 취소 용이 → 구매자 교섭력 높음 |
-| **대체재 위협** | 대체재 가격 저렴, 기능 유사 | 특정 SW가 오픈소스로 대체됨 (예: MySQL vs [[188_pl_sql_t_sql_procedural|Oracle]]) |
+| **신규 진입자 위협** | 낮은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자, 규제 완화 | 클라우드 덕분에 스타트업이 대기업 IT 시장 진입 용이 |
+| **공급자 교섭력** | 공급자 집중, 대체 공급처 없음 | AWS/Azure/GCP 3사 독점 → [CSP](/knowledge-base/studynote/09_security/05_web_app_security/475_csp/) 교섭력 높음 |
+| **구매자 교섭력** | 구매자 집중, 전환 비용 낮음 | [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 구독 취소 용이 → 구매자 교섭력 높음 |
+| **대체재 위협** | 대체재 가격 저렴, 기능 유사 | 특정 SW가 오픈소스로 대체됨 (예: MySQL vs [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/)) |
 | **기존 경쟁자 경쟁** | 성장 정체, 차별화 어려움 | 스마트폰 시장 포화 → 삼성·애플 치열한 경쟁 |
 
 ### 5 Forces 강도 매핑
@@ -76,11 +80,11 @@ SWOT 분석이 내부·외부를 단편적으로 나열하는 것과 달리, 파
 | 분석 도구 | 목적 | 관점 | 한계 |
 |:---|:---|:---|:---|
 | **5 Forces** | 산업 구조·수익성 분석 | 외부 경쟁 환경 | 내부 역량 분석 없음 |
-| **SWOT** | [[268_strategy_pattern|전략]] 방향 도출 | 내부+외부 | 수익성 정량화 어려움 |
-| **PESTEL** | [[025_pest_analysis|거시 환경 분석]] | 정치·경제·사회·기술 등 | 경쟁 구조 심층 분석 부재 |
-| **가치사슬 ([[249_value_chain_competitive_analysis|Value Chain]])** | 내부 경쟁 우위 원천 분석 | 내부 프로세스 | 산업 구조 분석 없음 |
+| **SWOT** | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 방향 도출 | 내부+외부 | 수익성 정량화 어려움 |
+| **PESTEL** | [거시 환경 분석](/knowledge-base/studynote/12_it_management/01_governance_strategy/025_pest_analysis/) | 정치·경제·사회·기술 등 | 경쟁 구조 심층 분석 부재 |
+| **가치사슬 ([Value Chain](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/))** | 내부 경쟁 우위 원천 분석 | 내부 프로세스 | 산업 구조 분석 없음 |
 
-5 Forces는 [[019_bsc|BSC]] (Balanced Scorecard, 균형 성과 지표)와 연계하여 [[268_strategy_pattern|전략]] 목표로 폭포수처럼 전개되며, 포터의 본원적 [[268_strategy_pattern|전략]](Generic Strategies)인 원가 우위·차별화·집중화의 선택 근거를 제공한다.
+5 Forces는 [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/) (Balanced Scorecard, 균형 성과 지표)와 연계하여 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 목표로 폭포수처럼 전개되며, 포터의 본원적 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(Generic Strategies)인 원가 우위·차별화·집중화의 선택 근거를 제공한다.
 
 - **📢 섹션 요약 비유**: 5 Forces가 산업의 날씨 예보라면, SWOT은 여행 준비물 목록이고, PESTEL은 지구 기후 변화 분석이다. 각각 다른 스케일의 질문에 답한다.
 
@@ -89,25 +93,25 @@ SWOT 분석이 내부·외부를 단편적으로 나열하는 것과 달리, 파
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오: IT 기업의 신규 사업 진입 타당성 검토
-중견 SI 기업이 [[190_ai_llm_requirements_specification|AI]] 기반 [[060_rpa_hyperautomation|RPA]]([[060_rpa_hyperautomation|Robotic Process Automation]]) 사업 진입 여부를 결정한다.
+중견 SI 기업이 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/)([Robotic Process Automation](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/)) 사업 진입 여부를 결정한다.
 
 1. **신규 진입자 위협**: UiPath, Automation Anywhere 등 글로벌 전문 기업 이미 시장 점유 → 높음.
-2. **공급자 교섭력**: [[190_ai_llm_requirements_specification|AI]] 모델 의존 (OpenAI, MS Azure [[190_ai_llm_requirements_specification|AI]]) → 높음.
-3. **구매자 교섭력**: 기업 고객의 POC(Proof of [[120_concept|Concept]]) 요구 많음, 전환 비용 낮음 → 중간.
-4. **대체재 위협**: [[263_llm_large_language_model|LLM]] 기반 [[190_ai_llm_requirements_specification|AI]] 에이전트가 RPA를 대체할 가능성 → 높음.
+2. **공급자 교섭력**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 의존 (OpenAI, MS Azure [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) → 높음.
+3. **구매자 교섭력**: 기업 고객의 POC(Proof of [Concept](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/)) 요구 많음, 전환 비용 낮음 → 중간.
+4. **대체재 위협**: [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 에이전트가 RPA를 대체할 가능성 → 높음.
 5. **기존 경쟁자**: 삼성SDS, LG CNS 등 대형 SI 이미 진출 → 높음.
 
-→ **결론**: 5 Forces 모두 높음 → 범용 [[060_rpa_hyperautomation|RPA]] 제품보다 **특정 산업(금융/제조) 수직 특화** [[268_strategy_pattern|전략]]으로 포지셔닝.
+→ **결론**: 5 Forces 모두 높음 → 범용 [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) 제품보다 **특정 산업(금융/제조) 수직 특화** [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 포지셔닝.
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 - 분석 대상 산업의 경계(Industry Definition)를 명확히 정의 (너무 넓거나 좁으면 결론 왜곡).
 - 각 Force의 강도(High/Medium/Low)를 정성 근거와 함께 제시.
-- 디지털 산업에서 [[253_network_effect_metcalfe|네트워크 효과]]와 플랫폼 효과를 추가 변수로 고려.
+- 디지털 산업에서 [네트워크 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/)와 플랫폼 효과를 추가 변수로 고려.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 5 Forces 분석을 1회 수행하고 수년간 재활용하는 오류. 디지털 산업은 6~12개월 만에 Force 강도가 역전될 수 있으므로 정기적(반기~연간) 재분석이 필수다.
 
-- **📢 섹션 요약 비유**: 5 Forces 분석을 한 번만 하고 방치하는 건 5년 전 지도로 네비게이션을 쓰는 것과 같다. 새 도로(플랫폼 등장)와 폐쇄 도로(기업 퇴출)가 반영되지 않으면 [[268_strategy_pattern|전략]]이 엉뚱한 곳으로 향한다.
+- **📢 섹션 요약 비유**: 5 Forces 분석을 한 번만 하고 방치하는 건 5년 전 지도로 네비게이션을 쓰는 것과 같다. 새 도로(플랫폼 등장)와 폐쇄 도로(기업 퇴출)가 반영되지 않으면 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 엉뚱한 곳으로 향한다.
 
 ---
 
@@ -115,13 +119,13 @@ SWOT 분석이 내부·외부를 단편적으로 나열하는 것과 달리, 파
 
 | 기대효과 | 내용 | 수치 |
 |:---|:---|:---|
-| **진입 타당성 [[395_verification_process_review|검증]]** | 신규 사업 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 사전 평가 | 신규 사업 실패율 30% 감소 |
-| **경쟁 [[268_strategy_pattern|전략]] 수립** | 차별화 포인트 명확화 | [[268_strategy_pattern|전략]] 집중도 향상 |
-| **투자 우선순위** | 포트폴리오 매력도 순위화 | IT 투자 [[012_roi_return_on_investment|ROI]] 개선 |
+| **진입 타당성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)** | 신규 사업 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 사전 평가 | 신규 사업 실패율 30% 감소 |
+| **경쟁 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수립** | 차별화 포인트 명확화 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 집중도 향상 |
+| **투자 우선순위** | 포트폴리오 매력도 순위화 | IT 투자 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 개선 |
 
-파이브 포스 모델은 45년이 지난 지금도 MBA [[268_strategy_pattern|전략]] 과목의 핵심 프레임워크로 자리를 지키고 있다. 디지털 플랫폼 시대에는 보완재(Complementors)를 6번째 Force로 추가하는 확장 모델(Value Net)이나, 에코시스템 경쟁을 반영한 Industry [[319_architecture|Architecture]] 분석으로 진화하고 있다.
+파이브 포스 모델은 45년이 지난 지금도 MBA [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 과목의 핵심 프레임워크로 자리를 지키고 있다. 디지털 플랫폼 시대에는 보완재(Complementors)를 6번째 Force로 추가하는 확장 모델(Value Net)이나, 에코시스템 경쟁을 반영한 Industry [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) 분석으로 진화하고 있다.
 
-- **📢 섹션 요약 비유**: 파이브 포스는 시장에 뛰어들기 전 물의 깊이, 온도, 상어 유무, 조류 방향, 경쟁 수영선수 수를 한꺼번에 파악하는 [[268_strategy_pattern|전략]]적 다이빙 전 [[435_checklist_based_testing|체크리스트]]다.
+- **📢 섹션 요약 비유**: 파이브 포스는 시장에 뛰어들기 전 물의 깊이, 온도, 상어 유무, 조류 방향, 경쟁 수영선수 수를 한꺼번에 파악하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 다이빙 전 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)다.
 
 ---
 
@@ -129,11 +133,11 @@ SWOT 분석이 내부·외부를 단편적으로 나열하는 것과 달리, 파
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **포터의 본원적 [[268_strategy_pattern|전략]]** | 5 Forces 분석 결과에 따른 원가 우위·차별화·집중화 [[268_strategy_pattern|전략]] 선택 |
-| **SWOT 분석** | 5 Forces(외부)와 내부 역량을 결합한 [[268_strategy_pattern|전략]] 분석 |
-| **가치사슬 ([[249_value_chain_competitive_analysis|Value Chain]])** | 경쟁 우위 원천을 내부 프로세스에서 찾는 보완 분석 도구 |
-| **블루오션 [[268_strategy_pattern|전략]]** | 기존 5 Forces가 모두 높은 레드오션을 벗어나는 시장 재창조 [[268_strategy_pattern|전략]] |
-| **[[253_network_effect_metcalfe|네트워크 효과]]** | 디지털 플랫폼에서 기존 경쟁자 간 경쟁 구조를 바꾸는 핵심 변수 |
+| **포터의 본원적 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)** | 5 Forces 분석 결과에 따른 원가 우위·차별화·집중화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 선택 |
+| **SWOT 분석** | 5 Forces(외부)와 내부 역량을 결합한 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 분석 |
+| **가치사슬 ([Value Chain](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/))** | 경쟁 우위 원천을 내부 프로세스에서 찾는 보완 분석 도구 |
+| **블루오션 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)** | 기존 5 Forces가 모두 높은 레드오션을 벗어나는 시장 재창조 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
+| **[네트워크 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/)** | 디지털 플랫폼에서 기존 경쟁자 간 경쟁 구조를 바꾸는 핵심 변수 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -152,7 +156,7 @@ SWOT 분석이 내부·외부를 단편적으로 나열하는 것과 달리, 파
     ▼
 [디지털 플랫폼 확장 — 네트워크 효과·에코시스템 경쟁]
 ```
-산업 조직론에서 5 Forces, 본원적 [[268_strategy_pattern|전략]], 가치사슬로 심화되며, 디지털 플랫폼 시대의 에코시스템 경쟁으로 확장되는 [[268_strategy_pattern|전략]] 분석의 흐름이다.
+산업 조직론에서 5 Forces, 본원적 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), 가치사슬로 심화되며, 디지털 플랫폼 시대의 에코시스템 경쟁으로 확장되는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 분석의 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -166,7 +170,7 @@ SWOT 분석이 내부·외부를 단편적으로 나열하는 것과 달리, 파
 
 **진행 상황**: 40 / 587
 
-← **이전**: [[023_five_forces|23. 5 Forces 모델]]
-**다음**: [[024_swot_analysis_tows_matrix|24. SWOT 분석 / TOWS 매트릭스]] →
+← **이전**: [23. 5 Forces 모델](/knowledge-base/studynote/12_it_management/01_governance_strategy/023_five_forces/)
+**다음**: [24. SWOT 분석 / TOWS 매트릭스](/knowledge-base/studynote/12_it_management/01_governance_strategy/024_swot_analysis_tows_matrix/) →
 
 ---

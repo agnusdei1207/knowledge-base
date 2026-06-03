@@ -1,13 +1,17 @@
----
-title: 26. 최소항·최대항 (Minterm / Maxterm) — 부울 함수 표준형
-date: '2026-04-29'
-tags:
-- studynote-computer-architecture
----
++++
+title = "26. 최소항·최대항 (Minterm / Maxterm) — 부울 함수 표준형"
+date = 2026-04-29
+
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 최소항(Minterm)은 n개의 변수가 모두 AND로 연결된 곱항(Product Term)으로, 각 변수는 보수(Complement) 또는 비보수(Non-complement) 형태로 정확히 한 개의 입력 조합에서만 1이 된다. 최대항(Maxterm)은 n개의 변수가 모두 OR로 연결된 합항(Sum Term)으로, 정확히 한 입력 조합에서만 0이 된다.
-> 2. **가치**: 부울 함수는 최소항의 합(SOP, Sum of Products)인 정규합 형태(Canonical SOP)와 최대항의 곱(POS, Product of Sums)인 정규곱 형태(Canonical POS)로 유일하게 표현될 수 있다. 이 두 표준형은 [[025_karnaugh_map|카르노 맵]]([[025_karnaugh_map|Karnaugh Map]]) 최적화와 게이트 회로 구현의 이론적 기반이다.
+> 2. **가치**: 부울 함수는 최소항의 합(SOP, Sum of Products)인 정규합 형태(Canonical SOP)와 최대항의 곱(POS, Product of Sums)인 정규곱 형태(Canonical POS)로 유일하게 표현될 수 있다. 이 두 표준형은 [카르노 맵](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/)([Karnaugh Map](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/)) 최적화와 게이트 회로 구현의 이론적 기반이다.
 > 3. **판단 포인트**: SOP는 1이 되는 입력 조합(Minterm)을 합산하고, POS는 0이 되는 입력 조합(Maxterm)을 곱한다. 진리표에서 1이 적으면 SOP, 0이 적으면 POS가 더 간단한 회로로 구현되므로, 실무에서는 1과 0의 개수를 비교해 표준형을 선택한다.
 
 ---
@@ -74,8 +78,8 @@ F = Σm(1,3) = ΠM(0,2)
 |:---|:---|:---|
 | **구성 단위** | 최소항 AND로 묶음 | 최대항 OR로 묶음 |
 | **F=1 조건** | 포함된 최소항이 1일 때 | 모든 최대항이 1일 때 |
-| **[[027_logic_gates|논리 게이트]]** | AND → OR (2단) | OR → AND (2단) |
-| **최적화 도구** | [[025_karnaugh_map|카르노 맵]] (1 묶기) | [[025_karnaugh_map|카르노 맵]] (0 묶기) |
+| **[논리 게이트](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/027_logic_gates/)** | AND → OR (2단) | OR → AND (2단) |
+| **최적화 도구** | [카르노 맵](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/) (1 묶기) | [카르노 맵](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/) (0 묶기) |
 
 - **📢 섹션 요약 비유**: SOP는 "이 재료들이 있으면 요리 완성(OR/합)", POS는 "이 재료들이 하나라도 빠지면 요리 실패(AND/곱)"이다. 결과는 같지만 레시피 작성 방식이 다르다.
 
@@ -97,7 +101,7 @@ assign F = (~A & ~B & C) | (~A & B & C) |
 // = C (드모르간+부울 대수로 동일)
 ```
 
-- **📢 섹션 요약 비유**: [[025_karnaugh_map|카르노 맵]]이 없는 SOP 직접 구현은 긴 문장을 줄임말 없이 쓰는 것이고, [[025_karnaugh_map|카르노 맵]] 최적화는 "등"으로 줄여쓰는 것이다. 둘 다 같은 의미지만 간결함이 다르다.
+- **📢 섹션 요약 비유**: [카르노 맵](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/)이 없는 SOP 직접 구현은 긴 문장을 줄임말 없이 쓰는 것이고, [카르노 맵](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/) 최적화는 "등"으로 줄여쓰는 것이다. 둘 다 같은 의미지만 간결함이 다르다.
 
 ---
 
@@ -106,10 +110,10 @@ assign F = (~A & ~B & C) | (~A & B & C) |
 | 기대효과 | 내용 |
 |:---|:---|
 | **표준화** | 어떤 부울 함수도 SOP/POS로 유일 표현 |
-| **최적화 기반** | [[025_karnaugh_map|카르노 맵]] 최적화의 이론적 시작점 |
-| **CAD 합성** | [[369_logic_bomb|논리]] 합성 도구의 내부 표현 형태 |
+| **최적화 기반** | [카르노 맵](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/) 최적화의 이론적 시작점 |
+| **CAD 합성** | [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 합성 도구의 내부 표현 형태 |
 
-최소항/최대항은 디지털 회로 설계 자동화 도구([[064_eda|EDA]], Electronic Design Automation)의 [[369_logic_bomb|논리]] 합성(Logic Synthesis) 내부에서 [[165_bdd_behavior_driven_development|BDD]] (Binary Decision Diagram)와 함께 게이트 최소화에 활용된다.
+최소항/최대항은 디지털 회로 설계 자동화 도구([EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/), Electronic Design Automation)의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 합성(Logic Synthesis) 내부에서 [BDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/) (Binary Decision Diagram)와 함께 게이트 최소화에 활용된다.
 
 - **📢 섹션 요약 비유**: 최소항/최대항은 디지털 회로의 악보다. 음악(부울 함수)을 악보(SOP/POS)로 적으면 어떤 연주자(회로 합성 도구)도 동일하게 연주할 수 있다.
 
@@ -119,11 +123,11 @@ assign F = (~A & ~B & C) | (~A & B & C) |
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[[025_karnaugh_map|카르노 맵]]** | 최소항/최대항 기반 함수 최적화 |
+| **[카르노 맵](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/)** | 최소항/최대항 기반 함수 최적화 |
 | **SOP/POS** | 표준 정규형 표현 |
 | **드모르간 법칙** | 최소항↔최대항 변환 원리 |
-| **[[369_logic_bomb|논리]] 합성 ([[064_eda|EDA]])** | 최소항 기반 자동 회로 합성 |
-| **VHDL/Verilog** | 최소항 기반 회로 [[072_hdl|HDL]] 구현 |
+| **[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 합성 ([EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/))** | 최소항 기반 자동 회로 합성 |
+| **VHDL/Verilog** | 최소항 기반 회로 [HDL](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/072_hdl/) 구현 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -155,7 +159,7 @@ assign F = (~A & ~B & C) | (~A & B & C) |
 
 **진행 상황**: 26 / 803
 
-← **이전**: [[025_karnaugh_map|25. 카르노 맵 (Karnaugh Map) — 진리표의 시각적 논리 최적화]]
-**다음**: [[027_logic_gates|27. 논리 게이트 (Logic Gates) — 디지털 회로의 기본 소자]] →
+← **이전**: [25. 카르노 맵 (Karnaugh Map) — 진리표의 시각적 논리 최적화](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/)
+**다음**: [27. 논리 게이트 (Logic Gates) — 디지털 회로의 기본 소자](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/027_logic_gates/) →
 
 ---

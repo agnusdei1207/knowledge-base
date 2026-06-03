@@ -1,14 +1,18 @@
----
-title: 134. ESG 경영 & IT 시스템 - 탄소 추적·ESG 데이터 관리
-date: '2026-04-19'
-tags:
-- studynote-enterprise-systems
----
++++
+title = "134. ESG 경영 & IT 시스템 - 탄소 추적·ESG 데이터 관리"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-enterprise-systems"]
+
+[extra]
+tags = ["studynote-enterprise-systems"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: ESG(Environmental·Social·Governance) 경영은 **환경·사회·지배구조를 기업 경영에 통합**하는 패러다임이며, IT 시스템이 탄소 배출 추적·ESG 보고서 자동화·[[520_supply_chain_attack_and_ci_cd_security|공급망]] ESG [[229_monitor|모니터]]링을 지원한다.
-> 2. **가치**: EU CSRD·SEC 기후 공시 등 **ESG 공시 의무화**가 확대되면서, ESG [[001_dikw_pyramid|데이터]] 수집·분석·보고의 **자동화가 필수**가 되었다.
-> 3. **판단 포인트**: [[512_oauth_scope|Scope]] 1(직접 배출)·[[512_oauth_scope|Scope]] 2(간접, 전력)·[[512_oauth_scope|Scope]] 3([[520_supply_chain_attack_and_ci_cd_security|공급망]])을 구분하고, SAP [[386_sustainability_green_coding|Sustainability]] Control Tower·Persefoni가 대표 솔루션이다.
+> 1. **본질**: ESG(Environmental·Social·Governance) 경영은 **환경·사회·지배구조를 기업 경영에 통합**하는 패러다임이며, IT 시스템이 탄소 배출 추적·ESG 보고서 자동화·[공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) ESG [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링을 지원한다.
+> 2. **가치**: EU CSRD·SEC 기후 공시 등 **ESG 공시 의무화**가 확대되면서, ESG [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집·분석·보고의 **자동화가 필수**가 되었다.
+> 3. **판단 포인트**: [Scope](/knowledge-base/studynote/09_security/05_web_app_security/512_oauth_scope/) 1(직접 배출)·[Scope](/knowledge-base/studynote/09_security/05_web_app_security/512_oauth_scope/) 2(간접, 전력)·[Scope](/knowledge-base/studynote/09_security/05_web_app_security/512_oauth_scope/) 3([공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/))을 구분하고, SAP [Sustainability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/386_sustainability_green_coding/) Control Tower·Persefoni가 대표 솔루션이다.
 
 ---
 
@@ -27,7 +31,7 @@ IT 역할:
 
 ## Ⅱ~Ⅴ. 결론
 
-ESG IT 시스템은 **규제 대응과 기업 가치 향상의 핵심 인프라**이며, AI가 탄소 예측·ESG [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 분석을 자동화하고 있다.
+ESG IT 시스템은 **규제 대응과 기업 가치 향상의 핵심 인프라**이며, AI가 탄소 예측·ESG [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 분석을 자동화하고 있다.
 
 ---
 
@@ -36,9 +40,9 @@ ESG IT 시스템은 **규제 대응과 기업 가치 향상의 핵심 인프라*
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **ESG** | 환경·사회·지배구조 |
-| **[[512_oauth_scope|Scope]] 1/2/3** | 탄소 배출 범위 |
+| **[Scope](/knowledge-base/studynote/09_security/05_web_app_security/512_oauth_scope/) 1/2/3** | 탄소 배출 범위 |
 | **CSRD** | EU ESG 공시 의무 |
-| **탄소 추적** | [[101_iot_concept|IoT]]+[[081_erp_enterprise_resource_planning|ERP]] 연계 |
+| **탄소 추적** | [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)+[ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 연계 |
 | **Persefoni** | 탄소 회계 플랫폼 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -61,7 +65,7 @@ ESG IT 시스템은 **규제 대응과 기업 가치 향상의 핵심 인프라*
 
 **진행 상황**: 134 / 482
 
-← **이전**: [[133_epm_enterprise_performance_management_cpm|133. EPM/CPM (Enterprise Performance Management) - 기업 성과 관리]]
-**다음**: [[135_regtech_regulatory_technology_aml|135. RegTech (규제 기술) - AML·KYC·준법 자동화]] →
+← **이전**: [133. EPM/CPM (Enterprise Performance Management) - 기업 성과 관리](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/133_epm_enterprise_performance_management_cpm/)
+**다음**: [135. RegTech (규제 기술) - AML·KYC·준법 자동화](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/135_regtech_regulatory_technology_aml/) →
 
 ---

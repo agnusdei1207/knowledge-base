@@ -1,23 +1,27 @@
----
-title: 413. 자율주행 모방 학습 (Imitation Learning / Behavior Cloning)
-date: '2026-05-09'
-tags:
-- studynote-ai
----
++++
+title = "413. 자율주행 모방 학습 (Imitation Learning / Behavior Cloning)"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-ai"]
+
+[extra]
+tags = ["studynote-ai"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 모방 학습 ([[200_autonomous_driving_imitation_learning_digital_twin|Imitation Learning]])은 전문가의 시연 [[001_dikw_pyramid|데이터]]를 보고 [[164_policy|정책]] ([[164_policy|Policy]])을 배우는 학습 방식이고, 행동 [[016_replication_factor|복제]] (Behavior Cloning)는 그중 가장 직접적인 지도학습형 접근이다.
-> 2. **가치**: 보상 설계가 어려운 자율주행처럼 복잡한 제어 문제에서, 인간 운전자의 궤적을 그대로 흡수해 빠르게 동작 가능한 [[164_policy|정책]]을 만들 수 있다.
-> 3. **판단 포인트**: [[001_dikw_pyramid|데이터]] 분포가 바뀌면 오차가 누적되는 covariate shift를 조심하고, DAgger (Dataset Aggregation) 같은 보완책을 고려해야 한다.
+> 1. **본질**: 모방 학습 ([Imitation Learning](/knowledge-base/studynote/14_data_engineering/04_mlops/200_autonomous_driving_imitation_learning_digital_twin/))은 전문가의 시연 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보고 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) ([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))을 배우는 학습 방식이고, 행동 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) (Behavior Cloning)는 그중 가장 직접적인 지도학습형 접근이다.
+> 2. **가치**: 보상 설계가 어려운 자율주행처럼 복잡한 제어 문제에서, 인간 운전자의 궤적을 그대로 흡수해 빠르게 동작 가능한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 만들 수 있다.
+> 3. **판단 포인트**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포가 바뀌면 오차가 누적되는 covariate shift를 조심하고, DAgger (Dataset Aggregation) 같은 보완책을 고려해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-강화학습 ([[094_reinforcement_learning|Reinforcement Learning]])은 보상이 명확해야 잘 작동하지만, 자율주행처럼 "무엇이 좋은 운전인가"를 수학적으로 정의하기가 쉽지 않다. 이때 모방 학습은 전문가 운전자의 행동을 직접 보고 배운다.
+강화학습 ([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/))은 보상이 명확해야 잘 작동하지만, 자율주행처럼 "무엇이 좋은 운전인가"를 수학적으로 정의하기가 쉽지 않다. 이때 모방 학습은 전문가 운전자의 행동을 직접 보고 배운다.
 
-행동 [[016_replication_factor|복제]]는 상태-행동 쌍을 모아 지도학습처럼 학습하는 가장 직관적인 방식이다. 즉, "사람이 브레이크를 밟는 상황"을 보고 모델도 같은 판단을 하게 만드는 것이다.
+행동 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)는 상태-행동 쌍을 모아 지도학습처럼 학습하는 가장 직관적인 방식이다. 즉, "사람이 브레이크를 밟는 상황"을 보고 모델도 같은 판단을 하게 만드는 것이다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -35,13 +39,13 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-모방 학습은 전문가 궤적(demonstration trajectory)을 입력으로 받아 [[164_policy|정책]]을 학습한다. 가장 단순한 행동 [[016_replication_factor|복제]]는 `state -> action` 매핑을 직접 예측한다.
+모방 학습은 전문가 궤적(demonstration trajectory)을 입력으로 받아 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 학습한다. 가장 단순한 행동 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)는 `state -> action` 매핑을 직접 예측한다.
 
 | 방식 | 핵심 | 장점 | 한계 |
 |:---|:---|:---|:---|
-| **Behavior Cloning** | 상태를 보고 행동을 [[016_replication_factor|복제]] | 구현이 쉽고 빠름 | 오차 누적에 취약 |
+| **Behavior Cloning** | 상태를 보고 행동을 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) | 구현이 쉽고 빠름 | 오차 누적에 취약 |
 | **Inverse RL** | 보상 함수를 추정 | 의도 해석 가능 | 복잡하고 느림 |
-| **DAgger** | 모델이 만든 상태를 다시 수집 | 분포 이동 완화 | [[001_dikw_pyramid|데이터]] 수집 비용 증가 |
+| **DAgger** | 모델이 만든 상태를 다시 수집 | 분포 이동 완화 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 비용 증가 |
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -53,7 +57,7 @@ tags:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-모방 학습의 가장 큰 위험은 covariate shift다. 학습 [[001_dikw_pyramid|데이터]]는 전문가가 잘 운전한 상황만 포함하지만, 실제 모델은 스스로 조금씩 잘못된 상태를 만들고 그 상태에선 더 이상 전문가처럼 행동하지 못한다.
+모방 학습의 가장 큰 위험은 covariate shift다. 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 전문가가 잘 운전한 상황만 포함하지만, 실제 모델은 스스로 조금씩 잘못된 상태를 만들고 그 상태에선 더 이상 전문가처럼 행동하지 못한다.
 
 - **📢 섹션 요약 비유**: 좋은 운전만 본 학생이, 실제 도로에서 조금 삐끗한 뒤부터는 어디로 가야 할지 더 헷갈리는 현상이다.
 
@@ -61,14 +65,14 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-| 항목 | 모방 학습 | 행동 [[016_replication_factor|복제]] | 강화학습 |
+| 항목 | 모방 학습 | 행동 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) | 강화학습 |
 |:---|:---|:---|:---|
-| [[001_dikw_pyramid|데이터]] | 전문가 시연 | 상태-행동 쌍 | 환경과 상호작용 |
+| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 전문가 시연 | 상태-행동 쌍 | 환경과 상호작용 |
 | 보상 | 불필요하거나 약함 | 불필요 | 필수 |
 | 학습 속도 | 빠름 | 매우 빠름 | 느림 |
-| 위험 | 분포 이동 | 오차 누적 | [[315_exploration_exploitation|탐험]] 실패 |
+| 위험 | 분포 이동 | 오차 누적 | [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/) 실패 |
 
-자율주행에서는 카메라·라이다·지도 정보로부터 조향, 가속, 제동을 내리는 [[164_policy|정책]]을 모방 학습으로 먼저 만들고, 그 뒤에 강화학습이나 안전 제약을 더하는 식이 흔하다.
+자율주행에서는 카메라·라이다·지도 정보로부터 조향, 가속, 제동을 내리는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 모방 학습으로 먼저 만들고, 그 뒤에 강화학습이나 안전 제약을 더하는 식이 흔하다.
 
 - **📢 섹션 요약 비유**: 운전을 아예 새로 발명하는 것보다, 먼저 좋은 운전자를 따라 한 뒤 조금씩 자기 실력을 키우는 것이 더 현실적이다.
 
@@ -76,21 +80,21 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 전문가 시연 [[001_dikw_pyramid|데이터]]가 충분히 다양하고 깨끗한가?
-2. 잘못된 상태로 들어갔을 때의 보정 [[268_strategy_pattern|전략]]이 있는가?
-3. DAgger처럼 모델 분포를 다시 학습 [[001_dikw_pyramid|데이터]]에 반영하는가?
+1. 전문가 시연 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 충분히 다양하고 깨끗한가?
+2. 잘못된 상태로 들어갔을 때의 보정 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 있는가?
+3. DAgger처럼 모델 분포를 다시 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 반영하는가?
 4. 시뮬레이션과 실제 도로에서 모두 평가하는가?
 5. 안전 규칙(차선 유지, 충돌 회피)을 별도로 걸어 두었는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 좋은 운전자 한 명의 [[001_dikw_pyramid|데이터]]만으로 일반화 기대
-- 노이즈가 큰 라벨을 그대로 [[016_replication_factor|복제]]
+- 좋은 운전자 한 명의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만으로 일반화 기대
+- 노이즈가 큰 라벨을 그대로 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)
 - 배포 후 분포 이동을 고려하지 않음
 
-기술사 관점에서는 "모방 학습은 빠른 [[459_quic_fec_forward_error_correction|초기]]화, 강화학습은 이후 개선"이라는 조합으로 설명하면 실무적이다. 즉, 모방 학습은 끝이 아니라 출발점이다.
+기술사 관점에서는 "모방 학습은 빠른 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화, 강화학습은 이후 개선"이라는 조합으로 설명하면 실무적이다. 즉, 모방 학습은 끝이 아니라 출발점이다.
 
 - **📢 섹션 요약 비유**: 처음엔 선생님을 따라 걷고, 그다음에는 혼자 걸어 보면서 넘어지지 않도록 연습하는 단계다.
 
@@ -98,9 +102,9 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-모방 학습은 자율주행처럼 보상 설계가 어렵고 안전이 중요한 문제에서 강력하다. 인간의 암묵적 판단을 [[001_dikw_pyramid|데이터]]로 옮겨 빠르게 쓸 수 있는 [[164_policy|정책]]을 만든다는 점이 핵심이다.
+모방 학습은 자율주행처럼 보상 설계가 어렵고 안전이 중요한 문제에서 강력하다. 인간의 암묵적 판단을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 옮겨 빠르게 쓸 수 있는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 만든다는 점이 핵심이다.
 
-결론적으로 모방 학습은 **'전문가를 [[001_dikw_pyramid|데이터]]로 [[016_replication_factor|복제]]하는 학습'**이므로, 우리는 [[001_dikw_pyramid|데이터]] 품질과 분포 이동 대책을 함께 설계해야 한다.
+결론적으로 모방 학습은 **'전문가를 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하는 학습'**이므로, 우리는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질과 분포 이동 대책을 함께 설계해야 한다.
 
 - **📢 섹션 요약 비유**: 운전 스승의 습관을 잘 따라 배우되, 돌발 상황에서는 다시 배우고 고쳐야 한다.
 
@@ -110,11 +114,11 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| Expert Demonstration | 모방 학습의 원천 [[001_dikw_pyramid|데이터]] |
+| Expert Demonstration | 모방 학습의 원천 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 | Behavior Cloning | 가장 직접적인 지도학습형 모방 학습 |
-| DAgger | 분포 이동을 줄이는 보완 [[268_strategy_pattern|전략]] |
+| DAgger | 분포 이동을 줄이는 보완 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
 | Covariate Shift | 배포 시 오차가 커지는 원인 |
-| [[164_policy|Policy]] | 상태를 행동으로 바꾸는 함수 |
+| [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 상태를 행동으로 바꾸는 함수 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -134,7 +138,7 @@ tags:
 
 **진행 상황**: 413 / 420
 
-← **이전**: [[412_svr_support_vector_regression|412. 서포트 벡터 회귀 (SVR, Support Vector Regression)]]
-**다음**: [[414_knowledge_distillation_temperature_scaling|414. 지식 증류 (Knowledge Distillation)]] →
+← **이전**: [412. 서포트 벡터 회귀 (SVR, Support Vector Regression)](/knowledge-base/studynote/10_ai/05_data_science_ml/412_svr_support_vector_regression/)
+**다음**: [414. 지식 증류 (Knowledge Distillation)](/knowledge-base/studynote/10_ai/05_data_science_ml/414_knowledge_distillation_temperature_scaling/) →
 
 ---

@@ -1,27 +1,31 @@
----
-title: 436. 커널 페이지 테이블 격리 (KPTI, Kernel Page-Table Isolation) - Meltdown 취약점 대응망
-date: '2026-05-09'
-tags:
-- studynote-operating-system
----
++++
+title = "436. 커널 페이지 테이블 격리 (KPTI, Kernel Page-Table Isolation) - Meltdown 취약점 대응망"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: KPTI는 인텔(Intel) CPU의 치명적인 하드웨어 보안 취약점인 '[[482_meltdown|멜트다운]]([[482_meltdown|Meltdown]])' 사태를 막기 위해, 전통적으로 [[282_performance_tactics|성능]]을 위해 하나의 [[353_page_table|페이지 테이블]] 안에 **유저 영역과 [[022_kernel_role|커널]] 영역을 같이 매핑해 두던 30년 된 관행을 박살 내고, 두 테이블을 물리적으로 완전히 찢어버린([[195_isolation_concurrency_control|Isolation]]) 리눅스의 보안 패치**다.
-> 2. **가치**: 일반 사용자(유저 모드)의 프로세스가 꼼수(추측 실행)를 써서 [[022_kernel_role|커널]] 메모리의 비밀번호나 암호키를 훔쳐보는 것을 하드웨어 레벨에서 원천적으로 차단하여, **클라우드와 다중 사용자 환경의 완벽한 [[001_dikw_pyramid|데이터]] [[602_sandboxing_kernel_wrapper|샌드박싱]] 생존을 보장**한다.
-> 3. **융합(한계)**: 테이블이 2개로 찢어진 탓에 시스템 콜이 불릴 때마다 [[353_page_table|페이지 테이블]] 포인터(CR3)를 통째로 교체하며 **[[357_tlb|TLB]](캐시)가 강제로 플러시(Flush)**되는 끔찍한 오버헤드를 낳았으며, 이를 방어하기 위해 **PCID([[360_asid|ASID]])**라는 최신 하드웨어 칩셋 기술과 영혼의 융합을 이루어 간신히 서버 [[282_performance_tactics|성능]]을 방어하고 있다.
+> 1. **본질**: KPTI는 인텔(Intel) CPU의 치명적인 하드웨어 보안 취약점인 '[멜트다운](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/)([Meltdown](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/))' 사태를 막기 위해, 전통적으로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 위해 하나의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 안에 **유저 영역과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 영역을 같이 매핑해 두던 30년 된 관행을 박살 내고, 두 테이블을 물리적으로 완전히 찢어버린([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/)) 리눅스의 보안 패치**다.
+> 2. **가치**: 일반 사용자(유저 모드)의 프로세스가 꼼수(추측 실행)를 써서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리의 비밀번호나 암호키를 훔쳐보는 것을 하드웨어 레벨에서 원천적으로 차단하여, **클라우드와 다중 사용자 환경의 완벽한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [샌드박싱](/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/) 생존을 보장**한다.
+> 3. **융합(한계)**: 테이블이 2개로 찢어진 탓에 시스템 콜이 불릴 때마다 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 포인터(CR3)를 통째로 교체하며 **[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/)(캐시)가 강제로 플러시(Flush)**되는 끔찍한 오버헤드를 낳았으며, 이를 방어하기 위해 **PCID([ASID](/knowledge-base/studynote/02_operating_system/06_memory_management/360_asid/))**라는 최신 하드웨어 칩셋 기술과 영혼의 융합을 이루어 간신히 서버 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 방어하고 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [[578_kpti|KPTI]](이전 명칭 KAISER)는 "유저 모드일 때는 아예 [[022_kernel_role|커널]] 메모리의 주소 번역 지도(매핑) 자체를 지워버려서 눈을 가리자"는 패치다. 과거에는 유저 공간 장부의 위쪽 끝에 [[022_kernel_role|커널]] 공간 장부를 항상 얹어 두었다(권한 [[073_bit|비트]]로만 막아둠). [[578_kpti|KPTI]] 패치 이후에는 유저 공간 장부에는 정말로 유저 [[001_dikw_pyramid|데이터]]만 있고, [[022_kernel_role|커널]]의 장부 공간은 텅 비어있다(Invalid). [[022_kernel_role|커널]] 코드가 실행되어야 할 때만 '진짜 [[022_kernel_role|커널]] 장부'로 완전히 책(CR3 [[057_register|레지스터]])을 갈아 끼운다.
-- **필요성**: 2018년, IT 역사를 뒤흔든 **'[[482_meltdown|멜트다운]]([[482_meltdown|Meltdown]])' 버그**가 터졌다. CPU가 속도를 높이려고 짠 '추측 실행(Speculative Execution)' 로직의 허점을 이용하면, 유저 앱이 권한이 없는데도 [[022_kernel_role|커널]] 메모리(남의 [[001_dikw_pyramid|데이터]])를 슬쩍 읽고 그 흔적을 캐시(L1)에 남길 수 있었다. 이 흔적을 역추적하면 [[022_kernel_role|커널]]의 모든 메모리(은행 앱 비밀번호, 암호화 키)를 텍스트로 줄줄 읽어낼 수 있었다. 하드웨어의 이 물리적 버그는 소프트웨어 코딩으론 막을 길이 없었다. "권한(Permission)으로 막는 건 뚫리니까, 아예 장부에서 지도 자체를 지워버려서(Unmap) 훔쳐볼 집 주소 자체를 없애자!"는 피를 토하는 극약 처방이 필요했다.
+- **개념**: [KPTI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/578_kpti/)(이전 명칭 KAISER)는 "유저 모드일 때는 아예 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리의 주소 번역 지도(매핑) 자체를 지워버려서 눈을 가리자"는 패치다. 과거에는 유저 공간 장부의 위쪽 끝에 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간 장부를 항상 얹어 두었다(권한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)로만 막아둠). [KPTI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/578_kpti/) 패치 이후에는 유저 공간 장부에는 정말로 유저 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 있고, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 장부 공간은 텅 비어있다(Invalid). [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드가 실행되어야 할 때만 '진짜 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 장부'로 완전히 책(CR3 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/))을 갈아 끼운다.
+- **필요성**: 2018년, IT 역사를 뒤흔든 **'[멜트다운](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/)([Meltdown](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/))' 버그**가 터졌다. CPU가 속도를 높이려고 짠 '추측 실행(Speculative Execution)' 로직의 허점을 이용하면, 유저 앱이 권한이 없는데도 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리(남의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 슬쩍 읽고 그 흔적을 캐시(L1)에 남길 수 있었다. 이 흔적을 역추적하면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 모든 메모리(은행 앱 비밀번호, 암호화 키)를 텍스트로 줄줄 읽어낼 수 있었다. 하드웨어의 이 물리적 버그는 소프트웨어 코딩으론 막을 길이 없었다. "권한(Permission)으로 막는 건 뚫리니까, 아예 장부에서 지도 자체를 지워버려서(Unmap) 훔쳐볼 집 주소 자체를 없애자!"는 피를 토하는 극약 처방이 필요했다.
 
 - **등장 배경 및 30년 관행의 붕괴**:
-  1. **단일 테이블의 꿀맛 (과거)**: 유저와 [[022_kernel_role|커널]]을 한 장부에 두면, 시스템 콜([[013_system_call|System Call]])을 부를 때 캐시([[357_tlb|TLB]])가 보존되어 렉이 0초였다.
-  2. **하드웨어의 배신**: 인텔 CPU의 추측 실행이 [[286_page_frame|페이지]] 권한 검사(U/S [[073_bit|비트]])를 무시하고 램을 먼저 긁어오는 설계 결함이 폭로됨.
-  3. **격리([[195_isolation_concurrency_control|Isolation]])의 결단**: 속도를 포기하고 보안을 택했다. [[282_performance_tactics|성능]] 저하 30%를 감수하더라도 테이블을 찢어버리기로 전 세계 리눅스/윈도우 진영이 대통합을 이루었다.
+  1. **단일 테이블의 꿀맛 (과거)**: 유저와 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 한 장부에 두면, 시스템 콜([System Call](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/))을 부를 때 캐시([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/))가 보존되어 렉이 0초였다.
+  2. **하드웨어의 배신**: 인텔 CPU의 추측 실행이 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 권한 검사(U/S [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))를 무시하고 램을 먼저 긁어오는 설계 결함이 폭로됨.
+  3. **격리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))의 결단**: 속도를 포기하고 보안을 택했다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 30%를 감수하더라도 테이블을 찢어버리기로 전 세계 리눅스/윈도우 진영이 대통합을 이루었다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────────────────┐
@@ -50,61 +54,61 @@ tags:
 │          두꺼운 책(CR3 레지스터)을 통째로 뺐다 꼈다 해야 함 (지옥의 렉)  │
 └──────────────────────────────────────────────────────────────────────────┘
 ```
-**[다이어그램 해설]** 오른쪽([[578_kpti|KPTI]] ON)의 '유저 모드 장부'를 보면 [[022_kernel_role|커널]] 영역이 아예 백지로 지워져 있다. 해커가 [[482_meltdown|멜트다운]] 꼼수로 [[022_kernel_role|커널]]을 찌르려고 해도, [[328_mmu|MMU]] 하드웨어 자체가 "여기 맵핑 안 되어있는 허공인데?" 하고 [[286_page_frame|Page]] Fault를 뱉어버리므로 캐시 흔적조차 남기지 못하고 튕겨 나간다. 하드웨어의 멍청함을 소프트웨어 장부의 공백으로 틀어막은 처절한 땜질(Patch)의 역사다.
+**[다이어그램 해설]** 오른쪽([KPTI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/578_kpti/) ON)의 '유저 모드 장부'를 보면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 영역이 아예 백지로 지워져 있다. 해커가 [멜트다운](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/) 꼼수로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 찌르려고 해도, [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 하드웨어 자체가 "여기 맵핑 안 되어있는 허공인데?" 하고 [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault를 뱉어버리므로 캐시 흔적조차 남기지 못하고 튕겨 나간다. 하드웨어의 멍청함을 소프트웨어 장부의 공백으로 틀어막은 처절한 땜질(Patch)의 역사다.
 
-- **📢 섹션 요약 비유**: 해커가 열쇠 구멍([[482_meltdown|멜트다운]])으로 방 안([[022_kernel_role|커널]])을 엿보니까, 방문에 더 튼튼한 잠금장치(소프트웨어 패치)를 다는 게 아니라, 아예 방 자체를 투명 망토(Unmap)로 덮어버려서 열쇠 구멍으로 봐도 아무것도 안 보이게 공간 자체를 분리해 버린 극한의 숨바꼭질입니다.
+- **📢 섹션 요약 비유**: 해커가 열쇠 구멍([멜트다운](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/))으로 방 안([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))을 엿보니까, 방문에 더 튼튼한 잠금장치(소프트웨어 패치)를 다는 게 아니라, 아예 방 자체를 투명 망토(Unmap)로 덮어버려서 열쇠 구멍으로 봐도 아무것도 안 보이게 공간 자체를 분리해 버린 극한의 숨바꼭질입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 시스템 콜([[013_system_call|System Call]]) 시 발생하는 트램폴린(Trampoline) 점프
+### 시스템 콜([System Call](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/)) 시 발생하는 트램폴린(Trampoline) 점프
 
 KPTI가 켜진 상태에서 유저가 하드디스크를 읽어달라고 `read()`를 치면, 아주 기괴한 점프가 일어난다.
-1. 유저 앱이 [[016_interrupt_mechanism|인터럽트]]([[677_trap_based_system_call_implementation|Trap]])를 날린다.
-2. 유저 테이블 상단에는 [[022_kernel_role|커널]]이 통째로 없지만, 딱 하나 **'[[016_interrupt_mechanism|인터럽트]] 진입 코드(Entry [[082_process_memory_structure|Code]])'** 단 몇 줄만 들어있는 마이크로 [[286_page_frame|페이지]](트램폴린)가 남겨져 있다.
+1. 유저 앱이 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))를 날린다.
+2. 유저 테이블 상단에는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 통째로 없지만, 딱 하나 **'[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 진입 코드(Entry [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))'** 단 몇 줄만 들어있는 마이크로 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(트램폴린)가 남겨져 있다.
 3. CPU가 이 트램폴린을 밟는다. 
-4. 트램폴린 코드가 냅다 **CR3 [[057_register|레지스터]]([[353_page_table|페이지 테이블]] 시작 포인터)**의 값을 '유저 장부'에서 **'[[022_kernel_role|커널]] 전용 장부'** 주소로 덮어써 버린다.
-5. 장부가 바뀌는 순간 숨겨져 있던 거대한 [[022_kernel_role|커널]] 우주가 눈앞에 쫙 펼쳐진다! (그리고 동시에 기존의 유저 [[357_tlb|TLB]] 캐시가 싹 다 날아간다 💣).
-6. [[022_kernel_role|커널]]이 `read` 작업을 마치면, 다시 트램폴린을 밟고 CR3를 '유저 장부'로 돌려놓고(또 [[357_tlb|TLB]] 날아감) 앱으로 복귀한다.
+4. 트램폴린 코드가 냅다 **CR3 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)([페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 시작 포인터)**의 값을 '유저 장부'에서 **'[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 전용 장부'** 주소로 덮어써 버린다.
+5. 장부가 바뀌는 순간 숨겨져 있던 거대한 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 우주가 눈앞에 쫙 펼쳐진다! (그리고 동시에 기존의 유저 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 캐시가 싹 다 날아간다 💣).
+6. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 `read` 작업을 마치면, 다시 트램폴린을 밟고 CR3를 '유저 장부'로 돌려놓고(또 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 날아감) 앱으로 복귀한다.
 
 ---
 
-### [[357_tlb|TLB]] 플러시(Flush)의 재앙과 PCID([[360_asid|ASID]])의 구원
+### [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 플러시(Flush)의 재앙과 PCID([ASID](/knowledge-base/studynote/02_operating_system/06_memory_management/360_asid/))의 구원
 
-KPTI의 유일한, 하지만 치명적인 문제는 바로 **'[[357_tlb|TLB]] Flush(캐시 날아감)'**다.
-- CR3(장부)가 바뀔 때마다 하드웨어는 무조건 과거의 [[357_tlb|TLB]] 단기 기억 상실증에 걸린다.
-- 시스템 콜(`read`, `send`)이 1초에 10만 번 불리는 Nginx 웹 서버는, 1초에 20만 번의 [[357_tlb|TLB]] 캐시 폭파(유저->[[022_kernel_role|커널]], [[022_kernel_role|커널]]->유저)를 맞으며 CPU 파이프라인이 완전히 피투성이가 되었다. [[282_performance_tactics|성능]]이 30% 폭락했다.
+KPTI의 유일한, 하지만 치명적인 문제는 바로 **'[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) Flush(캐시 날아감)'**다.
+- CR3(장부)가 바뀔 때마다 하드웨어는 무조건 과거의 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 단기 기억 상실증에 걸린다.
+- 시스템 콜(`read`, `send`)이 1초에 10만 번 불리는 Nginx 웹 서버는, 1초에 20만 번의 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 캐시 폭파(유저->[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/), [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)->유저)를 맞으며 CPU 파이프라인이 완전히 피투성이가 되었다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 30% 폭락했다.
 - **인텔의 구명줄 (PCID)**:
-  - 인텔은 이 재앙을 막기 위해 최근 CPU에 탑재해 둔 **PCID (Process-Context [[088_identifier_in_er_model|Identifier]], 즉 [[360_asid|ASID]])** 기능을 OS에게 쓰라고 허락해 줬다.
-  - 유저 장부에는 'ID 1번', [[022_kernel_role|커널]] 장부에는 'ID 2번' 꼬리표를 달게 했다.
-  - CR3를 갈아 끼울 때 "나 아이디 바꾼 거니까 기존 캐시 지우지 말고 그냥 놔둬!"라고 하드웨어에 락(No-Flush [[186_character_stuffing_dle_stx_etx|플래그]])을 걸었다.
-  - 덕분에 장부를 휙휙 바꿔도 캐시가 파괴되지 않아 [[578_kpti|KPTI]] 패치의 [[282_performance_tactics|성능]] 저하를 30%에서 1~2% 수준으로 극적으로 틀어막았다. PCID가 없었다면 클라우드 생태계는 [[482_meltdown|멜트다운]] 때 멸망했을 것이다.
+  - 인텔은 이 재앙을 막기 위해 최근 CPU에 탑재해 둔 **PCID (Process-Context [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/), 즉 [ASID](/knowledge-base/studynote/02_operating_system/06_memory_management/360_asid/))** 기능을 OS에게 쓰라고 허락해 줬다.
+  - 유저 장부에는 'ID 1번', [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 장부에는 'ID 2번' 꼬리표를 달게 했다.
+  - CR3를 갈아 끼울 때 "나 아이디 바꾼 거니까 기존 캐시 지우지 말고 그냥 놔둬!"라고 하드웨어에 락(No-Flush [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))을 걸었다.
+  - 덕분에 장부를 휙휙 바꿔도 캐시가 파괴되지 않아 [KPTI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/578_kpti/) 패치의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하를 30%에서 1~2% 수준으로 극적으로 틀어막았다. PCID가 없었다면 클라우드 생태계는 [멜트다운](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/) 때 멸망했을 것이다.
 
-- **📢 섹션 요약 비유**: 매일 옷(CR3)을 갈아입을 때마다 머리를 감고 화장([[357_tlb|TLB]] Flush)을 처음부터 다시 해야 해서 1시간이 걸렸는데, 얼굴에 투명 랩(PCID)을 씌워두고 옷만 휙휙 갈아입게 되면서 화장을 다시 안 해도 되어 1분 만에 환복이 가능해진 기적의 화장술입니다.
+- **📢 섹션 요약 비유**: 매일 옷(CR3)을 갈아입을 때마다 머리를 감고 화장([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) Flush)을 처음부터 다시 해야 해서 1시간이 걸렸는데, 얼굴에 투명 랩(PCID)을 씌워두고 옷만 휙휙 갈아입게 되면서 화장을 다시 안 해도 되어 1분 만에 환복이 가능해진 기적의 화장술입니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 비교 1: [[482_meltdown|멜트다운]] ([[482_meltdown|Meltdown]]) vs [[483_spectre|스펙터]] ([[483_spectre|Spectre]]) 방어 비교
+### 비교 1: [멜트다운](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/) ([Meltdown](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/)) vs [스펙터](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/483_spectre/) ([Spectre](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/483_spectre/)) 방어 비교
 
 2018년을 박살 낸 두 쌍둥이 취약점은 방어벽의 아키텍처가 완전히 다르다.
 
-| 비교 항목 | [[482_meltdown|Meltdown]] ([[482_meltdown|멜트다운]]) 방어 ([[578_kpti|KPTI]]) | [[483_spectre|Spectre]] ([[483_spectre|스펙터]]) 방어 ([[580_retpoline|Retpoline]]) |
+| 비교 항목 | [Meltdown](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/) ([멜트다운](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/)) 방어 ([KPTI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/578_kpti/)) | [Spectre](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/483_spectre/) ([스펙터](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/483_spectre/)) 방어 ([Retpoline](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/580_retpoline/)) |
 |:---|:---|:---|
-| **공격 원리** | 유저가 **권한을 무시**하고 [[022_kernel_role|커널]] 램을 훔쳐봄 | 정상 코드 내의 **IF문 [[231_branch_prediction|분기 예측]]**을 속여서 램을 훔쳐봄 |
-| **방어 아키텍처** | [[381_virtual_memory|가상 메모리]] 테이블 자체를 **분리([[578_kpti|KPTI]])** | 컴파일러 단에서 분기 점프 코드를 **꼬아버림([[580_retpoline|Retpoline]])** |
-| **[[282_performance_tactics|성능]] 타격(페널티)**| I/O 중심(네트워크, 디스크) 서버의 DB [[298_qkv_attention|쿼리]] [[282_performance_tactics|성능]] 폭락 | CPU 연산 중심(For/If) 서버의 계산 [[282_performance_tactics|성능]] 폭락 |
-| **하드웨어 패치** | 최신 칩(9세대 이상)에서 물리적으로 고쳐져서 [[578_kpti|KPTI]] 끌 수 있음 | 영원히 고치기 까다로운 폰 노이만 구조의 숙명적 약점 |
+| **공격 원리** | 유저가 **권한을 무시**하고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 램을 훔쳐봄 | 정상 코드 내의 **IF문 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)**을 속여서 램을 훔쳐봄 |
+| **방어 아키텍처** | [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 테이블 자체를 **분리([KPTI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/578_kpti/))** | 컴파일러 단에서 분기 점프 코드를 **꼬아버림([Retpoline](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/580_retpoline/))** |
+| **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 타격(페널티)**| I/O 중심(네트워크, 디스크) 서버의 DB [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 폭락 | CPU 연산 중심(For/If) 서버의 계산 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 폭락 |
+| **하드웨어 패치** | 최신 칩(9세대 이상)에서 물리적으로 고쳐져서 [KPTI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/578_kpti/) 끌 수 있음 | 영원히 고치기 까다로운 폰 노이만 구조의 숙명적 약점 |
 
-### [[713_kvm_over_ip|KVM]] 가상 머신에서의 이중/삼중 렉 폭발
+### [KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/) 가상 머신에서의 이중/삼중 렉 폭발
 
-[[015_virtualization|가상화]] 클라우드(AWS EC2) 환경에서는 KPTI가 최악의 빌런이 된다.
+[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 클라우드(AWS EC2) 환경에서는 KPTI가 최악의 빌런이 된다.
 - 내가 빌린 게스트(Ubuntu) 안에서도 시스템 콜을 부를 때마다 KPTI가 돌아 테이블이 2번 바뀐다.
-- 게스트에서 I/O를 요청하면, 호스트([[054_hypervisor|Hypervisor]]) OS로 뚫고 내려가야 하는데, 호스트 OS도 [[482_meltdown|멜트다운]]을 막겠다고 KPTI가 켜져 있어서 호스트에서도 테이블이 2번 바뀐다.
-- 즉, 네트워크 패킷 하나 보내는데 [[353_page_table|페이지 테이블]]이 4~6번이나 엎어치기 되며 [[034_context_switch|컨텍스트 스위칭]] 지옥도가 펼쳐진다.
-- 클라우드 업체들이 [[578_kpti|KPTI]] 패치 당일 "CPU 자원이 부족합니다"라며 뻗어버린 고객들의 항의 전화를 수만 통 받은 이유가 이 중첩된 [[015_virtualization|가상화]] 오버헤드 때문이다.
+- 게스트에서 I/O를 요청하면, 호스트([Hypervisor](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)) OS로 뚫고 내려가야 하는데, 호스트 OS도 [멜트다운](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/)을 막겠다고 KPTI가 켜져 있어서 호스트에서도 테이블이 2번 바뀐다.
+- 즉, 네트워크 패킷 하나 보내는데 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)이 4~6번이나 엎어치기 되며 [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) 지옥도가 펼쳐진다.
+- 클라우드 업체들이 [KPTI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/578_kpti/) 패치 당일 "CPU 자원이 부족합니다"라며 뻗어버린 고객들의 항의 전화를 수만 통 받은 이유가 이 중첩된 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 오버헤드 때문이다.
 
 ```text
 ┌──────────┬────────────┬────────────┬──────────────────────────────┐
@@ -114,28 +118,28 @@ KPTI의 유일한, 하지만 치명적인 문제는 바로 **'[[357_tlb|TLB]] Fl
 │ KPTI ON  │ 준수함 🟢   │ ☠️ 관짝 감   │ 간신히 버틸 만함          │
 └──────────┴────────────┴────────────┴──────────────────────────────┘
 ```
-**[매트릭스 해설]** 리눅스 [[022_kernel_role|커널]] 개발자들은 구형(PCID가 없는) CPU에서 KPTI를 켜는 것을 극도로 혐오했다. 서버가 체감상 절반 속도로 기어갔기 때문이다. 다행히 세월이 흘러 인텔이 칩셋 구조 자체를 수정(Silicon Fix)한 9세대(Coffee Lake) 이후 CPU부터는 [[482_meltdown|멜트다운]] 취약점이 하드웨어적으로 막혀, 리눅스가 부팅 시 이를 감지하고 자랑스럽게 **[[578_kpti|KPTI]] 모드를 자동 OFF(비활성화)**하며 옛날의 쾌속 [[282_performance_tactics|성능]]을 되찾았다.
+**[매트릭스 해설]** 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개발자들은 구형(PCID가 없는) CPU에서 KPTI를 켜는 것을 극도로 혐오했다. 서버가 체감상 절반 속도로 기어갔기 때문이다. 다행히 세월이 흘러 인텔이 칩셋 구조 자체를 수정(Silicon Fix)한 9세대(Coffee Lake) 이후 CPU부터는 [멜트다운](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/) 취약점이 하드웨어적으로 막혀, 리눅스가 부팅 시 이를 감지하고 자랑스럽게 **[KPTI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/578_kpti/) 모드를 자동 OFF(비활성화)**하며 옛날의 쾌속 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 되찾았다.
 
-- **📢 섹션 요약 비유**: 집에 도둑([[482_meltdown|멜트다운]])이 들어와서 집을 철창([[578_kpti|KPTI]])으로 도배했습니다. 집에 들어갈 때마다 자물쇠를 5개씩 열어야 해서(오버헤드) 미칠 지경이었는데, 다행히 보안업체에서 현관문 자체를 절대 안 뚫리는 방탄문(인텔 하드웨어 픽스)으로 바꿔줘서, 지긋지긋한 철창([[578_kpti|KPTI]])을 떼어내고 다시 편안한 생활로 돌아가게 된 것입니다.
+- **📢 섹션 요약 비유**: 집에 도둑([멜트다운](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/))이 들어와서 집을 철창([KPTI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/578_kpti/))으로 도배했습니다. 집에 들어갈 때마다 자물쇠를 5개씩 열어야 해서(오버헤드) 미칠 지경이었는데, 다행히 보안업체에서 현관문 자체를 절대 안 뚫리는 방탄문(인텔 하드웨어 픽스)으로 바꿔줘서, 지긋지긋한 철창([KPTI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/578_kpti/))을 떼어내고 다시 편안한 생활로 돌아가게 된 것입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 실무 시나리오: 부팅 옵션 `pti=off` 와 [[282_performance_tactics|성능]] 최적화의 유혹
-1. **문제 상황**: 회사 사내 인트라넷용 MySQL 서버를 오래된 제온(Xeon) 구형 CPU 머신에 올렸다. 초당 [[298_qkv_attention|쿼리]](TPS)가 평소의 60%밖에 안 나온다.
+### 실무 시나리오: 부팅 옵션 `pti=off` 와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화의 유혹
+1. **문제 상황**: 회사 사내 인트라넷용 MySQL 서버를 오래된 제온(Xeon) 구형 CPU 머신에 올렸다. 초당 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)(TPS)가 평소의 60%밖에 안 나온다.
 2. **원인 분석**: 
-   - 이 구형 CPU에는 PCID 캐시 보존 기술이 없다. [[578_kpti|KPTI]]([[022_kernel_role|커널]] 패치)가 켜져서 매 [[298_qkv_attention|쿼리]](시스템 콜)마다 [[357_tlb|TLB]] 캐시가 100% 찢어지며 [[257_thrashing|스래싱]] 급 렉을 유발하고 있다.
+   - 이 구형 CPU에는 PCID 캐시 보존 기술이 없다. [KPTI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/578_kpti/)([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 패치)가 켜져서 매 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)(시스템 콜)마다 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 캐시가 100% 찢어지며 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 급 렉을 유발하고 있다.
 3. **엔지니어의 도박 (`pti=off`)**:
    - "이 서버는 외부 인터넷에 아예 안 물려있어! 사내 직원 10명만 쓰는 닫힌 네트워크고, 해커가 이 서버에 악성 코드를 심을 방법도 없잖아?"
    - 엔지니어는 과감히 리눅스 GRUB 부트 로더 옵션에 **`pti=off mitigations=off`** 를 때려 박고 재부팅한다.
-   - 즉, [[482_meltdown|멜트다운]] 보안 방어벽([[578_kpti|KPTI]])을 내 손으로 직접 깨부수고 옛날 방식으로 되돌린 것이다.
+   - 즉, [멜트다운](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/) 보안 방어벽([KPTI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/578_kpti/))을 내 손으로 직접 깨부수고 옛날 방식으로 되돌린 것이다.
 4. **결과**: 서버의 TPS가 40% 이상 폭발적으로 뛰어오른다. "외부 실행 코드가 주입될 확률이 제로(0)에 수렴하는 완벽히 통제된 프라이빗 망"에서는 보안을 버리고 극한의 깡성능을 취하는 이런 하드코어 튜닝이 실무의 베스트 프랙티스로 묵인되고 있다.
 
-### 클라우드 [[150_soa_triangle_architecture|Provider]](AWS)의 입장은 다르다
-반면 AWS 같은 [[007_public_cloud|퍼블릭 클라우드]] 업체는 절대 저 튜닝을 할 수 없다. 1대의 물리 서버 안에 A 회사 텐트와 B 회사 텐트가 같이 쳐져 있는데([[888_multi_tenant_cloud_resource_isolation_noisy_neighbor|Multi-tenant]]), A 회사가 [[482_meltdown|멜트다운]] 꼼수로 B 회사의 암호화폐 지갑 키를 훔쳐볼 수 있기 때문이다. 클라우드는 [[282_performance_tactics|성능]]이 박살 나는 한이 있어도 무조건 KPTI와 온갖 격리([[195_isolation_concurrency_control|Isolation]]) 패치를 강제로 욱여넣고 서버를 팔아야만 한다.
+### 클라우드 [Provider](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/150_soa_triangle_architecture/)(AWS)의 입장은 다르다
+반면 AWS 같은 [퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/) 업체는 절대 저 튜닝을 할 수 없다. 1대의 물리 서버 안에 A 회사 텐트와 B 회사 텐트가 같이 쳐져 있는데([Multi-tenant](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/)), A 회사가 [멜트다운](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/) 꼼수로 B 회사의 암호화폐 지갑 키를 훔쳐볼 수 있기 때문이다. 클라우드는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 박살 나는 한이 있어도 무조건 KPTI와 온갖 격리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/)) 패치를 강제로 욱여넣고 서버를 팔아야만 한다.
 
-- **📢 섹션 요약 비유**: 내 집에 나 혼자 살고 외부인이 절대 안 오면 현관문을 활짝 열어놓고 살아도(pti=off) 환기도 잘되고 아주 쾌적합니다. 하지만 아파트에서 생판 모르는 남(클라우드 다중 테넌트)과 룸메이트로 살면, 숨 막히고 귀찮아도 내 방문에 자물쇠 3개([[578_kpti|KPTI]])를 칭칭 감아놓고 살아야 지갑을 안 털립니다.
+- **📢 섹션 요약 비유**: 내 집에 나 혼자 살고 외부인이 절대 안 오면 현관문을 활짝 열어놓고 살아도(pti=off) 환기도 잘되고 아주 쾌적합니다. 하지만 아파트에서 생판 모르는 남(클라우드 다중 테넌트)과 룸메이트로 살면, 숨 막히고 귀찮아도 내 방문에 자물쇠 3개([KPTI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/578_kpti/))를 칭칭 감아놓고 살아야 지갑을 안 털립니다.
 
 ---
 
@@ -145,15 +149,15 @@ KPTI의 유일한, 하지만 치명적인 문제는 바로 **'[[357_tlb|TLB]] Fl
 
 | 구분 | 내용 |
 |:---|:---|
-| **사이드 채널(Side-Channel) 해킹 원천 방어** | CPU의 하드웨어 버그(추측 실행)를 소프트웨어([[286_page_frame|페이지]] 언맵핑)로 덮어씌워, 인류 최악의 보안 결함인 [[482_meltdown|멜트다운]] 공격을 물리적으로 불가능하게 차단 |
-| **PCID/[[360_asid|ASID]] 캐시 기술의 강제 보편화** | [[282_performance_tactics|성능]] 저하를 막기 위해 특수 목적에만 쓰이던 '[[360_asid|ASID]] 캐시 꼬리표 기술'이 범용 OS와 칩셋의 기본 표준으로 정착되는 기폭제 역할 수행 |
-| **[[022_kernel_role|커널]]과 유저의 완전한 이혼** | 속도를 위해 같은 [[353_page_table|페이지 테이블]]에서 위아래로 동거하던 30년 OS 역사를 끊어내고, 보안을 위해 완벽한 이중 장부(Dual [[353_page_table|Page Table]]) 체제로 패러다임 전환 |
+| **사이드 채널(Side-Channel) 해킹 원천 방어** | CPU의 하드웨어 버그(추측 실행)를 소프트웨어([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 언맵핑)로 덮어씌워, 인류 최악의 보안 결함인 [멜트다운](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/) 공격을 물리적으로 불가능하게 차단 |
+| **PCID/[ASID](/knowledge-base/studynote/02_operating_system/06_memory_management/360_asid/) 캐시 기술의 강제 보편화** | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하를 막기 위해 특수 목적에만 쓰이던 '[ASID](/knowledge-base/studynote/02_operating_system/06_memory_management/360_asid/) 캐시 꼬리표 기술'이 범용 OS와 칩셋의 기본 표준으로 정착되는 기폭제 역할 수행 |
+| **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)과 유저의 완전한 이혼** | 속도를 위해 같은 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)에서 위아래로 동거하던 30년 OS 역사를 끊어내고, 보안을 위해 완벽한 이중 장부(Dual [Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)) 체제로 패러다임 전환 |
 
 ### 결론 및 미래 전망
 
-[[022_kernel_role|커널]] [[353_page_table|페이지 테이블]] 격리 ([[578_kpti|KPTI]]) 패치는 컴퓨터 역사상 유례없는 "속도를 버리고 생존을 택한 후퇴이자 혁명"이다. 하드웨어 제조사(인텔)가 [[282_performance_tactics|성능]]을 [[489_raid_10_hybrid|10]]% 올리려다 남긴 보안의 똥을, [[001_operating_system_purpose|운영체제]](리눅스) 해커들이 피눈물을 흘리며 30%의 [[282_performance_tactics|성능]] 저하를 감수하고 소프트웨어 장부([[353_page_table|페이지 테이블]])를 찢어 발겨 치워낸 눈물겨운 헌신이다. 이 사건을 계기로 [[381_virtual_memory|가상 메모리]] 아키텍처는 단순한 "주소 번역기"에서 "절대 뚫리면 안 되는 최후의 보안 성곽"으로 그 지위가 완전히 격상되었다. 향후 하드웨어가 [[482_meltdown|멜트다운]] 결함을 실리콘 레벨에서 완벽히 수리하며 이 [[578_kpti|KPTI]] 소프트웨어 패치는 서서히 잊히겠지만, "아키텍처의 한계를 소프트웨어 테이블 분리로 틀어막는다"는 이 극단적인 발상은 차세대 양자 컴퓨팅이나 [[190_ai_llm_requirements_specification|AI]] 칩셋 보안 설계에서도 영원한 교보재로 살아 숨 쉴 것이다.
+[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 격리 ([KPTI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/578_kpti/)) 패치는 컴퓨터 역사상 유례없는 "속도를 버리고 생존을 택한 후퇴이자 혁명"이다. 하드웨어 제조사(인텔)가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 올리려다 남긴 보안의 똥을, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(리눅스) 해커들이 피눈물을 흘리며 30%의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하를 감수하고 소프트웨어 장부([페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))를 찢어 발겨 치워낸 눈물겨운 헌신이다. 이 사건을 계기로 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 아키텍처는 단순한 "주소 번역기"에서 "절대 뚫리면 안 되는 최후의 보안 성곽"으로 그 지위가 완전히 격상되었다. 향후 하드웨어가 [멜트다운](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/) 결함을 실리콘 레벨에서 완벽히 수리하며 이 [KPTI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/578_kpti/) 소프트웨어 패치는 서서히 잊히겠지만, "아키텍처의 한계를 소프트웨어 테이블 분리로 틀어막는다"는 이 극단적인 발상은 차세대 양자 컴퓨팅이나 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 칩셋 보안 설계에서도 영원한 교보재로 살아 숨 쉴 것이다.
 
-- **📢 섹션 요약 비유**: 건물이 무너질(해킹당할) 위기에 처하자, 건물주(OS)가 1층(유저)과 2층([[022_kernel_role|커널]]) 사이의 계단을 아예 부숴버렸습니다([[578_kpti|KPTI]]). 2층에 올라가려면 매번 밖으로 나가서 사다리 차(시스템 콜 렉)를 불러야 하는 최악의 불편함이 생겼지만, 1층에 들어온 도둑이 2층 금고를 절대 못 훔치게 막아낸 처절한 건축 공법의 응급조치입니다.
+- **📢 섹션 요약 비유**: 건물이 무너질(해킹당할) 위기에 처하자, 건물주(OS)가 1층(유저)과 2층([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) 사이의 계단을 아예 부숴버렸습니다([KPTI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/578_kpti/)). 2층에 올라가려면 매번 밖으로 나가서 사다리 차(시스템 콜 렉)를 불러야 하는 최악의 불편함이 생겼지만, 1층에 들어온 도둑이 2층 금고를 절대 못 훔치게 막아낸 처절한 건축 공법의 응급조치입니다.
 
 ---
 
@@ -161,10 +165,10 @@ KPTI의 유일한, 하지만 치명적인 문제는 바로 **'[[357_tlb|TLB]] Fl
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[434_asynchronous_page_fault|비동기식 페이지 폴트]] ([[434_asynchronous_page_fault|Asynchronous Page Faults]]) 핸들링 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [[357_tlb|TLB]] 슛다운 ([[435_tlb_shootdown|TLB Shootdown]]) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [[437_memory_encryption_virtualization|메모리 암호화 가상화]] (AMD SME/SEV, [[480_intel_sgx|Intel SGX]]) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [[438_unified_buffer_cache_page_cache|파일시스템 버퍼 캐시]]([[536_buffer_cache_page_cache|Buffer Cache]])와 [[381_virtual_memory|가상 메모리]] [[286_page_frame|페이지]] 캐시([[286_page_frame|Page]] Cache)의 통합 원리 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [비동기식 페이지 폴트](/knowledge-base/studynote/02_operating_system/07_virtual_memory/434_asynchronous_page_fault/) ([Asynchronous Page Faults](/knowledge-base/studynote/02_operating_system/07_virtual_memory/434_asynchronous_page_fault/)) 핸들링 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 슛다운 ([TLB Shootdown](/knowledge-base/studynote/02_operating_system/07_virtual_memory/435_tlb_shootdown/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [메모리 암호화 가상화](/knowledge-base/studynote/02_operating_system/07_virtual_memory/437_memory_encryption_virtualization/) (AMD SME/SEV, [Intel SGX](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/480_intel_sgx/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [파일시스템 버퍼 캐시](/knowledge-base/studynote/02_operating_system/07_virtual_memory/438_unified_buffer_cache_page_cache/)([Buffer Cache](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/))와 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache)의 통합 원리 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -182,9 +186,9 @@ KPTI의 유일한, 하지만 치명적인 문제는 바로 **'[[357_tlb|TLB]] Fl
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [[022_kernel_role|커널]] [[353_page_table|페이지 테이블]] 격리 ([[578_kpti|KPTI]], [[022_kernel_role|Kernel]] [[286_page_frame|Page]]-Table [[195_isolation_concurrency_control|Isolation]])은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
-2. 먼저 [[357_tlb|TLB]] 슛다운 ([[435_tlb_shootdown|TLB Shootdown]])을 이해하면 [[022_kernel_role|커널]] [[353_page_table|페이지 테이블]] 격리 ([[578_kpti|KPTI]], [[022_kernel_role|Kernel]] [[286_page_frame|Page]]-Table [[195_isolation_concurrency_control|Isolation]])이 왜 필요한지 더 쉽게 보여요.
-3. 그래서 [[022_kernel_role|커널]] [[353_page_table|페이지 테이블]] 격리 ([[578_kpti|KPTI]], [[022_kernel_role|Kernel]] [[286_page_frame|Page]]-Table [[195_isolation_concurrency_control|Isolation]])을 잘 알면 나중에 [[437_memory_encryption_virtualization|메모리 암호화 가상화]] (AMD SME/SEV, [[480_intel_sgx|Intel SGX]])도 훨씬 쉽게 배울 수 있어요.
+1. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 격리 ([KPTI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/578_kpti/), [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)-Table [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
+2. 먼저 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 슛다운 ([TLB Shootdown](/knowledge-base/studynote/02_operating_system/07_virtual_memory/435_tlb_shootdown/))을 이해하면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 격리 ([KPTI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/578_kpti/), [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)-Table [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))이 왜 필요한지 더 쉽게 보여요.
+3. 그래서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 격리 ([KPTI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/578_kpti/), [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)-Table [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))을 잘 알면 나중에 [메모리 암호화 가상화](/knowledge-base/studynote/02_operating_system/07_virtual_memory/437_memory_encryption_virtualization/) (AMD SME/SEV, [Intel SGX](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/480_intel_sgx/))도 훨씬 쉽게 배울 수 있어요.
 
 ---
 
@@ -192,7 +196,7 @@ KPTI의 유일한, 하지만 치명적인 문제는 바로 **'[[357_tlb|TLB]] Fl
 
 **진행 상황**: 436 / 800
 
-← **이전**: [[435_tlb_shootdown|435. TLB 슛다운 (TLB Shootdown) - 멀티코어 환경에서 타 코어의 TLB 무효화 오버헤드]]
-**다음**: [[437_memory_encryption_virtualization|437. 메모리 암호화 가상화 (AMD SME/SEV, Intel SGX)]] →
+← **이전**: [435. TLB 슛다운 (TLB Shootdown) - 멀티코어 환경에서 타 코어의 TLB 무효화 오버헤드](/knowledge-base/studynote/02_operating_system/07_virtual_memory/435_tlb_shootdown/)
+**다음**: [437. 메모리 암호화 가상화 (AMD SME/SEV, Intel SGX)](/knowledge-base/studynote/02_operating_system/07_virtual_memory/437_memory_encryption_virtualization/) →
 
 ---

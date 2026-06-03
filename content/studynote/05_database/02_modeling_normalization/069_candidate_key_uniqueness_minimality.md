@@ -1,14 +1,18 @@
----
-title: 69. 후보 키 (Candidate Key) - 유일성과 최소성을 모두 만족하는 키
-tags:
-- database
----
++++
+title = "69. 후보 키 (Candidate Key) - 유일성과 최소성을 모두 만족하는 키"
+
+[taxonomies]
+tags = ["database"]
+
+[extra]
+tags = ["database"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 후보 키(Candidate [[067_db_key_uniqueness_minimality|Key]])는 튜플을 유일하게 [[655_ir_detection_analysis|식별]]하면서 최소성도 만족하는 [[082_attribute_types_er_model|속성]] 집합이다.
-> 2. **가치**: [[070_primary_key_alternate_key|기본 키]] 선택의 후보가 되며, 정규화와 [[316_reference_pattern_nosql|참조]] 설계의 기준이 된다.
-> 3. **판단**: 슈퍼 키에서 불필요한 [[082_attribute_types_er_model|속성]]을 제거해 얻는 핵심 키라는 점이 중요하다.
+> 1. **본질**: 후보 키(Candidate [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))는 튜플을 유일하게 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하면서 최소성도 만족하는 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 집합이다.
+> 2. **가치**: [기본 키](/knowledge-base/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/) 선택의 후보가 되며, 정규화와 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 설계의 기준이 된다.
+> 3. **판단**: 슈퍼 키에서 불필요한 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 제거해 얻는 핵심 키라는 점이 중요하다.
 
 ---
 
@@ -16,7 +20,7 @@ tags:
 
 슈퍼 키는 많지만, 그중에서 진짜 핵심만 남겨야 한다. 그 결과가 후보 키다.
 
-후보 키는 [[070_primary_key_alternate_key|기본 키]]가 될 수 있는 자격을 가진 키다.
+후보 키는 [기본 키](/knowledge-base/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/)가 될 수 있는 자격을 가진 키다.
 
 - **📢 섹션 요약 비유**: 여러 열쇠 묶음 중에서 딱 맞는 열쇠만 남기는 일이다.
 
@@ -34,8 +38,8 @@ Primary Key
 
 | 조건 | 의미 |
 | :-- | :-- |
-| Uniqueness | 유일 [[655_ir_detection_analysis|식별]] |
-| Minimality | 불필요한 [[082_attribute_types_er_model|속성]] 없음 |
+| Uniqueness | 유일 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) |
+| Minimality | 불필요한 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 없음 |
 
 후보 키는 유일성과 최소성을 동시에 만족해야 한다. 그래서 슈퍼 키의 부분집합이지만, 단순 부분집합은 아니다.
 
@@ -45,7 +49,7 @@ Primary Key
 
 ## Ⅲ. 비교 및 연결
 
-| 구분 | [[068_super_key_uniqueness|Super Key]] | Candidate [[067_db_key_uniqueness_minimality|Key]] | Primary [[067_db_key_uniqueness_minimality|Key]] |
+| 구분 | [Super Key](/knowledge-base/studynote/05_database/02_modeling_normalization/068_super_key_uniqueness/) | Candidate [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) | Primary [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) |
 | :-- | :-- | :-- | :-- |
 | 유일성 | O | O | O |
 | 최소성 | X 가능 | O | O |
@@ -53,10 +57,10 @@ Primary Key
 
 | 관련 개념 | 의미 |
 | :-- | :-- |
-| [[071_alternate_key|Alternate Key]] | 기본키가 아닌 후보키 |
-| Foreign [[067_db_key_uniqueness_minimality|Key]] | [[316_reference_pattern_nosql|참조]] 키 |
+| [Alternate Key](/knowledge-base/studynote/05_database/02_modeling_normalization/071_alternate_key/) | 기본키가 아닌 후보키 |
+| Foreign [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) | [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 키 |
 
-후보 키는 모델링에서 [[289_identification_flags_fragmentation_offset|식별자]] 후보를 정리하는 중요한 단계다.
+후보 키는 모델링에서 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) 후보를 정리하는 중요한 단계다.
 
 - **📢 섹션 요약 비유**: 먼저 후보를 고르고, 그중 한 명을 반장으로 뽑는다.
 
@@ -64,22 +68,22 @@ Primary Key
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 유일성과 최소성을 모두 확인했는가?
-2. [[070_primary_key_alternate_key|기본 키]] 후보를 명확히 했는가?
+2. [기본 키](/knowledge-base/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/) 후보를 명확히 했는가?
 3. 복합 키의 필요성을 검토했는가?
 4. 슈퍼 키와 구분했는가?
-5. [[316_reference_pattern_nosql|참조]] 무결성과 연결했는가?
+5. [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 무결성과 연결했는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 후보 키를 아무렇게나 정하는 설계
 - 최소성을 무시한 과도한 키
-- [[070_primary_key_alternate_key|기본 키]]와 후보 키를 혼동하는 설계
-- 복합 [[082_attribute_types_er_model|속성]]을 과하게 붙이는 설계
+- [기본 키](/knowledge-base/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/)와 후보 키를 혼동하는 설계
+- 복합 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 과하게 붙이는 설계
 
-기술사 관점에서는 후보 키를 "[[070_primary_key_alternate_key|기본 키]] 후보"로 분명하게 설명해야 한다.
+기술사 관점에서는 후보 키를 "[기본 키](/knowledge-base/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/) 후보"로 분명하게 설명해야 한다.
 
 - **📢 섹션 요약 비유**: 여러 후보 중 가장 적합한 사람을 고르는 과정이다.
 
@@ -87,9 +91,9 @@ Primary Key
 
 ## Ⅴ. 기대효과 및 결론
 
-후보 키를 잘 정하면 테이블 [[655_ir_detection_analysis|식별]]이 분명해지고, 정규화와 설계가 안정된다.
+후보 키를 잘 정하면 테이블 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)이 분명해지고, 정규화와 설계가 안정된다.
 
-결론적으로 후보 키는 유일성과 최소성을 만족하는 핵심 [[289_identification_flags_fragmentation_offset|식별자]]다.
+결론적으로 후보 키는 유일성과 최소성을 만족하는 핵심 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)다.
 
 - **📢 섹션 요약 비유**: 딱 맞는 열쇠만 남기면 헷갈리지 않는다.
 
@@ -135,7 +139,7 @@ Normalization
 
 **진행 상황**: 69 / 600
 
-← **이전**: [[068_super_key_uniqueness|68. 슈퍼 키 (Super Key) - 유일성은 만족하나 최소성은 만족하지 않는 속성 집합]]
-**다음**: [[070_primary_key_alternate_key|70. 기본 키 (Primary Key, PK) - 후보 키 중 설계자가 선택한 메인 식별자 (NULL 불가)]] →
+← **이전**: [68. 슈퍼 키 (Super Key) - 유일성은 만족하나 최소성은 만족하지 않는 속성 집합](/knowledge-base/studynote/05_database/02_modeling_normalization/068_super_key_uniqueness/)
+**다음**: [70. 기본 키 (Primary Key, PK) - 후보 키 중 설계자가 선택한 메인 식별자 (NULL 불가)](/knowledge-base/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/) →
 
 ---

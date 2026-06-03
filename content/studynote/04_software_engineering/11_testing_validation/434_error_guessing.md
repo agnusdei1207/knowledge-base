@@ -1,21 +1,25 @@
----
-title: 434. 오류 추정 (Error Guessing)
-date: '2026-05-08'
-tags:
-- studynote-software-engineering
----
++++
+title = "434. 오류 추정 (Error Guessing)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-software-engineering"]
+
+[extra]
+tags = ["studynote-software-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 오류 추정 (Error Guessing)은(는) [[001_software_engineering_definition|소프트웨어 공학]]의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[[346_maintainability_portability|유지보수성]]·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 오류 추정 (Error Guessing)은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-오류 추정은 말 그대로 "어디가 깨질지 미리 찍어 보는 것"이다. 테스트 설계가 부족해도 경험이 많으면 [[352_defect_definition|결함]] 후보를 빠르게 좁힐 수 있다.
+오류 추정은 말 그대로 "어디가 깨질지 미리 찍어 보는 것"이다. 테스트 설계가 부족해도 경험이 많으면 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 후보를 빠르게 좁힐 수 있다.
 
 이 기법은 사용자가 자주 실수하는 입력, 개발자가 자주 놓치는 예외 처리, 복잡한 연산 경로를 겨냥한다.
 
@@ -48,7 +52,7 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-오류 추정은 과거 [[352_defect_definition|결함]] 패턴과 [[064_relation_domain|도메인]] 지식을 바탕으로 한다. 즉, "비슷한 코드는 비슷하게 깨진다"는 경험칙이 핵심이다.
+오류 추정은 과거 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 패턴과 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식을 바탕으로 한다. 즉, "비슷한 코드는 비슷하게 깨진다"는 경험칙이 핵심이다.
 
 | 자주 보는 지점 | 예시 |
 |:---|:---|
@@ -75,15 +79,15 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-오류 추정은 [[435_checklist_based_testing|체크리스트]] 기반 테스트와 비슷하지만, 더 직관적이다. 탐색적 테스팅과도 잘 맞는다.
+오류 추정은 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 기반 테스트와 비슷하지만, 더 직관적이다. 탐색적 테스팅과도 잘 맞는다.
 
-| 구분 | [[435_checklist_based_testing|체크리스트]] 기반 | 오류 추정 |
+| 구분 | [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 기반 | 오류 추정 |
 |:---|:---|:---|
 | 기준 | 사전 목록 | 경험과 직관 |
-| 장점 | 빠짐을 줄임 | 숨은 [[352_defect_definition|결함]] 발견 |
+| 장점 | 빠짐을 줄임 | 숨은 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발견 |
 | 한계 | 목록 밖 문제 약함 | 숙련도 의존 |
 
-특히 실패 사례가 반복된 [[064_relation_domain|도메인]]에서 효과가 크다.
+특히 실패 사례가 반복된 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에서 효과가 크다.
 
 - **📢 섹션 요약 비유**: 요리사가 "이 재료는 자주 타더라" 하고 먼저 보는 것과 같다.
 
@@ -97,11 +101,11 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 로그인 실패, 긴 문자열, 잘못된 인코딩, 잘못된 상태 전이에서 자주 쓴다. 테스트 자동화와 함께 쓰면 반복적인 [[352_defect_definition|결함]] 검출에 강하다.
+실무에서는 로그인 실패, 긴 문자열, 잘못된 인코딩, 잘못된 상태 전이에서 자주 쓴다. 테스트 자동화와 함께 쓰면 반복적인 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 검출에 강하다.
 
 체크 포인트는 다음과 같다.
 1. 과거 버그 목록을 본다.
-2. [[064_relation_domain|도메인]] 특유의 취약점을 기억한다.
+2. [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특유의 취약점을 기억한다.
 3. 예상되는 실패 패턴을 먼저 넣는다.
 
 - **📢 섹션 요약 비유**: 자주 넘어지는 돌멩이를 먼저 치우는 것이다.
@@ -116,7 +120,7 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-오류 추정은 적은 시간으로 큰 [[352_defect_definition|결함]]을 찾게 해 준다. 다만 체계성이 약할 수 있으므로 다른 테스트 기법과 섞어 써야 한다.
+오류 추정은 적은 시간으로 큰 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 찾게 해 준다. 다만 체계성이 약할 수 있으므로 다른 테스트 기법과 섞어 써야 한다.
 
 결론적으로 이 기법은 "경험으로 찍고 확인하는 테스트"다. 숙련된 테스터일수록 더 강하게 쓰인다.
 
@@ -132,10 +136,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[001_software_engineering_definition|소프트웨어 공학]] ([[001_software_engineering_definition|Software Engineering]]) | 오류 추정 (Error Guessing)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [[003_sdlc|소프트웨어 생명주기]] ([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]], Software Development Life Cycle) | 오류 추정 (Error Guessing)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 오류 추정 (Error Guessing)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 오류 추정 (Error Guessing)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 오류 추정 (Error Guessing) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [[020_software_configuration_management|형상 관리]] ([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]]) | 오류 추정 (Error Guessing)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 오류 추정 (Error Guessing)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -155,13 +159,13 @@ tags:
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [[002_software_crisis|소프트웨어 위기]] 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 오류 추정 (Error Guessing)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
 
 ---
 
@@ -169,7 +173,7 @@ tags:
 
 **진행 상황**: 459 / 973
 
-← **이전**: [[433_exploratory_testing|433. 탐색적 테스팅 (Exploratory Testing) - 명세서 없이 테스터의 직관과 경험을 바탕으로 테스트 설계와 수행을 동시]]
-**다음**: [[434_error_guessing|434. 오류 추정 (Error Guessing) - 테스터의 경험을 바탕으로 결함이 발생할 만한 곳을 추정하여 테스트]] →
+← **이전**: [433. 탐색적 테스팅 (Exploratory Testing) - 명세서 없이 테스터의 직관과 경험을 바탕으로 테스트 설계와 수행을 동시](/knowledge-base/studynote/04_software_engineering/11_testing_validation/433_exploratory_testing/)
+**다음**: [434. 오류 추정 (Error Guessing) - 테스터의 경험을 바탕으로 결함이 발생할 만한 곳을 추정하여 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/434_error_guessing/) →
 
 ---

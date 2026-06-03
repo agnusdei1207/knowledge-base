@@ -1,14 +1,18 @@
----
-title: 유니스왑·AMM (Automated Market Maker, 자동화 시장 조성자)
-date: '2026-03-04'
-tags:
-- studynote-ict
----
++++
+title = "유니스왑·AMM (Automated Market Maker, 자동화 시장 조성자)"
+date = 2026-03-04
+
+[taxonomies]
+tags = ["studynote-ict"]
+
+[extra]
+tags = ["studynote-ict"]
++++
 
 > **핵심 인사이트 3줄**
-> 1. AMM(Automated Market Maker, 자동화 시장 조성자)은 전통적인 오더북 거래소 대신 수학적 공식(CPMM: x·y=k)으로 자산 가격을 자동 결정하는 [[010_decentralization|탈중앙화]] 거래 메커니즘이다.
+> 1. AMM(Automated Market Maker, 자동화 시장 조성자)은 전통적인 오더북 거래소 대신 수학적 공식(CPMM: x·y=k)으로 자산 가격을 자동 결정하는 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 거래 메커니즘이다.
 > 2. 유니스왑(Uniswap)은 Ethereum 기반 최초의 성공적인 AMM DEX로, 유동성 공급자(LP)가 자산 쌍을 예치해 수수료(0.3%)를 획득하고, 트레이더는 슬리피지를 감수하며 즉시 거래한다.
-> 3. 비영구적 손실(Impermanent Loss)은 AMM LP의 핵심 리스크로, 예치 자산의 가격 비율이 변화할수록 단순 보유 대비 손실이 발생하며, 이는 [[033_defi_decentralized_finance|DeFi]] 유동성 공급의 근본적 트레이드오프다.
+> 3. 비영구적 손실(Impermanent Loss)은 AMM LP의 핵심 리스크로, 예치 자산의 가격 비율이 변화할수록 단순 보유 대비 손실이 발생하며, 이는 [DeFi](/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/) 유동성 공급의 근본적 트레이드오프다.
 
 ---
 
@@ -33,17 +37,17 @@ CPMM(Constant Product Market Maker): **x × y = k** 공식
 
 **슬리피지(Slippage)**: 거래 크기가 클수록 가격 불리해짐
 
-📢 **섹션 요약 비유**: AMM 풀은 시소다 — 한쪽([[118_eth|ETH]])을 내리누르면(구매하면) 다른 쪽(USDC)이 올라가서(가격 상승) 균형을 맞춘다.
+📢 **섹션 요약 비유**: AMM 풀은 시소다 — 한쪽([ETH](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/))을 내리누르면(구매하면) 다른 쪽(USDC)이 올라가서(가격 상승) 균형을 맞춘다.
 
 ---
 
-## Ⅱ. 유니스왑 [[288_version_ihl_tos_total_length|버전]] 비교
+## Ⅱ. 유니스왑 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 비교
 
-| [[288_version_ihl_tos_total_length|버전]]       | 출시   | 핵심 개선 사항                               |
+| [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)       | 출시   | 핵심 개선 사항                               |
 |---------|------|---------------------------------------------|
-| v1       | 2018 | 최초 [[118_eth|ETH]] ↔ [[072_erc_20_fungible_token_standard|ERC-20]] AMM                       |
-| v2       | 2020 | [[072_erc_20_fungible_token_standard|ERC-20]] ↔ [[072_erc_20_fungible_token_standard|ERC-20]] 직접 교환, 플래시 스왑      |
-| v3       | [[477_owasp_top_10_2021|2021]] | 집중 유동성(Concentrated Liquidity), 다중 수수료 |
+| v1       | 2018 | 최초 [ETH](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/) ↔ [ERC-20](/knowledge-base/studynote/06_ict_convergence/01_blockchain/072_erc_20_fungible_token_standard/) AMM                       |
+| v2       | 2020 | [ERC-20](/knowledge-base/studynote/06_ict_convergence/01_blockchain/072_erc_20_fungible_token_standard/) ↔ [ERC-20](/knowledge-base/studynote/06_ict_convergence/01_blockchain/072_erc_20_fungible_token_standard/) 직접 교환, 플래시 스왑      |
+| v3       | [2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/) | 집중 유동성(Concentrated Liquidity), 다중 수수료 |
 | v4       | 2024 | Hooks 아키텍처, 완전 맞춤형 풀               |
 
 ### v3 집중 유동성
@@ -108,7 +112,7 @@ LP 수익 = 거래 수수료 수입 - 비영구적 손실
 | 한계             | 해결 방향                          |
 |---------------|----------------------------------|
 | 슬리피지 (대형 거래) | 오더북+AMM 하이브리드 (dYdX)     |
-| 비영구적 손실   | 동적 수수료·헤징 [[268_strategy_pattern|전략]]              |
+| 비영구적 손실   | 동적 수수료·헤징 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)              |
 | MEV (최대 추출 가능 가치) | 프라이빗 멤풀, Flashbot    |
 | 자본 효율 낮음  | 집중 유동성 (v3), 곡선 AMM (Curve)|
 
@@ -175,7 +179,7 @@ DeFi 생태계 → TVL(Total Value Locked) 지표
 
 **진행 상황**: 34 / 552
 
-← **이전**: [[033_defi_decentralized_finance|DeFi (Decentralized Finance, 탈중앙화 금융)]]
-**다음**: [[035_flash_loan|035. 플래시 론 (Flash Loan)]] →
+← **이전**: [DeFi (Decentralized Finance, 탈중앙화 금융)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/)
+**다음**: [035. 플래시 론 (Flash Loan)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/035_flash_loan/) →
 
 ---

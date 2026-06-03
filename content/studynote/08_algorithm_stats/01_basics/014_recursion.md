@@ -1,21 +1,25 @@
----
-title: 14. 재귀 (Recursion) — 기본 사례, 재귀 사례, 스택 오버플로우
-tags:
-- algorithm_stats
----
++++
+title = "14. 재귀 (Recursion) — 기본 사례, 재귀 사례, 스택 오버플로우"
+
+[taxonomies]
+tags = ["algorithm_stats"]
+
+[extra]
+tags = ["algorithm_stats"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 재귀(Recursion)는 함수가 자기 자신을 다시 호출하여 문제를 더 작은 단위의 동일한 문제(하위 문제)로 분할하는 [[001_algorithm_definition|알고리즘]] 설계 기법으로, 기본 사례(Base Case)에 도달할 때까지 자신을 호출하는 구조이다.
-> 2. **가치**: 트리 순회, [[070_graph_datastructure|그래프]] [[034_dfs|DFS]] 탐색, 하노이 탑, 문자열 역순 등 계층적/자기 유사적 문제를 직관적이고 간결한 코드로 표현할 수 있게 해준다.
-> 3. **융합**: 재귀는 [[005_divide_and_conquer|분할 정복]], [[007_dynamic_programming|동적 프로그래밍]], [[010_backtracking|백트래킹]] 등 모든 고급 [[001_algorithm_definition|알고리즘]] 패러다임의 Implementation基礎이며, 컴파일러의 구문 분석, [[343_json|JSON]] 파싱, DOM 조작 등 프로그래밍 실무의 거의 모든 영역에서 활용된다.
+> 1. **본질**: 재귀(Recursion)는 함수가 자기 자신을 다시 호출하여 문제를 더 작은 단위의 동일한 문제(하위 문제)로 분할하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 설계 기법으로, 기본 사례(Base Case)에 도달할 때까지 자신을 호출하는 구조이다.
+> 2. **가치**: 트리 순회, [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 탐색, 하노이 탑, 문자열 역순 등 계층적/자기 유사적 문제를 직관적이고 간결한 코드로 표현할 수 있게 해준다.
+> 3. **융합**: 재귀는 [분할 정복](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/), [동적 프로그래밍](/knowledge-base/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/), [백트래킹](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/) 등 모든 고급 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 패러다임의 Implementation基礎이며, 컴파일러의 구문 분석, [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 파싱, DOM 조작 등 프로그래밍 실무의 거의 모든 영역에서 활용된다.
 
 ---
 
-## Ⅰ. 개요 및 필요성 ([[033_context|Context]] & Necessity)
+## Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
 재귀(Recursion)는 라틴어 "recurrere(다시 흘러들어오다)"에서 유래했으며, 컴퓨터 과학에서는 함수가 자기 자신의 정의를 사용하여 문제를 해결하는 기법을 말한다. 재귀의 아이디어는 数学的 귀납법(Mathematical Induction)에서 출발했는데, 수학에서 "n=1일 때 성립하고, n=k에서 성립하면 n=k+1에서도 성립함을 보인다"는same 접근을 그대로 프로그램에 적용한 것이다.
 
-재귀가 필요한 이유는 계층적(Hierarchical) 구조나 자기 유사적(Self-Similar) 구조를 가진 문제를 매우 직관적으로 풀 수 있기 때문이다. 예를 들어, 디렉토리 구조를 탐색할 때 "이 디렉토리의 모든 [[501_file_definition_logical_record|파일]]을 출력하고, 하위 디렉토리가 있으면 거기서도 같은 작업을 한다"는 설명은 그대로 재귀 함수가 된다. 반복문으로 이런 구조를 표현하려면 명시적 [[057_stack|스택]]을 관리해야 하지만, 재귀는 이 [[057_stack|스택]] 관리를 런타임에 자동으로 처리해 준다.
+재귀가 필요한 이유는 계층적(Hierarchical) 구조나 자기 유사적(Self-Similar) 구조를 가진 문제를 매우 직관적으로 풀 수 있기 때문이다. 예를 들어, 디렉토리 구조를 탐색할 때 "이 디렉토리의 모든 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 출력하고, 하위 디렉토리가 있으면 거기서도 같은 작업을 한다"는 설명은 그대로 재귀 함수가 된다. 반복문으로 이런 구조를 표현하려면 명시적 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 관리해야 하지만, 재귀는 이 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 관리를 런타임에 자동으로 처리해 준다.
 
 > 이 도식은 재귀의 3단계 구조를 보여준다.
 
@@ -61,9 +65,9 @@ tags:
 ```
 
 - **관찰**: 재귀 함수의 핵심은 자기 자신을 호출할 때 입력 크기가 반드시 줄어들어야 한다는 것이다. 그렇지 않으면 무한 재귀에 빠진다.
-- **원인**: 기본 사례에 도달하지 못하면 함수가 종료되지 않고 계속 호출되어 콜 [[057_stack|스택]]을 소진하기 때문이다.
-- **결과**: 이러한 구조는 [[005_divide_and_conquer|분할 정복]]([[005_divide_and_conquer|Divide and Conquer]]) 패러다임의 Implementation基礎가 된다.
-- **판단**: 재귀 깊이가 시스템 콜 [[057_stack|스택]] 제한(보통 1,000~[[489_raid_10_hybrid|10]],000 단계)을 초과하면 [[057_stack|스택]] [[095_overflow|오버플로우]]가 발생하므로, 최대 깊이를 예측할 수 있는 경우에만 재귀를 사용해야 한다.
+- **원인**: 기본 사례에 도달하지 못하면 함수가 종료되지 않고 계속 호출되어 콜 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 소진하기 때문이다.
+- **결과**: 이러한 구조는 [분할 정복](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)([Divide and Conquer](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)) 패러다임의 Implementation基礎가 된다.
+- **판단**: 재귀 깊이가 시스템 콜 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 제한(보통 1,000~[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000 단계)을 초과하면 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)가 발생하므로, 최대 깊이를 예측할 수 있는 경우에만 재귀를 사용해야 한다.
 
 📢 **섹션 요약 비유**: 재귀는ロシア 민속 인형 마트료시카를 여는 것과 같습니다. 가장 작은 인형(기본 사례)에 도달하면 더 이상 열 수 없으므로 열기를 멈추고, 거슬러 올라가며 각 인형의蓋을 다시 닫는(결합) 것과 같습니다.
 
@@ -71,9 +75,9 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-재귀의 핵심 원리는 **콜 [[057_stack|스택]]([[189_subroutine_call_return|Call]] [[057_stack|Stack]])** 관리이다. 함수가 자신을 호출할 때마다 새로운 [[057_stack|스택]] 프레임([[057_stack|Stack]] Frame)이 콜 [[057_stack|스택]]에 Push되고, 함수가 반환할 때마다 Pop된다. 각 [[057_stack|스택]] 프레임에는 로컬 변수, 복귀 주소(Return Address), 매개변수 값 등이 저장된다. 이 구조는 운영체제가 자동으로 관리하므로 프로그래머가 명시적으로 [[057_stack|스택]]을 조작할 필요가 없다.
+재귀의 핵심 원리는 **콜 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))** 관리이다. 함수가 자신을 호출할 때마다 새로운 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 프레임([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) Frame)이 콜 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 Push되고, 함수가 반환할 때마다 Pop된다. 각 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 프레임에는 로컬 변수, 복귀 주소(Return Address), 매개변수 값 등이 저장된다. 이 구조는 운영체제가 자동으로 관리하므로 프로그래머가 명시적으로 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 조작할 필요가 없다.
 
-**꼬리 재귀(Tail Recursion)**는 재귀 호출이 함수의 마지막 연산인 경우를 말하며, 컴파일러가 최적화하여 [[057_stack|스택]] 프레임을 재사용함으로써 일반 재귀의 [[003_space_complexity|공간 복잡도]] 문제를 해결할 수 있다. 그러나 Python, Java, JavaScript 등의 주요 언어는 꼬리 재귀 최적화(Tail [[189_subroutine_call_return|Call]] Optimization, [[016_tco|TCO]])를 지원하지 않으므로 주의가 필요하다.
+**꼬리 재귀(Tail Recursion)**는 재귀 호출이 함수의 마지막 연산인 경우를 말하며, 컴파일러가 최적화하여 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 프레임을 재사용함으로써 일반 재귀의 [공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/) 문제를 해결할 수 있다. 그러나 Python, Java, JavaScript 등의 주요 언어는 꼬리 재귀 최적화(Tail [Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) Optimization, [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/))를 지원하지 않으므로 주의가 필요하다.
 
 ```text
 [콜 스택의 동작: 하노이 탑]
@@ -125,20 +129,20 @@ tags:
 └──────────────────────────────────────────────────────┘
 ```
 
-- **관찰**: 재귀 호출이 함수의 마지막 연산(tail position)일 때, 컴파일러는 현재 [[057_stack|스택]] 프레임을 덮어쓸 수 있어 공간을 절약할 수 있다.
+- **관찰**: 재귀 호출이 함수의 마지막 연산(tail position)일 때, 컴파일러는 현재 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 프레임을 덮어쓸 수 있어 공간을 절약할 수 있다.
 - **원인**: 재귀 호출 이후에 수행할 연산이 없으므로, 현재 함수의局部 변수들을保存할 필요가 없기 때문이다.
-- **결과**: 꼬리 재귀 최적화가 적용되면 재귀의 [[003_space_complexity|공간 복잡도]]가 O(N)에서 O(1)로 줄어든다.
-- **판단**: Python, Java, JavaScript 등에서는 TCO를 지원하지 않으므로, 깊이가 깊은 재귀는 반드시 명시적 [[057_stack|스택]]이나 반복문으로 변환해야 한다.
+- **결과**: 꼬리 재귀 최적화가 적용되면 재귀의 [공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/)가 O(N)에서 O(1)로 줄어든다.
+- **판단**: Python, Java, JavaScript 등에서는 TCO를 지원하지 않으므로, 깊이가 깊은 재귀는 반드시 명시적 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)이나 반복문으로 변환해야 한다.
 
-📢 **섹션 요약 비유**: 재귀의 콜 [[057_stack|스택]]은 空ycle의 待合실과 같습니다. 한 명씩 불러서 상담하고 돌아오면(반환), 다음 사람이 들어가고, 상담사(재귀 함수)는 상담 내용을 各사람마다 기록해 두어야 다음 사람을 상담할 수 있습니다. 待合실이 다 차면([[057_stack|스택]] [[095_overflow|오버플로우]]) 더 이상 상담을 [[216_progress_in_synchronization|진행]]할 수 없습니다.
+📢 **섹션 요약 비유**: 재귀의 콜 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)은 空ycle의 待合실과 같습니다. 한 명씩 불러서 상담하고 돌아오면(반환), 다음 사람이 들어가고, 상담사(재귀 함수)는 상담 내용을 各사람마다 기록해 두어야 다음 사람을 상담할 수 있습니다. 待合실이 다 차면([스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)) 더 이상 상담을 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)할 수 없습니다.
 
 ---
 
 ## Ⅲ. 구현 및 실무 응용 (Implementation & Practice)
 
-재귀의 실무 적용은 매우 광범위하다. **트리 순회**: 이진 트리의 전위/중위/후위 순회는 재귀가 가장 자연스러운 방식으로, 재귀 없이 구현하면 명시적 [[057_stack|스택]]이 필요하다. **[[613_graph_bfs_memory|그래프 탐색]]**: [[034_dfs|DFS]]([[034_dfs|깊이 우선 탐색]])는 재귀로 가장 간결하게 구현되며, [[070_graph_datastructure|그래프]]의 연결 요소 탐색, 사이클 탐지 등에 활용된다. **하노이 탑**: N개의 원판을 다른 기둥으로 옮기는 문제는 재귀 없이는 구현이 극도로 복잡하다.
+재귀의 실무 적용은 매우 광범위하다. **트리 순회**: 이진 트리의 전위/중위/후위 순회는 재귀가 가장 자연스러운 방식으로, 재귀 없이 구현하면 명시적 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)이 필요하다. **[그래프 탐색](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/613_graph_bfs_memory/)**: [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/)([깊이 우선 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/))는 재귀로 가장 간결하게 구현되며, [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 연결 요소 탐색, 사이클 탐지 등에 활용된다. **하노이 탑**: N개의 원판을 다른 기둥으로 옮기는 문제는 재귀 없이는 구현이 극도로 복잡하다.
 
-**재귀 사용 시 주의사항**은 다음과 같다. **기본 사례 빠뜨림**: 기본 사례가 없으면 무한 재귀에 빠져 [[057_stack|스택]] [[095_overflow|오버플로우]]가 발생한다. **[[057_stack|스택]] [[095_overflow|오버플로우]]**: 재귀 깊이가 깊어지면 콜 [[057_stack|스택]]이 고갈된다. **반복적 동치(Iterative Equivalent)**: 재귀 깊이가 예측 불가능한 상황에서는 항상 반복문으로 변환할 수 있는지 검토해야 한다.
+**재귀 사용 시 주의사항**은 다음과 같다. **기본 사례 빠뜨림**: 기본 사례가 없으면 무한 재귀에 빠져 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)가 발생한다. **[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)**: 재귀 깊이가 깊어지면 콜 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)이 고갈된다. **반복적 동치(Iterative Equivalent)**: 재귀 깊이가 예측 불가능한 상황에서는 항상 반복문으로 변환할 수 있는지 검토해야 한다.
 
 ```text
 [실무 재귀: 이진 트리 중위 순회]
@@ -191,25 +195,25 @@ tags:
 
 ## Ⅳ. 품질 관리 및 테스트 (Quality & Testing)
 
-재귀의 품질 관리에서 가장 중요한 것은 **기본 사례 [[395_verification_process_review|검증]]**, **종료 조건 [[396_validation|확인]]**, **[[057_stack|스택]] 깊이 분석**이다. 특히 서로 다른 기본 사례를 가진 재귀(다중 기본 사례)에서는 모든 경로에서 기본 사례에 도달하는지 [[395_verification_process_review|검증]]해야 한다.
+재귀의 품질 관리에서 가장 중요한 것은 **기본 사례 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**, **종료 조건 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**, **[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 깊이 분석**이다. 특히 서로 다른 기본 사례를 가진 재귀(다중 기본 사례)에서는 모든 경로에서 기본 사례에 도달하는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다.
 
-**품질 관리 [[435_checklist_based_testing|체크리스트]]**는 다음과 같다. 모든 재귀 경로에 기본 사례(Base Case)가 존재하는지 [[395_verification_process_review|검증]]해야 한다. 재귀 깊이의 최악의 경우(시스템 [[057_stack|스택]] 제한 이하인지)를 분석해야 한다. TCO를 가정하고 작성한 재귀 코드가 실제运行环境에서 TCO를 지원하는지 [[396_validation|확인]]해야 한다. 재귀 호출로 인한 메모리使用량이 허용 범위內인지 [[396_validation|확인]]해야 한다.
+**품질 관리 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)**는 다음과 같다. 모든 재귀 경로에 기본 사례(Base Case)가 존재하는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다. 재귀 깊이의 최악의 경우(시스템 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 제한 이하인지)를 분석해야 한다. TCO를 가정하고 작성한 재귀 코드가 실제运行环境에서 TCO를 지원하는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다. 재귀 호출로 인한 메모리使用량이 허용 범위內인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다.
 
-📢 **섹션 요약 비유**: 재귀의品質 관리는探险가가洞穴을 탐사할 때와 같습니다. "더 이상 [[216_progress_in_synchronization|진행]] 불가한 곳(기본 사례)에 도달하면 반드시 돌아온다"는 규칙을 설정하지 않으면洞穴에 갇혀 영원히 나오지 못하는 것과 같이, 재귀에도 반드시 종료 조건이 필요합니다.
+📢 **섹션 요약 비유**: 재귀의品質 관리는探险가가洞穴을 탐사할 때와 같습니다. "더 이상 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 불가한 곳(기본 사례)에 도달하면 반드시 돌아온다"는 규칙을 설정하지 않으면洞穴에 갇혀 영원히 나오지 못하는 것과 같이, 재귀에도 반드시 종료 조건이 필요합니다.
 
 ---
 
 ## Ⅴ. 최신 트렌드 및 결론 (Trends & Conclusion)
 
-재귀의 최신 동향은 **함수형 프로그래밍의 부상**과 **[[016_tco|TCO]] 지원 확대**이다. Haskell, Scala, Elixir 등 함수형 언어는 재귀를 주요 제어 구조로 사용하며, TCO를 표준으로 지원하여 재귀의 공간 문제을根本적으로 해결한다. 또한 **재귀적神经网络(Recursive Neural Network)**는 재귀 구조를 利用하여 자연어나 코드 등의階層적 데이터를 처리하는 데 활용되고 있다.
+재귀의 최신 동향은 **함수형 프로그래밍의 부상**과 **[TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 지원 확대**이다. Haskell, Scala, Elixir 등 함수형 언어는 재귀를 주요 제어 구조로 사용하며, TCO를 표준으로 지원하여 재귀의 공간 문제을根本적으로 해결한다. 또한 **재귀적神经网络(Recursive Neural Network)**는 재귀 구조를 利用하여 자연어나 코드 등의階層적 데이터를 처리하는 데 활용되고 있다.
 
-재귀는计算机科学의 가장 fundamental한 개념 중 하나이다. 트리, [[070_graph_datastructure|그래프]], 문자열, 수학 문제 등 계층적 구조를 다루는 모든 문제의基礎이며, 고급 [[001_algorithm_definition|알고리즘]] 패러다임([[005_divide_and_conquer|분할 정복]], [[007_dynamic_programming|동적 프로그래밍]], [[010_backtracking|백트래킹]])의 Implementation媒介이다. 기술사 시험에서는 재귀의 작동 원리, 콜 [[057_stack|스택]] 관리, 꼬리 재귀 최적화, 그리고 재귀 vs 반복의 트레이드오프를 설명할 수 있는 능력을 [[395_verification_process_review|검증]]한다.
+재귀는计算机科学의 가장 fundamental한 개념 중 하나이다. 트리, [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/), 문자열, 수학 문제 등 계층적 구조를 다루는 모든 문제의基礎이며, 고급 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 패러다임([분할 정복](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/), [동적 프로그래밍](/knowledge-base/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/), [백트래킹](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/))의 Implementation媒介이다. 기술사 시험에서는 재귀의 작동 원리, 콜 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 관리, 꼬리 재귀 최적화, 그리고 재귀 vs 반복의 트레이드오프를 설명할 수 있는 능력을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
 
 📢 **섹션 요약 비유**: 재귀는 거울을 맞대어 놓은 것과 같습니다. 두 개의 거울 사이에 영상이 무한히 반복되어 들어가듯이, 재귀도 자기 자신의 복사본을 계속 만들어내되, 무한히 반복되지 않게 가장 작은 자신의影像(기본 사례)에서 멈추는 것입니다.
 
 ---
 
-## 핵심 인사이트 [[103_ascii|ASCII]] 다이어그램 ([[120_concept|Concept]] Map)
+## 핵심 인사이트 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 ([Concept](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/) Map)
 
 ```text
 [재귀 (Recursion) 핵심 개념 맵]
@@ -252,10 +256,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **콜 [[057_stack|스택]] ([[189_subroutine_call_return|Call]] [[057_stack|Stack]])** | 재귀 호출 시 프레임이 쌓이며 O(N) 공간 소비, [[057_stack|스택]] [[095_overflow|오버플로우]]의 근원 |
-| **꼬리 재귀 최적화 ([[016_tco|TCO]])** | 마지막 연산이 재귀 호출일 때 [[057_stack|스택]] 프레임을 재사용해 O(1) 공간 달성 |
-| **[[005_divide_and_conquer|분할 정복]] ([[005_divide_and_conquer|Divide and Conquer]])** | 재귀로 문제를 절반씩 쪼개어 퀵·머지소트·[[031_binary_search_algorithm|이진 탐색]] 등을 구현하는 핵심 패러다임 |
-| **[[008_memoization|메모이제이션]] ([[008_memoization|Memoization]])** | 재귀 결과를 캐싱해 중복 계산을 제거, [[007_dynamic_programming|동적 프로그래밍]](DP)의 탑다운 구현 방식 |
+| **콜 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) ([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))** | 재귀 호출 시 프레임이 쌓이며 O(N) 공간 소비, [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)의 근원 |
+| **꼬리 재귀 최적화 ([TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/))** | 마지막 연산이 재귀 호출일 때 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 프레임을 재사용해 O(1) 공간 달성 |
+| **[분할 정복](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/) ([Divide and Conquer](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/))** | 재귀로 문제를 절반씩 쪼개어 퀵·머지소트·[이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) 등을 구현하는 핵심 패러다임 |
+| **[메모이제이션](/knowledge-base/studynote/08_algorithm_stats/01_basics/008_memoization/) ([Memoization](/knowledge-base/studynote/08_algorithm_stats/01_basics/008_memoization/))** | 재귀 결과를 캐싱해 중복 계산을 제거, [동적 프로그래밍](/knowledge-base/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/)(DP)의 탑다운 구현 방식 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -275,7 +279,7 @@ tags:
 [동적 프로그래밍 (DP) — 재귀 + 메모이제이션으로 중복 계산 완전 제거]
 ```
 
-이 흐름은 재귀의 기본 구조에서 콜 [[057_stack|스택]] 문제가 발생하고, TCO로 공간 효율을 달성한 뒤 [[005_divide_and_conquer|분할 정복]]과 DP라는 고급 [[001_algorithm_definition|알고리즘]] 패러다임으로 확장되는 재귀 사고의 성장 계보를 보여준다.
+이 흐름은 재귀의 기본 구조에서 콜 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 문제가 발생하고, TCO로 공간 효율을 달성한 뒤 [분할 정복](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)과 DP라는 고급 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 패러다임으로 확장되는 재귀 사고의 성장 계보를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -287,8 +291,8 @@ tags:
 - 모든 약어는 반드시 전체 명칭과 함께 표기
 - 일어/중국어 절대 사용 금지
 - 각 섹션 끝에 📢 요약 비유 반드시 추가
-- 최소 800자/[[501_file_definition_logical_record|파일]]
-- [[501_file_definition_logical_record|파일]]명: 01_, 02_... 형식
+- 최소 800자/[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)
+- [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)명: 01_, 02_... 형식
 
 ---
 
@@ -296,7 +300,7 @@ tags:
 
 **진행 상황**: 14 / 175
 
-← **이전**: [[013_randomized_algorithm|13. 랜덤화 알고리즘 (Randomized Algorithm) — Las Vegas / Monte Carlo]]
-**다음**: [[015_quick_sort_optimization|퀵 정렬 최적화 (Quick Sort Optimization)]] →
+← **이전**: [13. 랜덤화 알고리즘 (Randomized Algorithm) — Las Vegas / Monte Carlo](/knowledge-base/studynote/08_algorithm_stats/01_basics/013_randomized_algorithm/)
+**다음**: [퀵 정렬 최적화 (Quick Sort Optimization)](/knowledge-base/studynote/08_algorithm_stats/02_sorting/015_quick_sort_optimization/) →
 
 ---

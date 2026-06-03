@@ -1,14 +1,18 @@
----
-title: 67. 활성화 함수 (Activation Function) - 신경망 층 사이에 비선형성(Non-linearity)을 부여하는 필수 함수
-tags:
-- ai
----
++++
+title = "67. 활성화 함수 (Activation Function) - 신경망 층 사이에 비선형성(Non-linearity)을 부여하는 필수 함수"
+
+[taxonomies]
+tags = ["ai"]
+
+[extra]
+tags = ["ai"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[129_activation_function|활성화 함수]]는 신경망의 선형 결합 결과에 비선형성을 넣어 표현력을 높이는 함수다.
-> 2. **가치**: [[129_activation_function|활성화 함수]]가 없으면 깊은 신경망도 결국 하나의 선형 모델로 붕괴된다.
-> 3. **판단**: 함수 선택은 [[282_performance_tactics|성능]], [[088_vanishing_gradient_relu_skip_connection|기울기 소실]], 계산 비용을 함께 고려해야 한다.
+> 1. **본질**: [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)는 신경망의 선형 결합 결과에 비선형성을 넣어 표현력을 높이는 함수다.
+> 2. **가치**: [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)가 없으면 깊은 신경망도 결국 하나의 선형 모델로 붕괴된다.
+> 3. **판단**: 함수 선택은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/), 계산 비용을 함께 고려해야 한다.
 
 ---
 
@@ -16,9 +20,9 @@ tags:
 
 신경망은 입력을 단순히 더하는 것만으로는 복잡한 패턴을 배울 수 없다. 비선형성이 있어야 학습이 가능해진다.
 
-[[129_activation_function|활성화 함수]]는 뉴런이 다음 층으로 [[130_signal|신호]]를 보낼지, 얼마나 보낼지 결정한다.
+[활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)는 뉴런이 다음 층으로 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 보낼지, 얼마나 보낼지 결정한다.
 
-- **📢 섹션 요약 비유**: [[238_switch_operation_principles|스위치]]를 켤지 말지 결정하는 문지기다.
+- **📢 섹션 요약 비유**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 켤지 말지 결정하는 문지기다.
 
 ---
 
@@ -34,12 +38,12 @@ Non-linear Output
 
 | 함수 | 특징 |
 | :-- | :-- |
-| [[268_sigmoid_vanishing_gradient|Sigmoid]] | 0~1, [[130_probability|확률]] 해석 가능 |
-| [[070_hyperbolic_tangent_tanh_activation|Tanh]] | -1~1, 중심화 |
-| [[269_relu_activation|ReLU]] | 단순하고 빠름 |
-| [[270_softmax|Softmax]] | [[104_classification_analysis|분류]] 출력 |
+| [Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) | 0~1, [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 해석 가능 |
+| [Tanh](/knowledge-base/studynote/10_ai/01_ai_basics/070_hyperbolic_tangent_tanh_activation/) | -1~1, 중심화 |
+| [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) | 단순하고 빠름 |
+| [Softmax](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) | [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 출력 |
 
-[[129_activation_function|활성화 함수]]는 선형 조합을 비선형 변환으로 바꾼다. 그래서 층을 많이 쌓아도 표현력이 유지된다.
+[활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)는 선형 조합을 비선형 변환으로 바꾼다. 그래서 층을 많이 쌓아도 표현력이 유지된다.
 
 - **📢 섹션 요약 비유**: 같은 재료라도 굽고 익히면 다른 맛이 난다.
 
@@ -49,17 +53,17 @@ Non-linear Output
 
 | 함수 | 장점 | 단점 |
 | :-- | :-- | :-- |
-| [[268_sigmoid_vanishing_gradient|Sigmoid]] | [[130_probability|확률]]적 해석 | [[088_vanishing_gradient_relu_skip_connection|기울기 소실]] |
-| [[070_hyperbolic_tangent_tanh_activation|Tanh]] | 중심화 | 포화 영역 |
-| [[269_relu_activation|ReLU]] | 단순/빠름 | 죽은 뉴런 |
-| [[270_softmax|Softmax]] | [[104_classification_analysis|분류]]에 적합 | 출력층 전용 |
+| [Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) | [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 해석 | [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) |
+| [Tanh](/knowledge-base/studynote/10_ai/01_ai_basics/070_hyperbolic_tangent_tanh_activation/) | 중심화 | 포화 영역 |
+| [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) | 단순/빠름 | 죽은 뉴런 |
+| [Softmax](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) | [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)에 적합 | 출력층 전용 |
 
 | 역할 | 의미 |
 | :-- | :-- |
 | Non-linearity | 복잡한 경계 학습 |
 | Gradient Flow | 학습 안정성 |
 
-[[129_activation_function|활성화 함수]]는 신경망의 성질을 바꾸는 핵심 요소다. 어떤 함수를 쓰느냐가 학습 속도와 [[282_performance_tactics|성능]]을 크게 좌우한다.
+[활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)는 신경망의 성질을 바꾸는 핵심 요소다. 어떤 함수를 쓰느냐가 학습 속도와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 크게 좌우한다.
 
 - **📢 섹션 요약 비유**: 문을 열 때 손잡이 모양이 다르면 힘 주는 방식도 달라진다.
 
@@ -67,22 +71,22 @@ Non-linear Output
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 문제에 맞는 [[129_activation_function|활성화 함수]]를 선택했는가?
-2. [[088_vanishing_gradient_relu_skip_connection|기울기 소실]]과 폭주를 고려했는가?
+1. 문제에 맞는 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)를 선택했는가?
+2. [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)과 폭주를 고려했는가?
 3. 출력층과 은닉층의 함수를 구분하는가?
-4. 계산 비용과 [[282_performance_tactics|성능]]을 함께 봤는가?
-5. [[269_relu_activation|ReLU]] 계열의 장단을 아는가?
+4. 계산 비용과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 함께 봤는가?
+5. [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) 계열의 장단을 아는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- [[129_activation_function|활성화 함수]]를 생략하는 설계
+- [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)를 생략하는 설계
 - 모든 층에 같은 함수를 무작정 쓰는 설계
 - 포화 구간과 죽은 뉴런을 무시하는 설계
-- 출력층 함수와 [[075_loss_function_cost_function|손실 함수]]를 혼동하는 설계
+- 출력층 함수와 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)를 혼동하는 설계
 
-기술사 관점에서는 [[129_activation_function|활성화 함수]]를 "비선형성을 넣는 장치"로 명확히 설명해야 한다.
+기술사 관점에서는 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)를 "비선형성을 넣는 장치"로 명확히 설명해야 한다.
 
 - **📢 섹션 요약 비유**: 직선만 그리면 그림이 단조롭고, 꺾임이 있어야 형태가 살아난다.
 
@@ -90,11 +94,11 @@ Non-linear Output
 
 ## Ⅴ. 기대효과 및 결론
 
-[[129_activation_function|활성화 함수]]는 신경망이 복잡한 패턴을 학습하게 하는 필수 요소다. 그래서 DNN의 성패에 직접 영향을 준다.
+[활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)는 신경망이 복잡한 패턴을 학습하게 하는 필수 요소다. 그래서 DNN의 성패에 직접 영향을 준다.
 
-결론적으로 [[129_activation_function|활성화 함수]]는 신경망의 비선형 엔진이다.
+결론적으로 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)는 신경망의 비선형 엔진이다.
 
-- **📢 섹션 요약 비유**: 불을 켜고 끄는 [[238_switch_operation_principles|스위치]]가 있어야 기계가 일한다.
+- **📢 섹션 요약 비유**: 불을 켜고 끄는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 있어야 기계가 일한다.
 
 ---
 
@@ -130,7 +134,7 @@ Deep Learning
 
 그냥 더하기만 하면 단순해요.  
 중간에 꺾어 주는 함수가 필요해요.  
-[[129_activation_function|활성화 함수]]는 그런 꺾임이에요.
+[활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)는 그런 꺾임이에요.
 
 ---
 
@@ -138,7 +142,7 @@ Deep Learning
 
 **진행 상황**: 67 / 420
 
-← **이전**: [[066_weight_bias_linear_equation|66. 가중치 (Weight, W) / 편향 (Bias, b) - 선형 방정식의 파라미터 (y = Wx + b)]]
-**다음**: [[068_step_function_activation|68. 계단 함수 (Step Function) - 0 이하면 0, 0 이상이면 1 반환 (미분 불가)]] →
+← **이전**: [66. 가중치 (Weight, W) / 편향 (Bias, b) - 선형 방정식의 파라미터 (y = Wx + b)](/knowledge-base/studynote/10_ai/01_ai_basics/066_weight_bias_linear_equation/)
+**다음**: [68. 계단 함수 (Step Function) - 0 이하면 0, 0 이상이면 1 반환 (미분 불가)](/knowledge-base/studynote/10_ai/01_ai_basics/068_step_function_activation/) →
 
 ---

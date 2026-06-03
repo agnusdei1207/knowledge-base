@@ -1,9 +1,13 @@
----
-title: 764. FR1 주파수 (Sub-6GHz 대역, 기존 호환 및 중간 광역/보편 속도 모델 적용 제어)
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "764. FR1 주파수 (Sub-6GHz 대역, 기존 호환 및 중간 광역/보편 속도 모델 적용 제어)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -15,8 +19,8 @@ tags:
 
 ## Ⅰ. 개요 및 필요성
 
-- 3GPP가 정의한 [[763_5g_nr_new_radio_scalable_numerology|5G NR]]([[763_5g_nr_new_radio_scalable_numerology|New Radio]])의 두 가지 주파수 대역 중, **410 MHz부터 7.125 GHz 사이의 낮은 대역**을 의미합니다. 보통 **Sub-6 (6GHz 이하)**라고 흔히 부릅니다.
-- **대한민국의 주력 [[418_5g_embb_urllc_mmtc_slicing|5G]]**: 국내 통신 3사(SKT, KT, LGU+)가 전국에 깐 [[418_5g_embb_urllc_mmtc_slicing|5G]] 기지국의 99.9%가 이 FR1에 해당하는 **3.5 GHz 대역**을 사용하고 있습니다.
+- 3GPP가 정의한 [5G NR](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/)([New Radio](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/))의 두 가지 주파수 대역 중, **410 MHz부터 7.125 GHz 사이의 낮은 대역**을 의미합니다. 보통 **Sub-6 (6GHz 이하)**라고 흔히 부릅니다.
+- **대한민국의 주력 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)**: 국내 통신 3사(SKT, KT, LGU+)가 전국에 깐 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국의 99.9%가 이 FR1에 해당하는 **3.5 GHz 대역**을 사용하고 있습니다.
 
 ```text
 [5G NR 신무선 표준 대역]
@@ -27,7 +31,7 @@ tags:
     └──▶ [FR2 주파수]
 ```
 
-- **📢 섹션 요약 비유**: FR1 주파수는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [[170_selectivity_cardinality_distribution_tuning|선택도]] 쉬워진다.
+- **📢 섹션 요약 비유**: FR1 주파수는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
@@ -38,9 +42,9 @@ tags:
 - 덕분에 기지국에서 쏜 전파가 산을 넘고 건물 콘크리트 벽을 뚫고 꺾여 들어가(회절성), 스마트폰까지 무사히 도달합니다. 
 - **결과**: 기지국 하나를 세우면 반경 수 km를 커버할 수 있어, 통신사가 돈을 아끼며 **단기간에 전국 5G망(커버리지)을 깔아 대중화하는 데 압도적으로 유리**합니다.
 
-### 2. 단점: [[140_bandwidth|대역폭]] 부족 (속도 타협)
-- 이미 6GHz 이하 대역은 기존 3G, [[752_lte_long_term_evolution_4g|LTE]], 와이파이, 군용 레이더 등이 집을 다 짓고 살고 있어서 빈 땅([[140_bandwidth|대역폭]])이 거의 없습니다.
-- 한국의 통신사들도 기껏해야 100MHz 폭 정도의 차선만 겨우 확보했습니다. 차선이 좁으니 아무리 [[418_5g_embb_urllc_mmtc_slicing|5G]] 기술을 써도 속도가 **최대 1~2 Gbps 수준(LTE의 2~3배 정도)**에서 멈춰버립니다. 광고에서 말하던 'LTE보다 20배 빠른 [[418_5g_embb_urllc_mmtc_slicing|5G]]'는 물리적으로 불가능합니다.
+### 2. 단점: [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 부족 (속도 타협)
+- 이미 6GHz 이하 대역은 기존 3G, [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/), 와이파이, 군용 레이더 등이 집을 다 짓고 살고 있어서 빈 땅([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))이 거의 없습니다.
+- 한국의 통신사들도 기껏해야 100MHz 폭 정도의 차선만 겨우 확보했습니다. 차선이 좁으니 아무리 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기술을 써도 속도가 **최대 1~2 Gbps 수준(LTE의 2~3배 정도)**에서 멈춰버립니다. 광고에서 말하던 'LTE보다 20배 빠른 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)'는 물리적으로 불가능합니다.
 
 ```text
 [5G NR 신무선 표준 대역]
@@ -57,36 +61,36 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-꿈의 초저지연, [[148_5g_embb_urllc_mmtc|초고속]]과는 거리가 멀지만 현실적으로 가장 중요한 밥줄입니다.
+꿈의 초저지연, [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)과는 거리가 멀지만 현실적으로 가장 중요한 밥줄입니다.
 - **스마트폰 대중망**: 전 세계 대부분의 사용자가 길거리와 지하철에서 유튜브와 카톡을 할 때 접속하는 보편적 5G망입니다.
-- **기존 [[752_lte_long_term_evolution_4g|LTE]] 장비와의 호환 ([[766_nsa_non_standalone_5g_lte_core|NSA]] 구조)**: 주파수 대역이 LTE와 비슷해, 기존 옥상에 세워둔 [[752_lte_long_term_evolution_4g|LTE]] 철탑과 장비의 일부를 그대로 재활용하여 [[418_5g_embb_urllc_mmtc_slicing|5G]] 안테나를 쉽게 덧붙여 달 수 있습니다. ([[459_quic_fec_forward_error_correction|초기]] 인프라 투자비 떡락)
+- **기존 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 장비와의 호환 ([NSA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/) 구조)**: 주파수 대역이 LTE와 비슷해, 기존 옥상에 세워둔 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 철탑과 장비의 일부를 그대로 재활용하여 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 안테나를 쉽게 덧붙여 달 수 있습니다. ([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 인프라 투자비 떡락)
 
-FR1 주파수를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [[763_5g_nr_new_radio_scalable_numerology|5G NR]] 신무선 표준 대역이 기반 조건을 만든다면, FR1 주파수는 그 위에서 핵심 메커니즘을 구현하고, FR2 주파수는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 유연성과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+FR1 주파수를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [5G NR](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/) 신무선 표준 대역이 기반 조건을 만든다면, FR1 주파수는 그 위에서 핵심 메커니즘을 구현하고, FR2 주파수는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 유연성과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [[763_5g_nr_new_radio_scalable_numerology|5G NR]] 신무선 표준 대역의 기반 정리 | FR1 주파수의 핵심 동작 | FR2 주파수의 확장 적용 |
+| 초점 | [5G NR](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/) 신무선 표준 대역의 기반 정리 | FR1 주파수의 핵심 동작 | FR2 주파수의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 유연성 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: FR1(Sub-6GHz) 주파수는 라디오나 텔레비전 방송국이 쓰는 '굵고 묵직한 베이스 스피커 소리'와 같습니다. 소리가 웅장하게 울려 펴져서 벽 너머 옆방(건물 실내)이나 먼 동네(전국망)까지 잘 들립니다(회절성 우수). 하지만 소리의 파동이 크고 둔탁해서 한 번에 많은 정보를 빠르게 쏼라쏼라 말하기는([[148_5g_embb_urllc_mmtc|초고속]] [[001_dikw_pyramid|데이터]] 전송) 어렵습니다. 통신사는 일단 전국 어디서든 '[[418_5g_embb_urllc_mmtc_slicing|5G]] 마크'가 뜨게 만드는 것이 시급했기 때문에, 당장 속도가 20배 빠르지 않더라도 멀리 퍼져나가는 이 FR1 대역을 전 세계 [[418_5g_embb_urllc_mmtc_slicing|5G]] 상용화의 최우선 주력 무기로 삼았습니다.
+- **📢 섹션 요약 비유**: FR1(Sub-6GHz) 주파수는 라디오나 텔레비전 방송국이 쓰는 '굵고 묵직한 베이스 스피커 소리'와 같습니다. 소리가 웅장하게 울려 펴져서 벽 너머 옆방(건물 실내)이나 먼 동네(전국망)까지 잘 들립니다(회절성 우수). 하지만 소리의 파동이 크고 둔탁해서 한 번에 많은 정보를 빠르게 쏼라쏼라 말하기는([초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송) 어렵습니다. 통신사는 일단 전국 어디서든 '[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 마크'가 뜨게 만드는 것이 시급했기 때문에, 당장 속도가 20배 빠르지 않더라도 멀리 퍼져나가는 이 FR1 대역을 전 세계 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 상용화의 최우선 주력 무기로 삼았습니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 FR1 주파수를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [[763_5g_nr_new_radio_scalable_numerology|5G NR]] 신무선 표준 대역 수준의 기본 대책으로 충분한지, 아니면 FR1 주파수가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 FR2 주파수와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 FR1 주파수를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [5G NR](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/) 신무선 표준 대역 수준의 기본 대책으로 충분한지, 아니면 FR1 주파수가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 FR2 주파수와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 유연성 부족인지, 확장성 악화인지 먼저 분리한다.
-2. FR1 주파수가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [[396_validation|확인]]한다.
+2. FR1 주파수가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
 3. 도입 후에는 인접 기술인 FR2 주파수와의 연계 방식을 함께 검증한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - FR1 주파수의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- [[763_5g_nr_new_radio_scalable_numerology|5G NR]] 신무선 표준 대역와의 경계를 정리하지 않아 중복 투자나 [[164_policy|정책]] 충돌을 만드는 설계
+- [5G NR](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/) 신무선 표준 대역와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: FR1 주파수를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -94,7 +98,7 @@ FR1 주파수를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 �
 
 ## Ⅴ. 기대효과 및 결론
 
-FR1 주파수는 차세대 통신 아키텍처를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 유연성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 FR2 주파수, [[190_ai_llm_requirements_specification|AI]] 기반 네트워크 최적화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [[190_ai_llm_requirements_specification|AI]] 기반 네트워크 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+FR1 주파수는 차세대 통신 아키텍처를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 유연성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 FR2 주파수, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: FR1 주파수는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -104,9 +108,9 @@ FR1 주파수는 차세대 통신 아키텍처를 이해할 때 핵심 축을 �
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[763_5g_nr_new_radio_scalable_numerology|5G NR]] 신무선 표준 대역 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [[090_service_kubernetes_network_load_balancing|서비스]] 기반 구조 (Service-Based [[319_architecture|Architecture]]) | 기능을 느슨하게 결합해 유연성을 높인다. |
-| [[149_network_slicing_5g_architecture|네트워크 슬라이싱]] ([[149_network_slicing_5g_architecture|Network Slicing]]) | [[090_service_kubernetes_network_load_balancing|서비스]]별 요구사항을 논리적으로 분리한다. |
+| [5G NR](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/) 신무선 표준 대역 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 기반 구조 (Service-Based [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/)) | 기능을 느슨하게 결합해 유연성을 높인다. |
+| [네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/) ([Network Slicing](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)) | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 요구사항을 논리적으로 분리한다. |
 | FR2 주파수 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -121,7 +125,7 @@ FR1 주파수는 차세대 통신 아키텍처를 이해할 때 핵심 축을 �
     └──▶ [확장 B: AI 기반 네트워크 최적화]
 ```
 
-FR1 주파수는 [[763_5g_nr_new_radio_scalable_numerology|5G NR]] 신무선 표준 대역에서 출발해 현재 메커니즘을 정교화하고, 이후 FR2 주파수와 [[190_ai_llm_requirements_specification|AI]] 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+FR1 주파수는 [5G NR](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/) 신무선 표준 대역에서 출발해 현재 메커니즘을 정교화하고, 이후 FR2 주파수와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -135,7 +139,7 @@ FR1 주파수는 [[763_5g_nr_new_radio_scalable_numerology|5G NR]] 신무선 표
 
 **진행 상황**: 885 / 1120
 
-← **이전**: [[763_5g_nr_new_radio_scalable_numerology|763. 5G NR (New Radio) 신무선 표준 대역]]
-**다음**: [[765_fr2_mmwave_28ghz_small_cell_beamforming|765. FR2 주파수 (mmWave 24Ghz~ 밀리미터파 직진성 극한, 장애물 회절 약화 대형 스몰셀 조밀 구성 기술 체계 대역)]] →
+← **이전**: [763. 5G NR (New Radio) 신무선 표준 대역](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/)
+**다음**: [765. FR2 주파수 (mmWave 24Ghz~ 밀리미터파 직진성 극한, 장애물 회절 약화 대형 스몰셀 조밀 구성 기술 체계 대역)](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/765_fr2_mmwave_28ghz_small_cell_beamforming/) →
 
 ---

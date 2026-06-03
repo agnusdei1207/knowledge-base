@@ -1,21 +1,25 @@
----
-title: 430. 정적 테스팅 (Static Testing)
-date: '2026-05-08'
-tags:
-- studynote-software-engineering
----
++++
+title = "430. 정적 테스팅 (Static Testing)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-software-engineering"]
+
+[extra]
+tags = ["studynote-software-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 정적 테스팅 (Static Testing)은(는) [[001_software_engineering_definition|소프트웨어 공학]]의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[[346_maintainability_portability|유지보수성]]·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 정적 테스팅 (Static Testing)은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-정적 테스팅은 코드, 요구사항, 설계서 같은 산출물을 대상으로 한다. 실행 결과를 기다리지 않고도 [[352_defect_definition|결함]]의 흔적을 찾을 수 있어, 개발 [[459_quic_fec_forward_error_correction|초기]]에 특히 유용하다.
+정적 테스팅은 코드, 요구사항, 설계서 같은 산출물을 대상으로 한다. 실행 결과를 기다리지 않고도 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)의 흔적을 찾을 수 있어, 개발 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 특히 유용하다.
 
 실행 테스트만으로는 놓치기 쉬운 문서 오류, 설계 누락, 코딩 규칙 위반을 잡아낸다. 그래서 정적 테스팅은 "실행 전 품질 점검"의 역할을 한다.
 
@@ -48,13 +52,13 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-정적 테스팅의 대표 활동은 [[161_inspection_formal_review|인스펙션]](Inspection), [[162_walkthrough_informal_review|워크스루]](Walkthrough), [[331_static_analysis|정적 분석]]([[331_static_analysis|Static Analysis]])이다. 이들은 모두 실행 없이 [[352_defect_definition|결함]]을 찾는다.
+정적 테스팅의 대표 활동은 [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/)(Inspection), [워크스루](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/)(Walkthrough), [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/)([Static Analysis](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/))이다. 이들은 모두 실행 없이 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 찾는다.
 
 | 기법 | 특징 | 주체 |
 |:---|:---|:---|
-| [[161_inspection_formal_review|인스펙션]] | 공식적, [[435_checklist_based_testing|체크리스트]] 중심 | 검토자 |
-| [[162_walkthrough_informal_review|워크스루]] | 설명 중심, 협업적 | 작성자/참석자 |
-| [[331_static_analysis|정적 분석]] | 도구 기반, 자동화 가능 | 도구 |
+| [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/) | 공식적, [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 중심 | 검토자 |
+| [워크스루](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/) | 설명 중심, 협업적 | 작성자/참석자 |
+| [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) | 도구 기반, 자동화 가능 | 도구 |
 
 ```text
 문서/코드 -> 리뷰 -> 규칙 위반 탐지 -> 수정
@@ -74,15 +78,15 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-정적 테스팅은 [[431_dynamic_testing|동적 테스팅]]과 함께 써야 균형이 맞는다. 정적 테스팅은 실행 전, [[431_dynamic_testing|동적 테스팅]]은 실행 중/후를 본다.
+정적 테스팅은 [동적 테스팅](/knowledge-base/studynote/04_software_engineering/11_testing_validation/431_dynamic_testing/)과 함께 써야 균형이 맞는다. 정적 테스팅은 실행 전, [동적 테스팅](/knowledge-base/studynote/04_software_engineering/11_testing_validation/431_dynamic_testing/)은 실행 중/후를 본다.
 
-| 구분 | 정적 테스팅 | [[431_dynamic_testing|동적 테스팅]] |
+| 구분 | 정적 테스팅 | [동적 테스팅](/knowledge-base/studynote/04_software_engineering/11_testing_validation/431_dynamic_testing/) |
 |:---|:---|:---|
 | 대상 | 문서, 설계, 코드 | 실행 결과 |
-| 장점 | 빠름, [[459_quic_fec_forward_error_correction|초기]] [[352_defect_definition|결함]] 탐지 | 실제 동작 [[396_validation|확인]] |
-| 한계 | 런타임 오류는 못 봄 | [[459_quic_fec_forward_error_correction|초기]]에 비효율적일 수 있음 |
+| 장점 | 빠름, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 탐지 | 실제 동작 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
+| 한계 | 런타임 오류는 못 봄 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 비효율적일 수 있음 |
 
-[[331_static_analysis|정적 분석]] 도구는 보안 취약점과 품질 규칙 위반을 자동으로 잡는 데 특히 유용하다.
+[정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 도구는 보안 취약점과 품질 규칙 위반을 자동으로 잡는 데 특히 유용하다.
 
 - **📢 섹션 요약 비유**: 대본 검토는 리허설 전, 공연 검사는 무대 위에서 한다.
 
@@ -96,11 +100,11 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 [[330_code_review|코드 리뷰]], 린트, 아키텍처 리뷰, 요구사항 검토에 정적 테스팅을 쓴다. [[352_defect_definition|결함]]이 큰 비용으로 번지기 전에 막는 것이 핵심이다.
+실무에서는 [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/), 린트, 아키텍처 리뷰, 요구사항 검토에 정적 테스팅을 쓴다. [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 큰 비용으로 번지기 전에 막는 것이 핵심이다.
 
 체크 포인트는 다음과 같다.
-1. 실행 전에 잡을 수 있는 [[352_defect_definition|결함]]인지 본다.
-2. 리뷰 기준과 [[435_checklist_based_testing|체크리스트]]를 준비한다.
+1. 실행 전에 잡을 수 있는 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)인지 본다.
+2. 리뷰 기준과 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)를 준비한다.
 3. 도구 경고와 사람 검토를 함께 쓴다.
 
 - **📢 섹션 요약 비유**: 출고 전에 제품 겉면 흠집을 먼저 찾는 검수와 같다.
@@ -115,7 +119,7 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-정적 테스팅은 조기 [[352_defect_definition|결함]] 발견과 품질 표준화에 강하다. 다만 실제 런타임 동작을 보지 못하므로 [[431_dynamic_testing|동적 테스팅]]과 조합해야 한다.
+정적 테스팅은 조기 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발견과 품질 표준화에 강하다. 다만 실제 런타임 동작을 보지 못하므로 [동적 테스팅](/knowledge-base/studynote/04_software_engineering/11_testing_validation/431_dynamic_testing/)과 조합해야 한다.
 
 결론적으로 정적 테스팅은 "실행 전에 미리 거르는 안전망"이다. 소프트웨어 품질의 첫 방어선으로 기억하면 된다.
 
@@ -131,10 +135,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[001_software_engineering_definition|소프트웨어 공학]] ([[001_software_engineering_definition|Software Engineering]]) | 정적 테스팅 (Static Testing)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [[003_sdlc|소프트웨어 생명주기]] ([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]], Software Development Life Cycle) | 정적 테스팅 (Static Testing)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 정적 테스팅 (Static Testing)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 정적 테스팅 (Static Testing)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 정적 테스팅 (Static Testing) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [[020_software_configuration_management|형상 관리]] ([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]]) | 정적 테스팅 (Static Testing)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 정적 테스팅 (Static Testing)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -154,13 +158,13 @@ tags:
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [[002_software_crisis|소프트웨어 위기]] 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 정적 테스팅 (Static Testing)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
 
 ---
 
@@ -168,7 +172,7 @@ tags:
 
 **진행 상황**: 451 / 973
 
-← **이전**: [[429_data_flow_testing|429. 데이터 흐름 테스팅 (Data Flow Testing) - 변수의 정의(Define)와 사용(Use) 경로 (DU 경로) 기반]]
-**다음**: [[430_static_testing|430. 정적 테스팅 (Static Testing) - 코드를 실행하지 않고 리뷰나 도구를 통해 검증 (인스펙션, 정적 분석)]] →
+← **이전**: [429. 데이터 흐름 테스팅 (Data Flow Testing) - 변수의 정의(Define)와 사용(Use) 경로 (DU 경로) 기반](/knowledge-base/studynote/04_software_engineering/11_testing_validation/429_data_flow_testing/)
+**다음**: [430. 정적 테스팅 (Static Testing) - 코드를 실행하지 않고 리뷰나 도구를 통해 검증 (인스펙션, 정적 분석)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/430_static_testing/) →
 
 ---

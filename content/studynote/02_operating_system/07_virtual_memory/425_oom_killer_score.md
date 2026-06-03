@@ -1,26 +1,30 @@
----
-title: 425. OOM Killer (Out-of-Memory) 작동 우선순위 점수 (oom_score) 매커니즘
-date: '2026-05-09'
-tags:
-- studynote-operating-system
----
++++
+title = "425. OOM Killer (Out-of-Memory) 작동 우선순위 점수 (oom_score) 매커니즘"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[157_oom_killer|OOM]]([[157_oom_killer|Out of Memory]]) Killer는 리눅스 시스템에서 물리 메모리(RAM)와 스왑(Swap) 공간마저 100% 고갈되어 [[022_kernel_role|커널]]이 질식사([[036_kernel_panic|Kernel Panic]])하기 직전, **시스템 전체를 구하기 위해 가장 램을 많이 잡아먹는 프로세스 하나를 골라 총으로 쏴 죽이는(SIGKILL) 최후의 암살 데몬**이다.
-> 2. **가치**: 어떤 놈을 쏴 죽일지 무작위로 고르지 않고, 프로세스가 먹고 있는 램 크기와 루트 권한 여부 등을 계산해 **`oom_score`라는 살생부 점수를 매겨, 가장 희생양으로 적합한 뚱뚱한 유저 앱부터 자비 없이 처형**하여 [[257_thrashing|스래싱]]([[257_thrashing|Thrashing]])의 늪에서 서버를 기적적으로 구출해 낸다.
-> 3. **융합**: 실무 엔지니어는 [[022_kernel_role|커널]]의 이 무자비한 심판을 피하기 위해, [[002_database_definition|데이터베이스]](DB) 같은 핵심 프로세스에 **`oom_score_adj` (면책 특권 점수)**를 부여하여 [[157_oom_killer|OOM]] Killer의 총구를 다른 잉여 앱으로 돌리게 만드는 고도화된 아키텍처 [[571_protection_vs_security|보호]] 전술을 융합한다.
+> 1. **본질**: [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)([Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) Killer는 리눅스 시스템에서 물리 메모리(RAM)와 스왑(Swap) 공간마저 100% 고갈되어 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 질식사([Kernel Panic](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/))하기 직전, **시스템 전체를 구하기 위해 가장 램을 많이 잡아먹는 프로세스 하나를 골라 총으로 쏴 죽이는(SIGKILL) 최후의 암살 데몬**이다.
+> 2. **가치**: 어떤 놈을 쏴 죽일지 무작위로 고르지 않고, 프로세스가 먹고 있는 램 크기와 루트 권한 여부 등을 계산해 **`oom_score`라는 살생부 점수를 매겨, 가장 희생양으로 적합한 뚱뚱한 유저 앱부터 자비 없이 처형**하여 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))의 늪에서 서버를 기적적으로 구출해 낸다.
+> 3. **융합**: 실무 엔지니어는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 이 무자비한 심판을 피하기 위해, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(DB) 같은 핵심 프로세스에 **`oom_score_adj` (면책 특권 점수)**를 부여하여 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer의 총구를 다른 잉여 앱으로 돌리게 만드는 고도화된 아키텍처 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 전술을 융합한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [[157_oom_killer|OOM]] Killer는 리눅스 [[022_kernel_role|커널]]의 자가방어 메커니즘이다. 운영체제는 'Overcommit(초과 할당)' 정책에 따라 램이 없어도 일단 앱들에게 램을 주겠다고 사기(가상 주소 발급)를 쳐놨다. 앱들이 진짜로 램을 내놓으라고 몰려와서 남은 램과 [[390_swap_space|스왑 공간]]이 단 1바이트도 없을 때, [[022_kernel_role|커널]]은 이 뱅크런 사태를 막기 위해 법정(Score)을 열고 사형수를 한 명 뽑아 목을 날려버리고 그놈이 물고 있던 램을 압수한다.
-- **필요성**: 만약 [[157_oom_killer|OOM]] Killer가 없다면? 램 100% 상태에서 마우스 드라이버나 시스템 코어가 메모리를 4KB 요구했는데 램이 없다. [[022_kernel_role|커널]]은 그 자리에서 치명적 에러를 뿜으며 컴퓨터를 파란 화면([[036_kernel_panic|Kernel Panic]])으로 멈춰버리거나 영원한 렉([[281_deadlock_definition|Deadlock]])에 빠져버린다. "다 같이 사이좋게 죽느니, 그냥 제일 뚱뚱한 시민 하나를 절벽으로 밀어버리고 남은 사람이라도 살리자!"는 트롤리 딜레마의 공학적 결단이 [[157_oom_killer|OOM]] Killer를 리눅스의 핏줄에 새겨 넣었다.
+- **개념**: [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer는 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 자가방어 메커니즘이다. 운영체제는 'Overcommit(초과 할당)' 정책에 따라 램이 없어도 일단 앱들에게 램을 주겠다고 사기(가상 주소 발급)를 쳐놨다. 앱들이 진짜로 램을 내놓으라고 몰려와서 남은 램과 [스왑 공간](/knowledge-base/studynote/02_operating_system/07_virtual_memory/390_swap_space/)이 단 1바이트도 없을 때, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이 뱅크런 사태를 막기 위해 법정(Score)을 열고 사형수를 한 명 뽑아 목을 날려버리고 그놈이 물고 있던 램을 압수한다.
+- **필요성**: 만약 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer가 없다면? 램 100% 상태에서 마우스 드라이버나 시스템 코어가 메모리를 4KB 요구했는데 램이 없다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 그 자리에서 치명적 에러를 뿜으며 컴퓨터를 파란 화면([Kernel Panic](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/))으로 멈춰버리거나 영원한 렉([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))에 빠져버린다. "다 같이 사이좋게 죽느니, 그냥 제일 뚱뚱한 시민 하나를 절벽으로 밀어버리고 남은 사람이라도 살리자!"는 트롤리 딜레마의 공학적 결단이 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer를 리눅스의 핏줄에 새겨 넣었다.
 
 - **등장 배경 및 Overcommit의 부메랑**:
   1. **요구 페이징의 뻥카**: 램 16GB 서버에서 프로세스들이 `malloc`으로 30GB를 요구해도 OS는 "OK"라며 I 비트를 찍어 보냈다(Overcommit).
-  2. **뻥카의 들통**: 앱들이 가짜 주소에 진짜 [[001_dikw_pyramid|데이터]]를 [[289_cqrs_db|쓰기]] 시작하며 물리 프레임을 요구하자 스왑마저 다 털려버림.
+  2. **뻥카의 들통**: 앱들이 가짜 주소에 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시작하며 물리 프레임을 요구하자 스왑마저 다 털려버림.
   3. **사형 집행인의 등장**: 뻥카를 쳐서 시스템을 위기에 빠뜨린 OS가 뒷수습을 하기 위해 가장 램을 많이 요구한 놈부터 총살시켜 증거 인멸(?)을 하는 아키텍처가 확립되었다.
 
 ```text
@@ -49,57 +53,57 @@ tags:
 │   ✅ SSH 데몬은 무사히 램을 받아 로깅 성공. 서버 커널 생존!        │
 └────────────────────────────────────────────────────────────────────┘
 ```
-**[다이어그램 해설]** 초보 개발자들은 MySQL이 갑자기 죽어버린 걸 보고 "리눅스가 미쳤어!"라고 원망하지만, 사실 리눅스는 MySQL을 죽여서 [[538_ssh_vs_telnet_secure_remote|SSH]](터미널)와 서버 심장부를 살려낸 다크나이트다. 만약 [[157_oom_killer|OOM]] 킬러가 저 총을 안 쐈다면 당신은 서버에 SSH로 접속조차 못 하고 AWS 콘솔에서 하드웨어 강제 리부팅 버튼을 눌러야만 했을 것이다.
+**[다이어그램 해설]** 초보 개발자들은 MySQL이 갑자기 죽어버린 걸 보고 "리눅스가 미쳤어!"라고 원망하지만, 사실 리눅스는 MySQL을 죽여서 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/)(터미널)와 서버 심장부를 살려낸 다크나이트다. 만약 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러가 저 총을 안 쐈다면 당신은 서버에 SSH로 접속조차 못 하고 AWS 콘솔에서 하드웨어 강제 리부팅 버튼을 눌러야만 했을 것이다.
 
-- **📢 섹션 요약 비유**: 풍선(RAM)에 바람([[001_dikw_pyramid|데이터]])을 계속 불어넣어 터지기 0.001초 직전입니다. 풍선 전체가 터져서(서버 패닉) 다 죽는 걸 막기 위해, 엄마([[157_oom_killer|OOM]] Killer)가 바늘을 들고 달려와서 바람을 가장 많이 차지하고 있던 거대한 방 하나를 콕 찔러 바람을 쫙 빼버림(프로세스 사살)으로써 풍선 전체가 터지는 걸 기적처럼 막아내는 긴급 조치입니다.
+- **📢 섹션 요약 비유**: 풍선(RAM)에 바람([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 계속 불어넣어 터지기 0.001초 직전입니다. 풍선 전체가 터져서(서버 패닉) 다 죽는 걸 막기 위해, 엄마([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer)가 바늘을 들고 달려와서 바람을 가장 많이 차지하고 있던 거대한 방 하나를 콕 찔러 바람을 쫙 빼버림(프로세스 사살)으로써 풍선 전체가 터지는 걸 기적처럼 막아내는 긴급 조치입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [[157_oom_killer|OOM]] Score (살생부 점수)의 수학적 계산법
+### [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Score (살생부 점수)의 수학적 계산법
 
-리눅스 [[022_kernel_role|커널]]은 아무나 막 쏘지 않는다. `/proc/<pid>/oom_score` 에 명시된 점수(0 ~ 1000점)를 철저히 계산하여 가장 높은 놈을 죽인다. 점수가 높을수록 죽을 확률이 높다.
+리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 아무나 막 쏘지 않는다. `/proc/<pid>/oom_score` 에 명시된 점수(0 ~ 1000점)를 철저히 계산하여 가장 높은 놈을 죽인다. 점수가 높을수록 죽을 확률이 높다.
 
 **[ 점수를 올리는 죄악 (Bad) ]**
 1. **물리 램(RSS)과 스왑 점유율**: 절대적인 평가 기준이다. 가장 뚱뚱하게 램을 많이 깔고 앉은 프로세스가 기본적으로 수백 점의 점수를 먹고 1순위 타겟이 된다. (램을 많이 토해낼 놈을 죽여야 가성비가 좋으니까).
 2. **자식 프로세스가 많은 놈**: `fork()`로 새끼를 쳐서 메모리를 갉아먹는 악성 스크립트들을 싹 쓸어버리기 위해 자식들의 메모리 합까지 연좌제로 물어 점수를 올린다.
 
 **[ 점수를 깎아주는 선행 (Good) ]**
-1. **루트(Root) 권한**: `sudo`나 `root`로 띄운 프로세스는 [[022_kernel_role|커널]]의 주요 관리 데몬일 확률이 높으므로 묻지도 따지지도 않고 점수를 깎아 살려준다. ([[538_ssh_vs_telnet_secure_remote|SSH]], Systemd 등 [[571_protection_vs_security|보호]]).
-2. **하드웨어 직접 접근**: 디스크 컨트롤러([[746_io_direct_memory_access_dma|DMA]]) 등 하드웨어 락을 쥐고 있는 앱을 죽이면 기계가 뻗어버릴 수 있으므로 점수를 대폭 깎아 방어해 준다.
+1. **루트(Root) 권한**: `sudo`나 `root`로 띄운 프로세스는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 주요 관리 데몬일 확률이 높으므로 묻지도 따지지도 않고 점수를 깎아 살려준다. ([SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/), Systemd 등 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)).
+2. **하드웨어 직접 접근**: 디스크 컨트롤러([DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/)) 등 하드웨어 락을 쥐고 있는 앱을 죽이면 기계가 뻗어버릴 수 있으므로 점수를 대폭 깎아 방어해 준다.
 3. **오래 살아남은 놈 (Uptime)**: 1년 동안 안 터지고 잘 돌아간 앱은 시스템의 핵심 코어일 확률이 높으므로 점수를 깎아준다. (새로 들어와 램을 먹어대는 뜨내기 파이썬 스크립트를 우선 사살함).
 
 ---
 
-### [[157_oom_killer|OOM]] Killer의 처형 방식 (SIGKILL)
+### [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer의 처형 방식 (SIGKILL)
 
-점수 1등이 결정되면 [[022_kernel_role|커널]]은 해당 프로세스에게 `SIGKILL (Signal 9)`을 자비 없이 발사한다.
-- 일반적인 종료 [[130_signal|신호]](`SIGTERM`)는 프로세스에게 "너 메모리 정리하고 유서 쓰고 예쁘게 죽어라"라고 시간을 준다.
-- 하지만 [[157_oom_killer|OOM]] 상태는 1바이트의 램도 없어 유서를 쓸 램 공간조차 없는 위급 상황이다.
-- `SIGKILL`은 앱이 저항하거나 에러 [[568_logs_distributed_logging_elk_fluentd|로그]]를 남길 틈조차 주지 않고, **[[022_kernel_role|커널]]이 직접 뇌를 박살 내고 램을 즉시 강제 압수**해버리는 무식하고 확실한 처형이다. 이 때문에 앱 내부 [[568_logs_distributed_logging_elk_fluentd|로그]]에는 아무런 에러 메시지도 남지 않고 조용히 증발하며, 개발자는 리눅스 [[022_kernel_role|커널]] 시스템 [[568_logs_distributed_logging_elk_fluentd|로그]](`/var/log/messages`나 `dmesg`)를 뒤져봐야만 "아... [[157_oom_killer|OOM]] 킬러한테 총 맞았구나" 하고 사인을 알 수 있게 된다.
+점수 1등이 결정되면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 해당 프로세스에게 `SIGKILL (Signal 9)`을 자비 없이 발사한다.
+- 일반적인 종료 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(`SIGTERM`)는 프로세스에게 "너 메모리 정리하고 유서 쓰고 예쁘게 죽어라"라고 시간을 준다.
+- 하지만 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 상태는 1바이트의 램도 없어 유서를 쓸 램 공간조차 없는 위급 상황이다.
+- `SIGKILL`은 앱이 저항하거나 에러 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 남길 틈조차 주지 않고, **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 직접 뇌를 박살 내고 램을 즉시 강제 압수**해버리는 무식하고 확실한 처형이다. 이 때문에 앱 내부 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에는 아무런 에러 메시지도 남지 않고 조용히 증발하며, 개발자는 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 시스템 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(`/var/log/messages`나 `dmesg`)를 뒤져봐야만 "아... [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러한테 총 맞았구나" 하고 사인을 알 수 있게 된다.
 
-- **📢 섹션 요약 비유**: [[157_oom_killer|OOM]] 킬러는 재판부(점수표)의 판결이 떨어지면, 피고인(앱)에게 마지막 인사할 시간조차 주지 않고 뒤통수에 소음기 달린 권총(SIGKILL)을 쏴서 즉사시킨 뒤, 그가 들고 있던 빵(메모리)을 빼앗아 굶주린 시민([[022_kernel_role|커널]])에게 즉각 뿌리는 피도 눈물도 없는 사형 집행인입니다.
+- **📢 섹션 요약 비유**: [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러는 재판부(점수표)의 판결이 떨어지면, 피고인(앱)에게 마지막 인사할 시간조차 주지 않고 뒤통수에 소음기 달린 권총(SIGKILL)을 쏴서 즉사시킨 뒤, 그가 들고 있던 빵(메모리)을 빼앗아 굶주린 시민([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))에게 즉각 뿌리는 피도 눈물도 없는 사형 집행인입니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 비교 1: [[335_swapping|스와핑]]([[335_swapping|Swapping]]) vs 컴팩션([[347_compaction|Compaction]]) vs [[157_oom_killer|OOM]] Killer
+### 비교 1: [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)([Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)) vs 컴팩션([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)) vs [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer
 
 메모리가 모자랄 때 OS가 뽑아 드는 3단계 방어 무기의 한계 비교.
 
 | 방어 단계 | 방어 무기 (Mechanism) | 시스템 체감 (UX) | 한계 및 부작용 |
 |:---|:---|:---|:---|
-| **1단계 (경고)** | **[[335_swapping|Swapping]] / [[259_paging|Paging]]** (안 쓰는 놈 디스크로) | 앱 켤 때 1~2초씩 버벅거림 | 디스크 [[257_thrashing|스래싱]]([[257_thrashing|Thrashing]]) 터지면 끝남 |
-| **2단계 (위험)** | **[[370_memory_compaction|Memory Compaction]]** (램 구석으로 밀어 [[347_compaction|압축]]) | 화면이 멈추고 렉이 심하게 걸림 (STW) | 빈 공간 자체가 아예 없으면 실패함 |
-| **3단계 (사형)** | **[[157_oom_killer|OOM]] Killer** (뚱뚱한 앱 사살) | 갑자기 돌아가던 <b>게임(DB)이 팍 튕겨버림</b> | 앱의 [[001_dikw_pyramid|데이터]]가 저장 안 되고 다 날아감 ([[001_dikw_pyramid|Data]] Loss) |
+| **1단계 (경고)** | **[Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/) / [Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)** (안 쓰는 놈 디스크로) | 앱 켤 때 1~2초씩 버벅거림 | 디스크 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)) 터지면 끝남 |
+| **2단계 (위험)** | **[Memory Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/370_memory_compaction/)** (램 구석으로 밀어 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)) | 화면이 멈추고 렉이 심하게 걸림 (STW) | 빈 공간 자체가 아예 없으면 실패함 |
+| **3단계 (사형)** | **[OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer** (뚱뚱한 앱 사살) | 갑자기 돌아가던 <b>게임(DB)이 팍 튕겨버림</b> | 앱의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 저장 안 되고 다 날아감 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Loss) |
 
 ### Overcommit (초과 할당) 철학의 논쟁
 리눅스 철학의 뜨거운 감자다.
-- **Strict Overcommit (보수적)**: "물리 램 + [[390_swap_space|스왑 공간]] 이상으로는 절대 `malloc` 안 받아줘! 애초에 [[157_oom_killer|OOM]] 킬러가 뜰 일을 만들지 마!" -> 안정적이지만 램 낭비가 뼈아프다. (윈도우가 선호).
-- **[[236_a_star_heuristic_minimax_mcts_monte_carlo|Heuristic]] Overcommit (진취적, 리눅스 디폴트)**: "야, 쟤들 `malloc(1GB)` 해놓고 실제론 10MB밖에 안 쓰는 허풍쟁이들인 거 다 알아. 램 16GB여도 30GB어치 수표 팍팍 남발해서 다 받아줘! 혹시 나중에 수표 막을 돈 부족해지면? 그때 가서 [[157_oom_killer|OOM]] 킬러로 한 놈 쏴 죽이고 무마하면 돼!"
-- 리눅스는 이 야만적인 Overcommit과 [[157_oom_killer|OOM]] Killer의 콜라보 덕분에 적은 램으로도 어마어마하게 많은 컨테이너를 띄우며 클라우드 서버 생태계를 압살할 수 있었다.
+- **Strict Overcommit (보수적)**: "물리 램 + [스왑 공간](/knowledge-base/studynote/02_operating_system/07_virtual_memory/390_swap_space/) 이상으로는 절대 `malloc` 안 받아줘! 애초에 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러가 뜰 일을 만들지 마!" -> 안정적이지만 램 낭비가 뼈아프다. (윈도우가 선호).
+- **[Heuristic](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/) Overcommit (진취적, 리눅스 디폴트)**: "야, 쟤들 `malloc(1GB)` 해놓고 실제론 10MB밖에 안 쓰는 허풍쟁이들인 거 다 알아. 램 16GB여도 30GB어치 수표 팍팍 남발해서 다 받아줘! 혹시 나중에 수표 막을 돈 부족해지면? 그때 가서 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러로 한 놈 쏴 죽이고 무마하면 돼!"
+- 리눅스는 이 야만적인 Overcommit과 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer의 콜라보 덕분에 적은 램으로도 어마어마하게 많은 컨테이너를 띄우며 클라우드 서버 생태계를 압살할 수 있었다.
 
 ```text
 ┌──────────┬────────────┬────────────┬──────────────────────────────────────────────┐
@@ -109,29 +113,29 @@ tags:
 │ 활성화 (1) │ 30GB 이상 뻥튀기│ 가끔 탕! 쏘고 감 (야생)│ **최상 (클라우드 최적화)**│
 └──────────┴────────────┴────────────┴──────────────────────────────────────────────┘
 ```
-**[매트릭스 해설]** [[157_oom_killer|OOM]] 킬러는 리눅스가 무능해서 만든 에러 코드가 아니다. 오히려 리눅스가 램 자본주의를 극한으로 쥐어짜기(Overcommit) 위해 의도적으로 배치해 둔 '폭력적인 시장 조정자'에 가깝다. 이 살생부가 있기에 리눅스 [[022_kernel_role|커널]]은 배짱 있게 메모리 장사를 할 수 있다.
+**[매트릭스 해설]** [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러는 리눅스가 무능해서 만든 에러 코드가 아니다. 오히려 리눅스가 램 자본주의를 극한으로 쥐어짜기(Overcommit) 위해 의도적으로 배치해 둔 '폭력적인 시장 조정자'에 가깝다. 이 살생부가 있기에 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 배짱 있게 메모리 장사를 할 수 있다.
 
-- **📢 섹션 요약 비유**: 비행기 표 100장을 팔 때, 취소표를 예상하고 110장(Overcommit)을 파는 짓과 같습니다. 110명이 다 공항에 오면 자리가 없어 폭동(패닉)이 날 텐데, 이때 공항 경찰([[157_oom_killer|OOM]] Killer)을 불러서 가장 덩치 큰 10명을 강제로 질질 끌어내 비행기 밖으로 내쫓아버리고 이륙을 감행하는 것이 리눅스 항공사의 영업 비결입니다.
+- **📢 섹션 요약 비유**: 비행기 표 100장을 팔 때, 취소표를 예상하고 110장(Overcommit)을 파는 짓과 같습니다. 110명이 다 공항에 오면 자리가 없어 폭동(패닉)이 날 텐데, 이때 공항 경찰([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer)을 불러서 가장 덩치 큰 10명을 강제로 질질 끌어내 비행기 밖으로 내쫓아버리고 이륙을 감행하는 것이 리눅스 항공사의 영업 비결입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오: `oom_score_adj` 로 면책 특권(방탄조끼) 부여하기
-1. **문제의 발단**: 회사 수익을 100% 담당하는 **오라클 [[002_database_definition|데이터베이스]](DB)**가 돌아가는 서버에 [[568_logs_distributed_logging_elk_fluentd|로그]]를 파싱하는 별도 앱을 띄웠다. DB는 당연히 램을 제일 많이 쳐먹고(15GB) 있으니 [[157_oom_killer|OOM]] 점수 1등이다. [[568_logs_distributed_logging_elk_fluentd|로그]] 앱이 실수로 램을 다 긁어먹는 순간, [[157_oom_killer|OOM]] 킬러가 튀어나와 1초의 망설임도 없이 회사 매출의 심장인 오라클 DB의 머리에 총을 쏴서 죽여버렸다. (엔지니어 사유서 제출).
+1. **문제의 발단**: 회사 수익을 100% 담당하는 **오라클 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(DB)**가 돌아가는 서버에 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 파싱하는 별도 앱을 띄웠다. DB는 당연히 램을 제일 많이 쳐먹고(15GB) 있으니 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 점수 1등이다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 앱이 실수로 램을 다 긁어먹는 순간, [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러가 튀어나와 1초의 망설임도 없이 회사 매출의 심장인 오라클 DB의 머리에 총을 쏴서 죽여버렸다. (엔지니어 사유서 제출).
 2. **방탄조끼 튜닝 (`oom_score_adj`)**:
    - 실력 있는 백엔드 엔지니어는 DB 서버를 켤 때 시스템 설정에 방탄조끼를 입힌다.
    - 프로세스 고유의 살생부 가중치인 `/proc/<pid>/oom_score_adj` 파일에 들어가서 **`-1000` (면책 특권 수치)**을 박아 넣는다.
-   - 이 수치가 `-1000`이 되면 [[022_kernel_role|커널]]의 살생부 점수 계산식에서 무조건 음수나 0점이 되어, **"아무리 뚱뚱하고 램을 다 쳐먹어도 [[157_oom_killer|OOM]] 킬러가 절대 쏘지 않는 영구 까임 방지권"**을 획득하게 된다.
-3. **결과**: 나중에 램이 폭발해도, [[157_oom_killer|OOM]] 킬러는 오라클 DB는 건드리지 못하고 옆에서 찌질거리던 [[568_logs_distributed_logging_elk_fluentd|로그]] 파싱 앱(점수 2등)의 머리통을 날려버린다. 핵심 서비스는 살아남고 보조 서비스만 죽는 완벽한 장애 통제(Graceful Degradation)가 완성된다.
+   - 이 수치가 `-1000`이 되면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 살생부 점수 계산식에서 무조건 음수나 0점이 되어, **"아무리 뚱뚱하고 램을 다 쳐먹어도 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러가 절대 쏘지 않는 영구 까임 방지권"**을 획득하게 된다.
+3. **결과**: 나중에 램이 폭발해도, [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러는 오라클 DB는 건드리지 못하고 옆에서 찌질거리던 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 파싱 앱(점수 2등)의 머리통을 날려버린다. 핵심 서비스는 살아남고 보조 서비스만 죽는 완벽한 장애 통제(Graceful Degradation)가 완성된다.
 
-### K8s ([[205_kubernetes_container_orchestration|Kubernetes]])의 [[388_qos_quality_of_service_best_effort_intserv_diffserv|QoS]] 클래스와 [[157_oom_killer|OOM]]
-[[196_kubernetes_k8s_container_orchestration|쿠버네티스]]는 컨테이너를 띄울 때 [[085_pod_kubernetes_container_unit|파드]]([[198_pod_kubernetes_minimum_deployment_unit|Pod]])에 3가지 계급([[388_qos_quality_of_service_best_effort_intserv_diffserv|QoS]])을 부여하며, 이 계급이 곧 [[157_oom_killer|OOM]] 킬러의 1순위 타겟 지표가 된다.
-- **Guaranteed (귀족)**: Request와 Limit 램 용량이 정확히 같게 깐깐하게 세팅된 [[085_pod_kubernetes_container_unit|파드]]. `oom_score_adj`가 낮게 설정되어 절대 안 죽음.
-- **Burstable (평민)**: Request보다 Limit을 높게 잡아 뻥카를 친 [[085_pod_kubernetes_container_unit|파드]]. 위험할 때 죽을 수 있음.
-- **BestEffort (천민)**: 램 세팅을 아예 안 하고 띄운 [[085_pod_kubernetes_container_unit|파드]]. [[157_oom_killer|OOM]] 터지면 0순위로 모가지가 썰려 나가는 희생양이다. K8s의 오케스트레이션은 이 [[157_oom_killer|OOM]] 킬러 점수를 뒤에서 조작하는 거대한 인형극이다.
+### K8s ([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/))의 [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 클래스와 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)
+[쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)는 컨테이너를 띄울 때 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))에 3가지 계급([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/))을 부여하며, 이 계급이 곧 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러의 1순위 타겟 지표가 된다.
+- **Guaranteed (귀족)**: Request와 Limit 램 용량이 정확히 같게 깐깐하게 세팅된 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/). `oom_score_adj`가 낮게 설정되어 절대 안 죽음.
+- **Burstable (평민)**: Request보다 Limit을 높게 잡아 뻥카를 친 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/). 위험할 때 죽을 수 있음.
+- **BestEffort (천민)**: 램 세팅을 아예 안 하고 띄운 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/). [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 터지면 0순위로 모가지가 썰려 나가는 희생양이다. K8s의 오케스트레이션은 이 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러 점수를 뒤에서 조작하는 거대한 인형극이다.
 
-- **📢 섹션 요약 비유**: 왕([[022_kernel_role|커널]])이 식량이 모자라 백성을 죽여 식량을 아끼려 할 때([[157_oom_killer|OOM]]), 똑똑한 귀족(DB 엔지니어)은 미리 왕에게 뇌물을 줘서(oom_score_adj=-1000) 자기 가문을 살생부에서 완벽히 파내고, 아무 빽도 없는 가난한 평민([[568_logs_distributed_logging_elk_fluentd|로그]] 수집기)들만 무참히 학살당하게 만드는 철저한 권력 다툼의 현장입니다.
+- **📢 섹션 요약 비유**: 왕([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))이 식량이 모자라 백성을 죽여 식량을 아끼려 할 때([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)), 똑똑한 귀족(DB 엔지니어)은 미리 왕에게 뇌물을 줘서(oom_score_adj=-1000) 자기 가문을 살생부에서 완벽히 파내고, 아무 빽도 없는 가난한 평민([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 수집기)들만 무참히 학살당하게 만드는 철저한 권력 다툼의 현장입니다.
 
 ---
 
@@ -141,15 +145,15 @@ tags:
 
 | 구분 | 내용 |
 |:---|:---|
-| **[[036_kernel_panic|커널 패닉]]([[036_kernel_panic|Kernel Panic]]) 원천 차단**| 램 잔고 0원이라는 최악의 [[281_deadlock_definition|교착 상태]]([[281_deadlock_definition|Deadlock]])에서 프로세스 1개를 쳐냄으로써, 서버 전체가 먹통 되어 강제 리부팅하는 사태를 방지 |
-| **Overcommit (초과 할당) 아키텍처 성립**| [[157_oom_killer|OOM]] 킬러라는 든든한 뒤처리꾼이 존재하기에, OS가 마음껏 뻥튀기 [[381_virtual_memory|가상 메모리]]를 팔아 서버 [[673_multiprogramming_bottleneck_resource|다중 프로그래밍]] 스루풋을 극대화 |
-| **[[532_microservices_decomposition_patterns|마이크로서비스]]([[619_msa_traffic_hardware|MSA]]) 우선순위 통제** | [[196_kubernetes_k8s_container_orchestration|쿠버네티스]] 환경에서 QoS와 `oom_score_adj` 튜닝을 통해, 죽어도 되는 컨테이너와 살려야 할 컨테이너의 생사를 클라우드 설계자가 완벽하게 통제 |
+| **[커널 패닉](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/)([Kernel Panic](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/)) 원천 차단**| 램 잔고 0원이라는 최악의 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))에서 프로세스 1개를 쳐냄으로써, 서버 전체가 먹통 되어 강제 리부팅하는 사태를 방지 |
+| **Overcommit (초과 할당) 아키텍처 성립**| [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러라는 든든한 뒤처리꾼이 존재하기에, OS가 마음껏 뻥튀기 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)를 팔아 서버 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 스루풋을 극대화 |
+| **[마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 우선순위 통제** | [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 환경에서 QoS와 `oom_score_adj` 튜닝을 통해, 죽어도 되는 컨테이너와 살려야 할 컨테이너의 생사를 클라우드 설계자가 완벽하게 통제 |
 
 ### 결론 및 미래 전망
 
-[[157_oom_killer|OOM]] Killer (Out-of-Memory Killer)는 "[[381_virtual_memory|가상 메모리]]의 환상이 물리적 현실의 벽에 부딪혔을 때, 운영체제가 보여줄 수 있는 가장 폭력적이고도 이성적인 구조조정"이다. 초보 개발자들에게는 내 코드를 알림도 없이 찢어 죽이는 공포의 대상이지만, 베테랑 시스템 엔지니어에게는 이 킬러의 총구를 누구에게 돌릴지(oom_score_adj) 세팅함으로써 시스템의 코어를 지켜내는 고도화된 스케줄링의 체스판이 된다. 클라우드와 [[063_docker_architecture|도커]]([[063_docker_architecture|Docker]])의 시대가 도래하며 단일 서버가 수백 개의 앱을 품는 오버커밋(Overcommit)이 당연해짐에 따라, 이 살생부 데몬의 역할은 단순한 오류 처리기를 넘어 [[532_microservices_decomposition_patterns|마이크로서비스]] 생태계의 숲을 가꾸는 '산불(자연 도태)'과 같은 필수 불가결한 정화 시스템으로 영원히 작동할 것이다.
+[OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer (Out-of-Memory Killer)는 "[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 환상이 물리적 현실의 벽에 부딪혔을 때, 운영체제가 보여줄 수 있는 가장 폭력적이고도 이성적인 구조조정"이다. 초보 개발자들에게는 내 코드를 알림도 없이 찢어 죽이는 공포의 대상이지만, 베테랑 시스템 엔지니어에게는 이 킬러의 총구를 누구에게 돌릴지(oom_score_adj) 세팅함으로써 시스템의 코어를 지켜내는 고도화된 스케줄링의 체스판이 된다. 클라우드와 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))의 시대가 도래하며 단일 서버가 수백 개의 앱을 품는 오버커밋(Overcommit)이 당연해짐에 따라, 이 살생부 데몬의 역할은 단순한 오류 처리기를 넘어 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 생태계의 숲을 가꾸는 '산불(자연 도태)'과 같은 필수 불가결한 정화 시스템으로 영원히 작동할 것이다.
 
-- **📢 섹션 요약 비유**: 기차(서버)가 산비탈을 올라가는데 엔진 힘(램)이 모자라 뒤로 미끄러져 낭떠러지로 떨어질 위기([[036_kernel_panic|커널 패닉]])입니다. 이때 차장([[157_oom_killer|OOM]] 킬러)이 화물칸으로 달려가 제일 무거운 황금 금고(가장 뚱뚱한 프로세스) 하나를 냅다 밖으로 발로 차버립니다. 황금은 잃었지만([[001_dikw_pyramid|데이터]] 손실) 가벼워진 기차는 무사히 언덕을 넘어 수백 명의 승객(시스템 전체)을 살려냅니다. 이것이 OS가 택한 대의를 위한 소수의 희생입니다.
+- **📢 섹션 요약 비유**: 기차(서버)가 산비탈을 올라가는데 엔진 힘(램)이 모자라 뒤로 미끄러져 낭떠러지로 떨어질 위기([커널 패닉](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/))입니다. 이때 차장([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러)이 화물칸으로 달려가 제일 무거운 황금 금고(가장 뚱뚱한 프로세스) 하나를 냅다 밖으로 발로 차버립니다. 황금은 잃었지만([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실) 가벼워진 기차는 무사히 언덕을 넘어 수백 명의 승객(시스템 전체)을 살려냅니다. 이것이 OS가 택한 대의를 위한 소수의 희생입니다.
 
 ---
 
@@ -157,10 +161,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[423_large_page_performance|대형 페이지]] (Large [[286_page_frame|Page]] / Transparent Hugepage)의 [[381_virtual_memory|가상 메모리]] [[282_performance_tactics|성능]] 이점 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| ZRAM / [[022_kernel_role|커널]] 스왑 [[347_compaction|압축]] 기술 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [[377_numa_allocation|NUMA]] 환경의 [[381_virtual_memory|가상 메모리]] 스케줄링 ([[377_numa_allocation|NUMA]] 노드 별 [[286_page_frame|페이지]] 할당 / numactl) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| 캐시 친화적 [[381_virtual_memory|가상 메모리]] 관리 배치 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [대형 페이지](/knowledge-base/studynote/02_operating_system/07_virtual_memory/423_large_page_performance/) (Large [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) / Transparent Hugepage)의 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 이점 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| ZRAM / [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스왑 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 기술 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 환경의 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 스케줄링 ([NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 노드 별 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 할당 / numactl) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| 캐시 친화적 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 관리 배치 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -174,13 +178,13 @@ tags:
     └──▶ [캐시 친화적 가상 메모리 관리 배치]
 ```
 
-이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [[347_compaction|압축]]해 보여준다.
+이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [[157_oom_killer|OOM]] Killer (Out-of-Memory) 작동 우선순위 점수 (oom_score) 매커니즘은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
-2. 먼저 ZRAM / [[022_kernel_role|커널]] 스왑 [[347_compaction|압축]] 기술을 이해하면 [[157_oom_killer|OOM]] Killer (Out-of-Memory) 작동 우선순위 점수 (oom_score) 매커니즘이 왜 필요한지 더 쉽게 보여요.
-3. 그래서 [[157_oom_killer|OOM]] Killer (Out-of-Memory) 작동 우선순위 점수 (oom_score) 매커니즘을 잘 알면 나중에 [[377_numa_allocation|NUMA]] 환경의 [[381_virtual_memory|가상 메모리]] 스케줄링 ([[377_numa_allocation|NUMA]] 노드 별 [[286_page_frame|페이지]] 할당 / numactl)도 훨씬 쉽게 배울 수 있어요.
+1. [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer (Out-of-Memory) 작동 우선순위 점수 (oom_score) 매커니즘은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
+2. 먼저 ZRAM / [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스왑 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 기술을 이해하면 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer (Out-of-Memory) 작동 우선순위 점수 (oom_score) 매커니즘이 왜 필요한지 더 쉽게 보여요.
+3. 그래서 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer (Out-of-Memory) 작동 우선순위 점수 (oom_score) 매커니즘을 잘 알면 나중에 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 환경의 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 스케줄링 ([NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 노드 별 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 할당 / numactl)도 훨씬 쉽게 배울 수 있어요.
 
 ---
 
@@ -188,7 +192,7 @@ tags:
 
 **진행 상황**: 425 / 800
 
-← **이전**: [[424_zram_swap_compression|424. ZRAM / 커널 스왑 압축 기술 (Zram Swap Compression)]]
-**다음**: [[426_numa_virtual_memory_scheduling|426. NUMA 환경의 가상 메모리 스케줄링 (NUMA 노드 별 페이지 할당 / numactl)]] →
+← **이전**: [424. ZRAM / 커널 스왑 압축 기술 (Zram Swap Compression)](/knowledge-base/studynote/02_operating_system/07_virtual_memory/424_zram_swap_compression/)
+**다음**: [426. NUMA 환경의 가상 메모리 스케줄링 (NUMA 노드 별 페이지 할당 / numactl)](/knowledge-base/studynote/02_operating_system/07_virtual_memory/426_numa_virtual_memory_scheduling/) →
 
 ---

@@ -1,14 +1,18 @@
----
-title: 048. 일관 해싱 — Consistent Hashing & Ring
-date: '2026-04-05'
-tags:
-- studynote-data-engineering
----
++++
+title = "048. 일관 해싱 — Consistent Hashing & Ring"
+date = 2026-04-05
+
+[taxonomies]
+tags = ["studynote-data-engineering"]
+
+[extra]
+tags = ["studynote-data-engineering"]
++++
 
 > **핵심 인사이트**
-> 1. 일관 해싱([[244_consistent_hashing_ring_distribution|Consistent Hashing]])은 노드 추가/제거 시 최소한의 키 재배치만 발생하도록 설계된 해싱 기법 — 전통적인 모듈러 해싱([[067_db_key_uniqueness_minimality|key]] % N)은 노드 수 N이 변하면 거의 모든 키를 재매핑해야 하지만, 일관 해싱은 (K/N)개의 키만 이동한다.
-> 2. 링(Ring) 구조 + 가상 노드(Virtual Node)의 조합이 핵심 — 0~2^32 범위의 원형 해시 공간에 노드를 배치하고, 가상 노드를 통해 균등 [[136_variance|분산]]을 달성하는 [[541_cassandra|Cassandra]]·[[545_dynamodb|DynamoDB]]·[[542_redis|Redis]] Cluster의 근간이다.
-> 3. 핫 스팟(Hot Spot) 문제 해결이 실제 구현의 핵심 과제 — 이론적 균등 [[136_variance|분산]]과 달리 실제 [[001_dikw_pyramid|데이터]]의 접근 패턴이 불균등하여, 가상 노드 수 조정과 키 설계가 [[136_variance|분산]] 시스템 성능을 결정한다.
+> 1. 일관 해싱([Consistent Hashing](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/244_consistent_hashing_ring_distribution/))은 노드 추가/제거 시 최소한의 키 재배치만 발생하도록 설계된 해싱 기법 — 전통적인 모듈러 해싱([key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) % N)은 노드 수 N이 변하면 거의 모든 키를 재매핑해야 하지만, 일관 해싱은 (K/N)개의 키만 이동한다.
+> 2. 링(Ring) 구조 + 가상 노드(Virtual Node)의 조합이 핵심 — 0~2^32 범위의 원형 해시 공간에 노드를 배치하고, 가상 노드를 통해 균등 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 달성하는 [Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/)·[DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/)·[Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) Cluster의 근간이다.
+> 3. 핫 스팟(Hot Spot) 문제 해결이 실제 구현의 핵심 과제 — 이론적 균등 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)과 달리 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 접근 패턴이 불균등하여, 가상 노드 수 조정과 키 설계가 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 성능을 결정한다.
 
 ---
 
@@ -46,7 +50,7 @@ tags:
   예: 10만 키, 10노드 → 1만 키만 이동
 ```
 
-> 📢 **섹션 요약 비유**: 전통 해싱 문제 = 사물함 번호 규칙 변경 — 사물함 10개일 때 학번 % [[489_raid_10_hybrid|10]]. 사물함 11개 추가 시 학번 % 11로 변경 → 90%가 새 사물함으로 이사. 일관 해싱은 [[489_raid_10_hybrid|10]]%만 이사!
+> 📢 **섹션 요약 비유**: 전통 해싱 문제 = 사물함 번호 규칙 변경 — 사물함 10개일 때 학번 % [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). 사물함 11개 추가 시 학번 % 11로 변경 → 90%가 새 사물함으로 이사. 일관 해싱은 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%만 이사!
 
 ---
 
@@ -140,7 +144,7 @@ tags:
   토큰 관리 복잡
 ```
 
-> 📢 **섹션 요약 비유**: 가상 노드 = 순환 근무 배치 — 직원 3명(A,B,C)이 12시간 중 8시간씩 겹치면 불균등. 대신 4교대(가상 노드)로 나눠 배치하면 균등하게 [[136_variance|분산]]!
+> 📢 **섹션 요약 비유**: 가상 노드 = 순환 근무 배치 — 직원 3명(A,B,C)이 12시간 중 8시간씩 겹치면 불균등. 대신 4교대(가상 노드)로 나눠 배치하면 균등하게 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)!
 
 ---
 
@@ -207,7 +211,7 @@ Redis Cluster:
           return int(hashlib.md5(key.encode()).hexdigest(), 16)
 ```
 
-> 📢 **섹션 요약 비유**: [[542_redis|Redis]] Cluster = 16384 사물함 링 — 16384개 슬롯을 노드에 나눠서. 노드 추가 시 일부 슬롯만 이동(온라인 리샤딩). 전체 [[001_dikw_pyramid|데이터]] 이사 없이 확장!
+> 📢 **섹션 요약 비유**: [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) Cluster = 16384 사물함 링 — 16384개 슬롯을 노드에 나눠서. 노드 추가 시 일부 슬롯만 이동(온라인 리샤딩). 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이사 없이 확장!
 
 ---
 
@@ -259,7 +263,7 @@ Redis Cluster:
   전체 데이터 리배치 → 6시간+ 다운타임 필요
 ```
 
-> 📢 **섹션 요약 비유**: [[542_redis|Redis]] 무중단 확장 = 달리는 기차에 칸 추가 — 일반 해싱이면 기차 세우고 승객([[001_dikw_pyramid|데이터]]) 전원 재배치. 일관 해싱으로 달리면서 일부 승객만 새 칸으로. 무중단!
+> 📢 **섹션 요약 비유**: [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 무중단 확장 = 달리는 기차에 칸 추가 — 일반 해싱이면 기차 세우고 승객([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 전원 재배치. 일관 해싱으로 달리면서 일부 승객만 새 칸으로. 무중단!
 
 ---
 
@@ -317,9 +321,9 @@ HRW (Highest Random Weight)
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 전통 해싱 문제 = 사물함 번호 규칙 변경 — 사물함 [[489_raid_10_hybrid|10]]→11개로 늘릴 때 거의 모든 학생이 새 사물함으로 이사. 일관 해싱은 [[489_raid_10_hybrid|10]]%만!
+1. 전통 해싱 문제 = 사물함 번호 규칙 변경 — 사물함 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)→11개로 늘릴 때 거의 모든 학생이 새 사물함으로 이사. 일관 해싱은 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%만!
 2. 링 구조 = 원형 시계 사물함 — 학생이 자기 번호에서 시계 방향 첫 사물함 이용. 새 사물함 추가 시 그 구간만 이사!
-3. 가상 노드 = 4교대 균등 배치 — 사물함 3개가 불균등한 위치라면 4개씩 복사 배치. 어디서나 고르게 [[136_variance|분산]]!
+3. 가상 노드 = 4교대 균등 배치 — 사물함 3개가 불균등한 위치라면 4개씩 복사 배치. 어디서나 고르게 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)!
 
 ---
 
@@ -327,7 +331,7 @@ HRW (Highest Random Weight)
 
 **진행 상황**: 48 / 258
 
-← **이전**: [[047_compaction_and_tombstone|047. 컴팩션과 툼스톤 — Compaction & Tombstone]]
-**다음**: [[049_data_mesh_distributed_ownership|049. 데이터 메시 — Data Mesh Distributed Ownership]] →
+← **이전**: [047. 컴팩션과 툼스톤 — Compaction & Tombstone](/knowledge-base/studynote/14_data_engineering/01_infrastructure/047_compaction_and_tombstone/)
+**다음**: [049. 데이터 메시 — Data Mesh Distributed Ownership](/knowledge-base/studynote/14_data_engineering/01_infrastructure/049_data_mesh_distributed_ownership/) →
 
 ---

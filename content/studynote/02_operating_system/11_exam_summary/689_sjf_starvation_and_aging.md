@@ -1,36 +1,40 @@
----
-title: 689. SJF 기아 (Starvation) 발생
-date: '2026-05-09'
-tags:
-- studynote-operating-system
----
++++
+title = "689. SJF 기아 (Starvation) 발생"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[175_sjf_scheduling|SJF]]([[175_sjf_scheduling|Shortest Job First]]) 또는 [[177_srtf_scheduling|SRTF]](Shortest Remaining Time First) 스케줄링은 수학적으로 평균 대기 시간을 가장 짧게 만들어주는 최고의 [[001_algorithm_definition|알고리즘]]이지만, **처리 시간이 긴 프로세스는 영원히 CPU를 할당받지 못할 수 있는 치명적인 약점인 기아 현상([[314_starvation_prevention|Starvation]])**을 유발한다.
+> 1. **본질**: [SJF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/)([Shortest Job First](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/)) 또는 [SRTF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/177_srtf_scheduling/)(Shortest Remaining Time First) 스케줄링은 수학적으로 평균 대기 시간을 가장 짧게 만들어주는 최고의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이지만, **처리 시간이 긴 프로세스는 영원히 CPU를 할당받지 못할 수 있는 치명적인 약점인 기아 현상([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))**을 유발한다.
 > 2. **원인**: 시스템에 짧은 처리 시간을 가진 새로운 I/O 바운드 프로세스들이 쉴 새 없이 쏟아져 들어오면, 긴 처리 시간을 가진 CPU 바운드 프로세스는 우선순위에서 계속 밀려나 영원히 큐의 뒷자리에 머물게 되기 때문이다.
-> 3. **해결책 ([[411_aging_algorithm|에이징]], [[182_aging|Aging]])**: 이 잔인한 차별을 막기 위해, 기다린 시간이 길어질수록 나이(Age)를 먹게 하여 **시간이 지남에 따라 프로세스의 우선순위를 점진적으로 높여주는 [[411_aging_algorithm|에이징]]([[182_aging|Aging]]) 기법**을 필수적으로 결합해야만 시스템이 정상적으로 돌아간다.
+> 3. **해결책 ([에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/), [Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/))**: 이 잔인한 차별을 막기 위해, 기다린 시간이 길어질수록 나이(Age)를 먹게 하여 **시간이 지남에 따라 프로세스의 우선순위를 점진적으로 높여주는 [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/)) 기법**을 필수적으로 결합해야만 시스템이 정상적으로 돌아간다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **[[175_sjf_scheduling|SJF]] ([[175_sjf_scheduling|Shortest Job First]])**: 큐에 대기 중인 프로세스들 중에서, 앞으로 CPU를 가장 짧게 쓸 것 같은 프로세스에게 먼저 CPU를 주는 스케줄링 방식.
-  - **기아 ([[314_starvation_prevention|Starvation]])**: 특정 프로세스가 스케줄링 정책에 의해 우선순위가 계속 밀려나, 시스템이 정상적으로 돌아가고 있음에도 불구하고 영원히 자원(CPU)을 할당받지 못하는 상태.
+  - **[SJF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/) ([Shortest Job First](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/))**: 큐에 대기 중인 프로세스들 중에서, 앞으로 CPU를 가장 짧게 쓸 것 같은 프로세스에게 먼저 CPU를 주는 스케줄링 방식.
+  - **기아 ([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))**: 특정 프로세스가 스케줄링 정책에 의해 우선순위가 계속 밀려나, 시스템이 정상적으로 돌아가고 있음에도 불구하고 영원히 자원(CPU)을 할당받지 못하는 상태.
 
 - **필요성 (효율성의 무서운 그림자)**: 
-  - FCFS의 [[174_convoy_effect|호위 효과]]([[174_convoy_effect|Convoy Effect]])를 겪은 공학자들은, "가장 짧은 작업부터 먼저 처리하면 전체 평균 대기 시간이 수학적으로 최소가 된다"는 완벽한 공식을 찾아내어 SJF를 만들었다.
+  - FCFS의 [호위 효과](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/174_convoy_effect/)([Convoy Effect](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/174_convoy_effect/))를 겪은 공학자들은, "가장 짧은 작업부터 먼저 처리하면 전체 평균 대기 시간이 수학적으로 최소가 된다"는 완벽한 공식을 찾아내어 SJF를 만들었다.
   - 하지만 이 극단적인 효율성 추구는 '소수자(긴 프로세스)의 희생'을 낳았다. 1분짜리 작업이 1시간짜리 작업보다 무조건 먼저 실행되는데, 1분짜리 작업이 무한히 들어오면 1시간짜리 작업은 컴퓨터가 꺼질 때까지 실행되지 않았다.
-  - **해결책**: "아무리 느리고 큰 작업이라도 언젠가는 실행되게 보장해야 한다"는 공정성(Fairness)의 원칙을 세우고, 이를 해결할 보완 장치([[182_aging|Aging]])가 필요해졌다.
+  - **해결책**: "아무리 느리고 큰 작업이라도 언젠가는 실행되게 보장해야 한다"는 공정성(Fairness)의 원칙을 세우고, 이를 해결할 보완 장치([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/))가 필요해졌다.
 
-  - **[[175_sjf_scheduling|SJF]] 스케줄링**: 응급실에서 가벼운 찰과상 환자(짧은 작업)부터 먼저 밴드를 붙여서 빨리빨리 집에 돌려보내는 방식. 의사 1명이 100명을 가장 빨리 치료하는 방법이다.
-  - **기아 ([[314_starvation_prevention|Starvation]]) 발생**: 암 수술 환자(긴 작업)가 대기하고 있는데, 밖에서 찰과상 환자들이 1분에 한 명씩 계속 들어온다. 의사는 무조건 찰과상부터 치료하므로, 암 수술 환자는 응급실 구석에서 영원히 수술을 받지 못하고 굶어 죽는다(기아).
+  - **[SJF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/) 스케줄링**: 응급실에서 가벼운 찰과상 환자(짧은 작업)부터 먼저 밴드를 붙여서 빨리빨리 집에 돌려보내는 방식. 의사 1명이 100명을 가장 빨리 치료하는 방법이다.
+  - **기아 ([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) 발생**: 암 수술 환자(긴 작업)가 대기하고 있는데, 밖에서 찰과상 환자들이 1분에 한 명씩 계속 들어온다. 의사는 무조건 찰과상부터 치료하므로, 암 수술 환자는 응급실 구석에서 영원히 수술을 받지 못하고 굶어 죽는다(기아).
 
 - **발전 과정**:
-  1. **SJF의 수학적 증명**: 평균 대기 시간 최소화의 최적 [[001_algorithm_definition|알고리즘]]으로 학계에서 추앙받음.
-  2. **기아 현상 ([[314_starvation_prevention|Starvation]])의 대두**: 실제 시스템 도입 시 긴 작업이 멈춰버리는 데드락과 유사한 무한 대기 현상 발견.
-  3. **[[182_aging|Aging]] 기법의 결합**: 기다린 시간만큼 우선순위에 가산점을 주어, 결국엔 가장 짧은 작업보다 우선순위가 높아지게 만드는 [[187_hrn_scheduling|HRN]](Highest Response-ratio Next) [[001_algorithm_definition|알고리즘]] 등으로 발전.
+  1. **SJF의 수학적 증명**: 평균 대기 시간 최소화의 최적 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 학계에서 추앙받음.
+  2. **기아 현상 ([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))의 대두**: 실제 시스템 도입 시 긴 작업이 멈춰버리는 데드락과 유사한 무한 대기 현상 발견.
+  3. **[Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/) 기법의 결합**: 기다린 시간만큼 우선순위에 가산점을 주어, 결국엔 가장 짧은 작업보다 우선순위가 높아지게 만드는 [HRN](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/187_hrn_scheduling/)(Highest Response-ratio Next) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 등으로 발전.
 
 - **📢 섹션 요약 비유**: "가장 빨리 끝나는 일부터 하자"는 가장 합리적인 업무 방식 같지만, 새로운 잔업이 계속 쌓이는 회사에서는 영원히 하기 싫은 큰 프로젝트 하나를 서랍 속에 묵혀두다 결국 파국을 맞게 되는 직장인의 딜레마와 같습니다.
 
@@ -38,9 +42,9 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 기아 현상([[314_starvation_prevention|Starvation]]) 시뮬레이션
+### 기아 현상([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) 시뮬레이션
 
-선점형 [[175_sjf_scheduling|SJF]](즉, [[177_srtf_scheduling|SRTF]]) 환경에서 기아가 어떻게 수학적으로 영원히 굳어지는지 확인해 본다.
+선점형 [SJF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/)(즉, [SRTF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/177_srtf_scheduling/)) 환경에서 기아가 어떻게 수학적으로 영원히 굳어지는지 확인해 본다.
 
 ```text
   ┌───────────────────────────────────────────────────────────────────┐
@@ -64,42 +68,42 @@ tags:
   └───────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 기아 현상은 컴퓨터가 멈춘 것([[281_deadlock_definition|Deadlock]])이 아니다. 컴퓨터는 매우 활발하게 5분짜리 프로그램들을 쳐내며 역동적으로 돌아가고 있다. 단지 10시간짜리 프로그램 한 놈만 영원히 배제당하고 있을 뿐이다. SJF는 '시스템 전체의 효율'이라는 거시적 목표를 위해 '개별 프로세스의 권리'를 잔인하게 묵살하는 [[001_algorithm_definition|알고리즘]]이다.
+**[다이어그램 해설]** 기아 현상은 컴퓨터가 멈춘 것([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))이 아니다. 컴퓨터는 매우 활발하게 5분짜리 프로그램들을 쳐내며 역동적으로 돌아가고 있다. 단지 10시간짜리 프로그램 한 놈만 영원히 배제당하고 있을 뿐이다. SJF는 '시스템 전체의 효율'이라는 거시적 목표를 위해 '개별 프로세스의 권리'를 잔인하게 묵살하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 
 ---
 
-### 구원 투수: [[411_aging_algorithm|에이징]] ([[182_aging|Aging]]) 기법
+### 구원 투수: [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/) ([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/)) 기법
 
-[[411_aging_algorithm|에이징]]은 나이를 먹는다는 뜻이다. 큐에서 1분을 기다릴 때마다, 긴 프로세스라도 그 '남은 요구 시간(또는 우선순위)'을 수학적으로 깎아주어, 언젠가는 가장 우선순위가 높게 만들어주는 마법이다.
+[에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)은 나이를 먹는다는 뜻이다. 큐에서 1분을 기다릴 때마다, 긴 프로세스라도 그 '남은 요구 시간(또는 우선순위)'을 수학적으로 깎아주어, 언젠가는 가장 우선순위가 높게 만들어주는 마법이다.
 
 - **동작 원리**: 
   - 기본 우선순위(P) = `CPU 요구 시간` (작을수록 높음)
-  - [[411_aging_algorithm|에이징]] 적용 후 우선순위(P') = `CPU 요구 시간` - `(대기 시간 * 가중치)`
-- **결과**: 아무리 CPU를 100시간 써야 하는 괴물 프로세스라도, 큐에서 10일을 기다리면 나이([[411_aging_algorithm|에이징]] 점수)를 엄청나게 먹어서, 방금 들어온 1분짜리 프로세스보다 우선순위 점수가 높아진다. 결국 CPU를 무조건 차지하게 된다.
+  - [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/) 적용 후 우선순위(P') = `CPU 요구 시간` - `(대기 시간 * 가중치)`
+- **결과**: 아무리 CPU를 100시간 써야 하는 괴물 프로세스라도, 큐에서 10일을 기다리면 나이([에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/) 점수)를 엄청나게 먹어서, 방금 들어온 1분짜리 프로세스보다 우선순위 점수가 높아진다. 결국 CPU를 무조건 차지하게 된다.
 
-- **📢 섹션 요약 비유**: 은행 창구에서 VIP 손님(짧은 작업)을 계속 먼저 처리해 주더라도, 일반 손님(긴 작업)이 3시간 넘게 기다렸다면 VIP를 제치고 지점장이 직접 모시고 가는 것([[182_aging|Aging]])이 고객이 폭동을 안 일으키게 하는 최소한의 상도덕입니다.
+- **📢 섹션 요약 비유**: 은행 창구에서 VIP 손님(짧은 작업)을 계속 먼저 처리해 주더라도, 일반 손님(긴 작업)이 3시간 넘게 기다렸다면 VIP를 제치고 지점장이 직접 모시고 가는 것([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/))이 고객이 폭동을 안 일으키게 하는 최소한의 상도덕입니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### [[281_deadlock_definition|교착 상태]]([[281_deadlock_definition|Deadlock]]) vs [[314_starvation_prevention|기아 상태]]([[314_starvation_prevention|Starvation]])
+### [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)) vs [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))
 
 둘 다 프로그램이 멈춰있는 현상이지만, 원인과 상태가 완전히 다르다.
 
-| 비교 항목 | [[281_deadlock_definition|교착 상태]] ([[281_deadlock_definition|Deadlock]]) | [[314_starvation_prevention|기아 상태]] ([[314_starvation_prevention|Starvation]]) |
+| 비교 항목 | [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) ([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)) | [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) ([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) |
 |:---|:---|:---|
 | **근본 원인** | 서로가 서로의 자원(락)을 물고 놓지 않음 | 스케줄링의 우선순위 로직에 의해 지속적 배제됨 |
 | **시스템 상태** | 프로세스들끼리 엉켜서 100% 멈춤 (Freeze) | 시스템은 다른 애들을 처리하며 **멀쩡히 잘 돎** |
 | **자원 상황** | 자원을 다른 놈도 못 씀 (꽉 막힘) | 자원을 다른 놈들이 쉴 새 없이 쓰고 있음 |
-| **해결 방법** | 사이클 끊기, 강제 종료 ([[313_rollback|Rollback]]) | **[[182_aging|Aging]] 기법**, 큐의 [[178_round_robin_scheduling|라운드 로빈]]([[834_load_balancing_algorithm_round_robin_least_connection|RR]]) 혼합 |
+| **해결 방법** | 사이클 끊기, 강제 종료 ([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/)) | **[Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/) 기법**, 큐의 [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/)([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/)) 혼합 |
 
 ### 과목 융합 관점
 
-- **자료구조 / [[001_algorithm_definition|알고리즘]]**: SJF를 구현하려면 프로세스가 들어올 때마다 남은 시간을 기준으로 계속 정렬(Sorting)을 해야 한다. 이를 위해 $O(log N)$의 삽입/삭제 속도를 보장하는 **최소 힙(Min [[078_heap_datastructure|Heap]]) 기반의 [[083_priority_queue|우선순위 큐]]([[083_priority_queue|Priority Queue]])**가 OS [[079_kube_scheduler_pod_placement|스케줄러]]의 핵심 자료구조로 쓰인다. [[411_aging_algorithm|에이징]]이 들어가면 힙을 주기적으로 다시 정렬(Heapify)해야 하는 오버헤드가 추가된다.
-- **[[241_machine_learning_basics|머신러닝]] / 예측 (Prediction)**: SJF의 가장 큰 문제점은 "이 프로그램이 끝나는 데 몇 초가 걸릴지" OS가 미래를 알 수 없다는 것이다. (Halting Problem). 따라서 과거의 CPU 점유 시간 패턴을 바탕으로 **지수 이동 평균(Exponential Moving Average, EMA)**을 내어 미래의 CPU Burst를 '예측(Prediction)'하는 수학적 기법이 반드시 동반된다.
+- **자료구조 / [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**: SJF를 구현하려면 프로세스가 들어올 때마다 남은 시간을 기준으로 계속 정렬(Sorting)을 해야 한다. 이를 위해 $O(log N)$의 삽입/삭제 속도를 보장하는 **최소 힙(Min [Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 기반의 [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/)([Priority Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/))**가 OS [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 핵심 자료구조로 쓰인다. [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)이 들어가면 힙을 주기적으로 다시 정렬(Heapify)해야 하는 오버헤드가 추가된다.
+- **[머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) / 예측 (Prediction)**: SJF의 가장 큰 문제점은 "이 프로그램이 끝나는 데 몇 초가 걸릴지" OS가 미래를 알 수 없다는 것이다. (Halting Problem). 따라서 과거의 CPU 점유 시간 패턴을 바탕으로 **지수 이동 평균(Exponential Moving Average, EMA)**을 내어 미래의 CPU Burst를 '예측(Prediction)'하는 수학적 기법이 반드시 동반된다.
 
-- **📢 섹션 요약 비유**: [[281_deadlock_definition|교착 상태]](데드락)는 네거리에서 차 4대가 꼬리물기를 해서 도로 전체가 마비된 끔찍한 교통체증이고, 기아(스타베이션)는 고속도로 톨게이트 하이패스 차로 옆에서, 현금 결제 차로에 선 덤프트럭 1대만 진입을 못 하고 서 있는 안타까운 상황입니다.
+- **📢 섹션 요약 비유**: [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)(데드락)는 네거리에서 차 4대가 꼬리물기를 해서 도로 전체가 마비된 끔찍한 교통체증이고, 기아(스타베이션)는 고속도로 톨게이트 하이패스 차로 옆에서, 현금 결제 차로에 선 덤프트럭 1대만 진입을 못 하고 서 있는 안타까운 상황입니다.
 
 ---
 
@@ -107,13 +111,13 @@ tags:
 
 ### 실무 시나리오
 
-1. **시나리오 — [[002_database_definition|데이터베이스]]([[502_dbms|DBMS]])의 락([[510_lock|Lock]]) 스케줄링과 기아 현상**: MySQL에서 수천 명의 사용자가 게시판 글을 읽고 있다(Shared [[510_lock|Lock]] / Reader). 이때 한 명의 관리자가 글을 수정하려고 (Exclusive [[510_lock|Lock]] / Writer) 대기 줄에 섰다.
-   - **원인 분석**: 시스템이 전체 [[139_throughput|처리량]]([[139_throughput|Throughput]])을 높이기 위해 "읽기(Reader) 우선 스케줄링"을 적용했다. 읽기 작업은 서로 충돌하지 않으니 동시에 처리할 수 있어 효율이 좋기 때문이다. 그런데 읽으려는 사용자가 1초에 백 명씩 끝없이 들어오자, 쓰려는 관리자(Writer)는 영원히 락을 얻지 못하고 뻗어버렸다 (Reader-Writer Problem의 [[314_starvation_prevention|Starvation]]).
-   - **대응 (기술사적 가이드)**: 무지성 Reader 우선 방식을 버리고, **Writer 우선 방식(Writer Preference)**이나 **[[411_aging_algorithm|에이징]]이 결합된 대기열 큐**로 아키텍처를 변경해야 한다. 대기 큐에 Writer가 한 명이라도 들어오면, OS나 DB는 새로 들어오는 Reader들의 락 획득을 멈춰 세우고 앞선 Reader들이 끝날 때까지 기다렸다가 Writer에게 우선권을 줘야만 기아를 막을 수 있다.
+1. **시나리오 — [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)([DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/))의 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 스케줄링과 기아 현상**: MySQL에서 수천 명의 사용자가 게시판 글을 읽고 있다(Shared [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) / Reader). 이때 한 명의 관리자가 글을 수정하려고 (Exclusive [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) / Writer) 대기 줄에 섰다.
+   - **원인 분석**: 시스템이 전체 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 높이기 위해 "읽기(Reader) 우선 스케줄링"을 적용했다. 읽기 작업은 서로 충돌하지 않으니 동시에 처리할 수 있어 효율이 좋기 때문이다. 그런데 읽으려는 사용자가 1초에 백 명씩 끝없이 들어오자, 쓰려는 관리자(Writer)는 영원히 락을 얻지 못하고 뻗어버렸다 (Reader-Writer Problem의 [Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)).
+   - **대응 (기술사적 가이드)**: 무지성 Reader 우선 방식을 버리고, **Writer 우선 방식(Writer Preference)**이나 **[에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)이 결합된 대기열 큐**로 아키텍처를 변경해야 한다. 대기 큐에 Writer가 한 명이라도 들어오면, OS나 DB는 새로 들어오는 Reader들의 락 획득을 멈춰 세우고 앞선 Reader들이 끝날 때까지 기다렸다가 Writer에게 우선권을 줘야만 기아를 막을 수 있다.
 
-2. **시나리오 — AWS EC2 CPU 크레딧 고갈 (T시리즈 인스턴스)**: T3 마이크로 인스턴스를 띄워놓고 1시간 동안 풀로 CPU 연산을 돌렸더니(CPU 바운드), 갑자기 서버가 미친 듯이 느려지며 [[538_ssh_vs_telnet_secure_remote|SSH]] 접속조차 안 되는 [[314_starvation_prevention|기아 상태]]에 빠짐.
-   - **원인 분석**: 클라우드의 [[054_hypervisor|하이퍼바이저]] [[079_kube_scheduler_pod_placement|스케줄러]](Nitro)가 거대한 [[691_mlfq_multi_level_feedback_queue|다단계 피드백 큐]]([[691_mlfq_multi_level_feedback_queue|MLFQ]])를 돌리고 있다. T시리즈는 기본적으로 제한된 시간만 CPU를 쓰게 해주는 '크레딧' 방식인데, 이 크레딧을 다 소진하면 [[054_hypervisor|하이퍼바이저]] [[079_kube_scheduler_pod_placement|스케줄러]]가 내 VM의 우선순위를 강제로 최하로 떨어뜨린다. 내 VM은 클라우드의 거대한 자원 바다에서 '스타베이션(기아)'에 빠진 것이다.
-   - **아키텍처 적용**: 앱이 CPU를 길게 쓰는 성향(SJF에서 차별받는 긴 프로세스)이라면, 돈을 더 내고 `T3 Unlimited` 모드를 켜거나 처음부터 C5 같은 전용(Dedicated) 인스턴스로 이사가야 [[054_hypervisor|하이퍼바이저]] 레벨의 기아 현상을 벗어날 수 있다.
+2. **시나리오 — AWS EC2 CPU 크레딧 고갈 (T시리즈 인스턴스)**: T3 마이크로 인스턴스를 띄워놓고 1시간 동안 풀로 CPU 연산을 돌렸더니(CPU 바운드), 갑자기 서버가 미친 듯이 느려지며 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 접속조차 안 되는 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)에 빠짐.
+   - **원인 분석**: 클라우드의 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)(Nitro)가 거대한 [다단계 피드백 큐](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/)([MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/))를 돌리고 있다. T시리즈는 기본적으로 제한된 시간만 CPU를 쓰게 해주는 '크레딧' 방식인데, 이 크레딧을 다 소진하면 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 내 VM의 우선순위를 강제로 최하로 떨어뜨린다. 내 VM은 클라우드의 거대한 자원 바다에서 '스타베이션(기아)'에 빠진 것이다.
+   - **아키텍처 적용**: 앱이 CPU를 길게 쓰는 성향(SJF에서 차별받는 긴 프로세스)이라면, 돈을 더 내고 `T3 Unlimited` 모드를 켜거나 처음부터 C5 같은 전용(Dedicated) 인스턴스로 이사가야 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 레벨의 기아 현상을 벗어날 수 있다.
 
 ### 의사결정 및 튜닝 플로우
 
@@ -136,12 +140,12 @@ tags:
   └───────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** "우선순위가 높은 것을 먼저 처리한다"는 말을 들으면 아키텍트의 머릿속에는 반사적으로 **"그럼 우선순위가 낮은 놈은 굶어 죽지([[314_starvation_prevention|Starvation]]) 않을까?"**라는 의심이 들어야 한다. 시스템 설계에서 절대적인 100:0의 권력 몰아주기는 결국 데드락이나 기아라는 파국을 부른다. 80:20, 90:[[489_raid_10_hybrid|10]] 등 하위 계층에게 숨통을 틔워주는 튜닝([[267_weight_bias_activation|가중치]] 배분)이 스케줄링 설계의 마스터키다.
+**[다이어그램 해설]** "우선순위가 높은 것을 먼저 처리한다"는 말을 들으면 아키텍트의 머릿속에는 반사적으로 **"그럼 우선순위가 낮은 놈은 굶어 죽지([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) 않을까?"**라는 의심이 들어야 한다. 시스템 설계에서 절대적인 100:0의 권력 몰아주기는 결국 데드락이나 기아라는 파국을 부른다. 80:20, 90:[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 등 하위 계층에게 숨통을 틔워주는 튜닝([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 배분)이 스케줄링 설계의 마스터키다.
 
-### 도입 [[435_checklist_based_testing|체크리스트]]
-- **[[157_oom_killer|OOM]] Killer의 희생양**: 리눅스가 메모리 부족 시 프로세스를 죽이는 [[157_oom_killer|OOM]] Killer도 일종의 우선순위 스케줄링이다. 램을 많이 먹는 DB가 매번 OOM의 1순위 타겟이 되어 자꾸 억울하게 죽는다면([[157_oom_killer|OOM]] [[314_starvation_prevention|Starvation]]), DB 프로세스의 `oom_score_adj` 값을 낮춰서(면책권 부여) 생존을 보장하는 [[411_aging_algorithm|에이징]] 튜닝을 해두었는가?
+### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+- **[OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer의 희생양**: 리눅스가 메모리 부족 시 프로세스를 죽이는 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer도 일종의 우선순위 스케줄링이다. 램을 많이 먹는 DB가 매번 OOM의 1순위 타겟이 되어 자꾸 억울하게 죽는다면([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) [Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)), DB 프로세스의 `oom_score_adj` 값을 낮춰서(면책권 부여) 생존을 보장하는 [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/) 튜닝을 해두었는가?
 
-- **📢 섹션 요약 비유**: 기아 현상([[314_starvation_prevention|Starvation]])은 자본주의의 독점과 같습니다. 똑똑하고 돈 많은 사람(짧고 급한 작업)에게만 자원을 몰아주면 효율은 최고가 되지만, 빈민(긴 작업)은 다 죽습니다. [[411_aging_algorithm|에이징]]([[182_aging|Aging]])은 가난한 자도 시간이 지나면 빵을 먹을 수 있게 시스템이 강제로 분배하는 최소한의 사회적 안전망(복지)입니다.
+- **📢 섹션 요약 비유**: 기아 현상([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))은 자본주의의 독점과 같습니다. 똑똑하고 돈 많은 사람(짧고 급한 작업)에게만 자원을 몰아주면 효율은 최고가 되지만, 빈민(긴 작업)은 다 죽습니다. [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/))은 가난한 자도 시간이 지나면 빵을 먹을 수 있게 시스템이 강제로 분배하는 최소한의 사회적 안전망(복지)입니다.
 
 ---
 
@@ -149,20 +153,20 @@ tags:
 
 ### 정량/정성 기대효과
 
-| 구분 | 순수 [[175_sjf_scheduling|SJF]] / [[177_srtf_scheduling|SRTF]] 스케줄링 | [[411_aging_algorithm|에이징]]([[182_aging|Aging]]) / [[187_hrn_scheduling|HRN]] 기법 결합 | 개선 효과 |
+| 구분 | 순수 [SJF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/) / [SRTF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/177_srtf_scheduling/) 스케줄링 | [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/)) / [HRN](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/187_hrn_scheduling/) 기법 결합 | 개선 효과 |
 |:---|:---|:---|:---|
-| **정량 (평균 대기 시간)**| 수학적으로 가장 짧음 (최적) | 가장 짧진 않지만 준수함 유지 | 극단적 [[015_지연_데이터_관점|지연]]을 방지하는 보편적 최적화 |
-| **정량 (최대 대기 시간)**| 무한대 ($\infty$) 도달 위험 | **예측 가능한 상한선(Bounded) 보장**| 꼬리 [[015_지연_데이터_관점|지연]](Tail [[141_latency|Latency]], P99.9) 방어 성공 |
+| **정량 (평균 대기 시간)**| 수학적으로 가장 짧음 (최적) | 가장 짧진 않지만 준수함 유지 | 극단적 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 방지하는 보편적 최적화 |
+| **정량 (최대 대기 시간)**| 무한대 ($\infty$) 도달 위험 | **예측 가능한 상한선(Bounded) 보장**| 꼬리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Tail [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/), P99.9) 방어 성공 |
 | **정성 (공정성)** | 최악 (차별 극심) | **우수 (결국 모든 프로세스 실행됨)** | 운영체제의 제1원칙인 '공평성(Fairness)' 달성 |
 
 ### 미래 전망
-- **CFS (Completely Fair Scheduler)의 천하 통일**: SJF의 "누가 제일 짧은지"를 예측하는 것은 너무 힘들고 부정확했다. 리눅스는 아예 발상을 바꾸어, 프로세스마다 여태껏 CPU를 쓴 시간(vruntime)을 측정하여 **"지금까지 가장 CPU를 적게 쓴 불쌍한 놈"**에게 무조건 다음 차례를 주는 CFS를 만들었다. 이 방식은 [[411_aging_algorithm|에이징]]이 필요 없이 수학적으로 기아([[314_starvation_prevention|Starvation]])를 100% 원천 차단하는 현대 스케줄링의 진리다.
-- **MLFQ에서의 기아 극복**: 윈도우나 Mac이 쓰는 [[691_mlfq_multi_level_feedback_queue|다단계 피드백 큐]]([[691_mlfq_multi_level_feedback_queue|MLFQ]])에서도, 밑바닥 큐에 처박힌 CPU 바운드 프로세스의 기아를 막기 위해, 일정 시간(예: 1초)이 지나면 밑바닥에 있는 모든 프로세스를 전부 최상위 큐로 한꺼번에 끌어올려 주는(Priority Boost) 주기적인 사면 조치를 기본으로 내장하고 있다.
+- **CFS (Completely Fair Scheduler)의 천하 통일**: SJF의 "누가 제일 짧은지"를 예측하는 것은 너무 힘들고 부정확했다. 리눅스는 아예 발상을 바꾸어, 프로세스마다 여태껏 CPU를 쓴 시간(vruntime)을 측정하여 **"지금까지 가장 CPU를 적게 쓴 불쌍한 놈"**에게 무조건 다음 차례를 주는 CFS를 만들었다. 이 방식은 [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)이 필요 없이 수학적으로 기아([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))를 100% 원천 차단하는 현대 스케줄링의 진리다.
+- **MLFQ에서의 기아 극복**: 윈도우나 Mac이 쓰는 [다단계 피드백 큐](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/)([MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/))에서도, 밑바닥 큐에 처박힌 CPU 바운드 프로세스의 기아를 막기 위해, 일정 시간(예: 1초)이 지나면 밑바닥에 있는 모든 프로세스를 전부 최상위 큐로 한꺼번에 끌어올려 주는(Priority Boost) 주기적인 사면 조치를 기본으로 내장하고 있다.
 
 ### 결론
-[[175_sjf_scheduling|SJF]] 스케줄링과 기아([[314_starvation_prevention|Starvation]]) 현상의 관계는, 컴퓨터 과학이 맹목적인 효율성 지상주의에서 벗어나 공정성(Fairness)이라는 인문학적 가치를 시스템에 이식하게 된 가장 결정적인 계기다. "평균 속도"를 1초 줄이는 것보다, "단 한 개의 프로그램도 영원히 멈추게 버려두지 않는 것"이 운영체제의 더 숭고한 책임임을 [[411_aging_algorithm|에이징]]([[182_aging|Aging]]) 메커니즘을 통해 증명했다. 이는 1초에 수백만 건의 트래픽을 처리하는 현대 [[136_variance|분산]] 아키텍처를 설계할 때, 꼬리 [[015_지연_데이터_관점|지연]](Tail [[141_latency|Latency]])에 갇힌 소외된 데이터들을 어떻게 구출해 낼 것인가에 대한 깊은 철학적 영감을 준다.
+[SJF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/) 스케줄링과 기아([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) 현상의 관계는, 컴퓨터 과학이 맹목적인 효율성 지상주의에서 벗어나 공정성(Fairness)이라는 인문학적 가치를 시스템에 이식하게 된 가장 결정적인 계기다. "평균 속도"를 1초 줄이는 것보다, "단 한 개의 프로그램도 영원히 멈추게 버려두지 않는 것"이 운영체제의 더 숭고한 책임임을 [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/)) 메커니즘을 통해 증명했다. 이는 1초에 수백만 건의 트래픽을 처리하는 현대 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 아키텍처를 설계할 때, 꼬리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Tail [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))에 갇힌 소외된 데이터들을 어떻게 구출해 낼 것인가에 대한 깊은 철학적 영감을 준다.
 
-- **📢 섹션 요약 비유**: 성적이 좋은 학생(짧은 작업)에게만 밥을 주면 학교의 평균 성적은 단기적으로 오르겠지만, 성적이 낮은 학생(긴 작업)은 굶어 죽습니다. [[411_aging_algorithm|에이징]]은 모든 학생이 결국에는 밥을 먹고 졸업장을 쥐게 해주는, 차갑고 딱딱한 OS [[022_kernel_role|커널]] 속의 가장 따뜻한 휴머니즘 코드입니다.
+- **📢 섹션 요약 비유**: 성적이 좋은 학생(짧은 작업)에게만 밥을 주면 학교의 평균 성적은 단기적으로 오르겠지만, 성적이 낮은 학생(긴 작업)은 굶어 죽습니다. [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)은 모든 학생이 결국에는 밥을 먹고 졸업장을 쥐게 해주는, 차갑고 딱딱한 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 속의 가장 따뜻한 휴머니즘 코드입니다.
 
 ---
 
@@ -170,10 +174,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 선점 / [[285_no_preemption|비선점]] 스케줄링 차이 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [[173_fcfs_scheduling|FCFS]] [[174_convoy_effect|호위 효과]] ([[174_convoy_effect|Convoy Effect]]) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [[178_round_robin_scheduling|라운드 로빈]] [[179_time_quantum_context_switch|시간 할당량]] ([[690_round_robin_time_quantum|Quantum]]) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [[691_mlfq_multi_level_feedback_queue|다단계 피드백 큐]] ([[691_mlfq_multi_level_feedback_queue|MLFQ]]) 천이 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| 선점 / [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/) 스케줄링 차이 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/) [호위 효과](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/174_convoy_effect/) ([Convoy Effect](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/174_convoy_effect/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/) [시간 할당량](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/179_time_quantum_context_switch/) ([Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [다단계 피드백 큐](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) ([MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/)) 천이 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -191,9 +195,9 @@ tags:
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 병원 응급실에 '무릎 까진 아이(1분 컷)'와 '팔이 부러진 아이(1시간 컷)'가 왔어요. 의사 선생님이 "빨리 끝나는 찰과상 환자부터 봅니다!([[175_sjf_scheduling|SJF]])"라고 규칙을 정했어요.
-2. 그런데 밖에서 무릎 까진 아이들이 1분에 한 명씩 끝없이 들어오면 어떻게 될까요? 팔이 부러진 아이는 제일 먼저 왔는데도 밤이 새도록 영원히 진료를 못 받고 굶어 죽게 돼요. 이게 '기아 현상([[314_starvation_prevention|Starvation]])'이에요.
-3. 이걸 막기 위해 '나이 먹기([[182_aging|Aging]])' 규칙을 추가했어요! "기다린 지 1시간이 지날 때마다 VIP 포인트를 줄게!" 결국 팔이 부러진 아이는 포인트가 엄청나게 쌓여서 모든 찰과상 환자를 제치고 무조건 1등으로 수술을 받게 된답니다!
+1. 병원 응급실에 '무릎 까진 아이(1분 컷)'와 '팔이 부러진 아이(1시간 컷)'가 왔어요. 의사 선생님이 "빨리 끝나는 찰과상 환자부터 봅니다!([SJF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/))"라고 규칙을 정했어요.
+2. 그런데 밖에서 무릎 까진 아이들이 1분에 한 명씩 끝없이 들어오면 어떻게 될까요? 팔이 부러진 아이는 제일 먼저 왔는데도 밤이 새도록 영원히 진료를 못 받고 굶어 죽게 돼요. 이게 '기아 현상([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))'이에요.
+3. 이걸 막기 위해 '나이 먹기([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/))' 규칙을 추가했어요! "기다린 지 1시간이 지날 때마다 VIP 포인트를 줄게!" 결국 팔이 부러진 아이는 포인트가 엄청나게 쌓여서 모든 찰과상 환자를 제치고 무조건 1등으로 수술을 받게 된답니다!
 
 ---
 
@@ -201,7 +205,7 @@ tags:
 
 **진행 상황**: 689 / 800
 
-← **이전**: [[688_fcfs_convoy_effect_bottleneck|688. FCFS 호위 효과 (Convoy Effect)]]
-**다음**: [[690_round_robin_time_quantum|690. 라운드 로빈 시간 할당량 (Quantum)]] →
+← **이전**: [688. FCFS 호위 효과 (Convoy Effect)](/knowledge-base/studynote/02_operating_system/11_exam_summary/688_fcfs_convoy_effect_bottleneck/)
+**다음**: [690. 라운드 로빈 시간 할당량 (Quantum)](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) →
 
 ---

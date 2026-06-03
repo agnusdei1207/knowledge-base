@@ -1,14 +1,18 @@
----
-title: 001. P 클래스 (P Class) — 다항 시간 내 해결 가능한 문제
-date: '2025-05-14'
-tags:
-- studynote-algorithm
----
++++
+title = "001. P 클래스 (P Class) — 다항 시간 내 해결 가능한 문제"
+date = 2025-05-14
+
+[taxonomies]
+tags = ["studynote-algorithm"]
+
+[extra]
+tags = ["studynote-algorithm"]
++++
 
 > **핵심 인사이트**
-> 1. P([[195_polynomial_generator_crc|Polynomial]] Time) 클래스는 결정론적 튜링 머신([[532_dynamic_thermal_management|DTM]])이 입력 크기 n의 [[195_polynomial_generator_crc|다항식]] 시간 내에 해결할 수 있는 판정 문제(Decision Problem)의 집합으로, 현실적으로 "컴퓨터로 효율적으로 해결 가능한" 문제의 범주다.
-> 2. P 클래스 판별 기준은 다항 시간 [[001_algorithm_definition|알고리즘]]의 존재 여부이며, 정렬(O(n log n)), 최단 경로(O((V+E) log V)), [[043_max_flow|최대 유량]](O(V·E²)) 모두 P에 속한다 — 시간 복잡도가 n^k 형태이면 P에 속한다.
-> 3. P ⊆ NP임은 증명됐지만 P = NP인지는 여전히 미해결 난제(Millennium Prize Problem)로, 만약 P = NP라면 암호화([[110_rsa|RSA]] 등)의 수학적 기반이 무너지는 혁명적 결과가 된다.
+> 1. P([Polynomial](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) Time) 클래스는 결정론적 튜링 머신([DTM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/532_dynamic_thermal_management/))이 입력 크기 n의 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 시간 내에 해결할 수 있는 판정 문제(Decision Problem)의 집합으로, 현실적으로 "컴퓨터로 효율적으로 해결 가능한" 문제의 범주다.
+> 2. P 클래스 판별 기준은 다항 시간 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 존재 여부이며, 정렬(O(n log n)), 최단 경로(O((V+E) log V)), [최대 유량](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/043_max_flow/)(O(V·E²)) 모두 P에 속한다 — 시간 복잡도가 n^k 형태이면 P에 속한다.
+> 3. P ⊆ NP임은 증명됐지만 P = NP인지는 여전히 미해결 난제(Millennium Prize Problem)로, 만약 P = NP라면 암호화([RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 등)의 수학적 기반이 무너지는 혁명적 결과가 된다.
 
 ---
 
@@ -72,7 +76,7 @@ P에 속하는 대표 문제들:
 
 ---
 
-## Ⅲ. P와 다른 복잡도 클래스 [[083_relationship_in_er_model|관계]]
+## Ⅲ. P와 다른 복잡도 클래스 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
 ```
 복잡도 클래스 포함 관계:
@@ -135,7 +139,7 @@ AKS 알고리즘 (2002):
 
 ---
 
-## Ⅴ. 실무 시나리오 — [[001_algorithm_definition|알고리즘]] 선택 기준
+## Ⅴ. 실무 시나리오 — [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 선택 기준
 
 ```
 알고리즘 설계 시 P 클래스 확인:
@@ -165,7 +169,7 @@ AKS 알고리즘 (2002):
   P 밖 문제 = 실용적 타협(근사/휴리스틱)으로 전환
 ```
 
-> 📢 **섹션 요약 비유**: P 클래스 확인은 요리 전 "이 음식이 30분 안에 만들 수 있나?" 체크 — 불가능하면 간소화 레시피([[012_approximation_algorithm|근사 알고리즘]])로 전환.
+> 📢 **섹션 요약 비유**: P 클래스 확인은 요리 전 "이 음식이 30분 안에 만들 수 있나?" 체크 — 불가능하면 간소화 레시피([근사 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/))로 전환.
 
 ---
 
@@ -225,7 +229,7 @@ P ⊆ BQP ⊆ PSPACE
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. P 클래스 문제는 "레시피가 있는 요리" — 재료(입력)가 주어지면 단계를 따라 시간 안에 만들 수 있는 문제예요.
-2. [[055_array|배열]] 정렬하기, 가장 짧은 길 찾기, [[116_gcd_rsa|최대공약수]] 구하기 등이 모두 P에 속해요 — 빠른 [[001_algorithm_definition|알고리즘]]이 존재한다는 뜻이에요.
+2. [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 정렬하기, 가장 짧은 길 찾기, [최대공약수](/knowledge-base/studynote/09_security/03_network_security/116_gcd_rsa/) 구하기 등이 모두 P에 속해요 — 빠른 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 존재한다는 뜻이에요.
 3. P = NP라는 것이 증명되면 암호를 쉽게 풀 수 있게 돼서 인터넷 보안이 무너질 수 있어요 — 그래서 수학자들이 100만 달러 상금을 걸고 연구 중이에요!
 
 ---
@@ -234,7 +238,7 @@ P ⊆ BQP ⊆ PSPACE
 
 **진행 상황**: 106 / 175
 
-← **이전**: [[105_suffix_tree_array|접미사 트리와 접미사 배열 (Suffix Tree & Suffix Array)]]
-**다음**: [[107_np_class|002. NP 클래스 (NP Class) — 다항 시간 내 검증 가능한 문제]] →
+← **이전**: [접미사 트리와 접미사 배열 (Suffix Tree & Suffix Array)](/knowledge-base/studynote/08_algorithm_stats/05_string/105_suffix_tree_array/)
+**다음**: [002. NP 클래스 (NP Class) — 다항 시간 내 검증 가능한 문제](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/107_np_class/) →
 
 ---

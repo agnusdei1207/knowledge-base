@@ -1,22 +1,26 @@
----
-title: 09. 반도체 (Semiconductor)
-date: '2026-04-19'
-tags:
-- studynote-computer-architecture
----
++++
+title = "09. 반도체 (Semiconductor)"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 반도체 (Semiconductor)는 약 $1 \sim 3 \text{ [[154_ev_earned_value|eV]]}$의 밴드 갭 (Band Gap)을 가져, 외부 [[001_voltage|전압]] [[509_authorization_models_rbac_abac|인가]] 시에만 도체로 변하는 조건부 가변 [[003_resistance|저항]] 매질이다.
-> 2. **가치**: 순수 실리콘에 불순물을 주입하는 도핑 (Doping)을 통해 P형과 N형을 만들며, 이는 0과 1을 통제하는 모든 [[369_logic_bomb|논리]] 회로의 물리적 토대가 된다.
-> 3. **판단 포인트**: 실리콘 (Si)은 저렴하지만 극한 환경(고전압, 고주파)에서는 한계를 보이므로, 화합물 반도체 (SiC, [[154_gan_generative_adversarial_network|GaN]] 등) 도입 시 비용과 성능의 트레이드오프를 반드시 고려해야 한다.
+> 1. **본질**: 반도체 (Semiconductor)는 약 $1 \sim 3 \text{ [eV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/)}$의 밴드 갭 (Band Gap)을 가져, 외부 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) 시에만 도체로 변하는 조건부 가변 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) 매질이다.
+> 2. **가치**: 순수 실리콘에 불순물을 주입하는 도핑 (Doping)을 통해 P형과 N형을 만들며, 이는 0과 1을 통제하는 모든 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로의 물리적 토대가 된다.
+> 3. **판단 포인트**: 실리콘 (Si)은 저렴하지만 극한 환경(고전압, 고주파)에서는 한계를 보이므로, 화합물 반도체 (SiC, [GaN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/) 등) 도입 시 비용과 성능의 트레이드오프를 반드시 고려해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-반도체는 평상시에는 [[002_current|전류]]가 통하지 않는 [[010_insulator|절연체]] 상태이다가 특정한 [[001_voltage|전압]]이나 열, 빛이 가해지면 [[002_current|전류]]가 흐르는 물질이다. 전자가 가전자대 (Valence Band)에서 전도대 (Conduction Band)로 뛰어넘어갈 수 있는 적절한 밴드 갭을 가지고 있기 때문에 이러한 특성이 나타난다.
+반도체는 평상시에는 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 통하지 않는 [절연체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/010_insulator/) 상태이다가 특정한 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이나 열, 빛이 가해지면 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 흐르는 물질이다. 전자가 가전자대 (Valence Band)에서 전도대 (Conduction Band)로 뛰어넘어갈 수 있는 적절한 밴드 갭을 가지고 있기 때문에 이러한 특성이 나타난다.
 
-[[459_quic_fec_forward_error_correction|초기]] 컴퓨터는 진공관을 스위치로 사용했으나, 부피가 크고 발열이 심하며 수명이 짧았다. 이를 대체하기 위해 고체 상태에서 마모 없이 [[002_current|전류]]를 제어할 수 있는 물질이 필요했고, 실리콘과 같은 반도체 물질이 그 해답이 되었다. 반도체가 없다면 우리는 전기를 켜고 끄는 능동적인 [[369_logic_bomb|논리]] 제어 자체를 할 수 없다.
+[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 컴퓨터는 진공관을 스위치로 사용했으나, 부피가 크고 발열이 심하며 수명이 짧았다. 이를 대체하기 위해 고체 상태에서 마모 없이 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 제어할 수 있는 물질이 필요했고, 실리콘과 같은 반도체 물질이 그 해답이 되었다. 반도체가 없다면 우리는 전기를 켜고 끄는 능동적인 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 제어 자체를 할 수 없다.
 
 - **📢 섹션 요약 비유**: 반도체는 도개교와 같다. 평소에는 다리가 들려 있어 차가 지나가지 못하지만, 버튼을 누르면 다리가 내려와 차들이 쌩쌩 달릴 수 있는 도로가 된다.
 
@@ -24,7 +28,7 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-반도체의 [[002_current|전류]] 제어는 순수 실리콘 (Intrinsic Semiconductor)에 불순물을 주입하는 도핑 (Doping) 과정을 통해 완성된다. 15족 원소(인 등)를 주입하면 전자가 남는 N형 (N-Type) 반도체가 되고, 13족 원소(붕소 등)를 주입하면 전자가 부족한 정공 (Hole)이 생기는 P형 (P-Type) 반도체가 된다.
+반도체의 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 제어는 순수 실리콘 (Intrinsic Semiconductor)에 불순물을 주입하는 도핑 (Doping) 과정을 통해 완성된다. 15족 원소(인 등)를 주입하면 전자가 남는 N형 (N-Type) 반도체가 되고, 13족 원소(붕소 등)를 주입하면 전자가 부족한 정공 (Hole)이 생기는 P형 (P-Type) 반도체가 된다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -39,9 +43,9 @@ tags:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-밴드 갭 구조에서 [[010_insulator|절연체]]는 갭이 너무 커서 전자가 넘어갈 수 없고, 도체는 이미 겹쳐 있어 항상 [[002_current|전류]]가 흐른다. 반도체의 $1 \text{ [[154_ev_earned_value|eV]]}$ 내외 밴드 갭은 인간이 [[509_authorization_models_rbac_abac|인가]]하는 $1 \sim 1.5V$ [[001_voltage|전압]]만으로 제어가 가능한 마법의 문턱이다.
+밴드 갭 구조에서 [절연체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/010_insulator/)는 갭이 너무 커서 전자가 넘어갈 수 없고, 도체는 이미 겹쳐 있어 항상 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 흐른다. 반도체의 $1 \text{ [eV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/)}$ 내외 밴드 갭은 인간이 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)하는 $1 \sim 1.5V$ [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)만으로 제어가 가능한 마법의 문턱이다.
 
-- **📢 섹션 요약 비유**: 반도체 밴드 갭은 적당한 높이의 허들이다. 아이들(전자)이 혼자서는 못 넘지만, 뒤에서 살짝 밀어주면([[001_voltage|전압]] [[509_authorization_models_rbac_abac|인가]]) 쉽게 넘어가 달릴 수 있다.
+- **📢 섹션 요약 비유**: 반도체 밴드 갭은 적당한 높이의 허들이다. 아이들(전자)이 혼자서는 못 넘지만, 뒤에서 살짝 밀어주면([전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)) 쉽게 넘어가 달릴 수 있다.
 
 ---
 
@@ -49,13 +53,13 @@ tags:
 
 반도체 재료는 단일 원소 기반의 실리콘 (Si)과, 여러 원소를 결합한 화합물 반도체 (Compound Semiconductor)로 나뉜다.
 
-| 항목 | 실리콘 (Si) 반도체 | 화합물 반도체 (SiC, [[154_gan_generative_adversarial_network|GaN]], GaAs) |
+| 항목 | 실리콘 (Si) 반도체 | 화합물 반도체 (SiC, [GaN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/), GaAs) |
 |:---|:---|:---|
 | 구성 | 단일 규소 원소 | 복수 원소의 화학적 결합 |
 | 장점 | 공정이 쉽고 양산 단가가 극도로 저렴함 | 밴드 갭이 넓어 고전압, 고열, 고주파에 강함 |
-| 약점 | $800V$ 이상 고전압이나 고열에서 절연 파괴 발생 | 웨이퍼 [[352_defect_definition|결함]] 통제가 어렵고 양산 단가가 매우 높음 |
+| 약점 | $800V$ 이상 고전압이나 고열에서 절연 파괴 발생 | 웨이퍼 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 통제가 어렵고 양산 단가가 매우 높음 |
 
-클라우드 [[801_data_center_3_tier_architecture_core_aggregation_access|데이터센터]]나 전기차([[154_ev_earned_value|EV]]) 인버터처럼 고전력, 고온 환경에서는 기존 실리콘 칩이 녹아내릴 수 있다. 이때는 비용을 감수하더라도 절연 파괴 [[001_voltage|전압]]이 월등히 높은 탄화규소 (SiC)나 질화갈륨 ([[154_gan_generative_adversarial_network|GaN]]) 화합물 반도체로 전환하는 것이 필수적인 아키텍처 설계 방향이다.
+클라우드 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)나 전기차([EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/)) 인버터처럼 고전력, 고온 환경에서는 기존 실리콘 칩이 녹아내릴 수 있다. 이때는 비용을 감수하더라도 절연 파괴 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 월등히 높은 탄화규소 (SiC)나 질화갈륨 ([GaN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/)) 화합물 반도체로 전환하는 것이 필수적인 아키텍처 설계 방향이다.
 
 - **📢 섹션 요약 비유**: 실리콘이 저렴하고 튼튼한 일반 면 티셔츠라면, 화합물 반도체는 비싸지만 불에 타지 않고 총알도 막아내는 특수 방염 슈트다.
 
@@ -63,16 +67,16 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 반도체 시스템 설계 시 가장 경계해야 할 문제는 **열 폭주 (Thermal Runaway)**다. 반도체는 도체와 달리 온도가 오를수록 [[003_resistance|저항]]이 떨어지고 전도도가 폭증하는 특성(NTC)을 가진다. 
+실무에서 반도체 시스템 설계 시 가장 경계해야 할 문제는 **열 폭주 (Thermal Runaway)**다. 반도체는 도체와 달리 온도가 오를수록 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)이 떨어지고 전도도가 폭증하는 특성(NTC)을 가진다. 
 
-### [[435_checklist_based_testing|체크리스트]] 및 판단 기준
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 판단 기준
 1. **열 설계 전력 (TDP)** 한계 내에서 쿨링 솔루션이 접합 온도(Tj)를 방어할 수 있는가?
-2. 전원부 [[192_module_independence|모듈]] 설계 시 SiC [[017_mosfet|MOSFET]] 도입으로 발열 감소와 부피 절감의 ROI가 확보되는가?
+2. 전원부 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 설계 시 SiC [MOSFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/017_mosfet/) 도입으로 발열 감소와 부피 절감의 ROI가 확보되는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
-- 극한의 부하가 예상되는 [[801_data_center_3_tier_architecture_core_aggregation_access|데이터센터]] 칩셋 방열 설계를 원가 절감을 이유로 축소하는 행위. 약간의 온도 상승이 내인성 전자를 자극해 누설 [[002_current|전류]]를 낳고, 이 누설 [[002_current|전류]]가 다시 발열을 일으켜 순식간에 칩이 타버린다.
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- 극한의 부하가 예상되는 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 칩셋 방열 설계를 원가 절감을 이유로 축소하는 행위. 약간의 온도 상승이 내인성 전자를 자극해 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 낳고, 이 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 다시 발열을 일으켜 순식간에 칩이 타버린다.
 
-- **📢 섹션 요약 비유**: 산에 난 작은 불씨(발열)를 방치하면 주변 나무(주변 회로)를 데우고, 더 큰 불꽃(누설 [[002_current|전류]])을 만들어 결국 온 산을 순식간에 재로 만드는 것과 같다.
+- **📢 섹션 요약 비유**: 산에 난 작은 불씨(발열)를 방치하면 주변 나무(주변 회로)를 데우고, 더 큰 불꽃(누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/))을 만들어 결국 온 산을 순식간에 재로 만드는 것과 같다.
 
 ---
 
@@ -90,9 +94,9 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **도핑 (Doping)** | 순수 반도체에 불순물을 주입하여 [[002_current|전류]] 제어 능력을 극대화하는 공정 |
+| **도핑 (Doping)** | 순수 반도체에 불순물을 주입하여 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 제어 능력을 극대화하는 공정 |
 | **PN 접합 (PN Junction)** | P형과 N형 반도체가 만나 다이오드의 정류 특성을 만드는 기본 구조 |
-| **열 폭주 (Thermal Runaway)** | 온도가 오르면 누설 [[002_current|전류]]가 증가하고 다시 온도를 올리는 악순환의 붕괴 현상 |
+| **열 폭주 (Thermal Runaway)** | 온도가 오르면 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 증가하고 다시 온도를 올리는 악순환의 붕괴 현상 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -117,7 +121,7 @@ tags:
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 반도체는 평소에는 굳게 닫힌 마법의 문이에요.
-2. 하지만 요술 지팡이([[001_voltage|전압]])로 톡 건드리면 순식간에 열려서 자동차(전자)들이 지나갈 수 있어요.
+2. 하지만 요술 지팡이([전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/))로 톡 건드리면 순식간에 열려서 자동차(전자)들이 지나갈 수 있어요.
 3. 이 신기한 문 덕분에 컴퓨터가 우리가 원하는 대로 계산하고 움직일 수 있답니다.
 
 ---
@@ -126,7 +130,7 @@ tags:
 
 **진행 상황**: 9 / 803
 
-← **이전**: [[008_conductor|8. 도체 (Conductor)]]
-**다음**: [[010_insulator|10. 절연체 (Insulator)]] →
+← **이전**: [8. 도체 (Conductor)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/008_conductor/)
+**다음**: [10. 절연체 (Insulator)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/010_insulator/) →
 
 ---

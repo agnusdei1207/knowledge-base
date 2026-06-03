@@ -1,13 +1,17 @@
----
-title: 371. VRF (Virtual Routing and Forwarding)
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "371. VRF (Virtual Routing and Forwarding)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: VRF는 [[339_routing_overview_best_path_selection|라우팅]]과 경로 제어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 1. **본질**: VRF는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
 > 2. **가치**: VRF를 이해하면 수렴 속도과 확장성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
@@ -15,11 +19,11 @@ tags:
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 단일 라우터 내에서 다수의 [[339_routing_overview_best_path_selection|라우팅]] 테이블 인스턴스를 동시에 유지하고 동작시키는 기능. VLAN이 2계층([[238_switch_operation_principles|스위치]])을 쪼개는 기술이라면, VRF는 3계층(라우터)을 쪼개는 기술이다.
-- **필요성**: KT 통신사 라우터 1대에 A회사와 B회사가 랜선을 꽂아 임대망을 쓰고 있다. 그런데 A회사도 사설 IP `192.168.1.0/24`를 쓰고, B회사도 우연히 사설 IP `192.168.1.0/24`를 쓴다. KT 라우터의 글로벌 [[339_routing_overview_best_path_selection|라우팅]] 테이블은 하나뿐인데, 똑같은 목적지 IP가 두 개 들어오면 라우터는 미쳐버린다. 과거엔 이걸 막으려면 라우터 기계를 회사별로 따로 사서 놔줘야 했다(돈 낭비). "야! 라우터 뇌(메모리)를 쪼개서 **A회사 전용 수첩(VRF A)**과 **B회사 전용 수첩(VRF B)**을 따로따로 만들면 IP가 똑같아도 안 겹치잖아!"
+- **개념**: 단일 라우터 내에서 다수의 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 인스턴스를 동시에 유지하고 동작시키는 기능. VLAN이 2계층([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))을 쪼개는 기술이라면, VRF는 3계층(라우터)을 쪼개는 기술이다.
+- **필요성**: KT 통신사 라우터 1대에 A회사와 B회사가 랜선을 꽂아 임대망을 쓰고 있다. 그런데 A회사도 사설 IP `192.168.1.0/24`를 쓰고, B회사도 우연히 사설 IP `192.168.1.0/24`를 쓴다. KT 라우터의 글로벌 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블은 하나뿐인데, 똑같은 목적지 IP가 두 개 들어오면 라우터는 미쳐버린다. 과거엔 이걸 막으려면 라우터 기계를 회사별로 따로 사서 놔줘야 했다(돈 낭비). "야! 라우터 뇌(메모리)를 쪼개서 **A회사 전용 수첩(VRF A)**과 **B회사 전용 수첩(VRF B)**을 따로따로 만들면 IP가 똑같아도 안 겹치잖아!"
 
 - **💡 비유**: VRF는 하나의 물리적 스마트폰 안에서 구동되는 **"듀얼 메신저 (또는 보안 폴더)"** 기능과 같습니다. 
-  - 원래 카카오톡은 폰 1대당 1개만 깔립니다. (글로벌 [[339_routing_overview_best_path_selection|라우팅]] 테이블).
+  - 원래 카카오톡은 폰 1대당 1개만 깔립니다. (글로벌 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블).
   - 하지만 보안 폴더(VRF)를 만들면, 폰은 1대지만 업무용 카카오톡과 개인용 카카오톡이 완전히 분리된 메모리 공간에서 돌아가므로, **연락처(IP 주소)가 겹쳐도 절대 서로 섞이거나 간섭하지 않습니다.**
 
 ```text
@@ -37,17 +41,17 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 1. 인터페이스 [[008_dependencies|종속성]] ([[446_port_and_bus|포트]] 할당)
+### 1. 인터페이스 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) ([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 할당)
 라우터에 VRF를 10개 만들었다면, 라우터의 팔다리(인터페이스)를 각 VRF에 할당(Binding)해 주어야 한다.
-- 1번 [[446_port_and_bus|포트]] ──▶ VRF 'Samsung' 할당
-- 2번 [[446_port_and_bus|포트]] ──▶ VRF 'LG' 할당
-- 1번 [[446_port_and_bus|포트]]로 들어온 패킷은 오직 VRF Samsung이라는 이름이 붙은 수첩([[339_routing_overview_best_path_selection|라우팅]] 테이블)만 뒤져서 나갈 길을 찾고, VRF LG 수첩은 쳐다보지도 않는다.
+- 1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) ──▶ VRF 'Samsung' 할당
+- 2번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) ──▶ VRF 'LG' 할당
+- 1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 들어온 패킷은 오직 VRF Samsung이라는 이름이 붙은 수첩([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블)만 뒤져서 나갈 길을 찾고, VRF LG 수첩은 쳐다보지도 않는다.
 
 ### 2. 완벽한 논리적 분리 (평행 우주)
 - VRF 'Samsung'에서 OSPF를 돌려 `10.1.1.0` 길을 찾았다.
 - VRF 'LG'에서도 OSPF를 돌려 `10.1.1.0` 길을 찾았다.
 - 라우터 뱃속에는 두 개의 똑같은 IP가 존재하지만, 서로 다른 테이블에 있으므로 충돌 에러가 나지 않는다.
-- 이 둘은 서로 핑(Ping)을 때려도 응답하지 않는다 (디폴트로 [[339_routing_overview_best_path_selection|라우팅]]이 단절되어 있음). 만약 삼성과 LG가 통신하게 하려면 **Route Leaking(경로 누수)**이라는 고도의 [[365_bgp_border_gateway_protocol_path_vector|BGP]] 수작업을 통해 두 테이블 간에 일부러 구멍을 뚫어줘야만 한다.
+- 이 둘은 서로 핑(Ping)을 때려도 응답하지 않는다 (디폴트로 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)이 단절되어 있음). 만약 삼성과 LG가 통신하게 하려면 **Route Leaking(경로 누수)**이라는 고도의 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 수작업을 통해 두 테이블 간에 일부러 구멍을 뚫어줘야만 한다.
 
 ```text
  ┌─────────────────────────────────────────────────────────────┐
@@ -68,9 +72,9 @@ tags:
  └─────────────────────────────────────────────────────────────┘
 ```
 
-### 3. VRF Lite vs [[376_mpls_vpn_l3_vrf_bgp|MPLS VPN]]
-- **VRF Lite**: 라우터 1대 안에서, 혹은 우리 회사 빌딩 안에서 [[238_switch_operation_principles|스위치]]/라우터끼리 망을 분리(보안망 vs 일반망)할 때 쓰는 순수하고 가벼운 VRF 기술이다.
-- **[[376_mpls_vpn_l3_vrf_bgp|MPLS VPN]]**: KT가 서울에서 부산까지 이 VRF를 끌고 가야 할 때 쓴다. VRF를 통신사 백본([[365_bgp_border_gateway_protocol_path_vector|BGP]]/[[373_mpls_multiprotocol_label_switching_20bit|MPLS]])에 태우기 위해 IP 앞에 **RD(Route Distinguisher, `100:1` 같은 꼬리표)**를 붙여서 96비트짜리 괴물 주소(VPNv4)로 만든 뒤 전 국민에게 서비스하는 무거운 기술이다.
+### 3. VRF Lite vs [MPLS VPN](/knowledge-base/studynote/03_network/07_network_layer_routing/376_mpls_vpn_l3_vrf_bgp/)
+- **VRF Lite**: 라우터 1대 안에서, 혹은 우리 회사 빌딩 안에서 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)/라우터끼리 망을 분리(보안망 vs 일반망)할 때 쓰는 순수하고 가벼운 VRF 기술이다.
+- **[MPLS VPN](/knowledge-base/studynote/03_network/07_network_layer_routing/376_mpls_vpn_l3_vrf_bgp/)**: KT가 서울에서 부산까지 이 VRF를 끌고 가야 할 때 쓴다. VRF를 통신사 백본([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/)/[MPLS](/knowledge-base/studynote/03_network/07_network_layer_routing/373_mpls_multiprotocol_label_switching_20bit/))에 태우기 위해 IP 앞에 **RD(Route Distinguisher, `100:1` 같은 꼬리표)**를 붙여서 96비트짜리 괴물 주소(VPNv4)로 만든 뒤 전 국민에게 서비스하는 무거운 기술이다.
 
 - **📢 섹션 요약 비유**: ** VRF는 물리적인 라우터 1대를 칼로 쪼개는 게 아니라, 1대의 컴퓨터 안에서 VMWare나 VirtualBox를 켜서 **"윈도우 가상 머신(VRF)"** 10개를 띄우는 것과 똑같은 논리적 3계층 가상화입니다.
 
@@ -78,13 +82,13 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-VRF를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [[370_pim_rp_rendezvous_point_rpf_loop_prevention|RP]], RPF [[298_ip_classes_a_b_c_d_multicast_e_experimental|멀티캐스트]] 루프 방지가 기반 조건을 만든다면, VRF는 그 위에서 핵심 메커니즘을 구현하고, [[372_policy_based_routing_pbr_route_map|Policy-Based Routing]] / R…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 수렴 속도과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+VRF를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/), RPF [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 루프 방지가 기반 조건을 만든다면, VRF는 그 위에서 핵심 메커니즘을 구현하고, [Policy-Based Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/372_policy_based_routing_pbr_route_map/) / R…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 수렴 속도과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [[370_pim_rp_rendezvous_point_rpf_loop_prevention|RP]], RPF [[298_ip_classes_a_b_c_d_multicast_e_experimental|멀티캐스트]] 루프 방지의 기반 정리 | VRF의 핵심 동작 | [[372_policy_based_routing_pbr_route_map|Policy-Based Routing]] / R…의 확장 적용 |
+| 초점 | [RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/), RPF [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 루프 방지의 기반 정리 | VRF의 핵심 동작 | [Policy-Based Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/372_policy_based_routing_pbr_route_map/) / R…의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 수렴 속도 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: VRF는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -92,18 +96,18 @@ VRF를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 VRF를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [[370_pim_rp_rendezvous_point_rpf_loop_prevention|RP]], RPF [[298_ip_classes_a_b_c_d_multicast_e_experimental|멀티캐스트]] 루프 방지 수준의 기본 대책으로 충분한지, 아니면 VRF가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [[372_policy_based_routing_pbr_route_map|Policy-Based Routing]] / R…와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 VRF를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/), RPF [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 루프 방지 수준의 기본 대책으로 충분한지, 아니면 VRF가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [Policy-Based Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/372_policy_based_routing_pbr_route_map/) / R…와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 수렴 속도 부족인지, 확장성 악화인지 먼저 분리한다.
-2. VRF가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [[396_validation|확인]]한다.
-3. 도입 후에는 인접 기술인 [[372_policy_based_routing_pbr_route_map|Policy-Based Routing]] / R…와의 연계 방식을 함께 검증한다.
+2. VRF가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+3. 도입 후에는 인접 기술인 [Policy-Based Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/372_policy_based_routing_pbr_route_map/) / R…와의 연계 방식을 함께 검증한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - VRF의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- [[370_pim_rp_rendezvous_point_rpf_loop_prevention|RP]], RPF [[298_ip_classes_a_b_c_d_multicast_e_experimental|멀티캐스트]] 루프 방지와의 경계를 정리하지 않아 중복 투자나 [[164_policy|정책]] 충돌을 만드는 설계
+- [RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/), RPF [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 루프 방지와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: VRF를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -111,7 +115,7 @@ VRF를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 
 ## Ⅴ. 기대효과 및 결론
 
-VRF는 [[339_routing_overview_best_path_selection|라우팅]]과 경로 제어를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 수렴 속도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [[372_policy_based_routing_pbr_route_map|Policy-Based Routing]] / R…, 의도 기반 [[339_routing_overview_best_path_selection|라우팅]], 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의도 기반 [[339_routing_overview_best_path_selection|라우팅]] 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+VRF는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 수렴 속도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [Policy-Based Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/372_policy_based_routing_pbr_route_map/) / R…, 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: VRF는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -121,10 +125,10 @@ VRF는 [[339_routing_overview_best_path_selection|라우팅]]과 경로 제어�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[370_pim_rp_rendezvous_point_rpf_loop_prevention|RP]], RPF [[298_ip_classes_a_b_c_d_multicast_e_experimental|멀티캐스트]] 루프 방지 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [[339_routing_overview_best_path_selection|라우팅]] 테이블 ([[339_routing_overview_best_path_selection|Routing]] Table) | 패킷 전달 의사결정의 기준이 된다. |
-| [[342_routing_metric_hop_bandwidth_delay|메트릭]] ([[342_routing_metric_hop_bandwidth_delay|Metric]]) | 최적 경로를 선택하는 비교 척도다. |
-| [[372_policy_based_routing_pbr_route_map|Policy-Based Routing]] / R… | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/), RPF [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 루프 방지 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 ([Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) Table) | 패킷 전달 의사결정의 기준이 된다. |
+| [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) ([Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)) | 최적 경로를 선택하는 비교 척도다. |
+| [Policy-Based Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/372_policy_based_routing_pbr_route_map/) / R… | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -138,7 +142,7 @@ VRF는 [[339_routing_overview_best_path_selection|라우팅]]과 경로 제어�
     └──▶ [확장 B: 의도 기반 라우팅]
 ```
 
-VRF는 [[370_pim_rp_rendezvous_point_rpf_loop_prevention|RP]], RPF [[298_ip_classes_a_b_c_d_multicast_e_experimental|멀티캐스트]] 루프 방지에서 출발해 현재 메커니즘을 정교화하고, 이후 [[372_policy_based_routing_pbr_route_map|Policy-Based Routing]] / R…와 의도 기반 [[339_routing_overview_best_path_selection|라우팅]] 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+VRF는 [RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/), RPF [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 루프 방지에서 출발해 현재 메커니즘을 정교화하고, 이후 [Policy-Based Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/372_policy_based_routing_pbr_route_map/) / R…와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -152,7 +156,7 @@ VRF는 [[370_pim_rp_rendezvous_point_rpf_loop_prevention|RP]], RPF [[298_ip_clas
 
 **진행 상황**: 492 / 1120
 
-← **이전**: [[370_pim_rp_rendezvous_point_rpf_loop_prevention|370. RP (Rendezvous Point, PIM-SM), RPF (Reverse Path Forwarding) 멀티캐스트 루프]]
-**다음**: [[372_policy_based_routing_pbr_route_map|372. Policy-Based Routing (PBR) / Route Map]] →
+← **이전**: [370. RP (Rendezvous Point, PIM-SM), RPF (Reverse Path Forwarding) 멀티캐스트 루프](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/)
+**다음**: [372. Policy-Based Routing (PBR) / Route Map](/knowledge-base/studynote/03_network/07_network_layer_routing/372_policy_based_routing_pbr_route_map/) →
 
 ---

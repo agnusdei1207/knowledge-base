@@ -1,27 +1,31 @@
----
-title: 416. TCP 3-Way Handshake
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "416. TCP 3-Way Handshake"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] 3-Way Handshake는 전송 계층에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] 3-Way Handshake를 이해하면 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]]과 [[015_지연_데이터_관점|지연]] 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 3-Way Handshake는 전송 계층에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 3-Way Handshake를 이해하면 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [[405_tcp_transmission_control_protocol_connection_oriented|TCP]]/IP 네트워크에서 양 종단([[401_transport_layer_role_end_to_end_multiplexing|End-to-End]]) 간에 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 있는 논리적 연결([[160_session_controlling_terminal|Session]])을 성립시키기 위해 SYN과 ACK 플래그를 사용하여 3단계로 패킷을 교환하는 [[459_quic_fec_forward_error_correction|초기]]화 프로세스.
-- **필요성**: UDP처럼 냅다 [[001_dikw_pyramid|데이터]]를 던졌는데 서버 전원이 꺼져 있다면? 내 [[001_dikw_pyramid|데이터]]는 태평양 바다 한가운데서 쓰레기가 된다. [[140_bandwidth|대역폭]] 낭비다. 게다가 1GB짜리 파일을 100만 조각으로 내서 보낼 건데, 서버가 100만 개를 순서대로 받을 램(버퍼) 여유가 있는지 미리 물어보지도 않고 던지면 다 깨진다. **"야! 무조건 본 게임([[001_dikw_pyramid|데이터]] 전송) 전에, 서로 통신이 가능한지 찔러보고, 시작 번호표(Seq) 맞추고, 각자 버퍼 크기([[215_window_size_sender_receiver|Window Size]]) 얼마인지 호구조사부터 완벽하게 끝내놔!"**
+- **개념**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 네트워크에서 양 종단([End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/)) 간에 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 있는 논리적 연결([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))을 성립시키기 위해 SYN과 ACK 플래그를 사용하여 3단계로 패킷을 교환하는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 프로세스.
+- **필요성**: UDP처럼 냅다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 던졌는데 서버 전원이 꺼져 있다면? 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 태평양 바다 한가운데서 쓰레기가 된다. [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비다. 게다가 1GB짜리 파일을 100만 조각으로 내서 보낼 건데, 서버가 100만 개를 순서대로 받을 램(버퍼) 여유가 있는지 미리 물어보지도 않고 던지면 다 깨진다. **"야! 무조건 본 게임([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송) 전에, 서로 통신이 가능한지 찔러보고, 시작 번호표(Seq) 맞추고, 각자 버퍼 크기([Window Size](/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/)) 얼마인지 호구조사부터 완벽하게 끝내놔!"**
 
-- **💡 비유**: 3-Way Handshake는 무전기 통신의 **"호출 및 응답 [[295_protocol_field_tcp_udp_icmp|프로토콜]]"**과 완벽히 같습니다.
+- **💡 비유**: 3-Way Handshake는 무전기 통신의 **"호출 및 응답 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)"**과 완벽히 같습니다.
   - **1단계 (SYN)**: "본부, 여기는 독수리! 내 목소리 들리나? 오버!"
   - **2단계 (SYN-ACK)**: "독수리, 여기는 본부! 잘 들린다! 내 목소리도 잘 들리나? 오버!"
-  - **3단계 (ACK)**: "본부, 잘 들린다! 지금부터 작전 명령 하달하겠다! 오버!" (이때부터 진짜 [[001_dikw_pyramid|데이터]] 전송 시작).
+  - **3단계 (ACK)**: "본부, 잘 들린다! 지금부터 작전 명령 하달하겠다! 오버!" (이때부터 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 시작).
 
 ```text
 [긴급 포인터]
@@ -32,23 +36,23 @@ tags:
     └──▶ [ISN 무작위 할당 이유]
 ```
 
-- **📢 섹션 요약 비유**: ** 3-Way Handshake는 전화 통화의 첫 3초입니다. 내가 **"여보세요(SYN)"** 하면, 상대방이 **"네, 여보세요(SYN-ACK)"** 하고, 내가 다시 **"아 네, 안녕하세요(ACK)"**라고 서로의 목소리가 들린다는 것을 확정 지은 뒤에야 비로소 "저기 돈 좀 빌려주라"는 진짜 본론([[001_dikw_pyramid|데이터]])을 꺼냅니다.
+- **📢 섹션 요약 비유**: ** 3-Way Handshake는 전화 통화의 첫 3초입니다. 내가 **"여보세요(SYN)"** 하면, 상대방이 **"네, 여보세요(SYN-ACK)"** 하고, 내가 다시 **"아 네, 안녕하세요(ACK)"**라고 서로의 목소리가 들린다는 것을 확정 지은 뒤에야 비로소 "저기 돈 좀 빌려주라"는 진짜 본론([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 꺼냅니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-이 3단계 동안 클라이언트와 서버의 **[[405_tcp_transmission_control_protocol_connection_oriented|TCP]] 상태([[272_state_pattern|State]])가 어떻게 변하는지**가 시험과 면접의 0순위 타겟이다.
+이 3단계 동안 클라이언트와 서버의 **[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))가 어떻게 변하는지**가 시험과 면접의 0순위 타겟이다.
 
-### 1단계: SYN 발송 ([[003_audit_stakeholders|Client]] ──▶ Server)
+### 1단계: SYN 발송 ([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) ──▶ Server)
 - 클라이언트가 네이버 웹서버(80번)에 접속하려 한다.
-- 클라이언트는 임의의 난수(예: 1000)를 [[459_quic_fec_forward_error_correction|초기]] 시퀀스 번호([[417_isn_initial_sequence_number_randomization|ISN]])로 뽑는다.
-- 패킷의 [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] 헤더에 **`SYN` 불을 켜고**, `Seq = 1000`을 적어서 쏜다.
+- 클라이언트는 임의의 난수(예: 1000)를 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 시퀀스 번호([ISN](/knowledge-base/studynote/03_network/08_transport_layer/417_isn_initial_sequence_number_randomization/))로 뽑는다.
+- 패킷의 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더에 **`SYN` 불을 켜고**, `Seq = 1000`을 적어서 쏜다.
 - **상태 변화**: 
   - 서버는 켜지자마자 계속 손님을 기다리는 **`LISTEN`** 상태다.
   - 클라이언트는 쏘고 나서 대답을 기다리는 **`SYN_SENT`** 상태가 된다.
 
-### 2단계: SYN+ACK 화답 (Server ──▶ [[003_audit_stakeholders|Client]])
+### 2단계: SYN+ACK 화답 (Server ──▶ [Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/))
 - 네이버 서버가 SYN을 받았다. "오케이, 너 1000번부터 시작한다고? 메모 완료!"
 - 서버도 자기만의 난수(예: 5000)를 뽑는다.
 - 패킷 헤더에 **`SYN` 불과 `ACK` 불을 동시에 켠다**.
@@ -56,12 +60,12 @@ tags:
   - "네가 아까 보낸 1000번 잘 받았으니, 다음엔 1001번 보내줘! **(ACK = 1001)**"
 - **상태 변화**: 서버는 반쯤 연결이 된 **`SYN_RCVD` (SYN Received)** 상태가 된다. (이 상태가 바로 해커들이 노리는 대기실이다).
 
-### 3단계: 최종 ACK 발송 ([[003_audit_stakeholders|Client]] ──▶ Server)
+### 3단계: 최종 ACK 발송 ([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) ──▶ Server)
 - 클라이언트가 서버의 화답을 받았다. "오, 서버도 5000번부터 보낸다고? 메모 완료!"
 - 패킷 헤더에 **`ACK` 불만 켠다**.
   - "네가 보낸 5000번 잘 받았으니, 다음엔 5001번 보내줘! **(ACK = 5001)**"
 - 이 패킷이 서버에 도착하는 순간 3번의 악수가 끝난다.
-- **상태 변화**: 클라이언트와 서버 양쪽 모두 **`ESTABLISHED` (연결 확립)** 상태가 되며, 이때부터 진짜 웹페이지 [[001_dikw_pyramid|데이터]]([[461_http_stateless_connection_oriented|HTTP]])가 쏟아져 나오기 시작한다.
+- **상태 변화**: 클라이언트와 서버 양쪽 모두 **`ESTABLISHED` (연결 확립)** 상태가 되며, 이때부터 진짜 웹페이지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/))가 쏟아져 나오기 시작한다.
 
 ```text
  ┌─────────────────────────────────────────────────────────────┐
@@ -84,44 +88,44 @@ tags:
  └─────────────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] 3-Way Handshake의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
+- **📢 섹션 요약 비유**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 3-Way Handshake의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-[[405_tcp_transmission_control_protocol_connection_oriented|TCP]] 3-Way Handshake를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [[415_tcp_urgent_pointer|긴급 포인터]]가 기반 조건을 만든다면, [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] 3-Way Handshake는 그 위에서 핵심 메커니즘을 구현하고, [[417_isn_initial_sequence_number_randomization|ISN]] 무작위 할당 이유는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]]과 [[015_지연_데이터_관점|지연]]에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 3-Way Handshake를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [긴급 포인터](/knowledge-base/studynote/03_network/08_transport_layer/415_tcp_urgent_pointer/)가 기반 조건을 만든다면, [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 3-Way Handshake는 그 위에서 핵심 메커니즘을 구현하고, [ISN](/knowledge-base/studynote/03_network/08_transport_layer/417_isn_initial_sequence_number_randomization/) 무작위 할당 이유는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [[415_tcp_urgent_pointer|긴급 포인터]]의 기반 정리 | [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] 3-Way Handshake의 핵심 동작 | [[417_isn_initial_sequence_number_randomization|ISN]] 무작위 할당 이유의 확장 적용 |
-| 자원 관점 | 기본 조건 확보 | [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 초점 | [긴급 포인터](/knowledge-base/studynote/03_network/08_transport_layer/415_tcp_urgent_pointer/)의 기반 정리 | [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 3-Way Handshake의 핵심 동작 | [ISN](/knowledge-base/studynote/03_network/08_transport_layer/417_isn_initial_sequence_number_randomization/) 무작위 할당 이유의 확장 적용 |
+| 자원 관점 | 기본 조건 확보 | [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 최적화 | 규모와 범위 확대 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] 3-Way Handshake는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
+- **📢 섹션 요약 비유**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 3-Way Handshake는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 해커가 위조된 IP로 `1단계 SYN` 패킷만 1초에 10만 개 쏜다. 서버는 10만 개의 자리를 비워두고 `SYN_RCVD` 상태에서 3번째 대답(ACK)을 기다리며 메모리가 터져 죽는다.
-- **방어책 (SYN [[475_cookie_local_state|Cookie]])**: 서버가 `SYN`을 받아도 메모리(대기실)에 자리를 내어주지 않는다! 대신 2단계 `SYN+ACK`를 보낼 때 암호화된 [[475_cookie_local_state|쿠키]] 값을 구워서 던진 뒤 다 잊어버린다. 진짜 클라이언트라면 3단계 `ACK`를 보낼 때 그 [[475_cookie_local_state|쿠키]]를 다시 들고 오므로, 그때서야 "아 진짜 손님이네!" 하고 메모리에 자리를 내어주어 서버 뻗음을 완벽히 막아낸다.
+- **방어책 (SYN [Cookie](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/))**: 서버가 `SYN`을 받아도 메모리(대기실)에 자리를 내어주지 않는다! 대신 2단계 `SYN+ACK`를 보낼 때 암호화된 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) 값을 구워서 던진 뒤 다 잊어버린다. 진짜 클라이언트라면 3단계 `ACK`를 보낼 때 그 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 다시 들고 오므로, 그때서야 "아 진짜 손님이네!" 하고 메모리에 자리를 내어주어 서버 뻗음을 완벽히 막아낸다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: ** 3-Way Handshake는 소개팅에서 **"안전한 만남을 확정 짓는 카톡 3번"**입니다. 남자가 "오늘 6시에 만날까요?(SYN)" 하면, 여자가 "좋아요! 저는 강남역이 좋은데 어떠세요?(SYN+ACK)" 하고, 남자가 다시 "네, 강남역에서 뵙겠습니다!(ACK)"라고 해야만 비로소 진짜 만남(ESTABLISHED)이 성사되는 철저한 [[396_validation|확인]] 과정입니다.
+- **📢 섹션 요약 비유**: ** 3-Way Handshake는 소개팅에서 **"안전한 만남을 확정 짓는 카톡 3번"**입니다. 남자가 "오늘 6시에 만날까요?(SYN)" 하면, 여자가 "좋아요! 저는 강남역이 좋은데 어떠세요?(SYN+ACK)" 하고, 남자가 다시 "네, 강남역에서 뵙겠습니다!(ACK)"라고 해야만 비로소 진짜 만남(ESTABLISHED)이 성사되는 철저한 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 과정입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[[405_tcp_transmission_control_protocol_connection_oriented|TCP]] 3-Way Handshake는 전송 계층을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [[417_isn_initial_sequence_number_randomization|ISN]] 무작위 할당 이유, 적응형 저지연 전송, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 적응형 저지연 전송 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 3-Way Handshake는 전송 계층을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [ISN](/knowledge-base/studynote/03_network/08_transport_layer/417_isn_initial_sequence_number_randomization/) 무작위 할당 이유, 적응형 저지연 전송, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 적응형 저지연 전송 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] 3-Way Handshake는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
+- **📢 섹션 요약 비유**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 3-Way Handshake는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
 ---
 
@@ -129,10 +133,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[415_tcp_urgent_pointer|긴급 포인터]] | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| 세그먼트 ([[407_tcp_segment_header_structure_20_60_bytes|Segment]]) | 전송 계층이 다루는 기본 단위다. |
-| [[213_flow_control_buffer_overflow|흐름 제어]] ([[421_tcp_flow_control_sliding_window_algorithm|Flow Control]]) | 수신자 처리 속도를 넘지 않게 조절한다. |
-| [[417_isn_initial_sequence_number_randomization|ISN]] 무작위 할당 이유 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [긴급 포인터](/knowledge-base/studynote/03_network/08_transport_layer/415_tcp_urgent_pointer/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 세그먼트 ([Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/)) | 전송 계층이 다루는 기본 단위다. |
+| [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/) ([Flow Control](/knowledge-base/studynote/03_network/08_transport_layer/421_tcp_flow_control_sliding_window_algorithm/)) | 수신자 처리 속도를 넘지 않게 조절한다. |
+| [ISN](/knowledge-base/studynote/03_network/08_transport_layer/417_isn_initial_sequence_number_randomization/) 무작위 할당 이유 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -146,7 +150,7 @@ tags:
     └──▶ [확장 B: 적응형 저지연 전송]
 ```
 
-[[405_tcp_transmission_control_protocol_connection_oriented|TCP]] 3-Way Handshake는 [[415_tcp_urgent_pointer|긴급 포인터]]에서 출발해 현재 메커니즘을 정교화하고, 이후 [[417_isn_initial_sequence_number_randomization|ISN]] 무작위 할당 이유와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 3-Way Handshake는 [긴급 포인터](/knowledge-base/studynote/03_network/08_transport_layer/415_tcp_urgent_pointer/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [ISN](/knowledge-base/studynote/03_network/08_transport_layer/417_isn_initial_sequence_number_randomization/) 무작위 할당 이유와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -160,7 +164,7 @@ tags:
 
 **진행 상황**: 537 / 1120
 
-← **이전**: [[415_tcp_urgent_pointer|415. 긴급 포인터 (Urgent Pointer)]]
-**다음**: [[417_isn_initial_sequence_number_randomization|417. ISN (Initial Sequence Number) 무작위 할당 이유 (보안성 강화)]] →
+← **이전**: [415. 긴급 포인터 (Urgent Pointer)](/knowledge-base/studynote/03_network/08_transport_layer/415_tcp_urgent_pointer/)
+**다음**: [417. ISN (Initial Sequence Number) 무작위 할당 이유 (보안성 강화)](/knowledge-base/studynote/03_network/08_transport_layer/417_isn_initial_sequence_number_randomization/) →
 
 ---

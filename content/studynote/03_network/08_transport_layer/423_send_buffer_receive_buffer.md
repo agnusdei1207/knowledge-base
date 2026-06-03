@@ -1,25 +1,29 @@
----
-title: 423. 송신 버퍼 (Send Buffer) / 수신 버퍼 (Receive Buffer)
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "423. 송신 버퍼 (Send Buffer) / 수신 버퍼 (Receive Buffer)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 송신 버퍼 / 수신 버퍼는 전송 계층에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: 송신 버퍼 / 수신 버퍼를 이해하면 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]]과 [[015_지연_데이터_관점|지연]] 사이의 균형을 더 정확히 볼 수 있다.
+> 2. **가치**: 송신 버퍼 / 수신 버퍼를 이해하면 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: TCP가 [[074_byte|바이트]] 스트림 통신을 보장하고 [[213_flow_control_buffer_overflow|흐름 제어]] 및 오류 제어를 수행하기 위해 [[022_kernel_role|커널]](OS) 메모리 공간에 할당하는 송신(Send) 및 수신(Receive)용 임시 저장 공간([[058_queue|Queue]]/Buffer).
-- **필요성**: 만약 버퍼가 없다면 어떨까? 내가 엑셀 [[501_file_definition_logical_record|파일]] 10MB를 저장 버튼을 눌러 인터넷으로 쏜다. 내 엑셀 프로그램은 랜카드가 그 10MB를 1460바이트씩 잘라서 미국 구글에 도착하고 영수증(ACK)이 다 돌아올 때까지(몇 초 소요), **화면이 하얗게 굳어서(응답 없음) 다른 마우스 클릭조차 못 하고 마냥 기다려야 한다**. 이 동기화의 끔찍함을 막기 위해, "프로그램아, 넌 그냥 10MB를 OS 창고(송신 버퍼)에 휙 던져두고 넌 바로 하던 일(마우스 클릭) 계속해! 내가 창고에서 알아서 조금씩 빼서 택배 부치고 영수증 챙길게!"라는 **비동기화(Asynchronous) 쿠션**이 버퍼의 절대적 존재 이유다.
+- **개념**: TCP가 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 스트림 통신을 보장하고 [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/) 및 오류 제어를 수행하기 위해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(OS) 메모리 공간에 할당하는 송신(Send) 및 수신(Receive)용 임시 저장 공간([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)/Buffer).
+- **필요성**: 만약 버퍼가 없다면 어떨까? 내가 엑셀 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 10MB를 저장 버튼을 눌러 인터넷으로 쏜다. 내 엑셀 프로그램은 랜카드가 그 10MB를 1460바이트씩 잘라서 미국 구글에 도착하고 영수증(ACK)이 다 돌아올 때까지(몇 초 소요), **화면이 하얗게 굳어서(응답 없음) 다른 마우스 클릭조차 못 하고 마냥 기다려야 한다**. 이 동기화의 끔찍함을 막기 위해, "프로그램아, 넌 그냥 10MB를 OS 창고(송신 버퍼)에 휙 던져두고 넌 바로 하던 일(마우스 클릭) 계속해! 내가 창고에서 알아서 조금씩 빼서 택배 부치고 영수증 챙길게!"라는 **비동기화(Asynchronous) 쿠션**이 버퍼의 절대적 존재 이유다.
 
 - **💡 비유**: 버퍼는 배달의 민족 **"라이더 픽업 존(선반)"**과 같습니다.
-  - **송신 버퍼**: 주방장(애플리케이션)이 햄버거 100개를 순식간에 다 만들어서 배달 선반(송신 버퍼)에 쌓아둡니다. 주방장은 바로 퇴근합니다. 라이더([[405_tcp_transmission_control_protocol_connection_oriented|TCP]])는 선반에 있는 햄버거를 오토바이 통에 들어가는 만큼만([[215_window_size_sender_receiver|Window Size]]) 조금씩 빼서 알아서 배달합니다.
+  - **송신 버퍼**: 주방장(애플리케이션)이 햄버거 100개를 순식간에 다 만들어서 배달 선반(송신 버퍼)에 쌓아둡니다. 주방장은 바로 퇴근합니다. 라이더([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))는 선반에 있는 햄버거를 오토바이 통에 들어가는 만큼만([Window Size](/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/)) 조금씩 빼서 알아서 배달합니다.
   - **수신 버퍼**: 배달된 햄버거 세트의 감자튀김, 콜라, 햄버거 조각들이 도착하는 대로 경비실 보관함(수신 버퍼)에 쌓입니다. 경비원은 콜라만 왔다고 손님(어플리케이션)을 부르지 않고, **세트가 완벽히 다 모여야만** 손님에게 "가져가세요"라고 연락합니다.
 
 ```text
@@ -31,26 +35,26 @@ tags:
     └──▶ [어리석은 윈도우 증후군 문제]
 ```
 
-- **📢 섹션 요약 비유**: ** 송수신 버퍼는 급성질인 **"사장님(어플리케이션)"**과 일처리가 느린 **"거래처(네트워크)"** 사이에서, 양쪽이 스트레스받지 않도록 서류를 대신 쌓아두고 스케줄을 조율해 주는 **"능구렁이 비서([[001_operating_system_purpose|운영체제]])"**의 책상 서랍입니다.
+- **📢 섹션 요약 비유**: ** 송수신 버퍼는 급성질인 **"사장님(어플리케이션)"**과 일처리가 느린 **"거래처(네트워크)"** 사이에서, 양쪽이 스트레스받지 않도록 서류를 대신 쌓아두고 스케줄을 조율해 주는 **"능구렁이 비서([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))"**의 책상 서랍입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[[405_tcp_transmission_control_protocol_connection_oriented|TCP]] 통신은 본질적으로 **"내 송신 버퍼의 물을 상대방 수신 버퍼로 넘겨붓는 과정"**이다.
+[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 통신은 본질적으로 **"내 송신 버퍼의 물을 상대방 수신 버퍼로 넘겨붓는 과정"**이다.
 
 ### 1. 송신 버퍼 (Send Buffer)의 라이프 사이클
-1. **적재**: 어플리케이션 계층이 1MB [[001_dikw_pyramid|데이터]]를 `write()` 또는 `send()` 함수를 통해 송신 버퍼에 콸콸 들이붓는다.
-2. **전송**: [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] 스케줄러가 상대방의 빈 공간([[215_window_size_sender_receiver|Window Size]])이 14600바이트임을 [[396_validation|확인]]하고, 1460바이트짜리 세그먼트 10개로 썰어서 IP 계층(밖)으로 던진다.
-3. **잔류 (재전송 대기)**: 밖으로 던졌다고 버퍼에서 [[001_dikw_pyramid|데이터]]를 지울까? 절대 안 지운다! 혹시 가다가 바다에 빠질 수 있으므로, 상대방의 영수증(ACK)이 올 때까지 **복사본을 버퍼에 꼭 쥐고 있는다**.
-4. **삭제**: "야! 10개 잘 받았어!(ACK)"라는 영수증이 당도하면 그제야 송신 버퍼에서 10개의 [[001_dikw_pyramid|데이터]]를 빗자루로 쓸어내 버리고 텅 빈 공간을 확보한다. (이때 슬라이딩 윈도우가 한 칸 전진한다).
+1. **적재**: 어플리케이션 계층이 1MB [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 `write()` 또는 `send()` 함수를 통해 송신 버퍼에 콸콸 들이붓는다.
+2. **전송**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 스케줄러가 상대방의 빈 공간([Window Size](/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/))이 14600바이트임을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 1460바이트짜리 세그먼트 10개로 썰어서 IP 계층(밖)으로 던진다.
+3. **잔류 (재전송 대기)**: 밖으로 던졌다고 버퍼에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 지울까? 절대 안 지운다! 혹시 가다가 바다에 빠질 수 있으므로, 상대방의 영수증(ACK)이 올 때까지 **복사본을 버퍼에 꼭 쥐고 있는다**.
+4. **삭제**: "야! 10개 잘 받았어!(ACK)"라는 영수증이 당도하면 그제야 송신 버퍼에서 10개의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 빗자루로 쓸어내 버리고 텅 빈 공간을 확보한다. (이때 슬라이딩 윈도우가 한 칸 전진한다).
 
 ### 2. 수신 버퍼 (Receive Buffer)와 Window Size의 탄생
-[[213_flow_control_buffer_overflow|흐름 제어]]([[421_tcp_flow_control_sliding_window_algorithm|Flow Control]])의 주어는 수신 버퍼다.
+[흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)([Flow Control](/knowledge-base/studynote/03_network/08_transport_layer/421_tcp_flow_control_sliding_window_algorithm/))의 주어는 수신 버퍼다.
 1. **수신**: 밖에서 조각난 1460바이트짜리 패킷들이 수신 버퍼로 툭툭 떨어져 쌓인다.
 2. **조립**: 1번, 2번, 3번이 순서대로 도착했다. OS는 이걸 예쁘게 하나로 이어 붙인다. 만약 2번이 안 오고 1번, 3번이 오면 조립을 못 하고 버퍼에 임시로 놔둔 채 2번을 다시 달라고 소리친다(중복 ACK).
 3. **반출**: 조립이 끝난 덩어리를 수신 쪽 애플리케이션(크롬 브라우저)이 `read()` 함수를 써서 쑥 빼간다. 그러면 버퍼에 다시 빈 공간이 생긴다.
-4. **마법의 계산 ([[215_window_size_sender_receiver|Window Size]])**: 수신자 TCP는 매번 영수증을 쏠 때 자기 버퍼 상태를 체크한다. **"내 수신 버퍼의 전체 크기(예: 64KB) - 현재 조립 못 하고 쌓여있는 [[001_dikw_pyramid|데이터]] = 남은 빈 공간(예: 20KB)"**. 이 20KB를 `Window Size` 칸에 적어서 송신자에게 던져주는 것이다.
+4. **마법의 계산 ([Window Size](/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/))**: 수신자 TCP는 매번 영수증을 쏠 때 자기 버퍼 상태를 체크한다. **"내 수신 버퍼의 전체 크기(예: 64KB) - 현재 조립 못 하고 쌓여있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) = 남은 빈 공간(예: 20KB)"**. 이 20KB를 `Window Size` 칸에 적어서 송신자에게 던져주는 것이다.
 
 ```text
  ┌─────────────────────────────────────────────────────────────┐
@@ -78,13 +82,13 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-송신 버퍼 / 수신 버퍼를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [[422_tcp_window_scale_option|윈도우 스케일옵션]]이 기반 조건을 만든다면, 송신 버퍼 / 수신 버퍼는 그 위에서 핵심 메커니즘을 구현하고, [[424_silly_window_syndrome_problem|어리석은 윈도우 증후군]] 문제는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]]과 [[015_지연_데이터_관점|지연]]에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+송신 버퍼 / 수신 버퍼를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [윈도우 스케일옵션](/knowledge-base/studynote/03_network/08_transport_layer/422_tcp_window_scale_option/)이 기반 조건을 만든다면, 송신 버퍼 / 수신 버퍼는 그 위에서 핵심 메커니즘을 구현하고, [어리석은 윈도우 증후군](/knowledge-base/studynote/03_network/08_transport_layer/424_silly_window_syndrome_problem/) 문제는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [[422_tcp_window_scale_option|윈도우 스케일옵션]]의 기반 정리 | 송신 버퍼 / 수신 버퍼의 핵심 동작 | [[424_silly_window_syndrome_problem|어리석은 윈도우 증후군]] 문제의 확장 적용 |
-| 자원 관점 | 기본 조건 확보 | [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 초점 | [윈도우 스케일옵션](/knowledge-base/studynote/03_network/08_transport_layer/422_tcp_window_scale_option/)의 기반 정리 | 송신 버퍼 / 수신 버퍼의 핵심 동작 | [어리석은 윈도우 증후군](/knowledge-base/studynote/03_network/08_transport_layer/424_silly_window_syndrome_problem/) 문제의 확장 적용 |
+| 자원 관점 | 기본 조건 확보 | [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 최적화 | 규모와 범위 확대 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: 송신 버퍼 / 수신 버퍼는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -92,18 +96,18 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 송신 버퍼 / 수신 버퍼를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [[422_tcp_window_scale_option|윈도우 스케일옵션]] 수준의 기본 대책으로 충분한지, 아니면 송신 버퍼 / 수신 버퍼가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [[424_silly_window_syndrome_problem|어리석은 윈도우 증후군]] 문제와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 송신 버퍼 / 수신 버퍼를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [윈도우 스케일옵션](/knowledge-base/studynote/03_network/08_transport_layer/422_tcp_window_scale_option/) 수준의 기본 대책으로 충분한지, 아니면 송신 버퍼 / 수신 버퍼가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [어리석은 윈도우 증후군](/knowledge-base/studynote/03_network/08_transport_layer/424_silly_window_syndrome_problem/) 문제와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 현재 문제의 핵심이 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 부족인지, [[015_지연_데이터_관점|지연]] 악화인지 먼저 분리한다.
-2. 송신 버퍼 / 수신 버퍼가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [[396_validation|확인]]한다.
-3. 도입 후에는 인접 기술인 [[424_silly_window_syndrome_problem|어리석은 윈도우 증후군]] 문제와의 연계 방식을 함께 검증한다.
+1. 현재 문제의 핵심이 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 부족인지, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 악화인지 먼저 분리한다.
+2. 송신 버퍼 / 수신 버퍼가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+3. 도입 후에는 인접 기술인 [어리석은 윈도우 증후군](/knowledge-base/studynote/03_network/08_transport_layer/424_silly_window_syndrome_problem/) 문제와의 연계 방식을 함께 검증한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 송신 버퍼 / 수신 버퍼의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- [[422_tcp_window_scale_option|윈도우 스케일옵션]]와의 경계를 정리하지 않아 중복 투자나 [[164_policy|정책]] 충돌을 만드는 설계
+- [윈도우 스케일옵션](/knowledge-base/studynote/03_network/08_transport_layer/422_tcp_window_scale_option/)와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: 송신 버퍼 / 수신 버퍼를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -111,7 +115,7 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-송신 버퍼 / 수신 버퍼는 전송 계층을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [[424_silly_window_syndrome_problem|어리석은 윈도우 증후군]] 문제, 적응형 저지연 전송, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 적응형 저지연 전송 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+송신 버퍼 / 수신 버퍼는 전송 계층을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [어리석은 윈도우 증후군](/knowledge-base/studynote/03_network/08_transport_layer/424_silly_window_syndrome_problem/) 문제, 적응형 저지연 전송, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 적응형 저지연 전송 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 송신 버퍼 / 수신 버퍼는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -121,10 +125,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[422_tcp_window_scale_option|윈도우 스케일옵션]] | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| 세그먼트 ([[407_tcp_segment_header_structure_20_60_bytes|Segment]]) | 전송 계층이 다루는 기본 단위다. |
-| [[213_flow_control_buffer_overflow|흐름 제어]] ([[421_tcp_flow_control_sliding_window_algorithm|Flow Control]]) | 수신자 처리 속도를 넘지 않게 조절한다. |
-| [[424_silly_window_syndrome_problem|어리석은 윈도우 증후군]] 문제 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [윈도우 스케일옵션](/knowledge-base/studynote/03_network/08_transport_layer/422_tcp_window_scale_option/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 세그먼트 ([Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/)) | 전송 계층이 다루는 기본 단위다. |
+| [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/) ([Flow Control](/knowledge-base/studynote/03_network/08_transport_layer/421_tcp_flow_control_sliding_window_algorithm/)) | 수신자 처리 속도를 넘지 않게 조절한다. |
+| [어리석은 윈도우 증후군](/knowledge-base/studynote/03_network/08_transport_layer/424_silly_window_syndrome_problem/) 문제 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -138,7 +142,7 @@ tags:
     └──▶ [확장 B: 적응형 저지연 전송]
 ```
 
-송신 버퍼 / 수신 버퍼는 [[422_tcp_window_scale_option|윈도우 스케일옵션]]에서 출발해 현재 메커니즘을 정교화하고, 이후 [[424_silly_window_syndrome_problem|어리석은 윈도우 증후군]] 문제와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+송신 버퍼 / 수신 버퍼는 [윈도우 스케일옵션](/knowledge-base/studynote/03_network/08_transport_layer/422_tcp_window_scale_option/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [어리석은 윈도우 증후군](/knowledge-base/studynote/03_network/08_transport_layer/424_silly_window_syndrome_problem/) 문제와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -152,7 +156,7 @@ tags:
 
 **진행 상황**: 544 / 1120
 
-← **이전**: [[422_tcp_window_scale_option|422. 윈도우 스케일옵션 (Window Scale Option)]]
-**다음**: [[424_silly_window_syndrome_problem|424. 어리석은 윈도우 증후군 (Silly Window Syndrome) 문제]] →
+← **이전**: [422. 윈도우 스케일옵션 (Window Scale Option)](/knowledge-base/studynote/03_network/08_transport_layer/422_tcp_window_scale_option/)
+**다음**: [424. 어리석은 윈도우 증후군 (Silly Window Syndrome) 문제](/knowledge-base/studynote/03_network/08_transport_layer/424_silly_window_syndrome_problem/) →
 
 ---

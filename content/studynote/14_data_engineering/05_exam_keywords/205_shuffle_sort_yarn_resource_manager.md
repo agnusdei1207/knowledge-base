@@ -1,22 +1,26 @@
----
-title: 205. 셔플·정렬 (Shuffle & Sort)과 YARN (Yet Another Resource Negotiator)
-date: '2026-04-21'
-tags:
-- studynote-data-engineering
----
++++
+title = "205. 셔플·정렬 (Shuffle & Sort)과 YARN (Yet Another Resource Negotiator)"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-data-engineering"]
+
+[extra]
+tags = ["studynote-data-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: MapReduce의 셔플(Shuffle)은 Map 출력을 키([[067_db_key_uniqueness_minimality|Key]])별로 Reduce에 전달하기 위해 네트워크 전체를 가로질러 [[001_dikw_pyramid|데이터]]를 재배치하는 단계로, 전체 Job 시간의 40~70%를 차지하는 핵심 병목이다.
-> 2. **가치**: [[020_yarn|YARN]] (Yet Another Resource Negotiator)은 클러스터 자원 관리와 애플리케이션 실행 로직을 분리함으로써, [[843_hadoop_rack_awareness_data_replication_topology|Hadoop]] 클러스터를 [[018_mapreduce|MapReduce]] 전용에서 Spark·Tez·MPI 등을 아우르는 범용 [[136_variance|분산]] 컴퓨팅 플랫폼으로 전환시켰다.
-> 3. **판단 포인트**: 기술사 논술에서 셔플 최적화(Combiner, [[347_compaction|압축]], [[179_table_partitioning_concept|파티셔닝]] [[268_strategy_pattern|전략]])와 YARN의 역할 분리 아키텍처(ResourceManager·NodeManager·ApplicationMaster)를 구분하여 설명할 수 있어야 한다.
+> 1. **본질**: MapReduce의 셔플(Shuffle)은 Map 출력을 키([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))별로 Reduce에 전달하기 위해 네트워크 전체를 가로질러 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 재배치하는 단계로, 전체 Job 시간의 40~70%를 차지하는 핵심 병목이다.
+> 2. **가치**: [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/) (Yet Another Resource Negotiator)은 클러스터 자원 관리와 애플리케이션 실행 로직을 분리함으로써, [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 클러스터를 [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 전용에서 Spark·Tez·MPI 등을 아우르는 범용 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 컴퓨팅 플랫폼으로 전환시켰다.
+> 3. **판단 포인트**: 기술사 논술에서 셔플 최적화(Combiner, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/), [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))와 YARN의 역할 분리 아키텍처(ResourceManager·NodeManager·ApplicationMaster)를 구분하여 설명할 수 있어야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### [[018_mapreduce|MapReduce]] 처리 단계 개요
+### [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 처리 단계 개요
 
-MapReduce는 입력 [[001_dikw_pyramid|데이터]]를 Map → Shuffle & Sort → Reduce 세 단계로 처리한다.
+MapReduce는 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 Map → Shuffle & Sort → Reduce 세 단계로 처리한다.
 
 ```
 MapReduce 전체 흐름
@@ -47,7 +51,7 @@ MapReduce 전체 흐름
 
 ### 왜 셔플이 병목인가?
 
-셔플은 모든 Map [[150_task|태스크]]의 출력이 모든 Reduce [[150_task|태스크]]로 이동해야 하는 **All-to-All 통신 패턴**이다. 노드 N개가 있을 때 최악의 경우 N² 개의 네트워크 연결이 생성된다.
+셔플은 모든 Map [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)의 출력이 모든 Reduce [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)로 이동해야 하는 **All-to-All 통신 패턴**이다. 노드 N개가 있을 때 최악의 경우 N² 개의 네트워크 연결이 생성된다.
 
 📢 **섹션 요약 비유**: 셔플은 "반 전체 학생(Map)이 각자 쓴 답을 과목별로 정리해서 과목 담당 교사(Reduce)에게 전달하는 것"이다. 영어 답지는 영어 선생님께, 수학은 수학 선생님께. 100명 학생 × 10개 과목 = 1,000번 이동이 발생한다.
 
@@ -76,12 +80,12 @@ MapReduce 전체 흐름
 
 | 셔플 세부 단계 | 설명 | 최적화 방법 |
 |:---|:---|:---|
-| [[179_table_partitioning_concept|파티셔닝]] | 키 해시로 Reduce 분배 결정 | 균등 분포 보장 커스텀 파티셔너 |
+| [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) | 키 해시로 Reduce 분배 결정 | 균등 분포 보장 커스텀 파티셔너 |
 | 정렬 (Map-Side) | Map 출력을 키 기준 정렬 | 인메모리 정렬 버퍼 크기 증가 |
-| 스필 (Spill) | 버퍼 가득 차면 디스크에 임시 [[501_file_definition_logical_record|파일]] | 버퍼 크기 늘려 스필 횟수 감소 |
-| 병합 (Merge) | 스필 [[501_file_definition_logical_record|파일]]들을 병합 정렬 | Combiner로 [[001_dikw_pyramid|데이터]] 크기 사전 축소 |
-| 네트워크 전송 | Map → Reduce [[001_dikw_pyramid|데이터]] 전송 | [[347_compaction|압축]](Snappy/LZ4)으로 전송량 감소 |
-| Reduce-Side 정렬 | 수신된 [[001_dikw_pyramid|데이터]] 최종 병합 정렬 | 충분한 Reduce 힙 메모리 확보 |
+| 스필 (Spill) | 버퍼 가득 차면 디스크에 임시 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) | 버퍼 크기 늘려 스필 횟수 감소 |
+| 병합 (Merge) | 스필 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들을 병합 정렬 | Combiner로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기 사전 축소 |
+| 네트워크 전송 | Map → Reduce [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 | [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)(Snappy/LZ4)으로 전송량 감소 |
+| Reduce-Side 정렬 | 수신된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 최종 병합 정렬 | 충분한 Reduce 힙 메모리 확보 |
 
 ### Combiner: 셔플 최적화의 핵심
 
@@ -103,7 +107,7 @@ Combiner 효과
 
 > ⚠️ **주의**: Combiner는 결합법칙과 교환법칙이 성립하는 연산(합계, 최댓값)에만 적용 가능. 평균값 계산에 직접 적용하면 잘못된 결과가 나온다.
 
-### [[020_yarn|YARN]] 아키텍처
+### [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/) 아키텍처
 
 ```
 YARN 전체 아키텍처
@@ -135,25 +139,25 @@ YARN 전체 아키텍처
 └────────────────────────────────────────────────────────────────┘
 ```
 
-| [[020_yarn|YARN]] [[603_component_independent_deployment_unit|컴포넌트]] | 역할 | [[843_hadoop_rack_awareness_data_replication_topology|Hadoop]] 1.x 대비 |
+| [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/) [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) | 역할 | [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 1.x 대비 |
 |:---|:---|:---|
-| ResourceManager ([[197_rm_rate_monotonic_scheduling|RM]]) | 클러스터 전체 [[041_resource_allocation|자원 할당]]·스케줄링 | JobTracker의 자원 관리 부분만 담당 |
-| NodeManager (NM) | 노드별 [[194_container_virtualization_docker_namespace|Container]] 실행·모니터링 | TaskTracker 대체 |
-| ApplicationMaster (AM) | 앱별 [[150_task|태스크]] 계획·조율 | JobTracker의 작업 스케줄링 부분을 분리 |
-| [[194_container_virtualization_docker_namespace|Container]] | 격리된 자원 단위 (CPU, 메모리) | Slot 개념 대체 (더 세밀한 자원 제어) |
+| ResourceManager ([RM](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/)) | 클러스터 전체 [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/)·스케줄링 | JobTracker의 자원 관리 부분만 담당 |
+| NodeManager (NM) | 노드별 [Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/) 실행·모니터링 | TaskTracker 대체 |
+| ApplicationMaster (AM) | 앱별 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 계획·조율 | JobTracker의 작업 스케줄링 부분을 분리 |
+| [Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/) | 격리된 자원 단위 (CPU, 메모리) | Slot 개념 대체 (더 세밀한 자원 제어) |
 
-📢 **섹션 요약 비유**: YARN은 "군대 사령부(ResourceManager)가 병사([[194_container_virtualization_docker_namespace|Container]])를 배치하고, 각 작전 지휘관(ApplicationMaster)이 현장 작전을 수행하는 구조"다. [[843_hadoop_rack_awareness_data_replication_topology|Hadoop]] 1.x의 JobTracker는 사령부와 지휘관을 혼자 다 하던 과부하 직책이었다.
+📢 **섹션 요약 비유**: YARN은 "군대 사령부(ResourceManager)가 병사([Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/))를 배치하고, 각 작전 지휘관(ApplicationMaster)이 현장 작전을 수행하는 구조"다. [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 1.x의 JobTracker는 사령부와 지휘관을 혼자 다 하던 과부하 직책이었다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### [[020_yarn|YARN]] [[079_kube_scheduler_pod_placement|스케줄러]] 종류
+### [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 종류
 
-| [[079_kube_scheduler_pod_placement|스케줄러]] | [[164_policy|정책]] | 적합 환경 |
+| [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 적합 환경 |
 |:---|:---|:---|
-| [[261_fifo_page_replacement|FIFO]] (First In, First Out) | 제출 순서대로 처리 | 단순 [[228_batch_processing_hadoop_spark|배치 처리]] 환경 |
-| Capacity Scheduler | 팀/부서별 [[041_resource_allocation|자원 할당]]량 보장 | 다중 테넌트 기업 환경 ([[843_hadoop_rack_awareness_data_replication_topology|Hadoop]] 기본값) |
+| [FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) (First In, First Out) | 제출 순서대로 처리 | 단순 [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) 환경 |
+| Capacity Scheduler | 팀/부서별 [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/)량 보장 | 다중 테넌트 기업 환경 ([Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 기본값) |
 | Fair Scheduler | 실행 중인 Job 간 자원 공평 분배 | 소규모 Job이 많은 환경 |
 
 ### YARN에서 지원하는 프레임워크
@@ -177,19 +181,19 @@ YARN 멀티 프레임워크 지원
 
 | 최적화 기법 | 적용 위치 | 효과 | 주의사항 |
 |:---|:---|:---|:---|
-| Combiner | Map-Side | 셔플 [[001_dikw_pyramid|데이터]] 50~80% 감소 | 결합법칙·교환법칙 연산만 적용 가능 |
-| [[347_compaction|압축]] (Snappy) | 네트워크 전송 | 전송량 50~70% 감소 | CPU 오버헤드 발생 |
+| Combiner | Map-Side | 셔플 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 50~80% 감소 | 결합법칙·교환법칙 연산만 적용 가능 |
+| [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) (Snappy) | 네트워크 전송 | 전송량 50~70% 감소 | CPU 오버헤드 발생 |
 | 버퍼 크기 증가 | Map 버퍼 | 디스크 스필 횟수 감소 | 메모리 부족 주의 |
-| 파티셔너 커스텀 | [[179_table_partitioning_concept|파티셔닝]] | Reduce 스큐 방지 | 불균등 [[179_table_partitioning_concept|파티셔닝]] 주의 |
+| 파티셔너 커스텀 | [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) | Reduce 스큐 방지 | 불균등 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) 주의 |
 | Reduce 병렬도 | Reduce 수 조정 | 처리 병렬성 향상 | 너무 많으면 오버헤드 |
 
-📢 **섹션 요약 비유**: 셔플 최적화는 "택배 [[104_classification_analysis|분류]] 센터 효율화"다. Combiner는 출발지에서 미리 같은 목적지 택배를 묶어서 보내는 것([[393_data_dictionary|데이터 사전]] 집계), [[347_compaction|압축]]은 택배를 진공 [[347_compaction|압축]]해서 부피를 줄이는 것, 파티셔너는 목적지별 균등 배분으로 특정 센터에 몰리지 않게 하는 것이다.
+📢 **섹션 요약 비유**: 셔플 최적화는 "택배 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 센터 효율화"다. Combiner는 출발지에서 미리 같은 목적지 택배를 묶어서 보내는 것([데이터 사전](/knowledge-base/studynote/05_database/07_exam_summary/393_data_dictionary/) 집계), [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 택배를 진공 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 부피를 줄이는 것, 파티셔너는 목적지별 균등 배분으로 특정 센터에 몰리지 않게 하는 것이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 셔플 [[282_performance_tactics|성능]] 진단 방법
+### 셔플 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 진단 방법
 
 ```
 셔플 병목 진단 체크리스트
@@ -209,20 +213,20 @@ YARN 멀티 프레임워크 지원
 └──────────────────────────────────────────────────────────┘
 ```
 
-### [[020_yarn|YARN]] 자원 계획 실무
+### [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/) 자원 계획 실무
 
-| 항목 | 계획 방법 | 권장 [[009_config|설정]] |
+| 항목 | 계획 방법 | 권장 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) |
 |:---|:---|:---|
-| [[194_container_virtualization_docker_namespace|Container]] 메모리 | 물리 메모리의 80% [[020_yarn|YARN]] 할당 (20%는 OS용) | 128GB 서버 → [[020_yarn|YARN]] 102GB |
-| vCPU 할당 | [[199_interrupt_scheduling|하이퍼스레딩]] 고려 실제 코어 × 1.5~2 | 16코어 → [[020_yarn|YARN]] 24 vCPU |
+| [Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/) 메모리 | 물리 메모리의 80% [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/) 할당 (20%는 OS용) | 128GB 서버 → [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/) 102GB |
+| vCPU 할당 | [하이퍼스레딩](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/199_interrupt_scheduling/) 고려 실제 코어 × 1.5~2 | 16코어 → [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/) 24 vCPU |
 | AM 메모리 | 2~4GB (Spark AM은 더 필요할 수 있음) | 서비스별 조정 |
-| 최대 [[194_container_virtualization_docker_namespace|Container]] 크기 | 단일 Executor/Mapper 최대 크기 | 물리 메모리의 50% 이내 |
+| 최대 [Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/) 크기 | 단일 Executor/Mapper 최대 크기 | 물리 메모리의 50% 이내 |
 
 ### 기술사 논술 핵심 포인트
 
-1. **셔플 병목의 본질**: 셔플은 [[136_variance|분산]] 처리의 본질적 비용이다. 완전히 제거할 수 없으나, Combiner·[[179_table_partitioning_concept|파티셔닝]]·[[347_compaction|압축]]으로 최소화할 수 있음을 구체적 수치로 제시.
+1. **셔플 병목의 본질**: 셔플은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리의 본질적 비용이다. 완전히 제거할 수 없으나, Combiner·[파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)·[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)으로 최소화할 수 있음을 구체적 수치로 제시.
 2. **YARN의 역할 분리 철학**: ResourceManager가 "무엇을 실행할지"가 아닌 "어디에서 실행할지"만 결정함으로써 프레임워크 중립성을 확보. 이것이 멀티 프레임워크 지원의 핵심.
-3. **Spark vs [[018_mapreduce|MapReduce]] 셔플**: Spark도 셔플이 존재하지만 (GroupBy, [[521_join|Join]] 등), 중간 결과를 메모리에 유지해 디스크 I/O를 최소화한다는 차이를 명확히 서술.
+3. **Spark vs [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 셔플**: Spark도 셔플이 존재하지만 (GroupBy, [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 등), 중간 결과를 메모리에 유지해 디스크 I/O를 최소화한다는 차이를 명확히 서술.
 
 📢 **섹션 요약 비유**: YARN의 역할 분리는 "공항 관제탑(ResourceManager)은 활주로 배정만 하고, 각 항공사 운항 계획(ApplicationMaster)은 항공사가 직접 짜는 것"이다. 관제탑이 항공사마다 다른 운항 규칙을 알 필요 없이, 활주로만 효율적으로 배분하면 된다.
 
@@ -230,43 +234,43 @@ YARN 멀티 프레임워크 지원
 
 ## Ⅴ. 기대효과 및 결론
 
-### [[020_yarn|YARN]] 도입 효과
+### [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/) 도입 효과
 
 | 효과 영역 | 내용 |
 |:---|:---|
-| 자원 활용률 향상 | Slot 기반(고정) → [[194_container_virtualization_docker_namespace|Container]] 기반(가변), 자원 낭비 40% 감소 |
-| 프레임워크 유연성 | [[018_mapreduce|MapReduce]] 전용 → Spark·Tez·MPI·[[543_hbase|HBase]] 통합 운영 |
+| 자원 활용률 향상 | Slot 기반(고정) → [Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/) 기반(가변), 자원 낭비 40% 감소 |
+| 프레임워크 유연성 | [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 전용 → Spark·Tez·MPI·[HBase](/knowledge-base/studynote/05_database/04_transactions_concurrency/543_hbase/) 통합 운영 |
 | 운영 단순화 | 단일 클러스터에서 다중 워크로드 통합 관리 |
-| 확장성 | [[843_hadoop_rack_awareness_data_replication_topology|Hadoop]] 1.x 4,000 노드 한계 → 수만 노드 지원 |
+| 확장성 | [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 1.x 4,000 노드 한계 → 수만 노드 지원 |
 
 ### 셔플 최적화 효과
 
 | 최적화 적용 | 셔플 시간 | 전체 Job 시간 |
 |:---|:---|:---|
-| 기본 [[009_config|설정]] | 60분 | 90분 |
+| 기본 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | 60분 | 90분 |
 | Combiner 적용 | 25분 | 45분 |
-| Combiner + [[347_compaction|압축]] | 15분 | 32분 |
-| Combiner + [[347_compaction|압축]] + 파티셔너 최적화 | 12분 | 25분 |
+| Combiner + [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) | 15분 | 32분 |
+| Combiner + [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) + 파티셔너 최적화 | 12분 | 25분 |
 
 ### 결론
 
-셔플 & 정렬은 MapReduce의 핵심이자 병목이다. 이를 이해하고 최적화하는 능력은 빅데이터 엔지니어의 기본 역량이다. YARN은 [[843_hadoop_rack_awareness_data_replication_topology|Hadoop]] 클러스터를 범용 [[136_variance|분산]] 컴퓨팅 플랫폼으로 격상시켜, 현재 클라우드 기반 [[001_dikw_pyramid|데이터]] 플랫폼의 자원 관리 개념(Kubernetes의 [[198_pod_kubernetes_minimum_deployment_unit|Pod]]/[[194_container_virtualization_docker_namespace|Container]] 개념과도 연결)의 선구자가 되었다.
+셔플 & 정렬은 MapReduce의 핵심이자 병목이다. 이를 이해하고 최적화하는 능력은 빅데이터 엔지니어의 기본 역량이다. YARN은 [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 클러스터를 범용 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 컴퓨팅 플랫폼으로 격상시켜, 현재 클라우드 기반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼의 자원 관리 개념(Kubernetes의 [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)/[Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/) 개념과도 연결)의 선구자가 되었다.
 
-📢 **섹션 요약 비유**: 셔플 최적화와 YARN은 "도로 교통망 개선"이다. Combiner는 출발지에서 카풀로 차 수를 줄이고, [[347_compaction|압축]]은 트럭에 더 많이 싣고, YARN은 교차로 신호체계를 스마트하게 바꿔 전체 흐름을 개선한다. 개별 최적화가 모여 시스템 전체 효율을 높인다.
+📢 **섹션 요약 비유**: 셔플 최적화와 YARN은 "도로 교통망 개선"이다. Combiner는 출발지에서 카풀로 차 수를 줄이고, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 트럭에 더 많이 싣고, YARN은 교차로 신호체계를 스마트하게 바꿔 전체 흐름을 개선한다. 개별 최적화가 모여 시스템 전체 효율을 높인다.
 
 ---
 
 ### 📌 관련 개념 맵
-| [[083_relationship_in_er_model|관계]] | 개념 | 설명 |
+| [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
 |:---|:---|:---|
-| 하위 개념 | Map 단계 | 입력 [[001_dikw_pyramid|데이터]] 변환, 키-값 쌍 출력 |
-| 핵심 단계 | Shuffle & Sort | 키별 [[001_dikw_pyramid|데이터]] 재배치, 정렬 |
+| 하위 개념 | Map 단계 | 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변환, 키-값 쌍 출력 |
+| 핵심 단계 | Shuffle & Sort | 키별 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재배치, 정렬 |
 | 하위 개념 | Reduce 단계 | 키별 집계·처리 |
-| 최적화 기술 | Combiner | Map-Side 사전 집계로 셔플 [[001_dikw_pyramid|데이터]] 감소 |
-| 관련 기술 | [[020_yarn|YARN]] (Yet Another Resource Negotiator) | 범용 클러스터 자원 관리자 |
-| [[020_yarn|YARN]] 구성 | ResourceManager | 클러스터 전체 [[041_resource_allocation|자원 할당]] |
-| [[020_yarn|YARN]] 구성 | ApplicationMaster | 앱별 [[150_task|태스크]] 조율 |
-| 발전 방향 | [[206_spark_inmemory_rdd_lazy_evaluation_lineage|Apache Spark]] | 인메모리로 셔플 오버헤드 최소화 |
+| 최적화 기술 | Combiner | Map-Side 사전 집계로 셔플 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 감소 |
+| 관련 기술 | [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/) (Yet Another Resource Negotiator) | 범용 클러스터 자원 관리자 |
+| [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/) 구성 | ResourceManager | 클러스터 전체 [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) |
+| [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/) 구성 | ApplicationMaster | 앱별 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 조율 |
+| 발전 방향 | [Apache Spark](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/) | 인메모리로 셔플 오버헤드 최소화 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 셔플은 "반 친구들이 만든 과목별 숙제 카드를 선생님들한테 전달하는 것"이에요. 수학 카드는 수학 선생님께, 영어 카드는 영어 선생님께 전달해야 해요.
@@ -296,7 +300,7 @@ AQE (Adaptive Query Execution): 런타임 최적화
 
 **진행 상황**: 205 / 258
 
-← **이전**: [[204_namenode_metadata_mapreduce_disk_bottleneck|204. NameNode 메타데이터와 MapReduce 디스크 병목 SPOF 극복]]
-**다음**: [[206_spark_inmemory_rdd_lazy_evaluation_lineage|206. 아파치 스파크 (Apache Spark) 인메모리 RDD 지연 평가 계보]] →
+← **이전**: [204. NameNode 메타데이터와 MapReduce 디스크 병목 SPOF 극복](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/204_namenode_metadata_mapreduce_disk_bottleneck/)
+**다음**: [206. 아파치 스파크 (Apache Spark) 인메모리 RDD 지연 평가 계보](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/) →
 
 ---

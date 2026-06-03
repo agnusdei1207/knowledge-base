@@ -1,27 +1,31 @@
----
-title: 391. 우선순위 큐 (PQ), 맞춤형 큐 (CQ), WFQ, CBWFQ, LLQ
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "391. 우선순위 큐 (PQ), 맞춤형 큐 (CQ), WFQ, CBWFQ, LLQ"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[083_priority_queue|우선순위 큐]], 맞춤형 큐, WFQ, CBWF…는 [[339_routing_overview_best_path_selection|라우팅]]과 경로 제어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: [[083_priority_queue|우선순위 큐]], 맞춤형 큐, WFQ, CBWF…를 이해하면 수렴 속도과 확장성 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/), 맞춤형 큐, WFQ, CBWF…는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/), 맞춤형 큐, WFQ, CBWF…를 이해하면 수렴 속도과 확장성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 라우터나 [[238_switch_operation_principles|스위치]] 인터페이스의 출력 버퍼(Output Buffer)에서, 혼잡(Congestion) 발생 시 다수의 패킷 스트림을 어떤 순서와 비율로 처리할지 결정하는 스케줄링 메커니즘.
-- **필요성**: 1Gbps 선로에 1.5Gbps가 쏟아져 들어오면 라우터는 어쩔 수 없이 0.5Gbps를 잠시 창고([[058_queue|Queue]])에 쌓아둬야 한다([[454_buffering|버퍼링]]). 그런데 창고 문을 열 때 들어온 순서대로 빼면([[261_fifo_page_replacement|FIFO]]), 덩치 큰 [[501_file_definition_logical_record|파일]] 다운로드 패킷 뒤에 목소리(VoIP) 패킷이 갇혀서 전화가 뚝뚝 끊긴다. **"야, 창고 안에 있는 놈들 중에 목소리 패킷부터 무조건 먼저 멱살 잡고 꺼내라!"**라는 지능적인 출고 순서 제어가 필수적이었다.
+- **개념**: 라우터나 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 인터페이스의 출력 버퍼(Output Buffer)에서, 혼잡(Congestion) 발생 시 다수의 패킷 스트림을 어떤 순서와 비율로 처리할지 결정하는 스케줄링 메커니즘.
+- **필요성**: 1Gbps 선로에 1.5Gbps가 쏟아져 들어오면 라우터는 어쩔 수 없이 0.5Gbps를 잠시 창고([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))에 쌓아둬야 한다([버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)). 그런데 창고 문을 열 때 들어온 순서대로 빼면([FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/)), 덩치 큰 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 다운로드 패킷 뒤에 목소리(VoIP) 패킷이 갇혀서 전화가 뚝뚝 끊긴다. **"야, 창고 안에 있는 놈들 중에 목소리 패킷부터 무조건 먼저 멱살 잡고 꺼내라!"**라는 지능적인 출고 순서 제어가 필수적이었다.
 
 - **💡 비유**: 큐잉은 응급실의 **"환자 대기열 관리"**와 같습니다.
-  - **[[261_fifo_page_replacement|FIFO]] (기본)**: 접수표 뽑은 순서대로 진료합니다. 감기 환자 100명이 먼저 오면 뒤에 온 심정지 환자는 죽습니다.
-  - **PQ ([[083_priority_queue|Priority Queue]])**: 심정지 환자가 1명이라도 있으면 감기 환자 진료를 무조건 멈추고 심정지 환자부터 치료합니다.
-  - **CQ (Custom [[058_queue|Queue]])**: 외과, 내과, 소아과 창구를 나누고, 외과 4명, 내과 3명, 소아과 3명씩 번갈아 가며 공평하게 부릅니다.
+  - **[FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) (기본)**: 접수표 뽑은 순서대로 진료합니다. 감기 환자 100명이 먼저 오면 뒤에 온 심정지 환자는 죽습니다.
+  - **PQ ([Priority Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/))**: 심정지 환자가 1명이라도 있으면 감기 환자 진료를 무조건 멈추고 심정지 환자부터 치료합니다.
+  - **CQ (Custom [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))**: 외과, 내과, 소아과 창구를 나누고, 외과 4명, 내과 3명, 소아과 3명씩 번갈아 가며 공평하게 부릅니다.
 
 ```text
 [DiffServ]
@@ -44,23 +48,23 @@ tags:
 - **PQ (Priority Queuing)**: 
   - 큐를 4개(High, Medium, Normal, Low) 만든다. 
   - **잔인한 룰**: High 큐에 패킷이 단 1개라도 남아 있으면 나머지 큐는 절대 처리 안 한다! 
-  - 단점: 해커가 High 큐로 쓰레기 데이터를 계속 밀어 넣으면, 나머지 평민 패킷들은 단 한 발자국도 못 나가고 굶어 죽는 **기아([[314_starvation_prevention|Starvation]]) 현상**이 발생한다.
+  - 단점: 해커가 High 큐로 쓰레기 데이터를 계속 밀어 넣으면, 나머지 평민 패킷들은 단 한 발자국도 못 나가고 굶어 죽는 **기아([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) 현상**이 발생한다.
 - **CQ (Custom Queuing)**:
   - 기아 현상을 막기 위해 16개의 큐를 판다.
-  - "1번 큐에서 1500바이트, 2번 큐에서 1000바이트 꺼내!" 식으로 [[178_round_robin_scheduling|라운드 로빈]](돌아가면서) 분배한다.
+  - "1번 큐에서 1500바이트, 2번 큐에서 1000바이트 꺼내!" 식으로 [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/)(돌아가면서) 분배한다.
   - 단점: 차례를 기다려야 하므로 실시간 음성(VoIP) 패킷에는 치명적인 지연이 생긴다.
 
 ### 2. 2세대: WFQ (Weighted Fair Queuing)
-- 1990년대 후반의 디폴트(기본) [[079_kube_scheduler_pod_placement|스케줄러]]. 관리자가 손대지 않아도 라우터가 알아서 큐를 수백 개 만든다.
+- 1990년대 후반의 디폴트(기본) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/). 관리자가 손대지 않아도 라우터가 알아서 큐를 수백 개 만든다.
 - **공평함의 룰**: 트래픽을 분류해서 대역폭을 N분의 1로 똑같이 나눠준다. 
-- **작은 고추가 맵다**: 패킷 크기가 "작은 놈(주로 음성/텔넷)"을 덩치 "큰 놈([[482_ftp_file_transfer_protocol|FTP]])"보다 먼저 빼내어(새치기) 스케줄링해 준다.
+- **작은 고추가 맵다**: 패킷 크기가 "작은 놈(주로 음성/텔넷)"을 덩치 "큰 놈([FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/))"보다 먼저 빼내어(새치기) 스케줄링해 준다.
 
 ### 3. 3세대: CBWFQ (Class-Based WFQ)
 - WFQ가 지 알아서 공평하게 나누는 게 맘에 안 들었던 관리자들이 만든 맞춤형 큐다.
-- `class-map`을 만들어서 "1번 큐(웹서핑)는 전체 대역폭의 20% 보장! 2번 큐([[002_database_definition|데이터베이스]])는 40% 보장!"이라고 **비율(%) 단위로 대역폭을 쪼개서 분양**해 줄 수 있게 된 혁명적 큐잉이다.
+- `class-map`을 만들어서 "1번 큐(웹서핑)는 전체 대역폭의 20% 보장! 2번 큐([데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/))는 40% 보장!"이라고 **비율(%) 단위로 대역폭을 쪼개서 분양**해 줄 수 있게 된 혁명적 큐잉이다.
 - 하지만 여전히 '새치기' 기능이 없어서 VoIP 처리가 아쉬웠다.
 
-### 4. 끝판왕: LLQ (Low [[141_latency|Latency]] Queuing) ★현대 표준
+### 4. 끝판왕: LLQ (Low [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) Queuing) ★현대 표준
 - **CBWFQ 뼈대 + PQ(절대 반지) 1개의 융합**.
 - "야, CBWFQ로 % 나눠주는 거 다 좋은데, 딱 하나! **음성(VoIP) 패킷이 들어가는 큐 딱 1개만 '엄격한 우선순위(Strict Priority)'로 지정해서, 여기 패킷 들어오면 무조건 0순위로 새치기해서 다 쳐내라!**"
 - 단, 기아 현상(PQ의 단점)을 막기 위해 "음성 패킷이 새치기는 하되, 최대 30%까지만 새치기해라!"라고 **폴리싱(제한)**을 걸어두는 완벽한 밸런스를 맞췄다.
@@ -88,42 +92,42 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-[[083_priority_queue|우선순위 큐]], 맞춤형 큐, WFQ, CBWF…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. DiffServ가 기반 조건을 만든다면, [[083_priority_queue|우선순위 큐]], 맞춤형 큐, WFQ, CBWF…는 그 위에서 핵심 메커니즘을 구현하고, [[392_traffic_shaping_and_policing|트래픽 쉐이핑]] / 폴리싱은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 수렴 속도과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+[우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/), 맞춤형 큐, WFQ, CBWF…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. DiffServ가 기반 조건을 만든다면, [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/), 맞춤형 큐, WFQ, CBWF…는 그 위에서 핵심 메커니즘을 구현하고, [트래픽 쉐이핑](/knowledge-base/studynote/03_network/07_network_layer_routing/392_traffic_shaping_and_policing/) / 폴리싱은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 수렴 속도과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | DiffServ의 기반 정리 | [[083_priority_queue|우선순위 큐]], 맞춤형 큐, WFQ, CBWF…의 핵심 동작 | [[392_traffic_shaping_and_policing|트래픽 쉐이핑]] / 폴리싱의 확장 적용 |
+| 초점 | DiffServ의 기반 정리 | [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/), 맞춤형 큐, WFQ, CBWF…의 핵심 동작 | [트래픽 쉐이핑](/knowledge-base/studynote/03_network/07_network_layer_routing/392_traffic_shaping_and_policing/) / 폴리싱의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 수렴 속도 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: [[083_priority_queue|우선순위 큐]], 맞춤형 큐, WFQ, CBWF…는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
+- **📢 섹션 요약 비유**: [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/), 맞춤형 큐, WFQ, CBWF…는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 [[083_priority_queue|우선순위 큐]], 맞춤형 큐, WFQ, CBWF…를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [[390_diffserv_differentiated_services_dscp_phb|DiffServ]] 수준의 기본 대책으로 충분한지, 아니면 [[083_priority_queue|우선순위 큐]], 맞춤형 큐, WFQ, CBWF…가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [[392_traffic_shaping_and_policing|트래픽 쉐이핑]] / 폴리싱와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/), 맞춤형 큐, WFQ, CBWF…를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [DiffServ](/knowledge-base/studynote/03_network/07_network_layer_routing/390_diffserv_differentiated_services_dscp_phb/) 수준의 기본 대책으로 충분한지, 아니면 [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/), 맞춤형 큐, WFQ, CBWF…가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [트래픽 쉐이핑](/knowledge-base/studynote/03_network/07_network_layer_routing/392_traffic_shaping_and_policing/) / 폴리싱와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 수렴 속도 부족인지, 확장성 악화인지 먼저 분리한다.
-2. [[083_priority_queue|우선순위 큐]], 맞춤형 큐, WFQ, CBWF…가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [[396_validation|확인]]한다.
-3. 도입 후에는 인접 기술인 [[392_traffic_shaping_and_policing|트래픽 쉐이핑]] / 폴리싱와의 연계 방식을 함께 검증한다.
+2. [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/), 맞춤형 큐, WFQ, CBWF…가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+3. 도입 후에는 인접 기술인 [트래픽 쉐이핑](/knowledge-base/studynote/03_network/07_network_layer_routing/392_traffic_shaping_and_policing/) / 폴리싱와의 연계 방식을 함께 검증한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- [[083_priority_queue|우선순위 큐]], 맞춤형 큐, WFQ, CBWF…의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- DiffServ와의 경계를 정리하지 않아 중복 투자나 [[164_policy|정책]] 충돌을 만드는 설계
+- [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/), 맞춤형 큐, WFQ, CBWF…의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
+- DiffServ와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
-- **📢 섹션 요약 비유**: [[083_priority_queue|우선순위 큐]], 맞춤형 큐, WFQ, CBWF…를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
+- **📢 섹션 요약 비유**: [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/), 맞춤형 큐, WFQ, CBWF…를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[[083_priority_queue|우선순위 큐]], 맞춤형 큐, WFQ, CBWF…는 [[339_routing_overview_best_path_selection|라우팅]]과 경로 제어를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 수렴 속도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [[392_traffic_shaping_and_policing|트래픽 쉐이핑]] / 폴리싱, 의도 기반 [[339_routing_overview_best_path_selection|라우팅]], 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의도 기반 [[339_routing_overview_best_path_selection|라우팅]] 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+[우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/), 맞춤형 큐, WFQ, CBWF…는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 수렴 속도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [트래픽 쉐이핑](/knowledge-base/studynote/03_network/07_network_layer_routing/392_traffic_shaping_and_policing/) / 폴리싱, 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: [[083_priority_queue|우선순위 큐]], 맞춤형 큐, WFQ, CBWF…는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
+- **📢 섹션 요약 비유**: [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/), 맞춤형 큐, WFQ, CBWF…는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
 ---
 
@@ -131,10 +135,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[390_diffserv_differentiated_services_dscp_phb|DiffServ]] | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [[339_routing_overview_best_path_selection|라우팅]] 테이블 ([[339_routing_overview_best_path_selection|Routing]] Table) | 패킷 전달 의사결정의 기준이 된다. |
-| [[342_routing_metric_hop_bandwidth_delay|메트릭]] ([[342_routing_metric_hop_bandwidth_delay|Metric]]) | 최적 경로를 선택하는 비교 척도다. |
-| [[392_traffic_shaping_and_policing|트래픽 쉐이핑]] / 폴리싱 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [DiffServ](/knowledge-base/studynote/03_network/07_network_layer_routing/390_diffserv_differentiated_services_dscp_phb/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 ([Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) Table) | 패킷 전달 의사결정의 기준이 된다. |
+| [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) ([Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)) | 최적 경로를 선택하는 비교 척도다. |
+| [트래픽 쉐이핑](/knowledge-base/studynote/03_network/07_network_layer_routing/392_traffic_shaping_and_policing/) / 폴리싱 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -148,7 +152,7 @@ tags:
     └──▶ [확장 B: 의도 기반 라우팅]
 ```
 
-[[083_priority_queue|우선순위 큐]], 맞춤형 큐, WFQ, CBWF…는 DiffServ에서 출발해 현재 메커니즘을 정교화하고, 이후 [[392_traffic_shaping_and_policing|트래픽 쉐이핑]] / 폴리싱와 의도 기반 [[339_routing_overview_best_path_selection|라우팅]] 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+[우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/), 맞춤형 큐, WFQ, CBWF…는 DiffServ에서 출발해 현재 메커니즘을 정교화하고, 이후 [트래픽 쉐이핑](/knowledge-base/studynote/03_network/07_network_layer_routing/392_traffic_shaping_and_policing/) / 폴리싱와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -162,7 +166,7 @@ tags:
 
 **진행 상황**: 512 / 1120
 
-← **이전**: [[390_diffserv_differentiated_services_dscp_phb|390. DiffServ (Differentiated Services)]]
-**다음**: [[392_traffic_shaping_and_policing|392. 트래픽 쉐이핑 (Traffic Shaping) / 폴리싱 (Traffic Policing)]] →
+← **이전**: [390. DiffServ (Differentiated Services)](/knowledge-base/studynote/03_network/07_network_layer_routing/390_diffserv_differentiated_services_dscp_phb/)
+**다음**: [392. 트래픽 쉐이핑 (Traffic Shaping) / 폴리싱 (Traffic Policing)](/knowledge-base/studynote/03_network/07_network_layer_routing/392_traffic_shaping_and_policing/) →
 
 ---

@@ -1,22 +1,26 @@
----
-title: 21. 디지털 시스템 vs 아날로그 시스템
-date: '2026-04-19'
-tags:
-- studynote-computer-architecture
----
++++
+title = "21. 디지털 시스템 vs 아날로그 시스템"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 아날로그(Analog) 시스템은 자연계 물리량처럼 연속적인 값을 다루며, 디지털(Digital) 시스템은 이 연속된 [[130_signal|신호]]를 0과 1이라는 불연속적인 이산값(Discrete Value)으로 쪼개어 처리하는 체계다.
-> 2. **가치**: 디지털 시스템은 특정 임계 [[001_voltage|전압]] 구간(Noise Margin)을 방어막으로 설정하여, 전송 중 발생하는 노이즈 왜곡을 무시하고 원래의 0과 1로 100% 복원해 내는 [[001_dikw_pyramid|데이터]] [[003_integrity|무결성]]([[001_dikw_pyramid|Data]] [[003_integrity|Integrity]])을 제공한다.
-> 3. **판단 포인트**: 컴퓨터 핵심 코어는 완벽한 디지털로 동작하지만 인간의 감각기관 등 자연계와 소통하기 위해 시스템 외곽에 반드시 ADC와 DAC를 융합 배치해야 하며, 이때 발생하는 [[434_quantization|양자화]] 오차([[434_quantization|Quantization]] Error)가 설계의 핵심 트레이드오프다.
+> 1. **본질**: 아날로그(Analog) 시스템은 자연계 물리량처럼 연속적인 값을 다루며, 디지털(Digital) 시스템은 이 연속된 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 0과 1이라는 불연속적인 이산값(Discrete Value)으로 쪼개어 처리하는 체계다.
+> 2. **가치**: 디지털 시스템은 특정 임계 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 구간(Noise Margin)을 방어막으로 설정하여, 전송 중 발생하는 노이즈 왜곡을 무시하고 원래의 0과 1로 100% 복원해 내는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))을 제공한다.
+> 3. **판단 포인트**: 컴퓨터 핵심 코어는 완벽한 디지털로 동작하지만 인간의 감각기관 등 자연계와 소통하기 위해 시스템 외곽에 반드시 ADC와 DAC를 융합 배치해야 하며, 이때 발생하는 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) 오차([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) Error)가 설계의 핵심 트레이드오프다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-시스템은 다루는 [[130_signal|신호]]의 특성에 따라 연속적인 값을 다루는 아날로그와 불연속적인 흑백의 값을 다루는 디지털로 나뉜다.
+시스템은 다루는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 특성에 따라 연속적인 값을 다루는 아날로그와 불연속적인 흑백의 값을 다루는 디지털로 나뉜다.
 
-아날로그 시스템은 [[130_signal|신호]] 증폭 시 필연적으로 잡음(Noise)이 원본 [[001_dikw_pyramid|데이터]]와 융합되어 영구적인 손상을 입는 취약점이 있다. 이를 타파하기 위해 폰 노이만과 클로드 섀논 등은 정보의 모양 자체를 저장하는 대신, 임계 [[001_voltage|전압]]을 기준으로 "크다(1)"와 "작다(0)"의 극단적 상태로만 정보를 기록하는 디지털 방식을 고안했다. 이를 통해 외부 충격에도 원본 훼손 없이 복원 가능한 [[003_integrity|무결성]] 시대가 열렸다.
+아날로그 시스템은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 증폭 시 필연적으로 잡음(Noise)이 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 융합되어 영구적인 손상을 입는 취약점이 있다. 이를 타파하기 위해 폰 노이만과 클로드 섀논 등은 정보의 모양 자체를 저장하는 대신, 임계 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 기준으로 "크다(1)"와 "작다(0)"의 극단적 상태로만 정보를 기록하는 디지털 방식을 고안했다. 이를 통해 외부 충격에도 원본 훼손 없이 복원 가능한 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 시대가 열렸다.
 
 - **📢 섹션 요약 비유**: 아날로그가 경사가 매끄러운 '미끄럼틀'이라면(어떤 위치에든 멈출 수 있음), 디지털은 층이 명확하게 나뉜 '계단'이다(1.5층이라는 애매한 공간은 아예 존재하지 않아 서 있을 수 없음).
 
@@ -26,7 +30,7 @@ tags:
 
 디지털이 아날로그를 압도하고 컴퓨팅의 지배자가 된 유일한 이유는 **노이즈 마진 (Noise Margin)**이라는 자체 치유 방어막 덕분이다.
 
-디지털 아키텍트는 칩을 설계할 때 "3.5V에서 5V 사이에 들어오는 [[001_voltage|전압]]은 무조건 '1'로 취급한다"라고 허용 범위를 설정한다. 따라서 5V로 출발한 [[130_signal|신호]]가 전선을 타다 노이즈를 맞아 3.8V로 너덜너덜해져도 시스템은 이를 완벽한 '1'로 복원(Regeneration)해 다음 회로로 넘긴다.
+디지털 아키텍트는 칩을 설계할 때 "3.5V에서 5V 사이에 들어오는 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)은 무조건 '1'로 취급한다"라고 허용 범위를 설정한다. 따라서 5V로 출발한 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 전선을 타다 노이즈를 맞아 3.8V로 너덜너덜해져도 시스템은 이를 완벽한 '1'로 복원(Regeneration)해 다음 회로로 넘긴다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -57,12 +61,12 @@ tags:
 
 | 비교 항목 | 아날로그 (Analog) 아키텍처 | 디지털 (Digital) 아키텍처 |
 |:---|:---|:---|
-| **기본 소자** | 연산 증폭기 (OP-AMP), [[003_resistance|저항]], [[007_inductor|인덕터]] | [[027_logic_gates|논리 게이트]], [[051_flip_flop|플립플롭]] |
-| **정보 취급** | [[130_signal|신호]]의 진폭/주파수 모양 자체가 [[001_dikw_pyramid|데이터]] | 0과 1로 구성된 비트열 (Bitstream) |
-| **노이즈** | 치명적임 (노이즈가 그대로 증폭됨) | **면역력 극강** (마진으로 자동 [[658_ir_recovery|복구]]) |
-| **주요 용도** | 오디오 앰프, 무선 통신(RF), 센서 수집 | CPU, 메모리, 모든 [[001_dikw_pyramid|데이터]] 연산 및 저장 |
+| **기본 소자** | 연산 증폭기 (OP-AMP), [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/), [인덕터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/007_inductor/) | [논리 게이트](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/027_logic_gates/), [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) |
+| **정보 취급** | [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 진폭/주파수 모양 자체가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 0과 1로 구성된 비트열 (Bitstream) |
+| **노이즈** | 치명적임 (노이즈가 그대로 증폭됨) | **면역력 극강** (마진으로 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)) |
+| **주요 용도** | 오디오 앰프, 무선 통신(RF), 센서 수집 | CPU, 메모리, 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연산 및 저장 |
 
-완벽히 매끄러운 아날로그 선을 컴퓨터에 저장하려면, 모눈종이 위에 점을 찍어 계단 모양으로 깎아내는 샘플링([[056_표본화_Sampling|표본화]])과 [[434_quantization|양자화]]([[434_quantization|Quantization]]) 과정을 거쳐야 한다. 이 과정에서 필연적으로 곡선과 계단 모서리 사이에 텅 빈 공간이 생기며 이를 [[434_quantization|양자화]] 오차([[434_quantization|Quantization]] Error)라 한다. 
+완벽히 매끄러운 아날로그 선을 컴퓨터에 저장하려면, 모눈종이 위에 점을 찍어 계단 모양으로 깎아내는 샘플링([표본화](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/))과 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)) 과정을 거쳐야 한다. 이 과정에서 필연적으로 곡선과 계단 모서리 사이에 텅 빈 공간이 생기며 이를 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) 오차([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) Error)라 한다. 
 
 - **📢 섹션 요약 비유**: 둥근 사과(아날로그)를 컴퓨터 화면에 띄우기 위해 네모난 레고 블록(디지털 픽셀)으로 조립하는 과정과 같다. 블록이 아무리 작아도 둥근 곡선을 100% 표현할 수 없어 계단처럼 오돌토돌해지는 손실이 발생한다.
 
@@ -70,14 +74,14 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-하드웨어 아키텍트가 믹스드 시그널(Mixed [[130_signal|Signal]]) 기판을 설계할 때는 잡음 차단이 생명이다.
+하드웨어 아키텍트가 믹스드 시그널(Mixed [Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)) 기판을 설계할 때는 잡음 차단이 생명이다.
 
-### [[435_checklist_based_testing|체크리스트]] 및 판단 기준
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 판단 기준
 1. 센서에서 들어오는 미세한 아날로그 파형을 훼손 없이 분석해야 할 때, MCU 내부의 저해상도 ADC 대신 분해능이 높은 외부 16-bit 고정밀 ADC 전용 칩을 별도 배치했는가?
 2. PCB 기판 설계 시, 과격하고 시끄러운 디지털 칩이 내뿜는 스위칭 노이즈가 예민한 아날로그 오디오/통신 칩으로 흘러 들어가는 간섭(Cross-talk)을 막기 위해 아날로그 접지(AGND)와 디지털 접지(DGND)를 물리적으로 완벽히 격리(Split GND)했는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
-- 미세한 아날로그 오디오 [[130_signal|신호]] 선로 바로 옆 1mm 간격에 고속으로 0과 1을 쏘아대는 디지털 클럭([[045_clock|Clock]]) 배선을 나란히 깔아버리는 최악의 레이아웃. 디지털 엣지(Edge)에서 뿜어져 나오는 전자기파 노이즈가 연약한 아날로그 선로를 완전히 박살 내어 시스템을 먹통으로 만든다.
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- 미세한 아날로그 오디오 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 선로 바로 옆 1mm 간격에 고속으로 0과 1을 쏘아대는 디지털 클럭([Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/)) 배선을 나란히 깔아버리는 최악의 레이아웃. 디지털 엣지(Edge)에서 뿜어져 나오는 전자기파 노이즈가 연약한 아날로그 선로를 완전히 박살 내어 시스템을 먹통으로 만든다.
 
 - **📢 섹션 요약 비유**: 수술실(아날로그 회로) 옆방에 시끄러운 나이트클럽(디지털 회로)을 지어버린 꼴이다. 클럽의 우퍼 베이스(스위칭 노이즈)가 울릴 때마다 의사의 메스가 흔들려 환자가 죽는다. 방음벽(접지 분리)을 철저히 쳐야만 칩이 생존한다.
 
@@ -85,11 +89,11 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-디지털 시스템은 노이즈 마진을 무기로 정보의 100% [[003_integrity|무결성]]을 달성하며 현대 IT 문명을 건설했다. 
+디지털 시스템은 노이즈 마진을 무기로 정보의 100% [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 달성하며 현대 IT 문명을 건설했다. 
 
-하지만 최근 [[190_ai_llm_requirements_specification|AI]] 연산 폭증으로 디지털의 극심한 곱셈 전력 소모가 한계에 다다르자, [[003_resistance|저항]](R) 값이 변하는 메모리(Memristor)를 이용해 옴의 법칙과 [[001_voltage|전압]]/전류량 자체로 행렬 곱셈을 단숨에 끝내버리는 **아날로그 [[190_ai_llm_requirements_specification|AI]] 가속기 (Analog In-Memory Computing)**로의 기괴한 르네상스 회귀가 시도되고 있다. 극단의 신뢰성을 추구하던 디지털 패러다임이, 에너지 효율을 위해 다시 아날로그적 물리 법칙과 결합하는 나선형 진화의 변곡점이다.
+하지만 최근 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 연산 폭증으로 디지털의 극심한 곱셈 전력 소모가 한계에 다다르자, [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)(R) 값이 변하는 메모리(Memristor)를 이용해 옴의 법칙과 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)/전류량 자체로 행렬 곱셈을 단숨에 끝내버리는 **아날로그 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속기 (Analog In-Memory Computing)**로의 기괴한 르네상스 회귀가 시도되고 있다. 극단의 신뢰성을 추구하던 디지털 패러다임이, 에너지 효율을 위해 다시 아날로그적 물리 법칙과 결합하는 나선형 진화의 변곡점이다.
 
-- **📢 섹션 요약 비유**: 물감으로 그린 그림(아날로그)은 물이 튀면 망가져서, 떨어뜨려도 다시 조립할 수 있는 레고 블록(디지털)으로 세상을 다 지었다. 하지만 레고로 너무 거대한 [[190_ai_llm_requirements_specification|AI]] 성을 짓다 보니 조립하는 힘(전력)이 너무 들어, 다시 물감과 레고의 장점만 섞는 새로운 융합(아날로그 [[190_ai_llm_requirements_specification|AI]]) 마법을 시도하는 것이다.
+- **📢 섹션 요약 비유**: 물감으로 그린 그림(아날로그)은 물이 튀면 망가져서, 떨어뜨려도 다시 조립할 수 있는 레고 블록(디지털)으로 세상을 다 지었다. 하지만 레고로 너무 거대한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 성을 짓다 보니 조립하는 힘(전력)이 너무 들어, 다시 물감과 레고의 장점만 섞는 새로운 융합(아날로그 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) 마법을 시도하는 것이다.
 
 ---
 
@@ -97,9 +101,9 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **노이즈 마진 (Noise Margin)** | 전송 중 [[130_signal|신호]]가 찌그러져도 임계점 안에만 들어오면 원래 0과 1로 100% 복원해 내는 디지털의 절대 방패 |
+| **노이즈 마진 (Noise Margin)** | 전송 중 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 찌그러져도 임계점 안에만 들어오면 원래 0과 1로 100% 복원해 내는 디지털의 절대 방패 |
 | **ADC / DAC** | 자연계의 아날로그 파형을 컴퓨터의 0과 1로 번역(ADC)하고, 다시 인간이 듣고 볼 수 있게 복원(DAC)하는 통역사 |
-| **[[434_quantization|양자화]] 오차 ([[434_quantization|Quantization]] Error)** | 아날로그 곡선을 디지털 계단으로 강제로 반올림하여 변환할 때 필연적으로 버려지는 [[001_dikw_pyramid|데이터]] 손실 |
+| **[양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) 오차 ([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) Error)** | 아날로그 곡선을 디지털 계단으로 강제로 반올림하여 변환할 때 필연적으로 버려지는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -118,7 +122,7 @@ tags:
     ▼
 [아날로그 AI 가속기 (Analog In-Memory Computing) — 미래 융합]
 ```
-자연계의 연속 [[130_signal|신호]]를 ADC로 이산 비트스트림으로 변환하고 노이즈 마진이 디지털 [[003_integrity|무결성]]을 보장하며, 에너지 효율을 위한 아날로그 [[190_ai_llm_requirements_specification|AI]] 가속기로 다시 융합하는 나선형 진화 흐름이다.
+자연계의 연속 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 ADC로 이산 비트스트림으로 변환하고 노이즈 마진이 디지털 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 보장하며, 에너지 효율을 위한 아날로그 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속기로 다시 융합하는 나선형 진화 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -132,7 +136,7 @@ tags:
 
 **진행 상황**: 21 / 803
 
-← **이전**: [[020_gaa|20. GAA (Gate-All-Around)]]
-**다음**: [[022_boolean_algebra|22. 부울 대수 (Boolean Algebra)]] →
+← **이전**: [20. GAA (Gate-All-Around)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/020_gaa/)
+**다음**: [22. 부울 대수 (Boolean Algebra)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/022_boolean_algebra/) →
 
 ---

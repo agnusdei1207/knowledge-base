@@ -1,14 +1,18 @@
----
-title: ✍️ Decap CMS는 정확히 무엇인가
-tags:
-- work
----
++++
+title = "✍️ Decap CMS는 정확히 무엇인가"
+
+[taxonomies]
+tags = ["work"]
+
+[extra]
+tags = ["work"]
++++
 
 Decap CMS는 정적 사이트용 웹 편집기입니다. 더 정확히 말하면, **Git 저장소를 백엔드로 사용하는 오픈소스 CMS**입니다.
 
 관련 문서:
-- [[knowledge-pipeline]]
-- [[quartz-deployment]]
+- [knowledge-pipeline](/knowledge-base/work/knowledge-pipeline/)
+- [quartz-deployment](/knowledge-base/work/quartz-deployment/)
 
 현재 편집기 경로:
 - `https://agnusdei1207.github.io/knowledge-base/admin/`

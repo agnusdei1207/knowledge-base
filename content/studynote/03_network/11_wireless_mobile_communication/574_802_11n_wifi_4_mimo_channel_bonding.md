@@ -1,9 +1,13 @@
----
-title: 574. 11n (Wi-Fi 4)
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "574. 11n (Wi-Fi 4)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -26,13 +30,13 @@ tags:
     └──▶ [11ac]
 ```
 
-- **📢 섹션 요약 비유**: 11n는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [[170_selectivity_cardinality_distribution_tuning|선택도]] 쉬워진다.
+- **📢 섹션 요약 비유**: 11n는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-11n는 전파 자원과 이동성을 함께 관리하는 축라는 관점에서 이해해야 한다. [[308_static_dynamic_nat_pat_port_address_translation|11]] b/g/a/n 표준 세대 발전와 [[575_802_11ac_wifi_5_mu_mimo|11ac]] 사이의 연결점으로 놓고 보면 개념의 역할이 더 분명해진다.
+11n는 전파 자원과 이동성을 함께 관리하는 축라는 관점에서 이해해야 한다. [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) b/g/a/n 표준 세대 발전와 [11ac](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/575_802_11ac_wifi_5_mu_mimo/) 사이의 연결점으로 놓고 보면 개념의 역할이 더 분명해진다.
 
 ```text
 [11 b/g/a/n 표준 세대 발전]
@@ -49,31 +53,31 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-속도를 올리는 또 다른 방법은 '오버헤드 줄이기'입니다. 기존에는 [[001_dikw_pyramid|데이터]] 패킷을 보낼 때마다 [[396_validation|확인]] 응답(ACK)을 일일이 받아야 해서 낭비가 심했습니다.
-- **[[673_mac_message_authentication_code|MAC]] 계층 혁신**: 802.11n은 여러 개의 작은 [[001_dikw_pyramid|데이터]] 프레임들을 하나의 거대한 화물 [[561_container_based_deployment|컨테이너]] 박스(A-MSDU, A-MPDU)에 한꺼번에 구겨 넣고, [[396_validation|확인]] 응답(ACK)도 한 번만 받는 **프레임 묶음 배송(집성) 기술**을 통해 통신 효율을 극대화했습니다.
+속도를 올리는 또 다른 방법은 '오버헤드 줄이기'입니다. 기존에는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패킷을 보낼 때마다 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 응답(ACK)을 일일이 받아야 해서 낭비가 심했습니다.
+- **[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 계층 혁신**: 802.11n은 여러 개의 작은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 프레임들을 하나의 거대한 화물 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 박스(A-MSDU, A-MPDU)에 한꺼번에 구겨 넣고, [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 응답(ACK)도 한 번만 받는 **프레임 묶음 배송(집성) 기술**을 통해 통신 효율을 극대화했습니다.
 
-11n를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [[308_static_dynamic_nat_pat_port_address_translation|11]] b/g/a/n 표준 세대 발전이 기반 조건을 만든다면, 11n는 그 위에서 핵심 메커니즘을 구현하고, 11ac는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 스펙트럼 효율과 이동성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+11n를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) b/g/a/n 표준 세대 발전이 기반 조건을 만든다면, 11n는 그 위에서 핵심 메커니즘을 구현하고, 11ac는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 스펙트럼 효율과 이동성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [[308_static_dynamic_nat_pat_port_address_translation|11]] b/g/a/n 표준 세대 발전의 기반 정리 | 11n의 핵심 동작 | 11ac의 확장 적용 |
+| 초점 | [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) b/g/a/n 표준 세대 발전의 기반 정리 | 11n의 핵심 동작 | 11ac의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 스펙트럼 효율 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 802.11n의 등장은 낡은 국도를 고속도로로 리모델링한 것과 같습니다. '채널 본딩'은 좁은 1차선 흙길 2개를 합쳐서 넓은 2차선 아스팔트 길(20MHz -> 40MHz)로 확장 공사를 한 것이고, '[[097_MIMO_다중_안테나_기술|MIMO]]'는 그 아스팔트 길 위에 똑같은 2차선 고가도로를 2층, 3층으로 얹어서([[171_antenna_basic_dipole_resonance|안테나]] [[071_다중화_Multiplexing|다중화]]) 도로가 차지하는 땅 넓이는 그대로인데 통행량은 4배~6배로 뻥튀기한 기적의 토목 공사입니다.
+- **📢 섹션 요약 비유**: 802.11n의 등장은 낡은 국도를 고속도로로 리모델링한 것과 같습니다. '채널 본딩'은 좁은 1차선 흙길 2개를 합쳐서 넓은 2차선 아스팔트 길(20MHz -> 40MHz)로 확장 공사를 한 것이고, '[MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/)'는 그 아스팔트 길 위에 똑같은 2차선 고가도로를 2층, 3층으로 얹어서([안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 도로가 차지하는 땅 넓이는 그대로인데 통행량은 4배~6배로 뻥튀기한 기적의 토목 공사입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- **개념**: 이전까지는 공유기와 스마트폰에 [[171_antenna_basic_dipole_resonance|안테나]]가 딱 1개씩(SISO)만 있었습니다. 802.11n은 송신기와 수신기에 각각 여러 개의 [[171_antenna_basic_dipole_resonance|안테나]](예: 3x3)를 달아 통신합니다.
-- **[[100_공간_다중화_Spatial_Multiplexing|공간 다중화]] ([[100_공간_다중화_Spatial_Multiplexing|Spatial Multiplexing]])**: 보낼 [[001_dikw_pyramid|데이터]] 덩어리를 2~3개로 쪼갠 뒤, 같은 주파수(동일한 시간)에 각기 다른 [[171_antenna_basic_dipole_resonance|안테나]]를 통해 동시에 허공으로 발사합니다. 수신기(스마트폰)에서 이 겹친 신호를 수학적으로 풀어내면 주파수를 늘리지 않고도 속도가 [[171_antenna_basic_dipole_resonance|안테나]] 개수만큼 2배, 3배 폭증하게 됩니다. (이후 모바일 통신의 대세가 됨)
+- **개념**: 이전까지는 공유기와 스마트폰에 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 딱 1개씩(SISO)만 있었습니다. 802.11n은 송신기와 수신기에 각각 여러 개의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)(예: 3x3)를 달아 통신합니다.
+- **[공간 다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/) ([Spatial Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/))**: 보낼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 덩어리를 2~3개로 쪼갠 뒤, 같은 주파수(동일한 시간)에 각기 다른 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 통해 동시에 허공으로 발사합니다. 수신기(스마트폰)에서 이 겹친 신호를 수학적으로 풀어내면 주파수를 늘리지 않고도 속도가 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 개수만큼 2배, 3배 폭증하게 됩니다. (이후 모바일 통신의 대세가 됨)
 
 ### 2. 채널 본딩 (Channel Bonding)
-- **개념**: 기존 와이파이는 [[001_dikw_pyramid|데이터]]가 다니는 하나의 도로(채널) 폭이 고작 **20MHz**에 불과했습니다. 차선이 좁으니 차([[001_dikw_pyramid|데이터]])가 많이 다니지 못했습니다.
-- **본딩 기술**: 802.11n은 바로 옆에 있는 인접 채널 하나를 더 끌어와서 두 개의 채널을 찰흙처럼 하나로 뭉쳐버립니다. 이로 인해 도로 폭이 **40MHz**로 두 배 넓어지면서 한 번에 통과할 수 있는 [[001_dikw_pyramid|데이터]]양이 정확히 2배로 늘어나는 단순하고 강력한 기술입니다.
+- **개념**: 기존 와이파이는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 다니는 하나의 도로(채널) 폭이 고작 **20MHz**에 불과했습니다. 차선이 좁으니 차([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 많이 다니지 못했습니다.
+- **본딩 기술**: 802.11n은 바로 옆에 있는 인접 채널 하나를 더 끌어와서 두 개의 채널을 찰흙처럼 하나로 뭉쳐버립니다. 이로 인해 도로 폭이 **40MHz**로 두 배 넓어지면서 한 번에 통과할 수 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)양이 정확히 2배로 늘어나는 단순하고 강력한 기술입니다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
@@ -85,7 +89,7 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-11n는 무선·이동통신을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 스펙트럼 효율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [[575_802_11ac_wifi_5_mu_mimo|11ac]], 지능형 무선 자원 제어, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 지능형 무선 자원 제어 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+11n는 무선·이동통신을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 스펙트럼 효율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [11ac](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/575_802_11ac_wifi_5_mu_mimo/), 지능형 무선 자원 제어, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 지능형 무선 자원 제어 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 11n는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -95,10 +99,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[308_static_dynamic_nat_pat_port_address_translation|11]] b/g/a/n 표준 세대 발전 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| 셀 (Cell) | 무선 [[090_service_kubernetes_network_load_balancing|서비스]] 범위를 나누는 기본 단위다. |
-| [[556_handover_handoff_types_concept|핸드오버]] ([[556_handover_handoff_types_concept|Handover]]) | 이동 중에도 연결을 유지하게 만든다. |
-| [[575_802_11ac_wifi_5_mu_mimo|11ac]] | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) b/g/a/n 표준 세대 발전 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 셀 (Cell) | 무선 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 범위를 나누는 기본 단위다. |
+| [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) ([Handover](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)) | 이동 중에도 연결을 유지하게 만든다. |
+| [11ac](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/575_802_11ac_wifi_5_mu_mimo/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -112,13 +116,13 @@ tags:
     └──▶ [확장 B: 지능형 무선 자원 제어]
 ```
 
-11n는 [[308_static_dynamic_nat_pat_port_address_translation|11]] b/g/a/n 표준 세대 발전에서 출발해 현재 메커니즘을 정교화하고, 이후 11ac와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+11n는 [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) b/g/a/n 표준 세대 발전에서 출발해 현재 메커니즘을 정교화하고, 이후 11ac와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 걸어 다니면서 무전기를 쓰면 멀어질수록 소리가 작아지고 다른 친구 목소리와 섞여요.
 2. 이 개념은 어디서 말할지, 얼마나 크게 말할지, 언제 다른 기지국으로 옮길지를 정해줘요.
-3. 그래서 움직이면서도 통화나 [[001_dikw_pyramid|데이터]]가 덜 끊기게 도와줘요.
+3. 그래서 움직이면서도 통화나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 덜 끊기게 도와줘요.
 
 ---
 
@@ -126,7 +130,7 @@ tags:
 
 **진행 상황**: 695 / 1120
 
-← **이전**: [[573_802_11_wifi_standards_evolution|573. 11 b/g/a/n 표준 세대 발전]]
-**다음**: [[575_802_11ac_wifi_5_mu_mimo|575. 11ac (Wi-Fi 5)]] →
+← **이전**: [573. 11 b/g/a/n 표준 세대 발전](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/573_802_11_wifi_standards_evolution/)
+**다음**: [575. 11ac (Wi-Fi 5)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/575_802_11ac_wifi_5_mu_mimo/) →
 
 ---

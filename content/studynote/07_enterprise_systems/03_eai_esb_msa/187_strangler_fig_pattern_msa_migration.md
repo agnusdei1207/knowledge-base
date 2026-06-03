@@ -1,23 +1,27 @@
----
-title: 187. 스트랭글러 피그 패턴 (Strangler Fig Pattern) - 점진적 MSA 전환
-date: '2026-05-08'
-tags:
-- studynote-enterprise
----
++++
+title = "187. 스트랭글러 피그 패턴 (Strangler Fig Pattern) - 점진적 MSA 전환"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-enterprise"]
+
+[extra]
+tags = ["studynote-enterprise"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[376_strangler_fig_summary|스트랭글러 피그 패턴]] ([[308_strangler_fig_pattern|Strangler Fig Pattern]])은 레거시 모놀리식을 한 번에 교체하지 않고, 진입 경계의 [[339_routing_overview_best_path_selection|라우팅]]을 활용해 기능을 점진적으로 [[213_msa_microservices_architecture|마이크로서비스 아키텍처]] ([[365_msa_microservice_architecture|Microservice Architecture]], [[619_msa_traffic_hardware|MSA]])로 옮기는 현대화 [[268_strategy_pattern|전략]]이다.
-> 2. **가치**: 기능별로 작은 단위의 전환과 즉시 [[098_rollback_strategy_pipeline_error_threshold|롤백]]이 가능하므로, 빅뱅 전환에서 자주 발생하는 장기 [[090_service_kubernetes_network_load_balancing|서비스]] 중단과 대규모 장애 범위를 크게 줄인다.
-> 3. **판단 포인트**: 성공의 핵심은 새 [[090_service_kubernetes_network_load_balancing|서비스]]를 빨리 만드는 것이 아니라, 기능 경계 [[655_ir_detection_analysis|식별]], [[001_dikw_pyramid|데이터]] 분리, 관측성, 과도기 운영 규율을 함께 설계하는 데 있다.
+> 1. **본질**: [스트랭글러 피그 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/376_strangler_fig_summary/) ([Strangler Fig Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/308_strangler_fig_pattern/))은 레거시 모놀리식을 한 번에 교체하지 않고, 진입 경계의 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 활용해 기능을 점진적으로 [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/) ([Microservice Architecture](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/365_msa_microservice_architecture/), [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))로 옮기는 현대화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
+> 2. **가치**: 기능별로 작은 단위의 전환과 즉시 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)이 가능하므로, 빅뱅 전환에서 자주 발생하는 장기 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단과 대규모 장애 범위를 크게 줄인다.
+> 3. **판단 포인트**: 성공의 핵심은 새 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 빨리 만드는 것이 아니라, 기능 경계 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분리, 관측성, 과도기 운영 규율을 함께 설계하는 데 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[[376_strangler_fig_summary|스트랭글러 피그 패턴]]은 기존 모놀리식 시스템 바깥에 제어 지점을 두고, 요청 흐름을 조금씩 새 [[090_service_kubernetes_network_load_balancing|서비스]]로 우회시키며 구형 기능을 점진적으로 제거하는 마이그레이션 패턴이다. 이 패턴이 필요한 이유는 오래된 [[_keyword_list|엔터프라이즈 시스템]]일수록 코드 의존성, 배치, [[002_database_definition|데이터베이스]] [[005_schema|스키마]], 외부 연계가 얽혀 있어 한 번의 컷오버로 전체를 안전하게 바꾸기 어렵기 때문이다. 특히 은행, 제조, 공공처럼 24시간에 가까운 업무 연속성이 필요한 환경에서는 "주말에 전면 교체"라는 방식이 가장 위험한 선택이 된다.
+[스트랭글러 피그 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/376_strangler_fig_summary/)은 기존 모놀리식 시스템 바깥에 제어 지점을 두고, 요청 흐름을 조금씩 새 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 우회시키며 구형 기능을 점진적으로 제거하는 마이그레이션 패턴이다. 이 패턴이 필요한 이유는 오래된 엔터프라이즈 시스템일수록 코드 의존성, 배치, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/), 외부 연계가 얽혀 있어 한 번의 컷오버로 전체를 안전하게 바꾸기 어렵기 때문이다. 특히 은행, 제조, 공공처럼 24시간에 가까운 업무 연속성이 필요한 환경에서는 "주말에 전면 교체"라는 방식이 가장 위험한 선택이 된다.
 
-빅뱅 전환은 계획상으로는 단순해 보이지만, 실제로는 숨은 규칙과 운영 관행을 한 번에 재현해야 하므로 실패 비용이 매우 크다. 반면 [[376_strangler_fig_summary|스트랭글러 피그 패턴]]은 [[568_logs_distributed_logging_elk_fluentd|로그]]인, 조회, 리뷰, 알림처럼 상대적으로 독립된 기능부터 잘라내며 학습 효과를 축적한다. 즉 이 패턴의 본질은 단순한 분할 개발이 아니라, **사업 연속성을 유지한 채 위험을 잘게 쪼개는 [[268_strategy_pattern|전략]]**이다.
+빅뱅 전환은 계획상으로는 단순해 보이지만, 실제로는 숨은 규칙과 운영 관행을 한 번에 재현해야 하므로 실패 비용이 매우 크다. 반면 [스트랭글러 피그 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/376_strangler_fig_summary/)은 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인, 조회, 리뷰, 알림처럼 상대적으로 독립된 기능부터 잘라내며 학습 효과를 축적한다. 즉 이 패턴의 본질은 단순한 분할 개발이 아니라, **사업 연속성을 유지한 채 위험을 잘게 쪼개는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**이다.
 
 - **📢 섹션 요약 비유**: 낡은 건물을 하루 만에 폭파하고 새로 짓는 대신, 바깥에 새 건물을 조금씩 붙여 놓고 출입문만 단계적으로 바꾸는 이사 방식과 같다.
 
@@ -25,7 +29,7 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[[376_strangler_fig_summary|스트랭글러 피그 패턴]]은 보통 [[263_facade_pattern_simplified_interface|퍼사드]] ([[263_facade_pattern_simplified_interface|Facade]]) 또는 [[014_api_posix|API]] 게이트웨이 ([[014_api_posix|Application Programming Interface]] Gateway)를 전면에 두고 시작한다. [[459_quic_fec_forward_error_correction|초기]]에 모든 요청은 그대로 모놀리식으로 보내지만, 전환 대상 기능이 준비되면 특정 경로만 신규 [[090_service_kubernetes_network_load_balancing|서비스]]로 분기한다. 이때 핵심은 [[339_routing_overview_best_path_selection|라우팅]]만 바꾸는 것이 아니라, 신규 [[090_service_kubernetes_network_load_balancing|서비스]]가 자체 배포 주기와 [[001_dikw_pyramid|데이터]] 소유권을 가질 수 있게 만드는 것이다.
+[스트랭글러 피그 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/376_strangler_fig_summary/)은 보통 [퍼사드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/) ([Facade](/knowledge-base/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/)) 또는 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이 ([Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway)를 전면에 두고 시작한다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 모든 요청은 그대로 모놀리식으로 보내지만, 전환 대상 기능이 준비되면 특정 경로만 신규 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 분기한다. 이때 핵심은 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)만 바꾸는 것이 아니라, 신규 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 자체 배포 주기와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유권을 가질 수 있게 만드는 것이다.
 
 아래 그림은 점진적 전환 구조를 요약한 것이다.
 
@@ -42,17 +46,17 @@ tags:
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
-이 구조에서 중요한 기술 요소는 경계 [[655_ir_detection_analysis|식별]], [[001_dikw_pyramid|데이터]] [[212_synchronization_mechanisms|동기화]], 관측성, [[098_rollback_strategy_pipeline_error_threshold|롤백]]이다. 신규 [[090_service_kubernetes_network_load_balancing|서비스]]가 여전히 레거시 [[002_database_definition|데이터베이스]]를 직접 공유하면 배포만 분리되었을 뿐 진짜 독립성은 생기지 않는다. 그래서 점진적 전환에서는 [[218_cdc_change_data_capture|변경 데이터 캡처]] ([[217_cdc_binlog_change_capture_debezium|Change Data Capture]], [[217_cdc_binlog_change_capture_debezium|CDC]]), 이벤트 발행, 읽기 전용 [[016_replication_factor|복제]], 이중 [[289_cqrs_db|쓰기]] 최소화 같은 기법이 함께 논의된다.
+이 구조에서 중요한 기술 요소는 경계 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), 관측성, [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)이다. 신규 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 여전히 레거시 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)를 직접 공유하면 배포만 분리되었을 뿐 진짜 독립성은 생기지 않는다. 그래서 점진적 전환에서는 [변경 데이터 캡처](/knowledge-base/studynote/12_it_management/05_security_compliance/218_cdc_change_data_capture/) ([Change Data Capture](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/), [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)), 이벤트 발행, 읽기 전용 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), 이중 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 최소화 같은 기법이 함께 논의된다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
-| [[014_api_posix|API]] 게이트웨이 | 진입 지점 통제, 경로별 트래픽 분기 | [[595_canary_stack_smashing_protector|카나리]] 릴리스, 즉시 [[098_rollback_strategy_pipeline_error_threshold|롤백]], [[303_authentication_authorization_patterns|인증]] [[194_consistency_database_integrity|일관성]] |
-| 기능 경계 | 먼저 추출할 [[064_relation_domain|도메인]] 단위 선정 | [[195_coupling_levels|결합도]] 낮고 변경 가치가 높은 기능부터 시작 |
-| 신규 [[090_service_kubernetes_network_load_balancing|서비스]] | 독립 배포와 독립 확장 수행 | 자체 [[001_dikw_pyramid|데이터]] 저장소와 운영 지표 필요 |
-| [[001_dikw_pyramid|데이터]] [[212_synchronization_mechanisms|동기화]] | 레거시와 신규 [[001_dikw_pyramid|데이터]] 간 불일치 완화 | [[217_cdc_binlog_change_capture_debezium|CDC]], 이벤트, 백필 작업, 정합성 [[395_verification_process_review|검증]] |
-| 관측성 | 과도기 장애를 빠르게 탐지 | 트레이스, [[339_routing_overview_best_path_selection|라우팅]] [[568_logs_distributed_logging_elk_fluentd|로그]], 비교 대시보드 |
+| [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이 | 진입 지점 통제, 경로별 트래픽 분기 | [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 릴리스, 즉시 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) |
+| 기능 경계 | 먼저 추출할 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 단위 선정 | [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 낮고 변경 가치가 높은 기능부터 시작 |
+| 신규 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | 독립 배포와 독립 확장 수행 | 자체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소와 운영 지표 필요 |
+| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | 레거시와 신규 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 간 불일치 완화 | [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/), 이벤트, 백필 작업, 정합성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
+| 관측성 | 과도기 장애를 빠르게 탐지 | 트레이스, [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 비교 대시보드 |
 
-실무에서는 "전면 교체"가 아니라 "전면 제어 + 부분 교체"로 기억하는 것이 중요하다. 게이트웨이가 단순 [[264_proxy_pattern_surrogate_access_control|프록시]]가 아니라 전환 속도와 위험을 조절하는 조정 장치가 되며, [[001_dikw_pyramid|데이터]] 분리와 운영 가시성이 붙을 때 비로소 스트랭글러 [[268_strategy_pattern|전략]]이 완성된다.
+실무에서는 "전면 교체"가 아니라 "전면 제어 + 부분 교체"로 기억하는 것이 중요하다. 게이트웨이가 단순 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)가 아니라 전환 속도와 위험을 조절하는 조정 장치가 되며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분리와 운영 가시성이 붙을 때 비로소 스트랭글러 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 완성된다.
 
 - **📢 섹션 요약 비유**: 큰 강을 막아 한 번에 물길을 바꾸는 대신, 수문을 여러 개 만들어 물을 작은 수로로 조금씩 돌리는 방식과 같다.
 
@@ -60,17 +64,17 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-[[376_strangler_fig_summary|스트랭글러 피그 패턴]]을 이해하려면 빅뱅 전환, 그린필드 재구축, [[064_relation_domain|도메인]] 경계 [[571_protection_vs_security|보호]] 패턴과 함께 봐야 한다. 빅뱅은 전환 기간이 짧아 보이지만 실패 시 한 번에 모든 기능이 영향을 받는다. 그린필드는 새 시스템 설계 자유도가 높지만, 실제 사용자 트래픽과 [[001_dikw_pyramid|데이터]] 흐름을 [[395_verification_process_review|검증]]하는 데 시간이 오래 걸린다. 스트랭글러는 이 둘 사이에서 운영 중 학습과 점진적 [[395_verification_process_review|검증]]을 가능하게 한다.
+[스트랭글러 피그 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/376_strangler_fig_summary/)을 이해하려면 빅뱅 전환, 그린필드 재구축, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 경계 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 패턴과 함께 봐야 한다. 빅뱅은 전환 기간이 짧아 보이지만 실패 시 한 번에 모든 기능이 영향을 받는다. 그린필드는 새 시스템 설계 자유도가 높지만, 실제 사용자 트래픽과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 데 시간이 오래 걸린다. 스트랭글러는 이 둘 사이에서 운영 중 학습과 점진적 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 가능하게 한다.
 
 | 방식 | 강점 | 약점 | 잘 맞는 상황 |
 | :--- | :--- | :--- | :--- |
-| 빅뱅 전환 | 구조가 단순해 보임 | 장애 범위가 크고 [[098_rollback_strategy_pipeline_error_threshold|롤백]]이 어렵다 | 시스템 규모가 작고 중단 허용 폭이 큰 경우 |
-| [[310_strangler_fig_pattern|스트랭글러 피그]] | 위험을 기능 단위로 [[136_variance|분산]] | 과도기 운영이 길어지고 복잡하다 | 핵심 업무를 멈출 수 없는 대형 레거시 |
-| 그린필드 재구축 | 이상적인 새 구조 설계 가능 | 실제 연동 [[395_verification_process_review|검증]]까지 시간과 비용이 큼 | 신규 시장 진입, 기존 고객 영향이 작은 경우 |
+| 빅뱅 전환 | 구조가 단순해 보임 | 장애 범위가 크고 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)이 어렵다 | 시스템 규모가 작고 중단 허용 폭이 큰 경우 |
+| [스트랭글러 피그](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/310_strangler_fig_pattern/) | 위험을 기능 단위로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) | 과도기 운영이 길어지고 복잡하다 | 핵심 업무를 멈출 수 없는 대형 레거시 |
+| 그린필드 재구축 | 이상적인 새 구조 설계 가능 | 실제 연동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)까지 시간과 비용이 큼 | 신규 시장 진입, 기존 고객 영향이 작은 경우 |
 
-이 패턴은 [[188_anti_corruption_layer_acl_pattern|부패 방지 계층]] (Anti-Corruption Layer, [[549_acl_access_control_list|ACL]])과도 자주 함께 쓰인다. 새 [[090_service_kubernetes_network_load_balancing|서비스]]가 레거시 기능을 당분간 호출해야 한다면, ACL을 두어 레거시 개념이 신규 [[064_relation_domain|도메인]]으로 침투하는 것을 막는다. 또한 [[538_event_driven_architecture_eda|이벤트 기반 아키텍처]] ([[140_event_driven_architecture_eda|Event-Driven Architecture]], [[064_eda|EDA]]), [[217_cdc_binlog_change_capture_debezium|CDC]], [[305_saga|사가 패턴]] ([[305_saga_pattern|Saga Pattern]])은 [[001_dikw_pyramid|데이터]] 분리와 [[248_distributed_transaction_multiple_nodes|분산 트랜잭션]] 문제를 완화하는 연결 기술로 자주 등장한다.
+이 패턴은 [부패 방지 계층](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/188_anti_corruption_layer_acl_pattern/) (Anti-Corruption Layer, [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/))과도 자주 함께 쓰인다. 새 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 레거시 기능을 당분간 호출해야 한다면, ACL을 두어 레거시 개념이 신규 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)으로 침투하는 것을 막는다. 또한 [이벤트 기반 아키텍처](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/538_event_driven_architecture_eda/) ([Event-Driven Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/140_event_driven_architecture_eda/), [EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/)), [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/), [사가 패턴](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/) ([Saga Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga_pattern/))은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분리와 [분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/) 문제를 완화하는 연결 기술로 자주 등장한다.
 
-즉 [[376_strangler_fig_summary|스트랭글러 피그 패턴]]은 단독 패턴이 아니라, **[[064_relation_domain|도메인]] 분해 + [[001_dikw_pyramid|데이터]] 전환 + 경계 [[571_protection_vs_security|보호]]**가 결합된 현대화 프로그램의 뼈대다.
+즉 [스트랭글러 피그 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/376_strangler_fig_summary/)은 단독 패턴이 아니라, **[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 분해 + [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전환 + 경계 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)**가 결합된 현대화 프로그램의 뼈대다.
 
 - **📢 섹션 요약 비유**: 통째로 새 도시를 옮겨 짓는 것보다, 오래된 도심 옆에 신도시를 만들고 도로 연결을 조금씩 바꾸는 방식에 가깝다.
 
@@ -78,24 +82,24 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 가장 복잡한 결제나 정산부터 손대기보다, 호출량은 있지만 [[195_coupling_levels|결합도]]가 상대적으로 낮은 기능부터 추출하는 편이 안전하다. 예를 들어 상품 조회, 알림, 리뷰, 검색처럼 읽기 위주이거나 부수 효과가 제한적인 기능은 첫 전환 대상으로 자주 선택된다. 반대로 여러 시스템이 동시에 의존하는 핵심 정산 로직은 [[236_data_contract|데이터 계약]]과 보상 절차가 정리되기 전까지 무리하게 분리하지 않는 것이 좋다.
+실무에서는 가장 복잡한 결제나 정산부터 손대기보다, 호출량은 있지만 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)가 상대적으로 낮은 기능부터 추출하는 편이 안전하다. 예를 들어 상품 조회, 알림, 리뷰, 검색처럼 읽기 위주이거나 부수 효과가 제한적인 기능은 첫 전환 대상으로 자주 선택된다. 반대로 여러 시스템이 동시에 의존하는 핵심 정산 로직은 [데이터 계약](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/)과 보상 절차가 정리되기 전까지 무리하게 분리하지 않는 것이 좋다.
 
-### 기술사 판단 [[435_checklist_based_testing|체크리스트]]
+### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 신규 [[090_service_kubernetes_network_load_balancing|서비스]]로 넘길 기능 경계가 명확하고, [[339_routing_overview_best_path_selection|라우팅]] 규칙으로 외부 노출을 통제할 수 있는가?
-2. 레거시와 신규 간 [[001_dikw_pyramid|데이터]] 정합성 [[395_verification_process_review|검증]] 방법이 있으며, 역전환 시 손실 없이 복귀할 수 있는가?
-3. [[115_canary_deployment_gradual_rollout|카나리 배포]], 섀도 트래픽, 트레이스 비교 같은 [[395_verification_process_review|검증]] 장치가 준비되어 있는가?
-4. 과도기 동안 모놀리식과 신규 [[090_service_kubernetes_network_load_balancing|서비스]]를 동시에 운영할 인력과 운영 규율이 있는가?
+1. 신규 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 넘길 기능 경계가 명확하고, [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 규칙으로 외부 노출을 통제할 수 있는가?
+2. 레거시와 신규 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 방법이 있으며, 역전환 시 손실 없이 복귀할 수 있는가?
+3. [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/), 섀도 트래픽, 트레이스 비교 같은 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 장치가 준비되어 있는가?
+4. 과도기 동안 모놀리식과 신규 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 동시에 운영할 인력과 운영 규율이 있는가?
 5. 전환 완료의 종료 조건, 즉 레거시를 언제 폐기할지 기준이 정의되어 있는가?
 
-### 자주 나오는 [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### 자주 나오는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 모든 신규 [[090_service_kubernetes_network_load_balancing|서비스]]가 계속 레거시 공용 [[002_database_definition|데이터베이스]]를 직접 읽고 쓰는 구조
-- [[339_routing_overview_best_path_selection|라우팅]]만 분리하고 [[303_authentication_authorization_patterns|인증]], 권한, [[606_auditing_linux_auditd|감사]] [[568_logs_distributed_logging_elk_fluentd|로그]]는 새로 설계하지 않아 보안 [[194_consistency_database_integrity|일관성]]이 깨지는 구조
-- [[098_rollback_strategy_pipeline_error_threshold|롤백]] 절차 없이 트래픽을 한 번에 100% 전환하는 구조
+- 모든 신규 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 계속 레거시 공용 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)를 직접 읽고 쓰는 구조
+- [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)만 분리하고 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 권한, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 새로 설계하지 않아 보안 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 깨지는 구조
+- [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 절차 없이 트래픽을 한 번에 100% 전환하는 구조
 - 몇 년 동안 과도기 상태를 방치해 사실상 이중 모놀리식을 만드는 구조
 
-결론적으로 [[376_strangler_fig_summary|스트랭글러 피그 패턴]]은 "점진적"이라는 말만으로 안전해지지 않는다. 작은 배치, 강한 관측성, 명확한 철수 기준이 함께 있어야 기술사 답안에서 설득력이 생긴다.
+결론적으로 [스트랭글러 피그 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/376_strangler_fig_summary/)은 "점진적"이라는 말만으로 안전해지지 않는다. 작은 배치, 강한 관측성, 명확한 철수 기준이 함께 있어야 기술사 답안에서 설득력이 생긴다.
 
 - **📢 섹션 요약 비유**: 환자를 한 번에 대수술하는 대신, 위험이 낮은 부위부터 단계적으로 치료하되 언제든 응급실로 되돌릴 계획을 세워 두는 것과 같다.
 
@@ -103,9 +107,9 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-이 패턴의 가장 큰 효과는 [[090_service_kubernetes_network_load_balancing|서비스]] 중단 없는 현대화와 학습 가능한 전환이다. 팀은 실제 운영 트래픽을 받으면서 신규 아키텍처의 병목, [[001_dikw_pyramid|데이터]] 차이, 배포 절차를 조기에 [[396_validation|확인]]할 수 있고, 문제 구간만 되돌려 전체 사고를 피할 수 있다. 또한 기능별 책임이 분리되면서 조직 구조와 배포 주기도 점차 [[090_service_kubernetes_network_load_balancing|서비스]] 단위로 정렬되기 시작한다.
+이 패턴의 가장 큰 효과는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단 없는 현대화와 학습 가능한 전환이다. 팀은 실제 운영 트래픽을 받으면서 신규 아키텍처의 병목, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 차이, 배포 절차를 조기에 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있고, 문제 구간만 되돌려 전체 사고를 피할 수 있다. 또한 기능별 책임이 분리되면서 조직 구조와 배포 주기도 점차 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 단위로 정렬되기 시작한다.
 
-하지만 공짜는 아니다. 과도기에는 운영 대상이 두 벌이 되고, [[229_monitor|모니터]]링·보안·[[001_dikw_pyramid|데이터]] 정합성 관리 비용이 늘어난다. 특히 추출 기준 없이 무작정 잘게 쪼개면 레거시의 복잡성이 그대로 [[090_service_kubernetes_network_load_balancing|서비스]] 사이로 [[016_replication_factor|복제]]될 수 있다. 따라서 [[376_strangler_fig_summary|스트랭글러 피그 패턴]]은 "천천히 바꾸는 방법"이 아니라, **위험을 제어하며 레거시를 계획적으로 소멸시키는 아키텍처**로 기억해야 한다.
+하지만 공짜는 아니다. 과도기에는 운영 대상이 두 벌이 되고, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링·보안·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성 관리 비용이 늘어난다. 특히 추출 기준 없이 무작정 잘게 쪼개면 레거시의 복잡성이 그대로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 사이로 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)될 수 있다. 따라서 [스트랭글러 피그 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/376_strangler_fig_summary/)은 "천천히 바꾸는 방법"이 아니라, **위험을 제어하며 레거시를 계획적으로 소멸시키는 아키텍처**로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: 덩굴이 오래된 나무를 천천히 감싸 결국 새 몸체를 만드는 것처럼, 핵심은 서두르는 것이 아니라 안전하게 주도권을 옮기는 데 있다.
 
@@ -115,12 +119,12 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[014_api_posix|API]] 게이트웨이 ([[014_api_posix|Application Programming Interface]] Gateway) | 외부 트래픽을 제어하며 기능별 전환 비율을 조절하는 진입 경계다. |
-| [[064_relation_domain|도메인]] 분해 ([[064_relation_domain|Domain]] Decomposition) | 어떤 기능부터 추출할지 결정하는 기준이 된다. |
-| [[217_cdc_binlog_change_capture_debezium|CDC]] ([[217_cdc_binlog_change_capture_debezium|Change Data Capture]]) | 레거시와 신규 [[001_dikw_pyramid|데이터]] 저장소 간 변경 내역 [[212_synchronization_mechanisms|동기화]]를 돕는다. |
-| [[549_acl_access_control_list|ACL]] (Anti-Corruption Layer) | 신규 [[090_service_kubernetes_network_load_balancing|서비스]]가 레거시 의미 체계에 오염되지 않게 [[571_protection_vs_security|보호]]한다. |
-| [[115_canary_deployment_gradual_rollout|카나리 배포]] ([[115_canary_deployment_gradual_rollout|Canary Deployment]]) | 점진적 트래픽 전환과 [[098_rollback_strategy_pipeline_error_threshold|롤백]] [[395_verification_process_review|검증]]에 적합하다. |
-| 관측성 ([[642_observability_telemetry|Observability]]) | 과도기 구조에서 [[339_routing_overview_best_path_selection|라우팅]] 오류와 [[282_performance_tactics|성능]] 회귀를 빠르게 탐지한다. |
+| [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이 ([Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway) | 외부 트래픽을 제어하며 기능별 전환 비율을 조절하는 진입 경계다. |
+| [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 분해 ([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Decomposition) | 어떤 기능부터 추출할지 결정하는 기준이 된다. |
+| [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) ([Change Data Capture](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)) | 레거시와 신규 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소 간 변경 내역 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)를 돕는다. |
+| [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) (Anti-Corruption Layer) | 신규 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 레거시 의미 체계에 오염되지 않게 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)한다. |
+| [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/) ([Canary Deployment](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)) | 점진적 트래픽 전환과 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에 적합하다. |
+| 관측성 ([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)) | 과도기 구조에서 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 오류와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 회귀를 빠르게 탐지한다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -140,7 +144,7 @@ API 게이트웨이 / 퍼사드 배치
 레거시 기능 폐기와 MSA 전환 완료
 ```
 
-이 흐름은 "전면 교체"가 아니라 "경계 장악 → 기능 추출 → [[001_dikw_pyramid|데이터]] 독립 → 레거시 은퇴"로 이어지는 현대화 순서를 보여 준다.
+이 흐름은 "전면 교체"가 아니라 "경계 장악 → 기능 추출 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 독립 → 레거시 은퇴"로 이어지는 현대화 순서를 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -154,7 +158,7 @@ API 게이트웨이 / 퍼사드 배치
 
 **진행 상황**: 187 / 482
 
-← **이전**: [[186_distributed_tracing_zipkin_jaeger|186. 분산 추적 (Distributed Tracing) 인프라 - 다수 서비스를 거치는 응용 프로그램 프로그래밍 인터페이스 (Application]]
-**다음**: [[188_anti_corruption_layer_acl_pattern|188. 부패 방지 계층 (Anti-Corruption Layer, ACL) 패턴 - 레거시 의미 오염 차단]] →
+← **이전**: [186. 분산 추적 (Distributed Tracing) 인프라 - 다수 서비스를 거치는 응용 프로그램 프로그래밍 인터페이스 (Application](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/186_distributed_tracing_zipkin_jaeger/)
+**다음**: [188. 부패 방지 계층 (Anti-Corruption Layer, ACL) 패턴 - 레거시 의미 오염 차단](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/188_anti_corruption_layer_acl_pattern/) →
 
 ---

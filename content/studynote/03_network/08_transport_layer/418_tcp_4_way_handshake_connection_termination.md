@@ -1,26 +1,30 @@
----
-title: 418. TCP 4-Way Handshake
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "418. TCP 4-Way Handshake"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] 4-Way Handshake는 전송 계층에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] 4-Way Handshake를 이해하면 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]]과 [[015_지연_데이터_관점|지연]] 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 4-Way Handshake는 전송 계층에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 4-Way Handshake를 이해하면 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] [[160_session_controlling_terminal|세션]](연결)을 정상적으로 해제하기 위해, 양 종단 간에 `FIN`과 `ACK` 제어 플래그를 4단계에 걸쳐 교환하여, 상호 간에 송신할 [[001_dikw_pyramid|데이터]]가 없음을 [[396_validation|확인]]하는 과정 (Graceful Teardown).
-- **필요성**: 나쁜 이별(RST 패킷)은 그냥 멱살 잡고 "다 꺼져!" 하고 스위치를 뽑아버리면 끝난다. 하지만 좋은 이별은 준비가 필요하다. 내 PC는 카카오톡 사진 전송을 다 끝내서 끊고 싶은데, 카카오 서버는 나한테 줄 메시지 3개가 큐(대기열)에 남아 있을 수 있다. 만약 내가 3번 악수(3-Way)처럼 `[FIN]` 쏘고 서버가 `[FIN+ACK]` 쏘고 끝내버리면, 서버에 남아있던 메시지 3개는 영원히 증발해 버린다. **"내가 먼저 끊자고 해도, 혹시 상대방이 나한테 덜 준 [[001_dikw_pyramid|데이터]]가 있으면 그거 다 받을 때까지 얌전히 기다려 주자!"**라는 예의 바른 설계가 4번의 악수를 만들어냈다.
+- **개념**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)(연결)을 정상적으로 해제하기 위해, 양 종단 간에 `FIN`과 `ACK` 제어 플래그를 4단계에 걸쳐 교환하여, 상호 간에 송신할 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 없음을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 과정 (Graceful Teardown).
+- **필요성**: 나쁜 이별(RST 패킷)은 그냥 멱살 잡고 "다 꺼져!" 하고 스위치를 뽑아버리면 끝난다. 하지만 좋은 이별은 준비가 필요하다. 내 PC는 카카오톡 사진 전송을 다 끝내서 끊고 싶은데, 카카오 서버는 나한테 줄 메시지 3개가 큐(대기열)에 남아 있을 수 있다. 만약 내가 3번 악수(3-Way)처럼 `[FIN]` 쏘고 서버가 `[FIN+ACK]` 쏘고 끝내버리면, 서버에 남아있던 메시지 3개는 영원히 증발해 버린다. **"내가 먼저 끊자고 해도, 혹시 상대방이 나한테 덜 준 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있으면 그거 다 받을 때까지 얌전히 기다려 주자!"**라는 예의 바른 설계가 4번의 악수를 만들어냈다.
 
 - **💡 비유**: 4-Way Handshake는 예의 바른 사람들의 **"전화 끊기 과정"**과 완벽히 일치합니다.
   - A: "나 할 말 다 했어. 이제 전화 끊자~ (FIN)"
-  - B: "어 알았어, 끊자! (ACK) ... 근데 잠깐만!! 아까 말 안 한 게 있는데~~ 쏼라쏼라~~ (남은 [[001_dikw_pyramid|데이터]] 전송)"
+  - B: "어 알았어, 끊자! (ACK) ... 근데 잠깐만!! 아까 말 안 한 게 있는데~~ 쏼라쏼라~~ (남은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송)"
   - A: "아 그래? (가만히 다 들어줌 = Half-Close 상태)"
   - B: "응 이제 나도 진짜 할 말 다 끝났어. 찐으로 끊자~ (FIN)"
   - A: "오케이~ 진짜 끊는다 뚝! (ACK)"
@@ -34,13 +38,13 @@ tags:
     └──▶ [TIME_WAIT 상태]
 ```
 
-- **📢 섹션 요약 비유**: ** 4단계 종료 과정은 뷔페 식당의 **"영업 종료 안내"**입니다. 지배인이 "영업 끝났습니다(FIN)"라고 안내해도, 손님 입의 음식을 뺏진 않습니다. 손님은 "네 알겠습니다(ACK)"라고 한 뒤, 접시에 남은 고기(남은 [[001_dikw_pyramid|데이터]])를 천천히 다 먹고 나서야 "잘 먹고 갑니다(FIN)"라고 인사하고, 지배인이 "안녕히 가세요(ACK)" 해야 비로소 문이 닫힙니다.
+- **📢 섹션 요약 비유**: ** 4단계 종료 과정은 뷔페 식당의 **"영업 종료 안내"**입니다. 지배인이 "영업 끝났습니다(FIN)"라고 안내해도, 손님 입의 음식을 뺏진 않습니다. 손님은 "네 알겠습니다(ACK)"라고 한 뒤, 접시에 남은 고기(남은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 천천히 다 먹고 나서야 "잘 먹고 갑니다(FIN)"라고 인사하고, 지배인이 "안녕히 가세요(ACK)" 해야 비로소 문이 닫힙니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-이 4단계를 외우지 못하면 네트워크 면접에서 광탈한다. 누가 먼저 끊자고([[483_active_vs_passive_ftp|Active]] Close) 제안했는지 클라이언트 입장에서 따라가 보자.
+이 4단계를 외우지 못하면 네트워크 면접에서 광탈한다. 누가 먼저 끊자고([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) Close) 제안했는지 클라이언트 입장에서 따라가 보자.
 
 ### 1단계: 클라이언트의 이별 통보 (FIN)
 - 클라이언트는 더 보낼 게 없다. 
@@ -51,19 +55,19 @@ tags:
 - 서버가 `FIN`을 받았다. "오케이 네가 끊고 싶은 건 알겠어."
 - 서버는 일단 **`ACK`** 불을 켜서 대답만 먼저 해준다.
 - **상태 변화**: 
-  - 서버는 **`CLOSE_WAIT`** 상태가 된다. (이게 핵심이다! "어? 나 얘한테 보낼 [[001_dikw_pyramid|데이터]] 램에 좀 남아있는데? 프로세스(앱)야, 빨리 남은 [[001_dikw_pyramid|데이터]] 다 뿜어내서 정리해 줘!"라며 앱의 종료를 기다리는 상태다).
+  - 서버는 **`CLOSE_WAIT`** 상태가 된다. (이게 핵심이다! "어? 나 얘한테 보낼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 램에 좀 남아있는데? 프로세스(앱)야, 빨리 남은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 다 뿜어내서 정리해 줘!"라며 앱의 종료를 기다리는 상태다).
   - 클라이언트는 ACK를 받고 **`FIN_WAIT_2`** 상태가 되어 서버의 진짜 마지막 인사를 기다린다. (이때 클라이언트의 쏘는 입은 닫혔지만, 서버가 보내는 패킷을 '듣는 귀'는 활짝 열려 있다 = Half-Close).
 
 ### 3단계: 서버의 찐막 인사 (FIN)
-- 서버 측 앱이 남은 [[001_dikw_pyramid|데이터]]를 싹 다 보냈다. "나도 이제 진짜 끝!"
+- 서버 측 앱이 남은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 싹 다 보냈다. "나도 이제 진짜 끝!"
 - 서버는 자기 패킷 헤더에 **`FIN`** 불을 켜서 클라이언트로 쏜다.
 - **상태 변화**: 서버는 **`LAST_ACK`** 상태가 되어 클라이언트의 마지막 영수증만 기다린다.
 
-### 4단계: 클라이언트의 최종 수신 [[396_validation|확인]] (ACK)
+### 4단계: 클라이언트의 최종 수신 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) (ACK)
 - 클라이언트가 서버의 찐막 `FIN`을 받았다.
 - 클라이언트는 "그래 수고했어!"라며 **`ACK`** 불을 켜서 서버로 쏜다.
 - **상태 변화 (매우 중요)**:
-  - 서버는 이 ACK를 받으면 미련 없이 [[125_socket|소켓]] 메모리를 삭제하고 **`CLOSED` (완전 소멸)** 된다.
+  - 서버는 이 ACK를 받으면 미련 없이 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 메모리를 삭제하고 **`CLOSED` (완전 소멸)** 된다.
   - 클라이언트는 이 ACK를 쏘고 나서 바로 꺼지지 않는다! **`TIME_WAIT`**라는 특수 상태에 빠져서 허공을 멍하니 1분 이상 쳐다보며 대기한다. (왜 대기하는지는 다음 장에서 배운다).
 
 ```text
@@ -98,42 +102,42 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-[[405_tcp_transmission_control_protocol_connection_oriented|TCP]] 4-Way Handshake를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [[417_isn_initial_sequence_number_randomization|ISN]] 무작위 할당 이유가 기반 조건을 만든다면, [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] 4-Way Handshake는 그 위에서 핵심 메커니즘을 구현하고, TIME_WAIT 상태는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]]과 [[015_지연_데이터_관점|지연]]에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 4-Way Handshake를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [ISN](/knowledge-base/studynote/03_network/08_transport_layer/417_isn_initial_sequence_number_randomization/) 무작위 할당 이유가 기반 조건을 만든다면, [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 4-Way Handshake는 그 위에서 핵심 메커니즘을 구현하고, TIME_WAIT 상태는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [[417_isn_initial_sequence_number_randomization|ISN]] 무작위 할당 이유의 기반 정리 | [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] 4-Way Handshake의 핵심 동작 | TIME_WAIT 상태의 확장 적용 |
-| 자원 관점 | 기본 조건 확보 | [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 초점 | [ISN](/knowledge-base/studynote/03_network/08_transport_layer/417_isn_initial_sequence_number_randomization/) 무작위 할당 이유의 기반 정리 | [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 4-Way Handshake의 핵심 동작 | TIME_WAIT 상태의 확장 적용 |
+| 자원 관점 | 기본 조건 확보 | [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 최적화 | 규모와 범위 확대 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] 4-Way Handshake는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
+- **📢 섹션 요약 비유**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 4-Way Handshake는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] 4-Way Handshake를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [[417_isn_initial_sequence_number_randomization|ISN]] 무작위 할당 이유 수준의 기본 대책으로 충분한지, 아니면 [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] 4-Way Handshake가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 TIME_WAIT 상태와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 4-Way Handshake를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [ISN](/knowledge-base/studynote/03_network/08_transport_layer/417_isn_initial_sequence_number_randomization/) 무작위 할당 이유 수준의 기본 대책으로 충분한지, 아니면 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 4-Way Handshake가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 TIME_WAIT 상태와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 현재 문제의 핵심이 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 부족인지, [[015_지연_데이터_관점|지연]] 악화인지 먼저 분리한다.
-2. [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] 4-Way Handshake가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [[396_validation|확인]]한다.
+1. 현재 문제의 핵심이 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 부족인지, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 악화인지 먼저 분리한다.
+2. [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 4-Way Handshake가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
 3. 도입 후에는 인접 기술인 TIME_WAIT 상태와의 연계 방식을 함께 검증한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] 4-Way Handshake의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- [[417_isn_initial_sequence_number_randomization|ISN]] 무작위 할당 이유와의 경계를 정리하지 않아 중복 투자나 [[164_policy|정책]] 충돌을 만드는 설계
+- [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 4-Way Handshake의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
+- [ISN](/knowledge-base/studynote/03_network/08_transport_layer/417_isn_initial_sequence_number_randomization/) 무작위 할당 이유와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
-- **📢 섹션 요약 비유**: [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] 4-Way Handshake를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
+- **📢 섹션 요약 비유**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 4-Way Handshake를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[[405_tcp_transmission_control_protocol_connection_oriented|TCP]] 4-Way Handshake는 전송 계층을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 TIME_WAIT 상태, 적응형 저지연 전송, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 적응형 저지연 전송 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 4-Way Handshake는 전송 계층을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 TIME_WAIT 상태, 적응형 저지연 전송, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 적응형 저지연 전송 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] 4-Way Handshake는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
+- **📢 섹션 요약 비유**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 4-Way Handshake는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
 ---
 
@@ -141,9 +145,9 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[417_isn_initial_sequence_number_randomization|ISN]] 무작위 할당 이유 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| 세그먼트 ([[407_tcp_segment_header_structure_20_60_bytes|Segment]]) | 전송 계층이 다루는 기본 단위다. |
-| [[213_flow_control_buffer_overflow|흐름 제어]] ([[421_tcp_flow_control_sliding_window_algorithm|Flow Control]]) | 수신자 처리 속도를 넘지 않게 조절한다. |
+| [ISN](/knowledge-base/studynote/03_network/08_transport_layer/417_isn_initial_sequence_number_randomization/) 무작위 할당 이유 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 세그먼트 ([Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/)) | 전송 계층이 다루는 기본 단위다. |
+| [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/) ([Flow Control](/knowledge-base/studynote/03_network/08_transport_layer/421_tcp_flow_control_sliding_window_algorithm/)) | 수신자 처리 속도를 넘지 않게 조절한다. |
 | TIME_WAIT 상태 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -158,7 +162,7 @@ tags:
     └──▶ [확장 B: 적응형 저지연 전송]
 ```
 
-[[405_tcp_transmission_control_protocol_connection_oriented|TCP]] 4-Way Handshake는 [[417_isn_initial_sequence_number_randomization|ISN]] 무작위 할당 이유에서 출발해 현재 메커니즘을 정교화하고, 이후 TIME_WAIT 상태와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 4-Way Handshake는 [ISN](/knowledge-base/studynote/03_network/08_transport_layer/417_isn_initial_sequence_number_randomization/) 무작위 할당 이유에서 출발해 현재 메커니즘을 정교화하고, 이후 TIME_WAIT 상태와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -172,7 +176,7 @@ tags:
 
 **진행 상황**: 539 / 1120
 
-← **이전**: [[417_isn_initial_sequence_number_randomization|417. ISN (Initial Sequence Number) 무작위 할당 이유 (보안성 강화)]]
-**다음**: [[419_time_wait_state_2msl_delay_handling|419. TIME_WAIT 상태 (기본 2MSL 대기)]] →
+← **이전**: [417. ISN (Initial Sequence Number) 무작위 할당 이유 (보안성 강화)](/knowledge-base/studynote/03_network/08_transport_layer/417_isn_initial_sequence_number_randomization/)
+**다음**: [419. TIME_WAIT 상태 (기본 2MSL 대기)](/knowledge-base/studynote/03_network/08_transport_layer/419_time_wait_state_2msl_delay_handling/) →
 
 ---

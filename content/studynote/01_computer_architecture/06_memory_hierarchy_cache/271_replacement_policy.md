@@ -1,25 +1,29 @@
----
-title: 271. 캐시 교체 알고리즘 (Replacement Policy)
-date: '2026-04-20'
-tags:
-- studynote-computer-architecture
----
++++
+title = "271. 캐시 교체 알고리즘 (Replacement Policy)"
+date = 2026-04-20
+
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 캐시 교체 [[001_algorithm_definition|알고리즘]] (Replacement [[164_policy|Policy]])은 캐시 세트가 가득 찼을 때 어떤 블록을 희생시켜 새 블록을 들일지 결정하는 규칙이며, 결국 "무엇을 기억하고 무엇을 잊을지"를 정하는 [[164_policy|정책]]이다.
-> 2. **가치**: 같은 캐시 용량이라도 교체 [[164_policy|정책]]이 [[247_temporal_locality|시간적 지역성]] ([[247_temporal_locality|Temporal Locality]])과 접근 패턴을 얼마나 잘 읽느냐에 따라 [[264_hit_ratio|적중률]] ([[359_effective_access_time|Hit Ratio]]), 평균 메모리 접근 시간, 전력 효율이 크게 달라진다.
-> 3. **판단 포인트**: 이상적인 [[164_policy|정책]]은 미스율만 최소화하지 않고, 하드웨어 구현 [[015_지연_데이터_관점|지연]]·[[073_bit|비트]] 오버헤드·예측 가능성까지 함께 고려해야 하므로 실제 설계에서는 완전한 최적해보다 근사해가 자주 선택된다.
+> 1. **본질**: 캐시 교체 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Replacement [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))은 캐시 세트가 가득 찼을 때 어떤 블록을 희생시켜 새 블록을 들일지 결정하는 규칙이며, 결국 "무엇을 기억하고 무엇을 잊을지"를 정하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이다.
+> 2. **가치**: 같은 캐시 용량이라도 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 [시간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/) ([Temporal Locality](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/))과 접근 패턴을 얼마나 잘 읽느냐에 따라 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/) ([Hit Ratio](/knowledge-base/studynote/02_operating_system/06_memory_management/359_effective_access_time/)), 평균 메모리 접근 시간, 전력 효율이 크게 달라진다.
+> 3. **판단 포인트**: 이상적인 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 미스율만 최소화하지 않고, 하드웨어 구현 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)·[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 오버헤드·예측 가능성까지 함께 고려해야 하므로 실제 설계에서는 완전한 최적해보다 근사해가 자주 선택된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-캐시 교체 [[001_algorithm_definition|알고리즘]]은 연관 캐시에서 빈 칸이 없을 때 퇴출할 블록을 고르는 규칙이다. 직접 매핑 ([[267_direct_mapping|Direct Mapping]])처럼 후보가 하나로 고정된 구조와 달리, 세트 연관 매핑 ([[269_set_associative_mapping|Set Associative Mapping]])과 완전 연관 매핑 ([[268_fully_associative|Fully Associative]] [[010_schema_mapping|Mapping]])은 여러 웨이 (Way) 가운데 하나를 골라야 하므로 [[164_policy|정책]]이 필요하다. 즉 교체 [[164_policy|정책]]은 캐시 구조가 유연해진 대가로 반드시 따라오는 의사결정 장치다.
+캐시 교체 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 연관 캐시에서 빈 칸이 없을 때 퇴출할 블록을 고르는 규칙이다. 직접 매핑 ([Direct Mapping](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/267_direct_mapping/))처럼 후보가 하나로 고정된 구조와 달리, 세트 연관 매핑 ([Set Associative Mapping](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/269_set_associative_mapping/))과 완전 연관 매핑 ([Fully Associative](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/268_fully_associative/) [Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))은 여러 웨이 (Way) 가운데 하나를 골라야 하므로 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 필요하다. 즉 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 캐시 구조가 유연해진 대가로 반드시 따라오는 의사결정 장치다.
 
-이 [[164_policy|정책]]이 중요한 이유는 주기억장치 접근 비용이 여전히 크기 때문이다. 중앙처리장치 (CPU, Central Processing Unit)가 수 나노초 단위로 명령을 처리하는 동안, 하위 계층 메모리 접근은 그보다 훨씬 긴 [[015_지연_데이터_관점|지연]]을 유발할 수 있다. 따라서 잘못된 블록을 쫓아내면 다음 접근에서 바로 캐시 미스 (Cache Miss)가 발생하고, 작은 판단 실수가 누적되어 전체 [[282_performance_tactics|성능]]을 떨어뜨린다.
+이 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 중요한 이유는 주기억장치 접근 비용이 여전히 크기 때문이다. 중앙처리장치 (CPU, Central Processing Unit)가 수 나노초 단위로 명령을 처리하는 동안, 하위 계층 메모리 접근은 그보다 훨씬 긴 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 유발할 수 있다. 따라서 잘못된 블록을 쫓아내면 다음 접근에서 바로 캐시 미스 (Cache Miss)가 발생하고, 작은 판단 실수가 누적되어 전체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 떨어뜨린다.
 
-또한 교체 [[001_algorithm_definition|알고리즘]]은 단순히 "오래된 것 버리기"가 아니다. 프로그램마다 반복 루프, 순차 스캔, 랜덤 접근의 비율이 다르기 때문에 어떤 기준을 쓰느냐에 따라 유리한 패턴과 불리한 패턴이 갈린다. 결국 교체 [[164_policy|정책]]은 메모리 계층 구조가 지역성이라는 통계적 성질을 얼마나 똑똑하게 활용하느냐를 보여주는 핵심 지점이다.
+또한 교체 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 단순히 "오래된 것 버리기"가 아니다. 프로그램마다 반복 루프, 순차 스캔, 랜덤 접근의 비율이 다르기 때문에 어떤 기준을 쓰느냐에 따라 유리한 패턴과 불리한 패턴이 갈린다. 결국 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 메모리 계층 구조가 지역성이라는 통계적 성질을 얼마나 똑똑하게 활용하느냐를 보여주는 핵심 지점이다.
 
 - **📢 섹션 요약 비유**: 캐시 교체는 엘리베이터 안이 꽉 찼을 때 누가 먼저 내려야 다음 층 사람들까지 가장 효율적으로 태울 수 있는지 정하는 일과 같다. 아무나 내리게 하면 바로 다시 타야 할 사람을 내리게 되어 전체 흐름이 꼬인다.
 
@@ -27,9 +31,9 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-교체 [[164_policy|정책]]은 "미스 발생 → 빈 자리 [[396_validation|확인]] → 희생 블록 선택 → 새 블록 적재"의 흐름에서 동작한다. 이때 [[164_policy|정책]]이 활용하는 핵심 신호는 최근성, 빈도, 삽입 시점, 접근 패턴이다. 최근에 쓴 [[001_dikw_pyramid|데이터]]는 다시 쓸 가능성이 높다는 [[247_temporal_locality|시간적 지역성]]을 이용하면 [[264_hit_ratio|적중률]]을 높일 수 있지만, 그 이력을 추적하는 회로 자체가 느리면 오히려 캐시 접근 시간이 늘어난다.
+교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 "미스 발생 → 빈 자리 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) → 희생 블록 선택 → 새 블록 적재"의 흐름에서 동작한다. 이때 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 활용하는 핵심 신호는 최근성, 빈도, 삽입 시점, 접근 패턴이다. 최근에 쓴 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 다시 쓸 가능성이 높다는 [시간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/)을 이용하면 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)을 높일 수 있지만, 그 이력을 추적하는 회로 자체가 느리면 오히려 캐시 접근 시간이 늘어난다.
 
-아래 그림은 교체 [[164_policy|정책]]이 실제로 개입하는 지점을 보여준다.
+아래 그림은 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 실제로 개입하는 지점을 보여준다.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────┐
@@ -45,37 +49,37 @@ tags:
 └────────────────────────────────────────────────────────────────────┘
 ```
 
-이 그림의 핵심은 교체 [[164_policy|정책]]이 모든 접근에 대해 "[[001_dikw_pyramid|데이터]]를 찾는 단계"가 아니라, **미스가 발생했고 빈 자리가 없을 때만** 본격적으로 개입한다는 점이다. 그러나 실제 하드웨어는 그 순간을 위해 평소에도 [[012_metadata|메타데이터]]를 계속 갱신해야 한다. 예를 들어 [[262_lru_page_replacement|Least Recently Used]] ([[262_lru_page_replacement|LRU]])는 접근할 때마다 순서를 업데이트해야 하고, [[263_lfu_page_replacement|Least Frequently Used]] ([[263_lfu_page_replacement|LFU]])는 [[316_reference_pattern_nosql|참조]] 횟수를 관리해야 한다.
+이 그림의 핵심은 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 모든 접근에 대해 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 찾는 단계"가 아니라, **미스가 발생했고 빈 자리가 없을 때만** 본격적으로 개입한다는 점이다. 그러나 실제 하드웨어는 그 순간을 위해 평소에도 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 계속 갱신해야 한다. 예를 들어 [Least Recently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) ([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))는 접근할 때마다 순서를 업데이트해야 하고, [Least Frequently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) ([LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/))는 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 횟수를 관리해야 한다.
 
-| [[164_policy|정책]] 계열 | 주로 보는 정보 | 강점 | 대가 |
+| [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 계열 | 주로 보는 정보 | 강점 | 대가 |
 | :-------- | :------------- | :--- | :--- |
-| 최근성 기반 | 마지막 사용 시점 | [[247_temporal_locality|시간적 지역성]] 반영에 강함 | 순서 추적 비용 발생 |
-| 빈도 기반 | 누적 사용 횟수 | 장기 인기 [[001_dikw_pyramid|데이터]] [[571_protection_vs_security|보호]] | 오래된 인기의 관성 문제 |
+| 최근성 기반 | 마지막 사용 시점 | [시간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/) 반영에 강함 | 순서 추적 비용 발생 |
+| 빈도 기반 | 누적 사용 횟수 | 장기 인기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | 오래된 인기의 관성 문제 |
 | 단순 순서 기반 | 들어온 시점 | 구현이 매우 단순 | 실제 재사용성과 무관할 수 있음 |
-| 근사 [[164_policy|정책]] | 일부 [[073_bit|비트]]·트리 정보 | [[015_지연_데이터_관점|지연]]과 면적 절감 | 완전한 최적 판단은 아님 |
+| 근사 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 일부 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)·트리 정보 | [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 면적 절감 | 완전한 최적 판단은 아님 |
 
-따라서 실제 캐시는 "미스율 최소화"와 "캐시 자체의 속도 유지"를 동시에 만족해야 한다. 수준 1 캐시 ([[260_l1_cache|L1 Cache]])는 매우 짧은 접근 [[015_지연_데이터_관점|지연]]이 중요하므로 완전한 추적보다 간단한 근사 [[164_policy|정책]]을 선호하고, 마지막 단계 캐시 ([[744_load_line_calibration|LLC]], Last Level Cache)는 상대적으로 큰 용량과 긴 [[015_지연_데이터_관점|지연]]을 감수하며 더 정교한 [[164_policy|정책]]을 사용할 수 있다.
+따라서 실제 캐시는 "미스율 최소화"와 "캐시 자체의 속도 유지"를 동시에 만족해야 한다. 수준 1 캐시 ([L1 Cache](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/260_l1_cache/))는 매우 짧은 접근 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 중요하므로 완전한 추적보다 간단한 근사 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 선호하고, 마지막 단계 캐시 ([LLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/), Last Level Cache)는 상대적으로 큰 용량과 긴 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 감수하며 더 정교한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 사용할 수 있다.
 
-- **📢 섹션 요약 비유**: 교체 [[164_policy|정책]]은 도서관 사서가 새 책이 왔을 때 어느 책을 서가 뒤로 빼야 할지 정하는 기준과 같다. 대출 기록을 자세히 볼수록 판단은 좋아지지만, 기록 정리 시간이 너무 길면 정작 책을 빌려주는 일이 늦어진다.
+- **📢 섹션 요약 비유**: 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 도서관 사서가 새 책이 왔을 때 어느 책을 서가 뒤로 빼야 할지 정하는 기준과 같다. 대출 기록을 자세히 볼수록 판단은 좋아지지만, 기록 정리 시간이 너무 길면 정작 책을 빌려주는 일이 늦어진다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-교체 [[164_policy|정책]]을 이해하려면 "무엇을 기준으로 희생 블록을 고르는가"를 비교해야 한다. 이론적으로는 미래를 아는 [[164_policy|정책]]이 가장 좋지만 현실에서는 불가능하므로, 실제 시스템은 과거 이력과 단순 근사를 이용해 미래 재사용 가능성을 추정한다. 여기서 중요한 비교 축은 [[264_hit_ratio|적중률]], 구현 복잡도, 병적인 접근 패턴에 대한 강건성이다.
+교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 이해하려면 "무엇을 기준으로 희생 블록을 고르는가"를 비교해야 한다. 이론적으로는 미래를 아는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 가장 좋지만 현실에서는 불가능하므로, 실제 시스템은 과거 이력과 단순 근사를 이용해 미래 재사용 가능성을 추정한다. 여기서 중요한 비교 축은 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/), 구현 복잡도, 병적인 접근 패턴에 대한 강건성이다.
 
-| [[164_policy|정책]] | 선택 기준 | 장점 | 한계 | 연결 개념 |
+| [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 선택 기준 | 장점 | 한계 | 연결 개념 |
 | :--- | :-------- | :--- | :--- | :-------- |
-| Optimal ([[724_optimal_page_replacement_unrealizable|OPT]]) | 미래에 가장 늦게 다시 쓰일 블록 | 이론상 최저 미스율 | 미래 정보가 필요해 구현 불가 | [[282_performance_tactics|성능]] 평가 [[025_baseline|기준선]] |
-| First In First Out ([[261_fifo_page_replacement|FIFO]]) | 가장 먼저 들어온 블록 | 회로·소프트웨어 구현 단순 | 최근 자주 쓰는 [[001_dikw_pyramid|데이터]]도 퇴출 가능 | 벨라디의 모순 (Bélády's [[530_anomaly|Anomaly]]) |
-| [[262_lru_page_replacement|Least Recently Used]] ([[262_lru_page_replacement|LRU]]) | 가장 오래전에 [[316_reference_pattern_nosql|참조]]된 블록 | [[247_temporal_locality|시간적 지역성]] 반영 우수 | 연관도가 높아질수록 추적 비용 증가 | [[057_stack|스택]] [[001_algorithm_definition|알고리즘]] ([[057_stack|Stack]] [[001_algorithm_definition|Algorithm]]) |
-| [[263_lfu_page_replacement|Least Frequently Used]] ([[263_lfu_page_replacement|LFU]]) | 누적 [[316_reference_pattern_nosql|참조]] 횟수가 가장 적은 블록 | 장기 반복 [[001_dikw_pyramid|데이터]]에 유리 | 한때 많이 쓰였던 [[001_dikw_pyramid|데이터]]가 오래 남을 수 있음 | 웹 캐시·버퍼 풀 |
+| Optimal ([OPT](/knowledge-base/studynote/02_operating_system/11_exam_summary/724_optimal_page_replacement_unrealizable/)) | 미래에 가장 늦게 다시 쓰일 블록 | 이론상 최저 미스율 | 미래 정보가 필요해 구현 불가 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) |
+| First In First Out ([FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/)) | 가장 먼저 들어온 블록 | 회로·소프트웨어 구현 단순 | 최근 자주 쓰는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 퇴출 가능 | 벨라디의 모순 (Bélády's [Anomaly](/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/)) |
+| [Least Recently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) ([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)) | 가장 오래전에 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)된 블록 | [시간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/) 반영 우수 | 연관도가 높아질수록 추적 비용 증가 | [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) ([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) |
+| [Least Frequently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) ([LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/)) | 누적 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 횟수가 가장 적은 블록 | 장기 반복 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 유리 | 한때 많이 쓰였던 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 오래 남을 수 있음 | 웹 캐시·버퍼 풀 |
 | Random | 무작위 선택 | 오버헤드 매우 작음 | 재사용성 판단 불가 | 단순 하드웨어 근사 |
-| Pseudo-[[262_lru_page_replacement|LRU]] (PLRU, Pseudo [[262_lru_page_replacement|Least Recently Used]]) | 일부 [[073_bit|비트]]로 최근성 근사 | LRU보다 구현이 가벼움 | 항상 진짜 LRU와 같지는 않음 | 다웨이 캐시 실무 구현 |
+| Pseudo-[LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) (PLRU, Pseudo [Least Recently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)) | 일부 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)로 최근성 근사 | LRU보다 구현이 가벼움 | 항상 진짜 LRU와 같지는 않음 | 다웨이 캐시 실무 구현 |
 
-특히 FIFO와 LRU의 차이는 단순한 취향 문제가 아니다. FIFO는 "먼저 들어온 순서"만 보므로, 지금도 자주 쓰이는 [[001_dikw_pyramid|데이터]]가 먼저 들어왔다는 이유만으로 쫓겨날 수 있다. 반면 LRU는 최근 사용 이력을 보므로 재사용 가능성을 더 잘 반영한다. 이 때문에 FIFO는 캐시 크기를 늘렸는데도 미스가 증가하는 벨라디의 모순을 보일 수 있지만, [[262_lru_page_replacement|LRU]] 계열은 이런 현상에 더 안정적이다.
+특히 FIFO와 LRU의 차이는 단순한 취향 문제가 아니다. FIFO는 "먼저 들어온 순서"만 보므로, 지금도 자주 쓰이는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 먼저 들어왔다는 이유만으로 쫓겨날 수 있다. 반면 LRU는 최근 사용 이력을 보므로 재사용 가능성을 더 잘 반영한다. 이 때문에 FIFO는 캐시 크기를 늘렸는데도 미스가 증가하는 벨라디의 모순을 보일 수 있지만, [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 계열은 이런 현상에 더 안정적이다.
 
-또한 교체 [[164_policy|정책]]은 캐시를 넘어 [[001_operating_system_purpose|운영체제]]의 [[260_page_replacement|페이지 교체]], [[002_database_definition|데이터베이스]] 버퍼 풀, 콘텐츠 전송 네트워크 ([[506_cdn_content_delivery_network_edge_caching|CDN]], Content Delivery Network) 캐시와도 연결된다. 다만 영역이 바뀌면 판단 기준도 달라진다. 하드웨어 캐시는 수 나노초 [[015_지연_데이터_관점|지연]]이 중요하므로 [[073_bit|비트]] 수와 회로 깊이가 민감하고, [[002_database_definition|데이터베이스]]는 디스크 입출력 비용이 훨씬 크므로 더 복잡한 [[164_policy|정책]]을 감수할 여지가 있다.
+또한 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 캐시를 넘어 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/), [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 버퍼 풀, 콘텐츠 전송 네트워크 ([CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/), Content Delivery Network) 캐시와도 연결된다. 다만 영역이 바뀌면 판단 기준도 달라진다. 하드웨어 캐시는 수 나노초 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 중요하므로 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수와 회로 깊이가 민감하고, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)는 디스크 입출력 비용이 훨씬 크므로 더 복잡한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 감수할 여지가 있다.
 
 - **📢 섹션 요약 비유**: FIFO는 줄 선 순서만 보고 손님을 내보내는 식당이고, LRU는 최근에 안 온 단골부터 자리를 비우게 하는 식당이다. 둘 다 규칙은 분명하지만, 어느 쪽이 다시 올 손님을 더 잘 남길지는 손님 패턴에 따라 큰 차이가 난다.
 
@@ -83,46 +87,46 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 "가장 똑똑한 [[164_policy|정책]]"보다 "해당 계층에서 감당 가능한 [[164_policy|정책]]"을 고르는 것이 중요하다. 예를 들어 L1 캐시는 한 사이클 안팎의 응답성이 중요하므로, 완전한 LRU보다 Pseudo-LRU나 Random에 가까운 경량 [[164_policy|정책]]이 더 현실적일 수 있다. 반대로 대형 마지막 단계 캐시나 소프트웨어 캐시는 접근 비용이 더 크므로, 삽입 위치 조절이나 빈도 보정 같은 추가 로직을 넣어도 투자 가치가 있다.
+실무에서는 "가장 똑똑한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)"보다 "해당 계층에서 감당 가능한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)"을 고르는 것이 중요하다. 예를 들어 L1 캐시는 한 사이클 안팎의 응답성이 중요하므로, 완전한 LRU보다 Pseudo-LRU나 Random에 가까운 경량 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 더 현실적일 수 있다. 반대로 대형 마지막 단계 캐시나 소프트웨어 캐시는 접근 비용이 더 크므로, 삽입 위치 조절이나 빈도 보정 같은 추가 로직을 넣어도 투자 가치가 있다.
 
 ### 설계 판단 체크포인트
 
 1. **캐시 계층의 목표가 무엇인가?**
-   - L1은 [[015_지연_데이터_관점|지연]] 최소화가 우선이고, 수준 2 캐시 ([[261_l2_cache|L2 Cache]])·수준 3 캐시 ([[262_l3_cache|L3 Cache]])는 미스율 감소 효과가 더 중요하다.
+   - L1은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 최소화가 우선이고, 수준 2 캐시 ([L2 Cache](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/261_l2_cache/))·수준 3 캐시 ([L3 Cache](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/262_l3_cache/))는 미스율 감소 효과가 더 중요하다.
 2. **접근 패턴이 반복형인가, 순차 스캔형인가?**
    - 순차 스캔이 많으면 순수 LRU는 캐시 오염 (Cache Pollution)에 취약할 수 있다.
-3. **추적 [[012_metadata|메타데이터]] 비용이 허용되는가?**
-   - 웨이 수가 커질수록 완전한 순서 추적은 [[073_bit|비트]] 수와 갱신 로직이 급격히 증가한다.
-4. **[[164_policy|정책]]의 예측 가능성이 필요한가?**
-   - 실시간 시스템은 평균 [[282_performance_tactics|성능]]보다 최악 [[015_지연_데이터_관점|지연]]의 일관성이 중요할 수 있다.
+3. **추적 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 비용이 허용되는가?**
+   - 웨이 수가 커질수록 완전한 순서 추적은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수와 갱신 로직이 급격히 증가한다.
+4. **[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 예측 가능성이 필요한가?**
+   - 실시간 시스템은 평균 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 최악 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)의 일관성이 중요할 수 있다.
 
 ### 대표적인 실무 상황
 
-- **고성능 프로세서 캐시**: 최근성은 중요하지만 접근 [[015_지연_데이터_관점|지연]]이 더 중요하므로 PLRU나 적응형 삽입 [[164_policy|정책]]을 사용해 LRU를 근사한다.
-- **[[001_operating_system_purpose|운영체제]] [[260_page_replacement|페이지 교체]]**: 정확한 LRU는 오버헤드가 커서 [[316_reference_pattern_nosql|참조]] [[073_bit|비트]]를 이용한 [[045_clock|Clock]] 계열 [[001_algorithm_definition|알고리즘]]으로 근사하는 경우가 많다.
-- **[[002_database_definition|데이터베이스]] 버퍼 풀**: 대량 스캔 쿼리가 자주 들어오면 새 [[286_page_frame|페이지]]를 바로 최상위로 올리지 않고 중간에 삽입하여 캐시 오염을 줄인다.
+- **고성능 프로세서 캐시**: 최근성은 중요하지만 접근 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 더 중요하므로 PLRU나 적응형 삽입 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 사용해 LRU를 근사한다.
+- **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/)**: 정확한 LRU는 오버헤드가 커서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 이용한 [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) 계열 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 근사하는 경우가 많다.
+- **[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 버퍼 풀**: 대량 스캔 쿼리가 자주 들어오면 새 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 바로 최상위로 올리지 않고 중간에 삽입하여 캐시 오염을 줄인다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 미스율만 보고 무조건 완전한 LRU를 요구하는 설계
-- 순차 스캔 workload를 고려하지 않고 최근성 [[164_policy|정책]] 하나로 모든 패턴을 처리하려는 구성
-- [[164_policy|정책]] 변경 없이 캐시 용량만 늘리면 문제가 해결될 것이라고 가정하는 접근
+- 순차 스캔 workload를 고려하지 않고 최근성 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 하나로 모든 패턴을 처리하려는 구성
+- [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 변경 없이 캐시 용량만 늘리면 문제가 해결될 것이라고 가정하는 접근
 
-평균 메모리 접근 시간 ([[265_amat|AMAT]], Average Memory Access Time)은 히트 시간, 미스율, 미스 패널티가 함께 결정한다. 따라서 교체 [[164_policy|정책]] 평가는 단순히 "히트율이 1% 올랐다"가 아니라, 그 1% 향상을 위해 캐시 접근 시간이 얼마나 늘었는지까지 같이 봐야 한다. 기술사 답안이나 실무 설계 문서에서는 이 균형점을 설명하는 것이 핵심이다.
+평균 메모리 접근 시간 ([AMAT](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/265_amat/), Average Memory Access Time)은 히트 시간, 미스율, 미스 패널티가 함께 결정한다. 따라서 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 평가는 단순히 "히트율이 1% 올랐다"가 아니라, 그 1% 향상을 위해 캐시 접근 시간이 얼마나 늘었는지까지 같이 봐야 한다. 기술사 답안이나 실무 설계 문서에서는 이 균형점을 설명하는 것이 핵심이다.
 
-- **📢 섹션 요약 비유**: 교체 [[164_policy|정책]] 선택은 회사 회의실 예약 규칙을 정하는 일과 비슷하다. 회의 이력, 참석 빈도, 긴급도까지 다 반영하면 공정할 수 있지만, 규칙이 너무 복잡하면 정작 회의 시작이 늦어져 본래 목적을 해친다.
+- **📢 섹션 요약 비유**: 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 선택은 회사 회의실 예약 규칙을 정하는 일과 비슷하다. 회의 이력, 참석 빈도, 긴급도까지 다 반영하면 공정할 수 있지만, 규칙이 너무 복잡하면 정작 회의 시작이 늦어져 본래 목적을 해친다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-좋은 교체 [[164_policy|정책]]은 같은 캐시 용량으로 더 높은 [[264_hit_ratio|적중률]]을 얻어 메모리 병목을 줄인다. 그 결과 [[282_performance_tactics|성능]] 향상뿐 아니라 전력 낭비 감소, 하위 계층 트래픽 완화, 시스템 응답 시간의 안정화가 함께 따라온다. 특히 대규모 멀티코어 환경에서는 캐시 미스가 단순 [[015_지연_데이터_관점|지연]]이 아니라 [[344_bus|버스]] 경쟁과 메모리 [[140_bandwidth|대역폭]] 포화로 이어지므로, 교체 [[164_policy|정책]]의 효과가 전체 시스템 수준으로 확대된다.
+좋은 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 같은 캐시 용량으로 더 높은 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)을 얻어 메모리 병목을 줄인다. 그 결과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상뿐 아니라 전력 낭비 감소, 하위 계층 트래픽 완화, 시스템 응답 시간의 안정화가 함께 따라온다. 특히 대규모 멀티코어 환경에서는 캐시 미스가 단순 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 아니라 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 경쟁과 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 포화로 이어지므로, 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 효과가 전체 시스템 수준으로 확대된다.
 
-다만 교체 [[164_policy|정책]]에는 항상 전제조건이 있다. 지역성이 약한 작업에서는 어떤 [[164_policy|정책]]도 큰 효과를 내기 어렵고, 스캔 중심 workload에서는 최근성 기반 [[164_policy|정책]]이 오히려 불리할 수 있다. 그래서 최근 아키텍처는 단일 고정 [[164_policy|정책]]보다, 접근 패턴을 관찰해 삽입 위치나 우선순위를 조절하는 적응형 [[164_policy|정책]]으로 진화하고 있다.
+다만 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)에는 항상 전제조건이 있다. 지역성이 약한 작업에서는 어떤 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)도 큰 효과를 내기 어렵고, 스캔 중심 workload에서는 최근성 기반 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 오히려 불리할 수 있다. 그래서 최근 아키텍처는 단일 고정 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)보다, 접근 패턴을 관찰해 삽입 위치나 우선순위를 조절하는 적응형 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 진화하고 있다.
 
-결국 캐시 교체 [[001_algorithm_definition|알고리즘]]은 "무엇을 버려야 무엇을 살릴 수 있는가"를 정하는 메모리 관리의 핵심 철학이다. 기억을 무한히 늘릴 수 없는 이상, 좋은 시스템은 더 많이 저장하는 시스템이 아니라 **더 가치 있게 잊는 시스템**이라는 관점으로 이해하는 것이 중요하다.
+결국 캐시 교체 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 "무엇을 버려야 무엇을 살릴 수 있는가"를 정하는 메모리 관리의 핵심 철학이다. 기억을 무한히 늘릴 수 없는 이상, 좋은 시스템은 더 많이 저장하는 시스템이 아니라 **더 가치 있게 잊는 시스템**이라는 관점으로 이해하는 것이 중요하다.
 
-- **📢 섹션 요약 비유**: 교체 [[164_policy|정책]]은 여행 가방을 싸는 기술과 같다. 가방이 한정되어 있을 때 좋은 여행자는 물건을 무조건 많이 넣는 사람이 아니라, 가장 다시 쓸 가능성이 높은 물건을 남기고 덜 중요한 것을 과감히 빼는 사람이다.
+- **📢 섹션 요약 비유**: 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 여행 가방을 싸는 기술과 같다. 가방이 한정되어 있을 때 좋은 여행자는 물건을 무조건 많이 넣는 사람이 아니라, 가장 다시 쓸 가능성이 높은 물건을 남기고 덜 중요한 것을 과감히 빼는 사람이다.
 
 ---
 
@@ -130,11 +134,11 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :---------- |
-| [[247_temporal_locality|시간적 지역성]] ([[247_temporal_locality|Temporal Locality]]) | 최근에 사용한 [[001_dikw_pyramid|데이터]]가 다시 사용될 확률이 높아 [[262_lru_page_replacement|LRU]] 계열 [[164_policy|정책]]의 근거가 된다. |
-| 세트 연관 매핑 ([[269_set_associative_mapping|Set Associative Mapping]]) | 여러 웨이 중 희생 블록을 골라야 하므로 교체 [[164_policy|정책]]이 필요해진다. |
-| [[270_cache_miss_3c|캐시 미스의 원인]] 3C (Compulsory, Capacity, Conflict) | 교체 [[164_policy|정책]]은 특히 용량 미스와 충돌 미스 구간에서 [[282_performance_tactics|성능]] 차이를 크게 만든다. |
-| 캐시 오염 (Cache Pollution) | 일회성 [[001_dikw_pyramid|데이터]]가 캐시를 점유해 유용한 [[001_dikw_pyramid|데이터]]를 밀어내는 현상으로, [[164_policy|정책]] 보정이 필요한 이유다. |
-| 평균 메모리 접근 시간 ([[265_amat|AMAT]], Average Memory Access Time) | 교체 [[164_policy|정책]]의 효과를 [[264_hit_ratio|적중률]]뿐 아니라 전체 접근 시간 관점에서 평가하게 해준다. |
+| [시간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/) ([Temporal Locality](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/)) | 최근에 사용한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 다시 사용될 확률이 높아 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 계열 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 근거가 된다. |
+| 세트 연관 매핑 ([Set Associative Mapping](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/269_set_associative_mapping/)) | 여러 웨이 중 희생 블록을 골라야 하므로 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 필요해진다. |
+| [캐시 미스의 원인](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/270_cache_miss_3c/) 3C (Compulsory, Capacity, Conflict) | 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 특히 용량 미스와 충돌 미스 구간에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이를 크게 만든다. |
+| 캐시 오염 (Cache Pollution) | 일회성 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 캐시를 점유해 유용한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 밀어내는 현상으로, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 보정이 필요한 이유다. |
+| 평균 메모리 접근 시간 ([AMAT](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/265_amat/), Average Memory Access Time) | 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 효과를 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)뿐 아니라 전체 접근 시간 관점에서 평가하게 해준다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -154,13 +158,13 @@ PLRU · Clock · 삽입 위치 조절
 적응형 교체 정책 · workload 인식 캐시
 ```
 
-이 흐름은 "고정 규칙"에서 출발해 "접근 패턴을 읽는 [[164_policy|정책]]"으로 발전하는 방향을 보여준다.
+이 흐름은 "고정 규칙"에서 출발해 "접근 패턴을 읽는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)"으로 발전하는 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 장난감 상자에 새 장난감을 넣으려면, 상자 안에서 하나를 먼저 빼야 해요.
 2. 똑똑한 규칙은 방금 가지고 논 장난감은 남기고, 오래 안 가지고 논 장난감을 먼저 빼는 거예요.
-3. 그래서 캐시 교체 [[001_algorithm_definition|알고리즘]]은 작은 상자 안에서도 자주 쓰는 것을 더 잘 기억하게 도와줘요.
+3. 그래서 캐시 교체 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 작은 상자 안에서도 자주 쓰는 것을 더 잘 기억하게 도와줘요.
 
 ---
 
@@ -168,7 +172,7 @@ PLRU · Clock · 삽입 위치 조절
 
 **진행 상황**: 271 / 803
 
-← **이전**: [[270_cache_miss_3c|270. 캐시 미스의 원인 (3C: Compulsory, Capacity, Conflict)]]
-**다음**: [[272_lru|272. LRU (Least Recently Used)]] →
+← **이전**: [270. 캐시 미스의 원인 (3C: Compulsory, Capacity, Conflict)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/270_cache_miss_3c/)
+**다음**: [272. LRU (Least Recently Used)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/272_lru/) →
 
 ---

@@ -1,14 +1,18 @@
----
-title: 040. 인코더 (Encoder)
-date: '2026-03-19'
-tags:
-- studynote-computer-architecture
----
++++
+title = "040. 인코더 (Encoder)"
+date = 2026-03-19
+
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
 
 > **핵심 인사이트**
-> 1. 인코더(Encoder)는 2ⁿ개의 입력선 중 정확히 하나가 활성화될 때 n비트 이진 코드를 출력하는 조합 [[369_logic_bomb|논리]] 회로로, [[039_decoder|디코더]]([[039_decoder|Decoder]])의 역(逆) 기능을 수행하며 키보드·우선순위 제어·주소 [[087_process_state_transition|생성]] 등에 핵심적으로 활용된다.
-> 2. 우선순위 인코더(Priority Encoder)는 여러 입력이 동시에 활성화될 때 가장 높은 우선순위 입력만 처리하는 실용적 확장으로, [[016_interrupt_mechanism|인터럽트]] 컨트롤러([[016_interrupt_mechanism|Interrupt]] Controller) 구현의 기반이 된다.
-> 3. [[039_decoder|디코더]]와 인코더의 조합은 [[041_multiplexer|멀티플렉서]]([[944_mux_demux_multiplexer_demultiplexer_circuit_sharing|MUX]])·[[042_demultiplexer|디멀티플렉서]](DEMUX)와 함께 디지털 시스템에서 [[130_signal|신호]] 선택·변환·압축의 4대 핵심 회로를 구성한다.
+> 1. 인코더(Encoder)는 2ⁿ개의 입력선 중 정확히 하나가 활성화될 때 n비트 이진 코드를 출력하는 조합 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로로, [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)([Decoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/))의 역(逆) 기능을 수행하며 키보드·우선순위 제어·주소 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 등에 핵심적으로 활용된다.
+> 2. 우선순위 인코더(Priority Encoder)는 여러 입력이 동시에 활성화될 때 가장 높은 우선순위 입력만 처리하는 실용적 확장으로, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 컨트롤러([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Controller) 구현의 기반이 된다.
+> 3. [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)와 인코더의 조합은 [멀티플렉서](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/041_multiplexer/)([MUX](/knowledge-base/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/))·[디멀티플렉서](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/042_demultiplexer/)(DEMUX)와 함께 디지털 시스템에서 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 선택·변환·압축의 4대 핵심 회로를 구성한다.
 
 ---
 
@@ -68,7 +72,7 @@ GS (Group Select): 유효 입력 존재 표시
 
 ---
 
-## Ⅲ. 인코더 vs [[039_decoder|디코더]]
+## Ⅲ. 인코더 vs [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)
 
 ```
 비교:
@@ -87,11 +91,11 @@ GS (Group Select): 유효 입력 존재 표시
   키보드 --[인코더]--> 이진 코드 --[디코더]--> LED 표시
 ```
 
-> 📢 **섹션 요약 비유**: 인코더는 한국어→영어 번역기, [[039_decoder|디코더]]는 영어→한국어 번역기 — 서로 반대 방향 변환기.
+> 📢 **섹션 요약 비유**: 인코더는 한국어→영어 번역기, [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)는 영어→한국어 번역기 — 서로 반대 방향 변환기.
 
 ---
 
-## Ⅳ. [[016_interrupt_mechanism|인터럽트]] 컨트롤러 응용
+## Ⅳ. [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 컨트롤러 응용
 
 ```
 CPU 인터럽트 처리 (8259A PIC 구조):
@@ -113,7 +117,7 @@ CPU 인터럽트 처리 (8259A PIC 구조):
   IRQ0 (최고) > IRQ1 > ... > IRQ7 (최저)
 ```
 
-> 📢 **섹션 요약 비유**: [[016_interrupt_mechanism|인터럽트]] 컨트롤러는 응급실 트리아지 — 여러 환자 동시 도착 시 위급도(우선순위) 따라 순서 결정.
+> 📢 **섹션 요약 비유**: [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 컨트롤러는 응급실 트리아지 — 여러 환자 동시 도착 시 위급도(우선순위) 따라 순서 결정.
 
 ---
 
@@ -190,8 +194,8 @@ IoT 센서 인터페이스
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 인코더는 여러 개의 [[238_switch_operation_principles|스위치]](입력) 중 어떤 [[238_switch_operation_principles|스위치]]가 켜졌는지 숫자(이진 코드)로 바꿔주는 변환기예요.
-2. 우선순위 인코더는 여러 [[238_switch_operation_principles|스위치]]가 동시에 켜질 때, 가장 중요한 [[238_switch_operation_principles|스위치]] 번호만 알려주는 똑똑한 인코더예요.
+1. 인코더는 여러 개의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(입력) 중 어떤 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 켜졌는지 숫자(이진 코드)로 바꿔주는 변환기예요.
+2. 우선순위 인코더는 여러 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 동시에 켜질 때, 가장 중요한 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 번호만 알려주는 똑똑한 인코더예요.
 3. 컴퓨터에서는 여러 장치가 동시에 "나 처리해줘!"라고 할 때, 인코더가 가장 급한 장치 번호를 CPU에 전달해줘요!
 
 ---
@@ -200,7 +204,7 @@ IoT 센서 인터페이스
 
 **진행 상황**: 40 / 803
 
-← **이전**: [[039_decoder|039. 디코더 (Decoder) — n-to-2^n 조합 논리 회로]]
-**다음**: [[041_multiplexer|041. 멀티플렉서 (MUX, Multiplexer)]] →
+← **이전**: [039. 디코더 (Decoder) — n-to-2^n 조합 논리 회로](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)
+**다음**: [041. 멀티플렉서 (MUX, Multiplexer)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/041_multiplexer/) →
 
 ---

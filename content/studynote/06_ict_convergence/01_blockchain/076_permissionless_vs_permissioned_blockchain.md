@@ -1,20 +1,24 @@
----
-title: 76. 무허가형 (Permissionless) vs 허가형 (Permissioned) 블록체인
-tags:
-- ict_convergence
----
++++
+title = "76. 무허가형 (Permissionless) vs 허가형 (Permissioned) 블록체인"
+
+[taxonomies]
+tags = ["ict_convergence"]
+
+[extra]
+tags = ["ict_convergence"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[004_blockchain|블록체인]]([[004_blockchain|Blockchain]])은 "누가 네트워크에 들어올 수 있는가"에 따라 Permissionless와 Permissioned로 갈라진다.
+> 1. **본질**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)([Blockchain](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/))은 "누가 네트워크에 들어올 수 있는가"에 따라 Permissionless와 Permissioned로 갈라진다.
 > 2. **가치**: Permissionless는 개방성과 검열 저항성이 강하지만 느리고, Permissioned는 신원과 권한을 통제할 수 있어 기업 운영에 맞다.
-> 3. **판단 포인트**: [[004_blockchain|블록체인]]을 쓸지 말지보다 먼저, 정말 여러 주체가 서로를 믿지 못하는 문제인지부터 [[396_validation|확인]]해야 한다.
+> 3. **판단 포인트**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)을 쓸지 말지보다 먼저, 정말 여러 주체가 서로를 믿지 못하는 문제인지부터 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[[004_blockchain|블록체인]]의 핵심 질문은 간단하다. "아무나 참여할 수 있는가, 아니면 허락을 받아야 하는가?" 이 질문 하나가 합의 방식, [[282_performance_tactics|성능]], 거버넌스, [[781_personal_information|개인정보]] 처리까지 바꾼다.
+[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 핵심 질문은 간단하다. "아무나 참여할 수 있는가, 아니면 허락을 받아야 하는가?" 이 질문 하나가 합의 방식, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 거버넌스, [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 처리까지 바꾼다.
 
 Permissionless는 비트코인(Bitcoin)과 이더리움(Ethereum)처럼 누구나 노드가 되고 검증에 참여할 수 있는 공개 네트워크다. 반면 Permissioned는 허가받은 참여자만 장부를 보거나 쓸 수 있다.
 
@@ -40,11 +44,11 @@ Permissionless는 익명성, 개방성, 검열 저항성을 얻는 대신 합의
 | :-- | :-- | :-- |
 | 참여 | 누구나 | 허가된 주체만 |
 | 신원 | 가명/익명 | 실명/KYC 가능 |
-| 합의 | PoW(Proof of Work), PoS(Proof of Stake) | [[013_pbft_practical_bft|PBFT]] 계열 [[647_bft_verification|BFT]](Byzantine [[800_system_architecture_fault_tolerance_dual|Fault Tolerance]]) |
-| [[282_performance_tactics|성능]] | 낮은 TPS(Transactions Per Second) | 상대적으로 높음 |
+| 합의 | PoW(Proof of Work), PoS(Proof of Stake) | [PBFT](/knowledge-base/studynote/06_ict_convergence/01_blockchain/013_pbft_practical_bft/) 계열 [BFT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/)(Byzantine [Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/)) |
+| [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 낮은 TPS(Transactions Per Second) | 상대적으로 높음 |
 | 거버넌스 | 분산적 | 명확한 운영 주체 |
 
-Permissioned에서는 멤버십 [[090_service_kubernetes_network_load_balancing|서비스]], [[303_authentication_authorization_patterns|인증]], 권한 관리가 중요하다. 반면 Permissionless에서는 누가 참여하든 합의가 깨지지 않도록 보수적 설계가 필요하다.
+Permissioned에서는 멤버십 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 권한 관리가 중요하다. 반면 Permissionless에서는 누가 참여하든 합의가 깨지지 않도록 보수적 설계가 필요하다.
 
 - **📢 섹션 요약 비유**: 놀이터는 문이 열려 있어도 되고, 회사 회의실은 출입 명단이 있어야 한다. 장소의 성격이 규칙을 바꾼다.
 
@@ -57,10 +61,10 @@ Public/Private/Consortium을 함께 보면 더 명확하다. Public은 누구나
 | 구분 | 참여자 | 장점 | 한계 |
 | :-- | :-- | :-- | :-- |
 | Public(무허가형) | 누구나 | 개방성, 검열 저항성 | 느린 합의, 높은 비용 |
-| Private(허가형) | 한 조직/소수 | 빠른 처리, 명확한 통제 | [[010_decentralization|탈중앙화]] 약화 |
+| Private(허가형) | 한 조직/소수 | 빠른 처리, 명확한 통제 | [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 약화 |
 | Consortium | 여러 기관 | 협업과 통제의 균형 | 운영 합의가 필요 |
 
-연결 관점에서는 Permissionless가 암호경제와 공개 네트워크에, Permissioned가 [[520_supply_chain_attack_and_ci_cd_security|공급망]], 금융 내부망, 기관 간 정산에 잘 맞는다.
+연결 관점에서는 Permissionless가 암호경제와 공개 네트워크에, Permissioned가 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/), 금융 내부망, 기관 간 정산에 잘 맞는다.
 
 - **📢 섹션 요약 비유**: 아무나 들어오는 시장, 초대받은 사람만 들어오는 회의실, 몇 개 회사가 같이 쓰는 공동 창고는 모두 규칙이 다르다.
 
@@ -68,22 +72,22 @@ Public/Private/Consortium을 함께 보면 더 명확하다. Public은 누구나
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-[[004_blockchain|블록체인]]을 선택할 때는 먼저 "공유 DB로 충분한가"를 묻는 것이 좋다. 여러 주체가 동시에 기록을 소유해야 하고, 나중에 누가 기록을 바꿨는지 증명해야 하며, 중앙 운영자를 믿기 어렵다면 [[004_blockchain|블록체인]]이 후보가 된다.
+[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)을 선택할 때는 먼저 "공유 DB로 충분한가"를 묻는 것이 좋다. 여러 주체가 동시에 기록을 소유해야 하고, 나중에 누가 기록을 바꿨는지 증명해야 하며, 중앙 운영자를 믿기 어렵다면 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)이 후보가 된다.
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 참여자 간 신뢰 부족이 실제 문제인가?
-2. TPS와 최종성([[065_consensus_finality_probabilistic_deterministic|finality]]) 요구가 적절한가?
-3. KYC(Know Your [[026_three_c_analysis|Customer]])나 권한 통제가 필요한가?
-4. [[781_personal_information|개인정보]]와 영업비밀을 공개 장부에 올려도 되는가?
+2. TPS와 최종성([finality](/knowledge-base/studynote/06_ict_convergence/01_blockchain/065_consensus_finality_probabilistic_deterministic/)) 요구가 적절한가?
+3. KYC(Know Your [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/))나 권한 통제가 필요한가?
+4. [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)와 영업비밀을 공개 장부에 올려도 되는가?
 5. 운영 거버넌스를 누가 책임지는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
-- 중앙 관리자가 있는데도 [[004_blockchain|블록체인]]을 쓴다
-- [[282_performance_tactics|성능]] 요구가 높은데 permissionless를 강요한다
-- [[781_personal_information|개인정보]]를 공개 장부에 그대로 기록한다
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- 중앙 관리자가 있는데도 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)을 쓴다
+- [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 요구가 높은데 permissionless를 강요한다
+- [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)를 공개 장부에 그대로 기록한다
 - 거버넌스 없는 컨소시엄을 만든다
 
-기술사 답안에서는 "[[010_decentralization|탈중앙화]]의 이상"보다 "업무 요구와 거버넌스"를 먼저 써야 한다. 그래야 실무 설득력이 생긴다.
+기술사 답안에서는 "[탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/)의 이상"보다 "업무 요구와 거버넌스"를 먼저 써야 한다. 그래야 실무 설득력이 생긴다.
 
 - **📢 섹션 요약 비유**: 자물쇠가 좋은지보다, 누가 열쇠를 가져야 하는지가 더 중요할 때가 있다.
 
@@ -91,9 +95,9 @@ Public/Private/Consortium을 함께 보면 더 명확하다. Public은 누구나
 
 ## Ⅴ. 기대효과 및 결론
 
-Permissionless는 신뢰 없는 참여자 사이에서 개방성과 저항성을 제공하고, Permissioned는 기업 환경에서 통제와 [[282_performance_tactics|성능]]을 제공한다. 둘은 우열 관계가 아니라 문제 공간이 다른 해법이다.
+Permissionless는 신뢰 없는 참여자 사이에서 개방성과 저항성을 제공하고, Permissioned는 기업 환경에서 통제와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 제공한다. 둘은 우열 관계가 아니라 문제 공간이 다른 해법이다.
 
-결론적으로 [[004_blockchain|블록체인]]은 "기술이 멋져서"가 아니라 "공유 신뢰를 어떻게 만들 것인가"의 답으로 기억해야 한다. 참여 권한의 차이가 곧 시스템 철학의 차이다.
+결론적으로 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 "기술이 멋져서"가 아니라 "공유 신뢰를 어떻게 만들 것인가"의 답으로 기억해야 한다. 참여 권한의 차이가 곧 시스템 철학의 차이다.
 
 - **📢 섹션 요약 비유**: 모두에게 열려 있는 운동장과 출입증이 필요한 실험실은 같은 건물이 아니다. 문을 여는 방식이 다르면 안에 있는 규칙도 달라진다.
 
@@ -104,9 +108,9 @@ Permissionless는 신뢰 없는 참여자 사이에서 개방성과 저항성을
 | Permissionless | 공개 참여와 검열 저항성 |
 | Permissioned | 허가된 참여와 통제 |
 | PoW / PoS | 공개 합의 메커니즘 |
-| [[647_bft_verification|BFT]]([[013_pbft_practical_bft|PBFT]]) | 허가형 합의 |
-| KYC(Know Your [[026_three_c_analysis|Customer]]) | 신원 [[396_validation|확인]] |
-| [[022_smart_contract|Smart Contract]] | 자동 실행 규칙 |
+| [BFT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/)([PBFT](/knowledge-base/studynote/06_ict_convergence/01_blockchain/013_pbft_practical_bft/)) | 허가형 합의 |
+| KYC(Know Your [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)) | 신원 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
+| [Smart Contract](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) | 자동 실행 규칙 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -124,13 +128,13 @@ Permissioned(통제/성능)
     └─ BFT / 멤버십 서비스 / KYC
 ```
 
-이 흐름은 "참여 문턱"이 시스템 전체의 [[282_performance_tactics|성능]]과 거버넌스를 결정한다는 점을 보여준다. 앞으로는 공개성과 통제의 중간 지대인 컨소시엄 구조가 실무에서 더 자주 쓰인다.
+이 흐름은 "참여 문턱"이 시스템 전체의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 거버넌스를 결정한다는 점을 보여준다. 앞으로는 공개성과 통제의 중간 지대인 컨소시엄 구조가 실무에서 더 자주 쓰인다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 누구나 들어오는 공원은 자유롭지만 시끄러울 수 있어요.
 2. 초대받은 사람만 들어오는 방은 조용하지만 문이 엄격해요.
-3. [[004_blockchain|블록체인]]은 문을 어떻게 열지에 따라 성격이 달라져요.
+3. [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 문을 어떻게 열지에 따라 성격이 달라져요.
 
 ---
 
@@ -138,7 +142,7 @@ Permissioned(통제/성능)
 
 **진행 상황**: 76 / 552
 
-← **이전**: [[075_distributed_storage_filecoin_arweave|75. 분산 스토리지 보상 시스템 (Filecoin, Arweave)]]
-**다음**: [[077_crypto_mixing_tumbler_tornado_cash|77. 암호화폐 믹싱 (Coin Mixing / Tumbler) - 거래 자금 출처 추적을 어렵게 하는 트랜잭션 섞기 (Tornado]] →
+← **이전**: [75. 분산 스토리지 보상 시스템 (Filecoin, Arweave)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/075_distributed_storage_filecoin_arweave/)
+**다음**: [77. 암호화폐 믹싱 (Coin Mixing / Tumbler) - 거래 자금 출처 추적을 어렵게 하는 트랜잭션 섞기 (Tornado](/knowledge-base/studynote/06_ict_convergence/01_blockchain/077_crypto_mixing_tumbler_tornado_cash/) →
 
 ---

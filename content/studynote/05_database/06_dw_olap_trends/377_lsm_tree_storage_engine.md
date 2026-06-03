@@ -1,27 +1,31 @@
----
-title: 377. LSM-Tree (Log-Structured Merge-Tree)
-date: '2026-05-09'
-tags:
-- studynote-database
----
++++
+title = "377. LSM-Tree (Log-Structured Merge-Tree)"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-database"]
+
+[extra]
+tags = ["studynote-database"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: LSM-Tree ([[221_lsm_tree_memtable_sequential_flush_compaction|Log-Structured Merge-Tree]])는 빅데이터/[[035_nosql|NoSQL]]([[541_cassandra|Cassandra]], RocksDB) [[289_cqrs_db|쓰기]] 최적화 저장 엔진 ([[494_memtable_sstable_flush|MemTable]] -> SSTable 구조)에 초점을 둔 확장형 저장소 개념이다.
-> 2. **가치**: 대량 [[289_cqrs_db|쓰기]], 유연한 [[005_schema|스키마]], 빠른 확장을 얻을 수 있다. 특히 `LSM-Tree (Log-Structured Merge-Tree)`는 `빅데이터/NoSQL(Cassandra, RocksDB) 쓰기 최적화 저장 엔진 (MemTable -> SSTable 구조)`를 설계 판단으로 연결해 준다.
-> 3. **판단 포인트**: 조인 감소와 확장성의 대가로 중복 관리, [[194_consistency_database_integrity|일관성]] 제어, 운영 복잡도가 증가한다. 따라서 무엇을 우선 [[571_protection_vs_security|보호]]할지와 어느 비용을 감수할지를 함께 봐야 한다.
+> 1. **본질**: LSM-Tree ([Log-Structured Merge-Tree](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/221_lsm_tree_memtable_sequential_flush_compaction/))는 빅데이터/[NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/)([Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), RocksDB) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 최적화 저장 엔진 ([MemTable](/knowledge-base/studynote/05_database/07_exam_summary/494_memtable_sstable_flush/) -> SSTable 구조)에 초점을 둔 확장형 저장소 개념이다.
+> 2. **가치**: 대량 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/), 유연한 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/), 빠른 확장을 얻을 수 있다. 특히 `LSM-Tree (Log-Structured Merge-Tree)`는 `빅데이터/NoSQL(Cassandra, RocksDB) 쓰기 최적화 저장 엔진 (MemTable -> SSTable 구조)`를 설계 판단으로 연결해 준다.
+> 3. **판단 포인트**: 조인 감소와 확장성의 대가로 중복 관리, [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 제어, 운영 복잡도가 증가한다. 따라서 무엇을 우선 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)할지와 어느 비용을 감수할지를 함께 봐야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-LSM-Tree ([[221_lsm_tree_memtable_sequential_flush_compaction|Log-Structured Merge-Tree]])는 빅데이터/[[035_nosql|NoSQL]]([[541_cassandra|Cassandra]], RocksDB) [[289_cqrs_db|쓰기]] 최적화 저장 엔진 ([[494_memtable_sstable_flush|MemTable]] -> SSTable 구조)에 초점을 둔 확장형 저장소 개념이다. 이 주제가 필요한 이유는 대용량 [[001_dikw_pyramid|데이터]]와 다양한 접근 패턴을 처리하려면 [[083_relationship_in_er_model|관계]]형 모델만으로는 유연성과 수평 확장이 부족할 수 있기 때문이다. 특히 `NoSQL 파티션 톨러런스 복구 (Hinted Handoff, Anti-entropy 매커니즘 / 머클 트리(Merkle Tree) 비교)`에서 드러난 한계를 줄이고 `콤팩션 (Compaction)` 같은 후속 판단의 [[025_baseline|기준선]]을 세울 때 현재 개념이 중심축이 된다.
+LSM-Tree ([Log-Structured Merge-Tree](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/221_lsm_tree_memtable_sequential_flush_compaction/))는 빅데이터/[NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/)([Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), RocksDB) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 최적화 저장 엔진 ([MemTable](/knowledge-base/studynote/05_database/07_exam_summary/494_memtable_sstable_flush/) -> SSTable 구조)에 초점을 둔 확장형 저장소 개념이다. 이 주제가 필요한 이유는 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 다양한 접근 패턴을 처리하려면 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 모델만으로는 유연성과 수평 확장이 부족할 수 있기 때문이다. 특히 `NoSQL 파티션 톨러런스 복구 (Hinted Handoff, Anti-entropy 매커니즘 / 머클 트리(Merkle Tree) 비교)`에서 드러난 한계를 줄이고 `콤팩션 (Compaction)` 같은 후속 판단의 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)을 세울 때 현재 개념이 중심축이 된다.
 
-시험과 실무에서 `LSM-Tree (Log-Structured Merge-Tree)`를 따로 외우기보다, "무엇을 [[571_protection_vs_security|보호]]하거나 최적화하려는가"라는 질문으로 연결해야 오래 남는다. 초당 수만 건 이벤트를 흡수하는 [[568_logs_distributed_logging_elk_fluentd|로그]]·[[160_session_controlling_terminal|세션]]·[[211_recommendation_system|추천 시스템]]에서는 [[014_data_model_components|데이터 모델]]링을 [[298_qkv_attention|쿼리]] 패턴 중심으로 재구성해야 한다.
+시험과 실무에서 `LSM-Tree (Log-Structured Merge-Tree)`를 따로 외우기보다, "무엇을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하거나 최적화하려는가"라는 질문으로 연결해야 오래 남는다. 초당 수만 건 이벤트를 흡수하는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·[세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)·[추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)에서는 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)링을 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 패턴 중심으로 재구성해야 한다.
 
 이 주제와 함께 자주 묶이는 약어로는 SQL (Structured Query Language)가 있다. 약어를 풀어 읽어야 각 규칙의 역할 차이를 놓치지 않는다.
 
-이 그림은 현재 주제가 입력 조건, 통제 규칙, 결과 보장 사이에서 어떤 위치를 차지하는지 [[347_compaction|압축]]해 보여 준다.
+이 그림은 현재 주제가 입력 조건, 통제 규칙, 결과 보장 사이에서 어떤 위치를 차지하는지 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여 준다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -39,14 +43,14 @@ LSM-Tree ([[221_lsm_tree_memtable_sequential_flush_compaction|Log-Structured Mer
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-`LSM-Tree (Log-Structured Merge-Tree)`의 핵심 원리는 [[014_data_model_components|데이터 모델]]을 [[298_qkv_attention|쿼리]] 패턴 중심으로 설계하고 [[136_variance|분산]] 저장 구조에 맞춘 [[016_replication_factor|복제]]·[[179_table_partitioning_concept|파티셔닝]] 규칙을 적용한다는 점이다. 여기서 중요한 것은 `빅데이터/NoSQL(Cassandra, RocksDB) 쓰기 최적화 저장 엔진 (MemTable -> SSTable 구조)`를 어떤 순서로 평가하고 어느 경계에서 확정하느냐다. 이 순서가 바뀌면 정합성, [[139_throughput|처리량]], [[015_지연_데이터_관점|지연]]시간 중 손해를 보는 축이 달라진다.
+`LSM-Tree (Log-Structured Merge-Tree)`의 핵심 원리는 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)을 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 패턴 중심으로 설계하고 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저장 구조에 맞춘 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)·[파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) 규칙을 적용한다는 점이다. 여기서 중요한 것은 `빅데이터/NoSQL(Cassandra, RocksDB) 쓰기 최적화 저장 엔진 (MemTable -> SSTable 구조)`를 어떤 순서로 평가하고 어느 경계에서 확정하느냐다. 이 순서가 바뀌면 정합성, [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 중 손해를 보는 축이 달라진다.
 
 | 관점 | 설명 | 설계 포인트 |
 | :--- | :--- | :--- |
-| 핵심 대상 | `LSM-Tree (Log-Structured Merge-Tree)`는 `빅데이터/NoSQL(Cassandra, RocksDB) 쓰기 최적화 저장 엔진 (MemTable -> SSTable 구조)`를 다루는 중심 규칙이다. | 먼저 무엇을 [[571_protection_vs_security|보호]]하거나 빠르게 할 것인지 명확히 정한다. |
-| 작동 방식 | [[014_data_model_components|데이터 모델]]을 [[298_qkv_attention|쿼리]] 패턴 중심으로 설계하고 [[136_variance|분산]] 저장 구조에 맞춘 [[016_replication_factor|복제]]·[[179_table_partitioning_concept|파티셔닝]] 규칙을 적용한다. | 평가 시점, 적용 범위, 예외 조건을 문서화해야 한다. |
-| [[282_performance_tactics|성능]] 영향 | 대량 [[289_cqrs_db|쓰기]], 유연한 [[005_schema|스키마]], 빠른 확장을 얻을 수 있다. | [[139_throughput|처리량]]·[[015_지연_데이터_관점|지연]]시간·정합성 중 우선순위를 수치로 합의한다. |
-| 운영 위험 | 조인 감소와 확장성의 대가로 중복 관리, [[194_consistency_database_integrity|일관성]] 제어, 운영 복잡도가 증가한다. | 장애 지표, [[098_rollback_strategy_pipeline_error_threshold|롤백]] [[268_strategy_pattern|전략]], 재처리 기준을 함께 설계한다. |
+| 핵심 대상 | `LSM-Tree (Log-Structured Merge-Tree)`는 `빅데이터/NoSQL(Cassandra, RocksDB) 쓰기 최적화 저장 엔진 (MemTable -> SSTable 구조)`를 다루는 중심 규칙이다. | 먼저 무엇을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하거나 빠르게 할 것인지 명확히 정한다. |
+| 작동 방식 | [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)을 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 패턴 중심으로 설계하고 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저장 구조에 맞춘 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)·[파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) 규칙을 적용한다. | 평가 시점, 적용 범위, 예외 조건을 문서화해야 한다. |
+| [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 영향 | 대량 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/), 유연한 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/), 빠른 확장을 얻을 수 있다. | [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)·[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간·정합성 중 우선순위를 수치로 합의한다. |
+| 운영 위험 | 조인 감소와 확장성의 대가로 중복 관리, [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 제어, 운영 복잡도가 증가한다. | 장애 지표, [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), 재처리 기준을 함께 설계한다. |
 
 이 그림은 현재 개념이 선행 조건을 받아 실제 동작 규칙으로 바꾸고, 운영 결과로 밀어 넣는 흐름을 단순화해 나타낸 것이다.
 
@@ -58,7 +62,7 @@ LSM-Tree ([[221_lsm_tree_memtable_sequential_flush_compaction|Log-Structured Mer
 └──────────────────────────────────────────────────────────────┘
 ```
 
-결국 `LSM-Tree (Log-Structured Merge-Tree)`는 한 문장 정의보다 입력 조건, 처리 순서, 결과 보장을 묶어 보는 것이 중요하다. 그래서 설계 문서에는 적용 대상, 실패 시 [[658_ir_recovery|복구]] 경로, 측정 지표를 같이 적어 두는 편이 좋다.
+결국 `LSM-Tree (Log-Structured Merge-Tree)`는 한 문장 정의보다 입력 조건, 처리 순서, 결과 보장을 묶어 보는 것이 중요하다. 그래서 설계 문서에는 적용 대상, 실패 시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 경로, 측정 지표를 같이 적어 두는 편이 좋다.
 
 - **📢 섹션 요약 비유**: 여러 개 서랍을 빨리 열기 위해 물건을 조합해 넣는 구조와 비슷하다.
 
@@ -72,7 +76,7 @@ LSM-Tree ([[221_lsm_tree_memtable_sequential_flush_compaction|Log-Structured Mer
 | :--- | :--- | :--- | :--- |
 | 대표 질문 | `NoSQL 파티션 톨러런스 복구 (Hinted Handoff, Anti-entropy 매커니즘 / 머클 트리(Merkle Tree) 비교)`는 왜 현재 문제가 생기는지 보여 준다. | `LSM-Tree (Log-Structured Merge-Tree)`는 지금 무엇을 통제하는지 답한다. | `콤팩션 (Compaction)`는 이후 무엇을 더 강화하거나 확장하는지 보여 준다. |
 | 초점 | 배경, 전제, 한계가 중심이다. | `빅데이터/NoSQL(Cassandra, RocksDB) 쓰기 최적화 저장 엔진 (MemTable -> SSTable 구조)`를 직접 다룬다. | 확장, 보완, 운영 관점이 중심이다. |
-| 선택 영향 | 부족하면 현재 개념의 전제가 흔들린다. | 선택이 [[282_performance_tactics|성능]]과 정합성 균형을 좌우한다. | 후속 최적화나 추가 비용으로 연결된다. |
+| 선택 영향 | 부족하면 현재 개념의 전제가 흔들린다. | 선택이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 정합성 균형을 좌우한다. | 후속 최적화나 추가 비용으로 연결된다. |
 
 또한 `LSM-Tree (Log-Structured Merge-Tree)`는 `NoSQL (Not Only SQL)`·`샤딩 (Sharding)`과도 연결된다. 따라서 단일 정의로 고립해 외우기보다 선행 문제 → 현재 통제 → 후속 확장 흐름으로 기억해야 기술사 답안에서도 설득력이 생긴다.
 
@@ -82,13 +86,13 @@ LSM-Tree ([[221_lsm_tree_memtable_sequential_flush_compaction|Log-Structured Mer
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 `LSM-Tree (Log-Structured Merge-Tree)`를 이론 용어가 아니라 운영 선택지로 다뤄야 한다. 초당 수만 건 이벤트를 흡수하는 [[568_logs_distributed_logging_elk_fluentd|로그]]·[[160_session_controlling_terminal|세션]]·[[211_recommendation_system|추천 시스템]]에서는 [[014_data_model_components|데이터 모델]]링을 [[298_qkv_attention|쿼리]] 패턴 중심으로 재구성해야 한다. 특히 장애가 나거나 부하가 급증할 때는 현재 개념이 병목을 줄이는지, 아니면 구조만 복잡하게 만드는지 냉정하게 평가해야 한다.
+실무에서는 `LSM-Tree (Log-Structured Merge-Tree)`를 이론 용어가 아니라 운영 선택지로 다뤄야 한다. 초당 수만 건 이벤트를 흡수하는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·[세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)·[추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)에서는 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)링을 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 패턴 중심으로 재구성해야 한다. 특히 장애가 나거나 부하가 급증할 때는 현재 개념이 병목을 줄이는지, 아니면 구조만 복잡하게 만드는지 냉정하게 평가해야 한다.
 
-### 기술사 판단 [[435_checklist_based_testing|체크리스트]]
+### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 워크로드에서 `LSM-Tree (Log-Structured Merge-Tree)`가 실제로 해결하는 병목이나 위험이 명확한가?
 2. `NoSQL 파티션 톨러런스 복구 (Hinted Handoff, Anti-entropy 매커니즘 / 머클 트리(Merkle Tree) 비교)` 또는 `콤팩션 (Compaction)`로 더 단순하게 풀 수 없는가?
-3. [[229_monitor|모니터]]링 지표, 예외 처리, [[658_ir_recovery|복구]] 절차가 `LSM-Tree (Log-Structured Merge-Tree)`의 특성과 맞게 준비되어 있는가?
+3. [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 지표, 예외 처리, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 절차가 `LSM-Tree (Log-Structured Merge-Tree)`의 특성과 맞게 준비되어 있는가?
 
 한마디로 `LSM-Tree (Log-Structured Merge-Tree)`는 "좋은 개념"이라서 채택하는 것이 아니라, 어떤 손실을 줄이고 어떤 비용을 감수할지 분명할 때 채택해야 한다. 그 판단 기준을 숫자와 운영 시나리오로 설명할 수 있어야 완성도 있는 답안이 된다.
 
@@ -98,9 +102,9 @@ LSM-Tree ([[221_lsm_tree_memtable_sequential_flush_compaction|Log-Structured Mer
 
 ## Ⅴ. 기대효과 및 결론
 
-`LSM-Tree (Log-Structured Merge-Tree)`를 올바르게 적용하면 대량 [[289_cqrs_db|쓰기]], 유연한 [[005_schema|스키마]], 빠른 확장을 얻을 수 있다. 반대로 적용 위치를 잘못 잡으면 불필요한 비용과 운영 복잡도가 커질 수 있다. 그래서 이 주제는 정의 하나보다도 "어디에 두고 무엇을 보장할 것인가"라는 배치 감각으로 기억하는 편이 낫다.
+`LSM-Tree (Log-Structured Merge-Tree)`를 올바르게 적용하면 대량 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/), 유연한 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/), 빠른 확장을 얻을 수 있다. 반대로 적용 위치를 잘못 잡으면 불필요한 비용과 운영 복잡도가 커질 수 있다. 그래서 이 주제는 정의 하나보다도 "어디에 두고 무엇을 보장할 것인가"라는 배치 감각으로 기억하는 편이 낫다.
 
-결론적으로 `LSM-Tree (Log-Structured Merge-Tree)`는 `NoSQL 파티션 톨러런스 복구 (Hinted Handoff, Anti-entropy 매커니즘 / 머클 트리(Merkle Tree) 비교)`와 `콤팩션 (Compaction)` 사이에서 현재 시스템이 감당할 수 있는 균형점을 만드는 개념이다. 시험에서는 배경, 원리, 비교, 판단 기준을 함께 답하고, 실무에서는 지표와 운영 [[164_policy|정책]]으로 연결할 수 있어야 한다.
+결론적으로 `LSM-Tree (Log-Structured Merge-Tree)`는 `NoSQL 파티션 톨러런스 복구 (Hinted Handoff, Anti-entropy 매커니즘 / 머클 트리(Merkle Tree) 비교)`와 `콤팩션 (Compaction)` 사이에서 현재 시스템이 감당할 수 있는 균형점을 만드는 개념이다. 시험에서는 배경, 원리, 비교, 판단 기준을 함께 답하고, 실무에서는 지표와 운영 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 연결할 수 있어야 한다.
 
 - **📢 섹션 요약 비유**: 맞는 상자를 고르면 집이 커져도 정리가 무너지지 않는 것과 같다.
 
@@ -110,10 +114,10 @@ LSM-Tree ([[221_lsm_tree_memtable_sequential_flush_compaction|Log-Structured Mer
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[035_nosql|NoSQL]] [[514_partition_slice_volume|파티션]] 톨러런스 [[658_ir_recovery|복구]] (Hinted Handoff, Anti-[[151_entropy|entropy]] 매커니즘 / [[007_merkle_tree|머클 트리]]([[007_merkle_tree|Merkle Tree]]) 비교) | 현재 주제가 등장하기 전 단계에서 드러나는 문제 또는 전제 조건을 보여 준다. |
-| [[378_lsm_compaction_tombstone|콤팩션]] ([[347_compaction|Compaction]]) | 현재 판단이 실제 확장 또는 후속 제어로 이어지는 지점을 보여 준다. |
-| [[035_nosql|NoSQL]] ([[274_nosql|Not Only SQL]]) | 같은 영역에서 함께 기억해야 할 기준 개념이다. |
-| [[280_sharding|샤딩]] ([[243_sharding_horizontal_scaling_database|Sharding]]) | 운영·설계 판단을 연결해 주는 주변 개념이다. |
+| [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 톨러런스 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) (Hinted Handoff, Anti-[entropy](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 매커니즘 / [머클 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/)([Merkle Tree](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/)) 비교) | 현재 주제가 등장하기 전 단계에서 드러나는 문제 또는 전제 조건을 보여 준다. |
+| [콤팩션](/knowledge-base/studynote/05_database/06_dw_olap_trends/378_lsm_compaction_tombstone/) ([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)) | 현재 판단이 실제 확장 또는 후속 제어로 이어지는 지점을 보여 준다. |
+| [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) ([Not Only SQL](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/274_nosql/)) | 같은 영역에서 함께 기억해야 할 기준 개념이다. |
+| [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) ([Sharding](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/)) | 운영·설계 판단을 연결해 주는 주변 개념이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -141,7 +145,7 @@ LSM-Tree ([[221_lsm_tree_memtable_sequential_flush_compaction|Log-Structured Mer
 
 **진행 상황**: 377 / 600
 
-← **이전**: [[376_nosql_hinted_handoff_merkle_tree|376. NoSQL 파티션 톨러런스 복구 (Hinted Handoff, Anti-entropy 매커니즘 / 머클 트리(Merkle Tree)]]
-**다음**: [[378_lsm_compaction_tombstone|378. 콤팩션 (Compaction)]] →
+← **이전**: [376. NoSQL 파티션 톨러런스 복구 (Hinted Handoff, Anti-entropy 매커니즘 / 머클 트리(Merkle Tree)](/knowledge-base/studynote/05_database/06_dw_olap_trends/376_nosql_hinted_handoff_merkle_tree/)
+**다음**: [378. 콤팩션 (Compaction)](/knowledge-base/studynote/05_database/06_dw_olap_trends/378_lsm_compaction_tombstone/) →
 
 ---

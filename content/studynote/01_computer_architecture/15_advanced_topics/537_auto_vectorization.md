@@ -1,23 +1,27 @@
----
-title: 537. 오토 벡터라이제이션 (Auto-vectorization)
-date: '2026-05-08'
-tags:
-- studynote-computer-architecture
----
++++
+title = "537. 오토 벡터라이제이션 (Auto-vectorization)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 오토 벡터라이제이션은 컴파일러가 독립적인 스칼라 연산을 찾아 [[370_simd|SIMD]] (Single [[158_instruction|Instruction]] Multiple [[001_dikw_pyramid|Data]]) 벡터 명령으로 재구성하는 자동 [[430_index_fast_full_scan|병렬]]화 기술이다.
+> 1. **본질**: 오토 벡터라이제이션은 컴파일러가 독립적인 스칼라 연산을 찾아 [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) (Single [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Multiple [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 벡터 명령으로 재구성하는 자동 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 기술이다.
 > 2. **가치**: 개발자가 수동 내장 함수 없이도 프로세서의 벡터 연산 폭을 활용해 처리량과 전력 효율을 함께 높일 수 있다.
-> 3. **판단 포인트**: [[282_performance_tactics|성능]] 차이는 벡터 명령 존재 여부보다, 컴파일러가 의존성·별칭·정렬·제어 흐름을 안전하다고 증명할 수 있는지에 달려 있다.
+> 3. **판단 포인트**: [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이는 벡터 명령 존재 여부보다, 컴파일러가 의존성·별칭·정렬·제어 흐름을 안전하다고 증명할 수 있는지에 달려 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-오토 벡터라이제이션은 컴파일러가 순차 루프나 기본 블록을 분석해, 같은 연산을 여러 [[001_dikw_pyramid|데이터]]에 동시에 적용하는 벡터 코드로 바꾸는 최적화다. 현대 프로세서는 넓은 벡터 [[057_register|레지스터]]와 강한 [[087_floating_point|부동소수점]] 처리량을 갖고 있지만, 소스 코드가 단순한 스칼라 반복문 형태로 남아 있으면 하드웨어 폭을 충분히 활용하지 못한다. 결국 "한 번에 8개를 처리할 수 있는 연산기"를 "1개씩만 처리하는 방식"으로 쓰게 되는 셈이다.
+오토 벡터라이제이션은 컴파일러가 순차 루프나 기본 블록을 분석해, 같은 연산을 여러 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 동시에 적용하는 벡터 코드로 바꾸는 최적화다. 현대 프로세서는 넓은 벡터 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)와 강한 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 처리량을 갖고 있지만, 소스 코드가 단순한 스칼라 반복문 형태로 남아 있으면 하드웨어 폭을 충분히 활용하지 못한다. 결국 "한 번에 8개를 처리할 수 있는 연산기"를 "1개씩만 처리하는 방식"으로 쓰게 되는 셈이다.
 
-이 기술이 중요한 이유는 영상 처리, 수치 계산, 암호, [[231_ai_turing_test|인공지능]] 전처리처럼 같은 수식을 대량 [[001_dikw_pyramid|데이터]]에 반복 적용하는 코드가 매우 많기 때문이다. 사람이 직접 내장 함수 (Intrinsic)나 어셈블리를 작성하는 방식은 [[282_performance_tactics|성능]]은 좋을 수 있어도 유지보수성과 이식성이 낮다. 그래서 현대 컴파일러는 가능한 한 자동으로 벡터화하고, 실패하는 경우에만 개발자가 개입하도록 진화해 왔다.
+이 기술이 중요한 이유는 영상 처리, 수치 계산, 암호, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 전처리처럼 같은 수식을 대량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 반복 적용하는 코드가 매우 많기 때문이다. 사람이 직접 내장 함수 (Intrinsic)나 어셈블리를 작성하는 방식은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 좋을 수 있어도 유지보수성과 이식성이 낮다. 그래서 현대 컴파일러는 가능한 한 자동으로 벡터화하고, 실패하는 경우에만 개발자가 개입하도록 진화해 왔다.
 
 - **📢 섹션 요약 비유**: 오토 벡터라이제이션은 상자를 한 개씩 들고 옮기던 일을 보고, "같은 상자면 카트에 여러 개 실을 수 있다"며 작업 방식을 자동으로 바꿔 주는 물류 관리자와 같다.
 
@@ -25,12 +29,12 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-오토 벡터라이제이션의 핵심은 "빠르게 바꾸는 것"이 아니라 "한꺼번에 바꿔도 결과가 같은가"를 먼저 증명하는 데 있다. 컴파일러는 루프를 정규형으로 정리한 뒤, 루프 간 [[001_dikw_pyramid|데이터]] 의존성, 포인터 별칭 ([[057_에일리어싱_Aliasing|Aliasing]]), 메모리 정렬 (Alignment), 조건 분기 복잡도, 예상 이득을 순서대로 검사한다. 안전성과 수익성이 모두 통과되면 벡터 본문을 만들고, 정렬이 맞지 않는 앞부분과 남는 꼬리 부분은 스칼라 코드로 남긴다.
+오토 벡터라이제이션의 핵심은 "빠르게 바꾸는 것"이 아니라 "한꺼번에 바꿔도 결과가 같은가"를 먼저 증명하는 데 있다. 컴파일러는 루프를 정규형으로 정리한 뒤, 루프 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존성, 포인터 별칭 ([Aliasing](/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/)), 메모리 정렬 (Alignment), 조건 분기 복잡도, 예상 이득을 순서대로 검사한다. 안전성과 수익성이 모두 통과되면 벡터 본문을 만들고, 정렬이 맞지 않는 앞부분과 남는 꼬리 부분은 스칼라 코드로 남긴다.
 
 | 판단 항목 | 왜 필요한가 | 보통 생성되는 보완 코드 |
 | :--- | :--- | :--- |
 | 루프-반송 의존성 (Loop-carried Dependency) | 이전 반복 결과가 다음 반복 입력이면 동시 실행 불가 | 벡터화 포기 또는 reduction 전용 패턴 인식 |
-| 별칭 분석 (Alias Analysis) | `a[i]`와 `b[i]`가 사실 같은 메모리일 수 있음 | 런타임 별칭 검사, loop [[317_versioning_data_model_design|versioning]] |
+| 별칭 분석 (Alias Analysis) | `a[i]`와 `b[i]`가 사실 같은 메모리일 수 있음 | 런타임 별칭 검사, loop [versioning](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/317_versioning_data_model_design/) |
 | 정렬과 연속 접근 | misaligned load나 gather 비용이 커질 수 있음 | prologue 정렬 맞춤, masked load/store |
 | 제어 흐름 단순성 | 루프 안 분기가 많으면 lane별 경로가 갈라짐 | predication, masked vector, 루프 분할 |
 | 비용 모델 (Cost Model) | 벡터화해도 메모리 병목이면 이득이 작을 수 있음 | 스칼라 유지, 부분 언롤링과 병행 |
@@ -62,18 +66,18 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-오토 벡터라이제이션을 정확히 이해하려면 주변 기법과 경계를 구분해야 한다. [[538_loop_unrolling|루프 언롤링]] ([[538_loop_unrolling|Loop Unrolling]])은 분기와 제어 오버헤드를 줄여 벡터화가 쉬운 형태를 만들어 주지만, 그 자체가 [[370_simd|SIMD]] 실행은 아니다. SLP는 루프가 없어도 기본 블록 안의 독립 명령들을 벡터로 묶을 수 있다. 수동 내장 함수는 가장 강한 제어권을 주지만, 코드 가독성과 이식성을 희생한다.
+오토 벡터라이제이션을 정확히 이해하려면 주변 기법과 경계를 구분해야 한다. [루프 언롤링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/538_loop_unrolling/) ([Loop Unrolling](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/538_loop_unrolling/))은 분기와 제어 오버헤드를 줄여 벡터화가 쉬운 형태를 만들어 주지만, 그 자체가 [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) 실행은 아니다. SLP는 루프가 없어도 기본 블록 안의 독립 명령들을 벡터로 묶을 수 있다. 수동 내장 함수는 가장 강한 제어권을 주지만, 코드 가독성과 이식성을 희생한다.
 
-| 기법 | [[430_index_fast_full_scan|병렬]]화 단위 | 장점 | 약점 |
+| 기법 | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 단위 | 장점 | 약점 |
 | :--- | :--- | :--- | :--- |
 | 오토 벡터라이제이션 | 반복 또는 명령 묶음 | 이식성 높고 유지보수 용이 | 컴파일러가 증명 못 하면 실패 |
-| [[538_loop_unrolling|루프 언롤링]] | 제어 흐름 | 분기 감소, ILP ([[158_instruction|Instruction]]-Level Parallelism) 증가 | 코드 크기와 [[057_register|레지스터]] 압박 증가 |
+| [루프 언롤링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/538_loop_unrolling/) | 제어 흐름 | 분기 감소, ILP ([Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)-Level Parallelism) 증가 | 코드 크기와 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 압박 증가 |
 | SLP | 기본 블록 내부 명령 | 루프가 없어도 벡터화 가능 | 명령 패턴이 고르지 않으면 제한적 |
-| 수동 내장 함수 | 개발자가 직접 지정 | 최고 [[282_performance_tactics|성능]]과 세밀한 제어 | 아키텍처 종속, 유지보수 부담 큼 |
+| 수동 내장 함수 | 개발자가 직접 지정 | 최고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 세밀한 제어 | 아키텍처 종속, 유지보수 부담 큼 |
 
-이 기법은 메모리 지역성과도 연결된다. [[001_dikw_pyramid|데이터]]가 연속적이지 않으면 gather/scatter 비용이 커져 벡터 폭이 넓어도 실제 이득이 줄어든다. 그래서 [[539_loop_tiling|루프 타일링]] ([[539_loop_tiling|Loop Tiling]]), [[055_array|배열]] 정렬, 구조체 분해 (Structure of Arrays) 같은 [[001_dikw_pyramid|데이터]] 배치 최적화가 오토 벡터라이제이션 성공률을 크게 좌우한다.
+이 기법은 메모리 지역성과도 연결된다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 연속적이지 않으면 gather/scatter 비용이 커져 벡터 폭이 넓어도 실제 이득이 줄어든다. 그래서 [루프 타일링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/539_loop_tiling/) ([Loop Tiling](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/539_loop_tiling/)), [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 정렬, 구조체 분해 (Structure of Arrays) 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치 최적화가 오토 벡터라이제이션 성공률을 크게 좌우한다.
 
-또한 최근에는 SVE (Scalable Vector Extension)나 RVV ([[200_riscv|RISC-V]] Vector Extension)처럼 벡터 길이가 고정되지 않은 구조가 등장하면서, "몇 lane인가"를 하드웨어가 결정하고 컴파일러는 그 길이에 맞춰 코드를 적응시키는 방향으로 진화하고 있다. 즉 오토 벡터라이제이션은 단순한 [[157_isa|ISA]] ([[157_isa|Instruction Set Architecture]]) 기능이 아니라, 앞으로의 벡터 프로세서를 소프트웨어가 활용하는 기본 관문이다.
+또한 최근에는 SVE (Scalable Vector Extension)나 RVV ([RISC-V](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/200_riscv/) Vector Extension)처럼 벡터 길이가 고정되지 않은 구조가 등장하면서, "몇 lane인가"를 하드웨어가 결정하고 컴파일러는 그 길이에 맞춰 코드를 적응시키는 방향으로 진화하고 있다. 즉 오토 벡터라이제이션은 단순한 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) ([Instruction Set Architecture](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)) 기능이 아니라, 앞으로의 벡터 프로세서를 소프트웨어가 활용하는 기본 관문이다.
 
 - **📢 섹션 요약 비유**: 오토 벡터라이제이션은 같은 악보를 합창으로 바꾸는 지휘자이고, 언롤링은 악보 넘김을 줄이는 편집자, 타일링은 무대 동선을 정리하는 무대 감독과 같다. 셋은 역할이 다르지만 함께 써야 공연이 좋아진다.
 
@@ -81,20 +85,20 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 "벡터 [[158_instruction|명령어]]가 있는가"보다 "컴파일러가 안심하고 벡터화할 수 있게 코드를 썼는가"가 더 중요하다. 가장 효과적인 방법은 루프를 단순하게 만들고, 포인터 겹침 가능성을 줄이고, [[001_dikw_pyramid|데이터]] 배치를 연속적으로 정리하는 것이다. 컴파일러 리포트나 생성된 어셈블리를 확인하지 않고 막연히 최적화 옵션만 높이는 것은 [[282_performance_tactics|성능]] 튜닝이 아니라 희망사항에 가깝다.
+실무에서는 "벡터 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 있는가"보다 "컴파일러가 안심하고 벡터화할 수 있게 코드를 썼는가"가 더 중요하다. 가장 효과적인 방법은 루프를 단순하게 만들고, 포인터 겹침 가능성을 줄이고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치를 연속적으로 정리하는 것이다. 컴파일러 리포트나 생성된 어셈블리를 확인하지 않고 막연히 최적화 옵션만 높이는 것은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝이 아니라 희망사항에 가깝다.
 
-### 판단 [[435_checklist_based_testing|체크리스트]]
+### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 루프가 단순한 [[059_counter|카운터]] 기반이며 반복 횟수가 충분히 큰가?
+1. 루프가 단순한 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 기반이며 반복 횟수가 충분히 큰가?
 2. 포인터가 겹치지 않는다는 사실을 `restrict` 같은 수단으로 표현했는가?
 3. 메모리 접근이 연속적이고 정렬 친화적인가?
 4. 루프 내부 분기와 함수 호출을 분리하거나 단순화할 수 있는가?
-5. 병목이 진짜 연산 처리량인지, 이미 메모리 [[140_bandwidth|대역폭]] 한계인지 확인했는가?
+5. 병목이 진짜 연산 처리량인지, 이미 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 한계인지 확인했는가?
 
-### 피해야 할 [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### 피해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 실제 의존성이 있는데 pragma로 벡터화를 강제해 결과 정확성을 깨뜨리는 코드
-- [[056_linked_list|연결 리스트]], 랜덤 인덱싱처럼 lane 재사용이 거의 없는 자료구조
+- [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/), 랜덤 인덱싱처럼 lane 재사용이 거의 없는 자료구조
 - tail 처리와 예외 경로를 무시하고 "벡터화되면 무조건 빠르다"고 가정하는 판단
 
 기술사 답안에서는 오토 벡터라이제이션을 단순히 "컴파일러가 SIMD로 바꿔 준다"로 끝내지 말고, **의존성·별칭·정렬·비용 모델**이라는 네 가지 판단축을 적어 주는 것이 좋다. 그래야 왜 어떤 루프는 자동으로 빨라지고, 어떤 루프는 수동 개입이 필요한지가 선명하게 드러난다.
@@ -105,11 +109,11 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-오토 벡터라이제이션이 잘 작동하면 같은 코어와 같은 클럭에서도 실효 처리량이 크게 오른다. 특히 덧셈, 곱셈, 필터링, 매핑처럼 [[001_dikw_pyramid|데이터]] [[430_index_fast_full_scan|병렬]]성이 높은 루프에서는 [[158_instruction|명령어]] 수 감소, dispatch 효율 향상, 전력당 [[282_performance_tactics|성능]] 개선이 동시에 나타난다. 수동 [[370_simd|SIMD]] 코드를 줄일 수 있어 코드 유지보수성과 이식성까지 좋아지는 것도 큰 장점이다.
+오토 벡터라이제이션이 잘 작동하면 같은 코어와 같은 클럭에서도 실효 처리량이 크게 오른다. 특히 덧셈, 곱셈, 필터링, 매핑처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성이 높은 루프에서는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수 감소, dispatch 효율 향상, 전력당 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 개선이 동시에 나타난다. 수동 [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) 코드를 줄일 수 있어 코드 유지보수성과 이식성까지 좋아지는 것도 큰 장점이다.
 
-하지만 한계도 분명하다. 메모리 병목이 큰 코드, [[001_dikw_pyramid|데이터]] 의존성이 강한 [[014_recursion|재귀]]·상태 기계, 흩어진 접근 패턴에서는 벡터 폭이 넓어도 체감 이득이 작다. 앞으로는 벡터 길이 가변 [[157_isa|ISA]], 마스킹, gather/scatter, reduction 인식 고도화 덕분에 자동 벡터화 범위가 넓어지겠지만, 여전히 출발점은 "컴파일러가 증명할 수 있는 형태"다.
+하지만 한계도 분명하다. 메모리 병목이 큰 코드, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존성이 강한 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)·상태 기계, 흩어진 접근 패턴에서는 벡터 폭이 넓어도 체감 이득이 작다. 앞으로는 벡터 길이 가변 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/), 마스킹, gather/scatter, reduction 인식 고도화 덕분에 자동 벡터화 범위가 넓어지겠지만, 여전히 출발점은 "컴파일러가 증명할 수 있는 형태"다.
 
-결국 오토 벡터라이제이션은 **숨은 [[430_index_fast_full_scan|병렬]]성을 컴파일러가 발견해 하드웨어 lane으로 바꿔 주는 기술**로 기억하면 된다. 개발자가 해야 할 일은 벡터 명령을 외우는 것보다, 컴파일러가 안전하게 [[430_index_fast_full_scan|병렬]]성을 읽어 낼 수 있는 코드를 쓰는 것이다.
+결국 오토 벡터라이제이션은 **숨은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 컴파일러가 발견해 하드웨어 lane으로 바꿔 주는 기술**로 기억하면 된다. 개발자가 해야 할 일은 벡터 명령을 외우는 것보다, 컴파일러가 안전하게 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 읽어 낼 수 있는 코드를 쓰는 것이다.
 
 - **📢 섹션 요약 비유**: 오토 벡터라이제이션은 평범한 계산 줄을 고속도로 다차선으로 바꾸는 일이다. 다만 고속도로를 열려면 차들이 같은 방향으로 달리고, 중간에 갑자기 끼어드는 차가 없어야 한다.
 
@@ -119,12 +123,12 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[370_simd|SIMD]] (Single [[158_instruction|Instruction]] Multiple [[001_dikw_pyramid|Data]]) | 오토 벡터라이제이션이 최종적으로 활용하는 하드웨어 [[430_index_fast_full_scan|병렬]] 실행 단위다. |
+| [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) (Single [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Multiple [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) | 오토 벡터라이제이션이 최종적으로 활용하는 하드웨어 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행 단위다. |
 | 별칭 분석 (Alias Analysis) | 서로 다른 포인터가 같은 메모리를 가리키는지 판단해 벡터화 안전성을 결정한다. |
 | SLP (Superword-Level Parallelism) | 루프 밖 기본 블록까지 자동 벡터화 범위를 넓히는 대표 기법이다. |
 | Reduction | 합계·최댓값 같은 누산 패턴을 벡터화 가능하게 인식하는 핵심 예외 규칙이다. |
-| Gather/Scatter | 불연속 메모리 접근을 벡터 명령으로 처리하지만 비용이 커 [[282_performance_tactics|성능]] 판단이 중요하다. |
-| [[538_loop_unrolling|루프 언롤링]] ([[538_loop_unrolling|Loop Unrolling]]) | 벡터화와 자주 함께 적용돼 독립 명령을 늘리고 분기 비용을 낮춘다. |
+| Gather/Scatter | 불연속 메모리 접근을 벡터 명령으로 처리하지만 비용이 커 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 판단이 중요하다. |
+| [루프 언롤링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/538_loop_unrolling/) ([Loop Unrolling](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/538_loop_unrolling/)) | 벡터화와 자주 함께 적용돼 독립 명령을 늘리고 분기 비용을 낮춘다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -161,7 +165,7 @@ SVE (Scalable Vector Extension) · RVV (RISC-V Vector Extension)
 
 **진행 상황**: 537 / 803
 
-← **이전**: [[536_llvm_ir|536. LLVM IR 변환 (컴파일러-HW 인터페이스)]]
-**다음**: [[538_loop_unrolling|538. 루프 언롤링 (Loop Unrolling)]] →
+← **이전**: [536. LLVM IR 변환 (컴파일러-HW 인터페이스)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/536_llvm_ir/)
+**다음**: [538. 루프 언롤링 (Loop Unrolling)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/538_loop_unrolling/) →
 
 ---

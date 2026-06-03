@@ -1,31 +1,35 @@
----
-title: 5. 제네시스 블록 (Genesis Block) - 블록체인의 첫 번째 블록
-tags:
-- ict_convergence
----
++++
+title = "5. 제네시스 블록 (Genesis Block) - 블록체인의 첫 번째 블록"
+
+[taxonomies]
+tags = ["ict_convergence"]
+
+[extra]
+tags = ["ict_convergence"]
++++
 
 # 05. 제네시스 블록 (Genesis Block)
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 제네시스 블록은 [[004_blockchain|블록체인]] 네트워크에서 가장 처음으로 [[087_process_state_transition|생성]]된 블록이며, 모든后续 블록이 이 블록을 조상으로 참조하기 때문에 네트워크 전체의 출발점(Origin) 역할을 하는 특수한 블록이다.
-> 2. **가치**: 제네시스 블록은 [[004_blockchain|블록체인]]의 영원한 시작점으로서 네트워크의改竄 불가능성(Immutability)과 역사적 [[003_integrity|무결성]]을 보장하는 어ajian是怎么来的 뿌리 역할을 한다.
-> 3. **융합**: 비트코인의 제네시스 블록에서 출발하여 이더리움, 폴카닷 등 모든 [[004_blockchain|블록체인]] 플랫폼의初始 블록으로 이어지며, 각 네트워크의 창립 철학과 기술을reflect 한다.
+> 1. **본질**: 제네시스 블록은 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 네트워크에서 가장 처음으로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 블록이며, 모든后续 블록이 이 블록을 조상으로 참조하기 때문에 네트워크 전체의 출발점(Origin) 역할을 하는 특수한 블록이다.
+> 2. **가치**: 제네시스 블록은 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 영원한 시작점으로서 네트워크의改竄 불가능성(Immutability)과 역사적 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 보장하는 어ajian是怎么来的 뿌리 역할을 한다.
+> 3. **융합**: 비트코인의 제네시스 블록에서 출발하여 이더리움, 폴카닷 등 모든 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 플랫폼의初始 블록으로 이어지며, 각 네트워크의 창립 철학과 기술을reflect 한다.
 
 ---
 
-## Ⅰ. 개요 및 필요성 ([[033_context|Context]] & Necessity)
+## Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
 ### 개념의 정의
 
-제네시스 블록(Genesis Block)은 [[004_blockchain|블록체인]] 네트워크에서 공식적으로 맨 처음으로 [[087_process_state_transition|생성]]된 블록이며, 모든后续 블록은 이 블록을 조상(Parent)으로서 참조하는 구조적 특성을 가진다. 비트코인의 제네시스 블록은 2009년 1월 3일 채굴되었으며, 영국의 재무은행(The Chancellor of the Exchequer)이 은행경을 구하기 위해 2차 조달을 결정했다는 뉴스를 타임스탬프에 임베딩하여封印하였다. 이것은 기존 금융システムへの挑戦과 비트코인의 [[010_decentralization|탈중앙화]] 사상을 상징적으로表現している.
+제네시스 블록(Genesis Block)은 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 네트워크에서 공식적으로 맨 처음으로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 블록이며, 모든后续 블록은 이 블록을 조상(Parent)으로서 참조하는 구조적 특성을 가진다. 비트코인의 제네시스 블록은 2009년 1월 3일 채굴되었으며, 영국의 재무은행(The Chancellor of the Exchequer)이 은행경을 구하기 위해 2차 조달을 결정했다는 뉴스를 타임스탬프에 임베딩하여封印하였다. 이것은 기존 금융システムへの挑戦과 비트코인의 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 사상을 상징적으로表現している.
 
 ### 탄생 배경과 필요성
 
-[[004_blockchain|블록체인]]이分散된 노드들이 공유하는 [[136_variance|분산]] 원장이 되려면, 모든 노드가 동일한 시작점에서 출발해야 한다. 만약 각 노드가 서로 다른 시작 블록에서 출발한다면, 어떤 노드의 기록이 진짜이고 어떤 것이 위조인지 구분할 수 없게 된다. 제네시스 블록은 이러한 문제의解決책으로, 모든 참여자가 동일한 "출발선"을共有하게 함으로써 네트워크 전체의 [[194_consistency_database_integrity|일관성]]([[194_consistency_database_integrity|Consistency]])과 [[003_integrity|무결성]]([[003_integrity|Integrity]])을保証する根本的な 기반이 된다.
+[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)이分散된 노드들이 공유하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 원장이 되려면, 모든 노드가 동일한 시작점에서 출발해야 한다. 만약 각 노드가 서로 다른 시작 블록에서 출발한다면, 어떤 노드의 기록이 진짜이고 어떤 것이 위조인지 구분할 수 없게 된다. 제네시스 블록은 이러한 문제의解決책으로, 모든 참여자가 동일한 "출발선"을共有하게 함으로써 네트워크 전체의 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)([Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)([Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))을保証する根本的な 기반이 된다.
 
 ### 💡 analogy
 
-제네시스 블록은 인간의 출생 기록과 같다. 개인의 신분證에는 반드시 출생 연월일이 기재되어 있으며, 모든 subsequent 행적(학력, 경력, 납세 기록 등)은この 출생 기록을根基로하여 기록된다.万一 누군가 자신의 학력 정보를 위조해도,출생 기록은변경 불가능하므로根本적인 신뢰가 유지된다. 제네시스 블록은 [[004_blockchain|블록체인]] 세계의 "출생증"과 같다.
+제네시스 블록은 인간의 출생 기록과 같다. 개인의 신분證에는 반드시 출생 연월일이 기재되어 있으며, 모든 subsequent 행적(학력, 경력, 납세 기록 등)은この 출생 기록을根基로하여 기록된다.万一 누군가 자신의 학력 정보를 위조해도,출생 기록은변경 불가능하므로根本적인 신뢰가 유지된다. 제네시스 블록은 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 세계의 "출생증"과 같다.
 
 ### 배경 설명
 
@@ -66,11 +70,11 @@ tags:
 
 ### 각区块链의 제네시스 블록
 
-비트코인 외에 다른 [[004_blockchain|블록체인]] 플랫폼들도 각자의 제네시스 블록을保有한다. 이더리움(Ethereum)의 제네시스 블록은 2015년 7월 30일에 채굴되었으며,Initial Block Receipt(블록 영수증)에 "The sun is a huge thermonuclear sword of love"라는 메시지가 임베딩되어 있다. 폴카닷(PolkaDot)의 경우, 릴레이 체인의 제네시스 블록이 2020년 5월 26일에 [[087_process_state_transition|생성]]되었으며, 위성(implementation pallet) 구조를 처음으로 적용하였다.
+비트코인 외에 다른 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 플랫폼들도 각자의 제네시스 블록을保有한다. 이더리움(Ethereum)의 제네시스 블록은 2015년 7월 30일에 채굴되었으며,Initial Block Receipt(블록 영수증)에 "The sun is a huge thermonuclear sword of love"라는 메시지가 임베딩되어 있다. 폴카닷(PolkaDot)의 경우, 릴레이 체인의 제네시스 블록이 2020년 5월 26일에 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되었으며, 위성(implementation pallet) 구조를 처음으로 적용하였다.
 
 ### 📢 비유 요약
 
-각 [[004_blockchain|블록체인]]의 제네시스 블록은 각 나라의建国宣言과 같다. 미국의 독립 선언서는 1776년 7월 4일을 미국의正式的创始の日として 定めている. 하지만 그 날짜 이전에도 미국의 영토에는 많은 활동이 존재했다. 마찬가지로 제네시스 블록 이전에도 컴퓨팅 환경은 존재했지만, [[004_blockchain|블록체인]]이라는 새로운 "디지털共和国"의正式的建国日として機能する.
+각 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 제네시스 블록은 각 나라의建国宣言과 같다. 미국의 독립 선언서는 1776년 7월 4일을 미국의正式的创始の日として 定めている. 하지만 그 날짜 이전에도 미국의 영토에는 많은 활동이 존재했다. 마찬가지로 제네시스 블록 이전에도 컴퓨팅 환경은 존재했지만, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)이라는 새로운 "디지털共和国"의正式的建国日として機能する.
 
 ---
 
@@ -78,11 +82,11 @@ tags:
 
 ### 비트코인 제네시스 블록 메시지의 의미
 
-비트코인 제네시스 블록의 거래( Coinbase 거래)에 임베딩된 메시지 "The Times 03/Jan/2009 Chancellor on brink of second bailout for banks"는 당시 영국 신문(The Times)의 표제 뉴스이다. 사토시 나카모토는 이 메시지를 통해 제네시스 블록의 [[087_process_state_transition|생성]] 시점을증명할 뿐 아니라, 기존 중앙화된 금융 시스템의 문제점에 대한 비판적 시각을 표명하였다. 은행의 과도한 위험 감수성장과 국가 차원의 구제금융으로 이어지는 악순환이 비트코인이 해결하려는 핵심 문제임을暗示している.
+비트코인 제네시스 블록의 거래( Coinbase 거래)에 임베딩된 메시지 "The Times 03/Jan/2009 Chancellor on brink of second bailout for banks"는 당시 영국 신문(The Times)의 표제 뉴스이다. 사토시 나카모토는 이 메시지를 통해 제네시스 블록의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시점을증명할 뿐 아니라, 기존 중앙화된 금융 시스템의 문제점에 대한 비판적 시각을 표명하였다. 은행의 과도한 위험 감수성장과 국가 차원의 구제금융으로 이어지는 악순환이 비트코인이 해결하려는 핵심 문제임을暗示している.
 
 ### 제네시스 블록의 활용
 
-제네시스 블록의 활용 사례로는 다음과 같다. 시점 증명(Proof of Existence): 제네시스 블록의 타임스탬프는 특정 데이터가 특정 시점에 존재했음을증명하는 용도로 활용된다.初始化파라미터: 이더리움의各種 상수( INITIAL_DIFFICULTY, GAS_LIMIT 등)는 제네시스 블록의 속성에서 정의된다. 교육 및研究: 제네시스 블록의 분석은 [[004_blockchain|블록체인]] 기술의 基本概念을 이해하는 데 필수적인第一步로 활용된다.
+제네시스 블록의 활용 사례로는 다음과 같다. 시점 증명(Proof of Existence): 제네시스 블록의 타임스탬프는 특정 데이터가 특정 시점에 존재했음을증명하는 용도로 활용된다.初始化파라미터: 이더리움의各種 상수( INITIAL_DIFFICULTY, GAS_LIMIT 등)는 제네시스 블록의 속성에서 정의된다. 교육 및研究: 제네시스 블록의 분석은 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 기술의 基本概念을 이해하는 데 필수적인第一步로 활용된다.
 
 ### Genesis Block vs Altcoin 크레딧
 
@@ -90,27 +94,27 @@ tags:
 
 ### 📢 비유 요약
 
-제네시스 블록의 활용은新建법인(Corporation)의 定款과 같다.定款에는 회사의 목적, 운영 방식,Authorized 자본금 등이 명시된다. 제네시스 블록도 마찬가지로 해당 [[004_blockchain|블록체인]] 네트워크의 운영 원칙과初期 파라미터가 기록된다.定款이 법인의 "出生證明書"라면, Genesis Block은 [[004_blockchain|블록체인]]의 "出生證明書"이다.
+제네시스 블록의 활용은新建법인(Corporation)의 定款과 같다.定款에는 회사의 목적, 운영 방식,Authorized 자본금 등이 명시된다. 제네시스 블록도 마찬가지로 해당 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 네트워크의 운영 원칙과初期 파라미터가 기록된다.定款이 법인의 "出生證明書"라면, Genesis Block은 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 "出生證明書"이다.
 
 ---
 
 ## Ⅳ. 품질 관리 및 테스트 (Quality & Testing)
 
-### Genesis Block 정합성 [[395_verification_process_review|검증]]
+### Genesis Block 정합성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)
 
-제네시스 블록의品質管理에서 가장 중요한 것은 네트워크 참여자 간의 정합성([[194_consistency_database_integrity|Consistency]]) [[395_verification_process_review|검증]]이다. 모든 노드는 동일한 Genesis Block의 내용을保有해야 하며, 이것이 네트워크 전체의 가장 낮은 공통 분모(Common Denominator)가 된다. 비트코인 Core客户端에서는 genesis block을 초기화 단계에서ハード코딩하여, 다른 노드와通信할 때 이를 활용한다.この設計により、に参加者全員が同一の起源点から同步を開始することを保証している.
+제네시스 블록의品質管理에서 가장 중요한 것은 네트워크 참여자 간의 정합성([Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이다. 모든 노드는 동일한 Genesis Block의 내용을保有해야 하며, 이것이 네트워크 전체의 가장 낮은 공통 분모(Common Denominator)가 된다. 비트코인 Core客户端에서는 genesis block을 초기화 단계에서ハード코딩하여, 다른 노드와通信할 때 이를 활용한다.この設計により、に参加者全員が同一の起源点から同步を開始することを保証している.
 
 ### 제네시스 블록 변경의 不可能性
 
-한 번 [[087_process_state_transition|생성]]된 제네시스 블록의 내용을 변경하는 것은 구조적으로不可能하다. 그 이유는 다음과 같다. 첫째, 제네시스 블록의 해시값이 이후 모든 블록에서 참조되므로, 제네시스 블록의 내용을 변경하면 해당 해시값이 변하고, 이를 참조하는 後続 모든 블록이 无效가 된다. 둘째,工作量증명(PoW) Consensus Algorithmic 특성상, 과거 블록을 변경하려면 이후 모든 블록에 대한工作量증명을 다시 수행해야 하며, 이는 현재 네트워크의算力으로는사실상 불가능하다. 셋째, 전체 네트워크의 노드들이既存の 정당한区块链을保有하고 있어, 조작된 버전이扩散될 가능성 itself가極めて低い.
+한 번 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 제네시스 블록의 내용을 변경하는 것은 구조적으로不可能하다. 그 이유는 다음과 같다. 첫째, 제네시스 블록의 해시값이 이후 모든 블록에서 참조되므로, 제네시스 블록의 내용을 변경하면 해당 해시값이 변하고, 이를 참조하는 後続 모든 블록이 无效가 된다. 둘째,工作量증명(PoW) Consensus Algorithmic 특성상, 과거 블록을 변경하려면 이후 모든 블록에 대한工作量증명을 다시 수행해야 하며, 이는 현재 네트워크의算力으로는사실상 불가능하다. 셋째, 전체 네트워크의 노드들이既存の 정당한区块链을保有하고 있어, 조작된 버전이扩散될 가능성 itself가極めて低い.
 
-### Network Upgrade와 [[344_compatibility_usability|호환성]]
+### Network Upgrade와 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)
 
 제네시스 블록은 네트워크 업그레이드(Upgrade) 시에도 그位置が变动하지 않는固定点이다. 소프트 포크(Soft Fork)나 하드 포크(Hard Fork)에서도 Genesis Block의位置は不変이며, 只是新增のブロックだけが既存のチェーンに连结していく. この设计により、长期的な区块链のhistoric integrityが保证される.
 
 ### 📢 비유 요약
 
-제네시스 블록의不変性は、数学의 공리([[702_axiom|Axiom]])와 같다.ユークリッド 기하학에서 두 점 사이의最短거리는 직선이라는 공리는 의심의 여지없이 그대로 유지된다. 만약 이 공리를推翻하면 기하학 전체가 무너진다. 제네시스 블록을推翻하면 [[004_blockchain|블록체인]] 전체가無意味になる.
+제네시스 블록의不変性は、数学의 공리([Axiom](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/702_axiom/))와 같다.ユークリッド 기하학에서 두 점 사이의最短거리는 직선이라는 공리는 의심의 여지없이 그대로 유지된다. 만약 이 공리를推翻하면 기하학 전체가 무너진다. 제네시스 블록을推翻하면 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 전체가無意味になる.
 
 ---
 
@@ -118,7 +122,7 @@ tags:
 
 ### 멀티체인 환경에서 Genesis Block의 의미
 
-현재 수백 개의 [[004_blockchain|블록체인]] 네트워크가 존재하며, 각 네트워크는 고유한 Genesis Block을 가지고 있다. 멀티체인(Multi-chain) 환경에서는 이러한 다양한 Genesis Block들 간의 관계가 점점 중요해지고 있다. IBC(Inter-Blockchain Communication) 프로토콜을 통해 폴카닷, 코스모스 등은 서로 다른 Genesis Block을 가진 체인 간에도 통신할 수 있게 되었다. 이러한 추세는 각 체인의 창립 이념과 기술적 특성을保持하면서도 [[287_interoperability_tactics|상호운용성]]([[084_blockchain_interoperability_polkadot_cosmos|Interoperability]])을 확보하려는 노력의 산물이다.
+현재 수백 개의 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 네트워크가 존재하며, 각 네트워크는 고유한 Genesis Block을 가지고 있다. 멀티체인(Multi-chain) 환경에서는 이러한 다양한 Genesis Block들 간의 관계가 점점 중요해지고 있다. IBC(Inter-Blockchain Communication) 프로토콜을 통해 폴카닷, 코스모스 등은 서로 다른 Genesis Block을 가진 체인 간에도 통신할 수 있게 되었다. 이러한 추세는 각 체인의 창립 이념과 기술적 특성을保持하면서도 [상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/)([Interoperability](/knowledge-base/studynote/06_ict_convergence/01_blockchain/084_blockchain_interoperability_polkadot_cosmos/))을 확보하려는 노력의 산물이다.
 
 ### Genesis Block의 문화적 영향
 
@@ -130,11 +134,11 @@ tags:
 
 ### 결론
 
-제네시스 블록은 [[004_blockchain|블록체인]] 네트워크의 가장 기초적인 구성 요소이며, 네트워크 전체의 신뢰성과 [[003_integrity|무결성]]의 궁극적 근거가 된다. 비트코인의 Genesis Block이 2009년 1월 3일에 [[087_process_state_transition|생성]]된 이후, 이 작은 블록 하나에서 출발하여 数조 달러 규모의 글로벌金融市场으로 성장하였다. 각 [[004_blockchain|블록체인]] 플랫폼의 Genesis Block은 해당 네트워크의 창립 철학과 기술적 비전을 reflected 하며, 멀티체인 시대로 향하는 현재에 이르러서까지 그 의미는 점점 더해가고 있다. Genesis Block은 [[004_blockchain|블록체인]] 기술의 "創世記"로서, 인터넷의 新时代을象征하는重要なymbol이다.
+제네시스 블록은 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 네트워크의 가장 기초적인 구성 요소이며, 네트워크 전체의 신뢰성과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)의 궁극적 근거가 된다. 비트코인의 Genesis Block이 2009년 1월 3일에 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 이후, 이 작은 블록 하나에서 출발하여 数조 달러 규모의 글로벌金融市场으로 성장하였다. 각 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 플랫폼의 Genesis Block은 해당 네트워크의 창립 철학과 기술적 비전을 reflected 하며, 멀티체인 시대로 향하는 현재에 이르러서까지 그 의미는 점점 더해가고 있다. Genesis Block은 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 기술의 "創世記"로서, 인터넷의 新时代을象征하는重要なymbol이다.
 
 ---
 
-## 핵심 인사이트 [[103_ascii|ASCII]] 다이어그램 ([[120_concept|Concept]] Map)
+## 핵심 인사이트 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 ([Concept](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/) Map)
 
 ```
 +------------------------------------------------------------------+
@@ -181,7 +185,7 @@ tags:
 ### 📌 관련 개념 맵
 
 - **제네시스 블록 (Genesis Block)**
-- **코인베이스 [[191_transaction_concept_states|트랜잭션]] (Coinbase [[191_transaction_concept_states|Transaction]])**
+- **코인베이스 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) (Coinbase [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/))**
 - **채굴 난이도 (Mining Difficulty)**
 - **하드코딩 (Hard Coding)**
 - **알트코인 (Altcoin)**
@@ -207,16 +211,16 @@ tags:
 이 흐름도는 제네시스 블록 (Genesis Block)에서 출발해 알트코인 (Altcoin)까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. [[004_blockchain|블록체인]]의 시작점인 제네시스 블록은 네트워크 전체 신뢰 체인의 뿌리다.
-2. Previous Hash가 0이라는 유일한 특성이 이후 모든 블록의 [[003_integrity|무결성]]을 보증한다.
+1. [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 시작점인 제네시스 블록은 네트워크 전체 신뢰 체인의 뿌리다.
+2. Previous Hash가 0이라는 유일한 특성이 이후 모든 블록의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 보증한다.
 3. 알트코인들도 각자의 제네시스 블록을 가지며, 그 안에 창립 철학을 새겨 넣는다.
 
 ## 참고
 - 모든 약어는 반드시 전체 명칭과 함께 표기
 - 일어/중국어 절대 사용 금지
 - 각 섹션 끝에 📢 요약 비유 반드시 추가
-- 최소 800자/[[501_file_definition_logical_record|파일]]
-- [[501_file_definition_logical_record|파일]]명: 01_, 02_, 03_... 형식 (2자리 숫자)
+- 최소 800자/[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)
+- [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)명: 01_, 02_, 03_... 형식 (2자리 숫자)
 
 ---
 
@@ -224,7 +228,7 @@ tags:
 
 **진행 상황**: 5 / 552
 
-← **이전**: [[004_blockchain|4. 블록체인 (Blockchain) - 분산 원장 기술(DLT, Distributed Ledger Technology)]]
-**다음**: [[006_block_structure|6. 블록의 구조 - 블록 헤더 (버전, 이전 블록 해시, 머클 루트, 타임스탬프, 난이도, 논스) + 바디]] →
+← **이전**: [4. 블록체인 (Blockchain) - 분산 원장 기술(DLT, Distributed Ledger Technology)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)
+**다음**: [6. 블록의 구조 - 블록 헤더 (버전, 이전 블록 해시, 머클 루트, 타임스탬프, 난이도, 논스) + 바디](/knowledge-base/studynote/06_ict_convergence/01_blockchain/006_block_structure/) →
 
 ---

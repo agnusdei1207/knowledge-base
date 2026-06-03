@@ -1,33 +1,36 @@
----
-title: 100. 공간 다중화 (Spatial Multiplexing)
-date: '2026-03-04'
-description: MIMO 시스템에서 서로 다른 독립적인 데이터 스트림을 다수의 공간 경로로 동시 전송하여, 주파수 추가 없이 통신 대역폭 한계를
-  돌파하는 핵심 기법
-tags:
-- network
----
++++
+title = "100. 공간 다중화 (Spatial Multiplexing)"
+description = "MIMO 시스템에서 서로 다른 독립적인 데이터 스트림을 다수의 공간 경로로 동시 전송하여, 주파수 추가 없이 통신 대역폭 한계를 돌파하는 핵심 기법"
+date = 2026-03-04
+
+[taxonomies]
+tags = ["network"]
+
+[extra]
+tags = ["network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 공간 [[071_다중화_Multiplexing|다중화]] (Spatial [[071_다중화_Multiplexing|Multiplexing]])는 다중 [[171_antenna_basic_dipole_resonance|안테나]] ([[097_MIMO_다중_안테나_기술|MIMO]], [[097_MIMO_다중_안테나_기술|Multiple-Input Multiple-Output]]) 환경에서 '서로 다른' 독립적인 [[001_dikw_pyramid|데이터]] 스트림을 여러 [[171_antenna_basic_dipole_resonance|안테나]]를 통해 동시에 송신한 뒤, 수신기에서 역행렬 연산으로 이를 분리해내는 기법이다.
-> 2. **가치**: 값비싼 주파수 [[140_bandwidth|대역폭]]이나 추가적인 전력 소모를 늘리지 않고도, [[171_antenna_basic_dipole_resonance|안테나]] 쌍의 개수(송수신 중 작은 값)에 선형적으로 비례하여 시스템의 최대 전송 속도([[139_throughput|Throughput]])를 배수 단위로 끌어올린다.
-> 3. **판단 포인트**: 통신 방해물로 여겨지던 건물 반사와 [[168_multipath_fading_isi|다중 경로 페이딩]] ([[168_multipath_fading_isi|Multipath Fading]]) 환경을 역이용하여 채널 간 [[083_직교성_Orthogonality|직교성]](독립성)을 확보하므로, 산란체가 풍부한 도심 환경에서만 진가가 발휘되고 탁 트인 개활지에서는 무용지물이 되는 조건부 무기다.
+> 1. **본질**: 공간 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) (Spatial [Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))는 다중 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) ([MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/), [Multiple-Input Multiple-Output](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/)) 환경에서 '서로 다른' 독립적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스트림을 여러 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 통해 동시에 송신한 뒤, 수신기에서 역행렬 연산으로 이를 분리해내는 기법이다.
+> 2. **가치**: 값비싼 주파수 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이나 추가적인 전력 소모를 늘리지 않고도, [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 쌍의 개수(송수신 중 작은 값)에 선형적으로 비례하여 시스템의 최대 전송 속도([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))를 배수 단위로 끌어올린다.
+> 3. **판단 포인트**: 통신 방해물로 여겨지던 건물 반사와 [다중 경로 페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/168_multipath_fading_isi/) ([Multipath Fading](/knowledge-base/studynote/03_network/03_physical_layer_media/168_multipath_fading_isi/)) 환경을 역이용하여 채널 간 [직교성](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/)(독립성)을 확보하므로, 산란체가 풍부한 도심 환경에서만 진가가 발휘되고 탁 트인 개활지에서는 무용지물이 되는 조건부 무기다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-네트워크 시스템에서 [[140_bandwidth|대역폭]](주파수)은 가장 획득하기 어렵고 고가의 자원이다. [[941_shannon_hartley_theorem_channel_capacity_snr|샤논-하틀리]] 정리 ([[941_shannon_hartley_theorem_channel_capacity_snr|Shannon-Hartley]] Theorem)에 의하면 통신 용량을 높이기 위해서는 주파수를 넓히거나 송신 전력을 높여 [[024_신호_대_잡음비|신호 대 잡음비]] ([[024_신호_대_잡음비|SNR]])를 올려야만 했다. 그러나 주파수는 고갈 상태고 전력 증가에는 물리적 한계가 존재했다.
+네트워크 시스템에서 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(주파수)은 가장 획득하기 어렵고 고가의 자원이다. [샤논-하틀리](/knowledge-base/studynote/03_network/19_frequent_topics_terms/941_shannon_hartley_theorem_channel_capacity_snr/) 정리 ([Shannon-Hartley](/knowledge-base/studynote/03_network/19_frequent_topics_terms/941_shannon_hartley_theorem_channel_capacity_snr/) Theorem)에 의하면 통신 용량을 높이기 위해서는 주파수를 넓히거나 송신 전력을 높여 [신호 대 잡음비](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/) ([SNR](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/))를 올려야만 했다. 그러나 주파수는 고갈 상태고 전력 증가에는 물리적 한계가 존재했다.
 
-이러한 물리 법칙의 틈새를 돌파한 기술이 공간 [[071_다중화_Multiplexing|다중화]] (Spatial [[071_다중화_Multiplexing|Multiplexing]])다. 이 기술은 눈에 보이지 않는 3차원 공간 자체를 여러 개의 [[430_index_fast_full_scan|병렬]] [[123_pipe|파이프]](채널)로 쪼개는 개념이다. [[171_antenna_basic_dipole_resonance|안테나]] 여러 개를 이용해 [[001_dikw_pyramid|데이터]]를 조각내어 동시에 발사하면, 건물 등에 [[130_signal|신호]]가 부딪히며 생기는 다중 경로 ([[500_multipath_io|Multipath]]) 특성 덕분에 [[001_dikw_pyramid|데이터]] 조각들이 각기 다른 공간적 지문(Spatial Signature)을 갖게 된다. 수신기는 이 뒤섞인 [[130_signal|신호]] 덩어리를 수학적인 행렬 방정식으로 풀어내 원래의 독립된 [[001_dikw_pyramid|데이터]]들로 복원한다. 주파수 분할도 시간 분할도 아닌, 순수 연산의 힘으로 전송 속도를 배수 단위로 폭증시킨다.
+이러한 물리 법칙의 틈새를 돌파한 기술이 공간 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) (Spatial [Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))다. 이 기술은 눈에 보이지 않는 3차원 공간 자체를 여러 개의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(채널)로 쪼개는 개념이다. [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 여러 개를 이용해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 조각내어 동시에 발사하면, 건물 등에 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 부딪히며 생기는 다중 경로 ([Multipath](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/500_multipath_io/)) 특성 덕분에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조각들이 각기 다른 공간적 지문(Spatial Signature)을 갖게 된다. 수신기는 이 뒤섞인 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 덩어리를 수학적인 행렬 방정식으로 풀어내 원래의 독립된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들로 복원한다. 주파수 분할도 시간 분할도 아닌, 순수 연산의 힘으로 전송 속도를 배수 단위로 폭증시킨다.
 
-- **📢 섹션 요약 비유**: 공간 [[071_다중화_Multiplexing|다중화]]는 꽉 막힌 1차선 도로(주파수)를 옆으로 넓히는 대신, 그 위로 2층, 3층, 4층 입체 고가도로(공간 경로)를 하늘 높이 쌓아 올려 한 번에 통과하는 자동차의 수를 4배로 늘려버리는 건축적 마법과 같다.
+- **📢 섹션 요약 비유**: 공간 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)는 꽉 막힌 1차선 도로(주파수)를 옆으로 넓히는 대신, 그 위로 2층, 3층, 4층 입체 고가도로(공간 경로)를 하늘 높이 쌓아 올려 한 번에 통과하는 자동차의 수를 4배로 늘려버리는 건축적 마법과 같다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-공간 [[071_다중화_Multiplexing|다중화]]의 성공 여부는 복잡한 산란체([[164_scattering_reflection_radio_waves|Scattering]])가 존재하여 송신 [[171_antenna_basic_dipole_resonance|안테나]]들이 발사한 [[130_signal|신호]]들이 서로 다른 경로를 겪어 수신기에 도달하는가에 달려있다.
+공간 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)의 성공 여부는 복잡한 산란체([Scattering](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/))가 존재하여 송신 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)들이 발사한 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)들이 서로 다른 경로를 겪어 수신기에 도달하는가에 달려있다.
 
 ```text
 [ 2x2 MIMO 공간 다중화의 행렬 복원 아키텍처 ]
@@ -44,9 +47,9 @@ tags:
   └─▶ [Tx 2] ────(경로 h22)─────────▶ 혼합 신호 y2 ＝ h21*x1 ＋ h22*x2 ──┘ 
 ```
 
-수신 [[171_antenna_basic_dipole_resonance|안테나]]에 도착한 혼합 [[130_signal|신호]]($y$)는 채널 행렬($H$)과 원본 송신 스트림($x$), 그리고 노이즈($n$)의 합으로 표현된다 ($y = Hx + n$). 수신기의 디지털 [[130_signal|신호]] 처리기 (DSP, Digital [[130_signal|Signal]] Processor)는 채널 추정치 $\hat{H}$를 구한 뒤, 이의 역행렬을 곱하여 섞여 있는 원본 스트림 $\hat{x}$를 분리해낸다 (Zero-Forcing 방식 등). 
+수신 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)에 도착한 혼합 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)($y$)는 채널 행렬($H$)과 원본 송신 스트림($x$), 그리고 노이즈($n$)의 합으로 표현된다 ($y = Hx + n$). 수신기의 디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리기 (DSP, Digital [Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) Processor)는 채널 추정치 $\hat{H}$를 구한 뒤, 이의 역행렬을 곱하여 섞여 있는 원본 스트림 $\hat{x}$를 분리해낸다 (Zero-Forcing 방식 등). 
 
-여기서 치명적인 병목은 채널 행렬 $H$의 독립성이다. 만약 경로가 겹쳐 행렬의 종속성이 커지면 역행렬 연산 시 작은 노이즈가 무한대로 증폭(Noise Amplification)되어 [[001_dikw_pyramid|데이터]]가 파괴된다. 따라서 공간 [[071_다중화_Multiplexing|다중화]]는 경로의 [[083_직교성_Orthogonality|직교성]]이 확보된 상황에서만 작동한다.
+여기서 치명적인 병목은 채널 행렬 $H$의 독립성이다. 만약 경로가 겹쳐 행렬의 종속성이 커지면 역행렬 연산 시 작은 노이즈가 무한대로 증폭(Noise Amplification)되어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 파괴된다. 따라서 공간 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)는 경로의 [직교성](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/)이 확보된 상황에서만 작동한다.
 
 - **📢 섹션 요약 비유**: 오렌지 주스와 사과 주스를 하나의 컵(공간)에 부어 섞어버린 뒤 수신기로 보냅니다. 원래는 맛이 섞여 마실 수 없지만, 각 과즙이 날아온 방향과 궤적의 차이(행렬 H)를 아는 특수 필터(역행렬)를 통과시키면 다시 완벽하게 100% 오렌지와 사과 주스 두 잔으로 분리해내는 연금술이다.
 
@@ -54,39 +57,39 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-공간 [[071_다중화_Multiplexing|다중화]]는 다중 [[171_antenna_basic_dipole_resonance|안테나]] 기술을 안정을 위해 쓸 것인가, 속도를 위해 쓸 것인가의 갈림길에서 공간 다이버시티 (Spatial Diversity)와 뚜렷이 비교된다.
+공간 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)는 다중 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 기술을 안정을 위해 쓸 것인가, 속도를 위해 쓸 것인가의 갈림길에서 공간 다이버시티 (Spatial Diversity)와 뚜렷이 비교된다.
 
-| 항목 | 공간 다이버시티 (Spatial Diversity) | 공간 [[071_다중화_Multiplexing|다중화]] (Spatial [[071_다중화_Multiplexing|Multiplexing]]) |
+| 항목 | 공간 다이버시티 (Spatial Diversity) | 공간 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) (Spatial [Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) |
 | :--- | :--- | :--- |
-| **목적** | [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 극대화 및 통신 끊김 방지 | [[001_dikw_pyramid|데이터]] 전송률(속도)의 극대화 |
-| **전송 방식** | 모든 [[171_antenna_basic_dipole_resonance|안테나]]에서 동일한 [[001_dikw_pyramid|데이터]] 사본을 송신 | 각 [[171_antenna_basic_dipole_resonance|안테나]]에서 서로 다른 독립 [[001_dikw_pyramid|데이터]]를 송신 |
-| **속도 증가** | 변화 없음 (1배수 속도) | [[171_antenna_basic_dipole_resonance|안테나]] 수에 비례하여 선형적 증가 (N배수) |
-| **동작 환경** | [[130_signal|신호]]가 약하거나 개활지 환경 (LOS) | [[130_signal|신호]]가 강하고 반사파가 많은 도심 환경 |
+| **목적** | [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 극대화 및 통신 끊김 방지 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송률(속도)의 극대화 |
+| **전송 방식** | 모든 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)에서 동일한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 사본을 송신 | 각 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)에서 서로 다른 독립 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 송신 |
+| **속도 증가** | 변화 없음 (1배수 속도) | [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 수에 비례하여 선형적 증가 (N배수) |
+| **동작 환경** | [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 약하거나 개활지 환경 (LOS) | [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 강하고 반사파가 많은 도심 환경 |
 
-수학적 관점에서 시스템이 최대로 보낼 수 있는 [[001_dikw_pyramid|데이터]] 스트림의 개수를 랭크 (Spatial Rank)라고 부른다. 4x4 MIMO에서 이론상 Rank는 4지만, 허허벌판 환경에서는 경로들이 서로 겹쳐 Rank 1이나 2로 떨어지게 된다. 단말기는 수시로 랭크 지표 (RI, Rank Indicator)를 기지국에 피드백하여 "지금은 길이 2개밖에 안 보이니 2개 스트림(Rank 2)으로 쏴라!"라고 동적 제어를 수행한다 (Rank Adaptation).
+수학적 관점에서 시스템이 최대로 보낼 수 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스트림의 개수를 랭크 (Spatial Rank)라고 부른다. 4x4 MIMO에서 이론상 Rank는 4지만, 허허벌판 환경에서는 경로들이 서로 겹쳐 Rank 1이나 2로 떨어지게 된다. 단말기는 수시로 랭크 지표 (RI, Rank Indicator)를 기지국에 피드백하여 "지금은 길이 2개밖에 안 보이니 2개 스트림(Rank 2)으로 쏴라!"라고 동적 제어를 수행한다 (Rank Adaptation).
 
-- **📢 섹션 요약 비유**: 공간 다이버시티는 중요한 문서를 잃어버릴까 봐 똑같은 복사본 4장을 네 명의 배달부에게 들려 보내는 '안전빵 보험'이고, 공간 [[071_다중화_Multiplexing|다중화]]는 문서를 4페이지로 찢은 뒤 네 명의 배달부에게 각각 나눠주어 4배 빨리 배달시키는 '분할 고속 배송'이다.
+- **📢 섹션 요약 비유**: 공간 다이버시티는 중요한 문서를 잃어버릴까 봐 똑같은 복사본 4장을 네 명의 배달부에게 들려 보내는 '안전빵 보험'이고, 공간 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)는 문서를 4페이지로 찢은 뒤 네 명의 배달부에게 각각 나눠주어 4배 빨리 배달시키는 '분할 고속 배송'이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무 현장에서 다중 [[171_antenna_basic_dipole_resonance|안테나]] 스펙만 믿고 공간 [[071_다중화_Multiplexing|다중화]]에 의존하다 낭패를 보는 대표적 오판 사례들이 존재한다.
+실무 현장에서 다중 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 스펙만 믿고 공간 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)에 의존하다 낭패를 보는 대표적 오판 사례들이 존재한다.
 
-1. **대강당 및 개활지 [[572_ap_access_point_ds_distribution_system|AP]] 설계 실패**: 탁 트인 강당이나 시골 평야에 비싼 4x4 [[097_MIMO_다중_안테나_기술|MIMO]] AP를 설치해도 속도 향상이 미미한 경우가 많다. 장애물이 없는 가시선 (LOS, Line-of-Sight) 환경에서는 다중 경로 반사가 일어나지 않아 단말기가 4개의 [[171_antenna_basic_dipole_resonance|안테나]] [[130_signal|신호]]를 하나의 뭉쳐진 경로로 인식한다(Rank 1 강등). 공간 [[071_다중화_Multiplexing|다중화]]가 깨지고 다이버시티 모드로 강제 [[171_fallback_resilience_pattern|폴백]]([[129_fallback|Fallback]])된 것이다. 이때는 오히려 인위적인 반사 파티션을 두거나, 빔을 벽으로 쏘아 반사파를 유도해야 한다.
-2. **고속 이동 기기 (고속철도 등)**: 채널 상황이 밀리초 단위로 급변하는 고속 주행 시에는 기지국이 역행렬 연산 기준값을 잡기 전에 공간 환경이 변해버려 스트림 꼬임 오류가 폭증한다. [[079_kube_scheduler_pod_placement|스케줄러]] 알고리즘은 단말의 도플러 시프트(이동 속도)가 높을 경우, 즉시 [[071_다중화_Multiplexing|다중화]] 모드를 끄고 다이버시티 송신으로 전환하여 끊김 없는 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 모드로 타협해야 한다.
+1. **대강당 및 개활지 [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 설계 실패**: 탁 트인 강당이나 시골 평야에 비싼 4x4 [MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) AP를 설치해도 속도 향상이 미미한 경우가 많다. 장애물이 없는 가시선 (LOS, Line-of-Sight) 환경에서는 다중 경로 반사가 일어나지 않아 단말기가 4개의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 하나의 뭉쳐진 경로로 인식한다(Rank 1 강등). 공간 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)가 깨지고 다이버시티 모드로 강제 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)([Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/))된 것이다. 이때는 오히려 인위적인 반사 파티션을 두거나, 빔을 벽으로 쏘아 반사파를 유도해야 한다.
+2. **고속 이동 기기 (고속철도 등)**: 채널 상황이 밀리초 단위로 급변하는 고속 주행 시에는 기지국이 역행렬 연산 기준값을 잡기 전에 공간 환경이 변해버려 스트림 꼬임 오류가 폭증한다. [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 알고리즘은 단말의 도플러 시프트(이동 속도)가 높을 경우, 즉시 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) 모드를 끄고 다이버시티 송신으로 전환하여 끊김 없는 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 모드로 타협해야 한다.
 
-- **📢 섹션 요약 비유**: 사방이 거울로 된 도심의 방에서는 레이저 불빛을 여기저기 튕기게 만들어 여러 가닥의 선(다중 경로)을 활용할 수 있지만, 아무것도 없는 텅 빈 운동장에서는 플래시를 4개 켜봐야 결국 하나의 큰 불빛 덩어리(Rank 1)로 뭉쳐버려 [[071_다중화_Multiplexing|다중화]] 마법을 부릴 수 없는 원리다.
+- **📢 섹션 요약 비유**: 사방이 거울로 된 도심의 방에서는 레이저 불빛을 여기저기 튕기게 만들어 여러 가닥의 선(다중 경로)을 활용할 수 있지만, 아무것도 없는 텅 빈 운동장에서는 플래시를 4개 켜봐야 결국 하나의 큰 불빛 덩어리(Rank 1)로 뭉쳐버려 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) 마법을 부릴 수 없는 원리다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-공간 [[071_다중화_Multiplexing|다중화]]는 무선 통신의 영원한 골칫거리였던 '건물에 부딪혀 발생하는 다중 경로 반사파'를 오히려 [[001_dikw_pyramid|데이터]]를 [[430_index_fast_full_scan|병렬]] 전송하는 조력자로 탈바꿈시킨 패러다임의 역전이다. 
+공간 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)는 무선 통신의 영원한 골칫거리였던 '건물에 부딪혀 발생하는 다중 경로 반사파'를 오히려 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 전송하는 조력자로 탈바꿈시킨 패러다임의 역전이다. 
 
-동일한 주파수와 전력을 가지고도 [[171_antenna_basic_dipole_resonance|안테나]](N)를 늘릴 때마다 통신 용량이 선형적으로 뻥튀기되므로, 통신사 입장에서는 수조 원의 주파수 매입 비용을 아껴주는 기적의 기술이 되었다. 4G LTE에서 시작된 이 기술은 5G의 [[099_Massive_MIMO_대규모_다중_안테나|Massive MIMO]] 체제의 핵심 엔진으로 융합되었고, 다가올 6G에서는 서로 다른 위치의 기지국들이 협력해 하나의 단말기에 입체적으로 스트림을 꽂아 넣는 [[136_variance|분산]] 공간 [[071_다중화_Multiplexing|다중화]](Joint Transmission)로 진화하며 궁극의 스루풋 혁명을 이어가고 있다.
+동일한 주파수와 전력을 가지고도 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)(N)를 늘릴 때마다 통신 용량이 선형적으로 뻥튀기되므로, 통신사 입장에서는 수조 원의 주파수 매입 비용을 아껴주는 기적의 기술이 되었다. 4G LTE에서 시작된 이 기술은 5G의 [Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/) 체제의 핵심 엔진으로 융합되었고, 다가올 6G에서는 서로 다른 위치의 기지국들이 협력해 하나의 단말기에 입체적으로 스트림을 꽂아 넣는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 공간 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)(Joint Transmission)로 진화하며 궁극의 스루풋 혁명을 이어가고 있다.
 
-- **📢 섹션 요약 비유**: 공간 [[071_다중화_Multiplexing|다중화]]는 통신을 방해하던 복잡한 장애물과 메아리들을, 여러 개의 [[001_dikw_pyramid|데이터]]를 한 번에 날라다 주는 보이지 않는 다차원 고속도로망으로 완벽하게 재활용한 무선 통신의 흑마술이다.
+- **📢 섹션 요약 비유**: 공간 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)는 통신을 방해하던 복잡한 장애물과 메아리들을, 여러 개의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한 번에 날라다 주는 보이지 않는 다차원 고속도로망으로 완벽하게 재활용한 무선 통신의 흑마술이다.
 
 ---
 
@@ -94,9 +97,9 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[[097_MIMO_다중_안테나_기술|MIMO]] ([[097_MIMO_다중_안테나_기술|Multiple-Input Multiple-Output]])** | 다수의 [[171_antenna_basic_dipole_resonance|안테나]]를 송수신 양측에 사용하는 거대 하드웨어 아키텍처로, 공간 [[071_다중화_Multiplexing|다중화]]의 물리적 기반 |
+| **[MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) ([Multiple-Input Multiple-Output](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/))** | 다수의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 송수신 양측에 사용하는 거대 하드웨어 아키텍처로, 공간 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)의 물리적 기반 |
 | **랭크 지표 (RI, Rank Indicator)** | 단말기가 기지국에 "현재 몇 개의 공간 스트림을 겹치지 않고 분리할 수 있는지"를 알려주는 핵심 피드백 정보 |
-| **제로 포싱 (Zero-Forcing) 수신기** | 수신된 혼합 [[130_signal|신호]]에서 다른 스트림이 일으키는 간섭 성분을 역행렬 연산으로 0으로 억제하여 원본 [[130_signal|신호]]를 추출하는 기법 |
+| **제로 포싱 (Zero-Forcing) 수신기** | 수신된 혼합 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)에서 다른 스트림이 일으키는 간섭 성분을 역행렬 연산으로 0으로 억제하여 원본 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 추출하는 기법 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -119,7 +122,7 @@ Massive MIMO 및 분산 공간 다중화 (Joint Transmission) · 5G/6G 초거대
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 넓은 운동장에서 친구에게 공을 던질 때 한 개씩만 던지면 시간이 오래 걸려요.
-2. 공간 [[071_다중화_Multiplexing|다중화]]는 양손과 두 발까지 모두 써서 4개의 다른 색깔 공을 한꺼번에 벽과 바닥에 마구 튕겨 던지는 기술이에요.
+2. 공간 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)는 양손과 두 발까지 모두 써서 4개의 다른 색깔 공을 한꺼번에 벽과 바닥에 마구 튕겨 던지는 기술이에요.
 3. 공들이 사방으로 제멋대로 날아가지만, 똑똑한 친구(수신기)는 날아오는 각도를 재빨리 계산해서 4개의 공을 한 번에 탁탁 완벽하게 잡아내어 놀이를 4배 빨리 끝낸답니다!
 
 ---
@@ -128,7 +131,7 @@ Massive MIMO 및 분산 공간 다중화 (Joint Transmission) · 5G/6G 초거대
 
 **진행 상황**: 110 / 1120
 
-← **이전**: [[1009_backhaul_network_base_station_core_connection|1009. 백홀 (Backhaul)]]
-**다음**: [[1010_midhaul_network_c_ran_fronthaul_du_cu|1010. 미드홀 (Midhaul)]] →
+← **이전**: [1009. 백홀 (Backhaul)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/)
+**다음**: [1010. 미드홀 (Midhaul)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1010_midhaul_network_c_ran_fronthaul_du_cu/) →
 
 ---

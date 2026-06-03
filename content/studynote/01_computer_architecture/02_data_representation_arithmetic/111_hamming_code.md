@@ -1,31 +1,35 @@
----
-title: 111. 해밍 코드 (Hamming Code)
-date: '2026-05-05'
-tags:
-- studynote-computer-architecture
----
++++
+title = "111. 해밍 코드 (Hamming Code)"
+date = 2026-05-05
+
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 해밍 코드(Hamming [[082_process_memory_structure|Code]])는 [[001_dikw_pyramid|데이터]] [[073_bit|비트]] 사이사이에 여러 개의 [[107_parity_bit|패리티 비트]]를 교차 결합하여 심어 넣음으로써, **스스로 에러 위치를 찾아내고 1비트를 고칠 수 있는 자기 정정 코드(FEC)**다.
-> 2. **가치**: 단순 오류 검출([[961_deepfake_detection|Detection]])에 그쳤던 기존 패리티의 한계를 깨고, 재전송([[949_arq_automatic_repeat_request_go_back_n_selective|ARQ]]) 요청 없이 송신된 [[001_dikw_pyramid|데이터]]만으로 즉각적인 수정(Correction)을 수행해 실시간 시스템의 [[015_지연_데이터_관점|지연]](Delay)을 없앴다.
-> 3. **판단 포인트**: [[001_dikw_pyramid|데이터]] 크기에 비례해 [[107_parity_bit|패리티 비트]]의 오버헤드가 증가하므로, D램([[251_dram|DRAM]])의 [[554_ecc_circuit|ECC]] 메모리처럼 1비트 플립이 잦고 고속 복구가 필수적인 [[204_microarchitecture|마이크로아키텍처]] 계층에서 핵심적으로 융합된다.
+> 1. **본질**: 해밍 코드(Hamming [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 사이사이에 여러 개의 [패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)를 교차 결합하여 심어 넣음으로써, **스스로 에러 위치를 찾아내고 1비트를 고칠 수 있는 자기 정정 코드(FEC)**다.
+> 2. **가치**: 단순 오류 검출([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))에 그쳤던 기존 패리티의 한계를 깨고, 재전송([ARQ](/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/)) 요청 없이 송신된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만으로 즉각적인 수정(Correction)을 수행해 실시간 시스템의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Delay)을 없앴다.
+> 3. **판단 포인트**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기에 비례해 [패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)의 오버헤드가 증가하므로, D램([DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/))의 [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) 메모리처럼 1비트 플립이 잦고 고속 복구가 필수적인 [마이크로아키텍처](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/204_microarchitecture/) 계층에서 핵심적으로 융합된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[[001_dikw_pyramid|데이터]]를 보내다 노이즈로 [[073_bit|비트]]가 깨지면, 일반적인 네트워크는 "[[001_dikw_pyramid|데이터]]가 고장 났으니 다시 보내달라(재전송)"고 요청한다. 하지만 지구에서 화성으로 보내는 우주선 통신이나, CPU가 초당 100억 번씩 메모리를 읽는 환경에서 재전송을 기다리는 것은 시스템 정지나 다름없는 재앙이다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내다 노이즈로 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 깨지면, 일반적인 네트워크는 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 고장 났으니 다시 보내달라(재전송)"고 요청한다. 하지만 지구에서 화성으로 보내는 우주선 통신이나, CPU가 초당 100억 번씩 메모리를 읽는 환경에서 재전송을 기다리는 것은 시스템 정지나 다름없는 재앙이다.
 
-1950년 리처드 해밍은 "에러가 난 곳이 어딘지만 수학적으로 특정할 수 있다면, 이진수 세계에서는 그 [[073_bit|비트]]를 뒤집기(NOT)만 하면 완벽히 고쳐지는 것 아닌가?"라는 위대한 역발상을 해냈다. 이를 위해 단일 [[107_parity_bit|패리티 비트]] 하나에 의존하던 방식을 버리고, [[001_dikw_pyramid|데이터]] [[073_bit|비트]]들을 그룹으로 쪼개 여러 개의 패리티가 서로 겹치면서 감시하도록 아키텍처를 융합했다. 이것이 최초의 전진 에러 수정([[235_forward_backward_chaining|Forward]] Error Correction, FEC) 기술인 해밍 코드의 탄생이다.
+1950년 리처드 해밍은 "에러가 난 곳이 어딘지만 수학적으로 특정할 수 있다면, 이진수 세계에서는 그 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 뒤집기(NOT)만 하면 완벽히 고쳐지는 것 아닌가?"라는 위대한 역발상을 해냈다. 이를 위해 단일 [패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/) 하나에 의존하던 방식을 버리고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)들을 그룹으로 쪼개 여러 개의 패리티가 서로 겹치면서 감시하도록 아키텍처를 융합했다. 이것이 최초의 전진 에러 수정([Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) Error Correction, FEC) 기술인 해밍 코드의 탄생이다.
 
-- **📢 섹션 요약 비유**: 해밍 코드는 독약이 든 와인병을 찾는 '[[250_cross_validation_kfold|교차 검증]] 실험'이다. 한 명의 신하가 모든 병을 마시면 독약이 있다는 것만 알지만, 신하 여러 명을 조별로 묶어 특정 번호의 병들을 겹치게 마시게 하면 누가 죽었는지(에러 발생)의 조합만 보고도 독약이 든 정확한 병(에러 위치)을 찾아낼 수 있다.
+- **📢 섹션 요약 비유**: 해밍 코드는 독약이 든 와인병을 찾는 '[교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/) 실험'이다. 한 명의 신하가 모든 병을 마시면 독약이 있다는 것만 알지만, 신하 여러 명을 조별로 묶어 특정 번호의 병들을 겹치게 마시게 하면 누가 죽었는지(에러 발생)의 조합만 보고도 독약이 든 정확한 병(에러 위치)을 찾아낼 수 있다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 벤 다이어그램을 통한 교차 감시 로직
-해밍 코드는 [[107_parity_bit|패리티 비트]](P)를 $2^n$ 번째 자리(1, 2, 4, 8...)에 심어놓고, 나머지 빈자리에 [[001_dikw_pyramid|데이터]] [[073_bit|비트]](D)를 끼워 넣는다. 각 [[107_parity_bit|패리티 비트]]는 자신만의 고유한 감시 구역을 지닌다.
+해밍 코드는 [패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)(P)를 $2^n$ 번째 자리(1, 2, 4, 8...)에 심어놓고, 나머지 빈자리에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(D)를 끼워 넣는다. 각 [패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)는 자신만의 고유한 감시 구역을 지닌다.
 
 ```text
 ┌────────────────────────────────────────────────────────┐
@@ -48,7 +52,7 @@ tags:
 └────────────────────────────────────────────────────────┘
 ```
 
-수신 측 하드웨어는 들어온 [[001_dikw_pyramid|데이터]]를 3개의 패리티 구역별로 XOR 연산하여 **신드롬(Syndrome)** 값을 뽑아낸다. 이 신드롬 값이 `000`이면 정상이고, 0이 아닌 숫자가 나오면 그 숫자가 곧 에러가 발생한 주소([[073_bit|비트]] [[154_database_index_b_tree_search_optimization|인덱스]])가 된다. CPU는 해당 위치의 [[073_bit|비트]]를 무심하게 뒤집어버림으로써(NOT 게이트) 복구를 1 나노초 만에 완료한다.
+수신 측 하드웨어는 들어온 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 3개의 패리티 구역별로 XOR 연산하여 **신드롬(Syndrome)** 값을 뽑아낸다. 이 신드롬 값이 `000`이면 정상이고, 0이 아닌 숫자가 나오면 그 숫자가 곧 에러가 발생한 주소([비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))가 된다. CPU는 해당 위치의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 무심하게 뒤집어버림으로써(NOT 게이트) 복구를 1 나노초 만에 완료한다.
 
 - **📢 섹션 요약 비유**: 신드롬 계산은 고장 난 가로등을 찾는 'GPS 좌표 계산기'다. 3명의 경비원(패리티)이 각자 담당 구역을 돌고 와서 "이상 없음(0)" 또는 "이상 있음(1)"을 보고하면, 그 0과 1을 조합하는 순간 고장 난 가로등의 정확한 번지수(주소)가 마법처럼 도출된다.
 
@@ -57,40 +61,40 @@ tags:
 ## Ⅲ. 비교 및 연결
 
 ### 에러 제어 아키텍처 계급도
-해밍 코드는 에러를 다루는 방식에서 [[107_parity_bit|패리티 비트]]와 다른 차원의 비용과 효과를 낸다.
+해밍 코드는 에러를 다루는 방식에서 [패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)와 다른 차원의 비용과 효과를 낸다.
 
-| 방어 체계 | 검출/정정 능력 | 오버헤드 비용 ([[001_dikw_pyramid|데이터]] 대비) | 아키텍처 판단 (사용처) |
+| 방어 체계 | 검출/정정 능력 | 오버헤드 비용 ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 대비) | 아키텍처 판단 (사용처) |
 |:---|:---|:---|:---|
-| **단순 패리티** | 1비트 검출 (고치지 못함) | 1비트 (가장 쌈) | UART 등 재전송([[949_arq_automatic_repeat_request_go_back_n_selective|ARQ]])이 쉬운 단거리 통신 |
-| **해밍 코드** | **1비트 정정, 2비트 검출 (SEC-DED)** | $\log_2(N)$ 수준 (비쌈) | 서버용 [[554_ecc_circuit|ECC]] 메모리, L1 캐시 [[001_dikw_pyramid|데이터]] 방어 |
-| **리드-솔로몬** | 다수 [[073_bit|비트]](버스트) 정정 | 매우 크고 연산 복잡함 | CD 긁힘 복원, QR 코드, 심우주 [[592_satellite_communication_characteristics|위성 통신]] |
+| **단순 패리티** | 1비트 검출 (고치지 못함) | 1비트 (가장 쌈) | UART 등 재전송([ARQ](/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/))이 쉬운 단거리 통신 |
+| **해밍 코드** | **1비트 정정, 2비트 검출 (SEC-DED)** | $\log_2(N)$ 수준 (비쌈) | 서버용 [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) 메모리, L1 캐시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 방어 |
+| **리드-솔로몬** | 다수 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(버스트) 정정 | 매우 크고 연산 복잡함 | CD 긁힘 복원, QR 코드, 심우주 [위성 통신](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/592_satellite_communication_characteristics/) |
 
-해밍 코드는 [[001_dikw_pyramid|데이터]] 블록이 커질수록 [[107_parity_bit|패리티 비트]]의 비율이 줄어들어 효율이 좋아진다. 4비트 [[001_dikw_pyramid|데이터]]를 보호하려면 3비트의 패리티가 필요하지만, 64비트 [[001_dikw_pyramid|데이터]]를 보호할 때는 7비트만 덧붙이면 된다. 따라서 현대 64비트 CPU 시스템의 메모리 구조와 환상적인 궁합을 자랑한다.
+해밍 코드는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록이 커질수록 [패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)의 비율이 줄어들어 효율이 좋아진다. 4비트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보호하려면 3비트의 패리티가 필요하지만, 64비트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보호할 때는 7비트만 덧붙이면 된다. 따라서 현대 64비트 CPU 시스템의 메모리 구조와 환상적인 궁합을 자랑한다.
 
-- **📢 섹션 요약 비유**: 단순 패리티가 환자를 보고 "아프다"고 진단만 하는 간호사라면, 해밍 코드는 "어디가 아프니 여길 째자"며 현장에서 즉각 응급수술을 집도하는 외과 의사다. 수술 장비(추가 [[073_bit|비트]])가 더 필요하지만 환자([[001_dikw_pyramid|데이터]])를 무조건 살려낸다.
+- **📢 섹션 요약 비유**: 단순 패리티가 환자를 보고 "아프다"고 진단만 하는 간호사라면, 해밍 코드는 "어디가 아프니 여길 째자"며 현장에서 즉각 응급수술을 집도하는 외과 의사다. 수술 장비(추가 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))가 더 필요하지만 환자([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 무조건 살려낸다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **서버 [[554_ecc_circuit|ECC]](Error Correction [[082_process_memory_structure|Code]]) 메모리의 SEC-DED 규격**: 엔터프라이즈 서버 D램([[251_dram|DRAM]])은 우주 방사선이나 발열로 인해 메모리 셀 전하가 누설되는 '[[462_soft_error_hard_error|소프트 에러]]([[462_soft_error_hard_error|Soft Error]])'가 상시 발생한다. 아키텍트는 일반 64비트 메모리 [[192_module_independence|모듈]] 대신 해밍 코드 기반의 **72비트 [[192_module_independence|모듈]] (64 [[001_dikw_pyramid|Data]] + 8 Parity)**을 융합하여, 1비트 에러는 [[001_operating_system_purpose|운영체제]] 모르게 하드웨어 단에서 자동 수선(SEC)하고, 2비트 이상 에러 시에는 멈추게(DED) 하여 블루스크린을 방지한다.
-2. **[[483_raid_overview|RAID]] 2 스토리지 아키텍처**: 디스크 [[430_index_fast_full_scan|병렬]] 구성 시 [[001_dikw_pyramid|데이터]]를 [[073_bit|비트]] 단위로 쪼개어 해밍 코드를 계산한 뒤 별도의 디스크에 저장한다. 디스크 하나가 박살 나도 수학적으로 원래 [[073_bit|비트]]를 즉각 연산하여 서비스를 무중단([[585_zero_skipping|Zero]] Downtime)으로 이어간다. (현재는 블록 단위인 [[483_raid_overview|RAID]] 5로 진화함)
+1. **서버 [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/)(Error Correction [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)) 메모리의 SEC-DED 규격**: 엔터프라이즈 서버 D램([DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/))은 우주 방사선이나 발열로 인해 메모리 셀 전하가 누설되는 '[소프트 에러](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/462_soft_error_hard_error/)([Soft Error](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/462_soft_error_hard_error/))'가 상시 발생한다. 아키텍트는 일반 64비트 메모리 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 대신 해밍 코드 기반의 **72비트 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) (64 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) + 8 Parity)**을 융합하여, 1비트 에러는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 모르게 하드웨어 단에서 자동 수선(SEC)하고, 2비트 이상 에러 시에는 멈추게(DED) 하여 블루스크린을 방지한다.
+2. **[RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 2 스토리지 아키텍처**: 디스크 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 구성 시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 단위로 쪼개어 해밍 코드를 계산한 뒤 별도의 디스크에 저장한다. 디스크 하나가 박살 나도 수학적으로 원래 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 즉각 연산하여 서비스를 무중단([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Downtime)으로 이어간다. (현재는 블록 단위인 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5로 진화함)
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
-- **[[197_burst_error_detection_crc|버스트 에러]]([[197_burst_error_detection_crc|Burst Error]]) 환경에 해밍 코드 단독 배치**: 번개가 쳐서 무선 통신의 4~5비트가 연속으로 깨져서 들어오는 환경에 해밍 코드를 적용하는 만행. 해밍 코드는 1비트 에러를 고치도록 설계된 정밀 타격 무기다. 에러가 2개를 넘어가면 엉뚱한 증후군(Syndrome) 값을 뱉어내어 멀쩡한 [[073_bit|비트]]를 뒤집어버리는 **'오류의 자기 파괴(Miscorrection)'**를 일으킨다. 반드시 블록 코드(인터리빙)나 CRC와 융합하여 써야 한다.
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- **[버스트 에러](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/)([Burst Error](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/)) 환경에 해밍 코드 단독 배치**: 번개가 쳐서 무선 통신의 4~5비트가 연속으로 깨져서 들어오는 환경에 해밍 코드를 적용하는 만행. 해밍 코드는 1비트 에러를 고치도록 설계된 정밀 타격 무기다. 에러가 2개를 넘어가면 엉뚱한 증후군(Syndrome) 값을 뱉어내어 멀쩡한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 뒤집어버리는 **'오류의 자기 파괴(Miscorrection)'**를 일으킨다. 반드시 블록 코드(인터리빙)나 CRC와 융합하여 써야 한다.
 
-- **📢 섹션 요약 비유**: [[197_burst_error_detection_crc|버스트 에러]]에 해밍 코드를 쓰는 것은, 피부에 난 뾰루지 하나(1비트 에러)를 짜도록 프로그램된 로봇 수술기에게 전신 화상 환자([[197_burst_error_detection_crc|버스트 에러]])를 맡기는 것과 같다. 기계는 에러를 감당하지 못하고 멀쩡한 살까지 도려내 버린다.
+- **📢 섹션 요약 비유**: [버스트 에러](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/)에 해밍 코드를 쓰는 것은, 피부에 난 뾰루지 하나(1비트 에러)를 짜도록 프로그램된 로봇 수술기에게 전신 화상 환자([버스트 에러](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/))를 맡기는 것과 같다. 기계는 에러를 감당하지 못하고 멀쩡한 살까지 도려내 버린다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-해밍 코드는 [[001_dikw_pyramid|데이터]]가 망가졌을 때 송신자에게 되돌아가는(Feedback) 비용을 완전히 제거함으로써 시스템 스루풋([[139_throughput|Throughput]])을 우주 끝까지 밀어 올린 선구적인 아키텍처다.
+해밍 코드는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 망가졌을 때 송신자에게 되돌아가는(Feedback) 비용을 완전히 제거함으로써 시스템 스루풋([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 우주 끝까지 밀어 올린 선구적인 아키텍처다.
 
-[[148_5g_embb_urllc_mmtc|초고속]] [[259_cache_memory|캐시 메모리]], [[592_satellite_communication_characteristics|위성 통신]], 플래시 메모리의 낸드 플립(NAND Flip) 방어 등 [[001_dikw_pyramid|데이터]]가 극한의 속도로 쏟아지거나 재전송이 물리적으로 불가능한 모든 영역에서 해밍 코드는 '현장 즉결 수선'이라는 놀라운 기적을 매일 수십억 번씩 수행하고 있다. 결론적으로 해밍 코드는 "에러는 피할 수 없지만, 스스로 치유할 수 있다"는 컴퓨터 공학의 철학을 완성한 쇳덩어리 속의 면역 체계다.
+[초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [캐시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/259_cache_memory/), [위성 통신](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/592_satellite_communication_characteristics/), 플래시 메모리의 낸드 플립(NAND Flip) 방어 등 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 극한의 속도로 쏟아지거나 재전송이 물리적으로 불가능한 모든 영역에서 해밍 코드는 '현장 즉결 수선'이라는 놀라운 기적을 매일 수십억 번씩 수행하고 있다. 결론적으로 해밍 코드는 "에러는 피할 수 없지만, 스스로 치유할 수 있다"는 컴퓨터 공학의 철학을 완성한 쇳덩어리 속의 면역 체계다.
 
-- **📢 섹션 요약 비유**: 해밍 코드는 우리 몸의 '백혈구'다. 외부에서 [[589_virus|바이러스]](에러)가 침투하면 뇌에 허락을 구하지 않고 현장에 있는 백혈구(패리티 조합)가 스스로 [[589_virus|바이러스]]를 공격해 치료함으로써 몸(시스템)의 건강을 실시간으로 지킨다.
+- **📢 섹션 요약 비유**: 해밍 코드는 우리 몸의 '백혈구'다. 외부에서 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/)(에러)가 침투하면 뇌에 허락을 구하지 않고 현장에 있는 백혈구(패리티 조합)가 스스로 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/)를 공격해 치료함으로써 몸(시스템)의 건강을 실시간으로 지킨다.
 
 ---
 
@@ -99,8 +103,8 @@ tags:
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **증후군 (Syndrome)** | 수신된 해밍 코드 전체를 패리티 검사하여 뱉어내는 이진수 결과값. 이 값이 0이 아니면 에러 주소를 뜻함 |
-| **SEC-DED (Single Error Correction, Double [[040_error_detection|Error Detection]])** | 기본 해밍 코드 끝에 패리티를 하나 더 붙여, 1비트는 고치고 2비트 고장은 경고할 수 있도록 확장한 엔터프라이즈 램의 표준 규격 |
-| **[[110_hamming_distance|해밍 거리]] ([[110_hamming_distance|Hamming Distance]])** | 해밍 코드가 에러를 정정할 수 있는 수학적 근간. 해밍 코드의 유효 [[001_dikw_pyramid|데이터]] 간 최소 [[110_hamming_distance|해밍 거리]]는 '3'이 확보됨 |
+| **SEC-DED (Single Error Correction, Double [Error Detection](/knowledge-base/studynote/02_operating_system/01_overview_architecture/040_error_detection/))** | 기본 해밍 코드 끝에 패리티를 하나 더 붙여, 1비트는 고치고 2비트 고장은 경고할 수 있도록 확장한 엔터프라이즈 램의 표준 규격 |
+| **[해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/) ([Hamming Distance](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/))** | 해밍 코드가 에러를 정정할 수 있는 수학적 근간. 해밍 코드의 유효 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 간 최소 [해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)는 '3'이 확보됨 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -120,13 +124,13 @@ SEC-DED 설계 적용 (엔터프라이즈 서버 ECC D램 아키텍처 표준화
 다중 버스트 에러 극복을 위한 리드-솔로몬 / 터보 코드 융합
 ```
 
-이 흐름도는 "검출의 시대 → 단일 정정의 시대 → 다중 검출/정정 혼합의 시대 → 블록단위 대규모 정정의 시대"로 진화하는 하드웨어 [[001_dikw_pyramid|데이터]] 방어망의 발전 궤적을 보여준다.
+이 흐름도는 "검출의 시대 → 단일 정정의 시대 → 다중 검출/정정 혼합의 시대 → 블록단위 대규모 정정의 시대"로 진화하는 하드웨어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 방어망의 발전 궤적을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 해밍 코드는 컴퓨터의 [[001_dikw_pyramid|데이터]] 블록 안에 숨어있는 '똑똑한 꼬마 의사 삼총사'예요.
+1. 해밍 코드는 컴퓨터의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록 안에 숨어있는 '똑똑한 꼬마 의사 삼총사'예요.
 2. 각 의사들은 자기만의 구역을 감시하다가, 만약 숫자가 0에서 1로 아프게 바뀌면(에러) 세 의사의 증언을 모아요.
-3. 증언을 합치면 "아! 5번째 [[073_bit|비트]]가 아프구나!" 하고 정확한 위치를 찾아내서 즉시 밴드를 붙여 원래대로 고쳐버린답니다!
+3. 증언을 합치면 "아! 5번째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 아프구나!" 하고 정확한 위치를 찾아내서 즉시 밴드를 붙여 원래대로 고쳐버린답니다!
 
 ---
 
@@ -134,7 +138,7 @@ SEC-DED 설계 적용 (엔터프라이즈 서버 ECC D램 아키텍처 표준화
 
 **진행 상황**: 111 / 803
 
-← **이전**: [[110_hamming_distance|110. 해밍 거리 (Hamming Distance)]]
-**다음**: [[112_checksum|112. 체크섬 (Checksum)]] →
+← **이전**: [110. 해밍 거리 (Hamming Distance)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)
+**다음**: [112. 체크섬 (Checksum)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) →
 
 ---

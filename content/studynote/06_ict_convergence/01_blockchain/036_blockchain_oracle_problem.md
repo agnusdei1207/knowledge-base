@@ -1,14 +1,18 @@
----
-title: 036. 블록체인 오라클 문제 (Blockchain Oracle Problem)
-date: '2026-03-03'
-tags:
-- studynote-ict-convergence
----
++++
+title = "036. 블록체인 오라클 문제 (Blockchain Oracle Problem)"
+date = 2026-03-03
+
+[taxonomies]
+tags = ["studynote-ict-convergence"]
+
+[extra]
+tags = ["studynote-ict-convergence"]
++++
 
 > **핵심 인사이트**
-> 1. [[004_blockchain|블록체인]] 오라클 문제([[188_pl_sql_t_sql_procedural|Oracle]] Problem)는 스마트 컨트랙트가 [[004_blockchain|블록체인]] 외부(실세계) [[001_dikw_pyramid|데이터]]를 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 있게 가져올 수 없다는 구조적 한계로, [[004_blockchain|블록체인]]의 결정론적 실행 환경과 비결정론적 외부 세계 사이의 간극이다.
-> 2. 스마트 컨트랙트는 [[004_blockchain|블록체인]] 내부 상태만 [[395_verification_process_review|검증]] 가능하므로, 외부 [[001_dikw_pyramid|데이터]](가격·날씨·스포츠 결과)를 체인으로 가져오는 오라클이 단일 실패 지점(Single Point of Failure)이 될 수 있다.
-> 3. [[010_decentralization|탈중앙화]] 오라클 네트워크(DON, Decentralized [[188_pl_sql_t_sql_procedural|Oracle]] Network)인 Chainlink는 다수의 독립 노드가 외부 [[001_dikw_pyramid|데이터]]를 집계·[[395_verification_process_review|검증]]해 오라클 조작 위험을 분산한다.
+> 1. [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 오라클 문제([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) Problem)는 스마트 컨트랙트가 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 외부(실세계) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 있게 가져올 수 없다는 구조적 한계로, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 결정론적 실행 환경과 비결정론적 외부 세계 사이의 간극이다.
+> 2. 스마트 컨트랙트는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 내부 상태만 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능하므로, 외부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(가격·날씨·스포츠 결과)를 체인으로 가져오는 오라클이 단일 실패 지점(Single Point of Failure)이 될 수 있다.
+> 3. [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 오라클 네트워크(DON, Decentralized [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) Network)인 Chainlink는 다수의 독립 노드가 외부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 집계·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해 오라클 조작 위험을 분산한다.
 
 ---
 
@@ -34,10 +38,10 @@ tags:
 | 오라클 유형     | 방향          | 예시                  |
 |--------------|-------------|----------------------|
 | 입력 오라클    | 외부 -> 체인  | 가격 피드, 날씨, 결과  |
-| 출력 오라클    | 체인 -> 외부  | 결제 [[507_acid_properties|트리거]], [[101_iot_concept|IoT]] 제어  |
-| 크로스체인     | 체인 -> 체인  | [[260_bridge_pattern_abstraction_implementation|브리지]], 멀티체인 [[001_dikw_pyramid|데이터]] |
+| 출력 오라클    | 체인 -> 외부  | 결제 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/), [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 제어  |
+| 크로스체인     | 체인 -> 체인  | [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/), 멀티체인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 
-> 📢 **섹션 요약 비유**: 법원([[004_blockchain|블록체인]])은 제출된 증거만 판단할 수 있고, 증거를 수집해 제출하는 역할(오라클)은 외부에 의존 — 증거 조작이 판결을 바꾼다.
+> 📢 **섹션 요약 비유**: 법원([블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/))은 제출된 증거만 판단할 수 있고, 증거를 수집해 제출하는 역할(오라클)은 외부에 의존 — 증거 조작이 판결을 바꾼다.
 
 ---
 
@@ -63,7 +67,7 @@ tags:
 
 ---
 
-## III. Chainlink — [[010_decentralization|탈중앙화]] 오라클 네트워크
+## III. Chainlink — [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 오라클 네트워크
 
 ```
 Chainlink (DON) 구조:
@@ -88,15 +92,15 @@ Chainlink 오라클 노드 (다수, 독립)
 | Chainlink 특성    | 설명                         |
 |-----------------|------------------------------|
 | LINK 토큰        | 오라클 노드 보상 + 슬래싱      |
-| 평판 시스템      | 노드 [[282_performance_tactics|성능]]·[[002_bigdata_5v|정확성]] 기록          |
-| 임계값 서명       | 다수 노드 합의로 [[001_dikw_pyramid|데이터]] 확정    |
-| [[371_vrf_virtual_routing_and_forwarding|VRF]]              | [[395_verification_process_review|검증]] 가능한 난수 [[087_process_state_transition|생성]]          |
+| 평판 시스템      | 노드 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·[정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/) 기록          |
+| 임계값 서명       | 다수 노드 합의로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 확정    |
+| [VRF](/knowledge-base/studynote/03_network/07_network_layer_routing/371_vrf_virtual_routing_and_forwarding/)              | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 난수 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)          |
 
 > 📢 **섹션 요약 비유**: 여러 독립 증인이 각자 진술하고 다수결로 판결 — 한 명을 매수해도 결과를 바꿀 수 없다.
 
 ---
 
-## [[288_version_ihl_tos_total_length|IV]]. TWAP 오라클 (시간 가중 평균)
+## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). TWAP 오라클 (시간 가중 평균)
 
 ```
 Flash Loan 공격 대응:
@@ -116,16 +120,16 @@ TWAP (Time-Weighted Average Price):
 
 ---
 
-## V. 실무 시나리오 — [[033_defi_decentralized_finance|DeFi]] 가격 오라클
+## V. 실무 시나리오 — [DeFi](/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/) 가격 오라클
 
-| [[295_protocol_field_tcp_udp_icmp|프로토콜]]     | 오라클 [[268_strategy_pattern|전략]]                      |
+| [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)     | 오라클 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)                      |
 |------------|--------------------------------|
-| Aave        | Chainlink + 비상 오라클 [[456_dual_redundancy|이중화]]  |
+| Aave        | Chainlink + 비상 오라클 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)  |
 | Compound    | Open Price Feed + Chainlink    |
 | Uniswap v3  | TWAP 내장 오라클               |
-| MakerDAO    | 다수 가격 피드 + 1시간 [[015_지연_데이터_관점|지연]] 오라클|
+| MakerDAO    | 다수 가격 피드 + 1시간 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 오라클|
 
-> �� **섹션 요약 비유**: 아무리 좋은 스마트 컨트랙트도 입력 [[001_dikw_pyramid|데이터]]가 신뢰할 수 없으면 무용지물 — 오라클 보안이 [[033_defi_decentralized_finance|DeFi]] 보안의 핵심이다.
+> �� **섹션 요약 비유**: 아무리 좋은 스마트 컨트랙트도 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 신뢰할 수 없으면 무용지물 — 오라클 보안이 [DeFi](/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/) 보안의 핵심이다.
 
 ---
 
@@ -182,8 +186,8 @@ AI 데이터 검증 오라클 연구
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [[004_blockchain|블록체인]]은 자기 안에서 일어난 일만 믿을 수 있고, 바깥 세상의 정보는 믿기 어려워요.
-2. 오라클은 바깥 정보를 [[004_blockchain|블록체인]]에 전달하는 연락책인데, 이 연락책이 거짓말을 하면 큰 문제가 생겨요.
+1. [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 자기 안에서 일어난 일만 믿을 수 있고, 바깥 세상의 정보는 믿기 어려워요.
+2. 오라클은 바깥 정보를 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 전달하는 연락책인데, 이 연락책이 거짓말을 하면 큰 문제가 생겨요.
 3. 그래서 Chainlink처럼 여러 연락책이 독립적으로 정보를 모아 다수결로 확인하는 방법을 써요!
 
 ---
@@ -192,7 +196,7 @@ AI 데이터 검증 오라클 연구
 
 **진행 상황**: 36 / 552
 
-← **이전**: [[035_flash_loan|035. 플래시 론 (Flash Loan)]]
-**다음**: [[037_zero_knowledge_proof_zkp|037. ZKP — 영지식 증명 (Zero-Knowledge Proof)]] →
+← **이전**: [035. 플래시 론 (Flash Loan)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/035_flash_loan/)
+**다음**: [037. ZKP — 영지식 증명 (Zero-Knowledge Proof)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/037_zero_knowledge_proof_zkp/) →
 
 ---

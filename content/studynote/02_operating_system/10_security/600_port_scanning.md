@@ -1,25 +1,29 @@
----
-title: 600. 포트 스캐닝 (Port Scanning) 도구 원리
-date: '2026-05-09'
-tags:
-- studynote-operating-system
----
++++
+title = "600. 포트 스캐닝 (Port Scanning) 도구 원리"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[446_port_and_bus|포트]] 스캐닝 ([[446_port_and_bus|Port]] Scanning)은 네트워크 상의 타겟 시스템이 어떤 [[090_service_kubernetes_network_load_balancing|서비스]](애플리케이션)를 실행 중인지, [[690_firewall_generation_evolution|방화벽]] 규칙은 어떻게 설정되어 있는지 파악하기 위해 각 [[446_port_and_bus|포트]]에 탐침 패킷을 보내고 응답을 분석하는 정보 수집(Reconnaissance) 활동이다.
-> 2. **가치**: [[455_penetration_testing_vulnerability_scanning|모의 해킹]]([[676_penetration_testing|Penetration Testing]]) 및 사이버 킬 체인([[199_cyber_kill_chain_mitre_attack|Cyber Kill Chain]])의 극초기 단계인 '정찰' 단계에서 시스템의 공격 표면(Attack Surface)을 파악하는 핵심 기술로, Nmap과 같은 도구가 [[001_operating_system_purpose|운영체제]] (OS, [[001_operating_system_purpose|Operating System]]) [[022_kernel_role|커널]]의 [[405_tcp_transmission_control_protocol_connection_oriented|TCP]]/IP 응답 메커니즘 차이를 교묘히 활용하여 정보를 빼낸다.
-> 3. **융합**: 컴퓨터구조 및 OS의 [[225_raw|raw]] [[125_socket|socket]] 제어 권한, [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] [[186_character_stuffing_dle_stx_etx|플래그]](SYN, ACK, FIN, RST)에 따른 [[022_kernel_role|커널]]의 [[632_state_transition_diagram_testing|상태 전이]]([[272_state_pattern|State]] Machine) 메커니즘을 융합적으로 이용하며, [[601_ids_ips_syscall_tracing|IDS]]([[601_ids_ips_syscall_tracing|침입 탐지 시스템]])를 우회하기 위한 은닉 스캔(Stealth Scan) 기술로 발전했다.
+> 1. **본질**: [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 스캐닝 ([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) Scanning)은 네트워크 상의 타겟 시스템이 어떤 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(애플리케이션)를 실행 중인지, [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 규칙은 어떻게 설정되어 있는지 파악하기 위해 각 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 탐침 패킷을 보내고 응답을 분석하는 정보 수집(Reconnaissance) 활동이다.
+> 2. **가치**: [모의 해킹](/knowledge-base/studynote/04_software_engineering/11_testing_validation/455_penetration_testing_vulnerability_scanning/)([Penetration Testing](/knowledge-base/studynote/09_security/13_secops_ir_forensics/676_penetration_testing/)) 및 사이버 킬 체인([Cyber Kill Chain](/knowledge-base/studynote/12_it_management/05_security_compliance/199_cyber_kill_chain_mitre_attack/))의 극초기 단계인 '정찰' 단계에서 시스템의 공격 표면(Attack Surface)을 파악하는 핵심 기술로, Nmap과 같은 도구가 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (OS, [Operating System](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 응답 메커니즘 차이를 교묘히 활용하여 정보를 빼낸다.
+> 3. **융합**: 컴퓨터구조 및 OS의 [raw](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/) [socket](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 제어 권한, [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)(SYN, ACK, FIN, RST)에 따른 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Machine) 메커니즘을 융합적으로 이용하며, [IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/)([침입 탐지 시스템](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/))를 우회하기 위한 은닉 스캔(Stealth Scan) 기술로 발전했다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 **개념 및 정의**
-[[446_port_and_bus|포트]] 스캐닝 ([[446_port_and_bus|Port]] Scanning)은 대상 컴퓨터(IP)의 0번부터 65535번까지 존재하는 논리적 [[446_port_and_bus|포트]] ([[446_port_and_bus|Port]]) 번호에 순차적 또는 무작위로 네트워크 패킷을 전송한 뒤, 돌아오는 패킷(응답)의 유무 및 [[186_character_stuffing_dle_stx_etx|플래그]]([[186_character_stuffing_dle_stx_etx|Flag]]) 형태를 분석하여 해당 [[446_port_and_bus|포트]]가 열려있는지(Open), 닫혀있는지(Closed), 아니면 [[690_firewall_generation_evolution|방화벽]]에 의해 필터링되고 있는지(Filtered)를 식별하는 네트워크 분석 기법이다.
+[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 스캐닝 ([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) Scanning)은 대상 컴퓨터(IP)의 0번부터 65535번까지 존재하는 논리적 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) ([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)) 번호에 순차적 또는 무작위로 네트워크 패킷을 전송한 뒤, 돌아오는 패킷(응답)의 유무 및 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)([Flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)) 형태를 분석하여 해당 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 열려있는지(Open), 닫혀있는지(Closed), 아니면 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)에 의해 필터링되고 있는지(Filtered)를 식별하는 네트워크 분석 기법이다.
 
 **필요성 및 등장 배경**
-해커가 성(시스템)을 공격하기 전, 성벽에 어느 문([[446_port_and_bus|포트]])이 열려 있는지, 그 문 뒤에 어떤 경비병([[288_version_ihl_tos_total_length|버전]]이 낮은 취약한 [[090_service_kubernetes_network_load_balancing|서비스]] [[295_protocol_field_tcp_udp_icmp|프로토콜]])이 서 있는지를 모르면 공격 페이로드(Exploit)를 구성할 수 없다. 방어자 입장에서도 관리자 모르게 임의로 열려 있는 [[737_backdoor_c2_beacon_behavior_analysis|백도어]]([[727_backdoor|Backdoor]]) [[446_port_and_bus|포트]]나 잘못 설정된 [[690_firewall_generation_evolution|방화벽]] [[164_policy|정책]]을 [[606_auditing_linux_auditd|감사]]([[363_audit|Audit]])하기 위해 능동적인 스캐닝이 필요하다. 과거에는 단순히 연결을 맺어보는 방식([[405_tcp_transmission_control_protocol_connection_oriented|TCP]] Connect)을 썼으나, 서버 [[568_logs_distributed_logging_elk_fluentd|로그]](Log)에 기록이 남는 한계를 극복하기 위해 OS [[022_kernel_role|커널]]의 [[295_protocol_field_tcp_udp_icmp|프로토콜]] 허점을 찌르는 '은닉 스캔 (Stealth Scan)' 기법들이 Nmap을 중심으로 대거 등장하게 되었다.
+해커가 성(시스템)을 공격하기 전, 성벽에 어느 문([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))이 열려 있는지, 그 문 뒤에 어떤 경비병([버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이 낮은 취약한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))이 서 있는지를 모르면 공격 페이로드(Exploit)를 구성할 수 없다. 방어자 입장에서도 관리자 모르게 임의로 열려 있는 [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/)([Backdoor](/knowledge-base/studynote/09_security/15_malware_attack_vectors/727_backdoor/)) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)나 잘못 설정된 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))하기 위해 능동적인 스캐닝이 필요하다. 과거에는 단순히 연결을 맺어보는 방식([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Connect)을 썼으나, 서버 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(Log)에 기록이 남는 한계를 극복하기 위해 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 허점을 찌르는 '은닉 스캔 (Stealth Scan)' 기법들이 Nmap을 중심으로 대거 등장하게 되었다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -43,28 +47,28 @@ tags:
 └─────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** [[446_port_and_bus|포트]] 스캐닝 도구의 핵심 알고리즘은 패킷 전송 후 OS [[022_kernel_role|커널]]이 뱉어내는 이 3가지 상태(Open, Closed, Filtered)의 응답 패턴을 해석하는 것이다. 스캐너는 마치 노크를 하는 사람과 같다. 노크를 했을 때 "들어오세요(SYN/ACK)" 하면 Open, "아무도 없어요 돌아가세요(RST)" 하면 Closed다. 그런데 문을 두드렸는데 아무런 대답도 없고 쥐죽은 듯 조용하다면(No Response), 아예 집 앞 철문([[690_firewall_generation_evolution|방화벽]])에서 경비원에게 차단당해 노크 소리조차 집에 닿지 않았음(Filtered)을 유추할 수 있는 것이다.
+**[다이어그램 해설]** [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 스캐닝 도구의 핵심 알고리즘은 패킷 전송 후 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 뱉어내는 이 3가지 상태(Open, Closed, Filtered)의 응답 패턴을 해석하는 것이다. 스캐너는 마치 노크를 하는 사람과 같다. 노크를 했을 때 "들어오세요(SYN/ACK)" 하면 Open, "아무도 없어요 돌아가세요(RST)" 하면 Closed다. 그런데 문을 두드렸는데 아무런 대답도 없고 쥐죽은 듯 조용하다면(No Response), 아예 집 앞 철문([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))에서 경비원에게 차단당해 노크 소리조차 집에 닿지 않았음(Filtered)을 유추할 수 있는 것이다.
 
-- **📢 섹션 요약 비유**: 도둑이 캄캄한 밤 건물 밖에서 100개의 창문에 하나씩 작은 돌맹이를 던져보고, 안에서 불이 켜지거나(열림), 창문에 맞고 튕겨 나오거나(닫힘), 아니면 소리 없이 허공으로 사라지는지([[690_firewall_generation_evolution|방화벽]] 망)를 기록하여 침입할 창문을 고르는 작업과 같습니다.
+- **📢 섹션 요약 비유**: 도둑이 캄캄한 밤 건물 밖에서 100개의 창문에 하나씩 작은 돌맹이를 던져보고, 안에서 불이 켜지거나(열림), 창문에 맞고 튕겨 나오거나(닫힘), 아니면 소리 없이 허공으로 사라지는지([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 망)를 기록하여 침입할 창문을 고르는 작업과 같습니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [[446_port_and_bus|포트]] 스캐닝 주요 기법 비교 요소
+### [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 스캐닝 주요 기법 비교 요소
 
-OS [[022_kernel_role|커널]]의 [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] 연결 수립(3-Way Handshake) 메커니즘을 어떻게 조작하느냐에 따라 스캐닝 기법이 갈라진다.
+OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 연결 수립(3-Way Handshake) 메커니즘을 어떻게 조작하느냐에 따라 스캐닝 기법이 갈라진다.
 
-| 스캔 기법 | 동작 방식 ([[405_tcp_transmission_control_protocol_connection_oriented|TCP]] [[186_character_stuffing_dle_stx_etx|플래그]] 전송) | [[568_logs_distributed_logging_elk_fluentd|로그]] 기록 유무 | 속도 및 은닉성 | 원리 및 비유 |
+| 스캔 기법 | 동작 방식 ([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 전송) | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기록 유무 | 속도 및 은닉성 | 원리 및 비유 |
 |:---|:---|:---|:---|:---|
-| **[[405_tcp_transmission_control_protocol_connection_oriented|TCP]] Connect 스캔** | SYN → SYN/ACK 수신 → ACK 전송 (정상 3-Way 연결 완료) | **기록됨** (애플리케이션 [[568_logs_distributed_logging_elk_fluentd|로그]]에 남음) | 속도 빠름, 은닉성 낮음 (일반 사용자 권한 가능) | 가게 문을 열고 들어가서 영업하는지 물어보고 정식으로 인사하고 나오기 |
-| **[[405_tcp_transmission_control_protocol_connection_oriented|TCP]] SYN 스캔** (Half-open) | SYN → SYN/ACK 수신 시 → **RST 전송** (연결 강제 종료) | **기록 안 됨** (연결 미완성으로 App [[568_logs_distributed_logging_elk_fluentd|로그]] 부재) | 속도 매우 빠름, 은닉성 높음 (루트 권한 필요) | 가게 문을 반쯤 열어 불이 켜진 것만 슬쩍 확인하고 문을 쾅 닫고 도망가기 |
-| **FIN / NULL / XMAS** | 잘못된 형태의 [[186_character_stuffing_dle_stx_etx|플래그]] 전송 (FIN만 켜거나 모두 켜기) | 기록 안 됨 | [[690_firewall_generation_evolution|방화벽]]의 상태유지(Stateful) 기능 우회 용도 | 규칙(RFC)의 허점을 이용해 비정상적인 질문을 던져 반응 살피기 |
-| **[[406_udp_user_datagram_protocol_connectionless_fast|UDP]] 스캔** | [[406_udp_user_datagram_protocol_connectionless_fast|UDP]] 패킷 전송 → 응답 없으면 Open/Filtered, [[318_icmp_internet_control_message_protocol_diagnostics|ICMP]] 에러 오면 Closed | 기록 여부 알기 어려움 | 속도 매우 느림 ([[318_icmp_internet_control_message_protocol_diagnostics|ICMP]] Rate Limit 때문) | 응답을 보장하지 않는 [[406_udp_user_datagram_protocol_connectionless_fast|UDP]] 특성상 탐지가 까다로움 |
+| **[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Connect 스캔** | SYN → SYN/ACK 수신 → ACK 전송 (정상 3-Way 연결 완료) | **기록됨** (애플리케이션 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에 남음) | 속도 빠름, 은닉성 낮음 (일반 사용자 권한 가능) | 가게 문을 열고 들어가서 영업하는지 물어보고 정식으로 인사하고 나오기 |
+| **[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) SYN 스캔** (Half-open) | SYN → SYN/ACK 수신 시 → **RST 전송** (연결 강제 종료) | **기록 안 됨** (연결 미완성으로 App [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 부재) | 속도 매우 빠름, 은닉성 높음 (루트 권한 필요) | 가게 문을 반쯤 열어 불이 켜진 것만 슬쩍 확인하고 문을 쾅 닫고 도망가기 |
+| **FIN / NULL / XMAS** | 잘못된 형태의 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 전송 (FIN만 켜거나 모두 켜기) | 기록 안 됨 | [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)의 상태유지(Stateful) 기능 우회 용도 | 규칙(RFC)의 허점을 이용해 비정상적인 질문을 던져 반응 살피기 |
+| **[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 스캔** | [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 패킷 전송 → 응답 없으면 Open/Filtered, [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) 에러 오면 Closed | 기록 여부 알기 어려움 | 속도 매우 느림 ([ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) Rate Limit 때문) | 응답을 보장하지 않는 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 특성상 탐지가 까다로움 |
 
 ### 심층 동작 원리: SYN 스캔 (Half-Open Scan) 메커니즘
 
-가장 널리 쓰이며 강력한 **[[405_tcp_transmission_control_protocol_connection_oriented|TCP]] SYN 스캔(Nmap -sS)** 은 OS [[022_kernel_role|커널]]의 [[160_session_controlling_terminal|세션]] 성립 로직을 중간에 잘라버려 애플리케이션 계층(L7)의 [[606_auditing_linux_auditd|감사]] [[568_logs_distributed_logging_elk_fluentd|로그]]를 회피하는 우아한 기법이다. 이를 구현하려면 스캐너 프로그램이 [[001_operating_system_purpose|운영체제]]의 기본 [[405_tcp_transmission_control_protocol_connection_oriented|TCP]]/IP 스택을 우회하여 헤더를 직접 조작할 수 있는 원시 [[125_socket|소켓]]([[225_raw|Raw]] [[125_socket|Socket]], 루트 권한 필요) 제어 권한을 가져야 한다.
+가장 널리 쓰이며 강력한 **[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) SYN 스캔(Nmap -sS)** 은 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 성립 로직을 중간에 잘라버려 애플리케이션 계층(L7)의 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 회피하는 우아한 기법이다. 이를 구현하려면 스캐너 프로그램이 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 기본 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 스택을 우회하여 헤더를 직접 조작할 수 있는 원시 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)([Raw](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/) [Socket](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/), 루트 권한 필요) 제어 권한을 가져야 한다.
 
 ```text
 ┌───────────────────────────────────────────────────────────────┐
@@ -93,25 +97,25 @@ OS [[022_kernel_role|커널]]의 [[405_tcp_transmission_control_protocol_connect
 └───────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 이 타이밍 도식은 "은닉성(Stealth)"의 비밀이 애플리케이션(L7)과 [[022_kernel_role|커널]](L4) 사이의 경계에 있음을 설명한다. 일반적인 [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] Connect 스캔은 3-Way Handshake를 완수(ACK 송신)하므로 타겟 시스템의 웹 서버나 DB [[090_service_kubernetes_network_load_balancing|서비스]]까지 [[160_session_controlling_terminal|세션]]이 올라가 접속 [[568_logs_distributed_logging_elk_fluentd|로그]](예: `access.log`)가 찍힌다. 그러나 SYN 스캔은 타겟 OS [[022_kernel_role|커널]]이 `SYN/ACK`를 던지는 순간 스캐너가 [[446_port_and_bus|포트]]가 열려있다는 확신을 얻고, 비정상적 종료를 뜻하는 `RST(Reset)` 패킷을 쏴버린다. 타겟의 OS [[022_kernel_role|커널]]은 이 연결을 미완성(실패)으로 간주하여 상위 애플리케이션으로 올려보내지 않고 [[022_kernel_role|커널]] 단에서 [[160_session_controlling_terminal|세션]]을 찢어버린다. 따라서 웹 서버 [[568_logs_distributed_logging_elk_fluentd|로그]]에는 해커의 발자국이 전혀 남지 않는 완벽한 정찰이 가능해진다.
+**[다이어그램 해설]** 이 타이밍 도식은 "은닉성(Stealth)"의 비밀이 애플리케이션(L7)과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(L4) 사이의 경계에 있음을 설명한다. 일반적인 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Connect 스캔은 3-Way Handshake를 완수(ACK 송신)하므로 타겟 시스템의 웹 서버나 DB [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)까지 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)이 올라가 접속 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(예: `access.log`)가 찍힌다. 그러나 SYN 스캔은 타겟 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 `SYN/ACK`를 던지는 순간 스캐너가 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 열려있다는 확신을 얻고, 비정상적 종료를 뜻하는 `RST(Reset)` 패킷을 쏴버린다. 타겟의 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이 연결을 미완성(실패)으로 간주하여 상위 애플리케이션으로 올려보내지 않고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 단에서 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 찢어버린다. 따라서 웹 서버 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에는 해커의 발자국이 전혀 남지 않는 완벽한 정찰이 가능해진다.
 
-- **📢 섹션 요약 비유**: 상대방에게 전화를 걸어(SYN) 수화기 너머로 "여보세요(SYN/ACK)" 하는 목소리가 들리자마자 바로 전화를 확 끊어버리는(RST) 방식입니다. 목소리를 들었으니 상대가 집에 있다는 건 확인했지만, 통화가 성립되지 않아 통신사 요금 명세서(서버 [[568_logs_distributed_logging_elk_fluentd|로그]])에는 기록되지 않는 꼼수와 같습니다.
+- **📢 섹션 요약 비유**: 상대방에게 전화를 걸어(SYN) 수화기 너머로 "여보세요(SYN/ACK)" 하는 목소리가 들리자마자 바로 전화를 확 끊어버리는(RST) 방식입니다. 목소리를 들었으니 상대가 집에 있다는 건 확인했지만, 통화가 성립되지 않아 통신사 요금 명세서(서버 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))에는 기록되지 않는 꼼수와 같습니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### Stealth Scan (은닉 스캔) 기법들의 RFC [[295_protocol_field_tcp_udp_icmp|프로토콜]] 허점 융합
+### Stealth Scan (은닉 스캔) 기법들의 RFC [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 허점 융합
 
-[[690_firewall_generation_evolution|방화벽]]([[690_firewall_generation_evolution|Firewall]])이 발전하여 "SYN 패킷이 들어오면 무조건 차단(Drop)"하는 [[164_policy|정책]]을 적용하자, 해커들은 [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] [[295_protocol_field_tcp_udp_icmp|프로토콜]] 명세서(RFC 793)에 정의된 "예외 처리" 규칙의 허점을 융합적으로 이용하기 시작했다. 이것이 FIN, NULL, XMAS 스캔이다.
+[방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([Firewall](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))이 발전하여 "SYN 패킷이 들어오면 무조건 차단(Drop)"하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 적용하자, 해커들은 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 명세서(RFC 793)에 정의된 "예외 처리" 규칙의 허점을 융합적으로 이용하기 시작했다. 이것이 FIN, NULL, XMAS 스캔이다.
 
-| 스캔 유형 | [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] 헤더 [[186_character_stuffing_dle_stx_etx|플래그]] 세팅 | RFC 793 기반 타겟 [[022_kernel_role|커널]] 반응 (Open 시) | 타겟 [[022_kernel_role|커널]] 반응 (Closed 시) |
+| 스캔 유형 | [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 세팅 | RFC 793 기반 타겟 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 반응 (Open 시) | 타겟 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 반응 (Closed 시) |
 |:---|:---|:---|:---|
-| **NULL 스캔** | 모든 [[186_character_stuffing_dle_stx_etx|플래그]](SYN, ACK, FIN 등) `0` (Off) | 응답 없음 (무시) | **RST** 패킷 반환 |
-| **FIN 스캔** | `FIN` [[186_character_stuffing_dle_stx_etx|플래그]]만 `1` (연결 종료) | 응답 없음 (무시) | **RST** 패킷 반환 |
-| **XMAS 스캔** | `FIN`, `URG`, `PSH` [[186_character_stuffing_dle_stx_etx|플래그]] 켜기 (트리장식) | 응답 없음 (무시) | **RST** 패킷 반환 |
+| **NULL 스캔** | 모든 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)(SYN, ACK, FIN 등) `0` (Off) | 응답 없음 (무시) | **RST** 패킷 반환 |
+| **FIN 스캔** | `FIN` [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)만 `1` (연결 종료) | 응답 없음 (무시) | **RST** 패킷 반환 |
+| **XMAS 스캔** | `FIN`, `URG`, `PSH` [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 켜기 (트리장식) | 응답 없음 (무시) | **RST** 패킷 반환 |
 
-**역발상 메커니즘**: 정상적인 [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] 규약에 따르면, 연결을 맺지도 않았는데 난데없이 FIN이나 이상한 [[186_character_stuffing_dle_stx_etx|플래그]] 조합이 날아올 경우, [[446_port_and_bus|포트]]가 열려(Open) 있으면 [[022_kernel_role|커널]]은 "이게 무슨 뚱딴지같은 소리야" 하고 **패킷을 조용히 무시(Drop)** 한다. 하지만 [[446_port_and_bus|포트]]가 닫혀(Closed) 있으면 [[022_kernel_role|커널]]은 원칙에 따라 "여긴 닫혀있다"며 친절하게 **RST 패킷**을 반환한다. 스캐너는 이 원리를 역이용하여, 아무 응답이 없으면 Open(또는 Filtered)으로 역산별하는 고도의 심리전을 구사한다.
+**역발상 메커니즘**: 정상적인 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 규약에 따르면, 연결을 맺지도 않았는데 난데없이 FIN이나 이상한 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 조합이 날아올 경우, [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 열려(Open) 있으면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 "이게 무슨 뚱딴지같은 소리야" 하고 **패킷을 조용히 무시(Drop)** 한다. 하지만 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 닫혀(Closed) 있으면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 원칙에 따라 "여긴 닫혀있다"며 친절하게 **RST 패킷**을 반환한다. 스캐너는 이 원리를 역이용하여, 아무 응답이 없으면 Open(또는 Filtered)으로 역산별하는 고도의 심리전을 구사한다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -136,54 +140,54 @@ OS [[022_kernel_role|커널]]의 [[405_tcp_transmission_control_protocol_connect
 └─────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 초창기 상태 비저장([[239_stateless_redis|Stateless]]) [[690_firewall_generation_evolution|방화벽]]들은 단순히 "SYN 비트가 켜진 패킷(새로운 연결 시도)만 외부에서 내부로 못 들어오게 막자"는 1차원적 룰을 세웠다. XMAS 스캔은 크리스마스 트리에 불을 모두 켠 것처럼 FIN, URG, PSH [[186_character_stuffing_dle_stx_etx|플래그]]를 모두 켜서 보낸다. [[690_firewall_generation_evolution|방화벽]]은 이 패킷에 SYN 비트가 없으므로 기존에 연결된 [[160_session_controlling_terminal|세션]]의 일부라 착각하고 통과시켜 버린다. 그리고 목적지 서버의 OS는 RFC 규약의 허점대로 행동하여 정보를 흘려준다. 다만 윈도우(Windows) OS는 이 RFC 규약을 따르지 않아 무조건 RST를 뱉으므로 윈도우 환경에서는 이 스캔 방식이 통하지 않는다는 OS 종속적 특징을 지닌다.
+**[다이어그램 해설]** 초창기 상태 비저장([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)들은 단순히 "SYN 비트가 켜진 패킷(새로운 연결 시도)만 외부에서 내부로 못 들어오게 막자"는 1차원적 룰을 세웠다. XMAS 스캔은 크리스마스 트리에 불을 모두 켠 것처럼 FIN, URG, PSH [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)를 모두 켜서 보낸다. [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 이 패킷에 SYN 비트가 없으므로 기존에 연결된 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)의 일부라 착각하고 통과시켜 버린다. 그리고 목적지 서버의 OS는 RFC 규약의 허점대로 행동하여 정보를 흘려준다. 다만 윈도우(Windows) OS는 이 RFC 규약을 따르지 않아 무조건 RST를 뱉으므로 윈도우 환경에서는 이 스캔 방식이 통하지 않는다는 OS 종속적 특징을 지닌다.
 
-- **📢 섹션 요약 비유**: 경비원([[690_firewall_generation_evolution|방화벽]])이 "처음 인사(SYN)하는 수상한 사람만 막아라"고 지시받았을 때, 도둑이 다짜고짜 "잘 가세요(FIN)!" 하며 들어오면 경비원이 당황해서 통과시키고 마는 규정의 허점을 찌르는 전술입니다.
+- **📢 섹션 요약 비유**: 경비원([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))이 "처음 인사(SYN)하는 수상한 사람만 막아라"고 지시받았을 때, 도둑이 다짜고짜 "잘 가세요(FIN)!" 하며 들어오면 경비원이 당황해서 통과시키고 마는 규정의 허점을 찌르는 전술입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 실무 시나리오: 최신 [[601_ids_ips_syscall_tracing|IDS]]/[[695_ips_network_intrusion_prevention_system|IPS]] 회피를 위한 정찰 전술 (Decoy & Timing)
+### 실무 시나리오: 최신 [IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/)/[IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 회피를 위한 정찰 전술 (Decoy & Timing)
 
-1. **상황**: 해커가 기업 인프라의 내부망 토폴로지를 매핑하려 하지만, 기업의 차세대 [[601_ids_ips_syscall_tracing|침입 탐지 시스템]]([[601_ids_ips_syscall_tracing|IDS]])이 단일 IP에서 다량의 [[446_port_and_bus|포트]]로 짧은 시간 내에 전송되는 SYN 스캔 패턴을 즉각 탐지하여 해당 IP를 자동차단(Ban)하고 있다.
-2. **공격자의 [[268_strategy_pattern|전략]] (Nmap 고도화 기법 적용)**:
-   - **디코이 스캔 (Decoy Scan, `-D`)**: 스캐너는 실제 자신의 IP 외에 가짜(디코이) 출발지 IP 수십 개를 섞어서 동시에 타겟에게 SYN 패킷을 날린다. 타겟의 [[601_ids_ips_syscall_tracing|IDS]] [[568_logs_distributed_logging_elk_fluentd|로그]]에는 수십 개의 IP에서 동시에 공격이 들어온 것으로 찍혀 방어자는 진짜 공격자가 누구인지 찾아내기 위해 수많은 [[119_log_analysis|로그 분석]] 시간을 허비해야 한다.
-   - **타이밍 스캔 (Timing, `-T0~T5`)**: IDS는 주로 '초당 패킷 수(PPS)' 등 시간 [[431_ssthresh_slow_start_threshold|임계치]] 기반으로 스캐닝을 탐지한다. 해커는 'Sneaky(T1)'나 'Paranoid(T0)' 옵션을 주어 5분에 한 번씩 아주 느리게 패킷을 날린다. IDS의 [[160_session_controlling_terminal|세션]] 추적 타임아웃을 교묘히 벗어나 탐지를 무력화하며 서서히 정찰 지도를 완성한다.
+1. **상황**: 해커가 기업 인프라의 내부망 토폴로지를 매핑하려 하지만, 기업의 차세대 [침입 탐지 시스템](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/)([IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/))이 단일 IP에서 다량의 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 짧은 시간 내에 전송되는 SYN 스캔 패턴을 즉각 탐지하여 해당 IP를 자동차단(Ban)하고 있다.
+2. **공격자의 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) (Nmap 고도화 기법 적용)**:
+   - **디코이 스캔 (Decoy Scan, `-D`)**: 스캐너는 실제 자신의 IP 외에 가짜(디코이) 출발지 IP 수십 개를 섞어서 동시에 타겟에게 SYN 패킷을 날린다. 타겟의 [IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에는 수십 개의 IP에서 동시에 공격이 들어온 것으로 찍혀 방어자는 진짜 공격자가 누구인지 찾아내기 위해 수많은 [로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/) 시간을 허비해야 한다.
+   - **타이밍 스캔 (Timing, `-T0~T5`)**: IDS는 주로 '초당 패킷 수(PPS)' 등 시간 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 기반으로 스캐닝을 탐지한다. 해커는 'Sneaky(T1)'나 'Paranoid(T0)' 옵션을 주어 5분에 한 번씩 아주 느리게 패킷을 날린다. IDS의 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 추적 타임아웃을 교묘히 벗어나 탐지를 무력화하며 서서히 정찰 지도를 완성한다.
 3. **방어자의 의사결정 (대응 아키텍처)**:
-   - 단순 [[446_port_and_bus|포트]] 스캔 시도는 완전한 차단이 불가능하므로, 방어자는 불필요한 [[446_port_and_bus|포트]] 자체를 OS 레벨에서 완전히 내리는(Kill [[300_process|Process]]) **공격 표면 관리(ASM, Attack Surface [[372_management|Management]])**가 최우선이다.
-   - [[690_firewall_generation_evolution|방화벽]] 룰셋은 명시적으로 허용된 IP/[[446_port_and_bus|포트]] 외에는 전부 버리는 **기본 거부(Default Deny)** 원칙을 고수해야 하며, [[272_state_pattern|State]]-less 차단이 아닌 [[160_session_controlling_terminal|세션]] 상태(Stateful) 검사 기반의 차단(예: 연결 확립 전 이상 [[186_character_stuffing_dle_stx_etx|플래그]] 유입 시 차단)을 도입해야 한다.
+   - 단순 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 스캔 시도는 완전한 차단이 불가능하므로, 방어자는 불필요한 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 자체를 OS 레벨에서 완전히 내리는(Kill [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/)) **공격 표면 관리(ASM, Attack Surface [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))**가 최우선이다.
+   - [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 룰셋은 명시적으로 허용된 IP/[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 외에는 전부 버리는 **기본 거부(Default Deny)** 원칙을 고수해야 하며, [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)-less 차단이 아닌 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 상태(Stateful) 검사 기반의 차단(예: 연결 확립 전 이상 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 유입 시 차단)을 도입해야 한다.
 
-### 도입 [[435_checklist_based_testing|체크리스트]]
-- **배너 그래빙 (Banner Grabbing) 대비**: 스캐너(Nmap -sV)는 [[446_port_and_bus|포트]]가 열려 있는지뿐만 아니라 `GET / HTTP/1.1`을 찔러 넣어 반환되는 응답 헤더(예: `Server: Apache/2.4.49`)를 통해 취약한 [[090_service_kubernetes_network_load_balancing|서비스]] [[288_version_ihl_tos_total_length|버전]]을 정밀 타겟팅한다. 서버 설정에서 [[288_version_ihl_tos_total_length|버전]] 및 OS 정보 노출 옵션(ServerTokens Prod 등)을 비활성화했는가?
-- **내부망 스캐닝 방어**: 최근의 스캐닝 위협은 외부가 아니라 악성코드에 감염된 내부 직원 PC에 의한 횡적 이동(Lateral Movement) 정찰이다. 사내 네트워크(엔드포인트 간 통신)의 L2/L3 [[238_switch_operation_principles|스위치]] 단에 프라이빗 망 [[1044_micro_segmentation_east_west_traffic_security|마이크로 세그멘테이션]]([[059_micro_segmentation_east_west_traffic|Micro-segmentation]])이 적용되어 있는가?
+### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+- **배너 그래빙 (Banner Grabbing) 대비**: 스캐너(Nmap -sV)는 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 열려 있는지뿐만 아니라 `GET / HTTP/1.1`을 찔러 넣어 반환되는 응답 헤더(예: `Server: Apache/2.4.49`)를 통해 취약한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 정밀 타겟팅한다. 서버 설정에서 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 및 OS 정보 노출 옵션(ServerTokens Prod 등)을 비활성화했는가?
+- **내부망 스캐닝 방어**: 최근의 스캐닝 위협은 외부가 아니라 악성코드에 감염된 내부 직원 PC에 의한 횡적 이동(Lateral Movement) 정찰이다. 사내 네트워크(엔드포인트 간 통신)의 L2/L3 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 단에 프라이빗 망 [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/)([Micro-segmentation](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/059_micro_segmentation_east_west_traffic/))이 적용되어 있는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
-- **[[406_udp_user_datagram_protocol_connectionless_fast|UDP]] [[090_service_kubernetes_network_load_balancing|서비스]]의 방치**: "해커들은 [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] 공격만 한다"는 안일한 생각으로 [[511_dns_hierarchical_distributed_architecture|DNS]], [[528_snmp_simple_network_management_protocol|SNMP]], [[536_ntp_network_time_protocol_stratum|NTP]] 등의 [[406_udp_user_datagram_protocol_connectionless_fast|UDP]] [[446_port_and_bus|포트]]를 외부에 무방비로 열어두는 행위. [[406_udp_user_datagram_protocol_connectionless_fast|UDP]] 스캐닝은 느리지만, 한 번 열려 있음이 확인되면 DRDoS 증폭 반사 공격의 훌륭한 숙주로 즉각 타겟팅된다.
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- **[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 방치**: "해커들은 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 공격만 한다"는 안일한 생각으로 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/), [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/), [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) 등의 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 외부에 무방비로 열어두는 행위. [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 스캐닝은 느리지만, 한 번 열려 있음이 확인되면 DRDoS 증폭 반사 공격의 훌륭한 숙주로 즉각 타겟팅된다.
 
-- **📢 섹션 요약 비유**: 도둑이 정찰을 올 때 혼자 오지 않고 가짜 마네킹 수십 개(디코이)를 세워두거나 아주 천천히 숨 죽이며 기어와서(타이밍 [[015_지연_데이터_관점|지연]]) CCTV의 모션 센서를 속이려 하므로, 아예 창문 자체를 막아버리는(공격 표면 축소) 근본적 공사가 필요합니다.
+- **📢 섹션 요약 비유**: 도둑이 정찰을 올 때 혼자 오지 않고 가짜 마네킹 수십 개(디코이)를 세워두거나 아주 천천히 숨 죽이며 기어와서(타이밍 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) CCTV의 모션 센서를 속이려 하므로, 아예 창문 자체를 막아버리는(공격 표면 축소) 근본적 공사가 필요합니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-### 정량/정성 기대효과 (스캐닝 방어 및 [[010_least_privilege|최소 권한 원칙]] 적용 시)
+### 정량/정성 기대효과 (스캐닝 방어 및 [최소 권한 원칙](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/) 적용 시)
 
-| 구분 | 기본 개방 및 Blacklist [[690_firewall_generation_evolution|방화벽]] 운영 | 공격 표면 축소 및 Stateful [[695_ips_network_intrusion_prevention_system|IPS]] 적용 | 개선 효과 |
+| 구분 | 기본 개방 및 Blacklist [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 운영 | 공격 표면 축소 및 Stateful [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 적용 | 개선 효과 |
 |:---|:---|:---|:---|
-| **정량 (가시성)** | 외부 스캐너에 내부망 토폴로지 90% 이상 노출 | 80/443 등 필수 [[446_port_and_bus|포트]] 외 **스캔 결과 100% Filtered 응답** | 공격자에게 주어지는 정보의 [[784_zeroization_circuit|제로화]] |
-| **운영** | 끝없이 쏟아지는 불법 스캔 [[568_logs_distributed_logging_elk_fluentd|로그]]에 파묻혀 관제 불가 | 비정상 [[186_character_stuffing_dle_stx_etx|플래그]]/속도 스캔을 자동 차단 및 관제 피로도 저하 | 보안 관제([[131_soc|SOC]]) 인력 리소스 최적화 및 정탐 향상 |
-| **정성** | [[761_zero_day|제로데이]] 공격 및 타겟팅 익스플로잇에 직격 노출 | 공격자가 취약한 [[090_service_kubernetes_network_load_balancing|서비스]]([[288_version_ihl_tos_total_length|버전]] 등)를 찾지 못해 공격 포기 | 사이버 킬 체인의 [[459_quic_fec_forward_error_correction|초기]] 정찰 단계에서 공격 사전 절단 |
+| **정량 (가시성)** | 외부 스캐너에 내부망 토폴로지 90% 이상 노출 | 80/443 등 필수 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 외 **스캔 결과 100% Filtered 응답** | 공격자에게 주어지는 정보의 [제로화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/) |
+| **운영** | 끝없이 쏟아지는 불법 스캔 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에 파묻혀 관제 불가 | 비정상 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)/속도 스캔을 자동 차단 및 관제 피로도 저하 | 보안 관제([SOC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/)) 인력 리소스 최적화 및 정탐 향상 |
+| **정성** | [제로데이](/knowledge-base/studynote/09_security/15_malware_attack_vectors/761_zero_day/) 공격 및 타겟팅 익스플로잇에 직격 노출 | 공격자가 취약한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)([버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 등)를 찾지 못해 공격 포기 | 사이버 킬 체인의 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 정찰 단계에서 공격 사전 절단 |
 
 ### 미래 전망
-전통적인 Nmap 기반의 [[446_port_and_bus|포트]] 스캐닝은 클라우드 환경의 고도화된 WAF와 보안 그룹([[283_security_tactics|Security]] Group) [[164_policy|정책]]에 의해 갈수록 어려워지고 있다. 최근 공격자들은 무차별적 [[446_port_and_bus|포트]] 스캐닝 대신, 클라우드 자산 관리 도구의 취약점이나 인터넷 전체를 24시간 실시간으로 스캔하여 데이터베이스화해두는 상용 [[090_service_kubernetes_network_load_balancing|서비스]](예: Shodan, Censys)의 API를 쿼리하여 공격 대상을 정찰하는 **[[649_osint|OSINT]](오픈 소스 인텔리전스) 기반 스캐닝**으로 진화했다. 기업 방어자 역시 공격 표면 관리(ASM) 자동화 도구를 도입해 자신들의 클라우드 노출도를 외부 공격자 관점에서 상시 스캐닝하고 실시간으로 차단하는 '적극적 방어' 체계로 패러다임이 이동 중이다.
+전통적인 Nmap 기반의 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 스캐닝은 클라우드 환경의 고도화된 WAF와 보안 그룹([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Group) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)에 의해 갈수록 어려워지고 있다. 최근 공격자들은 무차별적 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 스캐닝 대신, 클라우드 자산 관리 도구의 취약점이나 인터넷 전체를 24시간 실시간으로 스캔하여 데이터베이스화해두는 상용 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(예: Shodan, Censys)의 API를 쿼리하여 공격 대상을 정찰하는 **[OSINT](/knowledge-base/studynote/09_security/13_secops_ir_forensics/649_osint/)(오픈 소스 인텔리전스) 기반 스캐닝**으로 진화했다. 기업 방어자 역시 공격 표면 관리(ASM) 자동화 도구를 도입해 자신들의 클라우드 노출도를 외부 공격자 관점에서 상시 스캐닝하고 실시간으로 차단하는 '적극적 방어' 체계로 패러다임이 이동 중이다.
 
 ### 참고 표준
-- **RFC 793**: [[405_tcp_transmission_control_protocol_connection_oriented|Transmission Control Protocol]] ([[405_tcp_transmission_control_protocol_connection_oriented|TCP]] [[632_state_transition_diagram_testing|상태 전이]] 기계 표준 사양)
-- **[[642_mitre_attack|MITRE ATT&CK]]**: T1046 (Network [[090_service_kubernetes_network_load_balancing|Service]] Scanning), T1595 ([[483_active_vs_passive_ftp|Active]] Scanning)
-- **NIST [[166_sp|SP]] 800-115**: 정보 보안 테스팅 및 평가 가이드라인 (정찰 단계 대응)
+- **RFC 793**: [Transmission Control Protocol](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) ([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 기계 표준 사양)
+- **[MITRE ATT&CK](/knowledge-base/studynote/09_security/13_secops_ir_forensics/642_mitre_attack/)**: T1046 (Network [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Scanning), T1595 ([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) Scanning)
+- **NIST [SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) 800-115**: 정보 보안 테스팅 및 평가 가이드라인 (정찰 단계 대응)
 
-- **📢 섹션 요약 비유**: 도둑이 돋보기로 우리 집 창문을 들여다보는 기술(스캐닝)이 발전함에 따라, 우리도 밖에서는 집 안이 절대 보이지 않는 매직 미러([[690_firewall_generation_evolution|방화벽]]/[[695_ips_network_intrusion_prevention_system|IPS]])를 설치하고 심지어 우리 스스로 드론을 띄워 집 외부의 약점을 먼저 찾아 고치는 시대가 되었습니다.
+- **📢 섹션 요약 비유**: 도둑이 돋보기로 우리 집 창문을 들여다보는 기술(스캐닝)이 발전함에 따라, 우리도 밖에서는 집 안이 절대 보이지 않는 매직 미러([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)/[IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/))를 설치하고 심지어 우리 스스로 드론을 띄워 집 외부의 약점을 먼저 찾아 고치는 시대가 되었습니다.
 
 ---
 
@@ -191,10 +195,10 @@ OS [[022_kernel_role|커널]]의 [[405_tcp_transmission_control_protocol_connect
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[598_spoofing|스푸핑]] ([[598_spoofing|Spoofing]]) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [[599_dos_ddos_attack|서비스 거부]] ([[599_dos_ddos_attack|DoS]]) 및 [[136_variance|분산]] [[599_dos_ddos_attack|서비스 거부]] (DDoS) 네트워크 자원 고갈 공격 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [[601_ids_ips_syscall_tracing|침입 탐지 시스템]] ([[601_ids_ips_syscall_tracing|IDS]]) / 침입 방지 시스템 ([[695_ips_network_intrusion_prevention_system|IPS]]) 시스템 콜 트레이싱 기반 [[236_anomaly_based_detection_zero_day_false_positive|이상 탐지]] | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [[602_sandboxing_kernel_wrapper|샌드박싱]] ([[602_sandboxing_kernel_wrapper|Sandboxing]]) 기술 [[022_kernel_role|커널]] 래퍼 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) ([Spoofing](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [서비스 거부](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/) ([DoS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/)) 및 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [서비스 거부](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/) (DDoS) 네트워크 자원 고갈 공격 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [침입 탐지 시스템](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/) ([IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/)) / 침입 방지 시스템 ([IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/)) 시스템 콜 트레이싱 기반 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [샌드박싱](/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/) ([Sandboxing](/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/)) 기술 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 래퍼 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -212,9 +216,9 @@ OS [[022_kernel_role|커널]]의 [[405_tcp_transmission_control_protocol_connect
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [[446_port_and_bus|포트]] 스캐닝은 아파트에 사는 수백 명의 이웃집 문([[446_port_and_bus|포트]])을 돌아다니며 손잡이를 돌려보고 "어느 집 문이 열려 있나~" 확인하는 빈집털이범의 행동이에요.
-2. 영리한 도둑은 경비원([[568_logs_distributed_logging_elk_fluentd|로그]] 기록)에게 들키지 않으려고, 초인종(SYN)을 눌러놓고 주인이 나오려 하면 재빨리 도망(RST)쳐서 기록을 안 남기는 꼼수를 써요.
-3. 이를 막으려면 우리 집을 튼튼한 성벽([[690_firewall_generation_evolution|방화벽]])으로 두르고 문을 두드려도 아예 대답조차 안 나오게(기본 차단 [[164_policy|정책]]) 만들어서 도둑이 포기하고 돌아가게 만들어야 한답니다!
+1. [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 스캐닝은 아파트에 사는 수백 명의 이웃집 문([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))을 돌아다니며 손잡이를 돌려보고 "어느 집 문이 열려 있나~" 확인하는 빈집털이범의 행동이에요.
+2. 영리한 도둑은 경비원([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기록)에게 들키지 않으려고, 초인종(SYN)을 눌러놓고 주인이 나오려 하면 재빨리 도망(RST)쳐서 기록을 안 남기는 꼼수를 써요.
+3. 이를 막으려면 우리 집을 튼튼한 성벽([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))으로 두르고 문을 두드려도 아예 대답조차 안 나오게(기본 차단 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)) 만들어서 도둑이 포기하고 돌아가게 만들어야 한답니다!
 
 ---
 
@@ -222,7 +226,7 @@ OS [[022_kernel_role|커널]]의 [[405_tcp_transmission_control_protocol_connect
 
 **진행 상황**: 600 / 800
 
-← **이전**: [[599_dos_ddos_attack|599. 서비스 거부 (DoS) 및 분산 서비스 거부 (DDoS) 네트워크 자원 고갈 공격]]
-**다음**: [[601_ids_ips_syscall_tracing|601. 침입 탐지 시스템 (IDS) / 침입 방지 시스템 (IPS) 시스템 콜 트레이싱 기반 이상 탐지]] →
+← **이전**: [599. 서비스 거부 (DoS) 및 분산 서비스 거부 (DDoS) 네트워크 자원 고갈 공격](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/)
+**다음**: [601. 침입 탐지 시스템 (IDS) / 침입 방지 시스템 (IPS) 시스템 콜 트레이싱 기반 이상 탐지](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/) →
 
 ---

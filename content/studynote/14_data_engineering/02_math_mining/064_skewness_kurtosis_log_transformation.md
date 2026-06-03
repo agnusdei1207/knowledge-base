@@ -1,23 +1,27 @@
----
-title: 64. 왜도 (Skewness)와 첨도 (Kurtosis) - 데이터 분포 분석
-date: '2026-04-10'
-tags:
-- studynote-data-engineering
----
++++
+title = "64. 왜도 (Skewness)와 첨도 (Kurtosis) - 데이터 분포 분석"
+date = 2026-04-10
+
+[taxonomies]
+tags = ["studynote-data-engineering"]
+
+[extra]
+tags = ["studynote-data-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 왜도(Skewness)는 분포의 비대칭 정도를, 첨도(Kurtosis)는 꼬리와 뾰족함의 정도를 보여준다.
-> 2. **가치**: [[568_logs_distributed_logging_elk_fluentd|로그]] 변환(Log Transformation)은 오른쪽 꼬리가 긴 분포를 완만하게 만들어 분석과 모델링을 안정화한다.
-> 3. **판단**: 왜도와 첨도를 함께 보고, 필요하면 [[568_logs_distributed_logging_elk_fluentd|로그]]/제곱근/Box-Cox/Yeo-Johnson 같은 변환을 선택해야 한다.
+> 2. **가치**: [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 변환(Log Transformation)은 오른쪽 꼬리가 긴 분포를 완만하게 만들어 분석과 모델링을 안정화한다.
+> 3. **판단**: 왜도와 첨도를 함께 보고, 필요하면 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)/제곱근/Box-Cox/Yeo-Johnson 같은 변환을 선택해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-실제 [[001_dikw_pyramid|데이터]]는 대칭적인 종 모양이 아닌 경우가 많다. 매출, 대기 시간, 소득처럼 오른쪽으로 꼬리가 긴 분포는 흔하다.
+실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 대칭적인 종 모양이 아닌 경우가 많다. 매출, 대기 시간, 소득처럼 오른쪽으로 꼬리가 긴 분포는 흔하다.
 
-왜도와 첨도를 보면 분포의 모양을 수치로 설명할 수 있고, [[568_logs_distributed_logging_elk_fluentd|로그]] 변환은 이런 비대칭을 완화하는 대표적 방법이다.
+왜도와 첨도를 보면 분포의 모양을 수치로 설명할 수 있고, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 변환은 이런 비대칭을 완화하는 대표적 방법이다.
 
 - **📢 섹션 요약 비유**: 누워 있는 나무의 기울기와 가지 끝 모양을 함께 보는 일이다.
 
@@ -39,8 +43,8 @@ Stabilized Distribution
 | :-- | :-- |
 | Skewness | 비대칭 정도 |
 | Kurtosis | 꼬리와 뾰족함 정도 |
-| Log Transform | 큰 값을 [[347_compaction|압축]] |
-| Box-Cox | 양수 [[001_dikw_pyramid|데이터]] 변환 |
+| Log Transform | 큰 값을 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) |
+| Box-Cox | 양수 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변환 |
 | Yeo-Johnson | 0/음수 포함 가능 |
 
 왜도는 분포가 왼쪽이나 오른쪽으로 얼마나 기울었는지 보여 주고, 첨도는 극단값이 얼마나 자주 나오는지를 감지하는 데 도움이 된다.
@@ -51,20 +55,20 @@ Stabilized Distribution
 
 ## Ⅲ. 비교 및 연결
 
-| 구분 | 왜도 | 첨도 | [[568_logs_distributed_logging_elk_fluentd|로그]] 변환 |
+| 구분 | 왜도 | 첨도 | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 변환 |
 | :-- | :-- | :-- | :-- |
 | 질문 | 좌우 비대칭인가? | 꼬리가 두꺼운가? | 분포를 안정화할 수 있는가? |
-| 해석 | 방향성 | 극단값 성향 | 스케일 [[347_compaction|압축]] |
-| 용도 | 분포 진단 | [[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]]/꼬리 진단 | 전처리 |
+| 해석 | 방향성 | 극단값 성향 | 스케일 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) |
+| 용도 | 분포 진단 | [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)/꼬리 진단 | 전처리 |
 
 | 변환 | 특징 |
 | :-- | :-- |
 | Log | 양수 값에 강함 |
-| Sqrt | 완만한 [[347_compaction|압축]] |
+| Sqrt | 완만한 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) |
 | Box-Cox | 정규성 개선에 유용 |
 | Yeo-Johnson | 음수도 처리 가능 |
 
-[[568_logs_distributed_logging_elk_fluentd|로그]] 변환은 분포를 무조건 정규로 만드는 마법이 아니다. 하지만 큰 값의 영향력을 줄여 모델이 안정적으로 학습하도록 돕는다.
+[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 변환은 분포를 무조건 정규로 만드는 마법이 아니다. 하지만 큰 값의 영향력을 줄여 모델이 안정적으로 학습하도록 돕는다.
 
 - **📢 섹션 요약 비유**: 너무 큰 소리는 줄이고, 작은 소리는 들리게 맞춰 주는 볼륨 조절기다.
 
@@ -72,18 +76,18 @@ Stabilized Distribution
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 분포가 오른쪽으로 긴지 확인했는가?
 2. 왜도와 첨도를 함께 해석했는가?
-3. [[568_logs_distributed_logging_elk_fluentd|로그]] 변환이 가능한 [[001_dikw_pyramid|데이터]]인지 확인했는가?
+3. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 변환이 가능한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)인지 확인했는가?
 4. 0이나 음수가 있으면 다른 변환을 고려했는가?
 5. 변환 후 모델 성능과 해석성을 비교했는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 변환 없이 [[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]]만 무시하는 설계
-- [[568_logs_distributed_logging_elk_fluentd|로그]] 변환이 모든 [[001_dikw_pyramid|데이터]]에 항상 좋은 줄 아는 설계
+- 변환 없이 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)만 무시하는 설계
+- [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 변환이 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 항상 좋은 줄 아는 설계
 - 왜도와 첨도를 같은 의미로 쓰는 설계
 - 변환 후 원래 해석을 잃어버리는 설계
 
@@ -95,9 +99,9 @@ Stabilized Distribution
 
 ## Ⅴ. 기대효과 및 결론
 
-왜도와 첨도를 보면 분포를 더 정확하게 설명할 수 있고, [[568_logs_distributed_logging_elk_fluentd|로그]] 변환으로 모델 안정성도 높일 수 있다. 결국 통계 해석과 전처리를 연결하는 핵심 도구다.
+왜도와 첨도를 보면 분포를 더 정확하게 설명할 수 있고, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 변환으로 모델 안정성도 높일 수 있다. 결국 통계 해석과 전처리를 연결하는 핵심 도구다.
 
-결론적으로 이 둘은 [[001_dikw_pyramid|데이터]] 분포의 모양을 읽고 다듬는 기본 지표와 변환이다.
+결론적으로 이 둘은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포의 모양을 읽고 다듬는 기본 지표와 변환이다.
 
 - **📢 섹션 요약 비유**: 고르게 펴기 전에 구겨진 방향을 먼저 알아야 한다.
 
@@ -135,7 +139,7 @@ Stabilized Modeling
 
 사탕 봉지가 한쪽으로 쏠려 있으면 왜도가 큰 거예요.  
 끝이 너무 뾰족하면 첨도가 큰 거예요.  
-[[568_logs_distributed_logging_elk_fluentd|로그]] 변환은 그 모양을 좀 더 고르게 만드는 방법이에요.
+[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 변환은 그 모양을 좀 더 고르게 만드는 방법이에요.
 
 ---
 
@@ -143,7 +147,7 @@ Stabilized Modeling
 
 **진행 상황**: 64 / 258
 
-← **이전**: [[063_central_tendency_dispersion_variance_iqr|63. 중심 경향도 (평균, 중앙값) 및 산포도 (분산, IQR) 분석]]
-**다음**: [[065_pearson_correlation_coefficient_multicollinearity|65. 피어슨 상관 계수 (Pearson Correlation) - 선형적 비례 관계 측정]] →
+← **이전**: [63. 중심 경향도 (평균, 중앙값) 및 산포도 (분산, IQR) 분석](/knowledge-base/studynote/14_data_engineering/02_math_mining/063_central_tendency_dispersion_variance_iqr/)
+**다음**: [65. 피어슨 상관 계수 (Pearson Correlation) - 선형적 비례 관계 측정](/knowledge-base/studynote/14_data_engineering/02_math_mining/065_pearson_correlation_coefficient_multicollinearity/) →
 
 ---

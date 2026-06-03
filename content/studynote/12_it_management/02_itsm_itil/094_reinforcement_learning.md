@@ -1,16 +1,20 @@
----
-title: 94. 스트리밍 SQL — ksqlDB (Confluent) / Flink SQL / Spark Structured Streaming
-date: '2026-04-05'
-description: 강화학습의 기본 개념, 에이전트-환경 상호작용, MDP, Q-Learning, DQN, Policy Gradient
-tags:
-- it_management
----
++++
+title = "94. 스트리밍 SQL — ksqlDB (Confluent) / Flink SQL / Spark Structured Streaming"
+description = "강화학습의 기본 개념, 에이전트-환경 상호작용, MDP, Q-Learning, DQN, Policy Gradient"
+date = 2026-04-05
+
+[taxonomies]
+tags = ["it_management"]
+
+[extra]
+tags = ["it_management"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 강화학습 (Reinforcement [[240_switch_learning_forwarding_flooding|Learning]])은 에이전트(Agent)가 환경([[066_gitlab_flow_environment_branch_strategy|Environment]])과 상호작용하며, 현재 상태에서 미래의 누적 보상(Reward)을 최대화하는 최적의 행동 규칙([[164_policy|Policy]])을 시행착오를 통해 스스로 찾아내는 머신러닝의 한 분야다.
+> 1. **본질**: 강화학습 (Reinforcement [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))은 에이전트(Agent)가 환경([Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/))과 상호작용하며, 현재 상태에서 미래의 누적 보상(Reward)을 최대화하는 최적의 행동 규칙([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))을 시행착오를 통해 스스로 찾아내는 머신러닝의 한 분야다.
 > 2. **가치**: 정답(Label)이 주어지는 지도학습과 달리, "오른쪽으로 가라"는 정답 대신 "오른쪽으로 갔더니 10점"이라는 결과만으로 학습하기 때문에, 체스나 자율주행처럼 당장의 정답을 알 수 없는 연속적이고 장기적인 의사결정 문제에 유일한 해답이 된다.
-> 3. **판단 포인트**: 상태 공간이 작으면 표(Table)를 그리는 Q-Learning으로 충분하지만, 바둑판이나 자율주행 화면처럼 상태가 무한대에 가까우면 딥러닝을 결합한 [[465_dqn_deep_q_network|DQN]] ([[465_dqn_deep_q_network|Deep Q-Network]])이나 [[318_policy_gradient_actor_critic|정책 경사]] ([[318_policy_gradient_actor_critic|Policy Gradient]]) 방식으로 스케일업을 판단해야 한다.
+> 3. **판단 포인트**: 상태 공간이 작으면 표(Table)를 그리는 Q-Learning으로 충분하지만, 바둑판이나 자율주행 화면처럼 상태가 무한대에 가까우면 딥러닝을 결합한 [DQN](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/) ([Deep Q-Network](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/))이나 [정책 경사](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/318_policy_gradient_actor_critic/) ([Policy Gradient](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/318_policy_gradient_actor_critic/)) 방식으로 스케일업을 판단해야 한다.
 
 ---
 
@@ -26,7 +30,7 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-강화학습의 뼈대는 수학적으로 [[463_markov_decision_process_mdp|마르코프 결정 과정]] ([[463_markov_decision_process_mdp|MDP]], [[314_mdp_rl|Markov Decision Process]])으로 정의된다. 에이전트는 특정 상태($S$)에서 행동($A$)을 선택하고, 환경은 그 대가로 다음 상태($S'$)와 보상($R$)을 돌려준다. 이때 당장 눈앞의 보상만 좇지 않도록 미래 보상을 할인해서 더하는 할인 인자($\gamma$)가 핵심 역할을 한다.
+강화학습의 뼈대는 수학적으로 [마르코프 결정 과정](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/) ([MDP](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/), [Markov Decision Process](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/314_mdp_rl/))으로 정의된다. 에이전트는 특정 상태($S$)에서 행동($A$)을 선택하고, 환경은 그 대가로 다음 상태($S'$)와 보상($R$)을 돌려준다. 이때 당장 눈앞의 보상만 좇지 않도록 미래 보상을 할인해서 더하는 할인 인자($\gamma$)가 핵심 역할을 한다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -50,37 +54,37 @@ tags:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-상태가 작을 때는 모든 상태와 행동의 조합마다 점수판(Q-Table)을 만들어 기록하는 [[316_q_learning|Q-Learning]] 방식을 쓴다. 하지만 아타리(Atari) 게임처럼 화면 픽셀 전체가 상태가 되는 고차원 문제에서는 점수판의 크기가 무한대가 되어 메모리가 터져버린다. 이 점수판을 '[[065_dnn_deep_neural_network|심층 신경망]](Deep Neural Network)'으로 통째로 교체하여 함수로 근사해 낸 것이 바로 혁명적인 [[465_dqn_deep_q_network|DQN]] ([[465_dqn_deep_q_network|Deep Q-Network]])이다.
+상태가 작을 때는 모든 상태와 행동의 조합마다 점수판(Q-Table)을 만들어 기록하는 [Q-Learning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/316_q_learning/) 방식을 쓴다. 하지만 아타리(Atari) 게임처럼 화면 픽셀 전체가 상태가 되는 고차원 문제에서는 점수판의 크기가 무한대가 되어 메모리가 터져버린다. 이 점수판을 '[심층 신경망](/knowledge-base/studynote/10_ai/01_ai_basics/065_dnn_deep_neural_network/)(Deep Neural Network)'으로 통째로 교체하여 함수로 근사해 낸 것이 바로 혁명적인 [DQN](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/) ([Deep Q-Network](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/))이다.
 
-- **📢 섹션 요약 비유**: 미로 찾기를 할 때, 갈림길마다 바닥에 '오른쪽은 10점, 왼쪽은 -5점'이라고 분필로 점수판을 적어두는 것이 Q-Learning이다. 하지만 미로가 지구 크기만 해서 분필로 다 적을 수 없을 때, '지도 앱(딥러닝 [[190_ai_llm_requirements_specification|AI]])'을 켜서 현재 위치를 넣으면 직관적으로 점수를 계산해 주는 방식이 DQN이다.
+- **📢 섹션 요약 비유**: 미로 찾기를 할 때, 갈림길마다 바닥에 '오른쪽은 10점, 왼쪽은 -5점'이라고 분필로 점수판을 적어두는 것이 Q-Learning이다. 하지만 미로가 지구 크기만 해서 분필로 다 적을 수 없을 때, '지도 앱(딥러닝 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))'을 켜서 현재 위치를 넣으면 직관적으로 점수를 계산해 주는 방식이 DQN이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-강화학습 [[001_algorithm_definition|알고리즘]]은 최적의 선택을 찾아내는 방식에 따라 크게 가치 기반 (Value-based) 방식과 [[164_policy|정책]] 기반 ([[164_policy|Policy]]-based) 방식으로 나뉜다.
+강화학습 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 최적의 선택을 찾아내는 방식에 따라 크게 가치 기반 (Value-based) 방식과 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 ([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)-based) 방식으로 나뉜다.
 
-| [[104_classification_analysis|분류]] | 가치 기반 (Value-based) | [[164_policy|정책]] 기반 ([[164_policy|Policy]]-based) |
+| [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 가치 기반 (Value-based) | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 ([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)-based) |
 | :--- | :--- | :--- |
-| 핵심 아이디어 | 모든 행동의 예상 점수(Value)를 계산 후 제일 높은 것을 고름 | 점수 계산 없이, 현재 상태에서 해야 할 행동의 [[130_probability|확률]]([[164_policy|Policy]])을 직접 학습 |
-| 대표 [[001_algorithm_definition|알고리즘]] | [[316_q_learning|Q-Learning]], [[465_dqn_deep_q_network|DQN]] | [[318_policy_gradient_actor_critic|Policy Gradient]], [[395_ppo_clipping|PPO]] |
+| 핵심 아이디어 | 모든 행동의 예상 점수(Value)를 계산 후 제일 높은 것을 고름 | 점수 계산 없이, 현재 상태에서 해야 할 행동의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))을 직접 학습 |
+| 대표 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | [Q-Learning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/316_q_learning/), [DQN](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/) | [Policy Gradient](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/318_policy_gradient_actor_critic/), [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) |
 | 적합한 환경 | 행동의 종류가 끊어져 있는 이산 행동 (예: 상/하/좌/우 버튼) | 행동이 연속적으로 변하는 환경 (예: 로봇 팔 관절 각도 조절) |
 | 한계점 | 로봇 팔처럼 소수점 단위로 움직이는 연속된 행동 공간에 적용 불가 | 최적해에 도달하는 과정에서 수렴성이 떨어지고 학습이 불안정함 |
 
-이 두 가지 방식의 단점을 극복하고 장점만 합친 것이 [[172_actor_critic|액터-크리틱]] ([[172_actor_critic|Actor-Critic]]) 구조다. [[164_policy|정책]] 기반의 액터(Actor)가 행동을 결정하고, 가치 기반의 크리틱(Critic)이 그 행동을 평가하여 조언해 주는 융합 모델로 진화했다.
+이 두 가지 방식의 단점을 극복하고 장점만 합친 것이 [액터-크리틱](/knowledge-base/studynote/10_ai/02_dl_architecture_new/172_actor_critic/) ([Actor-Critic](/knowledge-base/studynote/10_ai/02_dl_architecture_new/172_actor_critic/)) 구조다. [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반의 액터(Actor)가 행동을 결정하고, 가치 기반의 크리틱(Critic)이 그 행동을 평가하여 조언해 주는 융합 모델로 진화했다.
 
-- **📢 섹션 요약 비유**: 식당에서 메뉴를 고를 때, '짜장면 80점, 짬뽕 70점'이라며 머릿속으로 일일이 점수를 매기고 고르는 것이 가치 기반([[465_dqn_deep_q_network|DQN]])이고, 점수 계산 없이 무의식적으로 "오늘은 비가 오니 짬뽕 먹을 [[130_probability|확률]] 90%"라고 습관적으로 고르는 것이 [[164_policy|정책]] 기반([[318_policy_gradient_actor_critic|Policy Gradient]])이다.
+- **📢 섹션 요약 비유**: 식당에서 메뉴를 고를 때, '짜장면 80점, 짬뽕 70점'이라며 머릿속으로 일일이 점수를 매기고 고르는 것이 가치 기반([DQN](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/))이고, 점수 계산 없이 무의식적으로 "오늘은 비가 오니 짬뽕 먹을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 90%"라고 습관적으로 고르는 것이 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반([Policy Gradient](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/318_policy_gradient_actor_critic/))이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 강화학습 프로젝트를 설계할 때는 "[[001_algorithm_definition|알고리즘]]을 어떻게 짤 것인가"보다 "보상(Reward)을 어떻게 설계할 것인가"가 프로젝트의 성패를 가르는 99%의 요인이다.
+실무에서 강화학습 프로젝트를 설계할 때는 "[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 어떻게 짤 것인가"보다 "보상(Reward)을 어떻게 설계할 것인가"가 프로젝트의 성패를 가르는 99%의 요인이다.
 
-### [[435_checklist_based_testing|체크리스트]] 및 [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 1. **보상 해킹 (Reward Hacking) 방어**: 청소 로봇에게 '먼지를 먹으면 1점'이라는 보상을 주었더니, 로봇이 점수를 무한으로 얻기 위해 먼지를 뱉었다가 다시 먹기를 반복하는 현상이다. 보상 함수는 에이전트가 꼼수를 부리지 못하도록 최종 목적에 부합하게 매우 정교하게 설계해야 한다.
-2. **[[315_exploration_exploitation|탐험]]과 활용 ([[165_exploration_vs_exploitation|Exploration vs Exploitation]])의 딜레마**: 늘 가던 길(활용)만 가면 최고 점수에 도달할 수 없다. 초기에는 무작위로 새로운 길을 가보도록([[315_exploration_exploitation|탐험]]) 설정하고, 학습이 진행될수록 점수가 높은 쪽을 선택하도록 엡실론($\epsilon$) 감쇠율을 조절하는 튜닝이 필수적이다.
-3. **가상-현실 간극 (Sim-to-Real Gap) 인지**: 자율주행 차를 가상 시뮬레이터에서 100만 번 훈련시켜 완벽해졌다고 해도, 실제 도로의 햇빛 반사, 타이어 마찰력 등 물리적 차이 때문에 사고가 난다. 시뮬레이션 환경에 의도적으로 노이즈를 섞는 [[064_relation_domain|도메인]] 무작위화([[064_relation_domain|Domain]] Randomization)가 필요하다.
+2. **[탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)과 활용 ([Exploration vs Exploitation](/knowledge-base/studynote/10_ai/02_dl_architecture_new/165_exploration_vs_exploitation/))의 딜레마**: 늘 가던 길(활용)만 가면 최고 점수에 도달할 수 없다. 초기에는 무작위로 새로운 길을 가보도록([탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)) 설정하고, 학습이 진행될수록 점수가 높은 쪽을 선택하도록 엡실론($\epsilon$) 감쇠율을 조절하는 튜닝이 필수적이다.
+3. **가상-현실 간극 (Sim-to-Real Gap) 인지**: 자율주행 차를 가상 시뮬레이터에서 100만 번 훈련시켜 완벽해졌다고 해도, 실제 도로의 햇빛 반사, 타이어 마찰력 등 물리적 차이 때문에 사고가 난다. 시뮬레이션 환경에 의도적으로 노이즈를 섞는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 무작위화([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Randomization)가 필요하다.
 
 - **📢 섹션 요약 비유**: 강아지 훈련을 시킬 때, '앉아'를 하면 간식을 준다(보상). 그런데 강아지가 간식만 빨리 먹으려고 엉덩이를 땅에 댈 듯 말 듯 시늉만 하고 간식을 채가는 것이 '보상 해킹'이다. 완벽하게 엉덩이가 닿아야만 간식을 주는 엄격한 규칙(보상 함수 설계)이 강화학습의 핵심이다.
 
@@ -88,11 +92,11 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-강화학습은 인공지능이 인간의 궤적(정답 [[001_dikw_pyramid|데이터]])을 흉내 내는 수준을 넘어, 스스로 수백만 번의 시뮬레이션을 통해 인간이 한 번도 생각하지 못한 창의적인 수(알파고의 37수)를 두게 만드는 궁극의 자율 지능 기술이다. 
+강화학습은 인공지능이 인간의 궤적(정답 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 흉내 내는 수준을 넘어, 스스로 수백만 번의 시뮬레이션을 통해 인간이 한 번도 생각하지 못한 창의적인 수(알파고의 37수)를 두게 만드는 궁극의 자율 지능 기술이다. 
 
-그러나 학습에 천문학적인 연산 자원과 시간이 필요하고 실제 환경에 곧바로 적용하기 위험하다는 치명적 한계가 있다. 앞으로의 강화학습은 [[001_dikw_pyramid|데이터]] 효율성을 높이는 방향과, 인간의 피드백을 직접 보상으로 사용하는 [[250_rlhf_human_feedback_reinforcement_alignment_cot|RLHF]] (Reinforcement [[240_switch_learning_forwarding_flooding|Learning]] from Human Feedback)와 같이 거대 언어 모델([[263_llm_large_language_model|LLM]])을 통제하는 필수 안전장치로 그 발전 방향이 넘어가고 있다.
+그러나 학습에 천문학적인 연산 자원과 시간이 필요하고 실제 환경에 곧바로 적용하기 위험하다는 치명적 한계가 있다. 앞으로의 강화학습은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 효율성을 높이는 방향과, 인간의 피드백을 직접 보상으로 사용하는 [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) (Reinforcement [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) from Human Feedback)와 같이 거대 언어 모델([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))을 통제하는 필수 안전장치로 그 발전 방향이 넘어가고 있다.
 
-- **📢 섹션 요약 비유**: 강화학습은 실패를 두려워하지 않는 무한 체력의 [[315_exploration_exploitation|탐험]]가다. 수백만 번 절벽에서 떨어지더라도, 결국에는 눈을 감고도 가장 안전하고 빠른 하산 루트를 혼자서 완벽하게 그려내는 불굴의 개척자다.
+- **📢 섹션 요약 비유**: 강화학습은 실패를 두려워하지 않는 무한 체력의 [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)가다. 수백만 번 절벽에서 떨어지더라도, 결국에는 눈을 감고도 가장 안전하고 빠른 하산 루트를 혼자서 완벽하게 그려내는 불굴의 개척자다.
 
 ---
 
@@ -100,10 +104,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[463_markov_decision_process_mdp|마르코프 결정 과정]] ([[463_markov_decision_process_mdp|MDP]]) | 강화학습이 돌아가는 환경을 수학적으로 정의한 5가지 요소 (S, A, P, R, $\gamma$) |
-| [[316_q_learning|Q-Learning]] 및 [[465_dqn_deep_q_network|DQN]] | 상태마다 최적의 행동 점수를 계산하여 가장 높은 길을 선택하는 가치 기반 [[001_algorithm_definition|알고리즘]] |
-| [[250_rlhf_human_feedback_reinforcement_alignment_cot|RLHF]] (인간 피드백 기반 강화학습) | 챗GPT 같은 LLM이 이상한 소리를 하지 않도록 사람이 점수를 매겨 교정하는 최신 응용 기법 |
-| [[315_exploration_exploitation|탐험]]과 활용 ([[315_exploration_exploitation|Exploration]] & Exploitation) | 새로운 시도를 할 것인가, 지금까지 좋았던 선택을 할 것인가 사이의 딜레마 |
+| [마르코프 결정 과정](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/) ([MDP](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/)) | 강화학습이 돌아가는 환경을 수학적으로 정의한 5가지 요소 (S, A, P, R, $\gamma$) |
+| [Q-Learning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/316_q_learning/) 및 [DQN](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/) | 상태마다 최적의 행동 점수를 계산하여 가장 높은 길을 선택하는 가치 기반 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
+| [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) (인간 피드백 기반 강화학습) | 챗GPT 같은 LLM이 이상한 소리를 하지 않도록 사람이 점수를 매겨 교정하는 최신 응용 기법 |
+| [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)과 활용 ([Exploration](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/) & Exploitation) | 새로운 시도를 할 것인가, 지금까지 좋았던 선택을 할 것인가 사이의 딜레마 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -135,7 +139,7 @@ RLHF (Reinforcement Learning from Human Feedback) (LLM 미세조정 융합)
 
 **진행 상황**: 172 / 587
 
-← **이전**: [[094_capacity_management|94. 용량 관리 (Capacity Management)]]
-**다음**: [[095_information_security_management|95. 정보 보안 관리 (Information Security Management)]] →
+← **이전**: [94. 용량 관리 (Capacity Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_capacity_management/)
+**다음**: [95. 정보 보안 관리 (Information Security Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/095_information_security_management/) →
 
 ---

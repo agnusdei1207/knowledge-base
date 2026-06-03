@@ -1,14 +1,18 @@
----
-title: 049. 인수인계 및 유지보수 매뉴얼 검증
-date: '2026-04-05'
-tags:
-- studynote-design-supervision
----
++++
+title = "049. 인수인계 및 유지보수 매뉴얼 검증"
+date = 2026-04-05
+
+[taxonomies]
+tags = ["studynote-design-supervision"]
+
+[extra]
+tags = ["studynote-design-supervision"]
++++
 
 > **핵심 인사이트**
 > 1. 인수인계(Hand-Over) 검증은 개발 완료 시스템이 운영 조직에 안전하게 이관되었는지를 확인하는 공식 절차 — 단순한 서류 이관이 아니라 운영팀이 실제로 시스템을 유지·운영할 수 있는 역량과 문서가 갖춰졌는지를 검증한다.
-> 2. 유지보수 매뉴얼(Maintenance Manual)의 핵심은 "개발자 없이도 운영 가능한가" — 시스템 아키텍처, 장애 대응 절차(Runbook), 배포 방법, [[001_dikw_pyramid|데이터]] [[555_backup_and_restore_strategy|백업]]/[[658_ir_recovery|복구]], 모니터링 기준이 명시되어야 하며, 이것이 감리의 핵심 점검 항목이다.
-> 3. ISO/IEC 14764(소프트웨어 유지보수) 표준은 유지보수를 교정·적응·완전·예방 4가지 유형으로 [[104_classification_analysis|분류]] — 감리에서는 각 유형별 대응 절차가 매뉴얼에 기술되어 있는지, SLA가 실현 가능하게 설정되었는지를 중점 검토한다.
+> 2. 유지보수 매뉴얼(Maintenance Manual)의 핵심은 "개발자 없이도 운영 가능한가" — 시스템 아키텍처, 장애 대응 절차(Runbook), 배포 방법, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)/[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 모니터링 기준이 명시되어야 하며, 이것이 감리의 핵심 점검 항목이다.
+> 3. ISO/IEC 14764(소프트웨어 유지보수) 표준은 유지보수를 교정·적응·완전·예방 4가지 유형으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) — 감리에서는 각 유형별 대응 절차가 매뉴얼에 기술되어 있는지, SLA가 실현 가능하게 설정되었는지를 중점 검토한다.
 
 ---
 
@@ -52,7 +56,7 @@ tags:
   [ ] 모니터링 알림 수신자 변경
 ```
 
-> 📢 **섹션 요약 비유**: 인수인계 = 건물 열쇠 교환 — 새 주인(운영팀)이 모든 열쇠(서버 계정, 소스코드, [[014_api_posix|API]] 키)와 관리 매뉴얼(빌딩 관리 지침) 받아야 진정한 이관. 일부 열쇠 누락 = 운영 불가!
+> 📢 **섹션 요약 비유**: 인수인계 = 건물 열쇠 교환 — 새 주인(운영팀)이 모든 열쇠(서버 계정, 소스코드, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 키)와 관리 매뉴얼(빌딩 관리 지침) 받아야 진정한 이관. 일부 열쇠 누락 = 운영 불가!
 
 ---
 
@@ -109,7 +113,7 @@ ISO/IEC 14764 유지보수 4유형:
   → 예방 유지보수 비율 낮을수록 기술 부채 증가
 ```
 
-> 📢 **섹션 요약 비유**: 유지보수 4유형 = 자동차 관리 유형 — 교정(고장 수리), 적응(새 도로 규정 대응), 완전([[282_performance_tactics|성능]] 업그레이드), 예방(정기 점검). 65%는 [[282_performance_tactics|성능]] 개선(완전)이 차지!
+> 📢 **섹션 요약 비유**: 유지보수 4유형 = 자동차 관리 유형 — 교정(고장 수리), 적응(새 도로 규정 대응), 완전([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 업그레이드), 예방(정기 점검). 65%는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 개선(완전)이 차지!
 
 ---
 
@@ -206,7 +210,7 @@ ISO/IEC 14764 유지보수 4유형:
   - SLA에 측정 방법 미명시
 ```
 
-> 📢 **섹션 요약 비유**: 감리 점검 = 건물 준공 검사 — 열쇠 전부 전달됐나(이관 완전성), 관리 매뉴얼 충분한가(문서), 긴급 대응 훈련했나(Runbook 교육), 소방 기준 충족하나([[085_sla|SLA]])!
+> 📢 **섹션 요약 비유**: 감리 점검 = 건물 준공 검사 — 열쇠 전부 전달됐나(이관 완전성), 관리 매뉴얼 충분한가(문서), 긴급 대응 훈련했나(Runbook 교육), 소방 기준 충족하나([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))!
 
 ---
 
@@ -257,7 +261,7 @@ ISO/IEC 14764 유지보수 4유형:
   SLA는 기술 검토 후 현실적으로 설정
 ```
 
-> 📢 **섹션 요약 비유**: 인수인계 감리 = 중고차 매매 검수 — 열쇠 전부 있나(소스코드), 수리 매뉴얼 있나(Runbook), 보험증서 있나([[085_sla|SLA]]), 숨겨진 이상 없나([[288_version_ihl_tos_total_length|버전]] 불일치). 계약 전 꼼꼼히!
+> 📢 **섹션 요약 비유**: 인수인계 감리 = 중고차 매매 검수 — 열쇠 전부 있나(소스코드), 수리 매뉴얼 있나(Runbook), 보험증서 있나([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)), 숨겨진 이상 없나([버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 불일치). 계약 전 꼼꼼히!
 
 ---
 
@@ -315,8 +319,8 @@ AI 기반 장애 예측
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 인수인계 = 건물 열쇠 교환 — 모든 열쇠(계정, 소스코드, [[014_api_posix|API]] 키) + 관리 매뉴얼 받아야 진정한 이관. 열쇠 하나라도 누락 = 위험!
-2. 유지보수 4유형 = 자동차 관리 — 교정(고장 수리), 적응(도로 규정 변경), 완전([[282_performance_tactics|성능]] 업그레이드), 예방(정기 점검). 65%는 완전!
+1. 인수인계 = 건물 열쇠 교환 — 모든 열쇠(계정, 소스코드, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 키) + 관리 매뉴얼 받아야 진정한 이관. 열쇠 하나라도 누락 = 위험!
+2. 유지보수 4유형 = 자동차 관리 — 교정(고장 수리), 적응(도로 규정 변경), 완전([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 업그레이드), 예방(정기 점검). 65%는 완전!
 3. Runbook = 정비 매뉴얼 — "DB 오류 발생 시 1단계→2단계→3단계". 개발자 없어도 운영 가능. 감리 핵심 점검 항목!
 
 ---
@@ -325,7 +329,7 @@ AI 기반 장애 예측
 
 **진행 상황**: 74 / 530
 
-← **이전**: [[049_hand_over_education_manual_audit|49. 유지보수 이관 및 운영자 교육·매뉴얼 적정성 진단 (Hand-over, Training and Manual Audit)]]
-**다음**: [[050_mobile_app_audit|50. 모바일 앱 사업 감리 (Mobile App Audit)]] →
+← **이전**: [49. 유지보수 이관 및 운영자 교육·매뉴얼 적정성 진단 (Hand-over, Training and Manual Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/049_hand_over_education_manual_audit/)
+**다음**: [50. 모바일 앱 사업 감리 (Mobile App Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/050_mobile_app_audit/) →
 
 ---

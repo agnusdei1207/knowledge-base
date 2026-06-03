@@ -1,23 +1,27 @@
----
-title: 261. L2 캐시 (Level 2 Cache)
-date: '2026-04-20'
-tags:
-- studynote-computer-architecture
----
++++
+title = "261. L2 캐시 (Level 2 Cache)"
+date = 2026-04-20
+
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: L2 캐시 (Level 2 Cache)는 L1 캐시 ([[260_l1_cache|Level 1 Cache]])의 짧은 [[015_지연_데이터_관점|지연]]시간만으로는 감당할 수 없는 작업 집합을 받아 주는, CPU (Central Processing Unit) 내부의 두 번째 완충 계층이다.
-> 2. **가치**: L2 캐시는 L1보다 몇 배 느리더라도 [[251_dram|DRAM]] (Dynamic Random Access Memory)으로 내려가는 비싼 미스를 크게 줄여 평균 메모리 접근 시간인 [[265_amat|AMAT]] (Average Memory Access Time)를 낮춘다.
-> 3. **판단 포인트**: L2 설계의 핵심은 "무조건 크게"가 아니라, 코어별 지역성, 포함 [[164_policy|정책]], 전력·면적 제약 안에서 적중률과 [[015_지연_데이터_관점|지연]]시간의 균형을 잡는 것이다.
+> 1. **본질**: L2 캐시 (Level 2 Cache)는 L1 캐시 ([Level 1 Cache](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/260_l1_cache/))의 짧은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간만으로는 감당할 수 없는 작업 집합을 받아 주는, CPU (Central Processing Unit) 내부의 두 번째 완충 계층이다.
+> 2. **가치**: L2 캐시는 L1보다 몇 배 느리더라도 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory)으로 내려가는 비싼 미스를 크게 줄여 평균 메모리 접근 시간인 [AMAT](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/265_amat/) (Average Memory Access Time)를 낮춘다.
+> 3. **판단 포인트**: L2 설계의 핵심은 "무조건 크게"가 아니라, 코어별 지역성, 포함 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 전력·면적 제약 안에서 적중률과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간의 균형을 잡는 것이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-L2 캐시 (Level 2 Cache)는 프로세서의 메모리 계층에서 L1 캐시 뒤, L3 캐시 ([[262_l3_cache|Level 3 Cache]]) 또는 메인 메모리 앞에 놓이는 중간 캐시다. L1 캐시는 보통 1~4사이클 안에 응답해야 하므로 매우 작게 설계되는데, 이 한정된 용량만으로는 루프 본문, [[001_dikw_pyramid|데이터]] 블록, 분기 이력처럼 반복적으로 쓰이는 작업 집합을 오래 붙잡아 두기 어렵다. 그 결과 L1 미스가 곧바로 메인 메모리 접근으로 이어지면 파이프라인은 수십~수백 사이클을 기다리게 된다.
+L2 캐시 (Level 2 Cache)는 프로세서의 메모리 계층에서 L1 캐시 뒤, L3 캐시 ([Level 3 Cache](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/262_l3_cache/)) 또는 메인 메모리 앞에 놓이는 중간 캐시다. L1 캐시는 보통 1~4사이클 안에 응답해야 하므로 매우 작게 설계되는데, 이 한정된 용량만으로는 루프 본문, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록, 분기 이력처럼 반복적으로 쓰이는 작업 집합을 오래 붙잡아 두기 어렵다. 그 결과 L1 미스가 곧바로 메인 메모리 접근으로 이어지면 파이프라인은 수십~수백 사이클을 기다리게 된다.
 
-이 문제를 막기 위해 L2는 L1보다 넓은 용량과 약간 더 긴 [[015_지연_데이터_관점|지연]]시간을 받아들이는 대신, "비싸게 틀리는 일"을 줄이는 계층으로 등장했다. 과거에는 칩 바깥이나 패키지 근처에 두기도 했지만, 오늘날에는 대부분 코어 가까이에 집적된 [[250_sram|SRAM]] (Static Random Access Memory) 구조로 구현되어 L1 미스의 2차 방어선 역할을 맡는다. 즉 L2의 존재 이유는 단순 저장 공간 추가가 아니라, 고속 코어와 느린 주기억장치 사이의 시간 간극을 현실적인 비용으로 메우는 데 있다.
+이 문제를 막기 위해 L2는 L1보다 넓은 용량과 약간 더 긴 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간을 받아들이는 대신, "비싸게 틀리는 일"을 줄이는 계층으로 등장했다. 과거에는 칩 바깥이나 패키지 근처에 두기도 했지만, 오늘날에는 대부분 코어 가까이에 집적된 [SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/) (Static Random Access Memory) 구조로 구현되어 L1 미스의 2차 방어선 역할을 맡는다. 즉 L2의 존재 이유는 단순 저장 공간 추가가 아니라, 고속 코어와 느린 주기억장치 사이의 시간 간극을 현실적인 비용으로 메우는 데 있다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────────────┐
@@ -43,17 +47,17 @@ L2 캐시 (Level 2 Cache)는 프로세서의 메모리 계층에서 L1 캐시 �
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-현대 L2 캐시는 대개 코어 전용(Private)이며, [[158_instruction|명령어]]와 [[001_dikw_pyramid|데이터]]를 함께 담는 통합 캐시 (Unified Cache)로 설계된다. L1은 [[158_instruction|명령어]] 캐시와 [[001_dikw_pyramid|데이터]] 캐시를 나눠 병렬성을 극대화하는 경우가 많지만, L2는 "남는 공간을 어느 쪽이든 유연하게 쓰는 것"이 더 중요하다. 이 때문에 L2는 용량 효율을 높이기 위해 보통 더 높은 연관도(Set Associativity)와 더 복잡한 교체 [[164_policy|정책]]을 사용한다.
+현대 L2 캐시는 대개 코어 전용(Private)이며, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 함께 담는 통합 캐시 (Unified Cache)로 설계된다. L1은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 캐시와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 캐시를 나눠 병렬성을 극대화하는 경우가 많지만, L2는 "남는 공간을 어느 쪽이든 유연하게 쓰는 것"이 더 중요하다. 이 때문에 L2는 용량 효율을 높이기 위해 보통 더 높은 연관도(Set Associativity)와 더 복잡한 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 사용한다.
 
-L2의 핵심 원리는 평균 메모리 접근 시간 최적화다. 단순화하면 `AMAT = L1 Hit Time + L1 Miss Rate × (L2 Hit Time + L2 Miss Rate × Memory Penalty)`로 볼 수 있다. 여기서 L2는 자신의 접근 시간이 조금 늘더라도, L2 미스율을 충분히 낮춰 전체 기대 [[015_지연_데이터_관점|지연]]시간을 줄이는 쪽으로 설계된다. 그래서 L2는 L1보다 느리지만, 시스템 전체 관점에서는 [[282_performance_tactics|성능]]을 지키는 계층이 된다.
+L2의 핵심 원리는 평균 메모리 접근 시간 최적화다. 단순화하면 `AMAT = L1 Hit Time + L1 Miss Rate × (L2 Hit Time + L2 Miss Rate × Memory Penalty)`로 볼 수 있다. 여기서 L2는 자신의 접근 시간이 조금 늘더라도, L2 미스율을 충분히 낮춰 전체 기대 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간을 줄이는 쪽으로 설계된다. 그래서 L2는 L1보다 느리지만, 시스템 전체 관점에서는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 지키는 계층이 된다.
 
 | 항목 | L1 캐시 | L2 캐시 |
 | :--- | :--- | :--- |
 | 최우선 목표 | 적중 시간 최소화 | 미스 페널티 완충 |
 | 일반적 용량 | 수십 KB | 수백 KB ~ 수 MB |
-| 일반적 [[015_지연_데이터_관점|지연]] | 수 사이클 | 약 8~20사이클 |
+| 일반적 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | 수 사이클 | 약 8~20사이클 |
 | 구조 | 분리형이 흔함 | 통합형이 흔함 |
-| 주로 방어하는 문제 | 즉시 실행 [[015_지연_데이터_관점|지연]] | 용량·충돌 미스 확대 |
+| 주로 방어하는 문제 | 즉시 실행 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | 용량·충돌 미스 확대 |
 
 아래 흐름은 L2가 실제로 어떤 식으로 L1과 메모리 사이를 중재하는지를 보여 준다.
 
@@ -76,7 +80,7 @@ L2의 핵심 원리는 평균 메모리 접근 시간 최적화다. 단순화하
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
-이 과정에서 중요한 설계 쟁점은 포함 [[164_policy|정책]]이다. **Inclusive** [[164_policy|정책]]은 L1에 있는 라인이 L2에도 반드시 존재하게 만들어 추적과 무효화가 쉽지만, 실효 용량 일부를 중복에 사용한다. **Exclusive** [[164_policy|정책]]은 L1과 L2가 서로 다른 라인을 들고 있어 총 유효 용량은 커지지만, 승격·축출 시 [[001_dikw_pyramid|데이터]] 이동이 복잡해진다. 최근에는 둘의 절충인 Non-Inclusive/Non-Exclusive [[164_policy|정책]]도 널리 쓰인다.
+이 과정에서 중요한 설계 쟁점은 포함 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이다. **Inclusive** [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 L1에 있는 라인이 L2에도 반드시 존재하게 만들어 추적과 무효화가 쉽지만, 실효 용량 일부를 중복에 사용한다. **Exclusive** [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 L1과 L2가 서로 다른 라인을 들고 있어 총 유효 용량은 커지지만, 승격·축출 시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동이 복잡해진다. 최근에는 둘의 절충인 Non-Inclusive/Non-Exclusive [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)도 널리 쓰인다.
 
 - **📢 섹션 요약 비유**: L2는 작은 접수창구가 아니라 뒤편 분류창고다. 접수창구(L1)가 놓친 서류를 창고에서 빨리 꺼내 오기도 하고, 새로 들어온 서류를 어디에 둘지 규칙까지 관리해야 한다.
 
@@ -90,12 +94,12 @@ L2를 제대로 이해하려면 L1, L3와의 역할 경계를 분명히 봐야 �
 | :--- | :--- | :--- | :--- |
 | 위치 | 코어에 가장 밀착 | 코어 근처 중간 계층 | 칩 전역의 마지막 레벨 |
 | 공유 방식 | 코어 전용 | 대개 코어 전용 | 대개 여러 코어 공유 |
-| 설계 초점 | [[015_지연_데이터_관점|지연]]시간 최소화 | 용량과 [[015_지연_데이터_관점|지연]]의 균형 | 총 적중률과 코어 간 완충 |
-| 대표 병목 | 너무 작아서 잦은 미스 | 포함 [[164_policy|정책]]·전력·면적 | 공유 경쟁·[[194_consistency_database_integrity|일관성]] 트래픽 |
+| 설계 초점 | [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 최소화 | 용량과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)의 균형 | 총 적중률과 코어 간 완충 |
+| 대표 병목 | 너무 작아서 잦은 미스 | 포함 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)·전력·면적 | 공유 경쟁·[일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 트래픽 |
 
-또한 L2는 프리페처 (Prefetcher), [[402_cache_coherence|캐시 일관성]] ([[402_cache_coherence|Cache Coherence]]), 교체 [[164_policy|정책]]과 강하게 연결된다. 프리페처가 미래 접근을 잘 예측하면 L2는 L1의 [[555_backup_and_restore_strategy|백업]] 저장소를 넘어 "미리 준비된 대기열"이 되고, 반대로 잘못 예측하면 유용한 라인을 밀어내 오염을 만든다. 멀티코어 환경에서는 L2가 각 코어의 개인 작업 집합을 담는 대신, 코어 간 [[001_dikw_pyramid|데이터]] 공유는 주로 L3와 MESI (Modified, Exclusive, Shared, Invalid) 같은 [[194_consistency_database_integrity|일관성]] 프로토콜이 처리한다.
+또한 L2는 프리페처 (Prefetcher), [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) ([Cache Coherence](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)), 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 강하게 연결된다. 프리페처가 미래 접근을 잘 예측하면 L2는 L1의 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 저장소를 넘어 "미리 준비된 대기열"이 되고, 반대로 잘못 예측하면 유용한 라인을 밀어내 오염을 만든다. 멀티코어 환경에서는 L2가 각 코어의 개인 작업 집합을 담는 대신, 코어 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공유는 주로 L3와 MESI (Modified, Exclusive, Shared, Invalid) 같은 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 프로토콜이 처리한다.
 
-결국 L2는 속도만 보면 L1보다 뒤처지고, 용량만 보면 L3보다 작다. 그런데 바로 그 애매한 위치 때문에 오히려 가장 중요한 균형점이 된다. L2가 약하면 L1 미스가 곧바로 큰 [[015_지연_데이터_관점|지연]]으로 확대되고, L2가 지나치게 크면 접근 [[015_지연_데이터_관점|지연]]과 전력 소모가 다시 문제로 돌아온다.
+결국 L2는 속도만 보면 L1보다 뒤처지고, 용량만 보면 L3보다 작다. 그런데 바로 그 애매한 위치 때문에 오히려 가장 중요한 균형점이 된다. L2가 약하면 L1 미스가 곧바로 큰 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)으로 확대되고, L2가 지나치게 크면 접근 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 전력 소모가 다시 문제로 돌아온다.
 
 - **📢 섹션 요약 비유**: L1은 책상 위 메모지, L3는 공동 창고, L2는 개인 서랍이다. 메모지만으로는 부족하고 공동 창고만으로는 멀기 때문에, 결국 가장 자주 열게 되는 것은 정리된 개인 서랍이다.
 
@@ -103,21 +107,21 @@ L2를 제대로 이해하려면 L1, L3와의 역할 경계를 분명히 봐야 �
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 L2는 문서 속 개념보다 "[[001_dikw_pyramid|데이터]] 배치 [[268_strategy_pattern|전략]]"으로 체감된다. 예를 들어 행렬 곱셈, 이미지 필터, [[002_database_definition|데이터베이스]] 스캔처럼 반복 접근이 많은 코드는 작업 블록을 L2 용량 안에 들어오도록 쪼개면 [[282_performance_tactics|성능]]이 크게 좋아진다. 이를 블로킹([[122_sync_async_communication|Blocking]]) 또는 타일링(Tiling)이라 하며, 핵심은 한 번 불러온 [[001_dikw_pyramid|데이터]]를 L2 안에서 최대한 여러 번 재사용하는 것이다.
+실무에서 L2는 문서 속 개념보다 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)"으로 체감된다. 예를 들어 행렬 곱셈, 이미지 필터, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 스캔처럼 반복 접근이 많은 코드는 작업 블록을 L2 용량 안에 들어오도록 쪼개면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 크게 좋아진다. 이를 블로킹([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 또는 타일링(Tiling)이라 하며, 핵심은 한 번 불러온 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 L2 안에서 최대한 여러 번 재사용하는 것이다.
 
 반대로 다음과 같은 패턴은 L2 효과를 약화시킨다.
 
-1. **작업 집합이 L2보다 훨씬 큰 무작위 접근**: 해시 버킷이나 대형 그래프를 불규칙하게 훑으면 L2가 있어도 [[251_dram|DRAM]] 미스가 잦다.
+1. **작업 집합이 L2보다 훨씬 큰 무작위 접근**: 해시 버킷이나 대형 그래프를 불규칙하게 훑으면 L2가 있어도 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 미스가 잦다.
 2. **2의 거듭제곱 보폭 접근**: 특정 세트에만 주소가 몰려 충돌 미스가 증가할 수 있다.
-3. **과도한 프리페치 남용**: 실제로 쓰지 않을 [[001_dikw_pyramid|데이터]]를 L2에 밀어 넣어 유효 라인을 쫓아낼 수 있다.
+3. **과도한 프리페치 남용**: 실제로 쓰지 않을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 L2에 밀어 넣어 유효 라인을 쫓아낼 수 있다.
 
-기술사 관점에서는 "어떤 워크로드에 어떤 캐시 특성이 유리한가"를 설명할 수 있어야 한다. [[015_지연_데이터_관점|지연]] 민감한 실시간 처리나 게임 로직은 코어별 L2 용량과 접근 [[015_지연_데이터_관점|지연]]이 중요하고, 대규모 공유 [[001_dikw_pyramid|데이터]] 분석은 L3와 메모리 대역폭의 영향이 더 커진다. 따라서 CPU를 평가할 때 단순 클럭뿐 아니라 코어당 L2 크기, 포함 [[164_policy|정책]], 워킹셋 특성을 함께 봐야 한다.
+기술사 관점에서는 "어떤 워크로드에 어떤 캐시 특성이 유리한가"를 설명할 수 있어야 한다. [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 민감한 실시간 처리나 게임 로직은 코어별 L2 용량과 접근 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 중요하고, 대규모 공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석은 L3와 메모리 대역폭의 영향이 더 커진다. 따라서 CPU를 평가할 때 단순 클럭뿐 아니라 코어당 L2 크기, 포함 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 워킹셋 특성을 함께 봐야 한다.
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-- 내 핫 [[001_dikw_pyramid|데이터]]가 코어별 L2 범위 안에서 반복 재사용되는가?
+- 내 핫 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 코어별 L2 범위 안에서 반복 재사용되는가?
 - 접근 패턴이 연속적이어서 프리페처와 L2가 협력할 수 있는가?
-- 병목이 L2 미스인지, 그 아래 [[251_dram|DRAM]] [[015_지연_데이터_관점|지연]]인지 프로파일링으로 확인했는가?
+- 병목이 L2 미스인지, 그 아래 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)인지 프로파일링으로 확인했는가?
 
 - **📢 섹션 요약 비유**: L2 최적화는 큰 냄비를 사는 일이 아니라, 냄비 크기에 맞춰 재료를 나눠 끓이는 일이다. 냄비보다 훨씬 많은 재료를 한 번에 넣으면 아무리 좋은 냄비라도 넘쳐 버린다.
 
@@ -125,9 +129,9 @@ L2를 제대로 이해하려면 L1, L3와의 역할 경계를 분명히 봐야 �
 
 ## Ⅴ. 기대효과 및 결론
 
-좋은 L2 설계는 코어가 체감하는 메모리 세계를 훨씬 좁고 빠르게 만든다. L1만으로는 놓칠 [[001_dikw_pyramid|데이터]]를 다시 붙잡아 주기 때문에 처리량이 안정되고, 파이프라인 정지와 메모리 대기 전력이 함께 줄어든다. 특히 코어별 지역성이 강한 워크로드에서는 L2의 품질이 실제 [[282_performance_tactics|성능]] 곡선을 크게 바꾼다.
+좋은 L2 설계는 코어가 체감하는 메모리 세계를 훨씬 좁고 빠르게 만든다. L1만으로는 놓칠 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다시 붙잡아 주기 때문에 처리량이 안정되고, 파이프라인 정지와 메모리 대기 전력이 함께 줄어든다. 특히 코어별 지역성이 강한 워크로드에서는 L2의 품질이 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 곡선을 크게 바꾼다.
 
-물론 L2가 만능은 아니다. 용량을 키우면 면적과 소비전력이 늘고, 접근 [[015_지연_데이터_관점|지연]]도 함께 커진다. 또한 [[001_dikw_pyramid|데이터]] 공유가 많은 워크로드에서는 개인 L2보다 공유 L3, 인터커넥트, 메모리 대역폭이 더 큰 병목이 될 수 있다. 그래서 최근 아키텍처는 코어당 L2를 늘리되, 프리페치와 교체 [[164_policy|정책]]을 지능화하고, 하위 계층과의 협력을 통해 실효 용량을 높이는 방향으로 진화한다.
+물론 L2가 만능은 아니다. 용량을 키우면 면적과 소비전력이 늘고, 접근 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)도 함께 커진다. 또한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공유가 많은 워크로드에서는 개인 L2보다 공유 L3, 인터커넥트, 메모리 대역폭이 더 큰 병목이 될 수 있다. 그래서 최근 아키텍처는 코어당 L2를 늘리되, 프리페치와 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 지능화하고, 하위 계층과의 협력을 통해 실효 용량을 높이는 방향으로 진화한다.
 
 결론적으로 L2 캐시는 "L1보다 느린 캐시"가 아니라, 메모리 계층 전체의 비용 구조를 바꾸는 완충 장치로 기억해야 한다. L2의 목적은 최고 속도를 과시하는 것이 아니라, 비싼 실패를 싸게 만드는 것이다.
 
@@ -139,11 +143,11 @@ L2를 제대로 이해하려면 L1, L3와의 역할 경계를 분명히 봐야 �
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| L1 캐시 ([[260_l1_cache|Level 1 Cache]]) | L2가 직접 [[555_backup_and_restore_strategy|백업]]하는 1차 캐시로, 낮은 [[015_지연_데이터_관점|지연]]시간 대신 매우 작은 용량을 가진다. |
-| L3 캐시 ([[262_l3_cache|Level 3 Cache]]) | L2 아래에서 여러 코어의 미스를 추가로 흡수하는 마지막 레벨 캐시다. |
+| L1 캐시 ([Level 1 Cache](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/260_l1_cache/)) | L2가 직접 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)하는 1차 캐시로, 낮은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 대신 매우 작은 용량을 가진다. |
+| L3 캐시 ([Level 3 Cache](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/262_l3_cache/)) | L2 아래에서 여러 코어의 미스를 추가로 흡수하는 마지막 레벨 캐시다. |
 | 지역성 (Locality) | 시간적·공간적 지역성이 높을수록 L2의 재사용 효과가 커진다. |
-| 프리페치 (Prefetch) | 미래 [[001_dikw_pyramid|데이터]]를 미리 L2에 올려 적중률을 높일 수 있지만, 오염도 유발할 수 있다. |
-| [[402_cache_coherence|캐시 일관성]] ([[402_cache_coherence|Cache Coherence]]) | 멀티코어에서 각 코어의 L2와 하위 공유 캐시 간 [[001_dikw_pyramid|데이터]] 정합성을 유지하게 한다. |
+| 프리페치 (Prefetch) | 미래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 미리 L2에 올려 적중률을 높일 수 있지만, 오염도 유발할 수 있다. |
+| [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) ([Cache Coherence](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)) | 멀티코어에서 각 코어의 L2와 하위 공유 캐시 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성을 유지하게 한다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -166,7 +170,7 @@ L3 캐시 (Level 3 Cache) / LLC (Last Level Cache)
 메모리 계층 전체의 AMAT 최적화
 ```
 
-이 흐름은 "[[148_5g_embb_urllc_mmtc|초고속]] 소용량 → 중간 완충 → 대용량 공유 → 지능형 최적화"로 캐시 설계의 초점이 넓어지는 과정을 보여 준다.
+이 흐름은 "[초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 소용량 → 중간 완충 → 대용량 공유 → 지능형 최적화"로 캐시 설계의 초점이 넓어지는 과정을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -180,7 +184,7 @@ L3 캐시 (Level 3 Cache) / LLC (Last Level Cache)
 
 **진행 상황**: 261 / 803
 
-← **이전**: [[260_l1_cache|260. L1 캐시 (Level 1 Cache)]]
-**다음**: [[262_l3_cache|262. L3 캐시 (Level 3 Cache)]] →
+← **이전**: [260. L1 캐시 (Level 1 Cache)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/260_l1_cache/)
+**다음**: [262. L3 캐시 (Level 3 Cache)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/262_l3_cache/) →
 
 ---

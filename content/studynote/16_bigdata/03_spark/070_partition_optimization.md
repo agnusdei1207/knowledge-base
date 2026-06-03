@@ -1,43 +1,47 @@
----
-title: 19. 파티션 최적화 (Partition Optimization) — Repartition vs Coalesce
-date: '2026-04-21'
-tags:
-- studynote-bigdata
----
++++
+title = "19. 파티션 최적화 (Partition Optimization) — Repartition vs Coalesce"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-bigdata"]
+
+[extra]
+tags = ["studynote-bigdata"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-- **본질**: 스파크에서 [[514_partition_slice_volume|파티션]] 수는 [[430_index_fast_full_scan|병렬]] 처리의 단위이며, `repartition()`은 전체 셔플(Shuffle)을 수반하며 [[514_partition_slice_volume|파티션]] 수를 늘리거나 줄이고, `coalesce()`는 셔플 없이 기존 [[514_partition_slice_volume|파티션]]을 합쳐 수를 줄이는 것이 핵심 차이다.
-- **가치**: [[514_partition_slice_volume|파티션]]이 너무 적으면 [[430_index_fast_full_scan|병렬]]성이 낮아 CPU가 유휴 상태가 되고, 너무 많으면 [[150_task|태스크]] [[208_schedule_history_transaction_execution_order|스케줄]]링 오버헤드와 소형 [[501_file_definition_logical_record|파일]] 문제가 발생하므로 `cores × 2~4`를 기준으로 조정하는 것이 [[282_performance_tactics|성능]] 튜닝의 첫 번째 점검 항목이다.
-- **판단 포인트**: `spark.sql.shuffle.partitions` 기본값 200은 소규모 [[001_dikw_pyramid|데이터]]에는 과도하고 대규모 [[001_dikw_pyramid|데이터]]에는 부족하므로, 실행 전 [[001_dikw_pyramid|데이터]] 크기를 추정하여 [[514_partition_slice_volume|파티션]]당 128~200MB 기준으로 조정하거나 AQE (Adaptive Query Execution)의 자동 병합 기능을 활용한다.
+- **본질**: 스파크에서 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수는 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리의 단위이며, `repartition()`은 전체 셔플(Shuffle)을 수반하며 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수를 늘리거나 줄이고, `coalesce()`는 셔플 없이 기존 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 합쳐 수를 줄이는 것이 핵심 차이다.
+- **가치**: [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)이 너무 적으면 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성이 낮아 CPU가 유휴 상태가 되고, 너무 많으면 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링 오버헤드와 소형 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 문제가 발생하므로 `cores × 2~4`를 기준으로 조정하는 것이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝의 첫 번째 점검 항목이다.
+- **판단 포인트**: `spark.sql.shuffle.partitions` 기본값 200은 소규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에는 과도하고 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에는 부족하므로, 실행 전 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기를 추정하여 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)당 128~200MB 기준으로 조정하거나 AQE (Adaptive Query Execution)의 자동 병합 기능을 활용한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### 1. [[514_partition_slice_volume|파티션]]이 중요한 이유
+### 1. [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)이 중요한 이유
 
-스파크에서 [[514_partition_slice_volume|파티션]]([[514_partition_slice_volume|Partition]])은 **작업의 최소 실행 단위**다. 하나의 [[514_partition_slice_volume|파티션]]은 하나의 [[150_task|태스크]]([[150_task|Task]])로 실행되고, 하나의 [[150_task|태스크]]는 하나의 코어(Core)에서 실행된다.
+스파크에서 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)([Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))은 **작업의 최소 실행 단위**다. 하나의 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 하나의 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))로 실행되고, 하나의 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)는 하나의 코어(Core)에서 실행된다.
 
 ```
 파티션 수 = 태스크 수 = (이론상 최대) 병렬 처리 수
 ```
 
-- **[[514_partition_slice_volume|파티션]] < 코어 수**: 일부 코어 유휴 → 클러스터 자원 낭비
-- **[[514_partition_slice_volume|파티션]] >> 코어 수**: [[150_task|태스크]] [[208_schedule_history_transaction_execution_order|스케줄]]링 오버헤드, 소형 [[501_file_definition_logical_record|파일]] 문제
-- **[[514_partition_slice_volume|파티션]] 크기 불균형 (스큐)**: 특정 [[150_task|태스크]]만 오래 걸리는 Straggler 문제
+- **[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) < 코어 수**: 일부 코어 유휴 → 클러스터 자원 낭비
+- **[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) >> 코어 수**: [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링 오버헤드, 소형 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 문제
+- **[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 크기 불균형 (스큐)**: 특정 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)만 오래 걸리는 Straggler 문제
 
-### 2. [[514_partition_slice_volume|파티션]] 관련 주요 [[009_config|설정]]
+### 2. [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 관련 주요 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
 
-| [[009_config|설정]] 키 | 기본값 | 영향 범위 |
+| [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 키 | 기본값 | 영향 범위 |
 |:---|:---|:---|
-| `spark.sql.shuffle.partitions` | 200 | SQL/DataFrame 셔플 후 [[514_partition_slice_volume|파티션]] 수 |
-| `spark.default.parallelism` | 코어 수 × 2 | [[310_audit|RDD]] 연산 기본 [[430_index_fast_full_scan|병렬]]성 |
-| `spark.sql.files.maxPartitionBytes` | 128 MB | [[501_file_definition_logical_record|파일]] 읽기 시 [[514_partition_slice_volume|파티션]]당 최대 크기 |
-| `spark.sql.adaptive.coalescePartitions.enabled` | true (3.0+) | AQE [[514_partition_slice_volume|파티션]] 자동 병합 |
+| `spark.sql.shuffle.partitions` | 200 | SQL/DataFrame 셔플 후 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 |
+| `spark.default.parallelism` | 코어 수 × 2 | [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) 연산 기본 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 |
+| `spark.sql.files.maxPartitionBytes` | 128 MB | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 읽기 시 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)당 최대 크기 |
+| `spark.sql.adaptive.coalescePartitions.enabled` | true (3.0+) | AQE [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 자동 병합 |
 
 **📢 섹션 요약 비유**
-> [[514_partition_slice_volume|파티션]]은 "공장의 생산 라인 수"다. 라인이 1개면 작업자 100명이 있어도 줄 서서 기다려야 하고, 라인이 10만 개면 라인 관리 비용이 생산 비용보다 커진다. 적정 수가 핵심이다.
+> [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 "공장의 생산 라인 수"다. 라인이 1개면 작업자 100명이 있어도 줄 서서 기다려야 하고, 라인이 10만 개면 라인 관리 비용이 생산 비용보다 커진다. 적정 수가 핵심이다.
 
 ---
 
@@ -58,7 +62,7 @@ tags:
     · 균등한 데이터 분포 보장           · 파티션 크기 불균형 가능
 ```
 
-### 2. [[514_partition_slice_volume|파티션]] 최적화 [[268_strategy_pattern|전략]]
+### 2. [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 최적화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
 ```python
 # 데이터 크기 기준 파티션 계산
@@ -82,13 +86,13 @@ spark.conf.set("spark.sql.adaptive.coalescePartitions.minPartitionNum", "50")
 
 ### 3. repartition vs coalesce 선택 기준
 
-| 상황 | 권장 [[014_api_posix|API]] | 이유 |
+| 상황 | 권장 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) | 이유 |
 |:---|:---|:---|
-| [[514_partition_slice_volume|파티션]] 수 늘리기 | `repartition(N)` | coalesce는 늘릴 수 없음 |
-| [[514_partition_slice_volume|파티션]] 수 줄이기 (소량 감소) | `coalesce(N)` | 셔플 없이 빠르게 처리 |
-| [[514_partition_slice_volume|파티션]] 수 줄이기 (대폭 감소) | `repartition(N)` | coalesce는 [[001_dikw_pyramid|데이터]] 불균형 위험 |
+| [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 늘리기 | `repartition(N)` | coalesce는 늘릴 수 없음 |
+| [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 줄이기 (소량 감소) | `coalesce(N)` | 셔플 없이 빠르게 처리 |
+| [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 줄이기 (대폭 감소) | `repartition(N)` | coalesce는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불균형 위험 |
 | 특정 컬럼으로 재분배 | `repartition(N, col)` | 후속 조인/집계 셔플 제거 |
-| [[501_file_definition_logical_record|파일]] 저장 전 [[514_partition_slice_volume|파티션]] 수 조정 | `coalesce(N)` | 셔플 없이 소형 [[501_file_definition_logical_record|파일]] 문제 해결 |
+| [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 저장 전 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 조정 | `coalesce(N)` | 셔플 없이 소형 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 문제 해결 |
 
 **📢 섹션 요약 비유**
 > `repartition`은 "이사할 때 물건을 전부 꺼내서 새롭게 정리"하는 것이고, `coalesce`는 "이웃 방들을 합쳐서 큰 방으로 만들되 짐은 그대로 두는 것"이다. 셔플(이사)은 비싸다.
@@ -97,9 +101,9 @@ spark.conf.set("spark.sql.adaptive.coalescePartitions.minPartitionNum", "50")
 
 ## Ⅲ. 비교 및 연결
 
-### 1. AQE의 자동 [[514_partition_slice_volume|파티션]] 최적화
+### 1. AQE의 자동 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 최적화
 
-AQE (Adaptive Query Execution)는 셔플 후 실제 [[001_dikw_pyramid|데이터]] 크기를 [[396_validation|확인]]하고 [[514_partition_slice_volume|파티션]]을 자동으로 병합한다.
+AQE (Adaptive Query Execution)는 셔플 후 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 자동으로 병합한다.
 
 ```
 셔플 후 200개 파티션 → AQE 분석
@@ -111,18 +115,18 @@ AQE (Adaptive Query Execution)는 셔플 후 실제 [[001_dikw_pyramid|데이터
 
 `spark.sql.adaptive.coalescePartitions.enabled=true` (기본값: true in Spark 3.0+)
 
-### 2. [[514_partition_slice_volume|파티션]] 최적화 vs [[069_skew_join|Skew Join]] [[083_relationship_in_er_model|관계]]
+### 2. [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 최적화 vs [Skew Join](/knowledge-base/studynote/16_bigdata/03_spark/069_skew_join/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
-[[514_partition_slice_volume|파티션]] 최적화는 [[514_partition_slice_volume|파티션]] 수를 조절하는 것이고, Skew Join은 [[514_partition_slice_volume|파티션]] 내 [[001_dikw_pyramid|데이터]] 크기 불균형을 해소하는 것이다. 두 문제는 다른 레이어에서 발생하므로 모두 점검해야 한다.
+[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 최적화는 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수를 조절하는 것이고, Skew Join은 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기 불균형을 해소하는 것이다. 두 문제는 다른 레이어에서 발생하므로 모두 점검해야 한다.
 
 **📢 섹션 요약 비유**
-> AQE의 [[514_partition_slice_volume|파티션]] 자동 병합은 "마트 계산대 수 자동 조절"과 같다. 손님이 적은 시간대에는 계산대([[514_partition_slice_volume|파티션]]) 수를 줄여 직원(코어)이 낭비되지 않게 한다.
+> AQE의 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 자동 병합은 "마트 계산대 수 자동 조절"과 같다. 손님이 적은 시간대에는 계산대([파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)) 수를 줄여 직원(코어)이 낭비되지 않게 한다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 1. [[514_partition_slice_volume|파티션]] 튜닝 실무 워크플로우
+### 1. [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 튜닝 실무 워크플로우
 
 ```
 Step 1: 현재 파티션 수 확인
@@ -141,9 +145,9 @@ Step 5: AQE 활성화 확인
   spark.sql("SET spark.sql.adaptive.enabled=true")
 ```
 
-### 2. 소형 [[501_file_definition_logical_record|파일]] 문제와 [[514_partition_slice_volume|파티션]]
+### 2. 소형 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 문제와 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)
 
-[[178_parquet_rle_encoding_columnar_compression|Parquet]] 저장 시 [[514_partition_slice_volume|파티션]] 수 = 출력 [[501_file_definition_logical_record|파일]] 수이므로, 과도한 [[514_partition_slice_volume|파티션]]은 소형 [[501_file_definition_logical_record|파일]] 문제([[269_small_file_problem_data_lakehouse|Small File Problem]])를 유발한다.
+[Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/) 저장 시 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 = 출력 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 수이므로, 과도한 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 소형 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 문제([Small File Problem](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/269_small_file_problem_data_lakehouse/))를 유발한다.
 
 ```python
 # 저장 전 파티션 최적화
@@ -151,15 +155,15 @@ df.coalesce(10).write.parquet("/output/path")  # 소규모 결과
 df.repartition(100).write.parquet("/output/path")  # 균등 크기 필요
 ```
 
-### 3. [[435_checklist_based_testing|체크리스트]]
+### 3. [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 - [ ] `spark.sql.shuffle.partitions` = 코어 수 × 2~4 (기본 200에서 조정)
 - [ ] AQE 활성화 (`spark.sql.adaptive.enabled=true`)
-- [ ] [[501_file_definition_logical_record|파일]] 저장 전 `coalesce()` 또는 `repartition()` 적용으로 소형 [[501_file_definition_logical_record|파일]] 방지
+- [ ] [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 저장 전 `coalesce()` 또는 `repartition()` 적용으로 소형 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 방지
 - [ ] 조인 전 조인 키로 `repartition(col)` 적용 시 후속 셔플 제거 가능
 
 **📢 섹션 요약 비유**
-> [[514_partition_slice_volume|파티션]] 튜닝은 "다리 차선 수 결정"과 같다. 차량이 적은데 차선이 너무 많으면 유지 비용만 들고, 차량이 많은데 차선이 적으면 정체가 심하다. 교통량([[001_dikw_pyramid|데이터]] 크기)에 맞는 차선 수([[514_partition_slice_volume|파티션]])를 결정해야 한다.
+> [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 튜닝은 "다리 차선 수 결정"과 같다. 차량이 적은데 차선이 너무 많으면 유지 비용만 들고, 차량이 많은데 차선이 적으면 정체가 심하다. 교통량([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기)에 맞는 차선 수([파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))를 결정해야 한다.
 
 ---
 
@@ -169,29 +173,29 @@ df.repartition(100).write.parquet("/output/path")  # 균등 크기 필요
 
 | 최적화 항목 | 기대 효과 |
 |:---|:---|
-| 적정 [[514_partition_slice_volume|파티션]] 수 [[009_config|설정]] | CPU 활용률 극대화, 불필요한 [[150_task|태스크]] 오버헤드 제거 |
-| coalesce 사용 | 셔플 비용 없이 [[514_partition_slice_volume|파티션]] 축소 |
-| AQE 자동 병합 | 소규모 셔플 [[514_partition_slice_volume|파티션]] 자동 제거 |
-| 저장 전 coalesce | 소형 [[501_file_definition_logical_record|파일]] 수 감소 → 다음 읽기 [[282_performance_tactics|성능]] 향상 |
+| 적정 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | CPU 활용률 극대화, 불필요한 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 오버헤드 제거 |
+| coalesce 사용 | 셔플 비용 없이 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 축소 |
+| AQE 자동 병합 | 소규모 셔플 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 자동 제거 |
+| 저장 전 coalesce | 소형 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 수 감소 → 다음 읽기 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 |
 
 ### 2. 결론
 
-[[514_partition_slice_volume|파티션]] 최적화는 Spark [[282_performance_tactics|성능]] 튜닝의 **가장 기초적이면서도 효과가 큰** 항목이다. `repartition`과 `coalesce`의 차이를 정확히 이해하고, AQE의 자동 최적화를 활용하되, [[001_dikw_pyramid|데이터]] 특성에 맞게 수동 조정하는 판단력이 중요하다.
+[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 최적화는 Spark [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝의 **가장 기초적이면서도 효과가 큰** 항목이다. `repartition`과 `coalesce`의 차이를 정확히 이해하고, AQE의 자동 최적화를 활용하되, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 특성에 맞게 수동 조정하는 판단력이 중요하다.
 
 **📢 섹션 요약 비유**
-> [[514_partition_slice_volume|파티션]] 최적화 없는 Spark 튜닝은 "타이어 공기압 [[396_validation|확인]] 없이 F1 레이싱에 출전하는 것"이다. 기본 중의 기본이지만 이것 하나만 잘 잡아도 레이스 성적이 크게 달라진다.
+> [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 최적화 없는 Spark 튜닝은 "타이어 공기압 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 없이 F1 레이싱에 출전하는 것"이다. 기본 중의 기본이지만 이것 하나만 잘 잡아도 레이스 성적이 크게 달라진다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 개념 | [[083_relationship_in_er_model|관계]] | 설명 |
+| 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
 |:---|:---|:---|
-| AQE (Adaptive Query Execution) | 자동화 수단 | 셔플 후 [[514_partition_slice_volume|파티션]] 자동 병합 |
-| [[069_skew_join|Skew Join]] | 연관 문제 | [[514_partition_slice_volume|파티션]] 내 [[001_dikw_pyramid|데이터]] 편중 문제 |
-| [[066_spark_shuffle_optimization|Shuffle Optimization]] | 상위 개념 | 셔플 비용 최소화 [[268_strategy_pattern|전략]]의 일부 |
-| [[269_small_file_problem_data_lakehouse|Small File Problem]] | 영향 | 과도한 [[514_partition_slice_volume|파티션]] = 소형 [[501_file_definition_logical_record|파일]] 양산 |
-| Broadcast [[521_join|Join]] | 셔플 제거 | 소규모 테이블 조인 시 셔플 자체를 없앰 |
+| AQE (Adaptive Query Execution) | 자동화 수단 | 셔플 후 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 자동 병합 |
+| [Skew Join](/knowledge-base/studynote/16_bigdata/03_spark/069_skew_join/) | 연관 문제 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 편중 문제 |
+| [Shuffle Optimization](/knowledge-base/studynote/16_bigdata/03_spark/066_spark_shuffle_optimization/) | 상위 개념 | 셔플 비용 최소화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 일부 |
+| [Small File Problem](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/269_small_file_problem_data_lakehouse/) | 영향 | 과도한 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) = 소형 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 양산 |
+| Broadcast [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) | 셔플 제거 | 소규모 테이블 조인 시 셔플 자체를 없앰 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -207,7 +211,7 @@ df.repartition(100).write.parquet("/output/path")  # 균등 크기 필요
     ▼
 [Delta Lake Z-Order — 데이터 레이아웃 최적화로 스킵 I/O 극대화]
 ```
-Spark [[514_partition_slice_volume|파티션]] 최적화는 [[001_dikw_pyramid|데이터]] 편향을 제거하고 [[430_index_fast_full_scan|병렬]]성을 극대화하며, AQE와 Delta Lake의 Z-Order 클러스터링으로 더욱 지능적으로 발전하고 있다.
+Spark [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 최적화는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 편향을 제거하고 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 극대화하며, AQE와 Delta Lake의 Z-Order 클러스터링으로 더욱 지능적으로 발전하고 있다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -219,7 +223,7 @@ Spark [[514_partition_slice_volume|파티션]] 최적화는 [[001_dikw_pyramid|�
 
 **진행 상황**: 70 / 262
 
-← **이전**: [[069_skew_join|18. Skew Join — 데이터 쏠림 조인 최적화]]
-**다음**: [[071_checkpointing|20. 체크포인팅 (Checkpointing) — Lineage 단절 및 장애 복구]] →
+← **이전**: [18. Skew Join — 데이터 쏠림 조인 최적화](/knowledge-base/studynote/16_bigdata/03_spark/069_skew_join/)
+**다음**: [20. 체크포인팅 (Checkpointing) — Lineage 단절 및 장애 복구](/knowledge-base/studynote/16_bigdata/03_spark/071_checkpointing/) →
 
 ---

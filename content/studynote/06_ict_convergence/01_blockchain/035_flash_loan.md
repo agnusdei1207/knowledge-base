@@ -1,14 +1,18 @@
----
-title: 035. 플래시 론 (Flash Loan)
-date: '2026-03-03'
-tags:
-- studynote-ict-convergence
----
++++
+title = "035. 플래시 론 (Flash Loan)"
+date = 2026-03-03
+
+[taxonomies]
+tags = ["studynote-ict-convergence"]
+
+[extra]
+tags = ["studynote-ict-convergence"]
++++
 
 > **핵심 인사이트**
-> 1. Flash Loan은 블록체인의 [[193_atomicity_all_or_nothing|원자성]]([[193_atomicity_all_or_nothing|Atomicity]])을 이용해 담보 없이 대규모 자금을 빌리고, 하나의 [[191_transaction_concept_states|트랜잭션]] 내에서 사용 후 즉시 상환하는 [[033_defi_decentralized_finance|DeFi]] 혁신 금융 도구다.
-> 2. 상환 실패 시 전체 [[191_transaction_concept_states|트랜잭션]]이 [[098_rollback_strategy_pipeline_error_threshold|롤백]](revert)되므로 대출자는 손실 위험이 없지만, 공격자는 이를 악용해 가격 조작, 재진입 공격(Reentrancy)에 활용한다.
-> 3. 아비트라지(Arbitrage), 청산(Liquidation), 담보 전환(Collateral Swap) 등 합법적 활용도 크지만, Flash Loan Attack은 [[033_defi_decentralized_finance|DeFi]] 보안의 핵심 위협이다.
+> 1. Flash Loan은 블록체인의 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)([Atomicity](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/))을 이용해 담보 없이 대규모 자금을 빌리고, 하나의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 내에서 사용 후 즉시 상환하는 [DeFi](/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/) 혁신 금융 도구다.
+> 2. 상환 실패 시 전체 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)(revert)되므로 대출자는 손실 위험이 없지만, 공격자는 이를 악용해 가격 조작, 재진입 공격(Reentrancy)에 활용한다.
+> 3. 아비트라지(Arbitrage), 청산(Liquidation), 담보 전환(Collateral Swap) 등 합법적 활용도 크지만, Flash Loan Attack은 [DeFi](/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/) 보안의 핵심 위협이다.
 
 ---
 
@@ -31,7 +35,7 @@ tags:
 4b. 상환 실패 -> 전체 롤백(Revert)
 ```
 
-- **[[193_atomicity_all_or_nothing|원자성]]([[193_atomicity_all_or_nothing|Atomicity]])**: 1~4가 모두 성공하거나 모두 실패
+- **[원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)([Atomicity](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/))**: 1~4가 모두 성공하거나 모두 실패
 - **담보 불필요**: 상환이 보장되므로 신용 평가 불필요
 - **수수료**: Aave 0.09%, dYdX 2 wei 고정
 
@@ -106,13 +110,13 @@ Flash Loan DAI
 
 ---
 
-## [[288_version_ihl_tos_total_length|IV]]. Flash Loan 방어 [[268_strategy_pattern|전략]]
+## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). Flash Loan 방어 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
 | 방어 방법             | 설명                                    |
 |----------------------|-----------------------------------------|
 | TWAP 오라클           | 순간 가격 대신 시간 가중 평균 가격 사용  |
-| 재진입 방지 ([[223_mutex|Mutex]])   | OpenZeppelin ReentrancyGuard            |
-| 거버넌스 시간 [[015_지연_데이터_관점|지연]]    | 제안-실행 간 타임락(Timelock) [[009_config|설정]]       |
+| 재진입 방지 ([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))   | OpenZeppelin ReentrancyGuard            |
+| 거버넌스 시간 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)    | 제안-실행 간 타임락(Timelock) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)       |
 | 플래시 론 탐지        | tx.origin vs msg.sender 검사            |
 | 회로 차단기           | 단일 블록 내 대규모 가격 변동 시 거래 중단|
 
@@ -212,7 +216,7 @@ Flashbots, 샌드위치 공격, 거버넌스 공격
 
 **진행 상황**: 35 / 552
 
-← **이전**: [[034_uniswap_amm_automated_market_maker|유니스왑·AMM (Automated Market Maker, 자동화 시장 조성자)]]
-**다음**: [[036_blockchain_oracle_problem|036. 블록체인 오라클 문제 (Blockchain Oracle Problem)]] →
+← **이전**: [유니스왑·AMM (Automated Market Maker, 자동화 시장 조성자)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/034_uniswap_amm_automated_market_maker/)
+**다음**: [036. 블록체인 오라클 문제 (Blockchain Oracle Problem)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/036_blockchain_oracle_problem/) →
 
 ---

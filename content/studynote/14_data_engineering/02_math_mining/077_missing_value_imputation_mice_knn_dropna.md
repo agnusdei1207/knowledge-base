@@ -1,15 +1,19 @@
----
-title: 77. 결측치 처리 - MICE 다중 대치법과 KNN 대치 보간
-date: '2026-04-10'
-tags:
-- studynote-data-engineering
----
++++
+title = "77. 결측치 처리 - MICE 다중 대치법과 KNN 대치 보간"
+date = 2026-04-10
 
-# 결측치 처리 - MICE 다중 대치법과 [[262_knn|KNN]] 대치 보간
+[taxonomies]
+tags = ["studynote-data-engineering"]
+
+[extra]
+tags = ["studynote-data-engineering"]
++++
+
+# 결측치 처리 - MICE 다중 대치법과 [KNN](/knowledge-base/studynote/10_ai/03_llm_nlp/262_knn/) 대치 보간
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 결측치는 단순한 빈칸이 아니라, [[001_dikw_pyramid|데이터]]가 왜 비었는지부터 판단해야 하는 품질 문제다.
-> 2. **가치**: MICE (Multivariate [[367_missing_value_imputation_mice|Imputation]] by Chained Equations)와 [[262_knn|kNN]] ([[262_knn|k-Nearest Neighbors]])은 dropna보다 표본 손실을 줄이지만, 잘못 쓰면 편향을 더 키운다.
+> 1. **본질**: 결측치는 단순한 빈칸이 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 왜 비었는지부터 판단해야 하는 품질 문제다.
+> 2. **가치**: MICE (Multivariate [Imputation](/knowledge-base/studynote/06_ict_convergence/05_data_science/367_missing_value_imputation_mice/) by Chained Equations)와 [kNN](/knowledge-base/studynote/10_ai/03_llm_nlp/262_knn/) ([k-Nearest Neighbors](/knowledge-base/studynote/10_ai/03_llm_nlp/262_knn/))은 dropna보다 표본 손실을 줄이지만, 잘못 쓰면 편향을 더 키운다.
 > 3. **판단 포인트**: MCAR (Missing Completely At Random), MAR (Missing At Random), MNAR (Missing Not At Random)를 구분하고, 대치는 항상 train-only 기준으로 적용해야 한다.
 
 ---
@@ -17,21 +21,21 @@ tags:
 ## Ⅰ. 개요 및 필요성
 결측치는 설문 누락, 센서 오류, 입력 실수, 수집 중단처럼 현실에서 매우 자주 생긴다. 모델은 이 빈칸을 그대로 받으면 오류를 내거나, 억지로 숫자를 넣더라도 잘못된 패턴을 학습할 수 있다. 그래서 결측치 처리는 전처리의 첫 관문이다.
 
-`dropna()`로 지우면 간단하지만, 표본 수가 줄어들고 특정 집단이 과소대표될 수 있다. 반대로 무작정 평균값만 넣으면 [[136_variance|분산]]이 눌려서 [[001_dikw_pyramid|데이터]] 구조가 왜곡된다. 결측치 처리는 "없애기"와 "복원하기" 사이의 균형 문제다.
+`dropna()`로 지우면 간단하지만, 표본 수가 줄어들고 특정 집단이 과소대표될 수 있다. 반대로 무작정 평균값만 넣으면 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 눌려서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조가 왜곡된다. 결측치 처리는 "없애기"와 "복원하기" 사이의 균형 문제다.
 
 📢 섹션 요약 비유: 결측치는 찢어진 사진의 구멍이다. 그냥 잘라버리면 그림이 작아지고, 아무렇게나 칠하면 원본이 왜곡된다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-결측 처리의 기본 흐름은 `진단 → 방식 선택 → 학습 데이터에만 적합 → 검증 데이터에는 변환만 적용 → 품질 재확인`이다. 특히 KNN은 거리 기반이므로 스케일 정규화가 선행되어야 하고, MICE는 변수 간 [[083_relationship_in_er_model|관계]]를 이용하므로 다변량 구조를 유지하는 데 유리하다.
+결측 처리의 기본 흐름은 `진단 → 방식 선택 → 학습 데이터에만 적합 → 검증 데이터에는 변환만 적용 → 품질 재확인`이다. 특히 KNN은 거리 기반이므로 스케일 정규화가 선행되어야 하고, MICE는 변수 간 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 이용하므로 다변량 구조를 유지하는 데 유리하다.
 
 | 방식 | 장점 | 단점 | 적합한 상황 |
 | :--- | :--- | :--- | :--- |
 | dropna | 구현이 매우 단순 | 표본 손실, 편향 위험 | 결측이 매우 적고 무작위일 때 |
-| 평균/중앙값 대치 | 빠르고 재현성 높음 | [[136_variance|분산]] 축소, [[083_relationship_in_er_model|관계]] 손실 | 단변량 [[025_baseline|기준선]] |
-| [[262_knn|kNN]] 대치 | 국소 유사성 반영 | 계산 비용, 거리 민감 | 비슷한 행이 의미 있을 때 |
-| MICE | 변수 간 [[083_relationship_in_er_model|관계]] 반영 | 반복 계산, [[395_verification_process_review|검증]] 복잡 | 상관 구조가 있는 다변량 [[001_dikw_pyramid|데이터]] |
+| 평균/중앙값 대치 | 빠르고 재현성 높음 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 축소, [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 손실 | 단변량 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) |
+| [kNN](/knowledge-base/studynote/10_ai/03_llm_nlp/262_knn/) 대치 | 국소 유사성 반영 | 계산 비용, 거리 민감 | 비슷한 행이 의미 있을 때 |
+| MICE | 변수 간 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 반영 | 반복 계산, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 복잡 | 상관 구조가 있는 다변량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 
 ```text
 결측 패턴 진단
@@ -52,7 +56,7 @@ kNN은 특성이 비슷한 샘플들의 값을 참고해 빈칸을 메우고, MI
 ---
 
 ## Ⅲ. 비교 및 연결
-`dropna()`는 빠르지만 정보 손실이 크고, 단순 대치는 간단하지만 [[083_relationship_in_er_model|관계]]를 덜 반영한다. kNN은 지역 유사성을 살리지만 차원의 저주와 이상치에 민감하고, MICE는 [[083_relationship_in_er_model|관계]]를 잘 살리지만 계산과 [[395_verification_process_review|검증]]이 더 어렵다.
+`dropna()`는 빠르지만 정보 손실이 크고, 단순 대치는 간단하지만 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 덜 반영한다. kNN은 지역 유사성을 살리지만 차원의 저주와 이상치에 민감하고, MICE는 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 잘 살리지만 계산과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 더 어렵다.
 
 MCAR이면 dropna나 단순대치가 충분할 수 있지만, MAR/MNAR가 의심되면 모델 기반 대치가 더 안전하다. 결측치 보간은 "빈칸 메우기"가 아니라 "왜 비었는지 설명 가능한가"가 핵심이다. 또한 결측 여부 자체를 feature로 추가하면, 정보 손실을 일부 보완할 수 있다.
 
@@ -61,12 +65,12 @@ MCAR이면 dropna나 단순대치가 충분할 수 있지만, MAR/MNAR가 의심
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
-실무에서는 먼저 결측률과 패턴을 보고, 다음으로 모델 목적을 구분한다. 탐색 단계에서는 dropna/단순대치로 빠르게 [[025_baseline|기준선]]을 만들고, 본 학습에서는 MICE나 kNN을 검토한다.
+실무에서는 먼저 결측률과 패턴을 보고, 다음으로 모델 목적을 구분한다. 탐색 단계에서는 dropna/단순대치로 빠르게 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)을 만들고, 본 학습에서는 MICE나 kNN을 검토한다.
 
 - 채택: 결측이 중간 정도이고 변수 간 상관이 뚜렷할 때
-- 회피: 거리 의미가 없는 범주형 위주 [[001_dikw_pyramid|데이터]]에 kNN을 남용할 때
-- [[435_checklist_based_testing|체크리스트]]
-  1. 대치가 [[395_verification_process_review|검증]] [[001_dikw_pyramid|데이터]] 정보 누출 없이 적용됐는가?
+- 회피: 거리 의미가 없는 범주형 위주 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 kNN을 남용할 때
+- [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+  1. 대치가 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정보 누출 없이 적용됐는가?
   2. 결측률이 높아 원본 의미가 사라지지 않았는가?
   3. 대치 후 분포가 비현실적으로 평평해지지 않았는가?
   4. 결측 indicator를 추가해 설명력을 보완했는가?
@@ -89,8 +93,8 @@ MICE는 여러 번 대치한 뒤 결과를 합치면 추정 불확실성을 반�
 | MCAR (Missing Completely At Random) | 무작위 결측, 단순 대치 검토 가능 |
 | MAR (Missing At Random) | 다른 변수와 연관된 결측, 모델 기반 대치 유리 |
 | MNAR (Missing Not At Random) | 결측 자체가 의미를 가짐, 가장 어려움 |
-| [[262_knn|kNN]] ([[262_knn|k-Nearest Neighbors]]) | 유사 샘플 기반 대치 |
-| MICE (Multivariate [[367_missing_value_imputation_mice|Imputation]] by Chained Equations) | 반복 예측 기반 다중 대치 |
+| [kNN](/knowledge-base/studynote/10_ai/03_llm_nlp/262_knn/) ([k-Nearest Neighbors](/knowledge-base/studynote/10_ai/03_llm_nlp/262_knn/)) | 유사 샘플 기반 대치 |
+| MICE (Multivariate [Imputation](/knowledge-base/studynote/06_ict_convergence/05_data_science/367_missing_value_imputation_mice/) by Chained Equations) | 반복 예측 기반 다중 대치 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -122,7 +126,7 @@ train-only 대치와 검증
 
 **진행 상황**: 77 / 258
 
-← **이전**: [[076_outlier_detection_iqr_dbscan_isolation_forest|76. 이상치 (Outlier) 탐지 - IQR, Z-Score, DBSCAN, Isolation Forest]]
-**다음**: [[078_data_scaling_normalization_min_max_standardization_z_score|78. 데이터 스케일링 - 정규화(Min-Max)와 표준화(Z-Score) 차이점]] →
+← **이전**: [76. 이상치 (Outlier) 탐지 - IQR, Z-Score, DBSCAN, Isolation Forest](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)
+**다음**: [78. 데이터 스케일링 - 정규화(Min-Max)와 표준화(Z-Score) 차이점](/knowledge-base/studynote/14_data_engineering/02_math_mining/078_data_scaling_normalization_min_max_standardization_z_score/) →
 
 ---

@@ -1,8 +1,12 @@
----
-title: 74. 순열과 조합 (Permutation and Combination)
-tags:
-- it_management
----
++++
+title = "74. 순열과 조합 (Permutation and Combination)"
+
+[taxonomies]
+tags = ["it_management"]
+
+[extra]
+tags = ["it_management"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -36,7 +40,7 @@ Ordering?
 | Combination | 순서 무시 |
 | Factorial | 계승 |
 
-순열은 [[055_array|배열]], 조합은 선택으로 이해하면 쉽다.
+순열은 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/), 조합은 선택으로 이해하면 쉽다.
 
 - **📢 섹션 요약 비유**: 줄을 세우는지, 멤버만 뽑는지의 차이다.
 
@@ -54,7 +58,7 @@ Ordering?
 | Factorial | 기본 |
 | Binomial Coefficient | 조합수 |
 
-순열과 조합은 [[130_probability|확률]], 통계, 알고리즘에서 자주 등장한다.
+순열과 조합은 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/), 통계, 알고리즘에서 자주 등장한다.
 
 - **📢 섹션 요약 비유**: 앉는 순서냐, 뽑는 사람 수냐의 차이다.
 
@@ -62,15 +66,15 @@ Ordering?
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 순서가 중요한가?
 2. 순열과 조합을 구분하는가?
 3. 팩토리얼을 이해하는가?
 4. 계산 범위를 아는가?
-5. [[130_probability|확률]]/통계와 연결하는가?
+5. [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)/통계와 연결하는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 순서 유무를 안 보고 공식부터 쓰는 설계
 - nPr과 nCr을 혼동하는 설계
@@ -85,7 +89,7 @@ Ordering?
 
 ## Ⅴ. 기대효과 및 결론
 
-순열과 조합은 [[130_probability|확률]] 계산의 출발점이다.
+순열과 조합은 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 계산의 출발점이다.
 
 결론적으로 순열은 순서 고려, 조합은 순서 미고려 경우의 수다.
 
@@ -129,7 +133,7 @@ Binomial Coefficient
 
 **진행 상황**: 132 / 587
 
-← **이전**: [[074_event_management|74. 이벤트 관리 (Event Management)]]
-**다음**: [[075_combinatorics|75. 세그먼트 트리 (Segment Tree) — 구간 쿼리/업데이트]] →
+← **이전**: [74. 이벤트 관리 (Event Management)](/knowledge-base/studynote/12_it_management/02_itsm_itil/074_event_management/)
+**다음**: [75. 세그먼트 트리 (Segment Tree) — 구간 쿼리/업데이트](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/) →
 
 ---

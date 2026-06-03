@@ -1,14 +1,18 @@
----
-title: 117. 마테크 (MarTech, Marketing Technology) - 마케팅·기술 융합 생태계
-date: '2026-04-19'
-tags:
-- studynote-enterprise-systems
----
++++
+title = "117. 마테크 (MarTech, Marketing Technology) - 마케팅·기술 융합 생태계"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-enterprise-systems"]
+
+[extra]
+tags = ["studynote-enterprise-systems"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 마테크(MarTech)는 **마케팅(Marketing) + 기술(Technology)**의 합성어로, 마케팅 자동화·분석·개인화·고객 경험(CX) 관리를 수행하는 **소프트웨어 도구와 플랫폼의 총체적 생태계**를 의미한다.
-> 2. **가치**: 마테크 랜드스케이프(Landscape)에는 **14,000개 이상의 도구**(2024 기준)가 존재하며, [[193_crl_distribution_point_cdp|CDP]]·MA(Marketing Automation)·CMS·분석·ABM·소셜 등 카테고리로 [[104_classification_analysis|분류]]된다. 기업은 이들을 조합하여 **마테크 [[057_stack|스택]](MarTech [[057_stack|Stack]])**을 구성한다.
-> 3. **판단 포인트**: "Best of Breed(최적 도구 조합)" vs "All-in-One(통합 플랫폼, HubSpot·Salesforce)" [[268_strategy_pattern|전략]]을 선택해야 하며, 도구 간 **[[001_dikw_pyramid|데이터]] 통합([[193_crl_distribution_point_cdp|CDP]])과 워크플로 연동(iPaaS)**이 성공의 핵심이다.
+> 2. **가치**: 마테크 랜드스케이프(Landscape)에는 **14,000개 이상의 도구**(2024 기준)가 존재하며, [CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/)·MA(Marketing Automation)·CMS·분석·ABM·소셜 등 카테고리로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)된다. 기업은 이들을 조합하여 **마테크 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)(MarTech [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))**을 구성한다.
+> 3. **판단 포인트**: "Best of Breed(최적 도구 조합)" vs "All-in-One(통합 플랫폼, HubSpot·Salesforce)" [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 선택해야 하며, 도구 간 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합([CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/))과 워크플로 연동(iPaaS)**이 성공의 핵심이다.
 
 ---
 
@@ -31,7 +35,7 @@ tags:
 └───────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 마테크 [[057_stack|스택]]은 주방의 조리 도구 세트다. 칼(분석)·냄비(자동화)·오븐(CMS)을 각각 최고 브랜드로 구성하거나, 올인원 세트를 사는 [[268_strategy_pattern|전략]]이 있다.
+- **📢 섹션 요약 비유**: 마테크 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)은 주방의 조리 도구 세트다. 칼(분석)·냄비(자동화)·오븐(CMS)을 각각 최고 브랜드로 구성하거나, 올인원 세트를 사는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 있다.
 
 ---
 
@@ -41,13 +45,13 @@ tags:
 
 | 카테고리 | 대표 도구 | 역할 |
 |:---|:---|:---|
-| **[[193_crl_distribution_point_cdp|CDP]]** | [[407_tcp_segment_header_structure_20_60_bytes|Segment]], mParticle | 고객 [[001_dikw_pyramid|데이터]] 통합 |
+| **[CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/)** | [Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/), mParticle | 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합 |
 | **MA** | HubSpot, Braze | 마케팅 자동화 (이메일·푸시) |
 | **분석** | GA4, Amplitude | 사용자 행동 분석 |
 | **CMS** | Contentful | 콘텐츠 관리·배포 |
 | **ABM** | 6sense | Account-Based Marketing |
 
-- **📢 섹션 요약 비유**: CDP가 [[180_data_hub|데이터 허브]](중앙 창고), MA가 실행 엔진(컨베이어 벨트), 분석이 대시보드(관제탑)이다.
+- **📢 섹션 요약 비유**: CDP가 [데이터 허브](/knowledge-base/studynote/16_bigdata/09_platform/180_data_hub/)(중앙 창고), MA가 실행 엔진(컨베이어 벨트), 분석이 대시보드(관제탑)이다.
 
 ---
 
@@ -58,22 +62,22 @@ tags:
 | **유연성** | **높음** | 제한적 |
 | **통합 비용** | 높음 (iPaaS 필요) | **낮음** |
 | **맞춤도** | **최적** | 평균적 |
-| **대표** | [[407_tcp_segment_header_structure_20_60_bytes|Segment]]+Braze+GA4 | **HubSpot Suite** |
+| **대표** | [Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/)+Braze+GA4 | **HubSpot Suite** |
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 마테크 [[057_stack|스택]] 설계 원칙
-1. **[[193_crl_distribution_point_cdp|CDP]] 중심**: [[001_dikw_pyramid|데이터]] 통합을 먼저 확보한 후 실행 도구 연결.
-2. **[[012_roi_return_on_investment|ROI]] 측정**: 도구별 비용 vs 전환율 기여도 분석.
-3. **[[190_ai_llm_requirements_specification|AI]] 네이티브**: GenAI 내장 도구 우선 선택 (콘텐츠 자동 [[087_process_state_transition|생성]]).
+### 마테크 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 설계 원칙
+1. **[CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/) 중심**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합을 먼저 확보한 후 실행 도구 연결.
+2. **[ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 측정**: 도구별 비용 vs 전환율 기여도 분석.
+3. **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 네이티브**: GenAI 내장 도구 우선 선택 (콘텐츠 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)).
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-마테크는 마케팅을 "감(Gut feeling)"에서 "[[001_dikw_pyramid|데이터]] 기반 과학"으로 전환하는 핵심이며, GenAI의 등장으로 콘텐츠 [[087_process_state_transition|생성]]·개인화·예측이 자동화되는 **[[190_ai_llm_requirements_specification|AI]] 마테크** 시대가 도래하고 있다.
+마테크는 마케팅을 "감(Gut feeling)"에서 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 과학"으로 전환하는 핵심이며, GenAI의 등장으로 콘텐츠 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·개인화·예측이 자동화되는 **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 마테크** 시대가 도래하고 있다.
 
 ---
 
@@ -81,11 +85,11 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[[193_crl_distribution_point_cdp|CDP]]** | 마테크 [[057_stack|스택]]의 [[180_data_hub|데이터 허브]] |
+| **[CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/)** | 마테크 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)의 [데이터 허브](/knowledge-base/studynote/16_bigdata/09_platform/180_data_hub/) |
 | **MA (Marketing Automation)** | 실행 엔진 (이메일·푸시·세그먼트) |
-| **ABM** | B2B 타겟 마케팅 [[268_strategy_pattern|전략]] |
-| **iPaaS** | 마테크 도구 간 [[001_dikw_pyramid|데이터]] 연동 |
-| **GenAI** | 콘텐츠 자동 [[087_process_state_transition|생성]], 마테크의 미래 |
+| **ABM** | B2B 타겟 마케팅 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
+| **iPaaS** | 마테크 도구 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연동 |
+| **GenAI** | 콘텐츠 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 마테크의 미래 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -116,7 +120,7 @@ tags:
 
 **진행 상황**: 117 / 482
 
-← **이전**: [[116_first_party_data_cookie_less_strategy|116. 1st Party Data 전략 (Cookie-less Marketing) - 쿠키 폐지 후 데이터 주권 확보]]
-**다음**: [[118_inbound_vs_outbound_marketing|118. 인바운드 vs 아웃바운드 마케팅 - Pull vs Push 마케팅 전략 비교]] →
+← **이전**: [116. 1st Party Data 전략 (Cookie-less Marketing) - 쿠키 폐지 후 데이터 주권 확보](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/116_first_party_data_cookie_less_strategy/)
+**다음**: [118. 인바운드 vs 아웃바운드 마케팅 - Pull vs Push 마케팅 전략 비교](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/118_inbound_vs_outbound_marketing/) →
 
 ---

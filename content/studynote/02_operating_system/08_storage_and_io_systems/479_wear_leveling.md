@@ -1,27 +1,31 @@
----
-title: 479. 마모 평준화 (Wear Leveling) - 수명 연장을 위해 쓰기 작업을 전체 블록에 고르게 분산
-date: '2026-05-09'
-tags:
-- studynote-operating-system
----
++++
+title = "479. 마모 평준화 (Wear Leveling) - 수명 연장을 위해 쓰기 작업을 전체 블록에 고르게 분산"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 마모 평준화(Wear Leveling)는 수백~수천 번 지우기(Erase)를 반복하면 셀이 타버려 죽어버리는 낸드 플래시([[257_nand_flash|NAND Flash]])의 치명적 한계를 극복하기 위해, **[[001_dikw_pyramid|데이터]] [[289_cqrs_db|쓰기]] 및 지우기 작업을 수십만 개의 블록 전체에 골고루 분산시켜 특정 구역만 조기 사망하는 것을 막는 [[478_ftl_flash_translation_layer|FTL]]([[032_firmware|펌웨어]])의 핵심 수명 관리 [[001_algorithm_definition|알고리즘]]**이다.
-> 2. **가치**: OS가 무지성으로 1번 주소(예: [[501_file_definition_logical_record|파일]] 할당 테이블, [[525_fat_file_allocation_table|FAT]])에만 초당 수십 번씩 업데이트를 때려 박아도, **[[327_ssd|SSD]] 내부적으로는 그 [[001_dikw_pyramid|데이터]]를 10만 개의 각기 다른 빈 블록으로 계속 이사(Out-of-place update) 다니게 속여서**, [[327_ssd|SSD]] 전체의 생명줄(TBW)을 1년에서 5~10년 이상으로 드라마틱하게 연장한다.
-> 3. **융합(동적 vs 정적)**: 단순히 새로 들어오는 [[001_dikw_pyramid|데이터]]만 빈 곳에 꽂아주는 **동적(Dynamic) 마모 평준화**를 넘어, 평생 한 번도 안 지워지고 꿀 빠는 [[676_cold_data_archiving|콜드 데이터]](예: OS 설치 [[501_file_definition_logical_record|파일]])를 억지로 끄집어내어 낡은 방으로 내쫓고 그 싱싱한 방을 빼앗는 **정적(Static) 마모 평준화와 융합**되어 극한의 수명 밸런스를 달성한다.
+> 1. **본질**: 마모 평준화(Wear Leveling)는 수백~수천 번 지우기(Erase)를 반복하면 셀이 타버려 죽어버리는 낸드 플래시([NAND Flash](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/257_nand_flash/))의 치명적 한계를 극복하기 위해, **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 및 지우기 작업을 수십만 개의 블록 전체에 골고루 분산시켜 특정 구역만 조기 사망하는 것을 막는 [FTL](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/)([펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/))의 핵심 수명 관리 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**이다.
+> 2. **가치**: OS가 무지성으로 1번 주소(예: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 할당 테이블, [FAT](/knowledge-base/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/))에만 초당 수십 번씩 업데이트를 때려 박아도, **[SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 내부적으로는 그 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 10만 개의 각기 다른 빈 블록으로 계속 이사(Out-of-place update) 다니게 속여서**, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 전체의 생명줄(TBW)을 1년에서 5~10년 이상으로 드라마틱하게 연장한다.
+> 3. **융합(동적 vs 정적)**: 단순히 새로 들어오는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 빈 곳에 꽂아주는 **동적(Dynamic) 마모 평준화**를 넘어, 평생 한 번도 안 지워지고 꿀 빠는 [콜드 데이터](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/676_cold_data_archiving/)(예: OS 설치 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))를 억지로 끄집어내어 낡은 방으로 내쫓고 그 싱싱한 방을 빼앗는 **정적(Static) 마모 평준화와 융합**되어 극한의 수명 밸런스를 달성한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 플래시 메모리를 구성하는 방(Block)들의 "지워진 횟수(Erase Count)"를 모든 방이 똑같이 나이 먹도록 억지로 맞춰주는(Leveling) 기술이다. 1번 방이 100번 지워지고 2번 방이 0번 지워졌다면, 다음 [[001_dikw_pyramid|데이터]]를 쓸 때는 무조건 싱싱한 2번 방에 강제로 쑤셔 넣고 장부([[010_schema_mapping|Mapping]] Table)를 조작한다.
-- **필요성**: [[001_operating_system_purpose|운영체제]] [[501_file_definition_logical_record|파일]]시스템(NTFS, EXT4)은 태생적으로 '특정 구역'만 지독하게 괴롭힌다. [[501_file_definition_logical_record|파일]]의 목차가 담긴 MFT나 저널링(Log) 영역(예: LBA 0번~100번)은 [[501_file_definition_logical_record|파일]] 1바이트가 바뀔 때마다 초당 수백 번씩 값이 덮어씌워 진다([[675_hot_data_caching|Hot Data]]). 만약 하드디스크([[465_hdd_structure|HDD]])처럼 자석 극성만 띡띡 바꾸는 기계였다면 아무 문제가 안 되지만, SSD는 지울(Erase) 때마다 20V의 고압 전기로 셀의 산화막을 태워버린다. 만약 마모 평준화가 없다면? OS가 100번 주소만 1만 번 죽어라 때리다가 그 자리의 낸드 셀 1개가 구멍이 나 뻥 터져버린다(Bad Block). 1TB 중 999GB가 새것인데, **겨우 앞의 10MB 구역이 타버렸다는 이유 하나만으로 20만 원짜리 [[327_ssd|SSD]] 전체가 먹통(Read-Only Brick)이 되어버리는 대참사**가 벌어진다. 이를 막기 위해 FTL의 거대한 사기극이 시작되었다.
+- **개념**: 플래시 메모리를 구성하는 방(Block)들의 "지워진 횟수(Erase Count)"를 모든 방이 똑같이 나이 먹도록 억지로 맞춰주는(Leveling) 기술이다. 1번 방이 100번 지워지고 2번 방이 0번 지워졌다면, 다음 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓸 때는 무조건 싱싱한 2번 방에 강제로 쑤셔 넣고 장부([Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/) Table)를 조작한다.
+- **필요성**: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템(NTFS, EXT4)은 태생적으로 '특정 구역'만 지독하게 괴롭힌다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 목차가 담긴 MFT나 저널링(Log) 영역(예: LBA 0번~100번)은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1바이트가 바뀔 때마다 초당 수백 번씩 값이 덮어씌워 진다([Hot Data](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/675_hot_data_caching/)). 만약 하드디스크([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/))처럼 자석 극성만 띡띡 바꾸는 기계였다면 아무 문제가 안 되지만, SSD는 지울(Erase) 때마다 20V의 고압 전기로 셀의 산화막을 태워버린다. 만약 마모 평준화가 없다면? OS가 100번 주소만 1만 번 죽어라 때리다가 그 자리의 낸드 셀 1개가 구멍이 나 뻥 터져버린다(Bad Block). 1TB 중 999GB가 새것인데, **겨우 앞의 10MB 구역이 타버렸다는 이유 하나만으로 20만 원짜리 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 전체가 먹통(Read-Only Brick)이 되어버리는 대참사**가 벌어진다. 이를 막기 위해 FTL의 거대한 사기극이 시작되었다.
 
 - **등장 배경 및 TLC/QLC의 저주 방어**:
-  1. **수명 10만 번 ([[597_slc_caching|SLC]]) 시절의 여유**: 비싸고 튼튼한 SLC는 10만 번을 지워도 버텼기에 마모 평준화를 대충 해도 고장이 안 났다.
-  2. **수명 1천 번 (TLC)의 도래**: 용량을 뻥튀기하느라 셀 수명이 100분의 1로 박살 나버렸다. 특정 셀 집중 타격(Hotspot)은 즉각적인 [[327_ssd|SSD]] 사망 선고가 됨.
-  3. **FTL의 전권 장악**: 결국 [[001_dikw_pyramid|데이터]]를 어디에 박을지는 OS의 지시를 깡그리 무시하고, [[478_ftl_flash_translation_layer|FTL]] 칩셋이 독단적으로 수명 카운트를 보고 빈방을 강제 배정하는 아키텍처가 절대 표준이 되었다.
+  1. **수명 10만 번 ([SLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/597_slc_caching/)) 시절의 여유**: 비싸고 튼튼한 SLC는 10만 번을 지워도 버텼기에 마모 평준화를 대충 해도 고장이 안 났다.
+  2. **수명 1천 번 (TLC)의 도래**: 용량을 뻥튀기하느라 셀 수명이 100분의 1로 박살 나버렸다. 특정 셀 집중 타격(Hotspot)은 즉각적인 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 사망 선고가 됨.
+  3. **FTL의 전권 장악**: 결국 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어디에 박을지는 OS의 지시를 깡그리 무시하고, [FTL](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/) 칩셋이 독단적으로 수명 카운트를 보고 빈방을 강제 배정하는 아키텍처가 절대 표준이 되었다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────────────────┐
@@ -50,7 +54,7 @@ tags:
 ```
 **[다이어그램 해설]** "도망쳐서 쓰는 꼼수(Out-of-place Update)"가 왜 SSD의 알파이자 오메가인지 보여주는 증명이다. FTL은 OS가 던진 똥(한 곳만 미친 듯이 쓰는 병목)을 받아, 내부적으로 10만 개의 방패(전체 물리 블록)를 빙글빙글 돌려가며 분산해서 쳐맞는 우주 최강의 탱커(Tanker) 역할을 수행한다. 이 장부 화살표 돌려막기 연산이 없다면 TLC/QLC 시대는 애초에 열리지도 못했다.
 
-- **📢 섹션 요약 비유**: 맷집이 약한 100명의 병사(플래시 셀)가 있습니다. 적(OS)이 대장(1번 주소)만 죽어라 1000대 때리려 합니다. 대장이 혼자 1000대를 다 맞으면 즉사합니다([[327_ssd|SSD]] 뻗음). 그래서 한 대 맞을 때마다 대장이 재빨리 2번 병사 뒤로 숨고, 또 한 대 맞으면 3번 병사 뒤로 숨어서(웨어 레벨링) 100명이 사이좋게 10대씩만 나눠 맞습니다. 아무도 죽지 않고 멍만 살짝 든 채로 전쟁에서 승리하는 눈물겨운 전우애입니다.
+- **📢 섹션 요약 비유**: 맷집이 약한 100명의 병사(플래시 셀)가 있습니다. 적(OS)이 대장(1번 주소)만 죽어라 1000대 때리려 합니다. 대장이 혼자 1000대를 다 맞으면 즉사합니다([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 뻗음). 그래서 한 대 맞을 때마다 대장이 재빨리 2번 병사 뒤로 숨고, 또 한 대 맞으면 3번 병사 뒤로 숨어서(웨어 레벨링) 100명이 사이좋게 10대씩만 나눠 맞습니다. 아무도 죽지 않고 멍만 살짝 든 채로 전쟁에서 승리하는 눈물겨운 전우애입니다.
 
 ---
 
@@ -58,27 +62,27 @@ tags:
 
 ### 동적(Dynamic) 웨어 레벨링의 한계 (알박기의 등장)
 
-[[459_quic_fec_forward_error_correction|초기]] FTL이 도입한 방법은 아주 단순했다. 
-- 새로운 [[001_dikw_pyramid|데이터]]가 들어올 때, 텅 빈 방(Free Block)들의 Erase Count(지워진 횟수) 장부를 쓱 본다.
-- 그중 카운트가 가장 낮은 '싱싱한 빈방'을 찾아서 [[001_dikw_pyramid|데이터]]를 꽂아준다. 
+[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) FTL이 도입한 방법은 아주 단순했다. 
+- 새로운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 들어올 때, 텅 빈 방(Free Block)들의 Erase Count(지워진 횟수) 장부를 쓱 본다.
+- 그중 카운트가 가장 낮은 '싱싱한 빈방'을 찾아서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 꽂아준다. 
 - **문제점 (Cold Data의 얌체 짓)**: 
-  - 내가 윈도우 OS나 평생 안 보는 가족사진([[676_cold_data_archiving|Cold Data]])을 깔았다. 이 [[001_dikw_pyramid|데이터]]들은 한 번 쓰이고 나면 몇 년 동안 지워지거나 덮어써 지질 않는다.
-  - 이 얌체 [[001_dikw_pyramid|데이터]]들은 카운트 1(거의 새 방)인 상태로 제일 쾌적한 블록에 **영원히 알박기**를 시전한다.
-  - 결국 이 알박기 [[001_dikw_pyramid|데이터]]가 점유한 50%의 방은 영원히 안 늙는데, 매일 생겼다 지워지는 카카오톡 임시 [[501_file_definition_logical_record|파일]]([[675_hot_data_caching|Hot Data]]) 50%만 미친 듯이 지워지며 데미지를 독박 쓰게 된다.
+  - 내가 윈도우 OS나 평생 안 보는 가족사진([Cold Data](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/676_cold_data_archiving/))을 깔았다. 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들은 한 번 쓰이고 나면 몇 년 동안 지워지거나 덮어써 지질 않는다.
+  - 이 얌체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들은 카운트 1(거의 새 방)인 상태로 제일 쾌적한 블록에 **영원히 알박기**를 시전한다.
+  - 결국 이 알박기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 점유한 50%의 방은 영원히 안 늙는데, 매일 생겼다 지워지는 카카오톡 임시 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)([Hot Data](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/675_hot_data_caching/)) 50%만 미친 듯이 지워지며 데미지를 독박 쓰게 된다.
   - 50%의 방이 수명을 다해 죽어버리며, 여전히 SSD가 반쪽짜리 수명으로 요절하는 참사가 발생했다.
 
 ---
 
 ### 정적(Static) 웨어 레벨링의 멱살 캐리
 
-동적 방식의 얌체 짓을 혐오한 [[478_ftl_flash_translation_layer|FTL]] 설계자들은 **'강제 이주(Forced Migration)'**라는 무자비한 철퇴를 꺼내 들었다.
-- FTL은 백그라운드 [[380_garbage_collection|가비지 컬렉션]](GC)을 돌면서, 평생 한 번도 안 지워져서 카운트가 1인 '윈도우 설치 [[501_file_definition_logical_record|파일]]([[676_cold_data_archiving|Cold Data]])' 방을 째려본다.
+동적 방식의 얌체 짓을 혐오한 [FTL](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/) 설계자들은 **'강제 이주(Forced Migration)'**라는 무자비한 철퇴를 꺼내 들었다.
+- FTL은 백그라운드 [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)(GC)을 돌면서, 평생 한 번도 안 지워져서 카운트가 1인 '윈도우 설치 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)([Cold Data](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/676_cold_data_archiving/))' 방을 째려본다.
 - "너 이 새끼 카운트 1인 채로 3년째 꿀 빨고 있네? 방 빼!"
-- 얌체 [[001_dikw_pyramid|데이터]]를 강제로 방에서 끄집어내어, 이미 카운트가 2,000을 찍어 **다 늙어빠진 걸레짝 방(수명 끝물 블록)으로 이사(Copy)시켜버린다.** 어차피 얌체 [[001_dikw_pyramid|데이터]]는 한 번 들어가면 평생 안 바뀌니까 늙은 방에 들어가도 타격이 없다.
-- 그리고 얌체가 꿀 빨던 카운트 1짜리 '싱싱한 특A급 방'을 빼앗아, 미친 듯이 덮어쓰기가 일어나는 [[675_hot_data_caching|Hot Data]] 전용 싸움터로 던져준다.
-- **결론**: 전체 블록 10만 개의 Erase Count 편차를 1% 이내로 기가 막히게 맞춰버리는 이 공산주의식 완벽한 강제 평준화가 **Static Wear Leveling**이며, 엔터프라이즈 [[327_ssd|SSD]] 비싼 가격의 진짜 이유다.
+- 얌체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 강제로 방에서 끄집어내어, 이미 카운트가 2,000을 찍어 **다 늙어빠진 걸레짝 방(수명 끝물 블록)으로 이사(Copy)시켜버린다.** 어차피 얌체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 한 번 들어가면 평생 안 바뀌니까 늙은 방에 들어가도 타격이 없다.
+- 그리고 얌체가 꿀 빨던 카운트 1짜리 '싱싱한 특A급 방'을 빼앗아, 미친 듯이 덮어쓰기가 일어나는 [Hot Data](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/675_hot_data_caching/) 전용 싸움터로 던져준다.
+- **결론**: 전체 블록 10만 개의 Erase Count 편차를 1% 이내로 기가 막히게 맞춰버리는 이 공산주의식 완벽한 강제 평준화가 **Static Wear Leveling**이며, 엔터프라이즈 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 비싼 가격의 진짜 이유다.
 
-- **📢 섹션 요약 비유**: 최전방([[675_hot_data_caching|Hot Data]])에서 군인들이 매일 총알(Erase)을 맞으며 피투성이가 되는데, 후방([[676_cold_data_archiving|Cold Data]]) 행정병들은 벙커(새 블록)에서 평생 꿀만 빨고 있습니다. 빡친 사령관([[478_ftl_flash_translation_layer|FTL]])이 강제 발령을 내려, 후방 벙커에 있던 행정병을 최전방 참호로 끌고 와 총알받이로 세우고, 너덜너덜해진 최전방 군인을 안전한 후방 벙커로 푹 쉬게 돌려보내 전체 부대원의 피로도(수명)를 기가 막히게 맞춰주는 눈물겨운 인사 이동입니다.
+- **📢 섹션 요약 비유**: 최전방([Hot Data](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/675_hot_data_caching/))에서 군인들이 매일 총알(Erase)을 맞으며 피투성이가 되는데, 후방([Cold Data](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/676_cold_data_archiving/)) 행정병들은 벙커(새 블록)에서 평생 꿀만 빨고 있습니다. 빡친 사령관([FTL](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/))이 강제 발령을 내려, 후방 벙커에 있던 행정병을 최전방 참호로 끌고 와 총알받이로 세우고, 너덜너덜해진 최전방 군인을 안전한 후방 벙커로 푹 쉬게 돌려보내 전체 부대원의 피로도(수명)를 기가 막히게 맞춰주는 눈물겨운 인사 이동입니다.
 
 ---
 
@@ -88,17 +92,17 @@ tags:
 
 | 척도 | 동적 웨어 레벨링 (Dynamic WL) | 정적 웨어 레벨링 (Static WL) |
 |:---|:---|:---|
-| **조작 타겟** | 지금 막 쓰이고 있는(Hot) 새 [[001_dikw_pyramid|데이터]] | 평생 가만히 숨죽이고 있는(Cold) 낡은 [[001_dikw_pyramid|데이터]] |
-| **작동 원리** | 새 [[001_dikw_pyramid|데이터]]를 쓸 때, **빈방 중 가장 싱싱한 방을 골라줌** | 빈방 말고, 꿀 빨고 있는 **Cold 방을 부숴서 강제로 이사시킴** |
-| **단점 (오버헤드)**| 알박기 얌체를 못 쫓아내서 결국 수명 불균형 발생 | 가만히 있는 애를 억지로 깨워서 이사시키느라 **불필요한 복사 렉([[480_write_amplification|Write Amplification]]) 발생** |
-| **시장 채택** | 싸구려 저가형 [[359_usb|USB]] 메모리, 구형 [[327_ssd|SSD]] | **현존하는 삼성/하이닉스 [[482_nvme|NVMe]] SSD의 절대 표준** |
+| **조작 타겟** | 지금 막 쓰이고 있는(Hot) 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 평생 가만히 숨죽이고 있는(Cold) 낡은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
+| **작동 원리** | 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓸 때, **빈방 중 가장 싱싱한 방을 골라줌** | 빈방 말고, 꿀 빨고 있는 **Cold 방을 부숴서 강제로 이사시킴** |
+| **단점 (오버헤드)**| 알박기 얌체를 못 쫓아내서 결국 수명 불균형 발생 | 가만히 있는 애를 억지로 깨워서 이사시키느라 **불필요한 복사 렉([Write Amplification](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/)) 발생** |
+| **시장 채택** | 싸구려 저가형 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 메모리, 구형 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) | **현존하는 삼성/하이닉스 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) SSD의 절대 표준** |
 
-### 마모 평준화가 낳은 비극: [[480_write_amplification|Write Amplification]] ([[480_write_amplification|쓰기 증폭]]) 폭발
+### 마모 평준화가 낳은 비극: [Write Amplification](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/) ([쓰기 증폭](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/)) 폭발
 정적 마모 평준화는 수명을 완벽히 일치시키지만, 끔찍한 나비효과를 가져온다.
-- 내가 윈도우 OS [[501_file_definition_logical_record|파일]]([[676_cold_data_archiving|Cold Data]])을 읽기만 할 뿐 1바이트도 수정하지 않았다.
-- 그런데 [[327_ssd|SSD]] FTL이 밸런스 맞추겠다고 혼자 발작하며 윈도우 [[501_file_definition_logical_record|파일]] 10GB를 늙은 블록으로 낑낑대며 백그라운드로 복사(이사)시켰다.
-- 나는 디스크 [[289_cqrs_db|쓰기]] 명령을 내린 적이 없는데, [[327_ssd|SSD]] 혼자 수명을 늘리겠다고 10GB를 쓰며 **오히려 자해([[480_write_amplification|쓰기 증폭]], WA)를 해서 전체 낸드 수명을 갉아먹는 코미디**가 벌어진다.
-- 밸런스를 맞추기 위한 이동 횟수(오버헤드)와, 밸런스가 안 맞아 터지는 칩 수명 사이의 절묘한 임계점을 찾는 [[001_algorithm_definition|알고리즘]]이 바로 [[327_ssd|SSD]] 컨트롤러 AI의 핵심 지적 재산권(IP)이다.
+- 내가 윈도우 OS [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)([Cold Data](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/676_cold_data_archiving/))을 읽기만 할 뿐 1바이트도 수정하지 않았다.
+- 그런데 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) FTL이 밸런스 맞추겠다고 혼자 발작하며 윈도우 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 10GB를 늙은 블록으로 낑낑대며 백그라운드로 복사(이사)시켰다.
+- 나는 디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 명령을 내린 적이 없는데, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 혼자 수명을 늘리겠다고 10GB를 쓰며 **오히려 자해([쓰기 증폭](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/), WA)를 해서 전체 낸드 수명을 갉아먹는 코미디**가 벌어진다.
+- 밸런스를 맞추기 위한 이동 횟수(오버헤드)와, 밸런스가 안 맞아 터지는 칩 수명 사이의 절묘한 임계점을 찾는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 바로 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 컨트롤러 AI의 핵심 지적 재산권(IP)이다.
 
 ```text
 ┌──────────┬────────────┬────────────┬───────────────────────────────────┐
@@ -109,9 +113,9 @@ tags:
 │ 최적 (스마트)│ 임계치 찰 때만 │ 1.5배 (최적 타협) │ 10년 거뜬 🚀       │
 └──────────┴────────────┴────────────┴───────────────────────────────────┘
 ```
-**[매트릭스 해설]** "빈대를 잡으려다 초가삼간 다 태운다"는 속담이 딱 맞다. 밸런스 좀 맞추겠다고 멀쩡한 [[001_dikw_pyramid|데이터]]를 이 방 저 방으로 이사(Copy)시키다 보면, 그 이사하는 과정 자체의 [[289_cqrs_db|쓰기]](Write) 스트레스 때문에 낸드 플래시가 타 죽어버린다. 결국 정적(Static) [[001_algorithm_definition|알고리즘]]도 블록 간의 카운트 차이가 1만 번 이상 벌어졌을 때만 살짝 개입하는 식의 느슨한 제어를 택할 수밖에 없다.
+**[매트릭스 해설]** "빈대를 잡으려다 초가삼간 다 태운다"는 속담이 딱 맞다. 밸런스 좀 맞추겠다고 멀쩡한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 이 방 저 방으로 이사(Copy)시키다 보면, 그 이사하는 과정 자체의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Write) 스트레스 때문에 낸드 플래시가 타 죽어버린다. 결국 정적(Static) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)도 블록 간의 카운트 차이가 1만 번 이상 벌어졌을 때만 살짝 개입하는 식의 느슨한 제어를 택할 수밖에 없다.
 
-- **📢 섹션 요약 비유**: 자동차 바퀴(수명) 골고루 닳게 하겠다고 10km 달릴 때마다 카센터 가서 바퀴 4개 위치를 바꾸면, 바퀴는 골고루 닳겠지만 위치 바꾸는 인건비([[480_write_amplification|쓰기 증폭]])가 차값보다 더 나와 파산합니다. 1만 km에 한 번씩 아주 가끔(임계점 제어) 바꿔주는 게 진짜 스마트한 평준화의 묘미입니다.
+- **📢 섹션 요약 비유**: 자동차 바퀴(수명) 골고루 닳게 하겠다고 10km 달릴 때마다 카센터 가서 바퀴 4개 위치를 바꾸면, 바퀴는 골고루 닳겠지만 위치 바꾸는 인건비([쓰기 증폭](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/))가 차값보다 더 나와 파산합니다. 1만 km에 한 번씩 아주 가끔(임계점 제어) 바꿔주는 게 진짜 스마트한 평준화의 묘미입니다.
 
 ---
 
@@ -121,21 +125,21 @@ tags:
 1. **차량용 블랙박스의 비명**: 마트에서 파는 싼 TLC 마이크로 SD카드를 블랙박스에 꽂으면 6개월도 안 돼서 "메모리 카드를 포맷하세요"라며 뻑이 난다. 왜일까?
 2. **동적 마모 평준화의 한계**:
    - 싼 SD카드의 컨트롤러는 정적(Static) 마모 평준화 지능이 없다. 
-   - 64GB 카드에 50GB어치 평생 안 지우는 음악 [[501_file_definition_logical_record|파일]]을 넣어두고 블랙박스에 꽂았다 치자.
+   - 64GB 카드에 50GB어치 평생 안 지우는 음악 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 넣어두고 블랙박스에 꽂았다 치자.
    - 블랙박스는 1초도 안 쉬고 풀 HD 영상을 계속 덮어쓰기(Loop Recording) 한다.
    - 50GB는 알박기를 시전해 멀쩡한데, **나머지 14GB의 빈 공간만 하루에 수십 번씩 미친 듯이 덮어써 진다(Hotspot 몰빵).**
    - 14GB에 해당하는 낸드 셀들이 1000번 수명 한도를 뚫고 잿더미로 타버려서 6개월 만에 카드가 즉사(Read-only 상태 전환)하는 것이다.
-3. **High Endurance (MLC/[[597_slc_caching|SLC]]) 마케팅의 진실**:
-   - 이래서 블랙박스용 메모리는 절대 일반 TLC를 쓰면 안 되고, 'High Endurance' 딱지가 붙은 고가형 라인을 사야 한다. 이들은 수명이 10배 긴 MLC를 쓰거나, 내부 컨트롤러에 **강력한 정적(Static) 마모 평준화 [[001_algorithm_definition|알고리즘]]**을 달아 50GB의 알박기 공간을 억지로 갈아엎어 가며 수명을 방어해 주기 때문이다.
+3. **High Endurance (MLC/[SLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/597_slc_caching/)) 마케팅의 진실**:
+   - 이래서 블랙박스용 메모리는 절대 일반 TLC를 쓰면 안 되고, 'High Endurance' 딱지가 붙은 고가형 라인을 사야 한다. 이들은 수명이 10배 긴 MLC를 쓰거나, 내부 컨트롤러에 **강력한 정적(Static) 마모 평준화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**을 달아 50GB의 알박기 공간을 억지로 갈아엎어 가며 수명을 방어해 주기 때문이다.
 
 ### 포렌식(Forensics) 해킹과 Wear Leveling의 유출
-범죄자가 하드디스크([[465_hdd_structure|HDD]])를 `0`으로 한 번 덮어쓰면(Wipe) [[001_dikw_pyramid|데이터]]가 완전히 [[658_ir_recovery|복구]] 불능이 된다(In-place 덮어쓰기). 
+범죄자가 하드디스크([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/))를 `0`으로 한 번 덮어쓰면(Wipe) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 완전히 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 불능이 된다(In-place 덮어쓰기). 
 하지만 **SSD에서 완전 범죄는 100배 더 어렵다.**
-범죄자가 10번 주소에 있는 비자금 장부 [[501_file_definition_logical_record|파일]]을 삭제하고 '0'으로 덮어썼다고 치자. 
-마모 평준화 로직([[478_ftl_flash_translation_layer|FTL]])은 "오 덮어쓰기네? 10번 지우기 귀찮으니 999번 새 방에 '0' 쓰고 화살표 돌려야지~" 하고 속여 넘긴다.
-경찰이 이 [[327_ssd|SSD]] 칩셋을 보드에서 강제로 떼어내어 로우 레벨 리더기로 물리적 낸드 셀 10번 방을 들여다보면? **범죄자가 지웠다고 확신했던 비자금 장부 원본 [[001_dikw_pyramid|데이터]]가 1글자도 안 부서지고 생생하게 100% 살아있다!** FTL의 꼼수가 사이버 수사대에게는 최고의 보물창고가 된 셈이다. 이래서 국가 기밀 SSD는 폐기할 때 디가우징도 안 먹히니 무조건 물리적으로 믹서기에 갈아버리는(Shredding) 것만이 유일한 파기법이다.
+범죄자가 10번 주소에 있는 비자금 장부 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 삭제하고 '0'으로 덮어썼다고 치자. 
+마모 평준화 로직([FTL](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/))은 "오 덮어쓰기네? 10번 지우기 귀찮으니 999번 새 방에 '0' 쓰고 화살표 돌려야지~" 하고 속여 넘긴다.
+경찰이 이 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 칩셋을 보드에서 강제로 떼어내어 로우 레벨 리더기로 물리적 낸드 셀 10번 방을 들여다보면? **범죄자가 지웠다고 확신했던 비자금 장부 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 1글자도 안 부서지고 생생하게 100% 살아있다!** FTL의 꼼수가 사이버 수사대에게는 최고의 보물창고가 된 셈이다. 이래서 국가 기밀 SSD는 폐기할 때 디가우징도 안 먹히니 무조건 물리적으로 믹서기에 갈아버리는(Shredding) 것만이 유일한 파기법이다.
 
-- **📢 섹션 요약 비유**: 마피아(범죄자)가 비밀 장부를 태워 없애라고 부하([[478_ftl_flash_translation_layer|FTL]])에게 시켰는데, 영악한 부하가 나중에 협박할 목적으로 장부는 뒷주머니(물리 셀)에 몰래 숨겨두고, 마피아 앞에서는 장부 표지만 똑같은 가짜 빈 공책(매핑 테이블 조작)을 태워서 속여버리는 첩보 영화 같은 상황이 [[327_ssd|SSD]] 내부에서 매일 일어납니다.
+- **📢 섹션 요약 비유**: 마피아(범죄자)가 비밀 장부를 태워 없애라고 부하([FTL](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/))에게 시켰는데, 영악한 부하가 나중에 협박할 목적으로 장부는 뒷주머니(물리 셀)에 몰래 숨겨두고, 마피아 앞에서는 장부 표지만 똑같은 가짜 빈 공책(매핑 테이블 조작)을 태워서 속여버리는 첩보 영화 같은 상황이 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 내부에서 매일 일어납니다.
 
 ---
 
@@ -145,15 +149,15 @@ tags:
 
 | 구분 | 내용 |
 |:---|:---|
-| **[[327_ssd|SSD]] 보증 수명(TBW)의 기하급수적 연장** | 단 1000번만 쓰면 칩이 녹아내리는 극악의 물리적 약점을, 10만 개의 방을 골고루 갉아먹게 분산시켜 10년간 사용 가능한 내구도로 뻥튀기함 |
-| **용량 파편화(Hotspot) 100% 방지** | 윈도우 설치 [[501_file_definition_logical_record|파일]] 등 한 번 깔면 수년간 안 변하는 얌체 Cold Data들을 주기적으로 색출해 이사시킴으로써, 전체 블록의 100% 가동률 확보 |
-| **소프트웨어 튜닝의 면책 특권** | OS [[501_file_definition_logical_record|파일]] 시스템이 멍청하게 MFT나 [[525_fat_file_allocation_table|FAT]] 특정 블록만 수백만 번 덮어쓰는 무식한 코딩을 하더라도, 하드웨어 단에서 알아서 막아주어 개발자를 구원 |
+| **[SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 보증 수명(TBW)의 기하급수적 연장** | 단 1000번만 쓰면 칩이 녹아내리는 극악의 물리적 약점을, 10만 개의 방을 골고루 갉아먹게 분산시켜 10년간 사용 가능한 내구도로 뻥튀기함 |
+| **용량 파편화(Hotspot) 100% 방지** | 윈도우 설치 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 등 한 번 깔면 수년간 안 변하는 얌체 Cold Data들을 주기적으로 색출해 이사시킴으로써, 전체 블록의 100% 가동률 확보 |
+| **소프트웨어 튜닝의 면책 특권** | OS [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템이 멍청하게 MFT나 [FAT](/knowledge-base/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/) 특정 블록만 수백만 번 덮어쓰는 무식한 코딩을 하더라도, 하드웨어 단에서 알아서 막아주어 개발자를 구원 |
 
 ### 결론 및 미래 전망
 
-마모 평준화 (Wear Leveling)는 "절대 고칠 수 없는 하드웨어의 치명적 [[352_defect_definition|결함]](수명과 덮어쓰기 불가)을 소프트웨어의 이간질(매핑 조작)로 얼마나 완벽하게 가릴 수 있는가"를 보여주는 극한의 [[032_firmware|펌웨어]] 예술이다. 이 [[001_algorithm_definition|알고리즘]]이 없었다면 낸드 플래시 메모리는 MP3 플레이어 정도에나 쓰이는 싸구려 일회용 부품을 벗어나지 못했을 것이며, 수백 테라바이트를 매일 갈아치우는 현대 클라우드 [[001_dikw_pyramid|데이터]]베이스의 저장소로 등극하는 기적은 불가능했을 것이다. 비록 이 공산주의식 강제 밸런싱이 불필요한 이삿짐센터 노가다([[480_write_amplification|쓰기 증폭]])를 유발하며 성능과 수명의 줄타기를 강요하고 있지만, 이 딜레마를 AI로 예측하여 해결하려는 차세대 '스마트 [[478_ftl_flash_translation_layer|FTL]]'의 등장은 향후 저장 장치 아키텍처의 패권을 좌우할 유일한 마스터키로 작용할 것이다.
+마모 평준화 (Wear Leveling)는 "절대 고칠 수 없는 하드웨어의 치명적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)(수명과 덮어쓰기 불가)을 소프트웨어의 이간질(매핑 조작)로 얼마나 완벽하게 가릴 수 있는가"를 보여주는 극한의 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 예술이다. 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 없었다면 낸드 플래시 메모리는 MP3 플레이어 정도에나 쓰이는 싸구려 일회용 부품을 벗어나지 못했을 것이며, 수백 테라바이트를 매일 갈아치우는 현대 클라우드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스의 저장소로 등극하는 기적은 불가능했을 것이다. 비록 이 공산주의식 강제 밸런싱이 불필요한 이삿짐센터 노가다([쓰기 증폭](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/))를 유발하며 성능과 수명의 줄타기를 강요하고 있지만, 이 딜레마를 AI로 예측하여 해결하려는 차세대 '스마트 [FTL](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/)'의 등장은 향후 저장 장치 아키텍처의 패권을 좌우할 유일한 마스터키로 작용할 것이다.
 
-- **📢 섹션 요약 비유**: 마모 평준화는 최전방에서 하루에 한 명씩 죽어 나가는 1000명의 결사대(낸드 셀)를 관리하는 사령관(컨트롤러)의 고뇌입니다. 한 소대만 계속 앞장세우면 3일 만에 전멸(블록 사망)해서 진지가 뚫립니다. 사령관이 피눈물을 흘리며 후방에서 편하게 쉬던 소대를 억지로 최전방으로 끌어올리고 부상병을 뒤로 돌리며(정적 평준화), 1000명이 모두 공평하게 피를 흘리며 10년의 전쟁([[327_ssd|SSD]] 수명)을 끝까지 버텨내는 가장 처절하고도 위대한 지휘 통솔법입니다.
+- **📢 섹션 요약 비유**: 마모 평준화는 최전방에서 하루에 한 명씩 죽어 나가는 1000명의 결사대(낸드 셀)를 관리하는 사령관(컨트롤러)의 고뇌입니다. 한 소대만 계속 앞장세우면 3일 만에 전멸(블록 사망)해서 진지가 뚫립니다. 사령관이 피눈물을 흘리며 후방에서 편하게 쉬던 소대를 억지로 최전방으로 끌어올리고 부상병을 뒤로 돌리며(정적 평준화), 1000명이 모두 공평하게 피를 흘리며 10년의 전쟁([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 수명)을 끝까지 버텨내는 가장 처절하고도 위대한 지휘 통솔법입니다.
 
 ---
 
@@ -161,10 +165,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[380_garbage_collection|가비지 컬렉션]] ([[380_garbage_collection|Garbage Collection]] in [[327_ssd|SSD]]) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [[478_ftl_flash_translation_layer|FTL]] ([[478_ftl_flash_translation_layer|Flash Translation Layer]]) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [[480_write_amplification|쓰기 증폭]] ([[480_write_amplification|Write Amplification]]) 현상 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| TRIM [[158_instruction|명령어]] | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/) ([Garbage Collection](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/) in [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [FTL](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/) ([Flash Translation Layer](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [쓰기 증폭](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/) ([Write Amplification](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/)) 현상 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| TRIM [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -182,9 +186,9 @@ tags:
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 마모 평준화 (Wear Leveling)은 컴퓨터가 디스크와 장치가 [[001_dikw_pyramid|데이터]]를 주고받는 길을 정리하는 방법이에요.
-2. 먼저 [[478_ftl_flash_translation_layer|FTL]] ([[478_ftl_flash_translation_layer|Flash Translation Layer]])을 이해하면 마모 평준화 (Wear Leveling)이 왜 필요한지 더 쉽게 보여요.
-3. 그래서 마모 평준화 (Wear Leveling)을 잘 알면 나중에 [[480_write_amplification|쓰기 증폭]] ([[480_write_amplification|Write Amplification]]) 현상도 훨씬 쉽게 배울 수 있어요.
+1. 마모 평준화 (Wear Leveling)은 컴퓨터가 디스크와 장치가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받는 길을 정리하는 방법이에요.
+2. 먼저 [FTL](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/) ([Flash Translation Layer](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/))을 이해하면 마모 평준화 (Wear Leveling)이 왜 필요한지 더 쉽게 보여요.
+3. 그래서 마모 평준화 (Wear Leveling)을 잘 알면 나중에 [쓰기 증폭](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/) ([Write Amplification](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/)) 현상도 훨씬 쉽게 배울 수 있어요.
 
 ---
 
@@ -192,7 +196,7 @@ tags:
 
 **진행 상황**: 479 / 800
 
-← **이전**: [[478_ftl_flash_translation_layer|478. FTL (Flash Translation Layer) - LBA를 플래시의 물리 주소(PBA)로 매핑하는 펌웨어]]
-**다음**: [[480_write_amplification|480. 쓰기 증폭 (Write Amplification) 현상]] →
+← **이전**: [478. FTL (Flash Translation Layer) - LBA를 플래시의 물리 주소(PBA)로 매핑하는 펌웨어](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/)
+**다음**: [480. 쓰기 증폭 (Write Amplification) 현상](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/) →
 
 ---

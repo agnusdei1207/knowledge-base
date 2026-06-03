@@ -1,25 +1,29 @@
----
-title: 63. 단층 퍼셉트론 (Single-Layer Perceptron)과 XOR 문제
-date: '2026-04-07'
-tags:
-- studynote-ai
----
++++
+title = "63. 단층 퍼셉트론 (Single-Layer Perceptron)과 XOR 문제"
+date = 2026-04-07
+
+[taxonomies]
+tags = ["studynote-ai"]
+
+[extra]
+tags = ["studynote-ai"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[265_single_layer_perceptron_xor|단층 퍼셉트론]]([[265_single_layer_perceptron_xor|Single-Layer Perceptron]])은 하나의 선형 결정 경계로 입력을 [[104_classification_analysis|분류]]하는 가장 단순한 신경망이다.
-> 2. **가치**: XOR(배타적 [[369_logic_bomb|논리]]합)은 선형 분리 불가능 문제라서 [[265_single_layer_perceptron_xor|단층 퍼셉트론]]만으로는 풀 수 없고, 이 한계가 다층 신경망의 필요성을 보여준다.
-> 3. **판단**: [[129_activation_function|활성화 함수]], 특징 변환, 은닉층(Hidden Layer)의 역할을 이해해야 [[239_perceptron_mlp_hidden_layer_weight_activation_sigmoid|퍼셉트론]]의 한계를 정확히 설명할 수 있다.
+> 1. **본질**: [단층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/)([Single-Layer Perceptron](/knowledge-base/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/))은 하나의 선형 결정 경계로 입력을 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는 가장 단순한 신경망이다.
+> 2. **가치**: XOR(배타적 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)합)은 선형 분리 불가능 문제라서 [단층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/)만으로는 풀 수 없고, 이 한계가 다층 신경망의 필요성을 보여준다.
+> 3. **판단**: [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/), 특징 변환, 은닉층(Hidden Layer)의 역할을 이해해야 [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)의 한계를 정확히 설명할 수 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[[239_perceptron_mlp_hidden_layer_weight_activation_sigmoid|퍼셉트론]]은 [[231_ai_turing_test|인공지능]] [[459_quic_fec_forward_error_correction|초기]] 역사에서 "기계가 학습할 수 있다"는 희망을 보여준 모델이다. 그러나 모든 문제를 직선 하나로 나눌 수는 없다는 사실이 XOR에서 드러났다.
+[퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)은 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 역사에서 "기계가 학습할 수 있다"는 희망을 보여준 모델이다. 그러나 모든 문제를 직선 하나로 나눌 수는 없다는 사실이 XOR에서 드러났다.
 
-이 문제는 단순한 수학 문제가 아니라, 왜 다층 신경망과 [[272_backpropagation|역전파]]([[272_backpropagation|Backpropagation]])가 필요해졌는지를 설명하는 대표 사례다.
+이 문제는 단순한 수학 문제가 아니라, 왜 다층 신경망과 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/))가 필요해졌는지를 설명하는 대표 사례다.
 
-- **📢 섹션 요약 비유**: 한 줄 테이프로만 모든 장난감을 [[104_classification_analysis|분류]]하려다 보니, 대각선으로 놓인 두 개는 절대 같이 못 나눈다.
+- **📢 섹션 요약 비유**: 한 줄 테이프로만 모든 장난감을 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하려다 보니, 대각선으로 놓인 두 개는 절대 같이 못 나눈다.
 
 ---
 
@@ -40,11 +44,11 @@ Activation
 | 요소 | 역할 |
 | :-- | :-- |
 | Input | 특징값 입력 |
-| [[267_weight_bias_activation|Weight]] | 입력의 중요도 조절 |
-| [[094_bias|Bias]] | 결정 경계 이동 |
+| [Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) | 입력의 중요도 조절 |
+| [Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/) | 결정 경계 이동 |
 | Activation | 선형 결과를 이진 출력으로 변환 |
 
-[[265_single_layer_perceptron_xor|단층 퍼셉트론]]은 직선 또는 초평면 하나로 구분 가능한 문제에만 강하다. XOR처럼 같은 출력이 대각선으로만 모이는 문제는 선형 경계 하나로 나눌 수 없다.
+[단층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/)은 직선 또는 초평면 하나로 구분 가능한 문제에만 강하다. XOR처럼 같은 출력이 대각선으로만 모이는 문제는 선형 경계 하나로 나눌 수 없다.
 
 - **📢 섹션 요약 비유**: 자로 그은 한 줄로는 바둑판의 대각선만 따로 떼기 어렵다.
 
@@ -52,7 +56,7 @@ Activation
 
 ## Ⅲ. 비교 및 연결
 
-| 문제 | 선형 분리 가능 여부 | [[265_single_layer_perceptron_xor|단층 퍼셉트론]] |
+| 문제 | 선형 분리 가능 여부 | [단층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/) |
 | :-- | :-- | :-- |
 | AND | 가능 | 해결 가능 |
 | OR | 가능 | 해결 가능 |
@@ -60,10 +64,10 @@ Activation
 
 | 모델 | 특징 | 한계 |
 | :-- | :-- | :-- |
-| [[265_single_layer_perceptron_xor|단층 퍼셉트론]] | 빠르고 단순 | 선형 문제만 가능 |
-| [[266_mlp_hidden_layers|다층 퍼셉트론]](MLP) | 은닉층으로 비선형 표현 | 학습이 복잡 |
+| [단층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/) | 빠르고 단순 | 선형 문제만 가능 |
+| [다층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/266_mlp_hidden_layers/)(MLP) | 은닉층으로 비선형 표현 | 학습이 복잡 |
 
-XOR 문제는 "[[239_perceptron_mlp_hidden_layer_weight_activation_sigmoid|퍼셉트론]]이 틀렸다"는 뜻이 아니라, 표현력이 더 필요한 문제라는 뜻이다. 이 한계가 곧 신경망 발전의 출발점이 됐다.
+XOR 문제는 "[퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)이 틀렸다"는 뜻이 아니라, 표현력이 더 필요한 문제라는 뜻이다. 이 한계가 곧 신경망 발전의 출발점이 됐다.
 
 - **📢 섹션 요약 비유**: 직선 자로 못 그리면 곡선 자가 필요하다는 사실을 처음 알려준 사례다.
 
@@ -71,20 +75,20 @@ XOR 문제는 "[[239_perceptron_mlp_hidden_layer_weight_activation_sigmoid|퍼�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 문제가 선형 분리 가능한지 먼저 [[396_validation|확인]]했는가?
+1. 문제가 선형 분리 가능한지 먼저 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)했는가?
 2. 특징 변환으로 선형화할 수 있는가?
-3. [[129_activation_function|활성화 함수]]와 [[075_loss_function_cost_function|손실 함수]]의 역할을 알고 있는가?
+3. [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)와 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)의 역할을 알고 있는가?
 4. 은닉층이 왜 필요한지 설명할 수 있는가?
 5. XOR 사례를 통해 모델 한계를 설명할 수 있는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- [[265_single_layer_perceptron_xor|단층 퍼셉트론]]으로 모든 [[104_classification_analysis|분류]] 문제를 풀 수 있다고 믿는 설계
+- [단층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/)으로 모든 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 문제를 풀 수 있다고 믿는 설계
 - XOR을 단순한 예제로만 보고 본질을 놓치는 설명
 - 선형 분리 불가능 문제에 특징 변환 없이 고집하는 설계
-- [[129_activation_function|활성화 함수]] 없이 선형 조합만 쓰는 설계
+- [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) 없이 선형 조합만 쓰는 설계
 
 기술사 관점에서는 XOR을 "실패 사례"가 아니라 "표현력 한계의 증거"로 이해해야 한다. 모델의 한계를 정확히 말해야 적절한 아키텍처를 고를 수 있다.
 
@@ -94,7 +98,7 @@ XOR 문제는 "[[239_perceptron_mlp_hidden_layer_weight_activation_sigmoid|퍼�
 
 ## Ⅴ. 기대효과 및 결론
 
-[[265_single_layer_perceptron_xor|단층 퍼셉트론]]과 XOR 문제는 딥러닝 이전의 한계를 보여 주는 상징적 사례다. 이 사례를 이해하면 왜 비선형성과 은닉층이 중요한지 자연스럽게 보인다.
+[단층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/)과 XOR 문제는 딥러닝 이전의 한계를 보여 주는 상징적 사례다. 이 사례를 이해하면 왜 비선형성과 은닉층이 중요한지 자연스럽게 보인다.
 
 결국 중요한 것은 "모델이 얼마나 단순한가"가 아니라 "문제를 표현할 수 있는가"다.
 
@@ -142,7 +146,7 @@ XOR 문제는 그걸 보여 주는 대표 예예요.
 
 **진행 상황**: 63 / 420
 
-← **이전**: [[062_perceptron_rosenblatt_single_layer|62. 퍼셉트론 (Perceptron) - 단층 신경망]]
-**다음**: [[064_mlp_multi_layer_perceptron_hidden_layer|64. 다층 퍼셉트론 (MLP, Multi-Layer Perceptron) - 은닉층(Hidden Layer) 도입으로 비선형 문제 해결]] →
+← **이전**: [62. 퍼셉트론 (Perceptron) - 단층 신경망](/knowledge-base/studynote/10_ai/01_ai_basics/062_perceptron_rosenblatt_single_layer/)
+**다음**: [64. 다층 퍼셉트론 (MLP, Multi-Layer Perceptron) - 은닉층(Hidden Layer) 도입으로 비선형 문제 해결](/knowledge-base/studynote/10_ai/01_ai_basics/064_mlp_multi_layer_perceptron_hidden_layer/) →
 
 ---

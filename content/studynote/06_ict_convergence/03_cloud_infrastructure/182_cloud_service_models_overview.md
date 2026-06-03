@@ -1,25 +1,29 @@
----
-title: 182. 클라우드 서비스 모델 (Cloud Service Models) 개요
-date: '2026-05-06'
-tags:
-- studynote-ict-convergence
----
++++
+title = "182. 클라우드 서비스 모델 (Cloud Service Models) 개요"
+date = 2026-05-06
+
+[taxonomies]
+tags = ["studynote-ict-convergence"]
+
+[extra]
+tags = ["studynote-ict-convergence"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[183_iaas_infrastructure_as_a_service|IaaS]] (Infrastructure [[344_as_autonomous_system_asn|as]] a [[090_service_kubernetes_network_load_balancing|Service]]), [[184_paas_platform_as_a_service|PaaS]] (Platform [[344_as_autonomous_system_asn|as]] a [[090_service_kubernetes_network_load_balancing|Service]]), [[309_saas|SaaS]] (Software [[344_as_autonomous_system_asn|as]] a [[090_service_kubernetes_network_load_balancing|Service]])는 "무엇을 빌리느냐"보다 **누가 어느 계층을 운영하느냐**를 나누는 책임 공유 모델이다.
-> 2. **가치**: [[198_abstraction_control_data_process|추상화]] 수준이 올라갈수록 조직은 서버 운영과 미들웨어 관리에서 벗어나 더 빨리 [[090_service_kubernetes_network_load_balancing|서비스]]를 출시할 수 있지만, 그만큼 세밀한 통제권과 이식성은 줄어든다.
+> 1. **본질**: [IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/) (Infrastructure [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)), [PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/) (Platform [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)), [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) (Software [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))는 "무엇을 빌리느냐"보다 **누가 어느 계층을 운영하느냐**를 나누는 책임 공유 모델이다.
+> 2. **가치**: [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 수준이 올라갈수록 조직은 서버 운영과 미들웨어 관리에서 벗어나 더 빨리 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 출시할 수 있지만, 그만큼 세밀한 통제권과 이식성은 줄어든다.
 > 3. **판단 포인트**: 정답은 하나가 아니다. 차별화 기능은 통제권을 남기고, 범용 기능은 과감히 위임하는 식으로 비즈니스 가치·규제·운영 역량에 따라 모델을 조합해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-미국 국립표준기술연구소 NIST (National Institute of Standards and Technology)는 클라우드 [[090_service_kubernetes_network_load_balancing|서비스]] 모델을 "컴퓨팅 자원의 어느 층을 클라우드 제공자 (Cloud [[535_sp_service_provider|Service Provider]], [[475_csp|CSP]])가 관리하고, 어느 층을 사용자가 책임질 것인가"라는 관점에서 구분한다. 따라서 [[090_service_kubernetes_network_load_balancing|서비스]] 모델은 단순 상품명이 아니라 **운영 책임의 경계선**이다.
+미국 국립표준기술연구소 NIST (National Institute of Standards and Technology)는 클라우드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델을 "컴퓨팅 자원의 어느 층을 클라우드 제공자 (Cloud [Service Provider](/knowledge-base/studynote/09_security/11_iam_access_control/535_sp_service_provider/), [CSP](/knowledge-base/studynote/09_security/05_web_app_security/475_csp/))가 관리하고, 어느 층을 사용자가 책임질 것인가"라는 관점에서 구분한다. 따라서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델은 단순 상품명이 아니라 **운영 책임의 경계선**이다.
 
-이 구분이 필요한 이유는 같은 클라우드라도 운영 부담과 통제권이 전혀 다르기 때문이다. [[001_operating_system_purpose|운영체제]] ([[001_operating_system_purpose|Operating System]], OS) 패치와 미들웨어까지 직접 관리해야 하는 환경과, 브라우저로 접속해 곧바로 쓰는 완제품 소프트웨어 환경은 모두 "클라우드"라고 부를 수 있지만 설계 판단은 완전히 달라진다. [[090_service_kubernetes_network_load_balancing|서비스]] 모델을 구분하지 않으면 조직은 필요 이상으로 많은 것을 직접 관리하거나, 반대로 통제권이 필요한 영역까지 무심코 넘겨버리게 된다.
+이 구분이 필요한 이유는 같은 클라우드라도 운영 부담과 통제권이 전혀 다르기 때문이다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) ([Operating System](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/), OS) 패치와 미들웨어까지 직접 관리해야 하는 환경과, 브라우저로 접속해 곧바로 쓰는 완제품 소프트웨어 환경은 모두 "클라우드"라고 부를 수 있지만 설계 판단은 완전히 달라진다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델을 구분하지 않으면 조직은 필요 이상으로 많은 것을 직접 관리하거나, 반대로 통제권이 필요한 영역까지 무심코 넘겨버리게 된다.
 
-아래 그림은 [[090_service_kubernetes_network_load_balancing|서비스]] 모델이 결국 **계층별 책임을 어디까지 위임하는가**의 문제임을 보여 준다.
+아래 그림은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델이 결국 **계층별 책임을 어디까지 위임하는가**의 문제임을 보여 준다.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────┐
@@ -38,25 +42,25 @@ tags:
 └────────────────────────────────────────────────────────────────────┘
 ```
 
-여기서 SaaS의 [[001_dikw_pyramid|데이터]] 행이 `Shared`로 표시된 이유는 플랫폼 운영은 CSP가 맡더라도, [[001_dikw_pyramid|데이터]] 분류와 접근 권한 같은 거버넌스 책임은 사용자 조직에 남기 때문이다. 즉 클라우드는 책임을 줄여 주지만, 책임을 완전히 없애 주지는 않는다.
+여기서 SaaS의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 행이 `Shared`로 표시된 이유는 플랫폼 운영은 CSP가 맡더라도, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분류와 접근 권한 같은 거버넌스 책임은 사용자 조직에 남기 때문이다. 즉 클라우드는 책임을 줄여 주지만, 책임을 완전히 없애 주지는 않는다.
 
-- **📢 섹션 요약 비유**: 클라우드 [[090_service_kubernetes_network_load_balancing|서비스]] 모델은 집을 짓는 방식의 차이와 같다. 땅부터 직접 사서 집을 짓는지, 구조만 지어진 집을 꾸미는지, 가구까지 갖춘 레지던스에 들어가는지, 호텔 방을 쓰는지에 따라 편리함과 통제권이 달라진다.
+- **📢 섹션 요약 비유**: 클라우드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델은 집을 짓는 방식의 차이와 같다. 땅부터 직접 사서 집을 짓는지, 구조만 지어진 집을 꾸미는지, 가구까지 갖춘 레지던스에 들어가는지, 호텔 방을 쓰는지에 따라 편리함과 통제권이 달라진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[[090_service_kubernetes_network_load_balancing|서비스]] 모델의 핵심은 기술 스택을 계층별로 분해해 어느 층을 누구에게 맡길지 정하는 것이다. IaaS는 [[015_virtualization|가상화]] 이하를 CSP가 맡고, PaaS는 [[001_operating_system_purpose|운영체제]]와 런타임까지 위임하며, SaaS는 애플리케이션 자체를 [[090_service_kubernetes_network_load_balancing|서비스]] 형태로 제공한다. 즉 모델이 올라갈수록 사용자는 코드와 [[001_dikw_pyramid|데이터]], [[009_config|설정]]에 집중하고 인프라 관리 책임은 줄어든다.
+[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델의 핵심은 기술 스택을 계층별로 분해해 어느 층을 누구에게 맡길지 정하는 것이다. IaaS는 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 이하를 CSP가 맡고, PaaS는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 런타임까지 위임하며, SaaS는 애플리케이션 자체를 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 형태로 제공한다. 즉 모델이 올라갈수록 사용자는 코드와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에 집중하고 인프라 관리 책임은 줄어든다.
 
 | 모델 | CSP가 주로 관리하는 영역 | 사용자가 집중하는 영역 | 강한 지점 | 주의할 점 |
 | :--- | :--- | :--- | :--- | :--- |
-| [[183_iaas_infrastructure_as_a_service|IaaS]] (Infrastructure [[344_as_autonomous_system_asn|as]] a [[090_service_kubernetes_network_load_balancing|Service]]) | [[015_virtualization|가상화]], 서버, 스토리지, 네트워크 | OS, 런타임, 애플리케이션, [[001_dikw_pyramid|데이터]] | 높은 자유도, 레거시 이관 용이 | 운영 부담과 보안 패치 책임이 큼 |
-| [[184_paas_platform_as_a_service|PaaS]] (Platform [[344_as_autonomous_system_asn|as]] a [[090_service_kubernetes_network_load_balancing|Service]]) | 인프라 + OS + 런타임 + 일부 미들웨어 | 애플리케이션 코드, [[014_data_model_components|데이터 모델]] | 빠른 개발, 자동 배포와 확장 | 런타임 제약, 벤더 [[008_dependencies|종속성]] 증가 |
-| [[309_saas|SaaS]] (Software [[344_as_autonomous_system_asn|as]] a [[090_service_kubernetes_network_load_balancing|Service]]) | 애플리케이션 포함 전체 [[067_service_operation|서비스 운영]] | 사용자 [[009_config|설정]], [[001_dikw_pyramid|데이터]] 활용, 업무 프로세스 | 즉시 사용, 운영 부담 최소화 | 커스터마이징 한계, [[001_dikw_pyramid|데이터]] 반출 [[268_strategy_pattern|전략]] 필요 |
+| [IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/) (Infrastructure [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) | [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/), 서버, 스토리지, 네트워크 | OS, 런타임, 애플리케이션, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 높은 자유도, 레거시 이관 용이 | 운영 부담과 보안 패치 책임이 큼 |
+| [PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/) (Platform [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) | 인프라 + OS + 런타임 + 일부 미들웨어 | 애플리케이션 코드, [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/) | 빠른 개발, 자동 배포와 확장 | 런타임 제약, 벤더 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 증가 |
+| [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) (Software [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) | 애플리케이션 포함 전체 [서비스 운영](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_service_operation/) | 사용자 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용, 업무 프로세스 | 즉시 사용, 운영 부담 최소화 | 커스터마이징 한계, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 반출 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 필요 |
 
-이 구조는 결국 [[198_abstraction_control_data_process|추상화]]의 상승이다. 예를 들어 IaaS는 가상 머신 ([[598_vm_migration_nic|Virtual Machine]], [[598_vm_migration_nic|VM]])과 가상 네트워크를 제공해 "서버를 소유하지 않고도 서버처럼 쓸 수 있게" 해 주고, PaaS는 코드 배포와 자동 확장 기능을 묶어 "서버를 거의 의식하지 않고도 애플리케이션을 운영하게" 해 준다. SaaS는 여기에 한 걸음 더 나아가 기능 자체를 구독하게 만들어, 사용자가 더 이상 애플리케이션을 배포하지 않게 만든다.
+이 구조는 결국 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)의 상승이다. 예를 들어 IaaS는 가상 머신 ([Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))과 가상 네트워크를 제공해 "서버를 소유하지 않고도 서버처럼 쓸 수 있게" 해 주고, PaaS는 코드 배포와 자동 확장 기능을 묶어 "서버를 거의 의식하지 않고도 애플리케이션을 운영하게" 해 준다. SaaS는 여기에 한 걸음 더 나아가 기능 자체를 구독하게 만들어, 사용자가 더 이상 애플리케이션을 배포하지 않게 만든다.
 
-최근에는 이 세 가지 전통 모델 사이에 CaaS ([[194_container_virtualization_docker_namespace|Container]] [[344_as_autonomous_system_asn|as]] a [[090_service_kubernetes_network_load_balancing|Service]]), DBaaS ([[501_database|Database]] [[344_as_autonomous_system_asn|as]] a [[090_service_kubernetes_network_load_balancing|Service]]), [[342_faas|FaaS]] (Function [[344_as_autonomous_system_asn|as]] a [[090_service_kubernetes_network_load_balancing|Service]]) 같은 세분화 모델이 끼어들고 있다. 하지만 이름이 늘어도 원리는 같다. **어느 계층을 위임했는가, 그 대가로 무엇을 포기했는가**가 본질이다.
+최근에는 이 세 가지 전통 모델 사이에 CaaS ([Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)), DBaaS ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)), [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/) (Function [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) 같은 세분화 모델이 끼어들고 있다. 하지만 이름이 늘어도 원리는 같다. **어느 계층을 위임했는가, 그 대가로 무엇을 포기했는가**가 본질이다.
 
 - **📢 섹션 요약 비유**: IaaS는 빈 주방이 있는 임대 공간, PaaS는 조리도구와 오븐까지 갖춰진 공유 주방, SaaS는 이미 완성된 도시락을 주문하는 방식에 가깝다. 위로 갈수록 요리 시작은 빨라지지만, 내 마음대로 바꿀 수 있는 부분은 줄어든다.
 
@@ -64,7 +68,7 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-클라우드 [[090_service_kubernetes_network_load_balancing|서비스]] 모델은 배포 모델과 자주 혼동되지만 질문 자체가 다르다. [[090_service_kubernetes_network_load_balancing|서비스]] 모델은 "누가 어느 층을 운영하는가"를 묻고, 퍼블릭·프라이빗·하이브리드 클라우드는 "어디에 어떤 형태로 배치하는가"를 묻는다. 따라서 퍼블릭 클라우드에서도 [[183_iaas_infrastructure_as_a_service|IaaS]]·[[184_paas_platform_as_a_service|PaaS]]·SaaS가 모두 가능하고, 프라이빗 클라우드에서도 동일한 [[090_service_kubernetes_network_load_balancing|서비스]] 모델 구성이 가능하다.
+클라우드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델은 배포 모델과 자주 혼동되지만 질문 자체가 다르다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델은 "누가 어느 층을 운영하는가"를 묻고, 퍼블릭·프라이빗·하이브리드 클라우드는 "어디에 어떤 형태로 배치하는가"를 묻는다. 따라서 퍼블릭 클라우드에서도 [IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/)·[PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/)·SaaS가 모두 가능하고, 프라이빗 클라우드에서도 동일한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델 구성이 가능하다.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────┐
@@ -78,17 +82,17 @@ tags:
 └────────────────────────────────────────────────────────────────────┘
 ```
 
-| 비교 축 | [[183_iaas_infrastructure_as_a_service|IaaS]] | [[184_paas_platform_as_a_service|PaaS]] | [[309_saas|SaaS]] | [[342_faas|FaaS]] |
+| 비교 축 | [IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/) | [PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/) | [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) | [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/) |
 | :--- | :--- | :--- | :--- | :--- |
 | 통제권 | 높음 | 중간 | 낮음 | 매우 낮음 |
 | 출시 속도 | 보통 | 빠름 | 매우 빠름 | 매우 빠름 |
 | 운영 부담 | 큼 | 중간 | 매우 작음 | 매우 작음 |
-| 벤더 [[008_dependencies|종속성]] | 상대적으로 낮음 | 높아지기 쉬움 | 높음 | 높음 |
+| 벤더 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) | 상대적으로 낮음 | 높아지기 쉬움 | 높음 | 높음 |
 | 잘 맞는 상황 | 레거시 이관, 특수 네트워크 요구 | 표준 웹·업무 앱 개발 | 범용 협업·업무 기능 사용 | 이벤트 기반, 간헐적 실행 |
 
-이 비교가 중요한 이유는 "[[198_abstraction_control_data_process|추상화]]가 높을수록 무조건 좋다"는 오해를 막기 위해서다. 예를 들어 특수 [[022_kernel_role|커널]] [[009_config|설정]], 정교한 네트워크 장비 제어, 특정 보안 [[192_module_independence|모듈]] 탑재가 필요하면 IaaS가 더 적합할 수 있다. 반대로 전자메일, 협업 도구, 인사 시스템처럼 차별화 가치보다 빠른 도입이 중요한 영역은 SaaS가 훨씬 경제적이다.
+이 비교가 중요한 이유는 "[추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)가 높을수록 무조건 좋다"는 오해를 막기 위해서다. 예를 들어 특수 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), 정교한 네트워크 장비 제어, 특정 보안 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 탑재가 필요하면 IaaS가 더 적합할 수 있다. 반대로 전자메일, 협업 도구, 인사 시스템처럼 차별화 가치보다 빠른 도입이 중요한 영역은 SaaS가 훨씬 경제적이다.
 
-또한 [[531_cloud_native_architecture|클라우드 네이티브]] ([[199_cloud_native_architecture_msa_cicd_devops|Cloud Native]]) 아키텍처는 보통 한 모델만 쓰지 않는다. 핵심 [[001_dikw_pyramid|데이터]] 계층은 DBaaS나 관리형 [[196_kubernetes_k8s_container_orchestration|쿠버네티스]] ([[205_kubernetes_container_orchestration|Kubernetes]]) 위에 두고, 이벤트성 부하는 FaaS로 처리하며, 사내 협업은 SaaS를 쓰는 식의 혼합 구성이 일반적이다. [[090_service_kubernetes_network_load_balancing|서비스]] 모델은 배타적 선택지가 아니라 조합 가능한 부품이다.
+또한 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) ([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/)) 아키텍처는 보통 한 모델만 쓰지 않는다. 핵심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계층은 DBaaS나 관리형 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) ([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)) 위에 두고, 이벤트성 부하는 FaaS로 처리하며, 사내 협업은 SaaS를 쓰는 식의 혼합 구성이 일반적이다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델은 배타적 선택지가 아니라 조합 가능한 부품이다.
 
 - **📢 섹션 요약 비유**: 자가 주방, 공유 주방, 배달 음식은 서로 싸우는 개념이 아니라 상황에 따라 섞어 쓰는 선택지다. 집에서는 배달을 시키고, 가게에서는 직접 조리하고, 행사장에서는 공유 주방을 빌리는 것처럼 클라우드도 업무별로 모델을 섞는 것이 자연스럽다.
 
@@ -96,7 +100,7 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 [[090_service_kubernetes_network_load_balancing|서비스]] 모델을 제품 카탈로그가 아니라 **책임 분배 [[268_strategy_pattern|전략]]**으로 선택해야 한다. 차별화가 거의 없는 공통 업무 기능은 SaaS로 빠르게 확보하고, 자체 [[090_service_kubernetes_network_load_balancing|서비스]]의 핵심 로직은 [[184_paas_platform_as_a_service|PaaS]]·CaaS·[[183_iaas_infrastructure_as_a_service|IaaS]] 가운데 필요한 통제 수준에 맞춰 가져가는 식이 일반적이다. 중요한 것은 최신 유행이 아니라, 해당 기능이 우리 조직의 경쟁력과 규제 요구에 얼마나 직접 연결되는가다.
+실무에서는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델을 제품 카탈로그가 아니라 **책임 분배 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**으로 선택해야 한다. 차별화가 거의 없는 공통 업무 기능은 SaaS로 빠르게 확보하고, 자체 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 핵심 로직은 [PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/)·CaaS·[IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/) 가운데 필요한 통제 수준에 맞춰 가져가는 식이 일반적이다. 중요한 것은 최신 유행이 아니라, 해당 기능이 우리 조직의 경쟁력과 규제 요구에 얼마나 직접 연결되는가다.
 
 아래 의사결정 흐름은 모델 선택을 단순 가격 비교가 아니라 책임 범위 관점으로 바꿔 준다.
 
@@ -120,22 +124,22 @@ tags:
 └────────────────────────────────────────────────────────────────────┘
 ```
 
-### 기술사 판단 [[435_checklist_based_testing|체크리스트]]
+### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 이 기능이 우리 비즈니스의 차별화 핵심인가, 아니면 범용 업무인가?
-2. [[001_operating_system_purpose|운영체제]], 네트워크, 보안 장비 수준의 세밀한 통제가 정말 필요한가?
-3. 조직이 패치, [[555_backup_and_restore_strategy|백업]], 모니터링, 장애 대응을 직접 운영할 역량을 갖추고 있는가?
-4. [[809_data_sovereignty|데이터 주권]], [[606_auditing_linux_auditd|감사]], 반출 요구 때문에 벤더 [[008_dependencies|종속성]] 완화 [[268_strategy_pattern|전략]]이 필요한가?
+2. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/), 네트워크, 보안 장비 수준의 세밀한 통제가 정말 필요한가?
+3. 조직이 패치, [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/), 모니터링, 장애 대응을 직접 운영할 역량을 갖추고 있는가?
+4. [데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/), [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/), 반출 요구 때문에 벤더 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 완화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 필요한가?
 5. 예상 부하가 지속형인지, 간헐적 이벤트형인지에 따라 PaaS와 FaaS의 경제성이 달라지지 않는가?
 
-### 자주 나오는 [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### 자주 나오는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 단순 리프트 앤 시프트만 해 놓고 [[183_iaas_infrastructure_as_a_service|IaaS]] 환경에서 자동 확장과 운영 자동화까지 얻었다고 착각하는 경우
-- PaaS를 선택해 놓고 지원하지 않는 런타임이나 특수 시스템 [[009_config|설정]]을 계속 요구하는 경우
-- SaaS를 도입하면서 [[001_dikw_pyramid|데이터]] 반출, 계정 통제, [[606_auditing_linux_auditd|감사]] [[568_logs_distributed_logging_elk_fluentd|로그]] 정책을 준비하지 않는 경우
-- [[090_service_kubernetes_network_load_balancing|서비스]] 모델이 올라가면 보안 책임도 모두 CSP가 가져간다고 오해하는 경우
+- 단순 리프트 앤 시프트만 해 놓고 [IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/) 환경에서 자동 확장과 운영 자동화까지 얻었다고 착각하는 경우
+- PaaS를 선택해 놓고 지원하지 않는 런타임이나 특수 시스템 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 계속 요구하는 경우
+- SaaS를 도입하면서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 반출, 계정 통제, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 정책을 준비하지 않는 경우
+- [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델이 올라가면 보안 책임도 모두 CSP가 가져간다고 오해하는 경우
 
-기술사 답안에서는 "PaaS가 편하다" 수준이 아니라, **통제권·운영 부담·규제·락인·혼합 [[268_strategy_pattern|전략]]**을 함께 말해야 한다. 특히 [[090_service_kubernetes_network_load_balancing|서비스]] 모델 선택은 아키텍처 결정인 동시에 조직 운영 모델 결정이라는 점을 강조하면 답안의 깊이가 살아난다.
+기술사 답안에서는 "PaaS가 편하다" 수준이 아니라, **통제권·운영 부담·규제·락인·혼합 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**을 함께 말해야 한다. 특히 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델 선택은 아키텍처 결정인 동시에 조직 운영 모델 결정이라는 점을 강조하면 답안의 깊이가 살아난다.
 
 - **📢 섹션 요약 비유**: 회사에서 직접 운전할 차를 살지, 기사 포함 렌터카를 쓸지, 대중교통을 탈지 정하는 문제와 같다. 이동만 보면 비슷하지만, 정비 책임·운전 자유도·비용 구조는 완전히 다르다.
 
@@ -143,11 +147,11 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-적절한 클라우드 [[090_service_kubernetes_network_load_balancing|서비스]] 모델을 고르면 조직은 자원을 더 빨리 확보하고, 반복적 인프라 작업에서 벗어나며, 사업 변화 속도에 맞춰 시스템을 조정하기 쉬워진다. 특히 공통 기능을 상위 모델로 위임하면 개발팀은 비즈니스 차별화 영역에 더 많은 시간을 쓸 수 있다. 이것이 클라우드가 단순 임대가 아니라 생산성 향상 도구로 평가받는 이유다.
+적절한 클라우드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델을 고르면 조직은 자원을 더 빨리 확보하고, 반복적 인프라 작업에서 벗어나며, 사업 변화 속도에 맞춰 시스템을 조정하기 쉬워진다. 특히 공통 기능을 상위 모델로 위임하면 개발팀은 비즈니스 차별화 영역에 더 많은 시간을 쓸 수 있다. 이것이 클라우드가 단순 임대가 아니라 생산성 향상 도구로 평가받는 이유다.
 
-그러나 [[198_abstraction_control_data_process|추상화]]가 높아질수록 모든 것이 쉬워지는 것은 아니다. 통제권 축소, 벤더 [[008_dependencies|종속성]], [[001_dikw_pyramid|데이터]] 반출 제약, 세밀한 최적화 한계가 뒤따른다. 따라서 [[090_service_kubernetes_network_load_balancing|서비스]] 모델 선택은 "가장 관리가 적은 것"이 아니라, **내가 직접 책임져야 할 영역과 남에게 맡겨도 되는 영역을 구분하는 설계 행위**로 봐야 한다.
+그러나 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)가 높아질수록 모든 것이 쉬워지는 것은 아니다. 통제권 축소, 벤더 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 반출 제약, 세밀한 최적화 한계가 뒤따른다. 따라서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델 선택은 "가장 관리가 적은 것"이 아니라, **내가 직접 책임져야 할 영역과 남에게 맡겨도 되는 영역을 구분하는 설계 행위**로 봐야 한다.
 
-결론적으로 클라우드 [[090_service_kubernetes_network_load_balancing|서비스]] 모델은 [[183_iaas_infrastructure_as_a_service|IaaS]]·[[184_paas_platform_as_a_service|PaaS]]·SaaS라는 약어 암기가 아니라, 책임과 통제의 균형을 설계하는 프레임이다. 오늘날 XaaS (Everything [[344_as_autonomous_system_asn|as]] a [[090_service_kubernetes_network_load_balancing|Service]])로 모델이 더 잘게 쪼개지고 있어도, 기억해야 할 핵심은 하나다. **더 많은 편의는 더 적은 통제와 함께 온다.**
+결론적으로 클라우드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델은 [IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/)·[PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/)·SaaS라는 약어 암기가 아니라, 책임과 통제의 균형을 설계하는 프레임이다. 오늘날 XaaS (Everything [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))로 모델이 더 잘게 쪼개지고 있어도, 기억해야 할 핵심은 하나다. **더 많은 편의는 더 적은 통제와 함께 온다.**
 
 - **📢 섹션 요약 비유**: 요리를 직접 할수록 손은 많이 가지만 재료와 맛을 세밀하게 조절할 수 있다. 반대로 완성식을 주문하면 편하지만, 국물 간과 반찬 구성까지 모두 내 마음대로 하기는 어렵다.
 
@@ -157,14 +161,14 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[183_iaas_infrastructure_as_a_service|IaaS]] (Infrastructure [[344_as_autonomous_system_asn|as]] a [[090_service_kubernetes_network_load_balancing|Service]]) | 인프라 계층을 [[090_service_kubernetes_network_load_balancing|서비스]]로 받아 높은 통제권을 유지하는 모델 |
-| [[184_paas_platform_as_a_service|PaaS]] (Platform [[344_as_autonomous_system_asn|as]] a [[090_service_kubernetes_network_load_balancing|Service]]) | 런타임과 배포 자동화를 위임해 개발 속도를 높이는 모델 |
-| [[309_saas|SaaS]] (Software [[344_as_autonomous_system_asn|as]] a [[090_service_kubernetes_network_load_balancing|Service]]) | 애플리케이션 자체를 구독형으로 사용하는 모델 |
+| [IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/) (Infrastructure [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) | 인프라 계층을 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 받아 높은 통제권을 유지하는 모델 |
+| [PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/) (Platform [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) | 런타임과 배포 자동화를 위임해 개발 속도를 높이는 모델 |
+| [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) (Software [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) | 애플리케이션 자체를 구독형으로 사용하는 모델 |
 | 공유 책임 모델 (Shared Responsibility Model) | CSP와 사용자가 계층별로 운영·보안 책임을 나누는 원칙 |
-| CaaS ([[194_container_virtualization_docker_namespace|Container]] [[344_as_autonomous_system_asn|as]] a [[090_service_kubernetes_network_load_balancing|Service]]) | [[561_container_based_deployment|컨테이너]] 오케스트레이션을 관리형으로 제공하는 중간 계층 |
-| [[342_faas|FaaS]] (Function [[344_as_autonomous_system_asn|as]] a [[090_service_kubernetes_network_load_balancing|Service]]) | 이벤트 기반 함수 실행 단위까지 [[198_abstraction_control_data_process|추상화]]를 끌어올린 모델 |
-| DBaaS ([[501_database|Database]] [[344_as_autonomous_system_asn|as]] a [[090_service_kubernetes_network_load_balancing|Service]]) | [[002_database_definition|데이터베이스]] 운영을 [[090_service_kubernetes_network_load_balancing|서비스]]화해 [[555_backup_and_restore_strategy|백업]]·패치 부담을 줄이는 모델 |
-| 벤더 [[008_dependencies|종속성]] ([[254_cloud_vendor_lock_in_avoidance_portability_multi_cloud|Vendor Lock-in]]) | 상위 [[198_abstraction_control_data_process|추상화]] 모델로 갈수록 커지기 쉬운 이동 제약 |
+| CaaS ([Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 오케스트레이션을 관리형으로 제공하는 중간 계층 |
+| [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/) (Function [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) | 이벤트 기반 함수 실행 단위까지 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)를 끌어올린 모델 |
+| DBaaS ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) | [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 운영을 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)화해 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)·패치 부담을 줄이는 모델 |
+| 벤더 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) ([Vendor Lock-in](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/254_cloud_vendor_lock_in_avoidance_portability_multi_cloud/)) | 상위 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 모델로 갈수록 커지기 쉬운 이동 제약 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -186,9 +190,9 @@ SaaS + XaaS (Everything as a Service)
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 클라우드 [[090_service_kubernetes_network_load_balancing|서비스]] 모델은 장난감을 직접 만드는지, 반쯤 만들어진 걸 조립하는지, 완성품을 빌려 쓰는지 정하는 방법이에요.
+1. 클라우드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델은 장난감을 직접 만드는지, 반쯤 만들어진 걸 조립하는지, 완성품을 빌려 쓰는지 정하는 방법이에요.
 2. 직접 만들수록 마음대로 바꿀 수 있지만 힘이 많이 들고, 완성품을 빌릴수록 편하지만 바꾸는 건 어려워져요.
-3. 그래서 컴퓨터도 일을 얼마나 직접 챙길지에 따라 [[183_iaas_infrastructure_as_a_service|IaaS]], [[184_paas_platform_as_a_service|PaaS]], SaaS를 골라 쓰는 거예요.
+3. 그래서 컴퓨터도 일을 얼마나 직접 챙길지에 따라 [IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/), [PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/), SaaS를 골라 쓰는 거예요.
 
 ---
 
@@ -196,7 +200,7 @@ SaaS + XaaS (Everything as a Service)
 
 **진행 상황**: 182 / 552
 
-← **이전**: [[181_cloud_computing_nist_characteristics|181. 클라우드 컴퓨팅 5대 특징 (NIST Cloud Computing Characteristics)]]
-**다음**: [[183_iaas_infrastructure_as_a_service|183. IaaS (Infrastructure as a Service) - 서버, 스토리지, 네트워크 가상화 제공]] →
+← **이전**: [181. 클라우드 컴퓨팅 5대 특징 (NIST Cloud Computing Characteristics)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/181_cloud_computing_nist_characteristics/)
+**다음**: [183. IaaS (Infrastructure as a Service) - 서버, 스토리지, 네트워크 가상화 제공](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/) →
 
 ---

@@ -1,14 +1,18 @@
----
-title: 119. Seq2Seq 모델 (Sequence-to-Sequence) - 인코더-디코더 시퀀스 변환 아키텍처
-date: '2026-04-19'
-tags:
-- studynote-ai
----
++++
+title = "119. Seq2Seq 모델 (Sequence-to-Sequence) - 인코더-디코더 시퀀스 변환 아키텍처"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-ai"]
+
+[extra]
+tags = ["studynote-ai"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Seq2Seq은 **[[040_encoder|인코더]] RNN이 입력 시퀀스를 고정 길이 [[120_context_vector|컨텍스트 벡터]]로 [[347_compaction|압축]]**하고, **[[039_decoder|디코더]] RNN이 이 벡터를 기반으로 출력 시퀀스를 [[087_process_state_transition|생성]]**하는 [[040_encoder|인코더]]-[[039_decoder|디코더]] 아키텍처이다.
-> 2. **가치**: 입력과 출력의 **길이가 다른** [[150_task|태스크]](기계 번역: "I love you" → "나는 너를 사랑해", 요약, 챗봇)에 최적이며, 이전 RNN은 입력=출력 길이가 같아야 했다.
-> 3. **판단 포인트**: [[120_context_vector|컨텍스트 벡터]]가 **고정 길이(병목)**이므로 긴 입력에서 정보 손실이 발생하며, 이를 해결한 것이 **Attention 메커니즘**(Bahdanau, 2014)이고, 최종 진화가 **[[246_transformer_self_attention_parallel_positional_encoding|Transformer]]**(2017)이다.
+> 1. **본질**: Seq2Seq은 **[인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) RNN이 입력 시퀀스를 고정 길이 [컨텍스트 벡터](/knowledge-base/studynote/10_ai/02_dl_architecture_new/120_context_vector/)로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)**하고, **[디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) RNN이 이 벡터를 기반으로 출력 시퀀스를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)**하는 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)-[디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) 아키텍처이다.
+> 2. **가치**: 입력과 출력의 **길이가 다른** [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)(기계 번역: "I love you" → "나는 너를 사랑해", 요약, 챗봇)에 최적이며, 이전 RNN은 입력=출력 길이가 같아야 했다.
+> 3. **판단 포인트**: [컨텍스트 벡터](/knowledge-base/studynote/10_ai/02_dl_architecture_new/120_context_vector/)가 **고정 길이(병목)**이므로 긴 입력에서 정보 손실이 발생하며, 이를 해결한 것이 **Attention 메커니즘**(Bahdanau, 2014)이고, 최종 진화가 **[Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)**(2017)이다.
 
 ---
 
@@ -30,27 +34,27 @@ tags:
 └───────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: [[040_encoder|인코더]]는 통역사가 영어 문장을 듣고 메모([[120_context_vector|컨텍스트 벡터]])하는 것이고, [[039_decoder|디코더]]는 그 메모를 보고 한국어로 말하는 것이다. 메모가 한 줄(고정 길이)이면 긴 문장은 다 못 적는다.
+- **📢 섹션 요약 비유**: [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)는 통역사가 영어 문장을 듣고 메모([컨텍스트 벡터](/knowledge-base/studynote/10_ai/02_dl_architecture_new/120_context_vector/))하는 것이고, [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)는 그 메모를 보고 한국어로 말하는 것이다. 메모가 한 줄(고정 길이)이면 긴 문장은 다 못 적는다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [[245_seq2seq_context_vector_attention_dynamic_weight|Seq2Seq]] 구성 요소
+### [Seq2Seq](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/245_seq2seq_context_vector_attention_dynamic_weight/) 구성 요소
 
 | 요소 | 역할 |
 |:---|:---|
-| **[[040_encoder|인코더]]** | 입력 시퀀스 → [[120_context_vector|컨텍스트 벡터]] [[347_compaction|압축]] |
-| **[[039_decoder|디코더]]** | [[120_context_vector|컨텍스트 벡터]] → 출력 시퀀스 [[087_process_state_transition|생성]] |
-| **[[120_context_vector|Context Vector]]** | [[040_encoder|인코더]] 최종 Hidden [[272_state_pattern|State]] |
-| **Teacher Forcing** | 학습 시 정답 토큰을 [[039_decoder|디코더]] 입력으로 사용 |
+| **[인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)** | 입력 시퀀스 → [컨텍스트 벡터](/knowledge-base/studynote/10_ai/02_dl_architecture_new/120_context_vector/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) |
+| **[디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)** | [컨텍스트 벡터](/knowledge-base/studynote/10_ai/02_dl_architecture_new/120_context_vector/) → 출력 시퀀스 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
+| **[Context Vector](/knowledge-base/studynote/10_ai/02_dl_architecture_new/120_context_vector/)** | [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) 최종 Hidden [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) |
+| **Teacher Forcing** | 학습 시 정답 토큰을 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) 입력으로 사용 |
 
-### Teacher Forcing vs [[248_bert_encoder_mlm_gpt_decoder_autoregressive_comparison|Autoregressive]]
+### Teacher Forcing vs [Autoregressive](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/248_bert_encoder_mlm_gpt_decoder_autoregressive_comparison/)
 
 | 방식 | 학습 | 추론 |
 |:---|:---|:---|
 | **Teacher Forcing** | 정답 토큰 입력 (빠름) | 사용 불가 |
-| **[[248_bert_encoder_mlm_gpt_decoder_autoregressive_comparison|Autoregressive]]** | 이전 출력을 다음 입력 | **추론 시 사용** |
+| **[Autoregressive](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/248_bert_encoder_mlm_gpt_decoder_autoregressive_comparison/)** | 이전 출력을 다음 입력 | **추론 시 사용** |
 
 - **📢 섹션 요약 비유**: Teacher Forcing은 선생님이 정답을 불러주면서 받아쓰기 연습하는 것이고, Autoregressive는 혼자 써보는 실전이다.
 
@@ -58,20 +62,20 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | [[245_seq2seq_context_vector_attention_dynamic_weight|Seq2Seq]] | [[245_seq2seq_context_vector_attention_dynamic_weight|Seq2Seq]]+Attention | [[246_transformer_self_attention_parallel_positional_encoding|Transformer]] |
+| 비교 | [Seq2Seq](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/245_seq2seq_context_vector_attention_dynamic_weight/) | [Seq2Seq](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/245_seq2seq_context_vector_attention_dynamic_weight/)+Attention | [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) |
 |:---|:---|:---|:---|
-| **병목** | 고정 벡터 | **가중 [[316_reference_pattern_nosql|참조]]로 해소** | [[124_self_attention|Self-Attention]] |
-| **[[430_index_fast_full_scan|병렬]]화** | 불가 | 불가 | **가능** |
-| **[[282_performance_tactics|성능]]** | 기본 | 향상 | **최고** |
+| **병목** | 고정 벡터 | **가중 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)로 해소** | [Self-Attention](/knowledge-base/studynote/10_ai/02_dl_architecture_new/124_self_attention/) |
+| **[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화** | 불가 | 불가 | **가능** |
+| **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)** | 기본 | 향상 | **최고** |
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[245_seq2seq_context_vector_attention_dynamic_weight|Seq2Seq]] 적용 분야
-1. **기계 번역**: 원문 → 번역문 (Google NMT [[459_quic_fec_forward_error_correction|초기]]).
-2. **챗봇**: 질문 → 응답 [[087_process_state_transition|생성]].
-3. **[[115_text_summarization|텍스트 요약]]**: 긴 문서 → 요약문.
+### [Seq2Seq](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/245_seq2seq_context_vector_attention_dynamic_weight/) 적용 분야
+1. **기계 번역**: 원문 → 번역문 (Google NMT [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)).
+2. **챗봇**: 질문 → 응답 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/).
+3. **[텍스트 요약](/knowledge-base/studynote/16_bigdata/05_analysis/115_text_summarization/)**: 긴 문서 → 요약문.
 4. **음성 인식**: 오디오 → 텍스트.
 
 ---
@@ -86,11 +90,11 @@ Seq2Seq은 "가변 길이 입력 → 가변 길이 출력"이라는 근본 문�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[[040_encoder|인코더]]-[[039_decoder|디코더]]** | Seq2Seq의 핵심 구조 |
-| **[[120_context_vector|Context Vector]]** | [[040_encoder|인코더]]가 [[087_process_state_transition|생성]]하는 고정 길이 벡터 (병목) |
-| **Attention** | 병목을 해결하는 가중 [[316_reference_pattern_nosql|참조]] 메커니즘 |
-| **Teacher Forcing** | 학습 시 정답 토큰 제공 [[268_strategy_pattern|전략]] |
-| **[[246_transformer_self_attention_parallel_positional_encoding|Transformer]]** | [[245_seq2seq_context_vector_attention_dynamic_weight|Seq2Seq]] + Self-Attention의 진화 |
+| **[인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)-[디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)** | Seq2Seq의 핵심 구조 |
+| **[Context Vector](/knowledge-base/studynote/10_ai/02_dl_architecture_new/120_context_vector/)** | [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 고정 길이 벡터 (병목) |
+| **Attention** | 병목을 해결하는 가중 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 메커니즘 |
+| **Teacher Forcing** | 학습 시 정답 토큰 제공 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
+| **[Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)** | [Seq2Seq](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/245_seq2seq_context_vector_attention_dynamic_weight/) + Self-Attention의 진화 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -111,7 +115,7 @@ Seq2Seq은 "가변 길이 입력 → 가변 길이 출력"이라는 근본 문�
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. Seq2Seq은 **통역사**예요. 영어(입력)를 듣고 **메모([[120_context_vector|컨텍스트 벡터]])**한 뒤, 한국어(출력)로 말해요.
+1. Seq2Seq은 **통역사**예요. 영어(입력)를 듣고 **메모([컨텍스트 벡터](/knowledge-base/studynote/10_ai/02_dl_architecture_new/120_context_vector/))**한 뒤, 한국어(출력)로 말해요.
 2. 문제는 메모가 **한 줄뿐**이라 긴 문장은 다 못 적어요 (정보 손실).
 3. 그래서 Attention이 등장해서 **전체 문장을 보면서 번역**할 수 있게 되었답니다!
 
@@ -121,7 +125,7 @@ Seq2Seq은 "가변 길이 입력 → 가변 길이 출력"이라는 근본 문�
 
 **진행 상황**: 119 / 420
 
-← **이전**: [[118_bidirectional_rnn|118. 양방향 RNN (Bidirectional RNN) - 순방향+역방향 컨텍스트 동시 활용]]
-**다음**: [[120_context_vector|120. 컨텍스트 벡터 (Context Vector) - Seq2Seq 병목과 Attention의 동기]] →
+← **이전**: [118. 양방향 RNN (Bidirectional RNN) - 순방향+역방향 컨텍스트 동시 활용](/knowledge-base/studynote/10_ai/02_dl_architecture_new/118_bidirectional_rnn/)
+**다음**: [120. 컨텍스트 벡터 (Context Vector) - Seq2Seq 병목과 Attention의 동기](/knowledge-base/studynote/10_ai/02_dl_architecture_new/120_context_vector/) →
 
 ---

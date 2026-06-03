@@ -1,23 +1,27 @@
----
-title: 7. 지식 표현 (Knowledge Representation) - 규칙 기반, 의미망, 프레임, 스크립트 등
-date: '2024-05-20'
-description: 인간의 지식을 컴퓨터가 이해하고 추론할 수 있도록 정형화하는 AI의 핵심 설계 기법
-tags:
-- ai
----
++++
+title = "7. 지식 표현 (Knowledge Representation) - 규칙 기반, 의미망, 프레임, 스크립트 등"
+description = "인간의 지식을 컴퓨터가 이해하고 추론할 수 있도록 정형화하는 AI의 핵심 설계 기법"
+date = 2024-05-20
+
+[taxonomies]
+tags = ["ai"]
+
+[extra]
+tags = ["ai"]
++++
 
 #### 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 암묵적인 인간의 지식을 컴퓨터가 연산하고 추론할 수 있도록 [[369_logic_bomb|논리]]적, 구조적, 절차적으로 모델링하는 기법이다.
-> 2. **가치**: 단순한 [[001_dikw_pyramid|데이터]] 저장을 넘어 [[001_dikw_pyramid|데이터]] 간의 의미적 [[083_relationship_in_er_model|관계]](Semantic [[083_relationship_in_er_model|Relationship]])를 부여함으로써, AI가 새로운 결론을 도출하는 지능의 근간을 형성한다.
-> 3. **융합**: 전통적인 기호주의(Symbolic [[190_ai_llm_requirements_specification|AI]])의 산물이지만, 현대에는 [[160_knowledge_graph_graphrag_integration|지식 그래프]]([[160_knowledge_graph_graphrag_integration|Knowledge Graph]])와 LLM의 [[276_fine_tuning|RAG]] [[123_pipe|파이프]]라인이 융합되어 [[275_react_framework|환각]]([[345_llm_foundation_model_hallucination|Hallucination]])을 제어하는 핵심 [[012_metadata|메타데이터]]로 작용한다.
+> 1. **본질**: 암묵적인 인간의 지식을 컴퓨터가 연산하고 추론할 수 있도록 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적, 구조적, 절차적으로 모델링하는 기법이다.
+> 2. **가치**: 단순한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장을 넘어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 간의 의미적 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)(Semantic [Relationship](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/))를 부여함으로써, AI가 새로운 결론을 도출하는 지능의 근간을 형성한다.
+> 3. **융합**: 전통적인 기호주의(Symbolic [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))의 산물이지만, 현대에는 [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))와 LLM의 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 융합되어 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)([Hallucination](/knowledge-base/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/))을 제어하는 핵심 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)로 작용한다.
 
 ---
 
-### Ⅰ. 개요 및 필요성 ([[033_context|Context]] & Necessity)
+### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-지식 표현 (Knowledge Representation, KR)은 [[231_ai_turing_test|인공지능]]이 세계를 이해하고 문제를 해결하기 위해 필수적인 구조적 매핑 작업이다. 단순한 [[001_dikw_pyramid|데이터]]([[001_dikw_pyramid|Data]])나 정보(Information)의 나열과 달리, 지식(Knowledge)은 요소 간의 인과관계, 범주, 규칙을 포함해야 한다. [[459_quic_fec_forward_error_correction|초기]] [[190_ai_llm_requirements_specification|AI]] 연구자들은 "어떻게 하면 기계가 인간처럼 [[369_logic_bomb|논리]]적 추론을 할 수 있을까"라는 문제의식에서 출발하여, 지식을 기호(Symbol)와 그 기호들 간의 연산 규칙으로 정의하는 기호주의(Symbolic [[190_ai_llm_requirements_specification|AI]])의 틀을 확립했다.
+지식 표현 (Knowledge Representation, KR)은 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 세계를 이해하고 문제를 해결하기 위해 필수적인 구조적 매핑 작업이다. 단순한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))나 정보(Information)의 나열과 달리, 지식(Knowledge)은 요소 간의 인과관계, 범주, 규칙을 포함해야 한다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 연구자들은 "어떻게 하면 기계가 인간처럼 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 추론을 할 수 있을까"라는 문제의식에서 출발하여, 지식을 기호(Symbol)와 그 기호들 간의 연산 규칙으로 정의하는 기호주의(Symbolic [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))의 틀을 확립했다.
 
-이러한 지식 표현이 실무 시스템에서 필요한 이유는 명확하다. 단순히 패턴을 외우는 딥러닝(Connectionism)만으로는 "왜 그런 결론이 나왔는지" 설명할 수 없는 블랙박스 현상이 발생하기 때문이다. 반면, 지식 표현은 명시적인 룰과 네트워크를 기반으로 하므로 완벽한 설명 가능성(Explainability)을 제공한다. 현재의 비즈니스 요구는 딥러닝의 예측력에 지식 표현의 [[369_logic_bomb|논리]]력을 결합한 뉴로-심볼릭 [[190_ai_llm_requirements_specification|AI]](Neuro-Symbolic [[190_ai_llm_requirements_specification|AI]]) 아키텍처로 진화하고 있다.
+이러한 지식 표현이 실무 시스템에서 필요한 이유는 명확하다. 단순히 패턴을 외우는 딥러닝(Connectionism)만으로는 "왜 그런 결론이 나왔는지" 설명할 수 없는 블랙박스 현상이 발생하기 때문이다. 반면, 지식 표현은 명시적인 룰과 네트워크를 기반으로 하므로 완벽한 설명 가능성(Explainability)을 제공한다. 현재의 비즈니스 요구는 딥러닝의 예측력에 지식 표현의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)력을 결합한 뉴로-심볼릭 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)(Neuro-Symbolic [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) 아키텍처로 진화하고 있다.
 
 ```text
 이 구조도는 데이터가 지식으로 변환되는 DIKW 피라미드와, 지식 표현이 추론 엔진과 결합하는 기본 흐름을 보여준다.
@@ -32,30 +36,30 @@ tags:
                                            ▼
                                 [Inference Engine (추론 엔진)] ──> [Action/Decision]
 ```
-이 도식의 핵심은 [[008_knowledge_base_inference_engine|지식 베이스]](KB)가 추론 엔진에 입력되기 위해서는 기계가 읽을 수 있는(Machine-Readable) 특수한 문법(지식 표현 기법)으로 변환되어야 한다는 점이다. 이런 배치는 단순히 RDB에 값을 넣는 것과는 차원이 다르며, 따라서 시스템 아키텍트는 [[064_relation_domain|도메인]]의 특성에 맞춰 규칙(Rule), 프레임(Frame), 의미망(Semantic Net) 중 가장 효율적인 검색/추론 연산이 가능한 표현 구조를 선택해야 한다. 실무에서는 이 변환 과정에서의 정보 손실을 막는 것이 가장 큰 병목이다.
+이 도식의 핵심은 [지식 베이스](/knowledge-base/studynote/10_ai/01_ai_basics/008_knowledge_base_inference_engine/)(KB)가 추론 엔진에 입력되기 위해서는 기계가 읽을 수 있는(Machine-Readable) 특수한 문법(지식 표현 기법)으로 변환되어야 한다는 점이다. 이런 배치는 단순히 RDB에 값을 넣는 것과는 차원이 다르며, 따라서 시스템 아키텍트는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)의 특성에 맞춰 규칙(Rule), 프레임(Frame), 의미망(Semantic Net) 중 가장 효율적인 검색/추론 연산이 가능한 표현 구조를 선택해야 한다. 실무에서는 이 변환 과정에서의 정보 손실을 막는 것이 가장 큰 병목이다.
 
-📢 **섹션 요약 비유**: 도서관에 책을 마구잡이로 쌓아두는 것이 단순 [[001_dikw_pyramid|데이터]]라면, 지식 표현은 십진분류법을 넘어 '이 책을 읽은 사람은 저 책도 읽어야 한다'는 끈을 모든 책 사이에 매달아 두는 고도화된 색인 작업과 같습니다.
+📢 **섹션 요약 비유**: 도서관에 책을 마구잡이로 쌓아두는 것이 단순 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)라면, 지식 표현은 십진분류법을 넘어 '이 책을 읽은 사람은 저 책도 읽어야 한다'는 끈을 모든 책 사이에 매달아 두는 고도화된 색인 작업과 같습니다.
 
 ---
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-지식 표현은 [[064_relation_domain|도메인]]의 복잡도와 요구되는 추론 방식에 따라 크게 4가지 핵심 모델로 나뉜다.
+지식 표현은 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)의 복잡도와 요구되는 추론 방식에 따라 크게 4가지 핵심 모델로 나뉜다.
 
-| 지식 표현 방식 | 역할 및 특징 | 내부 동작 / 자료 구조 | 적용 [[295_protocol_field_tcp_udp_icmp|프로토콜]]/언어 | 비유 |
+| 지식 표현 방식 | 역할 및 특징 | 내부 동작 / 자료 구조 | 적용 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)/언어 | 비유 |
 |:---|:---|:---|:---|:---|
-| **규칙 기반 (Rule-based)** | 조건-행동(If-Then) 매핑 | 전제 조건이 만족되면 결론 활성화 (전향/[[011_backward_chaining|후향 추론]]) | PROLOG, Drools | [[130_signal|신호]]등(빨간불이면 멈춰라) |
-| **의미망 (Semantic Network)** | 개념 간의 [[083_relationship_in_er_model|관계]] [[003_bigdata_7v|시각화]] | 노드(개념)와 방향성 간선([[083_relationship_in_er_model|관계]]: is-a, has-a)으로 구성된 [[070_graph_datastructure|그래프]] | RDF, OWL | 마인드맵 |
-| **프레임 (Frame)** | 객체의 [[082_attribute_types_er_model|속성]]과 기본값 정의 | 슬롯(Slot)과 패싯(Facet) 구조로 객체의 [[082_attribute_types_er_model|속성]], 제약조건 은닉 | [[343_json|JSON]]-LD, 객체 지향 클래스 | 주민등록증 양식 |
-| **스크립트 (Script)** | 시간적/절차적 상황 묘사 | 특정 사건의 [[216_progress_in_synchronization|진행]] 순서(시퀀스)를 슬롯에 시간 순으로 정의 | 자연어 처리 이벤트 모델 | 영화 시나리오 대본 |
+| **규칙 기반 (Rule-based)** | 조건-행동(If-Then) 매핑 | 전제 조건이 만족되면 결론 활성화 (전향/[후향 추론](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/)) | PROLOG, Drools | [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등(빨간불이면 멈춰라) |
+| **의미망 (Semantic Network)** | 개념 간의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) | 노드(개념)와 방향성 간선([관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/): is-a, has-a)으로 구성된 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) | RDF, OWL | 마인드맵 |
+| **프레임 (Frame)** | 객체의 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)과 기본값 정의 | 슬롯(Slot)과 패싯(Facet) 구조로 객체의 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/), 제약조건 은닉 | [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/)-LD, 객체 지향 클래스 | 주민등록증 양식 |
+| **스크립트 (Script)** | 시간적/절차적 상황 묘사 | 특정 사건의 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 순서(시퀀스)를 슬롯에 시간 순으로 정의 | 자연어 처리 이벤트 모델 | 영화 시나리오 대본 |
 
 가장 현대적으로 활용되는 **의미망 (Semantic Network) 기반 온톨로지(Ontology)**의 내부 동작 메커니즘은 다음과 같다.
 
-① **노드 정의 (Entity 정의)**: 현실 세계의 객체(예: '사람', '자동차', '아우디')를 [[289_identification_flags_fragmentation_offset|식별자]]로 노드화한다.
-② **[[083_relationship_in_er_model|관계]] 매핑 ([[061_relation_schema_instance|Relation]] 연결)**: 객체 간의 종속/소유 [[083_relationship_in_er_model|관계]]를 트리플(Triple: 주어-서술어-목적어) 형태로 연결한다. (예: 아우디 --is a--> 자동차)
-③ **제약조건 할당**: 특정 [[082_attribute_types_er_model|속성]]에 허용되는 값의 타입과 범위를 부여한다.
-④ **추론 전파 (Propagation)**: 부모 노드의 [[082_attribute_types_er_model|속성]]이 자식 노드로 [[234_uml_class_relationships_generalization_dependency|상속]](Inheritance)되어, 명시되지 않은 새로운 사실을 도출한다.
-⑤ **[[070_graph_datastructure|그래프]] [[298_qkv_attention|쿼리]] (SPARQL)**: 완성된 의미망을 순회하며 다중 홉(Multi-hop) [[369_logic_bomb|논리]] 질의에 응답한다.
+① **노드 정의 (Entity 정의)**: 현실 세계의 객체(예: '사람', '자동차', '아우디')를 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)로 노드화한다.
+② **[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 매핑 ([Relation](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/) 연결)**: 객체 간의 종속/소유 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 트리플(Triple: 주어-서술어-목적어) 형태로 연결한다. (예: 아우디 --is a--> 자동차)
+③ **제약조건 할당**: 특정 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)에 허용되는 값의 타입과 범위를 부여한다.
+④ **추론 전파 (Propagation)**: 부모 노드의 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 자식 노드로 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)(Inheritance)되어, 명시되지 않은 새로운 사실을 도출한다.
+⑤ **[그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) (SPARQL)**: 완성된 의미망을 순회하며 다중 홉(Multi-hop) [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 질의에 응답한다.
 
 ```text
 이 도식은 '의미망(Semantic Network)'의 전형적인 방향성 그래프 구조와 상속 메커니즘을 시각화한 것이다.
@@ -71,7 +75,7 @@ tags:
      │                      │
      └--can-do--> [수영]    └--instance-of--> [바둑이]
 ```
-이 그림의 핵심은 노드 간의 `is-a`(상하위 개념)와 `has-a`([[082_attribute_types_er_model|속성]]) [[083_relationship_in_er_model|관계]]를 통해 명시적 선언 없이도 새로운 지식을 자동 추론할 수 있다는 점이다. 이 도식에서 '개'는 명시적으로 다리가 4개라고 적혀 있지 않지만, '포유류'의 [[082_attribute_types_er_model|속성]]을 [[234_uml_class_relationships_generalization_dependency|상속]]받아 자동으로 다리가 4개임이 추론(Inference)된다. 따라서 메모리를 절약하면서도 지식을 무한 확장할 수 있다. 실무에서는 노드의 깊이가 깊어질수록 [[234_uml_class_relationships_generalization_dependency|상속]] 충돌(Multiple Inheritance)이나 순환 [[316_reference_pattern_nosql|참조]](Circular [[316_reference_pattern_nosql|Reference]])로 인한 무한 루프 병목이 발생하므로 이를 회피할 [[401_bayesian_network_dag_causality|DAG]]([[255_apache_airflow_dag|Directed Acyclic Graph]]) 설계가 필수적이다.
+이 그림의 핵심은 노드 간의 `is-a`(상하위 개념)와 `has-a`([속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 통해 명시적 선언 없이도 새로운 지식을 자동 추론할 수 있다는 점이다. 이 도식에서 '개'는 명시적으로 다리가 4개라고 적혀 있지 않지만, '포유류'의 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)받아 자동으로 다리가 4개임이 추론(Inference)된다. 따라서 메모리를 절약하면서도 지식을 무한 확장할 수 있다. 실무에서는 노드의 깊이가 깊어질수록 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 충돌(Multiple Inheritance)이나 순환 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)(Circular [Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))로 인한 무한 루프 병목이 발생하므로 이를 회피할 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/)([Directed Acyclic Graph](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/)) 설계가 필수적이다.
 
 📢 **섹션 요약 비유**: 규칙 기반이 요리 레시피의 '순서도'라면, 의미망은 요리 재료들이 서로 어떻게 어울리는지 그려놓은 '맛의 지도'와 같습니다.
 
@@ -83,13 +87,13 @@ tags:
 
 | 항목 | 규칙 기반 (Rule-based) | 의미망 (Semantic Network) | 프레임 (Frame) |
 |:---|:---|:---|:---|
-| **지식의 형태** | 절차적, 인과적 지식 | 선언적, [[083_relationship_in_er_model|관계]]적 지식 | 구조적, 범주적 지식 |
-| **추론 방식** | Modus Ponens (연역적 조건부 추론) | [[082_attribute_types_er_model|속성]] [[234_uml_class_relationships_generalization_dependency|상속]] (Inheritance) 및 패턴 매칭 | 슬롯 값 채우기 (Default 값 매칭) |
-| **장점** | 인간의 직관과 일치, 코딩/유지보수 용이 | 유연한 확장성, 지식 간의 강력한 [[003_bigdata_7v|시각화]] | 객체 지향적 캡슐화, 복잡한 [[001_dikw_pyramid|데이터]] 표현 |
-| **단점 (병목)** | 규칙이 많아질수록 룰 충돌 및 유지보수 악몽 | 검색 공간(Search Space) 방대 시 검색 [[015_지연_데이터_관점|지연]] | 예외 상황이나 시간적 변화 표현 한계 |
-| **타 영역 융합** | 보안 [[690_firewall_generation_evolution|방화벽]] [[164_policy|정책]], [[236_anomaly_based_detection_zero_day_false_positive|이상 탐지]] 룰 엔진 | [[160_knowledge_graph_graphrag_integration|지식 그래프]]([[160_knowledge_graph_graphrag_integration|Knowledge Graph]]), [[276_fine_tuning|RAG]] 아키텍처 | RDB [[005_schema|스키마]] 모델링, [[322_oop_4_characteristics|OOP]] 클래스 설계 |
+| **지식의 형태** | 절차적, 인과적 지식 | 선언적, [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)적 지식 | 구조적, 범주적 지식 |
+| **추론 방식** | Modus Ponens (연역적 조건부 추론) | [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) (Inheritance) 및 패턴 매칭 | 슬롯 값 채우기 (Default 값 매칭) |
+| **장점** | 인간의 직관과 일치, 코딩/유지보수 용이 | 유연한 확장성, 지식 간의 강력한 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) | 객체 지향적 캡슐화, 복잡한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 표현 |
+| **단점 (병목)** | 규칙이 많아질수록 룰 충돌 및 유지보수 악몽 | 검색 공간(Search Space) 방대 시 검색 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | 예외 상황이나 시간적 변화 표현 한계 |
+| **타 영역 융합** | 보안 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) 룰 엔진 | [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)), [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 아키텍처 | RDB [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 모델링, [OOP](/knowledge-base/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/) 클래스 설계 |
 
-최근 딥러닝과 기호주의 AI의 융합 관점에서 보면, **[[278_instruction_tuning|임베딩]]([[278_instruction_tuning|Embedding]]) 벡터와 지식 표현의 융합**이 가장 큰 화두다.
+최근 딥러닝과 기호주의 AI의 융합 관점에서 보면, **[임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)([Embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)) 벡터와 지식 표현의 융합**이 가장 큰 화두다.
 
 ```text
 이 매트릭스는 순수 딥러닝(연결주의)의 블랙박스 한계를 극복하기 위해 지식 표현(기호주의)이 어떻게 결합하는지 비교 대조한다.
@@ -107,23 +111,23 @@ tags:
 │ (GraphRAG) │ 지식 그래프 메타데이터 │ 논리적 검증 (교차확인) │ 출처 제시)    │
 └────────────┴────────────────────────┴────────────────────────┴───────────────┘
 ```
-이 융합 모델 비교표의 핵심은 지식 표현이 딥러닝의 가장 큰 약점인 '[[275_react_framework|환각]]([[345_llm_foundation_model_hallucination|Hallucination]])'을 방어하는 [[369_logic_bomb|논리]]적 방패로 작동한다는 점이다. A 방식(순수 딥러닝)은 유창하지만 거짓말을 지어낼 [[130_probability|확률]]이 높고, B 방식(순수 지식 표현)은 정확하지만 유연한 자연어 변환이 어렵다. 따라서 실무에서는 LLM이 [[087_process_state_transition|생성]]한 답변을 [[160_knowledge_graph_graphrag_integration|지식 그래프]](의미망) 노드를 거쳐 팩트 체크하는 [[123_pipe|파이프]]라인을 구축함으로써 안정성과 유연성이라는 트레이드오프를 동시에 해결한다.
+이 융합 모델 비교표의 핵심은 지식 표현이 딥러닝의 가장 큰 약점인 '[환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)([Hallucination](/knowledge-base/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/))'을 방어하는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 방패로 작동한다는 점이다. A 방식(순수 딥러닝)은 유창하지만 거짓말을 지어낼 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 높고, B 방식(순수 지식 표현)은 정확하지만 유연한 자연어 변환이 어렵다. 따라서 실무에서는 LLM이 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한 답변을 [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)(의미망) 노드를 거쳐 팩트 체크하는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 구축함으로써 안정성과 유연성이라는 트레이드오프를 동시에 해결한다.
 
 📢 **섹션 요약 비유**: 딥러닝이 뛰어난 직관력을 가진 예술가라면, 지식 표현은 그 예술가가 법과 규칙을 어기지 않도록 가이드라인을 그어주는 엄격한 큐레이터와 같습니다.
 
 ---
 
-### Ⅳ. 실무 적용 및 기술사적 판단 ([[268_strategy_pattern|Strategy]] & Decision)
+### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 
-실무에서 지식 표현 기법을 도입할 때 가장 큰 장벽은 **'지식 획득의 병목(Knowledge [[042_aarrr_funnel|Acquisition]] [[617_io_bottleneck|Bottleneck]])'**이다. 인간 전문가의 머릿속에 있는 지식을 추출하여 기계어로 변환하는 과정 자체가 막대한 시간과 비용을 소모한다.
+실무에서 지식 표현 기법을 도입할 때 가장 큰 장벽은 **'지식 획득의 병목(Knowledge [Acquisition](/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/) [Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))'**이다. 인간 전문가의 머릿속에 있는 지식을 추출하여 기계어로 변환하는 과정 자체가 막대한 시간과 비용을 소모한다.
 
-**실무 시나리오 1: 엔터프라이즈 사내 문서 검색([[276_fine_tuning|RAG]]) 고도화**
-기존의 벡터 [[278_instruction_tuning|임베딩]] 기반 검색은 "A회사의 CEO가 누구인가?"라는 단순 질의에는 강하나, "A회사 CEO가 과거에 설립했던 스타트업과 경쟁하는 B회사의 제품은?" 같은 다중 홉(Multi-Hop) 추론에 취약하다.
-- **의사결정**: 문서 내의 엔티티(인물, 회사, 제품)를 추출하여 `의미망(Knowledge Graph)` 형태의 지식 표현으로 변환 적재한다. 질의 시 벡터 [[348_similarity_search|유사도 검색]]과 [[104_graph|Graph]] 탐색을 하이브리드로 결합([[530_graph_rag|GraphRAG]])하여 정확도를 비약적으로 높인다.
+**실무 시나리오 1: 엔터프라이즈 사내 문서 검색([RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/)) 고도화**
+기존의 벡터 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 기반 검색은 "A회사의 CEO가 누구인가?"라는 단순 질의에는 강하나, "A회사 CEO가 과거에 설립했던 스타트업과 경쟁하는 B회사의 제품은?" 같은 다중 홉(Multi-Hop) 추론에 취약하다.
+- **의사결정**: 문서 내의 엔티티(인물, 회사, 제품)를 추출하여 `의미망(Knowledge Graph)` 형태의 지식 표현으로 변환 적재한다. 질의 시 벡터 [유사도 검색](/knowledge-base/studynote/05_database/06_dw_olap_trends/348_similarity_search/)과 [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) 탐색을 하이브리드로 결합([GraphRAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/530_graph_rag/))하여 정확도를 비약적으로 높인다.
 
-**실무 시나리오 2: 금융권 사기 탐지([[267_gnn_fraud_detection_knowledge_graph|FDS]]) 시스템 구축**
-딥러닝 기반의 사기 탐지 모델은 높은 [[264_hit_ratio|적중률]]을 보이지만, 금융 감독 기관에 "왜 계좌를 정지했는지" 법적/[[369_logic_bomb|논리]]적 근거(Explainability)를 제출하지 못하는 문제가 발생한다.
-- **의사결정**: 딥러닝 모델의 출력값을 최종 결론으로 사용하지 않고, 딥러닝이 추출한 [[247_feature_label_variables|피처]](예: 비정상 [[568_logs_distributed_logging_elk_fluentd|로그]]인 위치)를 `규칙 기반(Rule-based)` [[008_knowledge_base_inference_engine|지식 베이스]]의 입력 Fact로 활용한다. 최종 결정은 Rule 엔진이 수행하여 완벽한 [[606_auditing_linux_auditd|감사]] 추적성([[065_audit_trail_worm_storage_compliance|Audit Trail]])을 확보한다.
+**실무 시나리오 2: 금융권 사기 탐지([FDS](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/267_gnn_fraud_detection_knowledge_graph/)) 시스템 구축**
+딥러닝 기반의 사기 탐지 모델은 높은 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)을 보이지만, 금융 감독 기관에 "왜 계좌를 정지했는지" 법적/[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 근거(Explainability)를 제출하지 못하는 문제가 발생한다.
+- **의사결정**: 딥러닝 모델의 출력값을 최종 결론으로 사용하지 않고, 딥러닝이 추출한 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)(예: 비정상 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인 위치)를 `규칙 기반(Rule-based)` [지식 베이스](/knowledge-base/studynote/10_ai/01_ai_basics/008_knowledge_base_inference_engine/)의 입력 Fact로 활용한다. 최종 결정은 Rule 엔진이 수행하여 완벽한 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적성([Audit Trail](/knowledge-base/studynote/11_design_supervision/01_audit_framework/065_audit_trail_worm_storage_compliance/))을 확보한다.
 
 ```text
 이 의사결정 트리는 도메인의 성격에 따라 어떤 지식 표현 기법을 도입해야 하는지를 가이드하는 플로우다.
@@ -139,9 +143,9 @@ tags:
               └─(No)───> [연속적인 시간의 사건/시퀀스 묘사인가?]
                            └──> [스크립트 기반 표현 선택]
 ```
-이 트리의 핵심은 '[[002_bigdata_5v|정확성]]'과 '설명 가능성'의 법적 요구 수준에 따라 아키텍처가 갈린다는 점이다. 이런 배치는 금융, 의료 등 생명과 자산에 직결되는 분야에서는 1%의 에러도 허용되지 않기 때문이다. 실무에서는 규칙 기반을 도입할 때 규칙이 1,000개를 넘어가면 룰 간의 간섭(Conflict)으로 유지보수가 불가능해지므로, 비즈니스 룰 관리 시스템(BRMS)을 통해 중복과 충돌을 상시 [[395_verification_process_review|검증]]해야만 한다.
+이 트리의 핵심은 '[정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)'과 '설명 가능성'의 법적 요구 수준에 따라 아키텍처가 갈린다는 점이다. 이런 배치는 금융, 의료 등 생명과 자산에 직결되는 분야에서는 1%의 에러도 허용되지 않기 때문이다. 실무에서는 규칙 기반을 도입할 때 규칙이 1,000개를 넘어가면 룰 간의 간섭(Conflict)으로 유지보수가 불가능해지므로, 비즈니스 룰 관리 시스템(BRMS)을 통해 중복과 충돌을 상시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야만 한다.
 
-📢 **섹션 요약 비유**: 복잡한 사거리에 [[130_signal|신호]]등(규칙 기반)을 세울지, 회전교차로(의미망)를 만들지는 도로의 차량 흐름뿐만 아니라 사고 발생 시 책임 소재를 어떻게 가릴 것인지에 따라 결정되어야 합니다.
+📢 **섹션 요약 비유**: 복잡한 사거리에 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등(규칙 기반)을 세울지, 회전교차로(의미망)를 만들지는 도로의 차량 흐름뿐만 아니라 사고 발생 시 책임 소재를 어떻게 가릴 것인지에 따라 결정되어야 합니다.
 
 ---
 
@@ -149,23 +153,23 @@ tags:
 
 | 지표 | 지식 표현 기반 시스템 도입 전 | 지식 표현 기반 시스템 도입 후 |
 |:---|:---|:---|
-| **[[369_logic_bomb|논리]] 추론 에러율** | 블랙박스 모델 의존으로 간헐적 치명적 오류 ([[275_react_framework|환각]]) | 규칙 및 [[234_uml_class_relationships_generalization_dependency|상속]] 기반 [[369_logic_bomb|논리]] [[395_verification_process_review|검증]]으로 [[064_relation_domain|도메인]] 오류 99% [[656_ir_containment|억제]] |
-| **[[001_dikw_pyramid|데이터]] 재사용성** | 개별 모델마다 [[001_dikw_pyramid|데이터]] 파싱 필요 ([[002_silo_hyeonhyung|Silo]]) | 표준 온톨로지(OWL) 기반으로 타 시스템과 지식 교환 자유로움 |
-| **[[606_auditing_linux_auditd|감사]]([[363_audit|Audit]]) 대응** | 판단 근거 추적 불가 | 적용된 규칙과 거쳐간 노드 경로가 완벽히 로깅됨 |
+| **[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 추론 에러율** | 블랙박스 모델 의존으로 간헐적 치명적 오류 ([환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)) | 규칙 및 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 기반 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)으로 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 오류 99% [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) |
+| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재사용성** | 개별 모델마다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파싱 필요 ([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)) | 표준 온톨로지(OWL) 기반으로 타 시스템과 지식 교환 자유로움 |
+| **[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) 대응** | 판단 근거 추적 불가 | 적용된 규칙과 거쳐간 노드 경로가 완벽히 로깅됨 |
 
-지식 표현(Knowledge Representation)은 AI의 1차, 2차 부흥기를 이끌었던 핵심 이론이지만, 방대한 수작업 요구로 인해 딥러닝에 자리를 내주었다. 그러나 초거대 AI가 [[369_logic_bomb|논리]]적 추론 한계에 부딪히면서, 현재는 지식을 수작업으로 구축하는 대신 LLM이 텍스트를 읽고 스스로 [[160_knowledge_graph_graphrag_integration|지식 그래프]](의미망)를 [[087_process_state_transition|생성]]해내는 자동 지식 획득 단계로 진화하고 있다.
+지식 표현(Knowledge Representation)은 AI의 1차, 2차 부흥기를 이끌었던 핵심 이론이지만, 방대한 수작업 요구로 인해 딥러닝에 자리를 내주었다. 그러나 초거대 AI가 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 추론 한계에 부딪히면서, 현재는 지식을 수작업으로 구축하는 대신 LLM이 텍스트를 읽고 스스로 [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)(의미망)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)해내는 자동 지식 획득 단계로 진화하고 있다.
 
-표준화 관점에서 W3C의 [[003_semantic_web|시맨틱 웹]]([[003_semantic_web|Semantic Web]]) 표준인 RDF(Resource Description Framework)와 OWL(Web Ontology Language)은 지식 표현을 이기종 시스템 간에 교환하기 위한 핵심 규격으로 자리 잡고 있다. 향후 [[231_ai_turing_test|인공지능]] 시스템은 [[130_probability|확률]]론적 딥러닝 [[087_process_state_transition|생성]]기와 확정론적 지식 표현 [[395_verification_process_review|검증]]기가 결합된 하이브리드 아키텍처가 엔터프라이즈 환경의 기본 표준이 될 것이다.
+표준화 관점에서 W3C의 [시맨틱 웹](/knowledge-base/studynote/06_ict_convergence/01_blockchain/003_semantic_web/)([Semantic Web](/knowledge-base/studynote/06_ict_convergence/01_blockchain/003_semantic_web/)) 표준인 RDF(Resource Description Framework)와 OWL(Web Ontology Language)은 지식 표현을 이기종 시스템 간에 교환하기 위한 핵심 규격으로 자리 잡고 있다. 향후 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 시스템은 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)론적 딥러닝 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)기와 확정론적 지식 표현 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)기가 결합된 하이브리드 아키텍처가 엔터프라이즈 환경의 기본 표준이 될 것이다.
 
-📢 **섹션 요약 비유**: 지식 표현은 한때 유행이 지난 '고전 문법' 취급을 받았으나, 이제는 최첨단 [[087_process_state_transition|생성]]형 AI가 헛소리를 하지 못하게 만드는 가장 강력한 '법전'으로 화려하게 부활하고 있습니다.
+📢 **섹션 요약 비유**: 지식 표현은 한때 유행이 지난 '고전 문법' 취급을 받았으나, 이제는 최첨단 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)형 AI가 헛소리를 하지 못하게 만드는 가장 강력한 '법전'으로 화려하게 부활하고 있습니다.
 
 ---
-### 📌 관련 개념 맵 ([[160_knowledge_graph_graphrag_integration|Knowledge Graph]])
-- [[160_knowledge_graph_graphrag_integration|지식 그래프]] ([[160_knowledge_graph_graphrag_integration|Knowledge Graph]]) | 의미망을 엔터프라이즈 규모로 확장하여 방대한 [[001_dikw_pyramid|데이터]]를 연결한 [[070_graph_datastructure|그래프]] DB 기반 아키텍처
-- [[003_semantic_web|시맨틱 웹]] ([[003_semantic_web|Semantic Web]]) | 웹상의 정보를 기계가 이해할 수 있는 온톨로지 형태로 표현하는 W3C의 차세대 웹 비전
-- [[233_expert_system|전문가 시스템]] ([[233_expert_system|Expert System]]) | 지식 표현 기술과 추론 엔진을 결합하여 특정 [[064_relation_domain|도메인]]의 전문가를 대체하는 1세대 [[190_ai_llm_requirements_specification|AI]]
-- 뉴로-심볼릭 [[190_ai_llm_requirements_specification|AI]] (Neuro-Symbolic [[190_ai_llm_requirements_specification|AI]]) | [[065_dnn_deep_neural_network|심층 신경망]](딥러닝)의 패턴 인식 능력과 기호주의의 [[369_logic_bomb|논리]]적 지식 표현 추론을 결합한 하이브리드 [[190_ai_llm_requirements_specification|AI]]
-- SPARQL | RDF 형식으로 저장된 [[160_knowledge_graph_graphrag_integration|지식 그래프]] 및 온톨로지 [[001_dikw_pyramid|데이터]]를 검색하고 질의하기 위한 W3C 표준 [[298_qkv_attention|쿼리]] 언어
+### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
+- [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/) ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)) | 의미망을 엔터프라이즈 규모로 확장하여 방대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 연결한 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB 기반 아키텍처
+- [시맨틱 웹](/knowledge-base/studynote/06_ict_convergence/01_blockchain/003_semantic_web/) ([Semantic Web](/knowledge-base/studynote/06_ict_convergence/01_blockchain/003_semantic_web/)) | 웹상의 정보를 기계가 이해할 수 있는 온톨로지 형태로 표현하는 W3C의 차세대 웹 비전
+- [전문가 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/) ([Expert System](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/)) | 지식 표현 기술과 추론 엔진을 결합하여 특정 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)의 전문가를 대체하는 1세대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)
+- 뉴로-심볼릭 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) (Neuro-Symbolic [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) | [심층 신경망](/knowledge-base/studynote/10_ai/01_ai_basics/065_dnn_deep_neural_network/)(딥러닝)의 패턴 인식 능력과 기호주의의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 지식 표현 추론을 결합한 하이브리드 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)
+- SPARQL | RDF 형식으로 저장된 [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/) 및 온톨로지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 검색하고 질의하기 위한 W3C 표준 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 언어
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -188,7 +192,7 @@ tags:
 [지식 그래프 (Knowledge Graph)]
 ```
 
-인간 지식을 AI가 다룰 수 있는 형식으로 표현하고 추론·[[233_expert_system|전문가 시스템]]에서 현대 [[160_knowledge_graph_graphrag_integration|지식 그래프]]로 진화하는 흐름이다.
+인간 지식을 AI가 다룰 수 있는 형식으로 표현하고 추론·[전문가 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/)에서 현대 [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)로 진화하는 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 컴퓨터는 글자를 읽을 수는 있지만 그게 무슨 뜻인지, 서로 어떻게 연결되는지 모르는 바보예요.
@@ -201,7 +205,7 @@ tags:
 
 **진행 상황**: 7 / 420
 
-← **이전**: [[006_singularity|6. 싱귤래리티 (Singularity / 특이점) - 인공지능이 스스로 자신보다 나은 AI를 만들어내어 기술 발전이 무한히 폭발하는]]
-**다음**: [[008_knowledge_base_inference_engine|8. 지식 베이스 (Knowledge Base) / 추론 엔진 (Inference Engine)]] →
+← **이전**: [6. 싱귤래리티 (Singularity / 특이점) - 인공지능이 스스로 자신보다 나은 AI를 만들어내어 기술 발전이 무한히 폭발하는](/knowledge-base/studynote/10_ai/01_ai_basics/006_singularity/)
+**다음**: [8. 지식 베이스 (Knowledge Base) / 추론 엔진 (Inference Engine)](/knowledge-base/studynote/10_ai/01_ai_basics/008_knowledge_base_inference_engine/) →
 
 ---

@@ -1,35 +1,39 @@
----
-title: 108. YOLO와 SSD (1-Stage 객체 탐지)
-date: '2026-04-10'
-tags:
-- studynote-ai
----
++++
+title = "108. YOLO와 SSD (1-Stage 객체 탐지)"
+date = 2026-04-10
+
+[taxonomies]
+tags = ["studynote-ai"]
+
+[extra]
+tags = ["studynote-ai"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: YOLO(You Only Look Once)와 [[327_ssd|SSD]](Single Shot MultiBox Detector)는 이미지를 여러 번 쪼개어 판독하던 기존 2-Stage 방식의 치명적인 속도 저하를 극복하기 위해, 단 한 번의 딥러닝 망([[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]]) 통과만으로 객체의 위치(Bounding Box)와 종류(Class)를 동시에 예측하는 1-Stage [[288_object_detection_yolo_rcnn|객체 탐지]] 아키텍처다.
-> 2. **가치**: 인류 최초로 초당 45장 이상(Real-Time)의 속도로 영상을 판독할 수 있게 됨으로써, 자율주행차, 드론, [[166_smart_factory|스마트 팩토리]] 등 현실 세계에서 '실시간으로 움직이는 눈' 역할을 하는 산업 비전 AI의 대중화를 이끌어냈다.
-> 3. **판단 포인트**: 극강의 속도를 자랑하는 YOLO는 작은 물체가 겹쳐 있을 때 인식률이 급감하는 맹점이 있었으나, 이를 보완하기 위해 다양한 깊이의 [[099_feature_map_activation_map_cnn_output|특성 맵]]([[099_feature_map_activation_map_cnn_output|Feature Map]])에서 여러 사이즈의 객체를 동시에 건져 올리는 SSD의 아이디어가 결합되며 1-Stage 탐지기가 완전체로 진화했다.
+> 1. **본질**: YOLO(You Only Look Once)와 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)(Single Shot MultiBox Detector)는 이미지를 여러 번 쪼개어 판독하던 기존 2-Stage 방식의 치명적인 속도 저하를 극복하기 위해, 단 한 번의 딥러닝 망([CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)) 통과만으로 객체의 위치(Bounding Box)와 종류(Class)를 동시에 예측하는 1-Stage [객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/) 아키텍처다.
+> 2. **가치**: 인류 최초로 초당 45장 이상(Real-Time)의 속도로 영상을 판독할 수 있게 됨으로써, 자율주행차, 드론, [스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/) 등 현실 세계에서 '실시간으로 움직이는 눈' 역할을 하는 산업 비전 AI의 대중화를 이끌어냈다.
+> 3. **판단 포인트**: 극강의 속도를 자랑하는 YOLO는 작은 물체가 겹쳐 있을 때 인식률이 급감하는 맹점이 있었으나, 이를 보완하기 위해 다양한 깊이의 [특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)([Feature Map](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/))에서 여러 사이즈의 객체를 동시에 건져 올리는 SSD의 아이디어가 결합되며 1-Stage 탐지기가 완전체로 진화했다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-자율주행차가 시속 100km로 달리고 있다고 가정해 보자. 앞차와의 거리를 계산하거나 갑자기 튀어나오는 보행자를 인식하려면 초당 수십 장의 사진을 실시간(Real-Time)으로 판독해야 한다. 하지만 [[459_quic_fec_forward_error_correction|초기]] [[288_object_detection_yolo_rcnn|객체 탐지]] 모델인 R-[[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]](2-Stage)은 사진 한 장에서 사물이 있을 만한 후보 영역을 2,000개나 오려낸 뒤, 이를 일일이 CNN에 집어넣어 판독하는 끔찍한 연산 구조를 가졌다. 사진 1장 판독에 40초가 걸리는 이 굼벵이 속도로는 자율주행차가 벽에 부딪힌 뒤에야 보행자를 인식하는 대참사가 벌어진다.
+자율주행차가 시속 100km로 달리고 있다고 가정해 보자. 앞차와의 거리를 계산하거나 갑자기 튀어나오는 보행자를 인식하려면 초당 수십 장의 사진을 실시간(Real-Time)으로 판독해야 한다. 하지만 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/) 모델인 R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)(2-Stage)은 사진 한 장에서 사물이 있을 만한 후보 영역을 2,000개나 오려낸 뒤, 이를 일일이 CNN에 집어넣어 판독하는 끔찍한 연산 구조를 가졌다. 사진 1장 판독에 40초가 걸리는 이 굼벵이 속도로는 자율주행차가 벽에 부딪힌 뒤에야 보행자를 인식하는 대참사가 벌어진다.
 
-이러한 속도의 한계를 부수기 위해 등장한 패러다임이 바로 1-Stage Detector다. "후보 영역을 오려내지 말고, 사진 전체를 그냥 바둑판처럼 나눈 뒤 단 한 번만(Look Once) 통과시켜서 위치와 종류를 동시에 때려 맞추자!"라는 파괴적인 발상을 통해 연산량을 극단적으로 줄였고, 실시간 [[288_object_detection_yolo_rcnn|객체 탐지]]라는 새로운 지평을 열었다.
+이러한 속도의 한계를 부수기 위해 등장한 패러다임이 바로 1-Stage Detector다. "후보 영역을 오려내지 말고, 사진 전체를 그냥 바둑판처럼 나눈 뒤 단 한 번만(Look Once) 통과시켜서 위치와 종류를 동시에 때려 맞추자!"라는 파괴적인 발상을 통해 연산량을 극단적으로 줄였고, 실시간 [객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/)라는 새로운 지평을 열었다.
 
-- **📢 섹션 요약 비유**: **2-Stage(R-[[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]])**가 경찰 2,000명이 지도를 1장씩 오려 들고 현미경으로 "여기에 도둑 있냐?"고 한 명씩 [[396_validation|확인]]하는 굼벵이 수사라면, **1-Stage(YOLO)**는 강남구를 49개 파출소 구역으로 나누고, 소장들이 한 번만 스윽 둘러본 뒤 무전기로 본부에 동시에 범인 위치를 불어버리는 초광속 레이더 망입니다.
+- **📢 섹션 요약 비유**: **2-Stage(R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/))**가 경찰 2,000명이 지도를 1장씩 오려 들고 현미경으로 "여기에 도둑 있냐?"고 한 명씩 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 굼벵이 수사라면, **1-Stage(YOLO)**는 강남구를 49개 파출소 구역으로 나누고, 소장들이 한 번만 스윽 둘러본 뒤 무전기로 본부에 동시에 범인 위치를 불어버리는 초광속 레이더 망입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-1-Stage 탐지기의 핵심 설계 사상은 '[[014_concurrency|동시성]](Single Shot)'과 '격자 기반 책임 분할'이다.
+1-Stage 탐지기의 핵심 설계 사상은 '[동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)(Single Shot)'과 '격자 기반 책임 분할'이다.
 
 | 모델 | 아키텍처 원리 | 장단점 |
 | :--- | :--- | :--- |
 | **YOLO v1** | $S \times S$ 바둑판으로 나누고, 물체의 중심이 떨어진 칸(Grid)의 담당자가 박스(X, Y, W, H)와 클래스(개/고양이) 예측을 1타 2피로 전담한다. | 속도 최강. 단, 하나의 칸에 여러 작은 물체(새 떼 등)가 뭉쳐 있으면 1개밖에 잡지 못하는 시각장애 발생. |
-| **[[327_ssd|SSD]]** | YOLO의 단일 출력층 한계를 극복하기 위해, [[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]] 중간층(큰 사진)부터 마지막 층(작은 요약본)까지 총 6개의 [[099_feature_map_activation_map_cnn_output|특성 맵]]에서 동시에 박스를 예측한다. | 속도는 유지하면서, 얕은 층에선 작은 물체를 깊은 층에선 큰 물체를 완벽히 잡아내어 정확도 급상승. |
+| **[SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)** | YOLO의 단일 출력층 한계를 극복하기 위해, [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 중간층(큰 사진)부터 마지막 층(작은 요약본)까지 총 6개의 [특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)에서 동시에 박스를 예측한다. | 속도는 유지하면서, 얕은 층에선 작은 물체를 깊은 층에선 큰 물체를 완벽히 잡아내어 정확도 급상승. |
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -51,7 +55,7 @@ tags:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-이 다이어그램에서 마지막 **NMS(비최대 [[656_ir_containment|억제]])** [[001_algorithm_definition|알고리즘]]은 1-Stage 방식이 필연적으로 만들어내는 '마구잡이로 겹친 박스 쓰레기'들을 청소하여 화면을 예쁘게 정리해 주는 필수적인 후처리 가위질이다.
+이 다이어그램에서 마지막 **NMS(비최대 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/))** [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 1-Stage 방식이 필연적으로 만들어내는 '마구잡이로 겹친 박스 쓰레기'들을 청소하여 화면을 예쁘게 정리해 주는 필수적인 후처리 가위질이다.
 
 - **📢 섹션 요약 비유**: 49명의 파출소장이 각자 "여기 도둑!"이라며 98개의 빨간 박스를 마구 그려서 올리면 지도가 새빨개집니다. 본부 반장님(NMS)이 "가장 확실한 놈 딱 1개만 놔두고, 걔랑 너무 가까이 겹친 박스 9개는 지우개로 싹 다 지워라!"라고 지시하여 깔끔한 결론을 도출하는 것과 같습니다.
 
@@ -59,16 +63,16 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-[[288_object_detection_yolo_rcnn|객체 탐지]]의 역사는 R-CNN과 YOLO/SSD의 대결, 그리고 융합으로 요약된다.
+[객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/)의 역사는 R-CNN과 YOLO/SSD의 대결, 그리고 융합으로 요약된다.
 
-| 비교 항목 | 2-Stage (Faster R-[[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]] 등) | 1-Stage (YOLO, [[327_ssd|SSD]]) |
+| 비교 항목 | 2-Stage (Faster R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 등) | 1-Stage (YOLO, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)) |
 | :--- | :--- | :--- |
-| **탐지 과정** | 1. 후보 영역(Region Proposal) 추출<br>2. 해당 영역만 잘라서 [[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]] [[104_classification_analysis|분류]] | 후보 영역 추출 없이 사진 전체를 한 번에 통과시켜 위치와 [[104_classification_analysis|분류]] 동시 회귀(Regression) |
+| **탐지 과정** | 1. 후보 영역(Region Proposal) 추출<br>2. 해당 영역만 잘라서 [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 후보 영역 추출 없이 사진 전체를 한 번에 통과시켜 위치와 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 동시 회귀(Regression) |
 | **속도 (FPS)** | 느림 (보통 5 ~ 15 FPS) | 엄청 빠름 (보통 45 ~ 150 FPS) |
-| **정확도 (mAP)** | 매우 높음 (작은 물체, 겹친 물체에 강함) | [[459_quic_fec_forward_error_correction|초기]]엔 낮았으나 [[327_ssd|SSD]] 아키텍처 흡수 후 2-Stage 수준으로 따라잡음 |
-| **주요 사용처** | 의료 영상 판독(암세포 탐지), 위성 사진 분석 | 자율주행, [[933_cctv|CCTV]] 보안, 드론 트래킹 |
+| **정확도 (mAP)** | 매우 높음 (작은 물체, 겹친 물체에 강함) | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)엔 낮았으나 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 아키텍처 흡수 후 2-Stage 수준으로 따라잡음 |
+| **주요 사용처** | 의료 영상 판독(암세포 탐지), 위성 사진 분석 | 자율주행, [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 보안, 드론 트래킹 |
 
-과거에는 정확도가 중요하면 R-CNN을, 속도가 중요하면 YOLO를 선택하는 Trade-off가 극심했다. 하지만 YOLO가 SSD의 다중 층 예측(Multi-Scale [[099_feature_map_activation_map_cnn_output|Feature Map]]) 아이디어와 다양한 앵커 박스(Anchor Box) 기법을 모조리 흡수하며 v3, v4, v11까지 진화함에 따라, 현재 산업계는 속도와 정확도를 모두 씹어먹은 1-Stage 계열(YOLO)로 99% 평정되었다.
+과거에는 정확도가 중요하면 R-CNN을, 속도가 중요하면 YOLO를 선택하는 Trade-off가 극심했다. 하지만 YOLO가 SSD의 다중 층 예측(Multi-Scale [Feature Map](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)) 아이디어와 다양한 앵커 박스(Anchor Box) 기법을 모조리 흡수하며 v3, v4, v11까지 진화함에 따라, 현재 산업계는 속도와 정확도를 모두 씹어먹은 1-Stage 계열(YOLO)로 99% 평정되었다.
 
 - **📢 섹션 요약 비유**: **2-Stage**가 신중하게 조준경을 들여다보고 숨을 참고 쏘는 '스나이퍼 저격'이라면, **1-Stage**는 앞을 향해 샷건을 마구 갈긴 다음 총알에 맞은 흔적을 보고 재빨리 판단하는 '람보식 난사'입니다. 샷건의 파괴력과 사거리가 발전하면서 스나이퍼를 이겨버린 셈입니다.
 
@@ -78,26 +82,26 @@ tags:
 
 산업 현장에서 실시간 비전 시스템을 설계할 때 YOLO의 맹점을 모르면 시스템이 먹통이 된다.
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **하드웨어 FPS 매칭**: "우리 CCTV는 60 FPS로 찍히는데 모델은 [[489_raid_10_hybrid|10]] FPS다"라는 병목이 없는가? Edge 디바이스(라즈베리파이, Jetson)에 올릴 때는 정확도를 약간 희생하더라도 파라미터가 적은 YOLOv8-Nano 같은 경량화 모델을 탑재했는가?
-2. **작은 물체 군집(Small Object [[105_clustering_analysis|Clustering]]) 이슈**: 드론으로 지상의 수많은 양 떼를 세는 프로젝트를 할 때, YOLO의 특성상 격자 1개당 탐지 개수 제한에 걸려 양 5마리가 1마리로 퉁쳐지는 현상이 없는가? 고해상도 타일링(Slicing) 전처리 기법을 도입했는가?
+1. **하드웨어 FPS 매칭**: "우리 CCTV는 60 FPS로 찍히는데 모델은 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) FPS다"라는 병목이 없는가? Edge 디바이스(라즈베리파이, Jetson)에 올릴 때는 정확도를 약간 희생하더라도 파라미터가 적은 YOLOv8-Nano 같은 경량화 모델을 탑재했는가?
+2. **작은 물체 군집(Small Object [Clustering](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/)) 이슈**: 드론으로 지상의 수많은 양 떼를 세는 프로젝트를 할 때, YOLO의 특성상 격자 1개당 탐지 개수 제한에 걸려 양 5마리가 1마리로 퉁쳐지는 현상이 없는가? 고해상도 타일링(Slicing) 전처리 기법을 도입했는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- **무분별한 NMS [[431_ssthresh_slow_start_threshold|임계치]] [[009_config|설정]]**: NMS의 IoU(겹침 허용도) 기준을 너무 낮게 꽉 조여버리면, 백화점 입구처럼 수십 명이 바싹 붙어서 걸어 들어올 때 컴퓨터가 "박스가 너무 겹쳤네, 다 지우고 한 명만 남기자!"라며 사람 10명을 1명으로 세어버리는 재앙(False Negative 폭발)이 발생한다.
+- **무분별한 NMS [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**: NMS의 IoU(겹침 허용도) 기준을 너무 낮게 꽉 조여버리면, 백화점 입구처럼 수십 명이 바싹 붙어서 걸어 들어올 때 컴퓨터가 "박스가 너무 겹쳤네, 다 지우고 한 명만 남기자!"라며 사람 10명을 1명으로 세어버리는 재앙(False Negative 폭발)이 발생한다.
 
-- **📢 섹션 요약 비유**: 욜로는 촘촘한 그물이 아니라 듬성듬성한 '대물용 그물'을 바다에 던지는 낚시입니다. 고래는 1초 만에 잡지만, 정어리 수십 마리가 한 그물코로 들어오면 몽땅 빠져나가 버리는 소형 타겟 탐지 불능을 주의해야 합니다. 이를 잡기 위해 작은 그물망([[327_ssd|SSD]] 방식)을 덧대야 합니다.
+- **📢 섹션 요약 비유**: 욜로는 촘촘한 그물이 아니라 듬성듬성한 '대물용 그물'을 바다에 던지는 낚시입니다. 고래는 1초 만에 잡지만, 정어리 수십 마리가 한 그물코로 들어오면 몽땅 빠져나가 버리는 소형 타겟 탐지 불능을 주의해야 합니다. 이를 잡기 위해 작은 그물망([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 방식)을 덧대야 합니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-YOLO와 SSD가 이끄는 1-Stage 탐지기의 탄생은 단순한 [[001_algorithm_definition|알고리즘]]의 발전을 넘어, [[231_ai_turing_test|인공지능]]이 실험실의 고성능 서버를 벗어나 도로, 하늘, 공장 라인이라는 현실 세계(Edge)의 역동성 속으로 뛰어들게 만든 역사적 분기점이다.
+YOLO와 SSD가 이끄는 1-Stage 탐지기의 탄생은 단순한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 발전을 넘어, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 실험실의 고성능 서버를 벗어나 도로, 하늘, 공장 라인이라는 현실 세계(Edge)의 역동성 속으로 뛰어들게 만든 역사적 분기점이다.
 
-1-Stage 탐지기가 보장하는 '초당 30프레임 이상의 실시간성'이 없었다면, 오늘날 테슬라의 오토파일럿도 아마존의 무인 마트도 불가능했다. [[288_object_detection_yolo_rcnn|객체 탐지]]의 미래는 결국 정확도 경쟁을 끝내고 '누가 더 전기를 덜 먹으면서([[424_npu|NPU]] 최적화) 모바일 칩셋 위에서 광속으로 돌아가느냐'의 초경량화 전쟁으로 넘어가고 있으며, 그 최전선에는 여전히 YOLO라는 이름의 1-Stage 철학이 절대 권력으로 군림하고 있다.
+1-Stage 탐지기가 보장하는 '초당 30프레임 이상의 실시간성'이 없었다면, 오늘날 테슬라의 오토파일럿도 아마존의 무인 마트도 불가능했다. [객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/)의 미래는 결국 정확도 경쟁을 끝내고 '누가 더 전기를 덜 먹으면서([NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) 최적화) 모바일 칩셋 위에서 광속으로 돌아가느냐'의 초경량화 전쟁으로 넘어가고 있으며, 그 최전선에는 여전히 YOLO라는 이름의 1-Stage 철학이 절대 권력으로 군림하고 있다.
 
-- **📢 섹션 요약 비유**: 사진 한 장 볼 때마다 40초씩 뜸을 들이며 벽에 부딪히던 장님 자동차(2-Stage)에게, 찰나의 순간에 모든 것을 꿰뚫어 보고 피할 수 있는 '매의 눈(1-Stage)'을 이식해 준 것이 바로 현대 [[288_object_detection_yolo_rcnn|객체 탐지]] 기술의 가장 위대한 공로입니다.
+- **📢 섹션 요약 비유**: 사진 한 장 볼 때마다 40초씩 뜸을 들이며 벽에 부딪히던 장님 자동차(2-Stage)에게, 찰나의 순간에 모든 것을 꿰뚫어 보고 피할 수 있는 '매의 눈(1-Stage)'을 이식해 준 것이 바로 현대 [객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/) 기술의 가장 위대한 공로입니다.
 
 ---
 
@@ -105,10 +109,10 @@ YOLO와 SSD가 이끄는 1-Stage 탐지기의 탄생은 단순한 [[001_algorith
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **Bounding Box** | 객체의 위치를 $X, Y$ 좌표와 너비($W$), 높이($H$)로 감싸는 직사각형 [[001_dikw_pyramid|데이터]]. [[288_object_detection_yolo_rcnn|객체 탐지]] 모델이 뱉어내는 1차적 최종 결과물이다. |
-| **IoU (Intersection over Union)** | 예측한 박스와 실제 정답 박스가 얼마나 정확히 겹쳤는지(교집합/합집합)를 %로 나타내는 [[288_object_detection_yolo_rcnn|객체 탐지]]의 핵심 평가 지표. |
-| **NMS (Non-Maximum Suppression)** | IoU가 높은 불필요한 중복 박스들을 지우개로 싹 다 지워버리고 가장 훌륭한 박스 딱 1개만 남기는 1-Stage 필수 후처리 [[001_algorithm_definition|알고리즘]]. |
-| **Feature Pyramid Network (FPN)** | SSD의 철학을 이어받아, CNN의 각기 다른 크기의 [[099_feature_map_activation_map_cnn_output|특성 맵]]을 서로 섞어서 작은 물체부터 큰 물체까지 완벽하게 잡아내는 현대 비전 모델의 표준 뼈대. |
+| **Bounding Box** | 객체의 위치를 $X, Y$ 좌표와 너비($W$), 높이($H$)로 감싸는 직사각형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/). [객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/) 모델이 뱉어내는 1차적 최종 결과물이다. |
+| **IoU (Intersection over Union)** | 예측한 박스와 실제 정답 박스가 얼마나 정확히 겹쳤는지(교집합/합집합)를 %로 나타내는 [객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/)의 핵심 평가 지표. |
+| **NMS (Non-Maximum Suppression)** | IoU가 높은 불필요한 중복 박스들을 지우개로 싹 다 지워버리고 가장 훌륭한 박스 딱 1개만 남기는 1-Stage 필수 후처리 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/). |
+| **Feature Pyramid Network (FPN)** | SSD의 철학을 이어받아, CNN의 각기 다른 크기의 [특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)을 서로 섞어서 작은 물체부터 큰 물체까지 완벽하게 잡아내는 현대 비전 모델의 표준 뼈대. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -133,7 +137,7 @@ YOLO와 SSD가 이끄는 1-Stage 탐지기의 탄생은 단순한 [[001_algorith
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **옛날 방식(R-[[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]])**은 숨은그림찾기를 할 때 동전만 한 돋보기로 그림판 전체를 2,000번씩 훑어보느라 시간이 엄청 오래 걸렸어요.
+1. **옛날 방식(R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/))**은 숨은그림찾기를 할 때 동전만 한 돋보기로 그림판 전체를 2,000번씩 훑어보느라 시간이 엄청 오래 걸렸어요.
 2. 하지만 **YOLO(1-Stage)**는 도화지 위에 듬성듬성 투명한 바둑판을 딱 얹어놓고, 단 1초 만에 도장 찍듯이 그림을 찾아내는 초능력 스캐너예요.
 3. 덕분에 빠르게 쌩쌩 달리는 자율주행 자동차도 눈앞에 튀어나오는 고양이를 1초 만에 발견하고 브레이크를 밟을 수 있게 되었답니다!
 
@@ -143,7 +147,7 @@ YOLO와 SSD가 이끄는 1-Stage 탐지기의 탄생은 단순한 [[001_algorith
 
 **진행 상황**: 108 / 420
 
-← **이전**: [[107_rcnn_fast_faster_region_proposal_network|107. R-CNN, Fast R-CNN, Faster R-CNN (2-Stage 탐지기) 진화]]
-**다음**: [[109_image_segmentation_semantic_instance_u_net_pixel|109. 이미지 분할 (Image Segmentation) - Semantic·Instance·U-Net 픽셀 단위 추론]] →
+← **이전**: [107. R-CNN, Fast R-CNN, Faster R-CNN (2-Stage 탐지기) 진화](/knowledge-base/studynote/10_ai/02_dl_architecture_new/107_rcnn_fast_faster_region_proposal_network/)
+**다음**: [109. 이미지 분할 (Image Segmentation) - Semantic·Instance·U-Net 픽셀 단위 추론](/knowledge-base/studynote/10_ai/02_dl_architecture_new/109_image_segmentation_semantic_instance_u_net_pixel/) →
 
 ---

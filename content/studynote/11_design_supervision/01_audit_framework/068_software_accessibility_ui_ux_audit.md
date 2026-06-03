@@ -1,13 +1,17 @@
----
-title: 68. 소프트웨어 접근성 (Software Accessibility) 점검
-date: '2026-04-10'
-tags:
-- studynote-design
----
++++
+title = "68. 소프트웨어 접근성 (Software Accessibility) 점검"
+date = 2026-04-10
+
+[taxonomies]
+tags = ["studynote-design"]
+
+[extra]
+tags = ["studynote-design"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 소프트웨어 [[292_accessibility_kwcag_wcag|접근성]] 점검은 장애 유무와 관계없이 누구나 서비스를 이용할 수 있게 만드는 품질 검토다.
+> 1. **본질**: 소프트웨어 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) 점검은 장애 유무와 관계없이 누구나 서비스를 이용할 수 있게 만드는 품질 검토다.
 > 2. **가치**: UI/UX 품질과 공공성, 법적 준수, 사용자 경험을 함께 높인다.
 > 3. **판단**: 시각/청각/운동/인지 특성을 모두 고려해야 하며, 자동 검사만으로는 충분하지 않다.
 
@@ -15,7 +19,7 @@ tags:
 
 ## Ⅰ. 개요 및 필요성
 
-잘 만든 화면도 일부 사용자는 이용하지 못할 수 있다. [[292_accessibility_kwcag_wcag|접근성]]은 그 간극을 줄이는 기준이다.
+잘 만든 화면도 일부 사용자는 이용하지 못할 수 있다. [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)은 그 간극을 줄이는 기준이다.
 
 그래서 공공 서비스와 대규모 제품에서 매우 중요하다.
 
@@ -42,7 +46,7 @@ Inclusive Use
 | Understandable | 이해 가능 |
 | Robust | 다양한 기기 호환 |
 
-[[292_accessibility_kwcag_wcag|접근성]] 점검은 색상 대비, 키보드 조작, 대체 텍스트, 폼 레이블, 포커스 이동 등을 확인한다.
+[접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) 점검은 색상 대비, 키보드 조작, 대체 텍스트, 폼 레이블, 포커스 이동 등을 확인한다.
 
 - **📢 섹션 요약 비유**: 눈, 손, 귀가 조금 달라도 사용할 수 있게 길을 넓히는 것이다.
 
@@ -50,19 +54,19 @@ Inclusive Use
 
 ## Ⅲ. 비교 및 연결
 
-| 관점 | UI/UX | [[292_accessibility_kwcag_wcag|Accessibility]] |
+| 관점 | UI/UX | [Accessibility](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) |
 | :-- | :-- | :-- |
-| 초점 | 편의성/감성 | 포용성/[[292_accessibility_kwcag_wcag|접근성]] |
+| 초점 | 편의성/감성 | 포용성/[접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) |
 | 대상 | 일반 사용자 | 모든 사용자 |
-| 평가 | 만족도 | 규격/[[395_verification_process_review|검증]] |
+| 평가 | 만족도 | 규격/[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 
 | 점검 요소 | 예 |
 | :-- | :-- |
 | Contrast | 색상 대비 |
 | Keyboard | 키보드만으로 조작 |
-| [[762_accelerated_life_testing|Alt]] Text | 이미지 대체 설명 |
+| [Alt](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/762_accelerated_life_testing/) Text | 이미지 대체 설명 |
 
-[[292_accessibility_kwcag_wcag|접근성]]은 UI/UX의 일부이면서도 별도로 점검해야 하는 품질 특성이다.
+[접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)은 UI/UX의 일부이면서도 별도로 점검해야 하는 품질 특성이다.
 
 - **📢 섹션 요약 비유**: 예쁘기만 한 계단보다, 휠체어 경사로가 같이 있어야 진짜 친절하다.
 
@@ -70,7 +74,7 @@ Inclusive Use
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 키보드로만 조작 가능한가?
 2. 색상 대비가 충분한가?
@@ -78,14 +82,14 @@ Inclusive Use
 4. 포커스 순서가 논리적인가?
 5. 자동 검사와 수동 검토를 함께 하는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 자동 검사만 돌리고 끝내는 설계
 - 색상만으로 의미를 전달하는 설계
 - 마우스 전용 UI를 만드는 설계
-- [[292_accessibility_kwcag_wcag|접근성]]을 UI 미학과 대립으로 보는 설계
+- [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)을 UI 미학과 대립으로 보는 설계
 
-기술사 관점에서는 [[292_accessibility_kwcag_wcag|접근성]]을 "포용적 품질"로 봐야 하며, UX와 별개가 아니라 함께 설계해야 한다.
+기술사 관점에서는 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)을 "포용적 품질"로 봐야 하며, UX와 별개가 아니라 함께 설계해야 한다.
 
 - **📢 섹션 요약 비유**: 모두가 열 수 있는 문을 만드는 일이다.
 
@@ -93,11 +97,11 @@ Inclusive Use
 
 ## Ⅴ. 기대효과 및 결론
 
-[[292_accessibility_kwcag_wcag|접근성]]이 좋아지면 사용자 범위가 넓어지고, 품질과 사회적 책임도 함께 높아진다.
+[접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)이 좋아지면 사용자 범위가 넓어지고, 품질과 사회적 책임도 함께 높아진다.
 
-결론적으로 소프트웨어 [[292_accessibility_kwcag_wcag|접근성]] 점검은 모두가 쓸 수 있는 UI/UX를 만드는 과정이다.
+결론적으로 소프트웨어 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) 점검은 모두가 쓸 수 있는 UI/UX를 만드는 과정이다.
 
-- **📢 섹션 요약 비유**: 누구에게나 [[289_cqrs_db|쓰기]] 쉬운 길을 만드는 것이다.
+- **📢 섹션 요약 비유**: 누구에게나 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 쉬운 길을 만드는 것이다.
 
 ---
 
@@ -133,7 +137,7 @@ User Experience
 
 모두가 들어올 수 있어야 해요.  
 눈, 손이 조금 달라도 쓸 수 있어야 해요.  
-[[292_accessibility_kwcag_wcag|접근성]]은 그런 친절함이에요.
+[접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)은 그런 친절함이에요.
 
 ---
 
@@ -141,7 +145,7 @@ User Experience
 
 **진행 상황**: 105 / 530
 
-← **이전**: [[068_software_accessibility_audit|68. 소프트웨어 접근성 점검 (Software Accessibility Audit)]]
-**다음**: [[069_project_sponsor_steering_committee|69. 프로젝트 스폰서 및 추진 위원회 의사 결정 평가 (Project Sponsor and Steering Committee Assessment)]] →
+← **이전**: [68. 소프트웨어 접근성 점검 (Software Accessibility Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/068_software_accessibility_audit/)
+**다음**: [69. 프로젝트 스폰서 및 추진 위원회 의사 결정 평가 (Project Sponsor and Steering Committee Assessment)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/069_project_sponsor_steering_committee/) →
 
 ---

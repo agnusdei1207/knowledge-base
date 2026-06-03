@@ -1,22 +1,26 @@
----
-title: 11. 다이오드 (Diode)
-date: '2026-04-19'
-tags:
-- studynote-computer-architecture
----
++++
+title = "11. 다이오드 (Diode)"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 다이오드 (Diode)는 P형과 N형 [[009_semiconductor|반도체]]를 결합하여 한쪽 방향으로만 전류를 통과시키고 반대 방향은 차단하는 고체 상태의 일방통행 [[238_switch_operation_principles|스위치]]다.
-> 2. **가치**: 교류([[155_ac_actual_cost|AC]])를 컴퓨터가 사용하는 직류(DC)로 변환하는 정류(Rectification) 회로의 핵심 소자로서, 안정적인 전력 공급의 근간을 이룬다.
+> 1. **본질**: 다이오드 (Diode)는 P형과 N형 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)를 결합하여 한쪽 방향으로만 전류를 통과시키고 반대 방향은 차단하는 고체 상태의 일방통행 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)다.
+> 2. **가치**: 교류([AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/))를 컴퓨터가 사용하는 직류(DC)로 변환하는 정류(Rectification) 회로의 핵심 소자로서, 안정적인 전력 공급의 근간을 이룬다.
 > 3. **판단 포인트**: 역전류를 방어하는 정류 기능뿐만 아니라, 제너 항복을 이용해 과전압을 흡수하는 TVS 어레이로 시스템 생존성을 담보하는 물리적 보안 쉴드 역할을 수행한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-다이오드는 순방향 바이어스([[235_forward_backward_chaining|Forward]] [[094_bias|Bias]])에서는 저항이 사실상 0이 되어 전류를 통과시키고, 역방향 바이어스(Reverse [[094_bias|Bias]])에서는 저항이 무한대가 되어 전류를 완벽히 차단하는 비선형 소자다.
+다이오드는 순방향 바이어스([Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) [Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))에서는 저항이 사실상 0이 되어 전류를 통과시키고, 역방향 바이어스(Reverse [Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))에서는 저항이 무한대가 되어 전류를 완벽히 차단하는 비선형 소자다.
 
-컴퓨터의 CPU와 메모리는 튀지 않는 평탄한 직류(DC) [[001_voltage|전압]]만 먹고 산다. 전력망에서 요동치며 들어오는 교류([[155_ac_actual_cost|AC]])를 직류로 변환하려면 전류의 방향을 한쪽으로 강제하는 밸브가 반드시 필요하다. 과거 거대하고 뜨거운 진공관이 이 역할을 했으나, [[009_semiconductor|반도체]] PN 접합 다이오드의 발명으로 손바닥만 한 파워서플라이(SMPS) 시대로 진입할 수 있었다.
+컴퓨터의 CPU와 메모리는 튀지 않는 평탄한 직류(DC) [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)만 먹고 산다. 전력망에서 요동치며 들어오는 교류([AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/))를 직류로 변환하려면 전류의 방향을 한쪽으로 강제하는 밸브가 반드시 필요하다. 과거 거대하고 뜨거운 진공관이 이 역할을 했으나, [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) PN 접합 다이오드의 발명으로 손바닥만 한 파워서플라이(SMPS) 시대로 진입할 수 있었다.
 
 - **📢 섹션 요약 비유**: 다이오드는 주차장 출구 바닥에 깔린 역주행 방지 가시와 같다. 나가는 차는 바퀴가 걸리지 않고 지나가지만, 반대로 들어오려는 차는 가시가 타이어를 터뜨려 철저히 막아낸다.
 
@@ -24,7 +28,7 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-다이오드의 핵심은 P형(정공 다수)과 N형(전자 다수) [[009_semiconductor|반도체]]의 경계에 생기는 텅 빈 절연 구역, 즉 **공핍층 (Depletion Region)**이다. 순방향 [[001_voltage|전압]]을 가하면 장벽이 허물어져 전류가 흐르고, 역방향 [[001_voltage|전압]]을 가하면 공핍층이 두꺼워져 절연 상태가 된다.
+다이오드의 핵심은 P형(정공 다수)과 N형(전자 다수) [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)의 경계에 생기는 텅 빈 절연 구역, 즉 **공핍층 (Depletion Region)**이다. 순방향 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 가하면 장벽이 허물어져 전류가 흐르고, 역방향 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 가하면 공핍층이 두꺼워져 절연 상태가 된다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -41,7 +45,7 @@ tags:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-순방향으로 [[001_voltage|전압]]을 인가하더라도 약 0.7V의 **문턱 [[001_voltage|전압]] (Threshold [[001_voltage|Voltage]], Vf)**을 넘겨야 전류가 흐른다. 역방향으로 너무 강한 [[001_voltage|전압]]을 걸면 항복(Breakdown) 현상이 일어나 다이오드가 타버리지만, 이를 역이용해 칩셋을 [[571_protection_vs_security|보호]]하는 기술도 있다.
+순방향으로 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 인가하더라도 약 0.7V의 **문턱 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) (Threshold [Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/), Vf)**을 넘겨야 전류가 흐른다. 역방향으로 너무 강한 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 걸면 항복(Breakdown) 현상이 일어나 다이오드가 타버리지만, 이를 역이용해 칩셋을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하는 기술도 있다.
 
 - **📢 섹션 요약 비유**: 위아래로 미친 듯이 요동치는 롤러코스터(교류)를 다이오드 4개의 틀에 넣고 억지로 한쪽 방향으로만 튀어오르게 만드는 훌륭한 파도 조련 시스템이다.
 
@@ -54,11 +58,11 @@ tags:
 | 다이오드 종류 | 물리적 특징 | 주요 아키텍처 활용 |
 |:---|:---|:---|
 | **정류 다이오드** | 일반 PN 접합, 느린 응답 | 파워서플라이 전원 변환용 (60Hz 변환) |
-| **쇼트키 다이오드** | 금속-N형 [[009_semiconductor|반도체]] 접합, 문턱 [[001_voltage|전압]](0.2V) 최소화 | [[001_voltage|전압]] 조정 [[192_module_independence|모듈]]([[742_vrm|VRM]])의 [[148_5g_embb_urllc_mmtc|초고속]] 스위칭 |
-| **제너 다이오드** | 특정 [[001_voltage|전압]]에서 의도적 항복 발생 (안전 파괴) | ESD(정전기) 방어 및 과전압 흡수 쉴드 (TVS) |
-| **[[013_led|발광 다이오드]] ([[013_led|LED]])**| 전하 결합 시 빛 에너지 방출 | 서버 랙 표시등, 광통신 레이저 송신부 |
+| **쇼트키 다이오드** | 금속-N형 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 접합, 문턱 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)(0.2V) 최소화 | [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 조정 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)([VRM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/742_vrm/))의 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 스위칭 |
+| **제너 다이오드** | 특정 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)에서 의도적 항복 발생 (안전 파괴) | ESD(정전기) 방어 및 과전압 흡수 쉴드 (TVS) |
+| **[발광 다이오드](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/) ([LED](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/))**| 전하 결합 시 빛 에너지 방출 | 서버 랙 표시등, 광통신 레이저 송신부 |
 
-일반 다이오드는 튼튼하지만 전환 속도가 느려 고주파 스위칭 시 열 폭주가 발생한다. 반면 쇼트키 다이오드는 극도로 반응이 빨라 메인보드의 고속 전력 변환부에 필수적으로 사용된다. 제너 다이오드는 무작정 전류를 막는 것이 아니라, 댐 수위가 한계선(예: 5V)을 넘으면 비상 수문을 열어 전류를 접지로 빼버리는 과전압 클리핑([[389_ppo_proximal_policy_optimization|Clipping]]) 용도로 쓰인다.
+일반 다이오드는 튼튼하지만 전환 속도가 느려 고주파 스위칭 시 열 폭주가 발생한다. 반면 쇼트키 다이오드는 극도로 반응이 빨라 메인보드의 고속 전력 변환부에 필수적으로 사용된다. 제너 다이오드는 무작정 전류를 막는 것이 아니라, 댐 수위가 한계선(예: 5V)을 넘으면 비상 수문을 열어 전류를 접지로 빼버리는 과전압 클리핑([Clipping](/knowledge-base/studynote/06_ict_convergence/05_data_science/389_ppo_proximal_policy_optimization/)) 용도로 쓰인다.
 
 - **📢 섹션 요약 비유**: 일반 다이오드가 크고 무거운 '댐 수문'이라면, 쇼트키 다이오드는 0.1초 만에 닫히는 '레이싱 카의 고속 밸브', 제너 다이오드는 물이 넘치면 알아서 비워주는 '비상 하수구'다.
 
@@ -66,24 +70,24 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무 하드웨어 설계 감리에서 가장 중요하게 체크해야 할 부분은 다이오드를 이용한 물리적 생존성([[452_availability|가용성]]) 확보다.
+실무 하드웨어 설계 감리에서 가장 중요하게 체크해야 할 부분은 다이오드를 이용한 물리적 생존성([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)) 확보다.
 
-### [[435_checklist_based_testing|체크리스트]] 및 판단 기준
-1. **역극성 방어**: [[101_iot_concept|IoT]] 기기 등에서 사용자가 배터리를 거꾸로 꽂았을 때 보드가 타는 것을 막기 위해, 전원 입력단에 [[149_serial_communication_rs232_rs485|직렬]] 쇼트키 다이오드가 실장되었는가?
-2. **ESD/과전압 [[656_ir_containment|억제]]**: 메인보드 외부 I/O 포트에 TVS(제너) 다이오드를 장착해 수천 볼트의 정전기가 칩셋에 도달하기 전 접지(GND)로 방전시키는가?
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 판단 기준
+1. **역극성 방어**: [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기 등에서 사용자가 배터리를 거꾸로 꽂았을 때 보드가 타는 것을 막기 위해, 전원 입력단에 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 쇼트키 다이오드가 실장되었는가?
+2. **ESD/과전압 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)**: 메인보드 외부 I/O 포트에 TVS(제너) 다이오드를 장착해 수천 볼트의 정전기가 칩셋에 도달하기 전 접지(GND)로 방전시키는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 고속 스위칭 회로(MHz 단위)에 값싼 일반 정류 다이오드를 배치하는 설계. 다이오드의 느린 역회복 시간(Trr) 때문에 미처 문이 닫히기 전 역전류가 쏟아져 들어와 소자가 폭발하고 칩 전체에 화재를 유발한다.
 
-- **📢 섹션 요약 비유**: 다이오드 [[571_protection_vs_security|보호]] 설계는 빌딩의 벼락을 막아주는 '피뢰침' 설치와 같다. 평소엔 없는 것처럼 조용하지만, 벼락(과전압)이 치는 찰나에 전류를 땅으로 흘려보내 건물(CPU)을 완벽히 지켜낸다.
+- **📢 섹션 요약 비유**: 다이오드 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 설계는 빌딩의 벼락을 막아주는 '피뢰침' 설치와 같다. 평소엔 없는 것처럼 조용하지만, 벼락(과전압)이 치는 찰나에 전류를 땅으로 흘려보내 건물(CPU)을 완벽히 지켜낸다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-다이오드의 적재적소 배치는 노이즈를 제거하고 시스템을 역전압과 정전기로부터 완벽히 [[571_protection_vs_security|보호]]하여 가동률 100%를 보장하는 최하단 기반 기술이다.
+다이오드의 적재적소 배치는 노이즈를 제거하고 시스템을 역전압과 정전기로부터 완벽히 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하여 가동률 100%를 보장하는 최하단 기반 기술이다.
 
-미래에는 [[001_voltage|전압]] 강하(0.7V)조차 아까운 초저전력 모바일 환경을 위해 물리적 PN 접합을 제거하고 능동 [[238_switch_operation_principles|스위치]] 소자로 제어하는 이상 다이오드 (Ideal Diode) 컨트롤러가 일반화되고 있다. 또한 고온/고압의 전기차 인버터 환경에서는 실리콘을 뛰어넘는 SiC 기반 화합물 다이오드가 대세로 군림하고 있다.
+미래에는 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 강하(0.7V)조차 아까운 초저전력 모바일 환경을 위해 물리적 PN 접합을 제거하고 능동 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 소자로 제어하는 이상 다이오드 (Ideal Diode) 컨트롤러가 일반화되고 있다. 또한 고온/고압의 전기차 인버터 환경에서는 실리콘을 뛰어넘는 SiC 기반 화합물 다이오드가 대세로 군림하고 있다.
 
 - **📢 섹션 요약 비유**: 과거에는 요금을 낼 때마다 정차해야 했던 낡은 톨게이트(일반 다이오드)가, 이제는 속도를 줄이지 않고 쌩쌩 달리는 무정차 하이패스(이상 다이오드) 시스템으로 진화하고 있다.
 
@@ -94,8 +98,8 @@ tags:
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **역회복 시간 (Trr)** | 다이오드가 문을 닫는 데 걸리는 시간으로 고속 스위칭의 병목 요소 |
-| **제너 항복 (Zener Breakdown)** | 고의적으로 역방향 절연을 파괴해 과도 [[001_voltage|전압]]을 흡수하는 [[571_protection_vs_security|보호]] 메커니즘 |
-| **[[014_transistor|트랜지스터]] ([[014_transistor|Transistor]])** | 다이오드 구조 중간에 밸브를 추가해 [[130_signal|신호]] 증폭과 스위칭 논리를 완성한 능동 소자 |
+| **제너 항복 (Zener Breakdown)** | 고의적으로 역방향 절연을 파괴해 과도 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 흡수하는 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 메커니즘 |
+| **[트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) ([Transistor](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/))** | 다이오드 구조 중간에 밸브를 추가해 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 증폭과 스위칭 논리를 완성한 능동 소자 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -115,7 +119,7 @@ tags:
 [SiC / GaN 화합물 다이오드 — 고전압·고온 전기차 인버터 환경 대응]
 ```
 
-이 흐름은 단순 정류 소자에서 [[571_protection_vs_security|보호]]·고속·고내압 전용 소자로 분화하는 다이오드 진화 계보를 나타낸다.
+이 흐름은 단순 정류 소자에서 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)·고속·고내압 전용 소자로 분화하는 다이오드 진화 계보를 나타낸다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -129,7 +133,7 @@ tags:
 
 **진행 상황**: 11 / 803
 
-← **이전**: [[010_insulator|10. 절연체 (Insulator)]]
-**다음**: [[012_rectifier|12. 정류 회로 (Rectifier)]] →
+← **이전**: [10. 절연체 (Insulator)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/010_insulator/)
+**다음**: [12. 정류 회로 (Rectifier)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/012_rectifier/) →
 
 ---

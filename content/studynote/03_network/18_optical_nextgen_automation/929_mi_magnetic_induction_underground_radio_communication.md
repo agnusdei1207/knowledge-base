@@ -1,9 +1,13 @@
----
-title: 929. 지중 통신 (자기유도통신)
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "929. 지중 통신 (자기유도통신)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -16,7 +20,7 @@ tags:
 ## Ⅰ. 개요 및 필요성
 
 - **전파(EM)의 비극**: 우리가 쓰는 무선 전파는 공기 중에서는 잘 날아가지만, 땅속의 흙(토양), 모래, 특히 **'수분(물기)'**을 만나는 순간 에너지를 빼앗기고 0.5미터도 못 가서 박살 납니다(경로 손실 감쇠).
-- 지하 갱도, 광산, 농업용 토양 [[101_iot_concept|IoT]] 센서들을 무선으로 묶으려면 기존의 블루투스나 와이파이는 그냥 쓰레기입니다.
+- 지하 갱도, 광산, 농업용 토양 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서들을 무선으로 묶으려면 기존의 블루투스나 와이파이는 그냥 쓰레기입니다.
 
 ```text
 [수중 통신 무선 음파]
@@ -27,14 +31,14 @@ tags:
     └──▶ [재난 통신망]
 ```
 
-- **📢 섹션 요약 비유**: 지중 통신은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [[170_selectivity_cardinality_distribution_tuning|선택도]] 쉬워진다.
+- **📢 섹션 요약 비유**: 지중 통신은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 가장 각광받는 지하 무선망의 돌파구입니다.
-- **개념**: 전파(전자기파)를 쏘는 대신, 송신기 안에 있는 구리 코일에 전기를 흘려 [[489_raid_10_hybrid|10]]~300kHz 대역의 초저주파 **'자기장(Magnetic Field)' 베리어**를 주변에 형성합니다. 수십 미터 떨어진 수신기 코일이 이 자기장의 흔들림 변화를 감지해 [[001_dikw_pyramid|데이터]](0과 1)로 읽어내는 근거리 통신 방식입니다.
+- **개념**: 전파(전자기파)를 쏘는 대신, 송신기 안에 있는 구리 코일에 전기를 흘려 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~300kHz 대역의 초저주파 **'자기장(Magnetic Field)' 베리어**를 주변에 형성합니다. 수십 미터 떨어진 수신기 코일이 이 자기장의 흔들림 변화를 감지해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(0과 1)로 읽어내는 근거리 통신 방식입니다.
 - **자기장의 무적성 (매질 무시) 🌟**: 자기장은 흙, 돌, 지하수, 콘크리트의 방해를 거의 받지 않습니다. 자석을 책상 밑에 대고 위에서 쇳가루를 흔들 수 있듯, 흙 속 매질 상태가 아무리 변덕스러워도 통신 에러가 폭증하지 않는 100% 신뢰성을 보장합니다.
 
 ```text
@@ -58,13 +62,13 @@ tags:
   - 맨 끝의 광부가 MI 송신기를 켜서 자기장을 빵 터뜨리면, 이 자기장이 20m 앞의 깡통 코일을 때려 공명(Resonance)을 일으키고, 그 깡통 코일이 다시 자기장을 증폭해 다음 깡통을 때립니다.
 - **붕괴 통지망의 기적**: 지진이 나서 갱도 중간이 와르르 무너져 흙더미로 꽉 막혔습니다. 일반 랜선(케이블)이었다면 툭 끊어져 통신이 영원히 단절됩니다. 하지만 MI 통신은 코일들이 흙더미에 파묻혀 있어도 서로 20m 간격만 유지한다면 **흙을 투과하여 자기장 릴레이를 계속 때려내어, 지상 관제소로 "광부 3명 살아있음!"이라는 생명줄 패킷을 살려 보내는 미친 생존 시스템**입니다.
 
-지중 통신을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [[928_uwsn_underwater_acoustic_sensor_network_ofdm|수중 통신]] 무선 음파가 기반 조건을 만든다면, 지중 통신은 그 위에서 핵심 메커니즘을 구현하고, [[930_ps_lte_public_safety_mcptt_d2d_survival|재난 통신망]]은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전송 용량과 자동 제어성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+지중 통신을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [수중 통신](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/928_uwsn_underwater_acoustic_sensor_network_ofdm/) 무선 음파가 기반 조건을 만든다면, 지중 통신은 그 위에서 핵심 메커니즘을 구현하고, [재난 통신망](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/930_ps_lte_public_safety_mcptt_d2d_survival/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전송 용량과 자동 제어성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [[928_uwsn_underwater_acoustic_sensor_network_ofdm|수중 통신]] 무선 음파의 기반 정리 | 지중 통신의 핵심 동작 | [[930_ps_lte_public_safety_mcptt_d2d_survival|재난 통신망]]의 확장 적용 |
+| 초점 | [수중 통신](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/928_uwsn_underwater_acoustic_sensor_network_ofdm/) 무선 음파의 기반 정리 | 지중 통신의 핵심 동작 | [재난 통신망](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/930_ps_lte_public_safety_mcptt_d2d_survival/)의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 전송 용량 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: 지중 통신은 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -73,21 +77,21 @@ tags:
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - MI 말고, 잠수함이나 지하 벙커에 쏘는 통신으로 **극저주파(초장파, 3~30kHz)** 전파를 무식하게 쏘는 방법도 있습니다.
-- 주파수가 극단적으로 낮으면 파장이 산만큼 길어져서, 땅이나 바닷물을 뚫고 수백 미터를 뚫고 내려갑니다. 단, 주파수가 너무 낮아 1초에 글자 몇 개만 겨우 전송(100bps 텍스트)하는 답답한 속도라 비상 SOS용(생존 [[130_signal|신호]])으로만 제한적으로 쓰입니다.
+- 주파수가 극단적으로 낮으면 파장이 산만큼 길어져서, 땅이나 바닷물을 뚫고 수백 미터를 뚫고 내려갑니다. 단, 주파수가 너무 낮아 1초에 글자 몇 개만 겨우 전송(100bps 텍스트)하는 답답한 속도라 비상 SOS용(생존 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))으로만 제한적으로 쓰입니다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 무전기(전파)는 땅속 갱도에서 '후레쉬 불빛'을 켜는 것과 같습니다. 무너진 흙더미와 바위가 눈앞을 막으면 불빛이 차단되어 반대편 구조대에게 1%도 전달되지 않습니다(전파 매질 감쇠). **지중 통신(MI 자기 유도)**은 광부의 손에 거대한 '초강력 자석'을 쥐여준 혁명입니다. 흙더미와 바위 틈새로 손전등 빛은 막히지만, 자석의 자력선(자기장)은 흙벽을 투명한 유리창처럼 뚫고 벽 너머 구조대원의 나침반(수신기 코일) 바늘을 미친 듯이 흔들어댑니다. 갱도 천장에 20m마다 깡통 자석(릴레이 코일)들을 매달아 두면, 갱도가 폭싹 무너져 흙에 다 파묻히더라도 이 자석들이 서로의 힘을 팅, 팅, 팅 넘겨주며 지상까지 지진과 붕괴를 무시하고 100% SOS 구조 [[130_signal|신호]]를 뚫고 올려보내는 극한의 지하 생존 통신망입니다.
+- **📢 섹션 요약 비유**: 기존 무전기(전파)는 땅속 갱도에서 '후레쉬 불빛'을 켜는 것과 같습니다. 무너진 흙더미와 바위가 눈앞을 막으면 불빛이 차단되어 반대편 구조대에게 1%도 전달되지 않습니다(전파 매질 감쇠). **지중 통신(MI 자기 유도)**은 광부의 손에 거대한 '초강력 자석'을 쥐여준 혁명입니다. 흙더미와 바위 틈새로 손전등 빛은 막히지만, 자석의 자력선(자기장)은 흙벽을 투명한 유리창처럼 뚫고 벽 너머 구조대원의 나침반(수신기 코일) 바늘을 미친 듯이 흔들어댑니다. 갱도 천장에 20m마다 깡통 자석(릴레이 코일)들을 매달아 두면, 갱도가 폭싹 무너져 흙에 다 파묻히더라도 이 자석들이 서로의 힘을 팅, 팅, 팅 넘겨주며 지상까지 지진과 붕괴를 무시하고 100% SOS 구조 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 뚫고 올려보내는 극한의 지하 생존 통신망입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-지중 통신은 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 전송 용량 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [[930_ps_lte_public_safety_mcptt_d2d_survival|재난 통신망]], 의미 기반 통신 최적화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의미 기반 통신 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+지중 통신은 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 전송 용량 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [재난 통신망](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/930_ps_lte_public_safety_mcptt_d2d_survival/), 의미 기반 통신 최적화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의미 기반 통신 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 지중 통신은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -97,10 +101,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[928_uwsn_underwater_acoustic_sensor_network_ofdm|수중 통신]] 무선 음파 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| 광 전송 (Optical Transport) | [[148_5g_embb_urllc_mmtc|초고속]] 백본의 기본 전달 수단이다. |
+| [수중 통신](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/928_uwsn_underwater_acoustic_sensor_network_ofdm/) 무선 음파 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 광 전송 (Optical Transport) | [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 백본의 기본 전달 수단이다. |
 | 텔레메트리 (Telemetry) | 실시간 상태 측정과 제어 피드백을 가능하게 한다. |
-| [[930_ps_lte_public_safety_mcptt_d2d_survival|재난 통신망]] | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [재난 통신망](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/930_ps_lte_public_safety_mcptt_d2d_survival/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -114,7 +118,7 @@ tags:
     └──▶ [확장 B: 의미 기반 통신 최적화]
 ```
 
-지중 통신는 [[928_uwsn_underwater_acoustic_sensor_network_ofdm|수중 통신]] 무선 음파에서 출발해 현재 메커니즘을 정교화하고, 이후 [[930_ps_lte_public_safety_mcptt_d2d_survival|재난 통신망]]와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+지중 통신는 [수중 통신](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/928_uwsn_underwater_acoustic_sensor_network_ofdm/) 무선 음파에서 출발해 현재 메커니즘을 정교화하고, 이후 [재난 통신망](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/930_ps_lte_public_safety_mcptt_d2d_survival/)와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -128,7 +132,7 @@ tags:
 
 **진행 상황**: 1050 / 1120
 
-← **이전**: [[928_uwsn_underwater_acoustic_sensor_network_ofdm|928. 수중 통신 (UWSN)]]
-**다음**: [[930_ps_lte_public_safety_mcptt_d2d_survival|930. 재난 통신망 (PS-LTE)]] →
+← **이전**: [928. 수중 통신 (UWSN)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/928_uwsn_underwater_acoustic_sensor_network_ofdm/)
+**다음**: [930. 재난 통신망 (PS-LTE)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/930_ps_lte_public_safety_mcptt_d2d_survival/) →
 
 ---

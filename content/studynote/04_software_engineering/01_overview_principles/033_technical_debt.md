@@ -1,20 +1,24 @@
----
-title: 기술 부채 (Technical Debt)
-date: '2026-03-03'
-tags:
-- studynote-software-engineering
----
++++
+title = "기술 부채 (Technical Debt)"
+date = 2026-03-03
+
+[taxonomies]
+tags = ["studynote-software-engineering"]
+
+[extra]
+tags = ["studynote-software-engineering"]
++++
 
 > **핵심 인사이트 3줄**
-> 1. [[100_technical_debt_monitoring_release_policy|기술 부채]]([[100_technical_debt_monitoring_release_policy|Technical Debt]])는 Ward Cunningham(1992)이 제안한 개념으로, 더 나은 설계 대신 빠른 구현을 선택할 때 발생하는 미래 추가 비용의 은유다.
-> 2. [[100_technical_debt_monitoring_release_policy|기술 부채]]는 의도적·비의도적으로 발생하며, 방치하면 이자(유지보수 비용 증가)가 쌓여 최초 부채보다 큰 비용이 된다.
-> 3. 측정(코드 [[342_routing_metric_hop_bandwidth_delay|메트릭]]·SQALE 모델)→[[104_classification_analysis|분류]](4분면)→[[213_refactoring_cloud_native_rearchitecture|리팩토링]] 로드맵→지속적 [[079_sonarqube|SonarQube]] 모니터링이 현대적 [[100_technical_debt_monitoring_release_policy|기술 부채]] 관리의 표준 사이클이다.
+> 1. [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)([Technical Debt](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/))는 Ward Cunningham(1992)이 제안한 개념으로, 더 나은 설계 대신 빠른 구현을 선택할 때 발생하는 미래 추가 비용의 은유다.
+> 2. [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)는 의도적·비의도적으로 발생하며, 방치하면 이자(유지보수 비용 증가)가 쌓여 최초 부채보다 큰 비용이 된다.
+> 3. 측정(코드 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)·SQALE 모델)→[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)(4분면)→[리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 로드맵→지속적 [SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/) 모니터링이 현대적 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 관리의 표준 사이클이다.
 
 ---
 
-## Ⅰ. [[100_technical_debt_monitoring_release_policy|기술 부채]]의 정의와 은유
+## Ⅰ. [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)의 정의와 은유
 
-[[100_technical_debt_monitoring_release_policy|기술 부채]]([[100_technical_debt_monitoring_release_policy|Technical Debt]])는 **소프트웨어 개발에서 단기 이익을 위해 선택한 차선책이 장기적으로 추가 비용을 유발하는 현상**이다.
+[기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)([Technical Debt](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/))는 **소프트웨어 개발에서 단기 이익을 위해 선택한 차선책이 장기적으로 추가 비용을 유발하는 현상**이다.
 
 ```
 기술 부채 = (최적 설계 비용) - (실제 구현 비용)
@@ -23,9 +27,9 @@ tags:
 
 ### Cunningham의 원래 은유
 
-> "작동하는 코드지만 이상적 설계가 아닌 것은 금융 부채와 같다. [[213_refactoring_cloud_native_rearchitecture|리팩토링]]을 통해 갚지 않으면 이자가 쌓인다."
+> "작동하는 코드지만 이상적 설계가 아닌 것은 금융 부채와 같다. [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)을 통해 갚지 않으면 이자가 쌓인다."
 
-### [[100_technical_debt_monitoring_release_policy|기술 부채]] 4분면 (Fowler)
+### [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 4분면 (Fowler)
 
 ```
             의도적          비의도적
@@ -38,30 +42,30 @@ tags:
         │는 나중에        │알겠다"               │
 ```
 
-📢 **섹션 요약 비유**: [[100_technical_debt_monitoring_release_policy|기술 부채]]는 신용카드다 — 지금 당장 사고 나중에 갚지만, 방치하면 이자가 쌓여 원금보다 이자가 더 커진다.
+📢 **섹션 요약 비유**: [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)는 신용카드다 — 지금 당장 사고 나중에 갚지만, 방치하면 이자가 쌓여 원금보다 이자가 더 커진다.
 
 ---
 
-## Ⅱ. [[100_technical_debt_monitoring_release_policy|기술 부채]] 유형 [[104_classification_analysis|분류]]
+## Ⅱ. [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 유형 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)
 
 | 유형            | 발생 원인                    | 예시                         |
 |---------------|-----------------------------|-----------------------------|
 | 코드 부채       | 중복 코드, 긴 메서드          | Copy-paste 프로그래밍         |
-| [[140_design_debt|설계 부채]]       | 잘못된 아키텍처·패턴          | 모놀리식 → [[619_msa_traffic_hardware|MSA]] 전환 미완료    |
-| 테스트 부채     | 테스트 커버리지 부족           | [[397_unit_test|단위 테스트]] [[489_raid_10_hybrid|10]]% 미만          |
-| 문서 부채       | 코드·[[014_api_posix|API]] 문서 미작성          | 레거시 코드 설명 없음          |
-| 의존성 부채    | 구버전 [[336_library_vs_framework|라이브러리]] 방치         | Spring Boot 1.x 미업그레이드  |
-| 인프라 부채    | 자동화 미흡·수동 배포          | 수동 [[538_ssh_vs_telnet_secure_remote|SSH]] 배포                 |
+| [설계 부채](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/140_design_debt/)       | 잘못된 아키텍처·패턴          | 모놀리식 → [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 전환 미완료    |
+| 테스트 부채     | 테스트 커버리지 부족           | [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 미만          |
+| 문서 부채       | 코드·[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 문서 미작성          | 레거시 코드 설명 없음          |
+| 의존성 부채    | 구버전 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 방치         | Spring Boot 1.x 미업그레이드  |
+| 인프라 부채    | 자동화 미흡·수동 배포          | 수동 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 배포                 |
 
-📢 **섹션 요약 비유**: [[100_technical_debt_monitoring_release_policy|기술 부채]] 유형은 집 수리 목록이다 — 누수(코드), 잘못된 설계도(설계), 화재경보기 없음(테스트), 사용설명서 없음(문서)이 모두 부채다.
+📢 **섹션 요약 비유**: [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 유형은 집 수리 목록이다 — 누수(코드), 잘못된 설계도(설계), 화재경보기 없음(테스트), 사용설명서 없음(문서)이 모두 부채다.
 
 ---
 
-## Ⅲ. [[100_technical_debt_monitoring_release_policy|기술 부채]] 측정 — SQALE / [[079_sonarqube|SonarQube]]
+## Ⅲ. [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 측정 — SQALE / [SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/)
 
-### SQALE ([[339_software_quality_definition|Software Quality]] Assessment based on Lifecycle Expectations)
+### SQALE ([Software Quality](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/) Assessment based on Lifecycle Expectations)
 
-SQALE은 [[100_technical_debt_monitoring_release_policy|기술 부채]]를 **수정 시간(분·시간)**으로 정량화한다.
+SQALE은 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)를 **수정 시간(분·시간)**으로 정량화한다.
 
 ```
 기술 부채 = Σ (각 위반 수정 비용)
@@ -73,7 +77,7 @@ SQALE 지수 = 기술 부채 / 이상적 개발 시간
   > 50%: E등급 (위험)
 ```
 
-### [[079_sonarqube|SonarQube]] [[342_routing_metric_hop_bandwidth_delay|메트릭]]
+### [SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)
 
 ```
 SonarQube 대시보드:
@@ -85,11 +89,11 @@ SonarQube 대시보드:
 └── Duplications: 8.1% (코드 중복)
 ```
 
-📢 **섹션 요약 비유**: [[079_sonarqube|SonarQube]] 대시보드는 자동차 계기판이다 — 연료(커버리지), 엔진 경고등(버그), 배기가스(중복 코드)를 한눈에 보여준다.
+📢 **섹션 요약 비유**: [SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/) 대시보드는 자동차 계기판이다 — 연료(커버리지), 엔진 경고등(버그), 배기가스(중복 코드)를 한눈에 보여준다.
 
 ---
 
-## Ⅳ. [[100_technical_debt_monitoring_release_policy|기술 부채]] 관리 [[268_strategy_pattern|전략]]
+## Ⅳ. [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 관리 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
 ### 부채 관리 사이클
 
@@ -105,12 +109,12 @@ SonarQube 대시보드:
 > "캠프장을 떠날 때는 도착했을 때보다 깨끗이 남겨라"
 > → 코드를 수정할 때마다 주변 코드를 조금씩 개선
 
-### [[213_refactoring_cloud_native_rearchitecture|리팩토링]] vs 재구축
+### [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) vs 재구축
 
 | 상황                    | 권장 접근         |
 |----------------------|-----------------|
-| 부채 < 20%, 기능 변경 시 | 점진적 [[213_refactoring_cloud_native_rearchitecture|리팩토링]]   |
-| 부채 20-50%           | 아키텍처 [[213_refactoring_cloud_native_rearchitecture|리팩토링]] |
+| 부채 < 20%, 기능 변경 시 | 점진적 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)   |
+| 부채 20-50%           | 아키텍처 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) |
 | 부채 > 50%, 사업 가치 높음 | 재구축(Rearchitect) |
 | 부채 > 50%, 사업 가치 낮음 | 은퇴(Retire)    |
 
@@ -118,9 +122,9 @@ SonarQube 대시보드:
 
 ---
 
-## Ⅴ. 현대적 [[100_technical_debt_monitoring_release_policy|기술 부채]] 예방
+## Ⅴ. 현대적 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 예방
 
-### [[652_devops_calms_culture|DevOps]]/[[090_configuration_item|CI]]·CD 파이프라인 통합
+### [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)/[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)·CD 파이프라인 통합
 
 ```
 코드 커밋 → SonarQube SAST → 기술 부채 증가 감지 → PR 차단
@@ -130,10 +134,10 @@ SonarQube 대시보드:
          자동 리팩토링 제안 (AI 코드 리뷰)
 ```
 
-### 아키텍처 결정 기록 ([[231_adr_architecture_decision_record_documentation|ADR]])
+### 아키텍처 결정 기록 ([ADR](/knowledge-base/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/))
 
-- **[[231_adr_architecture_decision_record_documentation|ADR]]([[231_adr_architecture_decision_record_documentation|Architecture Decision Record]])**: 의도적 부채 발생 시 이유·예상 비용·상환 계획 문서화
-- [[100_technical_debt_monitoring_release_policy|기술 부채]]를 투명하게 관리해 나중에 "왜 이렇게 짰지?" 방지
+- **[ADR](/knowledge-base/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/)([Architecture Decision Record](/knowledge-base/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/))**: 의도적 부채 발생 시 이유·예상 비용·상환 계획 문서화
+- [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)를 투명하게 관리해 나중에 "왜 이렇게 짰지?" 방지
 
 📢 **섹션 요약 비유**: ADR은 차용증이다 — 돈을 빌릴 때(부채 발생) 이유와 상환 계획을 적어두면 나중에 갚기도 쉽고, 빌린 사실 자체를 잊지 않는다.
 
@@ -190,7 +194,7 @@ SonarQube 대시보드:
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [[100_technical_debt_monitoring_release_policy|기술 부채]]는 숙제 미루기다 — 오늘 안 하면 내일 두 배, 계속 미루면 끝내기 불가능한 산이 된다.
+1. [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)는 숙제 미루기다 — 오늘 안 하면 내일 두 배, 계속 미루면 끝내기 불가능한 산이 된다.
 2. 보이 스카우트 규칙은 지나갈 때마다 쓰레기 하나씩 줍기다 — 큰 청소 한 번보다 매번 조금씩이 더 깨끗한 길을 만든다.
 3. SonarQube는 숙제 검사 로봇이다 — 제출 전에 틀린 문제(버그), 지저분한 글씨(코드 악취), 베낀 답안(중복 코드)을 자동으로 잡아낸다.
 
@@ -200,7 +204,7 @@ SonarQube 대시보드:
 
 **진행 상황**: 33 / 973
 
-← **이전**: [[032_software_obsolescence|소프트웨어 노후화 (Software Obsolescence)]]
-**다음**: [[034_legacy_system_modernization|레거시 시스템 현대화 (Legacy System Modernization)]] →
+← **이전**: [소프트웨어 노후화 (Software Obsolescence)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/032_software_obsolescence/)
+**다음**: [레거시 시스템 현대화 (Legacy System Modernization)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/034_legacy_system_modernization/) →
 
 ---

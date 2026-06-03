@@ -1,24 +1,28 @@
----
-title: 120. 직접 통신 (Direct Communication) - 수신자 명시
-date: '2026-05-08'
-tags:
-- studynote-operating-system
----
++++
+title = "120. 직접 통신 (Direct Communication) - 수신자 명시"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 직접 통신 ([[176_direct_addressing|Direct]] Communication)은 [[389_mesh_topology|메시]]지를 송수신하는 프로세스가 통신 상대방의 [[289_identification_flags_fragmentation_offset|식별자]]([[088_identifier_in_er_model|Identifier]])를 명시적으로 지정하여, [[022_kernel_role|커널]]을 통해 상대방에게 직접 [[389_mesh_topology|메시]]지를 전달하는 통신 방식이다.
-> 2. **가치**: 통신 대상이 명확하게 지정되므로 [[389_mesh_topology|메시]]지의 [[339_routing_overview_best_path_selection|라우팅]]([[339_routing_overview_best_path_selection|Routing]])이 단순하고 직관적이며, 대칭식(Symmetric)과 비대칭식(Asymmetric) 두 가지 세부 모드를 통해 다양한 통신 패턴을 표현할 수 있다.
-> 3. **융합**: 직접 통신은 [[125_socket|소켓]]([[125_socket|Socket]]) 프로그래밍의 `send()`/`recv()`, `connect()`/`accept()` 패러다임의 근간이 되며, 클라이언트-서버([[206_client_server_architecture_model|Client-Server]]) 모델에서 클라이언트가 서버의 주소(IP:[[446_port_and_bus|Port]])를 명시적으로 지정하여 연결을 요청하는 과정이 직접 통신의 전형적인 실현 형태이다.
+> 1. **본질**: 직접 통신 ([Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) Communication)은 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 송수신하는 프로세스가 통신 상대방의 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)([Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/))를 명시적으로 지정하여, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 통해 상대방에게 직접 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 전달하는 통신 방식이다.
+> 2. **가치**: 통신 대상이 명확하게 지정되므로 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지의 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)([Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))이 단순하고 직관적이며, 대칭식(Symmetric)과 비대칭식(Asymmetric) 두 가지 세부 모드를 통해 다양한 통신 패턴을 표현할 수 있다.
+> 3. **융합**: 직접 통신은 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)([Socket](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)) 프로그래밍의 `send()`/`recv()`, `connect()`/`accept()` 패러다임의 근간이 되며, 클라이언트-서버([Client-Server](/knowledge-base/studynote/04_software_engineering/04_testing_quality/206_client_server_architecture_model/)) 모델에서 클라이언트가 서버의 주소(IP:[Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))를 명시적으로 지정하여 연결을 요청하는 과정이 직접 통신의 전형적인 실현 형태이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 직접 통신은 송신 프로세스(Sender)가 수신 프로세스(Receiver)의 프로세스 ID ([[300_process|Process]] ID)나 이름(Name)을 직접 지정하여 [[389_mesh_topology|메시]]지를 전송하는 [[119_message_passing|메시지 전달]] 방식이다. [[121_indirect_communication|간접 통신]]([[121_indirect_communication|Indirect Communication]])이 우편함(Mailbox)을 매개로 하는 것과 대비된다.
-- **필요성**: 프로세스 간 통신에서 '누가' '누구에게' [[389_mesh_topology|메시]]지를 보내는지가 명확해야 하는 시나리오에서 직접 통신이 필수적이다. 예를 들어, 클라이언트 프로세스가 특정 서버 프로세스에 요청을 보내거나, 부모 프로세스가 특정 자식 프로세스에 시그널을 보내는 경우, 통신 상대를 명시적으로 지정하는 것이 자연스러운 설계다. 또한 직접 통신은 구현이 간단하여 시스템 콜 수준의 가벼운 통신에 적합하다.
+- **개념**: 직접 통신은 송신 프로세스(Sender)가 수신 프로세스(Receiver)의 프로세스 ID ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) ID)나 이름(Name)을 직접 지정하여 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 전송하는 [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/) 방식이다. [간접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/121_indirect_communication/)([Indirect Communication](/knowledge-base/studynote/02_operating_system/02_process_thread/121_indirect_communication/))이 우편함(Mailbox)을 매개로 하는 것과 대비된다.
+- **필요성**: 프로세스 간 통신에서 '누가' '누구에게' [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 보내는지가 명확해야 하는 시나리오에서 직접 통신이 필수적이다. 예를 들어, 클라이언트 프로세스가 특정 서버 프로세스에 요청을 보내거나, 부모 프로세스가 특정 자식 프로세스에 시그널을 보내는 경우, 통신 상대를 명시적으로 지정하는 것이 자연스러운 설계다. 또한 직접 통신은 구현이 간단하여 시스템 콜 수준의 가벼운 통신에 적합하다.
 
-- **등장 배경**: [[459_quic_fec_forward_error_correction|초기]] 운영체제의 프로세스 간 통신은 주로 직접 통신 방식으로 설계되었다. Brinch Hansen의 RC [[548_special_permissions_setuid|4000]] 시스템과 최초의 UNIX [[123_pipe|파이프]]([[123_pipe|Pipe]])가 부모-자식 프로세스 간의 직접 통신 모델을 제공하였고, 이는 이후 [[125_socket|소켓]]([[125_socket|Socket]]) 기반의 네트워크 통신으로 자연스럽게 발전하였다.
+- **등장 배경**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 운영체제의 프로세스 간 통신은 주로 직접 통신 방식으로 설계되었다. Brinch Hansen의 RC [4000](/knowledge-base/studynote/02_operating_system/09_file_system/548_special_permissions_setuid/) 시스템과 최초의 UNIX [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)([Pipe](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/))가 부모-자식 프로세스 간의 직접 통신 모델을 제공하였고, 이는 이후 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)([Socket](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)) 기반의 네트워크 통신으로 자연스럽게 발전하였다.
 
 ```text
   ┌──────────────────────────────────────────────────────────────────────────┐
@@ -50,7 +54,7 @@ tags:
   └──────────────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 대칭식(Symmetric) 직접 통신에서는 통신의 양쪽 프로세스가 서로의 [[289_identification_flags_fragmentation_offset|식별자]](ID)를 알고 있으며, 양방향으로 [[389_mesh_topology|메시]]지를 주고받을 수 있다. `send(P, msg)`는 "프로세스 P에게 [[389_mesh_topology|메시]]지를 보내라"라는 의미이며, `receive(Q, msg)`는 "프로세스 Q로부터 [[389_mesh_topology|메시]]지를 받아라"라는 의미다. 반면 비대칭식(Asymmetric)에서는 송신자만 수신자의 ID를 지정하며, 수신자는 특정 송신자를 지정하지 않고 `receive(id, msg)` 형태로 호출하여 큐에 대기 중인 임의의 [[389_mesh_topology|메시]]지를 수신한다. 비대칭식은 클라이언트-서버 모델에서 클라이언트가 서버에게 요청을 보내는 전형적인 패턴과 일치한다.
+**[다이어그램 해설]** 대칭식(Symmetric) 직접 통신에서는 통신의 양쪽 프로세스가 서로의 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)(ID)를 알고 있으며, 양방향으로 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 주고받을 수 있다. `send(P, msg)`는 "프로세스 P에게 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 보내라"라는 의미이며, `receive(Q, msg)`는 "프로세스 Q로부터 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 받아라"라는 의미다. 반면 비대칭식(Asymmetric)에서는 송신자만 수신자의 ID를 지정하며, 수신자는 특정 송신자를 지정하지 않고 `receive(id, msg)` 형태로 호출하여 큐에 대기 중인 임의의 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 수신한다. 비대칭식은 클라이언트-서버 모델에서 클라이언트가 서버에게 요청을 보내는 전형적인 패턴과 일치한다.
 
 - **📢 섹션 요약 비유**: 대칭식은 두 친구가 서로의 집 주소를 알고 번갈아가며 방문하는 것이고, 비대칭식은 손님이 식당(서버) 주소를 알고 찾아가지만, 식당은 특정 손님의 주소를 몰라도 누가 오든 문을 열어주는 것과 같습니다.
 
@@ -58,16 +62,16 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 직접 통신의 프로세스 [[289_identification_flags_fragmentation_offset|식별자]] ([[300_process|Process]] [[088_identifier_in_er_model|Identifier]]) 문제
+### 직접 통신의 프로세스 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/)) 문제
 
-직접 통신의 핵심 기술적 난제는 '통신 상대를 어떻게 [[655_ir_detection_analysis|식별]]하는가'이다. 프로세스 ID (PID)를 직접 사용하면 프로세스가 재시작될 때마다 PID가 변경되므로 하드코딩(Hard-coding)할 수 없다. 이를 해결하기 위한 다양한 [[655_ir_detection_analysis|식별]] 방식이 존재한다.
+직접 통신의 핵심 기술적 난제는 '통신 상대를 어떻게 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하는가'이다. 프로세스 ID (PID)를 직접 사용하면 프로세스가 재시작될 때마다 PID가 변경되므로 하드코딩(Hard-coding)할 수 없다. 이를 해결하기 위한 다양한 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 방식이 존재한다.
 
-| [[655_ir_detection_analysis|식별]] 방식 | 설명 | 장점 | 단점 | 예시 |
+| [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 방식 | 설명 | 장점 | 단점 | 예시 |
 |:---|:---|:---|:---|:---|
-| **PID ([[300_process|Process]] ID)** | 운영체제가 부여하는 고유 정수 | 구현이 단순 | 프로세스 재시작 시 변경 | `kill(pid, SIGUSR1)` |
-| **이름 (Named [[300_process|Process]])** | well-known 이름으로 프로세스 [[655_ir_detection_analysis|식별]] | PID 변경에 무관 | 이름 충돌 가능 | System V [[224_semaphore|Semaphore]] 이름 |
-| **[[402_port_number_16bit_application_process_identification|포트 번호]] ([[446_port_and_bus|Port]])** | 네트워크 주소 + [[446_port_and_bus|포트]] 조합 | 네트워크 투명성 | [[446_port_and_bus|포트]] 충돌 관리 필요 | `connect(IP:Port)` |
-| **[[501_file_definition_logical_record|파일]] 디스크립터 (FD)** | [[022_kernel_role|커널]]이 관리하는 정수 [[289_identification_flags_fragmentation_offset|식별자]] | 표준 I/O와 통일 | 프로세스 간 FD 전달 복잡 | UNIX [[064_relation_domain|Domain]] [[125_socket|Socket]] |
+| **PID ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) ID)** | 운영체제가 부여하는 고유 정수 | 구현이 단순 | 프로세스 재시작 시 변경 | `kill(pid, SIGUSR1)` |
+| **이름 (Named [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))** | well-known 이름으로 프로세스 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) | PID 변경에 무관 | 이름 충돌 가능 | System V [Semaphore](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) 이름 |
+| **[포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/) ([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))** | 네트워크 주소 + [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 조합 | 네트워크 투명성 | [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 충돌 관리 필요 | `connect(IP:Port)` |
+| **[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터 (FD)** | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 관리하는 정수 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) | 표준 I/O와 통일 | 프로세스 간 FD 전달 복잡 | UNIX [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [Socket](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) |
 
 ```text
   ┌─────────────────────────────────────────────────────────────────────┐
@@ -100,25 +104,25 @@ tags:
   └─────────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** PID 기반 직접 통신의 가장 치명적인 문제는 [[289_identification_flags_fragmentation_offset|식별자]]의 일시성(Ephemerality)이다. PID는 운영체제가 [[104_process_creation|프로세스 생성]] 시 할당하며, [[107_process_termination|프로세스 종료]] 후 재시작되면 일반적으로 다른 PID를 받는다. 송신자가 이전 PID를 하드코딩하면, 수신자가 재시작된 후에는 통신이 불가능해진다. 이를 해결하기 위해 이름 [[090_service_kubernetes_network_load_balancing|서비스]](Name [[090_service_kubernetes_network_load_balancing|Service]])를 도입하여, 프로세스가 의미 있는 이름(예: "db_service")을 [[022_kernel_role|커널]]에 등록하고 송신자는 이름을 통해 간접적으로 프로세스를 [[655_ir_detection_analysis|식별]]하는 방식이 사용된다. [[125_socket|소켓]] 통신에서 `/tmp/db_service.sock`과 같은 UNIX [[064_relation_domain|Domain]] [[125_socket|Socket]] 경로나, [[405_tcp_transmission_control_protocol_connection_oriented|TCP]]/IP에서 `localhost:5432`와 같은 IP:[[446_port_and_bus|Port]] 조합이 이 이름 바인딩의 실무적 구현이다.
+**[다이어그램 해설]** PID 기반 직접 통신의 가장 치명적인 문제는 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)의 일시성(Ephemerality)이다. PID는 운영체제가 [프로세스 생성](/knowledge-base/studynote/02_operating_system/02_process_thread/104_process_creation/) 시 할당하며, [프로세스 종료](/knowledge-base/studynote/02_operating_system/02_process_thread/107_process_termination/) 후 재시작되면 일반적으로 다른 PID를 받는다. 송신자가 이전 PID를 하드코딩하면, 수신자가 재시작된 후에는 통신이 불가능해진다. 이를 해결하기 위해 이름 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(Name [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))를 도입하여, 프로세스가 의미 있는 이름(예: "db_service")을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 등록하고 송신자는 이름을 통해 간접적으로 프로세스를 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하는 방식이 사용된다. [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 통신에서 `/tmp/db_service.sock`과 같은 UNIX [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [Socket](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 경로나, [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP에서 `localhost:5432`와 같은 IP:[Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 조합이 이 이름 바인딩의 실무적 구현이다.
 
-- **📢 섹션 요약 비유**: 전화번호(PID)로 전화를 걸면 상대방이 번호를 바꾸면 연결이 끊어지지만, 전화번호부(이름 [[090_service_kubernetes_network_load_balancing|서비스]])에서 '김과장'이라는 이름(이름 기반 [[655_ir_detection_analysis|식별]])으로 찾으면 번호가 바뀌어도 항상 올바른 사람에게 연결되는 것과 같습니다.
+- **📢 섹션 요약 비유**: 전화번호(PID)로 전화를 걸면 상대방이 번호를 바꾸면 연결이 끊어지지만, 전화번호부(이름 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))에서 '김과장'이라는 이름(이름 기반 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/))으로 찾으면 번호가 바뀌어도 항상 올바른 사람에게 연결되는 것과 같습니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 직접 통신 vs [[121_indirect_communication|간접 통신]] 다차원 비교
+### 직접 통신 vs [간접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/121_indirect_communication/) 다차원 비교
 
-| 평가 기준 | 직접 통신 ([[176_direct_addressing|Direct]]) | [[121_indirect_communication|간접 통신]] ([[177_indirect_addressing|Indirect]]) | 판단 기준 |
+| 평가 기준 | 직접 통신 ([Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/)) | [간접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/121_indirect_communication/) ([Indirect](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/)) | 판단 기준 |
 |:---|:---|:---|:---|
-| **[[195_coupling_levels|결합도]] ([[195_coupling_levels|Coupling]])** | 높음 (상대방 ID 알아야 함) | 낮음 (Mailbox만 알면 됨) | 느슨한 결합이 필요하면 간접 |
-| **유연성** | 낮음 (1:1 고정 [[083_relationship_in_er_model|관계]]) | 높음 (1:1, 1:N, N:1, N:N) | 다자간 통신이면 간접 |
-| **[[289_identification_flags_fragmentation_offset|식별자]] 관리** | PID 변경에 취약 | Mailbox ID는 안정적 | 장기 [[090_service_kubernetes_network_load_balancing|서비스]]면 간접 |
-| **구현 복잡도** | 낮음 ([[014_api_posix|API]] 직관적) | 높음 (Mailbox 관리 필요) | 단순 통신이면 직접 |
-| **네트워크 확장** | [[125_socket|소켓]]으로 가능 | Message Queue로 용이 | [[136_variance|분산]] 환경은 간접이 유리 |
+| **[결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) ([Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/))** | 높음 (상대방 ID 알아야 함) | 낮음 (Mailbox만 알면 됨) | 느슨한 결합이 필요하면 간접 |
+| **유연성** | 낮음 (1:1 고정 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)) | 높음 (1:1, 1:N, N:1, N:N) | 다자간 통신이면 간접 |
+| **[식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) 관리** | PID 변경에 취약 | Mailbox ID는 안정적 | 장기 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)면 간접 |
+| **구현 복잡도** | 낮음 ([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 직관적) | 높음 (Mailbox 관리 필요) | 단순 통신이면 직접 |
+| **네트워크 확장** | [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)으로 가능 | Message Queue로 용이 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경은 간접이 유리 |
 
-- **📢 섹션 요약 비유**: 직접 통신은 '집 앞에 직접 배달'이라 주소(PID)를 정확히 알아야 하지만 배달이 빠르고, [[121_indirect_communication|간접 통신]]은 '공용 우체함'이라 여러 사람이 쓸 수 있고 주소가 바뀌어도 괜찮지만 한 걸음 더 걸리는 것과 같습니다.
+- **📢 섹션 요약 비유**: 직접 통신은 '집 앞에 직접 배달'이라 주소(PID)를 정확히 알아야 하지만 배달이 빠르고, [간접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/121_indirect_communication/)은 '공용 우체함'이라 여러 사람이 쓸 수 있고 주소가 바뀌어도 괜찮지만 한 걸음 더 걸리는 것과 같습니다.
 
 ---
 
@@ -126,18 +130,18 @@ tags:
 
 ### 실무 시나리오
 
-1. **시나리오 -- [[125_socket|소켓]] 기반 클라이언트-서버 통신**: 웹 브라우저(클라이언트)가 웹 서버의 `192.168.1.100:80` 주소를 지정하여 `connect()` 시스템 콜로 [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] 연결을 요청하는 과정은 대칭식 직접 통신의 대표적인 구현이다. 클라이언트는 서버의 IP 주소와 [[402_port_number_16bit_application_process_identification|포트 번호]]([[289_identification_flags_fragmentation_offset|식별자]])를 명시적으로 지정하며, 서버는 `accept()`로 임의의 클라이언트로부터 연결을 수용한다.
+1. **시나리오 -- [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 기반 클라이언트-서버 통신**: 웹 브라우저(클라이언트)가 웹 서버의 `192.168.1.100:80` 주소를 지정하여 `connect()` 시스템 콜로 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 연결을 요청하는 과정은 대칭식 직접 통신의 대표적인 구현이다. 클라이언트는 서버의 IP 주소와 [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)([식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/))를 명시적으로 지정하며, 서버는 `accept()`로 임의의 클라이언트로부터 연결을 수용한다.
 
-2. **시나리오 -- POSIX 시그널 ([[130_signal|Signal]]) 전달**: `kill(pid, SIGTERM)` 시스템 콜은 비대칭식 직접 통신의 전형이다. 송신 프로세스가 수신 프로세스의 PID를 직접 지정하여 시그널을 전달하며, 수신 프로세스는 수신 시 특정 핸들러(Handler)가 자동으로 실행된다. PID가 잘못 지정되면 `ESRCH` 에러가 반환되어 [[289_identification_flags_fragmentation_offset|식별자]] 문제의 위험을 직접적으로 보여준다.
+2. **시나리오 -- POSIX 시그널 ([Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)) 전달**: `kill(pid, SIGTERM)` 시스템 콜은 비대칭식 직접 통신의 전형이다. 송신 프로세스가 수신 프로세스의 PID를 직접 지정하여 시그널을 전달하며, 수신 프로세스는 수신 시 특정 핸들러(Handler)가 자동으로 실행된다. PID가 잘못 지정되면 `ESRCH` 에러가 반환되어 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) 문제의 위험을 직접적으로 보여준다.
 
-### 도입 [[435_checklist_based_testing|체크리스트]]
-- **기술적**: PID 기반 직접 통신 시, 대상 프로세스가 종료되거나 PID가 변경될 가능성을 고려하였는가? 이름 기반 [[125_socket|소켓]] 경로 또는 [[126_rpc|RPC]] 이름 [[090_service_kubernetes_network_load_balancing|서비스]]로 [[289_identification_flags_fragmentation_offset|식별자]] 안정성을 보장하였는가?
-- **운영 보안적**: 직접 통신의 대상 프로세스 [[395_verification_process_review|검증]]([[604_authentication_factors|Authentication]])을 수행하여, 악의적 프로세스가 타 프로세스의 ID를 도용하여 [[389_mesh_topology|메시]]지를 전달하지 못하도록 방어하였는가?
+### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+- **기술적**: PID 기반 직접 통신 시, 대상 프로세스가 종료되거나 PID가 변경될 가능성을 고려하였는가? 이름 기반 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 경로 또는 [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/) 이름 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) 안정성을 보장하였는가?
+- **운영 보안적**: 직접 통신의 대상 프로세스 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/))을 수행하여, 악의적 프로세스가 타 프로세스의 ID를 도용하여 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 전달하지 못하도록 방어하였는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
-- **PID 하드코딩 (Hard-coded PID)**: 소스 코드에 `send(1234, msg)`처럼 특정 PID를 직접 입력하는 경우. 프로세스가 재시작되면 PID가 변경되어 통신이 영구적으로 실패한다. 반드시 동적 [[289_identification_flags_fragmentation_offset|식별자]] 해석(Dynamic Name Resolution)을 사용해야 한다.
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- **PID 하드코딩 (Hard-coded PID)**: 소스 코드에 `send(1234, msg)`처럼 특정 PID를 직접 입력하는 경우. 프로세스가 재시작되면 PID가 변경되어 통신이 영구적으로 실패한다. 반드시 동적 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) 해석(Dynamic Name Resolution)을 사용해야 한다.
 
-- **📢 섹션 요약 비유**: 친구의 전화번호를 외워서(하드코딩) 전화를 걸면 번호가 바뀌면 연락이 끊어지지만, 전화번호부 앱(이름 [[090_service_kubernetes_network_load_balancing|서비스]])에서 이름으로 검색해서 걸면 번호가 바뀌어도 항상 연결되는 것과 같습니다.
+- **📢 섹션 요약 비유**: 친구의 전화번호를 외워서(하드코딩) 전화를 걸면 번호가 바뀌면 연락이 끊어지지만, 전화번호부 앱(이름 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))에서 이름으로 검색해서 걸면 번호가 바뀌어도 항상 연결되는 것과 같습니다.
 
 ---
 
@@ -145,22 +149,22 @@ tags:
 
 ### 정량/정성 기대효과
 
-| 구분 | 직접 통신 적용 | [[121_indirect_communication|간접 통신]] 적용 | 직접 통신의 우위 영역 |
+| 구분 | 직접 통신 적용 | [간접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/121_indirect_communication/) 적용 | 직접 통신의 우위 영역 |
 |:---|:---|:---|:---|
-| **정량** | [[289_identification_flags_fragmentation_offset|식별자]] 해석 1단계 | Mailbox 경유 2단계 | **낮은 레이턴시** |
+| **정량** | [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) 해석 1단계 | Mailbox 경유 2단계 | **낮은 레이턴시** |
 | **정량** | 1:1 통신에 최적화 | N:N 통신에 최적화 | 단순 양방향 통신 효율 |
-| **정성** | [[014_api_posix|API]] 직관적, 학습 곡선 낮음 | [[198_abstraction_control_data_process|추상화]] 수준 높음 | **빠른 프로토타이핑** |
-| **정성** | [[192_module_independence|모듈]] 간 [[195_coupling_levels|결합도]] 높음 | [[192_module_independence|모듈]] 간 [[195_coupling_levels|결합도]] 낮음 | 소규모 단일 시스템에 적합 |
+| **정성** | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 직관적, 학습 곡선 낮음 | [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 수준 높음 | **빠른 프로토타이핑** |
+| **정성** | [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 높음 | [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 낮음 | 소규모 단일 시스템에 적합 |
 
 ### 미래 전망
-- **[[302_service_mesh_istio|서비스 메시]] ([[828_service_mesh_microservice_communication_infrastructure|Service Mesh]])**: [[196_kubernetes_k8s_container_orchestration|쿠버네티스]]([[205_kubernetes_container_orchestration|Kubernetes]]) 환경에서 [[302_service_mesh_istio|Istio]], Linkerd 등의 [[302_service_mesh_istio|서비스 메시]]는 직접 통신의 [[289_identification_flags_fragmentation_offset|식별자]] 문제를 해결하기 위해 [[830_sidecar_proxy_architecture_envoy_decoupling|사이드카]]([[546_sidecar_proxy_pattern|Sidecar]]) 프록시를 배치하여, [[090_service_kubernetes_network_load_balancing|서비스]] 이름 기반의 동적 [[339_routing_overview_best_path_selection|라우팅]]과 로드 밸런싱을 자동으로 제공한다.
-- **[[615_ebpf|eBPF]] 기반 [[022_kernel_role|커널]] 수준 [[125_socket|소켓]] [[339_routing_overview_best_path_selection|라우팅]]**: eBPF를 활용하면 [[022_kernel_role|커널]] 모드에서 [[125_socket|소켓]] 통신의 대상을 동적으로 재라우팅할 수 있어, 직접 통신의 단순성과 [[121_indirect_communication|간접 통신]]의 유연성을 동시에 달성할 수 있다.
+- **[서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) ([Service Mesh](/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/))**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)) 환경에서 [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/), Linkerd 등의 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)는 직접 통신의 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) 문제를 해결하기 위해 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)([Sidecar](/knowledge-base/studynote/04_software_engineering/11_testing_validation/546_sidecar_proxy_pattern/)) 프록시를 배치하여, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 이름 기반의 동적 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 로드 밸런싱을 자동으로 제공한다.
+- **[eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 기반 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 수준 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)**: eBPF를 활용하면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드에서 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 통신의 대상을 동적으로 재라우팅할 수 있어, 직접 통신의 단순성과 [간접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/121_indirect_communication/)의 유연성을 동시에 달성할 수 있다.
 
 ### 참고 표준
-- **RFC 793 ([[405_tcp_transmission_control_protocol_connection_oriented|TCP]])**: `connect()`/`accept()` 기반의 직접 통신 연결 [[009_config|설정]] 표준.
+- **RFC 793 ([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))**: `connect()`/`accept()` 기반의 직접 통신 연결 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 표준.
 - **IEEE Std 1003.1 (POSIX.1)**: `kill()`, `sigqueue()` 시스템 콜 기반의 프로세스 직접 통신 표준.
 
-직접 통신은 통신 상대를 명시적으로 지정하는 가장 직관적이고 단순한 [[117_ipc|IPC]] 방식이다. 대칭식과 비대칭식 두 가지 모드를 통해 다양한 통신 패턴을 표현할 수 있지만, [[289_identification_flags_fragmentation_offset|식별자]](PID)의 일시성 문제와 높은 [[195_coupling_levels|결합도]]([[195_coupling_levels|Coupling]])라는 한계를 가진다. [[125_socket|소켓]] 프로그래밍과 클라이언트-서버 모델의 근간이 되며, 단순한 1:1 통신 시나리오에서 가장 자연스러운 선택지다.
+직접 통신은 통신 상대를 명시적으로 지정하는 가장 직관적이고 단순한 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 방식이다. 대칭식과 비대칭식 두 가지 모드를 통해 다양한 통신 패턴을 표현할 수 있지만, [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)(PID)의 일시성 문제와 높은 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)([Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/))라는 한계를 가진다. [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 프로그래밍과 클라이언트-서버 모델의 근간이 되며, 단순한 1:1 통신 시나리오에서 가장 자연스러운 선택지다.
 
 - **📢 섹션 요약 비유**: 집 배달부가 집 주소를 정확히 알고 직접 문 앞에 물건을 놓고 가는 것(직접 통신)은 가장 빠르고 확실하지만, 이사를 가면(프로너스 재시작) 주소가 바뀌어 배달이 불가능해지는 한계가 있는 가장 기본적인 배달 방식입니다.
 
@@ -170,10 +174,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[118_shared_memory|공유 메모리]] ([[118_shared_memory|Shared Memory]]) 방식 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [[119_message_passing|메시지 전달]] ([[119_message_passing|Message Passing]]) 방식 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [[121_indirect_communication|간접 통신]] ([[121_indirect_communication|Indirect Communication]]) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [[122_sync_async_communication|동기식 통신]] ([[122_sync_async_communication|Blocking]]) vs 비동기식 통신 (Non-[[122_sync_async_communication|blocking]]) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) ([Shared Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)) 방식 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/) ([Message Passing](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/)) 방식 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [간접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/121_indirect_communication/) ([Indirect Communication](/knowledge-base/studynote/02_operating_system/02_process_thread/121_indirect_communication/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [동기식 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/) ([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) vs 비동기식 통신 (Non-[blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -201,7 +205,7 @@ tags:
 
 **진행 상황**: 120 / 800
 
-← **이전**: [[119_message_passing|119. 메시지 전달 (Message Passing) 방식 - 안전, 커널 개입(시스템 콜) 오버헤드]]
-**다음**: [[121_indirect_communication|121. 간접 통신 (Indirect Communication) - 메일박스/포트 사용]] →
+← **이전**: [119. 메시지 전달 (Message Passing) 방식 - 안전, 커널 개입(시스템 콜) 오버헤드](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/)
+**다음**: [121. 간접 통신 (Indirect Communication) - 메일박스/포트 사용](/knowledge-base/studynote/02_operating_system/02_process_thread/121_indirect_communication/) →
 
 ---

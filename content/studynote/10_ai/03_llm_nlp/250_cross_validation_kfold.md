@@ -1,44 +1,48 @@
----
-title: 250. 교차 검증 (Cross-Validation)
-date: '2026-05-09'
-tags:
-- studynote-ai
----
++++
+title = "250. 교차 검증 (Cross-Validation)"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-ai"]
+
+[extra]
+tags = ["studynote-ai"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 교차 [[395_verification_process_review|검증]](Cross-[[396_validation|Validation]])은 훈련 [[001_dikw_pyramid|데이터]]를 여러 번 다른 방식으로 분할하여 모델을 반복 평가함으로써, 단일 분할의 편향을 제거하고 **일반화 [[282_performance_tactics|성능]](Generalization [[282_performance_tactics|Performance]])을 더 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 있게 추정**하는 기법이다.
-> 2. **가치**: [[001_dikw_pyramid|데이터]]가 적은 상황에서 [[395_verification_process_review|검증]] [[282_performance_tactics|성능]]의 [[136_variance|분산]]([[136_variance|Variance]])을 최소화하고, 과적합([[245_overfitting_variance|Overfitting]])을 조기에 탐지하여 하이퍼파라미터(Hyperparameter) 선택에 통계적 근거를 제공한다.
-> 3. **판단 포인트**: K-겹 교차 [[395_verification_process_review|검증]](K-Fold Cross-[[396_validation|Validation]])이 표준이며, 클래스 불균형 [[001_dikw_pyramid|데이터]]에는 계층화 K-겹(Stratified K-Fold)을, 소량 [[001_dikw_pyramid|데이터]]에는 LOOCV(Leave-One-Out Cross-[[396_validation|Validation]])를 적용한다.
+> 1. **본질**: 교차 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(Cross-[Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))은 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 번 다른 방식으로 분할하여 모델을 반복 평가함으로써, 단일 분할의 편향을 제거하고 **일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(Generalization [Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))을 더 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 있게 추정**하는 기법이다.
+> 2. **가치**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 적은 상황에서 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))을 최소화하고, 과적합([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))을 조기에 탐지하여 하이퍼파라미터(Hyperparameter) 선택에 통계적 근거를 제공한다.
+> 3. **판단 포인트**: K-겹 교차 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(K-Fold Cross-[Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))이 표준이며, 클래스 불균형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에는 계층화 K-겹(Stratified K-Fold)을, 소량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에는 LOOCV(Leave-One-Out Cross-[Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))를 적용한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 ### 1.1 단일 Hold-out의 한계
-[[001_dikw_pyramid|데이터]]를 한 번만 훈련/테스트로 나누면 다음 문제가 발생한다:
-- **운 좋은 분할**: 우연히 쉬운 테스트셋이 [[087_process_state_transition|생성]]될 수 있음
-- **[[001_dikw_pyramid|데이터]] 낭비**: 전체 [[001_dikw_pyramid|데이터]]의 20~30%를 [[395_verification_process_review|검증]]에만 사용
-- **높은 [[136_variance|분산]]**: 분할 방식에 따라 [[282_performance_tactics|성능]] 지표가 크게 달라질 수 있음
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한 번만 훈련/테스트로 나누면 다음 문제가 발생한다:
+- **운 좋은 분할**: 우연히 쉬운 테스트셋이 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)될 수 있음
+- **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 낭비**: 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 20~30%를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에만 사용
+- **높은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)**: 분할 방식에 따라 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표가 크게 달라질 수 있음
 
-### 1.2 교차 [[395_verification_process_review|검증]]의 핵심 목적
+### 1.2 교차 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 핵심 목적
 
 | 목적 | 설명 |
 |:---|:---|
-| 일반화 [[282_performance_tactics|성능]] 추정 | 새 [[001_dikw_pyramid|데이터]]에서 모델 [[282_performance_tactics|성능]]을 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 있게 예측 |
-| 모델 비교 | 여러 [[001_algorithm_definition|알고리즘]] 중 최적 모델 선택 |
-| [[041_bagging_boosting|하이퍼파라미터 튜닝]] | 과적합 없이 최적 [[009_config|설정]] 탐색 |
-| [[136_variance|분산]] 감소 | [[282_performance_tactics|성능]] 지표의 통계적 [[085_confidence_association_rule_conditional_probability|신뢰도]] 향상 |
+| 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 추정 | 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 있게 예측 |
+| 모델 비교 | 여러 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 중 최적 모델 선택 |
+| [하이퍼파라미터 튜닝](/knowledge-base/studynote/10_ai/01_ai_basics/041_bagging_boosting/) | 과적합 없이 최적 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 탐색 |
+| [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 감소 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표의 통계적 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 향상 |
 
-### 1.3 [[001_dikw_pyramid|데이터]] 분할 [[268_strategy_pattern|전략]] 개요
+### 1.3 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분할 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 개요
 
-| [[268_strategy_pattern|전략]] | 사용 목적 | 분할 횟수 |
+| [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 사용 목적 | 분할 횟수 |
 |:---|:---|:---|
-| Hold-out | 최종 [[282_performance_tactics|성능]] 평가 | 1회 |
-| K-Fold [[156_cv_cost_variance|CV]] | 모델 선택, [[041_bagging_boosting|하이퍼파라미터 튜닝]] | K회 |
-| Stratified K-Fold | 클래스 불균형 [[001_dikw_pyramid|데이터]] | K회 |
-| LOOCV | 소량 [[001_dikw_pyramid|데이터]] | n회 (n=샘플 수) |
-| Time-Series Split | 시계열 [[001_dikw_pyramid|데이터]] | K회 (시간 순서 유지) |
+| Hold-out | 최종 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가 | 1회 |
+| K-Fold [CV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/) | 모델 선택, [하이퍼파라미터 튜닝](/knowledge-base/studynote/10_ai/01_ai_basics/041_bagging_boosting/) | K회 |
+| Stratified K-Fold | 클래스 불균형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | K회 |
+| LOOCV | 소량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | n회 (n=샘플 수) |
+| Time-Series Split | 시계열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | K회 (시간 순서 유지) |
 
 ```text
 ┌──────────────────────────────────────────────┐
@@ -49,13 +53,13 @@ tags:
 └──────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 단일 Hold-out은 음식점 위생 점검을 1년에 한 번, 같은 날 같은 시간에만 하는 것과 같다. K-Fold 교차 [[395_verification_process_review|검증]]은 무작위 날, 다양한 시간에 K번 점검해서 음식점의 진짜 위생 수준을 파악하는 것이다.
+- **📢 섹션 요약 비유**: 단일 Hold-out은 음식점 위생 점검을 1년에 한 번, 같은 날 같은 시간에만 하는 것과 같다. K-Fold 교차 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 무작위 날, 다양한 시간에 K번 점검해서 음식점의 진짜 위생 수준을 파악하는 것이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 2.1 K-겹 교차 [[395_verification_process_review|검증]] (K-Fold Cross-[[396_validation|Validation]]) 동작
+### 2.1 K-겹 교차 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) (K-Fold Cross-[Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)) 동작
 
 ```
 ┌────────────────────────────────────────────────────────────┐
@@ -76,9 +80,9 @@ tags:
 └────────────────────────────────────────────────────────────┘
 ```
 
-- 각 반복마다 서로 다른 fold가 [[395_verification_process_review|검증]]셋 역할
-- **모든 샘플이 정확히 1번 [[395_verification_process_review|검증]]셋에 포함**
-- 최종 [[282_performance_tactics|성능]] = K개 점수의 평균 ± 표준편차
+- 각 반복마다 서로 다른 fold가 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)셋 역할
+- **모든 샘플이 정확히 1번 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)셋에 포함**
+- 최종 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) = K개 점수의 평균 ± 표준편차
 
 ### 2.2 계층화 K-겹 (Stratified K-Fold)
 
@@ -96,14 +100,14 @@ Fold3: 양성 2%               Fold3: 양성 5%
 
 ### 2.3 LOOCV vs K-Fold 비교
 
-| 구분 | K-Fold (K=5~[[489_raid_10_hybrid|10]]) | LOOCV |
+| 구분 | K-Fold (K=5~[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)) | LOOCV |
 |:---|:---|:---|
-| [[395_verification_process_review|검증]] 반복 수 | K회 | n회 (n=샘플 수) |
-| 훈련 [[001_dikw_pyramid|데이터]] 크기 | (K-1)/K × n | n-1 |
+| [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 반복 수 | K회 | n회 (n=샘플 수) |
+| 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기 | (K-1)/K × n | n-1 |
 | 계산 비용 | 중간 | 매우 높음 |
 | 편향 | 약간 있음 | 매우 낮음 |
-| [[136_variance|분산]] | 낮음 | 높음 |
-| 적합한 경우 | 일반적 상황 | 소량 [[001_dikw_pyramid|데이터]] (n < 100) |
+| [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) | 낮음 | 높음 |
+| 적합한 경우 | 일반적 상황 | 소량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (n < 100) |
 
 - **📢 섹션 요약 비유**: K-Fold는 학급 전체 학생을 5개 조로 나눠서 매번 다른 조가 시험 감독을 맡고 나머지는 시험을 보는 것이다. 결국 모든 학생이 공평하게 한 번씩 감독관이 되어 성적의 공정성을 높인다.
 
@@ -115,11 +119,11 @@ Fold3: 양성 2%               Fold3: 양성 5%
 
 | K 값 | 특성 | 추천 상황 |
 |:---|:---|:---|
-| K=5 | 계산 비용 적음, [[136_variance|분산]] 약간 높음 | 일반적 상황, 큰 [[001_dikw_pyramid|데이터]]셋 |
-| K=[[489_raid_10_hybrid|10]] | 균형잡힌 편향-[[136_variance|분산]] (표준) | 대부분의 ML 작업 |
-| K=n (LOOCV) | 최소 편향, 최대 [[136_variance|분산]], 계산 비용 최대 | 소량 [[001_dikw_pyramid|데이터]] |
+| K=5 | 계산 비용 적음, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 약간 높음 | 일반적 상황, 큰 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋 |
+| K=[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) | 균형잡힌 편향-[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) (표준) | 대부분의 ML 작업 |
+| K=n (LOOCV) | 최소 편향, 최대 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/), 계산 비용 최대 | 소량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 
-### 3.2 Train / [[396_validation|Validation]] / Test 3분할 [[268_strategy_pattern|전략]]
+### 3.2 Train / [Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) / Test 3분할 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
 ```
 전체 데이터
@@ -132,23 +136,23 @@ Fold3: 양성 2%               Fold3: 양성 5%
     └── 테스트 세트 (20%)  ─── 최종 성능 평가 (한 번만 사용)
 ```
 
-**핵심 원칙**: 테스트 세트는 모델 선택 과정에서 절대 사용하지 않음 → 미래 [[001_dikw_pyramid|데이터]]를 대표하는 순수한 최종 평가용
+**핵심 원칙**: 테스트 세트는 모델 선택 과정에서 절대 사용하지 않음 → 미래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 대표하는 순수한 최종 평가용
 
-### 3.3 시계열 교차 [[395_verification_process_review|검증]] (Time-Series Split)
-시계열 [[001_dikw_pyramid|데이터]]는 **미래 [[001_dikw_pyramid|데이터]]가 훈련에 포함되는 것([[001_dikw_pyramid|Data]] Leakage)** 방지 필요:
+### 3.3 시계열 교차 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) (Time-Series Split)
+시계열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 **미래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 훈련에 포함되는 것([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Leakage)** 방지 필요:
 ```
 반복1: 훈련[1~100] → 검증[101~120]
 반복2: 훈련[1~120] → 검증[121~140]
 반복3: 훈련[1~140] → 검증[141~160]
 ```
 
-- **📢 섹션 요약 비유**: Train/[[396_validation|Validation]]/Test 분리는 학교 시험과 같다. K-Fold는 모의고사([[395_verification_process_review|검증]])를 여러 번 보는 것이고, Test 세트는 실제 수능(한 번만, 결과가 최종 성적)이다. 수능 문제로 모의고사 연습을 하면 성적이 부풀려진다.
+- **📢 섹션 요약 비유**: Train/[Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)/Test 분리는 학교 시험과 같다. K-Fold는 모의고사([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))를 여러 번 보는 것이고, Test 세트는 실제 수능(한 번만, 결과가 최종 성적)이다. 수능 문제로 모의고사 연습을 하면 성적이 부풀려진다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 4.1 K-Fold와 [[041_bagging_boosting|하이퍼파라미터 튜닝]] 결합
+### 4.1 K-Fold와 [하이퍼파라미터 튜닝](/knowledge-base/studynote/10_ai/01_ai_basics/041_bagging_boosting/) 결합
 
 ```
 모델 후보: A, B, C
@@ -161,37 +165,37 @@ Fold3: 양성 2%               Fold3: 양성 5%
   → 테스트 세트에서 최종 평가
 ```
 
-### 4.2 [[156_cv_cost_variance|CV]] 점수 해석
+### 4.2 [CV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/) 점수 해석
 
-| [[156_cv_cost_variance|CV]] 결과 | 해석 | 조치 |
+| [CV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/) 결과 | 해석 | 조치 |
 |:---|:---|:---|
-| 평균 높고, [[136_variance|분산]] 낮음 | 안정적이고 높은 일반화 [[282_performance_tactics|성능]] | 최적 모델로 선택 |
-| 평균 높고, [[136_variance|분산]] 높음 | 일부 fold에서만 좋은 [[282_performance_tactics|성능]] | [[001_dikw_pyramid|데이터]] [[396_validation|확인]], Stratified 적용 |
-| 평균 낮고, [[136_variance|분산]] 낮음 | 안정적으로 낮은 [[282_performance_tactics|성능]] | 모델 개선 (과소적합 의심) |
-| 평균 낮고, [[136_variance|분산]] 높음 | 불안정하고 낮은 [[282_performance_tactics|성능]] | [[001_dikw_pyramid|데이터]] 품질 및 모델 근본 검토 |
+| 평균 높고, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 낮음 | 안정적이고 높은 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 최적 모델로 선택 |
+| 평균 높고, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 높음 | 일부 fold에서만 좋은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), Stratified 적용 |
+| 평균 낮고, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 낮음 | 안정적으로 낮은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 모델 개선 (과소적합 의심) |
+| 평균 낮고, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 높음 | 불안정하고 낮은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 및 모델 근본 검토 |
 
 ### 4.3 기술사 핵심 판단 포인트
-- **K=10이 표준**: 편향-[[136_variance|분산]] 균형에서 실증적으로 K=10이 최적
-- **Stratified K-Fold 필수**: 클래스 불균형 [[001_dikw_pyramid|데이터]]에서 일반 K-Fold 사용은 오류
-- **테스트셋 오염 방지**: [[156_cv_cost_variance|CV]] 과정에서 테스트셋 사용 시 [[282_performance_tactics|성능]] 지표가 낙관적으로 편향
-- **전처리 [[123_pipe|파이프]]라인 포함**: [[249_scaling_normalization_standardization|스케일링]], 인코딩도 각 fold 내에서 수행 ([[001_dikw_pyramid|데이터]] 누수 방지)
+- **K=10이 표준**: 편향-[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 균형에서 실증적으로 K=10이 최적
+- **Stratified K-Fold 필수**: 클래스 불균형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 일반 K-Fold 사용은 오류
+- **테스트셋 오염 방지**: [CV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/) 과정에서 테스트셋 사용 시 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표가 낙관적으로 편향
+- **전처리 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 포함**: [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/), 인코딩도 각 fold 내에서 수행 ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 누수 방지)
 
-- **📢 섹션 요약 비유**: 전처리를 fold 외부에서 하는 것은 시험 전 전체 학생의 답지를 미리 보여주고 시험을 보는 것과 같다. 스케일러도 각 fold의 훈련 [[001_dikw_pyramid|데이터]]에서만 학습해야 공정한 평가가 된다.
+- **📢 섹션 요약 비유**: 전처리를 fold 외부에서 하는 것은 시험 전 전체 학생의 답지를 미리 보여주고 시험을 보는 것과 같다. 스케일러도 각 fold의 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서만 학습해야 공정한 평가가 된다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-### 5.1 교차 [[395_verification_process_review|검증]]의 기대효과
-- 모델 [[282_performance_tactics|성능]] 추정의 [[085_confidence_association_rule_conditional_probability|신뢰도]] 향상
-- 단일 분할 대비 [[136_variance|분산]] 감소 (√K 비율 개선)
-- 모든 [[001_dikw_pyramid|데이터]]를 훈련과 [[395_verification_process_review|검증]]에 활용 → [[001_dikw_pyramid|데이터]] 효율성 극대화
+### 5.1 교차 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 기대효과
+- 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 추정의 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 향상
+- 단일 분할 대비 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 감소 (√K 비율 개선)
+- 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 훈련과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에 활용 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 효율성 극대화
 - 통계적 근거 있는 모델 비교 가능
 
 ### 5.2 결론
-K-Fold 교차 [[395_verification_process_review|검증]]은 [[241_machine_learning_basics|머신러닝]] 모델의 일반화 [[282_performance_tactics|성능]]을 평가하는 표준 방법이다. [[001_dikw_pyramid|데이터]] 불균형, 시계열, 소량 [[001_dikw_pyramid|데이터]] 등 상황에 따라 Stratified K-Fold, Time-Series Split, LOOCV를 선택하고, 반드시 테스트셋은 최종 평가에만 사용해야 한다. 기술사 시험에서는 K-Fold 동작 원리, Stratified 필요성, 3분할 [[268_strategy_pattern|전략]]을 명확히 서술할 수 있어야 한다.
+K-Fold 교차 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델의 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 평가하는 표준 방법이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불균형, 시계열, 소량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 등 상황에 따라 Stratified K-Fold, Time-Series Split, LOOCV를 선택하고, 반드시 테스트셋은 최종 평가에만 사용해야 한다. 기술사 시험에서는 K-Fold 동작 원리, Stratified 필요성, 3분할 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 명확히 서술할 수 있어야 한다.
 
-- **📢 섹션 요약 비유**: 교차 [[395_verification_process_review|검증]]은 한 번의 시험이 아니라 여러 번 다른 문제지로 시험을 보는 것이다. 그 평균 점수가 학생의 진짜 실력(일반화 [[282_performance_tactics|성능]])에 가장 가깝다.
+- **📢 섹션 요약 비유**: 교차 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 한 번의 시험이 아니라 여러 번 다른 문제지로 시험을 보는 것이다. 그 평균 점수가 학생의 진짜 실력(일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))에 가장 가깝다.
 
 ---
 
@@ -199,12 +203,12 @@ K-Fold 교차 [[395_verification_process_review|검증]]은 [[241_machine_learni
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| K-Fold [[156_cv_cost_variance|CV]] | 반복 [[395_verification_process_review|검증]], K개 fold / 표준 교차 [[395_verification_process_review|검증]] 기법 |
-| Stratified K-Fold | 클래스 비율 유지 / 불균형 [[001_dikw_pyramid|데이터]] 대응 |
-| LOOCV | n-1 훈련, 최소 편향 / 소량 [[001_dikw_pyramid|데이터]] 대응 |
+| K-Fold [CV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/) | 반복 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), K개 fold / 표준 교차 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기법 |
+| Stratified K-Fold | 클래스 비율 유지 / 불균형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 대응 |
+| LOOCV | n-1 훈련, 최소 편향 / 소량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 대응 |
 | Hold-out | 단일 분할, 최종 테스트 / CV와 병행 사용 |
-| [[041_bagging_boosting|하이퍼파라미터 튜닝]] | [[251_grid_search_random_search|Grid Search]], [[156_cv_cost_variance|CV]] 결합 / 교차 [[395_verification_process_review|검증]] 주요 활용처 |
-| [[001_dikw_pyramid|데이터]] 누수 | 전처리 fold 내 수행 / 교차 [[395_verification_process_review|검증]] 주의사항 |
+| [하이퍼파라미터 튜닝](/knowledge-base/studynote/10_ai/01_ai_basics/041_bagging_boosting/) | [Grid Search](/knowledge-base/studynote/10_ai/03_llm_nlp/251_grid_search_random_search/), [CV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/) 결합 / 교차 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 주요 활용처 |
+| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 누수 | 전처리 fold 내 수행 / 교차 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 주의사항 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -214,9 +218,9 @@ K-Fold 교차 [[395_verification_process_review|검증]]은 [[241_machine_learni
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 교차 [[395_verification_process_review|검증]]은 시험을 여러 번 다르게 나눠서 보는 것이에요.
+1. 교차 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 시험을 여러 번 다르게 나눠서 보는 것이에요.
 2. 매번 다른 친구들이 시험 감독관이 되고 나머지는 시험을 보면서, 운 좋은 분할을 없애요.
-3. 5번의 시험 평균 점수가 1번 시험 점수보다 훨씬 더 실력에 가깝기 때문에, [[190_ai_llm_requirements_specification|AI]] 모델의 진짜 능력을 알 수 있어요!
+3. 5번의 시험 평균 점수가 1번 시험 점수보다 훨씬 더 실력에 가깝기 때문에, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델의 진짜 능력을 알 수 있어요!
 
 ---
 
@@ -224,7 +228,7 @@ K-Fold 교차 [[395_verification_process_review|검증]]은 [[241_machine_learni
 
 **진행 상황**: 250 / 420
 
-← **이전**: [[249_scaling_normalization_standardization|249. 스케일링 (Scaling Normalization Standardization)]]
-**다음**: [[251_grid_search_random_search|251. 그리드 서치 (Grid Search) / 랜덤 서치 (Random Search)]] →
+← **이전**: [249. 스케일링 (Scaling Normalization Standardization)](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)
+**다음**: [251. 그리드 서치 (Grid Search) / 랜덤 서치 (Random Search)](/knowledge-base/studynote/10_ai/03_llm_nlp/251_grid_search_random_search/) →
 
 ---

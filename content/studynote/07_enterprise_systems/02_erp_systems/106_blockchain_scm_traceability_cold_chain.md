@@ -1,36 +1,40 @@
----
-title: 106. 블록체인 SCM 이력 추적 - 물류 운송 단계별 콜드체인 온도 및 조작 불가 원장 저장
-tags:
-- enterprise_systems
----
++++
+title = "106. 블록체인 SCM 이력 추적 - 물류 운송 단계별 콜드체인 온도 및 조작 불가 원장 저장"
+
+[taxonomies]
+tags = ["enterprise_systems"]
+
+[extra]
+tags = ["enterprise_systems"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[004_blockchain|블록체인]] [[167_scm_software_configuration_management|SCM]]([[520_supply_chain_attack_and_ci_cd_security|Supply Chain]] [[372_management|Management]]) 이력 추적은 원산지부터 소비자 식탁까지의 모든 물류/온도 [[001_dikw_pyramid|데이터]]를 위·변조가 불가능한 [[136_variance|분산]] 원장에 영구적으로 기록하는 시스템이다.
+> 1. **본질**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/)([Supply Chain](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) 이력 추적은 원산지부터 소비자 식탁까지의 모든 물류/온도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 위·변조가 불가능한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 원장에 영구적으로 기록하는 시스템이다.
 > 2. **가치**: 정보 비대칭과 신뢰 부족으로 가득 찬 기존 유통망에서 "서류 조작"을 원천 차단하고, 수일이 걸리던 문제 상품 역추적을 단 몇 초 만에 완료할 수 있다.
-> 3. **판단 포인트**: 다수의 [[173_stakeholder_identification_impact_matrix|이해관계자]](농장, 해운, 창고, 마트)가 서로의 자체 DB(엑셀)를 신뢰하지 못하는 환경일 때, 중앙 관리자 없이도 100% [[003_integrity|무결성]]을 보장하는 단일 진실 공급원(SSOT)으로 도입한다.
+> 3. **판단 포인트**: 다수의 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)(농장, 해운, 창고, 마트)가 서로의 자체 DB(엑셀)를 신뢰하지 못하는 환경일 때, 중앙 관리자 없이도 100% [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 보장하는 단일 진실 공급원(SSOT)으로 도입한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[[167_scm_software_configuration_management|SCM]]([[520_supply_chain_attack_and_ci_cd_security|Supply Chain]] [[372_management|Management]], [[520_supply_chain_attack_and_ci_cd_security|공급망]] 관리)은 복잡하고 긴 참여자들의 릴레이로 이루어진다. 하지만 기존의 SCM은 철저히 [[002_silo_hyeonhyung|사일로]]([[002_silo_hyeonhyung|Silo]])화 되어 있어, A 하청업체에서 B 창고로 물건이 넘어갈 때마다 [[001_dikw_pyramid|데이터]]가 엑셀이나 개별 DB에 파편화되어 저장되었다.
+[SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/)([Supply Chain](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/), [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 관리)은 복잡하고 긴 참여자들의 릴레이로 이루어진다. 하지만 기존의 SCM은 철저히 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/))화 되어 있어, A 하청업체에서 B 창고로 물건이 넘어갈 때마다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 엑셀이나 개별 DB에 파편화되어 저장되었다.
 
-만약 신선식품(육류, 백신 등)을 운반하는 콜드체인(Cold Chain) 도중에 누군가의 실수로 냉동기가 꺼져 물건이 훼손되었다면 어떻게 될까? 잘못을 덮기 위해 중간 업자가 자기 회사의 장부 온도를 '정상'으로 조작해 버리면, 최종 소비자는 썩은 고기를 먹게 되고 대형 마트는 책임을 물을 진짜 범인을 추적하는 데 엄청난 시간과 소송 비용을 낭비해야 했다. **기존 중앙 집중형 DB 구조로는 '[[001_dikw_pyramid|데이터]]를 입력하는 사람'을 믿을 수밖에 없다는 치명적 한계**가 있었고, 이를 수학적으로 타파하기 위해 [[004_blockchain|블록체인]]의 불가역성(Immutability)이 SCM에 이식되었다.
+만약 신선식품(육류, 백신 등)을 운반하는 콜드체인(Cold Chain) 도중에 누군가의 실수로 냉동기가 꺼져 물건이 훼손되었다면 어떻게 될까? 잘못을 덮기 위해 중간 업자가 자기 회사의 장부 온도를 '정상'으로 조작해 버리면, 최종 소비자는 썩은 고기를 먹게 되고 대형 마트는 책임을 물을 진짜 범인을 추적하는 데 엄청난 시간과 소송 비용을 낭비해야 했다. **기존 중앙 집중형 DB 구조로는 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 입력하는 사람'을 믿을 수밖에 없다는 치명적 한계**가 있었고, 이를 수학적으로 타파하기 위해 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 불가역성(Immutability)이 SCM에 이식되었다.
 
-- **📢 섹션 요약 비유**: 기존 SCM은 여러 명의 학생이 귓속말을 전하며 종이에 답을 적어 넘기는 게임과 같다. 중간에 장난꾸러기가 답을 살짝 지우고 고쳐 적으면 선생님은 누가 범인인지 절대 알 수 없다. 반면 [[004_blockchain|블록체인]] SCM은 광화문 한복판의 대형 전광판에 한 번 글씨를 쓰면 다신 지울 수 없는 특수 잉크(해시)로 릴레이를 하는 완벽한 감시 체계다.
+- **📢 섹션 요약 비유**: 기존 SCM은 여러 명의 학생이 귓속말을 전하며 종이에 답을 적어 넘기는 게임과 같다. 중간에 장난꾸러기가 답을 살짝 지우고 고쳐 적으면 선생님은 누가 범인인지 절대 알 수 없다. 반면 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) SCM은 광화문 한복판의 대형 전광판에 한 번 글씨를 쓰면 다신 지울 수 없는 특수 잉크(해시)로 릴레이를 하는 완벽한 감시 체계다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[[004_blockchain|블록체인]] SCM은 단순한 장부가 아니라 [[101_iot_concept|IoT]] 센서와 [[022_smart_contract|스마트 컨트랙트]]([[022_smart_contract|Smart Contract]])가 결합된 신뢰 자동화 기계다. 월마트(Walmart)와 IBM([[058_hyperledger_fabric_private_blockchain|Hyperledger Fabric]])이 협력한 식품 이력 추적(Food Trust) 프로젝트가 대표적인 표준 모델이다.
+[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) SCM은 단순한 장부가 아니라 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서와 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)([Smart Contract](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/))가 결합된 신뢰 자동화 기계다. 월마트(Walmart)와 IBM([Hyperledger Fabric](/knowledge-base/studynote/06_ict_convergence/01_blockchain/058_hyperledger_fabric_private_blockchain/))이 협력한 식품 이력 추적(Food Trust) 프로젝트가 대표적인 표준 모델이다.
 
-| 구성 요소 | 물류 적용 역할 | [[004_blockchain|블록체인]] 기술 특성 |
+| 구성 요소 | 물류 적용 역할 | [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 기술 특성 |
 | :--- | :--- | :--- |
-| **[[101_iot_concept|IoT]] 센서** | [[561_container_based_deployment|컨테이너]] 내부 온도, 위치(GPS)를 10분마다 측정 | 로우 [[001_dikw_pyramid|데이터]] 자동 수집 (휴먼 에러 배제) |
-| **[[136_variance|분산]] 원장 (Ledger)** | 농장-항구-창고-마트가 동일한 원장 실시간 공유 | 해시 연쇄를 통한 조작 불가 (Immutability) |
-| **[[022_smart_contract|스마트 컨트랙트]]** | "온도가 0도를 넘으면 즉시 대금 결제 정지" 코드 실행 | 중개인 없는 조건부 강제 실행 ([[082_process_memory_structure|Code]] is Law) |
+| **[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서** | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 내부 온도, 위치(GPS)를 10분마다 측정 | 로우 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자동 수집 (휴먼 에러 배제) |
+| **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 원장 (Ledger)** | 농장-항구-창고-마트가 동일한 원장 실시간 공유 | 해시 연쇄를 통한 조작 불가 (Immutability) |
+| **[스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)** | "온도가 0도를 넘으면 즉시 대금 결제 정지" 코드 실행 | 중개인 없는 조건부 강제 실행 ([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) is Law) |
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -49,50 +53,50 @@ tags:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-핵심 메커니즘은 [[001_dikw_pyramid|데이터]]가 **'합의(Consensus)'**를 거쳐 한 번 블록에 기록되면, 그 누구의 슈퍼 관리자 권한으로도 이전 온도를 수정할 수 없다는 데 있다. 즉, 시스템이 거짓말 자체를 허용하지 않는 수학적 신뢰 지대를 형성한다.
+핵심 메커니즘은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 **'합의(Consensus)'**를 거쳐 한 번 블록에 기록되면, 그 누구의 슈퍼 관리자 권한으로도 이전 온도를 수정할 수 없다는 데 있다. 즉, 시스템이 거짓말 자체를 허용하지 않는 수학적 신뢰 지대를 형성한다.
 
-- **📢 섹션 요약 비유**: [[004_blockchain|블록체인]]은 도자기 장인이 만든 도자기와 같다. 굽기 전([[001_dikw_pyramid|데이터]] 입력 전)에는 흙을 빚을 수 있지만, 가마에 들어가 한 번 구워져 블록이 [[087_process_state_transition|생성]]되고 나면 모양(온도 기록)을 바꾸려 할 때 도자기가 깨져버려([[563_hash_collision_chaining_linear_probing|해시 충돌]]) 누구나 위조 시도를 알아채게 된다.
+- **📢 섹션 요약 비유**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 도자기 장인이 만든 도자기와 같다. 굽기 전([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 입력 전)에는 흙을 빚을 수 있지만, 가마에 들어가 한 번 구워져 블록이 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되고 나면 모양(온도 기록)을 바꾸려 할 때 도자기가 깨져버려([해시 충돌](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/)) 누구나 위조 시도를 알아채게 된다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-[[004_blockchain|블록체인]] 기반 이력 추적은 기존 중앙 집중형 DB 기반 추적 시스템과 철학적 기반이 다르다.
+[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 기반 이력 추적은 기존 중앙 집중형 DB 기반 추적 시스템과 철학적 기반이 다르다.
 
-| 항목 | 기존 중앙 DB (예: [[081_erp_enterprise_resource_planning|ERP]], 개별 사내 시스템) | [[004_blockchain|블록체인]] [[167_scm_software_configuration_management|SCM]] (예: [[058_hyperledger_fabric_private_blockchain|Hyperledger Fabric]]) |
+| 항목 | 기존 중앙 DB (예: [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/), 개별 사내 시스템) | [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) (예: [Hyperledger Fabric](/knowledge-base/studynote/06_ict_convergence/01_blockchain/058_hyperledger_fabric_private_blockchain/)) |
 | :--- | :--- | :--- |
-| **[[001_dikw_pyramid|데이터]] [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]]** | DB 관리자가 언제든 UPDATE [[298_qkv_attention|쿼리]]로 조작 가능 | 한 번 기록되면 DELETE, UPDATE 원천 불가 |
-| **[[001_dikw_pyramid|데이터]] 소유권** | 시스템을 구축한 대기업(갑)이 독점 | 모든 참여 노드가 동일한 장부를 공유 |
+| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)** | DB 관리자가 언제든 UPDATE [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)로 조작 가능 | 한 번 기록되면 DELETE, UPDATE 원천 불가 |
+| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유권** | 시스템을 구축한 대기업(갑)이 독점 | 모든 참여 노드가 동일한 장부를 공유 |
 | **이슈 추적 시간** | 업체별 장부를 대조해야 하므로 며칠 소요 | 단일 원장 검색으로 단 몇 초 내(2.2초) 완료 |
 
-[[004_blockchain|블록체인]]은 암호화폐([[073_bit|비트]]코인)로 시작했지만, 기업형 [[020_private_blockchain|프라이빗 블록체인]](Hyperledger 등)과 결합하면서 권한 있는 참여자만 노드로 들어올 수 있게 통제하여 프라이버시와 속도를 동시에 확보했다.
+[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 암호화폐([비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)코인)로 시작했지만, 기업형 [프라이빗 블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/020_private_blockchain/)(Hyperledger 등)과 결합하면서 권한 있는 참여자만 노드로 들어올 수 있게 통제하여 프라이버시와 속도를 동시에 확보했다.
 
-- **📢 섹션 요약 비유**: 기존 DB 시스템은 갑(대기업)이 혼자 열쇠를 쥐고 있는 금고다. 하청업체는 갑이 장부를 어떻게 쓰는지 [[396_validation|확인]]할 길이 없다. [[004_blockchain|블록체인]] SCM은 투명한 유리 금고를 광장에 두고 모두가 똑같은 열쇠(노드)를 나눠 가져서 서로의 행동을 투명하게 감시하는 구조다.
+- **📢 섹션 요약 비유**: 기존 DB 시스템은 갑(대기업)이 혼자 열쇠를 쥐고 있는 금고다. 하청업체는 갑이 장부를 어떻게 쓰는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 길이 없다. [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) SCM은 투명한 유리 금고를 광장에 두고 모두가 똑같은 열쇠(노드)를 나눠 가져서 서로의 행동을 투명하게 감시하는 구조다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-[[004_blockchain|블록체인]]을 모든 물류 시스템에 만병통치약처럼 발라서는 안 된다. 비용과 효용을 철저히 계산해야 한다.
+[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)을 모든 물류 시스템에 만병통치약처럼 발라서는 안 된다. 비용과 효용을 철저히 계산해야 한다.
 
 ### 1. 기술사 판단: 언제 도입해야 하는가?
 - **채택 시나리오**: 부패하기 쉬운 신선 식품, 조작 시 생명이 위험한 백신/의약품 콜드체인, 다이아몬드나 명품 등 위조 방지가 핵심 가치일 때. 다수의 참여자가 존재하고 서로를 불신할 때 필수적이다.
-- **회피 시나리오**: 단일 회사 내부 창고 간의 단순 물류 이동이거나, 참여자가 1~2개로 적을 때는 굳이 무거운 [[004_blockchain|블록체인]] [[011_consensus_algorithm|합의 알고리즘]]을 쓸 필요 없이 일반 RDBMS가 훨씬 빠르고 저렴하다.
+- **회피 시나리오**: 단일 회사 내부 창고 간의 단순 물류 이동이거나, 참여자가 1~2개로 적을 때는 굳이 무거운 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/)을 쓸 필요 없이 일반 RDBMS가 훨씬 빠르고 저렴하다.
 
-### 2. 가비지 인, 가비지 아웃 (GIGO)의 [[128_water_scrum_fall_anti_pattern|안티패턴]]
-- [[004_blockchain|블록체인]]은 들어온 [[001_dikw_pyramid|데이터]]를 조작하지 못하게 막아줄 뿐, 처음부터 센서를 속여 '가짜 [[001_dikw_pyramid|데이터]]'를 [[004_blockchain|블록체인]]에 넣는 행위(오라클 문제)는 막지 못한다. 따라서 센서([[101_iot_concept|IoT]])의 물리적 봉인과 [[001_dikw_pyramid|데이터]] [[003_integrity|무결성]] 연동이 필수다.
+### 2. 가비지 인, 가비지 아웃 (GIGO)의 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 들어온 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 조작하지 못하게 막아줄 뿐, 처음부터 센서를 속여 '가짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'를 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 넣는 행위(오라클 문제)는 막지 못한다. 따라서 센서([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/))의 물리적 봉인과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 연동이 필수다.
 
-- **📢 섹션 요약 비유**: [[004_blockchain|블록체인]]은 절대 부서지지 않는 완벽한 자물쇠다. 하지만 자물쇠를 채우기 전에 상자 안에 진짜 다이아몬드 대신 돌멩이를 집어넣고(오라클 문제) 잠가버리면, 그 자물쇠는 "이 돌멩이가 진짜다"라고 영원히 보증하는 바보 기계가 되어버린다. 
+- **📢 섹션 요약 비유**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 절대 부서지지 않는 완벽한 자물쇠다. 하지만 자물쇠를 채우기 전에 상자 안에 진짜 다이아몬드 대신 돌멩이를 집어넣고(오라클 문제) 잠가버리면, 그 자물쇠는 "이 돌멩이가 진짜다"라고 영원히 보증하는 바보 기계가 되어버린다. 
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[[004_blockchain|블록체인]] SCM의 도입은 물류의 패러다임을 '사후 추적'에서 '사전 방어'로 전환했다. 유통 과정의 투명성이 확보됨에 따라 리콜([[254_recall_sensitivity|Recall]]) 비용은 수백 배 절감되고, 소비자(마트 앱에서 QR코드를 찍는 고객)는 100% 진실된 생산 이력을 [[396_validation|확인]]할 수 있다.
+[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) SCM의 도입은 물류의 패러다임을 '사후 추적'에서 '사전 방어'로 전환했다. 유통 과정의 투명성이 확보됨에 따라 리콜([Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/)) 비용은 수백 배 절감되고, 소비자(마트 앱에서 QR코드를 찍는 고객)는 100% 진실된 생산 이력을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있다.
 
-[[022_smart_contract|스마트 컨트랙트]]가 대금 결제를 자동화하여 행정 [[015_지연_데이터_관점|지연]]을 없애는 효과도 덤으로 얻는다. 결론적으로 [[004_blockchain|블록체인]] SCM은 불신이 가득한 거대한 국제 물류 네트워크에 "신뢰 [[295_protocol_field_tcp_udp_icmp|프로토콜]]"을 덧씌우는 혁명이며, 콜드체인의 [[003_integrity|무결성]]을 지키는 가장 완벽한 인프라로 자리 잡고 있다.
+[스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)가 대금 결제를 자동화하여 행정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 없애는 효과도 덤으로 얻는다. 결론적으로 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) SCM은 불신이 가득한 거대한 국제 물류 네트워크에 "신뢰 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)"을 덧씌우는 혁명이며, 콜드체인의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 지키는 가장 완벽한 인프라로 자리 잡고 있다.
 
-- **📢 섹션 요약 비유**: [[004_blockchain|블록체인]] SCM은 모든 물건에 '결코 거짓말을 하지 않는 블랙박스'를 달아주는 일이다. 사고가 나면 거짓 핑계를 대는 운전자를 심문할 필요 없이, 블랙박스 메모리([[004_blockchain|블록체인]])를 뽑아 1초 만에 진실을 [[396_validation|확인]]하는 것과 같다.
+- **📢 섹션 요약 비유**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) SCM은 모든 물건에 '결코 거짓말을 하지 않는 블랙박스'를 달아주는 일이다. 사고가 나면 거짓 핑계를 대는 운전자를 심문할 필요 없이, 블랙박스 메모리([블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/))를 뽑아 1초 만에 진실을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것과 같다.
 
 ---
 
@@ -100,10 +104,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[058_hyperledger_fabric_private_blockchain|하이퍼레저 패브릭]] ([[058_hyperledger_fabric_private_blockchain|Hyperledger Fabric]]) | 기업들이 프라이버시를 지키며 도입하는 허가형(Permissioned) [[004_blockchain|블록체인]] 플랫폼 |
-| [[022_smart_contract|스마트 컨트랙트]] ([[022_smart_contract|Smart Contract]]) | [[004_blockchain|블록체인]] 위에서 조건(온도 [[431_ssthresh_slow_start_threshold|임계치]] 등)이 맞으면 자동 실행되는 전자 계약 코드 |
+| [하이퍼레저 패브릭](/knowledge-base/studynote/06_ict_convergence/01_blockchain/058_hyperledger_fabric_private_blockchain/) ([Hyperledger Fabric](/knowledge-base/studynote/06_ict_convergence/01_blockchain/058_hyperledger_fabric_private_blockchain/)) | 기업들이 프라이버시를 지키며 도입하는 허가형(Permissioned) [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 플랫폼 |
+| [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) ([Smart Contract](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)) | [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 위에서 조건(온도 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 등)이 맞으면 자동 실행되는 전자 계약 코드 |
 | 콜드체인 (Cold Chain) | 백신, 신선식품 등 저온 상태를 끊임없이 유지해야 하는 특수 물류망 |
-| 오라클 문제 ([[188_pl_sql_t_sql_procedural|Oracle]] Problem) | 물리적 현실(센서)의 [[001_dikw_pyramid|데이터]]가 [[004_blockchain|블록체인]] 내부로 들어올 때 진실성을 보증하기 어려운 한계 |
+| 오라클 문제 ([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) Problem) | 물리적 현실(센서)의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 내부로 들어올 때 진실성을 보증하기 어려운 한계 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -126,7 +130,7 @@ IoT 센서 결합 (Cold Chain) · 스마트 컨트랙트를 통한 실시간 자
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 옛날에는 택배 상자에 "소중히 다뤄주세요"라고 써놔도 중간에 누가 발로 찼는지 알 방법이 없었어요.
-2. [[004_blockchain|블록체인]] SCM은 상자 안에 '절대 거짓말을 못 하는 마법 일기장'을 넣어두는 거예요. 온도나 충격이 있을 때마다 마법 일기장이 스스로 기록을 적어요.
+2. [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) SCM은 상자 안에 '절대 거짓말을 못 하는 마법 일기장'을 넣어두는 거예요. 온도나 충격이 있을 때마다 마법 일기장이 스스로 기록을 적어요.
 3. 이 일기장은 세상 그 누구도 지우개로 지울 수 없기 때문에, 우리는 마트에서 안심하고 가장 싱싱한 음식을 고를 수 있게 된답니다.
 
 ---
@@ -135,7 +139,7 @@ IoT 센서 결합 (Cold Chain) · 스마트 컨트랙트를 통한 실시간 자
 
 **진행 상황**: 106 / 482
 
-← **이전**: [[105_digital_supply_chain_scm_control_tower|105. 디지털 공급망 (Digital Supply Chain) 및 SCM 컨트롤 타워 - 글로벌 물류 가시성 확보]]
-**다음**: [[107_crm_customer_relationship_management|107. CRM (Customer Relationship Management, 고객 관계 관리) - 신규 고객 획득 및 기존 고객 유지/충성도]] →
+← **이전**: [105. 디지털 공급망 (Digital Supply Chain) 및 SCM 컨트롤 타워 - 글로벌 물류 가시성 확보](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/105_digital_supply_chain_scm_control_tower/)
+**다음**: [107. CRM (Customer Relationship Management, 고객 관계 관리) - 신규 고객 획득 및 기존 고객 유지/충성도](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) →
 
 ---

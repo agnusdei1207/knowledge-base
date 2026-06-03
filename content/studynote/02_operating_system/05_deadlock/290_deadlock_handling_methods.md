@@ -1,29 +1,33 @@
----
-title: 290. 교착 상태 처리 방법 3가지 (Deadlock Handling Methods)
-date: '2026-05-09'
-tags:
-- studynote-operating-system
----
++++
+title = "290. 교착 상태 처리 방법 3가지 (Deadlock Handling Methods)"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[281_deadlock_definition|교착 상태]]를 처리하는 방법론은 [[001_operating_system_purpose|운영체제]]가 멈춤 장애에 대항하는 큰 기조로, 사전에 싹수부터 막는 **예방(Prevention) / 회피(Avoidance)**, 사후에 수리하는 **탐지 및 [[658_ir_recovery|복구]]([[961_deepfake_detection|Detection]] & [[658_ir_recovery|Recovery]])**, 그리고 비용 문제로 방치하는 **무시(Ignorance, [[291_ostrich_algorithm|타조 알고리즘]])**의 3대 철학으로 나뉜다.
-> 2. **가치**: 이론적으론 예방이나 회피가 완벽해 보이지만 막대한 [[282_performance_tactics|성능]] 손실(오버헤드)을 초래하므로, 범용 [[001_operating_system_purpose|운영체제]](Windows, Linux)는 "에라 모르겠다 방치(무시)"를 채택해 책임을 넘기고, 오직 무결성이 절대적인 DBMS나 핵심 [[022_kernel_role|커널]] 내장재만 [[276_lock_hierarchy|락 순서화]](예방)나 [[573_timeout_retry_backoff_strategy|타임아웃]] [[098_rollback_strategy_pipeline_error_threshold|롤백]]([[658_ir_recovery|복구]])을 쓰는 극단적인 하이브리드 대책 지형을 완성한다.
-> 3. **융합**: 은행원 [[001_algorithm_definition|알고리즘]](회피), WFG [[070_graph_datastructure|그래프]] [[573_timeout_retry_backoff_strategy|타임아웃]](탐지), 선점 [[098_rollback_strategy_pipeline_error_threshold|롤백]], [[276_lock_hierarchy|Lock Hierarchy]](예방)와 같은 각각의 무기가 시스템 성향([[282_performance_tactics|성능]] 지향 vs 신뢰 지향)에 맞춰 모듈형 플러그인처럼 혼용된다.
+> 1. **본질**: [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)를 처리하는 방법론은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 멈춤 장애에 대항하는 큰 기조로, 사전에 싹수부터 막는 **예방(Prevention) / 회피(Avoidance)**, 사후에 수리하는 **탐지 및 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/) & [Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))**, 그리고 비용 문제로 방치하는 **무시(Ignorance, [타조 알고리즘](/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/))**의 3대 철학으로 나뉜다.
+> 2. **가치**: 이론적으론 예방이나 회피가 완벽해 보이지만 막대한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 손실(오버헤드)을 초래하므로, 범용 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(Windows, Linux)는 "에라 모르겠다 방치(무시)"를 채택해 책임을 넘기고, 오직 무결성이 절대적인 DBMS나 핵심 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내장재만 [락 순서화](/knowledge-base/studynote/02_operating_system/04_synchronization/276_lock_hierarchy/)(예방)나 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)([복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))을 쓰는 극단적인 하이브리드 대책 지형을 완성한다.
+> 3. **융합**: 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(회피), WFG [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)(탐지), 선점 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/), [Lock Hierarchy](/knowledge-base/studynote/02_operating_system/04_synchronization/276_lock_hierarchy/)(예방)와 같은 각각의 무기가 시스템 성향([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지향 vs 신뢰 지향)에 맞춰 모듈형 플러그인처럼 혼용된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-암([[281_deadlock_definition|교착 상태]])에 대처하는 현대 의학의 방식을 떠올려 보라. 
+암([교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))에 대처하는 현대 의학의 방식을 떠올려 보라. 
 ① 유전자 조작으로 아예 발병을 0% 원천 봉쇄할 것인가(예방).
 ② 종양 표지자 검사를 돌리며 발병 조짐 전 피해 갈 것인가(회피).
-③ 이미 발병했으면 발견 후 메스로 암세포를 도려낼 것인가(탐지/[[658_ir_recovery|복구]]).
-④ 아니면, 발병 [[130_probability|확률]]이 로또 [[130_probability|확률]]이니 아예 치료를 포기하고 즐겁게 스트레스 없이 살 것인가(무시).
+③ 이미 발병했으면 발견 후 메스로 암세포를 도려낼 것인가(탐지/[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)).
+④ 아니면, 발병 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 로또 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이니 아예 치료를 포기하고 즐겁게 스트레스 없이 살 것인가(무시).
 
-[[001_operating_system_purpose|운영체제]]의 자원 관리는 이 **4가지 철학 중 3개 대분류**에 걸쳐 정확히 똑같은 고민을 해왔다. "데드락 막으려다 컴퓨터가 10배 느려진다면, 그냥 재부팅하는 게 낫지 않은가?" 하는 실용주의적 타협이 처리 방법 패러다임의 가장 큰 주제어다.
+[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 자원 관리는 이 **4가지 철학 중 3개 대분류**에 걸쳐 정확히 똑같은 고민을 해왔다. "데드락 막으려다 컴퓨터가 10배 느려진다면, 그냥 재부팅하는 게 낫지 않은가?" 하는 실용주의적 타협이 처리 방법 패러다임의 가장 큰 주제어다.
 
-**💡 비유**: 길거리 교통정리. 사거리 교차로에 차단을 치고 신호등 없이 시계 방향 룰만 허용(예방)할 건지, 자율 주행으로 예측 경로를 짜서 진입(회피)할 건지, 엉키면 크레인으로 제일 앞에 나선 1대를 찍어버릴(선점 [[658_ir_recovery|복구]]) 건지의 선택 싸움.
+**💡 비유**: 길거리 교통정리. 사거리 교차로에 차단을 치고 신호등 없이 시계 방향 룰만 허용(예방)할 건지, 자율 주행으로 예측 경로를 짜서 진입(회피)할 건지, 엉키면 크레인으로 제일 앞에 나선 1대를 찍어버릴(선점 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)) 건지의 선택 싸움.
 
 ```text
 ┌─────────────────────────────────────────────────────────────────────┐
@@ -43,7 +47,7 @@ tags:
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
-**📢 섹션 요약 비유**: 처리 [[268_strategy_pattern|전략]] 삼대장은 — 나쁜 음식 절대 금지(사전 예방), 병 나면 수술(사후 탐지), 귀찮으니까 평생 라면 먹다 아프면 그냥 체념하기(무시 [[268_strategy_pattern|전략]]).
+**📢 섹션 요약 비유**: 처리 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 삼대장은 — 나쁜 음식 절대 금지(사전 예방), 병 나면 수술(사후 탐지), 귀찮으니까 평생 라면 먹다 아프면 그냥 체념하기(무시 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)).
 
 ---
 
@@ -51,22 +55,22 @@ tags:
 
 ### 1. 사전 원천 봉쇄 (예방 & 회피)
 
-- **예방 ([[292_deadlock_prevention|Deadlock Prevention]])**: [[281_deadlock_definition|교착 상태]]의 4조건([[283_mutual_exclusion|상호 배제]], [[231_hold_and_wait|점유 대기]], [[285_no_preemption|비선점]], [[286_circular_wait|순환 대기]]) 중 무조건 하나를 시스템 룰로 찢어버림. "[[286_circular_wait|순환 대기]]가 안 생기도록 무조건 등번호 오름차순으로 자원을 줘!" (자율성/융통성 최하락의 부작용).
-- **회피 ([[297_deadlock_avoidance|Deadlock Avoidance]])**: 은행원 [[001_algorithm_definition|알고리즘]]처럼 요청이 들어올 때마다 미래를 시뮬레이션함. "지금 주면 데드락 날까? 계산 결과([[093_safe_scaled_agile_framework_art_pi|Safe]] / Unsafe 판정) 안전하면 주고 아니면 반려!" (매번 계산해야 하니 오버헤드 작렬).
+- **예방 ([Deadlock Prevention](/knowledge-base/studynote/02_operating_system/05_deadlock/292_deadlock_prevention/))**: [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)의 4조건([상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/), [점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/), [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/), [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/)) 중 무조건 하나를 시스템 룰로 찢어버림. "[순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/)가 안 생기도록 무조건 등번호 오름차순으로 자원을 줘!" (자율성/융통성 최하락의 부작용).
+- **회피 ([Deadlock Avoidance](/knowledge-base/studynote/02_operating_system/05_deadlock/297_deadlock_avoidance/))**: 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)처럼 요청이 들어올 때마다 미래를 시뮬레이션함. "지금 주면 데드락 날까? 계산 결과([Safe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) / Unsafe 판정) 안전하면 주고 아니면 반려!" (매번 계산해야 하니 오버헤드 작렬).
 
-### 2. 사후 대책 (탐지 및 [[658_ir_recovery|복구]])
+### 2. 사후 대책 (탐지 및 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))
 
-- **탐지 ([[961_deepfake_detection|Detection]])**: 일단 다 퍼줌. 그러다 백그라운드 탐지 데몬이 가끔 [[041_resource_allocation|자원 할당]] [[070_graph_datastructure|그래프]]나 WFG를 스캔해서 꼬인 고리(사이클)를 찾아냄.
-- **[[658_ir_recovery|복구]] ([[658_ir_recovery|Recovery]])**: 원이 꼬인 걸 봤으니 끊어야 함. 
-  - *[[107_process_termination|프로세스 종료]]*: 꼬인 놈들 통째 다 죽이기 vs 고리 풀릴 때까지 한 놈씩 암살.
-  - *[[311_resource_preemption|자원 선점]] (Preemption)*: 희생양(Victim)을 골라 자원만 강제 회수 후 [[098_rollback_strategy_pipeline_error_threshold|롤백]]! ([[314_starvation_prevention|기아 상태]] 방지 처리 필요).
+- **탐지 ([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))**: 일단 다 퍼줌. 그러다 백그라운드 탐지 데몬이 가끔 [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)나 WFG를 스캔해서 꼬인 고리(사이클)를 찾아냄.
+- **[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) ([Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))**: 원이 꼬인 걸 봤으니 끊어야 함. 
+  - *[프로세스 종료](/knowledge-base/studynote/02_operating_system/02_process_thread/107_process_termination/)*: 꼬인 놈들 통째 다 죽이기 vs 고리 풀릴 때까지 한 놈씩 암살.
+  - *[자원 선점](/knowledge-base/studynote/02_operating_system/05_deadlock/311_resource_preemption/) (Preemption)*: 희생양(Victim)을 골라 자원만 강제 회수 후 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)! ([기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) 방지 처리 필요).
 
 ### 3. 알빠노 (무시)
 
-- **[[291_ostrich_algorithm|타조 알고리즘]] ([[291_ostrich_algorithm|Ostrich Algorithm]])**: 모래밭에 머리를 박고 "안 보여!" 하는 타조처럼 문제 회피. 
-- 교착상태 코드를 짜는 방어 비용이 교착으로 인해 잃는 1년에 1번 장애 비용보다 크다. Windows, Linux가 채택. 재부팅(Ctrl+[[762_accelerated_life_testing|Alt]]+Del)이 [[658_ir_recovery|복구]]책이다.
+- **[타조 알고리즘](/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/) ([Ostrich Algorithm](/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/))**: 모래밭에 머리를 박고 "안 보여!" 하는 타조처럼 문제 회피. 
+- 교착상태 코드를 짜는 방어 비용이 교착으로 인해 잃는 1년에 1번 장애 비용보다 크다. Windows, Linux가 채택. 재부팅(Ctrl+[Alt](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/762_accelerated_life_testing/)+Del)이 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)책이다.
 
-**📢 섹션 요약 비유**: 은행 창구 대출과 같아요. 연체 [[130_probability|확률]] 단 1%도 못 믿어 대출 금지(예방/회피). 일단 대출 해주고 안 갚으면 추심팀 투입(탐지/[[658_ir_recovery|복구]]). 그냥 다 퍼주는 무이자 햇살론(무시).
+**📢 섹션 요약 비유**: 은행 창구 대출과 같아요. 연체 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 단 1%도 못 믿어 대출 금지(예방/회피). 일단 대출 해주고 안 갚으면 추심팀 투입(탐지/[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)). 그냥 다 퍼주는 무이자 햇살론(무시).
 
 ---
 
@@ -74,25 +78,25 @@ tags:
 
 | 기법 종류 | 운영 철학 | 오버헤드의 주체 | 주 적용처의 융합 |
 |:---|:---|:---|:---|
-| 예방 (Prevention) | 구조적 불가능 강제 | 낮은 하드웨어/자원 활용률 | [[022_kernel_role|커널]] 내부 핵심 자료구조 락 ([[276_lock_hierarchy|Lock Hierarchy]]) |
+| 예방 (Prevention) | 구조적 불가능 강제 | 낮은 하드웨어/자원 활용률 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부 핵심 자료구조 락 ([Lock Hierarchy](/knowledge-base/studynote/02_operating_system/04_synchronization/276_lock_hierarchy/)) |
 | 회피 (Avoidance) | 심리전 (안전한 길만) | 매 요청 시 CPU 선행 시뮬레이션 비용 | 역사책 / 실무 사용 불가 (미래 요청 사전 숙지 불가) |
-| 탐지/[[658_ir_recovery|복구]] (D&R) | 수술 (터지면 자름) | [[034_dfs|DFS]] 사이클 탐색 루팅 비용 & [[098_rollback_strategy_pipeline_error_threshold|롤백]] 코스트 | [[188_pl_sql_t_sql_procedural|Oracle]] 등 상용 RDBMS 엔진의 [[014_concurrency|동시성]] 심장부 |
+| 탐지/[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) (D&R) | 수술 (터지면 자름) | [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 사이클 탐색 루팅 비용 & [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 코스트 | [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) 등 상용 RDBMS 엔진의 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 심장부 |
 | 무시 (Ignorance) | 효율 제1주의 모래성 | 없음. 유저 멘탈 비용(화이트 아웃) | 유닉스, Windows, 현대 웹 프론트엔드 환경 |
 
-**📢 섹션 요약 비유**: 이 4가지 [[268_strategy_pattern|전략]]은 비용 가성비 싸움입니다. 컴퓨터가 1초 멈추면 수백억이 날아가는 나사 우주선은 탐지/회피를 쓰겠지만, 당신의 엑셀은 멈추면 그냥 빡치면서 다시 켜면 그만이니까 무시를 씁니다.
+**📢 섹션 요약 비유**: 이 4가지 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 비용 가성비 싸움입니다. 컴퓨터가 1초 멈추면 수백억이 날아가는 나사 우주선은 탐지/회피를 쓰겠지만, 당신의 엑셀은 멈추면 그냥 빡치면서 다시 켜면 그만이니까 무시를 씁니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 시나리오**:
-1. **[[573_timeout_retry_backoff_strategy|타임아웃]]([[319_timeout_prevention|Timeout]])을 통한 셀프 탐지/[[658_ir_recovery|복구]] ([[542_redis|Redis]] 락/[[619_msa_traffic_hardware|MSA]])**: [[001_dikw_pyramid|데이터]] [[136_variance|분산]] 환경에서 완벽한 데드락 탐지는 불가능하다. 그래서 "내가 락 3초 시도해보고 안 주면 내부 데드락으로 간주할게! 에러 뱉고 [[098_rollback_strategy_pipeline_error_threshold|롤백]]한다!" 식의 이완된 [[658_ir_recovery|복구]](Soft [[658_ir_recovery|Recovery]])가 현대 백엔드 [[297_snowflake_schema|레디스]](Redisson 팜)나 JPA [[136_variance|분산]] 락의 압도적 핵심 [[268_strategy_pattern|전략]]이다. 
-2. **리눅스 [[157_oom_killer|OOM]] 킬러 ([[157_oom_killer|Out of Memory]] Killer)**: 메모리 할당([[231_hold_and_wait|점유 대기]])으로 인해 스왑마저 퍼진 교착 수준 마비 시, [[022_kernel_role|커널]]은 가장 뚱뚱하고 덜 중요한 프로세스에게 SIGKILL 암살 명령을 내린다(선점형 [[658_ir_recovery|복구]]).
+1. **[타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/))을 통한 셀프 탐지/[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) ([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 락/[MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 완벽한 데드락 탐지는 불가능하다. 그래서 "내가 락 3초 시도해보고 안 주면 내부 데드락으로 간주할게! 에러 뱉고 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)한다!" 식의 이완된 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(Soft [Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))가 현대 백엔드 [레디스](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/297_snowflake_schema/)(Redisson 팜)나 JPA [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락의 압도적 핵심 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다. 
+2. **리눅스 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러 ([Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer)**: 메모리 할당([점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/))으로 인해 스왑마저 퍼진 교착 수준 마비 시, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 가장 뚱뚱하고 덜 중요한 프로세스에게 SIGKILL 암살 명령을 내린다(선점형 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)).
 
-**[[128_water_scrum_fall_anti_pattern|안티패턴]]**:
-- **자율 주행차량에 '무시 [[268_strategy_pattern|전략]]' 도입 방치**: 임베디드 실시간 OS (RTOS) 등 목숨과 무결성이 달린 기계 제어계에 Linux를 그대로 올리면서 유저 락(user [[510_lock|lock]]) 계층의 데드락 예방 순서를 안 짜놓음. 꼬이면 재부팅해야 하는데 차가 달리다 재부팅되면 대형 사고다. (환경에 맞는 [[268_strategy_pattern|전략]] 부재 혼란).
+**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**:
+- **자율 주행차량에 '무시 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)' 도입 방치**: 임베디드 실시간 OS (RTOS) 등 목숨과 무결성이 달린 기계 제어계에 Linux를 그대로 올리면서 유저 락(user [lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 계층의 데드락 예방 순서를 안 짜놓음. 꼬이면 재부팅해야 하는데 차가 달리다 재부팅되면 대형 사고다. (환경에 맞는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 부재 혼란).
 
-**📢 섹션 요약 비유**: [[573_timeout_retry_backoff_strategy|타임아웃]] 꼼수는 미팅 나갈 때의 룰—"약속 장소에서 10분 기다려서 애인 안 나오면 나 혼자 밥 먹고 돌아간다." 무한정 대기하다 서로 엇갈리는 영구 교착을 가장 쉽고 싸게 깨버리는 천재적 [[658_ir_recovery|복구]]책입니다.
+**📢 섹션 요약 비유**: [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 꼼수는 미팅 나갈 때의 룰—"약속 장소에서 10분 기다려서 애인 안 나오면 나 혼자 밥 먹고 돌아간다." 무한정 대기하다 서로 엇갈리는 영구 교착을 가장 쉽고 싸게 깨버리는 천재적 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)책입니다.
 
 ---
 
@@ -101,10 +105,10 @@ tags:
 | 기준 | 타조(무시) OS 기반의 세상 | 예방/탐지 강제 OS 구축 시 |
 |:---|:---|:---|
 | 시스템 구동 속도 | 미친듯한 속도 보장 (오버헤드 제로) | 보안 검사하느라 숨 넘어가게 느림 |
-| 어플리케이션 개발자 | 알아서 [[317_lockdep_lock_ordering|Lock Ordering]], [[319_timeout_prevention|Timeout]] 방어로 내 몸 [[571_protection_vs_security|보호]] | 대충 짜도 OS가 에러 잡아줌 (과거의 낭만) |
+| 어플리케이션 개발자 | 알아서 [Lock Ordering](/knowledge-base/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/), [Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/) 방어로 내 몸 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | 대충 짜도 OS가 에러 잡아줌 (과거의 낭만) |
 | 현재 시장의 최종 승자 | **Linux / Windows (무시 주의의 압승)** | 사멸 |
 
-1970년대 학계는 데드락 회피 뱅커스 [[001_algorithm_definition|알고리즘]]에 찬사를 보냈으나, 실용 공학(엔지니어링)은 가차 없이 **"알빠노(Ostrich Ignore)"**를 최후의 승자로 선택했다. 비싼 회피 검사를 매 초 돌리느니, 그 CPU 파워로 게임이나 웹서버를 한 번 더 돌리고 가끔 터지는 모순은 개발자가 [[191_transaction_concept_states|트랜잭션]] [[573_timeout_retry_backoff_strategy|타임아웃]]으로 틀어막는 게 경제학적으로 백 배 이득이기 때문이다.
+1970년대 학계는 데드락 회피 뱅커스 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에 찬사를 보냈으나, 실용 공학(엔지니어링)은 가차 없이 **"알빠노(Ostrich Ignore)"**를 최후의 승자로 선택했다. 비싼 회피 검사를 매 초 돌리느니, 그 CPU 파워로 게임이나 웹서버를 한 번 더 돌리고 가끔 터지는 모순은 개발자가 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)으로 틀어막는 게 경제학적으로 백 배 이득이기 때문이다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -116,8 +120,8 @@ tags:
 |:---|:---|
 | 단일 인스턴스 자원 환경 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
 | 다중 인스턴스 자원 환경 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [[291_ostrich_algorithm|타조 알고리즘]] ([[291_ostrich_algorithm|Ostrich Algorithm]]) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [[292_deadlock_prevention|교착 상태 예방]] ([[292_deadlock_prevention|Deadlock Prevention]]) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [타조 알고리즘](/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/) ([Ostrich Algorithm](/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [교착 상태 예방](/knowledge-base/studynote/02_operating_system/05_deadlock/292_deadlock_prevention/) ([Deadlock Prevention](/knowledge-base/studynote/02_operating_system/05_deadlock/292_deadlock_prevention/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -137,7 +141,7 @@ tags:
 
 1. 컴퓨터가 서로 자원을 뺏다가 얼어버리는 사고(데드락)가 났을 때 해결하는 3가지 태도가 있어요.
 2. 예방/회피는 아예 사고가 날 만한 복잡한 골목은 진입도 못 하게 입구를 막아버리는 '지독한 잔소리꾼' 통제 방식이에요.
-3. 탐지/[[658_ir_recovery|복구]]는 꼬이면 크레인을 불러 한 대를 부숴버려서라도 길을 뚫어주는 방식이고, **무시(타조)**는 꼬이면 그냥 동네 전기를 끊어 재부팅해버리는 가장 속 편한 방식이랍니다!
+3. 탐지/[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)는 꼬이면 크레인을 불러 한 대를 부숴버려서라도 길을 뚫어주는 방식이고, **무시(타조)**는 꼬이면 그냥 동네 전기를 끊어 재부팅해버리는 가장 속 편한 방식이랍니다!
 
 ---
 
@@ -145,7 +149,7 @@ tags:
 
 **진행 상황**: 290 / 800
 
-← **이전**: [[289_multiple_instance_resource|289. 다중 인스턴스 자원 환경 (Multiple Instance Resource)]]
-**다음**: [[291_ostrich_algorithm|291. 타조 알고리즘 (Ostrich Algorithm) - 대부분의 OS가 채택하는 무시 전략]] →
+← **이전**: [289. 다중 인스턴스 자원 환경 (Multiple Instance Resource)](/knowledge-base/studynote/02_operating_system/05_deadlock/289_multiple_instance_resource/)
+**다음**: [291. 타조 알고리즘 (Ostrich Algorithm) - 대부분의 OS가 채택하는 무시 전략](/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/) →
 
 ---

@@ -1,23 +1,26 @@
----
-title: 173. 이해관계자 (Stakeholder) 식별 및 영향도 매트릭스
-date: '2026-04-03'
-description: 프로젝트에 영향을 주거나 영향을 받는 이해관계자를 식별하고, 영향력과 관심도를 기준으로 우선순위와 참여 전략을 설계하는 방법을
-  정리한다.
-tags:
-- software_engineering
----
++++
+title = "173. 이해관계자 (Stakeholder) 식별 및 영향도 매트릭스"
+description = "프로젝트에 영향을 주거나 영향을 받는 이해관계자를 식별하고, 영향력과 관심도를 기준으로 우선순위와 참여 전략을 설계하는 방법을 정리한다."
+date = 2026-04-03
+
+[taxonomies]
+tags = ["software_engineering"]
+
+[extra]
+tags = ["software_engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 이해관계자 (Stakeholder) [[655_ir_detection_analysis|식별]] 및 영향도 매트릭스는 프로젝트에 영향을 주거나 영향을 받는 사람·부서·외부 기관을 찾아, 영향력과 관심도 기준으로 우선순위를 나누는 관리 도구다.
-> 2. **가치**: 누가 요구를 말했는지가 요구 내용만큼 중요하다는 사실을 구조화해, 승인 [[015_지연_데이터_관점|지연]]·숨은 반대자·막판 변경 요청으로 인한 재작업과 갈등을 줄인다.
+> 1. **본질**: 이해관계자 (Stakeholder) [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 및 영향도 매트릭스는 프로젝트에 영향을 주거나 영향을 받는 사람·부서·외부 기관을 찾아, 영향력과 관심도 기준으로 우선순위를 나누는 관리 도구다.
+> 2. **가치**: 누가 요구를 말했는지가 요구 내용만큼 중요하다는 사실을 구조화해, 승인 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)·숨은 반대자·막판 변경 요청으로 인한 재작업과 갈등을 줄인다.
 > 3. **판단 포인트**: 매트릭스는 한 번 만들고 끝나는 명단이 아니라 권한 구조와 프로젝트 단계가 바뀔 때마다 갱신해야 하는 living artifact이며, 숨겨진 부정적 이해관계자까지 포함해야 실효성이 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-이해관계자는 프로젝트 결과에 영향을 주거나, 반대로 프로젝트 결과로 영향을 받는 개인과 조직이다. 여기에는 스폰서, 현업 사용자, 운영팀, 보안팀, 법무팀, 규제 기관, 외주사, 심지어 변화로 손해를 볼 수 있는 반대 집단까지 포함된다. 이해관계자 [[655_ir_detection_analysis|식별]]은 "누구의 요구를 들을 것인가"를 정하는 작업이 아니라, "누가 프로젝트의 방향·예산·승인·수용성에 실제 영향을 미치는가"를 드러내는 작업이다.
+이해관계자는 프로젝트 결과에 영향을 주거나, 반대로 프로젝트 결과로 영향을 받는 개인과 조직이다. 여기에는 스폰서, 현업 사용자, 운영팀, 보안팀, 법무팀, 규제 기관, 외주사, 심지어 변화로 손해를 볼 수 있는 반대 집단까지 포함된다. 이해관계자 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)은 "누구의 요구를 들을 것인가"를 정하는 작업이 아니라, "누가 프로젝트의 방향·예산·승인·수용성에 실제 영향을 미치는가"를 드러내는 작업이다.
 
 이 활동이 중요한 이유는 소프트웨어 프로젝트 실패가 기술 부족보다 정렬 실패에서 더 자주 나오기 때문이다. 요구사항이 충분해 보여도 운영팀이 배포 가능성을 승인하지 않거나, 보안팀이 규정 위반을 이유로 막거나, 현업 부서가 사용 거부를 선언하면 시스템은 완성돼도 성공하지 못한다. 따라서 아키텍처와 요구사항 정의 전에 이해관계자 지형부터 읽어야 한다.
 
@@ -36,15 +39,15 @@ tags:
 └────────────────────────────────────────────────────────────────────┘
 ```
 
-이 그림의 핵심은 이해관계자 누락이 단순 커뮤니케이션 문제가 아니라는 점이다. 누락된 한 명의 승인권자나 영향 집단은 설계 변경, 일정 [[015_지연_데이터_관점|지연]], 범위 재정의, 릴리스 중단으로 곧바로 이어질 수 있다. 그래서 이해관계자 분석은 부드러운 사람 관리가 아니라, 사실상 프로젝트 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 관리의 전초전이다.
+이 그림의 핵심은 이해관계자 누락이 단순 커뮤니케이션 문제가 아니라는 점이다. 누락된 한 명의 승인권자나 영향 집단은 설계 변경, 일정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 범위 재정의, 릴리스 중단으로 곧바로 이어질 수 있다. 그래서 이해관계자 분석은 부드러운 사람 관리가 아니라, 사실상 프로젝트 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리의 전초전이다.
 
-- **📢 섹션 요약 비유**: 이해관계자 [[655_ir_detection_analysis|식별]]은 연극 무대에 올리기 전에 누가 조명 [[238_switch_operation_principles|스위치]], 예산 지갑, 공연장 열쇠를 쥐고 있는지 먼저 확인하는 일과 같다.
+- **📢 섹션 요약 비유**: 이해관계자 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)은 연극 무대에 올리기 전에 누가 조명 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), 예산 지갑, 공연장 열쇠를 쥐고 있는지 먼저 확인하는 일과 같다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-이해관계자 분석의 핵심 절차는 보통 다섯 단계로 정리된다. 첫째, [[232_project_charter_sponsor|프로젝트 헌장]]·조직도·계약·규제 문서를 기준으로 이해관계자 후보를 넓게 [[655_ir_detection_analysis|식별]]한다. 둘째, 각 주체의 영향력, 관심도, 기대, 태도, 승인 권한을 평가한다. 셋째, 이를 영향도 매트릭스에 배치한다. 넷째, 사분면별 참여 [[268_strategy_pattern|전략]]과 커뮤니케이션 빈도를 정한다. 다섯째, 단계 전환이나 조직 변화가 있을 때 매트릭스를 다시 갱신한다.
+이해관계자 분석의 핵심 절차는 보통 다섯 단계로 정리된다. 첫째, [프로젝트 헌장](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/232_project_charter_sponsor/)·조직도·계약·규제 문서를 기준으로 이해관계자 후보를 넓게 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)한다. 둘째, 각 주체의 영향력, 관심도, 기대, 태도, 승인 권한을 평가한다. 셋째, 이를 영향도 매트릭스에 배치한다. 넷째, 사분면별 참여 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 커뮤니케이션 빈도를 정한다. 다섯째, 단계 전환이나 조직 변화가 있을 때 매트릭스를 다시 갱신한다.
 
 아래는 가장 널리 쓰이는 영향력-관심도 매트릭스의 기본 구조다.
 
@@ -63,9 +66,9 @@ tags:
 | 구역 | 특징 | 대표 예시 | 기본 대응 |
 | :--- | :--- | :--- | :--- |
 | Manage Closely | 영향력 높고 관심도 높음 | 스폰서, 현업 책임자 | 정기 의사결정 회의, 조기 합의, 변경 즉시 공유 |
-| Keep Satisfied | 영향력 높고 관심도 낮음 | 임원, [[606_auditing_linux_auditd|감사]], 법무 | 핵심 이슈만 [[347_compaction|압축]] 보고, 승인 게이트 관리 |
+| Keep Satisfied | 영향력 높고 관심도 낮음 | 임원, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/), 법무 | 핵심 이슈만 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 보고, 승인 게이트 관리 |
 | Keep Informed | 영향력 낮고 관심도 높음 | 실사용자, 지원부서 | 데모, FAQ, 피드백 채널 운영 |
-| [[229_monitor|Monitor]] | 영향력 낮고 관심도 낮음 | 주변 부서, 일반 [[316_reference_pattern_nosql|참조]]자 | 필요 시 공지, 상태 모니터링 |
+| [Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) | 영향력 낮고 관심도 낮음 | 주변 부서, 일반 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)자 | 필요 시 공지, 상태 모니터링 |
 
 여기서 중요한 것은 축 이름보다 의사결정 의미다. 영향력은 예산, 승인, 우선순위, 배포 여부를 바꿀 수 있는 힘을 뜻하고, 관심도는 프로젝트 결과에 얼마나 민감하게 반응하는지를 뜻한다. 실제 현장에서는 관심도 대신 영향도나 변화 체감도를 넣어도 되지만, 목적은 같다. **누구를 얼마나 자주, 어떤 방식으로 관리해야 하는지**를 구체적 행동 계획으로 바꾸는 것이다.
 
@@ -75,18 +78,18 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-이해관계자 영향도 매트릭스는 강력하지만, 모든 사람 관리 도구를 대체하지는 않는다. 이 매트릭스는 우선순위와 커뮤니케이션 강도를 정하는 데 강하고, 역할 책임 분담이나 승인 흐름 정의에는 다른 도구가 더 적합하다. 따라서 소프트웨어 공학에서는 이해관계자 매트릭스를 RACI (Responsible, Accountable, Consulted, Informed), [[158_requirements_management_change_control|요구사항 관리]], 변경 통제와 함께 연결해 써야 한다.
+이해관계자 영향도 매트릭스는 강력하지만, 모든 사람 관리 도구를 대체하지는 않는다. 이 매트릭스는 우선순위와 커뮤니케이션 강도를 정하는 데 강하고, 역할 책임 분담이나 승인 흐름 정의에는 다른 도구가 더 적합하다. 따라서 소프트웨어 공학에서는 이해관계자 매트릭스를 RACI (Responsible, Accountable, Consulted, Informed), [요구사항 관리](/knowledge-base/studynote/04_software_engineering/03_design_architecture/158_requirements_management_change_control/), 변경 통제와 함께 연결해 써야 한다.
 
 | 도구 | 핵심 질문 | 강점 | 한계 |
 | :--- | :--- | :--- | :--- |
-| 이해관계자 영향도 매트릭스 | 누구를 얼마나 집중 관리할 것인가? | 우선순위·커뮤니케이션 [[268_strategy_pattern|전략]] 수립 | 역할 책임 자체는 명확히 못 함 |
+| 이해관계자 영향도 매트릭스 | 누구를 얼마나 집중 관리할 것인가? | 우선순위·커뮤니케이션 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수립 | 역할 책임 자체는 명확히 못 함 |
 | RACI | 누가 수행·승인·자문·통보 대상인가? | 역할 경계 명확화 | 영향력·태도 변화 반영 약함 |
 | Salience Model | 권력·정당성·긴급성이 얼마나 큰가? | 복합 정치 상황 해석에 유리 | 단순 매트릭스보다 운영 복잡 |
-| [[160_change_control_board_ccb_requirements_review|CCB]] (Change Control Board) | 변경 요청을 누가 통제할 것인가? | 범위 통제와 승인 경로 명확화 | 이해관계자 전체 지도는 아님 |
+| [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) (Change Control Board) | 변경 요청을 누가 통제할 것인가? | 범위 통제와 승인 경로 명확화 | 이해관계자 전체 지도는 아님 |
 
-이 매트릭스는 요구사항 우선순위와도 직접 연결된다. 같은 요청이라도 영향력 높은 핵심 이해관계자의 승인사항인지, 관심도만 높은 다수 사용자의 선호인지에 따라 처리 방식이 달라진다. 또한 [[096_risk_non_risk_architecture_evaluation_flaws|risk]] register와 연결하면 "숨겨진 반대 집단", "배포 승인 [[015_지연_데이터_관점|지연]]", "조직개편으로 권한 이동" 같은 인간 중심 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]를 조기에 드러낼 수 있다.
+이 매트릭스는 요구사항 우선순위와도 직접 연결된다. 같은 요청이라도 영향력 높은 핵심 이해관계자의 승인사항인지, 관심도만 높은 다수 사용자의 선호인지에 따라 처리 방식이 달라진다. 또한 [risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) register와 연결하면 "숨겨진 반대 집단", "배포 승인 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)", "조직개편으로 권한 이동" 같은 인간 중심 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 조기에 드러낼 수 있다.
 
-[[004_agile_relation|애자일]] 환경에서는 이 매트릭스가 더 자주 갱신되어야 한다. [[067_sprint_timebox|스프린트]] 리뷰를 거치며 특정 부서의 관심이 급증하거나, 규제 이슈가 생겨 법무·보안 조직의 영향력이 커질 수 있기 때문이다. 따라서 정적 문서로 두면 오래된 권력 지도를 믿고 잘못된 의사결정을 하게 된다.
+[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 환경에서는 이 매트릭스가 더 자주 갱신되어야 한다. [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 리뷰를 거치며 특정 부서의 관심이 급증하거나, 규제 이슈가 생겨 법무·보안 조직의 영향력이 커질 수 있기 때문이다. 따라서 정적 문서로 두면 오래된 권력 지도를 믿고 잘못된 의사결정을 하게 된다.
 
 - **📢 섹션 요약 비유**: 이해관계자 매트릭스가 지형도라면, RACI는 누가 어떤 장비를 들고 움직일지 적은 작전표라서 둘을 같이 봐야 길도 알고 역할도 안 헷갈린다.
 
@@ -94,7 +97,7 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 이해관계자 목록을 예쁘게 정리하는 것보다, 그 목록을 행동 계획으로 바꾸는 것이 더 중요하다. 예를 들어 개인정보를 다루는 고객 포털 구축 프로젝트라면 스폰서는 Manage Closely, 보안팀과 법무팀은 Keep Satisfied, 실제 상담원과 고객센터는 Keep Informed, 주변 [[316_reference_pattern_nosql|참조]] 부서는 [[229_monitor|Monitor]] 대상이 될 수 있다. 이때 핵심은 "누구에게 무엇을 언제 보여 줄 것인가"를 릴리스 계획과 연결하는 것이다.
+실무에서는 이해관계자 목록을 예쁘게 정리하는 것보다, 그 목록을 행동 계획으로 바꾸는 것이 더 중요하다. 예를 들어 개인정보를 다루는 고객 포털 구축 프로젝트라면 스폰서는 Manage Closely, 보안팀과 법무팀은 Keep Satisfied, 실제 상담원과 고객센터는 Keep Informed, 주변 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 부서는 [Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 대상이 될 수 있다. 이때 핵심은 "누구에게 무엇을 언제 보여 줄 것인가"를 릴리스 계획과 연결하는 것이다.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────┐
@@ -110,20 +113,20 @@ tags:
 
 ### 실무 판단 기준
 
-1. **숨은 이해관계자 탐색**: 조직도에 없는 운영 외주사, 규제 기관, [[606_auditing_linux_auditd|감사]] 조직, 노조·협력사까지 포함했는가?
+1. **숨은 이해관계자 탐색**: 조직도에 없는 운영 외주사, 규제 기관, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 조직, 노조·협력사까지 포함했는가?
 2. **단계별 갱신**: 착수, 상세 설계, 테스트, 릴리스 직전에 영향력 변화가 없는가?
 3. **행동 계획 연결**: 각 사분면별로 회의 주기, 보고 형식, 승인 시점, 교육 방식이 정해져 있는가?
 4. **부정적 이해관계자 관리**: 변화로 손해를 보는 집단에 대한 완충책과 커뮤니케이션이 있는가?
-5. **변경 통제 연계**: 핵심 이해관계자의 요구라도 [[160_change_control_board_ccb_requirements_review|CCB]] 절차 없이 범위에 바로 반영하지 않도록 통제하고 있는가?
+5. **변경 통제 연계**: 핵심 이해관계자의 요구라도 [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) 절차 없이 범위에 바로 반영하지 않도록 통제하고 있는가?
 
-### 자주 나오는 [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### 자주 나오는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 이해관계자 [[655_ir_detection_analysis|식별]]을 킥오프 회의 참석자 명단 정도로 축소하는 것
+- 이해관계자 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)을 킥오프 회의 참석자 명단 정도로 축소하는 것
 - 영향력 낮은 사용자의 의견을 전부 무시해 실제 수용성 문제를 만드는 것
 - 고위 임원에게 세부 진행을 과다 보고해 불필요한 간섭을 유발하는 것
 - 매트릭스를 한 번 만든 뒤 조직개편, 담당자 교체, 규제 변화가 생겨도 갱신하지 않는 것
 
-기술사 답안에서는 "권력-관심도 매트릭스 사용"이라고만 쓰지 말고, **[[655_ir_detection_analysis|식별]] → 평가 → [[104_classification_analysis|분류]] → 참여 [[268_strategy_pattern|전략]] → 재평가**의 흐름과 숨은 이해관계자·부정적 이해관계자 처리까지 설명해야 실무성이 살아난다.
+기술사 답안에서는 "권력-관심도 매트릭스 사용"이라고만 쓰지 말고, **[식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) → 평가 → [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) → 참여 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) → 재평가**의 흐름과 숨은 이해관계자·부정적 이해관계자 처리까지 설명해야 실무성이 살아난다.
 
 - **📢 섹션 요약 비유**: 이해관계자 관리는 동네 축제를 준비할 때 후원자, 주민대표, 안전요원, 소음에 민감한 이웃을 각자 다른 방식으로 설득해야 행사가 무사히 열리는 것과 같다.
 
@@ -135,7 +138,7 @@ tags:
 
 물론 한계도 있다. 사람의 태도와 권한은 고정되지 않고, 정치적 영향력은 문서보다 빠르게 움직인다. 따라서 매트릭스는 현실을 완벽히 복제하는 지도가 아니라, 의사결정을 돕는 모델로 써야 한다. 숫자화된 점수만 믿기보다 인터뷰, 회의 관찰, 조직 변화 정보를 함께 반영해야 한다.
 
-결론적으로 이해관계자 [[655_ir_detection_analysis|식별]] 및 영향도 매트릭스는 사람 관리 문서가 아니라 **프로젝트 성공 조건을 보이지 않는 곳에서 정렬하는 구조도**다. 좋은 시스템은 좋은 코드만으로 완성되지 않고, 누가 그것을 승인하고 받아들이며 운영할지까지 함께 설계할 때 비로소 완성된다.
+결론적으로 이해관계자 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 및 영향도 매트릭스는 사람 관리 문서가 아니라 **프로젝트 성공 조건을 보이지 않는 곳에서 정렬하는 구조도**다. 좋은 시스템은 좋은 코드만으로 완성되지 않고, 누가 그것을 승인하고 받아들이며 운영할지까지 함께 설계할 때 비로소 완성된다.
 
 - **📢 섹션 요약 비유**: 이해관계자 매트릭스는 배를 띄우기 전에 바람 방향, 항구 관리자, 승객, 정비팀의 위치를 함께 확인하는 항해도와 같아서, 배 자체만 튼튼하다고 항해가 성공하는 것은 아니다.
 
@@ -145,12 +148,12 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| Stakeholder [[175_register_addressing|Register]] | [[655_ir_detection_analysis|식별]]된 이해관계자 목록과 특성을 기록하는 기본 문서다. |
-| Power-Interest Grid | 영향력과 관심도를 기준으로 참여 [[268_strategy_pattern|전략]]을 나누는 대표 매트릭스다. |
+| Stakeholder [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/) | [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)된 이해관계자 목록과 특성을 기록하는 기본 문서다. |
+| Power-Interest Grid | 영향력과 관심도를 기준으로 참여 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 나누는 대표 매트릭스다. |
 | RACI | 이해관계자 우선순위와 별도로 역할 책임을 명확히 한다. |
-| [[160_change_control_board_ccb_requirements_review|CCB]] (Change Control Board) | 핵심 이해관계자 요구를 정식 변경 절차에 연결한다. |
-| Requirements [[372_management|Management]] | 어떤 요구를 우선 반영할지 판단하는 근거가 된다. |
-| [[096_risk_non_risk_architecture_evaluation_flaws|Risk]] [[175_register_addressing|Register]] | 숨은 반대자, 승인 [[015_지연_데이터_관점|지연]], 조직 저항을 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]로 구조화한다. |
+| [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) (Change Control Board) | 핵심 이해관계자 요구를 정식 변경 절차에 연결한다. |
+| Requirements [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) | 어떤 요구를 우선 반영할지 판단하는 근거가 된다. |
+| [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/) | 숨은 반대자, 승인 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 조직 저항을 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)로 구조화한다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -169,7 +172,7 @@ impact matrix
 review and update by phase
 ```
 
-이 흐름도는 이해관계자 매트릭스가 명단 정리로 끝나는 문서가 아니라, 참여 [[268_strategy_pattern|전략]]과 승인 계획을 거쳐 주기적으로 갱신되는 관리 도구임을 보여준다.
+이 흐름도는 이해관계자 매트릭스가 명단 정리로 끝나는 문서가 아니라, 참여 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 승인 계획을 거쳐 주기적으로 갱신되는 관리 도구임을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -183,7 +186,7 @@ review and update by phase
 
 **진행 상황**: 173 / 973
 
-← **이전**: [[172_business_case_roi_analysis|172. 비즈니스 케이스 (Business Case) 및 ROI 분석]]
-**다음**: [[174_pairwise_comparison_priority_matrix|174. 페어와이즈 (Pairwise) 우선순위 결정 기법]] →
+← **이전**: [172. 비즈니스 케이스 (Business Case) 및 ROI 분석](/knowledge-base/studynote/04_software_engineering/03_design_architecture/172_business_case_roi_analysis/)
+**다음**: [174. 페어와이즈 (Pairwise) 우선순위 결정 기법](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) →
 
 ---

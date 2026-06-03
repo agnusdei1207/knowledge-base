@@ -1,23 +1,27 @@
----
-title: 779. 전자기 분석 공격 - EMA
-date: '2026-05-08'
-tags:
-- studynote-computer-architecture
----
++++
+title = "779. 전자기 분석 공격 - EMA"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: EMA (Electromagnetic Analysis)는 칩 내부 스위칭 [[002_current|전류]]가 만드는 근접 전자기장을 프로브로 수집해, 전원선에 직접 닿지 않고도 내부 연산의 누설을 읽는 비접촉 부채널 공격이다.
-> 2. **가치**: 전력 분석보다 공간 해상도가 높아 특정 [[656_aes_advanced_encryption_standard_rijndael|AES]] ([[656_aes_advanced_encryption_standard_rijndael|Advanced Encryption Standard]]) 코어, [[344_bus|버스]], [[057_register|레지스터]] 주변 hotspot만 골라 측정할 수 있어, 전원 필터링으로 숨긴 [[130_signal|신호]]도 다시 드러낼 수 있다.
+> 1. **본질**: EMA (Electromagnetic Analysis)는 칩 내부 스위칭 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 만드는 근접 전자기장을 프로브로 수집해, 전원선에 직접 닿지 않고도 내부 연산의 누설을 읽는 비접촉 부채널 공격이다.
+> 2. **가치**: 전력 분석보다 공간 해상도가 높아 특정 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) ([Advanced Encryption Standard](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)) 코어, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/), [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 주변 hotspot만 골라 측정할 수 있어, 전원 필터링으로 숨긴 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)도 다시 드러낼 수 있다.
 > 3. **판단 포인트**: 방어는 쉴딩만으로 끝나지 않고 코어 배치, 균형 배선, 마스킹, 노이즈 주입, 패키지·보드 레이아웃까지 함께 설계해야 효과가 난다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-EMA는 회로 내부 [[002_current|전류]] 변화가 만드는 미세한 전자기장을 근접 프로브로 포착해, 장치가 어떤 연산을 수행하는지 추론하는 공격이다. DPA ([[778_dpa_resistant_logic|Differential Power Analysis]])가 전원선 전체를 흐르는 [[002_current|전류]]의 합을 본다면, EMA는 칩 표면이나 패키지 근처에서 새어 나오는 국소적 장(field)을 본다. 그래서 전원선에 저항을 삽입하지 않아도 되고, 공격자가 칩에 직접 전기적으로 접촉하지 않아도 된다.
+EMA는 회로 내부 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 변화가 만드는 미세한 전자기장을 근접 프로브로 포착해, 장치가 어떤 연산을 수행하는지 추론하는 공격이다. DPA ([Differential Power Analysis](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/778_dpa_resistant_logic/))가 전원선 전체를 흐르는 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)의 합을 본다면, EMA는 칩 표면이나 패키지 근처에서 새어 나오는 국소적 장(field)을 본다. 그래서 전원선에 저항을 삽입하지 않아도 되고, 공격자가 칩에 직접 전기적으로 접촉하지 않아도 된다.
 
-EMA가 중요한 이유는 전력선 필터링이 강한 장치에서도 여전히 강력할 수 있기 때문이다. 디커플링 커패시터와 전원 평탄화 회로는 전체 [[002_current|전류]] 변동을 줄여도, 개별 연산 블록 주변의 근접 전자기 누설까지 완전히 없애지는 못한다. 또한 [[171_antenna_basic_dipole_resonance|안테나]] 위치를 옮기며 측정하면 특정 보안 코어 위쪽의 hotspot만 골라낼 수 있어, 칩 전체 평균을 보는 전력 분석보다 더 높은 [[024_신호_대_잡음비|Signal-to-Noise Ratio]] ([[024_신호_대_잡음비|SNR]])를 얻는 경우가 많다.
+EMA가 중요한 이유는 전력선 필터링이 강한 장치에서도 여전히 강력할 수 있기 때문이다. 디커플링 커패시터와 전원 평탄화 회로는 전체 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 변동을 줄여도, 개별 연산 블록 주변의 근접 전자기 누설까지 완전히 없애지는 못한다. 또한 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 위치를 옮기며 측정하면 특정 보안 코어 위쪽의 hotspot만 골라낼 수 있어, 칩 전체 평균을 보는 전력 분석보다 더 높은 [Signal-to-Noise Ratio](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/) ([SNR](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/))를 얻는 경우가 많다.
 
 아래 그림은 EMA가 전원선을 건드리지 않고도 칩 가까이에서 누설을 수집하는 구조를 보여준다.
 
@@ -38,7 +42,7 @@ EMA가 중요한 이유는 전력선 필터링이 강한 장치에서도 여전�
 └──────────────────────────────────────────────────────────────────┘
 ```
 
-즉 EMA는 "전기를 어디서 얼마나 썼는가"를 칩 주변의 공간 정보와 함께 읽는 공격이다. 그래서 같은 [[001_algorithm_definition|알고리즘]]이라도 코어 위치, 패키지 구조, 실드 배치에 따라 실제 위험도가 크게 달라진다.
+즉 EMA는 "전기를 어디서 얼마나 썼는가"를 칩 주변의 공간 정보와 함께 읽는 공격이다. 그래서 같은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이라도 코어 위치, 패키지 구조, 실드 배치에 따라 실제 위험도가 크게 달라진다.
 
 - **📢 섹션 요약 비유**: EMA는 벽에 귀를 대는 것이 아니라, 방 안 여러 위치에 마이크를 옮겨 가며 가장 잘 들리는 자리를 찾는 것과 같다. 어디에서 듣느냐가 공격 성패를 크게 바꾼다.
 
@@ -46,15 +50,15 @@ EMA가 중요한 이유는 전력선 필터링이 강한 장치에서도 여전�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[[002_current|전류]]가 시간에 따라 변하면 주변에 자기장과 전기장이 함께 변한다. 칩 내부의 [[344_bus|버스]], [[057_register|레지스터]], 클럭 트리, 암호 코어는 모두 작은 [[171_antenna_basic_dipole_resonance|안테나]]처럼 동작할 수 있다. EMA 장비는 보통 근접 루프 프로브, LNA (Low-Noise Amplifier), 대역 통과 필터, 오실로스코프, XY 정밀 스테이지로 구성되며, 먼저 어디에서 [[130_signal|신호]]가 가장 강한지 탐색한 뒤 해당 위치에서 trace를 반복 수집한다.
+[전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 시간에 따라 변하면 주변에 자기장과 전기장이 함께 변한다. 칩 내부의 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/), [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), 클럭 트리, 암호 코어는 모두 작은 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)처럼 동작할 수 있다. EMA 장비는 보통 근접 루프 프로브, LNA (Low-Noise Amplifier), 대역 통과 필터, 오실로스코프, XY 정밀 스테이지로 구성되며, 먼저 어디에서 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 가장 강한지 탐색한 뒤 해당 위치에서 trace를 반복 수집한다.
 
 | 구성 요소 | 역할 | 설계·공격 포인트 |
 | :--- | :--- | :--- |
 | 근접 프로브 | 국소 전자기장 수집 | 프로브가 작을수록 공간 해상도 상승 |
-| LNA | 미약한 [[130_signal|신호]] 증폭 | 과증폭 시 포화와 왜곡 발생 |
+| LNA | 미약한 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 증폭 | 과증폭 시 포화와 왜곡 발생 |
 | 필터 | 관심 대역만 통과 | 클럭 하모닉, 외부 잡음 분리 |
 | XY 스테이지 | hotspot 위치 탐색 | 수십~수백 마이크로미터 단위 정렬 중요 |
-| 오실로스코프 | 시간축 trace 저장 | 샘플링 속도와 [[507_acid_properties|트리거]] 안정성 중요 |
+| 오실로스코프 | 시간축 trace 저장 | 샘플링 속도와 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 안정성 중요 |
 
 공격 절차는 DPA와 유사하게 단순형과 차분형으로 나뉜다. SEMA (Simple Electromagnetic Analysis)는 단일 trace에서 분기, 루프, 조건부 연산을 읽는 방식이고, DEMA (Differential Electromagnetic Analysis)는 다수 trace를 수집해 통계 분석으로 키를 찾는 방식이다. 즉 측정 매체만 다를 뿐, "반복되는 물리 누설을 통계적으로 증폭한다"는 점은 DPA와 본질적으로 닮아 있다.
 
@@ -74,7 +78,7 @@ EMA가 중요한 이유는 전력선 필터링이 강한 장치에서도 여전�
 └──────────────────────────────────────────────────────────────────┘
 ```
 
-이때 reverse engineering으로 평면도(floorplan)를 알고 있으면 어디가 [[656_aes_advanced_encryption_standard_rijndael|AES]] 코어인지, 어느 [[344_bus|버스]]가 키 스케줄인지 더 정확히 짚을 수 있다. 반대로 설계자는 코어 위치와 배선 구조 자체가 EMA 방어의 일부라는 점을 알아야 한다.
+이때 reverse engineering으로 평면도(floorplan)를 알고 있으면 어디가 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 코어인지, 어느 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 키 스케줄인지 더 정확히 짚을 수 있다. 반대로 설계자는 코어 위치와 배선 구조 자체가 EMA 방어의 일부라는 점을 알아야 한다.
 
 - **📢 섹션 요약 비유**: EMA는 콘서트홀에서 전체 합창을 듣는 게 아니라, 무대 위를 돌아다니며 특정 악기 바로 앞에 마이크를 가져다 대는 것과 같다. 위치를 잘 잡을수록 작은 소리도 또렷해진다.
 
@@ -82,18 +86,18 @@ EMA가 중요한 이유는 전력선 필터링이 강한 장치에서도 여전�
 
 ## Ⅲ. 비교 및 연결
 
-EMA는 DPA, [[773_emfi|EMFI]] ([[773_emfi|Electromagnetic Fault Injection]])와 나란히 놓고 봐야 역할이 분명해진다. DPA와 EMA는 모두 누설을 **관측**하지만, EMFI는 전자기 펄스를 쏴서 회로를 **교란**한다. 즉 EMA는 읽는 공격이고, EMFI는 틀리게 만들고 그 결과를 이용하는 공격이다.
+EMA는 DPA, [EMFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/773_emfi/) ([Electromagnetic Fault Injection](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/773_emfi/))와 나란히 놓고 봐야 역할이 분명해진다. DPA와 EMA는 모두 누설을 **관측**하지만, EMFI는 전자기 펄스를 쏴서 회로를 **교란**한다. 즉 EMA는 읽는 공격이고, EMFI는 틀리게 만들고 그 결과를 이용하는 공격이다.
 
-| 항목 | DPA | **EMA** | [[773_emfi|EMFI]] |
+| 항목 | DPA | **EMA** | [EMFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/773_emfi/) |
 | :--- | :--- | :--- | :--- |
-| 본질 | 전원선 [[002_current|전류]] 관측 | 근접 전자기장 관측 | 전자기 펄스로 오류 주입 |
+| 본질 | 전원선 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 관측 | 근접 전자기장 관측 | 전자기 펄스로 오류 주입 |
 | 접촉 여부 | 전기적 접촉 필요 | 비접촉 가능 | 비접촉 가능 |
 | 공간 해상도 | 칩 전체 평균에 가까움 | 특정 hotspot 선택 가능 | 특정 위치 교란 가능 |
-| 대표 목적 | 키 [[658_ir_recovery|복구]] | 키 [[658_ir_recovery|복구]]·구조 파악 | [[303_authentication_authorization_patterns|인증]] 우회·fault attack |
+| 대표 목적 | 키 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | 키 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)·구조 파악 | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 우회·fault attack |
 
-또한 EMA는 물리적 분해 분석과도 연결된다. 다이 사진과 배선 정보를 알면 어떤 위치를 노려야 하는지 더 정확히 판단할 수 있고, 반대로 EMA로 찾은 hotspot은 이후 프로빙(Probing)이나 [[781_fib_circuit_edit|FIB]] ([[781_fib_circuit_edit|Focused Ion Beam]]) 수정의 표적이 될 수 있다. 즉 EMA는 단독 공격이면서도 다른 물리 공격을 정밀화하는 탐색 도구 역할을 한다.
+또한 EMA는 물리적 분해 분석과도 연결된다. 다이 사진과 배선 정보를 알면 어떤 위치를 노려야 하는지 더 정확히 판단할 수 있고, 반대로 EMA로 찾은 hotspot은 이후 프로빙(Probing)이나 [FIB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/) ([Focused Ion Beam](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/)) 수정의 표적이 될 수 있다. 즉 EMA는 단독 공격이면서도 다른 물리 공격을 정밀화하는 탐색 도구 역할을 한다.
 
-방어도 마찬가지다. DPA 방어용 마스킹과 균형 논리는 EMA에도 도움이 되지만, EMA는 공간 해상도가 높아 "칩 전체 평균은 조용하지만 특정 [[192_module_independence|모듈]]은 시끄러운" 상황을 더 잘 드러낸다. 그래서 단순 전원 필터링만으로 충분하다고 보기 어렵다.
+방어도 마찬가지다. DPA 방어용 마스킹과 균형 논리는 EMA에도 도움이 되지만, EMA는 공간 해상도가 높아 "칩 전체 평균은 조용하지만 특정 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 시끄러운" 상황을 더 잘 드러낸다. 그래서 단순 전원 필터링만으로 충분하다고 보기 어렵다.
 
 - **📢 섹션 요약 비유**: DPA가 건물 전체의 소음계를 보는 것이라면 EMA는 층마다, 방마다 마이크를 들고 다니는 방식이다. 그래서 전체가 조용해 보여도 시끄러운 방 하나를 찾아낼 수 있다.
 
@@ -101,29 +105,29 @@ EMA는 DPA, [[773_emfi|EMFI]] ([[773_emfi|Electromagnetic Fault Injection]])와 
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 EMA 위험도는 보안 코어의 위치, 패키지 재질, 실드 구조, 보드 배선이 함께 결정한다. 스마트카드, Secure Element, 자동차용 [[475_hsm|HSM]] ([[157_hsm_hardware_security_module|Hardware Security Module]]), [[476_tpm|TPM]] ([[476_tpm|Trusted Platform Module]])처럼 공격자가 물리적으로 가까이 갈 수 있는 장치는 특히 주의해야 한다. 반면 무선 장치에서는 금속 실드를 두껍게 넣으면 RF 성능과 열 방출에 영향을 줄 수 있어, 단순 차폐만으로 해결하기 어렵다.
+실무에서 EMA 위험도는 보안 코어의 위치, 패키지 재질, 실드 구조, 보드 배선이 함께 결정한다. 스마트카드, Secure Element, 자동차용 [HSM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/) ([Hardware Security Module](/knowledge-base/studynote/09_security/03_network_security/157_hsm_hardware_security_module/)), [TPM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/) ([Trusted Platform Module](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/))처럼 공격자가 물리적으로 가까이 갈 수 있는 장치는 특히 주의해야 한다. 반면 무선 장치에서는 금속 실드를 두껍게 넣으면 RF 성능과 열 방출에 영향을 줄 수 있어, 단순 차폐만으로 해결하기 어렵다.
 
 ### 기술사 판단 기준
 
 1. **레이아웃 우선**: 암호 코어를 패키지 가장자리나 외부 핀 근처에 두면 EMA 관측이 쉬워진다. 가능하면 중앙 배치와 짧은 리턴 경로를 고려한다.
-2. **쉴딩 + [[001_algorithm_definition|알고리즘]] 병행**: 금속 실드, 그라운드 리턴, 노이즈 주입과 함께 마스킹·셔플링을 병행해야 한다.
-3. **평가 프로세스 내재화**: 전력 TVLA뿐 아니라 EM TVLA, hotspot scan, 주파수 [[064_relation_domain|도메인]] 분석까지 제품 [[395_verification_process_review|검증]] 절차에 포함한다.
-4. **실드의 역효과 점검**: 부유 금속판이나 슬롯 구조는 오히려 [[171_antenna_basic_dipole_resonance|안테나]]처럼 동작할 수 있으므로, 실드는 반드시 접지와 공진 특성까지 고려해 설계한다.
+2. **쉴딩 + [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 병행**: 금속 실드, 그라운드 리턴, 노이즈 주입과 함께 마스킹·셔플링을 병행해야 한다.
+3. **평가 프로세스 내재화**: 전력 TVLA뿐 아니라 EM TVLA, hotspot scan, 주파수 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 분석까지 제품 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 절차에 포함한다.
+4. **실드의 역효과 점검**: 부유 금속판이나 슬롯 구조는 오히려 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)처럼 동작할 수 있으므로, 실드는 반드시 접지와 공진 특성까지 고려해 설계한다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-- 암호 코어와 키 [[344_bus|버스]]가 패키지 표면에서 가까운가?
-- 배선 길이와 리턴 패스가 불균형하여 특정 [[130_signal|신호]]가 강하게 방사되는가?
+- 암호 코어와 키 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 패키지 표면에서 가까운가?
+- 배선 길이와 리턴 패스가 불균형하여 특정 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 강하게 방사되는가?
 - 쉴드 구조가 실제로 접지되어 있는가, 아니면 떠 있는 금속판인가?
 - DPA만 시험하고 EMA 평가는 생략하고 있지 않은가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 디커플링 커패시터만 충분하면 EMA도 자동으로 막힌다고 생각하는 것
 - 암호 코어를 디버그 포트나 패키지 가장자리 근처에 배치하는 것
 - 장식용 금속 캔을 씌우고 접지·슬롯 공진·개구부 설계를 검토하지 않는 것
 
-기술사 관점에서 EMA는 패키지와 보드까지 포함한 "시스템 물리학" 문제다. 암호 [[192_module_independence|모듈]] 하나만 안전하게 설계해도, 그 주변 배선과 실드가 [[130_signal|신호]]를 증폭하면 실제 제품은 여전히 취약할 수 있다.
+기술사 관점에서 EMA는 패키지와 보드까지 포함한 "시스템 물리학" 문제다. 암호 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 하나만 안전하게 설계해도, 그 주변 배선과 실드가 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 증폭하면 실제 제품은 여전히 취약할 수 있다.
 
 - **📢 섹션 요약 비유**: EMA 방어는 방음벽을 세우는 일과 같다. 벽만 두껍게 만드는 것이 아니라 문틈, 창문, 환풍구까지 같이 막아야 소리가 새지 않는다.
 
@@ -133,7 +137,7 @@ EMA는 DPA, [[773_emfi|EMFI]] ([[773_emfi|Electromagnetic Fault Injection]])와 
 
 EMA를 이해하면 물리 보안에서 "접촉하지 않아도 읽을 수 있다"는 사실이 얼마나 중요한지 알 수 있다. 전원선을 자르지 않아도, 테스트 핀을 꽂지 않아도, 칩이 동작하는 동안 주변 공간으로 새는 장을 통해 비밀이 노출될 수 있다. 그래서 하드웨어 보안은 점점 회로 내부만이 아니라 패키지, 보드, 기구물까지 함께 보는 방향으로 확장된다.
 
-물론 EMA도 만능은 아니다. 프로브 배치, 대역 선택, 정렬, 잡음 제거가 어렵고, 숙련된 실험 장비가 필요하다. 그러나 고감도 프로브, 자동 XY 스캔, [[241_machine_learning_basics|머신러닝]] [[104_classification_analysis|분류]], backside EM 측정 기술이 발전하면서 공격 난도는 계속 낮아지고 있다.
+물론 EMA도 만능은 아니다. 프로브 배치, 대역 선택, 정렬, 잡음 제거가 어렵고, 숙련된 실험 장비가 필요하다. 그러나 고감도 프로브, 자동 XY 스캔, [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), backside EM 측정 기술이 발전하면서 공격 난도는 계속 낮아지고 있다.
 
 결론적으로 EMA는 "칩은 동작하는 순간 주변 공간에 말을 건다"는 사실을 보여준다. 좋은 보안 아키텍처는 그 말을 줄이거나, 의미 없는 잡음으로 덮거나, 밖에서 해석할 수 없게 만드는 방향으로 설계되어야 한다.
 
@@ -146,9 +150,9 @@ EMA를 이해하면 물리 보안에서 "접촉하지 않아도 읽을 수 있�
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | 근접 프로브 (Near-Field Probe) | 칩 표면 가까이에서 국소 누설을 수집하는 EMA 핵심 장비 |
-| DEMA (Differential Electromagnetic Analysis) | 다수 EM trace를 통계 처리해 키를 [[658_ir_recovery|복구]]하는 EMA의 차분형 변종 |
-| Hotspot [[010_schema_mapping|Mapping]] | 어떤 위치가 가장 강하게 새는지 찾아 공간 해상도를 높이는 절차 |
-| [[773_emfi|EMFI]] ([[773_emfi|Electromagnetic Fault Injection]]) | 같은 전자기 수단을 관측이 아니라 오류 주입에 쓰는 인접 공격 |
+| DEMA (Differential Electromagnetic Analysis) | 다수 EM trace를 통계 처리해 키를 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하는 EMA의 차분형 변종 |
+| Hotspot [Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/) | 어떤 위치가 가장 강하게 새는지 찾아 공간 해상도를 높이는 절차 |
+| [EMFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/773_emfi/) ([Electromagnetic Fault Injection](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/773_emfi/)) | 같은 전자기 수단을 관측이 아니라 오류 주입에 쓰는 인접 공격 |
 | Shielding / Floorplan | 패키지 차폐와 코어 배치가 EMA 방어 성능을 좌우하는 설계 요소 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -169,12 +173,12 @@ SEMA / DEMA
 Shielding · Floorplan 최적화 · Masking · EM TVLA
 ```
 
-이 흐름은 전자기 누설의 발견이 공간 기반 공격 정밀화로 이어지고, 다시 패키지·레이아웃·[[395_verification_process_review|검증]] 공정의 공동 방어로 확장되는 과정을 보여준다.
+이 흐름은 전자기 누설의 발견이 공간 기반 공격 정밀화로 이어지고, 다시 패키지·레이아웃·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 공정의 공동 방어로 확장되는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 컴퓨터가 일할 때는 아주 작은 전자기 "숨결"이 밖으로 새어 나와요.
-2. EMA는 작은 [[171_antenna_basic_dipole_resonance|안테나]]로 그 숨결을 듣고, 컴퓨터가 무슨 비밀 계산을 하는지 맞히는 방법이에요.
+2. EMA는 작은 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)로 그 숨결을 듣고, 컴퓨터가 무슨 비밀 계산을 하는지 맞히는 방법이에요.
 3. 그래서 안전한 컴퓨터는 숨결이 새지 않게 덮개를 씌우고, 밖에서 들어도 뜻을 알 수 없게 만들어야 해요.
 
 ---
@@ -183,7 +187,7 @@ Shielding · Floorplan 최적화 · Masking · EM TVLA
 
 **진행 상황**: 780 / 803
 
-← **이전**: [[778_dpa_resistant_logic|778. 전력 분석 공격 - DPA (Differential Power Analysis)]]
-**다음**: [[780_reverse_engineering|780. 물리적 분해 분석 (Reverse Engineering)]] →
+← **이전**: [778. 전력 분석 공격 - DPA (Differential Power Analysis)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/778_dpa_resistant_logic/)
+**다음**: [780. 물리적 분해 분석 (Reverse Engineering)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/780_reverse_engineering/) →
 
 ---

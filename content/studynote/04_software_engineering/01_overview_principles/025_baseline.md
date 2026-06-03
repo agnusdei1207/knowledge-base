@@ -1,14 +1,18 @@
----
-title: 25. 기준선 (Baseline) — 형상 관리의 공식 참조점
-date: '2026-04-29'
-tags:
-- studynote-software-engineering
----
++++
+title = "25. 기준선 (Baseline) — 형상 관리의 공식 참조점"
+date = 2026-04-29
+
+[taxonomies]
+tags = ["studynote-software-engineering"]
+
+[extra]
+tags = ["studynote-software-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 기준선(Baseline)은 [[167_scm_software_configuration_management|SCM]] ([[020_software_configuration_management|Software Configuration Management]], [[648_ccb_configuration_control_board|소프트웨어 형상 관리]])에서 공식적으로 검토·승인된 형상 항목([[090_configuration_item|CI]], [[090_configuration_item|Configuration Item]])의 집합으로, 변경을 통제하는 기준점이자 향후 개발의 출발점이 되는 공식 스냅샷이다.
-> 2. **가치**: 기준선이 없으면 "어느 [[288_version_ihl_tos_total_length|버전]]이 공식 [[288_version_ihl_tos_total_length|버전]]인가?"를 알 수 없어 개발팀이 서로 다른 [[288_version_ihl_tos_total_length|버전]]을 기준으로 작업하는 혼란이 발생한다. 기준선은 팀 전체가 동일한 기준점에서 협업하고, [[080_cab|변경 통제 위원회]]([[160_change_control_board_ccb_requirements_review|CCB]])의 공식 승인 없이는 변경할 수 없는 안정화된 기반을 제공한다.
-> 3. **판단 포인트**: 소프트웨어 개발 생명주기([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]])의 각 단계별 기준선(기능 기준선 → 할당 기준선 → 제품 기준선)을 이해하고 각 단계에서 무엇이 기준선에 포함되는지 정확히 파악하는 것이 기술사 시험과 실무 모두에서 핵심이다.
+> 1. **본질**: 기준선(Baseline)은 [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) ([Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/), [소프트웨어 형상 관리](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/648_ccb_configuration_control_board/))에서 공식적으로 검토·승인된 형상 항목([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/), [Configuration Item](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/))의 집합으로, 변경을 통제하는 기준점이자 향후 개발의 출발점이 되는 공식 스냅샷이다.
+> 2. **가치**: 기준선이 없으면 "어느 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이 공식 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)인가?"를 알 수 없어 개발팀이 서로 다른 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 기준으로 작업하는 혼란이 발생한다. 기준선은 팀 전체가 동일한 기준점에서 협업하고, [변경 통제 위원회](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/)([CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/))의 공식 승인 없이는 변경할 수 없는 안정화된 기반을 제공한다.
+> 3. **판단 포인트**: 소프트웨어 개발 생명주기([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))의 각 단계별 기준선(기능 기준선 → 할당 기준선 → 제품 기준선)을 이해하고 각 단계에서 무엇이 기준선에 포함되는지 정확히 파악하는 것이 기술사 시험과 실무 모두에서 핵심이다.
 
 ---
 
@@ -31,7 +35,7 @@ tags:
 └────────────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 기준선은 건물 설계도의 공식 확정본이다. 확정 전에는 자유롭게 수정하지만, 확정 후에는 건축 허가([[160_change_control_board_ccb_requirements_review|CCB]] 승인) 없이 벽을 허물거나 옮길 수 없다.
+- **📢 섹션 요약 비유**: 기준선은 건물 설계도의 공식 확정본이다. 확정 전에는 자유롭게 수정하지만, 확정 후에는 건축 허가([CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) 승인) 없이 벽을 허물거나 옮길 수 없다.
 
 ---
 
@@ -69,11 +73,11 @@ git log v1.0.0..HEAD --oneline
 
 ## Ⅲ. 비교 및 연결
 
-| 기준선 유형 | [[009_config|설정]] 시점 | 주요 항목 | 변경 통제 주체 |
+| 기준선 유형 | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 시점 | 주요 항목 | 변경 통제 주체 |
 |:---|:---|:---|:---|
-| **기능 기준선** | SRR (시스템 [[153_requirements_review_inspection_walkthrough|요구사항 검토]]) 후 | 시스템 요구사항 명세서 | 시스템 엔지니어링 팀 |
-| **할당 기준선** | PDR (예비 설계 검토) 후 | SW 요구사항, 인터페이스 명세 | SW [[160_change_control_board_ccb_requirements_review|CCB]] |
-| **제품 기준선** | TRR (테스트 준비 검토) 후 | 소스코드, 빌드, 테스트 명세 | QA + [[160_change_control_board_ccb_requirements_review|CCB]] |
+| **기능 기준선** | SRR (시스템 [요구사항 검토](/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/)) 후 | 시스템 요구사항 명세서 | 시스템 엔지니어링 팀 |
+| **할당 기준선** | PDR (예비 설계 검토) 후 | SW 요구사항, 인터페이스 명세 | SW [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) |
+| **제품 기준선** | TRR (테스트 준비 검토) 후 | 소스코드, 빌드, 테스트 명세 | QA + [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) |
 
 - **📢 섹션 요약 비유**: 기능 기준선은 건물의 용도 결정(무엇을 짓는가), 할당 기준선은 층별 평면도 확정(어떻게 나누는가), 제품 기준선은 준공 검사 후 완성된 건물(무엇이 만들어졌는가)이다.
 
@@ -82,15 +86,15 @@ git log v1.0.0..HEAD --oneline
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오: 항공 SW 개발 기준선 관리 (DO-178C)
-1. 요구사항 기준선: JIRA [[244_epic|Epic]] → 시스템 요구사항 명세서 v1.0 → [[160_change_control_board_ccb_requirements_review|CCB]] 승인.
-2. 설계 기준선: 아키텍처 설계서 v1.0 → [[330_code_review|코드 리뷰]] → [[160_change_control_board_ccb_requirements_review|CCB]] 승인.
+1. 요구사항 기준선: JIRA [Epic](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/244_epic/) → 시스템 요구사항 명세서 v1.0 → [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) 승인.
+2. 설계 기준선: 아키텍처 설계서 v1.0 → [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) → [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) 승인.
 3. 제품 기준선: Git 태그 v1.0.0 → 빌드 결과물 + 테스트 리포트 패키지 → DO-178C DER 승인.
-4. 변경 통제: 비행 중 발견된 [[352_defect_definition|결함]] → CR 제출 → [[160_change_control_board_ccb_requirements_review|CCB]] 긴급 검토 → 핫픽스 기준선 v1.0.1.
+4. 변경 통제: 비행 중 발견된 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) → CR 제출 → [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) 긴급 검토 → 핫픽스 기준선 v1.0.1.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
-- 기준선을 [[009_config|설정]]했지만 [[160_change_control_board_ccb_requirements_review|CCB]] 프로세스 없이 개발자가 임의로 기준선 항목을 수정하는 "Shadow Baseline" [[128_water_scrum_fall_anti_pattern|안티패턴]]. 공식 기준선과 실제 코드베이스가 불일치하면 [[606_auditing_linux_auditd|감사]] 시 증적 불일치로 [[303_authentication_authorization_patterns|인증]] 실패가 발생한다.
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- 기준선을 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)했지만 [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) 프로세스 없이 개발자가 임의로 기준선 항목을 수정하는 "Shadow Baseline" [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/). 공식 기준선과 실제 코드베이스가 불일치하면 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 시 증적 불일치로 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 실패가 발생한다.
 
-- **📢 섹션 요약 비유**: 기준선을 몰래 바꾸는 건, 건물 도면을 허가 없이 수정하는 것이다. 완공 검사([[606_auditing_linux_auditd|감사]]) 때 도면과 실제 건물이 다르면 불법 건축물로 판정된다.
+- **📢 섹션 요약 비유**: 기준선을 몰래 바꾸는 건, 건물 도면을 허가 없이 수정하는 것이다. 완공 검사([감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)) 때 도면과 실제 건물이 다르면 불법 건축물로 판정된다.
 
 ---
 
@@ -98,13 +102,13 @@ git log v1.0.0..HEAD --oneline
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **변경 통제** | 무허가 변경 방지, [[160_change_control_board_ccb_requirements_review|CCB]] 승인 추적 |
-| **협업 기준점** | 팀 전체가 동일 [[288_version_ihl_tos_total_length|버전]] 기반 작업 |
-| **[[606_auditing_linux_auditd|감사]]·[[303_authentication_authorization_patterns|인증]] 증적** | 기준선 기반 변경 이력 제출 |
+| **변경 통제** | 무허가 변경 방지, [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) 승인 추적 |
+| **협업 기준점** | 팀 전체가 동일 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 기반 작업 |
+| **[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)·[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 증적** | 기준선 기반 변경 이력 제출 |
 
-현대 DevOps에서 기준선은 GitOps의 Git 태그·릴리스 브랜치로 자동화되며, [[062_infrastructure_as_code|Infrastructure as Code]]([[793_iac_idempotency_template|IaC]])의 [[195_terraform_hashicorp_agnostic_aws_gcp|Terraform]] 상태 파일도 인프라 기준선의 역할을 한다.
+현대 DevOps에서 기준선은 GitOps의 Git 태그·릴리스 브랜치로 자동화되며, [Infrastructure as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/)([IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/))의 [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) 상태 파일도 인프라 기준선의 역할을 한다.
 
-- **📢 섹션 요약 비유**: 기준선은 소프트웨어 개발의 구간 기록이다. 마라톤에서 5km, 10km 구간 기록처럼, 특정 시점의 완성 상태를 공식 기록하여 이후 [[216_progress_in_synchronization|진행]] 상황을 측정하는 기준이 된다.
+- **📢 섹션 요약 비유**: 기준선은 소프트웨어 개발의 구간 기록이다. 마라톤에서 5km, 10km 구간 기록처럼, 특정 시점의 완성 상태를 공식 기록하여 이후 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 상황을 측정하는 기준이 된다.
 
 ---
 
@@ -112,11 +116,11 @@ git log v1.0.0..HEAD --oneline
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[[167_scm_software_configuration_management|SCM]] ([[020_software_configuration_management|형상 관리]])** | 기준선이 핵심 구성 요소인 상위 관리 체계 |
-| **[[160_change_control_board_ccb_requirements_review|CCB]] ([[080_cab|변경 통제 위원회]])** | 기준선 변경 승인 주체 |
+| **[SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) ([형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/))** | 기준선이 핵심 구성 요소인 상위 관리 체계 |
+| **[CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) ([변경 통제 위원회](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/))** | 기준선 변경 승인 주체 |
 | **Git 태그** | 현대 기준선의 기술적 구현체 |
-| **[[090_configuration_item|CI]]/CD 파이프라인** | 기준선(릴리스 태그) [[507_acid_properties|트리거]] 기반 자동 배포 |
-| **[[793_iac_idempotency_template|IaC]] [[294_tfstate|Terraform State]]** | 인프라 기준선의 현대적 형태 |
+| **[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인** | 기준선(릴리스 태그) [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 기반 자동 배포 |
+| **[IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) [Terraform State](/knowledge-base/studynote/15_devops_sre/05_devsecops/294_tfstate/)** | 인프라 기준선의 현대적 형태 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -139,8 +143,8 @@ git log v1.0.0..HEAD --oneline
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 기준선은 게임 저장 포인트처럼, 소프트웨어의 공식 체크포인트예요!
-2. 체크포인트를 저장한 후에는 어떤 변경이든 선생님([[160_change_control_board_ccb_requirements_review|CCB]])의 허락을 받아야 할 수 있어요.
-3. 덕분에 팀 전체가 같은 [[288_version_ihl_tos_total_length|버전]]을 기준으로 일하고, 나중에 문제가 생겨도 체크포인트로 돌아갈 수 있답니다!
+2. 체크포인트를 저장한 후에는 어떤 변경이든 선생님([CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/))의 허락을 받아야 할 수 있어요.
+3. 덕분에 팀 전체가 같은 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 기준으로 일하고, 나중에 문제가 생겨도 체크포인트로 돌아갈 수 있답니다!
 
 ---
 
@@ -148,7 +152,7 @@ git log v1.0.0..HEAD --oneline
 
 **진행 상황**: 25 / 973
 
-← **이전**: [[024_configuration_status_accounting|24. 형상 상태 기록 (CSA, Configuration Status Accounting)]]
-**다음**: [[026_version_control_system|26. VCS (Version Control System) — 형상 이력 관리 시스템]] →
+← **이전**: [24. 형상 상태 기록 (CSA, Configuration Status Accounting)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/024_configuration_status_accounting/)
+**다음**: [26. VCS (Version Control System) — 형상 이력 관리 시스템](/knowledge-base/studynote/04_software_engineering/01_overview_principles/026_version_control_system/) →
 
 ---

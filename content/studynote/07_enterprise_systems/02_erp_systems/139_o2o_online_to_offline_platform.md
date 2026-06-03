@@ -1,14 +1,18 @@
----
-title: 139. O2O (Online to Offline) 플랫폼 - 온·오프라인 연결 비즈니스
-date: '2026-04-19'
-tags:
-- studynote-enterprise-systems
----
++++
+title = "139. O2O (Online to Offline) 플랫폼 - 온·오프라인 연결 비즈니스"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-enterprise-systems"]
+
+[extra]
+tags = ["studynote-enterprise-systems"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: O2O는 **온라인 플랫폼에서 고객을 유치하여 오프라인 매장·[[090_service_kubernetes_network_load_balancing|서비스]]로 연결**하는 비즈니스 모델이며, 배달앱(배달의민족)·차량호출(카카오T)·숙박(에어비앤비)이 대표이다.
+> 1. **본질**: O2O는 **온라인 플랫폼에서 고객을 유치하여 오프라인 매장·[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 연결**하는 비즈니스 모델이며, 배달앱(배달의민족)·차량호출(카카오T)·숙박(에어비앤비)이 대표이다.
 > 2. **가치**: 오프라인 매장은 **지역적 한계**가 있지만, O2O 플랫폼은 **온라인으로 무한한 고객 도달**을 가능하게 하고, 결제·예약·리뷰를 디지털로 통합한다.
-> 3. **판단 포인트**: OMO(Online Merges Offline)·뉴 리테일이 O2O의 진화형이며, [[001_dikw_pyramid|데이터]] 기반 고객 행동 분석·추천이 핵심 경쟁력이다.
+> 3. **판단 포인트**: OMO(Online Merges Offline)·뉴 리테일이 O2O의 진화형이며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 고객 행동 분석·추천이 핵심 경쟁력이다.
 
 ---
 
@@ -26,7 +30,7 @@ O2O 흐름: 온라인 검색/예약 → 오프라인 서비스 이용 → 온라
 
 ## Ⅱ~Ⅴ. 결론
 
-O2O는 **[[072_platform_business_two_sided_market|플랫폼 비즈니스]]의 핵심 모델**이며, OMO(온·오프 융합)으로 진화하고 있다.
+O2O는 **[플랫폼 비즈니스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/072_platform_business_two_sided_market/)의 핵심 모델**이며, OMO(온·오프 융합)으로 진화하고 있다.
 
 ---
 
@@ -38,7 +42,7 @@ O2O는 **[[072_platform_business_two_sided_market|플랫폼 비즈니스]]의 �
 | **OMO** | 온·오프 융합 (진화) |
 | **플랫폼** | 양면 시장 |
 | **뉴 리테일** | 알리바바 OMO |
-| **[[001_dikw_pyramid|데이터]]** | 고객 행동 분석 |
+| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)** | 고객 행동 분석 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -52,7 +56,7 @@ O2O는 **[[072_platform_business_two_sided_market|플랫폼 비즈니스]]의 �
 ### 👶 어린이를 위한 3줄 비유 설명
 1. O2O는 **스마트폰(온라인)으로 주문하고 집(오프라인)에서 받는** 거예요.
 2. 배달앱으로 **음식을 주문**하면 식당에서 만들어 **집으로** 가져다줘요.
-3. 온라인과 오프라인을 **다리로 연결**해주는 [[090_service_kubernetes_network_load_balancing|서비스]]예요!
+3. 온라인과 오프라인을 **다리로 연결**해주는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)예요!
 
 ---
 
@@ -60,7 +64,7 @@ O2O는 **[[072_platform_business_two_sided_market|플랫폼 비즈니스]]의 �
 
 **진행 상황**: 139 / 482
 
-← **이전**: [[138_digital_onboarding_automation_ux|138. 디지털 온보딩 자동화 - 고객·직원 경험 혁신]]
-**다음**: [[140_subscription_economy_xaas_business_model|140. 구독 경제 & XaaS 비즈니스 모델 - 소유에서 구독으로]] →
+← **이전**: [138. 디지털 온보딩 자동화 - 고객·직원 경험 혁신](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/138_digital_onboarding_automation_ux/)
+**다음**: [140. 구독 경제 & XaaS 비즈니스 모델 - 소유에서 구독으로](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/140_subscription_economy_xaas_business_model/) →
 
 ---

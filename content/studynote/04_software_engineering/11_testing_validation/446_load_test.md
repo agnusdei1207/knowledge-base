@@ -1,21 +1,25 @@
----
-title: 446. 부하 테스트 (Load Test)
-date: '2026-05-08'
-tags:
-- studynote-software-engineering
----
++++
+title = "446. 부하 테스트 (Load Test)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-software-engineering"]
+
+[extra]
+tags = ["studynote-software-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 부하 테스트 (Load Test)은(는) [[001_software_engineering_definition|소프트웨어 공학]]의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[[346_maintainability_portability|유지보수성]]·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 부하 테스트 (Load Test)은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-부하 테스트는 "정상적으로 예상되는 최대치"를 기준으로 한다. 시스템이 견딜 수 있는 운영 한계를 [[396_validation|확인]]하는 데 쓰인다.
+부하 테스트는 "정상적으로 예상되는 최대치"를 기준으로 한다. 시스템이 견딜 수 있는 운영 한계를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 데 쓰인다.
 
 이 테스트가 필요한 이유는 운영 환경에서 갑자기 느려지거나 실패하는 일을 막기 위해서다.
 
@@ -38,7 +42,7 @@ tags:
 └─────────────────────────────────────────────────────────────┘
 ```
 
-이 다이어그램은 부하 테스트 (Load Test)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [[395_verification_process_review|검증]]된 결과물을 산출하는 흐름을 보여준다.
+이 다이어그램은 부하 테스트 (Load Test)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
 
 ---
 
@@ -48,13 +52,13 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-부하 테스트는 사용자 수, 요청 수, 데이터량을 점차 올리며 본다. 목표 부하에서 응답시간과 오류율이 기준 안에 있는지 [[396_validation|확인]]한다.
+부하 테스트는 사용자 수, 요청 수, 데이터량을 점차 올리며 본다. 목표 부하에서 응답시간과 오류율이 기준 안에 있는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
 
 | 항목 | 의미 |
 |:---|:---|
 | 부하 수준 | 테스트할 사용자/요청량 |
 | 응답시간 | 사용자 체감 속도 |
-| [[139_throughput|처리량]] | 단위 시간당 처리 수 |
+| [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) | 단위 시간당 처리 수 |
 | 오류율 | 실패 비율 |
 
 ```text
@@ -75,15 +79,15 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-부하 테스트는 [[447_stress_test|스트레스 테스트]]와 다르다. 부하는 정상 최대치, 스트레스는 그 이상이다.
+부하 테스트는 [스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/)와 다르다. 부하는 정상 최대치, 스트레스는 그 이상이다.
 
-| 구분 | 부하 테스트 | [[447_stress_test|스트레스 테스트]] |
+| 구분 | 부하 테스트 | [스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/) |
 |:---|:---|:---|
 | 기준 | 예상 최대치 | 한계 초과 |
-| 목적 | 정상 유지 | 붕괴와 [[658_ir_recovery|복구]] [[396_validation|확인]] |
-| 초점 | [[282_performance_tactics|성능]] 유지 | 복원력 [[396_validation|확인]] |
+| 목적 | 정상 유지 | 붕괴와 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
+| 초점 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 유지 | 복원력 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
 
-용량 계획과 [[085_sla|SLA]]([[085_sla|Service Level Agreement]]) 검토에 자주 연결된다.
+용량 계획과 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)) 검토에 자주 연결된다.
 
 - **📢 섹션 요약 비유**: 평소 교통량과 출퇴근 폭주를 따로 보는 것과 같다.
 
@@ -101,7 +105,7 @@ tags:
 
 체크 포인트는 다음과 같다.
 1. 목표 부하를 실제 운영 수치로 잡는다.
-2. 측정 항목을 응답시간, [[139_throughput|처리량]], 오류율로 둔다.
+2. 측정 항목을 응답시간, [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), 오류율로 둔다.
 3. 병목 지점을 기록한다.
 
 - **📢 섹션 요약 비유**: 가게 문을 열기 전에 손님 수를 미리 세어 보는 것이다.
@@ -116,9 +120,9 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-부하 테스트는 운영 한계를 안전하게 미리 [[396_validation|확인]]한다. 그래서 "얼마까지 정상인가"를 알게 해 준다.
+부하 테스트는 운영 한계를 안전하게 미리 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다. 그래서 "얼마까지 정상인가"를 알게 해 준다.
 
-결론적으로 이 개념은 "정상 최대치 [[395_verification_process_review|검증]]"이다. 시스템 용량 판단의 기본이다.
+결론적으로 이 개념은 "정상 최대치 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"이다. 시스템 용량 판단의 기본이다.
 
 - **📢 섹션 요약 비유**: 가방에 얼마나 물건을 넣어도 찢어지지 않는지 보는 것과 같다.
 
@@ -132,10 +136,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[001_software_engineering_definition|소프트웨어 공학]] ([[001_software_engineering_definition|Software Engineering]]) | 부하 테스트 (Load Test)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [[003_sdlc|소프트웨어 생명주기]] ([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]], Software Development Life Cycle) | 부하 테스트 (Load Test)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | 부하 테스트 (Load Test) 적용 결과는 QA 활동을 통해 [[395_verification_process_review|검증]]되고 측정된다 |
-| [[020_software_configuration_management|형상 관리]] ([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]]) | 부하 테스트 (Load Test)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 부하 테스트 (Load Test)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 부하 테스트 (Load Test)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | 부하 테스트 (Load Test) 적용 결과는 QA 활동을 통해 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되고 측정된다 |
+| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 부하 테스트 (Load Test)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -155,13 +159,13 @@ tags:
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [[002_software_crisis|소프트웨어 위기]] 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 부하 테스트 (Load Test)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
 
 ---
 
@@ -169,7 +173,7 @@ tags:
 
 **진행 상황**: 483 / 973
 
-← **이전**: [[445_performance_test_types|445. 성능 테스트 (Performance Test) 4가지 유형]]
-**다음**: [[446_load_test|446. 부하 테스트 (Load Test) - 시스템의 임계점(목표치)까지 부하를 증가시키며 상태 확인]] →
+← **이전**: [445. 성능 테스트 (Performance Test) 4가지 유형](/knowledge-base/studynote/04_software_engineering/11_testing_validation/445_performance_test_types/)
+**다음**: [446. 부하 테스트 (Load Test) - 시스템의 임계점(목표치)까지 부하를 증가시키며 상태 확인](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/) →
 
 ---

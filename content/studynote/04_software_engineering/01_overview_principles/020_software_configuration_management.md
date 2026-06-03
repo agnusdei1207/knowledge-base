@@ -1,27 +1,31 @@
----
-title: 20. 형상 관리 (SCM, Software Configuration Management)
-date: '2026-03-04'
-description: 소프트웨어 생명주기 전반의 변경 사항을 식별하고 통제하는 형상 관리의 4단계와 베이스라인 전략을 다룹니다.
-tags:
-- software_engineering
----
++++
+title = "20. 형상 관리 (SCM, Software Configuration Management)"
+description = "소프트웨어 생명주기 전반의 변경 사항을 식별하고 통제하는 형상 관리의 4단계와 베이스라인 전략을 다룹니다."
+date = 2026-03-04
 
-# 20. 형상 관리 ([[167_scm_software_configuration_management|SCM]], Software [[089_configuration_management|Configuration Management]])
+[taxonomies]
+tags = ["software_engineering"]
+
+[extra]
+tags = ["software_engineering"]
++++
+
+# 20. 형상 관리 ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), Software [Configuration Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/))
 
 #### 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 형상 관리([[167_scm_software_configuration_management|SCM]])는 소프트웨어 개발 전 과정에서 [[087_process_state_transition|생성]]되는 소스코드, 문서, 환경 [[009_config|설정]] 등 모든 산출물(형상 항목)의 가시성과 추적성을 확보하고 변경을 통제하는 품질 보증 활동이다.
-> 2. **가치**: "누가, 언제, 무엇을, 왜 바꾸었는가?"를 투명하게 기록하여, 치명적 오류 발생 시 안정된 과거 상태([[159_baseline_requirements_configuration_management|베이스라인]])로 즉각적인 [[098_rollback_strategy_pipeline_error_threshold|롤백]](Roll-back)을 가능하게 함으로써 프로젝트 붕괴를 막는 최후의 방어선 역할을 한다.
-> 3. **융합**: 과거의 형상 관리는 단순한 코드 [[555_backup_and_restore_strategy|백업]] 저장소(SVN)에 불과했으나, 현재는 [[136_variance|분산]] [[288_version_ihl_tos_total_length|버전]] 관리(Git)를 넘어 [[090_configuration_item|CI]]/CD 파이프라인과 결합된 인프라 애즈 코드([[793_iac_idempotency_template|IaC]]) 및 [[119_gitops_single_source_of_truth|GitOps]] 기반의 전방위적 상태 관리 자동화 플랫폼으로 진화했다.
+> 1. **본질**: 형상 관리([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/))는 소프트웨어 개발 전 과정에서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되는 소스코드, 문서, 환경 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 등 모든 산출물(형상 항목)의 가시성과 추적성을 확보하고 변경을 통제하는 품질 보증 활동이다.
+> 2. **가치**: "누가, 언제, 무엇을, 왜 바꾸었는가?"를 투명하게 기록하여, 치명적 오류 발생 시 안정된 과거 상태([베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/))로 즉각적인 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)(Roll-back)을 가능하게 함으로써 프로젝트 붕괴를 막는 최후의 방어선 역할을 한다.
+> 3. **융합**: 과거의 형상 관리는 단순한 코드 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 저장소(SVN)에 불과했으나, 현재는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리(Git)를 넘어 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인과 결합된 인프라 애즈 코드([IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/)) 및 [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 기반의 전방위적 상태 관리 자동화 플랫폼으로 진화했다.
 
 ---
 
-### Ⅰ. 개요 및 필요성 ([[033_context|Context]] & Necessity)
+### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-소프트웨어 개발은 끊임없는 '변경(Change)'과의 싸움이다. 고객의 요구사항이 바뀌고, 버그가 튀어나오고, 여러 개발자가 동시에 하나의 소스코드를 수정한다. 이러한 환경에서 체계적인 변경 통제 메커니즘이 없다면, 내가 어제 고쳐놓은 코드를 오늘 다른 개발자가 덮어써버리거나, 릴리즈 당일 어떤 소스 [[288_version_ihl_tos_total_length|버전]]이 최신인지 알 수 없는 이른바 '[[288_version_ihl_tos_total_length|버전]] 지옥(Version Hell)'에 빠지게 된다.
+소프트웨어 개발은 끊임없는 '변경(Change)'과의 싸움이다. 고객의 요구사항이 바뀌고, 버그가 튀어나오고, 여러 개발자가 동시에 하나의 소스코드를 수정한다. 이러한 환경에서 체계적인 변경 통제 메커니즘이 없다면, 내가 어제 고쳐놓은 코드를 오늘 다른 개발자가 덮어써버리거나, 릴리즈 당일 어떤 소스 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이 최신인지 알 수 없는 이른바 '[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 지옥(Version Hell)'에 빠지게 된다.
 
-형상 관리([[167_scm_software_configuration_management|SCM]], Software [[089_configuration_management|Configuration Management]])는 단순한 '[[288_version_ihl_tos_total_length|버전]] 관리(Version Control)'를 포함하는 훨씬 더 거시적인 개념이다. [[288_version_ihl_tos_total_length|버전]] 관리가 단순히 코드 파일의 이력을 추적하는 기술적 도구라면, 형상 관리는 요구사항 명세서, 아키텍처 설계서, 테스트 스크립트, 심지어 컴파일러의 [[288_version_ihl_tos_total_length|버전]]까지 프로젝트를 구성하는 모든 요소([[090_configuration_item|Configuration Item]])의 [[003_integrity|무결성]]을 유지하는 '프로세스이자 관리 체계'다. 
+형상 관리([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), Software [Configuration Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/))는 단순한 '[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리(Version Control)'를 포함하는 훨씬 더 거시적인 개념이다. [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리가 단순히 코드 파일의 이력을 추적하는 기술적 도구라면, 형상 관리는 요구사항 명세서, 아키텍처 설계서, 테스트 스크립트, 심지어 컴파일러의 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)까지 프로젝트를 구성하는 모든 요소([Configuration Item](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/))의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 유지하는 '프로세스이자 관리 체계'다. 
 
-이 도식은 [[022_configuration_control|형상 통제]]가 부재할 때 개발팀이 겪는 파편화 현상과, 형상 관리가 도입되었을 때 유지되는 [[003_integrity|무결성]] 상태를 대조하여 보여준다.
+이 도식은 [형상 통제](/knowledge-base/studynote/04_software_engineering/01_overview_principles/022_configuration_control/)가 부재할 때 개발팀이 겪는 파편화 현상과, 형상 관리가 도입되었을 때 유지되는 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 상태를 대조하여 보여준다.
 ```text
 ┌───────────────── 형상 통제 부재 (Chaos) vs 형상 관리 적용 (Order) ────────────────┐
 │                                                                                 │
@@ -34,7 +38,7 @@ tags:
 │ * 결과: 추적성(Traceability) 완전 상실    * 결과: 단일 진실의 원천(SSOT) 확보   │
 └─────────────────────────────────────────────────────────────────────────────────┘
 ```
-이 그림의 핵심은 [[178_as_is_to_be_analysis|AS-IS]] 상태에서는 '단일 진실의 원천(Single Source of Truth)'이 존재하지 않아, 장애 발생 시 원인 추적이나 [[098_rollback_strategy_pipeline_error_threshold|롤백]]이 아예 불가능하다는 점이다. 반면 형상 관리가 적용된 TO-BE 체계에서는 소스코드뿐만 아니라 모든 산출물이 중앙(또는 [[136_variance|분산]]) 리포지토리에 동기화되며, 모든 변경 내역은 [[160_change_control_board_ccb_requirements_review|CCB]](형상통제위원회)와 같은 명시적 규칙에 의해 엄격하게 통제된다.
+이 그림의 핵심은 [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 상태에서는 '단일 진실의 원천(Single Source of Truth)'이 존재하지 않아, 장애 발생 시 원인 추적이나 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)이 아예 불가능하다는 점이다. 반면 형상 관리가 적용된 TO-BE 체계에서는 소스코드뿐만 아니라 모든 산출물이 중앙(또는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)) 리포지토리에 동기화되며, 모든 변경 내역은 [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/)(형상통제위원회)와 같은 명시적 규칙에 의해 엄격하게 통제된다.
 
 📢 **섹션 요약 비유**: 형상 관리가 없는 개발은 브레이크 없는 자동차를 여러 명이 동시에 운전대를 잡고 모는 것과 같습니다. SCM은 안전벨트와 브레이크를 제공하고, 블랙박스를 달아 언제 누가 핸들을 꺾었는지 완벽하게 기록하는 시스템입니다.
 
@@ -42,16 +46,16 @@ tags:
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-형상 관리 프로세스는 일반적으로 **[[655_ir_detection_analysis|식별]] ➔ 통제 ➔ [[606_auditing_linux_auditd|감사]] ➔ 상태 기록** 이라는 4단계의 견고한 생명주기를 거치며, 그 중심에는 특정 시점의 안정된 상태를 확정 짓는 '[[025_baseline|기준선]]([[025_baseline|Baseline]])' 개념이 존재한다.
+형상 관리 프로세스는 일반적으로 **[식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) ➔ 통제 ➔ [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) ➔ 상태 기록** 이라는 4단계의 견고한 생명주기를 거치며, 그 중심에는 특정 시점의 안정된 상태를 확정 짓는 '[기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/))' 개념이 존재한다.
 
-| [[167_scm_software_configuration_management|SCM]] 4단계 | 내부 동작 및 역할 | 핵심 산출물 및 특징 | 비유 |
+| [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) 4단계 | 내부 동작 및 역할 | 핵심 산출물 및 특징 | 비유 |
 |:---:|:---|:---|:---|
-| **1. [[021_configuration_identification|형상 식별]]** ([[289_identification_flags_fragmentation_offset|Identification]]) | 관리 대상이 되는 형상 항목([[090_configuration_item|CI]])을 선정하고 트리 구조로 [[289_identification_flags_fragmentation_offset|식별자]](ID)를 부여함 | [[655_ir_detection_analysis|식별]] 번호 체계, [[159_baseline_requirements_configuration_management|베이스라인]] 정의 | 관리할 물품에 바코드/태그 부착 |
-| **2. [[022_configuration_control|형상 통제]]** (Control) | [[655_ir_detection_analysis|식별]]된 [[159_baseline_requirements_configuration_management|베이스라인]]에 대한 변경 요청(CR)을 심사하여 승인/반려하고 반영함 | 변경 요청서, 형상통제위원회([[160_change_control_board_ccb_requirements_review|CCB]]) | 창고 반출입 심사 및 서명 |
-| **3. [[023_configuration_audit|형상 감사]]** ([[363_audit|Audit]]) | 물리적 형상(코드)과 기능적 형상(요구사항)이 일치하는지 [[003_integrity|무결성]] [[395_verification_process_review|검증]] | [[606_auditing_linux_auditd|감사]] 보고서, [[157_requirements_traceability_matrix_rtm|요구사항 추적 매트릭스]] | 창고 재고 조사 및 불량품 검수 |
-| **4. 상태 기록/보고** (Status Accounting) | 형상 항목의 상태 및 변경 이력을 모든 이해관계자에게 가시적으로 보고함 | [[288_version_ihl_tos_total_length|버전]] 릴리즈 노트, 대시보드 | 재고 현황판 및 거래 장부 공시 |
+| **1. [형상 식별](/knowledge-base/studynote/04_software_engineering/01_overview_principles/021_configuration_identification/)** ([Identification](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)) | 관리 대상이 되는 형상 항목([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/))을 선정하고 트리 구조로 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)(ID)를 부여함 | [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 번호 체계, [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) 정의 | 관리할 물품에 바코드/태그 부착 |
+| **2. [형상 통제](/knowledge-base/studynote/04_software_engineering/01_overview_principles/022_configuration_control/)** (Control) | [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)된 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)에 대한 변경 요청(CR)을 심사하여 승인/반려하고 반영함 | 변경 요청서, 형상통제위원회([CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/)) | 창고 반출입 심사 및 서명 |
+| **3. [형상 감사](/knowledge-base/studynote/04_software_engineering/01_overview_principles/023_configuration_audit/)** ([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) | 물리적 형상(코드)과 기능적 형상(요구사항)이 일치하는지 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 보고서, [요구사항 추적 매트릭스](/knowledge-base/studynote/04_software_engineering/03_design_architecture/157_requirements_traceability_matrix_rtm/) | 창고 재고 조사 및 불량품 검수 |
+| **4. 상태 기록/보고** (Status Accounting) | 형상 항목의 상태 및 변경 이력을 모든 이해관계자에게 가시적으로 보고함 | [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 릴리즈 노트, 대시보드 | 재고 현황판 및 거래 장부 공시 |
 
-아래의 순차 흐름도는 형상 관리의 4단계가 변경 요청 발생 시 어떻게 상호작용하며 [[025_baseline|기준선]]([[025_baseline|Baseline]])을 방어하는지를 보여준다.
+아래의 순차 흐름도는 형상 관리의 4단계가 변경 요청 발생 시 어떻게 상호작용하며 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/))을 방어하는지를 보여준다.
 ```text
 ┌───────────────── 형상 관리(SCM) 4단계 및 CCB 통제 흐름도 ─────────────────┐
 │                                                                           │
@@ -74,26 +78,26 @@ tags:
 │                                          (테스트 및 무결성 검증 통과)     │
 └───────────────────────────────────────────────────────────────────────────┘
 ```
-이 흐름도의 핵심 병목이자 수문장(Gatekeeper)은 **형상통제위원회([[160_change_control_board_ccb_requirements_review|CCB]], [[022_configuration_control|Configuration Control]] Board)** 다. [[159_baseline_requirements_configuration_management|베이스라인]]([[025_baseline|기준선]])이 한 번 [[009_config|설정]]되면, 그 이후의 변경은 절대 개발자 임의로 할 수 없다. 예를 들어, 요구사항 분석이 끝나 '기능적 [[025_baseline|기준선]](Functional [[025_baseline|Baseline]])'이 그어지면, 고객이 기능 하나를 추가해 달라고 할 때 PM, 설계자, 개발 리더로 구성된 CCB가 모여 이 변경이 미칠 파급 효과(일정 [[015_지연_데이터_관점|지연]], 다른 모듈과의 충돌)를 심사한다. 
+이 흐름도의 핵심 병목이자 수문장(Gatekeeper)은 **형상통제위원회([CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/), [Configuration Control](/knowledge-base/studynote/04_software_engineering/01_overview_principles/022_configuration_control/) Board)** 다. [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)([기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/))이 한 번 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)되면, 그 이후의 변경은 절대 개발자 임의로 할 수 없다. 예를 들어, 요구사항 분석이 끝나 '기능적 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)(Functional [Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/))'이 그어지면, 고객이 기능 하나를 추가해 달라고 할 때 PM, 설계자, 개발 리더로 구성된 CCB가 모여 이 변경이 미칠 파급 효과(일정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 다른 모듈과의 충돌)를 심사한다. 
 
-[[023_configuration_audit|형상 감사]]([[363_audit|Audit]]) 단계에서는 문서와 코드가 일치하는지 철저히 확인한다. 만약 코드는 수정되었는데 설계 문서가 그대로라면 이는 [[023_configuration_audit|형상 감사]]를 통과할 수 없으며, 이러한 엄격함이 [[100_technical_debt_monitoring_release_policy|기술 부채]]([[100_technical_debt_monitoring_release_policy|Technical Debt]])의 누적을 막아준다.
+[형상 감사](/knowledge-base/studynote/04_software_engineering/01_overview_principles/023_configuration_audit/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) 단계에서는 문서와 코드가 일치하는지 철저히 확인한다. 만약 코드는 수정되었는데 설계 문서가 그대로라면 이는 [형상 감사](/knowledge-base/studynote/04_software_engineering/01_overview_principles/023_configuration_audit/)를 통과할 수 없으며, 이러한 엄격함이 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)([Technical Debt](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/))의 누적을 막아준다.
 
-📢 **섹션 요약 비유**: [[159_baseline_requirements_configuration_management|베이스라인]]은 은행 금고의 '자물쇠'와 같습니다. 돈(코드)을 넣고 뺄 때마다 지점장([[160_change_control_board_ccb_requirements_review|CCB]])의 승인(통제)을 받아야 하고, 장부와 실제 금액이 맞는지 정기적으로 세무조사([[606_auditing_linux_auditd|감사]])를 하여 모든 거래 내역을 통장(상태 기록)에 남기는 것입니다.
+📢 **섹션 요약 비유**: [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)은 은행 금고의 '자물쇠'와 같습니다. 돈(코드)을 넣고 뺄 때마다 지점장([CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/))의 승인(통제)을 받아야 하고, 장부와 실제 금액이 맞는지 정기적으로 세무조사([감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/))를 하여 모든 거래 내역을 통장(상태 기록)에 남기는 것입니다.
 
 ---
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
-현대 소프트웨어 개발에서 형상 관리 도구([[026_version_control_system|VCS]])는 구조적으로 중앙집중형(CVCS)에서 [[136_variance|분산]]형(DVCS)으로 완전히 패러다임이 전환되었다. 이 구조적 차이는 형상 관리의 안정성과 협업 속도에 결정적 영향을 미친다.
+현대 소프트웨어 개발에서 형상 관리 도구([VCS](/knowledge-base/studynote/04_software_engineering/01_overview_principles/026_version_control_system/))는 구조적으로 중앙집중형(CVCS)에서 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)형(DVCS)으로 완전히 패러다임이 전환되었다. 이 구조적 차이는 형상 관리의 안정성과 협업 속도에 결정적 영향을 미친다.
 
-| 비교 항목 | 중앙집중형 (CVCS) - 예: SVN | [[136_variance|분산]]형 (DVCS) - 예: Git | 실무 판단 포인트 |
+| 비교 항목 | 중앙집중형 (CVCS) - 예: SVN | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)형 (DVCS) - 예: Git | 실무 판단 포인트 |
 |:---|:---|:---|:---|
-| **저장소 구조** | 중앙 서버에만 원본 리포지토리 존재 | 중앙 서버 및 모든 개발자 로컬 PC에 리포지토리 [[016_replication_factor|복제]] | [[454_spof|단일 장애점]]([[454_spof|SPOF]]) 유무 |
-| **네트워크 의존도**| 서버 연결 끊기면 커밋/히스토리 조회 불가 | 오프라인 상태에서도 커밋, 브랜치 [[087_process_state_transition|생성]] 완벽 지원 | 출장/이동 중 개발 가능 여부 |
-| **브랜치/병합** | 브랜치 [[087_process_state_transition|생성]]이 무겁고 충돌 병합이 고통스러움 | 브랜치 [[087_process_state_transition|생성]]이 매우 가볍고 병합(Merge) [[001_algorithm_definition|알고리즘]] 탁월 | [[004_agile_relation|애자일]](다수 브랜치) 적합성 |
-| **보안 및 [[658_ir_recovery|복구]]** | 서버 디스크 장애 시 [[658_ir_recovery|복구]] 치명적 | 서버 폭파 시 아무 로컬 PC에서나 즉시 원본 복원 가능 | 극한의 생존성 및 [[452_availability|가용성]] 확보 |
+| **저장소 구조** | 중앙 서버에만 원본 리포지토리 존재 | 중앙 서버 및 모든 개발자 로컬 PC에 리포지토리 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) | [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)) 유무 |
+| **네트워크 의존도**| 서버 연결 끊기면 커밋/히스토리 조회 불가 | 오프라인 상태에서도 커밋, 브랜치 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 완벽 지원 | 출장/이동 중 개발 가능 여부 |
+| **브랜치/병합** | 브랜치 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)이 무겁고 충돌 병합이 고통스러움 | 브랜치 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)이 매우 가볍고 병합(Merge) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 탁월 | [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)(다수 브랜치) 적합성 |
+| **보안 및 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)** | 서버 디스크 장애 시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 치명적 | 서버 폭파 시 아무 로컬 PC에서나 즉시 원본 복원 가능 | 극한의 생존성 및 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 확보 |
 
-다음은 생명주기([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]])를 따라 이동하면서 확립되는 4가지 주요 [[025_baseline|기준선]]([[025_baseline|Baseline]])의 진화 과정을 나타낸 상태 전이도이다.
+다음은 생명주기([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))를 따라 이동하면서 확립되는 4가지 주요 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/))의 진화 과정을 나타낸 상태 전이도이다.
 ```text
 ┌──────────────── 소프트웨어 생명주기에 따른 베이스라인 진화 ────────────────┐
 │                                                                            │
@@ -110,22 +114,22 @@ tags:
 │                                 - (최종 소스코드, 릴리즈 패키지, 매뉴얼)   │
 └────────────────────────────────────────────────────────────────────────────┘
 ```
-이 상태도의 핵심은 왼쪽에서 오른쪽으로 진행될수록 변경에 따르는 비용이 기하급수적으로 커진다는 점이다. ①기능적 [[025_baseline|기준선]] 단계에서 요구사항을 바꾸는 것은 문서 몇 줄을 수정하면 되지만, ④제품 [[025_baseline|기준선]]이 확립된 후의 변경은 설계, 코드, 테스트, 매뉴얼을 전부 다 뜯어고쳐야 하는 재앙을 초래한다. 따라서 실무에서는 앞단(Up-stream)의 [[159_baseline_requirements_configuration_management|베이스라인]] 통제를 훨씬 더 엄격하게 수행해야 한다.
+이 상태도의 핵심은 왼쪽에서 오른쪽으로 진행될수록 변경에 따르는 비용이 기하급수적으로 커진다는 점이다. ①기능적 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 단계에서 요구사항을 바꾸는 것은 문서 몇 줄을 수정하면 되지만, ④제품 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)이 확립된 후의 변경은 설계, 코드, 테스트, 매뉴얼을 전부 다 뜯어고쳐야 하는 재앙을 초래한다. 따라서 실무에서는 앞단(Up-stream)의 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) 통제를 훨씬 더 엄격하게 수행해야 한다.
 
-📢 **섹션 요약 무비유**: (SVN과 Git의 차이) SVN이 중앙 도서관에 가서만 책을 수정할 수 있는 시스템이라면, Git은 모든 직원이 도서관 전체를 복사해서 자기 집에 두고([[136_variance|분산]]형) 마음껏 수정한 뒤 나중에 동기화하는 시스템입니다. 서버가 불타도 데이터는 절대 날아가지 않죠.
+📢 **섹션 요약 무비유**: (SVN과 Git의 차이) SVN이 중앙 도서관에 가서만 책을 수정할 수 있는 시스템이라면, Git은 모든 직원이 도서관 전체를 복사해서 자기 집에 두고([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)형) 마음껏 수정한 뒤 나중에 동기화하는 시스템입니다. 서버가 불타도 데이터는 절대 날아가지 않죠.
 
 ---
 
-### Ⅳ. 실무 적용 및 기술사적 판단 ([[268_strategy_pattern|Strategy]] & Decision)
+### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 
-실무 환경에서 자주 발생하는 형상 관리의 안티패턴은 '도구의 남용과 프로세스의 부재'다. Git을 사용한다고 해서 형상 관리를 하고 있는 것이 아니다. Commit 메시지에 "수정함", "버그 수정"이라고만 적고, Master 브랜치에 다이렉트로 코드를 밀어 넣는다면 그것은 [[136_variance|분산]] 환경의 카오스일 뿐이다.
+실무 환경에서 자주 발생하는 형상 관리의 안티패턴은 '도구의 남용과 프로세스의 부재'다. Git을 사용한다고 해서 형상 관리를 하고 있는 것이 아니다. Commit 메시지에 "수정함", "버그 수정"이라고만 적고, Master 브랜치에 다이렉트로 코드를 밀어 넣는다면 그것은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경의 카오스일 뿐이다.
 
 **1. 실무 시나리오: 무분별한 브랜치 충돌과 Git Flow 도입**
-- **상황**: 10명의 개발자가 각자 코드를 짜고 금요일 오후에 Master 브랜치에 병합(Merge)하려다 충돌(Conflict)이 500개 발생하여 주말 내내 [[098_rollback_strategy_pipeline_error_threshold|롤백]]과 수동 병합을 진행함.
-- **의사결정**: 도구(Git) 위의 규칙([[300_process|Process]])인 '브랜치 [[268_strategy_pattern|전략]](Git Flow 또는 [[054_github_flow|GitHub Flow]])'을 도입한다. 기능 개발은 격리된 `feature/XXX` 브랜치에서만 수행하고, 코드를 합칠 때는 반드시 [[067_pull_request_pr_merge_request_code_review|Pull Request]]([[067_pull_request_pr_merge_request_code_review|PR]])를 [[087_process_state_transition|생성]]하여 동료의 '[[330_code_review|코드 리뷰]]([[023_configuration_audit|형상 감사]])'를 거쳐야만 `develop` 브랜치에 병합되도록 [[090_configuration_item|CI]]/CD 시스템으로 강제(통제)한다.
-- **판단**: 형상 관리는 도구가 30%, 팀의 [[164_policy|정책]]([[164_policy|Policy]])이 70%다. 시스템적으로 Master/Main 브랜치에 대한 강제 푸시(Force Push)를 차단하여, 기술적으로 [[159_baseline_requirements_configuration_management|베이스라인]]의 파괴를 원천 봉쇄하는 것이 가장 효과적인 [[022_configuration_control|형상 통제]] 전술이다.
+- **상황**: 10명의 개발자가 각자 코드를 짜고 금요일 오후에 Master 브랜치에 병합(Merge)하려다 충돌(Conflict)이 500개 발생하여 주말 내내 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)과 수동 병합을 진행함.
+- **의사결정**: 도구(Git) 위의 규칙([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))인 '브랜치 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(Git Flow 또는 [GitHub Flow](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/054_github_flow/))'을 도입한다. 기능 개발은 격리된 `feature/XXX` 브랜치에서만 수행하고, 코드를 합칠 때는 반드시 [Pull Request](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)([PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/))를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하여 동료의 '[코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/)([형상 감사](/knowledge-base/studynote/04_software_engineering/01_overview_principles/023_configuration_audit/))'를 거쳐야만 `develop` 브랜치에 병합되도록 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 시스템으로 강제(통제)한다.
+- **판단**: 형상 관리는 도구가 30%, 팀의 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))이 70%다. 시스템적으로 Master/Main 브랜치에 대한 강제 푸시(Force Push)를 차단하여, 기술적으로 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)의 파괴를 원천 봉쇄하는 것이 가장 효과적인 [형상 통제](/knowledge-base/studynote/04_software_engineering/01_overview_principles/022_configuration_control/) 전술이다.
 
-다음은 현대적 [[652_devops_calms_culture|DevOps]] 환경에서 형상 관리(Git)가 [[090_configuration_item|CI]]/CD와 결합하여 배포 [[003_integrity|무결성]]을 보장하는 파이프라인 흐름도이다.
+다음은 현대적 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서 형상 관리(Git)가 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD와 결합하여 배포 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 보장하는 파이프라인 흐름도이다.
 ```text
 ┌───────────────── SCM 기반의 CI/CD 무결성 방어 파이프라인 ─────────────────┐
 │                                                                           │
@@ -143,34 +147,34 @@ tags:
 │               5. Git 태그 생성(v1.2) ─────────▶ 6. 운영 서버 자동 배포  │
 └───────────────────────────────────────────────────────────────────────────┘
 ```
-이 파이프라인의 핵심은 형상 관리의 4단계([[655_ir_detection_analysis|식별]], 통제, [[606_auditing_linux_auditd|감사]], 기록)가 사람이 결재 서류에 도장을 찍는 방식에서 자동화된 스크립트로 대체되었다는 점이다. [[067_pull_request_pr_merge_request_code_review|PR]]([[067_pull_request_pr_merge_request_code_review|Pull Request]])이 변경 요청(CR)이고, [[330_code_review|코드 리뷰]]가 [[160_change_control_board_ccb_requirements_review|CCB]] 심의이며, [[090_configuration_item|CI]] 자동 테스트가 [[023_configuration_audit|형상 감사]]([[363_audit|Audit]])의 역할을 수행한다. 실무 엔지니어링 리더는 이러한 '코드 기반의 [[022_configuration_control|형상 통제]]([[048_compliance_as_code|Compliance as Code]])' 환경을 구축하여 품질과 배포 속도라는 두 마리 토끼를 모두 잡아야 한다.
+이 파이프라인의 핵심은 형상 관리의 4단계([식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/), 통제, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/), 기록)가 사람이 결재 서류에 도장을 찍는 방식에서 자동화된 스크립트로 대체되었다는 점이다. [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)([Pull Request](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/))이 변경 요청(CR)이고, [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/)가 [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) 심의이며, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 자동 테스트가 [형상 감사](/knowledge-base/studynote/04_software_engineering/01_overview_principles/023_configuration_audit/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))의 역할을 수행한다. 실무 엔지니어링 리더는 이러한 '코드 기반의 [형상 통제](/knowledge-base/studynote/04_software_engineering/01_overview_principles/022_configuration_control/)([Compliance as Code](/knowledge-base/studynote/12_it_management/01_governance_strategy/048_compliance_as_code/))' 환경을 구축하여 품질과 배포 속도라는 두 마리 토끼를 모두 잡아야 한다.
 
-📢 **섹션 요약 비유**: 훌륭한 무기(Git)를 쥐어주어도 규율(Git Flow [[164_policy|정책]])이 없으면 오합지졸 오합지졸(충돌)이 됩니다. 정예 부대는 엄격한 명령 체계([[090_configuration_item|CI]]/CD 통제) 하에서만 무기의 진가를 발휘하여 안전하게 고지를 점령(자동 배포)할 수 있습니다.
+📢 **섹션 요약 비유**: 훌륭한 무기(Git)를 쥐어주어도 규율(Git Flow [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))이 없으면 오합지졸 오합지졸(충돌)이 됩니다. 정예 부대는 엄격한 명령 체계([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 통제) 하에서만 무기의 진가를 발휘하여 안전하게 고지를 점령(자동 배포)할 수 있습니다.
 
 ---
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 
-철저한 형상 관리 체계가 확립된 조직은 변경으로 인한 공포에서 해방된다. 장애가 발생해도 언제든 마지막 안정 [[288_version_ihl_tos_total_length|버전]]([[025_baseline|Baseline]])으로 [[098_rollback_strategy_pipeline_error_threshold|롤백]]하여 비즈니스 연속성을 방어할 수 있다.
+철저한 형상 관리 체계가 확립된 조직은 변경으로 인한 공포에서 해방된다. 장애가 발생해도 언제든 마지막 안정 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/))으로 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)하여 비즈니스 연속성을 방어할 수 있다.
 
-| 기대효과 구분 | [[167_scm_software_configuration_management|SCM]] 부재 시 (Chaos) | [[167_scm_software_configuration_management|SCM]] 정착 시 (Order & [[090_configuration_item|CI]]/CD) |
+| 기대효과 구분 | [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) 부재 시 (Chaos) | [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) 정착 시 (Order & [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD) |
 |:---|:---|:---|
-| **변경 통제력** | 임의 소스 수정으로 라이브 서버 크래시 잦음 | 승인된 PR만 반영, 100% [[003_integrity|무결성]] 유지 |
-| **추적성 / [[606_auditing_linux_auditd|감사]]** | 장애 발생 시 원인 제공자 및 시점 파악 불가 | `git blame`, 커밋 이력을 통한 즉각적 원인 [[655_ir_detection_analysis|식별]] |
-| **생산성(리드타임)** | 병합 시 수동 충돌 해결에 며칠 소요 | 브랜치 [[268_strategy_pattern|전략]]으로 독립적 [[430_index_fast_full_scan|병렬]] 개발 보장 |
+| **변경 통제력** | 임의 소스 수정으로 라이브 서버 크래시 잦음 | 승인된 PR만 반영, 100% [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 유지 |
+| **추적성 / [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)** | 장애 발생 시 원인 제공자 및 시점 파악 불가 | `git blame`, 커밋 이력을 통한 즉각적 원인 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) |
+| **생산성(리드타임)** | 병합 시 수동 충돌 해결에 며칠 소요 | 브랜치 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 독립적 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 개발 보장 |
 
-미래의 형상 관리는 소스코드를 넘어 인프라스트럭처까지 포괄하는 '[[119_gitops_single_source_of_truth|GitOps]]' 패러다임으로 진화했다. 과거에는 서버 엔지니어가 리눅스 서버에 직접 접속해 쉘 커맨드를 치며 환경(형상)을 바꿨다면, 이제는 서버의 [[009_config|설정]]값 조차 Terraform이나 YAML 코드로 짜서 Git에 올린다([[793_iac_idempotency_template|IaC]], [[062_infrastructure_as_code|Infrastructure as Code]]). Git 저장소가 시스템 상태의 유일한 '진실의 원천(SSOT)'이 되고, [[196_kubernetes_k8s_container_orchestration|쿠버네티스]] 컨트롤러가 Git의 상태를 읽어와 실제 인프라를 똑같이 맞춰주는 것이다. 결론적으로 형상 관리는 소프트웨어 공학의 기본기를 넘어, 클라우드 네이티브와 [[652_devops_calms_culture|데브옵스]] 인프라 전체를 지탱하는 척추(Backbone)로 군림하고 있다.
+미래의 형상 관리는 소스코드를 넘어 인프라스트럭처까지 포괄하는 '[GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/)' 패러다임으로 진화했다. 과거에는 서버 엔지니어가 리눅스 서버에 직접 접속해 쉘 커맨드를 치며 환경(형상)을 바꿨다면, 이제는 서버의 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)값 조차 Terraform이나 YAML 코드로 짜서 Git에 올린다([IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/), [Infrastructure as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/)). Git 저장소가 시스템 상태의 유일한 '진실의 원천(SSOT)'이 되고, [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 컨트롤러가 Git의 상태를 읽어와 실제 인프라를 똑같이 맞춰주는 것이다. 결론적으로 형상 관리는 소프트웨어 공학의 기본기를 넘어, 클라우드 네이티브와 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 인프라 전체를 지탱하는 척추(Backbone)로 군림하고 있다.
 
-📢 **섹션 요약 비유**: 옛날의 형상 관리가 개발자들의 '문서와 소스코드 [[555_backup_and_restore_strategy|백업]]용 외장하드' 였다면, 미래의 형상 관리([[119_gitops_single_source_of_truth|GitOps]])는 클라우드 세상 전체의 모습을 설계도(Git) 하나만 바꾸면 즉시 세상이 변하게 만드는 '창조주의 설계 도면'과 같습니다.
+📢 **섹션 요약 비유**: 옛날의 형상 관리가 개발자들의 '문서와 소스코드 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)용 외장하드' 였다면, 미래의 형상 관리([GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/))는 클라우드 세상 전체의 모습을 설계도(Git) 하나만 바꾸면 즉시 세상이 변하게 만드는 '창조주의 설계 도면'과 같습니다.
 
 ---
 
-### 📌 관련 개념 맵 ([[160_knowledge_graph_graphrag_integration|Knowledge Graph]])
-- **[[119_gitops_single_source_of_truth|GitOps]] ([[167_gitops|깃옵스]])** : 형상 관리(Git)를 단일 진실의 원천으로 삼아 애플리케이션 코드뿐 아니라 인프라 배포까지 선언적으로 자동 관리하는 최신 [[652_devops_calms_culture|DevOps]] 운영 방법론.
-- **[[159_baseline_requirements_configuration_management|베이스라인]] ([[025_baseline|Baseline]] / [[025_baseline|기준선]])** : 특정 시점에 합의되고 공식적으로 승인된 형상 항목들의 집합으로, 이후 변경의 기준점이 되는 상태.
-- **[[160_change_control_board_ccb_requirements_review|CCB]] ([[022_configuration_control|Configuration Control]] Board / 형상통제위원회)** : 프로젝트 생명주기 동안 발생하는 중요한 형상 변경 요청(CR)을 심의하고 승인/기각하는 공식 의사결정 기구.
-- **[[090_configuration_item|CI]]/CD ([[076_ci_continuous_integration|지속적 통합]]/배포)** : 형상 관리 저장소에 코드가 커밋되는 순간 빌드와 테스트([[023_configuration_audit|형상 감사]])를 자동화하여 릴리즈를 가속하는 파이프라인.
-- **[[136_variance|분산]] [[288_version_ihl_tos_total_length|버전]] 관리 시스템 (DVCS)** : Git과 같이 중앙 서버에 의존하지 않고 모든 개발자의 로컬 환경에 전체 저장소 [[016_replication_factor|복제]]본을 두어 [[430_index_fast_full_scan|병렬]] 작업과 안정성을 극대화한 시스템.
+### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
+- **[GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) ([깃옵스](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/167_gitops/))** : 형상 관리(Git)를 단일 진실의 원천으로 삼아 애플리케이션 코드뿐 아니라 인프라 배포까지 선언적으로 자동 관리하는 최신 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 운영 방법론.
+- **[베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) ([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) / [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/))** : 특정 시점에 합의되고 공식적으로 승인된 형상 항목들의 집합으로, 이후 변경의 기준점이 되는 상태.
+- **[CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) ([Configuration Control](/knowledge-base/studynote/04_software_engineering/01_overview_principles/022_configuration_control/) Board / 형상통제위원회)** : 프로젝트 생명주기 동안 발생하는 중요한 형상 변경 요청(CR)을 심의하고 승인/기각하는 공식 의사결정 기구.
+- **[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD ([지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)/배포)** : 형상 관리 저장소에 코드가 커밋되는 순간 빌드와 테스트([형상 감사](/knowledge-base/studynote/04_software_engineering/01_overview_principles/023_configuration_audit/))를 자동화하여 릴리즈를 가속하는 파이프라인.
+- **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 시스템 (DVCS)** : Git과 같이 중앙 서버에 의존하지 않고 모든 개발자의 로컬 환경에 전체 저장소 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본을 두어 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 작업과 안정성을 극대화한 시스템.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -192,12 +196,12 @@ tags:
     ▼
 [GitOps — Git을 단일 진실의 원천으로 형상 자동화]
 ```
-[[021_configuration_identification|형상 식별]]에서 시작한 [[167_scm_software_configuration_management|SCM]] 프로세스는 [[159_baseline_requirements_configuration_management|베이스라인]]·[[160_change_control_board_ccb_requirements_review|CCB]]·[[606_auditing_linux_auditd|감사]]를 거쳐 [[119_gitops_single_source_of_truth|GitOps]] 기반 선언적 자동화로 진화했다.
+[형상 식별](/knowledge-base/studynote/04_software_engineering/01_overview_principles/021_configuration_identification/)에서 시작한 [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) 프로세스는 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)·[CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/)·[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)를 거쳐 [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 기반 선언적 자동화로 진화했다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 친구들과 레고 성을 같이 만들 때, 누가 언제 어느 블록을 끼우고 뺐는지 빠짐없이 공책에 적어두는 것이 '형상 관리'예요.
-2. 중간에 완성된 1층 성벽을 사진으로 찰칵 찍어두면([[159_baseline_requirements_configuration_management|베이스라인]]), 나중에 2층을 올리다 무너져도 언제든 1층 사진을 보고 처음부터 다시 시작할 수 있죠.
-3. 누군가 마음대로 블록 색깔을 바꾸고 싶다면 꼭 친구들 회의([[160_change_control_board_ccb_requirements_review|CCB]])를 열어 허락을 받아야만 성이 예쁘게 완성된답니다!
+2. 중간에 완성된 1층 성벽을 사진으로 찰칵 찍어두면([베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)), 나중에 2층을 올리다 무너져도 언제든 1층 사진을 보고 처음부터 다시 시작할 수 있죠.
+3. 누군가 마음대로 블록 색깔을 바꾸고 싶다면 꼭 친구들 회의([CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/))를 열어 허락을 받아야만 성이 예쁘게 완성된답니다!
 
 ---
 
@@ -205,7 +209,7 @@ tags:
 
 **진행 상황**: 20 / 973
 
-← **이전**: [[019_software_product_line|19. 소프트웨어 제품 라인 (SPL, Software Product Line) - 도메인/어플리케이션 공학]]
-**다음**: [[021_configuration_identification|21. 형상 식별 (Configuration Identification) - 형상 항목(CI) 선정]] →
+← **이전**: [19. 소프트웨어 제품 라인 (SPL, Software Product Line) - 도메인/어플리케이션 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/019_software_product_line/)
+**다음**: [21. 형상 식별 (Configuration Identification) - 형상 항목(CI) 선정](/knowledge-base/studynote/04_software_engineering/01_overview_principles/021_configuration_identification/) →
 
 ---

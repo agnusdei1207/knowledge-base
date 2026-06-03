@@ -1,27 +1,31 @@
----
-title: 17. 체인법 (Chaining) — 연결 리스트 충돌 처리
-date: '2026-04-21'
-tags:
-- studynote-algorithm
----
++++
+title = "17. 체인법 (Chaining) — 연결 리스트 충돌 처리"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-algorithm"]
+
+[extra]
+tags = ["studynote-algorithm"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 체인법 ([[103_chaining|Chaining]])은 [[563_hash_collision_chaining_linear_probing|해시 충돌]] 시 동일 버킷의 원소들을 [[056_linked_list|연결 리스트]](또는 트리)로 연결하여 여러 키를 같은 슬롯에 공존시키는 분리 연결(Separate [[103_chaining|Chaining]]) 방식이다.
+> 1. **본질**: 체인법 ([Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/))은 [해시 충돌](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/) 시 동일 버킷의 원소들을 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)(또는 트리)로 연결하여 여러 키를 같은 슬롯에 공존시키는 분리 연결(Separate [Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/)) 방식이다.
 > 2. **가치**: 부하 계수 α가 1을 초과해도 동작하며, 삭제가 간단하고 최악 검색은 O(α)로 예측 가능하다. Java HashMap이 이 방식으로 동작한다.
-> 3. **판단 포인트**: 부하 계수가 높거나 삭제가 빈번하면 체인법, 메모리 캐시 효율과 포인터 오버헤드를 줄이려면 오픈 어드레싱([[068_open_addressing|Open Addressing]])을 선택한다.
+> 3. **판단 포인트**: 부하 계수가 높거나 삭제가 빈번하면 체인법, 메모리 캐시 효율과 포인터 오버헤드를 줄이려면 오픈 어드레싱([Open Addressing](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/068_open_addressing/))을 선택한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-해시 함수가 서로 다른 두 키를 같은 버킷 인덱스로 매핑할 때 **[[563_hash_collision_chaining_linear_probing|해시 충돌]] (Hash [[563_hash_collision_chaining_linear_probing|Collision]])** 이 발생한다. 체인법은 각 버킷을 단일 슬롯이 아닌 [[056_linked_list|연결 리스트]]의 헤드 포인터로 취급하여, 충돌된 모든 키-값 쌍을 같은 버킷의 체인에 추가한다.
+해시 함수가 서로 다른 두 키를 같은 버킷 인덱스로 매핑할 때 **[해시 충돌](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/) (Hash [Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))** 이 발생한다. 체인법은 각 버킷을 단일 슬롯이 아닌 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)의 헤드 포인터로 취급하여, 충돌된 모든 키-값 쌍을 같은 버킷의 체인에 추가한다.
 
 ### 왜 체인법인가
 
-- 오픈 어드레싱과 달리 [[055_array|배열]] 밖으로 원소가 '흘러넘치지' 않아 설계가 단순하다.
+- 오픈 어드레싱과 달리 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 밖으로 원소가 '흘러넘치지' 않아 설계가 단순하다.
 - 부하 계수 α > 1도 허용하므로 버킷 수보다 많은 원소를 저장할 수 있다.
-- 삭제 시 단순히 [[056_linked_list|연결 리스트]]에서 노드를 제거하면 되어 "삭제 표시([[300_schema_on_write_vs_read|Tombstone]])" 처리가 불필요하다.
+- 삭제 시 단순히 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)에서 노드를 제거하면 되어 "삭제 표시([Tombstone](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/300_schema_on_write_vs_read/))" 처리가 불필요하다.
 
 📢 **섹션 요약 비유**: 체인법은 각 서랍에 "서랍이 꽉 차면 뒤에 서랍장을 연결한다"는 원칙—충돌이 날 때마다 서랍 뒤에 새 서랍이 달린다.
 
@@ -44,7 +48,7 @@ hash("dog")%5=1,  hash("cat")%5=1  → 같은 버킷1에 체인
 hash("fox")%5=3,  hash("ant")%5=3,  hash("owl")%5=3  → 버킷3 체인 3개
 ```
 
-### 체인법의 [[002_time_complexity|시간 복잡도]]
+### 체인법의 [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)
 
 | 연산 | 평균 | 최악 |
 |:---|:---:|:---:|
@@ -64,7 +68,7 @@ Java 8 이후:  체인 길이 ≥ 8  →  레드-블랙 트리 (Red-Black Tree)�
               효과: 최악 탐색 O(n) → O(log n)으로 격하
 ```
 
-### 체인 길이와 [[282_performance_tactics|성능]] [[083_relationship_in_er_model|관계]]
+### 체인 길이와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
 ```
 버킷 수 m = 10, 원소 수 n = 30  →  α = 3.0
@@ -85,22 +89,22 @@ Java 8 이후:  체인 길이 ≥ 8  →  레드-블랙 트리 (Red-Black Tree)�
 
 | 항목 | 체이닝 | 오픈 어드레싱 |
 |:---|:---|:---|
-| 충돌 처리 | 버킷에 [[056_linked_list|연결 리스트]] | 다음 빈 슬롯 탐색 |
-| 메모리 | 포인터 오버헤드 있음 | [[055_array|배열]] 내부만 사용 |
+| 충돌 처리 | 버킷에 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) | 다음 빈 슬롯 탐색 |
+| 메모리 | 포인터 오버헤드 있음 | [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 내부만 사용 |
 | 부하 계수 한계 | α > 1 허용 | α < 0.7 권장 |
-| 삭제 | 단순 노드 제거 | [[300_schema_on_write_vs_read|Tombstone]] 필요 |
+| 삭제 | 단순 노드 제거 | [Tombstone](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/300_schema_on_write_vs_read/) 필요 |
 | 캐시 효율 | 낮음 (포인터 추적) | 높음 (연속 메모리) |
-| [[105_clustering_analysis|군집화]] 문제 | 없음 | 선형 탐사 시 발생 |
+| [군집화](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/) 문제 | 없음 | 선형 탐사 시 발생 |
 | 적합 상황 | 높은 부하, 잦은 삭제 | 낮은 부하, 메모리 제약 |
 
 ### 분리 체이닝 변형
 
-- **[[056_linked_list|연결 리스트]] 체이닝**: 가장 일반적, Java HashMap 기본
-- **[[055_array|배열]] 체이닝**: 버킷마다 소형 동적 [[055_array|배열]] 사용, 캐시 효율 개선
-- **트리 체이닝**: 길이 임계값 초과 시 BST ([[031_binary_search_algorithm|Binary Search]] Tree)로 전환 (Java HashMap Java 8+)
+- **[연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) 체이닝**: 가장 일반적, Java HashMap 기본
+- **[배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 체이닝**: 버킷마다 소형 동적 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 사용, 캐시 효율 개선
+- **트리 체이닝**: 길이 임계값 초과 시 BST ([Binary Search](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) Tree)로 전환 (Java HashMap Java 8+)
 - **코어어스드 해싱 (Coalesced Hashing)**: 체이닝 + 오픈 어드레싱 혼합
 
-📢 **섹션 요약 비유**: 체인법과 오픈 어드레싱은 영화관이 매진됐을 때의 두 [[268_strategy_pattern|전략]]—"로비에 접이 의자 추가(체이닝)"냐 "옆 상영관 빈 자리 배정(오픈 어드레싱)"이냐의 차이다.
+📢 **섹션 요약 비유**: 체인법과 오픈 어드레싱은 영화관이 매진됐을 때의 두 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)—"로비에 접이 의자 추가(체이닝)"냐 "옆 상영관 빈 자리 배정(오픈 어드레싱)"이냐의 차이다.
 
 ---
 
@@ -110,9 +114,9 @@ Java 8 이후:  체인 길이 ≥ 8  →  레드-블랙 트리 (Red-Black Tree)�
 
 - **Java HashMap / Hashtable**: 분리 체이닝 + 임계값 초과 시 트리화
 - **Python dict (CPython 3.6+)**: 오픈 어드레싱 사용 (체이닝 아님)
-- **[[002_database_definition|데이터베이스]] [[174_hash_join|해시 조인]]**: 빌드 단계에서 작은 테이블을 체이닝 [[067_hash_table|해시 테이블]]로 구축
+- **[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [해시 조인](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/)**: 빌드 단계에서 작은 테이블을 체이닝 [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)로 구축
 - **컴파일러 심볼 테이블**: 스코프별 심볼 체인
-- **[[511_dns_hierarchical_distributed_architecture|DNS]] 캐시 / [[312_arp_address_resolution_protocol_ip_to_mac|ARP]] 테이블**: [[563_hash_collision_chaining_linear_probing|해시 충돌]] 처리에 체이닝 활용
+- **[DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 캐시 / [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 테이블**: [해시 충돌](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/) 처리에 체이닝 활용
 
 ### 기술사 판단 기준
 
@@ -123,28 +127,28 @@ Java 8 이후:  체인 길이 ≥ 8  →  레드-블랙 트리 (Red-Black Tree)�
 공간 극소화 + 대략적 멤버십     →  블룸 필터
 ```
 
-📢 **섹션 요약 비유**: Java HashMap은 처음엔 서랍마다 줄을 세우다가, 줄이 너무 길어지면 줄을 [[031_binary_search_algorithm|이진 탐색]] 트리로 재편성하는 똑똑한 관리자다.
+📢 **섹션 요약 비유**: Java HashMap은 처음엔 서랍마다 줄을 세우다가, 줄이 너무 길어지면 줄을 [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) 트리로 재편성하는 똑똑한 관리자다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-체인법은 [[563_hash_collision_chaining_linear_probing|해시 충돌]]의 가장 직관적인 해법으로, 구현 단순성·높은 부하율 허용·삭제 용이성이라는 세 가지 장점을 갖는다. 포인터 오버헤드와 캐시 비효율이 단점이지만, Java 8+ HashMap의 트리 체이닝처럼 체인이 길어질 때 자동으로 균형 트리로 전환하면 최악 [[282_performance_tactics|성능]]도 O(log n)으로 제한할 수 있다.
+체인법은 [해시 충돌](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/)의 가장 직관적인 해법으로, 구현 단순성·높은 부하율 허용·삭제 용이성이라는 세 가지 장점을 갖는다. 포인터 오버헤드와 캐시 비효율이 단점이지만, Java 8+ HashMap의 트리 체이닝처럼 체인이 길어질 때 자동으로 균형 트리로 전환하면 최악 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)도 O(log n)으로 제한할 수 있다.
 
-**결론**: 범용 [[067_hash_table|해시 테이블]] 구현의 기본 선택이며, 부하 계수 관리와 긴 체인의 트리화가 현대적인 체인법의 핵심 최적화다.
+**결론**: 범용 [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/) 구현의 기본 선택이며, 부하 계수 관리와 긴 체인의 트리화가 현대적인 체인법의 핵심 최적화다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 개념 | [[083_relationship_in_er_model|관계]] |
+| 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 |:---|:---|
-| [[067_hash_table|해시 테이블]] ([[067_hash_table|Hash Table]]) | 체인법이 구현하는 자료구조 |
-| 오픈 어드레싱 ([[068_open_addressing|Open Addressing]]) | 충돌 처리 대안 [[268_strategy_pattern|전략]] |
-| [[063_red_black_tree|레드-블랙 트리]] ([[204_red_black_tree_cfs|Red-Black Tree]]) | 긴 체인 대체 구조 |
-| 부하 계수 α (Load Factor) | 체인 길이의 [[135_expected_value|기댓값]] 결정 |
+| [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/) ([Hash Table](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)) | 체인법이 구현하는 자료구조 |
+| 오픈 어드레싱 ([Open Addressing](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/068_open_addressing/)) | 충돌 처리 대안 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
+| [레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/) ([Red-Black Tree](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/204_red_black_tree_cfs/)) | 긴 체인 대체 구조 |
+| 부하 계수 α (Load Factor) | 체인 길이의 [기댓값](/knowledge-base/studynote/08_algorithm_stats/08_stats/135_expected_value/) 결정 |
 | 리해싱 (Rehashing) | α 초과 시 버킷 재배치 |
-| [[056_linked_list|연결 리스트]] ([[056_linked_list|Linked List]]) | 체인의 기본 구현 구조 |
+| [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) ([Linked List](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)) | 체인의 기본 구현 구조 |
 
 ---
 
@@ -168,7 +172,7 @@ Java 8 이후:  체인 길이 ≥ 8  →  레드-블랙 트리 (Red-Black Tree)�
     ▼
 [로빈후드 해싱 (Robin Hood Hashing) — 탐사 거리 분산으로 최악 경우 개선]
 ```
-이 흐름은 [[563_hash_collision_chaining_linear_probing|해시 충돌]] 처리 방식이 [[056_linked_list|연결 리스트]] 기반 체이닝에서 시작하여 캐시 효율·부하율 최적화를 향해 다양한 오픈 어드레싱 [[268_strategy_pattern|전략]]으로 분화하고, 현대 언어 런타임의 고성능 해시맵으로 수렴하는 자료구조 진화를 보여준다.
+이 흐름은 [해시 충돌](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/) 처리 방식이 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) 기반 체이닝에서 시작하여 캐시 효율·부하율 최적화를 향해 다양한 오픈 어드레싱 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 분화하고, 현대 언어 런타임의 고성능 해시맵으로 수렴하는 자료구조 진화를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -182,7 +186,7 @@ Java 8 이후:  체인 길이 ≥ 8  →  레드-블랙 트리 (Red-Black Tree)�
 
 **진행 상황**: 69 / 175
 
-← **이전**: [[068_open_addressing|개방 주소법 (Open Addressing)]]
-**다음**: [[070_graph_datastructure|18. 그래프 (Graph) — 방향/무방향, 가중/비가중]] →
+← **이전**: [개방 주소법 (Open Addressing)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/068_open_addressing/)
+**다음**: [18. 그래프 (Graph) — 방향/무방향, 가중/비가중](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) →
 
 ---

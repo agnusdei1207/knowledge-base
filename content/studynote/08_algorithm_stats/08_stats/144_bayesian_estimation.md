@@ -1,14 +1,18 @@
----
-title: 15. 베이즈 추정 (Bayesian Estimation) — MAP 최대 사후 확률
-date: '2026-04-21'
-tags:
-- studynote-algorithm
----
++++
+title = "15. 베이즈 추정 (Bayesian Estimation) — MAP 최대 사후 확률"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-algorithm"]
+
+[extra]
+tags = ["studynote-algorithm"]
++++
 
 ## 핵심 인사이트
 
-> 베이즈 추정(Bayesian Estimation)의 핵심은 "[[001_dikw_pyramid|데이터]]를 보기 전 사전 지식(Prior)과, [[001_dikw_pyramid|데이터]]를 본 후 증거(Likelihood)를 곱해 사후 믿음(Posterior)을 만드는" 지식 갱신 프레임워크다.
-> MAP(Maximum A Posteriori)는 사후 분포의 최빈값(Mode)을 추정량으로 사용하며, 이는 [[093_normalization|정규화]]된 MLE와 수학적으로 동치다 — L2 [[093_normalization|정규화]](Ridge)는 가우시안 사전, L1 [[093_normalization|정규화]]([[102_lasso_ridge_regression_regularization|Lasso]])는 라플라스 사전에 해당한다.
+> 베이즈 추정(Bayesian Estimation)의 핵심은 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보기 전 사전 지식(Prior)과, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 본 후 증거(Likelihood)를 곱해 사후 믿음(Posterior)을 만드는" 지식 갱신 프레임워크다.
+> MAP(Maximum A Posteriori)는 사후 분포의 최빈값(Mode)을 추정량으로 사용하며, 이는 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)된 MLE와 수학적으로 동치다 — L2 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)(Ridge)는 가우시안 사전, L1 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)([Lasso](/knowledge-base/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/))는 라플라스 사전에 해당한다.
 > 켤레 사전 분포(Conjugate Prior)를 사용하면 사후 분포를 닫힌 형식(Closed Form)으로 계산할 수 있어 실용적이며, 베타-이항, 감마-포아송, 정규-정규 쌍이 대표적이다.
 
 ---
@@ -23,12 +27,12 @@ P(θ|X) = P(X|θ) · P(θ) / P(X)
 사후 분포(Posterior) ∝ 우도(Likelihood) × 사전 분포(Prior)
 ```
 
-- **P(θ)**: 사전 분포(Prior) — [[001_dikw_pyramid|데이터]] 관측 전 θ에 대한 믿음
-- **P(X|θ)**: 우도(Likelihood) — 파라미터 θ하에서 [[001_dikw_pyramid|데이터]] X의 [[130_probability|확률]]
-- **P(θ|X)**: 사후 분포(Posterior) — [[001_dikw_pyramid|데이터]] 관측 후 갱신된 θ 믿음
-- **P(X)**: 주변 우도(Marginal Likelihood) = Σ P(X|θ)P(θ) — [[093_normalization|정규화]] 상수
+- **P(θ)**: 사전 분포(Prior) — [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관측 전 θ에 대한 믿음
+- **P(X|θ)**: 우도(Likelihood) — 파라미터 θ하에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) X의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)
+- **P(θ|X)**: 사후 분포(Posterior) — [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관측 후 갱신된 θ 믿음
+- **P(X)**: 주변 우도(Marginal Likelihood) = Σ P(X|θ)P(θ) — [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 상수
 
-**Prior × Likelihood → Posterior [[003_bigdata_7v|시각화]]**:
+**Prior × Likelihood → Posterior [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)**:
 
 ```
 확률                사전 분포       우도 함수       사후 분포
@@ -43,7 +47,7 @@ P(θ|X) = P(X|θ) · P(θ) / P(X)
 
 베이즈 추정의 핵심: 사전 분포가 넓을수록(불확실) 사후는 우도에 가깝고, 사전 분포가 좁을수록(확신) 사후는 사전에 가깝다.
 
-📢 **섹션 요약 비유**: 베이즈 추정은 "의사의 진단"과 같다. 증상([[001_dikw_pyramid|데이터]])을 보기 전에도 "이 나이대에 이 병이 많다"(사전 분포)는 경험이 있고, 증상을 보고 나서(우도) 최종 진단(사후 분포)을 내린다.
+📢 **섹션 요약 비유**: 베이즈 추정은 "의사의 진단"과 같다. 증상([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 보기 전에도 "이 나이대에 이 병이 많다"(사전 분포)는 경험이 있고, 증상을 보고 나서(우도) 최종 진단(사후 분포)을 내린다.
 
 ---
 
@@ -67,14 +71,14 @@ P(x_new | X) = ∫ P(x_new | θ) · P(θ|X) dθ
 | 추정 결과 | 점 추정 (Mode) | 사후 분포 전체 |
 | 불확실성 표현 | ❌ (점 하나) | ✅ (분포로 표현) |
 | 계산 복잡도 | 낮음 (최적화) | 높음 (적분 필요) |
-| MLE와의 [[083_relationship_in_er_model|관계]] | MLE의 [[093_normalization|정규화]] [[288_version_ihl_tos_total_length|버전]] | MLE를 포함하는 상위 개념 |
-| 적용 | 딥러닝 [[267_weight_bias_activation|가중치]] 추정 | 베이즈 신경망, 의사 결정 |
+| MLE와의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | MLE의 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) | MLE를 포함하는 상위 개념 |
+| 적용 | 딥러닝 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 추정 | 베이즈 신경망, 의사 결정 |
 
-**빈도주의 [[146_confidence_interval|신뢰 구간]] vs 베이즈 [[146_confidence_interval|신뢰 구간]](Credible Interval)**:
-- **빈도주의 95% [[090_configuration_item|CI]]**: "이 방법을 반복하면 95%의 구간이 모수를 포함" (모수는 고정값)
-- **베이즈 95% Credible Interval**: "사후 분포에서 θ가 이 구간 안에 있을 [[130_probability|확률]]이 95%" (θ를 [[130_probability|확률]] 변수로 취급)
+**빈도주의 [신뢰 구간](/knowledge-base/studynote/08_algorithm_stats/08_stats/146_confidence_interval/) vs 베이즈 [신뢰 구간](/knowledge-base/studynote/08_algorithm_stats/08_stats/146_confidence_interval/)(Credible Interval)**:
+- **빈도주의 95% [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)**: "이 방법을 반복하면 95%의 구간이 모수를 포함" (모수는 고정값)
+- **베이즈 95% Credible Interval**: "사후 분포에서 θ가 이 구간 안에 있을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 95%" (θ를 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 변수로 취급)
 
-📢 **섹션 요약 비유**: MAP vs 완전 베이즈는 "일기예보"의 차이다. MAP는 "내일 기온은 22℃"라는 단일 예측, 완전 베이즈는 "20~24℃ 범위의 [[130_probability|확률]] 분포"를 제공한다 — 불확실성을 얼마나 솔직하게 표현하느냐의 차이다.
+📢 **섹션 요약 비유**: MAP vs 완전 베이즈는 "일기예보"의 차이다. MAP는 "내일 기온은 22℃"라는 단일 예측, 완전 베이즈는 "20~24℃ 범위의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포"를 제공한다 — 불확실성을 얼마나 솔직하게 표현하느냐의 차이다.
 
 ---
 
@@ -99,15 +103,15 @@ P(x_new | X) = ∫ P(x_new | θ) · P(θ|X) dθ
 
 n번 시도에서 k번 성공 후:
 - 사전 평균: α/(α+β)
-- 사후 평균: (α+k)/(α+β+n) ← 사전 믿음과 [[001_dikw_pyramid|데이터]]의 가중 평균
+- 사후 평균: (α+k)/(α+β+n) ← 사전 믿음과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 가중 평균
 
-📢 **섹션 요약 비유**: 켤레 사전 분포는 "같은 언어로 대화하는 파트너"와 같다. 말을 나누어도([[001_dikw_pyramid|데이터]] 갱신) 서로 같은 언어(같은 분포 계열)를 [[289_cqrs_db|쓰기]] 때문에, 복잡한 번역(수치 적분) 없이 바로 소통(계산)이 된다.
+📢 **섹션 요약 비유**: 켤레 사전 분포는 "같은 언어로 대화하는 파트너"와 같다. 말을 나누어도([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 갱신) 서로 같은 언어(같은 분포 계열)를 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때문에, 복잡한 번역(수치 적분) 없이 바로 소통(계산)이 된다.
 
 ---
 
-## Ⅳ. [[093_normalization|정규화]]로서의 MAP
+## Ⅳ. [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)로서의 MAP
 
-**MAP = [[143_mle|MLE]] + 사전 분포 ([[093_normalization|정규화]])**:
+**MAP = [MLE](/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/) + 사전 분포 ([정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))**:
 
 ```
 θ_MAP = argmax [ Σ log P(xᵢ|θ) + log P(θ) ]
@@ -115,14 +119,14 @@ n번 시도에서 k번 성공 후:
                     MLE 항          정규화 항
 ```
 
-**L2 [[093_normalization|정규화]] (Ridge Regression) = 가우시안 사전**:
+**L2 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) (Ridge Regression) = 가우시안 사전**:
 
 ```
 P(θ) ∝ exp(-λ||θ||₂²/2)   →   log P(θ) = -λ||θ||₂²/2
 MAP 목적함수: ℓ(θ) - λ||θ||₂² = MLE - Ridge 페널티
 ```
 
-**L1 [[093_normalization|정규화]] ([[102_lasso_ridge_regression_regularization|Lasso]] Regression) = 라플라스 사전**:
+**L1 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) ([Lasso](/knowledge-base/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/) Regression) = 라플라스 사전**:
 
 ```
 P(θ) ∝ exp(-λ||θ||₁)   →   log P(θ) = -λ||θ||₁
@@ -142,13 +146,13 @@ MAP 목적함수: ℓ(θ) - λ||θ||₁ = MLE - Lasso 페널티
 └──────────────────┴─────────────────────────────┘
 ```
 
-📢 **섹션 요약 비유**: 딥러닝의 [[093_normalization|정규화]]는 "베이즈 추정의 공학적 구현"이다. Ridge [[093_normalization|정규화]] 항을 추가하는 것은 "[[267_weight_bias_activation|가중치]]가 작을 것이라는 가우시안 사전 믿음"을 코드로 표현하는 것과 완전히 동일하다.
+📢 **섹션 요약 비유**: 딥러닝의 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)는 "베이즈 추정의 공학적 구현"이다. Ridge [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 항을 추가하는 것은 "[가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 작을 것이라는 가우시안 사전 믿음"을 코드로 표현하는 것과 완전히 동일하다.
 
 ---
 
 ## Ⅴ. 응용 분야
 
-**스팸 필터 ([[264_naive_bayes|나이브 베이즈]])**:
+**스팸 필터 ([나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/))**:
 ```
 P(스팸|단어들) ∝ P(단어들|스팸) · P(스팸)
 ```
@@ -156,7 +160,7 @@ P(스팸|단어들) ∝ P(단어들|스팸) · P(스팸)
 **의료 진단**:
 - 사전: 질병 유병률 P(disease)
 - 우도: 검사 민감도(Sensitivity) P(test+|disease)
-- 사후: 양성 반응 후 실제 질병 [[130_probability|확률]] (양성 예측도, PPV)
+- 사후: 양성 반응 후 실제 질병 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) (양성 예측도, PPV)
 
 **베이즈 추정 갱신 예시 (스팸 필터)**:
 
@@ -167,22 +171,22 @@ P(스팸)=0.5  →  0.7         →    0.85       → 0.95
  중립          "돈 벌기"         "클릭 지금!"    강한 스팸 신호
 ```
 
-[[001_dikw_pyramid|데이터]]를 볼수록 사후 분포가 **순차적 갱신(Sequential Updating)**으로 점점 정확해진다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 볼수록 사후 분포가 **순차적 갱신(Sequential Updating)**으로 점점 정확해진다.
 
-📢 **섹션 요약 비유**: 베이즈 갱신은 "명탐정 추리"와 같다. 처음엔 모든 용의자가 평등하게 의심스럽다(사전 분포). 새로운 증거([[001_dikw_pyramid|데이터]])가 나올 때마다 특정 용의자의 의심도를 올리고(갱신), 결국 범인(MAP)을 좁혀간다.
+📢 **섹션 요약 비유**: 베이즈 갱신은 "명탐정 추리"와 같다. 처음엔 모든 용의자가 평등하게 의심스럽다(사전 분포). 새로운 증거([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 나올 때마다 특정 용의자의 의심도를 올리고(갱신), 결국 범인(MAP)을 좁혀간다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 개념 | 연결 개념 | [[083_relationship_in_er_model|관계]] |
+| 개념 | 연결 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 |:---|:---|:---|
-| MAP | [[143_mle|MLE]] + 사전 분포 | MAP = MLE의 [[093_normalization|정규화]] [[288_version_ihl_tos_total_length|버전]] |
-| MAP | L2 [[093_normalization|정규화]] (Ridge) | 가우시안 사전 사용 시 동치 |
-| MAP | L1 [[093_normalization|정규화]] ([[102_lasso_ridge_regression_regularization|Lasso]]) | 라플라스 사전 사용 시 동치 |
+| MAP | [MLE](/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/) + 사전 분포 | MAP = MLE의 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) |
+| MAP | L2 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) (Ridge) | 가우시안 사전 사용 시 동치 |
+| MAP | L1 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) ([Lasso](/knowledge-base/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/)) | 라플라스 사전 사용 시 동치 |
 | 켤레 사전 분포 | 닫힌 형식 사후 계산 | 계산 편의성 보장 |
 | Beta-Binomial | 이항 비율 추정 | 켤레 쌍 대표 사례 |
-| 완전 베이즈 | [[376_mcmc_markov_chain_monte_carlo|MCMC]] | 사후 분포 샘플링 방법 |
+| 완전 베이즈 | [MCMC](/knowledge-base/studynote/06_ict_convergence/05_data_science/376_mcmc_markov_chain_monte_carlo/) | 사후 분포 샘플링 방법 |
 
 ---
 
@@ -210,8 +214,8 @@ P(스팸)=0.5  →  0.7         →    0.85       → 0.95
 ### 👶 어린이를 위한 3줄 비유 설명
 
 처음엔 "동전이 공정하겠지"라고 생각해(사전 분포). 던져보니 앞면이 8번 나왔어. 그럼 "아마 앞면이 조금 많은 동전이구나"로 생각이 바뀌지(사후 분포). 이게 베이즈 추정이야!
-켤레 사전 분포는 "요리할 때 계속 같은 냄비 [[289_cqrs_db|쓰기]]"와 같아 — 재료([[001_dikw_pyramid|데이터]])를 넣어도 냄비(분포 모양) 자체는 그대로이니 설거지(계산)가 훨씬 쉬워!
-딥러닝에서 "[[267_weight_bias_activation|가중치]]가 너무 커지지 말아라" 하는 규칙(L2 [[093_normalization|정규화]])도 사실 "[[267_weight_bias_activation|가중치]]가 0에 가까울 것 같아"라는 베이즈 사전 믿음을 수식으로 표현한 거야!
+켤레 사전 분포는 "요리할 때 계속 같은 냄비 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)"와 같아 — 재료([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 넣어도 냄비(분포 모양) 자체는 그대로이니 설거지(계산)가 훨씬 쉬워!
+딥러닝에서 "[가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 너무 커지지 말아라" 하는 규칙(L2 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))도 사실 "[가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 0에 가까울 것 같아"라는 베이즈 사전 믿음을 수식으로 표현한 거야!
 
 ---
 
@@ -219,7 +223,7 @@ P(스팸)=0.5  →  0.7         →    0.85       → 0.95
 
 **진행 상황**: 144 / 175
 
-← **이전**: [[143_mle|14. 최대 우도 추정 (MLE, Maximum Likelihood Estimation)]]
-**다음**: [[145_hypothesis_testing|16. 가설 검정 (Hypothesis Testing) — 귀무가설, p-값]] →
+← **이전**: [14. 최대 우도 추정 (MLE, Maximum Likelihood Estimation)](/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/)
+**다음**: [16. 가설 검정 (Hypothesis Testing) — 귀무가설, p-값](/knowledge-base/studynote/08_algorithm_stats/08_stats/145_hypothesis_testing/) →
 
 ---

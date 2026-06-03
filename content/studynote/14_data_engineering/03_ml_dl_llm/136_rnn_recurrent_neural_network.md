@@ -1,14 +1,18 @@
----
-title: 136. RNN (Recurrent Neural Network) - 순환 신경망과 시퀀스 처리
-date: '2026-04-19'
-tags:
-- studynote-dataengineering
----
++++
+title = "136. RNN (Recurrent Neural Network) - 순환 신경망과 시퀀스 처리"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-dataengineering"]
+
+[extra]
+tags = ["studynote-dataengineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: RNN은 **은닉 상태(Hidden [[272_state_pattern|State]])를 이전 시점에서 현재 시점으로 순환(Recurrence)하여 시퀀스 [[001_dikw_pyramid|데이터]](텍스트·시계열·음성)의 순서 의존성을 학습**하는 신경망이다.
-> 2. **가치**: CNN은 공간 패턴, RNN은 **시간 패턴**을 처리하며, 기계 번역·음성 인식·시계열 예측의 [[459_quic_fec_forward_error_correction|초기]] 핵심 아키텍처였다. 단, [[291_long_term_dependency|장기 의존성]]([[291_long_term_dependency|Long-term Dependency]])에 취약하다.
-> 3. **판단 포인트**: Vanilla RNN의 [[240_relu_vanishing_gradient_softmax_backprop_chain|Vanishing Gradient]] → [[292_lstm|LSTM]]/GRU가 해결 → 현재는 **Transformer가 RNN을 거의 대체**했으나, 시계열·온디바이스에서는 여전히 사용된다.
+> 1. **본질**: RNN은 **은닉 상태(Hidden [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))를 이전 시점에서 현재 시점으로 순환(Recurrence)하여 시퀀스 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(텍스트·시계열·음성)의 순서 의존성을 학습**하는 신경망이다.
+> 2. **가치**: CNN은 공간 패턴, RNN은 **시간 패턴**을 처리하며, 기계 번역·음성 인식·시계열 예측의 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 핵심 아키텍처였다. 단, [장기 의존성](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/291_long_term_dependency/)([Long-term Dependency](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/291_long_term_dependency/))에 취약하다.
+> 3. **판단 포인트**: Vanilla RNN의 [Vanishing Gradient](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/) → [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/)/GRU가 해결 → 현재는 **Transformer가 RNN을 거의 대체**했으나, 시계열·온디바이스에서는 여전히 사용된다.
 
 ---
 
@@ -27,7 +31,7 @@ RNN: h_t = f(W·h_{t-1} + U·x_t)
 
 ## Ⅱ~Ⅴ. 결론
 
-RNN은 **시퀀스 처리의 기초 아키텍처**이며, [[292_lstm|LSTM]]/GRU를 거쳐 Transformer로 진화했다.
+RNN은 **시퀀스 처리의 기초 아키텍처**이며, [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/)/GRU를 거쳐 Transformer로 진화했다.
 
 ---
 
@@ -35,11 +39,11 @@ RNN은 **시퀀스 처리의 기초 아키텍처**이며, [[292_lstm|LSTM]]/GRU�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[[244_rnn_time_series_lstm_cell_gate_long_term_dependency|RNN]]** | 순환 은닉 상태 |
-| **[[292_lstm|LSTM]]** | [[291_long_term_dependency|장기 의존성]] 해결 |
-| **[[294_gru|GRU]]** | [[292_lstm|LSTM]] 경량화 |
-| **[[246_transformer_self_attention_parallel_positional_encoding|Transformer]]** | [[244_rnn_time_series_lstm_cell_gate_long_term_dependency|RNN]] 대체 ([[430_index_fast_full_scan|병렬]]) |
-| **시계열** | [[244_rnn_time_series_lstm_cell_gate_long_term_dependency|RNN]] 여전히 활용 |
+| **[RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/)** | 순환 은닉 상태 |
+| **[LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/)** | [장기 의존성](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/291_long_term_dependency/) 해결 |
+| **[GRU](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/)** | [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) 경량화 |
+| **[Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)** | [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/) 대체 ([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)) |
+| **시계열** | [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/) 여전히 활용 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -61,7 +65,7 @@ RNN은 **시퀀스 처리의 기초 아키텍처**이며, [[292_lstm|LSTM]]/GRU�
 
 **진행 상황**: 136 / 258
 
-← **이전**: [[135_cnn_convolutional_neural_network|135. CNN (Convolutional Neural Network) - 합성곱 신경망의 구조와 원리]]
-**다음**: [[137_lstm_gru_long_short_term_memory|137. LSTM & GRU - 장기 의존성을 해결한 순환 신경망]] →
+← **이전**: [135. CNN (Convolutional Neural Network) - 합성곱 신경망의 구조와 원리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/135_cnn_convolutional_neural_network/)
+**다음**: [137. LSTM & GRU - 장기 의존성을 해결한 순환 신경망](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/137_lstm_gru_long_short_term_memory/) →
 
 ---

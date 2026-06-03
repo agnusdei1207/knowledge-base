@@ -1,31 +1,35 @@
----
-title: 729. 객체지향 결합도 (내용, 공통, 제어, 스탬프, 자료)
-date: '2026-05-08'
-tags:
-- studynote-software-engineering
----
++++
+title = "729. 객체지향 결합도 (내용, 공통, 제어, 스탬프, 자료)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-software-engineering"]
+
+[extra]
+tags = ["studynote-software-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 객체지향 [[195_coupling_levels|결합도]] (내용, 공통, 제어, 스탬프, 자료)은(는) [[001_software_engineering_definition|소프트웨어 공학]]의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[[346_maintainability_portability|유지보수성]]·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 객체지향 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) (내용, 공통, 제어, 스탬프, 자료)은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-소프트웨어가 커지면 코드를 여러 개의 [[192_module_independence|모듈]]([[192_module_independence|Module]])로 쪼개야 한다. 그런데 [[192_module_independence|모듈]]을 아무렇게나 쪼개면, A [[192_module_independence|모듈]]의 코드를 한 줄 고쳤는데 전혀 상관없어 보이는 B [[192_module_independence|모듈]]과 C [[192_module_independence|모듈]]에서 갑자기 에러가 터진다. 이를 **산탄총 수술(Shotgun Surgery)**이라 부른다.
+소프트웨어가 커지면 코드를 여러 개의 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)([Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))로 쪼개야 한다. 그런데 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 아무렇게나 쪼개면, A [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 코드를 한 줄 고쳤는데 전혀 상관없어 보이는 B [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)과 C [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)에서 갑자기 에러가 터진다. 이를 **산탄총 수술(Shotgun Surgery)**이라 부른다.
 
-이 재앙의 원인이 바로 [[192_module_independence|모듈]] 간의 끈끈한 연결고리, 즉 **[[195_coupling_levels|결합도]]([[195_coupling_levels|Coupling]])**다. 좋은 소프트웨어 아키텍처의 가장 위대한 1원칙은 **"[[193_cohesion_levels|응집도]]는 높게(High [[193_cohesion_levels|Cohesion]]), [[195_coupling_levels|결합도]]는 낮게(Loose [[195_coupling_levels|Coupling]])"**다. 
+이 재앙의 원인이 바로 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간의 끈끈한 연결고리, 즉 **[결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)([Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/))**다. 좋은 소프트웨어 아키텍처의 가장 위대한 1원칙은 **"[응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)는 높게(High [Cohesion](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)), [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)는 낮게(Loose [Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/))"**다. 
 
-[[192_module_independence|모듈]]들은 서로가 내부적으로 어떻게 생겼는지(How) 절대 몰라야 하며, 오직 잘 정의된 인터페이스(What)로만 소통해야 한다. 이를 달성하기 위해 [[195_coupling_levels|결합도]]의 5가지 단계를 이해하고, 코드를 가장 [[195_coupling_levels|결합도]]가 낮은 상태로 설계하는 것이 객체지향의 핵심이다.
+[모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)들은 서로가 내부적으로 어떻게 생겼는지(How) 절대 몰라야 하며, 오직 잘 정의된 인터페이스(What)로만 소통해야 한다. 이를 달성하기 위해 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)의 5가지 단계를 이해하고, 코드를 가장 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)가 낮은 상태로 설계하는 것이 객체지향의 핵심이다.
 
-- **📢 섹션 요약 비유**: [[195_coupling_levels|결합도]]가 높은 코드는 '샴쌍둥이'다. 한 명이 감기에 걸리면 다른 한 명도 아프다. [[195_coupling_levels|결합도]]가 낮은 코드는 '레고 블록'이다. 파란 블록이 부서지면 그 블록만 빼서 새 파란 블록으로 끼워 넣으면 끝이다.
+- **📢 섹션 요약 비유**: [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)가 높은 코드는 '샴쌍둥이'다. 한 명이 감기에 걸리면 다른 한 명도 아프다. [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)가 낮은 코드는 '레고 블록'이다. 파란 블록이 부서지면 그 블록만 빼서 새 파란 블록으로 끼워 넣으면 끝이다.
 
 ---
 
-다음은 객체지향 [[195_coupling_levels|결합도]] (내용, 공통, 제어의 핵심 구조와 흐름을 보여주는 다이어그램이다.
+다음은 객체지향 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) (내용, 공통, 제어의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -40,7 +44,7 @@ tags:
 └─────────────────────────────────────────────────────────────┘
 ```
 
-이 다이어그램은 객체지향 [[195_coupling_levels|결합도]] (내용, 공통, 제어가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
+이 다이어그램은 객체지향 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) (내용, 공통, 제어가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
 ---
 
@@ -50,13 +54,13 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[[195_coupling_levels|결합도]]는 강할수록(높을수록) 나쁘고, 약할수록(낮을수록) 좋다. (암기 팁: **내-공-제-스-자**)
+[결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)는 강할수록(높을수록) 나쁘고, 약할수록(낮을수록) 좋다. (암기 팁: **내-공-제-스-자**)
 
-- **📢 섹션 요약 비유**: 객체지향 [[195_coupling_levels|결합도]] (내용, 공통, 제어, 스탬프, 자료)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: 객체지향 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) (내용, 공통, 제어, 스탬프, 자료)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 | 항목 | 설명 | 비고 |
 | :--- | :--- | :--- |
-| 핵심 특성 | 객체지향 [[195_coupling_levels|결합도]] (내용, 공통, 제어, 스탬프, 자료)의 핵심 특성과 동작 방식 | 필수 이해 요소 |
+| 핵심 특성 | 객체지향 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) (내용, 공통, 제어, 스탬프, 자료)의 핵심 특성과 동작 방식 | 필수 이해 요소 |
 | 적용 범위 | 어떤 프로젝트·상황에서 활용하는지 | 선택 기준 |
 | 제약 조건 | 적용 시 주의해야 할 전제·한계 | 트레이드오프 |
 
@@ -68,18 +72,18 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-[[195_coupling_levels|결합도]]([[195_coupling_levels|Coupling]])는 [[193_cohesion_levels|응집도]]([[193_cohesion_levels|Cohesion]])와 항상 거울처럼 함께 다닌다.
+[결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)([Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/))는 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)([Cohesion](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/))와 항상 거울처럼 함께 다닌다.
 
-| 비교 항목 | [[195_coupling_levels|결합도]] ([[195_coupling_levels|Coupling]]) | [[193_cohesion_levels|응집도]] ([[193_cohesion_levels|Cohesion]]) |
+| 비교 항목 | [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) ([Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)) | [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) ([Cohesion](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)) |
 |:---|:---|:---|
-| **대상** | **[[192_module_independence|모듈]]과 [[192_module_independence|모듈]] '사이'의 [[083_relationship_in_er_model|관계]]** | **[[192_module_independence|모듈]] '내부' 요소들 간의 [[083_relationship_in_er_model|관계]]** |
+| **대상** | **[모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)과 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) '사이'의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)** | **[모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) '내부' 요소들 간의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)** |
 | **목표 지향점** | **낮을수록 (Loose) 좋음** | **높을수록 (High) 좋음** |
 | **측정 기준** | 얼마나 서로 안 엮여 있는가? | 내부 함수들이 얼마나 하나의 목적을 향해 뭉쳐있는가? |
-| **나쁜 예** | 샴쌍둥이처럼 피를 공유함 (공통 [[195_coupling_levels|결합도]]) | 잡동사니를 다 모아둔 만물상 서랍 (우연적 [[193_cohesion_levels|응집도]]) |
+| **나쁜 예** | 샴쌍둥이처럼 피를 공유함 (공통 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)) | 잡동사니를 다 모아둔 만물상 서랍 (우연적 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)) |
 
-[[195_coupling_levels|결합도]]를 낮추기 위해 [[192_module_independence|모듈]]을 너무 잘게 쪼개면 오히려 [[192_module_independence|모듈]] 간의 통신이 늘어나 [[195_coupling_levels|결합도]]가 올라가는 역설이 발생한다. 따라서 **'하나의 책임을 지는 수준(높은 [[193_cohesion_levels|응집도]])'**까지만 쪼개는 밸런스가 중요하다.
+[결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)를 낮추기 위해 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 너무 잘게 쪼개면 오히려 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간의 통신이 늘어나 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)가 올라가는 역설이 발생한다. 따라서 **'하나의 책임을 지는 수준(높은 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/))'**까지만 쪼개는 밸런스가 중요하다.
 
-- **📢 섹션 요약 비유**: [[195_coupling_levels|결합도]] 낮추기는 이웃집과의 담장을 높여 사생활을 지키는 것이고, [[193_cohesion_levels|응집도]] 높이기는 우리 집 식구들끼리 거실에 모여 화목하게 지내는 것이다. 둘 다 잘 되어야 좋은 아파트 단지(아키텍처)다.
+- **📢 섹션 요약 비유**: [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 낮추기는 이웃집과의 담장을 높여 사생활을 지키는 것이고, [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) 높이기는 우리 집 식구들끼리 거실에 모여 화목하게 지내는 것이다. 둘 다 잘 되어야 좋은 아파트 단지(아키텍처)다.
 
 ---
 
@@ -91,9 +95,9 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 가장 흔하게 저지르는 실수는 '스탬프 [[195_coupling_levels|결합도]]'와 '제어 [[195_coupling_levels|결합도]]'다.
+실무에서 가장 흔하게 저지르는 실수는 '스탬프 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)'와 '제어 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)'다.
 
-- **📢 섹션 요약 비유**: 객체지향 [[195_coupling_levels|결합도]] (내용, 공통, 제어, 스탬프, 자료)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: 객체지향 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) (내용, 공통, 제어, 스탬프, 자료)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 ---
 
@@ -103,11 +107,11 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-[[195_coupling_levels|결합도]]를 '자료 [[195_coupling_levels|결합도]]' 수준으로 낮추는 데 성공하면, 시스템은 [[532_microservices_decomposition_patterns|마이크로서비스]]([[619_msa_traffic_hardware|MSA]])로 언제든지 분리해 낼 수 있는 완벽한 유연성을 얻게 된다. A [[192_module_independence|모듈]] 개발자는 B [[192_module_independence|모듈]] 개발자가 파업을 하든 코드를 어떻게 짜든 신경 쓰지 않고 자기 일만 하면 된다.
+[결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)를 '자료 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)' 수준으로 낮추는 데 성공하면, 시스템은 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))로 언제든지 분리해 낼 수 있는 완벽한 유연성을 얻게 된다. A [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 개발자는 B [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 개발자가 파업을 하든 코드를 어떻게 짜든 신경 쓰지 않고 자기 일만 하면 된다.
 
-결론적으로 소프트웨어 아키텍처의 설계란 본질적으로 **'[[195_coupling_levels|결합도]]를 자르는 칼질'**이다. 기술사는 [[251_design_patterns_gof_overview|디자인 패턴]]([[263_facade_pattern_simplified_interface|Facade]], [[264_proxy_pattern_surrogate_access_control|Proxy]] 등)과 인터페이스(Interface)를 무기로 삼아, [[192_module_independence|모듈]] 사이를 칭칭 감고 있는 악성 [[195_coupling_levels|결합도]]의 사슬을 끊어내고 각 [[192_module_independence|모듈]]이 자율성을 갖도록 지휘해야 한다.
+결론적으로 소프트웨어 아키텍처의 설계란 본질적으로 **'[결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)를 자르는 칼질'**이다. 기술사는 [디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/)([Facade](/knowledge-base/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/), [Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 등)과 인터페이스(Interface)를 무기로 삼아, [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 사이를 칭칭 감고 있는 악성 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)의 사슬을 끊어내고 각 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 자율성을 갖도록 지휘해야 한다.
 
-- **📢 섹션 요약 비유**: [[195_coupling_levels|결합도]] 낮추기는 엉킨 이어폰 줄을 푸는 것과 같다. 억지로 잡아당기면 끊어진다. 인내심을 가지고 함수 하나, 변수 하나가 어디로 연결되었는지 살피며 살살 풀어내야만 깨끗한 두 개의 선([[192_module_independence|모듈]])으로 나눌 수 있다.
+- **📢 섹션 요약 비유**: [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 낮추기는 엉킨 이어폰 줄을 푸는 것과 같다. 억지로 잡아당기면 끊어진다. 인내심을 가지고 함수 하나, 변수 하나가 어디로 연결되었는지 살피며 살살 풀어내야만 깨끗한 두 개의 선([모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))으로 나눌 수 있다.
 
 ---
 
@@ -121,10 +125,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[001_software_engineering_definition|소프트웨어 공학]] ([[001_software_engineering_definition|Software Engineering]]) | 객체지향 [[195_coupling_levels|결합도]] (내용, 공통, 제어, 스탬프, 자료)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [[003_sdlc|소프트웨어 생명주기]] ([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]], Software Development Life Cycle) | 객체지향 [[195_coupling_levels|결합도]] (내용, 공통, 제어, 스탬프, 자료)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | 객체지향 [[195_coupling_levels|결합도]] (내용, 공통, 제어, 스탬프, 자료) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [[020_software_configuration_management|형상 관리]] ([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]]) | 객체지향 [[195_coupling_levels|결합도]] (내용, 공통, 제어, 스탬프, 자료)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 객체지향 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) (내용, 공통, 제어, 스탬프, 자료)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 객체지향 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) (내용, 공통, 제어, 스탬프, 자료)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | 객체지향 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) (내용, 공통, 제어, 스탬프, 자료) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 객체지향 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) (내용, 공통, 제어, 스탬프, 자료)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -144,13 +148,13 @@ tags:
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [[002_software_crisis|소프트웨어 위기]] 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 객체지향 [[195_coupling_levels|결합도]] (내용, 공통, 제어, 스탬프, 자료)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. 객체지향 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) (내용, 공통, 제어, 스탬프, 자료)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
 
 ---
 
@@ -158,7 +162,7 @@ tags:
 
 **진행 상황**: 902 / 973
 
-← **이전**: [[728_space_framework_developer_productivity|728. SPACE 프레임워크 생산성 다각화]]
-**다음**: [[730_oo_cohesion_types|730. 객체지향 응집도 (우연, 논리, 시간, 절차, 통신, 순차, 기능)]] →
+← **이전**: [728. SPACE 프레임워크 생산성 다각화](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/728_space_framework_developer_productivity/)
+**다음**: [730. 객체지향 응집도 (우연, 논리, 시간, 절차, 통신, 순차, 기능)](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/730_oo_cohesion_types/) →
 
 ---

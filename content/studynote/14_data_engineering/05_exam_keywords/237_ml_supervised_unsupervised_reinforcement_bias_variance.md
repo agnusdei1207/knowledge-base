@@ -1,18 +1,22 @@
----
-title: 237. 머신러닝 지도·비지도·강화학습 편향-분산 오류 종합
-date: '2026-04-21'
-tags:
-- studynote-data-engineering
----
++++
+title = "237. 머신러닝 지도·비지도·강화학습 편향-분산 오류 종합"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-data-engineering"]
+
+[extra]
+tags = ["studynote-data-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [[241_machine_learning_basics|머신러닝]]의 세 패러다임—[[121_supervised_learning|지도 학습]]([[121_supervised_learning|Supervised Learning]]), [[122_unsupervised_learning|비지도 학습]]([[122_unsupervised_learning|Unsupervised Learning]]), [[253_reinforcement_learning_mdp_policy_value_q_learning_dqn|강화 학습]]([[094_reinforcement_learning|Reinforcement Learning]])—은 "레이블(Label) 유무"와 "보상 [[130_signal|신호]](Reward [[130_signal|Signal]]) 유무"로 구분된다.
-> 2. **가치**: 편향([[094_bias|Bias]])·[[136_variance|분산]]([[136_variance|Variance]]) 트레이드오프는 모든 ML 모델의 근본 딜레마로, 과적합([[245_overfitting_variance|Overfitting]])·과소적합([[246_underfitting_bias|Underfitting]]) 진단과 [[250_cross_validation_kfold|교차 검증]]([[250_cross_validation_kfold|Cross-Validation]])을 통해 일반화 [[282_performance_tactics|성능]]을 극대화한다.
-> 3. **판단 포인트**: 학습 곡선([[240_switch_learning_forwarding_flooding|Learning]] Curve)으로 문제를 진단하고, 편향 문제는 모델 복잡도 증가로, [[136_variance|분산]] 문제는 [[093_normalization|정규화]]([[134_regularization_dropout_batch_norm|Regularization]])·[[001_dikw_pyramid|데이터]] 증강·[[257_ensemble_learning|앙상블]]로 해결한다.
+> 1. **본질**: [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)의 세 패러다임—[지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)([Supervised Learning](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)), [비지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/)([Unsupervised Learning](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/)), [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/))—은 "레이블(Label) 유무"와 "보상 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(Reward [Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)) 유무"로 구분된다.
+> 2. **가치**: 편향([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))·[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)) 트레이드오프는 모든 ML 모델의 근본 딜레마로, 과적합([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))·과소적합([Underfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/246_underfitting_bias/)) 진단과 [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/)([Cross-Validation](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/))을 통해 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 극대화한다.
+> 3. **판단 포인트**: 학습 곡선([Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Curve)으로 문제를 진단하고, 편향 문제는 모델 복잡도 증가로, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 문제는 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)([Regularization](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/))·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증강·[앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)로 해결한다.
 
 ## Ⅰ. 개요 및 필요성
 
-### [[241_machine_learning_basics|머신러닝]] 학습 패러다임 3분류
+### [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 학습 패러다임 3분류
 
 ```
 머신러닝 (Machine Learning)
@@ -35,21 +39,21 @@ tags:
 
 ### 3가지 학습 방식 비교
 
-| 항목 | [[121_supervised_learning|지도 학습]] | [[122_unsupervised_learning|비지도 학습]] | [[253_reinforcement_learning_mdp_policy_value_q_learning_dqn|강화 학습]] |
+| 항목 | [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/) | [비지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/) | [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) |
 |:---|:---|:---|:---|
-| 레이블 | ✅ 필요 | ❌ 없음 | 보상 [[130_signal|신호]] |
-| 피드백 | 즉각적 | 없음 | [[015_지연_데이터_관점|지연]] |
-| 목적 | 예측·[[104_classification_analysis|분류]] | 구조 발견 | 최적 행동 |
-| 주요 [[001_algorithm_definition|알고리즘]] | [[238_svm_margin_kernel_trick_naive_bayes|SVM]], DT, NN | K-Means, [[163_pca|PCA]] | [[316_q_learning|Q-Learning]], [[395_ppo_clipping|PPO]] |
-| 예시 | 이메일 스팸 [[104_classification_analysis|분류]] | 고객 세분화 | 게임 [[190_ai_llm_requirements_specification|AI]], 로봇 |
+| 레이블 | ✅ 필요 | ❌ 없음 | 보상 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) |
+| 피드백 | 즉각적 | 없음 | [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
+| 목적 | 예측·[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 구조 발견 | 최적 행동 |
+| 주요 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/), DT, NN | K-Means, [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) | [Q-Learning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/316_q_learning/), [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) |
+| 예시 | 이메일 스팸 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 고객 세분화 | 게임 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), 로봇 |
 
-📢 **섹션 요약 비유**: [[121_supervised_learning|지도 학습]]은 정답지 있는 시험 공부, [[122_unsupervised_learning|비지도 학습]]은 정답지 없이 책을 읽으며 주제를 찾는 것, [[253_reinforcement_learning_mdp_policy_value_q_learning_dqn|강화 학습]]은 시행착오로 자전거 타기를 배우는 것이다.
+📢 **섹션 요약 비유**: [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)은 정답지 있는 시험 공부, [비지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/)은 정답지 없이 책을 읽으며 주제를 찾는 것, [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)은 시행착오로 자전거 타기를 배우는 것이다.
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [[110_bias_variance_tradeoff|편향-분산 트레이드오프]] ([[110_bias_variance_tradeoff|Bias-Variance Tradeoff]])
+### [편향-분산 트레이드오프](/knowledge-base/studynote/14_data_engineering/02_math_mining/110_bias_variance_tradeoff/) ([Bias-Variance Tradeoff](/knowledge-base/studynote/14_data_engineering/02_math_mining/110_bias_variance_tradeoff/))
 
-모델의 예측 오류는 편향·[[136_variance|분산]]·노이즈의 합으로 분해된다.
+모델의 예측 오류는 편향·[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)·노이즈의 합으로 분해된다.
 
 ```
 총 오류 = 편향² + 분산 + 노이즈(줄일 수 없음)
@@ -63,7 +67,7 @@ tags:
   → 복잡한 모델, 과적합 (Overfitting)
 ```
 
-**[[110_bias_variance_tradeoff|편향-분산 트레이드오프]] [[070_graph_datastructure|그래프]] ([[103_ascii|ASCII]])**
+**[편향-분산 트레이드오프](/knowledge-base/studynote/14_data_engineering/02_math_mining/110_bias_variance_tradeoff/) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) ([ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/))**
 
 ```
   오류
@@ -102,9 +106,9 @@ tags:
 └───────────────────────┴─────────────────────────────────┘
 ```
 
-### [[250_cross_validation_kfold|교차 검증]] ([[250_cross_validation_kfold|Cross-Validation]])
+### [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/) ([Cross-Validation](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/))
 
-모델의 일반화 [[282_performance_tactics|성능]]을 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 있게 추정하는 방법이다.
+모델의 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 있게 추정하는 방법이다.
 
 ```
 k-폴드 교차 검증 (k-Fold Cross-Validation), k=5:
@@ -126,7 +130,7 @@ k-폴드 교차 검증 (k-Fold Cross-Validation), k=5:
   Time-Series Split: 미래 데이터 누출 방지
 ```
 
-📢 **섹션 요약 비유**: [[250_cross_validation_kfold|교차 검증]]은 시험 문제를 여러 세트 만들어 번갈아 시험 보는 것이다. 한 번 시험으로 운으로 높은 점수를 받는 것을 막고 진짜 실력을 측정한다.
+📢 **섹션 요약 비유**: [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/)은 시험 문제를 여러 세트 만들어 번갈아 시험 보는 것이다. 한 번 시험으로 운으로 높은 점수를 받는 것을 막고 진짜 실력을 측정한다.
 
 ## Ⅲ. 비교 및 연결
 
@@ -134,14 +138,14 @@ k-폴드 교차 검증 (k-Fold Cross-Validation), k=5:
 
 | 기법 | 원리 | 적용 방법 |
 |:---|:---|:---|
-| [[093_normalization|정규화]] L1 ([[102_lasso_ridge_regression_regularization|Lasso]]) | 불필요 [[247_feature_label_variables|피처]] 계수 0으로 | `alpha` 하이퍼파라미터 |
-| [[093_normalization|정규화]] L2 (Ridge) | 계수 크기 전반 축소 | `lambda` 하이퍼파라미터 |
-| [[280_dropout|드롭아웃]] ([[242_regularization_dropout_early_stopping_l1_l2_lasso_ridge|Dropout]]) | 무작위 뉴런 비활성화 | `rate=0.3~0.5` |
-| [[281_early_stopping|조기 종료]] ([[281_early_stopping|Early Stopping]]) | [[395_verification_process_review|검증]] 오류 상승 시 중단 | patience [[009_config|설정]] |
-| [[001_dikw_pyramid|데이터]] 증강 ([[001_dikw_pyramid|Data]] Augmentation) | 학습 [[001_dikw_pyramid|데이터]] 다양화 | 이미지 회전·플립 등 |
-| [[257_ensemble_learning|앙상블]] ([[257_ensemble_learning|Ensemble]]) | 여러 모델 결합 | [[259_bagging_random_forest|배깅]]·[[127_boosting|부스팅]] |
+| [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) L1 ([Lasso](/knowledge-base/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/)) | 불필요 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 계수 0으로 | `alpha` 하이퍼파라미터 |
+| [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) L2 (Ridge) | 계수 크기 전반 축소 | `lambda` 하이퍼파라미터 |
+| [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/) ([Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/)) | 무작위 뉴런 비활성화 | `rate=0.3~0.5` |
+| [조기 종료](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/) ([Early Stopping](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/)) | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 오류 상승 시 중단 | patience [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) |
+| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증강 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Augmentation) | 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 다양화 | 이미지 회전·플립 등 |
+| [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) ([Ensemble](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)) | 여러 모델 결합 | [배깅](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)·[부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/) |
 
-### [[253_reinforcement_learning_mdp_policy_value_q_learning_dqn|강화 학습]] 핵심 요소
+### [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) 핵심 요소
 
 ```
 ┌─────────────────────────────────────────────────────┐
@@ -163,7 +167,7 @@ k-폴드 교차 검증 (k-Fold Cross-Validation), k=5:
 └─────────────────────────────────────────────────────┘
 ```
 
-📢 **섹션 요약 비유**: 편향은 항상 같은 방향으로 틀리는 것(낡은 지도), [[136_variance|분산]]은 매번 다른 방향으로 틀리는 것(손 떨리는 화살)이다. 좋은 모델은 둘 다 낮아야 한다.
+📢 **섹션 요약 비유**: 편향은 항상 같은 방향으로 틀리는 것(낡은 지도), [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)은 매번 다른 방향으로 틀리는 것(손 떨리는 화살)이다. 좋은 모델은 둘 다 낮아야 한다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
@@ -171,19 +175,19 @@ k-폴드 교차 검증 (k-Fold Cross-Validation), k=5:
 
 | 학습 곡선 패턴 | 진단 | 처방 |
 |:---|:---|:---|
-| 훈련·[[395_verification_process_review|검증]] 오류 모두 높음 | 과소적합 (고편향) | 복잡 모델 사용, [[247_feature_label_variables|피처]] 추가, 반복 증가 |
-| 훈련 낮음, [[395_verification_process_review|검증]] 높음 | 과적합 (고분산) | [[093_normalization|정규화]], [[280_dropout|드롭아웃]], [[001_dikw_pyramid|데이터]] 증가, [[257_ensemble_learning|앙상블]] |
-| 훈련·[[395_verification_process_review|검증]] 오류 모두 수렴 낮음 | 정상 | 하이퍼파라미터 [[133_fine_tuning|미세 조정]] |
-| [[395_verification_process_review|검증]] 오류 요동 | 높은 [[136_variance|분산]] | 배치 크기 증가, [[080_gradient_descent_learning_rate|학습률]] 감소 |
+| 훈련·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 오류 모두 높음 | 과소적합 (고편향) | 복잡 모델 사용, [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 추가, 반복 증가 |
+| 훈련 낮음, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 높음 | 과적합 (고분산) | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증가, [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) |
+| 훈련·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 오류 모두 수렴 낮음 | 정상 | 하이퍼파라미터 [미세 조정](/knowledge-base/studynote/10_ai/02_dl_architecture_new/133_fine_tuning/) |
+| [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 오류 요동 | 높은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) | 배치 크기 증가, [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 감소 |
 
 ### 기술사 판단 포인트
 
-1. **[[001_dikw_pyramid|데이터]] 레이블 [[452_availability|가용성]]**: 레이블 있으면 지도, 없으면 비지도, 환경 상호작용이면 강화
-2. **편향 문제**: 훈련 오류 자체가 높을 때 → 모델 복잡도·[[247_feature_label_variables|피처]] 엔지니어링
-3. **[[136_variance|분산]] 문제**: 훈련-[[395_verification_process_review|검증]] 갭이 클 때 → [[093_normalization|정규화]]·더 많은 [[001_dikw_pyramid|데이터]]
-4. **[[250_cross_validation_kfold|교차 검증]]**: 항상 시간 순서 [[001_dikw_pyramid|데이터]]는 TimeSeriesSplit, 불균형 [[001_dikw_pyramid|데이터]]는 Stratified
+1. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레이블 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)**: 레이블 있으면 지도, 없으면 비지도, 환경 상호작용이면 강화
+2. **편향 문제**: 훈련 오류 자체가 높을 때 → 모델 복잡도·[피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 엔지니어링
+3. **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 문제**: 훈련-[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 갭이 클 때 → [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)·더 많은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)
+4. **[교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/)**: 항상 시간 순서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 TimeSeriesSplit, 불균형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 Stratified
 
-📢 **섹션 요약 비유**: 학습 곡선은 모델의 건강 검진표다. "훈련 점수만 높고 [[395_verification_process_review|검증]] 점수가 낮으면" 과적합—실제 시험에서 못하는 벼락치기 학생이다.
+📢 **섹션 요약 비유**: 학습 곡선은 모델의 건강 검진표다. "훈련 점수만 높고 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 점수가 낮으면" 과적합—실제 시험에서 못하는 벼락치기 학생이다.
 
 ## Ⅴ. 기대효과 및 결론
 
@@ -205,26 +209,26 @@ k-폴드 교차 검증 (k-Fold Cross-Validation), k=5:
 
 ### 결론
 
-[[241_machine_learning_basics|머신러닝]]의 세 패러다임은 서로 배타적이지 않다. 반지도 학습(Semi-Supervised)은 소량의 레이블 + 대량 레이블 없는 [[001_dikw_pyramid|데이터]]를 활용하고, [[266_self_supervised_learning|자기 지도 학습]]([[266_self_supervised_learning|Self-Supervised Learning]])은 레이블 없이 [[001_dikw_pyramid|데이터]]에서 스스로 레이블을 생성한다([[301_bert_mlm|BERT]], [[302_gpt_autoregressive|GPT]] 사전학습). [[110_bias_variance_tradeoff|편향-분산 트레이드오프]]는 이 모든 방법에서 여전히 중심 과제이며, [[250_cross_validation_kfold|교차 검증]]과 학습 곡선이 핵심 진단 도구이다.
+[머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)의 세 패러다임은 서로 배타적이지 않다. 반지도 학습(Semi-Supervised)은 소량의 레이블 + 대량 레이블 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 활용하고, [자기 지도 학습](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/266_self_supervised_learning/)([Self-Supervised Learning](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/266_self_supervised_learning/))은 레이블 없이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 스스로 레이블을 생성한다([BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/), [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) 사전학습). [편향-분산 트레이드오프](/knowledge-base/studynote/14_data_engineering/02_math_mining/110_bias_variance_tradeoff/)는 이 모든 방법에서 여전히 중심 과제이며, [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/)과 학습 곡선이 핵심 진단 도구이다.
 
-📢 **섹션 요약 비유**: 지도·비지도·강화학습은 각각 학교 수업(정답 있음), 독서(정답 없음), 게임(점수로 배움)이다. 세 가지 방법 중 어떤 "학습 방식"이 적합한지는 내가 가진 [[001_dikw_pyramid|데이터]]와 목표가 무엇이냐에 달려 있다.
+📢 **섹션 요약 비유**: 지도·비지도·강화학습은 각각 학교 수업(정답 있음), 독서(정답 없음), 게임(점수로 배움)이다. 세 가지 방법 중 어떤 "학습 방식"이 적합한지는 내가 가진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 목표가 무엇이냐에 달려 있다.
 
 ### 📌 관련 개념 맵
 
-| [[083_relationship_in_er_model|관계]] | 개념 | 설명 |
+| [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
 |:---|:---|:---|
-| 학습 유형 | [[121_supervised_learning|지도 학습]] ([[121_supervised_learning|Supervised Learning]]) | 레이블 있는 [[001_dikw_pyramid|데이터]]로 학습 |
-| 학습 유형 | [[122_unsupervised_learning|비지도 학습]] ([[122_unsupervised_learning|Unsupervised Learning]]) | 레이블 없이 구조 발견 |
-| 학습 유형 | [[253_reinforcement_learning_mdp_policy_value_q_learning_dqn|강화 학습]] ([[094_reinforcement_learning|Reinforcement Learning]]) | 보상 [[130_signal|신호]]로 [[164_policy|정책]] 학습 |
-| 오류 분석 | 편향 ([[094_bias|Bias]]) | 체계적 예측 오류 (과소적합) |
-| 오류 분석 | [[136_variance|분산]] ([[136_variance|Variance]]) | 훈련 [[001_dikw_pyramid|데이터]] 민감도 (과적합) |
-| 해결책 | [[093_normalization|정규화]] (L1/L2/[[242_regularization_dropout_early_stopping_l1_l2_lasso_ridge|Dropout]]) | 과적합 방지 |
-| 평가 방법 | k-폴드 [[250_cross_validation_kfold|교차 검증]] | 일반화 [[282_performance_tactics|성능]] 신뢰 추정 |
-| 진단 도구 | 학습 곡선 ([[240_switch_learning_forwarding_flooding|Learning]] Curve) | 편향·[[136_variance|분산]] 문제 [[003_bigdata_7v|시각화]] |
+| 학습 유형 | [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/) ([Supervised Learning](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)) | 레이블 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 학습 |
+| 학습 유형 | [비지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/) ([Unsupervised Learning](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/)) | 레이블 없이 구조 발견 |
+| 학습 유형 | [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) ([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/)) | 보상 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)로 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 학습 |
+| 오류 분석 | 편향 ([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/)) | 체계적 예측 오류 (과소적합) |
+| 오류 분석 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) ([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)) | 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 민감도 (과적합) |
+| 해결책 | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) (L1/L2/[Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/)) | 과적합 방지 |
+| 평가 방법 | k-폴드 [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/) | 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 신뢰 추정 |
+| 진단 도구 | 학습 곡선 ([Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Curve) | 편향·[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 문제 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) |
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [[121_supervised_learning|지도 학습]]은 선생님이 "이건 고양이야, 이건 강아지야"라고 알려주며 공부하는 것, [[122_unsupervised_learning|비지도 학습]]은 동물 사진 묶음을 줬을 때 스스로 비슷한 것끼리 묶는 것이다.
+1. [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)은 선생님이 "이건 고양이야, 이건 강아지야"라고 알려주며 공부하는 것, [비지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/)은 동물 사진 묶음을 줬을 때 스스로 비슷한 것끼리 묶는 것이다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -239,8 +243,8 @@ k-폴드 교차 검증 (k-Fold Cross-Validation), k=5:
     ▼
 자기지도 학습 (Self-Supervised) → Foundation Model
 ```
-2. 편향이 크면 항상 같은 곳을 겨냥해 빗나가는 화살(규칙이 틀림), [[136_variance|분산]]이 크면 매번 다른 곳에 꽂히는 화살(기억력이 너무 좋아 암기만 함)이다.
-3. [[250_cross_validation_kfold|교차 검증]]은 한 번의 시험이 아니라 여러 번 시험 봐서 평균 점수를 재는 것이다—운으로 높은 점수를 받는 것을 막아준다.
+2. 편향이 크면 항상 같은 곳을 겨냥해 빗나가는 화살(규칙이 틀림), [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 크면 매번 다른 곳에 꽂히는 화살(기억력이 너무 좋아 암기만 함)이다.
+3. [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/)은 한 번의 시험이 아니라 여러 번 시험 봐서 평균 점수를 재는 것이다—운으로 높은 점수를 받는 것을 막아준다.
 
 ---
 
@@ -248,7 +252,7 @@ k-폴드 교차 검증 (k-Fold Cross-Validation), k=5:
 
 **진행 상황**: 237 / 258
 
-← **이전**: [[236_a_star_heuristic_minimax_mcts_monte_carlo|236. A* 휴리스틱 (Heuristic) 미니맥스 (Minimax) MCTS (Monte Carlo Tree Search)]]
-**다음**: [[238_svm_margin_kernel_trick_naive_bayes|238. SVM (Support Vector Machine) 마진 커널 트릭 나이브 베이즈 (Naive Bayes)]] →
+← **이전**: [236. A* 휴리스틱 (Heuristic) 미니맥스 (Minimax) MCTS (Monte Carlo Tree Search)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/)
+**다음**: [238. SVM (Support Vector Machine) 마진 커널 트릭 나이브 베이즈 (Naive Bayes)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) →
 
 ---

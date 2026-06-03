@@ -1,25 +1,29 @@
----
-title: 260. L1 캐시 (Level 1 Cache)
-date: '2026-04-20'
-tags:
-- studynote-computer-architecture
----
++++
+title = "260. L1 캐시 (Level 1 Cache)"
+date = 2026-04-20
+
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: L1 캐시 (Level 1 Cache)는 CPU (Central Processing Unit) 코어가 가장 먼저 조회하는 초근접 저장소로, 메모리 계층에서 "가장 작지만 가장 빨라야 하는" 구간이다.
-> 2. **가치**: L1 캐시는 용량 확대보다 적중 시간 ([[263_cache_hit_miss|Hit]] Time) 최소화가 우선이므로, 보통 [[158_instruction|명령어]]용과 [[001_dikw_pyramid|데이터]]용으로 분리되고 [[250_sram|SRAM]] (Static Random Access Memory)으로 구현되어 파이프라인 정지를 줄인다.
-> 3. **판단 포인트**: L1 캐시 최적화는 "캐시를 크게 만드는 일"이 아니라, 코드와 [[001_dikw_pyramid|데이터]] 접근 패턴을 L1이 감당할 수 있는 크기·정렬·지역성 안에 머물게 만드는 일이다.
+> 2. **가치**: L1 캐시는 용량 확대보다 적중 시간 ([Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) Time) 최소화가 우선이므로, 보통 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)용과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)용으로 분리되고 [SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/) (Static Random Access Memory)으로 구현되어 파이프라인 정지를 줄인다.
+> 3. **판단 포인트**: L1 캐시 최적화는 "캐시를 크게 만드는 일"이 아니라, 코드와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근 패턴을 L1이 감당할 수 있는 크기·정렬·지역성 안에 머물게 만드는 일이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-L1 캐시 (Level 1 Cache)는 CPU 코어 바로 옆에 붙어 있는 1차 캐시다. [[057_register|레지스터]] ([[175_register_addressing|Register]]) 다음으로 가까운 저장 계층이며, 코어가 [[158_instruction|명령어]]를 읽고 [[001_dikw_pyramid|데이터]]를 가져올 때 가장 먼저 확인하는 공간이다. 현대 프로세서에서 L1 캐시는 사실상 "코어의 일부"처럼 동작한다.
+L1 캐시 (Level 1 Cache)는 CPU 코어 바로 옆에 붙어 있는 1차 캐시다. [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) ([Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)) 다음으로 가까운 저장 계층이며, 코어가 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 읽고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가져올 때 가장 먼저 확인하는 공간이다. 현대 프로세서에서 L1 캐시는 사실상 "코어의 일부"처럼 동작한다.
 
-이 계층이 필요한 이유는 CPU와 [[251_dram|DRAM]] (Dynamic Random Access Memory) 사이의 속도 차이가 너무 크기 때문이다. 코어는 몇 사이클 안에 다음 [[158_instruction|명령어]]와 피연산자를 받아야 파이프라인을 유지할 수 있지만, 메인 메모리는 그 요구를 직접 따라오지 못한다. 만약 모든 로드와 [[158_instruction|명령어]] 인출이 곧바로 DRAM까지 내려가야 한다면, 빠른 연산기가 대부분의 시간을 대기 상태로 소비하게 된다.
+이 계층이 필요한 이유는 CPU와 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory) 사이의 속도 차이가 너무 크기 때문이다. 코어는 몇 사이클 안에 다음 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)와 피연산자를 받아야 파이프라인을 유지할 수 있지만, 메인 메모리는 그 요구를 직접 따라오지 못한다. 만약 모든 로드와 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 인출이 곧바로 DRAM까지 내려가야 한다면, 빠른 연산기가 대부분의 시간을 대기 상태로 소비하게 된다.
 
-그래서 L1 캐시는 "자주 곧바로 다시 쓸 것"을 가장 가까운 곳에 붙잡아 둔다. [[247_temporal_locality|시간적 지역성]] ([[247_temporal_locality|Temporal Locality]])과 [[248_spatial_locality|공간적 지역성]] ([[248_spatial_locality|Spatial Locality]])을 가장 공격적으로 활용하는 계층이 바로 L1이다. 작은 용량으로도 높은 효과를 내는 이유는, 프로그램의 실행이 완전히 무작위가 아니라 반복문·연속 [[055_array|배열]]·짧은 [[294_function_calling_tool_use|함수 호출]] 같은 규칙성을 갖기 때문이다.
+그래서 L1 캐시는 "자주 곧바로 다시 쓸 것"을 가장 가까운 곳에 붙잡아 둔다. [시간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/) ([Temporal Locality](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/))과 [공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/) ([Spatial Locality](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/))을 가장 공격적으로 활용하는 계층이 바로 L1이다. 작은 용량으로도 높은 효과를 내는 이유는, 프로그램의 실행이 완전히 무작위가 아니라 반복문·연속 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)·짧은 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) 같은 규칙성을 갖기 때문이다.
 
 아래 그림은 L1 캐시가 왜 코어 근처에 따로 존재해야 하는지를 보여준다.
 
@@ -34,7 +38,7 @@ L1 캐시 (Level 1 Cache)는 CPU 코어 바로 옆에 붙어 있는 1차 캐시�
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
-핵심은 L1 캐시가 단순한 저장 공간이 아니라, 파이프라인이 "당장 다음 동작을 계속할 수 있게" 시간을 벌어 주는 장치라는 점이다. 즉 L1은 용량 중심의 메모리가 아니라 [[015_지연_데이터_관점|지연]]시간 중심의 메모리다.
+핵심은 L1 캐시가 단순한 저장 공간이 아니라, 파이프라인이 "당장 다음 동작을 계속할 수 있게" 시간을 벌어 주는 장치라는 점이다. 즉 L1은 용량 중심의 메모리가 아니라 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 중심의 메모리다.
 
 - **📢 섹션 요약 비유**: L1 캐시는 요리사가 창고 대신 앞치마 주머니에서 재료를 꺼내 쓰는 것과 같다. 주머니는 작지만 손이 닿는 시간이 거의 0에 가까워서, 요리 흐름이 끊기지 않는다.
 
@@ -42,18 +46,18 @@ L1 캐시 (Level 1 Cache)는 CPU 코어 바로 옆에 붙어 있는 1차 캐시�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-L1 캐시는 보통 [[158_instruction|명령어]] L1 캐시 (L1 [[158_instruction|Instruction]] Cache, L1I)와 [[001_dikw_pyramid|데이터]] L1 캐시 (L1 [[001_dikw_pyramid|Data]] Cache, L1D)로 나뉜다. 이렇게 분리하는 이유는 같은 순간에 [[158_instruction|명령어]] 인출과 [[001_dikw_pyramid|데이터]] 접근이 동시에 일어나기 때문이다. 하나의 작은 저장소로 모두 처리하면 구조적 충돌이 생기기 쉬우므로, L1 단계에서는 하버드 구조 ([[126_harvard_architecture|Harvard Architecture]]) 성격을 부분적으로 도입해 병렬성을 확보한다.
+L1 캐시는 보통 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) L1 캐시 (L1 [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Cache, L1I)와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) L1 캐시 (L1 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Cache, L1D)로 나뉜다. 이렇게 분리하는 이유는 같은 순간에 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 인출과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근이 동시에 일어나기 때문이다. 하나의 작은 저장소로 모두 처리하면 구조적 충돌이 생기기 쉬우므로, L1 단계에서는 하버드 구조 ([Harvard Architecture](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/126_harvard_architecture/)) 성격을 부분적으로 도입해 병렬성을 확보한다.
 
 또한 L1은 대개 SRAM으로 구현된다. SRAM은 DRAM보다 비싸고 면적을 많이 차지하지만, 리프레시가 필요 없고 응답 속도가 매우 빠르다. 이 계층에서 중요한 것은 "더 많이 저장"이 아니라 "1~4 사이클 안에 판별하고 반환"하는 능력이다.
 
 | 구성 요소 | 일반적 특징 | 설계 의도 |
 | :-- | :-- | :-- |
-| L1I | [[158_instruction|명령어]] 저장, 읽기 중심 | 인출 [[015_지연_데이터_관점|지연]] 최소화 |
-| L1D | [[001_dikw_pyramid|데이터]] 저장, 읽기/[[289_cqrs_db|쓰기]] 혼합 | 로드·스토어 [[015_지연_데이터_관점|지연]] 최소화 |
-| 캐시 라인 (Cache Line) | 보통 32~128바이트 단위 | [[248_spatial_locality|공간적 지역성]] 활용 |
-| 세트 연관 구조 (Set Associative) | 보통 2-way~8-way | 충돌 미스와 검색 [[015_지연_데이터_관점|지연]]의 균형 |
+| L1I | [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 저장, 읽기 중심 | 인출 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 최소화 |
+| L1D | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장, 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 혼합 | 로드·스토어 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 최소화 |
+| 캐시 라인 (Cache Line) | 보통 32~128바이트 단위 | [공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/) 활용 |
+| 세트 연관 구조 (Set Associative) | 보통 2-way~8-way | 충돌 미스와 검색 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)의 균형 |
 
-L1 설계의 핵심 트레이드오프는 **용량 vs 적중 시간**이다. 용량을 키우면 적중률은 좋아질 수 있지만, 태그 비교와 배선 길이가 늘어나 적중 시간이 길어질 수 있다. 그래서 L1은 "적당히 작은 용량 + 매우 짧은 [[015_지연_데이터_관점|지연]]시간"이라는 원칙을 거의 깨지 않는다.
+L1 설계의 핵심 트레이드오프는 **용량 vs 적중 시간**이다. 용량을 키우면 적중률은 좋아질 수 있지만, 태그 비교와 배선 길이가 늘어나 적중 시간이 길어질 수 있다. 그래서 L1은 "적당히 작은 용량 + 매우 짧은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간"이라는 원칙을 거의 깨지 않는다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────────────┐
@@ -70,9 +74,9 @@ L1 설계의 핵심 트레이드오프는 **용량 vs 적중 시간**이다. 용
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
-이 그림이 보여주는 포인트는, L1 접근이 단순히 "메모리 칸을 읽는 일"이 아니라 주소 해석, 세트 선택, 태그 비교를 매우 짧은 시간 안에 끝내야 하는 회로 문제라는 점이다. 그래서 L1은 풀 연관 ([[268_fully_associative|Fully Associative]])보다 제한된 세트 연관 구조를 더 자주 채택한다.
+이 그림이 보여주는 포인트는, L1 접근이 단순히 "메모리 칸을 읽는 일"이 아니라 주소 해석, 세트 선택, 태그 비교를 매우 짧은 시간 안에 끝내야 하는 회로 문제라는 점이다. 그래서 L1은 풀 연관 ([Fully Associative](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/268_fully_associative/))보다 제한된 세트 연관 구조를 더 자주 채택한다.
 
-[[282_performance_tactics|성능]] 평가는 평균 메모리 접근 시간인 [[265_amat|AMAT]] (Average Memory Access Time) 관점에서 이해하면 쉽다. `AMAT = Hit Time + Miss Rate × Miss Penalty`이며, L1에서는 Miss Rate를 조금 희생하더라도 [[263_cache_hit_miss|Hit]] Time을 매우 낮게 만드는 편이 전체 [[282_performance_tactics|성능]]에 유리한 경우가 많다. L1이 몇 사이클만 늦어져도 모든 [[158_instruction|명령어]]가 그 비용을 계속 지불하기 때문이다.
+[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가는 평균 메모리 접근 시간인 [AMAT](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/265_amat/) (Average Memory Access Time) 관점에서 이해하면 쉽다. `AMAT = Hit Time + Miss Rate × Miss Penalty`이며, L1에서는 Miss Rate를 조금 희생하더라도 [Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) Time을 매우 낮게 만드는 편이 전체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 유리한 경우가 많다. L1이 몇 사이클만 늦어져도 모든 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 그 비용을 계속 지불하기 때문이다.
 
 - **📢 섹션 요약 비유**: L1 캐시는 엘리베이터 버튼 옆의 비상 열쇠함과 같다. 열쇠를 많이 쌓아 두는 것보다, 당장 필요한 열쇠를 한 번에 찾을 수 있게 배치하는 것이 더 중요하다.
 
@@ -80,7 +84,7 @@ L1 설계의 핵심 트레이드오프는 **용량 vs 적중 시간**이다. 용
 
 ## Ⅲ. 비교 및 연결
 
-L1 캐시를 제대로 이해하려면 L2 캐시 ([[261_l2_cache|Level 2 Cache]]), L3 캐시 ([[262_l3_cache|Level 3 Cache]])와 함께 봐야 한다. 세 계층은 모두 캐시이지만 최적화 목표가 다르다. L1은 **즉시성**, L2는 **완충**, L3는 **공유와 용량**에 더 무게를 둔다.
+L1 캐시를 제대로 이해하려면 L2 캐시 ([Level 2 Cache](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/261_l2_cache/)), L3 캐시 ([Level 3 Cache](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/262_l3_cache/))와 함께 봐야 한다. 세 계층은 모두 캐시이지만 최적화 목표가 다르다. L1은 **즉시성**, L2는 **완충**, L3는 **공유와 용량**에 더 무게를 둔다.
 
 | 항목 | L1 캐시 | L2 캐시 | L3 캐시 |
 | :-- | :-- | :-- | :-- |
@@ -89,9 +93,9 @@ L1 캐시를 제대로 이해하려면 L2 캐시 ([[261_l2_cache|Level 2 Cache]]
 | 대표 목표 | 적중 시간 최소화 | L1 미스 완충 | 메모리 접근 감소 |
 | 보통 공유 범위 | 코어별 전용 | 코어별 전용 또는 반공유 | 여러 코어 공유 |
 
-L1의 또 다른 연결 지점은 [[402_cache_coherence|캐시 일관성]] ([[402_cache_coherence|Cache Coherence]])이다. 각 코어가 자기 L1D를 따로 가지면, 같은 메모리 주소의 복사본이 여러 군데 생긴다. 이때 어느 코어가 값을 변경했는지 맞추기 위해 MESI (Modified, Exclusive, Shared, Invalid) 같은 [[295_protocol_field_tcp_udp_icmp|프로토콜]]이 필요하다. 즉 L1은 빠를수록 좋지만, 멀티코어에서는 "각자 빠르기만 한 복사본"이 오히려 정합성 비용을 키울 수도 있다.
+L1의 또 다른 연결 지점은 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) ([Cache Coherence](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/))이다. 각 코어가 자기 L1D를 따로 가지면, 같은 메모리 주소의 복사본이 여러 군데 생긴다. 이때 어느 코어가 값을 변경했는지 맞추기 위해 MESI (Modified, Exclusive, Shared, Invalid) 같은 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 필요하다. 즉 L1은 빠를수록 좋지만, 멀티코어에서는 "각자 빠르기만 한 복사본"이 오히려 정합성 비용을 키울 수도 있다.
 
-소프트웨어 관점에서도 L1은 중요한 경계다. [[055_array|배열]] 순회, 분기 밀집도, 함수 크기, 구조체 배치가 모두 L1 적중률과 연결된다. 같은 [[001_algorithm_definition|알고리즘]]이라도 메모리 접근 순서가 L1 친화적으로 바뀌면 실제 [[139_throughput|처리량]]이 크게 달라지는 이유가 여기에 있다.
+소프트웨어 관점에서도 L1은 중요한 경계다. [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 순회, 분기 밀집도, 함수 크기, 구조체 배치가 모두 L1 적중률과 연결된다. 같은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이라도 메모리 접근 순서가 L1 친화적으로 바뀌면 실제 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 크게 달라지는 이유가 여기에 있다.
 
 ```text
 순차 접근      ─▶ 같은 라인 재사용 증가 ─▶ L1 적중률 향상
@@ -100,7 +104,7 @@ L1의 또 다른 연결 지점은 [[402_cache_coherence|캐시 일관성]] ([[40
 거짓 공유      ─▶ L1D 무효화 반복       ─▶ 멀티코어 성능 저하
 ```
 
-즉 L1은 하드웨어 내부 계층이면서도, 운영체제의 스케줄링, 컴파일러의 코드 배치, 개발자의 [[001_dikw_pyramid|데이터]] 구조 설계와 직접 맞닿아 있다.
+즉 L1은 하드웨어 내부 계층이면서도, 운영체제의 스케줄링, 컴파일러의 코드 배치, 개발자의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조 설계와 직접 맞닿아 있다.
 
 - **📢 섹션 요약 비유**: L1은 책상 위 펜꽂이, L2는 서랍, L3는 공동 캐비닛과 같다. 셋 다 보관함이지만, 무엇을 얼마나 빨리 꺼내야 하는지 목적이 다르다.
 
@@ -108,33 +112,33 @@ L1의 또 다른 연결 지점은 [[402_cache_coherence|캐시 일관성]] ([[40
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 L1 캐시는 "하드웨어가 알아서 해 주는 영역"처럼 보이지만, 실제 [[282_performance_tactics|성능]] 차이는 소프트웨어 배치에서 크게 갈린다. 기술사 관점에서도 핵심은 구조를 암기하는 것이 아니라, 어떤 코드와 [[001_dikw_pyramid|데이터]] 형태가 L1에 유리하거나 불리한지 설명할 수 있어야 한다.
+실무에서 L1 캐시는 "하드웨어가 알아서 해 주는 영역"처럼 보이지만, 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이는 소프트웨어 배치에서 크게 갈린다. 기술사 관점에서도 핵심은 구조를 암기하는 것이 아니라, 어떤 코드와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 형태가 L1에 유리하거나 불리한지 설명할 수 있어야 한다.
 
 ### 판단해야 할 대표 상황
 
 1. **코드가 너무 큰 경우**  
    핫 루프가 거대한 함수 안에 섞여 있으면 L1I가 자주 교체된다. 이때는 함수 분리, 인라인 범위 조정, 분기 축소가 효과적이다.
 
-2. **[[001_dikw_pyramid|데이터]] 배치가 산만한 경우**  
-   연결 리스트처럼 포인터 추적이 많은 구조는 L1D에 불리하다. 반대로 연속 [[055_array|배열]]과 구조체 재배치는 같은 캐시 라인 안에서 더 많은 유효 [[001_dikw_pyramid|데이터]]를 쓰게 만든다.
+2. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치가 산만한 경우**  
+   연결 리스트처럼 포인터 추적이 많은 구조는 L1D에 불리하다. 반대로 연속 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)과 구조체 재배치는 같은 캐시 라인 안에서 더 많은 유효 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓰게 만든다.
 
-3. **멀티코어 공유 [[289_cqrs_db|쓰기]]가 잦은 경우**  
-   서로 다른 스레드가 같은 캐시 라인을 건드리면 [[409_false_sharing|거짓 공유]] ([[409_false_sharing|False Sharing]])가 발생한다. 이때는 [[098_padding_convolutional_neural_network_same_valid|패딩]], 정렬, [[289_cqrs_db|쓰기]] 분산이 필요하다.
+3. **멀티코어 공유 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)가 잦은 경우**  
+   서로 다른 스레드가 같은 캐시 라인을 건드리면 [거짓 공유](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/) ([False Sharing](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/))가 발생한다. 이때는 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/), 정렬, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 분산이 필요하다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-- [[282_performance_tactics|성능]] 병목이 계산 부족인지, L1 미스로 인한 대기인지 구분했는가?
-- 반복적으로 접근하는 [[001_dikw_pyramid|데이터]]가 한 캐시 라인 안에 모이도록 배치했는가?
-- 스레드별 [[289_cqrs_db|쓰기]] [[001_dikw_pyramid|데이터]]가 같은 캐시 라인에 섞이지 않도록 정렬했는가?
+- [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목이 계산 부족인지, L1 미스로 인한 대기인지 구분했는가?
+- 반복적으로 접근하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 한 캐시 라인 안에 모이도록 배치했는가?
+- 스레드별 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 같은 캐시 라인에 섞이지 않도록 정렬했는가?
 - L1I를 압박할 정도로 분기와 코드 크기가 커지지 않았는가?
 
-### 피해야 할 [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### 피해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 큰 구조체에서 실제로 쓰지 않는 필드까지 매번 함께 읽는 설계
 - 2의 거듭제곱 간격 스트라이드만 반복해 특정 세트에 충돌을 집중시키는 접근
 - 멀티스레드 카운터를 한 캐시 라인에 몰아넣는 설계
 
-결론적으로 L1 최적화는 "캐시 의식적 프로그래밍"이다. [[001_algorithm_definition|알고리즘]] 복잡도가 같아도 [[001_dikw_pyramid|데이터]]의 물리적 배치와 접근 순서가 다르면 체감 [[282_performance_tactics|성능]]은 크게 달라질 수 있다.
+결론적으로 L1 최적화는 "캐시 의식적 프로그래밍"이다. [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 복잡도가 같아도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 물리적 배치와 접근 순서가 다르면 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 크게 달라질 수 있다.
 
 - **📢 섹션 요약 비유**: L1 캐시 최적화는 이삿짐을 정리하는 일과 같다. 자주 쓰는 물건을 현관 앞에 두면 생활이 빨라지지만, 아무 생각 없이 상자를 섞어 쌓으면 매번 집 전체를 뒤져야 한다.
 
@@ -142,11 +146,11 @@ L1의 또 다른 연결 지점은 [[402_cache_coherence|캐시 일관성]] ([[40
 
 ## Ⅴ. 기대효과 및 결론
 
-L1 캐시가 잘 설계되고 잘 활용되면, CPU는 하위 계층의 긴 [[015_지연_데이터_관점|지연]]을 최대한 보지 않고 연산 흐름을 이어 갈 수 있다. 결과적으로 [[158_instruction|명령어]] [[139_throughput|처리량]], [[138_response_time|응답 시간]], 에너지 효율이 함께 개선된다. 특히 반복 계산, 벡터 연산, [[002_database_definition|데이터베이스]] 스캔, 게임 엔진 같은 워크로드에서 그 차이가 크게 드러난다.
+L1 캐시가 잘 설계되고 잘 활용되면, CPU는 하위 계층의 긴 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 최대한 보지 않고 연산 흐름을 이어 갈 수 있다. 결과적으로 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), 에너지 효율이 함께 개선된다. 특히 반복 계산, 벡터 연산, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 스캔, 게임 엔진 같은 워크로드에서 그 차이가 크게 드러난다.
 
-하지만 L1은 만능이 아니다. 너무 작은 용량 때문에 큰 작업 집합 ([[265_working_set|Working Set]]) 앞에서는 쉽게 미스를 낸다. 또한 멀티코어 환경에서는 [[194_consistency_database_integrity|일관성]] 유지 비용이 뒤따르고, 보안 측면에서는 [[668_side_channel_attack_meltdown_spectre_kpti|부채널 공격]] ([[481_side_channel_attack|Side-Channel Attack]])의 표면이 되기도 한다.
+하지만 L1은 만능이 아니다. 너무 작은 용량 때문에 큰 작업 집합 ([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)) 앞에서는 쉽게 미스를 낸다. 또한 멀티코어 환경에서는 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 유지 비용이 뒤따르고, 보안 측면에서는 [부채널 공격](/knowledge-base/studynote/02_operating_system/10_security/668_side_channel_attack_meltdown_spectre_kpti/) ([Side-Channel Attack](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/481_side_channel_attack/))의 표면이 되기도 한다.
 
-앞으로의 방향은 L1을 무작정 키우는 것이 아니라, 더 똑똑한 프리패치 (Prefetch), 마이크로 연산 캐시 (Micro-op Cache), 코어 내부 [[001_dikw_pyramid|데이터]] 경로 최적화처럼 "짧은 [[015_지연_데이터_관점|지연]]을 유지하면서 체감 적중률을 높이는 방식"에 가깝다. 따라서 L1 캐시는 **가장 큰 캐시**가 아니라 **가장 엄격한 시간 예산 안에서 설계되는 캐시**로 기억하는 것이 맞다.
+앞으로의 방향은 L1을 무작정 키우는 것이 아니라, 더 똑똑한 프리패치 (Prefetch), 마이크로 연산 캐시 (Micro-op Cache), 코어 내부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로 최적화처럼 "짧은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 유지하면서 체감 적중률을 높이는 방식"에 가깝다. 따라서 L1 캐시는 **가장 큰 캐시**가 아니라 **가장 엄격한 시간 예산 안에서 설계되는 캐시**로 기억하는 것이 맞다.
 
 - **📢 섹션 요약 비유**: L1 캐시는 단거리 육상 선수의 손에 쥔 배턴과 같다. 무겁고 큰 배낭은 도움이 안 되며, 가장 가볍고 가장 빨리 건네질 수 있어야 경기 전체가 빨라진다.
 
@@ -157,10 +161,10 @@ L1 캐시가 잘 설계되고 잘 활용되면, CPU는 하위 계층의 긴 [[01
 | 개념 | 연결 포인트 |
 | :-- | :-- |
 | 지역성 (Locality) | L1 캐시가 작은 용량으로도 높은 효율을 낼 수 있게 하는 전제 |
-| 캐시 라인 (Cache Line) | L1이 [[001_dikw_pyramid|데이터]]를 한 덩어리로 가져와 [[248_spatial_locality|공간적 지역성]]을 활용하는 기본 단위 |
+| 캐시 라인 (Cache Line) | L1이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한 덩어리로 가져와 [공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/)을 활용하는 기본 단위 |
 | 세트 연관 (Set Associative) | 충돌 미스 감소와 짧은 검색 시간 사이의 절충 구조 |
-| MESI [[194_consistency_database_integrity|일관성]] [[295_protocol_field_tcp_udp_icmp|프로토콜]] (MESI Coherence [[295_protocol_field_tcp_udp_icmp|Protocol]]) | 멀티코어에서 각 L1D 복사본의 정합성을 유지하는 핵심 방식 |
-| 평균 메모리 접근 시간 (Average Memory Access Time) | L1 [[282_performance_tactics|성능]]을 수치적으로 설명하는 대표 모델 |
+| MESI [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) (MESI Coherence [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)) | 멀티코어에서 각 L1D 복사본의 정합성을 유지하는 핵심 방식 |
+| 평균 메모리 접근 시간 (Average Memory Access Time) | L1 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 수치적으로 설명하는 대표 모델 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -194,7 +198,7 @@ L1 캐시 (Level 1 Cache)
 
 **진행 상황**: 260 / 803
 
-← **이전**: [[259_cache_memory|259. 캐시 메모리 (Cache Memory)]]
-**다음**: [[261_l2_cache|261. L2 캐시 (Level 2 Cache)]] →
+← **이전**: [259. 캐시 메모리 (Cache Memory)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/259_cache_memory/)
+**다음**: [261. L2 캐시 (Level 2 Cache)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/261_l2_cache/) →
 
 ---

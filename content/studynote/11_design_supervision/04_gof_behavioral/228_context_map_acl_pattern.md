@@ -1,20 +1,24 @@
----
-title: 228. 컨텍스트 맵과 ACL 패턴 (Context Map / Anti-Corruption Layer Pattern)
-date: '2026-05-10'
-tags:
-- studynote-design-supervision
----
++++
+title = "228. 컨텍스트 맵과 ACL 패턴 (Context Map / Anti-Corruption Layer Pattern)"
+date = 2026-05-10
+
+[taxonomies]
+tags = ["studynote-design-supervision"]
+
+[extra]
+tags = ["studynote-design-supervision"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[549_acl_access_control_list|ACL]] (Anti-Corruption Layer, 안티-커럽션 레이어)은 외부 시스템이나 다른 [[221_bounded_context_ddd_msa_boundary|Bounded Context]] ([[221_bounded_context_ddd_msa_boundary|바운디드 컨텍스트]])의 [[064_relation_domain|도메인]] 모델이 우리 [[064_relation_domain|도메인]] 모델을 오염(Corrupt)시키지 못하도록 차단하는 [[310_architecture|DDD]] ([[127_ddd_domain_driven_design|Domain-Driven Design]], [[310_architecture|도메인 주도 설계]]) 번역 계층이다.
-> 2. **가치**: 레거시 시스템이나 외부 [[090_service_kubernetes_network_load_balancing|서비스]]의 개념·용어·모델이 내부 [[064_relation_domain|도메인]] 언어를 잠식하는 것을 방지하여, 내부 [[064_relation_domain|도메인]] 모델의 순수성과 표현력(Expressiveness)을 유지한다.
-> 3. **판단 포인트**: [[033_context|Context]] Map ([[033_context|컨텍스트]] 맵)은 [[221_bounded_context_ddd_msa_boundary|바운디드 컨텍스트]]들 간의 [[083_relationship_in_er_model|관계]]를 지도(Map)로 표현한다 — ACL은 그 [[083_relationship_in_er_model|관계]] 유형 중 하나로, "우리가 주도권을 갖고 외부를 번역"하는 방어적 [[083_relationship_in_er_model|관계]]다.
+> 1. **본질**: [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) (Anti-Corruption Layer, 안티-커럽션 레이어)은 외부 시스템이나 다른 [Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/) ([바운디드 컨텍스트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/))의 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델이 우리 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델을 오염(Corrupt)시키지 못하도록 차단하는 [DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) ([Domain-Driven Design](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/127_ddd_domain_driven_design/), [도메인 주도 설계](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/)) 번역 계층이다.
+> 2. **가치**: 레거시 시스템이나 외부 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 개념·용어·모델이 내부 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 언어를 잠식하는 것을 방지하여, 내부 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델의 순수성과 표현력(Expressiveness)을 유지한다.
+> 3. **판단 포인트**: [Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Map ([컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 맵)은 [바운디드 컨텍스트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/)들 간의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 지도(Map)로 표현한다 — ACL은 그 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 유형 중 하나로, "우리가 주도권을 갖고 외부를 번역"하는 방어적 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
-대형 소프트웨어에서 "[[026_three_c_analysis|Customer]](고객)"는 [[033_context|컨텍스트]]마다 다른 의미를 갖는다:
+대형 소프트웨어에서 "[Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)(고객)"는 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)마다 다른 의미를 갖는다:
 
 ```
 결제 컨텍스트: Customer { cardNumber, billingAddress, creditScore }
@@ -22,12 +26,12 @@ tags:
 CRM 컨텍스트: Customer { leadScore, segment, contactHistory }
 ```
 
-하나의 거대한 [[026_three_c_analysis|Customer]] 모델로 통합하면:
+하나의 거대한 [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) 모델로 통합하면:
 - 모델이 비대해지고 각 팀의 의도가 희석됨
 - 변경 시 전체 시스템 영향도 증가
 - 팀 간 조율 비용 폭증
 
-**해결**: [[033_context|컨텍스트]]별로 독립된 모델을 유지하되, 경계([[033_context|Context]])를 명확히 정의 → [[221_bounded_context_ddd_msa_boundary|Bounded Context]].
+**해결**: [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)별로 독립된 모델을 유지하되, 경계([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))를 명확히 정의 → [Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/).
 
 ```
 레거시 시스템 통합:
@@ -49,7 +53,7 @@ CRM 컨텍스트: Customer { leadScore, segment, contactHistory }
 └──────────────┘    └──────────────┘    └──────────────┘
 ```
 
-- **📢 섹션 요약 비유**: ACL은 공항 입국 심사관 — 어떤 외국인(외부 모델)이 들어오더라도 입국 심사관([[549_acl_access_control_list|ACL]])이 우리나라 규정(내부 [[064_relation_domain|도메인]] 모델)에 맞게 처리하고, 의심스러운 것(오염 요소)은 걸러낸다.
+- **📢 섹션 요약 비유**: ACL은 공항 입국 심사관 — 어떤 외국인(외부 모델)이 들어오더라도 입국 심사관([ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/))이 우리나라 규정(내부 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델)에 맞게 처리하고, 의심스러운 것(오염 요소)은 걸러낸다.
 
 ---
 
@@ -93,14 +97,14 @@ CRM 컨텍스트: Customer { leadScore, segment, contactHistory }
                        └─────────────────┘
 ```
 
-| [[083_relationship_in_er_model|관계]] 유형 | 설명 | 팀 협력도 | 모델 독립성 |
+| [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 유형 | 설명 | 팀 협력도 | 모델 독립성 |
 |:---|:---|:---|:---|
-| Shared [[022_kernel_role|Kernel]] | 두 팀이 공유 코어 모델 공동 관리 | 매우 높음 | 낮음 |
-| [[026_three_c_analysis|Customer]]-Supplier | 공급자가 고객 요구사항 반영 | 높음 | 중간 |
+| Shared [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) | 두 팀이 공유 코어 모델 공동 관리 | 매우 높음 | 낮음 |
+| [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)-Supplier | 공급자가 고객 요구사항 반영 | 높음 | 중간 |
 | Conformist | 공급자 모델을 고객이 그대로 따름 | 낮음 | 낮음 |
-| **[[549_acl_access_control_list|ACL]]** | **번역 계층으로 외부 모델 차단** | **낮음** | **높음** |
+| **[ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)** | **번역 계층으로 외부 모델 차단** | **낮음** | **높음** |
 | Published Language | 표준 공개 언어로 통신 | 중간 | 높음 |
-| Open Host [[090_service_kubernetes_network_load_balancing|Service]] | 공개 [[014_api_posix|API]] + [[295_protocol_field_tcp_udp_icmp|프로토콜]] 제공 | 중간 | 높음 |
+| Open Host [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | 공개 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) + [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 제공 | 중간 | 높음 |
 
 - **📢 섹션 요약 비유**: Conformist는 "로마에 가면 로마법을 따른다" — 외부 모델 그대로 적용. ACL은 "로마 법률을 우리 언어로 번역해서 우리 법체계에 적용" — 외부 모델을 우리 언어로 변환.
 
@@ -137,14 +141,14 @@ public class LegacyCustomerACL {
 }
 ```
 
-| 비교 항목 | [[549_acl_access_control_list|ACL]] (Anti-Corruption Layer) | [[151_adapter_pattern|Adapter Pattern]] |
+| 비교 항목 | [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) (Anti-Corruption Layer) | [Adapter Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/151_adapter_pattern/) |
 |:---|:---|:---|
-| 목적 | [[064_relation_domain|도메인]] 모델 오염 방지 ([[310_architecture|DDD]] 개념) | 인터페이스 [[344_compatibility_usability|호환성]] 해결 (GoF 패턴) |
-| 관점 | [[268_strategy_pattern|전략]]적 설계 (Strategic Design) | 전술적 설계 (Tactical Design) |
-| 범위 | [[033_context|컨텍스트]] 경계 전체 | 개별 클래스/인터페이스 |
-| 포함 요소 | [[259_adapter_pattern_interface_wrapper|Adapter]] + Translator + [[263_facade_pattern_simplified_interface|Facade]] | 인터페이스 변환만 |
+| 목적 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델 오염 방지 ([DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) 개념) | 인터페이스 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 해결 (GoF 패턴) |
+| 관점 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 설계 (Strategic Design) | 전술적 설계 (Tactical Design) |
+| 범위 | [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 경계 전체 | 개별 클래스/인터페이스 |
+| 포함 요소 | [Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) + Translator + [Facade](/knowledge-base/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/) | 인터페이스 변환만 |
 
-- **📢 섹션 요약 비유**: [[259_adapter_pattern_interface_wrapper|Adapter]] Pattern은 플러그 [[259_adapter_pattern_interface_wrapper|어댑터]](220V → 110V 변환), ACL은 외교관(두 나라 문화·법률·언어를 이해하고 양쪽에 맞게 해석)이다. [[259_adapter_pattern_interface_wrapper|어댑터]]는 형태만 바꾸고, ACL은 의미를 번역한다.
+- **📢 섹션 요약 비유**: [Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) Pattern은 플러그 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)(220V → 110V 변환), ACL은 외교관(두 나라 문화·법률·언어를 이해하고 양쪽에 맞게 해석)이다. [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)는 형태만 바꾸고, ACL은 의미를 번역한다.
 
 ---
 
@@ -173,63 +177,63 @@ ACL 변환: OrderPlacedEvent { customer: Customer{...}, lineItems: [...] }
 내부 핸들러: OrderPlacedEvent를 처리 (레거시 필드명 없음)
 ```
 
-| 상황 | [[549_acl_access_control_list|ACL]] 적용 | 이유 |
+| 상황 | [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) 적용 | 이유 |
 |:---|:---|:---|
 | 레거시 시스템과 통합 | 필수 | 레거시 모델 오염 방지 |
-| 외부 [[309_saas|SaaS]] [[014_api_posix|API]] 연동 | 강력 권장 | [[014_api_posix|API]] 변경에 내부 격리 |
-| 같은 팀 내 [[033_context|컨텍스트]] | 선택적 | 팀 협력으로 조율 가능 |
+| 외부 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연동 | 강력 권장 | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 변경에 내부 격리 |
+| 같은 팀 내 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) | 선택적 | 팀 협력으로 조율 가능 |
 | Published Language | 불필요 | 이미 표준화된 인터페이스 |
 
-### 판단 [[435_checklist_based_testing|체크리스트]]
+### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 해결하려는 변화 축이 분명한가?
-2. [[198_abstraction_control_data_process|추상화]] 비용보다 변경 절감 효과가 큰가?
-3. 테스트·[[568_logs_distributed_logging_elk_fluentd|로그]]·운영 가시성이 확보되는가?
+2. [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 비용보다 변경 절감 효과가 큰가?
+3. 테스트·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·운영 가시성이 확보되는가?
 4. 팀이 이 구조를 일관되게 유지할 수 있는가?
 
-- **📢 섹션 요약 비유**: 해외 직구할 때 해외 사이트의 주소 체계(CITY-STATE-ZIP)를 한국 주소 체계(도-시-구-동)로 변환해주는 배송 대행지가 [[549_acl_access_control_list|ACL]] — 내 집(내부 [[064_relation_domain|도메인]])은 한국 주소 체계만 알면 된다.
+- **📢 섹션 요약 비유**: 해외 직구할 때 해외 사이트의 주소 체계(CITY-STATE-ZIP)를 한국 주소 체계(도-시-구-동)로 변환해주는 배송 대행지가 [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) — 내 집(내부 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))은 한국 주소 체계만 알면 된다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
-[[033_context|Context]] Map과 [[549_acl_access_control_list|ACL]] 패턴은 대규모 소프트웨어 시스템의 [[268_strategy_pattern|전략]]적 설계 도구다:
+[Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Map과 [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) 패턴은 대규모 소프트웨어 시스템의 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 설계 도구다:
 
 **ACL의 핵심 기대효과**:
-- **내부 [[064_relation_domain|도메인]] 모델 순수성 유지**: 외부 오염으로부터 격리
-- **변경 격리**: 외부 시스템 [[014_api_posix|API]] 변경이 내부에 미치는 영향 최소화
-- **표현력 유지**: [[064_relation_domain|도메인]] 전문가와 개발자가 공유하는 [[220_ubiquitous_language_ddd_communication|Ubiquitous Language]] 보존
-- **테스트 용이성**: ACL을 Stub으로 대체하여 내부 [[064_relation_domain|도메인]] 독립 테스트
+- **내부 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델 순수성 유지**: 외부 오염으로부터 격리
+- **변경 격리**: 외부 시스템 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 변경이 내부에 미치는 영향 최소화
+- **표현력 유지**: [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 전문가와 개발자가 공유하는 [Ubiquitous Language](/knowledge-base/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/) 보존
+- **테스트 용이성**: ACL을 Stub으로 대체하여 내부 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 독립 테스트
 
-**[[033_context|Context]] Map의 가치**:
-- 팀 간 협업 [[083_relationship_in_er_model|관계]]의 명시적 문서화
-- 통합 방식([[549_acl_access_control_list|ACL]], Conformist 등)의 의도적 선택
-- 새로운 팀/[[090_service_kubernetes_network_load_balancing|서비스]] 추가 시 통합 [[268_strategy_pattern|전략]] 가이드
+**[Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Map의 가치**:
+- 팀 간 협업 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)의 명시적 문서화
+- 통합 방식([ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/), Conformist 등)의 의도적 선택
+- 새로운 팀/[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 추가 시 통합 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 가이드
 
-기술사 시험에서는 **6가지 [[033_context|Context]] Map [[083_relationship_in_er_model|관계]] 유형**과 **ACL이 방어하는 것([[064_relation_domain|도메인]] 모델 오염)**을 명확히 서술하고, **ACL의 내부 구성요소([[259_adapter_pattern_interface_wrapper|Adapter]] + Translator)** 를 설명하는 것이 핵심이다.
+기술사 시험에서는 **6가지 [Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Map [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 유형**과 **ACL이 방어하는 것([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델 오염)**을 명확히 서술하고, **ACL의 내부 구성요소([Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) + Translator)** 를 설명하는 것이 핵심이다.
 
-확장 방향은 ① 선언형 API와의 결합, ② [[111_observability_metrics_logs_traces|관측 가능성]]([[642_observability_telemetry|Observability]]) 내장, ③ [[136_variance|분산]] 환경에 맞는 변형 패턴 적용이다.
+확장 방향은 ① 선언형 API와의 결합, ② [관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)) 내장, ③ [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에 맞는 변형 패턴 적용이다.
 
-- **📢 섹션 요약 비유**: ACL은 나라의 관세청 + 세관 — 해외(외부 시스템)에서 들어오는 물건(모델)을 검사하고(번역), 국내 규격([[064_relation_domain|도메인]] 모델)에 맞지 않는 것은 걸러내거나 변환하여 내부 시장([[064_relation_domain|도메인]])의 품질을 보호한다.
+- **📢 섹션 요약 비유**: ACL은 나라의 관세청 + 세관 — 해외(외부 시스템)에서 들어오는 물건(모델)을 검사하고(번역), 국내 규격([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델)에 맞지 않는 것은 걸러내거나 변환하여 내부 시장([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))의 품질을 보호한다.
 
 ---
 
 ### 📌 관련 개념 맵
-| [[083_relationship_in_er_model|관계]] | 개념 | 설명 |
+| [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
 |:---|:---|:---|
-| 상위 개념 | [[310_architecture|DDD]] ([[127_ddd_domain_driven_design|Domain-Driven Design]]) | ACL이 속하는 [[268_strategy_pattern|전략]]적 설계 도구 |
-| 핵심 개념 | [[221_bounded_context_ddd_msa_boundary|Bounded Context]] | ACL이 지키는 경계의 단위 |
-| 연관 개념 | [[220_ubiquitous_language_ddd_communication|Ubiquitous Language]] | ACL이 보호하는 내부 [[064_relation_domain|도메인]] 언어 |
-| 유사 패턴 | [[151_adapter_pattern|Adapter Pattern]] | GoF 수준의 인터페이스 변환 |
-| 연관 패턴 | [[156_facade_pattern|Facade Pattern]] | ACL이 외부 시스템을 래핑하는 방식 |
-| [[033_context|컨텍스트]] 맵 [[083_relationship_in_er_model|관계]] | Shared [[022_kernel_role|Kernel]], [[026_three_c_analysis|Customer]]-Supplier, Conformist, Published Language | ACL과 비교되는 6가지 [[083_relationship_in_er_model|관계]] 유형 |
-| 적용 사례 | [[619_msa_traffic_hardware|MSA]] 결제 게이트웨이 통합 | ACL로 복수 결제사 [[014_api_posix|API]] 번역 |
+| 상위 개념 | [DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) ([Domain-Driven Design](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/127_ddd_domain_driven_design/)) | ACL이 속하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 설계 도구 |
+| 핵심 개념 | [Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/) | ACL이 지키는 경계의 단위 |
+| 연관 개념 | [Ubiquitous Language](/knowledge-base/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/) | ACL이 보호하는 내부 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 언어 |
+| 유사 패턴 | [Adapter Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/151_adapter_pattern/) | GoF 수준의 인터페이스 변환 |
+| 연관 패턴 | [Facade Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/156_facade_pattern/) | ACL이 외부 시스템을 래핑하는 방식 |
+| [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 맵 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | Shared [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/), [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)-Supplier, Conformist, Published Language | ACL과 비교되는 6가지 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 유형 |
+| 적용 사례 | [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 결제 게이트웨이 통합 | ACL로 복수 결제사 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 번역 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[[221_bounded_context_ddd_msa_boundary|Bounded Context]] → [[033_context|컨텍스트]] 맵과 [[549_acl_access_control_list|ACL]] 패턴 → 통합 번역 계층
+[Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/) → [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 맵과 [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) 패턴 → 통합 번역 계층
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. ACL은 다른 나라(외부 시스템) 말을 우리말로 통역해주는 통역사 — 외국어(레거시 모델)가 우리 방(내부 [[064_relation_domain|도메인]])에 직접 들어오지 못하게 막아줘.
+1. ACL은 다른 나라(외부 시스템) 말을 우리말로 통역해주는 통역사 — 외국어(레거시 모델)가 우리 방(내부 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))에 직접 들어오지 못하게 막아줘.
 2. 레거시 시스템의 이상한 약어(`CUST_NM`, `STAT_FLG`)를 우리가 이해하기 쉬운 말(`name`, `status`)로 바꿔주는 역할이 ACL이야.
-3. [[033_context|컨텍스트]] 맵은 우리 회사 부서들 사이의 협업 [[083_relationship_in_er_model|관계]]도 — "배송팀은 결제팀 시스템을 ACL로 번역해서 쓴다"처럼 각 팀이 어떻게 협업하는지 그림으로 보여줘.
+3. [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 맵은 우리 회사 부서들 사이의 협업 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)도 — "배송팀은 결제팀 시스템을 ACL로 번역해서 쓴다"처럼 각 팀이 어떻게 협업하는지 그림으로 보여줘.
 
 ---
 
@@ -237,7 +241,7 @@ ACL 변환: OrderPlacedEvent { customer: Customer{...}, lineItems: [...] }
 
 **진행 상황**: 289 / 530
 
-← **이전**: [[227_boolean_parser_interpreter|227. 불리언 파서 인터프리터 (Boolean Parser Interpreter)]]
-**다음**: [[229_double_dispatch_visitor|229. 더블 디스패치와 방문자 패턴 (Double Dispatch / Visitor Pattern)]] →
+← **이전**: [227. 불리언 파서 인터프리터 (Boolean Parser Interpreter)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/227_boolean_parser_interpreter/)
+**다음**: [229. 더블 디스패치와 방문자 패턴 (Double Dispatch / Visitor Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/229_double_dispatch_visitor/) →
 
 ---

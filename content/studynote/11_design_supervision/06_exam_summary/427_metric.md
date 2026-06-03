@@ -1,22 +1,26 @@
----
-title: 427. 소프트웨어 개발비 산정과 기능점수 (Simple/Detailed Estimation, Function Point)
-date: '2026-05-10'
-tags:
-- studynote-design-supervision
----
++++
+title = "427. 소프트웨어 개발비 산정과 기능점수 (Simple/Detailed Estimation, Function Point)"
+date = 2026-05-10
+
+[taxonomies]
+tags = ["studynote-design-supervision"]
+
+[extra]
+tags = ["studynote-design-supervision"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 개발비 산정은 [[459_quic_fec_forward_error_correction|초기]]의 빠른 추정과 후반의 정밀 산정을 구분하고, [[673_function_point_ilf_eif|기능점수]]([[293_fp_function_point|FP]])로 규모를 객관화해 비용과 정산 근거를 만드는 활동이다.
+> 1. **본질**: 개발비 산정은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)의 빠른 추정과 후반의 정밀 산정을 구분하고, [기능점수](/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/)([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/))로 규모를 객관화해 비용과 정산 근거를 만드는 활동이다.
 > 2. **가치**: 예산 협의, 계약, 일정 계획, 사업 종료 후 정산까지 같은 숫자 체계로 설명할 수 있어 분쟁을 줄인다.
-> 3. **판단 포인트**: 요구사항 성숙도에 맞는 산정 기법을 선택하고, [[293_fp_function_point|FP]] 산정 근거와 [[025_baseline|기준선]]을 문서화했는지가 핵심이다.
+> 3. **판단 포인트**: 요구사항 성숙도에 맞는 산정 기법을 선택하고, [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 산정 근거와 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)을 문서화했는지가 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-소프트웨어 개발비 산정은 프로젝트 [[459_quic_fec_forward_error_correction|초기]]에 대략 얼마가 들지를 예측하는 문제이면서, 사업 종료 후에는 실제로 얼마를 정산해야 하는지를 [[395_verification_process_review|검증]]하는 문제이기도 하다. 따라서 시험에서는 **간이법은 신속성**, **상세법은 [[002_bigdata_5v|정확성]]**, **[[673_function_point_ilf_eif|기능점수]]는 객관성**이라는 축으로 나누어 쓰면 정리가 쉽다.
+소프트웨어 개발비 산정은 프로젝트 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 대략 얼마가 들지를 예측하는 문제이면서, 사업 종료 후에는 실제로 얼마를 정산해야 하는지를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 문제이기도 하다. 따라서 시험에서는 **간이법은 신속성**, **상세법은 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)**, **[기능점수](/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/)는 객관성**이라는 축으로 나누어 쓰면 정리가 쉽다.
 
-요구사항이 모호한 초반에는 빠른 의사결정을 위해 간이법이 필요하고, 요구가 구체화되면 상세법이나 [[673_function_point_ilf_eif|기능점수]] 기반 산정으로 오차를 줄여야 한다. 감리 관점에서는 어떤 기법을 썼느냐보다 **왜 그 시점에 그 기법이 적절했는가**와 **산정 근거가 재현 가능한가**가 더 중요하다.
+요구사항이 모호한 초반에는 빠른 의사결정을 위해 간이법이 필요하고, 요구가 구체화되면 상세법이나 [기능점수](/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/) 기반 산정으로 오차를 줄여야 한다. 감리 관점에서는 어떤 기법을 썼느냐보다 **왜 그 시점에 그 기법이 적절했는가**와 **산정 근거가 재현 가능한가**가 더 중요하다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -34,13 +38,13 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-개발비 산정의 핵심은 **규모(Size) → 생산성(Productivity) → 비용(Cost)**의 연결이다. 특히 [[673_function_point_ilf_eif|기능점수]]([[140_function_point|Function Point]])는 사용자 관점 기능 크기를 EI, EO, EQ, ILF, EIF 같은 항목으로 수량화해 기술 독립적인 규모 지표를 제공한다.
+개발비 산정의 핵심은 **규모(Size) → 생산성(Productivity) → 비용(Cost)**의 연결이다. 특히 [기능점수](/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/)([Function Point](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/))는 사용자 관점 기능 크기를 EI, EO, EQ, ILF, EIF 같은 항목으로 수량화해 기술 독립적인 규모 지표를 제공한다.
 
 | 기법 | 특징 | 답안 포인트 |
 |:---|:---|:---|
-| 간이법 | 평균 가중치나 경험치를 사용해 빠르게 추정 | [[459_quic_fec_forward_error_correction|초기]]사업, RFP 단계, 오차 허용 범위가 큼 |
+| 간이법 | 평균 가중치나 경험치를 사용해 빠르게 추정 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)사업, RFP 단계, 오차 허용 범위가 큼 |
 | 상세법 | 기능별 복잡도와 세부 공정을 반영 | 요구사항이 안정된 뒤 정확도 향상 |
-| [[673_function_point_ilf_eif|기능점수]] | 사용자 기능 규모를 표준 항목으로 계량 | 계약·정산·감리에서 객관적 증빙에 유리 |
+| [기능점수](/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/) | 사용자 기능 규모를 표준 항목으로 계량 | 계약·정산·감리에서 객관적 증빙에 유리 |
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -52,9 +56,9 @@ tags:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-시험에서는 UFP(Unadjusted [[140_function_point|Function Point]]), VAF(Value Adjustment Factor), AFP(Adjusted [[140_function_point|Function Point]]) 용어를 한 번 정도 연결해 주면 답안이 풍부해진다. 다만 지나치게 계산식만 나열하지 말고, **[[673_function_point_ilf_eif|기능점수]]는 요구를 숫자로 바꿔 계약과 정산의 공통 언어를 만든다**는 점을 분명히 써야 한다.
+시험에서는 UFP(Unadjusted [Function Point](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/)), VAF(Value Adjustment Factor), AFP(Adjusted [Function Point](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/)) 용어를 한 번 정도 연결해 주면 답안이 풍부해진다. 다만 지나치게 계산식만 나열하지 말고, **[기능점수](/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/)는 요구를 숫자로 바꿔 계약과 정산의 공통 언어를 만든다**는 점을 분명히 써야 한다.
 
-- **📢 섹션 요약 비유**: 요리값을 정할 때 재료 개수만 보는 것이 간이법이라면, 재료 종류와 손질 난도까지 반영하는 것이 상세법이고, [[673_function_point_ilf_eif|기능점수]]는 메뉴의 표준 중량표를 만드는 일에 가깝다.
+- **📢 섹션 요약 비유**: 요리값을 정할 때 재료 개수만 보는 것이 간이법이라면, 재료 종류와 손질 난도까지 반영하는 것이 상세법이고, [기능점수](/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/)는 메뉴의 표준 중량표를 만드는 일에 가깝다.
 
 ---
 
@@ -62,14 +66,14 @@ tags:
 
 세 기법은 우열 관계가 아니라 적용 시점과 목적이 다르다. 따라서 "무엇이 더 정확한가"보다 "언제 어떤 의사결정에 써야 하는가"를 비교하는 것이 기술사식 접근이다.
 
-| 구분 | 간이법 | 상세법 | [[673_function_point_ilf_eif|기능점수]] |
+| 구분 | 간이법 | 상세법 | [기능점수](/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/) |
 |:---|:---|:---|:---|
-| 적용 시점 | 제안·예산 검토 [[459_quic_fec_forward_error_correction|초기]] | 분석·설계 이후 | 계약, 정산, 감리 [[395_verification_process_review|검증]] |
+| 적용 시점 | 제안·예산 검토 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) | 분석·설계 이후 | 계약, 정산, 감리 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 | 장점 | 빠르고 쉬움 | 세부 반영으로 오차 감소 | 기술 독립적이고 비교 가능 |
 | 한계 | 경험 의존, 오차 큼 | 자료 수집 비용 큼 | 산정 규칙 숙련도 필요 |
 | 실무 포인트 | 대략적인 의사결정 | 세부 계획 수립 | 객관적 분쟁 조정 근거 |
 
-또한 LOC, [[145_cocomo_model|COCOMO]], 백파이어링(LOC↔[[293_fp_function_point|FP]] 변환)과도 연결된다. LOC는 언어 종속성이 크고, COCOMO는 노력 추정 모델에 가깝다. 반면 FP는 사용자 기능 크기 중심이므로 공공사업 감리나 정산 논의에서 자주 활용된다.
+또한 LOC, [COCOMO](/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/), 백파이어링(LOC↔[FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 변환)과도 연결된다. LOC는 언어 종속성이 크고, COCOMO는 노력 추정 모델에 가깝다. 반면 FP는 사용자 기능 크기 중심이므로 공공사업 감리나 정산 논의에서 자주 활용된다.
 
 - **📢 섹션 요약 비유**: 대략적인 여행 경비, 세부 일정표, 영수증 정산서가 각각 쓰임새가 다르듯 산정 기법도 단계마다 역할이 다르다.
 
@@ -77,20 +81,20 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 산정 자체보다 **산정 [[025_baseline|기준선]] 관리**가 더 중요하다. 요구사항이 바뀌었는데 기존 FP를 그대로 두거나, 간이 추정을 계약 단가 근거처럼 사용하는 것이 대표적 오류다. 감리인은 [[459_quic_fec_forward_error_correction|초기]] 산정 근거, 변경 이력, 최종 정산 기준이 같은 맥락으로 이어지는지 봐야 한다.
+실무에서는 산정 자체보다 **산정 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 관리**가 더 중요하다. 요구사항이 바뀌었는데 기존 FP를 그대로 두거나, 간이 추정을 계약 단가 근거처럼 사용하는 것이 대표적 오류다. 감리인은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 산정 근거, 변경 이력, 최종 정산 기준이 같은 맥락으로 이어지는지 봐야 한다.
 
-### 판단 [[435_checklist_based_testing|체크리스트]]
+### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 현재 프로젝트 단계가 [[459_quic_fec_forward_error_correction|초기]] 추정인지, 상세 계획인지, 정산 [[395_verification_process_review|검증]]인지 명확한가?
-2. [[673_function_point_ilf_eif|기능점수]] 산정 시 EI·EO·EQ·ILF·EIF [[655_ir_detection_analysis|식별]] 근거가 문서로 남아 있는가?
+1. 현재 프로젝트 단계가 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 추정인지, 상세 계획인지, 정산 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)인지 명확한가?
+2. [기능점수](/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/) 산정 시 EI·EO·EQ·ILF·EIF [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 근거가 문서로 남아 있는가?
 3. 요구사항 변경이 FP와 비용 변경에 추적 가능하게 반영되었는가?
 4. 산정 결과가 일정, 인력, 품질 목표와 서로 모순되지 않는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 제안 단계의 간이 추정치를 최종 계약 금액처럼 고정하는 경우
-- [[293_fp_function_point|FP]] 산정 기준 없이 개발자 감으로만 기능 크기를 정하는 경우
-- 변경관리 없이 기능은 늘어나는데 비용 [[025_baseline|기준선]]은 그대로 두는 경우
+- [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 산정 기준 없이 개발자 감으로만 기능 크기를 정하는 경우
+- 변경관리 없이 기능은 늘어나는데 비용 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)은 그대로 두는 경우
 
 - **📢 섹션 요약 비유**: 장보기 예산을 정할 때 초반 대충 적어 둔 메모를 계산대 영수증 대신 쓰면 결국 분쟁이 생기듯, 산정 단계와 정산 단계를 섞으면 반드시 문제가 된다.
 
@@ -98,9 +102,9 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-개발비 산정 체계가 잘 잡히면 사업 [[459_quic_fec_forward_error_correction|초기]]에 예산 협의가 빨라지고, 중간에는 변경 영향 평가가 쉬워지며, 종료 시에는 정산 근거가 명확해진다. 특히 [[673_function_point_ilf_eif|기능점수]]는 조직 간 언어와 개발 방식이 달라도 비교 가능한 수치를 제공한다는 점에서 강점이 크다.
+개발비 산정 체계가 잘 잡히면 사업 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 예산 협의가 빨라지고, 중간에는 변경 영향 평가가 쉬워지며, 종료 시에는 정산 근거가 명확해진다. 특히 [기능점수](/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/)는 조직 간 언어와 개발 방식이 달라도 비교 가능한 수치를 제공한다는 점에서 강점이 크다.
 
-결론적으로 간이법·상세법·[[673_function_point_ilf_eif|기능점수]]는 경쟁 관계가 아니라 **프로젝트 생애주기의 다른 순간을 담당하는 연속적 산정 체계**다. 시험에서는 시점, 정확도, 활용 목적, 감리 포인트를 함께 제시하면 답안의 깊이가 살아난다.
+결론적으로 간이법·상세법·[기능점수](/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/)는 경쟁 관계가 아니라 **프로젝트 생애주기의 다른 순간을 담당하는 연속적 산정 체계**다. 시험에서는 시점, 정확도, 활용 목적, 감리 포인트를 함께 제시하면 답안의 깊이가 살아난다.
 
 - **📢 섹션 요약 비유**: 지도를 볼 때는 처음에 축척이 큰 지도로 방향을 잡고, 목적지 근처에서는 상세 지도를 보며, 마지막에는 주소와 영수증으로 위치를 확정하는 것과 같다.
 
@@ -112,8 +116,8 @@ tags:
 |:---|:---|
 | UFP | 기능 유형별 기본 규모를 계산하는 출발점 |
 | VAF | 기술·운영 특성을 반영해 FP를 보정한다 |
-| [[293_fp_function_point|FP]] [[395_verification_process_review|Verification]] | 발주 시점과 종료 시점의 규모 일치 여부를 [[395_verification_process_review|검증]]한다 |
-| [[145_cocomo_model|COCOMO]] | 노력·비용 추정과 연결되는 대표 모델 |
+| [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 발주 시점과 종료 시점의 규모 일치 여부를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다 |
+| [COCOMO](/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) | 노력·비용 추정과 연결되는 대표 모델 |
 | Backfiring | FP와 LOC를 상호 변환해 비교할 때 활용한다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -140,7 +144,7 @@ tags:
 
 1. 처음에는 장난감 집을 만들 때 얼마나 큰지 눈대중으로 먼저 생각해요.
 2. 그다음에는 방이 몇 개고 창문이 몇 개인지 세어서 더 정확히 값을 정해요.
-3. [[673_function_point_ilf_eif|기능점수]]는 이런 방과 창문을 숫자로 세어 모두가 같은 기준으로 가격을 이야기하게 해 주는 방법이에요.
+3. [기능점수](/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/)는 이런 방과 창문을 숫자로 세어 모두가 같은 기준으로 가격을 이야기하게 해 주는 방법이에요.
 
 ---
 
@@ -148,7 +152,7 @@ tags:
 
 **진행 상황**: 505 / 530
 
-← **이전**: [[426_liss_mece|426. LISS·MECE·로직트리 문제 구조화 (LISS, MECE, Logic Tree)]]
-**다음**: [[428_process|428. 정보보호 구현 기법 비교 (Delta, Encryption, Hash, Key Stretching, Obfuscation)]] →
+← **이전**: [426. LISS·MECE·로직트리 문제 구조화 (LISS, MECE, Logic Tree)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/426_liss_mece/)
+**다음**: [428. 정보보호 구현 기법 비교 (Delta, Encryption, Hash, Key Stretching, Obfuscation)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/428_process/) →
 
 ---

@@ -1,14 +1,18 @@
----
-title: 049. 마이크로 세그먼테이션 — Micro-Segmentation
-date: '2026-04-05'
-tags:
-- studynote-security
----
++++
+title = "049. 마이크로 세그먼테이션 — Micro-Segmentation"
+date = 2026-04-05
+
+[taxonomies]
+tags = ["studynote-security"]
+
+[extra]
+tags = ["studynote-security"]
++++
 
 > **핵심 인사이트**
-> 1. 마이크로 세그먼테이션([[059_micro_segmentation_east_west_traffic|Micro-Segmentation]])은 네트워크를 개별 워크로드 또는 애플리케이션 단위로 격리하여 동서 트래픽(East-West: 서버 간)을 제어하는 [[667_zero_trust_runtime_integrity_measurement|제로 트러스트]] 아키텍처의 핵심 기술 — 전통적 경계 방어(Perimeter Defense)가 외부 위협에 집중했다면, 마이크로 세그먼테이션은 내부 침투 후 횡적 이동(Lateral Movement)을 차단한다.
-> 2. "[[010_least_privilege|최소 권한 원칙]]([[010_least_privilege|Least Privilege]])"을 네트워크 통신에 적용한 것이 마이크로 세그먼테이션의 본질 — 워크로드 A가 워크로드 B와 통신할 명시적 이유가 없다면 기본적으로 차단하며, 필요한 통신만 화이트리스트로 허용한다.
-> 3. [[633_sdn_whitebox|SDN]](Software-Defined Networking) 기반 마이크로 세그먼테이션이 현대 구현의 표준 — VMware NSX, [[539_netflow_sflow_traffic_monitoring|Cisco]] ACI, Illumio처럼 소프트웨어 정의 방식으로 [[224_vlan_virtual_lan_broadcast_domain|VLAN]] 재구성 없이 정책을 동적으로 적용하며, 클라우드·[[561_container_based_deployment|컨테이너]] 환경의 동적 IP에도 대응한다.
+> 1. 마이크로 세그먼테이션([Micro-Segmentation](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/059_micro_segmentation_east_west_traffic/))은 네트워크를 개별 워크로드 또는 애플리케이션 단위로 격리하여 동서 트래픽(East-West: 서버 간)을 제어하는 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 아키텍처의 핵심 기술 — 전통적 경계 방어(Perimeter Defense)가 외부 위협에 집중했다면, 마이크로 세그먼테이션은 내부 침투 후 횡적 이동(Lateral Movement)을 차단한다.
+> 2. "[최소 권한 원칙](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/)([Least Privilege](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/))"을 네트워크 통신에 적용한 것이 마이크로 세그먼테이션의 본질 — 워크로드 A가 워크로드 B와 통신할 명시적 이유가 없다면 기본적으로 차단하며, 필요한 통신만 화이트리스트로 허용한다.
+> 3. [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)(Software-Defined Networking) 기반 마이크로 세그먼테이션이 현대 구현의 표준 — VMware NSX, [Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/) ACI, Illumio처럼 소프트웨어 정의 방식으로 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 재구성 없이 정책을 동적으로 적용하며, 클라우드·[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 환경의 동적 IP에도 대응한다.
 
 ---
 
@@ -47,7 +51,7 @@ VLAN 기반 세그먼테이션 한계:
   → 조기 발견/차단이 피해 최소화 핵심
 ```
 
-> 📢 **섹션 요약 비유**: 전통 경계 방어 = 성벽 도시 — 성문([[690_firewall_generation_evolution|방화벽]])만 지키면 내부는 자유. 적이 성문 통과(계정 탈취)하면 내부 모든 곳 이동. 마이크로 세그먼테이션은 건물마다 별도 잠금!
+> 📢 **섹션 요약 비유**: 전통 경계 방어 = 성벽 도시 — 성문([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))만 지키면 내부는 자유. 적이 성문 통과(계정 탈취)하면 내부 모든 곳 이동. 마이크로 세그먼테이션은 건물마다 별도 잠금!
 
 ---
 
@@ -98,7 +102,7 @@ Zero Trust Network Access와 결합:
   ZTNA: 남북 트래픽 (사용자→앱)
 ```
 
-> 📢 **섹션 요약 비유**: 마이크로 세그먼테이션 = 건물 내 출입증 통제 — 회사 건물 들어왔어도([[690_firewall_generation_evolution|방화벽]] 통과) 각 방(워크로드)마다 별도 출입증 필요. 적이 1개 방 침투해도 다른 방 이동 차단!
+> 📢 **섹션 요약 비유**: 마이크로 세그먼테이션 = 건물 내 출입증 통제 — 회사 건물 들어왔어도([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 통과) 각 방(워크로드)마다 별도 출입증 필요. 적이 1개 방 침투해도 다른 방 이동 차단!
 
 ---
 
@@ -157,11 +161,11 @@ Zero Trust Network Access와 결합:
   컨테이너 간 통신 암호화 + 인증
 ```
 
-> 📢 **섹션 요약 비유**: K8s NetworkPolicy = 아파트 동·호수별 인터폰 통제 — "앱 [[085_pod_kubernetes_container_unit|파드]](302호)는 DB [[085_pod_kubernetes_container_unit|파드]](101호)에만 전화 가능". 나머지 [[085_pod_kubernetes_container_unit|파드]] 통화 자동 차단!
+> 📢 **섹션 요약 비유**: K8s NetworkPolicy = 아파트 동·호수별 인터폰 통제 — "앱 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)(302호)는 DB [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)(101호)에만 전화 가능". 나머지 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 통화 자동 차단!
 
 ---
 
-## Ⅳ. 구현 [[268_strategy_pattern|전략]]
+## Ⅳ. 구현 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
 ```
 마이크로 세그먼테이션 도입 단계:
@@ -206,11 +210,11 @@ Phase 5 - 지속적 관리:
   정책 드리프트 모니터링
 ```
 
-> 📢 **섹션 요약 비유**: 마이크로 세그먼테이션 도입 = 공장 안전 구역 [[009_config|설정]] — 먼저 직원 이동 패턴 기록(Phase 1), 구역 [[009_config|설정]](Phase 2), 가상 울타리 테스트(Phase 3), 단계적 실제 울타리 설치(Phase 4)!
+> 📢 **섹션 요약 비유**: 마이크로 세그먼테이션 도입 = 공장 안전 구역 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) — 먼저 직원 이동 패턴 기록(Phase 1), 구역 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(Phase 2), 가상 울타리 테스트(Phase 3), 단계적 실제 울타리 설치(Phase 4)!
 
 ---
 
-## Ⅴ. 실무 시나리오 — 금융권 [[730_ransomware|랜섬웨어]] 방어
+## Ⅴ. 실무 시나리오 — 금융권 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 방어
 
 ```
 금융회사 마이크로 세그먼테이션 도입:
@@ -256,7 +260,7 @@ Phase 5 - 지속적 관리:
   금융보안원 평가 + 3점 (마이크로 세그 적용)
 ```
 
-> 📢 **섹션 요약 비유**: 금융 마이크로 세그먼테이션 = 방화 구역 [[009_config|설정]] — 공장 각 구역을 방화문으로 분리. 한 구역 화재([[730_ransomware|랜섬웨어]])가 전체 확산 방지. 기존 4시간 확산 → 1대 격리!
+> 📢 **섹션 요약 비유**: 금융 마이크로 세그먼테이션 = 방화 구역 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) — 공장 각 구역을 방화문으로 분리. 한 구역 화재([랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/))가 전체 확산 방지. 기존 4시간 확산 → 1대 격리!
 
 ---
 
@@ -313,9 +317,9 @@ eBPF 기반 고성능 정책
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 전통 [[690_firewall_generation_evolution|방화벽]] = 성벽 — 성문([[690_firewall_generation_evolution|방화벽]]) 통과하면 내부 자유. 마이크로 세그먼테이션은 건물마다 별도 출입증!
-2. K8s NetworkPolicy = 아파트 인터폰 통제 — "앱 [[085_pod_kubernetes_container_unit|파드]](302호)만 DB [[085_pod_kubernetes_container_unit|파드]](101호) 전화 가능". 나머지 자동 차단!
-3. 금융 적용 결과 = 방화 구역 — [[730_ransomware|랜섬웨어]] 침투해도 1대만 격리. 기존 4시간 전사 확산 차단!
+1. 전통 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) = 성벽 — 성문([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)) 통과하면 내부 자유. 마이크로 세그먼테이션은 건물마다 별도 출입증!
+2. K8s NetworkPolicy = 아파트 인터폰 통제 — "앱 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)(302호)만 DB [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)(101호) 전화 가능". 나머지 자동 차단!
+3. 금융 적용 결과 = 방화 구역 — [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 침투해도 1대만 격리. 기존 4시간 전사 확산 차단!
 
 ---
 
@@ -323,7 +327,7 @@ eBPF 기반 고성능 정책
 
 **진행 상황**: 49 / 1108
 
-← **이전**: [[048_sdp|048. SDP — 소프트웨어 정의 경계]]
-**다음**: [[050_east_west_traffic|이스트-웨스트 트래픽 보안 (East-West Traffic Security)]] →
+← **이전**: [048. SDP — 소프트웨어 정의 경계](/knowledge-base/studynote/09_security/01_intro_principles/048_sdp/)
+**다음**: [이스트-웨스트 트래픽 보안 (East-West Traffic Security)](/knowledge-base/studynote/09_security/01_intro_principles/050_east_west_traffic/) →
 
 ---

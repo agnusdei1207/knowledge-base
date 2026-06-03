@@ -1,14 +1,18 @@
----
-title: 234. 교착 상태 예방 (Deadlock Prevention)
-date: '2026-05-09'
-tags:
-- studynote-operating-system
----
++++
+title = "234. 교착 상태 예방 (Deadlock Prevention)"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[292_deadlock_prevention|교착 상태 예방]] ([[292_deadlock_prevention|Deadlock Prevention]])은 데드락을 발생시키는 **4대 필요조건([[283_mutual_exclusion|상호 배제]], [[231_hold_and_wait|점유 대기]], [[285_no_preemption|비선점]], [[286_circular_wait|순환 대기]]) 중 최소한 하나를 시스템 아키텍처 레벨에서 구조적으로 성립하지 못하도록 원천 차단**하는 가장 보수적이고 강력한 방어 기법이다.
-> 2. **가치**: 런타임에 복잡한 시뮬레이션(은행원 [[001_algorithm_definition|알고리즘]])을 돌리거나 터진 후에 [[658_ir_recovery|복구]]하는 위험성 없이, 시스템이 100% 데드락에 빠지지 않음을 수학적으로 보장(Guarantee)할 수 있다.
+> 1. **본질**: [교착 상태 예방](/knowledge-base/studynote/02_operating_system/05_deadlock/292_deadlock_prevention/) ([Deadlock Prevention](/knowledge-base/studynote/02_operating_system/05_deadlock/292_deadlock_prevention/))은 데드락을 발생시키는 **4대 필요조건([상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/), [점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/), [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/), [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/)) 중 최소한 하나를 시스템 아키텍처 레벨에서 구조적으로 성립하지 못하도록 원천 차단**하는 가장 보수적이고 강력한 방어 기법이다.
+> 2. **가치**: 런타임에 복잡한 시뮬레이션(은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))을 돌리거나 터진 후에 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하는 위험성 없이, 시스템이 100% 데드락에 빠지지 않음을 수학적으로 보장(Guarantee)할 수 있다.
 > 3. **융합**: 하지만 이 방식은 조건을 강제로 깨부수기 위해 프로세스에게 극단적인 자원 반납이나 일괄 할당을 강요하므로, **시스템 자원 이용률(Resource Utilization)을 심각하게 낭비하고 스루풋을 저하시키는 치명적인 트레이드오프**를 동반한다.
 
 ---
@@ -16,9 +20,9 @@ tags:
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 시스템을 설계할 때부터 "어떤 프로세스도 데드락 4조건을 동시에 만족시킬 수 없게" 엄격한 제약(Constraints)을 걸어버리는 방법이다.
-- **필요성**: 우주선 발사 시스템이나 심장 박동기 제어 시스템처럼, 중간에 멈췄을 때 "재부팅([[658_ir_recovery|Recovery]])할 시간적 여유조차 없는" 절대 [[003_integrity|무결성]] 시스템에서는 데드락이 단 한 번이라도 발생할 가능성조차 없애야 한다. 이럴 때는 성능이 반 토막 나더라도 100% 안전한 '예방'이 유일한 선택지다.
+- **필요성**: 우주선 발사 시스템이나 심장 박동기 제어 시스템처럼, 중간에 멈췄을 때 "재부팅([Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))할 시간적 여유조차 없는" 절대 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 시스템에서는 데드락이 단 한 번이라도 발생할 가능성조차 없애야 한다. 이럴 때는 성능이 반 토막 나더라도 100% 안전한 '예방'이 유일한 선택지다.
 
-- **등장 배경**: [[014_concurrency|동시성]] 프로그래밍 초창기, 데드락이 왜 발생하는지 이유를 몰랐을 때는 그저 껐다 켜는 게 답이었다. 코프만(Coffman)이 4대 조건을 수학적으로 정의한 이후, 학계는 "이 4개 중 하나만 확실히 부수면 100% 면역이 된다"는 사실을 깨닫고 각 조건을 파괴하는 예방 설계론을 확립했다.
+- **등장 배경**: [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 프로그래밍 초창기, 데드락이 왜 발생하는지 이유를 몰랐을 때는 그저 껐다 켜는 게 답이었다. 코프만(Coffman)이 4대 조건을 수학적으로 정의한 이후, 학계는 "이 4개 중 하나만 확실히 부수면 100% 면역이 된다"는 사실을 깨닫고 각 조건을 파괴하는 예방 설계론을 확립했다.
 
 ```text
   [교착 상태 4대 조건과 예방(Prevention)의 타격점]
@@ -31,9 +35,9 @@ tags:
   >> 시스템 설계자는 이 4개의 방어막 중 "가장 비용이 싸고 현실적인 것 1개"만 
      집중 타격하여 무너뜨리면 데드락 예방을 달성할 수 있다.
 ```
-**[다이어그램 해설]** 예방 기법은 4개를 다 깰 필요가 없다. 4개 중 가장 만만한 고리 1개만 끊어버리면 완벽히 방어된다. 실무에서 [[283_mutual_exclusion|상호 배제]]나 [[285_no_preemption|비선점]]을 깨는 것은 [[001_dikw_pyramid|데이터]] 파괴를 부르기 때문에 너무 위험하고, 주로 [[231_hold_and_wait|점유 대기]]나 [[286_circular_wait|순환 대기]]를 타겟팅하여 아키텍처를 비튼다.
+**[다이어그램 해설]** 예방 기법은 4개를 다 깰 필요가 없다. 4개 중 가장 만만한 고리 1개만 끊어버리면 완벽히 방어된다. 실무에서 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)나 [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)을 깨는 것은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파괴를 부르기 때문에 너무 위험하고, 주로 [점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/)나 [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/)를 타겟팅하여 아키텍처를 비튼다.
 
-- **📢 섹션 요약 비유**: 집에 도둑(데드락)이 드는 4가지 조건(문이 열림, 경비원 없음, 도둑이 있음, 훔칠 물건이 있음) 중 딱 하나만 완벽히 없애면 됩니다. 제일 쉬운 건 "훔칠 물건을 아예 집에 안 두는 것([[286_circular_wait|순환 대기]] 파괴)"입니다.
+- **📢 섹션 요약 비유**: 집에 도둑(데드락)이 드는 4가지 조건(문이 열림, 경비원 없음, 도둑이 있음, 훔칠 물건이 있음) 중 딱 하나만 완벽히 없애면 됩니다. 제일 쉬운 건 "훔칠 물건을 아예 집에 안 두는 것([순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/) 파괴)"입니다.
 
 ---
 
@@ -41,22 +45,22 @@ tags:
 
 ### 4대 조건 파괴 전술의 세부 원리와 한계
 
-#### 1. [[283_mutual_exclusion|상호 배제]]([[283_mutual_exclusion|Mutual Exclusion]]) 부정
+#### 1. [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)([Mutual Exclusion](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)) 부정
 - **원리**: 프린터나 변수를 "누구나 동시에 접근해서 쓸 수 있게" 열어버린다.
-- **한계**: **근본적으로 불가능하다.** 읽기 전용(Read-only) [[001_dikw_pyramid|데이터]]라면 상관없지만, 계좌 잔고를 동시에 수정하면 [[001_dikw_pyramid|데이터]]가 깨진다([[213_race_condition|Race Condition]]). 동기화의 존재 이유 자체를 부정하는 것이라 쓸 수 없다.
+- **한계**: **근본적으로 불가능하다.** 읽기 전용(Read-only) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)라면 상관없지만, 계좌 잔고를 동시에 수정하면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 깨진다([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)). 동기화의 존재 이유 자체를 부정하는 것이라 쓸 수 없다.
 
-#### 2. [[231_hold_and_wait|점유 대기]]([[284_hold_and_wait|Hold and Wait]]) 부정
+#### 2. [점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/)([Hold and Wait](/knowledge-base/studynote/02_operating_system/05_deadlock/284_hold_and_wait/)) 부정
 - **원리 1 (All-or-Nothing)**: 프로세스가 시작할 때, 일생 동안 쓸 모든 자원을 한 번에 다 달라고 요청한다. 하나라도 없으면 시작을 안 한다.
   - **부작용**: 1시간짜리 작업 중 마지막 1초에만 프린터를 쓰는데, 1시간 내내 프린터를 움켜쥐고 있어 남들이 프린터를 못 쓴다. **(극심한 자원 낭비)**
 - **원리 2 (선 반납 후 요청)**: 내가 자원 A를 쥐고 있는데 B가 필요하면, 일단 A를 반납하고 맨몸이 된 상태로 A와 B를 동시에 요청한다.
-  - **부작용**: 운 나쁘면 평생 A와 B를 동시에 얻지 못하는 **[[314_starvation_prevention|기아 상태]]([[314_starvation_prevention|Starvation]])**에 빠진다.
+  - **부작용**: 운 나쁘면 평생 A와 B를 동시에 얻지 못하는 **[기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))**에 빠진다.
 
-#### 3. [[285_no_preemption|비선점]]([[285_no_preemption|No Preemption]]) 부정
+#### 3. [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)([No Preemption](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)) 부정
 - **원리**: 내가 자원 A를 쥐고 B를 달라고 했는데 B를 누가 쓰고 있으면, OS가 내 자원 A를 강제로 뺏어서 딴 놈에게 줘버린다. 혹은 B를 쥐고 있는 놈을 쏴 죽이고(Kill) B를 뺏어온다.
-- **한계**: CPU [[057_register|레지스터]]([[033_context|Context]])는 뺏었다가 나중에 다시 채워주면 되지만, 프린터나 테이프에 [[001_dikw_pyramid|데이터]]를 절반쯤 기록했는데 뺏겨버리면 처음부터 다시 출력해야 한다. **[[001_dikw_pyramid|데이터]] [[098_rollback_strategy_pipeline_error_threshold|롤백]]([[313_rollback|Rollback]]) [[658_ir_recovery|복구]] 비용이 너무 크다.** (DB 엔진에서만 제한적으로 사용됨).
+- **한계**: CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))는 뺏었다가 나중에 다시 채워주면 되지만, 프린터나 테이프에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 절반쯤 기록했는데 뺏겨버리면 처음부터 다시 출력해야 한다. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/)) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 비용이 너무 크다.** (DB 엔진에서만 제한적으로 사용됨).
 
-#### 4. [[286_circular_wait|순환 대기]]([[286_circular_wait|Circular Wait]]) 부정 (✨ 가장 많이 쓰이는 실무 표준)
-- **원리**: 세상의 모든 자원([[223_mutex|Mutex]])에 $1, 2, 3 \dots N$의 **고유한 번호(Order)**를 매긴다. 그리고 프로세스는 반드시 **"번호가 오름차순(작은 것 ─▶ 큰 것)"**으로만 자원을 요청해야 한다고 법으로 강제한다.
+#### 4. [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/)([Circular Wait](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/)) 부정 (✨ 가장 많이 쓰이는 실무 표준)
+- **원리**: 세상의 모든 자원([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))에 $1, 2, 3 \dots N$의 **고유한 번호(Order)**를 매긴다. 그리고 프로세스는 반드시 **"번호가 오름차순(작은 것 ─▶ 큰 것)"**으로만 자원을 요청해야 한다고 법으로 강제한다.
 - **수학적 효과**: 큰 번호를 쥔 놈이 작은 번호를 요구할 수 없으므로, 화살표가 뒤로 돌아가서 꼬리를 무는 사이클(동그라미) 형성이 물리적으로 100% 불가능해진다.
 - **부작용**: 동적으로 자원이 계속 생겨나는 시스템에서는 번호를 매기기가 어렵다.
 
@@ -79,7 +83,7 @@ tags:
   └──────────────────────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: [[286_circular_wait|순환 대기]] 예방은 고속도로의 "중앙분리대"입니다. 불법 유턴(역방향 락 획득)을 아예 못 하게 물리적인 벽을 쳐버리면, 차가 막힐지언정 정면충돌이나 꼬리물기 교착상태는 절대 일어나지 않습니다.
+- **📢 섹션 요약 비유**: [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/) 예방은 고속도로의 "중앙분리대"입니다. 불법 유턴(역방향 락 획득)을 아예 못 하게 물리적인 벽을 쳐버리면, 차가 막힐지언정 정면충돌이나 꼬리물기 교착상태는 절대 일어나지 않습니다.
 
 ---
 
@@ -89,29 +93,29 @@ tags:
 
 두 전략은 "사전에 막는다"는 목적은 같지만 철학이 완전히 다르다.
 
-| 비교 항목 | 예방 (Prevention) | 회피 (Avoidance - 은행원 [[001_algorithm_definition|알고리즘]]) |
+| 비교 항목 | 예방 (Prevention) | 회피 (Avoidance - 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) |
 |:---|:---|:---|
 | **통제 방식** | **규칙(법)으로 옭아맴**. (4대 조건 중 하나를 시스템 구조로 박살 냄) | 규칙은 느슨하게 두고, **매 요청 시마다 "이거 주면 데드락 날까?" 시뮬레이션 계산**함 |
 | **자원 이용률** | **최악**. (안 쓸 자원도 미리 다 잡아두거나 뺏겨버림) | 보통. (최대한 머리 써서 아슬아슬하게 할당해 줌) |
-| **런타임 오버헤드**| **제로 (0)**. (규칙대로만 짜면 CPU는 아무 생각 없이 실행만 하면 됨) | **매우 큼**. (요청마다 O(N*M) 시뮬레이션 [[055_array|배열]] 계산을 돌려야 함) |
-| **실무 적용** | ⭕ ([[286_circular_wait|순환 대기]] 방지는 백엔드 코드의 기본 규칙으로 널리 쓰임) | ❌ (은행원 [[001_algorithm_definition|알고리즘]]은 오버헤드와 비현실적 제약 때문에 아무도 안 씀) |
+| **런타임 오버헤드**| **제로 (0)**. (규칙대로만 짜면 CPU는 아무 생각 없이 실행만 하면 됨) | **매우 큼**. (요청마다 O(N*M) 시뮬레이션 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 계산을 돌려야 함) |
+| **실무 적용** | ⭕ ([순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/) 방지는 백엔드 코드의 기본 규칙으로 널리 쓰임) | ❌ (은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 오버헤드와 비현실적 제약 때문에 아무도 안 씀) |
 
-### 보수적 설계의 대가: 과잉 [[571_protection_vs_security|보호]] (Over-protection)
+### 보수적 설계의 대가: 과잉 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) (Over-protection)
 예방 기법의 가장 큰 약점은 시스템을 너무 쫄보로 만든다는 것이다. 
-"[[231_hold_and_wait|점유 대기]] 예방(All-or-Nothing)"을 쓰면, 스레드가 1주일 동안 딱 한 번 1초만 프린터를 쓰면 되는데도, 프로그램이 켜질 때 프린터를 점유하고 1주일 내내 남들이 못 쓰게 쥐고 있는다. 이 **극단적인 자원 활용률 저하** 때문에 범용 OS에서는 예방 기법을 OS 차원에서 강제하지 않고 프로그래머의 자율에 맡긴다.
+"[점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/) 예방(All-or-Nothing)"을 쓰면, 스레드가 1주일 동안 딱 한 번 1초만 프린터를 쓰면 되는데도, 프로그램이 켜질 때 프린터를 점유하고 1주일 내내 남들이 못 쓰게 쥐고 있는다. 이 **극단적인 자원 활용률 저하** 때문에 범용 OS에서는 예방 기법을 OS 차원에서 강제하지 않고 프로그래머의 자율에 맡긴다.
 
-- **📢 섹션 요약 비유**: 데드락 예방은 "불이 날까 무서우니 집안에 [[024_gas|가스]], 전기, 성냥을 아예 금지하는 원시 시대 룰"입니다. 절대 불(데드락)은 안 나겠지만 밥을 못 해 먹습니다(자원 낭비). 데드락 회피는 "요리할 때마다 화재 경보기와 AI가 불날 확률을 계산해서 [[024_gas|가스]]를 켜주는 최첨단 시스템"입니다.
+- **📢 섹션 요약 비유**: 데드락 예방은 "불이 날까 무서우니 집안에 [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/), 전기, 성냥을 아예 금지하는 원시 시대 룰"입니다. 절대 불(데드락)은 안 나겠지만 밥을 못 해 먹습니다(자원 낭비). 데드락 회피는 "요리할 때마다 화재 경보기와 AI가 불날 확률을 계산해서 [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)를 켜주는 최첨단 시스템"입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **[[022_kernel_role|커널]] 개발자들의 락([[510_lock|Lock]]) 순서 십계명**: 리눅스 [[022_kernel_role|커널]] 소스 코드 내에는 수천 개의 [[222_spinlock|스핀락]]과 뮤텍스가 존재한다. 
-   - **실무 조치**: [[022_kernel_role|커널]] 개발 가이드라인 문서(`Documentation/locking/spinlocks.txt`)에는 "A 락을 쥐고 B 락을 쥘 때는 반드시 이 순서대로 하라"는 [[286_circular_wait|순환 대기]] 예방([[317_lockdep_lock_ordering|Lock Ordering]]) 규칙이 명시되어 있다. 만약 어떤 개발자가 이 순서를 무시하고 역방향으로 락을 잡는 코드를 패치로 올리면, 리누스 토발즈(Linus Torvalds)에게 욕을 먹고 그 코드는 영원히 리젝트(Reject)된다. 즉, OS 자체는 예방을 안 해주지만 OS를 '만드는' 사람들은 철저히 예방 기법으로 코딩한다.
-2. **JPA / Hibernate 낙관적 락(Optimistic [[510_lock|Lock]])의 본질**: [[002_database_definition|데이터베이스]] 트랜잭션에서 테이블에 `SELECT FOR UPDATE` (비관적 락)를 남발하면 데드락이 터지거나 DB 스루풋이 박살 난다.
-   - **아키텍트 결단**: 실무에서는 비관적 락을 버리고 [[288_version_ihl_tos_total_length|버전]](@Version) 컬럼을 이용한 **낙관적 락**을 쓴다. 낙관적 락은 락을 걸지 않고 메모리를 수정하다가 Commit 시점에 [[288_version_ihl_tos_total_length|버전]]이 다르면 `OptimisticLockException`을 터뜨린다. 
-   - 이 예외를 잡아서 재시도(Retry)하는 구조는 코프만의 4조건 중 **"[[285_no_preemption|비선점]]([[285_no_preemption|No Preemption]])"을 애플리케이션 레벨에서 자발적으로 파괴**한 가장 우아한 실무적 예방 기술이다.
+1. **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개발자들의 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 순서 십계명**: 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스 코드 내에는 수천 개의 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)과 뮤텍스가 존재한다. 
+   - **실무 조치**: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개발 가이드라인 문서(`Documentation/locking/spinlocks.txt`)에는 "A 락을 쥐고 B 락을 쥘 때는 반드시 이 순서대로 하라"는 [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/) 예방([Lock Ordering](/knowledge-base/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/)) 규칙이 명시되어 있다. 만약 어떤 개발자가 이 순서를 무시하고 역방향으로 락을 잡는 코드를 패치로 올리면, 리누스 토발즈(Linus Torvalds)에게 욕을 먹고 그 코드는 영원히 리젝트(Reject)된다. 즉, OS 자체는 예방을 안 해주지만 OS를 '만드는' 사람들은 철저히 예방 기법으로 코딩한다.
+2. **JPA / Hibernate 낙관적 락(Optimistic [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))의 본질**: [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 트랜잭션에서 테이블에 `SELECT FOR UPDATE` (비관적 락)를 남발하면 데드락이 터지거나 DB 스루풋이 박살 난다.
+   - **아키텍트 결단**: 실무에서는 비관적 락을 버리고 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(@Version) 컬럼을 이용한 **낙관적 락**을 쓴다. 낙관적 락은 락을 걸지 않고 메모리를 수정하다가 Commit 시점에 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이 다르면 `OptimisticLockException`을 터뜨린다. 
+   - 이 예외를 잡아서 재시도(Retry)하는 구조는 코프만의 4조건 중 **"[비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)([No Preemption](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/))"을 애플리케이션 레벨에서 자발적으로 파괴**한 가장 우아한 실무적 예방 기술이다.
 
 ```text
   ┌──────────────────────────────────────────────────────────────────┐
@@ -131,20 +135,20 @@ tags:
   │             내가 쥐고 있던 락마저 모두 뱉어내고 처음부터 재시도. │
   └──────────────────────────────────────────────────────────────────┘
 ```
-**[다이어그램 해설]** "OS가 데드락을 예방해 주겠지"라고 기대하는 주니어 개발자는 100% 서버를 터뜨린다. 현대의 [[291_ostrich_algorithm|타조 알고리즘]](무시) 기반 OS 위에서 돌아가는 앱을 짤 때는, 프로그래머 스스로가 1원칙~3원칙을 아키텍처에 녹여내어 애플리케이션 레벨의 완벽한 예방(Prevention) 방어막을 쳐야만 새벽에 전화받을 일이 없어진다.
+**[다이어그램 해설]** "OS가 데드락을 예방해 주겠지"라고 기대하는 주니어 개발자는 100% 서버를 터뜨린다. 현대의 [타조 알고리즘](/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/)(무시) 기반 OS 위에서 돌아가는 앱을 짤 때는, 프로그래머 스스로가 1원칙~3원칙을 아키텍처에 녹여내어 애플리케이션 레벨의 완벽한 예방(Prevention) 방어막을 쳐야만 새벽에 전화받을 일이 없어진다.
 
-- **📢 섹션 요약 비유**: OS는 모래사장(인프라)만 제공할 뿐입니다. 모래성을 쌓다가 무너지는(데드락) 건 OS 책임이 아닙니다. 견고한 성을 쌓으려면 개발자 스스로 물([[286_circular_wait|순환 대기]] 방지)과 뼈대(tryLock)를 섞어 모래가 무너지지 않는 예방 공학을 적용해야 합니다.
+- **📢 섹션 요약 비유**: OS는 모래사장(인프라)만 제공할 뿐입니다. 모래성을 쌓다가 무너지는(데드락) 건 OS 책임이 아닙니다. 견고한 성을 쌓으려면 개발자 스스로 물([순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/) 방지)과 뼈대(tryLock)를 섞어 모래가 무너지지 않는 예방 공학을 적용해야 합니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
 ### 기대효과
-[[296_deny_circular_wait|순환 대기 부정]]([[276_lock_hierarchy|Lock Hierarchy]])이나 `tryLock`을 통한 [[294_deny_hold_and_wait|점유 대기 부정]] 기법을 시스템 코어에 강제(Prevention)하면, 런타임에 막대한 계산을 하는 탐지([[961_deepfake_detection|Detection]])나 회피(Avoidance) 데몬을 돌리지 않고도 **오버헤드 제로(0)의 100% 데드락 면역 시스템**을 완성할 수 있다.
+[순환 대기 부정](/knowledge-base/studynote/02_operating_system/05_deadlock/296_deny_circular_wait/)([Lock Hierarchy](/knowledge-base/studynote/02_operating_system/04_synchronization/276_lock_hierarchy/))이나 `tryLock`을 통한 [점유 대기 부정](/knowledge-base/studynote/02_operating_system/05_deadlock/294_deny_hold_and_wait/) 기법을 시스템 코어에 강제(Prevention)하면, 런타임에 막대한 계산을 하는 탐지([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))나 회피(Avoidance) 데몬을 돌리지 않고도 **오버헤드 제로(0)의 100% 데드락 면역 시스템**을 완성할 수 있다.
 
 ### 결론 및 미래 전망
-[[292_deadlock_prevention|교착 상태 예방]]([[292_deadlock_prevention|Deadlock Prevention]])은 이론적으로는 완벽하지만 "자원 낭비"라는 뼈아픈 단점 때문에 OS [[022_kernel_role|커널]] 레벨의 자동화된 하부 인프라로는 채택되지 못했다. 그러나 그 위에서 코드를 짜는 **'개발자들의 설계 철학(Design Pattern)'**으로는 영원불멸의 가치를 지니고 있다.
-미래의 진화 방향은 프로그래머가 이 예방 규칙을 머리로 기억하고 짜는 것을 넘어, **Rust의 빌드 컴파일러**나 정적 코드 분석 도구([[079_sonarqube|SonarQube]] 등)가 소스 코드의 락 획득 순서 그래프를 미리 쫙 그려보고, [[286_circular_wait|순환 대기]](Cycle)가 나올 것 같으면 아예 **컴파일 자체를 강제로 거부해 버리는 "도구(Tool) 레벨의 자동 예방(Auto-Prevention) 시대"**로 확고하게 굳어지고 있다.
+[교착 상태 예방](/knowledge-base/studynote/02_operating_system/05_deadlock/292_deadlock_prevention/)([Deadlock Prevention](/knowledge-base/studynote/02_operating_system/05_deadlock/292_deadlock_prevention/))은 이론적으로는 완벽하지만 "자원 낭비"라는 뼈아픈 단점 때문에 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨의 자동화된 하부 인프라로는 채택되지 못했다. 그러나 그 위에서 코드를 짜는 **'개발자들의 설계 철학(Design Pattern)'**으로는 영원불멸의 가치를 지니고 있다.
+미래의 진화 방향은 프로그래머가 이 예방 규칙을 머리로 기억하고 짜는 것을 넘어, **Rust의 빌드 컴파일러**나 정적 코드 분석 도구([SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/) 등)가 소스 코드의 락 획득 순서 그래프를 미리 쫙 그려보고, [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/)(Cycle)가 나올 것 같으면 아예 **컴파일 자체를 강제로 거부해 버리는 "도구(Tool) 레벨의 자동 예방(Auto-Prevention) 시대"**로 확고하게 굳어지고 있다.
 
 - **📢 섹션 요약 비유**: 옛날엔 목수들이 건물이 안 무너지게 하려고 머리 싸매고 무게 중심(데드락 예방 규칙)을 수동으로 계산했습니다. 이제는 3D 캐드(컴파일러) 프로그램이 무게 중심이 안 맞으면 아예 도면 저장을 안 시켜주는 완벽한 자동 검증의 시대로 넘어왔습니다.
 
@@ -155,9 +159,9 @@ tags:
 | 개념 | 연결 포인트 |
 |:---|:---|
 | acquire() / release() 함수 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [[222_spinlock|스핀락]] ([[222_spinlock|Spinlock]]) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [[225_binary_semaphore|이진 세마포어]] ([[225_binary_semaphore|Binary Semaphore]]) = 뮤텍스와 유사 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [[226_counting_semaphore|카운팅 세마포어]] ([[226_counting_semaphore|Counting Semaphore]]) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/) ([Spinlock](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [이진 세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/225_binary_semaphore/) ([Binary Semaphore](/knowledge-base/studynote/02_operating_system/04_synchronization/225_binary_semaphore/)) = 뮤텍스와 유사 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [카운팅 세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/226_counting_semaphore/) ([Counting Semaphore](/knowledge-base/studynote/02_operating_system/04_synchronization/226_counting_semaphore/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -175,9 +179,9 @@ tags:
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [[292_deadlock_prevention|교착 상태 예방]] ([[292_deadlock_prevention|Deadlock Prevention]])은 컴퓨터가 여러 친구가 동시에 만져도 부딪히지 않게 순서를 맞추는 규칙이에요.
-2. 먼저 [[222_spinlock|스핀락]] ([[222_spinlock|Spinlock]])을 이해하면 [[292_deadlock_prevention|교착 상태 예방]] ([[292_deadlock_prevention|Deadlock Prevention]])이 왜 필요한지 더 쉽게 보여요.
-3. 그래서 [[292_deadlock_prevention|교착 상태 예방]] ([[292_deadlock_prevention|Deadlock Prevention]])을 잘 알면 나중에 [[225_binary_semaphore|이진 세마포어]] ([[225_binary_semaphore|Binary Semaphore]]) = 뮤텍스와 유사도 훨씬 쉽게 배울 수 있어요.
+1. [교착 상태 예방](/knowledge-base/studynote/02_operating_system/05_deadlock/292_deadlock_prevention/) ([Deadlock Prevention](/knowledge-base/studynote/02_operating_system/05_deadlock/292_deadlock_prevention/))은 컴퓨터가 여러 친구가 동시에 만져도 부딪히지 않게 순서를 맞추는 규칙이에요.
+2. 먼저 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/) ([Spinlock](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/))을 이해하면 [교착 상태 예방](/knowledge-base/studynote/02_operating_system/05_deadlock/292_deadlock_prevention/) ([Deadlock Prevention](/knowledge-base/studynote/02_operating_system/05_deadlock/292_deadlock_prevention/))이 왜 필요한지 더 쉽게 보여요.
+3. 그래서 [교착 상태 예방](/knowledge-base/studynote/02_operating_system/05_deadlock/292_deadlock_prevention/) ([Deadlock Prevention](/knowledge-base/studynote/02_operating_system/05_deadlock/292_deadlock_prevention/))을 잘 알면 나중에 [이진 세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/225_binary_semaphore/) ([Binary Semaphore](/knowledge-base/studynote/02_operating_system/04_synchronization/225_binary_semaphore/)) = 뮤텍스와 유사도 훨씬 쉽게 배울 수 있어요.
 
 ---
 
@@ -185,7 +189,7 @@ tags:
 
 **진행 상황**: 234 / 800
 
-← **이전**: [[233_circular_wait|233. 스핀락 (Spinlock) - 바쁜 대기(Busy Waiting), 다중 코어에서 문맥 교환 오버헤드 없음]]
-**다음**: [[235_deadlock_avoidance|235. 교착 상태 회피 (Deadlock Avoidance)]] →
+← **이전**: [233. 스핀락 (Spinlock) - 바쁜 대기(Busy Waiting), 다중 코어에서 문맥 교환 오버헤드 없음](/knowledge-base/studynote/02_operating_system/04_synchronization/233_circular_wait/)
+**다음**: [235. 교착 상태 회피 (Deadlock Avoidance)](/knowledge-base/studynote/02_operating_system/04_synchronization/235_deadlock_avoidance/) →
 
 ---

@@ -1,23 +1,27 @@
----
-title: 177. 프론트 컨트롤러 패턴 (Front Controller Pattern)
-date: '2026-05-06'
-tags:
-- studynote-design-supervision
----
++++
+title = "177. 프론트 컨트롤러 패턴 (Front Controller Pattern)"
+date = 2026-05-06
+
+[taxonomies]
+tags = ["studynote-design-supervision"]
+
+[extra]
+tags = ["studynote-design-supervision"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 프론트 컨트롤러 (Front Controller) 패턴은 모든 웹 요청을 단일 진입점으로 모아 공통 [[164_policy|정책]]을 적용한 뒤 적절한 핸들러로 위임하는 웹 계층 제어 패턴이다.
-> 2. **가치**: [[303_authentication_authorization_patterns|인증]], 로깅, 예외 처리, 국제화, [[339_routing_overview_best_path_selection|라우팅]] 규칙을 중앙화해 요청 처리의 [[194_consistency_database_integrity|일관성]]과 유지보수성을 높이며, Spring MVC의 DispatcherServlet이 대표 구현 사례다.
-> 3. **판단 포인트**: 효과적인 프론트 컨트롤러는 흐름을 통제하되 비즈니스 로직을 독점하지 않아야 하며, 거대한 if-else 분기와 상태 보관으로 비대해지면 오히려 [[128_water_scrum_fall_anti_pattern|안티패턴]]이 된다.
+> 1. **본질**: 프론트 컨트롤러 (Front Controller) 패턴은 모든 웹 요청을 단일 진입점으로 모아 공통 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 적용한 뒤 적절한 핸들러로 위임하는 웹 계층 제어 패턴이다.
+> 2. **가치**: [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 로깅, 예외 처리, 국제화, [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 규칙을 중앙화해 요청 처리의 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)과 유지보수성을 높이며, Spring MVC의 DispatcherServlet이 대표 구현 사례다.
+> 3. **판단 포인트**: 효과적인 프론트 컨트롤러는 흐름을 통제하되 비즈니스 로직을 독점하지 않아야 하며, 거대한 if-else 분기와 상태 보관으로 비대해지면 오히려 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이 된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-프론트 컨트롤러 패턴은 웹 애플리케이션에서 요청 입구를 하나로 모아 공통 처리를 먼저 수행하고, 이후 실제 업무 처리는 개별 컨트롤러나 핸들러에게 위임하는 구조다. 핵심은 "모든 요청이 같은 문을 통과하게 하자"는 발상에 있다. 이 공통 입구가 있으면 [[303_authentication_authorization_patterns|인증]], 인코딩, 로깅, 오류 응답 형식, 추적 ID와 같은 횡단 관심사를 일관되게 적용할 수 있다.
+프론트 컨트롤러 패턴은 웹 애플리케이션에서 요청 입구를 하나로 모아 공통 처리를 먼저 수행하고, 이후 실제 업무 처리는 개별 컨트롤러나 핸들러에게 위임하는 구조다. 핵심은 "모든 요청이 같은 문을 통과하게 하자"는 발상에 있다. 이 공통 입구가 있으면 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 인코딩, 로깅, 오류 응답 형식, 추적 ID와 같은 횡단 관심사를 일관되게 적용할 수 있다.
 
-이 패턴이 등장한 배경은 [[459_quic_fec_forward_error_correction|초기]] 서블릿 기반 시스템에서 URL (Uniform Resource Locator)마다 개별 진입점을 두었을 때 생긴 중복과 편차 때문이다. `LoginServlet`, `OrderServlet`, `AdminServlet`이 각각 [[303_authentication_authorization_patterns|인증]] 검사와 [[568_logs_distributed_logging_elk_fluentd|로그]] 출력을 따로 구현하면, 한 곳에서만 검사를 누락해도 보안 사고가 난다. 또한 공통 [[164_policy|정책]]이 바뀔 때마다 모든 엔드포인트를 수정해야 하므로 운영 비용이 급격히 커진다.
+이 패턴이 등장한 배경은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 서블릿 기반 시스템에서 URL (Uniform Resource Locator)마다 개별 진입점을 두었을 때 생긴 중복과 편차 때문이다. `LoginServlet`, `OrderServlet`, `AdminServlet`이 각각 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 검사와 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 출력을 따로 구현하면, 한 곳에서만 검사를 누락해도 보안 사고가 난다. 또한 공통 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 바뀔 때마다 모든 엔드포인트를 수정해야 하므로 운영 비용이 급격히 커진다.
 
 즉 프론트 컨트롤러의 필요성은 "요청을 한곳으로 모으면 멋있다"가 아니라, **분산된 진입점이 만드는 중복·누락·불일치를 구조적으로 제거하는 것**에 있다.
 
@@ -43,14 +47,14 @@ tags:
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
-| Front Controller | 단일 진입점 | 요청 흐름 통제, 공통 [[164_policy|정책]] 적용 |
-| Handler [[010_schema_mapping|Mapping]] | URL과 핸들러 매핑 | [[339_routing_overview_best_path_selection|라우팅]] 규칙 중앙화 |
-| Handler [[259_adapter_pattern_interface_wrapper|Adapter]] | 다양한 핸들러 호출 방식 통합 | 프레임워크 확장성 확보 |
-| Interceptor | 전후 공통 처리 | [[303_authentication_authorization_patterns|인증]], 로깅, 추적, 권한 검사 |
-| Exception Resolver | 예외를 표준 응답으로 변환 | 오류 응답 [[194_consistency_database_integrity|일관성]] |
-| [[151_sql_view_virtual_table|View]] Resolver / Message Converter | 응답 렌더링 | HTML (HyperText Markup Language), [[343_json|JSON]] (JavaScript Object Notation), [[501_file_definition_logical_record|파일]] 응답 등 분기 |
+| Front Controller | 단일 진입점 | 요청 흐름 통제, 공통 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 적용 |
+| Handler [Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/) | URL과 핸들러 매핑 | [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 규칙 중앙화 |
+| Handler [Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) | 다양한 핸들러 호출 방식 통합 | 프레임워크 확장성 확보 |
+| Interceptor | 전후 공통 처리 | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 로깅, 추적, 권한 검사 |
+| Exception Resolver | 예외를 표준 응답으로 변환 | 오류 응답 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) |
+| [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) Resolver / Message Converter | 응답 렌더링 | HTML (HyperText Markup Language), [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) (JavaScript Object Notation), [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 응답 등 분기 |
 
-대표 사례인 Spring MVC ([[405_mvc_m_v_c|Model-View-Controller]])에서는 DispatcherServlet이 프론트 컨트롤러를 맡는다. 요청이 들어오면 HandlerMapping이 어떤 컨트롤러를 쓸지 결정하고, HandlerAdapter가 호출을 표준화하며, Interceptor가 전후 처리를 감싼다. 이후 ViewResolver나 HttpMessageConverter가 최종 응답을 만든다.
+대표 사례인 Spring MVC ([Model-View-Controller](/knowledge-base/studynote/11_design_supervision/06_exam_summary/405_mvc_m_v_c/))에서는 DispatcherServlet이 프론트 컨트롤러를 맡는다. 요청이 들어오면 HandlerMapping이 어떤 컨트롤러를 쓸지 결정하고, HandlerAdapter가 호출을 표준화하며, Interceptor가 전후 처리를 감싼다. 이후 ViewResolver나 HttpMessageConverter가 최종 응답을 만든다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────────────┐
@@ -71,7 +75,7 @@ tags:
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
-이 구조의 핵심은 모든 요청을 중앙에서 통제하되, 세부 동작은 [[268_strategy_pattern|전략]] 객체들로 분해해 두는 것이다. 그래야 프론트 컨트롤러가 병목이 아니라 **[[164_policy|정책]]의 접점**이 된다. 반대로 [[339_routing_overview_best_path_selection|라우팅]], 비즈니스 판단, [[001_dikw_pyramid|데이터]] 접근까지 한 클래스에 몰리면 단일 진입점이 아니라 단일 실패 지점으로 변한다.
+이 구조의 핵심은 모든 요청을 중앙에서 통제하되, 세부 동작은 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 객체들로 분해해 두는 것이다. 그래야 프론트 컨트롤러가 병목이 아니라 **[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 접점**이 된다. 반대로 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 비즈니스 판단, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근까지 한 클래스에 몰리면 단일 진입점이 아니라 단일 실패 지점으로 변한다.
 
 - **📢 섹션 요약 비유**: 프론트 컨트롤러는 모든 악기를 직접 연주하는 지휘자가 아니라, 어떤 악기가 언제 들어올지 지시해 전체 합주를 맞추는 지휘자에 가깝다.
 
@@ -79,49 +83,49 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-프론트 컨트롤러를 이해하려면 [[286_page_frame|Page]] Controller, Filter/Interceptor와의 경계를 봐야 한다. 서로 비슷해 보이지만 책임이 다르다.
+프론트 컨트롤러를 이해하려면 [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Controller, Filter/Interceptor와의 경계를 봐야 한다. 서로 비슷해 보이지만 책임이 다르다.
 
 | 패턴 / 요소 | 진입 구조 | 주된 책임 | 적합한 상황 |
 | :--- | :--- | :--- | :--- |
-| Front Controller | 단일 진입점 | 공통 [[164_policy|정책]] + [[339_routing_overview_best_path_selection|라우팅]] + 응답 흐름 통제 | 엔드포인트가 많고 공통 규칙이 많은 웹 애플리케이션 |
-| [[286_page_frame|Page]] Controller | [[286_page_frame|페이지]]별 개별 진입점 | 특정 화면·URL별 처리 | 소규모 [[286_page_frame|페이지]] 지향 구조, 단순한 레거시 화면 |
-| Filter / Interceptor | 체인형 보조 구조 | 횡단 관심사 분리 | Front Controller와 함께 [[303_authentication_authorization_patterns|인증]]·로깅·보안 처리 |
+| Front Controller | 단일 진입점 | 공통 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) + [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) + 응답 흐름 통제 | 엔드포인트가 많고 공통 규칙이 많은 웹 애플리케이션 |
+| [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Controller | [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)별 개별 진입점 | 특정 화면·URL별 처리 | 소규모 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 지향 구조, 단순한 레거시 화면 |
+| Filter / Interceptor | 체인형 보조 구조 | 횡단 관심사 분리 | Front Controller와 함께 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·로깅·보안 처리 |
 
-[[286_page_frame|Page]] Controller는 각 [[286_page_frame|페이지]]가 자기 입구를 갖는 구조라 직관적이지만, 시스템이 커질수록 공통 규칙이 분산된다. 반면 Front Controller는 공통 [[164_policy|정책]]을 중앙화해 프레임워크화하기 좋다. 다만 이 패턴이 모든 횡단 관심사를 스스로 구현해야 한다는 뜻은 아니다. 실제 실무에서는 Filter와 Interceptor가 프론트 컨트롤러 전후에서 협력해 [[164_policy|정책]]을 분담한다.
+[Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Controller는 각 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 자기 입구를 갖는 구조라 직관적이지만, 시스템이 커질수록 공통 규칙이 분산된다. 반면 Front Controller는 공통 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 중앙화해 프레임워크화하기 좋다. 다만 이 패턴이 모든 횡단 관심사를 스스로 구현해야 한다는 뜻은 아니다. 실제 실무에서는 Filter와 Interceptor가 프론트 컨트롤러 전후에서 협력해 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 분담한다.
 
-또한 프론트 컨트롤러는 MVC ([[405_mvc_m_v_c|Model-View-Controller]])와도 긴밀히 연결된다. MVC에서 Controller가 유스케이스를 담당한다면, 프론트 컨트롤러는 **어떤 Controller를 호출할지 결정하고 그 전후 [[164_policy|정책]]을 조율하는 상위 제어 계층**이라고 볼 수 있다.
+또한 프론트 컨트롤러는 MVC ([Model-View-Controller](/knowledge-base/studynote/11_design_supervision/06_exam_summary/405_mvc_m_v_c/))와도 긴밀히 연결된다. MVC에서 Controller가 유스케이스를 담당한다면, 프론트 컨트롤러는 **어떤 Controller를 호출할지 결정하고 그 전후 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 조율하는 상위 제어 계층**이라고 볼 수 있다.
 
-- **📢 섹션 요약 비유**: Front Controller가 공항의 중앙 안내 데스크라면, [[286_page_frame|Page]] Controller는 항공사마다 따로 있는 개별 접수 창구이고, Filter/Interceptor는 보안 검색대나 탑승 절차처럼 중간에 끼어드는 공통 검사 절차다.
+- **📢 섹션 요약 비유**: Front Controller가 공항의 중앙 안내 데스크라면, [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Controller는 항공사마다 따로 있는 개별 접수 창구이고, Filter/Interceptor는 보안 검색대나 탑승 절차처럼 중간에 끼어드는 공통 검사 절차다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 프론트 컨트롤러는 대부분 프레임워크가 기본 제공하지만, 설계 품질은 그 위에 어떤 책임을 얹느냐에서 갈린다. 공통 [[164_policy|정책]]을 중앙화하는 것은 맞지만, 업무 규칙과 DB ([[501_database|Database]]) 접근까지 프론트 컨트롤러에 몰아넣으면 금방 God Class가 된다. 따라서 "중앙 통제"와 "책임 분리"를 동시에 유지해야 한다.
+실무에서 프론트 컨트롤러는 대부분 프레임워크가 기본 제공하지만, 설계 품질은 그 위에 어떤 책임을 얹느냐에서 갈린다. 공통 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 중앙화하는 것은 맞지만, 업무 규칙과 DB ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/)) 접근까지 프론트 컨트롤러에 몰아넣으면 금방 God Class가 된다. 따라서 "중앙 통제"와 "책임 분리"를 동시에 유지해야 한다.
 
 | 설계 상황 | 판단 | 이유 |
 | :--- | :--- | :--- |
-| 다수의 웹/[[014_api_posix|API]] ([[014_api_posix|Application Programming Interface]]) 엔드포인트를 가진 [[090_service_kubernetes_network_load_balancing|서비스]] | 적극 권장 | [[303_authentication_authorization_patterns|인증]], 예외, 로깅, 관측성 [[164_policy|정책]]을 일관되게 적용 가능 |
+| 다수의 웹/[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 엔드포인트를 가진 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | 적극 권장 | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 예외, 로깅, 관측성 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 일관되게 적용 가능 |
 | Spring, Django, Rails 같은 프레임워크 사용 | 사실상 기본 | 프레임워크가 Front Controller 기반으로 동작 |
-| 정적 사이트 또는 단순 함수형 [[339_routing_overview_best_path_selection|라우팅]] 몇 개 | 선택적 | 오버헤드보다 단순 구조가 더 적합할 수 있음 |
-| 대규모 모놀리식 웹 시스템 | 필수에 가까움 | 공통 [[164_policy|정책]] 누락 방지와 운영 통제가 중요 |
+| 정적 사이트 또는 단순 함수형 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 몇 개 | 선택적 | 오버헤드보다 단순 구조가 더 적합할 수 있음 |
+| 대규모 모놀리식 웹 시스템 | 필수에 가까움 | 공통 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 누락 방지와 운영 통제가 중요 |
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 프론트 컨트롤러가 비즈니스 로직이 아니라 흐름 제어와 [[164_policy|정책]] 적용에 집중하고 있는가?
-2. [[339_routing_overview_best_path_selection|라우팅]]을 코드 분기(if-else) 대신 매핑 [[268_strategy_pattern|전략]]으로 관리하고 있는가?
-3. 예외 응답, [[303_authentication_authorization_patterns|인증]] 실패 응답, 추적 ID 부여 방식이 중앙에서 일관되게 처리되는가?
-4. Filter, Interceptor, [[283_security_tactics|Security]] Framework와의 책임 경계가 명확한가?
-5. 무상태([[239_stateless_redis|Stateless]]) 원칙을 유지해 단일 진입점이 [[014_concurrency|동시성]] 병목이 되지 않게 설계했는가?
+1. 프론트 컨트롤러가 비즈니스 로직이 아니라 흐름 제어와 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 적용에 집중하고 있는가?
+2. [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 코드 분기(if-else) 대신 매핑 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 관리하고 있는가?
+3. 예외 응답, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 실패 응답, 추적 ID 부여 방식이 중앙에서 일관되게 처리되는가?
+4. Filter, Interceptor, [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Framework와의 책임 경계가 명확한가?
+5. 무상태([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) 원칙을 유지해 단일 진입점이 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 병목이 되지 않게 설계했는가?
 
-### 자주 발생하는 [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### 자주 발생하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 프론트 컨트롤러 안에 거대한 분기문을 넣어 직접 모든 유스케이스를 처리하는 구조
-- 공통 [[164_policy|정책]]과 비즈니스 로직이 뒤섞여 변경 파급 범위가 커지는 설계
-- 중앙 진입점은 두었지만 예외 처리와 [[303_authentication_authorization_patterns|인증]] 규칙은 각 컨트롤러가 다시 중복 구현하는 상황
+- 공통 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 비즈니스 로직이 뒤섞여 변경 파급 범위가 커지는 설계
+- 중앙 진입점은 두었지만 예외 처리와 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 규칙은 각 컨트롤러가 다시 중복 구현하는 상황
 - 상태를 필드에 저장해 멀티스레드 환경에서 오류를 만드는 구현
 
-기술사 답안에서는 **"프론트 컨트롤러는 요청 입구를 하나로 모으는 것이 목적이 아니라, 공통 [[164_policy|정책]]을 중앙화하고 개별 처리 책임은 핸들러로 위임하는 제어 구조"**라고 정리하면 패턴의 본질을 정확히 짚은 답이 된다.
+기술사 답안에서는 **"프론트 컨트롤러는 요청 입구를 하나로 모으는 것이 목적이 아니라, 공통 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 중앙화하고 개별 처리 책임은 핸들러로 위임하는 제어 구조"**라고 정리하면 패턴의 본질을 정확히 짚은 답이 된다.
 
 - **📢 섹션 요약 비유**: 프론트 컨트롤러를 잘 쓰는 것은 회사 대표번호를 만드는 것과 같지만, 대표번호 상담원이 모든 부서 일을 대신하게 만드는 것은 오히려 더 큰 혼잡을 부른다.
 
@@ -129,9 +133,9 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-프론트 컨트롤러 패턴의 효과는 요청 흐름의 표준화에 있다. [[303_authentication_authorization_patterns|인증]], 예외, 로깅, 추적, 국제화, 응답 형식을 중앙에서 통제하면 시스템은 더 예측 가능해지고, 새로운 기능이 늘어도 공통 규칙을 반복 작성하지 않아도 된다. 특히 운영과 감리 관점에서는 [[164_policy|정책]] 누락 여부를 한 지점에서 점검할 수 있다는 장점이 크다.
+프론트 컨트롤러 패턴의 효과는 요청 흐름의 표준화에 있다. [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 예외, 로깅, 추적, 국제화, 응답 형식을 중앙에서 통제하면 시스템은 더 예측 가능해지고, 새로운 기능이 늘어도 공통 규칙을 반복 작성하지 않아도 된다. 특히 운영과 감리 관점에서는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 누락 여부를 한 지점에서 점검할 수 있다는 장점이 크다.
 
-다만 이 패턴은 만능 중앙집권 구조가 아니다. 진짜 효과는 "하나로 모으는 것"보다 "모은 뒤에 적절히 위임하는 것"에서 나온다. 따라서 프론트 컨트롤러를 기억할 때는 **단일 진입점**과 **얇은 [[073_container_orchestration_tools|오케스트레이션]] 계층**이라는 두 키워드를 함께 떠올리는 것이 맞다.
+다만 이 패턴은 만능 중앙집권 구조가 아니다. 진짜 효과는 "하나로 모으는 것"보다 "모은 뒤에 적절히 위임하는 것"에서 나온다. 따라서 프론트 컨트롤러를 기억할 때는 **단일 진입점**과 **얇은 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 계층**이라는 두 키워드를 함께 떠올리는 것이 맞다.
 
 - **📢 섹션 요약 비유**: 좋은 프론트 컨트롤러는 도심 교차로의 신호등처럼 흐름을 정리하지만, 자동차를 직접 운전하지는 않는다.
 
@@ -141,12 +145,12 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| MVC ([[405_mvc_m_v_c|Model-View-Controller]]) | Front Controller는 어떤 Controller를 호출할지 조율하는 상위 제어 지점이다. |
+| MVC ([Model-View-Controller](/knowledge-base/studynote/11_design_supervision/06_exam_summary/405_mvc_m_v_c/)) | Front Controller는 어떤 Controller를 호출할지 조율하는 상위 제어 지점이다. |
 | DispatcherServlet | Spring MVC에서 Front Controller 패턴을 구현한 대표 사례다. |
 | Filter / Interceptor | 프론트 컨트롤러 전후에서 횡단 관심사를 분리하는 협력 구조다. |
-| [[286_page_frame|Page]] Controller | 개별 [[286_page_frame|페이지]]별 진입점 구조로, Front Controller와 대비되는 패턴이다. |
+| [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Controller | 개별 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)별 진입점 구조로, Front Controller와 대비되는 패턴이다. |
 | Exception Resolver | 중앙 진입점에서 예외를 일관된 응답으로 바꾸는 핵심 확장점이다. |
-| [[271_command_pattern|Command Pattern]] | 개별 요청 처리를 핸들러 객체로 위임하는 방식과 자연스럽게 결합된다. |
+| [Command Pattern](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) | 개별 요청 처리를 핸들러 객체로 위임하는 방식과 자연스럽게 결합된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -169,7 +173,7 @@ Filter / Interceptor / Exception Resolver 확장
 MVC 프레임워크 표준화
 ```
 
-이 흐름은 웹 애플리케이션이 개별 진입점 중심 구조에서 출발해, 공통 [[164_policy|정책]]과 [[339_routing_overview_best_path_selection|라우팅]]을 중앙화한 프레임워크 중심 구조로 성숙하는 과정을 보여 준다.
+이 흐름은 웹 애플리케이션이 개별 진입점 중심 구조에서 출발해, 공통 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 중앙화한 프레임워크 중심 구조로 성숙하는 과정을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -183,7 +187,7 @@ MVC 프레임워크 표준화
 
 **진행 상황**: 233 / 530
 
-← **이전**: [[176_dao_pattern|176. DAO 패턴 (Data Access Object Pattern)]]
-**다음**: [[178_interceptor_filter_pattern|178. 인터셉터 / 필터 패턴 (Interceptor / Filter Pattern)]] →
+← **이전**: [176. DAO 패턴 (Data Access Object Pattern)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/176_dao_pattern/)
+**다음**: [178. 인터셉터 / 필터 패턴 (Interceptor / Filter Pattern)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/178_interceptor_filter_pattern/) →
 
 ---

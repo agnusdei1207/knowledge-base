@@ -1,14 +1,18 @@
----
-title: 58. 내재적 보안 (Security by Design) - 설계 단계 보안 고려
-date: '2026-04-05'
-tags:
-- studynote-security
----
++++
+title = "58. 내재적 보안 (Security by Design) - 설계 단계 보안 고려"
+date = 2026-04-05
+
+[taxonomies]
+tags = ["studynote-security"]
+
+[extra]
+tags = ["studynote-security"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 내재적 보안([[283_security_tactics|Security]] by Design)은 보안을 나중에 덧붙이는 것이 아니라 설계 단계부터 내장하는 접근이다.
-> 2. **가치**: [[459_quic_fec_forward_error_correction|초기]]부터 [[611_threat_modeling|위협 모델링]]을 하면 뒤늦은 수정 비용과 구조적 결함을 크게 줄일 수 있다.
+> 1. **본질**: 내재적 보안([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) by Design)은 보안을 나중에 덧붙이는 것이 아니라 설계 단계부터 내장하는 접근이다.
+> 2. **가치**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)부터 [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/)을 하면 뒤늦은 수정 비용과 구조적 결함을 크게 줄일 수 있다.
 > 3. **판단 포인트**: 최소 권한, 안전한 기본값, 심층 방어, 실패 시 안전, 완전한 중재를 지켜야 한다.
 
 ---
@@ -28,7 +32,7 @@ tags:
 설계 단계 보안은 몇 가지 원칙으로 압축된다.
 
 - **최소 권한**: 필요한 만큼만 권한을 준다.
-- **안전한 기본값**: [[459_quic_fec_forward_error_correction|초기]] 상태가 안전해야 한다.
+- **안전한 기본값**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 상태가 안전해야 한다.
 - **심층 방어**: 여러 겹으로 막는다.
 - **실패 시 안전**: 문제가 생기면 닫힌 상태로 간다.
 - **완전한 중재**: 권한 검사를 건너뛰지 않는다.
@@ -38,7 +42,7 @@ tags:
 
 ---
 
-## Ⅲ. [[611_threat_modeling|위협 모델링]]과 요구사항
+## Ⅲ. [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/)과 요구사항
 
 설계를 시작할 때는 어떤 위협이 있는지 먼저 알아야 한다.
 
@@ -73,10 +77,10 @@ DevSecOps와 결합하면 보안이 속도를 늦추는 장벽이 아니라 자�
 
 대표적인 실무 패턴은 다음과 같다.
 
-- 입력값 [[395_verification_process_review|검증]]
+- 입력값 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)
 - 접근 제어
 - 비밀 정보 분리
-- 로그와 [[606_auditing_linux_auditd|감사]] 추적
+- 로그와 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적
 - 실패 시 차단
 
 흔한 실수는 보안을 한 번만 체크하고 끝내는 것이다. 설계 단계 보안은 계속 확인해야 의미가 있다.
@@ -101,11 +105,11 @@ DevSecOps와 결합하면 보안이 속도를 늦추는 장벽이 아니라 자�
 
 ## 관련 키워드 및 발전 흐름도
 
-1. [[059_bolt_on_security|사후 보안]] → 늦은 패치와 재설계 비용 증가
-2. [[283_security_tactics|Security]] by Design → [[459_quic_fec_forward_error_correction|초기]] 단계 보안 내재화
-3. [[611_threat_modeling|위협 모델링]] → 공격 경로 사전 분석
-4. [[653_devsecops_shift_left|DevSecOps]] → 보안과 개발의 자동화 결합
-5. [[667_zero_trust_runtime_integrity_measurement|Zero Trust]] → [[395_verification_process_review|검증]] 중심 아키텍처로 확장
+1. [사후 보안](/knowledge-base/studynote/09_security/01_intro_principles/059_bolt_on_security/) → 늦은 패치와 재설계 비용 증가
+2. [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) by Design → [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계 보안 내재화
+3. [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/) → 공격 경로 사전 분석
+4. [DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) → 보안과 개발의 자동화 결합
+5. [Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) → [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 중심 아키텍처로 확장
 
 ---
 
@@ -121,7 +125,7 @@ DevSecOps와 결합하면 보안이 속도를 늦추는 장벽이 아니라 자�
 
 **진행 상황**: 58 / 1108
 
-← **이전**: [[057_compensating_controls|57. 보완 통제 (Compensating Controls) - 기존 통제 대체 조치]]
-**다음**: [[059_bolt_on_security|59. 사후 보안 (Bolt-on Security) - 완성 후 보안 추가]] →
+← **이전**: [57. 보완 통제 (Compensating Controls) - 기존 통제 대체 조치](/knowledge-base/studynote/09_security/01_intro_principles/057_compensating_controls/)
+**다음**: [59. 사후 보안 (Bolt-on Security) - 완성 후 보안 추가](/knowledge-base/studynote/09_security/01_intro_principles/059_bolt_on_security/) →
 
 ---

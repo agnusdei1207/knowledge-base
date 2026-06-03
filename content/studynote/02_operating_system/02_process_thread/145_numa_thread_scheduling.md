@@ -1,23 +1,27 @@
----
-title: 145. NUMA-인식 스레드 스케줄링 (NUMA Thread Scheduling)
-date: '2026-05-08'
-tags:
-- studynote-operating-system
----
++++
+title = "145. NUMA-인식 스레드 스케줄링 (NUMA Thread Scheduling)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[377_numa_allocation|NUMA]]-인식 [[092_thread_lwp|스레드]] 스케줄링 ([[377_numa_allocation|NUMA]] [[092_thread_lwp|Thread]] Scheduling)은 프로세스와 [[092_thread_lwp|스레드]]의 [[087_process_state_transition|생성]]·실행·협력에서 핵심 흐름을 결정하는 개념으로, 시스템이 무엇을 먼저 관리하고 어떤 순서로 제어할지를 분명하게 만든다.
-> 2. **가치**: 이 개념을 이해하면 자원 효율, [[138_response_time|응답 시간]], 안정성 사이의 균형을 더 정확하게 설명할 수 있고, [[146_realtime_process|실시간 프로세스]] ([[146_realtime_process|Real-time Process]])로 이어지는 이유도 자연스럽게 파악된다.
-> 3. **판단 포인트**: CPU 친화성 ([[144_cpu_affinity|CPU Affinity]])과의 관계를 함께 봐야 [[377_numa_allocation|NUMA]]-인식 [[092_thread_lwp|스레드]] 스케줄링 ([[377_numa_allocation|NUMA]] [[092_thread_lwp|Thread]] Scheduling)을 단순 정의가 아니라 실제 설계·운영 판단 기준으로 사용할 수 있다.
+> 1. **본질**: [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)-인식 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 스케줄링 ([NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Scheduling)은 프로세스와 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·실행·협력에서 핵심 흐름을 결정하는 개념으로, 시스템이 무엇을 먼저 관리하고 어떤 순서로 제어할지를 분명하게 만든다.
+> 2. **가치**: 이 개념을 이해하면 자원 효율, [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), 안정성 사이의 균형을 더 정확하게 설명할 수 있고, [실시간 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/146_realtime_process/) ([Real-time Process](/knowledge-base/studynote/02_operating_system/02_process_thread/146_realtime_process/))로 이어지는 이유도 자연스럽게 파악된다.
+> 3. **판단 포인트**: CPU 친화성 ([CPU Affinity](/knowledge-base/studynote/02_operating_system/02_process_thread/144_cpu_affinity/))과의 관계를 함께 봐야 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)-인식 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 스케줄링 ([NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Scheduling)을 단순 정의가 아니라 실제 설계·운영 판단 기준으로 사용할 수 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### 1. [[377_numa_allocation|NUMA]] ([[377_numa_allocation|Non-Uniform Memory Access]])
+### 1. [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) ([Non-Uniform Memory Access](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/))
 
-NUMA는 [[375_multiprocessor|다중 프로세서]] 시스템에서 각 CPU가 로컬 메모리를 가지며, 다른 CPU의 메모리(원격 메모리)에 접근할 때 더 큰 [[015_지연_데이터_관점|지연]]이 발생하는 아키텍처다. 대규모 서버 시스템(4소켓 이상)의 표준 구조다.
+NUMA는 [다중 프로세서](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/375_multiprocessor/) 시스템에서 각 CPU가 로컬 메모리를 가지며, 다른 CPU의 메모리(원격 메모리)에 접근할 때 더 큰 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 발생하는 아키텍처다. 대규모 서버 시스템(4소켓 이상)의 표준 구조다.
 
 > **비유:** 각 방에 자기 책상(로컬 메모리)이 있지만, 옆방 책상(원격 메모리)에서 물건을 가져올 때는 더 오래 걸리는 기숙사와 같다.
 
@@ -45,10 +49,10 @@ NUMA는 [[375_multiprocessor|다중 프로세서]] 시스템에서 각 CPU가 �
 
 ### 2. 로컬 메모리 vs 원격 메모리
 
-| 구분 | 설명 | [[141_latency|지연 시간]] | [[140_bandwidth|대역폭]] |
+| 구분 | 설명 | [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) | [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) |
 |------|------|-----------|--------|
-| **로컬 메모리** | 동일 [[377_numa_allocation|NUMA]] 노드의 메모리 | 낮음 (~80ns) | 높음 |
-| **원격 메모리** | 다른 [[377_numa_allocation|NUMA]] 노드의 메모리 | 높음 (~150ns+) | 낮음 |
+| **로컬 메모리** | 동일 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 노드의 메모리 | 낮음 (~80ns) | 높음 |
+| **원격 메모리** | 다른 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 노드의 메모리 | 높음 (~150ns+) | 낮음 |
 
 ```
 ┌────────── 로컬 vs 원격 메모리 접근 ──────────┐
@@ -75,7 +79,7 @@ NUMA는 [[375_multiprocessor|다중 프로세서]] 시스템에서 각 CPU가 �
 
 ### 1. 스케줄링 원칙
 
-[[377_numa_allocation|NUMA]] 인식 스케줄링의 핵심은 [[092_thread_lwp|스레드]]를 해당 [[092_thread_lwp|스레드]]가 사용하는 메모리와 동일한 [[377_numa_allocation|NUMA]] 노드에서 실행하도록 배치하는 것이다.
+[NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 인식 스케줄링의 핵심은 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 해당 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 사용하는 메모리와 동일한 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 노드에서 실행하도록 배치하는 것이다.
 
 ```
 ┌────────── NUMA 인식 스케줄링 최적화 ─────────┐
@@ -97,15 +101,15 @@ NUMA는 [[375_multiprocessor|다중 프로세서]] 시스템에서 각 CPU가 �
 └───────────────────────────────────────────────┘
 ```
 
-### 2. 메모리 [[164_policy|정책]] [[009_config|설정]]
+### 2. 메모리 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
 
-| [[164_policy|정책]] | [[014_api_posix|API]]/[[158_instruction|명령어]] | 설명 |
+| [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)/[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) | 설명 |
 |------|------------|------|
 | **기본 (Local)** | `set_mempolicy(MPOL_DEFAULT)` | 로컬 노드 메모리 우선 할당 |
 | **바인드 (Bind)** | `set_mempolicy(MPOL_BIND)` | 지정 노드에서만 할당 |
 | **선호 (Preferred)** | `set_mempolicy(MPOL_PREFERRED)` | 지정 노드 선호, 부족 시 타 노드 |
 | **인터리브 (Interleave)** | `set_mempolicy(MPOL_INTERLEAVE)` | 여러 노드에 번갈아 할당 |
-| **mbind** | `mbind()` | 특정 메모리 영역에 [[164_policy|정책]] 적용 |
+| **mbind** | `mbind()` | 특정 메모리 영역에 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 적용 |
 
 ```c
 #include <numaif.h>
@@ -126,7 +130,7 @@ mbind(ptr, size, MPOL_INTERLEAVE, &nodemask2, MAXNODES, 0);
 
 ## Ⅲ. 비교 및 연결
 
-### 1. numactl [[158_instruction|명령어]]
+### 1. numactl [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)
 
 ```
 ┌────────────── numactl 사용법 ──────────────┐
@@ -204,14 +208,14 @@ mbind(ptr, size, MPOL_INTERLEAVE, &nodemask2, MAXNODES, 0);
 └────────────────────────────────────────────────────┘
 ```
 
-### 2. [[282_performance_tactics|성능]] 영향 요인
+### 2. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 영향 요인
 
 | 요인 | 영향 정도 | 설명 |
 |------|-----------|------|
 | **메모리 접근 패턴** | 매우 큼 | 순차적 vs 랜덤 접근 |
-| **[[001_dikw_pyramid|데이터]] 크기** | 큼 | L3 캐시를 초과하는 경우 영향 극대화 |
-| **[[092_thread_lwp|스레드]] 수** | 중간 | 노드당 [[092_thread_lwp|스레드]] 밸런스 |
-| **인터커넥트 [[140_bandwidth|대역폭]]** | 큼 | QPI/UPI [[140_bandwidth|대역폭]]에 따라 원격 접근 비용 변동 |
+| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기** | 큼 | L3 캐시를 초과하는 경우 영향 극대화 |
+| **[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수** | 중간 | 노드당 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 밸런스 |
+| **인터커넥트 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)** | 큼 | QPI/UPI [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)에 따라 원격 접근 비용 변동 |
 
 - **📢 섹션 요약 비유**: 운전자가 도로 상황에 따라 기어와 브레이크를 다르게 선택하는 것처럼 조건별 판단이 중요하다.
 
@@ -253,12 +257,12 @@ NUMA-인식 스레드 스케줄링
 
 | 약어 | Full Name |
 |------|-----------|
-| **[[377_numa_allocation|NUMA]]** | [[377_numa_allocation|Non-Uniform Memory Access]] |
+| **[NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)** | [Non-Uniform Memory Access](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) |
 | **QPI** | QuickPath Interconnect |
 | **UPI** | Ultra Path Interconnect |
-| **[[548_automotive_hpc|HPC]]** | High-Performance Computing |
-| **PFN** | [[286_page_frame|Page Frame]] Number |
-| **MPOL** | Memory [[164_policy|Policy]] |
+| **[HPC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/)** | High-Performance Computing |
+| **PFN** | [Page Frame](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Number |
+| **MPOL** | Memory [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) |
 
 ---
 
@@ -274,10 +278,10 @@ NUMA-인식 스레드 스케줄링
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[034_context_switch|컨텍스트 스위칭]] 최소화를 위한 [[092_thread_lwp|스레드]] 고정 ([[092_thread_lwp|Thread]] [[778_process_affinity_scheduling_pinning|Affinity]]/Pinning) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| CPU 친화성 ([[144_cpu_affinity|CPU Affinity]]) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [[146_realtime_process|실시간 프로세스]] ([[146_realtime_process|Real-time Process]]) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [[147_thread_safe|스레드 안전]] ([[147_thread_safe|Thread-safe]]) 함수 및 [[336_library_vs_framework|라이브러리]] | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) 최소화를 위한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 고정 ([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/)/Pinning) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| CPU 친화성 ([CPU Affinity](/knowledge-base/studynote/02_operating_system/02_process_thread/144_cpu_affinity/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [실시간 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/146_realtime_process/) ([Real-time Process](/knowledge-base/studynote/02_operating_system/02_process_thread/146_realtime_process/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [스레드 안전](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/) ([Thread-safe](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/)) 함수 및 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -295,9 +299,9 @@ NUMA-인식 스레드 스케줄링
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [[377_numa_allocation|NUMA]]-인식 [[092_thread_lwp|스레드]] 스케줄링 ([[377_numa_allocation|NUMA]] [[092_thread_lwp|Thread]] Scheduling)은 컴퓨터가 여러 일을 나눠서 처리하고 서로 기다리게 하는 약속이에요.
-2. 먼저 CPU 친화성 ([[144_cpu_affinity|CPU Affinity]])을 이해하면 [[377_numa_allocation|NUMA]]-인식 [[092_thread_lwp|스레드]] 스케줄링 ([[377_numa_allocation|NUMA]] [[092_thread_lwp|Thread]] Scheduling)이 왜 필요한지 더 쉽게 보여요.
-3. 그래서 [[377_numa_allocation|NUMA]]-인식 [[092_thread_lwp|스레드]] 스케줄링 ([[377_numa_allocation|NUMA]] [[092_thread_lwp|Thread]] Scheduling)을 잘 알면 나중에 [[146_realtime_process|실시간 프로세스]] ([[146_realtime_process|Real-time Process]])도 훨씬 쉽게 배울 수 있어요.
+1. [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)-인식 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 스케줄링 ([NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Scheduling)은 컴퓨터가 여러 일을 나눠서 처리하고 서로 기다리게 하는 약속이에요.
+2. 먼저 CPU 친화성 ([CPU Affinity](/knowledge-base/studynote/02_operating_system/02_process_thread/144_cpu_affinity/))을 이해하면 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)-인식 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 스케줄링 ([NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Scheduling)이 왜 필요한지 더 쉽게 보여요.
+3. 그래서 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)-인식 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 스케줄링 ([NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Scheduling)을 잘 알면 나중에 [실시간 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/146_realtime_process/) ([Real-time Process](/knowledge-base/studynote/02_operating_system/02_process_thread/146_realtime_process/))도 훨씬 쉽게 배울 수 있어요.
 
 ---
 
@@ -305,7 +309,7 @@ NUMA-인식 스레드 스케줄링
 
 **진행 상황**: 145 / 800
 
-← **이전**: [[144_cpu_affinity|144. CPU 친화성 (CPU Affinity) - Soft Affinity vs Hard Affinity]]
-**다음**: [[146_realtime_process|146. 실시간 프로세스 (Real-time Process)]] →
+← **이전**: [144. CPU 친화성 (CPU Affinity) - Soft Affinity vs Hard Affinity](/knowledge-base/studynote/02_operating_system/02_process_thread/144_cpu_affinity/)
+**다음**: [146. 실시간 프로세스 (Real-time Process)](/knowledge-base/studynote/02_operating_system/02_process_thread/146_realtime_process/) →
 
 ---

@@ -1,13 +1,17 @@
----
-title: 📈 사업 파이프라인 예시
-tags:
-- work
----
++++
+title = "📈 사업 파이프라인 예시"
+
+[taxonomies]
+tags = ["work"]
+
+[extra]
+tags = ["work"]
++++
 
 이 문서는 사업 기회, 제안 상태, 다음 액션을 기록하는 예시 문서입니다.
 
 상위 문서:
-- [[business]]
+- [business](/knowledge-base/work/business/)
 
 ---
 
@@ -23,7 +27,7 @@ tags:
   - AI 질의응답용 정리 데이터 확보
 - 다음 액션:
   - 샘플 문서 30건 받아 구조 분석
-  - [[r-and-d]]의 검색 성능 검증 결과와 연결
+  - [r-and-d](/knowledge-base/r-and-d/)의 검색 성능 검증 결과와 연결
 
 ### B. IT 서비스사 온보딩 위키 구축
 
@@ -35,7 +39,7 @@ tags:
   - Claude Code 기반 초안 자동 정리 체계
 - 다음 액션:
   - 온보딩 FAQ 샘플 10개 구성
-  - [[go-to-market]]의 패키지 가격안 반영
+  - [go-to-market](/knowledge-base/work/go-to-market/)의 패키지 가격안 반영
 
 ### C. 연구소형 조직 R&D 노트 아카이브
 
@@ -47,7 +51,7 @@ tags:
   - 추후 검색/보고서 자동화 기반 확보
 - 다음 액션:
   - 실험 기록 템플릿 초안 작성
-  - [[r-and-d-roadmap]]와 연결
+  - [r-and-d-roadmap](/knowledge-base/r-and-d/r-and-d-roadmap/)와 연결
 
 ---
 

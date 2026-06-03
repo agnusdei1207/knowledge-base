@@ -1,23 +1,27 @@
----
-title: 84. 필립 크루첸 (Philippe Kruchten)의 4+1 View 모델
-date: '2026-04-10'
-tags:
-- studynote-design
----
++++
+title = "84. 필립 크루첸 (Philippe Kruchten)의 4+1 View 모델"
+date = 2026-04-10
+
+[taxonomies]
+tags = ["studynote-design"]
+
+[extra]
+tags = ["studynote-design"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 4+1 [[151_sql_view_virtual_table|View]] Model은 하나의 아키텍처를 [[369_logic_bomb|논리]]·개발·프로세스·물리 관점과 시나리오로 나눠 같은 시스템을 다르게 보게 하는 설명 틀이다.
-> 2. **가치**: 사용자는 기능을, 개발자는 [[192_module_independence|모듈]]을, 운영자는 배포와 [[282_performance_tactics|성능]]을 본다. 뷰를 분리해야 이해 충돌이 아니라 역할 충돌을 줄일 수 있다.
+> 1. **본질**: 4+1 [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) Model은 하나의 아키텍처를 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)·개발·프로세스·물리 관점과 시나리오로 나눠 같은 시스템을 다르게 보게 하는 설명 틀이다.
+> 2. **가치**: 사용자는 기능을, 개발자는 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을, 운영자는 배포와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 본다. 뷰를 분리해야 이해 충돌이 아니라 역할 충돌을 줄일 수 있다.
 > 3. **판단 포인트**: 어떤 한 장의 그림만으로 설명된다면 보통 아키텍처가 단순한 것이 아니라 설명이 부족한 것이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-필립 크루첸 (Philippe Kruchten)의 4+1 [[151_sql_view_virtual_table|View]] Model은 대규모 시스템 아키텍처를 여러 [[173_stakeholder_identification_impact_matrix|이해관계자]]의 관점에서 기술하는 방법이다. 하나의 클래스 다이어그램이나 배포 다이어그램으로는 기능, [[014_concurrency|동시성]], 배포, 개발 조직의 차이를 동시에 담을 수 없다. 그래서 서로 다른 질문에 답하는 네 가지 뷰와, 그것들이 실제로 함께 작동하는지 확인하는 시나리오를 묶는다.
+필립 크루첸 (Philippe Kruchten)의 4+1 [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) Model은 대규모 시스템 아키텍처를 여러 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)의 관점에서 기술하는 방법이다. 하나의 클래스 다이어그램이나 배포 다이어그램으로는 기능, [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/), 배포, 개발 조직의 차이를 동시에 담을 수 없다. 그래서 서로 다른 질문에 답하는 네 가지 뷰와, 그것들이 실제로 함께 작동하는지 확인하는 시나리오를 묶는다.
 
-아키텍처 문서가 단일 뷰에만 기대면 리뷰가 쉽게 어긋난다. 개발자는 [[192_module_independence|모듈]] 구조를 보는데 운영자는 장애 [[658_ir_recovery|복구]] 경로를 찾고, 기획자는 사용자 흐름을 묻는다. 4+1은 이런 충돌을 '같은 시스템을 다른 언어로 설명하는 작업'으로 바꿔 준다.
+아키텍처 문서가 단일 뷰에만 기대면 리뷰가 쉽게 어긋난다. 개발자는 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 구조를 보는데 운영자는 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 경로를 찾고, 기획자는 사용자 흐름을 묻는다. 4+1은 이런 충돌을 '같은 시스템을 다른 언어로 설명하는 작업'으로 바꿔 준다.
 
 ```text
 요구사항 / 시나리오
@@ -38,15 +42,15 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-4개의 뷰는 서로 경쟁하는 그림이 아니라 서로 보완하는 설명 레이어다. [[085_logical_view_class_diagram_functional_requirements|논리 뷰]]는 [[064_relation_domain|도메인]] 기능과 핵심 추상화를 보여 주고, 개발 뷰는 소스 코드와 패키지 구조를 보여 준다. [[086_process_view_sequence_diagram_concurrency|프로세스 뷰]]는 실행 시점의 [[014_concurrency|동시성]], 통신, [[282_performance_tactics|성능]] 병목을 드러내며, 물리 뷰는 서버·네트워크·배포 경계를 나타낸다. +1의 시나리오는 이 네 뷰가 같은 요구를 일관되게 만족하는지 확인하는 연결고리다.
+4개의 뷰는 서로 경쟁하는 그림이 아니라 서로 보완하는 설명 레이어다. [논리 뷰](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/085_logical_view_class_diagram_functional_requirements/)는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 기능과 핵심 추상화를 보여 주고, 개발 뷰는 소스 코드와 패키지 구조를 보여 준다. [프로세스 뷰](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/086_process_view_sequence_diagram_concurrency/)는 실행 시점의 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/), 통신, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목을 드러내며, 물리 뷰는 서버·네트워크·배포 경계를 나타낸다. +1의 시나리오는 이 네 뷰가 같은 요구를 일관되게 만족하는지 확인하는 연결고리다.
 
 | 뷰 | 답하는 질문 | 대표 산출물 | 주 사용자 |
 | :--- | :--- | :--- | :--- |
-| [[085_logical_view_class_diagram_functional_requirements|논리 뷰]] | 시스템이 무엇을 하는가? | 클래스, [[603_component_independent_deployment_unit|컴포넌트]], [[064_relation_domain|도메인]] 모델 | 기획, 분석, 개발 |
-| 개발 뷰 | 코드가 어떻게 조직되는가? | 패키지, [[192_module_independence|모듈]], [[336_library_vs_framework|라이브러리]] | 개발자 |
-| [[086_process_view_sequence_diagram_concurrency|프로세스 뷰]] | 실행 중에 어떻게 움직이는가? | 프로세스, [[092_thread_lwp|스레드]], 통신, [[014_concurrency|동시성]] | [[282_performance_tactics|성능]]/플랫폼 담당 |
+| [논리 뷰](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/085_logical_view_class_diagram_functional_requirements/) | 시스템이 무엇을 하는가? | 클래스, [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/), [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델 | 기획, 분석, 개발 |
+| 개발 뷰 | 코드가 어떻게 조직되는가? | 패키지, [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/), [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) | 개발자 |
+| [프로세스 뷰](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/086_process_view_sequence_diagram_concurrency/) | 실행 중에 어떻게 움직이는가? | 프로세스, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/), 통신, [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)/플랫폼 담당 |
 | 물리 뷰 | 어디에 배치되는가? | 노드, 네트워크, 배포 토폴로지 | 운영, 인프라 |
-| +1 시나리오 | 이 구조가 실제로 작동하는가? | 대표 사용 사례, 시퀀스 | 모든 [[173_stakeholder_identification_impact_matrix|이해관계자]] |
+| +1 시나리오 | 이 구조가 실제로 작동하는가? | 대표 사용 사례, 시퀀스 | 모든 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) |
 
 ```text
 시나리오 1개가 네 뷰를 동시에 관통하는 방식
@@ -68,16 +72,16 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-4+1 [[151_sql_view_virtual_table|View]] Model은 단일 다이어그램보다 낫지만, 그림을 많이 그린다고 해서 자동으로 좋은 아키텍처가 되지는 않는다. 진짜 차이는 '구조 설명'과 '[[395_verification_process_review|검증]] 질문'을 분리한다는 데 있다. 예를 들어 C4 Model ([[033_context|Context]], [[194_container_virtualization_docker_namespace|Container]], [[603_component_independent_deployment_unit|Component]], [[082_process_memory_structure|Code]]) 같은 구조 중심 표현은 무엇이 어디에 있는지를 잘 보여 주지만, 4+1은 여기에 [[014_concurrency|동시성]]·배포·시나리오 [[395_verification_process_review|검증]]을 얹는다.
+4+1 [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) Model은 단일 다이어그램보다 낫지만, 그림을 많이 그린다고 해서 자동으로 좋은 아키텍처가 되지는 않는다. 진짜 차이는 '구조 설명'과 '[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 질문'을 분리한다는 데 있다. 예를 들어 C4 Model ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/), [Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/), [Component](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/), [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)) 같은 구조 중심 표현은 무엇이 어디에 있는지를 잘 보여 주지만, 4+1은 여기에 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)·배포·시나리오 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 얹는다.
 
 | 비교 대상 | 장점 | 한계 | 4+1이 보완하는 점 |
 | :--- | :--- | :--- | :--- |
-| 단일 클래스 / [[603_component_independent_deployment_unit|컴포넌트]] 다이어그램 | 구조를 빨리 파악 | 실행·배포 맥락이 약함 | 프로세스 / 물리 뷰 추가 |
-| 한 장짜리 배포도 | 인프라 관계가 명확 | [[064_relation_domain|도메인]] 책임이 빠짐 | [[369_logic_bomb|논리]] / 개발 뷰 추가 |
-| C4 Model | 점진적 분해가 쉬움 | 시나리오 [[395_verification_process_review|검증]]이 약함 | +1 시나리오로 연결 |
+| 단일 클래스 / [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 다이어그램 | 구조를 빨리 파악 | 실행·배포 맥락이 약함 | 프로세스 / 물리 뷰 추가 |
+| 한 장짜리 배포도 | 인프라 관계가 명확 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 책임이 빠짐 | [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) / 개발 뷰 추가 |
+| C4 Model | 점진적 분해가 쉬움 | 시나리오 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 약함 | +1 시나리오로 연결 |
 | 요구사항 목록만 있는 문서 | 요구는 잘 보임 | 실제 구현 맥락이 없음 | 아키텍처와 추적성 부여 |
 
-4+1은 [[232_uml_unified_modeling_language_overview|UML]] ([[232_uml_unified_modeling_language_overview|Unified Modeling Language]]) 그림을 대체하는 것이 아니라, 여러 [[232_uml_unified_modeling_language_overview|UML]] 그림의 역할을 묶어 주는 메타 프레임이다. 따라서 요구사항 추적, 테스트 설계, 운영 검토를 하나의 시나리오 축으로 연결하기 좋다.
+4+1은 [UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) ([Unified Modeling Language](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/)) 그림을 대체하는 것이 아니라, 여러 [UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) 그림의 역할을 묶어 주는 메타 프레임이다. 따라서 요구사항 추적, 테스트 설계, 운영 검토를 하나의 시나리오 축으로 연결하기 좋다.
 
 - **📢 섹션 요약 비유**: 퍼즐 조각을 따로 보면 모양만 보이지만, 상자 그림이 있어야 어디가 하늘이고 어디가 바닥인지 맞출 수 있다.
 
@@ -85,20 +89,20 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 4+1 [[151_sql_view_virtual_table|View]] Model은 특히 [[136_variance|분산]] 시스템, 플랫폼, 금융·공공처럼 [[173_stakeholder_identification_impact_matrix|이해관계자]]가 많은 프로젝트에서 효과가 크다. 문서 리뷰의 핵심은 '뷰 수'가 아니라 '뷰 간 [[194_consistency_database_integrity|일관성]]'이다. [[085_logical_view_class_diagram_functional_requirements|논리 뷰]]에 없는 비동기 처리가 [[086_process_view_sequence_diagram_concurrency|프로세스 뷰]]에만 있다면 설계 누락이고, 물리 뷰에 없는 단일 장애점이 운영 요건과 충돌한다면 배포 계획이 미흡한 것이다.
+실무에서 4+1 [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) Model은 특히 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템, 플랫폼, 금융·공공처럼 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)가 많은 프로젝트에서 효과가 크다. 문서 리뷰의 핵심은 '뷰 수'가 아니라 '뷰 간 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)'이다. [논리 뷰](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/085_logical_view_class_diagram_functional_requirements/)에 없는 비동기 처리가 [프로세스 뷰](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/086_process_view_sequence_diagram_concurrency/)에만 있다면 설계 누락이고, 물리 뷰에 없는 단일 장애점이 운영 요건과 충돌한다면 배포 계획이 미흡한 것이다.
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 각 뷰에 소유자와 갱신 주기가 있는가?
 2. 대표 시나리오가 정상 흐름뿐 아니라 오류 / 재시도 흐름도 담는가?
-3. [[086_process_view_sequence_diagram_concurrency|프로세스 뷰]]에 [[014_concurrency|동시성]], [[573_timeout_retry_backoff_strategy|타임아웃]], 재전송이 반영됐는가?
-4. 물리 뷰에 네트워크 경계, [[456_dual_redundancy|이중화]], 장애 전환 경로가 보이는가?
+3. [프로세스 뷰](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/086_process_view_sequence_diagram_concurrency/)에 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/), [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/), 재전송이 반영됐는가?
+4. 물리 뷰에 네트워크 경계, [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/), 장애 전환 경로가 보이는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 한 장의 그림에 모든 정보를 밀어 넣는 경우
-- 개발 뷰와 물리 뷰가 서로 다른 이름으로 같은 [[603_component_independent_deployment_unit|컴포넌트]]를 가리키는 경우
-- 시나리오 없이 뷰만 나열하고 [[395_verification_process_review|검증]]을 생략하는 경우
+- 개발 뷰와 물리 뷰가 서로 다른 이름으로 같은 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)를 가리키는 경우
+- 시나리오 없이 뷰만 나열하고 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 생략하는 경우
 
 - **📢 섹션 요약 비유**: 집을 짓는데 설계도만 있고 동선 점검이 없으면, 문은 열리지만 사람들이 서로 부딪히는 집이 된다.
 
@@ -106,9 +110,9 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-4+1 [[151_sql_view_virtual_table|View]] Model의 기대효과는 아키텍처를 '설명 가능한 상태'로 만든다는 점이다. 설계 의도, 구현 구조, 실행 행위, 배포 토폴로지가 분리되어 보이므로 변경 영향 분석과 장애 분석이 쉬워진다. 다만 문서가 살아 있으려면 릴리즈마다 갱신되어야 하고, 그렇지 않으면 가장 그럴듯한 거짓말이 된다.
+4+1 [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) Model의 기대효과는 아키텍처를 '설명 가능한 상태'로 만든다는 점이다. 설계 의도, 구현 구조, 실행 행위, 배포 토폴로지가 분리되어 보이므로 변경 영향 분석과 장애 분석이 쉬워진다. 다만 문서가 살아 있으려면 릴리즈마다 갱신되어야 하고, 그렇지 않으면 가장 그럴듯한 거짓말이 된다.
 
-앞으로는 4+1을 [[231_adr_architecture_decision_record_documentation|Architecture Decision Record]] ([[231_adr_architecture_decision_record_documentation|ADR]])와 관측성 자료로 연결하는 방식이 더 중요해진다. 결국 기억해야 할 관점은 하나다. 아키텍처는 그림 한 장이 아니라, 서로 다른 관점이 같은 시나리오로 수렴하는 합의 구조다.
+앞으로는 4+1을 [Architecture Decision Record](/knowledge-base/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/) ([ADR](/knowledge-base/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/))와 관측성 자료로 연결하는 방식이 더 중요해진다. 결국 기억해야 할 관점은 하나다. 아키텍처는 그림 한 장이 아니라, 서로 다른 관점이 같은 시나리오로 수렴하는 합의 구조다.
 
 - **📢 섹션 요약 비유**: 지도, 표지판, 열쇠, 출입 기록이 모두 같아야 건물의 진짜 구조를 믿을 수 있다.
 
@@ -118,11 +122,11 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[232_uml_unified_modeling_language_overview|UML]] ([[232_uml_unified_modeling_language_overview|Unified Modeling Language]]) | 아키텍처 뷰를 그리는 표현 도구 |
-| Use Case ([[087_underpinning_contract|UC]]) | 4+1의 시나리오 [[395_verification_process_review|검증]] 축 |
+| [UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) ([Unified Modeling Language](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/)) | 아키텍처 뷰를 그리는 표현 도구 |
+| Use Case ([UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/)) | 4+1의 시나리오 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 축 |
 | C4 Model | 구조 중심의 보완적 표현 |
-| [[231_adr_architecture_decision_record_documentation|Architecture Decision Record]] ([[231_adr_architecture_decision_record_documentation|ADR]]) | 설계 결정을 추적하는 기록 |
-| [[642_observability_telemetry|Observability]] | 실행 뷰와 물리 뷰를 [[395_verification_process_review|검증]]하는 운영 [[001_dikw_pyramid|데이터]] |
+| [Architecture Decision Record](/knowledge-base/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/) ([ADR](/knowledge-base/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/)) | 설계 결정을 추적하는 기록 |
+| [Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) | 실행 뷰와 물리 뷰를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -142,7 +146,7 @@ Use Case (UC) 시나리오
            Architecture Decision Record (ADR)
 ```
 
-이 흐름은 '요구를 말한다'에서 '구조를 나눈다', 다시 '시나리오로 [[395_verification_process_review|검증]]한다'로 진화한다.
+이 흐름은 '요구를 말한다'에서 '구조를 나눈다', 다시 '시나리오로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다'로 진화한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -156,7 +160,7 @@ Use Case (UC) 시나리오
 
 **진행 상황**: 127 / 530
 
-← **이전**: [[083_architecture_elements_stakeholder_view_viewpoint|83. 아키텍처 주요 요소 - 이해관계자, 관심사, 뷰, 뷰포인트]]
-**다음**: [[085_logical_view_class_diagram_functional_requirements|85. 논리 뷰 (Logical View) - 최종 사용자 요구사항 개념 설계]] →
+← **이전**: [83. 아키텍처 주요 요소 - 이해관계자, 관심사, 뷰, 뷰포인트](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/083_architecture_elements_stakeholder_view_viewpoint/)
+**다음**: [85. 논리 뷰 (Logical View) - 최종 사용자 요구사항 개념 설계](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/085_logical_view_class_diagram_functional_requirements/) →
 
 ---

@@ -1,14 +1,18 @@
----
-title: 442. 테스트 시나리오 (Test Scenario)
-date: '2026-05-08'
-tags:
-- studynote-software-engineering
----
++++
+title = "442. 테스트 시나리오 (Test Scenario)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-software-engineering"]
+
+[extra]
+tags = ["studynote-software-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 테스트 시나리오 (Test Scenario)은(는) [[001_software_engineering_definition|소프트웨어 공학]]의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[[346_maintainability_portability|유지보수성]]·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 테스트 시나리오 (Test Scenario)은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
@@ -38,7 +42,7 @@ tags:
 └─────────────────────────────────────────────────────────────┘
 ```
 
-이 다이어그램은 테스트 시나리오 (Test Scena가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [[395_verification_process_review|검증]]된 결과물을 산출하는 흐름을 보여준다.
+이 다이어그램은 테스트 시나리오 (Test Scena가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
 
 ---
 
@@ -74,15 +78,15 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-[[441_test_case|테스트 케이스]]가 점이라면, 시나리오는 선이다. 그래서 시나리오는 사용자 여정, 비즈니스 프로세스, 예외 흐름까지 묶기 좋다.
+[테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)가 점이라면, 시나리오는 선이다. 그래서 시나리오는 사용자 여정, 비즈니스 프로세스, 예외 흐름까지 묶기 좋다.
 
-| 구분 | [[441_test_case|테스트 케이스]] | 테스트 시나리오 |
+| 구분 | [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) | 테스트 시나리오 |
 |:---|:---|:---|
 | 단위 | 하나 | 여러 개 묶음 |
 | 시각 | 기능 중심 | 흐름 중심 |
-| 활용 | 세부 판정 | 사용자 여정 [[395_verification_process_review|검증]] |
+| 활용 | 세부 판정 | 사용자 여정 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 
-시나리오는 [[064_relation_domain|도메인]] 이해가 깊을수록 더 잘 만든다.
+시나리오는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 이해가 깊을수록 더 잘 만든다.
 
 - **📢 섹션 요약 비유**: 단어를 보는 것과 문장을 읽는 것은 다르다.
 
@@ -117,7 +121,7 @@ tags:
 
 테스트 시나리오는 사용자 중심 품질을 보여 준다. 기능이 조각조각 맞아도 흐름이 깨지면 실패라는 사실을 드러낸다.
 
-결론적으로 이 개념은 "사용자 여정 전체를 보는 테스트"다. 기능 [[395_verification_process_review|검증]]의 맥락을 살려 준다.
+결론적으로 이 개념은 "사용자 여정 전체를 보는 테스트"다. 기능 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 맥락을 살려 준다.
 
 - **📢 섹션 요약 비유**: 출발지부터 목적지까지 길이 자연스럽게 이어지는지 확인하는 것이다.
 
@@ -131,10 +135,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[001_software_engineering_definition|소프트웨어 공학]] ([[001_software_engineering_definition|Software Engineering]]) | 테스트 시나리오 (Test Scenario)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [[003_sdlc|소프트웨어 생명주기]] ([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]], Software Development Life Cycle) | 테스트 시나리오 (Test Scenario)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | 테스트 시나리오 (Test Scenario) 적용 결과는 QA 활동을 통해 [[395_verification_process_review|검증]]되고 측정된다 |
-| [[020_software_configuration_management|형상 관리]] ([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]]) | 테스트 시나리오 (Test Scenario)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 테스트 시나리오 (Test Scenario)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 테스트 시나리오 (Test Scenario)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | 테스트 시나리오 (Test Scenario) 적용 결과는 QA 활동을 통해 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되고 측정된다 |
+| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 테스트 시나리오 (Test Scenario)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -154,13 +158,13 @@ tags:
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [[002_software_crisis|소프트웨어 위기]] 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 테스트 시나리오 (Test Scenario)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
 
 ---
 
@@ -168,7 +172,7 @@ tags:
 
 **진행 상황**: 475 / 973
 
-← **이전**: [[441_test_case|441. 테스트 케이스 (Test Case) 구조 - 식별자, 전제조건, 입력 데이터, 기대 결과]]
-**다음**: [[442_test_scenario|442. 테스트 시나리오 (Test Scenario) - 테스트 케이스들을 흐름에 따라 묶은 집합]] →
+← **이전**: [441. 테스트 케이스 (Test Case) 구조 - 식별자, 전제조건, 입력 데이터, 기대 결과](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)
+**다음**: [442. 테스트 시나리오 (Test Scenario) - 테스트 케이스들을 흐름에 따라 묶은 집합](/knowledge-base/studynote/04_software_engineering/11_testing_validation/442_test_scenario/) →
 
 ---

@@ -1,29 +1,33 @@
----
-title: 345. 데이터 버스 (Data Bus)
-date: '2026-03-27'
-tags:
-- studynote-computer-architecture
----
++++
+title = "345. 데이터 버스 (Data Bus)"
+date = 2026-03-27
 
-# 345. [[001_dikw_pyramid|데이터]] [[344_bus|버스]] ([[001_dikw_pyramid|Data]] [[344_bus|Bus]])
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
+
+# 345. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[001_dikw_pyramid|데이터]] [[344_bus|버스]] ([[001_dikw_pyramid|Data]] [[344_bus|Bus]])는 CPU (Central Processing Unit), 메모리, 입출력 장치가 실제 값과 [[158_instruction|명령어]]를 주고받는 **내용 전달 통로**이며, [[346_address_bus|주소 버스]]가 지정한 위치의 결과물이 이 선로를 통해 이동한다.
-> 2. **가치**: [[001_dikw_pyramid|데이터]] [[344_bus|버스]]의 폭과 동작 방식은 한 번에 옮길 수 있는 [[073_bit|비트]] 수, 즉 [[075_word|워드]] 처리량과 메모리 [[140_bandwidth|대역폭]]의 체감 [[282_performance_tactics|성능]]을 직접 좌우한다.
-> 3. **판단 포인트**: [[001_dikw_pyramid|데이터]] [[344_bus|버스]]는 단순히 "굵을수록 좋다"가 아니라, 클럭, 타이밍, 채널 구성, 정렬, [[149_serial_communication_rs232_rs485|직렬]]화 전략까지 함께 맞아야 진짜 [[282_performance_tactics|성능]]으로 이어진다.
+> 1. **본질**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))는 CPU (Central Processing Unit), 메모리, 입출력 장치가 실제 값과 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 주고받는 **내용 전달 통로**이며, [주소 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/346_address_bus/)가 지정한 위치의 결과물이 이 선로를 통해 이동한다.
+> 2. **가치**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)의 폭과 동작 방식은 한 번에 옮길 수 있는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수, 즉 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 처리량과 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)의 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 직접 좌우한다.
+> 3. **판단 포인트**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 단순히 "굵을수록 좋다"가 아니라, 클럭, 타이밍, 채널 구성, 정렬, [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화 전략까지 함께 맞아야 진짜 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)으로 이어진다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[[001_dikw_pyramid|데이터]] [[344_bus|버스]] ([[001_dikw_pyramid|Data]] [[344_bus|Bus]])는 [[127_system_bus|시스템 버스]]를 구성하는 핵심 배선군 가운데, **실제 [[001_dikw_pyramid|데이터]] 자체를 옮기는 선로**다. [[346_address_bus|주소 버스]] ([[346_address_bus|Address Bus]])가 "어디를 접근할지"를 지정하고 [[347_control_bus|제어 버스]] ([[347_control_bus|Control Bus]])가 "읽기인지 [[289_cqrs_db|쓰기]]인지"를 알려주면, 그 결과로 선택된 값이 [[001_dikw_pyramid|데이터]] [[344_bus|버스]]를 따라 이동한다. 즉 [[346_address_bus|주소 버스]]가 좌표, [[347_control_bus|제어 버스]]가 동작 지시라면, [[001_dikw_pyramid|데이터]] [[344_bus|버스]]는 최종 산출물을 실어 나르는 본선이다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))는 [시스템 버스](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/)를 구성하는 핵심 배선군 가운데, **실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체를 옮기는 선로**다. [주소 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/346_address_bus/) ([Address Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/346_address_bus/))가 "어디를 접근할지"를 지정하고 [제어 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/347_control_bus/) ([Control Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/347_control_bus/))가 "읽기인지 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)인지"를 알려주면, 그 결과로 선택된 값이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 따라 이동한다. 즉 [주소 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/346_address_bus/)가 좌표, [제어 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/347_control_bus/)가 동작 지시라면, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 최종 산출물을 실어 나르는 본선이다.
 
-이 통로가 필요한 이유는 컴퓨터의 모든 일이 결국 [[001_dikw_pyramid|데이터]] 이동으로 귀결되기 때문이다. CPU가 [[158_instruction|명령어]]를 해독하려면 메모리에서 [[158_instruction|명령어]] [[073_bit|비트]]를 읽어와야 하고, 산술 연산 결과를 다시 메모리에 저장하려면 반대로 값을 내보내야 한다. [[001_dikw_pyramid|데이터]] [[344_bus|버스]]가 없다면 계산 자체보다 "값을 가져오고 돌려주는 일"이 성립하지 않으므로, 시스템은 논리적으로도 완결될 수 없다.
+이 통로가 필요한 이유는 컴퓨터의 모든 일이 결국 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동으로 귀결되기 때문이다. CPU가 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 해독하려면 메모리에서 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 읽어와야 하고, 산술 연산 결과를 다시 메모리에 저장하려면 반대로 값을 내보내야 한다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 없다면 계산 자체보다 "값을 가져오고 돌려주는 일"이 성립하지 않으므로, 시스템은 논리적으로도 완결될 수 없다.
 
-특히 [[001_dikw_pyramid|데이터]] [[344_bus|버스]]는 [[346_address_bus|주소 버스]]와 달리 **양방향 (Bi-directional)** 이어야 한다. 읽기(Read) 때는 메모리에서 CPU로, [[289_cqrs_db|쓰기]](Write) 때는 CPU에서 메모리로 같은 배선이 반대 방향으로 사용되기 때문이다. 이 양방향성은 하드웨어적으로 트라이스테이트 버퍼 (Tri-state Buffer)나 [[153_transceiver_mau_sfp|트랜시버]] ([[153_transceiver_mau_sfp|Transceiver]]) 제어를 필요로 하며, 동시에 여러 장치가 선을 몰아잡지 않도록 [[347_control_bus|제어 버스]]와의 엄격한 타이밍 협조를 요구한다.
+특히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 [주소 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/346_address_bus/)와 달리 **양방향 (Bi-directional)** 이어야 한다. 읽기(Read) 때는 메모리에서 CPU로, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Write) 때는 CPU에서 메모리로 같은 배선이 반대 방향으로 사용되기 때문이다. 이 양방향성은 하드웨어적으로 트라이스테이트 버퍼 (Tri-state Buffer)나 [트랜시버](/knowledge-base/studynote/03_network/03_physical_layer_media/153_transceiver_mau_sfp/) ([Transceiver](/knowledge-base/studynote/03_network/03_physical_layer_media/153_transceiver_mau_sfp/)) 제어를 필요로 하며, 동시에 여러 장치가 선을 몰아잡지 않도록 [제어 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/347_control_bus/)와의 엄격한 타이밍 협조를 요구한다.
 
-아래 그림은 [[127_system_bus|시스템 버스]] 3요소가 서로 어떤 역할 분담을 하는지 보여준다. 핵심은 [[001_dikw_pyramid|데이터]] [[344_bus|버스]]가 혼자 의미를 갖지 못하고, 주소 지정과 제어 [[130_signal|신호]]가 준비된 뒤에만 실제 값이 흐른다는 점이다.
+아래 그림은 [시스템 버스](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/) 3요소가 서로 어떤 역할 분담을 하는지 보여준다. 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 혼자 의미를 갖지 못하고, 주소 지정과 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 준비된 뒤에만 실제 값이 흐른다는 점이다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────────────┐
@@ -42,32 +46,32 @@ tags:
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
-[[001_dikw_pyramid|데이터]] [[344_bus|버스]]를 이해할 때 가장 중요한 첫 문장은 이것이다. **컴퓨터는 계산 장치이기 전에 이동 장치**이며, [[001_dikw_pyramid|데이터]] [[344_bus|버스]]는 그 이동 장치의 중심 혈관이다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 이해할 때 가장 중요한 첫 문장은 이것이다. **컴퓨터는 계산 장치이기 전에 이동 장치**이며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 그 이동 장치의 중심 혈관이다.
 
-- **📢 섹션 요약 비유**: [[346_address_bus|주소 버스]]가 창고 선반 번호표이고 [[347_control_bus|제어 버스]]가 "꺼내라/넣어라"라는 작업 지시서라면, [[001_dikw_pyramid|데이터]] [[344_bus|버스]]는 실제 상자를 실어 나르는 지게차 통로다. 통로가 없으면 창고 위치를 알아도 물건은 움직이지 못한다.
+- **📢 섹션 요약 비유**: [주소 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/346_address_bus/)가 창고 선반 번호표이고 [제어 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/347_control_bus/)가 "꺼내라/넣어라"라는 작업 지시서라면, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 실제 상자를 실어 나르는 지게차 통로다. 통로가 없으면 창고 위치를 알아도 물건은 움직이지 못한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[[001_dikw_pyramid|데이터]] [[344_bus|버스]]의 핵심 설계 포인트는 **폭 (Width), 방향 제어, 타이밍 성립, [[140_bandwidth|대역폭]]** 네 가지다. [[344_bus|버스]] 폭이 32비트면 한 번의 전송에서 32비트, 64비트면 64비트를 실어 나를 수 있다. 따라서 [[001_dikw_pyramid|데이터]] [[344_bus|버스]] 폭은 CPU의 자연스러운 [[075_word|워드]] ([[075_word|Word]]) 처리 크기와 긴밀히 연결되고, 메모리 시스템의 1회 전송 단위도 함께 결정된다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)의 핵심 설계 포인트는 **폭 (Width), 방향 제어, 타이밍 성립, [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)** 네 가지다. [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 폭이 32비트면 한 번의 전송에서 32비트, 64비트면 64비트를 실어 나를 수 있다. 따라서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 폭은 CPU의 자연스러운 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) ([Word](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)) 처리 크기와 긴밀히 연결되고, 메모리 시스템의 1회 전송 단위도 함께 결정된다.
 
-| 항목 | 의미 | [[282_performance_tactics|성능]] 영향 |
+| 항목 | 의미 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 영향 |
 | :--- | :--- | :--- |
-| [[344_bus|버스]] 폭 ([[344_bus|Bus]] Width) | 한 번에 전달하는 [[073_bit|비트]] 수 | [[075_word|워드]] 크기, 전송량 결정 |
-| [[344_bus|버스]] 클럭 | 초당 전송 기회 수 | [[140_bandwidth|대역폭]] 상한 결정 |
-| 양방향 제어 | 읽기/[[289_cqrs_db|쓰기]] 시 전송 방향 전환 | 충돌 방지, 회로 복잡도 증가 |
-| 타이밍 여유 | 셋업/홀드, [[015_지연_데이터_관점|지연]], 스큐 관리 | 안정성, 오동작 방지 |
+| [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 폭 ([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) Width) | 한 번에 전달하는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수 | [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 크기, 전송량 결정 |
+| [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 클럭 | 초당 전송 기회 수 | [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 상한 결정 |
+| 양방향 제어 | 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시 전송 방향 전환 | 충돌 방지, 회로 복잡도 증가 |
+| 타이밍 여유 | 셋업/홀드, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 스큐 관리 | 안정성, 오동작 방지 |
 
-정량적으로는 아래 식으로 [[001_dikw_pyramid|데이터]] [[344_bus|버스]] [[140_bandwidth|대역폭]]의 감을 잡을 수 있다.
+정량적으로는 아래 식으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)의 감을 잡을 수 있다.
 
 $$
-\text{[[140_bandwidth|대역폭]]} \approx \text{[[344_bus|버스]] 폭([[074_byte|Byte]])} \times \text{전송 횟수(초당)}
+\text{[대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)} \approx \text{[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 폭([Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/))} \times \text{전송 횟수(초당)}
 $$
 
-예를 들어 64비트 [[001_dikw_pyramid|데이터]] [[344_bus|버스]]는 한 번에 8바이트를 옮긴다. 여기에 100MHz 클럭으로 클럭당 1회 전송이면 이론상 약 800MB/s가 되고, DDR ([[253_ddr_sdram|Double Data Rate]])처럼 상승·하강 에지 모두에서 전송하면 같은 폭으로도 전송 기회가 2배가 되어 [[140_bandwidth|대역폭]]을 더 끌어올릴 수 있다. 즉 [[282_performance_tactics|성능]]은 선을 늘리는 방법과 시간을 더 촘촘히 쓰는 방법이 함께 만든다.
+예를 들어 64비트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 한 번에 8바이트를 옮긴다. 여기에 100MHz 클럭으로 클럭당 1회 전송이면 이론상 약 800MB/s가 되고, DDR ([Double Data Rate](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/253_ddr_sdram/))처럼 상승·하강 에지 모두에서 전송하면 같은 폭으로도 전송 기회가 2배가 되어 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 더 끌어올릴 수 있다. 즉 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 선을 늘리는 방법과 시간을 더 촘촘히 쓰는 방법이 함께 만든다.
 
-아래 그림은 [[001_dikw_pyramid|데이터]] [[344_bus|버스]] 폭과 전송 타이밍이 결합되어 실제 처리량이 만들어지는 모습을 요약한다.
+아래 그림은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 폭과 전송 타이밍이 결합되어 실제 처리량이 만들어지는 모습을 요약한다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────────────┐
@@ -89,68 +93,68 @@ $$
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
-하지만 [[001_dikw_pyramid|데이터]] [[344_bus|버스]]는 폭만 넓힌다고 무한히 빨라지지 않는다. [[430_index_fast_full_scan|병렬]]선이 많아질수록 핀 수, 보드 배선, [[130_signal|신호]] 간 간섭 ([[030_누화_크로스토크|Crosstalk]]), 타이밍 정렬 비용이 함께 증가한다. 그래서 현대 시스템은 로컬 메모리 구간에서는 넓은 [[430_index_fast_full_scan|병렬]] [[344_bus|버스]]를 유지하되, 외부 확장 인터페이스로 갈수록 [[356_pcie|PCIe]] ([[355_pci|Peripheral Component Interconnect]] Express) 같은 고속 [[149_serial_communication_rs232_rs485|직렬]] 링크로 전환하는 방식을 택한다.
+하지만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 폭만 넓힌다고 무한히 빨라지지 않는다. [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)선이 많아질수록 핀 수, 보드 배선, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 간 간섭 ([Crosstalk](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/)), 타이밍 정렬 비용이 함께 증가한다. 그래서 현대 시스템은 로컬 메모리 구간에서는 넓은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 유지하되, 외부 확장 인터페이스로 갈수록 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) ([Peripheral Component Interconnect](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) Express) 같은 고속 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 링크로 전환하는 방식을 택한다.
 
-- **📢 섹션 요약 비유**: [[001_dikw_pyramid|데이터]] [[344_bus|버스]]는 빨대가 아니라 급식 배식구에 가깝다. 한 번에 담을 수 있는 국자의 크기(폭)와 몇 번 퍼줄 수 있는지(전송 횟수)가 함께 정해져야 실제 식사 속도가 결정된다.
+- **📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 빨대가 아니라 급식 배식구에 가깝다. 한 번에 담을 수 있는 국자의 크기(폭)와 몇 번 퍼줄 수 있는지(전송 횟수)가 함께 정해져야 실제 식사 속도가 결정된다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-[[001_dikw_pyramid|데이터]] [[344_bus|버스]]의 경계를 가장 또렷하게 드러내는 비교는 [[346_address_bus|주소 버스]], 그리고 [[149_serial_communication_rs232_rs485|직렬]] 링크와의 비교다. [[346_address_bus|주소 버스]]는 접근 대상을 지정하므로 **공간의 범위**를 정하고, [[001_dikw_pyramid|데이터]] [[344_bus|버스]]는 실제 값을 운반하므로 **전송량의 크기**를 정한다. 둘 다 폭이라는 말을 쓰지만, [[346_address_bus|주소 버스]]의 폭은 최대 주소 공간을, [[001_dikw_pyramid|데이터]] [[344_bus|버스]]의 폭은 1회 전송량과 체감 처리량을 뜻한다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)의 경계를 가장 또렷하게 드러내는 비교는 [주소 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/346_address_bus/), 그리고 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 링크와의 비교다. [주소 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/346_address_bus/)는 접근 대상을 지정하므로 **공간의 범위**를 정하고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 실제 값을 운반하므로 **전송량의 크기**를 정한다. 둘 다 폭이라는 말을 쓰지만, [주소 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/346_address_bus/)의 폭은 최대 주소 공간을, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)의 폭은 1회 전송량과 체감 처리량을 뜻한다.
 
-| 비교 항목 | [[346_address_bus|주소 버스]] ([[346_address_bus|Address Bus]]) | [[001_dikw_pyramid|데이터]] [[344_bus|버스]] ([[001_dikw_pyramid|Data]] [[344_bus|Bus]]) |
+| 비교 항목 | [주소 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/346_address_bus/) ([Address Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/346_address_bus/)) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)) |
 | :--- | :--- | :--- |
 | 질문 | 어디로 갈 것인가 | 무엇을 옮길 것인가 |
-| 방향 | 주로 [[008_단방향_반이중_전이중|단방향]] | 읽기/[[289_cqrs_db|쓰기]] 때문에 양방향 |
-| 폭의 의미 | 주소 공간 크기 | 1회 전송 [[073_bit|비트]] 수 |
-| 병목 형태 | 최대 메모리 한계 | [[140_bandwidth|대역폭]] 한계 |
+| 방향 | 주로 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) | 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때문에 양방향 |
+| 폭의 의미 | 주소 공간 크기 | 1회 전송 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수 |
+| 병목 형태 | 최대 메모리 한계 | [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 한계 |
 
-또 하나의 중요한 비교는 **[[430_index_fast_full_scan|병렬]] [[001_dikw_pyramid|데이터]] [[344_bus|버스]] vs 고속 [[149_serial_communication_rs232_rs485|직렬]] 인터커넥트**다. [[430_index_fast_full_scan|병렬]] [[344_bus|버스]]는 한 번에 많은 [[073_bit|비트]]를 실어 나르기에 직관적이지만, 선 수가 많아질수록 타이밍 맞추기가 어렵다. 반면 PCIe는 레인 (Lane) 단위 [[149_serial_communication_rs232_rs485|직렬]] 링크를 여러 개 묶어 총대역폭을 높인다. 즉 과거에는 "한 번에 많이 보내기"가 중심이었다면, 현대에는 "선을 단순하게 유지하면서 매우 빠르게 반복 전송하기"가 더 현실적인 해법이 되었다.
+또 하나의 중요한 비교는 **[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) vs 고속 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 인터커넥트**다. [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 한 번에 많은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 실어 나르기에 직관적이지만, 선 수가 많아질수록 타이밍 맞추기가 어렵다. 반면 PCIe는 레인 (Lane) 단위 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 링크를 여러 개 묶어 총대역폭을 높인다. 즉 과거에는 "한 번에 많이 보내기"가 중심이었다면, 현대에는 "선을 단순하게 유지하면서 매우 빠르게 반복 전송하기"가 더 현실적인 해법이 되었다.
 
-이 차이는 폰 노이만 병목 ([[500_von_neumann_bottleneck|Von Neumann Bottleneck]])과도 연결된다. CPU 내부 연산 속도는 계속 높아지는데 [[001_dikw_pyramid|데이터]] [[344_bus|버스]]와 메모리 계층이 그만큼 따라오지 못하면, CPU는 계산기라기보다 대기 상태가 많은 장치가 된다. 그래서 캐시 (Cache), 프리패치 (Prefetch), 멀티채널 메모리 같은 기술이 모두 [[001_dikw_pyramid|데이터]] [[344_bus|버스]]의 한계를 완화하기 위해 등장했다.
+이 차이는 폰 노이만 병목 ([Von Neumann Bottleneck](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/500_von_neumann_bottleneck/))과도 연결된다. CPU 내부 연산 속도는 계속 높아지는데 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)와 메모리 계층이 그만큼 따라오지 못하면, CPU는 계산기라기보다 대기 상태가 많은 장치가 된다. 그래서 캐시 (Cache), 프리패치 (Prefetch), 멀티채널 메모리 같은 기술이 모두 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)의 한계를 완화하기 위해 등장했다.
 
-- **📢 섹션 요약 비유**: [[346_address_bus|주소 버스]]가 지도에 찍힌 목적지라면 [[001_dikw_pyramid|데이터]] [[344_bus|버스]]는 실제 이삿짐 트럭이다. 또 [[430_index_fast_full_scan|병렬]] [[344_bus|버스]]가 여러 상자를 나란히 드는 인부들이라면, 고속 [[149_serial_communication_rs232_rs485|직렬]] 링크는 상자를 매우 빠르게 왕복 운반하는 자동 컨베이어 벨트에 가깝다.
+- **📢 섹션 요약 비유**: [주소 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/346_address_bus/)가 지도에 찍힌 목적지라면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 실제 이삿짐 트럭이다. 또 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 여러 상자를 나란히 드는 인부들이라면, 고속 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 링크는 상자를 매우 빠르게 왕복 운반하는 자동 컨베이어 벨트에 가깝다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 [[001_dikw_pyramid|데이터]] [[344_bus|버스]]는 교과서의 "배선 한 묶음"으로 끝나지 않는다. 메모리 채널 구성, 정렬, 장치 연결 방식, 워크로드 성격에 따라 체감 [[282_performance_tactics|성능]]이 크게 달라진다. 따라서 설계자는 [[344_bus|버스]] 폭만 보는 것이 아니라 **실제 병목이 어디서 나는지**를 먼저 판단해야 한다.
+실무에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 교과서의 "배선 한 묶음"으로 끝나지 않는다. 메모리 채널 구성, 정렬, 장치 연결 방식, 워크로드 성격에 따라 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 크게 달라진다. 따라서 설계자는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 폭만 보는 것이 아니라 **실제 병목이 어디서 나는지**를 먼저 판단해야 한다.
 
 ### 1. 메모리 채널 구성 판단
 
-서버나 PC에서 싱글 채널보다 듀얼 채널 메모리가 유리한 이유는, 메모리 컨트롤러가 여러 [[001_dikw_pyramid|데이터]] 경로를 [[430_index_fast_full_scan|병렬]]로 활용하여 총대역폭을 키울 수 있기 때문이다. 특히 내장 그래픽처럼 메인 메모리를 직접 프레임 버퍼로 쓰는 경우, [[001_dikw_pyramid|데이터]] [[344_bus|버스]] [[140_bandwidth|대역폭]]이 곧 그래픽 [[282_performance_tactics|성능]] 저하로 이어지므로 채널 수의 영향이 크다.
+서버나 PC에서 싱글 채널보다 듀얼 채널 메모리가 유리한 이유는, 메모리 컨트롤러가 여러 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 활용하여 총대역폭을 키울 수 있기 때문이다. 특히 내장 그래픽처럼 메인 메모리를 직접 프레임 버퍼로 쓰는 경우, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 곧 그래픽 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하로 이어지므로 채널 수의 영향이 크다.
 
-### 2. [[001_dikw_pyramid|데이터]] 정렬 (Alignment) 판단
+### 2. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정렬 (Alignment) 판단
 
-[[001_dikw_pyramid|데이터]]가 [[344_bus|버스]] 폭 경계에 잘 맞도록 배치되면 1회 전송으로 끝날 수 있지만, 경계를 어긋나게 걸치면 두 번 이상 나눠 읽어야 할 수 있다. 그래서 구조체 [[098_padding_convolutional_neural_network_same_valid|패딩]], 캐시 라인 정렬, [[746_io_direct_memory_access_dma|DMA]] ([[318_dma|Direct Memory Access]]) 버퍼 정렬은 모두 [[001_dikw_pyramid|데이터]] [[344_bus|버스]] 활용 효율과 직결된다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 폭 경계에 잘 맞도록 배치되면 1회 전송으로 끝날 수 있지만, 경계를 어긋나게 걸치면 두 번 이상 나눠 읽어야 할 수 있다. 그래서 구조체 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/), 캐시 라인 정렬, [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) ([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)) 버퍼 정렬은 모두 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 활용 효율과 직결된다.
 
 ### 3. 채택과 회피 기준
 
-- **채택**: 대량 연속 전송이 많고 메모리 [[140_bandwidth|대역폭]]이 병목인 시스템에서는 넓은 [[344_bus|버스]], 멀티채널, 높은 전송률 메모리 채택이 유효하다.
-- **회피**: 핀 수와 보드 복잡도가 급격히 증가하는 구간에서는 무작정 [[430_index_fast_full_scan|병렬]] 폭 확대보다 [[149_serial_communication_rs232_rs485|직렬]] 고속화가 더 현실적이다.
-- **점검**: [[344_bus|버스]] 폭만 보지 말고 캐시 [[264_hit_ratio|적중률]], 메모리 [[015_지연_데이터_관점|지연]], 인터커넥트 [[295_protocol_field_tcp_udp_icmp|프로토콜]] 오버헤드까지 함께 봐야 한다.
+- **채택**: 대량 연속 전송이 많고 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 병목인 시스템에서는 넓은 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/), 멀티채널, 높은 전송률 메모리 채택이 유효하다.
+- **회피**: 핀 수와 보드 복잡도가 급격히 증가하는 구간에서는 무작정 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 폭 확대보다 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 고속화가 더 현실적이다.
+- **점검**: [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 폭만 보지 말고 캐시 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/), 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 인터커넥트 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 오버헤드까지 함께 봐야 한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-1. CPU [[282_performance_tactics|성능]]만 높이고 메모리 채널 수는 줄여 전체 시스템을 불균형하게 만드는 설계
-2. [[746_io_direct_memory_access_dma|DMA]] 버퍼 정렬을 무시해 전송 횟수와 [[016_interrupt_mechanism|인터럽트]] 부담을 늘리는 구현
-3. [[430_index_fast_full_scan|병렬]] [[344_bus|버스]]의 [[130_signal|신호]] [[003_integrity|무결성]] 한계를 무시하고 폭만 키우는 보드 설계
+1. CPU [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)만 높이고 메모리 채널 수는 줄여 전체 시스템을 불균형하게 만드는 설계
+2. [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 버퍼 정렬을 무시해 전송 횟수와 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 부담을 늘리는 구현
+3. [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 한계를 무시하고 폭만 키우는 보드 설계
 
-- **📢 섹션 요약 비유**: [[001_dikw_pyramid|데이터]] [[344_bus|버스]] 튜닝은 트럭 짐칸만 키우는 일이 아니다. 창고 입구 폭, 도로 수, 하차 위치까지 함께 맞춰야 물류센터 전체가 빨라진다.
+- **📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 튜닝은 트럭 짐칸만 키우는 일이 아니다. 창고 입구 폭, 도로 수, 하차 위치까지 함께 맞춰야 물류센터 전체가 빨라진다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-잘 설계된 [[001_dikw_pyramid|데이터]] [[344_bus|버스]]는 CPU [[282_performance_tactics|성능]]을 실제 처리량으로 연결해 준다. 같은 연산 장치라도 [[001_dikw_pyramid|데이터]] 공급이 안정되면 [[158_instruction|명령어]] 인출, 메모리 접근, 입출력 전송이 끊기지 않아 시스템 전체 응답성이 높아진다. 반대로 [[001_dikw_pyramid|데이터]] [[344_bus|버스]]가 좁거나 불균형하면, 고성능 코어와 대용량 메모리를 갖추고도 체감 [[282_performance_tactics|성능]]은 낮게 나타난다.
+잘 설계된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 CPU [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 실제 처리량으로 연결해 준다. 같은 연산 장치라도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공급이 안정되면 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 인출, 메모리 접근, 입출력 전송이 끊기지 않아 시스템 전체 응답성이 높아진다. 반대로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 좁거나 불균형하면, 고성능 코어와 대용량 메모리를 갖추고도 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 낮게 나타난다.
 
-또한 [[001_dikw_pyramid|데이터]] [[344_bus|버스]] 개념은 단순한 구형 [[430_index_fast_full_scan|병렬]] [[344_bus|버스]] 지식으로 끝나지 않는다. 현대 아키텍처에서는 메모리 컨트롤러 통합, 멀티채널 [[251_dram|DRAM]] (Dynamic Random Access Memory), 고속 [[149_serial_communication_rs232_rs485|직렬]] 인터커넥트, 온칩 네트워크 (Network-on-Chip)까지 확장되며 "[[001_dikw_pyramid|데이터]]를 어떤 폭과 어떤 방식으로 흐르게 할 것인가"라는 더 큰 질문으로 발전한다. 결국 [[001_dikw_pyramid|데이터]] [[344_bus|버스]]는 전선 자체보다 **[[001_dikw_pyramid|데이터]] 이동 전략의 출발점**으로 기억하는 것이 맞다.
+또한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 개념은 단순한 구형 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 지식으로 끝나지 않는다. 현대 아키텍처에서는 메모리 컨트롤러 통합, 멀티채널 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory), 고속 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 인터커넥트, 온칩 네트워크 (Network-on-Chip)까지 확장되며 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어떤 폭과 어떤 방식으로 흐르게 할 것인가"라는 더 큰 질문으로 발전한다. 결국 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 전선 자체보다 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 전략의 출발점**으로 기억하는 것이 맞다.
 
-정리하면, [[001_dikw_pyramid|데이터]] [[344_bus|버스]]는 컴퓨터 구조에서 "내용 전달의 현실성"을 책임지는 요소다. 주소를 잘 정하고 제어를 정확히 내려도, 실제 값을 옮길 충분한 통로가 없으면 시스템 [[282_performance_tactics|성능]]은 완성되지 않는다.
+정리하면, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 컴퓨터 구조에서 "내용 전달의 현실성"을 책임지는 요소다. 주소를 잘 정하고 제어를 정확히 내려도, 실제 값을 옮길 충분한 통로가 없으면 시스템 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 완성되지 않는다.
 
-- **📢 섹션 요약 비유**: 좋은 [[001_dikw_pyramid|데이터]] [[344_bus|버스]]는 큰 엔진에 맞는 연료 라인과 같다. 엔진이 아무리 강해도 연료가 제때 충분히 공급되지 않으면 출력은 [[394_catalog_metadata|카탈로그]] 숫자에 머문다.
+- **📢 섹션 요약 비유**: 좋은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 큰 엔진에 맞는 연료 라인과 같다. 엔진이 아무리 강해도 연료가 제때 충분히 공급되지 않으면 출력은 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 숫자에 머문다.
 
 ---
 
@@ -158,12 +162,12 @@ $$
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[346_address_bus|주소 버스]] ([[346_address_bus|Address Bus]]) | [[001_dikw_pyramid|데이터]]가 이동할 대상을 먼저 지정하는 선로 |
-| [[347_control_bus|제어 버스]] ([[347_control_bus|Control Bus]]) | 읽기/[[289_cqrs_db|쓰기]], 승인, 타이밍을 조정해 [[001_dikw_pyramid|데이터]] [[344_bus|버스]] 충돌을 막음 |
-| [[075_word|워드]] ([[075_word|Word]]) | [[001_dikw_pyramid|데이터]] [[344_bus|버스]]가 한 번에 자연스럽게 옮기는 처리 단위 |
-| DDR ([[253_ddr_sdram|Double Data Rate]]) | 같은 [[344_bus|버스]] 폭으로 전송 기회를 늘려 [[140_bandwidth|대역폭]]을 확장 |
-| [[746_io_direct_memory_access_dma|DMA]] ([[318_dma|Direct Memory Access]]) | CPU 개입을 줄이고 [[001_dikw_pyramid|데이터]] [[344_bus|버스]]를 직접 활용하는 전송 방식 |
-| [[356_pcie|PCIe]] ([[355_pci|Peripheral Component Interconnect]] Express) | [[430_index_fast_full_scan|병렬]] [[344_bus|버스]] 한계를 넘어 [[149_serial_communication_rs232_rs485|직렬]] 고속 인터커넥트로 확장된 현대적 흐름 |
+| [주소 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/346_address_bus/) ([Address Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/346_address_bus/)) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 이동할 대상을 먼저 지정하는 선로 |
+| [제어 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/347_control_bus/) ([Control Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/347_control_bus/)) | 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/), 승인, 타이밍을 조정해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 충돌을 막음 |
+| [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) ([Word](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 한 번에 자연스럽게 옮기는 처리 단위 |
+| DDR ([Double Data Rate](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/253_ddr_sdram/)) | 같은 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 폭으로 전송 기회를 늘려 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 확장 |
+| [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) ([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)) | CPU 개입을 줄이고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 직접 활용하는 전송 방식 |
+| [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) ([Peripheral Component Interconnect](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) Express) | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 한계를 넘어 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 고속 인터커넥트로 확장된 현대적 흐름 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -186,11 +190,11 @@ DMA (Direct Memory Access) · 캐시 · 프리패치
 PCIe (Peripheral Component Interconnect Express) · NoC (Network-on-Chip)
 ```
 
-이 흐름은 단순 배선 개념이 메모리 [[282_performance_tactics|성능]] 최적화와 현대 인터커넥트 설계로 확장되는 과정을 보여준다.
+이 흐름은 단순 배선 개념이 메모리 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화와 현대 인터커넥트 설계로 확장되는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [[001_dikw_pyramid|데이터]] [[344_bus|버스]]는 컴퓨터 안에서 진짜 물건을 옮기는 길이에요.
+1. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 컴퓨터 안에서 진짜 물건을 옮기는 길이에요.
 2. 길이 넓고 자주 열리면 장난감 상자를 한꺼번에 빨리 옮길 수 있어요.
 3. 그래서 컴퓨터는 똑똑한 머리만큼이나, 물건을 실어 나르는 길도 튼튼하게 만들어야 해요.
 
@@ -200,7 +204,7 @@ PCIe (Peripheral Component Interconnect Express) · NoC (Network-on-Chip)
 
 **진행 상황**: 346 / 803
 
-← **이전**: [[344_bus|344. 버스 (Bus)]]
-**다음**: [[346_address_bus|346. 주소 버스 (Address Bus)]] →
+← **이전**: [344. 버스 (Bus)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)
+**다음**: [346. 주소 버스 (Address Bus)](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/346_address_bus/) →
 
 ---

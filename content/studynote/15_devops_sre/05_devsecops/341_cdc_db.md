@@ -1,23 +1,27 @@
----
-title: 341. CDC 트랜잭션 변경 실시간 캡처 DB 이관 (Change Data Capture)
-date: '2026-05-09'
-tags:
-- studynote-devops-sre
----
++++
+title = "341. CDC 트랜잭션 변경 실시간 캡처 DB 이관 (Change Data Capture)"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-devops-sre"]
+
+[extra]
+tags = ["studynote-devops-sre"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[217_cdc_binlog_change_capture_debezium|CDC]] ([[217_cdc_binlog_change_capture_debezium|Change Data Capture]])는 [[002_database_definition|데이터베이스]] 전체를 다시 복사하지 않고, [[191_transaction_concept_states|트랜잭션]] [[568_logs_distributed_logging_elk_fluentd|로그]]에 기록된 변경분만 순서대로 읽어 다른 시스템으로 전달하는 실시간 [[212_synchronization_mechanisms|동기화]] 기법이다.
-> 2. **가치**: 배치 이관보다 [[015_지연_데이터_관점|지연]]시간과 다운타임을 크게 줄여, 운영 DB·분석 플랫폼·검색 [[154_database_index_b_tree_search_optimization|인덱스]]·이벤트 스트림을 같은 사실에 가깝게 맞출 수 있다.
-> 3. **판단 포인트**: [[568_logs_distributed_logging_elk_fluentd|로그]] 기반 CDC를 선택할 때는 [[015_지연_데이터_관점|지연]]시간보다 더 중요하게 순서 보장, [[005_schema|스키마]] 진화, 중복 처리, 컷오버 [[268_strategy_pattern|전략]]을 함께 설계해야 한다.
+> 1. **본질**: [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) ([Change Data Capture](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/))는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 전체를 다시 복사하지 않고, [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에 기록된 변경분만 순서대로 읽어 다른 시스템으로 전달하는 실시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 기법이다.
+> 2. **가치**: 배치 이관보다 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간과 다운타임을 크게 줄여, 운영 DB·분석 플랫폼·검색 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)·이벤트 스트림을 같은 사실에 가깝게 맞출 수 있다.
+> 3. **판단 포인트**: [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기반 CDC를 선택할 때는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간보다 더 중요하게 순서 보장, [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 진화, 중복 처리, 컷오버 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 함께 설계해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[[217_cdc_binlog_change_capture_debezium|CDC]] ([[217_cdc_binlog_change_capture_debezium|Change Data Capture]])는 원본 [[002_database_definition|데이터베이스]]의 삽입·수정·삭제 이벤트를 감지해 후속 시스템으로 전달하는 [[212_synchronization_mechanisms|동기화]] 방식이다. 운영 [[090_service_kubernetes_network_load_balancing|서비스]]가 24시간 동작하는 환경에서는 전체 덤프와 일괄 적재만으로는 [[001_dikw_pyramid|데이터]] 신선도와 [[090_service_kubernetes_network_load_balancing|서비스]] 연속성을 동시에 만족시키기 어렵다. 특히 검색 색인, [[209_data_warehouse_schema_on_write|데이터 웨어하우스]], 캐시, [[389_mesh_topology|메시]]지 [[344_bus|버스]]가 늘어날수록 “한 번 더 전체 복사”는 비용도 크고 장애 반경도 커진다.
+[CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) ([Change Data Capture](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/))는 원본 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 삽입·수정·삭제 이벤트를 감지해 후속 시스템으로 전달하는 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 방식이다. 운영 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 24시간 동작하는 환경에서는 전체 덤프와 일괄 적재만으로는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 신선도와 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 연속성을 동시에 만족시키기 어렵다. 특히 검색 색인, [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/), 캐시, [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 늘어날수록 “한 번 더 전체 복사”는 비용도 크고 장애 반경도 커진다.
 
-그래서 현대 DevOps와 DataOps에서는 변경분만 흘려보내는 CDC가 핵심 연결 고리가 된다. 애플리케이션에서 이중 [[289_cqrs_db|쓰기]](Dual Write)를 구현하면 코드 복잡도와 정합성 위험이 커지지만, [[568_logs_distributed_logging_elk_fluentd|로그]] 기반 CDC는 [[002_database_definition|데이터베이스]]가 이미 보장하는 커밋 순서를 활용해 더 안정적인 연계를 만들 수 있다. 결국 CDC의 필요성은 “빠르게 옮기는 기술”보다 “운영 중인 시스템을 멈추지 않고 옮기는 기술”에 가깝다.
+그래서 현대 DevOps와 DataOps에서는 변경분만 흘려보내는 CDC가 핵심 연결 고리가 된다. 애플리케이션에서 이중 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Dual Write)를 구현하면 코드 복잡도와 정합성 위험이 커지지만, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기반 CDC는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)가 이미 보장하는 커밋 순서를 활용해 더 안정적인 연계를 만들 수 있다. 결국 CDC의 필요성은 “빠르게 옮기는 기술”보다 “운영 중인 시스템을 멈추지 않고 옮기는 기술”에 가깝다.
 
 - **📢 섹션 요약 비유**: CDC는 도서관 전체 책장을 매일 복사하는 대신, 오늘 새로 들어오거나 수정된 카드만 기록해 다른 지점으로 보내는 방식과 같다.
 
@@ -25,16 +29,16 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-CDC의 핵심 원리는 `트랜잭션 로그 읽기 → 변경 이벤트 표준화 → 순서 보장 전파 → 대상 시스템 반영`이다. 구현은 보통 원본 DB의 Binlog/WAL을 읽는 커넥터, [[539_event_bus_stream_processing|이벤트 버스]], [[005_schema|스키마]] 관리, 소비자 애플리케이션으로 구성된다. 이때 중요한 것은 “어떤 행이 바뀌었는가”만이 아니라 “어떤 커밋 순서로 바뀌었는가”를 잃지 않는 것이다.
+CDC의 핵심 원리는 `트랜잭션 로그 읽기 → 변경 이벤트 표준화 → 순서 보장 전파 → 대상 시스템 반영`이다. 구현은 보통 원본 DB의 Binlog/WAL을 읽는 커넥터, [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/), [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 관리, 소비자 애플리케이션으로 구성된다. 이때 중요한 것은 “어떤 행이 바뀌었는가”만이 아니라 “어떤 커밋 순서로 바뀌었는가”를 잃지 않는 것이다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
-| 소스 DB [[568_logs_distributed_logging_elk_fluentd|로그]] (Binlog/WAL) | 변경 사실의 원본 | [[191_transaction_concept_states|트랜잭션]] 순서와 커밋 위치 관리 |
-| [[217_cdc_binlog_change_capture_debezium|CDC]] 커넥터 | [[568_logs_distributed_logging_elk_fluentd|로그]]를 이벤트로 변환 | Debezium, [[179_kafka_flink_watermark_time_window|Kafka]] Connect, 재시작 [[658_ir_recovery|복구]] |
-| 이벤트 스트림 | 다수 소비자에 fan-out | [[514_partition_slice_volume|파티션]] 키, [[015_지연_데이터_관점|지연]]시간, 재처리 [[268_strategy_pattern|전략]] |
-| 타깃 시스템 | 검색·분석·[[016_replication_factor|복제]] 대상 | 멱등 반영, Upsert, 삭제 전파 |
+| 소스 DB [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) (Binlog/WAL) | 변경 사실의 원본 | [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 순서와 커밋 위치 관리 |
+| [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) 커넥터 | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 이벤트로 변환 | Debezium, [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) Connect, 재시작 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) |
+| 이벤트 스트림 | 다수 소비자에 fan-out | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간, 재처리 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
+| 타깃 시스템 | 검색·분석·[복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 대상 | 멱등 반영, Upsert, 삭제 전파 |
 
-다음 그림은 [[568_logs_distributed_logging_elk_fluentd|로그]] 기반 CDC가 애플리케이션 이중 [[289_cqrs_db|쓰기]]보다 안정적인 이유를 보여준다.
+다음 그림은 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기반 CDC가 애플리케이션 이중 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)보다 안정적인 이유를 보여준다.
 
 ```text
 ┌──────────────┐   binlog/WAL   ┌──────────────┐   ordered    ┌──────────────┐
@@ -48,23 +52,23 @@ CDC의 핵심 원리는 `트랜잭션 로그 읽기 → 변경 이벤트 표준�
 └──────────────┘                └──────────────┘              └──────────────┘
 ```
 
-이 구조에서 장애 [[658_ir_recovery|복구]]의 기준은 “마지막으로 성공한 오프셋(offset)이 어디인가”다. 소비자가 중복 이벤트를 받을 수 있으므로 타깃 반영은 Upsert, [[288_version_ihl_tos_total_length|버전]] 필드, 이벤트 키 기반 멱등 처리가 필수다. [[005_schema|스키마]]가 자주 바뀌는 조직이라면 [[217_cdc_binlog_change_capture_debezium|CDC]] 자체보다 [[505_schema|Schema]] Registry와 [[344_compatibility_usability|호환성]] [[164_policy|정책]]이 전체 안정성을 좌우한다.
+이 구조에서 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)의 기준은 “마지막으로 성공한 오프셋(offset)이 어디인가”다. 소비자가 중복 이벤트를 받을 수 있으므로 타깃 반영은 Upsert, [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 필드, 이벤트 키 기반 멱등 처리가 필수다. [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)가 자주 바뀌는 조직이라면 [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) 자체보다 [Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) Registry와 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 전체 안정성을 좌우한다.
 
-- **📢 섹션 요약 비유**: 원본 장부를 읽어 거래 내역만 택배로 보내는 방식이라, 장부 [[286_page_frame|페이지]] 순서를 잃지 않아야 회계가 맞는 것과 같다.
+- **📢 섹션 요약 비유**: 원본 장부를 읽어 거래 내역만 택배로 보내는 방식이라, 장부 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 순서를 잃지 않아야 회계가 맞는 것과 같다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-CDC를 이해하려면 배치 [[215_etl_vs_elt_pipeline|ETL]] (Extract, Transform, Load), 애플리케이션 이중 [[289_cqrs_db|쓰기]], DB [[016_replication_factor|복제]]와의 경계를 같이 봐야 한다. 겉보기에는 모두 “[[001_dikw_pyramid|데이터]]를 다른 곳으로 보내는 일”이지만, 운영 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]와 정합성 지점이 크게 다르다.
+CDC를 이해하려면 배치 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) (Extract, Transform, Load), 애플리케이션 이중 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/), DB [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)와의 경계를 같이 봐야 한다. 겉보기에는 모두 “[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다른 곳으로 보내는 일”이지만, 운영 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)와 정합성 지점이 크게 다르다.
 
 | 방식 | 장점 | 한계 |
 | :--- | :--- | :--- |
-| 배치 [[215_etl_vs_elt_pipeline|ETL]] | 구현 단순, 대량 처리 최적화 | [[015_지연_데이터_관점|지연]]시간 큼, 컷오버 창 필요 |
-| 애플리케이션 이중 [[289_cqrs_db|쓰기]] | [[090_service_kubernetes_network_load_balancing|서비스]] 코드에서 제어 가능 | 실패 시 정합성 깨짐, 코드 결합 증가 |
-| [[568_logs_distributed_logging_elk_fluentd|로그]] 기반 [[217_cdc_binlog_change_capture_debezium|CDC]] | 저지연, 커밋 순서 활용 | [[568_logs_distributed_logging_elk_fluentd|로그]] 권한, [[005_schema|스키마]] 진화, 운영 난이도 |
+| 배치 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) | 구현 단순, 대량 처리 최적화 | [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 큼, 컷오버 창 필요 |
+| 애플리케이션 이중 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 코드에서 제어 가능 | 실패 시 정합성 깨짐, 코드 결합 증가 |
+| [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기반 [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) | 저지연, 커밋 순서 활용 | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 권한, [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 진화, 운영 난이도 |
 
-또한 CDC는 [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]]([[307_event_sourcing|Event Sourcing]]), [[210_data_lakehouse_delta_lake|데이터 레이크하우스]]([[210_data_lakehouse_delta_lake|Data Lakehouse]]), 검색 인덱싱, 캐시 워밍과도 연결된다. [[652_devops_calms_culture|DevOps]] 관점에서는 배포와 [[001_dikw_pyramid|데이터]] 이관을 분리해 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]를 줄이는 수단이고, [[100_sre_site_reliability_engineering_error_budget|SRE]] 관점에서는 [[015_지연_데이터_관점|지연]]시간(Lag), 재처리율, 실패 토픽을 관찰 가능한 운영 대상이다.
+또한 CDC는 [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)([Event Sourcing](/knowledge-base/studynote/12_it_management/05_security_compliance/307_event_sourcing/)), [데이터 레이크하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/)([Data Lakehouse](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/)), 검색 인덱싱, 캐시 워밍과도 연결된다. [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 관점에서는 배포와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이관을 분리해 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 줄이는 수단이고, [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 관점에서는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간(Lag), 재처리율, 실패 토픽을 관찰 가능한 운영 대상이다.
 
 - **📢 섹션 요약 비유**: 배치가 밤마다 트럭 한 대로 몰아서 배송하는 방식이라면, CDC는 주문이 찍힐 때마다 컨베이어벨트로 흘려보내는 방식이다.
 
@@ -72,32 +76,32 @@ CDC를 이해하려면 배치 [[215_etl_vs_elt_pipeline|ETL]] (Extract, Transfor
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 CDC는 단순 [[016_replication_factor|복제]] 도구가 아니라 “무중단 [[001_dikw_pyramid|데이터]] 전환” [[268_strategy_pattern|전략]]의 일부로 설계해야 한다. 예를 들어 레거시 DB를 신규 클라우드 DB로 옮길 때는 전체 [[022_snapshot_backup_architecture|스냅샷]] 적재 후 CDC로 변경분을 계속 따라잡다가, Lag가 충분히 작아졌을 때 짧은 [[289_cqrs_db|쓰기]] 중지 구간에서 최종 컷오버를 수행한다. 이 순서를 지키지 않으면 실시간 [[212_synchronization_mechanisms|동기화]] 도구를 써도 마지막 순간의 [[001_dikw_pyramid|데이터]] 유실 위험을 피하기 어렵다.
+실무에서 CDC는 단순 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 도구가 아니라 “무중단 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전환” [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 일부로 설계해야 한다. 예를 들어 레거시 DB를 신규 클라우드 DB로 옮길 때는 전체 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) 적재 후 CDC로 변경분을 계속 따라잡다가, Lag가 충분히 작아졌을 때 짧은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 중지 구간에서 최종 컷오버를 수행한다. 이 순서를 지키지 않으면 실시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 도구를 써도 마지막 순간의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실 위험을 피하기 어렵다.
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 소스 DB [[568_logs_distributed_logging_elk_fluentd|로그]] 접근 권한과 보관 기간이 [[217_cdc_binlog_change_capture_debezium|CDC]] 재처리 요구를 충족하는가?
+1. 소스 DB [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 접근 권한과 보관 기간이 [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) 재처리 요구를 충족하는가?
 2. 타깃 반영 로직이 중복 이벤트에 대해 멱등한가?
-3. [[020_ddl|DDL]] 변경, 컬럼 추가/삭제, 타입 변경을 어떤 [[344_compatibility_usability|호환성]] [[164_policy|정책]]으로 처리할 것인가?
-4. Lag, Dead Letter [[058_queue|Queue]], [[022_snapshot_backup_architecture|스냅샷]] [[216_progress_in_synchronization|진행]]률을 관측할 대시보드가 있는가?
+3. [DDL](/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/) 변경, 컬럼 추가/삭제, 타입 변경을 어떤 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 처리할 것인가?
+4. Lag, Dead Letter [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/), [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)률을 관측할 대시보드가 있는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 애플리케이션 코드와 CDC를 동시에 쓰면서 어느 쪽이 정답인지 정의하지 않는 구조
-- [[217_cdc_binlog_change_capture_debezium|CDC]] 이벤트를 그대로 업무 계약으로 노출해 [[005_schema|스키마]] 변경이 [[090_service_kubernetes_network_load_balancing|서비스]] 장애로 직결되는 구조
-- 삭제 이벤트([[300_schema_on_write_vs_read|Tombstone]])를 무시해 검색 [[154_database_index_b_tree_search_optimization|인덱스]]와 분석계가 원본과 영구적으로 어긋나는 구조
+- [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) 이벤트를 그대로 업무 계약으로 노출해 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애로 직결되는 구조
+- 삭제 이벤트([Tombstone](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/300_schema_on_write_vs_read/))를 무시해 검색 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)와 분석계가 원본과 영구적으로 어긋나는 구조
 
-기술사 답안에서는 “실시간이라서 [[217_cdc_binlog_change_capture_debezium|CDC]]”가 아니라 “무중단 이관·저지연 [[212_synchronization_mechanisms|동기화]]·재처리 가능한 운영 모델이 필요할 때 [[217_cdc_binlog_change_capture_debezium|CDC]]”라고 판단선을 잡아야 한다.
+기술사 답안에서는 “실시간이라서 [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)”가 아니라 “무중단 이관·저지연 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)·재처리 가능한 운영 모델이 필요할 때 [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)”라고 판단선을 잡아야 한다.
 
-- **📢 섹션 요약 비유**: 이사할 때 짐을 한 번에 들고 뛰는 것보다, 먼저 큰 짐을 옮긴 뒤 마지막 순간에 새로 생긴 짐만 챙겨 출발하는 [[268_strategy_pattern|전략]]과 같다.
+- **📢 섹션 요약 비유**: 이사할 때 짐을 한 번에 들고 뛰는 것보다, 먼저 큰 짐을 옮긴 뒤 마지막 순간에 새로 생긴 짐만 챙겨 출발하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 같다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-CDC를 잘 설계하면 운영계와 분석계, 검색계, 이벤트 구독자가 거의 같은 시간축을 공유하게 된다. 그 결과 다운타임을 줄이면서도 [[001_dikw_pyramid|데이터]] 활용도를 높일 수 있고, [[001_dikw_pyramid|데이터]] 플랫폼이 [[090_service_kubernetes_network_load_balancing|서비스]] 출시 속도를 따라갈 수 있다. 특히 [[154_data_product|데이터 제품]]이 많아질수록 전체 [[016_replication_factor|복제]]보다 변경 기반 전달이 훨씬 경제적이다.
+CDC를 잘 설계하면 운영계와 분석계, 검색계, 이벤트 구독자가 거의 같은 시간축을 공유하게 된다. 그 결과 다운타임을 줄이면서도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용도를 높일 수 있고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 출시 속도를 따라갈 수 있다. 특히 [데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/)이 많아질수록 전체 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)보다 변경 기반 전달이 훨씬 경제적이다.
 
-반대로 CDC는 “만능 [[212_synchronization_mechanisms|동기화]]”가 아니다. [[568_logs_distributed_logging_elk_fluentd|로그]] 접근 제약이 큰 [[309_saas|SaaS]], [[005_schema|스키마]]가 매우 불안정한 시스템, 삭제·보정 규칙이 불명확한 조직에서는 운영 비용이 급증할 수 있다. 따라서 CDC는 [[001_dikw_pyramid|데이터]] 이동 기술이면서 동시에 정합성과 관찰 가능성을 관리하는 운영 체계로 기억해야 한다.
+반대로 CDC는 “만능 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)”가 아니다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 접근 제약이 큰 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/), [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)가 매우 불안정한 시스템, 삭제·보정 규칙이 불명확한 조직에서는 운영 비용이 급증할 수 있다. 따라서 CDC는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 기술이면서 동시에 정합성과 관찰 가능성을 관리하는 운영 체계로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: 좋은 CDC는 수도관 전체를 매번 갈아엎는 것이 아니라, 어디서 새는지 바로 찾아 필요한 물만 정확히 보내는 배관 설계와 같다.
 
@@ -107,10 +111,10 @@ CDC를 잘 설계하면 운영계와 분석계, 검색계, 이벤트 구독자�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| Debezium | [[568_logs_distributed_logging_elk_fluentd|로그]] 기반 [[217_cdc_binlog_change_capture_debezium|CDC]] 커넥터의 대표 구현 |
-| [[179_kafka_flink_watermark_time_window|Kafka]] Connect | [[217_cdc_binlog_change_capture_debezium|CDC]] 이벤트를 스트림으로 전달하는 통합 계층 |
-| [[505_schema|Schema]] [[235_registry_immutable_tag|Registry]] | [[005_schema|스키마]] 진화와 소비자 [[344_compatibility_usability|호환성]] 관리 |
-| [[307_event_sourcing|Event Sourcing]] | 이벤트를 사실 원장으로 삼는 설계 방식 |
+| Debezium | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기반 [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) 커넥터의 대표 구현 |
+| [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) Connect | [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) 이벤트를 스트림으로 전달하는 통합 계층 |
+| [Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) [Registry](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) | [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 진화와 소비자 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 관리 |
+| [Event Sourcing](/knowledge-base/studynote/12_it_management/05_security_compliance/307_event_sourcing/) | 이벤트를 사실 원장으로 삼는 설계 방식 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -127,7 +131,7 @@ Event Streaming + Schema Registry
 Zero-downtime Migration / Real-time Analytics
 ```
 
-이 흐름은 “일괄 복사 → 변경분 추적 → 스트림 표준화 → 무중단 활용”으로 [[001_dikw_pyramid|데이터]] 이관 [[268_strategy_pattern|전략]]이 진화하는 방향을 보여준다.
+이 흐름은 “일괄 복사 → 변경분 추적 → 스트림 표준화 → 무중단 활용”으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이관 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 진화하는 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -141,7 +145,7 @@ Zero-downtime Migration / Real-time Analytics
 
 **진행 상황**: 341 / 373
 
-← **이전**: [[340_pub_sub|340. 카프카 분산 메시지 스트리밍 (Apache Kafka Topic Partition Offset Consumer Group ISR]]
-**다음**: [[342_process|342. 데이터 레이크하우스 스토리지·컴퓨팅·트랜잭션 (Data Lakehouse)]] →
+← **이전**: [340. 카프카 분산 메시지 스트리밍 (Apache Kafka Topic Partition Offset Consumer Group ISR](/knowledge-base/studynote/15_devops_sre/05_devsecops/340_pub_sub/)
+**다음**: [342. 데이터 레이크하우스 스토리지·컴퓨팅·트랜잭션 (Data Lakehouse)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/342_process/) →
 
 ---

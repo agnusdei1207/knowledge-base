@@ -1,31 +1,34 @@
----
-title: 493. IAST (Interactive Application Security Testing) - SAST와 DAST 결합, 에이전트
-  기반 내부 메모리/흐름 분석
-date: '2026-05-08'
-tags:
-- studynote-software-engineering
----
++++
+title = "493. IAST (Interactive Application Security Testing) - SAST와 DAST 결합, 에이전트 기반 내부 메모리/흐름 분석"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-software-engineering"]
+
+[extra]
+tags = ["studynote-software-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: IAST (Interactive Application [[283_security_tactics|Security]] Testing) - SAST와 [[492_dast_dynamic_analysis|DAST]] 결합, 에이전트 기반 내부 메모리/흐름 분석은(는) [[001_software_engineering_definition|소프트웨어 공학]]의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[[346_maintainability_portability|유지보수성]]·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: IAST (Interactive Application [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing) - SAST와 [DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/) 결합, 에이전트 기반 내부 메모리/흐름 분석은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: IAST(상호작용 테스팅)는 '회충 약'이나 '내시경 카메라(에이전트)'를 서버에 먹인 상태로 테스트하는 것이다. 자바(Java) 서버라면 부팅할 때 `-javaagent:iast.jar` 옵션을 달아 띄운다. 그러면 이 에이전트가 서버의 모든 혈관([[294_function_calling_tool_use|함수 호출]], DB [[298_qkv_attention|쿼리]])에 딱 달라붙어 도청을 시작한다. QA 테스터나 자동화 툴이 밖에서 평범하게 앱의 버튼을 클릭하면, 뱃속에 있는 IAST 에이전트가 "어? 방금 들어온 입력값이 `ResultSet` 객체를 뚫고 지나가면서 SQL [[480_injection|인젝션]] 독극물을 퍼뜨렸어! 당장 이 코드 23번 줄이야!"라며 실시간으로 관제탑에 범인을 밀고(Interactive)한다.
+- **개념**: IAST(상호작용 테스팅)는 '회충 약'이나 '내시경 카메라(에이전트)'를 서버에 먹인 상태로 테스트하는 것이다. 자바(Java) 서버라면 부팅할 때 `-javaagent:iast.jar` 옵션을 달아 띄운다. 그러면 이 에이전트가 서버의 모든 혈관([함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/), DB [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/))에 딱 달라붙어 도청을 시작한다. QA 테스터나 자동화 툴이 밖에서 평범하게 앱의 버튼을 클릭하면, 뱃속에 있는 IAST 에이전트가 "어? 방금 들어온 입력값이 `ResultSet` 객체를 뚫고 지나가면서 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 독극물을 퍼뜨렸어! 당장 이 코드 23번 줄이야!"라며 실시간으로 관제탑에 범인을 밀고(Interactive)한다.
 
-- **필요성**: 보안팀의 가장 큰 딜레마. "[[491_sast_static_analysis|SAST]](코드 읽기)를 돌리면 가짜 경고가 만 개 떠서 개발자가 파업하고, [[492_dast_dynamic_analysis|DAST]](밖에서 공격)를 돌리면 에러는 났는데 코드를 못 고치겠대!" 이 지옥 같은 한계를 극복해야 했다. **해커가 진짜 공격(실전)을 날렸을 때의 치명적 팩트(DAST의 장점)**와, **코드 어디를 어떻게 고치면 되는지 명확히 짚어주는 내비게이션(SAST의 장점)**, 이 양극단의 두 마리 토끼를 단 하나의 툴로 포획하기 위해 발명된 신기술이 IAST다.
+- **필요성**: 보안팀의 가장 큰 딜레마. "[SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)(코드 읽기)를 돌리면 가짜 경고가 만 개 떠서 개발자가 파업하고, [DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/)(밖에서 공격)를 돌리면 에러는 났는데 코드를 못 고치겠대!" 이 지옥 같은 한계를 극복해야 했다. **해커가 진짜 공격(실전)을 날렸을 때의 치명적 팩트(DAST의 장점)**와, **코드 어디를 어떻게 고치면 되는지 명확히 짚어주는 내비게이션(SAST의 장점)**, 이 양극단의 두 마리 토끼를 단 하나의 툴로 포획하기 위해 발명된 신기술이 IAST다.
 
-- **💡 비유**: IAST는 **'의사의 삼키는 캡슐 내시경'**과 똑같습니다. 옛날 의사들은 환자 배를 밖에서 청진기로 두드려보며 짐작하거나([[492_dast_dynamic_analysis|DAST]]), 환자의 유전자(DNA) 문서만 보고 뇌피셜을 굴렸습니다([[491_sast_static_analysis|SAST]]). 하지만 IAST는 환자에게 소형 카메라(Agent)가 달린 알약을 꿀꺽 삼키게 한 뒤 달리기(테스트)를 시킵니다. 카메라가 뱃속을 실시간으로 돌아다니며 위장 벽(로직) 어디에서 피가 나는지(취약점) 초정밀 컬러 사진으로 찍어서 밖의 모니터로 전송해 줍니다. 백발백중 오탐 없는 완벽한 진단입니다.
+- **💡 비유**: IAST는 **'의사의 삼키는 캡슐 내시경'**과 똑같습니다. 옛날 의사들은 환자 배를 밖에서 청진기로 두드려보며 짐작하거나([DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/)), 환자의 유전자(DNA) 문서만 보고 뇌피셜을 굴렸습니다([SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)). 하지만 IAST는 환자에게 소형 카메라(Agent)가 달린 알약을 꿀꺽 삼키게 한 뒤 달리기(테스트)를 시킵니다. 카메라가 뱃속을 실시간으로 돌아다니며 위장 벽(로직) 어디에서 피가 나는지(취약점) 초정밀 컬러 사진으로 찍어서 밖의 모니터로 전송해 줍니다. 백발백중 오탐 없는 완벽한 진단입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **오탐(False Positive)의 피로도**: SAST와 DAST가 10년간 시장을 장악했지만, 개발자들은 쏟아지는 가짜 경고와 원인을 알 수 없는 뺑소니 로그에 지쳐 보안 툴을 적폐로 취급했다.
   2. **가트너(Gartner)의 신기술 선언 (2014)**: 미국의 IT 연구소 가트너가 "내부에서 진찰하는 계측(Instrumentation) 기반 보안 테스팅이 대세가 될 것"이라며 IAST라는 단어를 최초로 작명하여 시장을 정의했다.
-  3. **[[004_agile_relation|Agile]]/QA 자동화 융합 (현재)**: 셀레니움(Selenium) 기반 UI 자동화 테스트와 찰떡궁합임이 증명되었다. UI 테스트가 버튼을 누르면 IAST가 뒤에서 몰래 보안 엑스레이를 쏘는 '1석 2조' 구조가 완성되며 엔터프라이즈 데브옵스의 필수템으로 떡상했다.
+  3. **[Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)/QA 자동화 융합 (현재)**: 셀레니움(Selenium) 기반 UI 자동화 테스트와 찰떡궁합임이 증명되었다. UI 테스트가 버튼을 누르면 IAST가 뒤에서 몰래 보안 엑스레이를 쏘는 '1석 2조' 구조가 완성되며 엔터프라이즈 데브옵스의 필수템으로 떡상했다.
 
 - **📢 섹션 요약 비유**: IAST는 **'도둑에게 야광 페인트총 쏘기'**입니다. 밖에서 집에 들어온 도둑(악성 트래픽) 몸에 입구에서 야광 페인트(IAST 에이전트 마킹)를 묻혀버립니다. 도둑이 집 안의 화장실, 안방, 금고(함수, DB 로직) 어디를 밟고 다니는지 캄캄한 밤에도 야광 발자국이 선명하게 남습니다. 경찰(개발자)은 그냥 불을 켜고 야광 발자국 끝(코드 라인)으로 가서 족집게처럼 도둑을 잡기만 하면 되는 궁극의 추적술입니다.
 
@@ -56,18 +59,18 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-IAST (Interactive Application [[283_security_tactics|Security]] Testing) - SAST와 [[492_dast_dynamic_analysis|DAST]] 결합, 에이전트 기반 내부 메모리/흐름 분석의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
+IAST (Interactive Application [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing) - SAST와 [DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/) 결합, 에이전트 기반 내부 메모리/흐름 분석의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
 
 | 구성 요소 | 역할 | 적용 기준 |
 | :--- | :--- | :--- |
-| 개념 정의 | 핵심 용어와 범위를 명확히 [[009_config|설정]] | 용어 혼용·오해 방지 |
-| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | [[194_consistency_database_integrity|일관성]]·품질 기준 |
+| 개념 정의 | 핵심 용어와 범위를 명확히 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | 용어 혼용·오해 방지 |
+| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)·품질 기준 |
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-IAST (Interactive Application [[283_security_tactics|Security]] Testing)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+IAST (Interactive Application [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
-- **📢 섹션 요약 비유**: IAST (Interactive Application [[283_security_tactics|Security]] Testing)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
+- **📢 섹션 요약 비유**: IAST (Interactive Application [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
 ---
 
@@ -77,18 +80,18 @@ IAST (Interactive Application [[283_security_tactics|Security]] Testing)의 핵�
 
 ## Ⅲ. 비교 및 연결
 
-IAST (Interactive Application [[283_security_tactics|Security]] Testing)을(를) 유사 개념과 비교하면 경계와 특성이 더 명확해진다.
+IAST (Interactive Application [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing)을(를) 유사 개념과 비교하면 경계와 특성이 더 명확해진다.
 
-| 비교 항목 | IAST (Interactive Application [[283_security_tactics|Security]] Testing) | 유사 대안 |
+| 비교 항목 | IAST (Interactive Application [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing) | 유사 대안 |
 | :--- | :--- | :--- |
 | 핵심 목적 | 체계적 품질·생산성 향상 | 임시 방편적 해결 |
 | 적용 규모 | 중·대규모 프로젝트에서 효과적 | 소규모에서는 오버헤드 발생 가능 |
 | 조직 요건 | 팀 전체의 공통 이해와 훈련 필요 | 개인 역량 의존 |
 | 측정 가능성 | 정량적 지표로 성과 측정 가능 | 주관적 판단에 의존 |
 
-다른 [[001_software_engineering_definition|소프트웨어 공학]] 개념과의 연결을 보면, IAST (Interactive Application [[283_security_tactics|Security]] Testing)은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 [[020_software_configuration_management|형상 관리]]([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]])와 긴밀하게 연계된다.
+다른 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 개념과의 연결을 보면, IAST (Interactive Application [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing)은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/))와 긴밀하게 연계된다.
 
-- **📢 섹션 요약 비유**: IAST (Interactive Application [[283_security_tactics|Security]] Testing)과 유사 대안의 차이는 지도를 가지고 산에 오르는 것과 감으로만 오르는 차이와 같다. 지도(체계적 방법)가 있으면 정상까지 최단 경로를 찾을 수 있지만, 없으면 같은 곳을 맴돌거나 낭떠러지에 빠질 수 있다.
+- **📢 섹션 요약 비유**: IAST (Interactive Application [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing)과 유사 대안의 차이는 지도를 가지고 산에 오르는 것과 감으로만 오르는 차이와 같다. 지도(체계적 방법)가 있으면 정상까지 최단 경로를 찾을 수 있지만, 없으면 같은 곳을 맴돌거나 낭떠러지에 빠질 수 있다.
 
 ---
 
@@ -98,9 +101,9 @@ IAST (Interactive Application [[283_security_tactics|Security]] Testing)을(를)
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-IAST (Interactive Application [[283_security_tactics|Security]] Testing)을(를) 실무에 적용할 때는 다음 판단 기준을 참고한다.
+IAST (Interactive Application [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing)을(를) 실무에 적용할 때는 다음 판단 기준을 참고한다.
 
-- **📢 섹션 요약 비유**: IAST (Interactive Application [[283_security_tactics|Security]] Testing)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: IAST (Interactive Application [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 ---
 
@@ -108,21 +111,21 @@ IAST (Interactive Application [[283_security_tactics|Security]] Testing)을(를)
 
 ## Ⅴ. 기대효과 및 결론
 
-IAST (Interactive Application [[283_security_tactics|Security]] Testing)을(를) 올바르게 적용하면 [[339_software_quality_definition|소프트웨어 품질]]·[[346_maintainability_portability|유지보수성]]·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [[459_quic_fec_forward_error_correction|초기]] 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
+IAST (Interactive Application [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing)을(를) 올바르게 적용하면 [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/)·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
 
 **한계와 전제 조건**:
 - 소규모 프로젝트에서는 오버헤드가 발생할 수 있다
 - 팀 전체의 충분한 교육과 실습 기간이 필요하다
-- 도구 지원 환경 구축에 [[459_quic_fec_forward_error_correction|초기]] 비용이 발생한다
+- 도구 지원 환경 구축에 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용이 발생한다
 
 **미래 발전 방향**:
-- [[190_ai_llm_requirements_specification|AI]]·[[263_llm_large_language_model|LLM]] 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [[531_cloud_native_architecture|클라우드 네이티브]]·[[652_devops_calms_culture|DevOps]] 환경에서의 진화적 적용
+- [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
-IAST (Interactive Application [[283_security_tactics|Security]] Testing)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
+IAST (Interactive Application [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: IAST (Interactive Application [[283_security_tactics|Security]] Testing)의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [[001_software_engineering_definition|소프트웨어 공학]]의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
+- **📢 섹션 요약 비유**: IAST (Interactive Application [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing)의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
 
 ---
 
@@ -134,10 +137,10 @@ IAST (Interactive Application [[283_security_tactics|Security]] Testing)은 '어
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[001_software_engineering_definition|소프트웨어 공학]] ([[001_software_engineering_definition|Software Engineering]]) | IAST (Interactive Application [[283_security_tactics|Security]] Testing)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [[003_sdlc|소프트웨어 생명주기]] ([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]], Software Development Life Cycle) | IAST (Interactive Application [[283_security_tactics|Security]] Testing)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | IAST (Interactive Application [[283_security_tactics|Security]] Testing) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [[020_software_configuration_management|형상 관리]] ([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]]) | IAST (Interactive Application [[283_security_tactics|Security]] Testing)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | IAST (Interactive Application [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | IAST (Interactive Application [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | IAST (Interactive Application [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | IAST (Interactive Application [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -157,13 +160,13 @@ IAST (Interactive Application Security Testing) 개념 정립
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [[002_software_crisis|소프트웨어 위기]] 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. IAST (Interactive Application [[283_security_tactics|Security]] Testing)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. IAST (Interactive Application [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
 
 ---
 
@@ -171,7 +174,7 @@ IAST (Interactive Application Security Testing) 개념 정립
 
 **진행 상황**: 578 / 973
 
-← **이전**: [[493_iast|493. IAST (Interactive Application Security Testing)]]
-**다음**: [[494_rasp|494. RASP (Runtime Application Self-Protection)]] →
+← **이전**: [493. IAST (Interactive Application Security Testing)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/493_iast/)
+**다음**: [494. RASP (Runtime Application Self-Protection)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/494_rasp/) →
 
 ---

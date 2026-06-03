@@ -1,23 +1,27 @@
----
-title: 734. PL1, PL2 (Power Limit 1, 2)
-date: '2026-05-08'
-tags:
-- studynote-computer-architecture
----
++++
+title = "734. PL1, PL2 (Power Limit 1, 2)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: PL1, PL2 ([[069_type_1_2_error_statistical_power|Power]] Limit 1, 2)는 CPU 전력을 하나의 숫자가 아니라 "지속 가능한 장기 한계"와 "짧게 허용하는 순간 한계"로 나누어 관리하는 전력 [[164_policy|정책]]이다.
+> 1. **본질**: PL1, PL2 ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Limit 1, 2)는 CPU 전력을 하나의 숫자가 아니라 "지속 가능한 장기 한계"와 "짧게 허용하는 순간 한계"로 나누어 관리하는 전력 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이다.
 > 2. **가치**: 이 이중 한계 덕분에 CPU는 평상시 냉각과 전원부가 감당 가능한 범위를 지키면서도, 짧은 작업에서는 더 높은 클럭으로 즉각 반응할 수 있다.
-> 3. **판단 포인트**: 같은 CPU라도 BIOS [[009_config|설정]], Tau 시간창, [[259_adapter_pattern_interface_wrapper|어댑터]] 용량, [[742_vrm|VRM]] ([[001_voltage|Voltage]] Regulator [[192_module_independence|Module]]), 냉각 설계가 다르면 실제 지속 [[282_performance_tactics|성능]]은 크게 달라진다.
+> 3. **판단 포인트**: 같은 CPU라도 BIOS [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), Tau 시간창, [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 용량, [VRM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/742_vrm/) ([Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) Regulator [Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)), 냉각 설계가 다르면 실제 지속 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 크게 달라진다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-PL1과 PL2는 CPU가 소비할 수 있는 전력을 두 개의 시간 축으로 나눈 기준이다. PL1은 장시간 유지 가능한 평균 전력 한계이고, PL2는 짧은 터보 구간에서 허용하는 높은 전력 상한이다. 과거에는 TDP (Thermal Design [[069_type_1_2_error_statistical_power|Power]]) 같은 한 숫자로 CPU의 열과 전력을 설명하려 했지만, 현대 프로세서는 짧은 순간에 기본 전력보다 훨씬 많은 전력을 쓰며 응답성을 확보한다.
+PL1과 PL2는 CPU가 소비할 수 있는 전력을 두 개의 시간 축으로 나눈 기준이다. PL1은 장시간 유지 가능한 평균 전력 한계이고, PL2는 짧은 터보 구간에서 허용하는 높은 전력 상한이다. 과거에는 TDP (Thermal Design [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/)) 같은 한 숫자로 CPU의 열과 전력을 설명하려 했지만, 현대 프로세서는 짧은 순간에 기본 전력보다 훨씬 많은 전력을 쓰며 응답성을 확보한다.
 
-이 때문에 하나의 고정 전력 숫자만으로는 현실을 설명할 수 없다. 순간 [[282_performance_tactics|성능]]을 포기하면 사용감이 둔해지고, 반대로 순간 [[282_performance_tactics|성능]]을 무한정 허용하면 노트북 [[259_adapter_pattern_interface_wrapper|어댑터]], 메인보드 전원부, 쿨러가 버티지 못한다. PL1과 PL2는 바로 이 충돌을 풀기 위한 타협점이다. 최근 인텔 문서에서는 PL1을 Processor Base [[069_type_1_2_error_statistical_power|Power]] (PBP), PL2를 Maximum Turbo [[069_type_1_2_error_statistical_power|Power]] (MTP)와 거의 같은 의미로 제시해 이해를 돕기도 한다.
+이 때문에 하나의 고정 전력 숫자만으로는 현실을 설명할 수 없다. 순간 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 포기하면 사용감이 둔해지고, 반대로 순간 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 무한정 허용하면 노트북 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/), 메인보드 전원부, 쿨러가 버티지 못한다. PL1과 PL2는 바로 이 충돌을 풀기 위한 타협점이다. 최근 인텔 문서에서는 PL1을 Processor Base [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) (PBP), PL2를 Maximum Turbo [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) (MTP)와 거의 같은 의미로 제시해 이해를 돕기도 한다.
 
 즉 PL1/PL2는 단순 제한이 아니라, **"얼마나 세게, 얼마나 오래"를 나눠서 설계하는 전력 운영 규칙**이다.
 - **📢 섹션 요약 비유**: PL1은 오래 달릴 수 있는 조깅 속도이고, PL2는 잠깐만 허용되는 전력 질주 속도다. 좋은 선수라도 전 구간을 전력 질주로 달리면 결국 쓰러진다.
@@ -26,14 +30,14 @@ PL1과 PL2는 CPU가 소비할 수 있는 전력을 두 개의 시간 축으로 
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-CPU 내부의 PCU ([[069_type_1_2_error_statistical_power|Power]] [[206_control_unit|Control Unit]])는 [[001_voltage|전압]], [[002_current|전류]], 사용률, 온도를 바탕으로 실시간 전력을 추정하고, BIOS나 펌웨어가 [[009_config|설정]]한 PL1·PL2·Tau를 기준으로 배수와 [[001_voltage|전압]]을 조정한다. 여기서 Tau는 흔히 "PL2를 몇 초 동안 허용하는가"로 설명되지만, 더 정확히는 **장기 평균이 PL1에 수렴하도록 만드는 시간창 또는 시간 상수**에 가깝다. 그래서 실제 동작은 단순 타이머보다 조금 더 연속적이며, 온도나 [[002_current|전류]] 한계를 먼저 만나면 Tau가 끝나기 전에도 [[282_performance_tactics|성능]]이 낮아질 수 있다.
+CPU 내부의 PCU ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) [Control Unit](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/))는 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/), [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/), 사용률, 온도를 바탕으로 실시간 전력을 추정하고, BIOS나 펌웨어가 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)한 PL1·PL2·Tau를 기준으로 배수와 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 조정한다. 여기서 Tau는 흔히 "PL2를 몇 초 동안 허용하는가"로 설명되지만, 더 정확히는 **장기 평균이 PL1에 수렴하도록 만드는 시간창 또는 시간 상수**에 가깝다. 그래서 실제 동작은 단순 타이머보다 조금 더 연속적이며, 온도나 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 한계를 먼저 만나면 Tau가 끝나기 전에도 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 낮아질 수 있다.
 
 | 항목 | 의미 | 실무 해석 |
 | :--- | :--- | :--- |
 | PL1 | 장기 평균 전력 한계 | 지속 부하에서 냉각이 감당해야 할 수준 |
 | PL2 | 단기 터보 전력 상한 | 짧은 burst에서 허용되는 고성능 구간 |
 | Tau | PL2가 장기적으로 PL1에 수렴하도록 만드는 시간창 | 짧은 응답성과 장기 온도 사이의 완충 장치 |
-| ICCMax / [[002_current|Current]] Limit | 허용 [[002_current|전류]] 상한 | 전원부와 패키지 [[002_current|전류]] 스트레스를 제어 |
+| ICCMax / [Current](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) Limit | 허용 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 상한 | 전원부와 패키지 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 스트레스를 제어 |
 
 이 그림은 CPU가 왜 처음에는 빠르고, 긴 부하에서는 결국 지속 가능한 수준으로 내려오는지 보여 준다.
 
@@ -60,38 +64,38 @@ CPU 내부의 PCU ([[069_type_1_2_error_statistical_power|Power]] [[206_control_
 
 ## Ⅲ. 비교 및 연결
 
-PL1과 PL2는 자주 [[735_tjmax|TjMax]] 같은 온도 한계와 섞여 이해되지만, 둘은 다루는 대상이 다르다. PL1/PL2는 **전력 예산 [[164_policy|정책]]**, TjMax와 PROCHOT#는 **열 안전 [[571_protection_vs_security|보호]]선**이다. 따라서 시스템은 온도 여유가 있어도 PL2를 먼저 맞아 [[282_performance_tactics|성능]]이 꺾일 수 있고, 반대로 PL2 여유가 남아 있어도 냉각이 약하면 TjMax에 먼저 닿아 스로틀링이 걸릴 수 있다.
+PL1과 PL2는 자주 [TjMax](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/735_tjmax/) 같은 온도 한계와 섞여 이해되지만, 둘은 다루는 대상이 다르다. PL1/PL2는 **전력 예산 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)**, TjMax와 PROCHOT#는 **열 안전 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)선**이다. 따라서 시스템은 온도 여유가 있어도 PL2를 먼저 맞아 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 꺾일 수 있고, 반대로 PL2 여유가 남아 있어도 냉각이 약하면 TjMax에 먼저 닿아 스로틀링이 걸릴 수 있다.
 
 | 제한 종류 | 무엇을 제한하는가 | 대표 현상 | 주된 목적 |
 | :--- | :--- | :--- | :--- |
-| PL1 | 장기 평균 전력 | 지속 부하에서 클럭 하향 | 냉각/전력 [[386_sustainability_green_coding|지속 가능성]] 확보 |
-| PL2 | 단기 순간 전력 | [[459_quic_fec_forward_error_correction|초기]] burst [[282_performance_tactics|성능]] 상한 | 짧은 응답성 확보 |
-| ICCMax | 순간 [[002_current|전류]] | 급격한 [[001_voltage|전압]] 강하나 전원부 스트레스 [[656_ir_containment|억제]] | 전기적 안정성 확보 |
-| [[735_tjmax|TjMax]] / PROCHOT# | 온도 | [[473_thermal_throttling|thermal throttling]] | 실리콘 [[571_protection_vs_security|보호]] |
+| PL1 | 장기 평균 전력 | 지속 부하에서 클럭 하향 | 냉각/전력 [지속 가능성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/386_sustainability_green_coding/) 확보 |
+| PL2 | 단기 순간 전력 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) burst [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 상한 | 짧은 응답성 확보 |
+| ICCMax | 순간 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) | 급격한 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 강하나 전원부 스트레스 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) | 전기적 안정성 확보 |
+| [TjMax](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/735_tjmax/) / PROCHOT# | 온도 | [thermal throttling](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/473_thermal_throttling/) | 실리콘 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) |
 
-AMD 플랫폼에서는 PPT (Package [[069_type_1_2_error_statistical_power|Power]] Tracking), TDC (Thermal Design [[002_current|Current]]), EDC (Electrical Design [[002_current|Current]])가 비슷한 역할을 분담한다. 이름은 달라도 핵심은 같다. **순간 [[282_performance_tactics|성능]], 장기 지속성, 안전 마진은 하나의 숫자로 해결되지 않는다**는 사실이다.
+AMD 플랫폼에서는 PPT (Package [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Tracking), TDC (Thermal Design [Current](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)), EDC (Electrical Design [Current](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/))가 비슷한 역할을 분담한다. 이름은 달라도 핵심은 같다. **순간 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 장기 지속성, 안전 마진은 하나의 숫자로 해결되지 않는다**는 사실이다.
 - **📢 섹션 요약 비유**: PL1/PL2가 예산표라면, TjMax는 화재 경보다. 예산이 남아 있어도 불이 나면 뛰쳐나와야 하고, 불이 안 나도 예산을 넘기면 카드가 정지된다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 workload 성격에 따라 PL1과 PL2를 다르게 봐야 한다. 컴파일, 웹 반응, 게임 로딩처럼 짧은 burst 위주의 업무는 PL2가 높을수록 체감 [[282_performance_tactics|성능]]이 좋아진다. 반면 영상 인코딩, CFD, 렌더링, [[190_ai_llm_requirements_specification|AI]] 추론처럼 수분 이상 지속되는 작업은 결국 PL1이 [[282_performance_tactics|성능]]을 정한다. 따라서 워크스테이션과 서버는 높은 PL1과 충분한 냉각·전원부가 중요하고, 얇은 노트북은 소음과 배터리 때문에 PL2/Tau를 더 보수적으로 잡는다.
+실무에서는 workload 성격에 따라 PL1과 PL2를 다르게 봐야 한다. 컴파일, 웹 반응, 게임 로딩처럼 짧은 burst 위주의 업무는 PL2가 높을수록 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 좋아진다. 반면 영상 인코딩, CFD, 렌더링, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 추론처럼 수분 이상 지속되는 작업은 결국 PL1이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 정한다. 따라서 워크스테이션과 서버는 높은 PL1과 충분한 냉각·전원부가 중요하고, 얇은 노트북은 소음과 배터리 때문에 PL2/Tau를 더 보수적으로 잡는다.
 
-기술사 관점에서는 "최대 터보 클럭"만 적어서는 부족하다. 장시간 [[282_performance_tactics|성능]]이 필요한 장비인지, 전원 [[259_adapter_pattern_interface_wrapper|어댑터]]가 얼마나 큰지, 팬 소음을 어느 수준까지 허용하는지, [[742_vrm|VRM]] 방열이 충분한지까지 함께 판단해야 한다. 일부 메인보드는 마케팅을 위해 사실상 무제한 터보를 기본값으로 두기도 하므로, 같은 CPU라도 제조사별 [[282_performance_tactics|성능]]과 온도가 달라지는 이유를 설명할 수 있어야 한다.
+기술사 관점에서는 "최대 터보 클럭"만 적어서는 부족하다. 장시간 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 필요한 장비인지, 전원 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)가 얼마나 큰지, 팬 소음을 어느 수준까지 허용하는지, [VRM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/742_vrm/) 방열이 충분한지까지 함께 판단해야 한다. 일부 메인보드는 마케팅을 위해 사실상 무제한 터보를 기본값으로 두기도 하므로, 같은 CPU라도 제조사별 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 온도가 달라지는 이유를 설명할 수 있어야 한다.
 
-### 적용 판단 [[435_checklist_based_testing|체크리스트]]
+### 적용 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 목표 workload가 burst형인가, sustained형인가?
 2. 냉각 시스템과 VRM이 원하는 PL1을 장시간 감당하는가?
-3. 노트북이라면 [[259_adapter_pattern_interface_wrapper|어댑터]] 용량과 배터리 방전까지 고려했는가?
+3. 노트북이라면 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 용량과 배터리 방전까지 고려했는가?
 4. BIOS 기본값이 인텔/AMD 권장값인지, 제조사 튜닝값인지 확인했는가?
-5. [[282_performance_tactics|성능]] 저하의 원인이 PL1/PL2인지, TjMax인지, [[002_current|전류]] 제한인지 구분했는가?
+5. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하의 원인이 PL1/PL2인지, TjMax인지, [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 제한인지 구분했는가?
 
-### 피해야 할 [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### 피해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 박스에 적힌 base power만 보고 실제 최대 소비전력을 과소평가하는 것
-- 메인보드의 무제한 터보 [[009_config|설정]]을 안정성과 동일시하는 것
+- 메인보드의 무제한 터보 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 안정성과 동일시하는 것
 - sustained benchmark를 짧은 부스트 결과만으로 평가하는 것
 
 - **📢 섹션 요약 비유**: PL 튜닝은 자동차 악셀만 더 밟는 일이 아니다. 연료통, 냉각수, 브레이크까지 함께 버틸 수 있을 때만 더 빠른 주행이 의미가 있다.
@@ -100,11 +104,11 @@ AMD 플랫폼에서는 PPT (Package [[069_type_1_2_error_statistical_power|Power
 
 ## Ⅴ. 기대효과 및 결론
 
-PL1과 PL2가 잘 설계되면 시스템은 두 마리 토끼를 잡는다. 짧은 작업에서는 빠르게 반응하고, 긴 작업에서는 과열이나 전원부 붕괴 없이 안정적으로 지속 [[282_performance_tactics|성능]]을 낸다. 결국 이 구조 덕분에 현대 CPU는 기본 클럭만으로 설명되던 시대보다 훨씬 영리하게 전력과 [[282_performance_tactics|성능]]을 배분할 수 있게 되었다.
+PL1과 PL2가 잘 설계되면 시스템은 두 마리 토끼를 잡는다. 짧은 작업에서는 빠르게 반응하고, 긴 작업에서는 과열이나 전원부 붕괴 없이 안정적으로 지속 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 낸다. 결국 이 구조 덕분에 현대 CPU는 기본 클럭만으로 설명되던 시대보다 훨씬 영리하게 전력과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 배분할 수 있게 되었다.
 
 다만 PL1/PL2는 숫자만 높인다고 좋은 것이 아니다. 플랫폼 설계가 받쳐 주지 못하면 팬 소음, 스로틀링, 부품 수명 저하, 전원 불안정으로 되돌아온다. 앞으로는 고정 Tau보다 workload 예측, 배터리 상태, 온도 상승률까지 함께 반영하는 더 적응형 전력 제어가 확대될 가능성이 높다.
 
-결론적으로 PL1과 PL2는 "CPU를 느리게 묶는 족쇄"가 아니라, **burst [[282_performance_tactics|성능]]과 [[386_sustainability_green_coding|지속 가능성]]을 동시에 설계하기 위한 전력 운영 언어**다.
+결론적으로 PL1과 PL2는 "CPU를 느리게 묶는 족쇄"가 아니라, **burst [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 [지속 가능성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/386_sustainability_green_coding/)을 동시에 설계하기 위한 전력 운영 언어**다.
 - **📢 섹션 요약 비유**: 좋은 가계부는 오늘 기분 내자고 월급 전체를 한 번에 쓰지 않는다. 잠깐의 사치와 오래 버틸 생활비를 나누어 관리해야 집안이 굴러간다.
 
 ---
@@ -113,12 +117,12 @@ PL1과 PL2가 잘 설계되면 시스템은 두 마리 토끼를 잡는다. 짧�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| TDP / PBP (Processor Base [[069_type_1_2_error_statistical_power|Power]]) | PL1을 이해할 때 함께 보는 지속 전력 기준이다. |
-| MTP (Maximum Turbo [[069_type_1_2_error_statistical_power|Power]]) | 최근 인텔 문서에서 PL2와 대응되는 최대 터보 전력 개념이다. |
+| TDP / PBP (Processor Base [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/)) | PL1을 이해할 때 함께 보는 지속 전력 기준이다. |
+| MTP (Maximum Turbo [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/)) | 최근 인텔 문서에서 PL2와 대응되는 최대 터보 전력 개념이다. |
 | Tau | PL2가 장기적으로 PL1에 수렴하도록 만드는 시간창이다. |
-| RAPL (Running Average [[069_type_1_2_error_statistical_power|Power]] Limit) | OS와 펌웨어가 전력 상태를 관찰·제어할 때 쓰는 인터페이스다. |
-| [[742_vrm|VRM]] ([[001_voltage|Voltage]] Regulator [[192_module_independence|Module]]) | 높은 PL2를 감당하려면 안정적인 전원 공급이 필요하다. |
-| [[735_tjmax|TjMax]] (Tjunction Max [[386_llm_temperature|Temperature]]) | 전력 한계와 별개로 최종 온도 안전선을 제공한다. |
+| RAPL (Running Average [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Limit) | OS와 펌웨어가 전력 상태를 관찰·제어할 때 쓰는 인터페이스다. |
+| [VRM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/742_vrm/) ([Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) Regulator [Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)) | 높은 PL2를 감당하려면 안정적인 전원 공급이 필요하다. |
+| [TjMax](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/735_tjmax/) (Tjunction Max [Temperature](/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/)) | 전력 한계와 별개로 최종 온도 안전선을 제공한다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -138,7 +142,7 @@ OEM / BIOS별 전력 프로파일 튜닝
 workload·배터리·열상승률 반영 적응형 전력 제어
 ```
 
-이 흐름은 전력 관리가 단순 정적 숫자에서 출발해, 이제는 시간 축과 플랫폼 상태를 함께 반영하는 [[164_policy|정책]] 계층으로 발전했음을 보여 준다.
+이 흐름은 전력 관리가 단순 정적 숫자에서 출발해, 이제는 시간 축과 플랫폼 상태를 함께 반영하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 계층으로 발전했음을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -152,7 +156,7 @@ workload·배터리·열상승률 반영 적응형 전력 제어
 
 **진행 상황**: 735 / 803
 
-← **이전**: [[733_tvb|733. 동적 주파수 한계 (Thermal Velocity Boost)]]
-**다음**: [[735_tjmax|735. TjMax (Tunction Max Temperature)]] →
+← **이전**: [733. 동적 주파수 한계 (Thermal Velocity Boost)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/733_tvb/)
+**다음**: [735. TjMax (Tunction Max Temperature)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/735_tjmax/) →
 
 ---

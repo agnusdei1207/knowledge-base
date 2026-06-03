@@ -1,14 +1,18 @@
----
-title: 130. SECI 모델 - 노나카의 조직 지식 창조 이론
-date: '2026-04-19'
-tags:
-- studynote-enterprise-systems
----
++++
+title = "130. SECI 모델 - 노나카의 조직 지식 창조 이론"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-enterprise-systems"]
+
+[extra]
+tags = ["studynote-enterprise-systems"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: SECI 모델은 노나카 이쿠지로(1995)가 제안한 **조직 지식 창조 이론**으로, 암묵지↔[[129_explicit_knowledge_formalization|형식지]]의 4가지 변환(사회화→외부화→결합화→내면화)의 나선형 순환을 통해 새로운 지식이 창조된다.
+> 1. **본질**: SECI 모델은 노나카 이쿠지로(1995)가 제안한 **조직 지식 창조 이론**으로, 암묵지↔[형식지](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/129_explicit_knowledge_formalization/)의 4가지 변환(사회화→외부화→결합화→내면화)의 나선형 순환을 통해 새로운 지식이 창조된다.
 > 2. **가치**: 지식을 단순 저장이 아닌 **변환·순환·창조**의 관점으로 보며, 조직이 학습하고 혁신하는 메커니즘을 설명한다.
-> 3. **판단 포인트**: 외부화(암묵지→[[129_explicit_knowledge_formalization|형식지]])가 가장 어렵고 가치 높으며, [[103_ba_as_is_analysis|Ba]](장)라는 지식 창조 공간 개념이 SECI를 촉진한다.
+> 3. **판단 포인트**: 외부화(암묵지→[형식지](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/129_explicit_knowledge_formalization/))가 가장 어렵고 가치 높으며, [Ba](/knowledge-base/studynote/12_it_management/03_ea_isp/103_ba_as_is_analysis/)(장)라는 지식 창조 공간 개념이 SECI를 촉진한다.
 
 ---
 
@@ -29,7 +33,7 @@ SECI 순환:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-| 단계 | 변환 | [[103_ba_as_is_analysis|Ba]](장) |
+| 단계 | 변환 | [Ba](/knowledge-base/studynote/12_it_management/03_ea_isp/103_ba_as_is_analysis/)(장) |
 |:---|:---|:---|
 | **S** | 암→암 | 대면 공간 |
 | **E** | 암→형 | 대화·문서화 공간 |
@@ -40,7 +44,7 @@ SECI 순환:
 
 ## Ⅲ~Ⅴ. 결론
 
-SECI 모델은 **[[127_kms_knowledge_management_system|KMS]]·[[347_cop|CoP]]·학습 조직의 이론적 기반**이며, [[190_ai_llm_requirements_specification|AI]]/RAG가 외부화·결합화를 자동화하는 새 장을 열고 있다.
+SECI 모델은 **[KMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/)·[CoP](/knowledge-base/studynote/09_security/04_endpoint_security/347_cop/)·학습 조직의 이론적 기반**이며, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/RAG가 외부화·결합화를 자동화하는 새 장을 열고 있다.
 
 ---
 
@@ -49,10 +53,10 @@ SECI 모델은 **[[127_kms_knowledge_management_system|KMS]]·[[347_cop|CoP]]·�
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **SECI** | 지식 변환 4단계 |
-| **[[103_ba_as_is_analysis|Ba]]** | 지식 창조 공간 |
-| **외부화** | 암묵지→[[129_explicit_knowledge_formalization|형식지]] (핵심) |
+| **[Ba](/knowledge-base/studynote/12_it_management/03_ea_isp/103_ba_as_is_analysis/)** | 지식 창조 공간 |
+| **외부화** | 암묵지→[형식지](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/129_explicit_knowledge_formalization/) (핵심) |
 | **노나카** | SECI 모델 창시자 |
-| **[[127_kms_knowledge_management_system|KMS]]** | SECI를 IT로 지원 |
+| **[KMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/)** | SECI를 IT로 지원 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -63,7 +67,7 @@ SECI 모델은 **[[127_kms_knowledge_management_system|KMS]]·[[347_cop|CoP]]·�
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. SECI는 지식의 **4계절**이에요. 봄(배우기)→여름([[289_cqrs_db|쓰기]])→가을(모으기)→겨울(체화) 순환해요.
+1. SECI는 지식의 **4계절**이에요. 봄(배우기)→여름([쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))→가을(모으기)→겨울(체화) 순환해요.
 2. 계절이 돌 때마다 **나무(지식)가 더 크게** 자라요.
 3. AI가 여름(외부화)을 도와서 **지식이 더 빨리** 자라게 돼요!
 
@@ -73,7 +77,7 @@ SECI 모델은 **[[127_kms_knowledge_management_system|KMS]]·[[347_cop|CoP]]·�
 
 **진행 상황**: 130 / 482
 
-← **이전**: [[129_explicit_knowledge_formalization|129. 형식지 (Explicit Knowledge)]]
-**다음**: [[131_groupware_enterprise_2_0_collaboration|131. 그룹웨어 & Enterprise 2.0 협업 - 기업 협업 플랫폼의 진화]] →
+← **이전**: [129. 형식지 (Explicit Knowledge)](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/129_explicit_knowledge_formalization/)
+**다음**: [131. 그룹웨어 & Enterprise 2.0 협업 - 기업 협업 플랫폼의 진화](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/131_groupware_enterprise_2_0_collaboration/) →
 
 ---

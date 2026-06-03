@@ -1,15 +1,18 @@
----
-title: 58. 폴딩 주파수 (Folding Frequency)
-date: '2026-03-30'
-tags:
-- Network
-- studynote
----
++++
+title = "58. 폴딩 주파수 (Folding Frequency)"
+date = 2026-03-30
+
+[taxonomies]
+tags = ["Network", "studynote"]
+
+[extra]
+tags = ["Network", "studynote"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 폴딩 주파수(Folding Frequency)는 샘플링 주파수의 절반에 해당하는 경계 주파수다.
-> 2. **가치**: 이 경계를 넘는 성분은 [[057_에일리어싱_Aliasing|에일리어싱]]([[057_에일리어싱_Aliasing|Aliasing]])으로 접혀 들어가므로, 설계 기준점이 된다.
+> 2. **가치**: 이 경계를 넘는 성분은 [에일리어싱](/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/)([Aliasing](/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/))으로 접혀 들어가므로, 설계 기준점이 된다.
 > 3. **판단 포인트**: 나이퀴스트 주파수(Nyquist Frequency)와 같은 의미로 이해하고, 필터와 함께 봐야 한다.
 
 ---
@@ -38,7 +41,7 @@ f_folding = f_s / 2
 
 ---
 
-## Ⅲ. [[057_에일리어싱_Aliasing|에일리어싱]]과의 [[083_relationship_in_er_model|관계]]
+## Ⅲ. [에일리어싱](/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/)과의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
 폴딩 주파수를 넘는 성분은 거울에 비친 것처럼 반대편으로 접혀 들어간다. 이때 다른 저주파와 섞여 잘못된 신호처럼 보인다.
 
@@ -90,7 +93,7 @@ f_folding = f_s / 2
 
 1. 나이퀴스트 주파수 → 샘플링 한계선
 2. 폴딩 주파수 → 접힘 경계의 해석
-3. [[057_에일리어싱_Aliasing|에일리어싱]] → 왜곡 발생
+3. [에일리어싱](/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/) → 왜곡 발생
 4. 저역통과 필터 → 고주파 제거
 5. 오버샘플링 → 복원 여유 확보
 
@@ -108,7 +111,7 @@ f_folding = f_s / 2
 
 **진행 상황**: 58 / 1120
 
-← **이전**: [[057_에일리어싱_Aliasing|57. 에일리어싱 (Aliasing) - 표본화 주파수 부족시 발생]]
-**다음**: [[059_양자화_Quantization|59. 양자화 (Quantization) - 선형/비선형]] →
+← **이전**: [57. 에일리어싱 (Aliasing) - 표본화 주파수 부족시 발생](/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/)
+**다음**: [59. 양자화 (Quantization) - 선형/비선형](/knowledge-base/studynote/03_network/01_data_communication/059_양자화_Quantization/) →
 
 ---

@@ -1,20 +1,24 @@
----
-title: 99. 암스트롱의 공리 (Armstrong's Axioms) - 반사의 공리, 첨가의 공리, 이행의 공리
-tags:
-- database
----
++++
+title = "99. 암스트롱의 공리 (Armstrong's Axioms) - 반사의 공리, 첨가의 공리, 이행의 공리"
+
+[taxonomies]
+tags = ["database"]
+
+[extra]
+tags = ["database"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 암스트롱의 공리 (Armstrong's Axioms)는 관계형 [[002_database_definition|데이터베이스]]에서 [[082_attribute_types_er_model|속성]] 간의 [[094_functional_dependency_fd|함수적 종속성]] (Functional Dependency)을 수학적으로 추론하기 위한 3가지 논리적 절대 원칙이다.
-> 2. **가치**: 눈에 보이는 명시적인 [[008_dependencies|종속성]] 몇 개만으로 숨겨진 모든 [[008_dependencies|종속성]]을 누락 없이, 그리고 틀린 것 없이 완벽하게 찾아낼 수 있는 이론적 기반을 제공한다.
-> 3. **판단 포인트**: [[002_database_definition|데이터베이스]] [[093_normalization|정규화]] 과정에서 중복을 제거하고 이상 현상을 방지하려면, 이 공리를 통해 도출된 이행적 종속이나 부분 종속을 정확히 식별하고 분해해야 한다.
+> 1. **본질**: 암스트롱의 공리 (Armstrong's Axioms)는 관계형 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)에서 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 간의 [함수적 종속성](/knowledge-base/studynote/05_database/02_modeling_normalization/094_functional_dependency_fd/) (Functional Dependency)을 수학적으로 추론하기 위한 3가지 논리적 절대 원칙이다.
+> 2. **가치**: 눈에 보이는 명시적인 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 몇 개만으로 숨겨진 모든 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)을 누락 없이, 그리고 틀린 것 없이 완벽하게 찾아낼 수 있는 이론적 기반을 제공한다.
+> 3. **판단 포인트**: [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 과정에서 중복을 제거하고 이상 현상을 방지하려면, 이 공리를 통해 도출된 이행적 종속이나 부분 종속을 정확히 식별하고 분해해야 한다.
 
 ## Ⅰ. 개요 및 필요성
 
-암스트롱의 공리는 [[061_relation_schema_instance|릴레이션]] 내의 [[082_attribute_types_er_model|속성]](Column)들이 서로 어떻게 결정짓고 종속되는지를 분석하는 규칙이다. [[002_database_definition|데이터베이스]] 설계 시 사용자의 요구사항이나 업무 규칙(Business Rule)을 분석하면 몇 가지 기본적인 [[094_functional_dependency_fd|함수적 종속성]]만 파악된다. 하지만 실제 시스템에는 드러나지 않은 수많은 파생 [[008_dependencies|종속성]]이 존재한다. 만약 이 숨겨진 [[008_dependencies|종속성]]을 찾아내지 못하면, [[093_normalization|정규화]]가 불완전하게 수행되어 [[093_update_anomaly|갱신 이상]]([[093_update_anomaly|Update Anomaly]])이나 [[001_dikw_pyramid|데이터]] 불일치가 발생하게 된다. 따라서 주어진 [[008_dependencies|종속성]] 집합으로부터 가능한 모든 [[008_dependencies|종속성]](Closure)을 기계적으로 도출할 수 있는 완전하고 건전한 규칙이 필요해졌으며, 이것이 암스트롱의 공리이다.
+암스트롱의 공리는 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/) 내의 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(Column)들이 서로 어떻게 결정짓고 종속되는지를 분석하는 규칙이다. [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계 시 사용자의 요구사항이나 업무 규칙(Business Rule)을 분석하면 몇 가지 기본적인 [함수적 종속성](/knowledge-base/studynote/05_database/02_modeling_normalization/094_functional_dependency_fd/)만 파악된다. 하지만 실제 시스템에는 드러나지 않은 수많은 파생 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)이 존재한다. 만약 이 숨겨진 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)을 찾아내지 못하면, [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)가 불완전하게 수행되어 [갱신 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/093_update_anomaly/)([Update Anomaly](/knowledge-base/studynote/05_database/02_modeling_normalization/093_update_anomaly/))이나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치가 발생하게 된다. 따라서 주어진 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 집합으로부터 가능한 모든 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)(Closure)을 기계적으로 도출할 수 있는 완전하고 건전한 규칙이 필요해졌으며, 이것이 암스트롱의 공리이다.
 
-- **📢 섹션 요약 비유**: 암스트롱의 공리는 명탐정의 '추리 매뉴얼'과 같다. 현장에 남겨진 발자국과 지문(기본 [[008_dependencies|종속성]])만으로도, 범인이 어떻게 움직였는지(숨겨진 [[008_dependencies|종속성]])를 100% 확실하게 논리적으로 재구성해 낸다.
+- **📢 섹션 요약 비유**: 암스트롱의 공리는 명탐정의 '추리 매뉴얼'과 같다. 현장에 남겨진 발자국과 지문(기본 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/))만으로도, 범인이 어떻게 움직였는지(숨겨진 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/))를 100% 확실하게 논리적으로 재구성해 낸다.
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
@@ -23,9 +27,9 @@ tags:
 1. **반사의 공리 (Reflexivity Rule)**: $Y \subseteq X$ 이면, $X \rightarrow Y$ 이다.
    - 부분은 전체에 속한다는 자명한 진리다. `{주민번호, 이름} \rightarrow {이름}`처럼, 전체 집합을 알면 그 안의 부분 집합은 당연히 결정된다.
 2. **첨가의 공리 (Augmentation Rule)**: $X \rightarrow Y$ 이면, $XZ \rightarrow YZ$ 이다.
-   - 양변에 동일한 [[082_attribute_types_er_model|속성]] 집합을 추가해도 [[008_dependencies|종속성]]은 유지된다. `학번 \rightarrow 이름`일 때, 양쪽에 `전공`을 추가해 `{학번, 전공} \rightarrow {이름, 전공}`이 성립한다.
+   - 양변에 동일한 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 집합을 추가해도 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)은 유지된다. `학번 \rightarrow 이름`일 때, 양쪽에 `전공`을 추가해 `{학번, 전공} \rightarrow {이름, 전공}`이 성립한다.
 3. **이행의 공리 (Transitivity Rule)**: $X \rightarrow Y$ 이고 $Y \rightarrow Z$ 이면, $X \rightarrow Z$ 이다.
-   - 꼬리물기다. `사번 \rightarrow 부서코드`이고 `부서코드 \rightarrow 부서명`이면, 결과적으로 `사번 \rightarrow 부서명`이 성립한다. [[105_third_normal_form_3nf_transitive|제3정규형]]([[105_third_normal_form_3nf_transitive|3NF]]) 위반의 핵심 원인이다.
+   - 꼬리물기다. `사번 \rightarrow 부서코드`이고 `부서코드 \rightarrow 부서명`이면, 결과적으로 `사번 \rightarrow 부서명`이 성립한다. [제3정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/)([3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/)) 위반의 핵심 원인이다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -43,54 +47,54 @@ tags:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-이 세 가지 공리는 **건전성(Soundness, 잘못된 [[008_dependencies|종속성]]을 만들지 않음)**과 **완전성(Completeness, 모든 참인 [[008_dependencies|종속성]]을 찾을 수 있음)**을 수학적으로 보장한다.
+이 세 가지 공리는 **건전성(Soundness, 잘못된 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)을 만들지 않음)**과 **완전성(Completeness, 모든 참인 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)을 찾을 수 있음)**을 수학적으로 보장한다.
 
 - **📢 섹션 요약 비유**: 이 규칙들은 마치 '삼단논법'과 같다. "소크라테스는 사람이다(X->Y)", "사람은 죽는다(Y->Z)"를 알면 "소크라테스는 죽는다(X->Z)"는 절대 틀릴 수 없는 결론을 도출하는 뇌 구조다.
 
 ## Ⅲ. 비교 및 연결
 
-암스트롱의 공리는 RDB (Relational [[501_database|Database]]) [[093_normalization|정규화]] 이론과 직접적으로 맞닿아 있다. 각 정규형(NF)은 특정 [[008_dependencies|종속성]]을 제거하는 과정인데, 암스트롱의 공리를 통해 그 [[008_dependencies|종속성]]을 찾아낸다.
+암스트롱의 공리는 RDB (Relational [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/)) [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 이론과 직접적으로 맞닿아 있다. 각 정규형(NF)은 특정 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)을 제거하는 과정인데, 암스트롱의 공리를 통해 그 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)을 찾아낸다.
 
-| [[093_normalization|정규화]] 단계 | 제거 대상 [[008_dependencies|종속성]] | 연관된 암스트롱의 공리 / 개념 |
+| [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 단계 | 제거 대상 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) | 연관된 암스트롱의 공리 / 개념 |
 | :--- | :--- | :--- |
-| [[104_second_normal_form_2nf_full_fd|제2정규형]] ([[104_second_normal_form_2nf_full_fd|2NF]]) | 부분 [[094_functional_dependency_fd|함수적 종속성]] | 복합 키의 일부만으로도 종속이 성립하는지 [[395_verification_process_review|검증]] (분해의 규칙 활용) |
-| [[105_third_normal_form_3nf_transitive|제3정규형]] ([[105_third_normal_form_3nf_transitive|3NF]]) | 이행적 [[094_functional_dependency_fd|함수적 종속성]] | **이행의 공리** ($X \rightarrow Y, Y \rightarrow Z \Rightarrow X \rightarrow Z$) 차단 |
-| [[529_bcnf|BCNF]] | 모든 [[095_determinant_dependent|결정자]]가 후보키가 아닌 [[008_dependencies|종속성]] | 모든 [[082_attribute_types_er_model|속성]]에 대해 [[094_functional_dependency_fd|함수적 종속성]] 도출 및 [[095_determinant_dependent|결정자]] [[396_validation|확인]] |
+| [제2정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/) ([2NF](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/)) | 부분 [함수적 종속성](/knowledge-base/studynote/05_database/02_modeling_normalization/094_functional_dependency_fd/) | 복합 키의 일부만으로도 종속이 성립하는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) (분해의 규칙 활용) |
+| [제3정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/) ([3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/)) | 이행적 [함수적 종속성](/knowledge-base/studynote/05_database/02_modeling_normalization/094_functional_dependency_fd/) | **이행의 공리** ($X \rightarrow Y, Y \rightarrow Z \Rightarrow X \rightarrow Z$) 차단 |
+| [BCNF](/knowledge-base/studynote/05_database/04_transactions_concurrency/529_bcnf/) | 모든 [결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/)가 후보키가 아닌 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) | 모든 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)에 대해 [함수적 종속성](/knowledge-base/studynote/05_database/02_modeling_normalization/094_functional_dependency_fd/) 도출 및 [결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
 
-단순히 테이블을 쪼개는 행위([[093_normalization|정규화]])는 직관에 의존할 수 있지만, 암스트롱의 공리는 그 분해가 [[101_lossless_join_decomposition|무손실 분해]](Lossless Decomposition)인지, [[008_dependencies|종속성]]을 보존([[102_dependency_preservation_decomposition|Dependency Preservation]])하는지를 증명하는 수학적 도구로 쓰인다.
+단순히 테이블을 쪼개는 행위([정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))는 직관에 의존할 수 있지만, 암스트롱의 공리는 그 분해가 [무손실 분해](/knowledge-base/studynote/05_database/02_modeling_normalization/101_lossless_join_decomposition/)(Lossless Decomposition)인지, [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)을 보존([Dependency Preservation](/knowledge-base/studynote/05_database/02_modeling_normalization/102_dependency_preservation_decomposition/))하는지를 증명하는 수학적 도구로 쓰인다.
 
-- **📢 섹션 요약 비유**: 직관적인 [[093_normalization|정규화]]가 눈대중으로 물건을 나누는 '어림짐작'이라면, 암스트롱의 공리는 정확한 저울과 자를 사용해 1g의 오차도 없이 권리 관계를 분할하는 '공증 계약서'다.
+- **📢 섹션 요약 비유**: 직관적인 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)가 눈대중으로 물건을 나누는 '어림짐작'이라면, 암스트롱의 공리는 정확한 저울과 자를 사용해 1g의 오차도 없이 권리 관계를 분할하는 '공증 계약서'다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무 [[001_dikw_pyramid|데이터]] 모델링에서 암스트롱의 공리 수식을 직접 풀고 있지는 않지만, 이 원리는 테이블 설계의 [[395_verification_process_review|검증]] 기준으로 강하게 작동한다.
+실무 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델링에서 암스트롱의 공리 수식을 직접 풀고 있지는 않지만, 이 원리는 테이블 설계의 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기준으로 강하게 작동한다.
 
 ### 실무 판단 시나리오
-1. **[[093_normalization|정규화]] vs 반정규화([[111_denormalization_performance_tradeoff|Denormalization]]) 결정**: 테이블 조인 성능을 위해 반정규화를 고려할 때, 이행의 공리로 인해 파생되는 [[001_dikw_pyramid|데이터]] 중복(예: 주문 테이블에 부서명까지 넣기)이 [[093_update_anomaly|갱신 이상]]을 일으킬 위험도를 평가해야 한다.
+1. **[정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) vs 반정규화([Denormalization](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/)) 결정**: 테이블 조인 성능을 위해 반정규화를 고려할 때, 이행의 공리로 인해 파생되는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중복(예: 주문 테이블에 부서명까지 넣기)이 [갱신 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/093_update_anomaly/)을 일으킬 위험도를 평가해야 한다.
 2. **복합 기본키(PK) 설계**: 첨가 및 연합의 규칙을 무의식적으로 적용하여 불필요하게 긴 복합 PK를 만들지 않았는지(부분 종속 발생 가능성) 점검해야 한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
-- [[289_identification_flags_fragmentation_offset|식별자]](PK)가 아닌 일반 [[082_attribute_types_er_model|속성]] 간에 이행적 [[008_dependencies|종속성]]이 명백함에도, 조인 [[298_qkv_attention|쿼리]] 작성이 귀찮다는 이유로 하나의 테이블에 방치하는 설계 ([[001_dikw_pyramid|데이터]] 불일치 시한폭탄).
-- [[082_attribute_types_er_model|속성]] 간의 종속 관계를 비즈니스 규칙이 아닌 단순히 현재 입력된 [[001_dikw_pyramid|데이터]] 값만 보고 추론하여 설계하는 행위.
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)(PK)가 아닌 일반 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 간에 이행적 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)이 명백함에도, 조인 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 작성이 귀찮다는 이유로 하나의 테이블에 방치하는 설계 ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치 시한폭탄).
+- [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 간의 종속 관계를 비즈니스 규칙이 아닌 단순히 현재 입력된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 값만 보고 추론하여 설계하는 행위.
 
-- **📢 섹션 요약 비유**: 실무에서 이 공리는 건축물의 '하중 계산 공식'과 같다. 현장에서 매번 공식을 쓰진 않지만, 기둥(PK)이 아닌 벽돌(일반 [[082_attribute_types_er_model|속성]])에 지붕의 무게([[008_dependencies|종속성]])가 쏠리게 설계하면 언젠가 집이 무너진다는 것을 경고한다.
+- **📢 섹션 요약 비유**: 실무에서 이 공리는 건축물의 '하중 계산 공식'과 같다. 현장에서 매번 공식을 쓰진 않지만, 기둥(PK)이 아닌 벽돌(일반 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))에 지붕의 무게([종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/))가 쏠리게 설계하면 언젠가 집이 무너진다는 것을 경고한다.
 
 ## Ⅴ. 기대효과 및 결론
 
-암스트롱의 공리를 기반으로 [[002_database_definition|데이터베이스]]를 설계하면, [[001_dikw_pyramid|데이터]]의 중복을 수학적으로 완벽하게 제거할 수 있어 삽입, 삭제, [[093_update_anomaly|갱신 이상]]을 원천 차단할 수 있다. 이는 [[001_dikw_pyramid|데이터]]의 무결성과 일관성을 영구적으로 보장하는 튼튼한 토대가 된다.
+암스트롱의 공리를 기반으로 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)를 설계하면, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 중복을 수학적으로 완벽하게 제거할 수 있어 삽입, 삭제, [갱신 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/093_update_anomaly/)을 원천 차단할 수 있다. 이는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 무결성과 일관성을 영구적으로 보장하는 튼튼한 토대가 된다.
 
-결론적으로 암스트롱의 공리는 단순한 이론적 유희가 아니라, "어떤 [[082_attribute_types_er_model|속성]]이 다른 [[082_attribute_types_er_model|속성]]을 결정하는가"라는 비즈니스 룰을 시스템 언어로 번역하고 [[395_verification_process_review|검증]]하는 가장 정교하고 완벽한 규칙 셋(Rule Set)으로 기억되어야 한다.
+결론적으로 암스트롱의 공리는 단순한 이론적 유희가 아니라, "어떤 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 다른 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 결정하는가"라는 비즈니스 룰을 시스템 언어로 번역하고 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 가장 정교하고 완벽한 규칙 셋(Rule Set)으로 기억되어야 한다.
 
-- **📢 섹션 요약 비유**: 암스트롱의 공리는 복잡하게 얽힌 실타래([[001_dikw_pyramid|데이터]])의 끄트머리를 잡아당겨, 중간에 끊어짐 없이 단숨에 한 줄로 풀어내는 완벽한 '매듭 풀기 법칙'이다.
+- **📢 섹션 요약 비유**: 암스트롱의 공리는 복잡하게 얽힌 실타래([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))의 끄트머리를 잡아당겨, 중간에 끊어짐 없이 단숨에 한 줄로 풀어내는 완벽한 '매듭 풀기 법칙'이다.
 
 ### 📌 관련 개념 맵
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[094_functional_dependency_fd|함수적 종속성]] (Functional Dependency) | 암스트롱의 공리가 다루고 추론하는 기본 대상 ($X \rightarrow Y$) |
-| [[093_normalization|정규화]] ([[093_normalization|Normalization]]) | 공리를 통해 찾아낸 불필요한 [[008_dependencies|종속성]](이행적 종속 등)을 제거하는 과정 |
-| 클로저 (Closure, [[008_dependencies|종속성]] 폐포) | 주어진 [[008_dependencies|종속성]]에서 암스트롱의 공리로 도출할 수 있는 모든 [[008_dependencies|종속성]]의 집합 ($F^+$) |
-| [[105_third_normal_form_3nf_transitive|제3정규형]] ([[105_third_normal_form_3nf_transitive|3NF]]) | 이행의 공리로 파악되는 이행적 함수 종속을 분해하여 해결하는 단계 |
+| [함수적 종속성](/knowledge-base/studynote/05_database/02_modeling_normalization/094_functional_dependency_fd/) (Functional Dependency) | 암스트롱의 공리가 다루고 추론하는 기본 대상 ($X \rightarrow Y$) |
+| [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) ([Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)) | 공리를 통해 찾아낸 불필요한 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)(이행적 종속 등)을 제거하는 과정 |
+| 클로저 (Closure, [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 폐포) | 주어진 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)에서 암스트롱의 공리로 도출할 수 있는 모든 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)의 집합 ($F^+$) |
+| [제3정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/) ([3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/)) | 이행의 공리로 파악되는 이행적 함수 종속을 분해하여 해결하는 단계 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -122,7 +126,7 @@ tags:
 
 **진행 상황**: 99 / 600
 
-← **이전**: [[098_transitive_functional_dependency|98. 이행적 함수적 종속 (Transitive Functional Dependency) - X->Y, Y->Z 일 때 X->Z 종속]]
-**다음**: [[100_normalization_decomposition|100. 정규화 (Normalization) - 이상 현상 방지를 위해 릴레이션을 분해(Decomposition)하는 과정]] →
+← **이전**: [98. 이행적 함수적 종속 (Transitive Functional Dependency) - X->Y, Y->Z 일 때 X->Z 종속](/knowledge-base/studynote/05_database/02_modeling_normalization/098_transitive_functional_dependency/)
+**다음**: [100. 정규화 (Normalization) - 이상 현상 방지를 위해 릴레이션을 분해(Decomposition)하는 과정](/knowledge-base/studynote/05_database/02_modeling_normalization/100_normalization_decomposition/) →
 
 ---

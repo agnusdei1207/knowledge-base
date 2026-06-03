@@ -1,22 +1,26 @@
----
-title: 63. 제품 책임자 (Product Owner, PO)
-tags:
-- software_engineering
----
++++
+title = "63. 제품 책임자 (Product Owner, PO)"
+
+[taxonomies]
+tags = ["software_engineering"]
+
+[extra]
+tags = ["software_engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 제품 책임자(Product Owner, PO)는 스크럼에서 제품 백로그와 우선순위를 책임지고 비즈니스 가치를 극대화하는 역할이다.
-> 2. **가치**: PO가 있어야 팀은 "무엇부터 만들 것인가"를 흔들림 없이 결정할 수 있고, [[173_stakeholder_identification_impact_matrix|이해관계자]]의 요구를 하나의 순서로 묶을 수 있다.
+> 2. **가치**: PO가 있어야 팀은 "무엇부터 만들 것인가"를 흔들림 없이 결정할 수 있고, [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)의 요구를 하나의 순서로 묶을 수 있다.
 > 3. **판단**: PO는 기술 리더가 아니라 가치 결정자이며, 개발 방법이 아니라 제품 결과에 책임을 진다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[[004_agile_relation|애자일]] 팀은 요구사항이 계속 바뀌기 때문에, 누가 우선순위를 결정할지 분명해야 한다. PO는 그 결정을 맡는 단 한 명의 책임자다.
+[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 팀은 요구사항이 계속 바뀌기 때문에, 누가 우선순위를 결정할지 분명해야 한다. PO는 그 결정을 맡는 단 한 명의 책임자다.
 
-PO가 없으면 백로그는 [[173_stakeholder_identification_impact_matrix|이해관계자]] 목소리의 합창이 되고, 팀은 어디부터 해야 할지 자주 흔들린다.
+PO가 없으면 백로그는 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 목소리의 합창이 되고, 팀은 어디부터 해야 할지 자주 흔들린다.
 
 - **📢 섹션 요약 비유**: 장난감 가게에서 어떤 장난감을 먼저 만들지 정해 주는 사람이다.
 
@@ -41,9 +45,9 @@ Feedback
 | 역할 | 핵심 책임 |
 | :-- | :-- |
 | Product Owner | 백로그 우선순위, 가치 판단, 수용 기준 |
-| [[064_scrum_master_sm|Scrum Master]] | 프로세스 지원, 장애 제거 |
-| [[065_development_team_scrum|Development Team]] | 구현과 기술적 품질 |
-| Product Manager | 시장/[[268_strategy_pattern|전략]] 범위 조정 |
+| [Scrum Master](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/064_scrum_master_sm/) | 프로세스 지원, 장애 제거 |
+| [Development Team](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/065_development_team_scrum/) | 구현과 기술적 품질 |
+| Product Manager | 시장/[전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 범위 조정 |
 
 PO는 "무엇을 만들지"를 정하고, 팀은 "어떻게 만들지"를 정한다. 이 경계가 흐려지면 PO가 기술 지시를 하거나 팀이 비즈니스 판단을 대신하는 문제가 생긴다.
 
@@ -56,11 +60,11 @@ PO는 "무엇을 만들지"를 정하고, 팀은 "어떻게 만들지"를 정한
 | 역할 | 초점 | 흔한 오해 |
 | :-- | :-- | :-- |
 | Product Owner | 제품 가치와 백로그 | 프로젝트 매니저와 혼동 |
-| Product Manager | 시장 [[268_strategy_pattern|전략]]과 비즈니스 | PO와 완전히 동일시 |
-| [[064_scrum_master_sm|Scrum Master]] | 팀 흐름과 장애 제거 | 팀 리더로 오해 |
-| [[042_relational_algebra_project|Project]] Manager | 일정과 자원 관리 | [[004_agile_relation|애자일]] 제품 책임과 혼동 |
+| Product Manager | 시장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 비즈니스 | PO와 완전히 동일시 |
+| [Scrum Master](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/064_scrum_master_sm/) | 팀 흐름과 장애 제거 | 팀 리더로 오해 |
+| [Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) Manager | 일정과 자원 관리 | [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 제품 책임과 혼동 |
 
-PO는 요구사항 문서 작성자가 아니라 의사결정자다. 수집한 의견을 순서로 바꾸고, [[067_sprint_timebox|스프린트]]마다 수용 기준을 명확히 해야 한다.
+PO는 요구사항 문서 작성자가 아니라 의사결정자다. 수집한 의견을 순서로 바꾸고, [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)마다 수용 기준을 명확히 해야 한다.
 
 - **📢 섹션 요약 비유**: 모두의 주문을 받아도, 마지막에 "먼저 나갈 음식"을 정해야 주방이 안 막힌다.
 
@@ -68,15 +72,15 @@ PO는 요구사항 문서 작성자가 아니라 의사결정자다. 수집한 �
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 제품 목표와 가치 지표가 분명한가?
 2. 백로그 우선순위가 투명한가?
-3. 수용 기준([[165_acceptance_criteria_definition|acceptance criteria]])이 명확한가?
-4. [[173_stakeholder_identification_impact_matrix|이해관계자]] 요구를 한 번에 정리하는가?
+3. 수용 기준([acceptance criteria](/knowledge-base/studynote/04_software_engineering/03_design_architecture/165_acceptance_criteria_definition/))이 명확한가?
+4. [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 요구를 한 번에 정리하는가?
 5. 기술 구현에 간섭하지 않고 결과를 책임지는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - PO가 기술 설계를 직접 지시하는 설계
 - 우선순위 없이 모든 요구를 동등하게 다루는 설계
@@ -91,7 +95,7 @@ PO는 요구사항 문서 작성자가 아니라 의사결정자다. 수집한 �
 
 ## Ⅴ. 기대효과 및 결론
 
-PO가 제대로 작동하면 팀은 덜 흔들리고, [[067_sprint_timebox|스프린트]] 결과도 더 명확해진다. 무엇보다 "무엇이 중요한가"가 계속 유지된다.
+PO가 제대로 작동하면 팀은 덜 흔들리고, [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 결과도 더 명확해진다. 무엇보다 "무엇이 중요한가"가 계속 유지된다.
 
 결국 PO는 제품의 방향을 하나로 묶는 기준점이다.
 
@@ -139,7 +143,7 @@ Sprint / Increment
 
 **진행 상황**: 63 / 973
 
-← **이전**: [[062_scrum_framework_overview|62. 스크럼 (Scrum) 프레임워크 - 역할, 이벤트, 산출물]]
-**다음**: [[064_scrum_master_sm|64. 스크럼 마스터 (Scrum Master) - 가이드, 장애 제거]] →
+← **이전**: [62. 스크럼 (Scrum) 프레임워크 - 역할, 이벤트, 산출물](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)
+**다음**: [64. 스크럼 마스터 (Scrum Master) - 가이드, 장애 제거](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/064_scrum_master_sm/) →
 
 ---

@@ -1,13 +1,17 @@
----
-title: 87. 린 (Lean) 소프트웨어 개발 - 7대 원칙 (낭비 제거, 학습 증진 등)
-tags:
-- software_engineering
----
++++
+title = "87. 린 (Lean) 소프트웨어 개발 - 7대 원칙 (낭비 제거, 학습 증진 등)"
+
+[taxonomies]
+tags = ["software_engineering"]
+
+[extra]
+tags = ["software_engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
     > 1. **본질**: Lean (Lean Software Development)은 고객 가치에 직접 기여하지 않는 낭비를 줄여 흐름과 학습을 최대화하는 개발 방식이다.
-    > 2. **가치**: 7대 원칙은 단순한 슬로건이 아니라, [[015_지연_데이터_관점|지연]]·재작업·과잉기능을 줄이고 품질과 팀 자율성을 높이는 운영 규칙이다.
+    > 2. **가치**: 7대 원칙은 단순한 슬로건이 아니라, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)·재작업·과잉기능을 줄이고 품질과 팀 자율성을 높이는 운영 규칙이다.
     > 3. **판단 포인트**: 린을 인원 감축으로 오해하면 실패하고, 가치 흐름과 피드백 속도를 관리하는 시스템으로 보면 효과가 분명해진다.
 
     ---
@@ -32,8 +36,8 @@ tags:
 | 학습 증진 | 짧은 피드백과 실험 | 요구사항 이해 향상 |
 | 결정 늦추기 | 불확실성이 줄 때까지 선택 보류 | 잘못된 확정 방지 |
 | 빠른 인도 | 작은 배치로 자주 배포 | 시장 반응 확보 |
-| 팀 권한 부여 | 현장 판단 확대 | 의사결정 [[015_지연_데이터_관점|지연]] 감소 |
-| 품질 내장 | 테스트·코드리뷰 자동화 | [[352_defect_definition|결함]] 전파 차단 |
+| 팀 권한 부여 | 현장 판단 확대 | 의사결정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 감소 |
+| 품질 내장 | 테스트·코드리뷰 자동화 | [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 전파 차단 |
 | 전체 최적화 | 부분 효율보다 흐름 최적화 | 시스템 병목 제거 |
 
 ```text
@@ -56,16 +60,16 @@ Lean의 핵심은 "더 열심히"가 아니라 "더 늦지 않게 배우는 구�
 
     ## Ⅲ. 비교 및 연결
 
-    Lean은 [[004_agile_relation|Agile]], [[658_agile_scrum_roles|Scrum]], DevOps와 겹치지만 초점이 다르다.
+    Lean은 [Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/), [Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/), DevOps와 겹치지만 초점이 다르다.
 
 | 구분 | 초점 | 대표 포인트 |
 | :-- | :-- | :-- |
 | Lean | 낭비 제거와 흐름 최적화 | 가치 흐름, WIP 제한 |
-| [[004_agile_relation|Agile]] | 변화 수용과 반복 학습 | 짧은 반복, 고객 협업 |
-| [[658_agile_scrum_roles|Scrum]] | 팀 운영 프레임 | [[067_sprint_timebox|스프린트]], 백로그, 회고 |
-| [[652_devops_calms_culture|DevOps]] | 개발·운영 통합 | 자동화, 배포, 관측성 |
+| [Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) | 변화 수용과 반복 학습 | 짧은 반복, 고객 협업 |
+| [Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/) | 팀 운영 프레임 | [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/), 백로그, 회고 |
+| [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) | 개발·운영 통합 | 자동화, 배포, 관측성 |
 
-Lean은 Scrum의 규칙보다 더 넓은 경영·프로세스 관점에서 작동한다. 따라서 [[084_kanban_board_wip_limit|칸반]] ([[084_kanban_board_wip_limit|Kanban]]) 보드나 [[090_configuration_item|CI]]/CD ([[019_continuous_integration|Continuous Integration]]/[[164_continuous_delivery|Continuous Delivery]]) 자동화도 Lean의 실행 수단으로 연결될 수 있다.
+Lean은 Scrum의 규칙보다 더 넓은 경영·프로세스 관점에서 작동한다. 따라서 [칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/) ([Kanban](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)) 보드나 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)/[Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/)) 자동화도 Lean의 실행 수단으로 연결될 수 있다.
 
     - **📢 섹션 요약 비유**: 먼저 다 만들고 나중에 고치기보다, 한 조각씩 보내며 방향을 확인하는 배달 방식이다.
 
@@ -75,13 +79,13 @@ Lean은 Scrum의 규칙보다 더 넓은 경영·프로세스 관점에서 작�
 
     실무에서는 먼저 가치 흐름을 보라. 요구사항 접수에서 배포까지 어디서 기다림이 생기는지 찾고, 승인 절차·배치 크기·테스트 자동화를 함께 줄여야 한다.
 
-### [[435_checklist_based_testing|체크리스트]]
-1. WIP ([[661_kanban_wip_limit|Work In Progress]])를 제한해 대기열을 줄였는가?
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+1. WIP ([Work In Progress](/knowledge-base/studynote/04_software_engineering/uncategorized/661_kanban_wip_limit/))를 제한해 대기열을 줄였는가?
 2. 배포 전 수작업 검증을 자동화했는가?
 3. 실패를 빨리 학습하는 회고 루프가 있는가?
 4. 팀이 현장에서 결정을 내릴 권한을 갖는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - Lean을 인력 감축으로만 해석하는 것
 - 린 보드만 만들고 배포 속도는 그대로인 것
 - 부분 최적화 때문에 전체 흐름이 느려지는 것
@@ -92,7 +96,7 @@ Lean은 Scrum의 규칙보다 더 넓은 경영·프로세스 관점에서 작�
 
     ## Ⅴ. 기대효과 및 결론
 
-    Lean은 "많이 만드는 조직"보다 "빨리 배우는 조직"을 만든다. [[352_defect_definition|결함]]과 대기를 줄이면 고객 가치 도달 시간이 짧아지고, 같은 인력으로 더 많은 학습이 가능해진다.
+    Lean은 "많이 만드는 조직"보다 "빨리 배우는 조직"을 만든다. [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)과 대기를 줄이면 고객 가치 도달 시간이 짧아지고, 같은 인력으로 더 많은 학습이 가능해진다.
 
 다만 린은 문서나 회의가 적다는 뜻이 아니다. 필요한 정보는 충분히 남기되, 가치에 기여하지 않는 낭비를 없애는 것이 핵심이다. 그래서 린은 절약이 아니라 설계의 문제로 기억해야 한다.
 
@@ -105,10 +109,10 @@ Lean은 Scrum의 규칙보다 더 넓은 경영·프로세스 관점에서 작�
     | 개념 | 연결 포인트 |
 | :-- | :-- |
 | Toyota Production System | Lean의 기원 |
-| WIP ([[661_kanban_wip_limit|Work In Progress]]) | 처리 중 작업 수 제한 |
-| [[084_kanban_board_wip_limit|Kanban]] | 흐름 시각화와 pull 방식 |
-| [[090_configuration_item|CI]]/CD ([[019_continuous_integration|Continuous Integration]]/[[164_continuous_delivery|Continuous Delivery]]) | 작은 배치의 빠른 전달 |
-| [[652_devops_calms_culture|DevOps]] | 개발·운영 협업과 자동화 |
+| WIP ([Work In Progress](/knowledge-base/studynote/04_software_engineering/uncategorized/661_kanban_wip_limit/)) | 처리 중 작업 수 제한 |
+| [Kanban](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/) | 흐름 시각화와 pull 방식 |
+| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)/[Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/)) | 작은 배치의 빠른 전달 |
+| [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) | 개발·운영 협업과 자동화 |
 
     ### 📈 관련 키워드 및 발전 흐름도
 
@@ -135,7 +139,7 @@ Lean은 Scrum의 규칙보다 더 넓은 경영·프로세스 관점에서 작�
 
 **진행 상황**: 87 / 973
 
-← **이전**: [[086_cumulative_flow_diagram_cfd|86. 누적 흐름도 (CFD, Cumulative Flow Diagram)]]
-**다음**: [[088_value_stream_mapping_vsm|88. 가치 스트림 맵 (Value Stream Mapping)]] →
+← **이전**: [86. 누적 흐름도 (CFD, Cumulative Flow Diagram)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/086_cumulative_flow_diagram_cfd/)
+**다음**: [88. 가치 스트림 맵 (Value Stream Mapping)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/088_value_stream_mapping_vsm/) →
 
 ---

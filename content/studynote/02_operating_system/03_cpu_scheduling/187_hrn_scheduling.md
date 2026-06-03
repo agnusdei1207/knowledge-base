@@ -1,24 +1,28 @@
----
-title: 187. HRN (Highest Response Ratio Next) 스케줄링 - (대기시간+서비스시간)/서비스시간
-date: '2026-05-08'
-tags:
-- studynote-operating-system
----
++++
+title = "187. HRN (Highest Response Ratio Next) 스케줄링 - (대기시간+서비스시간)/서비스시간"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: HRN (Highest Response Ratio Next) 스케줄링은 가장 짧은 작업을 편애하여 무거운 작업이 영원히 굶어 죽는 SJF의 치명적 [[352_defect_definition|결함]]([[314_starvation_prevention|기아 상태]])을 보완하기 위해, **"대기 시간"과 "실행 시간"을 동시에 고려한 응답 비율(Response Ratio)** 공식으로 우선순위를 매기는 [[285_no_preemption|비선점]]형 [[001_algorithm_definition|알고리즘]]이다.
-> 2. **가치**: 대기 시간이 길어질수록 계산된 우선순위 값이 계속 커지는 자체적인 **[[182_aging|노화]] ([[182_aging|Aging]]) 메커니즘을 수학적 공식 안에 내재화**시킴으로써, 아무리 덩치 큰 프로세스라도 언젠가는 반드시 CPU를 획득하도록 보장한다.
-> 3. **융합**: 시분할(선점형) 시스템의 표준 [[079_kube_scheduler_pod_placement|스케줄러]]로는 탈락했으나, 공정성(Fairness)을 평가하는 수리적 모델로서의 가치가 매우 높아 현대의 리눅스 CFS가 채택한 '[[203_virtual_runtime_vruntime|가상 실행 시간]](vruntime)' 철학의 [[459_quic_fec_forward_error_correction|초기]] 학술적 조상으로 평가받는다.
+> 1. **본질**: HRN (Highest Response Ratio Next) 스케줄링은 가장 짧은 작업을 편애하여 무거운 작업이 영원히 굶어 죽는 SJF의 치명적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)([기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))을 보완하기 위해, **"대기 시간"과 "실행 시간"을 동시에 고려한 응답 비율(Response Ratio)** 공식으로 우선순위를 매기는 [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)형 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
+> 2. **가치**: 대기 시간이 길어질수록 계산된 우선순위 값이 계속 커지는 자체적인 **[노화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/) ([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/)) 메커니즘을 수학적 공식 안에 내재화**시킴으로써, 아무리 덩치 큰 프로세스라도 언젠가는 반드시 CPU를 획득하도록 보장한다.
+> 3. **융합**: 시분할(선점형) 시스템의 표준 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)로는 탈락했으나, 공정성(Fairness)을 평가하는 수리적 모델로서의 가치가 매우 높아 현대의 리눅스 CFS가 채택한 '[가상 실행 시간](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/203_virtual_runtime_vruntime/)(vruntime)' 철학의 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 학술적 조상으로 평가받는다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 브린치 한센(Brinch Hansen)이 개발한 [[285_no_preemption|비선점]]형(Non-preemptive) 스케줄링 기법으로, 준비 큐에 있는 각 프로세스의 우선순위를 단순히 '남은 실행 시간'이 아닌 `(대기 시간 + 서비스 시간) / 서비스 시간`이라는 동적 수식을 통해 매번 계산하여 가장 높은 값을 가진 프로세스를 선택한다.
-- **필요성**: [[175_sjf_scheduling|SJF]] ([[175_sjf_scheduling|Shortest Job First]])는 평균 대기 시간을 극단적으로 줄이는 완벽한 이론이었지만, 실행 시간이 긴 프로세스는 큐의 맨 밑바닥에 처박혀 무한정 대기하는 '[[314_starvation_prevention|기아 상태]]([[314_starvation_prevention|Starvation]])'를 피할 수 없었다. 이 불공정한 차별을 없애면서도 짧은 작업 우대라는 SJF의 장점을 살릴 '타협점 잣대'가 필요했다.
+- **개념**: 브린치 한센(Brinch Hansen)이 개발한 [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)형(Non-preemptive) 스케줄링 기법으로, 준비 큐에 있는 각 프로세스의 우선순위를 단순히 '남은 실행 시간'이 아닌 `(대기 시간 + 서비스 시간) / 서비스 시간`이라는 동적 수식을 통해 매번 계산하여 가장 높은 값을 가진 프로세스를 선택한다.
+- **필요성**: [SJF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/) ([Shortest Job First](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/))는 평균 대기 시간을 극단적으로 줄이는 완벽한 이론이었지만, 실행 시간이 긴 프로세스는 큐의 맨 밑바닥에 처박혀 무한정 대기하는 '[기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))'를 피할 수 없었다. 이 불공정한 차별을 없애면서도 짧은 작업 우대라는 SJF의 장점을 살릴 '타협점 잣대'가 필요했다.
 
-- **등장 배경**: 과거 일괄 처리 (Batch) 시스템에서 작업 [[139_throughput|처리량]]([[139_throughput|Throughput]])을 높이기 위해 SJF를 썼으나, 불만([[314_starvation_prevention|기아 상태]])이 폭증하자 이를 해결할 [[001_algorithm_definition|알고리즘]]이 필요했다. 고정된 우선순위 대신 런타임에 동적으로 점수가 변하는(Dynamic Priority) 최초의 수식적 시도 중 하나로 역사에 등장했다.
+- **등장 배경**: 과거 일괄 처리 (Batch) 시스템에서 작업 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 높이기 위해 SJF를 썼으나, 불만([기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))이 폭증하자 이를 해결할 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 필요했다. 고정된 우선순위 대신 런타임에 동적으로 점수가 변하는(Dynamic Priority) 최초의 수식적 시도 중 하나로 역사에 등장했다.
 
 ```text
   [HRN 알고리즘의 응답 비율(Response Ratio) 가치 평가 철학]
@@ -29,9 +33,9 @@ tags:
                      ▼
    우선순위 결정 = "나의 불만도(대기 시간)"와 "내 본래 덩치(서비스 시간)"의 비율 
 ```
-**[다이어그램 해설]** HRN의 핵심은 프로세스를 절대적인 크기만으로 차별하지 않고, 그 프로세스가 겪은 '억울한 시간'을 점수에 합산해 준다는 것이다. 이는 고정 우선순위 스케줄링에서 기아를 막기 위해 임의로 점수를 올려주던 '[[411_aging_algorithm|에이징]]([[182_aging|Aging]])' 기법을 아예 단일 수학 공식 하나로 우아하게 통합해 낸 것이다.
+**[다이어그램 해설]** HRN의 핵심은 프로세스를 절대적인 크기만으로 차별하지 않고, 그 프로세스가 겪은 '억울한 시간'을 점수에 합산해 준다는 것이다. 이는 고정 우선순위 스케줄링에서 기아를 막기 위해 임의로 점수를 올려주던 '[에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/))' 기법을 아예 단일 수학 공식 하나로 우아하게 통합해 낸 것이다.
 
-- **📢 섹션 요약 비유**: 오직 성적(짧은 실행 시간) 순으로 밥을 주던 비인간적인 학교([[175_sjf_scheduling|SJF]])에서, 성적뿐만 아니라 "얼마나 오래 굶었는가(대기 시간)"를 합산 점수로 매겨 밥을 배급하는 아주 민주적이고 공정한(HRN) 급식 시스템으로 진화한 것입니다.
+- **📢 섹션 요약 비유**: 오직 성적(짧은 실행 시간) 순으로 밥을 주던 비인간적인 학교([SJF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/))에서, 성적뿐만 아니라 "얼마나 오래 굶었는가(대기 시간)"를 합산 점수로 매겨 밥을 배급하는 아주 민주적이고 공정한(HRN) 급식 시스템으로 진화한 것입니다.
 
 ---
 
@@ -39,21 +43,21 @@ tags:
 
 ### HRN의 핵심 수학 공식 (응답 비율 계산)
 
-[[079_kube_scheduler_pod_placement|스케줄러]]가 다음 프로세스를 선택해야 할 때마다([[285_no_preemption|비선점]]형이므로 누군가 끝날 때마다), 큐에 있는 모든 프로세스의 응답 비율(Response Ratio)을 계산하여 가장 큰(Highest) 값을 가진 녀석을 뽑는다.
+[스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 다음 프로세스를 선택해야 할 때마다([비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)형이므로 누군가 끝날 때마다), 큐에 있는 모든 프로세스의 응답 비율(Response Ratio)을 계산하여 가장 큰(Highest) 값을 가진 녀석을 뽑는다.
 
-> **응답 비율 (Response Ratio)** = $ \frac{대기 시간 (W) + [[090_service_kubernetes_network_load_balancing|서비스]] 시간 (S)}{[[090_service_kubernetes_network_load_balancing|서비스]] 시간 (S)} $
+> **응답 비율 (Response Ratio)** = $ \frac{대기 시간 (W) + [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시간 (S)}{[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시간 (S)} $
 > 
-> 수학적으로 분해하면 = $ 1 + \frac{대기 시간 (W)}{[[090_service_kubernetes_network_load_balancing|서비스]] 시간 (S)} $
+> 수학적으로 분해하면 = $ 1 + \frac{대기 시간 (W)}{[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시간 (S)} $
 
 #### 수식의 작동 원리 (천재성 분석)
-1. **짧은 놈 우대 ([[175_sjf_scheduling|SJF]] 효과 유지)**: 대기 시간이 0으로 같을 때, [[090_service_kubernetes_network_load_balancing|서비스]] 시간($S$)이 분모에 있으므로 $S$가 작을수록(짧은 놈일수록) 응답 비율 값은 급격히 커진다. (짧은 프로세스가 우선순위가 높음)
-2. **무거운 놈 구제 (기아 방지 효과)**: [[090_service_kubernetes_network_load_balancing|서비스]] 시간($S$)이 매우 큰 무거운 놈이라도, 시스템에서 오랫동안 머물면 분자의 대기 시간($W$)이 100, 1,000, [[489_raid_10_hybrid|10]],000으로 끝없이 무한히 커지게 된다. 결국 응답 비율이 치솟아 새로 들어온 짧은 놈들을 누르고 무조건 1등 자리를 탈환하게 된다.
+1. **짧은 놈 우대 ([SJF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/) 효과 유지)**: 대기 시간이 0으로 같을 때, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시간($S$)이 분모에 있으므로 $S$가 작을수록(짧은 놈일수록) 응답 비율 값은 급격히 커진다. (짧은 프로세스가 우선순위가 높음)
+2. **무거운 놈 구제 (기아 방지 효과)**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시간($S$)이 매우 큰 무거운 놈이라도, 시스템에서 오랫동안 머물면 분자의 대기 시간($W$)이 100, 1,000, [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000으로 끝없이 무한히 커지게 된다. 결국 응답 비율이 치솟아 새로 들어온 짧은 놈들을 누르고 무조건 1등 자리를 탈환하게 된다.
 
-### HRN 스케줄링 시뮬레이션 [[039_gantt_chart|간트 차트]]
+### HRN 스케줄링 시뮬레이션 [간트 차트](/knowledge-base/studynote/04_software_engineering/01_overview_principles/039_gantt_chart/)
 
 **[가정]** 현재 시점 0. P1은 CPU 실행 중. P2(무거운 놈)와 P3(가벼운 놈)가 대기 중이다.
-- P2: [[090_service_kubernetes_network_load_balancing|서비스]] 시간 20ms, 현재 대기 시간 30ms
-- P3: [[090_service_kubernetes_network_load_balancing|서비스]] 시간 2ms, 현재 대기 시간 2ms
+- P2: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시간 20ms, 현재 대기 시간 30ms
+- P3: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시간 2ms, 현재 대기 시간 2ms
 
 ```text
   ┌──────────────────────────────────────────────────────────────────────┐
@@ -75,37 +79,37 @@ tags:
   │  (기아 상태의 완벽한 수리적 구제)                                    │
   └──────────────────────────────────────────────────────────────────────┘
 ```
-**[다이어그램 해설]** 이 수식이 작동하는 원리는 기가 막히게 아름답다. [[175_sjf_scheduling|SJF]] 환경이었다면 2ms짜리 P3가 먼저 튀어나갔을 테고, P2는 뒤이어 [[874_p4_programming_data_plane_pipeline_int_telemetry|P4]], P5 같은 가벼운 놈들이 계속 들어오면 영원히 굶어 죽었을 것이다. 하지만 HRN 공식이 P2의 30ms라는 눈물 젖은 '대기 시간'에 엄청난 가산점([[182_aging|Aging]])을 부여하여 정당하게 1등석으로 끌어올린 것이다.
+**[다이어그램 해설]** 이 수식이 작동하는 원리는 기가 막히게 아름답다. [SJF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/) 환경이었다면 2ms짜리 P3가 먼저 튀어나갔을 테고, P2는 뒤이어 [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/), P5 같은 가벼운 놈들이 계속 들어오면 영원히 굶어 죽었을 것이다. 하지만 HRN 공식이 P2의 30ms라는 눈물 젖은 '대기 시간'에 엄청난 가산점([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/))을 부여하여 정당하게 1등석으로 끌어올린 것이다.
 
-- **📢 섹션 요약 비유**: 이 공식은 철저한 평등주의 저울입니다. 본래 덩치가 큰 코끼리([[090_service_kubernetes_network_load_balancing|서비스]] 시간 김)는 무거워서 우선순위 저울이 잘 안 올라가지만, 계속 기다리면서 억울함이라는 돌덩이(대기 시간)를 수십 개 얹어주면 언젠가는 깃털(가벼운 프로세스)을 휙 날려버리고 저울이 올라가게 됩니다.
+- **📢 섹션 요약 비유**: 이 공식은 철저한 평등주의 저울입니다. 본래 덩치가 큰 코끼리([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시간 김)는 무거워서 우선순위 저울이 잘 안 올라가지만, 계속 기다리면서 억울함이라는 돌덩이(대기 시간)를 수십 개 얹어주면 언젠가는 깃털(가벼운 프로세스)을 휙 날려버리고 저울이 올라가게 됩니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### [[173_fcfs_scheduling|FCFS]] vs [[175_sjf_scheduling|SJF]] vs HRN ([[285_no_preemption|비선점]] 3형제의 최종 진화도)
+### [FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/) vs [SJF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/) vs HRN ([비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/) 3형제의 최종 진화도)
 
-이 세 [[001_algorithm_definition|알고리즘]]은 [[285_no_preemption|비선점]]형 스케줄링이 진화해 온 철학적 흐름을 그대로 대변한다.
+이 세 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)형 스케줄링이 진화해 온 철학적 흐름을 그대로 대변한다.
 
-| 진화 단계 | [[001_algorithm_definition|알고리즘]] | 최우선 판단 잣대 | 치명적 단점 | 비고 |
+| 진화 단계 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 최우선 판단 잣대 | 치명적 단점 | 비고 |
 |:---:|:---|:---|:---|:---|
-| 1세대 | **[[173_fcfs_scheduling|FCFS]]** | "누가 제일 먼저 왔어?" | **[[174_convoy_effect|호위 효과]]** (긴 놈 뒤에 줄줄이 막힘) | 공평하지만 무능함 |
-| 2세대 | **[[175_sjf_scheduling|SJF]]** | "누가 제일 빨리 끝나?" | **[[314_starvation_prevention|기아 상태]]** (긴 놈은 영원히 굶음) | 똑똑하지만 잔인함 |
-| 3세대 | **HRN** | **"도착순(대기) + 끝나는 순([[090_service_kubernetes_network_load_balancing|서비스]]) 둘 다 합쳐서 계산해!"** | 매번 [[087_floating_point|부동소수점]] 수학 연산을 해야 하는 **오버헤드** | 똑똑하고 공평하나 [[022_kernel_role|커널]]이 무거움 |
+| 1세대 | **[FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/)** | "누가 제일 먼저 왔어?" | **[호위 효과](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/174_convoy_effect/)** (긴 놈 뒤에 줄줄이 막힘) | 공평하지만 무능함 |
+| 2세대 | **[SJF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/)** | "누가 제일 빨리 끝나?" | **[기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)** (긴 놈은 영원히 굶음) | 똑똑하지만 잔인함 |
+| 3세대 | **HRN** | **"도착순(대기) + 끝나는 순([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) 둘 다 합쳐서 계산해!"** | 매번 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 수학 연산을 해야 하는 **오버헤드** | 똑똑하고 공평하나 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 무거움 |
 
-### HRN의 [[022_kernel_role|커널]] 오버헤드 한계
-HRN이 완벽해 보이지만 메인스트림 [[001_operating_system_purpose|운영체제]]에 탑재되지 못한 이유가 명확히 존재한다. 
-[[285_no_preemption|비선점]]형이므로 프로세스 교체가 일어나는 시점마다 Ready 큐에 있는 100개의 프로세스 전원을 순회하며 `(W + S) / S` [[087_floating_point|부동소수점]] 나눗셈 연산을 수백 번씩 돌려야 한다. [[079_kube_scheduler_pod_placement|스케줄러]]가 O(1)의 속도로 빛같이 다음 놈을 찾아야 하는 밀리초(ms) 단위의 경쟁 환경에서, 이 복잡한 O(N) 수식 연산은 [[022_kernel_role|커널]]의 **[[169_dispatch_latency|디스패치 지연]]([[169_dispatch_latency|Dispatch Latency]])**을 극악으로 올려버려 결국 응답성을 망치게 된다.
+### HRN의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 오버헤드 한계
+HRN이 완벽해 보이지만 메인스트림 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에 탑재되지 못한 이유가 명확히 존재한다. 
+[비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)형이므로 프로세스 교체가 일어나는 시점마다 Ready 큐에 있는 100개의 프로세스 전원을 순회하며 `(W + S) / S` [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 나눗셈 연산을 수백 번씩 돌려야 한다. [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 O(1)의 속도로 빛같이 다음 놈을 찾아야 하는 밀리초(ms) 단위의 경쟁 환경에서, 이 복잡한 O(N) 수식 연산은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 **[디스패치 지연](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/169_dispatch_latency/)([Dispatch Latency](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/169_dispatch_latency/))**을 극악으로 올려버려 결국 응답성을 망치게 된다.
 
-- **📢 섹션 요약 비유**: 모든 사람의 사연(대기시간)과 능력([[090_service_kubernetes_network_load_balancing|서비스]] 시간)을 매번 완벽하게 수식으로 채점해서(HRN) 가장 억울한 사람을 골라주는 법정은 완벽하게 공평하지만, 재판관(CPU)이 이 수학 공식을 계산하느라 하루 종일 시간을 보내버려 정작 판결([[139_throughput|처리량]])이 늦어지는 모순에 빠집니다.
+- **📢 섹션 요약 비유**: 모든 사람의 사연(대기시간)과 능력([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시간)을 매번 완벽하게 수식으로 채점해서(HRN) 가장 억울한 사람을 골라주는 법정은 완벽하게 공평하지만, 재판관(CPU)이 이 수학 공식을 계산하느라 하루 종일 시간을 보내버려 정작 판결([처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))이 늦어지는 모순에 빠집니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **[[136_variance|분산]] 메시지 큐 ([[179_kafka_flink_watermark_time_window|Kafka]])의 컨슈머 우선순위 방어**: 일반 OS [[022_kernel_role|커널]]에서는 CPU 부담 때문에 HRN 공식을 쓰지 않지만, 애플리케이션 레벨의 유저 공간(User Space) 큐 매니징에서는 매우 유용하게 쓰인다. 메시지 큐에 무거운 작업 페이로드(100MB 이미지 리사이징)와 가벼운 페이로드(텍스트 알림)가 섞여 들어올 때, 워커 프로세스가 다음 작업을 꺼내는 로직(Poll)에 HRN 수식을 적용하면 가벼운 알림을 먼저 쳐내면서도 거대 이미지 작업이 큐에서 버려져([[319_timeout_prevention|Timeout]]/Drop) 영구 미아가 되는 장애를 우아하게 막을 수 있다.
-2. **스케줄링 공정성 지표(Fairness [[342_routing_metric_hop_bandwidth_delay|Metric]])로서의 활용**: 시스템 [[282_performance_tactics|성능]]을 [[613_profiling_gprof|프로파일링]]([[613_profiling_gprof|Profiling]])할 때 [[282_performance_tactics|성능]] 분석가들은 HRN의 'Response Ratio' 공식을 시스템 건강도(Health Check) 측정의 척도로 쓴다. 만약 시스템에 돌고 있는 여러 [[090_service_kubernetes_network_load_balancing|서비스]]들 중 이 비율이 극도로 높은(대기 시간이 너무 길어 분자가 팽창한) 프로세스가 탐지된다면, 이는 현재 시스템의 [[079_kube_scheduler_pod_placement|스케줄러]](CFS 파라미터 등) 튜닝이 완전히 박살나 누군가 기아에 시달리고 있다는 적색경보(Red [[186_character_stuffing_dle_stx_etx|Flag]])로 판단하고 튜닝에 들어간다.
+1. **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 메시지 큐 ([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))의 컨슈머 우선순위 방어**: 일반 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서는 CPU 부담 때문에 HRN 공식을 쓰지 않지만, 애플리케이션 레벨의 유저 공간(User Space) 큐 매니징에서는 매우 유용하게 쓰인다. 메시지 큐에 무거운 작업 페이로드(100MB 이미지 리사이징)와 가벼운 페이로드(텍스트 알림)가 섞여 들어올 때, 워커 프로세스가 다음 작업을 꺼내는 로직(Poll)에 HRN 수식을 적용하면 가벼운 알림을 먼저 쳐내면서도 거대 이미지 작업이 큐에서 버려져([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)/Drop) 영구 미아가 되는 장애를 우아하게 막을 수 있다.
+2. **스케줄링 공정성 지표(Fairness [Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))로서의 활용**: 시스템 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 [프로파일링](/knowledge-base/studynote/02_operating_system/10_security/613_profiling_gprof/)([Profiling](/knowledge-base/studynote/02_operating_system/10_security/613_profiling_gprof/))할 때 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 분석가들은 HRN의 'Response Ratio' 공식을 시스템 건강도(Health Check) 측정의 척도로 쓴다. 만약 시스템에 돌고 있는 여러 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)들 중 이 비율이 극도로 높은(대기 시간이 너무 길어 분자가 팽창한) 프로세스가 탐지된다면, 이는 현재 시스템의 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)(CFS 파라미터 등) 튜닝이 완전히 박살나 누군가 기아에 시달리고 있다는 적색경보(Red [Flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))로 판단하고 튜닝에 들어간다.
 
 ```text
   ┌────────────────────────────────────────────────────────────────────┐
@@ -128,7 +132,7 @@ HRN이 완벽해 보이지만 메인스트림 [[001_operating_system_purpose|운
   │          기아를 막는다는 대원칙 철학은 100% 동일하게 계승됨.       │
   └────────────────────────────────────────────────────────────────────┘
 ```
-**[다이어그램 해설]** 컴퓨터 과학의 [[001_algorithm_definition|알고리즘]]은 버려지는 것이 아니라 진화한다. HRN 공식의 가장 큰 약점은 SJF처럼 `S(서비스 시간)`를 사전에 미리 알아야 한다는 "예측 불가의 벽"이었다. 현대의 [[022_kernel_role|커널]] 해커들은 HRN의 완벽한 억울함 해소 철학을 가져오되, 미래의 `S` 값 대신 과거의 실제 사용 시간이라는 확정적 [[001_dikw_pyramid|데이터]](`vruntime`)로 치환하여 CFS라는 궁극의 선점형 [[079_kube_scheduler_pod_placement|스케줄러]]를 탄생시켰다. HRN은 죽어서 CFS라는 거대한 유산을 남긴 셈이다.
+**[다이어그램 해설]** 컴퓨터 과학의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 버려지는 것이 아니라 진화한다. HRN 공식의 가장 큰 약점은 SJF처럼 `S(서비스 시간)`를 사전에 미리 알아야 한다는 "예측 불가의 벽"이었다. 현대의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 해커들은 HRN의 완벽한 억울함 해소 철학을 가져오되, 미래의 `S` 값 대신 과거의 실제 사용 시간이라는 확정적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(`vruntime`)로 치환하여 CFS라는 궁극의 선점형 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)를 탄생시켰다. HRN은 죽어서 CFS라는 거대한 유산을 남긴 셈이다.
 
 - **📢 섹션 요약 비유**: HRN은 "네가 미래에 할 일이 작고 기다린 시간이 길면 무조건 도와줄게"라는 이상주의였다면, 현대 시스템은 "미래는 모르겠고, 여태 네가 일 못 하고 불쌍하게 굶은 게 팩트면(vruntime 적으면) 우선적으로 밥 줄게"라는 완벽한 현실주의 복지로 진화했습니다.
 
@@ -137,12 +141,12 @@ HRN이 완벽해 보이지만 메인스트림 [[001_operating_system_purpose|운
 ## Ⅴ. 기대효과 및 결론
 
 ### 기대효과
-HRN 방식을 시뮬레이션 모델에 적용하면, FCFS의 '[[174_convoy_effect|호위 효과]]([[174_convoy_effect|Convoy Effect]])'와 SJF의 '[[314_starvation_prevention|기아 상태]]([[314_starvation_prevention|Starvation]])'라는 두 마리 극악의 버그를 단 하나의 수식으로 동시에 소멸시킬 수 있으며, 짧은 작업의 응답성과 긴 작업의 보장된 [[172_turnaround_waiting_response_time|반환 시간]]([[172_turnaround_waiting_response_time|Turnaround Time]])이라는 기적적인 균형점을 찾아낼 수 있다.
+HRN 방식을 시뮬레이션 모델에 적용하면, FCFS의 '[호위 효과](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/174_convoy_effect/)([Convoy Effect](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/174_convoy_effect/))'와 SJF의 '[기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))'라는 두 마리 극악의 버그를 단 하나의 수식으로 동시에 소멸시킬 수 있으며, 짧은 작업의 응답성과 긴 작업의 보장된 [반환 시간](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/172_turnaround_waiting_response_time/)([Turnaround Time](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/172_turnaround_waiting_response_time/))이라는 기적적인 균형점을 찾아낼 수 있다.
 
 ### 결론 및 미래 전망
-HRN [[001_algorithm_definition|알고리즘]]은 [[285_no_preemption|비선점]]형이라는 한계와 [[087_floating_point|부동소수점]] 나눗셈 오버헤드, 미래 버스트 시간 예측 불가라는 3중고를 넘지 못해 메인스트림 [[001_operating_system_purpose|운영체제]] [[022_kernel_role|커널]]의 디폴트 [[079_kube_scheduler_pod_placement|스케줄러]]로 상용화되지는 못했다. 하지만 스케줄링 이론에 있어 **"크기(Size)와 나이([[182_aging|Aging]])를 수학적으로 융합한 최초의 지표"**로서 그 역사적 가치가 엄청나다. 현재 이 사상은 [[052_cloud_computing_os|클라우드 컴퓨팅]] 환경의 자원 할당기나 웹 서버의 로드밸런싱 [[001_algorithm_definition|알고리즘]]에서 [[085_sla|SLA]]([[090_service_kubernetes_network_load_balancing|서비스]] 수준 협약) 보장을 위한 동적 [[267_weight_bias_activation|가중치]](Dynamic Weighting) 모델로 재해석되어 널리 활용되고 있다.
+HRN [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)형이라는 한계와 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 나눗셈 오버헤드, 미래 버스트 시간 예측 불가라는 3중고를 넘지 못해 메인스트림 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 디폴트 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)로 상용화되지는 못했다. 하지만 스케줄링 이론에 있어 **"크기(Size)와 나이([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/))를 수학적으로 융합한 최초의 지표"**로서 그 역사적 가치가 엄청나다. 현재 이 사상은 [클라우드 컴퓨팅](/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/) 환경의 자원 할당기나 웹 서버의 로드밸런싱 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에서 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 협약) 보장을 위한 동적 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)(Dynamic Weighting) 모델로 재해석되어 널리 활용되고 있다.
 
-- **📢 섹션 요약 비유**: 다빈치가 그린 헬리콥터 도면(HRN)은 당시 기술([[285_no_preemption|비선점]], 오버헤드, 예측 한계)로는 날 수 없었지만, 그가 남긴 회전 날개(응답 비율과 공정성)의 철학적 도면은 후대 과학자들에게 영감을 주어 진짜 날아다니는 현대의 헬기(CFS [[079_kube_scheduler_pod_placement|스케줄러]])를 만들어낸 위대한 청사진이 되었습니다.
+- **📢 섹션 요약 비유**: 다빈치가 그린 헬리콥터 도면(HRN)은 당시 기술([비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/), 오버헤드, 예측 한계)로는 날 수 없었지만, 그가 남긴 회전 날개(응답 비율과 공정성)의 철학적 도면은 후대 과학자들에게 영감을 주어 진짜 날아다니는 현대의 헬기(CFS [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/))를 만들어낸 위대한 청사진이 되었습니다.
 
 ---
 
@@ -150,10 +154,10 @@ HRN [[001_algorithm_definition|알고리즘]]은 [[285_no_preemption|비선점]]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[691_mlfq_multi_level_feedback_queue|다단계 피드백 큐]] 스케줄링 (Multilevel Feedback [[058_queue|Queue]], [[691_mlfq_multi_level_feedback_queue|MLFQ]]) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [[691_mlfq_multi_level_feedback_queue|MLFQ]] 파라미터 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [[188_guaranteed_scheduling|보장 스케줄링]] ([[188_guaranteed_scheduling|Guaranteed Scheduling]]) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [[189_lottery_scheduling|복권 스케줄링]] ([[189_lottery_scheduling|Lottery Scheduling]]) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [다단계 피드백 큐](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) 스케줄링 (Multilevel Feedback [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/), [MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) 파라미터 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [보장 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/188_guaranteed_scheduling/) ([Guaranteed Scheduling](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/188_guaranteed_scheduling/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [복권 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/189_lottery_scheduling/) ([Lottery Scheduling](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/189_lottery_scheduling/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -171,7 +175,7 @@ HRN [[001_algorithm_definition|알고리즘]]은 [[285_no_preemption|비선점]]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. "짧게 끝나는 친구부터 먼저 시켜주자!"라는 [[175_sjf_scheduling|SJF]] 규칙 때문에 뚱뚱하고 긴 작업을 가진 친구가 평생 양보만 하다가 굶어 죽게([[314_starvation_prevention|기아 상태]]) 생겼어요.
+1. "짧게 끝나는 친구부터 먼저 시켜주자!"라는 [SJF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/) 규칙 때문에 뚱뚱하고 긴 작업을 가진 친구가 평생 양보만 하다가 굶어 죽게([기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) 생겼어요.
 2. 그래서 **HRN 스케줄링**이라는 아주 똑똑한 마법 공식을 만들었어요. "짧은 친구를 우대하긴 하는데, 뚱뚱한 친구도 오래 기다렸으면 분노 점수(대기 시간)를 왕창 더해줘!"
 3. 이 공식 덕분에 뚱뚱한 친구도 시간이 지날수록 점수가 폭발해서 1등으로 올라가 밥을 뺏어 먹을 수 있게 되어 절대 굶어 죽지 않는 평화로운 급식소가 되었답니다!
 
@@ -181,7 +185,7 @@ HRN [[001_algorithm_definition|알고리즘]]은 [[285_no_preemption|비선점]]
 
 **진행 상황**: 187 / 800
 
-← **이전**: [[186_mlfq_parameters|186. MLFQ 파라미터 - 큐의 개수, 알고리즘, 승급/강등 기준]]
-**다음**: [[188_guaranteed_scheduling|188. 보장 스케줄링 (Guaranteed Scheduling)]] →
+← **이전**: [186. MLFQ 파라미터 - 큐의 개수, 알고리즘, 승급/강등 기준](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/186_mlfq_parameters/)
+**다음**: [188. 보장 스케줄링 (Guaranteed Scheduling)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/188_guaranteed_scheduling/) →
 
 ---

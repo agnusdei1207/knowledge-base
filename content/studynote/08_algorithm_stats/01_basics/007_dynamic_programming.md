@@ -1,23 +1,27 @@
----
-title: 7. 동적 프로그래밍 (Dynamic Programming) — 최적 부분구조 + 중복 부분 문제
-tags:
-- algorithm_stats
----
++++
+title = "7. 동적 프로그래밍 (Dynamic Programming) — 최적 부분구조 + 중복 부분 문제"
+
+[taxonomies]
+tags = ["algorithm_stats"]
+
+[extra]
+tags = ["algorithm_stats"]
++++
 
 # 07. 동적 프로그래밍 (Dynamic Programming)
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 동적 프로그래밍(Dynamic Programming, DP)은 **최적 부분구조(Optimal Substructure)**와 **중복 부분 문제(Overlapping Subproblems)**라는 두 가지 특성을 만족하는 문제에適用되는算法設計 패러다임으로, 하위 문제의 해를 저장([[008_memoization|메모이제이션]])하여 중복 계산을 제거함으로써 지수적 복잡도를多項式으로 줄인다.
-> 2. **가치**: 단순 [[014_recursion|재귀]]에서 O(2^N)이나 O(N!)로 폭발하는 복잡도를 O(N²)이나 O(N)으로 낮출 수 있어, 조합 최적화, 순열 탐색, 문자열 처리等领域에서 필수적인 도구이다.
-> 3. **융합**: DP는 [[231_ai_turing_test|인공지능]](알파벳 트리 탐색, [[385_hmm_viterbi_dynamic_programming|Viterbi]] [[001_algorithm_definition|알고리즘]]), 전산생물학(네트워크比对, BLAST), 경제학(최적화 포트폴리오), 컴퓨터 그래픽스(图像 처리, 동적 프로그래밍) 등 거의 모든 영역에서 응용되는 универсальный инструмент이다.
+> 1. **본질**: 동적 프로그래밍(Dynamic Programming, DP)은 **최적 부분구조(Optimal Substructure)**와 **중복 부분 문제(Overlapping Subproblems)**라는 두 가지 특성을 만족하는 문제에適用되는算法設計 패러다임으로, 하위 문제의 해를 저장([메모이제이션](/knowledge-base/studynote/08_algorithm_stats/01_basics/008_memoization/))하여 중복 계산을 제거함으로써 지수적 복잡도를多項式으로 줄인다.
+> 2. **가치**: 단순 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)에서 O(2^N)이나 O(N!)로 폭발하는 복잡도를 O(N²)이나 O(N)으로 낮출 수 있어, 조합 최적화, 순열 탐색, 문자열 처리等领域에서 필수적인 도구이다.
+> 3. **융합**: DP는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)(알파벳 트리 탐색, [Viterbi](/knowledge-base/studynote/06_ict_convergence/05_data_science/385_hmm_viterbi_dynamic_programming/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)), 전산생물학(네트워크比对, BLAST), 경제학(최적화 포트폴리오), 컴퓨터 그래픽스(图像 처리, 동적 프로그래밍) 등 거의 모든 영역에서 응용되는 универсальный инструмент이다.
 
 ---
 
-## Ⅰ. 개요 및 필요성 ([[033_context|Context]] & Necessity)
+## Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-동적 프로그래밍(Dynamic Programming)은 1950년대 리처드 벨만(Richard Bellman)이 미空軍에서 운영 研究 프로젝트을 진행하면서 고안한 수학적 최적화 방법론이다. Bellman은 "동적(Dynamic)"라는 용어를 선택한 이유에 대해, 이 방법이 시간에 따라 변화하는多階段 의사결정 과정에 적용되었기 때문이라고 밝혔다. 이후 DP는 计算机科学에서 가장 중요한 [[001_algorithm_definition|알고리즘]] 패러다임 중 하나로 자리 잡았으며, **최적 부분구조**와 **중복 부분 문제**라는 두 가지 조건을 만족하는 모든 문제에 적용 가능하다.
+동적 프로그래밍(Dynamic Programming)은 1950년대 리처드 벨만(Richard Bellman)이 미空軍에서 운영 研究 프로젝트을 진행하면서 고안한 수학적 최적화 방법론이다. Bellman은 "동적(Dynamic)"라는 용어를 선택한 이유에 대해, 이 방법이 시간에 따라 변화하는多階段 의사결정 과정에 적용되었기 때문이라고 밝혔다. 이후 DP는 计算机科学에서 가장 중요한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 패러다임 중 하나로 자리 잡았으며, **최적 부분구조**와 **중복 부분 문제**라는 두 가지 조건을 만족하는 모든 문제에 적용 가능하다.
 
-DP가 필요한 이유는 **완전 탐색([[456_brute_force|Brute Force]])**이나 **단순 [[014_recursion|재귀]]**가 이러한 문제에서 극도로 비효율적이기 때문이다. 피보나치 수열의 단순 [[014_recursion|재귀]]를 생각해 보면, `fib(5)`를 계산하려면 `fib(4)`와 `fib(3)`을 계산하고, `fib(4)`를 계산하려면 `fib(3)`과 `fib(2)`를 계산하며, 이 과정에서 `fib(3)`이 두 번 중복 계산된다. N이 커질수록 이 중복은爆発적으로 증가하여 `fib(N)`의 단순 [[014_recursion|재귀]]는 O(2^N)이라는 어처구니없는 복잡도를 보인다.
+DP가 필요한 이유는 **완전 탐색([Brute Force](/knowledge-base/studynote/09_security/05_web_app_security/456_brute_force/))**이나 **단순 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)**가 이러한 문제에서 극도로 비효율적이기 때문이다. 피보나치 수열의 단순 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)를 생각해 보면, `fib(5)`를 계산하려면 `fib(4)`와 `fib(3)`을 계산하고, `fib(4)`를 계산하려면 `fib(3)`과 `fib(2)`를 계산하며, 이 과정에서 `fib(3)`이 두 번 중복 계산된다. N이 커질수록 이 중복은爆発적으로 증가하여 `fib(N)`의 단순 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)는 O(2^N)이라는 어처구니없는 복잡도를 보인다.
 
 > 이 도식은 DP의 핵심 아이디어인 중복 부분 문제를 보여준다.
 
@@ -58,9 +62,9 @@ DP가 필요한 이유는 **완전 탐색([[456_brute_force|Brute Force]])**이�
 └──────────────────────────────────────────────────────┘
 ```
 
-- **관찰**: 단순 [[014_recursion|재귀]]에서 `fib(3)`은 `fib(4)`와 `fib(5)` 모두에서 중복 호출되어 총 4번 계산된다.
-- **원인**: [[014_recursion|재귀]] 트리에서 같은 파라미터를 가진 호출이 여러 경로에서 발생하기 때문이다.
-- **결과**: 이 중복을 [[008_memoization|메모이제이션]]으로 방지하면 복잡도가 O(2^N)에서 O(N)으로 줄어든다.
+- **관찰**: 단순 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)에서 `fib(3)`은 `fib(4)`와 `fib(5)` 모두에서 중복 호출되어 총 4번 계산된다.
+- **원인**: [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 트리에서 같은 파라미터를 가진 호출이 여러 경로에서 발생하기 때문이다.
+- **결과**: 이 중복을 [메모이제이션](/knowledge-base/studynote/08_algorithm_stats/01_basics/008_memoization/)으로 방지하면 복잡도가 O(2^N)에서 O(N)으로 줄어든다.
 - **판단**: DP 적용 가능 여부를 판단할 때 "하위 문제가 중복되는가?"를 먼저 확인하는 것이 첫 번째 단계이다.
 
 📢 **섹션 요약 비유**: 동적 프로그래밍은 친구와 영화 감상을 비유하면 이해하기 쉽다. 어떤 영화의 줄거리을 친구 A에게 물어보고, 다른 친구 B에게도 같은 영화 줄거리을 물어보는 것은 동일한 답을 두 번 구하는 것이므로非効率다. DP는 "이 영화 줄거리는 이미 친구 A에게 물어봤어, 기록해 둘 테니 다시 물어보면 알려줄게"라는 **기록하는 습관**과 같습니다.
@@ -69,9 +73,9 @@ DP가 필요한 이유는 **완전 탐색([[456_brute_force|Brute Force]])**이�
 
 ## Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-동적 프로그래밍을 적용하려면 **두 가지 조건**이 반드시 만족되어야 한다. **최적 부분구조(Optimal Substructure)**: 문제의 최적해가 하위 문제의 최적해들의 조합으로 구성될 수 있는 특성이다. 예컨대, 서울에서 부산까지的最短 경로를 찾问题时, 서울-대전 구간과 대전-부산 구간 각각의 최단 경로를 구하여 연결하면 전체 최단 경로가 된다. **중복 부분 문제(Overlapping Subproblems)**: 동일한 하위 문제가 여러 번 반복해서 나타나는 특성이다. 피보나치, 행렬 연쇄 곱셈, [[102_lcs_string|최장 공통 부분수열]]([[053_lcs|LCS]]) 등이 이 특성을 보인다.
+동적 프로그래밍을 적용하려면 **두 가지 조건**이 반드시 만족되어야 한다. **최적 부분구조(Optimal Substructure)**: 문제의 최적해가 하위 문제의 최적해들의 조합으로 구성될 수 있는 특성이다. 예컨대, 서울에서 부산까지的最短 경로를 찾问题时, 서울-대전 구간과 대전-부산 구간 각각의 최단 경로를 구하여 연결하면 전체 최단 경로가 된다. **중복 부분 문제(Overlapping Subproblems)**: 동일한 하위 문제가 여러 번 반복해서 나타나는 특성이다. 피보나치, 행렬 연쇄 곱셈, [최장 공통 부분수열](/knowledge-base/studynote/08_algorithm_stats/05_string/102_lcs_string/)([LCS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/053_lcs/)) 등이 이 특성을 보인다.
 
-DP의 구현 방식은 두 가지이다. **타뷸레이션(Tabulation, [[403_bottom_up_integration|Bottom-Up]])**: 작은 하위 문제부터 시작하여tabulated 방식으로 큰 문제까지 차례로解決한다. 반복문으로 구현되며, [[008_memoization|메모이제이션]]보다 [[057_stack|스택]] [[095_overflow|오버플로우]] 위험이 없다. **[[008_memoization|메모이제이션]]([[008_memoization|Memoization]], [[402_top_down_integration|Top-Down]])**: [[014_recursion|재귀]]적으로 문제를 풀되, 이전에 계산한 결과를 메모리에 저장하여 중복 계산을 방지한다. [[014_recursion|재귀]]의 자연스러운 구조를 유지하면서 효율성을 확보한다.
+DP의 구현 방식은 두 가지이다. **타뷸레이션(Tabulation, [Bottom-Up](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/403_bottom_up_integration/))**: 작은 하위 문제부터 시작하여tabulated 방식으로 큰 문제까지 차례로解決한다. 반복문으로 구현되며, [메모이제이션](/knowledge-base/studynote/08_algorithm_stats/01_basics/008_memoization/)보다 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) 위험이 없다. **[메모이제이션](/knowledge-base/studynote/08_algorithm_stats/01_basics/008_memoization/)([Memoization](/knowledge-base/studynote/08_algorithm_stats/01_basics/008_memoization/), [Top-Down](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/))**: [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)적으로 문제를 풀되, 이전에 계산한 결과를 메모리에 저장하여 중복 계산을 방지한다. [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)의 자연스러운 구조를 유지하면서 효율성을 확보한다.
 
 ```text
 [DP의 두 가지 구현 방식]
@@ -122,15 +126,15 @@ DP의 구현 방식은 두 가지이다. **타뷸레이션(Tabulation, [[403_bot
 - **결과**: 중복 계산이 제거되어 지수적 복잡도가 다항적 복잡도로 감소한다.
 - **판단**: DP 테이블의 크기와 각 셀을 채우는 비용을 정확히 분석하는 것이 복잡도 도출의 핵심이다.
 
-📢 **섹션 요약 비유**: 동적 프로그래밍은 건축 목공의 진列도와 같습니다. 가구 다리를 만드는 木工 공정이 여러 번 반복될 때, 매 번 새 나무를 자르는 대신 이전에 만든 다리([[008_memoization|메모이제이션]])를再利用하면 시간과 материал이 절약됩니다.
+📢 **섹션 요약 비유**: 동적 프로그래밍은 건축 목공의 진列도와 같습니다. 가구 다리를 만드는 木工 공정이 여러 번 반복될 때, 매 번 새 나무를 자르는 대신 이전에 만든 다리([메모이제이션](/knowledge-base/studynote/08_algorithm_stats/01_basics/008_memoization/))를再利用하면 시간과 материал이 절약됩니다.
 
 ---
 
 ## Ⅲ. 구현 및 실무 응용 (Implementation & Practice)
 
-동적 프로그래밍은 **전형적인适用 영역**이 넓고 명확하다. **피보나치 수열**은 DP의 가장 단순한 적용 사례이다. **[[102_lcs_string|최장 공통 부분수열]]([[053_lcs|LCS]])**: 두 문자열 간 가장 긴 공통 부분수열을 찾는데, DP 테이블 `dp[i][j]`를 정의하여 `A[0..i]`와 `B[0..j]`의 [[053_lcs|LCS]] 길이를 저장한다. **[[103_edit_distance|편집 거리]]([[103_edit_distance|Edit Distance]])**: 한 문자열을 다른 문자열로 변환하기 위해 필요한 최소 편집 작업(삽입, 삭제, 대체) 횟수를 구하는 문제로, NLP와 생물정보학에서 광범위하게 사용된다. **행렬 연쇄 곱셈(Matrix Chain Multiplication)**: 행렬 곱셈의 연산 횟수를 최소화하기 위해 괄호 배치 최적화하는 문제이다.
+동적 프로그래밍은 **전형적인适用 영역**이 넓고 명확하다. **피보나치 수열**은 DP의 가장 단순한 적용 사례이다. **[최장 공통 부분수열](/knowledge-base/studynote/08_algorithm_stats/05_string/102_lcs_string/)([LCS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/053_lcs/))**: 두 문자열 간 가장 긴 공통 부분수열을 찾는데, DP 테이블 `dp[i][j]`를 정의하여 `A[0..i]`와 `B[0..j]`의 [LCS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/053_lcs/) 길이를 저장한다. **[편집 거리](/knowledge-base/studynote/08_algorithm_stats/05_string/103_edit_distance/)([Edit Distance](/knowledge-base/studynote/08_algorithm_stats/05_string/103_edit_distance/))**: 한 문자열을 다른 문자열로 변환하기 위해 필요한 최소 편집 작업(삽입, 삭제, 대체) 횟수를 구하는 문제로, NLP와 생물정보학에서 광범위하게 사용된다. **행렬 연쇄 곱셈(Matrix Chain Multiplication)**: 행렬 곱셈의 연산 횟수를 최소화하기 위해 괄호 배치 최적화하는 문제이다.
 
-**실무 적용 의사결정**에서 중요한 것은 DP 적용 가능 여부를 판단하는 것이다. 주어진 문제가 최적 부분구조와 중복 부분 문제를 만족한다면 DP 적용을 고려해야 한다. 만족하지 않는다면 분할 정복이나 탐욕 [[001_algorithm_definition|알고리즘]]을 고려해야 한다.
+**실무 적용 의사결정**에서 중요한 것은 DP 적용 가능 여부를 판단하는 것이다. 주어진 문제가 최적 부분구조와 중복 부분 문제를 만족한다면 DP 적용을 고려해야 한다. 만족하지 않는다면 분할 정복이나 탐욕 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 고려해야 한다.
 
 ```text
 [DP 적용 판단 트리]
@@ -164,15 +168,15 @@ DP의 구현 방식은 두 가지이다. **타뷸레이션(Tabulation, [[403_bot
 └──────────────────────────────────────────────────────┘
 ```
 
-📢 **섹션 요약 비유**: 동적 프로그래밍은 시험공부를 잘하는 방법과 같습니다. 유사한 유형의 문제를 여러 번 반복 풀면, 다음에 같은 문제가 나오면 바로 解法를 기억해내어([[008_memoization|메모이제이션]]) 時間을 크게 절약할 수 있습니다.
+📢 **섹션 요약 비유**: 동적 프로그래밍은 시험공부를 잘하는 방법과 같습니다. 유사한 유형의 문제를 여러 번 반복 풀면, 다음에 같은 문제가 나오면 바로 解法를 기억해내어([메모이제이션](/knowledge-base/studynote/08_algorithm_stats/01_basics/008_memoization/)) 時間을 크게 절약할 수 있습니다.
 
 ---
 
 ## Ⅳ. 품질 관리 및 테스트 (Quality & Testing)
 
-DP의 품질 관리는 **테이블 정의의 [[002_bigdata_5v|정확성]]**과 **경계 조건의 완벽한 처리**가 핵심이다. DP 테이블의 정의가 잘못되면 모든 계산이 잘못된 결과로 이어지므로, 테이블 정의와 [[154_database_index_b_tree_search_optimization|인덱스]] 의미를 명확히 하는 것이 중요하다.
+DP의 품질 관리는 **테이블 정의의 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)**과 **경계 조건의 완벽한 처리**가 핵심이다. DP 테이블의 정의가 잘못되면 모든 계산이 잘못된 결과로 이어지므로, 테이블 정의와 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 의미를 명확히 하는 것이 중요하다.
 
-**품질 관리 [[435_checklist_based_testing|체크리스트]]**는 다음과 같다. DP 테이블의 정의([[154_database_index_b_tree_search_optimization|인덱스]] 의미, 값의 단위)를 코드에コメント로 명시해야 한다. 기저 사례(Base Case)가 모든 가능한 최소 입력에 대해 올바른 값을 설정해야 한다. 테이블 채우는 순서가依存 관계를 위반하지 않는지 확인해야 한다. 입력 범위의 극단적인 경우(최소/최대)에 대해 수동 검증해야 한다.
+**품질 관리 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)**는 다음과 같다. DP 테이블의 정의([인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 의미, 값의 단위)를 코드에コメント로 명시해야 한다. 기저 사례(Base Case)가 모든 가능한 최소 입력에 대해 올바른 값을 설정해야 한다. 테이블 채우는 순서가依存 관계를 위반하지 않는지 확인해야 한다. 입력 범위의 극단적인 경우(최소/최대)에 대해 수동 검증해야 한다.
 
 📢 **섹션 요약 비유**: DP의 품질 관리는 대장간 칼 단조과 같습니다. 뜨거울 때(기저 사례) 잘 단조하면 그 다음 온도에서 올바르게 작업(점화식)할 수 있지만, 초기에 잘못 단조하면(테이블 정의 오류) 전체 칼(결과)이 다 실패합니다.
 
@@ -180,15 +184,15 @@ DP의 품질 관리는 **테이블 정의의 [[002_bigdata_5v|정확성]]**과 *
 
 ## Ⅴ. 최신 트렌드 및 결론 (Trends & Conclusion)
 
-DP의 최신 동향은 **확률적 동적 프로그래밍(Stochastic Dynamic Programming)**과 **近似 동적 프로그래밍(Approximate Dynamic Programming)**이다. 불확실성이 존재하는 환경에서의 의사결정을 다루는 이러한 확장된 DP는 자율주행 자동차, 로봇 탐사, 금융 포트폴리오 최적화 등에 적용되고 있다. 또한 **深層 [[253_reinforcement_learning_mdp_policy_value_q_learning_dqn|강화 학습]](Deep [[094_reinforcement_learning|Reinforcement Learning]])**의 기반이 되는 **밸류 이터레이션(Value Iteration)**과 **큐 학습([[316_q_learning|Q-Learning]])**은本质上 DP의思想을 函数 근사(function approximation)와 결합한 것으로 볼 수 있다.
+DP의 최신 동향은 **확률적 동적 프로그래밍(Stochastic Dynamic Programming)**과 **近似 동적 프로그래밍(Approximate Dynamic Programming)**이다. 불확실성이 존재하는 환경에서의 의사결정을 다루는 이러한 확장된 DP는 자율주행 자동차, 로봇 탐사, 금융 포트폴리오 최적화 등에 적용되고 있다. 또한 **深層 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)(Deep [Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/))**의 기반이 되는 **밸류 이터레이션(Value Iteration)**과 **큐 학습([Q-Learning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/316_q_learning/))**은本质上 DP의思想을 函数 근사(function approximation)와 결합한 것으로 볼 수 있다.
 
 동적 프로그래밍은 计算机科学에서 가장 универсальный이고 강력한 도구이다. 모든 NP-완전 문제의 최적 해결은做不到하지만, DP로 해결 가능한 문제들은多항 시간에 정확한 해를 찾을 수 있어, 이러한 문제들의 실용적 해결을 가능하게 한다. 기술사 시험에서 DP는 가장 높은配点カテゴリ之一이며, 테이블 정의, 점화식 도출, 복잡도 분석이 핵심考核項目이다.
 
-📢 **섹션 요약 비유**: 동적 프로그래밍은 등산에서山顶까지의 길찾기와 같습니다. 정상까지의 거리를 예측하기 위해, 각 관문에서의 최소 거리를 기록해 놓고, 나중에 더 짧은 길이 발견되면更新하는 것은 DP의 [[008_memoization|메모이제이션]]과 完全히 같은 원리입니다.
+📢 **섹션 요약 비유**: 동적 프로그래밍은 등산에서山顶까지의 길찾기와 같습니다. 정상까지의 거리를 예측하기 위해, 각 관문에서의 최소 거리를 기록해 놓고, 나중에 더 짧은 길이 발견되면更新하는 것은 DP의 [메모이제이션](/knowledge-base/studynote/08_algorithm_stats/01_basics/008_memoization/)과 完全히 같은 원리입니다.
 
 ---
 
-## 핵심 인사이트 [[103_ascii|ASCII]] 다이어그램 ([[120_concept|Concept]] Map)
+## 핵심 인사이트 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 ([Concept](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/) Map)
 
 ```text
 [동적 프로그래밍 (Dynamic Programming) 핵심 개념 맵]
@@ -231,10 +235,10 @@ DP의 최신 동향은 **확률적 동적 프로그래밍(Stochastic Dynamic Pro
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **완전 탐색 ([[456_brute_force|Brute Force]])** | 모든 경우를 다 시도해 중복 계산이 폭발하는 출발점 |
-| **[[014_recursion|재귀]] + 중복 부분 문제 ([[014_recursion|Recursion]] + Overlapping Subproblems)** | 같은 하위 문제가 반복되어 다시 계산되는 구조 |
+| **완전 탐색 ([Brute Force](/knowledge-base/studynote/09_security/05_web_app_security/456_brute_force/))** | 모든 경우를 다 시도해 중복 계산이 폭발하는 출발점 |
+| **[재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) + 중복 부분 문제 ([Recursion](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) + Overlapping Subproblems)** | 같은 하위 문제가 반복되어 다시 계산되는 구조 |
 | **동적 프로그래밍 (Dynamic Programming)** | 하위 결과를 저장하고 재사용해 복잡도를 줄이는 핵심 기법 |
-| **[[008_memoization|메모이제이션]] ([[008_memoization|Memoization]]) / 타뷸레이션 (Tabulation)** | Top-Down과 Bottom-Up으로 DP를 구현하는 두 방식 |
+| **[메모이제이션](/knowledge-base/studynote/08_algorithm_stats/01_basics/008_memoization/) ([Memoization](/knowledge-base/studynote/08_algorithm_stats/01_basics/008_memoization/)) / 타뷸레이션 (Tabulation)** | Top-Down과 Bottom-Up으로 DP를 구현하는 두 방식 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -257,7 +261,7 @@ DP의 최신 동향은 **확률적 동적 프로그래밍(Stochastic Dynamic Pro
 [강화 학습 (Reinforcement Learning)]
 ```
 
-완전 탐색에서 [[014_recursion|재귀]]를 거쳐 중복 계산을 제거하는 DP로 진화하고 [[253_reinforcement_learning_mdp_policy_value_q_learning_dqn|강화 학습]]에까지 응용되는 흐름이다.
+완전 탐색에서 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)를 거쳐 중복 계산을 제거하는 DP로 진화하고 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)에까지 응용되는 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -269,8 +273,8 @@ DP의 최신 동향은 **확률적 동적 프로그래밍(Stochastic Dynamic Pro
 - 모든 약어는 반드시 전체 명칭과 함께 표기
 - 일어/중국어 절대 사용 금지
 - 각 섹션 끝에 📢 요약 비유 반드시 추가
-- 최소 800자/[[501_file_definition_logical_record|파일]]
-- [[501_file_definition_logical_record|파일]]명: 01_, 02_... 형식
+- 최소 800자/[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)
+- [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)명: 01_, 02_... 형식
 
 ---
 
@@ -278,7 +282,7 @@ DP의 최신 동향은 **확률적 동적 프로그래밍(Stochastic Dynamic Pro
 
 **진행 상황**: 7 / 175
 
-← **이전**: [[006_greedy_algorithm|6. 탐욕 알고리즘 (Greedy Algorithm) — 지역 최적 → 전체 최적]]
-**다음**: [[008_memoization|8. 메모이제이션 (Memoization) — Top-Down DP]] →
+← **이전**: [6. 탐욕 알고리즘 (Greedy Algorithm) — 지역 최적 → 전체 최적](/knowledge-base/studynote/08_algorithm_stats/01_basics/006_greedy_algorithm/)
+**다음**: [8. 메모이제이션 (Memoization) — Top-Down DP](/knowledge-base/studynote/08_algorithm_stats/01_basics/008_memoization/) →
 
 ---

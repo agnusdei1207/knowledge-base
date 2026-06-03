@@ -1,9 +1,13 @@
----
-title: 78. 진법 변환 (2진수, 8진수, 10진수, 16진수)
-date: '2026-03-19'
-tags:
-- studynote-computer-architecture
----
++++
+title = "78. 진법 변환 (2진수, 8진수, 10진수, 16진수)"
+date = 2026-03-19
+
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -15,8 +19,8 @@ tags:
 
 ## Ⅰ. 개요 및 필요성
 
-컴퓨터는 [[073_bit|비트]]로 움직이고, 사람은 십진수로 생각한다. 그래서 진법은 "같은 값을 서로 다른 언어로 옮기는 방법"이 된다.
-hex는 binary를 4비트씩 묶어 보기 쉽게 만든 것이고, octal은 옛 시스템에서 [[086_fenwick_tree|bit]] group을 줄여 읽기 쉽게 만든 것이다.
+컴퓨터는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)로 움직이고, 사람은 십진수로 생각한다. 그래서 진법은 "같은 값을 서로 다른 언어로 옮기는 방법"이 된다.
+hex는 binary를 4비트씩 묶어 보기 쉽게 만든 것이고, octal은 옛 시스템에서 [bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) group을 줄여 읽기 쉽게 만든 것이다.
 ```text
 값 255
 ├─ binary 11111111
@@ -32,14 +36,14 @@ hex는 binary를 4비트씩 묶어 보기 쉽게 만든 것이고, octal은 옛 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 자릿값 표기법은 각 자리의 숫자가 radix와 위치에 따라 다른 가치를 갖는다는 뜻이다. 예를 들어 16진수에서 A는 10을 뜻하고, 왼쪽 자리로 갈수록 16의 거듭제곱이 곱해진다.
-이 구조 덕분에 같은 [[073_bit|비트]]열을 binary, octal, decimal, hexadecimal로 나눠 읽을 수 있다. 특히 hex는 4비트 nibble과 딱 맞아 떨어져 디버깅에 유리하다.
+이 구조 덕분에 같은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)열을 binary, octal, decimal, hexadecimal로 나눠 읽을 수 있다. 특히 hex는 4비트 nibble과 딱 맞아 떨어져 디버깅에 유리하다.
 | 진법 | 자리수 예시 | 주요 용도 |
 | --- | --- | --- |
-| 2진수 | 0, 1 | 회로, [[073_bit|비트]] 연산 |
-| 8진수 | 0~7 | 옛날 시스템 표기, 권한 [[073_bit|비트]] |
+| 2진수 | 0, 1 | 회로, [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 연산 |
+| 8진수 | 0~7 | 옛날 시스템 표기, 권한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) |
 | 10진수 | 0~9 | 일상 계산과 보고 |
-| 16진수 | 0~9, A~F | 주소, 마스크, 덤프 [[396_validation|확인]] |
-| [[098_bcd|BCD]] (Binary-Coded Decimal) | 십진 숫자를 4비트씩 표현 | 금융, 레거시 장비 |
+| 16진수 | 0~9, A~F | 주소, 마스크, 덤프 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
+| [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) (Binary-Coded Decimal) | 십진 숫자를 4비트씩 표현 | 금융, 레거시 장비 |
 
 - **📢 섹션 요약 비유**: 자리값과 radix가 진법 변환의 핵심이다.
 
@@ -53,7 +57,7 @@ BCD는 각 숫자를 4비트로 따로 담아 십진 표현을 보존하고, pur
 | --- | --- | --- | --- |
 | 전자 회로 친화성 | 매우 높다 | 낮다 | 중간 |
 | 사람 읽기 쉬움 | 낮다 | 매우 높다 | 높다 |
-| [[073_bit|비트]]와의 대응 | 직접적이다 | 간접적이다 | 4비트 단위로 잘 맞는다 |
+| [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)와의 대응 | 직접적이다 | 간접적이다 | 4비트 단위로 잘 맞는다 |
 
 - **📢 섹션 요약 비유**: binary는 회로, decimal은 사람, hex는 디버깅에 강하다.
 
@@ -61,26 +65,26 @@ BCD는 각 숫자를 4비트로 따로 담아 십진 표현을 보존하고, pur
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 메모리 주소, 마스크, 플래그는 hex로 보고, 업무 수치와 금액은 decimal로 본다. 2의 보수는 [[082_signed_integer|부호 있는 정수]] 표현의 핵심이므로 양수/음수 해석도 함께 봐야 한다.
-진법 변환은 계산 실수보다 [[073_bit|비트]] 폭 해석 실수가 더 자주 문제를 만든다. 따라서 prefix(0b, 0o, 0x)와 자리수를 함께 [[396_validation|확인]]하는 습관이 중요하다.
-### [[435_checklist_based_testing|체크리스트]]
+실무에서는 메모리 주소, 마스크, 플래그는 hex로 보고, 업무 수치와 금액은 decimal로 본다. 2의 보수는 [부호 있는 정수](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/082_signed_integer/) 표현의 핵심이므로 양수/음수 해석도 함께 봐야 한다.
+진법 변환은 계산 실수보다 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 폭 해석 실수가 더 자주 문제를 만든다. 따라서 prefix(0b, 0o, 0x)와 자리수를 함께 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 습관이 중요하다.
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 숫자의 base를 문맥에 맞게 선택했는가?
-2. 부호와 [[073_bit|비트]] 폭을 함께 [[396_validation|확인]]했는가?
+2. 부호와 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 폭을 함께 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)했는가?
 3. hex와 binary를 서로 대응시킬 수 있는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - base 표기를 생략해 혼동을 만드는 것
-- [[073_bit|비트]]열과 십진값을 같은 것으로 착각하는 것
+- [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)열과 십진값을 같은 것으로 착각하는 것
 
-- **📢 섹션 요약 비유**: [[073_bit|비트]] 폭과 부호를 같이 봐야 해석이 맞는다.
+- **📢 섹션 요약 비유**: [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 폭과 부호를 같이 봐야 해석이 맞는다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-진법을 잘 이해하면 디버깅, [[073_bit|비트]] 연산, 메모리 해석이 훨씬 빨라진다. 같은 수를 다르게 읽는 연습이 결국 시스템 이해력을 만든다.
+진법을 잘 이해하면 디버깅, [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 연산, 메모리 해석이 훨씬 빨라진다. 같은 수를 다르게 읽는 연습이 결국 시스템 이해력을 만든다.
 앞으로도 자동 변환 도구는 늘어나겠지만, base 감각은 여전히 설계와 장애 분석의 기본이 된다.
 기술사는 이 주제를 "같은 값을 다르게 적는 문법"으로 기억하면 된다.
 
@@ -92,12 +96,12 @@ BCD는 각 숫자를 4비트로 따로 담아 십진 표현을 보존하고, pur
 
 | 개념 | 연결 포인트 |
 | --- | --- |
-| [[077_radix|Radix]] | 진법의 기준 수다 |
+| [Radix](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/) | 진법의 기준 수다 |
 | Place value | 자릿값 계산을 결정한다 |
-| Binary | [[073_bit|비트]] 표현의 기본이다 |
+| Binary | [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 표현의 기본이다 |
 | Hexadecimal | 4비트 단위 해석에 좋다 |
-| [[098_bcd|BCD]] | 십진 숫자를 코드로 담는다 |
-| 2의 보수 | [[082_signed_integer|부호 있는 정수]] 표현에 쓴다 |
+| [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) | 십진 숫자를 코드로 담는다 |
+| 2의 보수 | [부호 있는 정수](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/082_signed_integer/) 표현에 쓴다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -129,7 +133,7 @@ debugging
 
 **진행 상황**: 78 / 803
 
-← **이전**: [[077_radix|77. 기수 (Radix)]]
-**다음**: [[079_lsb|79. LSB (Least Significant Bit)]] →
+← **이전**: [77. 기수 (Radix)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/)
+**다음**: [79. LSB (Least Significant Bit)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/079_lsb/) →
 
 ---

@@ -1,14 +1,18 @@
----
-title: 046. 제로 트러스트 — Zero Trust Security
-date: '2026-04-05'
-tags:
-- studynote-security
----
++++
+title = "046. 제로 트러스트 — Zero Trust Security"
+date = 2026-04-05
+
+[taxonomies]
+tags = ["studynote-security"]
+
+[extra]
+tags = ["studynote-security"]
++++
 
 > **핵심 인사이트**
-> 1. [[667_zero_trust_runtime_integrity_measurement|제로 트러스트]]([[667_zero_trust_runtime_integrity_measurement|Zero Trust]])는 "절대 신뢰하지 말고, 항상 [[395_verification_process_review|검증]]하라(Never Trust, Always Verify)" 원칙 — 전통적 경계 보안(내부=안전, 외부=위험)이 클라우드·원격근무 시대에 무의미해지면서 등장한 새로운 보안 패러다임이다.
-> 2. [[667_zero_trust_runtime_integrity_measurement|제로 트러스트]]의 3대 핵심 원칙 — ① 명시적 [[395_verification_process_review|검증]](모든 접근 항상 [[303_authentication_authorization_patterns|인증]]/[[509_authorization_models_rbac_abac|인가]]), ② 최소 권한 접근([[010_least_privilege|Least Privilege]]), ③ 침해 가정(Assume Breach, 항상 침해된 것으로 가정하고 격리)이며 이 세 가지의 동시 실현이 핵심이다.
-> 3. [[667_zero_trust_runtime_integrity_measurement|제로 트러스트]] 구현은 기술보다 조직 변화가 더 어렵다 — NIST [[166_sp|SP]] 800-207이 기술 프레임워크를 제공하지만, ID 관리·마이크로세그멘테이션·지속적 모니터링을 모든 IT 자산에 적용하는 데 3~7년이 소요되는 장기 여정이다.
+> 1. [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/))는 "절대 신뢰하지 말고, 항상 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하라(Never Trust, Always Verify)" 원칙 — 전통적 경계 보안(내부=안전, 외부=위험)이 클라우드·원격근무 시대에 무의미해지면서 등장한 새로운 보안 패러다임이다.
+> 2. [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)의 3대 핵심 원칙 — ① 명시적 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(모든 접근 항상 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)/[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)), ② 최소 권한 접근([Least Privilege](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/)), ③ 침해 가정(Assume Breach, 항상 침해된 것으로 가정하고 격리)이며 이 세 가지의 동시 실현이 핵심이다.
+> 3. [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 구현은 기술보다 조직 변화가 더 어렵다 — NIST [SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) 800-207이 기술 프레임워크를 제공하지만, ID 관리·마이크로세그멘테이션·지속적 모니터링을 모든 IT 자산에 적용하는 데 3~7년이 소요되는 장기 여정이다.
 
 ---
 
@@ -50,11 +54,11 @@ tags:
   → 수개월간 탐지 불가
 ```
 
-> 📢 **섹션 요약 비유**: 전통 경계 보안은 성벽 — 성벽([[690_firewall_generation_evolution|방화벽]])이 있으면 안전하다 생각했는데, 적이 성문을 통과하자 안에서 자유롭게 돌아다녔어요. [[667_zero_trust_runtime_integrity_measurement|제로 트러스트]]는 방마다 자물쇠!
+> 📢 **섹션 요약 비유**: 전통 경계 보안은 성벽 — 성벽([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))이 있으면 안전하다 생각했는데, 적이 성문을 통과하자 안에서 자유롭게 돌아다녔어요. [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)는 방마다 자물쇠!
 
 ---
 
-## Ⅱ. [[667_zero_trust_runtime_integrity_measurement|제로 트러스트]] 원칙
+## Ⅱ. [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 원칙
 
 ```
 제로 트러스트 3대 원칙 (Microsoft ZTA):
@@ -97,7 +101,7 @@ tags:
    침해 전제 → 탐지와 대응이 핵심
 ```
 
-> 📢 **섹션 요약 비유**: [[667_zero_trust_runtime_integrity_measurement|제로 트러스트]] 원칙은 방마다 열쇠 — 집에 들어왔어도([[690_firewall_generation_evolution|방화벽]] 통과) 방마다(리소스) 자물쇠. 항상 신분증([[303_authentication_authorization_patterns|인증]]), 필요한 방만(최소 권한), 도둑이 있다고 가정(침해 가정)!
+> 📢 **섹션 요약 비유**: [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 원칙은 방마다 열쇠 — 집에 들어왔어도([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 통과) 방마다(리소스) 자물쇠. 항상 신분증([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)), 필요한 방만(최소 권한), 도둑이 있다고 가정(침해 가정)!
 
 ---
 
@@ -149,7 +153,7 @@ tags:
    이상 행위 실시간 탐지
 ```
 
-> 📢 **섹션 요약 비유**: ZT 기술은 스마트 오피스 시스템 — 입장 시 얼굴 인식([[526_iam|IAM]]/[[552_mfa|MFA]]), 각 방 출입증(마이크로세그멘테이션), 노트북 상태 [[396_validation|확인]](디바이스 신뢰), 수상한 행동 감지([[613_ueba|UEBA]])!
+> 📢 **섹션 요약 비유**: ZT 기술은 스마트 오피스 시스템 — 입장 시 얼굴 인식([IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/)/[MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/)), 각 방 출입증(마이크로세그멘테이션), 노트북 상태 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(디바이스 신뢰), 수상한 행동 감지([UEBA](/knowledge-base/studynote/09_security/12_identity_threat_advanced/613_ueba/))!
 
 ---
 
@@ -203,7 +207,7 @@ Phase 4 (3년~): 가시성/자동화
   (IBM: 평균 침해 비용 $4.5M, 2023)
 ```
 
-> 📢 **섹션 요약 비유**: ZT 구현 로드맵은 집 보안 업그레이드 — Phase 1(현관 자물쇠=[[552_mfa|MFA]]), Phase 2(방마다 [[933_cctv|CCTV]]=디바이스 신뢰), Phase 3(방문마다 자물쇠=[[364_segmentation|세그멘테이션]]), Phase 4([[190_ai_llm_requirements_specification|AI]] 경비 시스템=[[613_ueba|UEBA]])!
+> 📢 **섹션 요약 비유**: ZT 구현 로드맵은 집 보안 업그레이드 — Phase 1(현관 자물쇠=[MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/)), Phase 2(방마다 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/)=디바이스 신뢰), Phase 3(방문마다 자물쇠=[세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)), Phase 4([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 경비 시스템=[UEBA](/knowledge-base/studynote/09_security/12_identity_threat_advanced/613_ueba/))!
 
 ---
 
@@ -252,7 +256,7 @@ Phase 3 (18개월): 세그멘테이션
   예방한 랜섬웨어 피해 추정: 50억원 이상
 ```
 
-> 📢 **섹션 요약 비유**: 보험사 ZT 전환은 방어 깊이 쌓기 — [[983_vpn_virtual_private_network|VPN]] 하나(성벽 하나)에서 [[552_mfa|MFA]]+[[339_ztna|ZTNA]]+[[364_segmentation|세그멘테이션]]+모니터링(겹겹이 방어). 성벽 하나 뚫려도 안쪽에서 막아요!
+> 📢 **섹션 요약 비유**: 보험사 ZT 전환은 방어 깊이 쌓기 — [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 하나(성벽 하나)에서 [MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/)+[ZTNA](/knowledge-base/studynote/12_it_management/05_security_compliance/339_ztna/)+[세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)+모니터링(겹겹이 방어). 성벽 하나 뚫려도 안쪽에서 막아요!
 
 ---
 
@@ -312,7 +316,7 @@ AI 기반 동적 ZT 정책
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [[667_zero_trust_runtime_integrity_measurement|제로 트러스트]]는 방마다 자물쇠 — 집에 들어왔어도([[690_firewall_generation_evolution|방화벽]] 통과) 모든 방(리소스)에 잠금. 방에 들어올 때마다 신분증 [[396_validation|확인]]!
+1. [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)는 방마다 자물쇠 — 집에 들어왔어도([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 통과) 모든 방(리소스)에 잠금. 방에 들어올 때마다 신분증 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)!
 2. 최소 권한은 필요한 열쇠만 — 청소부는 청소실 열쇠만, 사장은 사무실 열쇠만. 모든 방 열쇠를 주는 게 아니라 필요한 것만!
 3. 침해 가정은 도둑이 이미 있다고 생각 — "이미 도둑이 안에 있다"고 가정하고 방마다 감시 카메라, 각 방 자물쇠로 피해 최소화!
 
@@ -322,7 +326,7 @@ AI 기반 동적 ZT 정책
 
 **진행 상황**: 46 / 1108
 
-← **이전**: [[045_nist_csf_2_0|045. NIST 사이버보안 프레임워크 2.0 — NIST CSF 2.0]]
-**다음**: [[047_zta|047. ZTA — 제로 트러스트 아키텍처 심화]] →
+← **이전**: [045. NIST 사이버보안 프레임워크 2.0 — NIST CSF 2.0](/knowledge-base/studynote/09_security/01_intro_principles/045_nist_csf_2_0/)
+**다음**: [047. ZTA — 제로 트러스트 아키텍처 심화](/knowledge-base/studynote/09_security/01_intro_principles/047_zta/) →
 
 ---

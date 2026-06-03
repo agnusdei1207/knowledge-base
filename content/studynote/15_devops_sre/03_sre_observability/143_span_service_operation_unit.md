@@ -1,14 +1,18 @@
----
-title: 143. Span 상세 - 서비스·오퍼레이션 단위 추적
-date: '2026-04-19'
-tags:
-- studynote-devops-sre
----
++++
+title = "143. Span 상세 - 서비스·오퍼레이션 단위 추적"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-devops-sre"]
+
+[extra]
+tags = ["studynote-devops-sre"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Span은 **[[136_variance|분산]] 트레이스의 기본 단위**로, 하나의 [[090_service_kubernetes_network_load_balancing|서비스]] 내 **특정 오퍼레이션([[461_http_stateless_connection_oriented|HTTP]] 요청·DB [[298_qkv_attention|쿼리]]·[[389_mesh_topology|메시]]지 처리)**의 시작·종료·[[012_metadata|메타데이터]]를 기록하며, 부모-자식 [[083_relationship_in_er_model|관계]]로 트리를 형성한다.
-> 2. **가치**: Span에 **[[090_service_kubernetes_network_load_balancing|서비스]]명·오퍼레이션명·상태코드·에러·태그·[[568_logs_distributed_logging_elk_fluentd|로그]] 이벤트**가 포함되어, 각 [[090_service_kubernetes_network_load_balancing|서비스]] 구간의 **소요 시간·에러 여부를 정확히** 파악할 수 있다.
-> 3. **판단 포인트**: Root Span(최초 진입점)·Child Span(하위 호출)의 부모-자식 [[083_relationship_in_er_model|관계]]가 트레이스 트리를 형성하며, Span [[502_file_attributes_metadata|Attributes]](태그)로 커스텀 [[012_metadata|메타데이터]]를 추가한다.
+> 1. **본질**: Span은 **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 트레이스의 기본 단위**로, 하나의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 내 **특정 오퍼레이션([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 요청·DB [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)·[메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 처리)**의 시작·종료·[메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 기록하며, 부모-자식 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)로 트리를 형성한다.
+> 2. **가치**: Span에 **[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)명·오퍼레이션명·상태코드·에러·태그·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 이벤트**가 포함되어, 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 구간의 **소요 시간·에러 여부를 정확히** 파악할 수 있다.
+> 3. **판단 포인트**: Root Span(최초 진입점)·Child Span(하위 호출)의 부모-자식 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 트레이스 트리를 형성하며, Span [Attributes](/knowledge-base/studynote/02_operating_system/09_file_system/502_file_attributes_metadata/)(태그)로 커스텀 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 추가한다.
 
 ---
 
@@ -31,7 +35,7 @@ Span 구성:
 
 ## Ⅱ~Ⅴ. 결론
 
-Span은 **[[112_distributed_tracing_microservices|분산 트레이싱]]의 기본 단위**이며, 부모-자식 [[083_relationship_in_er_model|관계]]·[[502_file_attributes_metadata|Attributes]]·Status로 상세 추적을 제공한다.
+Span은 **[분산 트레이싱](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/112_distributed_tracing_microservices/)의 기본 단위**이며, 부모-자식 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)·[Attributes](/knowledge-base/studynote/02_operating_system/09_file_system/502_file_attributes_metadata/)·Status로 상세 추적을 제공한다.
 
 ---
 
@@ -42,8 +46,8 @@ Span은 **[[112_distributed_tracing_microservices|분산 트레이싱]]의 기�
 | **Span** | 오퍼레이션 단위 |
 | **Root Span** | 최초 진입점 |
 | **Child Span** | 하위 호출 |
-| **[[502_file_attributes_metadata|Attributes]]** | 커스텀 태그 |
-| **Span Events** | Span 내 [[568_logs_distributed_logging_elk_fluentd|로그]] |
+| **[Attributes](/knowledge-base/studynote/02_operating_system/09_file_system/502_file_attributes_metadata/)** | 커스텀 태그 |
+| **Span Events** | Span 내 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -65,7 +69,7 @@ Span은 **[[112_distributed_tracing_microservices|분산 트레이싱]]의 기�
 
 **진행 상황**: 143 / 373
 
-← **이전**: [[142_trace_request_context|142. Trace·Span·Context Propagation - 분산 추적의 핵심 구성]]
-**다음**: [[144_context_propagation_trace_id|144. Context Propagation & Trace ID 전파 상세]] →
+← **이전**: [142. Trace·Span·Context Propagation - 분산 추적의 핵심 구성](/knowledge-base/studynote/15_devops_sre/03_sre_observability/142_trace_request_context/)
+**다음**: [144. Context Propagation & Trace ID 전파 상세](/knowledge-base/studynote/15_devops_sre/03_sre_observability/144_context_propagation_trace_id/) →
 
 ---

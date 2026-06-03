@@ -1,18 +1,22 @@
----
-title: 040. 오류 탐지 (Error Detection)
-date: '2026-03-21'
-tags:
-- studynote-operating-system
----
++++
+title = "040. 오류 탐지 (Error Detection)"
+date = 2026-03-21
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 > **핵심 인사이트**
-> 1. 오류 탐지(Error [[961_deepfake_detection|Detection]])는 [[001_dikw_pyramid|데이터]] 전송·저장 과정에서 [[073_bit|비트]] 오류를 발견하는 기술로, [[107_parity_bit|패리티 비트]]([[107_parity_bit|Parity Bit]])·[[112_checksum|체크섬]]([[112_checksum|Checksum]])·[[113_crc|CRC]]([[113_crc|Cyclic Redundancy Check]])는 중복 정보 추가량과 탐지 능력의 트레이드오프를 각각 다른 수준으로 구현한다.
-> 2. CRC는 [[195_polynomial_generator_crc|다항식]] 나눗셈 원리를 이용해 1~수 바이트의 작은 FCS(Frame Check Sequence)로 버스트 오류까지 탐지할 수 있어, [[230_ethernet_structure_and_principles_ieee_802_3|이더넷]]·[[341_sata|SATA]]·[[359_usb|USB]] 등 거의 모든 디지털 통신 규격의 표준으로 채택됐다.
-> 3. 오류 탐지는 "발견만" 하고, 오류 정정(Error Correction)은 [[949_arq_automatic_repeat_request_go_back_n_selective|ARQ]](자동 재전송)나 FEC([[235_forward_backward_chaining|Forward]] Error Correction) 방식으로 분리 처리한다 — 이 분리 설계가 [[295_protocol_field_tcp_udp_icmp|프로토콜]] 계층화의 핵심 원칙이다.
+> 1. 오류 탐지(Error [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송·저장 과정에서 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 오류를 발견하는 기술로, [패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)([Parity Bit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/))·[체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)([Checksum](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/))·[CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)([Cyclic Redundancy Check](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/))는 중복 정보 추가량과 탐지 능력의 트레이드오프를 각각 다른 수준으로 구현한다.
+> 2. CRC는 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 나눗셈 원리를 이용해 1~수 바이트의 작은 FCS(Frame Check Sequence)로 버스트 오류까지 탐지할 수 있어, [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)·[SATA](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/)·[USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 등 거의 모든 디지털 통신 규격의 표준으로 채택됐다.
+> 3. 오류 탐지는 "발견만" 하고, 오류 정정(Error Correction)은 [ARQ](/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/)(자동 재전송)나 FEC([Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) Error Correction) 방식으로 분리 처리한다 — 이 분리 설계가 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 계층화의 핵심 원칙이다.
 
 ---
 
-## Ⅰ. [[107_parity_bit|패리티 비트]]
+## Ⅰ. [패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)
 
 ```
 패리티 비트 (Parity Bit):
@@ -37,11 +41,11 @@ tags:
   (짝수 패리티와 동일 원리, 반대 값)
 ```
 
-> 📢 **섹션 요약 비유**: [[107_parity_bit|패리티 비트]]는 계란 한 판을 셀 때 "짝수개면 정상"으로 검사하는 것 — 하나 깨져도 알 수 있지만 두 개 깨지면 놓친다.
+> 📢 **섹션 요약 비유**: [패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)는 계란 한 판을 셀 때 "짝수개면 정상"으로 검사하는 것 — 하나 깨져도 알 수 있지만 두 개 깨지면 놓친다.
 
 ---
 
-## Ⅱ. [[112_checksum|체크섬]]
+## Ⅱ. [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)
 
 ```
 체크섬 (Checksum):
@@ -67,11 +71,11 @@ TCP/IP 헤더에 사용:
   CRC보다 탐지력 약함
 ```
 
-> 📢 **섹션 요약 비유**: [[112_checksum|체크섬]]은 영수증 합계 검산 — 모든 항목 더한 값이 맞으면 OK, 틀리면 어딘가 오류 있음.
+> 📢 **섹션 요약 비유**: [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)은 영수증 합계 검산 — 모든 항목 더한 값이 맞으면 OK, 틀리면 어딘가 오류 있음.
 
 ---
 
-## Ⅲ. [[113_crc|CRC]]
+## Ⅲ. [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)
 
 ```
 CRC (Cyclic Redundancy Check):
@@ -132,7 +136,7 @@ FEC (Forward Error Correction):
 
 ---
 
-## Ⅴ. 실무 시나리오 — [[230_ethernet_structure_and_principles_ieee_802_3|이더넷]] FCS
+## Ⅴ. 실무 시나리오 — [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) FCS
 
 ```
 이더넷 프레임 전송 (CRC-32):
@@ -162,7 +166,7 @@ FEC (Forward Error Correction):
   32비트 랜덤 오류 -> 1 - 2^(-32) ≈ 99.9999999%
 ```
 
-> 📢 **섹션 요약 비유**: [[230_ethernet_structure_and_principles_ieee_802_3|이더넷]] FCS는 택배 포장 후 봉인 스티커 — 수신측이 스티커 훼손 여부로 내용물 변형 [[396_validation|확인]].
+> 📢 **섹션 요약 비유**: [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) FCS는 택배 포장 후 봉인 스티커 — 수신측이 스티커 훼손 여부로 내용물 변형 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
 
 ---
 
@@ -223,8 +227,8 @@ CPU 개입 없는 라인 속도 처리
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. 오류 탐지는 편지를 보낼 때 마지막에 "이 편지 글자 수는 37개예요"라고 적는 것 — 받는 사람이 세어보고 다르면 뭔가 잘못된 거예요.
-2. CRC는 더 복잡한 수학 계산으로 만든 "비밀 잠금 번호"여서 [[001_dikw_pyramid|데이터]]가 조금이라도 바뀌면 번호가 달라져요.
-3. 오류를 발견했을 때 다시 보내달라고 하는 방법([[949_arq_automatic_repeat_request_go_back_n_selective|ARQ]])과, 처음부터 정답지를 같이 보내서 스스로 고치는 방법(FEC) 두 가지가 있어요!
+2. CRC는 더 복잡한 수학 계산으로 만든 "비밀 잠금 번호"여서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 조금이라도 바뀌면 번호가 달라져요.
+3. 오류를 발견했을 때 다시 보내달라고 하는 방법([ARQ](/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/))과, 처음부터 정답지를 같이 보내서 스스로 고치는 방법(FEC) 두 가지가 있어요!
 
 ---
 
@@ -232,7 +236,7 @@ CPU 개입 없는 라인 속도 처리
 
 **진행 상황**: 40 / 800
 
-← **이전**: [[039_os_services|039. OS 서비스 (Operating System Services)]]
-**다음**: [[041_resource_allocation|041. 자원 할당 (Resource Allocation)]] →
+← **이전**: [039. OS 서비스 (Operating System Services)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/039_os_services/)
+**다음**: [041. 자원 할당 (Resource Allocation)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) →
 
 ---

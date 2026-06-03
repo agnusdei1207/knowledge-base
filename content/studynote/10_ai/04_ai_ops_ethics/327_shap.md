@@ -1,15 +1,19 @@
----
-title: 327. SHAP (SHapley Additive exPlanations)
-date: '2026-05-09'
-tags:
-- studynote-ai
----
++++
+title = "327. SHAP (SHapley Additive exPlanations)"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-ai"]
+
+[extra]
+tags = ["studynote-ai"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: SHAP (SHapley Additive exPlanations)은 협력 게임 이론의 **샤플리 값(Shapley Value)**을 ML 예측 설명에 적용하여, 각 특징이 예측에 기여한 양을 공정하게 분배하는 수학적으로 엄격한 [[227_xai_explainable_ai_lime_shap|XAI]] 방법론이다.
-> 2. **가치**: 국소(개별 예측) 설명과 전역(모델 전체 특징 중요도) 설명을 동시에 제공하고, "효율성·대칭성·[[459_dummy_test_double|더미]]·가산성"의 4가지 공정성 공리를 만족하는 유일한 특징 기여도 분배 방법이다.
-> 3. **판단 포인트**: SHAP 값의 핵심 해석은 "이 특징이 기준값([[159_baseline_requirements_configuration_management|베이스라인]], 평균 예측)에서 실제 예측까지의 차이를 얼마나 설명하는가"이며, SHAP 값의 합이 예측값과 기준값의 차이와 정확히 일치하는 **가산성(Additivity)**이 LIME과 구별되는 핵심 특성이다.
+> 1. **본질**: SHAP (SHapley Additive exPlanations)은 협력 게임 이론의 **샤플리 값(Shapley Value)**을 ML 예측 설명에 적용하여, 각 특징이 예측에 기여한 양을 공정하게 분배하는 수학적으로 엄격한 [XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) 방법론이다.
+> 2. **가치**: 국소(개별 예측) 설명과 전역(모델 전체 특징 중요도) 설명을 동시에 제공하고, "효율성·대칭성·[더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)·가산성"의 4가지 공정성 공리를 만족하는 유일한 특징 기여도 분배 방법이다.
+> 3. **판단 포인트**: SHAP 값의 핵심 해석은 "이 특징이 기준값([베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/), 평균 예측)에서 실제 예측까지의 차이를 얼마나 설명하는가"이며, SHAP 값의 합이 예측값과 기준값의 차이와 정확히 일치하는 **가산성(Additivity)**이 LIME과 구별되는 핵심 특성이다.
 
 ---
 
@@ -68,25 +72,25 @@ SHAP은 이 원리를 ML에 적용한다: n개 특징이 협력하여 예측값 
 |:---|:---|:---|
 | 효율성 (Efficiency) | SHAP 합 = 예측값 - 기준값 | 기여도가 빠짐없이 분배됨 |
 | 대칭성 (Symmetry) | 동일 기여 특징은 동일 SHAP | 공정한 분배 보장 |
-| [[459_dummy_test_double|더미]] ([[459_dummy_test_double|Dummy]]) | 무기여 특징은 SHAP=0 | 무관한 특징은 0 기여 |
-| 가산성 (Additivity) | [[257_ensemble_learning|앙상블]]의 SHAP = 개별 합 | 복합 모델도 일관된 설명 |
+| [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) ([Dummy](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)) | 무기여 특징은 SHAP=0 | 무관한 특징은 0 기여 |
+| 가산성 (Additivity) | [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)의 SHAP = 개별 합 | 복합 모델도 일관된 설명 |
 
-- **📢 섹션 요약 비유**: SHAP 가산성은 회계 장부의 이중 기입 원칙과 같다. 수입(예측값) = [[459_quic_fec_forward_error_correction|초기]] 잔액(기준값) + 모든 항목(SHAP값)의 합. 어떤 항목도 빠지거나 중복되지 않고, 장부(SHAP 설명)가 대차 균형을 이루어야 한다. LIME은 이 균형 보장이 없어 설명이 "근사"에 머문다.
+- **📢 섹션 요약 비유**: SHAP 가산성은 회계 장부의 이중 기입 원칙과 같다. 수입(예측값) = [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 잔액(기준값) + 모든 항목(SHAP값)의 합. 어떤 항목도 빠지거나 중복되지 않고, 장부(SHAP 설명)가 대차 균형을 이루어야 한다. LIME은 이 균형 보장이 없어 설명이 "근사"에 머문다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
 **TreeSHAP vs KernelSHAP**:
-- **TreeSHAP**: 트리 기반 모델(XGBoost, [[353_random_forest|랜덤 포레스트]], LightGBM)에 특화. O(TLD²) 복잡도로 정확한 SHAP 계산 가능. 실무에서 가장 많이 사용.
+- **TreeSHAP**: 트리 기반 모델(XGBoost, [랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/), LightGBM)에 특화. O(TLD²) 복잡도로 정확한 SHAP 계산 가능. 실무에서 가장 많이 사용.
 - **KernelSHAP**: 모델 불가지론적 방법. 통계적 근사 사용. 딥러닝 등 임의 모델에 적용.
-- **DeepSHAP**: 딥러닝 특화. [[272_backpropagation|역전파]] 기반 SHAP 근사. 속도와 정확도 균형.
+- **DeepSHAP**: 딥러닝 특화. [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 기반 SHAP 근사. 속도와 정확도 균형.
 
 | 구분 | 핵심 초점 | 적용 상황 |
 |:---|:---|:---|
-| 기초 접근 | 원리 이해와 기준 [[009_config|설정]] | 작은 규모, 개념 학습 |
-| SHAP (SHapley Additive exPlanations) | [[282_performance_tactics|성능]]과 실용성의 균형 | 대표적인 실무 적용 |
-| 확장 접근 | 자동화·대규모 최적화 | [[090_service_kubernetes_network_load_balancing|서비스]] 고도화 단계 |
+| 기초 접근 | 원리 이해와 기준 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | 작은 규모, 개념 학습 |
+| SHAP (SHapley Additive exPlanations) | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 실용성의 균형 | 대표적인 실무 적용 |
+| 확장 접근 | 자동화·대규모 최적화 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 고도화 단계 |
 
 - **📢 섹션 요약 비유**: TreeSHAP은 트리 구조를 알고 있어 모든 가지를 직접 탐색하는 빠른 분석가, KernelSHAP은 트리 내부를 모르지만 외부에서 많은 질문(섭동 샘플)으로 기여도를 추정하는 외부 컨설턴트다. 내부를 알면 TreeSHAP이 훨씬 빠르고 정확하다.
 
@@ -95,22 +99,22 @@ SHAP은 이 원리를 ML에 적용한다: n개 특징이 협력하여 예측값 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **SHAP 활용 패턴**:
-1. **모델 디버깅**: [[300_summary|Summary]] Plot으로 "이 특징은 왜 높은 중요도인가" 검토
-2. **공정성 [[606_auditing_linux_auditd|감사]]**: [[571_protection_vs_security|보호]] 특징(성별·인종·나이)의 SHAP 값을 분석하여 차별적 의사결정 탐지
+1. **모델 디버깅**: [Summary](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/300_summary/) Plot으로 "이 특징은 왜 높은 중요도인가" 검토
+2. **공정성 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)**: [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 특징(성별·인종·나이)의 SHAP 값을 분석하여 차별적 의사결정 탐지
 3. **비즈니스 인사이트**: Dependence Plot으로 "소득이 몇 백만 원 이상이면 예측이 급상승" 같은 임계값 발견
 4. **고객 설명**: Waterfall Plot을 자연어로 변환하여 "당신의 신용 평가는 소득(+20점), 연체 이력(-15점)에 의해 결정됐습니다" 제공
 
-**SHAP 계산 비용**: N개 특징에 대해 정확한 섀플리 값 계산은 2^N 부분집합을 요구하여 지수 복잡도. TreeSHAP은 이를 [[195_polynomial_generator_crc|다항식]] 복잡도로 최적화하고, KernelSHAP은 샘플링으로 근사한다. 100개 이상 특징에서는 반드시 TreeSHAP 또는 샘플링 기반 방법 사용.
+**SHAP 계산 비용**: N개 특징에 대해 정확한 섀플리 값 계산은 2^N 부분집합을 요구하여 지수 복잡도. TreeSHAP은 이를 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 복잡도로 최적화하고, KernelSHAP은 샘플링으로 근사한다. 100개 이상 특징에서는 반드시 TreeSHAP 또는 샘플링 기반 방법 사용.
 
-- **📢 섹션 요약 비유**: SHAP 공정성 [[606_auditing_linux_auditd|감사]]는 급여 차별 [[606_auditing_linux_auditd|감사]]와 같다. 같은 성과(예측값)를 낸 직원들에서 성별([[571_protection_vs_security|보호]] 특징) SHAP 값이 양수면 "성별이 급여를 올리는 요인"으로 작동하는 것이다. 이 값이 0에 가까워야 공정한 모델(성별 무관 급여 결정)이다.
+- **📢 섹션 요약 비유**: SHAP 공정성 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)는 급여 차별 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)와 같다. 같은 성과(예측값)를 낸 직원들에서 성별([보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 특징) SHAP 값이 양수면 "성별이 급여를 올리는 요인"으로 작동하는 것이다. 이 값이 0에 가까워야 공정한 모델(성별 무관 급여 결정)이다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-SHAP은 [[227_xai_explainable_ai_lime_shap|XAI]] 방법론 중 가장 수학적으로 엄격하고 신뢰할 수 있는 설명 도구다. 4가지 공정성 공리를 만족하는 유일한 방법으로, 법적 [[606_auditing_linux_auditd|감사]]·규제 준수·모델 공정성 [[395_verification_process_review|검증]]에서 실질적 표준으로 자리 잡고 있다. TreeSHAP을 통해 실시간 XGBoost/LightGBM 예측에 즉시 SHAP 설명을 첨부하는 것이 이제 핀테크·보험·의료 AI의 표준 배포 패턴이 됐다.
+SHAP은 [XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) 방법론 중 가장 수학적으로 엄격하고 신뢰할 수 있는 설명 도구다. 4가지 공정성 공리를 만족하는 유일한 방법으로, 법적 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)·규제 준수·모델 공정성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에서 실질적 표준으로 자리 잡고 있다. TreeSHAP을 통해 실시간 XGBoost/LightGBM 예측에 즉시 SHAP 설명을 첨부하는 것이 이제 핀테크·보험·의료 AI의 표준 배포 패턴이 됐다.
 
-- **📢 섹션 요약 비유**: SHAP은 [[190_ai_llm_requirements_specification|AI]] 세계의 [[606_auditing_linux_auditd|감사]] 원장(Ledger)이다. 모든 예측의 수입과 지출(특징 기여도)이 장부에 정확히 기록되어 "왜 이 결론에 이르렀는가"를 역추적할 수 있다. [[606_auditing_linux_auditd|감사]] 원장이 완벽한 기업(SHAP 적용 [[190_ai_llm_requirements_specification|AI]])은 세금 조사(규제 [[606_auditing_linux_auditd|감사]])를 두려워할 필요가 없다.
+- **📢 섹션 요약 비유**: SHAP은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 세계의 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 원장(Ledger)이다. 모든 예측의 수입과 지출(특징 기여도)이 장부에 정확히 기록되어 "왜 이 결론에 이르렀는가"를 역추적할 수 있다. [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 원장이 완벽한 기업(SHAP 적용 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))은 세금 조사(규제 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/))를 두려워할 필요가 없다.
 
 ---
 
@@ -120,9 +124,9 @@ SHAP은 [[227_xai_explainable_ai_lime_shap|XAI]] 방법론 중 가장 수학적�
 |:---|:---|
 | 샤플리 값 (Shapley Value) | 게임 이론, 공정 분배 / SHAP의 수학적 기반 |
 | 가산성 (Additivity) | SHAP 합 = 예측-기준 / SHAP과 LIME의 핵심 차이 |
-| TreeSHAP | XGBoost, [[195_polynomial_generator_crc|다항식]] 복잡도 / 트리 모델에 최적화된 SHAP |
-| [[326_lime|LIME]] | 국소 근사, 불안정 / SHAP과 비교되는 [[227_xai_explainable_ai_lime_shap|XAI]] 방법 |
-| 공정성 (Fairness) | 편향 탐지, [[571_protection_vs_security|보호]] 특징 / SHAP으로 [[190_ai_llm_requirements_specification|AI]] 차별 [[606_auditing_linux_auditd|감사]]하는 용도 |
+| TreeSHAP | XGBoost, [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 복잡도 / 트리 모델에 최적화된 SHAP |
+| [LIME](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/326_lime/) | 국소 근사, 불안정 / SHAP과 비교되는 [XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) 방법 |
+| 공정성 (Fairness) | 편향 탐지, [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 특징 / SHAP으로 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 차별 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)하는 용도 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -132,9 +136,9 @@ SHAP은 [[227_xai_explainable_ai_lime_shap|XAI]] 방법론 중 가장 수학적�
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **SHAP**은 팀이 같이 일해서 성과를 냈을 때, **각 팀원이 얼마나 기여했는지 공정하게 계산**하는 수학 방법을 [[190_ai_llm_requirements_specification|AI]] 설명에 쓴 거예요!
+1. **SHAP**은 팀이 같이 일해서 성과를 냈을 때, **각 팀원이 얼마나 기여했는지 공정하게 계산**하는 수학 방법을 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 설명에 쓴 거예요!
 2. "당신의 신용 점수는 소득(+20점), 연체 이력(-15점), 직업(+5점)"처럼 **각 요소의 기여도 합이 전체 점수 변화와 정확히 일치**해요(가산성).
-3. 이 엄격한 수학적 공정성 덕분에 **금융·의료 규제 [[606_auditing_linux_auditd|감사]]**에서 [[190_ai_llm_requirements_specification|AI]] 설명의 국제 표준으로 자리잡고 있어요!
+3. 이 엄격한 수학적 공정성 덕분에 **금융·의료 규제 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)**에서 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 설명의 국제 표준으로 자리잡고 있어요!
 
 ---
 
@@ -142,7 +146,7 @@ SHAP은 [[227_xai_explainable_ai_lime_shap|XAI]] 방법론 중 가장 수학적�
 
 **진행 상황**: 327 / 420
 
-← **이전**: [[326_lime|326. LIME (Local Interpretable Model-agnostic Explanations)]]
-**다음**: [[328_federated_learning|328. 연합 학습 (Federated Learning)]] →
+← **이전**: [326. LIME (Local Interpretable Model-agnostic Explanations)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/326_lime/)
+**다음**: [328. 연합 학습 (Federated Learning)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/328_federated_learning/) →
 
 ---

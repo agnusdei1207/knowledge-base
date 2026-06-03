@@ -1,23 +1,27 @@
----
-title: 57. 시계열 데이터베이스 (Time-Series Database, TSDB) - 다운샘플링과 보존 정책
-date: '2026-04-10'
-tags:
-- studynote-data-engineering
----
++++
+title = "57. 시계열 데이터베이스 (Time-Series Database, TSDB) - 다운샘플링과 보존 정책"
+date = 2026-04-10
+
+[taxonomies]
+tags = ["studynote-data-engineering"]
+
+[extra]
+tags = ["studynote-data-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: TSDB ([[340_process|Time-Series Database]])는 시간 순으로 쌓이는 [[001_dikw_pyramid|데이터]]를 빠르게 쓰고 읽기 위해 최적화된 [[001_dikw_pyramid|데이터]]베이스다.
-> 2. **가치**: 다운샘플링은 오래된 고해상도 [[001_dikw_pyramid|데이터]]를 더 거친 집계값으로 바꿔 저장 비용을 줄인다.
-> 3. **판단 포인트**: 보존 [[164_policy|정책]]([[515_mvcc|Retention]] [[164_policy|Policy]])은 언제 무엇을 버릴지 정하는 규칙이고, 다운샘플링과 함께 설계해야 한다.
+> 1. **본질**: TSDB ([Time-Series Database](/knowledge-base/studynote/11_design_supervision/06_exam_summary/340_process/))는 시간 순으로 쌓이는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 빠르게 쓰고 읽기 위해 최적화된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스다.
+> 2. **가치**: 다운샘플링은 오래된 고해상도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 더 거친 집계값으로 바꿔 저장 비용을 줄인다.
+> 3. **판단 포인트**: 보존 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)([Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/) [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))은 언제 무엇을 버릴지 정하는 규칙이고, 다운샘플링과 함께 설계해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-시계열 [[001_dikw_pyramid|데이터]]는 계속 쏟아지고, 시간이 지날수록 세밀한 값의 가치가 떨어진다.
+시계열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 계속 쏟아지고, 시간이 지날수록 세밀한 값의 가치가 떨어진다.
 
-그래서 최근 [[001_dikw_pyramid|데이터]]는 자세하게, 오래된 [[001_dikw_pyramid|데이터]]는 거칠게 보관하는 [[268_strategy_pattern|전략]]이 필요하다.
+그래서 최근 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 자세하게, 오래된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 거칠게 보관하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 필요하다.
 
 - **📢 섹션 요약 비유**: 새로 찍은 사진은 크게 남기고, 오래된 사진은 앨범 요약본으로 남기는 것이다.
 
@@ -25,7 +29,7 @@ tags:
 
 ## Ⅱ. 다운샘플링의 원리
 
-다운샘플링은 일정 구간의 [[001_dikw_pyramid|데이터]]를 묶어 평균, 최대, 최소 같은 대표값으로 바꾸는 작업이다.
+다운샘플링은 일정 구간의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 묶어 평균, 최대, 최소 같은 대표값으로 바꾸는 작업이다.
 
 ```text
 1초 단위 원본
@@ -37,38 +41,38 @@ tags:
 장기 보관
 ```
 
-이렇게 하면 과거 [[001_dikw_pyramid|데이터]]를 훨씬 적은 공간에 저장할 수 있고, 조회도 빨라진다.
+이렇게 하면 과거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 훨씬 적은 공간에 저장할 수 있고, 조회도 빨라진다.
 
 - **📢 섹션 요약 비유**: 매 순간의 파도 사진을 다 보관하지 않고, 하루 평균 파도 높이만 남기는 것이다.
 
 ---
 
-## Ⅲ. 보존 [[164_policy|정책]]과 수명 주기
+## Ⅲ. 보존 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 수명 주기
 
-보존 [[164_policy|정책]]은 [[001_dikw_pyramid|데이터]]를 얼마나 오래 보관할지 정한다.
+보존 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 얼마나 오래 보관할지 정한다.
 
-- 최근 [[001_dikw_pyramid|데이터]]: 원본 그대로 유지
-- 중간 [[001_dikw_pyramid|데이터]]: 집계된 형태로 유지
-- 오래된 [[001_dikw_pyramid|데이터]]: 자동 삭제 또는 더 거친 집계로 전환
+- 최근 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/): 원본 그대로 유지
+- 중간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/): 집계된 형태로 유지
+- 오래된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/): 자동 삭제 또는 더 거친 집계로 전환
 
-이 [[164_policy|정책]]이 없으면 TSDB는 금방 비대해지고 관리가 어려워진다.
+이 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 없으면 TSDB는 금방 비대해지고 관리가 어려워진다.
 
 - **📢 섹션 요약 비유**: 냉장고 안 음식도 유통기한이 지나면 버려야 공간이 생긴다.
 
 ---
 
-## Ⅳ. 운영 방식과 [[298_qkv_attention|쿼리]] [[268_strategy_pattern|전략]]
+## Ⅳ. 운영 방식과 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
 TSDB는 보통 백그라운드 작업이나 Continuous Query로 다운샘플링을 수행한다.
 
 운영에서는 다음이 중요하다.
 
-- 원본과 집계 [[001_dikw_pyramid|데이터]]를 분리한다.
+- 원본과 집계 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분리한다.
 - 구간별 해상도를 다르게 둔다.
-- 모니터링용 [[001_dikw_pyramid|데이터]]와 분석용 [[001_dikw_pyramid|데이터]]를 구분한다.
+- 모니터링용 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 분석용 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 구분한다.
 - 조회 패턴에 맞게 보존 주기를 설계한다.
 
-알람에 필요한 최근 [[001_dikw_pyramid|데이터]]는 절대 너무 일찍 거칠게 바꾸면 안 된다.
+알람에 필요한 최근 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 절대 너무 일찍 거칠게 바꾸면 안 된다.
 
 - **📢 섹션 요약 비유**: 가까운 날씨는 자세히 보고, 작년 날씨는 계절 평균만 보는 것과 같다.
 
@@ -76,11 +80,11 @@ TSDB는 보통 백그라운드 작업이나 Continuous Query로 다운샘플링�
 
 ## Ⅴ. 실무 적용과 한계
 
-TSDB는 센서, [[568_logs_distributed_logging_elk_fluentd|로그]], 금융 시계열, 모니터링 지표에 유용하다.
+TSDB는 센서, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 금융 시계열, 모니터링 지표에 유용하다.
 
 하지만 무작정 다운샘플링하면 분석 정밀도가 떨어질 수 있다. 그래서 "얼마나 오래, 얼마나 자세히"를 업무 요구에 맞춰 결정해야 한다.
 
-다운샘플링은 저장 공간과 조회 속도를, 보존 [[164_policy|정책]]은 관리 비용과 운영 안정성을 잡는다.
+다운샘플링은 저장 공간과 조회 속도를, 보존 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 관리 비용과 운영 안정성을 잡는다.
 
 - **📢 섹션 요약 비유**: 사진첩을 너무 자세히만 남기면 무겁고, 너무 대충 남기면 추억이 흐려진다.
 
@@ -102,17 +106,17 @@ TSDB는 센서, [[568_logs_distributed_logging_elk_fluentd|로그]], 금융 시�
 
 ## 관련 키워드 및 발전 흐름도
 
-1. 고해상도 시계열 [[001_dikw_pyramid|데이터]] → 저장 비용 증가
+1. 고해상도 시계열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) → 저장 비용 증가
 2. 다운샘플링 → 요약 저장으로 비용 절감
-3. 보존 [[164_policy|정책]] → [[001_dikw_pyramid|데이터]] 수명 주기 관리
-4. Continuous Query → 자동 집계와 [[042_rollup_l2_solution|롤업]]
-5. 계층적 보관 → 최근/중간/장기 [[001_dikw_pyramid|데이터]] 분리
+3. 보존 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수명 주기 관리
+4. Continuous Query → 자동 집계와 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)
+5. 계층적 보관 → 최근/중간/장기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분리
 
 ---
 
 ## 어린이를 위한 3줄 비유 설명
 
-시계열 [[001_dikw_pyramid|데이터]]는 매일 찍는 사진이에요.  
+시계열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 매일 찍는 사진이에요.  
 처음 사진은 자세히 남기고, 오래된 사진은 요약 앨범으로 바꿔요.  
 그래야 공간도 아끼고 필요한 순간은 빨리 찾을 수 있어요.
 
@@ -122,7 +126,7 @@ TSDB는 센서, [[568_logs_distributed_logging_elk_fluentd|로그]], 금융 시�
 
 **진행 상황**: 57 / 258
 
-← **이전**: [[056_data_virtualization_federated_query_trino|56. 데이터 가상화 및 연방 쿼리 (Federated Query) - Trino와 Presto의 분산 SQL 엔진]]
-**다음**: [[058_newsql_google_spanner_truetime_distributed_transaction|58. 뉴에스큐엘 (NewSQL) - 분산 RDBMS와 구글 스패너(Spanner)]] →
+← **이전**: [56. 데이터 가상화 및 연방 쿼리 (Federated Query) - Trino와 Presto의 분산 SQL 엔진](/knowledge-base/studynote/14_data_engineering/01_infrastructure/056_data_virtualization_federated_query_trino/)
+**다음**: [58. 뉴에스큐엘 (NewSQL) - 분산 RDBMS와 구글 스패너(Spanner)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/058_newsql_google_spanner_truetime_distributed_transaction/) →
 
 ---

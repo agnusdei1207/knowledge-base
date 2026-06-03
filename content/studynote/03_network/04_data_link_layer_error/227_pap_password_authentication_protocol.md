@@ -1,25 +1,29 @@
----
-title: 227. PAP (Password Authentication Protocol)
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "227. PAP (Password Authentication Protocol)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: PAP ([[701_password_authentication|Password Authentication]] [[295_protocol_field_tcp_udp_icmp|Protocol]])는 점대점 [[295_protocol_field_tcp_udp_icmp|프로토콜]]([[224_ppp_point_to_point_protocol|PPP]]) 링크 [[009_config|설정]] 과정에서 사용되는 가장 기초적인 2-Way 핸드셰이크 기반의 평문(Cleartext) [[303_authentication_authorization_patterns|인증]] 방식이다.
-> 2. **가치**: 클라이언트가 아이디와 비밀번호를 암호화 없이 네트워크 상으로 그대로 전송하므로, 스니핑(Sniffing)이나 [[706_mitm_man_in_the_middle_hsts|중간자 공격]](MITM)에 극도로 취약하다는 치명적인 약점이 있다.
-> 3. **판단 포인트**: 보안성이 보장된 폐쇄망이나 낡은 레거시 장비에서만 제한적으로 사용되며, 최신 네트워크 환경에서는 거의 반드시 [[228_chap_challenge_handshake_authentication_protocol|CHAP]](Challenge Handshake [[604_authentication_factors|Authentication]] [[295_protocol_field_tcp_udp_icmp|Protocol]]) 등 상위 [[303_authentication_authorization_patterns|인증]] [[295_protocol_field_tcp_udp_icmp|프로토콜]]로 대체된다.
+> 1. **본질**: PAP ([Password Authentication](/knowledge-base/studynote/09_security/uncategorized/701_password_authentication/) [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))는 점대점 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)([PPP](/knowledge-base/studynote/03_network/04_data_link_layer_error/224_ppp_point_to_point_protocol/)) 링크 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 과정에서 사용되는 가장 기초적인 2-Way 핸드셰이크 기반의 평문(Cleartext) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 방식이다.
+> 2. **가치**: 클라이언트가 아이디와 비밀번호를 암호화 없이 네트워크 상으로 그대로 전송하므로, 스니핑(Sniffing)이나 [중간자 공격](/knowledge-base/studynote/03_network/14_network_security_threats/706_mitm_man_in_the_middle_hsts/)(MITM)에 극도로 취약하다는 치명적인 약점이 있다.
+> 3. **판단 포인트**: 보안성이 보장된 폐쇄망이나 낡은 레거시 장비에서만 제한적으로 사용되며, 최신 네트워크 환경에서는 거의 반드시 [CHAP](/knowledge-base/studynote/03_network/04_data_link_layer_error/228_chap_challenge_handshake_authentication_protocol/)(Challenge Handshake [Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/) [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)) 등 상위 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로 대체된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: PAP ([[701_password_authentication|Password Authentication]] [[295_protocol_field_tcp_udp_icmp|Protocol]])는 [[224_ppp_point_to_point_protocol|PPP]] ([[224_ppp_point_to_point_protocol|Point-to-Point Protocol]]) 연결의 [[225_lcp_link_control_protocol|LCP]] 협상 이후에 수행되는 간단한 [[604_authentication_factors|사용자 인증]] [[295_protocol_field_tcp_udp_icmp|프로토콜]]이다. 접속을 요청하는 클라이언트가 서버에게 자신의 ID와 Password를 전송하면, 서버가 이를 [[396_validation|확인]]하고 승인(ACK) 또는 거절([[211_nak_negative_acknowledgement|NAK]])을 응답한다.
+- **개념**: PAP ([Password Authentication](/knowledge-base/studynote/09_security/uncategorized/701_password_authentication/) [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))는 [PPP](/knowledge-base/studynote/03_network/04_data_link_layer_error/224_ppp_point_to_point_protocol/) ([Point-to-Point Protocol](/knowledge-base/studynote/03_network/04_data_link_layer_error/224_ppp_point_to_point_protocol/)) 연결의 [LCP](/knowledge-base/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/) 협상 이후에 수행되는 간단한 [사용자 인증](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이다. 접속을 요청하는 클라이언트가 서버에게 자신의 ID와 Password를 전송하면, 서버가 이를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 승인(ACK) 또는 거절([NAK](/knowledge-base/studynote/03_network/04_data_link_layer_error/211_nak_negative_acknowledgement/))을 응답한다.
 
-- **필요성**: 통신 링크가 연결된 후 "접속을 요청하는 네가 정말로 허가받은 사용자가 맞느냐?"를 [[396_validation|확인]]하는 절차가 [[303_authentication_authorization_patterns|인증]]이다. 초창기 네트워크 환경에서는 단순성 자체가 미덕이었기 때문에, 가장 직관적이고 구현하기 쉬운 아이디/비밀번호 전송 방식이 채택되었다.
+- **필요성**: 통신 링크가 연결된 후 "접속을 요청하는 네가 정말로 허가받은 사용자가 맞느냐?"를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 절차가 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)이다. 초창기 네트워크 환경에서는 단순성 자체가 미덕이었기 때문에, 가장 직관적이고 구현하기 쉬운 아이디/비밀번호 전송 방식이 채택되었다.
 
-- **💡 비유**: 클럽(서버)에 들어가기 위해 문지기(라우터)에게 **"내 이름은 홍길동이고 암호는 1234야!"라고 큰 소리로 외치는 것**과 같습니다. 문지기는 장부에 이름이 있는지 [[396_validation|확인]]하고 들여보내 주지만(PAP), 옆에 서 있던 도둑(해커)이 그 소리를 그대로 듣고 다음 날 똑같이 외쳐서 클럽에 들어갈 수 있는 보안 사고([[701_sniffing_eavesdropping_promiscuous|도청]], Sniffing)가 발생하기 쉽습니다.
+- **💡 비유**: 클럽(서버)에 들어가기 위해 문지기(라우터)에게 **"내 이름은 홍길동이고 암호는 1234야!"라고 큰 소리로 외치는 것**과 같습니다. 문지기는 장부에 이름이 있는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 들여보내 주지만(PAP), 옆에 서 있던 도둑(해커)이 그 소리를 그대로 듣고 다음 날 똑같이 외쳐서 클럽에 들어갈 수 있는 보안 사고([도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/), Sniffing)가 발생하기 쉽습니다.
 
 ```text
 [NCP]
@@ -30,7 +34,7 @@ tags:
     └──▶ [CHAP]
 ```
 
-- **📢 섹션 요약 비유**: ** PAP [[303_authentication_authorization_patterns|인증]]은 마치 비밀번호를 쓴 **"투명한 유리 엽서"**를 우체부에게 건네어 수취인에게 보내는 것과 같습니다. 누구나 중간에 엿볼 수 있습니다.
+- **📢 섹션 요약 비유**: ** PAP [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)은 마치 비밀번호를 쓴 **"투명한 유리 엽서"**를 우체부에게 건네어 수취인에게 보내는 것과 같습니다. 누구나 중간에 엿볼 수 있습니다.
 
 ---
 
@@ -39,8 +43,8 @@ tags:
 ### 1. 2-Way 핸드셰이크 구조
 PAP는 클라이언트가 능동적으로 자격 증명을 제시하는 방식(Client-driven)이다. 연결 과정은 매우 단순한 두 단계(요청-응답)로 이루어진다.
 
-1. **Authenticate-Request (요청)**: [[060_hyperledger_architecture_peer_orderer_msp|Peer]](클라이언트)가 서버에게 ID와 비밀번호를 평문으로 전송한다.
-2. **Authenticate-Ack / [[211_nak_negative_acknowledgement|Nak]] (응답)**: Authenticator(서버)가 내부 [[001_dikw_pyramid|데이터]]베이스와 대조 후 승인(ACK) 또는 거절([[211_nak_negative_acknowledgement|NAK]]) 메시지를 반환한다.
+1. **Authenticate-Request (요청)**: [Peer](/knowledge-base/studynote/06_ict_convergence/01_blockchain/060_hyperledger_architecture_peer_orderer_msp/)(클라이언트)가 서버에게 ID와 비밀번호를 평문으로 전송한다.
+2. **Authenticate-Ack / [Nak](/knowledge-base/studynote/03_network/04_data_link_layer_error/211_nak_negative_acknowledgement/) (응답)**: Authenticator(서버)가 내부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스와 대조 후 승인(ACK) 또는 거절([NAK](/knowledge-base/studynote/03_network/04_data_link_layer_error/211_nak_negative_acknowledgement/)) 메시지를 반환한다.
 
 ```text
  ┌─────────────────────────────────────────────────────────────┐
@@ -62,7 +66,7 @@ PAP는 클라이언트가 능동적으로 자격 증명을 제시하는 방식(C
 
 ### 2. 치명적인 취약점: Cleartext 전송
 - **스니핑(Sniffing)**: 와이어샤크(Wireshark) 같은 패킷 분석 도구를 사용해 네트워크 트래픽을 캡처하면, PAP 패킷 내에 포함된 `Peer-ID`와 `Password` 필드의 문자열이 그대로 노출된다.
-- **[[708_replay_attack_timestamp_nonce|재생 공격]]([[274_replay_attack|Replay Attack]])**: 탈취한 ID와 암호 패킷을 해커가 그대로 다시 서버로 전송하여 [[303_authentication_authorization_patterns|인증]]을 통과할 수 있다. PAP에는 재전송 방지를 위한 타임스탬프나 논스([[519_oidc_nonce|Nonce]]) 같은 동적 요소가 없다.
+- **[재생 공격](/knowledge-base/studynote/03_network/14_network_security_threats/708_replay_attack_timestamp_nonce/)([Replay Attack](/knowledge-base/studynote/09_security/03_network_security/274_replay_attack/))**: 탈취한 ID와 암호 패킷을 해커가 그대로 다시 서버로 전송하여 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 통과할 수 있다. PAP에는 재전송 방지를 위한 타임스탬프나 논스([Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/)) 같은 동적 요소가 없다.
 - **무차별 대입 공격(Brute-Force)**: 해커가 클라이언트인 척하며 임의의 비밀번호를 반복해서 보낼 수 있다. (서버 측에서 횟수 제한으로 방어해야 함)
 
 - **📢 섹션 요약 비유**: ** PAP는 너무 구식 자물쇠여서 **"열쇠 구멍을 들여다보면 핀이 어떻게 생겼는지 다 보이는 자물쇠"**와 같습니다. 기술적으로 아무런 암호학적 보호막이 존재하지 않습니다.
@@ -77,7 +81,7 @@ PAP를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 |:---|:---|:---|:---|
 | 초점 | NCP의 기반 정리 | PAP의 핵심 동작 | CHAP의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 오류율 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: PAP는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -85,18 +89,18 @@ PAP를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 PAP를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [[226_ncp_network_control_protocol|NCP]] 수준의 기본 대책으로 충분한지, 아니면 PAP가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 CHAP와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 PAP를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [NCP](/knowledge-base/studynote/03_network/04_data_link_layer_error/226_ncp_network_control_protocol/) 수준의 기본 대책으로 충분한지, 아니면 PAP가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 CHAP와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 오류율 부족인지, 재전송 비용 악화인지 먼저 분리한다.
-2. PAP가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [[396_validation|확인]]한다.
+2. PAP가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
 3. 도입 후에는 인접 기술인 CHAP와의 연계 방식을 함께 검증한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - PAP의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- NCP와의 경계를 정리하지 않아 중복 투자나 [[164_policy|정책]] 충돌을 만드는 설계
+- NCP와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: PAP를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -104,7 +108,7 @@ PAP를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 
 ## Ⅴ. 기대효과 및 결론
 
-PAP는 [[001_dikw_pyramid|데이터]] 링크 계층을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 오류율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [[228_chap_challenge_handshake_authentication_protocol|CHAP]], 고신뢰 저지연 링크 제어, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 고신뢰 저지연 링크 제어 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+PAP는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 오류율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [CHAP](/knowledge-base/studynote/03_network/04_data_link_layer_error/228_chap_challenge_handshake_authentication_protocol/), 고신뢰 저지연 링크 제어, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 고신뢰 저지연 링크 제어 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: PAP는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -114,10 +118,10 @@ PAP는 [[001_dikw_pyramid|데이터]] 링크 계층을 이해할 때 핵심 축�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[226_ncp_network_control_protocol|NCP]] | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [[184_framing_mechanism|프레이밍]] ([[184_framing_mechanism|Framing]]) | 비트열을 의미 있는 전송 단위로 구분한다. |
-| [[188_error_control_overview|오류 제어]] ([[188_error_control_overview|Error Control]]) | 검출과 [[658_ir_recovery|복구]] [[164_policy|정책]]을 함께 설계해야 한다. |
-| [[228_chap_challenge_handshake_authentication_protocol|CHAP]] | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [NCP](/knowledge-base/studynote/03_network/04_data_link_layer_error/226_ncp_network_control_protocol/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [프레이밍](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/) ([Framing](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/)) | 비트열을 의미 있는 전송 단위로 구분한다. |
+| [오류 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/) ([Error Control](/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/)) | 검출과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 함께 설계해야 한다. |
+| [CHAP](/knowledge-base/studynote/03_network/04_data_link_layer_error/228_chap_challenge_handshake_authentication_protocol/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -135,7 +139,7 @@ PAP는 NCP에서 출발해 현재 메커니즘을 정교화하고, 이후 CHAP�
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 편지를 보낼 때 봉투를 제대로 닫고 틀린 글자가 없는지 [[396_validation|확인]]해야 해요.
+1. 편지를 보낼 때 봉투를 제대로 닫고 틀린 글자가 없는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 해요.
 2. 이 개념은 편지가 깨지거나 사라졌을 때 다시 보내는 규칙까지 정해줘요.
 3. 그래서 중간에 흔들려도 중요한 내용이 더 안전하게 도착해요.
 
@@ -145,7 +149,7 @@ PAP는 NCP에서 출발해 현재 메커니즘을 정교화하고, 이후 CHAP�
 
 **진행 상황**: 348 / 1120
 
-← **이전**: [[226_ncp_network_control_protocol|226. NCP (Network Control Protocol)]]
-**다음**: [[228_chap_challenge_handshake_authentication_protocol|228. CHAP (Challenge Handshake Authentication Protocol)]] →
+← **이전**: [226. NCP (Network Control Protocol)](/knowledge-base/studynote/03_network/04_data_link_layer_error/226_ncp_network_control_protocol/)
+**다음**: [228. CHAP (Challenge Handshake Authentication Protocol)](/knowledge-base/studynote/03_network/04_data_link_layer_error/228_chap_challenge_handshake_authentication_protocol/) →
 
 ---

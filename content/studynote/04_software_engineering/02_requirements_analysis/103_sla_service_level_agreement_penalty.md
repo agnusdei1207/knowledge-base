@@ -1,21 +1,25 @@
----
-title: 103. SLA (Service Level Agreement)
-tags:
-- software_engineering
----
++++
+title = "103. SLA (Service Level Agreement)"
+
+[taxonomies]
+tags = ["software_engineering"]
+
+[extra]
+tags = ["software_engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [[085_sla|SLA]] ([[085_sla|Service Level Agreement]], [[090_service_kubernetes_network_load_balancing|서비스]] 수준 협약)는 IT [[090_service_kubernetes_network_load_balancing|서비스]] 제공자(벤더)와 고객 간에 맺어지는 **가장 최상위의 비즈니스적, 법적 [[090_service_kubernetes_network_load_balancing|서비스]] 품질 보증 계약서**이다.
-> 2. **가치**: 모호한 형용사를 배제하고 [[452_availability|가용성]], [[138_response_time|응답 시간]] 등 측정 가능한 수치(지표)를 명문화하여, [[090_service_kubernetes_network_load_balancing|서비스]] 장애 시 책임 소재를 명확히 하고 재정적 패널티([[090_service_kubernetes_network_load_balancing|Service]] Credits) 기준을 제공한다.
-> 3. **판단 포인트**: 기술 조직 내부의 엄격한 목표인 [[181_slo_service_level_objective|SLO]] ([[123_slo_service_level_objective|Service Level Objective]])보다 항상 더 낮고 여유로운 수치로 SLA를 설정하여, 잦은 재무적 배상(위약금) [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]로부터 비즈니스를 방어하는 것이 핵심 설계 전략이다.
+> 1. **본질**: [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/), [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 협약)는 IT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공자(벤더)와 고객 간에 맺어지는 **가장 최상위의 비즈니스적, 법적 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질 보증 계약서**이다.
+> 2. **가치**: 모호한 형용사를 배제하고 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 등 측정 가능한 수치(지표)를 명문화하여, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애 시 책임 소재를 명확히 하고 재정적 패널티([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Credits) 기준을 제공한다.
+> 3. **판단 포인트**: 기술 조직 내부의 엄격한 목표인 [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) ([Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/))보다 항상 더 낮고 여유로운 수치로 SLA를 설정하여, 잦은 재무적 배상(위약금) [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)로부터 비즈니스를 방어하는 것이 핵심 설계 전략이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-클라우드 컴퓨팅과 IT 아웃소싱이 보편화되면서 인프라의 장애가 곧 고객 기업의 대규모 금전적 손실로 직결되는 시대가 되었다. [[085_sla|SLA]] ([[085_sla|Service Level Agreement]])는 "우리가 제공하는 시스템이 어느 정도의 품질(Uptime, [[141_latency|Latency]] 등)을 보장할 것인가"를 서면으로 확약하는 공식 문서다.
+클라우드 컴퓨팅과 IT 아웃소싱이 보편화되면서 인프라의 장애가 곧 고객 기업의 대규모 금전적 손실로 직결되는 시대가 되었다. [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))는 "우리가 제공하는 시스템이 어느 정도의 품질(Uptime, [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 등)을 보장할 것인가"를 서면으로 확약하는 공식 문서다.
 
-클라우드 사업자가 "최대한 안정적으로 서버를 운영하겠다"라고 구두로 약속하는 것만으로는 블랙프라이데이 같은 대규모 트래픽 발생 시 벌어지는 시스템 다운타임 피해를 보상받을 수 없다. SLA가 없다면 장애 발생 시 책임 회피와 끝없는 법적 공방이 이어지게 된다. 따라서 SLA는 고객에게는 손실에 대한 재무적 보상망(Safety Net)이 되며, [[090_service_kubernetes_network_load_balancing|서비스]] 제공자에게는 [[090_service_kubernetes_network_load_balancing|서비스]] 아키텍처의 [[452_availability|가용성]] 목표를 강제하는 가장 강력한 기준점이 된다.
+클라우드 사업자가 "최대한 안정적으로 서버를 운영하겠다"라고 구두로 약속하는 것만으로는 블랙프라이데이 같은 대규모 트래픽 발생 시 벌어지는 시스템 다운타임 피해를 보상받을 수 없다. SLA가 없다면 장애 발생 시 책임 회피와 끝없는 법적 공방이 이어지게 된다. 따라서 SLA는 고객에게는 손실에 대한 재무적 보상망(Safety Net)이 되며, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공자에게는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 아키텍처의 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 목표를 강제하는 가장 강력한 기준점이 된다.
 
 - **📢 섹션 요약 비유**: SLA는 새로 산 자동차의 **'엔진 무상보증 계약서'**와 같다. "차가 잘 달립니다"라는 딜러의 말이 아니라, "3년 또는 6만 km 이내에 엔진이 고장 나면 100% 무상 교체해 준다"라고 도장이 찍힌 법적 안전장치다.
 
@@ -23,7 +27,7 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[[085_sla|SLA]] 문서가 법적 효력을 발휘하기 위해서는 형용사가 아닌 컴퓨터 모니터링 시스템으로 100% 추적(Tracking) 및 측정 가능한 명확한 수치([[342_routing_metric_hop_bandwidth_delay|Metric]])로 구성되어야 한다.
+[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 문서가 법적 효력을 발휘하기 위해서는 형용사가 아닌 컴퓨터 모니터링 시스템으로 100% 추적(Tracking) 및 측정 가능한 명확한 수치([Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))로 구성되어야 한다.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────┐
@@ -47,25 +51,25 @@ tags:
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
-이 구조에서 가장 핵심적인 원리는 **[[090_service_kubernetes_network_load_balancing|서비스]] 크레딧([[090_service_kubernetes_network_load_balancing|Service]] Credits)**이라는 재무적 패널티 조항이다. SLA는 제공자가 목표를 미달했을 때 단순히 사과하는 것이 아니라, 다음 달 청구 요금에서 명시된 비율만큼의 금액을 강제로 할인해 주는 구조로 작동한다. 이 배상금(크레딧)은 벤더의 수익률을 직접 타격하므로 [[100_sre_site_reliability_engineering_error_budget|SRE]] ([[100_sre_site_reliability_engineering_error_budget|Site Reliability Engineering]]) 팀이 인프라에 투자해야 할 가장 강력한 동기부여가 된다.
+이 구조에서 가장 핵심적인 원리는 **[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 크레딧([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Credits)**이라는 재무적 패널티 조항이다. SLA는 제공자가 목표를 미달했을 때 단순히 사과하는 것이 아니라, 다음 달 청구 요금에서 명시된 비율만큼의 금액을 강제로 할인해 주는 구조로 작동한다. 이 배상금(크레딧)은 벤더의 수익률을 직접 타격하므로 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 팀이 인프라에 투자해야 할 가장 강력한 동기부여가 된다.
 
-- **📢 섹션 요약 비유**: [[085_sla|SLA]] 구조는 **'피자 30분 배달 보증제'**와 완벽히 똑같다. "최대한 빨리 갈게요(추상적)"가 아니라, "30분(보증 지표)이 넘으면, 눈비가 오지 않는 한(예외 조항), 피자값을 안 받겠습니다(패널티 크레딧)"라고 명확한 숫자와 보상액을 걸어두는 것이다.
+- **📢 섹션 요약 비유**: [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 구조는 **'피자 30분 배달 보증제'**와 완벽히 똑같다. "최대한 빨리 갈게요(추상적)"가 아니라, "30분(보증 지표)이 넘으면, 눈비가 오지 않는 한(예외 조항), 피자값을 안 받겠습니다(패널티 크레딧)"라고 명확한 숫자와 보상액을 걸어두는 것이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-[[100_sre_site_reliability_engineering_error_budget|SRE]] 생태계에서 SLA는 [[102_sli_slo_service_level_indicator_objective|SLI]], SLO와 반드시 트리오(Trio)로 연결되어 시스템 관제의 거대한 방어선을 형성한다. 이 세 가지의 경계를 정확히 구분해야 한다.
+[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 생태계에서 SLA는 [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/), SLO와 반드시 트리오(Trio)로 연결되어 시스템 관제의 거대한 방어선을 형성한다. 이 세 가지의 경계를 정확히 구분해야 한다.
 
 | 지표 명칭 | 약어 전체 명칭 | 역할 및 성격 | 수치 예시 | 비유 |
 |:---|:---|:---|:---|:---|
-| **[[102_sli_slo_service_level_indicator_objective|SLI]]** | [[102_sli_slo_service_level_indicator_objective|Service Level Indicator]] (수준 **지표**) | 시스템 상태를 초 단위로 읽어내는 **현재의 실제 관측치** | 가동률 `99.95%` | 현재 자동차 계기판 속도 (110km/h) |
-| **[[181_slo_service_level_objective|SLO]]** | [[123_slo_service_level_objective|Service Level Objective]] (수준 **목표**) | 엔지니어링 팀 내부에서 쫀쫀하게 합의한 **자체 목표치** | 가동률 `99.90%` | 과속 안 하겠다는 나의 굳은 다짐 (100km/h) |
-| **[[085_sla|SLA]]** | [[085_sla|Service Level Agreement]] (수준 **협약**) | 고객과 맺은 법적인 외부 계약으로, **위약금 발생의 마지노선** | 가동률 `99.50%` | 경찰의 과속 단속 카메라 벌금 기준 (120km/h) |
+| **[SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)** | [Service Level Indicator](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) (수준 **지표**) | 시스템 상태를 초 단위로 읽어내는 **현재의 실제 관측치** | 가동률 `99.95%` | 현재 자동차 계기판 속도 (110km/h) |
+| **[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)** | [Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/) (수준 **목표**) | 엔지니어링 팀 내부에서 쫀쫀하게 합의한 **자체 목표치** | 가동률 `99.90%` | 과속 안 하겠다는 나의 굳은 다짐 (100km/h) |
+| **[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)** | [Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) (수준 **협약**) | 고객과 맺은 법적인 외부 계약으로, **위약금 발생의 마지노선** | 가동률 `99.50%` | 경찰의 과속 단속 카메라 벌금 기준 (120km/h) |
 
-핵심은 **[[085_sla|SLA]] 수치가 항상 [[181_slo_service_level_objective|SLO]] 수치보다 낮고 여유로워야 한다**는 점이다. 내부 목표인 [[181_slo_service_level_objective|SLO]](99.9%)가 깨지더라도 아직 고객과 계약한 [[085_sla|SLA]](99.5%)까지는 버퍼가 남아 있으므로 당장 위약금을 물지 않는다. 즉, [[181_slo_service_level_objective|SLO]] 위반은 엔지니어들이 코드 배포를 멈추고 시스템을 정비하게 만드는 내부 알람 역할을 하고, SLA는 회사의 재무팀이 출동하게 만드는 최종 파멸의 경계선 역할을 분담한다.
+핵심은 **[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 수치가 항상 [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) 수치보다 낮고 여유로워야 한다**는 점이다. 내부 목표인 [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)(99.9%)가 깨지더라도 아직 고객과 계약한 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)(99.5%)까지는 버퍼가 남아 있으므로 당장 위약금을 물지 않는다. 즉, [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) 위반은 엔지니어들이 코드 배포를 멈추고 시스템을 정비하게 만드는 내부 알람 역할을 하고, SLA는 회사의 재무팀이 출동하게 만드는 최종 파멸의 경계선 역할을 분담한다.
 
-- **📢 섹션 요약 비유**: 이 3단계 구조는 **'시험 성적 방어망'**과 같다. 내 실제 모의고사 점수([[102_sli_slo_service_level_indicator_objective|SLI]])가 85점일 때, 내 마음속 1등급 목표([[181_slo_service_level_objective|SLO]])인 90점에는 못 미쳐서 우울하지만, 부모님과 약속한 용돈 삭감 컷트라인([[085_sla|SLA]])인 70점까지는 한참 남았으므로 당장 주머니가 털리지는 않는 안전거리 확보 전략이다.
+- **📢 섹션 요약 비유**: 이 3단계 구조는 **'시험 성적 방어망'**과 같다. 내 실제 모의고사 점수([SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/))가 85점일 때, 내 마음속 1등급 목표([SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/))인 90점에는 못 미쳐서 우울하지만, 부모님과 약속한 용돈 삭감 컷트라인([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))인 70점까지는 한참 남았으므로 당장 주머니가 털리지는 않는 안전거리 확보 전략이다.
 
 ---
 
@@ -73,22 +77,22 @@ tags:
 
 클라우드 아키텍처 설계와 B2B 외주 계약 체결 시 기술사가 조율해야 할 실무적 판단 기준이다.
 
-### [[435_checklist_based_testing|체크리스트]] 및 판단 기준
-1. **[[085_sla|SLA]] 합산([[261_composite_pattern_tree_structure|Composite]] [[085_sla|SLA]]) 아키텍처 함정 판단**: [[532_microservices_decomposition_patterns|마이크로서비스]]([[619_msa_traffic_hardware|MSA]]) 시스템에서 AWS의 EC2 ([[085_sla|SLA]] 99.9%)와 RDS [[002_database_definition|데이터베이스]] ([[085_sla|SLA]] 99.9%)를 동시에 거쳐야만 고객 응답이 나간다면, 이 시스템의 전체 SLA는 $99.9\% \times 99.9\% = 99.8\%$로 뚝 떨어진다. 외부 컴포넌트가 [[149_serial_communication_rs232_rs485|직렬]]로 연결될수록 전체 [[452_availability|가용성]]은 기하급수적으로 하락([[149_serial_communication_rs232_rs485|직렬]] 곱의 법칙)하므로, [[454_spof|단일 장애점]]([[454_spof|SPOF]])을 제거하고 캐싱이나 서킷 브레이커를 도입하여 의존성을 끊어내야 한다.
-2. **[[101_error_budget_sre|에러 예산]] ([[101_error_budget_sre|Error Budget]]) 기반의 릴리즈 통제**: 모니터링 시스템이 현재 SLA를 위협할 정도로 에러가 치솟았음을 감지하면, 기술 조직의 리더는 즉각적으로 신규 기능 릴리즈(배포)를 중단(Freeze)하고 모든 개발 자원을 시스템 안정성과 버그 수정에 투입하도록 강제해야 한다. 이것이 SLA를 엔지니어링 실무 통제 도구로 쓰는 핵심이다.
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 판단 기준
+1. **[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 합산([Composite](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)) 아키텍처 함정 판단**: [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 시스템에서 AWS의 EC2 ([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 99.9%)와 RDS [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) ([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 99.9%)를 동시에 거쳐야만 고객 응답이 나간다면, 이 시스템의 전체 SLA는 $99.9\% \times 99.9\% = 99.8\%$로 뚝 떨어진다. 외부 컴포넌트가 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)로 연결될수록 전체 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)은 기하급수적으로 하락([직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 곱의 법칙)하므로, [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))을 제거하고 캐싱이나 서킷 브레이커를 도입하여 의존성을 끊어내야 한다.
+2. **[에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) ([Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)) 기반의 릴리즈 통제**: 모니터링 시스템이 현재 SLA를 위협할 정도로 에러가 치솟았음을 감지하면, 기술 조직의 리더는 즉각적으로 신규 기능 릴리즈(배포)를 중단(Freeze)하고 모든 개발 자원을 시스템 안정성과 버그 수정에 투입하도록 강제해야 한다. 이것이 SLA를 엔지니어링 실무 통제 도구로 쓰는 핵심이다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
-- **내부 부서 간에 법적 SLA를 맺는 행위**: 사내의 DB팀과 프론트엔드팀 사이에 금전적 배상이 불가능함에도 무리하게 SLA를 작성하여 책임 전가 문서를 만드는 경우. 사내 부서 간에는 패널티가 동반되는 SLA가 아니라, 상호 협력 지향적인 [[181_slo_service_level_objective|SLO]] 문서만을 정의하고 [[101_error_budget_sre|에러 예산]] 소진 규칙에만 합의해야 전사적 장애 대응에 유리하다.
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- **내부 부서 간에 법적 SLA를 맺는 행위**: 사내의 DB팀과 프론트엔드팀 사이에 금전적 배상이 불가능함에도 무리하게 SLA를 작성하여 책임 전가 문서를 만드는 경우. 사내 부서 간에는 패널티가 동반되는 SLA가 아니라, 상호 협력 지향적인 [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) 문서만을 정의하고 [에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) 소진 규칙에만 합의해야 전사적 장애 대응에 유리하다.
 
-- **📢 섹션 요약 비유**: 복합 [[085_sla|SLA]] 함정은 **'릴레이 달리기'**와 같다. 한 명이 99% 확률로 바통을 넘기고, 다음 사람도 99%로 잘 넘겨도, 10명이 이어달리면 중간에 누군가 바통을 떨어뜨릴 전체 실패 확률은 무려 [[489_raid_10_hybrid|10]]%로 커진다. 부품이 연결될수록 전체 계약 보증은 불리해지므로 여유를 두고 계약해야 한다.
+- **📢 섹션 요약 비유**: 복합 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 함정은 **'릴레이 달리기'**와 같다. 한 명이 99% 확률로 바통을 넘기고, 다음 사람도 99%로 잘 넘겨도, 10명이 이어달리면 중간에 누군가 바통을 떨어뜨릴 전체 실패 확률은 무려 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%로 커진다. 부품이 연결될수록 전체 계약 보증은 불리해지므로 여유를 두고 계약해야 한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-SLA는 추상적이고 감정적인 IT [[090_service_kubernetes_network_load_balancing|서비스]] 품질 논쟁을 객관적인 숫자의 영역으로 끌고 들어와 비즈니스 계약의 투명성을 확보한다. 철저히 관리된 SLA는 고객에게는 시스템에 대한 깊은 신뢰를 심어주고, 제공자에게는 시스템 [[452_availability|가용성]](High [[452_availability|Availability]]) 아키텍처에 비용을 투자할 명확한 근거(재무적 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 방어)를 제시한다.
+SLA는 추상적이고 감정적인 IT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질 논쟁을 객관적인 숫자의 영역으로 끌고 들어와 비즈니스 계약의 투명성을 확보한다. 철저히 관리된 SLA는 고객에게는 시스템에 대한 깊은 신뢰를 심어주고, 제공자에게는 시스템 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)(High [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)) 아키텍처에 비용을 투자할 명확한 근거(재무적 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 방어)를 제시한다.
 
-현대의 [[100_sre_site_reliability_engineering_error_budget|SRE]] 생태계에서 SLA는 단순히 책상 서랍 속에 잠자고 있는 법적 서류가 아니다. 모니터링 대시보드 위에서 실시간으로 갱신되며 코드 배포를 멈출지 말지를 결정하는 살아있는 운영 잣대([[342_routing_metric_hop_bandwidth_delay|Metric]])다. 결국 훌륭한 시스템 아키텍트는 인프라만 설계하는 것이 아니라, 고객이 납득하고 회사의 재무를 보호할 수 있는 우아한 [[085_sla|SLA]] 방어선을 함께 설계하는 비즈니스 엔지니어여야 한다.
+현대의 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 생태계에서 SLA는 단순히 책상 서랍 속에 잠자고 있는 법적 서류가 아니다. 모니터링 대시보드 위에서 실시간으로 갱신되며 코드 배포를 멈출지 말지를 결정하는 살아있는 운영 잣대([Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))다. 결국 훌륭한 시스템 아키텍트는 인프라만 설계하는 것이 아니라, 고객이 납득하고 회사의 재무를 보호할 수 있는 우아한 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 방어선을 함께 설계하는 비즈니스 엔지니어여야 한다.
 
 - **📢 섹션 요약 비유**: SLA는 복잡한 IT 세계의 **'신용 화폐'**와 같다. 장애가 아예 없는 시스템은 세상에 존재할 수 없지만, "장애가 선을 넘으면 내 피 같은 돈(크레딧)을 토해내겠다"는 피도 눈물도 없는 담보가 얽혀 있기 때문에 고객이 안심하고 서버를 맡길 수 있는 것이다.
 
@@ -98,9 +102,9 @@ SLA는 추상적이고 감정적인 IT [[090_service_kubernetes_network_load_bal
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[[181_slo_service_level_objective|SLO]] ([[123_slo_service_level_objective|Service Level Objective]])** | [[085_sla|SLA]] 위반을 사전에 방어하기 위해 [[100_sre_site_reliability_engineering_error_budget|SRE]] 팀 내부적으로 SLA보다 더 타이트하게 설정해 두는 자체 가동률 목표 |
-| **[[101_error_budget_sre|Error Budget]] ([[101_error_budget_sre|에러 예산]])** | SLO를 100%에서 뺀 나머지 잉여 공간. 이 예산(여유 시간)이 넉넉하면 혁신적인 코드 배포를 하고, 바닥나면 릴리즈를 멈춰 [[085_sla|SLA]] 붕괴를 막는다 |
-| **[[451_mttr|MTTR]] (Mean Time To [[658_ir_recovery|Recovery]])** | 장애 인지부터 [[090_service_kubernetes_network_load_balancing|서비스]] 정상화까지 걸리는 평균 [[658_ir_recovery|복구]] 시간으로, [[085_sla|SLA]] 패널티를 피하기 위한 가장 직접적인 대응 지표 |
+| **[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) ([Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/))** | [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 위반을 사전에 방어하기 위해 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 팀 내부적으로 SLA보다 더 타이트하게 설정해 두는 자체 가동률 목표 |
+| **[Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) ([에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/))** | SLO를 100%에서 뺀 나머지 잉여 공간. 이 예산(여유 시간)이 넉넉하면 혁신적인 코드 배포를 하고, 바닥나면 릴리즈를 멈춰 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 붕괴를 막는다 |
+| **[MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) (Mean Time To [Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))** | 장애 인지부터 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 정상화까지 걸리는 평균 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간으로, [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 패널티를 피하기 위한 가장 직접적인 대응 지표 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -123,7 +127,7 @@ Error Budget (에러 예산) 연동 자동화 릴리즈 통제
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 피자 가게 아저씨가 "최대한 빨리 갈게요"라고 말만 하면 우리가 1시간을 기다려도 화낼 수가 없죠?
-2. 하지만 [[085_sla|SLA]]([[090_service_kubernetes_network_load_balancing|서비스]] 협약)는 아예 전단지에 "30분 넘으면 피자값을 100% 환불해 드립니다!"라고 도장을 쾅 찍어놓은 강력한 약속이에요.
+2. 하지만 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 협약)는 아예 전단지에 "30분 넘으면 피자값을 100% 환불해 드립니다!"라고 도장을 쾅 찍어놓은 강력한 약속이에요.
 3. 이렇게 벌금(위약금)이라는 무서운 규칙을 정해두면, 컴퓨터 회사들이 서버가 고장 나지 않게 훨씬 더 열심히 조심해서 관리하게 된답니다.
 
 ---
@@ -132,7 +136,7 @@ Error Budget (에러 예산) 연동 자동화 릴리즈 통제
 
 **진행 상황**: 103 / 973
 
-← **이전**: [[102_sli_slo_service_level_indicator_objective|102. SLI (Service Level Indicator) / SLO (Service Level Objective)]]
-**다음**: [[104_toil_automation_sre|104. 토일 (Toil) - SRE에서 줄여야 할 단순 반복적 운영 작업]] →
+← **이전**: [102. SLI (Service Level Indicator) / SLO (Service Level Objective)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)
+**다음**: [104. 토일 (Toil) - SRE에서 줄여야 할 단순 반복적 운영 작업](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/104_toil_automation_sre/) →
 
 ---

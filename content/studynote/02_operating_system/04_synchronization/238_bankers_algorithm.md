@@ -1,24 +1,28 @@
----
-title: 238. 은행원 알고리즘 (Banker's Algorithm)
-date: '2026-05-09'
-tags:
-- studynote-operating-system
----
++++
+title = "238. 은행원 알고리즘 (Banker's Algorithm)"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 은행원 [[001_algorithm_definition|알고리즘]] (Banker's [[001_algorithm_definition|Algorithm]])은 [[001_operating_system_purpose|운영체제]]가 프로세스에게 자원([[510_lock|Lock]])을 할당할 때마다 미리 **자금 융통 시뮬레이션(행렬 계산)**을 돌려, 시스템이 파산([[281_deadlock_definition|Deadlock]])하지 않는 '[[298_safe_state|안전 상태]]([[298_safe_state|Safe State]])'를 유지할 수 있을 때만 대출(할당)을 승인하는 [[297_deadlock_avoidance|교착 상태 회피]] 기법이다.
-> 2. **가치**: 데이크스트라([[036_dijkstra|Dijkstra]])가 고안한 이 [[001_algorithm_definition|알고리즘]]은 다중 인스턴스(Multiple Instance) 자원 환경에서도 [[281_deadlock_definition|교착 상태]]를 완벽하게 예측하고 회피할 수 있는 컴퓨터 공학 사상 가장 아름답고 수학적인 증명 모델을 제시했다.
-> 3. **융합**: 하지만 "프로세스가 평생 쓸 최대 자원량(Max)을 미리 알아야 한다"는 비현실적 전제 조건과 매 요청마다 $O(M \times N^2)$의 거대한 [[022_kernel_role|커널]] 오버헤드를 유발하기 때문에, 현대 범용 OS [[022_kernel_role|커널]]에서는 완전히 폐기되었고 클라우드 K8s [[085_pod_kubernetes_container_unit|파드]] 할당 등 거시적 인프라 스케줄링으로 무대를 옮겼다.
+> 1. **본질**: 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Banker's [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 프로세스에게 자원([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 할당할 때마다 미리 **자금 융통 시뮬레이션(행렬 계산)**을 돌려, 시스템이 파산([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))하지 않는 '[안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/)([Safe State](/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/))'를 유지할 수 있을 때만 대출(할당)을 승인하는 [교착 상태 회피](/knowledge-base/studynote/02_operating_system/05_deadlock/297_deadlock_avoidance/) 기법이다.
+> 2. **가치**: 데이크스트라([Dijkstra](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/))가 고안한 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 다중 인스턴스(Multiple Instance) 자원 환경에서도 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)를 완벽하게 예측하고 회피할 수 있는 컴퓨터 공학 사상 가장 아름답고 수학적인 증명 모델을 제시했다.
+> 3. **융합**: 하지만 "프로세스가 평생 쓸 최대 자원량(Max)을 미리 알아야 한다"는 비현실적 전제 조건과 매 요청마다 $O(M \times N^2)$의 거대한 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 오버헤드를 유발하기 때문에, 현대 범용 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서는 완전히 폐기되었고 클라우드 K8s [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 할당 등 거시적 인프라 스케줄링으로 무대를 옮겼다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 은행이 고객에게 대출해 줄 때 "내가 이 돈을 빌려줘도 은행 잔고가 바닥나지 않고(뱅크런 방지), 다른 고객들의 예금을 돌려줄 수 있는가?"를 [[395_verification_process_review|검증]]하는 깐깐한 심사 과정을 [[001_operating_system_purpose|운영체제]] [[041_resource_allocation|자원 할당]] 로직에 그대로 이식한 [[001_algorithm_definition|알고리즘]]이다.
-- **필요성**: 단일 자원(프린터 딱 1대)일 때는 [[287_resource_allocation_graph|자원 할당 그래프]]([[276_fine_tuning|RAG]])에서 선을 긋고 사이클(Cycle)만 찾으면 데드락을 회피할 수 있었다. 하지만 현실의 서버는 CPU 64개, 메모리 128GB 등 다중 자원(Multiple Instances)의 집합체다. 다중 자원에서는 사이클이 생겨도 데드락이 아닐 수 있기 때문에, [[070_graph_datastructure|그래프]] 선 긋기 따위로는 안전성을 판별할 수 없어 정밀한 '행렬(Matrix) 대수학' 계산기가 필요해졌다.
+- **개념**: 은행이 고객에게 대출해 줄 때 "내가 이 돈을 빌려줘도 은행 잔고가 바닥나지 않고(뱅크런 방지), 다른 고객들의 예금을 돌려줄 수 있는가?"를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 깐깐한 심사 과정을 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) 로직에 그대로 이식한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
+- **필요성**: 단일 자원(프린터 딱 1대)일 때는 [자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/)([RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/))에서 선을 긋고 사이클(Cycle)만 찾으면 데드락을 회피할 수 있었다. 하지만 현실의 서버는 CPU 64개, 메모리 128GB 등 다중 자원(Multiple Instances)의 집합체다. 다중 자원에서는 사이클이 생겨도 데드락이 아닐 수 있기 때문에, [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 선 긋기 따위로는 안전성을 판별할 수 없어 정밀한 '행렬(Matrix) 대수학' 계산기가 필요해졌다.
 
-- **등장 배경**: 1965년 에츠허르 데이크스트라가 [[673_multiprogramming_bottleneck_resource|다중 프로그래밍]] 시스템(THE [[001_operating_system_purpose|운영체제]])을 설계할 때, 제한된 시스템 자원을 여러 프로세스에게 데드락 없이 분배하기 위한 해법으로 발표했다. 이 [[001_algorithm_definition|알고리즘]]은 [[001_operating_system_purpose|운영체제]]가 단순한 하드웨어 관리자를 넘어 '지능적인 자원 은행'으로 거듭나게 한 상징적 사건이다.
+- **등장 배경**: 1965년 에츠허르 데이크스트라가 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 시스템(THE [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))을 설계할 때, 제한된 시스템 자원을 여러 프로세스에게 데드락 없이 분배하기 위한 해법으로 발표했다. 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 단순한 하드웨어 관리자를 넘어 '지능적인 자원 은행'으로 거듭나게 한 상징적 사건이다.
 
 ```text
   [은행원 알고리즘의 동작 철학 (대출 심사 과정)]
@@ -38,26 +42,26 @@ tags:
   [승인/할당]  [거절/대기] ─▶ "고객님, 지금 대출 나가면 저희 파산(Unsafe)합니다. 
                             다른 분이 돈 갚을 때까지 대기실에서 주무세요(Sleep)!"
 ```
-**[다이어그램 해설]** 은행원 [[001_algorithm_definition|알고리즘]]은 절대 모험을 하지 않는다. "내가 가진 모든 자원을 풀로 당겨 써도 안전하게 회수할 수 있는가?"라는 최악의 시나리오(Worst-case Scenario)를 매번 가정한다. 이 극단적인 보수성 덕분에 100% 데드락 면역력을 갖지만, 반대로 엄청난 기회비용(대기 시간)을 초래한다.
+**[다이어그램 해설]** 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 절대 모험을 하지 않는다. "내가 가진 모든 자원을 풀로 당겨 써도 안전하게 회수할 수 있는가?"라는 최악의 시나리오(Worst-case Scenario)를 매번 가정한다. 이 극단적인 보수성 덕분에 100% 데드락 면역력을 갖지만, 반대로 엄청난 기회비용(대기 시간)을 초래한다.
 
-- **📢 섹션 요약 비유**: 대출 심사를 할 때, 고객이 "저 월 100만 원씩 갚을 수 있어요"라고 말하는 건 믿지 않습니다. "고객이 내일 당장 직장에서 잘리고 빚쟁이가 몰려왔을 때도(Max Need 요구 시) 우리 은행 돈을 갚을 수 있는가?"라는 최악의 조건만 통과해야 대출을 내어주는 피도 눈물도 없는 심사 [[001_algorithm_definition|알고리즘]]입니다.
+- **📢 섹션 요약 비유**: 대출 심사를 할 때, 고객이 "저 월 100만 원씩 갚을 수 있어요"라고 말하는 건 믿지 않습니다. "고객이 내일 당장 직장에서 잘리고 빚쟁이가 몰려왔을 때도(Max Need 요구 시) 우리 은행 돈을 갚을 수 있는가?"라는 최악의 조건만 통과해야 대출을 내어주는 피도 눈물도 없는 심사 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 은행원 [[001_algorithm_definition|알고리즘]]의 4대 핵심 자료구조 (행렬과 벡터)
+### 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 4대 핵심 자료구조 (행렬과 벡터)
 
-[[001_algorithm_definition|알고리즘]]이 돌아가려면 [[022_kernel_role|커널]]의 메모리 속에 4개의 엑셀 표가 실시간으로 관리되어야 한다. (프로세스 수 $N$, 자원 종류 $M$)
+[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 돌아가려면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 메모리 속에 4개의 엑셀 표가 실시간으로 관리되어야 한다. (프로세스 수 $N$, 자원 종류 $M$)
 
 1. **`Max[N][M]` (최대 요구 행렬)**: 각 프로세스가 평생 동안 최대로 필요로 할 자원의 수. (개발자가 미리 선언해야 함)
 2. **`Allocation[N][M]` (할당 행렬)**: 현재 각 프로세스에게 실제로 빌려준 자원의 수.
 3. **`Need[N][M]` (추가 요구 행렬)**: 프로세스가 앞으로 더 빌려달라고 할 수 있는 최대치. (`Max - Allocation` 으로 계산)
 4. **`Available[M]` (가용 벡터)**: 현재 은행(OS) 금고에 남아있는 잉여 자원의 수.
 
-### 시뮬레이션: 자원 요청 수락 로직 (Resource-Request [[001_algorithm_definition|Algorithm]])
+### 시뮬레이션: 자원 요청 수락 로직 (Resource-Request [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))
 
-**[초기 상태]** 자원 A, B, C가 총 ([[489_raid_10_hybrid|10]], 5, 7)개 있다.
+**[초기 상태]** 자원 A, B, C가 총 ([10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/), 5, 7)개 있다.
 현재 `Available` = (3, 3, 2)
 
 | 프로세스 | Allocation (A, B, C) | Max (A, B, C) | Need (A, B, C) |
@@ -69,15 +73,15 @@ tags:
 **[상황] P1이 자원 (1, 0, 2)를 추가로 요청했다!**
 
 **Step 1. 기본 검사**
-- `요청 (1,0,2) <= P1의 Need (1,2,2)` [[509_authorization_models_rbac_abac|인가]]? ─▶ 통과 (지 분수 안에서 요구함)
-- `요청 (1,0,2) <= Available (3,3,2)` [[509_authorization_models_rbac_abac|인가]]? ─▶ 통과 (은행에 돈 있음)
+- `요청 (1,0,2) <= P1의 Need (1,2,2)` [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)? ─▶ 통과 (지 분수 안에서 요구함)
+- `요청 (1,0,2) <= Available (3,3,2)` [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)? ─▶ 통과 (은행에 돈 있음)
 
 **Step 2. 가짜 장부 작성 (임시 할당)**
 - Available 깎기: (3,3,2) - (1,0,2) = **(2,3,0)**
 - P1 Alloc 늘리기: (2,0,0) + (1,0,2) = **(3,0,2)**
 - P1 Need 깎기: (1,2,2) - (1,0,2) = **(0,2,0)**
 
-**Step 3. [[298_safe_state|안전 상태]]([[298_safe_state|Safe State]]) [[395_verification_process_review|검증]] (Safety [[001_algorithm_definition|Algorithm]])**
+**Step 3. [안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/)([Safe State](/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/)) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) (Safety [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))**
 현재 은행 잔고는 **(2, 3, 0)**이다. 이 돈으로 누구의 빚(Need)을 청산해 줄 수 있나?
 - P0의 Need (7,4,3) ─▶ 🚨 잔고(2,3,0) 부족. 패스.
 - **P1의 Need (0,2,0)** ─▶ ✅ 잔고(2,3,0)로 충분히 덮음! 
@@ -88,7 +92,7 @@ tags:
 - 더 이상 살릴 수 있는 놈이 없다. **안전 순서열 구축 실패!**
 
 **Step 4. 결론 도출**
-- [[079_kube_scheduler_pod_placement|스케줄러]]: "야 P1! 내가 시뮬레이션 돌려보니까 너한테 (1,0,2)를 주면 시스템 잔고가 (2,3,0)이 되는데, 이 돈으론 아무도 못 살려서 파산([[299_unsafe_state|Unsafe State]])하더라. **방금 쓴 가짜 장부 다 찢어버리고([[313_rollback|Rollback]]), 너는 대출 거부다! 대기실로 꺼져(Sleep)!**"
+- [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/): "야 P1! 내가 시뮬레이션 돌려보니까 너한테 (1,0,2)를 주면 시스템 잔고가 (2,3,0)이 되는데, 이 돈으론 아무도 못 살려서 파산([Unsafe State](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/))하더라. **방금 쓴 가짜 장부 다 찢어버리고([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/)), 너는 대출 거부다! 대기실로 꺼져(Sleep)!**"
 
 - **📢 섹션 요약 비유**: 아무리 고객의 신용이 좋아도, 오늘 은행 시재(현금)가 100만 원 남았을 때 고객이 50만 원을 빼가면 오후에 올 다른 큰손들의 적금을 내어줄 수 없는 꼬이는 상황이 발생합니다. 은행원은 이 미래의 나비효과를 머릿속으로 모두 시뮬레이션해 본 뒤 "오늘은 돈이 말랐으니 내일 다시 오세요"라고 돌려보냅니다.
 
@@ -98,31 +102,31 @@ tags:
 
 ### 데드락 방어 3대장 스펙 비교
 
-| 비교 항목 | 예방 (Prevention) | 회피 (Banker's [[001_algorithm_definition|Algorithm]]) | 탐지 및 [[658_ir_recovery|복구]] ([[961_deepfake_detection|Detection]]) |
+| 비교 항목 | 예방 (Prevention) | 회피 (Banker's [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) | 탐지 및 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) ([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/)) |
 |:---|:---|:---|:---|
 | **설계 마인드** | **"절대 범죄가 불가능한 감옥을 짓자"** | **"범죄가 일어날 것 같으면 피하자"** | **"일단 터지게 냅두고, 터지면 쏴 죽이자"** |
 | **자원 이용률** | 최악 (과도한 낭비) | 준수 (필요할 때만 줌) | **최상 (풀 대출 허용)** |
 | **오버헤드** | 없음 (규칙만 지키면 됨) | **매 요청 시마다 $O(M \times N^2)$ 행렬 연산** | 가끔 한 번씩 검사할 때만 $O(M \times N^2)$ 발생 |
-| **비현실성** | "모든 락은 순서대로 잡아라" (코딩 빡셈) | **"미래에 최대 얼마 쓸지 미리 말해라" (구현 불가)** | [[098_rollback_strategy_pipeline_error_threshold|롤백]]([[313_rollback|Rollback]]) 코드를 짜야 함 (DB 아니면 힘듦) |
+| **비현실성** | "모든 락은 순서대로 잡아라" (코딩 빡셈) | **"미래에 최대 얼마 쓸지 미리 말해라" (구현 불가)** | [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/)) 코드를 짜야 함 (DB 아니면 힘듦) |
 
-### 은행원 [[001_algorithm_definition|알고리즘]]의 치명적 한계 (현실과의 괴리)
+### 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 치명적 한계 (현실과의 괴리)
 데이크스트라의 이 완벽한 수학 공식이 교과서에만 머물게 된 3가지 이유다.
-1. **Max 행렬의 사전 요구**: 프로세스가 시작할 때 "내가 평생 쓸 자원의 최대치"를 [[001_operating_system_purpose|운영체제]]에 보고해야 한다. 브라우저가 사용자가 탭을 몇 개 열지 알고 메모리 최대치를 미리 보고하는가? 불가능하다.
+1. **Max 행렬의 사전 요구**: 프로세스가 시작할 때 "내가 평생 쓸 자원의 최대치"를 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에 보고해야 한다. 브라우저가 사용자가 탭을 몇 개 열지 알고 메모리 최대치를 미리 보고하는가? 불가능하다.
 2. **동적 프로세스 증감**: 시스템 내의 프로세스 수($N$)는 수시로 태어나고(`fork`) 죽는다(`exit`). 행렬 크기가 계속 변하는데 언제 시뮬레이션을 돌리나.
-3. **극한의 [[022_kernel_role|커널]] 오버헤드**: $N=1000, M=[[489_raid_10_hybrid|10]]$일 때, 1번의 락 요청마다 1,000개의 행을 순회하며 $1000^2 \times [[489_raid_10_hybrid|10]] = 1,000,000$번의 [[055_array|배열]] 덧셈 뺄셈을 해야 한다. [[079_kube_scheduler_pod_placement|스케줄러]]가 데드락 피하려다 CPU를 불태운다.
+3. **극한의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 오버헤드**: $N=1000, M=[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)$일 때, 1번의 락 요청마다 1,000개의 행을 순회하며 $1000^2 \times [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) = 1,000,000$번의 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 덧셈 뺄셈을 해야 한다. [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 데드락 피하려다 CPU를 불태운다.
 
-- **📢 섹션 요약 비유**: 은행원 [[001_algorithm_definition|알고리즘]]은 "내일 주식 시장이 어떻게 오를지 100% 알고 있으면 돈을 벌 수 있다"는 완벽한 주식 필승 공식과 같습니다. 공식은 맞지만, "내일 주식 시장을 안다"는 전제조건 자체가 신의 영역이므로 현실에서는 써먹을 수 없는 천재의 탁상공론입니다.
+- **📢 섹션 요약 비유**: 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 "내일 주식 시장이 어떻게 오를지 100% 알고 있으면 돈을 벌 수 있다"는 완벽한 주식 필승 공식과 같습니다. 공식은 맞지만, "내일 주식 시장을 안다"는 전제조건 자체가 신의 영역이므로 현실에서는 써먹을 수 없는 천재의 탁상공론입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **클라우드 K8s([[196_kubernetes_k8s_container_orchestration|쿠버네티스]])의 Admission Control (현대판 은행원)**: 범용 OS의 CPU/메모리 스케줄링에서는 은행원 [[001_algorithm_definition|알고리즘]]이 사망했지만, **거시적 클라우드 인프라 환경**에서는 100% 완벽히 부활했다.
-   - **아키텍처 적용**: K8s에 [[085_pod_kubernetes_container_unit|파드]]([[198_pod_kubernetes_minimum_deployment_unit|Pod]])를 띄울 때 개발자는 YAML 파일에 `Resources: Limits (Max)`를 명시해야 한다. K8s의 [[079_kube_scheduler_pod_placement|스케줄러]]([[079_kube_scheduler_pod_placement|Kube-scheduler]])는 각 물리 노드(Node)의 남은 자원(Available) 장부를 펴놓고, "이 [[085_pod_kubernetes_container_unit|파드]]를 이 노드에 넣으면 노드가 파산([[157_oom_killer|OOM]], Unsafe)하는가?"를 필터링(Filtering) 단계에서 깐깐하게 계산한다.
-   - **결론**: 단일 PC의 나노초(ns) 단위 스케줄링에서는 $O(N^2)$ 행렬 계산이 불가능했지만, [[085_pod_kubernetes_container_unit|파드]]가 뜨는 1~2초의 여유가 있는 클라우드 스케줄링에서는 은행원 [[001_algorithm_definition|알고리즘]]의 오버헤드가 완전히 무시할 수준이라 현대 클러스터 관리의 핵심 철학이 되었다.
+1. **클라우드 K8s([쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/))의 Admission Control (현대판 은행원)**: 범용 OS의 CPU/메모리 스케줄링에서는 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 사망했지만, **거시적 클라우드 인프라 환경**에서는 100% 완벽히 부활했다.
+   - **아키텍처 적용**: K8s에 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))를 띄울 때 개발자는 YAML 파일에 `Resources: Limits (Max)`를 명시해야 한다. K8s의 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)([Kube-scheduler](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/))는 각 물리 노드(Node)의 남은 자원(Available) 장부를 펴놓고, "이 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 이 노드에 넣으면 노드가 파산([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/), Unsafe)하는가?"를 필터링(Filtering) 단계에서 깐깐하게 계산한다.
+   - **결론**: 단일 PC의 나노초(ns) 단위 스케줄링에서는 $O(N^2)$ 행렬 계산이 불가능했지만, [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 뜨는 1~2초의 여유가 있는 클라우드 스케줄링에서는 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 오버헤드가 완전히 무시할 수준이라 현대 클러스터 관리의 핵심 철학이 되었다.
 2. **자율주행 및 로봇 제어 (Hard RTOS)**: 화성 탐사선이나 자동차 엔진 제어기 등은 프로세스의 개수($N$)와 각 태스크가 쓸 자원의 최대치(Max WCET)가 컴파일 타임에 100% 명확하게 고정되어 있다. 
-   - **실무 조치**: 이런 폐쇄망 시스템에서는 은행원 [[001_algorithm_definition|알고리즘]]의 비현실적 전제 조건(Max를 알아야 함)이 완벽히 해결된다. 따라서 RTOS 설계자들은 시스템 [[459_quic_fec_forward_error_correction|초기]]화 단계나 런타임 [[395_verification_process_review|검증]] 모듈에 은행원 [[001_algorithm_definition|알고리즘]]을 변형하여 탑재해, 예상치 못한 센서 오작동으로 인한 데드락 파국을 실시간으로 회피한다.
+   - **실무 조치**: 이런 폐쇄망 시스템에서는 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 비현실적 전제 조건(Max를 알아야 함)이 완벽히 해결된다. 따라서 RTOS 설계자들은 시스템 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 단계나 런타임 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 모듈에 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 변형하여 탑재해, 예상치 못한 센서 오작동으로 인한 데드락 파국을 실시간으로 회피한다.
 
 ```text
   ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -144,22 +148,22 @@ tags:
   │     ▶ 결과: 오버헤드 0, 시스템 안정성 99.99% 달성.                          │
   └─────────────────────────────────────────────────────────────────────────────┘
 ```
-**[다이어그램 해설]** 컴퓨터 공학도들이 실무에 와서 가장 멘붕을 겪는 지점이다. 교과서의 위대한 [[001_algorithm_definition|알고리즘]]을 실무 코드에 짜 넣으려다가 퍼포먼스 리뷰에서 혹평을 받는다. 은행원 [[001_algorithm_definition|알고리즘]]은 **"OS가 데드락을 어떻게 수학적으로 이해하고 있는가"**를 훈련하는 두뇌 체조용이지, 애플리케이션 백엔드에서 구현할 라이브러리가 절대 아님을 깨닫는 것이 아키텍트로의 성장이다.
+**[다이어그램 해설]** 컴퓨터 공학도들이 실무에 와서 가장 멘붕을 겪는 지점이다. 교과서의 위대한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 실무 코드에 짜 넣으려다가 퍼포먼스 리뷰에서 혹평을 받는다. 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 **"OS가 데드락을 어떻게 수학적으로 이해하고 있는가"**를 훈련하는 두뇌 체조용이지, 애플리케이션 백엔드에서 구현할 라이브러리가 절대 아님을 깨닫는 것이 아키텍트로의 성장이다.
 
-- **📢 섹션 요약 비유**: 은행원 [[001_algorithm_definition|알고리즘]]은 무술의 "품새(태극 1장)"와 같습니다. 뼈대와 철학을 익히는 데는 최고지만, 실전 길거리 싸움(실무 트래픽)에서 품새를 잡고 있으면 1초 만에 맞고 쓰러집니다. 실전에서는 눈치껏 피하고(tryLock), 원투펀치([[317_lockdep_lock_ordering|Lock Ordering]])를 날리는 직관적 대처가 최고입니다.
+- **📢 섹션 요약 비유**: 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 무술의 "품새(태극 1장)"와 같습니다. 뼈대와 철학을 익히는 데는 최고지만, 실전 길거리 싸움(실무 트래픽)에서 품새를 잡고 있으면 1초 만에 맞고 쓰러집니다. 실전에서는 눈치껏 피하고(tryLock), 원투펀치([Lock Ordering](/knowledge-base/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/))를 날리는 직관적 대처가 최고입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
 ### 기대효과
-은행원 [[001_algorithm_definition|알고리즘]]의 '가용 자원'과 '최대 요구량' 기반의 안전 [[395_verification_process_review|검증]] 메커니즘을 [[196_kubernetes_k8s_container_orchestration|쿠버네티스]](K8s)나 얀([[020_yarn|YARN]]) 같은 클러스터 [[079_kube_scheduler_pod_placement|스케줄러]]에 적용하면, 수천 대의 물리 서버 자원(CPU, Mem, [[418_gpu|GPU]])을 노드 파산([[157_oom_killer|OOM]])이나 노드 데드락 없이 95% 이상의 극단적 고효율로 꽉 채워 쓰는 팩킹(Bin Packing) 기술을 완성할 수 있다.
+은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 '가용 자원'과 '최대 요구량' 기반의 안전 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 메커니즘을 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s)나 얀([YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/)) 같은 클러스터 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)에 적용하면, 수천 대의 물리 서버 자원(CPU, Mem, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))을 노드 파산([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))이나 노드 데드락 없이 95% 이상의 극단적 고효율로 꽉 채워 쓰는 팩킹(Bin Packing) 기술을 완성할 수 있다.
 
 ### 결론 및 미래 전망
-은행원 [[001_algorithm_definition|알고리즘]]은 단일 [[001_operating_system_purpose|운영체제]] [[079_kube_scheduler_pod_placement|스케줄러]] 시장에서는 "현실성 없는 무거운 장난감"으로 낙인찍혀 멸종했다. 하지만 클라우드 컴퓨팅과 빅데이터 인프라가 태동하면서, 이 거시적인 자원 시뮬레이션 철학은 **"클러스터 매니지먼트의 바이블"**로 화려하게 부활했다.
-미래에는 $O(N^3)$에 달하는 끔찍한 행렬 연산을 해결하기 위해 강화학습([[094_reinforcement_learning|Reinforcement Learning]]) AI가 도입될 것이다. "과거 수백만 번의 [[561_container_based_deployment|컨테이너]] 배포 패턴을 학습한 AI가 행렬 계산 없이 직관적으로 1ms 만에 '이 배치는 데드락 지뢰밭이다'라고 판단하여 거부하는" **[[190_ai_llm_requirements_specification|AI]] 기반 [[236_a_star_heuristic_minimax_mcts_monte_carlo|Heuristic]] Avoidance** 시스템이 차세대 [[801_data_center_3_tier_architecture_core_aggregation_access|데이터센터]] [[041_resource_allocation|자원 할당]]의 핵심 기술로 자리 잡을 것이다.
+은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 단일 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 시장에서는 "현실성 없는 무거운 장난감"으로 낙인찍혀 멸종했다. 하지만 클라우드 컴퓨팅과 빅데이터 인프라가 태동하면서, 이 거시적인 자원 시뮬레이션 철학은 **"클러스터 매니지먼트의 바이블"**로 화려하게 부활했다.
+미래에는 $O(N^3)$에 달하는 끔찍한 행렬 연산을 해결하기 위해 강화학습([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/)) AI가 도입될 것이다. "과거 수백만 번의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 배포 패턴을 학습한 AI가 행렬 계산 없이 직관적으로 1ms 만에 '이 배치는 데드락 지뢰밭이다'라고 판단하여 거부하는" **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [Heuristic](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/) Avoidance** 시스템이 차세대 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/)의 핵심 기술로 자리 잡을 것이다.
 
-- **📢 섹션 요약 비유**: 1965년에 발명된 증기 기관차 도면(은행원 [[001_algorithm_definition|알고리즘]])은 당시 골목길(단일 [[164_pc|PC]])에서는 덩치가 커서 쓸모가 없었지만, 60년이 지나 거대한 대륙 횡단 철도(클라우드 인프라)가 깔리자 비로소 그 진가를 발휘하며 클라우드라는 화물 열차를 강력하게 끌고 있습니다.
+- **📢 섹션 요약 비유**: 1965년에 발명된 증기 기관차 도면(은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 당시 골목길(단일 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))에서는 덩치가 커서 쓸모가 없었지만, 60년이 지나 거대한 대륙 횡단 철도(클라우드 인프라)가 깔리자 비로소 그 진가를 발휘하며 클라우드라는 화물 열차를 강력하게 끌고 있습니다.
 
 ---
 
@@ -167,10 +171,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[226_counting_semaphore|카운팅 세마포어]] ([[226_counting_semaphore|Counting Semaphore]]) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| 블로킹 [[224_semaphore|세마포어]] | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [[228_condition_variable|조건 변수]] ([[228_condition_variable|Condition Variable]]) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [[229_monitor|모니터]] 시그널 의미론 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [카운팅 세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/226_counting_semaphore/) ([Counting Semaphore](/knowledge-base/studynote/02_operating_system/04_synchronization/226_counting_semaphore/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| 블로킹 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [조건 변수](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/) ([Condition Variable](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 시그널 의미론 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -190,7 +194,7 @@ tags:
 
 1. 3명의 친구가 은행원 아저씨한테 돈을 빌려달라고 왔어요. 은행 금고에는 딱 3만 원만 남아있어요.
 2. 은행원 아저씨는 앞뒤 안 보고 빌려주면 다 같이 파산할까 봐, 장부(행렬)를 펴놓고 **"A한테 먼저 주면 갚을까? 그걸로 B를 주면 꼬이지 않을까?"** 하고 머릿속으로 시뮬레이션을 미친 듯이 돌려요.
-3. 이 시뮬레이션 결과 모두가 돈을 갚고 웃으며 끝날 수 있는 완벽한 시나리오가 1개라도 증명될 때만 진짜로 돈을 쥐여주는 똑똑하고 깐깐한 방법을 **은행원 [[001_algorithm_definition|알고리즘]]**이라고 한답니다!
+3. 이 시뮬레이션 결과 모두가 돈을 갚고 웃으며 끝날 수 있는 완벽한 시나리오가 1개라도 증명될 때만 진짜로 돈을 쥐여주는 똑똑하고 깐깐한 방법을 **은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**이라고 한답니다!
 
 ---
 
@@ -198,7 +202,7 @@ tags:
 
 **진행 상황**: 238 / 800
 
-← **이전**: [[237_unsafe_state|237. 불안전 상태 (Unsafe State)]]
-**다음**: [[239_resource_allocation_graph|239. 자원 할당 그래프 (Resource Allocation Graph, RAG)]] →
+← **이전**: [237. 불안전 상태 (Unsafe State)](/knowledge-base/studynote/02_operating_system/04_synchronization/237_unsafe_state/)
+**다음**: [239. 자원 할당 그래프 (Resource Allocation Graph, RAG)](/knowledge-base/studynote/02_operating_system/04_synchronization/239_resource_allocation_graph/) →
 
 ---

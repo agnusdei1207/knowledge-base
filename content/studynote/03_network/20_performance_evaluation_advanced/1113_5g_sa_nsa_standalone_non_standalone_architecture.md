@@ -1,22 +1,26 @@
----
-title: 1113. 5G SA/NSA 아키텍처 비교망
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "1113. 5G SA/NSA 아키텍처 비교망"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[150_5g_sa_standalone_architecture|5G SA]]/[[766_nsa_non_standalone_5g_lte_core|NSA]] 아키텍처 비교망은 [[282_performance_tactics|성능]] 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: [[150_5g_sa_standalone_architecture|5G SA]]/[[766_nsa_non_standalone_5g_lte_core|NSA]] 아키텍처 비교망을 이해하면 측정 정확도과 모델 적합성 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: [5G SA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/)/[NSA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/) 아키텍처 비교망은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: [5G SA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/)/[NSA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/) 아키텍처 비교망을 이해하면 측정 정확도과 모델 적합성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- 완벽한 [[418_5g_embb_urllc_mmtc_slicing|5G]]([[148_5g_embb_urllc_mmtc|초고속]], 초저지연, 수만 대 센서 동시 접속)를 터뜨리려면, 옥상의 '기지국 [[171_antenna_basic_dipole_resonance|안테나]]'뿐만 아니라 통신사 본사에 있는 '거대 코어망(두뇌 서버)'까지 수조 원을 들여 싹 다 버리고 [[418_5g_embb_urllc_mmtc_slicing|5G]] 전용([[768_5gc_5g_core_network_evolution|5GC]])으로 갈아엎어야 합니다.
-- 근데 4G LTE에 투자한 장비가 너무 아까웠습니다. 그래서 표준 기구([[751_3gpp_3rd_generation_partnership_project|3GPP]])는 **"일단 구형 [[752_lte_long_term_evolution_4g|LTE]] 뇌에 [[418_5g_embb_urllc_mmtc_slicing|5G]] [[171_antenna_basic_dipole_resonance|안테나]]를 섞어 쓰는 과도기([[766_nsa_non_standalone_5g_lte_core|NSA]])를 거친 뒤, 나중에 100% 순수 [[418_5g_embb_urllc_mmtc_slicing|5G]]([[767_sa_standalone_5g_core_network|SA]])로 넘어가자!"**라는 로드맵을 짰습니다.
+- 완벽한 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)([초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/), 초저지연, 수만 대 센서 동시 접속)를 터뜨리려면, 옥상의 '기지국 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)'뿐만 아니라 통신사 본사에 있는 '거대 코어망(두뇌 서버)'까지 수조 원을 들여 싹 다 버리고 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 전용([5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/))으로 갈아엎어야 합니다.
+- 근데 4G LTE에 투자한 장비가 너무 아까웠습니다. 그래서 표준 기구([3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/))는 **"일단 구형 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 뇌에 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 섞어 쓰는 과도기([NSA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/))를 거친 뒤, 나중에 100% 순수 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)([SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/))로 넘어가자!"**라는 로드맵을 짰습니다.
 
 ```text
 [스마트NIC 가속 오프로딩 시스템]
@@ -27,30 +31,30 @@ tags:
     └──▶ [스몰 셀 조밀화 간섭 통제망]
 ```
 
-- **📢 섹션 요약 비유**: [[150_5g_sa_standalone_architecture|5G SA]]/[[766_nsa_non_standalone_5g_lte_core|NSA]] 아키텍처 비교망은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [[170_selectivity_cardinality_distribution_tuning|선택도]] 쉬워진다.
+- **📢 섹션 요약 비유**: [5G SA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/)/[NSA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/) 아키텍처 비교망은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-현재 우리가 쓰고 있는 대부분의 [[418_5g_embb_urllc_mmtc_slicing|5G]] 통신망(Option 3 계열)입니다.
+현재 우리가 쓰고 있는 대부분의 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 통신망(Option 3 계열)입니다.
 
 - **아키텍처 구조**: 
-  - **뇌(Core)**: 구형 4G 코어망 ([[753_epc_evolved_packet_core_sgw_pgw|EPC]])
-  - **손발(기지국)**: 4G [[171_antenna_basic_dipole_resonance|안테나]](eNB) + [[418_5g_embb_urllc_mmtc_slicing|5G]] [[171_antenna_basic_dipole_resonance|안테나]](gNB) 동시 사용
+  - **뇌(Core)**: 구형 4G 코어망 ([EPC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/753_epc_evolved_packet_core_sgw_pgw/))
+  - **손발(기지국)**: 4G [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)(eNB) + [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)(gNB) 동시 사용
 - **작동 원리 (이중 연결, EN-DC 마법)**:
-  - 내 폰이 켜지면 제어 [[130_signal|신호]](인사말, 암호화)는 무조건 안 터지는 곳이 없는 **믿음직한 4G [[752_lte_long_term_evolution_4g|LTE]] 기지국**으로 쏩니다 (LTE가 닻, Anchor 역할을 함).
-  - 인사말이 끝나고 넷플릭스 다운로드를 누르는 순간! 무식한 [[001_dikw_pyramid|데이터]] 덩어리는 **[[418_5g_embb_urllc_mmtc_slicing|5G]] 기지국과 4G 기지국 2곳에서 동시에 쏟아져 들어와 폰으로 꽂힙니다.**
+  - 내 폰이 켜지면 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(인사말, 암호화)는 무조건 안 터지는 곳이 없는 **믿음직한 4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 기지국**으로 쏩니다 (LTE가 닻, Anchor 역할을 함).
+  - 인사말이 끝나고 넷플릭스 다운로드를 누르는 순간! 무식한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 덩어리는 **[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국과 4G 기지국 2곳에서 동시에 쏟아져 들어와 폰으로 꽂힙니다.**
 - **장단점**: 
-  - 통신사는 코어망을 안 바꿔도 되니 싸고 빠르게 [[418_5g_embb_urllc_mmtc_slicing|5G]] 마케팅을 시작할 수 있었습니다.
-  - 단점: 폰이 4G와 [[418_5g_embb_urllc_mmtc_slicing|5G]] 두 전파를 계속 잡아야 해서 배터리가 미친 듯이 녹아내리고, 뇌가 4G라서 자율주행에 필요한 '0.001초 초저지연'이나 '네트워크 쪼개기(슬라이싱)'는 기술적으로 절대 불가능한 반쪽짜리 망입니다.
+  - 통신사는 코어망을 안 바꿔도 되니 싸고 빠르게 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 마케팅을 시작할 수 있었습니다.
+  - 단점: 폰이 4G와 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 두 전파를 계속 잡아야 해서 배터리가 미친 듯이 녹아내리고, 뇌가 4G라서 자율주행에 필요한 '0.001초 초저지연'이나 '네트워크 쪼개기(슬라이싱)'는 기술적으로 절대 불가능한 반쪽짜리 망입니다.
 
-| 구분 | [[766_nsa_non_standalone_5g_lte_core|NSA]] (비단독 모드) | [[767_sa_standalone_5g_core_network|SA]] (단독 모드) |
+| 구분 | [NSA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/) (비단독 모드) | [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) (단독 모드) |
 |:---|:---|:---|
-| **코어망 (뇌)** | 4G Core ([[753_epc_evolved_packet_core_sgw_pgw|EPC]]) | [[418_5g_embb_urllc_mmtc_slicing|5G]] Core ([[768_5gc_5g_core_network_evolution|5GC]]) |
-| **제어 [[130_signal|신호]] (Control)** | 4G [[752_lte_long_term_evolution_4g|LTE]] 기지국이 담당 | [[418_5g_embb_urllc_mmtc_slicing|5G]] 기지국이 100% 전담 |
-| **스마트폰 배터리** | 광탈 (4G, [[418_5g_embb_urllc_mmtc_slicing|5G]] 동시 접속) | 우수 (5G만 단일 접속) |
-| **[[149_network_slicing_5g_architecture|네트워크 슬라이싱]]** | 불가능 | **가능 (최대 장점)** |
+| **코어망 (뇌)** | 4G Core ([EPC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/753_epc_evolved_packet_core_sgw_pgw/)) | [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) Core ([5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/)) |
+| **제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) (Control)** | 4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 기지국이 담당 | [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국이 100% 전담 |
+| **스마트폰 배터리** | 광탈 (4G, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 동시 접속) | 우수 (5G만 단일 접속) |
+| **[네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)** | 불가능 | **가능 (최대 장점)** |
 | **구축 비용 / 통신사** | 저렴 (과도기용) | 천문학적 (최종 목표) |
 
 ```text
@@ -62,7 +66,7 @@ tags:
     └──▶ [스몰 셀 조밀화 간섭 통제망]
 ```
 
-- **📢 섹션 요약 비유**: **[[766_nsa_non_standalone_5g_lte_core|NSA]](비단독 모드)**는 최신형 고속 열차([[418_5g_embb_urllc_mmtc_slicing|5G]] [[001_dikw_pyramid|데이터]])를 샀는데, 기관차 엔진과 철도 선로는 낡은 **'새마을호 디젤 엔진(4G 코어)'**에다 묶어 놓은 짬뽕 꼼수입니다. 기차가 달릴 때 길 안내(제어 [[130_signal|신호]])는 낡은 디젤 엔진이 덜컹대며 다 하지만, 화물칸([[001_dikw_pyramid|데이터]] 다운로드)은 최신형 객차와 옛날 객차를 같이 달아 짐을 빨리 실어 나릅니다. 속도는 빠르지만 옛날 엔진의 한계 때문에 KTX급 정밀 자율주행 통제는 불가능합니다. 반면 **[[767_sa_standalone_5g_core_network|SA]](단독 모드)**는 낡은 디젤 엔진과 구형 철로를 다 뜯어내고, 자기장으로 떠서 날아가는 **'100% 최신형 자기부상열차 엔진과 전용 레일([[768_5gc_5g_core_network_evolution|5GC]] 코어)'**을 통째로 깔아버린 진정한 혁명입니다. 엔진 자체가 최첨단 클라우드 컴퓨터로 바뀌었기 때문에, 열차 선로를 가상으로 쪼개어 소방차 전용 레일([[149_network_slicing_5g_architecture|네트워크 슬라이싱]])을 만들어주는 마법이 비로소 가능해지는 [[418_5g_embb_urllc_mmtc_slicing|5G]] 인프라의 최종 종착역입니다.
+- **📢 섹션 요약 비유**: **[NSA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/)(비단독 모드)**는 최신형 고속 열차([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 샀는데, 기관차 엔진과 철도 선로는 낡은 **'새마을호 디젤 엔진(4G 코어)'**에다 묶어 놓은 짬뽕 꼼수입니다. 기차가 달릴 때 길 안내(제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))는 낡은 디젤 엔진이 덜컹대며 다 하지만, 화물칸([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 다운로드)은 최신형 객차와 옛날 객차를 같이 달아 짐을 빨리 실어 나릅니다. 속도는 빠르지만 옛날 엔진의 한계 때문에 KTX급 정밀 자율주행 통제는 불가능합니다. 반면 **[SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/)(단독 모드)**는 낡은 디젤 엔진과 구형 철로를 다 뜯어내고, 자기장으로 떠서 날아가는 **'100% 최신형 자기부상열차 엔진과 전용 레일([5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/) 코어)'**을 통째로 깔아버린 진정한 혁명입니다. 엔진 자체가 최첨단 클라우드 컴퓨터로 바뀌었기 때문에, 열차 선로를 가상으로 쪼개어 소방차 전용 레일([네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/))을 만들어주는 마법이 비로소 가능해지는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 인프라의 최종 종착역입니다.
 
 ---
 
@@ -71,51 +75,51 @@ tags:
 진정한 4차 산업혁명을 여는 궁극의 아키텍처(Option 2)입니다.
 
 - **아키텍처 구조**:
-  - **뇌(Core)**: 100% 최신 [[418_5g_embb_urllc_mmtc_slicing|5G]] 전용 클라우드 코어 ([[768_5gc_5g_core_network_evolution|5GC]])
-  - **손발(기지국)**: 100% [[418_5g_embb_urllc_mmtc_slicing|5G]] [[171_antenna_basic_dipole_resonance|안테나]] (gNB)
+  - **뇌(Core)**: 100% 최신 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 전용 클라우드 코어 ([5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/))
+  - **손발(기지국)**: 100% [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) (gNB)
 - **작동 원리**:
-  - 4G LTE의 도움을 1도 받지 않습니다. 제어 [[130_signal|신호]] 인사말부터 [[001_dikw_pyramid|데이터]] 전송까지 **오직 [[418_5g_embb_urllc_mmtc_slicing|5G]] 기지국 하나만 물고 통신합니다.**
+  - 4G LTE의 도움을 1도 받지 않습니다. 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 인사말부터 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송까지 **오직 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국 하나만 물고 통신합니다.**
 - **마법의 변화 (진짜 기능의 개방)**:
-  - 폰이 [[418_5g_embb_urllc_mmtc_slicing|5G]] 전파만 잡으면 되니 배터리가 훨씬 오래갑니다.
-  - 뇌가 [[418_5g_embb_urllc_mmtc_slicing|5G]] 전용([[768_5gc_5g_core_network_evolution|5GC]])이라 통신 접속 핑이 [[752_lte_long_term_evolution_4g|LTE]] 대비 수배 이상 빨라집니다.
-  - **[[149_network_slicing_5g_architecture|네트워크 슬라이싱]]([[149_network_slicing_5g_architecture|Network Slicing]], 1113-1번 심화)**이라는 흑마법이 열려, 자율주행차 전용망, 병원 전용망을 허공에서 가상으로 완벽히 쪼개서 VIP 보장을 해줄 수 있습니다.
+  - 폰이 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 전파만 잡으면 되니 배터리가 훨씬 오래갑니다.
+  - 뇌가 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 전용([5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/))이라 통신 접속 핑이 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 대비 수배 이상 빨라집니다.
+  - **[네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)([Network Slicing](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/), 1113-1번 심화)**이라는 흑마법이 열려, 자율주행차 전용망, 병원 전용망을 허공에서 가상으로 완벽히 쪼개서 VIP 보장을 해줄 수 있습니다.
 
-[[150_5g_sa_standalone_architecture|5G SA]]/[[766_nsa_non_standalone_5g_lte_core|NSA]] 아키텍처 비교망을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 스마트NIC 가속 [[440_offloading|오프로딩]] 시스템이 기반 조건을 만든다면, [[150_5g_sa_standalone_architecture|5G SA]]/[[766_nsa_non_standalone_5g_lte_core|NSA]] 아키텍처 비교망은 그 위에서 핵심 메커니즘을 구현하고, 스몰 셀 조밀화 간섭 통제망은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+[5G SA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/)/[NSA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/) 아키텍처 비교망을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 스마트NIC 가속 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 시스템이 기반 조건을 만든다면, [5G SA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/)/[NSA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/) 아키텍처 비교망은 그 위에서 핵심 메커니즘을 구현하고, 스몰 셀 조밀화 간섭 통제망은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | 스마트NIC 가속 [[440_offloading|오프로딩]] 시스템의 기반 정리 | [[150_5g_sa_standalone_architecture|5G SA]]/[[766_nsa_non_standalone_5g_lte_core|NSA]] 아키텍처 비교망의 핵심 동작 | 스몰 셀 조밀화 간섭 통제망의 확장 적용 |
+| 초점 | 스마트NIC 가속 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 시스템의 기반 정리 | [5G SA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/)/[NSA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/) 아키텍처 비교망의 핵심 동작 | 스몰 셀 조밀화 간섭 통제망의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 측정 정확도 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: [[150_5g_sa_standalone_architecture|5G SA]]/[[766_nsa_non_standalone_5g_lte_core|NSA]] 아키텍처 비교망은 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
+- **📢 섹션 요약 비유**: [5G SA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/)/[NSA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/) 아키텍처 비교망은 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 [[150_5g_sa_standalone_architecture|5G SA]]/[[766_nsa_non_standalone_5g_lte_core|NSA]] 아키텍처 비교망을 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 스마트NIC 가속 [[440_offloading|오프로딩]] 시스템 수준의 기본 대책으로 충분한지, 아니면 [[150_5g_sa_standalone_architecture|5G SA]]/[[766_nsa_non_standalone_5g_lte_core|NSA]] 아키텍처 비교망이 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 스몰 셀 조밀화 간섭 통제망와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 [5G SA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/)/[NSA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/) 아키텍처 비교망을 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 스마트NIC 가속 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 시스템 수준의 기본 대책으로 충분한지, 아니면 [5G SA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/)/[NSA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/) 아키텍처 비교망이 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 스몰 셀 조밀화 간섭 통제망와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 측정 정확도 부족인지, 모델 적합성 악화인지 먼저 분리한다.
-2. [[150_5g_sa_standalone_architecture|5G SA]]/[[766_nsa_non_standalone_5g_lte_core|NSA]] 아키텍처 비교망가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [[396_validation|확인]]한다.
+2. [5G SA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/)/[NSA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/) 아키텍처 비교망가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
 3. 도입 후에는 인접 기술인 스몰 셀 조밀화 간섭 통제망와의 연계 방식을 함께 검증한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- [[150_5g_sa_standalone_architecture|5G SA]]/[[766_nsa_non_standalone_5g_lte_core|NSA]] 아키텍처 비교망의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- 스마트NIC 가속 [[440_offloading|오프로딩]] 시스템와의 경계를 정리하지 않아 중복 투자나 [[164_policy|정책]] 충돌을 만드는 설계
+- [5G SA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/)/[NSA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/) 아키텍처 비교망의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
+- 스마트NIC 가속 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 시스템와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
-- **📢 섹션 요약 비유**: [[150_5g_sa_standalone_architecture|5G SA]]/[[766_nsa_non_standalone_5g_lte_core|NSA]] 아키텍처 비교망을 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
+- **📢 섹션 요약 비유**: [5G SA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/)/[NSA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/) 아키텍처 비교망을 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[[150_5g_sa_standalone_architecture|5G SA]]/[[766_nsa_non_standalone_5g_lte_core|NSA]] 아키텍처 비교망은 [[282_performance_tactics|성능]] 평가와 고급 분석을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 측정 정확도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 스몰 셀 조밀화 간섭 통제망, [[190_ai_llm_requirements_specification|AI]] 기반 [[282_performance_tactics|성능]] 예측, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [[190_ai_llm_requirements_specification|AI]] 기반 [[282_performance_tactics|성능]] 예측 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+[5G SA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/)/[NSA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/) 아키텍처 비교망은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 측정 정확도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 스몰 셀 조밀화 간섭 통제망, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: [[150_5g_sa_standalone_architecture|5G SA]]/[[766_nsa_non_standalone_5g_lte_core|NSA]] 아키텍처 비교망은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
+- **📢 섹션 요약 비유**: [5G SA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/)/[NSA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/) 아키텍처 비교망은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
 ---
 
@@ -123,9 +127,9 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 스마트NIC 가속 [[440_offloading|오프로딩]] 시스템 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [[139_throughput|처리량]] ([[139_throughput|Throughput]]) | 실제 전달 [[282_performance_tactics|성능]]을 나타내는 대표 지표다. |
-| [[015_지연_데이터_관점|지연]] ([[141_latency|Latency]]) | 사용자 체감 품질을 좌우한다. |
+| 스마트NIC 가속 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 시스템 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) | 실제 전달 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 나타내는 대표 지표다. |
+| [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) ([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) | 사용자 체감 품질을 좌우한다. |
 | 스몰 셀 조밀화 간섭 통제망 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -140,7 +144,7 @@ tags:
     └──▶ [확장 B: AI 기반 성능 예측]
 ```
 
-[[150_5g_sa_standalone_architecture|5G SA]]/[[766_nsa_non_standalone_5g_lte_core|NSA]] 아키텍처 비교망는 스마트NIC 가속 [[440_offloading|오프로딩]] 시스템에서 출발해 현재 메커니즘을 정교화하고, 이후 스몰 셀 조밀화 간섭 통제망와 [[190_ai_llm_requirements_specification|AI]] 기반 [[282_performance_tactics|성능]] 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+[5G SA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/)/[NSA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/) 아키텍처 비교망는 스마트NIC 가속 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 시스템에서 출발해 현재 메커니즘을 정교화하고, 이후 스몰 셀 조밀화 간섭 통제망와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -154,7 +158,7 @@ tags:
 
 **진행 상황**: 224 / 1120
 
-← **이전**: [[1112_smartnic_dpu_hardware_acceleration_offloading|1112. 스마트NIC 가속 오프로딩 시스템]]
-**다음**: [[1114_small_cell_densification_interference_management|1114. 스몰 셀 조밀화 간섭 통제망]] →
+← **이전**: [1112. 스마트NIC 가속 오프로딩 시스템](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1112_smartnic_dpu_hardware_acceleration_offloading/)
+**다음**: [1114. 스몰 셀 조밀화 간섭 통제망](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1114_small_cell_densification_interference_management/) →
 
 ---

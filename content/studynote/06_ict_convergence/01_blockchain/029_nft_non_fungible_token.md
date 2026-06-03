@@ -1,14 +1,18 @@
----
-title: 29. NFT — 대체 불가 토큰 (Non-Fungible Token)
-date: '2026-04-29'
-tags:
-- studynote-ict-convergence
----
++++
+title = "29. NFT — 대체 불가 토큰 (Non-Fungible Token)"
+date = 2026-04-29
+
+[taxonomies]
+tags = ["studynote-ict-convergence"]
+
+[extra]
+tags = ["studynote-ict-convergence"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: NFT(Non-Fungible Token)는 [[004_blockchain|블록체인]]에서 고유성·소유권·이전 이력이 보장되는 디지털 자산 표준이다. FT(Fungible Token, 동질)와 달리 각 NFT는 고유 ID와 메타데이터를 가져 대체 불가능하다. 이더리움 ERC-721이 표준이다.
-> 2. **가치**: 디지털 자산에 희소성과 소유권을 부여한다. 예술품·게임 아이템·[[064_relation_domain|도메인]]·티켓·학위증명서 등 디지털 세계의 모든 고유 자산을 [[004_blockchain|블록체인]]으로 표현할 수 있다. 거래 이력이 불변 기록되어 진품 [[303_authentication_authorization_patterns|인증]]이 가능하다.
-> 3. **판단 포인트**: NFT의 핵심 오해는 "NFT가 콘텐츠 자체를 저장한다"는 것이다. 실제로 NFT는 [[055_ipfs_interplanetary_file_system|IPFS]]·Arweave에 저장된 콘텐츠의 URL과 메타데이터만 온체인에 저장한다. 중앙화 서버 URL이 만료되면 NFT는 빈 링크가 된다 — 영구 저장 인프라가 중요하다.
+> 1. **본질**: NFT(Non-Fungible Token)는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에서 고유성·소유권·이전 이력이 보장되는 디지털 자산 표준이다. FT(Fungible Token, 동질)와 달리 각 NFT는 고유 ID와 메타데이터를 가져 대체 불가능하다. 이더리움 ERC-721이 표준이다.
+> 2. **가치**: 디지털 자산에 희소성과 소유권을 부여한다. 예술품·게임 아이템·[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)·티켓·학위증명서 등 디지털 세계의 모든 고유 자산을 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)으로 표현할 수 있다. 거래 이력이 불변 기록되어 진품 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)이 가능하다.
+> 3. **판단 포인트**: NFT의 핵심 오해는 "NFT가 콘텐츠 자체를 저장한다"는 것이다. 실제로 NFT는 [IPFS](/knowledge-base/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/)·Arweave에 저장된 콘텐츠의 URL과 메타데이터만 온체인에 저장한다. 중앙화 서버 URL이 만료되면 NFT는 빈 링크가 된다 — 영구 저장 인프라가 중요하다.
 
 ---
 
@@ -35,18 +39,18 @@ tags:
 └──────────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: NFT는 고급 예술품의 소유권 증서다. 루브르 박물관에 걸린 그림(디지털 자산)은 박물관([[055_ipfs_interplanetary_file_system|IPFS]])에 있고, NFT는 "내가 이 그림의 공식 소유자"라는 [[303_authentication_authorization_patterns|인증]]서(소유권 증서)다.
+- **📢 섹션 요약 비유**: NFT는 고급 예술품의 소유권 증서다. 루브르 박물관에 걸린 그림(디지털 자산)은 박물관([IPFS](/knowledge-base/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/))에 있고, NFT는 "내가 이 그림의 공식 소유자"라는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서(소유권 증서)다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### ERC-721 vs [[073_erc_1155_multi_token_standard|ERC-1155]]
+### ERC-721 vs [ERC-1155](/knowledge-base/studynote/06_ict_convergence/01_blockchain/073_erc_1155_multi_token_standard/)
 
 | 표준 | 특성 | 사용 사례 |
 |:---|:---|:---|
 | **ERC-721** | 1 컨트랙트 = 1 NFT | PFP NFT, 예술품 |
-| **[[073_erc_1155_multi_token_standard|ERC-1155]]** | 1 컨트랙트 = 다수 NFT+FT | 게임 (아이템+골드) |
+| **[ERC-1155](/knowledge-base/studynote/06_ict_convergence/01_blockchain/073_erc_1155_multi_token_standard/)** | 1 컨트랙트 = 다수 NFT+FT | 게임 (아이템+골드) |
 
 ### NFT 라이프사이클
 
@@ -63,13 +67,13 @@ tags:
   Token ID 삭제 → 희소성 증가 전략
 ```
 
-- **📢 섹션 요약 비유**: NFT 민팅은 한정판 수집카드 인쇄다. 포켓몬 카드를 1000장만 인쇄(민팅)하면 [[004_blockchain|블록체인]]에 각 카드의 고유 번호와 소유자가 영구 기록된다. 누군가가 팔면 새 소유자 이름이 자동으로 기록된다.
+- **📢 섹션 요약 비유**: NFT 민팅은 한정판 수집카드 인쇄다. 포켓몬 카드를 1000장만 인쇄(민팅)하면 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 각 카드의 고유 번호와 소유자가 영구 기록된다. 누군가가 팔면 새 소유자 이름이 자동으로 기록된다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | FT ([[072_erc_20_fungible_token_standard|ERC-20]]) | NFT (ERC-721) |
+| 비교 | FT ([ERC-20](/knowledge-base/studynote/06_ict_convergence/01_blockchain/072_erc_20_fungible_token_standard/)) | NFT (ERC-721) |
 |:---|:---|:---|
 | 교환 가능성 | ✅ 1:1 동등 | ❌ 각각 고유 |
 | 분할 가능성 | ✅ 소수점 | ❌ 기본 불가 |
@@ -102,7 +106,7 @@ tags:
   나이키 .SWOOSH: 디지털 운동화 NFT
 ```
 
-- **📢 섹션 요약 비유**: 학위 NFT는 위조 불가 졸업장이다. [[004_blockchain|블록체인]]에 등록된 졸업장은 어느 나라에서도 즉시 진위 확인이 가능하고, 수천 년이 지나도 기록이 남는다.
+- **📢 섹션 요약 비유**: 학위 NFT는 위조 불가 졸업장이다. [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 등록된 졸업장은 어느 나라에서도 즉시 진위 확인이 가능하고, 수천 년이 지나도 기록이 남는다.
 
 ---
 
@@ -110,11 +114,11 @@ tags:
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **진품 [[303_authentication_authorization_patterns|인증]]** | [[004_blockchain|블록체인]] 불변 소유 이력 |
+| **진품 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)** | [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 불변 소유 이력 |
 | **창작자 경제** | 2차 거래 로열티 자동 분배 |
 | **디지털 소유권** | 가상 자산의 실질적 소유 |
 
-NFT 투기 버블(2021-2022)이 꺼진 후 실용적 NFT 유스케이스로 이동 중이다. 게임·학위·티켓·기업 로열티 프로그램에서 NFT의 소유권·진품 [[303_authentication_authorization_patterns|인증]] 기능이 진짜 가치를 발휘하고 있다. RWA 토큰화와 결합하여 실물 자산 소유권 증명에도 활용된다.
+NFT 투기 버블(2021-2022)이 꺼진 후 실용적 NFT 유스케이스로 이동 중이다. 게임·학위·티켓·기업 로열티 프로그램에서 NFT의 소유권·진품 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 기능이 진짜 가치를 발휘하고 있다. RWA 토큰화와 결합하여 실물 자산 소유권 증명에도 활용된다.
 
 - **📢 섹션 요약 비유**: NFT 시장 진화는 인터넷 닷컴 버블과 같다. 버블(2000년대 닷컴, 2021년 NFT)이 꺼진 후에는 실용적 가치(아마존, 구글 같은 진짜 기업)만 남는다. NFT도 실용적 유스케이스가 남아 실질 가치를 만들고 있다.
 
@@ -125,8 +129,8 @@ NFT 투기 버블(2021-2022)이 꺼진 후 실용적 NFT 유스케이스로 이�
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **ERC-721** | NFT 이더리움 표준 |
-| **[[055_ipfs_interplanetary_file_system|IPFS]]** | NFT 콘텐츠 영구 저장 |
-| **[[073_erc_1155_multi_token_standard|ERC-1155]]** | 다중 토큰 타입 NFT 표준 |
+| **[IPFS](/knowledge-base/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/)** | NFT 콘텐츠 영구 저장 |
+| **[ERC-1155](/knowledge-base/studynote/06_ict_convergence/01_blockchain/073_erc_1155_multi_token_standard/)** | 다중 토큰 타입 NFT 표준 |
 | **RWA** | 실물 자산 소유권 NFT |
 | **P2E** | 게임 아이템 NFT 경제 |
 
@@ -150,7 +154,7 @@ NFT 투기 버블(2021-2022)이 꺼진 후 실용적 NFT 유스케이스로 이�
 
 ### �� 어린이를 위한 3줄 비유 설명
 
-1. NFT는 세상에 하나뿐인 디지털 소유권 증서예요! [[004_blockchain|블록체인]]에 "이 그림의 주인은 나야"라고 영구 기록돼요.
+1. NFT는 세상에 하나뿐인 디지털 소유권 증서예요! [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 "이 그림의 주인은 나야"라고 영구 기록돼요.
 2. 학위증서·티켓·게임 아이템도 NFT로 만들면 위조 불가능하고 전 세계 어디서든 확인할 수 있어요!
 3. 2021년 투기 버블은 꺼졌지만, 실생활에서 유용한 NFT는 계속 성장하고 있답니다!
 
@@ -160,7 +164,7 @@ NFT 투기 버블(2021-2022)이 꺼진 후 실용적 NFT 유스케이스로 이�
 
 **진행 상황**: 29 / 552
 
-← **이전**: [[028_rwa_real_world_asset|28. RWA — 실물 자산 토큰화 (Real World Asset Tokenization)]]
-**다음**: [[030_crypto_wallet_mnemonic|30. 암호화폐 지갑과 니모닉 — 키 관리의 핵심]] →
+← **이전**: [28. RWA — 실물 자산 토큰화 (Real World Asset Tokenization)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/028_rwa_real_world_asset/)
+**다음**: [30. 암호화폐 지갑과 니모닉 — 키 관리의 핵심](/knowledge-base/studynote/06_ict_convergence/01_blockchain/030_crypto_wallet_mnemonic/) →
 
 ---

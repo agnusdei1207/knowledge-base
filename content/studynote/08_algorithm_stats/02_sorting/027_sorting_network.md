@@ -1,30 +1,34 @@
----
-title: 17. 정렬 네트워크 (Sorting Network) — 병렬 정렬
-date: '2026-04-21'
-tags:
-- studynote-algorithm
----
++++
+title = "17. 정렬 네트워크 (Sorting Network) — 병렬 정렬"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-algorithm"]
+
+[extra]
+tags = ["studynote-algorithm"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 정렬 네트워크는 고정된 비교-교환([[043_comparator|Comparator]]) 회로의 연결로 어떤 입력도 정렬하는 [[001_dikw_pyramid|데이터]] 독립적(Oblivious) [[001_algorithm_definition|알고리즘]]이며, 비교 순서가 입력값에 무관하다.
-> 2. **가치**: [[430_index_fast_full_scan|병렬]] 하드웨어([[606_dynamic_partial_reconfiguration|FPGA]], [[418_gpu|GPU]], [[070_asic|ASIC]])에서 O(log²n) 깊이로 동시 정렬이 가능하여 수십 나노초 레이턴시의 고성능 정렬 가속기를 구현할 수 있다.
+> 1. **본질**: 정렬 네트워크는 고정된 비교-교환([Comparator](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/)) 회로의 연결로 어떤 입력도 정렬하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 독립적(Oblivious) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이며, 비교 순서가 입력값에 무관하다.
+> 2. **가치**: [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 하드웨어([FPGA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/), [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/))에서 O(log²n) 깊이로 동시 정렬이 가능하여 수십 나노초 레이턴시의 고성능 정렬 가속기를 구현할 수 있다.
 > 3. **판단 포인트**: n이 고정되고 최고 속도가 요구되는 하드웨어 가속 환경에서 최적이지만, 소프트웨어 구현에서는 복잡도가 O(n log²n)으로 일반 정렬보다 느릴 수 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-일반 정렬 [[001_algorithm_definition|알고리즘]]은 현재 비교 결과에 따라 **다음 비교 대상이 달라지는** [[001_dikw_pyramid|데이터]] 의존적(Data-Dependent) 방식이다. 반면 **정렬 네트워크 (Sorting Network)**는 **입력값에 무관하게 미리 정해진 비교 순서**로 동작한다. 이 특성이 하드웨어 [[430_index_fast_full_scan|병렬]]화를 가능하게 한다.
+일반 정렬 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 현재 비교 결과에 따라 **다음 비교 대상이 달라지는** [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존적(Data-Dependent) 방식이다. 반면 **정렬 네트워크 (Sorting Network)**는 **입력값에 무관하게 미리 정해진 비교 순서**로 동작한다. 이 특성이 하드웨어 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화를 가능하게 한다.
 
 ### 핵심 개념
 
 | 개념 | 설명 |
 |:---|:---|
-| 와이어 (Wire) | [[001_dikw_pyramid|데이터]]가 흐르는 채널 |
-| [[043_comparator|비교기]] ([[043_comparator|Comparator]]) | 두 와이어를 연결하여 작은 값을 위로, 큰 값을 아래로 |
-| 깊이 (Depth) | [[430_index_fast_full_scan|병렬]]로 수행 가능한 비교 단계 수 |
-| 크기 (Size) | 전체 [[043_comparator|비교기]] 수 |
-| [[004_data_independence|데이터 독립성]] | 비교 순서가 입력값에 무관 |
+| 와이어 (Wire) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 흐르는 채널 |
+| [비교기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/) ([Comparator](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/)) | 두 와이어를 연결하여 작은 값을 위로, 큰 값을 아래로 |
+| 깊이 (Depth) | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 수행 가능한 비교 단계 수 |
+| 크기 (Size) | 전체 [비교기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/) 수 |
+| [데이터 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/) | 비교 순서가 입력값에 무관 |
 
 📢 **섹션 요약 비유**: 정렬 네트워크는 공장 조립 라인과 같다. 라인이 미리 설계되어 있어서 어떤 부품이 와도 같은 순서로 조립된다. 라인을 바꾸지 않고도 모든 제품을 처리할 수 있다.
 
@@ -32,7 +36,7 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [[043_comparator|비교기]]([[043_comparator|Comparator]]) 동작
+### [비교기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/)([Comparator](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/)) 동작
 
 ```
     a ─────┬───── min(a,b)
@@ -42,7 +46,7 @@ tags:
 비교기: 위 와이어에 작은 값, 아래 와이어에 큰 값
 ```
 
-### 4원소 [[022_bubble_sort|버블 정렬]] 네트워크 ([[103_ascii|ASCII]] 다이어그램)
+### 4원소 [버블 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/022_bubble_sort/) 네트워크 ([ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램)
 
 ```
 입력:  a₁  a₂  a₃  a₄
@@ -85,7 +89,7 @@ n=8: 4 × 3 × 4 / 2 = 24개 비교기
 | 네트워크 | 깊이 | 크기 | 특성 |
 |:---|:---:|:---:|:---|
 | 바이토닉 정렬 (Bitonic Sort) | O(log²n) | O(n log²n) | 구현 간단, 하드웨어 표준 |
-| 홀짝 병합 정렬 (Odd-Even Merge) | O(log²n) | O(n log²n) | [[430_index_fast_full_scan|병렬]] 네트워크 표준 |
+| 홀짝 병합 정렬 (Odd-Even Merge) | O(log²n) | O(n log²n) | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 네트워크 표준 |
 | AKS 네트워크 | O(log n) | O(n log n) | 이론적 최적, 실용 불가 |
 | 쉘 정렬 네트워크 | O(log^1.5 n) | O(n log^1.5 n) | 실용적 절충 |
 
@@ -99,13 +103,13 @@ n=8: 4 × 3 × 4 / 2 = 24개 비교기
 
 | 비교 항목 | 정렬 네트워크 | 일반 정렬 |
 |:---|:---:|:---:|
-| 비교 순서 | 고정 ([[001_dikw_pyramid|데이터]] 독립) | 입력값에 의존 |
-| [[430_index_fast_full_scan|병렬]]화 | 완벽 (동일 깊이 동시 수행) | [[001_dikw_pyramid|데이터]] 의존성으로 제한 |
-| 소프트웨어 [[282_performance_tactics|성능]] | O(n log²n) — 일반 정렬보다 느림 | O(n log n) |
-| 하드웨어 [[282_performance_tactics|성능]] | O(log²n) 깊이 — [[148_5g_embb_urllc_mmtc|초고속]] | 하드웨어 매핑 어려움 |
-| 적용 분야 | [[606_dynamic_partial_reconfiguration|FPGA]], [[418_gpu|GPU]], 네트워크 라우터 | CPU 소프트웨어 |
+| 비교 순서 | 고정 ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 독립) | 입력값에 의존 |
+| [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 | 완벽 (동일 깊이 동시 수행) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존성으로 제한 |
+| 소프트웨어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | O(n log²n) — 일반 정렬보다 느림 | O(n log n) |
+| 하드웨어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | O(log²n) 깊이 — [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) | 하드웨어 매핑 어려움 |
+| 적용 분야 | [FPGA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/), [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), 네트워크 라우터 | CPU 소프트웨어 |
 
-### 홀짝 병합 정렬 (Odd-Even [[044_merge_sort|Merge Sort]]) 개요
+### 홀짝 병합 정렬 (Odd-Even [Merge Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)) 개요
 
 ```
 홀짝 병합 정렬의 재귀 구조:
@@ -123,19 +127,19 @@ n=8: 4 × 3 × 4 / 2 = 24개 비교기
 
 ### 하드웨어 가속 정렬 응용
 
-**시나리오 1 — [[606_dynamic_partial_reconfiguration|FPGA]] 고빈도 거래(HFT)**:  
-주식 주문 [[001_dikw_pyramid|데이터]]를 나노초 단위로 정렬  
-→ 정렬 네트워크 [[606_dynamic_partial_reconfiguration|FPGA]] 구현으로 5ns 이하 레이턴시  
+**시나리오 1 — [FPGA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/) 고빈도 거래(HFT)**:  
+주식 주문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 나노초 단위로 정렬  
+→ 정렬 네트워크 [FPGA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/) 구현으로 5ns 이하 레이턴시  
 → 소프트웨어 정렬 대비 1000배 이상 빠름
 
-**시나리오 2 — [[418_gpu|GPU]] 정렬 ([[420_cuda|CUDA]])**:  
-수백만 원소 [[430_index_fast_full_scan|병렬]] 정렬  
-→ CUB([[420_cuda|CUDA]] Unbound) 라이브러리의 바이토닉 정렬  
+**시나리오 2 — [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 정렬 ([CUDA](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/420_cuda/))**:  
+수백만 원소 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 정렬  
+→ CUB([CUDA](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/420_cuda/) Unbound) 라이브러리의 바이토닉 정렬  
 → NVIDIA GPU에서 초당 수십억 원소 처리
 
-**시나리오 3 — 네트워크 패킷 [[104_classification_analysis|분류]]**:  
+**시나리오 3 — 네트워크 패킷 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)**:  
 라우터에서 패킷 우선순위 정렬  
-→ [[070_asic|ASIC]] 기반 정렬 네트워크로 라인 속도(line-rate) 처리
+→ [ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) 기반 정렬 네트워크로 라인 속도(line-rate) 처리
 
 ### 기술사 관점 핵심 포인트
 
@@ -160,30 +164,30 @@ n=8: 4 × 3 × 4 / 2 = 24개 비교기
 
 ## Ⅴ. 기대효과 및 결론
 
-정렬 네트워크는 **[[430_index_fast_full_scan|병렬]] 하드웨어와 [[001_algorithm_definition|알고리즘]]의 결합**에서 최고의 [[282_performance_tactics|성능]]을 발휘한다. [[004_data_independence|데이터 독립성]]이라는 독특한 특성은 보안(타이밍 공격 방어), 하드웨어 최적화, [[418_gpu|GPU]] [[430_index_fast_full_scan|병렬]] 처리에서 없어서는 안 될 기법이다.
+정렬 네트워크는 **[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 하드웨어와 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 결합**에서 최고의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 발휘한다. [데이터 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/)이라는 독특한 특성은 보안(타이밍 공격 방어), 하드웨어 최적화, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리에서 없어서는 안 될 기법이다.
 
 ### 효과 정리
 
 | 효과 | 내용 |
 |:---|:---|
-| [[430_index_fast_full_scan|병렬]] 깊이 | O(log²n)으로 하드웨어 클럭 사이클 최소화 |
-| [[004_data_independence|데이터 독립성]] | 보안 응용(Oblivious RAM) 구현 가능 |
-| 하드웨어 최적화 | [[606_dynamic_partial_reconfiguration|FPGA]]/[[070_asic|ASIC]]/GPU에 직접 매핑 가능 |
+| [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 깊이 | O(log²n)으로 하드웨어 클럭 사이클 최소화 |
+| [데이터 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/) | 보안 응용(Oblivious RAM) 구현 가능 |
+| 하드웨어 최적화 | [FPGA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/)/[ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/)/GPU에 직접 매핑 가능 |
 | 결정론적 동작 | 어떤 입력도 동일한 비교 순서로 처리 |
 
-📢 **섹션 요약 비유**: 정렬 네트워크는 정밀 기계 시계와 같다. 맞물린 기어([[043_comparator|비교기]])가 정해진 순서대로 움직이면서, 어떤 시간이 입력되어도 정확하게 초침이 돌아간다.
+📢 **섹션 요약 비유**: 정렬 네트워크는 정밀 기계 시계와 같다. 맞물린 기어([비교기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/))가 정해진 순서대로 움직이면서, 어떤 시간이 입력되어도 정확하게 초침이 돌아간다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 개념 | 연결 [[083_relationship_in_er_model|관계]] | 설명 |
+| 개념 | 연결 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
 |:---|:---|:---|
 | 바이토닉 수열 | → 기본 개념 | 오름차순 후 내림차순인 수열 |
-| [[606_dynamic_partial_reconfiguration|FPGA]]/[[070_asic|ASIC]] | → 구현 환경 | 하드웨어 정렬 가속기 |
-| [[418_gpu|GPU]] [[430_index_fast_full_scan|병렬]] 정렬 | → 응용 | [[420_cuda|CUDA]]/OpenCL 기반 구현 |
-| [[001_dikw_pyramid|데이터]] 독립 [[001_algorithm_definition|알고리즘]] | → 보안 응용 | 타이밍 공격 방어 |
-| [[430_index_fast_full_scan|병렬]] [[001_algorithm_definition|알고리즘]] 이론 | → 이론 기반 | PRAM 모델 |
+| [FPGA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/)/[ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) | → 구현 환경 | 하드웨어 정렬 가속기 |
+| [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 정렬 | → 응용 | [CUDA](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/420_cuda/)/OpenCL 기반 구현 |
+| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 독립 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | → 보안 응용 | 타이밍 공격 방어 |
+| [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 이론 | → 이론 기반 | PRAM 모델 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -205,13 +209,13 @@ n=8: 4 × 3 × 4 / 2 = 24개 비교기
     ▼
 [하드웨어 정렬기 (Hardware Sorter) — FPGA/ASIC 내장 정렬 회로, 나노초 처리량]
 ```
-이 흐름은 소프트웨어 [[149_serial_communication_rs232_rs485|직렬]] 정렬에서 출발해 하드웨어 [[430_index_fast_full_scan|병렬]] [[043_comparator|비교기]] 네트워크로 진화하고, GPU와 [[606_dynamic_partial_reconfiguration|FPGA]] 기반 초병렬 정렬 엔진으로 수렴하는 고성능 정렬 기술의 계보를 보여준다.
+이 흐름은 소프트웨어 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 정렬에서 출발해 하드웨어 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [비교기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/) 네트워크로 진화하고, GPU와 [FPGA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/) 기반 초병렬 정렬 엔진으로 수렴하는 고성능 정렬 기술의 계보를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 🏭 **공장 조립 라인**: 어떤 물건이 와도 같은 순서로 조립되는 컨베이어 벨트처럼, 정렬 네트워크는 어떤 숫자가 와도 미리 정해진 순서로 비교해서 정렬해요!  
-⚡ **전기 회로**: 정렬 네트워크는 칩([[606_dynamic_partial_reconfiguration|FPGA]])에 전기 회로처럼 새겨져 있어서, 전기 신호가 지나가는 순간 정렬이 완료돼요 — 엄청 빠르죠!  
-🎭 **정해진 안무**: 댄서들이 미리 짜인 안무대로 춤추듯, [[043_comparator|비교기]]들이 정해진 순서대로 숫자를 교환하면 어떤 숫자가 들어와도 정렬이 완료돼요!
+⚡ **전기 회로**: 정렬 네트워크는 칩([FPGA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/))에 전기 회로처럼 새겨져 있어서, 전기 신호가 지나가는 순간 정렬이 완료돼요 — 엄청 빠르죠!  
+🎭 **정해진 안무**: 댄서들이 미리 짜인 안무대로 춤추듯, [비교기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/)들이 정해진 순서대로 숫자를 교환하면 어떤 숫자가 들어와도 정렬이 완료돼요!
 
 ---
 
@@ -219,7 +223,7 @@ n=8: 4 × 3 × 4 / 2 = 24개 비교기
 
 **진행 상황**: 27 / 175
 
-← **이전**: [[026_insertion_sort|17. 삽입 정렬 (Insertion Sort) — O(n²)/O(n) 최선, 안정, 소규모 효율]]
-**다음**: [[028_binary_search|18. 이분 탐색 (Binary Search) — O(log n), 정렬된 배열 필수]] →
+← **이전**: [17. 삽입 정렬 (Insertion Sort) — O(n²)/O(n) 최선, 안정, 소규모 효율](/knowledge-base/studynote/08_algorithm_stats/02_sorting/026_insertion_sort/)
+**다음**: [18. 이분 탐색 (Binary Search) — O(log n), 정렬된 배열 필수](/knowledge-base/studynote/08_algorithm_stats/02_sorting/028_binary_search/) →
 
 ---

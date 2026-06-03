@@ -1,24 +1,28 @@
----
-title: 188. 보장 스케줄링 (Guaranteed Scheduling)
-date: '2026-05-08'
-tags:
-- studynote-operating-system
----
++++
+title = "188. 보장 스케줄링 (Guaranteed Scheduling)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 보장 스케줄링 (Guaranteed Scheduling)은 시스템에 로그인한 $N$명의 사용자(또는 프로세스)에게 CPU [[282_performance_tactics|성능]]의 정확히 $\frac{1}{N}$을 엄격하게 수치적으로 보장(Guarantee)하겠다는 고객-시스템 간의 계약 기반 스케줄링 [[001_algorithm_definition|알고리즘]]이다.
+> 1. **본질**: 보장 스케줄링 (Guaranteed Scheduling)은 시스템에 로그인한 $N$명의 사용자(또는 프로세스)에게 CPU [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 정확히 $\frac{1}{N}$을 엄격하게 수치적으로 보장(Guarantee)하겠다는 고객-시스템 간의 계약 기반 스케줄링 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 > 2. **가치**: 특정 프로세스의 우선순위나 버스트 길이에 휘둘리지 않고, 시스템이 약속한 CPU 비율 대비 현재까지 "얼마나 공평하게 자원을 할당받았는지(비율)"를 매번 계산하여 가장 손해를 본 프로세스에게 무조건 CPU를 내어주는 극단적 평등주의를 구현한다.
-> 3. **융합**: 이 수학적 공정성 비율 개념은 리눅스의 [[202_cfs_completely_fair_scheduler|완전 공정 스케줄러]](CFS)의 근간이 되었으며, 현대 [[052_cloud_computing_os|클라우드 컴퓨팅]](K8s, [[063_docker_architecture|Docker]])에서 테넌트별 CPU 쿼터([[551_quota_disk_limit|Quota]])와 한도(Limit)를 Bounded(보장)하는 [[085_sla|SLA]]([[090_service_kubernetes_network_load_balancing|서비스]] 수준 협약)의 기초 모델로 계승되었다.
+> 3. **융합**: 이 수학적 공정성 비율 개념은 리눅스의 [완전 공정 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/202_cfs_completely_fair_scheduler/)(CFS)의 근간이 되었으며, 현대 [클라우드 컴퓨팅](/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/)(K8s, [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))에서 테넌트별 CPU 쿼터([Quota](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/))와 한도(Limit)를 Bounded(보장)하는 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 협약)의 기초 모델로 계승되었다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [[079_kube_scheduler_pod_placement|스케줄러]]가 짧은 작업([[175_sjf_scheduling|SJF]])이나 중요한 작업(Priority)을 편애하는 방식에서 벗어나, 시스템에 진입한 프로세스 $N$개에 대해 각자 $\frac{1}{N}$의 CPU 사이클을 가질 권리가 있음을 선언하고 이 비율의 편차를 실시간으로 맞추어 나가는 [[001_algorithm_definition|알고리즘]]이다.
-- **필요성**: 기존의 스케줄링 기법들은 시스템의 거시적 효율([[139_throughput|처리량]], 응답시간)을 높이는 데 급급하여, 개별 사용자 입장에서 "내가 내 돈 내고 서버에 접속했는데 왜 내 프로그램만 느려?"라는 불만을 해소할 '정량적 약속'이 불가능했다. 상업용 시분할 [[090_service_kubernetes_network_load_balancing|서비스]]에서는 고객에게 "당신은 무조건 CPU [[282_performance_tactics|성능]]의 20%를 가져간다"는 [[085_sla|SLA]]([[085_sla|Service Level Agreement]])를 보장할 논리적 근거가 절실했다.
+- **개념**: [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 짧은 작업([SJF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/))이나 중요한 작업(Priority)을 편애하는 방식에서 벗어나, 시스템에 진입한 프로세스 $N$개에 대해 각자 $\frac{1}{N}$의 CPU 사이클을 가질 권리가 있음을 선언하고 이 비율의 편차를 실시간으로 맞추어 나가는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
+- **필요성**: 기존의 스케줄링 기법들은 시스템의 거시적 효율([처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), 응답시간)을 높이는 데 급급하여, 개별 사용자 입장에서 "내가 내 돈 내고 서버에 접속했는데 왜 내 프로그램만 느려?"라는 불만을 해소할 '정량적 약속'이 불가능했다. 상업용 시분할 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에서는 고객에게 "당신은 무조건 CPU [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 20%를 가져간다"는 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))를 보장할 논리적 근거가 절실했다.
 
-- **등장 배경**: 1970년대 이후 메인프레임의 컴퓨팅 파워를 여러 회사에 쪼개어 임대해 주는 시분할 비즈니스(현재의 클라우드 개념 조상)가 활성화되었다. 자원을 사용한 만큼 돈을 받아야 했으므로, 특정 로직에 치우치지 않고 철저하게 '약속된 연산량 비율'을 보장하는 회계(Accounting) 기반의 [[079_kube_scheduler_pod_placement|스케줄러]]가 필요해 제안되었다.
+- **등장 배경**: 1970년대 이후 메인프레임의 컴퓨팅 파워를 여러 회사에 쪼개어 임대해 주는 시분할 비즈니스(현재의 클라우드 개념 조상)가 활성화되었다. 자원을 사용한 만큼 돈을 받아야 했으므로, 특정 로직에 치우치지 않고 철저하게 '약속된 연산량 비율'을 보장하는 회계(Accounting) 기반의 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 필요해 제안되었다.
 
 ```text
   [보장 스케줄링의 공정성 수렴(Convergence) 매커니즘]
@@ -34,7 +38,7 @@ tags:
    >> 스케줄러는 이 격차를 0으로 만들기 위해, 항상 '가장 손해 본(비율이 낮은)' 
       P4에게 CPU를 밀어주어 모든 프로세스가 25% 선으로 수렴하도록 강제한다.
 ```
-**[다이어그램 해설]** 보장 스케줄링은 미래를 예측([[175_sjf_scheduling|SJF]])하거나 자의적으로 신분(Priority)을 부여하지 않는다. 오직 "과거에 네가 약속된 지분보다 얼마나 덜 먹었는가(비율)"라는 회계 장부만을 보고 차갑게 기회를 박탈하거나 몰아준다. 이 메커니즘 덕분에 누구 하나 [[314_starvation_prevention|기아 상태]]([[314_starvation_prevention|Starvation]])에 빠지지 않고 수학적으로 완벽한 공평함을 보장받는다.
+**[다이어그램 해설]** 보장 스케줄링은 미래를 예측([SJF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/))하거나 자의적으로 신분(Priority)을 부여하지 않는다. 오직 "과거에 네가 약속된 지분보다 얼마나 덜 먹었는가(비율)"라는 회계 장부만을 보고 차갑게 기회를 박탈하거나 몰아준다. 이 메커니즘 덕분에 누구 하나 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))에 빠지지 않고 수학적으로 완벽한 공평함을 보장받는다.
 
 - **📢 섹션 요약 비유**: 부모님이 피자를 4형제에게 무조건 $\frac{1}{4}$ 조각씩 나눠주기로 '보장'했습니다. 첫째가 몰래 더 먹어서 $\frac{1}{3}$을 먹었다면, 부모님은 첫째를 못 먹게 묶어두고, 가장 적게 먹은 막내 입에 피자를 계속 넣어주어 기어코 전원의 뱃속에 똑같은 양의 피자가 들어가게 만드는 철저한 분배 규칙입니다.
 
@@ -42,11 +46,11 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 비율 계산의 수학적 [[001_algorithm_definition|알고리즘]] (Ratio Calculation)
+### 비율 계산의 수학적 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Ratio Calculation)
 
-보장 [[079_kube_scheduler_pod_placement|스케줄러]]의 핵심은 매 [[016_interrupt_mechanism|인터럽트]] 시점마다 각 프로세스의 **'실제 소비 시간 대비 권리 시간의 비율(Ratio)'**을 [[087_floating_point|부동소수점]]으로 계산하는 것이다.
+보장 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 핵심은 매 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 시점마다 각 프로세스의 **'실제 소비 시간 대비 권리 시간의 비율(Ratio)'**을 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/)으로 계산하는 것이다.
 
-1. **시간 모니터링**: [[022_kernel_role|커널]]은 각 프로세스가 시스템에 생성된 이후 경과한 시간($T_{elapsed}$)과, 실제로 CPU를 소모한 누적 시간($T_{actual}$)을 밀리초 단위로 기록한다.
+1. **시간 모니터링**: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 각 프로세스가 시스템에 생성된 이후 경과한 시간($T_{elapsed}$)과, 실제로 CPU를 소모한 누적 시간($T_{actual}$)을 밀리초 단위로 기록한다.
 2. **권리 시간 계산**: 프로세스가 $N$개 있다면, 한 프로세스가 마땅히 보장받아야 할 권리 시간($T_{entitled}$)은 $T_{elapsed} / N$ 이다.
 3. **보장 비율(Ratio) 도출**:
    > **Ratio = $\frac{T_{actual}}{T_{entitled}}$**
@@ -74,39 +78,39 @@ tags:
   │  P3의 비율이 0.9가 넘어 1.0에 도달할 때까지 계속 P3를 실행시킨다.    │
   └──────────────────────────────────────────────────────────────────────┘
 ```
-**[다이어그램 해설]** Ratio(비율)가 1.0이라는 것은 시스템이 약속한 $\frac{1}{N}$을 정확히 챙겨 먹었다는 뜻이다. 1.0을 넘으면 혜택을 본 것이고, 1.0 미만이면 시스템으로부터 착취당한 상태다. [[079_kube_scheduler_pod_placement|스케줄러]]의 유일한 임무는 모든 프로세스의 Ratio가 1.0에 평형을 이루도록 제일 비율이 낮은 놈의 멱살을 잡아 끌어올리는 것뿐이다.
+**[다이어그램 해설]** Ratio(비율)가 1.0이라는 것은 시스템이 약속한 $\frac{1}{N}$을 정확히 챙겨 먹었다는 뜻이다. 1.0을 넘으면 혜택을 본 것이고, 1.0 미만이면 시스템으로부터 착취당한 상태다. [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 유일한 임무는 모든 프로세스의 Ratio가 1.0에 평형을 이루도록 제일 비율이 낮은 놈의 멱살을 잡아 끌어올리는 것뿐이다.
 
-- **📢 섹션 요약 비유**: 이 [[001_algorithm_definition|알고리즘]]은 철저한 공산주의식 자산 재분배와 같습니다. 시스템 재산(총 CPU 시간)의 $\frac{1}{N}$을 평균 자산으로 정해놓고, 이 평균치보다 재산(실제 사용 시간)이 적은 최빈곤층(가장 낮은 Ratio)에게 세금(CPU 코어)을 강제로 몰아주어 전원의 자산을 똑같이 맞춥니다.
+- **📢 섹션 요약 비유**: 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 철저한 공산주의식 자산 재분배와 같습니다. 시스템 재산(총 CPU 시간)의 $\frac{1}{N}$을 평균 자산으로 정해놓고, 이 평균치보다 재산(실제 사용 시간)이 적은 최빈곤층(가장 낮은 Ratio)에게 세금(CPU 코어)을 강제로 몰아주어 전원의 자산을 똑같이 맞춥니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 보장 스케줄링 vs [[178_round_robin_scheduling|라운드 로빈]] ([[834_load_balancing_algorithm_round_robin_least_connection|RR]]) 
+### 보장 스케줄링 vs [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/) ([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/)) 
 
-언뜻 보면 "공평하게 나눈다"는 철학이 [[178_round_robin_scheduling|라운드 로빈]]([[834_load_balancing_algorithm_round_robin_least_connection|RR]])과 똑같아 보이지만, 타겟팅하는 지점이 완전히 다르다.
+언뜻 보면 "공평하게 나눈다"는 철학이 [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/)([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/))과 똑같아 보이지만, 타겟팅하는 지점이 완전히 다르다.
 
-| 비교 기준 | [[178_round_robin_scheduling|라운드 로빈]] ([[834_load_balancing_algorithm_round_robin_least_connection|RR]]) | 보장 스케줄링 (Guaranteed) |
+| 비교 기준 | [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/) ([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/)) | 보장 스케줄링 (Guaranteed) |
 |:---|:---|:---|
 | **공평함의 기준** | **"기회의 공평"** (모두에게 똑같은 10ms 슬라이스를 준다) | **"결과의 공평"** (지금까지 먹은 누적량 $\frac{1}{N}$을 절대 맞춘다) |
 | **I/O 바운드의 대우** | 10ms 중 1ms만 쓰고 I/O 하러 도망가면, 남은 9ms는 버려짐 (손해 봄) | 1ms 쓴 기록이 계좌에 고스란히 남아 누적 비율이 팍 깎이므로, I/O 끝나고 오면 밀린 이자까지 쳐서 무조건 즉시 CPU를 줌 |
 | **오버헤드** | 단순 타이머 기반이라 매우 빠름 O(1) | 매번 전 프로세스의 나눗셈(비율)을 계산해야 하는 막대한 오버헤드 O(N) |
 
-[[178_round_robin_scheduling|라운드 로빈]]은 I/O 바운드 프로세스에게 너무나 가혹한 시스템이다. I/O 하러 도망가서 못 쓴 퀀텀을 아무도 보상해 주지 않기 때문이다. 반면 **보장 스케줄링은 네가 I/O 하느라 CPU를 못 썼다면, 네 Ratio가 바닥을 칠 테니 나중에 돌아왔을 때 못 먹은 만큼 다 몰아서 먹여준다(완벽한 결과적 공정성)**는 무시무시한 보장성을 갖는다.
+[라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/)은 I/O 바운드 프로세스에게 너무나 가혹한 시스템이다. I/O 하러 도망가서 못 쓴 퀀텀을 아무도 보상해 주지 않기 때문이다. 반면 **보장 스케줄링은 네가 I/O 하느라 CPU를 못 썼다면, 네 Ratio가 바닥을 칠 테니 나중에 돌아왔을 때 못 먹은 만큼 다 몰아서 먹여준다(완벽한 결과적 공정성)**는 무시무시한 보장성을 갖는다.
 
-### [[001_algorithm_definition|알고리즘]]의 치명적 한계 (현실성 부족)
-1. **과도한 오버헤드**: 문맥 교환이 일어날 때마다 Ready 큐의 수십~수백 개 프로세스 전원에 대해 [[087_floating_point|부동소수점]] 나눗셈을 수백 번 돌려야 한다. [[079_kube_scheduler_pod_placement|스케줄러]]가 이 연산을 하느라 정작 CPU를 갉아먹는다.
+### [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 치명적 한계 (현실성 부족)
+1. **과도한 오버헤드**: 문맥 교환이 일어날 때마다 Ready 큐의 수십~수백 개 프로세스 전원에 대해 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 나눗셈을 수백 번 돌려야 한다. [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 이 연산을 하느라 정작 CPU를 갉아먹는다.
 2. **동적 $N$의 변화**: 프로세스 $N$개가 4개에서 갑자기 크롬 탭을 열어 100개로 늘어나면, 기존 4개일 때 할당받던 권리(25%)가 순식간에 1%로 곤두박질친다. 이 경우 보장의 의미 자체가 심각하게 퇴색되며 Ratio 계산이 엉망진창이 된다.
 
-- **📢 섹션 요약 비유**: [[178_round_robin_scheduling|라운드 로빈]]은 식권 1장씩을 똑같이 나눠주고 밥을 다 못 먹고 버린 건 니 책임이라고 넘기는 방식이라면, 보장 스케줄링은 식권을 다 못 쓰고 일(I/O)하러 다녀온 학생의 장부를 철저히 검사해서 저녁에 남은 고기반찬을 두 배로 쌓아주는 궁극의 [[579_accounting_auditing|어카운팅]](회계) 기반 급식소입니다.
+- **📢 섹션 요약 비유**: [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/)은 식권 1장씩을 똑같이 나눠주고 밥을 다 못 먹고 버린 건 니 책임이라고 넘기는 방식이라면, 보장 스케줄링은 식권을 다 못 쓰고 일(I/O)하러 다녀온 학생의 장부를 철저히 검사해서 저녁에 남은 고기반찬을 두 배로 쌓아주는 궁극의 [어카운팅](/knowledge-base/studynote/09_security/11_iam_access_control/579_accounting_auditing/)(회계) 기반 급식소입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **리눅스 CFS (Completely Fair Scheduler)의 탄생**: 순수 보장 스케줄링은 실수 나눗셈의 오버헤드 때문에 사장되었다. 그러나 [[022_kernel_role|커널]] 해커 이노고 몰나르(Ingo Molnar)는 이 "결과의 공평(보장)" 철학을 가져와 [[087_floating_point|부동소수점]] 연산을 없애버렸다. 비율(Ratio) 나눗셈을 하는 대신, 단지 **"프로세스가 지금까지 사용한 시간(vruntime)" 자체를 절대 평가 점수로 삼고 가장 적게 쓴 놈을 뽑는 방식**으로 O(log N)의 레드-블랙 트리로 우아하게 최적화했다. 이것이 현대 리눅스의 표준 [[079_kube_scheduler_pod_placement|스케줄러]]인 CFS의 코어 엔진이다. (즉, CFS는 보장 스케줄링 철학의 현대적 완성본이다.)
-2. **[[196_kubernetes_k8s_container_orchestration|쿠버네티스]]/도커의 CPU [[551_quota_disk_limit|Quota]] 제한 ([[085_sla|SLA]] 보장)**: [[001_operating_system_purpose|운영체제]] [[079_kube_scheduler_pod_placement|스케줄러]] 수준을 넘어 [[561_container_based_deployment|컨테이너]] 인프라 환경에서 보장 스케줄링은 부활했다. Cgroups를 통해 특정 [[561_container_based_deployment|컨테이너]]에 `cpu-quota`와 `cpu-period`를 부여하면, 다른 [[561_container_based_deployment|컨테이너]]가 100개가 뜨든 말든 이 [[561_container_based_deployment|컨테이너]]는 무조건 설정된 20%의 물리적 CPU 사이클을 '보장(Guarantee)' 받는다. 클라우드 [[090_service_kubernetes_network_load_balancing|서비스]] 제공자(AWS, GCP)가 고객에게 [[282_performance_tactics|성능]] SLA를 수치로 약속할 수 있는 물리적 근간이 바로 이 철학이다.
+1. **리눅스 CFS (Completely Fair Scheduler)의 탄생**: 순수 보장 스케줄링은 실수 나눗셈의 오버헤드 때문에 사장되었다. 그러나 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 해커 이노고 몰나르(Ingo Molnar)는 이 "결과의 공평(보장)" 철학을 가져와 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 연산을 없애버렸다. 비율(Ratio) 나눗셈을 하는 대신, 단지 **"프로세스가 지금까지 사용한 시간(vruntime)" 자체를 절대 평가 점수로 삼고 가장 적게 쓴 놈을 뽑는 방식**으로 O(log N)의 레드-블랙 트리로 우아하게 최적화했다. 이것이 현대 리눅스의 표준 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)인 CFS의 코어 엔진이다. (즉, CFS는 보장 스케줄링 철학의 현대적 완성본이다.)
+2. **[쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)/도커의 CPU [Quota](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/) 제한 ([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 보장)**: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 수준을 넘어 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 인프라 환경에서 보장 스케줄링은 부활했다. Cgroups를 통해 특정 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)에 `cpu-quota`와 `cpu-period`를 부여하면, 다른 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 100개가 뜨든 말든 이 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 무조건 설정된 20%의 물리적 CPU 사이클을 '보장(Guarantee)' 받는다. 클라우드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공자(AWS, GCP)가 고객에게 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) SLA를 수치로 약속할 수 있는 물리적 근간이 바로 이 철학이다.
 
 ```text
   ┌─────────────────────────────────────────────────────────────────┐
@@ -128,19 +132,19 @@ tags:
   │      절대 침범당하지 않게 칼같이(Throttle) 방어해 낸다.         │
   └─────────────────────────────────────────────────────────────────┘
 ```
-**[다이어그램 해설]** 보장 스케줄링의 철학은 개별 쓰레드 1단계를 넘어, 유저 그룹/[[561_container_based_deployment|컨테이너]] 그룹을 묶어 거대한 컴퓨팅 파이를 쪼개는 **계층적 스케줄링(Hierarchical Scheduling)**으로 진화했다. 과거에는 $1/N$이라는 멍청한 평등을 보장했다면, 지금은 돈 낸 액수에 따라 $50%, 30%$ 같은 [[267_weight_bias_activation|가중치]]([[267_weight_bias_activation|Weight]])를 곱해 그 비율만큼을 한 치의 오차 없이 '보장(Guarantee)'하는 자본주의적 분배 로직으로 아키텍처가 업그레이드되었다.
+**[다이어그램 해설]** 보장 스케줄링의 철학은 개별 쓰레드 1단계를 넘어, 유저 그룹/[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 그룹을 묶어 거대한 컴퓨팅 파이를 쪼개는 **계층적 스케줄링(Hierarchical Scheduling)**으로 진화했다. 과거에는 $1/N$이라는 멍청한 평등을 보장했다면, 지금은 돈 낸 액수에 따라 $50%, 30%$ 같은 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))를 곱해 그 비율만큼을 한 치의 오차 없이 '보장(Guarantee)'하는 자본주의적 분배 로직으로 아키텍처가 업그레이드되었다.
 
-- **📢 섹션 요약 비유**: 옛날엔 반장([[079_kube_scheduler_pod_placement|스케줄러]])이 아이들 100명에게 사탕을 똑같이 나누어주느라 머리가 터졌다면([[459_quic_fec_forward_error_correction|초기]] 보장 [[079_kube_scheduler_pod_placement|스케줄러]]), 지금은 1분단 조장에게 50개, 2분단 조장에게 30개를 확실히 보장해서 던져주고 조장([[062_cgroups|Cgroups]])이 알아서 분배하게 만드는 효율적이고 강력한 클라우드 영토 분할 시스템입니다.
+- **📢 섹션 요약 비유**: 옛날엔 반장([스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/))이 아이들 100명에게 사탕을 똑같이 나누어주느라 머리가 터졌다면([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 보장 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)), 지금은 1분단 조장에게 50개, 2분단 조장에게 30개를 확실히 보장해서 던져주고 조장([Cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/))이 알아서 분배하게 만드는 효율적이고 강력한 클라우드 영토 분할 시스템입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
 ### 기대효과
-[[079_kube_scheduler_pod_placement|스케줄러]]에 완벽한 회계(Accounting)와 보장(Guarantee) 개념이 결합되면서, 사용자는 다른 사용자가 서버에서 무슨 짓(루프 폭주 등)을 하든 말든 내가 약속받은 연산 속도가 절대 떨어지지 않는다는 강력한 **자원 격리(Resource [[195_isolation_concurrency_control|Isolation]])와 [[085_sla|SLA]]([[090_service_kubernetes_network_load_balancing|서비스]] 수준 협약)**의 혜택을 온전히 누릴 수 있게 되었다.
+[스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)에 완벽한 회계(Accounting)와 보장(Guarantee) 개념이 결합되면서, 사용자는 다른 사용자가 서버에서 무슨 짓(루프 폭주 등)을 하든 말든 내가 약속받은 연산 속도가 절대 떨어지지 않는다는 강력한 **자원 격리(Resource [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))와 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 협약)**의 혜택을 온전히 누릴 수 있게 되었다.
 
 ### 결론 및 미래 전망
-보장 스케줄링 [[001_algorithm_definition|알고리즘]] 자체는 나눗셈 오버헤드와 비현실적인 1/N 평등주의로 인해 교과서의 유물로 남는 듯했다. 그러나 "과거의 소비 내역을 장부에 기록하고, 부족분만큼 우선순위를 높여준다"는 뼈대 철학은 공정 주식 배분(Fair Share) [[001_algorithm_definition|알고리즘]]으로 흡수되었으며, 마침내 현대의 클라우드 인프라(K8s)와 리눅스 CFS에서 [[314_starvation_prevention|기아 상태]]를 원천 차단하는 가장 위대한 스케줄링 코어 로직으로 부활해 현대 서버 아키텍처를 호령하고 있다. 
+보장 스케줄링 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 자체는 나눗셈 오버헤드와 비현실적인 1/N 평등주의로 인해 교과서의 유물로 남는 듯했다. 그러나 "과거의 소비 내역을 장부에 기록하고, 부족분만큼 우선순위를 높여준다"는 뼈대 철학은 공정 주식 배분(Fair Share) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 흡수되었으며, 마침내 현대의 클라우드 인프라(K8s)와 리눅스 CFS에서 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)를 원천 차단하는 가장 위대한 스케줄링 코어 로직으로 부활해 현대 서버 아키텍처를 호령하고 있다. 
 
 - **📢 섹션 요약 비유**: 순수하게 $1/N$로 쪼개는 공산주의적 나눗셈 계산기(보장 스케줄링) 자체는 버려졌지만, "누구도 자신이 일한 몫과 권리를 억울하게 빼앗겨선 안 된다"는 그 위대한 헌법(공정성 철학)은 현대 민주주의 시스템(리눅스 CFS)의 가장 든든한 주춧돌로 승화되었습니다.
 
@@ -150,10 +154,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[691_mlfq_multi_level_feedback_queue|MLFQ]] 파라미터 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [[187_hrn_scheduling|HRN]] (Highest Response Ratio Next) 스케줄링 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [[189_lottery_scheduling|복권 스케줄링]] ([[189_lottery_scheduling|Lottery Scheduling]]) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [[190_fair_share_scheduling|공평 몫 스케줄링]] ([[190_fair_share_scheduling|Fair-share Scheduling]]) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) 파라미터 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [HRN](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/187_hrn_scheduling/) (Highest Response Ratio Next) 스케줄링 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [복권 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/189_lottery_scheduling/) ([Lottery Scheduling](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/189_lottery_scheduling/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [공평 몫 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/190_fair_share_scheduling/) ([Fair-share Scheduling](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/190_fair_share_scheduling/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -172,7 +176,7 @@ tags:
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 피자 한 판을 4명의 친구가 정확히 25%씩 똑같이 먹기로 '보장(약속)'했어요. 이게 **보장 스케줄링**이에요!
-2. 그런데 한 친구가 화장실(I/O 대기)에 다녀오느라 피자를 [[489_raid_10_hybrid|10]]%밖에 못 먹었어요. 그럼 선생님([[079_kube_scheduler_pod_placement|스케줄러]])은 수학적으로 재빨리 계산을 해요.
+2. 그런데 한 친구가 화장실(I/O 대기)에 다녀오느라 피자를 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%밖에 못 먹었어요. 그럼 선생님([스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/))은 수학적으로 재빨리 계산을 해요.
 3. "앗! 저 친구가 제일 손해(비율이 낮음)를 보고 있네!" 하고 화장실에서 돌아온 친구에게 남은 피자를 다 몰아주어서, 결국엔 네 명 모두 뱃속에 똑같이 25%가 들어가도록 완벽히 챙겨준답니다!
 
 ---
@@ -181,7 +185,7 @@ tags:
 
 **진행 상황**: 188 / 800
 
-← **이전**: [[187_hrn_scheduling|187. HRN (Highest Response Ratio Next) 스케줄링 - (대기시간+서비스시간)/서비스시간]]
-**다음**: [[189_lottery_scheduling|189. 복권 스케줄링 (Lottery Scheduling) - 확률적 스케줄링]] →
+← **이전**: [187. HRN (Highest Response Ratio Next) 스케줄링 - (대기시간+서비스시간)/서비스시간](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/187_hrn_scheduling/)
+**다음**: [189. 복권 스케줄링 (Lottery Scheduling) - 확률적 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/189_lottery_scheduling/) →
 
 ---

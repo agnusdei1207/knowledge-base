@@ -1,18 +1,22 @@
----
-title: 047. 계층적 군집화 — Hierarchical Clustering
-date: '2026-04-05'
-tags:
-- studynote-ai
----
++++
+title = "047. 계층적 군집화 — Hierarchical Clustering"
+date = 2026-04-05
+
+[taxonomies]
+tags = ["studynote-ai"]
+
+[extra]
+tags = ["studynote-ai"]
++++
 
 > **핵심 인사이트**
-> 1. [[358_hierarchical_clustering|계층적 군집화]](Hierarchical [[105_clustering_analysis|Clustering]])는 [[001_dikw_pyramid|데이터]]를 트리 형태의 덴드로그램(Dendrogram)으로 표현하는 [[105_clustering_analysis|군집화]] [[001_algorithm_definition|알고리즘]] — k-means와 달리 군집 수를 사전에 결정할 필요 없고, 덴드로그램을 어느 높이에서 자르느냐에 따라 다양한 군집 수를 얻을 수 있다.
-> 2. 응집형(Agglomerative) vs 분리형(Divisive) 두 접근법 — 응집형은 각 [[001_dikw_pyramid|데이터]] 포인트를 독립 군집으로 시작해 유사한 것끼리 합치고(아래→위), 분리형은 전체를 하나의 군집으로 시작해 나누는 방식(위→아래)이다. 실무에서는 응집형이 훨씬 많이 사용된다.
-> 3. 연결 방법(Linkage)이 군집 모양을 결정 — 단일 연결(Single)은 체인 효과로 길쭉한 군집, 완전 연결(Complete)은 컴팩트한 구형 군집, Ward 연결은 [[136_variance|분산]] 최소화로 균일한 크기 군집을 [[087_process_state_transition|생성]]하며, Ward 방법이 일반적으로 최고 [[282_performance_tactics|성능]]을 보인다.
+> 1. [계층적 군집화](/knowledge-base/studynote/10_ai/05_data_science_ml/358_hierarchical_clustering/)(Hierarchical [Clustering](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/))는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 트리 형태의 덴드로그램(Dendrogram)으로 표현하는 [군집화](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) — k-means와 달리 군집 수를 사전에 결정할 필요 없고, 덴드로그램을 어느 높이에서 자르느냐에 따라 다양한 군집 수를 얻을 수 있다.
+> 2. 응집형(Agglomerative) vs 분리형(Divisive) 두 접근법 — 응집형은 각 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포인트를 독립 군집으로 시작해 유사한 것끼리 합치고(아래→위), 분리형은 전체를 하나의 군집으로 시작해 나누는 방식(위→아래)이다. 실무에서는 응집형이 훨씬 많이 사용된다.
+> 3. 연결 방법(Linkage)이 군집 모양을 결정 — 단일 연결(Single)은 체인 효과로 길쭉한 군집, 완전 연결(Complete)은 컴팩트한 구형 군집, Ward 연결은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 최소화로 균일한 크기 군집을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하며, Ward 방법이 일반적으로 최고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보인다.
 
 ---
 
-## Ⅰ. [[358_hierarchical_clustering|계층적 군집화]] 개요
+## Ⅰ. [계층적 군집화](/knowledge-base/studynote/10_ai/05_data_science_ml/358_hierarchical_clustering/) 개요
 
 ```
 계층적 군집화 두 방향:
@@ -58,7 +62,7 @@ tags:
   최적 절단: 가장 긴 수직선 위치 (가장 큰 거리 점프)
 ```
 
-> 📢 **섹션 요약 비유**: [[358_hierarchical_clustering|계층적 군집화]]는 가족 족보 — 개인([[001_dikw_pyramid|데이터]]) → 가족 → 씨족 → 민족 → 인류. 덴드로그램은 족보 그림. 어느 세대까지 볼지(절단)는 내가 결정!
+> 📢 **섹션 요약 비유**: [계층적 군집화](/knowledge-base/studynote/10_ai/05_data_science_ml/358_hierarchical_clustering/)는 가족 족보 — 개인([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) → 가족 → 씨족 → 민족 → 인류. 덴드로그램은 족보 그림. 어느 세대까지 볼지(절단)는 내가 결정!
 
 ---
 
@@ -120,7 +124,7 @@ Ward 연결:
 
 ---
 
-## Ⅲ. [[001_algorithm_definition|알고리즘]] 구현
+## Ⅲ. [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 구현
 
 ```
 응집형 계층적 군집화 알고리즘:
@@ -170,7 +174,7 @@ Python 구현:
   → 대규모 데이터: k-means 선호
 ```
 
-> 📢 **섹션 요약 비유**: 계층 군집 [[001_algorithm_definition|알고리즘]]은 거리 기반 합치기 — 거리표(D) 보면서 가장 가까운 둘을 계속 합쳐요. 족보가 완성될 때까지!
+> 📢 **섹션 요약 비유**: 계층 군집 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 거리 기반 합치기 — 거리표(D) 보면서 가장 가까운 둘을 계속 합쳐요. 족보가 완성될 때까지!
 
 ---
 
@@ -215,7 +219,7 @@ k-means vs 계층 군집화:
   임의 형태: DBSCAN 또는 계층(단일 연결)
 ```
 
-> 📢 **섹션 요약 비유**: [[105_clustering_analysis|군집화]] 선택은 도구 선택 — 손톱(k-means: 빠르고 표준), 드라이버(계층: 다양한 형태), 렌치([[351_dbscan_density_based_clustering|DBSCAN]]: [[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]]). 상황에 맞는 도구!
+> 📢 **섹션 요약 비유**: [군집화](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/) 선택은 도구 선택 — 손톱(k-means: 빠르고 표준), 드라이버(계층: 다양한 형태), 렌치([DBSCAN](/knowledge-base/studynote/06_ict_convergence/05_data_science/351_dbscan_density_based_clustering/): [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)). 상황에 맞는 도구!
 
 ---
 
@@ -263,7 +267,7 @@ k-means 대비 장점:
   신규→충성 전환율: 28% (이전 15%)
 ```
 
-> 📢 **섹션 요약 비유**: 고객 세그먼트 분석은 손님 [[104_classification_analysis|분류]] — 덴드로그램으로 VIP·충성·휴면·신규 4그룹 자동 발견. k-means 달리 그룹 수도 자동으로 알아내요!
+> 📢 **섹션 요약 비유**: 고객 세그먼트 분석은 손님 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) — 덴드로그램으로 VIP·충성·휴면·신규 4그룹 자동 발견. k-means 달리 그룹 수도 자동으로 알아내요!
 
 ---
 
@@ -319,7 +323,7 @@ sklearn 통합
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 계층 [[105_clustering_analysis|군집화]]는 족보 만들기 — 개인([[001_dikw_pyramid|데이터]]) → 가족 → 씨족 → 민족 → 인류. 덴드로그램은 족보 그림!
+1. 계층 [군집화](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/)는 족보 만들기 — 개인([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) → 가족 → 씨족 → 민족 → 인류. 덴드로그램은 족보 그림!
 2. 연결 방법은 반 편성 기준 — Ward는 비슷한 성적끼리 균일 배치, 단일은 친구 한 명이라도 있으면 합류(체인 효과)!
 3. 덴드로그램 절단은 어느 세대까지 볼지 — 덴드로그램을 높이 5에서 자르면 4개 그룹. 내가 원하는 그룹 수를 사후 선택!
 
@@ -329,7 +333,7 @@ sklearn 통합
 
 **진행 상황**: 47 / 420
 
-← **이전**: [[046_dbscan|046. DBSCAN — 밀도 기반 군집화]]
-**다음**: [[048_anomaly_detection|048. 이상 탐지 — Anomaly Detection]] →
+← **이전**: [046. DBSCAN — 밀도 기반 군집화](/knowledge-base/studynote/10_ai/01_ai_basics/046_dbscan/)
+**다음**: [048. 이상 탐지 — Anomaly Detection](/knowledge-base/studynote/10_ai/01_ai_basics/048_anomaly_detection/) →
 
 ---

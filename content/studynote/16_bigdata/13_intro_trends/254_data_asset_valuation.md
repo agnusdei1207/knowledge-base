@@ -1,18 +1,22 @@
----
-title: 042. 데이터 자산 평가
-date: '2026-04-05'
-tags:
-- studynote-bigdata
----
++++
+title = "042. 데이터 자산 평가"
+date = 2026-04-05
+
+[taxonomies]
+tags = ["studynote-bigdata"]
+
+[extra]
+tags = ["studynote-bigdata"]
++++
 
 > **핵심 인사이트**
-> 1. [[001_dikw_pyramid|데이터]] 자산 평가([[001_dikw_pyramid|Data]] Asset Valuation)는 [[001_dikw_pyramid|데이터]]를 단순한 IT 자원이 아닌 경제적 가치를 가진 기업 자산으로 인식하고 정량적으로 측정하는 방법론으로, DCF(현금흐름할인법), 시장비교법, 비용접근법의 3대 방법론을 [[001_dikw_pyramid|데이터]] 특성에 맞게 적용한다.
-> 2. [[001_dikw_pyramid|데이터]]의 경제적 가치는 직접 가치(판매·라이선스)와 간접 가치(의사결정 향상, 위험 감소, 비용 절감)로 구성되며, 간접 가치가 대부분의 기업에서 직접 가치를 훨씬 초과하는 특성이 있어 전통 회계 방법론으로는 포착이 어렵다.
-> 3. [[791_gdpr_eu|GDPR]], [[800_ccpa|CCPA]] 등 [[001_dikw_pyramid|데이터]] 규제 강화로 [[052_data_governance_framework|데이터 거버넌스]](품질, 계보, 접근 제어)가 [[001_dikw_pyramid|데이터]] 자산 가치 유지의 핵심 요소로 부상했으며, 품질이 낮은 [[001_dikw_pyramid|데이터]]는 오히려 음(-)의 가치를 가질 수 있다 — 잘못된 의사결정으로 인한 손실이 [[001_dikw_pyramid|데이터]] 자체의 비용을 초과할 때.
+> 1. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산 평가([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Asset Valuation)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 단순한 IT 자원이 아닌 경제적 가치를 가진 기업 자산으로 인식하고 정량적으로 측정하는 방법론으로, DCF(현금흐름할인법), 시장비교법, 비용접근법의 3대 방법론을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 특성에 맞게 적용한다.
+> 2. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 경제적 가치는 직접 가치(판매·라이선스)와 간접 가치(의사결정 향상, 위험 감소, 비용 절감)로 구성되며, 간접 가치가 대부분의 기업에서 직접 가치를 훨씬 초과하는 특성이 있어 전통 회계 방법론으로는 포착이 어렵다.
+> 3. [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/), [CCPA](/knowledge-base/studynote/09_security/16_data_privacy/800_ccpa/) 등 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규제 강화로 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)(품질, 계보, 접근 제어)가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산 가치 유지의 핵심 요소로 부상했으며, 품질이 낮은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 오히려 음(-)의 가치를 가질 수 있다 — 잘못된 의사결정으로 인한 손실이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체의 비용을 초과할 때.
 
 ---
 
-## Ⅰ. [[001_dikw_pyramid|데이터]] 자산 개념 및 [[104_classification_analysis|분류]]
+## Ⅰ. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산 개념 및 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)
 
 ```
 데이터 자산 (Data Asset) 정의:
@@ -53,11 +57,11 @@ tags:
   품질 저하: 시간이 지나면 outdated (가치 감소)
 ```
 
-> 📢 **섹션 요약 비유**: [[001_dikw_pyramid|데이터]] 자산은 특별한 광산 — 캐내도 없어지지 않고, 여러 사람이 동시에 캐도 되고, 더 많이 캘수록 새로운 맥이 보이는 마법 같은 자원.
+> 📢 **섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산은 특별한 광산 — 캐내도 없어지지 않고, 여러 사람이 동시에 캐도 되고, 더 많이 캘수록 새로운 맥이 보이는 마법 같은 자원.
 
 ---
 
-## Ⅱ. 3대 [[001_dikw_pyramid|데이터]] 가치 평가 방법론
+## Ⅱ. 3대 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 가치 평가 방법론
 
 ```
 1. 비용 접근법 (Cost Approach):
@@ -107,11 +111,11 @@ tags:
         간접 효과 계량화 어려움
 ```
 
-> 📢 **섹션 요약 비유**: 3대 방법론은 집값 산정 방법 — 건축 비용(비용법), 인근 매매가(시장비교법), 임대 수익 현재가치(DCF법) — 세 가지 관점에서 [[250_cross_validation_kfold|교차 검증]].
+> 📢 **섹션 요약 비유**: 3대 방법론은 집값 산정 방법 — 건축 비용(비용법), 인근 매매가(시장비교법), 임대 수익 현재가치(DCF법) — 세 가지 관점에서 [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/).
 
 ---
 
-## Ⅲ. [[001_dikw_pyramid|데이터]] 품질과 가치의 [[083_relationship_in_er_model|관계]]
+## Ⅲ. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질과 가치의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
 ```
 데이터 품질 6대 차원 (ISO 8000):
@@ -145,11 +149,11 @@ tags:
   IBM 연구: 데이터 품질 불량 → 미국 기업 연간 3.1조 달러 손실
 ```
 
-> 📢 **섹션 요약 비유**: [[001_dikw_pyramid|데이터]] 품질은 요리 재료 신선도 — 신선한 재료(고품질 [[001_dikw_pyramid|데이터]])는 맛있는 요리(올바른 의사결정), 상한 재료는 배탈(잘못된 결정)을 만들어요.
+> 📢 **섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질은 요리 재료 신선도 — 신선한 재료(고품질 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))는 맛있는 요리(올바른 의사결정), 상한 재료는 배탈(잘못된 결정)을 만들어요.
 
 ---
 
-## Ⅳ. [[052_data_governance_framework|데이터 거버넌스]]와 자산 관리
+## Ⅳ. [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)와 자산 관리
 
 ```
 데이터 자산 관리 (Data Asset Management) 구조:
@@ -185,11 +189,11 @@ tags:
   불변 역사 데이터: 노후화 없음 (오히려 시간 가치 증가)
 ```
 
-> 📢 **섹션 요약 비유**: [[052_data_governance_framework|데이터 거버넌스]]는 도서관 사서 — 책([[001_dikw_pyramid|데이터]])마다 [[104_classification_analysis|분류]]번호([[012_metadata|메타데이터]])를 붙이고, 대출 기록(접근 [[568_logs_distributed_logging_elk_fluentd|로그]])을 관리하고, 낡은 책(노후 [[001_dikw_pyramid|데이터]])을 교체해요.
+> 📢 **섹션 요약 비유**: [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)는 도서관 사서 — 책([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))마다 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)번호([메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/))를 붙이고, 대출 기록(접근 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))을 관리하고, 낡은 책(노후 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 교체해요.
 
 ---
 
-## Ⅴ. 실무 시나리오 — 고객 [[001_dikw_pyramid|데이터]] 자산 평가
+## Ⅴ. 실무 시나리오 — 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산 평가
 
 ```
 유통 기업 고객 데이터 자산 가치 평가 사례:
@@ -233,7 +237,7 @@ DCF 접근법 (간접 가치):
   거버넌스 투자로 품질 유지 = 가치 보존
 ```
 
-> 📢 **섹션 요약 비유**: [[001_dikw_pyramid|데이터]] 자산 평가는 금광 가치 평가 — 굴착 비용(비용법)이 아니라 캐낼 수 있는 금의 총 가치(DCF법)로 광산 가치를 매겨야 해요.
+> 📢 **섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산 평가는 금광 가치 평가 — 굴착 비용(비용법)이 아니라 캐낼 수 있는 금의 총 가치(DCF법)로 광산 가치를 매겨야 해요.
 
 ---
 
@@ -292,9 +296,9 @@ AI 학습 데이터 고가치화
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [[001_dikw_pyramid|데이터]] 자산 평가는 보물 가격 매기기 — 보물을 찾는 데 든 비용(비용법), 같은 보물의 시장 가격(시장비교법), 이 보물로 벌 수 있는 돈(DCF법) 세 가지로 가격을 정해요!
-2. 나쁜 [[001_dikw_pyramid|데이터]]는 독이 든 보물 — 겉으로는 많아 보여도 틀린 정보로 나쁜 결정을 하게 만들면 오히려 손해예요.
-3. [[052_data_governance_framework|데이터 거버넌스]]는 보물 창고 관리 — 어떤 보물이 있는지 목록을 만들고, 지키고, 신선하게 유지해야 진짜 가치가 유지돼요!
+1. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산 평가는 보물 가격 매기기 — 보물을 찾는 데 든 비용(비용법), 같은 보물의 시장 가격(시장비교법), 이 보물로 벌 수 있는 돈(DCF법) 세 가지로 가격을 정해요!
+2. 나쁜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 독이 든 보물 — 겉으로는 많아 보여도 틀린 정보로 나쁜 결정을 하게 만들면 오히려 손해예요.
+3. [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)는 보물 창고 관리 — 어떤 보물이 있는지 목록을 만들고, 지키고, 신선하게 유지해야 진짜 가치가 유지돼요!
 
 ---
 
@@ -302,7 +306,7 @@ AI 학습 데이터 고가치화
 
 **진행 상황**: 254 / 262
 
-← **이전**: [[253_zettabyte_era|041. 제타바이트 시대 (Zettabyte Era)]]
-**다음**: [[255_data_observability|043. 데이터 옵저버빌리티]] →
+← **이전**: [041. 제타바이트 시대 (Zettabyte Era)](/knowledge-base/studynote/16_bigdata/13_intro_trends/253_zettabyte_era/)
+**다음**: [043. 데이터 옵저버빌리티](/knowledge-base/studynote/16_bigdata/13_intro_trends/255_data_observability/) →
 
 ---

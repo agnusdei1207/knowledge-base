@@ -1,24 +1,28 @@
----
-title: 88. Amazon Kinesis Data Streams — 샤드 기반, AWS 관리형
-date: '2026-04-05'
-description: 옵티마이저의 개념, 다양한 최적화 알고리즘의 분류와 특성, Adaptive Learning Rate 방법론
-tags:
-- it_management
----
++++
+title = "88. Amazon Kinesis Data Streams — 샤드 기반, AWS 관리형"
+description = "옵티마이저의 개념, 다양한 최적화 알고리즘의 분류와 특성, Adaptive Learning Rate 방법론"
+date = 2026-04-05
+
+[taxonomies]
+tags = ["it_management"]
+
+[extra]
+tags = ["it_management"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[163_optimizer_sql_execution_plan_generator|옵티마이저]] (Optimizer)는 [[231_ai_turing_test|인공지능]] 모델이 예측한 값과 정답 간의 오차(Loss)를 최소화하기 위해, 네트워크의 [[267_weight_bias_activation|가중치]]([[267_weight_bias_activation|Weight]])를 어느 방향으로 얼만큼 수정할지 결정하는 내비게이션 [[001_algorithm_definition|알고리즘]]이다.
-> 2. **가치**: 단순한 경사하강법의 느린 속도와 지역 최적해([[083_local_minima_vs_global_minimum|Local Minima]]) 함정 문제를 극복하기 위해, 관성([[276_momentum_optimizer|Momentum]])과 적응형 [[080_gradient_descent_learning_rate|학습률]]([[137_edutech_adaptive_learning_lms|Adaptive Learning]] Rate) 개념을 도입하여 학습의 안정성과 속도를 비약적으로 높인다.
-> 3. **판단 포인트**: 항상 최고 [[282_performance_tactics|성능]]을 내는 '만능' [[163_optimizer_sql_execution_plan_generator|옵티마이저]]는 없으며, 데이터의 희소성(Sparsity), 모델의 크기, 배포 환경에 따라 `SGD (Stochastic Gradient Descent)` 계열과 `Adam` 계열 중 적합한 것을 취사선택해야 한다.
+> 1. **본질**: [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) (Optimizer)는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 모델이 예측한 값과 정답 간의 오차(Loss)를 최소화하기 위해, 네트워크의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))를 어느 방향으로 얼만큼 수정할지 결정하는 내비게이션 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
+> 2. **가치**: 단순한 경사하강법의 느린 속도와 지역 최적해([Local Minima](/knowledge-base/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/)) 함정 문제를 극복하기 위해, 관성([Momentum](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/))과 적응형 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)([Adaptive Learning](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/137_edutech_adaptive_learning_lms/) Rate) 개념을 도입하여 학습의 안정성과 속도를 비약적으로 높인다.
+> 3. **판단 포인트**: 항상 최고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 내는 '만능' [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)는 없으며, 데이터의 희소성(Sparsity), 모델의 크기, 배포 환경에 따라 `SGD (Stochastic Gradient Descent)` 계열과 `Adam` 계열 중 적합한 것을 취사선택해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-딥러닝의 학습 과정은 수백만 개의 파라미터가 얽힌 칠흑 같은 산속에서, 바닥(최소 오차점)을 향해 길을 찾아 내려가는 고차원 최적화 문제와 같다. [[459_quic_fec_forward_error_correction|초기]]에는 매번 전체 데이터를 다 보고 한 걸음 이동하는 방식(Batch [[165_gradient_descent|Gradient Descent]])을 썼으나, 연산량이 너무 많고 속도가 느려 실전 적용이 불가능했다.
+딥러닝의 학습 과정은 수백만 개의 파라미터가 얽힌 칠흑 같은 산속에서, 바닥(최소 오차점)을 향해 길을 찾아 내려가는 고차원 최적화 문제와 같다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 매번 전체 데이터를 다 보고 한 걸음 이동하는 방식(Batch [Gradient Descent](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/))을 썼으나, 연산량이 너무 많고 속도가 느려 실전 적용이 불가능했다.
 
-이후 데이터의 일부만 보고 이동 방향을 정하는 `SGD (Stochastic Gradient Descent)`가 등장했지만, 이번에는 기울기가 가파른 곳에서 진동하거나 평탄한 곳에서 멈춰버리는 문제가 발생했다. 결국 지형의 형태에 맞춰 보폭을 넓히거나 좁히고, 내리막길의 가속도를 유지해주는 정교한 [[163_optimizer_sql_execution_plan_generator|옵티마이저]] (Optimizer) 엔진이 필수적으로 요구되었다.
+이후 데이터의 일부만 보고 이동 방향을 정하는 `SGD (Stochastic Gradient Descent)`가 등장했지만, 이번에는 기울기가 가파른 곳에서 진동하거나 평탄한 곳에서 멈춰버리는 문제가 발생했다. 결국 지형의 형태에 맞춰 보폭을 넓히거나 좁히고, 내리막길의 가속도를 유지해주는 정교한 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) (Optimizer) 엔진이 필수적으로 요구되었다.
 
 - **📢 섹션 요약 비유**: 캄캄한 산속에서 손전등 하나에 의지해 하산할 때, 발밑의 경사만 보고 무작정 걷지 않도록 속도와 방향을 똑똑하게 제어해 주는 등산 안내인과 같다.
 
@@ -26,12 +30,12 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[[163_optimizer_sql_execution_plan_generator|옵티마이저]]의 핵심 원리는 과거의 이동 이력을 기억하는 '[[276_momentum_optimizer|모멘텀]](관성)'과 각 파라미터별로 빈도를 따져 보폭을 조절하는 '적응형 [[080_gradient_descent_learning_rate|학습률]]' 두 축으로 구성된다.
+[옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)의 핵심 원리는 과거의 이동 이력을 기억하는 '[모멘텀](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/)(관성)'과 각 파라미터별로 빈도를 따져 보폭을 조절하는 '적응형 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)' 두 축으로 구성된다.
 
-| 핵심 원리 | 설명 | 대표 [[001_algorithm_definition|알고리즘]] |
+| 핵심 원리 | 설명 | 대표 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
 | :--- | :--- | :--- |
-| **[[276_momentum_optimizer|Momentum]] (관성)** | 이전 단계의 이동 방향과 속도를 기억해 기울기가 작아져도 밀고 나감 | [[276_momentum_optimizer|Momentum]], Nesterov |
-| **[[137_edutech_adaptive_learning_lms|Adaptive Learning]] Rate (보폭 조절)** | 많이 변한 파라미터는 [[080_gradient_descent_learning_rate|학습률]]을 줄이고, 적게 변한 파라미터는 늘림 | `AdaGrad`, `RMSProp` |
+| **[Momentum](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/) (관성)** | 이전 단계의 이동 방향과 속도를 기억해 기울기가 작아져도 밀고 나감 | [Momentum](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/), Nesterov |
+| **[Adaptive Learning](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/137_edutech_adaptive_learning_lms/) Rate (보폭 조절)** | 많이 변한 파라미터는 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)을 줄이고, 적게 변한 파라미터는 늘림 | `AdaGrad`, `RMSProp` |
 | **하이브리드 (통합형)** | 관성으로 방향을 유지하면서 파라미터별 보폭도 같이 조절함 | `Adam`, `AdamW` |
 
 ```text
@@ -51,21 +55,21 @@ tags:
 
 가장 널리 쓰이는 `Adam (Adaptive Moment Estimation)`은 이 두 가지 기법을 정교하게 결합한 형태다. 1차 모멘트로 매끄러운 방향성을 잡고, 2차 모멘트로 변수마다 맞춤형 보폭을 적용함으로써 험준한 오차 지형에서도 빠르고 안정적으로 최소점을 찾아간다.
 
-- **📢 섹션 요약 비유**: [[276_momentum_optimizer|모멘텀]]이 자전거의 '관성 주행'이라면, 적응형 [[080_gradient_descent_learning_rate|학습률]]은 자갈길과 아스팔트에 맞춰 바퀴의 '서스펜션'을 실시간으로 조절하는 기술이다.
+- **📢 섹션 요약 비유**: [모멘텀](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/)이 자전거의 '관성 주행'이라면, 적응형 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)은 자갈길과 아스팔트에 맞춰 바퀴의 '서스펜션'을 실시간으로 조절하는 기술이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-현대 딥러닝에서 [[163_optimizer_sql_execution_plan_generator|옵티마이저]]는 크게 `SGD` 계열과 `Adam` 계열로 양분되며, 각각의 장단점이 명확해 문제 영역에 따라 달리 쓰인다.
+현대 딥러닝에서 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)는 크게 `SGD` 계열과 `Adam` 계열로 양분되며, 각각의 장단점이 명확해 문제 영역에 따라 달리 쓰인다.
 
-| 비교 축 | `SGD` + [[276_momentum_optimizer|Momentum]] | `Adam` ([[277_adam_optimizer|Adaptive Moment Estimation]]) | `AdamW` |
+| 비교 축 | `SGD` + [Momentum](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/) | `Adam` ([Adaptive Moment Estimation](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/)) | `AdamW` |
 | :--- | :--- | :--- | :--- |
-| **수렴 속도** | [[459_quic_fec_forward_error_correction|초기]]에는 상대적으로 느림 | 초반 수렴 속도가 매우 빠름 | 빠름 |
-| **일반화 [[282_performance_tactics|성능]]** | 세밀하게 수렴하여 테스트 [[282_performance_tactics|성능]]이 높음 | Train Loss는 잘 줄이나 과적합 우려 있음 | `Adam`의 과적합 문제를 개선함 |
-| **[[009_config|설정]] 민감도** | [[080_gradient_descent_learning_rate|학습률]] 튜닝이 매우 까다로움 | 기본 [[009_config|설정]]값만으로도 훌륭한 [[282_performance_tactics|성능]] 발휘 | [[267_weight_bias_activation|가중치]] 감쇠([[091_l1_l2_regularization_weight_decay|Weight Decay]]) 조절 용이 |
+| **수렴 속도** | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 상대적으로 느림 | 초반 수렴 속도가 매우 빠름 | 빠름 |
+| **일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)** | 세밀하게 수렴하여 테스트 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 높음 | Train Loss는 잘 줄이나 과적합 우려 있음 | `Adam`의 과적합 문제를 개선함 |
+| **[설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 민감도** | [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 튜닝이 매우 까다로움 | 기본 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)값만으로도 훌륭한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 발휘 | [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 감쇠([Weight Decay](/knowledge-base/studynote/10_ai/01_ai_basics/091_l1_l2_regularization_weight_decay/)) 조절 용이 |
 
-`AdaGrad (Adaptive Gradient)`는 자연어 처리처럼 자주 등장하지 않는 희소(Sparse) 단어 학습에 유리하지만, 학습이 길어지면 [[080_gradient_descent_learning_rate|학습률]]이 0으로 소실되는 단점이 있었다. 이를 개선한 것이 최근 추세를 이끄는 `RMSProp (Root Mean Square Propagation)`과 `Adam`이며, 특히 대형 언어 모델([[263_llm_large_language_model|LLM]])에서는 [[093_normalization|정규화]] 효과를 깔끔하게 분리한 `AdamW`가 사실상 표준으로 자리 잡았다.
+`AdaGrad (Adaptive Gradient)`는 자연어 처리처럼 자주 등장하지 않는 희소(Sparse) 단어 학습에 유리하지만, 학습이 길어지면 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)이 0으로 소실되는 단점이 있었다. 이를 개선한 것이 최근 추세를 이끄는 `RMSProp (Root Mean Square Propagation)`과 `Adam`이며, 특히 대형 언어 모델([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))에서는 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 효과를 깔끔하게 분리한 `AdamW`가 사실상 표준으로 자리 잡았다.
 
 - **📢 섹션 요약 비유**: `SGD`는 운전이 까다롭지만 최고 속도가 빠른 수동 변속기 차량이고, `Adam`은 누구나 편하게 몰 수 있지만 코너링에서 가끔 미끄러지는 자동 변속기 차량이다.
 
@@ -73,29 +77,29 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-[[163_optimizer_sql_execution_plan_generator|옵티마이저]] 선택은 단순히 코드를 한 줄 바꾸는 것을 넘어, 전체 프로젝트의 실험 속도와 배포 모델의 신뢰성을 결정짓는 핵심 아키텍처 의사결정이다.
+[옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 선택은 단순히 코드를 한 줄 바꾸는 것을 넘어, 전체 프로젝트의 실험 속도와 배포 모델의 신뢰성을 결정짓는 핵심 아키텍처 의사결정이다.
 
 ### 실무 선택 가이드
 
-1. **컴퓨터 비전([[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]] 계열)**: `SGD (Stochastic Gradient Descent)` + [[276_momentum_optimizer|Momentum]] 조합이 압도적으로 유리하다. 학습은 오래 걸리지만 최종 일반화 [[282_performance_tactics|성능]]이 `Adam`보다 뛰어난 경우가 많다.
-2. **자연어 처리 및 [[246_transformer_self_attention_parallel_positional_encoding|Transformer]] 계열**: [[459_quic_fec_forward_error_correction|초기]] 학습이 불안정하므로 `Adam`이나 `AdamW`를 사용하며, 특히 `Warm-up` ([[459_quic_fec_forward_error_correction|초기]] [[080_gradient_descent_learning_rate|학습률]]을 서서히 올리는 기법)을 반드시 병행해야 발산을 막을 수 있다.
-3. **빠른 프로토타이핑**: 새로운 구조의 모델을 검증할 때는 [[080_gradient_descent_learning_rate|학습률]] 튜닝 없이도 빠르게 결과를 보여주는 `Adam`을 최우선으로 적용하여 가설을 먼저 검증한다.
+1. **컴퓨터 비전([CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 계열)**: `SGD (Stochastic Gradient Descent)` + [Momentum](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/) 조합이 압도적으로 유리하다. 학습은 오래 걸리지만 최종 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 `Adam`보다 뛰어난 경우가 많다.
+2. **자연어 처리 및 [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 계열**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 학습이 불안정하므로 `Adam`이나 `AdamW`를 사용하며, 특히 `Warm-up` ([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)을 서서히 올리는 기법)을 반드시 병행해야 발산을 막을 수 있다.
+3. **빠른 프로토타이핑**: 새로운 구조의 모델을 검증할 때는 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 튜닝 없이도 빠르게 결과를 보여주는 `Adam`을 최우선으로 적용하여 가설을 먼저 검증한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 어떤 모델이든 무비판적으로 `Adam`만 고집하고, 학습 후반부에 [[080_gradient_descent_learning_rate|학습률]] [[079_kube_scheduler_pod_placement|스케줄러]]([[240_switch_learning_forwarding_flooding|Learning]] Rate Scheduler)를 통해 보폭을 줄여주는 세밀한 제어를 생략하는 행위.
+- 어떤 모델이든 무비판적으로 `Adam`만 고집하고, 학습 후반부에 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)([Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Rate Scheduler)를 통해 보폭을 줄여주는 세밀한 제어를 생략하는 행위.
 
-- **📢 섹션 요약 비유**: 연습 경기에 나갈 때는 쉽게 다룰 수 있는 장비([[277_adam_optimizer|Adam]])로 몸을 풀고, 실전 결승전에서는 예민하지만 한계치가 높은 맞춤 장비(SGD)를 쓰는 전략적 판단이 필요하다.
+- **📢 섹션 요약 비유**: 연습 경기에 나갈 때는 쉽게 다룰 수 있는 장비([Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/))로 몸을 풀고, 실전 결승전에서는 예민하지만 한계치가 높은 맞춤 장비(SGD)를 쓰는 전략적 판단이 필요하다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-우수한 [[163_optimizer_sql_execution_plan_generator|옵티마이저]]의 선택은 모델 학습 시간을 주 단위에서 일 단위로 단축시키며, 데이터가 가진 잠재력을 끝까지 쥐어짜 내는 역할을 한다. 반대로 [[163_optimizer_sql_execution_plan_generator|옵티마이저]] 튜닝에 실패하면 아무리 훌륭한 신경망 구조와 양질의 데이터를 가졌더라도 영원히 학습을 끝내지 못한다.
+우수한 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)의 선택은 모델 학습 시간을 주 단위에서 일 단위로 단축시키며, 데이터가 가진 잠재력을 끝까지 쥐어짜 내는 역할을 한다. 반대로 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 튜닝에 실패하면 아무리 훌륭한 신경망 구조와 양질의 데이터를 가졌더라도 영원히 학습을 끝내지 못한다.
 
-결론적으로, [[163_optimizer_sql_execution_plan_generator|옵티마이저]] 기술은 "얼마나 빨리 떨어지는가"를 넘어 "어떻게 브레이크를 밟으며 정교하게 멈춰 설 것인가"의 예술이다. 실무 엔지니어는 자신이 다루는 데이터의 특성(희소성, 노이즈)과 모델의 깊이를 종합하여 최적의 엔진(Optimizer)을 장착할 수 있는 튜닝 역량을 갖추어야 한다.
+결론적으로, [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 기술은 "얼마나 빨리 떨어지는가"를 넘어 "어떻게 브레이크를 밟으며 정교하게 멈춰 설 것인가"의 예술이다. 실무 엔지니어는 자신이 다루는 데이터의 특성(희소성, 노이즈)과 모델의 깊이를 종합하여 최적의 엔진(Optimizer)을 장착할 수 있는 튜닝 역량을 갖추어야 한다.
 
-- **📢 섹션 요약 비유**: [[163_optimizer_sql_execution_plan_generator|옵티마이저]]는 단순히 산을 내려가는 엔진이 아니라, 거친 지형을 매끄럽게 흡수하고 목표 지점에 흔들림 없이 주차하게 해 주는 고급 브레이크 시스템이다.
+- **📢 섹션 요약 비유**: [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)는 단순히 산을 내려가는 엔진이 아니라, 거친 지형을 매끄럽게 흡수하고 목표 지점에 흔들림 없이 주차하게 해 주는 고급 브레이크 시스템이다.
 
 ---
 
@@ -103,10 +107,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[075_loss_function_cost_function|손실 함수]] ([[087_loss_function|Loss Function]]) | [[163_optimizer_sql_execution_plan_generator|옵티마이저]]가 깎아내려야 하는 지형의 형태(목표치) |
+| [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/) ([Loss Function](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_loss_function/)) | [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 깎아내려야 하는 지형의 형태(목표치) |
 | 기울기 (Gradient) | 현재 위치에서 가장 가파른 내리막의 방향을 나타내는 벡터 |
-| [[267_weight_bias_activation|가중치]] 감쇠 ([[091_l1_l2_regularization_weight_decay|Weight Decay]]) | 과적합을 막기 위해 [[267_weight_bias_activation|가중치]]가 너무 커지지 않도록 [[163_optimizer_sql_execution_plan_generator|옵티마이저]]에 패널티를 주는 기법 |
-| 지역 최적해 ([[083_local_minima_vs_global_minimum|Local Minima]]) | 진정한 최저점이 아니지만 주변보다 낮아서 [[163_optimizer_sql_execution_plan_generator|옵티마이저]]가 갇히기 쉬운 웅덩이 |
+| [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 감쇠 ([Weight Decay](/knowledge-base/studynote/10_ai/01_ai_basics/091_l1_l2_regularization_weight_decay/)) | 과적합을 막기 위해 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 너무 커지지 않도록 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)에 패널티를 주는 기법 |
+| 지역 최적해 ([Local Minima](/knowledge-base/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/)) | 진정한 최저점이 아니지만 주변보다 낮아서 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 갇히기 쉬운 웅덩이 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -129,7 +133,7 @@ Adam / AdamW : 관성과 적응형 보폭을 결합한 현대적 표준
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 깜깜한 산에서 내려올 때 발밑의 경사만 보고 무작정 뛰면 금방 넘어지거나 길을 잃어요.
-2. [[163_optimizer_sql_execution_plan_generator|옵티마이저]]는 "이전에는 어느 방향으로 뛰었지?(관성)"와 "지금 이 길은 너무 가파른가?(보폭 조절)"를 계산해 주는 똑똑한 나침반이에요.
+2. [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)는 "이전에는 어느 방향으로 뛰었지?(관성)"와 "지금 이 길은 너무 가파른가?(보폭 조절)"를 계산해 주는 똑똑한 나침반이에요.
 3. 이 나침반 덕분에 컴퓨터는 아무리 복잡한 길이라도 넘어지지 않고 가장 깊은 골짜기(정답)를 빠르게 찾아갈 수 있답니다.
 
 ---
@@ -138,7 +142,7 @@ Adam / AdamW : 관성과 적응형 보폭을 결합한 현대적 표준
 
 **진행 상황**: 159 / 587
 
-← **이전**: [[087_underpinning_contract|87. UC (Underpinning Contract)]]
-**다음**: [[088_service_catalog|88. 서비스 카탈로그 (Service Catalog)]] →
+← **이전**: [87. UC (Underpinning Contract)](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/)
+**다음**: [88. 서비스 카탈로그 (Service Catalog)](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/) →
 
 ---

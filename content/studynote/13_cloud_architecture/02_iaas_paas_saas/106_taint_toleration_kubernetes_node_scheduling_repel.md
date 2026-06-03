@@ -1,28 +1,32 @@
----
-title: 106. 테인트(Taint)와 톨러레이션(Toleration) - K8s 스케줄링 제어
-date: '2026-04-10'
-tags:
-- studynote-cloud-architecture
----
++++
+title = "106. 테인트(Taint)와 톨러레이션(Toleration) - K8s 스케줄링 제어"
+date = 2026-04-10
+
+[taxonomies]
+tags = ["studynote-cloud-architecture"]
+
+[extra]
+tags = ["studynote-cloud-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 테인트 (Taint)와 톨러레이션 (Toleration)은 [[085_pod_kubernetes_container_unit|파드]]([[198_pod_kubernetes_minimum_deployment_unit|Pod]])가 특정 노드(Node)에 스케줄링되는 것을 노드 입장에서 거부하고, 이를 예외적으로 허용하는 방어적 스케줄링 통제 기법이다.
-> 2. **가치**: 고가의 [[418_gpu|GPU]] 노드나 특정 [[090_service_kubernetes_network_load_balancing|서비스]] 전용 노드에 무관한 [[085_pod_kubernetes_container_unit|파드]]가 배치되어 자원을 고갈시키는 것을 물리적으로 차단하여, 클러스터의 목적별 자원 격리를 완벽하게 보장한다.
-> 3. **판단 포인트**: 테인트는 단순히 스케줄링을 막을 뿐만 아니라(`NoSchedule`), 이미 배치된 [[085_pod_kubernetes_container_unit|파드]]를 쫓아낼 수도 있으므로(`NoExecute`), 장애 [[658_ir_recovery|복구]]나 유지보수를 위한 노드 비우기(Drain) 전략과 연계하여 사용해야 한다.
+> 1. **본질**: 테인트 (Taint)와 톨러레이션 (Toleration)은 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))가 특정 노드(Node)에 스케줄링되는 것을 노드 입장에서 거부하고, 이를 예외적으로 허용하는 방어적 스케줄링 통제 기법이다.
+> 2. **가치**: 고가의 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 노드나 특정 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 전용 노드에 무관한 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 배치되어 자원을 고갈시키는 것을 물리적으로 차단하여, 클러스터의 목적별 자원 격리를 완벽하게 보장한다.
+> 3. **판단 포인트**: 테인트는 단순히 스케줄링을 막을 뿐만 아니라(`NoSchedule`), 이미 배치된 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 쫓아낼 수도 있으므로(`NoExecute`), 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)나 유지보수를 위한 노드 비우기(Drain) 전략과 연계하여 사용해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
-[[196_kubernetes_k8s_container_orchestration|쿠버네티스]] ([[205_kubernetes_container_orchestration|Kubernetes]])의 기본 스케줄러는 가용 자원만 확인하면 [[085_pod_kubernetes_container_unit|파드]]를 무작위로 [[136_variance|분산]] 배치한다. 만약 클러스터에 딥러닝 연산을 위한 고가 [[418_gpu|GPU]] 노드나, 보안 [[002_database_definition|데이터베이스]] 전용 노드가 섞여 있다면 심각한 문제가 발생한다. 일반적인 웹 서버 [[085_pod_kubernetes_container_unit|파드]]가 텅 빈 [[418_gpu|GPU]] 노드에 멋대로 들어가 메모리를 차지하면, 정작 필요한 [[190_ai_llm_requirements_specification|AI]] [[085_pod_kubernetes_container_unit|파드]]는 자원 부족으로 배정받지 못해 대기 상태(Pending)에 빠지기 때문이다.
+[쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) ([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/))의 기본 스케줄러는 가용 자원만 확인하면 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 무작위로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 배치한다. 만약 클러스터에 딥러닝 연산을 위한 고가 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 노드나, 보안 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 전용 노드가 섞여 있다면 심각한 문제가 발생한다. 일반적인 웹 서버 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 텅 빈 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 노드에 멋대로 들어가 메모리를 차지하면, 정작 필요한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)는 자원 부족으로 배정받지 못해 대기 상태(Pending)에 빠지기 때문이다.
 
-이러한 무분별한 배정을 막기 위해 노드에 "접근 금지" 속성인 테인트를 부여한다. 테인트가 설정된 노드에는 어떠한 [[085_pod_kubernetes_container_unit|파드]]도 스케줄링될 수 없다. 단, 이 테인트를 무시할 수 있는 내성인 톨러레이션을 가진 [[085_pod_kubernetes_container_unit|파드]]만이 예외적으로 해당 노드에 들어갈 수 있게 함으로써, 자원의 오남용을 원천 차단한다.
+이러한 무분별한 배정을 막기 위해 노드에 "접근 금지" 속성인 테인트를 부여한다. 테인트가 설정된 노드에는 어떠한 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)도 스케줄링될 수 없다. 단, 이 테인트를 무시할 수 있는 내성인 톨러레이션을 가진 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)만이 예외적으로 해당 노드에 들어갈 수 있게 함으로써, 자원의 오남용을 원천 차단한다.
 
 - **📢 섹션 요약 비유**: 테인트는 클럽 입구에 세워둔 "VIP 전용, 일반인 출입 금지" 팻말과 같고, 톨러레이션은 그 팻말을 무시하고 들어갈 수 있는 "VIP 패스"와 같다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-테인트와 톨러레이션은 **[[067_db_key_uniqueness_minimality|Key]], Value, Effect**라는 세 가지 요소의 완벽한 일치(Match)를 통해 작동한다. 노드에 테인트를 설정하면, [[085_pod_kubernetes_container_unit|파드]]의 매니페스트(YAML)에 정의된 톨러레이션과 비교하여 스케줄링 여부를 결정한다.
+테인트와 톨러레이션은 **[Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/), Value, Effect**라는 세 가지 요소의 완벽한 일치(Match)를 통해 작동한다. 노드에 테인트를 설정하면, [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)의 매니페스트(YAML)에 정의된 톨러레이션과 비교하여 스케줄링 여부를 결정한다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -39,51 +43,51 @@ tags:
 │                                  └─────────────────────────┘ │
 └──────────────────────────────────────────────────────────────┘
 ```
-이 구조에서 가장 중요한 것은 `Effect (효과)`다. 스케줄러가 [[085_pod_kubernetes_container_unit|파드]]를 거부하는 강도를 결정하기 때문이다.
+이 구조에서 가장 중요한 것은 `Effect (효과)`다. 스케줄러가 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 거부하는 강도를 결정하기 때문이다.
 
-1. **NoSchedule**: 톨러레이션이 없는 [[085_pod_kubernetes_container_unit|파드]]는 이 노드에 **새로 스케줄링되지 않는다**. 단, 기존에 실행 중이던 [[085_pod_kubernetes_container_unit|파드]]는 건드리지 않는다.
-2. **PreferNoSchedule**: K8s 시스템이 톨러레이션이 없는 [[085_pod_kubernetes_container_unit|파드]]를 이 노드에 스케줄링하지 않으려고 **최선을 다하지만**, 다른 노드에 자원이 전혀 없다면 어쩔 수 없이 배정한다 (소프트한 거부).
-3. **NoExecute**: 가장 강력한 통제다. 새로운 [[085_pod_kubernetes_container_unit|파드]] 배정을 막는 것은 물론, **이미 실행 중인 [[085_pod_kubernetes_container_unit|파드]] 중 톨러레이션이 없는 것들은 즉시 노드에서 쫓아낸다 (Evict)**.
+1. **NoSchedule**: 톨러레이션이 없는 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)는 이 노드에 **새로 스케줄링되지 않는다**. 단, 기존에 실행 중이던 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)는 건드리지 않는다.
+2. **PreferNoSchedule**: K8s 시스템이 톨러레이션이 없는 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 이 노드에 스케줄링하지 않으려고 **최선을 다하지만**, 다른 노드에 자원이 전혀 없다면 어쩔 수 없이 배정한다 (소프트한 거부).
+3. **NoExecute**: 가장 강력한 통제다. 새로운 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 배정을 막는 것은 물론, **이미 실행 중인 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 중 톨러레이션이 없는 것들은 즉시 노드에서 쫓아낸다 (Evict)**.
 
 - **📢 섹션 요약 비유**: NoSchedule은 "지금부터 반바지 입은 사람 출입 금지", NoExecute는 "지금부터 반바지 입은 사람 출입 금지이며, 이미 들어온 반바지 입은 사람도 멱살 잡고 내쫓아라"와 같다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
-K8s에서 [[085_pod_kubernetes_container_unit|파드]] 배치를 제어하는 대표적 방법으로 **[[107_node_affinity_kubernetes_scheduling_required_preferred|노드 어피니티]] ([[107_node_affinity_kubernetes_scheduling_required_preferred|Node Affinity]])** 와 **테인트/톨러레이션**이 있다. 이 둘은 목적이 정반대이므로 상호 보완적으로 사용된다.
+K8s에서 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 배치를 제어하는 대표적 방법으로 **[노드 어피니티](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/107_node_affinity_kubernetes_scheduling_required_preferred/) ([Node Affinity](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/107_node_affinity_kubernetes_scheduling_required_preferred/))** 와 **테인트/톨러레이션**이 있다. 이 둘은 목적이 정반대이므로 상호 보완적으로 사용된다.
 
-| 항목 | 테인트 (Taint) / 톨러레이션 (Toleration) | [[107_node_affinity_kubernetes_scheduling_required_preferred|노드 어피니티]] ([[107_node_affinity_kubernetes_scheduling_required_preferred|Node Affinity]]) |
+| 항목 | 테인트 (Taint) / 톨러레이션 (Toleration) | [노드 어피니티](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/107_node_affinity_kubernetes_scheduling_required_preferred/) ([Node Affinity](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/107_node_affinity_kubernetes_scheduling_required_preferred/)) |
 | :--- | :--- | :--- |
-| **주체** | **노드 (Node)** 가 [[085_pod_kubernetes_container_unit|파드]]를 거부함 (Repel) | **[[085_pod_kubernetes_container_unit|파드]] ([[198_pod_kubernetes_minimum_deployment_unit|Pod]])** 가 노드를 선택함 (Attract) |
-| **주요 목적** | 특정 노드에 **아무 [[085_pod_kubernetes_container_unit|파드]]나 못 들어오게 방어** (전용 노드 격리) | [[085_pod_kubernetes_container_unit|파드]]가 **자신에게 맞는 노드를 찾아가도록 유도** |
-| **적용 사례** | [[418_gpu|GPU]] 노드 격리, 장애 노드 퇴출 (Drain) | [[327_ssd|SSD]] 스토리지 노드 선호, 특정 존(Zone) 배치 |
-| **한계** | 해당 노드에 들어가는 것은 통제하지만, 톨러레이션이 있는 [[085_pod_kubernetes_container_unit|파드]]가 **다른 일반 노드에 가는 것은 막지 못함** | [[085_pod_kubernetes_container_unit|파드]]가 특정 노드를 찾아가지만, 그 노드에 다른 잡다한 [[085_pod_kubernetes_container_unit|파드]]가 섞여 들어오는 것은 막지 못함 |
+| **주체** | **노드 (Node)** 가 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 거부함 (Repel) | **[파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) ([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))** 가 노드를 선택함 (Attract) |
+| **주요 목적** | 특정 노드에 **아무 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)나 못 들어오게 방어** (전용 노드 격리) | [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 **자신에게 맞는 노드를 찾아가도록 유도** |
+| **적용 사례** | [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 노드 격리, 장애 노드 퇴출 (Drain) | [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 스토리지 노드 선호, 특정 존(Zone) 배치 |
+| **한계** | 해당 노드에 들어가는 것은 통제하지만, 톨러레이션이 있는 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 **다른 일반 노드에 가는 것은 막지 못함** | [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 특정 노드를 찾아가지만, 그 노드에 다른 잡다한 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 섞여 들어오는 것은 막지 못함 |
 
-따라서 완벽한 전용 노드(Dedicated Node)를 구축하려면, 노드에는 테인트를 걸어 잡다한 [[085_pod_kubernetes_container_unit|파드]]를 쫓아내고, 전용 [[085_pod_kubernetes_container_unit|파드]]에는 톨러레이션을 주어 입장권을 부여함과 동시에 [[107_node_affinity_kubernetes_scheduling_required_preferred|노드 어피니티]]를 설정하여 **해당 [[085_pod_kubernetes_container_unit|파드]]가 반드시 그 전용 노드에만 배치되도록** 양방향 통제를 걸어야 한다.
+따라서 완벽한 전용 노드(Dedicated Node)를 구축하려면, 노드에는 테인트를 걸어 잡다한 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 쫓아내고, 전용 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)에는 톨러레이션을 주어 입장권을 부여함과 동시에 [노드 어피니티](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/107_node_affinity_kubernetes_scheduling_required_preferred/)를 설정하여 **해당 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 반드시 그 전용 노드에만 배치되도록** 양방향 통제를 걸어야 한다.
 
 - **📢 섹션 요약 비유**: 어피니티는 "나는 창가 자리에 앉고 싶어"라고 손님이 자리를 찜하는 것이고, 테인트는 "이 테이블은 예약석이니 아무나 앉지 마세요"라고 식당이 팻말을 세우는 것이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
-실무에서 테인트와 톨러레이션은 단순히 스케줄링을 넘어, **장애 [[658_ir_recovery|복구]] 및 유지보수 자동화**의 핵심 메커니즘으로 쓰인다.
+실무에서 테인트와 톨러레이션은 단순히 스케줄링을 넘어, **장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 및 유지보수 자동화**의 핵심 메커니즘으로 쓰인다.
 
 1. **노드 유지보수 (Drain)**:
-   - 서버 [[022_kernel_role|커널]] 업데이트나 하드웨어 교체를 위해 `kubectl drain` 명령을 내리면, K8s는 내부적으로 해당 노드에 `node.kubernetes.io/unschedulable:NoSchedule` 테인트를 건다. 이후 기존 [[085_pod_kubernetes_container_unit|파드]]들을 안전하게 쫓아내어 유지보수 환경을 만든다.
+   - 서버 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 업데이트나 하드웨어 교체를 위해 `kubectl drain` 명령을 내리면, K8s는 내부적으로 해당 노드에 `node.kubernetes.io/unschedulable:NoSchedule` 테인트를 건다. 이후 기존 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)들을 안전하게 쫓아내어 유지보수 환경을 만든다.
 2. **장애 상태 자동 대응**:
-   - 노드의 네트워크가 끊기거나(NotReady), 메모리가 부족해지면(MemoryPressure), K8s의 노드 컨트롤러가 자동으로 `NoExecute` 테인트를 부여한다. 이를 통해 [[085_pod_kubernetes_container_unit|파드]]들이 죽은 노드에 머물지 않고 정상 노드로 빠르게 대피(Evict)하도록 만든다.
+   - 노드의 네트워크가 끊기거나(NotReady), 메모리가 부족해지면(MemoryPressure), K8s의 노드 컨트롤러가 자동으로 `NoExecute` 테인트를 부여한다. 이를 통해 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)들이 죽은 노드에 머물지 않고 정상 노드로 빠르게 대피(Evict)하도록 만든다.
 
 **기술사 판단 포인트**: 
-퍼블릭 클라우드에서 [[209_spot_instance_cloud_cost_optimization|스팟 인스턴스]] ([[209_spot_instance_cloud_cost_optimization|Spot Instance]])나 비용이 비싼 [[418_gpu|GPU]] 노드 그룹을 운영할 때는 반드시 테인트를 부여해야 한다. 그렇지 않으면 [[090_configuration_item|CI]]/CD 파이프라인에서 쏟아지는 단발성 빌드 [[085_pod_kubernetes_container_unit|파드]]들이 [[418_gpu|GPU]] 노드를 점유하여 클라우드 비용 폭탄을 유발할 수 있다.
+퍼블릭 클라우드에서 [스팟 인스턴스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/) ([Spot Instance](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/))나 비용이 비싼 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 노드 그룹을 운영할 때는 반드시 테인트를 부여해야 한다. 그렇지 않으면 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인에서 쏟아지는 단발성 빌드 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)들이 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 노드를 점유하여 클라우드 비용 폭탄을 유발할 수 있다.
 
 - **📢 섹션 요약 비유**: 고장 난 비행기에 "탑승 불가" 딱지를 붙여 새로운 승객을 막고, 이미 탄 승객을 다른 비행기로 갈아태우는 비상 대피 시스템과 같다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
-테인트와 톨러레이션을 도입하면 클러스터 내의 자원 혼재를 막고, 예측 가능한 성능을 보장할 수 있다. 값비싼 하드웨어를 온전히 목적에 맞게 활용하여 [[016_tco|TCO]] (Total Cost of Ownership)를 최적화할 수 있으며, 장애 시 자동화된 [[085_pod_kubernetes_container_unit|파드]] 대피를 통해 [[090_service_kubernetes_network_load_balancing|서비스]] 가용성을 높인다.
+테인트와 톨러레이션을 도입하면 클러스터 내의 자원 혼재를 막고, 예측 가능한 성능을 보장할 수 있다. 값비싼 하드웨어를 온전히 목적에 맞게 활용하여 [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) (Total Cost of Ownership)를 최적화할 수 있으며, 장애 시 자동화된 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 대피를 통해 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 가용성을 높인다.
 
-결론적으로, K8s의 스케줄링은 "[[085_pod_kubernetes_container_unit|파드]]를 어디로 보낼 것인가"라는 [[085_pod_kubernetes_container_unit|파드]]의 권리뿐만 아니라, "노드가 어떤 [[085_pod_kubernetes_container_unit|파드]]를 거부할 것인가"라는 노드의 권리를 함께 설계해야만 완성된다. 테인트는 이러한 노드의 권리를 보장하는 가장 확실한 방어선이다.
+결론적으로, K8s의 스케줄링은 "[파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 어디로 보낼 것인가"라는 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)의 권리뿐만 아니라, "노드가 어떤 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 거부할 것인가"라는 노드의 권리를 함께 설계해야만 완성된다. 테인트는 이러한 노드의 권리를 보장하는 가장 확실한 방어선이다.
 
 - **📢 섹션 요약 비유**: 아무리 넓은 운동장이라도 선을 그어 축구장, 농구장, 육상 트랙을 나누지 않으면 사고가 난다. 테인트는 이 운동장에 쳐놓은 튼튼한 철조망이다.
 
@@ -92,10 +96,10 @@ K8s에서 [[085_pod_kubernetes_container_unit|파드]] 배치를 제어하는 �
 ### 📌 관련 개념 맵
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[[107_node_affinity_kubernetes_scheduling_required_preferred|Node Affinity]]** | [[085_pod_kubernetes_container_unit|파드]]가 노드를 끌어당기는(Attract) 규칙으로, 테인트(Repel)와 결합 시 완벽한 전용 노드 구축 |
-| **[[198_pod_kubernetes_minimum_deployment_unit|Pod]] Eviction (축출)** | `NoExecute` 테인트 발동 시 기존 [[085_pod_kubernetes_container_unit|파드]]가 노드에서 쫓겨나는 메커니즘 |
-| **[[334_process|DaemonSet]] ([[089_daemonset_kubernetes_background_node_agent|데몬셋]])** | 기본적으로 톨러레이션을 내장하여, 테인트가 있는 노드에도 로깅/모니터링 에이전트를 강제로 배포 |
-| **Cordon / Drain** | 노드 유지보수를 위해 의도적으로 스케줄링을 막거나(Cordon) [[085_pod_kubernetes_container_unit|파드]]를 비울 때(Drain) 내부적으로 테인트 사용 |
+| **[Node Affinity](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/107_node_affinity_kubernetes_scheduling_required_preferred/)** | [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 노드를 끌어당기는(Attract) 규칙으로, 테인트(Repel)와 결합 시 완벽한 전용 노드 구축 |
+| **[Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) Eviction (축출)** | `NoExecute` 테인트 발동 시 기존 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 노드에서 쫓겨나는 메커니즘 |
+| **[DaemonSet](/knowledge-base/studynote/11_design_supervision/06_exam_summary/334_process/) ([데몬셋](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/089_daemonset_kubernetes_background_node_agent/))** | 기본적으로 톨러레이션을 내장하여, 테인트가 있는 노드에도 로깅/모니터링 에이전트를 강제로 배포 |
+| **Cordon / Drain** | 노드 유지보수를 위해 의도적으로 스케줄링을 막거나(Cordon) [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 비울 때(Drain) 내부적으로 테인트 사용 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
@@ -116,7 +120,7 @@ K8s에서 [[085_pod_kubernetes_container_unit|파드]] 배치를 제어하는 �
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. [[196_kubernetes_k8s_container_orchestration|쿠버네티스]] 마을에는 일반 집과 수영장이 달린 아주 비싼 대저택([[418_gpu|GPU]] 노드)이 있어요.
+1. [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 마을에는 일반 집과 수영장이 달린 아주 비싼 대저택([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 노드)이 있어요.
 2. 대저택 주인은 아무나 들어오지 못하게 문 앞에 "냄새나는 마늘(Taint)"을 잔뜩 뿌려놨어요.
 3. 오직 수영 국가대표 선수들만 "코마개(Toleration)"를 가지고 있어서 냄새를 참고 저택에 들어가 수영장을 독차지할 수 있답니다!
 
@@ -126,7 +130,7 @@ K8s에서 [[085_pod_kubernetes_container_unit|파드]] 배치를 제어하는 �
 
 **진행 상황**: 105 / 371
 
-← **이전**: [[105_operator_pattern_crd_custom_controller_kubernetes|105. 오퍼레이터 패턴 (Operator Pattern) - K8s 봇 자동화]]
-**다음**: [[107_node_affinity_kubernetes_scheduling_required_preferred|107. 노드 어피니티 (Node Affinity) - K8s 스케줄링 유도]] →
+← **이전**: [105. 오퍼레이터 패턴 (Operator Pattern) - K8s 봇 자동화](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/105_operator_pattern_crd_custom_controller_kubernetes/)
+**다음**: [107. 노드 어피니티 (Node Affinity) - K8s 스케줄링 유도](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/107_node_affinity_kubernetes_scheduling_required_preferred/) →
 
 ---

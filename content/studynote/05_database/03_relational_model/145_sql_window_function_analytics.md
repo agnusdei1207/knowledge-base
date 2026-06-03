@@ -1,14 +1,18 @@
----
-title: 145. SQL Window Function 심화 - ROWS/RANGE Frame & 누적합
-date: '2026-04-19'
-tags:
-- studynote-database
----
++++
+title = "145. SQL Window Function 심화 - ROWS/RANGE Frame & 누적합"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-database"]
+
+[extra]
+tags = ["studynote-database"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Window Frame은 **ROWS(물리적 행 수)/RANGE([[369_logic_bomb|논리]]적 값 범위)로 현재 행 기준 [[316_reference_pattern_nosql|참조]] 범위를 정의**하며, UNBOUNDED PRECEDING·[[002_current|CURRENT]] ROW·N FOLLOWING 등으로 세밀하게 제어한다.
-> 2. **가치**: SUM(sal) OVER (ORDER BY date ROWS BETWEEN 2 PRECEDING AND [[002_current|CURRENT]] ROW)처럼 **이동 평균·누적합·연속 N일 집계**를 SQL만으로 구현할 수 있어 별도 프로그래밍이 불필요하다.
-> 3. **판단 포인트**: ROWS(물리적 행 수, 동점 무관)와 RANGE([[369_logic_bomb|논리]]적 값, 동점 포함)의 차이를 이해하고, 기본 Frame(RANGE UNBOUNDED PRECEDING)을 명시적으로 지정하는 것이 안전하다.
+> 1. **본질**: Window Frame은 **ROWS(물리적 행 수)/RANGE([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 값 범위)로 현재 행 기준 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 범위를 정의**하며, UNBOUNDED PRECEDING·[CURRENT](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) ROW·N FOLLOWING 등으로 세밀하게 제어한다.
+> 2. **가치**: SUM(sal) OVER (ORDER BY date ROWS BETWEEN 2 PRECEDING AND [CURRENT](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) ROW)처럼 **이동 평균·누적합·연속 N일 집계**를 SQL만으로 구현할 수 있어 별도 프로그래밍이 불필요하다.
+> 3. **판단 포인트**: ROWS(물리적 행 수, 동점 무관)와 RANGE([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 값, 동점 포함)의 차이를 이해하고, 기본 Frame(RANGE UNBOUNDED PRECEDING)을 명시적으로 지정하는 것이 안전하다.
 
 ---
 
@@ -35,7 +39,7 @@ Window Frame은 **이동 평균·누적합·연속 집계의 핵심**이며, ROW
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **ROWS** | 물리적 행 수 |
-| **RANGE** | [[369_logic_bomb|논리]]적 값 범위 |
+| **RANGE** | [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 값 범위 |
 | **UNBOUNDED** | 전체 범위 |
 | **누적합** | Running Total |
 | **이동 평균** | Moving Average |
@@ -59,7 +63,7 @@ Window Frame은 **이동 평균·누적합·연속 집계의 핵심**이며, ROW
 
 **진행 상황**: 145 / 600
 
-← **이전**: [[144_correlated_subquery_nested_loop|144. 상관 서브쿼리 (Correlated Subquery) - 외부 참조 Nested Loop]]
-**다음**: [[146_window_function_partition_by_order_by|146. PARTITION BY & ORDER BY - Window 함수 핵심 절]] →
+← **이전**: [144. 상관 서브쿼리 (Correlated Subquery) - 외부 참조 Nested Loop](/knowledge-base/studynote/05_database/03_relational_model/144_correlated_subquery_nested_loop/)
+**다음**: [146. PARTITION BY & ORDER BY - Window 함수 핵심 절](/knowledge-base/studynote/05_database/03_relational_model/146_window_function_partition_by_order_by/) →
 
 ---

@@ -1,13 +1,17 @@
----
-title: 68. 유의 수준(Alpha)과 유의 확률(p-value) - 귀무 가설 기각의 마지노선
-date: '2026-04-10'
-tags:
-- studynote-data-engineering
----
++++
+title = "68. 유의 수준(Alpha)과 유의 확률(p-value) - 귀무 가설 기각의 마지노선"
+date = 2026-04-10
+
+[taxonomies]
+tags = ["studynote-data-engineering"]
+
+[extra]
+tags = ["studynote-data-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 유의 수준 α는 H0를 기각하기 위한 [[025_baseline|기준선]]이고, p-value는 관측 결과가 [[067_hypothesis_testing_null_alternative_p_value|H0]] 하에서 얼마나 드문지 나타낸다.
+> 1. **본질**: 유의 수준 α는 H0를 기각하기 위한 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)이고, p-value는 관측 결과가 [H0](/knowledge-base/studynote/14_data_engineering/02_math_mining/067_hypothesis_testing_null_alternative_p_value/) 하에서 얼마나 드문지 나타낸다.
 > 2. **가치**: α와 p-value를 함께 봐야 통계적 결정을 일관되게 내릴 수 있다.
 > 3. **판단**: p-value가 α보다 작으면 H0를 기각하지만, 그 자체가 효과의 크기를 뜻하지는 않는다.
 
@@ -15,7 +19,7 @@ tags:
 
 ## Ⅰ. 개요 및 필요성
 
-가설 검정에서 기준이 없으면 결정을 내릴 수 없다. α는 그 [[025_baseline|기준선]] 역할을 한다.
+가설 검정에서 기준이 없으면 결정을 내릴 수 없다. α는 그 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 역할을 한다.
 
 p-value는 현재 데이터가 H0와 얼마나 잘 맞는지 보는 값이다.
 
@@ -36,12 +40,12 @@ Decision
 | 항목 | 의미 |
 | :-- | :-- |
 | α | 기각 기준 |
-| [[337_p_value_significance|p-value]] | [[067_hypothesis_testing_null_alternative_p_value|H0]] 하에서의 희귀도 |
-| p < α | [[067_hypothesis_testing_null_alternative_p_value|H0]] 기각 |
+| [p-value](/knowledge-base/studynote/06_ict_convergence/05_data_science/337_p_value_significance/) | [H0](/knowledge-base/studynote/14_data_engineering/02_math_mining/067_hypothesis_testing_null_alternative_p_value/) 하에서의 희귀도 |
+| p < α | [H0](/knowledge-base/studynote/14_data_engineering/02_math_mining/067_hypothesis_testing_null_alternative_p_value/) 기각 |
 
 α는 연구자가 미리 정하는 기준이고, p-value는 데이터가 말해 주는 결과다. 둘을 혼동하면 해석이 흔들린다.
 
-- **📢 섹션 요약 비유**: 문지기 [[025_baseline|기준선]]과 통과 점수를 비교하는 것이다.
+- **📢 섹션 요약 비유**: 문지기 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)과 통과 점수를 비교하는 것이다.
 
 ---
 
@@ -50,8 +54,8 @@ Decision
 | 개념 | 의미 |
 | :-- | :-- |
 | α | 허용 가능한 Type I error |
-| [[337_p_value_significance|p-value]] | 관측 결과의 희귀도 |
-| [[069_type_1_2_error_statistical_power|Power]] | 진짜 효과를 잡는 힘 |
+| [p-value](/knowledge-base/studynote/06_ict_convergence/05_data_science/337_p_value_significance/) | 관측 결과의 희귀도 |
+| [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) | 진짜 효과를 잡는 힘 |
 
 | 해석 | 주의점 |
 | :-- | :-- |
@@ -60,13 +64,13 @@ Decision
 
 유의 수준과 p-value는 통계적 판단의 기준을 만들지만, 결과의 실질적 중요성과는 별개다.
 
-- **📢 섹션 요약 비유**: [[025_baseline|기준선]]을 넘었다고 해서 늘 가장 큰 차이는 아니다.
+- **📢 섹션 요약 비유**: [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)을 넘었다고 해서 늘 가장 큰 차이는 아니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. α를 사전에 정했는가?
 2. p-value를 올바르게 해석하는가?
@@ -74,7 +78,7 @@ Decision
 4. 검정력과 표본 수를 고려하는가?
 5. 여러 검정을 동시에 할 때 보정하는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - p-value를 효과 크기로 착각하는 설계
 - α를 나중에 바꾸는 설계
@@ -91,7 +95,7 @@ Decision
 
 α와 p-value를 이해하면 가설 검정의 결과를 더 정확히 읽을 수 있다. 그래서 통계적 의사결정이 안정된다.
 
-결론적으로 α는 [[025_baseline|기준선]]이고 p-value는 그 [[025_baseline|기준선]]과 비교하는 값이다.
+결론적으로 α는 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)이고 p-value는 그 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)과 비교하는 값이다.
 
 - **📢 섹션 요약 비유**: 점수표와 합격선이 함께 있어야 판정이 된다.
 
@@ -127,7 +131,7 @@ Statistical Decision
 
 ## 어린이를 위한 3줄 비유 설명
 
-넘어야 할 [[025_baseline|기준선]]이 있어요.  
+넘어야 할 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)이 있어요.  
 실제 점수와 비교해요.  
 유의 수준과 p-value는 그런 규칙이에요.
 
@@ -137,7 +141,7 @@ Statistical Decision
 
 **진행 상황**: 68 / 258
 
-← **이전**: [[067_hypothesis_testing_null_alternative_p_value|67. 가설 검정 - 귀무 가설(H0) vs 대립 가설(H1)]]
-**다음**: [[069_type_1_2_error_statistical_power|69. 1종 오류와 2종 오류, 검정력(Power) - 오판의 리스크 관리]] →
+← **이전**: [67. 가설 검정 - 귀무 가설(H0) vs 대립 가설(H1)](/knowledge-base/studynote/14_data_engineering/02_math_mining/067_hypothesis_testing_null_alternative_p_value/)
+**다음**: [69. 1종 오류와 2종 오류, 검정력(Power) - 오판의 리스크 관리](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) →
 
 ---

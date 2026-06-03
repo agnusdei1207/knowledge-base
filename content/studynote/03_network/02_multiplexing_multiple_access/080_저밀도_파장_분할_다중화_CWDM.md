@@ -1,12 +1,16 @@
----
-title: 080. 저밀도 파장 분할 다중화 (CWDM, Coarse Wavelength Division Multiplexing)
-date: '2026-05-05'
-tags:
-- studynote-network
----
++++
+title = "080. 저밀도 파장 분할 다중화 (CWDM, Coarse Wavelength Division Multiplexing)"
+date = 2026-05-05
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: CWDM(Coarse WDM)은 광케이블 하나에 여러 색깔의 레이저 빛(파장)을 섞어 쏠 때, 파장 사이의 **간격을 듬성듬성(약 20nm) 넓게 벌려 간섭을 막아낸 저비용 [[071_다중화_Multiplexing|다중화]] 아키텍처**다.
+> 1. **본질**: CWDM(Coarse WDM)은 광케이블 하나에 여러 색깔의 레이저 빛(파장)을 섞어 쏠 때, 파장 사이의 **간격을 듬성듬성(약 20nm) 넓게 벌려 간섭을 막아낸 저비용 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) 아키텍처**다.
 > 2. **가치**: 촘촘한 간격을 유지하기 위해 고가의 냉각기(Cooling System)와 정밀 필터가 필요한 DWDM과 달리, 온도에 민감하지 않은 값싼 레이저 발진기(Uncooled Laser)를 사용하여 기업 내 캠퍼스망이나 도시통신망(MAN) 구축 비용을 1/5 수준으로 폭락시켰다.
 > 3. **판단 포인트**: 증폭기(EDFA)를 통과하지 못하는 파장 대역을 사용하므로 통신 거리가 80km 내외로 제한되고 채널 수가 적지만(최대 18개), 단거리망에서는 가성비로 압살하는 최적의 트레이드오프 솔루션이다.
 
@@ -14,7 +18,7 @@ tags:
 
 ## Ⅰ. 개요 및 필요성
 
-한 가닥의 광섬유에 빛을 여러 개 섞어 쏘는 WDM([[079_광파장_분할_다중화_WDM|광파장 분할 다중화]]) 기술은 통신 혁명이었지만, 치명적인 단점이 있었다. 빛의 간격을 나노미터(nm) 단위로 촘촘하게 쪼개는 DWDM 장비는 수억 원을 호가했다. 기계가 조금만 뜨거워져도 레이저 파장이 옆 차선으로 넘어가 충돌하기 때문에, 거대한 에어컨(냉각 시스템)이 필수로 따라붙었기 때문이다.
+한 가닥의 광섬유에 빛을 여러 개 섞어 쏘는 WDM([광파장 분할 다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/079_광파장_분할_다중화_WDM/)) 기술은 통신 혁명이었지만, 치명적인 단점이 있었다. 빛의 간격을 나노미터(nm) 단위로 촘촘하게 쪼개는 DWDM 장비는 수억 원을 호가했다. 기계가 조금만 뜨거워져도 레이저 파장이 옆 차선으로 넘어가 충돌하기 때문에, 거대한 에어컨(냉각 시스템)이 필수로 따라붙었기 때문이다.
 
 일반 기업이나 캠퍼스망 관리자들은 절망했다. "우리는 태평양을 건널(장거리) 것도 아니고 채널이 80개나 필요하지도 않은데, 10km짜리 망 하나 뚫겠다고 수억 원을 써야 해?" 아키텍트들은 발상을 뒤집었다. "빛의 간격을 아예 20nm로 듬성듬성(Coarse) 벌려버리자! 그러면 레이저 온도가 오르락내리락 파장이 좀 흔들려도 옆 차선과 충돌 안 하니까 싼 레이저를 써도 되잖아!" 이것이 극단의 가성비를 창출해 낸 CWDM의 탄생 철학이다.
 
@@ -25,7 +29,7 @@ tags:
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 비냉각 레이저(Uncooled Laser)와 20nm 스페이싱의 결합
-CWDM의 물리적 설계 사상은 '[[233_precision_recall_f1_roc_auc_threshold|정밀도]]의 완화'를 통한 쇳덩어리(하드웨어) 비용의 제거다.
+CWDM의 물리적 설계 사상은 '[정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)의 완화'를 통한 쇳덩어리(하드웨어) 비용의 제거다.
 
 ```text
 ┌────────────────────────────────────────────────────────┐
@@ -59,11 +63,11 @@ ITU-T 표준에 따르면 CWDM은 1270nm부터 1610nm까지의 엄청나게 넓�
 | 항목 | CWDM (거친 파장 분할) | DWDM (조밀 파장 분할) |
 |:---|:---|:---|
 | **채널 간격 (Spacing)** | **20 nm (광활함)** | 0.8 nm 이하 (바늘구멍) |
-| **최대 채널 수 (Capacity)**| 18개 ([[140_bandwidth|대역폭]] 작음) | 80~160개 (테라급 [[140_bandwidth|대역폭]]) |
+| **최대 채널 수 (Capacity)**| 18개 ([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 작음) | 80~160개 (테라급 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)) |
 | **온도 제어 (Cooling)** | **Uncooled (상온 방치 OK)** | Cooled (항온 유지 필수, 비쌈) |
 | **광 증폭기 (EDFA) 지원**| 불가능 (파장 대역이 너무 넓음) | **지원됨 (특정 좁은 대역만 씀)** |
 | **최대 전송 거리** | **약 40 ~ 80 km (단거리)** | 수천 km (태평양 해저 횡단 가능) |
-| **비용 및 활용처** | **싸다. MAN, 캠퍼스, [[418_5g_embb_urllc_mmtc_slicing|5G]] [[784_fronthaul_ecpri_split_option|프론트홀]]** | 매우 비싸다. 국가망 백본, 해저 케이블 |
+| **비용 및 활용처** | **싸다. MAN, 캠퍼스, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/)** | 매우 비싸다. 국가망 백본, 해저 케이블 |
 
 DWDM 장비 1포트 꽂을 돈이면, CWDM 장비를 박스째로 사서 트럭에 실을 수 있다. 대규모 트래픽이 필요하지만 거리가 짧은 도심 지역(Metropolitan)에서 CWDM은 절대적인 가성비의 제왕으로 군림한다.
 
@@ -74,21 +78,21 @@ DWDM 장비 1포트 꽂을 돈이면, CWDM 장비를 박스째로 사서 트럭�
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **[[418_5g_embb_urllc_mmtc_slicing|5G]] [[784_fronthaul_ecpri_split_option|프론트홀]] ([[1011_fronthaul_network_c_ran_cpri_roef|Fronthaul]]) 기지국망 광케이블 절감**: 통신사 [[418_5g_embb_urllc_mmtc_slicing|5G]] 기지국 [[171_antenna_basic_dipole_resonance|안테나]](RU) 수십 개를 중앙 장비(DU)에 연결하려면 광케이블이 [[171_antenna_basic_dipole_resonance|안테나]] 개수만큼 필요하다. 땅을 파고 20가닥의 광섬유를 포설하는 비용은 천문학적이다. 네트워크 아키텍트는 1가닥의 광섬유 양 끝에 싸구려 CWDM 장비([[944_mux_demux_multiplexer_demultiplexer_circuit_sharing|MUX]]/DEMUX) 18채널짜리를 달아버린다. 1가닥으로 [[171_antenna_basic_dipole_resonance|안테나]] 18대의 트래픽을 처리하여 도심지 광케이블 포설 비용 수백억 원을 즉시 절감한다.
-2. **기업 [[801_data_center_3_tier_architecture_core_aggregation_access|데이터센터]] 간 재해복구([[360_ospf_dr_bdr_designated_router_lsa_flooding|DR]]) 망 구축**: 강남 본사 IDC와 판교 [[555_backup_and_restore_strategy|백업]] IDC 간 거리(약 20km). 양쪽 간 실시간 DB 미러링을 위해 10G 회선 4개가 필요할 때, 통신사 [[266_leased_line_basics_e1_t1_t3|전용선]] 4개를 각각 임대하면 월 비용이 억 단위로 터진다. 대신 통신사로부터 어두운 광섬유([[899_dark_fiber_unlit_infrastructure_lease|Dark Fiber]], 아무 [[130_signal|신호]] 안 실린 빈 케이블) 1코어만 싸게 빌린 뒤, 양단에 자사 소유의 CWDM 스위치를 달아 10G 파장 4개를 직접 쏴버리면 몇 달 만에 [[012_roi_return_on_investment|ROI]](투자 수익률)를 폭발적으로 뽑아낸다.
+1. **[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/) ([Fronthaul](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1011_fronthaul_network_c_ran_cpri_roef/)) 기지국망 광케이블 절감**: 통신사 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)(RU) 수십 개를 중앙 장비(DU)에 연결하려면 광케이블이 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 개수만큼 필요하다. 땅을 파고 20가닥의 광섬유를 포설하는 비용은 천문학적이다. 네트워크 아키텍트는 1가닥의 광섬유 양 끝에 싸구려 CWDM 장비([MUX](/knowledge-base/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/)/DEMUX) 18채널짜리를 달아버린다. 1가닥으로 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 18대의 트래픽을 처리하여 도심지 광케이블 포설 비용 수백억 원을 즉시 절감한다.
+2. **기업 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 간 재해복구([DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/)) 망 구축**: 강남 본사 IDC와 판교 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) IDC 간 거리(약 20km). 양쪽 간 실시간 DB 미러링을 위해 10G 회선 4개가 필요할 때, 통신사 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) 4개를 각각 임대하면 월 비용이 억 단위로 터진다. 대신 통신사로부터 어두운 광섬유([Dark Fiber](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/899_dark_fiber_unlit_infrastructure_lease/), 아무 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 안 실린 빈 케이블) 1코어만 싸게 빌린 뒤, 양단에 자사 소유의 CWDM 스위치를 달아 10G 파장 4개를 직접 쏴버리면 몇 달 만에 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/)(투자 수익률)를 폭발적으로 뽑아낸다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
-- **미래 확장성을 무시한 단기적 CWDM 맹신**: "어차피 50km 단거리니까 무조건 싼 CWDM 씁시다!"라며 18채널짜리를 덜컥 도입했는데, 3년 뒤 회사 합병으로 [[001_dikw_pyramid|데이터]] 트래픽이 폭증해 40채널이 필요해졌다. CWDM은 물리적 한계로 18채널 이상 확장이 절대 불가능하다. 결국 기존 CWDM 장비를 전부 고철 처리하고, DWDM 장비로 처음부터 다시 엎어야 하는 끔찍한 이중 투자의 재앙(Forklift Upgrade)이 발생한다. 수요 예측이 불확실하다면, [[459_quic_fec_forward_error_correction|초기]] 비용이 들더라도 단거리에 DWDM을 까는 것이 진짜 아키텍트의 통찰이다.
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- **미래 확장성을 무시한 단기적 CWDM 맹신**: "어차피 50km 단거리니까 무조건 싼 CWDM 씁시다!"라며 18채널짜리를 덜컥 도입했는데, 3년 뒤 회사 합병으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 트래픽이 폭증해 40채널이 필요해졌다. CWDM은 물리적 한계로 18채널 이상 확장이 절대 불가능하다. 결국 기존 CWDM 장비를 전부 고철 처리하고, DWDM 장비로 처음부터 다시 엎어야 하는 끔찍한 이중 투자의 재앙(Forklift Upgrade)이 발생한다. 수요 예측이 불확실하다면, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용이 들더라도 단거리에 DWDM을 까는 것이 진짜 아키텍트의 통찰이다.
 
-- **📢 섹션 요약 비유**: 확장성을 무시하고 CWDM을 사는 것은, 회사 직원이 10명이라고 딱 10인승 승합차를 통째로 용접(개조 불가)해서 사는 것과 같다. 내년에 신입사원 2명이 더 들어오면 그 차는 폐차하고 20인승 [[344_bus|버스]]를 새로 사야 한다. 미래를 본다면 빈자리가 많아도 처음부터 큰 [[344_bus|버스]](DWDM)를 사는 게 싸게 먹힌다.
+- **📢 섹션 요약 비유**: 확장성을 무시하고 CWDM을 사는 것은, 회사 직원이 10명이라고 딱 10인승 승합차를 통째로 용접(개조 불가)해서 사는 것과 같다. 내년에 신입사원 2명이 더 들어오면 그 차는 폐차하고 20인승 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 새로 사야 한다. 미래를 본다면 빈자리가 많아도 처음부터 큰 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)(DWDM)를 사는 게 싸게 먹힌다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-CWDM 기술은 완벽함([[233_precision_recall_f1_roc_auc_threshold|정밀도]])을 포기하고 실용성(비용)을 택한 하드웨어 트레이드오프(Trade-off)의 눈부신 승리다.
+CWDM 기술은 완벽함([정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/))을 포기하고 실용성(비용)을 택한 하드웨어 트레이드오프(Trade-off)의 눈부신 승리다.
 
-광통신 기술이 아무리 발전해도 온도 제어(Cooling) 모듈이 들어가는 레이저는 비쌀 수밖에 없다는 물리학적 한계를, "그럼 차선을 넓게 써버리지 뭐"라는 코페르니쿠스적 발상의 전환으로 돌파했다. 그 결과 CWDM은 국가망 백본이 아닌, 일반 기업의 캠퍼스망, 대학, 그리고 수십만 개의 [[418_5g_embb_urllc_mmtc_slicing|5G]] [[171_antenna_basic_dipole_resonance|안테나]] 모세혈관을 10Gbps로 이어주는 가장 현실적이고 강력한 도심형 광 [[071_다중화_Multiplexing|다중화]] 솔루션으로 완벽히 자리매김했다.
+광통신 기술이 아무리 발전해도 온도 제어(Cooling) 모듈이 들어가는 레이저는 비쌀 수밖에 없다는 물리학적 한계를, "그럼 차선을 넓게 써버리지 뭐"라는 코페르니쿠스적 발상의 전환으로 돌파했다. 그 결과 CWDM은 국가망 백본이 아닌, 일반 기업의 캠퍼스망, 대학, 그리고 수십만 개의 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 모세혈관을 10Gbps로 이어주는 가장 현실적이고 강력한 도심형 광 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) 솔루션으로 완벽히 자리매김했다.
 
 - **📢 섹션 요약 비유**: CWDM은 통신 세계의 '다이소(Daiso)'다. 명품관(DWDM)의 백만 원짜리 정밀한 시계는 아니지만, 집이나 동네에서 쓸 때는 5천 원짜리 다이소 시계로도 충분히 정확한 시간을 보며 생활을 윤택하게 만들 수 있다. 가성비 자체가 훌륭한 아키텍처다.
 
@@ -98,9 +102,9 @@ CWDM 기술은 완벽함([[233_precision_recall_f1_roc_auc_threshold|정밀도]]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **DWDM (Dense WDM)** | CWDM의 하이엔드 상위 호환 [[288_version_ihl_tos_total_length|버전]]. 채널 간격이 나노미터 단위로 촘촘하고, 에어컨이 달려있어 대륙 간 해저 통신을 호령하는 비싼 백본망 황제 |
+| **DWDM (Dense WDM)** | CWDM의 하이엔드 상위 호환 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 채널 간격이 나노미터 단위로 촘촘하고, 에어컨이 달려있어 대륙 간 해저 통신을 호령하는 비싼 백본망 황제 |
 | **EDFA (에르븀 첨가 광섬유 증폭기)** | 약해진 빛을 돋보기처럼 증폭시켜 장거리를 가게 만드는 쇳덩어리. 아쉽게도 CWDM의 넓은 파장은 품지 못해 CWDM이 단거리에 갇히는 원인을 제공 |
-| **[[899_dark_fiber_unlit_infrastructure_lease|다크 파이버]] ([[899_dark_fiber_unlit_infrastructure_lease|Dark Fiber]])** | 통신사가 땅에 묻어놓고 아직 빛을 쏘지 않은 비어있는 광케이블. 기업이 이걸 싸게 임대해서 양 끝에 자기들만의 CWDM 장비를 붙여 통신망을 지배함 |
+| **[다크 파이버](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/899_dark_fiber_unlit_infrastructure_lease/) ([Dark Fiber](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/899_dark_fiber_unlit_infrastructure_lease/))** | 통신사가 땅에 묻어놓고 아직 빛을 쏘지 않은 비어있는 광케이블. 기업이 이걸 싸게 임대해서 양 끝에 자기들만의 CWDM 장비를 붙여 통신망을 지배함 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -120,11 +124,11 @@ CWDM (Coarse WDM) 표준안 확립 (저렴한 Uncooled 레이저와 단순 필�
 5G 프론트홀(Fronthaul) 기지국 연결 및 기업의 자가망(Dark Fiber) 구축의 절대 표준으로 안착
 ```
 
-이 흐름도는 "고비용의 장벽 → 하드웨어 [[233_precision_recall_f1_roc_auc_threshold|정밀도]] 완화를 통한 비용 혁신 → 단거리 통신망 인프라의 폭발적 확산"이라는 가성비 중심의 통신망 설계 진화를 보여준다.
+이 흐름도는 "고비용의 장벽 → 하드웨어 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 완화를 통한 비용 혁신 → 단거리 통신망 인프라의 폭발적 확산"이라는 가성비 중심의 통신망 설계 진화를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. CWDM은 하나의 빨대(광케이블)로 여러 색깔 물감([[001_dikw_pyramid|데이터]])을 보낼 때, 색깔들이 안 섞이게 아주 넓게 띄엄띄엄 보내는 기술이에요.
+1. CWDM은 하나의 빨대(광케이블)로 여러 색깔 물감([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 보낼 때, 색깔들이 안 섞이게 아주 넓게 띄엄띄엄 보내는 기술이에요.
 2. 비싼 에어컨이 달린 기계(DWDM)가 없어도, 기계가 조금 흔들려도 색깔들끼리 간격이 워낙 넓어서 충돌하지 않죠.
 3. 아주 멀리(외국) 보낼 수는 없지만, 우리 동네 안에서 쓸 때는 기계값이 엄청 싸기 때문에 통신사가 가장 좋아하는 가성비 최고 꿀템이랍니다!
 
@@ -134,7 +138,7 @@ CWDM (Coarse WDM) 표준안 확립 (저렴한 Uncooled 레이저와 단순 필�
 
 **진행 상황**: 80 / 1120
 
-← **이전**: [[079_광파장_분할_다중화_WDM|079. 광파장 분할 다중화 (WDM, Wavelength Division Multiplexing)]]
-**다음**: [[081_고밀도_파장_분할_다중화_DWDM|081. 고밀도 파장 분할 다중화 (DWDM, Dense Wavelength Division Multiplexing)]] →
+← **이전**: [079. 광파장 분할 다중화 (WDM, Wavelength Division Multiplexing)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/079_광파장_분할_다중화_WDM/)
+**다음**: [081. 고밀도 파장 분할 다중화 (DWDM, Dense Wavelength Division Multiplexing)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/081_고밀도_파장_분할_다중화_DWDM/) →
 
 ---

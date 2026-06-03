@@ -1,25 +1,29 @@
----
-title: 243. CNN (Convolutional Neural Network) 스트라이드 풀링 ResNet 잔차 연결 YOLO 객체 탐지
-date: '2026-04-21'
-tags:
-- studynote-data-engineering
----
++++
+title = "243. CNN (Convolutional Neural Network) 스트라이드 풀링 ResNet 잔차 연결 YOLO 객체 탐지"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-data-engineering"]
+
+[extra]
+tags = ["studynote-data-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: CNN([[089_CNN_Convolutional|Convolutional Neural Network]])은 [[228_cnn_1d_2d_3d_video_medical|합성곱]] 필터([[284_convolution_stride_padding|Convolution]] Filter)로 [[248_spatial_locality|공간적 지역성]]([[248_spatial_locality|Spatial Locality]])과 이동 불변성(Translation Invariance)을 활용해 이미지 특성을 계층적으로 추출하는 신경망이다.
-> 2. **가치**: ResNet의 잔차 연결(Residual Connection)은 [[088_vanishing_gradient_relu_skip_connection|기울기 소실]]([[240_relu_vanishing_gradient_softmax_backprop_chain|Vanishing Gradient]]) 문제를 극복해 100층 이상의 초심층 네트워크 훈련을 가능하게 했으며, 현대 비전 모델의 기반이 되었다.
-> 3. **판단 포인트**: YOLO(You Only Look Once)는 단일 패스(Single Pass)로 전체 이미지를 처리해 실시간 [[288_object_detection_yolo_rcnn|객체 탐지]]를 달성하며, [[132_transfer_learning|전이 학습]]([[132_transfer_learning|Transfer Learning]])으로 소량 [[001_dikw_pyramid|데이터]] 문제를 해결한다.
+> 1. **본질**: CNN([Convolutional Neural Network](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/))은 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 필터([Convolution](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/) Filter)로 [공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/)([Spatial Locality](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/))과 이동 불변성(Translation Invariance)을 활용해 이미지 특성을 계층적으로 추출하는 신경망이다.
+> 2. **가치**: ResNet의 잔차 연결(Residual Connection)은 [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)([Vanishing Gradient](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/)) 문제를 극복해 100층 이상의 초심층 네트워크 훈련을 가능하게 했으며, 현대 비전 모델의 기반이 되었다.
+> 3. **판단 포인트**: YOLO(You Only Look Once)는 단일 패스(Single Pass)로 전체 이미지를 처리해 실시간 [객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/)를 달성하며, [전이 학습](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/)([Transfer Learning](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/))으로 소량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 문제를 해결한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-이미지 [[001_dikw_pyramid|데이터]]에 단순 MLP(Multi-Layer [[239_perceptron_mlp_hidden_layer_weight_activation_sigmoid|Perceptron]])를 적용하면 공간 구조 정보가 소실되고 파라미터 수가 폭증한다. CNN은 이를 해결하기 위해 세 가지 핵심 아이디어를 도입했다.
+이미지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 단순 MLP(Multi-Layer [Perceptron](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/))를 적용하면 공간 구조 정보가 소실되고 파라미터 수가 폭증한다. CNN은 이를 해결하기 위해 세 가지 핵심 아이디어를 도입했다.
 
 | 아이디어 | 설명 | 효과 |
 |:---|:---|:---|
 | 지역 연결 (Local Connectivity) | 작은 필터로 인접 픽셀만 연결 | 파라미터 대폭 감소 |
-| [[267_weight_bias_activation|가중치]] 공유 ([[267_weight_bias_activation|Weight]] Sharing) | 동일 필터를 이미지 전체에 적용 | 이동 불변성 확보 |
+| [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 공유 ([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) Sharing) | 동일 필터를 이미지 전체에 적용 | 이동 불변성 확보 |
 | 계층적 특성 추출 | 저수준→고수준 특성 순차 학습 | 추상화된 표현 학습 |
 
 📢 **섹션 요약 비유**: CNN은 사진을 보는 것이 아니라 사진을 스캔하는 돋보기 팀이다. 첫 번째 팀은 선과 모서리를 찾고, 두 번째는 눈·코를 찾고, 세 번째는 얼굴을 인식한다.
@@ -28,7 +32,7 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [[284_convolution_stride_padding|합성곱 연산]] ([[284_convolution_stride_padding|Convolution]] [[329_delta_encoding|Operation]])
+### [합성곱 연산](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/) ([Convolution](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/) [Operation](/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/))
 
 ```
 입력 이미지 (6×6)    필터 (3×3)      특성 맵 (4×4)
@@ -49,12 +53,12 @@ tags:
 
 | 파라미터 | 역할 | 일반값 |
 |:---|:---|:---|
-| [[097_stride_convolutional_neural_network_downsampling|스트라이드]] ([[097_stride_convolutional_neural_network_downsampling|Stride]]) | 필터 이동 간격, 클수록 출력 축소 | 1~2 |
-| [[098_padding_convolutional_neural_network_same_valid|패딩]] ([[098_padding_convolutional_neural_network_same_valid|Padding]]) | 경계 픽셀 보존 ('same' [[098_padding_convolutional_neural_network_same_valid|패딩]]) | 0~F/2 |
-| 필터 수 (Channels) | 추출할 [[099_feature_map_activation_map_cnn_output|특성 맵]] 수 | 32, 64, 128... |
+| [스트라이드](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) ([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)) | 필터 이동 간격, 클수록 출력 축소 | 1~2 |
+| [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) ([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)) | 경계 픽셀 보존 ('same' [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)) | 0~F/2 |
+| 필터 수 (Channels) | 추출할 [특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/) 수 | 32, 64, 128... |
 | 필터 크기 | 수용 영역 (Receptive Field) 크기 | 3×3, 5×5, 1×1 |
 
-### [[285_pooling_layer|풀링]] ([[285_pooling_layer|Pooling]]) 연산
+### [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) ([Pooling](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)) 연산
 
 ```
 Max Pooling (2×2, stride=2)
@@ -68,7 +72,7 @@ Max: 각 구역의 최댓값 추출 → 위치 불변성, 특성 압축
 Average: 평균값 → 전체적 특성 유지
 ```
 
-### [[287_resnet_skip_connection|ResNet]] ([[287_resnet_skip_connection|Residual Network]]) — 잔차 연결
+### [ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/) ([Residual Network](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/)) — 잔차 연결
 
 ```
 일반 레이어           잔차 연결 (Skip Connection)
@@ -86,7 +90,7 @@ Average: 평균값 → 전체적 특성 유지
 → 기울기가 직통 경로로 역전파 → 기울기 소실 극복
 ```
 
-**[[287_resnet_skip_connection|ResNet]] 핵심 수식**: `H(x) = F(x) + x`
+**[ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/) 핵심 수식**: `H(x) = F(x) + x`
 
 - F(x): 레이어가 학습하는 잔차 (잔류 오차)
 - x: 입력 (직접 연결, 기울기 고속도로)
@@ -102,14 +106,14 @@ Average: 평균값 → 전체적 특성 유지
 
 | 모델 | 연도 | 층 수 | 특징 | Top-5 Error |
 |:---|:---|:---|:---|:---|
-| AlexNet | 2012 | 8 | [[418_gpu|GPU]] 딥러닝 시작 | 15.3% |
+| AlexNet | 2012 | 8 | [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 딥러닝 시작 | 15.3% |
 | VGGNet | 2014 | 16/19 | 3×3 필터 통일 | 7.3% |
-| GoogLeNet/Inception | 2014 | 22 | [[430_index_fast_full_scan|병렬]] 필터 조합 | 6.7% |
-| [[287_resnet_skip_connection|ResNet]] | 2015 | 152 | 잔차 연결 | 3.57% |
+| GoogLeNet/Inception | 2014 | 22 | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 필터 조합 | 6.7% |
+| [ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/) | 2015 | 152 | 잔차 연결 | 3.57% |
 | DenseNet | 2017 | 201 | 모든 층 직접 연결 | 3.46% |
-| EfficientNet | 2019 | - | 복합 [[249_scaling_normalization_standardization|스케일링]] | 1.8% |
+| EfficientNet | 2019 | - | 복합 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) | 1.8% |
 
-### YOLO (You Only Look Once) — 실시간 [[288_object_detection_yolo_rcnn|객체 탐지]]
+### YOLO (You Only Look Once) — 실시간 [객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/)
 
 ```
 기존 2-Stage 탐지 (R-CNN 계열)
@@ -134,10 +138,10 @@ YOLO 1-Stage 탐지
 | 방식 | 정확도 | 속도 | 사용 사례 |
 |:---|:---|:---|:---|
 | R-CNN | 높음 | 느림 (2s/img) | 정밀 분석 |
-| Fast R-CNN | 높음 | 중간 | [[228_batch_processing_hadoop_spark|배치 처리]] |
+| Fast R-CNN | 높음 | 중간 | [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) |
 | Faster R-CNN | 높음 | 적당 (7fps) | 균형 필요 시 |
 | YOLO (v1~v8) | 중간~높음 | 빠름 (30~100fps) | 실시간 탐지 |
-| [[327_ssd|SSD]] | 중간 | 빠름 | 엣지 디바이스 |
+| [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) | 중간 | 빠름 | 엣지 디바이스 |
 
 📢 **섹션 요약 비유**: YOLO는 그림을 보자마자 "저기 고양이, 저기 자동차!"라고 한 번에 외치는 것이다. R-CNN은 그림을 조각조각 잘라 각각 "이게 뭐지?"라고 물어보는 방식이라 더 정확하지만 느리다.
 
@@ -145,7 +149,7 @@ YOLO 1-Stage 탐지
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[132_transfer_learning|전이 학습]] ([[132_transfer_learning|Transfer Learning]])
+### [전이 학습](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/) ([Transfer Learning](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/))
 
 ```
 사전 학습 단계 (ImageNet 1.2M 이미지)
@@ -164,24 +168,24 @@ YOLO 1-Stage 탐지
 └─────────────────────────────────────────┘
 ```
 
-**[[268_strategy_pattern|전략]]**: 상위 레이어만 [[304_fine_tuning|fine-tuning]], 하위 특성 추출 레이어 동결
+**[전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**: 상위 레이어만 [fine-tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/), 하위 특성 추출 레이어 동결
 
 ### 배포 최적화 기법
 
 | 기법 | 설명 | 용도 |
 |:---|:---|:---|
-| [[312_quantization|모델 양자화]] ([[434_quantization|Quantization]]) | FP32 → INT8 변환 | 엣지 디바이스 |
-| [[252_knowledge_distillation_quantization_edge_slm_diffusion|지식 증류]] ([[252_knowledge_distillation_quantization_edge_slm_diffusion|Knowledge Distillation]]) | 큰 모델→작은 모델 전달 | 경량화 |
-| [[435_pruning_hardware|가지치기]] ([[435_pruning_hardware|Pruning]]) | 불필요 [[267_weight_bias_activation|가중치]] 제거 | 메모리 절감 |
-| TensorRT | NVIDIA 추론 최적화 | 실시간 [[090_service_kubernetes_network_load_balancing|서비스]] |
+| [모델 양자화](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/312_quantization/) ([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)) | FP32 → INT8 변환 | 엣지 디바이스 |
+| [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/) ([Knowledge Distillation](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)) | 큰 모델→작은 모델 전달 | 경량화 |
+| [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) ([Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)) | 불필요 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 제거 | 메모리 절감 |
+| TensorRT | NVIDIA 추론 최적화 | 실시간 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) |
 
-📢 **섹션 요약 비유**: [[132_transfer_learning|전이 학습]]은 영어를 잘하는 사람이 일본어를 배울 때 외국어 학습 기술 자체를 재활용하는 것과 같다. 처음부터 모국어 감각을 새로 만들 필요가 없다.
+📢 **섹션 요약 비유**: [전이 학습](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/)은 영어를 잘하는 사람이 일본어를 배울 때 외국어 학습 기술 자체를 재활용하는 것과 같다. 처음부터 모국어 감각을 새로 만들 필요가 없다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-### 비전 [[190_ai_llm_requirements_specification|AI]] 파이프라인
+### 비전 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 파이프라인
 
 ```
 이미지 입력
@@ -203,27 +207,27 @@ YOLO 1-Stage 탐지
 
 ### 기술사 시험 핵심 포인트
 
-1. **[[228_cnn_1d_2d_3d_video_medical|합성곱]] 출력 크기 공식**: `(N - F + 2P) / S + 1`
-2. **[[287_resnet_skip_connection|ResNet]] 잔차 연결 수식**: `H(x) = F(x) + x` 및 [[088_vanishing_gradient_relu_skip_connection|기울기 소실]] 극복 원리
-3. **[[101_max_pooling_average_pooling_global_average_pooling|Max Pooling]] vs Average [[285_pooling_layer|Pooling]]** 특성 및 사용 목적
+1. **[합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 출력 크기 공식**: `(N - F + 2P) / S + 1`
+2. **[ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/) 잔차 연결 수식**: `H(x) = F(x) + x` 및 [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 극복 원리
+3. **[Max Pooling](/knowledge-base/studynote/10_ai/02_dl_architecture_new/101_max_pooling_average_pooling_global_average_pooling/) vs Average [Pooling](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)** 특성 및 사용 목적
 4. **YOLO 1-Stage vs 2-Stage** 속도·정확도 트레이드오프
-5. **[[132_transfer_learning|전이 학습]] [[268_strategy_pattern|전략]]**: 동결 레이어와 [[304_fine_tuning|fine-tuning]] 레이어 결정 기준
+5. **[전이 학습](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**: 동결 레이어와 [fine-tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/) 레이어 결정 기준
 
 📢 **섹션 요약 비유**: CNN은 인간의 시각 피질을 모방한 것이다. 눈에서 V1(선 감지)→V2(모서리)→V4(색상·형태)→IT(물체 인식)로 계층적으로 처리하듯, CNN도 저수준에서 고수준으로 특성을 계층적으로 학습한다.
 
 ---
 
 ### 📌 관련 개념 맵
-| [[083_relationship_in_er_model|관계]] | 개념 | 설명 |
+| [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
 |:---|:---|:---|
-| 기반 연산 | [[228_cnn_1d_2d_3d_video_medical|합성곱]] ([[284_convolution_stride_padding|Convolution]]) | 필터로 공간 특성 추출 |
-| [[347_compaction|압축]] 연산 | [[285_pooling_layer|풀링]] ([[285_pooling_layer|Pooling]]) | 공간 해상도 감소, 위치 불변성 |
-| 핵심 혁신 | 잔차 연결 (Residual Connection) | [[088_vanishing_gradient_relu_skip_connection|기울기 소실]] 극복 |
-| 대표 모델 | [[287_resnet_skip_connection|ResNet]] | 초심층 네트워크 표준 |
+| 기반 연산 | [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) ([Convolution](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/)) | 필터로 공간 특성 추출 |
+| [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 연산 | [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) ([Pooling](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)) | 공간 해상도 감소, 위치 불변성 |
+| 핵심 혁신 | 잔차 연결 (Residual Connection) | [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 극복 |
+| 대표 모델 | [ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/) | 초심층 네트워크 표준 |
 | 탐지 모델 | YOLO | 단일 패스 실시간 탐지 |
-| 활용 [[268_strategy_pattern|전략]] | [[132_transfer_learning|전이 학습]] ([[132_transfer_learning|Transfer Learning]]) | 사전 학습 지식 재활용 |
-| 경량화 | [[252_knowledge_distillation_quantization_edge_slm_diffusion|지식 증류]] ([[252_knowledge_distillation_quantization_edge_slm_diffusion|Knowledge Distillation]]) | 큰 모델 → 작은 모델 |
-| 연관 분야 | 의미론적 분할 (Semantic [[364_segmentation|Segmentation]]) | 픽셀 단위 [[104_classification_analysis|분류]] |
+| 활용 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | [전이 학습](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/) ([Transfer Learning](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/)) | 사전 학습 지식 재활용 |
+| 경량화 | [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/) ([Knowledge Distillation](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)) | 큰 모델 → 작은 모델 |
+| 연관 분야 | 의미론적 분할 (Semantic [Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)) | 픽셀 단위 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) |
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. CNN은 그림을 찾아보는 여러 단계의 돋보기야. 처음엔 선을 찾고, 다음엔 도형을 찾고, 마지막에 고양이라고 알아채는 것처럼 점점 복잡한 것을 찾아.
@@ -251,7 +255,7 @@ CNN: Conv + Pooling + Stride → 공간 특징 추출
 
 **진행 상황**: 243 / 258
 
-← **이전**: [[242_regularization_dropout_early_stopping_l1_l2_lasso_ridge|242. 규제 드롭아웃 (Dropout) 조기 종료 L1 L2 라쏘 릿지 종합]]
-**다음**: [[244_rnn_time_series_lstm_cell_gate_long_term_dependency|244. RNN (Recurrent Neural Network) 시계열 LSTM 셀 게이트 장기 의존성 극복]] →
+← **이전**: [242. 규제 드롭아웃 (Dropout) 조기 종료 L1 L2 라쏘 릿지 종합](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/)
+**다음**: [244. RNN (Recurrent Neural Network) 시계열 LSTM 셀 게이트 장기 의존성 극복](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/) →
 
 ---

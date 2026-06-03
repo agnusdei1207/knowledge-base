@@ -1,14 +1,18 @@
----
-title: 26. 3C 분석 (3C Analysis) — 고객·경쟁자·자사 전략 분석
-date: '2026-04-29'
-tags:
-- studynote-it-management
----
++++
+title = "26. 3C 분석 (3C Analysis) — 고객·경쟁자·자사 전략 분석"
+date = 2026-04-29
+
+[taxonomies]
+tags = ["studynote-it-management"]
+
+[extra]
+tags = ["studynote-it-management"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 3C 분석은 [[027_seven_s_model|맥킨지]] 컨설턴트 오마에 겐이치(大前研一)가 제시한 [[268_strategy_pattern|전략]] 분석 프레임워크로, [[026_three_c_analysis|Customer]](고객·시장), Competitor(경쟁자), Company(자사)의 세 관점을 삼각 분석하여 경쟁 우위를 갖출 수 있는 [[268_strategy_pattern|전략]] 기회를 도출한다.
-> 2. **가치**: 3C 분석의 핵심 통찰은 "고객이 원하는 것(C1), 경쟁자가 제공하는 것([[746_c2|C2]]), 자사가 잘하는 것(C3)의 삼각 교점(Strategic Sweet Spot)"을 찾는 것이다. 이 교점이 지속 가능한 경쟁 우위의 원천이 된다.
-> 3. **판단 포인트**: 3C 분석은 단독으로 사용하기보다 마케팅 [[268_strategy_pattern|전략]]의 [[570_stp_vs_mtp|STP]] ([[364_segmentation|Segmentation]]·Targeting·Positioning), SWOT 분석과 연계하여 사용한다. [[026_three_c_analysis|Customer]] 분석은 PEST의 S(사회) 요소와 연결되고, Competitor 분석은 Porter's 5 Forces의 경쟁 강도와 연결된다.
+> 1. **본질**: 3C 분석은 [맥킨지](/knowledge-base/studynote/12_it_management/01_governance_strategy/027_seven_s_model/) 컨설턴트 오마에 겐이치(大前研一)가 제시한 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 분석 프레임워크로, [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)(고객·시장), Competitor(경쟁자), Company(자사)의 세 관점을 삼각 분석하여 경쟁 우위를 갖출 수 있는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 기회를 도출한다.
+> 2. **가치**: 3C 분석의 핵심 통찰은 "고객이 원하는 것(C1), 경쟁자가 제공하는 것([C2](/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/)), 자사가 잘하는 것(C3)의 삼각 교점(Strategic Sweet Spot)"을 찾는 것이다. 이 교점이 지속 가능한 경쟁 우위의 원천이 된다.
+> 3. **판단 포인트**: 3C 분석은 단독으로 사용하기보다 마케팅 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/) ([Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)·Targeting·Positioning), SWOT 분석과 연계하여 사용한다. [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) 분석은 PEST의 S(사회) 요소와 연결되고, Competitor 분석은 Porter's 5 Forces의 경쟁 강도와 연결된다.
 
 ---
 
@@ -31,7 +35,7 @@ tags:
 └─────────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 3C 분석은 레스토랑 창업 전 조사다. 손님이 뭘 먹고 싶은지([[026_three_c_analysis|Customer]]), 주변 레스토랑이 무엇을 잘하고 못하는지(Competitor), 우리 셰프의 전문 요리가 무엇인지(Company)를 삼각 검토한다.
+- **📢 섹션 요약 비유**: 3C 분석은 레스토랑 창업 전 조사다. 손님이 뭘 먹고 싶은지([Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)), 주변 레스토랑이 무엇을 잘하고 못하는지(Competitor), 우리 셰프의 전문 요리가 무엇인지(Company)를 삼각 검토한다.
 
 ---
 
@@ -41,11 +45,11 @@ tags:
 
 | 관점 | 핵심 질문 | 분석 도구 |
 |:---|:---|:---|
-| **[[026_three_c_analysis|Customer]]** | 시장 규모는? 고객 세분화는? 니즈 변화는? | 시장 조사, [[570_stp_vs_mtp|STP]], 페르소나 |
-| **Competitor** | 누가 경쟁자인가? 그들의 강약점은? | 경쟁사 [[219_benchmarking_best_practice|벤치마킹]], Porter 5 Forces |
-| **Company** | 우리의 핵심 역량(Core Competency)은? | SWOT S·W, [[026_value_chain_analysis|가치 사슬 분석]] |
+| **[Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)** | 시장 규모는? 고객 세분화는? 니즈 변화는? | 시장 조사, [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/), 페르소나 |
+| **Competitor** | 누가 경쟁자인가? 그들의 강약점은? | 경쟁사 [벤치마킹](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/219_benchmarking_best_practice/), Porter 5 Forces |
+| **Company** | 우리의 핵심 역량(Core Competency)은? | SWOT S·W, [가치 사슬 분석](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/026_value_chain_analysis/) |
 
-### IT 기업 3C 분석 예시 (클라우드 [[309_saas|SaaS]] 기업)
+### IT 기업 3C 분석 예시 (클라우드 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 기업)
 
 ```text
 Customer:
@@ -64,34 +68,34 @@ Company:
 → 전략: 경쟁자가 놓친 "중소기업 특화 저가+쉬운 사용" 포지셔닝
 ```
 
-- **📢 섹션 요약 비유**: 3C 분석으로 찾은 [[268_strategy_pattern|전략]] 포인트는 틈새시장이다. 큰 경쟁자(Microsoft, Google)가 대기업에 집중하는 동안, 중소기업([[026_three_c_analysis|Customer]] 니즈)을 공략하는 것이 우리(Company)의 기회다.
+- **📢 섹션 요약 비유**: 3C 분석으로 찾은 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 포인트는 틈새시장이다. 큰 경쟁자(Microsoft, Google)가 대기업에 집중하는 동안, 중소기업([Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) 니즈)을 공략하는 것이 우리(Company)의 기회다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 분석 | 3C | SWOT | [[102_isp_environmental_analysis_pest_5forces|PEST]] |
+| 분석 | 3C | SWOT | [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/) |
 |:---|:---|:---|:---|
-| **초점** | 3개 주체 삼각 [[083_relationship_in_er_model|관계]] | 내부·외부 2차원 | 거시 환경 4요소 |
-| **출력** | [[268_strategy_pattern|전략]] 기회 도출 | SO/[[587_st|ST]]/WO/WT [[268_strategy_pattern|전략]] | 기회·위협 인풋 |
-| **연계** | SWOT의 인풋 원천 | 3C + [[102_isp_environmental_analysis_pest_5forces|PEST]] 통합 | [[026_three_c_analysis|Customer]]·Competitor 맥락 |
+| **초점** | 3개 주체 삼각 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 내부·외부 2차원 | 거시 환경 4요소 |
+| **출력** | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 기회 도출 | SO/[ST](/knowledge-base/studynote/09_security/12_identity_threat_advanced/587_st/)/WO/WT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 기회·위협 인풋 |
+| **연계** | SWOT의 인풋 원천 | 3C + [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/) 통합 | [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)·Competitor 맥락 |
 
-- **📢 섹션 요약 비유**: 3C는 [[268_strategy_pattern|전략]] 분석의 렌즈 세트다. [[102_isp_environmental_analysis_pest_5forces|PEST]](망원경), Porter 5 Forces(확대경), 3C(삼각 조준경), SWOT(종합 스코어카드). 각 도구가 다른 각도에서 같은 시장을 본다.
+- **📢 섹션 요약 비유**: 3C는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 분석의 렌즈 세트다. [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/)(망원경), Porter 5 Forces(확대경), 3C(삼각 조준경), SWOT(종합 스코어카드). 각 도구가 다른 각도에서 같은 시장을 본다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### DT [[268_strategy_pattern|전략]] 수립에서 3C 활용
-1. [[026_three_c_analysis|Customer]]: 고객의 디지털 경험 니즈 조사 → 모바일 퍼스트, [[190_ai_llm_requirements_specification|AI]] 추천 기대.
-2. Competitor: 경쟁사 [[055_digital_transformation|디지털 전환]] 현황 → 클라우드 마이그레이션 속도, [[190_ai_llm_requirements_specification|AI]] 기능.
-3. Company: 자사 디지털 역량 자가 진단 → 레거시 시스템 비중, [[001_dikw_pyramid|데이터]] 분석 역량.
-→ [[268_strategy_pattern|전략]]: 경쟁자보다 빠른 [[190_ai_llm_requirements_specification|AI]] [[211_recommendation_system|추천 시스템]] + 자사 [[001_dikw_pyramid|데이터]] 자산 활용.
+### DT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수립에서 3C 활용
+1. [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/): 고객의 디지털 경험 니즈 조사 → 모바일 퍼스트, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 추천 기대.
+2. Competitor: 경쟁사 [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) 현황 → 클라우드 마이그레이션 속도, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기능.
+3. Company: 자사 디지털 역량 자가 진단 → 레거시 시스템 비중, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 역량.
+→ [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/): 경쟁자보다 빠른 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/) + 자사 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산 활용.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
-- Company 분석만 집중하고 [[026_three_c_analysis|Customer]]·Competitor를 소홀히 하는 [[128_water_scrum_fall_anti_pattern|안티패턴]]("자기 중심 [[268_strategy_pattern|전략]]"). 우리가 잘하는 것만 강화해도 고객이 원하지 않거나 경쟁자가 이미 더 잘하면 [[268_strategy_pattern|전략]]이 실패한다.
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- Company 분석만 집중하고 [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)·Competitor를 소홀히 하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)("자기 중심 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)"). 우리가 잘하는 것만 강화해도 고객이 원하지 않거나 경쟁자가 이미 더 잘하면 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 실패한다.
 
-- **📢 섹션 요약 비유**: Company만 보는 [[268_strategy_pattern|전략]]은 거울만 보는 무술 연습이다. 실제 상대(경쟁자)와 관객(고객)을 보지 않으면 진짜 경기(시장)에서 지게 된다.
+- **📢 섹션 요약 비유**: Company만 보는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 거울만 보는 무술 연습이다. 실제 상대(경쟁자)와 관객(고객)을 보지 않으면 진짜 경기(시장)에서 지게 된다.
 
 ---
 
@@ -99,13 +103,13 @@ Company:
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **[[268_strategy_pattern|전략]] 기회 발굴** | 고객 니즈·경쟁 공백·자사 강점 교점 |
+| **[전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 기회 발굴** | 고객 니즈·경쟁 공백·자사 강점 교점 |
 | **포지셔닝** | 경쟁자 대비 차별화 포인트 명확화 |
 | **자원 배분** | 자사 강점에 집중 투자 근거 |
 
-[[001_dikw_pyramid|데이터]] 기반 3C 분석은 고객 행동 [[001_dikw_pyramid|데이터]]([[026_three_c_analysis|Customer]]), 경쟁사 디지털 발자국(Competitor), 자사 성과 [[001_dikw_pyramid|데이터]](Company)를 AI로 실시간 분석하여 동적으로 [[268_strategy_pattern|전략]]을 업데이트하는 방향으로 발전하고 있다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 3C 분석은 고객 행동 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)), 경쟁사 디지털 발자국(Competitor), 자사 성과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Company)를 AI로 실시간 분석하여 동적으로 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 업데이트하는 방향으로 발전하고 있다.
 
-- **📢 섹션 요약 비유**: [[190_ai_llm_requirements_specification|AI]] 기반 3C는 실시간 군사 정보 시스템이다. 적군(경쟁자) 동향, 아군(자사) 상태, 전선(시장) 상황을 실시간으로 통합 분석하여 최적 [[268_strategy_pattern|전략]]을 동적으로 업데이트한다.
+- **📢 섹션 요약 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 3C는 실시간 군사 정보 시스템이다. 적군(경쟁자) 동향, 아군(자사) 상태, 전선(시장) 상황을 실시간으로 통합 분석하여 최적 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 동적으로 업데이트한다.
 
 ---
 
@@ -114,9 +118,9 @@ Company:
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **SWOT** | 3C 분석 결과를 S·W·O·T로 통합 |
-| **[[570_stp_vs_mtp|STP]]** | [[026_three_c_analysis|Customer]] 분석의 구체화 프레임워크 |
+| **[STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/)** | [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) 분석의 구체화 프레임워크 |
 | **Porter 5 Forces** | Competitor 분석의 구조적 확장 |
-| **[[249_value_chain_competitive_analysis|가치 사슬]]** | Company 강약점 분석 도구 |
+| **[가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)** | Company 강약점 분석 도구 |
 | **핵심 역량** | Company 분석의 차별화 원천 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -139,9 +143,9 @@ Company:
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 3C 분석은 게임 [[268_strategy_pattern|전략]] 짜기와 같아요! 어떤 보상([[026_three_c_analysis|Customer]])을 원하는지, 다른 플레이어(Competitor)는 어떻게 하는지, 내 캐릭터(Company) 특기가 뭔지 삼각 분석해요.
-2. 다른 플레이어가 못하는 것 + 내가 잘하는 것 + 게임이 원하는 것 = 필승 [[268_strategy_pattern|전략]]의 교점이에요!
-3. 현대에는 AI가 실시간으로 이 세 가지를 분석해서 자동으로 [[268_strategy_pattern|전략]]을 추천해준답니다!
+1. 3C 분석은 게임 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 짜기와 같아요! 어떤 보상([Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/))을 원하는지, 다른 플레이어(Competitor)는 어떻게 하는지, 내 캐릭터(Company) 특기가 뭔지 삼각 분석해요.
+2. 다른 플레이어가 못하는 것 + 내가 잘하는 것 + 게임이 원하는 것 = 필승 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 교점이에요!
+3. 현대에는 AI가 실시간으로 이 세 가지를 분석해서 자동으로 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 추천해준답니다!
 
 ---
 
@@ -149,7 +153,7 @@ Company:
 
 **진행 상황**: 45 / 587
 
-← **이전**: [[025_pest_analysis_macro_environment|25. PEST 분석 — 거시 환경 분석 프레임워크]]
-**다음**: [[026_three_c_analysis|26. 3C 분석 (Customer)]] →
+← **이전**: [25. PEST 분석 — 거시 환경 분석 프레임워크](/knowledge-base/studynote/12_it_management/01_governance_strategy/025_pest_analysis_macro_environment/)
+**다음**: [26. 3C 분석 (Customer)](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) →
 
 ---

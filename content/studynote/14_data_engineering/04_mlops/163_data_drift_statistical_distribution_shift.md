@@ -1,22 +1,26 @@
----
-title: 163. 데이터 드리프트 (Data Drift) - 운영 데이터 통계 분포 이격
-date: '2026-04-21'
-tags:
-- studynote-data-engineering
----
++++
+title = "163. 데이터 드리프트 (Data Drift) - 운영 데이터 통계 분포 이격"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-data-engineering"]
+
+[extra]
+tags = ["studynote-data-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [[001_dikw_pyramid|데이터]] 드리프트 ([[001_dikw_pyramid|Data]] Drift)는 학습 [[001_dikw_pyramid|데이터]]와 운영(서빙) [[001_dikw_pyramid|데이터]] 간의 통계적 분포 차이로, 시간이 흐름에 따라 모델이 본 적 없는 패턴의 [[001_dikw_pyramid|데이터]]를 처리하게 되어 [[282_performance_tactics|성능]]이 저하되는 현상이다.
-> 2. **가치**: PSI ([[417_mlops_data_drift_psi|Population Stability Index]]), KS Test 등 정량적 지표로 드리프트를 조기에 감지하면, 실제 모델 [[282_performance_tactics|성능]] 저하가 비즈니스 손실로 이어지기 전에 재학습을 [[507_acid_properties|트리거]]할 수 있다.
-> 3. **판단 포인트**: 드리프트 감지 임계값을 너무 낮게 [[009_config|설정]]하면 과도한 재학습(비용 낭비), 너무 높게 [[009_config|설정]]하면 모델 부패 방치(품질 저하)가 발생하므로 비즈니스 도메인에 맞는 임계값 캘리브레이션이 핵심이다.
+> 1. **본질**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 드리프트 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Drift)는 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 운영(서빙) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 간의 통계적 분포 차이로, 시간이 흐름에 따라 모델이 본 적 없는 패턴의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리하게 되어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 저하되는 현상이다.
+> 2. **가치**: PSI ([Population Stability Index](/knowledge-base/studynote/06_ict_convergence/05_data_science/417_mlops_data_drift_psi/)), KS Test 등 정량적 지표로 드리프트를 조기에 감지하면, 실제 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하가 비즈니스 손실로 이어지기 전에 재학습을 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)할 수 있다.
+> 3. **판단 포인트**: 드리프트 감지 임계값을 너무 낮게 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하면 과도한 재학습(비용 낭비), 너무 높게 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하면 모델 부패 방치(품질 저하)가 발생하므로 비즈니스 도메인에 맞는 임계값 캘리브레이션이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### 1.1 [[001_dikw_pyramid|데이터]] 드리프트란?
+### 1.1 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 드리프트란?
 
-**[[001_dikw_pyramid|데이터]] 드리프트 ([[001_dikw_pyramid|Data]] Drift)**는 ML 모델이 학습된 [[001_dikw_pyramid|데이터]]의 통계적 특성(분포)이 시간이 지나면서 실제 운영 [[001_dikw_pyramid|데이터]]와 달라지는 현상이다.
+**[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 드리프트 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Drift)**는 ML 모델이 학습된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 통계적 특성(분포)이 시간이 지나면서 실제 운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 달라지는 현상이다.
 
 ```
 학습 시점 데이터 분포            운영 시점 데이터 분포
@@ -38,13 +42,13 @@ tags:
 
 | 원인 | 구체적 사례 |
 |:---|:---|
-| **계절/트렌드 변화** | 겨울에 학습한 고객 구매 모델이 여름에 [[282_performance_tactics|성능]] 저하 |
-| **사용자 행동 변화** | 스마트폰 보급으로 웹 접속 패턴이 [[164_pc|PC]]→모바일로 이동 |
+| **계절/트렌드 변화** | 겨울에 학습한 고객 구매 모델이 여름에 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 |
+| **사용자 행동 변화** | 스마트폰 보급으로 웹 접속 패턴이 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)→모바일로 이동 |
 | **외부 경제 변화** | 금리 인상으로 주택 구매 패턴 변화 |
-| **[[001_dikw_pyramid|데이터]] 수집 변화** | 센서 교체로 측정 값의 단위/범위 변화 |
+| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 변화** | 센서 교체로 측정 값의 단위/범위 변화 |
 | **새로운 사용자 유입** | 마케팅 캠페인으로 전혀 다른 인구통계 유입 |
 
-📢 **섹션 요약 비유**: [[001_dikw_pyramid|데이터]] 드리프트는 10년 전 고객 취향으로 만든 [[394_catalog_metadata|카탈로그]]와 오늘 실제 고객 취향의 차이와 같다. 옛날 [[001_dikw_pyramid|데이터]]([[394_catalog_metadata|카탈로그]])로 만든 추천 모델은 지금 고객이 원하는 것을 모른다.
+📢 **섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 드리프트는 10년 전 고객 취향으로 만든 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)와 오늘 실제 고객 취향의 차이와 같다. 옛날 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/))로 만든 추천 모델은 지금 고객이 원하는 것을 모른다.
 
 ---
 
@@ -55,8 +59,8 @@ tags:
 | 종류 | 정의 | 수식 | 예시 |
 |:---|:---|:---|:---|
 | **Covariate Shift** | 입력 변수 X의 분포 변화 | P_train(X) ≠ P_serve(X) | 나이 분포가 20대→40대로 이동 |
-| **Prior [[130_probability|Probability]] Shift** | 출력(레이블) Y의 분포 변화 | P_train(Y) ≠ P_serve(Y) | 사기 비율이 1%→5%로 증가 |
-| **[[164_concept_drift_target_mapping_change|Concept Drift]]** | 입출력 [[083_relationship_in_er_model|관계]] P(Y\|X)의 변화 | P_train(Y\|X) ≠ P_serve(Y\|X) | 같은 신용점수여도 상환 능력 변화 |
+| **Prior [Probability](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) Shift** | 출력(레이블) Y의 분포 변화 | P_train(Y) ≠ P_serve(Y) | 사기 비율이 1%→5%로 증가 |
+| **[Concept Drift](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/)** | 입출력 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) P(Y\|X)의 변화 | P_train(Y\|X) ≠ P_serve(Y\|X) | 같은 신용점수여도 상환 능력 변화 |
 
 ```
 드리프트 종류별 영향
@@ -77,7 +81,7 @@ tags:
 
 ### 2.2 드리프트 감지 방법
 
-#### PSI ([[417_mlops_data_drift_psi|Population Stability Index]])
+#### PSI ([Population Stability Index](/knowledge-base/studynote/06_ict_convergence/05_data_science/417_mlops_data_drift_psi/))
 
 PSI는 두 분포 간 차이를 단일 숫자로 표현하는 가장 널리 쓰이는 지표다.
 
@@ -102,7 +106,7 @@ p-value < 0.05: 두 분포가 통계적으로 유의미하게 다름
                 → 드리프트 감지됨
 ```
 
-#### [[153_kl_divergence|KL Divergence]] ([[347_cross_entropy_kld|Kullback-Leibler Divergence]])
+#### [KL Divergence](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/153_kl_divergence/) ([Kullback-Leibler Divergence](/knowledge-base/studynote/10_ai/05_data_science_ml/347_cross_entropy_kld/))
 
 ```
 KL(P‖Q) = Σ P(x) × log(P(x) / Q(x))
@@ -123,15 +127,15 @@ MMD는 두 분포에서 추출한 샘플로
 활용: 딥러닝 모델 입력 드리프트 감지
 ```
 
-### 2.3 드리프트 감지 [[001_algorithm_definition|알고리즘]] 비교
+### 2.3 드리프트 감지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 비교
 
-| 방법 | 원리 | 장점 | 단점 | 적합 [[001_dikw_pyramid|데이터]] |
+| 방법 | 원리 | 장점 | 단점 | 적합 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 |:---|:---|:---|:---|:---|
-| **PSI** | 분포 구간 비교 | 직관적 해석, 금융권 표준 | 연속형 [[001_dikw_pyramid|데이터]]에 구간 [[009_config|설정]] 필요 | 수치형, 금융 |
+| **PSI** | 분포 구간 비교 | 직관적 해석, 금융권 표준 | 연속형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 구간 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 필요 | 수치형, 금융 |
 | **KS Test** | 누적분포 최대 차이 | 비모수적, 견고함 | 단변량만 가능 | 수치형 단변량 |
-| **[[153_kl_divergence|KL Divergence]]** | 정보 이론적 거리 | 이론적 근거 강함 | 비대칭, 0 확률에 취약 | 분포 비교 |
-| **MMD** | [[022_kernel_role|커널]] 기반 거리 | 고차원 적합 | 계산 복잡도 높음 | 이미지, 텍스트 |
-| **[[147_chi_square_test|Chi-Square Test]]** | 관측/기대 빈도 비교 | 범주형 [[001_dikw_pyramid|데이터]] | 샘플 크기 민감 | 범주형 |
+| **[KL Divergence](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/153_kl_divergence/)** | 정보 이론적 거리 | 이론적 근거 강함 | 비대칭, 0 확률에 취약 | 분포 비교 |
+| **MMD** | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 기반 거리 | 고차원 적합 | 계산 복잡도 높음 | 이미지, 텍스트 |
+| **[Chi-Square Test](/knowledge-base/studynote/08_algorithm_stats/08_stats/147_chi_square_test/)** | 관측/기대 빈도 비교 | 범주형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 샘플 크기 민감 | 범주형 |
 
 ### 2.4 드리프트 모니터링 아키텍처
 
@@ -155,23 +159,23 @@ MMD는 두 분포에서 추출한 샘플로
 └──────────────┴───────────────────────────────────────────────┘
 ```
 
-📢 **섹션 요약 비유**: [[001_dikw_pyramid|데이터]] 드리프트 감지는 혈액검사와 같다. 정상 범위(학습 [[001_dikw_pyramid|데이터]] 분포)에서 얼마나 벗어났는지를 PSI라는 혈액 지표로 수치화하고, 0.2를 넘으면 재치료(재학습) 처방을 내린다.
+📢 **섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 드리프트 감지는 혈액검사와 같다. 정상 범위(학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포)에서 얼마나 벗어났는지를 PSI라는 혈액 지표로 수치화하고, 0.2를 넘으면 재치료(재학습) 처방을 내린다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 3.1 [[001_dikw_pyramid|데이터]] 드리프트 vs [[164_concept_drift_target_mapping_change|컨셉 드리프트]]
+### 3.1 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 드리프트 vs [컨셉 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/)
 
-| 항목 | [[001_dikw_pyramid|데이터]] 드리프트 | [[164_concept_drift_target_mapping_change|컨셉 드리프트]] |
+| 항목 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 드리프트 | [컨셉 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/) |
 |:---|:---|:---|
-| **변화 대상** | 입력 [[001_dikw_pyramid|데이터]] X의 분포 P(X) | 입출력 [[083_relationship_in_er_model|관계]] P(Y\|X) |
+| **변화 대상** | 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) X의 분포 P(X) | 입출력 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) P(Y\|X) |
 | **레이블 필요성** | 레이블 없이 감지 가능 | 실제 레이블 필요 (감지 어려움) |
 | **감지 속도** | 빠름 (실시간 가능) | 느림 (레이블 수집 후) |
 | **심각도** | 중간 | 높음 (모델 기본 가정 붕괴) |
-| **대응** | 재학습으로 해결 가능 | 반드시 재학습 + [[001_dikw_pyramid|데이터]] 재수집 |
+| **대응** | 재학습으로 해결 가능 | 반드시 재학습 + [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재수집 |
 
-### 3.2 피처별 드리프트 모니터링 [[268_strategy_pattern|전략]]
+### 3.2 피처별 드리프트 모니터링 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
 ```
 모든 피처를 동일 가중치로 모니터링하는 것은 비효율적!
@@ -188,13 +192,13 @@ MMD는 두 분포에서 추출한 샘플로
 
 | 도구 | 특징 | 강점 | 약점 |
 |:---|:---|:---|:---|
-| **Evidently [[190_ai_llm_requirements_specification|AI]]** | [[191_oss_license_compliance|오픈소스]], 리포트 자동 [[087_process_state_transition|생성]] | 사용 편의성 높음 | 커스터마이징 제한 |
-| **WhyLogs** | Apache Whylabs의 경량 로깅 | 낮은 오버헤드 | 제한적 [[001_algorithm_definition|알고리즘]] |
-| **Great Expectations** | [[001_dikw_pyramid|데이터]] 품질 [[395_verification_process_review|검증]] 전문 | 유연한 규칙 [[009_config|설정]] | 드리프트보다 품질 중심 |
-| **Seldon Alibi-Detect** | 고급 드리프트 감지 [[001_algorithm_definition|알고리즘]] | MMD, LSDD 등 고급 방법 | 복잡한 [[009_config|설정]] |
-| **SageMaker Model [[229_monitor|Monitor]]** | AWS 관리형 | 완전 관리형, [[348_mlops|MLOps]] 통합 | AWS 종속 |
+| **Evidently [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)** | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/), 리포트 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 사용 편의성 높음 | 커스터마이징 제한 |
+| **WhyLogs** | Apache Whylabs의 경량 로깅 | 낮은 오버헤드 | 제한적 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
+| **Great Expectations** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 전문 | 유연한 규칙 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | 드리프트보다 품질 중심 |
+| **Seldon Alibi-Detect** | 고급 드리프트 감지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | MMD, LSDD 등 고급 방법 | 복잡한 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) |
+| **SageMaker Model [Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)** | AWS 관리형 | 완전 관리형, [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 통합 | AWS 종속 |
 
-📢 **섹션 요약 비유**: [[001_dikw_pyramid|데이터]] 드리프트 vs [[164_concept_drift_target_mapping_change|컨셉 드리프트]]는 지도([[001_dikw_pyramid|Data]] Drift)가 오래됐느냐, 아니면 도로 법규([[164_concept_drift_target_mapping_change|Concept Drift]])가 바뀌었느냐의 차이다. 지도가 오래됐으면([[001_dikw_pyramid|Data]] Drift) 새 지도를 구하면 되지만, 도로 법규가 바뀌었으면([[164_concept_drift_target_mapping_change|Concept Drift]]) 운전 방법 자체를 다시 배워야 한다.
+📢 **섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 드리프트 vs [컨셉 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/)는 지도([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Drift)가 오래됐느냐, 아니면 도로 법규([Concept Drift](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/))가 바뀌었느냐의 차이다. 지도가 오래됐으면([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Drift) 새 지도를 구하면 되지만, 도로 법규가 바뀌었으면([Concept Drift](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/)) 운전 방법 자체를 다시 배워야 한다.
 
 ---
 
@@ -237,19 +241,19 @@ else:
 
 ### 4.2 기술사 시험 핵심 포인트
 
-**Q. [[001_dikw_pyramid|데이터]] 드리프트 감지 방법 PSI와 KS Test를 비교 설명하시오.**
+**Q. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 드리프트 감지 방법 PSI와 KS Test를 비교 설명하시오.**
 
 | 항목 | PSI | KS Test |
 |:---|:---|:---|
-| 출력 | 단일 수치 (≥0) | 통계량 + [[337_p_value_significance|p-value]] |
+| 출력 | 단일 수치 (≥0) | 통계량 + [p-value](/knowledge-base/studynote/06_ict_convergence/05_data_science/337_p_value_significance/) |
 | 방향성 | 비대칭 (실제/기대 구분) | 대칭 |
-| 임계값 | <0.1 안정, >0.2 경보 | [[337_p_value_significance|p-value]] < 0.05 |
+| 임계값 | <0.1 안정, >0.2 경보 | [p-value](/knowledge-base/studynote/06_ict_convergence/05_data_science/337_p_value_significance/) < 0.05 |
 | 다변량 | 피처별 각각 계산 | 피처별 각각 계산 |
 | 금융 업계 | 표준 지표로 채택 | 보조 지표 |
 
-**Q. 드리프트 감지와 모델 [[282_performance_tactics|성능]] 저하의 인과관계를 설명하시오.**
+**Q. 드리프트 감지와 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하의 인과관계를 설명하시오.**
 
-드리프트 감지 → 모델 [[282_performance_tactics|성능]] 저하의 인과관계는 **Covariate Shift와 [[120_concept|Concept]] Drift에서만 성립**한다. Covariate Shift의 경우 새로운 분포 영역은 모델이 학습하지 못한 영역이므로 외삽(Extrapolation) 오류가 발생한다. [[120_concept|Concept]] Drift의 경우 모델의 기본 가정 자체가 깨지므로 직접적인 [[282_performance_tactics|성능]] 저하로 이어진다. 그러나 드리프트가 감지됐다고 해서 반드시 [[282_performance_tactics|성능]]이 저하되는 것은 아니며, **[[282_performance_tactics|성능]] 지표와 함께 모니터링**하는 것이 중요하다.
+드리프트 감지 → 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하의 인과관계는 **Covariate Shift와 [Concept](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/) Drift에서만 성립**한다. Covariate Shift의 경우 새로운 분포 영역은 모델이 학습하지 못한 영역이므로 외삽(Extrapolation) 오류가 발생한다. [Concept](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/) Drift의 경우 모델의 기본 가정 자체가 깨지므로 직접적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하로 이어진다. 그러나 드리프트가 감지됐다고 해서 반드시 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 저하되는 것은 아니며, **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표와 함께 모니터링**하는 것이 중요하다.
 
 ### 4.3 드리프트 모니터링 실무 설계
 
@@ -272,7 +276,7 @@ else:
 └──────────────┴─────────────────────────────────────────┘
 ```
 
-📢 **섹션 요약 비유**: 드리프트 모니터링은 공장의 품질관리 시스템과 같다. 제품(모델 출력)이 불량이 되기 전에 원자재(입력 [[001_dikw_pyramid|데이터]]) 규격 검사를 통해 PSI 수치로 이상을 미리 잡아낸다. PSI 0.2 초과는 원자재 불량 경보와 같고, 즉시 공정(재학습)을 멈추고 원인을 찾는다.
+📢 **섹션 요약 비유**: 드리프트 모니터링은 공장의 품질관리 시스템과 같다. 제품(모델 출력)이 불량이 되기 전에 원자재(입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 규격 검사를 통해 PSI 수치로 이상을 미리 잡아낸다. PSI 0.2 초과는 원자재 불량 경보와 같고, 즉시 공정(재학습)을 멈추고 원인을 찾는다.
 
 ---
 
@@ -282,41 +286,41 @@ else:
 
 | 항목 | 모니터링 없음 | 모니터링 도입 | 개선 |
 |:---|:---|:---|:---|
-| **[[282_performance_tactics|성능]] 저하 감지** | 고객 불만 후 인지 | 사전 감지 | 1~2주 조기 대응 |
-| **재학습 타이밍** | 정기 일정 기반 | 필요 시 [[507_acid_properties|트리거]] | 40% 재학습 비용 절감 |
-| **비즈니스 손실** | 수주간 불량 [[090_service_kubernetes_network_load_balancing|서비스]] | 즉시 [[658_ir_recovery|복구]] | [[012_roi_return_on_investment|ROI]] 개선 |
-| **규제 대응** | 추적 불가 | PSI [[568_logs_distributed_logging_elk_fluentd|로그]] 보존 | [[606_auditing_linux_auditd|감사]] 가능 |
+| **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 감지** | 고객 불만 후 인지 | 사전 감지 | 1~2주 조기 대응 |
+| **재학습 타이밍** | 정기 일정 기반 | 필요 시 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) | 40% 재학습 비용 절감 |
+| **비즈니스 손실** | 수주간 불량 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | 즉시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 개선 |
+| **규제 대응** | 추적 불가 | PSI [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 보존 | [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능 |
 
 ### 5.2 결론
 
-[[001_dikw_pyramid|데이터]] 드리프트 감지는 ML 시스템 운영의 **조기 경보 시스템**이다. PSI는 금융 등 규제 업계에서 [[395_verification_process_review|검증]]된 표준 지표이며, KS Test와 KL Divergence를 보조로 활용하면 다양한 분포 변화를 포착할 수 있다. 무엇보다 드리프트 감지 → [[162_continuous_training_pipeline_model_retraining|CT]] 파이프라인 자동 [[507_acid_properties|트리거]]의 연계가 실질적 비즈니스 가치를 만든다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 드리프트 감지는 ML 시스템 운영의 **조기 경보 시스템**이다. PSI는 금융 등 규제 업계에서 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 표준 지표이며, KS Test와 KL Divergence를 보조로 활용하면 다양한 분포 변화를 포착할 수 있다. 무엇보다 드리프트 감지 → [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) 파이프라인 자동 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)의 연계가 실질적 비즈니스 가치를 만든다.
 
-📢 **섹션 요약 비유**: [[001_dikw_pyramid|데이터]] 드리프트 모니터링은 스마트 체온계와 같다. 몸 상태(모델 입력)가 정상(36.5도)에서 벗어나기 시작하면 즉시 알람을 울리고, 38도(PSI 0.2) 이상이면 병원(재학습)에 즉시 가도록 안내한다.
+📢 **섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 드리프트 모니터링은 스마트 체온계와 같다. 몸 상태(모델 입력)가 정상(36.5도)에서 벗어나기 시작하면 즉시 알람을 울리고, 38도(PSI 0.2) 이상이면 병원(재학습)에 즉시 가도록 안내한다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| [[083_relationship_in_er_model|관계]] | 개념 | 설명 |
+| [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
 |:---|:---|:---|
-| 상위 개념 | [[348_mlops|MLOps]] | 드리프트 모니터링은 [[348_mlops|MLOps]] 운영 단계 |
-| 연관 | [[164_concept_drift_target_mapping_change|컨셉 드리프트]] ([[164_concept_drift_target_mapping_change|Concept Drift]]) | 입출력 [[083_relationship_in_er_model|관계]] 변화 (더 심각한 드리프트) |
-| 감지 도구 | PSI ([[417_mlops_data_drift_psi|Population Stability Index]]) | 분포 변화 정량 지표 |
+| 상위 개념 | [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) | 드리프트 모니터링은 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 운영 단계 |
+| 연관 | [컨셉 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/) ([Concept Drift](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/)) | 입출력 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 변화 (더 심각한 드리프트) |
+| 감지 도구 | PSI ([Population Stability Index](/knowledge-base/studynote/06_ict_convergence/05_data_science/417_mlops_data_drift_psi/)) | 분포 변화 정량 지표 |
 | 감지 도구 | KS Test | 비모수적 분포 비교 |
-| 감지 도구 | [[153_kl_divergence|KL Divergence]] | 정보 이론적 분포 거리 |
-| 결과 | [[162_continuous_training_pipeline_model_retraining|CT]] ([[162_continuous_training_pipeline_model_retraining|Continuous Training]]) | 드리프트 감지 시 자동 재학습 [[507_acid_properties|트리거]] |
-| 도구 | Evidently [[190_ai_llm_requirements_specification|AI]] | [[191_oss_license_compliance|오픈소스]] 드리프트 감지 [[336_library_vs_framework|라이브러리]] |
-| 도구 | WhyLogs | 경량 [[001_dikw_pyramid|데이터]] 로깅/드리프트 감지 |
+| 감지 도구 | [KL Divergence](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/153_kl_divergence/) | 정보 이론적 분포 거리 |
+| 결과 | [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) ([Continuous Training](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/)) | 드리프트 감지 시 자동 재학습 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) |
+| 도구 | Evidently [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 드리프트 감지 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) |
+| 도구 | WhyLogs | 경량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 로깅/드리프트 감지 |
 | 개념 구분 | Covariate Shift | 입력 X 분포 변화 |
-| 개념 구분 | Prior [[130_probability|Probability]] Shift | 레이블 Y 분포 변화 |
+| 개념 구분 | Prior [Probability](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) Shift | 레이블 Y 분포 변화 |
 
 ---
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [[001_dikw_pyramid|데이터]] 드리프트는 유행이 바뀌는 것과 같아요. 2010년 패션(학습 [[001_dikw_pyramid|데이터]])으로 만든 옷 추천 앱이 2024년(서빙 [[001_dikw_pyramid|데이터]])에는 이상한 옷만 추천하는 것처럼요.
+1. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 드리프트는 유행이 바뀌는 것과 같아요. 2010년 패션(학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))으로 만든 옷 추천 앱이 2024년(서빙 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))에는 이상한 옷만 추천하는 것처럼요.
 2. PSI는 체온계와 같아요. 평상시 체온(정상 분포)에서 얼마나 벗어났는지 수치로 알려주고, 38도(PSI 0.2)가 넘으면 병원에 가야 한다고 알려줘요.
-3. 강물의 수위를 재는 것처럼, [[001_dikw_pyramid|데이터]] 분포가 얼마나 변했는지를 PSI로 매일 재서 홍수(모델 [[282_performance_tactics|성능]] 급락) 전에 미리 대비해요.
+3. 강물의 수위를 재는 것처럼, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포가 얼마나 변했는지를 PSI로 매일 재서 홍수(모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 급락) 전에 미리 대비해요.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -345,7 +349,7 @@ CT 트리거 발동 → 자동 재학습 → 평가 게이트 → 배포
 
 **진행 상황**: 163 / 258
 
-← **이전**: [[162_continuous_training_pipeline_model_retraining|162. CT (Continuous Training) 파이프라인 - 모델 성능 저하 시 자동 재학습]]
-**다음**: [[164_concept_drift_target_mapping_change|164. 컨셉 드리프트 (Concept Drift) - 정답 맵핑 규칙 변화]] →
+← **이전**: [162. CT (Continuous Training) 파이프라인 - 모델 성능 저하 시 자동 재학습](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/)
+**다음**: [164. 컨셉 드리프트 (Concept Drift) - 정답 맵핑 규칙 변화](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/) →
 
 ---

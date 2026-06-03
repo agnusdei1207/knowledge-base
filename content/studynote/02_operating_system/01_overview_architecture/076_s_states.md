@@ -1,23 +1,27 @@
----
-title: 76. 시스템 전원 상태 (S-States, S0~S5)
-date: '2026-03-21'
-tags:
-- studynote-operating-system
----
++++
+title = "76. 시스템 전원 상태 (S-States, S0~S5)"
+date = 2026-03-21
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: S-States는 [[075_acpi|ACPI]](Advanced Configuration and [[069_type_1_2_error_statistical_power|Power]] Interface)가 정의한 시스템 전체 전원 상태로, 전력 소비와 [[658_ir_recovery|복구]] 지연의 균형을 표현한다.
+> 1. **본질**: S-States는 [ACPI](/knowledge-base/studynote/02_operating_system/01_overview_architecture/075_acpi/)(Advanced Configuration and [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Interface)가 정의한 시스템 전체 전원 상태로, 전력 소비와 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 지연의 균형을 표현한다.
 > 2. **가치**: S3, S4, S5는 각각 RAM 유지, 디스크 저장, 완전 종료라는 다른 선택지를 주어 배터리와 사용자 경험을 동시에 조정한다.
-> 3. **판단 포인트**: Modern Standby(S0 Low [[069_type_1_2_error_statistical_power|Power]] [[611_cpu_idle_wait_optimization|Idle]])는 S3의 대체가 아니라 S0 내부의 저전력 운영이므로, [[032_firmware|펌웨어]]와 드라이버 지원을 같이 봐야 한다.
+> 3. **판단 포인트**: Modern Standby(S0 Low [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) [Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/))는 S3의 대체가 아니라 S0 내부의 저전력 운영이므로, [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)와 드라이버 지원을 같이 봐야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-시스템 전원 상태(S-States)는 컴퓨터가 "꺼진 것처럼 보일 때" 실제로 어느 정도의 전력을 쓰는지와, 다시 일상 작업 상태로 돌아오는 데 얼마나 걸리는지를 정의한 상태 머신([[272_state_pattern|State]] Machine)이다. 노트북, 태블릿, 서버 모두에서 에너지 절감과 [[658_ir_recovery|복구]] 속도는 늘 트레이드오프다.
+시스템 전원 상태(S-States)는 컴퓨터가 "꺼진 것처럼 보일 때" 실제로 어느 정도의 전력을 쓰는지와, 다시 일상 작업 상태로 돌아오는 데 얼마나 걸리는지를 정의한 상태 머신([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Machine)이다. 노트북, 태블릿, 서버 모두에서 에너지 절감과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 속도는 늘 트레이드오프다.
 
-항상 켜 두면 전력과 수명이 낭비되고, 완전히 끄면 [[658_ir_recovery|복구]]가 느려진다. 그래서 운영체제는 사용하지 않는 동안만 전력을 줄이고, 필요할 때 빠르게 돌아올 수 있는 여러 단계를 제공한다.
+항상 켜 두면 전력과 수명이 낭비되고, 완전히 끄면 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 느려진다. 그래서 운영체제는 사용하지 않는 동안만 전력을 줄이고, 필요할 때 빠르게 돌아올 수 있는 여러 단계를 제공한다.
 
 ```text
 S0(작동) ─▶ S3(대기) ─▶ S4(최대 절전) ─▶ S5(종료)
@@ -36,7 +40,7 @@ S0(작동) ─▶ S3(대기) ─▶ S4(최대 절전) ─▶ S5(종료)
 
 주요 상태는 S0, S1/S2(legacy), S3, S4, S5이며, 최신 기기에서는 S0ix 기반 Modern Standby가 중요하다. 핵심은 RAM을 유지하느냐, 디스크에 저장하느냐, 아니면 완전히 끄느냐에 있다.
 
-| 상태 | 이름 | 전력 공급 | [[001_dikw_pyramid|데이터]] 보존 | [[658_ir_recovery|복구]] |
+| 상태 | 이름 | 전력 공급 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보존 | [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) |
 | :-- | :-- | :-- | :-- | :-- |
 | S0 | Working | 전체 | RAM 유지 | 즉시 |
 | S3 | Suspend to RAM | RAM 위주 | RAM | 매우 빠름 |
@@ -55,7 +59,7 @@ S0 ──▶ S3 ──▶ S4 ──▶ S5
  └─ Modern Standby(S0ix): 깨어 있을 수 있는 저전력 모드
 ```
 
-S3는 RAM을 살려 두기 때문에 복귀가 빠르지만, 전원이 끊기면 내용이 날아간다. S4는 RAM 내용을 디스크에 저장해 전원을 거의 끊을 수 있지만, [[658_ir_recovery|복구]] 시간이 더 길다.
+S3는 RAM을 살려 두기 때문에 복귀가 빠르지만, 전원이 끊기면 내용이 날아간다. S4는 RAM 내용을 디스크에 저장해 전원을 거의 끊을 수 있지만, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간이 더 길다.
 
 - **📢 섹션 요약 비유**: 얕은 잠은 금방 깨지만 오래 못 버틴다. 깊은 잠은 오래 자지만 일어나는 데 시간이 더 걸린다.
 
@@ -63,16 +67,16 @@ S3는 RAM을 살려 두기 때문에 복귀가 빠르지만, 전원이 끊기면
 
 ## Ⅲ. 비교 및 연결
 
-S3, S4, S5는 전력 절감 수준과 [[658_ir_recovery|복구]] 속도가 다르다. 여기에 Modern Standby(S0 Low [[069_type_1_2_error_statistical_power|Power]] [[611_cpu_idle_wait_optimization|Idle]])를 넣으면, "완전 절전"이 아니라 "S0 안에서 아주 낮은 전력으로 대기"한다는 차이가 보인다. 또한 S-states는 전체 시스템 상태이고, D-states는 장치 전원 상태라는 점도 함께 기억해야 한다.
+S3, S4, S5는 전력 절감 수준과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 속도가 다르다. 여기에 Modern Standby(S0 Low [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) [Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/))를 넣으면, "완전 절전"이 아니라 "S0 안에서 아주 낮은 전력으로 대기"한다는 차이가 보인다. 또한 S-states는 전체 시스템 상태이고, D-states는 장치 전원 상태라는 점도 함께 기억해야 한다.
 
 | 비교 | S3 | S4 | S5 | Modern Standby(S0ix) |
 | :-- | :-- | :-- | :-- | :-- |
 | 메모리 | RAM 유지 | 디스크 저장 | 없음 | RAM을 부분적으로 유지 |
 | 복귀 속도 | 빠름 | 중간 | 느림 | 빠름 |
 | 전력 절감 | 중간 | 높음 | 매우 높음 | 높음 |
-| [[344_compatibility_usability|호환성]] | [[032_firmware|펌웨어]] 의존 | 비교적 안정 | 가장 안정 | 최신 하드웨어 의존 |
+| [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) | [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 의존 | 비교적 안정 | 가장 안정 | 최신 하드웨어 의존 |
 
-S-state는 "사용자 경험"과 "에너지 절감"을 동시에 조정하는 계층이고, D-state는 디바이스별 세밀 제어다. 둘을 구분해야 전원 [[164_policy|정책]]을 정확히 설명할 수 있다.
+S-state는 "사용자 경험"과 "에너지 절감"을 동시에 조정하는 계층이고, D-state는 디바이스별 세밀 제어다. 둘을 구분해야 전원 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 정확히 설명할 수 있다.
 
 - **📢 섹션 요약 비유**: 집 전체를 끄는 것과 방 하나만 끄는 것은 다르다. 집 상태와 가전제품 상태를 따로 봐야 한다.
 
@@ -80,22 +84,22 @@ S-state는 "사용자 경험"과 "에너지 절감"을 동시에 조정하는 �
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 상태 선택이 단순 선호가 아니라 [[032_firmware|펌웨어]], 드라이버, 배터리, 저장장치, 보안 [[164_policy|정책]]과 연결된다.
+실무에서는 상태 선택이 단순 선호가 아니라 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/), 드라이버, 배터리, 저장장치, 보안 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 연결된다.
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. S3와 S4가 장치에서 실제로 지원되는가?
 2. hiberfil.sys 같은 저장 공간이 충분한가?
 3. Wake-on-LAN, 키보드, 타이머 등 wake source가 설정되어 있는가?
-4. BIOS/UEFI와 OS 전원 [[164_policy|정책]]이 충돌하지 않는가?
-5. Modern Standby 전환 시 드라이버 [[344_compatibility_usability|호환성]]이 검증됐는가?
+4. BIOS/UEFI와 OS 전원 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 충돌하지 않는가?
+5. Modern Standby 전환 시 드라이버 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)이 검증됐는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 모든 장치에서 S3가 가능하다고 가정
 - 하이버네이트 공간 없이 S4를 켬
 - 드라이버 업데이트 후 resume 테스트를 생략
-- 배터리 임계값 [[164_policy|정책]] 없이 장시간 S3 유지
+- 배터리 임계값 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 없이 장시간 S3 유지
 
-기술사 관점에서는 "절전 상태를 고르는 문제"가 아니라 "상태 전이의 [[658_ir_recovery|복구]] 신뢰성을 설계하는 문제"로 설명해야 한다.
+기술사 관점에서는 "절전 상태를 고르는 문제"가 아니라 "상태 전이의 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 신뢰성을 설계하는 문제"로 설명해야 한다.
 
 - **📢 섹션 요약 비유**: 여행 전에 집 불을 끄는 방법을 정하듯, 어디까지 끄고 어디는 남길지 미리 정해야 돌아왔을 때 당황하지 않는다.
 
@@ -103,9 +107,9 @@ S-state는 "사용자 경험"과 "에너지 절감"을 동시에 조정하는 �
 
 ## Ⅴ. 기대효과 및 결론
 
-S-states는 전력 절감, 배터리 수명, 발열 감소, [[658_ir_recovery|복구]] 속도의 균형을 제공한다. 제대로 설정되면 사용자 경험이 좋아지고, 대규모 장비 운영 비용도 줄어든다.
+S-states는 전력 절감, 배터리 수명, 발열 감소, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 속도의 균형을 제공한다. 제대로 설정되면 사용자 경험이 좋아지고, 대규모 장비 운영 비용도 줄어든다.
 
-결론적으로 S-states는 "얼마나 오래 끄는가"보다 "얼마나 안전하게 다시 켜지는가"를 함께 봐야 한다. 그래서 전원 상태는 단순 절전 기능이 아니라 [[658_ir_recovery|복구]] 가능성을 포함한 운영 설계로 기억해야 한다.
+결론적으로 S-states는 "얼마나 오래 끄는가"보다 "얼마나 안전하게 다시 켜지는가"를 함께 봐야 한다. 그래서 전원 상태는 단순 절전 기능이 아니라 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 포함한 운영 설계로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: 잠을 잘 자는 것만큼, 알람이 울리면 바로 일어나는 것이 중요하다. 절전은 결국 깨어나는 힘까지 포함한다.
 
@@ -113,11 +117,11 @@ S-states는 전력 절감, 배터리 수명, 발열 감소, [[658_ir_recovery|�
 
 | 개념 | 연결 포인트 |
 | :-- | :-- |
-| [[075_acpi|ACPI]](Advanced Configuration and [[069_type_1_2_error_statistical_power|Power]] Interface) | 전원 상태 표준 |
+| [ACPI](/knowledge-base/studynote/02_operating_system/01_overview_architecture/075_acpi/)(Advanced Configuration and [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Interface) | 전원 상태 표준 |
 | S0~S5 | 시스템 전체 전원 단계 |
 | S0ix / Modern Standby | S0 내부 저전력 대기 |
 | D-states | 개별 장치 전원 상태 |
-| hiberfil.sys | S4 [[658_ir_recovery|복구]]용 디스크 이미지 |
+| hiberfil.sys | S4 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)용 디스크 이미지 |
 | Wake source | 복귀를 유도하는 이벤트 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -152,7 +156,7 @@ S0ix / Modern Standby(상시 연결 + 저전력)
 
 **진행 상황**: 76 / 800
 
-← **이전**: [[075_acpi|75. ACPI (Advanced Configuration and Power Interface)]]
-**다음**: [[077_c_states|77. 프로세서 전원 상태 (C-States)]] →
+← **이전**: [75. ACPI (Advanced Configuration and Power Interface)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/075_acpi/)
+**다음**: [77. 프로세서 전원 상태 (C-States)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/077_c_states/) →
 
 ---

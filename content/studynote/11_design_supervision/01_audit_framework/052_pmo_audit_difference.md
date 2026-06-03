@@ -1,14 +1,18 @@
----
-title: 52. PMO와 감리의 차이 (PMO vs Audit)
-date: '2026-05-01'
-tags:
-- studynote-design-supervision
----
++++
+title = "52. PMO와 감리의 차이 (PMO vs Audit)"
+date = 2026-05-01
+
+[taxonomies]
+tags = ["studynote-design-supervision"]
+
+[extra]
+tags = ["studynote-design-supervision"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[059_pmo_project_management_office|PMO]] ([[059_pmo_project_management_office|Project Management Office]])는 발주자 편에서 프로젝트를 추진·조정하는 관리 조직이고, 감리는 제3자 관점에서 객관적으로 평가하는 독립 조직이다.
-> 2. **가치**: PMO는 일정·비용·[[096_risk_non_risk_architecture_evaluation_flaws|리스크]]를 상시 관리해 예방에 강하고, 감리는 산출물과 과정을 [[395_verification_process_review|검증]]해 책임 소재를 분명히 한다.
+> 1. **본질**: [PMO](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/) ([Project Management Office](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/))는 발주자 편에서 프로젝트를 추진·조정하는 관리 조직이고, 감리는 제3자 관점에서 객관적으로 평가하는 독립 조직이다.
+> 2. **가치**: PMO는 일정·비용·[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 상시 관리해 예방에 강하고, 감리는 산출물과 과정을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해 책임 소재를 분명히 한다.
 > 3. **판단 포인트**: PMO와 감리는 역할이 겹치면 안 된다. PMO는 "직접 관리", 감리는 "독립 평가"로 구분해야 거버넌스가 선다.
 
 ---
@@ -17,7 +21,7 @@ tags:
 
 PMO와 감리는 둘 다 프로젝트 품질을 높이지만, 출발점이 다르다. PMO는 발주자 내부에서 프로젝트를 잘 돌리기 위한 운영 대행자이고, 감리는 외부에서 공정성을 지키는 심판이다. 둘을 헷갈리면 의사결정의 책임이 흐려진다.
 
-공공 정보화 사업에서는 이 차이가 특히 중요하다. PMO가 있더라도 감리가 필요한 이유는, 관리와 [[395_verification_process_review|검증]]이 같은 손에 있으면 객관성이 약해질 수 있기 때문이다.
+공공 정보화 사업에서는 이 차이가 특히 중요하다. PMO가 있더라도 감리가 필요한 이유는, 관리와 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 같은 손에 있으면 객관성이 약해질 수 있기 때문이다.
 
 - **📢 섹션 요약 비유**: PMO는 감독, 감리는 심판이다. 감독은 이기려고 움직이고, 심판은 규칙이 지켜지는지만 본다.
 
@@ -25,7 +29,7 @@ PMO와 감리는 둘 다 프로젝트 품질을 높이지만, 출발점이 다�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-PMO와 감리는 개입 시점과 결과물이 다르다. PMO는 계획, 일정, [[096_risk_non_risk_architecture_evaluation_flaws|리스크]], 의사소통을 상시 조정하고, 감리는 특정 시점에 산출물과 과정을 검토해 권고한다.
+PMO와 감리는 개입 시점과 결과물이 다르다. PMO는 계획, 일정, [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/), 의사소통을 상시 조정하고, 감리는 특정 시점에 산출물과 과정을 검토해 권고한다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -37,9 +41,9 @@ PMO와 감리는 개입 시점과 결과물이 다르다. PMO는 계획, 일정,
 └──────────────────────────────────────────────────────────────┘
 ```
 
-| 항목 | [[059_pmo_project_management_office|PMO]] | 감리 |
+| 항목 | [PMO](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/) | 감리 |
 | :--- | :--- | :--- |
-| 역할 | 관리, 조정, 촉진 | 평가, [[395_verification_process_review|검증]], 권고 |
+| 역할 | 관리, 조정, 촉진 | 평가, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 권고 |
 | 소속 | 발주자 편 | 외부 제3자 |
 | 개입 | 상시 | 점검 시점 중심 |
 | 산출물 | 계획, 일정, 회의록 | 감리보고서, 시정 권고 |
@@ -53,11 +57,11 @@ PMO는 "프로젝트가 잘 굴러가게 만드는 사람"이고, 감리는 "프
 
 ## Ⅲ. 비교 및 연결
 
-PMO와 감리의 차이는 독립성, 책임, 산출물, 개입 범위에서 드러난다. 여기에 프로젝트 관리자 ([[042_relational_algebra_project|Project]] Manager), 품질보증 (QA)과 비교하면 경계가 더 분명해진다.
+PMO와 감리의 차이는 독립성, 책임, 산출물, 개입 범위에서 드러난다. 여기에 프로젝트 관리자 ([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) Manager), 품질보증 (QA)과 비교하면 경계가 더 분명해진다.
 
-| 구분 | [[059_pmo_project_management_office|PMO]] | 감리 | PM |
+| 구분 | [PMO](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/) | 감리 | PM |
 | :--- | :--- | :--- | :--- |
-| 목표 | 일정/[[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 관리 | 객관적 [[395_verification_process_review|검증]] | 팀 실행 |
+| 목표 | 일정/[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리 | 객관적 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 팀 실행 |
 | 권한 | 조정, 촉진 | 권고, 판정 | 일상 관리 |
 | 독립성 | 낮음 | 높음 | 낮음 |
 | 보고 대상 | 발주자 | 발주자/법정 절차 | 상위 관리자 |
@@ -72,20 +76,20 @@ PMO와 감리의 차이는 독립성, 책임, 산출물, 개입 범위에서 드
 
 실무에서는 역할 충돌을 막는 것이 핵심이다. PMO가 감리처럼 판정하려 하면 독립성이 무너지고, 감리가 PMO처럼 직접 지시하려 하면 객관성이 흐려진다. 그래서 문서와 회의에서 주체와 책임을 분리해 써야 한다.
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. PMO와 감리의 소속과 책임이 문서로 분리되어 있는가?
 2. 감리 보고서가 권고와 판정을 넘지 않는가?
 3. PMO가 일상 관리와 이슈 조정을 맡고 있는가?
 4. 공공 사업의 독립성 요구를 만족하는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 감리가 사업자에게 직접 개발 지시를 하는 경우
 - PMO와 감리의 역할을 같은 문서에 섞어 쓰는 경우
 - 문제가 생겼을 때 둘 중 누가 책임인지 불명확한 경우
 
-기술사 관점에서는 "누가 관리하고, 누가 평가하는가"를 명확히 설명해야 한다. 특히 대형 공공 사업에서는 PMO와 감리를 병행해 예방과 [[395_verification_process_review|검증]]을 분리하는 것이 이상적이다.
+기술사 관점에서는 "누가 관리하고, 누가 평가하는가"를 명확히 설명해야 한다. 특히 대형 공공 사업에서는 PMO와 감리를 병행해 예방과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 분리하는 것이 이상적이다.
 
 - **📢 섹션 요약 비유**: PMO와 감리는 신호등과 경찰의 관계다. 신호등은 흐름을 관리하고, 경찰은 규칙 위반을 잡는다.
 
@@ -93,7 +97,7 @@ PMO와 감리의 차이는 독립성, 책임, 산출물, 개입 범위에서 드
 
 ## Ⅴ. 기대효과 및 결론
 
-PMO와 감리를 구분하면 거버넌스가 선명해진다. PMO는 프로젝트 성공 가능성을 높이고, 감리는 결과의 공정성과 객관성을 보장한다. 둘이 함께 있어야 관리와 [[395_verification_process_review|검증]]이 균형을 이룬다.
+PMO와 감리를 구분하면 거버넌스가 선명해진다. PMO는 프로젝트 성공 가능성을 높이고, 감리는 결과의 공정성과 객관성을 보장한다. 둘이 함께 있어야 관리와 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 균형을 이룬다.
 
 즉 PMO는 "일을 잘 되게 하는 조직", 감리는 "그 일이 맞는지 보는 조직"이다. 이 차이를 기억하면 공공 정보화 사업의 책임 구조를 훨씬 명확하게 설명할 수 있다.
 
@@ -105,8 +109,8 @@ PMO와 감리를 구분하면 거버넌스가 선명해진다. PMO는 프로젝�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[059_pmo_project_management_office|PMO]] | 발주자 내부 관리 대행 |
-| 감리 | 외부 독립 [[395_verification_process_review|검증]] |
+| [PMO](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/) | 발주자 내부 관리 대행 |
+| 감리 | 외부 독립 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 | 발주자 | 책임과 의사결정의 주체 |
 | 사업자 | 시스템을 구현하는 수행 주체 |
 | 거버넌스 | 역할과 책임을 나누는 구조 |
@@ -129,7 +133,7 @@ PMO (계획 / 조정 / 예방)
 시정 조치 / 종료
 ```
 
-이 흐름은 관리와 [[395_verification_process_review|검증]]을 분리해 책임 구조를 명확히 하는 과정을 보여준다.
+이 흐름은 관리와 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 분리해 책임 구조를 명확히 하는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -143,7 +147,7 @@ PMO (계획 / 조정 / 예방)
 
 **진행 상황**: 79 / 530
 
-← **이전**: [[052_iot_project_audit|52. IoT 구축 사업 감리 (IoT Project Audit)]]
-**다음**: [[053_blockchain_audit|53. 블록체인 감사 (Blockchain Audit)]] →
+← **이전**: [52. IoT 구축 사업 감리 (IoT Project Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/052_iot_project_audit/)
+**다음**: [53. 블록체인 감사 (Blockchain Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/053_blockchain_audit/) →
 
 ---

@@ -1,33 +1,37 @@
----
-title: 279. 재진입 가능 락 (Reentrant Lock / Recursive Lock)
-date: '2026-05-09'
-tags:
-- studynote-operating-system
----
++++
+title = "279. 재진입 가능 락 (Reentrant Lock / Recursive Lock)"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 재진입 가능 락(Reentrant [[510_lock|Lock]])은 [[092_thread_lwp|스레드]]가 락을 요청할 때, 그 락을 이미 쥐고 있는 주인이 '나 자신(현재 [[092_thread_lwp|스레드]])'이라면, 멈춰 세우지(Block) 않고 [[059_counter|카운터]](Count)만 1 증가시킨 뒤 그대로 통과시켜 주는 뮤텍스의 변형 모델이다.
-> 2. **가치**: [[092_thread_lwp|스레드]] 자신이 락을 쥔 상태에서 내부적으로 똑같은 락을 요구하는 다른 메서드([[014_recursion|재귀]] 함수, 또는 연쇄 호출)를 불렀을 때, 스스로가 스스로를 기다리며 멈춰버리는 **셀프 데드락(Self-[[281_deadlock_definition|Deadlock]])**의 멍청한 비극을 원천적으로 막아준다.
+> 1. **본질**: 재진입 가능 락(Reentrant [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))은 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 락을 요청할 때, 그 락을 이미 쥐고 있는 주인이 '나 자신(현재 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))'이라면, 멈춰 세우지(Block) 않고 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)(Count)만 1 증가시킨 뒤 그대로 통과시켜 주는 뮤텍스의 변형 모델이다.
+> 2. **가치**: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 자신이 락을 쥔 상태에서 내부적으로 똑같은 락을 요구하는 다른 메서드([재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 함수, 또는 연쇄 호출)를 불렀을 때, 스스로가 스스로를 기다리며 멈춰버리는 **셀프 데드락(Self-[Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))**의 멍청한 비극을 원천적으로 막아준다.
 > 3. **융합**: Java의 `synchronized` 블록이나 `ReentrantLock` 클래스 등 현대 고수준 언어가 제공하는 락은 개발자의 실수를 덮어주기 위해 대부분 기본적으로 '재진입 가능성'을 내장하고 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-> ⚠️ 이 문서는 "자물쇠를 쥐고 있는 사람이 그 자물쇠가 달린 다른 방의 문을 열려고 하면 어떻게 될까?"라는 [[014_concurrency|동시성]] 프로그래밍의 딜레마(자기 자신에 의한 데드락)를 해결하기 위해, 이미 락의 소유권을 획득한 [[092_thread_lwp|스레드]]가 똑같은 락을 여러 번 반복해서 획득할 수 있도록 허용하는 특수 자물쇠인 '재진입 가능 락'을 다룹니다.
+> ⚠️ 이 문서는 "자물쇠를 쥐고 있는 사람이 그 자물쇠가 달린 다른 방의 문을 열려고 하면 어떻게 될까?"라는 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 프로그래밍의 딜레마(자기 자신에 의한 데드락)를 해결하기 위해, 이미 락의 소유권을 획득한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 똑같은 락을 여러 번 반복해서 획득할 수 있도록 허용하는 특수 자물쇠인 '재진입 가능 락'을 다룹니다.
 
 아주 흔한 객체 지향 프로그래밍 상황을 상상해 보자.
 은행 계좌 클래스에 `출금()` 메서드와 `이체()` 메서드가 있다. 송금액을 빼내는 로직은 똑같으니, `이체()` 메서드 안에서 `출금()` 메서드를 호출해서 코드를 재사용했다.
 
-그런데 [[001_dikw_pyramid|데이터]] 보호를 위해 `이체()` 메서드에도 락([[510_lock|Lock]])을 걸어두고, `출금()` 메서드에도 똑같은 락을 걸어두었다.
+그런데 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보호를 위해 `이체()` 메서드에도 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸어두고, `출금()` 메서드에도 똑같은 락을 걸어두었다.
 * **순수 뮤텍스(Non-Reentrant)의 악몽**:
-  1. [[092_thread_lwp|스레드]] A가 `이체()`를 호출하며 락을 꽉 쥔다.
+  1. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 `이체()`를 호출하며 락을 꽉 쥔다.
   2. 코드 내부에서 `출금()`을 호출한다.
   3. `출금()`이 시작되려는데 "어? 락이 잠겨있네?" 하고 락이 풀리길 기다린다 (Sleep).
   4. 락을 풀려면 `이체()`가 끝나야 하는데, `이체()`는 `출금()`이 끝나길 기다리며 영원히 멈춰버렸다. (셀프 데드락 발생 💣)
 
-이 멍청한 상황을 본 설계자들은 이마를 탁 쳤다. **"야, 락을 쥐고 있는 놈이 나 자신이면 그냥 통과시켜 줘야지!"** 그렇게 자물쇠에 **소유자 확인증**과 **진입 횟수 [[059_counter|카운터]]**를 달아놓은 것이 **재진입 가능 락(Reentrant [[510_lock|Lock]])**이다.
+이 멍청한 상황을 본 설계자들은 이마를 탁 쳤다. **"야, 락을 쥐고 있는 놈이 나 자신이면 그냥 통과시켜 줘야지!"** 그렇게 자물쇠에 **소유자 확인증**과 **진입 횟수 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)**를 달아놓은 것이 **재진입 가능 락(Reentrant [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))**이다.
 
 - **📢 섹션 요약 비유**: 복잡한 창고에서 필요한 물건을 찾기 위해 먼저 구역과 표지판을 세우는 것과 같다.
 
@@ -35,20 +39,20 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-재진입 락의 내부는 순수 뮤텍스보다 2개의 부품을 더 가지고 있다. **'소유자 [[092_thread_lwp|스레드]] ID'**와 **'홀드 카운트(Hold Count)'**다.
+재진입 락의 내부는 순수 뮤텍스보다 2개의 부품을 더 가지고 있다. **'소유자 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) ID'**와 **'홀드 카운트(Hold Count)'**다.
 
-#### 1. 락 획득 ([[510_lock|Lock]], 진입)
-- [[092_thread_lwp|스레드]] A가 락을 요청한다.
+#### 1. 락 획득 ([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/), 진입)
+- [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 락을 요청한다.
 - 락이 풀려있으면(Count=0), 락을 잠그고 **소유자=A, 카운트=1**로 기록한다.
-- [[092_thread_lwp|스레드]] A가 안에서 한 번 더 락을 요청한다([[014_recursion|재귀]] 호출 등).
+- [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 안에서 한 번 더 락을 요청한다([재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 호출 등).
 - 락은 잠겨있지만, 소유자가 A임을 확인하고 **"주인님이네!" 하며 카운트를 2로 올리고 통과**시킨다.
-- [[092_thread_lwp|스레드]] B가 락을 요청하면? 소유자가 B가 아니므로 무자비하게 문 밖에서 재운다(Block).
+- [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) B가 락을 요청하면? 소유자가 B가 아니므로 무자비하게 문 밖에서 재운다(Block).
 
 #### 2. 락 해제 (Unlock, 탈출)
-- [[092_thread_lwp|스레드]] A가 `unlock()`을 한 번 호출한다.
-- 다른 [[092_thread_lwp|스레드]]에게 락을 넘겨주지 않고, 그저 **카운트를 1로 내린다.** (아직 1번 더 감싸져 있기 때문)
-- [[092_thread_lwp|스레드]] A가 `unlock()`을 한 번 더 호출해서 **카운트가 0이 되는 순간!**
-- 비로소 락의 문이 철컥 열리며 대기하던 [[092_thread_lwp|스레드]] B가 들어올 수 있게 된다.
+- [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 `unlock()`을 한 번 호출한다.
+- 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)에게 락을 넘겨주지 않고, 그저 **카운트를 1로 내린다.** (아직 1번 더 감싸져 있기 때문)
+- [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 `unlock()`을 한 번 더 호출해서 **카운트가 0이 되는 순간!**
+- 비로소 락의 문이 철컥 열리며 대기하던 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) B가 들어올 수 있게 된다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────────────────────┐
@@ -83,12 +87,12 @@ tags:
 
 세상에 공짜는 없다. 재진입을 지원하기 위해 자물쇠 안에 부품을 더 구겨 넣었기 때문에 필연적인 오버헤드가 발생한다.
 
-1. **상태 추적의 비용 ([[282_performance_tactics|Performance]] Overhead)**
-   - 락을 걸고 풀 때마다, "네가 주인이 맞냐?"라고 [[092_thread_lwp|스레드]] ID를 확인하고 숫자를 더하고 빼는 추가적인 메모리 연산(Overhead)이 발생한다.
-   - 극단적으로 성능을 쥐어짜야 하는 리눅스 커널의 최하위 단이나 임베디드 시스템에서는 이런 오버헤드조차 아까워서 '순수 뮤텍스(Non-Reentrant [[510_lock|Lock]])'나 '스핀 락(Spin [[510_lock|Lock]])'을 고집하는 경우가 많다.
+1. **상태 추적의 비용 ([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) Overhead)**
+   - 락을 걸고 풀 때마다, "네가 주인이 맞냐?"라고 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) ID를 확인하고 숫자를 더하고 빼는 추가적인 메모리 연산(Overhead)이 발생한다.
+   - 극단적으로 성능을 쥐어짜야 하는 리눅스 커널의 최하위 단이나 임베디드 시스템에서는 이런 오버헤드조차 아까워서 '순수 뮤텍스(Non-Reentrant [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))'나 '스핀 락(Spin [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))'을 고집하는 경우가 많다.
 2. **락 해제 횟수 불일치 오류**
    - 개발자가 실수로 락을 3번 걸었는데(카운트 3), 풀기(`unlock`)는 2번만 호출하고 빠져나갔다고 치자.
-   - 카운트가 1로 남아있기 때문에, 다른 [[092_thread_lwp|스레드]]들은 이 락이 풀리기를 영원히 기다리며 진짜 데드락이 터진다. (그래서 Java는 보통 `try-finally` 블록 안에 `unlock`을 쑤셔 넣어 이 휴먼 에러를 방지한다.)
+   - 카운트가 1로 남아있기 때문에, 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)들은 이 락이 풀리기를 영원히 기다리며 진짜 데드락이 터진다. (그래서 Java는 보통 `try-finally` 블록 안에 `unlock`을 쑤셔 넣어 이 휴먼 에러를 방지한다.)
 
 - **📢 섹션 요약 비유**: 비슷해 보이는 공구를 나란히 놓고 언제 망치를 쓰고 언제 드라이버를 써야 하는지 구분하는 것과 같다.
 
@@ -96,8 +100,8 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-"[[092_thread_lwp|스레드]]가 자기 자신의 발에 걸려 넘어지는 어리석음을 방지하는 설계."
-재진입 가능 락(Reentrant [[510_lock|Lock]])은 [[014_concurrency|동시성]] 프로그래밍이 현실의 객체 지향 코드(메서드 연쇄 호출, [[014_recursion|재귀]] 함수)와 결합할 때 발생하는 충돌을 가장 매끄럽게 봉합해 준 기술이다. 우리가 무심코 쓰는 자바의 `synchronized`나 C#의 `lock` 블록이 내부적으로 모두 이 '재진입 [[059_counter|카운터]]'를 가지고 있는 덕분에, 수많은 초보 개발자들이 셀프 데드락의 수렁에 빠지지 않고 안전하게 멀티 [[092_thread_lwp|스레드]] 서버를 돌릴 수 있는 것이다.
+"[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 자기 자신의 발에 걸려 넘어지는 어리석음을 방지하는 설계."
+재진입 가능 락(Reentrant [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))은 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 프로그래밍이 현실의 객체 지향 코드(메서드 연쇄 호출, [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 함수)와 결합할 때 발생하는 충돌을 가장 매끄럽게 봉합해 준 기술이다. 우리가 무심코 쓰는 자바의 `synchronized`나 C#의 `lock` 블록이 내부적으로 모두 이 '재진입 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)'를 가지고 있는 덕분에, 수많은 초보 개발자들이 셀프 데드락의 수렁에 빠지지 않고 안전하게 멀티 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 서버를 돌릴 수 있는 것이다.
 
 - **📢 섹션 요약 비유**: 운전자가 도로 상황에 따라 기어와 브레이크를 다르게 선택하는 것처럼 조건별 판단이 중요하다.
 
@@ -105,7 +109,7 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-재진입 가능 락 (Reentrant [[510_lock|Lock]] / Recursive [[510_lock|Lock]])은 동기화와 [[283_mutual_exclusion|상호 배제]] 제어을 이해하는 연결 고리 역할을 한다. 이 개념을 익히면 시스템 동작을 더 예측 가능하게 설명할 수 있지만, 만능 해법은 아니므로 적용 전제와 한계를 함께 기억해야 한다. 앞으로는 [[280_read_write_lock|읽기-쓰기 락]] ([[280_read_write_lock|Read-Write Lock]])처럼 더 세분화된 기술과 결합되며 자동화·최적화 방향으로 발전한다.
+재진입 가능 락 (Reentrant [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) / Recursive [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))은 동기화와 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 제어을 이해하는 연결 고리 역할을 한다. 이 개념을 익히면 시스템 동작을 더 예측 가능하게 설명할 수 있지만, 만능 해법은 아니므로 적용 전제와 한계를 함께 기억해야 한다. 앞으로는 [읽기-쓰기 락](/knowledge-base/studynote/02_operating_system/04_synchronization/280_read_write_lock/) ([Read-Write Lock](/knowledge-base/studynote/02_operating_system/04_synchronization/280_read_write_lock/))처럼 더 세분화된 기술과 결합되며 자동화·최적화 방향으로 발전한다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -115,10 +119,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[224_semaphore|세마포어]]를 이용한 순서 제어 ([[277_semaphore_ordering|Ordering]]) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [[225_binary_semaphore|이진 세마포어]] vs 뮤텍스 차이 ([[278_binary_semaphore_vs_mutex|소유권 유무]]) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [[280_read_write_lock|읽기-쓰기 락]] ([[280_read_write_lock|Read-Write Lock]]) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [[281_deadlock_definition|교착 상태]] ([[281_deadlock_definition|Deadlock]]) 정의 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)를 이용한 순서 제어 ([Ordering](/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [이진 세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/225_binary_semaphore/) vs 뮤텍스 차이 ([소유권 유무](/knowledge-base/studynote/02_operating_system/04_synchronization/278_binary_semaphore_vs_mutex/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [읽기-쓰기 락](/knowledge-base/studynote/02_operating_system/04_synchronization/280_read_write_lock/) ([Read-Write Lock](/knowledge-base/studynote/02_operating_system/04_synchronization/280_read_write_lock/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) ([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)) 정의 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -146,7 +150,7 @@ tags:
 
 **진행 상황**: 279 / 800
 
-← **이전**: [[278_binary_semaphore_vs_mutex|278. 이진 세마포어 vs 뮤텍스 차이 (소유권 유무) (Binary Semaphore Vs Mutex)]]
-**다음**: [[280_read_write_lock|280. 읽기-쓰기 락 (Read-Write Lock) - 다중 읽기 허용, 쓰기 배타적]] →
+← **이전**: [278. 이진 세마포어 vs 뮤텍스 차이 (소유권 유무) (Binary Semaphore Vs Mutex)](/knowledge-base/studynote/02_operating_system/04_synchronization/278_binary_semaphore_vs_mutex/)
+**다음**: [280. 읽기-쓰기 락 (Read-Write Lock) - 다중 읽기 허용, 쓰기 배타적](/knowledge-base/studynote/02_operating_system/04_synchronization/280_read_write_lock/) →
 
 ---

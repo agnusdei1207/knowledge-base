@@ -1,38 +1,42 @@
----
-title: 104. NMAC (Nested MAC)
-date: '2026-04-05'
-tags:
-- studynote-security
----
++++
+title = "104. NMAC (Nested MAC)"
+date = 2026-04-05
+
+[taxonomies]
+tags = ["studynote-security"]
+
+[extra]
+tags = ["studynote-security"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: NMAC (Nested [[673_mac_message_authentication_code|Message Authentication Code]])은 독립적인 두 개의 비밀 키($K_1$, $K_2$)를 사용하여 내부 해시와 외부 해시를 중첩(Nested)해서 실행하는 [[652_cryptography_concept_encryption_decryption|암호학]]적 해시 아키텍처다.
-> 2. **가치**: [[667_hash_function_integrity_one_way|해시 함수]]에 단순히 키를 붙였을 때 발생하는 길이 확장 공격(Length Extension Attack)을 완벽하게 방어하며, 해시 기반 [[303_authentication_authorization_patterns|인증]]의 안전성을 수학적 증명(Provable [[283_security_tactics|Security]])으로 확립한 최초의 논리적 뼈대다.
-> 3. **판단 포인트**: 독립된 2개의 키를 관리해야 하고 해시 [[001_algorithm_definition|알고리즘]] 내부 코어([[288_version_ihl_tos_total_length|IV]], 초기화 벡터)를 건드려야 하는 심각한 구현상 불편함 때문에 실무에서는 기피되었으며, 이를 단일 키로 개량한 HMAC의 이론적 원형으로 이해해야 한다.
+> 1. **본질**: NMAC (Nested [Message Authentication Code](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))은 독립적인 두 개의 비밀 키($K_1$, $K_2$)를 사용하여 내부 해시와 외부 해시를 중첩(Nested)해서 실행하는 [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)적 해시 아키텍처다.
+> 2. **가치**: [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)에 단순히 키를 붙였을 때 발생하는 길이 확장 공격(Length Extension Attack)을 완벽하게 방어하며, 해시 기반 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)의 안전성을 수학적 증명(Provable [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))으로 확립한 최초의 논리적 뼈대다.
+> 3. **판단 포인트**: 독립된 2개의 키를 관리해야 하고 해시 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 내부 코어([IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), 초기화 벡터)를 건드려야 하는 심각한 구현상 불편함 때문에 실무에서는 기피되었으며, 이를 단일 키로 개량한 HMAC의 이론적 원형으로 이해해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 탄생 배경
 
-1990년대 초반, 개발자들은 MD5나 SHA-1 같은 [[667_hash_function_integrity_one_way|해시 함수]]를 메시지 [[303_authentication_authorization_patterns|인증]] 코드([[673_mac_message_authentication_code|MAC]], [[673_mac_message_authentication_code|Message Authentication Code]])로 사용하기 위해 평문에 비밀 키를 단순히 이어 붙이는 방식(`Hash(Key || Message)`)을 고안했다. 하지만 이 순진한 접근은 해커가 임의의 메시지를 덧붙여 새로운 유효 해시를 만들어내는 길이 확장 공격(Length Extension Attack)에 치명적으로 뚫려버렸다.
+1990년대 초반, 개발자들은 MD5나 SHA-1 같은 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)를 메시지 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 코드([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/), [Message Authentication Code](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))로 사용하기 위해 평문에 비밀 키를 단순히 이어 붙이는 방식(`Hash(Key || Message)`)을 고안했다. 하지만 이 순진한 접근은 해커가 임의의 메시지를 덧붙여 새로운 유효 해시를 만들어내는 길이 확장 공격(Length Extension Attack)에 치명적으로 뚫려버렸다.
 
-1996년 미히르 벨라레(Mihir Bellare)를 비롯한 [[652_cryptography_concept_encryption_decryption|암호학]]자들은 "[[667_hash_function_integrity_one_way|해시 함수]] 자체를 고치지 않으면서도, 수학적으로 절대 뚫을 수 없음을 증명할 수 있는 안전한 [[303_authentication_authorization_patterns|인증]] 구조"가 필요함을 절감했다. 그 결과 도출된 것이, 마치 마트료시카 인형처럼 2개의 전혀 다른 열쇠를 사용하여 해시를 두 번 중첩하는 이중 잠금 구조인 NMAC이다.
+1996년 미히르 벨라레(Mihir Bellare)를 비롯한 [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)자들은 "[해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) 자체를 고치지 않으면서도, 수학적으로 절대 뚫을 수 없음을 증명할 수 있는 안전한 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 구조"가 필요함을 절감했다. 그 결과 도출된 것이, 마치 마트료시카 인형처럼 2개의 전혀 다른 열쇠를 사용하여 해시를 두 번 중첩하는 이중 잠금 구조인 NMAC이다.
 
-- **📢 섹션 요약 비유**: 단순 해시 [[303_authentication_authorization_patterns|인증]]은 수표 끝에 도장만 찍은 것과 같아 위조범이 금액([[001_dikw_pyramid|데이터]])을 더 쓰고 교묘하게 위조할 수 있다. 반면 NMAC은 수표를 작은 비밀 금고($K_1$)에 넣고, 그 금고를 다시 전혀 다른 열쇠가 필요한 거대한 외부 금고($K_2$)에 넣어버려 위조범의 접근 자체를 2중으로 원천 차단한 완벽한 이중 금고 시스템의 최초 아이디어다.
+- **📢 섹션 요약 비유**: 단순 해시 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)은 수표 끝에 도장만 찍은 것과 같아 위조범이 금액([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 더 쓰고 교묘하게 위조할 수 있다. 반면 NMAC은 수표를 작은 비밀 금고($K_1$)에 넣고, 그 금고를 다시 전혀 다른 열쇠가 필요한 거대한 외부 금고($K_2$)에 넣어버려 위조범의 접근 자체를 2중으로 원천 차단한 완벽한 이중 금고 시스템의 최초 아이디어다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-NMAC의 핵심은 "안에서 밖을 건드릴 수 없고, 밖에서 안을 공격할 수 없다"는 완벽한 분리([[195_isolation_concurrency_control|Isolation]]) 메커니즘이다.
+NMAC의 핵심은 "안에서 밖을 건드릴 수 없고, 밖에서 안을 공격할 수 없다"는 완벽한 분리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/)) 메커니즘이다.
 
 ### NMAC의 수학적 샌드위치 연산 공식
 > $NMAC(K_1, K_2, M) = H_{K_2} \Big( H_{K_1}(M) \Big)$
 
 | 연산 단계 | 설명 | 역할 |
 | :--- | :--- | :--- |
-| **1. 내부 해싱 (Inner Hash)** | 평문 메시지($M$)를 해시 믹서기에 넣을 때, 표준 초기화 벡터([[288_version_ihl_tos_total_length|IV]]) 대신 첫 번째 비밀 키($K_1$)를 꽂아 돌린다. | 메시지를 1차로 [[347_compaction|압축]] 및 암호화하여 '중간 쓰레기 값'을 만듦 |
-| **2. 외부 해싱 (Outer Hash)** | 1단계에서 나온 중간 결과물을 다시 해시 믹서기에 넣고, 이번엔 두 번째 비밀 키($K_2$)를 꽂아 한 번 더 돌린다. | 길이 확장 공격 시도를 분쇄하고 최종 NMAC 태그를 [[087_process_state_transition|생성]] |
+| **1. 내부 해싱 (Inner Hash)** | 평문 메시지($M$)를 해시 믹서기에 넣을 때, 표준 초기화 벡터([IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)) 대신 첫 번째 비밀 키($K_1$)를 꽂아 돌린다. | 메시지를 1차로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 및 암호화하여 '중간 쓰레기 값'을 만듦 |
+| **2. 외부 해싱 (Outer Hash)** | 1단계에서 나온 중간 결과물을 다시 해시 믹서기에 넣고, 이번엔 두 번째 비밀 키($K_2$)를 꽂아 한 번 더 돌린다. | 길이 확장 공격 시도를 분쇄하고 최종 NMAC 태그를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -58,7 +62,7 @@ NMAC의 핵심은 "안에서 밖을 건드릴 수 없고, 밖에서 안을 공�
 ```
 이 구조의 수학적 위대함은 방어력에 있다. 해커가 1단계 결과물에 조작된 문자를 덧붙이려 시도하더라도, 2단계에서 전혀 다른 외계어 열쇠($K_2$)로 껍데기를 통째로 다시 갈아버리기 때문에 조작 시도가 믹서기 밖으로 튀어나오지 못하고 소멸된다.
 
-- **📢 섹션 요약 비유**: 해커의 창(공격)을 막으려면 갑옷을 두 겹 입는 것이 좋다. 그런데 똑같은 재질의 갑옷을 두 벌 입으면 구멍이 겹칠 수 있으니, 안에는 다이아몬드 갑옷($K_1$)을 입고 밖에는 티타늄 갑옷($K_2$)을 입는 이종([[273_heterogeneous_db|Heterogeneous]]) 재질 결합이 완벽하다는 것을 계산해 낸 설계도가 바로 NMAC이다.
+- **📢 섹션 요약 비유**: 해커의 창(공격)을 막으려면 갑옷을 두 겹 입는 것이 좋다. 그런데 똑같은 재질의 갑옷을 두 벌 입으면 구멍이 겹칠 수 있으니, 안에는 다이아몬드 갑옷($K_1$)을 입고 밖에는 티타늄 갑옷($K_2$)을 입는 이종([Heterogeneous](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/273_heterogeneous_db/)) 재질 결합이 완벽하다는 것을 계산해 낸 설계도가 바로 NMAC이다.
 
 ---
 
@@ -66,14 +70,14 @@ NMAC의 핵심은 "안에서 밖을 건드릴 수 없고, 밖에서 안을 공�
 
 이론적으로 완벽했던 NMAC은 역설적으로 실무 개발자들에게 끔찍한 기피 대상이 되었다. 이 딜레마가 후계자인 HMAC을 탄생시킨 결정적 계기가 된다.
 
-| 항목 | NMAC | [[674_hmac_hash_based_mac_ipsec|HMAC]] |
+| 항목 | NMAC | [HMAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/) |
 | :--- | :--- | :--- |
 | **사용 키의 수** | **2개의 독립된 키 ($K_1, K_2$)** | **단일 키 ($K$) 1개** |
-| **[[001_algorithm_definition|알고리즘]] 구현** | [[667_hash_function_integrity_one_way|해시 함수]]의 핵심인 **[[288_version_ihl_tos_total_length|IV]](초기화 벡터)를 직접 수정**해야 함 | [[001_operating_system_purpose|운영체제]] 표준 [[667_hash_function_integrity_one_way|해시 함수]]를 **Black-box**로 그대로 사용 |
-| **실무 친화성** | 매우 낮음 ([[336_library_vs_framework|라이브러리]] 마개조 필요) | 매우 높음 (거의 모든 언어에서 [[014_api_posix|API]] 한 줄로 호출) |
-| **보안 증명** | 수학적으로 완벽함 (Provable [[283_security_tactics|Security]]) | NMAC의 원리를 단일 키로 시뮬레이션하여 동일한 [[283_security_tactics|보안성]] 확보 |
+| **[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 구현** | [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)의 핵심인 **[IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(초기화 벡터)를 직접 수정**해야 함 | [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 표준 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)를 **Black-box**로 그대로 사용 |
+| **실무 친화성** | 매우 낮음 ([라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 마개조 필요) | 매우 높음 (거의 모든 언어에서 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 한 줄로 호출) |
+| **보안 증명** | 수학적으로 완벽함 (Provable [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) | NMAC의 원리를 단일 키로 시뮬레이션하여 동일한 [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) 확보 |
 
-개발자들은 [[667_hash_function_integrity_one_way|해시 함수]]의 속을 뜯어내 IV를 자신의 키로 덮어쓰는 위험한 수술(마개조)을 원치 않았다. [[652_cryptography_concept_encryption_decryption|암호학]]자들은 이 불만을 수용하여, 개발자가 열쇠를 1개만 주면 내부적으로 [[098_padding_convolutional_neural_network_same_valid|패딩]](0x36, 0x5C)을 섞어 가짜 2개의 키를 만들어 NMAC처럼 돌려주는 HMAC을 발명하게 된다.
+개발자들은 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)의 속을 뜯어내 IV를 자신의 키로 덮어쓰는 위험한 수술(마개조)을 원치 않았다. [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)자들은 이 불만을 수용하여, 개발자가 열쇠를 1개만 주면 내부적으로 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)(0x36, 0x5C)을 섞어 가짜 2개의 키를 만들어 NMAC처럼 돌려주는 HMAC을 발명하게 된다.
 
 - **📢 섹션 요약 비유**: NMAC이 성능은 최고지만 운전자가 직접 엔진을 뜯어 부품을 조립해야 하는 '수제 경주용 자동차'였다면, HMAC은 그 엔진을 그대로 쓰면서도 버튼 하나로 시동이 걸리게 포장해 놓은 '최고급 양산형 스포츠카'다.
 
@@ -84,13 +88,13 @@ NMAC의 핵심은 "안에서 밖을 건드릴 수 없고, 밖에서 안을 공�
 오늘날 실무 시스템 코드에서 순수한 NMAC을 직접 구현하거나 호출하는 일은 사실상 존재하지 않는다. 
 
 ### 판단 가이드
-1. **역사적/이론적 [[316_reference_pattern_nosql|참조]]**: 시스템 아키텍트나 보안 관리자 시험 등에서 해시 기반 [[303_authentication_authorization_patterns|인증]]의 진화 과정을 묻거나, "왜 굳이 해시를 두 번 중첩해야 하는가?"라는 근원적 질문을 던질 때 NMAC의 원리([[195_isolation_concurrency_control|Isolation]])를 방어 논리로 제시해야 한다.
-2. **단일 키 구조의 이해**: 실무에서 HMAC을 사용할 때 내부적으로 왜 [[098_padding_convolutional_neural_network_same_valid|패딩]](ipad, opad) 연산이 섞여 들어가는지 이해하려면, NMAC이 요구했던 2개의 독립된 키($K_1, K_2$) 조건을 단일 키로 충족시키기 위한 눈물겨운 우회 작업임을 알아야 한다.
+1. **역사적/이론적 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)**: 시스템 아키텍트나 보안 관리자 시험 등에서 해시 기반 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)의 진화 과정을 묻거나, "왜 굳이 해시를 두 번 중첩해야 하는가?"라는 근원적 질문을 던질 때 NMAC의 원리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))를 방어 논리로 제시해야 한다.
+2. **단일 키 구조의 이해**: 실무에서 HMAC을 사용할 때 내부적으로 왜 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)(ipad, opad) 연산이 섞여 들어가는지 이해하려면, NMAC이 요구했던 2개의 독립된 키($K_1, K_2$) 조건을 단일 키로 충족시키기 위한 눈물겨운 우회 작업임을 알아야 한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
-- 직접 [[652_cryptography_concept_encryption_decryption|암호학]]적 [[303_authentication_authorization_patterns|인증]] [[001_algorithm_definition|알고리즘]]을 개발하겠다며 [[667_hash_function_integrity_one_way|해시 함수]]의 [[288_version_ihl_tos_total_length|IV]] 값을 임의로 뜯어고쳐 사설 NMAC을 구현하는 행위. (표준 [[336_library_vs_framework|라이브러리]]인 [[674_hmac_hash_based_mac_ipsec|HMAC]] 사용이 절대 원칙임).
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- 직접 [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)적 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 개발하겠다며 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)의 [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 값을 임의로 뜯어고쳐 사설 NMAC을 구현하는 행위. (표준 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)인 [HMAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/) 사용이 절대 원칙임).
 
-- **📢 섹션 요약 비유**: 실무에서 NMAC은 박물관에 전시된 '최초의 이중 금고 설계도'와 같다. 우리는 굳이 설계도를 보고 직접 철판을 깎아 금고를 만들 필요가 없다. 이미 이 설계도를 바탕으로 공장에서 완벽하게 찍어낸 상용 금고([[674_hmac_hash_based_mac_ipsec|HMAC]])를 돈 주고 사서 쓰면 된다.
+- **📢 섹션 요약 비유**: 실무에서 NMAC은 박물관에 전시된 '최초의 이중 금고 설계도'와 같다. 우리는 굳이 설계도를 보고 직접 철판을 깎아 금고를 만들 필요가 없다. 이미 이 설계도를 바탕으로 공장에서 완벽하게 찍어낸 상용 금고([HMAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/))를 돈 주고 사서 쓰면 된다.
 
 ---
 
@@ -98,19 +102,19 @@ NMAC의 핵심은 "안에서 밖을 건드릴 수 없고, 밖에서 안을 공�
 
 결론적으로 NMAC은 "이론의 완벽함이 실무의 편의성으로 타협되는 기술 진화의 가장 훌륭한 표본"이다. 
 
-비록 키를 2개나 관리해야 하고 블랙박스(Black-box) 사용이 불가능하다는 약점 때문에 상업적 표준이 되지는 못했지만, NMAC이 증명해 낸 '중첩 아키텍처의 절대 방어력'은 현대 정보 보안의 근간을 세웠다. NMAC은 해커의 길이 확장 공격을 수학적으로 종식시킨 위대한 선구자로서 [[652_cryptography_concept_encryption_decryption|암호학]] 교과서의 가장 깊은 곳에 영원히 새겨져 있다.
+비록 키를 2개나 관리해야 하고 블랙박스(Black-box) 사용이 불가능하다는 약점 때문에 상업적 표준이 되지는 못했지만, NMAC이 증명해 낸 '중첩 아키텍처의 절대 방어력'은 현대 정보 보안의 근간을 세웠다. NMAC은 해커의 길이 확장 공격을 수학적으로 종식시킨 위대한 선구자로서 [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/) 교과서의 가장 깊은 곳에 영원히 새겨져 있다.
 
-- **📢 섹션 요약 비유**: NMAC은 하늘을 날 수 있다는 걸 처음으로 수학적으로 증명해 낸 '라이트 형제의 도면'이다. 비록 지금 그 도면대로 비행기를 만들어 타는 사람은 없지만, 그 도면 없이는 지금의 최첨단 제트기([[674_hmac_hash_based_mac_ipsec|HMAC]])도 존재할 수 없었다.
+- **📢 섹션 요약 비유**: NMAC은 하늘을 날 수 있다는 걸 처음으로 수학적으로 증명해 낸 '라이트 형제의 도면'이다. 비록 지금 그 도면대로 비행기를 만들어 타는 사람은 없지만, 그 도면 없이는 지금의 최첨단 제트기([HMAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/))도 존재할 수 없었다.
 
 ---
 
 ### 📌 관련 개념 맵
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[[674_hmac_hash_based_mac_ipsec|HMAC]] ([[674_hmac_hash_based_mac_ipsec|Hash-based MAC]])** | NMAC의 구현 불편함을 단일 키(Single [[067_db_key_uniqueness_minimality|Key]]) 구조로 개량한 실무 표준 계승자 |
-| **길이 확장 공격 (Length Extension Attack)** | 단순 해시 [[303_authentication_authorization_patterns|인증]](`Hash(Key+Msg)`)의 치명적 약점이며, NMAC이 등장하게 된 근본 원인 |
-| **[[288_version_ihl_tos_total_length|IV]] (Initialization Vector)** | [[667_hash_function_integrity_one_way|해시 함수]] 내부의 초기화 변수로, NMAC은 이를 비밀 키로 대체하는 마개조를 요구함 |
-| **증명 가능한 보안 (Provable [[283_security_tactics|Security]])** | [[667_hash_function_integrity_one_way|해시 함수]] 자체가 깨지지 않는 한 이 [[303_authentication_authorization_patterns|인증]] 구조도 깨지지 않음을 수학적으로 입증하는 것 |
+| **[HMAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/) ([Hash-based MAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/))** | NMAC의 구현 불편함을 단일 키(Single [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) 구조로 개량한 실무 표준 계승자 |
+| **길이 확장 공격 (Length Extension Attack)** | 단순 해시 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)(`Hash(Key+Msg)`)의 치명적 약점이며, NMAC이 등장하게 된 근본 원인 |
+| **[IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) (Initialization Vector)** | [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) 내부의 초기화 변수로, NMAC은 이를 비밀 키로 대체하는 마개조를 요구함 |
+| **증명 가능한 보안 (Provable [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))** | [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) 자체가 깨지지 않는 한 이 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 구조도 깨지지 않음을 수학적으로 입증하는 것 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -126,12 +130,12 @@ HMAC (Hash-based MAC) · 단일 키와 패딩(ipad, opad)을 이용한 실무형
     ▼
 현대 인증 프로토콜 · TLS, IPsec 등에서 HMAC을 무결성 검증의 표준으로 채택
 ```
-이 흐름도는 취약한 [[303_authentication_authorization_patterns|인증]] 구조가 어떻게 수학적 완벽함(NMAC)을 거쳐 개발자 친화적인 실용적 표준([[674_hmac_hash_based_mac_ipsec|HMAC]])으로 진화하여 현대 보안망의 기틀이 되었는지를 보여준다.
+이 흐름도는 취약한 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 구조가 어떻게 수학적 완벽함(NMAC)을 거쳐 개발자 친화적인 실용적 표준([HMAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/))으로 진화하여 현대 보안망의 기틀이 되었는지를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 편지 봉투에 도둑이 손대지 못하게 마법 도장 2개를 쾅쾅 찍는 완벽한 방어법을 똑똑한 박사님들이 만들어 냈어요. (이게 NMAC이에요!)
 2. 그런데 이 방법은 색깔이 아예 다른 비싼 마법 잉크를 2통이나 사야 했고, 도장 기계를 뜯어고쳐야 해서 사람들이 너무 귀찮아했어요.
-3. 그래서 다른 기술자들이 잉크 1통만 사서 물과 기름을 섞어 2통인 척 쓰면서도 방어력은 똑같이 완벽한 개량형 도장([[674_hmac_hash_based_mac_ipsec|HMAC]])을 발명해서 지금은 다 그것만 쓰고 있답니다.
+3. 그래서 다른 기술자들이 잉크 1통만 사서 물과 기름을 섞어 2통인 척 쓰면서도 방어력은 똑같이 완벽한 개량형 도장([HMAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/))을 발명해서 지금은 다 그것만 쓰고 있답니다.
 
 ---
 
@@ -139,7 +143,7 @@ HMAC (Hash-based MAC) · 단일 키와 패딩(ipad, opad)을 이용한 실무형
 
 **진행 상황**: 157 / 1108
 
-← **이전**: [[103_hmac|103. HMAC (Hash-based Message Authentication Code) — 키 혼입 해시]]
-**다음**: [[105_cmac|105. CMAC (Cipher-based MAC) — 블록 암호 기반]] →
+← **이전**: [103. HMAC (Hash-based Message Authentication Code) — 키 혼입 해시](/knowledge-base/studynote/09_security/02_crypto/103_hmac/)
+**다음**: [105. CMAC (Cipher-based MAC) — 블록 암호 기반](/knowledge-base/studynote/09_security/02_crypto/105_cmac/) →
 
 ---

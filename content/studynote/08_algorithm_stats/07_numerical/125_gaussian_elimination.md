@@ -1,14 +1,18 @@
----
-title: 006. 가우스 소거법 — Gaussian Elimination
-date: '2026-04-05'
-tags:
-- studynote-algorithm-stats
----
++++
+title = "006. 가우스 소거법 — Gaussian Elimination"
+date = 2026-04-05
+
+[taxonomies]
+tags = ["studynote-algorithm-stats"]
+
+[extra]
+tags = ["studynote-algorithm-stats"]
++++
 
 > **핵심 인사이트**
-> 1. 가우스 소거법(Gaussian Elimination)은 선형 연립 방정식 Ax=b를 O(n³) 시간에 풀거나 행렬을 행 사다리꼴로 변환하는 기본 [[001_algorithm_definition|알고리즘]] — 정방행렬 n×n에서 n이 작으면 충분하지만 n이 크면 LU 분해·반복법과 비교해 효율을 따져야 한다.
-> 2. 부분 [[037_pivot|피벗]]팅(Partial Pivoting)이 수치 안정성(Numerical [[021_stability|Stability]])의 핵심 — [[037_pivot|피벗]] 원소가 0에 가까울 때 나눗셈 오류로 수치 오차가 폭발하므로, 각 단계에서 절댓값이 가장 큰 원소를 [[037_pivot|피벗]]으로 선택하는 부분 [[037_pivot|피벗]]팅이 실제 구현의 표준이다.
-> 3. 가우스 소거법의 [[161_matrix_decomposition|행렬 분해]] 해석이 수치 선형대수의 기반 — 소거 과정 자체가 A = LU 분해이며, 같은 A로 여러 b를 풀어야 할 때 LU 분해를 한 번 계산하고 전방대입·후방대입으로 O(n²)에 반복 풀이한다.
+> 1. 가우스 소거법(Gaussian Elimination)은 선형 연립 방정식 Ax=b를 O(n³) 시간에 풀거나 행렬을 행 사다리꼴로 변환하는 기본 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) — 정방행렬 n×n에서 n이 작으면 충분하지만 n이 크면 LU 분해·반복법과 비교해 효율을 따져야 한다.
+> 2. 부분 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)팅(Partial Pivoting)이 수치 안정성(Numerical [Stability](/knowledge-base/studynote/08_algorithm_stats/02_sorting/021_stability/))의 핵심 — [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 원소가 0에 가까울 때 나눗셈 오류로 수치 오차가 폭발하므로, 각 단계에서 절댓값이 가장 큰 원소를 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)으로 선택하는 부분 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)팅이 실제 구현의 표준이다.
+> 3. 가우스 소거법의 [행렬 분해](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/) 해석이 수치 선형대수의 기반 — 소거 과정 자체가 A = LU 분해이며, 같은 A로 여러 b를 풀어야 할 때 LU 분해를 한 번 계산하고 전방대입·후방대입으로 O(n²)에 반복 풀이한다.
 
 ---
 
@@ -62,7 +66,7 @@ Step 2: pivot = A[1,1] = 0.5
 
 ---
 
-## Ⅱ. [[037_pivot|피벗]]팅
+## Ⅱ. [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)팅
 
 ```
 피벗 (Pivot):
@@ -126,7 +130,7 @@ Python 구현:
       return x
 ```
 
-> 📢 **섹션 요약 비유**: [[037_pivot|피벗]]팅 = 기준점 교체 — 약한 기준점(0에 가까운 숫자)으로 소거하면 오차 폭발. 가장 강한 기준점(절댓값 최대)으로 교체 후 소거. 안정적인 계산의 핵심!
+> 📢 **섹션 요약 비유**: [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)팅 = 기준점 교체 — 약한 기준점(0에 가까운 숫자)으로 소거하면 오차 폭발. 가장 강한 기준점(절댓값 최대)으로 교체 후 소거. 안정적인 계산의 핵심!
 
 ---
 
@@ -336,7 +340,7 @@ CUDA cuBLAS
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. 가우스 소거법 = 계단식 단서 제거 — 방정식 3개에서 변수 1개씩 소거. 삼각 형태 만들고 역추적으로 해 구함. O(n³)!
-2. [[037_pivot|피벗]]팅 = 강한 기준점 선택 — 약한 [[037_pivot|피벗]](0에 가까운 수)은 오차 폭발. 절댓값 최대 원소로 교체. 수치 안정성의 핵심!
+2. [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)팅 = 강한 기준점 선택 — 약한 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)(0에 가까운 수)은 오차 폭발. 절댓값 최대 원소로 교체. 수치 안정성의 핵심!
 3. LU 분해 = 재사용 노트 — A를 한 번 LU로 분해하면, 다른 b가 몇 개든 O(n²)에 해결. 역행렬보다 LU+대입이 빠르고 안정!
 
 ---
@@ -345,7 +349,7 @@ CUDA cuBLAS
 
 **진행 상황**: 125 / 175
 
-← **이전**: [[124_crt|005. 중국인의 나머지 정리 — CRT]]
-**다음**: [[126_fft|고속 푸리에 변환 (FFT, Fast Fourier Transform)]] →
+← **이전**: [005. 중국인의 나머지 정리 — CRT](/knowledge-base/studynote/08_algorithm_stats/07_numerical/124_crt/)
+**다음**: [고속 푸리에 변환 (FFT, Fast Fourier Transform)](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/) →
 
 ---

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+{{ section.content | safe }}
+{% if section.pages | length > 0 %}
+<h2 id="pages">문서</h2>
+<ul class="section-list">
+  {% for item in section.pages %}
+  <li><a class="internal" href="{{ item.permalink | safe }}">{{ item.title }}</a></li>
+  {% endfor %}
+</ul>
+{% endif %}
+{% endblock content %}
+
+{% block toc %}
+{% for h1 in section.toc %}
+<li class="depth-0"><a href="{{ h1.permalink | safe }}">{{ h1.title }}</a></li>
+{% for h2 in h1.children %}
+<li class="depth-1"><a href="{{ h2.permalink | safe }}">{{ h2.title }}</a></li>
+{% endfor %}
+{% endfor %}
+{% endblock toc %}

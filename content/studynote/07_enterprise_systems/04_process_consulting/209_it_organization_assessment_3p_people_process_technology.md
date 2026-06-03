@@ -1,21 +1,25 @@
----
-title: 209. IT 조직 진단 3P (People, Process, Platform/Technology)
-date: '2026-05-08'
-tags:
-- studynote-enterprise
----
++++
+title = "209. IT 조직 진단 3P (People, Process, Platform/Technology)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-enterprise"]
+
+[extra]
+tags = ["studynote-enterprise"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: IT 조직 진단 3P는 사람 (People), 프로세스 ([[300_process|Process]]), 플랫폼·기술 (Platform/Technology)의 정렬 상태를 점검해, [[055_digital_transformation|디지털 전환]] 실패 원인을 구조적으로 분해하는 프레임워크다.
-> 2. **가치**: 같은 장애나 일정 [[015_지연_데이터_관점|지연]]이라도 원인이 역량 부족인지, 절차 병목인지, [[100_technical_debt_monitoring_release_policy|기술 부채]]인지 구분할 수 있어, 투자 우선순위와 변화관리 방향을 명확히 잡게 해 준다.
+> 1. **본질**: IT 조직 진단 3P는 사람 (People), 프로세스 ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/)), 플랫폼·기술 (Platform/Technology)의 정렬 상태를 점검해, [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) 실패 원인을 구조적으로 분해하는 프레임워크다.
+> 2. **가치**: 같은 장애나 일정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이라도 원인이 역량 부족인지, 절차 병목인지, [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)인지 구분할 수 있어, 투자 우선순위와 변화관리 방향을 명확히 잡게 해 준다.
 > 3. **판단 포인트**: 기술 도입만으로는 혁신이 완성되지 않으므로, 보통은 프로세스 재설계와 사람 역량·보상 체계를 먼저 정비한 뒤 적합한 기술을 얹는 순서가 효과적이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-정보기술 (IT, Information Technology) 조직 진단 3P는 조직 성과를 사람, 프로세스, 플랫폼·기술의 세 축으로 나누어 보는 진단 틀이다. [[055_digital_transformation|디지털 전환]] 프로젝트가 실패하는 이유는 대개 기술이 부족해서가 아니라, 기술이 사람과 프로세스에 맞지 않게 들어가 있기 때문이다. 따라서 3P는 "무엇이 고장 났는가"보다 "어느 축의 정렬이 깨졌는가"를 찾는 데 유용하다.
+정보기술 (IT, Information Technology) 조직 진단 3P는 조직 성과를 사람, 프로세스, 플랫폼·기술의 세 축으로 나누어 보는 진단 틀이다. [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) 프로젝트가 실패하는 이유는 대개 기술이 부족해서가 아니라, 기술이 사람과 프로세스에 맞지 않게 들어가 있기 때문이다. 따라서 3P는 "무엇이 고장 났는가"보다 "어느 축의 정렬이 깨졌는가"를 찾는 데 유용하다.
 
 이 프레임워크가 필요한 이유는 많은 조직이 증상을 원인으로 착각하기 때문이다. 예를 들어 배포가 늦다고 해서 무조건 도구를 바꾸면, 실제 원인인 승인 절차 과다나 운영팀의 역할 불명확성은 그대로 남는다. 3P는 문제를 세 축으로 나누어 봄으로써 기술 투자 과잉, 교육 누락, 책임 회피 같은 전형적 실패를 줄인다.
 
@@ -25,15 +29,15 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-3P 진단은 한 축씩 따로 보는 것이 아니라, 세 축이 서로 어떤 제약을 주고받는지 [[396_validation|확인]]하는 방식으로 [[216_progress_in_synchronization|진행]]된다. 사람 축에서는 역량, 역할, 조직 문화, 변화 수용성을 본다. 프로세스 축에서는 업무 흐름, 승인 구조, 책임 배분, 표준화 수준을 본다. 플랫폼·기술 축에서는 시스템 구조, 자동화 수준, [[001_dikw_pyramid|데이터]] 연계, 운영 안정성을 본다.
+3P 진단은 한 축씩 따로 보는 것이 아니라, 세 축이 서로 어떤 제약을 주고받는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 방식으로 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)된다. 사람 축에서는 역량, 역할, 조직 문화, 변화 수용성을 본다. 프로세스 축에서는 업무 흐름, 승인 구조, 책임 배분, 표준화 수준을 본다. 플랫폼·기술 축에서는 시스템 구조, 자동화 수준, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연계, 운영 안정성을 본다.
 
 | 축 | 진단 질문 | 대표 징후 | 개선 방향 |
 | :--- | :--- | :--- | :--- |
-| People | 수행 역량과 협업 문화가 충분한가? | 기술 거부, 부서 [[002_silo_hyeonhyung|사일로]], 핵심인력 의존 | 교육, 역할 재정의, 보상체계 조정 |
-| [[300_process|Process]] | 흐름과 책임이 명확한가? | 승인 [[015_지연_데이터_관점|지연]], 중복 입력, 예외 처리 남발 | 업무 재설계, 표준화, 책임 분리 |
-| Platform/Technology | 시스템이 업무를 잘 지원하는가? | 레거시 병목, 수작업 전환, [[001_dikw_pyramid|데이터]] 단절 | 시스템 통합, 자동화, 인프라 현대화 |
+| People | 수행 역량과 협업 문화가 충분한가? | 기술 거부, 부서 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/), 핵심인력 의존 | 교육, 역할 재정의, 보상체계 조정 |
+| [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) | 흐름과 책임이 명확한가? | 승인 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 중복 입력, 예외 처리 남발 | 업무 재설계, 표준화, 책임 분리 |
+| Platform/Technology | 시스템이 업무를 잘 지원하는가? | 레거시 병목, 수작업 전환, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 단절 | 시스템 통합, 자동화, 인프라 현대화 |
 
-아래 그림은 세 축이 독립된 [[435_checklist_based_testing|체크리스트]]가 아니라, 서로 맞물려야 성과가 나는 구조임을 보여준다.
+아래 그림은 세 축이 독립된 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)가 아니라, 서로 맞물려야 성과가 나는 구조임을 보여준다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -47,7 +51,7 @@ tags:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-핵심 원리는 "증상과 원인의 축을 분리하되, 처방은 통합한다"는 데 있다. 예를 들어 운영장애가 많다면 도구 자체보다, 변경관리 절차 미비와 야간 인력 역량 부족이 원인일 수 있다. 반대로 현업 [[003_resistance|저항]]이 크다면 단순 교육 부족이 아니라, 도입하려는 시스템이 실제 프로세스를 반영하지 못했을 가능성도 있다.
+핵심 원리는 "증상과 원인의 축을 분리하되, 처방은 통합한다"는 데 있다. 예를 들어 운영장애가 많다면 도구 자체보다, 변경관리 절차 미비와 야간 인력 역량 부족이 원인일 수 있다. 반대로 현업 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)이 크다면 단순 교육 부족이 아니라, 도입하려는 시스템이 실제 프로세스를 반영하지 못했을 가능성도 있다.
 
 - **📢 섹션 요약 비유**: 식당이 잘 안 된다고 냉장고만 새로 사도, 요리사가 레시피를 모르거나 주문 흐름이 꼬이면 손님은 계속 기다린다. 주방 사람, 조리 순서, 주방 기계를 함께 맞춰야 제대로 돌아간다.
 
@@ -55,15 +59,15 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-3P는 기술 진단 프레임워크이지만, 실제로는 조직 변화관리와 매우 가깝다. 특히 최근에는 제품 중심 조직이 늘어나면서 3P에 제품 (Product)을 더한 4P로 확장하기도 한다. 이때 3P는 내부 수행 역량을, Product는 시장 적합성과 고객 가치를 [[396_validation|확인]]하는 축이 된다.
+3P는 기술 진단 프레임워크이지만, 실제로는 조직 변화관리와 매우 가깝다. 특히 최근에는 제품 중심 조직이 늘어나면서 3P에 제품 (Product)을 더한 4P로 확장하기도 한다. 이때 3P는 내부 수행 역량을, Product는 시장 적합성과 고객 가치를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 축이 된다.
 
 | 관점 | 3P 모델 | 4P 확장 모델 |
 | :--- | :--- | :--- |
-| 초점 | 내부 실행력 정렬 | 내부 실행력 + 제품 가치 [[395_verification_process_review|검증]] |
+| 초점 | 내부 실행력 정렬 | 내부 실행력 + 제품 가치 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 | 강점 | 원인 분해가 명확함 | 사업성과와 조직 실행을 함께 봄 |
-| 주 사용처 | 조직 진단, 혁신 과제 정렬 | 디지털 [[090_service_kubernetes_network_load_balancing|서비스]]·플랫폼 조직 설계 |
+| 주 사용처 | 조직 진단, 혁신 과제 정렬 | 디지털 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)·플랫폼 조직 설계 |
 
-또한 3P는 비즈니스 프로세스 재설계 ([[127_bpr_business_process_reengineering_radical_redesign|BPR]], [[127_bpr_business_process_reengineering_radical_redesign|Business Process Reengineering]]), [[133_cmmi_capability_maturity_model_integration_levels|CMMI]] ([[133_cmmi_capability_maturity_model_integration_levels|Capability Maturity Model Integration]]), [[652_devops_calms_culture|데브옵스]] ([[652_devops_calms_culture|DevOps]])와 연결된다. BPR은 [[300_process|Process]] 축 개선에, CMMI는 Process와 People의 표준화에, [[652_devops_calms_culture|데브옵스]]는 People과 Platform의 협업 구조 강화에 무게가 있다. 따라서 3P는 다른 방법론을 대체한다기보다, 어느 축을 보완하는지 보여 주는 상위 진단 렌즈로 이해하는 것이 맞다.
+또한 3P는 비즈니스 프로세스 재설계 ([BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/), [Business Process Reengineering](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/)), [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) ([Capability Maturity Model Integration](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/)), [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) ([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/))와 연결된다. BPR은 [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) 축 개선에, CMMI는 Process와 People의 표준화에, [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)는 People과 Platform의 협업 구조 강화에 무게가 있다. 따라서 3P는 다른 방법론을 대체한다기보다, 어느 축을 보완하는지 보여 주는 상위 진단 렌즈로 이해하는 것이 맞다.
 
 - **📢 섹션 요약 비유**: 3P는 집의 기둥 세 개를 보는 것이고, 4P는 거기에 "이 집이 누구를 위해 지어졌는가"라는 방의 쓰임새를 더 보는 것이다. 기둥만 튼튼해도 살기 불편하면 좋은 집이 아니다.
 
@@ -73,20 +77,20 @@ tags:
 
 실무에서는 보통 Process를 먼저 점검하고, 그다음 People, 마지막으로 Platform/Technology를 정렬하는 접근이 효과적이다. 이유는 비효율 프로세스를 그대로 둔 채 기술만 올리면, 비효율이 더 빠르게 자동화되기 때문이다. 따라서 먼저 불필요한 승인, 중복 입력, 역할 충돌을 정리하고, 그 변화에 맞는 교육과 기술 도입을 설계해야 한다.
 
-### 진단 [[435_checklist_based_testing|체크리스트]]
+### 진단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 동일 [[001_dikw_pyramid|데이터]]를 여러 시스템에 반복 입력하고 있는가?
+1. 동일 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 시스템에 반복 입력하고 있는가?
 2. 핵심 업무가 특정 개인의 경험에 과도하게 의존하는가?
 3. 부서 간 책임 경계가 모호해 사고 시 원인 추적이 어려운가?
 4. 기술 도입 후에도 수작업 엑셀·메일 전달이 주요 흐름으로 남아 있는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 새로운 플랫폼을 도입했는데 기존 승인 절차는 그대로 두는 경우
 - 교육 없이 도구만 배포해 현업 반발과 그림자 업무를 키우는 경우
-- 사람 문제를 기술로만 해결하려 하거나, [[100_technical_debt_monitoring_release_policy|기술 부채]]를 문화 문제로만 해석하는 경우
+- 사람 문제를 기술로만 해결하려 하거나, [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)를 문화 문제로만 해석하는 경우
 
-기술사 답안에서는 "정렬 (Alignment)"이라는 단어를 중심에 두면 좋다. 3P는 세 축을 모두 좋게 만드는 것이 아니라, 업무 목적에 맞게 세 축이 같은 방향으로 움직이게 만드는 프레임워크다. 따라서 답안에는 원인 분해, 우선순위 [[009_config|설정]], 변화관리, 기술 도입의 순서를 함께 써야 설득력이 높다.
+기술사 답안에서는 "정렬 (Alignment)"이라는 단어를 중심에 두면 좋다. 3P는 세 축을 모두 좋게 만드는 것이 아니라, 업무 목적에 맞게 세 축이 같은 방향으로 움직이게 만드는 프레임워크다. 따라서 답안에는 원인 분해, 우선순위 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), 변화관리, 기술 도입의 순서를 함께 써야 설득력이 높다.
 
 - **📢 섹션 요약 비유**: 줄다리기에서 한 사람만 세게 당기면 팀이 이기지 못한다. 모두가 같은 방향과 같은 타이밍으로 힘을 써야 줄이 움직인다. 3P는 그 합을 맞추는 일이다.
 
@@ -108,9 +112,9 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 변화관리 ([[027_change_management|Change Management]]) | People 축에서 [[003_resistance|저항]] 완화와 역할 전환을 다룸 |
-| 비즈니스 프로세스 재설계 ([[127_bpr_business_process_reengineering_radical_redesign|BPR]], [[127_bpr_business_process_reengineering_radical_redesign|Business Process Reengineering]]) | [[300_process|Process]] 축의 병목 제거와 표준화에 직접 연결됨 |
-| [[652_devops_calms_culture|데브옵스]] ([[652_devops_calms_culture|DevOps]]) | People과 Platform의 협업 구조를 강화함 |
+| 변화관리 ([Change Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/027_change_management/)) | People 축에서 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) 완화와 역할 전환을 다룸 |
+| 비즈니스 프로세스 재설계 ([BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/), [Business Process Reengineering](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/)) | [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) 축의 병목 제거와 표준화에 직접 연결됨 |
+| [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) ([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)) | People과 Platform의 협업 구조를 강화함 |
 | 레거시 현대화 (Legacy Modernization) | Platform/Technology 축의 구조 개선 과제 |
 | 제품 중심 운영 모델 (Product Operating Model) | 3P를 4P로 확장할 때 연결되는 관점 |
 
@@ -144,7 +148,7 @@ tags:
 
 **진행 상황**: 209 / 482
 
-← **이전**: [[208_cmmi_capability_maturity_model_integration_levels|208. CMMI (Capability Maturity Model Integration) - 성숙도 수준 평가]]
-**다음**: [[210_rpa_robotic_process_automation_attended_unattended|210. RPA (Robotic Process Automation) - Attended Bot과 Unattended Bot]] →
+← **이전**: [208. CMMI (Capability Maturity Model Integration) - 성숙도 수준 평가](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/208_cmmi_capability_maturity_model_integration_levels/)
+**다음**: [210. RPA (Robotic Process Automation) - Attended Bot과 Unattended Bot](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/210_rpa_robotic_process_automation_attended_unattended/) →
 
 ---

@@ -1,18 +1,22 @@
----
-title: 038. zk-SNARK 비대화형 증명 (Non-Interactive Zero-Knowledge Proof)
-date: '2026-03-03'
-tags:
-- studynote-ict-convergence
----
++++
+title = "038. zk-SNARK 비대화형 증명 (Non-Interactive Zero-Knowledge Proof)"
+date = 2026-03-03
+
+[taxonomies]
+tags = ["studynote-ict-convergence"]
+
+[extra]
+tags = ["studynote-ict-convergence"]
++++
 
 > **핵심 인사이트**
-> 1. zk-SNARK(Succinct Non-interactive ARguments of Knowledge)는 영지식 증명을 단 한 번의 메시지 전송으로 [[395_verification_process_review|검증]] 가능하게 만든 비대화형 프로토콜로, 블록체인에서 여러 라운드 상호작용 없이 스마트 컨트랙트가 즉시 [[395_verification_process_review|검증]]할 수 있다.
-> 2. 핵심 구성 요소는 신뢰 [[009_config|설정]](Trusted Setup, [[243_owasp_core_rule_set_crs_waf_anomaly_scoring|CRS]]: Common [[316_reference_pattern_nosql|Reference]] String)으로 생성된 증명 키(pk)와 [[395_verification_process_review|검증]] 키(vk)로, 이 CRS가 안전하게 폐기되지 않으면 위조 증명이 가능한 독성 폐기물(Toxic Waste) 문제가 있다.
-> 3. Groth16이 현재 가장 효율적인 zk-SNARK 구현(증명 크기 192바이트, [[395_verification_process_review|검증]] 3ms)이며, Ethereum [[074_zkevm_zero_knowledge_ethereum_virtual_machine|zkEVM]](zkSync, [[045_sidechain_bridge_polygon|Polygon]] [[074_zkevm_zero_knowledge_ethereum_virtual_machine|zkEVM]])의 핵심 암호 기반으로 Layer 2 스케일링의 보안을 보장한다.
+> 1. zk-SNARK(Succinct Non-interactive ARguments of Knowledge)는 영지식 증명을 단 한 번의 메시지 전송으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능하게 만든 비대화형 프로토콜로, 블록체인에서 여러 라운드 상호작용 없이 스마트 컨트랙트가 즉시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있다.
+> 2. 핵심 구성 요소는 신뢰 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(Trusted Setup, [CRS](/knowledge-base/studynote/09_security/05_web_app_security/243_owasp_core_rule_set_crs_waf_anomaly_scoring/): Common [Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) String)으로 생성된 증명 키(pk)와 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 키(vk)로, 이 CRS가 안전하게 폐기되지 않으면 위조 증명이 가능한 독성 폐기물(Toxic Waste) 문제가 있다.
+> 3. Groth16이 현재 가장 효율적인 zk-SNARK 구현(증명 크기 192바이트, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 3ms)이며, Ethereum [zkEVM](/knowledge-base/studynote/06_ict_convergence/01_blockchain/074_zkevm_zero_knowledge_ethereum_virtual_machine/)(zkSync, [Polygon](/knowledge-base/studynote/06_ict_convergence/01_blockchain/045_sidechain_bridge_polygon/) [zkEVM](/knowledge-base/studynote/06_ict_convergence/01_blockchain/074_zkevm_zero_knowledge_ethereum_virtual_machine/))의 핵심 암호 기반으로 Layer 2 스케일링의 보안을 보장한다.
 
 ---
 
-## I. 대화형 vs 비대화형 [[354_did_decentralized_identity_zkp|ZKP]]
+## I. 대화형 vs 비대화형 [ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/)
 
 ```
 대화형 ZKP (Interactive):
@@ -63,11 +67,11 @@ zk-SNARK 시스템 구성:
 
 | 단계     | 입력                    | 출력       | 수행자    |
 |--------|------------------------|---------|--------|
-| [[009_config|설정]]    | 비밀 파라미터 τ          | (pk, vk)| 신뢰 제3자|
+| [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)    | 비밀 파라미터 τ          | (pk, vk)| 신뢰 제3자|
 | 증명    | witness + input + pk   | π       | 증명자   |
-| [[395_verification_process_review|검증]]    | π + input + vk         | True/False| [[395_verification_process_review|검증]]자  |
+| [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)    | π + input + vk         | True/False| [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자  |
 
-> �� **섹션 요약 비유**: [[243_owasp_core_rule_set_crs_waf_anomaly_scoring|CRS]] 생성은 열쇠 공장 설립(독성 폐기물=마스터키 파괴), 증명은 자물쇠 만들기, [[395_verification_process_review|검증]]은 열쇠로 열어보기.
+> �� **섹션 요약 비유**: [CRS](/knowledge-base/studynote/09_security/05_web_app_security/243_owasp_core_rule_set_crs_waf_anomaly_scoring/) 생성은 열쇠 공장 설립(독성 폐기물=마스터키 파괴), 증명은 자물쇠 만들기, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 열쇠로 열어보기.
 
 ---
 
@@ -96,7 +100,7 @@ Groth16 (Jens Groth, 2016):
 
 ---
 
-## [[288_version_ihl_tos_total_length|IV]]. PLONK와 범용 [[009_config|설정]]
+## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). PLONK와 범용 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
 
 ```
 PLONK (Permutations over Lagrange-bases
@@ -121,7 +125,7 @@ Halo2 (Zcash 개발):
   Ethereum zkEVM 일부 채택
 ```
 
-> 📢 **섹션 요약 비유**: Groth16은 맞춤 정장(회로마다 재단), PLONK는 기성복(범용 [[009_config|설정]]으로 어느 회로든) — 편의성과 크기의 트레이드오프.
+> 📢 **섹션 요약 비유**: Groth16은 맞춤 정장(회로마다 재단), PLONK는 기성복(범용 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)으로 어느 회로든) — 편의성과 크기의 트레이드오프.
 
 ---
 
@@ -148,7 +152,7 @@ zkSync Era (Ethereum Layer 2):
   수학적으로 안전 (암호학적 가정 하에)
 ```
 
-> 📢 **섹션 요약 비유**: zkSync는 수천 명의 정산을 공인 회계사(zk-SNARK)가 [[395_verification_process_review|검증]]한 한 장의 확인서로 제출하는 것 — $1로 수천 건 [[395_verification_process_review|검증]].
+> 📢 **섹션 요약 비유**: zkSync는 수천 명의 정산을 공인 회계사(zk-SNARK)가 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한 한 장의 확인서로 제출하는 것 — $1로 수천 건 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/).
 
 ---
 
@@ -206,7 +210,7 @@ EVM 전체를 zk-SNARK 회로로
 
 1. zk-SNARK는 "나는 이 비밀을 알고 있다"를 단 한 장의 종이(증명서)로 증명하는 방법이에요.
 2. 이더리움 같은 블록체인에서는 여러 번 대화할 수 없어서, 한 번에 제출하는 비대화형 방식이 꼭 필요해요.
-3. 이 덕분에 수천 건의 거래를 단 1달러짜리 [[395_verification_process_review|검증]] 하나로 처리해서 블록체인을 100배 이상 빠르게 만들 수 있어요!
+3. 이 덕분에 수천 건의 거래를 단 1달러짜리 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 하나로 처리해서 블록체인을 100배 이상 빠르게 만들 수 있어요!
 
 ---
 
@@ -214,7 +218,7 @@ EVM 전체를 zk-SNARK 회로로
 
 **진행 상황**: 38 / 552
 
-← **이전**: [[037_zero_knowledge_proof_zkp|037. ZKP — 영지식 증명 (Zero-Knowledge Proof)]]
-**다음**: [[039_layer1_mainnet|039. 레이어1 메인넷 (Layer 1 Mainnet) — 블록체인 기반 계층]] →
+← **이전**: [037. ZKP — 영지식 증명 (Zero-Knowledge Proof)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/037_zero_knowledge_proof_zkp/)
+**다음**: [039. 레이어1 메인넷 (Layer 1 Mainnet) — 블록체인 기반 계층](/knowledge-base/studynote/06_ict_convergence/01_blockchain/039_layer1_mainnet/) →
 
 ---

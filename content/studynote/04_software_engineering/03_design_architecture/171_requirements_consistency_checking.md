@@ -1,25 +1,29 @@
----
-title: 171. 요구사항 일관성 검사 (Consistency Checking)
-date: '2026-04-03'
-tags:
-- studynote-software-engineering
----
++++
+title = "171. 요구사항 일관성 검사 (Consistency Checking)"
+date = 2026-04-03
+
+[taxonomies]
+tags = ["studynote-software-engineering"]
+
+[extra]
+tags = ["studynote-software-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 요구사항 [[194_consistency_database_integrity|일관성]] 검사 ([[194_consistency_database_integrity|Consistency]] Checking)는 요구사항 명세서 안의 기능, [[001_dikw_pyramid|데이터]], 상태, 용어, 수치 조건이 서로 동시에 성립 가능한지 [[396_validation|확인]]하는 요구공학 [[395_verification_process_review|검증]] 활동이다.
+> 1. **본질**: 요구사항 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 검사 ([Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) Checking)는 요구사항 명세서 안의 기능, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 상태, 용어, 수치 조건이 서로 동시에 성립 가능한지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 요구공학 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 활동이다.
 > 2. **가치**: 구현 전 단계에서 모순을 제거하면 재개발·재테스트·계약 변경 비용을 크게 줄일 수 있어, 요구사항 품질 관리 중 가장 비용 대비 효과가 큰 활동 중 하나가 된다.
-> 3. **판단 포인트**: 모든 프로젝트에 정형 기법이 필요한 것은 아니며, 시스템 위험도와 [[173_stakeholder_identification_impact_matrix|이해관계자]] 수에 따라 리뷰·매트릭스·모델 기반 분석·정형 [[395_verification_process_review|검증]]을 적절히 선택해야 한다.
+> 3. **판단 포인트**: 모든 프로젝트에 정형 기법이 필요한 것은 아니며, 시스템 위험도와 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 수에 따라 리뷰·매트릭스·모델 기반 분석·정형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 적절히 선택해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-요구사항 [[194_consistency_database_integrity|일관성]] 검사는 "각 요구가 좋은가"만 보는 것이 아니라 "여러 요구가 함께 살아남을 수 있는가"를 보는 활동이다. 하나의 요구가 개별적으로는 타당해 보여도, 다른 요구와 결합하면 시간·비용·[[632_state_transition_diagram_testing|상태 전이]]·[[007_security_policy|보안 정책]] 측면에서 모순될 수 있다. 따라서 [[194_consistency_database_integrity|일관성]]은 단문 검사보다 교차 검사가 본질이다.
+요구사항 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 검사는 "각 요구가 좋은가"만 보는 것이 아니라 "여러 요구가 함께 살아남을 수 있는가"를 보는 활동이다. 하나의 요구가 개별적으로는 타당해 보여도, 다른 요구와 결합하면 시간·비용·[상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)·[보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/) 측면에서 모순될 수 있다. 따라서 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)은 단문 검사보다 교차 검사가 본질이다.
 
 이 검사가 필요한 이유는 요구사항이 보통 여러 부서와 문서에서 동시에 들어오기 때문이다. 예를 들어 마케팅은 "회원가입 1분 이내 완료"를 원하고, 보안은 "영상 기반 본인확인 필수"를 요구할 수 있다. 두 요구가 동시에 가능한지 조정하지 않으면, 설계와 개발 단계에서 어느 팀도 만족시키기 어려운 명세가 만들어진다.
 
-아래 그림은 [[173_stakeholder_identification_impact_matrix|이해관계자]] 요구가 어떻게 같은 문서 안에서 충돌하는지 보여 준다.
+아래 그림은 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 요구가 어떻게 같은 문서 안에서 충돌하는지 보여 준다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -32,23 +36,23 @@ tags:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-이 그림의 핵심은 요구사항 충돌이 개발자의 구현 실수보다 더 앞선 단계에서 생긴다는 점이다. 여기서의 문제는 "누가 틀렸는가"가 아니라 "어떤 우선순위와 예외 규칙으로 조정할 것인가"다. 따라서 [[194_consistency_database_integrity|일관성]] 검사는 [[352_defect_definition|결함]] 탐지이면서 동시에 의사결정 정리 활동이다.
+이 그림의 핵심은 요구사항 충돌이 개발자의 구현 실수보다 더 앞선 단계에서 생긴다는 점이다. 여기서의 문제는 "누가 틀렸는가"가 아니라 "어떤 우선순위와 예외 규칙으로 조정할 것인가"다. 따라서 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 검사는 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 탐지이면서 동시에 의사결정 정리 활동이다.
 
-- **📢 섹션 요약 비유**: [[194_consistency_database_integrity|일관성]] 검사는 여행 계획표를 짜기 전에 출발 시간과 도착 시간을 먼저 맞춰 보는 일과 같다. 비행기는 오전 9시에 타면서 호텔 체크인은 오전 8시에 하겠다고 적어 두면, 계획은 예쁘게 보여도 실제로는 성립하지 않는다.
+- **📢 섹션 요약 비유**: [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 검사는 여행 계획표를 짜기 전에 출발 시간과 도착 시간을 먼저 맞춰 보는 일과 같다. 비행기는 오전 9시에 타면서 호텔 체크인은 오전 8시에 하겠다고 적어 두면, 계획은 예쁘게 보여도 실제로는 성립하지 않는다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[[194_consistency_database_integrity|일관성]] 검사의 핵심은 요구를 개별 문장으로 읽는 데서 끝내지 않고, 공통 기준 위에 올려 교차 대조하는 것이다. 보통은 요구사항 [[289_identification_flags_fragmentation_offset|식별자]] 부여, 용어집 정리, 추적성 매트릭스 작성, 상태 모델·인터페이스 목록 정리, 충돌 유형 [[104_classification_analysis|분류]] 순서로 진행한다. 이렇게 해야 자연어 문장을 비교 가능한 구조로 바꿀 수 있다.
+[일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 검사의 핵심은 요구를 개별 문장으로 읽는 데서 끝내지 않고, 공통 기준 위에 올려 교차 대조하는 것이다. 보통은 요구사항 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) 부여, 용어집 정리, 추적성 매트릭스 작성, 상태 모델·인터페이스 목록 정리, 충돌 유형 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 순서로 진행한다. 이렇게 해야 자연어 문장을 비교 가능한 구조로 바꿀 수 있다.
 
 | 점검 대상 | 대표 질문 | 발견되는 충돌 예시 |
 | :--- | :--- | :--- |
-| 기능 [[194_consistency_database_integrity|일관성]] | 두 기능이 동시에 가능해야 하는가? | "자동 승인"과 "수동 승인 필수"의 충돌 |
-| 상태 [[194_consistency_database_integrity|일관성]] | 같은 상태 정의를 공유하는가? | 잠금 상태인데 일부 기능은 계속 허용 |
-| [[001_dikw_pyramid|데이터]] [[194_consistency_database_integrity|일관성]] | 같은 [[001_dikw_pyramid|데이터]] 의미와 단위를 쓰는가? | 금액 단위 원/달러 혼용 |
-| 용어 [[194_consistency_database_integrity|일관성]] | 같은 단어를 같은 뜻으로 쓰는가? | 고객, 회원, 사용자 구분 불명확 |
-| 수치·시간 [[194_consistency_database_integrity|일관성]] | [[282_performance_tactics|성능]]·용량·기한이 양립 가능한가? | 1초 응답 + 5단계 승인 절차 |
+| 기능 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) | 두 기능이 동시에 가능해야 하는가? | "자동 승인"과 "수동 승인 필수"의 충돌 |
+| 상태 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) | 같은 상태 정의를 공유하는가? | 잠금 상태인데 일부 기능은 계속 허용 |
+| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) | 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의미와 단위를 쓰는가? | 금액 단위 원/달러 혼용 |
+| 용어 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) | 같은 단어를 같은 뜻으로 쓰는가? | 고객, 회원, 사용자 구분 불명확 |
+| 수치·시간 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·용량·기한이 양립 가능한가? | 1초 응답 + 5단계 승인 절차 |
 
 아래 그림은 실무에서 많이 쓰는 기본 흐름이다.
 
@@ -65,28 +69,28 @@ tags:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-이 흐름에서 중요한 것은 발견만 하고 끝내지 않는다는 점이다. 충돌이 발견되면 우선순위, 예외 처리, 분리 설계, 문구 수정 중 하나로 해소해야 하며, 그 결과가 [[025_baseline|기준선]] ([[025_baseline|Baseline]])에 다시 반영되어야 한다. 그렇지 않으면 같은 모순이 리뷰 때마다 반복된다.
+이 흐름에서 중요한 것은 발견만 하고 끝내지 않는다는 점이다. 충돌이 발견되면 우선순위, 예외 처리, 분리 설계, 문구 수정 중 하나로 해소해야 하며, 그 결과가 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) ([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/))에 다시 반영되어야 한다. 그렇지 않으면 같은 모순이 리뷰 때마다 반복된다.
 
-복잡한 시스템에서는 자연어만으로 부족할 수 있다. 그래서 [[632_state_transition_diagram_testing|상태 전이]]표, 의사결정표, 인터페이스 계약, 유스케이스, 정형 명세 (Formal [[148_requirements_specification_formal_informal|Specification]])를 보조 수단으로 사용한다. 특히 안전 필수 시스템에서는 수학적 제약으로 요구를 표현해 [[369_logic_bomb|논리]] 충돌을 더 엄격하게 [[395_verification_process_review|검증]]하기도 한다.
+복잡한 시스템에서는 자연어만으로 부족할 수 있다. 그래서 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)표, 의사결정표, 인터페이스 계약, 유스케이스, 정형 명세 (Formal [Specification](/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/))를 보조 수단으로 사용한다. 특히 안전 필수 시스템에서는 수학적 제약으로 요구를 표현해 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 충돌을 더 엄격하게 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하기도 한다.
 
-- **📢 섹션 요약 비유**: [[194_consistency_database_integrity|일관성]] 검사는 큰 퍼즐 맞추기와 같다. 조각 하나만 보면 예뻐 보여도, 전체 그림에 끼워 보았을 때 모양이 맞아야 진짜 맞는 조각이다.
+- **📢 섹션 요약 비유**: [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 검사는 큰 퍼즐 맞추기와 같다. 조각 하나만 보면 예뻐 보여도, 전체 그림에 끼워 보았을 때 모양이 맞아야 진짜 맞는 조각이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-요구사항 품질 [[082_attribute_types_er_model|속성]]은 서로 비슷해 보여도 질문이 다르다. [[194_consistency_database_integrity|일관성]]은 "서로 충돌하지 않는가"를 묻고, 완전성은 "빠진 것은 없는가"를, 타당성은 "정말 필요한 요구인가"를, 실현 가능성은 "주어진 제약 안에서 구현 가능한가"를 본다. 이 차이를 구분해야 리뷰가 산만해지지 않는다.
+요구사항 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 서로 비슷해 보여도 질문이 다르다. [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)은 "서로 충돌하지 않는가"를 묻고, 완전성은 "빠진 것은 없는가"를, 타당성은 "정말 필요한 요구인가"를, 실현 가능성은 "주어진 제약 안에서 구현 가능한가"를 본다. 이 차이를 구분해야 리뷰가 산만해지지 않는다.
 
-| 품질 [[082_attribute_types_er_model|속성]] | 핵심 질문 | 예시 |
+| 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) | 핵심 질문 | 예시 |
 | :--- | :--- | :--- |
-| [[194_consistency_database_integrity|일관성]] ([[194_consistency_database_integrity|Consistency]]) | 서로 동시에 성립 가능한가? | 자동 승인 vs 수동 승인 필수 |
+| [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) ([Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)) | 서로 동시에 성립 가능한가? | 자동 승인 vs 수동 승인 필수 |
 | 완전성 (Completeness) | 필요한 요구가 빠지지 않았는가? | 취소 후 환불 규칙 누락 |
 | 타당성 (Validity) | 진짜 사용자 가치와 맞는가? | 내부 편의만 반영된 요구 |
-| 실현 가능성 (Feasibility) | 기술·비용·기간 안에서 가능한가? | 1주 내 전국 실시간 [[212_synchronization_mechanisms|동기화]] |
+| 실현 가능성 (Feasibility) | 기술·비용·기간 안에서 가능한가? | 1주 내 전국 실시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) |
 
-이 활동은 [[170_domain_analysis|도메인 분석]], [[156_requirements_traceability_vertical_horizontal|요구사항 추적성]], 테스트 설계와도 직접 연결된다. [[170_domain_analysis|도메인 분석]]이 용어와 규칙을 안정시키면 [[194_consistency_database_integrity|일관성]] 검사가 쉬워지고, 추적성 매트릭스가 있으면 어떤 요구끼리 충돌하는지 찾기 쉬워진다. 또한 충돌이 해소되어야만 [[406_acceptance_test_uat|인수 테스트]] 케이스도 서로 모순 없이 작성된다.
+이 활동은 [도메인 분석](/knowledge-base/studynote/04_software_engineering/03_design_architecture/170_domain_analysis/), [요구사항 추적성](/knowledge-base/studynote/04_software_engineering/03_design_architecture/156_requirements_traceability_vertical_horizontal/), 테스트 설계와도 직접 연결된다. [도메인 분석](/knowledge-base/studynote/04_software_engineering/03_design_architecture/170_domain_analysis/)이 용어와 규칙을 안정시키면 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 검사가 쉬워지고, 추적성 매트릭스가 있으면 어떤 요구끼리 충돌하는지 찾기 쉬워진다. 또한 충돌이 해소되어야만 [인수 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/) 케이스도 서로 모순 없이 작성된다.
 
-[[194_consistency_database_integrity|일관성]] 검사는 [[133_non_functional_requirements|비기능 요구사항]] (Non-functional Requirement)과 기능 요구사항 사이에서도 중요하다. 예를 들어 "응답시간 1초"와 "모든 요청에 다중 승인·강한 암호화·실시간 외부 [[395_verification_process_review|검증]]"이 함께 있으면, 기능은 맞지만 품질 [[082_attribute_types_er_model|속성]]끼리 부딪힐 수 있다. 실무에서 자주 터지는 모순은 오히려 이런 교차 영역에서 발생한다.
+[일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 검사는 [비기능 요구사항](/knowledge-base/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/) (Non-functional Requirement)과 기능 요구사항 사이에서도 중요하다. 예를 들어 "응답시간 1초"와 "모든 요청에 다중 승인·강한 암호화·실시간 외부 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"이 함께 있으면, 기능은 맞지만 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)끼리 부딪힐 수 있다. 실무에서 자주 터지는 모순은 오히려 이런 교차 영역에서 발생한다.
 
 - **📢 섹션 요약 비유**: 같은 팀 경기에서도 규칙이 겹치지 않아야 하듯, 요구사항도 각자 맞는 말만 하는 것이 아니라 서로 충돌 없이 같이 뛸 수 있어야 한다.
 
@@ -94,7 +98,7 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 프로젝트 특성에 맞는 검사 강도를 정해야 한다. 단순 웹 서비스라도 최소한 용어집, 요구사항 [[289_identification_flags_fragmentation_offset|식별자]], 리뷰 [[435_checklist_based_testing|체크리스트]], 시나리오 기반 교차 검토는 필요하다. 반면 금융·의료·철도·항공처럼 규제와 안전이 중요한 시스템은 상태 모델, 인터페이스 계약, 정형 제약까지 동원해야 한다.
+실무에서는 프로젝트 특성에 맞는 검사 강도를 정해야 한다. 단순 웹 서비스라도 최소한 용어집, 요구사항 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/), 리뷰 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/), 시나리오 기반 교차 검토는 필요하다. 반면 금융·의료·철도·항공처럼 규제와 안전이 중요한 시스템은 상태 모델, 인터페이스 계약, 정형 제약까지 동원해야 한다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -111,34 +115,34 @@ tags:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 모든 요구사항에 고유 ID와 출처가 있는가?
 2. 고객, 사용자, 관리자 같은 핵심 용어를 공통 용어집으로 통일했는가?
 3. 수치 목표에 단위와 측정 조건이 함께 적혀 있는가?
-4. [[632_state_transition_diagram_testing|상태 전이]]와 권한 규칙이 서로 충돌하지 않는가?
+4. [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)와 권한 규칙이 서로 충돌하지 않는가?
 5. 기능 요구와 비기능 요구 사이에 우선순위 충돌이 없는가?
 
-### 자주 나오는 [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### 자주 나오는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 같은 내용을 다른 문서에 복사해 두고 수정이 엇갈리는 경우
 - 정상 흐름과 예외 흐름의 우선순위를 정하지 않은 경우
 - 모순을 발견해도 "둘 다 중요한 요구"라며 문서만 남겨 두는 경우
 - 인터페이스 계약 없이 부서별 요구를 따로 관리하는 경우
 
-기술사 관점에서 중요한 답은 "모순을 발견했다"가 아니라 "어떻게 해소했는가"다. 보통은 우선순위 부여, 요구 분리, 조건 추가, 예외 규칙 정의, 목표 수치 현실화 중 하나로 조정한다. 즉 [[194_consistency_database_integrity|일관성]] 검사는 문장 교열이 아니라 설계 가능한 [[025_baseline|기준선]]을 만드는 활동이다.
+기술사 관점에서 중요한 답은 "모순을 발견했다"가 아니라 "어떻게 해소했는가"다. 보통은 우선순위 부여, 요구 분리, 조건 추가, 예외 규칙 정의, 목표 수치 현실화 중 하나로 조정한다. 즉 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 검사는 문장 교열이 아니라 설계 가능한 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)을 만드는 활동이다.
 
-- **📢 섹션 요약 비유**: [[194_consistency_database_integrity|일관성]] 검토 회의는 친구들끼리 여행 갈 때 출발역, 예산, 숙소를 먼저 맞추는 시간과 같다. 이걸 안 하면 각자 맞는 말을 했는데도 정작 같은 기차를 못 탄다.
+- **📢 섹션 요약 비유**: [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 검토 회의는 친구들끼리 여행 갈 때 출발역, 예산, 숙소를 먼저 맞추는 시간과 같다. 이걸 안 하면 각자 맞는 말을 했는데도 정작 같은 기차를 못 탄다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-요구사항 [[194_consistency_database_integrity|일관성]] 검사가 잘 되면 재작업 비용이 줄고, 설계 [[025_baseline|기준선]]이 안정되며, 테스트 케이스와 계약 문서도 한 방향으로 맞춰진다. 특히 [[173_stakeholder_identification_impact_matrix|이해관계자]]가 많을수록 효과가 커진다. 팀마다 다른 해석이 줄어들기 때문에 의사소통 비용과 변경 파급도도 낮아진다.
+요구사항 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 검사가 잘 되면 재작업 비용이 줄고, 설계 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)이 안정되며, 테스트 케이스와 계약 문서도 한 방향으로 맞춰진다. 특히 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)가 많을수록 효과가 커진다. 팀마다 다른 해석이 줄어들기 때문에 의사소통 비용과 변경 파급도도 낮아진다.
 
-물론 한계도 있다. [[194_consistency_database_integrity|일관성]]이 확보되었다고 해서 요구사항이 완전하거나, 옳거나, 구현 가능한 것이 자동 보장되지는 않는다. 따라서 완전성 검토, 타당성 [[396_validation|확인]], 실현 가능성 분석과 함께 묶어서 운영해야 한다.
+물론 한계도 있다. [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 확보되었다고 해서 요구사항이 완전하거나, 옳거나, 구현 가능한 것이 자동 보장되지는 않는다. 따라서 완전성 검토, 타당성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), 실현 가능성 분석과 함께 묶어서 운영해야 한다.
 
-결국 요구사항 [[194_consistency_database_integrity|일관성]] 검사는 "모순 없는 문서"를 만드는 일을 넘어, 설계와 구현이 출발할 수 있는 공동 현실을 만드는 활동이다. 좋은 명세는 문장이 많아서가 아니라, 서로 부딪히지 않고 하나의 시스템으로 이어질 수 있을 때 비로소 좋은 명세가 된다.
+결국 요구사항 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 검사는 "모순 없는 문서"를 만드는 일을 넘어, 설계와 구현이 출발할 수 있는 공동 현실을 만드는 활동이다. 좋은 명세는 문장이 많아서가 아니라, 서로 부딪히지 않고 하나의 시스템으로 이어질 수 있을 때 비로소 좋은 명세가 된다.
 
 - **📢 섹션 요약 비유**: 좋은 악보는 음표가 많이 적힌 악보가 아니라, 모든 악기가 함께 연주해도 충돌하지 않는 악보다. 요구사항도 마찬가지다.
 
@@ -148,13 +152,13 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :---------- |
-| 요구사항 명세서 (Software Requirements [[148_requirements_specification_formal_informal|Specification]], SRS) | [[194_consistency_database_integrity|일관성]] 검사의 직접 대상 문서 |
+| 요구사항 명세서 (Software Requirements [Specification](/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/), SRS) | [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 검사의 직접 대상 문서 |
 | 용어집 (Glossary) | 용어 충돌을 줄이는 가장 기본 장치 |
-| 추적성 매트릭스 ([[228_blockchain_smart_contract_traceability|Traceability]] Matrix) | 요구 간 관계와 영향 범위를 드러내는 도구 |
-| 상태 모델 | [[632_state_transition_diagram_testing|상태 전이]] 충돌을 찾는 보조 모델 |
-| [[133_non_functional_requirements|비기능 요구사항]] | 기능 요구와 자주 상충하는 품질 제약 |
-| 정형 명세 | 고위험 시스템에서 [[369_logic_bomb|논리]] 충돌을 엄격하게 [[395_verification_process_review|검증]]하는 수단 |
-| [[025_baseline|기준선]] ([[025_baseline|Baseline]]) | 충돌 해소 결과를 고정해 다음 단계의 기준이 되는 문서 상태 |
+| 추적성 매트릭스 ([Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/) Matrix) | 요구 간 관계와 영향 범위를 드러내는 도구 |
+| 상태 모델 | [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 충돌을 찾는 보조 모델 |
+| [비기능 요구사항](/knowledge-base/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/) | 기능 요구와 자주 상충하는 품질 제약 |
+| 정형 명세 | 고위험 시스템에서 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 충돌을 엄격하게 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 수단 |
+| [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) ([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)) | 충돌 해소 결과를 고정해 다음 단계의 기준이 되는 문서 상태 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -174,12 +178,12 @@ tags:
 해소 결정 · 문서 갱신 · 설계/테스트 반영
 ```
 
-이 흐름도는 [[194_consistency_database_integrity|일관성]] 검사가 단순 리뷰가 아니라, 요구 수집에서 설계·테스트 반영까지 이어지는 품질 관리 사이클의 중심임을 보여준다.
+이 흐름도는 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 검사가 단순 리뷰가 아니라, 요구 수집에서 설계·테스트 반영까지 이어지는 품질 관리 사이클의 중심임을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 친구들이 같이 게임 규칙을 정할 때, 서로 다른 규칙이 부딪히면 게임을 시작할 수 없어요.
-2. 그래서 먼저 규칙들을 한데 모아 "같이 써도 되는지" [[396_validation|확인]]하는 게 [[194_consistency_database_integrity|일관성]] 검사예요.
+2. 그래서 먼저 규칙들을 한데 모아 "같이 써도 되는지" [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 게 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 검사예요.
 3. 이렇게 해야 나중에 싸우지 않고 같은 규칙으로 재미있게 게임할 수 있어요.
 
 ---
@@ -188,7 +192,7 @@ tags:
 
 **진행 상황**: 171 / 973
 
-← **이전**: [[170_domain_analysis|170. 도메인 분석 (Domain Analysis)]]
-**다음**: [[172_business_case_roi_analysis|172. 비즈니스 케이스 (Business Case) 및 ROI 분석]] →
+← **이전**: [170. 도메인 분석 (Domain Analysis)](/knowledge-base/studynote/04_software_engineering/03_design_architecture/170_domain_analysis/)
+**다음**: [172. 비즈니스 케이스 (Business Case) 및 ROI 분석](/knowledge-base/studynote/04_software_engineering/03_design_architecture/172_business_case_roi_analysis/) →
 
 ---

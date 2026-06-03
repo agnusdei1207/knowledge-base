@@ -1,14 +1,18 @@
----
-title: 28. 플랫폼 엔지니어링과 IDP (Platform Engineering & Internal Developer Platform)
-date: '2026-04-29'
-tags:
-- studynote-devops-sre
----
++++
+title = "28. 플랫폼 엔지니어링과 IDP (Platform Engineering & Internal Developer Platform)"
+date = 2026-04-29
+
+[taxonomies]
+tags = ["studynote-devops-sre"]
+
+[extra]
+tags = ["studynote-devops-sre"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [[109_platform_engineering_cognitive_load|플랫폼 엔지니어링]]([[109_platform_engineering_cognitive_load|Platform Engineering]])은 [[058_dx_developer_experience|개발자 경험]](Developer Experience, [[726_platform_engineering_idp_dx|DX]])을 향상시키기 위해 [[110_idp_internal_developer_platform_backstage|내부 개발자 플랫폼]]([[536_idp_identity_provider|IDP]], [[200_internal_developer_platform_backstage|Internal Developer Platform]])을 구축·운영하는 전문 엔지니어링 분야다. 개발팀이 인프라를 직접 관리하지 않고 셀프 [[090_service_kubernetes_network_load_balancing|서비스]]로 사용할 수 있는 "황금 경로(Golden Path)"를 제공한다.
-> 2. **가치**: DevOps가 "개발+운영의 협업"을 추진했지만, [[532_microservices_decomposition_patterns|마이크로서비스]]·[[196_kubernetes_k8s_container_orchestration|쿠버네티스]] 시대에는 개발자가 관리해야 할 인프라 복잡성이 폭발적으로 증가했다. IDP는 이 복잡성을 플랫폼 팀이 [[198_abstraction_control_data_process|추상화]]하여 개발자가 인프라 세부 사항 없이 빠르게 배포할 수 있게 한다.
-> 3. **판단 포인트**: IDP의 핵심 지표는 [[523_dhcp_dora_process|DORA]] [[342_routing_metric_hop_bandwidth_delay|메트릭]](배포 빈도·[[085_lead_time_cycle_time|리드 타임]]·변경 실패율·[[658_ir_recovery|복구]] 시간)의 개선이다. [[536_idp_identity_provider|IDP]] 도입 없이 플랫폼만 구축하면 "황금 감옥(Golden Cage)"이 되는 위험이 있다. 개발자 채택률(Adoption Rate)이 [[109_platform_engineering_cognitive_load|플랫폼 엔지니어링]] 성공의 핵심 지표다.
+> 1. **본질**: [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)([Platform Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/))은 [개발자 경험](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/)(Developer Experience, [DX](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/))을 향상시키기 위해 [내부 개발자 플랫폼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/110_idp_internal_developer_platform_backstage/)([IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/), [Internal Developer Platform](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/200_internal_developer_platform_backstage/))을 구축·운영하는 전문 엔지니어링 분야다. 개발팀이 인프라를 직접 관리하지 않고 셀프 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 사용할 수 있는 "황금 경로(Golden Path)"를 제공한다.
+> 2. **가치**: DevOps가 "개발+운영의 협업"을 추진했지만, [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)·[쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 시대에는 개발자가 관리해야 할 인프라 복잡성이 폭발적으로 증가했다. IDP는 이 복잡성을 플랫폼 팀이 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)하여 개발자가 인프라 세부 사항 없이 빠르게 배포할 수 있게 한다.
+> 3. **판단 포인트**: IDP의 핵심 지표는 [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)(배포 빈도·[리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)·변경 실패율·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간)의 개선이다. [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) 도입 없이 플랫폼만 구축하면 "황금 감옥(Golden Cage)"이 되는 위험이 있다. 개발자 채택률(Adoption Rate)이 [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) 성공의 핵심 지표다.
 
 ---
 
@@ -34,21 +38,21 @@ tags:
 └────────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: IDP는 개발자용 자동화 마트다. 개발자가 "[[542_redis|Redis]] 클러스터 하나 주세요"라고 주문하면 플랫폼이 자동으로 [[528_provisioning|프로비저닝]], [[229_monitor|모니터]]링, 보안 [[009_config|설정]]까지 완료해서 바로 사용할 수 있게 해준다.
+- **📢 섹션 요약 비유**: IDP는 개발자용 자동화 마트다. 개발자가 "[Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 클러스터 하나 주세요"라고 주문하면 플랫폼이 자동으로 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/), [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링, 보안 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)까지 완료해서 바로 사용할 수 있게 해준다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [[536_idp_identity_provider|IDP]] 핵심 구성 요소
+### [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) 핵심 구성 요소
 
 | 구성 요소 | 도구 예시 | 역할 |
 |:---|:---|:---|
-| **개발자 포털** | Backstage, [[446_port_and_bus|Port]] | [[088_service_catalog|서비스 카탈로그]]·문서·셀프 [[090_service_kubernetes_network_load_balancing|서비스]] |
-| **[[793_iac_idempotency_template|IaC]]** | [[195_terraform_hashicorp_agnostic_aws_gcp|Terraform]], Crossplane | 인프라 셀프 [[090_service_kubernetes_network_load_balancing|서비스]] [[528_provisioning|프로비저닝]] |
-| **[[090_configuration_item|CI]]/CD** | GitHub Actions, ArgoCD | 자동화 빌드·배포 [[123_pipe|파이프]]라인 |
-| **관찰성** | [[168_grafana|Grafana]], [[136_prometheus|Prometheus]] | 표준화 [[229_monitor|모니터]]링·알림 |
-| **보안** | [[237_opa_open_policy_agent_gatekeeper|OPA]], [[567_vault|Vault]] | [[164_policy|정책]]·[[177_secrets_management_vault_kubernetes|시크릿 관리]] |
+| **개발자 포털** | Backstage, [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) | [서비스 카탈로그](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/)·문서·셀프 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) |
+| **[IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/)** | [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/), Crossplane | 인프라 셀프 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) |
+| **[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD** | GitHub Actions, ArgoCD | 자동화 빌드·배포 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 |
+| **관찰성** | [Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/), [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) | 표준화 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링·알림 |
+| **보안** | [OPA](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/), [Vault](/knowledge-base/studynote/09_security/11_iam_access_control/567_vault/) | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)·[시크릿 관리](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/177_secrets_management_vault_kubernetes/) |
 
 ### 황금 경로 (Golden Path)
 
@@ -64,31 +68,31 @@ Golden Path = 플랫폼이 권장하는 표준 개발·배포 경로
   → 개발자는 비즈니스 로직만 작성
 ```
 
-- **📢 섹션 요약 비유**: Golden Path는 이케아 조립 설명서다. 복잡한 가구([[532_microservices_decomposition_patterns|마이크로서비스]] 인프라)를 스스로 설계하는 대신, 잘 정리된 단계별 가이드를 따라 누구나 쉽게 완성할 수 있다.
+- **📢 섹션 요약 비유**: Golden Path는 이케아 조립 설명서다. 복잡한 가구([마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 인프라)를 스스로 설계하는 대신, 잘 정리된 단계별 가이드를 따라 누구나 쉽게 완성할 수 있다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | 전통 [[652_devops_calms_culture|DevOps]] | [[109_platform_engineering_cognitive_load|플랫폼 엔지니어링]] |
+| 비교 | 전통 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) | [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) |
 |:---|:---|:---|
-| 접근법 | 개발자가 인프라 직접 관리 | 플랫폼 팀이 셀프 [[090_service_kubernetes_network_load_balancing|서비스]] 제공 |
-| [[686_cognitive_load_team_topologies|인지 부하]] | 높음 | 낮음 ([[198_abstraction_control_data_process|추상화]]) |
+| 접근법 | 개발자가 인프라 직접 관리 | 플랫폼 팀이 셀프 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공 |
+| [인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/) | 높음 | 낮음 ([추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)) |
 | 표준화 | 팀별 상이 | 플랫폼 통일 |
 | 확장성 | 팀 성장과 비례 | 플랫폼으로 선형 확장 |
 
-- **📢 섹션 요약 비유**: 전통 [[652_devops_calms_culture|DevOps]] vs [[109_platform_engineering_cognitive_load|플랫폼 엔지니어링]]은 집에서 직접 요리 vs 밀키트 [[090_service_kubernetes_network_load_balancing|서비스]]다. 밀키트([[536_idp_identity_provider|IDP]])가 식재료를 준비해주면 요리사(개발자)는 요리(비즈니스 로직)에만 집중할 수 있다.
+- **📢 섹션 요약 비유**: 전통 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) vs [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)은 집에서 직접 요리 vs 밀키트 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)다. 밀키트([IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/))가 식재료를 준비해주면 요리사(개발자)는 요리(비즈니스 로직)에만 집중할 수 있다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### Spotify Backstage 도입 사례
-- **문제**: [[532_microservices_decomposition_patterns|마이크로서비스]] 수백 개, 팀별 다른 인프라 [[009_config|설정]], 문서 [[136_variance|분산]].
-- **해결**: Backstage 개발자 포털로 모든 [[090_service_kubernetes_network_load_balancing|서비스]]·소유자·문서를 한 곳에.
-- **결과**: 신규 [[090_service_kubernetes_network_load_balancing|서비스]] 온보딩 시간 90% 단축, 개발자 만족도 향상.
+- **문제**: [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 수백 개, 팀별 다른 인프라 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), 문서 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/).
+- **해결**: Backstage 개발자 포털로 모든 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)·소유자·문서를 한 곳에.
+- **결과**: 신규 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 온보딩 시간 90% 단축, 개발자 만족도 향상.
 
-### [[109_platform_engineering_cognitive_load|플랫폼 엔지니어링]] 도입 단계
+### [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) 도입 단계
 ```text
 1단계: 현황 파악 — 개발자 Pain Point 조사, DORA 기준선 측정
 2단계: MVP IDP — 핵심 Golden Path 1~2개 구축
@@ -96,7 +100,7 @@ Golden Path = 플랫폼이 권장하는 표준 개발·배포 경로
 4단계: 지속 개선 — 개발자 피드백·채택률 모니터링
 ```
 
-- **📢 섹션 요약 비유**: [[109_platform_engineering_cognitive_load|플랫폼 엔지니어링]] 도입은 공항 자동화다. 체크인 [[059_counter|카운터]](기존 [[652_devops_calms_culture|DevOps]])에서 모든 것을 수동 처리하다가, 키오스크([[536_idp_identity_provider|IDP]])와 셀프 체크인을 도입해서 여행자(개발자) 경험을 획기적으로 개선한다.
+- **📢 섹션 요약 비유**: [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) 도입은 공항 자동화다. 체크인 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)(기존 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/))에서 모든 것을 수동 처리하다가, 키오스크([IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/))와 셀프 체크인을 도입해서 여행자(개발자) 경험을 획기적으로 개선한다.
 
 ---
 
@@ -104,13 +108,13 @@ Golden Path = 플랫폼이 권장하는 표준 개발·배포 경로
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **개발 속도** | 신규 [[090_service_kubernetes_network_load_balancing|서비스]] 시작 시간 대폭 단축 |
-| **표준화** | 보안·[[229_monitor|모니터]]링·인프라 패턴 통일 |
-| **[[686_cognitive_load_team_topologies|인지 부하]] 감소** | 개발자가 비즈니스 로직에 집중 |
+| **개발 속도** | 신규 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시작 시간 대폭 단축 |
+| **표준화** | 보안·[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링·인프라 패턴 통일 |
+| **[인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/) 감소** | 개발자가 비즈니스 로직에 집중 |
 
-[[109_platform_engineering_cognitive_load|플랫폼 엔지니어링]]은 2023년 Gartner 하이프 사이클에 등장한 이후 대규모 엔지니어링 조직의 핵심 [[268_strategy_pattern|전략]]으로 자리잡았다. [[190_ai_llm_requirements_specification|AI]] 기반 플랫폼([[190_ai_llm_requirements_specification|AI]]-Assisted [[109_platform_engineering_cognitive_load|Platform Engineering]])은 개발자의 의도를 파악하여 최적 인프라를 자동으로 추천·[[528_provisioning|프로비저닝]]하는 방향으로 진화하고 있다.
+[플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)은 2023년 Gartner 하이프 사이클에 등장한 이후 대규모 엔지니어링 조직의 핵심 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 자리잡았다. [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 플랫폼([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)-Assisted [Platform Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/))은 개발자의 의도를 파악하여 최적 인프라를 자동으로 추천·[프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)하는 방향으로 진화하고 있다.
 
-- **📢 섹션 요약 비유**: [[190_ai_llm_requirements_specification|AI]] [[109_platform_engineering_cognitive_load|플랫폼 엔지니어링]]은 [[190_ai_llm_requirements_specification|AI]] 개인 비서다. "결제 [[090_service_kubernetes_network_load_balancing|서비스]] 만들어야 해"라고 말하면 AI가 필요한 인프라(DB, 캐시, [[014_api_posix|API]] 게이트웨이)를 자동으로 추천하고 [[528_provisioning|프로비저닝]]해준다.
+- **📢 섹션 요약 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 개인 비서다. "결제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 만들어야 해"라고 말하면 AI가 필요한 인프라(DB, 캐시, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이)를 자동으로 추천하고 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)해준다.
 
 ---
 
@@ -118,11 +122,11 @@ Golden Path = 플랫폼이 권장하는 표준 개발·배포 경로
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **Backstage** | [[190_cncf_landscape_observability|CNCF]] 표준 개발자 포털 플랫폼 |
+| **Backstage** | [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) 표준 개발자 포털 플랫폼 |
 | **Golden Path** | IDP의 표준 개발 경로 |
-| **[[523_dhcp_dora_process|DORA]] [[342_routing_metric_hop_bandwidth_delay|메트릭]]** | [[536_idp_identity_provider|IDP]] 성과 측정 지표 |
-| **[[119_gitops_single_source_of_truth|GitOps]]** | [[536_idp_identity_provider|IDP]] 배포 자동화 패턴 |
-| **[[344_finops|FinOps]]** | 플랫폼 비용 최적화 |
+| **[DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)** | [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) 성과 측정 지표 |
+| **[GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/)** | [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) 배포 자동화 패턴 |
+| **[FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/)** | 플랫폼 비용 최적화 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -144,9 +148,9 @@ Golden Path = 플랫폼이 권장하는 표준 개발·배포 경로
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [[109_platform_engineering_cognitive_load|플랫폼 엔지니어링]]은 개발자를 위한 자동 요리 키트 [[090_service_kubernetes_network_load_balancing|서비스]]예요! 복잡한 인프라를 준비해두면 개발자는 앱 만들기에만 집중할 수 있어요.
+1. [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)은 개발자를 위한 자동 요리 키트 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)예요! 복잡한 인프라를 준비해두면 개발자는 앱 만들기에만 집중할 수 있어요.
 2. Golden Path는 이케아 조립 설명서처럼 "이 순서대로 하면 누구나 성공할 수 있어요"라는 표준 경로예요!
-3. 미래에는 AI가 "어떤 [[090_service_kubernetes_network_load_balancing|서비스]] 만들어요?"라고 물어보고 자동으로 필요한 모든 인프라를 세팅해줄 거예요!
+3. 미래에는 AI가 "어떤 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 만들어요?"라고 물어보고 자동으로 필요한 모든 인프라를 세팅해줄 거예요!
 
 ---
 
@@ -154,7 +158,7 @@ Golden Path = 플랫폼이 권장하는 표준 개발·배포 경로
 
 **진행 상황**: 28 / 373
 
-← **이전**: [[027_space_framework|27. SPACE 프레임워크 — 개발자 생산성 5차원 측정]]
-**다음**: [[029_golden_path_value_stream|29. 골든 패스와 가치 흐름 (Golden Path & Value Stream)]] →
+← **이전**: [27. SPACE 프레임워크 — 개발자 생산성 5차원 측정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/027_space_framework/)
+**다음**: [29. 골든 패스와 가치 흐름 (Golden Path & Value Stream)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/029_golden_path_value_stream/) →
 
 ---

@@ -1,18 +1,22 @@
----
-title: 046. 클라우드 마이그레이션 — Retire & Retain 전략
-date: '2026-04-05'
-tags:
-- studynote-cloud-architecture
----
++++
+title = "046. 클라우드 마이그레이션 — Retire & Retain 전략"
+date = 2026-04-05
+
+[taxonomies]
+tags = ["studynote-cloud-architecture"]
+
+[extra]
+tags = ["studynote-cloud-architecture"]
++++
 
 > **핵심 인사이트**
-> 1. Retire(폐기)와 Retain(유지)은 Gartner의 클라우드 마이그레이션 "6R" [[268_strategy_pattern|전략]]의 일부 — 모든 시스템을 클라우드로 이전하는 것이 목표가 아니라, 최적의 위치(클라우드/[[061_on_premise_legacy_infrastructure|온프레미스]]/폐기)를 찾는 것이 핵심이다.
-> 2. Retire는 가장 높은 ROI를 가져오는 [[268_strategy_pattern|전략]] — 분석 결과 기업의 [[489_raid_10_hybrid|10]]~20% 애플리케이션이 실제 사용되지 않으며, 이를 폐기하면 라이선스·인프라·운영 비용을 즉시 절감할 수 있다.
-> 3. Retain(유지)은 단순한 "마이그레이션 불가"가 아닌 [[268_strategy_pattern|전략]]적 선택 — 레거시 의존성·규정 준수·기술적 제약으로 [[061_on_premise_legacy_infrastructure|온프레미스]] 유지가 더 합리적인 경우 "[[009_hybrid_cloud|하이브리드 클라우드]]"의 [[061_on_premise_legacy_infrastructure|온프레미스]] 구성 요소로 남는다.
+> 1. Retire(폐기)와 Retain(유지)은 Gartner의 클라우드 마이그레이션 "6R" [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 일부 — 모든 시스템을 클라우드로 이전하는 것이 목표가 아니라, 최적의 위치(클라우드/[온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)/폐기)를 찾는 것이 핵심이다.
+> 2. Retire는 가장 높은 ROI를 가져오는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) — 분석 결과 기업의 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~20% 애플리케이션이 실제 사용되지 않으며, 이를 폐기하면 라이선스·인프라·운영 비용을 즉시 절감할 수 있다.
+> 3. Retain(유지)은 단순한 "마이그레이션 불가"가 아닌 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 선택 — 레거시 의존성·규정 준수·기술적 제약으로 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 유지가 더 합리적인 경우 "[하이브리드 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/009_hybrid_cloud/)"의 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 구성 요소로 남는다.
 
 ---
 
-## Ⅰ. 6R 마이그레이션 [[268_strategy_pattern|전략]] 개요
+## Ⅰ. 6R 마이그레이션 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 개요
 
 ```
 Gartner 6R 마이그레이션 전략:
@@ -58,11 +62,11 @@ R6. Retain (유지):
   마이그레이션 위험
 ```
 
-> 📢 **섹션 요약 비유**: 6R [[268_strategy_pattern|전략]]은 이사 계획 — 짐 그대로 옮기기(Rehost), 정리 후 옮기기(Replatform), 새 가구 구매(Repurchase), 집 재설계([[213_refactoring_cloud_native_rearchitecture|Refactor]]), 버리기(Retire), 일부 짐 그냥 두기(Retain)!
+> 📢 **섹션 요약 비유**: 6R [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 이사 계획 — 짐 그대로 옮기기(Rehost), 정리 후 옮기기(Replatform), 새 가구 구매(Repurchase), 집 재설계([Refactor](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)), 버리기(Retire), 일부 짐 그냥 두기(Retain)!
 
 ---
 
-## Ⅱ. Retire (폐기) [[268_strategy_pattern|전략]]
+## Ⅱ. Retire (폐기) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
 ```
 Retire 전략:
@@ -118,7 +122,7 @@ ROI:
 
 ---
 
-## Ⅲ. Retain (유지) [[268_strategy_pattern|전략]]
+## Ⅲ. Retain (유지) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
 ```
 Retain 전략:
@@ -166,7 +170,7 @@ Retain의 결과: 하이브리드 클라우드
   연결: VPN, Direct Connect, ExpressRoute
 ```
 
-> 📢 **섹션 요약 비유**: Retain은 어떤 짐은 창고에 두기 — 가족 사진 앨범(규제 [[001_dikw_pyramid|데이터]])은 남겨두고, 책상과 의자(일반 앱)만 새집(클라우드)에. 하이브리드 = 두 집 살림!
+> 📢 **섹션 요약 비유**: Retain은 어떤 짐은 창고에 두기 — 가족 사진 앨범(규제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 남겨두고, 책상과 의자(일반 앱)만 새집(클라우드)에. 하이브리드 = 두 집 살림!
 
 ---
 
@@ -217,7 +221,7 @@ ROI 계산:
   일반 기업: 18~36개월 Break-Even
 ```
 
-> 📢 **섹션 요약 비유**: 포트폴리오 분석은 이삿짐 [[104_classification_analysis|분류]] — 먼저 버릴 것(C클래스 → Retire), 그대로 옮길 것(B클래스 → Rehost), 완전히 새로 살 것(A클래스 → [[213_refactoring_cloud_native_rearchitecture|Refactor]])로 [[104_classification_analysis|분류]]!
+> 📢 **섹션 요약 비유**: 포트폴리오 분석은 이삿짐 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) — 먼저 버릴 것(C클래스 → Retire), 그대로 옮길 것(B클래스 → Rehost), 완전히 새로 살 것(A클래스 → [Refactor](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/))로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)!
 
 ---
 
@@ -271,7 +275,7 @@ Retain: SAP + MES 온프레미스
   서버: 400대 → 온프레미스 50대 + 클라우드
 ```
 
-> 📢 **섹션 요약 비유**: 제조사 마이그레이션은 공장 이전 — 쓸모없는 기계(20개 Retire), 임대로 전환([[309_saas|SaaS]]), 기계 그대로 옮기기(Rehost), 특수 설비는 원래 공장에(Retain). 연 16억 절감!
+> 📢 **섹션 요약 비유**: 제조사 마이그레이션은 공장 이전 — 쓸모없는 기계(20개 Retire), 임대로 전환([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/)), 기계 그대로 옮기기(Rehost), 특수 설비는 원래 공장에(Retain). 연 16억 절감!
 
 ---
 
@@ -329,8 +333,8 @@ FinOps + 7R (Relocate 추가)
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. Retire는 이사할 때 버리기 — 10년 된 쓰지 않는 전자레인지(레거시 앱) 굳이 옮길 필요 없이 버려요. 이사 비용 0, 공간 확보!
-2. Retain은 어떤 짐은 남겨두기 — 가족 사진 앨범(규제 [[001_dikw_pyramid|데이터]])은 이사해도 원래 집([[061_on_premise_legacy_infrastructure|온프레미스]])에 보관. 클라우드에 보내면 안 되는 것도 있어요!
-3. 6R [[268_strategy_pattern|전략]]은 이삿짐 [[104_classification_analysis|분류]] — 모든 것을 클라우드로 옮기는 게 아니라 버릴 것, 그대로 옮길 것, 새로 살 것을 나눠서 최적 결정!
+2. Retain은 어떤 짐은 남겨두기 — 가족 사진 앨범(규제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 이사해도 원래 집([온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/))에 보관. 클라우드에 보내면 안 되는 것도 있어요!
+3. 6R [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 이삿짐 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) — 모든 것을 클라우드로 옮기는 게 아니라 버릴 것, 그대로 옮길 것, 새로 살 것을 나눠서 최적 결정!
 
 ---
 
@@ -338,7 +342,7 @@ FinOps + 7R (Relocate 추가)
 
 **진행 상황**: 45 / 371
 
-← **이전**: [[045_migration_repurchase_saas|045. 클라우드 이전 전략 — Repurchase & SaaS Migration]]
-**다음**: [[047_cloud_service_brokerage_csb|047. CSB — 클라우드 서비스 브로커리지]] →
+← **이전**: [045. 클라우드 이전 전략 — Repurchase & SaaS Migration](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/045_migration_repurchase_saas/)
+**다음**: [047. CSB — 클라우드 서비스 브로커리지](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/047_cloud_service_brokerage_csb/) →
 
 ---

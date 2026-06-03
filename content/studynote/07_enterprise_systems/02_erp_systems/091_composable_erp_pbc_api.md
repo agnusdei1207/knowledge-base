@@ -1,37 +1,40 @@
----
-title: 91. 컴포저블 ERP (Composable ERP) - 비즈니스 블록을 조합하듯 API 중심으로 유연하게 조립/변경 가능한 최신 ERP
-  아키텍처
-tags:
-- enterprise_systems
----
++++
+title = "91. 컴포저블 ERP (Composable ERP) - 비즈니스 블록을 조합하듯 API 중심으로 유연하게 조립/변경 가능한 최신 ERP 아키텍처"
+
+[taxonomies]
+tags = ["enterprise_systems"]
+
+[extra]
+tags = ["enterprise_systems"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 컴포저블 [[081_erp_enterprise_resource_planning|ERP]] (Composable [[081_erp_enterprise_resource_planning|ERP]])는 거대하게 뭉쳐있던 기존의 모놀리식 ERP를 거부하고, 잘게 쪼개진 비즈니스 기능(PBC)들을 API로 엮어 레고 블록처럼 자유롭게 조립·해체하는 4세대 [[531_cloud_native_architecture|클라우드 네이티브]] [[081_erp_enterprise_resource_planning|ERP]] 아키텍처다.
-> 2. **가치**: 시장 변화나 새로운 비즈니스 모델(예: 새벽 배송 추가)이 등장했을 때, 전체 시스템을 뜯어고칠 필요 없이 필요한 [[192_module_independence|모듈]] 블록만 교체하여 궁극의 비즈니스 민첩성 (Agility)을 확보할 수 있다.
-> 3. **판단 포인트**: 기존의 커스터마이징(Customizing) 중심의 개발 방식에서 벗어나, [[051_vendor_lock_in_cloud_computing|벤더 종속]]성을 탈피하고 API와 로우코드/노코드([[238_lowcode_nocode_citizen_developer|LCNC]]) 플랫폼을 활용한 '조합과 연결' 구조로 설계 [[268_strategy_pattern|전략]]을 전환해야 한다.
+> 1. **본질**: 컴포저블 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) (Composable [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/))는 거대하게 뭉쳐있던 기존의 모놀리식 ERP를 거부하고, 잘게 쪼개진 비즈니스 기능(PBC)들을 API로 엮어 레고 블록처럼 자유롭게 조립·해체하는 4세대 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 아키텍처다.
+> 2. **가치**: 시장 변화나 새로운 비즈니스 모델(예: 새벽 배송 추가)이 등장했을 때, 전체 시스템을 뜯어고칠 필요 없이 필요한 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 블록만 교체하여 궁극의 비즈니스 민첩성 (Agility)을 확보할 수 있다.
+> 3. **판단 포인트**: 기존의 커스터마이징(Customizing) 중심의 개발 방식에서 벗어나, [벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/)성을 탈피하고 API와 로우코드/노코드([LCNC](/knowledge-base/studynote/12_it_management/05_security_compliance/238_lowcode_nocode_citizen_developer/)) 플랫폼을 활용한 '조합과 연결' 구조로 설계 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 전환해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-컴포저블 [[081_erp_enterprise_resource_planning|ERP]] (Composable [[081_erp_enterprise_resource_planning|ERP]])는 가트너(Gartner)가 제시한 미래 [[_keyword_list|엔터프라이즈 시스템]]의 표준으로, 정적인(Static) 관리 도구였던 과거 ERP의 한계를 극복하기 위해 등장한 패러다임이다. 
+컴포저블 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) (Composable [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/))는 가트너(Gartner)가 제시한 미래 엔터프라이즈 시스템의 표준으로, 정적인(Static) 관리 도구였던 과거 ERP의 한계를 극복하기 위해 등장한 패러다임이다. 
 
-과거의 전통적 ERP는 재무, 인사, 생산, 물류 등 모든 기능이 하나의 거대한 코드 덩어리(Monolithic)로 단단히 결합되어 있었다. 이런 구조는 안정성은 높지만, 급변하는 현대 비즈니스 환경에서는 치명적이었다. 코로나19 팬데믹처럼 갑작스러운 비즈니스 피보팅이 필요할 때, [[192_module_independence|모듈]] 하나를 수정하면 시스템 전체에 연쇄 오류가 발생해 수개월의 빅뱅(Big Bang)식 대공사와 막대한 SI(System Integration) 비용이 발생했다. 컴포저블 ERP는 이 '둔감하고 거대한 코끼리'를 [[213_msa_microservices_architecture|마이크로서비스 아키텍처]]([[619_msa_traffic_hardware|MSA]]) 철학으로 쪼개어, 상황에 맞게 진화하는 유기체로 만든 것이다.
+과거의 전통적 ERP는 재무, 인사, 생산, 물류 등 모든 기능이 하나의 거대한 코드 덩어리(Monolithic)로 단단히 결합되어 있었다. 이런 구조는 안정성은 높지만, 급변하는 현대 비즈니스 환경에서는 치명적이었다. 코로나19 팬데믹처럼 갑작스러운 비즈니스 피보팅이 필요할 때, [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 하나를 수정하면 시스템 전체에 연쇄 오류가 발생해 수개월의 빅뱅(Big Bang)식 대공사와 막대한 SI(System Integration) 비용이 발생했다. 컴포저블 ERP는 이 '둔감하고 거대한 코끼리'를 [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 철학으로 쪼개어, 상황에 맞게 진화하는 유기체로 만든 것이다.
 
-- **📢 섹션 요약 비유**: 옛날 ERP는 [[229_monitor|모니터]], 본체, 스피커가 다 붙어 있어서 스피커가 고장 나면 컴퓨터를 통째로 버려야 하는 구형 일체형 PC였다. 컴포저블 ERP는 언제든 원하는 최고급 그래픽 카드나 CPU를 사서 메인보드에 꽂아 바로 쓸 수 있는 조립식 PC다.
+- **📢 섹션 요약 비유**: 옛날 ERP는 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/), 본체, 스피커가 다 붙어 있어서 스피커가 고장 나면 컴퓨터를 통째로 버려야 하는 구형 일체형 PC였다. 컴포저블 ERP는 언제든 원하는 최고급 그래픽 카드나 CPU를 사서 메인보드에 꽂아 바로 쓸 수 있는 조립식 PC다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-컴포저블 ERP를 가능하게 하는 아키텍처의 핵심은 **PBC (Packaged Business Capability)**와 **[[014_api_posix|API]]-First ([[597_headless_cms_architecture|Headless]])** 설계, 그리고 **[[531_cloud_native_architecture|클라우드 네이티브]]** 환경이다.
+컴포저블 ERP를 가능하게 하는 아키텍처의 핵심은 **PBC (Packaged Business Capability)**와 **[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)-First ([Headless](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/597_headless_cms_architecture/))** 설계, 그리고 **[클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)** 환경이다.
 
 | 핵심 구성 요소 | 역할 및 동작 원리 | 설계 이점 |
 | :--- | :--- | :--- |
-| **PBC (패키징된 비즈니스 역량)** | '환율 계산기', '장바구니', '가상계좌 발급기'처럼 독립적으로 완결성을 가진 가장 작은 비즈니스 소프트웨어 단위 (레고 블록) | 특정 기능 장애가 타 시스템으로 전파되지 않음 (Fault [[195_isolation_concurrency_control|Isolation]]) |
-| **[[014_api_posix|API]] 중심 설계 ([[014_api_posix|API]]-First)** | 서로 다른 벤더가 만든 PBC들이 소통하기 위해 사용하는 표준화된 [[001_dikw_pyramid|데이터]] 연결 통로 (RESTful, [[246_graphql_query_language_overfetching_solution|GraphQL]]) | 타사 SaaS와의 자유로운 결합 및 [[051_vendor_lock_in_cloud_computing|벤더 종속]]성([[362_lock_in_portability|Lock-in]]) 탈피 |
-| **[[531_cloud_native_architecture|클라우드 네이티브]] ([[199_cloud_native_architecture_msa_cicd_devops|Cloud Native]])** | 각 PBC들이 독립된 [[561_container_based_deployment|컨테이너]]([[063_docker_architecture|Docker]]/K8s) 위에서 [[532_microservices_decomposition_patterns|마이크로서비스]] 형태로 구동 | 트래픽 폭증 시 필요한 블록(예: 주문 [[192_module_independence|모듈]])만 오토 [[249_scaling_normalization_standardization|스케일링]] 가능 |
+| **PBC (패키징된 비즈니스 역량)** | '환율 계산기', '장바구니', '가상계좌 발급기'처럼 독립적으로 완결성을 가진 가장 작은 비즈니스 소프트웨어 단위 (레고 블록) | 특정 기능 장애가 타 시스템으로 전파되지 않음 (Fault [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/)) |
+| **[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 중심 설계 ([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)-First)** | 서로 다른 벤더가 만든 PBC들이 소통하기 위해 사용하는 표준화된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연결 통로 (RESTful, [GraphQL](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/)) | 타사 SaaS와의 자유로운 결합 및 [벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/)성([Lock-in](/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/)) 탈피 |
+| **[클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) ([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/))** | 각 PBC들이 독립된 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)/K8s) 위에서 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 형태로 구동 | 트래픽 폭증 시 필요한 블록(예: 주문 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))만 오토 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 가능 |
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -50,26 +53,26 @@ tags:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-특히 [[597_headless_cms_architecture|Headless]] 아키텍처는 사용자 인터페이스(UI)와 뒷단의 비즈니스 로직(PBC)을 완전히 분리시킨다. 모바일, 웹, 스마트워치 등 어떤 화면(Head)이 오더라도 뒷단 시스템을 고칠 필요 없이 API로 [[001_dikw_pyramid|데이터]]만 던져주면 된다.
+특히 [Headless](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/597_headless_cms_architecture/) 아키텍처는 사용자 인터페이스(UI)와 뒷단의 비즈니스 로직(PBC)을 완전히 분리시킨다. 모바일, 웹, 스마트워치 등 어떤 화면(Head)이 오더라도 뒷단 시스템을 고칠 필요 없이 API로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 던져주면 된다.
 
-- **📢 섹션 요약 비유**: 컴포저블 ERP의 블록(PBC)들은 표면에 돌기가 튀어나온 레고 블록과 같다. 이 돌기([[014_api_posix|API]])가 표준화되어 있기 때문에, 빨간색 레고(SAP)와 파란색 레고(Salesforce)를 섞어도 완벽하게 하나의 멋진 자동차를 조립할 수 있다.
+- **📢 섹션 요약 비유**: 컴포저블 ERP의 블록(PBC)들은 표면에 돌기가 튀어나온 레고 블록과 같다. 이 돌기([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))가 표준화되어 있기 때문에, 빨간색 레고(SAP)와 파란색 레고(Salesforce)를 섞어도 완벽하게 하나의 멋진 자동차를 조립할 수 있다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-컴포저블 [[081_erp_enterprise_resource_planning|ERP]] 아키텍처는 클라우드 발전 단계와 맞물려 진화해 왔다. 단순히 남의 서버를 빌려 쓰는 IaaS를 넘어, 비즈니스 역량 자체를 조립하는 패러다임으로 넘어온 것이다.
+컴포저블 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 아키텍처는 클라우드 발전 단계와 맞물려 진화해 왔다. 단순히 남의 서버를 빌려 쓰는 IaaS를 넘어, 비즈니스 역량 자체를 조립하는 패러다임으로 넘어온 것이다.
 
-| 구분 | 모놀리식 [[081_erp_enterprise_resource_planning|ERP]] (2세대) | 클라우드 [[081_erp_enterprise_resource_planning|ERP]] (3세대) | 컴포저블 [[081_erp_enterprise_resource_planning|ERP]] (4세대) |
+| 구분 | 모놀리식 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) (2세대) | 클라우드 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) (3세대) | 컴포저블 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) (4세대) |
 | :--- | :--- | :--- | :--- |
-| **인프라 위치** | [[061_on_premise_legacy_infrastructure|온프레미스]] (사내 전산실) | 퍼블릭/[[008_private_cloud|프라이빗 클라우드]] | [[531_cloud_native_architecture|클라우드 네이티브]] ([[202_multi_cloud_hybrid_cloud_governance|멀티 클라우드]]) |
-| **시스템 구조** | 강결합 (Tightly Coupled) | [[192_module_independence|모듈]]화 시도 (일부 결합) | 초분할, 약결합 (Loosely Coupled) |
-| **커스터마이징** | 하드 코딩 직접 개발 | 벤더가 제공하는 [[009_config|설정]] 변경 | [[014_api_posix|API]] 연동 및 로우코드 플랫폼 조립 |
+| **인프라 위치** | [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) (사내 전산실) | 퍼블릭/[프라이빗 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/008_private_cloud/) | [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) ([멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/)) |
+| **시스템 구조** | 강결합 (Tightly Coupled) | [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)화 시도 (일부 결합) | 초분할, 약결합 (Loosely Coupled) |
+| **커스터마이징** | 하드 코딩 직접 개발 | 벤더가 제공하는 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 변경 | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연동 및 로우코드 플랫폼 조립 |
 | **업그레이드** | 5년 주기 대규모 마이그레이션 | 주기별 패치 제공 | 실시간 무중단 부분 교체 |
 
 이 변화는 IT 부서만의 일이 아니다. 컴포저블 기업(Composable Enterprise)이 되기 위해서는 소프트웨어뿐만 아니라, 의사결정 방식(Composable Thinking)과 조직 문화 자체를 빠르고 유연하게 쪼갤 수 있어야 한다.
 
-- **📢 섹션 요약 비유**: 기존 ERP가 설계도대로 한 번 지으면 부술 수 없는 콘크리트 건물이라면, 클라우드 ERP는 가벽을 세워 방 크기를 바꿀 수 있는 오피스텔이고, 컴포저블 ERP는 매일 텐트를 치고 걷으며 모양을 바꾸는 [[246_transformer_self_attention_parallel_positional_encoding|트랜스포머]]형 유목민 캠프다.
+- **📢 섹션 요약 비유**: 기존 ERP가 설계도대로 한 번 지으면 부술 수 없는 콘크리트 건물이라면, 클라우드 ERP는 가벽을 세워 방 크기를 바꿀 수 있는 오피스텔이고, 컴포저블 ERP는 매일 텐트를 치고 걷으며 모양을 바꾸는 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)형 유목민 캠프다.
 
 ---
 
@@ -77,26 +80,26 @@ tags:
 
 컴포저블 ERP는 환상적인 민첩성을 제공하지만, 도입과 운영 관점에서는 완전히 새로운 수준의 복잡성을 관리해야 하는 과제를 안겨준다.
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **[[014_api_posix|API]] 거버넌스**: 수백 개의 서로 다른 PBC와 외부 SaaS가 API로 통신할 때, 병목 현상이나 [[001_dikw_pyramid|데이터]] 정합성 깨짐 현상을 제어할 [[014_api_posix|API]] 게이트웨이(Gateway) [[164_policy|정책]]이 수립되어 있는가?
-2. **벤더 관리(Multi-Vendor [[372_management|Management]])**: 여러 회사의 솔루션을 조립해 쓴다면, 장애 발생 시 벤더 간의 책임 떠넘기기(Ping-pong)를 방어할 [[085_sla|SLA]]([[090_service_kubernetes_network_load_balancing|서비스]] 수준 계약)와 [[229_monitor|모니터]]링 체계가 있는가?
-3. **비즈니스 테크놀로지스트 (BT) 양성**: IT 부서가 코드를 짜주는 대신, 현업 실무자가 로우코드([[238_lowcode_nocode_citizen_developer|LCNC]]) 툴을 이용해 스스로 PBC를 조립할 수 있는 조직 문화가 준비되었는가?
+1. **[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 거버넌스**: 수백 개의 서로 다른 PBC와 외부 SaaS가 API로 통신할 때, 병목 현상이나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성 깨짐 현상을 제어할 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이(Gateway) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 수립되어 있는가?
+2. **벤더 관리(Multi-Vendor [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))**: 여러 회사의 솔루션을 조립해 쓴다면, 장애 발생 시 벤더 간의 책임 떠넘기기(Ping-pong)를 방어할 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 계약)와 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 체계가 있는가?
+3. **비즈니스 테크놀로지스트 (BT) 양성**: IT 부서가 코드를 짜주는 대신, 현업 실무자가 로우코드([LCNC](/knowledge-base/studynote/12_it_management/05_security_compliance/238_lowcode_nocode_citizen_developer/)) 툴을 이용해 스스로 PBC를 조립할 수 있는 조직 문화가 준비되었는가?
 
 ### 실무 판단 포인트
 
-- **채택 시점**: 이커머스, 핀테크, 리테일처럼 고객 트렌드가 1주일 단위로 변하고 새로운 외부 [[090_service_kubernetes_network_load_balancing|서비스]] 연동이 사업의 핵심인 기업은 무조건 컴포저블 구조를 채택해야 한다.
-- **회피 시점**: 철강, 중공업 등 프로세스가 수십 년간 변하지 않고 강력한 [[001_dikw_pyramid|데이터]] [[194_consistency_database_integrity|일관성]]과 단일 [[191_transaction_concept_states|트랜잭션]] 보장이 최우선인 산업군에서는, MSA로 인한 [[248_distributed_transaction_multiple_nodes|분산 트랜잭션]]([[305_saga|Saga]] 패턴 등)의 복잡도가 오히려 독이 되므로 모놀리식/하이브리드 구조 유지가 유리하다.
+- **채택 시점**: 이커머스, 핀테크, 리테일처럼 고객 트렌드가 1주일 단위로 변하고 새로운 외부 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 연동이 사업의 핵심인 기업은 무조건 컴포저블 구조를 채택해야 한다.
+- **회피 시점**: 철강, 중공업 등 프로세스가 수십 년간 변하지 않고 강력한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)과 단일 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 보장이 최우선인 산업군에서는, MSA로 인한 [분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/)([Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/) 패턴 등)의 복잡도가 오히려 독이 되므로 모놀리식/하이브리드 구조 유지가 유리하다.
 
-- **📢 섹션 요약 비유**: 최고급 식자재(PBC)를 사방에서 사 와서 요리하는 퓨전 레스토랑(컴포저블)은 창의적인 메뉴를 빨리 낼 수 있지만, 식자재 유통기한과 주방 동선(거버넌스)을 통제할 뛰어난 총괄 셰프([[014_api_posix|API]] 아키텍트)가 없으면 식당이 엉망진창이 된다.
+- **📢 섹션 요약 비유**: 최고급 식자재(PBC)를 사방에서 사 와서 요리하는 퓨전 레스토랑(컴포저블)은 창의적인 메뉴를 빨리 낼 수 있지만, 식자재 유통기한과 주방 동선(거버넌스)을 통제할 뛰어난 총괄 셰프([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 아키텍트)가 없으면 식당이 엉망진창이 된다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-컴포저블 ERP를 성공적으로 안착시킨 기업은 경쟁사가 시스템 업그레이드에 1년을 허비할 때, 단 1주일 만에 새로운 신사업 [[192_module_independence|모듈]]을 시장에 출시할 수 있는 속도전의 승자가 된다. 또한 한 벤더(SAP/[[188_pl_sql_t_sql_procedural|Oracle]] 등)에 종속되지 않고, 재무는 A사, 물류는 B사, [[190_ai_llm_requirements_specification|AI]] 분석은 C사의 최고 [[282_performance_tactics|성능]] 블록 (Best-of-Breed)만 골라 결합할 수 있다.
+컴포저블 ERP를 성공적으로 안착시킨 기업은 경쟁사가 시스템 업그레이드에 1년을 허비할 때, 단 1주일 만에 새로운 신사업 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 시장에 출시할 수 있는 속도전의 승자가 된다. 또한 한 벤더(SAP/[Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) 등)에 종속되지 않고, 재무는 A사, 물류는 B사, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 분석은 C사의 최고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 블록 (Best-of-Breed)만 골라 결합할 수 있다.
 
-결론적으로, 컴포저블 ERP는 "더 이상 완벽한 하나의 시스템을 만들려 하지 마라"는 선언이다. 비즈니스는 끊임없이 변하므로, 시스템도 언제든 부수고 재조립할 수 있는 상태(Composability)를 유지하는 것만이 유일한 생존 [[268_strategy_pattern|전략]]이다.
+결론적으로, 컴포저블 ERP는 "더 이상 완벽한 하나의 시스템을 만들려 하지 마라"는 선언이다. 비즈니스는 끊임없이 변하므로, 시스템도 언제든 부수고 재조립할 수 있는 상태(Composability)를 유지하는 것만이 유일한 생존 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 
 - **📢 섹션 요약 비유**: 컴포저블 ERP는 고정된 악보를 치는 오케스트라가 아니라, 관객의 반응에 따라 실시간으로 악기를 바꾸고 리듬을 쪼개어 연주하는 즉흥 재즈 합주 시스템이다.
 
@@ -106,10 +109,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[[619_msa_traffic_hardware|MSA]] ([[122_msa_microservices_architecture|Microservices Architecture]])** | 거대한 소프트웨어를 작고 독립적인 [[090_service_kubernetes_network_load_balancing|서비스]]로 분할하는 컴포저블 ERP의 근간이 되는 기술 철학 |
-| **PBC (Packaged Business Capability)** | 기술적 단위가 아닌, '가상계좌 발급'처럼 실제 비즈니스 의미를 갖는 단위로 패키징된 소프트웨어 [[603_component_independent_deployment_unit|컴포넌트]] |
-| **[[238_lowcode_nocode_citizen_developer|LCNC]] (Low-[[082_process_memory_structure|Code]] / No-[[082_process_memory_structure|Code]])** | 코딩 전문 지식 없이도 시각적 인터페이스로 [[014_api_posix|API]] 블록(PBC)들을 조립하게 해주는 플랫폼 |
-| **[[542_api_gateway|API Gateway]]** | 서로 다른 수많은 PBC 간의 트래픽을 통제하고 보안 및 [[001_dikw_pyramid|데이터]] 형식을 일치시켜주는 중앙 관제탑 |
+| **[MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) ([Microservices Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/))** | 거대한 소프트웨어를 작고 독립적인 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 분할하는 컴포저블 ERP의 근간이 되는 기술 철학 |
+| **PBC (Packaged Business Capability)** | 기술적 단위가 아닌, '가상계좌 발급'처럼 실제 비즈니스 의미를 갖는 단위로 패키징된 소프트웨어 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) |
+| **[LCNC](/knowledge-base/studynote/12_it_management/05_security_compliance/238_lowcode_nocode_citizen_developer/) (Low-[Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) / No-[Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))** | 코딩 전문 지식 없이도 시각적 인터페이스로 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 블록(PBC)들을 조립하게 해주는 플랫폼 |
+| **[API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/)** | 서로 다른 수많은 PBC 간의 트래픽을 통제하고 보안 및 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 형식을 일치시켜주는 중앙 관제탑 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -129,7 +132,7 @@ MSA (마이크로서비스 아키텍처) 기술 성숙
 컴포저블 ERP (Composable ERP) 및 로우코드 융합
 ```
 
-이 흐름도는 시스템이 거대한 통짜 쇳덩이에서 구름 위의 가벼운 [[192_module_independence|모듈]]로, 그리고 최종적으로 사용자가 스스로 조립하는 레고 블록으로 진화하는 궤적을 보여준다.
+이 흐름도는 시스템이 거대한 통짜 쇳덩이에서 구름 위의 가벼운 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)로, 그리고 최종적으로 사용자가 스스로 조립하는 레고 블록으로 진화하는 궤적을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -143,7 +146,7 @@ MSA (마이크로서비스 아키텍처) 기술 성숙
 
 **진행 상황**: 91 / 482
 
-← **이전**: [[090_intelligent_erp_ai_machine_learning|90. AI 내재화 ERP (Intelligent ERP) - 머신러닝을 통한 재무 이상 탐지, 수요 예측 자동화]]
-**다음**: [[092_scm_supply_chain_management|92. SCM (Supply Chain Management, 공급망 관리) - 원자재 조달에서 최종 소비자 전달까지 물류, 정보, 자금의]] →
+← **이전**: [90. AI 내재화 ERP (Intelligent ERP) - 머신러닝을 통한 재무 이상 탐지, 수요 예측 자동화](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/090_intelligent_erp_ai_machine_learning/)
+**다음**: [92. SCM (Supply Chain Management, 공급망 관리) - 원자재 조달에서 최종 소비자 전달까지 물류, 정보, 자금의](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/092_scm_supply_chain_management/) →
 
 ---

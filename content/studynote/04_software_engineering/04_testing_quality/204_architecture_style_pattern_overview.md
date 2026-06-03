@@ -1,14 +1,18 @@
----
-title: 204. 아키텍처 스타일 및 패턴 개요
-date: '2026-05-08'
-tags:
-- studynote-software-engineering
----
++++
+title = "204. 아키텍처 스타일 및 패턴 개요"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-software-engineering"]
+
+[extra]
+tags = ["studynote-software-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[114_architecture_style|아키텍처 스타일]] 및 패턴 개요은(는) [[001_software_engineering_definition|소프트웨어 공학]]의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[[346_maintainability_portability|유지보수성]]·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: [아키텍처 스타일](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/114_architecture_style/) 및 패턴 개요은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
@@ -16,11 +20,11 @@ tags:
 ## Ⅰ. 개요 및 필요성
 
 - 소프트웨어 뼈대를 처음부터 100% 창작(DIY)하는 것은 미친 짓입니다. 예기치 못한 병목과 유지보수 지옥이 100% 터집니다.
-- 반복적으로 발생하는 시스템 설계 문제들에 대해, 선배들이 찾아낸 **가장 우아하고 검증된([[087_erp_package_advantages_best_practice|Best Practice]]) 구조적 해결책의 묶음**이 바로 아키텍처 패턴입니다.
+- 반복적으로 발생하는 시스템 설계 문제들에 대해, 선배들이 찾아낸 **가장 우아하고 검증된([Best Practice](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/087_erp_package_advantages_best_practice/)) 구조적 해결책의 묶음**이 바로 아키텍처 패턴입니다.
 
-- **📢 섹션 요약 비유**: [[114_architecture_style|아키텍처 스타일]] 및 패턴 개요은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: [아키텍처 스타일](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/114_architecture_style/) 및 패턴 개요은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
-다음은 [[114_architecture_style|아키텍처 스타일]] 및 패턴 개요의 핵심 구조와 흐름을 보여주는 다이어그램이다.
+다음은 [아키텍처 스타일](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/114_architecture_style/) 및 패턴 개요의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -35,7 +39,7 @@ tags:
 └─────────────────────────────────────────────────────────────┘
 ```
 
-이 다이어그램은 [[114_architecture_style|아키텍처 스타일]] 및 패턴 개요가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
+이 다이어그램은 [아키텍처 스타일](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/114_architecture_style/) 및 패턴 개요가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
 ---
 
@@ -44,15 +48,15 @@ tags:
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 족보(패턴)를 까보면 단순히 그림만 있는 게 아닙니다. 3가지 철저한 규격이 명시되어 있습니다.
-1. **[[603_component_independent_deployment_unit|컴포넌트]] ([[603_component_independent_deployment_unit|Component]])**: 이 도면을 구성하는 주인공 네모 박스들입니다. (예: 클라이언트 앱, [[002_database_definition|데이터베이스]] 서버, 필터 [[192_module_independence|모듈]] 등)
-2. **커넥터 (Connector)**: 이 네모 박스들이 서로 데이터를 어떻게 주고받을지 연결하는 화살표의 룰입니다. (예: [[461_http_stateless_connection_oriented|HTTP]] 통신, [[294_function_calling_tool_use|함수 호출]], [[123_pipe|파이프]] 스트림 전송 등)
+1. **[컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) ([Component](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/))**: 이 도면을 구성하는 주인공 네모 박스들입니다. (예: 클라이언트 앱, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 서버, 필터 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 등)
+2. **커넥터 (Connector)**: 이 네모 박스들이 서로 데이터를 어떻게 주고받을지 연결하는 화살표의 룰입니다. (예: [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 통신, [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/), [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 스트림 전송 등)
 3. **제약 사항 (Constraints)**: 이 족보를 쓸 때 "절대 이렇게 선을 꼬아서 연결하면 안 돼!"라고 정해둔 엄격한 법률입니다. (예: 계층형 패턴에서는 3층이 1층을 다이렉트로 부르면 안 됨!)
 
-- **📢 섹션 요약 비유**: [[114_architecture_style|아키텍처 스타일]] 및 패턴 개요은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: [아키텍처 스타일](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/114_architecture_style/) 및 패턴 개요은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 | 항목 | 설명 | 비고 |
 | :--- | :--- | :--- |
-| 핵심 특성 | [[114_architecture_style|아키텍처 스타일]] 및 패턴 개요의 핵심 특성과 동작 방식 | 필수 이해 요소 |
+| 핵심 특성 | [아키텍처 스타일](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/114_architecture_style/) 및 패턴 개요의 핵심 특성과 동작 방식 | 필수 이해 요소 |
 | 적용 범위 | 어떤 프로젝트·상황에서 활용하는지 | 선택 기준 |
 | 제약 조건 | 적용 시 주의해야 할 전제·한계 | 트레이드오프 |
 
@@ -64,7 +68,7 @@ tags:
 
 앞으로 205~212번에서 하나씩 뼈를 발라 먹을 주인공들의 스포일러(개요)입니다.
 
-- **📢 섹션 요약 비유**: [[114_architecture_style|아키텍처 스타일]] 및 패턴 개요은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: [아키텍처 스타일](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/114_architecture_style/) 및 패턴 개요은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 ---
 
@@ -72,12 +76,12 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- **아키텍처 패턴 (숲)**: 서버와 DB, [[192_module_independence|모듈]] 덩어리들이 수백 km를 넘나들며 통신하는 **'초거대 시스템 전체의 뼈대'**입니다. (예: 클라이언트-서버, MVC, 계층형)
-- **[[251_design_patterns_gof_overview|디자인 패턴]] (나무)**: 코딩 창 안에서, 클래스 [[501_file_definition_logical_record|파일]] 2~3개끼리 서로 함수를 어떻게 예쁘게 엮어서 메모리 에러를 안 나게 할지 고민하는 **'코드 수준의 미시적인 설계 스킬'**입니다. (GoF의 [[253_singleton_pattern_single_instance|싱글톤]], [[267_observer_pattern|옵저버]], 팩토리 패턴 등)
+- **아키텍처 패턴 (숲)**: 서버와 DB, [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 덩어리들이 수백 km를 넘나들며 통신하는 **'초거대 시스템 전체의 뼈대'**입니다. (예: 클라이언트-서버, MVC, 계층형)
+- **[디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/) (나무)**: 코딩 창 안에서, 클래스 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 2~3개끼리 서로 함수를 어떻게 예쁘게 엮어서 메모리 에러를 안 나게 할지 고민하는 **'코드 수준의 미시적인 설계 스킬'**입니다. (GoF의 [싱글톤](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/), [옵저버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/), 팩토리 패턴 등)
 
-> 📢 **섹션 요약 비유**: 소프트웨어의 **아키텍처 패턴**은 도시를 건설할 때 시장님이 백지에서 맘대로 도로를 깔지 못하게 막는 **'수백 년 검증된 도시 공학 마스터 템플릿(족보)'**입니다. 만약 무기 공장을 짓는다면 템플릿 책을 넘겨서 **'컨베이어 벨트형 도면([[134_pipe_filter_pattern|파이프-필터 패턴]])'**을 그대로 찢어다 베낍니다. 식당을 창업한다면 **'홀서빙과 주방 분리형 도면(클라이언트-서버 패턴)'**을 베껴서 짓습니다. 아파트 단지를 짓는다면 무조건 1층부터 차곡차곡 쌓는 **'수직 아파트 도면(계층형 패턴)'**을 베낍니다. 이 도면들 안에는 거실([[603_component_independent_deployment_unit|컴포넌트]])을 뚫고, 복도(커넥터)를 내며, "절대 안방에서 화장실로 벽을 허물고 다이렉트로 가지 마라(제약 사항)"라는 완벽한 규칙이 다 적혀 있습니다. 초보 건축가가 상상력으로 기괴한 집을 지어 화장실 똥물이 거실로 역류하는 참사를 막아주고, 수십 년 선배들의 피땀 눈물이 밴 가장 안정적이고 유지보수하기 편한 구조를 1초 만에 훔쳐다 쓸 수 있게 해주는 위대한 마법의 설계 도감입니다.
+> 📢 **섹션 요약 비유**: 소프트웨어의 **아키텍처 패턴**은 도시를 건설할 때 시장님이 백지에서 맘대로 도로를 깔지 못하게 막는 **'수백 년 검증된 도시 공학 마스터 템플릿(족보)'**입니다. 만약 무기 공장을 짓는다면 템플릿 책을 넘겨서 **'컨베이어 벨트형 도면([파이프-필터 패턴](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/134_pipe_filter_pattern/))'**을 그대로 찢어다 베낍니다. 식당을 창업한다면 **'홀서빙과 주방 분리형 도면(클라이언트-서버 패턴)'**을 베껴서 짓습니다. 아파트 단지를 짓는다면 무조건 1층부터 차곡차곡 쌓는 **'수직 아파트 도면(계층형 패턴)'**을 베낍니다. 이 도면들 안에는 거실([컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/))을 뚫고, 복도(커넥터)를 내며, "절대 안방에서 화장실로 벽을 허물고 다이렉트로 가지 마라(제약 사항)"라는 완벽한 규칙이 다 적혀 있습니다. 초보 건축가가 상상력으로 기괴한 집을 지어 화장실 똥물이 거실로 역류하는 참사를 막아주고, 수십 년 선배들의 피땀 눈물이 밴 가장 안정적이고 유지보수하기 편한 구조를 1초 만에 훔쳐다 쓸 수 있게 해주는 위대한 마법의 설계 도감입니다.
 
-- **📢 섹션 요약 비유**: [[114_architecture_style|아키텍처 스타일]] 및 패턴 개요은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: [아키텍처 스타일](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/114_architecture_style/) 및 패턴 개요은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 ---
 
@@ -85,21 +89,21 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-[[114_architecture_style|아키텍처 스타일]] 및 패턴 개요을(를) 올바르게 적용하면 [[339_software_quality_definition|소프트웨어 품질]]·[[346_maintainability_portability|유지보수성]]·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [[459_quic_fec_forward_error_correction|초기]] 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
+[아키텍처 스타일](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/114_architecture_style/) 및 패턴 개요을(를) 올바르게 적용하면 [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/)·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
 
 **한계와 전제 조건**:
 - 소규모 프로젝트에서는 오버헤드가 발생할 수 있다
 - 팀 전체의 충분한 교육과 실습 기간이 필요하다
-- 도구 지원 환경 구축에 [[459_quic_fec_forward_error_correction|초기]] 비용이 발생한다
+- 도구 지원 환경 구축에 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용이 발생한다
 
 **미래 발전 방향**:
-- [[190_ai_llm_requirements_specification|AI]]·[[263_llm_large_language_model|LLM]] 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [[531_cloud_native_architecture|클라우드 네이티브]]·[[652_devops_calms_culture|DevOps]] 환경에서의 진화적 적용
+- [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
-[[114_architecture_style|아키텍처 스타일]] 및 패턴 개요은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
+[아키텍처 스타일](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/114_architecture_style/) 및 패턴 개요은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: [[114_architecture_style|아키텍처 스타일]] 및 패턴 개요의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [[001_software_engineering_definition|소프트웨어 공학]]의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
+- **📢 섹션 요약 비유**: [아키텍처 스타일](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/114_architecture_style/) 및 패턴 개요의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
 
 ---
 
@@ -109,10 +113,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[001_software_engineering_definition|소프트웨어 공학]] ([[001_software_engineering_definition|Software Engineering]]) | [[114_architecture_style|아키텍처 스타일]] 및 패턴 개요의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [[003_sdlc|소프트웨어 생명주기]] ([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]], Software Development Life Cycle) | [[114_architecture_style|아키텍처 스타일]] 및 패턴 개요은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | [[114_architecture_style|아키텍처 스타일]] 및 패턴 개요 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [[020_software_configuration_management|형상 관리]] ([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]]) | [[114_architecture_style|아키텍처 스타일]] 및 패턴 개요에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [아키텍처 스타일](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/114_architecture_style/) 및 패턴 개요의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [아키텍처 스타일](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/114_architecture_style/) 및 패턴 개요은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | [아키텍처 스타일](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/114_architecture_style/) 및 패턴 개요 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [아키텍처 스타일](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/114_architecture_style/) 및 패턴 개요에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -132,13 +136,13 @@ tags:
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [[002_software_crisis|소프트웨어 위기]] 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [[114_architecture_style|아키텍처 스타일]] 및 패턴 개요은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. [아키텍처 스타일](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/114_architecture_style/) 및 패턴 개요은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
 
 ---
 
@@ -146,7 +150,7 @@ tags:
 
 **진행 상황**: 204 / 973
 
-← **이전**: [[203_4_plus_1_view_model_architecture|203. 아키텍처 뷰 모델 (4+1 View) - 논리, 구현, 프로세스, 배치 + 유스케이스 뷰]]
-**다음**: [[205_layered_architecture_separation_of_concerns|205. 계층형 아키텍처 (Layered Architecture) - 관심사 분리 (Presentation, Business, Data)]] →
+← **이전**: [203. 아키텍처 뷰 모델 (4+1 View) - 논리, 구현, 프로세스, 배치 + 유스케이스 뷰](/knowledge-base/studynote/04_software_engineering/04_testing_quality/203_4_plus_1_view_model_architecture/)
+**다음**: [205. 계층형 아키텍처 (Layered Architecture) - 관심사 분리 (Presentation, Business, Data)](/knowledge-base/studynote/04_software_engineering/04_testing_quality/205_layered_architecture_separation_of_concerns/) →
 
 ---

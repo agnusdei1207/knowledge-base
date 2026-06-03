@@ -1,39 +1,43 @@
----
-title: '153. 구조 패턴: 브리지 (Bridge Pattern) - 추상부와 구현부의 완벽 이혼 절단 융합술'
-date: '2026-05-03'
-tags:
-- studynote-design-supervision
----
++++
+title = "153. 구조 패턴: 브리지 (Bridge Pattern) - 추상부와 구현부의 완벽 이혼 절단 융합술"
+date = 2026-05-03
+
+[taxonomies]
+tags = ["studynote-design-supervision"]
+
+[extra]
+tags = ["studynote-design-supervision"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [[260_bridge_pattern_abstraction_implementation|브리지]]([[260_bridge_pattern_abstraction_implementation|Bridge]]) 패턴은 시스템 아키텍처 설계 [[459_quic_fec_forward_error_correction|초기]]에!! ➔ 유저와 맞닿는 껍데기 **'기능 [[198_abstraction_control_data_process|추상화]] 계층([[198_abstraction_control_data_process|Abstraction]] 리모컨)'**과 뒷단 진짜 쇳덩이 모터가 도는 **'플랫폼 구현 계층(Implementor TV 기계)'**을 1개의 뚱뚱한 부모-자식 [[234_uml_class_relationships_generalization_dependency|상속]] 덩어리([[002_silo_hyeonhyung|Silo]])에 쳐 박는 강결합 짓을 도끼로 찢어발겨 ➔ 두 우주를 100% 완전 분리 이혼시키고 중간 허공에 합성(Composition) 끈 다리([[260_bridge_pattern_abstraction_implementation|Bridge]]) 1개만 걸쳐두는 0순위 구조(Structural) 패턴이다.
-> 2. **가치**: "리모컨 종류 3개 × TV 브랜드 3개 = 9개의 [[234_uml_class_relationships_generalization_dependency|상속]] 클래스 떡칠 💥" 이라는 끔찍한 **[[234_uml_class_relationships_generalization_dependency|상속]]의 조합 폭발(Class Explosion)** $M \times N$ 지옥 멸망 파국을 ➔ **$M + N$ 이라는 우주 최강 다이어트 압살 [[430_index_fast_full_scan|병렬]] 진화** 구조로 쪼개어 수직 낙하 압축시켜 버린다.
-> 3. **판단 포인트**: 이미 만들어진 규격 불일치를 땜빵 수술하는 [[259_adapter_pattern_interface_wrapper|어댑터]]([[259_adapter_pattern_interface_wrapper|Adapter]] 사후 처리)와 달리 ➔ [[260_bridge_pattern_abstraction_implementation|브리지]]는 아예 처음 도면을 그릴 때부터(사전 설계 Before-the-fact) **[인터페이스(껍데기)의 발전 축]과 [쇳덩이 구현체(DB/OS)의 발전 축] 두 세계가 영원히 평행하게 서로 알 바 좆까고 각자 무결점 독립 생존 진화(Decoupling 록온)**하도록 시멘트 [[690_firewall_generation_evolution|방화벽]] 쉴드 텐트를 내려찍는 거대한 브로드 픽처 통치 헌법이다 🚀.
+> 1. **본질**: [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)([Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)) 패턴은 시스템 아키텍처 설계 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에!! ➔ 유저와 맞닿는 껍데기 **'기능 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층([Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 리모컨)'**과 뒷단 진짜 쇳덩이 모터가 도는 **'플랫폼 구현 계층(Implementor TV 기계)'**을 1개의 뚱뚱한 부모-자식 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 덩어리([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/))에 쳐 박는 강결합 짓을 도끼로 찢어발겨 ➔ 두 우주를 100% 완전 분리 이혼시키고 중간 허공에 합성(Composition) 끈 다리([Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)) 1개만 걸쳐두는 0순위 구조(Structural) 패턴이다.
+> 2. **가치**: "리모컨 종류 3개 × TV 브랜드 3개 = 9개의 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 클래스 떡칠 💥" 이라는 끔찍한 **[상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)의 조합 폭발(Class Explosion)** $M \times N$ 지옥 멸망 파국을 ➔ **$M + N$ 이라는 우주 최강 다이어트 압살 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 진화** 구조로 쪼개어 수직 낙하 압축시켜 버린다.
+> 3. **판단 포인트**: 이미 만들어진 규격 불일치를 땜빵 수술하는 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)([Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 사후 처리)와 달리 ➔ [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)는 아예 처음 도면을 그릴 때부터(사전 설계 Before-the-fact) **[인터페이스(껍데기)의 발전 축]과 [쇳덩이 구현체(DB/OS)의 발전 축] 두 세계가 영원히 평행하게 서로 알 바 좆까고 각자 무결점 독립 생존 진화(Decoupling 록온)**하도록 시멘트 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 쉴드 텐트를 내려찍는 거대한 브로드 픽처 통치 헌법이다 🚀.
 
 ---
 
-## Ⅰ. 개요 및 왜 '[[260_bridge_pattern_abstraction_implementation|브리지]]' [[509_authorization_models_rbac_abac|인가]]? ([[033_context|Context]] & Necessity)
+## Ⅰ. 개요 및 왜 '[브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)' [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)? ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-객체 지향([[322_oop_4_characteristics|OOP]]) 초보 코더들은 `extends`([[234_uml_class_relationships_generalization_dependency|상속]]) 키워드를 무안단물 만능키 뽕으로 알고 남발한다. 
-**대재앙 발동 💥**: "우왕 ㅋ 리모컨 앱 만들어야지! `리모컨` 부모 클래스 파고, 밑에 자식으로 `삼성_리모컨`, `LG_리모컨` [[234_uml_class_relationships_generalization_dependency|상속]] 치면 2개 끝 데헷 ㅋ" 
+객체 지향([OOP](/knowledge-base/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/)) 초보 코더들은 `extends`([상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)) 키워드를 무안단물 만능키 뽕으로 알고 남발한다. 
+**대재앙 발동 💥**: "우왕 ㅋ 리모컨 앱 만들어야지! `리모컨` 부모 클래스 파고, 밑에 자식으로 `삼성_리모컨`, `LG_리모컨` [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 치면 2개 끝 데헷 ㅋ" 
 사장이 1달 뒤: "야 고급형 프리미엄 리모컨 UI(기능) 추가해!" 
-초보 코더: "넵 ㅋ `고급형_삼성_리모컨`, `고급형_LG_리모컨` [[234_uml_class_relationships_generalization_dependency|상속]] 치면 총 4개 개꿀 ㅋ"
+초보 코더: "넵 ㅋ `고급형_삼성_리모컨`, `고급형_LG_리모컨` [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 치면 총 4개 개꿀 ㅋ"
 사장이 또 1달 뒤: "야 소니(Sony) TV(구현)도 호환 추가해!" 
-초보 코더 뇌 정지: "어 씨발... `일반_소니`, `고급_소니` 또 [[234_uml_class_relationships_generalization_dependency|상속]] 쳐? 클래스가 6개... 10개... 100개 무한 증식 피라미드 폭발 뻗음 타죽음 💀!!" (이것이 그 악명 높은 Class Explosion [[234_uml_class_relationships_generalization_dependency|상속]] 폭발 지옥이다).
+초보 코더 뇌 정지: "어 씨발... `일반_소니`, `고급_소니` 또 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 쳐? 클래스가 6개... 10개... 100개 무한 증식 피라미드 폭발 뻗음 타죽음 💀!!" (이것이 그 악명 높은 Class Explosion [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 폭발 지옥이다).
 
-**아키텍트 대장 극대노 도끼 철퇴 🪓**: "야 이 미친 좆소 유인원 새끼야!! [[234_uml_class_relationships_generalization_dependency|상속]](Inheritance) 피 섞어 쇳덩이 강결합 떡칠 하지 마 찢어 쾅!!!! 
+**아키텍트 대장 극대노 도끼 철퇴 🪓**: "야 이 미친 좆소 유인원 새끼야!! [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)(Inheritance) 피 섞어 쇳덩이 강결합 떡칠 하지 마 찢어 쾅!!!! 
 **하늘이 두 쪽 나도 [유저가 누르는 버튼 UI 껍데기 모양(기능 추상부)] 과 [어느 회사 TV 전파 쏴서 기계 돌릴지(플랫폼 구현부)] 이 2개의 역할은 완전히 다른 평행 우주야 1통에 섞어 비비지 마 다 터져 쾅!!! 
-당장 도끼 가져와서 [리모컨 패밀리 텐트] 랑 [TV 기계 패밀리 텐트] 로 2동강 100% 완전 반갈죽 물리적 찢기 이혼 격리([[195_isolation_concurrency_control|Isolation]]) 록온 박아버려 🚀!!! 
-그리고 리모컨 뱃속(추상부)에다가 `TV tv_obj;` 라는 변수 포인터 다리([[260_bridge_pattern_abstraction_implementation|Bridge]] 합성) 1개만 스윽 연결선으로 꽂아 주입 락([[510_lock|Lock]]) 쳐!! ➔ 리모컨 UI 기능이 100개 추가되든, 뒤에 TV 브랜드가 1,000개 추가되든 서로 1바이트 타격 오염 간섭 0% 없이 각자 알아서 100% 무결점 평화 생존 무한 증식 오토 진화 생태계가 쾌속 돌파 완성된다 쾅 ✨!!!**" 
-이것이 [[234_uml_class_relationships_generalization_dependency|상속]]의 노예 족쇄를 끊어내고, 인터페이스와 구현체를 시공간 텔레포트로 찢어낸 [[260_bridge_pattern_abstraction_implementation|브리지]]([[260_bridge_pattern_abstraction_implementation|Bridge]]) 패턴의 위대한 탄생이다.
+당장 도끼 가져와서 [리모컨 패밀리 텐트] 랑 [TV 기계 패밀리 텐트] 로 2동강 100% 완전 반갈죽 물리적 찢기 이혼 격리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/)) 록온 박아버려 🚀!!! 
+그리고 리모컨 뱃속(추상부)에다가 `TV tv_obj;` 라는 변수 포인터 다리([Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 합성) 1개만 스윽 연결선으로 꽂아 주입 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 쳐!! ➔ 리모컨 UI 기능이 100개 추가되든, 뒤에 TV 브랜드가 1,000개 추가되든 서로 1바이트 타격 오염 간섭 0% 없이 각자 알아서 100% 무결점 평화 생존 무한 증식 오토 진화 생태계가 쾌속 돌파 완성된다 쾅 ✨!!!**" 
+이것이 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)의 노예 족쇄를 끊어내고, 인터페이스와 구현체를 시공간 텔레포트로 찢어낸 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)([Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)) 패턴의 위대한 탄생이다.
 
-- **📢 섹션 요약 비유**: [[384_bridge_pattern_summary|브리지 패턴]]이 없는 [[234_uml_class_relationships_generalization_dependency|상속]] 떡칠 코딩은 **'TV 리모컨이 삼성 TV 본체 쇳덩이에 강철 용접 용접기(본드)로 100% 강제 일체형 묶여 있는 꼴'**과 똑같습니다. LG TV 사오면 리모컨도 아예 쌩으로 새로 사야 하고 플라스틱 낭비 개빡칩니다 💥. [[260_bridge_pattern_abstraction_implementation|브리지]]([[260_bridge_pattern_abstraction_implementation|Bridge]] 융합 ✨) 패턴은 **'만능 스마트 리모컨(추상부)'**입니다!! 리모컨 껍데기(기능)랑 TV 기계(구현부)가 100% 무선으로 분리 단절 떨어져 있죠 🚀! 내가 LG TV를 사 오든 소니를 사 오든 ➔ 리모컨 버튼 1초 찰칵 [[605_bluetooth_ieee_802_15_1_piconet_scatternet|블루투스]] 주파수 젠더(다리 [[260_bridge_pattern_abstraction_implementation|Bridge]])만 맞추면 다이렉트 핑퐁 무결점 스위칭 우회 생존 컨트롤이 가능한 우주 최강 디커플링 재사용 다이어트 마법입니다.
+- **📢 섹션 요약 비유**: [브리지 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/384_bridge_pattern_summary/)이 없는 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 떡칠 코딩은 **'TV 리모컨이 삼성 TV 본체 쇳덩이에 강철 용접 용접기(본드)로 100% 강제 일체형 묶여 있는 꼴'**과 똑같습니다. LG TV 사오면 리모컨도 아예 쌩으로 새로 사야 하고 플라스틱 낭비 개빡칩니다 💥. [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)([Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 융합 ✨) 패턴은 **'만능 스마트 리모컨(추상부)'**입니다!! 리모컨 껍데기(기능)랑 TV 기계(구현부)가 100% 무선으로 분리 단절 떨어져 있죠 🚀! 내가 LG TV를 사 오든 소니를 사 오든 ➔ 리모컨 버튼 1초 찰칵 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 주파수 젠더(다리 [Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/))만 맞추면 다이렉트 핑퐁 무결점 스위칭 우회 생존 컨트롤이 가능한 우주 최강 디커플링 재사용 다이어트 마법입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-[[384_bridge_pattern_summary|브리지 패턴]]의 심장 뼈대는 **'[[234_uml_class_relationships_generalization_dependency|상속]] 계층구조(Hierarchy)를 2개의 독립된 기둥으로 쪼개 세우고 중간 허공에 끈(위임 Delegation)을 매단다'**에 있다.
+[브리지 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/384_bridge_pattern_summary/)의 심장 뼈대는 **'[상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 계층구조(Hierarchy)를 2개의 독립된 기둥으로 쪼개 세우고 중간 허공에 끈(위임 Delegation)을 매단다'**에 있다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -67,90 +71,90 @@ tags:
 ```
 
 **[아키텍트의 피 터지는 핵심 원리: OCP와 DIP의 동시 쌍끌이 융합 대관식 ✨]**
-- **[[746_ocp|OCP]] ([[356_process|개방-폐쇄 원칙]])**: 왼쪽(기능 추상부)에 리모컨 음성인식 버튼 코드를 수천 줄 추가(Open)해도 ➔ 오른쪽(구현부) 삼성 TV 코드는 1글자 1바이트 수정(Closed)할 필요 없이 100% 무결점 평화 생존 쉴드 방어막이 쳐진다.
-- **[[247_dip_dependency_inversion_principle|DIP]] ([[106_dip_dependency_inversion_principle|의존성 역전 원칙]])**: 왼쪽 리모컨 대장(`Abstraction`)은 오른쪽 구석의 찐따 같은 쇳덩이 부품(`삼성_TV_클래스`)을 절대 다이렉트 강결합 직접 찌르지 않는다 쾅!! 오.직. 중간 허공에 떠 있는 추상적인 대문 거울 **`[Implementor 인터페이스 껍데기]`** 하나만 고상하게 쳐다보고 의존 핑퐁을 찌른다. 결국 상위 [[192_module_independence|모듈]]이 하위 [[192_module_independence|모듈]] 쇳덩이에 엮여 동반 타살 뻗음 파국 당하는 족쇄를 100% 우주 차단 압살 소각해 버리는 진정한 클라우드 인터페이스 코딩 헌법이다 🚀.
+- **[OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) ([개방-폐쇄 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/356_process/))**: 왼쪽(기능 추상부)에 리모컨 음성인식 버튼 코드를 수천 줄 추가(Open)해도 ➔ 오른쪽(구현부) 삼성 TV 코드는 1글자 1바이트 수정(Closed)할 필요 없이 100% 무결점 평화 생존 쉴드 방어막이 쳐진다.
+- **[DIP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/) ([의존성 역전 원칙](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/106_dip_dependency_inversion_principle/))**: 왼쪽 리모컨 대장(`Abstraction`)은 오른쪽 구석의 찐따 같은 쇳덩이 부품(`삼성_TV_클래스`)을 절대 다이렉트 강결합 직접 찌르지 않는다 쾅!! 오.직. 중간 허공에 떠 있는 추상적인 대문 거울 **`[Implementor 인터페이스 껍데기]`** 하나만 고상하게 쳐다보고 의존 핑퐁을 찌른다. 결국 상위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 하위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 쇳덩이에 엮여 동반 타살 뻗음 파국 당하는 족쇄를 100% 우주 차단 압살 소각해 버리는 진정한 클라우드 인터페이스 코딩 헌법이다 🚀.
 
-- **📢 섹션 요약 비유**: 이 2개의 독립된 기둥(계층) 성벽은, **'자동차의 운전대(추상 기능부)'**와 **'자동차 바퀴 엔진(하드웨어 구현부)'**과 완벽히 100% 똑같습니다. 운전대 기둥에다가는 [클래식 핸들, 스포츠 레이싱 핸들, 조이스틱] 껍데기를 내 맘대로 수십 개 계속 개발 확장(Refined [[198_abstraction_control_data_process|Abstraction]] 추가)해서 달 수 있습니다. 엔진 바퀴 기둥에다가는 [가솔린 모터, 전기차 모터, 바퀴 4개, 무한궤도] 를 내 맘대로 확장(Concrete Implementor 추가)합니다. **이 운전대와 엔진은 쇠파이프로 용접 떡칠(다중 [[234_uml_class_relationships_generalization_dependency|상속]] 💥)된 게 아니라! ➔ 중간에 동그란 '전자식 조향축 젠더 케이블([[260_bridge_pattern_abstraction_implementation|Bridge]] 다리 ✨)' 딱 1개 끈으로만 스윽 연결 위임 핑퐁 쳐져 있습니다 🚀!!** 핸들 갈아 끼울 때 엔진 고칠 필요 0%, 전기차 배터리 갈 때 핸들 뜯어낼 필요 0%인 극한의 파편화 조립 분리 독립 생존 구조입니다.
+- **📢 섹션 요약 비유**: 이 2개의 독립된 기둥(계층) 성벽은, **'자동차의 운전대(추상 기능부)'**와 **'자동차 바퀴 엔진(하드웨어 구현부)'**과 완벽히 100% 똑같습니다. 운전대 기둥에다가는 [클래식 핸들, 스포츠 레이싱 핸들, 조이스틱] 껍데기를 내 맘대로 수십 개 계속 개발 확장(Refined [Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 추가)해서 달 수 있습니다. 엔진 바퀴 기둥에다가는 [가솔린 모터, 전기차 모터, 바퀴 4개, 무한궤도] 를 내 맘대로 확장(Concrete Implementor 추가)합니다. **이 운전대와 엔진은 쇠파이프로 용접 떡칠(다중 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 💥)된 게 아니라! ➔ 중간에 동그란 '전자식 조향축 젠더 케이블([Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 다리 ✨)' 딱 1개 끈으로만 스윽 연결 위임 핑퐁 쳐져 있습니다 🚀!!** 핸들 갈아 끼울 때 엔진 고칠 필요 0%, 전기차 배터리 갈 때 핸들 뜯어낼 필요 0%인 극한의 파편화 조립 분리 독립 생존 구조입니다.
 
 ---
 
 ## Ⅲ. 융합 비교 및 다각도 분석
 
-"어? 남의 객체 감싸서 껍데기 씌우는 거 [[259_adapter_pattern_interface_wrapper|어댑터]]([[259_adapter_pattern_interface_wrapper|Adapter]])랑 [[260_bridge_pattern_abstraction_implementation|브리지]]([[260_bridge_pattern_abstraction_implementation|Bridge]])랑 코드 생긴 거 100% 똑같은데 씹 ㅋ 아키텍처 사기 아님?" 
+"어? 남의 객체 감싸서 껍데기 씌우는 거 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)([Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/))랑 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)([Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/))랑 코드 생긴 거 100% 똑같은데 씹 ㅋ 아키텍처 사기 아님?" 
 주니어의 뇌 정지를 도끼로 찢어발기는 래퍼(Wrapper) 패턴 형제들의 십자 트레이드오프 팩폭 타점이다.
 
-| 구조(Structural) 패턴 잣대 | 🌉 [[384_bridge_pattern_summary|브리지 패턴]] ([[260_bridge_pattern_abstraction_implementation|Bridge]] Pattern 🚀 설계의 신) | 🔌 [[383_adapter_pattern_summary|어댑터 패턴]] ([[151_adapter_pattern|Adapter Pattern]] 🪓 땜빵 수술) | 🛡️ [[391_strategy_pattern_summary|전략 패턴]] ([[268_strategy_pattern|Strategy]] [[266_behavioral_patterns_overview|행위 패턴]]) |
+| 구조(Structural) 패턴 잣대 | 🌉 [브리지 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/384_bridge_pattern_summary/) ([Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) Pattern 🚀 설계의 신) | 🔌 [어댑터 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/383_adapter_pattern_summary/) ([Adapter Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/151_adapter_pattern/) 🪓 땜빵 수술) | 🛡️ [전략 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/) ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) [행위 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/)) |
 |:---|:---|:---|:---|
-| **아키텍트의 진짜 목적 ([[416_prompt_injection_semantic_routing|Intent]])** | **[사전 예방 예방 접종 백신 록온 ✨]** "야 이거 나중에 기능이랑 플랫폼 존나 확장 폭주하겠네! 애초에 **처음 도면 그릴 때(Before-the-fact)부터 2기둥으로 찢어발겨 분리 설계** 쳐 쾅!!" | **[사후 처리 응급 수술 땜빵 🩹]** "씨발 남의 회사 낡은 레거시 쇳덩이(Adaptee) 사 왔는데 우리 최신 규격이랑 1도 안 맞아 에러 뻗음! ➔ 억지로 껍데기 씌워 **호환(After-the-fact)** 젠더 수술 쳐 쾅!" | [[001_algorithm_definition|알고리즘]] 쇳덩이(A방법, B방법)를 런타임에 갈아 끼우는 거. [[260_bridge_pattern_abstraction_implementation|브리지]]의 오른쪽 구현부 기둥이랑 똑같이 생겼지만 목적이 '행동 변경'에 몰빵 됨. |
-| **적용 시점 (Timeline)** | 프로젝트 **첫 킥오프 0순위 뼈대 아키텍처 설계** 찰나. | 프로젝트 한참 돌다 **남의 코드 연동 랙 [[573_timeout_retry_backoff_strategy|타임아웃]] 장애 터졌을 때**. | 로직(할인 [[164_policy|정책]] 등) 런타임 찰나 오토 스위칭 핑퐁 칠 때. |
-| **코드 구조 맵핑 (Structure)**| 추상부 기둥(1) ➔ 다리 위임 ➔ 구현부 기둥(1) **(양쪽 모두 독자 무한 확장 폭주 쌉가능 🚀)** | 클라이언트(Target) ➔ 젠더 위임 ➔ 낡은 놈(Adaptee) 1개 고정 락킹 방어 | [[033_context|Context]] ➔ 위임 ➔ [[268_strategy_pattern|Strategy]] 1개 기둥 (단순 1:N 핑퐁) |
+| **아키텍트의 진짜 목적 ([Intent](/knowledge-base/studynote/06_ict_convergence/05_data_science/416_prompt_injection_semantic_routing/))** | **[사전 예방 예방 접종 백신 록온 ✨]** "야 이거 나중에 기능이랑 플랫폼 존나 확장 폭주하겠네! 애초에 **처음 도면 그릴 때(Before-the-fact)부터 2기둥으로 찢어발겨 분리 설계** 쳐 쾅!!" | **[사후 처리 응급 수술 땜빵 🩹]** "씨발 남의 회사 낡은 레거시 쇳덩이(Adaptee) 사 왔는데 우리 최신 규격이랑 1도 안 맞아 에러 뻗음! ➔ 억지로 껍데기 씌워 **호환(After-the-fact)** 젠더 수술 쳐 쾅!" | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 쇳덩이(A방법, B방법)를 런타임에 갈아 끼우는 거. [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)의 오른쪽 구현부 기둥이랑 똑같이 생겼지만 목적이 '행동 변경'에 몰빵 됨. |
+| **적용 시점 (Timeline)** | 프로젝트 **첫 킥오프 0순위 뼈대 아키텍처 설계** 찰나. | 프로젝트 한참 돌다 **남의 코드 연동 랙 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 장애 터졌을 때**. | 로직(할인 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 등) 런타임 찰나 오토 스위칭 핑퐁 칠 때. |
+| **코드 구조 맵핑 (Structure)**| 추상부 기둥(1) ➔ 다리 위임 ➔ 구현부 기둥(1) **(양쪽 모두 독자 무한 확장 폭주 쌉가능 🚀)** | 클라이언트(Target) ➔ 젠더 위임 ➔ 낡은 놈(Adaptee) 1개 고정 락킹 방어 | [Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) ➔ 위임 ➔ [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 1개 기둥 (단순 1:N 핑퐁) |
 
 **아키텍트 팩폭 결단 ✨**: 
 "야!! 코드가 뱃속에 남의 객체 품는 위임(Delegation) 합성(Composition) 구조로 똑같이 생겼다고 눈깔 삔 소리 하지 마 쾅!!! 
-**하늘이 두 쪽 나도 이놈이 왜 태어났는지 '시간적 찰나의 목적([[416_prompt_injection_semantic_routing|Intent]])'을 핀셋으로 도륙 내어 갈라 찢어라 쾅!!! 
-[[259_adapter_pattern_interface_wrapper|어댑터]]([[259_adapter_pattern_interface_wrapper|Adapter]]) 새끼는 [이미 만들어진 병신 같은 낡은 규격을 내가 원하는 폼으로 억지로 꺾어 끼워 맞추기(After-the-fact 땜빵 수술)] 위해 눈물 흘리며 태어난 심폐소생술 젠더 찌끄레기고 🪓!! 
-[[260_bridge_pattern_abstraction_implementation|브리지]]([[260_bridge_pattern_abstraction_implementation|Bridge]]) 신은 애초에 프로젝트 시작 0.01초 첫 도면 삽 뜰 때부터!! [앞단 껍데기와 뒷단 쇳덩이 구현을 남남으로 영구 이혼시켜 각자 100배로 팽창 진화 생존하게 우주 분리 격리 설계(Before-the-fact 예방 백신)] 치려고 태어난 차원이 다른 무결점 신(God)의 그랜드 텐트 설계다 🚀!**"
+**하늘이 두 쪽 나도 이놈이 왜 태어났는지 '시간적 찰나의 목적([Intent](/knowledge-base/studynote/06_ict_convergence/05_data_science/416_prompt_injection_semantic_routing/))'을 핀셋으로 도륙 내어 갈라 찢어라 쾅!!! 
+[어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)([Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)) 새끼는 [이미 만들어진 병신 같은 낡은 규격을 내가 원하는 폼으로 억지로 꺾어 끼워 맞추기(After-the-fact 땜빵 수술)] 위해 눈물 흘리며 태어난 심폐소생술 젠더 찌끄레기고 🪓!! 
+[브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)([Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)) 신은 애초에 프로젝트 시작 0.01초 첫 도면 삽 뜰 때부터!! [앞단 껍데기와 뒷단 쇳덩이 구현을 남남으로 영구 이혼시켜 각자 100배로 팽창 진화 생존하게 우주 분리 격리 설계(Before-the-fact 예방 백신)] 치려고 태어난 차원이 다른 무결점 신(God)의 그랜드 텐트 설계다 🚀!**"
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-이 고전 [[260_bridge_pattern_abstraction_implementation|브리지]]([[260_bridge_pattern_abstraction_implementation|Bridge]]) 철학이 자바(Java) 백엔드 K8s 클라우드 생태계를 어떻게 무정단 0.1초 컷 쉴드 방폭문으로 천하 통일 지배 통치하고 있는가.
+이 고전 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)([Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)) 철학이 자바(Java) 백엔드 K8s 클라우드 생태계를 어떻게 무정단 0.1초 컷 쉴드 방폭문으로 천하 통일 지배 통치하고 있는가.
 
 ### 실무 판단 시나리오
-1. **JDBC (Java [[501_database|Database]] Connectivity) 드라이버 대통일 융합 마스터피스 ✨**: 
+1. **JDBC (Java [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) Connectivity) 드라이버 대통일 융합 마스터피스 ✨**: 
    자바 백엔드 코더가 오라클 DB를 찌르다 내일 당장 "사장님: 야 오라클 돈 비싸 MySQL로 갈아타!" 지시가 떨어졌다. 
-   **대재앙 발동 💥**: [[234_uml_class_relationships_generalization_dependency|상속]] 떡칠 코딩이었으면 ➔ `오라클_DB_접속기` 클래스 1만 줄 코드 싹 다 빨간줄 에러 뻗음 올스탑 ➔ `MySQL_접속기` 로 1만 줄 밤새워 새로 타이핑 [[573_timeout_retry_backoff_strategy|타임아웃]] 셧다운 뻗음 멸망 💀.
-   - **아키텍트 JDBC [[260_bridge_pattern_abstraction_implementation|브리지]] 텐트 록온 🚀**: "야 이 미친 좆소야 멈춰 쾅!! 자바 진영의 영원한 방패 **[JDBC [[014_api_posix|API]] 뼈대 자체]** 가 인류 역사상 가장 위대한 거대 **[브리지 패턴 텐트]** 집합체다 쾅!!! 
-   [왼쪽 기둥(추상부 [[198_abstraction_control_data_process|Abstraction]])] ➔ 니들 자바 코더는 걍 `java.sql.Connection`, `Statement` 라는 자바 공식 껍데기 허공 인터페이스 텐트 1개만 찌르고 편하게 커피 마셔 꿀 빰 ㅋ!! 
+   **대재앙 발동 💥**: [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 떡칠 코딩이었으면 ➔ `오라클_DB_접속기` 클래스 1만 줄 코드 싹 다 빨간줄 에러 뻗음 올스탑 ➔ `MySQL_접속기` 로 1만 줄 밤새워 새로 타이핑 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 셧다운 뻗음 멸망 💀.
+   - **아키텍트 JDBC [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 텐트 록온 🚀**: "야 이 미친 좆소야 멈춰 쾅!! 자바 진영의 영원한 방패 **[JDBC [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 뼈대 자체]** 가 인류 역사상 가장 위대한 거대 **[브리지 패턴 텐트]** 집합체다 쾅!!! 
+   [왼쪽 기둥(추상부 [Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))] ➔ 니들 자바 코더는 걍 `java.sql.Connection`, `Statement` 라는 자바 공식 껍데기 허공 인터페이스 텐트 1개만 찌르고 편하게 커피 마셔 꿀 빰 ㅋ!! 
    [오른쪽 기둥(구현부 Implementor)] ➔ 오라클 벤더, MySQL 벤더, Postgres 벤더 새끼들이 지네 C언어 낡은 통신 쇳덩이 코드를 저 자바 껍데기 규격에 100% 맞춰 구현한 **`[Driver.jar (구현체 블록)]`** 1개씩을 알아서 깎아 납품 대행 바쳐준다 쾅!!! 
-   우리는 런타임 찰나에 스프링(Spring) [[009_config|설정]] [[501_file_definition_logical_record|파일]]에서 `driver=Oracle` 텍스트 1줄을 ➔ `driver=MySQL` 로 단 0.1초 컷 딸깍! [[260_bridge_pattern_abstraction_implementation|브리지]](다리 끈) 포인터 스위칭만 딱 꺾어 갈아 끼워버리면 끝 ✨!! 내 메인 자바 비즈니스 로직(왼쪽 기둥) 소스 코드는 단 1바이트 텍스트 오타 찌끄레기 수정 타격 없이 100% 무결점 오토 우회 생존 쾌속 핑퐁 질주를 달성해 내는 압도적 디커플링(Decoupling) 제국이다 🚀."
+   우리는 런타임 찰나에 스프링(Spring) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에서 `driver=Oracle` 텍스트 1줄을 ➔ `driver=MySQL` 로 단 0.1초 컷 딸깍! [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)(다리 끈) 포인터 스위칭만 딱 꺾어 갈아 끼워버리면 끝 ✨!! 내 메인 자바 비즈니스 로직(왼쪽 기둥) 소스 코드는 단 1바이트 텍스트 오타 찌끄레기 수정 타격 없이 100% 무결점 오토 우회 생존 쾌속 핑퐁 질주를 달성해 내는 압도적 디커플링(Decoupling) 제국이다 🚀."
 
-2. **SLF4J 로깅 프레임워크 (Logback [[260_bridge_pattern_abstraction_implementation|브리지]] 융합) 🛡️**: 
-   "야 [[568_logs_distributed_logging_elk_fluentd|로그]] [[336_library_vs_framework|라이브러리]] Log4j 쓰다 보안 빵꾸 터졌네 당장 Logback 으로 갈아타 쾅 💥!" 
-   - **판단**: 이것도 [[384_bridge_pattern_summary|브리지 패턴]]의 우주 1타 응용 타점이다. 
+2. **SLF4J 로깅 프레임워크 (Logback [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 융합) 🛡️**: 
+   "야 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) Log4j 쓰다 보안 빵꾸 터졌네 당장 Logback 으로 갈아타 쾅 💥!" 
+   - **판단**: 이것도 [브리지 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/384_bridge_pattern_summary/)의 우주 1타 응용 타점이다. 
    [왼쪽 기둥(추상부)] ➔ `SLF4J (Simple Logging Facade for Java)` 라는 껍데기 인터페이스 파이프라인. 개발자는 무지성 `log.info()` 껍데기 대문만 찌른다. 
-   [오른쪽 기둥(구현부)] ➔ 실제 하드디스크에 [[501_file_definition_logical_record|파일]] I/O 찍어주는 쇳덩이 봇들 (Logback, Log4j2, JUL). 
-   개발자는 런타임 0.01초 순간에 `pom.xml` 에서 쇳덩이 의존성(Dependency `.jar`) 블록 1개만 찰칵 뽑아 버리고 ➔ 새 보안 패치된 Logback 봇 블록을 찰칵 쑤셔 밀어 인서트 록온 박아 넣는다 쾅 🚀!! 전사 자바 로직 소스 코드는 1도 안 건드리고 인프라 쇳덩이만 무정단 [[238_switch_operation_principles|스위치]] 갈아타는 궁극의 [[260_bridge_pattern_abstraction_implementation|브리지]] 생명줄이다.
+   [오른쪽 기둥(구현부)] ➔ 실제 하드디스크에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O 찍어주는 쇳덩이 봇들 (Logback, Log4j2, JUL). 
+   개발자는 런타임 0.01초 순간에 `pom.xml` 에서 쇳덩이 의존성(Dependency `.jar`) 블록 1개만 찰칵 뽑아 버리고 ➔ 새 보안 패치된 Logback 봇 블록을 찰칵 쑤셔 밀어 인서트 록온 박아 넣는다 쾅 🚀!! 전사 자바 로직 소스 코드는 1도 안 건드리고 인프라 쇳덩이만 무정단 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 갈아타는 궁극의 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 생명줄이다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - **조합 폭발 방치 (Class Explosion 멸망 💀) ➔ 강결합 피라미드 무덤**: 
-  주니어 코더가 메신저 앱을 짠다. "카카오톡 발송, 라인 발송(플랫폼 2개) × 텍스트 메시지, 사진 메시지(기능 2개) = 4개 클래스 [[234_uml_class_relationships_generalization_dependency|상속]] 치면 되네 꿀 ㅋ (`카톡_텍스트`, `카톡_사진`, `라인_텍스트`...)" 
+  주니어 코더가 메신저 앱을 짠다. "카카오톡 발송, 라인 발송(플랫폼 2개) × 텍스트 메시지, 사진 메시지(기능 2개) = 4개 클래스 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 치면 되네 꿀 ㅋ (`카톡_텍스트`, `카톡_사진`, `라인_텍스트`...)" 
   **대재앙 발동 💥**: 내일 사장님이 "야 텔레그램(플랫폼) 추가하고, 동영상 메시지(기능)도 추가해 ㅋ" 
-  ➔ 플랫폼 3개 × 기능 3개 = 9개 클래스 [[234_uml_class_relationships_generalization_dependency|상속]] 떡칠 필요 💀! 내일 또 기능 추가되면 4 × 4 = 16개 클래스 무한 피라미드 증식 터짐! 소스 코드 [[501_file_definition_logical_record|파일]] 관리 100% 통제 불능 뇌 정지 뻗음 올스탑 셧다운 파산 멸망 터짐 쾅!!! 
-  - **아키텍트 도끼 분할 메스 🪓**: "야 이 미친 곱하기($M \times N$) 무지성 수학 장애인 새끼야 [[234_uml_class_relationships_generalization_dependency|상속]] 피 섞지 마 찢어발겨 쾅!!! 
+  ➔ 플랫폼 3개 × 기능 3개 = 9개 클래스 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 떡칠 필요 💀! 내일 또 기능 추가되면 4 × 4 = 16개 클래스 무한 피라미드 증식 터짐! 소스 코드 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 관리 100% 통제 불능 뇌 정지 뻗음 올스탑 셧다운 파산 멸망 터짐 쾅!!! 
+  - **아키텍트 도끼 분할 메스 🪓**: "야 이 미친 곱하기($M \times N$) 무지성 수학 장애인 새끼야 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 피 섞지 마 찢어발겨 쾅!!! 
   하늘이 두 쪽 나도 **[메시지 기능(텍스트, 사진, 영상) 텐트 기둥 3개]** 랑 **[발송 플랫폼(카톡, 라인, 텔레) 텐트 기둥 3개]** 로 양쪽 100% 완전 남남 이혼 찢기 독립 수술 쳐 쾅!! 
-  그리고 중간에 다리([[260_bridge_pattern_abstraction_implementation|Bridge]] 포인터 변수) 1개만 스윽 걸어 합성(Composition) 위임 핑퐁 쳐버려 🚀!! 
-  이제 16개($4 \times 4$) 떡칠 곱하기 지옥 클래스 [[501_file_definition_logical_record|파일]] 개수가 ➔ 8개($4 + 4$ 더하기 덧셈) 로 우주 수직 다이어트 압살 낙하 찌부러뜨려 축소 소각돼버린다 쾅!! 클래스 폭발(Explosion) 대재앙을 덧셈의 평화로 제압하는 0순위 성배 철학이다 미친아 ✨!"
+  그리고 중간에 다리([Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 포인터 변수) 1개만 스윽 걸어 합성(Composition) 위임 핑퐁 쳐버려 🚀!! 
+  이제 16개($4 \times 4$) 떡칠 곱하기 지옥 클래스 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 개수가 ➔ 8개($4 + 4$ 더하기 덧셈) 로 우주 수직 다이어트 압살 낙하 찌부러뜨려 축소 소각돼버린다 쾅!! 클래스 폭발(Explosion) 대재앙을 덧셈의 평화로 제압하는 0순위 성배 철학이다 미친아 ✨!"
 
-- **📢 섹션 요약 비유**: 이 [[384_bridge_pattern_summary|브리지 패턴]] 클래스 폭발(M x N ➔ M + N) 방어술은, **'햄버거 가게 세트 메뉴판 찍어내기'**와 100% 똑같습니다. 
-[[234_uml_class_relationships_generalization_dependency|상속]] 떡칠(M x N 💀)은 햄버거 5종류 × 음료수 5종류 = **25개의 완성된 세트 햄버거 상자 박스 완제품(클래스)**을 매장 창고에 통째로 미리 다 포장해 100% 만들어 쌓아두는 미친 짓 💥입니다(공간 폭파 타죽음). 메뉴 1개 추가되면 36개 박스로 뻥튀기됩니다. 
-[[384_bridge_pattern_summary|브리지 패턴]](M + N 🚀)은? **'햄버거 보관통 5개(추상부 기둥)'**랑 **'음료수 디스펜서 5개(구현부 기둥)'** 딱 10개 기계만 분리해서 세워놓는 텐트입니다 ✨!! 손님이 주문하는 런타임 0.1초 찰나에 ➔ 알바생(다리 [[260_bridge_pattern_abstraction_implementation|Bridge]] 핑퐁 봇)이 햄버거 1개 쏙 빼고, 음료수 1잔 쏙 빼서 쟁반 위에서 찰칵 조립(합성 Composition 록온) 쳐 던져 줍니다 🚀. 메뉴 보관함 딱 10개(5+5) 통만 유지보수 관리하면 끝나는 압도적 공간 캐시 다이어트 자본주의 극강의 분리 생존 통치술입니다.
+- **📢 섹션 요약 비유**: 이 [브리지 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/384_bridge_pattern_summary/) 클래스 폭발(M x N ➔ M + N) 방어술은, **'햄버거 가게 세트 메뉴판 찍어내기'**와 100% 똑같습니다. 
+[상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 떡칠(M x N 💀)은 햄버거 5종류 × 음료수 5종류 = **25개의 완성된 세트 햄버거 상자 박스 완제품(클래스)**을 매장 창고에 통째로 미리 다 포장해 100% 만들어 쌓아두는 미친 짓 💥입니다(공간 폭파 타죽음). 메뉴 1개 추가되면 36개 박스로 뻥튀기됩니다. 
+[브리지 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/384_bridge_pattern_summary/)(M + N 🚀)은? **'햄버거 보관통 5개(추상부 기둥)'**랑 **'음료수 디스펜서 5개(구현부 기둥)'** 딱 10개 기계만 분리해서 세워놓는 텐트입니다 ✨!! 손님이 주문하는 런타임 0.1초 찰나에 ➔ 알바생(다리 [Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 핑퐁 봇)이 햄버거 1개 쏙 빼고, 음료수 1잔 쏙 빼서 쟁반 위에서 찰칵 조립(합성 Composition 록온) 쳐 던져 줍니다 🚀. 메뉴 보관함 딱 10개(5+5) 통만 유지보수 관리하면 끝나는 압도적 공간 캐시 다이어트 자본주의 극강의 분리 생존 통치술입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[[384_bridge_pattern_summary|브리지 패턴]]([[260_bridge_pattern_abstraction_implementation|Bridge]] Pattern)은 객체 지향 23개 패턴 중 "[[234_uml_class_relationships_generalization_dependency|상속]](Inheritance)은 부모와 자식을 쇳덩이처럼 엮어 함께 타죽게 만드는 최악의 독가스(Tightly Coupled)다"라는 GoF 4인방의 혐오와 경멸 철학이 가장 극단적이고 아름답게 투영된 구조(Structural) 건축 도면의 마스터피스다.
+[브리지 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/384_bridge_pattern_summary/)([Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) Pattern)은 객체 지향 23개 패턴 중 "[상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)(Inheritance)은 부모와 자식을 쇳덩이처럼 엮어 함께 타죽게 만드는 최악의 독가스(Tightly Coupled)다"라는 GoF 4인방의 혐오와 경멸 철학이 가장 극단적이고 아름답게 투영된 구조(Structural) 건축 도면의 마스터피스다.
 
-"클라이언트와 맞닿은 앞단 기능 껍데기([[198_abstraction_control_data_process|Abstraction]])와 뒷단 쇳덩이 부품 기계(Implementor)는 절.대. 피 1방울 섞이게 두지 마라 쾅!!" 
-이 무자비한 이혼 격리(Decoupling) 단절 십자 수술 덕분에 ➔ 클라이언트 앱 UI 디자이너 놈들이 껍데기에 리모컨 버튼 100개를 야근 치며 맘대로 마구잡이 추가 [[087_process_state_transition|생성]] 발광 널뛰기를 쳐도 ➔ 뒷단 DB 튜너 인프라 백엔드 코더들은 단 1바이트 텍스트 타격 오버헤드 간섭 오염 뻗음 없이 100% 무결점 평화 생존 무정단 꿀빨기를 쾌속 질주 유지할 수 있게 된 것이다 🚀.
+"클라이언트와 맞닿은 앞단 기능 껍데기([Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))와 뒷단 쇳덩이 부품 기계(Implementor)는 절.대. 피 1방울 섞이게 두지 마라 쾅!!" 
+이 무자비한 이혼 격리(Decoupling) 단절 십자 수술 덕분에 ➔ 클라이언트 앱 UI 디자이너 놈들이 껍데기에 리모컨 버튼 100개를 야근 치며 맘대로 마구잡이 추가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 발광 널뛰기를 쳐도 ➔ 뒷단 DB 튜너 인프라 백엔드 코더들은 단 1바이트 텍스트 타격 오버헤드 간섭 오염 뻗음 없이 100% 무결점 평화 생존 무정단 꿀빨기를 쾌속 질주 유지할 수 있게 된 것이다 🚀.
 
-비록 도면 첫 삽을 뜰 때 "아 씨발 걍 [[234_uml_class_relationships_generalization_dependency|상속]] 1줄 치면 끝나는데 왜 굳이 인터페이스 2개 파고 중간 다리 클래스까지 귀찮게 찢어 포인터 거미줄 엮어야 됨 ㅠ([[459_quic_fec_forward_error_correction|초기]] 설계 인지 오버헤드 랙 💥)" 코더들의 피 터지는 곡소리 원성이 터져 나오겠지만!! 
-이 뼈저린 **'추상부와 구현부의 평행 우주 2기둥 [[260_bridge_pattern_abstraction_implementation|브리지]] 분리 텐트 쉴드'**가 우리 회사 핵심 결제망 코어 심장에 떡 하니 강제 시멘트 록온([[510_lock|Lock]]-on) 방폭문으로 쳐 지는 순간 ➔ 3년 뒤 글로벌 AWS, GCP, Azure 3대 [[202_multi_cloud_hybrid_cloud_governance|멀티 클라우드]] 1만 개 인스턴스 환경을 동시에 스위칭 지원 호환해야 하는 100억 [[213_refactoring_cloud_native_rearchitecture|리팩토링]] 거대 마이그레이션(Migration) 쓰나미 지옥 전장 앞에서도!! 
-우리 자바(Java) 백엔드 핵심 비즈니스 로직(Core) 코드는 단 1바이트의 재컴파일 오타 에러 [[573_timeout_retry_backoff_strategy|타임아웃]] 뻗음조차 0.00% 절대 불허 철통 차단 튕겨 흡수해 버리며 ➔ 런타임 0.1초 찰나에 깡통 쇳덩이 구현체 [[192_module_independence|모듈]]만 찰칵찰칵 레고 조립 무한 오토 스왑 힐링 핑퐁 갈아 끼움 스텔스 회피 기동을 쳐내는 진정한 K8s [[532_microservices_decomposition_patterns|마이크로서비스]]([[619_msa_traffic_hardware|MSA]]) [[531_cloud_native_architecture|클라우드 네이티브]] 제국의 영원 불멸 0순위 성배 핏줄 DNA 로 무한 고동치며 팽창 타오를 것이다 🚀✨.
+비록 도면 첫 삽을 뜰 때 "아 씨발 걍 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 1줄 치면 끝나는데 왜 굳이 인터페이스 2개 파고 중간 다리 클래스까지 귀찮게 찢어 포인터 거미줄 엮어야 됨 ㅠ([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 설계 인지 오버헤드 랙 💥)" 코더들의 피 터지는 곡소리 원성이 터져 나오겠지만!! 
+이 뼈저린 **'추상부와 구현부의 평행 우주 2기둥 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 분리 텐트 쉴드'**가 우리 회사 핵심 결제망 코어 심장에 떡 하니 강제 시멘트 록온([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)-on) 방폭문으로 쳐 지는 순간 ➔ 3년 뒤 글로벌 AWS, GCP, Azure 3대 [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 1만 개 인스턴스 환경을 동시에 스위칭 지원 호환해야 하는 100억 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 거대 마이그레이션(Migration) 쓰나미 지옥 전장 앞에서도!! 
+우리 자바(Java) 백엔드 핵심 비즈니스 로직(Core) 코드는 단 1바이트의 재컴파일 오타 에러 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 뻗음조차 0.00% 절대 불허 철통 차단 튕겨 흡수해 버리며 ➔ 런타임 0.1초 찰나에 깡통 쇳덩이 구현체 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)만 찰칵찰칵 레고 조립 무한 오토 스왑 힐링 핑퐁 갈아 끼움 스텔스 회피 기동을 쳐내는 진정한 K8s [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 제국의 영원 불멸 0순위 성배 핏줄 DNA 로 무한 고동치며 팽창 타오를 것이다 🚀✨.
 
 ---
 
-### 📌 관련 개념 맵 ([[160_knowledge_graph_graphrag_integration|Knowledge Graph]])
+### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 
-| 개념 명칭 | [[083_relationship_in_er_model|관계]] 및 시너지 설명 |
+| 개념 명칭 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 및 시너지 설명 |
 | :--- | :--- |
-| **Composition over Inheritance ([[234_uml_class_relationships_generalization_dependency|상속]] 찢고 합성 ✨)** | [[384_bridge_pattern_summary|브리지 패턴]]이 종교처럼 숭배하는 절대 1계명 0순위 헌법 철학. 클래스 호적 핏줄(extends) 섞어 동반 컴파일 파국 타죽는 강결합 지옥을 멈추고 ➔ 남의 객체 쇳덩이를 내 뱃속 프라이빗 변수 포인터(has-a)로 스윽 품어 런타임 핑퐁 갈아 끼우기 무적 생존 스위칭 록온 쉴드 치는 마스터 사상. |
-| **[[746_ocp|OCP]] ([[356_process|개방-폐쇄 원칙]] [[244_ocp_open_closed_principle|Open-Closed Principle]])** | [[260_bridge_pattern_abstraction_implementation|브리지]]가 완성해 낸 객체지향 5대 헌법([[242_solid_object_oriented_design_principles|SOLID]])의 꽃. 왼쪽 리모컨 껍데기 기능([[198_abstraction_control_data_process|Abstraction]])을 수천 개 추가 확장(Open) 쳐발라도 ➔ 오른쪽 TV 쇳덩이 구현부(Implementor) 로직 코드는 1바이트 텍스트도 절대 수정(Modify/Closed) 할 필요 없이 100% 무결점 평화 방벽 텐트 생존 락킹 보장 쾅! |
-| **[[247_dip_dependency_inversion_principle|DIP]] ([[106_dip_dependency_inversion_principle|의존성 역전 원칙]] Dependency Inversion 🛡️)** | 상위 껍데기 봇(리모컨)이 ➔ 하위 쇳덩이 부품 봇(삼성TV클래스)을 다이렉트 직통 찌르다 에러 연쇄 타 죽는 걸 막으려고 ➔ 중간 허공에 거울 인터페이스(`TV 인터페이스 껍데기`) 대문 딱 1개 파놓고 양쪽 다 이 허공 껍데기만 쳐다보고 소통 핑퐁 짬처리 때리게 만드는 십자 절단 생존술. |
-| **[[151_adapter_pattern|Adapter Pattern]] ([[259_adapter_pattern_interface_wrapper|어댑터]] 땜빵 수술 🪓)** | [[260_bridge_pattern_abstraction_implementation|브리지]]랑 [[232_uml_unified_modeling_language_overview|UML]] 코드 생김새는 뱃속에 남의 놈 품는 포인터 합성(Composition) 100% 쌍둥이 똑같음 ㅋ. 근데 [[259_adapter_pattern_interface_wrapper|어댑터]] 놈은 [이미 만들어진 낡은 병신 규격을 억지로 내 규격에 호환 변환 젠더 꼽기(After-the-fact)] 땜빵용이고 ➔ [[260_bridge_pattern_abstraction_implementation|브리지]] 신은 애초 도면 첫 삽 뜰 때 [껍데기랑 쇳덩이를 영구 이혼 찢기(Before-the-fact)] 설계 방폭문 텐트라는 타겟 목적([[416_prompt_injection_semantic_routing|Intent]]) 차원 궤도가 180도 다름 🚀. |
-| **Class Explosion ([[234_uml_class_relationships_generalization_dependency|상속]] 피라미드 폭발 멸망 💀)** | 기능 축 $M$개 × 플랫폼 축 $N$개 = 클래스 [[501_file_definition_logical_record|파일]] 개수 무식하게 $M \times N$ 곱하기 배수로 100개 떡칠 미친 증식 터져 소스 코드 통제 불능 [[157_oom_killer|OOM]] 뻗어 셧다운 붕괴 파산 터지는 지옥. [[260_bridge_pattern_abstraction_implementation|브리지]] 다리가 이걸 $M + N$ 덧셈 10개 찢기 쾌속 평탄화 다이어트 수직 압살 척살해 내어 구원함 ✨. |
+| **Composition over Inheritance ([상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 찢고 합성 ✨)** | [브리지 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/384_bridge_pattern_summary/)이 종교처럼 숭배하는 절대 1계명 0순위 헌법 철학. 클래스 호적 핏줄(extends) 섞어 동반 컴파일 파국 타죽는 강결합 지옥을 멈추고 ➔ 남의 객체 쇳덩이를 내 뱃속 프라이빗 변수 포인터(has-a)로 스윽 품어 런타임 핑퐁 갈아 끼우기 무적 생존 스위칭 록온 쉴드 치는 마스터 사상. |
+| **[OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) ([개방-폐쇄 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/356_process/) [Open-Closed Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/244_ocp_open_closed_principle/))** | [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)가 완성해 낸 객체지향 5대 헌법([SOLID](/knowledge-base/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/))의 꽃. 왼쪽 리모컨 껍데기 기능([Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))을 수천 개 추가 확장(Open) 쳐발라도 ➔ 오른쪽 TV 쇳덩이 구현부(Implementor) 로직 코드는 1바이트 텍스트도 절대 수정(Modify/Closed) 할 필요 없이 100% 무결점 평화 방벽 텐트 생존 락킹 보장 쾅! |
+| **[DIP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/) ([의존성 역전 원칙](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/106_dip_dependency_inversion_principle/) Dependency Inversion 🛡️)** | 상위 껍데기 봇(리모컨)이 ➔ 하위 쇳덩이 부품 봇(삼성TV클래스)을 다이렉트 직통 찌르다 에러 연쇄 타 죽는 걸 막으려고 ➔ 중간 허공에 거울 인터페이스(`TV 인터페이스 껍데기`) 대문 딱 1개 파놓고 양쪽 다 이 허공 껍데기만 쳐다보고 소통 핑퐁 짬처리 때리게 만드는 십자 절단 생존술. |
+| **[Adapter Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/151_adapter_pattern/) ([어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 땜빵 수술 🪓)** | [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)랑 [UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) 코드 생김새는 뱃속에 남의 놈 품는 포인터 합성(Composition) 100% 쌍둥이 똑같음 ㅋ. 근데 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 놈은 [이미 만들어진 낡은 병신 규격을 억지로 내 규격에 호환 변환 젠더 꼽기(After-the-fact)] 땜빵용이고 ➔ [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 신은 애초 도면 첫 삽 뜰 때 [껍데기랑 쇳덩이를 영구 이혼 찢기(Before-the-fact)] 설계 방폭문 텐트라는 타겟 목적([Intent](/knowledge-base/studynote/06_ict_convergence/05_data_science/416_prompt_injection_semantic_routing/)) 차원 궤도가 180도 다름 🚀. |
+| **Class Explosion ([상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 피라미드 폭발 멸망 💀)** | 기능 축 $M$개 × 플랫폼 축 $N$개 = 클래스 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 개수 무식하게 $M \times N$ 곱하기 배수로 100개 떡칠 미친 증식 터져 소스 코드 통제 불능 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 뻗어 셧다운 붕괴 파산 터지는 지옥. [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 다리가 이걸 $M + N$ 덧셈 10개 찢기 쾌속 평탄화 다이어트 수직 압살 척살해 내어 구원함 ✨. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -172,8 +176,8 @@ MSA (마이크로서비스) 클라우드 모던 아키텍처 혼 빙의 환생 (
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 내가 **'리모컨 장난감(추상 껍데기 기능)'**이랑 **'미니카 자동차(쇳덩이 구현 기계)'**를 합체시켜서 조종하고 싶은데, 리모컨과 자동차를 본드 인두기로 아예 영구 찰싹 용접 떡칠해 버리면([[234_uml_class_relationships_generalization_dependency|상속]] 강결합 💥) ➔ 나중에 자동차 바퀴 고장 났을 때 멀쩡한 리모컨까지 통째로 쓰레기통에 내다 버려야 하는 끔찍한 바보 짓(M x N 파국 💀)이 터져요 ㅠ.
-2. **[[260_bridge_pattern_abstraction_implementation|브리지]]([[260_bridge_pattern_abstraction_implementation|Bridge]] 다리) 마법**은 리모컨이랑 자동차를 절대 안 붙이고!! 중간 허공에 안 보이는 **'[[605_bluetooth_ieee_802_15_1_piconet_scatternet|블루투스]] 무선 전파(다리 [[260_bridge_pattern_abstraction_implementation|브리지]] 변수 핑퐁 ✨)'** 끈 1개로만 찰칵 묶어주는 100% 완벽한 이혼 격리 천재 요술이에요 🚀!
+1. 내가 **'리모컨 장난감(추상 껍데기 기능)'**이랑 **'미니카 자동차(쇳덩이 구현 기계)'**를 합체시켜서 조종하고 싶은데, 리모컨과 자동차를 본드 인두기로 아예 영구 찰싹 용접 떡칠해 버리면([상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 강결합 💥) ➔ 나중에 자동차 바퀴 고장 났을 때 멀쩡한 리모컨까지 통째로 쓰레기통에 내다 버려야 하는 끔찍한 바보 짓(M x N 파국 💀)이 터져요 ㅠ.
+2. **[브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)([Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 다리) 마법**은 리모컨이랑 자동차를 절대 안 붙이고!! 중간 허공에 안 보이는 **'[블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 무선 전파(다리 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 변수 핑퐁 ✨)'** 끈 1개로만 찰칵 묶어주는 100% 완벽한 이혼 격리 천재 요술이에요 🚀!
 3. 이 무선 다리 덕분에 리모컨 껍데기에 예쁜 '부스터 버튼'을 100개 맘대로 추가 업그레이드(독립 진화) 시켜도 ➔ 밑에 굴러가는 자동차 쇳덩이 엔진은 단 1도 고장 뻗음 없이 무결점 100% 쌩쌩 쾌속 질주로 평화롭게 말을 듣고 핑퐁 스위칭 우주 생존하는 궁극의 분리 레고 조립 꿀팁이랍니다 🚀!
 
 ---
@@ -182,7 +186,7 @@ MSA (마이크로서비스) 클라우드 모던 아키텍처 혼 빙의 환생 (
 
 **진행 상황**: 209 / 530
 
-← **이전**: [[152_object_vs_class_adapter|152. 구조 패턴: 객체 어댑터 vs 클래스 어댑터 (Object vs Class Adapter) - 상속과 합성의 십자 트레이드오프]]
-**다음**: [[154_composite_pattern|154. 구조 패턴: 컴포지트 (Composite Pattern) - 트리 쇳덩이를 단일 껍데기로 압살 융합한 마트료시카 마법]] →
+← **이전**: [152. 구조 패턴: 객체 어댑터 vs 클래스 어댑터 (Object vs Class Adapter) - 상속과 합성의 십자 트레이드오프](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/152_object_vs_class_adapter/)
+**다음**: [154. 구조 패턴: 컴포지트 (Composite Pattern) - 트리 쇳덩이를 단일 껍데기로 압살 융합한 마트료시카 마법](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/154_composite_pattern/) →
 
 ---

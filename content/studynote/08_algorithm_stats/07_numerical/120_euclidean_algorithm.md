@@ -1,18 +1,22 @@
----
-title: 001. 유클리드 호제법 — Euclidean Algorithm
-date: '2026-04-05'
-tags:
-- studynote-algorithm-stats
----
++++
+title = "001. 유클리드 호제법 — Euclidean Algorithm"
+date = 2026-04-05
+
+[taxonomies]
+tags = ["studynote-algorithm-stats"]
+
+[extra]
+tags = ["studynote-algorithm-stats"]
++++
 
 > **핵심 인사이트**
-> 1. 유클리드 호제법(Euclidean [[001_algorithm_definition|Algorithm]])은 "두 수의 [[116_gcd_rsa|최대공약수]]([[663_macos_ios_gcd_grand_central_dispatch|GCD]])는 큰 수를 작은 수로 나눈 나머지와 작은 수의 GCD와 같다"는 원리 — 기원전 300년경 유클리드가 제안한 가장 오래된 [[001_algorithm_definition|알고리즘]] 중 하나로, [[663_macos_ios_gcd_grand_central_dispatch|GCD]](a, b) = [[663_macos_ios_gcd_grand_central_dispatch|GCD]](b, a mod b)로 표현된다.
-> 2. [[002_time_complexity|시간 복잡도]] O(log min(a, b)) — 피보나치 수열이 유클리드 호제법의 최악 케이스임이 수학적으로 증명되었으며, 심지어 10억 단위 수도 수십 번의 연산으로 GCD를 구할 수 있다.
-> 3. 유클리드 호제법의 확장([[117_extended_euclidean_algorithm|Extended Euclidean Algorithm]])은 [[652_cryptography_concept_encryption_decryption|암호학]]의 기반 — 모듈러 역원(Modular Inverse) 계산에 사용되어 [[110_rsa|RSA]] 암호화, 중국인의 나머지 정리([[124_crt|CRT]]) 구현에 필수적이다.
+> 1. 유클리드 호제법(Euclidean [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 "두 수의 [최대공약수](/knowledge-base/studynote/09_security/03_network_security/116_gcd_rsa/)([GCD](/knowledge-base/studynote/02_operating_system/10_security/663_macos_ios_gcd_grand_central_dispatch/))는 큰 수를 작은 수로 나눈 나머지와 작은 수의 GCD와 같다"는 원리 — 기원전 300년경 유클리드가 제안한 가장 오래된 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 중 하나로, [GCD](/knowledge-base/studynote/02_operating_system/10_security/663_macos_ios_gcd_grand_central_dispatch/)(a, b) = [GCD](/knowledge-base/studynote/02_operating_system/10_security/663_macos_ios_gcd_grand_central_dispatch/)(b, a mod b)로 표현된다.
+> 2. [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/) O(log min(a, b)) — 피보나치 수열이 유클리드 호제법의 최악 케이스임이 수학적으로 증명되었으며, 심지어 10억 단위 수도 수십 번의 연산으로 GCD를 구할 수 있다.
+> 3. 유클리드 호제법의 확장([Extended Euclidean Algorithm](/knowledge-base/studynote/09_security/03_network_security/117_extended_euclidean_algorithm/))은 [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)의 기반 — 모듈러 역원(Modular Inverse) 계산에 사용되어 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 암호화, 중국인의 나머지 정리([CRT](/knowledge-base/studynote/08_algorithm_stats/07_numerical/124_crt/)) 구현에 필수적이다.
 
 ---
 
-## Ⅰ. [[001_algorithm_definition|알고리즘]] 원리
+## Ⅰ. [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 원리
 
 ```
 GCD (Greatest Common Divisor, 최대공약수):
@@ -41,7 +45,7 @@ GCD (Greatest Common Divisor, 최대공약수):
   역도 성립 → GCD(a, b) = GCD(b, a mod b)
 ```
 
-> 📢 **섹션 요약 비유**: 유클리드 호제법은 토지 측량 — 48m×18m 직사각형 땅을 정사각형으로 나눌 때 가장 큰 정사각형 크기가 [[663_macos_ios_gcd_grand_central_dispatch|GCD]]. "나머지로 다시 측량" 반복 = 유클리드!
+> 📢 **섹션 요약 비유**: 유클리드 호제법은 토지 측량 — 48m×18m 직사각형 땅을 정사각형으로 나눌 때 가장 큰 정사각형 크기가 [GCD](/knowledge-base/studynote/02_operating_system/10_security/663_macos_ios_gcd_grand_central_dispatch/). "나머지로 다시 측량" 반복 = 유클리드!
 
 ---
 
@@ -91,13 +95,13 @@ GCD(F_20, F_19) = GCD(6765, 4181):
   → 피보나치 = 최악 케이스 (정확히 n-1번)
 ```
 
-> 📢 **섹션 요약 비유**: 유클리드 [[001_algorithm_definition|알고리즘]] 구현 — while b != 0: a, b = b, a%b. 딱 한 줄이 수천 년 된 [[001_algorithm_definition|알고리즘]]. 피보나치 수 사이가 최악이지만 여전히 O(log n)!
+> 📢 **섹션 요약 비유**: 유클리드 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 구현 — while b != 0: a, b = b, a%b. 딱 한 줄이 수천 년 된 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/). 피보나치 수 사이가 최악이지만 여전히 O(log n)!
 
 ---
 
 ## Ⅲ. 확장 유클리드 호제법
 
-확장 유클리드 호제법 ([[117_extended_euclidean_algorithm|Extended Euclidean Algorithm]])은 `GCD(a, b) = ax + by`를 만족하는 정수 `x`, `y`를 찾는 절차다. 이는 베주 항등식 (Bezout's Identity)을 계산 가능한 형태로 바꾼 것이며, 모듈러 역원과 [[110_rsa|RSA]] ([[110_rsa|Rivest-Shamir-Adleman]]) 개인키 계산에 직접 연결된다.
+확장 유클리드 호제법 ([Extended Euclidean Algorithm](/knowledge-base/studynote/09_security/03_network_security/117_extended_euclidean_algorithm/))은 `GCD(a, b) = ax + by`를 만족하는 정수 `x`, `y`를 찾는 절차다. 이는 베주 항등식 (Bezout's Identity)을 계산 가능한 형태로 바꾼 것이며, 모듈러 역원과 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) ([Rivest-Shamir-Adleman](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)) 개인키 계산에 직접 연결된다.
 
 - 목적: `GCD(a, b) = ax + by`를 만족하는 정수 `x`, `y` 찾기
 - 예시: `GCD(48, 18) = 6`, `48x + 18y = 6`, 해는 `x = -1`, `y = 3`
@@ -132,11 +136,11 @@ print(d)  # 2753 (RSA 개인키 d 계산)
 ```
 
 활용:
-  [[110_rsa|RSA]] 암호: e×d ≡ 1 (mod φ(n))에서 d 계산
+  [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 암호: e×d ≡ 1 (mod φ(n))에서 d 계산
   중국인의 나머지 정리: 연립 합동식 해
   분수의 분모 유리화 (정수론)
 
-> 📢 **섹션 요약 비유**: 확장 유클리드 = 암호 열쇠 제조 — [[663_macos_ios_gcd_grand_central_dispatch|GCD]] 계산하면서 동시에 [[110_rsa|RSA]] 개인키(d) 계산. 고대 수학이 현대 인터넷 보안([[471_https_http_over_tls|HTTPS]])의 기반!
+> 📢 **섹션 요약 비유**: 확장 유클리드 = 암호 열쇠 제조 — [GCD](/knowledge-base/studynote/02_operating_system/10_security/663_macos_ios_gcd_grand_central_dispatch/) 계산하면서 동시에 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 개인키(d) 계산. 고대 수학이 현대 인터넷 보안([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/))의 기반!
 
 ---
 
@@ -177,11 +181,11 @@ print(d)  # 2753 (RSA 개인키 d 계산)
   유클리드: ~20번 → 50배 빠름
 ```
 
-> 📢 **섹션 요약 비유**: 유클리드 응용 — 타일 크기(공약수), 공통 주기(공배수), 암호 키 [[087_process_state_transition|생성]](모듈러 역원)까지. 고등학교 GCD가 프로그래밍 면접, [[652_cryptography_concept_encryption_decryption|암호학]], 게임 로직에 모두 등장!
+> 📢 **섹션 요약 비유**: 유클리드 응용 — 타일 크기(공약수), 공통 주기(공배수), 암호 키 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(모듈러 역원)까지. 고등학교 GCD가 프로그래밍 면접, [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/), 게임 로직에 모두 등장!
 
 ---
 
-## Ⅴ. 실무 시나리오 — [[208_schedule_history_transaction_execution_order|스케줄]]링과 암호화
+## Ⅴ. 실무 시나리오 — [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링과 암호화
 
 ```
 시나리오 1: 작업 스케줄링 (LCM)
@@ -218,7 +222,7 @@ print(d)  # 2753 (RSA 개인키 d 계산)
   렌더: 매 프레임(1/60초) 렌더링
 ```
 
-> 📢 **섹션 요약 비유**: 실무 유클리드 — 배치 작업 충돌 방지(LCM), [[110_rsa|RSA]] 암호키 [[087_process_state_transition|생성]](Extended [[663_macos_ios_gcd_grand_central_dispatch|GCD]]), 게임 프레임 [[212_synchronization_mechanisms|동기화]]([[663_macos_ios_gcd_grand_central_dispatch|GCD]]). 고대 수학이 현대 소프트웨어 어디에나!
+> 📢 **섹션 요약 비유**: 실무 유클리드 — 배치 작업 충돌 방지(LCM), [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 암호키 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(Extended [GCD](/knowledge-base/studynote/02_operating_system/10_security/663_macos_ios_gcd_grand_central_dispatch/)), 게임 프레임 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)([GCD](/knowledge-base/studynote/02_operating_system/10_security/663_macos_ios_gcd_grand_central_dispatch/)). 고대 수학이 현대 소프트웨어 어디에나!
 
 ---
 
@@ -272,8 +276,8 @@ Post-Quantum 암호 연구
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. 유클리드 호제법은 땅 측량 — 48m×18m 땅을 정사각형으로 채울 때 가장 큰 정사각형 크기 찾기. 나머지로 반복하면 답!
-2. 확장 유클리드는 암호 열쇠 — [[663_macos_ios_gcd_grand_central_dispatch|GCD]] 계산하면서 동시에 [[110_rsa|RSA]] 개인키를 계산. 고대 수학이 인터넷 보안의 기반!
-3. LCM은 [[344_bus|버스]] 출발 — 4분 간격 A, 6분 간격 B [[344_bus|버스]]가 동시 출발하는 주기 = LCM(4,6) = 12분. [[208_schedule_history_transaction_execution_order|스케줄]] 계산에 활용!
+2. 확장 유클리드는 암호 열쇠 — [GCD](/knowledge-base/studynote/02_operating_system/10_security/663_macos_ios_gcd_grand_central_dispatch/) 계산하면서 동시에 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 개인키를 계산. 고대 수학이 인터넷 보안의 기반!
+3. LCM은 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 출발 — 4분 간격 A, 6분 간격 B [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 동시 출발하는 주기 = LCM(4,6) = 12분. [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 계산에 활용!
 
 ---
 
@@ -281,7 +285,7 @@ Post-Quantum 암호 연구
 
 **진행 상황**: 120 / 175
 
-← **이전**: [[119_quantum_complexity|014. 양자 복잡도 — BQP, QMA]]
-**다음**: [[121_sieve_of_eratosthenes|002. 에라토스테네스의 체 — Sieve of Eratosthenes]] →
+← **이전**: [014. 양자 복잡도 — BQP, QMA](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/119_quantum_complexity/)
+**다음**: [002. 에라토스테네스의 체 — Sieve of Eratosthenes](/knowledge-base/studynote/08_algorithm_stats/07_numerical/121_sieve_of_eratosthenes/) →
 
 ---

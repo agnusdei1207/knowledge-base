@@ -1,14 +1,18 @@
----
-title: 252. 지식 증류 (Knowledge Distillation) 양자화 (Quantization) 경량 SLM 디퓨전 생성
-date: '2026-04-21'
-tags:
-- studynote-data-engineering
----
++++
+title = "252. 지식 증류 (Knowledge Distillation) 양자화 (Quantization) 경량 SLM 디퓨전 생성"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-data-engineering"]
+
+[extra]
+tags = ["studynote-data-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 거대 [[263_llm_large_language_model|LLM]]([[263_llm_large_language_model|Large Language Model]])의 지식을 지식 증류(Knowledge Distillation)와 [[434_quantization|양자화]]([[434_quantization|Quantization]])로 압축하면 엣지(Edge) 디바이스에서도 고품질 추론이 가능해진다.
-> 2. **가치**: [[313_slm|SLM]]([[313_slm|Small Language Model]])과 경량화 기법은 클라우드 의존도를 낮추고 온디바이스(On-device) 프라이버시와 저지연(Low-latency) 추론을 동시에 실현한다.
-> 3. **판단 포인트**: 경량화 기법별 정확도 손실(Accuracy Drop)과 압축률([[159_compression|Compression]] Ratio) 트레이드오프를 정량적으로 측정하고, 목표 하드웨어 사양에 맞는 기법을 선택해야 한다.
+> 1. **본질**: 거대 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)([Large Language Model](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))의 지식을 지식 증류(Knowledge Distillation)와 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/))로 압축하면 엣지(Edge) 디바이스에서도 고품질 추론이 가능해진다.
+> 2. **가치**: [SLM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/313_slm/)([Small Language Model](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/313_slm/))과 경량화 기법은 클라우드 의존도를 낮추고 온디바이스(On-device) 프라이버시와 저지연(Low-latency) 추론을 동시에 실현한다.
+> 3. **판단 포인트**: 경량화 기법별 정확도 손실(Accuracy Drop)과 압축률([Compression](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/) Ratio) 트레이드오프를 정량적으로 측정하고, 목표 하드웨어 사양에 맞는 기법을 선택해야 한다.
 
 ---
 
@@ -16,18 +20,18 @@ tags:
 
 ### 1.1 대형 모델의 배포 한계
 
-GPT-4 수준의 모델은 수백 GB 파라미터로 구성되어 [[001_dikw_pyramid|데이터]]센터급 [[418_gpu|GPU]] 없이는 추론 자체가 불가능하다. 이 문제를 해결하기 위해 **모델 경량화(Model [[159_compression|Compression]])** 기술군이 발전했다.
+GPT-4 수준의 모델은 수백 GB 파라미터로 구성되어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터급 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 없이는 추론 자체가 불가능하다. 이 문제를 해결하기 위해 **모델 경량화(Model [Compression](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/))** 기술군이 발전했다.
 
 | 경량화 기법 | 핵심 아이디어 | 압축률 | 정확도 손실 |
 |:---|:---|:---|:---|
-| **지식 증류(Knowledge Distillation)** | 큰 모델 → 작은 모델 지식 전달 | [[489_raid_10_hybrid|10]]~100x | 낮음 |
-| **[[434_quantization|양자화]]([[434_quantization|Quantization]])** | FP32 → INT8/INT4 [[233_precision_recall_f1_roc_auc_threshold|정밀도]] 축소 | 2~8x | 매우 낮음 |
-| **프루닝([[435_pruning_hardware|Pruning]])** | 중요도 낮은 [[267_weight_bias_activation|가중치]] 제거 | 2~10x | 중간 |
-| **지식 증류 + [[434_quantization|양자화]]** | 두 기법 결합 | 20~100x | 낮음 |
+| **지식 증류(Knowledge Distillation)** | 큰 모델 → 작은 모델 지식 전달 | [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~100x | 낮음 |
+| **[양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/))** | FP32 → INT8/INT4 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 축소 | 2~8x | 매우 낮음 |
+| **프루닝([Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/))** | 중요도 낮은 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 제거 | 2~10x | 중간 |
+| **지식 증류 + [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)** | 두 기법 결합 | 20~100x | 낮음 |
 
 ### 1.2 온디바이스 AI의 부상 배경
 
-스마트폰·자동차·[[101_iot_concept|IoT]] 기기의 컴퓨팅 [[282_performance_tactics|성능]] 향상과 프라이버시 규제 강화([[791_gdpr_eu|GDPR]] 등)로 인해 개인 [[001_dikw_pyramid|데이터]]를 클라우드에 전송하지 않고 로컬에서 처리하는 온디바이스 [[190_ai_llm_requirements_specification|AI]] 수요가 폭발적으로 증가하고 있다.
+스마트폰·자동차·[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기의 컴퓨팅 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상과 프라이버시 규제 강화([GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 등)로 인해 개인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 클라우드에 전송하지 않고 로컬에서 처리하는 온디바이스 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 수요가 폭발적으로 증가하고 있다.
 
 📢 **섹션 요약 비유**: 거대 모델을 그대로 스마트폰에 넣는 것은 트럭을 집 안에 넣으려는 것과 같다. 경량화는 트럭의 핵심 기능(짐 운반)만 남기고 크기를 자전거 수준으로 줄이는 작업이다.
 
@@ -65,17 +69,17 @@ GPT-4 수준의 모델은 수백 GB 파라미터로 구성되어 [[001_dikw_pyra
 └────────────────────────────────────────────────────────────────┘
 ```
 
-**소프트 레이블의 핵심 가치**: "고양이" 이미지에 대해 하드 레이블은 `[1, 0, 0]`이지만, 소프트 레이블은 `[0.7, 0.2, 0.1]`처럼 "고양이와 호랑이가 비슷하다"는 클래스 간 [[083_relationship_in_er_model|관계]] 정보를 포함한다.
+**소프트 레이블의 핵심 가치**: "고양이" 이미지에 대해 하드 레이블은 `[1, 0, 0]`이지만, 소프트 레이블은 `[0.7, 0.2, 0.1]`처럼 "고양이와 호랑이가 비슷하다"는 클래스 간 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 정보를 포함한다.
 
-### 2.2 [[434_quantization|양자화]]([[434_quantization|Quantization]]) 수치 표현 변환
+### 2.2 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)) 수치 표현 변환
 
-| [[233_precision_recall_f1_roc_auc_threshold|정밀도]] | [[073_bit|비트]] 수 | 메모리(파라미터당) | 특징 |
+| [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) | [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수 | 메모리(파라미터당) | 특징 |
 |:---|:---|:---|:---|
-| **FP32(32-bit Float)** | 32 | 4 Bytes | 훈련 표준, 풀 [[233_precision_recall_f1_roc_auc_threshold|정밀도]] |
+| **FP32(32-bit Float)** | 32 | 4 Bytes | 훈련 표준, 풀 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) |
 | **FP16/BF16** | 16 | 2 Bytes | 훈련·추론 혼합 사용 |
-| **INT8** | 8 | 1 [[074_byte|Byte]] | 추론 표준, 정확도 미세 손실 |
-| **INT4** | 4 | 0.5 [[074_byte|Byte]] | 모바일 배포, 정확도 손실 존재 |
-| **INT2/Binary** | 2~1 | 0.25 [[074_byte|Byte]] | 극단적 경량화, 정확도 저하 큼 |
+| **INT8** | 8 | 1 [Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) | 추론 표준, 정확도 미세 손실 |
+| **INT4** | 4 | 0.5 [Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) | 모바일 배포, 정확도 손실 존재 |
+| **INT2/Binary** | 2~1 | 0.25 [Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) | 극단적 경량화, 정확도 저하 큼 |
 
 ```
 FP32 (32비트)  →  양자화(Quantization)  →  INT8 (8비트)
@@ -86,33 +90,33 @@ FP32 (32비트)  →  양자화(Quantization)  →  INT8 (8비트)
 W_int8 = round(W_fp32 / scale)
 ```
 
-### 2.3 프루닝([[435_pruning_hardware|Pruning]]) [[267_weight_bias_activation|가중치]] 제거
+### 2.3 프루닝([Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)) [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 제거
 
 | 프루닝 유형 | 설명 | 하드웨어 친화성 |
 |:---|:---|:---|
-| **비구조적 프루닝(Unstructured)** | 개별 [[267_weight_bias_activation|가중치]] 0으로 [[009_config|설정]] | 낮음 (희소 행렬 필요) |
-| **구조적 프루닝(Structured)** | 뉴런·헤드·레이어 단위 제거 | 높음 (일반 [[418_gpu|GPU]] 가속) |
-| **헤드 프루닝(Head [[435_pruning_hardware|Pruning]])** | [[246_transformer_self_attention_parallel_positional_encoding|트랜스포머]] 어텐션 헤드 제거 | 중간 |
+| **비구조적 프루닝(Unstructured)** | 개별 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 0으로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | 낮음 (희소 행렬 필요) |
+| **구조적 프루닝(Structured)** | 뉴런·헤드·레이어 단위 제거 | 높음 (일반 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 가속) |
+| **헤드 프루닝(Head [Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/))** | [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 어텐션 헤드 제거 | 중간 |
 
-📢 **섹션 요약 비유**: [[434_quantization|양자화]]는 고해상도 사진(FP32)을 용량 절약을 위해 저해상도(INT8)로 저장하는 것이다. 4배 작아지지만 눈으로 보면 거의 같아 보인다. 지식 증류는 박사 교수가 초등학생 책을 직접 써주는 것—핵심 개념은 그대로 담되 불필요한 수식을 빼는 것이다.
+📢 **섹션 요약 비유**: [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)는 고해상도 사진(FP32)을 용량 절약을 위해 저해상도(INT8)로 저장하는 것이다. 4배 작아지지만 눈으로 보면 거의 같아 보인다. 지식 증류는 박사 교수가 초등학생 책을 직접 써주는 것—핵심 개념은 그대로 담되 불필요한 수식을 빼는 것이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 3.1 [[313_slm|SLM]]([[313_slm|Small Language Model]]) 대표 모델 비교
+### 3.1 [SLM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/313_slm/)([Small Language Model](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/313_slm/)) 대표 모델 비교
 
 | 모델 | 파라미터 수 | 특징 | 온디바이스 적합성 |
 |:---|:---|:---|:---|
-| **Phi-3-mini** (Microsoft) | 3.8B | 고품질 [[818_synthetic_data|합성 데이터]] 학습 | ✅ 스마트폰 가능 |
-| **Gemma 2B** (Google) | 2B | [[191_oss_license_compliance|오픈소스]], 안전성 강조 | ✅ |
+| **Phi-3-mini** (Microsoft) | 3.8B | 고품질 [합성 데이터](/knowledge-base/studynote/09_security/16_data_privacy/818_synthetic_data/) 학습 | ✅ 스마트폰 가능 |
+| **Gemma 2B** (Google) | 2B | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/), 안전성 강조 | ✅ |
 | **Mistral 7B** | 7B | 슬라이딩 윈도우 어텐션 | △ 고사양 필요 |
-| **Llama 3.2 1B/3B** (Meta) | 1~3B | [[158_multimodal_clip_vision_audio_encoding|멀티모달]] 경량 | ✅ |
-| **DistilBERT** | 66M | [[301_bert_mlm|BERT]] 지식 증류 산물 | ✅ [[278_instruction_tuning|임베딩]] 특화 |
+| **Llama 3.2 1B/3B** (Meta) | 1~3B | [멀티모달](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) 경량 | ✅ |
+| **DistilBERT** | 66M | [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) 지식 증류 산물 | ✅ [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 특화 |
 
-### 3.2 [[153_diffusion_model_stable_diffusion_denoising|디퓨전 모델]]([[153_diffusion_model_stable_diffusion_denoising|Diffusion Model]]) [[087_process_state_transition|생성]] 원리
+### 3.2 [디퓨전 모델](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/)([Diffusion Model](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/)) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 원리
 
-[[153_diffusion_model_stable_diffusion_denoising|디퓨전 모델]]은 이미지·오디오 [[087_process_state_transition|생성]]에서 강점을 보이는 또 다른 경량화 대상이다.
+[디퓨전 모델](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/)은 이미지·오디오 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)에서 강점을 보이는 또 다른 경량화 대상이다.
 
 ```
 정방향 과정 (Forward Process): 노이즈 추가
@@ -125,9 +129,9 @@ X_T    →    X_{T-1}    →  ...  →  X_0
            U-Net/트랜스포머가 각 단계 노이즈 예측
 ```
 
-[[153_diffusion_model_stable_diffusion_denoising|디퓨전 모델]] 경량화 기법: **DDIM(Denoising Diffusion Implicit Models)**은 역방향 단계를 1000→50 단계로 줄여 추론 속도를 20배 향상시킨다.
+[디퓨전 모델](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/) 경량화 기법: **DDIM(Denoising Diffusion Implicit Models)**은 역방향 단계를 1000→50 단계로 줄여 추론 속도를 20배 향상시킨다.
 
-📢 **섹션 요약 비유**: [[153_diffusion_model_stable_diffusion_denoising|디퓨전 모델]]은 지우개로 그림을 지워가는 과정을 거꾸로 배우는 것이다. "완전히 지워진 그림에서 어떻게 원본을 복원할까?"를 학습하면, 역으로 "무작위 노이즈에서 새 그림을 만들 수 있게" 된다.
+📢 **섹션 요약 비유**: [디퓨전 모델](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/)은 지우개로 그림을 지워가는 과정을 거꾸로 배우는 것이다. "완전히 지워진 그림에서 어떻게 원본을 복원할까?"를 학습하면, 역으로 "무작위 노이즈에서 새 그림을 만들 수 있게" 된다.
 
 ---
 
@@ -148,20 +152,20 @@ X_T    →    X_{T-1}    →  ...  →  X_0
            └─ INT4 양자화 + 지식 증류 (SLM)
 ```
 
-### 4.2 QAT vs PTQ [[434_quantization|양자화]] [[268_strategy_pattern|전략]]
+### 4.2 QAT vs PTQ [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
 | 방법 | 설명 | 정확도 | 적용 시점 |
 |:---|:---|:---|:---|
-| **PTQ(Post-[[588_mlops_pipeline_automation|Training]] [[434_quantization|Quantization]])** | 훈련 후 [[434_quantization|양자화]] 적용 | 약간 낮음 | 빠른 배포 |
-| **QAT([[434_quantization|Quantization]]-Aware [[588_mlops_pipeline_automation|Training]])** | 훈련 중 [[434_quantization|양자화]] 시뮬레이션 | 높음 | 정확도 중요 시 |
+| **PTQ(Post-[Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/) [Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/))** | 훈련 후 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) 적용 | 약간 낮음 | 빠른 배포 |
+| **QAT([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)-Aware [Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/))** | 훈련 중 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) 시뮬레이션 | 높음 | 정확도 중요 시 |
 
 ### 4.3 기술사 논술 핵심 포인트
 
 - **트레이드오프 명시**: 압축률 ↑ → 정확도 ↓, 이를 허용 가능 범위(1~3% 손실)로 제한
-- **하드웨어-소프트웨어 공동 최적화**: Apple Neural Engine, Qualcomm [[190_ai_llm_requirements_specification|AI]] Engine 활용
-- **지속적 학습(Continual [[240_switch_learning_forwarding_flooding|Learning]])**: 경량 모델도 증분 학습으로 지식 갱신 가능
+- **하드웨어-소프트웨어 공동 최적화**: Apple Neural Engine, Qualcomm [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Engine 활용
+- **지속적 학습(Continual [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))**: 경량 모델도 증분 학습으로 지식 갱신 가능
 
-📢 **섹션 요약 비유**: 경량화는 캠핑 짐 싸기와 같다. 집에서는 모든 것을 갖춰도 되지만 배낭 여행(엣지 디바이스)에는 핵심만 골라 최소로 싸야 한다. 어떤 짐을 버릴지(프루닝), 접어서 압축할지([[434_quantization|양자화]]), 요약본으로 대체할지(지식 증류) 상황에 따라 [[268_strategy_pattern|전략]]이 달라진다.
+📢 **섹션 요약 비유**: 경량화는 캠핑 짐 싸기와 같다. 집에서는 모든 것을 갖춰도 되지만 배낭 여행(엣지 디바이스)에는 핵심만 골라 최소로 싸야 한다. 어떤 짐을 버릴지(프루닝), 접어서 압축할지([양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)), 요약본으로 대체할지(지식 증류) 상황에 따라 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 달라진다.
 
 ---
 
@@ -171,35 +175,35 @@ X_T    →    X_{T-1}    →  ...  →  X_0
 
 | 영역 | 기대 효과 |
 |:---|:---|
-| **소비자 기기** | 오프라인 [[190_ai_llm_requirements_specification|AI]] 어시스턴트, 프라이버시 보장 |
-| **자동차** | [[141_v2x_vehicle_to_everything_communication|V2X]] 없이도 실시간 자율주행 판단 |
-| **의료기기** | [[863_hipaa|HIPAA]] 준수 로컬 진단 [[190_ai_llm_requirements_specification|AI]] |
-| **산업 [[101_iot_concept|IoT]]** | 네트워크 단절 환경에서도 [[190_ai_llm_requirements_specification|AI]] 추론 |
+| **소비자 기기** | 오프라인 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 어시스턴트, 프라이버시 보장 |
+| **자동차** | [V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/) 없이도 실시간 자율주행 판단 |
+| **의료기기** | [HIPAA](/knowledge-base/studynote/09_security/17_framework_compliance/863_hipaa/) 준수 로컬 진단 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) |
+| **산업 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)** | 네트워크 단절 환경에서도 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 추론 |
 | **에너지 절감** | 클라우드 전송 불필요 → 탄소 감소 |
 
 ### 5.2 결론
 
-지식 증류·[[434_quantization|양자화]]·프루닝은 서로 보완적인 기술이며, 최적의 경량 [[190_ai_llm_requirements_specification|AI]] 시스템은 세 기법을 목표 환경에 맞게 조합하여 적용한다. SLM의 등장은 AI의 민주화([[190_ai_llm_requirements_specification|AI]] Democratization)를 가속하며, 특히 [[153_diffusion_model_stable_diffusion_denoising|디퓨전 모델]]의 경량화는 실시간 창작 AI를 일반 기기로 확산시키는 핵심 동력이다.
+지식 증류·[양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)·프루닝은 서로 보완적인 기술이며, 최적의 경량 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시스템은 세 기법을 목표 환경에 맞게 조합하여 적용한다. SLM의 등장은 AI의 민주화([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Democratization)를 가속하며, 특히 [디퓨전 모델](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/)의 경량화는 실시간 창작 AI를 일반 기기로 확산시키는 핵심 동력이다.
 
-📢 **섹션 요약 비유**: 경량 AI는 전기차의 배터리 효율화와 같다. 처음엔 주행 거리가 짧았지만 기술이 발전하며 가솔린 차와 대등해졌다. 경량 모델도 마찬가지—처음엔 대형 모델에 뒤처졌지만 이제는 많은 실무 과제에서 거의 동등한 [[282_performance_tactics|성능]]을 발휘한다.
+📢 **섹션 요약 비유**: 경량 AI는 전기차의 배터리 효율화와 같다. 처음엔 주행 거리가 짧았지만 기술이 발전하며 가솔린 차와 대등해졌다. 경량 모델도 마찬가지—처음엔 대형 모델에 뒤처졌지만 이제는 많은 실무 과제에서 거의 동등한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 발휘한다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| [[083_relationship_in_er_model|관계]] | 개념 | 설명 |
+| [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
 |:---|:---|:---|
 | 문제 | 대형 모델 배포 비용 | 수백 GB 모델은 엣지 배포 불가 |
 | 해결책 | 지식 증류(Knowledge Distillation) | 교사→학생 모델 소프트 레이블 전달 |
-| 해결책 | [[434_quantization|양자화]]([[434_quantization|Quantization]]) | FP32→INT8/INT4 [[233_precision_recall_f1_roc_auc_threshold|정밀도]] 감소 |
-| 해결책 | 프루닝([[435_pruning_hardware|Pruning]]) | 중요도 낮은 [[267_weight_bias_activation|가중치]] 제거 |
-| 결과물 | [[313_slm|SLM]]([[313_slm|Small Language Model]]) | 경량 언어 모델 (Phi-3, Gemma 등) |
-| 관련 기술 | [[153_diffusion_model_stable_diffusion_denoising|디퓨전 모델]]([[153_diffusion_model_stable_diffusion_denoising|Diffusion Model]]) | 노이즈 제거 기반 [[087_process_state_transition|생성]] 모델 |
+| 해결책 | [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)) | FP32→INT8/INT4 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 감소 |
+| 해결책 | 프루닝([Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)) | 중요도 낮은 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 제거 |
+| 결과물 | [SLM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/313_slm/)([Small Language Model](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/313_slm/)) | 경량 언어 모델 (Phi-3, Gemma 등) |
+| 관련 기술 | [디퓨전 모델](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/)([Diffusion Model](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/)) | 노이즈 제거 기반 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델 |
 | 가속 기법 | DDIM | 확산 역방향 단계 20x 감소 |
-| 배포 환경 | 온디바이스(On-device) [[190_ai_llm_requirements_specification|AI]] | 프라이버시·저지연 추론 |
+| 배포 환경 | 온디바이스(On-device) [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) | 프라이버시·저지연 추론 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 거대한 [[190_ai_llm_requirements_specification|AI]] 모델은 100권짜리 백과사전 같아요. 스마트폰에 들어가려면 핵심만 뽑아 10권으로 만드는 과정이 지식 증류예요.
+1. 거대한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델은 100권짜리 백과사전 같아요. 스마트폰에 들어가려면 핵심만 뽑아 10권으로 만드는 과정이 지식 증류예요.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -218,8 +222,8 @@ SLM (Small Language Model): Phi · Gemma · Mistral
     ▼
 엣지 배포 · 디퓨전 모델 최적화
 ```
-2. [[434_quantization|양자화]]는 그 10권 책의 글씨를 아주 작게 줄여 인쇄하는 것—내용은 같은데 공간을 4배 덜 차지해요.
-3. [[153_diffusion_model_stable_diffusion_denoising|디퓨전 모델]]은 낙서를 지우는 과정을 거꾸로 배워서, 마치 마법처럼 아무것도 없는 화면에서 새로운 그림을 그려내는 AI예요.
+2. [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)는 그 10권 책의 글씨를 아주 작게 줄여 인쇄하는 것—내용은 같은데 공간을 4배 덜 차지해요.
+3. [디퓨전 모델](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/)은 낙서를 지우는 과정을 거꾸로 배워서, 마치 마법처럼 아무것도 없는 화면에서 새로운 그림을 그려내는 AI예요.
 
 ---
 
@@ -227,7 +231,7 @@ SLM (Small Language Model): Phi · Gemma · Mistral
 
 **진행 상황**: 252 / 258
 
-← **이전**: [[251_hallucination_rag_augmented_retrieval_vector_db|251. 할루시네이션 (Hallucination) RAG (Retrieval Augmented Generation) 벡터 DB]]
-**다음**: [[253_reinforcement_learning_mdp_policy_value_q_learning_dqn|253. 강화 학습 (Reinforcement Learning) MDP 정책 가치 Q러닝 DQN]] →
+← **이전**: [251. 할루시네이션 (Hallucination) RAG (Retrieval Augmented Generation) 벡터 DB](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/)
+**다음**: [253. 강화 학습 (Reinforcement Learning) MDP 정책 가치 Q러닝 DQN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) →
 
 ---

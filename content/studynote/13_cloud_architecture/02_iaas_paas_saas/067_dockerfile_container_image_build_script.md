@@ -1,14 +1,18 @@
----
-title: 67. 도커 파일 (Dockerfile) - 컨테이너 이미지를 생성(빌드)하기 위한 명령어 명세 스크립트 (IaC 성격)
-date: '2026-04-07'
-tags:
-- studynote-cloud
----
++++
+title = "67. 도커 파일 (Dockerfile) - 컨테이너 이미지를 생성(빌드)하기 위한 명령어 명세 스크립트 (IaC 성격)"
+date = 2026-04-07
+
+[taxonomies]
+tags = ["studynote-cloud"]
+
+[extra]
+tags = ["studynote-cloud"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Dockerfile은 이미지를 어떻게 만들지 선언하는 빌드 스크립트다.
-> 2. **가치**: 이미지 [[087_process_state_transition|생성]] 과정을 코드로 관리해 재현성과 자동화를 높인다.
+> 2. **가치**: 이미지 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 과정을 코드로 관리해 재현성과 자동화를 높인다.
 > 3. **판단**: 레이어, 캐시, 최적화, 보안 베스트 프랙티스를 함께 고려해야 한다.
 
 ---
@@ -17,7 +21,7 @@ tags:
 
 같은 이미지라도 만드는 방법이 다르면 결과와 속도가 달라진다. Dockerfile은 그 절차를 문서화한 것이다.
 
-그래서 Dockerfile은 사실상 이미지 [[087_process_state_transition|생성]]용 [[793_iac_idempotency_template|IaC]]([[062_infrastructure_as_code|Infrastructure as Code]]) 성격을 가진다.
+그래서 Dockerfile은 사실상 이미지 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)용 [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/)([Infrastructure as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/)) 성격을 가진다.
 
 - **📢 섹션 요약 비유**: 요리 순서를 적은 레시피 카드다.
 
@@ -37,7 +41,7 @@ Container
 | :-- | :-- |
 | FROM | 베이스 이미지 |
 | RUN | 빌드 시 실행 |
-| COPY | [[501_file_definition_logical_record|파일]] 복사 |
+| COPY | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 복사 |
 | CMD/ENTRYPOINT | 실행 명령 |
 
 Dockerfile은 레이어를 쌓아 이미지를 만든다. 레이어 순서와 캐시 활용이 빌드 속도를 좌우한다.
@@ -48,7 +52,7 @@ Dockerfile은 레이어를 쌓아 이미지를 만든다. 레이어 순서와 �
 
 ## Ⅲ. 비교 및 연결
 
-| 구분 | Dockerfile | Image | [[194_container_virtualization_docker_namespace|Container]] |
+| 구분 | Dockerfile | Image | [Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/) |
 | :-- | :-- | :-- | :-- |
 | 성격 | 정의서 | 결과물 | 실행 인스턴스 |
 | 변경 | 코드 수정 | 새 빌드 필요 | 재실행 필요 |
@@ -59,7 +63,7 @@ Dockerfile은 레이어를 쌓아 이미지를 만든다. 레이어 순서와 �
 | 최소 베이스 | 크기 감소 |
 | 멀티 스테이지 | 산출물 분리 |
 
-Dockerfile은 재현 가능한 빌드의 핵심이다. 따라서 [[288_version_ihl_tos_total_length|버전]] 관리와 리뷰 대상이 된다.
+Dockerfile은 재현 가능한 빌드의 핵심이다. 따라서 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리와 리뷰 대상이 된다.
 
 - **📢 섹션 요약 비유**: 조립 설명서가 있으면 같은 제품을 여러 번 똑같이 만들 수 있다.
 
@@ -67,7 +71,7 @@ Dockerfile은 재현 가능한 빌드의 핵심이다. 따라서 [[288_version_i
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 베이스 이미지를 최소화했는가?
 2. 캐시가 잘 활용되는 순서인가?
@@ -75,14 +79,14 @@ Dockerfile은 재현 가능한 빌드의 핵심이다. 따라서 [[288_version_i
 4. 멀티 스테이지 빌드를 쓰는가?
 5. 비밀정보를 이미지에 넣지 않는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - latest 태그만 쓰는 설계
 - 거대한 단일 레이어 설계
 - 비밀값을 이미지에 박는 설계
 - 빌드와 런타임을 분리하지 않는 설계
 
-기술사 관점에서는 Dockerfile을 "명령 목록"이 아니라 "이미지 [[087_process_state_transition|생성]] 설계서"로 설명해야 한다.
+기술사 관점에서는 Dockerfile을 "명령 목록"이 아니라 "이미지 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 설계서"로 설명해야 한다.
 
 - **📢 섹션 요약 비유**: 같은 집을 짓더라도 설계도가 있어야 빠르고 정확하다.
 
@@ -92,7 +96,7 @@ Dockerfile은 재현 가능한 빌드의 핵심이다. 따라서 [[288_version_i
 
 Dockerfile을 잘 쓰면 빌드 자동화와 이미지 품질이 좋아진다. 그래서 배포 일관성이 높아진다.
 
-결론적으로 Dockerfile은 [[561_container_based_deployment|컨테이너]] 이미지를 만드는 선언적 빌드 명세다.
+결론적으로 Dockerfile은 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지를 만드는 선언적 빌드 명세다.
 
 - **📢 섹션 요약 비유**: 만들기 전에 레시피를 잘 적어 두면 실패가 줄어든다.
 
@@ -138,7 +142,7 @@ CI/CD
 
 **진행 상황**: 66 / 371
 
-← **이전**: [[066_docker_daemon_dockerd|66. 도커 데몬 (Docker Daemon, dockerd) - 컨테이너 라이프사이클 관리 프로세스]]
-**다음**: [[068_docker_image_immutable_package|68. 도커 이미지 (Docker Image) - 불변(Immutable) 상태의 애플리케이션 실행 패키지 파일]] →
+← **이전**: [66. 도커 데몬 (Docker Daemon, dockerd) - 컨테이너 라이프사이클 관리 프로세스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/066_docker_daemon_dockerd/)
+**다음**: [68. 도커 이미지 (Docker Image) - 불변(Immutable) 상태의 애플리케이션 실행 패키지 파일](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/068_docker_image_immutable_package/) →
 
 ---

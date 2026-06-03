@@ -1,14 +1,18 @@
----
-title: 165. V2G (Vehicle to Grid) - 전기차 배터리의 남는 전력을 전력망으로 역송전하여 전력 피크 부하를 줄이는 기술
-date: '2026-05-05'
-tags:
-- studynote-ict-convergence
----
++++
+title = "165. V2G (Vehicle to Grid) - 전기차 배터리의 남는 전력을 전력망으로 역송전하여 전력 피크 부하를 줄이는 기술"
+date = 2026-05-05
+
+[taxonomies]
+tags = ["studynote-ict-convergence"]
+
+[extra]
+tags = ["studynote-ict-convergence"]
++++
 
 ## 핵심 인사이트
 
-> 1. **본질**: V2G (Vehicle to Grid)는 전기차 ([[154_ev_earned_value|EV]], Electric Vehicle)의 배터리를 단순 이동 수단이 아니라, 전력망과 양방향으로 연결되는 분산형 에너지 저장 자원으로 활용하는 기술이다.
-> 2. **가치**: 밤에는 충전하고 피크 시간에는 방전함으로써 재생에너지 변동성 완화, 최대수요 [[656_ir_containment|억제]], 계통 보조서비스 제공 같은 효과를 동시에 얻을 수 있다.
+> 1. **본질**: V2G (Vehicle to Grid)는 전기차 ([EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/), Electric Vehicle)의 배터리를 단순 이동 수단이 아니라, 전력망과 양방향으로 연결되는 분산형 에너지 저장 자원으로 활용하는 기술이다.
+> 2. **가치**: 밤에는 충전하고 피크 시간에는 방전함으로써 재생에너지 변동성 완화, 최대수요 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/), 계통 보조서비스 제공 같은 효과를 동시에 얻을 수 있다.
 > 3. **판단 포인트**: V2G는 "차에 배터리가 크다"는 사실만으로 성립하지 않으며, 양방향 충전기, 통신 표준, 배터리 열화 관리, 사용자 이동성 보장이 함께 맞아야 사업성이 나온다.
 
 ---
@@ -17,7 +21,7 @@ tags:
 
 V2G (Vehicle to Grid)는 전기차가 전력망에서 전기를 받아 충전만 하는 존재를 넘어, 필요할 때는 다시 전력망으로 전기를 돌려보내는 양방향 에너지 연계 기술이다. 즉 전기차는 소비자이면서 동시에 작은 공급자 역할도 할 수 있다. 이 개념이 성립하면 주차장에 서 있는 수많은 차량이 하나의 거대한 가상 배터리 집합처럼 동작한다.
 
-V2G가 주목받는 이유는 두 가지다. 첫째, 태양광·풍력 비중이 커질수록 전력 생산이 시간대별로 흔들리는데, 이를 흡수할 저장 자원이 필요하다. 둘째, 전기차 보급이 늘수록 배터리 총량이 고정식 에너지 저장 시스템 ([[164_ess_energy_storage_system|ESS]], [[164_ess_energy_storage_system|Energy Storage System]]) 못지않게 커지므로, 이 자원을 유휴 시간 동안 활용하면 별도의 발전 설비 증설 부담을 줄일 수 있다.
+V2G가 주목받는 이유는 두 가지다. 첫째, 태양광·풍력 비중이 커질수록 전력 생산이 시간대별로 흔들리는데, 이를 흡수할 저장 자원이 필요하다. 둘째, 전기차 보급이 늘수록 배터리 총량이 고정식 에너지 저장 시스템 ([ESS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/164_ess_energy_storage_system/), [Energy Storage System](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/164_ess_energy_storage_system/)) 못지않게 커지므로, 이 자원을 유휴 시간 동안 활용하면 별도의 발전 설비 증설 부담을 줄일 수 있다.
 
 특히 대부분의 승용 전기차는 하루 중 실제 주행 시간보다 주차 시간이 훨씬 길다. 이 정지 시간을 활용해 충전과 방전을 지능적으로 제어하면, 전력망 입장에서는 피크 부하를 깎고 예비력을 보강하는 수단이 된다.
 
@@ -41,14 +45,14 @@ V2G가 주목받는 이유는 두 가지다. 첫째, 태양광·풍력 비중이
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-V2G가 작동하려면 차량, 충전기, 운영 플랫폼, 전력망이 한 세트로 움직여야 한다. 차량 내부에서는 배터리 관리 시스템 (BMS, Battery [[372_management|Management]] System)이 상태충전율 ([[131_soc|SoC]], [[272_state_pattern|State]] of Charge)과 온도를 감시하고, 외부에서는 양방향 전력변환장치가 교류와 직류를 바꾼다. 그 위에서 에너지 관리 시스템 (EMS, Energy [[372_management|Management]] System)이나 집합사업자 (Aggregator)가 요금, 계통 수요, 차량 출발 예정 시간을 고려해 충방전 시점을 조정한다.
+V2G가 작동하려면 차량, 충전기, 운영 플랫폼, 전력망이 한 세트로 움직여야 한다. 차량 내부에서는 배터리 관리 시스템 (BMS, Battery [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System)이 상태충전율 ([SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/), [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) of Charge)과 온도를 감시하고, 외부에서는 양방향 전력변환장치가 교류와 직류를 바꾼다. 그 위에서 에너지 관리 시스템 (EMS, Energy [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System)이나 집합사업자 (Aggregator)가 요금, 계통 수요, 차량 출발 예정 시간을 고려해 충방전 시점을 조정한다.
 
 | 구성 요소 | 역할 | 핵심 설계 포인트 |
 | :--- | :--- | :--- |
-| [[154_ev_earned_value|EV]] 배터리 | 전력 저장 및 방전 | 사용 가능 용량, 수명, 열화 |
-| 양방향 충전기 | 충전·방전 전력 변환 | 효율, 계통 연계, 안전 [[571_protection_vs_security|보호]] |
-| BMS | 배터리 상태 감시 | [[131_soc|SoC]], 온도, 충전 한계 |
-| 통신 표준 | 차량-충전기-운영자 정보 교환 | ISO 15118 기반 [[287_interoperability_tactics|상호운용성]] |
+| [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) 배터리 | 전력 저장 및 방전 | 사용 가능 용량, 수명, 열화 |
+| 양방향 충전기 | 충전·방전 전력 변환 | 효율, 계통 연계, 안전 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) |
+| BMS | 배터리 상태 감시 | [SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/), 온도, 충전 한계 |
+| 통신 표준 | 차량-충전기-운영자 정보 교환 | ISO 15118 기반 [상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/) |
 | 집합사업자 | 다수 차량 제어 및 시장 참여 | 스케줄링, 정산, 예측 정확도 |
 
 아래 그림은 V2G가 단순 차량 충전이 아니라, 제어 신호와 전력 흐름이 동시에 오가는 구조임을 보여준다.
@@ -79,19 +83,19 @@ V2G가 작동하려면 차량, 충전기, 운영 플랫폼, 전력망이 한 세
 
 ## Ⅲ. 비교 및 연결
 
-V2G를 정확히 보려면 [[008_단방향_반이중_전이중|단방향]] 스마트 충전과 다른 [[141_v2x_vehicle_to_everything_communication|V2X]] ([[589_v2x_vehicle_to_everything_autonomous|Vehicle to Everything]]) 계열 기술과 구분해야 한다. V1G ([[008_단방향_반이중_전이중|단방향]] 스마트 충전)는 충전 시간만 조절하지만, V2G는 실제로 전력을 다시 내보낸다. 또 V2H (Vehicle to Home)는 가정에 전력을 공급하고, V2L (Vehicle to Load)은 개별 기기에 전력을 제공하며, V2G는 계통 또는 전력시장과 연결된다는 점에서 범위가 더 크다.
+V2G를 정확히 보려면 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 스마트 충전과 다른 [V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/) ([Vehicle to Everything](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/589_v2x_vehicle_to_everything_autonomous/)) 계열 기술과 구분해야 한다. V1G ([단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 스마트 충전)는 충전 시간만 조절하지만, V2G는 실제로 전력을 다시 내보낸다. 또 V2H (Vehicle to Home)는 가정에 전력을 공급하고, V2L (Vehicle to Load)은 개별 기기에 전력을 제공하며, V2G는 계통 또는 전력시장과 연결된다는 점에서 범위가 더 크다.
 
 | 항목 | 스마트 충전 (V1G) | V2H (Vehicle to Home) | V2G |
 | :--- | :--- | :--- | :--- |
 | 전력 방향 | Grid → Vehicle | Vehicle → Home | Vehicle ↔ Grid |
-| 주목적 | 충전 시간 최적화 | 가정 [[555_backup_and_restore_strategy|백업]]·자가소비 | 계통 보조·피크 절감 |
+| 주목적 | 충전 시간 최적화 | 가정 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)·자가소비 | 계통 보조·피크 절감 |
 | 필요 장비 | 제어형 충전기 | 양방향 충전기 | 양방향 충전기 + 시장 연계 |
 | 사업 복잡도 | 낮음 | 중간 | 높음 |
-| 가치 창출 | 요금 절감 | 자가소비 최적화 | 계통 [[090_service_kubernetes_network_load_balancing|서비스]]·정산 수익 |
+| 가치 창출 | 요금 절감 | 자가소비 최적화 | 계통 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)·정산 수익 |
 
 또한 V2G는 고정식 ESS와도 연결된다. ESS는 항상 제어 가능한 장점이 있지만 설치 비용이 직접 발생하고 위치가 고정된다. 반면 V2G는 이미 보급된 차량 배터리를 활용할 수 있으나, 차량 소유자의 이동 계획과 연결 상태에 영향을 받는다. 따라서 안정적인 계통 자원으로 쓰려면 예측과 계약 구조가 중요하다.
 
-이 점에서 V2G는 [[161_smart_grid_architecture|스마트 그리드]], 가상발전소 (VPP, Virtual [[069_type_1_2_error_statistical_power|Power]] Plant), 수요반응 ([[360_ospf_dr_bdr_designated_router_lsa_flooding|DR]], Demand Response)과 자연스럽게 이어진다. 단일 차량은 작지만, 집합되면 하나의 전력 자원으로 거래될 수 있기 때문이다.
+이 점에서 V2G는 [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/), 가상발전소 (VPP, Virtual [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Plant), 수요반응 ([DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/), Demand Response)과 자연스럽게 이어진다. 단일 차량은 작지만, 집합되면 하나의 전력 자원으로 거래될 수 있기 때문이다.
 
 - **📢 섹션 요약 비유**: V1G가 전기차 충전 시간을 잘 맞추는 예약 시스템이라면, V2G는 필요할 때 창고 물건을 다시 꺼내 시장에 내다 파는 운영 시스템이다.
 
@@ -101,19 +105,19 @@ V2G를 정확히 보려면 [[008_단방향_반이중_전이중|단방향]] 스�
 
 실무에서 V2G는 개인 승용차보다 **운행 패턴이 예측 가능한 차량군**에서 먼저 성과를 내기 쉽다. 예를 들어 전기버스 차고지, 법인 차량 주차장, 물류 차량 기지는 밤 동안 긴 시간 주차하고 출발 시간이 비교적 일정해 집합 제어에 유리하다. 이런 환경에서는 주파수 조정, 피크 절감, 재생에너지 잉여 흡수 같은 목적을 구체적으로 설계할 수 있다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 차량의 평균 주차 시간과 출발 예측 정확도가 충분한가?
-2. 양방향 충전기와 [[571_protection_vs_security|보호]] 계전 체계가 계통 연계 요건을 만족하는가?
+2. 양방향 충전기와 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 계전 체계가 계통 연계 요건을 만족하는가?
 3. 배터리 열화 비용을 수익 모델에 반영했는가?
-4. ISO 15118, OCPP (Open Charge Point [[295_protocol_field_tcp_udp_icmp|Protocol]]) 등 상호운용 표준을 지원하는가?
+4. ISO 15118, OCPP (Open Charge Point [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)) 등 상호운용 표준을 지원하는가?
 5. 사용자에게 최소 주행 가능 거리와 보상 구조를 명확히 제공하는가?
 
 ### 판단 원칙
 
 - **도입이 유리한 경우**: 차량 가동 스케줄이 예측 가능하고, 시간대별 전력요금 차나 계통 보조서비스 가치가 큰 환경.
-- **신중해야 하는 경우**: 차량 출발 시간이 불규칙하거나, 충전 인프라가 [[008_단방향_반이중_전이중|단방향]] 위주이거나, 배터리 보증 정책이 불명확한 환경.
-- **대표 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]**: 배터리 수명 저하, 사용자 불만, 통신 불안정, 정산 체계 미성숙.
+- **신중해야 하는 경우**: 차량 출발 시간이 불규칙하거나, 충전 인프라가 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 위주이거나, 배터리 보증 정책이 불명확한 환경.
+- **대표 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)**: 배터리 수명 저하, 사용자 불만, 통신 불안정, 정산 체계 미성숙.
 
 기술사 관점에서는 "전기차 배터리를 전력망에 연결한다"는 설명만으로는 부족하다. V2G는 전력 변환 효율, 배터리 열화, 정산 규칙, 사용자 경험을 함께 다루는 사업·기술 융합 문제라고 정리해야 설득력이 높다.
 
@@ -137,11 +141,11 @@ V2G가 잘 정착되면 전력망은 피크 부하를 줄이고, 재생에너지
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[154_ev_earned_value|EV]] (Electric Vehicle) | V2G의 전력 저장 매체이자 이동 수단 |
-| [[164_ess_energy_storage_system|ESS]] ([[164_ess_energy_storage_system|Energy Storage System]]) | V2G와 비교되는 고정형 저장 자원 |
+| [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) (Electric Vehicle) | V2G의 전력 저장 매체이자 이동 수단 |
+| [ESS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/164_ess_energy_storage_system/) ([Energy Storage System](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/164_ess_energy_storage_system/)) | V2G와 비교되는 고정형 저장 자원 |
 | ISO 15118 | 차량-충전기 간 통신과 인증의 핵심 표준 |
-| VPP (Virtual [[069_type_1_2_error_statistical_power|Power]] Plant) | 다수 차량을 집합 자원으로 운용하는 상위 개념 |
-| [[360_ospf_dr_bdr_designated_router_lsa_flooding|DR]] (Demand Response) | 수요 조절과 연계되는 운영 모델 |
+| VPP (Virtual [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Plant) | 다수 차량을 집합 자원으로 운용하는 상위 개념 |
+| [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) (Demand Response) | 수요 조절과 연계되는 운영 모델 |
 | V2H (Vehicle to Home) | 계통이 아닌 가정 중심 방전 응용 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -174,7 +178,7 @@ V2G (Vehicle to Grid)
 
 **진행 상황**: 165 / 552
 
-← **이전**: [[164_ess_energy_storage_system|164. ESS (Energy Storage System)]]
-**다음**: [[166_smart_factory|166. 스마트 팩토리 (Smart Factory)]] →
+← **이전**: [164. ESS (Energy Storage System)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/164_ess_energy_storage_system/)
+**다음**: [166. 스마트 팩토리 (Smart Factory)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/) →
 
 ---

@@ -1,15 +1,19 @@
----
-title: 1. 배열 (Array) — 연속 메모리, O(1) 랜덤 접근
-date: '2026-04-21'
-tags:
-- studynote-algorithm
----
++++
+title = "1. 배열 (Array) — 연속 메모리, O(1) 랜덤 접근"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-algorithm"]
+
+[extra]
+tags = ["studynote-algorithm"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 배열 (Array)은 동일 타입 원소를 연속된 메모리 블록에 저장하여, [[154_database_index_b_tree_search_optimization|인덱스]] 하나로 임의의 위치를 O(1)에 접근하는 가장 단순하고 빠른 선형 자료구조다.
-> 2. **가치**: CPU 캐시 라인이 연속 메모리를 한 번에 로드하므로, 순차 탐색 시 캐시 히트율이 극도로 높아 실질 [[282_performance_tactics|성능]]이 [[056_linked_list|연결 리스트]]를 압도한다.
-> 3. **판단 포인트**: 크기가 고정되고 읽기·순회가 빈번하면 배열, 삽입·삭제가 많거나 크기가 가변적이면 동적 배열(ArrayList)이나 [[056_linked_list|연결 리스트]]를 선택한다.
+> 1. **본질**: 배열 (Array)은 동일 타입 원소를 연속된 메모리 블록에 저장하여, [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 하나로 임의의 위치를 O(1)에 접근하는 가장 단순하고 빠른 선형 자료구조다.
+> 2. **가치**: CPU 캐시 라인이 연속 메모리를 한 번에 로드하므로, 순차 탐색 시 캐시 히트율이 극도로 높아 실질 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)를 압도한다.
+> 3. **판단 포인트**: 크기가 고정되고 읽기·순회가 빈번하면 배열, 삽입·삭제가 많거나 크기가 가변적이면 동적 배열(ArrayList)이나 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)를 선택한다.
 
 ---
 
@@ -17,20 +21,20 @@ tags:
 
 배열은 컴퓨터 메모리의 물리적 특성—주소 연산이 O(1)—을 그대로 활용한 원시 자료구조다. 배열의 시작 주소 `base`와 원소 크기 `size`를 알면, `i`번째 원소 주소는 `base + i × size`로 즉시 계산된다. 포인터 추적 없이 단 한 번의 산술 연산이므로 **랜덤 접근 (Random Access)이 O(1)**이다.
 
-### 배열의 [[002_time_complexity|시간 복잡도]]
+### 배열의 [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)
 
 | 연산 | 배열(정적) | 동적 배열 |
 |:---|:---:|:---:|
-| 접근 ([[154_database_index_b_tree_search_optimization|index]]) | O(1) | O(1) |
+| 접근 ([index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) | O(1) | O(1) |
 | 탐색 (선형) | O(n) | O(n) |
 | 삽입 (끝) | — | O(1) 분할상환 |
 | 삽입 (중간) | O(n) | O(n) |
 | 삭제 (끝) | — | O(1) |
 | 삭제 (중간) | O(n) | O(n) |
 
-정적 배열(C의 `int arr[100]`)은 [[057_stack|스택]] 또는 힙에 고정 크기로 할당된다. 동적 배열 (Dynamic Array, Java `ArrayList`, C++ `vector`, Python `list`)은 용량 초과 시 2배 크기로 재할당(Doubling)하여 삽입 n번의 분할상환 비용을 O(1)로 유지한다.
+정적 배열(C의 `int arr[100]`)은 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 또는 힙에 고정 크기로 할당된다. 동적 배열 (Dynamic Array, Java `ArrayList`, C++ `vector`, Python `list`)은 용량 초과 시 2배 크기로 재할당(Doubling)하여 삽입 n번의 분할상환 비용을 O(1)로 유지한다.
 
-📢 **섹션 요약 비유**: 배열은 아파트 각 호실에 같은 크기 물건을 하나씩 넣은 것—호수([[154_database_index_b_tree_search_optimization|인덱스]])만 알면 엘리베이터 없이 바로 가는 구조다.
+📢 **섹션 요약 비유**: 배열은 아파트 각 호실에 같은 크기 물건을 하나씩 넣은 것—호수([인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))만 알면 엘리베이터 없이 바로 가는 구조다.
 
 ---
 
@@ -62,9 +66,9 @@ base address = 0x1000, sizeof(int) = 4
 
 ### 캐시 지역성 (Cache Locality)
 
-현대 CPU는 데이터를 64바이트 단위의 **캐시 라인 (Cache Line)** 으로 로드한다. 배열 원소는 연속 메모리이므로 `arr[0]` 접근 시 `arr[0]~arr[15]`(int 기준)가 L1 캐시에 한꺼번에 올라온다. 순차 순회 시 캐시 미스가 거의 없어 [[056_linked_list|연결 리스트]] 대비 2~10배 빠른 실측 [[282_performance_tactics|성능]]을 보인다.
+현대 CPU는 데이터를 64바이트 단위의 **캐시 라인 (Cache Line)** 으로 로드한다. 배열 원소는 연속 메모리이므로 `arr[0]` 접근 시 `arr[0]~arr[15]`(int 기준)가 L1 캐시에 한꺼번에 올라온다. 순차 순회 시 캐시 미스가 거의 없어 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) 대비 2~10배 빠른 실측 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보인다.
 
-### 동적 배열 성장 [[268_strategy_pattern|전략]]
+### 동적 배열 성장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
 ```
 초기 capacity = 1
@@ -76,24 +80,24 @@ base address = 0x1000, sizeof(int) = 4
   n번 삽입 총 복사 횟수 = 1+2+4+...+n < 2n  →  O(1) amortized
 ```
 
-📢 **섹션 요약 비유**: 동적 배열은 방이 꽉 차면 두 배 큰 집으로 이사하는 [[268_strategy_pattern|전략]]—이삿짐이 가끔 많지만, 평균적으로는 한 번에 조금씩 옮기는 셈이다.
+📢 **섹션 요약 비유**: 동적 배열은 방이 꽉 차면 두 배 큰 집으로 이사하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)—이삿짐이 가끔 많지만, 평균적으로는 한 번에 조금씩 옮기는 셈이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 배열 vs [[056_linked_list|연결 리스트]] vs [[067_hash_table|해시 테이블]]
+### 배열 vs [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) vs [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)
 
-| 항목 | 배열 | [[056_linked_list|연결 리스트]] | [[067_hash_table|해시 테이블]] |
+| 항목 | 배열 | [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) | [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/) |
 |:---|:---:|:---:|:---:|
-| 접근 | O(1) [[154_database_index_b_tree_search_optimization|인덱스]] | O(n) | O(1) 평균 |
+| 접근 | O(1) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) | O(n) | O(1) 평균 |
 | 삽입(끝) | O(1) amort | O(1) | O(1) 평균 |
 | 삽입(중간) | O(n) | O(1) 포인터 | — |
-| 메모리 연속성 | ✅ 연속 | ❌ [[136_variance|분산]] | 부분 연속 |
+| 메모리 연속성 | ✅ 연속 | ❌ [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) | 부분 연속 |
 | 캐시 효율 | ✅ 최고 | ❌ 낮음 | 중간 |
 | 크기 유연성 | 정적 고정 | 동적 | 동적 |
 
-📢 **섹션 요약 비유**: 배열은 칠판에 번호 순서대로 적은 리스트, [[056_linked_list|연결 리스트]]는 각 메모장에 "다음은 저 서랍"이라고 적은 보물지도다.
+📢 **섹션 요약 비유**: 배열은 칠판에 번호 순서대로 적은 리스트, [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)는 각 메모장에 "다음은 저 서랍"이라고 적은 보물지도다.
 
 ---
 
@@ -101,10 +105,10 @@ base address = 0x1000, sizeof(int) = 4
 
 ### 주요 활용 사례
 
-- **버퍼 관리 (Buffer [[372_management|Management]])**: 네트워크 패킷, I/O 버퍼, 링 버퍼(원형 배열)
-- **행렬 연산 (Matrix Operations)**: 그래픽스 변환, 딥러닝 [[267_weight_bias_activation|가중치]] 텐서, BLAS [[336_library_vs_framework|라이브러리]]
-- **힙·[[075_combinatorics|세그먼트 트리]]**: 완전 [[060_binary_tree|이진 트리]]를 배열로 표현 (`parent = (i-1)/2`, `left = 2i+1`)
-- **슬라이딩 윈도우**: 연속 구간 최솟값/최댓값 처리 ([[154_database_index_b_tree_search_optimization|인덱스]] 산술 활용)
+- **버퍼 관리 (Buffer [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))**: 네트워크 패킷, I/O 버퍼, 링 버퍼(원형 배열)
+- **행렬 연산 (Matrix Operations)**: 그래픽스 변환, 딥러닝 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 텐서, BLAS [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)
+- **힙·[세그먼트 트리](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/)**: 완전 [이진 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/060_binary_tree/)를 배열로 표현 (`parent = (i-1)/2`, `left = 2i+1`)
+- **슬라이딩 윈도우**: 연속 구간 최솟값/최댓값 처리 ([인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 산술 활용)
 
 ### 기술사 판단 기준
 
@@ -121,22 +125,22 @@ base address = 0x1000, sizeof(int) = 4
 
 ## Ⅴ. 기대효과 및 결론
 
-배열은 자료구조의 '원점'이다. [[154_database_index_b_tree_search_optimization|인덱스]] 기반 O(1) 접근과 캐시 친화적 메모리 레이아웃 덕분에, 힙·[[067_hash_table|해시 테이블]]·[[075_combinatorics|세그먼트 트리]] 등 고급 자료구조의 내부 구현이 모두 배열 위에 얹힌다. 한계는 삽입·삭제 시 원소 이동 비용(O(n))과 연속 메모리 확보 제약이다. 동적 배열은 더블링 [[268_strategy_pattern|전략]]으로 공간 낭비를 최대 2배로 제한하면서 분할상환 O(1) 삽입을 달성한다.
+배열은 자료구조의 '원점'이다. [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 기반 O(1) 접근과 캐시 친화적 메모리 레이아웃 덕분에, 힙·[해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)·[세그먼트 트리](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/) 등 고급 자료구조의 내부 구현이 모두 배열 위에 얹힌다. 한계는 삽입·삭제 시 원소 이동 비용(O(n))과 연속 메모리 확보 제약이다. 동적 배열은 더블링 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 공간 낭비를 최대 2배로 제한하면서 분할상환 O(1) 삽입을 달성한다.
 
-**결론**: [[282_performance_tactics|성능]] 최우선·순서 접근 패턴에는 배열이 최적이며, 삽입·삭제 중심·가변 크기 시나리오에는 동적 배열 또는 [[056_linked_list|연결 리스트]]로 전환을 고려한다.
+**결론**: [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최우선·순서 접근 패턴에는 배열이 최적이며, 삽입·삭제 중심·가변 크기 시나리오에는 동적 배열 또는 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)로 전환을 고려한다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 개념 | [[083_relationship_in_er_model|관계]] |
+| 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 |:---|:---|
-| 동적 배열 (Dynamic Array) | 배열 + 더블링 [[268_strategy_pattern|전략]] |
-| [[056_linked_list|연결 리스트]] ([[056_linked_list|Linked List]]) | 연속성 없는 대안, 삽입 O(1) |
-| 힙 ([[078_heap_datastructure|Heap]]) | 배열로 구현하는 완전 [[060_binary_tree|이진 트리]] |
-| [[067_hash_table|해시 테이블]] ([[067_hash_table|Hash Table]]) | 배열 버킷 + [[667_hash_function_integrity_one_way|해시 함수]] |
-| [[075_combinatorics|세그먼트 트리]] ([[075_combinatorics|Segment Tree]]) | 배열 기반 구간 [[298_qkv_attention|쿼리]] |
-| 슬라이딩 윈도우 (Sliding Window) | 배열 [[154_database_index_b_tree_search_optimization|인덱스]] 산술 기법 |
+| 동적 배열 (Dynamic Array) | 배열 + 더블링 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
+| [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) ([Linked List](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)) | 연속성 없는 대안, 삽입 O(1) |
+| 힙 ([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) | 배열로 구현하는 완전 [이진 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/060_binary_tree/) |
+| [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/) ([Hash Table](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)) | 배열 버킷 + [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) |
+| [세그먼트 트리](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/) ([Segment Tree](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/)) | 배열 기반 구간 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) |
+| 슬라이딩 윈도우 (Sliding Window) | 배열 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 산술 기법 |
 
 ---
 
@@ -169,7 +173,7 @@ base address = 0x1000, sizeof(int) = 4
 
 **진행 상황**: 55 / 175
 
-← **이전**: [[054_longest_increasing_subsequence|24. LIS (Longest Increasing Subsequence) — 최장 증가 부분 수열]]
-**다음**: [[056_linked_list|2. 연결 리스트 (Linked List) — 단일/이중/순환]] →
+← **이전**: [24. LIS (Longest Increasing Subsequence) — 최장 증가 부분 수열](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/054_longest_increasing_subsequence/)
+**다음**: [2. 연결 리스트 (Linked List) — 단일/이중/순환](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) →
 
 ---

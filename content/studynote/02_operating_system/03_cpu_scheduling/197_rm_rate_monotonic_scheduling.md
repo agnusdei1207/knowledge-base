@@ -1,22 +1,26 @@
----
-title: 197. RM (Rate Monotonic) 스케줄링
-date: '2026-05-08'
-tags:
-- studynote-operating-system
----
++++
+title = "197. RM (Rate Monotonic) 스케줄링"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: RM (Rate Monotonic) 스케줄링은 하드 실시간(Hard Real-time) 시스템에서 **"주기(Period)가 가장 짧은(자주 실행되는) [[150_task|태스크]]에 가장 높은 정적 우선순위(Static Priority)를 부여"**하는 [[166_preemptive_scheduling|선점형 스케줄링]] [[001_algorithm_definition|알고리즘]]이다.
-> 2. **가치**: [[079_kube_scheduler_pod_placement|스케줄러]]가 런타임에 복잡한 계산을 할 필요 없이 실행 전에 우선순위가 고정되므로 구현이 극도로 단순(오버헤드 최소화)하며, 정적 스케줄링 [[001_algorithm_definition|알고리즘]] 중에서는 **가장 완벽한 수학적 최적(Optimal)** 모델로 증명되었다.
-> 3. **융합**: 하지만 모든 [[150_task|태스크]]가 데드라인을 놓치지 않으려면 시스템의 총 CPU 이용률 상한선이 약 **69.3%**를 넘지 않아야 한다는 이론적 한계점(Liu & Layland Bound)을 가지며, 이를 넘는 고부하 환경에서는 동적 스케줄링인 EDF로 전환해야 한다.
+> 1. **본질**: RM (Rate Monotonic) 스케줄링은 하드 실시간(Hard Real-time) 시스템에서 **"주기(Period)가 가장 짧은(자주 실행되는) [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)에 가장 높은 정적 우선순위(Static Priority)를 부여"**하는 [선점형 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/166_preemptive_scheduling/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
+> 2. **가치**: [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 런타임에 복잡한 계산을 할 필요 없이 실행 전에 우선순위가 고정되므로 구현이 극도로 단순(오버헤드 최소화)하며, 정적 스케줄링 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 중에서는 **가장 완벽한 수학적 최적(Optimal)** 모델로 증명되었다.
+> 3. **융합**: 하지만 모든 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)가 데드라인을 놓치지 않으려면 시스템의 총 CPU 이용률 상한선이 약 **69.3%**를 넘지 않아야 한다는 이론적 한계점(Liu & Layland Bound)을 가지며, 이를 넘는 고부하 환경에서는 동적 스케줄링인 EDF로 전환해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: "빈도(Rate)가 높을수록 단조롭게(Monotonic) 우선순위를 높인다"는 이름 그대로의 뜻이다. 즉, 10ms마다 한 번씩 실행해야 하는 작업은 100ms마다 실행하는 작업보다 무조건 높은 우선순위를 갖게 되며, 이 순위는 시스템이 켜져 있는 내내 절대 변하지 않는 **정적(Static) [[001_algorithm_definition|알고리즘]]**이다.
-- **필요성**: 우주선이나 공장 제어 시스템에는 센서 값을 읽어오는 수십 개의 주기적(Periodic)인 [[150_task|태스크]]들이 돈다. [[079_kube_scheduler_pod_placement|스케줄러]]가 매번 "누가 더 급하지?"를 계산(동적 스케줄링)하려 들면, 그 계산 시간(오버헤드) 자체 때문에 데드라인을 놓치는 참사가 벌어진다. 따라서 아예 컴파일/배포 단계에서 무식하고 확고한 번호표(우선순위)를 붙여주고 런타임에는 꺼내 [[289_cqrs_db|쓰기]]만 하는 초경량 [[079_kube_scheduler_pod_placement|스케줄러]]가 필요했다.
+- **개념**: "빈도(Rate)가 높을수록 단조롭게(Monotonic) 우선순위를 높인다"는 이름 그대로의 뜻이다. 즉, 10ms마다 한 번씩 실행해야 하는 작업은 100ms마다 실행하는 작업보다 무조건 높은 우선순위를 갖게 되며, 이 순위는 시스템이 켜져 있는 내내 절대 변하지 않는 **정적(Static) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**이다.
+- **필요성**: 우주선이나 공장 제어 시스템에는 센서 값을 읽어오는 수십 개의 주기적(Periodic)인 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)들이 돈다. [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 매번 "누가 더 급하지?"를 계산(동적 스케줄링)하려 들면, 그 계산 시간(오버헤드) 자체 때문에 데드라인을 놓치는 참사가 벌어진다. 따라서 아예 컴파일/배포 단계에서 무식하고 확고한 번호표(우선순위)를 붙여주고 런타임에는 꺼내 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)만 하는 초경량 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 필요했다.
 
 - **등장 배경**: 1973년, 리우(Liu)와 레이랜드(Layland)라는 학자가 발표한 논문에서 기원했다. 그들은 "정적 우선순위 방식 중에서 어떤 규칙으로 순위를 매겨야 데드라인 펑크가 가장 안 날까?"를 수학적으로 파고들었고, 그 결과 "주기가 짧은 놈에게 높은 순위를 주는 것(RM)"이 모든 정적 방식 중 유일한 정답(Optimal)임을 증명해 내며 실시간 OS의 바이블이 되었다.
 
@@ -43,14 +47,14 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### RM의 깐깐한 [[039_gantt_chart|간트 차트]] ([[039_gantt_chart|Gantt Chart]]) 증명
+### RM의 깐깐한 [간트 차트](/knowledge-base/studynote/04_software_engineering/01_overview_principles/039_gantt_chart/) ([Gantt Chart](/knowledge-base/studynote/04_software_engineering/01_overview_principles/039_gantt_chart/)) 증명
 
 RM이 어떻게 데드라인을 방어하는지 선점형 동작을 살펴본다.
 *(전제: 주기(P) = 데드라인(D)으로 가정)*
 
 **[시나리오 조건]**
-- **[[150_task|태스크]] 1 (T1)**: 주기 50, 실행 시간 20 ─▶ **우선순위 High (주기가 짧음)**
-- **[[150_task|태스크]] 2 (T2)**: 주기 100, 실행 시간 35 ─▶ **우선순위 Low (주기가 긺)**
+- **[태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 1 (T1)**: 주기 50, 실행 시간 20 ─▶ **우선순위 High (주기가 짧음)**
+- **[태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 2 (T2)**: 주기 100, 실행 시간 35 ─▶ **우선순위 Low (주기가 긺)**
 
 ```text
   ┌────────────────────────────────────────────────────────────────────┐
@@ -77,37 +81,37 @@ RM이 어떻게 데드라인을 방어하는지 선점형 동작을 살펴본다
 
 ### 수학적 한계선: 리우와 레이랜드의 상한 (Liu & Layland Bound)
 
-그렇다면 RM으로 아무 [[150_task|태스크]]나 다 방어할 수 있을까? 절대 아니다. CPU가 견딜 수 있는 한계 이용률(Utilization) 공식이 존재한다.
+그렇다면 RM으로 아무 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)나 다 방어할 수 있을까? 절대 아니다. CPU가 견딜 수 있는 한계 이용률(Utilization) 공식이 존재한다.
 
 - **CPU 이용률 ($U$)** = $\sum \frac{실행시간(C)}{주기(P)}$
-- **RM의 성공 보장 공식**: $U \le N(2^{1/N} - 1)$  *(N은 [[150_task|태스크]]의 개수)*
+- **RM의 성공 보장 공식**: $U \le N(2^{1/N} - 1)$  *(N은 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)의 개수)*
 
-| [[150_task|태스크]] 개수 (N) | RM이 데드라인 100% 보장하는 최대 CPU 이용률 |
+| [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 개수 (N) | RM이 데드라인 100% 보장하는 최대 CPU 이용률 |
 |:---:|:---|
 | N = 1 | 1.0 (100%) |
 | N = 2 | 0.828 (82.8%) |
 | N = 3 | 0.779 (77.9%) |
 | N → $\infty$ | **0.693 (약 69.3%)** |
 
-**[해석]** 이것이 RM 스케줄링의 위대한 발견이자 뼈아픈 족쇄다. 시스템 설계자가 CPU를 70% 미만으로 널널하게 쓰도록 [[150_task|태스크]]를 배치했다면, RM은 **무조건** 100% 데드라인 방어를 수학적으로 개런티한다. 하지만 CPU를 80%, 90%까지 쥐어짜려 든다면 RM은 가차 없이 데드라인을 펑크 내며 시스템을 붕괴시킨다.
+**[해석]** 이것이 RM 스케줄링의 위대한 발견이자 뼈아픈 족쇄다. 시스템 설계자가 CPU를 70% 미만으로 널널하게 쓰도록 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)를 배치했다면, RM은 **무조건** 100% 데드라인 방어를 수학적으로 개런티한다. 하지만 CPU를 80%, 90%까지 쥐어짜려 든다면 RM은 가차 없이 데드라인을 펑크 내며 시스템을 붕괴시킨다.
 
-- **📢 섹션 요약 비유**: RM이라는 가방([[079_kube_scheduler_pod_placement|스케줄러]])은 참 튼튼하고 가볍지만, 가방 용량의 딱 69%까지만 짐(CPU 부하)을 넣었을 때 절대 안 찢어진다는 품질 보증서가 붙어있습니다. 80%를 넣으면 찢어질 수도 있고 안 찢어질 수도 있는 도박이 됩니다.
+- **📢 섹션 요약 비유**: RM이라는 가방([스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/))은 참 튼튼하고 가볍지만, 가방 용량의 딱 69%까지만 짐(CPU 부하)을 넣었을 때 절대 안 찢어진다는 품질 보증서가 붙어있습니다. 80%를 넣으면 찢어질 수도 있고 안 찢어질 수도 있는 도박이 됩니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 정적 우선순위 (RM) vs 동적 우선순위 ([[207_deadline_scheduling|EDF]])
+### 정적 우선순위 (RM) vs 동적 우선순위 ([EDF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/207_deadline_scheduling/))
 
 가장 완벽한 라이벌이자 실시간 스케줄링의 양대 산맥이다.
 
-| 비교 항목 | RM (Rate Monotonic) | [[207_deadline_scheduling|EDF]] ([[207_deadline_scheduling|Earliest Deadline First]]) |
+| 비교 항목 | RM (Rate Monotonic) | [EDF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/207_deadline_scheduling/) ([Earliest Deadline First](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/207_deadline_scheduling/)) |
 |:---|:---|:---|
 | **우선순위 결정** | 배포 전 고정 (정적, Static) | 런타임 매 순간 계산 (동적, Dynamic) |
 | **선택 기준** | 주기가 무조건 짧은 놈 | 지금 당장 데드라인이 제일 코앞인 놈 |
-| **구현 오버헤드** | 극도로 낮음 O(1). [[083_priority_queue|우선순위 큐]] 1개면 됨 | 높음 O(N) 또는 O(log N). 매번 재정렬 필요 |
+| **구현 오버헤드** | 극도로 낮음 O(1). [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/) 1개면 됨 | 높음 O(N) 또는 O(log N). 매번 재정렬 필요 |
 | **CPU 이용률 한계**| **약 69% (자원 낭비 30% 발생)** | **이론상 100% (자원을 극한까지 쥐어짬)** |
-| **과부하 시 동작** | **예측 가능 (Predictable)**. 무조건 주기가 긴 하위 [[150_task|태스크]]부터 희생됨 | **도미노 붕괴 현상 (Domino Effect)**. 누가 죽을지 예측 불가능하며 다 같이 죽을 수도 있음 |
+| **과부하 시 동작** | **예측 가능 (Predictable)**. 무조건 주기가 긴 하위 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)부터 희생됨 | **도미노 붕괴 현상 (Domino Effect)**. 누가 죽을지 예측 불가능하며 다 같이 죽을 수도 있음 |
 
 ### 과부하(Overload) 상황에서의 RM의 압도적 승리
 이용률 한계가 69%밖에 안 되는 바보 같은 RM이 왜 산업계의 절대적 지지를 받을까?
@@ -120,9 +124,9 @@ RM이 어떻게 데드라인을 방어하는지 선점형 동작을 살펴본다
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **임베디드 RTOS (FreeRTOS)의 [[150_task|태스크]] 설계**: [[130_microcontroller|마이크로컨트롤러]](MCU) 레벨의 초소형 기기(드론, 스마트워치)를 개발할 때, 개발자는 FreeRTOS에서 `xTaskCreate` 함수로 [[150_task|태스크]]를 만들며 **직접 우선순위 정수(1~40)를 하드코딩**해야 한다.
-   - **아키텍처 결단**: 이때 개발자 맘대로 "이게 중요해 보이니까 1등!"이라고 적으면 시스템이 무너진다. 반드시 RM 철학에 입각하여, 1ms마다 자이로 센서를 읽는 [[150_task|태스크]]에 최우선순위(40)를 주고, 100ms마다 화면을 갱신하는 [[150_task|태스크]]에 중간 순위(20)를 주며, 1초마다 로그를 남기는 작업에 바닥 순위(1)를 하드코딩해야만 시스템 데드라인이 수학적으로 꼬이지 않는다. (RM을 따르지 않으면 데드락과 펑크 지옥이 열린다).
-2. **리눅스 SCHED_FIFO와 RM의 매핑**: 현대 범용 리눅스에서 실시간 [[150_task|태스크]]를 띄울 때 사용하는 정책인 `SCHED_FIFO`나 `SCHED_RR`은 근본적으로 '정적 [[180_priority_scheduling|우선순위 스케줄링]]'이다. 즉, 개발자가 [[022_kernel_role|커널]] 공간에 RM [[001_algorithm_definition|알고리즘]]을 흉내 내어 구축하고 싶다면, 주기적 [[150_task|태스크]]들의 주기를 계산한 다음, 주기가 짧은 데몬(프로세스)에게 `chrt` 명령어로 더 높은 우선순위(Priority 99)를 수동으로 매핑해 주면 리눅스 [[079_kube_scheduler_pod_placement|스케줄러]]가 알아서 RM처럼 동작하게 된다.
+1. **임베디드 RTOS (FreeRTOS)의 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 설계**: [마이크로컨트롤러](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/)(MCU) 레벨의 초소형 기기(드론, 스마트워치)를 개발할 때, 개발자는 FreeRTOS에서 `xTaskCreate` 함수로 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)를 만들며 **직접 우선순위 정수(1~40)를 하드코딩**해야 한다.
+   - **아키텍처 결단**: 이때 개발자 맘대로 "이게 중요해 보이니까 1등!"이라고 적으면 시스템이 무너진다. 반드시 RM 철학에 입각하여, 1ms마다 자이로 센서를 읽는 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)에 최우선순위(40)를 주고, 100ms마다 화면을 갱신하는 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)에 중간 순위(20)를 주며, 1초마다 로그를 남기는 작업에 바닥 순위(1)를 하드코딩해야만 시스템 데드라인이 수학적으로 꼬이지 않는다. (RM을 따르지 않으면 데드락과 펑크 지옥이 열린다).
+2. **리눅스 SCHED_FIFO와 RM의 매핑**: 현대 범용 리눅스에서 실시간 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)를 띄울 때 사용하는 정책인 `SCHED_FIFO`나 `SCHED_RR`은 근본적으로 '정적 [우선순위 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/180_priority_scheduling/)'이다. 즉, 개발자가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간에 RM [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 흉내 내어 구축하고 싶다면, 주기적 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)들의 주기를 계산한 다음, 주기가 짧은 데몬(프로세스)에게 `chrt` 명령어로 더 높은 우선순위(Priority 99)를 수동으로 매핑해 주면 리눅스 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 알아서 RM처럼 동작하게 된다.
 
 ```text
   ┌─────────────────────────────────────────────────────────────────┐
@@ -144,7 +148,7 @@ RM이 어떻게 데드라인을 방어하는지 선점형 동작을 살펴본다
   │          (EDF는 이론상 100% 방어 가능. 단, 장애 시 도미노 위험) │
   └─────────────────────────────────────────────────────────────────┘
 ```
-**[다이어그램 해설]** 이것이 일반 웹 개발(IT)과 임베디드 실시간 개발([[891_ot_operational_technology|OT]])의 좁힐 수 없는 격차다. 웹 백엔드는 서버가 80% 차면 "조금 느려지겠네" 하고 넘기지만, 실시간 세계에서는 RM 공식 한계치인 69%를 넘기는 순간 그것을 명백한 '살인 무기(언제든 통제 불능이 될 수 있음)'로 간주하여 코드 배포 자체를 원천 봉쇄(Admission Fail)해 버린다.
+**[다이어그램 해설]** 이것이 일반 웹 개발(IT)과 임베디드 실시간 개발([OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/))의 좁힐 수 없는 격차다. 웹 백엔드는 서버가 80% 차면 "조금 느려지겠네" 하고 넘기지만, 실시간 세계에서는 RM 공식 한계치인 69%를 넘기는 순간 그것을 명백한 '살인 무기(언제든 통제 불능이 될 수 있음)'로 간주하여 코드 배포 자체를 원천 봉쇄(Admission Fail)해 버린다.
 
 - **📢 섹션 요약 비유**: 엘리베이터(CPU) 정원이 100명이어도, RM 규칙은 "혹시 모를 뚱뚱한 사람(최악 실행 시간)이나 돌발 행동을 대비해 무조건 69명까지만 태워라. 그래야 절대 안 끊어지는 완벽한 밧줄 보증서가 유효하다"라고 못 박는 철저한 안전제일주의입니다.
 
@@ -153,10 +157,10 @@ RM이 어떻게 데드라인을 방어하는지 선점형 동작을 살펴본다
 ## Ⅴ. 기대효과 및 결론
 
 ### 기대효과
-RM 스케줄링을 채택하면 [[001_operating_system_purpose|운영체제]] [[022_kernel_role|커널]]의 코드를 단 몇 백 줄의 단순한 '우선순위 기반 큐'로 극한의 다이어트를 시킬 수 있으며, 이로 인해 [[169_dispatch_latency|디스패치 지연]] 시간이 마이크로초 단위로 고정되어 시스템의 결정론(Determinism)과 강건성(Robustness)이 우주항공 레벨로 극대화된다.
+RM 스케줄링을 채택하면 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 코드를 단 몇 백 줄의 단순한 '우선순위 기반 큐'로 극한의 다이어트를 시킬 수 있으며, 이로 인해 [디스패치 지연](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/169_dispatch_latency/) 시간이 마이크로초 단위로 고정되어 시스템의 결정론(Determinism)과 강건성(Robustness)이 우주항공 레벨로 극대화된다.
 
 ### 결론 및 미래 전망
-RM (Rate Monotonic)은 1970년대에 증명된 오래된 공식이지만, "오버헤드가 없고, 장애 시 피해 [[150_task|태스크]]를 명확히 꼬리 자르기 할 수 있다"는 압도적 실무적 강점 덕분에 현재 화성에 떠 있는 로버(큐리오시티)와 여러분 차에 달린 ECU(엔진 제어기)의 90% 이상을 지배하고 있는 진정한 실시간의 황제다. 미래의 멀티코어 환경에서는 코어별로 RM 스케줄링을 격리 [[179_table_partitioning_concept|파티셔닝]](Partitioned RM)하여 캐시 파괴를 막는 기술이 최신 자동차의 통합 제어기(APU) 아키텍처로 연구 및 상용화되고 있다.
+RM (Rate Monotonic)은 1970년대에 증명된 오래된 공식이지만, "오버헤드가 없고, 장애 시 피해 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)를 명확히 꼬리 자르기 할 수 있다"는 압도적 실무적 강점 덕분에 현재 화성에 떠 있는 로버(큐리오시티)와 여러분 차에 달린 ECU(엔진 제어기)의 90% 이상을 지배하고 있는 진정한 실시간의 황제다. 미래의 멀티코어 환경에서는 코어별로 RM 스케줄링을 격리 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)(Partitioned RM)하여 캐시 파괴를 막는 기술이 최신 자동차의 통합 제어기(APU) 아키텍처로 연구 및 상용화되고 있다.
 
 - **📢 섹션 요약 비유**: RM은 화려한 인공지능이나 복잡한 계산식 없이, "제일 자주 오는 놈 무조건 1등!"이라는 초등학생도 이해할 단순한 룰 하나로 수십 년간 인류의 우주선과 미사일의 멱살을 잡고 추락 없이 이끌어온 가장 위대하고 투박한 지혜입니다.
 
@@ -166,10 +170,10 @@ RM (Rate Monotonic)은 1970년대에 증명된 오래된 공식이지만, "오�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[195_real_time_scheduling|대칭 다중 처리]] ([[195_real_time_scheduling|SMP]]) 스케줄링 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [[196_hard_soft_real_time|부하 균등화]] ([[196_hard_soft_real_time|Load Balancing]]) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [[198_edf_scheduling|멀티코어 스케줄링]] ([[198_edf_scheduling|Multicore Scheduling]]) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [[199_interrupt_scheduling|하이퍼스레딩]] ([[199_interrupt_scheduling|Hyper-threading]]) / [[400_smt|SMT]] (Simultaneous [[095_multithreading_benefits|Multithreading]]) 스케줄링 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [대칭 다중 처리](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) ([SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/)) 스케줄링 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [부하 균등화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/) ([Load Balancing](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [멀티코어 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/198_edf_scheduling/) ([Multicore Scheduling](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/198_edf_scheduling/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [하이퍼스레딩](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/199_interrupt_scheduling/) ([Hyper-threading](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/199_interrupt_scheduling/)) / [SMT](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/) (Simultaneous [Multithreading](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/)) 스케줄링 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -187,7 +191,7 @@ RM (Rate Monotonic)은 1970년대에 증명된 오래된 공식이지만, "오�
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 숙제를 할 때, **RM 스케줄링**은 "매일매일 제출해야 하는 일기 [[289_cqrs_db|쓰기]](주기 짧음)"를 무조건 1등으로, "한 달에 한 번 내는 독후감(주기 긺)"을 무조건 꼴찌로 순서를 딱 고정해버려요.
+1. 숙제를 할 때, **RM 스케줄링**은 "매일매일 제출해야 하는 일기 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(주기 짧음)"를 무조건 1등으로, "한 달에 한 번 내는 독후감(주기 긺)"을 무조건 꼴찌로 순서를 딱 고정해버려요.
 2. 매일 고민할 필요 없이 정해진 이 규칙대로만 착착 기계처럼 숙제를 하면, 머리 아프게 생각할 시간(오버헤드)이 아껴져서 절대 펑크 낼 일이 없어요.
 3. 단, 이 규칙이 완벽하게 통하려면 내 전체 시간의 69% 정도까지만 숙제가 꽉 차 있어야 해요. 숙제가 너무 많으면 이 규칙만으론 결국 독후감 제출 날짜를 놓쳐버리게 된답니다!
 
@@ -197,7 +201,7 @@ RM (Rate Monotonic)은 1970년대에 증명된 오래된 공식이지만, "오�
 
 **진행 상황**: 197 / 800
 
-← **이전**: [[196_hard_soft_real_time|196. 부하 균등화 (Load Balancing) - Push Migration vs Pull Migration]]
-**다음**: [[198_edf_scheduling|198. 멀티코어 스케줄링 (Multicore Scheduling) - 메모리 스톨 (Memory Stall) 대응]] →
+← **이전**: [196. 부하 균등화 (Load Balancing) - Push Migration vs Pull Migration](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/)
+**다음**: [198. 멀티코어 스케줄링 (Multicore Scheduling) - 메모리 스톨 (Memory Stall) 대응](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/198_edf_scheduling/) →
 
 ---

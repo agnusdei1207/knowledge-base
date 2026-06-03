@@ -1,23 +1,27 @@
----
-title: 596. 컴퓨테이셔널 스토리지 (Computational Storage)
-date: '2026-05-08'
-tags:
-- studynote-computer-architecture
----
++++
+title = "596. 컴퓨테이셔널 스토리지 (Computational Storage)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[498_computational_storage|컴퓨테이셔널 스토리지]] ([[498_computational_storage|Computational Storage]])는 저장장치나 저장 [[055_array|배열]] 근처에 연산 자원을 배치해, [[001_dikw_pyramid|데이터]]를 전부 호스트로 옮기기 전에 필터링·변환·검색·[[347_compaction|압축]] 같은 작업을 수행하도록 만든 [[383_data_centric_architecture|data-centric]] architecture다.
-> 2. **가치**: [[001_dikw_pyramid|데이터]] 양이 커질수록 읽고 옮기는 비용이 계산 비용보다 먼저 커지기 때문에, 계산형 스토리지는 [[001_dikw_pyramid|데이터]] 이동량·호스트 중앙처리장치 (Central Processing Unit, CPU) 부하·전력 소모를 함께 줄이고 장치 수에 비례한 [[430_index_fast_full_scan|병렬]]성을 끌어내는 데 유리하다.
-> 3. **판단 포인트**: 진짜 의사결정 기준은 “스토리지에 연산기가 있느냐”가 아니라 작업의 지역성, [[001_dikw_pyramid|데이터]] 감소율, 장치 간 협업 필요성, 보안 격리, 실패 복구까지 포함한 [[073_container_orchestration_tools|orchestration]] 모델이 준비되어 있느냐다.
+> 1. **본질**: [컴퓨테이셔널 스토리지](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/498_computational_storage/) ([Computational Storage](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/498_computational_storage/))는 저장장치나 저장 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 근처에 연산 자원을 배치해, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전부 호스트로 옮기기 전에 필터링·변환·검색·[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 같은 작업을 수행하도록 만든 [data-centric](/knowledge-base/studynote/04_software_engineering/06_software_architecture/383_data_centric_architecture/) architecture다.
+> 2. **가치**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 양이 커질수록 읽고 옮기는 비용이 계산 비용보다 먼저 커지기 때문에, 계산형 스토리지는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동량·호스트 중앙처리장치 (Central Processing Unit, CPU) 부하·전력 소모를 함께 줄이고 장치 수에 비례한 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 끌어내는 데 유리하다.
+> 3. **판단 포인트**: 진짜 의사결정 기준은 “스토리지에 연산기가 있느냐”가 아니라 작업의 지역성, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 감소율, 장치 간 협업 필요성, 보안 격리, 실패 복구까지 포함한 [orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 모델이 준비되어 있느냐다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[[498_computational_storage|컴퓨테이셔널 스토리지]]는 [[001_dikw_pyramid|데이터]]를 저장하는 위치 근처에서 연산을 수행하는 아키텍처다. 전통적인 시스템에서는 저장장치가 [[001_dikw_pyramid|데이터]]를 읽어 보내고, 모든 의미 있는 처리는 호스트 중앙처리장치 (Central Processing Unit, CPU)나 그래픽 처리 장치 ([[418_gpu|Graphics Processing Unit]], [[418_gpu|GPU]])가 맡았다. 하지만 [[001_dikw_pyramid|데이터]]가 테라바이트와 페타바이트 단위로 커지면서, 이제는 계산보다 “옮기기”가 더 비싸고 느린 순간이 많아졌다. 계산형 스토리지는 바로 그 병목을 줄이기 위해, 저장장치를 단순 보관소가 아니라 **[[001_dikw_pyramid|데이터]]가 머무는 현장에서 일부 판단을 내리는 작업 공간**으로 확장한다.
+[컴퓨테이셔널 스토리지](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/498_computational_storage/)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저장하는 위치 근처에서 연산을 수행하는 아키텍처다. 전통적인 시스템에서는 저장장치가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽어 보내고, 모든 의미 있는 처리는 호스트 중앙처리장치 (Central Processing Unit, CPU)나 그래픽 처리 장치 ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))가 맡았다. 하지만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 테라바이트와 페타바이트 단위로 커지면서, 이제는 계산보다 “옮기기”가 더 비싸고 느린 순간이 많아졌다. 계산형 스토리지는 바로 그 병목을 줄이기 위해, 저장장치를 단순 보관소가 아니라 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 머무는 현장에서 일부 판단을 내리는 작업 공간**으로 확장한다.
 
-이 구조는 메모리 내 처리 ([[430_pim|Processing-In-Memory]], [[430_pim|PIM]])와 닮아 보이지만 위치와 목적이 다르다. PIM은 메모리 벽을 줄이기 위해 메모리 가까이 연산을 붙이는 기술이고, 계산형 스토리지는 대규모 저장 [[001_dikw_pyramid|데이터]]의 이동세를 줄이기 위해 storage path 쪽에 연산을 배치한다. 즉 둘 다 near-[[001_dikw_pyramid|data]] philosophy를 공유하지만, 하나는 주로 동적 램 (Dynamic Random Access Memory, [[251_dram|DRAM]]) 또는 고대역폭 메모리 ([[495_hbm|High Bandwidth Memory]], [[495_hbm|HBM]]) 근처를, 다른 하나는 [[475_ssd_structure|솔리드 스테이트 드라이브]] ([[592_open_channel_ssd|Solid-State Drive]], [[327_ssd|SSD]]), [[055_array|array]], fabric 근처를 겨냥한다.
+이 구조는 메모리 내 처리 ([Processing-In-Memory](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/), [PIM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/))와 닮아 보이지만 위치와 목적이 다르다. PIM은 메모리 벽을 줄이기 위해 메모리 가까이 연산을 붙이는 기술이고, 계산형 스토리지는 대규모 저장 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 이동세를 줄이기 위해 storage path 쪽에 연산을 배치한다. 즉 둘 다 near-[data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) philosophy를 공유하지만, 하나는 주로 동적 램 (Dynamic Random Access Memory, [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/)) 또는 고대역폭 메모리 ([High Bandwidth Memory](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/), [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/)) 근처를, 다른 하나는 [솔리드 스테이트 드라이브](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/475_ssd_structure/) ([Solid-State Drive](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/592_open_channel_ssd/), [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)), [array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/), fabric 근처를 겨냥한다.
 
 아래 그림은 왜 계산형 스토리지가 필요한지 직관적으로 보여 준다.
 
@@ -43,14 +47,14 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-계산형 스토리지는 산업적으로도 몇 가지 층위로 나뉜다. 대표적으로 계산형 스토리지 장치 ([[498_computational_storage|Computational Storage]] Drive, CSD)는 저장 매체와 연산기를 한 드라이브 안에 넣은 형태이고, 계산형 스토리지 프로세서 ([[498_computational_storage|Computational Storage]] Processor, [[475_csp|CSP]])는 저장 [[055_array|배열]] 가까이에 별도 계산 노드를 두는 형태이며, 계산형 스토리지 [[055_array|배열]] ([[498_computational_storage|Computational Storage]] [[055_array|Array]], CSA)은 이들을 여러 개 묶어 통합 오케스트레이션하는 형태다. 즉 “storage + compute”라는 철학은 같지만, compute를 정확히 어디에 붙이느냐가 다르다.
+계산형 스토리지는 산업적으로도 몇 가지 층위로 나뉜다. 대표적으로 계산형 스토리지 장치 ([Computational Storage](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/498_computational_storage/) Drive, CSD)는 저장 매체와 연산기를 한 드라이브 안에 넣은 형태이고, 계산형 스토리지 프로세서 ([Computational Storage](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/498_computational_storage/) Processor, [CSP](/knowledge-base/studynote/09_security/05_web_app_security/475_csp/))는 저장 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 가까이에 별도 계산 노드를 두는 형태이며, 계산형 스토리지 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) ([Computational Storage](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/498_computational_storage/) [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/), CSA)은 이들을 여러 개 묶어 통합 오케스트레이션하는 형태다. 즉 “storage + compute”라는 철학은 같지만, compute를 정확히 어디에 붙이느냐가 다르다.
 
 | 계층 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
-| 계산형 스토리지 장치 ([[498_computational_storage|Computational Storage]] Drive, CSD) | 드라이브 내부에서 [[001_dikw_pyramid|데이터]] 감소, 검색, 변환을 수행한다. | 장치 전력·메모리·발열 제약이 가장 강하다. |
-| 계산형 스토리지 프로세서 ([[498_computational_storage|Computational Storage]] Processor, [[475_csp|CSP]]) | 저장 네트워크나 [[055_array|배열]] 가까이 별도 연산 노드를 둔다. | 드라이브보다 자유롭지만 [[001_dikw_pyramid|데이터]] locality를 유지해야 한다. |
-| 계산형 스토리지 [[055_array|배열]] ([[498_computational_storage|Computational Storage]] [[055_array|Array]], CSA) | 여러 장치와 프로세서를 묶어 [[136_variance|분산]] [[090_service_kubernetes_network_load_balancing|서비스]]로 제공한다. | 스케줄링, 보안, 멀티 tenant 격리가 핵심이다. |
-| [[090_service_kubernetes_network_load_balancing|Service]] Runtime | 어떤 함수를 어디에서 실행할지 결정한다. | 함수 배포, [[288_version_ihl_tos_total_length|버전]] 관리, resource isolation이 중요하다. |
+| 계산형 스토리지 장치 ([Computational Storage](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/498_computational_storage/) Drive, CSD) | 드라이브 내부에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 감소, 검색, 변환을 수행한다. | 장치 전력·메모리·발열 제약이 가장 강하다. |
+| 계산형 스토리지 프로세서 ([Computational Storage](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/498_computational_storage/) Processor, [CSP](/knowledge-base/studynote/09_security/05_web_app_security/475_csp/)) | 저장 네트워크나 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 가까이 별도 연산 노드를 둔다. | 드라이브보다 자유롭지만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) locality를 유지해야 한다. |
+| 계산형 스토리지 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) ([Computational Storage](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/498_computational_storage/) [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/), CSA) | 여러 장치와 프로세서를 묶어 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 제공한다. | 스케줄링, 보안, 멀티 tenant 격리가 핵심이다. |
+| [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Runtime | 어떤 함수를 어디에서 실행할지 결정한다. | 함수 배포, [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리, resource isolation이 중요하다. |
 | Result Aggregator | 부분 결과를 모아 최종 응답을 만든다. | reduce 단계가 새 병목이 되지 않아야 한다. |
 
 아래 그림은 이 계층들이 어떻게 협력하는지 보여 준다.
@@ -70,63 +74,63 @@ tags:
 └────────────────────────────────────────────────────────────────────────────┘
 ```
 
-여기서 중요한 원리는 제어와 [[001_dikw_pyramid|데이터]]의 분리다. 호스트는 어떤 함수를 어떤 [[001_dikw_pyramid|데이터]] 집합에 적용할지 지시하고, 저장 근처 장치는 그 함수의 지역적 실행을 맡는다. 다시 말해 계산형 스토리지는 “스토리지가 똑똑해졌다”보다 **호스트는 [[073_container_orchestration_tools|orchestration]], 장치는 local compute**라는 분업으로 이해해야 정확하다.
+여기서 중요한 원리는 제어와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 분리다. 호스트는 어떤 함수를 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 집합에 적용할지 지시하고, 저장 근처 장치는 그 함수의 지역적 실행을 맡는다. 다시 말해 계산형 스토리지는 “스토리지가 똑똑해졌다”보다 **호스트는 [orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/), 장치는 local compute**라는 분업으로 이해해야 정확하다.
 
-- **📢 섹션 요약 비유**: 계산형 스토리지는 본사 한 곳에서 모든 서류를 검토하는 구조가 아니라, 각 지점이 자기 서류를 먼저 정리하고 본사는 최종 결재만 하는 조직과 같다. 일을 [[136_variance|분산]]한다고 해서 본사가 사라지는 게 아니라, 본사가 더 중요한 일에 집중하게 되는 것이다.
+- **📢 섹션 요약 비유**: 계산형 스토리지는 본사 한 곳에서 모든 서류를 검토하는 구조가 아니라, 각 지점이 자기 서류를 먼저 정리하고 본사는 최종 결재만 하는 조직과 같다. 일을 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)한다고 해서 본사가 사라지는 게 아니라, 본사가 더 중요한 일에 집중하게 되는 것이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-계산형 스토리지는 스마트 [[327_ssd|SSD]] ([[595_smart_ssd|Smart Solid-State Drive]]), 키-밸류 [[327_ssd|SSD]] ([[594_kv_ssd|Key-Value Solid-State Drive]], KV-[[327_ssd|SSD]]), PIM과 자주 혼동된다. 하지만 스마트 SSD는 계산형 스토리지의 구체적 구현체 중 하나이고, 키-밸류 SSD는 저장 인터페이스를 semantic-aware하게 만드는 기술이며, PIM은 메모리 쪽으로 더 가까이 붙은 연산 구조다. 따라서 네 기술은 경쟁보다도 **서로 다른 계층에서 [[001_dikw_pyramid|data]] movement를 줄이려는 연속선상**에 있다.
+계산형 스토리지는 스마트 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ([Smart Solid-State Drive](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/595_smart_ssd/)), 키-밸류 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ([Key-Value Solid-State Drive](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/594_kv_ssd/), KV-[SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)), PIM과 자주 혼동된다. 하지만 스마트 SSD는 계산형 스토리지의 구체적 구현체 중 하나이고, 키-밸류 SSD는 저장 인터페이스를 semantic-aware하게 만드는 기술이며, PIM은 메모리 쪽으로 더 가까이 붙은 연산 구조다. 따라서 네 기술은 경쟁보다도 **서로 다른 계층에서 [data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) movement를 줄이려는 연속선상**에 있다.
 
 | 기술 | 연산/의미가 붙는 위치 | 강점 | 한계 |
 | :--- | :--- | :--- | :--- |
-| 키-밸류 [[327_ssd|SSD]] (KV-[[327_ssd|SSD]]) | 저장 인터페이스 semantics | key-addressed workload를 자연스럽게 저장 | 범용 계산 기능은 제한적이다 |
-| 스마트 [[327_ssd|SSD]] | 개별 드라이브 내부 가속기 | 필터링·검색·[[347_compaction|압축]] 같은 drive-local 작업에 강하다 | 장치 자원이 작고 vendor-specific인 경우가 많다 |
-| 계산형 스토리지 | drive, processor, [[055_array|array]] 전체 | 표준화된 [[136_variance|분산]] near-[[001_dikw_pyramid|data]] 실행 구조를 만들 수 있다 | orchestration과 운영 복잡도가 크다 |
-| 메모리 내 처리 ([[430_pim|Processing-In-Memory]], [[430_pim|PIM]]) | 메모리 칩 근처 | 메모리 [[140_bandwidth|대역폭]] 벽을 줄이는 데 유리하다 | 저장 계층의 대용량 [[001_dikw_pyramid|데이터]] 관리와는 목적이 다르다 |
+| 키-밸류 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) (KV-[SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)) | 저장 인터페이스 semantics | key-addressed workload를 자연스럽게 저장 | 범용 계산 기능은 제한적이다 |
+| 스마트 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) | 개별 드라이브 내부 가속기 | 필터링·검색·[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 같은 drive-local 작업에 강하다 | 장치 자원이 작고 vendor-specific인 경우가 많다 |
+| 계산형 스토리지 | drive, processor, [array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 전체 | 표준화된 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) near-[data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 실행 구조를 만들 수 있다 | orchestration과 운영 복잡도가 크다 |
+| 메모리 내 처리 ([Processing-In-Memory](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/), [PIM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/)) | 메모리 칩 근처 | 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 벽을 줄이는 데 유리하다 | 저장 계층의 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리와는 목적이 다르다 |
 
-이 비교가 중요한 이유는 계산형 스토리지를 “저장장치 속 CPU” 정도로 축소하면 본질을 놓치기 때문이다. 진짜 차별점은 함수 하나가 드라이브 안에 들어갔다는 사실보다, 저장장치가 여러 개일 때 그 장치들을 작은 [[430_index_fast_full_scan|병렬]] 실행 노드처럼 활용할 수 있다는 점이다. 이 때문에 계산형 스토리지는 엣지 분석, 대규모 검색, 보안 스캔, 미디어 전처리처럼 embarrassingly parallel한 작업에서 특히 가치가 크다.
+이 비교가 중요한 이유는 계산형 스토리지를 “저장장치 속 CPU” 정도로 축소하면 본질을 놓치기 때문이다. 진짜 차별점은 함수 하나가 드라이브 안에 들어갔다는 사실보다, 저장장치가 여러 개일 때 그 장치들을 작은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행 노드처럼 활용할 수 있다는 점이다. 이 때문에 계산형 스토리지는 엣지 분석, 대규모 검색, 보안 스캔, 미디어 전처리처럼 embarrassingly parallel한 작업에서 특히 가치가 크다.
 
 또한 595번 스마트 SSD는 계산형 스토리지의 가장 구체적인 “장치형 예시”이고, 596번은 그 장치를 포함해 processor·array까지 확장한 “상위 시스템 개념”이라고 기억하면 두 주제의 경계가 깔끔해진다.
 
-- **📢 섹션 요약 비유**: 스마트 SSD가 동네마다 있는 작은 작업장이라면, 계산형 스토리지는 여러 작업장과 지역 센터, 본사 운영 체계를 모두 포함한 물류망 전체에 가깝다. 개별 기계보다 그 기계들을 어떻게 [[136_variance|분산]] 배치하고 묶어 쓰느냐가 더 중요하다.
+- **📢 섹션 요약 비유**: 스마트 SSD가 동네마다 있는 작은 작업장이라면, 계산형 스토리지는 여러 작업장과 지역 센터, 본사 운영 체계를 모두 포함한 물류망 전체에 가깝다. 개별 기계보다 그 기계들을 어떻게 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 배치하고 묶어 쓰느냐가 더 중요하다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 계산형 스토리지는 [[001_dikw_pyramid|데이터]] 선택도가 높고, [[001_dikw_pyramid|데이터]] 지역성이 좋고, 장치 간 의존성이 낮은 작업에 특히 유리하다. 예를 들어 [[568_logs_distributed_logging_elk_fluentd|로그]] 검색, 이미지 전처리, [[555_backup_and_restore_strategy|백업]] [[347_compaction|압축]], 유전체 후보 필터링, 이상 징후 스캔처럼 “각 장치가 자기 [[001_dikw_pyramid|데이터]]만 봐도 1차 답을 만들 수 있는 작업”이 대표적이다. 이런 경우 호스트는 부분 결과만 모으면 되므로 확장성이 좋다.
+실무에서 계산형 스토리지는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 선택도가 높고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 지역성이 좋고, 장치 간 의존성이 낮은 작업에 특히 유리하다. 예를 들어 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 검색, 이미지 전처리, [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/), 유전체 후보 필터링, 이상 징후 스캔처럼 “각 장치가 자기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 봐도 1차 답을 만들 수 있는 작업”이 대표적이다. 이런 경우 호스트는 부분 결과만 모으면 되므로 확장성이 좋다.
 
-반대로 cross-shard [[521_join|join]], 복잡한 [[191_transaction_concept_states|트랜잭션]], 전역 상태 공유, 초저지연 피드백 루프는 계산형 스토리지에 잘 안 맞는다. 장치마다 local compute는 가능하지만, 서로 자주 통신해야 하면 결국 네트워크와 [[073_container_orchestration_tools|orchestration]] 비용이 다시 커진다. 그래서 기술사 답안에서는 계산형 스토리지를 무조건 미래형으로 찬양하기보다, **[[001_dikw_pyramid|데이터]] 감소율과 협업 비용의 균형**을 묻는 식으로 설명해야 설득력이 높다.
+반대로 cross-shard [join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/), 복잡한 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/), 전역 상태 공유, 초저지연 피드백 루프는 계산형 스토리지에 잘 안 맞는다. 장치마다 local compute는 가능하지만, 서로 자주 통신해야 하면 결국 네트워크와 [orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 비용이 다시 커진다. 그래서 기술사 답안에서는 계산형 스토리지를 무조건 미래형으로 찬양하기보다, **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 감소율과 협업 비용의 균형**을 묻는 식으로 설명해야 설득력이 높다.
 
-### 적용 판단 [[435_checklist_based_testing|체크리스트]]
+### 적용 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 작업이 장치 로컬 [[001_dikw_pyramid|데이터]]만으로 상당 부분 끝날 수 있는가?
-2. [[225_raw|raw]] input 대비 결과 [[001_dikw_pyramid|데이터]]가 충분히 작아 이동 절감 효과가 큰가?
+1. 작업이 장치 로컬 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만으로 상당 부분 끝날 수 있는가?
+2. [raw](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/) input 대비 결과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 충분히 작아 이동 절감 효과가 큰가?
 3. 함수 배포, 권한 격리, 실패 복구를 위한 운영 체계가 준비되어 있는가?
 4. 장치 간 partial result aggregation이 전체 병목으로 다시 커지지 않는가?
-5. 비용 평가를 장치 단일 성능이 아니라 [[401_transport_layer_role_end_to_end_multiplexing|end-to-end]] [[141_latency|latency]], host CPU 절감, 전력, 운영 복잡도로 하고 있는가?
+5. 비용 평가를 장치 단일 성능이 아니라 [end-to-end](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/) [latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/), host CPU 절감, 전력, 운영 복잡도로 하고 있는가?
 
-### 피해야 할 [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### 피해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 모든 서버 작업을 storage-side function으로 밀어 넣어 장치 자원과 운영 체계를 동시에 과부하시키는 설계
-- [[001_dikw_pyramid|데이터]] 감소율이 낮은데도 “near-[[001_dikw_pyramid|data]]”라는 유행어만 보고 도입하는 판단
+- [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 감소율이 낮은데도 “near-[data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)”라는 유행어만 보고 도입하는 판단
 - 보안 샌드박스와 테넌트 격리를 준비하지 않은 채 제3자 코드 실행을 허용하는 구성
 - 부분 결과 통합 단계의 병목을 무시해, 장치에서 줄인 이득을 host-side reduce에서 다시 잃는 시스템
 
-- **📢 섹션 요약 비유**: 계산형 스토리지는 모든 지점을 독립 왕국으로 만드는 것이 아니라, 각 지점이 자기 구역 일을 먼저 처리하게 해 본사의 병목을 줄이는 체계다. 하지만 지점끼리 끊임없이 전화해야 하는 일이라면, [[136_variance|분산]]만 했다고 빨라지지는 않는다.
+- **📢 섹션 요약 비유**: 계산형 스토리지는 모든 지점을 독립 왕국으로 만드는 것이 아니라, 각 지점이 자기 구역 일을 먼저 처리하게 해 본사의 병목을 줄이는 체계다. 하지만 지점끼리 끊임없이 전화해야 하는 일이라면, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)만 했다고 빨라지지는 않는다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-계산형 스토리지를 잘 적용하면 [[001_dikw_pyramid|데이터]] 이동량 감소, 호스트 CPU 절감, 드라이브 수에 비례한 [[430_index_fast_full_scan|병렬]] 처리 확장이라는 세 가지 이점을 동시에 얻을 수 있다. 저장장치가 많아질수록 전처리 노드도 함께 늘어나므로, 특정 작업은 서버 코어 증설보다 더 선형적으로 확장되기도 한다. 또한 [[001_dikw_pyramid|데이터]]를 멀리 보내기 전에 현장에서 요약하고 익명화할 수 있어 엣지 환경이나 보안 민감 환경에서 추가 가치가 생긴다.
+계산형 스토리지를 잘 적용하면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동량 감소, 호스트 CPU 절감, 드라이브 수에 비례한 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 확장이라는 세 가지 이점을 동시에 얻을 수 있다. 저장장치가 많아질수록 전처리 노드도 함께 늘어나므로, 특정 작업은 서버 코어 증설보다 더 선형적으로 확장되기도 한다. 또한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 멀리 보내기 전에 현장에서 요약하고 익명화할 수 있어 엣지 환경이나 보안 민감 환경에서 추가 가치가 생긴다.
 
-반면 한계도 명확하다. 프로그래밍 모델이 아직 성숙 중이고, 장치 내부 자원이 작으며, 디버깅과 관측성이 일반 서버보다 불리하다. 앞으로의 방향은 단일 스마트 SSD보다, 장치·프로세서·[[055_array|배열]]을 하나의 [[090_service_kubernetes_network_load_balancing|서비스]] 계층으로 묶고 표준화하는 쪽에 가깝다. 즉 핵심은 “스토리지에 CPU를 붙였다”가 아니라, **연산 자원을 [[001_dikw_pyramid|데이터]] 경로 전체에 재배치하는 시스템 사고**다.
+반면 한계도 명확하다. 프로그래밍 모델이 아직 성숙 중이고, 장치 내부 자원이 작으며, 디버깅과 관측성이 일반 서버보다 불리하다. 앞으로의 방향은 단일 스마트 SSD보다, 장치·프로세서·[배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 하나의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 계층으로 묶고 표준화하는 쪽에 가깝다. 즉 핵심은 “스토리지에 CPU를 붙였다”가 아니라, **연산 자원을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로 전체에 재배치하는 시스템 사고**다.
 
-결론적으로 계산형 스토리지는 저장장치의 부가 기능이 아니라, [[383_data_centric_architecture|데이터 중심]] 시대의 새로운 역할 분담 방식이다. [[001_dikw_pyramid|데이터]]를 늘 CPU 앞으로 끌어오는 대신, 어디에서 계산하는 것이 가장 싸고 빠른지 다시 정하는 것이며, 그 판단 기준을 바꾼다는 점에서 아키텍처적 의미가 크다.
+결론적으로 계산형 스토리지는 저장장치의 부가 기능이 아니라, [데이터 중심](/knowledge-base/studynote/04_software_engineering/06_software_architecture/383_data_centric_architecture/) 시대의 새로운 역할 분담 방식이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 늘 CPU 앞으로 끌어오는 대신, 어디에서 계산하는 것이 가장 싸고 빠른지 다시 정하는 것이며, 그 판단 기준을 바꾼다는 점에서 아키텍처적 의미가 크다.
 
 - **📢 섹션 요약 비유**: 계산형 스토리지는 회사의 모든 직원이 본사 출근만 하던 체계를 바꾸어, 각 지점에서 처리할 수 있는 일은 현장에서 끝내고 본사는 통합 의사결정만 하는 조직 개편과 같다. 중요한 것은 직원 수가 아니라, 일을 어디서 처리하느냐의 배치 전략이다.
 
@@ -136,12 +140,12 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 계산형 스토리지 장치 ([[498_computational_storage|Computational Storage]] Drive, CSD) | 개별 드라이브 안에서 near-[[001_dikw_pyramid|data]] 연산을 수행하는 가장 구체적인 구현체다. |
-| 계산형 스토리지 프로세서 ([[498_computational_storage|Computational Storage]] Processor, [[475_csp|CSP]]) | 저장 근처의 별도 연산 노드로, 드라이브보다 더 큰 실행 환경을 제공한다. |
-| 계산형 스토리지 [[055_array|배열]] ([[498_computational_storage|Computational Storage]] [[055_array|Array]], CSA) | 여러 장치와 프로세서를 묶어 관리·보안·오케스트레이션까지 포함하는 상위 계층이다. |
-| Near-[[001_dikw_pyramid|Data]] Processing | 계산형 스토리지의 핵심 철학으로, [[001_dikw_pyramid|데이터]]를 먼 곳으로 보내기 전에 가까운 곳에서 처리하려는 접근이다. |
-| 스마트 [[327_ssd|SSD]] ([[595_smart_ssd|Smart Solid-State Drive]]) | 계산형 스토리지의 대표적인 장치형 사례다. |
-| 메모리 내 처리 ([[430_pim|Processing-In-Memory]], [[430_pim|PIM]]) | 같은 [[001_dikw_pyramid|data]] movement 문제를 다른 위치에서 푸는 비교 대상 기술이다. |
+| 계산형 스토리지 장치 ([Computational Storage](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/498_computational_storage/) Drive, CSD) | 개별 드라이브 안에서 near-[data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연산을 수행하는 가장 구체적인 구현체다. |
+| 계산형 스토리지 프로세서 ([Computational Storage](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/498_computational_storage/) Processor, [CSP](/knowledge-base/studynote/09_security/05_web_app_security/475_csp/)) | 저장 근처의 별도 연산 노드로, 드라이브보다 더 큰 실행 환경을 제공한다. |
+| 계산형 스토리지 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) ([Computational Storage](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/498_computational_storage/) [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/), CSA) | 여러 장치와 프로세서를 묶어 관리·보안·오케스트레이션까지 포함하는 상위 계층이다. |
+| Near-[Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Processing | 계산형 스토리지의 핵심 철학으로, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 먼 곳으로 보내기 전에 가까운 곳에서 처리하려는 접근이다. |
+| 스마트 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ([Smart Solid-State Drive](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/595_smart_ssd/)) | 계산형 스토리지의 대표적인 장치형 사례다. |
+| 메모리 내 처리 ([Processing-In-Memory](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/), [PIM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/)) | 같은 [data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) movement 문제를 다른 위치에서 푸는 비교 대상 기술이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -164,7 +168,7 @@ Computational Storage Array (CSA)
 Data-Centric Distributed Infrastructure
 ```
 
-이 흐름은 저장장치가 수동적 [[001_dikw_pyramid|데이터]] 보관소에서 출발해, 이제는 장치·프로세서·[[055_array|배열]] 수준의 [[136_variance|분산]] 실행 환경으로 확장되고 있음을 보여 준다.
+이 흐름은 저장장치가 수동적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보관소에서 출발해, 이제는 장치·프로세서·[배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 수준의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 실행 환경으로 확장되고 있음을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -178,7 +182,7 @@ Data-Centric Distributed Infrastructure
 
 **진행 상황**: 596 / 803
 
-← **이전**: [[595_smart_ssd|595. 스마트 SSD (Smart Solid-State Drive)]]
-**다음**: [[597_slc_caching|597. SLC (Single-Level Cell) 캐싱]] →
+← **이전**: [595. 스마트 SSD (Smart Solid-State Drive)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/595_smart_ssd/)
+**다음**: [597. SLC (Single-Level Cell) 캐싱](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/597_slc_caching/) →
 
 ---

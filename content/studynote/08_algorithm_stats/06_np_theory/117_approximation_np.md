@@ -1,18 +1,22 @@
----
-title: 012. NP 근사 알고리즘 — Approximation Algorithms for NP
-date: '2026-04-05'
-tags:
-- studynote-algorithm-stats
----
++++
+title = "012. NP 근사 알고리즘 — Approximation Algorithms for NP"
+date = 2026-04-05
+
+[taxonomies]
+tags = ["studynote-algorithm-stats"]
+
+[extra]
+tags = ["studynote-algorithm-stats"]
++++
 
 > **핵심 인사이트**
-> 1. NP-하드 문제의 [[012_approximation_algorithm|근사 알고리즘]]은 "완벽하지 않지만 보장된 품질"을 빠르게 계산 — ρ-근사(Approximation Ratio) [[001_algorithm_definition|알고리즘]]은 최적해의 ρ배 이하(최소화) 또는 이상(최대화)을 다항 시간에 보장하며, 이론적 최적 추구보다 실용적 접근이다.
-> 2. 대표 [[012_approximation_algorithm|근사 알고리즘]]과 보장 — 버텍스 커버: 2-근사, [[106_fenwick_tree|TSP]](삼각 부등식): 1.5-근사(Christofides), 집합 커버: O(log n)-근사, 배낭: FPTAS(임의 ε 근사), 2-SAT: 다항 시간 정확해.
+> 1. NP-하드 문제의 [근사 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/)은 "완벽하지 않지만 보장된 품질"을 빠르게 계산 — ρ-근사(Approximation Ratio) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 최적해의 ρ배 이하(최소화) 또는 이상(최대화)을 다항 시간에 보장하며, 이론적 최적 추구보다 실용적 접근이다.
+> 2. 대표 [근사 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/)과 보장 — 버텍스 커버: 2-근사, [TSP](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/)(삼각 부등식): 1.5-근사(Christofides), 집합 커버: O(log n)-근사, 배낭: FPTAS(임의 ε 근사), 2-SAT: 다항 시간 정확해.
 > 3. 근사 불가능성(Inapproximability)도 중요 — 집합 커버는 O(log n)보다 나은 근사가 P≠NP 가정 하에 불가능하며, Clique는 n^(1-ε) 근사도 불가능(ZPP≠NP). 근사 한계도 이론적으로 정의된다.
 
 ---
 
-## Ⅰ. [[012_approximation_algorithm|근사 알고리즘]] 기초
+## Ⅰ. [근사 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/) 기초
 
 ```
 근사 알고리즘 (Approximation Algorithm):
@@ -47,7 +51,7 @@ tags:
   → 근사 자체가 NP-하드인 경우
 ```
 
-> 📢 **섹션 요약 비유**: [[012_approximation_algorithm|근사 알고리즘]]은 "충분히 좋은 답" — 완벽한 답(최적해)은 너무 오래 걸리므로, "최적의 1.5배 이내"를 빠르게! 1.5배 이내 보장이 [[012_approximation_algorithm|근사 알고리즘]]의 가치.
+> 📢 **섹션 요약 비유**: [근사 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/)은 "충분히 좋은 답" — 완벽한 답(최적해)은 너무 오래 걸리므로, "최적의 1.5배 이내"를 빠르게! 1.5배 이내 보장이 [근사 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/)의 가치.
 
 ---
 
@@ -93,7 +97,7 @@ tags:
 
 ---
 
-## Ⅲ. 집합 커버 [[568_logs_distributed_logging_elk_fluentd|로그]] 근사
+## Ⅲ. 집합 커버 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 근사
 
 ```
 집합 커버 (Set Cover):
@@ -136,7 +140,7 @@ tags:
 
 ---
 
-## Ⅳ. [[106_fenwick_tree|TSP]] 1.5-근사 (Christofides)
+## Ⅳ. [TSP](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/) 1.5-근사 (Christofides)
 
 ```
 TSP (여행하는 외판원 문제):
@@ -175,7 +179,7 @@ Christofides 알고리즘 (1976, 삼각 부등식 가정):
   LKH (Lin-Kernighan-Helsgott): 실용 최고 품질
 ```
 
-> 📢 **섹션 요약 비유**: Christofides는 최적 근처 여행 계획 — [[041_mst|MST]](최저비용 연결)에 홀수 도시 연결(매칭) 추가. 최적 경로의 1.5배 이내 보장. 46년간 최고 이론 기록!
+> 📢 **섹션 요약 비유**: Christofides는 최적 근처 여행 계획 — [MST](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/)(최저비용 연결)에 홀수 도시 연결(매칭) 추가. 최적 경로의 1.5배 이내 보장. 46년간 최고 이론 기록!
 
 ---
 
@@ -279,7 +283,7 @@ TSP Christofides 1.5→(1.5-ε) (2020)
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [[012_approximation_algorithm|근사 알고리즘]]은 "충분히 좋은 답" — 완벽한 최단 경로 찾기에 수백 년 걸리면, "최단의 1.5배 이내" 경로를 빠르게 찾아요!
+1. [근사 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/)은 "충분히 좋은 답" — 완벽한 최단 경로 찾기에 수백 년 걸리면, "최단의 1.5배 이내" 경로를 빠르게 찾아요!
 2. 버텍스 커버 2-근사는 도로 감시 — 무작위 도로 선택 후 양 끝에 초소 세우면 최적의 2배 이내. 간단하지만 보장 있어요!
 3. 집합 커버는 쿠폰 선택 — 매번 가장 많이 커버하는 쿠폰(집합) 선택. log(n)배 이내 최적, 이보다 좋은 방법은 수학적으로 불가능!
 
@@ -289,7 +293,7 @@ TSP Christofides 1.5→(1.5-ε) (2020)
 
 **진행 상황**: 117 / 175
 
-← **이전**: [[116_knapsack|011. 배낭 문제 — Knapsack Problem]]
-**다음**: [[118_eth|013. ETH — 지수 시간 가설]] →
+← **이전**: [011. 배낭 문제 — Knapsack Problem](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/116_knapsack/)
+**다음**: [013. ETH — 지수 시간 가설](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/) →
 
 ---

@@ -1,34 +1,37 @@
----
-title: 152. 단순 뷰 (Simple View) vs 복합 뷰 (Complex View) - DML 관통성과 논리적 환상의 두 얼굴
-date: '2026-05-03'
-description: 데이터베이스의 가짜 유리창(View)을 깎을 때, 테이블 딱 1개만 써서 수정(Update)이 콱콱 뚫고 들어가는 투명한 창문(단순
-  뷰)과, 조인(Join)과 믹서기(SUM)를 떡칠해서 오직 구경만 가능한 무거운 색유리 창문(복합 뷰)을 가르는 차가운 잣대
-tags:
-- studynote-database
----
++++
+title = "152. 단순 뷰 (Simple View) vs 복합 뷰 (Complex View) - DML 관통성과 논리적 환상의 두 얼굴"
+description = "데이터베이스의 가짜 유리창(View)을 깎을 때, 테이블 딱 1개만 써서 수정(Update)이 콱콱 뚫고 들어가는 투명한 창문(단순 뷰)과, 조인(Join)과 믹서기(SUM)를 떡칠해서 오직 구경만 가능한 무거운 색유리 창문(복합 뷰)을 가르는 차가운 잣대"
+date = 2026-05-03
+
+[taxonomies]
+tags = ["studynote-database"]
+
+[extra]
+tags = ["studynote-database"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: **단순 뷰(Simple [[151_sql_view_virtual_table|View]])**는 오직 1개의 쌩 테이블에서 컬럼이나 로우(Row)만 핀셋으로 도려낸(가공 없는) 1:1 [[016_replication_factor|복제]] 껍데기이며, **복합 뷰(Complex [[151_sql_view_virtual_table|View]])**는 2개 이상의 테이블을 조인([[521_join|Join]])하거나 `SUM`, `AVG` 같은 믹서기(집계)를 돌려 비빔밥처럼 뭉개놓은 [[098_many_to_one_model|다대일]](N:1) 융합 껍데기다.
-> 2. **가치**: 이 둘을 가르는 가장 치명적이고 뼈 때리는 기준은 **'[[083_dml|DML]](Insert/Update/Delete) 관통성'**이다. 단순 뷰는 엑셀로 숫자를 고치면 뒤에 숨은 진짜 테이블로 마법처럼 쑥 뚫고 들어가 값이 수정되지만, 복합 뷰는 뭉개진 [[001_dikw_pyramid|데이터]] 덩어리라 어디를 고쳐야 할지 역산(Inverse)을 못해 수정이 100% 불가능하다(오직 Read-only).
-> 3. **판단 포인트**: 실무 아키텍트는 단순 뷰를 통해 개발자에게 CRUD(삽입/삭제) 권한을 우회적으로 열어주면서 민감한 컬럼(주민번호)만 도려내는 **'보안([[283_security_tactics|Security]]) 융합 방패'**로 쓰고, 복합 뷰는 1,000줄짜리 스파게티 조인 [[298_qkv_attention|쿼리]]를 단 한 단어로 [[347_compaction|압축]]하여 초보 [[001_dikw_pyramid|데이터]] 분석가에게 던져주는 **'마법의 [[316_olap|OLAP]](통계) 블랙박스'**로 융합 타격한다.
+> 1. **본질**: **단순 뷰(Simple [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))**는 오직 1개의 쌩 테이블에서 컬럼이나 로우(Row)만 핀셋으로 도려낸(가공 없는) 1:1 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 껍데기이며, **복합 뷰(Complex [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))**는 2개 이상의 테이블을 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))하거나 `SUM`, `AVG` 같은 믹서기(집계)를 돌려 비빔밥처럼 뭉개놓은 [다대일](/knowledge-base/studynote/02_operating_system/02_process_thread/098_many_to_one_model/)(N:1) 융합 껍데기다.
+> 2. **가치**: 이 둘을 가르는 가장 치명적이고 뼈 때리는 기준은 **'[DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/)(Insert/Update/Delete) 관통성'**이다. 단순 뷰는 엑셀로 숫자를 고치면 뒤에 숨은 진짜 테이블로 마법처럼 쑥 뚫고 들어가 값이 수정되지만, 복합 뷰는 뭉개진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 덩어리라 어디를 고쳐야 할지 역산(Inverse)을 못해 수정이 100% 불가능하다(오직 Read-only).
+> 3. **판단 포인트**: 실무 아키텍트는 단순 뷰를 통해 개발자에게 CRUD(삽입/삭제) 권한을 우회적으로 열어주면서 민감한 컬럼(주민번호)만 도려내는 **'보안([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) 융합 방패'**로 쓰고, 복합 뷰는 1,000줄짜리 스파게티 조인 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 단 한 단어로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하여 초보 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석가에게 던져주는 **'마법의 [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/)(통계) 블랙박스'**로 융합 타격한다.
 
 ---
 
-## Ⅰ. 개요 및 필요성 ([[033_context|Context]] & Necessity)
+## Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-뷰([[151_sql_view_virtual_table|View]])는 물리적 [[001_dikw_pyramid|데이터]]를 갖지 않고 SQL([[520_select|SELECT]]) 텍스트 껍데기만 가진 가상 테이블이다. 이때 그 `SELECT` 텍스트의 뱃속에 테이블 1개만 깔끔하게 들어있으면 **단순 뷰(Simple [[151_sql_view_virtual_table|View]])**, 테이블 2개를 엮거나([[521_join|Join]]) 더하기/평균 내기([[522_group_by|Group By]]) 등 믹서기가 들어있으면 **복합 뷰(Complex [[151_sql_view_virtual_table|View]])**로 [[104_classification_analysis|분류]]한다.
+뷰([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))는 물리적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 갖지 않고 SQL([SELECT](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/)) 텍스트 껍데기만 가진 가상 테이블이다. 이때 그 `SELECT` 텍스트의 뱃속에 테이블 1개만 깔끔하게 들어있으면 **단순 뷰(Simple [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))**, 테이블 2개를 엮거나([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)) 더하기/평균 내기([Group By](/knowledge-base/studynote/05_database/04_transactions_concurrency/522_group_by/)) 등 믹서기가 들어있으면 **복합 뷰(Complex [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))**로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)한다.
 
-뷰를 왜 2가지로 쪼개어 부를까? 단순히 이름표 장난이 아니다. 개발자가 **"뷰를 통해 [[001_dikw_pyramid|데이터]]를 쑤셔 넣을 수 있는가([[083_dml|DML]] Updates)"**라는 시스템 아키텍처의 생사가 걸린 문제 때문이다. 
+뷰를 왜 2가지로 쪼개어 부를까? 단순히 이름표 장난이 아니다. 개발자가 **"뷰를 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쑤셔 넣을 수 있는가([DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/) Updates)"**라는 시스템 아키텍처의 생사가 걸린 문제 때문이다. 
 인사팀 알바생이 쓸 `영업부직원_VIEW` (단순 뷰) 화면을 띄워줬다. 알바생이 영업부 직원의 전화번호를 뷰 화면에서 고쳤다. 뷰는 가짜지만, 그 뒤에 1:1로 이어진 진짜 '사원 테이블'의 전화번호 칸으로 슉 뚫고 들어가 완벽하게 덮어써 진다(최고의 편의성과 보안의 공존). 
-그런데 사장님 대시보드용으로 만든 `부서별_평균급여_VIEW` (복합 뷰)에서 사장님이 '평균 급여 500만 원' 글씨를 '1,000만 원'으로 쓱 고쳤다. 시스템은 터진다. "평균을 고치면, 그 평균을 만든 100명의 사원 월급을 각각 얼마씩 찢어서 올려줘야 하는데요?" 역산(역방향 수학)이 불가능하기 때문이다. 이처럼 목적이 극단적으로 갈리는 두 우주를 통제하기 위해 [[104_classification_analysis|분류]] 잣대가 필요했다.
+그런데 사장님 대시보드용으로 만든 `부서별_평균급여_VIEW` (복합 뷰)에서 사장님이 '평균 급여 500만 원' 글씨를 '1,000만 원'으로 쓱 고쳤다. 시스템은 터진다. "평균을 고치면, 그 평균을 만든 100명의 사원 월급을 각각 얼마씩 찢어서 올려줘야 하는데요?" 역산(역방향 수학)이 불가능하기 때문이다. 이처럼 목적이 극단적으로 갈리는 두 우주를 통제하기 위해 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 잣대가 필요했다.
 
-- **📢 섹션 요약 비유**: **단순 뷰**는 투명한 **'유리창'**입니다. 바깥에서 유리창(뷰) 너머에 있는 마네킹(테이블)의 옷 색깔(Update)을 매직팬으로 칠하면, 진짜 마네킹 옷에 매직이 묻습니다(관통 가능). **복합 뷰**는 투명 유리가 아니라 **'[[229_monitor|모니터]] 화면(비디오)'**입니다. [[229_monitor|모니터]]에 비친 100명의 합창단(조인/통계) 모습에 매직팬을 칠해봤자 [[229_monitor|모니터]] 액정만 더러워질 뿐 진짜 합창단의 옷 색깔은 1mm도 변하지 않습니다(관통 불가, 오직 시청만 가능).
+- **📢 섹션 요약 비유**: **단순 뷰**는 투명한 **'유리창'**입니다. 바깥에서 유리창(뷰) 너머에 있는 마네킹(테이블)의 옷 색깔(Update)을 매직팬으로 칠하면, 진짜 마네킹 옷에 매직이 묻습니다(관통 가능). **복합 뷰**는 투명 유리가 아니라 **'[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 화면(비디오)'**입니다. [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)에 비친 100명의 합창단(조인/통계) 모습에 매직팬을 칠해봤자 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 액정만 더러워질 뿐 진짜 합창단의 옷 색깔은 1mm도 변하지 않습니다(관통 불가, 오직 시청만 가능).
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-[[002_database_definition|데이터베이스]] 기술사 시험에서 [[083_dml|DML]](Insert/Update/Delete) 가능 여부를 묻는 핵심 [[369_logic_bomb|논리]] 구조다.
+[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 기술사 시험에서 [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/)(Insert/Update/Delete) 가능 여부를 묻는 핵심 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -59,9 +62,9 @@ tags:
 └─────────────────────────────────────────────────────────────┘
 ```
 
-단순 뷰는 뷰의 [[001_dikw_pyramid|데이터]] 1줄과 원본 테이블의 1줄이 **1:1로 완벽하게 매핑(Row-to-Row Identity)**되어 있기 때문에 역추적이 가능하여 DML이 스르륵 뚫고 들어간다. 반면 복합 뷰는 조인([[521_join|Join]])으로 [[001_dikw_pyramid|데이터]]가 뻥튀기(카테시안)되거나, `GROUP BY`로 100만 줄이 10줄로 뭉개져 버려(Aggregation) 원본의 흔적을 잃어버렸다. 원본 좌표를 잃어버린 [[001_dikw_pyramid|데이터]] 덩어리에 업데이트 총(Update)을 쏘면 총알이 갈 길을 잃고 시스템 에러로 터져버리는 차가운 [[002_database_definition|데이터베이스]] [[022_kernel_role|커널]]의 수학적 한계다.
+단순 뷰는 뷰의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 1줄과 원본 테이블의 1줄이 **1:1로 완벽하게 매핑(Row-to-Row Identity)**되어 있기 때문에 역추적이 가능하여 DML이 스르륵 뚫고 들어간다. 반면 복합 뷰는 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 뻥튀기(카테시안)되거나, `GROUP BY`로 100만 줄이 10줄로 뭉개져 버려(Aggregation) 원본의 흔적을 잃어버렸다. 원본 좌표를 잃어버린 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 덩어리에 업데이트 총(Update)을 쏘면 총알이 갈 길을 잃고 시스템 에러로 터져버리는 차가운 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 수학적 한계다.
 
-- **📢 섹션 요약 비유**: 단순 뷰는 거울에 비친 내 얼굴입니다. 거울에 비친 내 볼에 반창고를 붙이려 하면(Update) 내 진짜 볼에 반창고가 착 붙습니다(1:1 매칭). 복합 뷰는 나를 포함해 10만 명의 얼굴 사진을 모아 [[231_ai_turing_test|인공지능]]으로 합성해 낸 '평균 한국인 얼굴(통계)' 사진입니다. 그 합성 사진 볼에 반창고를 붙인다고 해서 10만 명의 진짜 얼굴에 반창고가 붙을 리가 없습니다(역산 불가). 오직 구경만 해야 하는 그림입니다.
+- **📢 섹션 요약 비유**: 단순 뷰는 거울에 비친 내 얼굴입니다. 거울에 비친 내 볼에 반창고를 붙이려 하면(Update) 내 진짜 볼에 반창고가 착 붙습니다(1:1 매칭). 복합 뷰는 나를 포함해 10만 명의 얼굴 사진을 모아 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)으로 합성해 낸 '평균 한국인 얼굴(통계)' 사진입니다. 그 합성 사진 볼에 반창고를 붙인다고 해서 10만 명의 진짜 얼굴에 반창고가 붙을 리가 없습니다(역산 불가). 오직 구경만 해야 하는 그림입니다.
 
 ---
 
@@ -69,19 +72,19 @@ tags:
 
 단순 뷰라고 무조건 Insert/Update가 다 뚫리는 건 아니다. 테이블 1개만 썼더라도 아래 꼼수들을 쓰면 갑자기 복합 뷰 취급을 받으며 업데이트가 막힌다(Read-only 강제 락).
 
-| [[083_dml|DML]] 관통을 막는 예외 조건 (단순 뷰의 덫 💥) | 아키텍트의 파멸과 팩폭 🪓 |
+| [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/) 관통을 막는 예외 조건 (단순 뷰의 덫 💥) | 아키텍트의 파멸과 팩폭 🪓 |
 |:---|:---|
-| **ROWNUM, ROWNUMBER() 윈도우 함수 떡칠** | 1번, 2번 등수를 매기는 가상 컬럼이 껴들어가면 원본 역산 좌표가 깨져서 [[083_dml|DML]] 튕김 파국 터짐. |
-| **DISTINCT 중복 제거 마법** | 중복을 제거하며 여러 줄을 1개로 뭉개버렸기(합성) 때문에 어떤 놈이 진짜 원본인지 역추적 좌표 증발 ➔ [[083_dml|DML]] 영구 락킹 불가. |
+| **ROWNUM, ROWNUMBER() 윈도우 함수 떡칠** | 1번, 2번 등수를 매기는 가상 컬럼이 껴들어가면 원본 역산 좌표가 깨져서 [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/) 튕김 파국 터짐. |
+| **DISTINCT 중복 제거 마법** | 중복을 제거하며 여러 줄을 1개로 뭉개버렸기(합성) 때문에 어떤 놈이 진짜 원본인지 역추적 좌표 증발 ➔ [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/) 영구 락킹 불가. |
 | **NOT NULL 컬럼 누락 (Insert 한정 💀)** | 원본에 `주민번호` 칸이 빈칸 절대 금지(NOT NULL)다. 뷰 만들 때 `이름`만 있는 뷰를 깎아줬다. 알바생이 뷰에 `INSERT` 치면? ➔ 뷰는 원본 테이블로 내려갔는데 원본이 "야 빈칸 안 된다고!" 멱살 잡고 제약조건(Constraint) 에러 뿜음. |
 
-**[복합 뷰의 구세주: INSTEAD OF [[507_acid_properties|트리거]] (우회 관통술 ✨)]**
-"아니 사장님, 조인([[521_join|Join]]) 걸린 복합 뷰는 DB 수학 구조상 절대 업데이트가 안 된다고요!" 개발자가 울부짖자 빡친 사장님이 "어떻게든 고치게 만들어!"라고 엎어버렸다. 
-- **아키텍트의 흑마법 (Trigger 융합)**: 복합 뷰 자체는 업데이트가 안 되지만, 오라클([[188_pl_sql_t_sql_procedural|Oracle]]) 같은 DB에는 **`INSTEAD OF` [[507_acid_properties|트리거]](Trigger)**라는 요물 융합 기술이 있다. 
-복합 뷰에 사용자가 `UPDATE` [[298_qkv_attention|쿼리]]를 쏘는 순간 ➔ DB 엔진이 뷰를 고치려다 튕겨내는(에러) 찰나를 낚아채서 그 작업을 중단(Instead of)시켜 버린다! 
-대신 개발자가 뒤단에 몰래 짜둔 PL/SQL 프로그램([[507_acid_properties|트리거]]) 코드가 발동하여, "아, 사장님이 A뷰의 이름을 바꿨네? 그럼 내가 알아서 A 원본 테이블에 가서 업데이트 치고, 조인된 B 원본 테이블에 가서도 알아서 업데이트 쳐줄게!"라며 기계의 한계(역산 불가)를 인간의 하드코딩 노가다로 땜질해버리는 무시무시한 우회 관통(Bypass) 튜닝 아키텍처다.
+**[복합 뷰의 구세주: INSTEAD OF [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) (우회 관통술 ✨)]**
+"아니 사장님, 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)) 걸린 복합 뷰는 DB 수학 구조상 절대 업데이트가 안 된다고요!" 개발자가 울부짖자 빡친 사장님이 "어떻게든 고치게 만들어!"라고 엎어버렸다. 
+- **아키텍트의 흑마법 (Trigger 융합)**: 복합 뷰 자체는 업데이트가 안 되지만, 오라클([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/)) 같은 DB에는 **`INSTEAD OF` [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)(Trigger)**라는 요물 융합 기술이 있다. 
+복합 뷰에 사용자가 `UPDATE` [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 쏘는 순간 ➔ DB 엔진이 뷰를 고치려다 튕겨내는(에러) 찰나를 낚아채서 그 작업을 중단(Instead of)시켜 버린다! 
+대신 개발자가 뒤단에 몰래 짜둔 PL/SQL 프로그램([트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)) 코드가 발동하여, "아, 사장님이 A뷰의 이름을 바꿨네? 그럼 내가 알아서 A 원본 테이블에 가서 업데이트 치고, 조인된 B 원본 테이블에 가서도 알아서 업데이트 쳐줄게!"라며 기계의 한계(역산 불가)를 인간의 하드코딩 노가다로 땜질해버리는 무시무시한 우회 관통(Bypass) 튜닝 아키텍처다.
 
-- **📢 섹션 요약 비유**: 복합 뷰는 '투입구가 없는 자동판매기 화면'입니다. 화면(뷰)을 아무리 두드려도 안에 음료수를 넣을 수 없죠. `INSTEAD OF` [[507_acid_properties|트리거]]는 그 자판기 화면 뒤에 숨어있는 **'알바생 닌자'**입니다. 내가 화면에 억지로 동전을 비비고 있으면(뷰 Update), 닌자가 그걸 쓱 가로채서 자판기 뒷문(진짜 테이블)을 열고 손으로 직접 음료수와 돈을 계산해 넣어주는(하드코딩) 감쪽같은 속임수입니다.
+- **📢 섹션 요약 비유**: 복합 뷰는 '투입구가 없는 자동판매기 화면'입니다. 화면(뷰)을 아무리 두드려도 안에 음료수를 넣을 수 없죠. `INSTEAD OF` [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)는 그 자판기 화면 뒤에 숨어있는 **'알바생 닌자'**입니다. 내가 화면에 억지로 동전을 비비고 있으면(뷰 Update), 닌자가 그걸 쓱 가로채서 자판기 뒷문(진짜 테이블)을 열고 손으로 직접 음료수와 돈을 계산해 넣어주는(하드코딩) 감쪽같은 속임수입니다.
 
 ---
 
@@ -89,32 +92,32 @@ tags:
 
 ### 딜레마: 단순 뷰의 `WITH CHECK OPTION` (방어막) vs 관통의 자유
 
-단순 뷰는 [[001_dikw_pyramid|데이터]]가 쑥쑥 뚫고 원본으로 박히는 게 장점이지만, 이것이 파멸적 로직 에러(Logical Bug)를 낳는 가장 큰 딜레마다.
+단순 뷰는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 쑥쑥 뚫고 원본으로 박히는 게 장점이지만, 이것이 파멸적 로직 에러(Logical Bug)를 낳는 가장 큰 딜레마다.
 
 | 항목 | 관통을 방치한 단순 뷰 (재앙 💀) | `WITH CHECK OPTION` 융합 방패막 (안전 ✨) |
 |:---|:---|:---|
-| **상황 [[009_config|설정]]** | `서울사원_뷰` (조건: 지역='서울') 만 깎아서 서울 지사 알바생한테 던져줌. | 아키텍트가 뷰 [[087_process_state_transition|생성]]문 꼬다리에 `WITH CHECK OPTION` 족쇄 코드를 딱 채워둠. |
-| **알바생의 미친 짓 ([[083_dml|DML]])**| `UPDATE 서울사원_뷰 SET 지역='부산' WHERE 사번=100;` ➔ 서울 놈을 부산으로 이사 보내는 [[298_qkv_attention|쿼리]]를 침! | 동일하게 `지역='부산'`으로 수정하는 [[298_qkv_attention|쿼리]]([[083_dml|DML]])를 쏨. |
-| **[[002_database_definition|데이터베이스]]의 결론** | 💥 **관통 성공 ([[369_logic_bomb|논리]]적 [[001_dikw_pyramid|데이터]] 증발)**: 부산으로 진짜 업데이트됨! 그 순간 사번 100번 사원은 `서울사원_뷰` 화면(조건: 서울)에서 영원히 허공으로 사라짐! 내가 내 [[001_dikw_pyramid|데이터]]를 조작해 스스로 뷰 밖으로 던져버린 귀신 헬리콥터 현상! | 🛡️ **방어 성공 (에러 튕겨냄)**: DB 엔진이 뷰의 탄생 조건(`지역='서울'`)을 검사함. "어? 네가 부산으로 고치면 이 뷰의 조건(서울)에 안 맞게 되잖아? 튕겨!" ➔ 수정(Update) 거부 에러를 뿜으며 [[001_dikw_pyramid|데이터]] 정합성을 완벽하게 사수함! |
+| **상황 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)** | `서울사원_뷰` (조건: 지역='서울') 만 깎아서 서울 지사 알바생한테 던져줌. | 아키텍트가 뷰 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)문 꼬다리에 `WITH CHECK OPTION` 족쇄 코드를 딱 채워둠. |
+| **알바생의 미친 짓 ([DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/))**| `UPDATE 서울사원_뷰 SET 지역='부산' WHERE 사번=100;` ➔ 서울 놈을 부산으로 이사 보내는 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 침! | 동일하게 `지역='부산'`으로 수정하는 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)([DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/))를 쏨. |
+| **[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 결론** | 💥 **관통 성공 ([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증발)**: 부산으로 진짜 업데이트됨! 그 순간 사번 100번 사원은 `서울사원_뷰` 화면(조건: 서울)에서 영원히 허공으로 사라짐! 내가 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 조작해 스스로 뷰 밖으로 던져버린 귀신 헬리콥터 현상! | 🛡️ **방어 성공 (에러 튕겨냄)**: DB 엔진이 뷰의 탄생 조건(`지역='서울'`)을 검사함. "어? 네가 부산으로 고치면 이 뷰의 조건(서울)에 안 맞게 되잖아? 튕겨!" ➔ 수정(Update) 거부 에러를 뿜으며 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성을 완벽하게 사수함! |
 
 ### 과목 융합 관점
 
-- **[[001_software_engineering_definition|소프트웨어 공학]] ([[156_facade_pattern|Facade Pattern]] 및 캡슐화 🚀)**: 복합 뷰(Complex [[151_sql_view_virtual_table|View]])는 자바(Java) [[251_design_patterns_gof_overview|디자인 패턴]]의 **파사드([[263_facade_pattern_simplified_interface|Facade]]) 패턴**과 철학이 100% 정확히 일치한다. 뒷단(Backend)에 주문, 배송, 결제 테이블 수십 개가 거미줄처럼 복잡하게 조인([[521_join|Join]]) 얽혀 돌아가는데 ➔ 멍청한 프론트엔드 개발자에게 그 테이블 10개 구조를 다 이해시키고 [[298_qkv_attention|쿼리]]를 짜라고 하면 프로젝트가 망한다 💥. DBA는 그 더러운 100줄짜리 조인 [[298_qkv_attention|쿼리]]판 위에 `통합_배송_뷰`라는 예쁘고 단순한 껍데기([[263_facade_pattern_simplified_interface|Facade]]) 창문을 덮어씌워서 프론트엔드에게 건네준다. 프론트 개발자는 그냥 `SELECT * FROM 통합_배송_뷰` 딱 한 줄 치면 모든 로직이 [[198_abstraction_control_data_process|추상화]]([[198_abstraction_control_data_process|Abstraction]])되어 숨겨진 채 엑기스만 튀어나온다. 복잡성의 융합 은닉 기술이다.
-- **정보 보안 (망 분리와 Column-Level [[172_maas_mobility_as_a_service|마스]]킹 🛡️)**: 단순 뷰(Simple [[151_sql_view_virtual_table|View]])는 금융 보안 감리([[363_audit|Audit]])에서 망 분리 아키텍처의 핵심 치트키다. 외주 콜센터(비신뢰망)가 운영 DB 망에 접근해야 할 때, 물리적 원본 테이블 권한(`GRANT SELECT ON 사원`)을 아예 안 준다. 대신 `CREATE VIEW 콜센터용_사원 AS SELECT 이름, 부서, '***' AS 주민번호 FROM 사원` 이라는 단순 뷰를 하나 판 뒤, 이 뷰에만 접근 권한을 열어준다. 외주 직원이 해킹 툴을 돌려도, 이 뷰라는 가상 창문을 깨고 그 밑바닥에 있는 진짜 주민번호 원본의 쇳덩이(디스크 블록)를 만지는 것은 [[022_kernel_role|커널]](OS) 단에서 물리/[[369_logic_bomb|논리]]적으로 영구 불가능(Read-only [[190_virtualization_computing_architecture_cloud|Virtualization]])하다. 가장 저렴하고 완벽한 [[190_secure_coding_guideline|시큐어 코딩]]([[190_secure_coding_guideline|Secure Coding]]) 방벽이다.
+- **[소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Facade Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/156_facade_pattern/) 및 캡슐화 🚀)**: 복합 뷰(Complex [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))는 자바(Java) [디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/)의 **파사드([Facade](/knowledge-base/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/)) 패턴**과 철학이 100% 정확히 일치한다. 뒷단(Backend)에 주문, 배송, 결제 테이블 수십 개가 거미줄처럼 복잡하게 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)) 얽혀 돌아가는데 ➔ 멍청한 프론트엔드 개발자에게 그 테이블 10개 구조를 다 이해시키고 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 짜라고 하면 프로젝트가 망한다 💥. DBA는 그 더러운 100줄짜리 조인 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)판 위에 `통합_배송_뷰`라는 예쁘고 단순한 껍데기([Facade](/knowledge-base/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/)) 창문을 덮어씌워서 프론트엔드에게 건네준다. 프론트 개발자는 그냥 `SELECT * FROM 통합_배송_뷰` 딱 한 줄 치면 모든 로직이 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)([Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))되어 숨겨진 채 엑기스만 튀어나온다. 복잡성의 융합 은닉 기술이다.
+- **정보 보안 (망 분리와 Column-Level [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹 🛡️)**: 단순 뷰(Simple [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))는 금융 보안 감리([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))에서 망 분리 아키텍처의 핵심 치트키다. 외주 콜센터(비신뢰망)가 운영 DB 망에 접근해야 할 때, 물리적 원본 테이블 권한(`GRANT SELECT ON 사원`)을 아예 안 준다. 대신 `CREATE VIEW 콜센터용_사원 AS SELECT 이름, 부서, '***' AS 주민번호 FROM 사원` 이라는 단순 뷰를 하나 판 뒤, 이 뷰에만 접근 권한을 열어준다. 외주 직원이 해킹 툴을 돌려도, 이 뷰라는 가상 창문을 깨고 그 밑바닥에 있는 진짜 주민번호 원본의 쇳덩이(디스크 블록)를 만지는 것은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(OS) 단에서 물리/[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 영구 불가능(Read-only [Virtualization](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/))하다. 가장 저렴하고 완벽한 [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/)([Secure Coding](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/)) 방벽이다.
 
-- **📢 섹션 요약 비유**: 복합 뷰는 에어컨의 **'플라스틱 겉껍데기(커버)'**입니다. 안쪽에는 수백 가닥의 복잡한 전선과 콤프레서([[521_join|Join]], SUM 로직)가 징그럽게 꼬여있지만, 사용자는 예쁜 겉껍데기(뷰)에 달린 전원 버튼 1개만 누르면 찬 바람([[001_dikw_pyramid|데이터]])을 아주 쉽게 쐴 수 있습니다. 뷰는 사용자가 더러운 전선을 직접 만지다 감전되는 걸 막아주는 우아한 포장 박스입니다.
+- **📢 섹션 요약 비유**: 복합 뷰는 에어컨의 **'플라스틱 겉껍데기(커버)'**입니다. 안쪽에는 수백 가닥의 복잡한 전선과 콤프레서([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/), SUM 로직)가 징그럽게 꼬여있지만, 사용자는 예쁜 겉껍데기(뷰)에 달린 전원 버튼 1개만 누르면 찬 바람([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 아주 쉽게 쐴 수 있습니다. 뷰는 사용자가 더러운 전선을 직접 만지다 감전되는 걸 막아주는 우아한 포장 박스입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-단순 뷰와 복합 뷰는 RDBMS가 개발자들을 위해 쳐놓은 가장 다정하고 우아한 방어막(Encapsulation)이다. 수억 건의 지저분한 [[568_logs_distributed_logging_elk_fluentd|로그]]와 수십 개의 테이블이 실타래처럼 엉킨 더러운 공사장(물리적 디스크) 바닥을 ➔ 매끈하고 예쁜 은빛 유리창 껍데기(뷰)로 덮어주어, 초보 코더도 1줄짜리 가벼운 [[298_qkv_attention|쿼리]]로 [[001_dikw_pyramid|데이터]]를 구경할 수 있게 만들어주는 [[198_abstraction_control_data_process|추상화]]의 끝판왕 예술.
+단순 뷰와 복합 뷰는 RDBMS가 개발자들을 위해 쳐놓은 가장 다정하고 우아한 방어막(Encapsulation)이다. 수억 건의 지저분한 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 수십 개의 테이블이 실타래처럼 엉킨 더러운 공사장(물리적 디스크) 바닥을 ➔ 매끈하고 예쁜 은빛 유리창 껍데기(뷰)로 덮어주어, 초보 코더도 1줄짜리 가벼운 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 구경할 수 있게 만들어주는 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)의 끝판왕 예술.
 
-비록 뷰의 뱃속에 조인([[521_join|Join]])과 집계(SUM) 믹서기를 잔뜩 쑤셔 넣는 순간 [[083_dml|DML]] 업데이트라는 엑셀 페달이 뽑혀 나가고, [[163_optimizer_sql_execution_plan_generator|옵티마이저]]가 풀스캔(Full Scan)의 비명을 지르는 무서운 트레이드오프(Trade-off)가 도사리고 있지만!! 
-이 투명한 가상 인터페이스 벽이 없다면 클라우드 시대의 미친듯한 [[005_schema|스키마]] 변경 속도와 숨 막히는 보안 통제([[803_privacy_law_comparison|개인정보보호]])를 버텨낼 [[_keyword_list|엔터프라이즈 시스템]]은 모래성처럼 단 하루 만에 무너져 내릴 것이다. 
-아키텍트는 이 뷰의 껍데기 기만술을 완벽히 통제하여, **앱 소스코드는 단 1줄도 수정하지 않은 채 밑바닥 쇳덩이 테이블을 수십 번 뜯어고쳐 갈아엎는 [[369_logic_bomb|논리]]적 [[004_data_independence|데이터 독립성]](Logical [[504_data_independence|Data Independence]])의 우주 무정단 생존 쾌속 질주**를 영구 달성해 낼 것이다 🚀.
+비록 뷰의 뱃속에 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))과 집계(SUM) 믹서기를 잔뜩 쑤셔 넣는 순간 [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/) 업데이트라는 엑셀 페달이 뽑혀 나가고, [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 풀스캔(Full Scan)의 비명을 지르는 무서운 트레이드오프(Trade-off)가 도사리고 있지만!! 
+이 투명한 가상 인터페이스 벽이 없다면 클라우드 시대의 미친듯한 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경 속도와 숨 막히는 보안 통제([개인정보보호](/knowledge-base/studynote/09_security/16_data_privacy/803_privacy_law_comparison/))를 버텨낼 엔터프라이즈 시스템은 모래성처럼 단 하루 만에 무너져 내릴 것이다. 
+아키텍트는 이 뷰의 껍데기 기만술을 완벽히 통제하여, **앱 소스코드는 단 1줄도 수정하지 않은 채 밑바닥 쇳덩이 테이블을 수십 번 뜯어고쳐 갈아엎는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [데이터 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/)(Logical [Data Independence](/knowledge-base/studynote/05_database/04_transactions_concurrency/504_data_independence/))의 우주 무정단 생존 쾌속 질주**를 영구 달성해 낼 것이다 🚀.
 
-- **📢 섹션 요약 비유**: 단순 뷰는 안경(색안경)입니다. 파란 안경을 쓰면 파란 [[001_dikw_pyramid|데이터]]만 보이고 렌즈 너머로 손을 뻗어 진짜 물건을 만질(수정할) 수도 있습니다. 하지만 복합 뷰(Complex [[151_sql_view_virtual_table|View]])는 안경이 아니라 1만 개의 풍경 사진을 갈아 넣어 한 장으로 뽑아낸 '합성 사진'입니다. 사진(뷰) 위에 매직을 칠한다고 해서 진짜 풍경(원본)이 칠해지지 않듯, 너무 많은 정보가 뭉개진 복합 뷰는 오직 '눈으로 읽기(Read-only) 전용 감상물'이 되는 차갑고 슬픈 수학의 한계입니다.
+- **📢 섹션 요약 비유**: 단순 뷰는 안경(색안경)입니다. 파란 안경을 쓰면 파란 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 보이고 렌즈 너머로 손을 뻗어 진짜 물건을 만질(수정할) 수도 있습니다. 하지만 복합 뷰(Complex [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))는 안경이 아니라 1만 개의 풍경 사진을 갈아 넣어 한 장으로 뽑아낸 '합성 사진'입니다. 사진(뷰) 위에 매직을 칠한다고 해서 진짜 풍경(원본)이 칠해지지 않듯, 너무 많은 정보가 뭉개진 복합 뷰는 오직 '눈으로 읽기(Read-only) 전용 감상물'이 되는 차갑고 슬픈 수학의 한계입니다.
 
 ---
 
@@ -122,11 +125,11 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[[369_logic_bomb|논리]]적 [[004_data_independence|데이터 독립성]]** | 뷰([[151_sql_view_virtual_table|View]])가 태어난 0순위 철학 뼈대. 진짜 물리 테이블이 찢어지든 열(Column) 이름이 엎어지든, 뷰 껍데기 가짜 방패를 끼워 넣어 바깥 앱(App) 소스 [[298_qkv_attention|쿼리]]는 1줄 수정 없이 무결점 방어하는 쉴드. |
-| **Materialized [[151_sql_view_virtual_table|View]] (MView)** | 복합 뷰(Complex [[151_sql_view_virtual_table|View]])가 매번 1억 건 쌩으로 조인 치다 서버 타죽는 랙을 막기 위해 ➔ 밤새 미리 요약해서 진짜 하드디스크 콘크리트로 굳혀놓는(박제) DW의 극강 캐시 꼼수. |
-| **INSTEAD OF [[507_acid_properties|트리거]]** | 절대 안 뚫리는 복합 뷰의 철벽을, 닌자([[507_acid_properties|트리거]])를 심어두어 대신 백그라운드 테이블에 직접 하드코딩 노가다 [[298_qkv_attention|쿼리]]를 쏴주는 기적의 우회 관통(Bypass) 흑마법. |
-| **WITH CHECK OPTION** | 단순 뷰 거쳐 원본 테이블 수정(Update/Insert) 칠 때 ➔ 뷰 [[087_process_state_transition|생성]] 조건(`WHERE 서울`) 헌법 어기는 놈은 0.1초 만에 멱살 잡아 에러 튕겨내 차단 컷 시키는 무결점 강제 방벽. |
-| **[[491_smtps_pop3s_imaps_secure_email|보안 캡슐화]] (Row/Column [[283_security_tactics|Security]])** | 1억 건 중 '주민번호' 컬럼은 가위로 싹둑 썰어내고, 영업팀 10명 행(Row)만 필터로 잘라 던져줌으로써 ➔ 해커가 침투해도 볼 권한 없는 투명 샌드박스 장님으로 기만하는 [[199_information_hiding_encapsulation|정보 은닉]] [[690_firewall_generation_evolution|방화벽]]. |
+| **[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [데이터 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/)** | 뷰([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))가 태어난 0순위 철학 뼈대. 진짜 물리 테이블이 찢어지든 열(Column) 이름이 엎어지든, 뷰 껍데기 가짜 방패를 끼워 넣어 바깥 앱(App) 소스 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)는 1줄 수정 없이 무결점 방어하는 쉴드. |
+| **Materialized [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) (MView)** | 복합 뷰(Complex [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))가 매번 1억 건 쌩으로 조인 치다 서버 타죽는 랙을 막기 위해 ➔ 밤새 미리 요약해서 진짜 하드디스크 콘크리트로 굳혀놓는(박제) DW의 극강 캐시 꼼수. |
+| **INSTEAD OF [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)** | 절대 안 뚫리는 복합 뷰의 철벽을, 닌자([트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/))를 심어두어 대신 백그라운드 테이블에 직접 하드코딩 노가다 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 쏴주는 기적의 우회 관통(Bypass) 흑마법. |
+| **WITH CHECK OPTION** | 단순 뷰 거쳐 원본 테이블 수정(Update/Insert) 칠 때 ➔ 뷰 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 조건(`WHERE 서울`) 헌법 어기는 놈은 0.1초 만에 멱살 잡아 에러 튕겨내 차단 컷 시키는 무결점 강제 방벽. |
+| **[보안 캡슐화](/knowledge-base/studynote/03_network/09_application_layer_web_email/491_smtps_pop3s_imaps_secure_email/) (Row/Column [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))** | 1억 건 중 '주민번호' 컬럼은 가위로 싹둑 썰어내고, 영업팀 10명 행(Row)만 필터로 잘라 던져줌으로써 ➔ 해커가 침투해도 볼 권한 없는 투명 샌드박스 장님으로 기만하는 [정보 은닉](/knowledge-base/studynote/04_software_engineering/04_testing_quality/199_information_hiding_encapsulation/) [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/). |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -158,7 +161,7 @@ Materialized View (MView) 데이터 웨어하우스 구원 (현재) ✨ / "껍�
 
 **진행 상황**: 152 / 600
 
-← **이전**: [[151_sql_view_virtual_table|151. 뷰 (View) - 가상 테이블, 논리적 데이터 독립성 및 보안 제공]]
-**다음**: [[153_materialized_view_mview_data_warehouse|153. 구체화된 뷰 (MVIEW, Materialized View) - OLAP 캐싱 박제 마법]] →
+← **이전**: [151. 뷰 (View) - 가상 테이블, 논리적 데이터 독립성 및 보안 제공](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)
+**다음**: [153. 구체화된 뷰 (MVIEW, Materialized View) - OLAP 캐싱 박제 마법](/knowledge-base/studynote/05_database/03_relational_model/153_materialized_view_mview_data_warehouse/) →
 
 ---

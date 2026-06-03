@@ -1,25 +1,29 @@
----
-title: 251. DRAM (Dynamic RAM)
-date: '2026-04-20'
-tags:
-- studynote-computer-architecture
----
++++
+title = "251. DRAM (Dynamic RAM)"
+date = 2026-04-20
+
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: DRAM (Dynamic Random Access Memory)은 [[005_capacitor|커패시터]] ([[005_capacitor|Capacitor]])에 전하를 잠시 저장하는 방식으로 대용량을 싸게 구현하지만, 전하가 새기 때문에 리프레시 (Refresh)가 필수인 휘발성 메모리다.
-> 2. **가치**: 셀 구조가 1T-1C([[014_transistor|트랜지스터]] 1개 + [[005_capacitor|커패시터]] 1개)로 단순해 [[250_sram|SRAM]] (Static Random Access Memory)보다 훨씬 높은 집적도를 확보할 수 있어, 현대 시스템의 주기억장치를 현실적인 가격으로 만든 핵심 기술이다.
-> 3. **판단 포인트**: DRAM의 경쟁력은 절대 지연시간이 아니라 용량 대비 비용과 [[140_bandwidth|대역폭]] 확장성에 있으므로, 로우 버퍼 [[264_hit_ratio|적중률]]·채널 구성·리프레시 오버헤드를 함께 보는 것이 중요하다.
+> 1. **본질**: DRAM (Dynamic Random Access Memory)은 [커패시터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/) ([Capacitor](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/))에 전하를 잠시 저장하는 방식으로 대용량을 싸게 구현하지만, 전하가 새기 때문에 리프레시 (Refresh)가 필수인 휘발성 메모리다.
+> 2. **가치**: 셀 구조가 1T-1C([트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 1개 + [커패시터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/) 1개)로 단순해 [SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/) (Static Random Access Memory)보다 훨씬 높은 집적도를 확보할 수 있어, 현대 시스템의 주기억장치를 현실적인 가격으로 만든 핵심 기술이다.
+> 3. **판단 포인트**: DRAM의 경쟁력은 절대 지연시간이 아니라 용량 대비 비용과 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 확장성에 있으므로, 로우 버퍼 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)·채널 구성·리프레시 오버헤드를 함께 보는 것이 중요하다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-DRAM은 [[005_capacitor|커패시터]]에 저장된 미세한 전하량으로 1비트를 표현하는 [[009_semiconductor|반도체]] 메모리다. 전하가 시간이 지나며 누설되므로, 저장 후 가만히 두어도 [[001_dikw_pyramid|데이터]]가 약해지고 결국 사라진다. 그래서 DRAM은 단순 저장장치가 아니라, **저장과 유지 보수**를 동시에 계속 수행해야 하는 메모리다.
+DRAM은 [커패시터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/)에 저장된 미세한 전하량으로 1비트를 표현하는 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 메모리다. 전하가 시간이 지나며 누설되므로, 저장 후 가만히 두어도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 약해지고 결국 사라진다. 그래서 DRAM은 단순 저장장치가 아니라, **저장과 유지 보수**를 동시에 계속 수행해야 하는 메모리다.
 
 이 구조가 등장한 이유는 메인 메모리에서 가장 중요한 축이 "최고 속도"보다 "충분한 용량을 감당할 수 있는 가격"이었기 때문이다. CPU 가까운 곳의 캐시는 빠르지만 비싼 SRAM으로 만들고, 그보다 큰 주기억장치는 조금 느리더라도 고집적·저비용인 DRAM으로 채우는 계층 구조가 형성되었다. 만약 주기억장치까지 전부 SRAM으로 만들었다면, 용량은 작고 가격은 매우 비싸져 범용 컴퓨터의 확장이 사실상 어려웠을 것이다.
 
-아래 그림은 DRAM 셀이 왜 싸지만 귀찮은 메모리인지를 보여준다. 저장 구조는 단순하지만, [[001_dikw_pyramid|데이터]] 보존을 위해 보조 동작이 계속 필요하다는 점이 핵심이다.
+아래 그림은 DRAM 셀이 왜 싸지만 귀찮은 메모리인지를 보여준다. 저장 구조는 단순하지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보존을 위해 보조 동작이 계속 필요하다는 점이 핵심이다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────────────────┐
@@ -45,17 +49,17 @@ DRAM은 [[005_capacitor|커패시터]]에 저장된 미세한 전하량으로 1�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-DRAM 내부 동작의 핵심은 **행 활성화(Activate) → 열 선택(Read/Write) → 프리차지 (Precharge)** 흐름이다. 먼저 특정 행(Row)을 열어 그 행 전체를 센스 앰프 (Sense Amplifier)와 로우 버퍼 (Row Buffer)에 올린 뒤, 필요한 열(Column)만 골라 읽거나 쓴다. 이 방식은 주소 핀 수를 줄이고 한 번 연 행에서 여러 [[001_dikw_pyramid|데이터]]를 연속 접근하기 쉽게 만들지만, 다른 행으로 넘어갈 때는 다시 닫고 여는 시간이 필요하다.
+DRAM 내부 동작의 핵심은 **행 활성화(Activate) → 열 선택(Read/Write) → 프리차지 (Precharge)** 흐름이다. 먼저 특정 행(Row)을 열어 그 행 전체를 센스 앰프 (Sense Amplifier)와 로우 버퍼 (Row Buffer)에 올린 뒤, 필요한 열(Column)만 골라 읽거나 쓴다. 이 방식은 주소 핀 수를 줄이고 한 번 연 행에서 여러 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 연속 접근하기 쉽게 만들지만, 다른 행으로 넘어갈 때는 다시 닫고 여는 시간이 필요하다.
 
-특히 DRAM 읽기는 사실상 **파괴적 읽기 (Destructive Read)** 성격을 가진다. 셀의 전하는 너무 약해서 읽는 순간 [[073_bit|비트]]라인과 전하를 공유하고, 센스 앰프가 이를 증폭한 뒤 원래 값을 다시 써 넣어 복원해야 한다. 이 때문에 DRAM 지연시간은 단순한 "찾는 시간"이 아니라 활성화, 감지, 복원, 프리차지까지 포함한 복합 지연으로 이해해야 한다.
+특히 DRAM 읽기는 사실상 **파괴적 읽기 (Destructive Read)** 성격을 가진다. 셀의 전하는 너무 약해서 읽는 순간 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)라인과 전하를 공유하고, 센스 앰프가 이를 증폭한 뒤 원래 값을 다시 써 넣어 복원해야 한다. 이 때문에 DRAM 지연시간은 단순한 "찾는 시간"이 아니라 활성화, 감지, 복원, 프리차지까지 포함한 복합 지연으로 이해해야 한다.
 
-| 단계 | 내부 동작 | [[282_performance_tactics|성능]] 의미 |
+| 단계 | 내부 동작 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 의미 |
 | :--- | :--- | :--- |
 | Activate | 행 전체를 열어 센스 앰프에 적재 | 첫 접근이 가장 느림 |
-| Read / Write | 선택한 열 [[001_dikw_pyramid|데이터]] 전송 | 같은 행 안에서는 비교적 빠름 |
+| Read / Write | 선택한 열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 | 같은 행 안에서는 비교적 빠름 |
 | Restore | 읽은 뒤 셀 전하 복원 | 파괴적 읽기의 후속 비용 |
-| Precharge | [[073_bit|비트]]라인을 [[459_quic_fec_forward_error_correction|초기]] 상태로 정리 | 다음 행 접근 준비 시간 |
-| Refresh | 일정 주기로 셀 내용 재기록 | 가용 [[140_bandwidth|대역폭]] 일부 소모 |
+| Precharge | [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)라인을 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 상태로 정리 | 다음 행 접근 준비 시간 |
+| Refresh | 일정 주기로 셀 내용 재기록 | 가용 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 일부 소모 |
 
 아래 흐름도는 DRAM 접근에서 왜 로우 버퍼 적중과 미적중의 차이가 큰지를 보여준다.
 
@@ -71,7 +75,7 @@ DRAM 내부 동작의 핵심은 **행 활성화(Activate) → 열 선택(Read/Wr
 └──────────────────────────────────────────────────────────────────────────┘
 ```
 
-결국 DRAM은 셀 자체가 느리다기보다, **행 단위로 크게 열고 열 단위로 작게 쓰는 구조적 절차** 때문에 지연시간 편차가 생긴다. 그래서 메모리 컨트롤러는 뱅크 (Bank) 병렬화, 버스트 전송, 스케줄링 재배치로 이 비용을 숨기려 하고, 소프트웨어는 연속 접근 패턴으로 로우 버퍼 [[264_hit_ratio|적중률]]을 높이려 한다.
+결국 DRAM은 셀 자체가 느리다기보다, **행 단위로 크게 열고 열 단위로 작게 쓰는 구조적 절차** 때문에 지연시간 편차가 생긴다. 그래서 메모리 컨트롤러는 뱅크 (Bank) 병렬화, 버스트 전송, 스케줄링 재배치로 이 비용을 숨기려 하고, 소프트웨어는 연속 접근 패턴으로 로우 버퍼 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)을 높이려 한다.
 
 - **📢 섹션 요약 비유**: DRAM은 서랍 하나를 통째로 열어 놓고 그 안의 물건을 여러 개 꺼내는 창고와 같다. 같은 서랍 안에서는 빠르지만, 다른 서랍으로 갈아탈 때마다 닫고 다시 여는 시간이 크게 든다.
 
@@ -79,20 +83,20 @@ DRAM 내부 동작의 핵심은 **행 활성화(Activate) → 열 선택(Read/Wr
 
 ## Ⅲ. 비교 및 연결
 
-DRAM을 제대로 이해하려면 SRAM과의 역할 분담을 먼저 봐야 한다. SRAM은 [[051_flip_flop|플립플롭]] ([[051_flip_flop|Flip-Flop]]) 기반으로 값을 안정적으로 유지해 매우 빠르지만, 셀 면적이 커서 비싸고 대용량화가 어렵다. 반면 DRAM은 느리고 관리가 필요하지만, 같은 실리콘 면적에서 훨씬 큰 용량을 얻을 수 있어 메인 메모리에 적합하다.
+DRAM을 제대로 이해하려면 SRAM과의 역할 분담을 먼저 봐야 한다. SRAM은 [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) ([Flip-Flop](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)) 기반으로 값을 안정적으로 유지해 매우 빠르지만, 셀 면적이 커서 비싸고 대용량화가 어렵다. 반면 DRAM은 느리고 관리가 필요하지만, 같은 실리콘 면적에서 훨씬 큰 용량을 얻을 수 있어 메인 메모리에 적합하다.
 
-| 비교 항목 | DRAM (Dynamic Random Access Memory) | [[250_sram|SRAM]] (Static Random Access Memory) |
+| 비교 항목 | DRAM (Dynamic Random Access Memory) | [SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/) (Static Random Access Memory) |
 | :--- | :--- | :--- |
-| 저장 방식 | [[005_capacitor|커패시터]] 전하 저장 | 래치 기반 상태 유지 |
+| 저장 방식 | [커패시터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/) 전하 저장 | 래치 기반 상태 유지 |
 | 리프레시 | 필요 | 불필요 |
 | 읽기 특성 | 복원 비용 수반 | 비파괴적 읽기 |
 | 집적도 | 높음 | 낮음 |
-| 가격/[[073_bit|비트]] | 낮음 | 높음 |
-| 대표 위치 | 주기억장치, 그래픽 메모리 | 캐시, [[057_register|레지스터]] 주변 |
+| 가격/[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) | 낮음 | 높음 |
+| 대표 위치 | 주기억장치, 그래픽 메모리 | 캐시, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 주변 |
 
-또한 DRAM은 세대가 바뀌며 비동기 DRAM에서 [[252_sdram|SDRAM]] ([[252_sdram|Synchronous DRAM]]), DDR ([[253_ddr_sdram|Double Data Rate]]), LPDDR (Low [[069_type_1_2_error_statistical_power|Power]] DDR), [[495_hbm|HBM]] ([[495_hbm|High Bandwidth Memory]])으로 발전했다. 이는 셀의 물리 원리가 달라졌다기보다, 같은 DRAM을 **더 잘 묶고 더 넓게 병렬화하며 더 효율적으로 전달**하는 방향의 진화다. 즉 메모리 기술 발전의 많은 부분은 셀 혁신보다 인터페이스, 패키징, 병렬성 확대에서 발생한다.
+또한 DRAM은 세대가 바뀌며 비동기 DRAM에서 [SDRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/252_sdram/) ([Synchronous DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/252_sdram/)), DDR ([Double Data Rate](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/253_ddr_sdram/)), LPDDR (Low [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) DDR), [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) ([High Bandwidth Memory](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/))으로 발전했다. 이는 셀의 물리 원리가 달라졌다기보다, 같은 DRAM을 **더 잘 묶고 더 넓게 병렬화하며 더 효율적으로 전달**하는 방향의 진화다. 즉 메모리 기술 발전의 많은 부분은 셀 혁신보다 인터페이스, 패키징, 병렬성 확대에서 발생한다.
 
-운영체제와 [[282_performance_tactics|성능]] 최적화 관점에서도 DRAM은 단독 주제가 아니다. [[720_page_fault_isr|페이지 폴트]] ([[387_page_fault|Page Fault]]), 캐시 미스, [[377_numa_allocation|NUMA]] ([[377_numa_allocation|Non-Uniform Memory Access]]), 메모리 인터리빙이 모두 결국 DRAM 접근 비용을 어떻게 숨기고 분산할지의 문제로 이어진다. 그래서 DRAM은 단순 하드웨어 부품이 아니라 시스템 전체의 지연시간 구조를 결정하는 기반 계층이다.
+운영체제와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 관점에서도 DRAM은 단독 주제가 아니다. [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) ([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)), 캐시 미스, [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) ([Non-Uniform Memory Access](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)), 메모리 인터리빙이 모두 결국 DRAM 접근 비용을 어떻게 숨기고 분산할지의 문제로 이어진다. 그래서 DRAM은 단순 하드웨어 부품이 아니라 시스템 전체의 지연시간 구조를 결정하는 기반 계층이다.
 
 - **📢 섹션 요약 비유**: SRAM이 바로 손에 쥔 메모지라면 DRAM은 큰 창고 선반이다. 메모지는 빠르게 볼 수 있지만 적게 적히고, 창고 선반은 천천히 찾더라도 훨씬 많은 물건을 싸게 보관할 수 있다.
 
@@ -100,24 +104,24 @@ DRAM을 제대로 이해하려면 SRAM과의 역할 분담을 먼저 봐야 한�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 DRAM은 "몇 GB인가"보다 **어떻게 배치되고 어떤 패턴으로 접근되는가**가 더 중요할 때가 많다. 예를 들어 동일한 총용량이라도 단일 채널보다 듀얼 채널, 쿼드 채널 구성이 [[140_bandwidth|대역폭]]을 크게 늘릴 수 있고, 순차 접근 중심 워크로드가 임의 접근 중심 워크로드보다 체감 [[282_performance_tactics|성능]]이 좋은 이유도 로우 버퍼 적중과 버스트 전송 덕분이다. 따라서 메모리 병목을 볼 때는 CPU 클럭만 볼 것이 아니라 채널 수, DIMM 구성, 뱅크 활용도, 리프레시 영향까지 함께 판단해야 한다.
+실무에서 DRAM은 "몇 GB인가"보다 **어떻게 배치되고 어떤 패턴으로 접근되는가**가 더 중요할 때가 많다. 예를 들어 동일한 총용량이라도 단일 채널보다 듀얼 채널, 쿼드 채널 구성이 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 크게 늘릴 수 있고, 순차 접근 중심 워크로드가 임의 접근 중심 워크로드보다 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 좋은 이유도 로우 버퍼 적중과 버스트 전송 덕분이다. 따라서 메모리 병목을 볼 때는 CPU 클럭만 볼 것이 아니라 채널 수, DIMM 구성, 뱅크 활용도, 리프레시 영향까지 함께 판단해야 한다.
 
-기술사 답안이나 설계 면접에서는 "언제 DRAM이 문제가 되는가"를 구체적으로 말해야 한다. 대규모 [[001_dikw_pyramid|데이터]]베이스나 인메모리 분석은 용량 부족뿐 아니라 지연시간 분산과 메모리 [[140_bandwidth|대역폭]] 부족이 병목이 된다. [[015_virtualization|가상화]]·클라우드 환경에서는 [[554_ecc_circuit|ECC]] (Error Correcting [[082_process_memory_structure|Code]]) 지원, [[484_rowhammer|Rowhammer]] 완화, [[377_numa_allocation|NUMA]] 배치 정책까지 메모리 설계 판단에 포함된다.
+기술사 답안이나 설계 면접에서는 "언제 DRAM이 문제가 되는가"를 구체적으로 말해야 한다. 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스나 인메모리 분석은 용량 부족뿐 아니라 지연시간 분산과 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 부족이 병목이 된다. [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)·클라우드 환경에서는 [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) (Error Correcting [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)) 지원, [Rowhammer](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/484_rowhammer/) 완화, [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 배치 정책까지 메모리 설계 판단에 포함된다.
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 총용량뿐 아니라 채널 수와 메모리 클럭이 워크로드 [[140_bandwidth|대역폭]] 요구를 충족하는가?
-2. 순차 접근으로 로우 버퍼 적중을 늘릴 수 있는 [[001_dikw_pyramid|데이터]] 배치인가?
-3. 서버라면 [[554_ecc_circuit|ECC]] 메모리와 [[555_memory_scrubbing|메모리 스크러빙]] 정책이 필요한가?
-4. 다중 [[125_socket|소켓]] 환경이라면 [[377_numa_allocation|NUMA]] 원격 접근이 병목이 되지 않는가?
-5. [[418_gpu|GPU]]·AI처럼 극단적 [[140_bandwidth|대역폭]]이 중요하다면 [[495_hbm|HBM]] 같은 대안을 검토해야 하는가?
+1. 총용량뿐 아니라 채널 수와 메모리 클럭이 워크로드 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 요구를 충족하는가?
+2. 순차 접근으로 로우 버퍼 적중을 늘릴 수 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치인가?
+3. 서버라면 [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) 메모리와 [메모리 스크러빙](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/555_memory_scrubbing/) 정책이 필요한가?
+4. 다중 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 환경이라면 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 원격 접근이 병목이 되지 않는가?
+5. [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)·AI처럼 극단적 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 중요하다면 [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) 같은 대안을 검토해야 하는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 용량만 맞추고 단일 채널로 구성해 [[140_bandwidth|대역폭]] 병목을 만드는 설계
+- 용량만 맞추고 단일 채널로 구성해 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 병목을 만드는 설계
 - 캐시 친화적이지 않은 자료구조로 불필요한 행 교체를 유발하는 구현
-- 서버급 안정성이 필요한데도 [[554_ecc_circuit|ECC]] 없이 고밀도 메모리만 증설하는 선택
-- 메모리 지연시간 문제를 모두 CPU [[282_performance_tactics|성능]] 부족으로 오판하는 분석
+- 서버급 안정성이 필요한데도 [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) 없이 고밀도 메모리만 증설하는 선택
+- 메모리 지연시간 문제를 모두 CPU [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 부족으로 오판하는 분석
 
 - **📢 섹션 요약 비유**: DRAM 설계는 창고 크기만 넓히는 일이 아니다. 통로 수, 선반 배치, 재고 꺼내는 순서까지 맞아야 창고가 실제로 빨라진다.
 
@@ -125,9 +129,9 @@ DRAM을 제대로 이해하려면 SRAM과의 역할 분담을 먼저 봐야 한�
 
 ## Ⅴ. 기대효과 및 결론
 
-DRAM은 완벽한 메모리가 아니지만, 현대 컴퓨터가 "큰 메모리 공간"을 상식으로 받아들이게 만든 결정적 기반이다. 수십 기가바이트의 메인 메모리, 대규모 가상 머신, 그래픽 프레임 버퍼, [[190_ai_llm_requirements_specification|AI]] 학습용 대용량 [[001_dikw_pyramid|데이터]] 적재는 모두 DRAM의 높은 집적도 덕분에 가능해졌다. 다시 말해 DRAM은 [[282_performance_tactics|성능]]을 직접 끝까지 끌어올리는 부품이라기보다, 시스템이 충분한 작업 공간을 확보하게 만드는 부품이다.
+DRAM은 완벽한 메모리가 아니지만, 현대 컴퓨터가 "큰 메모리 공간"을 상식으로 받아들이게 만든 결정적 기반이다. 수십 기가바이트의 메인 메모리, 대규모 가상 머신, 그래픽 프레임 버퍼, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습용 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 적재는 모두 DRAM의 높은 집적도 덕분에 가능해졌다. 다시 말해 DRAM은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 직접 끝까지 끌어올리는 부품이라기보다, 시스템이 충분한 작업 공간을 확보하게 만드는 부품이다.
 
-동시에 한계도 분명하다. 리프레시 오버헤드, 셀 간섭, [[466_power_consumption|전력 소모]], [[433_memory_wall|메모리 월]] ([[433_memory_wall|Memory Wall]]) 문제는 계속 남아 있으며, CPU 연산 [[282_performance_tactics|성능]] 증가 속도를 메모리 지연시간 개선이 따라가지 못하는 구조적 간극도 존재한다. 그래서 미래 방향은 단순히 더 빠른 DRAM 한 종류가 아니라, DDR 계열의 고도화, HBM과 같은 3차원 적층, [[441_cxl|CXL]] ([[441_cxl|Compute Express Link]]) 기반 메모리 확장처럼 **계층과 연결 방식을 더 똑똑하게 재구성하는 방향**으로 가고 있다.
+동시에 한계도 분명하다. 리프레시 오버헤드, 셀 간섭, [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/), [메모리 월](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/) ([Memory Wall](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/)) 문제는 계속 남아 있으며, CPU 연산 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 증가 속도를 메모리 지연시간 개선이 따라가지 못하는 구조적 간극도 존재한다. 그래서 미래 방향은 단순히 더 빠른 DRAM 한 종류가 아니라, DDR 계열의 고도화, HBM과 같은 3차원 적층, [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) ([Compute Express Link](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)) 기반 메모리 확장처럼 **계층과 연결 방식을 더 똑똑하게 재구성하는 방향**으로 가고 있다.
 
 결론적으로 DRAM은 "느리지만 싸다"로만 기억하면 부족하다. 더 정확한 표현은 **"느리지만 대용량을 현실화했고, 그래서 시스템 전체가 그 느림을 우회하도록 진화하게 만든 메모리"**다. 기술사 관점에서는 셀 구조 자체보다, 그 한계를 캐시·인터리빙·채널 확장·패키징 혁신으로 어떻게 보완하는지까지 함께 설명할 수 있어야 한다.
 
@@ -139,13 +143,13 @@ DRAM은 완벽한 메모리가 아니지만, 현대 컴퓨터가 "큰 메모리 
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[250_sram|SRAM]] (Static Random Access Memory) | DRAM과 대비되는 고속·고비용 메모리로, 캐시 계층의 필요성을 설명하는 기준점 |
+| [SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/) (Static Random Access Memory) | DRAM과 대비되는 고속·고비용 메모리로, 캐시 계층의 필요성을 설명하는 기준점 |
 | 센스 앰프 (Sense Amplifier) | 미세한 전하 차이를 증폭해 읽기 가능하게 만드는 핵심 회로 |
-| 로우 버퍼 (Row Buffer) | DRAM [[282_performance_tactics|성능]]이 접근 패턴에 민감한 이유를 설명하는 직접 매개체 |
-| [[252_sdram|SDRAM]] ([[252_sdram|Synchronous DRAM]]) | DRAM을 시스템 클럭에 맞춰 예측 가능하게 만든 현대 메모리 인터페이스의 출발점 |
-| DDR ([[253_ddr_sdram|Double Data Rate]]) | 클럭 양 에지 전송으로 [[140_bandwidth|대역폭]]을 높여 DRAM의 실효 [[282_performance_tactics|성능]]을 끌어올린 표준 |
-| [[554_ecc_circuit|ECC]] (Error Correcting [[082_process_memory_structure|Code]]) | 고밀도 DRAM에서 발생 가능한 [[073_bit|비트]] 오류를 완화해 서버 신뢰성을 높이는 장치 |
-| [[495_hbm|HBM]] ([[495_hbm|High Bandwidth Memory]]) | DRAM 셀의 본질은 유지한 채 패키징과 병렬성으로 [[140_bandwidth|대역폭]] 한계를 줄이는 확장 형태 |
+| 로우 버퍼 (Row Buffer) | DRAM [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 접근 패턴에 민감한 이유를 설명하는 직접 매개체 |
+| [SDRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/252_sdram/) ([Synchronous DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/252_sdram/)) | DRAM을 시스템 클럭에 맞춰 예측 가능하게 만든 현대 메모리 인터페이스의 출발점 |
+| DDR ([Double Data Rate](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/253_ddr_sdram/)) | 클럭 양 에지 전송으로 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 높여 DRAM의 실효 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 끌어올린 표준 |
+| [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) (Error Correcting [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)) | 고밀도 DRAM에서 발생 가능한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 오류를 완화해 서버 신뢰성을 높이는 장치 |
+| [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) ([High Bandwidth Memory](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/)) | DRAM 셀의 본질은 유지한 채 패키징과 병렬성으로 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 한계를 줄이는 확장 형태 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -182,7 +186,7 @@ HBM (High Bandwidth Memory) · CXL (Compute Express Link) 메모리 확장
 
 **진행 상황**: 251 / 803
 
-← **이전**: [[250_sram|250. SRAM (Static RAM)]]
-**다음**: [[252_sdram|252. SDRAM (Synchronous DRAM)]] →
+← **이전**: [250. SRAM (Static RAM)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/)
+**다음**: [252. SDRAM (Synchronous DRAM)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/252_sdram/) →
 
 ---

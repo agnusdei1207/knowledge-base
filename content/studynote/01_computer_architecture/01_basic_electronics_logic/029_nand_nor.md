@@ -1,14 +1,18 @@
----
-title: 29. NAND/NOR 게이트 (NAND/NOR Gates)
-date: '2026-04-29'
-tags:
-- studynote-computer-architecture
----
++++
+title = "29. NAND/NOR 게이트 (NAND/NOR Gates)"
+date = 2026-04-29
+
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: NAND(Not-AND)와 NOR(Not-OR) 게이트는 각각 단독으로 모든 [[369_logic_bomb|논리]] 함수를 구현할 수 있는 **범용 게이트([[031_universal_gate|Universal Gate]])**다. AND, OR, NOT, XOR 등 모든 조합 [[369_logic_bomb|논리]]를 NAND 또는 NOR만으로 대체 구현 가능하다.
-> 2. **가치**: [[009_semiconductor|반도체]] 제조 공정에서 NAND 게이트가 AND/OR 대비 [[014_transistor|트랜지스터]] 수가 적고(CMOS에서 4T vs 6T) 속도가 빠르다. 실제 CPU·[[606_dynamic_partial_reconfiguration|FPGA]] 내부 대부분의 조합 [[369_logic_bomb|논리]]는 NAND 게이트로 합성(Synthesis)된다.
-> 3. **판단 포인트**: NAND는 PMOS [[149_serial_communication_rs232_rs485|직렬]]/NMOS [[430_index_fast_full_scan|병렬]], NOR는 PMOS [[430_index_fast_full_scan|병렬]]/NMOS [[149_serial_communication_rs232_rs485|직렬]] 구조다. [[018_cmos|CMOS]] 공정에서는 NMOS가 PMOS보다 [[002_current|전류]] 구동 능력이 2배 우수하므로, PMOS [[430_index_fast_full_scan|병렬]]인 NAND가 NOR보다 구현 효율이 높다. 이 때문에 NAND 기반 합성이 표준이다.
+> 1. **본질**: NAND(Not-AND)와 NOR(Not-OR) 게이트는 각각 단독으로 모든 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 함수를 구현할 수 있는 **범용 게이트([Universal Gate](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/031_universal_gate/))**다. AND, OR, NOT, XOR 등 모든 조합 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)를 NAND 또는 NOR만으로 대체 구현 가능하다.
+> 2. **가치**: [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 제조 공정에서 NAND 게이트가 AND/OR 대비 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 수가 적고(CMOS에서 4T vs 6T) 속도가 빠르다. 실제 CPU·[FPGA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/) 내부 대부분의 조합 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)는 NAND 게이트로 합성(Synthesis)된다.
+> 3. **판단 포인트**: NAND는 PMOS [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)/NMOS [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/), NOR는 PMOS [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)/NMOS [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 구조다. [CMOS](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/) 공정에서는 NMOS가 PMOS보다 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 구동 능력이 2배 우수하므로, PMOS [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)인 NAND가 NOR보다 구현 효율이 높다. 이 때문에 NAND 기반 합성이 표준이다.
 
 ---
 
@@ -34,7 +38,7 @@ tags:
 └───────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: NAND/NOR는 요리의 만능 소스다. 간장 한 가지(NAND)로 갖가지 요리(모든 [[369_logic_bomb|논리]] 함수)를 만들 수 있듯, NAND 하나만으로 모든 디지털 회로를 구성할 수 있다.
+- **📢 섹션 요약 비유**: NAND/NOR는 요리의 만능 소스다. 간장 한 가지(NAND)로 갖가지 요리(모든 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 함수)를 만들 수 있듯, NAND 하나만으로 모든 디지털 회로를 구성할 수 있다.
 
 ---
 
@@ -55,7 +59,7 @@ OR 구현 (드 모르간):
   NAND(NOT A, NOT B) = OR(A, B)
 ```
 
-### [[018_cmos|CMOS]] [[014_transistor|트랜지스터]] 구조
+### [CMOS](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/) [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 구조
 
 ```text
 NAND (CMOS):            NOR (CMOS):
@@ -75,7 +79,7 @@ NAND: PMOS 병렬 (구동력 강) → 더 효율적
 NOR:  PMOS 직렬 (구동력 약) → 느림
 ```
 
-- **📢 섹션 요약 비유**: NAND가 NOR보다 빠른 이유는 두 사람이 함께 일하는 방식의 차이다. PMOS를 두 명이 [[430_index_fast_full_scan|병렬]]로 일하면(NAND) 빠르지만, [[149_serial_communication_rs232_rs485|직렬]]로 순서대로 일하면(NOR) 느려진다.
+- **📢 섹션 요약 비유**: NAND가 NOR보다 빠른 이유는 두 사람이 함께 일하는 방식의 차이다. PMOS를 두 명이 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 일하면(NAND) 빠르지만, [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)로 순서대로 일하면(NOR) 느려진다.
 
 ---
 
@@ -83,9 +87,9 @@ NOR:  PMOS 직렬 (구동력 약) → 느림
 
 | 비교 | NAND | NOR |
 |:---|:---|:---|
-| [[369_logic_bomb|논리]] | NOT(A AND B) | NOT(A OR B) |
+| [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) | NOT(A AND B) | NOT(A OR B) |
 | 범용성 | ✅ | ✅ |
-| [[018_cmos|CMOS]] 효율 | 우수 (PMOS [[430_index_fast_full_scan|병렬]]) | 보통 (PMOS [[149_serial_communication_rs232_rs485|직렬]]) |
+| [CMOS](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/) 효율 | 우수 (PMOS [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)) | 보통 (PMOS [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)) |
 | 합성 표준 | 산업 표준 | 특수 상황 |
 
 - **📢 섹션 요약 비유**: NAND vs NOR는 두 종류의 만능 도구다. 둘 다 모든 것을 할 수 있지만, NAND가 더 빠르고 효율적이라서 산업 표준으로 자리 잡았다. 마치 드라이버와 망치 모두 못을 박을 수 있지만 망치가 더 적합한 것처럼.
@@ -105,12 +109,12 @@ RTL (Verilog/VHDL) → 논리 합성(Synthesis) → NAND/NOR 넷리스트
 NOR, XOR 등을 제공하며 NAND가 기본 빌딩 블록
 ```
 
-### NAND [[256_flash_memory|플래시 메모리]]
-- 저장 [[121_transmission_media_guided_unguided|매체]] NAND 플래시는 NAND 게이트 셀 구조에서 이름 유래.
-- [[327_ssd|SSD]], [[359_usb|USB]], SD 카드 등 대용량 저장에 사용.
+### NAND [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/)
+- 저장 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) NAND 플래시는 NAND 게이트 셀 구조에서 이름 유래.
+- [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/), [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/), SD 카드 등 대용량 저장에 사용.
 - NOR 플래시: 코드 실행용(XIP), 빠른 랜덤 읽기.
 
-- **📢 섹션 요약 비유**: NAND 플래시는 이름이 게이트에서 왔지만, 실제로는 고밀도 저장에 최적화된 구조다. 이름표(NAND 게이트)와 실제 역할(고밀도 저장)이 다르지만 같은 [[369_logic_bomb|논리]] 원리에서 출발했다.
+- **📢 섹션 요약 비유**: NAND 플래시는 이름이 게이트에서 왔지만, 실제로는 고밀도 저장에 최적화된 구조다. 이름표(NAND 게이트)와 실제 역할(고밀도 저장)이 다르지만 같은 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 원리에서 출발했다.
 
 ---
 
@@ -120,11 +124,11 @@ NOR, XOR 등을 제공하며 NAND가 기본 빌딩 블록
 |:---|:---|
 | **회로 단순화** | 한 종류 게이트만으로 구현 가능 |
 | **제조 효율** | 단일 게이트 타입으로 팹 최적화 |
-| **속도** | [[018_cmos|CMOS]] NAND의 우수한 구동 능력 |
+| **속도** | [CMOS](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/) NAND의 우수한 구동 능력 |
 
-NAND/NOR 범용성은 디지털 설계의 근본 원리다. 현대 [[064_eda|EDA]](Electronic Design Automation) 도구는 자동으로 설계를 NAND 기반 넷리스트로 변환하여 최적의 면적·속도·전력 트레이드오프를 달성한다.
+NAND/NOR 범용성은 디지털 설계의 근본 원리다. 현대 [EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/)(Electronic Design Automation) 도구는 자동으로 설계를 NAND 기반 넷리스트로 변환하여 최적의 면적·속도·전력 트레이드오프를 달성한다.
 
-- **📢 섹션 요약 비유**: [[064_eda|EDA]] 자동 합성은 레고 설계 자동화다. 복잡한 건물(디지털 회로) 설계도를 입력하면 AI가 자동으로 레고 블록(NAND 게이트)으로 조립하는 방법을 최적으로 계산해준다.
+- **📢 섹션 요약 비유**: [EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/) 자동 합성은 레고 설계 자동화다. 복잡한 건물(디지털 회로) 설계도를 입력하면 AI가 자동으로 레고 블록(NAND 게이트)으로 조립하는 방법을 최적으로 계산해준다.
 
 ---
 
@@ -133,10 +137,10 @@ NAND/NOR 범용성은 디지털 설계의 근본 원리다. 현대 [[064_eda|EDA
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **드 모르간 법칙** | NAND/NOR 변환의 수학적 근거 |
-| **[[018_cmos|CMOS]]** | NAND/NOR의 물리적 구현 기술 |
-| **[[369_logic_bomb|논리]] 합성** | RTL → NAND 기반 넷리스트 변환 |
+| **[CMOS](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/)** | NAND/NOR의 물리적 구현 기술 |
+| **[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 합성** | RTL → NAND 기반 넷리스트 변환 |
 | **NAND 플래시** | 게이트 이름을 딴 저장 기술 |
-| **[[064_eda|EDA]]** | 자동 [[369_logic_bomb|논리]] 합성 도구 |
+| **[EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/)** | 자동 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 합성 도구 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -159,7 +163,7 @@ NAND/NOR 범용성은 디지털 설계의 근본 원리다. 현대 [[064_eda|EDA
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. NAND/NOR는 요리의 만능 소스예요! 간장 하나로 모든 요리를 만들 수 있듯, NAND 게이트 하나로 모든 디지털 회로를 만들 수 있어요.
-2. NAND가 NOR보다 빠른 건 두 사람이 동시에 일하는 게([[430_index_fast_full_scan|병렬]]) 순서대로 일하는 것([[149_serial_communication_rs232_rs485|직렬]])보다 빠른 것과 같아요!
+2. NAND가 NOR보다 빠른 건 두 사람이 동시에 일하는 게([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)) 순서대로 일하는 것([직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/))보다 빠른 것과 같아요!
 3. 스마트폰·USB에 들어있는 NAND 플래시도 이 NAND 게이트 원리로 만들어졌답니다!
 
 ---
@@ -168,7 +172,7 @@ NAND/NOR 범용성은 디지털 설계의 근본 원리다. 현대 [[064_eda|EDA
 
 **진행 상황**: 29 / 803
 
-← **이전**: [[028_and_or_not|28. AND / OR / NOT 게이트 상세 (Boolean Expression & Circuit)]]
-**다음**: [[030_xor_xnor|30. XOR·XNOR 게이트 — 동치와 배타적 논리]] →
+← **이전**: [28. AND / OR / NOT 게이트 상세 (Boolean Expression & Circuit)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/028_and_or_not/)
+**다음**: [30. XOR·XNOR 게이트 — 동치와 배타적 논리](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/030_xor_xnor/) →
 
 ---

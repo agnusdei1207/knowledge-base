@@ -1,23 +1,27 @@
----
-title: 143. 컨텍스트 스위칭 최소화를 위한 스레드 고정 (Thread Affinity/Pinning)
-date: '2026-05-08'
-tags:
-- studynote-operating-system
----
++++
+title = "143. 컨텍스트 스위칭 최소화를 위한 스레드 고정 (Thread Affinity/Pinning)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[034_context_switch|컨텍스트 스위칭]] 최소화를 위한 [[092_thread_lwp|스레드]] 고정 ([[092_thread_lwp|Thread]] [[778_process_affinity_scheduling_pinning|Affinity]]/Pinning)은 프로세스와 [[092_thread_lwp|스레드]]의 [[087_process_state_transition|생성]]·실행·협력에서 핵심 흐름을 결정하는 개념으로, 시스템이 무엇을 먼저 관리하고 어떤 순서로 제어할지를 분명하게 만든다.
-> 2. **가치**: 이 개념을 이해하면 자원 효율, [[138_response_time|응답 시간]], 안정성 사이의 균형을 더 정확하게 설명할 수 있고, CPU 친화성 ([[144_cpu_affinity|CPU Affinity]])로 이어지는 이유도 자연스럽게 파악된다.
-> 3. **판단 포인트**: [[142_event_loop|이벤트 루프]] ([[142_event_loop|Event Loop]]) 기반 비동기 처리 (Node.js)과의 관계를 함께 봐야 [[034_context_switch|컨텍스트 스위칭]] 최소화를 위한 [[092_thread_lwp|스레드]] 고정 ([[092_thread_lwp|Thread]] [[778_process_affinity_scheduling_pinning|Affinity]]/Pinning)을 단순 정의가 아니라 실제 설계·운영 판단 기준으로 사용할 수 있다.
+> 1. **본질**: [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) 최소화를 위한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 고정 ([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/)/Pinning)은 프로세스와 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·실행·협력에서 핵심 흐름을 결정하는 개념으로, 시스템이 무엇을 먼저 관리하고 어떤 순서로 제어할지를 분명하게 만든다.
+> 2. **가치**: 이 개념을 이해하면 자원 효율, [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), 안정성 사이의 균형을 더 정확하게 설명할 수 있고, CPU 친화성 ([CPU Affinity](/knowledge-base/studynote/02_operating_system/02_process_thread/144_cpu_affinity/))로 이어지는 이유도 자연스럽게 파악된다.
+> 3. **판단 포인트**: [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/) ([Event Loop](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/)) 기반 비동기 처리 (Node.js)과의 관계를 함께 봐야 [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) 최소화를 위한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 고정 ([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/)/Pinning)을 단순 정의가 아니라 실제 설계·운영 판단 기준으로 사용할 수 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### 1. [[092_thread_lwp|스레드]] 어피니티 ([[092_thread_lwp|Thread]] [[778_process_affinity_scheduling_pinning|Affinity]])
+### 1. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 어피니티 ([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/))
 
-[[092_thread_lwp|스레드]] 어피니티는 특정 [[092_thread_lwp|스레드]]를 특정 CPU 코어에 바인딩(고정)하는 기법이다. 운영체제의 스케줄러가 [[092_thread_lwp|스레드]]를 임의로 마이그레이션하는 것을 방지하여 [[282_performance_tactics|성능]]을 최적화한다.
+[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 어피니티는 특정 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 특정 CPU 코어에 바인딩(고정)하는 기법이다. 운영체제의 스케줄러가 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 임의로 마이그레이션하는 것을 방지하여 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 최적화한다.
 
 > **비유:** 한 직원에게 항상 같은 작업대를 배정하면, 도구 위치를 기억해 작업 속도가 빨라지는 것과 같다.
 
@@ -47,8 +51,8 @@ tags:
 
 | 구분 | 정의 | 강제성 |
 |------|------|--------|
-| **Soft [[778_process_affinity_scheduling_pinning|Affinity]]** | OS가 이전 코어를 선호하도록 [[167_sql_hint_optimizer_override|힌트]] 제공 | 권장, 강제 아님 |
-| **Hard [[778_process_affinity_scheduling_pinning|Affinity]]** | 특정 코어에 강제 바인딩 | 강제, 다른 코어 이동 불가 |
+| **Soft [Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/)** | OS가 이전 코어를 선호하도록 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) 제공 | 권장, 강제 아님 |
+| **Hard [Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/)** | 특정 코어에 강제 바인딩 | 강제, 다른 코어 이동 불가 |
 
 ```
 ┌─────────────── Soft vs Hard Affinity ───────────────┐
@@ -78,7 +82,7 @@ tags:
 
 ### 1. 리눅스 시스템 콜
 
-**`sched_setaffinity()`**: 프로세스/[[092_thread_lwp|스레드]]의 CPU 어피니티 마스크를 [[009_config|설정]]한다.
+**`sched_setaffinity()`**: 프로세스/[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 CPU 어피니티 마스크를 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)한다.
 
 ```
 ┌────────── CPU Affinity Mask (4-Core) ───────────┐
@@ -113,12 +117,12 @@ void set_thread_affinity(int core_id) {
 
 | 도구 | 용도 | 예시 |
 |------|------|------|
-| **taskset** | 프로세스 CPU 마스크 [[009_config|설정]] | `taskset -c 0,1 ./app` |
-| **[[062_cgroups|cgroups]] cpuset** | [[561_container_based_deployment|컨테이너]]/그룹 CPU 할당 | `cgcreate -g cpuset:/mygroup` |
-| **numactl** | [[377_numa_allocation|NUMA]] 노드 + CPU 바인딩 | `numactl --cpunodebind=0 ./app` |
-| **pthread_setaffinity_np** | [[092_thread_lwp|스레드]] 단위 바인딩 (C [[014_api_posix|API]]) | `CPU_SET(0, &cpuset)` |
+| **taskset** | 프로세스 CPU 마스크 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | `taskset -c 0,1 ./app` |
+| **[cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) cpuset** | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)/그룹 CPU 할당 | `cgcreate -g cpuset:/mygroup` |
+| **numactl** | [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 노드 + CPU 바인딩 | `numactl --cpunodebind=0 ./app` |
+| **pthread_setaffinity_np** | [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 단위 바인딩 (C [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) | `CPU_SET(0, &cpuset)` |
 
-### 3. [[062_cgroups|cgroups]] cpuset
+### 3. [cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) cpuset
 
 ```
 ┌──────── cgroups cpuset 계층 구조 ────────┐
@@ -137,7 +141,7 @@ void set_thread_affinity(int core_id) {
 └────────────────────────────────────────────┘
 ```
 
-> **비유:** [[062_cgroups|cgroups]] cpuset은 공장의 작업 구역을 나누어, 실시간 작업은 정밀 기계 구역에, 일반 작업은 대량 생산 구역에 배정하는 것과 같다.
+> **비유:** [cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) cpuset은 공장의 작업 구역을 나누어, 실시간 작업은 정밀 기계 구역에, 일반 작업은 대량 생산 구역에 배정하는 것과 같다.
 
 - **📢 섹션 요약 비유**: 공장 컨베이어벨트가 어떤 순서로 부품을 받아 가공하고 내보내는지 설계도를 펼쳐 보는 것과 같다.
 
@@ -147,7 +151,7 @@ void set_thread_affinity(int core_id) {
 
 ### 1. 캐시 웜스 (Cache Warmth)
 
-[[092_thread_lwp|스레드]]가 동일 코어에서 실행되면 L1/L2 캐시 데이터가 유효하여 캐시 히트율이 향상된다.
+[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 동일 코어에서 실행되면 L1/L2 캐시 데이터가 유효하여 캐시 히트율이 향상된다.
 
 ```
 ┌─────────── Cache Warmth Effect ───────────┐
@@ -166,16 +170,16 @@ void set_thread_affinity(int core_id) {
 └─────────────────────────────────────────────┘
 ```
 
-### 2. [[357_tlb|TLB]] 플러시 감소
+### 2. [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 플러시 감소
 
-코어 전환 시 [[357_tlb|TLB]]([[291_tlb|Translation Lookaside Buffer]])가 무효화되므로, 동일 코어 유지로 [[353_page_table|페이지 테이블]] 변환 오버헤드를 줄인다.
+코어 전환 시 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/)([Translation Lookaside Buffer](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/))가 무효화되므로, 동일 코어 유지로 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 변환 오버헤드를 줄인다.
 
 | 효과 | 설명 | 기대 효과 |
 |------|------|-----------|
-| **캐시 히트율 향상** | L1/L2 캐시 재사용 | [[489_raid_10_hybrid|10]]~30% [[282_performance_tactics|성능]] 향상 |
-| **[[357_tlb|TLB]] 미스 감소** | [[353_page_table|페이지 테이블]] 캐시 유지 | 5~15% 메모리 접근 향상 |
+| **캐시 히트율 향상** | L1/L2 캐시 재사용 | [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~30% [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 |
+| **[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스 감소** | [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 캐시 유지 | 5~15% 메모리 접근 향상 |
 | **브랜치 예측 향상** | 분기 예측기 유지 | 2~5% 연산 향상 |
-| **파이프라인 효율** | [[158_instruction|명령어]] 캐시 유지 | 일관된 실행 속도 |
+| **파이프라인 효율** | [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 캐시 유지 | 일관된 실행 속도 |
 
 - **📢 섹션 요약 비유**: 비슷해 보이는 공구를 나란히 놓고 언제 망치를 쓰고 언제 드라이버를 써야 하는지 구분하는 것과 같다.
 
@@ -183,7 +187,7 @@ void set_thread_affinity(int core_id) {
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 1. [[009_real_time_system|실시간 시스템]] (Real-time Systems)
+### 1. [실시간 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/009_real_time_system/) (Real-time Systems)
 
 ```
 ┌───────── Real-time CPU Isolation ──────────┐
@@ -205,9 +209,9 @@ void set_thread_affinity(int core_id) {
 
 ### 2. 고빈도 트레이딩 (HFT, High-Frequency Trading)
 
-마이크로초 단위의 지연이 중요한 금융 거래에서 코어 고정은 결정적 [[138_response_time|응답 시간]]을 보장한다.
+마이크로초 단위의 지연이 중요한 금융 거래에서 코어 고정은 결정적 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)을 보장한다.
 
-### 3. [[671_dpdk|DPDK]] ([[001_dikw_pyramid|Data]] Plane Development Kit)
+### 3. [DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane Development Kit)
 
 ```
 ┌─────────────── DPDK Poll Mode ───────────────┐
@@ -261,11 +265,11 @@ void set_thread_affinity(int core_id) {
 
 | 약어 | Full Name |
 |------|-----------|
-| **[[357_tlb|TLB]]** | [[291_tlb|Translation Lookaside Buffer]] |
+| **[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/)** | [Translation Lookaside Buffer](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/) |
 | **HFT** | High-Frequency Trading |
-| **[[671_dpdk|DPDK]]** | [[001_dikw_pyramid|Data]] Plane Development Kit |
+| **[DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/)** | [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane Development Kit |
 | **RSS** | Receive Side Scaling |
-| **[[377_numa_allocation|NUMA]]** | [[377_numa_allocation|Non-Uniform Memory Access]] |
+| **[NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)** | [Non-Uniform Memory Access](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) |
 
 ---
 
@@ -281,10 +285,10 @@ void set_thread_affinity(int core_id) {
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[141_coroutine|코루틴]] ([[141_coroutine|Coroutine]]) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [[142_event_loop|이벤트 루프]] ([[142_event_loop|Event Loop]]) 기반 비동기 처리 (Node.js) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| CPU 친화성 ([[144_cpu_affinity|CPU Affinity]]) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [[377_numa_allocation|NUMA]]-인식 [[092_thread_lwp|스레드]] 스케줄링 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [코루틴](/knowledge-base/studynote/02_operating_system/02_process_thread/141_coroutine/) ([Coroutine](/knowledge-base/studynote/02_operating_system/02_process_thread/141_coroutine/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/) ([Event Loop](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/)) 기반 비동기 처리 (Node.js) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| CPU 친화성 ([CPU Affinity](/knowledge-base/studynote/02_operating_system/02_process_thread/144_cpu_affinity/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)-인식 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 스케줄링 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -302,9 +306,9 @@ void set_thread_affinity(int core_id) {
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [[034_context_switch|컨텍스트 스위칭]] 최소화를 위한 [[092_thread_lwp|스레드]] 고정 ([[092_thread_lwp|Thread]] [[778_process_affinity_scheduling_pinning|Affinity]]/Pinning)은 컴퓨터가 여러 일을 나눠서 처리하고 서로 기다리게 하는 약속이에요.
-2. 먼저 [[142_event_loop|이벤트 루프]] ([[142_event_loop|Event Loop]]) 기반 비동기 처리 (Node.js)을 이해하면 [[034_context_switch|컨텍스트 스위칭]] 최소화를 위한 [[092_thread_lwp|스레드]] 고정 ([[092_thread_lwp|Thread]] [[778_process_affinity_scheduling_pinning|Affinity]]/Pinning)이 왜 필요한지 더 쉽게 보여요.
-3. 그래서 [[034_context_switch|컨텍스트 스위칭]] 최소화를 위한 [[092_thread_lwp|스레드]] 고정 ([[092_thread_lwp|Thread]] [[778_process_affinity_scheduling_pinning|Affinity]]/Pinning)을 잘 알면 나중에 CPU 친화성 ([[144_cpu_affinity|CPU Affinity]])도 훨씬 쉽게 배울 수 있어요.
+1. [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) 최소화를 위한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 고정 ([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/)/Pinning)은 컴퓨터가 여러 일을 나눠서 처리하고 서로 기다리게 하는 약속이에요.
+2. 먼저 [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/) ([Event Loop](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/)) 기반 비동기 처리 (Node.js)을 이해하면 [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) 최소화를 위한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 고정 ([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/)/Pinning)이 왜 필요한지 더 쉽게 보여요.
+3. 그래서 [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) 최소화를 위한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 고정 ([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/)/Pinning)을 잘 알면 나중에 CPU 친화성 ([CPU Affinity](/knowledge-base/studynote/02_operating_system/02_process_thread/144_cpu_affinity/))도 훨씬 쉽게 배울 수 있어요.
 
 ---
 
@@ -312,7 +316,7 @@ void set_thread_affinity(int core_id) {
 
 **진행 상황**: 143 / 800
 
-← **이전**: [[142_event_loop|142. 이벤트 루프 (Event Loop) 기반 비동기 처리 (Node.js)]]
-**다음**: [[144_cpu_affinity|144. CPU 친화성 (CPU Affinity) - Soft Affinity vs Hard Affinity]] →
+← **이전**: [142. 이벤트 루프 (Event Loop) 기반 비동기 처리 (Node.js)](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/)
+**다음**: [144. CPU 친화성 (CPU Affinity) - Soft Affinity vs Hard Affinity](/knowledge-base/studynote/02_operating_system/02_process_thread/144_cpu_affinity/) →
 
 ---

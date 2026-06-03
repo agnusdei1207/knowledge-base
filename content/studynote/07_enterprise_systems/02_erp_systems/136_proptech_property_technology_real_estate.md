@@ -1,13 +1,17 @@
----
-title: 136. PropTech (부동산 기술) - 디지털 부동산 혁신
-date: '2026-04-19'
-tags:
-- studynote-enterprise-systems
----
++++
+title = "136. PropTech (부동산 기술) - 디지털 부동산 혁신"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-enterprise-systems"]
+
+[extra]
+tags = ["studynote-enterprise-systems"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: PropTech(Property Technology)는 **부동산 산업에 [[190_ai_llm_requirements_specification|AI]]·빅데이터·[[101_iot_concept|IoT]]·[[004_blockchain|블록체인]]을 적용**하여 거래·관리·투자·건설을 혁신하는 기술 분야이다.
-> 2. **가치**: 전통 부동산은 정보 비대칭·불투명 거래·비효율 관리가 문제이며, PropTech는 **[[190_ai_llm_requirements_specification|AI]] 시세 예측·VR 모델하우스·스마트 빌딩·토큰 증권(STO) 투자**로 혁신한다.
+> 1. **본질**: PropTech(Property Technology)는 **부동산 산업에 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·빅데이터·[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)·[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)을 적용**하여 거래·관리·투자·건설을 혁신하는 기술 분야이다.
+> 2. **가치**: 전통 부동산은 정보 비대칭·불투명 거래·비효율 관리가 문제이며, PropTech는 **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시세 예측·VR 모델하우스·스마트 빌딩·토큰 증권(STO) 투자**로 혁신한다.
 > 3. **판단 포인트**: Construction Tech(건설)·Smart Building(관리)·Real Estate Marketplace(거래)·RE STO(투자)가 PropTech의 4대 영역이다.
 
 ---
@@ -28,7 +32,7 @@ PropTech 4대 영역:
 
 ## Ⅱ~Ⅴ. 결론
 
-PropTech는 **부동산 산업의 [[055_digital_transformation|디지털 전환]]**이며, [[190_ai_llm_requirements_specification|AI]] 시세 예측·스마트 빌딩·STO가 핵심 트렌드이다.
+PropTech는 **부동산 산업의 [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)**이며, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시세 예측·스마트 빌딩·STO가 핵심 트렌드이다.
 
 ---
 
@@ -38,9 +42,9 @@ PropTech는 **부동산 산업의 [[055_digital_transformation|디지털 전환]
 |:---|:---|
 | **PropTech** | 부동산 기술 |
 | **BIM** | 건축 정보 모델링 |
-| **스마트 빌딩** | [[101_iot_concept|IoT]] 빌딩 관리 |
+| **스마트 빌딩** | [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 빌딩 관리 |
 | **STO** | 부동산 토큰 증권 |
-| **[[126_digital_twin_concept|디지털 트윈]]** | 건물 디지털 [[016_replication_factor|복제]] |
+| **[디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)** | 건물 디지털 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -61,7 +65,7 @@ PropTech는 **부동산 산업의 [[055_digital_transformation|디지털 전환]
 
 **진행 상황**: 136 / 482
 
-← **이전**: [[135_regtech_regulatory_technology_aml|135. RegTech (규제 기술) - AML·KYC·준법 자동화]]
-**다음**: [[137_edutech_adaptive_learning_lms|137. EduTech & 적응형 학습 (Adaptive Learning) - LMS/LXP]] →
+← **이전**: [135. RegTech (규제 기술) - AML·KYC·준법 자동화](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/135_regtech_regulatory_technology_aml/)
+**다음**: [137. EduTech & 적응형 학습 (Adaptive Learning) - LMS/LXP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/137_edutech_adaptive_learning_lms/) →
 
 ---

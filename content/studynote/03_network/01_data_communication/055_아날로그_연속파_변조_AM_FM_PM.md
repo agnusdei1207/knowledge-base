@@ -1,21 +1,25 @@
----
-title: 55. 아날로그 연속파 변조 (AM/FM/PM)
-date: '2026-05-01'
-tags:
-- studynote-network
----
++++
+title = "55. 아날로그 연속파 변조 (AM/FM/PM)"
+date = 2026-05-01
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 아날로그 연속파 변조는 연속적인 정보 신호를 [[054_반송파_Carrier_Wave|반송파]]의 진폭, 주파수, 위상에 실어 보내는 방식이다.
-> 2. **가치**: AM (Amplitude Modulation), FM (Frequency Modulation), PM (Phase Modulation)은 각각 다른 잡음 내성과 [[140_bandwidth|대역폭]] 특성을 가진다.
+> 1. **본질**: 아날로그 연속파 변조는 연속적인 정보 신호를 [반송파](/knowledge-base/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/)의 진폭, 주파수, 위상에 실어 보내는 방식이다.
+> 2. **가치**: AM (Amplitude Modulation), FM (Frequency Modulation), PM (Phase Modulation)은 각각 다른 잡음 내성과 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 특성을 가진다.
 > 3. **판단 포인트**: 전송 거리, 품질, 주파수 효율의 trade-off를 이해해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-아날로그 신호를 멀리 보내려면 [[054_반송파_Carrier_Wave|반송파]] 위에 실어야 한다. 연속파 변조는 음성, 라디오 방송, 통신 [[459_quic_fec_forward_error_correction|초기]] 시스템의 핵심이다.
+아날로그 신호를 멀리 보내려면 [반송파](/knowledge-base/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/) 위에 실어야 한다. 연속파 변조는 음성, 라디오 방송, 통신 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 시스템의 핵심이다.
 
 베이스밴드 신호를 직접 보내기 어려운 환경에서 특히 중요하다.
 
@@ -25,7 +29,7 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-AM은 진폭을, FM은 주파수를, PM은 위상을 바꿔 정보를 표현한다. [[054_반송파_Carrier_Wave|반송파]]는 정보를 담는 그릇이고, 변조는 그릇에 표시를 넣는 방식이다.
+AM은 진폭을, FM은 주파수를, PM은 위상을 바꿔 정보를 표현한다. [반송파](/knowledge-base/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/)는 정보를 담는 그릇이고, 변조는 그릇에 표시를 넣는 방식이다.
 
 ```text
 정보 신호 → AM/FM/PM → 반송파 → 채널 → 복조 → 정보 신호
@@ -37,7 +41,7 @@ AM은 진폭을, FM은 주파수를, PM은 위상을 바꿔 정보를 표현한�
 | FM | 주파수 | 잡음에 강함 |
 | PM | 위상 | 디지털 변조와 연결 쉬움 |
 
-핵심은 같은 정보라도 어떤 파라미터를 바꾸느냐에 따라 품질과 [[140_bandwidth|대역폭]]이 달라진다는 점이다.
+핵심은 같은 정보라도 어떤 파라미터를 바꾸느냐에 따라 품질과 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 달라진다는 점이다.
 
 - **📢 섹션 요약 비유**: AM/FM/PM은 편지를 붙이는 위치가 각각 다른 포장법이다.
 
@@ -45,15 +49,15 @@ AM은 진폭을, FM은 주파수를, PM은 위상을 바꿔 정보를 표현한�
 
 ## Ⅲ. 비교 및 연결
 
-AM은 구현이 쉽지만 진폭 잡음에 취약하고, FM은 [[140_bandwidth|대역폭]]을 더 쓰는 대신 더 안정적이다. PM은 위상 변화를 이용해 현대 변조와 이어진다.
+AM은 구현이 쉽지만 진폭 잡음에 취약하고, FM은 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 더 쓰는 대신 더 안정적이다. PM은 위상 변화를 이용해 현대 변조와 이어진다.
 
 | 방식 | 장점 | 단점 |
 | :--- | :--- | :--- |
 | AM | 단순 | 잡음 취약 |
-| FM | 음질/내성 | [[140_bandwidth|대역폭]] 큼 |
+| FM | 음질/내성 | [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 큼 |
 | PM | 위상 정보 활용 | 복잡도 있음 |
 
-이 방식들은 디지털 변조(QAM, [[142_psk_pre_shared_key|PSK]])의 기초 이해에도 도움이 된다. 아날로그와 디지털은 표현 방식만 다를 뿐 변조 원리는 이어진다.
+이 방식들은 디지털 변조(QAM, [PSK](/knowledge-base/studynote/09_security/03_network_security/142_psk_pre_shared_key/))의 기초 이해에도 도움이 된다. 아날로그와 디지털은 표현 방식만 다를 뿐 변조 원리는 이어진다.
 
 - **📢 섹션 요약 비유**: AM은 목소리 크기, FM은 말의 높낮이, PM은 말의 박자를 바꾸는 것과 같다.
 
@@ -61,16 +65,16 @@ AM은 구현이 쉽지만 진폭 잡음에 취약하고, FM은 [[140_bandwidth|�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 채널 잡음, [[140_bandwidth|대역폭]], 전송 거리, 복조기 설계를 함께 본다. 방송과 무선통신에서 요구사항이 다르면 [[170_selectivity_cardinality_distribution_tuning|선택도]] 달라진다.
+실무에서는 채널 잡음, [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), 전송 거리, 복조기 설계를 함께 본다. 방송과 무선통신에서 요구사항이 다르면 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 달라진다.
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 잡음 내성과 [[140_bandwidth|대역폭]] 요구를 아는가?
+1. 잡음 내성과 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 요구를 아는가?
 2. 변조와 복조가 안정적인가?
 3. 채널 특성에 맞는 방식인가?
 4. 송수신 동기가 확보되는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - AM/FM/PM을 같은 수준으로 보는 경우
 - 채널 특성을 무시한 방식 선택
@@ -86,7 +90,7 @@ AM은 구현이 쉽지만 진폭 잡음에 취약하고, FM은 [[140_bandwidth|�
 
 아날로그 연속파 변조는 정보를 멀리 안정적으로 전달하는 기본 기술이다. 무선 통신의 역사와 현재를 연결한다.
 
-정리하면, [[054_반송파_Carrier_Wave|반송파]]를 어떻게 바꾸느냐가 전송 품질을 결정한다.
+정리하면, [반송파](/knowledge-base/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/)를 어떻게 바꾸느냐가 전송 품질을 결정한다.
 
 - **📢 섹션 요약 비유**: 연속파 변조는 목소리를 더 멀리 들리게 하는 마이크 조절이다.
 
@@ -117,7 +121,7 @@ AM / FM / PM
 복조 / 수신
 ```
 
-이 흐름은 아날로그 신호가 [[054_반송파_Carrier_Wave|반송파]]에 실려 이동하는 과정을 보여준다.
+이 흐름은 아날로그 신호가 [반송파](/knowledge-base/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/)에 실려 이동하는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -131,7 +135,7 @@ AM / FM / PM
 
 **진행 상황**: 55 / 1120
 
-← **이전**: [[054_반송파_Carrier_Wave|54. 반송파 (Carrier Wave)]]
-**다음**: [[056_표본화_Sampling|56. 표본화 (Sampling)]] →
+← **이전**: [54. 반송파 (Carrier Wave)](/knowledge-base/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/)
+**다음**: [56. 표본화 (Sampling)](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/) →
 
 ---

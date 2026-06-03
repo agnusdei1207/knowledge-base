@@ -1,22 +1,26 @@
----
-title: 175. 유효 등방성 복사 전력 (EIRP, Effective Isotropic Radiated Power)
-tags:
-- network
----
++++
+title = "175. 유효 등방성 복사 전력 (EIRP, Effective Isotropic Radiated Power)"
+
+[taxonomies]
+tags = ["network"]
+
+[extra]
+tags = ["network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 유효 등방성 복사 전력 (EIRP, Effective Isotropic Radiated [[069_type_1_2_error_statistical_power|Power]])은 실제 [[171_antenna_basic_dipole_resonance|안테나]]가 특정 방향으로 방사한 최대 전력을, 이상적인 [[173_isotropic_antenna_theory|등방성 안테나]] (Isotropic Radiator) 기준으로 환산한 값이다.
-> 2. **가치**: 송신기 출력, 급전선 손실, [[174_antenna_gain_dbi_dbd|안테나 이득]]을 하나의 눈금으로 묶어 주므로, 링크 버짓 (Link Budget) 계산과 전파 규제 판단을 같은 기준으로 수행할 수 있다.
-> 3. **판단 포인트**: EIRP를 높이는 방법은 송신 전력 증가와 [[174_antenna_gain_dbi_dbd|안테나 이득]] 증가가 모두 가능하지만, 커버리지 모양·간섭·법적 제한이 함께 바뀌므로 `decibels referenced to 1 milliwatt (dBm)`, `decibel loss (dB)`, `decibels relative to isotropic radiator (dBi)` 단위를 섞지 않는 것이 핵심이다.
+> 1. **본질**: 유효 등방성 복사 전력 (EIRP, Effective Isotropic Radiated [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/))은 실제 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 특정 방향으로 방사한 최대 전력을, 이상적인 [등방성 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/173_isotropic_antenna_theory/) (Isotropic Radiator) 기준으로 환산한 값이다.
+> 2. **가치**: 송신기 출력, 급전선 손실, [안테나 이득](/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/)을 하나의 눈금으로 묶어 주므로, 링크 버짓 (Link Budget) 계산과 전파 규제 판단을 같은 기준으로 수행할 수 있다.
+> 3. **판단 포인트**: EIRP를 높이는 방법은 송신 전력 증가와 [안테나 이득](/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/) 증가가 모두 가능하지만, 커버리지 모양·간섭·법적 제한이 함께 바뀌므로 `decibels referenced to 1 milliwatt (dBm)`, `decibel loss (dB)`, `decibels relative to isotropic radiator (dBi)` 단위를 섞지 않는 것이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-EIRP는 "무선 장비가 실제로 얼마나 멀리 세게 쏘느냐"를 비교하기 위한 공통 척도다. 송신기에서 나오는 전력만 보면 장비 성능을 제대로 비교할 수 없다. 같은 20 dBm 송신기라도 케이블 손실이 큰 장비, 고이득 [[171_antenna_basic_dipole_resonance|안테나]]를 쓴 장비, 무지향성 [[171_antenna_basic_dipole_resonance|안테나]]를 쓴 장비는 실제 공간에 뿌리는 전력 밀도가 전혀 다르기 때문이다.
+EIRP는 "무선 장비가 실제로 얼마나 멀리 세게 쏘느냐"를 비교하기 위한 공통 척도다. 송신기에서 나오는 전력만 보면 장비 성능을 제대로 비교할 수 없다. 같은 20 dBm 송신기라도 케이블 손실이 큰 장비, 고이득 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 쓴 장비, 무지향성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 쓴 장비는 실제 공간에 뿌리는 전력 밀도가 전혀 다르기 때문이다.
 
-이 개념이 필요한 이유는 무선 설계가 전력 자체보다 "방향별 전력 밀도"에 의해 결정되기 때문이다. 통신 품질은 상대 [[171_antenna_basic_dipole_resonance|안테나]]가 있는 방향에서 충분한 수신 전력을 확보해야 좋아지고, 규제 기관은 주변 시스템에 과도한 간섭을 주지 않도록 방사 세기를 제한한다. 따라서 무선 장비는 송신기 출력만이 아니라, 급전 경로와 [[171_antenna_basic_dipole_resonance|안테나]]까지 포함한 최종 방사 세기로 평가해야 한다.
+이 개념이 필요한 이유는 무선 설계가 전력 자체보다 "방향별 전력 밀도"에 의해 결정되기 때문이다. 통신 품질은 상대 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 있는 방향에서 충분한 수신 전력을 확보해야 좋아지고, 규제 기관은 주변 시스템에 과도한 간섭을 주지 않도록 방사 세기를 제한한다. 따라서 무선 장비는 송신기 출력만이 아니라, 급전 경로와 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)까지 포함한 최종 방사 세기로 평가해야 한다.
 
 아래 그림은 왜 EIRP가 송신기 출력 하나로 대체될 수 없는지를 보여 준다.
 
@@ -30,7 +34,7 @@ EIRP는 "무선 장비가 실제로 얼마나 멀리 세게 쏘느냐"를 비교
 └────────────────────────────────────────────────────────────────────┘
 ```
 
-즉 EIRP는 "장비 안에서 얼마나 만들었는가"가 아니라 "공간으로 얼마나 내보냈는가"를 말해 준다. 무선 설계, [[303_authentication_authorization_patterns|인증]], 현장 튜닝에서 모두 EIRP를 보는 이유가 여기에 있다.
+즉 EIRP는 "장비 안에서 얼마나 만들었는가"가 아니라 "공간으로 얼마나 내보냈는가"를 말해 준다. 무선 설계, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 현장 튜닝에서 모두 EIRP를 보는 이유가 여기에 있다.
 
 - **📢 섹션 요약 비유**: EIRP는 수도꼭지 압력만 보는 값이 아니라, 호스 손실과 노즐 모양까지 포함해 밖으로 나가는 물줄기 세기를 보는 값과 같다.
 
@@ -42,16 +46,16 @@ EIRP 계산은 데시벨 합산으로 표현하면 가장 단순하다.
 
 `EIRP(dBm) = Ptx(dBm) - Lfeed(dB) - Lconnector(dB) + Gant(dBi)`
 
-여기서 `Ptx`는 송신기에서 [[171_antenna_basic_dipole_resonance|안테나]] 쪽으로 내보내는 conducted power이고, `Lfeed`와 `Lconnector`는 케이블·커넥터 손실, `Gant`는 [[174_antenna_gain_dbi_dbd|안테나 이득]] ([[171_antenna_basic_dipole_resonance|Antenna]] Gain)이다. 손실 항목이 여러 개면 모두 더해서 뺀다. [[174_antenna_gain_dbi_dbd|안테나 이득]]은 총에너지를 새로 만드는 값이 아니라, 같은 에너지를 특정 방향으로 더 집중시키는 값이라는 점을 잊으면 안 된다.
+여기서 `Ptx`는 송신기에서 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 쪽으로 내보내는 conducted power이고, `Lfeed`와 `Lconnector`는 케이블·커넥터 손실, `Gant`는 [안테나 이득](/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/) ([Antenna](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) Gain)이다. 손실 항목이 여러 개면 모두 더해서 뺀다. [안테나 이득](/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/)은 총에너지를 새로 만드는 값이 아니라, 같은 에너지를 특정 방향으로 더 집중시키는 값이라는 점을 잊으면 안 된다.
 
 | 요소 | 단위 | 의미 | 실무 메모 |
 | :--- | :--- | :--- | :--- |
-| Transmit [[069_type_1_2_error_statistical_power|Power]] | dBm | 송신기 출력 | 증폭기 설정과 규제 기본값 |
+| Transmit [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) | dBm | 송신기 출력 | 증폭기 설정과 규제 기본값 |
 | Feeder / Connector Loss | dB | 케이블과 접속부에서 사라지는 손실 | 길이와 주파수가 올라갈수록 커지기 쉽다 |
-| [[171_antenna_basic_dipole_resonance|Antenna]] Gain | dBi | 등방성 기준 상대 이득 | 패턴과 빔 폭 변화까지 함께 읽어야 한다 |
+| [Antenna](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) Gain | dBi | 등방성 기준 상대 이득 | 패턴과 빔 폭 변화까지 함께 읽어야 한다 |
 | EIRP | dBm 또는 W | 최종 방사 세기 | 주로 최대 주빔 방향 값을 쓴다 |
 
-예를 들어 송신기 출력이 23 dBm, 케이블과 커넥터 손실이 총 1 dB, [[174_antenna_gain_dbi_dbd|안테나 이득]]이 15 dBi라면 EIRP는 `23 - 1 + 15 = 37 dBm`이다. 이는 약 5 W에 해당한다. 만약 해당 대역의 법적 상한이 36 dBm이라면, 송신기 출력을 1 dB 낮추거나 [[171_antenna_basic_dipole_resonance|안테나]]를 바꿔야 한다.
+예를 들어 송신기 출력이 23 dBm, 케이블과 커넥터 손실이 총 1 dB, [안테나 이득](/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/)이 15 dBi라면 EIRP는 `23 - 1 + 15 = 37 dBm`이다. 이는 약 5 W에 해당한다. 만약 해당 대역의 법적 상한이 36 dBm이라면, 송신기 출력을 1 dB 낮추거나 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 바꿔야 한다.
 
 아래 그림은 EIRP가 계산되는 경로를 단계별로 보여 준다.
 
@@ -68,7 +72,7 @@ EIRP 계산은 데시벨 합산으로 표현하면 가장 단순하다.
 └────────────────────────────────────────────────────────────────────┘
 ```
 
-여기서 중요한 표현은 "등가"다. EIRP는 실제 [[171_antenna_basic_dipole_resonance|안테나]]가 main lobe 방향으로 만들어 낸 전력 밀도와 같은 효과를 내려면, [[173_isotropic_antenna_theory|등방성 안테나]]가 몇 dBm으로 방사해야 하는지를 나타낸다. 그래서 EIRP는 최종 방사 세기의 공통 번역 단위이지, 장비 내부 어딘가에서 직접 측정되는 단일 부품 값은 아니다.
+여기서 중요한 표현은 "등가"다. EIRP는 실제 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 main lobe 방향으로 만들어 낸 전력 밀도와 같은 효과를 내려면, [등방성 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/173_isotropic_antenna_theory/)가 몇 dBm으로 방사해야 하는지를 나타낸다. 그래서 EIRP는 최종 방사 세기의 공통 번역 단위이지, 장비 내부 어딘가에서 직접 측정되는 단일 부품 값은 아니다.
 
 - **📢 섹션 요약 비유**: EIRP 계산은 펌프 힘, 호스에서 새는 물, 마지막 노즐의 집중 효과를 한 줄 계산으로 합쳐 최종 물줄기 위력을 보는 것과 같다.
 
@@ -76,27 +80,27 @@ EIRP 계산은 데시벨 합산으로 표현하면 가장 단순하다.
 
 ## Ⅲ. 비교 및 연결
 
-EIRP를 이해할 때 가장 많이 헷갈리는 비교는 "송신 전력", "[[174_antenna_gain_dbi_dbd|안테나 이득]]", "[[081_erp_enterprise_resource_planning|ERP]]", "수신 전력"의 경계다. 송신 전력은 장비 내부 출력이고, [[174_antenna_gain_dbi_dbd|안테나 이득]]은 공간 분포를 바꾸는 값이며, EIRP는 이 둘과 손실을 합친 최종 방사 결과다. 반면 수신 전력은 EIRP에서 자유 공간 손실, 경로 손실, 수신 [[174_antenna_gain_dbi_dbd|안테나 이득]] 등을 모두 반영한 뒤 상대 단말에 실제로 도착한 값이다.
+EIRP를 이해할 때 가장 많이 헷갈리는 비교는 "송신 전력", "[안테나 이득](/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/)", "[ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)", "수신 전력"의 경계다. 송신 전력은 장비 내부 출력이고, [안테나 이득](/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/)은 공간 분포를 바꾸는 값이며, EIRP는 이 둘과 손실을 합친 최종 방사 결과다. 반면 수신 전력은 EIRP에서 자유 공간 손실, 경로 손실, 수신 [안테나 이득](/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/) 등을 모두 반영한 뒤 상대 단말에 실제로 도착한 값이다.
 
 | 항목 | 기준 | 무엇을 뜻하나 | 연결 포인트 |
 | :--- | :--- | :--- | :--- |
-| Transmit [[069_type_1_2_error_statistical_power|Power]] | 송신기 단자 | 장비가 만들어 낸 출력 | EIRP의 출발점 |
-| [[171_antenna_basic_dipole_resonance|Antenna]] Gain | dBi 기준 | 공간 집중 효과 | EIRP를 올리지만 빔 모양도 바꿈 |
+| Transmit [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) | 송신기 단자 | 장비가 만들어 낸 출력 | EIRP의 출발점 |
+| [Antenna](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) Gain | dBi 기준 | 공간 집중 효과 | EIRP를 올리지만 빔 모양도 바꿈 |
 | EIRP | 등방성 기준 | 최종 방사 세기 | 규제·커버리지 판단 핵심 |
-| [[081_erp_enterprise_resource_planning|ERP]] (Effective Radiated [[069_type_1_2_error_statistical_power|Power]]) | 반파장 다이폴 기준 | dBd 기준 실효 복사 전력 | `EIRP = ERP + 2.15 dB` |
-| Received [[069_type_1_2_error_statistical_power|Power]] | 수신기 입력 | 실제 도착 전력 | 링크 버짓 최종 결과 |
+| [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) (Effective Radiated [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/)) | 반파장 다이폴 기준 | dBd 기준 실효 복사 전력 | `EIRP = ERP + 2.15 dB` |
+| Received [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) | 수신기 입력 | 실제 도착 전력 | 링크 버짓 최종 결과 |
 
-같은 EIRP라도 방식은 다를 수 있다. 예를 들어 `30 dBm + 0 dBi` 무지향성 [[171_antenna_basic_dipole_resonance|안테나]]와 `20 dBm + 10 dBi` 지향성 [[171_antenna_basic_dipole_resonance|안테나]]는 모두 30 dBm EIRP를 만들 수 있다. 하지만 전자는 넓게 퍼지고, 후자는 좁고 멀리 간다. 즉 EIRP가 같다고 해서 커버리지 모양, 간섭 방향, 설치 난이도까지 같은 것은 아니다.
+같은 EIRP라도 방식은 다를 수 있다. 예를 들어 `30 dBm + 0 dBi` 무지향성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)와 `20 dBm + 10 dBi` 지향성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 모두 30 dBm EIRP를 만들 수 있다. 하지만 전자는 넓게 퍼지고, 후자는 좁고 멀리 간다. 즉 EIRP가 같다고 해서 커버리지 모양, 간섭 방향, 설치 난이도까지 같은 것은 아니다.
 
-이 개념은 [[174_antenna_gain_dbi_dbd|안테나 이득]], 링크 버짓, 수신 감도와도 직접 연결된다. EIRP는 송신 측의 출발점일 뿐이며, 실제 통신 품질은 경로 손실, 편파 불일치, [[165_fresnel_zone_clearance|Fresnel zone]] 확보, 수신기 감도까지 포함해 판단해야 한다. 따라서 EIRP 하나만 높다고 해서 링크가 자동으로 좋아지는 것은 아니다.
+이 개념은 [안테나 이득](/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/), 링크 버짓, 수신 감도와도 직접 연결된다. EIRP는 송신 측의 출발점일 뿐이며, 실제 통신 품질은 경로 손실, 편파 불일치, [Fresnel zone](/knowledge-base/studynote/03_network/03_physical_layer_media/165_fresnel_zone_clearance/) 확보, 수신기 감도까지 포함해 판단해야 한다. 따라서 EIRP 하나만 높다고 해서 링크가 자동으로 좋아지는 것은 아니다.
 
-- **📢 섹션 요약 비유**: 같은 세기의 물줄기라도 분무기로 넓게 뿌릴지, 고압 노즐로 멀리 보낼지에 따라 쓰임새가 달라지듯 EIRP와 [[171_antenna_basic_dipole_resonance|안테나]] 패턴은 함께 읽어야 한다.
+- **📢 섹션 요약 비유**: 같은 세기의 물줄기라도 분무기로 넓게 뿌릴지, 고압 노즐로 멀리 보낼지에 따라 쓰임새가 달라지듯 EIRP와 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 패턴은 함께 읽어야 한다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 먼저 필요한 링크 마진을 계산한 뒤, 그 목표를 어떤 [[171_antenna_basic_dipole_resonance|안테나]]와 출력 조합으로 달성할지 결정한다. 실내 Access Point는 넓고 균일한 커버리지가 중요해 낮거나 중간 수준의 [[174_antenna_gain_dbi_dbd|안테나 이득]]을 택하는 경우가 많고, 건물 간 [[142_point_to_point_integration_spaghetti|Point-to-Point]] 링크는 높은 이득의 지향성 [[171_antenna_basic_dipole_resonance|안테나]]로 EIRP를 집중시킨다. 그러나 어떤 경우든 법적 EIRP 상한을 넘으면 설계 자체가 불가하다.
+실무에서는 먼저 필요한 링크 마진을 계산한 뒤, 그 목표를 어떤 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)와 출력 조합으로 달성할지 결정한다. 실내 Access Point는 넓고 균일한 커버리지가 중요해 낮거나 중간 수준의 [안테나 이득](/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/)을 택하는 경우가 많고, 건물 간 [Point-to-Point](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/142_point_to_point_integration_spaghetti/) 링크는 높은 이득의 지향성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)로 EIRP를 집중시킨다. 그러나 어떤 경우든 법적 EIRP 상한을 넘으면 설계 자체가 불가하다.
 
 아래 판단 흐름은 EIRP를 설계 변수로 쓸 때의 기본 순서를 보여 준다.
 
@@ -115,20 +119,20 @@ EIRP를 이해할 때 가장 많이 헷갈리는 비교는 "송신 전력", "[[1
 
 ### 실무 판단 기준
 
-1. **단위 [[194_consistency_database_integrity|일관성]]**: dBm, dB, dBi를 같은 데시벨 체계로 맞춘 뒤 계산한다.
+1. **단위 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)**: dBm, dB, dBi를 같은 데시벨 체계로 맞춘 뒤 계산한다.
 2. **손실 누락 금지**: 케이블, 커넥터, duplexer, filter 손실을 빼지 않으면 EIRP를 과대평가한다.
-3. **패턴 [[396_validation|확인]]**: EIRP 수치와 함께 beamwidth, tilt, polarization을 같이 봐야 실제 [[090_service_kubernetes_network_load_balancing|서비스]] 영역이 맞는다.
-4. **규제 [[396_validation|확인]]**: 국가와 대역에 따라 허용 EIRP가 다르므로 지역 규정을 먼저 [[396_validation|확인]]한다.
-5. **시스템 기준 [[396_validation|확인]]**: 다중 [[171_antenna_basic_dipole_resonance|안테나]] 시스템은 per chain 기준인지, 합성 기준인지 규정 해석이 달라질 수 있다.
+3. **패턴 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: EIRP 수치와 함께 beamwidth, tilt, polarization을 같이 봐야 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 영역이 맞는다.
+4. **규제 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 국가와 대역에 따라 허용 EIRP가 다르므로 지역 규정을 먼저 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+5. **시스템 기준 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 다중 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 시스템은 per chain 기준인지, 합성 기준인지 규정 해석이 달라질 수 있다.
 
-### 자주 나오는 [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### 자주 나오는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 송신기 출력만 보고 "법적 제한 안"이라고 판단하는 것
 - dBi와 dBd를 섞거나 ERP와 EIRP를 같은 값처럼 쓰는 것
-- 고이득 [[171_antenna_basic_dipole_resonance|안테나]]로 EIRP를 올리면서 빔 폭 축소와 간섭 방향 변화를 무시하는 것
+- 고이득 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)로 EIRP를 올리면서 빔 폭 축소와 간섭 방향 변화를 무시하는 것
 - EIRP를 높이면 수신기 감도 문제나 장애물 문제까지 모두 해결된다고 믿는 것
 
-기술사 답안에서는 EIRP를 단순 공식으로만 쓰지 말고, **왜 규제에 필요한지**, **왜 [[174_antenna_gain_dbi_dbd|안테나 이득]]과 같은 방향성 개념을 포함하는지**, **같은 EIRP라도 [[090_service_kubernetes_network_load_balancing|서비스]] 형태가 달라질 수 있는지**까지 설명해야 실무성이 살아난다.
+기술사 답안에서는 EIRP를 단순 공식으로만 쓰지 말고, **왜 규제에 필요한지**, **왜 [안테나 이득](/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/)과 같은 방향성 개념을 포함하는지**, **같은 EIRP라도 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 형태가 달라질 수 있는지**까지 설명해야 실무성이 살아난다.
 
 - **📢 섹션 요약 비유**: EIRP를 맞추는 일은 엔진 마력만 올리는 것이 아니라, 타이어 마찰·기어비·차량 방향까지 함께 고려해 실제 도로에 전달되는 힘을 맞추는 것과 같다.
 
@@ -136,11 +140,11 @@ EIRP를 이해할 때 가장 많이 헷갈리는 비교는 "송신 전력", "[[1
 
 ## Ⅴ. 기대효과 및 결론
 
-EIRP를 정확히 이해하면 무선 설계를 같은 기준으로 비교하고 규제 대응도 일관되게 할 수 있다. 송신기 출력과 [[171_antenna_basic_dipole_resonance|안테나]] 스펙을 따로 보다가 놓치기 쉬운 실제 방사 세기를 한 번에 파악할 수 있고, 링크 버짓 계산도 훨씬 명료해진다. 그 결과 필요한 거리와 품질을 만족하면서도 간섭과 규제 초과를 줄이는 설계가 가능해진다.
+EIRP를 정확히 이해하면 무선 설계를 같은 기준으로 비교하고 규제 대응도 일관되게 할 수 있다. 송신기 출력과 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 스펙을 따로 보다가 놓치기 쉬운 실제 방사 세기를 한 번에 파악할 수 있고, 링크 버짓 계산도 훨씬 명료해진다. 그 결과 필요한 거리와 품질을 만족하면서도 간섭과 규제 초과를 줄이는 설계가 가능해진다.
 
-다만 EIRP는 만능 수치가 아니다. 동일 EIRP라도 [[171_antenna_basic_dipole_resonance|안테나]] 패턴이 다르면 커버리지와 설치 조건이 달라지고, 높은 EIRP도 경로 차폐, 다중경로, 수신기 노이즈 바닥을 이기지 못할 수 있다. 즉 EIRP는 무선 품질의 전부가 아니라, 송신 측 방사 세기를 읽는 핵심 축이다.
+다만 EIRP는 만능 수치가 아니다. 동일 EIRP라도 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 패턴이 다르면 커버리지와 설치 조건이 달라지고, 높은 EIRP도 경로 차폐, 다중경로, 수신기 노이즈 바닥을 이기지 못할 수 있다. 즉 EIRP는 무선 품질의 전부가 아니라, 송신 측 방사 세기를 읽는 핵심 축이다.
 
-정리하면 EIRP는 "무선 장비가 실제로 밖으로 얼마나 쏘는가"를 판단하는 공통 화폐다. 기억할 핵심은 분명하다. **송신기 출력만이 아니라 손실과 [[174_antenna_gain_dbi_dbd|안테나 이득]]까지 합쳐야 진짜 방사 세기가 보이고, 그때 비로소 규제와 링크 버짓을 제대로 판단할 수 있다.**
+정리하면 EIRP는 "무선 장비가 실제로 밖으로 얼마나 쏘는가"를 판단하는 공통 화폐다. 기억할 핵심은 분명하다. **송신기 출력만이 아니라 손실과 [안테나 이득](/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/)까지 합쳐야 진짜 방사 세기가 보이고, 그때 비로소 규제와 링크 버짓을 제대로 판단할 수 있다.**
 
 - **📢 섹션 요약 비유**: EIRP는 손전등의 전구 밝기만 보는 값이 아니라, 렌즈 손실과 초점까지 포함해 벽에 실제로 얼마나 밝게 비추는지를 보는 값과 같다.
 
@@ -150,10 +154,10 @@ EIRP를 정확히 이해하면 무선 설계를 같은 기준으로 비교하고
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[173_isotropic_antenna_theory|등방성 안테나]] (Isotropic Radiator) | EIRP의 기준점이 되는 이상적 [[316_reference_pattern_nosql|참조]] [[171_antenna_basic_dipole_resonance|안테나]]다. |
-| [[174_antenna_gain_dbi_dbd|안테나 이득]] ([[171_antenna_basic_dipole_resonance|Antenna]] Gain) | 전력을 특정 방향에 집중시켜 EIRP를 결정하는 핵심 요소다. |
-| 급전선 손실 (Feeder Loss) | 송신기 출력이 [[171_antenna_basic_dipole_resonance|안테나]]까지 가는 동안 사라지는 손실로 EIRP를 깎는다. |
-| [[081_erp_enterprise_resource_planning|ERP]] (Effective Radiated [[069_type_1_2_error_statistical_power|Power]]) | 다이폴 기준 실효 복사 전력으로, EIRP와 2.15 dB 차이를 가진다. |
+| [등방성 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/173_isotropic_antenna_theory/) (Isotropic Radiator) | EIRP의 기준점이 되는 이상적 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)다. |
+| [안테나 이득](/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/) ([Antenna](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) Gain) | 전력을 특정 방향에 집중시켜 EIRP를 결정하는 핵심 요소다. |
+| 급전선 손실 (Feeder Loss) | 송신기 출력이 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)까지 가는 동안 사라지는 손실로 EIRP를 깎는다. |
+| [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) (Effective Radiated [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/)) | 다이폴 기준 실효 복사 전력으로, EIRP와 2.15 dB 차이를 가진다. |
 | 링크 버짓 (Link Budget) | EIRP를 출발점으로 경로 손실과 수신 이득을 더해 통신 가능성을 평가한다. |
 | 수신 감도 (Receiver Sensitivity) | EIRP가 충분한지 최종적으로 판정하는 상대 측 기준값이다. |
 
@@ -178,13 +182,13 @@ path loss and link budget
 received power / coverage / legal compliance
 ```
 
-이 흐름도는 EIRP가 단독 숫자가 아니라, 송신기 출력에서 출발해 손실과 [[171_antenna_basic_dipole_resonance|안테나]] 특성을 거쳐 실제 커버리지와 규제 판단으로 이어지는 중간 [[152_hub_dummy_switching_intelligent|허브]] 개념임을 보여 준다.
+이 흐름도는 EIRP가 단독 숫자가 아니라, 송신기 출력에서 출발해 손실과 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 특성을 거쳐 실제 커버리지와 규제 판단으로 이어지는 중간 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 개념임을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. EIRP는 무전기가 밖으로 얼마나 센 전파를 보내는지 하나의 숫자로 알려 주는 값이에요.
-2. 기계 힘만 보는 게 아니라 줄에서 새는 힘과 [[171_antenna_basic_dipole_resonance|안테나]]가 한쪽으로 모아 주는 힘까지 같이 계산해요.
-3. 그래서 [[171_antenna_basic_dipole_resonance|안테나]]를 바꾸면 숫자도 달라지고, 법에서 정한 한도를 넘지 않는지도 꼭 봐야 해요.
+2. 기계 힘만 보는 게 아니라 줄에서 새는 힘과 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 한쪽으로 모아 주는 힘까지 같이 계산해요.
+3. 그래서 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 바꾸면 숫자도 달라지고, 법에서 정한 한도를 넘지 않는지도 꼭 봐야 해요.
 
 ---
 
@@ -192,7 +196,7 @@ received power / coverage / legal compliance
 
 **진행 상황**: 296 / 1120
 
-← **이전**: [[174_antenna_gain_dbi_dbd|174. 안테나 이득 (Antenna Gain, dBi, dBd)]]
-**다음**: [[176_antenna_yagi_parabolic_patch|176. 야기우다 안테나, 파라볼라 안테나 (Parabolic), 패치 안테나]] →
+← **이전**: [174. 안테나 이득 (Antenna Gain, dBi, dBd)](/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/)
+**다음**: [176. 야기우다 안테나, 파라볼라 안테나 (Parabolic), 패치 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/176_antenna_yagi_parabolic_patch/) →
 
 ---

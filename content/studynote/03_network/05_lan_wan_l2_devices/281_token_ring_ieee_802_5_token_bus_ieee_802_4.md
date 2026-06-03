@@ -1,9 +1,13 @@
----
-title: 281. 토큰 링 (Token Ring)
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "281. 토큰 링 (Token Ring)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -15,11 +19,11 @@ tags:
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 여러 대의 컴퓨터가 [[121_transmission_media_guided_unguided|매체]](선로)를 공유할 때 충돌 없이 통신하기 위해, '토큰'이라는 3바이트짜리 특수 제어 프레임을 사용하는 방식이다.
-- **필요성**: 1980년대 초창기 [[230_ethernet_structure_and_principles_ieee_802_3|이더넷]]([[104_csma|CSMA]]/CD)은 "먼저 말하는 사람이 임자"인 시스템이었다. 컴퓨터가 3대일 땐 편했지만, 100대가 되면 너도나도 말하려다 충돌([[563_hash_collision_chaining_linear_probing|Collision]])이 나서 아무도 통신을 못 하는 마비 현상([[237_collision_domain_vs_broadcast_domain|Collision Domain]] 폭발)이 심각했다. 은행이나 공장 제어 시스템처럼, "속도가 좀 느려도 좋으니, 내가 보낼 [[001_dikw_pyramid|데이터]]가 중간에 끊기거나 파기되는 일은 절대 없어야 한다(결정론적 [[015_지연_데이터_관점|지연]])"라는 강력한 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 니즈가 토큰 링을 탄생시켰다.
+- **개념**: 여러 대의 컴퓨터가 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)(선로)를 공유할 때 충돌 없이 통신하기 위해, '토큰'이라는 3바이트짜리 특수 제어 프레임을 사용하는 방식이다.
+- **필요성**: 1980년대 초창기 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)([CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD)은 "먼저 말하는 사람이 임자"인 시스템이었다. 컴퓨터가 3대일 땐 편했지만, 100대가 되면 너도나도 말하려다 충돌([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))이 나서 아무도 통신을 못 하는 마비 현상([Collision Domain](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/237_collision_domain_vs_broadcast_domain/) 폭발)이 심각했다. 은행이나 공장 제어 시스템처럼, "속도가 좀 느려도 좋으니, 내가 보낼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 중간에 끊기거나 파기되는 일은 절대 없어야 한다(결정론적 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))"라는 강력한 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 니즈가 토큰 링을 탄생시켰다.
 
 - **💡 비유**: 
-  - **[[230_ethernet_structure_and_principles_ieee_802_3|이더넷]]([[104_csma|CSMA]]/CD)**: 토론회에서 누구나 눈치껏 빈틈을 타서 말하다가, 목소리가 겹치면 멈췄다 다시 말하는 **"자유 토론"** (사람이 적으면 빠르지만, 많아지면 시장통이 됨).
+  - **[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)([CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD)**: 토론회에서 누구나 눈치껏 빈틈을 타서 말하다가, 목소리가 겹치면 멈췄다 다시 말하는 **"자유 토론"** (사람이 적으면 빠르지만, 많아지면 시장통이 됨).
   - **토큰 링(Token Ring)**: 토론회에서 **"하나뿐인 마이크(Token)"**를 옆 사람에게 시계 방향으로 돌려가며, 마이크를 쥔 사람만 말할 수 있는 **"순차적 발언"** (사람이 적을 땐 마이크 기다리느라 속 터지지만, 사람이 많아도 한 명씩은 무조건 말할 기회가 옴).
 
 ```text
@@ -41,9 +45,9 @@ tags:
 IBM이 개발하여 1980년대~90년대 초반 기업망을 장악했던 4Mbps / 16Mbps 규격이다.
 
 1. **토큰 대기 (Free Token)**: 평소 네트워크에는 'Free Token(빈 수레)'이 링을 빙빙 돌고 있다.
-2. **[[001_dikw_pyramid|데이터]] 적재 (Busy Token)**: 전송할 [[001_dikw_pyramid|데이터]]가 있는 [[164_pc|PC]] A가 이 빈 수레를 낚아채어 'Busy Token'으로 바꾸고, 꼬리에 자신의 [[001_dikw_pyramid|데이터]]와 목적지([[164_pc|PC]] C)를 매달아 다시 링에 흘려보낸다. (이때 다른 PC들은 토큰이 없으므로 강제 침묵)
-3. **[[001_dikw_pyramid|데이터]] 수신 및 복사**: 프레임이 링을 돌아 [[164_pc|PC]] C에 도착하면, C는 자기 [[001_dikw_pyramid|데이터]]임을 [[396_validation|확인]]하고 자기 하드디스크에 [[001_dikw_pyramid|데이터]]를 복사한 뒤, 꼬리에 "잘 받았음(ACK)" 표시를 해서 다시 링에 흘려보낸다.
-4. **토큰 반환 (Token Release)**: 한 바퀴를 빙 돌아 다시 송신자 [[164_pc|PC]] A에게 돌아오면, [[164_pc|PC]] A는 자기가 띄운 [[001_dikw_pyramid|데이터]]가 무사히 배달되었음을 [[396_validation|확인]]하고, 그 [[001_dikw_pyramid|데이터]]를 파기한 뒤 다시 'Free Token'으로 만들어 옆 사람에게 넘겨준다.
+2. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 적재 (Busy Token)**: 전송할 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있는 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) A가 이 빈 수레를 낚아채어 'Busy Token'으로 바꾸고, 꼬리에 자신의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 목적지([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) C)를 매달아 다시 링에 흘려보낸다. (이때 다른 PC들은 토큰이 없으므로 강제 침묵)
+3. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수신 및 복사**: 프레임이 링을 돌아 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) C에 도착하면, C는 자기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)임을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 자기 하드디스크에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복사한 뒤, 꼬리에 "잘 받았음(ACK)" 표시를 해서 다시 링에 흘려보낸다.
+4. **토큰 반환 (Token Release)**: 한 바퀴를 빙 돌아 다시 송신자 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) A에게 돌아오면, [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) A는 자기가 띄운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 무사히 배달되었음을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 그 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 파기한 뒤 다시 'Free Token'으로 만들어 옆 사람에게 넘겨준다.
 
 ```text
  ┌─────────────────────────────────────────────────────────────┐
@@ -62,28 +66,28 @@ IBM이 개발하여 1980년대~90년대 초반 기업망을 장악했던 4Mbps /
  └─────────────────────────────────────────────────────────────┘
 ```
 
-### 2. 토큰 [[344_bus|버스]] (Token [[344_bus|Bus]], IEEE 802.4)의 구조
-- 물리적으로는 [[230_ethernet_structure_and_principles_ieee_802_3|이더넷]]처럼 일자형 [[127_coaxial_cable|동축 케이블]]([[344_bus|Bus]])을 쓰지만, 내부 소프트웨어 설정으로 "[[164_pc|PC]] 1 -> [[164_pc|PC]] 2 -> [[164_pc|PC]] 3" 순서로 논리적인 토큰을 던져주는 끔찍한 혼종이다.
-- 배선 공사가 쉬운 [[344_bus|버스]]의 장점과, 충돌 없는 링의 장점을 섞기 위해 MAP(Manufacturing Automation [[295_protocol_field_tcp_udp_icmp|Protocol]])이라는 공장 자동화(FA) 네트워크에서 주로 쓰였다.
+### 2. 토큰 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) (Token [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/), IEEE 802.4)의 구조
+- 물리적으로는 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)처럼 일자형 [동축 케이블](/knowledge-base/studynote/03_network/03_physical_layer_media/127_coaxial_cable/)([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))을 쓰지만, 내부 소프트웨어 설정으로 "[PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 1 -> [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 2 -> [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 3" 순서로 논리적인 토큰을 던져주는 끔찍한 혼종이다.
+- 배선 공사가 쉬운 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)의 장점과, 충돌 없는 링의 장점을 섞기 위해 MAP(Manufacturing Automation [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))이라는 공장 자동화(FA) 네트워크에서 주로 쓰였다.
 
-### 3. 토큰 링의 멸망 (스위칭 [[230_ethernet_structure_and_principles_ieee_802_3|이더넷]]의 등장)
+### 3. 토큰 링의 멸망 (스위칭 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)의 등장)
 "충돌이 없다"는 기가 막힌 장점에도 불구하고 토큰 링은 역사 속으로 사라졌다.
-- **치명적 단점 (링 단절)**: [[164_pc|PC]] 한 대가 고장 나거나 케이블 한 곳이 끊어지면, 링 전체가 멈춰버려 동네방네 인터넷이 다 죽는 치명적 약점이 있었다. (MAU라는 [[658_ir_recovery|복구]] 장비가 있었으나 한계가 명확).
-- **[[230_ethernet_structure_and_principles_ieee_802_3|이더넷]]의 진화**: 결정적으로 L2 [[238_switch_operation_principles|스위치]]([[238_switch_operation_principles|Switch]])가 발명되면서 [[230_ethernet_structure_and_principles_ieee_802_3|이더넷]]의 치명적 단점이던 '충돌([[563_hash_collision_chaining_linear_probing|Collision]])' 문제가 하드웨어적으로 완벽하게 멸종해버렸다. [[230_ethernet_structure_and_principles_ieee_802_3|이더넷]]이 100Mbps, 1Gbps로 미친 듯이 속도를 올릴 때, 16Mbps에 멈춰 있던 토큰 링은 더 이상 존재할 이유가 없어졌다.
+- **치명적 단점 (링 단절)**: [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 한 대가 고장 나거나 케이블 한 곳이 끊어지면, 링 전체가 멈춰버려 동네방네 인터넷이 다 죽는 치명적 약점이 있었다. (MAU라는 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 장비가 있었으나 한계가 명확).
+- **[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)의 진화**: 결정적으로 L2 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)([Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))가 발명되면서 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)의 치명적 단점이던 '충돌([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))' 문제가 하드웨어적으로 완벽하게 멸종해버렸다. [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)이 100Mbps, 1Gbps로 미친 듯이 속도를 올릴 때, 16Mbps에 멈춰 있던 토큰 링은 더 이상 존재할 이유가 없어졌다.
 
-- **📢 섹션 요약 비유**: ** 토큰 링은 **"충돌 사고가 절대 나지 않는 완벽한 1차선 원형 교차로"**를 만들었지만, 훗날 [[230_ethernet_structure_and_principles_ieee_802_3|이더넷]]이 아예 **"차량마다 개인 전용 고가도로(L2 [[238_switch_operation_principles|스위치]] [[446_port_and_bus|포트]])"**를 지어버리자 속도 경쟁에서 밀려 영원히 폐쇄되고 말았습니다.
+- **📢 섹션 요약 비유**: ** 토큰 링은 **"충돌 사고가 절대 나지 않는 완벽한 1차선 원형 교차로"**를 만들었지만, 훗날 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)이 아예 **"차량마다 개인 전용 고가도로(L2 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))"**를 지어버리자 속도 경쟁에서 밀려 영원히 폐쇄되고 말았습니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-토큰 링을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [[280_local_loop_subscriber_line|로컬 루프]]가 기반 조건을 만든다면, 토큰 링은 그 위에서 핵심 메커니즘을 구현하고, FDDI는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 스위칭 효율과 브로드캐스트 범위에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+토큰 링을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [로컬 루프](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/280_local_loop_subscriber_line/)가 기반 조건을 만든다면, 토큰 링은 그 위에서 핵심 메커니즘을 구현하고, FDDI는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 스위칭 효율과 브로드캐스트 범위에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [[280_local_loop_subscriber_line|로컬 루프]]의 기반 정리 | 토큰 링의 핵심 동작 | FDDI의 확장 적용 |
+| 초점 | [로컬 루프](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/280_local_loop_subscriber_line/)의 기반 정리 | 토큰 링의 핵심 동작 | FDDI의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 스위칭 효율 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: 토큰 링은 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -91,18 +95,18 @@ IBM이 개발하여 1980년대~90년대 초반 기업망을 장악했던 4Mbps /
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 토큰 링을 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [[280_local_loop_subscriber_line|로컬 루프]] 수준의 기본 대책으로 충분한지, 아니면 토큰 링이 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 FDDI와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 토큰 링을 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [로컬 루프](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/280_local_loop_subscriber_line/) 수준의 기본 대책으로 충분한지, 아니면 토큰 링이 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 FDDI와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 스위칭 효율 부족인지, 브로드캐스트 범위 악화인지 먼저 분리한다.
-2. 토큰 링가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [[396_validation|확인]]한다.
+2. 토큰 링가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
 3. 도입 후에는 인접 기술인 FDDI와의 연계 방식을 함께 검증한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 토큰 링의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- [[280_local_loop_subscriber_line|로컬 루프]]와의 경계를 정리하지 않아 중복 투자나 [[164_policy|정책]] 충돌을 만드는 설계
+- [로컬 루프](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/280_local_loop_subscriber_line/)와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: 토큰 링을 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -110,7 +114,7 @@ IBM이 개발하여 1980년대~90년대 초반 기업망을 장악했던 4Mbps /
 
 ## Ⅴ. 기대효과 및 결론
 
-토큰 링은 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 스위칭 효율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [[282_fddi_fiber_distributed_data_interface_dual_ring|FDDI]], 지능형 캠퍼스 패브릭, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 지능형 캠퍼스 패브릭 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+토큰 링은 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 스위칭 효율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [FDDI](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/282_fddi_fiber_distributed_data_interface_dual_ring/), 지능형 캠퍼스 패브릭, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 지능형 캠퍼스 패브릭 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 토큰 링은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -120,10 +124,10 @@ IBM이 개발하여 1980년대~90년대 초반 기업망을 장악했던 4Mbps /
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[280_local_loop_subscriber_line|로컬 루프]] | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [[673_mac_message_authentication_code|MAC]] 주소 ([[121_transmission_media_guided_unguided|Media]] [[547_access_control_rwx|Access Control]] Address) | 2계층 전달 대상을 식별하는 기본 주소다. |
-| [[238_switch_operation_principles|스위치]] ([[238_switch_operation_principles|Switch]]) | 프레임을 적절한 [[446_port_and_bus|포트]]로 전달하는 핵심 장비다. |
-| [[282_fddi_fiber_distributed_data_interface_dual_ring|FDDI]] | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [로컬 루프](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/280_local_loop_subscriber_line/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 ([Media](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) [Access Control](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/) Address) | 2계층 전달 대상을 식별하는 기본 주소다. |
+| [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) ([Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)) | 프레임을 적절한 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 전달하는 핵심 장비다. |
+| [FDDI](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/282_fddi_fiber_distributed_data_interface_dual_ring/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -137,12 +141,12 @@ IBM이 개발하여 1980년대~90년대 초반 기업망을 장악했던 4Mbps /
     └──▶ [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
-토큰 링는 [[280_local_loop_subscriber_line|로컬 루프]]에서 출발해 현재 메커니즘을 정교화하고, 이후 FDDI와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+토큰 링는 [로컬 루프](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/280_local_loop_subscriber_line/)에서 출발해 현재 메커니즘을 정교화하고, 이후 FDDI와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 학교 우편함에 이름표가 붙어 있어야 편지가 엉뚱한 곳에 가지 않아요.
-2. 이 개념은 어느 교실로 보내야 할지 알아보는 [[104_classification_analysis|분류]] 규칙과 같아요.
+2. 이 개념은 어느 교실로 보내야 할지 알아보는 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 규칙과 같아요.
 3. 그래서 같은 건물 안에서도 편지가 더 빠르고 질서 있게 움직여요.
 
 ---
@@ -151,7 +155,7 @@ IBM이 개발하여 1980년대~90년대 초반 기업망을 장악했던 4Mbps /
 
 **진행 상황**: 402 / 1120
 
-← **이전**: [[280_local_loop_subscriber_line|280. 로컬 루프 (Local Loop, 가입자 선로)]]
-**다음**: [[282_fddi_fiber_distributed_data_interface_dual_ring|282. FDDI (Fiber Distributed Data Interface)]] →
+← **이전**: [280. 로컬 루프 (Local Loop, 가입자 선로)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/280_local_loop_subscriber_line/)
+**다음**: [282. FDDI (Fiber Distributed Data Interface)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/282_fddi_fiber_distributed_data_interface_dual_ring/) →
 
 ---

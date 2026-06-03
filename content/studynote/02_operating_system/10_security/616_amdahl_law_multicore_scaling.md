@@ -1,22 +1,26 @@
----
-title: 616. 멀티코어 확장성 병목 (Amdahl's Law) 및 커널 락 경합 진단
-date: '2026-05-09'
-tags:
-- studynote-operating-system
----
++++
+title = "616. 멀티코어 확장성 병목 (Amdahl's Law) 및 커널 락 경합 진단"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 멀티코어 확장성 병목 (Amdahl's Law) 및 [[022_kernel_role|커널]] [[275_lock_contention_monitoring|락 경합]] 진단은 [[001_operating_system_purpose|운영체제]] [[043_protection_security|보호와 보안]] 메커니즘에서 핵심 흐름을 결정하는 개념으로, 시스템이 무엇을 먼저 관리하고 어떤 순서로 제어할지를 분명하게 만든다.
-> 2. **가치**: 이 개념을 이해하면 자원 효율, [[138_response_time|응답 시간]], 안정성 사이의 균형을 더 정확하게 설명할 수 있고, I/O [[282_performance_tactics|성능]] 병목 ([[617_io_bottleneck|Bottleneck]]) 탐색법 (iostat, vmstat)로 이어지는 이유도 자연스럽게 파악된다.
-> 3. **판단 포인트**: [[615_ebpf|eBPF]] 네트워크/보안/모니터링 이벤트 [[022_kernel_role|커널]] 안전 훅 매커니즘과의 관계를 함께 봐야 멀티코어 확장성 병목 (Amdahl's Law) 및 [[022_kernel_role|커널]] [[275_lock_contention_monitoring|락 경합]] 진단을 단순 정의가 아니라 실제 설계·운영 판단 기준으로 사용할 수 있다.
+> 1. **본질**: 멀티코어 확장성 병목 (Amdahl's Law) 및 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [락 경합](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/) 진단은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [보호와 보안](/knowledge-base/studynote/02_operating_system/01_overview_architecture/043_protection_security/) 메커니즘에서 핵심 흐름을 결정하는 개념으로, 시스템이 무엇을 먼저 관리하고 어떤 순서로 제어할지를 분명하게 만든다.
+> 2. **가치**: 이 개념을 이해하면 자원 효율, [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), 안정성 사이의 균형을 더 정확하게 설명할 수 있고, I/O [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목 ([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/)) 탐색법 (iostat, vmstat)로 이어지는 이유도 자연스럽게 파악된다.
+> 3. **판단 포인트**: [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 네트워크/보안/모니터링 이벤트 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안전 훅 매커니즘과의 관계를 함께 봐야 멀티코어 확장성 병목 (Amdahl's Law) 및 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [락 경합](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/) 진단을 단순 정의가 아니라 실제 설계·운영 판단 기준으로 사용할 수 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 ### êë ë ìì
-Amdahl's Lawë 1967ë Gene Amdahlì í ëë ìííìêëì íêë ìëíë ëììë. ì ëìì ëëë, ìì ìììì ììììëë ìëëìì íë ëëì ëìì fìê, ëë ìëê êëí ëëì ëìì (1-f)ì ë, Nêì ëìí ììë ëë ìëí êì ìëì ìë([[144_speedup|Speedup]])ì ëìê êì ííëë:
+Amdahl's Lawë 1967ë Gene Amdahlì í ëë ìííìêëì íêë ìëíë ëììë. ì ëìì ëëë, ìì ìììì ììììëë ìëëìì íë ëëì ëìì fìê, ëë ìëê êëí ëëì ëìì (1-f)ì ë, Nêì ëìí ììë ëë ìëí êì ìëì ìë([Speedup](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/144_speedup/))ì ëìê êì ííëë:
 
 ```
 Speedup(N)  1 / (f + (1-f)/N)
@@ -102,7 +106,7 @@ Speedup_ìì(N) = f + N  (1-f)
 
 ### ëëí íìê íìì
 
-| ìì ì (N) | ìë íì (f=0.1) | íì ([[144_speedup|Speedup]]/N  100) | ìë íì (f=0.2) | íì |
+| ìì ì (N) | ìë íì (f=0.1) | íì ([Speedup](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/144_speedup/)/N  100) | ìë íì (f=0.2) | íì |
 |---|---|---|---|---|
 | 1 | 1.00ë | 100% | 1.00ë | 100% |
 | 2 | 1.82ë | 91% | 1.67ë | 83% |
@@ -136,11 +140,11 @@ Speedup_ìì(N) = f + N  (1-f)
 ììê ëìììë íìì ëììë"íì ìí" íìì êìë
 ```
 
-**[ëììêë íì]** íìì êëíìì ëìë, ìì ìê ìêíìë ê ììê ìêíë íê íêë êìíë. 128ìììì ìì ëëì [[489_raid_10_hybrid|10]]%ë ëìë íìì 7%ì ëêíë. ìë 128êì ììê ììë ììëë 9ê ìì ìëì íêë ëííëë ëìë. ìëí"íììì íê"ë ëë ììíë, íëìì íì ëë íêë ìíí êìí ì ìë.
+**[ëììêë íì]** íìì êëíìì ëìë, ìì ìê ìêíìë ê ììê ìêíë íê íêë êìíë. 128ìììì ìì ëëì [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%ë ëìë íìì 7%ì ëêíë. ìë 128êì ììê ììë ììëë 9ê ìì ìëì íêë ëííëë ëìë. ìëí"íììì íê"ë ëë ììíë, íëìì íì ëë íêë ìíí êìí ì ìë.
 
 ### Amdahl's Lawì ìë ë êíì êê
 
-ëíìì ììíìì ìì ëëì ìì ìì ì íëë"ë êí([[275_lock_contention_monitoring|Lock Contention]])"ìë. ìë ììê êì ììì ìêíëë ëì íìíê, ëì íëíëê ëêíë ìêì ììê ëììë ìêíë. ìêì ëëí ìì ëëìë, Amdahl's Lawì fêì ìêìíë.
+ëíìì ììíìì ìì ëëì ìì ìì ì íëë"ë êí([Lock Contention](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/))"ìë. ìë ììê êì ììì ìêíëë ëì íìíê, ëì íëíëê ëêíë ìêì ììê ëììë ìêíë. ìêì ëëí ìì ëëìë, Amdahl's Lawì fêì ìêìíë.
 
 - **ìì ëì**: Amdahl's Lawë "ëë ìì íì"ê êë. 4ììì 8ìììë íìíë, ìë êêì 2ìììëë íêí ì ìë êìëê ììë(ìì ëë), ìì êêìíê íê ìì ìë 4ììì ëëëë.
 
@@ -184,9 +188,9 @@ Speedup_ìì(N) = f + N  (1-f)
 | ëê | ìì ëì | íì |
 |---|---|---|
 | **perf sched** | ìììë ìì, ìíìí ììì | CPUë ìììë ìë ëë íì |
-| **perf [[510_lock|lock]]** | ë ëê ìê, íë ìë íì | ìë ëë ë êí ëì |
-| **perf stat** | [[158_cpi_cost_performance_index|CPI]](íëë ëëì ì) | ìììì CPU íì íì |
-| **[[069_ebpf|BPF]]/bpftrace** | ëì ë ìì | ëíììì ë êí ììê ëì |
+| **perf [lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)** | ë ëê ìê, íë ìë íì | ìë ëë ë êí ëì |
+| **perf stat** | [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/)(íëë ëëì ì) | ìììì CPU íì íì |
+| **[BPF](/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/)/bpftrace** | ëì ë ìì | ëíììì ë êí ììê ëì |
 
 - **ìì ëì**: Amdahl's Lawë "ìë ìê ììíì êí"ê êë. ìë ëì ìëìê ëìì ìëíëëë, ëë ìëìê í ìë ììë ì ììë(ë êí) ìë ìëê íìëì ìëë. ê ìëìëë ëëìì ìëëë ìêíì ëëì ëëíì íêê êëíëë.
 
@@ -208,14 +212,14 @@ Speedup_ìì(N) = f + N  (1-f)
    - 16ìì ìë ìë: 1/(0.33+0.67/16) = 2.77ë
 
 **ëì**:
-- nginxì worker [[300_process|process]] ìë 16êë ìê
+- nginxì worker [process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) ìë 16êë ìê
 -epoll/ ëììë Accept êí íí
 - êêë: CPU ìì ììë êí êì, ìëë 40% íì
 
 ### ëì ìíëìí
 
 - **ìì ëë ìë**: `perf`ë `bpftrace`ë íìíì íëêëì ëëí êë ëëìëìíê, ìì ëëì ëì(f)ì ììíë.
-- **ë êí ëëíë**: ìë ëë ë(/proc/lock_stat ëë perf [[510_lock|lock]])ìë ìì ëì ëê ìêì ëëíëíë.
+- **ë êí ëëíë**: ìë ëë ë(/proc/lock_stat ëë perf [lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))ìë ìì ëì ëê ìêì ëëíëíë.
 - **íìì ëí íìì ìì**: Amdahl's Lawë ìì ì ìêì ëë êë ìë íìì êìíê, íì ëë íìì íêíë.
 
 ### ìííí
@@ -251,17 +255,17 @@ CPU ìì ìê êì ìêíë ìììì(16->32->64->128...), ìì ëëì ììë ë�
 ---
 
 > 1. **ëì**: Amdahl's Lawë ëë ìííìì ìì ìì ì ëëíí ì ìë ëë(ìì ëë)ì ëìì ìì ìë íìì ìíìì êìíëë ëììë, ììë ìëë ëì ëëë ì ìì ëëëëì_SPEEDUPìë íêê ìë.
-> 2. **êì**: ì ëìì ìííë, ëíìì ììíìì ìë ììí effortsë ìëì ììíì íëì íëí ì ìë. ìì ëëì [[489_raid_10_hybrid|10]]%ëï10.
-> 3. **ìí**: Amdahl's Lawë ìììì ìììë, ëìíëìì ìë ììí, ëì ììí ìê, [[418_gpu|GPU]] ìíí ë ëë ìëê íìí ëë ìììì íììì ìëì êëì ëë.
+> 2. **êì**: ì ëìì ìííë, ëíìì ììíìì ìë ììí effortsë ìëì ììíì íëì íëí ì ìë. ìì ëëì [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%ëï10.
+> 3. **ìí**: Amdahl's Lawë ìììì ìììë, ëìíëìì ìë ììí, ëì ììí ìê, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ìíí ë ëë ìëê íìí ëë ìììì íììì ìëì êëì ëë.
 
 ---
 
 | êë ëì | êê ë ìëì ìë |
 |---|---|
 | **Gustafson's Law** | ëì íêê ìêíë ìì ìíìì ëëíì íêë ììíë ëììë, Amdahl's Lawëëìíë. |
-| **ë êí ([[275_lock_contention_monitoring|Lock Contention]])** | ëíìììì êì ììì ëí ë ëê ìêì ìì ëëììêìì, Amdahl's Lawì fêì íê ëëë. |
+| **ë êí ([Lock Contention](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/))** | ëíìììì êì ììì ëí ë ëê ìêì ìì ëëììêìì, Amdahl's Lawì fêì íê ëëë. |
 | **ìíìí ììì ìëíë** | ìëë/íëììê ììëë ììì ìêì ìì ëëììêìíë. |
-| **[[158_cpi_cost_performance_index|CPI]] ([[134_cpi|Cycles Per Instruction]])** | CPUê ëëì íëë ìííëë íìí íë ììí ìë, ëëí êë ëëìêìììë íìíë ìíìë. |
+| **[CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) ([Cycles Per Instruction](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/134_cpi/))** | CPUê ëëì íëë ìííëë íìí íë ììí ìë, ëëí êë ëëìêìììë íìíë ìíìë. |
 
 ---
 
@@ -277,9 +281,9 @@ CPU ìì ìê êì ìêíë ìììì(16->32->64->128...), ìì ëëì ììë ë�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 시스템 [[614_dtrace|DTrace]] 선언적 동적 트레이싱 엔진 메커니즘 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [[615_ebpf|eBPF]] 네트워크/보안/모니터링 이벤트 [[022_kernel_role|커널]] 안전 훅 매커니즘 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| I/O [[282_performance_tactics|성능]] 병목 ([[617_io_bottleneck|Bottleneck]]) 탐색법 (iostat, vmstat) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| 시스템 [DTrace](/knowledge-base/studynote/02_operating_system/10_security/614_dtrace/) 선언적 동적 트레이싱 엔진 메커니즘 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 네트워크/보안/모니터링 이벤트 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안전 훅 매커니즘 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| I/O [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목 ([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/)) 탐색법 (iostat, vmstat) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
 | 캐시 미스 오버헤드 측정 분석망 구조 적용 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -298,9 +302,9 @@ CPU ìì ìê êì ìêíë ìììì(16->32->64->128...), ìì ëëì ììë ë�
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 멀티코어 확장성 병목 (Amdahl's Law) 및 [[022_kernel_role|커널]] [[275_lock_contention_monitoring|락 경합]] 진단은 컴퓨터가 누가 들어와도 되는지와 무엇을 막아야 하는지 정하는 문지기 규칙이에요.
-2. 먼저 [[615_ebpf|eBPF]] 네트워크/보안/모니터링 이벤트 [[022_kernel_role|커널]] 안전 훅 매커니즘을 이해하면 멀티코어 확장성 병목 (Amdahl's Law) 및 [[022_kernel_role|커널]] [[275_lock_contention_monitoring|락 경합]] 진단이 왜 필요한지 더 쉽게 보여요.
-3. 그래서 멀티코어 확장성 병목 (Amdahl's Law) 및 [[022_kernel_role|커널]] [[275_lock_contention_monitoring|락 경합]] 진단을 잘 알면 나중에 I/O [[282_performance_tactics|성능]] 병목 ([[617_io_bottleneck|Bottleneck]]) 탐색법 (iostat, vmstat)도 훨씬 쉽게 배울 수 있어요.
+1. 멀티코어 확장성 병목 (Amdahl's Law) 및 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [락 경합](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/) 진단은 컴퓨터가 누가 들어와도 되는지와 무엇을 막아야 하는지 정하는 문지기 규칙이에요.
+2. 먼저 [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 네트워크/보안/모니터링 이벤트 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안전 훅 매커니즘을 이해하면 멀티코어 확장성 병목 (Amdahl's Law) 및 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [락 경합](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/) 진단이 왜 필요한지 더 쉽게 보여요.
+3. 그래서 멀티코어 확장성 병목 (Amdahl's Law) 및 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [락 경합](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/) 진단을 잘 알면 나중에 I/O [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목 ([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/)) 탐색법 (iostat, vmstat)도 훨씬 쉽게 배울 수 있어요.
 
 ---
 
@@ -308,7 +312,7 @@ CPU ìì ìê êì ìêíë ìììì(16->32->64->128...), ìì ëëì ììë ë�
 
 **진행 상황**: 616 / 800
 
-← **이전**: [[615_ebpf|615. eBPF 네트워크/보안/모니터링 이벤트 커널 안전 훅 매커니즘]]
-**다음**: [[617_io_bottleneck|617. I/O 성능 병목 (Bottleneck) 탐색법 (iostat, vmstat)]] →
+← **이전**: [615. eBPF 네트워크/보안/모니터링 이벤트 커널 안전 훅 매커니즘](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/)
+**다음**: [617. I/O 성능 병목 (Bottleneck) 탐색법 (iostat, vmstat)](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/) →
 
 ---

@@ -1,9 +1,13 @@
----
-title: 224. 국방 빅데이터 (정보 분석, 적 행동 예측, 보안 위협 탐지)
-date: '2026-04-21'
-tags:
-- studynote-bigdata
----
++++
+title = "224. 국방 빅데이터 (정보 분석, 적 행동 예측, 보안 위협 탐지)"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-bigdata"]
+
+[extra]
+tags = ["studynote-bigdata"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -15,7 +19,7 @@ tags:
 
 ## Ⅰ. 개요 및 필요성
 
-국방 빅데이터 (정보 분석, 적 행동 예측, 보안 위협 탐지)은 빅데이터 환경에서 국방 응용을 실제 문서, 시스템, 운영 흐름에 연결하는 문제를 다룬다. [[001_dikw_pyramid|데이터]] 규모가 커질수록 포맷, 비용, 이동 경로, 운영 기준이 조금만 흔들려도 전체 분석 품질이 급격히 무너진다. 그래서 이 주제는 단순 기술 나열이 아니라, 어떤 조건에서 어떤 구조를 선택해야 하는지를 설명하는 [[025_baseline|기준선]]이다.
+국방 빅데이터 (정보 분석, 적 행동 예측, 보안 위협 탐지)은 빅데이터 환경에서 국방 응용을 실제 문서, 시스템, 운영 흐름에 연결하는 문제를 다룬다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모가 커질수록 포맷, 비용, 이동 경로, 운영 기준이 조금만 흔들려도 전체 분석 품질이 급격히 무너진다. 그래서 이 주제는 단순 기술 나열이 아니라, 어떤 조건에서 어떤 구조를 선택해야 하는지를 설명하는 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)이다.
 
 ```text
 ┌──────────────┐   ┌──────────────┐   ┌──────────────┐
@@ -29,12 +33,12 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-핵심은 입력 [[001_dikw_pyramid|데이터]]와 처리 구조, 그리고 결과 활용을 연결하는 것이다. [[501_file_definition_logical_record|파일]] 포맷이나 [[064_relation_domain|도메인]] 응용은 각각 다르지만, 결국은 저장 비용, 조회 속도, 확장성, 운영 난이도 사이의 균형 문제로 수렴한다.
+핵심은 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 처리 구조, 그리고 결과 활용을 연결하는 것이다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 포맷이나 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 응용은 각각 다르지만, 결국은 저장 비용, 조회 속도, 확장성, 운영 난이도 사이의 균형 문제로 수렴한다.
 
 | 요소 | 역할 | 포인트 |
 |:---|:---|:---|
 | 기준 | 기준/입력 | 범위가 모호하면 뒤 단계도 흔들린다 |
-| 실행 | 처리/[[395_verification_process_review|검증]] | 절차와 자동화가 연결되어야 한다 |
+| 실행 | 처리/[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 절차와 자동화가 연결되어야 한다 |
 | 증거 | 결과/증거 | 기록이 남아야 재현과 추적이 된다 |
 
 ```text
@@ -58,7 +62,7 @@ tags:
 | 문서 기준 | 운영 현실 | 판정 결과 |
 | 계획 | 실행 | 조치 |
 
-상황 인식와도 연결해 보면, 기술 선택은 결국 비용과 [[282_performance_tactics|성능]], 그리고 운영 체계를 함께 보는 문제다. 그래서 시험에서도 "무엇과 비교했는가"를 함께 써야 답안의 깊이가 생긴다.
+상황 인식와도 연결해 보면, 기술 선택은 결국 비용과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 그리고 운영 체계를 함께 보는 문제다. 그래서 시험에서도 "무엇과 비교했는가"를 함께 써야 답안의 깊이가 생긴다.
 
 - **📢 섹션 요약 비유**: 공장 품질 게이트는 같은 모양처럼 보여도 용도에 따라 완전히 다르다. 비교해야 차이가 보인다.
 
@@ -68,18 +72,18 @@ tags:
 
 실무에서는 "도입 여부"보다 "어떤 조건에서 채택할 것인가"로 판단해야 한다.
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 증거가 실제 [[568_logs_distributed_logging_elk_fluentd|로그]]/서류로 남는가?
+1. 증거가 실제 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)/서류로 남는가?
 2. 조치 항목이 종료 처리되었는가?
 3. 점검 기준이 사람마다 다르지 않은가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- [[435_checklist_based_testing|체크리스트]]만 있고 증거가 없는 점검
-- 조치 이행 [[396_validation|확인]] 없이 종료하는 관행
+- [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)만 있고 증거가 없는 점검
+- 조치 이행 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 없이 종료하는 관행
 
-국방 빅데이터 (정보 분석, 적 행동 예측, 보안 위협 탐지)을 잘 쓰려면 기술 자체보다 운영 조건을 봐야 한다. [[282_performance_tactics|성능]], 비용, 보안, [[346_maintainability_portability|유지보수성]] 중 무엇이 우선인지가 다르면 [[170_selectivity_cardinality_distribution_tuning|선택도]] 달라진다.
+국방 빅데이터 (정보 분석, 적 행동 예측, 보안 위협 탐지)을 잘 쓰려면 기술 자체보다 운영 조건을 봐야 한다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 비용, 보안, [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/) 중 무엇이 우선인지가 다르면 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 달라진다.
 
 - **📢 섹션 요약 비유**: 검문소은 고장 나기 전에 멈추는 장치다.
 
@@ -120,12 +124,12 @@ tags:
     ▼
 [의사결정 지원 시스템 (C4I) — 지휘·통제·통신·컴퓨터·정보의 빅데이터 기반 실시간 통합]
 ```
-이 흐름은 분야별 분절된 수집·분석을 통합하는 국방 빅데이터가 [[190_ai_llm_requirements_specification|AI]] [[046_predictive_analytics|예측 분석]]과 결합하고, 사이버·물리 위협을 통합 감시하는 지능형 C4I 체계로 발전하는 국방 정보 분석의 [[055_digital_transformation|디지털 전환]] 경로를 보여준다.
+이 흐름은 분야별 분절된 수집·분석을 통합하는 국방 빅데이터가 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [예측 분석](/knowledge-base/studynote/16_bigdata/02_hadoop/046_predictive_analytics/)과 결합하고, 사이버·물리 위협을 통합 감시하는 지능형 C4I 체계로 발전하는 국방 정보 분석의 [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) 경로를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 국방 빅데이터 (정보 분석, 적 행동 예측, 보안 위협 탐지)은 일을 하기 전에 "어떤 규칙으로 할지" 먼저 정하는 거예요.
-2. 중간에 [[396_validation|확인]]표가 있어야 틀린 곳을 빨리 고칠 수 있어요.
+2. 중간에 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)표가 있어야 틀린 곳을 빨리 고칠 수 있어요.
 3. 그래서 끝까지 잘했다고 말하려면 증거와 순서가 같이 있어야 해요.
 
 ---
@@ -134,7 +138,7 @@ tags:
 
 **진행 상황**: 229 / 262
 
-← **이전**: [[228_management|223. 부동산 빅데이터 (시세 예측, 상권 분석, 인구 이동 분석)]]
-**다음**: [[230_delta_iceberg_hudi|225. 레이크하우스 주류화 (Delta, Iceberg, Hudi) 개방형 포맷 경쟁]] →
+← **이전**: [223. 부동산 빅데이터 (시세 예측, 상권 분석, 인구 이동 분석)](/knowledge-base/studynote/16_bigdata/11_industry/228_management/)
+**다음**: [225. 레이크하우스 주류화 (Delta, Iceberg, Hudi) 개방형 포맷 경쟁](/knowledge-base/studynote/16_bigdata/12_trends/230_delta_iceberg_hudi/) →
 
 ---

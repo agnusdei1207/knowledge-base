@@ -1,14 +1,18 @@
----
-title: 146. OOA (객체지향 분석) - 객체·클래스·관계 중심 분석
-date: '2026-04-19'
-tags:
-- studynote-software-engineering
----
++++
+title = "146. OOA (객체지향 분석) - 객체·클래스·관계 중심 분석"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-software-engineering"]
+
+[extra]
+tags = ["studynote-software-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: OOA는 **문제 영역(Problem [[064_relation_domain|Domain]])을 객체·클래스·[[082_attribute_types_er_model|속성]]·메서드·[[083_relationship_in_er_model|관계]]로 모델링**하는 분석 기법이며, [[143_structured_analysis_dfd_dd_minispec|구조적 분석]]([[144_dfd_data_flow_diagram|DFD]])의 "[[001_dikw_pyramid|데이터]]·프로세스 분리"와 달리 **[[001_dikw_pyramid|데이터]]+행위를 객체로 캡슐화**한다.
-> 2. **가치**: 현실 세계를 객체로 모델링하므로 **분석 결과가 설계·구현으로 자연스럽게 전이([[228_blockchain_smart_contract_traceability|Traceability]])**되며, 재사용·확장성이 높다.
-> 3. **판단 포인트**: Rumbaugh OMT(객체·동적·기능 모델)·Booch Method·Jacobson OOSE(유스케이스)가 통합되어 **[[232_uml_unified_modeling_language_overview|UML]]([[232_uml_unified_modeling_language_overview|Unified Modeling Language]])**이 탄생(1997)했다.
+> 1. **본질**: OOA는 **문제 영역(Problem [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))을 객체·클래스·[속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)·메서드·[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)로 모델링**하는 분석 기법이며, [구조적 분석](/knowledge-base/studynote/04_software_engineering/03_design_architecture/143_structured_analysis_dfd_dd_minispec/)([DFD](/knowledge-base/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/))의 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·프로세스 분리"와 달리 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)+행위를 객체로 캡슐화**한다.
+> 2. **가치**: 현실 세계를 객체로 모델링하므로 **분석 결과가 설계·구현으로 자연스럽게 전이([Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/))**되며, 재사용·확장성이 높다.
+> 3. **판단 포인트**: Rumbaugh OMT(객체·동적·기능 모델)·Booch Method·Jacobson OOSE(유스케이스)가 통합되어 **[UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/)([Unified Modeling Language](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/))**이 탄생(1997)했다.
 
 ---
 
@@ -22,7 +26,7 @@ OOA 산출물:
   상태 다이어그램 (객체 생명주기)
 ```
 
-- **📢 섹션 요약 비유**: OOA는 **레고 설계**이다. 레고 블록(객체)의 모양([[082_attribute_types_er_model|속성]])과 연결 방법([[083_relationship_in_er_model|관계]])을 먼저 설계한다.
+- **📢 섹션 요약 비유**: OOA는 **레고 설계**이다. 레고 블록(객체)의 모양([속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))과 연결 방법([관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/))을 먼저 설계한다.
 
 ---
 
@@ -38,8 +42,8 @@ OOA는 **현실→모델 전이가 자연스러운 분석 방법**이며, UML이
 |:---|:---|
 | **OOA** | 객체지향 분석 |
 | **유스케이스** | 기능 범위 |
-| **클래스** | 구조·[[083_relationship_in_er_model|관계]] |
-| **[[232_uml_unified_modeling_language_overview|UML]]** | 통합 표현 |
+| **클래스** | 구조·[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
+| **[UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/)** | 통합 표현 |
 | **OMT** | Rumbaugh 3모델 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -52,8 +56,8 @@ OOA는 **현실→모델 전이가 자연스러운 분석 방법**이며, UML이
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. OOA는 **레고 설계**예요. 블록(객체)의 **모양과 연결 방법**을 정해요.
-2. "학생" 블록은 **이름·학번([[082_attribute_types_er_model|속성]])**이 있고, "수업 듣기(행위)"를 해요.
-3. 레고 설계도([[232_uml_unified_modeling_language_overview|UML]])를 그리면 **조립(구현)**이 쉬워요!
+2. "학생" 블록은 **이름·학번([속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))**이 있고, "수업 듣기(행위)"를 해요.
+3. 레고 설계도([UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/))를 그리면 **조립(구현)**이 쉬워요!
 
 ---
 
@@ -61,7 +65,7 @@ OOA는 **현실→모델 전이가 자연스러운 분석 방법**이며, UML이
 
 **진행 상황**: 146 / 973
 
-← **이전**: [[145_1_mini_spec|145. Mini-Spec (프로세스 명세서) - DFD 프로세스 상세 정의]]
-**다음**: [[147_use_case_diagram|147. 유스케이스 다이어그램 (Use Case Diagram)]] →
+← **이전**: [145. Mini-Spec (프로세스 명세서) - DFD 프로세스 상세 정의](/knowledge-base/studynote/04_software_engineering/03_design_architecture/145_1_mini_spec/)
+**다음**: [147. 유스케이스 다이어그램 (Use Case Diagram)](/knowledge-base/studynote/04_software_engineering/03_design_architecture/147_use_case_diagram/) →
 
 ---

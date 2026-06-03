@@ -1,23 +1,27 @@
----
-title: 191. 행위 패턴 개요 (Behavioral Patterns Overview)
-date: '2026-05-10'
-tags:
-- studynote-design-supervision
----
++++
+title = "191. 행위 패턴 개요 (Behavioral Patterns Overview)"
+date = 2026-05-10
+
+[taxonomies]
+tags = ["studynote-design-supervision"]
+
+[extra]
+tags = ["studynote-design-supervision"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: GoF [[266_behavioral_patterns_overview|행위 패턴]] ([[266_behavioral_patterns_overview|Behavioral Patterns]])은 객체나 클래스 간의 [[001_algorithm_definition|알고리즘]]과 책임 분배를 다루는 11가지 [[251_design_patterns_gof_overview|디자인 패턴]]으로, 객체 간의 통신 방식과 복잡한 제어 흐름을 캡슐화하여 유연성과 재사용성을 높인다.
-> 2. **가치**: [[266_behavioral_patterns_overview|행위 패턴]]은 [[001_algorithm_definition|알고리즘]]·동작·상태·통신을 객체로 캡슐화하여, 런타임에 동적으로 동작을 교체하거나 객체 간 통신을 표준화할 수 있어, 비즈니스 규칙 변경에 유연하게 대응하는 설계를 가능하게 한다.
-> 3. **판단 포인트**: [[266_behavioral_patterns_overview|행위 패턴]] 선택의 핵심은 '무엇을 캡슐화하는가?'다. [[001_algorithm_definition|알고리즘]] 교체([[268_strategy_pattern|전략]]), 상태별 동작(상태), 요청 객체화([[271_command_pattern|커맨드]]), 단계 순서 고정([[269_template_method_pattern|템플릿 메서드]]), 이벤트 통지([[267_observer_pattern|옵저버]]), 요청 체인([[276_chain_of_responsibility_pattern|책임 연쇄]]), 중재 통신(미디에이터) 중 요구사항에 맞는 패턴을 선택한다.
+> 1. **본질**: GoF [행위 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/) ([Behavioral Patterns](/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/))은 객체나 클래스 간의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)과 책임 분배를 다루는 11가지 [디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/)으로, 객체 간의 통신 방식과 복잡한 제어 흐름을 캡슐화하여 유연성과 재사용성을 높인다.
+> 2. **가치**: [행위 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/)은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)·동작·상태·통신을 객체로 캡슐화하여, 런타임에 동적으로 동작을 교체하거나 객체 간 통신을 표준화할 수 있어, 비즈니스 규칙 변경에 유연하게 대응하는 설계를 가능하게 한다.
+> 3. **판단 포인트**: [행위 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/) 선택의 핵심은 '무엇을 캡슐화하는가?'다. [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 교체([전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)), 상태별 동작(상태), 요청 객체화([커맨드](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/)), 단계 순서 고정([템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)), 이벤트 통지([옵저버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/)), 요청 체인([책임 연쇄](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/276_chain_of_responsibility_pattern/)), 중재 통신(미디에이터) 중 요구사항에 맞는 패턴을 선택한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-GoF의 '[[251_design_patterns_gof_overview|Design Patterns]]'(1994)은 23가지 패턴을 [[087_process_state_transition|생성]](Creational), 구조(Structural), 행위(Behavioral) 세 범주로 분류한다. [[266_behavioral_patterns_overview|행위 패턴]]은 11가지로 가장 많은데, 이는 객체 간의 상호작용이 소프트웨어 설계에서 가장 복잡한 문제이기 때문이다.
+GoF의 '[Design Patterns](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/)'(1994)은 23가지 패턴을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(Creational), 구조(Structural), 행위(Behavioral) 세 범주로 분류한다. [행위 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/)은 11가지로 가장 많은데, 이는 객체 간의 상호작용이 소프트웨어 설계에서 가장 복잡한 문제이기 때문이다.
 
-[[266_behavioral_patterns_overview|행위 패턴]]이 해결하는 핵심 문제: ① 조건 분기(if-else, [[238_switch_operation_principles|switch]])의 캡슐화 → [[268_strategy_pattern|전략]]·[[394_process|상태 패턴]], ② 객체 간 직접 [[316_reference_pattern_nosql|참조]] 최소화 → [[267_observer_pattern|옵저버]]·[[201_mediator_pattern|미디에이터 패턴]], ③ 실행 취소([[393_undo|Undo]])·재실행([[234_redo_roll_forward_durability_recovery|Redo]]) 구현 → [[196_command_pattern|커맨드 패턴]], ④ [[001_algorithm_definition|알고리즘]]의 공통 골격 재사용 → [[392_process|템플릿 메서드 패턴]].
+[행위 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/)이 해결하는 핵심 문제: ① 조건 분기(if-else, [switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))의 캡슐화 → [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)·[상태 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/394_process/), ② 객체 간 직접 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 최소화 → [옵저버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/)·[미디에이터 패턴](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/201_mediator_pattern/), ③ 실행 취소([Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/))·재실행([Redo](/knowledge-base/studynote/05_database/04_transactions_concurrency/234_redo_roll_forward_durability_recovery/)) 구현 → [커맨드 패턴](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/196_command_pattern/), ④ [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 공통 골격 재사용 → [템플릿 메서드 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/392_process/).
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -44,23 +48,23 @@ GoF의 '[[251_design_patterns_gof_overview|Design Patterns]]'(1994)은 23가지 
 └─────────────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: [[266_behavioral_patterns_overview|행위 패턴]]은 사람들(객체) 간의 소통 방식을 표준화하는 프로토콜이다. 이메일([[267_observer_pattern|옵저버]]), 회의(미디에이터), 업무 지시([[271_command_pattern|커맨드]]), [[124_decision_tree|의사결정 트리]]([[268_strategy_pattern|전략]])처럼 각 상황에 맞는 소통 방식이 있다.
+- **📢 섹션 요약 비유**: [행위 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/)은 사람들(객체) 간의 소통 방식을 표준화하는 프로토콜이다. 이메일([옵저버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/)), 회의(미디에이터), 업무 지시([커맨드](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/)), [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)([전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))처럼 각 상황에 맞는 소통 방식이 있다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[[266_behavioral_patterns_overview|행위 패턴]] 선택 가이드: 문제 상황에 따라 적절한 패턴을 선택하는 것이 중요하다.
+[행위 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/) 선택 가이드: 문제 상황에 따라 적절한 패턴을 선택하는 것이 중요하다.
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
-| [[001_algorithm_definition|알고리즘]]을 런타임에 교체 | [[268_strategy_pattern|Strategy]] | [[001_algorithm_definition|알고리즘]]을 인터페이스로 캡슐화 |
-| 객체 상태에 따라 동작이 달라짐 | [[272_state_pattern|State]] | 상태를 객체로 캡슐화 |
-| 여러 객체에 이벤트 통지 | [[267_observer_pattern|Observer]] | 발행-구독 |
-| 요청을 객체로 저장·취소 | [[271_command_pattern|Command]] | 요청을 객체로 래핑 |
-| [[001_algorithm_definition|알고리즘]]의 공통 골격 재사용 | [[269_template_method_pattern|Template Method]] | 상위 클래스가 골격 정의 |
-| 객체 간 직접 [[316_reference_pattern_nosql|참조]] 제거 | [[273_mediator_pattern|Mediator]] | [[273_mediator_pattern|중재자]] 객체로 통신 |
-| 요청 처리자 [[332_dynamic_linking|동적 연결]] | [[276_chain_of_responsibility_pattern|Chain of Responsibility]] | 처리자 체인 |
+| [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 런타임에 교체 | [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 인터페이스로 캡슐화 |
+| 객체 상태에 따라 동작이 달라짐 | [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) | 상태를 객체로 캡슐화 |
+| 여러 객체에 이벤트 통지 | [Observer](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/) | 발행-구독 |
+| 요청을 객체로 저장·취소 | [Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) | 요청을 객체로 래핑 |
+| [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 공통 골격 재사용 | [Template Method](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/) | 상위 클래스가 골격 정의 |
+| 객체 간 직접 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 제거 | [Mediator](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/) | [중재자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/) 객체로 통신 |
+| 요청 처리자 [동적 연결](/knowledge-base/studynote/02_operating_system/06_memory_management/332_dynamic_linking/) | [Chain of Responsibility](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/276_chain_of_responsibility_pattern/) | 처리자 체인 |
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -77,27 +81,27 @@ GoF의 '[[251_design_patterns_gof_overview|Design Patterns]]'(1994)은 23가지 
 └─────────────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: [[266_behavioral_patterns_overview|행위 패턴]]은 요리 기법(볶음, 찜, 굽기)처럼, 재료(객체)와 목적(요구사항)에 맞는 기법을 선택하여 요리(소프트웨어)를 만드는 것이다.
+- **📢 섹션 요약 비유**: [행위 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/)은 요리 기법(볶음, 찜, 굽기)처럼, 재료(객체)와 목적(요구사항)에 맞는 기법을 선택하여 요리(소프트웨어)를 만드는 것이다.
 
 ---
 ## Ⅲ. 비교 및 연결
 
-[[266_behavioral_patterns_overview|행위 패턴]]의 [[258_structural_patterns_overview|구조 패턴]]·[[252_creational_patterns_overview|생성 패턴]]과의 차이: [[252_creational_patterns_overview|생성 패턴]]은 '객체를 어떻게 만드는가', [[258_structural_patterns_overview|구조 패턴]]은 '객체를 어떻게 조합하는가', [[266_behavioral_patterns_overview|행위 패턴]]은 '객체가 어떻게 협력하는가'를 다룬다.
+[행위 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/)의 [구조 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/)·[생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)과의 차이: [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)은 '객체를 어떻게 만드는가', [구조 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/)은 '객체를 어떻게 조합하는가', [행위 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/)은 '객체가 어떻게 협력하는가'를 다룬다.
 
 | 비교 축 | A | B |
 |:---|:---|:---|
-| [[252_creational_patterns_overview|생성 패턴]] | 어떻게 만드는가? | 싱글턴, 팩터리, [[256_builder_pattern_step_by_step_creation|빌더]] |
-| [[258_structural_patterns_overview|구조 패턴]] | 어떻게 조합하는가? | [[259_adapter_pattern_interface_wrapper|어댑터]], [[262_decorator_pattern_dynamic_wrapper|데코레이터]], 파사드 |
-| [[266_behavioral_patterns_overview|행위 패턴]] | 어떻게 협력하는가? | [[268_strategy_pattern|전략]], [[267_observer_pattern|옵저버]], [[271_command_pattern|커맨드]] |
+| [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/) | 어떻게 만드는가? | 싱글턴, 팩터리, [빌더](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/) |
+| [구조 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/) | 어떻게 조합하는가? | [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/), [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/), 파사드 |
+| [행위 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/) | 어떻게 협력하는가? | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), [옵저버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/), [커맨드](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) |
 
-- **📢 섹션 요약 비유**: [[252_creational_patterns_overview|생성 패턴]]은 집을 어떻게 짓는가(공법), [[258_structural_patterns_overview|구조 패턴]]은 집을 어떻게 연결하는가(배치), [[266_behavioral_patterns_overview|행위 패턴]]은 집의 거주자들이 어떻게 소통하는가(규칙)이다.
+- **📢 섹션 요약 비유**: [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)은 집을 어떻게 짓는가(공법), [구조 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/)은 집을 어떻게 연결하는가(배치), [행위 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/)은 집의 거주자들이 어떻게 소통하는가(규칙)이다.
 
 ---
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-[[266_behavioral_patterns_overview|행위 패턴]] 남용의 가장 흔한 실수: ① 단순 if-else 두 개를 [[268_strategy_pattern|전략]] 패턴으로 과도하게 [[198_abstraction_control_data_process|추상화]], ② 상태가 두세 개인 단순한 경우에 [[394_process|상태 패턴]] 적용, ③ 관련 없는 패턴을 혼합하여 복잡성 증가. 패턴은 수단이지 목적이 아니므로, 코드를 더 복잡하게 만드는 패턴 적용은 피해야 한다.
+[행위 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/) 남용의 가장 흔한 실수: ① 단순 if-else 두 개를 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 패턴으로 과도하게 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/), ② 상태가 두세 개인 단순한 경우에 [상태 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/394_process/) 적용, ③ 관련 없는 패턴을 혼합하여 복잡성 증가. 패턴은 수단이지 목적이 아니므로, 코드를 더 복잡하게 만드는 패턴 적용은 피해야 한다.
 
-### 판단 [[435_checklist_based_testing|체크리스트]]
+### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 패턴을 적용하기 전에 문제가 명확하게 정의되어 있는가?
 2. 패턴이 코드를 더 이해하기 쉽게 만드는가, 아니면 더 복잡하게 만드는가?
 3. 선택한 패턴이 미래의 변경 사항을 수용하기 유연한가?
@@ -110,35 +114,35 @@ GoF의 '[[251_design_patterns_gof_overview|Design Patterns]]'(1994)은 23가지 
 
 ## Ⅴ. 기대효과 및 결론
 
-GoF [[266_behavioral_patterns_overview|행위 패턴]]을 이해하면 복잡한 제어 흐름과 객체 간 통신을 체계적으로 설계할 수 있다. 패턴은 공통 어휘를 제공하여 팀원 간 소통을 효율화하고, 증명된 해결책으로 설계 실수를 예방한다.
+GoF [행위 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/)을 이해하면 복잡한 제어 흐름과 객체 간 통신을 체계적으로 설계할 수 있다. 패턴은 공통 어휘를 제공하여 팀원 간 소통을 효율화하고, 증명된 해결책으로 설계 실수를 예방한다.
 
 한계는 패턴 학습 비용과 과도한 패턴 적용으로 인한 복잡성 증가다. "가장 좋은 코드는 읽기 쉬운 코드"라는 원칙 하에 패턴을 필요할 때만 적용해야 한다.
 
-미래 방향으로는 ① [[324_functional_programming_core|함수형 프로그래밍]]([[325_higher_order_function_closure|고차 함수]])이 많은 [[266_behavioral_patterns_overview|행위 패턴]]을 단순화, ② 리액티브 프로그래밍이 [[267_observer_pattern|옵저버]]·[[196_command_pattern|커맨드 패턴]]을 함수형으로 구현, ③ [[190_ai_llm_requirements_specification|AI]] 기반 패턴 추천 도구가 발전하고 있다.
+미래 방향으로는 ① [함수형 프로그래밍](/knowledge-base/studynote/04_software_engineering/06_software_architecture/324_functional_programming_core/)([고차 함수](/knowledge-base/studynote/04_software_engineering/06_software_architecture/325_higher_order_function_closure/))이 많은 [행위 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/)을 단순화, ② 리액티브 프로그래밍이 [옵저버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/)·[커맨드 패턴](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/196_command_pattern/)을 함수형으로 구현, ③ [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 패턴 추천 도구가 발전하고 있다.
 
-- **📢 섹션 요약 비유**: [[266_behavioral_patterns_overview|행위 패턴]]은 스포츠 전술처럼, 팀원들이 정해진 전술(패턴)을 알고 있으면 복잡한 상황에서도 빠르게 협력할 수 있다.
+- **📢 섹션 요약 비유**: [행위 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/)은 스포츠 전술처럼, 팀원들이 정해진 전술(패턴)을 알고 있으면 복잡한 상황에서도 빠르게 협력할 수 있다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-[GoF 23 디자인 패턴] → [행위 패턴 11가지] → [전략·상태·[[267_observer_pattern|옵저버]]·[[271_command_pattern|커맨드]]·템플릿 메서드] → [함수형 패턴 단순화] → [리액티브 프로그래밍]
+[GoF 23 디자인 패턴] → [행위 패턴 11가지] → [전략·상태·[옵저버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/)·[커맨드](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/)·템플릿 메서드] → [함수형 패턴 단순화] → [리액티브 프로그래밍]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[242_solid_object_oriented_design_principles|SOLID]] 원칙 | [[266_behavioral_patterns_overview|행위 패턴]]이 [[746_ocp|OCP]]·[[243_srp_single_responsibility_principle|SRP]]·DIP를 구현하는 방법 |
-| [[324_functional_programming_core|함수형 프로그래밍]] | [[325_higher_order_function_closure|고차 함수]]로 많은 [[266_behavioral_patterns_overview|행위 패턴]]을 단순화 |
-| 리액티브 프로그래밍 | [[267_observer_pattern|옵저버]] 패턴의 함수형·비동기 확장 |
-| Spring AOP | [[269_template_method_pattern|템플릿 메서드]]·[[262_decorator_pattern_dynamic_wrapper|데코레이터]]의 프레임워크 구현 |
+| [SOLID](/knowledge-base/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/) 원칙 | [행위 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/)이 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/)·[SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/)·DIP를 구현하는 방법 |
+| [함수형 프로그래밍](/knowledge-base/studynote/04_software_engineering/06_software_architecture/324_functional_programming_core/) | [고차 함수](/knowledge-base/studynote/04_software_engineering/06_software_architecture/325_higher_order_function_closure/)로 많은 [행위 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/)을 단순화 |
+| 리액티브 프로그래밍 | [옵저버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/) 패턴의 함수형·비동기 확장 |
+| Spring AOP | [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)·[데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/)의 프레임워크 구현 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[GoF [[266_behavioral_patterns_overview|행위 패턴]](1994)] → [리팩터링·패턴 활용법(파울러)] → [함수형 프로그래밍 패턴 대체] → [리액티브 옵저버] → [[[190_ai_llm_requirements_specification|AI]] 패턴 추천]
+[GoF [행위 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/)(1994)] → [리팩터링·패턴 활용법(파울러)] → [함수형 프로그래밍 패턴 대체] → [리액티브 옵저버] → AI 패턴 추천]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [[266_behavioral_patterns_overview|행위 패턴]]은 사람들(객체)이 어떻게 소통하고 협력하는지에 관한 규칙이에요.
-2. 이메일([[267_observer_pattern|옵저버]]), 회의(미디에이터), 업무 지시([[271_command_pattern|커맨드]])처럼 상황에 맞는 소통 방식이 있어요.
+1. [행위 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/)은 사람들(객체)이 어떻게 소통하고 협력하는지에 관한 규칙이에요.
+2. 이메일([옵저버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/)), 회의(미디에이터), 업무 지시([커맨드](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/))처럼 상황에 맞는 소통 방식이 있어요.
 3. 적절한 패턴을 선택하면 복잡한 협력도 질서 있게 이루어질 수 있어요!
 
 ---
@@ -147,7 +151,7 @@ GoF [[266_behavioral_patterns_overview|행위 패턴]]을 이해하면 복잡한
 
 **진행 상황**: 252 / 530
 
-← **이전**: [[190_enterprise_di_framework_lifecycle|190. 엔터프라이즈 모듈 분리 의존성 주입(DI) 프레임워크 생명주기 관리 구조 (Spring Bean Lifecycle)]]
-**다음**: [[192_observer_pattern|192. 옵저버 패턴 (Observer Pattern)]] →
+← **이전**: [190. 엔터프라이즈 모듈 분리 의존성 주입(DI) 프레임워크 생명주기 관리 구조 (Spring Bean Lifecycle)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/)
+**다음**: [192. 옵저버 패턴 (Observer Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/192_observer_pattern/) →
 
 ---

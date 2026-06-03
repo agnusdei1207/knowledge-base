@@ -1,15 +1,19 @@
----
-title: 209. 감성 분석 (Sentiment Analysis)
-date: '2026-05-09'
-tags:
-- studynote-ai
----
++++
+title = "209. 감성 분석 (Sentiment Analysis)"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-ai"]
+
+[extra]
+tags = ["studynote-ai"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[105_exploratory_data_analysis|감성 분석]] ([[105_exploratory_data_analysis|Sentiment Analysis]])은 [[231_ai_turing_test|인공지능]]이 인간이 작성한 텍스트(리뷰, 트윗, 기사)의 행간에 숨겨진 감정 상태를 **'긍정(Positive)', '부정(Negative)', '중립(Neutral)'이라는 통계적 스코어(Score)**로 발라내는 자연어 처리(NLP) [[104_classification_analysis|분류]] 기술의 꽃이다.
-> 2. **가치**: 과거에는 수만 건의 고객 [[539_claims|클레임]](VOC)이나 신제품 리뷰를 직원들이 밤새워 읽으며 여론을 파악했다면, [[105_exploratory_data_analysis|감성 분석]] [[123_pipe|파이프]]라인은 1초 만에 100만 건의 트위터를 싹 긁어 "현재 우리 회사 신제품에 대한 대중의 분노 지수는 85%입니다"라고 실시간 위기관리 대시보드를 띄워주는 기업의 심장 [[229_monitor|모니터]]링 센서다.
-> 3. **판단 포인트**: '비꼬기(Sarcasm)'와 '문맥 의존성([[033_context|Context]]-dependency)'이 [[105_exploratory_data_analysis|감성 분석]] AI를 바보로 만드는 가장 악랄한 적이다. "이 영화 참 수면제로는 최고네요!"라는 리뷰를 긍정(최고)으로 오판하지 않도록, 단순한 단어 빈도수([[232_tfidf_cosine_similarity_text_embedding_confusion_matrix|TF-IDF]]) 매칭을 버리고 문장 전체의 뉘앙스를 쌍방향으로 씹어 먹는 **[[301_bert_mlm|BERT]] 기반의 파인튜닝 아키텍처**로 무조건 진화시켜야 실무 방어가 가능하다.
+> 1. **본질**: [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/) ([Sentiment Analysis](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/))은 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 인간이 작성한 텍스트(리뷰, 트윗, 기사)의 행간에 숨겨진 감정 상태를 **'긍정(Positive)', '부정(Negative)', '중립(Neutral)'이라는 통계적 스코어(Score)**로 발라내는 자연어 처리(NLP) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 기술의 꽃이다.
+> 2. **가치**: 과거에는 수만 건의 고객 [클레임](/knowledge-base/studynote/09_security/11_iam_access_control/539_claims/)(VOC)이나 신제품 리뷰를 직원들이 밤새워 읽으며 여론을 파악했다면, [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 1초 만에 100만 건의 트위터를 싹 긁어 "현재 우리 회사 신제품에 대한 대중의 분노 지수는 85%입니다"라고 실시간 위기관리 대시보드를 띄워주는 기업의 심장 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 센서다.
+> 3. **판단 포인트**: '비꼬기(Sarcasm)'와 '문맥 의존성([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)-dependency)'이 [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/) AI를 바보로 만드는 가장 악랄한 적이다. "이 영화 참 수면제로는 최고네요!"라는 리뷰를 긍정(최고)으로 오판하지 않도록, 단순한 단어 빈도수([TF-IDF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/)) 매칭을 버리고 문장 전체의 뉘앙스를 쌍방향으로 씹어 먹는 **[BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) 기반의 파인튜닝 아키텍처**로 무조건 진화시켜야 실무 방어가 가능하다.
 
 ---
 
@@ -17,8 +21,8 @@ tags:
 
 하루에 전 세계에서 쏟아지는 트위터(X) 게시물은 5억 개가 넘고, 아마존 쇼핑몰에는 1초마다 수천 개의 상품 리뷰가 달린다. 이 거대한 텍스트의 바다는 기업 입장에서 금광이다. 사람들이 우리 회사 브랜드나 경쟁사 제품에 대해 어떻게 느끼는지(Brand Reputation)를 실시간으로 안다면, 광고 마케팅을 어떻게 틀고 어떤 제품을 리콜할지 0.1초 만에 결정할 수 있기 때문이다.
 
-하지만 이 글들을 인간이 읽는 것은 물리적으로 불가능하다. 그래서 등장한 것이 **[[105_exploratory_data_analysis|감성 분석]] ([[105_exploratory_data_analysis|Sentiment Analysis]])**, 또는 **오피니언 마이닝(Opinion Mining)**이다. 
-초창기 [[105_exploratory_data_analysis|감성 분석]]은 단순히 사전에 "좋다=1점, 나쁘다=-1점"이라고 적어놓고 글 안에 무슨 단어가 많이 들어있는지 점수를 더하는 원시적인 덧셈 기계였다. 하지만 언어는 교활하다. "배송이 미치도록 빠르네요"라는 문장에서 '미치도록'은 사전적으로 부정적이지만 문맥상 극찬이다. 이 미묘한 뉘앙스의 한계를 돌파하기 위해, 딥러닝([[244_rnn_time_series_lstm_cell_gate_long_term_dependency|RNN]], [[292_lstm|LSTM]])이 도입되어 단어의 앞뒤 순서를 기억하기 시작했고, 마침내 [[246_transformer_self_attention_parallel_positional_encoding|트랜스포머]]([[246_transformer_self_attention_parallel_positional_encoding|Transformer]])가 문장 전체의 감정적 색채를 꿰뚫어 보며 [[105_exploratory_data_analysis|감성 분석]]은 인간의 눈치를 100% 모방하는 경지에 이르렀다.
+하지만 이 글들을 인간이 읽는 것은 물리적으로 불가능하다. 그래서 등장한 것이 **[감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/) ([Sentiment Analysis](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/))**, 또는 **오피니언 마이닝(Opinion Mining)**이다. 
+초창기 [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)은 단순히 사전에 "좋다=1점, 나쁘다=-1점"이라고 적어놓고 글 안에 무슨 단어가 많이 들어있는지 점수를 더하는 원시적인 덧셈 기계였다. 하지만 언어는 교활하다. "배송이 미치도록 빠르네요"라는 문장에서 '미치도록'은 사전적으로 부정적이지만 문맥상 극찬이다. 이 미묘한 뉘앙스의 한계를 돌파하기 위해, 딥러닝([RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/), [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/))이 도입되어 단어의 앞뒤 순서를 기억하기 시작했고, 마침내 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)([Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/))가 문장 전체의 감정적 색채를 꿰뚫어 보며 [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)은 인간의 눈치를 100% 모방하는 경지에 이르렀다.
 
 ```text
 ┌──────────────────────────────────────────────┐
@@ -29,13 +33,13 @@ tags:
 └──────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: [[105_exploratory_data_analysis|감성 분석]]은 기업의 '초음파 청진기'다. 예전엔 사장님이 고객의 마음을 알기 위해 100명에게 일일이 전화해서 물어봐야 했다. 지금은 청진기([[190_ai_llm_requirements_specification|AI]])를 인터넷이라는 거대한 바다에 딱 대기만 하면, 100만 명의 사람들이 웅성거리는 소리를 빨간색(분노), 파란색(우울), 노란색(환희)의 예쁜 온도계 [[070_graph_datastructure|그래프]]로 1초 만에 변환해서 사장님 [[229_monitor|모니터]]에 띄워준다.
+- **📢 섹션 요약 비유**: [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)은 기업의 '초음파 청진기'다. 예전엔 사장님이 고객의 마음을 알기 위해 100명에게 일일이 전화해서 물어봐야 했다. 지금은 청진기([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))를 인터넷이라는 거대한 바다에 딱 대기만 하면, 100만 명의 사람들이 웅성거리는 소리를 빨간색(분노), 파란색(우울), 노란색(환희)의 예쁜 온도계 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 1초 만에 변환해서 사장님 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)에 띄워준다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[[105_exploratory_data_analysis|감성 분석]]의 뇌 구조는 단순한 단어장 매칭에서 벗어나, 문맥의 깊은 뜻을 벡터(Vector)로 짓눌러 [[347_compaction|압축]]한 뒤 [[130_probability|확률]]로 뱉어내는 딥러닝 [[123_pipe|파이프]]라인으로 굴러간다.
+[감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)의 뇌 구조는 단순한 단어장 매칭에서 벗어나, 문맥의 깊은 뜻을 벡터(Vector)로 짓눌러 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)한 뒤 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 뱉어내는 딥러닝 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인으로 굴러간다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -58,60 +62,60 @@ tags:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-**핵심 원리 (ABSA, [[082_attribute_types_er_model|속성]] 기반 [[105_exploratory_data_analysis|감성 분석]])**:
-실무에서는 단순히 문장 전체가 긍정인지 부정인지 뭉뚱그려 묻지 않는다. 앞선 예시처럼 "화면은 긍정, 배터리는 부정"이라는 한 문장 안의 양면성을 발라내야 한다. 이를 **ABSA (Aspect-Based [[105_exploratory_data_analysis|Sentiment Analysis]], [[082_attribute_types_er_model|속성]] 기반 [[105_exploratory_data_analysis|감성 분석]])**라고 한다. AI는 먼저 문장에서 제품의 [[082_attribute_types_er_model|속성]](Aspect: 화면, 배터리, 가격)을 가위로 오려낸 뒤, 그 [[082_attribute_types_er_model|속성]] 단어 주변에 붙어있는 수식어들의 감성을 개별적으로 계산하여 1개의 리뷰에서 3개의 서로 다른 감성 점수를 동시에 뱉어내는 극도로 고도화된 타겟팅 분석을 수행한다.
+**핵심 원리 (ABSA, [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 기반 [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/))**:
+실무에서는 단순히 문장 전체가 긍정인지 부정인지 뭉뚱그려 묻지 않는다. 앞선 예시처럼 "화면은 긍정, 배터리는 부정"이라는 한 문장 안의 양면성을 발라내야 한다. 이를 **ABSA (Aspect-Based [Sentiment Analysis](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/), [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 기반 [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/))**라고 한다. AI는 먼저 문장에서 제품의 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(Aspect: 화면, 배터리, 가격)을 가위로 오려낸 뒤, 그 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 단어 주변에 붙어있는 수식어들의 감성을 개별적으로 계산하여 1개의 리뷰에서 3개의 서로 다른 감성 점수를 동시에 뱉어내는 극도로 고도화된 타겟팅 분석을 수행한다.
 
 | 요소 | 역할 |
 |:---|:---|
-| 입력 표현 | [[001_dikw_pyramid|데이터]]를 토큰·벡터·[[099_feature_map_activation_map_cnn_output|특성 맵]]으로 바꾸는 전처리 계층이다. |
-| 모델 구조 | 정보를 축적·선택·[[087_process_state_transition|생성]]하는 핵심 계산 흐름을 담당한다. |
+| 입력 표현 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 토큰·벡터·[특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)으로 바꾸는 전처리 계층이다. |
+| 모델 구조 | 정보를 축적·선택·[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 핵심 계산 흐름을 담당한다. |
 | 경량화 | 배포 환경에 맞춰 메모리와 연산량을 조정한다. |
-| 응용 [[090_service_kubernetes_network_load_balancing|서비스]] | 검색, [[087_process_state_transition|생성]], 추천, 제어 등 실제 문제 해결 단계로 이어진다. |
+| 응용 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | 검색, [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 추천, 제어 등 실제 문제 해결 단계로 이어진다. |
 
-- **📢 섹션 요약 비유**: 단순한 [[105_exploratory_data_analysis|감성 분석]]은 영화관 출구에서 "이 영화 재밌었어요?" 묻고 "네!" 하면 긍정 [[238_switch_operation_principles|스위치]]를 누르는 1차원적 문지기다. 하지만 ABSA([[082_attribute_types_er_model|속성]] 기반)는 미식가 평론가다. 한 그릇의 짬뽕을 먹고 "국물([[082_attribute_types_er_model|속성]])은 얼큰해서 100점(+)인데, 면발([[082_attribute_types_er_model|속성]])은 너무 불어서 10점(-)이네"라며 재료별로 점수를 갈기갈기 찢어서 완벽한 해설지를 써주는 고차원 미각 센서다.
+- **📢 섹션 요약 비유**: 단순한 [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)은 영화관 출구에서 "이 영화 재밌었어요?" 묻고 "네!" 하면 긍정 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 누르는 1차원적 문지기다. 하지만 ABSA([속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 기반)는 미식가 평론가다. 한 그릇의 짬뽕을 먹고 "국물([속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))은 얼큰해서 100점(+)인데, 면발([속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))은 너무 불어서 10점(-)이네"라며 재료별로 점수를 갈기갈기 찢어서 완벽한 해설지를 써주는 고차원 미각 센서다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-감성을 분석하는 [[001_algorithm_definition|알고리즘]]은 3번의 패러다임 시프트를 거치며 인간의 뉘앙스를 완벽히 [[219_benchmarking_best_practice|벤치마킹]]했다.
+감성을 분석하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 3번의 패러다임 시프트를 거치며 인간의 뉘앙스를 완벽히 [벤치마킹](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/219_benchmarking_best_practice/)했다.
 
-| 분석 [[001_algorithm_definition|알고리즘]] 세대 | 원리 및 방식 | 가장 큰 장점 | 치명적 한계 및 버그 (반어법 대처) |
+| 분석 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 세대 | 원리 및 방식 | 가장 큰 장점 | 치명적 한계 및 버그 (반어법 대처) |
 |:---|:---|:---|:---|
-| **1세대: 사전 기반 (Lexicon-based)** | "최고=2점", "최악=-2점" 감성 사전(Dictionary)을 만들어두고 글 안의 단어 점수를 다 더함 | 컴퓨터 자원([[418_gpu|GPU]])이 아예 필요 없고 코드 10줄이면 1초 만에 돌아감. | "안(Not) 예쁘다"를 그냥 "예쁘다"로 보고 긍정 점수를 줘버리는 바보. 비꼬기 0% 이해 불가. |
-| **2세대: [[241_machine_learning_basics|머신러닝]] ([[232_tfidf_cosine_similarity_text_embedding_confusion_matrix|TF-IDF]] + [[238_svm_margin_kernel_trick_naive_bayes|SVM]]/NB)**| 글자를 빈도수 엑셀 표([[232_tfidf_cosine_similarity_text_embedding_confusion_matrix|TF-IDF]])로 바꾼 뒤 통계 [[104_classification_analysis|분류]]기([[238_svm_margin_kernel_trick_naive_bayes|SVM]])로 긍/부정 경계선을 그어버림 | 사전이 없어도 학습 [[001_dikw_pyramid|데이터]]만 있으면 어느 정도 문장 패턴을 스스로 찾아냄. | 여전히 단어의 '순서'를 모름. "맛있게 맵다"와 "맵게 맛있다"의 미묘한 차이를 구별 못 함. |
-| **3세대: 딥러닝 ([[301_bert_mlm|BERT]] / [[263_llm_large_language_model|LLM]])** | 문장의 앞뒤 맥락을 양방향으로 100% 흡수하는 [[246_transformer_self_attention_parallel_positional_encoding|트랜스포머]](Attention) 뇌를 파인튜닝해서 적용. | **"참나, 정말 친절하시네요 ^^"라는 비꼬기(Sarcasm)마저 99%의 눈치로 부정(Negative)으로 잡아내는 짐승 같은 촉.** | 훈련시키려면 수만 개의 정답지(Labeling)와 비싼 [[418_gpu|GPU]] 인프라가 필수적임. |
+| **1세대: 사전 기반 (Lexicon-based)** | "최고=2점", "최악=-2점" 감성 사전(Dictionary)을 만들어두고 글 안의 단어 점수를 다 더함 | 컴퓨터 자원([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))이 아예 필요 없고 코드 10줄이면 1초 만에 돌아감. | "안(Not) 예쁘다"를 그냥 "예쁘다"로 보고 긍정 점수를 줘버리는 바보. 비꼬기 0% 이해 불가. |
+| **2세대: [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) ([TF-IDF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/) + [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/)/NB)**| 글자를 빈도수 엑셀 표([TF-IDF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/))로 바꾼 뒤 통계 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기([SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/))로 긍/부정 경계선을 그어버림 | 사전이 없어도 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 있으면 어느 정도 문장 패턴을 스스로 찾아냄. | 여전히 단어의 '순서'를 모름. "맛있게 맵다"와 "맵게 맛있다"의 미묘한 차이를 구별 못 함. |
+| **3세대: 딥러닝 ([BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) / [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))** | 문장의 앞뒤 맥락을 양방향으로 100% 흡수하는 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)(Attention) 뇌를 파인튜닝해서 적용. | **"참나, 정말 친절하시네요 ^^"라는 비꼬기(Sarcasm)마저 99%의 눈치로 부정(Negative)으로 잡아내는 짐승 같은 촉.** | 훈련시키려면 수만 개의 정답지(Labeling)와 비싼 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 인프라가 필수적임. |
 
-최근에는 파인튜닝조차 하지 않고, 그냥 프롬프트 창에 **"이 리뷰가 긍정인지 부정인지 JSON으로 대답해 줘"**라고 거대 언어 모델([[302_gpt_autoregressive|GPT]]-4)에게 시키는 **제로샷 프롬프팅([[585_zero_skipping|Zero]]-shot Prompting)** 방식이 3세대 BERT마저 밀어내고 산업계의 끝판왕으로 올라서고 있다.
+최근에는 파인튜닝조차 하지 않고, 그냥 프롬프트 창에 **"이 리뷰가 긍정인지 부정인지 JSON으로 대답해 줘"**라고 거대 언어 모델([GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4)에게 시키는 **제로샷 프롬프팅([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-shot Prompting)** 방식이 3세대 BERT마저 밀어내고 산업계의 끝판왕으로 올라서고 있다.
 
-- **📢 섹션 요약 비유**: 1세대는 외국인이 사전만 들고 한국어를 해석하는 거다. "이 식당 아주 죽여주네"를 듣고 사전에 '죽이다(Kill)=나쁨'이라고 적혀있어 경찰에 신고하는 바보다. 3세대([[301_bert_mlm|BERT]]/[[263_llm_large_language_model|LLM]])는 20년 산 한국 토박이다. "죽여주네"라는 말을 듣자마자 앞뒤 상황과 상대방의 표정(문맥)을 보고 0.1초 만에 "아, 미치도록 맛있다는 극찬이구나!"라고 100% 완벽하게 통역해 내는 눈치 100단의 원어민이다.
+- **📢 섹션 요약 비유**: 1세대는 외국인이 사전만 들고 한국어를 해석하는 거다. "이 식당 아주 죽여주네"를 듣고 사전에 '죽이다(Kill)=나쁨'이라고 적혀있어 경찰에 신고하는 바보다. 3세대([BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)/[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))는 20년 산 한국 토박이다. "죽여주네"라는 말을 듣자마자 앞뒤 상황과 상대방의 표정(문맥)을 보고 0.1초 만에 "아, 미치도록 맛있다는 극찬이구나!"라고 100% 완벽하게 통역해 내는 눈치 100단의 원어민이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-증권사에서 뉴스 기사로 내일 주가의 폭등/폭락(Sentiment)을 예측하는 [[001_algorithm_definition|알고리즘]] 트레이딩 봇이나, 콜센터(AICC)에서 분노한 고객의 전화를 상담원에게 1순위로 돌려주는 [[123_pipe|파이프]]라인을 짤 때 [[348_mlops|MLOps]] 엔지니어의 튜닝이 필수적이다.
+증권사에서 뉴스 기사로 내일 주가의 폭등/폭락(Sentiment)을 예측하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 트레이딩 봇이나, 콜센터(AICC)에서 분노한 고객의 전화를 상담원에게 1순위로 돌려주는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 짤 때 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 엔지니어의 튜닝이 필수적이다.
 
-### 실무 아키텍처 판단 ([[435_checklist_based_testing|체크리스트]])
-1. **[[064_relation_domain|도메인]] 특화 사전 및 파인튜닝([[064_relation_domain|Domain]]-Specific [[304_fine_tuning|Fine-Tuning]]) 강제**: 가장 끔찍한 실수는 네이버 영화 리뷰(Naver Sentiment Movie Corpus)로 훈련된 똑똑한 [[301_bert_mlm|BERT]] 모델을, 주식 시장 뉴스 분석 API에 그대로 가져다 꽂는 것이다. 주식 시장에서 "테슬라 주가 [[489_raid_10_hybrid|10]]% 하락(Fall)"은 공포(부정)지만, 쇼핑몰에서 "아이폰 가격 [[489_raid_10_hybrid|10]]% 하락"은 환희(긍정)다. 단어의 감성은 [[064_relation_domain|도메인]]([[064_relation_domain|Domain]])에 따라 180도 뒤집힌다. 반드시 금융 [[064_relation_domain|도메인]]이나 의료 [[064_relation_domain|도메인]]의 자체 코퍼스(Corpus) 수만 장으로 모델 뇌의 [[267_weight_bias_activation|가중치]]를 새로 구워버리는 **[[064_relation_domain|도메인]] 적응 파인튜닝([[064_relation_domain|Domain]] Adaptation)**이 선행되지 않으면 회사가 파산한다.
-2. **동적 [[431_ssthresh_slow_start_threshold|임계치]] (Dynamic Threshold) 튜닝을 통한 FNR 방어**: 콜센터 분노 감지 AI에서 "긍정 51% vs 부정 49%"라고 뜨면 로봇은 긍정이라고 기계적으로 판단한다. 하지만 49%의 분노를 가진 고객을 긍정이라고 오판(False Negative)해서 뺑뺑이 ARS로 돌리면 고객은 폭발하여 회사를 고소한다. 긍정/부정의 커트라인(Threshold)을 무식하게 50%로 두지 말고, **"부정 [[130_probability|확률]]이 30%만 넘어가도 무조건 비상 알람(분노)으로 [[104_classification_analysis|분류]]해라"**라고 [[431_ssthresh_slow_start_threshold|임계치]]를 극도로 보수적으로 깎아 내려 위험을 헷징(Hedging)하는 비즈니스 방어 로직이 코드 단에 하드코딩되어야 한다.
+### 실무 아키텍처 판단 ([체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/))
+1. **[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 사전 및 파인튜닝([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)-Specific [Fine-Tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)) 강제**: 가장 끔찍한 실수는 네이버 영화 리뷰(Naver Sentiment Movie Corpus)로 훈련된 똑똑한 [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) 모델을, 주식 시장 뉴스 분석 API에 그대로 가져다 꽂는 것이다. 주식 시장에서 "테슬라 주가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 하락(Fall)"은 공포(부정)지만, 쇼핑몰에서 "아이폰 가격 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 하락"은 환희(긍정)다. 단어의 감성은 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))에 따라 180도 뒤집힌다. 반드시 금융 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)이나 의료 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)의 자체 코퍼스(Corpus) 수만 장으로 모델 뇌의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 새로 구워버리는 **[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 적응 파인튜닝([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Adaptation)**이 선행되지 않으면 회사가 파산한다.
+2. **동적 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) (Dynamic Threshold) 튜닝을 통한 FNR 방어**: 콜센터 분노 감지 AI에서 "긍정 51% vs 부정 49%"라고 뜨면 로봇은 긍정이라고 기계적으로 판단한다. 하지만 49%의 분노를 가진 고객을 긍정이라고 오판(False Negative)해서 뺑뺑이 ARS로 돌리면 고객은 폭발하여 회사를 고소한다. 긍정/부정의 커트라인(Threshold)을 무식하게 50%로 두지 말고, **"부정 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 30%만 넘어가도 무조건 비상 알람(분노)으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)해라"**라고 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 극도로 보수적으로 깎아 내려 위험을 헷징(Hedging)하는 비즈니스 방어 로직이 코드 단에 하드코딩되어야 한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
-- **중립(Neutral) 클래스의 무지성 삭제 (Binary Forcing)**: [[001_dikw_pyramid|데이터]] 과학자들이 모델의 정확도 숫자(Accuracy)를 높게 보이려고, 애매한 "그냥 보통이네요" 같은 중립 리뷰 [[001_dikw_pyramid|데이터]]를 훈련셋에서 싹 다 지워버리고 오직 '긍정 vs 부정'이라는 극단적인 이진 [[104_classification_analysis|분류]](Binary)로만 모델을 훈련시키는 사기극. 세상의 리뷰 중 50%는 중립이다. 실전에 이 모델을 띄우면, "물건 잘 받았습니다"라는 무미건조한 말에도 혼자 급발진해서 긍정 99%나 부정 99%의 양극단으로 찍어버리는 끔찍한 조현병 챗봇이 탄생한다. 무조건 3-Class(긍정/중립/부정)로 설계해야 세상의 이치를 담을 수 있다.
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- **중립(Neutral) 클래스의 무지성 삭제 (Binary Forcing)**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학자들이 모델의 정확도 숫자(Accuracy)를 높게 보이려고, 애매한 "그냥 보통이네요" 같은 중립 리뷰 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 훈련셋에서 싹 다 지워버리고 오직 '긍정 vs 부정'이라는 극단적인 이진 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)(Binary)로만 모델을 훈련시키는 사기극. 세상의 리뷰 중 50%는 중립이다. 실전에 이 모델을 띄우면, "물건 잘 받았습니다"라는 무미건조한 말에도 혼자 급발진해서 긍정 99%나 부정 99%의 양극단으로 찍어버리는 끔찍한 조현병 챗봇이 탄생한다. 무조건 3-Class(긍정/중립/부정)로 설계해야 세상의 이치를 담을 수 있다.
 
-- **📢 섹션 요약 비유**: [[064_relation_domain|도메인]] 파인튜닝은 로봇에게 사투리를 가르치는 것과 같다. 서울에서 배운 깍쟁이 AI에게 부산에 가서 "친구가 나보고 '미친놈아'라고 했어"라는 문장을 해석하라고 하면, 서울 AI는 100% 욕설(부정)이라고 신고한다. 하지만 부산 사람들의 억양과 문맥([[064_relation_domain|도메인]] 지식)으로 뇌를 다시 세팅(파인튜닝)해 주면, "아, 진짜 친해서 부르는 애정(긍정) 표현이구나!"라고 귀신같이 찰떡 해석을 해낸다. 그라운드에 맞는 룰을 뇌에 깔아주는 게 핵심이다.
+- **📢 섹션 요약 비유**: [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 파인튜닝은 로봇에게 사투리를 가르치는 것과 같다. 서울에서 배운 깍쟁이 AI에게 부산에 가서 "친구가 나보고 '미친놈아'라고 했어"라는 문장을 해석하라고 하면, 서울 AI는 100% 욕설(부정)이라고 신고한다. 하지만 부산 사람들의 억양과 문맥([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식)으로 뇌를 다시 세팅(파인튜닝)해 주면, "아, 진짜 친해서 부르는 애정(긍정) 표현이구나!"라고 귀신같이 찰떡 해석을 해낸다. 그라운드에 맞는 룰을 뇌에 깔아주는 게 핵심이다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[[105_exploratory_data_analysis|감성 분석]]([[105_exploratory_data_analysis|Sentiment Analysis]])의 안착은 [[231_ai_turing_test|인공지능]]이 인간의 차가운 '[[369_logic_bomb|논리]]'를 계산하는 것을 넘어, 따뜻하고 때로는 변덕스러운 '마음(Heart)'을 읽어내는 공감의 시대로 진입했음을 알리는 [[130_signal|신호]]탄이다. 
+[감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)([Sentiment Analysis](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/))의 안착은 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 인간의 차가운 '[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)'를 계산하는 것을 넘어, 따뜻하고 때로는 변덕스러운 '마음(Heart)'을 읽어내는 공감의 시대로 진입했음을 알리는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)탄이다. 
 
-과거 수십억 원을 들여 설문조사를 돌려야 알 수 있었던 대중의 심리 변화를, 이제 기업들은 트위터 [[014_api_posix|API]] [[123_pipe|파이프]]라인 하나만 걸어두면 0.1초 단위의 꺾은선 [[070_graph_datastructure|그래프]](Sentiment Trend)로 공짜로 받아먹고 있다. 대통령 선거의 향방을 예측하고, 신작 영화의 흥행 수입을 미리 맞추며, 우울증 환자의 SNS 글을 스캔해 자살 위험을 0.01초 만에 감지하고 구급차를 보내는 등 [[105_exploratory_data_analysis|감성 분석]]은 인류의 감정을 통계로 치환해 낸 가장 위대한 거울이다.
+과거 수십억 원을 들여 설문조사를 돌려야 알 수 있었던 대중의 심리 변화를, 이제 기업들은 트위터 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 하나만 걸어두면 0.1초 단위의 꺾은선 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(Sentiment Trend)로 공짜로 받아먹고 있다. 대통령 선거의 향방을 예측하고, 신작 영화의 흥행 수입을 미리 맞추며, 우울증 환자의 SNS 글을 스캔해 자살 위험을 0.01초 만에 감지하고 구급차를 보내는 등 [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)은 인류의 감정을 통계로 치환해 낸 가장 위대한 거울이다.
 
-앞으로의 [[105_exploratory_data_analysis|감성 분석]]은 단순히 글자(Text)만 읽는 데 머물지 않는다. 내 스마트폰 카메라가 내 눈동자의 흔들림(Vision)을 읽고, 마이크가 내 목소리의 떨림(Audio)을 파악해 글의 텍스트와 완벽하게 섞어버리는 **[[158_multimodal_clip_vision_audio_encoding|멀티모달]] [[105_exploratory_data_analysis|감성 분석]] ([[158_multimodal_clip_vision_audio_encoding|Multimodal]] [[105_exploratory_data_analysis|Sentiment Analysis]])**으로 폭주 중이다. 내 입으론 "괜찮아"라고 치고 있지만, [[231_ai_turing_test|인공지능]]은 내 목소리의 떨림을 분석해 "이 사람은 지금 슬픔 99% 상태입니다"라고 내 본심마저 완벽히 발가벗겨버리는, 무섭도록 다정하고 예리한 감정의 엑스레이 시대가 도래했다.
+앞으로의 [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)은 단순히 글자(Text)만 읽는 데 머물지 않는다. 내 스마트폰 카메라가 내 눈동자의 흔들림(Vision)을 읽고, 마이크가 내 목소리의 떨림(Audio)을 파악해 글의 텍스트와 완벽하게 섞어버리는 **[멀티모달](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/) ([Multimodal](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) [Sentiment Analysis](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/))**으로 폭주 중이다. 내 입으론 "괜찮아"라고 치고 있지만, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)은 내 목소리의 떨림을 분석해 "이 사람은 지금 슬픔 99% 상태입니다"라고 내 본심마저 완벽히 발가벗겨버리는, 무섭도록 다정하고 예리한 감정의 엑스레이 시대가 도래했다.
 
-- **📢 섹션 요약 비유**: [[105_exploratory_data_analysis|감성 분석]]은 세상의 모든 말 뒤에 숨겨진 '투명 잉크'를 읽어내는 특수 안경이다. 인간들은 서로 가짜 웃음을 지으며 빈말을 던지지만, 이 특수 안경([[190_ai_llm_requirements_specification|AI]])을 끼고 글을 쳐다보면 글자 밑에 억눌린 분노, 벅찬 기쁨, 불안감이라는 진짜 감정의 색깔들이 시뻘겋게, 새파랗게 빛나며 거짓 없는 진실을 낱낱이 폭로해 버린다.
+- **📢 섹션 요약 비유**: [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)은 세상의 모든 말 뒤에 숨겨진 '투명 잉크'를 읽어내는 특수 안경이다. 인간들은 서로 가짜 웃음을 지으며 빈말을 던지지만, 이 특수 안경([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))을 끼고 글을 쳐다보면 글자 밑에 억눌린 분노, 벅찬 기쁨, 불안감이라는 진짜 감정의 색깔들이 시뻘겋게, 새파랗게 빛나며 거짓 없는 진실을 낱낱이 폭로해 버린다.
 
 ---
 
@@ -119,10 +123,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **자연어 처리 (NLP)** | 컴퓨터가 인간의 언어를 알아먹게 만드는 가장 거대한 우주. [[105_exploratory_data_analysis|감성 분석]]은 이 NLP 우주 안에서 가장 돈벌이가 잘되고 실용적인 최고의 킬러 앱 중 하나 |
-| **ABSA ([[082_attribute_types_er_model|속성]] 기반 [[105_exploratory_data_analysis|감성 분석]])** | 문장 전체를 하나로 퉁치지 않고, "국물은 좋고, 면발은 별로네"처럼 문장을 가위로 오려서 재료([[082_attribute_types_er_model|속성]])별로 감성 점수를 따로따로 매겨주는 끝판왕 디테일 기술 |
-| **[[232_tfidf_cosine_similarity_text_embedding_confusion_matrix|TF-IDF]] / [[278_instruction_tuning|임베딩]] ([[278_instruction_tuning|Embedding]])** | 글자를 AI가 좋아하는 숫자(벡터)로 바꿔주는데, 옛날엔 글자가 몇 번 나왔냐만 무식하게 셌지만([[232_tfidf_cosine_similarity_text_embedding_confusion_matrix|TF-IDF]]), 지금은 단어의 느낌과 뉘앙스를 우주의 좌표([[278_instruction_tuning|임베딩]])로 예쁘게 찍어서 전달함 |
-| **[[301_bert_mlm|BERT]] / 파인튜닝** | "너 정말 착하다 ^^"라는 글 뒤에 숨은 서늘한 비꼬기(Sarcasm)를 눈치껏 캐치하기 위해, 앞뒤 문맥을 100% 동시에 씹어 먹는 가장 훌륭한 3세대 [[246_transformer_self_attention_parallel_positional_encoding|트랜스포머]] 뇌 구조 |
+| **자연어 처리 (NLP)** | 컴퓨터가 인간의 언어를 알아먹게 만드는 가장 거대한 우주. [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)은 이 NLP 우주 안에서 가장 돈벌이가 잘되고 실용적인 최고의 킬러 앱 중 하나 |
+| **ABSA ([속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 기반 [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/))** | 문장 전체를 하나로 퉁치지 않고, "국물은 좋고, 면발은 별로네"처럼 문장을 가위로 오려서 재료([속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))별로 감성 점수를 따로따로 매겨주는 끝판왕 디테일 기술 |
+| **[TF-IDF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/) / [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) ([Embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/))** | 글자를 AI가 좋아하는 숫자(벡터)로 바꿔주는데, 옛날엔 글자가 몇 번 나왔냐만 무식하게 셌지만([TF-IDF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/)), 지금은 단어의 느낌과 뉘앙스를 우주의 좌표([임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/))로 예쁘게 찍어서 전달함 |
+| **[BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) / 파인튜닝** | "너 정말 착하다 ^^"라는 글 뒤에 숨은 서늘한 비꼬기(Sarcasm)를 눈치껏 캐치하기 위해, 앞뒤 문맥을 100% 동시에 씹어 먹는 가장 훌륭한 3세대 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 뇌 구조 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -132,9 +136,9 @@ tags:
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [[105_exploratory_data_analysis|감성 분석]]은 [[231_ai_turing_test|인공지능]] 로봇이 사람들이 쓴 글이나 댓글을 읽고, 이 사람이 지금 **기분이 좋은지, 화가 났는지, 슬픈지 마음의 온도**를 재주는 '마음 청진기'예요.
+1. [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)은 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 로봇이 사람들이 쓴 글이나 댓글을 읽고, 이 사람이 지금 **기분이 좋은지, 화가 났는지, 슬픈지 마음의 온도**를 재주는 '마음 청진기'예요.
 2. 옛날 로봇은 글씨만 읽을 줄 알아서 "참~ 친절하시네요"라고 비꼬는 댓글을 보고 "우와, 칭찬이다!" 하고 속아 넘어가는 바보였어요.
-3. 하지만 지금 똑똑해진 로봇([[301_bert_mlm|BERT]])은 문장의 앞뒤 분위기나 말투(문맥)를 완벽하게 눈치채서, 아무리 빙빙 돌려서 말해도 "이 사람 지금 엄청 삐쳐있어!"라고 0.1초 만에 딱 맞추는 천재 탐정이 되었답니다.
+3. 하지만 지금 똑똑해진 로봇([BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/))은 문장의 앞뒤 분위기나 말투(문맥)를 완벽하게 눈치채서, 아무리 빙빙 돌려서 말해도 "이 사람 지금 엄청 삐쳐있어!"라고 0.1초 만에 딱 맞추는 천재 탐정이 되었답니다.
 
 ---
 
@@ -142,7 +146,7 @@ tags:
 
 **진행 상황**: 209 / 420
 
-← **이전**: [[208_mrc_machine_reading_comprehension|208. 기계 독해 (MRC, Machine Reading Comprehension)]]
-**다음**: [[210_ner_named_entity_recognition|210. 개체명 인식 (NER, Named Entity Recognition)]] →
+← **이전**: [208. 기계 독해 (MRC, Machine Reading Comprehension)](/knowledge-base/studynote/10_ai/03_llm_nlp/208_mrc_machine_reading_comprehension/)
+**다음**: [210. 개체명 인식 (NER, Named Entity Recognition)](/knowledge-base/studynote/10_ai/03_llm_nlp/210_ner_named_entity_recognition/) →
 
 ---

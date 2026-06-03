@@ -1,18 +1,22 @@
----
-title: 038. 잔여 위험 (Residual Risk) — 통제 후 남는 위험
-date: '2026-03-03'
-tags:
-- studynote-security
----
++++
+title = "038. 잔여 위험 (Residual Risk) — 통제 후 남는 위험"
+date = 2026-03-03
+
+[taxonomies]
+tags = ["studynote-security"]
+
+[extra]
+tags = ["studynote-security"]
++++
 
 > **핵심 인사이트**
-> 1. 잔여 위험(Residual [[096_risk_non_risk_architecture_evaluation_flaws|Risk]])은 보안 통제를 적용한 후에도 남아 있는 위험으로, 이론상 위험을 완전히 제거하는 것은 불가능하므로 "얼마나 수용 가능한 수준으로 줄였는가"가 보안 관리의 본질적 목표다.
-> 2. 잔여 [[037_risk_acceptance|위험 수용]](Acceptance)은 위험을 무시하는 것이 아니라 통제 비용이 잠재적 피해보다 크거나 비즈니스상 불가피한 경우의 의식적 결정이며, 경영진 서명이 있는 공식 문서로 기록되어야 한다.
-> 3. 잔여 위험의 핵심 공식: 잔여 위험 = 내재 위험(Inherent [[096_risk_non_risk_architecture_evaluation_flaws|Risk]]) × (1 - 통제 효과성) — 통제가 100% 효과적이지 않음을 인정하고 나머지를 관리하는 것이 성숙한 위험 관리다.
+> 1. 잔여 위험(Residual [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))은 보안 통제를 적용한 후에도 남아 있는 위험으로, 이론상 위험을 완전히 제거하는 것은 불가능하므로 "얼마나 수용 가능한 수준으로 줄였는가"가 보안 관리의 본질적 목표다.
+> 2. 잔여 [위험 수용](/knowledge-base/studynote/09_security/01_intro_principles/037_risk_acceptance/)(Acceptance)은 위험을 무시하는 것이 아니라 통제 비용이 잠재적 피해보다 크거나 비즈니스상 불가피한 경우의 의식적 결정이며, 경영진 서명이 있는 공식 문서로 기록되어야 한다.
+> 3. 잔여 위험의 핵심 공식: 잔여 위험 = 내재 위험(Inherent [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)) × (1 - 통제 효과성) — 통제가 100% 효과적이지 않음을 인정하고 나머지를 관리하는 것이 성숙한 위험 관리다.
 
 ---
 
-## I. 위험 처리 [[268_strategy_pattern|전략]] 4가지
+## I. 위험 처리 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 4가지
 
 ```
 위험 처리 옵션 (ISO 31000):
@@ -37,7 +41,7 @@ tags:
 -> 수용, 추가 완화, 전가 중 선택
 ```
 
-> 📢 **섹션 요약 비유**: 집에 자물쇠(통제) 달아도 완전히 안전하지 않음 — 잔여 [[037_risk_acceptance|위험 수용]]은 "이 정도면 충분하다"는 집주인의 의식적 결정.
+> 📢 **섹션 요약 비유**: 집에 자물쇠(통제) 달아도 완전히 안전하지 않음 — 잔여 [위험 수용](/knowledge-base/studynote/09_security/01_intro_principles/037_risk_acceptance/)은 "이 정도면 충분하다"는 집주인의 의식적 결정.
 
 ---
 
@@ -65,11 +69,11 @@ tags:
   위험 허용 한도 < 잔여 위험 -> 추가 통제 필요
 ```
 
-> 📢 **섹션 요약 비유**: 차보험은 운전 실력(통제)으로 사고 [[130_probability|확률]] 70% 감소 후 나머지 30% 위험에 대한 전가(보험) — 잔여 위험 관리의 현실.
+> 📢 **섹션 요약 비유**: 차보험은 운전 실력(통제)으로 사고 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 70% 감소 후 나머지 30% 위험에 대한 전가(보험) — 잔여 위험 관리의 현실.
 
 ---
 
-## III. [[037_risk_acceptance|위험 수용]]의 요건
+## III. [위험 수용](/knowledge-base/studynote/09_security/01_intro_principles/037_risk_acceptance/)의 요건
 
 ```
 잔여 위험 수용 절차:
@@ -98,11 +102,11 @@ ISMS-P에서:
   외부 감사 시 핵심 확인 항목
 ```
 
-> 📢 **섹션 요약 비유**: 잔여 [[037_risk_acceptance|위험 수용]]은 의사의 수술 동의서처럼 — 위험을 알면서도 진행하는 의식적 서명, 무시와는 완전히 다름.
+> 📢 **섹션 요약 비유**: 잔여 [위험 수용](/knowledge-base/studynote/09_security/01_intro_principles/037_risk_acceptance/)은 의사의 수술 동의서처럼 — 위험을 알면서도 진행하는 의식적 서명, 무시와는 완전히 다름.
 
 ---
 
-## [[288_version_ihl_tos_total_length|IV]]. 보안 통제의 효과성 한계
+## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 보안 통제의 효과성 한계
 
 ```
 통제 효과성이 100%가 될 수 없는 이유:
@@ -128,7 +132,7 @@ ISMS-P에서:
 -> 심층 방어(Defense in Depth) 전략으로 최소화
 ```
 
-> 📢 **섹션 요약 비유**: 아무리 잘 잠근 집도 내부에서 문 열어주는 사람(내부자)이나 모르는 열쇠([[761_zero_day|제로데이]]) 앞에선 취약 — 통제는 [[130_probability|확률]]을 줄일 뿐.
+> 📢 **섹션 요약 비유**: 아무리 잘 잠근 집도 내부에서 문 열어주는 사람(내부자)이나 모르는 열쇠([제로데이](/knowledge-base/studynote/09_security/15_malware_attack_vectors/761_zero_day/)) 앞에선 취약 — 통제는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 줄일 뿐.
 
 ---
 
@@ -160,7 +164,7 @@ Risk Acceptance Form:
   서명: CISO, IT 운영 팀장
 ```
 
-> 📢 **섹션 요약 비유**: 지금 당장 수술 못하니 약([[696_waf_web_application_firewall|WAF]])으로 증상 관리하면서 3개월 후 수술(패치) 예약 — 잔여 위험을 알고 관리하는 것.
+> 📢 **섹션 요약 비유**: 지금 당장 수술 못하니 약([WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/))으로 증상 관리하면서 3개월 후 수술(패치) 예약 — 잔여 위험을 알고 관리하는 것.
 
 ---
 
@@ -221,7 +225,7 @@ Risk Acceptance Form:
 
 **진행 상황**: 38 / 1108
 
-← **이전**: [[037_risk_acceptance|037. 위험 수용 (Risk Acceptance)]]
-**다음**: [[039_detected_vs_undetected_risk|039. 탐지 위험 vs 미탐지 위험 (Detected vs Undetected Risk)]] →
+← **이전**: [037. 위험 수용 (Risk Acceptance)](/knowledge-base/studynote/09_security/01_intro_principles/037_risk_acceptance/)
+**다음**: [039. 탐지 위험 vs 미탐지 위험 (Detected vs Undetected Risk)](/knowledge-base/studynote/09_security/01_intro_principles/039_detected_vs_undetected_risk/) →
 
 ---

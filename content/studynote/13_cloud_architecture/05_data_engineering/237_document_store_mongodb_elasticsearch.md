@@ -1,20 +1,24 @@
----
-title: 237. 도큐먼트 저장소 (Document Store) - MongoDB / Elasticsearch
-date: '2026-04-21'
-tags:
-- studynote-cloud-architecture
----
++++
+title = "237. 도큐먼트 저장소 (Document Store) - MongoDB / Elasticsearch"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-cloud-architecture"]
+
+[extra]
+tags = ["studynote-cloud-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 도큐먼트 저장소([[037_document|Document Store]])는 [[343_json|JSON]]/BSON 형태의 **계층적 중첩 구조**를 단일 문서([[037_document|Document]])로 저장하며, 각 문서가 서로 다른 필드를 가질 수 있는 **[[005_schema|스키마]]리스(Schema-less)** 유연성을 제공한다.
-> 2. **가치**: MongoDB는 복잡한 중첩 객체를 [[521_join|JOIN]] 없이 단일 문서로 저장해 **읽기 [[282_performance_tactics|성능]]을 극대화**하고, Elasticsearch는 역인덱스([[500_inverted_index_elasticsearch|Inverted Index]]) 기반의 **전문 검색(Full-Text Search)**에 특화되어 있다.
-> 3. **판단 포인트**: MongoDB는 애플리케이션 [[001_dikw_pyramid|데이터]] 저장소, Elasticsearch는 검색·분석·[[568_logs_distributed_logging_elk_fluentd|로그]] 가시성 플랫폼으로 역할이 다르며, 많은 기업이 **주 저장소([[540_mongodb|MongoDB]]) + 검색 [[154_database_index_b_tree_search_optimization|인덱스]]([[302_cdc|Elasticsearch]])** 패턴을 병행한다.
+> 1. **본질**: 도큐먼트 저장소([Document Store](/knowledge-base/studynote/14_data_engineering/01_infrastructure/037_document/))는 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/)/BSON 형태의 **계층적 중첩 구조**를 단일 문서([Document](/knowledge-base/studynote/14_data_engineering/01_infrastructure/037_document/))로 저장하며, 각 문서가 서로 다른 필드를 가질 수 있는 **[스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)리스(Schema-less)** 유연성을 제공한다.
+> 2. **가치**: MongoDB는 복잡한 중첩 객체를 [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 없이 단일 문서로 저장해 **읽기 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 극대화**하고, Elasticsearch는 역인덱스([Inverted Index](/knowledge-base/studynote/05_database/07_exam_summary/500_inverted_index_elasticsearch/)) 기반의 **전문 검색(Full-Text Search)**에 특화되어 있다.
+> 3. **판단 포인트**: MongoDB는 애플리케이션 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소, Elasticsearch는 검색·분석·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 가시성 플랫폼으로 역할이 다르며, 많은 기업이 **주 저장소([MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/)) + 검색 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)([Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/))** 패턴을 병행한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-전자상거래 주문 [[001_dikw_pyramid|데이터]]를 RDBMS로 저장하려면 orders, order_items, shipping_addresses 등 여러 테이블로 정규화하고 JOIN해야 한다. 도큐먼트 저장소는 이 [[001_dikw_pyramid|데이터]]를 **하나의 [[343_json|JSON]] 문서**로 저장하여 [[521_join|JOIN]] 없이 단일 조회로 완성된 [[001_dikw_pyramid|데이터]]를 반환한다.
+전자상거래 주문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 RDBMS로 저장하려면 orders, order_items, shipping_addresses 등 여러 테이블로 정규화하고 JOIN해야 한다. 도큐먼트 저장소는 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 **하나의 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 문서**로 저장하여 [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 없이 단일 조회로 완성된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 반환한다.
 
 ```
 [RDBMS vs Document Store 비교]
@@ -37,13 +41,13 @@ Document Store (MongoDB):
   → db.orders.findOne({_id: "order_001"})  (단일 조회)
 ```
 
-📢 **섹션 요약 비유**: 도큐먼트 저장소는 [[501_file_definition_logical_record|파일]] 봉투 시스템이다. 한 건의 주문 관련 서류(고객 정보, 배송지, 상품 목록)를 봉투 하나에 다 넣어두면, 해당 주문 봉투만 꺼내면 모든 정보가 있다. RDBMS는 각 서류를 별도 서랍에 보관하고 매번 꺼내 맞춰야 한다.
+📢 **섹션 요약 비유**: 도큐먼트 저장소는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 봉투 시스템이다. 한 건의 주문 관련 서류(고객 정보, 배송지, 상품 목록)를 봉투 하나에 다 넣어두면, 해당 주문 봉투만 꺼내면 모든 정보가 있다. RDBMS는 각 서류를 별도 서랍에 보관하고 매번 꺼내 맞춰야 한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [[540_mongodb|MongoDB]] 아키텍처
+### [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/) 아키텍처
 
 ```
 ┌────────────────────────────────────────────────────────────┐
@@ -64,7 +68,7 @@ Document Store (MongoDB):
 └────────────────────────────────────────────────────────────┘
 ```
 
-### [[540_mongodb|MongoDB]] 집계 파이프라인
+### [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/) 집계 파이프라인
 
 ```javascript
 // 집계 파이프라인 예시: 월별 카테고리별 매출
@@ -80,7 +84,7 @@ db.orders.aggregate([
 ])
 ```
 
-### [[302_cdc|Elasticsearch]] 역인덱스 원리
+### [Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/) 역인덱스 원리
 
 ```
 [역인덱스 (Inverted Index) 구조]
@@ -102,7 +106,7 @@ db.orders.aggregate([
   → 교집합 + TF-IDF 스코어링 → Doc1(연관성 높음), Doc2
 ```
 
-### [[302_cdc|Elasticsearch]] 아키텍처
+### [Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/) 아키텍처
 
 ```
 [Elasticsearch 클러스터]
@@ -118,27 +122,27 @@ db.orders.aggregate([
 P = Primary, R = Replica
 ```
 
-📢 **섹션 요약 비유**: 역인덱스는 책 뒷면 색인([[154_database_index_b_tree_search_optimization|Index]])과 같다. "[[542_redis|Redis]]"를 색인에서 찾으면 관련 [[286_page_frame|페이지]] 번호가 나오듯이, ES는 단어→문서 목록 매핑으로 수억 개 문서에서도 밀리초 만에 검색 결과를 반환한다.
+📢 **섹션 요약 비유**: 역인덱스는 책 뒷면 색인([Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))과 같다. "[Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/)"를 색인에서 찾으면 관련 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 번호가 나오듯이, ES는 단어→문서 목록 매핑으로 수억 개 문서에서도 밀리초 만에 검색 결과를 반환한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### [[540_mongodb|MongoDB]] vs [[302_cdc|Elasticsearch]] 비교
+### [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/) vs [Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/) 비교
 
-| 비교 항목 | [[540_mongodb|MongoDB]] | [[302_cdc|Elasticsearch]] |
+| 비교 항목 | [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/) | [Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/) |
 |:---|:---|:---|
-| **주요 목적** | 애플리케이션 [[001_dikw_pyramid|데이터]] 저장소 | 전문 검색·[[119_log_analysis|로그 분석]] |
-| **[[298_qkv_attention|쿼리]] 강점** | 복잡한 CRUD, 집계 | 전문 검색, 점수 기반 랭킹 |
-| **[[005_schema|스키마]]** | 완전 [[005_schema|스키마]]리스 | 매핑(동적 추론 가능) |
-| **[[191_transaction_concept_states|트랜잭션]]** | ACID (v4.0+, 다중 문서) | 없음 |
-| **[[289_cqrs_db|쓰기]] [[282_performance_tactics|성능]]** | 우수 | 보통 (인덱싱 오버헤드) |
+| **주요 목적** | 애플리케이션 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소 | 전문 검색·[로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/) |
+| **[쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 강점** | 복잡한 CRUD, 집계 | 전문 검색, 점수 기반 랭킹 |
+| **[스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)** | 완전 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)리스 | 매핑(동적 추론 가능) |
+| **[트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)** | ACID (v4.0+, 다중 문서) | 없음 |
+| **[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)** | 우수 | 보통 (인덱싱 오버헤드) |
 | **텍스트 검색** | 기본 지원 | 탁월 (형태소 분석기) |
-| **집계** | 집계 파이프라인 | Aggregation [[014_api_posix|API]] |
-| **스케일** | 수평 [[280_sharding|샤딩]] | 수평 [[280_sharding|샤딩]] |
-| **적합 사례** | 콘텐츠 관리, 주문, 이커머스 | 검색 엔진, [[119_log_analysis|로그 분석]], [[162_apm_application_performance_management|APM]] |
+| **집계** | 집계 파이프라인 | Aggregation [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) |
+| **스케일** | 수평 [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) | 수평 [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) |
+| **적합 사례** | 콘텐츠 관리, 주문, 이커머스 | 검색 엔진, [로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/), [APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/) |
 
-### ELK [[057_stack|스택]] ([[302_cdc|Elasticsearch]] + Logstash + [[169_kibana|Kibana]])
+### ELK [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) ([Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/) + Logstash + [Kibana](/knowledge-base/studynote/16_bigdata/08_visualization/169_kibana/))
 
 ```
 [ELK 로그 분석 파이프라인]
@@ -152,13 +156,13 @@ Kibana: ES 데이터 시각화 대시보드
   - SIEM (보안 이벤트 모니터링)
 ```
 
-📢 **섹션 요약 비유**: MongoDB는 회사 내부 [[501_file_definition_logical_record|파일]] 서버(주문·고객 [[001_dikw_pyramid|데이터]] 저장), Elasticsearch는 구글 검색(빠른 텍스트 검색·분석)이다. 많은 회사가 [[501_file_definition_logical_record|파일]] 서버에 저장하고, 중요 [[501_file_definition_logical_record|파일]]은 검색 시스템에도 인덱싱하는 방식으로 두 시스템을 병행한다.
+📢 **섹션 요약 비유**: MongoDB는 회사 내부 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 서버(주문·고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장), Elasticsearch는 구글 검색(빠른 텍스트 검색·분석)이다. 많은 회사가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 서버에 저장하고, 중요 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 검색 시스템에도 인덱싱하는 방식으로 두 시스템을 병행한다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[540_mongodb|MongoDB]] 인덱싱 [[268_strategy_pattern|전략]]
+### [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/) 인덱싱 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
 ```javascript
 // 단일 필드 인덱스
@@ -177,7 +181,7 @@ db.sessions.createIndex({ expiredAt: 1 }, { expireAfterSeconds: 0 })
 db.orders.explain("executionStats").find({ customer_id: "U001" })
 ```
 
-### [[302_cdc|Elasticsearch]] 한국어 검색 [[009_config|설정]]
+### [Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/) 한국어 검색 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
 
 ```json
 {
@@ -202,7 +206,7 @@ db.orders.explain("executionStats").find({ customer_id: "U001" })
 }
 ```
 
-📢 **섹션 요약 비유**: [[540_mongodb|MongoDB]] [[154_database_index_b_tree_search_optimization|인덱스]]는 책의 목차다. "customer_id + status"로 [[154_database_index_b_tree_search_optimization|인덱스]]를 만들면, 특정 고객의 특정 상태 주문을 목차에서 바로 찾을 수 있다. [[154_database_index_b_tree_search_optimization|인덱스]]가 없으면 모든 주문을 하나씩 확인해야 한다(Full Collection Scan).
+📢 **섹션 요약 비유**: [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 책의 목차다. "customer_id + status"로 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 만들면, 특정 고객의 특정 상태 주문을 목차에서 바로 찾을 수 있다. [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 없으면 모든 주문을 하나씩 확인해야 한다(Full Collection Scan).
 
 ---
 
@@ -212,37 +216,37 @@ db.orders.explain("executionStats").find({ customer_id: "U001" })
 
 | 효과 | 내용 |
 |:---|:---|
-| **개발 속도** | [[005_schema|스키마]]리스로 [[005_schema|스키마]] 변경 없이 새 필드 즉시 추가 |
-| **[[298_qkv_attention|쿼리]] 단순화** | [[521_join|JOIN]] 없는 단일 문서 조회로 애플리케이션 코드 단순화 |
+| **개발 속도** | [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)리스로 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경 없이 새 필드 즉시 추가 |
+| **[쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 단순화** | [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 없는 단일 문서 조회로 애플리케이션 코드 단순화 |
 | **검색 품질** | ES 형태소 분석·TF-IDF로 의미 기반 검색 |
-| **수평 확장** | [[280_sharding|샤딩]]으로 [[001_dikw_pyramid|데이터]] 증가에 선형 대응 |
+| **수평 확장** | [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증가에 선형 대응 |
 
 ### 한계 및 주의점
 
 | 한계 | 내용 |
 |:---|:---|
-| **문서 크기 제한** | [[540_mongodb|MongoDB]] 단일 문서 16MB 제한 |
-| **[[191_transaction_concept_states|트랜잭션]] [[282_performance_tactics|성능]]** | 다중 문서 ACID는 [[540_mongodb|MongoDB]] 4.0+에서 가능하나 [[282_performance_tactics|성능]] 저하 |
-| **ES [[289_cqrs_db|쓰기]] [[015_지연_데이터_관점|지연]]** | 역인덱스 구축으로 실시간 [[289_cqrs_db|쓰기]] 후 검색 반영 1초 [[015_지연_데이터_관점|지연]] |
-| **[[001_dikw_pyramid|데이터]] 중복** | 비정규화 문서 구조로 동일 [[001_dikw_pyramid|데이터]] 중복 저장 가능 |
+| **문서 크기 제한** | [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/) 단일 문서 16MB 제한 |
+| **[트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)** | 다중 문서 ACID는 [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/) 4.0+에서 가능하나 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 |
+| **ES [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)** | 역인덱스 구축으로 실시간 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 후 검색 반영 1초 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
+| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중복** | 비정규화 문서 구조로 동일 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중복 저장 가능 |
 
-📢 **섹션 요약 비유**: 도큐먼트 저장소의 비정규화는 중복 복사를 감수하는 것이다. 각 주문 문서에 고객 이름을 복사해 넣으면(중복), 고객 이름 변경 시 모든 주문 문서를 업데이트해야 한다. 빠른 읽기를 위해 [[289_cqrs_db|쓰기]] 복잡성을 감수하는 트레이드오프다.
+📢 **섹션 요약 비유**: 도큐먼트 저장소의 비정규화는 중복 복사를 감수하는 것이다. 각 주문 문서에 고객 이름을 복사해 넣으면(중복), 고객 이름 변경 시 모든 주문 문서를 업데이트해야 한다. 빠른 읽기를 위해 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 복잡성을 감수하는 트레이드오프다.
 
 ---
 
 ### 📌 관련 개념 맵
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[035_nosql|NoSQL]] 4가지 유형 | 도큐먼트 저장소는 4가지 유형 중 가장 범용 |
-| [[540_mongodb|MongoDB]] Atlas | MongoDB의 완전 관리형 클라우드 [[090_service_kubernetes_network_load_balancing|서비스]] |
-| [[302_cdc|Elasticsearch]] (ELK) | [[119_log_analysis|로그 분석]]·APM의 표준 [[057_stack|스택]] |
-| 역인덱스 ([[500_inverted_index_elasticsearch|Inverted Index]]) | ES 전문 검색의 핵심 자료구조 |
-| [[280_sharding|샤딩]] | [[540_mongodb|MongoDB]]/ES 수평 확장 메커니즘 |
-| [[217_cdc_binlog_change_capture_debezium|CDC]] / Debezium | [[540_mongodb|MongoDB]] 변경 이벤트 → [[179_kafka_flink_watermark_time_window|Kafka]] 스트리밍 |
-| 집계 파이프라인 | [[540_mongodb|MongoDB]] [[316_olap|OLAP]] 유사 집계 기능 |
+| [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) 4가지 유형 | 도큐먼트 저장소는 4가지 유형 중 가장 범용 |
+| [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/) Atlas | MongoDB의 완전 관리형 클라우드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) |
+| [Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/) (ELK) | [로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/)·APM의 표준 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) |
+| 역인덱스 ([Inverted Index](/knowledge-base/studynote/05_database/07_exam_summary/500_inverted_index_elasticsearch/)) | ES 전문 검색의 핵심 자료구조 |
+| [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) | [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/)/ES 수평 확장 메커니즘 |
+| [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) / Debezium | [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/) 변경 이벤트 → [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 스트리밍 |
+| 집계 파이프라인 | [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/) [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/) 유사 집계 기능 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 도큐먼트 저장소는 스크랩북이다. 한 사람의 정보(사진, 연락처, 취미)를 하나의 스크랩 [[286_page_frame|페이지]]에 다 붙여두면, 그 [[286_page_frame|페이지]]만 펼쳐도 모든 정보가 있다.
+1. 도큐먼트 저장소는 스크랩북이다. 한 사람의 정보(사진, 연락처, 취미)를 하나의 스크랩 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에 다 붙여두면, 그 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)만 펼쳐도 모든 정보가 있다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -258,7 +262,7 @@ Document DB: JSON/BSON 문서 단위 저장 (JOIN 불필요)
 활용: CMS · 카탈로그 · 사용자 프로필 · 로그
 ```
 2. MongoDB는 자유 노트 앱이다. 줄이 없는 노트처럼 각 메모(문서)가 원하는 형태로 저장되고, 메모마다 다른 내용을 적어도 된다.
-3. Elasticsearch는 강력한 책 검색 시스템이다. "레시피 책"을 찾을 때 "레시피"나 "조리법"을 검색해도 찾아주고, 어떤 책이 더 관련 있는지 점수([[232_tfidf_cosine_similarity_text_embedding_confusion_matrix|TF-IDF]])로 정렬해서 보여준다.
+3. Elasticsearch는 강력한 책 검색 시스템이다. "레시피 책"을 찾을 때 "레시피"나 "조리법"을 검색해도 찾아주고, 어떤 책이 더 관련 있는지 점수([TF-IDF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/))로 정렬해서 보여준다.
 
 ---
 
@@ -266,7 +270,7 @@ Document DB: JSON/BSON 문서 단위 저장 (JOIN 불필요)
 
 **진행 상황**: 236 / 371
 
-← **이전**: [[236_key_value_store_redis_dynamodb|236. 키-값 저장소 (Key-Value Store) - Redis / DynamoDB]]
-**다음**: [[238_wide_column_cassandra_hbase_lsm|238. 와이드 컬럼 저장소 (Wide-Column Store) - Cassandra / HBase]] →
+← **이전**: [236. 키-값 저장소 (Key-Value Store) - Redis / DynamoDB](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/236_key_value_store_redis_dynamodb/)
+**다음**: [238. 와이드 컬럼 저장소 (Wide-Column Store) - Cassandra / HBase](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/238_wide_column_cassandra_hbase_lsm/) →
 
 ---

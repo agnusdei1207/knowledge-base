@@ -1,20 +1,24 @@
----
-title: 226. 피어슨 상관 (Pearson Correlation) 회귀 R² 결정계수 다중공선성 VIF
-date: '2026-04-21'
-tags:
-- studynote-data-engineering
----
++++
+title = "226. 피어슨 상관 (Pearson Correlation) 회귀 R² 결정계수 다중공선성 VIF"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-data-engineering"]
+
+[extra]
+tags = ["studynote-data-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 피어슨 상관계수(Pearson Correlation Coefficient)는 두 연속 변수 간 선형 [[083_relationship_in_er_model|관계]] 강도와 방향을 -1~+1로 나타내며, 단순선형회귀(Simple Linear Regression)는 이 [[083_relationship_in_er_model|관계]]를 예측 모델로 발전시킨다.
-> 2. **가치**: R²(R-Squared, 결정계수)는 모델이 종속변수 [[136_variance|분산]]의 몇 %를 설명하는지 알려주며, VIF([[136_variance|Variance]] Inflation Factor, [[136_variance|분산]]팽창지수)는 다중회귀에서 독립변수 간 다중공선성([[080_multicollinearity_vif_variance_inflation_factor_regression|Multicollinearity]]) 문제를 진단한다.
-> 3. **판단 포인트**: 높은 R²가 좋은 모델을 보장하지 않는다. 과적합([[245_overfitting_variance|Overfitting]])·다중공선성·이분산성을 함께 진단해야 실용적인 회귀 모델이 된다.
+> 1. **본질**: 피어슨 상관계수(Pearson Correlation Coefficient)는 두 연속 변수 간 선형 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 강도와 방향을 -1~+1로 나타내며, 단순선형회귀(Simple Linear Regression)는 이 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 예측 모델로 발전시킨다.
+> 2. **가치**: R²(R-Squared, 결정계수)는 모델이 종속변수 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)의 몇 %를 설명하는지 알려주며, VIF([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) Inflation Factor, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)팽창지수)는 다중회귀에서 독립변수 간 다중공선성([Multicollinearity](/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/)) 문제를 진단한다.
+> 3. **판단 포인트**: 높은 R²가 좋은 모델을 보장하지 않는다. 과적합([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))·다중공선성·이분산성을 함께 진단해야 실용적인 회귀 모델이 된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[[149_regression_analysis|회귀 분석]]([[149_regression_analysis|Regression Analysis]])은 [[001_dikw_pyramid|데이터]] 분석에서 가장 많이 쓰이는 예측 도구다. 마케팅 지출이 매출에 얼마나 기여하는지, 집 크기가 가격을 얼마나 설명하는지를 수치로 표현한다.
+[회귀 분석](/knowledge-base/studynote/08_algorithm_stats/08_stats/149_regression_analysis/)([Regression Analysis](/knowledge-base/studynote/08_algorithm_stats/08_stats/149_regression_analysis/))은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석에서 가장 많이 쓰이는 예측 도구다. 마케팅 지출이 매출에 얼마나 기여하는지, 집 크기가 가격을 얼마나 설명하는지를 수치로 표현한다.
 
 ### 분석 흐름
 
@@ -48,12 +52,12 @@ r = ─────────────────────────�
 
 | r 값 범위 | 해석 |
 |:---|:---|
-| +0.9 ~ +1.0 | 매우 강한 양의 선형 [[083_relationship_in_er_model|관계]] |
-| +0.7 ~ +0.9 | 강한 양의 선형 [[083_relationship_in_er_model|관계]] |
-| +0.4 ~ +0.7 | 중간 양의 선형 [[083_relationship_in_er_model|관계]] |
-| -0.3 ~ +0.3 | [[083_relationship_in_er_model|관계]] 매우 약함 또는 없음 |
-| -0.7 ~ -0.4 | 중간 음의 선형 [[083_relationship_in_er_model|관계]] |
-| -1.0 ~ -0.7 | 강한 음의 선형 [[083_relationship_in_er_model|관계]] |
+| +0.9 ~ +1.0 | 매우 강한 양의 선형 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
+| +0.7 ~ +0.9 | 강한 양의 선형 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
+| +0.4 ~ +0.7 | 중간 양의 선형 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
+| -0.3 ~ +0.3 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 매우 약함 또는 없음 |
+| -0.7 ~ -0.4 | 중간 음의 선형 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
+| -1.0 ~ -0.7 | 강한 음의 선형 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 
 **주의**: 상관 ≠ 인과관계. 아이스크림 판매량과 익사 사고 수는 r ≈ 0.85이지만, 원인은 "더운 날씨"다.
 
@@ -87,7 +91,7 @@ R² = 1 - SSE/SST  (SSE: 잔차 제곱합)
 
 | R² 값 | 해석 | 주의사항 |
 |:---|:---|:---|
-| 0.9 이상 | 모델이 90%+ [[136_variance|분산]] 설명 | 과적합 가능성 [[396_validation|확인]] 필요 |
+| 0.9 이상 | 모델이 90%+ [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 설명 | 과적합 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 필요 |
 | 0.7 ~ 0.9 | 좋은 설명력 | 잔차 패턴 분석 필요 |
 | 0.5 ~ 0.7 | 보통 수준 | 변수 추가·변환 고려 |
 | 0.5 미만 | 설명력 낮음 | 모델 재검토 필요 |
@@ -102,7 +106,7 @@ Adj R² = 1 - ────────────────
 n: 표본 크기, k: 독립변수 수
 ```
 
-### 2-4. 다중공선성 ([[080_multicollinearity_vif_variance_inflation_factor_regression|Multicollinearity]]) & VIF
+### 2-4. 다중공선성 ([Multicollinearity](/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/)) & VIF
 
 다중회귀에서 독립변수들이 서로 강하게 상관될 때 발생. 계수 추정이 불안정해지고 해석이 왜곡된다.
 
@@ -124,7 +128,7 @@ VIF ≥ 10       → 심각한 공선성 (변수 제거·변환 필요)
 
 | 다중공선성 진단 도구 | 설명 |
 |:---|:---|
-| VIF ([[136_variance|분산]]팽창지수) | 각 변수별 공선성 수치화 |
+| VIF ([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)팽창지수) | 각 변수별 공선성 수치화 |
 | Condition Number (조건수) | 30 이상이면 심각 |
 | Correlation Matrix (상관 행렬) | 독립변수 간 상관계수 매트릭스 |
 | Tolerance (허용도) | 1/VIF, 0.1 미만이면 위험 |
@@ -135,7 +139,7 @@ VIF ≥ 10       → 심각한 공선성 (변수 제거·변환 필요)
 
 ## Ⅲ. 비교 및 연결
 
-### 3-1. 회귀 진단 [[435_checklist_based_testing|체크리스트]]
+### 3-1. 회귀 진단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 ```
 회귀 모델 진단 4대 가정 (LINE)
@@ -150,18 +154,18 @@ E: Equal Variance    (등분산성) → Scale-Location 플롯, BP 검정
 
 | 구분 | 피어슨 상관 (Pearson) | 스피어만 상관 (Spearman) |
 |:---|:---|:---|
-| [[001_dikw_pyramid|데이터]] 유형 | 연속형, 정규분포 가정 | 순위형, 비정규 분포 |
-| 측정 대상 | 선형 [[083_relationship_in_er_model|관계]] | 단조 증가/감소 [[083_relationship_in_er_model|관계]] |
+| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유형 | 연속형, 정규분포 가정 | 순위형, 비정규 분포 |
+| 측정 대상 | 선형 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 단조 증가/감소 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 | 이상값 민감도 | 민감함 | 강건(Robust) |
-| 사용 시점 | 정규성 만족 시 | 비정규 또는 순위 [[001_dikw_pyramid|데이터]] |
+| 사용 시점 | 정규성 만족 시 | 비정규 또는 순위 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 
-### 3-3. 다중공선성 해결 [[268_strategy_pattern|전략]]
+### 3-3. 다중공선성 해결 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
-| [[268_strategy_pattern|전략]] | 방법 | 적용 시점 |
+| [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 방법 | 적용 시점 |
 |:---|:---|:---|
 | 변수 제거 | VIF 높은 변수 중 하나 제거 | 이론적 근거 있을 때 |
-| Ridge 회귀 | L2 [[093_normalization|정규화]]로 계수 [[347_compaction|압축]] | 모든 변수 유지 필요 시 |
-| [[163_pca|PCA]] (주성분분석) | 상관 변수를 독립 주성분으로 변환 | 탐색적 분석 |
+| Ridge 회귀 | L2 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)로 계수 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) | 모든 변수 유지 필요 시 |
+| [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) (주성분분석) | 상관 변수를 독립 주성분으로 변환 | 탐색적 분석 |
 | 중심화 | 변수를 평균 빼서 변환 | 교호작용 항 포함 시 |
 
 📢 **섹션 요약 비유**: 다중공선성 해결은 "비슷한 역할을 하는 사원 중 한 명을 다른 팀으로 이동시키거나, 두 명을 합쳐 한 역할로 만드는 것"과 같다.
@@ -170,7 +174,7 @@ E: Equal Variance    (등분산성) → Scale-Location 플롯, BP 검정
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 4-1. 마케팅 [[012_roi_return_on_investment|ROI]]([[012_roi_return_on_investment|Return on Investment]]) 분석 시나리오
+### 4-1. 마케팅 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/)([Return on Investment](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/)) 분석 시나리오
 
 ```
 [목표] TV 광고비·SNS 광고비·할인율 → 매출 예측
@@ -194,8 +198,8 @@ R² = 0.84, Adj R² = 0.82
 
 | 항목 | 설명 | 수식/기준 |
 |:---|:---|:---|
-| 피어슨 r | 선형 [[083_relationship_in_er_model|관계]] 강도 | -1 ≤ r ≤ +1 |
-| R² | 설명된 [[136_variance|분산]] 비율 | 0~1 |
+| 피어슨 r | 선형 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 강도 | -1 ≤ r ≤ +1 |
+| R² | 설명된 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 비율 | 0~1 |
 | Adj R² | 변수 수 보정 R² | 변수 추가 페널티 |
 | VIF | 다중공선성 진단 | ≥ 10이면 심각 |
 | OLS | 최소제곱법 | 잔차 제곱합 최소화 |
@@ -206,37 +210,37 @@ R² = 0.84, Adj R² = 0.82
 
 ## Ⅴ. 기대효과 및 결론
 
-피어슨 상관·회귀·R²·VIF는 통계적 [[001_dikw_pyramid|데이터]] 분석의 기초이자, [[241_machine_learning_basics|머신러닝]] 모델 해석의 기반이다. 이 개념들을 정확히 이해하면 블랙박스 모델의 특성 중요도 해석도 더 깊어진다.
+피어슨 상관·회귀·R²·VIF는 통계적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석의 기초이자, [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델 해석의 기반이다. 이 개념들을 정확히 이해하면 블랙박스 모델의 특성 중요도 해석도 더 깊어진다.
 
 ### 핵심 요약
 
 | 개념 | 목적 | 주요 판단 기준 |
 |:---|:---|:---|
-| 피어슨 r | 선형 [[083_relationship_in_er_model|관계]] 탐색 | \|r\| > 0.7 강한 [[083_relationship_in_er_model|관계]] |
-| OLS 회귀 | 예측 모델 수립 | 잔차 정규성·등분산성 [[396_validation|확인]] |
+| 피어슨 r | 선형 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 탐색 | \|r\| > 0.7 강한 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
+| OLS 회귀 | 예측 모델 수립 | 잔차 정규성·등분산성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
 | R² | 모델 설명력 | 목적에 따라 다름 |
 | Adj R² | 변수 수 보정 설명력 | R² 대신 다중회귀에서 사용 |
-| VIF | 다중공선성 진단 | VIF ≥ [[489_raid_10_hybrid|10]] 경고 |
+| VIF | 다중공선성 진단 | VIF ≥ [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 경고 |
 
-기술사 시험에서 [[149_regression_analysis|회귀 분석]]은 **"가정 검토(LINE) + 다중공선성 VIF + R² 한계 + 인과관계 오해 주의"** 를 4대 포인트로 서술해야 완성도 높은 답안이 된다.
+기술사 시험에서 [회귀 분석](/knowledge-base/studynote/08_algorithm_stats/08_stats/149_regression_analysis/)은 **"가정 검토(LINE) + 다중공선성 VIF + R² 한계 + 인과관계 오해 주의"** 를 4대 포인트로 서술해야 완성도 높은 답안이 된다.
 
-📢 **섹션 요약 비유**: [[149_regression_analysis|회귀 분석]]은 "과거 [[001_dikw_pyramid|데이터]]로 미래를 예측하는 타임머신 설계도"다. 좋은 설계도(높은 R²)라도 설계 오류(다중공선성, 가정 위반)가 있으면 타임머신은 엉뚱한 곳으로 간다.
+📢 **섹션 요약 비유**: [회귀 분석](/knowledge-base/studynote/08_algorithm_stats/08_stats/149_regression_analysis/)은 "과거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 미래를 예측하는 타임머신 설계도"다. 좋은 설계도(높은 R²)라도 설계 오류(다중공선성, 가정 위반)가 있으면 타임머신은 엉뚱한 곳으로 간다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| [[083_relationship_in_er_model|관계]] | 개념 | 설명 |
+| [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
 |:---|:---|:---|
-| 핵심 | Pearson r (피어슨 상관계수) | 선형 [[083_relationship_in_er_model|관계]] 강도 -1~+1 |
+| 핵심 | Pearson r (피어슨 상관계수) | 선형 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 강도 -1~+1 |
 | 핵심 | OLS (Ordinary Least Squares) | 최소제곱법 회귀 |
 | 핵심 | R² (결정계수) | 모델 설명력 |
 | 핵심 | Adjusted R² (조정 결정계수) | 변수 수 보정 설명력 |
-| 진단 | VIF ([[136_variance|Variance]] Inflation Factor) | 다중공선성 수치 |
+| 진단 | VIF ([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) Inflation Factor) | 다중공선성 수치 |
 | 진단 | Residual Analysis (잔차 분석) | 모델 가정 검토 |
-| 비교 | Spearman Correlation (스피어만) | 비모수 단조 [[083_relationship_in_er_model|관계]] |
-| 해결 | Ridge Regression | L2 [[093_normalization|정규화]] 다중공선성 대응 |
-| 해결 | [[163_pca|PCA]] (주성분분석) | 차원 축소로 공선성 제거 |
+| 비교 | Spearman Correlation (스피어만) | 비모수 단조 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
+| 해결 | Ridge Regression | L2 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 다중공선성 대응 |
+| 해결 | [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) (주성분분석) | 차원 축소로 공선성 제거 |
 | 오류 | Correlation ≠ Causation | 상관관계 ≠ 인과관계 |
 
 ---
@@ -259,7 +263,7 @@ R² = 0.84, Adj R² = 0.82
 모델 평가: R² · VIF (다중공선성) · 잔차 분석
 ```
 2. R²는 "내 예측이 정답의 몇 %를 맞혔는지" 알려주는 점수표이고, VIF는 "두 선생님이 똑같은 내용을 가르쳐서 어느 선생님이 진짜 도움이 됐는지 모르겠다"는 문제를 찾아내는 것이다.
-3. [[149_regression_analysis|회귀 분석]]은 과거 [[001_dikw_pyramid|데이터]]로 미래를 예측하는 공식이지만, "아이스크림 잘 팔리면 익사 사고가 늘어나니 아이스크림 금지!"처럼 엉뚱한 인과관계로 착각하지 않도록 조심해야 한다.
+3. [회귀 분석](/knowledge-base/studynote/08_algorithm_stats/08_stats/149_regression_analysis/)은 과거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 미래를 예측하는 공식이지만, "아이스크림 잘 팔리면 익사 사고가 늘어나니 아이스크림 금지!"처럼 엉뚱한 인과관계로 착각하지 않도록 조심해야 한다.
 
 ---
 
@@ -267,7 +271,7 @@ R² = 0.84, Adj R² = 0.82
 
 **진행 상황**: 226 / 258
 
-← **이전**: [[225_kdd_t_test_anova_statistical_analysis|225. KDD (Knowledge Discovery in Databases) T검정 ANOVA 통계 분석]]
-**다음**: [[227_logistic_regression_clt_pvalue_type_error|227. 로지스틱 회귀 (Logistic Regression) CLT p-value 1/2종 오류]] →
+← **이전**: [225. KDD (Knowledge Discovery in Databases) T검정 ANOVA 통계 분석](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/225_kdd_t_test_anova_statistical_analysis/)
+**다음**: [227. 로지스틱 회귀 (Logistic Regression) CLT p-value 1/2종 오류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/) →
 
 ---

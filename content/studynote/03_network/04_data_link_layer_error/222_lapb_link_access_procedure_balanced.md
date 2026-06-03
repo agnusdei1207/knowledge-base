@@ -1,13 +1,17 @@
----
-title: 222. LAPB (Link Access Procedure Balanced)
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "222. LAPB (Link Access Procedure Balanced)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: LAPB는 [[001_dikw_pyramid|데이터]] 링크 계층에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 1. **본질**: LAPB는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
 > 2. **가치**: LAPB를 이해하면 오류율과 재전송 비용 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
@@ -15,10 +19,10 @@ tags:
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: LAPB (Link Access Procedure, Balanced)는 ITU-T의 X.25 [[295_protocol_field_tcp_udp_icmp|프로토콜]] [[057_stack|스택]] 중 계층 2 ([[001_dikw_pyramid|데이터]] 링크 계층)를 담당하며, DTE ([[001_dikw_pyramid|Data]] Terminal Equipment)와 DCE ([[001_dikw_pyramid|Data]] Circuit-terminating Equipment) 사이에서 오류 없는 [[001_dikw_pyramid|데이터]] 프레임 전송을 책임지는 동기식 [[073_bit|비트]] 지향 [[295_protocol_field_tcp_udp_icmp|프로토콜]]이다.
-- **필요성**: [[459_quic_fec_forward_error_correction|초기]] [[001_dikw_pyramid|데이터]] 통신 환경은 물리적 회선의 품질이 낮아 전송 중 [[073_bit|비트]] 에러가 빈번했다. 노드와 네트워크 장비 간의 연결 구간에서 발생한 오류를 종단([[401_transport_layer_role_end_to_end_multiplexing|End-to-End]])까지 끌고 가면 전체 네트워크 효율이 급감하므로, 각 링크 구간마다 즉각적으로 오류를 감지하고 재전송([[949_arq_automatic_repeat_request_go_back_n_selective|ARQ]])하는 강력한 '수문장' 역할이 필요했다.
+- **개념**: LAPB (Link Access Procedure, Balanced)는 ITU-T의 X.25 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 중 계층 2 ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층)를 담당하며, DTE ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Terminal Equipment)와 DCE ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Circuit-terminating Equipment) 사이에서 오류 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 프레임 전송을 책임지는 동기식 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 지향 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이다.
+- **필요성**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신 환경은 물리적 회선의 품질이 낮아 전송 중 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 에러가 빈번했다. 노드와 네트워크 장비 간의 연결 구간에서 발생한 오류를 종단([End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/))까지 끌고 가면 전체 네트워크 효율이 급감하므로, 각 링크 구간마다 즉각적으로 오류를 감지하고 재전송([ARQ](/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/))하는 강력한 '수문장' 역할이 필요했다.
 - **비유**: LAPB는 두 국가 간의 국경 검문소와 같다. 어느 한쪽이 우위에 있지 않고 동등한 자격(Balanced)으로 양방향에서 들어오는 화물(프레임)의 송장(FCS)을 검사하며, 불량품이 발견되면 즉시 반송(REJ)하여 내부로 불량품이 유입되는 것을 차단한다.
-- **등장 배경 및 발전 과정**: [[216_hdlc_high_level_data_link_control|HDLC]] (High-Level [[001_dikw_pyramid|Data]] Link Control) [[295_protocol_field_tcp_udp_icmp|프로토콜]]은 세 가지 동작 모드([[219_nrm_arm_abm_hdlc_modes|NRM]], ARM, ABM)를 가졌는데, 이 중 양 노드가 동등한 지위를 가지는 ABM (Asynchronous Balanced Mode)의 장점만을 차용하여 X.25 망 전용으로 경량화/최적화한 것이 바로 LAPB이다.
+- **등장 배경 및 발전 과정**: [HDLC](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) (High-Level [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Link Control) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 세 가지 동작 모드([NRM](/knowledge-base/studynote/03_network/04_data_link_layer_error/219_nrm_arm_abm_hdlc_modes/), ARM, ABM)를 가졌는데, 이 중 양 노드가 동등한 지위를 가지는 ABM (Asynchronous Balanced Mode)의 장점만을 차용하여 X.25 망 전용으로 경량화/최적화한 것이 바로 LAPB이다.
 
 ```text
   ┌─────────────────────────────────────────────────────────┐
@@ -33,7 +37,7 @@ tags:
   └─────────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: LAPB는 험난한 비포장도로(물리 계층) 위를 달리는 트럭에서 물건이 떨어지지 않았는지([[188_error_control_overview|오류 제어]]), 너무 많은 물건을 한 번에 던지지는 않았는지([[213_flow_control_buffer_overflow|흐름 제어]])를 양쪽에서 똑같은 권한으로 [[396_validation|확인]]하는 양방향 품질 보증 시스템입니다.
+- **📢 섹션 요약 비유**: LAPB는 험난한 비포장도로(물리 계층) 위를 달리는 트럭에서 물건이 떨어지지 않았는지([오류 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/)), 너무 많은 물건을 한 번에 던지지는 않았는지([흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/))를 양쪽에서 똑같은 권한으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 양방향 품질 보증 시스템입니다.
 
 ---
 
@@ -45,15 +49,15 @@ LAPB 프레임은 HDLC와 동일한 구조를 가지지만, 오직 '평형(Balan
 
 | 필드명 | 크기 | 역할 및 내부 동작 |
 |:---|:---|:---|
-| **[[186_character_stuffing_dle_stx_etx|Flag]]** | 1 [[074_byte|Byte]] | 프레임의 시작과 끝 (`01111110`) |
-| **Address** | 1 [[074_byte|Byte]] | [[158_instruction|명령어]]([[271_command_pattern|Command]])와 응답(Response)을 구분 (DTE: 0x01/0x03, DCE: 0x03/0x01) |
-| **Control** | 1/2 [[074_byte|Byte]] | I-프레임, S-프레임, U-프레임을 정의하고 순서 번호(N(S), N(R)) 포함 |
-| **Information** | 가변 | 상위 계층(X.25 Packet)의 [[001_dikw_pyramid|데이터]] (I-프레임에만 존재) |
-| **FCS** | 2 [[074_byte|Byte]] | CRC-16 기반 프레임 오류 검출 |
+| **[Flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)** | 1 [Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) | 프레임의 시작과 끝 (`01111110`) |
+| **Address** | 1 [Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) | [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/))와 응답(Response)을 구분 (DTE: 0x01/0x03, DCE: 0x03/0x01) |
+| **Control** | 1/2 [Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) | I-프레임, S-프레임, U-프레임을 정의하고 순서 번호(N(S), N(R)) 포함 |
+| **Information** | 가변 | 상위 계층(X.25 Packet)의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (I-프레임에만 존재) |
+| **FCS** | 2 [Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) | CRC-16 기반 프레임 오류 검출 |
 
 ### 평형(Balanced) 동작과 주소 필드의 마법
 
-LAPB는 DTE와 DCE가 모두 '복합국(Combined [[218_hdlc_station_primary_secondary|Station]])'으로 동작한다. 즉, 명령을 내릴 수도 있고 응답을 할 수도 있다. 주소 필드는 프레임의 목적지 주소가 아니라, 이 프레임이 '명령'인지 '응답'인지 구별하는 용도로 쓰인다.
+LAPB는 DTE와 DCE가 모두 '복합국(Combined [Station](/knowledge-base/studynote/03_network/04_data_link_layer_error/218_hdlc_station_primary_secondary/))'으로 동작한다. 즉, 명령을 내릴 수도 있고 응답을 할 수도 있다. 주소 필드는 프레임의 목적지 주소가 아니라, 이 프레임이 '명령'인지 '응답'인지 구별하는 용도로 쓰인다.
 
 ```text
   ┌───────────────────────────────────────────────────────────────┐
@@ -73,13 +77,13 @@ LAPB는 DTE와 DCE가 모두 '복합국(Combined [[218_hdlc_station_primary_seco
   └───────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** LAPB에서는 점대점 연결이므로 물리적 주소 구분이 불필요하다. 대신 Address 필드(0x01, 0x03)를 사용하여 양쪽 모두가 주도권을 가지고 통신할 때 프레임의 성격을 명확히 분리한다. 이를 통해 마스터-슬레이브 구조([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]])의 병목을 해결했다.
+**[다이어그램 해설]** LAPB에서는 점대점 연결이므로 물리적 주소 구분이 불필요하다. 대신 Address 필드(0x01, 0x03)를 사용하여 양쪽 모두가 주도권을 가지고 통신할 때 프레임의 성격을 명확히 분리한다. 이를 통해 마스터-슬레이브 구조([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))의 병목을 해결했다.
 
-### 슬라이딩 윈도우 (Sliding Window) 기반 [[213_flow_control_buffer_overflow|흐름 제어]]
+### 슬라이딩 윈도우 (Sliding Window) 기반 [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)
 
-LAPB는 S-프레임 (Supervisory Frame)의 N(R) 필드를 사용하여 피기백([[212_piggybacking_ack_merging|Piggybacking]]) 방식으로 [[396_validation|확인]] 응답(ACK)을 보낸다. [[413_tcp_window_size_flow_control_16bit|윈도우 크기]](기본 7, 확장 127)만큼 ACK 없이 연속 전송이 가능하여 링크 [[140_bandwidth|대역폭]] 낭비를 막는다.
+LAPB는 S-프레임 (Supervisory Frame)의 N(R) 필드를 사용하여 피기백([Piggybacking](/knowledge-base/studynote/03_network/04_data_link_layer_error/212_piggybacking_ack_merging/)) 방식으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 응답(ACK)을 보낸다. [윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/)(기본 7, 확장 127)만큼 ACK 없이 연속 전송이 가능하여 링크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비를 막는다.
 
-- [[834_load_balancing_algorithm_round_robin_least_connection|RR]] (Receive Ready): 수신 준비 완료 및 N(R) 이전까지의 프레임 수신 [[396_validation|확인]]
+- [RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/) (Receive Ready): 수신 준비 완료 및 N(R) 이전까지의 프레임 수신 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
 - RNR (Receive Not Ready): 바쁜 상태이므로 송신 일시 중지 요청
 - REJ (Reject): N(R) 프레임에 오류가 발생했으니 해당 프레임부터 Go-Back-N 재전송 요청
 
@@ -89,14 +93,14 @@ LAPB는 S-프레임 (Supervisory Frame)의 N(R) 필드를 사용하여 피기백
 
 ## Ⅲ. 비교 및 연결
 
-| 특성 | LAPB (X.25) | [[216_hdlc_high_level_data_link_control|HDLC]] (ISO 표준) | [[744_load_line_calibration|LLC]] (IEEE 802.2) |
+| 특성 | LAPB (X.25) | [HDLC](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) (ISO 표준) | [LLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/) (IEEE 802.2) |
 |:---|:---|:---|:---|
-| **동작 모드** | ABM (비동기 평형 모드) 전용 | [[219_nrm_arm_abm_hdlc_modes|NRM]], ARM, ABM 모두 지원 | 유형 1(무연결), 2(연결지향-ABM) |
-| **적용 환경** | DTE - DCE 간의 WAN 링크 | 다양한 토폴로지 ([[916_p2p_peer_to_peer_networking_super_node_gnutella|P2P]], 다중점) | LAN ([[230_ethernet_structure_and_principles_ieee_802_3|이더넷]]) 환경 |
-| **복잡도** | 단순 (불필요한 모드 제거) | 가장 복잡함 | [[673_mac_message_authentication_code|MAC]] 계층 위에 얹혀짐 |
-| **[[188_error_control_overview|오류 제어]]** | 엄격한 노드 간 재전송 수행 | 설정에 따라 다름 | 유형 2에서 LAPB와 유사하게 동작 |
+| **동작 모드** | ABM (비동기 평형 모드) 전용 | [NRM](/knowledge-base/studynote/03_network/04_data_link_layer_error/219_nrm_arm_abm_hdlc_modes/), ARM, ABM 모두 지원 | 유형 1(무연결), 2(연결지향-ABM) |
+| **적용 환경** | DTE - DCE 간의 WAN 링크 | 다양한 토폴로지 ([P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/), 다중점) | LAN ([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)) 환경 |
+| **복잡도** | 단순 (불필요한 모드 제거) | 가장 복잡함 | [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 계층 위에 얹혀짐 |
+| **[오류 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/)** | 엄격한 노드 간 재전송 수행 | 설정에 따라 다름 | 유형 2에서 LAPB와 유사하게 동작 |
 
-LAPB는 범용 HDLC에서 불필요한 기능(다중점 [[448_polling_programmed_io|폴링]] 등)을 과감히 잘라내고, 오직 점대점 WAN 구간의 신뢰성을 극대화하는 데 초점을 맞춘 '특화 [[288_version_ihl_tos_total_length|버전]]'이다.
+LAPB는 범용 HDLC에서 불필요한 기능(다중점 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 등)을 과감히 잘라내고, 오직 점대점 WAN 구간의 신뢰성을 극대화하는 데 초점을 맞춘 '특화 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)'이다.
 
 - **📢 섹션 요약 비유**: HDLC가 스위스 아미 나이프(만능 도구)라면, LAPB는 그중에서 가장 많이 쓰이는 튼튼한 메인 칼날 하나만을 뽑아내어 X.25 전용으로 갈고 닦은 맞춤형 도구입니다.
 
@@ -104,18 +108,18 @@ LAPB는 범용 HDLC에서 불필요한 기능(다중점 [[448_polling_programmed
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-1980~90년대 통신 회선(구리선, [[146_modem_modulator_demodulator|모뎀]])은 잡음이 심해 패킷 유실이 잦았다. X.25 망은 중간의 각 라우터([[238_switch_operation_principles|스위치]]) 구간마다 LAPB를 이용해 완벽한 에러 [[658_ir_recovery|복구]]를 수행했다. 이로 인해 단말은 아무 걱정 없이 [[001_dikw_pyramid|데이터]]를 보낼 수 있었지만, 각 노드마다 프레임 검사 및 재전송 처리를 하느라 네트워크 전체의 [[015_지연_데이터_관점|지연]]([[141_latency|Latency]])은 컸다.
+1980~90년대 통신 회선(구리선, [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/))은 잡음이 심해 패킷 유실이 잦았다. X.25 망은 중간의 각 라우터([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)) 구간마다 LAPB를 이용해 완벽한 에러 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 수행했다. 이로 인해 단말은 아무 걱정 없이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보낼 수 있었지만, 각 노드마다 프레임 검사 및 재전송 처리를 하느라 네트워크 전체의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))은 컸다.
 
-- **과거의 정답 (LAPB)**: 링크의 품질이 나쁠 때는 링크 계층(L2)에서 에러를 100% 잡아주는 무거운(Heavy) [[295_protocol_field_tcp_udp_icmp|프로토콜]]이 필수적이었다.
-- **현대의 [[128_water_scrum_fall_anti_pattern|안티패턴]]**: 오늘날 광케이블(Fiber)처럼 오류율이 거의 0에 가까운 매체에서 LAPB처럼 노드마다 엄격한 재전송을 하면 오버헤드만 커진다. 따라서 현대의 Frame Relay나 Ethernet은 L2 오류 [[658_ir_recovery|복구]]를 생략하고 상위 계층([[405_tcp_transmission_control_protocol_connection_oriented|TCP]])에 맡기는 종단 간([[401_transport_layer_role_end_to_end_multiplexing|End-to-End]]) 제어로 패러다임이 이동했다.
+- **과거의 정답 (LAPB)**: 링크의 품질이 나쁠 때는 링크 계층(L2)에서 에러를 100% 잡아주는 무거운(Heavy) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 필수적이었다.
+- **현대의 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**: 오늘날 광케이블(Fiber)처럼 오류율이 거의 0에 가까운 매체에서 LAPB처럼 노드마다 엄격한 재전송을 하면 오버헤드만 커진다. 따라서 현대의 Frame Relay나 Ethernet은 L2 오류 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 생략하고 상위 계층([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))에 맡기는 종단 간([End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/)) 제어로 패러다임이 이동했다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 도로(회선)가 울퉁불퉁할 때는 톨게이트마다 화물을 꼼꼼히 검사하는 LAPB가 필요했지만, 아스팔트 고속도로(광케이블)가 깔린 현대에는 톨게이트 검사를 없애고 도착지에서만 [[396_validation|확인]]([[405_tcp_transmission_control_protocol_connection_oriented|TCP]])하는 것이 훨씬 빠른 것과 같습니다.
+- **📢 섹션 요약 비유**: 도로(회선)가 울퉁불퉁할 때는 톨게이트마다 화물을 꼼꼼히 검사하는 LAPB가 필요했지만, 아스팔트 고속도로(광케이블)가 깔린 현대에는 톨게이트 검사를 없애고 도착지에서만 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))하는 것이 훨씬 빠른 것과 같습니다.
 
 ---
 
@@ -126,9 +130,9 @@ LAPB는 범용 HDLC에서 불필요한 기능(다중점 [[448_polling_programmed
 | **정량** | 슬라이딩 윈도우 채택 | 매 프레임 ACK 대기 시간 제거, 회선 이용률 획기적 증가 |
 | **정성** | 계층 간 역할 분리 | 네트워크 계층(X.25 PLP)이 물리적 에러를 신경 쓰지 않게 됨 |
 
-LAPB [[295_protocol_field_tcp_udp_icmp|프로토콜]] 자체는 X.25의 몰락과 함께 현대 네트워크에서는 자취를 감추었다. 그러나 "동등한 피어([[060_hyperledger_architecture_peer_orderer_msp|Peer]]) 간의 제어", "피기백을 통한 [[213_flow_control_buffer_overflow|흐름 제어]]", "Go-Back-N 방식의 [[949_arq_automatic_repeat_request_go_back_n_selective|ARQ]]" 등 LAPB가 정립한 [[001_dikw_pyramid|데이터]] 링크 제어 기술의 핵심 알고리즘은 그대로 [[405_tcp_transmission_control_protocol_connection_oriented|TCP]]/IP [[057_stack|스택]]의 상위 계층과 다양한 무선 통신(Wi-Fi, Bluetooth의 링크 제어)에 이식되어 현대 통신의 근간을 이루고 있다. 향후에는 고신뢰 저지연 링크 제어 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+LAPB [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 자체는 X.25의 몰락과 함께 현대 네트워크에서는 자취를 감추었다. 그러나 "동등한 피어([Peer](/knowledge-base/studynote/06_ict_convergence/01_blockchain/060_hyperledger_architecture_peer_orderer_msp/)) 간의 제어", "피기백을 통한 [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)", "Go-Back-N 방식의 [ARQ](/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/)" 등 LAPB가 정립한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 제어 기술의 핵심 알고리즘은 그대로 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)의 상위 계층과 다양한 무선 통신(Wi-Fi, Bluetooth의 링크 제어)에 이식되어 현대 통신의 근간을 이루고 있다. 향후에는 고신뢰 저지연 링크 제어 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: 튼튼한 주춧돌(LAPB) 덕분에 그 위에 화려한 건물(상위 네트워크 [[295_protocol_field_tcp_udp_icmp|프로토콜]])을 지을 수 있었으며, 건물이 재건축된 지금도 그 설계 도면은 여전히 후대 엔지니어들의 훌륭한 교과서로 쓰이고 있습니다.
+- **📢 섹션 요약 비유**: 튼튼한 주춧돌(LAPB) 덕분에 그 위에 화려한 건물(상위 네트워크 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))을 지을 수 있었으며, 건물이 재건축된 지금도 그 설계 도면은 여전히 후대 엔지니어들의 훌륭한 교과서로 쓰이고 있습니다.
 
 ---
 
@@ -136,10 +140,10 @@ LAPB [[295_protocol_field_tcp_udp_icmp|프로토콜]] 자체는 X.25의 몰락�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]] | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [[184_framing_mechanism|프레이밍]] ([[184_framing_mechanism|Framing]]) | [[073_bit|비트]]열을 의미 있는 전송 단위로 구분한다. |
-| [[188_error_control_overview|오류 제어]] ([[188_error_control_overview|Error Control]]) | 검출과 [[658_ir_recovery|복구]] 정책을 함께 설계해야 한다. |
-| [[223_lapd_isdn_d_channel|LAPD]] | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [프레이밍](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/) ([Framing](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/)) | [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)열을 의미 있는 전송 단위로 구분한다. |
+| [오류 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/) ([Error Control](/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/)) | 검출과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 정책을 함께 설계해야 한다. |
+| [LAPD](/knowledge-base/studynote/03_network/04_data_link_layer_error/223_lapd_isdn_d_channel/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -157,7 +161,7 @@ LAPB는 SDLC에서 출발해 현재 메커니즘을 정교화하고, 이후 LAPD
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 편지를 보낼 때 봉투를 제대로 닫고 틀린 글자가 없는지 [[396_validation|확인]]해야 해요.
+1. 편지를 보낼 때 봉투를 제대로 닫고 틀린 글자가 없는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 해요.
 2. 이 개념은 편지가 깨지거나 사라졌을 때 다시 보내는 규칙까지 정해줘요.
 3. 그래서 중간에 흔들려도 중요한 내용이 더 안전하게 도착해요.
 
@@ -167,7 +171,7 @@ LAPB는 SDLC에서 출발해 현재 메커니즘을 정교화하고, 이후 LAPD
 
 **진행 상황**: 343 / 1120
 
-← **이전**: [[221_sdlc_ibm_synchronous_data_link_control|221. SDLC (Synchronous Data Link Control)]]
-**다음**: [[223_lapd_isdn_d_channel|223. LAPD (Link Access Procedure on the D channel)]] →
+← **이전**: [221. SDLC (Synchronous Data Link Control)](/knowledge-base/studynote/03_network/04_data_link_layer_error/221_sdlc_ibm_synchronous_data_link_control/)
+**다음**: [223. LAPD (Link Access Procedure on the D channel)](/knowledge-base/studynote/03_network/04_data_link_layer_error/223_lapd_isdn_d_channel/) →
 
 ---

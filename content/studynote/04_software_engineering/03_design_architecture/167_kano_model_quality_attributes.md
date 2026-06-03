@@ -1,23 +1,27 @@
----
-title: 167. 카노 모델 (Kano Model) - 당연적, 일원적, 매력적 품질
-date: '2026-04-03'
-tags:
-- studynote-software-engineering
----
++++
+title = "167. 카노 모델 (Kano Model) - 당연적, 일원적, 매력적 품질"
+date = 2026-04-03
+
+[taxonomies]
+tags = ["studynote-software-engineering"]
+
+[extra]
+tags = ["studynote-software-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 카노 모델 (Kano Model)은 기능의 구현 정도와 고객 만족도가 항상 비례하지 않는다는 사실을 바탕으로, 요구사항을 당연적·일원적·매력적 품질 등으로 [[104_classification_analysis|분류]]하는 비선형 품질 분석 틀이다.
+> 1. **본질**: 카노 모델 (Kano Model)은 기능의 구현 정도와 고객 만족도가 항상 비례하지 않는다는 사실을 바탕으로, 요구사항을 당연적·일원적·매력적 품질 등으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는 비선형 품질 분석 틀이다.
 > 2. **가치**: 이 모델은 "무엇을 더 만들까"보다 "무엇이 없으면 불만이 되고, 무엇이 있으면 감동이 되는가"를 구분하게 해, 제한된 개발 자원을 효과적으로 배분하게 만든다.
-> 3. **판단 포인트**: 카노 [[104_classification_analysis|분류]]는 고정된 진리가 아니라 시장·시간·고객군에 따라 이동하므로, 한 번 [[104_classification_analysis|분류]]해 놓고 끝내지 말고 릴리스와 함께 계속 재평가해야 한다.
+> 3. **판단 포인트**: 카노 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 고정된 진리가 아니라 시장·시간·고객군에 따라 이동하므로, 한 번 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)해 놓고 끝내지 말고 릴리스와 함께 계속 재평가해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-카노 모델은 제품이나 [[090_service_kubernetes_network_load_balancing|서비스]]의 품질 요소를 고객 만족 곡선의 성격에 따라 [[104_classification_analysis|분류]]하는 기법이다. 핵심은 기능을 많이 넣거나 품질 수치를 높인다고 고객 만족이 항상 같은 비율로 올라가지는 않는다는 점이다. 어떤 [[082_attribute_types_er_model|속성]]은 잘해도 본전이고, 어떤 [[082_attribute_types_er_model|속성]]은 잘할수록 정직하게 만족이 올라가며, 어떤 [[082_attribute_types_er_model|속성]]은 없어도 불만이 없지만 있으면 강한 감동을 만든다.
+카노 모델은 제품이나 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 품질 요소를 고객 만족 곡선의 성격에 따라 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는 기법이다. 핵심은 기능을 많이 넣거나 품질 수치를 높인다고 고객 만족이 항상 같은 비율로 올라가지는 않는다는 점이다. 어떤 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 잘해도 본전이고, 어떤 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 잘할수록 정직하게 만족이 올라가며, 어떤 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 없어도 불만이 없지만 있으면 강한 감동을 만든다.
 
-이 모델이 필요한 이유는 대부분의 제품 팀이 초기에 "중요한 기능은 다 중요하다"는 함정에 빠지기 때문이다. 로그인 안정성, 응답 속도, 추천 기능, 감성적 사용자 경험, 숨겨진 편의 기능을 모두 같은 잣대로 보면, 반드시 지켜야 할 기본과 차별화 포인트가 섞여 우선순위가 흐려진다. 카노 모델은 이 혼선을 정리해, 최소 기능 제품 ([[036_mvp|Minimum Viable Product]], [[036_mvp|MVP]])과 차별화 [[268_strategy_pattern|전략]]을 동시에 설계하게 해 준다.
+이 모델이 필요한 이유는 대부분의 제품 팀이 초기에 "중요한 기능은 다 중요하다"는 함정에 빠지기 때문이다. 로그인 안정성, 응답 속도, 추천 기능, 감성적 사용자 경험, 숨겨진 편의 기능을 모두 같은 잣대로 보면, 반드시 지켜야 할 기본과 차별화 포인트가 섞여 우선순위가 흐려진다. 카노 모델은 이 혼선을 정리해, 최소 기능 제품 ([Minimum Viable Product](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/), [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/))과 차별화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 동시에 설계하게 해 준다.
 
 이 그림은 왜 선형 사고만으로는 요구사항을 설명할 수 없는지 보여준다.
 
@@ -46,9 +50,9 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-카노 모델의 중심은 고객 만족 곡선의 형태를 구분하는 것이다. 보통 당연적 품질 (Must-be Quality), 일원적 품질 (One-dimensional Quality), 매력적 품질 (Attractive Quality)을 핵심 3분류로 보고, 여기에 무관심 품질 (Indifferent Quality), 역품질 (Reverse Quality)을 보조적으로 추가한다. 실무에서는 기능별로 "있을 때 느낌"과 "없을 때 느낌"을 동시에 묻는 카노 설문을 사용해 [[104_classification_analysis|분류]]한다.
+카노 모델의 중심은 고객 만족 곡선의 형태를 구분하는 것이다. 보통 당연적 품질 (Must-be Quality), 일원적 품질 (One-dimensional Quality), 매력적 품질 (Attractive Quality)을 핵심 3분류로 보고, 여기에 무관심 품질 (Indifferent Quality), 역품질 (Reverse Quality)을 보조적으로 추가한다. 실무에서는 기능별로 "있을 때 느낌"과 "없을 때 느낌"을 동시에 묻는 카노 설문을 사용해 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)한다.
 
-| [[104_classification_analysis|분류]] | 고객 반응 | 예시 | 설계 의미 |
+| [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 고객 반응 | 예시 | 설계 의미 |
 | :--- | :-------- | :--- | :-------- |
 | 당연적 품질 | 충족돼도 본전, 미충족 시 큰 불만 | 결제 오류 없음, 로그인 가능 | 먼저 최소 기준을 만족해야 함 |
 | 일원적 품질 | 잘할수록 만족, 못할수록 불만 | 응답 속도, 배터리 지속시간 | 경쟁력의 정직한 비교 항목 |
@@ -56,9 +60,9 @@ tags:
 | 무관심 품질 | 있어도 없어도 반응 약함 | 고객이 체감하지 못하는 내부 구현 차이 | 과투자 경계 |
 | 역품질 | 구현될수록 오히려 불만 | 과도한 팝업, 지나친 보안 절차 | 제거 또는 세분화 필요 |
 
-이 모델의 실무적 힘은 "기능 자체"보다 "기능에 대한 기대 상태"를 본다는 데 있다. 예를 들어 이중 [[303_authentication_authorization_patterns|인증]] (Two-Factor [[604_authentication_factors|Authentication]], 2FA)은 금융 [[090_service_kubernetes_network_load_balancing|서비스]]에서는 당연적 품질에 가깝지만, 너무 번거롭게 설계하면 역품질로 체감될 수 있다. 같은 기능도 고객군과 맥락에 따라 곡선 위치가 달라진다.
+이 모델의 실무적 힘은 "기능 자체"보다 "기능에 대한 기대 상태"를 본다는 데 있다. 예를 들어 이중 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) (Two-Factor [Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/), 2FA)은 금융 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에서는 당연적 품질에 가깝지만, 너무 번거롭게 설계하면 역품질로 체감될 수 있다. 같은 기능도 고객군과 맥락에 따라 곡선 위치가 달라진다.
 
-이 그림은 카노 설문에서 [[104_classification_analysis|분류]]가 만들어지는 과정을 보여준다.
+이 그림은 카노 설문에서 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)가 만들어지는 과정을 보여준다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -73,23 +77,23 @@ tags:
 
 따라서 카노 모델은 단순 브레인스토밍보다 고객 인식 구조를 더 잘 드러낸다. "좋은 기능"을 고르는 것이 아니라, "기대의 기준선을 어떻게 넘어설 것인가"를 설계하게 해 주기 때문이다.
 
-- **📢 섹션 요약 비유**: 카노 [[104_classification_analysis|분류]]는 손님에게 메뉴를 줄 때 "있으면 좋은가"만 묻지 않고 "없으면 얼마나 서운한가"도 함께 묻는 것과 같다. 두 질문을 같이 해야 기본 음식과 깜짝 [[090_service_kubernetes_network_load_balancing|서비스]]가 분리된다.
+- **📢 섹션 요약 비유**: 카노 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 손님에게 메뉴를 줄 때 "있으면 좋은가"만 묻지 않고 "없으면 얼마나 서운한가"도 함께 묻는 것과 같다. 두 질문을 같이 해야 기본 음식과 깜짝 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 분리된다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-카노 모델은 우선순위 기법과 자주 함께 언급되지만, 역할은 다르다. 카노 모델이 고객 만족의 성격을 구분한다면, MoSCoW 기법은 일정 안에서 무엇을 넣고 뺄지 결정하고, [[168_qfd_quality_function_deployment|품질 기능 전개]] (Quality Function [[087_deployment_kubernetes_workload_rolling_update|Deployment]], QFD)는 고객 언어를 기술 요구사항으로 번역한다. 즉 카노는 "왜 중요한가", MoSCoW는 "이번에 넣을 것인가", QFD는 "어떻게 구체화할 것인가"에 더 가깝다.
+카노 모델은 우선순위 기법과 자주 함께 언급되지만, 역할은 다르다. 카노 모델이 고객 만족의 성격을 구분한다면, MoSCoW 기법은 일정 안에서 무엇을 넣고 뺄지 결정하고, [품질 기능 전개](/knowledge-base/studynote/04_software_engineering/03_design_architecture/168_qfd_quality_function_deployment/) (Quality Function [Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/), QFD)는 고객 언어를 기술 요구사항으로 번역한다. 즉 카노는 "왜 중요한가", MoSCoW는 "이번에 넣을 것인가", QFD는 "어떻게 구체화할 것인가"에 더 가깝다.
 
 | 기법 | 중심 질문 | 강점 | 한계 |
 | :--- | :-------- | :--- | :--- |
-| 카노 모델 | 이 [[082_attribute_types_er_model|속성]]이 만족을 어떻게 움직이는가? | 기대와 감동의 구조를 파악 | 기술 난이도·비용 자체는 직접 계산하지 않음 |
+| 카노 모델 | 이 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 만족을 어떻게 움직이는가? | 기대와 감동의 구조를 파악 | 기술 난이도·비용 자체는 직접 계산하지 않음 |
 | MoSCoW | 이번 릴리스에 넣을 것인가? | 일정 중심 범위 통제 | 고객 감동의 비선형성은 약하게 다룸 |
 | QFD | 고객 요구를 어떤 기술 항목으로 풀 것인가? | 추상 요구를 설계 항목으로 연결 | 만족 곡선의 성격은 별도 분석 필요 |
 
-또한 카노 모델은 품질 [[082_attribute_types_er_model|속성]] (Quality [[082_attribute_types_er_model|Attribute]])과도 연결된다. [[282_performance_tactics|성능]], [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]], 보안, [[286_usability_tactics|사용성]] 같은 [[082_attribute_types_er_model|속성]]은 도메인에 따라 다른 [[104_classification_analysis|분류]]를 가질 수 있다. 예를 들어 일반 동영상 앱에서 0.5초 단위 [[015_지연_데이터_관점|지연]] 개선은 일원적 품질일 수 있지만, [[702_biometric_authentication|생체 인증]] 정확도는 금융 앱에서 사실상 당연적 품질이다. 따라서 품질 [[082_attribute_types_er_model|속성]]은 기술 용어로만 보지 말고 고객 기대와 함께 읽어야 한다.
+또한 카노 모델은 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) (Quality [Attribute](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))과도 연결된다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/), 보안, [사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/) 같은 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 도메인에 따라 다른 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)를 가질 수 있다. 예를 들어 일반 동영상 앱에서 0.5초 단위 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 개선은 일원적 품질일 수 있지만, [생체 인증](/knowledge-base/studynote/09_security/uncategorized/702_biometric_authentication/) 정확도는 금융 앱에서 사실상 당연적 품질이다. 따라서 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 기술 용어로만 보지 말고 고객 기대와 함께 읽어야 한다.
 
-마지막으로 카노 [[104_classification_analysis|분류]]는 시간이 지나며 이동한다. 과거의 매력적 품질이 경쟁사 확산과 사용자 학습을 거쳐 오늘의 당연적 품질이 되는 현상은 제품 [[268_strategy_pattern|전략]]에서 매우 중요하다. 이 변화까지 봐야 "지금 감동 포인트"와 "곧 기본이 될 요소"를 구분할 수 있다.
+마지막으로 카노 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 시간이 지나며 이동한다. 과거의 매력적 품질이 경쟁사 확산과 사용자 학습을 거쳐 오늘의 당연적 품질이 되는 현상은 제품 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)에서 매우 중요하다. 이 변화까지 봐야 "지금 감동 포인트"와 "곧 기본이 될 요소"를 구분할 수 있다.
 
 - **📢 섹션 요약 비유**: 카노가 손님의 감정 지도라면, MoSCoW는 장보기 예산표이고, QFD는 요리 레시피로 바꾸는 과정이다. 세 도구는 비슷해 보여도 맡은 질문이 다르다.
 
@@ -97,15 +101,15 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 카노 모델은 백로그 정리와 릴리스 [[268_strategy_pattern|전략]]에서 가장 큰 힘을 발휘한다. 제품 팀은 먼저 기본 신뢰를 잃지 않게 당연적 품질을 최소 기준 이상으로 맞추고, 비교 우위를 만들 일원적 품질을 골라 집중 개선하며, 브랜드 기억을 남길 매력적 품질을 소수 정예로 선택해야 한다. 이때 핵심은 모든 항목을 최고 수준으로 만들겠다는 환상을 버리는 것이다.
+실무에서 카노 모델은 백로그 정리와 릴리스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)에서 가장 큰 힘을 발휘한다. 제품 팀은 먼저 기본 신뢰를 잃지 않게 당연적 품질을 최소 기준 이상으로 맞추고, 비교 우위를 만들 일원적 품질을 골라 집중 개선하며, 브랜드 기억을 남길 매력적 품질을 소수 정예로 선택해야 한다. 이때 핵심은 모든 항목을 최고 수준으로 만들겠다는 환상을 버리는 것이다.
 
 ### 실무 시나리오
 
 1. **모바일 뱅킹 앱**
-   - 당연적 품질: 로그인 성공, 이체 [[002_bigdata_5v|정확성]], 장애 시 [[658_ir_recovery|복구]]
+   - 당연적 품질: 로그인 성공, 이체 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/), 장애 시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)
    - 일원적 품질: 화면 응답속도, 고객센터 연결 시간
    - 매력적 품질: 자동 지출 분석, 맞춤형 절약 알림
-2. **전자상거래 [[090_service_kubernetes_network_load_balancing|서비스]]**
+2. **전자상거래 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)**
    - 당연적 품질: 결제 안정성, 주문 이력 조회
    - 일원적 품질: 배송 속도, 검색 정확도
    - 매력적 품질: 개인 취향 기반 선물 추천, 예상 가격 변동 알림
@@ -114,11 +118,11 @@ tags:
 
 1. 고객 세그먼트를 나눈다.
 2. 기능별로 "있을 때/없을 때" 반응을 조사한다.
-3. 당연적·일원적·매력적 품질로 [[104_classification_analysis|분류]]한다.
+3. 당연적·일원적·매력적 품질로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)한다.
 4. 기술 난이도와 비용을 합쳐 로드맵으로 변환한다.
 5. 릴리스 후 데이터와 고객 반응으로 재분류한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 당연적 품질에 과도한 기능 미학을 쏟아붓는 것
 - 내부 기술 선호를 곧바로 고객 매력 포인트로 착각하는 것
@@ -150,9 +154,9 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-카노 모델을 활용하면 요구사항 목록이 단순 기능 나열이 아니라 고객 기대 구조를 반영한 [[268_strategy_pattern|전략]] 지도로 바뀐다. 그 결과 제품 팀은 기본 품질 미달로 신뢰를 잃는 일을 줄이고, 경쟁 지표에 선택적으로 집중하며, 감동 포인트를 의도적으로 설계할 수 있다. 한정된 개발 자원을 어디에 써야 투자 대비 효과가 큰지도 더 분명해진다.
+카노 모델을 활용하면 요구사항 목록이 단순 기능 나열이 아니라 고객 기대 구조를 반영한 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 지도로 바뀐다. 그 결과 제품 팀은 기본 품질 미달로 신뢰를 잃는 일을 줄이고, 경쟁 지표에 선택적으로 집중하며, 감동 포인트를 의도적으로 설계할 수 있다. 한정된 개발 자원을 어디에 써야 투자 대비 효과가 큰지도 더 분명해진다.
 
-하지만 카노 모델만으로 모든 결정을 대신할 수는 없다. [[100_technical_debt_monitoring_release_policy|기술 부채]], 규제 요구, 보안 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]], 개발 난이도 같은 요소는 별도 분석이 필요하며, 고객 세그먼트가 달라지면 결과도 달라질 수 있다. 따라서 카노 모델은 절대적인 우선순위 표가 아니라, 제품 [[268_strategy_pattern|전략]]을 더 정교하게 만드는 하나의 렌즈로 쓰는 것이 바람직하다.
+하지만 카노 모델만으로 모든 결정을 대신할 수는 없다. [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/), 규제 요구, 보안 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/), 개발 난이도 같은 요소는 별도 분석이 필요하며, 고객 세그먼트가 달라지면 결과도 달라질 수 있다. 따라서 카노 모델은 절대적인 우선순위 표가 아니라, 제품 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 더 정교하게 만드는 하나의 렌즈로 쓰는 것이 바람직하다.
 
 결론적으로 카노 모델은 "기능을 얼마나 만들었는가"보다 "어떤 기대를 건드렸는가"를 묻는 도구로 기억하면 좋다. 제품 경쟁력은 종종 기능 수가 아니라, 기본 신뢰와 감동 포인트의 조합에서 나온다.
 
@@ -164,11 +168,11 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :---------- |
-| 최소 기능 제품 ([[036_mvp|Minimum Viable Product]], [[036_mvp|MVP]]) | 당연적 품질과 핵심 차별화 포인트를 최소 조합으로 설계할 때 연결 |
+| 최소 기능 제품 ([Minimum Viable Product](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/), [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/)) | 당연적 품질과 핵심 차별화 포인트를 최소 조합으로 설계할 때 연결 |
 | MoSCoW 기법 | 카노 분석 결과를 실제 릴리스 범위로 변환할 때 함께 사용 |
-| [[168_qfd_quality_function_deployment|품질 기능 전개]] (Quality Function [[087_deployment_kubernetes_workload_rolling_update|Deployment]], QFD) | 카노로 [[104_classification_analysis|분류]]한 고객 기대를 기술 요구사항으로 구체화 |
-| A/B 테스트 | 매력적 품질 후보가 실제 만족도와 전환율을 높이는지 [[395_verification_process_review|검증]] |
-| 품질 [[082_attribute_types_er_model|속성]] (Quality [[082_attribute_types_er_model|Attribute]]) | [[282_performance_tactics|성능]]·[[642_reliability_mtbf_mttr_mttf_availability|신뢰성]]·보안 같은 [[082_attribute_types_er_model|속성]]이 어떤 카노 곡선에 놓이는지 판단 |
+| [품질 기능 전개](/knowledge-base/studynote/04_software_engineering/03_design_architecture/168_qfd_quality_function_deployment/) (Quality Function [Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/), QFD) | 카노로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)한 고객 기대를 기술 요구사항으로 구체화 |
+| A/B 테스트 | 매력적 품질 후보가 실제 만족도와 전환율을 높이는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
+| 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) (Quality [Attribute](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)) | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·[신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)·보안 같은 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 어떤 카노 곡선에 놓이는지 판단 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -206,7 +210,7 @@ MVP · 실험 · 반복 개선
 
 **진행 상황**: 167 / 973
 
-← **이전**: [[166_moscow_prioritization_technique|166. MoSCoW 기법 - Must, Should, Could, Won't 우선순위 결정]]
-**다음**: [[168_qfd_quality_function_deployment|168. 품질 기능 전개 (QFD, Quality Function Deployment)]] →
+← **이전**: [166. MoSCoW 기법 - Must, Should, Could, Won't 우선순위 결정](/knowledge-base/studynote/04_software_engineering/03_design_architecture/166_moscow_prioritization_technique/)
+**다음**: [168. 품질 기능 전개 (QFD, Quality Function Deployment)](/knowledge-base/studynote/04_software_engineering/03_design_architecture/168_qfd_quality_function_deployment/) →
 
 ---

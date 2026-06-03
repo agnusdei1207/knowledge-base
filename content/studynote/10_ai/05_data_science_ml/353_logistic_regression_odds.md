@@ -1,21 +1,25 @@
----
-title: 353. 로지스틱 회귀 (Logistic Regression)
-date: '2026-05-09'
-tags:
-- studynote-ai
----
++++
+title = "353. 로지스틱 회귀 (Logistic Regression)"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-ai"]
+
+[extra]
+tags = ["studynote-ai"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[227_logistic_regression_clt_pvalue_type_error|로지스틱 회귀]]([[227_logistic_regression_clt_pvalue_type_error|Logistic Regression]])는 선형 회귀의 출력을 오즈비(Odds Ratio)→로짓(Logit)→[[268_sigmoid_vanishing_gradient|시그모이드]]([[268_sigmoid_vanishing_gradient|Sigmoid]]) 변환을 통해 [0,1] [[130_probability|확률]]로 매핑하여 이진 [[104_classification_analysis|분류]]를 수행하는 [[130_probability|확률]]적 [[104_classification_analysis|분류]]기다.
-> 2. **가치**: 계수(Coefficient)가 [[568_logs_distributed_logging_elk_fluentd|로그]] 오즈(Log-Odds)를 의미하므로 "나이가 1세 증가할 때 암 발생 오즈가 exp(β)배 변한다"는 직관적 해석이 가능해 의료·신용 평가 등 해석가능 [[190_ai_llm_requirements_specification|AI]]([[255_xai_lime_shap_explainable_contribution|Explainable AI]])에 강력하다.
-> 3. **판단 포인트**: [[075_loss_function_cost_function|손실 함수]]는 이진 교차 [[151_entropy|엔트로피]](Binary [[154_cross_entropy|Cross Entropy]] = Negative Log-Likelihood)이며, 결정 경계(Decision Boundary)는 w·x + b = 0 초평면으로 여전히 선형이다.
+> 1. **본질**: [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/)([Logistic Regression](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/))는 선형 회귀의 출력을 오즈비(Odds Ratio)→로짓(Logit)→[시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)([Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)) 변환을 통해 [0,1] [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 매핑하여 이진 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)를 수행하는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기다.
+> 2. **가치**: 계수(Coefficient)가 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 오즈(Log-Odds)를 의미하므로 "나이가 1세 증가할 때 암 발생 오즈가 exp(β)배 변한다"는 직관적 해석이 가능해 의료·신용 평가 등 해석가능 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([Explainable AI](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/255_xai_lime_shap_explainable_contribution/))에 강력하다.
+> 3. **판단 포인트**: [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)는 이진 교차 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)(Binary [Cross Entropy](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/) = Negative Log-Likelihood)이며, 결정 경계(Decision Boundary)는 w·x + b = 0 초평면으로 여전히 선형이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-선형 회귀로 이진 [[104_classification_analysis|분류]]를 하면 예측값이 0~1 범위를 벗어나 [[130_probability|확률]]로 해석 불가하다. [[227_logistic_regression_clt_pvalue_type_error|로지스틱 회귀]]는 선형 조합 z = w·x + b를 [[268_sigmoid_vanishing_gradient|시그모이드]] σ(z) = 1/(1+e⁻ᶻ)에 통과시켜 P(y=1|x) ∈ (0,1)로 변환한다. 이름은 "회귀"지만 실제로는 [[104_classification_analysis|분류]] 모델이며, 의료 진단(암 여부), 신용 평가(부도 여부), 스팸 [[104_classification_analysis|분류]] 등에서 해석가능성 덕분에 여전히 광범위하게 사용된다.
+선형 회귀로 이진 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)를 하면 예측값이 0~1 범위를 벗어나 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 해석 불가하다. [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/)는 선형 조합 z = w·x + b를 [시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) σ(z) = 1/(1+e⁻ᶻ)에 통과시켜 P(y=1|x) ∈ (0,1)로 변환한다. 이름은 "회귀"지만 실제로는 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델이며, 의료 진단(암 여부), 신용 평가(부도 여부), 스팸 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 등에서 해석가능성 덕분에 여전히 광범위하게 사용된다.
 
 ```text
 ┌──────────────────────────────────────────────┐
@@ -26,7 +30,7 @@ tags:
 └──────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: [[227_logistic_regression_clt_pvalue_type_error|로지스틱 회귀]]는 "저울 → [[130_probability|확률]] 변환기"다. 여러 증거를 저울에 올려 무게(선형 합)를 재고, [[268_sigmoid_vanishing_gradient|시그모이드]]라는 마법 변환기로 "암일 [[130_probability|확률]] 73%"처럼 0~100% [[130_probability|확률]]로 변환해준다.
+- **📢 섹션 요약 비유**: [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/)는 "저울 → [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 변환기"다. 여러 증거를 저울에 올려 무게(선형 합)를 재고, [시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)라는 마법 변환기로 "암일 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 73%"처럼 0~100% [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 변환해준다.
 
 ---
 
@@ -57,36 +61,36 @@ tags:
 
 | 변환 | 수식 | 범위 | 의미 |
 |:---|:---|:---|:---|
-| [[130_probability|확률]] p | - | (0,1) | 이벤트 발생 [[130_probability|확률]] |
+| [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) p | - | (0,1) | 이벤트 발생 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) |
 | 오즈 (Odds) | p/(1-p) | (0,∞) | 성공:실패 비율 |
-| [[568_logs_distributed_logging_elk_fluentd|로그]] 오즈 (Log-Odds) | log(p/(1-p)) | (-∞,+∞) | 선형 모델 = 로짓 |
+| [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 오즈 (Log-Odds) | log(p/(1-p)) | (-∞,+∞) | 선형 모델 = 로짓 |
 | 오즈비 (Odds Ratio) | exp(w) | (0,∞) | 계수의 해석 단위 |
 
-- **📢 섹션 요약 비유**: 로짓 변환은 "담장 밖으로 나가는 터널"이다. [[130_probability|확률]](0~1 범위)은 담장 안에 갇혀있어서 무한대로 더하거나 뺄 수 없다. [[568_logs_distributed_logging_elk_fluentd|로그]](log) 변환이 이 담장을 부수고 (-∞,+∞) 전체 실수 공간으로 확장시켜 선형 회귀와 연결한다.
+- **📢 섹션 요약 비유**: 로짓 변환은 "담장 밖으로 나가는 터널"이다. [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)(0~1 범위)은 담장 안에 갇혀있어서 무한대로 더하거나 뺄 수 없다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(log) 변환이 이 담장을 부수고 (-∞,+∞) 전체 실수 공간으로 확장시켜 선형 회귀와 연결한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-[[227_logistic_regression_clt_pvalue_type_error|로지스틱 회귀]] vs [[082_lda_linear_discriminant_analysis_classification|선형 판별 분석]](LDA, Linear Discriminant Analysis): LDA는 [[138_normal_distribution|정규 분포]] 가정 하에 클래스 조건부 밀도로부터 결정 경계를 유도하고, [[227_logistic_regression_clt_pvalue_type_error|로지스틱 회귀]]는 P(y|x)를 직접 모델링(판별 모델)한다. 다중 클래스 확장은 [[270_softmax|소프트맥스]] 회귀([[270_softmax|Softmax]] Regression = Multinomial [[227_logistic_regression_clt_pvalue_type_error|Logistic Regression]])로, K개 클래스의 [[568_logs_distributed_logging_elk_fluentd|로그]] 오즈를 각각 계산한다.
+[로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/) vs [선형 판별 분석](/knowledge-base/studynote/14_data_engineering/02_math_mining/082_lda_linear_discriminant_analysis_classification/)(LDA, Linear Discriminant Analysis): LDA는 [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/) 가정 하에 클래스 조건부 밀도로부터 결정 경계를 유도하고, [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/)는 P(y|x)를 직접 모델링(판별 모델)한다. 다중 클래스 확장은 [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) 회귀([Softmax](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) Regression = Multinomial [Logistic Regression](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/))로, K개 클래스의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 오즈를 각각 계산한다.
 
-- **📢 섹션 요약 비유**: [[227_logistic_regression_clt_pvalue_type_error|로지스틱 회귀]](판별 모델)는 "경계선 그리기"고 LDA([[087_process_state_transition|생성]] 모델)는 "각 클래스 분포 모델링"이다. 경계선만 그리면 더 효율적이고, 분포 전체를 모델링하면 새 샘플 [[087_process_state_transition|생성]]도 가능하다.
+- **📢 섹션 요약 비유**: [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/)(판별 모델)는 "경계선 그리기"고 LDA([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델)는 "각 클래스 분포 모델링"이다. 경계선만 그리면 더 효율적이고, 분포 전체를 모델링하면 새 샘플 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)도 가능하다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-의료 AI에서 "나이(x₁)와 혈압(x₂)로 심장병(y=1) 예측" 시 [[227_logistic_regression_clt_pvalue_type_error|로지스틱 회귀]]의 계수 w₁=0.03을 해석하면: "나이 1세 증가 → 심장병 오즈 exp(0.03)=1.03배 = 3% 증가". 이 해석 가능성이 의료·금융 규제 환경에서 블랙박스 딥러닝보다 선호되는 이유다. L2 [[093_normalization|정규화]](Ridge Logistic)로 과적합을 방지하고 C=1/λ 파라미터로 조정한다.
+의료 AI에서 "나이(x₁)와 혈압(x₂)로 심장병(y=1) 예측" 시 [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/)의 계수 w₁=0.03을 해석하면: "나이 1세 증가 → 심장병 오즈 exp(0.03)=1.03배 = 3% 증가". 이 해석 가능성이 의료·금융 규제 환경에서 블랙박스 딥러닝보다 선호되는 이유다. L2 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)(Ridge Logistic)로 과적합을 방지하고 C=1/λ 파라미터로 조정한다.
 
-- **📢 섹션 요약 비유**: [[227_logistic_regression_clt_pvalue_type_error|로지스틱 회귀]]의 계수 해석은 "경제 기사의 통계"다. "금리 1% 상승 시 주택 구매 의향 30% 감소"처럼 한 요인의 변화가 결과에 미치는 영향을 오즈비로 명확히 설명할 수 있어, 판사와 의사가 [[190_ai_llm_requirements_specification|AI]] 결정을 신뢰하게 만든다.
+- **📢 섹션 요약 비유**: [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/)의 계수 해석은 "경제 기사의 통계"다. "금리 1% 상승 시 주택 구매 의향 30% 감소"처럼 한 요인의 변화가 결과에 미치는 영향을 오즈비로 명확히 설명할 수 있어, 판사와 의사가 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 결정을 신뢰하게 만든다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[[227_logistic_regression_clt_pvalue_type_error|로지스틱 회귀]]는 딥러닝이 범람하는 시대에도 해석가능성(Interpretability)과 계산 효율성 덕분에 금융(신용 평가), 의료(진단 보조), 마케팅(클릭 예측)에서 강력한 [[025_baseline|기준선]]([[025_baseline|Baseline]]) 모델로 살아있다. 기술사 시험에서 오즈→로짓→[[268_sigmoid_vanishing_gradient|시그모이드]] 변환 경로, BCE [[075_loss_function_cost_function|손실 함수]] 유도, 계수의 오즈비 해석을 수식과 함께 설명하면 고득점이다.
+[로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/)는 딥러닝이 범람하는 시대에도 해석가능성(Interpretability)과 계산 효율성 덕분에 금융(신용 평가), 의료(진단 보조), 마케팅(클릭 예측)에서 강력한 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)) 모델로 살아있다. 기술사 시험에서 오즈→로짓→[시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) 변환 경로, BCE [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/) 유도, 계수의 오즈비 해석을 수식과 함께 설명하면 고득점이다.
 
-- **📢 섹션 요약 비유**: [[227_logistic_regression_clt_pvalue_type_error|로지스틱 회귀]]는 [[190_ai_llm_requirements_specification|AI]] 세계의 "스위스 아미 나이프"다. 복잡한 딥러닝이 우수한 [[282_performance_tactics|성능]]을 보일 때도, 법원이나 병원처럼 "왜 이렇게 판단했는지 설명하라"고 요구받는 고위험 환경에서는 해석 가능한 이 고전 도구가 여전히 황금 기준이다.
+- **📢 섹션 요약 비유**: [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/)는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 세계의 "스위스 아미 나이프"다. 복잡한 딥러닝이 우수한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보일 때도, 법원이나 병원처럼 "왜 이렇게 판단했는지 설명하라"고 요구받는 고위험 환경에서는 해석 가능한 이 고전 도구가 여전히 황금 기준이다.
 
 ---
 
@@ -94,10 +98,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[268_sigmoid_vanishing_gradient|시그모이드]] ([[268_sigmoid_vanishing_gradient|Sigmoid]]) | [[129_activation_function|활성화 함수]] / 로짓 → [[130_probability|확률]] 변환 |
-| 이진 교차 [[151_entropy|엔트로피]] (BCE) | [[075_loss_function_cost_function|손실 함수]] / [[227_logistic_regression_clt_pvalue_type_error|로지스틱 회귀]] 학습 목적 |
-| [[270_softmax|소프트맥스]] 회귀 ([[270_softmax|Softmax]] Regression) | 다중 [[104_classification_analysis|분류]] / [[227_logistic_regression_clt_pvalue_type_error|로지스틱 회귀]] 다중 클래스 확장 |
-| [[227_xai_explainable_ai_lime_shap|XAI]] ([[255_xai_lime_shap_explainable_contribution|Explainable AI]]) | 해석가능성 / 계수 = 오즈비 해석 강점 |
+| [시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) ([Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)) | [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) / 로짓 → [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 변환 |
+| 이진 교차 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) (BCE) | [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/) / [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/) 학습 목적 |
+| [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) 회귀 ([Softmax](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) Regression) | 다중 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) / [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/) 다중 클래스 확장 |
+| [XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) ([Explainable AI](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/255_xai_lime_shap_explainable_contribution/)) | 해석가능성 / 계수 = 오즈비 해석 강점 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -107,9 +111,9 @@ tags:
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [[227_logistic_regression_clt_pvalue_type_error|로지스틱 회귀]]는 "합격/불합격 예측기"예요. 시험 점수, 출석률 등을 합쳐서 합격 [[130_probability|확률]]을 계산해요.
+1. [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/)는 "합격/불합격 예측기"예요. 시험 점수, 출석률 등을 합쳐서 합격 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 계산해요.
 2. 오즈는 "합격 가능성이 불합격보다 몇 배 높은가"를 나타내는 숫자예요.
-3. [[268_sigmoid_vanishing_gradient|시그모이드]]는 그 숫자를 0~100% [[130_probability|확률]]로 깔끔하게 바꿔주는 마법 변환기예요!
+3. [시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)는 그 숫자를 0~100% [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 깔끔하게 바꿔주는 마법 변환기예요!
 
 ---
 
@@ -117,7 +121,7 @@ tags:
 
 **진행 상황**: 353 / 420
 
-← **이전**: [[352_perceptron_linear_separability|352. 퍼셉트론 (Perceptron)]]
-**다음**: [[354_pca_covariance|354. PCA (Principal Component Analysis)]] →
+← **이전**: [352. 퍼셉트론 (Perceptron)](/knowledge-base/studynote/10_ai/05_data_science_ml/352_perceptron_linear_separability/)
+**다음**: [354. PCA (Principal Component Analysis)](/knowledge-base/studynote/10_ai/05_data_science_ml/354_pca_covariance/) →
 
 ---

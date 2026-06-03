@@ -1,13 +1,17 @@
----
-title: 398. IP SLA
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "398. IP SLA"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: IP SLA는 [[339_routing_overview_best_path_selection|라우팅]]과 경로 제어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 1. **본질**: IP SLA는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
 > 2. **가치**: IP SLA를 이해하면 수렴 속도과 확장성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
@@ -15,12 +19,12 @@ tags:
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 시스코 라우터(IOS) 내부에 탑재된 실시간 네트워크 [[282_performance_tactics|성능]] 측정 및 트래픽 분석 도구. 능동적으로 패킷을 생성하여 타겟 장비까지의 [[138_response_time|응답 시간]], 패킷 유실, 지터 등을 측정한다.
-- **필요성**: 회사에 메인선(KT 100M)과 [[555_backup_and_restore_strategy|백업]]선(LG 10M)이 있다. 평소에 KT로 데이터를 보낸다(Static Route: `ip route 0.0.0.0 0.0.0.0 KT_IP`). 그런데 포크레인이 회사 밖 5km 지점의 KT 해저 케이블을 끊어먹었다. 내 라우터와 연결된 [[146_modem_modulator_demodulator|모뎀]] 선은 물리적으로 살아있기 때문에(Link UP), 라우터는 회선이 죽은 줄도 모르고 끝없이 KT 쪽으로 패킷을 쏟아부어 인터넷이 영원히 먹통(블랙홀)이 된다. **"아놔, 내 눈앞의 물리적 선이 살아있어도 그 너머의 실제 인터넷(8.8.8.8)이 뚫려있는지 실시간으로 찔러보고 확인해서(Ping), 끊겼으면 알아서 [[555_backup_and_restore_strategy|백업]]선으로 꺾어주는 정찰병이 절실하다!"**
+- **개념**: 시스코 라우터(IOS) 내부에 탑재된 실시간 네트워크 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 측정 및 트래픽 분석 도구. 능동적으로 패킷을 생성하여 타겟 장비까지의 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), 패킷 유실, 지터 등을 측정한다.
+- **필요성**: 회사에 메인선(KT 100M)과 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)선(LG 10M)이 있다. 평소에 KT로 데이터를 보낸다(Static Route: `ip route 0.0.0.0 0.0.0.0 KT_IP`). 그런데 포크레인이 회사 밖 5km 지점의 KT 해저 케이블을 끊어먹었다. 내 라우터와 연결된 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) 선은 물리적으로 살아있기 때문에(Link UP), 라우터는 회선이 죽은 줄도 모르고 끝없이 KT 쪽으로 패킷을 쏟아부어 인터넷이 영원히 먹통(블랙홀)이 된다. **"아놔, 내 눈앞의 물리적 선이 살아있어도 그 너머의 실제 인터넷(8.8.8.8)이 뚫려있는지 실시간으로 찔러보고 확인해서(Ping), 끊겼으면 알아서 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)선으로 꺾어주는 정찰병이 절실하다!"**
 
 - **💡 비유**: IP SLA는 탄광에 데리고 들어가는 **"카나리아(새)"**와 같습니다.
   - 내 눈앞의 갱도(물리적 링크)가 아무리 멀쩡해 보여도, 저 멀리 갱도 끝에서 독가스(L3 장애)가 새어 나오면 광부(라우터)는 눈치채지 못하고 죽습니다.
-  - 광부는 카나리아(IP [[085_sla|SLA]] Ping)를 계속 새장 안에 두고 관찰합니다. 만약 카나리아가 찍! 하고 죽어버리면(Ping Fail), 광부는 눈앞의 길이 멀쩡해도 즉시 발길을 돌려 **비상 탈출구([[555_backup_and_restore_strategy|백업]] [[339_routing_overview_best_path_selection|라우팅]])**로 대피하여 생명을 구합니다.
+  - 광부는 카나리아(IP [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) Ping)를 계속 새장 안에 두고 관찰합니다. 만약 카나리아가 찍! 하고 죽어버리면(Ping Fail), 광부는 눈앞의 길이 멀쩡해도 즉시 발길을 돌려 **비상 탈출구([백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))**로 대피하여 생명을 구합니다.
 
 ```text
 [GLBP]
@@ -39,10 +43,10 @@ tags:
 
 이 시나리오는 네트워크 엔지니어 실무 1년 차가 가장 많이 세팅하는 통신망 이중화의 꽃이다.
 
-### 1. 센서 만들기 (IP [[085_sla|SLA]] 세팅)
-라우터에 1번 감시 카메라([[085_sla|SLA]])를 단다.
-- 임무: `구글 DNS(8.8.8.8)`를 향해 5초마다 한 번씩 [[318_icmp_internet_control_message_protocol_diagnostics|ICMP]] Echo(Ping)를 쏜다.
-- 조건: 2초 안에 대답이 안 오면 [[319_timeout_prevention|Timeout]](실패)으로 간주한다.
+### 1. 센서 만들기 (IP [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 세팅)
+라우터에 1번 감시 카메라([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))를 단다.
+- 임무: `구글 DNS(8.8.8.8)`를 향해 5초마다 한 번씩 [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) Echo(Ping)를 쏜다.
+- 조건: 2초 안에 대답이 안 오면 [Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)(실패)으로 간주한다.
 
 ```text
 [GLBP]
@@ -59,15 +63,15 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-[[085_sla|SLA]] 카메라가 찍은 결과물(성공/실패)을 [[238_switch_operation_principles|스위치]] 전원처럼 똑딱거리는 트랙(Track) 번호로 매핑한다.
+[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 카메라가 찍은 결과물(성공/실패)을 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 전원처럼 똑딱거리는 트랙(Track) 번호로 매핑한다.
 - `track 1 ip sla 1 reachability`
-- (해석: "[[085_sla|SLA]] 1번이 핑 쳐서 성공하면 트랙 1번 불(Up) 켜고, 핑 끊기면 불(Down) 꺼라!")
+- (해석: "[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 1번이 핑 쳐서 성공하면 트랙 1번 불(Up) 켜고, 핑 끊기면 불(Down) 꺼라!")
 
-### 3. [[339_routing_overview_best_path_selection|라우팅]] 테이블 조작 (Static Route 묶기)
+### 3. [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 조작 (Static Route 묶기)
 이게 마법의 마무리다. 관리자가 쳐둔 Static 룰 뒤에 아까 만든 트랙 1번의 운명을 걸어버린다.
 - **메인 룰**: `ip route 0.0.0.0 0.0.0.0 [KT IP] track 1`
-  - (해석: KT 쪽으로 가는 메인 길은, **Track 1번에 불이 들어와 있을 때(구글 핑이 정상일 때)만 [[339_routing_overview_best_path_selection|라우팅]] 테이블에 남겨둔다!**)
-- **[[555_backup_and_restore_strategy|백업]] 룰**: `ip route 0.0.0.0 0.0.0.0 [LG IP] 200`
+  - (해석: KT 쪽으로 가는 메인 길은, **Track 1번에 불이 들어와 있을 때(구글 핑이 정상일 때)만 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블에 남겨둔다!**)
+- **[백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 룰**: `ip route 0.0.0.0 0.0.0.0 [LG IP] 200`
   - (해석: AD 200점짜리 플로팅 스태틱(Floating Static) 예비 길이다. 평소엔 죽어있다).
 
 ```text
@@ -94,27 +98,27 @@ tags:
 
 ### 4. 진단 도구로써의 가치 (Voice Jitter 등)
 IP SLA는 단순 핑뿐만 아니라 훨씬 고차원적인 진단을 할 수 있다.
-- **[[406_udp_user_datagram_protocol_connectionless_fast|UDP]] Jitter 탐지**: 목적지 라우터까지 가상 VoIP 패킷을 날려보고 "아, 지연이 15ms고 패킷 유실률이 2%네. 이 회선 통화 품질 개판이네"라고 점수([[909_mos_mean_opinion_score_qoe_emodel|MOS]])를 매겨 관리자에게 리포팅해 준다.
-- **[[461_http_stateless_connection_oriented|HTTP]] 탐지**: "저쪽 웹서버 [[446_port_and_bus|포트]] 80번에 접속해 보고 로그인 [[286_page_frame|페이지]] 잘 뜨는지 10초마다 확인해!"라는 L7(애플리케이션) 레벨의 정찰도 가능하다.
+- **[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) Jitter 탐지**: 목적지 라우터까지 가상 VoIP 패킷을 날려보고 "아, 지연이 15ms고 패킷 유실률이 2%네. 이 회선 통화 품질 개판이네"라고 점수([MOS](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/909_mos_mean_opinion_score_qoe_emodel/))를 매겨 관리자에게 리포팅해 준다.
+- **[HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 탐지**: "저쪽 웹서버 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 80번에 접속해 보고 로그인 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 잘 뜨는지 10초마다 확인해!"라는 L7(애플리케이션) 레벨의 정찰도 가능하다.
 
-- **📢 섹션 요약 비유**: ** IP [[085_sla|SLA]] + Track 연동 기술은 자동차의 **"스마트 크루즈 컨트롤 + 긴급 제동(AEB)"**입니다. 운전자가 페달을 밟지 않아도([[340_static_routing_default_route_0_0_0_0|정적 라우팅]]), 센서(IP [[085_sla|SLA]])가 끊임없이 앞차와의 거리를 계산하다가 사고가 감지되는 순간 0.1초 만에 브레이크를 밟고 핸들을 꺾어(Track 연동) 탑승객의 목숨을 구합니다.
+- **📢 섹션 요약 비유**: ** IP [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) + Track 연동 기술은 자동차의 **"스마트 크루즈 컨트롤 + 긴급 제동(AEB)"**입니다. 운전자가 페달을 밟지 않아도([정적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/340_static_routing_default_route_0_0_0_0/)), 센서(IP [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))가 끊임없이 앞차와의 거리를 계산하다가 사고가 감지되는 순간 0.1초 만에 브레이크를 밟고 핸들을 꺾어(Track 연동) 탑승객의 목숨을 구합니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 IP SLA를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [[397_glbp_gateway_load_balancing_protocol|GLBP]] 수준의 기본 대책으로 충분한지, 아니면 IP SLA가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 Anycast [[339_routing_overview_best_path_selection|라우팅]] ([[365_bgp_border_gateway_protocol_path_vector|BGP]] Anycast와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 IP SLA를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [GLBP](/knowledge-base/studynote/03_network/07_network_layer_routing/397_glbp_gateway_load_balancing_protocol/) 수준의 기본 대책으로 충분한지, 아니면 IP SLA가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 Anycast [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) ([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Anycast와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 수렴 속도 부족인지, 확장성 악화인지 먼저 분리한다.
 2. IP SLA가 추가하는 복잡도와 운영 이득이 균형을 이루는지 확인한다.
-3. 도입 후에는 인접 기술인 Anycast [[339_routing_overview_best_path_selection|라우팅]] ([[365_bgp_border_gateway_protocol_path_vector|BGP]] Anycast와의 연계 방식을 함께 검증한다.
+3. 도입 후에는 인접 기술인 Anycast [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) ([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Anycast와의 연계 방식을 함께 검증한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - IP SLA의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- GLBP와의 경계를 정리하지 않아 중복 투자나 [[164_policy|정책]] 충돌을 만드는 설계
+- GLBP와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: IP SLA를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -122,7 +126,7 @@ IP SLA는 단순 핑뿐만 아니라 훨씬 고차원적인 진단을 할 수 �
 
 ## Ⅴ. 기대효과 및 결론
 
-IP SLA는 [[339_routing_overview_best_path_selection|라우팅]]과 경로 제어를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 수렴 속도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 Anycast [[339_routing_overview_best_path_selection|라우팅]] ([[365_bgp_border_gateway_protocol_path_vector|BGP]] Anycast, 의도 기반 [[339_routing_overview_best_path_selection|라우팅]], 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의도 기반 [[339_routing_overview_best_path_selection|라우팅]] 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+IP SLA는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 수렴 속도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 Anycast [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) ([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Anycast, 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: IP SLA는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -132,10 +136,10 @@ IP SLA는 [[339_routing_overview_best_path_selection|라우팅]]과 경로 제�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[397_glbp_gateway_load_balancing_protocol|GLBP]] | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [[339_routing_overview_best_path_selection|라우팅]] 테이블 ([[339_routing_overview_best_path_selection|Routing]] Table) | 패킷 전달 의사결정의 기준이 된다. |
-| [[342_routing_metric_hop_bandwidth_delay|메트릭]] ([[342_routing_metric_hop_bandwidth_delay|Metric]]) | 최적 경로를 선택하는 비교 척도다. |
-| Anycast [[339_routing_overview_best_path_selection|라우팅]] ([[365_bgp_border_gateway_protocol_path_vector|BGP]] Anycast | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [GLBP](/knowledge-base/studynote/03_network/07_network_layer_routing/397_glbp_gateway_load_balancing_protocol/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 ([Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) Table) | 패킷 전달 의사결정의 기준이 된다. |
+| [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) ([Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)) | 최적 경로를 선택하는 비교 척도다. |
+| Anycast [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) ([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Anycast | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -149,7 +153,7 @@ IP SLA는 [[339_routing_overview_best_path_selection|라우팅]]과 경로 제�
     └──▶ [확장 B: 의도 기반 라우팅]
 ```
 
-IP SLA는 GLBP에서 출발해 현재 메커니즘을 정교화하고, 이후 Anycast [[339_routing_overview_best_path_selection|라우팅]] ([[365_bgp_border_gateway_protocol_path_vector|BGP]] Anycast와 의도 기반 [[339_routing_overview_best_path_selection|라우팅]] 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+IP SLA는 GLBP에서 출발해 현재 메커니즘을 정교화하고, 이후 Anycast [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) ([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Anycast와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -163,7 +167,7 @@ IP SLA는 GLBP에서 출발해 현재 메커니즘을 정교화하고, 이후 An
 
 **진행 상황**: 519 / 1120
 
-← **이전**: [[397_glbp_gateway_load_balancing_protocol|397. GLBP (Gateway Load Balancing Protocol)]]
-**다음**: [[399_anycast_routing_bgp_anycast_dns_redundancy|399. Anycast 라우팅 (BGP Anycast]] →
+← **이전**: [397. GLBP (Gateway Load Balancing Protocol)](/knowledge-base/studynote/03_network/07_network_layer_routing/397_glbp_gateway_load_balancing_protocol/)
+**다음**: [399. Anycast 라우팅 (BGP Anycast](/knowledge-base/studynote/03_network/07_network_layer_routing/399_anycast_routing_bgp_anycast_dns_redundancy/) →
 
 ---

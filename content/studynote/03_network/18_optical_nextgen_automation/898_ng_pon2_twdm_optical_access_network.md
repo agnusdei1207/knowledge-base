@@ -1,9 +1,13 @@
----
-title: 898. NG-PON2 표준
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "898. NG-PON2 표준"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -15,9 +19,9 @@ tags:
 
 ## Ⅰ. 개요 및 필요성
 
-- **[[284_pon_passive_optical_network_vs_aon_active|PON]] ([[284_pon_passive_optical_network_vs_aon_active|Passive Optical Network]])**: 전화국(OLT)에서 아파트 단지까지 굵은 광케이블 하나를 쏘고, 단지 지하에서 무동력 거울(수동형 스플리터)로 빛을 n빵 쪼개서 각 가정(ONU/ONT)으로 뿌려주는 방식. 기계에 전기를 안 먹여도 빛이 갈라져 가성비가 짱입니다.
+- **[PON](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/284_pon_passive_optical_network_vs_aon_active/) ([Passive Optical Network](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/284_pon_passive_optical_network_vs_aon_active/))**: 전화국(OLT)에서 아파트 단지까지 굵은 광케이블 하나를 쏘고, 단지 지하에서 무동력 거울(수동형 스플리터)로 빛을 n빵 쪼개서 각 가정(ONU/ONT)으로 뿌려주는 방식. 기계에 전기를 안 먹여도 빛이 갈라져 가성비가 짱입니다.
 - **EPON / GPON (1세대)**: 최대 1Gbps ~ 2.5Gbps 속도를 집 32가구가 '시간을 쪼개어 번갈아 쓰며(TDM)' 노나 먹었습니다. 저녁 9시에 32가구가 다 넷플릭스를 틀면 렉이 걸려 터졌습니다.
-- **XG-[[284_pon_passive_optical_network_vs_aon_active|PON]] (2세대)**: 단순히 통신사 장비의 레이저 성능만 올려서 전체 속도를 10Gbps로 올린 과도기 기술입니다.
+- **XG-[PON](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/284_pon_passive_optical_network_vs_aon_active/) (2세대)**: 단순히 통신사 장비의 레이저 성능만 올려서 전체 속도를 10Gbps로 올린 과도기 기술입니다.
 
 ```text
 [ROF]
@@ -28,13 +32,13 @@ tags:
     └──▶ [다크 파이버]
 ```
 
-- **📢 섹션 요약 비유**: NG-PON2 표준은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [[170_selectivity_cardinality_distribution_tuning|선택도]] 쉬워진다.
+- **📢 섹션 요약 비유**: NG-PON2 표준은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: ITU-T에서 제정한 차세대 가입자망 광통신 표준(G.989)으로, **기존의 시분할(TDM) [[071_다중화_Multiplexing|다중화]] 방식에 고밀도 파장 분할(DWDM) 기술을 융합한 TWDM(Time and Wavelength [[411_division_operation|Division]] [[071_다중화_Multiplexing|Multiplexing]]) 방식을 사용하여, 다운로드 최소 40Gbps 이상을 지원하는 초거대 용량 광 가입자망 토폴로지 아키텍처**입니다.
+- **개념**: ITU-T에서 제정한 차세대 가입자망 광통신 표준(G.989)으로, **기존의 시분할(TDM) [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) 방식에 고밀도 파장 분할(DWDM) 기술을 융합한 TWDM(Time and Wavelength [Division](/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/) [Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 방식을 사용하여, 다운로드 최소 40Gbps 이상을 지원하는 초거대 용량 광 가입자망 토폴로지 아키텍처**입니다.
 
 ```text
 [ROF]
@@ -59,15 +63,15 @@ NG-PON2가 40Gbps라는 미친 속도를 아파트에 꽂아 넣는 비밀입니
 ### 2. 가구별 파장 동적 할당 조율 (TDM + Tunable)
 - 아파트에 도착한 무지개빛 레이저는 거울(스플리터)을 맞고 64가구 집집마다 흩어집니다.
 - **튜너블(Tunable) 레이저 마법**: 101호 공유기(ONT)는 똑똑하게도 자기 스스로 돋보기 필터 색깔을 바꿀 수 있습니다. "아, 지금 빨간색 빛 차선이 꽉 찼네? 나는 1초 만에 파란색 빛 파장으로 접속 차선을 스르륵 갈아탈게!" 
-- **결과 (동적 분할)**: 64가구가 각자 알아서 가장 널널한 색깔의 파장(WDM)을 찾아가 붙고, 그 파장 안에서 또 시간을 쪼개어 노나 먹으므로(TDM) 극강의 [[140_bandwidth|대역폭]] 밸런스가 달성됩니다.
+- **결과 (동적 분할)**: 64가구가 각자 알아서 가장 널널한 색깔의 파장(WDM)을 찾아가 붙고, 그 파장 안에서 또 시간을 쪼개어 노나 먹으므로(TDM) 극강의 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 밸런스가 달성됩니다.
 
-NG-PON2 표준을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. ROF가 기반 조건을 만든다면, NG-PON2 표준은 그 위에서 핵심 메커니즘을 구현하고, [[899_dark_fiber_unlit_infrastructure_lease|다크 파이버]]는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전송 용량과 자동 제어성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+NG-PON2 표준을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. ROF가 기반 조건을 만든다면, NG-PON2 표준은 그 위에서 핵심 메커니즘을 구현하고, [다크 파이버](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/899_dark_fiber_unlit_infrastructure_lease/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전송 용량과 자동 제어성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | ROF의 기반 정리 | NG-PON2 표준의 핵심 동작 | [[899_dark_fiber_unlit_infrastructure_lease|다크 파이버]]의 확장 적용 |
+| 초점 | ROF의 기반 정리 | NG-PON2 표준의 핵심 동작 | [다크 파이버](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/899_dark_fiber_unlit_infrastructure_lease/)의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 전송 용량 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: NG-PON2 표준은 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -76,10 +80,10 @@ NG-PON2 표준을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - 과거엔 사용자가 다운로드만 하고 업로드는 안 해서 업로드 속도를 구리게 짰습니다(비대칭형).
-- 지금은 유튜버 시대입니다. NG-PON2는 다운로드 40Gbps, 업로드도 40Gbps로 빵빵하게 뚫어버리는 **대칭형(Symmetric)** [[140_bandwidth|대역폭]]을 지원하여 클라우드 업로드 시대에 대비했습니다.
-- 향후 파장 개수를 4개에서 8개로 늘리면 소프트웨어 교체만으로 아파트 단지에 **80Gbps**를 공짜로 꽂아주는 무한 [[621_scale_up_system_bus|스케일 업]]([[621_scale_up_system_bus|Scale-up]]) 인프라가 됩니다.
+- 지금은 유튜버 시대입니다. NG-PON2는 다운로드 40Gbps, 업로드도 40Gbps로 빵빵하게 뚫어버리는 **대칭형(Symmetric)** [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 지원하여 클라우드 업로드 시대에 대비했습니다.
+- 향후 파장 개수를 4개에서 8개로 늘리면 소프트웨어 교체만으로 아파트 단지에 **80Gbps**를 공짜로 꽂아주는 무한 [스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)([Scale-up](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)) 인프라가 됩니다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
@@ -91,7 +95,7 @@ NG-PON2 표준을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 
 
 ## Ⅴ. 기대효과 및 결론
 
-NG-PON2 표준은 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 전송 용량 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [[899_dark_fiber_unlit_infrastructure_lease|다크 파이버]], 의미 기반 통신 최적화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의미 기반 통신 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+NG-PON2 표준은 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 전송 용량 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [다크 파이버](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/899_dark_fiber_unlit_infrastructure_lease/), 의미 기반 통신 최적화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의미 기반 통신 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: NG-PON2 표준은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -101,10 +105,10 @@ NG-PON2 표준은 광통신·차세대·자동화를 이해할 때 핵심 축을
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[897_rof_radio_over_fiber_analog_transmission_centralized|ROF]] | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| 광 전송 (Optical Transport) | [[148_5g_embb_urllc_mmtc|초고속]] 백본의 기본 전달 수단이다. |
+| [ROF](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/897_rof_radio_over_fiber_analog_transmission_centralized/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 광 전송 (Optical Transport) | [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 백본의 기본 전달 수단이다. |
 | 텔레메트리 (Telemetry) | 실시간 상태 측정과 제어 피드백을 가능하게 한다. |
-| [[899_dark_fiber_unlit_infrastructure_lease|다크 파이버]] | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [다크 파이버](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/899_dark_fiber_unlit_infrastructure_lease/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -118,7 +122,7 @@ NG-PON2 표준은 광통신·차세대·자동화를 이해할 때 핵심 축을
     └──▶ [확장 B: 의미 기반 통신 최적화]
 ```
 
-NG-PON2 표준는 ROF에서 출발해 현재 메커니즘을 정교화하고, 이후 [[899_dark_fiber_unlit_infrastructure_lease|다크 파이버]]와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+NG-PON2 표준는 ROF에서 출발해 현재 메커니즘을 정교화하고, 이후 [다크 파이버](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/899_dark_fiber_unlit_infrastructure_lease/)와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -132,7 +136,7 @@ NG-PON2 표준는 ROF에서 출발해 현재 메커니즘을 정교화하고, �
 
 **진행 상황**: 1019 / 1120
 
-← **이전**: [[897_rof_radio_over_fiber_analog_transmission_centralized|897. RoF (Radio over Fiber)]]
-**다음**: [[899_dark_fiber_unlit_infrastructure_lease|899. 다크 파이버 (Dark Fiber)]] →
+← **이전**: [897. RoF (Radio over Fiber)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/897_rof_radio_over_fiber_analog_transmission_centralized/)
+**다음**: [899. 다크 파이버 (Dark Fiber)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/899_dark_fiber_unlit_infrastructure_lease/) →
 
 ---

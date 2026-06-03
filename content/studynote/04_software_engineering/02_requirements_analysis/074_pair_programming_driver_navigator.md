@@ -1,8 +1,12 @@
----
-title: 74. 페어 프로그래밍 (Pair Programming) - Driver / Navigator
-tags:
-- software_engineering
----
++++
+title = "74. 페어 프로그래밍 (Pair Programming) - Driver / Navigator"
+
+[taxonomies]
+tags = ["software_engineering"]
+
+[extra]
+tags = ["software_engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -50,7 +54,7 @@ Driver가 타이핑하고 Navigator가 큰 그림과 오류를 본다.
 | 효과 | 의미 |
 | :-- | :-- |
 | Knowledge Sharing | 지식 공유 |
-| [[352_defect_definition|Defect]] Reduction | [[352_defect_definition|결함]] 감소 |
+| [Defect](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) Reduction | [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 감소 |
 
 페어 프로그래밍은 실시간 리뷰와 학습 효과가 크다.
 
@@ -60,7 +64,7 @@ Driver가 타이핑하고 Navigator가 큰 그림과 오류를 본다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 역할을 교대하는가?
 2. 리뷰와 작성이 분리되는가?
@@ -68,7 +72,7 @@ Driver가 타이핑하고 Navigator가 큰 그림과 오류를 본다.
 4. 품질 향상에 도움이 되는가?
 5. 과도한 비용을 고려하는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 한 명만 계속 치는 설계
 - Navigator가 방관하는 설계
@@ -127,7 +131,7 @@ Collaborative Coding
 
 **진행 상황**: 74 / 973
 
-← **이전**: [[073_xp_extreme_programming|73. XP (e/Xtreme Programming) - 5가지 가치, 12가지 실천 방법]]
-**다음**: [[075_collective_code_ownership|75. 공동 코드 소유 (Collective Code Ownership)]] →
+← **이전**: [73. XP (e/Xtreme Programming) - 5가지 가치, 12가지 실천 방법](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/)
+**다음**: [75. 공동 코드 소유 (Collective Code Ownership)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/075_collective_code_ownership/) →
 
 ---

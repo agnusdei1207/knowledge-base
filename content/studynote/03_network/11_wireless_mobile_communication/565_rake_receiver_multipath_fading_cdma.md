@@ -1,9 +1,13 @@
----
-title: 565. 레이크 수신기 (Rake Receiver)
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "565. 레이크 수신기 (Rake Receiver)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -15,9 +19,9 @@ tags:
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 레이크 수신기는 수신기 내부에 여러 개의 독립적인 수신 회로(Correlator 핑거)를 배치하여, 서로 다른 시간 [[015_지연_데이터_관점|지연]](Delay)을 가지고 도달하는 다중경로([[500_multipath_io|Multipath]]) [[130_signal|신호]] 파편들을 각각 낚아챈 뒤, 시간 축을 맞추어 수학적으로 결합(Maximum Ratio Combining, MRC)하는 아키텍처다. 낙엽을 모으는 '갈퀴(Rake)'와 그 모양이 닮았다고 하여 붙여진 이름이다.
-- **필요성**: 도심에서 스마트폰이 받는 전파는 결코 직선으로 오는 하나가 아니다. 빌딩 유리에 튕긴 전파는 1밀리초(ms) 늦게 도착하고, 뒤통수 산맥에 튕긴 전파는 2ms 늦게 도착한다. 이 [[015_지연_데이터_관점|지연]]된 전파들(메아리)이 내 귓속으로 한꺼번에 쏟아져 들어오면 파동이 엉키면서 **[[015_지연_데이터_관점|지연]] 확산(Delay Spread)**과 심각한 **다중경로 [[167_fading_large_scale_small_scale|페이딩]]([[168_multipath_fading_isi|Multipath Fading]])**이라는 파괴 현상이 일어나 통신이 뚝 끊긴다. 이 잡음(노이즈) 같은 메아리들을 처리할 방법이 절대적으로 필요했다.
-- **등장 배경**: ① 도심 환경에서 반사파에 의한 통화 절단(Drop) [[539_claims|클레임]] 쇄도 → ② 일반 필터로는 메아리와 원본을 구분 불가능하다는 한계 봉착 → ③ 퀄컴(Qualcomm)이 제안한 [[957_cdma_code_division_multiple_access_dsss_orthogonality|CDMA]] 광대역 스펙트럼과 PN 코드(가짜 잡음) 암호 기술을 활용하여, [[015_지연_데이터_관점|지연]]된 [[130_signal|신호]]를 골라잡는 Rake 수신기를 개발하며 3G 혁명을 주도.
+- **개념**: 레이크 수신기는 수신기 내부에 여러 개의 독립적인 수신 회로(Correlator 핑거)를 배치하여, 서로 다른 시간 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Delay)을 가지고 도달하는 다중경로([Multipath](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/500_multipath_io/)) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 파편들을 각각 낚아챈 뒤, 시간 축을 맞추어 수학적으로 결합(Maximum Ratio Combining, MRC)하는 아키텍처다. 낙엽을 모으는 '갈퀴(Rake)'와 그 모양이 닮았다고 하여 붙여진 이름이다.
+- **필요성**: 도심에서 스마트폰이 받는 전파는 결코 직선으로 오는 하나가 아니다. 빌딩 유리에 튕긴 전파는 1밀리초(ms) 늦게 도착하고, 뒤통수 산맥에 튕긴 전파는 2ms 늦게 도착한다. 이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)된 전파들(메아리)이 내 귓속으로 한꺼번에 쏟아져 들어오면 파동이 엉키면서 **[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 확산(Delay Spread)**과 심각한 **다중경로 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)([Multipath Fading](/knowledge-base/studynote/03_network/03_physical_layer_media/168_multipath_fading_isi/))**이라는 파괴 현상이 일어나 통신이 뚝 끊긴다. 이 잡음(노이즈) 같은 메아리들을 처리할 방법이 절대적으로 필요했다.
+- **등장 배경**: ① 도심 환경에서 반사파에 의한 통화 절단(Drop) [클레임](/knowledge-base/studynote/09_security/11_iam_access_control/539_claims/) 쇄도 → ② 일반 필터로는 메아리와 원본을 구분 불가능하다는 한계 봉착 → ③ 퀄컴(Qualcomm)이 제안한 [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) 광대역 스펙트럼과 PN 코드(가짜 잡음) 암호 기술을 활용하여, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)된 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 골라잡는 Rake 수신기를 개발하며 3G 혁명을 주도.
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -42,26 +46,26 @@ tags:
 └─────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 이 그림은 이동통신 역사상 가장 천재적인 '노이즈의 자원화'를 보여준다. 예전 아키텍처는 가장 먼저 도착한 강력한 직선 파동(LOS)만 취하고 뒤늦게 도착하는 반사파들은 문을 닫아버리거나 노이즈로 쳐서 버렸다. 하지만 [[957_cdma_code_division_multiple_access_dsss_orthogonality|CDMA]] 전파 안에는 자기들만 아는 지문(PN [[082_process_memory_structure|Code]])이 찍혀있다. 레이크 수신기 안의 '핑거(Finger)' 3개는 각자 0ms, 1ms, 2ms 늦게 도착하는 전파의 지문에만 반응하도록 타이밍이 맞춰져 있다. 늦게 온 파편이라도 이 지문을 읽어 자기 시간대에 맞게 퍼즐을 싹 조립해 주면, 찌그러진 3개의 쓰레기 [[130_signal|신호]]가 눈물겨운 전력 합산을 통해 가장 맑고 뚜렷한(Gain) 1개의 황금 [[130_signal|신호]]로 태어난다.
+**[다이어그램 해설]** 이 그림은 이동통신 역사상 가장 천재적인 '노이즈의 자원화'를 보여준다. 예전 아키텍처는 가장 먼저 도착한 강력한 직선 파동(LOS)만 취하고 뒤늦게 도착하는 반사파들은 문을 닫아버리거나 노이즈로 쳐서 버렸다. 하지만 [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) 전파 안에는 자기들만 아는 지문(PN [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))이 찍혀있다. 레이크 수신기 안의 '핑거(Finger)' 3개는 각자 0ms, 1ms, 2ms 늦게 도착하는 전파의 지문에만 반응하도록 타이밍이 맞춰져 있다. 늦게 온 파편이라도 이 지문을 읽어 자기 시간대에 맞게 퍼즐을 싹 조립해 주면, 찌그러진 3개의 쓰레기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 눈물겨운 전력 합산을 통해 가장 맑고 뚜렷한(Gain) 1개의 황금 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)로 태어난다.
 
-- **📢 섹션 요약 비유**: 넓은 강당에서 교장 선생님이 "안녕하세요"를 외쳤는데 여기저기서 1초씩 늦게 메아리가 울려 시끄럽습니다([[167_fading_large_scale_small_scale|페이딩]]). 보통 사람은 귀를 막지만, 레이크 수신기는 머리에 달린 3개의 독립된 마이크(핑거)로 늦게 들려온 메아리들을 녹음한 뒤, 그걸 원래 목소리 박자에 맞춰 똑같이 합쳐서 교장 선생님의 목소리를 스피커처럼 2배로 크게 듣는(다이버시티 이득) 마술 귀를 가졌습니다.
+- **📢 섹션 요약 비유**: 넓은 강당에서 교장 선생님이 "안녕하세요"를 외쳤는데 여기저기서 1초씩 늦게 메아리가 울려 시끄럽습니다([페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)). 보통 사람은 귀를 막지만, 레이크 수신기는 머리에 달린 3개의 독립된 마이크(핑거)로 늦게 들려온 메아리들을 녹음한 뒤, 그걸 원래 목소리 박자에 맞춰 똑같이 합쳐서 교장 선생님의 목소리를 스피커처럼 2배로 크게 듣는(다이버시티 이득) 마술 귀를 가졌습니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-단말기 칩셋 안에서 이 기적이 일어나려면, 정교한 시간 계산([[212_synchronization_mechanisms|Synchronization]])과 곱셈 연산이 뒷받침되어야 한다.
+단말기 칩셋 안에서 이 기적이 일어나려면, 정교한 시간 계산([Synchronization](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/))과 곱셈 연산이 뒷받침되어야 한다.
 
 | 블록 명칭 | 역할 및 기능 | 동작 원리 | 비유 |
 |:---|:---|:---|:---|
-| **Searcher (탐색기)** | 메아리 레이더 | 안테나로 들어오는 수십 개의 난잡한 전파들을 스캔하여, 에너지가 가장 센 3~4개의 [[130_signal|신호]] 조각(경로)과 그 **[[141_latency|지연 시간]](Delay Profile)**을 1밀리초 단위로 찾아냄. | 금속 탐지기로 가장 센 파편 위치 찾기 |
-| **Finger (핑거 / 상관기)**| 조각 수집 전담반 | 탐색기가 찍어준 타이밍(예: 1.5ms 딜레마)에 맞춰, 폰 안에 내장된 **[[016_replication_factor|복제]] 암호코드(PN [[082_process_memory_structure|Code]])를 1.5ms 늦춰 쏜 뒤** 겹쳐서 원본 [[001_dikw_pyramid|데이터]]를 쏙 빼냄. | 늦게 날아오는 표적에 맞춰 영점 조절 후 사격 |
-| **Delay Compensator** | [[015_지연_데이터_관점|지연]] 보상기 (시간 [[212_synchronization_mechanisms|동기화]]) | 핑거 1, 2, 3이 각자 잡아낸 [[001_dikw_pyramid|데이터]]들은 0ms, 1ms, 2ms로 시간이 어긋나 있음. 이를 믹서기에 넣기 위해 **버퍼(메모리)에 잠시 담아 똑같은 출발선으로 정렬**시킴. | 육상 릴레이에서 선수들 출발 타이밍 맞추기 |
-| **Combiner (결합기)** | 다이버시티 증폭기 | 출발선이 맞춰진 3개의 조각을 단순히 더하지 않고, 잡음이 덜 낀 놈의 가중치를 뻥튀기하는 **MRC (최대비 결합)** [[001_algorithm_definition|알고리즘]]으로 더해 완벽한 파동을 만듦. | 쓸모 있는 증언에 점수를 더 쳐서 범인 몽타주 완성 |
+| **Searcher (탐색기)** | 메아리 레이더 | 안테나로 들어오는 수십 개의 난잡한 전파들을 스캔하여, 에너지가 가장 센 3~4개의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 조각(경로)과 그 **[지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)(Delay Profile)**을 1밀리초 단위로 찾아냄. | 금속 탐지기로 가장 센 파편 위치 찾기 |
+| **Finger (핑거 / 상관기)**| 조각 수집 전담반 | 탐색기가 찍어준 타이밍(예: 1.5ms 딜레마)에 맞춰, 폰 안에 내장된 **[복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 암호코드(PN [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))를 1.5ms 늦춰 쏜 뒤** 겹쳐서 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏙 빼냄. | 늦게 날아오는 표적에 맞춰 영점 조절 후 사격 |
+| **Delay Compensator** | [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 보상기 (시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)) | 핑거 1, 2, 3이 각자 잡아낸 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들은 0ms, 1ms, 2ms로 시간이 어긋나 있음. 이를 믹서기에 넣기 위해 **버퍼(메모리)에 잠시 담아 똑같은 출발선으로 정렬**시킴. | 육상 릴레이에서 선수들 출발 타이밍 맞추기 |
+| **Combiner (결합기)** | 다이버시티 증폭기 | 출발선이 맞춰진 3개의 조각을 단순히 더하지 않고, 잡음이 덜 낀 놈의 가중치를 뻥튀기하는 **MRC (최대비 결합)** [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 더해 완벽한 파동을 만듦. | 쓸모 있는 증언에 점수를 더 쳐서 범인 몽타주 완성 |
 
-### [[957_cdma_code_division_multiple_access_dsss_orthogonality|CDMA]] 환경에서 레이크가 작동하는 절대 조건 (PN Code의 [[083_직교성_Orthogonality|직교성]])
+### [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) 환경에서 레이크가 작동하는 절대 조건 (PN Code의 [직교성](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/))
 
-"왜 4G LTE나 구형 2G에서는 레이크 수신기를 못 쓸까?"라는 근본적 질문에 대한 답이다. 레이크는 오직 전파를 넓게 퍼뜨려 암호를 씌우는 대역 확산([[068_스펙트럼_확산_Spread_Spectrum|Spread Spectrum]]) 방식, 즉 **[[957_cdma_code_division_multiple_access_dsss_orthogonality|CDMA]] (코드 분할 [[087_다중접속_Multiple_Access|다중 접속]])**에서만 발동되는 전유물이다.
+"왜 4G LTE나 구형 2G에서는 레이크 수신기를 못 쓸까?"라는 근본적 질문에 대한 답이다. 레이크는 오직 전파를 넓게 퍼뜨려 암호를 씌우는 대역 확산([Spread Spectrum](/knowledge-base/studynote/03_network/01_data_communication/068_스펙트럼_확산_Spread_Spectrum/)) 방식, 즉 **[CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) (코드 분할 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))**에서만 발동되는 전유물이다.
 
 ```text
 ┌───────────────────────────────────────────────────────────────┐
@@ -87,7 +91,7 @@ tags:
 └───────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 이것이 퀄컴(Qualcomm)이 세계를 제패한 자기상관성(Auto-correlation) 마법이다. [[957_cdma_code_division_multiple_access_dsss_orthogonality|CDMA]] 기지국이 쏘는 전파에는 어마어마하게 빠른 템포의 가짜 난수 암호(PN [[082_process_memory_structure|Code]])가 섞여 있다. 이 암호는 타이밍이 0.001초(1 Chip)만 어긋나도 폰 입장에서는 100% 완벽한 잡음(지직거림)으로 들린다. 즉, 0ms에 도착한 직사광선 파동과 1ms 늦게 온 반사파 파동은 내 귀에 완전히 남남처럼 들린다([[083_직교성_Orthogonality|직교성]]). 그래서 폰 안의 1번 핑거는 0ms 타이밍의 암호만 쳐다보고, 2번 핑거는 1ms 늦춘 암호만 쳐다본다. 이렇게 하면 섞여 있는 파동 국물 속에서 자신이 원하는 시간대의 건더기(메아리)만 쏙쏙 핀셋으로 건져낼 수 있게 되는 것이다.
+**[다이어그램 해설]** 이것이 퀄컴(Qualcomm)이 세계를 제패한 자기상관성(Auto-correlation) 마법이다. [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) 기지국이 쏘는 전파에는 어마어마하게 빠른 템포의 가짜 난수 암호(PN [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))가 섞여 있다. 이 암호는 타이밍이 0.001초(1 Chip)만 어긋나도 폰 입장에서는 100% 완벽한 잡음(지직거림)으로 들린다. 즉, 0ms에 도착한 직사광선 파동과 1ms 늦게 온 반사파 파동은 내 귀에 완전히 남남처럼 들린다([직교성](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/)). 그래서 폰 안의 1번 핑거는 0ms 타이밍의 암호만 쳐다보고, 2번 핑거는 1ms 늦춘 암호만 쳐다본다. 이렇게 하면 섞여 있는 파동 국물 속에서 자신이 원하는 시간대의 건더기(메아리)만 쏙쏙 핀셋으로 건져낼 수 있게 되는 것이다.
 
 - **📢 섹션 요약 비유**: 클럽에서 음악이 너무 시끄러워(간섭) 아무 소리도 안 들리지만, 내 귀가 오직 '내 친구 목소리 톤(PN 코드)'에만 100% 반응하도록 튜닝되어 있다면 그 시끄러운 소음 속에서도 친구의 목소리만 핀셋처럼 뽑아낼 수 있습니다. 2번 핑거는 '1초 늦게 말하는 친구 목소리'만 골라잡는 또 다른 마법의 귀입니다.
 
@@ -95,16 +99,16 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-스마트폰에서 동영상을 보게 되며 통신 [[140_bandwidth|대역폭]]이 10MHz, 100MHz로 거대하게 넓어지자, 이 완벽했던 레이크 수신기는 스스로 파멸의 길을 걷게 된다.
+스마트폰에서 동영상을 보게 되며 통신 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 10MHz, 100MHz로 거대하게 넓어지자, 이 완벽했던 레이크 수신기는 스스로 파멸의 길을 걷게 된다.
 
-| 비교 기준 | 3G [[957_cdma_code_division_multiple_access_dsss_orthogonality|CDMA]] (Rake Receiver 아키텍처) | 4G/[[418_5g_embb_urllc_mmtc_slicing|5G]] [[945_ofdma_orthogonal_frequency_division_multiple_access_resource_block|OFDMA]] ([[086_CP_순환_전치_GI|CP]] 및 [[566_equalizer_isi_inter_symbol_interference|Equalizer]] 아키텍처) |
+| 비교 기준 | 3G [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) (Rake Receiver 아키텍처) | 4G/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) ([CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) 및 [Equalizer](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/566_equalizer_isi_inter_symbol_interference/) 아키텍처) |
 |:---|:---|:---|
-| **메아리([[015_지연_데이터_관점|지연]]파) 대우** | **시간 다이버시티 자원**으로 싹 긁어모아 증폭(Gain) 시킴 | 복원 불가능한 **노이즈(ISI)**로 간주하여 방어벽을 침 |
-| **[[140_bandwidth|대역폭]] 한계** | [[140_bandwidth|대역폭]]이 넓어지면 메아리가 수백 개로 쪼개져 핑거(칩)가 수백 개 필요함 | [[140_bandwidth|대역폭]]이 넓어도 15kHz 단위 얇은 주파수 수천 개로 쪼개 무력화시킴 |
-| **하드웨어 복잡도**| 핑거를 늘릴수록 스마트폰 칩셋 연산량 폭발, 배터리 녹음 | 수학적 퓨리에 변환([[126_fft|FFT]]) 칩 하나로 수천 개 주파수를 동시 계산 (가볍고 빠름) |
-| **속도 경쟁력** | 음성이나 저속 [[001_dikw_pyramid|데이터]](2Mbps) 환경에 최적의 생존력 보장 | 기가비트(Gbps)급 [[001_dikw_pyramid|데이터]] 폭격을 쏟아내는 데 절대 유리 |
+| **메아리([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)파) 대우** | **시간 다이버시티 자원**으로 싹 긁어모아 증폭(Gain) 시킴 | 복원 불가능한 **노이즈(ISI)**로 간주하여 방어벽을 침 |
+| **[대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 한계** | [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 넓어지면 메아리가 수백 개로 쪼개져 핑거(칩)가 수백 개 필요함 | [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 넓어도 15kHz 단위 얇은 주파수 수천 개로 쪼개 무력화시킴 |
+| **하드웨어 복잡도**| 핑거를 늘릴수록 스마트폰 칩셋 연산량 폭발, 배터리 녹음 | 수학적 퓨리에 변환([FFT](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/)) 칩 하나로 수천 개 주파수를 동시 계산 (가볍고 빠름) |
+| **속도 경쟁력** | 음성이나 저속 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(2Mbps) 환경에 최적의 생존력 보장 | 기가비트(Gbps)급 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 폭격을 쏟아내는 데 절대 유리 |
 
-만약 [[418_5g_embb_urllc_mmtc_slicing|5G]] [[140_bandwidth|대역폭]](100MHz)에서 메아리를 잡으려고 레이크 수신기를 달았다간 스마트폰 안에 핑거(Finger)를 100개 이상 달아야 하고, 폰은 발열로 1시간 안에 폭발한다. 결국 현대 통신망([[945_ofdma_orthogonal_frequency_division_multiple_access_resource_block|OFDMA]])은 메아리를 갈퀴로 모으는 노가다를 포기했다. 대신 파동을 쏠 때 뒤에 쓸모없는 [[571_protection_vs_security|보호]] 시간([[086_CP_순환_전치_GI|Cyclic Prefix]], [[086_CP_순환_전치_GI|CP]])이라는 가짜 꼬리를 길게 달아 쏘아, 늦게 도착하는 메아리들이 꼬리 부분만 망치게 하고 진짜 [[001_dikw_pyramid|데이터]] 몸통은 다치지 않게 [[571_protection_vs_security|보호]]하는 우아하고 가벼운 수학적 아키텍처로 진로를 완전히 틀었다.
+만약 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(100MHz)에서 메아리를 잡으려고 레이크 수신기를 달았다간 스마트폰 안에 핑거(Finger)를 100개 이상 달아야 하고, 폰은 발열로 1시간 안에 폭발한다. 결국 현대 통신망([OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/))은 메아리를 갈퀴로 모으는 노가다를 포기했다. 대신 파동을 쏠 때 뒤에 쓸모없는 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 시간([Cyclic Prefix](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/), [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/))이라는 가짜 꼬리를 길게 달아 쏘아, 늦게 도착하는 메아리들이 꼬리 부분만 망치게 하고 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 몸통은 다치지 않게 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하는 우아하고 가벼운 수학적 아키텍처로 진로를 완전히 틀었다.
 
 ```text
 ┌───────────────────────────────────────────────────────────────┐
@@ -125,49 +129,49 @@ tags:
 └───────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 이것이 3G 시대에 전화가 절대로 끊어지지 않았던 '[[558_soft_handoff|소프트 핸드오버]]'의 물리적 실체다. 레이크 수신기는 원래 '하나의 기지국'이 쏘고 벽에 반사된 메아리들을 줍는 용도다. 그런데 퀄컴 엔지니어들은 기막힌 아이디어를 냈다. "어차피 핑거 2번이 늦게 온 메아리를 잡나, 옆 동네 기지국 B가 쏘는 전파를 잡나 폰 입장에서는 똑같은 [[015_지연_데이터_관점|지연]]된 파동 아냐?" 즉, A 기지국 파동과 B 기지국 파동을 각각 핑거에 할당해서 합쳐버리면 폰은 굳이 주파수를 뚝 끊고 넘어갈(Hard [[556_handover_handoff_types_concept|Handover]]) 필요 없이 양쪽 전파의 단물을 동시에 빨아먹게 되는 것이다. 이 아키텍처적 시너지가 CDMA를 3G의 글로벌 왕좌에 올렸다.
+**[다이어그램 해설]** 이것이 3G 시대에 전화가 절대로 끊어지지 않았던 '[소프트 핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/558_soft_handoff/)'의 물리적 실체다. 레이크 수신기는 원래 '하나의 기지국'이 쏘고 벽에 반사된 메아리들을 줍는 용도다. 그런데 퀄컴 엔지니어들은 기막힌 아이디어를 냈다. "어차피 핑거 2번이 늦게 온 메아리를 잡나, 옆 동네 기지국 B가 쏘는 전파를 잡나 폰 입장에서는 똑같은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)된 파동 아냐?" 즉, A 기지국 파동과 B 기지국 파동을 각각 핑거에 할당해서 합쳐버리면 폰은 굳이 주파수를 뚝 끊고 넘어갈(Hard [Handover](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)) 필요 없이 양쪽 전파의 단물을 동시에 빨아먹게 되는 것이다. 이 아키텍처적 시너지가 CDMA를 3G의 글로벌 왕좌에 올렸다.
 
-- **📢 섹션 요약 비유**: 레이크 핑거가 원래는 '기지국 A가 쏜 메아리'를 줍는 용도였지만, 똑같은 통화 내용을 틀어주는 '옆 동네 기지국 B의 소리'를 주워 담아 믹서기에 같이 갈아버리니, 전파가 약한 골목길 경계에서도 소리가 2배로 빵빵하게 들려 절대 전화가 안 끊기는 무적의 조합([[558_soft_handoff|소프트 핸드오버]])이 완성된 것입니다.
+- **📢 섹션 요약 비유**: 레이크 핑거가 원래는 '기지국 A가 쏜 메아리'를 줍는 용도였지만, 똑같은 통화 내용을 틀어주는 '옆 동네 기지국 B의 소리'를 주워 담아 믹서기에 같이 갈아버리니, 전파가 약한 골목길 경계에서도 소리가 2배로 빵빵하게 들려 절대 전화가 안 끊기는 무적의 조합([소프트 핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/558_soft_handoff/))이 완성된 것입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-1. **상황**: 과거 2G([[089_시분할_다중접속_TDMA|TDMA]]/GSM) 시절, 사용자가 지하철 터널이나 고층 빌딩이 빽빽한 여의도 계곡(Urban Canyon)에만 들어가면 수십 번 부딪힌 전파들이 난무하여 통화가 지직거리고 여지없이 끊어졌다.
-2. **원인**: 협소하고 밀폐된 공간에서는 직진파(Line of Sight, LOS)가 없고 오직 벽에 튕겨서 너덜너덜해진 다중경로([[500_multipath_io|Multipath]]) 반사파들만 폰에 도달한다. 구형 수신기는 첫 번째로 도착한 약한 반사파 하나에만 의존하므로 [[024_신호_대_잡음비|신호 대 잡음비]](SINR)가 [[431_ssthresh_slow_start_threshold|임계치]] 밑으로 추락(Deep Fade)했다.
+1. **상황**: 과거 2G([TDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/)/GSM) 시절, 사용자가 지하철 터널이나 고층 빌딩이 빽빽한 여의도 계곡(Urban Canyon)에만 들어가면 수십 번 부딪힌 전파들이 난무하여 통화가 지직거리고 여지없이 끊어졌다.
+2. **원인**: 협소하고 밀폐된 공간에서는 직진파(Line of Sight, LOS)가 없고 오직 벽에 튕겨서 너덜너덜해진 다중경로([Multipath](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/500_multipath_io/)) 반사파들만 폰에 도달한다. 구형 수신기는 첫 번째로 도착한 약한 반사파 하나에만 의존하므로 [신호 대 잡음비](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/)(SINR)가 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 밑으로 추락(Deep Fade)했다.
 3. **의사결정 및 조치 (Rake 핑거 튜닝 최적화)**:
-   - 3G([[957_cdma_code_division_multiple_access_dsss_orthogonality|CDMA]]) 단말기 칩셋 아키텍트는 폰 안에 **4개의 핑거(Searcher 1개 + 수집기 3개)**를 박아 넣었다.
+   - 3G([CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/)) 단말기 칩셋 아키텍트는 폰 안에 **4개의 핑거(Searcher 1개 + 수집기 3개)**를 박아 넣었다.
    - 단말기는 직진파가 없더라도, 벽에 1번 튕긴 전파(20점), 2번 튕긴 전파(15점), 3번 튕긴 전파(10점)를 3개의 핑거에 각각 할당하여 싹 긁어모은다.
-   - 폰 안의 DSP(디지털 [[130_signal|신호]] 처리기)가 **MRC(최대비 결합)** [[001_algorithm_definition|알고리즘]]으로 이 쓰레기 조각 3개를 합치자 45점짜리 선명한 음성 패킷(Diversity Gain)으로 환골탈태했다.
-   - **결과**: 기지국 출력(송신 전력)을 1W도 올리지 않고도, 단순히 폰 내부의 갈퀴질 [[001_algorithm_definition|알고리즘]] 교체만으로 도심 음영 지역의 통화 절단율을 90% 이상 박살 내는 기적을 썼다.
+   - 폰 안의 DSP(디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리기)가 **MRC(최대비 결합)** [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 이 쓰레기 조각 3개를 합치자 45점짜리 선명한 음성 패킷(Diversity Gain)으로 환골탈태했다.
+   - **결과**: 기지국 출력(송신 전력)을 1W도 올리지 않고도, 단순히 폰 내부의 갈퀴질 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 교체만으로 도심 음영 지역의 통화 절단율을 90% 이상 박살 내는 기적을 썼다.
 
-### 도입 [[435_checklist_based_testing|체크리스트]] 및 [[128_water_scrum_fall_anti_pattern|안티패턴]]
-- **핑거 할당(Finger Assignment) 동적 스케줄링**: 핑거 개수는 무한정이 아니다. 배터리와 칩 단가 때문에 보통 3~4개뿐이다. 만약 폰이 바보같이 5ms 늦게 도착하는 '점수 1점짜리' 쓰레기 메아리에 2번 핑거를 할당해 버리면 정작 2ms 뒤에 오는 20점짜리 쓸만한 메아리를 줍지 못한다. 단말기의 Searcher(탐색기) [[001_algorithm_definition|알고리즘]]은 매 1밀리초 단위로 수십 개의 메아리 후보군을 스캔하고, "가장 덩치가 큰 상위 3개 메아리"를 찾아내어 핑거들을 동적으로 재배치(Re-assignment)하는 극악의 튜닝 노가다가 수반되어야 한다.
-- **[[128_water_scrum_fall_anti_pattern|안티패턴]] (고속 [[001_dikw_pyramid|데이터]] 환경에서의 고집)**: 영상 통화 시대가 열리고 [[140_bandwidth|대역폭]]이 5MHz에서 20MHz로 넓어지면, 전파의 파장이 짧아져 메아리들이 0.1ms 간격으로 수백 개가 쏟아진다. 3개의 핑거로는 이 폭우처럼 쏟아지는 메아리들을 도저히 주워 담을 수 없어 오히려 노이즈(ISI, 심볼 간 간섭) 폭탄을 맞고 속도가 [[752_lte_long_term_evolution_4g|LTE]] 대비 10분의 1로 추락한다. 시대가 대용량(Broadband)으로 변했는데 억지로 CDMA와 Rake 아키텍처를 고집하는 것은 모바일 브로드밴드의 재앙적 [[128_water_scrum_fall_anti_pattern|안티패턴]]이다.
+### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- **핑거 할당(Finger Assignment) 동적 스케줄링**: 핑거 개수는 무한정이 아니다. 배터리와 칩 단가 때문에 보통 3~4개뿐이다. 만약 폰이 바보같이 5ms 늦게 도착하는 '점수 1점짜리' 쓰레기 메아리에 2번 핑거를 할당해 버리면 정작 2ms 뒤에 오는 20점짜리 쓸만한 메아리를 줍지 못한다. 단말기의 Searcher(탐색기) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 매 1밀리초 단위로 수십 개의 메아리 후보군을 스캔하고, "가장 덩치가 큰 상위 3개 메아리"를 찾아내어 핑거들을 동적으로 재배치(Re-assignment)하는 극악의 튜닝 노가다가 수반되어야 한다.
+- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) (고속 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 환경에서의 고집)**: 영상 통화 시대가 열리고 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 5MHz에서 20MHz로 넓어지면, 전파의 파장이 짧아져 메아리들이 0.1ms 간격으로 수백 개가 쏟아진다. 3개의 핑거로는 이 폭우처럼 쏟아지는 메아리들을 도저히 주워 담을 수 없어 오히려 노이즈(ISI, 심볼 간 간섭) 폭탄을 맞고 속도가 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 대비 10분의 1로 추락한다. 시대가 대용량(Broadband)으로 변했는데 억지로 CDMA와 Rake 아키텍처를 고집하는 것은 모바일 브로드밴드의 재앙적 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다.
 
-- **📢 섹션 요약 비유**: 작은 우물(음성 통화)에 떨어진 동전 3개는 갈퀴(레이크) 3개로 충분히 건져 올릴 수 있어서 완벽했습니다. 하지만 바다(4G [[001_dikw_pyramid|데이터]] 시대)에 수백 개의 금가루가 뿌려졌을 때 갈퀴 3개로 그걸 건지겠다고 고집하면 굶어 죽습니다. 이때는 바닷물을 통째로 퍼 올리는 그물(OFDMA와 [[566_equalizer_isi_inter_symbol_interference|Equalizer]])로 도구를 완전히 바꿔야만 살아남습니다.
+- **📢 섹션 요약 비유**: 작은 우물(음성 통화)에 떨어진 동전 3개는 갈퀴(레이크) 3개로 충분히 건져 올릴 수 있어서 완벽했습니다. 하지만 바다(4G [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 시대)에 수백 개의 금가루가 뿌려졌을 때 갈퀴 3개로 그걸 건지겠다고 고집하면 굶어 죽습니다. 이때는 바닷물을 통째로 퍼 올리는 그물(OFDMA와 [Equalizer](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/566_equalizer_isi_inter_symbol_interference/))로 도구를 완전히 바꿔야만 살아남습니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-| 구분 | 일반 수신기 (다이버시티 없음) | 레이크 수신기 탑재 ([[957_cdma_code_division_multiple_access_dsss_orthogonality|CDMA]] 환경) | 개선 효과 |
+| 구분 | 일반 수신기 (다이버시티 없음) | 레이크 수신기 탑재 ([CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) 환경) | 개선 효과 |
 |:---|:---|:---|:---|
 | **정량 (수신 감도 / Gain)** | 직진파 부재 시 수신 감도 99% 추락 (-100dBm) | 3개의 반사파를 MRC로 결합하여 파워 증폭 | 다중경로에 의한 체감 **수신 이득 최소 3~5dB (2배 이상) 증가** |
 | **정량 (배터리 효율)** | 전파가 약해지면 기지국에 송신 전력 뻥튀기 요구 | 버려진 메아리를 재활용해 적은 전파로도 통신 성공 | 단말기 송신 앰프 무리 방지 및 **배터리 수명 극적 향상** |
-| **정성 (통화 단절률)** | 빌딩 모퉁이를 돌 때 [[167_fading_large_scale_small_scale|페이딩]] 직격탄 맞아 즉시 단절 | [[558_soft_handoff|소프트 핸드오버]]와 결합해 셀 경계 사각지대 지움 | 도심지 빌딩 숲에서 걷거나 뛸 때 발생하는 **통화 뚝뚝 끊김 완벽 해소** |
+| **정성 (통화 단절률)** | 빌딩 모퉁이를 돌 때 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) 직격탄 맞아 즉시 단절 | [소프트 핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/558_soft_handoff/)와 결합해 셀 경계 사각지대 지움 | 도심지 빌딩 숲에서 걷거나 뛸 때 발생하는 **통화 뚝뚝 끊김 완벽 해소** |
 
 ### 미래 전망 및 진화 방향
-- **박물관으로 간 전설적 유산**: 솔직히 말해 레이크 수신기는 현대 4G LTE나 [[418_5g_embb_urllc_mmtc_slicing|5G]] 스마트폰에서는 멸종된 기술이다. 앞서 설명한 대로 광대역 고속 통신에는 치명적으로 안 맞기 때문이다. 4G/[[418_5g_embb_urllc_mmtc_slicing|5G]] 아키텍처는 전파를 무식하게 하나로 쏘는 게 아니라, 주파수를 15kHz라는 엄청나게 얇은 실 1,000가닥(OFDM [[085_부반송파_Subcarrier|Subcarrier]])으로 쪼개서 병렬로 쏜다. 쪼개진 실들은 메아리가 생겨도 자기들끼리 부딪힐 힘조차 없어 [[167_fading_large_scale_small_scale|페이딩]] 현상 자체가 사실상 무력화된다.
-- **차세대 [[419_6g_ntn_thz_ris_next_gen|6G]] 환경에서의 부활 가능성 ([[160_uwb_ultra_wideband|UWB]], 초광대역 통신)**: 레이크의 철학마저 완전히 죽은 것은 아니다. 최근 애플 에어태그(AirTag)나 디지털 스마트 차 키에 쓰이는 **[[160_uwb_ultra_wideband|UWB]] ([[598_uwb_ultra_wideband_indoor_positioning|Ultra-Wideband]])** 통신 기술은 아주 넓은 주파수에 펄스를 짧게 쏘는 방식(Impulse Radio)을 쓴다. 여기서는 수 나노초(ns) 단위로 쪼개져 튕겨 오는 정밀한 메아리들을 잡아내 위치를 1cm 단위로 추적해야 하므로, 아주 미세하게 튜닝된 [[419_6g_ntn_thz_ris_next_gen|6G]] 시대의 '디지털 마이크로 레이크 수신기' 철학이 부활하여 공간 컴퓨팅의 심장으로 쓰이고 있다.
+- **박물관으로 간 전설적 유산**: 솔직히 말해 레이크 수신기는 현대 4G LTE나 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 스마트폰에서는 멸종된 기술이다. 앞서 설명한 대로 광대역 고속 통신에는 치명적으로 안 맞기 때문이다. 4G/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 아키텍처는 전파를 무식하게 하나로 쏘는 게 아니라, 주파수를 15kHz라는 엄청나게 얇은 실 1,000가닥(OFDM [Subcarrier](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/085_부반송파_Subcarrier/))으로 쪼개서 병렬로 쏜다. 쪼개진 실들은 메아리가 생겨도 자기들끼리 부딪힐 힘조차 없어 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) 현상 자체가 사실상 무력화된다.
+- **차세대 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 환경에서의 부활 가능성 ([UWB](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/160_uwb_ultra_wideband/), 초광대역 통신)**: 레이크의 철학마저 완전히 죽은 것은 아니다. 최근 애플 에어태그(AirTag)나 디지털 스마트 차 키에 쓰이는 **[UWB](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/160_uwb_ultra_wideband/) ([Ultra-Wideband](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/598_uwb_ultra_wideband_indoor_positioning/))** 통신 기술은 아주 넓은 주파수에 펄스를 짧게 쏘는 방식(Impulse Radio)을 쓴다. 여기서는 수 나노초(ns) 단위로 쪼개져 튕겨 오는 정밀한 메아리들을 잡아내 위치를 1cm 단위로 추적해야 하므로, 아주 미세하게 튜닝된 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 시대의 '디지털 마이크로 레이크 수신기' 철학이 부활하여 공간 컴퓨팅의 심장으로 쓰이고 있다.
 
 ### 참고 표준
 - **IS-95 / CDMA2000**: 퀄컴(Qualcomm)이 전 세계 통신 시장을 씹어먹을 수 있었던 핵심 특허 규격. Rake Receiver와 Soft Handoff를 필수 아키텍처로 박아넣은 원시 표준 문서.
-- **[[091_동기식_비동기식_CDMA_WCDMA|WCDMA]] ([[751_3gpp_3rd_generation_partnership_project|3GPP]] Rel-99)**: 유럽 진영이 퀄컴을 따라잡기 위해 만든 3G 표준에서도 [[167_fading_large_scale_small_scale|페이딩]] 극복을 위해 결국 Rake 수신기 구조를 그대로 가져다 쓸 수밖에 없었던 물리 계층(L1) 규격.
+- **[WCDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/091_동기식_비동기식_CDMA_WCDMA/) ([3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) Rel-99)**: 유럽 진영이 퀄컴을 따라잡기 위해 만든 3G 표준에서도 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) 극복을 위해 결국 Rake 수신기 구조를 그대로 가져다 쓸 수밖에 없었던 물리 계층(L1) 규격.
 
 레이크 수신기는 통신 공학 역사상 가장 찬란한 '관점의 전환'이다. 모두가 빌딩에 부딪힌 메아리를 통신을 망치는 쓰레기(노이즈)라고 욕하며 쫓아낼 궁리를 할 때, 누군가는 그 찌그러진 쓰레기들을 핀셋으로 모아 예쁜 보석(다이버시티 이득)으로 다시 빚어냈다. 비록 속도라는 거대한 시대적 파도 앞에 밀려 역사 속으로 사라졌지만, 그 철학만큼은 엔지니어들에게 "주어진 악조건마저 시스템의 자원으로 역이용하라"는 불멸의 아키텍처 교훈을 남겼다.
 
-- **📢 섹션 요약 비유**: 레이크 수신기는 버려진 찢어진 100원짜리 지폐 조각 3장을 주워서, 테이프로 정교하게 붙인 뒤 은행에 가서 온전한 새 지폐로 교환해 내는 놀라운 마법입니다. 쓰레기를 모아 돈([[130_signal|신호]] 품질)으로 바꾸어 통신사가 기지국을 더 안 짓고도 버틸 수 있게 해 준 최고의 연금술이었습니다.
+- **📢 섹션 요약 비유**: 레이크 수신기는 버려진 찢어진 100원짜리 지폐 조각 3장을 주워서, 테이프로 정교하게 붙인 뒤 은행에 가서 온전한 새 지폐로 교환해 내는 놀라운 마법입니다. 쓰레기를 모아 돈([신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 품질)으로 바꾸어 통신사가 기지국을 더 안 짓고도 버틸 수 있게 해 준 최고의 연금술이었습니다.
 
 ---
 
@@ -175,10 +179,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[170_diversity_system_equalizer|다이버시티 시스템]] | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| 셀 (Cell) | 무선 [[090_service_kubernetes_network_load_balancing|서비스]] 범위를 나누는 기본 단위다. |
-| [[556_handover_handoff_types_concept|핸드오버]] ([[556_handover_handoff_types_concept|Handover]]) | 이동 중에도 연결을 유지하게 만든다. |
-| [[566_equalizer_isi_inter_symbol_interference|등화기]] | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [다이버시티 시스템](/knowledge-base/studynote/03_network/03_physical_layer_media/170_diversity_system_equalizer/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 셀 (Cell) | 무선 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 범위를 나누는 기본 단위다. |
+| [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) ([Handover](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)) | 이동 중에도 연결을 유지하게 만든다. |
+| [등화기](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/566_equalizer_isi_inter_symbol_interference/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -192,11 +196,11 @@ tags:
     └──▶ [확장 B: 지능형 무선 자원 제어]
 ```
 
-레이크 수신기는 [[170_diversity_system_equalizer|다이버시티 시스템]]에서 출발해 현재 메커니즘을 정교화하고, 이후 [[566_equalizer_isi_inter_symbol_interference|등화기]]와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+레이크 수신기는 [다이버시티 시스템](/knowledge-base/studynote/03_network/03_physical_layer_media/170_diversity_system_equalizer/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [등화기](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/566_equalizer_isi_inter_symbol_interference/)와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 넓은 동굴 안에서 아빠가 "야호!" 하고 소리를 치면 벽에 부딪혀 "야~호~호~호~" 하고 메아리가 여러 번 쳐서 뭐라고 하는지 잘 안 들리죠? 이걸 [[167_fading_large_scale_small_scale|페이딩]]이라고 해요.
+1. 넓은 동굴 안에서 아빠가 "야호!" 하고 소리를 치면 벽에 부딪혀 "야~호~호~호~" 하고 메아리가 여러 번 쳐서 뭐라고 하는지 잘 안 들리죠? 이걸 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)이라고 해요.
 2. 옛날 폰들은 이 메아리 때문에 전화가 뚝뚝 끊겼는데, 레이크 수신기(갈퀴 귀)를 단 3G 스마트폰은 귀를 여러 개 열어서 1초 늦게, 2초 늦게 오는 메아리들을 쓰레기통에 안 버리고 싹 다 녹음했어요.
 3. 그리고 폰 안의 똑똑한 믹서기가 이 찌그러진 메아리 조각들을 딱딱 시간 맞춰 합쳐보니, 오히려 아빠 목소리가 2배로 크고 또렷하게 들리는 기적이 일어났답니다!
 
@@ -206,7 +210,7 @@ tags:
 
 **진행 상황**: 686 / 1120
 
-← **이전**: [[564_diversity_system_spatial_frequency_time|564. 다이버시티 시스템(Diversity System)]]
-**다음**: [[566_equalizer_isi_inter_symbol_interference|566. 등화기 (Equalizer)]] →
+← **이전**: [564. 다이버시티 시스템(Diversity System)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/564_diversity_system_spatial_frequency_time/)
+**다음**: [566. 등화기 (Equalizer)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/566_equalizer_isi_inter_symbol_interference/) →
 
 ---

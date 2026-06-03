@@ -1,24 +1,28 @@
----
-title: 839. 하이브리드 / 멀티 클라우드 망 연동
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "839. 하이브리드 / 멀티 클라우드 망 연동"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 하이브리드 / [[202_multi_cloud_hybrid_cloud_governance|멀티 클라우드]] 망 연동은 데이터센터와 클라우드 네트워크에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: 하이브리드 / [[202_multi_cloud_hybrid_cloud_governance|멀티 클라우드]] 망 연동을 이해하면 확장성과 운영 자동화 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: 하이브리드 / [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 망 연동은 데이터센터와 클라우드 네트워크에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: 하이브리드 / [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 망 연동을 이해하면 확장성과 운영 자동화 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-1. **[[007_public_cloud|퍼블릭 클라우드]] (Public)**: AWS, GCP, Azure처럼 인터넷을 통해 누구나 빌려 쓰는 뻥 뚫린 거대 공용 인프라.
-2. **[[008_private_cloud|프라이빗 클라우드]] (Private)**: 회사 내부 전산실([[061_on_premise_legacy_infrastructure|온프레미스]])에 [[015_virtualization|가상화]] 기술을 깔아서 우리 회사 직원만 쓰는 철통 보안 인프라.
-3. **[[009_hybrid_cloud|하이브리드 클라우드]] (Hybrid) 🌟**: `퍼블릭 + 프라이빗`의 결합. 기밀 데이터는 사내망(프라이빗)에 두고, 웹 서버 등은 확장성이 무한한 AWS(퍼블릭)에 올려 두 망을 직통으로 뚫어 하나처럼 쓰는 실무 최강 아키텍처.
-4. **[[202_multi_cloud_hybrid_cloud_governance|멀티 클라우드]] ([[202_multi_cloud_hybrid_cloud_governance|Multi-Cloud]]) 🌟**: `AWS + 구글 클라우드 + Azure` 등 특정 클라우드 회사에 종속되는 것을 막기 위해 여러 [[007_public_cloud|퍼블릭 클라우드]]를 동시에 섞어 쓰는 방식.
+1. **[퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/) (Public)**: AWS, GCP, Azure처럼 인터넷을 통해 누구나 빌려 쓰는 뻥 뚫린 거대 공용 인프라.
+2. **[프라이빗 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/008_private_cloud/) (Private)**: 회사 내부 전산실([온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/))에 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 기술을 깔아서 우리 회사 직원만 쓰는 철통 보안 인프라.
+3. **[하이브리드 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/009_hybrid_cloud/) (Hybrid) 🌟**: `퍼블릭 + 프라이빗`의 결합. 기밀 데이터는 사내망(프라이빗)에 두고, 웹 서버 등은 확장성이 무한한 AWS(퍼블릭)에 올려 두 망을 직통으로 뚫어 하나처럼 쓰는 실무 최강 아키텍처.
+4. **[멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) ([Multi-Cloud](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/)) 🌟**: `AWS + 구글 클라우드 + Azure` 등 특정 클라우드 회사에 종속되는 것을 막기 위해 여러 [퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/)를 동시에 섞어 쓰는 방식.
 
 ```text
 [Direct Connect / Express…]
@@ -29,27 +33,27 @@ tags:
     └──▶ [BDI]
 ```
 
-- **📢 섹션 요약 비유**: 하이브리드 / [[202_multi_cloud_hybrid_cloud_governance|멀티 클라우드]] 망 연동은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [[170_selectivity_cardinality_distribution_tuning|선택도]] 쉬워진다.
+- **📢 섹션 요약 비유**: 하이브리드 / [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 망 연동은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-이 멀리 떨어진 두 개의 구름을 하나의 네트워크처럼 묶어주는 3가지 [[339_routing_overview_best_path_selection|라우팅]] 연결 방식입니다.
+이 멀리 떨어진 두 개의 구름을 하나의 네트워크처럼 묶어주는 3가지 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 연결 방식입니다.
 
-### 1. 트랜짓 게이트웨이 (Transit Gateway / [[152_hub_dummy_switching_intelligent|Hub]] & Spoke) 구조
-- 옛날엔 본사 서버실, AWS의 서울 [[836_vpc_virtual_private_cloud_subnet_isolation|VPC]], AWS의 도쿄 VPC를 엮으려면 세 곳을 각각 1:1 선(피어링)으로 다 연결해야 하는 복잡한 그물망([[389_mesh_topology|Mesh]])이 되어 라우터 세팅이 터졌습니다.
-- 아마존이 **Transit Gateway (초거대 중앙 로터리 [[238_switch_operation_principles|스위치]])** 장비를 중앙에 딱 하나 띄워줍니다. 본사, 도쿄 [[836_vpc_virtual_private_cloud_subnet_isolation|VPC]], 서울 VPC가 모조리 이 중앙 [[238_switch_operation_principles|스위치]] 한가운데에 선을 딱 1가닥씩만 꽂으면 방사형([[152_hub_dummy_switching_intelligent|Hub]] & Spoke)으로 모든 통신망이 마법처럼 1초 만에 통합([[339_routing_overview_best_path_selection|라우팅]])됩니다. 수백 개의 VPC를 관리하는 절대 규격입니다.
+### 1. 트랜짓 게이트웨이 (Transit Gateway / [Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) & Spoke) 구조
+- 옛날엔 본사 서버실, AWS의 서울 [VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/), AWS의 도쿄 VPC를 엮으려면 세 곳을 각각 1:1 선(피어링)으로 다 연결해야 하는 복잡한 그물망([Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/))이 되어 라우터 세팅이 터졌습니다.
+- 아마존이 **Transit Gateway (초거대 중앙 로터리 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))** 장비를 중앙에 딱 하나 띄워줍니다. 본사, 도쿄 [VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/), 서울 VPC가 모조리 이 중앙 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 한가운데에 선을 딱 1가닥씩만 꽂으면 방사형([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) & Spoke)으로 모든 통신망이 마법처럼 1초 만에 통합([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))됩니다. 수백 개의 VPC를 관리하는 절대 규격입니다.
 
-### 2. [[202_multi_cloud_hybrid_cloud_governance|멀티 클라우드]] [[339_routing_overview_best_path_selection|라우팅]] ([[365_bgp_border_gateway_protocol_path_vector|BGP]] 연동)
+### 2. [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) ([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 연동)
 - 아마존 AWS 망과 구글 GCP 망을 연결하려면 어떻게 할까요?
-- 두 회사는 서로 자기들의 838번 문서의 **[[266_leased_line_basics_e1_t1_t3|전용선]]([[838_direct_connect_expressroute_cloud_leased_line|Direct Connect]], Cloud Interconnect)을 중간 통신사 넥서스(Equinix 등 클라우드 교환소)에서 만나게 하여 크로스 커넥트(Cross-Connect)로 묶어버립니다.**
-- 그리고 두 클라우드의 엣지 라우터끼리 인터넷 국제 표준 [[339_routing_overview_best_path_selection|라우팅]]인 **eBGP [[295_protocol_field_tcp_udp_icmp|프로토콜]]**로 엑셀 장부([[339_routing_overview_best_path_selection|라우팅]] 테이블)를 교환시킵니다. 그러면 구글 클라우드 서버에서 아마존 클라우드 서버로 데이터를 쏠 때, 인터넷을 안 거치고 [[365_bgp_border_gateway_protocol_path_vector|BGP]] 전용망을 타서 1ms 만에 광속 다이렉트 점프가 성립됩니다.
+- 두 회사는 서로 자기들의 838번 문서의 **[전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)([Direct Connect](/knowledge-base/studynote/03_network/16_data_center_cloud/838_direct_connect_expressroute_cloud_leased_line/), Cloud Interconnect)을 중간 통신사 넥서스(Equinix 등 클라우드 교환소)에서 만나게 하여 크로스 커넥트(Cross-Connect)로 묶어버립니다.**
+- 그리고 두 클라우드의 엣지 라우터끼리 인터넷 국제 표준 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)인 **eBGP [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)**로 엑셀 장부([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블)를 교환시킵니다. 그러면 구글 클라우드 서버에서 아마존 클라우드 서버로 데이터를 쏠 때, 인터넷을 안 거치고 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 전용망을 타서 1ms 만에 광속 다이렉트 점프가 성립됩니다.
 
-### 3. [[849_sd_wan_software_defined_wide_area_network|SD-WAN]] ([[849_sd_wan_software_defined_wide_area_network|소프트웨어 정의 광역망]]) 기반 오버레이 통제
+### 3. [SD-WAN](/knowledge-base/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/) ([소프트웨어 정의 광역망](/knowledge-base/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/)) 기반 오버레이 통제
 - 본사가 전 세계 100개국에 지사가 있고 클라우드도 5개를 씁니다.
-- 본사 관리자가 마우스로 [[849_sd_wan_software_defined_wide_area_network|SD-WAN]] 중앙 컨트롤러를 조작합니다. "유튜브 보려는 트래픽은 싸구려 일반 인터넷망([[983_vpn_virtual_private_network|VPN]])으로 보내고, AWS 서버와 통신하는 [[081_erp_enterprise_resource_planning|ERP]] 트래픽은 비싼 [[266_leased_line_basics_e1_t1_t3|전용선]]([[838_direct_connect_expressroute_cloud_leased_line|Direct Connect]])으로만 꺾어서 보내라!"
-- 전 세계 수백 대의 장비가 중앙의 룰(소프트웨어 [[164_policy|정책]])에 맞춰 트래픽을 지능적으로 분산시키는(Application-Aware [[339_routing_overview_best_path_selection|Routing]]) 극강의 융합 통제망입니다.
+- 본사 관리자가 마우스로 [SD-WAN](/knowledge-base/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/) 중앙 컨트롤러를 조작합니다. "유튜브 보려는 트래픽은 싸구려 일반 인터넷망([VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/))으로 보내고, AWS 서버와 통신하는 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 트래픽은 비싼 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)([Direct Connect](/knowledge-base/studynote/03_network/16_data_center_cloud/838_direct_connect_expressroute_cloud_leased_line/))으로만 꺾어서 보내라!"
+- 전 세계 수백 대의 장비가 중앙의 룰(소프트웨어 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))에 맞춰 트래픽을 지능적으로 분산시키는(Application-Aware [Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)) 극강의 융합 통제망입니다.
 
 ```text
 [Direct Connect / Express…]
@@ -60,48 +64,48 @@ tags:
     └──▶ [BDI]
 ```
 
-- **📢 섹션 요약 비유**: [[009_hybrid_cloud|하이브리드 클라우드]]망 설계는 거대한 '글로벌 해저 터널 뚫기'입니다. 옛날엔 한국 본사(프라이빗)와 미국 공장(AWS 퍼블릭), 유럽 공장(구글 퍼블릭)이 서로 서류를 주고받으려면 느려터지고 불확실한 여객선(인터넷 [[983_vpn_virtual_private_network|VPN]])을 써야 했습니다. **하이브리드/[[202_multi_cloud_hybrid_cloud_governance|멀티 클라우드]] 인터커넥트**는 태평양과 대서양 바다 밑으로 무식하게 '전용 고속 해저 철도([[838_direct_connect_expressroute_cloud_leased_line|Direct Connect]] 연동망)'를 통째로 깔아버린 것입니다. 여기에 **트랜짓 게이트웨이(환승 센터)**라는 거대한 중앙역을 하나 지어두어, 전 세계 어디서 출발하든 중앙역에서 갈아타면 모든 공장이 하나로 직통 연결되도록 수천 개의 복잡한 선을 하나로 깔끔하게 정리해 낸 궁극의 글로벌 물류 아키텍처입니다.
+- **📢 섹션 요약 비유**: [하이브리드 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/009_hybrid_cloud/)망 설계는 거대한 '글로벌 해저 터널 뚫기'입니다. 옛날엔 한국 본사(프라이빗)와 미국 공장(AWS 퍼블릭), 유럽 공장(구글 퍼블릭)이 서로 서류를 주고받으려면 느려터지고 불확실한 여객선(인터넷 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/))을 써야 했습니다. **하이브리드/[멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 인터커넥트**는 태평양과 대서양 바다 밑으로 무식하게 '전용 고속 해저 철도([Direct Connect](/knowledge-base/studynote/03_network/16_data_center_cloud/838_direct_connect_expressroute_cloud_leased_line/) 연동망)'를 통째로 깔아버린 것입니다. 여기에 **트랜짓 게이트웨이(환승 센터)**라는 거대한 중앙역을 하나 지어두어, 전 세계 어디서 출발하든 중앙역에서 갈아타면 모든 공장이 하나로 직통 연결되도록 수천 개의 복잡한 선을 하나로 깔끔하게 정리해 낸 궁극의 글로벌 물류 아키텍처입니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-하이브리드 / [[202_multi_cloud_hybrid_cloud_governance|멀티 클라우드]] 망 연동을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [[838_direct_connect_expressroute_cloud_leased_line|Direct Connect]] / Express…가 기반 조건을 만든다면, 하이브리드 / [[202_multi_cloud_hybrid_cloud_governance|멀티 클라우드]] 망 연동은 그 위에서 핵심 메커니즘을 구현하고, BDI는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 확장성과 운영 자동화에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+하이브리드 / [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 망 연동을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [Direct Connect](/knowledge-base/studynote/03_network/16_data_center_cloud/838_direct_connect_expressroute_cloud_leased_line/) / Express…가 기반 조건을 만든다면, 하이브리드 / [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 망 연동은 그 위에서 핵심 메커니즘을 구현하고, BDI는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 확장성과 운영 자동화에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [[838_direct_connect_expressroute_cloud_leased_line|Direct Connect]] / Express…의 기반 정리 | 하이브리드 / [[202_multi_cloud_hybrid_cloud_governance|멀티 클라우드]] 망 연동의 핵심 동작 | BDI의 확장 적용 |
+| 초점 | [Direct Connect](/knowledge-base/studynote/03_network/16_data_center_cloud/838_direct_connect_expressroute_cloud_leased_line/) / Express…의 기반 정리 | 하이브리드 / [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 망 연동의 핵심 동작 | BDI의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 확장성 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 하이브리드 / [[202_multi_cloud_hybrid_cloud_governance|멀티 클라우드]] 망 연동은 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
+- **📢 섹션 요약 비유**: 하이브리드 / [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 망 연동은 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 하이브리드 / [[202_multi_cloud_hybrid_cloud_governance|멀티 클라우드]] 망 연동을 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [[838_direct_connect_expressroute_cloud_leased_line|Direct Connect]] / Express… 수준의 기본 대책으로 충분한지, 아니면 하이브리드 / [[202_multi_cloud_hybrid_cloud_governance|멀티 클라우드]] 망 연동이 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 BDI와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 하이브리드 / [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 망 연동을 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [Direct Connect](/knowledge-base/studynote/03_network/16_data_center_cloud/838_direct_connect_expressroute_cloud_leased_line/) / Express… 수준의 기본 대책으로 충분한지, 아니면 하이브리드 / [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 망 연동이 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 BDI와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 확장성 부족인지, 운영 자동화 악화인지 먼저 분리한다.
-2. 하이브리드 / [[202_multi_cloud_hybrid_cloud_governance|멀티 클라우드]] 망 연동가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [[396_validation|확인]]한다.
+2. 하이브리드 / [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 망 연동가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
 3. 도입 후에는 인접 기술인 BDI와의 연계 방식을 함께 검증한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 하이브리드 / [[202_multi_cloud_hybrid_cloud_governance|멀티 클라우드]] 망 연동의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- [[838_direct_connect_expressroute_cloud_leased_line|Direct Connect]] / Express…와의 경계를 정리하지 않아 중복 투자나 [[164_policy|정책]] 충돌을 만드는 설계
+- 하이브리드 / [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 망 연동의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
+- [Direct Connect](/knowledge-base/studynote/03_network/16_data_center_cloud/838_direct_connect_expressroute_cloud_leased_line/) / Express…와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
-- **📢 섹션 요약 비유**: 하이브리드 / [[202_multi_cloud_hybrid_cloud_governance|멀티 클라우드]] 망 연동을 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
+- **📢 섹션 요약 비유**: 하이브리드 / [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 망 연동을 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-하이브리드 / [[202_multi_cloud_hybrid_cloud_governance|멀티 클라우드]] 망 연동은 데이터센터와 클라우드 네트워크를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 확장성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 BDI, [[821_cloud_native_networking_scale_out_msa|클라우드 네이티브 네트워킹]], 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [[821_cloud_native_networking_scale_out_msa|클라우드 네이티브 네트워킹]] 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+하이브리드 / [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 망 연동은 데이터센터와 클라우드 네트워크를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 확장성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 BDI, [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/), 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: 하이브리드 / [[202_multi_cloud_hybrid_cloud_governance|멀티 클라우드]] 망 연동은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
+- **📢 섹션 요약 비유**: 하이브리드 / [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 망 연동은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
 ---
 
@@ -109,8 +113,8 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[838_direct_connect_expressroute_cloud_leased_line|Direct Connect]] / Express… | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [[815_overlay_network_virtualization_l2_extension|오버레이 네트워크]] ([[815_overlay_network_virtualization_l2_extension|Overlay Network]]) | 가상 환경의 논리적 연결을 만든다. |
+| [Direct Connect](/knowledge-base/studynote/03_network/16_data_center_cloud/838_direct_connect_expressroute_cloud_leased_line/) / Express… | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [오버레이 네트워크](/knowledge-base/studynote/03_network/16_data_center_cloud/815_overlay_network_virtualization_l2_extension/) ([Overlay Network](/knowledge-base/studynote/03_network/16_data_center_cloud/815_overlay_network_virtualization_l2_extension/)) | 가상 환경의 논리적 연결을 만든다. |
 | 패브릭 (Fabric) | 대규모 데이터센터의 균일한 연결 구조다. |
 | BDI | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
@@ -126,7 +130,7 @@ tags:
     └──▶ [확장 B: 클라우드 네이티브 네트워킹]
 ```
 
-하이브리드 / [[202_multi_cloud_hybrid_cloud_governance|멀티 클라우드]] 망 연동는 [[838_direct_connect_expressroute_cloud_leased_line|Direct Connect]] / Express…에서 출발해 현재 메커니즘을 정교화하고, 이후 BDI와 [[821_cloud_native_networking_scale_out_msa|클라우드 네이티브 네트워킹]] 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+하이브리드 / [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 망 연동는 [Direct Connect](/knowledge-base/studynote/03_network/16_data_center_cloud/838_direct_connect_expressroute_cloud_leased_line/) / Express…에서 출발해 현재 메커니즘을 정교화하고, 이후 BDI와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -140,7 +144,7 @@ tags:
 
 **진행 상황**: 960 / 1120
 
-← **이전**: [[838_direct_connect_expressroute_cloud_leased_line|838. 클라우드 전용선 (Direct Connect)]]
-**다음**: [[840_bdi_vtep_vxlan_overlay_bridge_domain|840. BDI와 VTEP]] →
+← **이전**: [838. 클라우드 전용선 (Direct Connect)](/knowledge-base/studynote/03_network/16_data_center_cloud/838_direct_connect_expressroute_cloud_leased_line/)
+**다음**: [840. BDI와 VTEP](/knowledge-base/studynote/03_network/16_data_center_cloud/840_bdi_vtep_vxlan_overlay_bridge_domain/) →
 
 ---

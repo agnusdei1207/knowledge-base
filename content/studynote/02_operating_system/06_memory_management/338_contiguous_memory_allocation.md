@@ -1,27 +1,31 @@
----
-title: 338. 연속 메모리 할당 (Contiguous Memory Allocation)
-date: '2026-05-09'
-tags:
-- studynote-operating-system
----
++++
+title = "338. 연속 메모리 할당 (Contiguous Memory Allocation)"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 연속 메모리 할당(Contiguous Memory Allocation)은 하나의 프로세스가 요구하는 크기 전체를 물리적 메모리의 **인접한 공간(연속된 주소)에 끊어짐 없이 통째로 배정**하는 가장 고전적이고 직관적인 메모리 관리 기법이다.
-> 2. **가치**: 주소 변환 하드웨어([[328_mmu|MMU]], [[329_base_register|베이스 레지스터]] 단 1개)가 매우 단순하여 실행 속도가 극도로 빠르며, [[307_memory_protection|메모리 보호]] 로직([[330_limit_register|한계 레지스터]] 1개) 구현이 직관적이다.
-> 3. **융합**: 하지만 메모리에 빈 공간이 생겼다 채워졌다를 반복하면서 발생하는 치명적인 **[[342_external_fragmentation|외부 단편화]]([[342_external_fragmentation|External Fragmentation]])** 문제로 인해 한계에 봉착했고, 이를 해결하기 위해 메모리를 잘게 조각내는 비연속 할당([[259_paging|페이징]], [[364_segmentation|세그멘테이션]]) 아키텍처로 진화하는 역사적 트리거가 되었다.
+> 2. **가치**: 주소 변환 하드웨어([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/), [베이스 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/) 단 1개)가 매우 단순하여 실행 속도가 극도로 빠르며, [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/) 로직([한계 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/330_limit_register/) 1개) 구현이 직관적이다.
+> 3. **융합**: 하지만 메모리에 빈 공간이 생겼다 채워졌다를 반복하면서 발생하는 치명적인 **[외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)([External Fragmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/))** 문제로 인해 한계에 봉착했고, 이를 해결하기 위해 메모리를 잘게 조각내는 비연속 할당([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/), [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)) 아키텍처로 진화하는 역사적 트리거가 되었다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 연속 메모리 할당은 실행될 프로그램의 [[369_logic_bomb|논리]]적 주소 공간 전체가 물리 메모리의 한 구역에 '연속적으로(Contiguously)' 담겨야 한다는 원칙이다. 즉, 100MB짜리 프로그램이라면 메모리 1000번지부터 100MB+1000번지까지 하나의 통짜 덩어리로 들어가야 한다.
-- **필요성**: [[459_quic_fec_forward_error_correction|초기]] 컴퓨터는 메모리 관리 장치([[328_mmu|MMU]]) 같은 하드웨어가 빈약했다. CPU가 순차적인 명령어를 읽어들이기 위해서는, 그 명령어들이 물리 메모리 상에서도 순서대로 예쁘게 나열되어 있어야만 했다. 복잡하게 흩어진 주소를 매번 찾아가는 것은 불가능에 가까웠으므로, OS는 단순히 빈 공간을 찾아 통째로 밀어 넣는 방식을 택할 수밖에 없었다.
+- **개념**: 연속 메모리 할당은 실행될 프로그램의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 주소 공간 전체가 물리 메모리의 한 구역에 '연속적으로(Contiguously)' 담겨야 한다는 원칙이다. 즉, 100MB짜리 프로그램이라면 메모리 1000번지부터 100MB+1000번지까지 하나의 통짜 덩어리로 들어가야 한다.
+- **필요성**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 컴퓨터는 메모리 관리 장치([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/)) 같은 하드웨어가 빈약했다. CPU가 순차적인 명령어를 읽어들이기 위해서는, 그 명령어들이 물리 메모리 상에서도 순서대로 예쁘게 나열되어 있어야만 했다. 복잡하게 흩어진 주소를 매번 찾아가는 것은 불가능에 가까웠으므로, OS는 단순히 빈 공간을 찾아 통째로 밀어 넣는 방식을 택할 수밖에 없었다.
 
 - **등장 배경 및 딜레마**:
-  1. **[[459_quic_fec_forward_error_correction|초기]] 단일 프로그래밍**: 컴퓨터에 OS 하나, 유저 프로그램 하나만 존재했다. 그냥 메모리 시작점에 OS 넣고, 그 뒤에 사용자 프로그램을 통째로 넣으면 끝이었다. (매우 평화로움)
-  2. **[[673_multiprogramming_bottleneck_resource|다중 프로그래밍]]의 등장**: 프로그램 A, B, C가 메모리에 올라오고 빠져나가기를 반복하자, 메모리 중간중간에 이빨 빠진 듯한 빈 공간(Hole)들이 생기기 시작했다.
-  3. **[[342_external_fragmentation|외부 단편화]]([[342_external_fragmentation|External Fragmentation]])의 공포**: 남아있는 빈 공간을 다 합치면 100MB인데, 죄다 흩어져 있어서 50MB짜리 새 프로그램을 적재할 수 없는 비극적 상황이 연출되었다. 이것이 컴퓨터 공학 역사상 가장 유명한 메모리 낭비 문제다.
+  1. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단일 프로그래밍**: 컴퓨터에 OS 하나, 유저 프로그램 하나만 존재했다. 그냥 메모리 시작점에 OS 넣고, 그 뒤에 사용자 프로그램을 통째로 넣으면 끝이었다. (매우 평화로움)
+  2. **[다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)의 등장**: 프로그램 A, B, C가 메모리에 올라오고 빠져나가기를 반복하자, 메모리 중간중간에 이빨 빠진 듯한 빈 공간(Hole)들이 생기기 시작했다.
+  3. **[외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)([External Fragmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/))의 공포**: 남아있는 빈 공간을 다 합치면 100MB인데, 죄다 흩어져 있어서 50MB짜리 새 프로그램을 적재할 수 없는 비극적 상황이 연출되었다. 이것이 컴퓨터 공학 역사상 가장 유명한 메모리 낭비 문제다.
 
 ```text
 ┌───────────────────────────────────────────────────────────────────────┐
@@ -43,7 +47,7 @@ tags:
 │  => 전체 빈 공간은 50MB(30+20)지만, '연속'되지 않아서 D는 실행 거부됨!│
 └───────────────────────────────────────────────────────────────────────┘
 ```
-**[다이어그램 해설]** 이 그림은 [[523_contiguous_allocation|연속 할당]]의 맹점을 완벽히 보여준다. 프로세스 D 입장에서는 억울하다. 시스템 전체에 50MB의 램이 남아돌지만, 쪼개져 있다는 이유 하나만으로 램이 꽉 찬 것([[157_oom_killer|OOM]])과 동일한 오류를 뱉어낸다. OS는 이 구멍(Hole)들을 관리하기 위해 자유 공간 리스트(Free list)를 유지하며 낑낑대야 했다.
+**[다이어그램 해설]** 이 그림은 [연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/)의 맹점을 완벽히 보여준다. 프로세스 D 입장에서는 억울하다. 시스템 전체에 50MB의 램이 남아돌지만, 쪼개져 있다는 이유 하나만으로 램이 꽉 찬 것([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))과 동일한 오류를 뱉어낸다. OS는 이 구멍(Hole)들을 관리하기 위해 자유 공간 리스트(Free list)를 유지하며 낑낑대야 했다.
 
 - **📢 섹션 요약 비유**: 주차장에 차를 댈 때, 캠핑카(대형 프로세스) 한 대를 대기 위해 일반 차 3대가 나란히 빠진 연속된 3칸의 자리가 나올 때까지 밖에서 무한정 대기해야 하는 비효율적인 주차 시스템입니다.
 
@@ -55,17 +59,17 @@ tags:
 
 | 요소명 | 역할 | 내부 동작 | 관련 기술 | 비유 |
 |:---|:---|:---|:---|:---|
-| **OS [[022_kernel_role|커널]] 영역** | [[001_operating_system_purpose|운영체제]] 시스템 [[571_protection_vs_security|보호]] | 보통 메모리의 최하단(0번지) 또는 최상단에 상주하여 [[571_protection_vs_security|보호]]받음 | [[019_interrupt_vector|Interrupt Vector]] | 호텔의 [[059_counter|카운터]] 및 스태프 공간 |
+| **OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 영역** | [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 시스템 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | 보통 메모리의 최하단(0번지) 또는 최상단에 상주하여 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)받음 | [Interrupt Vector](/knowledge-base/studynote/02_operating_system/01_overview_architecture/019_interrupt_vector/) | 호텔의 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 및 스태프 공간 |
 | **사용자 프로세스 영역** | 일반 앱이 올라가는 공간 | 빈 구멍(Hole)을 찾아 프로세스 덩어리를 통째로 적재 | Memory Allocation | 손님들이 머무는 객실들 |
-| **자유 공간 리스트 (Free List)** | 빈 구멍들의 크기와 주소 기록 | [[107_process_termination|프로세스 종료]] 시 인접한 구멍과 병합(Coalescing) 작업 수행 | [[056_linked_list|Linked List]] | [[059_counter|카운터]]의 빈방 장부 |
-| **단일 [[329_base_register|베이스 레지스터]]** | 동적 주소 변환 | `논리 주소 + Base = 물리 주소` 연산 1회 수행 | [[328_mmu|MMU]] Hardware | 손님에게 주는 첫 번째 방 번호표 |
-| **단일 [[330_limit_register|한계 레지스터]]** | 연속된 공간의 끝점 [[571_protection_vs_security|보호]] | [[369_logic_bomb|논리]] 주소가 크기(Limit)를 넘는지 검사 | [[307_memory_protection|Memory Protection]] | 방을 벗어나지 못하게 하는 울타리 |
+| **자유 공간 리스트 (Free List)** | 빈 구멍들의 크기와 주소 기록 | [프로세스 종료](/knowledge-base/studynote/02_operating_system/02_process_thread/107_process_termination/) 시 인접한 구멍과 병합(Coalescing) 작업 수행 | [Linked List](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) | [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)의 빈방 장부 |
+| **단일 [베이스 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/)** | 동적 주소 변환 | `논리 주소 + Base = 물리 주소` 연산 1회 수행 | [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) Hardware | 손님에게 주는 첫 번째 방 번호표 |
+| **단일 [한계 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/330_limit_register/)** | 연속된 공간의 끝점 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 주소가 크기(Limit)를 넘는지 검사 | [Memory Protection](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/) | 방을 벗어나지 못하게 하는 울타리 |
 
 ---
 
 ### 하드웨어 주소 변환 아키텍처의 단순성
 
-연속 메모리 할당의 유일한이자 가장 강력한 장점은 런타임 [[282_performance_tactics|성능]]이다. 메모리가 하나의 통나무처럼 이어져 있기 때문에, 복잡한 테이블([[353_page_table|Page Table]])을 뒤져볼 필요 없이 덧셈 한 번으로 물리 주소가 튀어나온다.
+연속 메모리 할당의 유일한이자 가장 강력한 장점은 런타임 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이다. 메모리가 하나의 통나무처럼 이어져 있기 때문에, 복잡한 테이블([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))을 뒤져볼 필요 없이 덧셈 한 번으로 물리 주소가 튀어나온다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────────────────┐
@@ -89,39 +93,39 @@ tags:
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 구조가 너무나 단순하여 전용 칩셋 구성비용이 극도로 싸고 처리가 빛의 속도다. CPU가 "500번지 [[001_dikw_pyramid|데이터]] 줘"라고 하면, 하드웨어는 "크기(1000) 안 넘었네? 시작점이 3000이니까 더해서 3500번지!"라고 1나노초 만에 결정한다. [[259_paging|페이징]] 기법에서는 이 과정에서 메모리에 있는 [[286_page_frame|페이지]] 테이블을 또 읽어와야 하는 [[282_performance_tactics|성능]] 패널티(TLB로 극복하지만)가 발생하는데, [[523_contiguous_allocation|연속 할당]]은 그런 오버헤드가 제로다.
+**[다이어그램 해설]** 구조가 너무나 단순하여 전용 칩셋 구성비용이 극도로 싸고 처리가 빛의 속도다. CPU가 "500번지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 줘"라고 하면, 하드웨어는 "크기(1000) 안 넘었네? 시작점이 3000이니까 더해서 3500번지!"라고 1나노초 만에 결정한다. [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 기법에서는 이 과정에서 메모리에 있는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블을 또 읽어와야 하는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 패널티(TLB로 극복하지만)가 발생하는데, [연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/)은 그런 오버헤드가 제로다.
 
 ---
 
-### [[342_external_fragmentation|외부 단편화]] 해결책: [[347_compaction|압축]] ([[347_compaction|Compaction]])
+### [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 해결책: [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) ([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))
 
-흩어진 빈 공간 때문에 프로그램이 실행되지 않는 사태를 막기 위해, OS는 최후의 수단으로 **메모리 [[347_compaction|압축]]([[347_compaction|Compaction]], 일명 쓰레기 수집)**을 시도한다.
+흩어진 빈 공간 때문에 프로그램이 실행되지 않는 사태를 막기 위해, OS는 최후의 수단으로 **메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/), 일명 쓰레기 수집)**을 시도한다.
 - 흩어져 있는 모든 프로세스를 한쪽 벽으로 밀어버리고, 나머지 빈 공간들을 반대쪽으로 몰아서 하나의 거대한 구멍(Big Hole)을 만드는 작업이다.
-- **치명적 문제**: 16GB 메모리를 가진 컴퓨터에서 10GB의 [[001_dikw_pyramid|데이터]]를 한쪽으로 복사(Copy)하는 것은 수천만 번의 읽기/[[289_cqrs_db|쓰기]] 사이클을 동반한다. [[347_compaction|압축]]이 진행되는 동안 컴퓨터는 문자 그대로 **정지(Freeze)**해버린다. 현대 컴퓨터에서는 절대 용납될 수 없는 비용이다.
+- **치명적 문제**: 16GB 메모리를 가진 컴퓨터에서 10GB의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한쪽으로 복사(Copy)하는 것은 수천만 번의 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 사이클을 동반한다. [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)이 진행되는 동안 컴퓨터는 문자 그대로 **정지(Freeze)**해버린다. 현대 컴퓨터에서는 절대 용납될 수 없는 비용이다.
 
-- **📢 섹션 요약 비유**: 책장에 책들이 드문드문 꽂혀있어 두꺼운 백과사전이 안 들어갈 때, 기존 책들을 전부 밀어서 한쪽으로 빽빽하게 재정렬([[347_compaction|압축]])한 뒤에야 남은 빈칸에 꽂는 엄청난 노동의 과정입니다.
+- **📢 섹션 요약 비유**: 책장에 책들이 드문드문 꽂혀있어 두꺼운 백과사전이 안 들어갈 때, 기존 책들을 전부 밀어서 한쪽으로 빽빽하게 재정렬([압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))한 뒤에야 남은 빈칸에 꽂는 엄청난 노동의 과정입니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 비교 1: [[523_contiguous_allocation|연속 할당]] (Contiguous) vs 비연속 할당 (Non-contiguous, [[259_paging|페이징]])
+### 비교 1: [연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/) (Contiguous) vs 비연속 할당 (Non-contiguous, [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))
 
-[[001_operating_system_purpose|운영체제]] 메모리 관리의 패러다임을 바꾼 역사적 비교점이다.
+[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 메모리 관리의 패러다임을 바꾼 역사적 비교점이다.
 
-| 비교 항목 | 연속 메모리 할당 | 비연속 할당 ([[259_paging|페이징]] / [[364_segmentation|세그멘테이션]]) |
+| 비교 항목 | 연속 메모리 할당 | 비연속 할당 ([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) / [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)) |
 |:---|:---|:---|
 | **할당 형태** | 프로세스를 1개의 통짜 블록으로 적재 | 프로세스를 4KB 등 여러 개의 조각으로 찢어서 적재 |
-| **[[291_fragmentation_and_reassembly_process|단편화]] 문제** | **[[342_external_fragmentation|외부 단편화]] (최악)** 발생 | [[342_external_fragmentation|외부 단편화]] 없음 (다만 미세한 [[341_internal_fragmentation|내부 단편화]] 존재) |
-| **메모리 [[347_compaction|압축]]** | 주기적으로 [[347_compaction|압축]]([[347_compaction|Compaction]]) 필요 (서버 멈춤) | [[347_compaction|압축]]이 전혀 필요 없음 |
-| **하드웨어 복잡도**| [[057_register|레지스터]] 2개면 끝남 (매우 단순, [[148_5g_embb_urllc_mmtc|초고속]]) | 복잡한 [[286_page_frame|페이지]] 테이블과 [[357_tlb|TLB]] 캐시 필수 (복잡) |
-| **공유(Sharing)** | 다른 프로세스와 코드 일부 공유가 매우 까다로움 | 특정 [[286_page_frame|페이지]]만 공유 테이블로 매핑하면 쉽게 공유 가능 |
+| **[단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 문제** | **[외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) (최악)** 발생 | [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 없음 (다만 미세한 [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/) 존재) |
+| **메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)** | 주기적으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)) 필요 (서버 멈춤) | [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)이 전혀 필요 없음 |
+| **하드웨어 복잡도**| [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 2개면 끝남 (매우 단순, [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)) | 복잡한 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블과 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 캐시 필수 (복잡) |
+| **공유(Sharing)** | 다른 프로세스와 코드 일부 공유가 매우 까다로움 | 특정 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)만 공유 테이블로 매핑하면 쉽게 공유 가능 |
 
-### 분할 방식에 따른 [[523_contiguous_allocation|연속 할당]]의 종류
+### 분할 방식에 따른 [연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/)의 종류
 
-[[523_contiguous_allocation|연속 할당]] 기법 자체도 공간을 어떻게 나눌 것인가에 따라 두 가지로 파생된다. (다음 키워드에서 상세히 다룸)
-1. **고정 분할 ([[339_fixed_partition|Fixed Partition]])**: 미리 메모리를 10MB, 20MB 단위로 쪼개놓고 덩치에 맞는 방에 밀어 넣는 방식. ([[341_internal_fragmentation|내부 단편화]] 발생)
-2. **가변 분할 ([[340_variable_partition|Variable Partition]])**: 프로그램 크기만큼 그때그때 잘라서 할당하는 방식. ([[342_external_fragmentation|외부 단편화]] 발생)
+[연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/) 기법 자체도 공간을 어떻게 나눌 것인가에 따라 두 가지로 파생된다. (다음 키워드에서 상세히 다룸)
+1. **고정 분할 ([Fixed Partition](/knowledge-base/studynote/02_operating_system/06_memory_management/339_fixed_partition/))**: 미리 메모리를 10MB, 20MB 단위로 쪼개놓고 덩치에 맞는 방에 밀어 넣는 방식. ([내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/) 발생)
+2. **가변 분할 ([Variable Partition](/knowledge-base/studynote/02_operating_system/06_memory_management/340_variable_partition/))**: 프로그램 크기만큼 그때그때 잘라서 할당하는 방식. ([외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 발생)
 
 ```text
 ┌──────────┬────────────┬────────────┬──────────────────────┐
@@ -132,9 +136,9 @@ tags:
 │ 비연속 페이징│ 미세 내부단편 │ 거의 없음   │ 매우 복잡함  │
 └──────────┴────────────┴────────────┴──────────────────────┘
 ```
-**[매트릭스 해설]** 컴퓨터 과학에서 메모리 관리는 '[[291_fragmentation_and_reassembly_process|단편화]]([[291_fragmentation_and_reassembly_process|Fragmentation]])와의 전쟁'이었다. 고정 분할은 방이 커서 남는 [[341_internal_fragmentation|내부 단편화]]에 시달렸고, 가변 분할은 방들이 찢어져서 [[342_external_fragmentation|외부 단편화]]에 시달렸다. 결국 인류는 이 "연속성"이라는 고집 자체를 버리고, 프로세스를 모래알처럼 잘게 부숴버리는 비연속 할당([[259_paging|페이징]])으로 도망침으로써 이 전쟁을 끝냈다.
+**[매트릭스 해설]** 컴퓨터 과학에서 메모리 관리는 '[단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)([Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))와의 전쟁'이었다. 고정 분할은 방이 커서 남는 [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)에 시달렸고, 가변 분할은 방들이 찢어져서 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)에 시달렸다. 결국 인류는 이 "연속성"이라는 고집 자체를 버리고, 프로세스를 모래알처럼 잘게 부숴버리는 비연속 할당([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))으로 도망침으로써 이 전쟁을 끝냈다.
 
-- **📢 섹션 요약 비유**: 퍼즐 맞추기를 할 때, 1번부터 100번 조각을 무조건 일렬로만 놔야 한다는 규칙([[523_contiguous_allocation|연속 할당]]) 때문에 책상에 자리가 남아도 퍼즐을 못 맞추다가, 그냥 뿔뿔이 흩어놔도 그림이 보이게 뇌파([[328_mmu|MMU]])를 개조한 것(비연속 할당)과 같습니다.
+- **📢 섹션 요약 비유**: 퍼즐 맞추기를 할 때, 1번부터 100번 조각을 무조건 일렬로만 놔야 한다는 규칙([연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/)) 때문에 책상에 자리가 남아도 퍼즐을 못 맞추다가, 그냥 뿔뿔이 흩어놔도 그림이 보이게 뇌파([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))를 개조한 것(비연속 할당)과 같습니다.
 
 ---
 
@@ -142,19 +146,19 @@ tags:
 
 ### 실무 시나리오: 임베디드 및 RTOS (Real-Time OS) 환경
 
-1. **상황**: 미사일 요격 시스템이나 자동차 브레이크 제어(ABS)를 담당하는 초정밀 실시간 [[001_operating_system_purpose|운영체제]](RTOS)를 설계한다.
-2. **[[259_paging|페이징]]의 기피**:
-   - 범용 OS(Windows, Linux)처럼 [[259_paging|페이징]]을 쓰면 [[720_page_fault_isr|페이지 폴트]]가 발생할 때 하드디스크를 읽어오는 [[015_지연_데이터_관점|지연]](수십 ms)이 생긴다.
-   - 브레이크를 밟았는데 [[720_page_fault_isr|페이지 폴트]] 때문에 0.1초 늦게 작동하면 운전자는 사망한다. 즉, 시간 예측 가능성(Determinism)이 파괴된다.
-3. **[[523_contiguous_allocation|연속 할당]]의 부활**:
-   - 이런 하드코어 실시간 시스템에서는 [[342_external_fragmentation|외부 단편화]]를 감수하더라도, 주소 변환 오버헤드나 [[015_지연_데이터_관점|지연]]이 절대 0인 **연속 메모리 할당(또는 물리 메모리 직접 매핑)** 방식을 채택한다.
-   - 모든 태스크를 부팅 시점에 1개의 연속된 블록에 못 박아버리고, 실행 중에는 동적 할당 자체를 금지해 [[291_fragmentation_and_reassembly_process|단편화]]를 원천 봉쇄하는 코딩 규약(MISRA C 등)을 사용한다.
+1. **상황**: 미사일 요격 시스템이나 자동차 브레이크 제어(ABS)를 담당하는 초정밀 실시간 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(RTOS)를 설계한다.
+2. **[페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 기피**:
+   - 범용 OS(Windows, Linux)처럼 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)을 쓰면 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 발생할 때 하드디스크를 읽어오는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(수십 ms)이 생긴다.
+   - 브레이크를 밟았는데 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 때문에 0.1초 늦게 작동하면 운전자는 사망한다. 즉, 시간 예측 가능성(Determinism)이 파괴된다.
+3. **[연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/)의 부활**:
+   - 이런 하드코어 실시간 시스템에서는 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)를 감수하더라도, 주소 변환 오버헤드나 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 절대 0인 **연속 메모리 할당(또는 물리 메모리 직접 매핑)** 방식을 채택한다.
+   - 모든 태스크를 부팅 시점에 1개의 연속된 블록에 못 박아버리고, 실행 중에는 동적 할당 자체를 금지해 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)를 원천 봉쇄하는 코딩 규약(MISRA C 등)을 사용한다.
 
-### [[523_contiguous_allocation|연속 할당]]의 현대적 잔재 ([[371_huge_pages|Huge Pages]])
-- 현대 리눅스 서버에서도 [[523_contiguous_allocation|연속 할당]]의 철학이 일부 부활했다. DB 서버의 경우 4KB [[286_page_frame|페이지]] 테이블이 너무 커져서 [[357_tlb|TLB]] 캐시 미스가 잦아지는 문제가 발생했다.
-- 이를 해결하기 위해 2MB 또는 1GB짜리 **[[371_huge_pages|거대 페이지]]([[371_huge_pages|Huge Pages]])**를 연속적으로 할당하는 옵션을 켠다. 연속된 큰 덩어리를 줌으로써 하드웨어 매핑 오버헤드를 [[523_contiguous_allocation|연속 할당]] 시절처럼 비약적으로 낮추는 융합 전략이다.
+### [연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/)의 현대적 잔재 ([Huge Pages](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/))
+- 현대 리눅스 서버에서도 [연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/)의 철학이 일부 부활했다. DB 서버의 경우 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블이 너무 커져서 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 캐시 미스가 잦아지는 문제가 발생했다.
+- 이를 해결하기 위해 2MB 또는 1GB짜리 **[거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/)([Huge Pages](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/))**를 연속적으로 할당하는 옵션을 켠다. 연속된 큰 덩어리를 줌으로써 하드웨어 매핑 오버헤드를 [연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/) 시절처럼 비약적으로 낮추는 융합 전략이다.
 
-- **📢 섹션 요약 비유**: 대중교통([[259_paging|페이징]])이 아무리 효율적이라도, 환자 생명이 위급한 구급차(RTOS)는 신호등도 안 걸리고 직진만 할 수 있는 전용 중앙차로([[523_contiguous_allocation|연속 할당]])가 반드시 필요한 것과 같은 이치입니다.
+- **📢 섹션 요약 비유**: 대중교통([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))이 아무리 효율적이라도, 환자 생명이 위급한 구급차(RTOS)는 신호등도 안 걸리고 직진만 할 수 있는 전용 중앙차로([연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/))가 반드시 필요한 것과 같은 이치입니다.
 
 ---
 
@@ -165,14 +169,14 @@ tags:
 | 구분 | 내용 |
 |:---|:---|
 | **속도 극대화** | 주소 변환이 덧셈 1회로 끝나, 메모리 접근(Memory Access) 레이턴시가 이론상 최저치 달성 |
-| **하드웨어 절감** | 복잡한 [[259_paging|페이징]] 회로나 [[357_tlb|TLB]] 메모리 없이 베이스/리미트 [[057_register|레지스터]]만으로 구현 가능 (제조 단가 하락) |
+| **하드웨어 절감** | 복잡한 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 회로나 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 메모리 없이 베이스/리미트 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)만으로 구현 가능 (제조 단가 하락) |
 | **예측 가능성** | 메모리 상에 순차적으로 존재하므로 캐시 라인(Cache Line) 적중률이 극도로 높아 순차 읽기에 유리 |
 
 ### 결론 및 미래 전망
 
-연속 메모리 할당 (Contiguous Memory Allocation)은 [[673_multiprogramming_bottleneck_resource|다중 프로그래밍]] 시대에 '[[342_external_fragmentation|외부 단편화]]'라는 거대한 암초를 만나 범용 OS 시장에서는 퇴출당한 낡은 기술이다. 빈 공간을 병합하고 [[347_compaction|압축]]하는 비용은 한정된 자원 아래서 무한에 가까운 오버헤드를 낳았다. 하지만 이 기술이 지닌 '절대적인 단순함과 빠름'은 시간 결정성(Determinism)이 생명인 RTOS 분야나 [[022_kernel_role|커널]] 내부의 [[349_slab_allocator|슬랩 할당기]]([[349_slab_allocator|Slab Allocator]]), [[001_dikw_pyramid|데이터]]베이스의 [[371_huge_pages|거대 페이지]]([[517_huge_page|Huge Page]]) 최적화 기법 등에서 여전히 그 유전자를 이어가며, [[259_paging|페이징]] 아키텍처의 복잡성을 보완하는 강력한 무기로 생존해 있다.
+연속 메모리 할당 (Contiguous Memory Allocation)은 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 시대에 '[외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)'라는 거대한 암초를 만나 범용 OS 시장에서는 퇴출당한 낡은 기술이다. 빈 공간을 병합하고 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하는 비용은 한정된 자원 아래서 무한에 가까운 오버헤드를 낳았다. 하지만 이 기술이 지닌 '절대적인 단순함과 빠름'은 시간 결정성(Determinism)이 생명인 RTOS 분야나 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부의 [슬랩 할당기](/knowledge-base/studynote/02_operating_system/06_memory_management/349_slab_allocator/)([Slab Allocator](/knowledge-base/studynote/02_operating_system/06_memory_management/349_slab_allocator/)), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스의 [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/)([Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/)) 최적화 기법 등에서 여전히 그 유전자를 이어가며, [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 아키텍처의 복잡성을 보완하는 강력한 무기로 생존해 있다.
 
-- **📢 섹션 요약 비유**: 커다란 장작을 쪼개지 않고 통째로 아궁이에 넣으면([[523_contiguous_allocation|연속 할당]]) 화력(속도)은 엄청나지만 아궁이 입구(메모리 공간)에 맞추기 어려웠던 과거의 투박하고 강력한 불피우기 방식입니다.
+- **📢 섹션 요약 비유**: 커다란 장작을 쪼개지 않고 통째로 아궁이에 넣으면([연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/)) 화력(속도)은 엄청나지만 아궁이 입구(메모리 공간)에 맞추기 어려웠던 과거의 투박하고 강력한 불피우기 방식입니다.
 
 ---
 
@@ -180,10 +184,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[336_swap_out_in|스왑 아웃]] ([[336_swap_out_in|Swap out]]) / 스왑 인 (Swap in) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [[337_standard_vs_paging_swapping|표준 스와핑]] ([[337_standard_vs_paging_swapping|전체 프로세스]]) vs [[259_paging|페이징]] 시스템 [[335_swapping|스와핑]] ([[286_page_frame|페이지]] 단위) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [[339_fixed_partition|고정 분할 방식]] ([[339_fixed_partition|Fixed Partition]]) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [[340_variable_partition|가변 분할 방식]] ([[340_variable_partition|Variable Partition]]) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [스왑 아웃](/knowledge-base/studynote/02_operating_system/06_memory_management/336_swap_out_in/) ([Swap out](/knowledge-base/studynote/02_operating_system/06_memory_management/336_swap_out_in/)) / 스왑 인 (Swap in) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [표준 스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/337_standard_vs_paging_swapping/) ([전체 프로세스](/knowledge-base/studynote/02_operating_system/06_memory_management/337_standard_vs_paging_swapping/)) vs [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 시스템 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/) ([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [고정 분할 방식](/knowledge-base/studynote/02_operating_system/06_memory_management/339_fixed_partition/) ([Fixed Partition](/knowledge-base/studynote/02_operating_system/06_memory_management/339_fixed_partition/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [가변 분할 방식](/knowledge-base/studynote/02_operating_system/06_memory_management/340_variable_partition/) ([Variable Partition](/knowledge-base/studynote/02_operating_system/06_memory_management/340_variable_partition/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -197,13 +201,13 @@ tags:
     └──▶ [가변 분할 방식 (Variable Partition)]
 ```
 
-이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [[347_compaction|압축]]해 보여준다.
+이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 연속 메모리 할당 (Contiguous Memory Allocation)은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
-2. 먼저 [[337_standard_vs_paging_swapping|표준 스와핑]] ([[337_standard_vs_paging_swapping|전체 프로세스]]) vs [[259_paging|페이징]] 시스템 [[335_swapping|스와핑]] ([[286_page_frame|페이지]] 단위)을 이해하면 연속 메모리 할당 (Contiguous Memory Allocation)이 왜 필요한지 더 쉽게 보여요.
-3. 그래서 연속 메모리 할당 (Contiguous Memory Allocation)을 잘 알면 나중에 [[339_fixed_partition|고정 분할 방식]] ([[339_fixed_partition|Fixed Partition]])도 훨씬 쉽게 배울 수 있어요.
+2. 먼저 [표준 스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/337_standard_vs_paging_swapping/) ([전체 프로세스](/knowledge-base/studynote/02_operating_system/06_memory_management/337_standard_vs_paging_swapping/)) vs [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 시스템 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/) ([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위)을 이해하면 연속 메모리 할당 (Contiguous Memory Allocation)이 왜 필요한지 더 쉽게 보여요.
+3. 그래서 연속 메모리 할당 (Contiguous Memory Allocation)을 잘 알면 나중에 [고정 분할 방식](/knowledge-base/studynote/02_operating_system/06_memory_management/339_fixed_partition/) ([Fixed Partition](/knowledge-base/studynote/02_operating_system/06_memory_management/339_fixed_partition/))도 훨씬 쉽게 배울 수 있어요.
 
 ---
 
@@ -211,7 +215,7 @@ tags:
 
 **진행 상황**: 338 / 800
 
-← **이전**: [[337_standard_vs_paging_swapping|337. 표준 스와핑 (전체 프로세스) vs 페이징 시스템 스와핑 (페이지 단위) (Standard Vs Paging Swapping)]]
-**다음**: [[339_fixed_partition|339. 고정 분할 방식 (Fixed Partition)]] →
+← **이전**: [337. 표준 스와핑 (전체 프로세스) vs 페이징 시스템 스와핑 (페이지 단위) (Standard Vs Paging Swapping)](/knowledge-base/studynote/02_operating_system/06_memory_management/337_standard_vs_paging_swapping/)
+**다음**: [339. 고정 분할 방식 (Fixed Partition)](/knowledge-base/studynote/02_operating_system/06_memory_management/339_fixed_partition/) →
 
 ---

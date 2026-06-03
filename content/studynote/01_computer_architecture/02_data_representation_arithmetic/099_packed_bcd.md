@@ -1,23 +1,27 @@
----
-title: 99. 팩드 BCD (Packed BCD)
-date: '2026-04-19'
-tags:
-- studynote-computer-architecture
----
++++
+title = "99. 팩드 BCD (Packed BCD)"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 팩드 [[098_bcd|BCD]] (Packed [[098_bcd|Binary Coded Decimal]])는 1바이트(8비트) 공간을 절반으로 나누어, 10진수 숫자 2개를 고밀도로 [[347_compaction|압축]] 저장하는 [[001_dikw_pyramid|데이터]] 표현 포맷이다.
-> 2. **가치**: 존(Zone) 비트로 낭비되던 언팩드(Unpacked) BCD의 여백을 완전히 제거하여, 대규모 금융 원장 및 [[002_database_definition|데이터베이스]]의 스토리지 요구량을 정확히 절반으로 줄인다.
-> 3. **판단 포인트**: 메모리 효율은 극대화되지만, 연산 시 [[074_byte|바이트]] 내부의 니블(Nibble) 단위 자리 올림(Carry)을 처리해야 하므로 추가적인 하드웨어 보정 회로가 필수적으로 요구된다.
+> 1. **본질**: 팩드 [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) (Packed [Binary Coded Decimal](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/))는 1바이트(8비트) 공간을 절반으로 나누어, 10진수 숫자 2개를 고밀도로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 저장하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 표현 포맷이다.
+> 2. **가치**: 존(Zone) 비트로 낭비되던 언팩드(Unpacked) BCD의 여백을 완전히 제거하여, 대규모 금융 원장 및 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 스토리지 요구량을 정확히 절반으로 줄인다.
+> 3. **판단 포인트**: 메모리 효율은 극대화되지만, 연산 시 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 내부의 니블(Nibble) 단위 자리 올림(Carry)을 처리해야 하므로 추가적인 하드웨어 보정 회로가 필수적으로 요구된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-팩드 [[098_bcd|BCD]] (Packed [[098_bcd|Binary Coded Decimal]])는 10진수 연산의 정확성을 유지하면서도 메모리 낭비를 최소화하기 위해 고안된 [[001_dikw_pyramid|데이터]] 인코딩 규격이다. 기본적인 2진화 10진수인 언팩드 [[098_bcd|BCD]] ([[100_unpacked_bcd|Unpacked BCD]])는 1바이트 안에 10진수 숫자 1개(4비트)만을 저장하고 상위 4비트를 존(Zone) 비트라는 무의미한 메타데이터로 낭비하는 치명적인 결함이 있었다. 
+팩드 [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) (Packed [Binary Coded Decimal](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/))는 10진수 연산의 정확성을 유지하면서도 메모리 낭비를 최소화하기 위해 고안된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 인코딩 규격이다. 기본적인 2진화 10진수인 언팩드 [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) ([Unpacked BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/100_unpacked_bcd/))는 1바이트 안에 10진수 숫자 1개(4비트)만을 저장하고 상위 4비트를 존(Zone) 비트라는 무의미한 메타데이터로 낭비하는 치명적인 결함이 있었다. 
 
-금융과 같이 소수점 오차가 발생하면 안 되는 시스템에서는 순수 2진수 [[087_floating_point|부동소수점]] 대신 [[098_bcd|BCD]] 사용이 강제된다. 그러나 메인프레임 시대의 제약된 메모리 환경에서, 수억 건의 거래 기록을 언팩드 BCD로 저장하는 것은 디스크 공간의 50%를 허공에 날리는 것과 같았다. 이를 해결하기 위해 1바이트 공간을 상위 4비트(High Nibble)와 하위 4비트(Low Nibble)로 쪼개어 각각 독립된 숫자를 꽉 채워 넣는 팩드 [[098_bcd|BCD]] 구조가 등장하게 되었다.
+금융과 같이 소수점 오차가 발생하면 안 되는 시스템에서는 순수 2진수 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 대신 [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) 사용이 강제된다. 그러나 메인프레임 시대의 제약된 메모리 환경에서, 수억 건의 거래 기록을 언팩드 BCD로 저장하는 것은 디스크 공간의 50%를 허공에 날리는 것과 같았다. 이를 해결하기 위해 1바이트 공간을 상위 4비트(High Nibble)와 하위 4비트(Low Nibble)로 쪼개어 각각 독립된 숫자를 꽉 채워 넣는 팩드 [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) 구조가 등장하게 되었다.
 
 - **📢 섹션 요약 비유**: 언팩드 BCD가 2인승 벤치에 혼자 앉고 남은 자리에 가방(Zone 영역)을 두는 것이라면, 팩드 BCD는 가방을 치우고 두 사람이 정확히 나누어 앉아 공간 활용도를 2배로 높이는 합승 규정이다.
 
@@ -25,7 +29,7 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-팩드 BCD의 핵심 메커니즘은 [[001_dikw_pyramid|데이터]]의 짝수 [[055_array|배열]] 강제화와 부호(Sign)의 후위 배치이다. 숫자가 홀수 개일 경우 최상위 [[074_byte|바이트]]의 앞부분을 `0`으로 채우는 제로 [[098_padding_convolutional_neural_network_same_valid|패딩]]([[585_zero_skipping|Zero]] [[098_padding_convolutional_neural_network_same_valid|Padding]])을 수행하며, 양수/음수 상태는 반드시 전체 [[074_byte|바이트]] 스트림의 맨 마지막 4비트에 예약 마커로 삽입한다.
+팩드 BCD의 핵심 메커니즘은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 짝수 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 강제화와 부호(Sign)의 후위 배치이다. 숫자가 홀수 개일 경우 최상위 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)의 앞부분을 `0`으로 채우는 제로 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))을 수행하며, 양수/음수 상태는 반드시 전체 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 스트림의 맨 마지막 4비트에 예약 마커로 삽입한다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -45,7 +49,7 @@ tags:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-이 구조에서는 [[117_alu|ALU]] ([[117_alu|Arithmetic Logic Unit]])가 덧셈을 수행할 때 일반 2진수 가산 방식을 그대로 쓸 수 없다. 1바이트 안에 10진수 단위가 2개나 들어있어 하위 4비트의 합이 9를 초과할 경우, 상위 4비트로 자리 올림(Carry)이 발생해야 한다. 이를 하드웨어적으로 감지하기 위해 보조 [[169_carry_flag|캐리 플래그]] (AF, Auxiliary [[169_carry_flag|Carry Flag]])가 작동하며, 계산 후 `+6` 보정을 통해 팩드 [[098_bcd|BCD]] 포맷을 유지한다.
+이 구조에서는 [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) ([Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/))가 덧셈을 수행할 때 일반 2진수 가산 방식을 그대로 쓸 수 없다. 1바이트 안에 10진수 단위가 2개나 들어있어 하위 4비트의 합이 9를 초과할 경우, 상위 4비트로 자리 올림(Carry)이 발생해야 한다. 이를 하드웨어적으로 감지하기 위해 보조 [캐리 플래그](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/169_carry_flag/) (AF, Auxiliary [Carry Flag](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/169_carry_flag/))가 작동하며, 계산 후 `+6` 보정을 통해 팩드 [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) 포맷을 유지한다.
 
 - **📢 섹션 요약 비유**: 과자 1개를 담던 큰 박스(언팩드)를 버리고, 박스 하나에 과자 2개를 눌러 담되(팩드), 상자 바닥에만 유통기한(부호) 스티커를 붙여 창고 적재량을 극대화하는 물류 혁신이다.
 
@@ -55,14 +59,14 @@ tags:
 
 팩드 BCD는 공간을 얻은 대신 연산의 복잡도를 지불하는 전형적인 트레이드오프(Trade-off)를 가진다. 
 
-| 비교 항목 | 언팩드 [[098_bcd|BCD]] (Unpacked) | 팩드 [[098_bcd|BCD]] (Packed) | 2진수 (Binary) |
+| 비교 항목 | 언팩드 [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) (Unpacked) | 팩드 [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) (Packed) | 2진수 (Binary) |
 | :--- | :--- | :--- | :--- |
-| **저장 밀도** | 낮음 (1 [[074_byte|Byte]] = 1 숫자) | 높음 (1 [[074_byte|Byte]] = 2 숫자) | 최고 밀도 |
+| **저장 밀도** | 낮음 (1 [Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) = 1 숫자) | 높음 (1 [Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) = 2 숫자) | 최고 밀도 |
 | **디스크 I/O** | 낭비 심함 | 50% 절감 | 최적화됨 |
-| **[[117_alu|ALU]] 연산 속도** | 비교적 단순 | 복잡 (Nibble 간 보정 필요) | 매우 빠름 |
-| **소수점 정확도** | 완벽 (오차 없음) | 완벽 (오차 없음) | [[087_floating_point|부동소수점]] 오차 발생 |
+| **[ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) 연산 속도** | 비교적 단순 | 복잡 (Nibble 간 보정 필요) | 매우 빠름 |
+| **소수점 정확도** | 완벽 (오차 없음) | 완벽 (오차 없음) | [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 오차 발생 |
 
-[[002_database_definition|데이터베이스]](DB) 엔진 관점에서 보면, `DECIMAL`이나 `NUMERIC` [[001_dikw_pyramid|데이터]] 타입을 디스크에 기록할 때 대부분 팩드 BCD와 유사한 고밀도 블롭(Blob) 형태로 인코딩한다. 이는 I/O 대역폭을 획기적으로 아껴주지만, 조건절(`WHERE`)에서 연산을 수행할 때마다 CPU가 패킹을 해제하거나 이중 가산 보정을 수행해야 하므로 스캔 [[282_performance_tactics|성능]] 저하의 주범이 되기도 한다.
+[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(DB) 엔진 관점에서 보면, `DECIMAL`이나 `NUMERIC` [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입을 디스크에 기록할 때 대부분 팩드 BCD와 유사한 고밀도 블롭(Blob) 형태로 인코딩한다. 이는 I/O 대역폭을 획기적으로 아껴주지만, 조건절(`WHERE`)에서 연산을 수행할 때마다 CPU가 패킹을 해제하거나 이중 가산 보정을 수행해야 하므로 스캔 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하의 주범이 되기도 한다.
 
 - **📢 섹션 요약 비유**: 언팩드 BCD가 공간을 마음껏 쓰는 1인 가구라면, 팩드 BCD는 공간을 아끼는 룸메이트 구조다. 월세(메모리)는 반으로 줄지만, 요리를 할 때(연산) 주방을 나눠 써야 해서 규칙(보정 회로)이 까다롭다.
 
@@ -70,16 +74,16 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 [[001_dikw_pyramid|데이터]]의 성격과 생명주기(Lifecycle)에 따라 인코딩 포맷을 엄격하게 분리해야 한다.
+실무에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 성격과 생명주기(Lifecycle)에 따라 인코딩 포맷을 엄격하게 분리해야 한다.
 
-### [[435_checklist_based_testing|체크리스트]] 및 의사결정 기준
-1. **스토리지 병목 vs CPU 병목 판단**: 대규모 금융 거래 원장을 저장할 때는 디스크 I/O가 병목이므로 팩드 [[098_bcd|BCD]] 기반의 저장이 절대적으로 유리하다. 반면, 실시간 게임 엔진이나 3D 렌더링처럼 소수점 오차가 치명적이지 않고 연산 속도가 최우선인 환경에서는 순수 2진수 [[087_floating_point|부동소수점]]을 사용해야 한다.
-2. **[[014_api_posix|API]] 직렬화 오버헤드 주의**: 백엔드 [[532_microservices_decomposition_patterns|마이크로서비스]] 간 통신 페이로드(예: [[343_json|JSON]])에 용량을 줄이겠다고 팩드 [[098_bcd|BCD]] 바이너리 인코딩을 강제하면 안 된다. 디코딩에 소모되는 CPU 오버헤드가 네트워크 트래픽 절약분보다 훨씬 커진다.
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 의사결정 기준
+1. **스토리지 병목 vs CPU 병목 판단**: 대규모 금융 거래 원장을 저장할 때는 디스크 I/O가 병목이므로 팩드 [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) 기반의 저장이 절대적으로 유리하다. 반면, 실시간 게임 엔진이나 3D 렌더링처럼 소수점 오차가 치명적이지 않고 연산 속도가 최우선인 환경에서는 순수 2진수 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/)을 사용해야 한다.
+2. **[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 직렬화 오버헤드 주의**: 백엔드 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 간 통신 페이로드(예: [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/))에 용량을 줄이겠다고 팩드 [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) 바이너리 인코딩을 강제하면 안 된다. 디코딩에 소모되는 CPU 오버헤드가 네트워크 트래픽 절약분보다 훨씬 커진다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
-- **문자열 그대로의 연산**: 팩드 BCD로 [[347_compaction|압축]]된 [[001_dikw_pyramid|데이터]]를 디코드하지 않고 아스키([[103_ascii|ASCII]]) 문자열로 취급하여 직접 파싱 로직을 돌리는 설계. 이는 하드웨어 [[186_character_stuffing_dle_stx_etx|플래그]](AF)의 이점을 완전히 버리고 소프트웨어 루프로 [[282_performance_tactics|성능]]을 갉아먹는 행위다.
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- **문자열 그대로의 연산**: 팩드 BCD로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 디코드하지 않고 아스키([ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/)) 문자열로 취급하여 직접 파싱 로직을 돌리는 설계. 이는 하드웨어 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)(AF)의 이점을 완전히 버리고 소프트웨어 루프로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 갉아먹는 행위다.
 
-- **📢 섹션 요약 비유**: 창고에 보관할 때는 진공 [[347_compaction|압축]]팩(팩드 [[098_bcd|BCD]])에 넣어 부피를 줄이는 것이 맞지만, 매일 입고 벗어야 하는 일상복(네트워크 통신)까지 매번 진공 포장을 하면 외출 준비 시간(오버헤드)만 길어진다.
+- **📢 섹션 요약 비유**: 창고에 보관할 때는 진공 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)팩(팩드 [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/))에 넣어 부피를 줄이는 것이 맞지만, 매일 입고 벗어야 하는 일상복(네트워크 통신)까지 매번 진공 포장을 하면 외출 준비 시간(오버헤드)만 길어진다.
 
 ---
 
@@ -87,9 +91,9 @@ tags:
 
 팩드 BCD는 10진수 연산의 정확성과 메모리 효율이라는 두 마리 토끼를 잡기 위해 고안된 가장 실용적인 타협안이다. 1바이트를 반으로 가르는 니블(Nibble) 아키텍처와 맨 마지막에 부호를 숨기는 구조는 엔터프라이즈 환경의 스토리지 비용을 천문학적으로 절감시켰다.
 
-비록 현대의 메모리가 테라바이트 급으로 확장되었지만, RDBMS의 정밀 숫자 타입 저장 방식이나 메인프레임의 COBOL 프로그램 내부에서는 여전히 이 아키텍처가 활발히 동작하고 있다. 팩드 BCD는 단순히 과거의 [[347_compaction|압축]] 기술이 아니라, "[[001_dikw_pyramid|데이터]]의 본질을 훼손하지 않으면서 물리적 한계를 극복하는 구조적 설계"의 표본으로 기억되어야 한다.
+비록 현대의 메모리가 테라바이트 급으로 확장되었지만, RDBMS의 정밀 숫자 타입 저장 방식이나 메인프레임의 COBOL 프로그램 내부에서는 여전히 이 아키텍처가 활발히 동작하고 있다. 팩드 BCD는 단순히 과거의 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 기술이 아니라, "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 본질을 훼손하지 않으면서 물리적 한계를 극복하는 구조적 설계"의 표본으로 기억되어야 한다.
 
-- **📢 섹션 요약 비유**: 팩드 BCD는 빈틈없이 짐을 테트리스 하는 숙련된 이삿짐센터 직원이다. 조금의 공간 낭비도 허용하지 않는 이 규격 덕분에, 우리는 무거운 금융 [[001_dikw_pyramid|데이터]]의 무게를 절반으로 줄여 안전하게 운반할 수 있다.
+- **📢 섹션 요약 비유**: 팩드 BCD는 빈틈없이 짐을 테트리스 하는 숙련된 이삿짐센터 직원이다. 조금의 공간 낭비도 허용하지 않는 이 규격 덕분에, 우리는 무거운 금융 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 무게를 절반으로 줄여 안전하게 운반할 수 있다.
 
 ---
 
@@ -97,9 +101,9 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **언팩드 [[098_bcd|BCD]] ([[100_unpacked_bcd|Unpacked BCD]])** | 숫자를 1바이트에 하나만 적재하는 낭비적 포맷으로, 팩드 [[098_bcd|BCD]] 탄생의 배경 |
-| **보조 [[169_carry_flag|캐리 플래그]] (Auxiliary [[169_carry_flag|Carry Flag]], AF)** | 팩드 [[098_bcd|BCD]] 연산 시, 1바이트 내부의 니블 장벽을 넘는 자리 올림을 감지하는 하드웨어 [[186_character_stuffing_dle_stx_etx|플래그]] |
-| **COMP-3 (Computational-3)** | 팩드 BCD의 개념을 소프트웨어적으로 구현한 COBOL 프로그래밍 언어의 전설적인 [[001_dikw_pyramid|데이터]] 타입 |
+| **언팩드 [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) ([Unpacked BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/100_unpacked_bcd/))** | 숫자를 1바이트에 하나만 적재하는 낭비적 포맷으로, 팩드 [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) 탄생의 배경 |
+| **보조 [캐리 플래그](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/169_carry_flag/) (Auxiliary [Carry Flag](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/169_carry_flag/), AF)** | 팩드 [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) 연산 시, 1바이트 내부의 니블 장벽을 넘는 자리 올림을 감지하는 하드웨어 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) |
+| **COMP-3 (Computational-3)** | 팩드 BCD의 개념을 소프트웨어적으로 구현한 COBOL 프로그래밍 언어의 전설적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -131,7 +135,7 @@ RDBMS 고정밀 숫자 타입 (DECIMAL, NUMERIC) 스토리지 적용
 
 **진행 상황**: 99 / 803
 
-← **이전**: [[098_bcd|98. BCD 코드 (Binary Coded Decimal)]]
-**다음**: [[100_unpacked_bcd|100. 언팩드 BCD (Unpacked BCD)]] →
+← **이전**: [98. BCD 코드 (Binary Coded Decimal)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/)
+**다음**: [100. 언팩드 BCD (Unpacked BCD)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/100_unpacked_bcd/) →
 
 ---

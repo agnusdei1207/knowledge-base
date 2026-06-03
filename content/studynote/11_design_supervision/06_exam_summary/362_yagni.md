@@ -1,9 +1,13 @@
----
-title: 362. 지금 필요하지 않은 기능 배제 (You Aren't Gonna Need It, YAGNI)
-date: '2026-05-10'
-tags:
-- studynote-design-supervision
----
++++
+title = "362. 지금 필요하지 않은 기능 배제 (You Aren't Gonna Need It, YAGNI)"
+date = 2026-05-10
+
+[taxonomies]
+tags = ["studynote-design-supervision"]
+
+[extra]
+tags = ["studynote-design-supervision"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -15,7 +19,7 @@ tags:
 
 ## Ⅰ. 개요 및 필요성
 
-지금 필요하지 않은 기능 배제 (You Aren't Gonna Need It, YAGNI)은 현재 요구사항으로 입증되지 않은 미래 기능을 미리 구현하지 말자는 설계 원칙이다. 확장 가능성을 과도하게 예측하면 사용되지 않는 [[198_abstraction_control_data_process|추상화]]와 설정이 시스템에 쌓인다. 이 개념이 필요한 이유는 현재 검증된 요구만 구현 대상으로 제한하는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 복잡성은 늘었는데 실제 가치가 없는 죽은 설계와 미사용 코드만 남는다.
+지금 필요하지 않은 기능 배제 (You Aren't Gonna Need It, YAGNI)은 현재 요구사항으로 입증되지 않은 미래 기능을 미리 구현하지 말자는 설계 원칙이다. 확장 가능성을 과도하게 예측하면 사용되지 않는 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)와 설정이 시스템에 쌓인다. 이 개념이 필요한 이유는 현재 검증된 요구만 구현 대상으로 제한하는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 복잡성은 늘었는데 실제 가치가 없는 죽은 설계와 미사용 코드만 남는다.
 
 아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
@@ -49,7 +53,7 @@ tags:
 └──────────┘   └──────────┘   └──────────┘   └──────────┘
 ```
 
-이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [[346_maintainability_portability|유지보수성]], 테스트성, 운영 난도가 크게 달라진다.
+이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
 
 - **📢 섹션 요약 비유**: 톱니가 맞게 설계된 기어처럼, 책임과 의존이 맞물려야 힘이 새지 않는다.
 
@@ -73,13 +77,13 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 지금 필요하지 않은 기능 배제 (You Aren't Gonna Need It, YAGNI)을 무조건 채택하기보다 YAGNI는 준비 부족이 아니라 가설과 사실을 구분해 투자 시점을 늦추는 판단 기준으로 설명해야 한다. 아래 [[435_checklist_based_testing|체크리스트]]는 설계 감리 시 최소한으로 확인해야 할 질문이다.
+실무에서는 지금 필요하지 않은 기능 배제 (You Aren't Gonna Need It, YAGNI)을 무조건 채택하기보다 YAGNI는 준비 부족이 아니라 가설과 사실을 구분해 투자 시점을 늦추는 판단 기준으로 설명해야 한다. 아래 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)는 설계 감리 시 최소한으로 확인해야 할 질문이다.
 
-### 판단 [[435_checklist_based_testing|체크리스트]]
+### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 변경 이유를 한 문장으로 설명할 수 있는가?
 2. 공개 인터페이스가 실제 책임보다 넓지 않은가?
 3. 숨은 결합 없이 단위 테스트가 가능한가?
-4. [[198_abstraction_control_data_process|추상화]] 추가 비용이 얻는 안정성보다 크지 않은가?
+4. [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 추가 비용이 얻는 안정성보다 크지 않은가?
 
 답안을 마무리할 때는 “어디에 쓰는가”만이 아니라 “언제 과한가”를 함께 적어야 한다. 그래야 설계 원칙, 패턴, 아키텍처가 구호가 아니라 의사결정 기준으로 읽힌다.
 
@@ -118,7 +122,7 @@ tags:
 
 **진행 상황**: 440 / 530
 
-← **이전**: [[361_process|361. 중복 배제 원칙 (Don't Repeat Yourself, DRY)]]
-**다음**: [[363_process|363. 결합도·응집도 (Coupling and Cohesion)]] →
+← **이전**: [361. 중복 배제 원칙 (Don't Repeat Yourself, DRY)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/361_process/)
+**다음**: [363. 결합도·응집도 (Coupling and Cohesion)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/363_process/) →
 
 ---

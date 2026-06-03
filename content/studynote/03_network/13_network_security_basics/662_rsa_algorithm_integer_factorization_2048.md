@@ -1,22 +1,26 @@
----
-title: 662. RSA 알고리즘
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "662. RSA 알고리즘"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[110_rsa|RSA]] [[001_algorithm_definition|알고리즘]]은 [[1117_network_security_zero_trust_policy|네트워크 보안]] 기본에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: [[110_rsa|RSA]] [[001_algorithm_definition|알고리즘]]을 이해하면 [[002_confidentiality|기밀성]]과 [[003_integrity|무결성]] 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 [네트워크 보안](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 기본에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 이해하면 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- 1977년 MIT의 세 학자(Ron **R**ivest, Adi **S**hamir, Leonard **A**dleman)의 이름 앞 글자를 따서 명명된 **인류 역사상 가장 유명하고 전 세계적으로 가장 널리 쓰이는 비대칭키(공개키) [[504_cryptography_algorithms_aes_rsa_sha|암호화 알고리즘]]**입니다.
-- 인터넷 전자 상거래, 공인인증서([[675_digital_signature_process_asymmetric_key|전자서명]]), SSL/[[694_thread_local_storage_tls|TLS]]([[471_https_http_over_tls|HTTPS]]) 통신의 키 교환 등 모든 현대 보안의 근간이 되는 수학적 발명품입니다.
+- 1977년 MIT의 세 학자(Ron **R**ivest, Adi **S**hamir, Leonard **A**dleman)의 이름 앞 글자를 따서 명명된 **인류 역사상 가장 유명하고 전 세계적으로 가장 널리 쓰이는 비대칭키(공개키) [암호화 알고리즘](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/504_cryptography_algorithms_aes_rsa_sha/)**입니다.
+- 인터넷 전자 상거래, 공인인증서([전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/)), SSL/[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)) 통신의 키 교환 등 모든 현대 보안의 근간이 되는 수학적 발명품입니다.
 
 ```text
 [수학적 문제 기반]
@@ -27,7 +31,7 @@ tags:
     └──▶ [ElGamal 및 DSA 시스템]
 ```
 
-- **📢 섹션 요약 비유**: [[110_rsa|RSA]] [[001_algorithm_definition|알고리즘]]은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [[170_selectivity_cardinality_distribution_tuning|선택도]] 쉬워진다.
+- **📢 섹션 요약 비유**: [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
@@ -35,18 +39,18 @@ tags:
 
 RSA는 앞선 661번 문서에서 배운 **소인수분해 문제(Integer Factorization)**의 무지막지한 난해함을 이용합니다.
 
-1. **키 [[087_process_state_transition|생성]] ([[067_db_key_uniqueness_minimality|Key]] Generation)**
+1. **키 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) ([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Generation)**
    - 두 개의 엄청나게 큰 소수(보통 수백 자리의 숫자) $p$와 $q$를 무작위로 고릅니다.
    - 두 수를 곱해 $N$을 만듭니다 ($N = p \times q$).
    - 복잡한 오일러 파이 함수와 모듈러 연산을 거쳐 두 개의 마법의 열쇠 $e$와 $d$를 뽑아냅니다.
-   - **결과물**: ($N, e$)를 묶어서 인터넷에 널리 뿌리는 **'공개키(Public [[067_db_key_uniqueness_minimality|Key]])'**로 삼고, $d$는 나만 몰래 간직하는 **'개인키(Private [[067_db_key_uniqueness_minimality|Key]])'**로 숨깁니다.
+   - **결과물**: ($N, e$)를 묶어서 인터넷에 널리 뿌리는 **'공개키(Public [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))'**로 삼고, $d$는 나만 몰래 간직하는 **'개인키(Private [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))'**로 숨깁니다.
 
-2. **[[002_confidentiality|기밀성]] 암호화 (앨리스가 나에게 편지를 보낼 때)**
+2. **[기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) 암호화 (앨리스가 나에게 편지를 보낼 때)**
    - 앨리스는 내 블로그에서 내 '공개키($N, e$)'를 다운받습니다.
    - 평문(메시지)을 공개키 $e$승으로 곱하고 $N$으로 나눈 나머지(Mod)를 구하면 쓰레기 값(암호문)이 됩니다.
    - 해커가 중간에 암호문과 내 공개키($N, e$)를 다 훔쳐봐도, $N$을 $p$와 $q$로 소인수분해 할 수 없어서 절대 풀지 못합니다. 오직 내 방에 숨겨둔 **개인키 $d$**로만 수학적으로 풀립니다.
 
-3. **[[988_digital_signature|전자 서명]] (내가 진짜 작성자임을 증명할 때)**
+3. **[전자 서명](/knowledge-base/studynote/03_network/19_frequent_topics_terms/988_digital_signature/) (내가 진짜 작성자임을 증명할 때)**
    - 반대로 내가 공지사항을 내 **개인키 $d$**로 암호화(도장)해서 올리면, 전 세계 누구나 내 '공개키($N, e$)'를 곱해보고 평문이 툭 튀어나오는 것을 보고 "아! 진짜 본인 개인키로 쓴 글 맞네!"라고 증명할 수 있습니다.
 
 ```text
@@ -58,7 +62,7 @@ RSA는 앞선 661번 문서에서 배운 **소인수분해 문제(Integer Factor
     └──▶ [ElGamal 및 DSA 시스템]
 ```
 
-- **📢 섹션 요약 비유**: [[110_rsa|RSA]] [[001_algorithm_definition|알고리즘]]의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
+- **📢 섹션 요약 비유**: [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
 ---
 
@@ -69,23 +73,23 @@ RSA는 앞선 661번 문서에서 배운 **소인수분해 문제(Integer Factor
 - **현재 표준**: NIST 등 글로벌 보안 기관들은 **반드시 최소 2048비트(2048-bit) 길이 이상의 키를 사용할 것을 강력히 권고**하고 있습니다. 2048비트는 숫자가 약 600자리에 달하는 크기라 현존 기술로는 해독이 불가능합니다.
 - 은행이나 군사 등급의 극비 시스템은 **3072비트 또는 4096비트**를 씁니다.
 
-[[110_rsa|RSA]] [[001_algorithm_definition|알고리즘]]을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [[661_asymmetric_key_math_factorization_dlp|수학적 문제 기반]]이 기반 조건을 만든다면, [[110_rsa|RSA]] [[001_algorithm_definition|알고리즘]]은 그 위에서 핵심 메커니즘을 구현하고, ElGamal 및 DSA 시스템은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [[002_confidentiality|기밀성]]과 [[003_integrity|무결성]]에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+[RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [수학적 문제 기반](/knowledge-base/studynote/03_network/13_network_security_basics/661_asymmetric_key_math_factorization_dlp/)이 기반 조건을 만든다면, [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 그 위에서 핵심 메커니즘을 구현하고, ElGamal 및 DSA 시스템은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [[661_asymmetric_key_math_factorization_dlp|수학적 문제 기반]]의 기반 정리 | [[110_rsa|RSA]] [[001_algorithm_definition|알고리즘]]의 핵심 동작 | ElGamal 및 DSA 시스템의 확장 적용 |
-| 자원 관점 | 기본 조건 확보 | [[002_confidentiality|기밀성]] 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 초점 | [수학적 문제 기반](/knowledge-base/studynote/03_network/13_network_security_basics/661_asymmetric_key_math_factorization_dlp/)의 기반 정리 | [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 핵심 동작 | ElGamal 및 DSA 시스템의 확장 적용 |
+| 자원 관점 | 기본 조건 확보 | [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) 최적화 | 규모와 범위 확대 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: [[110_rsa|RSA]] [[001_algorithm_definition|알고리즘]]은 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
+- **📢 섹션 요약 비유**: [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-치명적인 단점은 키의 길이가 너무너무 길고(2048비트), 이를 곱하고 나누는 지수 연산 과정이 CPU에 엄청난 부하를 준다는 것입니다. 일반 대칭키([[656_aes_advanced_encryption_standard_rijndael|AES]])보다 **연산 속도가 수천 배 느려, 대용량 [[501_file_definition_logical_record|파일]] 암호화에는 절대 쓰지 못하고 오직 짧은 '열쇠(대칭키)를 몰래 배달할 때'만 제한적으로 사용**합니다.
+치명적인 단점은 키의 길이가 너무너무 길고(2048비트), 이를 곱하고 나누는 지수 연산 과정이 CPU에 엄청난 부하를 준다는 것입니다. 일반 대칭키([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))보다 **연산 속도가 수천 배 느려, 대용량 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 암호화에는 절대 쓰지 못하고 오직 짧은 '열쇠(대칭키)를 몰래 배달할 때'만 제한적으로 사용**합니다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
@@ -97,9 +101,9 @@ RSA는 앞선 661번 문서에서 배운 **소인수분해 문제(Integer Factor
 
 ## Ⅴ. 기대효과 및 결론
 
-[[110_rsa|RSA]] [[001_algorithm_definition|알고리즘]]은 [[1117_network_security_zero_trust_policy|네트워크 보안]] 기본을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 [[002_confidentiality|기밀성]] 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 ElGamal 및 DSA 시스템, 자동화된 신뢰 체계, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 자동화된 신뢰 체계 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+[RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 [네트워크 보안](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 기본을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 ElGamal 및 DSA 시스템, 자동화된 신뢰 체계, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 자동화된 신뢰 체계 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: [[110_rsa|RSA]] [[001_algorithm_definition|알고리즘]]은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
+- **📢 섹션 요약 비유**: [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
 ---
 
@@ -107,8 +111,8 @@ RSA는 앞선 661번 문서에서 배운 **소인수분해 문제(Integer Factor
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[661_asymmetric_key_math_factorization_dlp|수학적 문제 기반]] | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [[303_authentication_authorization_patterns|인증]] ([[604_authentication_factors|Authentication]]) | 통신 상대가 진짜인지 [[396_validation|확인]]한다. |
+| [수학적 문제 기반](/knowledge-base/studynote/03_network/13_network_security_basics/661_asymmetric_key_math_factorization_dlp/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) ([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/)) | 통신 상대가 진짜인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다. |
 | 암호화 (Encryption) | 데이터를 읽지 못하게 보호한다. |
 | ElGamal 및 DSA 시스템 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
@@ -124,12 +128,12 @@ RSA는 앞선 661번 문서에서 배운 **소인수분해 문제(Integer Factor
     └──▶ [확장 B: 자동화된 신뢰 체계]
 ```
 
-[[110_rsa|RSA]] [[001_algorithm_definition|알고리즘]]는 [[661_asymmetric_key_math_factorization_dlp|수학적 문제 기반]]에서 출발해 현재 메커니즘을 정교화하고, 이후 ElGamal 및 DSA 시스템와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+[RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)는 [수학적 문제 기반](/knowledge-base/studynote/03_network/13_network_security_basics/661_asymmetric_key_math_factorization_dlp/)에서 출발해 현재 메커니즘을 정교화하고, 이후 ElGamal 및 DSA 시스템와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 비밀 편지를 보낼 때는 자물쇠와 비밀번호가 필요해요.
-2. 이 개념은 누가 진짜 친구인지 [[396_validation|확인]]하고, 편지가 바뀌지 않았는지도 살펴봐요.
+2. 이 개념은 누가 진짜 친구인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 편지가 바뀌지 않았는지도 살펴봐요.
 3. 그래서 나쁜 사람이 중간에 훔쳐보거나 바꾸기 어려워져요.
 
 ---
@@ -138,7 +142,7 @@ RSA는 앞선 661번 문서에서 배운 **소인수분해 문제(Integer Factor
 
 **진행 상황**: 783 / 1120
 
-← **이전**: [[661_asymmetric_key_math_factorization_dlp|661. 수학적 문제 기반(소인수분해, 이산대수 등)]]
-**다음**: [[663_elgamal_dsa_discrete_logarithm_digital_signature|663. ElGamal 및 DSA (디지털 서명용 특화) 시스템]] →
+← **이전**: [661. 수학적 문제 기반(소인수분해, 이산대수 등)](/knowledge-base/studynote/03_network/13_network_security_basics/661_asymmetric_key_math_factorization_dlp/)
+**다음**: [663. ElGamal 및 DSA (디지털 서명용 특화) 시스템](/knowledge-base/studynote/03_network/13_network_security_basics/663_elgamal_dsa_discrete_logarithm_digital_signature/) →
 
 ---

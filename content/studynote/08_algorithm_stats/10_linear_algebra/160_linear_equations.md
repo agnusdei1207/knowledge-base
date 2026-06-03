@@ -1,14 +1,18 @@
----
-title: 1. 선형 연립방정식 — 행렬 표현, 가우스 소거
-date: '2026-04-21'
-tags:
-- studynote-algorithm
----
++++
+title = "1. 선형 연립방정식 — 행렬 표현, 가우스 소거"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-algorithm"]
+
+[extra]
+tags = ["studynote-algorithm"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 선형 연립방정식 Ax = b는 *n차원 공간에서 n개의 초평면(hyperplane)이 교차하는 점*을 구하는 문제이며, 행렬 표현으로 모든 선형 시스템이 통일된다.
-> 2. **가치**: 가우스 소거법 ([[125_gaussian_elimination|Gaussian Elimination]]) 은 O(n³)이지만 LU 분해로 변환하면 같은 A에 대해 여러 b를 O(n²)에 풀 수 있어 반복 계산에 유리하다.
+> 2. **가치**: 가우스 소거법 ([Gaussian Elimination](/knowledge-base/studynote/08_algorithm_stats/07_numerical/125_gaussian_elimination/)) 은 O(n³)이지만 LU 분해로 변환하면 같은 A에 대해 여러 b를 O(n²)에 풀 수 있어 반복 계산에 유리하다.
 > 3. **판단 포인트**: 조건수 (Condition Number) κ(A) = ‖A‖·‖A⁻¹‖ — 이 값이 크면 수치 불안정하며, 작은 오차가 해를 크게 바꾼다. 실무에서 수치 안정성이 정확성만큼 중요하다.
 
 ---
@@ -28,7 +32,7 @@ aₘ₁x₁ + aₘ₂x₂ + ... + aₘₙxₙ = bₘ
 
 여기서 A ∈ ℝ^{m×n}, x ∈ ℝ^n, b ∈ ℝ^m.
 
-### 해의 [[104_classification_analysis|분류]]
+### 해의 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)
 
 | 조건 | 해 | 기하적 의미 |
 |:---|:---|:---|
@@ -44,7 +48,7 @@ aₘ₁x₁ + aₘ₂x₂ + ... + aₘₙxₙ = bₘ
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 가우스 소거법 ([[125_gaussian_elimination|Gaussian Elimination]])
+### 가우스 소거법 ([Gaussian Elimination](/knowledge-base/studynote/08_algorithm_stats/07_numerical/125_gaussian_elimination/))
 
 확대 행렬 [A|b]에 행 연산을 적용해 행 계단형 (Row Echelon Form) 으로 변환:
 
@@ -60,7 +64,7 @@ aₘ₁x₁ + aₘ₂x₂ + ... + aₘₙxₙ = bₘ
   x₁ = (8 - 1·3 - (-1)·(-1))/2 = 2
 ```
 
-**[[002_time_complexity|시간 복잡도]]**: O(n³) [[087_floating_point|부동소수점]] 연산
+**[시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)**: O(n³) [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 연산
 
 ### LU 분해 (LU Decomposition)
 
@@ -78,11 +82,11 @@ LU 분해 후 Ax = b 풀기:
 
 **장점**: A가 같고 b만 바뀌면 2단계만 O(n²) — 반복 풀이에 효율적!
 
-### 수치 안정성과 [[037_pivot|피벗]]팅
+### 수치 안정성과 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)팅
 
-가우스 소거에서 대각 원소 ([[037_pivot|피벗]]) 가 0이거나 매우 작으면 수치 오류 급증.
+가우스 소거에서 대각 원소 ([피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)) 가 0이거나 매우 작으면 수치 오류 급증.
 
-**부분 [[037_pivot|피벗]]팅 (Partial Pivoting)**: 각 단계에서 절댓값 최대 행을 [[037_pivot|피벗]] 행으로 교환.
+**부분 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)팅 (Partial Pivoting)**: 각 단계에서 절댓값 최대 행을 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 행으로 교환.
 
 ```
 소거 전:                    피벗팅 후:
@@ -118,7 +122,7 @@ LU 분해 후 Ax = b 풀기:
 
 | 방법 | 복잡도 | 안정성 | 용도 |
 |:---|:---:|:---:|:---|
-| 가우스 소거 ([[037_pivot|피벗]]) | O(n³) | 중간 | 일반 Dense 행렬 |
+| 가우스 소거 ([피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)) | O(n³) | 중간 | 일반 Dense 행렬 |
 | LU 분해 | O(n³) 분해 + O(n²) 풀이 | 좋음 | 반복 풀이 |
 | QR 분해 | O(n³) | 매우 좋음 | 최소제곱 문제 |
 | 켤레 기울기법 (CG) | O(kn²) | 좋음 | 대칭 양정치 Sparse 행렬 |
@@ -159,7 +163,7 @@ det = 2×3 - (-1)×(-1) = 5 ≠ 0 → 유일해 존재
 ### 기술사 판단 포인트
 
 1. **"n×n 선형 시스템 풀이 시간은?"** → 가우스 소거 O(n³), LU 분해 후 O(n²)
-2. **"수치 불안정할 때 대응 방법은?"** → [[037_pivot|피벗]]팅, QR 분해, [[093_normalization|정규화]]
+2. **"수치 불안정할 때 대응 방법은?"** → [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)팅, QR 분해, [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)
 3. **"희소 행렬(Sparse Matrix) 시스템 효율적 풀이는?"** → 켤레 기울기법 (CG)
 
 📢 **섹션 요약 비유**: 컴퓨터 그래픽스의 행렬 변환은 "레시피 미리 합치기"다 — 이동, 회전, 스케일을 각각 적용하는 대신, 미리 하나의 행렬로 합쳐서 모든 정점에 한 번에 적용한다.
@@ -168,12 +172,12 @@ det = 2×3 - (-1)×(-1) = 5 ≠ 0 → 유일해 존재
 
 ## Ⅴ. 기대효과 및 결론
 
-선형 연립방정식은 **공학·물리·데이터과학의 공통 언어**다. 회로 분석, 구조 역학, [[241_machine_learning_basics|머신러닝]] 최적화, 컴퓨터 그래픽스 모두 Ax = b 형태로 환원된다.
+선형 연립방정식은 **공학·물리·데이터과학의 공통 언어**다. 회로 분석, 구조 역학, [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 최적화, 컴퓨터 그래픽스 모두 Ax = b 형태로 환원된다.
 
-현대 수치 선형대수 [[336_library_vs_framework|라이브러리]] (LAPACK, NumPy, PyTorch) 는:
-1. LU/QR/[[230_svd_matrix_factorization_random_forest_xgboost_boosting|SVD]] 분해를 BLAS (Basic Linear Algebra Subprograms) 기반 최적화로 구현
-2. [[418_gpu|GPU]] [[430_index_fast_full_scan|병렬]] 처리로 대규모 행렬 연산 가속
-3. 조건수 체크와 [[093_normalization|정규화]] 자동 처리
+현대 수치 선형대수 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) (LAPACK, NumPy, PyTorch) 는:
+1. LU/QR/[SVD](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/) 분해를 BLAS (Basic Linear Algebra Subprograms) 기반 최적화로 구현
+2. [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리로 대규모 행렬 연산 가속
+3. 조건수 체크와 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 자동 처리
 
 📢 **섹션 요약 비유**: 선형 연립방정식은 "모든 공학 문제의 공통 양식"이다 — 어떤 분야든 수식을 Ax = b로 정리하면 수천 년간 쌓인 수학 도구를 바로 쓸 수 있다.
 
@@ -186,8 +190,8 @@ det = 2×3 - (-1)×(-1) = 5 ≠ 0 → 유일해 존재
 | Ax = b | 행렬-벡터 표현 | 회로, 그래픽스, ML |
 | 가우스 소거 | O(n³), 행 계단형 | LU 분해의 기초 |
 | LU 분해 | A = LU, 반복 풀이 O(n²) | 수치 선형대수 |
-| 조건수 κ(A) | 수치 안정성 지표 | [[093_normalization|정규화]] 판단 |
-| 부분 [[037_pivot|피벗]]팅 | 수치 안정화 | 실용 가우스 소거 |
+| 조건수 κ(A) | 수치 안정성 지표 | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 판단 |
+| 부분 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)팅 | 수치 안정화 | 실용 가우스 소거 |
 
 ---
 
@@ -210,8 +214,8 @@ det = 2×3 - (-1)×(-1) = 5 ≠ 0 → 유일해 존재
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **Ax=b는 "수수께끼 방정식 묶음"**: 여러 개의 [[167_sql_hint_optimizer_override|힌트]](방정식)를 동시에 풀어 숨겨진 값(x)을 찾는다.
-2. **가우스 소거는 "아래서부터 [[167_sql_hint_optimizer_override|힌트]] 하나씩 없애기"**: 복잡한 묶음을 단순하게 줄여가며 차례로 풀어낸다.
+1. **Ax=b는 "수수께끼 방정식 묶음"**: 여러 개의 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)(방정식)를 동시에 풀어 숨겨진 값(x)을 찾는다.
+2. **가우스 소거는 "아래서부터 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) 하나씩 없애기"**: 복잡한 묶음을 단순하게 줄여가며 차례로 풀어낸다.
 3. **조건수가 크면 "아슬아슬한 퍼즐"**: 퍼즐 조각 하나를 조금만 비틀어도 전체가 무너지는 불안정한 상태.
 
 ---
@@ -220,7 +224,7 @@ det = 2×3 - (-1)×(-1) = 5 ≠ 0 → 유일해 존재
 
 **진행 상황**: 160 / 175
 
-← **이전**: [[159_compression|10. 데이터 압축 (Compression) — 무손실/손실, 허프만/LZ/웨이블릿]]
-**다음**: [[161_matrix_decomposition|2. 행렬 분해 (Matrix Decomposition) — LU / QR / SVD]] →
+← **이전**: [10. 데이터 압축 (Compression) — 무손실/손실, 허프만/LZ/웨이블릿](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/)
+**다음**: [2. 행렬 분해 (Matrix Decomposition) — LU / QR / SVD](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/) →
 
 ---

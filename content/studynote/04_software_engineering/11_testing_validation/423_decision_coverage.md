@@ -1,21 +1,25 @@
----
-title: 423. 결정 커버리지 (Decision Coverage / 분기 커버리지)
-date: '2026-05-08'
-tags:
-- studynote-software-engineering
----
++++
+title = "423. 결정 커버리지 (Decision Coverage / 분기 커버리지)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-software-engineering"]
+
+[extra]
+tags = ["studynote-software-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 결정 커버리지 (Decision Coverage / 분기 커버리지)은(는) [[001_software_engineering_definition|소프트웨어 공학]]의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[[346_maintainability_portability|유지보수성]]·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 결정 커버리지 (Decision Coverage / 분기 커버리지)은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-하급 화이트박스 테스터는 [[422_statement_coverage|구문 커버리지]]([[422_statement_coverage|Statement Coverage]]) 100%를 달성하고 신나서 퇴근합니다. 
+하급 화이트박스 테스터는 [구문 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/422_statement_coverage/)([Statement Coverage](/knowledge-base/studynote/04_software_engineering/11_testing_validation/422_statement_coverage/)) 100%를 달성하고 신나서 퇴근합니다. 
 그러나 바로 다음 날 서버가 다운됩니다. 코드는 `if (user_age > 19) { alcohol_buy(); }`로 짜여 있어서 성인이 술을 사는 테스트는 했지만, **미성년자가 술을 사려고 시도했을 때 프로그램이 어떻게 반응하는지에 대한 검사(False 분기 흐름)**가 전혀 이루어지지 않았기 때문입니다. 즉, "안 한다"라는 선택지에 대한 방어(`else` 혹은 `return`)가 무너진 것입니다.
 
 이를 해결하기 위해 테스터 2단계 각성인 **결정 커버리지(Decision Coverage, 또는 분기 커버리지 Branch Coverage)**가 태어납니다. 이 계명은 "코드를 다 지나는 걸 넘어, 모든 선택지 문(Decision Point)에서 T/F 화살표의 양 갈래를 다 타고 놀아야 한다!"라고 규제합니다.
@@ -45,7 +49,7 @@ tags:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 건물에 화재가 났을 때 [[422_statement_coverage|구문 커버리지]]가 "탈출구 하나로 나가는 시뮬레이션 한 번 돌려보고 전원이 탈출했으니 건물 안전 100점!"이라고 한다면, 분기 커버리지는 "만약 저쪽 출구가 불에 타서 막혔을 때(False), 반대편 비상계단으로 도망가는 방법(Else)도 다 훈련해 봐야 안전 100점이다!"라고 혹독하게 양방향 대비를 시키는 훈련 대장입니다.
+- **📢 섹션 요약 비유**: 건물에 화재가 났을 때 [구문 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/422_statement_coverage/)가 "탈출구 하나로 나가는 시뮬레이션 한 번 돌려보고 전원이 탈출했으니 건물 안전 100점!"이라고 한다면, 분기 커버리지는 "만약 저쪽 출구가 불에 타서 막혔을 때(False), 반대편 비상계단으로 도망가는 방법(Else)도 다 훈련해 봐야 안전 100점이다!"라고 혹독하게 양방향 대비를 시키는 훈련 대장입니다.
 
 ---
 
@@ -57,12 +61,12 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-결정 커버리지는 수학적으로 우월한 성질을 갖습니다. **"결정 커버리지 100%를 달성하면, 무조건 [[422_statement_coverage|구문 커버리지]] 100%는 자동으로 달성된다."** (포용의 법칙, Subsumption [[061_relation_schema_instance|Relation]]).
-참(True) 길과 거짓(False) 길을 구석구석 다 쑤시고 다니다 보면, 자연스럽게 그 길목에 놓인 모든 [[238_switch_operation_principles|스위치]](Statement)들도 저절로 모두 한 번씩은 밟히기 때문입니다. 
+결정 커버리지는 수학적으로 우월한 성질을 갖습니다. **"결정 커버리지 100%를 달성하면, 무조건 [구문 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/422_statement_coverage/) 100%는 자동으로 달성된다."** (포용의 법칙, Subsumption [Relation](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)).
+참(True) 길과 거짓(False) 길을 구석구석 다 쑤시고 다니다 보면, 자연스럽게 그 길목에 놓인 모든 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(Statement)들도 저절로 모두 한 번씩은 밟히기 때문입니다. 
 
-이 극강의 실용성 때문에, 세계 테스트 자격증 위원회(ISTQB)와 대다수 글로벌 IT 기업(구글, 금융권 보안 등)은 **코드 리베이트(개발 승인)의 최소 품질 턱**을 [[422_statement_coverage|구문 커버리지]]가 아닌 **수준 높은 '분기(결정) 커버리지'**로 박아둡니다. (예: 분기 커버리지 70% 이상 달성 의무화).
+이 극강의 실용성 때문에, 세계 테스트 자격증 위원회(ISTQB)와 대다수 글로벌 IT 기업(구글, 금융권 보안 등)은 **코드 리베이트(개발 승인)의 최소 품질 턱**을 [구문 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/422_statement_coverage/)가 아닌 **수준 높은 '분기(결정) 커버리지'**로 박아둡니다. (예: 분기 커버리지 70% 이상 달성 의무화).
 
-- **📢 섹션 요약 비유**: 대학교 수학(결정 커버리지) 시험을 100점 맞은 천재 학생은, 굳이 중학교 수학([[422_statement_coverage|구문 커버리지]]) 시험을 따로 치지 않아도 중학교 과정은 자연스럽게 100점으로 보증받고 인정해 주는 무적의 상위 라이센스 원리입니다.
+- **📢 섹션 요약 비유**: 대학교 수학(결정 커버리지) 시험을 100점 맞은 천재 학생은, 굳이 중학교 수학([구문 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/422_statement_coverage/)) 시험을 따로 치지 않아도 중학교 과정은 자연스럽게 100점으로 보증받고 인정해 주는 무적의 상위 라이센스 원리입니다.
 
 ---
 
@@ -80,7 +84,7 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-분기 커버리지가 무적일 것 같지만, 치명적인 바보짓을 저지를 때가 있습니다. 바로 조건식이 하나가 아니라 여러 개 겹친 **복합 [[369_logic_bomb|논리]](`if (A && B)`)**를 만날 때입니다.
+분기 커버리지가 무적일 것 같지만, 치명적인 바보짓을 저지를 때가 있습니다. 바로 조건식이 하나가 아니라 여러 개 겹친 **복합 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)(`if (A && B)`)**를 만날 때입니다.
 
 테스터가 `if (A && B)`를 100% 결정 커버리지로 통과하려면, 전체 묶음이 한 번 참(True)이 되고, 한 번 거짓(False)이 되기만 하면 100% 수료증을 발급해 줍니다.
 - TC 1: A(True) && B(True) ➔ 전체 True (통과!)
@@ -100,10 +104,10 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 결정 커버리지는 개발자들이 자신의 코드 스타일([[334_clean_code_principles|Clean Code]])을 개조하게 만드는 강제 교관 역할을 합니다.
-만약 개발자가 `if` 분기 안에 `switch-case`를 넣고 또 `if-else`를 5번 중첩(Nested)했다면? 결정 커버리지 100%를 달성하기 위해 개발자는 참과 거짓 조합을 계산하다 머리가 터져서 수십 개의 TC([[441_test_case|Test Case]])를 작성해야 하는 고통의 지옥에 빠집니다.
+실무에서 결정 커버리지는 개발자들이 자신의 코드 스타일([Clean Code](/knowledge-base/studynote/04_software_engineering/06_software_architecture/334_clean_code_principles/))을 개조하게 만드는 강제 교관 역할을 합니다.
+만약 개발자가 `if` 분기 안에 `switch-case`를 넣고 또 `if-else`를 5번 중첩(Nested)했다면? 결정 커버리지 100%를 달성하기 위해 개발자는 참과 거짓 조합을 계산하다 머리가 터져서 수십 개의 TC([Test Case](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/))를 작성해야 하는 고통의 지옥에 빠집니다.
 
-그래서 짬이 찬 개발자들은 테스팅 짜기가 너무 귀찮으니까 애초에 코드를 짤 때 **"If문을 중첩하지 말고, 함수를 쪼개자!(Early Return, Method Extraction)"**라고 셀프 진단하며 코드를 초단순화시킵니다. 테스팅 툴이 코드의 구조적 순수함과 가독성마저 교정해 주는 아름다운 [[001_software_engineering_definition|소프트웨어 공학]]의 선순환([[078_refactoring_code_smells|Refactoring]])이 여기서 발현됩니다.
+그래서 짬이 찬 개발자들은 테스팅 짜기가 너무 귀찮으니까 애초에 코드를 짤 때 **"If문을 중첩하지 말고, 함수를 쪼개자!(Early Return, Method Extraction)"**라고 셀프 진단하며 코드를 초단순화시킵니다. 테스팅 툴이 코드의 구조적 순수함과 가독성마저 교정해 주는 아름다운 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 선순환([Refactoring](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/078_refactoring_code_smells/))이 여기서 발현됩니다.
 
 - **📢 섹션 요약 비유**: 미로 방에 문을 30개나 숨겨놓고 자물쇠를 걸어놓은 방 설계자(개발자)가 "이 방의 모든 문을 다 한 번씩 열고 닫혀있는지(결정 커버리지) 네가 직접 테스트까지 해!"라는 지시를 받으면, 방 설계자 스스로가 화를 내며 문을 2개로 줄여버리게 만드는 최고의 반성문 강제 장치입니다.
 
@@ -117,8 +121,8 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-결정 커버리지(분기 커버리지)는 [[422_statement_coverage|구문 커버리지]]의 1차원적 순진함을 박살 내고, 시스템이 오류를 뱉고 사용자를 내쫓는 '그늘진 우회로(False Path)'까지 랜턴을 비추게 만든 화이트박스 혁명의 주인공입니다.
-단순히 코드 몇 줄을 달렸냐가 아니라, "개발자가 그려놓은 철로의 모든 이음새 [[238_switch_operation_principles|스위치]]를 왼쪽, 오른쪽 다 꺾어보았는가?"를 증명함으로써 현업에서 인정받는 품질의 마지노선을 담당합니다. 이 관문을 넘어야 비로소 그 속 깊은 이면의 '개별 조건(Condition)'들을 분해하러 가는 더 높고 차가운 산맥([[424_condition_coverage|조건 커버리지]])으로 등반을 시도할 준비가 된 것입니다.
+결정 커버리지(분기 커버리지)는 [구문 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/422_statement_coverage/)의 1차원적 순진함을 박살 내고, 시스템이 오류를 뱉고 사용자를 내쫓는 '그늘진 우회로(False Path)'까지 랜턴을 비추게 만든 화이트박스 혁명의 주인공입니다.
+단순히 코드 몇 줄을 달렸냐가 아니라, "개발자가 그려놓은 철로의 모든 이음새 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 왼쪽, 오른쪽 다 꺾어보았는가?"를 증명함으로써 현업에서 인정받는 품질의 마지노선을 담당합니다. 이 관문을 넘어야 비로소 그 속 깊은 이면의 '개별 조건(Condition)'들을 분해하러 가는 더 높고 차가운 산맥([조건 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/424_condition_coverage/))으로 등반을 시도할 준비가 된 것입니다.
 
 - **📢 섹션 요약 비유**: 길 가다 갈림길 표지판을 만났을 때 대충 한쪽으로만 가보고선 "아 길 평탄하네!" 하는 게 아니라, 반드시 다시 되돌아와서 왼쪽 길, 오른쪽 길 끝까지 양쪽 마을을 전부 다 도장 찍어야 직성이 풀리는 극강의 꼼꼼한 여행 플래너지표입니다.
 
@@ -134,10 +138,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[001_software_engineering_definition|소프트웨어 공학]] ([[001_software_engineering_definition|Software Engineering]]) | 결정 커버리지 (Decision Coverage / 분기 커버리지)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [[003_sdlc|소프트웨어 생명주기]] ([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]], Software Development Life Cycle) | 결정 커버리지 (Decision Coverage / 분기 커버리지)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 결정 커버리지 (Decision Coverage / 분기 커버리지)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 결정 커버리지 (Decision Coverage / 분기 커버리지)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 결정 커버리지 (Decision Coverage / 분기 커버리지) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [[020_software_configuration_management|형상 관리]] ([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]]) | 결정 커버리지 (Decision Coverage / 분기 커버리지)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 결정 커버리지 (Decision Coverage / 분기 커버리지)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -157,13 +161,13 @@ tags:
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [[002_software_crisis|소프트웨어 위기]] 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 결정 커버리지 (Decision Coverage / 분기 커버리지)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
 
 ---
 
@@ -171,7 +175,7 @@ tags:
 
 **진행 상황**: 437 / 973
 
-← **이전**: [[422_statement_coverage|422. 구문 커버리지 (Statement Coverage) - 코드의 모든 문장을 최소 한 번 실행]]
-**다음**: [[423_decision_coverage|423. 결정 커버리지 (Decision Coverage / 분기 커버리지) - 분기문(If, While 등)의 참/거짓을 최소 한 번씩]] →
+← **이전**: [422. 구문 커버리지 (Statement Coverage) - 코드의 모든 문장을 최소 한 번 실행](/knowledge-base/studynote/04_software_engineering/11_testing_validation/422_statement_coverage/)
+**다음**: [423. 결정 커버리지 (Decision Coverage / 분기 커버리지) - 분기문(If, While 등)의 참/거짓을 최소 한 번씩](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/) →
 
 ---

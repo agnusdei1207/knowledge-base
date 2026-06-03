@@ -1,23 +1,26 @@
----
-title: 788. 비지상 네트워크망 (NTN Non-Terrestrial Network. 스타링크 연계 도심 항공 모빌리티 UAM 커버 위성 3D
-  연계 라우팅 끊김 보완/위성 안테나 최적화망 구성 기술 발전/해상 통합 통신 지원 기반 연구 궤도 지연 최적 방침 구조적 구성)
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "788. 비지상 네트워크망 (NTN Non-Terrestrial Network. 스타링크 연계 도심 항공 모빌리티 UAM 커버 위성 3D 연계 라우팅 끊김 보완/위성 안테나 최적화망 구성 기술 발전/해상 통합 통신 지원 기반 연구 궤도 지연 최적 방침 구조적 구성)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[154_ntn_non_terrestrial_network_6g|비지상 네트워크]]망은 차세대 통신 아키텍처에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: [[154_ntn_non_terrestrial_network_6g|비지상 네트워크]]망을 이해하면 유연성과 확장성 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: [비지상 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/154_ntn_non_terrestrial_network_6g/)망은 차세대 통신 아키텍처에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: [비지상 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/154_ntn_non_terrestrial_network_6g/)망을 이해하면 유연성과 확장성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 기존처럼 땅바닥(Terrestrial)에 설치한 기지국 철탑이 아니라, 지표면 위 10km의 대기권(무인기, 드론)부터 수백~수만 km 우주(인공위성)에 띄워 놓은 **비행체나 위성을 하늘 위의 기지국(중계기)으로 삼아 지상과 통신하는 거대한 3차원 [[551_cellular_network_concept_reuse_handover|이동통신망]] 기술**입니다. ([[751_3gpp_3rd_generation_partnership_project|3GPP]] Rel-17부터 표준화 시작)
-- **목적**: 6G의 목표인 "지구상 음영(먹통) 지역 0%, 하늘을 나는 [[145_uam_urban_air_mobility_evtol|UAM]](도심 항공 모빌리티) 완벽 통신 커버" 달성.
+- **개념**: 기존처럼 땅바닥(Terrestrial)에 설치한 기지국 철탑이 아니라, 지표면 위 10km의 대기권(무인기, 드론)부터 수백~수만 km 우주(인공위성)에 띄워 놓은 **비행체나 위성을 하늘 위의 기지국(중계기)으로 삼아 지상과 통신하는 거대한 3차원 [이동통신망](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/551_cellular_network_concept_reuse_handover/) 기술**입니다. ([3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) Rel-17부터 표준화 시작)
+- **목적**: 6G의 목표인 "지구상 음영(먹통) 지역 0%, 하늘을 나는 [UAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/)(도심 항공 모빌리티) 완벽 통신 커버" 달성.
 
 ```text
 [지능형 반사 표면]
@@ -28,21 +31,21 @@ tags:
     └──▶ [디지털 트윈 네트워크 망]
 ```
 
-- **📢 섹션 요약 비유**: [[154_ntn_non_terrestrial_network_6g|비지상 네트워크]]망은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [[170_selectivity_cardinality_distribution_tuning|선택도]] 쉬워진다.
+- **📢 섹션 요약 비유**: [비지상 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/154_ntn_non_terrestrial_network_6g/)망은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 1. 고도 [[489_raid_10_hybrid|10]]~20km: [[596_haps_high_altitude_platform_station_drone|HAPS]] (성층권 고고도 플랫폼)
+### 1. 고도 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~20km: [HAPS](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/596_haps_high_altitude_platform_station_drone/) (성층권 고고도 플랫폼)
 - 드론이나 거대한 태양광 비행선을 구름보다 높은 성층권에 둥둥 띄워둡니다.
 - 땅바닥 기지국이 커버 못하는 섬이나 산간 오지 마을 위를 빙빙 돌면서 하늘에서 아래로 넓게 와이파이 쏘듯 전파를 뿌려줍니다. (과거 구글의 프로젝트 룬, 페이스북 아퀼라 프로젝트의 진화)
 
-### 2. 고도 500~2,000km: [[595_leo_low_earth_orbit_starlink_6g|LEO]] (저궤도 인공위성, Low Earth Orbit) 🌟
+### 2. 고도 500~2,000km: [LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/) (저궤도 인공위성, Low Earth Orbit) 🌟
 NTN 열풍의 진짜 주인공입니다. (스타링크 모델)
-- **과거의 위성([[593_geo_geostationary_earth_orbit_satellite|GEO]])**: 고도 36,000km 정지궤도에 떠 있었습니다. 너무 멀어서 인터넷을 클릭하면 화면이 뜰 때까지 0.5초([[015_지연_데이터_관점|지연]])나 걸려 게임이나 카톡이 불가능했습니다.
-- **저궤도([[595_leo_low_earth_orbit_starlink_6g|LEO]]) 혁명**: 위성을 지구와 500km 거리로 아슬아슬하게 바짝 붙여 수천 개를 뿌립니다. 거리가 짧아지니 [[141_latency|지연 시간]](Ping)이 20ms 이내로 줄어들어 지상의 광랜 속도와 맞먹게 됩니다.
-- 스마트폰의 일반 [[418_5g_embb_urllc_mmtc_slicing|5G]] 안테나가 지상 기지국 연결이 끊기는 순간(산속 조난 등), 하늘을 쳐다보며 직접 [[595_leo_low_earth_orbit_starlink_6g|LEO]] 위성과 빔포밍으로 다이렉트 통신(D2D)을 체결합니다. (아이폰 14의 위성 긴급 구조 원리)
+- **과거의 위성([GEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/593_geo_geostationary_earth_orbit_satellite/))**: 고도 36,000km 정지궤도에 떠 있었습니다. 너무 멀어서 인터넷을 클릭하면 화면이 뜰 때까지 0.5초([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))나 걸려 게임이나 카톡이 불가능했습니다.
+- **저궤도([LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/)) 혁명**: 위성을 지구와 500km 거리로 아슬아슬하게 바짝 붙여 수천 개를 뿌립니다. 거리가 짧아지니 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)(Ping)이 20ms 이내로 줄어들어 지상의 광랜 속도와 맞먹게 됩니다.
+- 스마트폰의 일반 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 안테나가 지상 기지국 연결이 끊기는 순간(산속 조난 등), 하늘을 쳐다보며 직접 [LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/) 위성과 빔포밍으로 다이렉트 통신(D2D)을 체결합니다. (아이폰 14의 위성 긴급 구조 원리)
 
 ```text
 [지능형 반사 표면]
@@ -53,7 +56,7 @@ NTN 열풍의 진짜 주인공입니다. (스타링크 모델)
     └──▶ [디지털 트윈 네트워크 망]
 ```
 
-- **📢 섹션 요약 비유**: [[154_ntn_non_terrestrial_network_6g|비지상 네트워크]]망의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
+- **📢 섹션 요약 비유**: [비지상 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/154_ntn_non_terrestrial_network_6g/)망의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
 ---
 
@@ -61,52 +64,52 @@ NTN 열풍의 진짜 주인공입니다. (스타링크 모델)
 
 우주와 통신하는 데는 끔찍한 물리적 한계가 따릅니다. 이를 극복해야 합니다.
 
-1. **[[148_5g_embb_urllc_mmtc|초고속]] 도플러 천이 (Doppler Shift) 보상**
-   - [[595_leo_low_earth_orbit_starlink_6g|저궤도 위성]]은 지구를 하루에 10바퀴씩, 총알보다 빠른 시속 2만 7천 km로 날아다닙니다. 위성이 폰 쪽으로 쌩 날아오면 주파수 소리가 빽! 하고 찌그러지고([[169_doppler_effect_fast_fading|도플러 효과]]), 멀어지면 낮아집니다.
-   - 폰과 위성이 미친 듯이 머리를 굴려, 이 찌그러진 주파수 파형을 실시간으로 역계산해 깨끗한 파동으로 복원(주파수 보상 [[001_algorithm_definition|알고리즘]])해야 통신이 안 끊깁니다.
+1. **[초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 도플러 천이 (Doppler Shift) 보상**
+   - [저궤도 위성](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/)은 지구를 하루에 10바퀴씩, 총알보다 빠른 시속 2만 7천 km로 날아다닙니다. 위성이 폰 쪽으로 쌩 날아오면 주파수 소리가 빽! 하고 찌그러지고([도플러 효과](/knowledge-base/studynote/03_network/03_physical_layer_media/169_doppler_effect_fast_fading/)), 멀어지면 낮아집니다.
+   - 폰과 위성이 미친 듯이 머리를 굴려, 이 찌그러진 주파수 파형을 실시간으로 역계산해 깨끗한 파동으로 복원(주파수 보상 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))해야 통신이 안 끊깁니다.
 
-2. **[[015_지연_데이터_관점|지연]] 인내 및 [[339_routing_overview_best_path_selection|라우팅]] 끊김 보완 ([[556_handover_handoff_types_concept|핸드오버]])**
-   - 내 머리 위에 있던 1번 위성이 10분 뒤면 저 멀리 지평선 너머로 날아가 사라집니다. 통신이 안 끊기려면 내 폰이 뒤따라 날아오는 2번 위성으로 0.1초 만에 접속([[556_handover_handoff_types_concept|핸드오버]])을 넘겨야 하는 고난도 위성 간 [[339_routing_overview_best_path_selection|라우팅]] 기술이 핵심입니다.
+2. **[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 인내 및 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 끊김 보완 ([핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/))**
+   - 내 머리 위에 있던 1번 위성이 10분 뒤면 저 멀리 지평선 너머로 날아가 사라집니다. 통신이 안 끊기려면 내 폰이 뒤따라 날아오는 2번 위성으로 0.1초 만에 접속([핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/))을 넘겨야 하는 고난도 위성 간 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 기술이 핵심입니다.
 
-3. **[[145_uam_urban_air_mobility_evtol|UAM]](도심 항공 모빌리티) 커버 통제**
-   - 하늘을 나는 헬기 택시([[145_uam_urban_air_mobility_evtol|UAM]])는 지상 500m 고도를 납니다. 밑에 있는 지상 기지국이 위를 향해 빔을 쏴주고, 하늘에 있는 위성이 아래를 향해 빔을 쏴주며, [[145_uam_urban_air_mobility_evtol|UAM]] 기체가 그 중간 허공에서 양쪽의 신호를 동시에 받아(3D 융합) 절대 끊기지 않는 1ms 초저지연 안전 제어 통신을 받게 됩니다.
+3. **[UAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/)(도심 항공 모빌리티) 커버 통제**
+   - 하늘을 나는 헬기 택시([UAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/))는 지상 500m 고도를 납니다. 밑에 있는 지상 기지국이 위를 향해 빔을 쏴주고, 하늘에 있는 위성이 아래를 향해 빔을 쏴주며, [UAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/) 기체가 그 중간 허공에서 양쪽의 신호를 동시에 받아(3D 융합) 절대 끊기지 않는 1ms 초저지연 안전 제어 통신을 받게 됩니다.
 
-[[154_ntn_non_terrestrial_network_6g|비지상 네트워크]]망을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [[153_ris_reconfigurable_intelligent_surface|지능형 반사 표면]]이 기반 조건을 만든다면, [[154_ntn_non_terrestrial_network_6g|비지상 네트워크]]망은 그 위에서 핵심 메커니즘을 구현하고, [[126_digital_twin_concept|디지털 트윈]] 네트워크 망은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 유연성과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+[비지상 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/154_ntn_non_terrestrial_network_6g/)망을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [지능형 반사 표면](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/153_ris_reconfigurable_intelligent_surface/)이 기반 조건을 만든다면, [비지상 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/154_ntn_non_terrestrial_network_6g/)망은 그 위에서 핵심 메커니즘을 구현하고, [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 네트워크 망은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 유연성과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [[153_ris_reconfigurable_intelligent_surface|지능형 반사 표면]]의 기반 정리 | [[154_ntn_non_terrestrial_network_6g|비지상 네트워크]]망의 핵심 동작 | [[126_digital_twin_concept|디지털 트윈]] 네트워크 망의 확장 적용 |
+| 초점 | [지능형 반사 표면](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/153_ris_reconfigurable_intelligent_surface/)의 기반 정리 | [비지상 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/154_ntn_non_terrestrial_network_6g/)망의 핵심 동작 | [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 네트워크 망의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 유연성 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: NTN([[154_ntn_non_terrestrial_network_6g|비지상 네트워크]])은 지상의 '유선 인터넷 케이블 매설(공사)'의 굴레를 박살 낸 우주 공유기 혁명입니다. 기존 통신망은 건물마다 콘크리트를 파고 선을 묻어야 해서 산꼭대기나 바다에는 와이파이를 달 수 없었습니다. 스타링크가 쏘아 올린 NTN은 지구라는 거대한 텐트의 '천장 유리창' 바깥에 1만 개의 레이저 후레쉬([[595_leo_low_earth_orbit_starlink_6g|저궤도 위성]])를 달아놓고 안쪽을 향해 촘촘하게 빛(인터넷)을 쏴주는 것입니다. 사용자가 산속에 있든, 배 위에 있든, 비행기를 타고 있든 고개만 들면 우주에서 직사광선으로 쏟아지는 [[418_5g_embb_urllc_mmtc_slicing|5G]] 전파를 그대로 받아먹어 전 지구 통신 사각지대를 완전히 0%로 증발시켜 버립니다.
+- **📢 섹션 요약 비유**: NTN([비지상 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/154_ntn_non_terrestrial_network_6g/))은 지상의 '유선 인터넷 케이블 매설(공사)'의 굴레를 박살 낸 우주 공유기 혁명입니다. 기존 통신망은 건물마다 콘크리트를 파고 선을 묻어야 해서 산꼭대기나 바다에는 와이파이를 달 수 없었습니다. 스타링크가 쏘아 올린 NTN은 지구라는 거대한 텐트의 '천장 유리창' 바깥에 1만 개의 레이저 후레쉬([저궤도 위성](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/))를 달아놓고 안쪽을 향해 촘촘하게 빛(인터넷)을 쏴주는 것입니다. 사용자가 산속에 있든, 배 위에 있든, 비행기를 타고 있든 고개만 들면 우주에서 직사광선으로 쏟아지는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 전파를 그대로 받아먹어 전 지구 통신 사각지대를 완전히 0%로 증발시켜 버립니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 [[154_ntn_non_terrestrial_network_6g|비지상 네트워크]]망을 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [[153_ris_reconfigurable_intelligent_surface|지능형 반사 표면]] 수준의 기본 대책으로 충분한지, 아니면 [[154_ntn_non_terrestrial_network_6g|비지상 네트워크]]망이 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [[126_digital_twin_concept|디지털 트윈]] 네트워크 망와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 [비지상 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/154_ntn_non_terrestrial_network_6g/)망을 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [지능형 반사 표면](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/153_ris_reconfigurable_intelligent_surface/) 수준의 기본 대책으로 충분한지, 아니면 [비지상 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/154_ntn_non_terrestrial_network_6g/)망이 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 네트워크 망와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 유연성 부족인지, 확장성 악화인지 먼저 분리한다.
-2. [[154_ntn_non_terrestrial_network_6g|비지상 네트워크]]망가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [[396_validation|확인]]한다.
-3. 도입 후에는 인접 기술인 [[126_digital_twin_concept|디지털 트윈]] 네트워크 망와의 연계 방식을 함께 검증한다.
+2. [비지상 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/154_ntn_non_terrestrial_network_6g/)망가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+3. 도입 후에는 인접 기술인 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 네트워크 망와의 연계 방식을 함께 검증한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- [[154_ntn_non_terrestrial_network_6g|비지상 네트워크]]망의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- [[153_ris_reconfigurable_intelligent_surface|지능형 반사 표면]]와의 경계를 정리하지 않아 중복 투자나 [[164_policy|정책]] 충돌을 만드는 설계
+- [비지상 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/154_ntn_non_terrestrial_network_6g/)망의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
+- [지능형 반사 표면](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/153_ris_reconfigurable_intelligent_surface/)와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
-- **📢 섹션 요약 비유**: [[154_ntn_non_terrestrial_network_6g|비지상 네트워크]]망을 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
+- **📢 섹션 요약 비유**: [비지상 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/154_ntn_non_terrestrial_network_6g/)망을 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[[154_ntn_non_terrestrial_network_6g|비지상 네트워크]]망은 차세대 통신 아키텍처를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 유연성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [[126_digital_twin_concept|디지털 트윈]] 네트워크 망, [[190_ai_llm_requirements_specification|AI]] 기반 네트워크 최적화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [[190_ai_llm_requirements_specification|AI]] 기반 네트워크 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+[비지상 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/154_ntn_non_terrestrial_network_6g/)망은 차세대 통신 아키텍처를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 유연성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 네트워크 망, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: [[154_ntn_non_terrestrial_network_6g|비지상 네트워크]]망은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
+- **📢 섹션 요약 비유**: [비지상 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/154_ntn_non_terrestrial_network_6g/)망은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
 ---
 
@@ -114,10 +117,10 @@ NTN 열풍의 진짜 주인공입니다. (스타링크 모델)
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[153_ris_reconfigurable_intelligent_surface|지능형 반사 표면]] | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [[090_service_kubernetes_network_load_balancing|서비스]] 기반 구조 (Service-Based [[319_architecture|Architecture]]) | 기능을 느슨하게 결합해 유연성을 높인다. |
-| [[149_network_slicing_5g_architecture|네트워크 슬라이싱]] ([[149_network_slicing_5g_architecture|Network Slicing]]) | [[090_service_kubernetes_network_load_balancing|서비스]]별 요구사항을 논리적으로 분리한다. |
-| [[126_digital_twin_concept|디지털 트윈]] 네트워크 망 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [지능형 반사 표면](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/153_ris_reconfigurable_intelligent_surface/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 기반 구조 (Service-Based [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/)) | 기능을 느슨하게 결합해 유연성을 높인다. |
+| [네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/) ([Network Slicing](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)) | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 요구사항을 논리적으로 분리한다. |
+| [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 네트워크 망 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -131,7 +134,7 @@ NTN 열풍의 진짜 주인공입니다. (스타링크 모델)
     └──▶ [확장 B: AI 기반 네트워크 최적화]
 ```
 
-[[154_ntn_non_terrestrial_network_6g|비지상 네트워크]]망는 [[153_ris_reconfigurable_intelligent_surface|지능형 반사 표면]]에서 출발해 현재 메커니즘을 정교화하고, 이후 [[126_digital_twin_concept|디지털 트윈]] 네트워크 망와 [[190_ai_llm_requirements_specification|AI]] 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+[비지상 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/154_ntn_non_terrestrial_network_6g/)망는 [지능형 반사 표면](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/153_ris_reconfigurable_intelligent_surface/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 네트워크 망와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -145,7 +148,7 @@ NTN 열풍의 진짜 주인공입니다. (스타링크 모델)
 
 **진행 상황**: 909 / 1120
 
-← **이전**: [[787_ris_reconfigurable_intelligent_surface_6g|787. 지능형 반사 표면 (RIS 기능 구조 메타 파트너 물질 적용 주파수 흡수/조절 우회 반사/투과 경로 조작 커버리지 음영 극복]]
-**다음**: [[789_digital_twin_network_simulation_ai_prediction|789. 디지털 트윈 네트워크 망 (AI 동기 시뮬레이션 고장 예측 자가 치유 망 인공지능 접목 선행 관측 모형 모델 도입 구성 개념]] →
+← **이전**: [787. 지능형 반사 표면 (RIS 기능 구조 메타 파트너 물질 적용 주파수 흡수/조절 우회 반사/투과 경로 조작 커버리지 음영 극복](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/787_ris_reconfigurable_intelligent_surface_6g/)
+**다음**: [789. 디지털 트윈 네트워크 망 (AI 동기 시뮬레이션 고장 예측 자가 치유 망 인공지능 접목 선행 관측 모형 모델 도입 구성 개념](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/789_digital_twin_network_simulation_ai_prediction/) →
 
 ---

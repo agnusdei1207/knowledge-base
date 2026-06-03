@@ -1,18 +1,22 @@
----
-title: 045. NIST 사이버보안 프레임워크 2.0 — NIST CSF 2.0
-date: '2026-04-05'
-tags:
-- studynote-security
----
++++
+title = "045. NIST 사이버보안 프레임워크 2.0 — NIST CSF 2.0"
+date = 2026-04-05
+
+[taxonomies]
+tags = ["studynote-security"]
+
+[extra]
+tags = ["studynote-security"]
++++
 
 > **핵심 인사이트**
-> 1. NIST [[017_csf|CSF]](Cybersecurity Framework) 2.0(2024)은 기존 5대 기능([[655_ir_detection_analysis|식별]]·[[571_protection_vs_security|보호]]·탐지·대응·[[658_ir_recovery|복구]])에 "거버넌스(Govern)"를 추가해 6대 기능으로 확장 — 사이버보안을 기술 문제가 아닌 경영 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]로 보는 관점 전환이 핵심이다.
-> 2. [[017_csf|CSF]] 2.0의 가장 큰 변화는 적용 범위 확대 — 기존 핵심 인프라 중심에서 모든 규모·유형의 조직으로 확대되었으며, [[374_supply_chain_security|공급망 보안]](SCRM)과 거버넌스 강화가 주요 추가 사항이다.
-> 3. CSF는 규정(Regulation)이 아닌 프레임워크(Framework) — 법적 강제력이 없어 각 조직이 자신의 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 환경에 맞게 선택적으로 적용하며, [[171_isms_p|ISMS-P]], ISO 27001 등 다른 표준과 매핑해 중복 작업을 줄일 수 있다.
+> 1. NIST [CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/)(Cybersecurity Framework) 2.0(2024)은 기존 5대 기능([식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)·[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)·탐지·대응·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))에 "거버넌스(Govern)"를 추가해 6대 기능으로 확장 — 사이버보안을 기술 문제가 아닌 경영 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)로 보는 관점 전환이 핵심이다.
+> 2. [CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/) 2.0의 가장 큰 변화는 적용 범위 확대 — 기존 핵심 인프라 중심에서 모든 규모·유형의 조직으로 확대되었으며, [공급망 보안](/knowledge-base/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/)(SCRM)과 거버넌스 강화가 주요 추가 사항이다.
+> 3. CSF는 규정(Regulation)이 아닌 프레임워크(Framework) — 법적 강제력이 없어 각 조직이 자신의 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 환경에 맞게 선택적으로 적용하며, [ISMS-P](/knowledge-base/studynote/12_it_management/05_security_compliance/171_isms_p/), ISO 27001 등 다른 표준과 매핑해 중복 작업을 줄일 수 있다.
 
 ---
 
-## Ⅰ. NIST [[017_csf|CSF]] 개요
+## Ⅰ. NIST [CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/) 개요
 
 ```
 NIST CSF 발전:
@@ -48,7 +52,7 @@ CSF 2.0 구조:
 
 ---
 
-## Ⅱ. 6대 기능 ([[017_csf|CSF]] Core Functions)
+## Ⅱ. 6대 기능 ([CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/) Core Functions)
 
 ```
 NIST CSF 2.0 6대 기능:
@@ -100,11 +104,11 @@ NIST CSF 2.0 6대 기능:
   거버넌스가 모든 기능을 포괄
 ```
 
-> 📢 **섹션 요약 비유**: 6대 기능은 보안 요리 레시피 — 거버넌스(주방장 역할 지정), [[655_ir_detection_analysis|식별]](재료 파악), [[571_protection_vs_security|보호]](냉장 보관), 탐지(상한 음식 발견), 대응(처리), [[658_ir_recovery|복구]](다시 요리)!
+> 📢 **섹션 요약 비유**: 6대 기능은 보안 요리 레시피 — 거버넌스(주방장 역할 지정), [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)(재료 파악), [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)(냉장 보관), 탐지(상한 음식 발견), 대응(처리), [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(다시 요리)!
 
 ---
 
-## Ⅲ. [[017_csf|CSF]] 계층 (Tiers)
+## Ⅲ. [CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/) 계층 (Tiers)
 
 ```
 CSF 성숙도 계층:
@@ -141,7 +145,7 @@ Tier 4 — 적응적 (Adaptive):
   "우리는 Tier 2이고, Tier 3 목표"
 ```
 
-> 📢 **섹션 요약 비유**: [[017_csf|CSF]] 계층은 운전 실력 — Tier 1: 처음 운전(임기응변), Tier 2: 기초 교통 법규 알기, Tier 3: 방어 운전, Tier 4: 레이서(실시간 대응). 목적지에 맞는 실력이면 OK!
+> 📢 **섹션 요약 비유**: [CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/) 계층은 운전 실력 — Tier 1: 처음 운전(임기응변), Tier 2: 기초 교통 법규 알기, Tier 3: 방어 운전, Tier 4: 레이서(실시간 대응). 목적지에 맞는 실력이면 OK!
 
 ---
 
@@ -181,11 +185,11 @@ K-ISMS → ISMS-P → CSF 2.0 연계:
   → 미 정부 기관 18,000개 영향
 ```
 
-> 📢 **섹션 요약 비유**: CSF와 국내 표준 매핑은 공통 교과서 — ISO 27001도 배우고, ISMS-P도 배우지만, [[017_csf|CSF]] 지도로 보면 "이건 PROTECT, 저건 IDENTIFY" 한눈에 정리!
+> 📢 **섹션 요약 비유**: CSF와 국내 표준 매핑은 공통 교과서 — ISO 27001도 배우고, ISMS-P도 배우지만, [CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/) 지도로 보면 "이건 PROTECT, 저건 IDENTIFY" 한눈에 정리!
 
 ---
 
-## Ⅴ. 실무 시나리오 — 제조업 [[017_csf|CSF]] 2.0 적용
+## Ⅴ. 실무 시나리오 — 제조업 [CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/) 2.0 적용
 
 ```
 자동차 부품 제조업체 CSF 2.0 적용:
@@ -223,7 +227,7 @@ K-ISMS → ISMS-P → CSF 2.0 연계:
   사이버보험 가입 가능 (이전: 거부)
 ```
 
-> 📢 **섹션 요약 비유**: 제조업 [[017_csf|CSF]] 적용은 공장 안전 점검 — 지금 상태([[178_as_is_to_be_analysis|AS-IS]])를 점검하고, 목표(TO-BE) [[009_config|설정]]. 가장 취약한 곳(Tier 1 GOVERN)부터 보강해서 고객사와 보험사 신뢰!
+> 📢 **섹션 요약 비유**: 제조업 [CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/) 적용은 공장 안전 점검 — 지금 상태([AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/))를 점검하고, 목표(TO-BE) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/). 가장 취약한 곳(Tier 1 GOVERN)부터 보강해서 고객사와 보험사 신뢰!
 
 ---
 
@@ -276,8 +280,8 @@ GOVERN 기능 추가
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. CSF는 보안 체력 진단표 — 우리 회사가 [[655_ir_detection_analysis|식별]], [[571_protection_vs_security|보호]], 탐지, 대응, [[658_ir_recovery|복구]]를 얼마나 잘 하는지 점수 매기고 개선해요!
-2. GOVERN은 새로 추가된 "대장 역할" — 보안을 경영진이 직접 챙기고 책임지는 체계. 기술만이 아닌 경영 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]로!
+1. CSF는 보안 체력 진단표 — 우리 회사가 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/), [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/), 탐지, 대응, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 얼마나 잘 하는지 점수 매기고 개선해요!
+2. GOVERN은 새로 추가된 "대장 역할" — 보안을 경영진이 직접 챙기고 책임지는 체계. 기술만이 아닌 경영 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)로!
 3. Tier는 운전 레벨 — 초보(Tier 1)→기본(Tier 2)→안전(Tier 3)→전문가(Tier 4). 필요한 레벨까지만 올리면 돼요!
 
 ---
@@ -286,7 +290,7 @@ GOVERN 기능 추가
 
 **진행 상황**: 45 / 1108
 
-← **이전**: [[044_togaf|044. TOGAF — 엔터프라이즈 아키텍처 프레임워크]]
-**다음**: [[046_zero_trust|046. 제로 트러스트 — Zero Trust Security]] →
+← **이전**: [044. TOGAF — 엔터프라이즈 아키텍처 프레임워크](/knowledge-base/studynote/09_security/01_intro_principles/044_togaf/)
+**다음**: [046. 제로 트러스트 — Zero Trust Security](/knowledge-base/studynote/09_security/01_intro_principles/046_zero_trust/) →
 
 ---

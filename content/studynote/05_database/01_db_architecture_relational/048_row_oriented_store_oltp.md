@@ -1,14 +1,18 @@
----
-title: 048. 행 지향 저장소 — Row-Oriented Store & OLTP
-date: '2026-04-05'
-tags:
-- studynote-database
----
++++
+title = "048. 행 지향 저장소 — Row-Oriented Store & OLTP"
+date = 2026-04-05
+
+[taxonomies]
+tags = ["studynote-database"]
+
+[extra]
+tags = ["studynote-database"]
++++
 
 > **핵심 인사이트**
-> 1. 행 지향 저장소(Row-Oriented Store)는 한 행의 모든 컬럼 [[001_dikw_pyramid|데이터]]를 연속 저장 — 특정 행의 전체 [[082_attribute_types_er_model|속성]]을 한 번에 읽는 [[327_hint_handoff|OLTP]](Online [[191_transaction_concept_states|Transaction]] Processing) 워크로드에 최적화되어 있으며, INSERT/UPDATE/DELETE 시 단일 I/O로 행 전체를 처리한다.
-> 2. OLTP와 OLAP는 완전히 다른 최적화 방향 — OLTP는 행 지향(단일 행 빠른 접근), OLAP는 컬럼 지향(대용량 컬럼 집계). 같은 물리적 [[001_dikw_pyramid|데이터]]를 두 방향으로 저장하는 [[294_oltp_vs_olap|HTAP]](Hybrid)가 현대 트렌드다.
-> 3. 버퍼 풀(Buffer Pool)이 [[327_hint_handoff|OLTP]] [[282_performance_tactics|성능]]의 핵심 — 행 지향 DB의 메인 [[282_performance_tactics|성능]] 메커니즘은 자주 쓰는 [[286_page_frame|페이지]]를 메모리에 [[456_caching|캐싱]]하는 버퍼 풀이며, 버퍼 풀 히트율 99% 이상이 고성능 OLTP의 목표다.
+> 1. 행 지향 저장소(Row-Oriented Store)는 한 행의 모든 컬럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 연속 저장 — 특정 행의 전체 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 한 번에 읽는 [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/)(Online [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Processing) 워크로드에 최적화되어 있으며, INSERT/UPDATE/DELETE 시 단일 I/O로 행 전체를 처리한다.
+> 2. OLTP와 OLAP는 완전히 다른 최적화 방향 — OLTP는 행 지향(단일 행 빠른 접근), OLAP는 컬럼 지향(대용량 컬럼 집계). 같은 물리적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 두 방향으로 저장하는 [HTAP](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/294_oltp_vs_olap/)(Hybrid)가 현대 트렌드다.
+> 3. 버퍼 풀(Buffer Pool)이 [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 핵심 — 행 지향 DB의 메인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 메커니즘은 자주 쓰는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 메모리에 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)하는 버퍼 풀이며, 버퍼 풀 히트율 99% 이상이 고성능 OLTP의 목표다.
 
 ---
 
@@ -53,11 +57,11 @@ OLAP에서의 단점:
   INSERT 공간 부족 → 페이지 분할 (Page Split)
 ```
 
-> 📢 **섹션 요약 비유**: 행 지향 = 서랍 한 칸에 한 사람 정보 — "김철수" 서랍엔 이름+연봉+부서 한 번에. 한 명 정보 꺼낼 때([[327_hint_handoff|OLTP]]) 빠름. 전체 연봉 합산([[316_olap|OLAP]]) 땐 모든 서랍 열어야 해서 느림!
+> 📢 **섹션 요약 비유**: 행 지향 = 서랍 한 칸에 한 사람 정보 — "김철수" 서랍엔 이름+연봉+부서 한 번에. 한 명 정보 꺼낼 때([OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/)) 빠름. 전체 연봉 합산([OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/)) 땐 모든 서랍 열어야 해서 느림!
 
 ---
 
-## Ⅱ. [[327_hint_handoff|OLTP]] 특성과 최적화
+## Ⅱ. [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/) 특성과 최적화
 
 ```
 OLTP (Online Transaction Processing):
@@ -106,11 +110,11 @@ OLTP 최적화 기법:
   Read → Replica (SELECT 부하 분산)
 ```
 
-> 📢 **섹션 요약 비유**: [[327_hint_handoff|OLTP]] 최적화 = 편의점 운영 — 잘 팔리는 물건(버퍼 풀: 자주 쓰는 [[286_page_frame|페이지]] 캐시), 빠른 검색([[154_database_index_b_tree_search_optimization|인덱스]]), 여러 계산대(연결 풀), 창고 분리([[179_table_partitioning_concept|파티셔닝]])!
+> 📢 **섹션 요약 비유**: [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/) 최적화 = 편의점 운영 — 잘 팔리는 물건(버퍼 풀: 자주 쓰는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시), 빠른 검색([인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)), 여러 계산대(연결 풀), 창고 분리([파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/))!
 
 ---
 
-## Ⅲ. [[294_oltp_vs_olap|OLTP vs OLAP]] 비교
+## Ⅲ. [OLTP vs OLAP](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/294_oltp_vs_olap/) 비교
 
 ```
 비교표:
@@ -149,7 +153,7 @@ HTAP (Hybrid Transaction/Analytical Processing):
   대규모: OLTP (Aurora) + 스트리밍 CDC + 실시간 OLAP (ClickHouse)
 ```
 
-> 📢 **섹션 요약 비유**: [[294_oltp_vs_olap|OLTP vs OLAP]] = 편의점 POS vs 마케팅 분석팀 — POS([[327_hint_handoff|OLTP]])는 1건 빠르게 처리, 마케팅([[316_olap|OLAP]])은 전체 [[001_dikw_pyramid|데이터]] 집계. HTAP은 같은 [[001_dikw_pyramid|데이터]]로 두 가지 모두!
+> 📢 **섹션 요약 비유**: [OLTP vs OLAP](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/294_oltp_vs_olap/) = 편의점 POS vs 마케팅 분석팀 — POS([OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/))는 1건 빠르게 처리, 마케팅([OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/))은 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 집계. HTAP은 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 두 가지 모두!
 
 ---
 
@@ -193,11 +197,11 @@ MVCC (Multi-Version Concurrency Control):
   장기 트랜잭션 → Undo Log 급증 → 성능 저하
 ```
 
-> 📢 **섹션 요약 비유**: InnoDB 행 저장 = [[501_file_definition_logical_record|파일]] 캐비닛 정리 — PK 순서로 서랍([[286_page_frame|페이지]]) 정렬. UUID로 랜덤 저장하면 서랍 분할([[286_page_frame|Page]] Split) 잦아 혼란. 순서대로 넣어야 빠름!
+> 📢 **섹션 요약 비유**: InnoDB 행 저장 = [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 캐비닛 정리 — PK 순서로 서랍([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)) 정렬. UUID로 랜덤 저장하면 서랍 분할([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Split) 잦아 혼란. 순서대로 넣어야 빠름!
 
 ---
 
-## Ⅴ. 실무 시나리오 — 전자상거래 [[327_hint_handoff|OLTP]] 최적화
+## Ⅴ. 실무 시나리오 — 전자상거래 [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/) 최적화
 
 ```
 전자상거래 주문 시스템 OLTP 튜닝:
@@ -253,7 +257,7 @@ MVCC (Multi-Version Concurrency Control):
   버퍼 풀 크기 = 활성 데이터 셋 크기가 이상적
 ```
 
-> 📢 **섹션 요약 비유**: [[327_hint_handoff|OLTP]] 튜닝 결과 — [[154_database_index_b_tree_search_optimization|인덱스]] 없어서 5천만 행 전체 스캔(200ms)! 복합 [[154_database_index_b_tree_search_optimization|인덱스]] 추가로 15행만 읽기(8ms). [[154_database_index_b_tree_search_optimization|인덱스]] 하나로 25배 빠르게. OLTP는 [[154_database_index_b_tree_search_optimization|인덱스]] 설계가 90%!
+> 📢 **섹션 요약 비유**: [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/) 튜닝 결과 — [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 없어서 5천만 행 전체 스캔(200ms)! 복합 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 추가로 15행만 읽기(8ms). [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 하나로 25배 빠르게. OLTP는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 설계가 90%!
 
 ---
 
@@ -318,9 +322,9 @@ Aurora, Cloud Spanner
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 행 지향 = 서랍 한 칸에 한 사람 정보 — 서랍 열면 이름+연봉+부서 한꺼번에. 한 명 찾을 때([[327_hint_handoff|OLTP]]) 빠르고, 전체 연봉 합산([[316_olap|OLAP]])엔 느려요!
-2. 버퍼 풀 = 책상 위 자주 쓰는 서류 — 자주 꺼내는 서랍([[286_page_frame|페이지]])을 책상(메모리)에 올려두기. 99% 히트율 = 창고 안 가도 됨!
-3. [[154_database_index_b_tree_search_optimization|인덱스]] = 목차 — 5천만 [[286_page_frame|페이지]] 책에서 목차 없이 찾기(풀 스캔: 200ms) vs 목차로 찾기([[154_database_index_b_tree_search_optimization|인덱스]]: 8ms). 25배 빠름!
+1. 행 지향 = 서랍 한 칸에 한 사람 정보 — 서랍 열면 이름+연봉+부서 한꺼번에. 한 명 찾을 때([OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/)) 빠르고, 전체 연봉 합산([OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/))엔 느려요!
+2. 버퍼 풀 = 책상 위 자주 쓰는 서류 — 자주 꺼내는 서랍([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))을 책상(메모리)에 올려두기. 99% 히트율 = 창고 안 가도 됨!
+3. [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) = 목차 — 5천만 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 책에서 목차 없이 찾기(풀 스캔: 200ms) vs 목차로 찾기([인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/): 8ms). 25배 빠름!
 
 ---
 
@@ -328,7 +332,7 @@ Aurora, Cloud Spanner
 
 **진행 상황**: 48 / 600
 
-← **이전**: [[047_columnar_store_olap|047. 컬럼 기반 스토리지 — Columnar Store & OLAP]]
-**다음**: [[049_storage_engine_innodb_myisam|049. 스토리지 엔진 — InnoDB vs MyISAM]] →
+← **이전**: [047. 컬럼 기반 스토리지 — Columnar Store & OLAP](/knowledge-base/studynote/05_database/01_db_architecture_relational/047_columnar_store_olap/)
+**다음**: [049. 스토리지 엔진 — InnoDB vs MyISAM](/knowledge-base/studynote/05_database/01_db_architecture_relational/049_storage_engine_innodb_myisam/) →
 
 ---

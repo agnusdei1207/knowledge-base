@@ -1,13 +1,17 @@
----
-title: 140. SQL 서브쿼리 심화 - EXISTS·IN·스칼라·인라인 뷰
-date: '2026-04-19'
-tags:
-- studynote-database
----
++++
+title = "140. SQL 서브쿼리 심화 - EXISTS·IN·스칼라·인라인 뷰"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-database"]
+
+[extra]
+tags = ["studynote-database"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: EXISTS는 **서브쿼리 결과가 존재하는지(T/F) 판별**하는 반존재(Semi-[[521_join|Join]]) 연산이고, IN은 **값 목록에 포함되는지 판별**하며, 대량 [[001_dikw_pyramid|데이터]]에서 EXISTS가 IN보다 [[282_performance_tactics|성능]]이 좋은 경우가 많다.
-> 2. **가치**: "주문이 있는 고객만"([[435_exists_boolean_fast_search|EXISTS]])과 "주문이 없는 고객"(NOT [[435_exists_boolean_fast_search|EXISTS]])은 실무에서 가장 빈번한 패턴이며, **[[163_optimizer_sql_execution_plan_generator|옵티마이저]]가 IN→[[435_exists_boolean_fast_search|EXISTS]], 서브쿼리→JOIN으로 자동 변환**하기도 한다.
+> 1. **본질**: EXISTS는 **서브쿼리 결과가 존재하는지(T/F) 판별**하는 반존재(Semi-[Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)) 연산이고, IN은 **값 목록에 포함되는지 판별**하며, 대량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 EXISTS가 IN보다 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 좋은 경우가 많다.
+> 2. **가치**: "주문이 있는 고객만"([EXISTS](/knowledge-base/studynote/05_database/07_exam_summary/435_exists_boolean_fast_search/))과 "주문이 없는 고객"(NOT [EXISTS](/knowledge-base/studynote/05_database/07_exam_summary/435_exists_boolean_fast_search/))은 실무에서 가장 빈번한 패턴이며, **[옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 IN→[EXISTS](/knowledge-base/studynote/05_database/07_exam_summary/435_exists_boolean_fast_search/), 서브쿼리→JOIN으로 자동 변환**하기도 한다.
 > 3. **판단 포인트**: 서브쿼리 결과가 NULL을 포함하면 NOT IN은 **모든 행을 제외**하는 함정이 있으므로, NOT EXISTS가 안전하다.
 
 ---
@@ -26,7 +30,7 @@ NOT IN 함정: NULL 포함 시 전체 제외 → NOT EXISTS 권장
 
 ## Ⅱ~Ⅴ. 결론
 
-[[435_exists_boolean_fast_search|EXISTS]]·NOT EXISTS는 **Semi-[[521_join|Join]]/Anti-Join의 표준 표현**이며, NOT IN의 NULL 함정을 반드시 인지해야 한다.
+[EXISTS](/knowledge-base/studynote/05_database/07_exam_summary/435_exists_boolean_fast_search/)·NOT EXISTS는 **Semi-[Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)/Anti-Join의 표준 표현**이며, NOT IN의 NULL 함정을 반드시 인지해야 한다.
 
 ---
 
@@ -34,11 +38,11 @@ NOT IN 함정: NULL 포함 시 전체 제외 → NOT EXISTS 권장
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[[435_exists_boolean_fast_search|EXISTS]]** | 존재 여부 (T/F) |
-| **NOT [[435_exists_boolean_fast_search|EXISTS]]** | Anti-[[521_join|Join]] (안전) |
+| **[EXISTS](/knowledge-base/studynote/05_database/07_exam_summary/435_exists_boolean_fast_search/)** | 존재 여부 (T/F) |
+| **NOT [EXISTS](/knowledge-base/studynote/05_database/07_exam_summary/435_exists_boolean_fast_search/)** | Anti-[Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) (안전) |
 | **IN** | 값 목록 포함 |
 | **NOT IN** | NULL 함정 주의 |
-| **Semi-[[521_join|Join]]** | [[163_optimizer_sql_execution_plan_generator|옵티마이저]] 변환 |
+| **Semi-[Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)** | [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 변환 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -49,9 +53,9 @@ NOT IN 함정: NULL 포함 시 전체 제외 → NOT EXISTS 권장
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. EXISTS는 **"이 명단에 이름이 있어? 있으면 OK!"** [[396_validation|확인]]하는 거예요.
+1. EXISTS는 **"이 명단에 이름이 있어? 있으면 OK!"** [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 거예요.
 2. NOT IN은 **빈칸(NULL)**이 있으면 **모두 탈락**시키는 함정이 있어요.
-3. 그래서 **NOT [[435_exists_boolean_fast_search|EXISTS]]**를 쓰는 게 더 안전하답니다!
+3. 그래서 **NOT [EXISTS](/knowledge-base/studynote/05_database/07_exam_summary/435_exists_boolean_fast_search/)**를 쓰는 게 더 안전하답니다!
 
 ---
 
@@ -59,7 +63,7 @@ NOT IN 함정: NULL 포함 시 전체 제외 → NOT EXISTS 권장
 
 **진행 상황**: 140 / 600
 
-← **이전**: [[139_window_function_analytics|139. Window Function (분석 함수) - ROW_NUMBER·RANK·LAG·LEAD]]
-**다음**: [[141_inline_view_subquery|141. 인라인 뷰 (Inline View) - FROM 절 서브쿼리]] →
+← **이전**: [139. Window Function (분석 함수) - ROW_NUMBER·RANK·LAG·LEAD](/knowledge-base/studynote/05_database/03_relational_model/139_window_function_analytics/)
+**다음**: [141. 인라인 뷰 (Inline View) - FROM 절 서브쿼리](/knowledge-base/studynote/05_database/03_relational_model/141_inline_view_subquery/) →
 
 ---

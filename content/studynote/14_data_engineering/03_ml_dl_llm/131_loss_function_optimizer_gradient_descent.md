@@ -1,14 +1,18 @@
----
-title: 131. 손실 함수·옵티마이저·경사 하강법 - 딥러닝 학습의 3대 축
-date: '2026-04-19'
-tags:
-- studynote-dataengineering
----
++++
+title = "131. 손실 함수·옵티마이저·경사 하강법 - 딥러닝 학습의 3대 축"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-dataengineering"]
+
+[extra]
+tags = ["studynote-dataengineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 딥러닝 학습은 **①[[075_loss_function_cost_function|손실 함수]]([[087_loss_function|Loss Function]])로 예측과 정답의 차이를 측정**하고, **②[[275_gradient_descent_sgd|경사 하강법]]([[165_gradient_descent|Gradient Descent]])으로 손실을 줄이는 방향을 계산**하며, **③[[163_optimizer_sql_execution_plan_generator|옵티마이저]]([[088_optimizer|Optimizer]])가 가중치를 업데이트**하는 3단계 순환이다.
+> 1. **본질**: 딥러닝 학습은 **①[손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)([Loss Function](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_loss_function/))로 예측과 정답의 차이를 측정**하고, **②[경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/)([Gradient Descent](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/))으로 손실을 줄이는 방향을 계산**하며, **③[옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)([Optimizer](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_optimizer/))가 가중치를 업데이트**하는 3단계 순환이다.
 > 2. **가치**: 이 3가지가 잘못되면 학습이 수렴하지 않거나(발산), 지역 최솟값에 갇히거나(과소적합), 과적합되므로 **각 요소의 선택이 모델 성능을 직접 결정**한다.
-> 3. **판단 포인트**: [[104_classification_analysis|분류]]([[154_cross_entropy|Cross-Entropy]]), 회귀([[076_mse_mean_squared_error_regression|MSE]]), [[163_optimizer_sql_execution_plan_generator|옵티마이저]](Adam이 사실상 표준), [[080_gradient_descent_learning_rate|학습률]] [[079_kube_scheduler_pod_placement|스케줄러]]([[309_cosine_annealing|Cosine Annealing]])가 현대 딥러닝의 표준 조합이다.
+> 3. **판단 포인트**: [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)([Cross-Entropy](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/)), 회귀([MSE](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/)), [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)(Adam이 사실상 표준), [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)([Cosine Annealing](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/309_cosine_annealing/))가 현대 딥러닝의 표준 조합이다.
 
 ---
 
@@ -20,24 +24,24 @@ tags:
   Optimizer: SGD → Momentum → Adam (표준)
 ```
 
-- **📢 섹션 요약 비유**: [[075_loss_function_cost_function|손실 함수]]는 **시험 채점**, [[275_gradient_descent_sgd|경사 하강법]]은 **"어떻게 공부하면 점수가 오를까" 방향 계산**, [[163_optimizer_sql_execution_plan_generator|옵티마이저]]는 **실제 공부 [[268_strategy_pattern|전략]]**이다.
+- **📢 섹션 요약 비유**: [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)는 **시험 채점**, [경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/)은 **"어떻게 공부하면 점수가 오를까" 방향 계산**, [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)는 **실제 공부 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-| [[163_optimizer_sql_execution_plan_generator|옵티마이저]] | 특징 |
+| [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) | 특징 |
 |:---|:---|
 | **SGD** | 기본, 느림 |
-| **[[276_momentum_optimizer|Momentum]]** | 관성 추가, 진동↓ |
-| **[[277_adam_optimizer|Adam]]** | **[[276_momentum_optimizer|Momentum]]+RMSProp, 표준** |
-| **AdamW** | [[277_adam_optimizer|Adam]]+[[091_l1_l2_regularization_weight_decay|Weight Decay]] |
+| **[Momentum](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/)** | 관성 추가, 진동↓ |
+| **[Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/)** | **[Momentum](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/)+RMSProp, 표준** |
+| **AdamW** | [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/)+[Weight Decay](/knowledge-base/studynote/10_ai/01_ai_basics/091_l1_l2_regularization_weight_decay/) |
 
 ---
 
 ## Ⅲ~Ⅴ. 결론
 
-[[075_loss_function_cost_function|손실 함수]]·[[163_optimizer_sql_execution_plan_generator|옵티마이저]]·[[275_gradient_descent_sgd|경사 하강법]]은 **딥러닝 학습의 핵심 엔진**이며, [[277_adam_optimizer|Adam]]/AdamW가 현재 사실상 표준이다.
+[손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)·[옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)·[경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/)은 **딥러닝 학습의 핵심 엔진**이며, [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/)/AdamW가 현재 사실상 표준이다.
 
 ---
 
@@ -45,11 +49,11 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[[087_loss_function|Loss Function]]** | 예측↔정답 차이 측정 |
-| **[[165_gradient_descent|Gradient Descent]]** | 손실 최소화 방향 |
-| **[[277_adam_optimizer|Adam]]** | 적응형 [[163_optimizer_sql_execution_plan_generator|옵티마이저]] (표준) |
-| **[[240_switch_learning_forwarding_flooding|Learning]] Rate** | 학습 보폭 |
-| **[[272_backpropagation|Backpropagation]]** | [[272_backpropagation|역전파]] (기울기 계산) |
+| **[Loss Function](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_loss_function/)** | 예측↔정답 차이 측정 |
+| **[Gradient Descent](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/)** | 손실 최소화 방향 |
+| **[Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/)** | 적응형 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) (표준) |
+| **[Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Rate** | 학습 보폭 |
+| **[Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)** | [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) (기울기 계산) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -60,9 +64,9 @@ tags:
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. [[075_loss_function_cost_function|손실 함수]]는 **시험 채점**이에요. 틀린 게 많으면 점수(손실)가 높아요.
-2. [[275_gradient_descent_sgd|경사 하강법]]은 **"어떻게 공부하면 점수가 오를까"** 방향을 알려줘요.
-3. [[163_optimizer_sql_execution_plan_generator|옵티마이저]]([[277_adam_optimizer|Adam]])는 **가장 효율적인 공부법**이라 시험 점수가 빨리 올라요!
+1. [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)는 **시험 채점**이에요. 틀린 게 많으면 점수(손실)가 높아요.
+2. [경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/)은 **"어떻게 공부하면 점수가 오를까"** 방향을 알려줘요.
+3. [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)([Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/))는 **가장 효율적인 공부법**이라 시험 점수가 빨리 올라요!
 
 ---
 
@@ -70,7 +74,7 @@ tags:
 
 **진행 상황**: 131 / 258
 
-← **이전**: [[130_relu_activation_function|130. ReLU 활성화 함수 - 딥러닝 르네상스를 연 비선형 변환]]
-**다음**: [[132_adam_optimizer|132. Adam 옵티마이저 - 적응형 학습률의 사실상 표준]] →
+← **이전**: [130. ReLU 활성화 함수 - 딥러닝 르네상스를 연 비선형 변환](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/130_relu_activation_function/)
+**다음**: [132. Adam 옵티마이저 - 적응형 학습률의 사실상 표준](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/132_adam_optimizer/) →
 
 ---

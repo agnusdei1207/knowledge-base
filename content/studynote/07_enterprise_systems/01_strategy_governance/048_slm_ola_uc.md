@@ -1,18 +1,22 @@
----
-title: 048. SLM·OLA·UC — 서비스 수준 관리 체계
-date: '2026-04-05'
-tags:
-- studynote-enterprise-systems
----
++++
+title = "048. SLM·OLA·UC — 서비스 수준 관리 체계"
+date = 2026-04-05
+
+[taxonomies]
+tags = ["studynote-enterprise-systems"]
+
+[extra]
+tags = ["studynote-enterprise-systems"]
++++
 
 > **핵심 인사이트**
-> 1. [[313_slm|SLM]]([[084_service_level_management|Service Level Management]])은 [[085_sla|SLA]]·[[086_ola|OLA]]·[[087_underpinning_contract|UC]] 계층으로 이루어진 [[090_service_kubernetes_network_load_balancing|서비스]] 수준 보증 체계 — SLA는 고객 대면 계약, OLA는 내부 팀 간 합의, UC는 외부 공급자와의 계약으로, 세 계층이 정합성을 가져야 [[085_sla|SLA]] 이행이 가능하다.
-> 2. [[086_ola|OLA]]([[086_ola|Operational Level Agreement]])가 [[085_sla|SLA]] 이행의 실질적 기반 — [[072_service_desk|서비스 데스크]], 네트워크팀, 서버팀 간 내부 SLA가 없으면 고객 SLA가 깨지는 병목을 어디서도 파악하지 못한다.
-> 3. [[313_slm|SLM]] 구현의 함정 — 계약서에만 SLA를 명시하고 [[086_ola|OLA]] 합의와 측정 도구를 갖추지 않으면 [[085_sla|SLA]] 위반 시 책임 소재를 찾을 수 없는 "서류상의 [[313_slm|SLM]]"으로 전락한다.
+> 1. [SLM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/313_slm/)([Service Level Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/084_service_level_management/))은 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)·[OLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/086_ola/)·[UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) 계층으로 이루어진 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 보증 체계 — SLA는 고객 대면 계약, OLA는 내부 팀 간 합의, UC는 외부 공급자와의 계약으로, 세 계층이 정합성을 가져야 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 이행이 가능하다.
+> 2. [OLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/086_ola/)([Operational Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/086_ola/))가 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 이행의 실질적 기반 — [서비스 데스크](/knowledge-base/studynote/12_it_management/02_itsm_itil/072_service_desk/), 네트워크팀, 서버팀 간 내부 SLA가 없으면 고객 SLA가 깨지는 병목을 어디서도 파악하지 못한다.
+> 3. [SLM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/313_slm/) 구현의 함정 — 계약서에만 SLA를 명시하고 [OLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/086_ola/) 합의와 측정 도구를 갖추지 않으면 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 위반 시 책임 소재를 찾을 수 없는 "서류상의 [SLM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/313_slm/)"으로 전락한다.
 
 ---
 
-## Ⅰ. [[313_slm|SLM]] 계층 구조
+## Ⅰ. [SLM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/313_slm/) 계층 구조
 
 ```
 SLM (Service Level Management):
@@ -47,11 +51,11 @@ SLA 체인 원칙:
   UC 위반 → SLA 위반 가능성 높음
 ```
 
-> 📢 **섹션 요약 비유**: [[313_slm|SLM]] 3계층 = 레스토랑 [[090_service_kubernetes_network_load_balancing|서비스]] 체계 — 손님(고객)에게 "30분 내 음식 제공([[085_sla|SLA]])" 약속. 주방팀 내 "15분 내 조리([[086_ola|OLA]])" 합의. 식재료 공급사와 "당일 납품([[087_underpinning_contract|UC]])" 계약. 모든 계층 지켜야 손님 약속 이행!
+> 📢 **섹션 요약 비유**: [SLM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/313_slm/) 3계층 = 레스토랑 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 체계 — 손님(고객)에게 "30분 내 음식 제공([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))" 약속. 주방팀 내 "15분 내 조리([OLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/086_ola/))" 합의. 식재료 공급사와 "당일 납품([UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/))" 계약. 모든 계층 지켜야 손님 약속 이행!
 
 ---
 
-## Ⅱ. [[085_sla|SLA]] 설계
+## Ⅱ. [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 설계
 
 ```
 SLA (Service Level Agreement) 구성요소:
@@ -90,11 +94,11 @@ SLA 작성 원칙:
   균형: 고객 기대 + 제공 가능한 수준
 ```
 
-> 📢 **섹션 요약 비유**: [[085_sla|SLA]] = 식당 메뉴판 약속 — "30분 내 배달 보장([[452_availability|가용성]]+응답시간)". 늦으면 다음 주문 할인([[085_sla|SLA]] Credit). 측정 가능하고 현실적인 약속이 진짜 [[085_sla|SLA]]!
+> 📢 **섹션 요약 비유**: [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) = 식당 메뉴판 약속 — "30분 내 배달 보장([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)+응답시간)". 늦으면 다음 주문 할인([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) Credit). 측정 가능하고 현실적인 약속이 진짜 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)!
 
 ---
 
-## Ⅲ. [[086_ola|OLA]] 설계
+## Ⅲ. [OLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/086_ola/) 설계
 
 ```
 OLA (Operational Level Agreement):
@@ -133,11 +137,11 @@ OLA 거버넌스:
   반복 위반 팀 → 근본 원인 분석 + 개선 계획
 ```
 
-> 📢 **섹션 요약 비유**: [[086_ola|OLA]] = 식당 내부 배달 타임라인 — 주방(인프라): 15분, 포장(앱팀): 10분, 배달([[072_service_desk|서비스 데스크]]): 5분 합계 30분. 외부 약속([[085_sla|SLA]]) 지키려면 내부 타임라인([[086_ola|OLA]]) 먼저 정확히!
+> 📢 **섹션 요약 비유**: [OLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/086_ola/) = 식당 내부 배달 타임라인 — 주방(인프라): 15분, 포장(앱팀): 10분, 배달([서비스 데스크](/knowledge-base/studynote/12_it_management/02_itsm_itil/072_service_desk/)): 5분 합계 30분. 외부 약속([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)) 지키려면 내부 타임라인([OLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/086_ola/)) 먼저 정확히!
 
 ---
 
-## Ⅳ. [[313_slm|SLM]] 성숙도와 자동화
+## Ⅳ. [SLM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/313_slm/) 성숙도와 자동화
 
 ```
 SLM 성숙도 모델:
@@ -178,11 +182,11 @@ Datadog SLO Tracking:
   SLA 리포트 자동 생성 → 고객 공유
 ```
 
-> 📢 **섹션 요약 비유**: [[313_slm|SLM]] 성숙도 = 배달 추적 시스템 발전 — 레벨 1(배달 완료만 [[396_validation|확인]]), 레벨 2(배달 완료 후 늦음 인지), 레벨 3(실시간 GPS 추적 + 30분 초과 경보), 레벨 4([[190_ai_llm_requirements_specification|AI]] 예측으로 최적 경로 자동 선택)!
+> 📢 **섹션 요약 비유**: [SLM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/313_slm/) 성숙도 = 배달 추적 시스템 발전 — 레벨 1(배달 완료만 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)), 레벨 2(배달 완료 후 늦음 인지), 레벨 3(실시간 GPS 추적 + 30분 초과 경보), 레벨 4([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 예측으로 최적 경로 자동 선택)!
 
 ---
 
-## Ⅴ. 실무 시나리오 — [[313_slm|SLM]] 체계 구축
+## Ⅴ. 실무 시나리오 — [SLM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/313_slm/) 체계 구축
 
 ```
 제조업 IT 부서 SLM 체계 구축:
@@ -226,7 +230,7 @@ Datadog SLO Tracking:
   클레임 분쟁: 데이터 기반 해결 (클레임 80% 감소)
 ```
 
-> 📢 **섹션 요약 비유**: [[313_slm|SLM]] 체계 구축 = GPS 배달 추적 도입 — "언제 도착하냐"는 분쟁에서 GPS 기록([[085_sla|SLA]] 측정 도구)으로 해결. 병목(DB팀) 발견해 인력 증원. [[539_claims|클레임]] 분쟁 80% 감소!
+> 📢 **섹션 요약 비유**: [SLM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/313_slm/) 체계 구축 = GPS 배달 추적 도입 — "언제 도착하냐"는 분쟁에서 GPS 기록([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 측정 도구)으로 해결. 병목(DB팀) 발견해 인력 증원. [클레임](/knowledge-base/studynote/09_security/11_iam_access_control/539_claims/) 분쟁 80% 감소!
 
 ---
 
@@ -283,9 +287,9 @@ DevOps + SRE 통합
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [[085_sla|SLA]] = 식당 약속 — 손님에게 "30분 내 음식 제공". 위반 시 할인권([[085_sla|SLA]] Credit). 측정 가능해야 진짜 약속!
-2. [[086_ola|OLA]] = 주방 팀 내부 타임라인 — 주방장에서 홀 서빙까지 각 단계 시간 합산이 손님 약속 시간보다 짧아야 해요!
-3. [[313_slm|SLM]] 성숙도 = 배달 추적 진화 — 완료만 [[396_validation|확인]](레벨1)에서 실시간 GPS+[[190_ai_llm_requirements_specification|AI]] 경로 최적화(레벨4)까지. [[001_dikw_pyramid|데이터]] 없이는 관리 불가!
+1. [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) = 식당 약속 — 손님에게 "30분 내 음식 제공". 위반 시 할인권([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) Credit). 측정 가능해야 진짜 약속!
+2. [OLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/086_ola/) = 주방 팀 내부 타임라인 — 주방장에서 홀 서빙까지 각 단계 시간 합산이 손님 약속 시간보다 짧아야 해요!
+3. [SLM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/313_slm/) 성숙도 = 배달 추적 진화 — 완료만 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(레벨1)에서 실시간 GPS+[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 경로 최적화(레벨4)까지. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 없이는 관리 불가!
 
 ---
 
@@ -293,7 +297,7 @@ DevOps + SRE 통합
 
 **진행 상황**: 48 / 482
 
-← **이전**: [[047_sla_service_level_agreement|047. SLA 심화 — 계약 구조와 거버넌스]]
-**다음**: [[049_service_catalog|049. 서비스 카탈로그 — Service Catalog]] →
+← **이전**: [047. SLA 심화 — 계약 구조와 거버넌스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/047_sla_service_level_agreement/)
+**다음**: [049. 서비스 카탈로그 — Service Catalog](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/049_service_catalog/) →
 
 ---

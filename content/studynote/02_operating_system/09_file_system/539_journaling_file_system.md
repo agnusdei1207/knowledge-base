@@ -1,30 +1,34 @@
----
-title: 539. 저널링 파일 시스템 (Journaling File System) - 시스템 크래시 시 일관성 복구 (ext3, ext4, NTFS)
-date: '2026-05-09'
-tags:
-- studynote-operating-system
----
++++
+title = "539. 저널링 파일 시스템 (Journaling File System) - 시스템 크래시 시 일관성 복구 (ext3, ext4, NTFS)"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 하드디스크에 [[501_file_definition_logical_record|파일]]을 저장하는 도중 정전([[069_type_1_2_error_statistical_power|Power]] Crash)이 나면 디스크 전체가 쓰레기통(Inconsistency 파탄)이 되는 파멸을 막기 위해, DB의 [[191_transaction_concept_states|트랜잭션]] 개념(WAL)을 [[501_file_definition_logical_record|파일]] 시스템 전체에 이식 탑재한 **"[[001_operating_system_purpose|운영체제]] 전용 불침번 [[568_logs_distributed_logging_elk_fluentd|로그]] 장부(일기장 기록 빔!)"** 아키텍처다.
-> 2. **가치**: 과거에는 정전 부팅 후 `fsck (File System Check)` 로 디스크 전체 수백 GB를 10시간 동안 샅샅이 뒤져가며 깨진 [[001_dikw_pyramid|데이터]]를 찾아야 했던 무간지옥 스로틀을 겪었다. 하지만 저널링은 **"어디서 수정하다 죽었는지 조그만 [[568_logs_distributed_logging_elk_fluentd|로그]](일기장)에 다 써놨다 스왑!"** 하므로, 부팅 1초 만에 박살난 [[658_ir_recovery|복구]] 지점(Checkpoint)을 로드하여 자동 치유([[658_ir_recovery|Recovery]] 결착)시키는 기적의 $O(1)$ 복원력을 선사했다 렌더 도출.
-> 3. **한계**: 디스크에 저널([[568_logs_distributed_logging_elk_fluentd|로그]])을 한 번 굽고, 다시 진짜 폴더 위치에 [[501_file_definition_logical_record|파일]] 원본을 두 번 굽는(Double Write 오버헤드 늪) 치명적 2중 모터 노가다가 발생한다. 속도가 엄청나게 떡락(스토리지 [[140_bandwidth|대역폭]] I/O 병목 가중 랙)하기 때문에, "[[012_metadata|메타데이터]]만 저널링할래?(안전+빠름)" 아니면 "실데이터까지 전부 저널링할래?(최강안전+초극악느림)" 의 트레이드오프 선택권(540장)을 강요받게 되는 태생 [[123_pipe|파이프]] 구조다.
+> 1. **본질**: 하드디스크에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 저장하는 도중 정전([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Crash)이 나면 디스크 전체가 쓰레기통(Inconsistency 파탄)이 되는 파멸을 막기 위해, DB의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 개념(WAL)을 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 전체에 이식 탑재한 **"[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 전용 불침번 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 장부(일기장 기록 빔!)"** 아키텍처다.
+> 2. **가치**: 과거에는 정전 부팅 후 `fsck (File System Check)` 로 디스크 전체 수백 GB를 10시간 동안 샅샅이 뒤져가며 깨진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 찾아야 했던 무간지옥 스로틀을 겪었다. 하지만 저널링은 **"어디서 수정하다 죽었는지 조그만 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(일기장)에 다 써놨다 스왑!"** 하므로, 부팅 1초 만에 박살난 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 지점(Checkpoint)을 로드하여 자동 치유([Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 결착)시키는 기적의 $O(1)$ 복원력을 선사했다 렌더 도출.
+> 3. **한계**: 디스크에 저널([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))을 한 번 굽고, 다시 진짜 폴더 위치에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 원본을 두 번 굽는(Double Write 오버헤드 늪) 치명적 2중 모터 노가다가 발생한다. 속도가 엄청나게 떡락(스토리지 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) I/O 병목 가중 랙)하기 때문에, "[메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)만 저널링할래?(안전+빠름)" 아니면 "실데이터까지 전부 저널링할래?(최강안전+초극악느림)" 의 트레이드오프 선택권(540장)을 강요받게 되는 태생 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 구조다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **크래시 [[194_consistency_database_integrity|일관성]] 파괴 (Crash Inconsistency 생지옥)**: 'A [[501_file_definition_logical_record|파일]]' 을 지우고 디스크 남은 용량 숫자를 늘려주는 2단계 작업을 하다가 1단계만 하고 정전 쾅! 다음 부팅 때 OS는 "어? [[501_file_definition_logical_record|파일]]은 없는데 남은 공간도 안 늘어났네? 디스크 용량 계산 붕괴 멸망!!" 이렇게 꼬이는 현상.
-  - **저널링 [[501_file_definition_logical_record|파일]] 시스템 (Journaling [[501_file_definition_logical_record|File]] System 무결 수호 록백!)**: ext3, ext4, NTFS, XFS 등 최신 OS는 이런 멸망을 막기 위해 디스크 구석에 `저널 영역(Journal Log Area)` 이라는 일기장을 만든다. [[501_file_definition_logical_record|파일]]을 고치기 직전, "나 지금부터 A [[501_file_definition_logical_record|파일]] 지우고 빈 공간 숫자 올릴 거다!" 라고 계획서를 일기장에 먼저 적어둔다(Write-Ahead 빔). 쓰다 죽어도 일기장 보면 뭐 하려다 죽었는지 아니 100% [[658_ir_recovery|복구]]가 타결된다 스왑.
-- **필요성**: 서버 재부팅 랙은 현대 클라우드에서 치명적이다. 저널링 없이 10TB 하드디스크 정전 크래시가 나면 `fsck` 돌리는 데만 만 하루(24시간) 서버가 셧다운(마비 데들락) 당한다. [[658_ir_recovery|복구]] 시간을 24시간에서 단 10초(일기장 스캔 속도 $O(1)$ 부스트)로 단축시켜 클러스터 무정지 복원 능력을 개화시킨, [[100_sre_site_reliability_engineering_error_budget|SRE]] 무결 생태계의 절대 필수 생존 철학이다 증명.
+  - **크래시 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 파괴 (Crash Inconsistency 생지옥)**: 'A [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)' 을 지우고 디스크 남은 용량 숫자를 늘려주는 2단계 작업을 하다가 1단계만 하고 정전 쾅! 다음 부팅 때 OS는 "어? [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 없는데 남은 공간도 안 늘어났네? 디스크 용량 계산 붕괴 멸망!!" 이렇게 꼬이는 현상.
+  - **저널링 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 (Journaling [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) System 무결 수호 록백!)**: ext3, ext4, NTFS, XFS 등 최신 OS는 이런 멸망을 막기 위해 디스크 구석에 `저널 영역(Journal Log Area)` 이라는 일기장을 만든다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 고치기 직전, "나 지금부터 A [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 지우고 빈 공간 숫자 올릴 거다!" 라고 계획서를 일기장에 먼저 적어둔다(Write-Ahead 빔). 쓰다 죽어도 일기장 보면 뭐 하려다 죽었는지 아니 100% [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 타결된다 스왑.
+- **필요성**: 서버 재부팅 랙은 현대 클라우드에서 치명적이다. 저널링 없이 10TB 하드디스크 정전 크래시가 나면 `fsck` 돌리는 데만 만 하루(24시간) 서버가 셧다운(마비 데들락) 당한다. [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간을 24시간에서 단 10초(일기장 스캔 속도 $O(1)$ 부스트)로 단축시켜 클러스터 무정지 복원 능력을 개화시킨, [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 무결 생태계의 절대 필수 생존 철학이다 증명.
 
   - (fsck 노가다 옛날 방식 늪): 인부(OS)가 말도 없이 건물 짓다가 지진(정전) 나고 도망갔습니다. 소장님이 다음날 와보니 막노동판이 개판 멸망! "야 이거 3층 베란다 짓다 만 거야 화장실이야 뭐야!" 소장님이 건물 전체 도면(10TB 전체 스캔)을 전부 뒤지면서(fsck 10시간 병목) 에러를 찾습니다 생지옥 폭파!
-  - **(저널링 Journaling 일기장 쾌속 스왑 기전!)**: 똑똑한 인부는 작업 전에 반드시 안전 일지(저널 [[568_logs_distributed_logging_elk_fluentd|로그]])에 씁니다. "오늘 오후 3시, 2층 화장실 변기 뚫기 작업 시작함 결착 록백!" 이 일기장을 책상(저널 영역)에 두고 공사하다 지진(정전 크래시)이 났습니다. 다음 날 소장님은 건물 전체 안 뒤집니다. 일기장 책상만 쓱 보고 "아 변기 뚫다 죽었네? 오케이 바로 이어서 뚫어 [[658_ir_recovery|복구]] 끝([[658_ir_recovery|Recovery]] $O(1)$)!" 초광속 [[658_ir_recovery|복구]]가 완성됩니다 우주 결속!
+  - **(저널링 Journaling 일기장 쾌속 스왑 기전!)**: 똑똑한 인부는 작업 전에 반드시 안전 일지(저널 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))에 씁니다. "오늘 오후 3시, 2층 화장실 변기 뚫기 작업 시작함 결착 록백!" 이 일기장을 책상(저널 영역)에 두고 공사하다 지진(정전 크래시)이 났습니다. 다음 날 소장님은 건물 전체 안 뒤집니다. 일기장 책상만 쓱 보고 "아 변기 뚫다 죽었네? 오케이 바로 이어서 뚫어 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 끝([Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) $O(1)$)!" 초광속 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 완성됩니다 우주 결속!
 
-- **전체 디스크 스캔의 파멸과 저널링(일기장) 초광속 [[658_ir_recovery|복구]] [[103_ascii|ASCII]] 메커니즘 뷰**:
-[[001_operating_system_purpose|운영체제]]가 갑작스러운 전원 차단(Blackout) 시 어떻게 [[100_sre_site_reliability_engineering_error_budget|SRE]] 방어력을 전개하는지 그 [[123_pipe|파이프]] 구조도를 까보면 다음과 같다.
+- **전체 디스크 스캔의 파멸과 저널링(일기장) 초광속 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 메커니즘 뷰**:
+[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 갑작스러운 전원 차단(Blackout) 시 어떻게 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 방어력을 전개하는지 그 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 구조도를 까보면 다음과 같다.
 
 ```text
   ┌──────────────────────────────────────────────────────────────────────────────────────┐
@@ -53,8 +57,8 @@ tags:
   └──────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 상단의 옛 구석기 `ext2` 모델은 크래시 발생 시 `fsck(File System Consistency Check)` 프로세스가 전체 디스크 [[012_metadata|메타데이터]] 구조를 처음부터 끝까지 수학적으로 교차 검증하는 극악의 연산량 $O(N)$ 병목 늪에 빠졌다. 
-하단의 **ext4 저널링** 메커니즘은 ACID [[191_transaction_concept_states|트랜잭션]] 수호신을 장착하여, 본진 디스크를 건드리기 전 반드시 안전 [[568_logs_distributed_logging_elk_fluentd|로그]](Journal 영역)에 자신의 작업 내역을 [[212_synchronization_mechanisms|동기화]] I/O(fsync 채찍, 이전 문서 538번 [[123_pipe|파이프]])로 강제 낙인시켜 둔다. 부팅 시 OS는 오직 이 조그만 저널 링 버퍼(Ring Buffer)만 순회 정독하여 [[003_integrity|무결성]]이 깨진 지점을 핀포인트로 찾아내 롤포워드(Roll-forward) 혹은 [[098_rollback_strategy_pipeline_error_threshold|롤백]]([[313_rollback|Rollback]])으로 [[001_dikw_pyramid|데이터]]를 고쳐내는 극한의 [[658_ir_recovery|복구]] 결착 방파제를 구축한다 증명 록백.
+**[다이어그램 해설]** 상단의 옛 구석기 `ext2` 모델은 크래시 발생 시 `fsck(File System Consistency Check)` 프로세스가 전체 디스크 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 구조를 처음부터 끝까지 수학적으로 교차 검증하는 극악의 연산량 $O(N)$ 병목 늪에 빠졌다. 
+하단의 **ext4 저널링** 메커니즘은 ACID [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 수호신을 장착하여, 본진 디스크를 건드리기 전 반드시 안전 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(Journal 영역)에 자신의 작업 내역을 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) I/O(fsync 채찍, 이전 문서 538번 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/))로 강제 낙인시켜 둔다. 부팅 시 OS는 오직 이 조그만 저널 링 버퍼(Ring Buffer)만 순회 정독하여 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)이 깨진 지점을 핀포인트로 찾아내 롤포워드(Roll-forward) 혹은 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/))으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 고쳐내는 극한의 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 결착 방파제를 구축한다 증명 록백.
 
 - **📢 섹션 요약 비유**: 복잡한 창고에서 필요한 물건을 찾기 위해 먼저 구역과 표지판을 세우는 것과 같다.
 
@@ -63,25 +67,25 @@ tags:
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. 트레이드오프 전선 종결: 더블 라이트(Double Write 2중 굽기)의 치명적 오버헤드 구조 렌더
-"일기장에 한 번 적고, [[501_file_definition_logical_record|파일]]에 또 한 번 적어? 디스크 모터를 2번이나 돌린다고?" $\to$ 방어력과 I/O [[140_bandwidth|대역폭]]의 극한 트레이드오프 모순에 봉착.
+"일기장에 한 번 적고, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 또 한 번 적어? 디스크 모터를 2번이나 돌린다고?" $\to$ 방어력과 I/O [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)의 극한 트레이드오프 모순에 봉착.
 
 | I/O 굽기 프로세스 스펙 렌더 | 논-저널링 FS (ext2, FAT32 스왑 구형 뼈대) | 저널링 FS (ext4, NTFS 결속 수호 방어선) |
 |:---|:---|:---|
-| **저장 스텝 [[123_pipe|파이프]] (Write [[082_pipeline|Pipeline]] 워크플로 [[216_progress_in_synchronization|진행]] 렌더)** | 유저 앱 $\to$ 램 캐시 $\to$ (바로 모터 구동) $\to$ **본진 [[501_file_definition_logical_record|파일]] 덮어쓰기 1회 완료 끝!** 컷. | 유저 앱 $\to$ 램 캐시 $\to$ **① 저널 영역에 일기장 굽기(Commit 완료)** $\to$ **② 실제 본진 [[501_file_definition_logical_record|파일]] [[001_dikw_pyramid|데이터]] 굽기 시작! (총 2회 분할 굽기 랙)** |
-| **[[282_performance_tactics|성능]] 오버헤드 모터 붕괴 랙 스로틀 증명 (I/O 병목 가중도)** | 한 번만 구우니까 속도는 최강 $O(1)$ 스피드 부스트 (단, 크래시 나면 다 죽음). | **치명적 더블 라이트(Double Write) 폭사 늪.** 10MB짜리 쓰면 사실상 20MB 만큼의 디스크 [[140_bandwidth|대역폭]] 물리 트래픽 손실 고갈 오버헤드 결착. |
-| **정전 크래시 시 [[658_ir_recovery|복구]]력 ([[176_rto_recovery_time_objective|Recovery Time Objective]] 결단)** | 10시간 fsck 지옥. 혹은 영원히 [[658_ir_recovery|복구]] 불가 [[001_dikw_pyramid|데이터]] 오염(Corruption 파단). | 일기장(Journal) 재현으로 단 1초 만에 논리적 [[194_consistency_database_integrity|일관성]] 자동 복원 $O(1)$ [[003_integrity|무결성]] 컴백 뷰. |
+| **저장 스텝 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) (Write [Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/) 워크플로 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 렌더)** | 유저 앱 $\to$ 램 캐시 $\to$ (바로 모터 구동) $\to$ **본진 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 덮어쓰기 1회 완료 끝!** 컷. | 유저 앱 $\to$ 램 캐시 $\to$ **① 저널 영역에 일기장 굽기(Commit 완료)** $\to$ **② 실제 본진 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 굽기 시작! (총 2회 분할 굽기 랙)** |
+| **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 오버헤드 모터 붕괴 랙 스로틀 증명 (I/O 병목 가중도)** | 한 번만 구우니까 속도는 최강 $O(1)$ 스피드 부스트 (단, 크래시 나면 다 죽음). | **치명적 더블 라이트(Double Write) 폭사 늪.** 10MB짜리 쓰면 사실상 20MB 만큼의 디스크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 물리 트래픽 손실 고갈 오버헤드 결착. |
+| **정전 크래시 시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)력 ([Recovery Time Objective](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) 결단)** | 10시간 fsck 지옥. 혹은 영원히 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 불가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오염(Corruption 파단). | 일기장(Journal) 재현으로 단 1초 만에 논리적 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 자동 복원 $O(1)$ [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 컴백 뷰. |
 
-### 2. 치명적 오버헤드 폭발: [[191_transaction_concept_states|트랜잭션]] [[098_rollback_strategy_pipeline_error_threshold|롤백]]과 저널 사이즈의 병목 붕괴 마비
-일기장을 쓰는 방어력은 무적이지만, 일기장이 꽉 차거나 2중 굽기 모터 발열 랙이 서버 [[140_bandwidth|대역폭]]을 모두 집어삼키는 참상을 진단한다.
+### 2. 치명적 오버헤드 폭발: [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)과 저널 사이즈의 병목 붕괴 마비
+일기장을 쓰는 방어력은 무적이지만, 일기장이 꽉 차거나 2중 굽기 모터 발열 랙이 서버 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 모두 집어삼키는 참상을 진단한다.
 
-- **[[128_water_scrum_fall_anti_pattern|안티패턴]] 오염 발생 미스터리 (Journaling I/O 스로틀 멸망 프리징 데들락)**: 
-  - (초보자의 강박 패망 늪 스왑): 모든 블록마다 무조건 저널링([[001_dikw_pyramid|Data]] Journaling 모드) 방어 기제를 켰다. 유저가 10GB 동영상 [[501_file_definition_logical_record|파일]]을 쓴다.
-  - OS는 [[568_logs_distributed_logging_elk_fluentd|로그]] 영역(일기장)에 10GB를 꾸역꾸역 1번 구워 넣고(이미 로딩 랙 극대화), 그 10GB를 다시 진짜 폴더 위치로 이동 복사해서 2번 구워 넣는다(모터 폭파!). 
-  - 결과: 하드디스크 속도가 반토막(50% [[282_performance_tactics|성능]] 하락 데미지 체감) 나는 초극악 레이턴시 병목 늪에 빠지며, 저널 버퍼 링(Ring Buffer) 사이즈가 작아 큐([[058_queue|Queue]])가 터지면서 서버 전체 I/O [[289_cqrs_db|쓰기]] 작업이 멈춰버리는 [[157_oom_killer|OOM]] 클러스터 통살 프리징 셧다운 랙에 처단된다 입증 발현.
-- **[[100_sre_site_reliability_engineering_error_budget|SRE]] 극복 솔루션 패치 타결 조율 (Ordered Mode [[012_metadata|메타데이터]] 타협 렌더 록백!!)**: 
+- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 오염 발생 미스터리 (Journaling I/O 스로틀 멸망 프리징 데들락)**: 
+  - (초보자의 강박 패망 늪 스왑): 모든 블록마다 무조건 저널링([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Journaling 모드) 방어 기제를 켰다. 유저가 10GB 동영상 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 쓴다.
+  - OS는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 영역(일기장)에 10GB를 꾸역꾸역 1번 구워 넣고(이미 로딩 랙 극대화), 그 10GB를 다시 진짜 폴더 위치로 이동 복사해서 2번 구워 넣는다(모터 폭파!). 
+  - 결과: 하드디스크 속도가 반토막(50% [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 하락 데미지 체감) 나는 초극악 레이턴시 병목 늪에 빠지며, 저널 버퍼 링(Ring Buffer) 사이즈가 작아 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))가 터지면서 서버 전체 I/O [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 작업이 멈춰버리는 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 클러스터 통살 프리징 셧다운 랙에 처단된다 입증 발현.
+- **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 극복 솔루션 패치 타결 조율 (Ordered Mode [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 타협 렌더 록백!!)**: 
   - 괴수 리눅스 천재들은 이 속도 반토막을 막기 위해 540장으로 넘어가는 기막힌 타협 융합 스위처(Mode)를 만든다! 
-  - [[022_kernel_role|커널]] 봇: "야 10GB [[001_dikw_pyramid|데이터]] 알맹이 전체를 일기장에 다 적는 건 미친 짓 모터 낭비야 오버헤드 컷!! **[[001_dikw_pyramid|데이터]] 알맹이는 걍 일선 본진 바닥에 바로 버리고(저널링 안함 속도 복원!), 오직 i-node 껍데기 [[012_metadata|메타데이터]](크기, 수정일자 100Byte) 따위만 일기장에 적어버려 최적화 스왑 결착 부스트!!!**" 
-  - 이것이 현재 전 세계 수십억 개 안드로이드 폰과 클라우드가 사용하는 **ext4 `Ordered Mode`** 의 찬란한 백본 구조이며 방어력 99% + 속도 95% 두 마리 토끼를 사냥한 기적의 시스템 [[123_pipe|파이프]] 묘리다.
+  - [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 봇: "야 10GB [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 알맹이 전체를 일기장에 다 적는 건 미친 짓 모터 낭비야 오버헤드 컷!! **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 알맹이는 걍 일선 본진 바닥에 바로 버리고(저널링 안함 속도 복원!), 오직 i-node 껍데기 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)(크기, 수정일자 100Byte) 따위만 일기장에 적어버려 최적화 스왑 결착 부스트!!!**" 
+  - 이것이 현재 전 세계 수십억 개 안드로이드 폰과 클라우드가 사용하는 **ext4 `Ordered Mode`** 의 찬란한 백본 구조이며 방어력 99% + 속도 95% 두 마리 토끼를 사냥한 기적의 시스템 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 묘리다.
 
 - **📢 섹션 요약 비유**: 공장 컨베이어벨트가 어떤 순서로 부품을 받아 가공하고 내보내는지 설계도를 펼쳐 보는 것과 같다.
 
@@ -92,11 +96,11 @@ tags:
 ### 클라우드 OS 마스터피스 ext4의 심장: JBD2 저널링 블록 디바이스 통치
 현대 리눅스 환경에서 저널링은 너무 당연해서 모를 뿐, 밑단에선 초당 수백 번씩 `JBD2` 데몬 봇이 미친 듯이 일기장을 결재받으며 돌아다니고 있다 팩트 록.
 
-- **JBD2 (Journaling [[442_block_device|Block Device]] 2) [[022_kernel_role|커널]] [[092_thread_lwp|스레드]]의 활약과 I/O 방어 결투 스왑 뷰**: 
-  - 앱 유저가 [[501_file_definition_logical_record|파일]]을 쓰면 메모리(캐시)에서 `JBD2` [[022_kernel_role|커널]] [[092_thread_lwp|스레드]] 봇이 나타난다. "야! 너희 [[289_cqrs_db|쓰기]] 내용 전부 나한테 검열받고 일기장에 서명해(Commit)!" 
-  - 봇이 수만 개의 [[501_file_definition_logical_record|파일]] [[289_cqrs_db|쓰기]] 일기를 뭉쳐서 (그룹 커밋 538장 아크), 물리 디스크 `저널 파티션` 영역에 주기적으로 꽝꽝 박아댄다.
-  - [[128_water_scrum_fall_anti_pattern|안티패턴]] 충돌 (No Space Left on Device 오버헤드 생지옥 트리): 가끔 서버에 [[501_file_definition_logical_record|파일]] 지웠는데 여전히 용량 부족 에러가 나는 유령 버그에 걸릴 때가 있다.
-  - 이유 뷰: 멍청한 앱이 [[501_file_definition_logical_record|파일]]을 열어두고 쥐고 있으면, `JBD2` 저널 봇이 "아직 [[191_transaction_concept_states|트랜잭션]]이 안 끝났어 락([[510_lock|Lock]]) 해제 거부!" 하고 일기장에 취소(Commit 완료) 도장을 안 찍어준다(Zombie 공간 파단). [[100_sre_site_reliability_engineering_error_budget|SRE]] 엔지니어는 `lsof | grep deleted` 등의 마스킹 스킬로 유령 프로세스를 도축해야만 이 저널링 락백 늪을 해방시켜 클라우드를 사수할 수 있다 결착 도출.
+- **JBD2 (Journaling [Block Device](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/) 2) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 활약과 I/O 방어 결투 스왑 뷰**: 
+  - 앱 유저가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 쓰면 메모리(캐시)에서 `JBD2` [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 봇이 나타난다. "야! 너희 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 내용 전부 나한테 검열받고 일기장에 서명해(Commit)!" 
+  - 봇이 수만 개의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 일기를 뭉쳐서 (그룹 커밋 538장 아크), 물리 디스크 `저널 파티션` 영역에 주기적으로 꽝꽝 박아댄다.
+  - [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 충돌 (No Space Left on Device 오버헤드 생지옥 트리): 가끔 서버에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 지웠는데 여전히 용량 부족 에러가 나는 유령 버그에 걸릴 때가 있다.
+  - 이유 뷰: 멍청한 앱이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 열어두고 쥐고 있으면, `JBD2` 저널 봇이 "아직 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 안 끝났어 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 해제 거부!" 하고 일기장에 취소(Commit 완료) 도장을 안 찍어준다(Zombie 공간 파단). [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 엔지니어는 `lsof | grep deleted` 등의 마스킹 스킬로 유령 프로세스를 도축해야만 이 저널링 락백 늪을 해방시켜 클라우드를 사수할 수 있다 결착 도출.
 
 - **📢 섹션 요약 비유**: 비슷해 보이는 공구를 나란히 놓고 언제 망치를 쓰고 언제 드라이버를 써야 하는지 구분하는 것과 같다.
 
@@ -104,9 +108,9 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- '저널링 [[501_file_definition_logical_record|파일]] 시스템 (Journaling FS 멸망 크래시 방어 일기장 렌더)' 아키텍처는 정전 한방에 [[501_file_definition_logical_record|파일]] 시스템 구조 전체가 부서져 내리던 구시대의 원시성을 찢어버리고, [[001_dikw_pyramid|데이터]] 관리에 "미래를 대비하는 안전 [[568_logs_distributed_logging_elk_fluentd|로그]](Write-Ahead Log) [[191_transaction_concept_states|트랜잭션]]" 사상을 수혈한 OS 역사상 가장 생명 연장의 공을 이룬 철옹성 방패 뼈대다.
-- 과거 서버 재부팅 1번에 10시간 fsck 스캔 바닥 핥기 노가다(I/O 스로틀 [[573_timeout_retry_backoff_strategy|타임아웃]] 지옥)를 벌이던 [[128_water_scrum_fall_anti_pattern|안티패턴]] 랙을 소멸시키고, 오직 몇 MB짜리 저널 링 버퍼 영역만 정독하여 1초 만에 시스템을 회생시키는 극한의 $O(1)$ [[658_ir_recovery|Recovery]] 부스트 달성을 성취해 현대 고정밀 금융권과 엔터프라이즈의 무결 생태계 S/W 기판을 책임지고 있다 선고.
-- 비록 일기장과 원본에 [[001_dikw_pyramid|데이터]]를 2번 쓰는 'Double Write' 오버헤드 발열 속도 모터 낭비라는 영원한 딜레마(I/O 스토리지 병목 파편화)를 피하지 못했으나, 영악한 OS 코어가 [[001_dikw_pyramid|데이터]]와 [[012_metadata|메타데이터]] 저널링 모드를 3단계([[001_dikw_pyramid|Data]] / Ordered / Writeback 540장 아크)로 분리해 내어 속도와 안정성의 황금 타협 결속을 창조해 낸 위대한 공진화 시스템 맵핑으로 종결된다 로깅 보장.
+- '저널링 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 (Journaling FS 멸망 크래시 방어 일기장 렌더)' 아키텍처는 정전 한방에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 구조 전체가 부서져 내리던 구시대의 원시성을 찢어버리고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리에 "미래를 대비하는 안전 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(Write-Ahead Log) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)" 사상을 수혈한 OS 역사상 가장 생명 연장의 공을 이룬 철옹성 방패 뼈대다.
+- 과거 서버 재부팅 1번에 10시간 fsck 스캔 바닥 핥기 노가다(I/O 스로틀 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 지옥)를 벌이던 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 랙을 소멸시키고, 오직 몇 MB짜리 저널 링 버퍼 영역만 정독하여 1초 만에 시스템을 회생시키는 극한의 $O(1)$ [Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 부스트 달성을 성취해 현대 고정밀 금융권과 엔터프라이즈의 무결 생태계 S/W 기판을 책임지고 있다 선고.
+- 비록 일기장과 원본에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 2번 쓰는 'Double Write' 오버헤드 발열 속도 모터 낭비라는 영원한 딜레마(I/O 스토리지 병목 파편화)를 피하지 못했으나, 영악한 OS 코어가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 저널링 모드를 3단계([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) / Ordered / Writeback 540장 아크)로 분리해 내어 속도와 안정성의 황금 타협 결속을 창조해 낸 위대한 공진화 시스템 맵핑으로 종결된다 로깅 보장.
 
 - **📢 섹션 요약 비유**: 운전자가 도로 상황에 따라 기어와 브레이크를 다르게 선택하는 것처럼 조건별 판단이 중요하다.
 
@@ -114,7 +118,7 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-저널링 [[501_file_definition_logical_record|파일]] 시스템 (Journaling [[501_file_definition_logical_record|File]] System)은 [[501_file_definition_logical_record|파일]] 시스템과 [[506_directory_structure_symbol_table|디렉터리]] 구조을 이해하는 연결 고리 역할을 한다. 이 개념을 익히면 시스템 동작을 더 예측 가능하게 설명할 수 있지만, 만능 해법은 아니므로 적용 전제와 한계를 함께 기억해야 한다. 앞으로는 [[012_metadata|메타데이터]] 저널링 vs [[001_dikw_pyramid|데이터]] 저널링 모드 (순서: [[568_logs_distributed_logging_elk_fluentd|로그]] 기록 -> 커밋 -> 실제 [[501_file_definition_logical_record|파일]]시스템 반영)처럼 더 세분화된 기술과 결합되며 자동화·최적화 방향으로 발전한다.
+저널링 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 (Journaling [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) System)은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템과 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 구조을 이해하는 연결 고리 역할을 한다. 이 개념을 익히면 시스템 동작을 더 예측 가능하게 설명할 수 있지만, 만능 해법은 아니므로 적용 전제와 한계를 함께 기억해야 한다. 앞으로는 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 저널링 vs [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저널링 모드 (순서: [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기록 -> 커밋 -> 실제 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템 반영)처럼 더 세분화된 기술과 결합되며 자동화·최적화 방향으로 발전한다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -124,10 +128,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[537_read_ahead_delayed_write|미리 읽기]] ([[537_read_ahead_delayed_write|Read-ahead]]) 및 [[015_지연_데이터_관점|지연]] [[289_cqrs_db|쓰기]] (Delayed-write / Write-behind) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [[212_synchronization_mechanisms|동기화]] I/O (O_SYNC / fsync) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [[012_metadata|메타데이터]] 저널링 vs [[001_dikw_pyramid|데이터]] 저널링 모드 (순서: [[568_logs_distributed_logging_elk_fluentd|로그]] 기록 -> 커밋 -> 실제 [[501_file_definition_logical_record|파일]]시스템 반영) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [[541_log_structured_file_system|LFS]] ([[541_log_structured_file_system|Log-structured File System]]) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [미리 읽기](/knowledge-base/studynote/02_operating_system/09_file_system/537_read_ahead_delayed_write/) ([Read-ahead](/knowledge-base/studynote/02_operating_system/09_file_system/537_read_ahead_delayed_write/)) 및 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) (Delayed-write / Write-behind) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) I/O (O_SYNC / fsync) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 저널링 vs [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저널링 모드 (순서: [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기록 -> 커밋 -> 실제 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템 반영) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [LFS](/knowledge-base/studynote/02_operating_system/09_file_system/541_log_structured_file_system/) ([Log-structured File System](/knowledge-base/studynote/02_operating_system/09_file_system/541_log_structured_file_system/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -146,8 +150,8 @@ tags:
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 옛날 컴퓨터 바보 하드디스크는 그림일기를 그리다 갑자기 정전(크래시 정지 오류!)이 나서 꺼지면, 자기가 언제 어디서 뭘 그리다 죽었는지 까먹는 붕어빵 뇌 지옥 랙(Inconsistency 파탄!)을 겪었어요. 그래서 한 번 전원이 나갔다 켜지면 10시간 동안 디스크 전체 100만 장을 다 뒤져서 검사하는 끔찍한 막노동 벌(fsck 병목 오버헤드 늪)을 서야 했죠!
-2. 그래서 최신 리눅스 천재들이 바닥 구석탱이에 **"마법의 저널(Journal 요약 일기장 시스템 방패!)"** 을 던져두었어요! [[501_file_definition_logical_record|파일]]을 고치기 직전에 무조건 일기장에 "나 지금 C드라이브 폴더 열고 지우개로 지운다 쓴다! 록백 결착!" 계획을 다 적고 도장을 꽝! 찍게([[191_transaction_concept_states|Transaction]] Commit) 강제 스왑 룰을 만들었답니다 방어결속!
-3. 치명적 슬픔 발생 데들락 늪! 이렇게 일기장을 쓰면 전원 퍽! 뽑혔다 켜져도 일기장 1페이지만 보면 1초 만에 오류 고장 [[001_dikw_pyramid|데이터]]를 고쳐 복원($O(1)$ [[658_ir_recovery|Recovery]] 마스킹 속도 [[658_ir_recovery|복구]] 부스트!)해 고통받지 않아요! 하지만 무서운 트레이드오프 양날의 검 진리! "일기장에 또 쓰고, 원본 [[501_file_definition_logical_record|파일]]책에 또 써 2중 기록 노가다(Double Write 랙 에러)!" 탓에 디스크 톱니바퀴 모터 속도가 느려져 발열 파탄 폭사할 수 있는 가슴 아픈 느림보 슬픈 기전도 발생한답니다!
+2. 그래서 최신 리눅스 천재들이 바닥 구석탱이에 **"마법의 저널(Journal 요약 일기장 시스템 방패!)"** 을 던져두었어요! [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 고치기 직전에 무조건 일기장에 "나 지금 C드라이브 폴더 열고 지우개로 지운다 쓴다! 록백 결착!" 계획을 다 적고 도장을 꽝! 찍게([Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Commit) 강제 스왑 룰을 만들었답니다 방어결속!
+3. 치명적 슬픔 발생 데들락 늪! 이렇게 일기장을 쓰면 전원 퍽! 뽑혔다 켜져도 일기장 1페이지만 보면 1초 만에 오류 고장 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 고쳐 복원($O(1)$ [Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 마스킹 속도 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 부스트!)해 고통받지 않아요! 하지만 무서운 트레이드오프 양날의 검 진리! "일기장에 또 쓰고, 원본 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)책에 또 써 2중 기록 노가다(Double Write 랙 에러)!" 탓에 디스크 톱니바퀴 모터 속도가 느려져 발열 파탄 폭사할 수 있는 가슴 아픈 느림보 슬픈 기전도 발생한답니다!
 
 ---
 
@@ -155,7 +159,7 @@ tags:
 
 **진행 상황**: 539 / 800
 
-← **이전**: [[538_sync_io_fsync|538. 동기화 I/O (O_SYNC / fsync)]]
-**다음**: [[540_journaling_modes|540. 메타데이터 저널링 vs 데이터 저널링 모드 (순서: 로그 기록 -> 커밋 -> 실제 파일시스템 반영) (Journaling]] →
+← **이전**: [538. 동기화 I/O (O_SYNC / fsync)](/knowledge-base/studynote/02_operating_system/09_file_system/538_sync_io_fsync/)
+**다음**: [540. 메타데이터 저널링 vs 데이터 저널링 모드 (순서: 로그 기록 -> 커밋 -> 실제 파일시스템 반영) (Journaling](/knowledge-base/studynote/02_operating_system/09_file_system/540_journaling_modes/) →
 
 ---

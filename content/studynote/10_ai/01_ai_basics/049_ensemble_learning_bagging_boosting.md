@@ -1,18 +1,22 @@
----
-title: 049. 앙상블 학습 — Ensemble Learning
-date: '2026-04-05'
-tags:
-- studynote-ai
----
++++
+title = "049. 앙상블 학습 — Ensemble Learning"
+date = 2026-04-05
+
+[taxonomies]
+tags = ["studynote-ai"]
+
+[extra]
+tags = ["studynote-ai"]
++++
 
 > **핵심 인사이트**
-> 1. [[125_ensemble_learning|앙상블 학습]]([[125_ensemble_learning|Ensemble Learning]])은 여러 약한 학습기(Weak Learner)를 결합하여 하나의 강한 학습기(Strong Learner)를 만드는 방법 — "두 머리가 하나보다 낫다"는 집단 지성의 수학적 구현이며, 단일 모델보다 낮은 [[136_variance|분산]]([[136_variance|Variance]]) 또는 편향([[094_bias|Bias]])을 달성한다.
-> 2. [[259_bagging_random_forest|배깅]]([[259_bagging_random_forest|Bagging]])은 [[136_variance|분산]]을 줄이고, [[127_boosting|부스팅]]([[127_boosting|Boosting]])은 편향을 줄이는 상이한 메커니즘 — [[259_bagging_random_forest|배깅]]은 부트스트랩 샘플로 독립적 모델을 [[430_index_fast_full_scan|병렬]] 훈련하여 과적합을 방지하고, [[127_boosting|부스팅]]은 이전 모델의 오류에 집중하여 순차적으로 편향을 낮춘다.
-> 3. XGBoost·LightGBM·CatBoost가 [[002_structured_data|정형 데이터]] 경진 대회의 절대 강자인 이유가 바로 [[127_boosting|부스팅]]의 편향-[[136_variance|분산]] 최적화 — 딥러닝이 이미지·자연어를 석권한 이후에도 표 형식 [[001_dikw_pyramid|데이터]](Tabular [[001_dikw_pyramid|Data]])에서 [[034_gradient_boosting|그래디언트 부스팅]] 기반 모델이 가장 높은 [[282_performance_tactics|성능]]을 보인다.
+> 1. [앙상블 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/125_ensemble_learning/)([Ensemble Learning](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/125_ensemble_learning/))은 여러 약한 학습기(Weak Learner)를 결합하여 하나의 강한 학습기(Strong Learner)를 만드는 방법 — "두 머리가 하나보다 낫다"는 집단 지성의 수학적 구현이며, 단일 모델보다 낮은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)) 또는 편향([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))을 달성한다.
+> 2. [배깅](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)([Bagging](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/))은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 줄이고, [부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)([Boosting](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/))은 편향을 줄이는 상이한 메커니즘 — [배깅](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)은 부트스트랩 샘플로 독립적 모델을 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 훈련하여 과적합을 방지하고, [부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)은 이전 모델의 오류에 집중하여 순차적으로 편향을 낮춘다.
+> 3. XGBoost·LightGBM·CatBoost가 [정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/) 경진 대회의 절대 강자인 이유가 바로 [부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)의 편향-[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 최적화 — 딥러닝이 이미지·자연어를 석권한 이후에도 표 형식 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Tabular [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))에서 [그래디언트 부스팅](/knowledge-base/studynote/10_ai/01_ai_basics/034_gradient_boosting/) 기반 모델이 가장 높은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보인다.
 
 ---
 
-## Ⅰ. [[257_ensemble_learning|앙상블]] 개요
+## Ⅰ. [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 개요
 
 ```
 앙상블 학습 (Ensemble Learning):
@@ -48,11 +52,11 @@ tags:
   보팅 (Voting): 단순 다수결
 ```
 
-> 📢 **섹션 요약 비유**: [[257_ensemble_learning|앙상블]] = 의사 그룹 진료 — 여러 의사(모델)가 각자 진단. 다수결([[258_voting_ensemble|Voting]])로 최종 결정. 한 의사의 실수를 다른 의사가 보완. 집단 지성!
+> 📢 **섹션 요약 비유**: [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) = 의사 그룹 진료 — 여러 의사(모델)가 각자 진단. 다수결([Voting](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/))로 최종 결정. 한 의사의 실수를 다른 의사가 보완. 집단 지성!
 
 ---
 
-## Ⅱ. [[259_bagging_random_forest|배깅]] ([[259_bagging_random_forest|Bagging]])
+## Ⅱ. [배깅](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/) ([Bagging](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/))
 
 ```
 Bagging (Bootstrap Aggregating):
@@ -98,11 +102,11 @@ Random Forest (랜덤 포레스트):
   rf = RandomForestClassifier(n_estimators=100, max_features='sqrt')
 ```
 
-> 📢 **섹션 요약 비유**: [[259_bagging_random_forest|배깅]] = 여론 조사 집계 — 각 조사(부트스트랩 샘플)에서 독립적 결과. 100개 조사 평균 내면 단일보다 정확. Random Forest는 조사마다 다른 질문 섞어서 중복 의견 제거!
+> 📢 **섹션 요약 비유**: [배깅](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/) = 여론 조사 집계 — 각 조사(부트스트랩 샘플)에서 독립적 결과. 100개 조사 평균 내면 단일보다 정확. Random Forest는 조사마다 다른 질문 섞어서 중복 의견 제거!
 
 ---
 
-## Ⅲ. [[127_boosting|부스팅]] ([[127_boosting|Boosting]])
+## Ⅲ. [부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/) ([Boosting](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/))
 
 ```
 Boosting:
@@ -152,7 +156,7 @@ CatBoost:
   Ordered Boosting: 데이터 누설 방지
 ```
 
-> 📢 **섹션 요약 비유**: [[127_boosting|부스팅]] = 약점 집중 훈련 — 시험에서 틀린 문제에 집중. 다음 모델이 이전 모델의 오류(잔차)를 공략. 100번 반복 → 점점 정확해짐!
+> 📢 **섹션 요약 비유**: [부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/) = 약점 집중 훈련 — 시험에서 틀린 문제에 집중. 다음 모델이 이전 모델의 오류(잔차)를 공략. 100번 반복 → 점점 정확해짐!
 
 ---
 
@@ -248,7 +252,7 @@ Optuna 하이퍼파라미터 최적화:
   LightGBM + XGBoost: 상관관계 0.85 (낮은 편)
 ```
 
-> 📢 **섹션 요약 비유**: Kaggle [[257_ensemble_learning|앙상블]] = 의사결정 위원회 — LightGBM(내과 전문의), XGBoost(외과), CatBoost(영상의학과). 각자 다른 오류 → 스태킹으로 AUC 0.791→0.818. 다양성이 핵심!
+> 📢 **섹션 요약 비유**: Kaggle [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) = 의사결정 위원회 — LightGBM(내과 전문의), XGBoost(외과), CatBoost(영상의학과). 각자 다른 오류 → 스태킹으로 AUC 0.791→0.818. 다양성이 핵심!
 
 ---
 
@@ -303,9 +307,9 @@ Leaf-wise, 카테고리 변수
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [[257_ensemble_learning|앙상블]] = 의사 그룹 진료 — 여러 의사가 각자 진단 후 다수결. 한 의사 실수를 다른 의사가 보완. 혼자보다 정확!
-2. [[259_bagging_random_forest|배깅]]([[353_random_forest|Random Forest]]) = 여론조사 집계 — 100개 독립 조사 평균. 과적합 방지, [[136_variance|분산]] 감소. 모두 같은 답 = 무의미하니 무작위 특성 추가!
-3. [[127_boosting|부스팅]](XGBoost) = 약점 집중 훈련 — 틀린 문제에 집중. 이전 오류(잔차)를 다음 모델이 공략. 100회 반복 → 최강 모델!
+1. [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) = 의사 그룹 진료 — 여러 의사가 각자 진단 후 다수결. 한 의사 실수를 다른 의사가 보완. 혼자보다 정확!
+2. [배깅](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)([Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)) = 여론조사 집계 — 100개 독립 조사 평균. 과적합 방지, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 감소. 모두 같은 답 = 무의미하니 무작위 특성 추가!
+3. [부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)(XGBoost) = 약점 집중 훈련 — 틀린 문제에 집중. 이전 오류(잔차)를 다음 모델이 공략. 100회 반복 → 최강 모델!
 
 ---
 
@@ -313,7 +317,7 @@ Leaf-wise, 카테고리 변수
 
 **진행 상황**: 49 / 420
 
-← **이전**: [[048_anomaly_detection|048. 이상 탐지 — Anomaly Detection]]
-**다음**: [[050_voting_hard_soft_ensemble|보팅 앙상블 — 하드/소프트 보팅 (Hard vs Soft Voting Ensemble)]] →
+← **이전**: [048. 이상 탐지 — Anomaly Detection](/knowledge-base/studynote/10_ai/01_ai_basics/048_anomaly_detection/)
+**다음**: [보팅 앙상블 — 하드/소프트 보팅 (Hard vs Soft Voting Ensemble)](/knowledge-base/studynote/10_ai/01_ai_basics/050_voting_hard_soft_ensemble/) →
 
 ---

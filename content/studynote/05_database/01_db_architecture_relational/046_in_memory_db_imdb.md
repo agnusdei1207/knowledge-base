@@ -1,14 +1,18 @@
----
-title: 046. 인메모리 데이터베이스 — IMDB (In-Memory Database)
-date: '2026-04-05'
-tags:
-- studynote-database
----
++++
+title = "046. 인메모리 데이터베이스 — IMDB (In-Memory Database)"
+date = 2026-04-05
+
+[taxonomies]
+tags = ["studynote-database"]
+
+[extra]
+tags = ["studynote-database"]
++++
 
 > **핵심 인사이트**
-> 1. 인메모리 DB(IMDB)는 모든 [[001_dikw_pyramid|데이터]]를 RAM에 상주시켜 디스크 I/O를 완전 제거 — 전통 디스크 기반 DB 대비 [[489_raid_10_hybrid|10]]~1,000배 빠른 응답(마이크로초 단위)을 달성하며, [[191_transaction_concept_states|트랜잭션]] 처리([[327_hint_handoff|OLTP]]), [[456_caching|캐싱]], 실시간 분석에서 핵심 역할을 한다.
-> 2. IMDB의 핵심 과제는 내구성([[196_durability_permanent_storage|Durability]]) 확보 — 전원 장애 시 RAM [[001_dikw_pyramid|데이터]] 소실을 방지하기 위해 WAL([[236_wal_write_ahead_logging_protocol|Write-Ahead Logging]]), [[022_snapshot_backup_architecture|스냅샷]], 배터리 [[555_backup_and_restore_strategy|백업]] RAM(NVRAM) 등을 활용하며, Redis의 RDB/AOF가 대표적 해결책이다.
-> 3. RAM 가격 하락과 [[251_dram|DRAM]] 용량 증가로 IMDB 적용 범위 확대 — 수TB RAM 서버 등장으로 전통 [[209_data_warehouse_schema_on_write|DW]] 워크로드까지 IMDB로 처리 가능해졌으며, SAP HANA, VoltDB, [[542_redis|Redis]] Enterprise가 이 영역을 선도한다.
+> 1. 인메모리 DB(IMDB)는 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 RAM에 상주시켜 디스크 I/O를 완전 제거 — 전통 디스크 기반 DB 대비 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~1,000배 빠른 응답(마이크로초 단위)을 달성하며, [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 처리([OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/)), [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/), 실시간 분석에서 핵심 역할을 한다.
+> 2. IMDB의 핵심 과제는 내구성([Durability](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/)) 확보 — 전원 장애 시 RAM [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소실을 방지하기 위해 WAL([Write-Ahead Logging](/knowledge-base/studynote/05_database/04_transactions_concurrency/236_wal_write_ahead_logging_protocol/)), [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/), 배터리 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) RAM(NVRAM) 등을 활용하며, Redis의 RDB/AOF가 대표적 해결책이다.
+> 3. RAM 가격 하락과 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 용량 증가로 IMDB 적용 범위 확대 — 수TB RAM 서버 등장으로 전통 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 워크로드까지 IMDB로 처리 가능해졌으며, SAP HANA, VoltDB, [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) Enterprise가 이 영역을 선도한다.
 
 ---
 
@@ -110,11 +114,11 @@ VoltDB:
   WAL → 영구 스토리지
 ```
 
-> 📢 **섹션 요약 비유**: IMDB 내구성은 노트 [[555_backup_and_restore_strategy|백업]] — 책상 노트(RAM)는 지진(전원장애)에 사라지므로, 주기적으로 사진([[022_snapshot_backup_architecture|스냅샷]]=RDB) 찍거나 모든 수정 기록(AOF) 유지!
+> 📢 **섹션 요약 비유**: IMDB 내구성은 노트 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) — 책상 노트(RAM)는 지진(전원장애)에 사라지므로, 주기적으로 사진([스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)=RDB) 찍거나 모든 수정 기록(AOF) 유지!
 
 ---
 
-## Ⅲ. [[001_dikw_pyramid|데이터]] 구조와 활용
+## Ⅲ. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조와 활용
 
 ```
 Redis 데이터 구조:
@@ -161,11 +165,11 @@ Streams:
   사용: 이벤트 스트리밍, 로그
 ```
 
-> 📢 **섹션 요약 비유**: [[542_redis|Redis]] [[001_dikw_pyramid|데이터]] 구조는 다용도 도구 세트 — String(메모장), List(할일 목록), Hash(명함), Set(친구 목록), ZSet(순위표). 상황에 맞는 도구 선택!
+> 📢 **섹션 요약 비유**: [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조는 다용도 도구 세트 — String(메모장), List(할일 목록), Hash(명함), Set(친구 목록), ZSet(순위표). 상황에 맞는 도구 선택!
 
 ---
 
-## Ⅳ. [[456_caching|캐싱]] [[268_strategy_pattern|전략]]
+## Ⅳ. [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
 ```
 IMDB 캐싱 패턴:
@@ -213,11 +217,11 @@ Thundering Herd (Cache Stampede):
   - 소프트 TTL + 하드 TTL 이중 구조
 ```
 
-> 📢 **섹션 요약 비유**: [[456_caching|캐싱]] [[268_strategy_pattern|전략]]은 음식 보관 방법 — Cache-Aside는 먹을 때만 냉장고 [[396_validation|확인]], Write-Through는 만들자마자 냉동+냉장 동시, Write-Back은 일단 냉장고만!
+> 📢 **섹션 요약 비유**: [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 음식 보관 방법 — Cache-Aside는 먹을 때만 냉장고 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), Write-Through는 만들자마자 냉동+냉장 동시, Write-Back은 일단 냉장고만!
 
 ---
 
-## Ⅴ. 실무 시나리오 — 전자상거래 [[456_caching|캐싱]] 아키텍처
+## Ⅴ. 실무 시나리오 — 전자상거래 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 아키텍처
 
 ```
 전자상거래 Redis 캐싱 아키텍처:
@@ -268,7 +272,7 @@ Redis Cluster 구성:
   Flash Sale 트래픽 (초당 100만 요청) 처리
 ```
 
-> 📢 **섹션 요약 비유**: 전자상거래 Redis는 빠른 계산원 — DB(창고)에서 물건 꺼내는 대신, 자주 팔리는 상품(캐시)을 계산대([[542_redis|Redis]]) 앞에 미리 배치. 줄 서는 시간(응답) 1/20!
+> 📢 **섹션 요약 비유**: 전자상거래 Redis는 빠른 계산원 — DB(창고)에서 물건 꺼내는 대신, 자주 팔리는 상품(캐시)을 계산대([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/)) 앞에 미리 배치. 줄 서는 시간(응답) 1/20!
 
 ---
 
@@ -329,8 +333,8 @@ Redis Enterprise: 멀티티어
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. IMDB는 책상 위 필기 — 창고(디스크)에서 책 꺼내기 대신 이미 책상(RAM)에 펼쳐진 노트. 1,000배 빨리 읽을 수 있어요!
-2. [[542_redis|Redis]] 내구성은 노트 사진 찍기 — 책상 노트(RAM)가 지워지면 안 되니 주기적으로 사진([[022_snapshot_backup_architecture|스냅샷]]) 찍고 수정 기록(AOF) 저장!
-3. [[263_cache_hit_miss|캐시 히트]]는 신나는 빠름 — 95% 요청이 캐시에서 해결되면 DB는 5%만 일해요. 요청 20배 많아도 DB가 안 힘들어요!
+2. [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 내구성은 노트 사진 찍기 — 책상 노트(RAM)가 지워지면 안 되니 주기적으로 사진([스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)) 찍고 수정 기록(AOF) 저장!
+3. [캐시 히트](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)는 신나는 빠름 — 95% 요청이 캐시에서 해결되면 DB는 5%만 일해요. 요청 20배 많아도 DB가 안 힘들어요!
 
 ---
 
@@ -338,7 +342,7 @@ Redis Enterprise: 멀티티어
 
 **진행 상황**: 46 / 600
 
-← **이전**: [[045_relational_calculus|045. 관계 해석 — Relational Calculus]]
-**다음**: [[047_columnar_store_olap|047. 컬럼 기반 스토리지 — Columnar Store & OLAP]] →
+← **이전**: [045. 관계 해석 — Relational Calculus](/knowledge-base/studynote/05_database/01_db_architecture_relational/045_relational_calculus/)
+**다음**: [047. 컬럼 기반 스토리지 — Columnar Store & OLAP](/knowledge-base/studynote/05_database/01_db_architecture_relational/047_columnar_store_olap/) →
 
 ---

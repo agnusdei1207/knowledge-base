@@ -1,14 +1,18 @@
----
-title: 127. 온콜 관리 (On-Call Management) - SRE 장애 대응 당번 체계
-date: '2026-04-19'
-tags:
-- studynote-devops-sre
----
++++
+title = "127. 온콜 관리 (On-Call Management) - SRE 장애 대응 당번 체계"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-devops-sre"]
+
+[extra]
+tags = ["studynote-devops-sre"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 온콜(On-[[189_subroutine_call_return|Call]])은 **지정된 엔지니어가 일정 기간 동안 프로덕션 시스템의 장애·알림에 대응하는 당번 체계**이며, [[100_sre_site_reliability_engineering_error_budget|SRE]] 팀 운영의 핵심 실천이다.
+> 1. **본질**: 온콜(On-[Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/))은 **지정된 엔지니어가 일정 기간 동안 프로덕션 시스템의 장애·알림에 대응하는 당번 체계**이며, [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 팀 운영의 핵심 실천이다.
 > 2. **가치**: 온콜 없이는 **"누가 대응할 것인가"가 불분명**하여 장애 시 혼란이 발생하지만, 온콜 로테이션을 통해 **책임자가 명확하고 대응 시간(MTTA)이 최소화**된다.
-> 3. **판단 포인트**: 온콜 부담이 과도하면 번아웃·이직이 발생하므로, **온콜 빈도(주 1회 이하)·[[016_interrupt_mechanism|인터럽트]] 비율(25% 이하)·보상 [[164_policy|정책]]**이 [[386_sustainability_green_coding|지속 가능성]]의 핵심이다.
+> 3. **판단 포인트**: 온콜 부담이 과도하면 번아웃·이직이 발생하므로, **온콜 빈도(주 1회 이하)·[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 비율(25% 이하)·보상 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)**이 [지속 가능성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/386_sustainability_green_coding/)의 핵심이다.
 
 ---
 
@@ -39,11 +43,11 @@ tags:
 |:---|:---|
 | **로테이션 주기** | 1~2주 |
 | **야간 호출** | 주당 2회 이하 |
-| **[[016_interrupt_mechanism|인터럽트]] 비율** | **25% 이하** |
+| **[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 비율** | **25% 이하** |
 | **MTTA** | 5분 이내 |
 | **Postmortem** | 모든 주요 장애 후 작성 |
 
-- **📢 섹션 요약 비유**: [[016_interrupt_mechanism|인터럽트]] 25% 이하는 "근무 시간의 75%는 프로젝트 작업, 25%만 장애 대응"이다.
+- **📢 섹션 요약 비유**: [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 25% 이하는 "근무 시간의 75%는 프로젝트 작업, 25%만 장애 대응"이다.
 
 ---
 
@@ -53,15 +57,15 @@ tags:
 |:---|:---|:---|
 | **대응** | 혼란 (누가?) | **명확한 책임자** |
 | **시간** | 느림 | **MTTA 단축** |
-| **번아웃** | 특정인 과부하 | **로테이션 [[136_variance|분산]]** |
+| **번아웃** | 특정인 과부하 | **로테이션 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)** |
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 온콜 도구
-- **PagerDuty**: 알림 [[339_routing_overview_best_path_selection|라우팅]]·에스컬레이션.
-- **OpsGenie** (Atlassian): 온콜 [[208_schedule_history_transaction_execution_order|스케줄]]·알림.
+- **PagerDuty**: 알림 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)·에스컬레이션.
+- **OpsGenie** (Atlassian): 온콜 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)·알림.
 - **Incident.io**: 사고 관리 + 온콜.
 - **Slack/Teams**: 실시간 커뮤니케이션.
 
@@ -69,7 +73,7 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-온콜 관리는 **[[100_sre_site_reliability_engineering_error_budget|SRE]] 팀의 지속 가능한 장애 대응 체계**이며, [[685_toil_automation_sre|Toil]] 감소·자동화와 함께 엔지니어 번아웃을 예방하는 핵심이다.
+온콜 관리는 **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 팀의 지속 가능한 장애 대응 체계**이며, [Toil](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) 감소·자동화와 함께 엔지니어 번아웃을 예방하는 핵심이다.
 
 ---
 
@@ -81,7 +85,7 @@ tags:
 | **PagerDuty** | 알림·에스컬레이션 도구 |
 | **MTTA** | 알림 인지 시간 |
 | **Postmortem** | 장애 사후 분석 |
-| **[[685_toil_automation_sre|Toil]]** | 온콜에서 발생하는 반복 작업 |
+| **[Toil](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)** | 온콜에서 발생하는 반복 작업 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -112,7 +116,7 @@ tags:
 
 **진행 상황**: 127 / 373
 
-← **이전**: [[126_toil_sre|126. Toil (수동 운영 작업) - SRE의 자동화 대상 반복 작업]]
-**다음**: [[128_blameless_postmortem|128. Blameless Postmortem - 비난 없는 장애 사후 분석]] →
+← **이전**: [126. Toil (수동 운영 작업) - SRE의 자동화 대상 반복 작업](/knowledge-base/studynote/15_devops_sre/03_sre_observability/126_toil_sre/)
+**다음**: [128. Blameless Postmortem - 비난 없는 장애 사후 분석](/knowledge-base/studynote/15_devops_sre/03_sre_observability/128_blameless_postmortem/) →
 
 ---

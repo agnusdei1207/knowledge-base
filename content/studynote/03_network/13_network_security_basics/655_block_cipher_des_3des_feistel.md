@@ -1,21 +1,25 @@
----
-title: 655. 블록 암호 (Block Cipher)
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "655. 블록 암호 (Block Cipher)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 블록 암호는 [[1117_network_security_zero_trust_policy|네트워크 보안]] 기본에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: 블록 암호를 이해하면 [[002_confidentiality|기밀성]]과 [[003_integrity|무결성]] 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: 블록 암호는 [네트워크 보안](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 기본에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: 블록 암호를 이해하면 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- 평문 데이터를 1비트씩 처리하지 않고, **특정 길이(예: 64비트, 128비트)의 커다란 덩어리(Block) 단위로 뭉텅 썰어서 암호화와 복호화를 수행하는 [[653_symmetric_key_cryptography_fast_speed|대칭키 암호화]] 방식**입니다.
+- 평문 데이터를 1비트씩 처리하지 않고, **특정 길이(예: 64비트, 128비트)의 커다란 덩어리(Block) 단위로 뭉텅 썰어서 암호화와 복호화를 수행하는 [대칭키 암호화](/knowledge-base/studynote/03_network/13_network_security_basics/653_symmetric_key_cryptography_fast_speed/) 방식**입니다.
 - 평문을 암호문으로 바꿀 때, 한 번만 섞는 것이 아니라 여러 번의 복잡한 섞기 과정(Round, 라운드)을 빙글빙글 돌려서 평문과 암호문 사이의 수학적 상관관계를 완전히 박살 내버립니다(혼돈과 확산 원리).
 
 ```text
@@ -27,17 +31,17 @@ tags:
     └──▶ [AES]
 ```
 
-- **📢 섹션 요약 비유**: 블록 암호는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [[170_selectivity_cardinality_distribution_tuning|선택도]] 쉬워진다.
+- **📢 섹션 요약 비유**: 블록 암호는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-1970년대에 미국 정부(NIST)가 채택한 인류 역사상 가장 유명했던 [[459_quic_fec_forward_error_correction|초기]] 1세대 블록 암호 표준입니다.
+1970년대에 미국 정부(NIST)가 채택한 인류 역사상 가장 유명했던 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 1세대 블록 암호 표준입니다.
 
 ### 1. DES의 스펙과 구조 (페이스텔 구조)
 - **블록 크기**: 데이터를 **64비트** 단위 박스로 잘라서 넣습니다.
-- **키([[067_db_key_uniqueness_minimality|Key]]) 길이**: 64비트 키를 쓰지만 파리티 비트를 빼면 실제 **56비트** 길이의 비밀번호를 씁니다.
+- **키([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) 길이**: 64비트 키를 쓰지만 파리티 비트를 빼면 실제 **56비트** 길이의 비밀번호를 씁니다.
 - **구조**: 좌우 데이터를 반으로 쪼개서 크로스 교차시키고 함수(S-Box)를 먹이는 과정을 무려 16바퀴(16 라운드) 반복하는 **'페이스텔(Feistel)' 구조**를 발명해 내어, 당시로선 외계인도 못 푸는 철옹성을 만들었습니다.
 
 ### 2. DES의 처참한 몰락
@@ -59,38 +63,38 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-미국 정부가 다급해졌습니다. DES가 뚫렸는데, 당장 새로운 암호 체계([[656_aes_advanced_encryption_standard_rijndael|AES]])를 만들 시간이 없었고 은행들도 기존 장비를 다 버릴 수 없었습니다.
+미국 정부가 다급해졌습니다. DES가 뚫렸는데, 당장 새로운 암호 체계([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))를 만들 시간이 없었고 은행들도 기존 장비를 다 버릴 수 없었습니다.
 
-- **개념**: 기존의 [[086_des_data_encryption_standard|DES]] 기계를 그대로 쓰되, 평문을 통과시킬 때 **기계 3대를 일렬로 붙여서 3번 연속으로 돌려버리는(암호화 -> 복호화 -> 암호화) 무식하지만 확실한 땜질 처방**입니다.
+- **개념**: 기존의 [DES](/knowledge-base/studynote/09_security/02_crypto/086_des_data_encryption_standard/) 기계를 그대로 쓰되, 평문을 통과시킬 때 **기계 3대를 일렬로 붙여서 3번 연속으로 돌려버리는(암호화 -> 복호화 -> 암호화) 무식하지만 확실한 땜질 처방**입니다.
 - **효과**: 56비트 키를 3번 쓰니까 키 길이가 **168비트(또는 112비트)**로 늘어나는 효과가 생겨 해커가 뚫는 데 수십억 년이 걸리게 방어력을 뻥튀기했습니다.
 - **단점**: 기계를 3번이나 억지로 돌리니 소프트웨어 속도가 미친 듯이 느려져서 스마트폰 시대에 도저히 쓸 수 없었습니다. 차세대 AES가 나올 때까지 버틴 '임시방편' 모델이었습니다.
 
-블록 암호를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [[654_stream_cipher_rc4_chacha20|스트림 암호]]가 기반 조건을 만든다면, 블록 암호는 그 위에서 핵심 메커니즘을 구현하고, AES는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [[002_confidentiality|기밀성]]과 [[003_integrity|무결성]]에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+블록 암호를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [스트림 암호](/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/)가 기반 조건을 만든다면, 블록 암호는 그 위에서 핵심 메커니즘을 구현하고, AES는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [[654_stream_cipher_rc4_chacha20|스트림 암호]]의 기반 정리 | 블록 암호의 핵심 동작 | AES의 확장 적용 |
-| 자원 관점 | 기본 조건 확보 | [[002_confidentiality|기밀성]] 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 초점 | [스트림 암호](/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/)의 기반 정리 | 블록 암호의 핵심 동작 | AES의 확장 적용 |
+| 자원 관점 | 기본 조건 확보 | [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) 최적화 | 규모와 범위 확대 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: DES는 1970년대에 은행들이 쓰던 '비밀번호 4자리짜리 다이얼 금고'입니다. 옛날 사람 손으로는 풀기 힘들었지만, 요즘 도둑들은 컴퓨터 모터를 달아 4자리 숫자를 1초에 만 번씩 돌려버리니(슈퍼컴퓨터 무차별 대입) 5분이면 금고가 다 따였습니다. 다급해진 은행들은 임시방편으로 똑같은 자물쇠 3개를 겹쳐 달고 번호를 각각 다르게 설정했습니다([[087_3des|3DES]]). 금고는 다시 철옹성이 되었지만, 매번 문을 열 때마다 자물쇠를 3번이나 따야 해서 은행 직원(CPU)들이 느려터졌다고 불평하기 시작했습니다.
+- **📢 섹션 요약 비유**: DES는 1970년대에 은행들이 쓰던 '비밀번호 4자리짜리 다이얼 금고'입니다. 옛날 사람 손으로는 풀기 힘들었지만, 요즘 도둑들은 컴퓨터 모터를 달아 4자리 숫자를 1초에 만 번씩 돌려버리니(슈퍼컴퓨터 무차별 대입) 5분이면 금고가 다 따였습니다. 다급해진 은행들은 임시방편으로 똑같은 자물쇠 3개를 겹쳐 달고 번호를 각각 다르게 설정했습니다([3DES](/knowledge-base/studynote/09_security/02_crypto/087_3des/)). 금고는 다시 철옹성이 되었지만, 매번 문을 열 때마다 자물쇠를 3번이나 따야 해서 은행 직원(CPU)들이 느려터졌다고 불평하기 시작했습니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 블록 암호를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [[654_stream_cipher_rc4_chacha20|스트림 암호]] 수준의 기본 대책으로 충분한지, 아니면 블록 암호가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 AES와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 블록 암호를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [스트림 암호](/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/) 수준의 기본 대책으로 충분한지, 아니면 블록 암호가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 AES와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 현재 문제의 핵심이 [[002_confidentiality|기밀성]] 부족인지, [[003_integrity|무결성]] 악화인지 먼저 분리한다.
-2. 블록 암호가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [[396_validation|확인]]한다.
+1. 현재 문제의 핵심이 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) 부족인지, [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 악화인지 먼저 분리한다.
+2. 블록 암호가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
 3. 도입 후에는 인접 기술인 AES와의 연계 방식을 함께 검증한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 블록 암호의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- [[654_stream_cipher_rc4_chacha20|스트림 암호]]와의 경계를 정리하지 않아 중복 투자나 [[164_policy|정책]] 충돌을 만드는 설계
+- [스트림 암호](/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/)와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: 블록 암호를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -98,7 +102,7 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-블록 암호는 [[1117_network_security_zero_trust_policy|네트워크 보안]] 기본을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 [[002_confidentiality|기밀성]] 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [[656_aes_advanced_encryption_standard_rijndael|AES]], 자동화된 신뢰 체계, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 자동화된 신뢰 체계 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+블록 암호는 [네트워크 보안](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 기본을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/), 자동화된 신뢰 체계, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 자동화된 신뢰 체계 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 블록 암호는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -108,10 +112,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[654_stream_cipher_rc4_chacha20|스트림 암호]] | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [[303_authentication_authorization_patterns|인증]] ([[604_authentication_factors|Authentication]]) | 통신 상대가 진짜인지 [[396_validation|확인]]한다. |
+| [스트림 암호](/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) ([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/)) | 통신 상대가 진짜인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다. |
 | 암호화 (Encryption) | 데이터를 읽지 못하게 보호한다. |
-| [[656_aes_advanced_encryption_standard_rijndael|AES]] | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -125,12 +129,12 @@ tags:
     └──▶ [확장 B: 자동화된 신뢰 체계]
 ```
 
-블록 암호는 [[654_stream_cipher_rc4_chacha20|스트림 암호]]에서 출발해 현재 메커니즘을 정교화하고, 이후 AES와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+블록 암호는 [스트림 암호](/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/)에서 출발해 현재 메커니즘을 정교화하고, 이후 AES와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 비밀 편지를 보낼 때는 자물쇠와 비밀번호가 필요해요.
-2. 이 개념은 누가 진짜 친구인지 [[396_validation|확인]]하고, 편지가 바뀌지 않았는지도 살펴봐요.
+2. 이 개념은 누가 진짜 친구인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 편지가 바뀌지 않았는지도 살펴봐요.
 3. 그래서 나쁜 사람이 중간에 훔쳐보거나 바꾸기 어려워져요.
 
 ---
@@ -139,7 +143,7 @@ tags:
 
 **진행 상황**: 776 / 1120
 
-← **이전**: [[654_stream_cipher_rc4_chacha20|654. 스트림 암호 (Stream Cipher)]]
-**다음**: [[656_aes_advanced_encryption_standard_rijndael|656. AES (Advanced Encryption Standard)]] →
+← **이전**: [654. 스트림 암호 (Stream Cipher)](/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/)
+**다음**: [656. AES (Advanced Encryption Standard)](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) →
 
 ---

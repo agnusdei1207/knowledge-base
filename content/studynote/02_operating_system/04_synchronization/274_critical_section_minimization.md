@@ -1,25 +1,29 @@
----
-title: 274. 임계 구역 크기 최소화 기법 (Critical Section Minimization)
-date: '2026-05-09'
-tags:
-- studynote-operating-system
----
++++
+title = "274. 임계 구역 크기 최소화 기법 (Critical Section Minimization)"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[214_critical_section|임계 구역]] ([[214_critical_section|Critical Section]]) 크기 최소화는 [[397_multithreading|멀티스레딩]] 환경에서 락([[510_lock|Lock]])이 걸려있는 코드 블록 내부에 대기 시간, I/O 작업, 복잡한 연산을 밖으로 빼내어 오직 공유 자원의 [[194_consistency_database_integrity|일관성]] 유지에 필요한 최소한의 연산만 남기는 설계 패러다임이다.
-> 2. **가치**: 락 보유 시간을 최소화하면 코어 간 경합 ([[275_lock_contention_monitoring|Lock Contention]])이 획기적으로 줄어들어, 암달의 법칙 (Amdahl's Law)에 따라 프로그램 전체의 [[430_index_fast_full_scan|병렬]] 실행(Parallel Execution) 처리량이 극대화된다.
-> 3. **융합**: 객체 [[016_replication_factor|복제]](Copying), 지역 변수 활용(Local [[456_caching|Caching]]), 락 분할([[510_lock|Lock]] Striping), 메시지 패싱([[119_message_passing|Message Passing]]) 등과 융합하여, 락 프리([[256_lock_free_data_structures|Lock-free]])나 세밀한 [[212_synchronization_mechanisms|동기화]]([[399_fine_grained_multithreading|Fine-grained]] [[212_synchronization_mechanisms|Synchronization]])로 나아가는 중간 단계의 최적화 파이프라인 역할을 수행한다.
+> 1. **본질**: [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) ([Critical Section](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)) 크기 최소화는 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/) 환경에서 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))이 걸려있는 코드 블록 내부에 대기 시간, I/O 작업, 복잡한 연산을 밖으로 빼내어 오직 공유 자원의 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 유지에 필요한 최소한의 연산만 남기는 설계 패러다임이다.
+> 2. **가치**: 락 보유 시간을 최소화하면 코어 간 경합 ([Lock Contention](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/))이 획기적으로 줄어들어, 암달의 법칙 (Amdahl's Law)에 따라 프로그램 전체의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행(Parallel Execution) 처리량이 극대화된다.
+> 3. **융합**: 객체 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)(Copying), 지역 변수 활용(Local [Caching](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)), 락 분할([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) Striping), 메시지 패싱([Message Passing](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/)) 등과 융합하여, 락 프리([Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/))나 세밀한 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)([Fine-grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/) [Synchronization](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/))로 나아가는 중간 단계의 최적화 파이프라인 역할을 수행한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[[699_mutex_lock_sleep_wait|뮤텍스 락]]([[223_mutex|Mutex]])이나 [[222_spinlock|스핀락]]([[222_spinlock|Spinlock]])은 공유 자원의 동시 접근을 막는 강력한 수단이지만, 필연적으로 병목([[617_io_bottleneck|Bottleneck]]) 구간을 만든다. 이 구간에 머무는 시간이 길수록 다른 모든 [[092_thread_lwp|스레드]]는 하염없이 기다려야 한다.
+[뮤텍스 락](/knowledge-base/studynote/02_operating_system/11_exam_summary/699_mutex_lock_sleep_wait/)([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))이나 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)([Spinlock](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/))은 공유 자원의 동시 접근을 막는 강력한 수단이지만, 필연적으로 병목([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/)) 구간을 만든다. 이 구간에 머무는 시간이 길수록 다른 모든 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 하염없이 기다려야 한다.
 
-"[[214_critical_section|임계 구역]] 내의 코드는 순차적(Sequential)으로만 실행된다"는 절대 조건을 명심해야 한다. 결국, [[014_concurrency|동시성]] [[282_performance_tactics|성능]] 튜닝의 제1법칙은 **[[214_critical_section|임계 구역]]의 길이를 시간적·공간적으로 줄이는 것**이다.
+"[임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 내의 코드는 순차적(Sequential)으로만 실행된다"는 절대 조건을 명심해야 한다. 결국, [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝의 제1법칙은 **[임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)의 길이를 시간적·공간적으로 줄이는 것**이다.
 
-**💡 비유**: 인기 맛집의 협소한 주문/결제 창구([[214_critical_section|임계 구역]]). 손님이 창구 앞에서 메뉴를 한참 고르면 뒷사람은 무한 대기한다. 메뉴판을 밖에서 미리 보고, 창구에서는 결제만 10초 컷으로 끝내는 것이 크기 최소화의 핵심.
+**💡 비유**: 인기 맛집의 협소한 주문/결제 창구([임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)). 손님이 창구 앞에서 메뉴를 한참 고르면 뒷사람은 무한 대기한다. 메뉴판을 밖에서 미리 보고, 창구에서는 결제만 10초 컷으로 끝내는 것이 크기 최소화의 핵심.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -46,24 +50,24 @@ tags:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-**📢 섹션 요약 비유**: [[214_critical_section|임계 구역]] 최소화는 공중화장실 매너 — 화장실 안([[214_critical_section|임계 구역]])에서는 딱 볼일만 보고, 손 씻거나 머리 빗는 건 밖으로 나와 세면대에서 해야 많은 사람이 줄 서지 않고 이용할 수 있습니다.
+**📢 섹션 요약 비유**: [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 최소화는 공중화장실 매너 — 화장실 안([임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/))에서는 딱 볼일만 보고, 손 씻거나 머리 빗는 건 밖으로 나와 세면대에서 해야 많은 사람이 줄 서지 않고 이용할 수 있습니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 대표적인 최소화 [[268_strategy_pattern|전략]] 4선
+### 대표적인 최소화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 4선
 
-1. **[[015_지연_데이터_관점|지연]] 초기화 분리 ([[380_computational_graph_lazy_eager_execution|Lazy]] Initialization Outside [[510_lock|Lock]])**:
-   - 복잡하고 무거운 객체 [[087_process_state_transition|생성]] 로직은 [[214_critical_section|임계 구역]] 밖에서 지역 변수에 [[087_process_state_transition|생성]] 후 [[214_critical_section|임계 구역]] 내에서는 포인터만 교체.
+1. **[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 초기화 분리 ([Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Initialization Outside [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))**:
+   - 복잡하고 무거운 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 로직은 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 밖에서 지역 변수에 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 후 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 내에서는 포인터만 교체.
 2. **복사 및 교체 (Copy and Swap)**:
-   - 공유 자원의 복사본(Copy)을 만들어 락 밖에서 변경(Read/Modify)하고, [[214_critical_section|임계 구역]] 내에서는 갱신된 복사본으로 레퍼런스를 원자적으로 교체(Swap / [[768_cas_compare_and_swap_lock_free|CAS]]).
-3. **락 분할 ([[510_lock|Lock]] Striping / [[243_sharding_horizontal_scaling_database|Sharding]])**:
-   - [[055_array|배열]] 전체에 하나의 락을 거는 대신 [[001_dikw_pyramid|데이터]] 공간을 n개 파티션으로 나누고 락을 n개 두어 경합을 1/n로 줄힘. 선형적 [[430_index_fast_full_scan|병렬]] 처리.
-4. **결과 [[015_지연_데이터_관점|지연]] 반영 ([[389_bulk_insert_batching_optimization|Batching]] Updates)**:
-   - [[092_thread_lwp|스레드]]별 [[092_thread_lwp|스레드]] 로컬(Thread-Local) 저장소에 결과를 모았다가 [[214_critical_section|임계 구역]] 내에서 한 번에 뭉칫돈(Batch)으로 합병(Merge). 
+   - 공유 자원의 복사본(Copy)을 만들어 락 밖에서 변경(Read/Modify)하고, [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 내에서는 갱신된 복사본으로 레퍼런스를 원자적으로 교체(Swap / [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/)).
+3. **락 분할 ([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) Striping / [Sharding](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/))**:
+   - [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 전체에 하나의 락을 거는 대신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공간을 n개 파티션으로 나누고 락을 n개 두어 경합을 1/n로 줄힘. 선형적 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리.
+4. **결과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 반영 ([Batching](/knowledge-base/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/) Updates)**:
+   - [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)별 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 로컬(Thread-Local) 저장소에 결과를 모았다가 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 내에서 한 번에 뭉칫돈(Batch)으로 합병(Merge). 
 
-**📢 섹션 요약 비유**: 최소화 [[268_strategy_pattern|전략]]은 은행 송금 요령 — 창구 직원 앞에서 송금액 세지 말고, 미리 봉투(지역 변수)에 딱 담아온 다음, 창구에 '이거 입금이요(포인터 교체)'하고 떠나는 거예요!
+**📢 섹션 요약 비유**: 최소화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 은행 송금 요령 — 창구 직원 앞에서 송금액 세지 말고, 미리 봉투(지역 변수)에 딱 담아온 다음, 창구에 '이거 입금이요(포인터 교체)'하고 떠나는 거예요!
 
 ---
 
@@ -71,10 +75,10 @@ tags:
 
 | 락 최적화 기법 | 접근 철학 | 오버헤드 | 구현 난이도 |
 |:---|:---|:---|:---|
-| 거친 락 ([[398_coarse_grained_multithreading|Coarse-grained]]) | "일단 다 막고 보자" | 병목 매우 높음 | 매우 쉬움 |
+| 거친 락 ([Coarse-grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/398_coarse_grained_multithreading/)) | "일단 다 막고 보자" | 병목 매우 높음 | 매우 쉬움 |
 | 임계구역 최소화 | "꼭 필요한 것만 막자" | 경합 대폭 하락 | 보통 |
-| 세밀한 락 ([[399_fine_grained_multithreading|Fine-grained]]) | "위치별로 따로 막자" | 메모리/관리 오버헤드 증대 | 복잡함 (데드락 위험) |
-| 락 프리 ([[256_lock_free_data_structures|Lock-free]]) | "락 자체를 쓰지 말자" ([[768_cas_compare_and_swap_lock_free|CAS]]) | 구현 자체 구동 복잡, 특수 HW 명령 | 극히 높음 (ABA 문제 등) |
+| 세밀한 락 ([Fine-grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/)) | "위치별로 따로 막자" | 메모리/관리 오버헤드 증대 | 복잡함 (데드락 위험) |
+| 락 프리 ([Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)) | "락 자체를 쓰지 말자" ([CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/)) | 구현 자체 구동 복잡, 특수 HW 명령 | 극히 높음 (ABA 문제 등) |
 
 **📢 섹션 요약 비유**: 거친 락은 동네 통째 보수(다 막음), 임계구역 최소화는 골목 하나만 보수(보행 쉬움), 세밀한 락은 집집마다 개별 공사(꼬일 위험), 락 프리는 드론 작업(길을 아예 막지 않음)과도 같습니다.
 
@@ -83,25 +87,25 @@ tags:
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 시나리오**:
-1. **로깅 파이프라인 ([[526_security_logging_and_monitoring_failures|Logging]] [[082_pipeline|Pipeline]])**: [[092_thread_lwp|스레드]]가 직접 [[501_file_definition_logical_record|파일]] I/O에 락을 걸고 적으면 서버 전체 [[015_지연_데이터_관점|지연]] 발생. 락 안에서는 로그를 Queue에만 추가(수동)하고, 락 밖에서 비동기 I/O [[092_thread_lwp|스레드]]가 Queue를 빼가며 [[501_file_definition_logical_record|파일]]에 씀.
-2. **[[253_singleton_pattern_single_instance|싱글톤]]([[253_singleton_pattern_single_instance|Singleton]]) 이중 검사 락 ([[272_double_checked_locking|Double-Checked Locking]])**: 최초 락 진입 오버헤드를 줄이기 위해 락 시작 전 한 차례 조건(객체=null)을 검사해 이미 [[087_process_state_transition|생성]]된 경우 락 자체를 우회. (volatile 선언 필수!)
+1. **로깅 파이프라인 ([Logging](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/526_security_logging_and_monitoring_failures/) [Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/))**: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 직접 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O에 락을 걸고 적으면 서버 전체 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 발생. 락 안에서는 로그를 Queue에만 추가(수동)하고, 락 밖에서 비동기 I/O [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 Queue를 빼가며 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 씀.
+2. **[싱글톤](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/)([Singleton](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/)) 이중 검사 락 ([Double-Checked Locking](/knowledge-base/studynote/02_operating_system/04_synchronization/272_double_checked_locking/))**: 최초 락 진입 오버헤드를 줄이기 위해 락 시작 전 한 차례 조건(객체=null)을 검사해 이미 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 경우 락 자체를 우회. (volatile 선언 필수!)
 
-**[[128_water_scrum_fall_anti_pattern|안티패턴]]**:
-- **[[214_critical_section|임계 구역]] 내부에서의 외부 [[013_system_call|시스템 호출]]([[126_rpc|RPC]])**: 다른 마이크로서비스로 [[461_http_stateless_connection_oriented|HTTP]]/[[126_rpc|RPC]] 호출을 락 내부에서 하는 행위. 타 서비스가 [[573_timeout_retry_backoff_strategy|타임아웃]](3초 대기)을 유발하면 내 전체 서버의 모든 [[092_thread_lwp|스레드]]가 3초간 락을 잡고 All-Stop (동반 장애 [[507_acid_properties|트리거]]).
+**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**:
+- **[임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 내부에서의 외부 [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/)([RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/))**: 다른 마이크로서비스로 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/[RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/) 호출을 락 내부에서 하는 행위. 타 서비스가 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)(3초 대기)을 유발하면 내 전체 서버의 모든 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 3초간 락을 잡고 All-Stop (동반 장애 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)).
 
-**📢 섹션 요약 비유**: 락 안에서 인터넷 호출을 하는 건 공중전화 박스에서 전화를 건 채로 배달 주문이 올 때까지 30분씩 버티는 짓 — 뒤에 대기하는 모든 사람([[092_thread_lwp|스레드]])이 굶게 됩니다.
+**📢 섹션 요약 비유**: 락 안에서 인터넷 호출을 하는 건 공중전화 박스에서 전화를 건 채로 배달 주문이 올 때까지 30분씩 버티는 짓 — 뒤에 대기하는 모든 사람([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))이 굶게 됩니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-| 구분 | 거대 [[214_critical_section|임계 구역]] 사용 시 | 최소화 기법 적용 시 |
+| 구분 | 거대 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 사용 시 | 최소화 기법 적용 시 |
 |:---|:---|:---|
 | CPU 경합도 | 극심함 | 최소화됨 |
-| 암달의 법칙 순차 구간(S) | 증가 ([[430_index_fast_full_scan|병렬]] [[282_performance_tactics|성능]] 한계 도달) | 감소 (코어 증가 [[282_performance_tactics|성능]] 선형 상승) |
-| [[015_지연_데이터_관점|지연]] 장애 전파 [[130_probability|확률]] | 락 내부 I/O [[015_지연_데이터_관점|지연]]으로 무한대 파급 | 락 외부 처리라 파편화 차단됨 |
+| 암달의 법칙 순차 구간(S) | 증가 ([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계 도달) | 감소 (코어 증가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 선형 상승) |
+| [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 장애 전파 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) | 락 내부 I/O [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)으로 무한대 파급 | 락 외부 처리라 파편화 차단됨 |
 
-[[214_critical_section|임계 구역]]의 길이는 코드 라인 수가 아니라 '시간'이다. 느린 메모리 할당, I/O 작업, 값 비싼 연산 등 병목의 근원을 구조적으로 [[214_critical_section|임계 구역]] 외곽으로 빼내는 최소화 기법은, 안전성(Safety)과 [[282_performance_tactics|성능]](Liveness)을 동시에 달성하는 가장 보편적이고 위력적인 엔지니어링 튜닝 기술이다.
+[임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)의 길이는 코드 라인 수가 아니라 '시간'이다. 느린 메모리 할당, I/O 작업, 값 비싼 연산 등 병목의 근원을 구조적으로 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 외곽으로 빼내는 최소화 기법은, 안전성(Safety)과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(Liveness)을 동시에 달성하는 가장 보편적이고 위력적인 엔지니어링 튜닝 기술이다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -111,10 +115,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[272_double_checked_locking|더블 체크드 락킹]] ([[272_double_checked_locking|Double-Checked Locking]]) [[128_water_scrum_fall_anti_pattern|안티패턴]] 및 해결 (volatile) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| 세큐어 코딩에서의 [[212_synchronization_mechanisms|동기화]] 약점 ([[273_toctou|TOCTOU]]: Time of Check to Time of Use) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [[275_lock_contention_monitoring|락 경합]] ([[275_lock_contention_monitoring|Lock Contention]]) 모니터링 도구 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| 데드락 회피를 위한 [[276_lock_hierarchy|Lock Hierarchy]] ([[276_lock_hierarchy|락 순서화]]) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [더블 체크드 락킹](/knowledge-base/studynote/02_operating_system/04_synchronization/272_double_checked_locking/) ([Double-Checked Locking](/knowledge-base/studynote/02_operating_system/04_synchronization/272_double_checked_locking/)) [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 및 해결 (volatile) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| 세큐어 코딩에서의 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 약점 ([TOCTOU](/knowledge-base/studynote/02_operating_system/04_synchronization/273_toctou/): Time of Check to Time of Use) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [락 경합](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/) ([Lock Contention](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/)) 모니터링 도구 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| 데드락 회피를 위한 [Lock Hierarchy](/knowledge-base/studynote/02_operating_system/04_synchronization/276_lock_hierarchy/) ([락 순서화](/knowledge-base/studynote/02_operating_system/04_synchronization/276_lock_hierarchy/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -132,7 +136,7 @@ tags:
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [[214_critical_section|임계 구역]]은 그네 — 한 명의 친구가 타고 있으면 나머진 전부 줄을 서서 기다려야 해요.
+1. [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)은 그네 — 한 명의 친구가 타고 있으면 나머진 전부 줄을 서서 기다려야 해요.
 2. 그네 위에서 숙제까지 하면 뒤 친구들이 너무 오래 기다리겠죠? 그러니까 그네는 딱 흔드는 재미만 보고 내려오세요.
 3. 숙제나 간식 먹기 같은 다른 일은 그네 밖으로 꺼내서 따로 하는 것! 이게 락의 크기를 최소화하는 마법입니다.
 
@@ -142,7 +146,7 @@ tags:
 
 **진행 상황**: 274 / 800
 
-← **이전**: [[273_toctou|273. 세큐어 코딩에서의 동기화 약점 (TOCTOU: Time of Check to Time of Use)]]
-**다음**: [[275_lock_contention_monitoring|275. 락 경합 (Lock Contention) 모니터링 도구]] →
+← **이전**: [273. 세큐어 코딩에서의 동기화 약점 (TOCTOU: Time of Check to Time of Use)](/knowledge-base/studynote/02_operating_system/04_synchronization/273_toctou/)
+**다음**: [275. 락 경합 (Lock Contention) 모니터링 도구](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/) →
 
 ---

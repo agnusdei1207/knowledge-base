@@ -1,33 +1,37 @@
----
-title: 632. 벌루닝 (Ballooning) 하이퍼바이저 가상머신 동적 메모리 회수 기법 구조
-date: '2026-05-09'
-tags:
-- studynote-operating-system
----
++++
+title = "632. 벌루닝 (Ballooning) 하이퍼바이저 가상머신 동적 메모리 회수 기법 구조"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 벌루닝(Memory Ballooning)은 [[015_virtualization|가상화]] 환경에서 물리 메모리가 부족할 때, [[054_hypervisor|하이퍼바이저]]가 게스트 OS 내부에 심어둔 '풍선(Balloon Driver)'을 부풀려서 게스트가 안 쓰는 메모리를 자발적으로 반납하게 만드는 **동적 메모리 회수(Reclamation)** 기법이다.
-> 2. **메커니즘**: [[054_hypervisor|하이퍼바이저]]가 직접 게스트의 메모리를 뺏으면 게스트가 사용 중인 중요 [[001_dikw_pyramid|데이터]]를 날릴 위험이 있으므로, 게스트 OS의 메모리 관리자([[381_virtual_memory|가상 메모리]] 시스템)를 속여서 풍선에 메모리를 할당하게 한 뒤, 그 물리 [[286_page_frame|페이지]]([[095_hpa_horizontal_pod_autoscaler_kubernetes|HPA]])를 [[054_hypervisor|하이퍼바이저]]가 가져가 다른 VM에게 준다.
-> 3. **가치**: [[335_swapping|스와핑]]([[335_swapping|Swapping]])으로 인한 치명적 [[282_performance_tactics|성능]] 저하 없이 안전하게 메모리 오버커밋(Overcommit)을 달성할 수 있는 가장 스마트한 협력적 리소스 관리 기술이며, 현대 클라우드 [[015_virtualization|가상화]]의 핵심 필수 기능이다.
+> 1. **본질**: 벌루닝(Memory Ballooning)은 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 환경에서 물리 메모리가 부족할 때, [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 게스트 OS 내부에 심어둔 '풍선(Balloon Driver)'을 부풀려서 게스트가 안 쓰는 메모리를 자발적으로 반납하게 만드는 **동적 메모리 회수(Reclamation)** 기법이다.
+> 2. **메커니즘**: [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 직접 게스트의 메모리를 뺏으면 게스트가 사용 중인 중요 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 날릴 위험이 있으므로, 게스트 OS의 메모리 관리자([가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 시스템)를 속여서 풍선에 메모리를 할당하게 한 뒤, 그 물리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)([HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/))를 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 가져가 다른 VM에게 준다.
+> 3. **가치**: [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)([Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/))으로 인한 치명적 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 없이 안전하게 메모리 오버커밋(Overcommit)을 달성할 수 있는 가장 스마트한 협력적 리소스 관리 기술이며, 현대 클라우드 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)의 핵심 필수 기능이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 벌루닝은 [[054_hypervisor|하이퍼바이저]]([[713_kvm_over_ip|KVM]], ESXi 등)와 가상머신(Guest OS)이 상호 협력하여 메모리를 재분배하는 기술이다. 게스트 [[022_kernel_role|커널]]에 설치된 Balloon Driver(예: `virtio_balloon`)를 통해 작동한다.
+- **개념**: 벌루닝은 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)([KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/), ESXi 등)와 가상머신(Guest OS)이 상호 협력하여 메모리를 재분배하는 기술이다. 게스트 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 설치된 Balloon Driver(예: `virtio_balloon`)를 통해 작동한다.
 
-- **필요성 ([[054_hypervisor|하이퍼바이저]]의 딜레마 극복)**: 
-  - 물리 메모리 100GB 서버에 30GB 램을 가진 [[598_vm_migration_nic|VM]] 4개를 구동했다(총 120GB, 메모리 20GB 부족). 어느 순간 모든 VM이 메모리를 동시에 요구하면 호스트 서버의 메모리가 고갈된다.
-  - **맹점**: [[054_hypervisor|하이퍼바이저]]는 게스트 OS가 어떤 [[286_page_frame|페이지]]를 자주 쓰고 어떤 [[286_page_frame|페이지]]가 비어 있는지(Free List) 알 수 없다. 만약 [[054_hypervisor|하이퍼바이저]]가 아무 [[286_page_frame|페이지]]나 강제로 뺏어서 스왑(Swap)으로 보내면, 게스트 OS는 그 사실을 모른 채 해당 [[286_page_frame|페이지]]에 접근하다가 엄청난 [[282_performance_tactics|성능]] [[015_지연_데이터_관점|지연]](Double [[335_swapping|Swapping]])을 겪는다.
-  - **해결책**: 게스트 OS 스스로가 "내가 안 쓰는 메모리(또는 캐시)를 반납할게"라고 만들 수밖에 없다. 그래서 게스트 내부에 가상의 디바이스 드라이버(풍선)를 설치해, 이 풍선이 램을 빵빵하게 차지하게 만들고 그 공간을 [[054_hypervisor|하이퍼바이저]]가 회수하는 아이디어가 탄생했다.
+- **필요성 ([하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)의 딜레마 극복)**: 
+  - 물리 메모리 100GB 서버에 30GB 램을 가진 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 4개를 구동했다(총 120GB, 메모리 20GB 부족). 어느 순간 모든 VM이 메모리를 동시에 요구하면 호스트 서버의 메모리가 고갈된다.
+  - **맹점**: [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 게스트 OS가 어떤 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 자주 쓰고 어떤 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 비어 있는지(Free List) 알 수 없다. 만약 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 아무 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)나 강제로 뺏어서 스왑(Swap)으로 보내면, 게스트 OS는 그 사실을 모른 채 해당 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에 접근하다가 엄청난 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Double [Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/))을 겪는다.
+  - **해결책**: 게스트 OS 스스로가 "내가 안 쓰는 메모리(또는 캐시)를 반납할게"라고 만들 수밖에 없다. 그래서 게스트 내부에 가상의 디바이스 드라이버(풍선)를 설치해, 이 풍선이 램을 빵빵하게 차지하게 만들고 그 공간을 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 회수하는 아이디어가 탄생했다.
 
 - **발전 과정**:
-  1. **[[459_quic_fec_forward_error_correction|초기]] 오버커밋**: 맹목적인 Host [[335_swapping|Swapping]]. [[282_performance_tactics|성능]] 저하 극심.
-  2. **Ballooning 도입 (VMware 제안)**: VMware ESX에서 최초 도입 후 [[713_kvm_over_ip|KVM]](Virtio-balloon) 등 모든 [[054_hypervisor|하이퍼바이저]]로 확산.
-  3. **Auto-ballooning**: 호스트의 메모리 압박 상태에 따라 [[054_hypervisor|하이퍼바이저]]가 자동으로 풍선의 크기를 조절하는 동적 [[005_feedback_loop|피드백 루프]] 완성.
+  1. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 오버커밋**: 맹목적인 Host [Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/). [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 극심.
+  2. **Ballooning 도입 (VMware 제안)**: VMware ESX에서 최초 도입 후 [KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/)(Virtio-balloon) 등 모든 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)로 확산.
+  3. **Auto-ballooning**: 호스트의 메모리 압박 상태에 따라 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 자동으로 풍선의 크기를 조절하는 동적 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/) 완성.
 
-- **📢 섹션 요약 비유**: 강제로 뺏는 강도질(호스트 [[335_swapping|스와핑]]) 대신, 상대방이 스스로 주머니를 비우게 만드는 고도의 심리전(협력적 메모리 회수)입니다.
+- **📢 섹션 요약 비유**: 강제로 뺏는 강도질(호스트 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)) 대신, 상대방이 스스로 주머니를 비우게 만드는 고도의 심리전(협력적 메모리 회수)입니다.
 
 ---
 
@@ -37,16 +41,16 @@ tags:
 
 | 요소명 | 역할 | 작동 방식 | 비유 |
 |:---|:---|:---|:---|
-| **Balloon Driver** | 게스트 [[022_kernel_role|커널]]에 설치된 가상 [[495_device_driver|장치 드라이버]] (Virtio 기반) | [[054_hypervisor|하이퍼바이저]]의 명령을 받아 게스트 메모리 할당/해제 | 방 안의 마법 풍선 |
-| **Inflate (부풀리기)** | [[054_hypervisor|하이퍼바이저]]가 **메모리를 뺏을 때** (회수) | 드라이버가 게스트 [[022_kernel_role|커널]]에 메모리를 요청(alloc)하여 차지한 후, 그 [[323_physical_address|물리 주소]](PFN)를 호스트에 넘김 | 풍선에 바람 넣기 |
-| **Deflate (바람 빼기)**| [[054_hypervisor|하이퍼바이저]]가 **메모리를 돌려줄 때** (반환) | 호스트가 [[286_page_frame|페이지]]를 돌려주면, 드라이버가 게스트 [[022_kernel_role|커널]]에 할당했던 메모리를 반납(free) | 풍선 바람 빼기 |
-| **PFN ([[286_page_frame|Page Frame]] Number)**| 할당/회수의 기준이 되는 물리 [[286_page_frame|페이지]] 번호 | 게스트가 풍선에 준 메모리 주소 목록을 VMM과 공유 | 빈 공간 지도 |
+| **Balloon Driver** | 게스트 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 설치된 가상 [장치 드라이버](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/495_device_driver/) (Virtio 기반) | [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)의 명령을 받아 게스트 메모리 할당/해제 | 방 안의 마법 풍선 |
+| **Inflate (부풀리기)** | [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 **메모리를 뺏을 때** (회수) | 드라이버가 게스트 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 메모리를 요청(alloc)하여 차지한 후, 그 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)(PFN)를 호스트에 넘김 | 풍선에 바람 넣기 |
+| **Deflate (바람 빼기)**| [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 **메모리를 돌려줄 때** (반환) | 호스트가 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 돌려주면, 드라이버가 게스트 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 할당했던 메모리를 반납(free) | 풍선 바람 빼기 |
+| **PFN ([Page Frame](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Number)**| 할당/회수의 기준이 되는 물리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 번호 | 게스트가 풍선에 준 메모리 주소 목록을 VMM과 공유 | 빈 공간 지도 |
 
 ---
 
 ### Ballooning 동작 프로세스 (Inflate / Deflate)
 
-[[713_kvm_over_ip|KVM]]/QEMU 환경에서 `virtio_balloon` 드라이버를 이용한 회수 메커니즘이다.
+[KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/)/QEMU 환경에서 `virtio_balloon` 드라이버를 이용한 회수 메커니즘이다.
 
 ```text
   ┌───────────────────────────────────────────────────────────────────┐
@@ -82,7 +86,7 @@ tags:
   └───────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 벌루닝의 천재성은 "OS의 기본 메모리 관리 메커니즘을 100% 존중한다"는 데 있다. 드라이버가 메모리를 달라고 하면, 게스트 OS는 자신의 [[262_lru_page_replacement|LRU]]([[262_lru_page_replacement|Least Recently Used]]) 알고리즘을 돌려 가장 쓸모없는 [[286_page_frame|페이지]]([[286_page_frame|Page]] Cache)부터 비워서 준다. 만약 정말 줄 메모리가 없으면 게스트 OS가 스스로 [[335_swapping|스와핑]](Guest [[335_swapping|Swapping]])을 해서라도 억지로 자리를 마련해 준다. 이는 [[054_hypervisor|하이퍼바이저]]가 밖에서 맹목적으로 [[335_swapping|스와핑]](Host [[335_swapping|Swapping]])을 하는 것보다 천 배는 안전하고 효율적이다. 게스트 OS가 능동적으로 '안전한 쓰레기'를 먼저 버려주기 때문이다.
+**[다이어그램 해설]** 벌루닝의 천재성은 "OS의 기본 메모리 관리 메커니즘을 100% 존중한다"는 데 있다. 드라이버가 메모리를 달라고 하면, 게스트 OS는 자신의 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)([Least Recently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)) 알고리즘을 돌려 가장 쓸모없는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache)부터 비워서 준다. 만약 정말 줄 메모리가 없으면 게스트 OS가 스스로 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)(Guest [Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/))을 해서라도 억지로 자리를 마련해 준다. 이는 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 밖에서 맹목적으로 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)(Host [Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/))을 하는 것보다 천 배는 안전하고 효율적이다. 게스트 OS가 능동적으로 '안전한 쓰레기'를 먼저 버려주기 때문이다.
 
 - **📢 섹션 요약 비유**: 공장 컨베이어벨트가 어떤 순서로 부품을 받아 가공하고 내보내는지 설계도를 펼쳐 보는 것과 같다.
 
@@ -92,23 +96,23 @@ tags:
 
 ### 메모리 오버커밋 3단계 방어선
 
-[[054_hypervisor|하이퍼바이저]]는 메모리가 부족할 때 아래 3가지 무기를 순서대로 꺼낸다.
+[하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 메모리가 부족할 때 아래 3가지 무기를 순서대로 꺼낸다.
 
-| 방어선 | 기술 (명칭) | 특징 | [[282_performance_tactics|성능]] 영향 |
+| 방어선 | 기술 (명칭) | 특징 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 영향 |
 |:---|:---|:---|:---|
 | **1차 방어** | **KSM (Samepage Merging)** | 안 변하는 똑같은 메모리들을 하나로 병합. (투명함) | 백그라운드 구동, 약간의 CPU 소모 |
 | **2차 방어** | **Ballooning (벌루닝)** | 게스트 OS에게 램 반납을 강요. 게스트가 덜 중요한 캐시를 버림. | 캐시 미스 증가로 IO 속도 소폭 저하 |
-| **최후 수단** | **Host [[335_swapping|Swapping]] (호스트 [[335_swapping|스와핑]])**| 게스트의 의사와 무관하게 무자비하게 램을 디스크([[327_ssd|SSD]])로 내쫓음. | **Double [[335_swapping|Swapping]] 발생, 치명적 [[282_performance_tactics|성능]] 저하** |
+| **최후 수단** | **Host [Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/) (호스트 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/))**| 게스트의 의사와 무관하게 무자비하게 램을 디스크([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))로 내쫓음. | **Double [Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/) 발생, 치명적 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하** |
 
-**Double [[335_swapping|Swapping]] (이중 [[335_swapping|스와핑]]) 이란?**
-호스트 [[335_swapping|스와핑]]의 치명적 결함이다. [[054_hypervisor|하이퍼바이저]]가 VM의 [[286_page_frame|페이지]] A를 디스크로 내쫓았다. 그런데 게스트 OS가 그 [[286_page_frame|페이지]] A를 다시 디스크(가상 디스크)로 스왑 아웃하려고 시도한다. 게스트 OS가 [[286_page_frame|페이지]] A를 읽으려 하자 [[054_hypervisor|하이퍼바이저]]는 물리 디스크에서 램으로 이를 복원(1차 I/O)해준다. 복원되자마자 게스트 OS는 그걸 다시 가상 디스크(결국 물리 디스크)로 기록(2차 I/O)해버린다. 단 하나의 작업을 위해 무의미한 디스크 I/O가 폭증하며 서버가 죽어버리는 현상이다. 벌루닝은 게스트가 직접 [[335_swapping|스와핑]]을 통제하게 함으로써 이를 방지한다.
+**Double [Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/) (이중 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)) 이란?**
+호스트 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)의 치명적 결함이다. [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 VM의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) A를 디스크로 내쫓았다. 그런데 게스트 OS가 그 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) A를 다시 디스크(가상 디스크)로 스왑 아웃하려고 시도한다. 게스트 OS가 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) A를 읽으려 하자 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 물리 디스크에서 램으로 이를 복원(1차 I/O)해준다. 복원되자마자 게스트 OS는 그걸 다시 가상 디스크(결국 물리 디스크)로 기록(2차 I/O)해버린다. 단 하나의 작업을 위해 무의미한 디스크 I/O가 폭증하며 서버가 죽어버리는 현상이다. 벌루닝은 게스트가 직접 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)을 통제하게 함으로써 이를 방지한다.
 
 ### 과목 융합 관점
 
-- **[[001_operating_system_purpose|운영체제]] (OS)**: 벌루닝은 OS의 [[381_virtual_memory|가상 메모리]]([[381_virtual_memory|Virtual Memory]]) 및 디맨드 [[259_paging|페이징]]([[255_demand_paging|Demand Paging]]) 철학을 역으로 이용한 해킹에 가깝다. 디바이스 드라이버의 탈을 쓴 [[022_kernel_role|커널]] 모듈이 OS의 메모리 할당기(Buddy Allocator)를 쥐어짜는 구조다.
-- **클라우드 (Cloud)**: [[008_private_cloud|프라이빗 클라우드]](OpenStack 등) 자원 설계 시 vCPU는 1:4 (물리:가상)까지 오버커밋을 허용하지만, 메모리 오버커밋은 1:1.2 이상을 넘기지 않는 것이 불문율이다. 그 20%의 여유를 안전하게 만들어주는 것이 바로 Ballooning 메커니즘이다.
+- **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (OS)**: 벌루닝은 OS의 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)([Virtual Memory](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)) 및 디맨드 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)([Demand Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)) 철학을 역으로 이용한 해킹에 가깝다. 디바이스 드라이버의 탈을 쓴 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모듈이 OS의 메모리 할당기(Buddy Allocator)를 쥐어짜는 구조다.
+- **클라우드 (Cloud)**: [프라이빗 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/008_private_cloud/)(OpenStack 등) 자원 설계 시 vCPU는 1:4 (물리:가상)까지 오버커밋을 허용하지만, 메모리 오버커밋은 1:1.2 이상을 넘기지 않는 것이 불문율이다. 그 20%의 여유를 안전하게 만들어주는 것이 바로 Ballooning 메커니즘이다.
 
-- **📢 섹션 요약 비유**: 밖에서 무작정 창고 물건을 빼버리면 나중에 찾을 때 대혼란(이중 [[335_swapping|스와핑]])이 오지만, 창고 주인(게스트 OS)에게 직접 안 쓰는 물건을 버리라고 하면 제일 안전하게 공간(벌루닝)이 확보됩니다.
+- **📢 섹션 요약 비유**: 밖에서 무작정 창고 물건을 빼버리면 나중에 찾을 때 대혼란(이중 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/))이 오지만, 창고 주인(게스트 OS)에게 직접 안 쓰는 물건을 버리라고 하면 제일 안전하게 공간(벌루닝)이 확보됩니다.
 
 ---
 
@@ -116,13 +120,13 @@ tags:
 
 ### 실무 시나리오
 
-1. **시나리오 — 클라우드 노드(Host) 메모리 99% 도달 시 긴급 조치**: 사내 [[008_private_cloud|프라이빗 클라우드]]([[713_kvm_over_ip|KVM]] 기반) 물리 호스트의 가용 램이 1% 미만으로 떨어져 [[036_kernel_panic|커널 패닉]] 직전의 긴급 상황. 
+1. **시나리오 — 클라우드 노드(Host) 메모리 99% 도달 시 긴급 조치**: 사내 [프라이빗 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/008_private_cloud/)([KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/) 기반) 물리 호스트의 가용 램이 1% 미만으로 떨어져 [커널 패닉](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/) 직전의 긴급 상황. 
    - **대응**: 관리자는 `virsh` 명령어나 OpenStack CLI를 통해 즉시 메모리를 많이 차지하고 있지만 실제 활성 트래픽이 적은 VM들을 타겟으로 Balloon Inflate 명령(예: `virsh setmem <domain> <size>`)을 수동으로 내린다. 
-   - **결과**: 각 [[598_vm_migration_nic|VM]] 내부의 Virtio-balloon 드라이버가 즉시 램을 게스트 [[022_kernel_role|커널]]로부터 빼앗아 호스트에 반환하며, 호스트는 즉각적으로 수십 GB의 Free Memory를 확보하여 [[157_oom_killer|OOM]]([[157_oom_killer|Out of Memory]]) Killer 발동을 피할 수 있다.
+   - **결과**: 각 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 내부의 Virtio-balloon 드라이버가 즉시 램을 게스트 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로부터 빼앗아 호스트에 반환하며, 호스트는 즉각적으로 수십 GB의 Free Memory를 확보하여 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)([Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) Killer 발동을 피할 수 있다.
 
-2. **시나리오 — 벌루닝으로 인한 Java / DB 가상머신 [[282_performance_tactics|성능]] 붕괴**: Java Spring 애플리케이션(JVM)과 [[188_pl_sql_t_sql_procedural|Oracle]] DB가 도는 VM에서 갑자기 극심한 응답 [[015_지연_데이터_관점|지연]]([[141_latency|Latency]])과 타임아웃이 발생. 호스트에서 Auto-ballooning이 동작 중이었음.
-   - **원인 분석**: JVM(힙 메모리)과 DB(SGA 버퍼)는 부팅 시 메모리를 미리 꽉 잡고(Pre-allocation) 스스로 메모리를 관리하는 특성이 있다. [[054_hypervisor|하이퍼바이저]]가 벌루닝으로 램을 뺏어버리면, OS는 줄 메모리가 없으니 강제로 JVM이나 DB가 쓰는 램을 [[335_swapping|스와핑]]해 버린다. 이로 인해 메모리 안에서 돌아야 할 DB가 디스크를 읽게 되어 시스템이 붕괴한다.
-   - **대응 (기술사적 가이드)**: [[282_performance_tactics|성능]]이 핵심 보장되어야 하는 [[002_database_definition|데이터베이스]]나 In-memory 캐시([[542_redis|Redis]]), JVM 워크로드가 올라가는 VM은 **반드시 Auto-ballooning 대상에서 제외(Disable)**하고 메모리를 고정(Static Allocation / Reservation 100%)해야 한다.
+2. **시나리오 — 벌루닝으로 인한 Java / DB 가상머신 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 붕괴**: Java Spring 애플리케이션(JVM)과 [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) DB가 도는 VM에서 갑자기 극심한 응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))과 타임아웃이 발생. 호스트에서 Auto-ballooning이 동작 중이었음.
+   - **원인 분석**: JVM(힙 메모리)과 DB(SGA 버퍼)는 부팅 시 메모리를 미리 꽉 잡고(Pre-allocation) 스스로 메모리를 관리하는 특성이 있다. [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 벌루닝으로 램을 뺏어버리면, OS는 줄 메모리가 없으니 강제로 JVM이나 DB가 쓰는 램을 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)해 버린다. 이로 인해 메모리 안에서 돌아야 할 DB가 디스크를 읽게 되어 시스템이 붕괴한다.
+   - **대응 (기술사적 가이드)**: [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 핵심 보장되어야 하는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)나 In-memory 캐시([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/)), JVM 워크로드가 올라가는 VM은 **반드시 Auto-ballooning 대상에서 제외(Disable)**하고 메모리를 고정(Static Allocation / Reservation 100%)해야 한다.
 
 ### 의사결정 및 튜닝 플로우
 
@@ -151,13 +155,13 @@ tags:
   └───────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 벌루닝은 훌륭한 구명조끼지만 평소에 입고 다니면 덥고 무겁다([[282_performance_tactics|성능]] 저하). 개발 및 테스트 환경, 웹 프론트엔드 서버처럼 무상태([[239_stateless_redis|Stateless]]) 워크로드에는 벌루닝을 적극 켜서 서버 집적도를 높이는 것이 돈을 버는 길이다. 하지만 DB 같은 덩치 큰 워크로드에 벌루닝이 들어오면 대재앙이 일어난다. 아키텍트는 워크로드의 특성에 따라 클러스터를 분리(Tiering)하여 정책을 다르게 매핑해야 한다.
+**[다이어그램 해설]** 벌루닝은 훌륭한 구명조끼지만 평소에 입고 다니면 덥고 무겁다([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하). 개발 및 테스트 환경, 웹 프론트엔드 서버처럼 무상태([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) 워크로드에는 벌루닝을 적극 켜서 서버 집적도를 높이는 것이 돈을 버는 길이다. 하지만 DB 같은 덩치 큰 워크로드에 벌루닝이 들어오면 대재앙이 일어난다. 아키텍트는 워크로드의 특성에 따라 클러스터를 분리(Tiering)하여 정책을 다르게 매핑해야 한다.
 
-### 도입 [[435_checklist_based_testing|체크리스트]]
-- **운영 체제 지원**: 구형 리눅스 [[022_kernel_role|커널]]이나 커스텀 OS의 경우 `virtio_balloon` 모듈이 없어 [[054_hypervisor|하이퍼바이저]]가 Inflate 명령을 내려도 무시당한다(Silent Failure). 전체 [[598_vm_migration_nic|VM]] 템플릿 이미지(Golden Image)에 드라이버가 내장되었는지 검증해야 한다.
-- **최소 메모리(Min Memory) 보장**: 풍선을 너무 크게 불면 게스트 OS 자체가 메모리 부족([[157_oom_killer|OOM]])으로 죽어버린다. 반드시 VM의 생존을 위한 최소 보장 메모리 한계선(Minimum Limit)을 설정했는가?
+### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+- **운영 체제 지원**: 구형 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이나 커스텀 OS의 경우 `virtio_balloon` 모듈이 없어 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 Inflate 명령을 내려도 무시당한다(Silent Failure). 전체 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 템플릿 이미지(Golden Image)에 드라이버가 내장되었는지 검증해야 한다.
+- **최소 메모리(Min Memory) 보장**: 풍선을 너무 크게 불면 게스트 OS 자체가 메모리 부족([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))으로 죽어버린다. 반드시 VM의 생존을 위한 최소 보장 메모리 한계선(Minimum Limit)을 설정했는가?
 
-- **📢 섹션 요약 비유**: 벌루닝은 '마이너스 통장'과 같습니다. 꼭 필요할 때 유동성 위기를 넘길 수 있지만, 평소에 돈을 꽉 쥐고 굴리는 큰 부자([[002_database_definition|데이터베이스]])에게 마이너스 통장을 강제하면 오히려 이자([[282_performance_tactics|성능]] 저하) 때문에 파산합니다.
+- **📢 섹션 요약 비유**: 벌루닝은 '마이너스 통장'과 같습니다. 꼭 필요할 때 유동성 위기를 넘길 수 있지만, 평소에 돈을 꽉 쥐고 굴리는 큰 부자([데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/))에게 마이너스 통장을 강제하면 오히려 이자([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하) 때문에 파산합니다.
 
 ---
 
@@ -165,20 +169,20 @@ tags:
 
 ### 정량/정성 기대효과
 
-| 구분 | 벌루닝 미지원 (순수 Host [[335_swapping|Swapping]]) | 벌루닝 적용 (협력적 회수) | 개선 효과 |
+| 구분 | 벌루닝 미지원 (순수 Host [Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)) | 벌루닝 적용 (협력적 회수) | 개선 효과 |
 |:---|:---|:---|:---|
-| **정량 (디스크 I/O)**| 호스트/게스트 이중 [[335_swapping|스와핑]]으로 I/O 폭증 | 게스트 OS 주도의 지능적 단일 [[335_swapping|스와핑]] | 불필요한 스토리지 I/O 부하 **90% 제거** |
+| **정량 (디스크 I/O)**| 호스트/게스트 이중 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)으로 I/O 폭증 | 게스트 OS 주도의 지능적 단일 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/) | 불필요한 스토리지 I/O 부하 **90% 제거** |
 | **정량 (집적도)** | 안전 마진 확보로 RAM의 70%만 판매 가능 | 남는 램 회수로 RAM의 120% 오버커밋 | 노드당 가상머신 구동 밀도 **1.5배 증가** |
-| **정성 (안정성)** | [[157_oom_killer|OOM]] Killer에 의한 임의 [[598_vm_migration_nic|VM]] 강제 종료 위험 | 게스트 스스로 불필요한 캐시 반납 | [[090_service_kubernetes_network_load_balancing|서비스]] 중단(Downtime) 없는 평화로운 자원 회수 |
+| **정성 (안정성)** | [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer에 의한 임의 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 강제 종료 위험 | 게스트 스스로 불필요한 캐시 반납 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단(Downtime) 없는 평화로운 자원 회수 |
 
 ### 미래 전망
-- **Free [[286_page_frame|Page]] Reporting 가속**: 최신 QEMU/KVM과 리눅스 [[022_kernel_role|커널]]에서는 [[054_hypervisor|하이퍼바이저]]가 명령을 내리기 전에, 게스트 OS가 비어있는 [[286_page_frame|페이지]](Free [[286_page_frame|Page]])를 백그라운드에서 [[054_hypervisor|하이퍼바이저]]에게 먼저 알려서 호스트 램을 넉넉하게 유지시키는 "선제적 벌루닝 (Proactive Ballooning / Free [[286_page_frame|Page]] Hinting)" 기술이 표준화되고 있다.
-- **[[561_container_based_deployment|컨테이너]] 환경과의 융합**: [[205_kubernetes_container_orchestration|Kubernetes]] 기반의 [[062_cgroups|cgroups]] v2에서는 벌루닝과 유사하게 [[561_container_based_deployment|컨테이너]]의 메모리 압박 상태(Memory Pressure)를 PSI(Pressure Stall Information) 매트릭스를 통해 감지하고, OOM이 나기 전에 애플리케이션 자체가 메모리를 비우게([[380_garbage_collection|Garbage Collection]] 유도) 만드는 유저 스페이스 협력 모델이 연구되고 있다.
+- **Free [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Reporting 가속**: 최신 QEMU/KVM과 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서는 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 명령을 내리기 전에, 게스트 OS가 비어있는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(Free [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))를 백그라운드에서 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)에게 먼저 알려서 호스트 램을 넉넉하게 유지시키는 "선제적 벌루닝 (Proactive Ballooning / Free [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Hinting)" 기술이 표준화되고 있다.
+- **[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 환경과의 융합**: [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 기반의 [cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) v2에서는 벌루닝과 유사하게 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 메모리 압박 상태(Memory Pressure)를 PSI(Pressure Stall Information) 매트릭스를 통해 감지하고, OOM이 나기 전에 애플리케이션 자체가 메모리를 비우게([Garbage Collection](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/) 유도) 만드는 유저 스페이스 협력 모델이 연구되고 있다.
 
 ### 결론
-벌루닝(Memory Ballooning)은 [[001_operating_system_purpose|운영체제]]가 자신의 메모리를 어떻게 관리하는지에 대한 깊은 통찰 없이는 나올 수 없었던 창의적인 해킹 기법이다. 가상머신의 완벽한 샌드박스 격리([[195_isolation_concurrency_control|Isolation]])라는 대원칙을 깨지 않고도, 가상의 디바이스 드라이버라는 트로이 목마를 통해 [[054_hypervisor|하이퍼바이저]]와 게스트 OS가 우아하게 소통(협력)하게 만들었다. 클라우드 컴퓨팅의 눈부신 경제성은 이 보이지 않는 '풍선'들의 끊임없는 숨쉬기 덕분에 유지되고 있다.
+벌루닝(Memory Ballooning)은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 자신의 메모리를 어떻게 관리하는지에 대한 깊은 통찰 없이는 나올 수 없었던 창의적인 해킹 기법이다. 가상머신의 완벽한 샌드박스 격리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))라는 대원칙을 깨지 않고도, 가상의 디바이스 드라이버라는 트로이 목마를 통해 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)와 게스트 OS가 우아하게 소통(협력)하게 만들었다. 클라우드 컴퓨팅의 눈부신 경제성은 이 보이지 않는 '풍선'들의 끊임없는 숨쉬기 덕분에 유지되고 있다.
 
-- **📢 섹션 요약 비유**: 닫힌 철문(가상머신 격리)을 부수지 않고도, 문틈으로 작은 풍선(드라이버)을 밀어 넣어 방 안의 공간(메모리)을 자유자재로 조절하는, [[015_virtualization|가상화]] 아키텍처의 가장 부드럽고 강력한 마술입니다.
+- **📢 섹션 요약 비유**: 닫힌 철문(가상머신 격리)을 부수지 않고도, 문틈으로 작은 풍선(드라이버)을 밀어 넣어 방 안의 공간(메모리)을 자유자재로 조절하는, [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 아키텍처의 가장 부드럽고 강력한 마술입니다.
 
 ---
 
@@ -186,10 +190,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[630_vswitch_vnf_overhead|가상 스위치]] ([[630_vswitch_vnf_overhead|vSwitch]]) 패킷 오버헤드 [[866_vnf_virtual_network_function_software_appliance|VNF]] 구조 적용 방식 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| 메모리 KSM ([[631_ksm_kernel_samepage_merging|Kernel Samepage Merging]]) 가상머신 간 중복 메모리 통합 절약 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [[633_live_patching_ksplice|무정전 업데이트]] (Ksplice 등 [[022_kernel_role|커널]] 재부팅 없는 패치망 체계 구조) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| 병행 프로그래밍 락 프리 [[057_stack|스택]]/큐 설계 [[001_dikw_pyramid|데이터]] 구조 메커니즘 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) ([vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)) 패킷 오버헤드 [VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/) 구조 적용 방식 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| 메모리 KSM ([Kernel Samepage Merging](/knowledge-base/studynote/02_operating_system/10_security/631_ksm_kernel_samepage_merging/)) 가상머신 간 중복 메모리 통합 절약 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [무정전 업데이트](/knowledge-base/studynote/02_operating_system/10_security/633_live_patching_ksplice/) (Ksplice 등 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 재부팅 없는 패치망 체계 구조) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| 병행 프로그래밍 락 프리 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)/큐 설계 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조 메커니즘 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -217,7 +221,7 @@ tags:
 
 **진행 상황**: 632 / 800
 
-← **이전**: [[631_ksm_kernel_samepage_merging|631. 메모리 KSM (Kernel Samepage Merging) 가상머신 간 중복 메모리 통합 절약]]
-**다음**: [[633_live_patching_ksplice|633. 무정전 업데이트 (Ksplice 등 커널 재부팅 없는 패치망 체계 구조)]] →
+← **이전**: [631. 메모리 KSM (Kernel Samepage Merging) 가상머신 간 중복 메모리 통합 절약](/knowledge-base/studynote/02_operating_system/10_security/631_ksm_kernel_samepage_merging/)
+**다음**: [633. 무정전 업데이트 (Ksplice 등 커널 재부팅 없는 패치망 체계 구조)](/knowledge-base/studynote/02_operating_system/10_security/633_live_patching_ksplice/) →
 
 ---

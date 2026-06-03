@@ -1,22 +1,26 @@
----
-title: 624. LwM2M (Lightweight M2M) 표준 프로토콜 관리 메커니즘
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "624. LwM2M (Lightweight M2M) 표준 프로토콜 관리 메커니즘"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[121_lwm2m_lightweight_m2m|LwM2M]] 표준 [[295_protocol_field_tcp_udp_icmp|프로토콜]] 관리 메커니즘은 [[101_iot_concept|IoT]], [[604_wpan_wireless_personal_area_network|WPAN]], 엣지에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: [[121_lwm2m_lightweight_m2m|LwM2M]] 표준 [[295_protocol_field_tcp_udp_icmp|프로토콜]] 관리 메커니즘을 이해하면 전력 효율과 현장 반응성 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: [LwM2M](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/121_lwm2m_lightweight_m2m/) 표준 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 관리 메커니즘은 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), [WPAN](/knowledge-base/studynote/03_network/12_iot_wpan_edge/604_wpan_wireless_personal_area_network/), 엣지에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: [LwM2M](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/121_lwm2m_lightweight_m2m/) 표준 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 관리 메커니즘을 이해하면 전력 효율과 현장 반응성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: OMA(Open Mobile Alliance)에서 제정한 **[[101_iot_concept|사물인터넷]]([[101_iot_concept|IoT]]) 기기를 위한 '원격 장치 관리(Device [[372_management|Management]])' 표준 [[295_protocol_field_tcp_udp_icmp|프로토콜]]**입니다.
-- **필요성**: MQTT나 CoAP가 기기들 간에 "온도 [[001_dikw_pyramid|데이터]]"를 주고받는 대화(메시징)에 치중했다면, LwM2M은 기기 자체의 **"배터리가 얼마나 남았는지, 오류는 없는지, [[032_firmware|펌웨어]] 버전은 몇인지"** 기기의 '건강 상태와 [[009_config|설정]]'을 중앙에서 관리하기 위해 만들어졌습니다.
+- **개념**: OMA(Open Mobile Alliance)에서 제정한 **[사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)) 기기를 위한 '원격 장치 관리(Device [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))' 표준 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)**입니다.
+- **필요성**: MQTT나 CoAP가 기기들 간에 "온도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"를 주고받는 대화(메시징)에 치중했다면, LwM2M은 기기 자체의 **"배터리가 얼마나 남았는지, 오류는 없는지, [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 버전은 몇인지"** 기기의 '건강 상태와 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)'을 중앙에서 관리하기 위해 만들어졌습니다.
 
 ```text
 [CoAP]
@@ -27,15 +31,15 @@ tags:
     └──▶ [oneM2M 아키텍처]
 ```
 
-- **📢 섹션 요약 비유**: [[121_lwm2m_lightweight_m2m|LwM2M]] 표준 [[295_protocol_field_tcp_udp_icmp|프로토콜]] 관리 메커니즘은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [[170_selectivity_cardinality_distribution_tuning|선택도]] 쉬워진다.
+- **📢 섹션 요약 비유**: [LwM2M](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/121_lwm2m_lightweight_m2m/) 표준 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 관리 메커니즘은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 - LwM2M은 완전히 밑바닥부터 새로 만든 것이 아닙니다. 
-- 바로 전 문서(623번)에서 배운 **가장 빠르고 가벼운 [[406_udp_user_datagram_protocol_connectionless_fast|UDP]] 기반 [[295_protocol_field_tcp_udp_icmp|프로토콜]]인 [[120_coap_constrained_application_protocol|CoAP]]([[120_coap_constrained_application_protocol|Constrained Application Protocol]])의 통신망(RESTful 구조)을 그대로 뼈대로 가져와서, 그 위에 '기기 관리용 [[158_instruction|명령어]]' 규격을 얹은 것**입니다.
-- 즉, CoAP의 가벼움(초저전력, [[347_compaction|압축]] 헤더)을 그대로 누리면서 효율적으로 기기를 통제합니다.
+- 바로 전 문서(623번)에서 배운 **가장 빠르고 가벼운 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 기반 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)인 [CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/)([Constrained Application Protocol](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/))의 통신망(RESTful 구조)을 그대로 뼈대로 가져와서, 그 위에 '기기 관리용 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)' 규격을 얹은 것**입니다.
+- 즉, CoAP의 가벼움(초저전력, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 헤더)을 그대로 누리면서 효율적으로 기기를 통제합니다.
 
 ```text
 [CoAP]
@@ -46,52 +50,52 @@ tags:
     └──▶ [oneM2M 아키텍처]
 ```
 
-- **📢 섹션 요약 비유**: [[121_lwm2m_lightweight_m2m|LwM2M]] 표준 [[295_protocol_field_tcp_udp_icmp|프로토콜]] 관리 메커니즘의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
+- **📢 섹션 요약 비유**: [LwM2M](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/121_lwm2m_lightweight_m2m/) 표준 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 관리 메커니즘의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-LwM2M은 전 세계 모든 [[101_iot_concept|IoT]] 기기의 상태를 숫자표(오브젝트 모델)로 완벽히 통일시켰습니다.
+LwM2M은 전 세계 모든 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기의 상태를 숫자표(오브젝트 모델)로 완벽히 통일시켰습니다.
 - **Object ID 3번 (Device)**: 기기의 하드웨어 정보 (제조사, 모델명, 시리얼번호 등)
-- **Object ID 4번 ([[032_firmware|Firmware]] Update)**: [[032_firmware|펌웨어]] 업데이트를 수행하기 위한 기능
+- **Object ID 4번 ([Firmware](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) Update)**: [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 업데이트를 수행하기 위한 기능
 - **Object ID 5번 (Error)**: 장치의 에러 상태
-- **효과**: 삼성이 만든 전구든, LG가 만든 세탁기든, 중앙 관리 서버가 `GET /3/0/0` (디바이스 객체의 제조사 정보)이라는 동일한 [[158_instruction|명령어]]를 날리면, 똑같이 제조사 이름이 응답으로 튀어나옵니다. 기기 관리가 극도로 편해집니다.
+- **효과**: 삼성이 만든 전구든, LG가 만든 세탁기든, 중앙 관리 서버가 `GET /3/0/0` (디바이스 객체의 제조사 정보)이라는 동일한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 날리면, 똑같이 제조사 이름이 응답으로 튀어나옵니다. 기기 관리가 극도로 편해집니다.
 
-[[121_lwm2m_lightweight_m2m|LwM2M]] 표준 [[295_protocol_field_tcp_udp_icmp|프로토콜]] 관리 메커니즘을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. CoAP가 기반 조건을 만든다면, [[121_lwm2m_lightweight_m2m|LwM2M]] 표준 [[295_protocol_field_tcp_udp_icmp|프로토콜]] 관리 메커니즘은 그 위에서 핵심 메커니즘을 구현하고, oneM2M 아키텍처는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전력 효율과 현장 반응성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+[LwM2M](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/121_lwm2m_lightweight_m2m/) 표준 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 관리 메커니즘을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. CoAP가 기반 조건을 만든다면, [LwM2M](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/121_lwm2m_lightweight_m2m/) 표준 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 관리 메커니즘은 그 위에서 핵심 메커니즘을 구현하고, oneM2M 아키텍처는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전력 효율과 현장 반응성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | CoAP의 기반 정리 | [[121_lwm2m_lightweight_m2m|LwM2M]] 표준 [[295_protocol_field_tcp_udp_icmp|프로토콜]] 관리 메커니즘의 핵심 동작 | oneM2M 아키텍처의 확장 적용 |
+| 초점 | CoAP의 기반 정리 | [LwM2M](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/121_lwm2m_lightweight_m2m/) 표준 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 관리 메커니즘의 핵심 동작 | oneM2M 아키텍처의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 전력 효율 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: [[121_lwm2m_lightweight_m2m|LwM2M]] 표준 [[295_protocol_field_tcp_udp_icmp|프로토콜]] 관리 메커니즘은 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
+- **📢 섹션 요약 비유**: [LwM2M](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/121_lwm2m_lightweight_m2m/) 표준 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 관리 메커니즘은 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-1. **[[120_concept|Bootstrapping]] ([[459_quic_fec_forward_error_correction|초기]] [[009_config|설정]])**: 기기 박스를 뜯어 전원을 처음 켰을 때, 중앙 서버 주소와 보안 키를 자동으로 내려받아 즉시 세팅합니다.
-2. **Device [[372_management|Management]] (제어)**: 기기 재부팅, 공장 [[459_quic_fec_forward_error_correction|초기]]화, 배터리 상태 읽어오기 등을 원격으로 수행합니다.
-3. **Information Reporting (관찰 보고)**: 센서가 자고 있다가 "배터리가 [[489_raid_10_hybrid|10]]% 이하로 떨어졌을 때만 서버로 보고하라"는 식의 이벤트 기반 관찰(Observe) 기능.
-4. **FOTA ([[032_firmware|Firmware]] Over The Air)**: 버그가 생겼을 때 무선으로 [[032_firmware|펌웨어]] 파일을 밀어 넣어 업데이트하는 핵심 기능.
+1. **[Bootstrapping](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/) ([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/))**: 기기 박스를 뜯어 전원을 처음 켰을 때, 중앙 서버 주소와 보안 키를 자동으로 내려받아 즉시 세팅합니다.
+2. **Device [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) (제어)**: 기기 재부팅, 공장 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화, 배터리 상태 읽어오기 등을 원격으로 수행합니다.
+3. **Information Reporting (관찰 보고)**: 센서가 자고 있다가 "배터리가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 이하로 떨어졌을 때만 서버로 보고하라"는 식의 이벤트 기반 관찰(Observe) 기능.
+4. **FOTA ([Firmware](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) Over The Air)**: 버그가 생겼을 때 무선으로 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 파일을 밀어 넣어 업데이트하는 핵심 기능.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: MQTT가 택배 기사들이 물건(온도 [[001_dikw_pyramid|데이터]])을 주고받는 '배송 시스템'이라면, LwM2M은 배송망을 관리하는 '택배 본사(서버)의 트럭 원격 관리 [[229_monitor|모니터]]'입니다. 본사 [[229_monitor|모니터]]를 통해 100만 대 트럭([[101_iot_concept|IoT]] 기기)의 남은 연료량(배터리)을 일괄 [[396_validation|확인]]하고, 엔진 오일 교체 시기가 된 트럭에 원격으로 정비 명령([[032_firmware|펌웨어]] 업데이트)을 한 번에 내리는 완벽한 디바이스 통제 시스템입니다.
+- **📢 섹션 요약 비유**: MQTT가 택배 기사들이 물건(온도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 주고받는 '배송 시스템'이라면, LwM2M은 배송망을 관리하는 '택배 본사(서버)의 트럭 원격 관리 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)'입니다. 본사 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)를 통해 100만 대 트럭([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기)의 남은 연료량(배터리)을 일괄 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 엔진 오일 교체 시기가 된 트럭에 원격으로 정비 명령([펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 업데이트)을 한 번에 내리는 완벽한 디바이스 통제 시스템입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[[121_lwm2m_lightweight_m2m|LwM2M]] 표준 [[295_protocol_field_tcp_udp_icmp|프로토콜]] 관리 메커니즘은 [[101_iot_concept|IoT]], [[604_wpan_wireless_personal_area_network|WPAN]], 엣지를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 전력 효율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 oneM2M 아키텍처, 자율형 엣지 협업, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 자율형 엣지 협업 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+[LwM2M](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/121_lwm2m_lightweight_m2m/) 표준 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 관리 메커니즘은 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), [WPAN](/knowledge-base/studynote/03_network/12_iot_wpan_edge/604_wpan_wireless_personal_area_network/), 엣지를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 전력 효율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 oneM2M 아키텍처, 자율형 엣지 협업, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 자율형 엣지 협업 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: [[121_lwm2m_lightweight_m2m|LwM2M]] 표준 [[295_protocol_field_tcp_udp_icmp|프로토콜]] 관리 메커니즘은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
+- **📢 섹션 요약 비유**: [LwM2M](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/121_lwm2m_lightweight_m2m/) 표준 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 관리 메커니즘은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
 ---
 
@@ -99,9 +103,9 @@ LwM2M은 전 세계 모든 [[101_iot_concept|IoT]] 기기의 상태를 숫자표
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[120_coap_constrained_application_protocol|CoAP]] | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| 저전력 통신 (Low [[069_type_1_2_error_statistical_power|Power]] Communication) | 배터리 수명과 직접 연결된다. |
-| [[103_wsn_sensor_network|센서 네트워크]] (Sensor Network) | 수많은 단말의 연결 구조를 결정한다. |
+| [CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 저전력 통신 (Low [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Communication) | 배터리 수명과 직접 연결된다. |
+| [센서 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/) (Sensor Network) | 수많은 단말의 연결 구조를 결정한다. |
 | oneM2M 아키텍처 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -116,7 +120,7 @@ LwM2M은 전 세계 모든 [[101_iot_concept|IoT]] 기기의 상태를 숫자표
     └──▶ [확장 B: 자율형 엣지 협업]
 ```
 
-[[121_lwm2m_lightweight_m2m|LwM2M]] 표준 [[295_protocol_field_tcp_udp_icmp|프로토콜]] 관리 메커니즘는 CoAP에서 출발해 현재 메커니즘을 정교화하고, 이후 oneM2M 아키텍처와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+[LwM2M](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/121_lwm2m_lightweight_m2m/) 표준 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 관리 메커니즘는 CoAP에서 출발해 현재 메커니즘을 정교화하고, 이후 oneM2M 아키텍처와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -130,7 +134,7 @@ LwM2M은 전 세계 모든 [[101_iot_concept|IoT]] 기기의 상태를 숫자표
 
 **진행 상황**: 745 / 1120
 
-← **이전**: [[623_coap_constrained_application_protocol_udp|623. CoAP (Constrained Application Protocol)]]
-**다음**: [[625_onem2m_international_iot_platform|625. oneM2M 아키텍처 (국제 표준 통합 M2M 구조화 플랫폼)]] →
+← **이전**: [623. CoAP (Constrained Application Protocol)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/623_coap_constrained_application_protocol_udp/)
+**다음**: [625. oneM2M 아키텍처 (국제 표준 통합 M2M 구조화 플랫폼)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/625_onem2m_international_iot_platform/) →
 
 ---

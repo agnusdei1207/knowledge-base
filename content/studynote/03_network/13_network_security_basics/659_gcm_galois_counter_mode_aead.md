@@ -1,22 +1,26 @@
----
-title: 659. GCM (Galois/Counter Mode) 모드
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "659. GCM (Galois/Counter Mode) 모드"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: GCM 모드는 [[1117_network_security_zero_trust_policy|네트워크 보안]] 기본에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: GCM 모드를 이해하면 [[002_confidentiality|기밀성]]과 [[003_integrity|무결성]] 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: GCM 모드는 [네트워크 보안](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 기본에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: GCM 모드를 이해하면 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- AES의 가장 흔한 엮기 방식인 [[089_cbc_mode|CBC]] 모드는 패킷 내용을 해커가 못 보게([[002_confidentiality|기밀성]]) 막아주지만, 해커가 암호화된 쓰레기 패킷 중간을 강제로 변조해 버리면 수신자는 쓰레기를 그대로 복호화해서 받아들이게 됩니다([[003_integrity|무결성]] 훼손).
-- 이를 막기 위해 과거에는 **[데이터 암호화]를 한 바퀴 돌리고, 다시 그 위에 [무결성 도장([[673_mac_message_authentication_code|MAC]], 해시)]을 쾅 찍기 위해 한 바퀴를 또 돌리는 무거운 방식([[673_mac_message_authentication_code|MAC]]-then-Encrypt 등)**을 썼습니다.
+- AES의 가장 흔한 엮기 방식인 [CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/) 모드는 패킷 내용을 해커가 못 보게([기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)) 막아주지만, 해커가 암호화된 쓰레기 패킷 중간을 강제로 변조해 버리면 수신자는 쓰레기를 그대로 복호화해서 받아들이게 됩니다([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 훼손).
+- 이를 막기 위해 과거에는 **[데이터 암호화]를 한 바퀴 돌리고, 다시 그 위에 [무결성 도장([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/), 해시)]을 쾅 찍기 위해 한 바퀴를 또 돌리는 무거운 방식([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)-then-Encrypt 등)**을 썼습니다.
 
 ```text
 [블록 암호 운영 모드, CFB, OFB, C…]
@@ -27,14 +31,14 @@ tags:
     └──▶ [비대칭키/공개키 암호화]
 ```
 
-- **📢 섹션 요약 비유**: GCM 모드는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [[170_selectivity_cardinality_distribution_tuning|선택도]] 쉬워진다.
+- **📢 섹션 요약 비유**: GCM 모드는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: **암호화(Encryption, [[002_confidentiality|기밀성]])**와 **[[001_dikw_pyramid|데이터]] [[303_authentication_authorization_patterns|인증]]([[604_authentication_factors|Authentication]], [[003_integrity|무결성]] 도장 찍기)**을 두 번 따로 하지 않고, **수학적인 최적화 공식을 통해 단 한 번의 연산으로 동시에 묶어서 끝내버리는 고도의 보안 기법**입니다.
-- 현대 암호학에서 가장 권장하는 방식으로, 속도와 [[283_security_tactics|보안성]] 두 마리 토끼를 완벽하게 잡아냈습니다.
+- **개념**: **암호화(Encryption, [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/))**와 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/), [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 도장 찍기)**을 두 번 따로 하지 않고, **수학적인 최적화 공식을 통해 단 한 번의 연산으로 동시에 묶어서 끝내버리는 고도의 보안 기법**입니다.
+- 현대 암호학에서 가장 권장하는 방식으로, 속도와 [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) 두 마리 토끼를 완벽하게 잡아냈습니다.
 
 ```text
 [블록 암호 운영 모드, CFB, OFB, C…]
@@ -51,21 +55,21 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-AEAD를 실제로 구현한 가장 대표적이고 완벽한 운영 모드입니다. **현재 인터넷 웹 서핑([[471_https_http_over_tls|HTTPS]], [[694_thread_local_storage_tls|TLS]] 1.3)의 99%가 이 AES-GCM 모드를 사용**하여 돌아가고 있습니다.
+AEAD를 실제로 구현한 가장 대표적이고 완벽한 운영 모드입니다. **현재 인터넷 웹 서핑([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/), [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3)의 99%가 이 AES-GCM 모드를 사용**하여 돌아가고 있습니다.
 
-1. **[[059_counter|카운터]]([[090_ctr_mode|CTR]]) 모드로 "[[148_5g_embb_urllc_mmtc|초고속]] 암호화"**:
-   - 앞선 문서에서 배운 **[[090_ctr_mode|CTR]] 모드**를 가져와서, 순서대로 기다릴 필요 없이 100개의 조각을 CPU 멀티코어로 동시에 병렬로 암호화해 속도를 미친 듯이 뽑아냅니다.
-2. **갈루아 함수(Galois)로 "[[148_5g_embb_urllc_mmtc|초고속]] [[003_integrity|무결성]] 도장 찍기"**:
+1. **[카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)([CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/)) 모드로 "[초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 암호화"**:
+   - 앞선 문서에서 배운 **[CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/) 모드**를 가져와서, 순서대로 기다릴 필요 없이 100개의 조각을 CPU 멀티코어로 동시에 병렬로 암호화해 속도를 미친 듯이 뽑아냅니다.
+2. **갈루아 함수(Galois)로 "[초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 도장 찍기"**:
    - 병렬로 튀어나온 암호문 조각들을 **'갈루아 유한체(GF)'**라는 매우 가벼운 수학적 곱셈 법칙에 쏟아 넣고 한 번 휙 섞어줍니다.
-   - 그러면 1나노초 만에 "이 [[001_dikw_pyramid|데이터]]는 절대로 변조되지 않았다!"라는 16바이트짜리 [[003_integrity|무결성]] [[303_authentication_authorization_patterns|인증]] 태그([[673_mac_message_authentication_code|MAC]] Tag)가 뚝딱 튀어나옵니다. 해시 함수를 돌리는 것보다 하드웨어적으로 훨씬 빠릅니다.
+   - 그러면 1나노초 만에 "이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 절대로 변조되지 않았다!"라는 16바이트짜리 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 태그([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) Tag)가 뚝딱 튀어나옵니다. 해시 함수를 돌리는 것보다 하드웨어적으로 훨씬 빠릅니다.
 
-GCM 모드를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [[655_block_cipher_des_3des_feistel|블록 암호]] 운영 모드, CFB, OFB, C…가 기반 조건을 만든다면, GCM 모드는 그 위에서 핵심 메커니즘을 구현하고, 비대칭키/공개키 암호화는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [[002_confidentiality|기밀성]]과 [[003_integrity|무결성]]에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+GCM 모드를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 운영 모드, CFB, OFB, C…가 기반 조건을 만든다면, GCM 모드는 그 위에서 핵심 메커니즘을 구현하고, 비대칭키/공개키 암호화는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [[655_block_cipher_des_3des_feistel|블록 암호]] 운영 모드, CFB, OFB, C…의 기반 정리 | GCM 모드의 핵심 동작 | 비대칭키/공개키 암호화의 확장 적용 |
-| 자원 관점 | 기본 조건 확보 | [[002_confidentiality|기밀성]] 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 초점 | [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 운영 모드, CFB, OFB, C…의 기반 정리 | GCM 모드의 핵심 동작 | 비대칭키/공개키 암호화의 확장 적용 |
+| 자원 관점 | 기본 조건 확보 | [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) 최적화 | 규모와 범위 확대 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: GCM 모드는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -73,22 +77,22 @@ GCM 모드를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 최신 웹 브라우저 보안 표준인 **[[694_thread_local_storage_tls|TLS]] 1.3**에서는 낡고 구린 [[089_cbc_mode|CBC]] 모드나 낡은 해시 조합 방식의 지원을 아예 법으로 폐지해 버렸습니다.
-- 오직 **AES-GCM (또는 앞서 배운 ChaCha20-Poly1305)**과 같은 최첨단 [[092_aead|AEAD]] 기반 운영 모드만 통신에 사용할 수 있도록 강제하여 전 세계 인터넷의 속도와 보안을 한 단계 끌어올렸습니다.
+- 최신 웹 브라우저 보안 표준인 **[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3**에서는 낡고 구린 [CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/) 모드나 낡은 해시 조합 방식의 지원을 아예 법으로 폐지해 버렸습니다.
+- 오직 **AES-GCM (또는 앞서 배운 ChaCha20-Poly1305)**과 같은 최첨단 [AEAD](/knowledge-base/studynote/09_security/02_crypto/092_aead/) 기반 운영 모드만 통신에 사용할 수 있도록 강제하여 전 세계 인터넷의 속도와 보안을 한 단계 끌어올렸습니다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 옛날 은행 창구([[089_cbc_mode|CBC]] 모드)에서는 직원이 수표를 봉투에 밀봉하는 데(암호화) 1분을 쓰고, 다른 부서에 넘겨 지점장 직인([[003_integrity|무결성]] 도장)을 받는 데 또 1분을 써서 비효율의 극치였습니다. GCM이라는 최첨단 기계([[092_aead|AEAD]])는 봉투에 수표를 넣고 기계에 밀어 넣으면, 단 0.1초 만에 기계가 알아서 봉투 밀봉과 동시에 위조 방지 홀로그램 압인까지 쾅 찍어서 뱉어냅니다. 수억 건의 트래픽을 처리하는 구글, 네이버 서버에 없어서는 안 될 마법의 도장 기계입니다.
+- **📢 섹션 요약 비유**: 옛날 은행 창구([CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/) 모드)에서는 직원이 수표를 봉투에 밀봉하는 데(암호화) 1분을 쓰고, 다른 부서에 넘겨 지점장 직인([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 도장)을 받는 데 또 1분을 써서 비효율의 극치였습니다. GCM이라는 최첨단 기계([AEAD](/knowledge-base/studynote/09_security/02_crypto/092_aead/))는 봉투에 수표를 넣고 기계에 밀어 넣으면, 단 0.1초 만에 기계가 알아서 봉투 밀봉과 동시에 위조 방지 홀로그램 압인까지 쾅 찍어서 뱉어냅니다. 수억 건의 트래픽을 처리하는 구글, 네이버 서버에 없어서는 안 될 마법의 도장 기계입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-GCM 모드는 [[1117_network_security_zero_trust_policy|네트워크 보안]] 기본을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 [[002_confidentiality|기밀성]] 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 비대칭키/공개키 암호화, 자동화된 신뢰 체계, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 자동화된 신뢰 체계 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+GCM 모드는 [네트워크 보안](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 기본을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 비대칭키/공개키 암호화, 자동화된 신뢰 체계, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 자동화된 신뢰 체계 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: GCM 모드는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -98,9 +102,9 @@ GCM 모드는 [[1117_network_security_zero_trust_policy|네트워크 보안]] �
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[655_block_cipher_des_3des_feistel|블록 암호]] 운영 모드, CFB, OFB, C… | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [[303_authentication_authorization_patterns|인증]] ([[604_authentication_factors|Authentication]]) | 통신 상대가 진짜인지 [[396_validation|확인]]한다. |
-| 암호화 (Encryption) | [[001_dikw_pyramid|데이터]]를 읽지 못하게 보호한다. |
+| [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 운영 모드, CFB, OFB, C… | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) ([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/)) | 통신 상대가 진짜인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다. |
+| 암호화 (Encryption) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽지 못하게 보호한다. |
 | 비대칭키/공개키 암호화 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -115,12 +119,12 @@ GCM 모드는 [[1117_network_security_zero_trust_policy|네트워크 보안]] �
     └──▶ [확장 B: 자동화된 신뢰 체계]
 ```
 
-GCM 모드는 [[655_block_cipher_des_3des_feistel|블록 암호]] 운영 모드, CFB, OFB, C…에서 출발해 현재 메커니즘을 정교화하고, 이후 비대칭키/공개키 암호화와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+GCM 모드는 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 운영 모드, CFB, OFB, C…에서 출발해 현재 메커니즘을 정교화하고, 이후 비대칭키/공개키 암호화와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 비밀 편지를 보낼 때는 자물쇠와 비밀번호가 필요해요.
-2. 이 개념은 누가 진짜 친구인지 [[396_validation|확인]]하고, 편지가 바뀌지 않았는지도 살펴봐요.
+2. 이 개념은 누가 진짜 친구인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 편지가 바뀌지 않았는지도 살펴봐요.
 3. 그래서 나쁜 사람이 중간에 훔쳐보거나 바꾸기 어려워져요.
 
 ---
@@ -129,7 +133,7 @@ GCM 모드는 [[655_block_cipher_des_3des_feistel|블록 암호]] 운영 모드,
 
 **진행 상황**: 780 / 1120
 
-← **이전**: [[658_block_cipher_modes_ecb_cbc_ctr|658. 블록 암호 운영 모드 (ECB 기본/취약 모드, CBC(IV 필요), CFB, OFB, CTR)]]
-**다음**: [[660_asymmetric_public_key_cryptography_rsa|660. 비대칭키/공개키 암호화 (Asymmetric/Public Key)]] →
+← **이전**: [658. 블록 암호 운영 모드 (ECB 기본/취약 모드, CBC(IV 필요), CFB, OFB, CTR)](/knowledge-base/studynote/03_network/13_network_security_basics/658_block_cipher_modes_ecb_cbc_ctr/)
+**다음**: [660. 비대칭키/공개키 암호화 (Asymmetric/Public Key)](/knowledge-base/studynote/03_network/13_network_security_basics/660_asymmetric_public_key_cryptography_rsa/) →
 
 ---

@@ -1,23 +1,27 @@
----
-title: 468. 디스크 스케줄링 (Disk Scheduling) 목적 - 탐색 시간 최소화, 처리량 극대화
-date: '2026-05-09'
-tags:
-- studynote-operating-system
----
++++
+title = "468. 디스크 스케줄링 (Disk Scheduling) 목적 - 탐색 시간 최소화, 처리량 극대화"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 디스크 스케줄링 (Disk Scheduling) 목적은 스토리지와 입출력 경로 최적화에서 핵심 흐름을 결정하는 개념으로, 시스템이 무엇을 먼저 관리하고 어떤 순서로 제어할지를 분명하게 만든다.
-> 2. **가치**: 이 개념을 이해하면 자원 효율, [[138_response_time|응답 시간]], 안정성 사이의 균형을 더 정확하게 설명할 수 있고, [[173_fcfs_scheduling|FCFS]] (First-Come, First-Served) 스케줄링로 이어지는 이유도 자연스럽게 파악된다.
-> 3. **판단 포인트**: 디스크 접근 시간 = [[324_seek_time|탐색 시간]]([[467_disk_access_time|Seek Time]]) + [[325_rotational_latency|회전 지연]]([[325_rotational_latency|Rotational Latency]]) + [[326_transfer_time|전송 시간]]([[326_transfer_time|Transfer Time]])과의 관계를 함께 봐야 디스크 스케줄링 (Disk Scheduling) 목적을 단순 정의가 아니라 실제 설계·운영 판단 기준으로 사용할 수 있다.
+> 2. **가치**: 이 개념을 이해하면 자원 효율, [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), 안정성 사이의 균형을 더 정확하게 설명할 수 있고, [FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/) (First-Come, First-Served) 스케줄링로 이어지는 이유도 자연스럽게 파악된다.
+> 3. **판단 포인트**: 디스크 접근 시간 = [탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/)([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/)) + [회전 지연](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/)([Rotational Latency](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/)) + [전송 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/)([Transfer Time](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/))과의 관계를 함께 봐야 디스크 스케줄링 (Disk Scheduling) 목적을 단순 정의가 아니라 실제 설계·운영 판단 기준으로 사용할 수 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-> 1. **ëì**: ëìí ìììë(Disk Scheduling)ì ìì êì íëììê ëìì íëëìíì êê ëë ìì(ëë)ë êìëëê I/O ììì ëê ììë ë, **ììììê ì ììëì í([[058_queue|Queue]])ì ëì ë íëìì ëë(Head)ì ëëì ìë ëìì 1mmëë ìë ì ìëë ììë ìëì(Sorting)íë ìëì êíìë êì**ìë.
-> 2. **êì**: êì ëêê ëìí êêì ëì **'íì ìê([[467_disk_access_time|Seek Time]])'ì ììí**íê, ëëìë ìê ìì ëìíë ìì í ìë **ëìíì ìì ìëë([[139_throughput|Throughput]])ê ììí êëëì êëí**íë êì ìì ìëì ëíë.
-> 3. **ìí(íê)**: ëìí ëìë ìëëë êìì ìë ììì íì ëìëíë êì íì([[314_starvation_prevention|Starvation]])ì ëìíëë, ìì OSë íìì(ëì ììí)ê êíì(Fairness) ìììì ìíêë íë **C-SCANìë CFQ êì íìëëë ìêëììë ìí ìí**íë.
+> 1. **ëì**: ëìí ìììë(Disk Scheduling)ì ìì êì íëììê ëìì íëëìíì êê ëë ìì(ëë)ë êìëëê I/O ììì ëê ììë ë, **ììììê ì ììëì í([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))ì ëì ë íëìì ëë(Head)ì ëëì ìë ëìì 1mmëë ìë ì ìëë ììë ìëì(Sorting)íë ìëì êíìë êì**ìë.
+> 2. **êì**: êì ëêê ëìí êêì ëì **'íì ìê([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/))'ì ììí**íê, ëëìë ìê ìì ëìíë ìì í ìë **ëìíì ìì ìëë([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))ê ììí êëëì êëí**íë êì ìì ìëì ëíë.
+> 3. **ìí(íê)**: ëìí ëìë ìëëë êìì ìë ììì íì ëìëíë êì íì([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))ì ëìíëë, ìì OSë íìì(ëì ììí)ê êíì(Fairness) ìììì ìíêë íë **C-SCANìë CFQ êì íìëëë ìêëììë ìí ìí**íë.
 
 - **📢 섹션 요약 비유**: 복잡한 창고에서 필요한 물건을 찾기 위해 먼저 구역과 표지판을 세우는 것과 같다.
 
@@ -26,8 +30,8 @@ tags:
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 - **êë**: ììììì ëë I/O ëìì ììë `I/O ìììë`ëë ìíêì ì ìë. ì 3êê `ëë 10ë`, `ëë 1000ë`, `ëë 20ë`ì ììëëê íì ëìë. ëë(ëìí)ë ëìì ììëë 10ë -> 1000ë -> 20ë ììë ëëì ëëêíë ìëë. ìììëë ì ëëì êëìì `10ë -> 20ë -> 1000ë` ììë ì ììëí ìë. ëëì í ëíìë ìëìíê ììíë ìì ìê ëëë ììí ëììë.
-- **íìì**: CPUë ëì ìëë êìì ëìê I/O ìì ìë êë 1ì ëì íì ëìëëë. íìë íëëìíë ëëì í ë ì~ íê ìììëë ëë 8ëëìê êëë. ëì ëëì 1ë íëê 1ë ë íëì íê ìë ìë êë íëë? ëë ìììë ëë ìêì ë êê, ìì ëìíë ìì ìëë ìêì 1%ë ì ëë **'ëìí ìëì(Disk [[257_thrashing|Thrashing]])'** ììì íììë. "ìëêë ì ëìíê ëêì ìëìë(ëë)ê íêìíì ìê ëìì ìëíê ììì!"ëë ìëíì ìììëì ìì ììë.
-- **ð ëì**: ëìí ìììëì **íë êìëì ìëí ëì ëí ìê**ì êë. êëê, ëìê, ìíêìì íë ìì ëììë 100ê ëììë. ìë êì(ìììë ìì)ë ìì ëìì ìê ììëë êë êëê ëì êëê ëì êë êë ëë ìì íëë íëì 10ê ëëíê ëìëëë(íì ìê ëë). ëíë êì(I/O ìììë)ë ììì ì 100êë ìëë ì íëê, êë -> ìí -> ëììë í ëì ì íê ìëêë ììì ëì(ìëëìí ìêëì)ì ìë. ëìì ìììë êëê(ìëíë)ì ìêìê íëì 100ê([[139_throughput|Throughput]])ì ë ìë ì ìë.
+- **íìì**: CPUë ëì ìëë êìì ëìê I/O ìì ìë êë 1ì ëì íì ëìëëë. íìë íëëìíë ëëì í ë ì~ íê ìììëë ëë 8ëëìê êëë. ëì ëëì 1ë íëê 1ë ë íëì íê ìë ìë êë íëë? ëë ìììë ëë ìêì ë êê, ìì ëìíë ìì ìëë ìêì 1%ë ì ëë **'ëìí ìëì(Disk [Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))'** ììì íììë. "ìëêë ì ëìíê ëêì ìëìë(ëë)ê íêìíì ìê ëìì ìëíê ììì!"ëë ìëíì ìììëì ìì ììë.
+- **ð ëì**: ëìí ìììëì **íë êìëì ìëí ëì ëí ìê**ì êë. êëê, ëìê, ìíêìì íë ìì ëììë 100ê ëììë. ìë êì(ìììë ìì)ë ìì ëìì ìê ììëë êë êëê ëì êëê ëì êë êë ëë ìì íëë íëì 10ê ëëíê ëìëëë(íì ìê ëë). ëíë êì(I/O ìììë)ë ììì ì 100êë ìëë ì íëê, êë -> ìí -> ëììë í ëì ì íê ìëêë ììì ëì(ìëëìí ìêëì)ì ìë. ëìì ìììë êëê(ìëíë)ì ìêìê íëì 100ê([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))ì ë ìë ì ìë.
 
 - **ëì ëê ë OSì ììë**:
   1. **FCFSì ìì**: ëì ììí ë ëì ìëí ìëë ëìí ëëì êì() ìë ìì ìë ìëê ììëë.
@@ -55,7 +59,7 @@ tags:
   (ìë êëê ìë ìì ììëë ëìí ìë ìëê 2ë ëëì ð)      
 
 ```
-**[ëììêë íì]** ì ëìí ììê ëìí ìììëì ìëíì 100% ìëíë. ëë ìë êëê 250ìì 120ìë ììëë êì, ìë ìê([[141_latency|Latency]])ì 2ë ëëìê ëì ìêë ìëë([[139_throughput|Throughput]])ì 2ë ëìëëë ëìë. OSë ëì ëëë ëìì ììë 0.001ì ëì ëêì ëìë, êê ììì ëëì íìì êê ëíê ìììë.
+**[ëììêë íì]** ì ëìí ììê ëìí ìììëì ìëíì 100% ìëíë. ëë ìë êëê 250ìì 120ìë ììëë êì, ìë ìê([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))ì 2ë ëëìê ëì ìêë ìëë([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))ì 2ë ëìëëë ëìë. OSë ëì ëëë ëìì ììë 0.001ì ëì ëêì ëìë, êê ììì ëëì íìì êê ëíê ìììë.
 
 - **ð ìì ìì ëì**: ëíìì ìì ë ë, ìëê ììì êë ëìí(í) ììëë "ìì ìëê êê ìëê ëì ìì ìë ì ìì ìë" ìíë ìëìë ëê ëëë ê íììëë. êìë ìí ëê ìì ëìíë ì ëê "ìì ìë ì ëê, ìì ìë ì ëì"ë ìí ëì(ìììë)ì ìì 10ë ëì ìëêë ëëë ëìëë.
 
@@ -69,19 +73,19 @@ tags:
 
 ìììì ìììëë íì ëìëë ë ëë íëë ìëë. 
 
-1. **íì ìê([[467_disk_access_time|Seek Time]]) ììí = ìì ìëë([[139_throughput|Throughput]]) êëí**
+1. **íì ìê([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/)) ììí = ìì ìëë([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) êëí**
    - **ìë**: êì ëëì ììì ê, ìê ë ëë ìììì ìì êêì ëëí ìì ìëíë ê ìì ìêë íìììë. ìë ëì ëëê ìì ìììë.
    - **ëìì**: êêì ëë ìêë ëë, 100ë ë íë êìì ìë ììì ìëë ìë êëëë íì ëëì ìì ìëë. ììí íìì ììë í ëì íëëì íëë.
 
-2. **êíì (Fairness) ëì = êì ìí([[314_starvation_prevention|Starvation]]) ëì**
-   - **ìë**: êìì ëíìë ëíë, ëë ìë êëë ëì ëìíëê ëìê êì ìëí ìì íë. ìë ìêì êë([[136_variance|Variance]])ì ììë êìë.
-   - **ëìì**: ì ëë ìë ë íë ìëíìêëê ëëì ëêë ëêì ìêì íë. ëëì ìëíë ìê ëì ëìíë ìë ëìíë ë í ëëëë ìì ììí íì([[139_throughput|Throughput]])ì ë ëììë.
+2. **êíì (Fairness) ëì = êì ìí([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) ëì**
+   - **ìë**: êìì ëíìë ëíë, ëë ìë êëë ëì ëìíëê ëìê êì ìëí ìì íë. ìë ìêì êë([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))ì ììë êìë.
+   - **ëìì**: ì ëë ìë ë íë ìëíìêëê ëëì ëêë ëêì ìêì íë. ëëì ìëíë ìê ëì ëìíë ìë ëìíë ë í ëëëë ìì ììí íì([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))ì ë ëììë.
 
 ---
 
 ### ììëëì ìíê (Trade-off)
 
-ëë ëìí ìììë ìêëì([[173_fcfs_scheduling|FCFS]], [[470_sstf_disk_scheduling|SSTF]], SCAN ë)ì ììì ëìì ì 'íìì'ê 'êíì' ìììì ìì íë ìììê ëì ììë êëìë.
+ëë ëìí ìììë ìêëì([FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/), [SSTF](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/470_sstf_disk_scheduling/), SCAN ë)ì ììì ëìì ì 'íìì'ê 'êíì' ìììì ìì íë ìììê ëì ììë êëìë.
 - ëìì íì(êêì ê)ë ìêíë êìì ëìíê êì ìê(SSTFì ìí).
 - ëìì êííê ììëë íë ëëì ëë íëì ìëê ëë íìë(FCFSì ìí).
 - êê "ìëëìíìë í ëíìë ì íê ìëêë êííê ìëíë, ëíì ì êìì íìë ìêì!"ë ììì ííì(SCAN ìêëì)ì ëìíë ììì ìëíê ëë. (ëì íìëëìì ìì ìë).
@@ -101,17 +105,17 @@ tags:
 | ëê ìë | CPU ìììë (ëê ìììë) | ëìí I/O ìììë (ëë ëìì) |
 |:---|:---|:---|
 | **êë ëì** | ëëì 0/1 ìííìì ìëë (ììêì êì êë) | **ëêê ëë êêì ëë ëë(Head)** |
-| **ììì ëí** | ìì ìëì([[138_response_time|Response Time]])ê êíì (íì íí) | **êêì ëì ëë ìì ([[467_disk_access_time|Seek Time]] ììí)** |
+| **ììì ëí** | ìì ìëì([Response Time](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/))ê êíì (íì íí) | **êêì ëì ëë ìì ([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/) ììí)** |
 | **ìì(Preemption)** | íë ì ëê ëì ìë 0.001ì ëì êì êë | í ë ëë ìììê ììíë **ìë ìì ëêë** |
-| **ìì ìêëì** | Round-Robin, [[691_mlfq_multi_level_feedback_queue|MLFQ]] | SCAN (ìëëìí), CFQ (ìì êí íì) |
+| **ìì ìêëì** | Round-Robin, [MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) | SCAN (ìëëìí), CFQ (ìì êí íì) |
 
-### [[286_page_frame|Page]] Cache (ëí)ìì êëí êì ìì
-ëìí ìììë íììë ìëë ìì ìë í([[058_queue|Queue]])ì ììì ë ê ììë ëì ììíë í ìê ìë.
+### [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache (ëí)ìì êëí êì ìì
+ëìí ìììë íììë ìëë ìì ìë í([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))ì ììì ë ê ììë ëì ììíë í ìê ìë.
 - íì 10ë, 5000ë ë êëì ììë ëìê ëëêë íì íë.
-- **ëí ììì íë**: OSì 'íìì ìì([[286_page_frame|Page]] Cache)'ê ëìì ëìíë êê ëìëë(ìì ìê). 
+- **ëí ììì íë**: OSì 'íìì ìì([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache)'ê ëìì ëìíë êê ëìëë(ìì ìê). 
 - 5ì ìë ê ìê ëìëë ëíì ìê ììì 1ë êë ììë!
 - ëí ììê ì 1ë êì ììì í ëì ëìí ìììë íë ììëëë(Flush). 
-- ìììëë ì 1ë êì ëëí ìì í(Pool)ì êìê ìëíê ììí ìëëìí ëìì ìì, ëëì 1mm ììì ëëë ëìíë íêíë ììëë ìëìì I/O ìëíì ëìíë. I/O ìììëì ë ììì ëíë ëìê([[389_bulk_insert_batching_optimization|Batching]]) ììë ìëí ì ìë ìììë.
+- ìììëë ì 1ë êì ëëí ìì í(Pool)ì êìê ìëíê ììí ìëëìí ëìì ìì, ëëì 1mm ììì ëëë ëìíë íêíë ììëë ìëìì I/O ìëíì ëìíë. I/O ìììëì ë ììì ëíë ëìê([Batching](/knowledge-base/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/)) ììë ìëí ì ìë ìììë.
 
 ```text
 
@@ -131,22 +135,22 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-### ìë ìëëì: [[327_ssd|SSD]] ìëì ëìí ìììë ëìë (Noopì ìë)
+### ìë ìëëì: [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ìëì ëìí ìììë ëìë (Noopì ìë)
 ìíí ììì êì ìëí "ìêëìì ìì" ìêìë.
-1. **êêì ìê**: 2010ë ìì íëëìí([[465_hdd_structure|HDD]]) ìì, ììëìëì ì I/O ëì([[467_disk_access_time|Seek Time]])ì ììê ìí [[472_c_scan_scheduling|C-SCAN]], [[766_realtime_scheduling_deadline|Deadline]], CFQ ë ìì ìì ëìí ìíì ìììë ìêëìì ëëì ëë. ì ìêëì íëê ìë ìëì 2ëì ìëë.
+1. **êêì ìê**: 2010ë ìì íëëìí([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/)) ìì, ììëìëì ì I/O ëì([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/))ì ììê ìí [C-SCAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/472_c_scan_scheduling/), [Deadline](/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/), CFQ ë ìì ìì ëìí ìíì ìììë ìêëìì ëëì ëë. ì ìêëì íëê ìë ìëì 2ëì ìëë.
 2. **SSDì íêì ëì**:
    - ëë(Head)ë ìê ìíë ìë ëëì SSDê íìëìë. 
-   - 1ëìë 100ë ëìë ìê ìë ìëê 0.001msë 100% ëêë ([[467_disk_access_time|Seek Time]] = 0).
+   - 1ëìë 100ë ëìë ìê ìë ìëê 0.001msë 100% ëêë ([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/) = 0).
 3. **ìììëì ìí êê**:
-   - ëëì OSê ìë ëë ë ëëê [[327_ssd|SSD]] ìììë `CFQ(ìëëìí)` ìììëë ëëë. 
+   - ëëì OSê ìë ëë ë ëëê [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ìììë `CFQ(ìëëìí)` ìììëë ëëë. 
    - ëìì ììì ëíììë ììê ì ìë(Sorting)íëë ììí CPU ììë íëê 0.1ì ëì ëëìë.
    - êëë ìì SSDë ììê ìëëë ëìëììë ìëê ëêìë! ìììëì ìë ëêëê ìëí **íìê(Overhead)**ê ëìëëë.
 4. **ììëìì ìí (`noop / none`)**:
-   - ìëìëì SSDê ëë ìëìì OS ëë ìììëë **`noop` (No [[329_delta_encoding|Operation]], ìë ìë ì íê ëìì ëë ìì ëê)**ìë ëêëëë.
+   - ìëìëì SSDê ëë ìëìì OS ëë ìììëë **`noop` (No [Operation](/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/), ìë ìë ì íê ëìì ëë ìì ëê)**ìë ëêëëë.
    - ìë ììì ì íë CPUê ëëíìê, ììë IOPSê êëë SSDì êíë ëì ìëíë.
    - ëëì êê íì ìëì íë ìë íêìì êìì ëìí ìììëì 'ëì'ì ìë ê ìëì ëíê ìì ììë íì ììë.
 
-- **ð ìì ìì ëì**: ìí ìê([[465_hdd_structure|HDD]])ìì ëíí ëê ììë ììì(ìììë) ììì ë íêíê ëëëë. íìë ìíë ëí ì([[327_ssd|SSD]])ì ëìëëë, êì ìì 1ë ëì ìëíí ëìì ëíììë ìì ìì ë(ìììë ìëíë) 1ëì ì ëíì ëëê íëë ëì ììì. ìì 1ë ëì ëìì ëëë(noop) ê ëìê ìëìëë.
+- **ð ìì ìì ëì**: ìí ìê([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/))ìì ëíí ëê ììë ììì(ìììë) ììì ë íêíê ëëëë. íìë ìíë ëí ì([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))ì ëìëëë, êì ìì 1ë ëì ìëíí ëìì ëíììë ìì ìì ë(ìììë ìëíë) 1ëì ì ëíì ëëê íëë ëì ììì. ìì 1ë ëì ëìì ëëë(noop) ê ëìê ìëìëë.
 
 ---
 
@@ -155,23 +159,23 @@ tags:
 | êë | ëì |
 |:---|:---|
 | **íëìì ìë(Wear) ìì** | ëììë íë ëëì êëì/êìêë ëê í ëíìë ëëëê íê ëëì, íëëìí ììììí ëíì ëëì ëëìì êììë êì |
-| **ìëë([[139_throughput|Throughput]]) êëí**| ëìíê êì ìííë [[467_disk_access_time|Seek Time]](8ms) ëëë ìëì íí 1ms ìíë ììíì ìë ìê/ìê ìëì ìë íììí |
-| **[[388_qos_quality_of_service_best_effort_intserv_diffserv|QoS]] ([[388_qos_quality_of_service_best_effort_intserv_diffserv|Quality of Service]]) ëì**| êíìì êëí ëëëì([[766_realtime_scheduling_deadline|Deadline]]) ìêëìì íí, êìì ëí íììëë 1ì ììë ëìê ìëì ëê íì ììí ëì ëì |
+| **ìëë([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) êëí**| ëìíê êì ìííë [Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/)(8ms) ëëë ìëì íí 1ms ìíë ììíì ìë ìê/ìê ìëì ìë íììí |
+| **[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) ([Quality of Service](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)) ëì**| êíìì êëí ëëëì([Deadline](/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/)) ìêëìì íí, êìì ëí íììëë 1ì ììë ëìê ìëì ëê íì ììí ëì ëì |
 
 ### êë ë ëë ìë
 
-ëìí ìììë (Disk Scheduling)ì ìêê ëíí ìëìë(êê)ì íêë ëìê ìí, ìííììê ìêì ìê(ìëëìí ììì ë)ì ìëë êííì ëììì ëëêì ëìì ììë. "êêì ê ëì", "êë êì ìê" êì ìêí ìììì íë ííì ìëì í([[058_queue|Queue]]) êìë ëíëìì ë, ìíí ììí ììì ìëíì ëëìë íì ìëë êíì ìíëììë ìëíë. ëë ëë íëì([[327_ssd|SSD]])ì ìëê ëëíì "ëë ìë ììí"ëë ëëì ëìì ëëêì ìëë ìëìê `none/noop`ì ê ìëë êììë, "ìëì ëëê ììì ììì ë êêì ëíì ëì ëí(Merge)íê ììì ììë ìë(Sort)íì íìì ëìë"ë I/O ìììëì ìë ìíì ëì ëíìí í ëìíìë íëìë ìíëì [[014_api_posix|API]] ëëëëìì ìì ëììë ììí íìíì ììê êìë.
+ëìí ìììë (Disk Scheduling)ì ìêê ëíí ìëìë(êê)ì íêë ëìê ìí, ìííììê ìêì ìê(ìëëìí ììì ë)ì ìëë êííì ëììì ëëêì ëìì ììë. "êêì ê ëì", "êë êì ìê" êì ìêí ìììì íë ííì ìëì í([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) êìë ëíëìì ë, ìíí ììí ììì ìëíì ëëìë íì ìëë êíì ìíëììë ìëíë. ëë ëë íëì([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))ì ìëê ëëíì "ëë ìë ììí"ëë ëëì ëìì ëëêì ìëë ìëìê `none/noop`ì ê ìëë êììë, "ìëì ëëê ììì ììì ë êêì ëíì ëì ëí(Merge)íê ììì ììë ìë(Sort)íì íìì ëìë"ë I/O ìììëì ìë ìíì ëì ëíìí í ëìíìë íëìë ìíëì [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ëëëëìì ìì ëììë ììí íìíì ììê êìë.
 
-- **ð ìì ìì ëì**: êíìê(I/O ìììë)ì ìêëìì ììíë êì ì(ëìí)ëì ììê ìëíì êí ììì íììë ìëí ìììììëë. íë íëì ëë íëì ì([[327_ssd|SSD]]) ìëê ìì êìë ììê ìììê ìêì ììíìë, ìëì êëë êìì ìê íìíë ê 'êí íìì ìí'ì ìì íê êìí(ëíìí ìììë)ì êë ëëìë ììí ëê ë êê êìëë.
+- **ð ìì ìì ëì**: êíìê(I/O ìììë)ì ìêëìì ììíë êì ì(ëìí)ëì ììê ìëíì êí ììì íììë ìëí ìììììëë. íë íëì ëë íëì ì([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)) ìëê ìì êìë ììê ìììê ìêì ììíìë, ìëì êëë êìì ìê íìíë ê 'êí íìì ìí'ì ìì íê êìí(ëíìí ìììë)ì êë ëëìë ììí ëê ë êê êìëë.
 
 ---
 
-### ð êë êë ë ([[160_knowledge_graph_graphrag_integration|Knowledge Graph]])
-- íì ìê ([[467_disk_access_time|Seek Time]]) | ëìí ìììëì ëìì êê ììëê íë, ëëì íëì ìì ììêëë ëìí ëëì ëëì
-- ìëì ([[257_thrashing|Thrashing]]) | ìììëì êíìë íì ëëì ëëêíëë ëìí I/Oê 100%ë ìê CPUê êìíë ëë ìí
-- [[173_fcfs_scheduling|FCFS]] / [[470_sstf_disk_scheduling|SSTF]] / SCAN | ëì ììíì êíì ìììì ìíêë íë ëìí ì ëìí ìììëì êìì ìêëì íìë
-- noop / none ìììë | ìëìë ëëì ìë [[327_ssd|SSD]] íêìì, OSì ìëìë ìë ìëíëë ëê ìì íêìíë íë ìêì íëê
-- ëí ìì ([[536_buffer_cache_page_cache|Buffer Cache]]) | ìììëê ëì(ííëì)ì ììê ì ì ìëë ëì ëëì ëìíë ììê ëìëë ëëí ììì
+### ð êë êë ë ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
+- íì ìê ([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/)) | ëìí ìììëì ëìì êê ììëê íë, ëëì íëì ìì ììêëë ëìí ëëì ëëì
+- ìëì ([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)) | ìììëì êíìë íì ëëì ëëêíëë ëìí I/Oê 100%ë ìê CPUê êìíë ëë ìí
+- [FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/) / [SSTF](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/470_sstf_disk_scheduling/) / SCAN | ëì ììíì êíì ìììì ìíêë íë ëìí ì ëìí ìììëì êìì ìêëì íìë
+- noop / none ìììë | ìëìë ëëì ìë [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) íêìì, OSì ìëìë ìë ìëíëë ëê ìì íêìíë íë ìêì íëê
+- ëí ìì ([Buffer Cache](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/)) | ìììëê ëì(ííëì)ì ììê ì ì ìëë ëì ëëì ëìíë ììê ëìëë ëëí ììì
 
 ### ð ìëìë ìí 3ì ëì ìë
 1. **ëìí ìììëì ëêì?** ìëëê(ëìí ëë)ì 1ììì ìì, 5ììì ìê, 2ììì ëì êììì í ë, ìë(OS)ê ììì ëìì ììê ëì ìììë êìì.
@@ -186,10 +190,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[466_logical_block_address_lba|논리적 블록 주소]] (LBA, Logical Block Address) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| 디스크 접근 시간 = [[324_seek_time|탐색 시간]]([[467_disk_access_time|Seek Time]]) + [[325_rotational_latency|회전 지연]]([[325_rotational_latency|Rotational Latency]]) + [[326_transfer_time|전송 시간]]([[326_transfer_time|Transfer Time]]) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [[173_fcfs_scheduling|FCFS]] (First-Come, First-Served) 스케줄링 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [[470_sstf_disk_scheduling|SSTF]] (Shortest [[467_disk_access_time|Seek Time]] First) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [논리적 블록 주소](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/466_logical_block_address_lba/) (LBA, Logical Block Address) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| 디스크 접근 시간 = [탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/)([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/)) + [회전 지연](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/)([Rotational Latency](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/)) + [전송 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/)([Transfer Time](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/) (First-Come, First-Served) 스케줄링 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [SSTF](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/470_sstf_disk_scheduling/) (Shortest [Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/) First) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -208,8 +212,8 @@ tags:
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 디스크 스케줄링 (Disk Scheduling) 목적은 컴퓨터가 디스크와 장치가 데이터를 주고받는 길을 정리하는 방법이에요.
-2. 먼저 디스크 접근 시간 = [[324_seek_time|탐색 시간]]([[467_disk_access_time|Seek Time]]) + [[325_rotational_latency|회전 지연]]([[325_rotational_latency|Rotational Latency]]) + [[326_transfer_time|전송 시간]]([[326_transfer_time|Transfer Time]])을 이해하면 디스크 스케줄링 (Disk Scheduling) 목적이 왜 필요한지 더 쉽게 보여요.
-3. 그래서 디스크 스케줄링 (Disk Scheduling) 목적을 잘 알면 나중에 [[173_fcfs_scheduling|FCFS]] (First-Come, First-Served) 스케줄링도 훨씬 쉽게 배울 수 있어요.
+2. 먼저 디스크 접근 시간 = [탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/)([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/)) + [회전 지연](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/)([Rotational Latency](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/)) + [전송 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/)([Transfer Time](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/))을 이해하면 디스크 스케줄링 (Disk Scheduling) 목적이 왜 필요한지 더 쉽게 보여요.
+3. 그래서 디스크 스케줄링 (Disk Scheduling) 목적을 잘 알면 나중에 [FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/) (First-Come, First-Served) 스케줄링도 훨씬 쉽게 배울 수 있어요.
 
 ---
 
@@ -217,7 +221,7 @@ tags:
 
 **진행 상황**: 468 / 800
 
-← **이전**: [[467_disk_access_time|467. 디스크 접근 시간 = 탐색 시간(Seek Time) + 회전 지연(Rotational Latency) + 전송 시간(Transfer]]
-**다음**: [[469_fcfs_disk_scheduling|469. FCFS (First-Come, First-Served) 스케줄링]] →
+← **이전**: [467. 디스크 접근 시간 = 탐색 시간(Seek Time) + 회전 지연(Rotational Latency) + 전송 시간(Transfer](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/)
+**다음**: [469. FCFS (First-Come, First-Served) 스케줄링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/469_fcfs_disk_scheduling/) →
 
 ---

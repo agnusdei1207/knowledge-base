@@ -1,20 +1,24 @@
----
-title: 86. 프로세스 뷰 (Process View) - 시스템의 동시성 및 동적 성능 설계
-date: '2026-04-10'
-tags:
-- studynote-design
----
++++
+title = "86. 프로세스 뷰 (Process View) - 시스템의 동시성 및 동적 성능 설계"
+date = 2026-04-10
+
+[taxonomies]
+tags = ["studynote-design"]
+
+[extra]
+tags = ["studynote-design"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 프로세스 뷰([[300_process|Process]] [[151_sql_view_virtual_table|View]])는 실행 중인 프로세스와 [[092_thread_lwp|스레드]]([[092_thread_lwp|Thread]])의 동시 동작을 설명하는 동적 설계 관점이다.
-> 2. **가치**: 경합, [[281_deadlock_definition|교착 상태]], 병목을 미리 보게 해 [[282_performance_tactics|성능]]과 안정성을 같이 설계할 수 있다.
-> 3. **판단 포인트**: 프로세스, [[092_thread_lwp|스레드]], [[212_synchronization_mechanisms|동기화]], [[117_ipc|IPC]] (Inter-[[300_process|Process]] Communication)를 구분해 부하 기준으로 [[395_verification_process_review|검증]]해야 한다.
+> 1. **본질**: 프로세스 뷰([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))는 실행 중인 프로세스와 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))의 동시 동작을 설명하는 동적 설계 관점이다.
+> 2. **가치**: 경합, [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/), 병목을 미리 보게 해 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 안정성을 같이 설계할 수 있다.
+> 3. **판단 포인트**: 프로세스, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/), [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) (Inter-[Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Communication)를 구분해 부하 기준으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
-프로세스 뷰([[300_process|Process]] [[151_sql_view_virtual_table|View]])는 Kruchten의 4+1 [[151_sql_view_virtual_table|View]] Model에서 실행 시점의 구조를 보여 준다. 정적 다이어그램만으로는 보이지 않는 입출력(I/O, Input/Output) 대기, 자원 경합, [[092_thread_lwp|스레드]] 간 협업을 드러내기 때문에 [[282_performance_tactics|성능]] 중심 시스템에서 중요하다.
+프로세스 뷰([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))는 Kruchten의 4+1 [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) Model에서 실행 시점의 구조를 보여 준다. 정적 다이어그램만으로는 보이지 않는 입출력(I/O, Input/Output) 대기, 자원 경합, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 간 협업을 드러내기 때문에 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 중심 시스템에서 중요하다.
 
 즉, 이 뷰는 “무엇이 존재하는가”가 아니라 “무엇이 동시에 움직이는가”를 묻는다.
 - **📢 섹션 요약 비유**: 사람이 많은 복도는 출입문과 동선까지 봐야 이해된다.
@@ -25,63 +29,63 @@ tags:
 | 구성 요소 | 역할 | 설계 포인트 |
 |:---|:---|:---|
 | 프로세스 | 자원 경계와 격리 단위 | 장애 격리 |
-| [[092_thread_lwp|스레드]]([[092_thread_lwp|Thread]]) | 실행 흐름 | 공유 상태 경합 |
-| [[212_synchronization_mechanisms|동기화]] | [[214_critical_section|임계 구역]] [[571_protection_vs_security|보호]] | [[223_mutex|mutex]] ([[283_mutual_exclusion|mutual exclusion]]), [[224_semaphore|semaphore]] |
-| [[117_ipc|IPC]] (Inter-[[300_process|Process]] Communication) | [[117_ipc|프로세스 간 통신]] | [[015_지연_데이터_관점|지연]]과 직렬화 비용 |
-| [[282_performance_tactics|성능]] 지표 | 처리량과 응답시간 | 큐 길이, 꼬리 [[015_지연_데이터_관점|지연]] |
+| [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)) | 실행 흐름 | 공유 상태 경합 |
+| [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | [mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/) ([mutual exclusion](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)), [semaphore](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) |
+| [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) (Inter-[Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Communication) | [프로세스 간 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) | [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 직렬화 비용 |
+| [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표 | 처리량과 응답시간 | 큐 길이, 꼬리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
 
 ┌─────────┐ request ┌──────────────────┐
-│ [[003_audit_stakeholders|Client]]  │───────▶│   [[300_process|Process]] A      │
+│ [Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)  │───────▶│   [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) A      │
 └─────────┘        │  ┌────────────┐  │
-                   │  │ [[103_thread_pool|Thread Pool]] │  │
+                   │  │ [Thread Pool](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) │  │
                    │  └──┬────┬────┘  │
                    │     │    │       │
                    │   ┌─▼┐ ┌─▼┐      │
                    │   │T1│ │T2│      │
                    │   └─┬┘ └─┬┘      │
-                   │     │ [[510_lock|lock]]      │
+                   │     │ [lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)      │
                    │  ┌──▼────────┐  │
                    │  │ Shared    │  │
-                   │  │ [[058_queue|Queue]]     │  │
+                   │  │ [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)     │  │
                    │  └──┬────────┘  │
                    └─────┼───────────┘
                          ▼
                    ┌──────────┐
-                   │[[501_database|Database]]  │
+                   │[Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/)  │
                    └──────────┘
 - **📢 섹션 요약 비유**: 누가 동시에 움직이고 어디서 막히는지 보는 지도다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
-| 비교 항목 | [[300_process|Process]] [[151_sql_view_virtual_table|View]] | [[085_logical_view_class_diagram_functional_requirements|Logical View]] | Development [[151_sql_view_virtual_table|View]] | Physical [[151_sql_view_virtual_table|View]] |
+| 비교 항목 | [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) | [Logical View](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/085_logical_view_class_diagram_functional_requirements/) | Development [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) | Physical [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) |
 |:---|:---|:---|:---|:---|
 | 주 질문 | 동시에 무엇이 실행되는가 | 기능이 무엇인가 | 어떤 모듈로 나뉘는가 | 어디에 배치되는가 |
-| 위험 | 경합, 교착, 과부하 | 요구 누락 | [[195_coupling_levels|결합도]] 증가 | [[015_지연_데이터_관점|지연]], 장애 [[064_relation_domain|도메인]] |
-| [[395_verification_process_review|검증]] | [[446_load_test|부하 테스트]], [[092_thread_lwp|스레드]] 덤프 | 시나리오 검토 | 의존성 [[396_validation|확인]] | 배치 [[396_validation|확인]] |
+| 위험 | 경합, 교착, 과부하 | 요구 누락 | [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 증가 | [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 장애 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) |
+| [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/), [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 덤프 | 시나리오 검토 | 의존성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 배치 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
 
-[[300_process|Process]] View는 다른 뷰를 대체하지 않고, 실행 문제를 보완한다.
+[Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) View는 다른 뷰를 대체하지 않고, 실행 문제를 보완한다.
 - **📢 섹션 요약 비유**: 정적 설계와 실행 설계는 역할이 다르다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
-- [ ] [[092_thread_lwp|스레드]] 수를 CPU (Central Processing Unit) 코어 수와 단순 1:1로 보지 않는다.
+- [ ] [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수를 CPU (Central Processing Unit) 코어 수와 단순 1:1로 보지 않는다.
 - [ ] 공유 상태는 소유자와 수명 주기를 먼저 정한다.
-- [ ] 입출력(I/O) 대기, [[573_timeout_retry_backoff_strategy|타임아웃]], 재시도 정책을 함께 설계한다.
-- [ ] [[446_load_test|부하 테스트]]에서 평균뿐 아니라 꼬리 [[015_지연_데이터_관점|지연]]과 큐 길이를 본다.
-- [ ] [[281_deadlock_definition|교착 상태]]와 기아가 재현되는 시나리오를 만든다.
+- [ ] 입출력(I/O) 대기, [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/), 재시도 정책을 함께 설계한다.
+- [ ] [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/)에서 평균뿐 아니라 꼬리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 큐 길이를 본다.
+- [ ] [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)와 기아가 재현되는 시나리오를 만든다.
 
 - ❌ 하나의 거대한 mutex로 전체 요청을 잠그는 설계
-- ❌ 블로킹 I/O를 메인 [[092_thread_lwp|스레드]]에 그대로 두는 설계
-- ❌ [[092_thread_lwp|스레드]] 수만 늘리면 [[282_performance_tactics|성능]]이 오른다고 가정하는 태도
-- **📢 섹션 요약 비유**: 한 줄로 다 잠그면 [[282_performance_tactics|성능]]도 같이 묶인다.
+- ❌ 블로킹 I/O를 메인 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)에 그대로 두는 설계
+- ❌ [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수만 늘리면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 오른다고 가정하는 태도
+- **📢 섹션 요약 비유**: 한 줄로 다 잠그면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)도 같이 묶인다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
-프로세스 뷰는 [[282_performance_tactics|성능]] 문제를 사후 장애가 아니라 사전 설계 문제로 바꾼다. [[014_concurrency|동시성]] 구조를 먼저 모델링해야 병목을 설계 단계에서 줄일 수 있다.
-- **📢 섹션 요약 비유**: [[014_concurrency|동시성]] 그림이 있으면 튜닝이 감이 아니라 근거가 된다.
+프로세스 뷰는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제를 사후 장애가 아니라 사전 설계 문제로 바꾼다. [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 구조를 먼저 모델링해야 병목을 설계 단계에서 줄일 수 있다.
+- **📢 섹션 요약 비유**: [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 그림이 있으면 튜닝이 감이 아니라 근거가 된다.
 
 ---
 
@@ -89,11 +93,11 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 프로세스 뷰 | 실행 중 [[014_concurrency|동시성]]의 전체 그림이다. |
-| [[103_thread_pool|스레드 풀]] | 요청을 나눠 처리량을 높인다. |
-| [[117_ipc|IPC]] (Inter-[[300_process|Process]] Communication) | 프로세스 간 협력 비용을 드러낸다. |
-| [[212_synchronization_mechanisms|동기화]] | 공유 자원 [[571_protection_vs_security|보호]]와 경합 제어를 맡는다. |
-| [[282_performance_tactics|성능]] 지표 | 병목이 어디서 생기는지 알려 준다. |
+| 프로세스 뷰 | 실행 중 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)의 전체 그림이다. |
+| [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) | 요청을 나눠 처리량을 높인다. |
+| [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) (Inter-[Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Communication) | 프로세스 간 협력 비용을 드러낸다. |
+| [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | 공유 자원 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)와 경합 제어를 맡는다. |
+| [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표 | 병목이 어디서 생기는지 알려 준다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -113,7 +117,7 @@ tags:
 
 **진행 상황**: 129 / 530
 
-← **이전**: [[085_logical_view_class_diagram_functional_requirements|85. 논리 뷰 (Logical View) - 최종 사용자 요구사항 개념 설계]]
-**다음**: [[087_implementation_view_component_diagram_packaging|87. 구현 뷰 (Implementation View) - 소프트웨어 모듈 컴포넌트 설계]] →
+← **이전**: [85. 논리 뷰 (Logical View) - 최종 사용자 요구사항 개념 설계](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/085_logical_view_class_diagram_functional_requirements/)
+**다음**: [87. 구현 뷰 (Implementation View) - 소프트웨어 모듈 컴포넌트 설계](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/087_implementation_view_component_diagram_packaging/) →
 
 ---

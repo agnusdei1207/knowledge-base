@@ -1,25 +1,29 @@
----
-title: 215. 워커 스레드/스레드 풀 패턴 (Worker Thread / Thread Pool Pattern)
-date: '2026-05-10'
-tags:
-- studynote-design-supervision
----
++++
+title = "215. 워커 스레드/스레드 풀 패턴 (Worker Thread / Thread Pool Pattern)"
+date = 2026-05-10
+
+[taxonomies]
+tags = ["studynote-design-supervision"]
+
+[extra]
+tags = ["studynote-design-supervision"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[103_thread_pool|Thread Pool]] ([[103_thread_pool|스레드 풀]]) 패턴은 매 요청마다 [[092_thread_lwp|스레드]]를 [[087_process_state_transition|생성]]/소멸하는 비용을 제거하기 위해, 미리 [[087_process_state_transition|생성]]된 재사용 가능한 [[092_thread_lwp|스레드]] 집합(Pool)에 작업을 분배하는 객체 풀 특화 패턴이다.
-> 2. **가치**: [[092_thread_lwp|스레드]] [[087_process_state_transition|생성]] [[015_지연_데이터_관점|지연]](수 ms~수십 ms)을 제거하고, 동시 실행 가능한 [[092_thread_lwp|스레드]] 수를 제한하여 CPU/메모리 자원을 안정적으로 관리한다.
-> 3. **판단 포인트**: 적정 [[092_thread_lwp|스레드]] 수 공식 `N = CPU 코어 수 × (1 + 대기시간 / 처리시간)` — I/O 바운드 작업은 [[092_thread_lwp|스레드]]를 더 많이, CPU 바운드 작업은 코어 수에 가깝게 설정한다.
+> 1. **본질**: [Thread Pool](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) ([스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)) 패턴은 매 요청마다 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/소멸하는 비용을 제거하기 위해, 미리 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 재사용 가능한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 집합(Pool)에 작업을 분배하는 객체 풀 특화 패턴이다.
+> 2. **가치**: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(수 ms~수십 ms)을 제거하고, 동시 실행 가능한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수를 제한하여 CPU/메모리 자원을 안정적으로 관리한다.
+> 3. **판단 포인트**: 적정 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수 공식 `N = CPU 코어 수 × (1 + 대기시간 / 처리시간)` — I/O 바운드 작업은 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 더 많이, CPU 바운드 작업은 코어 수에 가깝게 설정한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
-[[092_thread_lwp|스레드]] 하나를 [[087_process_state_transition|생성]]하면:
-- JVM 기준 기본 [[057_stack|스택]] 메모리 512KB~1MB 할당
-- OS [[022_kernel_role|커널]] 객체 [[087_process_state_transition|생성]] (수 ms [[015_지연_데이터_관점|지연]])
-- [[034_context_switch|컨텍스트 스위칭]] 오버헤드 증가
+[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 하나를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하면:
+- JVM 기준 기본 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 메모리 512KB~1MB 할당
+- OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) (수 ms [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))
+- [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) 오버헤드 증가
 
-초당 1,000개 요청이 들어오는 서버에서 매 요청마다 [[092_thread_lwp|스레드]]를 [[087_process_state_transition|생성]]하면 초당 1,000번의 [[092_thread_lwp|스레드]] [[087_process_state_transition|생성]]/소멸이 발생 → 실제 처리보다 [[092_thread_lwp|스레드]] 관리 비용이 더 커지는 역설.
+초당 1,000개 요청이 들어오는 서버에서 매 요청마다 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하면 초당 1,000번의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/소멸이 발생 → 실제 처리보다 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 관리 비용이 더 커지는 역설.
 
 ```
 사전 스레드 생성:
@@ -30,10 +34,10 @@ tags:
               → 실행 완료 → 스레드 Pool로 반환 (소멸 X, 재사용 O)
 ```
 
-- 웹 서버의 [[461_http_stateless_connection_oriented|HTTP]] 요청 처리
-- [[002_database_definition|데이터베이스]] 연결 관리 (Connection Pool과 혼용)
+- 웹 서버의 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 요청 처리
+- [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 연결 관리 (Connection Pool과 혼용)
 - 비동기 작업 실행 (Java `CompletableFuture.supplyAsync()`)
-- [[228_batch_processing_hadoop_spark|배치 처리]] 병렬화
+- [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) 병렬화
 
 ```text
 ┌──────────────┐    ┌──────────────┐    ┌──────────────┐
@@ -41,7 +45,7 @@ tags:
 └──────────────┘    └──────────────┘    └──────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 택시 회사에서 손님이 올 때마다 기사를 새로 고용하는 것이 아니라, 기사들을 대기실(Pool)에 준비시켜두고 호출이 오면 배차하는 것이 [[103_thread_pool|스레드 풀]]이다.
+- **📢 섹션 요약 비유**: 택시 회사에서 손님이 올 때마다 기사를 새로 고용하는 것이 아니라, 기사들을 대기실(Pool)에 준비시켜두고 호출이 오면 배차하는 것이 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)이다.
 
 ---
 
@@ -72,17 +76,17 @@ tags:
 
 | 파라미터 | 설명 | 기본값/권장 |
 |:---|:---|:---|
-| `corePoolSize` | 항상 유지할 최소 [[092_thread_lwp|스레드]] 수 | CPU 코어 수 |
-| `maximumPoolSize` | 최대 허용 [[092_thread_lwp|스레드]] 수 | I/O 바운드: 코어 × 2~4 |
-| `keepAliveTime` | core 초과 [[092_thread_lwp|스레드]] 유휴 시 유지 시간 | 60초 |
-| `workQueue` | 작업 [[089_wait_queue|대기 큐]] 종류 | `LinkedBlockingQueue` |
-| `rejectedExecutionHandler` | 큐 가득 찰 때 [[164_policy|정책]] | `CallerRunsPolicy` |
+| `corePoolSize` | 항상 유지할 최소 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수 | CPU 코어 수 |
+| `maximumPoolSize` | 최대 허용 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수 | I/O 바운드: 코어 × 2~4 |
+| `keepAliveTime` | core 초과 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 유휴 시 유지 시간 | 60초 |
+| `workQueue` | 작업 [대기 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/) 종류 | `LinkedBlockingQueue` |
+| `rejectedExecutionHandler` | 큐 가득 찰 때 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | `CallerRunsPolicy` |
 
 | 큐 종류 | 특징 | 사용 시점 |
 |:---|:---|:---|
 | `LinkedBlockingQueue` (무제한) | 큐 무한 증가 가능 | 메모리 주의 필요 |
 | `ArrayBlockingQueue` (제한) | Backpressure 자동 적용 | 프로덕션 권장 |
-| `SynchronousQueue` | 큐 없음, 즉시 [[092_thread_lwp|스레드]] 배정 | cachedThreadPool |
+| `SynchronousQueue` | 큐 없음, 즉시 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 배정 | cachedThreadPool |
 | `PriorityBlockingQueue` | 우선순위 기반 처리 | 긴급 작업 우선 처리 |
 
 ```
@@ -99,11 +103,11 @@ I/O 바운드 작업:  N_threads = N_cpu × (1 + 대기시간 / 처리시간)
 ---
 
 ## Ⅲ. 비교 및 연결
-| [[164_policy|정책]] | 동작 | 적합한 상황 |
+| [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 동작 | 적합한 상황 |
 |:---|:---|:---|
 | `AbortPolicy` (기본) | `RejectedExecutionException` 발생 | 에러 즉시 감지 필요 |
-| `CallerRunsPolicy` | 호출자 [[092_thread_lwp|스레드]]가 직접 실행 | 자동 속도 조절(Backpressure) |
-| `DiscardPolicy` | 작업 조용히 버림 | 손실 허용 가능한 [[568_logs_distributed_logging_elk_fluentd|로그]] 처리 |
+| `CallerRunsPolicy` | 호출자 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 직접 실행 | 자동 속도 조절(Backpressure) |
+| `DiscardPolicy` | 작업 조용히 버림 | 손실 허용 가능한 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 처리 |
 | `DiscardOldestPolicy` | 가장 오래된 작업 버리고 재시도 | 최신 요청 우선 처리 |
 
 ```
@@ -121,18 +125,18 @@ I/O 바운드 작업:  N_threads = N_cpu × (1 + 대기시간 / 처리시간)
 
 | 메서드 | 특징 | 주의사항 |
 |:---|:---|:---|
-| `newFixedThreadPool(n)` | n개 고정 [[092_thread_lwp|스레드]], 무제한 큐 | [[157_oom_killer|OOM]] 위험 (무제한 큐) |
-| `newCachedThreadPool()` | 요청마다 [[092_thread_lwp|스레드]] [[087_process_state_transition|생성]], 60s 유휴 시 제거 | [[092_thread_lwp|스레드]] 폭발 위험 |
-| `newSingleThreadExecutor()` | [[092_thread_lwp|스레드]] 1개, 순차 실행 보장 | [[139_throughput|처리량]] 낮음 |
-| `newScheduledThreadPool(n)` | [[015_지연_데이터_관점|지연]]/반복 작업 지원 | - |
-| `newWorkStealingPool()` | ForkJoinPool 기반, 코어 수 | [[014_recursion|재귀]] 작업에 최적 |
+| `newFixedThreadPool(n)` | n개 고정 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/), 무제한 큐 | [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 위험 (무제한 큐) |
+| `newCachedThreadPool()` | 요청마다 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 60s 유휴 시 제거 | [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 폭발 위험 |
+| `newSingleThreadExecutor()` | [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 1개, 순차 실행 보장 | [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 낮음 |
+| `newScheduledThreadPool(n)` | [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)/반복 작업 지원 | - |
+| `newWorkStealingPool()` | ForkJoinPool 기반, 코어 수 | [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 작업에 최적 |
 
 - **📢 섹션 요약 비유**: 무제한 큐 = 주문을 무한히 받다가 주방이 터지는 레스토랑, 제한 큐 = "지금 자리 없습니다. 기다리시겠어요?" 라고 미리 알려주는 레스토랑이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
-Java 21의 Virtual [[092_thread_lwp|Thread]] (가상 [[092_thread_lwp|스레드]])는 [[092_thread_lwp|스레드]] 수 제한 없이 경량 [[092_thread_lwp|스레드]]를 활용하여 I/O 블로킹 문제를 OS 레벨에서 해결한다:
+Java 21의 Virtual [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) (가상 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수 제한 없이 경량 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 활용하여 I/O 블로킹 문제를 OS 레벨에서 해결한다:
 
 ```java
 // Java 21 Virtual Thread Executor
@@ -143,62 +147,62 @@ executor.submit(() -> {
 });
 ```
 
-Virtual Thread를 사용해도 CPU 바운드 작업에서는 기존 Platform [[092_thread_lwp|Thread]] Pool이 여전히 유리하다.
+Virtual Thread를 사용해도 CPU 바운드 작업에서는 기존 Platform [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Pool이 여전히 유리하다.
 
 | 지표 | 설명 | 임계값 |
 |:---|:---|:---|
-| [[483_active_vs_passive_ftp|Active]] [[092_thread_lwp|Thread]] Count | 현재 작업 중인 [[092_thread_lwp|스레드]] 수 | maxPoolSize의 80% 초과 시 경고 |
-| [[058_queue|Queue]] Size | 대기 중인 작업 수 | 목표치의 2배 초과 시 경고 |
-| Rejected [[150_task|Task]] Count | 거부된 작업 수 | 0이어야 정상 |
-| [[092_thread_lwp|Thread]] Creation Rate | 단위시간당 [[092_thread_lwp|스레드]] [[087_process_state_transition|생성]] 수 | 풀 크기 재검토 [[130_signal|신호]] |
+| [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Count | 현재 작업 중인 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수 | maxPoolSize의 80% 초과 시 경고 |
+| [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) Size | 대기 중인 작업 수 | 목표치의 2배 초과 시 경고 |
+| Rejected [Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) Count | 거부된 작업 수 | 0이어야 정상 |
+| [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Creation Rate | 단위시간당 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 수 | 풀 크기 재검토 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) |
 
-### 판단 [[435_checklist_based_testing|체크리스트]]
+### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 해결하려는 변화 축이 분명한가?
-2. [[198_abstraction_control_data_process|추상화]] 비용보다 변경 절감 효과가 큰가?
-3. 테스트·[[568_logs_distributed_logging_elk_fluentd|로그]]·운영 가시성이 확보되는가?
+2. [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 비용보다 변경 절감 효과가 큰가?
+3. 테스트·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·운영 가시성이 확보되는가?
 4. 팀이 이 구조를 일관되게 유지할 수 있는가?
 
-- **📢 섹션 요약 비유**: [[103_thread_pool|스레드 풀]] 모니터링은 공장 대시보드 — 가동 중인 기계 수([[483_active_vs_passive_ftp|Active]]), 컨베이어 벨트의 미완성 제품 수([[058_queue|Queue]]), 작업 거부 횟수(Rejected)를 실시간으로 보는 것이다.
+- **📢 섹션 요약 비유**: [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 모니터링은 공장 대시보드 — 가동 중인 기계 수([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)), 컨베이어 벨트의 미완성 제품 수([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)), 작업 거부 횟수(Rejected)를 실시간으로 보는 것이다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
-[[103_thread_pool|Thread Pool]] 패턴은 현대 서버 소프트웨어의 가장 보편적인 [[014_concurrency|동시성]] 관리 기법이다. 올바르게 설정된 [[103_thread_pool|스레드 풀]]은:
+[Thread Pool](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 패턴은 현대 서버 소프트웨어의 가장 보편적인 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 관리 기법이다. 올바르게 설정된 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)은:
 
-- **응답 [[015_지연_데이터_관점|지연]] 감소**: [[092_thread_lwp|스레드]] [[087_process_state_transition|생성]] 오버헤드 제거
-- **자원 안정화**: [[092_thread_lwp|스레드]] 수 상한으로 [[157_oom_killer|OOM]]/CPU 폭발 방지
-- **[[139_throughput|처리량]] 극대화**: I/O 대기 중에 다른 요청 처리 병행
+- **응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 감소**: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 오버헤드 제거
+- **자원 안정화**: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수 상한으로 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)/CPU 폭발 방지
+- **[처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 극대화**: I/O 대기 중에 다른 요청 처리 병행
 
-잘못 설정된 [[103_thread_pool|스레드 풀]]은:
-- **무제한 큐 + FixedThreadPool**: [[157_oom_killer|OOM]] ([[157_oom_killer|Out of Memory]])
-- **너무 큰 maximumPoolSize**: [[034_context_switch|컨텍스트 스위칭]] 폭발
-- **단일 풀에서 [[150_task|Task]] 내 [[150_task|Task]] submit**: [[281_deadlock_definition|교착 상태]]([[281_deadlock_definition|Deadlock]])
+잘못 설정된 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)은:
+- **무제한 큐 + FixedThreadPool**: [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) ([Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))
+- **너무 큰 maximumPoolSize**: [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) 폭발
+- **단일 풀에서 [Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 내 [Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) submit**: [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))
 
-기술사 문제에서는 **`ThreadPoolExecutor` 파라미터의 역할**과 **[[092_thread_lwp|스레드]] 수 결정 공식**을 정확히 서술하고, **거부 [[164_policy|정책]](RejectedExecutionHandler)** 별 차이를 비교하는 것이 핵심이다.
+기술사 문제에서는 **`ThreadPoolExecutor` 파라미터의 역할**과 **[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수 결정 공식**을 정확히 서술하고, **거부 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)(RejectedExecutionHandler)** 별 차이를 비교하는 것이 핵심이다.
 
-확장 방향은 ① 선언형 API와의 결합, ② [[111_observability_metrics_logs_traces|관측 가능성]]([[642_observability_telemetry|Observability]]) 내장, ③ [[136_variance|분산]] 환경에 맞는 변형 패턴 적용이다.
+확장 방향은 ① 선언형 API와의 결합, ② [관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)) 내장, ③ [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에 맞는 변형 패턴 적용이다.
 
-- **📢 섹션 요약 비유**: [[103_thread_pool|스레드 풀]]은 여름 아르바이트생 관리와 같다 — 항상 최소 인원(corePoolSize)은 유지하고, 바쁠 때만 임시 충원(maximumPoolSize)하며, 너무 여유로우면 계약 종료(keepAliveTime)하고, 그래도 일이 밀리면 거부 [[164_policy|정책]](RejectedExecutionHandler)을 적용한다.
+- **📢 섹션 요약 비유**: [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)은 여름 아르바이트생 관리와 같다 — 항상 최소 인원(corePoolSize)은 유지하고, 바쁠 때만 임시 충원(maximumPoolSize)하며, 너무 여유로우면 계약 종료(keepAliveTime)하고, 그래도 일이 밀리면 거부 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)(RejectedExecutionHandler)을 적용한다.
 
 ---
 
 ### 📌 관련 개념 맵
-| [[083_relationship_in_er_model|관계]] | 개념 | 설명 |
+| [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
 |:---|:---|:---|
-| 상위 개념 | [[219_object_pool_pattern|Object Pool Pattern]] | [[103_thread_pool|스레드 풀]]은 [[092_thread_lwp|스레드]] 객체를 풀로 관리 |
-| 연관 개념 | Half-Sync/Half-Async | 동기 계층의 Worker [[092_thread_lwp|Thread]] Pool로 활용 |
-| 연관 개념 | [[213_proactor_pattern|Proactor Pattern]] | Completion Handler 실행에 [[103_thread_pool|스레드 풀]] 사용 |
-| 구현체 | Java ThreadPoolExecutor | Java 표준 [[103_thread_pool|스레드 풀]] 구현 |
-| 구현체 | ForkJoinPool | [[014_recursion|재귀]] 분할-정복 작업에 특화된 [[103_thread_pool|스레드 풀]] |
-| 연관 개념 | Virtual [[092_thread_lwp|Thread]] (Java 21) | OS [[092_thread_lwp|스레드]] 없이 경량 [[092_thread_lwp|스레드]]로 대체 |
-| 측정 도구 | Micrometer / [[136_prometheus|Prometheus]] | [[103_thread_pool|스레드 풀]] 지표 모니터링 |
+| 상위 개념 | [Object Pool Pattern](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/219_object_pool_pattern/) | [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)은 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 객체를 풀로 관리 |
+| 연관 개념 | Half-Sync/Half-Async | 동기 계층의 Worker [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Pool로 활용 |
+| 연관 개념 | [Proactor Pattern](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/213_proactor_pattern/) | Completion Handler 실행에 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 사용 |
+| 구현체 | Java ThreadPoolExecutor | Java 표준 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 구현 |
+| 구현체 | ForkJoinPool | [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 분할-정복 작업에 특화된 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) |
+| 연관 개념 | Virtual [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) (Java 21) | OS [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 없이 경량 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)로 대체 |
+| 측정 도구 | Micrometer / [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) | [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 지표 모니터링 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-작업 큐 → 워커 [[092_thread_lwp|스레드]]/[[103_thread_pool|스레드 풀]] 패턴 → Executor [[090_service_kubernetes_network_load_balancing|서비스]]
+작업 큐 → 워커 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)/[스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 패턴 → Executor [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 놀이공원에서 놀이기구 마다 안전요원이 항상 대기(Pool)해 있어서 줄 서는 손님(요청)이 오면 바로 운행(처리)할 수 있어.
-2. 안전요원을 손님 올 때마다 새로 뽑으면 시간이 많이 걸리니까, 미리 뽑아서 기다리게 해두는 것이 [[103_thread_pool|스레드 풀]]이야.
+2. 안전요원을 손님 올 때마다 새로 뽑으면 시간이 많이 걸리니까, 미리 뽑아서 기다리게 해두는 것이 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)이야.
 3. 안전요원 수(maximumPoolSize)를 너무 많이 뽑으면 급여(메모리)가 너무 많이 들고, 너무 적게 뽑으면 손님이 기다리다 포기(RejectedExecution)하니 딱 적당하게 뽑는 것이 핵심이야.
 
 ---
@@ -207,7 +211,7 @@ Virtual Thread를 사용해도 CPU 바운드 작업에서는 기존 Platform [[0
 
 **진행 상황**: 276 / 530
 
-← **이전**: [[214_half_sync_half_async_pattern|214. 하프-싱크/하프-어싱크 패턴 (Half-Sync/Half-Async Pattern)]]
-**다음**: [[216_monad_functional_pattern|216. 모나드 패턴 (Monad / Functional Programming Pattern)]] →
+← **이전**: [214. 하프-싱크/하프-어싱크 패턴 (Half-Sync/Half-Async Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/214_half_sync_half_async_pattern/)
+**다음**: [216. 모나드 패턴 (Monad / Functional Programming Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/216_monad_functional_pattern/) →
 
 ---

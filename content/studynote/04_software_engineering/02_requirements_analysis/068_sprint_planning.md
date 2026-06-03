@@ -1,20 +1,24 @@
----
-title: 68. 스프린트 계획 회의 (Sprint Planning)
-tags:
-- software_engineering
----
++++
+title = "68. 스프린트 계획 회의 (Sprint Planning)"
+
+[taxonomies]
+tags = ["software_engineering"]
+
+[extra]
+tags = ["software_engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[067_sprint_timebox|스프린트]] 계획 회의는 이번 [[067_sprint_timebox|스프린트]]에서 무엇을 만들고 어떻게 할지 합의하는 킥오프다.
-> 2. **가치**: PO의 우선순위와 개발팀의 역량을 맞춰 현실적인 [[067_sprint_timebox|Sprint]] Goal과 계획을 만든다.
+> 1. **본질**: [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 계획 회의는 이번 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)에서 무엇을 만들고 어떻게 할지 합의하는 킥오프다.
+> 2. **가치**: PO의 우선순위와 개발팀의 역량을 맞춰 현실적인 [Sprint](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) Goal과 계획을 만든다.
 > 3. **판단**: 계획 회의는 문서 작성이 아니라, 범위와 역량을 교섭해 실행 가능한 약속을 만드는 자리다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[[067_sprint_timebox|스프린트]]가 시작되기 전에 무엇을 할지 정하지 않으면 팀은 흔들린다. 계획 회의는 그 흔들림을 줄이는 출발점이다.
+[스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)가 시작되기 전에 무엇을 할지 정하지 않으면 팀은 흔들린다. 계획 회의는 그 흔들림을 줄이는 출발점이다.
 
 여기서 목표와 범위가 맞아야 이후의 실행이 의미를 가진다.
 
@@ -38,8 +42,8 @@ Sprint Backlog
 | :-- | :-- |
 | What | 무엇을 할지 |
 | How | 어떻게 할지 |
-| [[067_sprint_timebox|Sprint]] Goal | 이번 [[067_sprint_timebox|스프린트]] 목표 |
-| [[067_sprint_timebox|Sprint]] Backlog | 선택된 작업 목록 |
+| [Sprint](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) Goal | 이번 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 목표 |
+| [Sprint](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) Backlog | 선택된 작업 목록 |
 
 계획 회의는 PO와 개발팀의 교섭이다. PO는 가치와 우선순위를, 개발팀은 역량과 실현 가능성을 제시한다.
 
@@ -52,16 +56,16 @@ Sprint Backlog
 | 활동 | 역할 |
 | :-- | :-- |
 | Planning | 범위와 목표 결정 |
-| [[069_daily_standup_scrum|Daily Scrum]] | [[216_progress_in_synchronization|진행]] 점검 |
-| [[153_requirements_review_inspection_walkthrough|Review]] | 결과 [[396_validation|확인]] |
-| [[796_retrospective|Retrospective]] | 개선 |
+| [Daily Scrum](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/069_daily_standup_scrum/) | [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 점검 |
+| [Review](/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/) | 결과 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
+| [Retrospective](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/796_retrospective/) | 개선 |
 
 | 산출물 | 의미 |
 | :-- | :-- |
-| [[067_sprint_timebox|Sprint]] Goal | 방향 |
-| [[067_sprint_timebox|Sprint]] Backlog | [[166_execution_plan_optimizer_navigation_tree|실행 계획]] |
+| [Sprint](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) Goal | 방향 |
+| [Sprint](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) Backlog | [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) |
 
-계획 회의가 잘되어야 [[067_sprint_timebox|스프린트]]도 흔들리지 않는다. 즉, 실행의 품질은 시작의 품질과 연결된다.
+계획 회의가 잘되어야 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)도 흔들리지 않는다. 즉, 실행의 품질은 시작의 품질과 연결된다.
 
 - **📢 섹션 요약 비유**: 출발선이 잘 그려져야 달리기도 수월하다.
 
@@ -69,7 +73,7 @@ Sprint Backlog
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 목표가 명확한가?
 2. 팀이 감당 가능한 범위인가?
@@ -77,14 +81,14 @@ Sprint Backlog
 4. 작업이 쪼개졌는가?
 5. 역량과 일정이 맞는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 이미 계획된 일을 다시 뒤집는 설계
 - 팀 역량을 무시한 과도한 범위
 - 목표 없이 작업만 나열하는 설계
 - 회의는 길고 실행은 없는 설계
 
-기술사 관점에서는 [[067_sprint_timebox|스프린트]] 계획 회의를 "실행 가능한 약속을 만드는 교섭"으로 봐야 한다.
+기술사 관점에서는 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 계획 회의를 "실행 가능한 약속을 만드는 교섭"으로 봐야 한다.
 
 - **📢 섹션 요약 비유**: 할 일을 정하고, 누가 할지 정하는 약속 자리다.
 
@@ -92,9 +96,9 @@ Sprint Backlog
 
 ## Ⅴ. 기대효과 및 결론
 
-[[067_sprint_timebox|스프린트]] 계획 회의는 팀이 같은 방향을 보게 만든다. 그래서 실행 가능성과 예측성을 높인다.
+[스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 계획 회의는 팀이 같은 방향을 보게 만든다. 그래서 실행 가능성과 예측성을 높인다.
 
-결론적으로 계획 회의는 [[067_sprint_timebox|스프린트]] 성공의 시작점이다.
+결론적으로 계획 회의는 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 성공의 시작점이다.
 
 - **📢 섹션 요약 비유**: 출발 전에 길과 속도를 맞춰 보는 시간이다.
 
@@ -132,7 +136,7 @@ Execution
 
 여행 가기 전에 어디로 갈지 정해요.  
 짐을 누가 들지 나눠요.  
-[[067_sprint_timebox|스프린트]] 계획 회의는 그런 약속이에요.
+[스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 계획 회의는 그런 약속이에요.
 
 ---
 
@@ -140,7 +144,7 @@ Execution
 
 **진행 상황**: 68 / 973
 
-← **이전**: [[067_sprint_timebox|67. 스프린트 (Sprint) - 1~4주의 개발 주기]]
-**다음**: [[069_daily_standup_scrum|69. 데일리 스탠드업 (Daily Scrum) - 진행 상황 공유, 장애 파악]] →
+← **이전**: [67. 스프린트 (Sprint) - 1~4주의 개발 주기](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)
+**다음**: [69. 데일리 스탠드업 (Daily Scrum) - 진행 상황 공유, 장애 파악](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/069_daily_standup_scrum/) →
 
 ---

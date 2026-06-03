@@ -1,9 +1,13 @@
----
-title: 327. Next Header, 홉 제한 (Hop Limit, TTL 대응)
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "327. Next Header, 홉 제한 (Hop Limit, TTL 대응)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -15,13 +19,13 @@ tags:
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [[324_ipv6_128bit_next_generation_address|IPv6]] 40바이트 고정 헤더 내에 위치한 8비트짜리 필드 두 개. 
-  - `Next Header`: 내 뒤에 따라오는 [[001_dikw_pyramid|데이터]]의 종류([[405_tcp_transmission_control_protocol_connection_oriented|TCP]]/[[406_udp_user_datagram_protocol_connectionless_fast|UDP]] 혹은 확장 헤더)를 지시.
+- **개념**: [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 40바이트 고정 헤더 내에 위치한 8비트짜리 필드 두 개. 
+  - `Next Header`: 내 뒤에 따라오는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 종류([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 혹은 확장 헤더)를 지시.
   - `Hop Limit`: 패킷이 거칠 수 있는 최대 라우터 개수.
 - **필요성**: IPv4는 헤더 안에 옵션(Options)을 마구 집어넣을 수 있어서 헤더 길이가 20바이트에서 60바이트까지 들쭉날쭉 변했다. 이러면 라우터가 "어디까지가 헤더야?" 하고 계산하느라 뻗어버린다. IPv6는 **"무조건 메인 헤더는 40바이트로 픽스! 만약 추가 옵션이 필요하면 메인 헤더 뒤에 별도의 '확장 헤더' 블록을 꼬리물기 하듯 붙여라!"**라는 천재적인 모듈화 설계를 도입했다. 이 꼬리물기를 엮어주는 고리가 Next Header다.
 
 - **💡 비유**: 
-  - **Next Header**: 블록 장난감 기차의 **"자석 연결 고리"**입니다. 맨 앞 기관차(기본 헤더)의 고리에 화물칸(확장 헤더)을 붙이고, 화물칸의 고리에 또 여객칸([[405_tcp_transmission_control_protocol_connection_oriented|TCP]])을 무한히 이어 붙일 수 있게 해줍니다.
+  - **Next Header**: 블록 장난감 기차의 **"자석 연결 고리"**입니다. 맨 앞 기관차(기본 헤더)의 고리에 화물칸(확장 헤더)을 붙이고, 화물칸의 고리에 또 여객칸([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))을 무한히 이어 붙일 수 있게 해줍니다.
   - **Hop Limit**: 좀비 목에 걸어둔 **"폭탄 타이머"**입니다. 방(라우터)을 하나 통과할 때마다 숫자가 1씩 깎이고, 0이 되면 펑! 터져서 방황하는 좀비를 제거합니다.
 
 ```text
@@ -33,23 +37,23 @@ tags:
     └──▶ [유니캐스트, 멀티캐스트, 애니캐스트]
 ```
 
-- **📢 섹션 요약 비유**: ** IPv6는 덕지덕지 붙어있던 무거운 배낭([[286_ipv4_internet_protocol_version_4_rfc_791|IPv4]] 헤더 옵션)을 쿨하게 버리고, **"기본 가방(40바이트) 하나만 달랑 멘 다음, 필요한 아이템이 생길 때마다 줄(Next Header)을 엮어 뒤에 매달고 질주하는 초경량 스프린터"**입니다.
+- **📢 섹션 요약 비유**: ** IPv6는 덕지덕지 붙어있던 무거운 배낭([IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 헤더 옵션)을 쿨하게 버리고, **"기본 가방(40바이트) 하나만 달랑 멘 다음, 필요한 아이템이 생길 때마다 줄(Next Header)을 엮어 뒤에 매달고 질주하는 초경량 스프린터"**입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 1. Next Header와 [[354_daisy_chain|데이지 체인]]([[354_daisy_chain|Daisy Chain]]) 구조
-Next Header 필드 안에는 숫자가 들어간다. 이 숫자는 IANA가 정의한 [[295_protocol_field_tcp_udp_icmp|프로토콜]] 번호다.
-- `6` = [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] 알맹이가 따라옴.
-- `17` = [[406_udp_user_datagram_protocol_connectionless_fast|UDP]] 알맹이가 따라옴.
-- **확장 헤더 번호들**: `0` (Hop-by-Hop 옵션), `43` ([[339_routing_overview_best_path_selection|라우팅]] 옵션), `50` ([[382_esp_encapsulating_security_payload_confidentiality|ESP]], [[001_dikw_pyramid|데이터]] 암호화) 등.
+### 1. Next Header와 [데이지 체인](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/354_daisy_chain/)([Daisy Chain](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/354_daisy_chain/)) 구조
+Next Header 필드 안에는 숫자가 들어간다. 이 숫자는 IANA가 정의한 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 번호다.
+- `6` = [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 알맹이가 따라옴.
+- `17` = [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 알맹이가 따라옴.
+- **확장 헤더 번호들**: `0` (Hop-by-Hop 옵션), `43` ([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 옵션), `50` ([ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 암호화) 등.
 
-송신자가 보안이 필요해서 [[382_esp_encapsulating_security_payload_confidentiality|ESP]] 암호화 확장 헤더를 붙였다면 패킷 구조는 이렇게 된다.
-1. **[[324_ipv6_128bit_next_generation_address|IPv6]] 기본 헤더** (Next Header = `50` 적힘)
-2. **[[382_esp_encapsulating_security_payload_confidentiality|ESP]] 확장 헤더** (Next Header = `6` 적힘)
-3. **[[405_tcp_transmission_control_protocol_connection_oriented|TCP]] 헤더 및 실제 [[001_dikw_pyramid|데이터]]**
-▶ 라우터는 1번 기본 헤더의 `50`을 보고 "아, 뒤에 [[382_esp_encapsulating_security_payload_confidentiality|ESP]] 확장 헤더가 오네?" 하고 넘어가고, [[382_esp_encapsulating_security_payload_confidentiality|ESP]] 헤더는 `6`을 보고 "내 뒤에는 진짜 [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] [[001_dikw_pyramid|데이터]]가 오는군!" 하고 연결(체인)을 완성한다.
+송신자가 보안이 필요해서 [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) 암호화 확장 헤더를 붙였다면 패킷 구조는 이렇게 된다.
+1. **[IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 기본 헤더** (Next Header = `50` 적힘)
+2. **[ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) 확장 헤더** (Next Header = `6` 적힘)
+3. **[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더 및 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)**
+▶ 라우터는 1번 기본 헤더의 `50`을 보고 "아, 뒤에 [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) 확장 헤더가 오네?" 하고 넘어가고, [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) 헤더는 `6`을 보고 "내 뒤에는 진짜 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 오는군!" 하고 연결(체인)을 완성한다.
 이 방식 덕분에, 중간 라우터는 자기가 굳이 안 까봐도 되는 확장 헤더는 무시하고 빠르게 넘겨버릴 수 있어 스위칭 스피드가 극대화된다.
 
 ```text
@@ -73,7 +77,7 @@ Next Header 필드 안에는 숫자가 들어간다. 이 숫자는 IANA가 정�
 
 ### 2. Hop Limit (홉 제한)의 정직한 개명
 IPv4의 `TTL(Time To Live)`은 단위가 '초(Second)'였다. 설계자들은 패킷이 네트워크에 1초 머물 때마다 1씩 깎일 거라고 상상했다. 하지만 현실의 라우터는 0.001초 만에 패킷을 처리해 버렸고, 초 단위로 깎는 건 불가능해서 그냥 라우터 한 대 지날 때마다 1씩 깎는 꼼수로 변질되었다.
-IPv6는 이 이름의 모순을 바로잡아, 직관적이고 솔직하게 **"거쳐 가는 라우터의 개수(Hop Limit)"**로 이름을 바꾸었다. 기능은 [[286_ipv4_internet_protocol_version_4_rfc_791|IPv4]] TTL과 100% 완벽히 동일하다. 0이 되면 터지고 ICMPv6 에러([[320_icmp_time_exceeded_ttl_expiration_traceroute|Time Exceeded]])를 뱉어낸다.
+IPv6는 이 이름의 모순을 바로잡아, 직관적이고 솔직하게 **"거쳐 가는 라우터의 개수(Hop Limit)"**로 이름을 바꾸었다. 기능은 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) TTL과 100% 완벽히 동일하다. 0이 되면 터지고 ICMPv6 에러([Time Exceeded](/knowledge-base/studynote/03_network/06_network_layer_ip/320_icmp_time_exceeded_ttl_expiration_traceroute/))를 뱉어낸다.
 
 - **📢 섹션 요약 비유**: ** Next Header 확장은 햄버거집의 **"추가 토핑 주문서"**입니다. 기본 빵(40바이트 헤더)은 절대 모양을 바꾸지 않고, 주문서에 적힌 화살표(Next Header)를 따라 치즈 패티, 베이컨 패티(확장 헤더)를 차곡차곡 쌓아 올려 거대한 햄버거를 완성하는 모듈식 건축술입니다.
 
@@ -81,13 +85,13 @@ IPv6는 이 이름의 모순을 바로잡아, 직관적이고 솔직하게 **"�
 
 ## Ⅲ. 비교 및 연결
 
-Next Header, 홉 제한을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [[326_traffic_class_flow_label_ipv6_qos|트래픽 클래스]] / 플로우 레이블이 기반 조건을 만든다면, Next Header, 홉 제한은 그 위에서 핵심 메커니즘을 구현하고, 유니캐스트, [[298_ip_classes_a_b_c_d_multicast_e_experimental|멀티캐스트]], 애니캐스트는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 주소 효율과 도달성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+Next Header, 홉 제한을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [트래픽 클래스](/knowledge-base/studynote/03_network/06_network_layer_ip/326_traffic_class_flow_label_ipv6_qos/) / 플로우 레이블이 기반 조건을 만든다면, Next Header, 홉 제한은 그 위에서 핵심 메커니즘을 구현하고, 유니캐스트, [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/), 애니캐스트는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 주소 효율과 도달성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [[326_traffic_class_flow_label_ipv6_qos|트래픽 클래스]] / 플로우 레이블의 기반 정리 | Next Header, 홉 제한의 핵심 동작 | 유니캐스트, [[298_ip_classes_a_b_c_d_multicast_e_experimental|멀티캐스트]], 애니캐스트의 확장 적용 |
+| 초점 | [트래픽 클래스](/knowledge-base/studynote/03_network/06_network_layer_ip/326_traffic_class_flow_label_ipv6_qos/) / 플로우 레이블의 기반 정리 | Next Header, 홉 제한의 핵심 동작 | 유니캐스트, [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/), 애니캐스트의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 주소 효율 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: Next Header, 홉 제한은 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -95,18 +99,18 @@ Next Header, 홉 제한을 볼 때는 앞뒤 개념과의 경계를 함께 봐�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 Next Header, 홉 제한을 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [[326_traffic_class_flow_label_ipv6_qos|트래픽 클래스]] / 플로우 레이블 수준의 기본 대책으로 충분한지, 아니면 Next Header, 홉 제한이 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 유니캐스트, [[298_ip_classes_a_b_c_d_multicast_e_experimental|멀티캐스트]], 애니캐스트와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 Next Header, 홉 제한을 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [트래픽 클래스](/knowledge-base/studynote/03_network/06_network_layer_ip/326_traffic_class_flow_label_ipv6_qos/) / 플로우 레이블 수준의 기본 대책으로 충분한지, 아니면 Next Header, 홉 제한이 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 유니캐스트, [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/), 애니캐스트와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 주소 효율 부족인지, 도달성 악화인지 먼저 분리한다.
-2. Next Header, 홉 제한가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [[396_validation|확인]]한다.
-3. 도입 후에는 인접 기술인 유니캐스트, [[298_ip_classes_a_b_c_d_multicast_e_experimental|멀티캐스트]], 애니캐스트와의 연계 방식을 함께 검증한다.
+2. Next Header, 홉 제한가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+3. 도입 후에는 인접 기술인 유니캐스트, [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/), 애니캐스트와의 연계 방식을 함께 검증한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - Next Header, 홉 제한의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- [[326_traffic_class_flow_label_ipv6_qos|트래픽 클래스]] / 플로우 레이블와의 경계를 정리하지 않아 중복 투자나 [[164_policy|정책]] 충돌을 만드는 설계
+- [트래픽 클래스](/knowledge-base/studynote/03_network/06_network_layer_ip/326_traffic_class_flow_label_ipv6_qos/) / 플로우 레이블와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: Next Header, 홉 제한을 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -114,7 +118,7 @@ Next Header, 홉 제한을 볼 때는 앞뒤 개념과의 경계를 함께 봐�
 
 ## Ⅴ. 기대효과 및 결론
 
-Next Header, 홉 제한은 네트워크 계층과 IP를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 주소 효율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 유니캐스트, [[298_ip_classes_a_b_c_d_multicast_e_experimental|멀티캐스트]], 애니캐스트, 대규모 주소 자동화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 대규모 주소 자동화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+Next Header, 홉 제한은 네트워크 계층과 IP를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 주소 효율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 유니캐스트, [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/), 애니캐스트, 대규모 주소 자동화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 대규모 주소 자동화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: Next Header, 홉 제한은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -124,10 +128,10 @@ Next Header, 홉 제한은 네트워크 계층과 IP를 이해할 때 핵심 축
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[326_traffic_class_flow_label_ipv6_qos|트래픽 클래스]] / 플로우 레이블 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| IP 주소 (Internet [[295_protocol_field_tcp_udp_icmp|Protocol]] Address) | 종단 위치를 논리적으로 식별한다. |
+| [트래픽 클래스](/knowledge-base/studynote/03_network/06_network_layer_ip/326_traffic_class_flow_label_ipv6_qos/) / 플로우 레이블 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| IP 주소 (Internet [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) Address) | 종단 위치를 논리적으로 식별한다. |
 | 서브넷 (Subnet) | 주소 공간을 쪼개 관리 단위를 만든다. |
-| 유니캐스트, [[298_ip_classes_a_b_c_d_multicast_e_experimental|멀티캐스트]], 애니캐스트 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| 유니캐스트, [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/), 애니캐스트 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -141,7 +145,7 @@ Next Header, 홉 제한은 네트워크 계층과 IP를 이해할 때 핵심 축
     └──▶ [확장 B: 대규모 주소 자동화]
 ```
 
-Next Header, 홉 제한는 [[326_traffic_class_flow_label_ipv6_qos|트래픽 클래스]] / 플로우 레이블에서 출발해 현재 메커니즘을 정교화하고, 이후 유니캐스트, [[298_ip_classes_a_b_c_d_multicast_e_experimental|멀티캐스트]], 애니캐스트와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+Next Header, 홉 제한는 [트래픽 클래스](/knowledge-base/studynote/03_network/06_network_layer_ip/326_traffic_class_flow_label_ipv6_qos/) / 플로우 레이블에서 출발해 현재 메커니즘을 정교화하고, 이후 유니캐스트, [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/), 애니캐스트와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -155,7 +159,7 @@ Next Header, 홉 제한는 [[326_traffic_class_flow_label_ipv6_qos|트래픽 클
 
 **진행 상황**: 448 / 1120
 
-← **이전**: [[326_traffic_class_flow_label_ipv6_qos|326. 트래픽 클래스 (Traffic Class) / 플로우 레이블 (Flow Label)]]
-**다음**: [[328_ipv6_address_types_unicast_multicast_anycast_no_broadcast|328. 유니캐스트, 멀티캐스트, 애니캐스트(Anycast, 가장 가까운 노드 응답)]] →
+← **이전**: [326. 트래픽 클래스 (Traffic Class) / 플로우 레이블 (Flow Label)](/knowledge-base/studynote/03_network/06_network_layer_ip/326_traffic_class_flow_label_ipv6_qos/)
+**다음**: [328. 유니캐스트, 멀티캐스트, 애니캐스트(Anycast, 가장 가까운 노드 응답)](/knowledge-base/studynote/03_network/06_network_layer_ip/328_ipv6_address_types_unicast_multicast_anycast_no_broadcast/) →
 
 ---

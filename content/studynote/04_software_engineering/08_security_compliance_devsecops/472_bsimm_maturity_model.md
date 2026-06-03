@@ -1,32 +1,36 @@
----
-title: 472. BSIMM (Building Security In Maturity Model) - SW 보안 성숙도 평가 모델
-date: '2026-05-08'
-tags:
-- studynote-software-engineering
----
++++
+title = "472. BSIMM (Building Security In Maturity Model) - SW 보안 성숙도 평가 모델"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-software-engineering"]
+
+[extra]
+tags = ["studynote-software-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: BSIMM (Building [[283_security_tactics|Security]] In [[011_maturity_model|Maturity Model]]) - SW 보안 성숙도 평가 모델은(는) [[001_software_engineering_definition|소프트웨어 공학]]의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[[346_maintainability_portability|유지보수성]]·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: BSIMM (Building [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) In [Maturity Model](/knowledge-base/studynote/12_it_management/01_governance_strategy/011_maturity_model/)) - SW 보안 성숙도 평가 모델은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: BSIMM(비심)은 'Building [[283_security_tactics|Security]] In [[011_maturity_model|Maturity Model]]'의 약자로, 해석하면 "보안을 내재화(Building In)하는 능력이 얼마나 성숙(Maturity)했는가 측정하는 모델"이다. 100개가 넘는 글로벌 회사에 찾아가서 "너네 개발자 교육은 해? [[455_penetration_testing_vulnerability_scanning|모의 해킹]]은 1년에 몇 번 해? [[611_threat_modeling|위협 모델링]]은 해?"라고 물어본 뒤, 그들이 공통으로 하는 행동 122가지를 뽑아서 1레벨(기초)부터 3레벨(고급)까지 줄을 세워놓은 통계 논문이자 체크리스트다.
+- **개념**: BSIMM(비심)은 'Building [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) In [Maturity Model](/knowledge-base/studynote/12_it_management/01_governance_strategy/011_maturity_model/)'의 약자로, 해석하면 "보안을 내재화(Building In)하는 능력이 얼마나 성숙(Maturity)했는가 측정하는 모델"이다. 100개가 넘는 글로벌 회사에 찾아가서 "너네 개발자 교육은 해? [모의 해킹](/knowledge-base/studynote/04_software_engineering/11_testing_validation/455_penetration_testing_vulnerability_scanning/)은 1년에 몇 번 해? [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/)은 해?"라고 물어본 뒤, 그들이 공통으로 하는 행동 122가지를 뽑아서 1레벨(기초)부터 3레벨(고급)까지 줄을 세워놓은 통계 논문이자 체크리스트다.
 
-- **필요성**: 보안팀장이 대표님께 결재를 올렸다. "내년에 [[471_secure_sdlc|Secure SDLC]] 툴 사고 보안 교육하는 데 10억 필요합니다." 대표님이 묻는다. "우리 지금 보안 수준이 구글의 몇 프로나 되는데? 그 10억 쓰면 넥슨만큼 보안이 좋아져?" 팀장은 꿀 먹은 벙어리가 된다. 측정할 객관적 기준이 없기 때문이다. 이때 BSIMM 리포트를 들이밀며 **"현재 우리 회사의 보안 성숙도는 글로벌 평균 50점인데 우리는 20점입니다. 특히 '[[330_code_review|코드 리뷰]] 자동화' 부문이 0점이라 10억을 투자해 이 영역을 평균으로 끌어올려야 합니다"**라고 객관적 [[001_dikw_pyramid|데이터]](Data-driven)로 설득하기 위한 절대적인 나침반이 필요하다.
+- **필요성**: 보안팀장이 대표님께 결재를 올렸다. "내년에 [Secure SDLC](/knowledge-base/studynote/04_software_engineering/11_testing_validation/471_secure_sdlc/) 툴 사고 보안 교육하는 데 10억 필요합니다." 대표님이 묻는다. "우리 지금 보안 수준이 구글의 몇 프로나 되는데? 그 10억 쓰면 넥슨만큼 보안이 좋아져?" 팀장은 꿀 먹은 벙어리가 된다. 측정할 객관적 기준이 없기 때문이다. 이때 BSIMM 리포트를 들이밀며 **"현재 우리 회사의 보안 성숙도는 글로벌 평균 50점인데 우리는 20점입니다. 특히 '[코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) 자동화' 부문이 0점이라 10억을 투자해 이 영역을 평균으로 끌어올려야 합니다"**라고 객관적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Data-driven)로 설득하기 위한 절대적인 나침반이 필요하다.
 
-- **💡 비유**: BSIMM은 **'전국 모의고사 성적표(백분위)'**와 같습니다. 혼자 집에서 "난 공부 좀 하니까 보안 완벽해"라고 착각하는 학생(회사)에게 들이대는 현실의 거울입니다. 전국에서 전교 1등(구글, MS) 하는 형들이 수학([[330_code_review|코드 리뷰]]), 영어([[455_penetration_testing_vulnerability_scanning|모의 해킹]])를 각각 어떻게 공부하고 있는지 통계를 내서 보여줍니다. "아, 전교 1등은 오답 노트([[611_threat_modeling|위협 모델링]])를 매일 쓰는구나! 나는 안 쓰고 있었네!"를 깨닫고 자신의 공부법([[007_security_policy|보안 정책]])을 수정하게 만드는 완벽한 비교 지표입니다.
+- **💡 비유**: BSIMM은 **'전국 모의고사 성적표(백분위)'**와 같습니다. 혼자 집에서 "난 공부 좀 하니까 보안 완벽해"라고 착각하는 학생(회사)에게 들이대는 현실의 거울입니다. 전국에서 전교 1등(구글, MS) 하는 형들이 수학([코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/)), 영어([모의 해킹](/knowledge-base/studynote/04_software_engineering/11_testing_validation/455_penetration_testing_vulnerability_scanning/))를 각각 어떻게 공부하고 있는지 통계를 내서 보여줍니다. "아, 전교 1등은 오답 노트([위협 모델링](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/))를 매일 쓰는구나! 나는 안 쓰고 있었네!"를 깨닫고 자신의 공부법([보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/))을 수정하게 만드는 완벽한 비교 지표입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **OWASP SAMM의 한계**: [[191_oss_license_compliance|오픈소스]] 진영에서 만든 SAMM 모델은 "이론적으로 이렇게 해야 한다(Prescriptive, 규범적)"는 교과서라 현실 회사들(스타트업, 대기업)의 사정을 잘 반영하지 못했다.
+  1. **OWASP SAMM의 한계**: [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 진영에서 만든 SAMM 모델은 "이론적으로 이렇게 해야 한다(Prescriptive, 규범적)"는 교과서라 현실 회사들(스타트업, 대기업)의 사정을 잘 반영하지 못했다.
   2. **관찰 기반 모델의 등장 (2008)**: 개리 맥그로(Gary McGraw) 박사 등이 "이론 말고, 진짜 현업에서 돈 잘 버는 회사 100개가 '실제로 하는 짓(Descriptive, 기술적)'을 조사하자!"며 11개 회사를 조사해 BSIMM 1을 발표했다.
-  3. **살아 숨 쉬는 생태계 (현재)**: 매년 조사하는 회사가 늘어나 BSIMM 13, 14로 계속 업데이트된다. 클라우드, [[004_agile_relation|애자일]]([[004_agile_relation|Agile]]), [[652_devops_calms_culture|데브옵스]] 등 시대의 흐름에 따라 구글과 넷플릭스가 도입한 최신 보안 활동(예: [[513_container_security|컨테이너 보안]])이 매년 새로 편입되는 '살아있는 빅데이터 족보'다.
+  3. **살아 숨 쉬는 생태계 (현재)**: 매년 조사하는 회사가 늘어나 BSIMM 13, 14로 계속 업데이트된다. 클라우드, [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)), [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 등 시대의 흐름에 따라 구글과 넷플릭스가 도입한 최신 보안 활동(예: [컨테이너 보안](/knowledge-base/studynote/04_software_engineering/11_testing_validation/513_container_security/))이 매년 새로 편입되는 '살아있는 빅데이터 족보'다.
 
-- **📢 섹션 요약 비유**: BSIMM은 의사가 처방해 주는 **'이상적인 식단표(이론)'**가 아니라, 몸짱 보디빌더 100명의 냉장고를 뒤져서 만든 **'실제 식단 빅데이터(현실)'**입니다. 남들이 진짜로 먹어서 효과를 본 닭가슴살(실제 쓰이는 보안 활동)이 무엇인지 보여주기 때문에 훨씬 더 현실적이고 당장 회사에 도입하기 좋은 [[219_benchmarking_best_practice|벤치마킹]] 자료입니다.
+- **📢 섹션 요약 비유**: BSIMM은 의사가 처방해 주는 **'이상적인 식단표(이론)'**가 아니라, 몸짱 보디빌더 100명의 냉장고를 뒤져서 만든 **'실제 식단 빅데이터(현실)'**입니다. 남들이 진짜로 먹어서 효과를 본 닭가슴살(실제 쓰이는 보안 활동)이 무엇인지 보여주기 때문에 훨씬 더 현실적이고 당장 회사에 도입하기 좋은 [벤치마킹](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/219_benchmarking_best_practice/) 자료입니다.
 
 ---
 
@@ -55,18 +59,18 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-BSIMM (Building [[283_security_tactics|Security]] In [[011_maturity_model|Maturity Model]]) - SW 보안 성숙도 평가 모델의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
+BSIMM (Building [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) In [Maturity Model](/knowledge-base/studynote/12_it_management/01_governance_strategy/011_maturity_model/)) - SW 보안 성숙도 평가 모델의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
 
 | 구성 요소 | 역할 | 적용 기준 |
 | :--- | :--- | :--- |
-| 개념 정의 | 핵심 용어와 범위를 명확히 [[009_config|설정]] | 용어 혼용·오해 방지 |
-| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | [[194_consistency_database_integrity|일관성]]·품질 기준 |
+| 개념 정의 | 핵심 용어와 범위를 명확히 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | 용어 혼용·오해 방지 |
+| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)·품질 기준 |
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-BSIMM (Building [[283_security_tactics|Security]] In [[011_maturity_model|Maturity Model]])의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+BSIMM (Building [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) In [Maturity Model](/knowledge-base/studynote/12_it_management/01_governance_strategy/011_maturity_model/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
-- **📢 섹션 요약 비유**: BSIMM (Building [[283_security_tactics|Security]] In [[011_maturity_model|Maturity Model]])의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
+- **📢 섹션 요약 비유**: BSIMM (Building [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) In [Maturity Model](/knowledge-base/studynote/12_it_management/01_governance_strategy/011_maturity_model/))의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
 ---
 
@@ -76,18 +80,18 @@ BSIMM (Building [[283_security_tactics|Security]] In [[011_maturity_model|Maturi
 
 ## Ⅲ. 비교 및 연결
 
-BSIMM (Building [[283_security_tactics|Security]] In [[011_maturity_model|Maturity Model]])을(를) 유사 개념과 비교하면 경계와 특성이 더 명확해진다.
+BSIMM (Building [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) In [Maturity Model](/knowledge-base/studynote/12_it_management/01_governance_strategy/011_maturity_model/))을(를) 유사 개념과 비교하면 경계와 특성이 더 명확해진다.
 
-| 비교 항목 | BSIMM (Building [[283_security_tactics|Security]] In [[011_maturity_model|Maturity Model]]) | 유사 대안 |
+| 비교 항목 | BSIMM (Building [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) In [Maturity Model](/knowledge-base/studynote/12_it_management/01_governance_strategy/011_maturity_model/)) | 유사 대안 |
 | :--- | :--- | :--- |
 | 핵심 목적 | 체계적 품질·생산성 향상 | 임시 방편적 해결 |
 | 적용 규모 | 중·대규모 프로젝트에서 효과적 | 소규모에서는 오버헤드 발생 가능 |
 | 조직 요건 | 팀 전체의 공통 이해와 훈련 필요 | 개인 역량 의존 |
 | 측정 가능성 | 정량적 지표로 성과 측정 가능 | 주관적 판단에 의존 |
 
-다른 [[001_software_engineering_definition|소프트웨어 공학]] 개념과의 연결을 보면, BSIMM (Building [[283_security_tactics|Security]] In [[011_maturity_model|Maturity Model]])은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 [[020_software_configuration_management|형상 관리]]([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]])와 긴밀하게 연계된다.
+다른 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 개념과의 연결을 보면, BSIMM (Building [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) In [Maturity Model](/knowledge-base/studynote/12_it_management/01_governance_strategy/011_maturity_model/))은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/))와 긴밀하게 연계된다.
 
-- **📢 섹션 요약 비유**: BSIMM (Building [[283_security_tactics|Security]] In [[011_maturity_model|Maturity Model]])과 유사 대안의 차이는 지도를 가지고 산에 오르는 것과 감으로만 오르는 차이와 같다. 지도(체계적 방법)가 있으면 정상까지 최단 경로를 찾을 수 있지만, 없으면 같은 곳을 맴돌거나 낭떠러지에 빠질 수 있다.
+- **📢 섹션 요약 비유**: BSIMM (Building [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) In [Maturity Model](/knowledge-base/studynote/12_it_management/01_governance_strategy/011_maturity_model/))과 유사 대안의 차이는 지도를 가지고 산에 오르는 것과 감으로만 오르는 차이와 같다. 지도(체계적 방법)가 있으면 정상까지 최단 경로를 찾을 수 있지만, 없으면 같은 곳을 맴돌거나 낭떠러지에 빠질 수 있다.
 
 ---
 
@@ -97,9 +101,9 @@ BSIMM (Building [[283_security_tactics|Security]] In [[011_maturity_model|Maturi
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-BSIMM (Building [[283_security_tactics|Security]] In [[011_maturity_model|Maturity Model]])을(를) 실무에 적용할 때는 다음 판단 기준을 참고한다.
+BSIMM (Building [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) In [Maturity Model](/knowledge-base/studynote/12_it_management/01_governance_strategy/011_maturity_model/))을(를) 실무에 적용할 때는 다음 판단 기준을 참고한다.
 
-- **📢 섹션 요약 비유**: BSIMM (Building [[283_security_tactics|Security]] In [[011_maturity_model|Maturity Model]])은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: BSIMM (Building [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) In [Maturity Model](/knowledge-base/studynote/12_it_management/01_governance_strategy/011_maturity_model/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 ---
 
@@ -107,21 +111,21 @@ BSIMM (Building [[283_security_tactics|Security]] In [[011_maturity_model|Maturi
 
 ## Ⅴ. 기대효과 및 결론
 
-BSIMM (Building [[283_security_tactics|Security]] In [[011_maturity_model|Maturity Model]])을(를) 올바르게 적용하면 [[339_software_quality_definition|소프트웨어 품질]]·[[346_maintainability_portability|유지보수성]]·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [[459_quic_fec_forward_error_correction|초기]] 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
+BSIMM (Building [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) In [Maturity Model](/knowledge-base/studynote/12_it_management/01_governance_strategy/011_maturity_model/))을(를) 올바르게 적용하면 [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/)·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
 
 **한계와 전제 조건**:
 - 소규모 프로젝트에서는 오버헤드가 발생할 수 있다
 - 팀 전체의 충분한 교육과 실습 기간이 필요하다
-- 도구 지원 환경 구축에 [[459_quic_fec_forward_error_correction|초기]] 비용이 발생한다
+- 도구 지원 환경 구축에 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용이 발생한다
 
 **미래 발전 방향**:
-- [[190_ai_llm_requirements_specification|AI]]·[[263_llm_large_language_model|LLM]] 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [[531_cloud_native_architecture|클라우드 네이티브]]·[[652_devops_calms_culture|DevOps]] 환경에서의 진화적 적용
+- [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
-BSIMM (Building [[283_security_tactics|Security]] In [[011_maturity_model|Maturity Model]])은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
+BSIMM (Building [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) In [Maturity Model](/knowledge-base/studynote/12_it_management/01_governance_strategy/011_maturity_model/))은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: BSIMM (Building [[283_security_tactics|Security]] In [[011_maturity_model|Maturity Model]])의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [[001_software_engineering_definition|소프트웨어 공학]]의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
+- **📢 섹션 요약 비유**: BSIMM (Building [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) In [Maturity Model](/knowledge-base/studynote/12_it_management/01_governance_strategy/011_maturity_model/))의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
 
 ---
 
@@ -133,10 +137,10 @@ BSIMM (Building [[283_security_tactics|Security]] In [[011_maturity_model|Maturi
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[001_software_engineering_definition|소프트웨어 공학]] ([[001_software_engineering_definition|Software Engineering]]) | BSIMM (Building [[283_security_tactics|Security]] In [[011_maturity_model|Maturity Model]])의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [[003_sdlc|소프트웨어 생명주기]] ([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]], Software Development Life Cycle) | BSIMM (Building [[283_security_tactics|Security]] In [[011_maturity_model|Maturity Model]])은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | BSIMM (Building [[283_security_tactics|Security]] In [[011_maturity_model|Maturity Model]]) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [[020_software_configuration_management|형상 관리]] ([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]]) | BSIMM (Building [[283_security_tactics|Security]] In [[011_maturity_model|Maturity Model]])에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | BSIMM (Building [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) In [Maturity Model](/knowledge-base/studynote/12_it_management/01_governance_strategy/011_maturity_model/))의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | BSIMM (Building [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) In [Maturity Model](/knowledge-base/studynote/12_it_management/01_governance_strategy/011_maturity_model/))은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | BSIMM (Building [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) In [Maturity Model](/knowledge-base/studynote/12_it_management/01_governance_strategy/011_maturity_model/)) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | BSIMM (Building [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) In [Maturity Model](/knowledge-base/studynote/12_it_management/01_governance_strategy/011_maturity_model/))에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -156,13 +160,13 @@ BSIMM (Building Security In Maturity Model) 개념 정립
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [[002_software_crisis|소프트웨어 위기]] 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. BSIMM (Building [[283_security_tactics|Security]] In [[011_maturity_model|Maturity Model]])은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. BSIMM (Building [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) In [Maturity Model](/knowledge-base/studynote/12_it_management/01_governance_strategy/011_maturity_model/))은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
 
 ---
 
@@ -170,7 +174,7 @@ BSIMM (Building Security In Maturity Model) 개념 정립
 
 **진행 상황**: 536 / 973
 
-← **이전**: [[472_bsimm|472. BSIMM (Building Security In Maturity Model)]]
-**다음**: [[473_microsoft_sdl|473. Microsoft SDL (Security Development Lifecycle)]] →
+← **이전**: [472. BSIMM (Building Security In Maturity Model)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/472_bsimm/)
+**다음**: [473. Microsoft SDL (Security Development Lifecycle)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/473_microsoft_sdl/) →
 
 ---

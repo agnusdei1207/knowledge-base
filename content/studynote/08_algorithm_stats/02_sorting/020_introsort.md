@@ -1,36 +1,40 @@
----
-title: 13. 인트로 정렬 (Introsort) — 퀵+힙+삽입 혼합, C++ STL
-date: '2026-04-21'
-tags:
-- studynote-algorithm
----
++++
+title = "13. 인트로 정렬 (Introsort) — 퀵+힙+삽입 혼합, C++ STL"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-algorithm"]
+
+[extra]
+tags = ["studynote-algorithm"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Introsort는 [[047_quick_sort|퀵 정렬]]의 평균 [[282_performance_tactics|성능]], [[080_heap_sort|힙 정렬]]의 최악 보장, [[052_insertion_sort_algorithm|삽입 정렬]]의 소규모 효율을 세 가지 임계값 기반으로 자동 전환하는 하이브리드 [[001_algorithm_definition|알고리즘]]이다.
-> 2. **가치**: O(n log n) 최악 시간을 보장하면서 [[047_quick_sort|퀵 정렬]] 수준의 캐시 효율을 실용적으로 달성하며, C++ STL std::sort의 실제 구현이다.
-> 3. **판단 포인트**: [[014_recursion|재귀]] 깊이 2·log(n) 초과 시 [[080_heap_sort|힙 정렬]]로 전환하는 자동 감지 메커니즘이 [[047_quick_sort|퀵 정렬]]의 O(n²) 최악 케이스를 완전히 차단한다.
+> 1. **본질**: Introsort는 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)의 평균 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)의 최악 보장, [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)의 소규모 효율을 세 가지 임계값 기반으로 자동 전환하는 하이브리드 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
+> 2. **가치**: O(n log n) 최악 시간을 보장하면서 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) 수준의 캐시 효율을 실용적으로 달성하며, C++ STL std::sort의 실제 구현이다.
+> 3. **판단 포인트**: [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 깊이 2·log(n) 초과 시 [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)로 전환하는 자동 감지 메커니즘이 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)의 O(n²) 최악 케이스를 완전히 차단한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[[047_quick_sort|퀵 정렬]]은 평균 O(n log n)으로 빠르지만 최악 O(n²)가 문제다. [[080_heap_sort|힙 정렬]]은 최악 O(n log n)이지만 캐시 효율이 나쁘다. [[052_insertion_sort_algorithm|삽입 정렬]]은 소규모 배열에서 오버헤드가 적어 빠르다. **Introsort**는 이 세 [[001_algorithm_definition|알고리즘]]의 장점만 취합해 1997년 David Musser가 제안한 **실용적 최강 정렬**이다.
+[퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)은 평균 O(n log n)으로 빠르지만 최악 O(n²)가 문제다. [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)은 최악 O(n log n)이지만 캐시 효율이 나쁘다. [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)은 소규모 배열에서 오버헤드가 적어 빠르다. **Introsort**는 이 세 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 장점만 취합해 1997년 David Musser가 제안한 **실용적 최강 정렬**이다.
 
-### [[001_algorithm_definition|알고리즘]] 전환 로직
+### [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 전환 로직
 
-| 조건 | 사용 [[001_algorithm_definition|알고리즘]] | 이유 |
+| 조건 | 사용 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 이유 |
 |:---|:---:|:---|
-| [[514_partition_slice_volume|파티션]] 크기 ≤ 16 | [[052_insertion_sort_algorithm|삽입 정렬]] | 소규모에서 오버헤드 없이 빠름 |
-| [[014_recursion|재귀]] 깊이 > 2·log₂(n) | [[080_heap_sort|힙 정렬]] | [[047_quick_sort|퀵 정렬]] 최악 케이스 방지 |
-| 그 외 | [[047_quick_sort|퀵 정렬]] | 평균 최고 [[282_performance_tactics|성능]] |
+| [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 크기 ≤ 16 | [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/) | 소규모에서 오버헤드 없이 빠름 |
+| [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 깊이 > 2·log₂(n) | [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/) | [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) 최악 케이스 방지 |
+| 그 외 | [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) | 평균 최고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) |
 
-📢 **섹션 요약 비유**: Introsort는 만능 스포츠카와 같다. 평지(일반 [[001_dikw_pyramid|데이터]])에서는 [[047_quick_sort|퀵 정렬]] 스포츠카로 달리고, 험로(최악 [[001_dikw_pyramid|데이터]])가 감지되면 [[080_heap_sort|힙 정렬]] SUV로 자동 변속하며, 주차장(소규모)에서는 [[052_insertion_sort_algorithm|삽입 정렬]] 전기차로 조용히 주차한다.
+📢 **섹션 요약 비유**: Introsort는 만능 스포츠카와 같다. 평지(일반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))에서는 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) 스포츠카로 달리고, 험로(최악 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 감지되면 [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/) SUV로 자동 변속하며, 주차장(소규모)에서는 [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/) 전기차로 조용히 주차한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### Introsort [[001_algorithm_definition|알고리즘]] 전환 흐름 ([[103_ascii|ASCII]] 다이어그램)
+### Introsort [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 전환 흐름 ([ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램)
 
 ```
 IntroSort(arr, depthLimit):
@@ -58,7 +62,7 @@ IntroSort(arr, depthLimit):
 초기 depthLimit = 2 * floor(log₂(n))
 ```
 
-### [[014_recursion|재귀]] 깊이 임계값의 의미
+### [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 깊이 임계값의 의미
 
 ```
 n = 1,000,000 일 때:
@@ -70,17 +74,17 @@ n = 1,000,000 일 때:
   → 깊이 40 초과 즉시 힙 정렬로 전환 → 안전 보장
 ```
 
-### 시간/[[003_space_complexity|공간 복잡도]]
+### 시간/[공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/)
 
 | 항목 | 복잡도 | 비고 |
 |:---|:---:|:---|
-| 최선/평균 시간 | O(n log n) | [[047_quick_sort|퀵 정렬]] 경로 |
-| **최악 시간** | **O(n log n)** | [[080_heap_sort|힙 정렬]]로 전환 보장 |
-| 공간 | O(log n) | [[014_recursion|재귀]] [[057_stack|스택]] ([[080_heap_sort|힙 정렬]] 전환 시 O(1)) |
-| 안정 정렬 | ❌ | [[047_quick_sort|퀵 정렬]] [[514_partition_slice_volume|파티션]] 특성상 불안정 |
-| 캐시 효율 | 우수 | [[047_quick_sort|퀵 정렬]]의 지역성 활용 |
+| 최선/평균 시간 | O(n log n) | [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) 경로 |
+| **최악 시간** | **O(n log n)** | [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)로 전환 보장 |
+| 공간 | O(log n) | [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) ([힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/) 전환 시 O(1)) |
+| 안정 정렬 | ❌ | [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 특성상 불안정 |
+| 캐시 효율 | 우수 | [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)의 지역성 활용 |
 
-### 세 중앙값 [[037_pivot|피벗]] 선택 (Median-of-Three)
+### 세 중앙값 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 선택 (Median-of-Three)
 
 ```
 피벗 = MedianOf3(arr[left], arr[mid], arr[right])
@@ -93,25 +97,25 @@ n = 1,000,000 일 때:
 효과: 이미 정렬된 배열에서 퀵 정렬 O(n²) 방지
 ```
 
-📢 **섹션 요약 비유**: 세 중앙값 [[037_pivot|피벗]] 선택은 팀 구성 시 극단적인 사람을 피하는 전략이다. 팀에서 가장 키 크거나 작은 사람 대신 중간 키를 기준으로 팀을 나누면 더 균형 잡힌 분할이 된다.
+📢 **섹션 요약 비유**: 세 중앙값 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 선택은 팀 구성 시 극단적인 사람을 피하는 전략이다. 팀에서 가장 키 크거나 작은 사람 대신 중간 키를 기준으로 팀을 나누면 더 균형 잡힌 분할이 된다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 혼합 정렬 [[001_algorithm_definition|알고리즘]] 비교
+### 혼합 정렬 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 비교
 
-| [[001_algorithm_definition|알고리즘]] | 최악 시간 | 안정 | 구성 | 채택 |
+| [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 최악 시간 | 안정 | 구성 | 채택 |
 |:---|:---:|:---:|:---|:---|
-| [[047_quick_sort|퀵 정렬]] | O(n²) | ❌ | 단일 | 구형 stdlib |
-| [[080_heap_sort|힙 정렬]] | O(n log n) | ❌ | 단일 | 임베디드 |
+| [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) | O(n²) | ❌ | 단일 | 구형 stdlib |
+| [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/) | O(n log n) | ❌ | 단일 | 임베디드 |
 | **Introsort** | **O(n log n)** | **❌** | 퀵+힙+삽입 | C++ STL |
-| [[019_timsort|Timsort]] | O(n log n) | ✅ | 병합+삽입 | Python, Java |
+| [Timsort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/019_timsort/) | O(n log n) | ✅ | 병합+삽입 | Python, Java |
 | Dual-Pivot QuickSort | O(n log n) avg | ❌ | 퀵소트 변형 | Java primitive |
 
-### Introsort vs [[019_timsort|Timsort]]
+### Introsort vs [Timsort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/019_timsort/)
 
-| 비교 항목 | Introsort | [[019_timsort|Timsort]] |
+| 비교 항목 | Introsort | [Timsort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/019_timsort/) |
 |:---|:---:|:---:|
 | 안정성 | ❌ | ✅ |
 | 최악 보장 | O(n log n) | O(n log n) |
@@ -119,7 +123,7 @@ n = 1,000,000 일 때:
 | 캐시 효율 | 더 우수 | 보통 |
 | 표준 채택 | C++ STL | Python, Java |
 
-📢 **섹션 요약 비유**: Introsort와 Timsort는 두 종류의 GPS 내비게이션이다. Introsort(C++ STL)는 최단 시간 경로를 보장하는 [[282_performance_tactics|성능]]형, [[019_timsort|Timsort]](Python/Java)는 안전하고 순서를 보장하는 안정형이다.
+📢 **섹션 요약 비유**: Introsort와 Timsort는 두 종류의 GPS 내비게이션이다. Introsort(C++ STL)는 최단 시간 경로를 보장하는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)형, [Timsort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/019_timsort/)(Python/Java)는 안전하고 순서를 보장하는 안정형이다.
 
 ---
 
@@ -167,30 +171,30 @@ void IntroSort(Iter first, Iter last, int depthLimit) {
 
 ## Ⅴ. 기대효과 및 결론
 
-Introsort는 **현실적 [[282_performance_tactics|성능]] 보장의 상징**이다. 이론적 최악 보장과 실용적 평균 [[282_performance_tactics|성능]]을 동시에 달성함으로써 C++ 표준 라이브러리의 정렬 기준이 되었다.
+Introsort는 **현실적 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 보장의 상징**이다. 이론적 최악 보장과 실용적 평균 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 동시에 달성함으로써 C++ 표준 라이브러리의 정렬 기준이 되었다.
 
 ### 효과 정리
 
 | 효과 | 내용 |
 |:---|:---|
-| 안전성 | [[047_quick_sort|퀵 정렬]] O(n²) 위험을 자동으로 제거 |
-| [[282_performance_tactics|성능]] | [[047_quick_sort|퀵 정렬]]의 캐시 효율을 대부분 유지 |
+| 안전성 | [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) O(n²) 위험을 자동으로 제거 |
+| [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)의 캐시 효율을 대부분 유지 |
 | 실용성 | C++ STL의 기본 std::sort로 즉시 활용 |
 | 적응성 | 소규모(삽입), 일반(퀵), 최악(힙) 자동 전환 |
 
-📢 **섹션 요약 비유**: Introsort는 "항상 제시간에 도착하는 택배 시스템"과 같다. 평소엔 빠른 오토바이 배송([[047_quick_sort|퀵 정렬]])으로, 폭우가 오면(최악 케이스) 트럭으로 전환([[080_heap_sort|힙 정렬]]), 문 앞 마지막 배송은 직접 전달([[052_insertion_sort_algorithm|삽입 정렬]])로 처리한다.
+📢 **섹션 요약 비유**: Introsort는 "항상 제시간에 도착하는 택배 시스템"과 같다. 평소엔 빠른 오토바이 배송([퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/))으로, 폭우가 오면(최악 케이스) 트럭으로 전환([힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)), 문 앞 마지막 배송은 직접 전달([삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/))로 처리한다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 개념 | 연결 [[083_relationship_in_er_model|관계]] | 설명 |
+| 개념 | 연결 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
 |:---|:---|:---|
-| [[047_quick_sort|퀵 정렬]] ([[047_quick_sort|Quick Sort]]) | → 기반 [[001_algorithm_definition|알고리즘]] | 일반 경우 주 [[001_algorithm_definition|알고리즘]] |
-| [[080_heap_sort|힙 정렬]] ([[080_heap_sort|Heap Sort]]) | → [[171_fallback_resilience_pattern|폴백]] [[001_algorithm_definition|알고리즘]] | 최악 케이스 방지용 |
-| [[052_insertion_sort_algorithm|삽입 정렬]] ([[052_insertion_sort_algorithm|Insertion Sort]]) | → 소규모 최적화 | [[514_partition_slice_volume|파티션]] 크기 ≤ 16 |
-| [[019_timsort|Timsort]] | 비교 대상 | Python/Java 채택, 안정 정렬 |
-| 세 중앙값 (Median-of-Three) | → [[037_pivot|피벗]] 선택 | 최악 케이스 빈도 감소 |
+| [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) ([Quick Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)) | → 기반 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 일반 경우 주 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
+| [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/) ([Heap Sort](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)) | → [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 최악 케이스 방지용 |
+| [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/) ([Insertion Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)) | → 소규모 최적화 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 크기 ≤ 16 |
+| [Timsort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/019_timsort/) | 비교 대상 | Python/Java 채택, 안정 정렬 |
+| 세 중앙값 (Median-of-Three) | → [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 선택 | 최악 케이스 빈도 감소 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -210,13 +214,13 @@ Introsort는 **현실적 [[282_performance_tactics|성능]] 보장의 상징**�
 [C++ std::sort / Java Arrays.sort — 인트로 정렬 기반 표준 라이브러리 구현]
 ```
 
-이 흐름은 퀵·힙·[[052_insertion_sort_algorithm|삽입 정렬]]의 각 장단점을 파악한 뒤, 인트로 정렬이 세 [[001_algorithm_definition|알고리즘]]을 [[014_recursion|재귀]] 깊이에 따라 동적으로 전환하여 실용적 최적 [[282_performance_tactics|성능]]을 달성하는 과정을 보여준다.
+이 흐름은 퀵·힙·[삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)의 각 장단점을 파악한 뒤, 인트로 정렬이 세 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 깊이에 따라 동적으로 전환하여 실용적 최적 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 달성하는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-🚗 **자동 변속기 자동차**: 평지에서는 퀵 기어, 오르막에서는 힘 좋은 기어, 주차할 때는 저속 기어로 자동으로 바뀌는 것처럼 Introsort도 상황에 따라 [[001_algorithm_definition|알고리즘]]을 바꿔요.  
-🛡️ **보험 장착 스포츠카**: [[047_quick_sort|퀵 정렬]]이 느려질 것 같으면([[014_recursion|재귀]] 깊이 초과), [[080_heap_sort|힙 정렬]]로 즉시 전환해서 최악의 상황을 막아줘요.  
-🔢 **16명 이하 팀**: 팀이 16명 이하가 되면 복잡한 방법 대신 [[052_insertion_sort_algorithm|삽입 정렬]]처럼 간단하게 줄 세우는 게 오히려 더 빨라요!
+🚗 **자동 변속기 자동차**: 평지에서는 퀵 기어, 오르막에서는 힘 좋은 기어, 주차할 때는 저속 기어로 자동으로 바뀌는 것처럼 Introsort도 상황에 따라 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 바꿔요.  
+🛡️ **보험 장착 스포츠카**: [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)이 느려질 것 같으면([재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 깊이 초과), [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)로 즉시 전환해서 최악의 상황을 막아줘요.  
+🔢 **16명 이하 팀**: 팀이 16명 이하가 되면 복잡한 방법 대신 [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)처럼 간단하게 줄 세우는 게 오히려 더 빨라요!
 
 ---
 
@@ -224,7 +228,7 @@ Introsort는 **현실적 [[282_performance_tactics|성능]] 보장의 상징**�
 
 **진행 상황**: 20 / 175
 
-← **이전**: [[019_timsort|12. 팀 정렬 (Timsort) — Python/Java 기본, 합병+삽입 혼합]]
-**다음**: [[021_stability|14. 정렬 안정성 (Sort Stability) — 동일 키 순서 유지]] →
+← **이전**: [12. 팀 정렬 (Timsort) — Python/Java 기본, 합병+삽입 혼합](/knowledge-base/studynote/08_algorithm_stats/02_sorting/019_timsort/)
+**다음**: [14. 정렬 안정성 (Sort Stability) — 동일 키 순서 유지](/knowledge-base/studynote/08_algorithm_stats/02_sorting/021_stability/) →
 
 ---

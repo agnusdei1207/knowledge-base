@@ -1,25 +1,29 @@
----
-title: 229. 파이프라인 스톨 (Pipeline Stall / Bubble)
-date: '2026-04-20'
-tags:
-- studynote-computer-architecture
----
++++
+title = "229. 파이프라인 스톨 (Pipeline Stall / Bubble)"
+date = 2026-04-20
+
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 파이프라인 스톨 ([[082_pipeline|Pipeline]] Stall)은 다음 단계가 아직 받아들일 준비를 못 했을 때 [[158_instruction|명령어]] [[216_progress_in_synchronization|진행]]을 잠시 멈추고, 필요하면 버블 (Bubble)이라는 빈 사이클을 삽입해 순서를 보존하는 제어 동작이다.
-> 2. **가치**: 스톨은 처리량을 희생하지만 [[001_dikw_pyramid|데이터]] 의존성과 자원 충돌을 무시해 생길 오연산을 막아, 파이프라인이 "빠르면서도 틀리지 않게" 유지되도록 만든다.
-> 3. **판단 포인트**: 좋은 설계는 스톨을 없애는 것이 아니라, 어떤 스톨은 전방 전달 (Forwarding)·[[231_branch_prediction|분기 예측]]·[[238_out_of_order_execution|비순차 실행]]으로 숨기고 어떤 스톨은 감수해야 하는지 구분하는 데서 시작된다.
+> 1. **본질**: 파이프라인 스톨 ([Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/) Stall)은 다음 단계가 아직 받아들일 준비를 못 했을 때 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)을 잠시 멈추고, 필요하면 버블 (Bubble)이라는 빈 사이클을 삽입해 순서를 보존하는 제어 동작이다.
+> 2. **가치**: 스톨은 처리량을 희생하지만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존성과 자원 충돌을 무시해 생길 오연산을 막아, 파이프라인이 "빠르면서도 틀리지 않게" 유지되도록 만든다.
+> 3. **판단 포인트**: 좋은 설계는 스톨을 없애는 것이 아니라, 어떤 스톨은 전방 전달 (Forwarding)·[분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)·[비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/)으로 숨기고 어떤 스톨은 감수해야 하는지 구분하는 데서 시작된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-파이프라인 스톨은 여러 단계로 나뉘어 동시에 흐르던 [[158_instruction|명령어]] 중 일부를 의도적으로 지연시키는 제어 메커니즘이다. 파이프라인은 [[158_instruction|명령어]]를 겹쳐 실행해 처리량을 높이지만, 실제 하드웨어는 모든 [[158_instruction|명령어]]가 항상 같은 속도로 준비되지 않는다. 어떤 [[158_instruction|명령어]]는 메모리 값을 기다리고, 어떤 [[158_instruction|명령어]]는 같은 연산기를 동시에 쓰려 하며, 어떤 [[158_instruction|명령어]]는 분기 결과가 확정되기 전까지 다음 위치를 정할 수 없다.
+파이프라인 스톨은 여러 단계로 나뉘어 동시에 흐르던 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 중 일부를 의도적으로 지연시키는 제어 메커니즘이다. 파이프라인은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 겹쳐 실행해 처리량을 높이지만, 실제 하드웨어는 모든 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 항상 같은 속도로 준비되지 않는다. 어떤 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 메모리 값을 기다리고, 어떤 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 같은 연산기를 동시에 쓰려 하며, 어떤 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 분기 결과가 확정되기 전까지 다음 위치를 정할 수 없다.
 
-이때 스톨이 없으면 CPU (Central Processing Unit)는 아직 준비되지 않은 값을 읽거나, 잘못된 [[158_instruction|명령어]]를 계속 밀어 넣게 된다. 즉 스톨은 [[282_performance_tactics|성능]] 저하를 만드는 장애가 아니라, 잘못된 실행을 막기 위해 시간을 사는 안전장치다. 파이프라인의 핵심은 "항상 이동"이 아니라 "의존성이 해소된 경우에만 이동"이라는 점에서, 스톨은 고성능 구조의 예외 처리가 아니라 본질적 구성요소다.
+이때 스톨이 없으면 CPU (Central Processing Unit)는 아직 준비되지 않은 값을 읽거나, 잘못된 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 계속 밀어 넣게 된다. 즉 스톨은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하를 만드는 장애가 아니라, 잘못된 실행을 막기 위해 시간을 사는 안전장치다. 파이프라인의 핵심은 "항상 이동"이 아니라 "의존성이 해소된 경우에만 이동"이라는 점에서, 스톨은 고성능 구조의 예외 처리가 아니라 본질적 구성요소다.
 
-아래 그림은 왜 스톨이 필요한지를 시간축 관점에서 보여준다. 앞 [[158_instruction|명령어]]의 결과가 아직 도착하지 않았는데 뒤 [[158_instruction|명령어]]가 그 값을 읽으려 하면, 한 박자 멈춰 순서를 다시 맞춰야 한다.
+아래 그림은 왜 스톨이 필요한지를 시간축 관점에서 보여준다. 앞 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 결과가 아직 도착하지 않았는데 뒤 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 그 값을 읽으려 하면, 한 박자 멈춰 순서를 다시 맞춰야 한다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────────────────────┐
@@ -33,7 +37,7 @@ tags:
 └────────┴────────┴────────┴────────┴────────┴────────────────────────────────┘
 ```
 
-핵심은 스톨이 "느려지는 현상"이 아니라 "순서를 보존하기 위한 제어 행동"이라는 점이다. [[282_performance_tactics|성능]]은 손해 보지만, 프로그램 의미를 지키지 못하면 더 이상 프로세서라 부를 수 없기 때문이다.
+핵심은 스톨이 "느려지는 현상"이 아니라 "순서를 보존하기 위한 제어 행동"이라는 점이다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 손해 보지만, 프로그램 의미를 지키지 못하면 더 이상 프로세서라 부를 수 없기 때문이다.
 
 **📢 섹션 요약 비유**: 파이프라인 스톨은 단체 줄넘기에서 앞사람 발이 꼬였을 때 한 박자 쉬고 다시 맞추는 동작과 같다. 박자를 잠깐 잃더라도 무리하게 돌리면 모두가 엉키기 때문에, 잠시 멈추는 것이 오히려 전체 흐름을 살린다.
 
@@ -41,18 +45,18 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-전형적인 5단계 파이프라인은 IF ([[158_instruction|Instruction]] Fetch), ID ([[158_instruction|Instruction]] Decode), EX (Execute), MEM (Memory Access), WB ([[277_write_back|Write Back]])로 구성된다. 스톨은 이 단계 중 특정 지점에서 "[[216_progress_in_synchronization|진행]] 금지"와 "빈 [[158_instruction|명령어]] 삽입"을 조합해 구현된다. 보통 [[164_pc|프로그램 카운터]] (Program [[059_counter|Counter]])와 앞단 파이프라인 [[057_register|레지스터]]는 그대로 유지하고, 뒤단으로는 NOP (No [[329_delta_encoding|Operation]])에 해당하는 제어 [[130_signal|신호]]를 보내 버블을 만든다.
+전형적인 5단계 파이프라인은 IF ([Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Fetch), ID ([Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Decode), EX (Execute), MEM (Memory Access), WB ([Write Back](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/))로 구성된다. 스톨은 이 단계 중 특정 지점에서 "[진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 금지"와 "빈 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 삽입"을 조합해 구현된다. 보통 [프로그램 카운터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) (Program [Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))와 앞단 파이프라인 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)는 그대로 유지하고, 뒤단으로는 NOP (No [Operation](/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/))에 해당하는 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 보내 버블을 만든다.
 
-대표 예시는 로드-유즈 (Load-Use) 해저드다. 메모리에서 읽어 온 값은 대개 MEM 단계 끝에서 준비되는데, 바로 다음 [[158_instruction|명령어]]가 EX 단계 초반에 그 값을 필요로 하면 타이밍이 맞지 않는다. 전방 전달이 있어도 물리적으로 아직 값이 없으므로 최소 1사이클 스톨이 필요하다. 이때 [[158_cpi_cost_performance_index|CPI]] ([[134_cpi|Cycles Per Instruction]])는 1에 가까운 이상 상태에서 벗어나 증가하며, 누적되면 체감 [[282_performance_tactics|성능]]이 크게 떨어진다.
+대표 예시는 로드-유즈 (Load-Use) 해저드다. 메모리에서 읽어 온 값은 대개 MEM 단계 끝에서 준비되는데, 바로 다음 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 EX 단계 초반에 그 값을 필요로 하면 타이밍이 맞지 않는다. 전방 전달이 있어도 물리적으로 아직 값이 없으므로 최소 1사이클 스톨이 필요하다. 이때 [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) ([Cycles Per Instruction](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/134_cpi/))는 1에 가까운 이상 상태에서 벗어나 증가하며, 누적되면 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 크게 떨어진다.
 
 | 제어 대상 | 스톨 시 동작 | 목적 |
 | :-------- | :----------- | :--- |
-| [[164_pc|프로그램 카운터]] (Program [[059_counter|Counter]]) | 갱신 정지 | 같은 [[158_instruction|명령어]]를 다시 유지 |
-| IF/ID 파이프라인 [[057_register|레지스터]] | [[289_cqrs_db|쓰기]] 금지 | 해독 중 [[158_instruction|명령어]] 고정 |
-| ID/EX 파이프라인 [[057_register|레지스터]] | 제어 [[130_signal|신호]] 0 주입 | EX 단계에 버블 삽입 |
+| [프로그램 카운터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) (Program [Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)) | 갱신 정지 | 같은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 다시 유지 |
+| IF/ID 파이프라인 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) | [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 금지 | 해독 중 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 고정 |
+| ID/EX 파이프라인 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) | 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 0 주입 | EX 단계에 버블 삽입 |
 | 해저드 검출기 (Hazard Detector) | 의존성 판단 | 스톨 필요 여부 결정 |
 
-아래 그림은 로드-유즈 해저드에서 스톨과 버블이 어떻게 동시에 나타나는지 보여준다. 앞단은 멈추고, 중간 단계에는 빈 슬롯이 흘러가며, 뒤 [[158_instruction|명령어]]는 한 사이클 늦춰진다.
+아래 그림은 로드-유즈 해저드에서 스톨과 버블이 어떻게 동시에 나타나는지 보여준다. 앞단은 멈추고, 중간 단계에는 빈 슬롯이 흘러가며, 뒤 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 한 사이클 늦춰진다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────────────────────┐
@@ -69,7 +73,7 @@ tags:
 └──────────────────────────────────────────────────────────────────────────────┘
 ```
 
-스톨은 단순히 "멈춘다"로 끝나지 않는다. 어느 [[057_register|레지스터]]를 얼리고 어느 단계에 버블을 넣을지 정확히 설계해야 파이프라인 상태가 깨지지 않는다. 그래서 스톨 제어는 [[001_dikw_pyramid|데이터]] 경로만큼이나 제어 경로 품질에 의존하며, 잘못 구현하면 오히려 더 치명적인 오연산과 데드록에 가까운 정지 현상을 만든다.
+스톨은 단순히 "멈춘다"로 끝나지 않는다. 어느 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 얼리고 어느 단계에 버블을 넣을지 정확히 설계해야 파이프라인 상태가 깨지지 않는다. 그래서 스톨 제어는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로만큼이나 제어 경로 품질에 의존하며, 잘못 구현하면 오히려 더 치명적인 오연산과 데드록에 가까운 정지 현상을 만든다.
 
 **📢 섹션 요약 비유**: 공장 컨베이어벨트에서 앞 공정의 부품이 아직 안 왔는데 다음 공정이 억지로 조립을 시작할 수는 없다. 벨트를 잠깐 멈추고 빈 트레이 하나를 흘려보내는 것이 스톨과 버블의 역할이다.
 
@@ -77,42 +81,42 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-스톨을 제대로 이해하려면 해저드 종류와 대응 기법을 함께 봐야 한다. [[223_data_hazard|데이터 해저드]] 중 [[225_raw|RAW]] ([[225_raw|Read After Write]])는 가장 대표적인 스톨 원인이고, [[222_structural_hazard|구조적 해저드]] ([[222_structural_hazard|Structural Hazard]])는 동일 자원을 동시에 쓰려 할 때 발생한다. [[224_control_hazard|제어 해저드]] ([[224_control_hazard|Control Hazard]])는 분기 결과가 확정되기 전의 불확실성에서 생기며, 이 경우는 스톨뿐 아니라 플러시 (Flush)와도 연결된다.
+스톨을 제대로 이해하려면 해저드 종류와 대응 기법을 함께 봐야 한다. [데이터 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/223_data_hazard/) 중 [RAW](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/) ([Read After Write](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/))는 가장 대표적인 스톨 원인이고, [구조적 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/222_structural_hazard/) ([Structural Hazard](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/222_structural_hazard/))는 동일 자원을 동시에 쓰려 할 때 발생한다. [제어 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/224_control_hazard/) ([Control Hazard](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/224_control_hazard/))는 분기 결과가 확정되기 전의 불확실성에서 생기며, 이 경우는 스톨뿐 아니라 플러시 (Flush)와도 연결된다.
 
 | 구분 | 스톨 중심 대응 | 다른 대표 대응 | 차이가 중요한 이유 |
 | :--- | :------------- | :------------- | :----------------- |
-| [[223_data_hazard|데이터 해저드]] | 한두 사이클 대기 | 전방 전달, [[239_register_renaming|레지스터 리네이밍]] | 값이 언제 준비되는지가 핵심 |
-| [[222_structural_hazard|구조적 해저드]] | 자원 사용 순서 조정 | 자원 [[016_replication_factor|복제]], [[446_port_and_bus|포트]] 확장 | 하드웨어 비용과 면적이 연관 |
-| [[224_control_hazard|제어 해저드]] | 분기 확정까지 대기 | [[231_branch_prediction|분기 예측]], 투기 실행 | 잘못 추측하면 플러시 비용 발생 |
+| [데이터 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/223_data_hazard/) | 한두 사이클 대기 | 전방 전달, [레지스터 리네이밍](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/239_register_renaming/) | 값이 언제 준비되는지가 핵심 |
+| [구조적 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/222_structural_hazard/) | 자원 사용 순서 조정 | 자원 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 확장 | 하드웨어 비용과 면적이 연관 |
+| [제어 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/224_control_hazard/) | 분기 확정까지 대기 | [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/), 투기 실행 | 잘못 추측하면 플러시 비용 발생 |
 
-스톨과 플러시는 비슷해 보이지만 본질이 다르다. 스톨은 "아직 확정되지 않았으니 기다린다"에 가깝고, 플러시는 "이미 잘못 들어온 [[158_instruction|명령어]]를 버린다"에 가깝다. 또한 전방 전달은 스톨을 완전히 대체하는 기술이 아니라, 값이 조기에 이용 가능한 경우에만 스톨 길이를 줄이는 보조 수단이다.
+스톨과 플러시는 비슷해 보이지만 본질이 다르다. 스톨은 "아직 확정되지 않았으니 기다린다"에 가깝고, 플러시는 "이미 잘못 들어온 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 버린다"에 가깝다. 또한 전방 전달은 스톨을 완전히 대체하는 기술이 아니라, 값이 조기에 이용 가능한 경우에만 스톨 길이를 줄이는 보조 수단이다.
 
-현대 프로세서는 [[238_out_of_order_execution|비순차 실행]] (Out-of-Order Execution)과 [[158_instruction|명령어]] 윈도우를 통해 스톨의 체감 비용을 더 줄인다. 특정 [[158_instruction|명령어]]가 대기 중이어도 뒤에 있는 독립 [[158_instruction|명령어]]를 먼저 실행해 연산기 점유율을 유지하는 것이다. 즉 스톨은 사라진 것이 아니라, 보이는 위치가 앞단 제어에서 동적 스케줄링 영역으로 이동했다고 보는 편이 정확하다.
+현대 프로세서는 [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) (Out-of-Order Execution)과 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 윈도우를 통해 스톨의 체감 비용을 더 줄인다. 특정 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 대기 중이어도 뒤에 있는 독립 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 먼저 실행해 연산기 점유율을 유지하는 것이다. 즉 스톨은 사라진 것이 아니라, 보이는 위치가 앞단 제어에서 동적 스케줄링 영역으로 이동했다고 보는 편이 정확하다.
 
-**📢 섹션 요약 비유**: 스톨은 [[130_signal|신호]]등 앞에서 잠깐 멈추는 것이고, 플러시는 잘못 든 길에서 차를 빼 다시 돌아나오는 것이다. 전방 전달과 [[238_out_of_order_execution|비순차 실행]]은 막힌 차선을 그냥 기다리지 않고 옆 차선이나 우회로를 활용해 전체 흐름을 살리는 전략에 가깝다.
+**📢 섹션 요약 비유**: 스톨은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등 앞에서 잠깐 멈추는 것이고, 플러시는 잘못 든 길에서 차를 빼 다시 돌아나오는 것이다. 전방 전달과 [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/)은 막힌 차선을 그냥 기다리지 않고 옆 차선이나 우회로를 활용해 전체 흐름을 살리는 전략에 가깝다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 중요한 질문은 "스톨이 생기느냐"가 아니라 "어떤 스톨이 구조적으로 불가피하며, 어떤 스톨은 설계 미숙 때문이냐"다. 예를 들어 단일 메모리 [[446_port_and_bus|포트]]를 가진 단순 파이프라인에서 [[158_instruction|명령어]] 인출과 [[001_dikw_pyramid|데이터]] 접근이 충돌하면 [[222_structural_hazard|구조적 해저드]]가 빈번해진다. 이런 경우는 소프트웨어 튜닝보다 하버드 구조 ([[126_harvard_architecture|Harvard Architecture]]) 분리나 캐시 [[446_port_and_bus|포트]] 확장이 더 효과적이다.
+실무에서 중요한 질문은 "스톨이 생기느냐"가 아니라 "어떤 스톨이 구조적으로 불가피하며, 어떤 스톨은 설계 미숙 때문이냐"다. 예를 들어 단일 메모리 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 가진 단순 파이프라인에서 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 인출과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근이 충돌하면 [구조적 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/222_structural_hazard/)가 빈번해진다. 이런 경우는 소프트웨어 튜닝보다 하버드 구조 ([Harvard Architecture](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/126_harvard_architecture/)) 분리나 캐시 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 확장이 더 효과적이다.
 
-반대로 로드 직후 바로 사용하는 패턴이 많다면 컴파일러의 [[158_instruction|명령어]] 스케줄링이나 개발자의 코드 재배치가 의미 있다. 메모리 접근 뒤에 독립 연산을 끼워 넣으면 로드-유즈 스톨을 숨길 수 있기 때문이다. 더 고성능 영역에서는 OoO 코어, [[231_branch_prediction|분기 예측]]기, 비차단 캐시 (Non-Blocking Cache)까지 포함해 "스톨을 줄이는 하드웨어 투자"가 [[282_performance_tactics|성능]]/Watt를 좌우한다.
+반대로 로드 직후 바로 사용하는 패턴이 많다면 컴파일러의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 스케줄링이나 개발자의 코드 재배치가 의미 있다. 메모리 접근 뒤에 독립 연산을 끼워 넣으면 로드-유즈 스톨을 숨길 수 있기 때문이다. 더 고성능 영역에서는 OoO 코어, [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)기, 비차단 캐시 (Non-Blocking Cache)까지 포함해 "스톨을 줄이는 하드웨어 투자"가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)/Watt를 좌우한다.
 
-### 설계 판단 [[435_checklist_based_testing|체크리스트]]
+### 설계 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 스톨 원인이 [[001_dikw_pyramid|데이터]] 준비 지연인지, 자원 충돌인지, 분기 불확실성인지 먼저 분해했는가?
+1. 스톨 원인이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 준비 지연인지, 자원 충돌인지, 분기 불확실성인지 먼저 분해했는가?
 2. 전방 전달만으로 해결 가능한지, 로드-유즈처럼 물리적으로 한 사이클 대기가 필요한지 구분했는가?
 3. 스톨 빈도가 높은 구간이 메모리 계층 문제라면 캐시 정책과 대역폭부터 재검토했는가?
-4. 단순한 [[158_cpi_cost_performance_index|CPI]] 평균이 아니라 "어떤 해저드가 몇 사이클을 소모하는지"까지 프로파일링했는가?
+4. 단순한 [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) 평균이 아니라 "어떤 해저드가 몇 사이클을 소모하는지"까지 프로파일링했는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 전방 전달이 있으니 모든 [[223_data_hazard|데이터 해저드]]가 없어졌다고 오해하는 설계
+- 전방 전달이 있으니 모든 [데이터 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/223_data_hazard/)가 없어졌다고 오해하는 설계
 - 자원 충돌을 소프트웨어 탓으로만 돌리고 하드웨어 병목을 방치하는 판단
-- 분기 스톨, [[001_dikw_pyramid|데이터]] 스톨, 캐시 미스 지연을 한 항목으로 섞어 원인을 흐리는 [[282_performance_tactics|성능]] 분석
+- 분기 스톨, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스톨, 캐시 미스 지연을 한 항목으로 섞어 원인을 흐리는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 분석
 
-기술사 답안 관점에서는 "스톨은 나쁜 것"이라고만 쓰면 부족하다. 스톨은 [[002_bigdata_5v|정확성]] 확보를 위한 필수 비용이며, 설계자는 그 비용을 구조 분리, 예측, 스케줄링, 동적 실행으로 얼마나 숨길 수 있는지를 설명해야 한다. 결국 좋은 프로세서는 스톨이 없는 프로세서가 아니라, 스톨이 발생해도 전체 처리량이 급락하지 않게 만드는 프로세서다.
+기술사 답안 관점에서는 "스톨은 나쁜 것"이라고만 쓰면 부족하다. 스톨은 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/) 확보를 위한 필수 비용이며, 설계자는 그 비용을 구조 분리, 예측, 스케줄링, 동적 실행으로 얼마나 숨길 수 있는지를 설명해야 한다. 결국 좋은 프로세서는 스톨이 없는 프로세서가 아니라, 스톨이 발생해도 전체 처리량이 급락하지 않게 만드는 프로세서다.
 
 **📢 섹션 요약 비유**: 주방에서 한 요리가 늦어진다고 모든 손님 주문을 멈추는 식당은 비효율적이다. 잘된 주방은 늦는 메뉴는 잠깐 기다리게 두고, 먼저 만들 수 있는 다른 메뉴를 계속 내보내며 전체 회전율을 지킨다.
 
@@ -120,13 +124,13 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-파이프라인 스톨 개념을 정확히 이해하면 CPU [[282_performance_tactics|성능]]을 단순 클럭 속도가 아니라 "유효하게 일한 사이클 비율"로 보게 된다. 같은 3 GHz 프로세서라도 스톨이 적은 구조는 더 많은 [[158_instruction|명령어]]를 실제로 완료하고, 스톨이 많은 구조는 높은 주파수를 가져도 체감 [[282_performance_tactics|성능]]이 떨어진다. 따라서 스톨 분석은 [[204_microarchitecture|마이크로아키텍처]] 최적화, 컴파일러 스케줄링, 메모리 계층 설계가 만나는 접점이다.
+파이프라인 스톨 개념을 정확히 이해하면 CPU [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 단순 클럭 속도가 아니라 "유효하게 일한 사이클 비율"로 보게 된다. 같은 3 GHz 프로세서라도 스톨이 적은 구조는 더 많은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 실제로 완료하고, 스톨이 많은 구조는 높은 주파수를 가져도 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 떨어진다. 따라서 스톨 분석은 [마이크로아키텍처](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/204_microarchitecture/) 최적화, 컴파일러 스케줄링, 메모리 계층 설계가 만나는 접점이다.
 
-또한 스톨은 파이프라인 설계의 한계를 드러내는 진단 지표이기도 하다. [[001_dikw_pyramid|데이터]] 준비 시점이 늦는다면 전방 전달 경로와 연산 단계 배치를 봐야 하고, 구조적 충돌이 많다면 자원 [[016_replication_factor|복제]]와 [[446_port_and_bus|포트]] 구성을 봐야 하며, 분기 관련 손실이 크다면 예측 정확도를 점검해야 한다. 즉 스톨은 결과가 아니라 원인을 추적하는 [[282_performance_tactics|성능]] 해석의 창이다.
+또한 스톨은 파이프라인 설계의 한계를 드러내는 진단 지표이기도 하다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 준비 시점이 늦는다면 전방 전달 경로와 연산 단계 배치를 봐야 하고, 구조적 충돌이 많다면 자원 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)와 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 구성을 봐야 하며, 분기 관련 손실이 크다면 예측 정확도를 점검해야 한다. 즉 스톨은 결과가 아니라 원인을 추적하는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 해석의 창이다.
 
-결론적으로 파이프라인 스톨은 "빈 사이클"이 아니라 "[[002_bigdata_5v|정확성]]을 지키기 위해 시간을 재배치하는 기술"로 기억하는 것이 맞다. 현대 CPU의 경쟁력은 스톨을 완전히 제거하는 데 있지 않고, 불가피한 스톨의 길이와 노출도를 최소화하는 데 있다.
+결론적으로 파이프라인 스톨은 "빈 사이클"이 아니라 "[정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)을 지키기 위해 시간을 재배치하는 기술"로 기억하는 것이 맞다. 현대 CPU의 경쟁력은 스톨을 완전히 제거하는 데 있지 않고, 불가피한 스톨의 길이와 노출도를 최소화하는 데 있다.
 
-**📢 섹션 요약 비유**: 도로에서 잠깐 서행하는 구간 자체보다 중요한 것은 왜 거기서 차가 막히는지 아는 일이다. 병목 지점을 알면 차선을 넓히거나 [[130_signal|신호]]를 바꿀 수 있듯, 스톨을 이해해야 프로세서도 진짜로 빨라진다.
+**📢 섹션 요약 비유**: 도로에서 잠깐 서행하는 구간 자체보다 중요한 것은 왜 거기서 차가 막히는지 아는 일이다. 병목 지점을 알면 차선을 넓히거나 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 바꿀 수 있듯, 스톨을 이해해야 프로세서도 진짜로 빨라진다.
 
 ---
 
@@ -134,10 +138,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :---------- |
-| 해저드 (Hazard) | 스톨이 발생하는 직접 원인으로, [[001_dikw_pyramid|데이터]]·구조·제어 문제를 분류하는 기준 |
-| 전방 전달 (Forwarding) | 결과를 조기 전달해 일부 [[001_dikw_pyramid|데이터]] 스톨을 줄이는 대표 기법 |
-| 플러시 (Flush) | 잘못 인출된 [[158_instruction|명령어]]를 폐기하는 동작으로, 스톨과 함께 [[224_control_hazard|제어 해저드]] 분석에 등장 |
-| [[238_out_of_order_execution|비순차 실행]] (Out-of-Order Execution) | 앞 [[158_instruction|명령어]]가 멈춰도 뒤 독립 [[158_instruction|명령어]]를 실행해 스톨 노출을 줄이는 기법 |
+| 해저드 (Hazard) | 스톨이 발생하는 직접 원인으로, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·구조·제어 문제를 분류하는 기준 |
+| 전방 전달 (Forwarding) | 결과를 조기 전달해 일부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스톨을 줄이는 대표 기법 |
+| 플러시 (Flush) | 잘못 인출된 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 폐기하는 동작으로, 스톨과 함께 [제어 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/224_control_hazard/) 분석에 등장 |
+| [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) (Out-of-Order Execution) | 앞 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 멈춰도 뒤 독립 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 실행해 스톨 노출을 줄이는 기법 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -159,7 +163,7 @@ tags:
 비순차 실행 (Out-of-Order Execution) · 투기 실행
 ```
 
-이 흐름은 단순 대기에서 끝나지 않고, 스톨 원인을 해저드별로 분해한 뒤 이를 줄이는 현대 [[204_microarchitecture|마이크로아키텍처]] 기법으로 확장되는 과정을 보여준다.
+이 흐름은 단순 대기에서 끝나지 않고, 스톨 원인을 해저드별로 분해한 뒤 이를 줄이는 현대 [마이크로아키텍처](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/204_microarchitecture/) 기법으로 확장되는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -173,7 +177,7 @@ tags:
 
 **진행 상황**: 229 / 803
 
-← **이전**: [[228_data_forwarding|228. 데이터 포워딩 (Data Forwarding / Bypassing)]]
-**다음**: [[230_delayed_branch|230. 지연 분기 (Delayed Branch)]] →
+← **이전**: [228. 데이터 포워딩 (Data Forwarding / Bypassing)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/228_data_forwarding/)
+**다음**: [230. 지연 분기 (Delayed Branch)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/230_delayed_branch/) →
 
 ---

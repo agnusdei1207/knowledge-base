@@ -1,18 +1,22 @@
----
-title: 🧭 지식베이스 선택 사유와 의사결정 기록
-tags:
-- work
----
++++
+title = "🧭 지식베이스 선택 사유와 의사결정 기록"
+
+[taxonomies]
+tags = ["work"]
+
+[extra]
+tags = ["work"]
++++
 
 이 문서는 왜 우리 팀이 현재의 지식베이스 구조를 선택했는지, 어떤 대안을 검토했고 어떤 운영 원칙을 채택했는지를 정리한 기록입니다.
 
 관련 문서:
 - [README](../README.md)
-- [[quartz-deployment]]
-- [[business]]
-- [[r-and-d]]
-- [[knowledge-pipeline]]
-- [[decap-cms]]
+- [quartz-deployment](/knowledge-base/work/quartz-deployment/)
+- [business](/knowledge-base/work/business/)
+- [r-and-d](/knowledge-base/r-and-d/)
+- [knowledge-pipeline](/knowledge-base/work/knowledge-pipeline/)
+- [decap-cms](/knowledge-base/work/decap-cms/)
 
 ---
 
@@ -252,8 +256,8 @@ AI 에이전트는 Quartz 엔진을 수정하는 존재가 아닙니다.
 
 하지만 직원 수가 늘고, 비개발자 편집 비중이 높아지고, 에이전트 접속 방식까지 표준화하려면 다음 계층이 추가로 필요합니다.
 
-- 웹 편집 계층: [[decap-cms]]
-- 검색/인덱싱 파생 계층: [[knowledge-pipeline]]
+- 웹 편집 계층: [decap-cms](/knowledge-base/work/decap-cms/)
+- 검색/인덱싱 파생 계층: [knowledge-pipeline](/knowledge-base/work/knowledge-pipeline/)
 
 중요한 원칙은 하나입니다.
 

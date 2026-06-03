@@ -1,14 +1,18 @@
----
-title: 135. RED 메서드 (Rate·Errors·Duration) - 서비스 중심 분석
-date: '2026-04-19'
-tags:
-- studynote-devops-sre
----
++++
+title = "135. RED 메서드 (Rate·Errors·Duration) - 서비스 중심 분석"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-devops-sre"]
+
+[extra]
+tags = ["studynote-devops-sre"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: RED 메서드는 **Rate(초당 요청 수)·Errors(에러율)·Duration([[138_response_time|응답 시간]])**의 3가지 지표로 [[532_microservices_decomposition_patterns|마이크로서비스]]의 상태를 [[229_monitor|모니터]]링하는 Weaveworks의 방법론이다.
-> 2. **가치**: USE는 인프라(CPU·메모리) 중심이지만, RED는 **[[090_service_kubernetes_network_load_balancing|서비스]]([[014_api_posix|API]]·엔드포인트) 관점**에서 사용자 경험에 직접 영향을 미치는 지표에 집중한다.
-> 3. **판단 포인트**: **인프라=USE, [[090_service_kubernetes_network_load_balancing|서비스]]=RED, 종합=Golden [[611_conditional_access_signals|Signals]]**로 상황에 맞게 선택하며, [[302_service_mesh_istio|서비스 메시]]([[302_service_mesh_istio|Istio]])가 RED [[342_routing_metric_hop_bandwidth_delay|메트릭]]을 자동 수집한다.
+> 1. **본질**: RED 메서드는 **Rate(초당 요청 수)·Errors(에러율)·Duration([응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/))**의 3가지 지표로 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)의 상태를 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링하는 Weaveworks의 방법론이다.
+> 2. **가치**: USE는 인프라(CPU·메모리) 중심이지만, RED는 **[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)·엔드포인트) 관점**에서 사용자 경험에 직접 영향을 미치는 지표에 집중한다.
+> 3. **판단 포인트**: **인프라=USE, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)=RED, 종합=Golden [Signals](/knowledge-base/studynote/09_security/12_identity_threat_advanced/611_conditional_access_signals/)**로 상황에 맞게 선택하며, [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)([Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/))가 RED [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)을 자동 수집한다.
 
 ---
 
@@ -27,7 +31,7 @@ Duration: 응답 시간 (P50, P99) — 지연
 
 ## Ⅱ~Ⅴ. 결론
 
-RED는 **[[532_microservices_decomposition_patterns|마이크로서비스]] [[229_monitor|모니터]]링의 핵심 방법론**이며, USE(인프라)와 함께 사용하여 전체 시스템을 파악한다.
+RED는 **[마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링의 핵심 방법론**이며, USE(인프라)와 함께 사용하여 전체 시스템을 파악한다.
 
 ---
 
@@ -35,10 +39,10 @@ RED는 **[[532_microservices_decomposition_patterns|마이크로서비스]] [[22
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **RED** | [[090_service_kubernetes_network_load_balancing|서비스]] 중심 분석 |
+| **RED** | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중심 분석 |
 | **Rate** | 초당 요청 수 |
 | **Errors** | 에러율 |
-| **Duration** | [[138_response_time|응답 시간]] |
+| **Duration** | [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) |
 | **USE** | 인프라 중심 (보완) |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -51,7 +55,7 @@ RED는 **[[532_microservices_decomposition_patterns|마이크로서비스]] [[22
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. RED는 식당의 **3대 [[018_kpi|KPI]]**예요. 손님 수(Rate), 실수율(Errors), 음식 속도(Duration)!
+1. RED는 식당의 **3대 [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/)**예요. 손님 수(Rate), 실수율(Errors), 음식 속도(Duration)!
 2. 이 **3가지만 보면** 식당이 잘 운영되는지 알 수 있어요.
 3. USE(주방 장비 상태)와 함께 보면 **더 완벽하게** 파악할 수 있답니다!
 
@@ -61,7 +65,7 @@ RED는 **[[532_microservices_decomposition_patterns|마이크로서비스]] [[22
 
 **진행 상황**: 135 / 373
 
-← **이전**: [[134_use_method_resource_analysis|134. USE 메서드 (Utilization·Saturation·Errors) - 리소스 중심 분석]]
-**다음**: [[136_prometheus|136. Prometheus - 클라우드 네이티브 메트릭 수집·저장 엔진]] →
+← **이전**: [134. USE 메서드 (Utilization·Saturation·Errors) - 리소스 중심 분석](/knowledge-base/studynote/15_devops_sre/03_sre_observability/134_use_method_resource_analysis/)
+**다음**: [136. Prometheus - 클라우드 네이티브 메트릭 수집·저장 엔진](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) →
 
 ---

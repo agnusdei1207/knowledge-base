@@ -1,15 +1,19 @@
----
-title: 617. I/O 성능 병목 (Bottleneck) 탐색법 (iostat, vmstat)
-date: '2026-05-09'
-tags:
-- studynote-operating-system
----
++++
+title = "617. I/O 성능 병목 (Bottleneck) 탐색법 (iostat, vmstat)"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: I/O [[282_performance_tactics|성능]] 병목 (Bottleneck) 탐색법 (iostat, vmstat)은 [[001_operating_system_purpose|운영체제]] [[043_protection_security|보호와 보안]] 메커니즘에서 핵심 흐름을 결정하는 개념으로, 시스템이 무엇을 먼저 관리하고 어떤 순서로 제어할지를 분명하게 만든다.
-> 2. **가치**: 이 개념을 이해하면 자원 효율, [[138_response_time|응답 시간]], 안정성 사이의 균형을 더 정확하게 설명할 수 있고, 캐시 미스 오버헤드 측정 분석망 구조 적용로 이어지는 이유도 자연스럽게 파악된다.
-> 3. **판단 포인트**: 멀티코어 확장성 병목 (Amdahl's Law) 및 [[022_kernel_role|커널]] [[275_lock_contention_monitoring|락 경합]] 진단과의 관계를 함께 봐야 I/O [[282_performance_tactics|성능]] 병목 (Bottleneck) 탐색법 (iostat, vmstat)을 단순 정의가 아니라 실제 설계·운영 판단 기준으로 사용할 수 있다.
+> 1. **본질**: I/O [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목 (Bottleneck) 탐색법 (iostat, vmstat)은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [보호와 보안](/knowledge-base/studynote/02_operating_system/01_overview_architecture/043_protection_security/) 메커니즘에서 핵심 흐름을 결정하는 개념으로, 시스템이 무엇을 먼저 관리하고 어떤 순서로 제어할지를 분명하게 만든다.
+> 2. **가치**: 이 개념을 이해하면 자원 효율, [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), 안정성 사이의 균형을 더 정확하게 설명할 수 있고, 캐시 미스 오버헤드 측정 분석망 구조 적용로 이어지는 이유도 자연스럽게 파악된다.
+> 3. **판단 포인트**: 멀티코어 확장성 병목 (Amdahl's Law) 및 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [락 경합](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/) 진단과의 관계를 함께 봐야 I/O [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목 (Bottleneck) 탐색법 (iostat, vmstat)을 단순 정의가 아니라 실제 설계·운영 판단 기준으로 사용할 수 있다.
 
 ---
 
@@ -20,7 +24,7 @@ I/O ìë ëëì ììíì ëìíëíëCPUìëëëìììë. ììíì ìì ìë ì�
 
 I/O ëëì ìì ììì ëìê êë:
 - **ëìí ììì ìë ìë íê**: HDDì ëëì ìí ìê(íì ìê + íì ìì)
-- **[[483_raid_overview|RAID]] ìíëë ìì**: RAID5/6ì íëí êìì ëë ìê ëë
+- **[RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) ìíëë ìì**: RAID5/6ì íëí êìì ëë ìê ëë
 - **íìììí ëíëìíìì**:ìíëí
 - **ëë ëìì í êì íê**: ëìì ìë êëí I/O ìì ì ìí
 - **ëíìí ëìí íí**: ëìë ëìí ìì ì ëíìí ëìí êê
@@ -97,9 +101,9 @@ CPUìëê ìëë ëìë, ëìíëìëììíêì ëìíëìì ìë, íì ìë, ê
 | **iostat** | ëë ëìì + ëìí | tps, KB_read/s, KB_wrtn/s, await, %util |
 | **iotop** | íëììë | ëìí I/O ììëë íëìì ìë |
 | **pidstat** | íëììë | PIDë I/O íê |
-| **blktrace** | ëë ëìì | êë I/O ììì [[141_latency|latency]] ëí |
+| **blktrace** | ëë ëìì | êë I/O ììì [latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) ëí |
 | **bpftrace** | ëë êì | ìë íì ììì ìì ìì |
-| **perf** | CPU + I/O | [[158_cpi_cost_performance_index|CPI]], I/O êë íëìì ìëí |
+| **perf** | CPU + I/O | [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/), I/O êë íëìì ìëí |
 
 ### iostat ìì ìí íë
 
@@ -137,15 +141,15 @@ await: I/O ìììì ëìíì ëëê ìëêììíê ëê ìê (ëëì)
 
 **[ëììêë íì]** iostatì %utilì"êìëë ííë"ê êë. 80% ìíìë ìëì ìííê íëìë, 80% ììì ëë ìë ìì êêì ìììê ìëê ëëìë. 100%ì ìëë êìëëê ìì ííëì ìë ìë ìììì ëíë.
 
-### [[327_ssd|SSD]] vs [[465_hdd_structure|HDD]] ëë íì ëê
+### [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) vs [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) ëë íì ëê
 
-| ìí | [[465_hdd_structure|HDD]] | [[327_ssd|SSD]] ([[341_sata|SATA]]) | [[327_ssd|SSD]] ([[482_nvme|NVMe]]) |
+| ìí | [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) | [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ([SATA](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/)) | [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ([NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)) |
 |---|---|---|---|
 | **ìì ìê ìë** | 100~200 MB/s | 500~550 MB/s | 3,000~7,000 MB/s |
 | **ìì ìê ìë** | 100~200 MB/s | 400~500 MB/s | 2,000~6,000 MB/s |
-| **ìê ìììê** | 5~[[489_raid_10_hybrid|10]] ms | 0.05~0.1 ms | 0.01~0.05 ms |
-| **ìê ìììê** | 5~[[489_raid_10_hybrid|10]] ms | 0.05~0.1 ms | 0.01~0.05 ms |
-| **ëë** | íì ìê + íì | [[341_sata|SATA]] ëìí + ìíëë | í êì ([[058_queue|Queue]] Depth) |
+| **ìê ìììê** | 5~[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) ms | 0.05~0.1 ms | 0.01~0.05 ms |
+| **ìê ìììê** | 5~[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) ms | 0.05~0.1 ms | 0.01~0.05 ms |
+| **ëë** | íì ìê + íì | [SATA](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/) ëìí + ìíëë | í êì ([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) Depth) |
 | **ëë íêì** | SSDë êì | NVMeë êì | í êì ììí |
 
 - **ìì ëì**: I/O ëë ìëì "ëë ììì"ì êë. êêì"ììì ì ììì"ëê íë, restoranìì ëìëì(ììí ì), ëëììììì(I/O ìë), ëëìì ëíëì(ëíìí/ëìí ëë) ê êêì ììíì"ìëì ëìê ëìíëì"ë íìíì íë.
@@ -194,7 +198,7 @@ await: I/O ìììì ëìíì ëëê ìëêììíê ëê ìê (ëëì)
 | íìììí | êì | ìì | ìíí ìì |
 |---|---|---|---|
 | **Ext4** | ëì ííì, ìëë | ìë | ëì ìë, êêì |
-| **XFS** | í íì, ëë ìë | ëíëìí ìì ìëíë | ëìíëìì, [[548_automotive_hpc|HPC]] |
+| **XFS** | í íì, ëë ìë | ëíëìí ìì ìëíë | ëìíëìì, [HPC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/) |
 | **ZFS** | ëìí ëêì, ìëì | ëëë ìë í | ëì, íì ìë |
 | **Btrfs** | ìì, ìëìê | ìì maturity ëì | êë íê |
 
@@ -235,10 +239,10 @@ await: I/O ìììì ëìíì ëëê ìëêììíê ëê ìê (ëëì)
 ### ìííí
 
 - **"%utilì ëìë I/O ëëì ìëë" íë**: %utilì ëìë await(ìë ìê)ê ëìë ëìí ììì ìë ìë ëìê ìì ì ìë.
-- **[[327_ssd|SSD]] ëìëìë ëë ëë íê**: SSDë ëëìë,ìì ëìíë I/O ìììììì ììë ììí ëëì ë ì ìë.
+- **[SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ëìëìë ëë ëë íê**: SSDë ëëìë,ìì ëìíë I/O ìììììì ììë ììí ëëì ë ì ìë.
 - **ììëìë íêíë í**: ìì ííìì ëìë(= ìì íëëì ëëë íêëì ììë) ìíëììììë ëìí ëì ìë ììë ëììêíì íë.
 
-- **ìì ëì**: I/O ëë íêì "ëì êí íì íê"ê êë. Royceíë([[327_ssd|SSD]] êì)ëìëìê ëë(ìì ì ìê) ë ëíë. ììì(ìì), ìë ííì ììê(ìì ììí), ëëìëë íìììë ëëë êììë.
+- **ìì ëì**: I/O ëë íêì "ëì êí íì íê"ê êë. Royceíë([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) êì)ëìëìê ëë(ìì ì ìê) ë ëíë. ììì(ìì), ìë ííì ììê(ìì ììí), ëëìëë íìììë ëëë êììë.
 
 - **📢 섹션 요약 비유**: 운전자가 도로 상황에 따라 기어와 브레이크를 다르게 선택하는 것처럼 조건별 판단이 중요하다.
 
@@ -256,34 +260,34 @@ await: I/O ìììì ëìíì ëëê ìëêììíê ëê ìê (ëëì)
 | **íëìì íìë** | ëìí íí, CPU ìì | êí ìí íì |
 
 ### ëë ìë
-[[499_nvme_over_fabrics|NVMe-oF]](ëíìíë íí [[482_nvme|NVMe]]), ìííììë ìíëì(ìíëììì ìì ìì), êëê [[190_ai_llm_requirements_specification|AI]] êë I/O íí ìì ëì ëë I/O ëë íêì ìëì ëíì ë êìë.
+[NVMe-oF](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/499_nvme_over_fabrics/)(ëíìíë íí [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)), ìííììë ìíëì(ìíëììì ìì ìì), êëê [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) êë I/O íí ìì ëì ëë I/O ëë íêì ìëì ëíì ë êìë.
 
 ### ìê íì
-- **Linux iostat [[378_software_documentation|documentation]]**: [[471_https_http_over_tls|https]]://man7.org/linux/man-pages/man1/iostat.1.html
-- **blktrace [[378_software_documentation|documentation]]**: [[471_https_http_over_tls|https]]://wiki.btrfs.org/wiki/ blktrace
-- **NIST [[166_sp|SP]] 800-88**: ìíëì ìíí êìëëì
+- **Linux iostat [documentation](/knowledge-base/studynote/04_software_engineering/06_software_architecture/378_software_documentation/)**: [https](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)://man7.org/linux/man-pages/man1/iostat.1.html
+- **blktrace [documentation](/knowledge-base/studynote/04_software_engineering/06_software_architecture/378_software_documentation/)**: [https](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)://wiki.btrfs.org/wiki/ blktrace
+- **NIST [SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) 800-88**: ìíëì ìíí êìëëì
 
 - **ìì ëì**: I/O ëë íêì "ëë ìê íìí"ì êë. íëìëëê(íëìì ì)ìê ëë íëë ëíê(ìííìì ììí)ëë êë ììíìíë(ìì, ìì) ìì ëë ìëê ëìììë íìëë.
 
 ---
 
-> 1. **ëì**: I/O ìë ëëìë ììíì ìì ìëë([[139_throughput|Throughput]])ì ëìí, ëíìí, íìììí ë I/O subsystemì ìë ëëì ìíëë íììë, CPUë ëëëëë I/O ëêê ìì ìì ìêì ëëëì ììíë êìê ëì ííë.
-> 2. **êì**: I/O ëëì ìíí íìíë, [[327_ssd|SSD]] ëì, [[483_raid_overview|RAID]] êì ëê, ëëê I/O ìì, ìì ìë ìë ë ìë íìê êì íêììì íëí ì ìë.
-> 3. **ìí**: I/O ëë ëìì íìììí(Ext4, XFS, ZFS), ëë ëìì, SCSI/[[482_nvme|NVMe]] ëëìë, ëíìí ìí ë ìë êìì êì ììëë, ê êìë ëê(iostat, perf, bpftrace ë)ëììí íí ëìì íìíë.
+> 1. **ëì**: I/O ìë ëëìë ììíì ìì ìëë([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))ì ëìí, ëíìí, íìììí ë I/O subsystemì ìë ëëì ìíëë íììë, CPUë ëëëëë I/O ëêê ìì ìì ìêì ëëëì ììíë êìê ëì ííë.
+> 2. **êì**: I/O ëëì ìíí íìíë, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ëì, [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) êì ëê, ëëê I/O ìì, ìì ìë ìë ë ìë íìê êì íêììì íëí ì ìë.
+> 3. **ìí**: I/O ëë ëìì íìììí(Ext4, XFS, ZFS), ëë ëìì, SCSI/[NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) ëëìë, ëíìí ìí ë ìë êìì êì ììëë, ê êìë ëê(iostat, perf, bpftrace ë)ëììí íí ëìì íìíë.
 
 ---
 
 | êë ëì | êê ë ìëì ìë |
 |---|---|
 | **ëìí ìììë** | I/O ììì ëìíì ëëê ì ìì ìëíë ìêëììë, ìêëì ìíì ëë ëë íì ëë ìíêëíë. |
-| **[[483_raid_overview|RAID]]** | ìë ëìíë íëì ëëì ëëìë êìíë êìë, ìê ìëì íëí êì ìëíëê ëìí ì ìë. |
-| **[[482_nvme|NVMe]]** | [[356_pcie|PCIe]] ëìì ìì ìêëë êì [[327_ssd|SSD]] ìííììë, [[341_sata|SATA]] SSDëëì ìì ìêì ìêíë. |
-| **[[554_fuse_filesystem_in_userspace|FUSE]]** | ììì êêìì íìììíìêíí ì ìëìë, ìë ìì ìì ììí ìíëìëí ì ìë. |
+| **[RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/)** | ìë ëìíë íëì ëëì ëëìë êìíë êìë, ìê ìëì íëí êì ìëíëê ëìí ì ìë. |
+| **[NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)** | [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) ëìì ìì ìêëë êì [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ìííììë, [SATA](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/) SSDëëì ìì ìêì ìêíë. |
+| **[FUSE](/knowledge-base/studynote/02_operating_system/09_file_system/554_fuse_filesystem_in_userspace/)** | ììì êêìì íìììíìêíí ì ìëìë, ìë ìì ìì ììí ìíëìëí ì ìë. |
 
 ---
 
 1. I/O ëëì "íê êì ëë ëì"ì êë.ìê ììì ëë ëëìë( CPU ), ëë ìê 1ëëìë(ëìí ìëë) ìì êìì ê ìì ìëìëë.
-2. êëë ëë ìê 10ëë ëìëë( [[327_ssd|SSD]] êì), ê ìê ëë ììê 100êëë(ìì íìë) ììí ëë ìêì ìë êëë.
+2. êëë ëë ìê 10ëë ëìëë( [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) êì), ê ìê ëë ììê 100êëë(ìì íìë) ììí ëë ìêì ìë êëë.
 3. êëì êì ëëì "ìëë ììì í êëì ëì í ëì ëëíê(íì íìê), ê íêëë ëëë ëë(ìì)"ì êìíë, ì ëìë ëëë êëë íì íìììë êìë ì ìë!
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
@@ -294,8 +298,8 @@ await: I/O ìììì ëìíì ëëê ìëêììíê ëê ìê (ëëì)
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[615_ebpf|eBPF]] 네트워크/보안/모니터링 이벤트 [[022_kernel_role|커널]] 안전 훅 매커니즘 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| 멀티코어 확장성 병목 (Amdahl's Law) 및 [[022_kernel_role|커널]] [[275_lock_contention_monitoring|락 경합]] 진단 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 네트워크/보안/모니터링 이벤트 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안전 훅 매커니즘 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| 멀티코어 확장성 병목 (Amdahl's Law) 및 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [락 경합](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/) 진단 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
 | 캐시 미스 오버헤드 측정 분석망 구조 적용 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
 | 모바일 OS 특징 (Android vs iOS 아키텍처 비교) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
@@ -315,9 +319,9 @@ await: I/O ìììì ëìíì ëëê ìëêììíê ëê ìê (ëëì)
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. I/O [[282_performance_tactics|성능]] 병목 (Bottleneck) 탐색법 (iostat, vmstat)은 컴퓨터가 누가 들어와도 되는지와 무엇을 막아야 하는지 정하는 문지기 규칙이에요.
-2. 먼저 멀티코어 확장성 병목 (Amdahl's Law) 및 [[022_kernel_role|커널]] [[275_lock_contention_monitoring|락 경합]] 진단을 이해하면 I/O [[282_performance_tactics|성능]] 병목 (Bottleneck) 탐색법 (iostat, vmstat)이 왜 필요한지 더 쉽게 보여요.
-3. 그래서 I/O [[282_performance_tactics|성능]] 병목 (Bottleneck) 탐색법 (iostat, vmstat)을 잘 알면 나중에 캐시 미스 오버헤드 측정 분석망 구조 적용도 훨씬 쉽게 배울 수 있어요.
+1. I/O [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목 (Bottleneck) 탐색법 (iostat, vmstat)은 컴퓨터가 누가 들어와도 되는지와 무엇을 막아야 하는지 정하는 문지기 규칙이에요.
+2. 먼저 멀티코어 확장성 병목 (Amdahl's Law) 및 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [락 경합](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/) 진단을 이해하면 I/O [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목 (Bottleneck) 탐색법 (iostat, vmstat)이 왜 필요한지 더 쉽게 보여요.
+3. 그래서 I/O [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목 (Bottleneck) 탐색법 (iostat, vmstat)을 잘 알면 나중에 캐시 미스 오버헤드 측정 분석망 구조 적용도 훨씬 쉽게 배울 수 있어요.
 
 ---
 
@@ -325,7 +329,7 @@ await: I/O ìììì ëìíì ëëê ìëêììíê ëê ìê (ëëì)
 
 **진행 상황**: 617 / 800
 
-← **이전**: [[616_amdahl_law_multicore_scaling|616. 멀티코어 확장성 병목 (Amdahl's Law) 및 커널 락 경합 진단]]
-**다음**: [[618_cache_miss_overhead|618. 캐시 미스 오버헤드 측정 분석망 구조 적용 (Cache Miss Overhead)]] →
+← **이전**: [616. 멀티코어 확장성 병목 (Amdahl's Law) 및 커널 락 경합 진단](/knowledge-base/studynote/02_operating_system/10_security/616_amdahl_law_multicore_scaling/)
+**다음**: [618. 캐시 미스 오버헤드 측정 분석망 구조 적용 (Cache Miss Overhead)](/knowledge-base/studynote/02_operating_system/10_security/618_cache_miss_overhead/) →
 
 ---

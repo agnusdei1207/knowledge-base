@@ -1,12 +1,16 @@
----
-title: 71. 스프린트 회고 (Sprint Retrospective) - 프로세스 개선
-tags:
-- software_engineering
----
++++
+title = "71. 스프린트 회고 (Sprint Retrospective) - 프로세스 개선"
+
+[taxonomies]
+tags = ["software_engineering"]
+
+[extra]
+tags = ["software_engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[067_sprint_timebox|스프린트]] 회고는 [[067_sprint_timebox|스프린트]]가 끝난 뒤 팀이 일하는 방식을 되돌아보고 개선점을 찾는 시간이다.
+> 1. **본질**: [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 회고는 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)가 끝난 뒤 팀이 일하는 방식을 되돌아보고 개선점을 찾는 시간이다.
 > 2. **가치**: 팀워크와 프로세스를 학습 조직 방식으로 개선한다.
 > 3. **판단**: 리뷰와 달리 제품이 아니라 프로세스를 대상으로 한다.
 
@@ -48,14 +52,14 @@ Process Improvement
 
 | 이벤트 | 대상 | 차이 |
 | :-- | :-- | :-- |
-| [[153_requirements_review_inspection_walkthrough|Review]] | 제품 | 외부 피드백 |
-| [[796_retrospective|Retrospective]] | 프로세스 | 내부 개선 |
+| [Review](/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/) | 제품 | 외부 피드백 |
+| [Retrospective](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/796_retrospective/) | 프로세스 | 내부 개선 |
 | Planning | 미래 | 시작 준비 |
 
 | 효과 | 의미 |
 | :-- | :-- |
 | Continuous Improvement | 지속 개선 |
-| Team [[240_switch_learning_forwarding_flooding|Learning]] | 학습 조직 |
+| Team [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) | 학습 조직 |
 
 회고는 팀이 같은 실수를 반복하지 않도록 돕는다.
 
@@ -65,22 +69,22 @@ Process Improvement
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 비난 없이 이야기하는가?
 2. 개선 액션이 남는가?
 3. 팀 전체가 참여하는가?
 4. 프로세스 관점을 유지하는가?
-5. 다음 [[067_sprint_timebox|스프린트]]에 반영하는가?
+5. 다음 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)에 반영하는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 사람 탓만 하는 회고
 - 액션 없이 끝나는 회고
 - 형식적으로만 하는 회고
 - 제품 리뷰와 혼동하는 회고
 
-기술사 관점에서는 회고를 "프로세스 개선의 [[005_feedback_loop|피드백 루프]]"로 설명해야 한다.
+기술사 관점에서는 회고를 "프로세스 개선의 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)"로 설명해야 한다.
 
 - **📢 섹션 요약 비유**: 잘한 것과 아쉬운 것을 모아 다음 판에 반영한다.
 
@@ -90,7 +94,7 @@ Process Improvement
 
 회고는 팀을 학습 조직으로 만든다.
 
-결론적으로 [[067_sprint_timebox|스프린트]] 회고는 프로세스를 개선하는 내부 성찰이다.
+결론적으로 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 회고는 프로세스를 개선하는 내부 성찰이다.
 
 - **📢 섹션 요약 비유**: 끝난 뒤에 더 나은 방법을 찾는 시간이다.
 
@@ -128,7 +132,7 @@ Learning Team
 
 끝나고 나서 다시 생각해요.  
 다음엔 더 잘하려고요.  
-[[067_sprint_timebox|스프린트]] 회고는 그런 시간이예요.
+[스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 회고는 그런 시간이예요.
 
 ---
 
@@ -136,7 +140,7 @@ Learning Team
 
 **진행 상황**: 71 / 973
 
-← **이전**: [[070_sprint_review_demo|70. 스프린트 리뷰 (Sprint Review) - 데모 및 피드백]]
-**다음**: [[072_burndown_burnup_chart|72. 번다운 차트 (Burndown Chart) / 번업 차트 (Burnup Chart)]] →
+← **이전**: [70. 스프린트 리뷰 (Sprint Review) - 데모 및 피드백](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/070_sprint_review_demo/)
+**다음**: [72. 번다운 차트 (Burndown Chart) / 번업 차트 (Burnup Chart)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/072_burndown_burnup_chart/) →
 
 ---

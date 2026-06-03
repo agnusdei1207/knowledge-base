@@ -1,12 +1,16 @@
----
-title: 128. Blameless Postmortem - 비난 없는 장애 사후 분석
-date: '2026-04-19'
-tags:
-- studynote-devops-sre
----
++++
+title = "128. Blameless Postmortem - 비난 없는 장애 사후 분석"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-devops-sre"]
+
+[extra]
+tags = ["studynote-devops-sre"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Blameless Postmortem은 **장애 발생 후 '누가' 실수했는가가 아니라 '무엇이(시스템·프로세스)' 실패했는가**를 분석하여 재발을 방지하는 [[100_sre_site_reliability_engineering_error_budget|SRE]] 핵심 문화이다.
+> 1. **본질**: Blameless Postmortem은 **장애 발생 후 '누가' 실수했는가가 아니라 '무엇이(시스템·프로세스)' 실패했는가**를 분석하여 재발을 방지하는 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 핵심 문화이다.
 > 2. **가치**: 개인을 비난하면 **실수를 숨기는 문화**가 형성되어 장애 원인이 은폐되지만, Blameless 문화에서는 **솔직한 공유**가 가능하여 시스템 개선·자동화·프로세스 강화로 이어진다.
 > 3. **판단 포인트**: Postmortem 문서에는 **타임라인·영향 범위·근본 원인(5 Whys)·Action Items**이 포함되며, 모든 주요 장애 후 필수 작성하고 **팀 전체에 공유**한다.
 
@@ -40,12 +44,12 @@ tags:
 | Why | 답 |
 |:---|:---|
 | **Why 1** | DB 연결 풀 고갈 |
-| **Why 2** | 슬로우 [[298_qkv_attention|쿼리]] 급증 |
-| **Why 3** | [[154_database_index_b_tree_search_optimization|인덱스]] 미적용 |
-| **Why 4** | [[330_code_review|코드 리뷰]] 시 [[298_qkv_attention|쿼리]] 검토 누락 |
-| **Why 5** | **[[298_qkv_attention|쿼리]] 리뷰 프로세스 부재** |
+| **Why 2** | 슬로우 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 급증 |
+| **Why 3** | [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 미적용 |
+| **Why 4** | [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) 시 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 검토 누락 |
+| **Why 5** | **[쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 리뷰 프로세스 부재** |
 
-→ Action Item: [[298_qkv_attention|쿼리]] 리뷰 [[435_checklist_based_testing|체크리스트]] 도입.
+→ Action Item: [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 리뷰 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 도입.
 
 - **📢 섹션 요약 비유**: 5 Whys는 의사가 "왜 열이 나?"→"왜 감염?"→"왜 면역력 저하?"로 **근본 원인을 파는 진단법**이다.
 
@@ -64,7 +68,7 @@ tags:
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### Postmortem 도구
-- **Incident.io**: 자동 타임라인·Postmortem [[087_process_state_transition|생성]].
+- **Incident.io**: 자동 타임라인·Postmortem [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/).
 - **Jeli**: Postmortem 관리 플랫폼.
 - **Confluence/Notion**: 문서 기반 Postmortem.
 
@@ -72,7 +76,7 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-Blameless Postmortem은 **[[100_sre_site_reliability_engineering_error_budget|SRE]] 문화의 가장 중요한 실천**이며, 장애를 **학습 기회**로 전환하는 조직의 성숙도를 보여준다.
+Blameless Postmortem은 **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 문화의 가장 중요한 실천**이며, 장애를 **학습 기회**로 전환하는 조직의 성숙도를 보여준다.
 
 ---
 
@@ -84,7 +88,7 @@ Blameless Postmortem은 **[[100_sre_site_reliability_engineering_error_budget|SR
 | **5 Whys** | 근본 원인 분석 기법 |
 | **Action Items** | 재발 방지 조치 |
 | **타임라인** | 분 단위 장애 이벤트 기록 |
-| **[[806_incident_response|Incident Response]]** | Postmortem 이전의 장애 대응 |
+| **[Incident Response](/knowledge-base/studynote/09_security/16_data_privacy/806_incident_response/)** | Postmortem 이전의 장애 대응 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -115,7 +119,7 @@ Blameless Postmortem은 **[[100_sre_site_reliability_engineering_error_budget|SR
 
 **진행 상황**: 128 / 373
 
-← **이전**: [[127_on_call_management|127. 온콜 관리 (On-Call Management) - SRE 장애 대응 당번 체계]]
-**다음**: [[129_observability_vs_monitoring|129. 관측 가능성 vs 모니터링 (Observability vs Monitoring)]] →
+← **이전**: [127. 온콜 관리 (On-Call Management) - SRE 장애 대응 당번 체계](/knowledge-base/studynote/15_devops_sre/03_sre_observability/127_on_call_management/)
+**다음**: [129. 관측 가능성 vs 모니터링 (Observability vs Monitoring)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/129_observability_vs_monitoring/) →
 
 ---

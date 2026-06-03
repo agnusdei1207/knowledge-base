@@ -1,18 +1,22 @@
----
-title: 79. 원-핫 인코딩 (One-hot Encoding) - 범주형 변수의 더미 변수화
-date: '2026-04-10'
-tags:
-- studynote-data-engineering
----
++++
+title = "79. 원-핫 인코딩 (One-hot Encoding) - 범주형 변수의 더미 변수화"
+date = 2026-04-10
 
-# 79. 원-핫 인코딩 (One-hot Encoding) - 범주형 [[459_dummy_test_double|더미]] 변수화
+[taxonomies]
+tags = ["studynote-data-engineering"]
 
-> ⚠️ 이 문서는 [[231_ai_turing_test|인공지능]]([[190_ai_llm_requirements_specification|AI]])은 오직 '숫자'만 씹어먹고 소화할 수 있는데, 엑셀 [[501_file_definition_logical_record|파일]]에 "직업: 학생, 직장인, 백수" 또는 "지역: 서울, 부산, 대전"처럼 더하기 빼기가 불가능한 '글자(문자열)'가 잔뜩 들어있을 때, **이 문자를 단순히 1, 2, 3 같은 숫자로 치환하면 AI가 "3번(대전)이 1번(서울)보다 3배 더 큰 가치를 지녔구나!"라고 멍청한 오해를 하는 대참사를 막기 위해, 컬럼을 가로로 쫙 찢어발겨 오직 `0`과 `1`이라는 평등한 희소 벡터(Sparse Vector)로 변환해 주는 마취제 같은 필수 전처리 기법인 '원-핫 인코딩'**을 다룹니다.
+[extra]
+tags = ["studynote-data-engineering"]
++++
+
+# 79. 원-핫 인코딩 (One-hot Encoding) - 범주형 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) 변수화
+
+> ⚠️ 이 문서는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))은 오직 '숫자'만 씹어먹고 소화할 수 있는데, 엑셀 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 "직업: 학생, 직장인, 백수" 또는 "지역: 서울, 부산, 대전"처럼 더하기 빼기가 불가능한 '글자(문자열)'가 잔뜩 들어있을 때, **이 문자를 단순히 1, 2, 3 같은 숫자로 치환하면 AI가 "3번(대전)이 1번(서울)보다 3배 더 큰 가치를 지녔구나!"라고 멍청한 오해를 하는 대참사를 막기 위해, 컬럼을 가로로 쫙 찢어발겨 오직 `0`과 `1`이라는 평등한 희소 벡터(Sparse Vector)로 변환해 주는 마취제 같은 필수 전처리 기법인 '원-핫 인코딩'**을 다룹니다.
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 문자를 숫자로 바꾸되, 숫자의 크기(크고 작음)나 서열(Order)의 의미를 100% 거세해버리고, 오직 "이 칸의 성질을 가졌냐(`1`), 아니냐(`0`)"라는 [[238_switch_operation_principles|스위치]] 형태로 [[001_dikw_pyramid|데이터]]를 펑튀기(차원 확장) 시키는 조작술이다.
-> 2. **가치**: [[149_regression_analysis|회귀 분석]](Regression)이나 신경망(Deep [[240_switch_learning_forwarding_flooding|Learning]])에 명목형(Nominal) [[001_dikw_pyramid|데이터]]를 쑤셔 넣을 때 필수적인 과정이다. 이걸 안 해주면 AI는 모델링 중에 "서울 + 부산 = 대전" 같은 미친 수학적 오류를 범하며 엉터리 예측 모델을 뱉어낸다.
-> 3. **기술 체계**: '지역' 컬럼에 서울, 부산, 대전이 있다면 컬럼을 아예 3개로 늘려버린다([[459_dummy_test_double|더미]] 변수화). 서울 사람은 `[1, 0, 0]`, 부산 사람은 `[0, 1, 0]`이 된다. 단점은 컬럼이 미친 듯이 늘어나 엑셀이 터지는 **'차원의 저주([[080_curse_of_dimensionality|Curse of Dimensionality]])'**가 발생한다는 점이다.
+> 1. **본질**: 문자를 숫자로 바꾸되, 숫자의 크기(크고 작음)나 서열(Order)의 의미를 100% 거세해버리고, 오직 "이 칸의 성질을 가졌냐(`1`), 아니냐(`0`)"라는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 형태로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 펑튀기(차원 확장) 시키는 조작술이다.
+> 2. **가치**: [회귀 분석](/knowledge-base/studynote/08_algorithm_stats/08_stats/149_regression_analysis/)(Regression)이나 신경망(Deep [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))에 명목형(Nominal) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쑤셔 넣을 때 필수적인 과정이다. 이걸 안 해주면 AI는 모델링 중에 "서울 + 부산 = 대전" 같은 미친 수학적 오류를 범하며 엉터리 예측 모델을 뱉어낸다.
+> 3. **기술 체계**: '지역' 컬럼에 서울, 부산, 대전이 있다면 컬럼을 아예 3개로 늘려버린다([더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) 변수화). 서울 사람은 `[1, 0, 0]`, 부산 사람은 `[0, 1, 0]`이 된다. 단점은 컬럼이 미친 듯이 늘어나 엑셀이 터지는 **'차원의 저주([Curse of Dimensionality](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_curse_of_dimensionality/))'**가 발생한다는 점이다.
 
 ---
 
@@ -20,52 +24,52 @@ tags:
 문자를 1, 2, 3으로 바꿨다간 AI가 계급장(서열)으로 오해한다.
 
 1. **상황극: 텍스트의 숫자화 시도**:
-   - [[001_dikw_pyramid|데이터]] 과학자가 엑셀을 열었다. `[과일]` 컬럼에 `사과, 바나나, 포도`가 적혀있다.
+   - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학자가 엑셀을 열었다. `[과일]` 컬럼에 `사과, 바나나, 포도`가 적혀있다.
    - 머신러닝에 넣으려니 문자는 에러가 난다. 귀찮은 과학자는 **라벨 인코딩** 툴을 돌린다.
    - `사과 -> 1`, `바나나 -> 2`, `포도 -> 3` 으로 기계적으로 치환해 버렸다.
 2. **알고리즘의 치명적 착각 (수학적 붕괴)**:
-   - 이 [[001_dikw_pyramid|데이터]]를 선형 회귀(Linear Regression) AI에게 던져주었다.
+   - 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 선형 회귀(Linear Regression) AI에게 던져주었다.
    - AI는 숫자의 크기(Magnitude)에 미친 듯이 반응한다. "아하! 사과(1)보다 포도(3)가 숫자가 3배 더 크니까, 가격이나 중요도도 무조건 3배 더 크겠군!"
    - 심지어 "사과(1) + 바나나(2)를 더하면 포도(3)가 되는구나!"라는 미친 연산을 시작한다. 
-   - 종류(명목형 변수)를 구분할 뿐인 [[001_dikw_pyramid|데이터]]에, 인간이 억지로 서열(Ordinal)과 크기의 개념을 주입해 버려서 모델을 쓰레기로 만든 것이다.
+   - 종류(명목형 변수)를 구분할 뿐인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에, 인간이 억지로 서열(Ordinal)과 크기의 개념을 주입해 버려서 모델을 쓰레기로 만든 것이다.
 
-📢 섹션 요약 비유: 축구 선수들의 등 번호(라벨 인코딩)와 같습니다. 손흥민이 7번을 달고, 김민재가 14번을 달았다고 해서 "아, 김민재가 손흥민보다 축구 실력이 정확히 2배 높구나!"라고 계산하는 것은 미친 짓입니다. 등 번호는 그냥 '구별용 라벨'일 뿐 더하기 빼기의 대상이 아닙니다. 하지만 [[190_ai_llm_requirements_specification|AI]](수학 공식)는 무식해서 등 번호가 숫자로 입력되는 순간 진짜 크기인 줄 알고 곱하기를 해버리는 치명적인 맹점을 가지고 있습니다.
+📢 섹션 요약 비유: 축구 선수들의 등 번호(라벨 인코딩)와 같습니다. 손흥민이 7번을 달고, 김민재가 14번을 달았다고 해서 "아, 김민재가 손흥민보다 축구 실력이 정확히 2배 높구나!"라고 계산하는 것은 미친 짓입니다. 등 번호는 그냥 '구별용 라벨'일 뿐 더하기 빼기의 대상이 아닙니다. 하지만 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)(수학 공식)는 무식해서 등 번호가 숫자로 입력되는 순간 진짜 크기인 줄 알고 곱하기를 해버리는 치명적인 맹점을 가지고 있습니다.
 
 ---
 
-### Ⅱ. 원-핫 인코딩의 마법: 평등한 [[238_switch_operation_principles|스위치]] [0, 1]의 세계
-서열을 없애려면, 모든 종류마다 전용 [[238_switch_operation_principles|스위치]](컬럼)를 만들어줘라.
+### Ⅱ. 원-핫 인코딩의 마법: 평등한 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [0, 1]의 세계
+서열을 없애려면, 모든 종류마다 전용 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(컬럼)를 만들어줘라.
 
-1. **컬럼의 폭발적 찢기 ([[459_dummy_test_double|Dummy]] Variables)**:
-   - 천재 [[001_dikw_pyramid|데이터]] 엔지니어는 엑셀의 `[과일]` 컬럼 1개를 전기톱으로 잘라내 쓰레기통에 버린다.
+1. **컬럼의 폭발적 찢기 ([Dummy](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) Variables)**:
+   - 천재 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어는 엑셀의 `[과일]` 컬럼 1개를 전기톱으로 잘라내 쓰레기통에 버린다.
    - 대신 엑셀 오른쪽에 **새로운 컬럼 3개**를 쫙 만든다. `[과일_사과]`, `[과일_바나나]`, `[과일_포도]`.
 2. **희소 행렬 (Sparse Matrix)의 탄생**:
-   - 첫 번째 줄 손님은 사과를 샀다. 엑셀 칸을 이렇게 채운다: `[1, 0, 0]` (사과 [[238_switch_operation_principles|스위치]] 켜짐).
-   - 두 번째 줄 손님은 포도를 샀다: `[0, 0, 1]` (포도 [[238_switch_operation_principles|스위치]] 켜짐).
+   - 첫 번째 줄 손님은 사과를 샀다. 엑셀 칸을 이렇게 채운다: `[1, 0, 0]` (사과 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 켜짐).
+   - 두 번째 줄 손님은 포도를 샀다: `[0, 0, 1]` (포도 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 켜짐).
    - 숫자는 오직 `0(없다)`과 `1(있다)` 두 개뿐이다. 크기의 차이(1, 2, 3)가 소멸했다.
 3. **AI의 평온한 학습**:
-   - 이제 AI는 오해하지 않는다. "아하! 이 컬럼들은 1(True)이냐 0(False)이냐의 [[238_switch_operation_principles|스위치]]일 뿐이구나. 바나나와 포도 사이에는 아무런 크기 차이도, 수학적 더하기 관계도 없다!" 
-   - 편견([[094_bias|Bias]])이 0%로 사라지고, 각 과일 [[238_switch_operation_principles|스위치]]가 켜졌을 때 매출에 미치는 순수한 영향력([[267_weight_bias_activation|가중치]])만을 객관적으로 미친 듯이 정밀하게 학습해 낸다.
+   - 이제 AI는 오해하지 않는다. "아하! 이 컬럼들은 1(True)이냐 0(False)이냐의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)일 뿐이구나. 바나나와 포도 사이에는 아무런 크기 차이도, 수학적 더하기 관계도 없다!" 
+   - 편견([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))이 0%로 사라지고, 각 과일 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 켜졌을 때 매출에 미치는 순수한 영향력([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))만을 객관적으로 미친 듯이 정밀하게 학습해 낸다.
 
-📢 섹션 요약 비유: **라벨 인코딩**은 아파트 1동, 2동, 3동에 사는 사람들을 한 장부에 적는 것입니다. AI는 3동 사는 사람이 1동 사람보다 3배 부자라고 착각합니다. **원-핫 인코딩**은 장부에 동 호수를 지워버리고 방을 3개 새로 만듭니다. 1동 사람에게 물어봅니다. "너 1동 살아? (예=1, 아니오=0)", "너 2동 살아? (0)", "3동 살아? (0)". 이렇게 모든 사람에게 [1, 0, 0]이라는 3개의 [[238_switch_operation_principles|스위치]] 질문표를 던져서, 동 호수라는 숫자가 가진 '서열과 크기의 오해'를 100% 멸균 처리해 버리는 공평한 인터뷰 기법입니다.
+📢 섹션 요약 비유: **라벨 인코딩**은 아파트 1동, 2동, 3동에 사는 사람들을 한 장부에 적는 것입니다. AI는 3동 사는 사람이 1동 사람보다 3배 부자라고 착각합니다. **원-핫 인코딩**은 장부에 동 호수를 지워버리고 방을 3개 새로 만듭니다. 1동 사람에게 물어봅니다. "너 1동 살아? (예=1, 아니오=0)", "너 2동 살아? (0)", "3동 살아? (0)". 이렇게 모든 사람에게 [1, 0, 0]이라는 3개의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 질문표를 던져서, 동 호수라는 숫자가 가진 '서열과 크기의 오해'를 100% 멸균 처리해 버리는 공평한 인터뷰 기법입니다.
 
 ---
 
 ### Ⅲ. 치명적 저주와 극복: 다중공선성과 차원의 저주
-[[238_switch_operation_principles|스위치]]를 너무 많이 만들면 엑셀 [[501_file_definition_logical_record|파일]]이 터지고 메모리가 터진다.
+[스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 너무 많이 만들면 엑셀 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 터지고 메모리가 터진다.
 
-1. **차원의 저주 ([[080_curse_of_dimensionality|Curse of Dimensionality]])**:
+1. **차원의 저주 ([Curse of Dimensionality](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_curse_of_dimensionality/))**:
    - 만약 고객 `[주소]` 컬럼이 "서울, 부산..."이 아니라 대한민국의 "동/읍/면" 이름 5,000개가 들어있다고 쳐보자.
-   - 원-핫 인코딩을 돌리는 순간? 엑셀 [[501_file_definition_logical_record|파일]] 가로(컬럼) 길이가 무려 **5,000개**로 쫙 찢어지며 팽창해 버린다.
-   - AI가 5,000개의 [[238_switch_operation_principles|스위치]](차원)를 다 쳐다보고 계산하느라 램(RAM)이 펑 터져버리거나, 5,000개 칸 중에 4,999칸이 `0`으로 가득 찬 쓸데없는 허공(희소 [[001_dikw_pyramid|데이터]], Sparse) [[001_dikw_pyramid|데이터]] 때문에 학습이 수렁에 빠져 모델 성능이 나락으로 간다.
-   - **해결책**: 동/읍/면을 "시/도(16개)" 단위로 뭉뚱그려(범주 축소) 16개 [[238_switch_operation_principles|스위치]]로 타협하거나, 자연어 처리([[339_word2vec|Word2Vec]] 등)의 **[[278_instruction_tuning|임베딩]]([[278_instruction_tuning|Embedding]])** 기술로 숫자를 압축해 버려야 살 수 있다.
-2. **다중공선성 ([[080_multicollinearity_vif_variance_inflation_factor_regression|Multicollinearity]])의 덫과 Drop First (n-1)**:
-   - [[238_switch_operation_principles|스위치]]를 3개 다 만들면 [[190_ai_llm_requirements_specification|AI]] 모델(특히 선형 회귀) 안쪽 깊은 곳에서 수학적 함정이 터진다.
-   - `[사과, 바나나, 포도]` 3개 [[238_switch_operation_principles|스위치]]가 있을 때, 내가 `[사과]=0, [바나나]=0` 인 걸 보면 굳이 마지막 칸을 안 봐도 무조건 `[포도]=1` 이라는 정답을 맞출 수 있다. (변수 간의 완벽한 [[008_dependencies|종속성]])
-   - 이러면 선형 회귀 알고리즘이 멘붕에 빠져 [[267_weight_bias_activation|가중치]] 행렬 계산을 터뜨려버린다.
-   - **해결책 ([[459_dummy_test_double|더미]] 변수화의 국룰)**: [[238_switch_operation_principles|스위치]] 3개를 만들지 말고, **마지막 1개(포도)는 가차 없이 엑셀에서 삭제해 버린다(Drop First, n-1 원칙).** `[0, 0]` 이 나오면 기계가 "아, 2개 다 0이니까 얘는 숨겨진 '포도'구나!"라고 역추산할 수 있게 만들어 행렬 폭파를 막아주는 수학의 꼼수다.
+   - 원-핫 인코딩을 돌리는 순간? 엑셀 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 가로(컬럼) 길이가 무려 **5,000개**로 쫙 찢어지며 팽창해 버린다.
+   - AI가 5,000개의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(차원)를 다 쳐다보고 계산하느라 램(RAM)이 펑 터져버리거나, 5,000개 칸 중에 4,999칸이 `0`으로 가득 찬 쓸데없는 허공(희소 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), Sparse) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 때문에 학습이 수렁에 빠져 모델 성능이 나락으로 간다.
+   - **해결책**: 동/읍/면을 "시/도(16개)" 단위로 뭉뚱그려(범주 축소) 16개 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)로 타협하거나, 자연어 처리([Word2Vec](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/339_word2vec/) 등)의 **[임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)([Embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/))** 기술로 숫자를 압축해 버려야 살 수 있다.
+2. **다중공선성 ([Multicollinearity](/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/))의 덫과 Drop First (n-1)**:
+   - [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 3개 다 만들면 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델(특히 선형 회귀) 안쪽 깊은 곳에서 수학적 함정이 터진다.
+   - `[사과, 바나나, 포도]` 3개 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 있을 때, 내가 `[사과]=0, [바나나]=0` 인 걸 보면 굳이 마지막 칸을 안 봐도 무조건 `[포도]=1` 이라는 정답을 맞출 수 있다. (변수 간의 완벽한 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/))
+   - 이러면 선형 회귀 알고리즘이 멘붕에 빠져 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 행렬 계산을 터뜨려버린다.
+   - **해결책 ([더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) 변수화의 국룰)**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 3개를 만들지 말고, **마지막 1개(포도)는 가차 없이 엑셀에서 삭제해 버린다(Drop First, n-1 원칙).** `[0, 0]` 이 나오면 기계가 "아, 2개 다 0이니까 얘는 숨겨진 '포도'구나!"라고 역추산할 수 있게 만들어 행렬 폭파를 막아주는 수학의 꼼수다.
 
-📢 섹션 요약 비유: 과일 10만 종류가 있는 마트(차원의 저주)에서 원-핫 인코딩을 하면, 손님 영수증 하나당 [[238_switch_operation_principles|스위치]] 장부를 10만 줄이나 그려서 99,999줄에 '0(안 샀음)'을 적어야 하는 미친 용지 낭비가 발생합니다. 게다가 남/녀 2가지 성별 [[238_switch_operation_principles|스위치]]를 만들 때, `[남자 스위치]`와 `[여자 스위치]` 두 개를 다 만들면 바보입니다(다중공선성). `[남자 스위치]` 딱 1개만 만들고(n-1), 남자가 `0(False)`이면 무조건 여자라는 뜻이 되므로 불필요한 중복 힌트를 제거하여 [[190_ai_llm_requirements_specification|AI]] 형사의 머리를 가볍게 만들어주는 똑똑한 전처리 조율법입니다.
+📢 섹션 요약 비유: 과일 10만 종류가 있는 마트(차원의 저주)에서 원-핫 인코딩을 하면, 손님 영수증 하나당 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장부를 10만 줄이나 그려서 99,999줄에 '0(안 샀음)'을 적어야 하는 미친 용지 낭비가 발생합니다. 게다가 남/녀 2가지 성별 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 만들 때, `[남자 스위치]`와 `[여자 스위치]` 두 개를 다 만들면 바보입니다(다중공선성). `[남자 스위치]` 딱 1개만 만들고(n-1), 남자가 `0(False)`이면 무조건 여자라는 뜻이 되므로 불필요한 중복 힌트를 제거하여 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 형사의 머리를 가볍게 만들어주는 똑똑한 전처리 조율법입니다.
 
 ---
 
@@ -75,13 +79,13 @@ tags:
 
 | 기법 | 원리 | 적합 모델 | 한계 |
 |:---|:---|:---|:---|
-| **라벨 인코딩** | 범주 → 정수(1, 2, 3) | 트리 기반 (XGBoost, [[353_random_forest|Random Forest]]) | 선형 모델에서 서열 오해 |
-| **원-핫 인코딩** | 범주 → [0, 1] 희소 벡터 | 선형 회귀, [[227_logistic_regression_clt_pvalue_type_error|로지스틱 회귀]], [[238_svm_margin_kernel_trick_naive_bayes|SVM]] | 고카디널리티 시 차원 폭발 |
-| **타겟 인코딩** | 범주 → 타겟 변수의 조건부 평균 | 경진대회, 캐글 | 과적합([[245_overfitting_variance|Overfitting]]) 위험 |
-| **[[278_instruction_tuning|임베딩]] ([[278_instruction_tuning|Embedding]])** | 범주 → 저차원 연속 벡터 | 딥러닝 (신경망) | 학습 [[001_dikw_pyramid|데이터]] 필요, 해석 어려움 |
-| **Hashing Trick** | 범주 → 해시 함수로 고정 차원 | 대규모 텍스트, 온라인 학습 | 충돌([[563_hash_collision_chaining_linear_probing|Collision]]) 발생 가능 |
+| **라벨 인코딩** | 범주 → 정수(1, 2, 3) | 트리 기반 (XGBoost, [Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)) | 선형 모델에서 서열 오해 |
+| **원-핫 인코딩** | 범주 → [0, 1] 희소 벡터 | 선형 회귀, [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/), [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) | 고카디널리티 시 차원 폭발 |
+| **타겟 인코딩** | 범주 → 타겟 변수의 조건부 평균 | 경진대회, 캐글 | 과적합([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/)) 위험 |
+| **[임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) ([Embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/))** | 범주 → 저차원 연속 벡터 | 딥러닝 (신경망) | 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 필요, 해석 어려움 |
+| **Hashing Trick** | 범주 → 해시 함수로 고정 차원 | 대규모 텍스트, 온라인 학습 | 충돌([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/)) 발생 가능 |
 
-#### 언제 뭘 쓸까? [[124_decision_tree|의사결정 트리]]
+#### 언제 뭘 쓸까? [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)
 
 ```text
 범주형 변수 인코딩 의사결정
@@ -98,21 +102,21 @@ tags:
                        └─ 또는 Hashing Trick (10만 카테고리 초과)
 ```
 
-📢 섹션 요약 비유: 범주형 인코딩은 **'외국어를 AI가 읽을 수 있는 언어로 번역하는 것'** 입니다. 번역 방법이 여러 가지(라벨·원-핫·[[278_instruction_tuning|임베딩]])인데, 단어가 적으면 사전(원-핫)으로 충분하지만, 단어가 수만 개면 AI에게 문맥([[278_instruction_tuning|임베딩]])을 가르쳐야 합니다.
+📢 섹션 요약 비유: 범주형 인코딩은 **'외국어를 AI가 읽을 수 있는 언어로 번역하는 것'** 입니다. 번역 방법이 여러 가지(라벨·원-핫·[임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/))인데, 단어가 적으면 사전(원-핫)으로 충분하지만, 단어가 수만 개면 AI에게 문맥([임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/))을 가르쳐야 합니다.
 
 ---
 
 ### Ⅴ. 기대효과 및 결론
 
-원-핫 인코딩은 **"범주형 [[001_dikw_pyramid|데이터]]를 머신러닝이 이해할 수 있는 형태로 바꾸는 가장 기본이자 안전한 방법"** 이다. 하지만 만능이 아니다:
+원-핫 인코딩은 **"범주형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 머신러닝이 이해할 수 있는 형태로 바꾸는 가장 기본이자 안전한 방법"** 이다. 하지만 만능이 아니다:
 
-1. **고카디널리티**(주소, 상품ID 등 수천~수만 종류): [[278_instruction_tuning|임베딩]] 또는 해싱으로 대체
+1. **고카디널리티**(주소, 상품ID 등 수천~수만 종류): [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 또는 해싱으로 대체
 2. **순서가 의미 있는 범주**(상·중·하, 1등·2등·3등): 서수 인코딩(Ordinal Encoding) 사용
 3. **트리 기반 모델**: 원-핫 없이 라벨 인코딩만으로 충분 — 트리는 분기점으로 범주를 구분하므로 크기를 오해하지 않음
 
 원-핫 인코딩은 "0과 1로 세상을 평등하게 만드는 기법"이지만, **차원의 저주라는 부작용을 항상 경계**해야 한다.
 
-📢 섹션 요약 비유: 원-핫 인코딩은 **'모든 학생에게 1인 1전용 사물함을 주는 것'** 입니다. 10명이면 괜찮지만, 10만 명이면 복도가 사물함으로 꽉 차서 학교가 마비됩니다. 그때는 3~4명이 사물함을 나눠 쓰는 방식([[278_instruction_tuning|임베딩]])이 현실적입니다.
+📢 섹션 요약 비유: 원-핫 인코딩은 **'모든 학생에게 1인 1전용 사물함을 주는 것'** 입니다. 10명이면 괜찮지만, 10만 명이면 복도가 사물함으로 꽉 차서 학교가 마비됩니다. 그때는 3~4명이 사물함을 나눠 쓰는 방식([임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/))이 현실적입니다.
 
 ---
 
@@ -122,9 +126,9 @@ tags:
 |:---|:---|
 | **라벨 인코딩** | 정수 매핑; 트리 모델에서 유효, 선형 모델에서 위험 |
 | **다중공선성 (VIF)** | 원-핫 인코딩의 완전 종속 문제; Drop First(n-1)로 해결 |
-| **차원의 저주** | 고카디널리티 범주에서 원-핫 적용 시 발생; [[163_pca|PCA]]·[[278_instruction_tuning|임베딩]]으로 극복 |
-| **[[278_instruction_tuning|임베딩]] ([[278_instruction_tuning|Embedding]])** | 범주를 저차원 연속 공간에 매핑; [[339_word2vec|Word2Vec]]·Entity [[278_instruction_tuning|Embedding]] |
-| **희소 행렬 (Sparse Matrix)** | 원-핫 결과 대부분 0인 행렬; [[169_pkcs10_csr|CSR]]/CSC 포맷으로 메모리 절약 |
+| **차원의 저주** | 고카디널리티 범주에서 원-핫 적용 시 발생; [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/)·[임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)으로 극복 |
+| **[임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) ([Embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/))** | 범주를 저차원 연속 공간에 매핑; [Word2Vec](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/339_word2vec/)·Entity [Embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) |
+| **희소 행렬 (Sparse Matrix)** | 원-핫 결과 대부분 0인 행렬; [CSR](/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/)/CSC 포맷으로 메모리 절약 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -151,7 +155,7 @@ Entity Embedding (Kaggle) → 연속 벡터 공간에서 범주 표현
 
 1. AI는 숫자만 읽을 수 있어서, **"사과, 바나나, 포도"라는 글자를 숫자로 바꿔줘야** 해요. 근데 사과=1, 바나나=2, 포도=3으로 하면 AI가 "포도가 사과보다 3배 비싸구나!"라고 멍청한 오해를 해요!
 2. 그래서 원-핫 인코딩은 **질문 카드를 만들어요**: "사과야? [예/아니오]", "바나나야? [예/아니오]", "포도야? [예/아니오]". 사과를 산 사람은 **[1, 0, 0]** 카드를 받아요!
-3. 하지만 과일이 10만 종류면 질문 카드가 10만 장이나 되어서 곤란해요. 그럴 때는 **[[278_instruction_tuning|임베딩]]**이라는 마법으로 10만 장을 3~4장으로 줄일 수 있답니다!
+3. 하지만 과일이 10만 종류면 질문 카드가 10만 장이나 되어서 곤란해요. 그럴 때는 **[임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)**이라는 마법으로 10만 장을 3~4장으로 줄일 수 있답니다!
 
 ---
 
@@ -159,7 +163,7 @@ Entity Embedding (Kaggle) → 연속 벡터 공간에서 범주 표현
 
 **진행 상황**: 79 / 258
 
-← **이전**: [[078_data_scaling_normalization_min_max_standardization_z_score|78. 데이터 스케일링 - 정규화(Min-Max)와 표준화(Z-Score) 차이점]]
-**다음**: [[080_multicollinearity_vif_variance_inflation_factor_regression|80. 다중 공선성 (Multicollinearity) 및 VIF 지수]] →
+← **이전**: [78. 데이터 스케일링 - 정규화(Min-Max)와 표준화(Z-Score) 차이점](/knowledge-base/studynote/14_data_engineering/02_math_mining/078_data_scaling_normalization_min_max_standardization_z_score/)
+**다음**: [80. 다중 공선성 (Multicollinearity) 및 VIF 지수](/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/) →
 
 ---

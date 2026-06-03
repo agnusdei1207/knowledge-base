@@ -1,16 +1,20 @@
----
-title: 🤖 Claude Code + MCP 운영안
-tags:
-- work
----
++++
+title = "🤖 Claude Code + MCP 운영안"
+
+[taxonomies]
+tags = ["work"]
+
+[extra]
+tags = ["work"]
++++
 
 이 문서는 20명 규모에서 Claude Code와 MCP를 이용해 이 저장소를 단순 문서 창고가 아니라 "지능형 지식베이스"로 쓰기 위한 운영안입니다.
 
 관련 문서:
-- [[knowledge-pipeline]]
-- [[decap-cms]]
-- [[operations]]
-- [[codex-sdk-operations]]
+- [knowledge-pipeline](/knowledge-base/work/knowledge-pipeline/)
+- [decap-cms](/knowledge-base/work/decap-cms/)
+- [operations](/knowledge-base/work/operations/)
+- [codex-sdk-operations](/knowledge-base/work/codex-sdk-operations/)
 
 ---
 
@@ -199,4 +203,4 @@ GitHub backend를 실제로 쓰려면 인증 서버가 추가로 필요합니다
 - 웹 편집과 자동화가 공존한다
 - 원본 Markdown 자산이 망가지지 않는다
 
-추가로, 직원이 전부 Codex를 쓰는 환경이라면 내부 자동화 백엔드는 **[[codex-sdk-operations]]**처럼 Python Codex SDK로 분리하는 편이 더 낫습니다.
+추가로, 직원이 전부 Codex를 쓰는 환경이라면 내부 자동화 백엔드는 **[codex-sdk-operations](/knowledge-base/work/codex-sdk-operations/)**처럼 Python Codex SDK로 분리하는 편이 더 낫습니다.

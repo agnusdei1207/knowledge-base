@@ -1,14 +1,18 @@
----
-title: 047. 컴팩션과 툼스톤 — Compaction & Tombstone
-date: '2026-04-05'
-tags:
-- studynote-data-engineering
----
++++
+title = "047. 컴팩션과 툼스톤 — Compaction & Tombstone"
+date = 2026-04-05
+
+[taxonomies]
+tags = ["studynote-data-engineering"]
+
+[extra]
+tags = ["studynote-data-engineering"]
++++
 
 > **핵심 인사이트**
-> 1. 컴팩션([[347_compaction|Compaction]])은 LSM 트리 기반 DB에서 여러 SSTable을 합쳐 중복 제거와 공간 효율화를 수행하는 백그라운드 프로세스 — [[541_cassandra|Cassandra]]·RocksDB·HBase에서 지속적으로 발생하며, [[480_write_amplification|쓰기 증폭]]([[480_write_amplification|Write Amplification]])과 공간 효율 사이의 트레이드오프를 관리한다.
-> 2. [[300_schema_on_write_vs_read|툼스톤]]([[300_schema_on_write_vs_read|Tombstone]])은 LSM 기반 DB에서 [[001_dikw_pyramid|데이터]] 삭제를 표시하는 특수 마커 — 실제 즉각 삭제 대신 삭제 표시([[300_schema_on_write_vs_read|Tombstone]])를 쓰고, 이후 컴팩션 시 실제 삭제가 이루어지며, [[300_schema_on_write_vs_read|툼스톤]] 축적이 읽기 [[282_performance_tactics|성능]]을 저하시키는 "[[300_schema_on_write_vs_read|툼스톤]] 문제"가 중요한 운영 과제다.
-> 3. 컴팩션 [[268_strategy_pattern|전략]] 선택이 워크로드 [[282_performance_tactics|성능]]에 결정적 영향 — Cassandra의 STCS(크기 기반)·TWCS(시계열)·[[053_lcs|LCS]](레벨 기반) 중 잘못된 [[268_strategy_pattern|전략]] 선택은 5~10배 이상의 [[282_performance_tactics|성능]] 차이를 낳으며, 워크로드 분석이 컴팩션 [[268_strategy_pattern|전략]] 선택의 전제다.
+> 1. 컴팩션([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))은 LSM 트리 기반 DB에서 여러 SSTable을 합쳐 중복 제거와 공간 효율화를 수행하는 백그라운드 프로세스 — [Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/)·RocksDB·HBase에서 지속적으로 발생하며, [쓰기 증폭](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/)([Write Amplification](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/))과 공간 효율 사이의 트레이드오프를 관리한다.
+> 2. [툼스톤](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/300_schema_on_write_vs_read/)([Tombstone](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/300_schema_on_write_vs_read/))은 LSM 기반 DB에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 삭제를 표시하는 특수 마커 — 실제 즉각 삭제 대신 삭제 표시([Tombstone](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/300_schema_on_write_vs_read/))를 쓰고, 이후 컴팩션 시 실제 삭제가 이루어지며, [툼스톤](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/300_schema_on_write_vs_read/) 축적이 읽기 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 저하시키는 "[툼스톤](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/300_schema_on_write_vs_read/) 문제"가 중요한 운영 과제다.
+> 3. 컴팩션 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 선택이 워크로드 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 결정적 영향 — Cassandra의 STCS(크기 기반)·TWCS(시계열)·[LCS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/053_lcs/)(레벨 기반) 중 잘못된 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 선택은 5~10배 이상의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이를 낳으며, 워크로드 분석이 컴팩션 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 선택의 전제다.
 
 ---
 
@@ -59,7 +63,7 @@ Write Amplification:
 
 ---
 
-## Ⅱ. [[300_schema_on_write_vs_read|툼스톤]] 메커니즘
+## Ⅱ. [툼스톤](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/300_schema_on_write_vs_read/) 메커니즘
 
 ```
 툼스톤 (Tombstone):
@@ -114,11 +118,11 @@ GC Grace Period:
   단, 10일 동안 Tombstone 축적됨
 ```
 
-> 📢 **섹션 요약 비유**: [[300_schema_on_write_vs_read|툼스톤]]은 묘비 — 책(SSTable)에서 [[286_page_frame|페이지]]를 직접 찢을 수 없어서 "이 [[286_page_frame|페이지]]는 삭제됨" 스티커([[300_schema_on_write_vs_read|Tombstone]])를 붙여요. 나중에 책 재인쇄(컴팩션)할 때 진짜 제거!
+> 📢 **섹션 요약 비유**: [툼스톤](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/300_schema_on_write_vs_read/)은 묘비 — 책(SSTable)에서 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 직접 찢을 수 없어서 "이 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 삭제됨" 스티커([Tombstone](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/300_schema_on_write_vs_read/))를 붙여요. 나중에 책 재인쇄(컴팩션)할 때 진짜 제거!
 
 ---
 
-## Ⅲ. [[541_cassandra|Cassandra]] 컴팩션 [[268_strategy_pattern|전략]]
+## Ⅲ. [Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) 컴팩션 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
 ```
 Cassandra 컴팩션 전략:
@@ -178,7 +182,7 @@ Cassandra 컴팩션 전략:
   적합: 시계열 IoT, 로그, 이벤트 데이터
 ```
 
-> 📢 **섹션 요약 비유**: 컴팩션 [[268_strategy_pattern|전략]] 선택 — STCS(서류 크기별 정리: [[289_cqrs_db|쓰기]] 빠름), [[053_lcs|LCS]](알파벳순 정리: 읽기 빠름), TWCS(날짜별 정리: 시계열 최적). 업무 유형에 맞는 정리법!
+> 📢 **섹션 요약 비유**: 컴팩션 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 선택 — STCS(서류 크기별 정리: [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 빠름), [LCS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/053_lcs/)(알파벳순 정리: 읽기 빠름), TWCS(날짜별 정리: 시계열 최적). 업무 유형에 맞는 정리법!
 
 ---
 
@@ -238,11 +242,11 @@ RocksDB 모니터링:
   db.GetProperty("rocksdb.compaction-pending") → 대기 수
 ```
 
-> 📢 **섹션 요약 비유**: 컴팩션 모니터링은 청소 상태 점검 — 청소 대기 목록(PendingCompactions) 너무 많으면? 방(DB)이 지저분해서 물건([[001_dikw_pyramid|데이터]]) 찾기 어려움. 즉시 청소(강제 컴팩션)!
+> 📢 **섹션 요약 비유**: 컴팩션 모니터링은 청소 상태 점검 — 청소 대기 목록(PendingCompactions) 너무 많으면? 방(DB)이 지저분해서 물건([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 찾기 어려움. 즉시 청소(강제 컴팩션)!
 
 ---
 
-## Ⅴ. 실무 시나리오 — [[101_iot_concept|IoT]] 시계열 [[541_cassandra|Cassandra]] 최적화
+## Ⅴ. 실무 시나리오 — [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 시계열 [Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) 최적화
 
 ```
 IoT 플랫폼 Cassandra 컴팩션 최적화:
@@ -298,7 +302,7 @@ IoT 플랫폼 Cassandra 컴팩션 최적화:
   초기 설계부터 컴팩션 전략 고려
 ```
 
-> 📢 **섹션 요약 비유**: [[101_iot_concept|IoT]] [[541_cassandra|Cassandra]] 최적화 — STCS(서류 크기별 정리)로 [[294_ttl_time_to_live_looping_prevention|TTL]] 만료 묘비([[300_schema_on_write_vs_read|Tombstone]]) 쌓여 읽기 5초. TWCS(날짜별 정리)로 전환하니 만료 [[501_file_definition_logical_record|파일]] 자동 정리, 읽기 0.8초. [[268_strategy_pattern|전략]] 선택이 결정적!
+> 📢 **섹션 요약 비유**: [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) [Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) 최적화 — STCS(서류 크기별 정리)로 [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) 만료 묘비([Tombstone](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/300_schema_on_write_vs_read/)) 쌓여 읽기 5초. TWCS(날짜별 정리)로 전환하니 만료 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 자동 정리, 읽기 0.8초. [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 선택이 결정적!
 
 ---
 
@@ -358,9 +362,9 @@ Universal, FIFO, Level
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 컴팩션은 대청소 — LSM은 쓸 때마다 새 노트(SSTable) [[087_process_state_transition|생성]]. 컴팩션이 주기적으로 노트를 합치고 최신 내용만 남겨요!
-2. [[300_schema_on_write_vs_read|툼스톤]]은 삭제 스티커 — 책(SSTable)에서 [[286_page_frame|페이지]] 직접 못 찢어요. "삭제됨" 스티커([[300_schema_on_write_vs_read|Tombstone]])를 붙이고, 책 재인쇄(컴팩션)할 때 진짜 제거!
-3. TWCS는 날짜별 정리 — [[101_iot_concept|IoT]] [[001_dikw_pyramid|데이터]]는 날짜별로 정리하면 만료된 날짜 묶음을 통째로 버릴 수 있어요. 묘비 쌓임 없이 깔끔!
+1. 컴팩션은 대청소 — LSM은 쓸 때마다 새 노트(SSTable) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/). 컴팩션이 주기적으로 노트를 합치고 최신 내용만 남겨요!
+2. [툼스톤](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/300_schema_on_write_vs_read/)은 삭제 스티커 — 책(SSTable)에서 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 직접 못 찢어요. "삭제됨" 스티커([Tombstone](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/300_schema_on_write_vs_read/))를 붙이고, 책 재인쇄(컴팩션)할 때 진짜 제거!
+3. TWCS는 날짜별 정리 — [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 날짜별로 정리하면 만료된 날짜 묶음을 통째로 버릴 수 있어요. 묘비 쌓임 없이 깔끔!
 
 ---
 
@@ -368,7 +372,7 @@ Universal, FIFO, Level
 
 **진행 상황**: 47 / 258
 
-← **이전**: [[046_lsm_tree_log_structured_merge|046. LSM 트리 — Log-Structured Merge-Tree]]
-**다음**: [[048_consistent_hashing_ring_structure|048. 일관 해싱 — Consistent Hashing & Ring]] →
+← **이전**: [046. LSM 트리 — Log-Structured Merge-Tree](/knowledge-base/studynote/14_data_engineering/01_infrastructure/046_lsm_tree_log_structured_merge/)
+**다음**: [048. 일관 해싱 — Consistent Hashing & Ring](/knowledge-base/studynote/14_data_engineering/01_infrastructure/048_consistent_hashing_ring_structure/) →
 
 ---

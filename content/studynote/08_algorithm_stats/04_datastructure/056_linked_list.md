@@ -1,27 +1,31 @@
----
-title: 2. 연결 리스트 (Linked List) — 단일/이중/순환
-date: '2026-04-21'
-tags:
-- studynote-algorithm
----
++++
+title = "2. 연결 리스트 (Linked List) — 단일/이중/순환"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-algorithm"]
+
+[extra]
+tags = ["studynote-algorithm"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 연결 리스트 (Linked List)는 각 노드가 데이터와 다음 노드 포인터를 보유하여 메모리 비연속적으로 체인을 이루는 선형 자료구조로, 임의 위치 삽입·삭제가 O(1)이다.
-> 2. **가치**: [[055_array|배열]]과 달리 원소 이동 없이 포인터 변경만으로 삽입·삭제가 완료되므로, 삽입·삭제가 빈번한 [[262_lru_page_replacement|LRU]] 캐시·[[393_undo|undo]]/[[234_redo_roll_forward_durability_recovery|redo]] [[057_stack|스택]]에서 실질적 이점을 가진다.
-> 3. **판단 포인트**: [[154_database_index_b_tree_search_optimization|인덱스]] 기반 임의 접근이 필요하면 [[055_array|배열]], 잦은 중간 삽입·삭제가 필요하면 연결 리스트를 선택한다. 캐시 효율은 [[055_array|배열]]이 우수하다.
+> 2. **가치**: [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)과 달리 원소 이동 없이 포인터 변경만으로 삽입·삭제가 완료되므로, 삽입·삭제가 빈번한 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 캐시·[undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/)/[redo](/knowledge-base/studynote/05_database/04_transactions_concurrency/234_redo_roll_forward_durability_recovery/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에서 실질적 이점을 가진다.
+> 3. **판단 포인트**: [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 기반 임의 접근이 필요하면 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/), 잦은 중간 삽입·삭제가 필요하면 연결 리스트를 선택한다. 캐시 효율은 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이 우수하다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[[055_array|배열]]은 연속 메모리를 요구하므로 중간 삽입 시 O(n) 원소 이동이 발생한다. 연결 리스트는 각 노드를 힙의 임의 위치에 할당하고 포인터로 연결함으로써 이 문제를 해결한다. 삽입·삭제 지점의 포인터만 변경하면 되므로 O(1) 조작이 가능하다(단, 삽입 위치에 도달하는 탐색 비용은 O(n)).
+[배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)은 연속 메모리를 요구하므로 중간 삽입 시 O(n) 원소 이동이 발생한다. 연결 리스트는 각 노드를 힙의 임의 위치에 할당하고 포인터로 연결함으로써 이 문제를 해결한다. 삽입·삭제 지점의 포인터만 변경하면 되므로 O(1) 조작이 가능하다(단, 삽입 위치에 도달하는 탐색 비용은 O(n)).
 
-### 연결 리스트의 [[002_time_complexity|시간 복잡도]]
+### 연결 리스트의 [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)
 
 | 연산 | 단일 연결 | 이중 연결 |
 |:---|:---:|:---:|
-| 접근 ([[154_database_index_b_tree_search_optimization|index]]) | O(n) | O(n) |
+| 접근 ([index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) | O(n) | O(n) |
 | 헤드 삽입/삭제 | O(1) | O(1) |
 | 테일 삽입 | O(n)* | O(1) |
 | 중간 삽입/삭제 | O(n) 탐색 + O(1) | O(n) 탐색 + O(1) |
@@ -91,9 +95,9 @@ After:   A → B → C
 
 ## Ⅲ. 비교 및 연결
 
-### [[055_array|배열]] vs 단일 vs 이중 연결 리스트
+### [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) vs 단일 vs 이중 연결 리스트
 
-| 항목 | [[055_array|배열]] | 단일 연결 | 이중 연결 |
+| 항목 | [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) | 단일 연결 | 이중 연결 |
 |:---|:---:|:---:|:---:|
 | 임의 접근 | O(1) | O(n) | O(n) |
 | 헤드 삽입 | O(n) | O(1) | O(1) |
@@ -102,10 +106,10 @@ After:   A → B → C
 | 메모리 오버헤드 | 없음 | next 포인터 1개 | prev/next 2개 |
 | 캐시 효율 | 높음 | 낮음 | 낮음 |
 
-### 실제 응용: [[262_lru_page_replacement|LRU]] 캐시 ([[262_lru_page_replacement|Least Recently Used]] Cache)
+### 실제 응용: [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 캐시 ([Least Recently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) Cache)
 
-[[262_lru_page_replacement|LRU]] 캐시는 **이중 연결 리스트 + 해시맵**으로 O(1) get/put을 구현한다.
-- 해시맵: [[067_db_key_uniqueness_minimality|key]] → 노드 포인터 (O(1) 검색)
+[LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 캐시는 **이중 연결 리스트 + 해시맵**으로 O(1) get/put을 구현한다.
+- 해시맵: [key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) → 노드 포인터 (O(1) 검색)
 - 이중 연결 리스트: 접근 순서 유지, 헤드에 최신, 테일에 최오래 (O(1) 이동·삭제)
 
 ```
@@ -114,7 +118,7 @@ After:   A → B → C
 용량 초과 시 테일(B) 제거
 ```
 
-📢 **섹션 요약 비유**: [[262_lru_page_replacement|LRU]] 캐시는 최근에 쓴 물건을 책상 위에 두고, 가장 오래된 물건을 서랍 맨 뒤로 넣는 정리 습관이다.
+📢 **섹션 요약 비유**: [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 캐시는 최근에 쓴 물건을 책상 위에 두고, 가장 오래된 물건을 서랍 맨 뒤로 넣는 정리 습관이다.
 
 ---
 
@@ -122,10 +126,10 @@ After:   A → B → C
 
 ### 주요 활용 사례
 
-- **[[262_lru_page_replacement|LRU]] / [[263_lfu_page_replacement|LFU]] 캐시**: [[001_operating_system_purpose|운영체제]] [[401_page_replacement_algorithms|페이지 교체 알고리즘]], [[542_redis|Redis]] 캐시 제거 [[164_policy|정책]]
-- **[[393_undo|Undo]]/[[234_redo_roll_forward_durability_recovery|Redo]]**: 텍스트 편집기의 변경 이력 (양방향 탐색 필요 → 이중 연결)
-- **[[501_file_definition_logical_record|파일]] 시스템**: inode 블록 체인, [[506_directory_structure_symbol_table|디렉터리]] 엔트리
-- **Java LinkedList**: `java.util.LinkedList`는 이중 연결 리스트로 [[084_deque|Deque]] 인터페이스 구현
+- **[LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) / [LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) 캐시**: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [페이지 교체 알고리즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/401_page_replacement_algorithms/), [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 캐시 제거 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)
+- **[Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/)/[Redo](/knowledge-base/studynote/05_database/04_transactions_concurrency/234_redo_roll_forward_durability_recovery/)**: 텍스트 편집기의 변경 이력 (양방향 탐색 필요 → 이중 연결)
+- **[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템**: inode 블록 체인, [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 엔트리
+- **Java LinkedList**: `java.util.LinkedList`는 이중 연결 리스트로 [Deque](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/084_deque/) 인터페이스 구현
 - **메모리 할당자**: Free list (가용 블록 연결 리스트)
 
 ### 기술사 판단 기준
@@ -137,28 +141,28 @@ After:   A → B → C
 순환 처리 (라운드-로빈)                →  순환 연결 리스트
 ```
 
-📢 **섹션 요약 비유**: 연결 리스트는 유연하지만 원하는 항목을 찾으려면 처음부터 따라가야 한다—색인 없는 소설책처럼 특정 [[286_page_frame|페이지]]를 찾으려면 앞에서 넘겨야 한다.
+📢 **섹션 요약 비유**: 연결 리스트는 유연하지만 원하는 항목을 찾으려면 처음부터 따라가야 한다—색인 없는 소설책처럼 특정 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 찾으려면 앞에서 넘겨야 한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-연결 리스트는 포인터 조작으로 O(1) 삽입·삭제를 달성하는 대신, O(n) 임의 접근과 캐시 미스 증가라는 트레이드오프를 감수한다. 이중 연결 리스트는 역방향 탐색을 추가하여 [[262_lru_page_replacement|LRU]] 캐시·[[084_deque|deque]] 구현에 적합하며, 순환 연결 리스트는 끝없는 반복 처리에 유리하다.
+연결 리스트는 포인터 조작으로 O(1) 삽입·삭제를 달성하는 대신, O(n) 임의 접근과 캐시 미스 증가라는 트레이드오프를 감수한다. 이중 연결 리스트는 역방향 탐색을 추가하여 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 캐시·[deque](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/084_deque/) 구현에 적합하며, 순환 연결 리스트는 끝없는 반복 처리에 유리하다.
 
-**결론**: 삽입·삭제 위주 + 순차 접근 패턴에 적합하며, 특히 [[262_lru_page_replacement|LRU]] 캐시처럼 해시맵과 결합할 때 O(1) get/put의 진가를 발휘한다.
+**결론**: 삽입·삭제 위주 + 순차 접근 패턴에 적합하며, 특히 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 캐시처럼 해시맵과 결합할 때 O(1) get/put의 진가를 발휘한다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 개념 | [[083_relationship_in_er_model|관계]] |
+| 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 |:---|:---|
-| [[055_array|배열]] ([[055_array|Array]]) | 연속 메모리 대안, [[154_database_index_b_tree_search_optimization|인덱스]] O(1) |
-| [[057_stack|스택]] ([[057_stack|Stack]]) | 단일 연결 리스트로 구현 가능 |
-| 큐 ([[058_queue|Queue]]) | 단일/이중 연결 리스트로 구현 |
-| [[262_lru_page_replacement|LRU]] 캐시 | 이중 연결 리스트 + 해시맵 |
-| [[067_hash_table|해시 테이블]] ([[067_hash_table|Hash Table]]) | 체이닝 시 버킷을 연결 리스트로 |
-| 건너뜀 리스트 ([[110_skip_list|Skip List]]) | 다층 연결 리스트 |
+| [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) ([Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)) | 연속 메모리 대안, [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) O(1) |
+| [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) ([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)) | 단일 연결 리스트로 구현 가능 |
+| 큐 ([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) | 단일/이중 연결 리스트로 구현 |
+| [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 캐시 | 이중 연결 리스트 + 해시맵 |
+| [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/) ([Hash Table](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)) | 체이닝 시 버킷을 연결 리스트로 |
+| 건너뜀 리스트 ([Skip List](/knowledge-base/studynote/12_it_management/03_ea_isp/110_skip_list/)) | 다층 연결 리스트 |
 
 ---
 
@@ -180,7 +184,7 @@ After:   A → B → C
 [해시 테이블 (Hash Table)]
 ```
 
-이 흐름도는 [[055_array|배열]] ([[055_array|Array]])에서 출발해 건너뜀 리스트 ([[110_skip_list|Skip List]])까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
+이 흐름도는 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) ([Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/))에서 출발해 건너뜀 리스트 ([Skip List](/knowledge-base/studynote/12_it_management/03_ea_isp/110_skip_list/))까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -194,7 +198,7 @@ After:   A → B → C
 
 **진행 상황**: 56 / 175
 
-← **이전**: [[055_array|1. 배열 (Array) — 연속 메모리, O(1) 랜덤 접근]]
-**다음**: [[057_stack|3. 스택 (Stack) — LIFO, push/pop, 재귀/DFS/수식 평가]] →
+← **이전**: [1. 배열 (Array) — 연속 메모리, O(1) 랜덤 접근](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)
+**다음**: [3. 스택 (Stack) — LIFO, push/pop, 재귀/DFS/수식 평가](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) →
 
 ---

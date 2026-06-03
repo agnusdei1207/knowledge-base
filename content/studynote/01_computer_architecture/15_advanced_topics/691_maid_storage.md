@@ -1,25 +1,29 @@
----
-title: 691. MAID (Massive Array of Idle Disks)
-date: '2026-05-08'
-tags:
-- studynote-computer-architecture
----
++++
+title = "691. MAID (Massive Array of Idle Disks)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: MAID (Massive [[055_array|Array]] of [[611_cpu_idle_wait_optimization|Idle]] Disks)는 모든 디스크를 항상 돌리는 대신, 실제로 필요한 소수의 디스크만 깨워서 읽고 쓰게 만드는 대규모 저전력 아카이브 스토리지 구조다.
-> 2. **가치**: 접근 빈도가 낮은 [[001_dikw_pyramid|데이터]]에서는 [[282_performance_tactics|성능]]보다 전력과 냉각 비용이 더 큰 문제이므로, MAID는 disk-based archive의 총소유비용을 크게 낮춘다.
-> 3. **판단 포인트**: 다만 읽기 [[015_지연_데이터_관점|지연]]이 늘고 배치·[[012_metadata|메타데이터]] 설계가 중요해지므로, 온라인 [[191_transaction_concept_states|트랜잭션]] 저장소보다 cold archive와 [[555_backup_and_restore_strategy|backup]] repository에 적합하다.
+> 1. **본질**: MAID (Massive [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) of [Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) Disks)는 모든 디스크를 항상 돌리는 대신, 실제로 필요한 소수의 디스크만 깨워서 읽고 쓰게 만드는 대규모 저전력 아카이브 스토리지 구조다.
+> 2. **가치**: 접근 빈도가 낮은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 전력과 냉각 비용이 더 큰 문제이므로, MAID는 disk-based archive의 총소유비용을 크게 낮춘다.
+> 3. **판단 포인트**: 다만 읽기 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 늘고 배치·[메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 설계가 중요해지므로, 온라인 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 저장소보다 cold archive와 [backup](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) repository에 적합하다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-MAID는 많은 수의 [[465_hdd_structure|HDD]] (Hard Disk Drive)를 가진 저장소에서 대부분의 디스크를 [[611_cpu_idle_wait_optimization|idle]] 상태로 두고, 실제 접근이 필요한 디스크만 선택적으로 기동하는 아키텍처다. 이름 그대로 "쉬고 있는 디스크의 대규모 [[055_array|배열]]"을 의도적으로 만드는 설계라고 볼 수 있다. 핵심 철학은 단순하다. [[001_dikw_pyramid|데이터]]는 계속 늘어나지만, 그 [[001_dikw_pyramid|데이터]] 대부분은 대부분의 시간 동안 읽히지 않는다.
+MAID는 많은 수의 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) (Hard Disk Drive)를 가진 저장소에서 대부분의 디스크를 [idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) 상태로 두고, 실제 접근이 필요한 디스크만 선택적으로 기동하는 아키텍처다. 이름 그대로 "쉬고 있는 디스크의 대규모 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)"을 의도적으로 만드는 설계라고 볼 수 있다. 핵심 철학은 단순하다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 계속 늘어나지만, 그 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 대부분은 대부분의 시간 동안 읽히지 않는다.
 
-전통적인 [[483_raid_overview|RAID]] (Redundant [[055_array|Array]] of Independent Disks) [[055_array|배열]]은 [[282_performance_tactics|성능]]과 [[452_availability|가용성]]을 위해 여러 디스크를 동시에 활용하도록 설계된다. 이 방식은 활성 [[001_dikw_pyramid|데이터]]에는 매우 좋지만, 아카이브 환경에서는 과하다. [[501_file_definition_logical_record|파일]] 하나를 읽기 위해 여러 디스크가 계속 회전하고 있거나, [[332_raid_0|스트라이핑]] 때문에 필요 이상 많은 디스크가 깨어나야 하므로 [[611_cpu_idle_wait_optimization|idle]] 전력 낭비가 커진다.
+전통적인 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) (Redundant [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) of Independent Disks) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)을 위해 여러 디스크를 동시에 활용하도록 설계된다. 이 방식은 활성 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에는 매우 좋지만, 아카이브 환경에서는 과하다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 하나를 읽기 위해 여러 디스크가 계속 회전하고 있거나, [스트라이핑](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/332_raid_0/) 때문에 필요 이상 많은 디스크가 깨어나야 하므로 [idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) 전력 낭비가 커진다.
 
-그래서 MAID는 "디스크는 싸지만 전력과 냉각은 비싸다"는 현실에서 등장했다. 테이프만큼 느리지는 않으면서도, 항상 켜 둔 디스크 [[055_array|배열]]보다는 훨씬 적은 전력으로 장기 보관을 수행하려는 타협안이다.
+그래서 MAID는 "디스크는 싸지만 전력과 냉각은 비싸다"는 현실에서 등장했다. 테이프만큼 느리지는 않으면서도, 항상 켜 둔 디스크 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)보다는 훨씬 적은 전력으로 장기 보관을 수행하려는 타협안이다.
 
 - **📢 섹션 요약 비유**: MAID는 도서관의 모든 형광등을 항상 켜 두는 대신, 사람이 들어간 서가 구역만 켜는 운영 방식과 같다. 책은 많아도 실제로 손이 닿는 칸은 일부뿐이라는 점을 이용한다.
 
@@ -27,7 +31,7 @@ MAID는 많은 수의 [[465_hdd_structure|HDD]] (Hard Disk Drive)를 가진 저�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-MAID의 핵심은 [[001_dikw_pyramid|데이터]] 배치와 디스크 기상 [[164_policy|정책]]이 함께 움직인다는 점이다. 단순히 디스크를 자주 재우는 것만으로는 충분하지 않다. 어떤 [[501_file_definition_logical_record|파일]]이 어느 디스크에 있는지 [[012_metadata|메타데이터]]로 정확히 알고 있어야 하며, 가능하면 요청 하나가 적은 수의 디스크만 깨우도록 배치해야 한다. 그래서 MAID는 종종 객체 저장 방식, [[012_metadata|메타데이터]] [[154_database_index_b_tree_search_optimization|인덱스]], 앞단 [[327_ssd|SSD]] ([[327_ssd|Solid State Drive]]) 캐시와 결합한다.
+MAID의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치와 디스크 기상 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 함께 움직인다는 점이다. 단순히 디스크를 자주 재우는 것만으로는 충분하지 않다. 어떤 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 어느 디스크에 있는지 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)로 정확히 알고 있어야 하며, 가능하면 요청 하나가 적은 수의 디스크만 깨우도록 배치해야 한다. 그래서 MAID는 종종 객체 저장 방식, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), 앞단 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ([Solid State Drive](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)) 캐시와 결합한다.
 
 아래 그림은 기본적인 MAID 경로를 보여 준다.
 
@@ -44,17 +48,17 @@ MAID의 핵심은 [[001_dikw_pyramid|데이터]] 배치와 디스크 기상 [[16
 └──────────────────────────────────────────────────────────────┘
 ```
 
-일반적인 구성은 세 층으로 이해하면 쉽다. 첫째, [[012_metadata|메타데이터]] 계층은 [[501_file_definition_logical_record|파일]] 위치와 상태를 기억한다. 둘째, 캐시 계층은 짧은 읽기와 쓰기를 흡수해 자는 디스크를 자주 깨우지 않게 한다. 셋째, 대용량 [[465_hdd_structure|HDD]] 계층은 실제 본문 [[001_dikw_pyramid|데이터]]를 저장하지만, 대다수는 평소 standby 상태로 머문다.
+일반적인 구성은 세 층으로 이해하면 쉽다. 첫째, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 계층은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 위치와 상태를 기억한다. 둘째, 캐시 계층은 짧은 읽기와 쓰기를 흡수해 자는 디스크를 자주 깨우지 않게 한다. 셋째, 대용량 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 계층은 실제 본문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저장하지만, 대다수는 평소 standby 상태로 머문다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
-| [[012_metadata|메타데이터]] [[154_database_index_b_tree_search_optimization|인덱스]] | [[501_file_definition_logical_record|파일]] 위치와 디스크 상태 관리 | 빠른 매체에 두어 깨움 최소화 |
+| [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 위치와 디스크 상태 관리 | 빠른 매체에 두어 깨움 최소화 |
 | 캐시/버퍼 | 짧은 쓰기와 반복 읽기 흡수 | 작은 요청이 디스크 기상으로 번지지 않게 함 |
-| cold [[465_hdd_structure|HDD]] pool | 대용량 [[001_dikw_pyramid|데이터]] 저장 | 소수만 [[483_active_vs_passive_ftp|active]], 다수는 [[611_cpu_idle_wait_optimization|idle]] 유지 |
-| [[164_policy|policy]] engine | spin-up / spin-down 제어 | 접근 빈도와 전력 [[164_policy|정책]]을 함께 고려 |
-| [[571_protection_vs_security|보호]] 방식 | [[016_replication_factor|복제]] 또는 패리티 | 단일 디스크 고장 시 [[001_dikw_pyramid|데이터]] 보존 |
+| cold [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) pool | 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 | 소수만 [active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/), 다수는 [idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) 유지 |
+| [policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) engine | spin-up / spin-down 제어 | 접근 빈도와 전력 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 함께 고려 |
+| [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 방식 | [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 또는 패리티 | 단일 디스크 고장 시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보존 |
 
-이 구조의 중요한 트레이드오프는 [[282_performance_tactics|성능]]을 대가로 절전을 사는 것이다. 읽기 요청은 대상 디스크가 잠들어 있으면 수 초를 기다려야 한다. 반대로 동일한 요청을 위해 모든 디스크를 계속 돌려 두는 기존 구조보다 전력·열·소음은 크게 줄어든다. 그래서 MAID는 고성능 저장장치가 아니라, "디스크 기반이지만 느린 아카이브"로 이해해야 맞다.
+이 구조의 중요한 트레이드오프는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 대가로 절전을 사는 것이다. 읽기 요청은 대상 디스크가 잠들어 있으면 수 초를 기다려야 한다. 반대로 동일한 요청을 위해 모든 디스크를 계속 돌려 두는 기존 구조보다 전력·열·소음은 크게 줄어든다. 그래서 MAID는 고성능 저장장치가 아니라, "디스크 기반이지만 느린 아카이브"로 이해해야 맞다.
 
 - **📢 섹션 요약 비유**: MAID는 모든 택시를 시내에 계속 돌려 두는 대신, 호출이 오면 해당 구역 택시만 시동 거는 배차 시스템과 같다. 바로는 아니어도 충분히 도착할 수 있다면 훨씬 경제적이다.
 
@@ -62,19 +66,19 @@ MAID의 핵심은 [[001_dikw_pyramid|데이터]] 배치와 디스크 기상 [[16
 
 ## Ⅲ. 비교 및 연결
 
-MAID의 위치를 이해하려면 [[483_raid_overview|RAID]], 단순 스핀다운, [[692_tape_library|테이프 라이브러리]]와 같이 놓고 봐야 한다. MAID는 개별 디스크 전원 절감 기술과 대규모 아카이브 [[164_policy|정책]] 사이를 연결하는 중간 단계다.
+MAID의 위치를 이해하려면 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/), 단순 스핀다운, [테이프 라이브러리](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/692_tape_library/)와 같이 놓고 봐야 한다. MAID는 개별 디스크 전원 절감 기술과 대규모 아카이브 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 사이를 연결하는 중간 단계다.
 
-| 구분 | [[483_raid_overview|RAID]] 중심 [[055_array|배열]] | MAID | [[692_tape_library|테이프 라이브러리]] |
+| 구분 | [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 중심 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) | MAID | [테이프 라이브러리](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/692_tape_library/) |
 | :--- | :--- | :--- | :--- |
-| 기본 목표 | [[282_performance_tactics|성능]]·[[452_availability|가용성]] | 전력 절감·대용량 보관 | 최저 비용 장기 보존 |
+| 기본 목표 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) | 전력 절감·대용량 보관 | 최저 비용 장기 보존 |
 | 활성 디스크 수 | 대부분 상시 회전 | 일부만 선택적 기동 | 필요 시 드라이브만 사용 |
-| 접근 [[015_지연_데이터_관점|지연]] | 밀리초 | 수 초~수십 초 | 수십 초~수분 |
-| 랜덤 [[292_accessibility_kwcag_wcag|접근성]] | 높음 | 낮음 | 매우 낮음 |
-| 적합 [[001_dikw_pyramid|데이터]] | hot / warm | cold / nearline | deep archive |
+| 접근 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | 밀리초 | 수 초~수십 초 | 수십 초~수분 |
+| 랜덤 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) | 높음 | 낮음 | 매우 낮음 |
+| 적합 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | hot / warm | cold / nearline | deep archive |
 
-MAID는 단순 disk spin-down보다 더 구조적이다. 스핀다운이 "잠깐 쉬는 기능"이라면, MAID는 처음부터 [[001_dikw_pyramid|데이터]] 배치를 그렇게 만들어 불필요한 깨움을 줄인다. 또한 테이프처럼 완전 오프라인은 아니므로, 아카이브이되 온라인 조회는 가능한 수준의 타협점을 제공한다.
+MAID는 단순 disk spin-down보다 더 구조적이다. 스핀다운이 "잠깐 쉬는 기능"이라면, MAID는 처음부터 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치를 그렇게 만들어 불필요한 깨움을 줄인다. 또한 테이프처럼 완전 오프라인은 아니므로, 아카이브이되 온라인 조회는 가능한 수준의 타협점을 제공한다.
 
-현대 구현은 순수한 원형 MAID보다 하이브리드 형태가 많다. 앞단은 객체 스토리지나 [[327_ssd|SSD]] 캐시, 뒤쪽은 큰 [[465_hdd_structure|HDD]] 풀로 구성하고, 그룹 단위 전원 제어를 적용하는 식이다. 즉 MAID는 특정 제품명보다도 "[[001_dikw_pyramid|데이터]] 온도에 맞춰 대부분의 디스크를 재운다"는 설계 철학으로 보는 편이 실무적이다.
+현대 구현은 순수한 원형 MAID보다 하이브리드 형태가 많다. 앞단은 객체 스토리지나 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 캐시, 뒤쪽은 큰 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 풀로 구성하고, 그룹 단위 전원 제어를 적용하는 식이다. 즉 MAID는 특정 제품명보다도 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 온도에 맞춰 대부분의 디스크를 재운다"는 설계 철학으로 보는 편이 실무적이다.
 
 - **📢 섹션 요약 비유**: RAID가 모든 주방 화구를 항상 켜 둔 고속 식당이라면, MAID는 주문 들어온 화구만 켜는 야간 주방이고, 테이프는 아예 냉동창고에서 재료를 꺼내야 하는 구조다.
 
@@ -82,23 +86,23 @@ MAID는 단순 disk spin-down보다 더 구조적이다. 스핀다운이 "잠깐
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-MAID는 접근 빈도가 낮지만, 완전 오프라인으로 두기엔 불편한 [[001_dikw_pyramid|데이터]]에 적합하다. 예를 들어 [[555_backup_and_restore_strategy|백업]] 리포지터리, 연구 [[001_dikw_pyramid|데이터]] 원본, 방송 원본 영상, 규제 보존용 [[568_logs_distributed_logging_elk_fluentd|로그]] 보관소는 테이프보다 약간 빠른 조회가 필요하면서도 항상 고성능일 필요는 없다. 이런 영역에서 MAID는 디스크 기반 운영 편의성과 절전 효과를 동시에 얻는다.
+MAID는 접근 빈도가 낮지만, 완전 오프라인으로 두기엔 불편한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 적합하다. 예를 들어 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 리포지터리, 연구 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 원본, 방송 원본 영상, 규제 보존용 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 보관소는 테이프보다 약간 빠른 조회가 필요하면서도 항상 고성능일 필요는 없다. 이런 영역에서 MAID는 디스크 기반 운영 편의성과 절전 효과를 동시에 얻는다.
 
-반대로 [[015_virtualization|가상화]] 스토리지, [[002_database_definition|데이터베이스]] 본 저장소, 분석 엔진의 실시간 질의 [[001_dikw_pyramid|데이터]]에는 맞지 않는다. 요청 패턴이 불규칙하거나 짧은 랜덤 읽기가 많으면 디스크가 자주 깨어나 절전 효과가 사라지고 응답 품질도 흔들린다. 또한 [[571_protection_vs_security|보호]] [[268_strategy_pattern|전략]]이 약하면 "잠들어 있던 디스크가 고장 난 뒤 뒤늦게 발견되는" 문제도 생길 수 있어, 주기적 스크러빙과 [[016_replication_factor|복제]] [[164_policy|정책]]이 필수다.
+반대로 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 스토리지, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 본 저장소, 분석 엔진의 실시간 질의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에는 맞지 않는다. 요청 패턴이 불규칙하거나 짧은 랜덤 읽기가 많으면 디스크가 자주 깨어나 절전 효과가 사라지고 응답 품질도 흔들린다. 또한 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 약하면 "잠들어 있던 디스크가 고장 난 뒤 뒤늦게 발견되는" 문제도 생길 수 있어, 주기적 스크러빙과 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 필수다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. [[001_dikw_pyramid|데이터]] 재접근 빈도가 초 단위 [[015_지연_데이터_관점|지연]]을 허용할 만큼 낮은가?
-2. [[012_metadata|메타데이터]]와 [[506_directory_structure_symbol_table|디렉터리]] 정보는 별도 빠른 계층에 분리되어 있는가?
-3. 단일 디스크 손실을 막기 위한 [[016_replication_factor|복제]] 또는 패리티 [[268_strategy_pattern|전략]]이 있는가?
+1. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재접근 빈도가 초 단위 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 허용할 만큼 낮은가?
+2. [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)와 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 정보는 별도 빠른 계층에 분리되어 있는가?
+3. 단일 디스크 손실을 막기 위한 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 또는 패리티 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 있는가?
 4. 여러 디스크의 동시 스핀업 전류와 rebuild 시간을 감당할 수 있는가?
 5. 캐시가 충분해 작은 요청 때문에 cold disk가 자주 깨어나지 않는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- RAID를 MAID처럼 착각하고, [[001_dikw_pyramid|데이터]] 배치 [[268_strategy_pattern|전략]] 없이 디스크만 재우는 구성
-- [[571_protection_vs_security|보호]] [[016_replication_factor|복제]] 없이 단일 사본만 두어 아카이브 안정성을 희생하는 구성
-- 사용 패턴 분석 없이 범용 스토리지 전체에 MAID [[164_policy|정책]]을 적용하는 구성
+- RAID를 MAID처럼 착각하고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 없이 디스크만 재우는 구성
+- [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 없이 단일 사본만 두어 아카이브 안정성을 희생하는 구성
+- 사용 패턴 분석 없이 범용 스토리지 전체에 MAID [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 적용하는 구성
 
 - **📢 섹션 요약 비유**: MAID는 손님이 뜸한 창고형 매장에 맞는 운영 방식이지, 점심시간마다 주문이 몰리는 음식점 주방에 쓸 방식은 아니다.
 
@@ -106,11 +110,11 @@ MAID는 접근 빈도가 낮지만, 완전 오프라인으로 두기엔 불편�
 
 ## Ⅴ. 기대효과 및 결론
 
-MAID의 가장 큰 효과는 대규모 [[465_hdd_structure|HDD]] 저장소의 상시 회전을 줄여 전력과 냉각 비용을 낮추는 데 있다. 또한 디스크 기반이므로 테이프보다 운영 자동화와 무작위 [[501_file_definition_logical_record|파일]] 접근이 수월하고, 기존 [[801_data_center_3_tier_architecture_core_aggregation_access|데이터센터]] 도구와 통합하기도 비교적 쉽다. 결과적으로 MAID는 "디스크는 유지하되, 디스크답지 않게 오래 재우는" 절충형 아카이브로 자리 잡는다.
+MAID의 가장 큰 효과는 대규모 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 저장소의 상시 회전을 줄여 전력과 냉각 비용을 낮추는 데 있다. 또한 디스크 기반이므로 테이프보다 운영 자동화와 무작위 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 접근이 수월하고, 기존 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 도구와 통합하기도 비교적 쉽다. 결과적으로 MAID는 "디스크는 유지하되, 디스크답지 않게 오래 재우는" 절충형 아카이브로 자리 잡는다.
 
-물론 한계는 분명하다. 응답 [[015_지연_데이터_관점|지연]]이 예측 가능하게 느리고, [[012_metadata|메타데이터]] 설계가 약하면 오히려 디스크 깨움이 늘어나며, 대용량 rebuild 상황에서는 [[658_ir_recovery|복구]] 시간도 길어진다. 따라서 기술사 답안에서는 MAID를 [[282_performance_tactics|성능]] 기술이 아니라 [[016_tco|TCO]] (Total Cost of Ownership) 최적화 기술로 분류하는 것이 적절하다.
+물론 한계는 분명하다. 응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 예측 가능하게 느리고, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 설계가 약하면 오히려 디스크 깨움이 늘어나며, 대용량 rebuild 상황에서는 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간도 길어진다. 따라서 기술사 답안에서는 MAID를 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 기술이 아니라 [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) (Total Cost of Ownership) 최적화 기술로 분류하는 것이 적절하다.
 
-앞으로는 객체 스토리지, [[164_policy|정책]] 기반 티어링, 클라우드 아카이브 게이트웨이와 결합한 하이브리드 형태가 더 일반적일 것이다. 그럼에도 본질은 변하지 않는다. 자주 읽지 않는 [[001_dikw_pyramid|데이터]]를 위해 모든 디스크를 항상 돌릴 필요는 없다는 것이다.
+앞으로는 객체 스토리지, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 티어링, 클라우드 아카이브 게이트웨이와 결합한 하이브리드 형태가 더 일반적일 것이다. 그럼에도 본질은 변하지 않는다. 자주 읽지 않는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 위해 모든 디스크를 항상 돌릴 필요는 없다는 것이다.
 
 - **📢 섹션 요약 비유**: MAID는 동네 전체 가로등을 하루 종일 밝히는 대신, 사람 지나는 길만 센서로 켜는 시스템과 같다. 필요할 때만 움직여도 목적은 충분히 달성된다.
 
@@ -120,12 +124,12 @@ MAID의 가장 큰 효과는 대규모 [[465_hdd_structure|HDD]] 저장소의 �
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[690_disk_spindown|디스크 스핀다운]] ([[690_disk_spindown|Disk Spin-down]]) | MAID의 가장 기본적인 절전 동작 단위 |
-| [[483_raid_overview|RAID]] (Redundant [[055_array|Array]] of Independent Disks) | MAID가 [[282_performance_tactics|성능]] 중심 철학에서 절전 중심 철학으로 대비되는 대상 |
-| 객체 스토리지 ([[494_object_storage|Object Storage]]) | [[501_file_definition_logical_record|파일]]/객체 단위 배치와 [[012_metadata|메타데이터]] 관리가 MAID와 잘 맞음 |
-| [[327_ssd|SSD]] 캐시 ([[327_ssd|Solid State Drive]] Cache) | 자는 디스크를 자주 깨우지 않게 완충하는 앞단 계층 |
-| [[692_tape_library|테이프 라이브러리]] ([[692_tape_library|Tape Library]]) | MAID보다 더 느리지만 더 저렴한 deep archive 대안 |
-| 티어드 스토리지 (Tiered Storage) | hot, warm, cold [[001_dikw_pyramid|데이터]] 분리 [[268_strategy_pattern|전략]]과 직접 연결 |
+| [디스크 스핀다운](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/690_disk_spindown/) ([Disk Spin-down](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/690_disk_spindown/)) | MAID의 가장 기본적인 절전 동작 단위 |
+| [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) (Redundant [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) of Independent Disks) | MAID가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 중심 철학에서 절전 중심 철학으로 대비되는 대상 |
+| 객체 스토리지 ([Object Storage](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/)) | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)/객체 단위 배치와 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 관리가 MAID와 잘 맞음 |
+| [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 캐시 ([Solid State Drive](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) Cache) | 자는 디스크를 자주 깨우지 않게 완충하는 앞단 계층 |
+| [테이프 라이브러리](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/692_tape_library/) ([Tape Library](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/692_tape_library/)) | MAID보다 더 느리지만 더 저렴한 deep archive 대안 |
+| 티어드 스토리지 (Tiered Storage) | hot, warm, cold [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분리 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 직접 연결 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -145,7 +149,7 @@ Hybrid cache + MAID archive
 Object archive + deep archive integration
 ```
 
-이 흐름은 [[282_performance_tactics|성능]] 중심 디스크 [[055_array|배열]]이 전력 중심 아카이브 구조로 변해 가는 과정을 보여 준다.
+이 흐름은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 중심 디스크 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이 전력 중심 아카이브 구조로 변해 가는 과정을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -159,7 +163,7 @@ Object archive + deep archive integration
 
 **진행 상황**: 692 / 803
 
-← **이전**: [[690_disk_spindown|690. 디스크 스핀다운 (Disk Spin-down)]]
-**다음**: [[692_tape_library|692. 테이프 라이브러리 (Tape Library)]] →
+← **이전**: [690. 디스크 스핀다운 (Disk Spin-down)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/690_disk_spindown/)
+**다음**: [692. 테이프 라이브러리 (Tape Library)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/692_tape_library/) →
 
 ---

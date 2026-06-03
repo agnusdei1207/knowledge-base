@@ -1,23 +1,27 @@
----
-title: 777. Evict+Time 기법
-date: '2026-05-08'
-tags:
-- studynote-computer-architecture
----
++++
+title = "777. Evict+Time 기법"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Evict+Time은 공격자가 특정 캐시 세트를 먼저 축출(Evict)한 뒤 피해자의 **전체 실행 시간(Time)** 변화를 측정해, 비밀 연산이 그 세트에 의존했는지 추론하는 캐시 부채널 공격이다.
-> 2. **가치**: [[118_shared_memory|공유 메모리]]나 `clflush` 없이도 성립해 적용 범위가 넓지만, 개별 캐시 라인이 아니라 **프로그램 전체 [[015_지연_데이터_관점|지연]]의 평균적 변화**를 읽는 저해상도 공격이라는 점이 핵심이다.
-> 3. **판단 포인트**: 노이즈에 약하므로 상수 시간 구현, [[656_aes_advanced_encryption_standard_rijndael|AES]]-NI ([[656_aes_advanced_encryption_standard_rijndael|Advanced Encryption Standard]] [[087_process_state_transition|New]] Instructions), 캐시 격리, 타이머 완화가 방어의 핵심이며, 공격자는 보통 수천~수십만 회 반복과 통계 검정을 함께 사용한다.
+> 2. **가치**: [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)나 `clflush` 없이도 성립해 적용 범위가 넓지만, 개별 캐시 라인이 아니라 **프로그램 전체 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)의 평균적 변화**를 읽는 저해상도 공격이라는 점이 핵심이다.
+> 3. **판단 포인트**: 노이즈에 약하므로 상수 시간 구현, [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-NI ([Advanced Encryption Standard](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) [New](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) Instructions), 캐시 격리, 타이머 완화가 방어의 핵심이며, 공격자는 보통 수천~수십만 회 반복과 통계 검정을 함께 사용한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-Evict+Time 기법은 공격자가 특정 캐시 세트를 미리 비워 놓고, 피해자 함수 전체가 평소보다 얼마나 느려졌는지 관찰하는 캐시 타이밍 공격이다. Flush+Reload처럼 공격자와 피해자가 같은 물리 [[286_page_frame|페이지]]를 공유할 필요가 없고, `clflush`처럼 특정 명령어에 기대지도 않는다. 대신 "어떤 라인을 읽었는가"를 직접 보지 못하는 대신 "전체 실행 시간이 통계적으로 늘어났는가"라는 거친 신호를 읽는다.
+Evict+Time 기법은 공격자가 특정 캐시 세트를 미리 비워 놓고, 피해자 함수 전체가 평소보다 얼마나 느려졌는지 관찰하는 캐시 타이밍 공격이다. Flush+Reload처럼 공격자와 피해자가 같은 물리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 공유할 필요가 없고, `clflush`처럼 특정 명령어에 기대지도 않는다. 대신 "어떤 라인을 읽었는가"를 직접 보지 못하는 대신 "전체 실행 시간이 통계적으로 늘어났는가"라는 거친 신호를 읽는다.
 
-이 방식이 중요한 이유는 현실의 많은 시스템이 세밀한 캐시 상태는 감추더라도 [[138_response_time|응답 시간]] 자체는 숨기기 어렵기 때문이다. 특히 T-table 기반 [[656_aes_advanced_encryption_standard_rijndael|AES]] ([[656_aes_advanced_encryption_standard_rijndael|Advanced Encryption Standard]]) 구현처럼 키 의존 인덱스가 특정 캐시 세트 사용량을 바꾸는 코드에서는, 한 세트를 고의로 불리하게 만들었을 때 평균 실행 시간이 달라진다. 즉 Evict+Time은 [[233_precision_recall_f1_roc_auc_threshold|정밀도]]는 낮아도, 블랙박스 환경에 가까운 조건에서 성립하는 "범용형 캐시 공격"으로 이해해야 한다.
+이 방식이 중요한 이유는 현실의 많은 시스템이 세밀한 캐시 상태는 감추더라도 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 자체는 숨기기 어렵기 때문이다. 특히 T-table 기반 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) ([Advanced Encryption Standard](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)) 구현처럼 키 의존 인덱스가 특정 캐시 세트 사용량을 바꾸는 코드에서는, 한 세트를 고의로 불리하게 만들었을 때 평균 실행 시간이 달라진다. 즉 Evict+Time은 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)는 낮아도, 블랙박스 환경에 가까운 조건에서 성립하는 "범용형 캐시 공격"으로 이해해야 한다.
 
 아래 그림은 Evict+Time이 개별 메모리 접근이 아니라 **전체 런타임의 이동**을 관찰한다는 점을 보여준다.
 
@@ -33,7 +37,7 @@ Evict+Time 기법은 공격자가 특정 캐시 세트를 미리 비워 놓고, 
 └──────────────────────────────────────────────────────────────────┘
 ```
 
-[[138_response_time|응답 시간]]이 단 한 번 느려졌다고 바로 공격이 성립하는 것은 아니다. 핵심은 같은 입력 조건을 반복했을 때, 특정 세트를 eviction한 경우에만 평균값이나 중앙값이 유의미하게 오른다는 사실을 포착하는 데 있다.
+[응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)이 단 한 번 느려졌다고 바로 공격이 성립하는 것은 아니다. 핵심은 같은 입력 조건을 반복했을 때, 특정 세트를 eviction한 경우에만 평균값이나 중앙값이 유의미하게 오른다는 사실을 포착하는 데 있다.
 
 - **📢 섹션 요약 비유**: Evict+Time은 마라톤 코스의 특정 구간에만 모래를 뿌려 두고, 선수 전체 기록이 느려졌는지 보는 것과 같다. 어디를 밟았는지 직접 보지 못해도 기록이 계속 나빠지면 그 구간을 지나갔음을 짐작할 수 있다.
 
@@ -43,16 +47,16 @@ Evict+Time 기법은 공격자가 특정 캐시 세트를 미리 비워 놓고, 
 
 현대 캐시는 집합 연관(Set-Associative) 구조다. 공격자는 동일한 세트 인덱스에 매핑되는 주소 모음인 Eviction Set을 찾아 대상 세트의 모든 way를 자기 데이터로 채운다. 이후 피해자가 그 세트를 다시 필요로 하면 L1/L2/L3에서 적중하지 못하고 하위 계층이나 DRAM으로 내려가 refill을 수행한다. Evict+Time은 바로 이 miss penalty가 전체 실행 시간으로 누적되는 현상을 이용한다.
 
-단순 모델로 쓰면 `T_run ≈ T_fixed + N_target_miss × P_miss + ε`다. 여기서 `T_fixed`는 원래 연산 시간, `N_target_miss`는 공격이 유발한 추가 미스 수, `P_miss`는 미스 패널티, `ε`는 [[016_interrupt_mechanism|인터럽트]]·스케줄링·주파수 변화 같은 잡음이다. Evict+Time은 `N_target_miss`가 비밀 데이터에 따라 달라질 때만 의미가 생긴다.
+단순 모델로 쓰면 `T_run ≈ T_fixed + N_target_miss × P_miss + ε`다. 여기서 `T_fixed`는 원래 연산 시간, `N_target_miss`는 공격이 유발한 추가 미스 수, `P_miss`는 미스 패널티, `ε`는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)·스케줄링·주파수 변화 같은 잡음이다. Evict+Time은 `N_target_miss`가 비밀 데이터에 따라 달라질 때만 의미가 생긴다.
 
-| 단계 | 공격자 동작 | [[204_microarchitecture|마이크로아키텍처]] 반응 | 관측값 |
+| 단계 | 공격자 동작 | [마이크로아키텍처](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/204_microarchitecture/) 반응 | 관측값 |
 | :--- | :--- | :--- | :--- |
-| [[025_baseline|기준선]] 측정 | eviction 없이 victim 실행 | 정상 [[263_cache_hit_miss|hit]]/miss 분포 | `T_base` |
+| [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 측정 | eviction 없이 victim 실행 | 정상 [hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)/miss 분포 | `T_base` |
 | 세트 축출 | 같은 세트로 매핑되는 주소를 way 수만큼 읽음 | 대상 세트의 기존 라인 축출 | 공격 준비 완료 |
 | 재실행 | 같은 입력으로 victim 실행 | 대상 세트 필요 시 refill 증가 | `T_evict` |
 | 통계 분석 | 세트·입력·키 가설을 바꿔 반복 | 미스 패널티가 평균으로 누적 | `ΔT` 분포 |
 
-예를 들어 T-table [[656_aes_advanced_encryption_standard_rijndael|AES]] 구현은 4개의 1 KiB 테이블을 평문과 키의 XOR 결과로 인덱싱한다. 공격자는 입력을 바꾸면서 특정 세트를 번갈아 eviction하고, 어떤 입력군에서 실행 시간이 더 느려지는지 기록한다. 올바른 키 [[074_byte|바이트]] 가설은 "어떤 입력이 어떤 세트를 자주 쓰는가"를 가장 잘 설명하므로, 충분한 반복 후에는 잘못된 가설보다 더 큰 [[015_지연_데이터_관점|지연]] 상관을 보인다.
+예를 들어 T-table [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 구현은 4개의 1 KiB 테이블을 평문과 키의 XOR 결과로 인덱싱한다. 공격자는 입력을 바꾸면서 특정 세트를 번갈아 eviction하고, 어떤 입력군에서 실행 시간이 더 느려지는지 기록한다. 올바른 키 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 가설은 "어떤 입력이 어떤 세트를 자주 쓰는가"를 가장 잘 설명하므로, 충분한 반복 후에는 잘못된 가설보다 더 큰 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 상관을 보인다.
 
 아래 그림은 한 캐시 세트가 eviction된 뒤 피해자가 다시 같은 세트를 쓰면서 refill penalty를 떠안는 구조를 요약한다.
 
@@ -68,7 +72,7 @@ Evict+Time 기법은 공격자가 특정 캐시 세트를 미리 비워 놓고, 
 └──────────────────────────────────────────────────────────────────┘
 ```
 
-이 기법의 본질은 캐시를 "훔쳐보는" 것이 아니라 캐시를 "괴롭혀서 느려지게 만드는" 데 있다. 그래서 관찰 해상도는 낮지만, 공격자가 볼 수 있는 정보가 전체 [[138_response_time|응답 시간]]뿐일 때도 성립 여지가 생긴다.
+이 기법의 본질은 캐시를 "훔쳐보는" 것이 아니라 캐시를 "괴롭혀서 느려지게 만드는" 데 있다. 그래서 관찰 해상도는 낮지만, 공격자가 볼 수 있는 정보가 전체 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)뿐일 때도 성립 여지가 생긴다.
 
 - **📢 섹션 요약 비유**: Evict+Time은 창고에서 특정 선반만 비워 두고 작업자가 물건을 꺼낼 때마다 아래층까지 내려가게 만드는 것과 같다. 작업 동선 하나하나는 못 봐도 전체 작업 시간이 길어지면 그 선반을 썼다는 사실이 드러난다.
 
@@ -76,17 +80,17 @@ Evict+Time 기법은 공격자가 특정 캐시 세트를 미리 비워 놓고, 
 
 ## Ⅲ. 비교 및 연결
 
-Evict+Time을 이해하려면 같은 캐시 계열 공격인 Prime+Probe, Flush+Reload와 비교해야 경계가 선명해진다. 세 기법 모두 캐시 [[263_cache_hit_miss|hit]]/miss 차이를 이용하지만, **무엇을 직접 관찰하느냐**가 다르다. Evict+Time은 전체 실행 시간을 보고, Prime+Probe는 공격자 자신의 probe miss를 보고, Flush+Reload는 특정 공유 라인의 재적재 여부를 본다.
+Evict+Time을 이해하려면 같은 캐시 계열 공격인 Prime+Probe, Flush+Reload와 비교해야 경계가 선명해진다. 세 기법 모두 캐시 [hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)/miss 차이를 이용하지만, **무엇을 직접 관찰하느냐**가 다르다. Evict+Time은 전체 실행 시간을 보고, Prime+Probe는 공격자 자신의 probe miss를 보고, Flush+Reload는 특정 공유 라인의 재적재 여부를 본다.
 
 | 기법 | 관찰 단위 | 전제조건 | 장점 | 약점 |
 | :--- | :--- | :--- | :--- | :--- |
 | **Evict+Time** | 전체 실행 시간 | 공유 캐시만 있으면 됨 | 환경 제약이 가장 적음 | 노이즈 크고 해상도 낮음 |
-| **Prime+Probe** | 캐시 세트 상태 | Eviction Set 구성 필요 | [[118_shared_memory|공유 메모리]] 불필요 | 세트 단위라 분석 복잡 |
-| **Flush+Reload** | 캐시 라인 단위 | 공유 [[286_page_frame|페이지]] + `clflush` 필요 | [[233_precision_recall_f1_roc_auc_threshold|정밀도]] 매우 높음 | 적용 환경이 제한적 |
+| **Prime+Probe** | 캐시 세트 상태 | Eviction Set 구성 필요 | [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 불필요 | 세트 단위라 분석 복잡 |
+| **Flush+Reload** | 캐시 라인 단위 | 공유 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) + `clflush` 필요 | [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 매우 높음 | 적용 환경이 제한적 |
 
-Evict+Time은 해상도가 낮은 대신 [[401_transport_layer_role_end_to_end_multiplexing|end-to-end]] latency만 있으면 적용될 수 있어 원격 공격과도 개념적으로 연결된다. 반대로 Prime+Probe와 Flush+Reload는 더 정밀하지만, 공격자에게 더 많은 구조 정보나 실행 권한이 필요하다. 즉 Evict+Time은 캐시 공격 계열의 "거친 망원경", Flush+Reload는 "현미경"에 가깝다.
+Evict+Time은 해상도가 낮은 대신 [end-to-end](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/) latency만 있으면 적용될 수 있어 원격 공격과도 개념적으로 연결된다. 반대로 Prime+Probe와 Flush+Reload는 더 정밀하지만, 공격자에게 더 많은 구조 정보나 실행 권한이 필요하다. 즉 Evict+Time은 캐시 공격 계열의 "거친 망원경", Flush+Reload는 "현미경"에 가깝다.
 
-또한 방어 관점에서는 세 기법 모두 결국 **키 의존 메모리 접근**과 **공유 캐시 자원**이라는 공통 원인을 노린다. 그래서 [[656_aes_advanced_encryption_standard_rijndael|AES]]-NI, bitslicing, CAT (Cache Allocation Technology), [[286_page_frame|페이지]] 컬러링([[286_page_frame|Page]] Coloring) 같은 대책이 여러 기법을 함께 약화시킨다.
+또한 방어 관점에서는 세 기법 모두 결국 **키 의존 메모리 접근**과 **공유 캐시 자원**이라는 공통 원인을 노린다. 그래서 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-NI, bitslicing, CAT (Cache Allocation Technology), [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 컬러링([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Coloring) 같은 대책이 여러 기법을 함께 약화시킨다.
 
 - **📢 섹션 요약 비유**: Flush+Reload가 CCTV라면 Evict+Time은 건물 전체 전기요금 고지서를 보는 방식이다. 해상도는 낮지만, 세부 센서가 없어도 반복적으로 보면 어느 층이 바빴는지 감이 잡힌다.
 
@@ -94,27 +98,27 @@ Evict+Time은 해상도가 낮은 대신 [[401_transport_layer_role_end_to_end_m
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 Evict+Time이 위험해지는 조건은 세 가지다. 첫째, 동일한 비밀 키로 암호 연산을 반복 호출할 수 있어야 한다. 둘째, 공격자와 피해자가 Last Level Cache ([[744_load_line_calibration|LLC]]) 또는 같은 코어 캐시를 공유해야 한다. 셋째, [[138_response_time|응답 시간]]이 충분히 반복 측정 가능해야 한다. 이 셋이 겹치면 [[233_precision_recall_f1_roc_auc_threshold|정밀도]]가 낮아도 통계적으로 누출이 축적된다.
+실무에서 Evict+Time이 위험해지는 조건은 세 가지다. 첫째, 동일한 비밀 키로 암호 연산을 반복 호출할 수 있어야 한다. 둘째, 공격자와 피해자가 Last Level Cache ([LLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/)) 또는 같은 코어 캐시를 공유해야 한다. 셋째, [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)이 충분히 반복 측정 가능해야 한다. 이 셋이 겹치면 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)가 낮아도 통계적으로 누출이 축적된다.
 
 ### 설계 판단 기준
 
-1. **채택 회피**: T-table 기반 AES나 키 의존 lookup table은 가능하면 [[656_aes_advanced_encryption_standard_rijndael|AES]]-NI나 bitsliced constant-time 구현으로 대체한다.
-2. **격리 우선**: [[310_multi_tenant_database_architecture|멀티테넌트]] 환경에서는 보안 연산을 전용 코어·전용 캐시 way로 분리하거나 최소한 CAT, [[286_page_frame|page]] coloring, 스케줄링 격리를 적용한다.
+1. **채택 회피**: T-table 기반 AES나 키 의존 lookup table은 가능하면 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-NI나 bitsliced constant-time 구현으로 대체한다.
+2. **격리 우선**: [멀티테넌트](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/310_multi_tenant_database_architecture/) 환경에서는 보안 연산을 전용 코어·전용 캐시 way로 분리하거나 최소한 CAT, [page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) coloring, 스케줄링 격리를 적용한다.
 3. **시간 노출 최소화**: 원격 API라면 내부 완료 시점과 무관하게 고정된 응답 윈도우에 맞춰 응답을 내보내는 것이 유리하다.
-4. **지터 맹신 금지**: 단순 랜덤 [[015_지연_데이터_관점|지연]]은 평균을 많이 내면 상쇄되므로, 근본 방어는 메모리 접근 패턴 제거와 자원 격리다.
+4. **지터 맹신 금지**: 단순 랜덤 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 평균을 많이 내면 상쇄되므로, 근본 방어는 메모리 접근 패턴 제거와 자원 격리다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 - 비밀 값이 cache set 선택에 영향을 주는 테이블 접근이 존재하는가?
 - 보안 프로세스가 신뢰할 수 없는 워크로드와 캐시를 공유하는가?
-- 고해상도 타이머 또는 반복 가능한 [[138_response_time|응답 시간]] 측정 경로가 열려 있는가?
-- "[[282_performance_tactics|성능]] 최적화" 때문에 constant-time 구현을 포기한 구간이 있는가?
+- 고해상도 타이머 또는 반복 가능한 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 측정 경로가 열려 있는가?
+- "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화" 때문에 constant-time 구현을 포기한 구간이 있는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- [[138_response_time|응답 시간]]이 조금 흔들리니 괜찮다고 판단하는 것
-- 보안 [[336_library_vs_framework|라이브러리]] 대신 빠른 테이블 구현을 그대로 서버에 배포하는 것
-- [[199_interrupt_scheduling|하이퍼스레딩]](Simultaneous [[095_multithreading_benefits|Multithreading]])을 켠 채로 상이한 신뢰 수준의 코드를 같은 코어에 올리는 것
+- [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)이 조금 흔들리니 괜찮다고 판단하는 것
+- 보안 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 대신 빠른 테이블 구현을 그대로 서버에 배포하는 것
+- [하이퍼스레딩](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/199_interrupt_scheduling/)(Simultaneous [Multithreading](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/))을 켠 채로 상이한 신뢰 수준의 코드를 같은 코어에 올리는 것
 
 Evict+Time은 한 번에 많은 정보를 뽑아내는 공격은 아니지만, 방치된 반복 인터페이스와 공유 캐시가 만나면 충분히 실용적이다. 기술사 관점에서는 "정밀한 공격만 위험하다"가 아니라, **거친 시간 지표도 반복되면 정보 채널이 된다**는 사실을 기억해야 한다.
 
@@ -124,11 +128,11 @@ Evict+Time은 한 번에 많은 정보를 뽑아내는 공격은 아니지만, �
 
 ## Ⅴ. 기대효과 및 결론
 
-Evict+Time을 이해하면 [[282_performance_tactics|성능]] 최적화와 보안 위험이 같은 현상의 양면이라는 점이 선명해진다. 캐시는 원래 속도를 높이기 위한 구조지만, 바로 그 속도 차이가 평균 실행 시간의 형태로 외부에 새어나가면 정보 채널이 된다. 즉 "정확한 기능"만으로는 안전을 보장할 수 없고, **실행 시간 분포까지 설계 대상**으로 봐야 한다.
+Evict+Time을 이해하면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화와 보안 위험이 같은 현상의 양면이라는 점이 선명해진다. 캐시는 원래 속도를 높이기 위한 구조지만, 바로 그 속도 차이가 평균 실행 시간의 형태로 외부에 새어나가면 정보 채널이 된다. 즉 "정확한 기능"만으로는 안전을 보장할 수 없고, **실행 시간 분포까지 설계 대상**으로 봐야 한다.
 
 이 기법의 한계도 분명하다. 노이즈가 큰 환경에서는 공격 비용이 급격히 올라가고, 상수 시간 구현과 캐시 격리가 적용된 시스템에는 효율이 크게 떨어진다. 그러나 클라우드, 브라우저 샌드박스, 원격 API처럼 공격자가 세밀한 관측 수단을 갖지 못하는 환경이 많다는 점에서 Evict+Time은 여전히 교육적·실무적으로 중요한 개념이다.
 
-결국 Evict+Time은 "거친 지표도 반복되면 비밀을 말한다"는 교훈을 남긴다. 그래서 좋은 보안 아키텍처는 빠르기만 한 구조가 아니라, 평균 [[282_performance_tactics|성능]]과 분산까지 통제하여 외부에 남는 흔적을 줄이는 구조여야 한다.
+결국 Evict+Time은 "거친 지표도 반복되면 비밀을 말한다"는 교훈을 남긴다. 그래서 좋은 보안 아키텍처는 빠르기만 한 구조가 아니라, 평균 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 분산까지 통제하여 외부에 남는 흔적을 줄이는 구조여야 한다.
 
 - **📢 섹션 요약 비유**: 좋은 방어는 발자국을 완전히 없애는 것이 아니라, 어떤 길을 걸어도 같은 속도와 같은 흔적만 남게 만드는 것이다. 그래야 뒤따라오는 사람이 길의 의미를 읽지 못한다.
 
@@ -139,9 +143,9 @@ Evict+Time을 이해하면 [[282_performance_tactics|성능]] 최적화와 보�
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | Eviction Set | 같은 캐시 세트로 매핑되는 주소 묶음으로, Evict+Time 준비 단계의 핵심 자원 |
-| Conflict Miss | 공격자가 의도적으로 만드는 충돌 미스로, [[015_지연_데이터_관점|지연]] 증가의 직접 원인 |
-| Prime+Probe | [[118_shared_memory|공유 메모리]] 없이 동작하는 인접 기법으로, Evict+Time보다 관찰 해상도가 높음 |
-| [[656_aes_advanced_encryption_standard_rijndael|AES]]-NI ([[656_aes_advanced_encryption_standard_rijndael|Advanced Encryption Standard]] [[087_process_state_transition|New]] Instructions) | 키 의존 테이블 접근을 줄여 캐시 타이밍 누출을 크게 낮추는 대표 방어 수단 |
+| Conflict Miss | 공격자가 의도적으로 만드는 충돌 미스로, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 증가의 직접 원인 |
+| Prime+Probe | [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 없이 동작하는 인접 기법으로, Evict+Time보다 관찰 해상도가 높음 |
+| [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-NI ([Advanced Encryption Standard](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) [New](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) Instructions) | 키 의존 테이블 접근을 줄여 캐시 타이밍 누출을 크게 낮추는 대표 방어 수단 |
 | CAT (Cache Allocation Technology) | 캐시 way를 분리해 공격자와 피해자의 간섭을 줄이는 하드웨어 격리 기법 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -176,7 +180,7 @@ Constant-time 구현 · 캐시 격리 · 타이머 완화
 
 **진행 상황**: 778 / 803
 
-← **이전**: [[776_flush_reload|776. Flush+Reload 기법]]
-**다음**: [[778_dpa_resistant_logic|778. 전력 분석 공격 - DPA (Differential Power Analysis)]] →
+← **이전**: [776. Flush+Reload 기법](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/776_flush_reload/)
+**다음**: [778. 전력 분석 공격 - DPA (Differential Power Analysis)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/778_dpa_resistant_logic/) →
 
 ---

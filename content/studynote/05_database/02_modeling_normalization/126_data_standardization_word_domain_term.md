@@ -1,14 +1,18 @@
----
-title: 126. 데이터 표준화 (단어·도메인·용어) - 전사 데이터 용어 통일 체계
-date: '2026-04-19'
-tags:
-- studynote-database
----
++++
+title = "126. 데이터 표준화 (단어·도메인·용어) - 전사 데이터 용어 통일 체계"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-database"]
+
+[extra]
+tags = ["studynote-database"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [[001_dikw_pyramid|데이터]] 표준화는 **단어([[075_word|Word]])→[[064_relation_domain|도메인]]([[064_relation_domain|Domain]])→용어(Term)→컬럼명의 체계적 정의**를 통해 전사 [[001_dikw_pyramid|데이터]]의 명칭·형식·의미를 통일하는 활동이다.
-> 2. **가치**: 같은 "고객번호"가 시스템마다 CUST_NO, CUSTOMER_ID, C_NUM 등 다르게 정의되면 **[[001_dikw_pyramid|데이터]] 통합·보고서 생성이 불가능**하지만, 표준화하면 전사 일관된 [[001_dikw_pyramid|데이터]] 모델이 보장된다.
-> 3. **판단 포인트**: 단어(고객, 번호)→용어(고객번호)→물리명(CUST_NO)의 매핑 규칙을 정의하고, [[393_data_dictionary|데이터 사전]]([[509_data_dictionary|Data Dictionary]])에서 관리한다.
+> 1. **본질**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 표준화는 **단어([Word](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/))→[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))→용어(Term)→컬럼명의 체계적 정의**를 통해 전사 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 명칭·형식·의미를 통일하는 활동이다.
+> 2. **가치**: 같은 "고객번호"가 시스템마다 CUST_NO, CUSTOMER_ID, C_NUM 등 다르게 정의되면 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합·보고서 생성이 불가능**하지만, 표준화하면 전사 일관된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델이 보장된다.
+> 3. **판단 포인트**: 단어(고객, 번호)→용어(고객번호)→물리명(CUST_NO)의 매핑 규칙을 정의하고, [데이터 사전](/knowledge-base/studynote/05_database/07_exam_summary/393_data_dictionary/)([Data Dictionary](/knowledge-base/studynote/05_database/04_transactions_concurrency/509_data_dictionary/))에서 관리한다.
 
 ---
 
@@ -28,22 +32,22 @@ tags:
 └───────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: [[001_dikw_pyramid|데이터]] 표준화는 전국 도로의 **표지판을 통일**하는 것이다. 같은 도로가 지역마다 다른 이름이면 내비게이션([[001_dikw_pyramid|데이터]] 통합)이 불가능하다.
+- **📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 표준화는 전국 도로의 **표지판을 통일**하는 것이다. 같은 도로가 지역마다 다른 이름이면 내비게이션([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합)이 불가능하다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 단어·[[064_relation_domain|도메인]]·용어
+### 단어·[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)·용어
 
 | 구성 | 설명 | 예 |
 |:---|:---|:---|
 | **단어** | 최소 의미 단위 | 고객, 번호 |
-| **[[064_relation_domain|도메인]]** | [[001_dikw_pyramid|데이터]] 타입·길이·규칙 | 번호→VARCHAR([[489_raid_10_hybrid|10]]) |
+| **[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입·길이·규칙 | 번호→VARCHAR([10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)) |
 | **용어** | 단어 조합의 비즈니스 의미 | 고객번호=고객+번호 |
 | **물리명** | 용어의 영문 약어 | CUST_NO |
 
-- **📢 섹션 요약 비유**: 단어는 레고 블록, 용어는 블록을 조합한 완성품, [[064_relation_domain|도메인]]은 블록의 크기·색상 규격이다.
+- **📢 섹션 요약 비유**: 단어는 레고 블록, 용어는 블록을 조합한 완성품, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)은 블록의 크기·색상 규격이다.
 
 ---
 
@@ -52,25 +56,25 @@ tags:
 | 비교 | 비표준 | 표준화 |
 |:---|:---|:---|
 | **명칭** | CUST_NO / C_NUM / 고객ID | **CUST_NO (통일)** |
-| **타입** | 시스템마다 다름 | **[[064_relation_domain|도메인]] 표준** |
+| **타입** | 시스템마다 다름 | **[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 표준** |
 | **통합** | 불가 | **가능** |
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[001_dikw_pyramid|데이터]] 표준화 절차
-1. 현행 분석: 기존 컬럼명 수집·[[104_classification_analysis|분류]].
+### [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 표준화 절차
+1. 현행 분석: 기존 컬럼명 수집·[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/).
 2. 단어 정의: 표준 단어 등록 (동의어·약어 정리).
-3. [[064_relation_domain|도메인]] 정의: 타입·길이 규칙.
+3. [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 정의: 타입·길이 규칙.
 4. 용어 정의: 단어 조합 → 물리명 매핑.
-5. 적용·[[395_verification_process_review|검증]]: 모델링 도구와 연동.
+5. 적용·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/): 모델링 도구와 연동.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[[001_dikw_pyramid|데이터]] 표준화는 **[[052_data_governance_framework|데이터 거버넌스]]·[[539_mdm_master_data_management|MDM]]·[[209_data_warehouse_schema_on_write|DW]] 구축의 기초**이며, 표준 없는 [[001_dikw_pyramid|데이터]] 통합은 모래 위의 건물이다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 표준화는 **[데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)·[MDM](/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/)·[DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 구축의 기초**이며, 표준 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합은 모래 위의 건물이다.
 
 ---
 
@@ -79,10 +83,10 @@ tags:
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **단어** | 최소 의미 단위 |
-| **[[064_relation_domain|도메인]]** | [[001_dikw_pyramid|데이터]] 타입·형식 규칙 |
+| **[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입·형식 규칙 |
 | **용어** | 단어 조합의 비즈니스 명칭 |
-| **[[393_data_dictionary|데이터 사전]]** | 표준 관리 저장소 |
-| **[[052_data_governance_framework|데이터 거버넌스]]** | 표준화의 상위 관리 체계 |
+| **[데이터 사전](/knowledge-base/studynote/05_database/07_exam_summary/393_data_dictionary/)** | 표준 관리 저장소 |
+| **[데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)** | 표준화의 상위 관리 체계 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -103,7 +107,7 @@ tags:
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. [[001_dikw_pyramid|데이터]] 표준화는 전국 도로의 **표지판을 통일**하는 거예요.
+1. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 표준화는 전국 도로의 **표지판을 통일**하는 거예요.
 2. 같은 도로가 서울에서는 "1번 도로", 부산에서는 "A 도로"이면 **내비가 혼란**스러워요.
 3. 이름을 통일하면 **어디서든 같은 이름으로** 길을 찾을 수 있답니다!
 
@@ -113,7 +117,7 @@ tags:
 
 **진행 상황**: 126 / 600
 
-← **이전**: [[125_metadata_management_system_mms|125. 메타데이터 관리 시스템 (MMS) - 데이터에 대한 데이터 관리]]
-**다음**: [[127_information_engineering_methodology_ie|127. 정보공학 방법론 (IE, Information Engineering) - 데이터 중심 시스템 개발]] →
+← **이전**: [125. 메타데이터 관리 시스템 (MMS) - 데이터에 대한 데이터 관리](/knowledge-base/studynote/05_database/02_modeling_normalization/125_metadata_management_system_mms/)
+**다음**: [127. 정보공학 방법론 (IE, Information Engineering) - 데이터 중심 시스템 개발](/knowledge-base/studynote/05_database/02_modeling_normalization/127_information_engineering_methodology_ie/) →
 
 ---

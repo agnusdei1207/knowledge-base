@@ -1,29 +1,33 @@
----
-title: 147. 유스케이스 다이어그램 (Use Case Diagram)
-date: '2026-04-19'
-tags:
-- studynote-software-engineering
----
++++
+title = "147. 유스케이스 다이어그램 (Use Case Diagram)"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-software-engineering"]
+
+[extra]
+tags = ["studynote-software-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [[238_use_case_diagram_functional_modeling|유스케이스 다이어그램]](Use Case Diagram)은 [[232_uml_unified_modeling_language_overview|UML]]([[232_uml_unified_modeling_language_overview|Unified Modeling Language]]) 행위 다이어그램의 하나로, **시스템이 어떤 기능(유스케이스)을 누구(액터)에게 제공하는지를 외부 관점에서 [[003_bigdata_7v|시각화]]**한다.
-> 2. **가치**: 기능 요구사항(Functional Requirement)을 개발자·고객 모두가 이해할 수 있는 공통 언어로 표현하여 **요구사항 누락과 범위 논쟁([[161_scope_creep_requirements_inflation_prevention|Scope Creep]])을 조기에 방지**한다.
-> 3. **판단 포인트**: 포함(«[[670_use_case_include_extend|include]]»)은 공통 필수 기능의 재사용, 확장(«extend»)은 조건부 선택 기능의 분리에 사용하며, 이 둘의 방향성 혼동이 가장 흔한 오류다.
+> 1. **본질**: [유스케이스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/)(Use Case Diagram)은 [UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/)([Unified Modeling Language](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/)) 행위 다이어그램의 하나로, **시스템이 어떤 기능(유스케이스)을 누구(액터)에게 제공하는지를 외부 관점에서 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)**한다.
+> 2. **가치**: 기능 요구사항(Functional Requirement)을 개발자·고객 모두가 이해할 수 있는 공통 언어로 표현하여 **요구사항 누락과 범위 논쟁([Scope Creep](/knowledge-base/studynote/04_software_engineering/03_design_architecture/161_scope_creep_requirements_inflation_prevention/))을 조기에 방지**한다.
+> 3. **판단 포인트**: 포함(«[include](/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/)»)은 공통 필수 기능의 재사용, 확장(«extend»)은 조건부 선택 기능의 분리에 사용하며, 이 둘의 방향성 혼동이 가장 흔한 오류다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[[238_use_case_diagram_functional_modeling|유스케이스 다이어그램]]은 시스템을 사용하는 사람(Actor)과 시스템이 제공하는 기능(Use Case) 사이의 [[083_relationship_in_er_model|관계]]를 명시한 UML의 요구사항 모델링 도구다. Ivar Jacobson이 1992년 객체지향 소프트웨어 공학에서 처음 제안했으며, 현재 [[232_uml_unified_modeling_language_overview|UML]] 2.x 표준에 포함되어 있다.
+[유스케이스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/)은 시스템을 사용하는 사람(Actor)과 시스템이 제공하는 기능(Use Case) 사이의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 명시한 UML의 요구사항 모델링 도구다. Ivar Jacobson이 1992년 객체지향 소프트웨어 공학에서 처음 제안했으며, 현재 [UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) 2.x 표준에 포함되어 있다.
 
-시스템 개발 [[459_quic_fec_forward_error_correction|초기]], 개발자와 고객이 서로 다른 언어로 요구사항을 논의하면 오해가 쌓인다. [[238_use_case_diagram_functional_modeling|유스케이스 다이어그램]]은 "이 시스템이 누구에게 무엇을 해주는가?"라는 질문에 그림으로 답함으로써, **코드 한 줄 없이도 기능 범위를 합의**할 수 있게 한다.
+시스템 개발 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/), 개발자와 고객이 서로 다른 언어로 요구사항을 논의하면 오해가 쌓인다. [유스케이스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/)은 "이 시스템이 누구에게 무엇을 해주는가?"라는 질문에 그림으로 답함으로써, **코드 한 줄 없이도 기능 범위를 합의**할 수 있게 한다.
 
-**[[238_use_case_diagram_functional_modeling|유스케이스 다이어그램]] 없으면 발생하는 문제**:
+**[유스케이스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/) 없으면 발생하는 문제**:
 - 요구사항 명세가 모호 → 개발 후반부에 대규모 재작업 발생
-- 기능 누락과 범위 팽창([[161_scope_creep_requirements_inflation_prevention|Scope Creep]]) 감지 [[015_지연_데이터_관점|지연]]
+- 기능 누락과 범위 팽창([Scope Creep](/knowledge-base/studynote/04_software_engineering/03_design_architecture/161_scope_creep_requirements_inflation_prevention/)) 감지 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)
 - 고객 승인 기준 불명확 → 검수 분쟁
 
-- **📢 섹션 요약 비유**: [[238_use_case_diagram_functional_modeling|유스케이스 다이어그램]]은 **'건물 도면의 방 배치도'** 와 같습니다. "이 건물에 누가 어떤 방을 쓰는가"를 먼저 합의해야, 벽을 어디에 세울지(구현)가 정해집니다. 방 배치 없이 벽부터 세우면, 나중에 모두 허물어야 합니다.
+- **📢 섹션 요약 비유**: [유스케이스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/)은 **'건물 도면의 방 배치도'** 와 같습니다. "이 건물에 누가 어떤 방을 쓰는가"를 먼저 합의해야, 벽을 어디에 세울지(구현)가 정해집니다. 방 배치 없이 벽부터 세우면, 나중에 모두 허물어야 합니다.
 
 ---
 
@@ -62,12 +66,12 @@ tags:
 | 액터(Actor) | 사람 아이콘 또는 «actor» 스테레오타입 | 시스템과 상호작용하는 외부 존재 (사람, 외부 시스템, 타이머 등) |
 | 유스케이스(Use Case) | 타원 | 시스템이 제공하는 기능 단위 (동사+목적어 형태) |
 | 시스템 경계 | 직사각형 박스 | 시스템이 책임지는 기능의 범위 |
-| 연관(Association) | 실선 | 액터와 유스케이스의 [[083_relationship_in_er_model|관계]] |
-| 포함(«[[670_use_case_include_extend|include]]») | 점선 화살표 | 항상 수행되는 공통 기능 |
+| 연관(Association) | 실선 | 액터와 유스케이스의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
+| 포함(«[include](/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/)») | 점선 화살표 | 항상 수행되는 공통 기능 |
 | 확장(«extend») | 점선 화살표 | 특정 조건에서만 실행되는 선택 기능 |
-| 일반화(Generalization) | 빈 화살표 | 액터 또는 유스케이스 간 [[234_uml_class_relationships_generalization_dependency|상속]] [[083_relationship_in_er_model|관계]] |
+| 일반화(Generalization) | 빈 화살표 | 액터 또는 유스케이스 간 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 
-### 2. «[[670_use_case_include_extend|include]]» vs. «extend» 핵심 비교
+### 2. «[include](/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/)» vs. «extend» 핵심 비교
 
 ```text
 «include» (포함)                «extend» (확장)
@@ -80,74 +84,74 @@ tags:
 (주문 시 항상 로그인 필요)        (특정 조건: 회원 동의 시만 알림)
 ```
 
-- **포함(«[[670_use_case_include_extend|include]]»)**: 기본 유스케이스가 실행될 때 **항상** 포함 유스케이스도 실행. 화살표 방향: 기본 [[087_underpinning_contract|UC]] → 포함 [[087_underpinning_contract|UC]]
-- **확장(«extend»)**: 특정 **조건**이 만족될 때만 확장 유스케이스가 실행. 화살표 방향: 확장 [[087_underpinning_contract|UC]] → 기본 [[087_underpinning_contract|UC]] (역방향)
+- **포함(«[include](/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/)»)**: 기본 유스케이스가 실행될 때 **항상** 포함 유스케이스도 실행. 화살표 방향: 기본 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) → 포함 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/)
+- **확장(«extend»)**: 특정 **조건**이 만족될 때만 확장 유스케이스가 실행. 화살표 방향: 확장 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) → 기본 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) (역방향)
 
-- **📢 섹션 요약 비유**: «[[670_use_case_include_extend|include]]»는 **'피자 주문 시 항상 결제가 포함'** 되는 것이고, «extend»는 **'추가 치즈가 필요할 때만 선택'** 하는 것입니다. 포함은 필수 공통, 확장은 조건부 선택입니다.
+- **📢 섹션 요약 비유**: «[include](/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/)»는 **'피자 주문 시 항상 결제가 포함'** 되는 것이고, «extend»는 **'추가 치즈가 필요할 때만 선택'** 하는 것입니다. 포함은 필수 공통, 확장은 조건부 선택입니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### [[232_uml_unified_modeling_language_overview|UML]] 다이어그램 유형별 역할
+### [UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) 다이어그램 유형별 역할
 
-| 다이어그램 | [[104_classification_analysis|분류]] | 관점 | 표현 대상 |
+| 다이어그램 | [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 관점 | 표현 대상 |
 |:---|:---|:---|:---|
-| [[238_use_case_diagram_functional_modeling|유스케이스 다이어그램]] | 행위 | 기능/외부 | 누가 무엇을 |
-| [[233_class_diagram_static_structure_uml|클래스 다이어그램]] | 구조 | 정적 | 객체 구조·[[083_relationship_in_er_model|관계]] |
-| [[235_sequence_diagram_dynamic_interaction_uml|시퀀스 다이어그램]] | 행위 | 시간 흐름 | 메시지 교환 순서 |
-| [[236_state_machine_diagram_uml_dynamic|상태 다이어그램]] | 행위 | 상태 변화 | 객체의 생명주기 |
+| [유스케이스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/) | 행위 | 기능/외부 | 누가 무엇을 |
+| [클래스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/233_class_diagram_static_structure_uml/) | 구조 | 정적 | 객체 구조·[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
+| [시퀀스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/235_sequence_diagram_dynamic_interaction_uml/) | 행위 | 시간 흐름 | 메시지 교환 순서 |
+| [상태 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/236_state_machine_diagram_uml_dynamic/) | 행위 | 상태 변화 | 객체의 생명주기 |
 | 활동 다이어그램 | 행위 | 흐름 | 비즈니스 프로세스 |
 
-### «[[670_use_case_include_extend|include]]» vs. «extend» vs. 일반화 혼동 방지
+### «[include](/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/)» vs. «extend» vs. 일반화 혼동 방지
 
-| [[083_relationship_in_er_model|관계]] | 언제 | 화살표 방향 | 실행 조건 |
+| [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 언제 | 화살표 방향 | 실행 조건 |
 |:---|:---|:---|:---|
-| «[[670_use_case_include_extend|include]]» | 공통 필수 기능 추출 | 기본 → 포함 | 항상 실행 |
+| «[include](/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/)» | 공통 필수 기능 추출 | 기본 → 포함 | 항상 실행 |
 | «extend» | 선택적 부가 기능 분리 | 확장 → 기본 | 조건부 실행 |
-| 일반화 | 액터/[[087_underpinning_contract|UC]] [[234_uml_class_relationships_generalization_dependency|상속]] [[083_relationship_in_er_model|관계]] | 자식 → 부모 | [[234_uml_class_relationships_generalization_dependency|상속]] |
+| 일반화 | 액터/[UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 자식 → 부모 | [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) |
 
-- **📢 섹션 요약 비유**: «[[670_use_case_include_extend|include]]», «extend», 일반화의 [[083_relationship_in_er_model|관계]]는 **'밥 먹기(기본 [[087_underpinning_contract|UC]])', '수저 사용(항상 포함)', '디저트 선택(조건부 확장)', '어른 vs. 아이 식사법(일반화)'** 로 구분됩니다. 공통 필수는 포함, 선택적 추가는 확장, 계층 구조는 일반화입니다.
+- **📢 섹션 요약 비유**: «[include](/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/)», «extend», 일반화의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 **'밥 먹기(기본 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/))', '수저 사용(항상 포함)', '디저트 선택(조건부 확장)', '어른 vs. 아이 식사법(일반화)'** 로 구분됩니다. 공통 필수는 포함, 선택적 추가는 확장, 계층 구조는 일반화입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 의사결정 [[435_checklist_based_testing|체크리스트]]
+### 의사결정 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-- **공통 기능이 여러 유스케이스에 반복 등장** → «[[670_use_case_include_extend|include]]»로 추출
+- **공통 기능이 여러 유스케이스에 반복 등장** → «[include](/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/)»로 추출
 - **특정 조건에서만 실행되는 부가 기능** → «extend»로 분리
 - **유사한 유스케이스가 공통 핵심을 가짐** → 일반화(Generalization) 적용
-- **액터가 여러 역할을 가짐** → 액터 일반화([[234_uml_class_relationships_generalization_dependency|상속]]) 고려
+- **액터가 여러 역할을 가짐** → 액터 일반화([상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)) 고려
 
 ### 기술사 시험 핵심 판단 포인트
 
 1. **시스템 경계(System Boundary)를 명확히**: 경계 안은 내 시스템 책임, 경계 밖은 외부 액터. 경계가 없으면 범위 논쟁 발생.
 2. **액터는 시스템 사용자 역할**: 특정 사람이 아니라 역할(Role). 한 사람이 여러 액터 역할을 할 수 있음.
 3. **유스케이스 명칭은 동사+목적어**: "주문 처리", "회원 등록" 등 기능 행위로 작성. 명사만 쓰면 안 됨.
-4. **«extend» 화살표 방향**: 확장 [[087_underpinning_contract|UC]] → 기본 [[087_underpinning_contract|UC]] (반직관적이므로 시험에서 자주 출제)
+4. **«extend» 화살표 방향**: 확장 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) → 기본 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) (반직관적이므로 시험에서 자주 출제)
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-**유스케이스를 너무 세부적으로 쪼개기**: "비밀번호 입력", "이메일 입력" 같이 UI 단위로 쪼개면 [[238_use_case_diagram_functional_modeling|유스케이스 다이어그램]]이 화면 흐름도가 된다. 유스케이스는 사용자 목표(User Goal) 수준 ("로그인", "회원가입")으로 추상화해야 한다.
+**유스케이스를 너무 세부적으로 쪼개기**: "비밀번호 입력", "이메일 입력" 같이 UI 단위로 쪼개면 [유스케이스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/)이 화면 흐름도가 된다. 유스케이스는 사용자 목표(User Goal) 수준 ("로그인", "회원가입")으로 추상화해야 한다.
 
-**«[[670_use_case_include_extend|include]]»와 «extend» 방향 혼동**: 가장 흔한 오류. «extend»의 화살표는 확장 [[087_underpinning_contract|UC]] → 기본 [[087_underpinning_contract|UC]] (기본 [[087_underpinning_contract|UC]] 쪽 화살촉). «[[670_use_case_include_extend|include]]»는 기본 [[087_underpinning_contract|UC]] → 포함 [[087_underpinning_contract|UC]].
+**«[include](/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/)»와 «extend» 방향 혼동**: 가장 흔한 오류. «extend»의 화살표는 확장 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) → 기본 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) (기본 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) 쪽 화살촉). «[include](/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/)»는 기본 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) → 포함 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/).
 
-- **📢 섹션 요약 비유**: 유스케이스를 너무 세게 쪼개는 것은 **'건물 도면에 콘센트 위치까지 표시하는 것'** 과 같습니다. 도면은 방 배치를 보여주는 것이지, 전기 배선 설계서가 아닙니다. 세부 단위는 [[235_sequence_diagram_dynamic_interaction_uml|시퀀스 다이어그램]]이 담당합니다.
+- **📢 섹션 요약 비유**: 유스케이스를 너무 세게 쪼개는 것은 **'건물 도면에 콘센트 위치까지 표시하는 것'** 과 같습니다. 도면은 방 배치를 보여주는 것이지, 전기 배선 설계서가 아닙니다. 세부 단위는 [시퀀스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/235_sequence_diagram_dynamic_interaction_uml/)이 담당합니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[[238_use_case_diagram_functional_modeling|유스케이스 다이어그램]]은 요구사항 분석 [[459_quic_fec_forward_error_correction|초기]]의 소통 도구로서, 고객과 개발팀이 "우리가 만들 것"에 대한 **공통 이해를 확립**하는 데 핵심 역할을 한다. 특히 계약 기반 개발, 공공 SI 프로젝트에서 기능 범위([[512_oauth_scope|Scope]]) 합의의 법적 근거로 활용된다.
+[유스케이스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/)은 요구사항 분석 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)의 소통 도구로서, 고객과 개발팀이 "우리가 만들 것"에 대한 **공통 이해를 확립**하는 데 핵심 역할을 한다. 특히 계약 기반 개발, 공공 SI 프로젝트에서 기능 범위([Scope](/knowledge-base/studynote/09_security/05_web_app_security/512_oauth_scope/)) 합의의 법적 근거로 활용된다.
 
-**한계**: [[238_use_case_diagram_functional_modeling|유스케이스 다이어그램]]은 "무엇을"에만 답하고, "어떻게"와 "언제"는 시퀀스·활동 다이어그램이 담당한다. 또한 [[133_non_functional_requirements|비기능 요구사항]]([[282_performance_tactics|성능]], 보안, [[452_availability|가용성]])은 표현하기 어렵다.
+**한계**: [유스케이스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/)은 "무엇을"에만 답하고, "어떻게"와 "언제"는 시퀀스·활동 다이어그램이 담당한다. 또한 [비기능 요구사항](/knowledge-base/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/)([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 보안, [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))은 표현하기 어렵다.
 
-**미래 방향**: ① [[004_agile_relation|애자일]] 환경에서 유저 스토리([[081_user_story_invest|User Story]])가 유스케이스를 경량화한 형태로 대체 활용, ② [[165_bdd_behavior_driven_development|BDD]]([[126_bdd_behavior_driven_development_given_when_then|Behavior-Driven Development]])의 시나리오 기반 명세와 유스케이스의 융합, ③ MBSE(Model-Based Systems Engineering)에서 유스케이스 모델의 전산화.
+**미래 방향**: ① [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 환경에서 유저 스토리([User Story](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/))가 유스케이스를 경량화한 형태로 대체 활용, ② [BDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/)([Behavior-Driven Development](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/126_bdd_behavior_driven_development_given_when_then/))의 시나리오 기반 명세와 유스케이스의 융합, ③ MBSE(Model-Based Systems Engineering)에서 유스케이스 모델의 전산화.
 
-[[238_use_case_diagram_functional_modeling|유스케이스 다이어그램]]은 "코드 전에 기능을 그리는 것"이 아니라, **"합의를 먼저 구조화하는 것"** 이라는 관점으로 기억해야 한다.
+[유스케이스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/)은 "코드 전에 기능을 그리는 것"이 아니라, **"합의를 먼저 구조화하는 것"** 이라는 관점으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: [[238_use_case_diagram_functional_modeling|유스케이스 다이어그램]]은 **'집 짓기 전에 가족과 함께 그리는 방 배치 스케치'** 입니다. 방 몇 개, 누가 어느 방을 쓸지 합의하는 그림이지, 벽돌 쌓는 법을 그리는 도면이 아닙니다. 합의 없이 벽부터 세우면 나중에 다 허물어야 합니다.
+- **📢 섹션 요약 비유**: [유스케이스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/)은 **'집 짓기 전에 가족과 함께 그리는 방 배치 스케치'** 입니다. 방 몇 개, 누가 어느 방을 쓸지 합의하는 그림이지, 벽돌 쌓는 법을 그리는 도면이 아닙니다. 합의 없이 벽부터 세우면 나중에 다 허물어야 합니다.
 
 ---
 
@@ -155,11 +159,11 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[[232_uml_unified_modeling_language_overview|UML]] ([[232_uml_unified_modeling_language_overview|Unified Modeling Language]])** | [[238_use_case_diagram_functional_modeling|유스케이스 다이어그램]]이 속한 표준 모델링 언어 체계 |
-| **[[235_sequence_diagram_dynamic_interaction_uml|시퀀스 다이어그램]] ([[235_sequence_diagram_dynamic_interaction_uml|Sequence Diagram]])** | 유스케이스의 내부 흐름(메시지 교환 순서)을 구체화 |
-| **[[233_class_diagram_static_structure_uml|클래스 다이어그램]] ([[233_class_diagram_static_structure_uml|Class Diagram]])** | 유스케이스를 구현하는 정적 구조(클래스·[[083_relationship_in_er_model|관계]]) 표현 |
-| **유저 스토리 ([[081_user_story_invest|User Story]])** | [[004_agile_relation|애자일]]에서 유스케이스를 경량화한 요구사항 표현 기법 |
-| **기능 요구사항 (Functional Requirement)** | [[238_use_case_diagram_functional_modeling|유스케이스 다이어그램]]이 가시화하는 요구사항 범주 |
+| **[UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) ([Unified Modeling Language](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/))** | [유스케이스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/)이 속한 표준 모델링 언어 체계 |
+| **[시퀀스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/235_sequence_diagram_dynamic_interaction_uml/) ([Sequence Diagram](/knowledge-base/studynote/04_software_engineering/04_testing_quality/235_sequence_diagram_dynamic_interaction_uml/))** | 유스케이스의 내부 흐름(메시지 교환 순서)을 구체화 |
+| **[클래스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/233_class_diagram_static_structure_uml/) ([Class Diagram](/knowledge-base/studynote/04_software_engineering/04_testing_quality/233_class_diagram_static_structure_uml/))** | 유스케이스를 구현하는 정적 구조(클래스·[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)) 표현 |
+| **유저 스토리 ([User Story](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/))** | [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)에서 유스케이스를 경량화한 요구사항 표현 기법 |
+| **기능 요구사항 (Functional Requirement)** | [유스케이스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/)이 가시화하는 요구사항 범주 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -184,8 +188,8 @@ tags:
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [[238_use_case_diagram_functional_modeling|유스케이스 다이어그램]]은 **'우리 앱을 누가 어떤 기능으로 쓰는지 그린 지도'** 예요. 선생님(액터)은 성적 입력 기능(유스케이스)을, 학생(액터)은 성적 조회 기능을 쓰는 것처럼요!
-2. «[[670_use_case_include_extend|include]]»는 **'피자 시키면 항상 배달도 포함'** 처럼 필수로 같이 일어나는 기능이고, «extend»는 **'원할 때만 추가 치즈를 선택'** 하는 것처럼 조건부 기능이에요.
+1. [유스케이스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/)은 **'우리 앱을 누가 어떤 기능으로 쓰는지 그린 지도'** 예요. 선생님(액터)은 성적 입력 기능(유스케이스)을, 학생(액터)은 성적 조회 기능을 쓰는 것처럼요!
+2. «[include](/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/)»는 **'피자 시키면 항상 배달도 포함'** 처럼 필수로 같이 일어나는 기능이고, «extend»는 **'원할 때만 추가 치즈를 선택'** 하는 것처럼 조건부 기능이에요.
 3. 코드 짜기 전에 이 다이어그램을 먼저 그려서, 고객과 개발자가 **"우리가 만들 기능이 이것이다!"** 라고 손가락 걸고 약속하는 합의 도구랍니다!
 
 ---
@@ -194,7 +198,7 @@ tags:
 
 **진행 상황**: 147 / 973
 
-← **이전**: [[146_ooa_object_oriented_analysis|146. OOA (객체지향 분석) - 객체·클래스·관계 중심 분석]]
-**다음**: [[148_requirements_specification_formal_informal|148. 요구사항 명세 (Specification) - 정형 명세 vs 비정형 명세]] →
+← **이전**: [146. OOA (객체지향 분석) - 객체·클래스·관계 중심 분석](/knowledge-base/studynote/04_software_engineering/03_design_architecture/146_ooa_object_oriented_analysis/)
+**다음**: [148. 요구사항 명세 (Specification) - 정형 명세 vs 비정형 명세](/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/) →
 
 ---

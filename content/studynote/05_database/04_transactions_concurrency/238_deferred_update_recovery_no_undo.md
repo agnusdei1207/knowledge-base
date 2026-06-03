@@ -1,21 +1,25 @@
----
-title: 238. 지연 갱신 (Deferred Update)
-date: '2026-05-08'
-tags:
-- studynote-database
----
++++
+title = "238. 지연 갱신 (Deferred Update)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-database"]
+
+[extra]
+tags = ["studynote-database"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[015_지연_데이터_관점|지연]] 갱신 (Deferred Update)은 [[191_transaction_concept_states|트랜잭션]] 완료 전까지 DB 기록 [[015_지연_데이터_관점|지연]], [[393_undo|Undo]] 불필요, Redo만 수행에 초점을 맞춘 개념이다.
+> 1. **본질**: [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 갱신 (Deferred Update)은 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 완료 전까지 DB 기록 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), [Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) 불필요, Redo만 수행에 초점을 맞춘 개념이다.
 > 2. **가치**: 장애 이후에도 커밋된 내용은 살리고 미완료 작업은 되돌릴 수 있어야 DB를 신뢰할 수 있다.
-> 3. **판단 포인트**: 판단 포인트는 [[015_지연_데이터_관점|지연]] 갱신을 어디에 적용해야 효과가 크고, 어떤 비용이나 제약이 따라오는지 함께 보는 데 있다.
+> 3. **판단 포인트**: 판단 포인트는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 갱신을 어디에 적용해야 효과가 크고, 어떤 비용이나 제약이 따라오는지 함께 보는 데 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[[015_지연_데이터_관점|지연]] 갱신 (Deferred Update)은 [[191_transaction_concept_states|트랜잭션]] 완료 전까지 DB 기록 [[015_지연_데이터_관점|지연]], [[393_undo|Undo]] 불필요, Redo만 수행에 초점을 맞춘 개념이다. 장애 이후에도 커밋된 내용은 살리고 미완료 작업은 되돌릴 수 있어야 DB를 신뢰할 수 있다. [[568_logs_distributed_logging_elk_fluentd|로그]]와 체크포인트 전략이 약하면 재시작 시간이 길어진다.
+[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 갱신 (Deferred Update)은 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 완료 전까지 DB 기록 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), [Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) 불필요, Redo만 수행에 초점을 맞춘 개념이다. 장애 이후에도 커밋된 내용은 살리고 미완료 작업은 되돌릴 수 있어야 DB를 신뢰할 수 있다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 체크포인트 전략이 약하면 재시작 시간이 길어진다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -25,21 +29,21 @@ tags:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-이 그림은 [[015_지연_데이터_관점|지연]] 갱신을 독립 기능이 아니라 전체 [[001_dikw_pyramid|데이터]] 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 압축해 보여 준다.
+이 그림은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 갱신을 독립 기능이 아니라 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 압축해 보여 준다.
 
-- **📢 섹션 요약 비유**: [[015_지연_데이터_관점|지연]] 갱신은 블랙박스로 사고 전후를 복원하는 일에 가깝다. 중요한 것은 순서를 정하고 책임 범위를 분명히 하는 일이다.
+- **📢 섹션 요약 비유**: [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 갱신은 블랙박스로 사고 전후를 복원하는 일에 가깝다. 중요한 것은 순서를 정하고 책임 범위를 분명히 하는 일이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[[015_지연_데이터_관점|지연]] 갱신은 결국 "언제 보고, 어디에서 적용하고, 무엇을 보장할 것인가"를 정하는 메커니즘이다. 특히 `로그 기반 회복 기법`과 `즉시 갱신` 사이에서 현재 주제가 맡는 책임을 분리해 보면 구조가 더 또렷해진다.
+[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 갱신은 결국 "언제 보고, 어디에서 적용하고, 무엇을 보장할 것인가"를 정하는 메커니즘이다. 특히 `로그 기반 회복 기법`과 `즉시 갱신` 사이에서 현재 주제가 맡는 책임을 분리해 보면 구조가 더 또렷해진다.
 
 | 관점 | 설명 | 설계 포인트 |
 | :--- | :--- | :--- |
-| 핵심 대상 | [[015_지연_데이터_관점|지연]] 갱신은 `지연 갱신 (Deferred Update)`의 역할과 적용 범위를 규정한다. | 이름보다 입력·출력 경계를 먼저 정의해야 한다. |
-| 작동 원리 | 핵심은 현재 개념을 어떤 시점에 평가하고 어떤 범위에 적용하느냐에 있다. | 언제 평가하고 언제 확정하는지가 [[282_performance_tactics|성능]]과 정합성을 가른다. |
-| [[282_performance_tactics|성능]] 영향 | [[015_지연_데이터_관점|지연]] 갱신은 [[139_throughput|처리량]], [[015_지연_데이터_관점|지연]]시간, 운영 복잡도 중 적어도 하나에 직접 영향을 준다. | 이득과 비용을 같이 보지 않으면 과설계가 된다. |
+| 핵심 대상 | [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 갱신은 `지연 갱신 (Deferred Update)`의 역할과 적용 범위를 규정한다. | 이름보다 입력·출력 경계를 먼저 정의해야 한다. |
+| 작동 원리 | 핵심은 현재 개념을 어떤 시점에 평가하고 어떤 범위에 적용하느냐에 있다. | 언제 평가하고 언제 확정하는지가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 정합성을 가른다. |
+| [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 영향 | [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 갱신은 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간, 운영 복잡도 중 적어도 하나에 직접 영향을 준다. | 이득과 비용을 같이 보지 않으면 과설계가 된다. |
 | 운영 주의 | `로그 기반 회복 기법`·`즉시 갱신`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 전략을 미리 준비해야 한다. |
 
 ```text
@@ -50,51 +54,51 @@ tags:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-핵심은 [[015_지연_데이터_관점|지연]] 갱신을 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[[658_ir_recovery|복구]] 가능성을 먼저 정리해야 한다.
+핵심은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 갱신을 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
 
-- **📢 섹션 요약 비유**: [[015_지연_데이터_관점|지연]] 갱신은 공사 중간 사진으로 되돌아가는 일에 가깝다. 중요한 것은 순서를 정하고 책임 범위를 분명히 하는 일이다.
+- **📢 섹션 요약 비유**: [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 갱신은 공사 중간 사진으로 되돌아가는 일에 가깝다. 중요한 것은 순서를 정하고 책임 범위를 분명히 하는 일이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-[[015_지연_데이터_관점|지연]] 갱신은 종종 `로그 기반 회복 기법` 또는 `즉시 갱신`과 같은 묶음으로 설명되지만, 세 개념의 관심사는 다르다. [[568_logs_distributed_logging_elk_fluentd|로그]] 기반 [[233_recovery_database_restoration_overview|회복]] 기법이 준비 단계나 전제에 가깝다면, [[015_지연_데이터_관점|지연]] 갱신은 실제 통제 지점을 잡고, [[239_immediate_update_recovery_redo_undo|즉시 갱신]]은 그 결과를 더 강하게 만들거나 다른 방향으로 확장한다. 이 차이를 구분해야 시험 답안에서도 경계와 선택 이유를 설득할 수 있다.
+[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 갱신은 종종 `로그 기반 회복 기법` 또는 `즉시 갱신`과 같은 묶음으로 설명되지만, 세 개념의 관심사는 다르다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기반 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 기법이 준비 단계나 전제에 가깝다면, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 갱신은 실제 통제 지점을 잡고, [즉시 갱신](/knowledge-base/studynote/05_database/04_transactions_concurrency/239_immediate_update_recovery_redo_undo/)은 그 결과를 더 강하게 만들거나 다른 방향으로 확장한다. 이 차이를 구분해야 시험 답안에서도 경계와 선택 이유를 설득할 수 있다.
 
-| 비교 축 | [[015_지연_데이터_관점|지연]] 갱신 | [[568_logs_distributed_logging_elk_fluentd|로그]] 기반 [[233_recovery_database_restoration_overview|회복]] 기법 | [[239_immediate_update_recovery_redo_undo|즉시 갱신]] |
+| 비교 축 | [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 갱신 | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기반 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 기법 | [즉시 갱신](/knowledge-base/studynote/05_database/04_transactions_concurrency/239_immediate_update_recovery_redo_undo/) |
 | :--- | :--- | :--- | :--- |
 | 초점 | 현재 주제가 직접 통제하는 병목과 제약에 집중한다. | 바로 앞 단계나 전제를 다룬다. | 후속 확장 또는 보완 역할이 강하다. |
 | 적용 시점 | 현재 개념이 요구되는 순간에 핵심 제어점으로 작동한다. | 준비·선행 판단에서 먼저 등장한다. | 세부 최적화나 확장에서 더 자주 등장한다. |
 | 주된 위험 | 과신하면 비용 대비 효과가 줄어든다. | 부족하면 현재 개념도 안정적으로 성립하지 않는다. | 무작정 적용하면 복잡도와 운영 부담이 커질 수 있다. |
 
-또한 [[015_지연_데이터_관점|지연]] 갱신은 단순 정의 암기로 끝나는 개념이 아니라, 실제로는 [[282_performance_tactics|성능]]·정합성·운영성 중 무엇을 우선할지 결정하는 기준점으로 연결된다.
+또한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 갱신은 단순 정의 암기로 끝나는 개념이 아니라, 실제로는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·정합성·운영성 중 무엇을 우선할지 결정하는 기준점으로 연결된다.
 
-- **📢 섹션 요약 비유**: [[015_지연_데이터_관점|지연]] 갱신은 보험 기록으로 보상 범위를 확인하는 일에 가깝다. 중요한 것은 순서를 정하고 책임 범위를 분명히 하는 일이다.
+- **📢 섹션 요약 비유**: [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 갱신은 보험 기록으로 보상 범위를 확인하는 일에 가깝다. 중요한 것은 순서를 정하고 책임 범위를 분명히 하는 일이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 [[015_지연_데이터_관점|지연]] 갱신을 문법이나 이론 용어로만 이해하면 부족하다. [[658_ir_recovery|복구]] 목표 시간이 몇 분 단위로 요구되는 시스템에서는 이 개념이 곧 응답시간, 충돌 빈도, 운영 복잡도 차이로 드러난다. 따라서 채택 여부를 결정할 때는 현재 개념이 병목을 줄이는지, 아니면 단지 구조만 복잡하게 만드는지부터 확인해야 한다.
+실무에서는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 갱신을 문법이나 이론 용어로만 이해하면 부족하다. [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 목표 시간이 몇 분 단위로 요구되는 시스템에서는 이 개념이 곧 응답시간, 충돌 빈도, 운영 복잡도 차이로 드러난다. 따라서 채택 여부를 결정할 때는 현재 개념이 병목을 줄이는지, 아니면 단지 구조만 복잡하게 만드는지부터 확인해야 한다.
 
-### 기술사 판단 [[435_checklist_based_testing|체크리스트]]
+### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 현재 워크로드에서 [[015_지연_데이터_관점|지연]] 갱신이 해결하는 병목이 실제로 존재하는가?
+1. 현재 워크로드에서 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 갱신이 해결하는 병목이 실제로 존재하는가?
 2. `로그 기반 회복 기법`나 `즉시 갱신`으로 더 단순하게 풀 수 없는가?
-3. 장애·튜닝·모니터링 시 [[015_지연_데이터_관점|지연]] 갱신을 관찰할 지표와 [[098_rollback_strategy_pipeline_error_threshold|롤백]] 전략이 준비되어 있는가?
+3. 장애·튜닝·모니터링 시 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 갱신을 관찰할 지표와 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 전략이 준비되어 있는가?
 
-결론적으로 [[015_지연_데이터_관점|지연]] 갱신은 "무조건 채택"의 대상이 아니라, 보장 가치와 운영 비용을 함께 따져 선택해야 하는 설계 포인트다.
+결론적으로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 갱신은 "무조건 채택"의 대상이 아니라, 보장 가치와 운영 비용을 함께 따져 선택해야 하는 설계 포인트다.
 
-- **📢 섹션 요약 비유**: [[015_지연_데이터_관점|지연]] 갱신은 정전 후 장비를 다시 켜는 절차에 가깝다. 중요한 것은 순서를 정하고 책임 범위를 분명히 하는 일이다.
+- **📢 섹션 요약 비유**: [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 갱신은 정전 후 장비를 다시 켜는 절차에 가깝다. 중요한 것은 순서를 정하고 책임 범위를 분명히 하는 일이다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[[015_지연_데이터_관점|지연]] 갱신을 올바르게 적용하면 구조를 단순화하고, 정합성을 높이거나 [[282_performance_tactics|성능]]을 안정화하며, 장애 대응 속도까지 개선할 수 있다. 반대로 적용 위치를 잘못 잡으면 중복 설계와 불필요한 복잡도만 늘어난다. 그래서 이 주제는 정의 하나보다도 "어디에 두어야 하는가"라는 배치 감각으로 기억하는 것이 중요하다.
+[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 갱신을 올바르게 적용하면 구조를 단순화하고, 정합성을 높이거나 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 안정화하며, 장애 대응 속도까지 개선할 수 있다. 반대로 적용 위치를 잘못 잡으면 중복 설계와 불필요한 복잡도만 늘어난다. 그래서 이 주제는 정의 하나보다도 "어디에 두어야 하는가"라는 배치 감각으로 기억하는 것이 중요하다.
 
-특히 [[015_지연_데이터_관점|지연]] 갱신은 독립 개념처럼 보이지만 실제로는 `로그 기반 회복 기법`과 `즉시 갱신` 사이의 연결점으로 이해해야 오래 남는다. 시험에서는 정의·비교·판단 기준을 함께 말하고, 실무에서는 지표와 운영 시나리오까지 연결할 수 있어야 완성도 있는 답안이 된다.
+특히 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 갱신은 독립 개념처럼 보이지만 실제로는 `로그 기반 회복 기법`과 `즉시 갱신` 사이의 연결점으로 이해해야 오래 남는다. 시험에서는 정의·비교·판단 기준을 함께 말하고, 실무에서는 지표와 운영 시나리오까지 연결할 수 있어야 완성도 있는 답안이 된다.
 
-- **📢 섹션 요약 비유**: [[015_지연_데이터_관점|지연]] 갱신은 비상 탈출 지도를 준비하는 일에 가깝다. 중요한 것은 순서를 정하고 책임 범위를 분명히 하는 일이다.
+- **📢 섹션 요약 비유**: [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 갱신은 비상 탈출 지도를 준비하는 일에 가깝다. 중요한 것은 순서를 정하고 책임 범위를 분명히 하는 일이다.
 
 ---
 
@@ -102,9 +106,9 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| WAL ([[236_wal_write_ahead_logging_protocol|Write-Ahead Logging]]) [[295_protocol_field_tcp_udp_icmp|프로토콜]] | 앞뒤 맥락에서 현재 주제의 경계를 선명하게 해 주는 인접 개념이다. |
-| [[568_logs_distributed_logging_elk_fluentd|로그]] 기반 [[233_recovery_database_restoration_overview|회복]] 기법 ([[237_log_based_recovery_redo_undo_records|Log-based Recovery]]) | 앞뒤 맥락에서 현재 주제의 경계를 선명하게 해 주는 인접 개념이다. |
-| WAL ([[236_wal_write_ahead_logging_protocol|Write-Ahead Logging]]) | 변경보다 [[568_logs_distributed_logging_elk_fluentd|로그]]를 먼저 기록해 [[658_ir_recovery|복구]] 가능성을 확보한다. |
+| WAL ([Write-Ahead Logging](/knowledge-base/studynote/05_database/04_transactions_concurrency/236_wal_write_ahead_logging_protocol/)) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) | 앞뒤 맥락에서 현재 주제의 경계를 선명하게 해 주는 인접 개념이다. |
+| [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기반 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 기법 ([Log-based Recovery](/knowledge-base/studynote/05_database/04_transactions_concurrency/237_log_based_recovery_redo_undo_records/)) | 앞뒤 맥락에서 현재 주제의 경계를 선명하게 해 주는 인접 개념이다. |
+| WAL ([Write-Ahead Logging](/knowledge-base/studynote/05_database/04_transactions_concurrency/236_wal_write_ahead_logging_protocol/)) | 변경보다 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 먼저 기록해 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 확보한다. |
 | 체크포인트 (Checkpoint) | 재시작 시 재처리 범위를 줄인다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -119,12 +123,12 @@ tags:
     └──▶ [그림자 페이징 기법]
 ```
 
-[[568_logs_distributed_logging_elk_fluentd|로그]] 기반 [[233_recovery_database_restoration_overview|회복]] 기법에서 출발한 논점이 [[015_지연_데이터_관점|지연]] 갱신에서 핵심 판단으로 모이고, 이후 [[239_immediate_update_recovery_redo_undo|즉시 갱신]]·[[240_shadow_paging_recovery_no_log|그림자 페이징 기법]] 같은 확장 주제로 이어지는 흐름을 보여 준다.
+[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기반 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 기법에서 출발한 논점이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 갱신에서 핵심 판단으로 모이고, 이후 [즉시 갱신](/knowledge-base/studynote/05_database/04_transactions_concurrency/239_immediate_update_recovery_redo_undo/)·[그림자 페이징 기법](/knowledge-base/studynote/05_database/04_transactions_concurrency/240_shadow_paging_recovery_no_log/) 같은 확장 주제로 이어지는 흐름을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [[015_지연_데이터_관점|지연]] 갱신은 컴퓨터가 일을 헷갈리지 않게 하려고 만든 약속이에요.
-2. 이 약속을 잘 지키면 [[001_dikw_pyramid|데이터]]가 많아도 더 안전하고 빠르게 움직일 수 있어요.
+1. [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 갱신은 컴퓨터가 일을 헷갈리지 않게 하려고 만든 약속이에요.
+2. 이 약속을 잘 지키면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 많아도 더 안전하고 빠르게 움직일 수 있어요.
 3. 그래서 언제 이 방법을 쓰고 언제 다른 방법을 써야 하는지 아는 것이 중요해요.
 
 ---
@@ -133,7 +137,7 @@ tags:
 
 **진행 상황**: 238 / 600
 
-← **이전**: [[237_log_based_recovery_redo_undo_records|237. 로그 기반 회복 기법 (Log-based Recovery)]]
-**다음**: [[239_immediate_update_recovery_redo_undo|239. 즉시 갱신 (Immediate Update)]] →
+← **이전**: [237. 로그 기반 회복 기법 (Log-based Recovery)](/knowledge-base/studynote/05_database/04_transactions_concurrency/237_log_based_recovery_redo_undo_records/)
+**다음**: [239. 즉시 갱신 (Immediate Update)](/knowledge-base/studynote/05_database/04_transactions_concurrency/239_immediate_update_recovery_redo_undo/) →
 
 ---

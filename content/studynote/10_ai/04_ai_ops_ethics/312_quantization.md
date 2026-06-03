@@ -1,23 +1,27 @@
----
-title: 312. 모델 양자화 (Quantization)
-date: '2026-05-09'
-tags:
-- studynote-ai
----
++++
+title = "312. 모델 양자화 (Quantization)"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-ai"]
+
+[extra]
+tags = ["studynote-ai"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 모델 [[434_quantization|양자화]] ([[434_quantization|Quantization]])는 신경망 [[267_weight_bias_activation|가중치]]와 활성화값의 수치 [[233_precision_recall_f1_roc_auc_threshold|정밀도]]를 FP32(32비트 [[087_floating_point|부동소수점]])에서 INT8(8비트 정수) 또는 INT4로 낮춰 모델 크기를 4배 축소하고 추론 속도를 높이는 모델 [[347_compaction|압축]] 기법이다.
-> 2. **가치**: [[418_gpu|GPU]]/NPU가 정수 연산(INT8)을 [[087_floating_point|부동소수점]](FP32) 대비 2~4배 빠르게 처리하는 하드웨어 특성을 활용하여, 같은 비용으로 더 많은 추론 요청을 처리하거나 온디바이스(스마트폰, 엣지) 환경에 거대 모델을 배포하는 것이 가능해진다.
-> 3. **판단 포인트**: PTQ (Post-[[588_mlops_pipeline_automation|Training]] [[434_quantization|Quantization]], 훈련 후 [[434_quantization|양자화]])는 이미 학습된 모델에 즉시 적용 가능하고, QAT ([[434_quantization|Quantization]]-Aware [[588_mlops_pipeline_automation|Training]], [[434_quantization|양자화]] 인식 학습)는 훈련 중 [[434_quantization|양자화]]를 시뮬레이션하여 [[282_performance_tactics|성능]] 저하를 최소화하는 더 정교한 방법이다.
+> 1. **본질**: 모델 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) ([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/))는 신경망 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)와 활성화값의 수치 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)를 FP32(32비트 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/))에서 INT8(8비트 정수) 또는 INT4로 낮춰 모델 크기를 4배 축소하고 추론 속도를 높이는 모델 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 기법이다.
+> 2. **가치**: [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)/NPU가 정수 연산(INT8)을 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/)(FP32) 대비 2~4배 빠르게 처리하는 하드웨어 특성을 활용하여, 같은 비용으로 더 많은 추론 요청을 처리하거나 온디바이스(스마트폰, 엣지) 환경에 거대 모델을 배포하는 것이 가능해진다.
+> 3. **판단 포인트**: PTQ (Post-[Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/) [Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/), 훈련 후 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/))는 이미 학습된 모델에 즉시 적용 가능하고, QAT ([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)-Aware [Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/), [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) 인식 학습)는 훈련 중 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)를 시뮬레이션하여 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하를 최소화하는 더 정교한 방법이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[[302_gpt_autoregressive|GPT]]-3(175B 파라미터)를 FP32로 저장하면 700GB, FP16이면 350GB의 VRAM이 필요하다. 이는 고가의 A100 [[418_gpu|GPU]] 8~16장이 필요한 수준이다. **[[434_quantization|양자화]]([[434_quantization|Quantization]])**는 이 거대한 모델의 [[267_weight_bias_activation|가중치]]를 INT8(8비트 정수) 또는 INT4(4비트)로 낮춰 용량을 획기적으로 줄인다.
+[GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-3(175B 파라미터)를 FP32로 저장하면 700GB, FP16이면 350GB의 VRAM이 필요하다. 이는 고가의 A100 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 8~16장이 필요한 수준이다. **[양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/))**는 이 거대한 모델의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 INT8(8비트 정수) 또는 INT4(4비트)로 낮춰 용량을 획기적으로 줄인다.
 
-FP32 → INT8로 변환 시 용량이 4배 축소(700GB → 175GB)되고, INT4로 변환하면 8배 축소(87.5GB)된다. 단, [[233_precision_recall_f1_roc_auc_threshold|정밀도]]가 낮아지므로 정확도 손실(Accuracy Loss)이 발생하며, 이를 최소화하는 것이 [[434_quantization|양자화]] 기술의 핵심이다.
+FP32 → INT8로 변환 시 용량이 4배 축소(700GB → 175GB)되고, INT4로 변환하면 8배 축소(87.5GB)된다. 단, [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)가 낮아지므로 정확도 손실(Accuracy Loss)이 발생하며, 이를 최소화하는 것이 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) 기술의 핵심이다.
 
 ```text
 ┌──────────────────────────────────────────────┐
@@ -28,7 +32,7 @@ FP32 → INT8로 변환 시 용량이 4배 축소(700GB → 175GB)되고, INT4�
 └──────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: [[434_quantization|양자화]]는 고해상도 사진(FP32, 24MB)을 [[347_compaction|압축]] 저장(INT8, 6MB)하는 것이다. 용량은 4배 줄지만 화질(정확도)이 약간 떨어진다. 잘 [[347_compaction|압축]]하면 육안으로 거의 차이를 모르고(QAT), 허술하게 [[347_compaction|압축]]하면 화질이 눈에 띄게 나빠진다(PTQ 부주의). 화질 손실 없는 [[347_compaction|압축]]이 [[434_quantization|양자화]] 기술의 목표다.
+- **📢 섹션 요약 비유**: [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)는 고해상도 사진(FP32, 24MB)을 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 저장(INT8, 6MB)하는 것이다. 용량은 4배 줄지만 화질(정확도)이 약간 떨어진다. 잘 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하면 육안으로 거의 차이를 모르고(QAT), 허술하게 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하면 화질이 눈에 띄게 나빠진다(PTQ 부주의). 화질 손실 없는 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)이 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) 기술의 목표다.
 
 ---
 
@@ -66,52 +70,52 @@ FP32 → INT8로 변환 시 용량이 4배 축소(700GB → 175GB)되고, INT4�
 └──────────────────────────────────────────────────────────────────┘
 ```
 
-| 방법 | 적용 시점 | [[282_performance_tactics|성능]] | 구현 복잡도 | 사용 사례 |
+| 방법 | 적용 시점 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 구현 복잡도 | 사용 사례 |
 |:---|:---|:---|:---|:---|
 | PTQ (W8A8) | 학습 후 | 중간 | 낮음 | 빠른 배포, 대부분 모델 |
 | QAT | 학습 중 | 높음 | 높음 | 엣지 디바이스 고성능 요구 |
-| GPTQ | 학습 후, [[263_llm_large_language_model|LLM]] 특화 | 높음 | 중간 | [[263_llm_large_language_model|LLM]] 4비트 [[434_quantization|양자화]] 표준 |
-| AWQ | 학습 후, 활성화 인식 | 매우 높음 | 중간 | 온디바이스 [[263_llm_large_language_model|LLM]] |
+| GPTQ | 학습 후, [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 특화 | 높음 | 중간 | [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 4비트 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) 표준 |
+| AWQ | 학습 후, 활성화 인식 | 매우 높음 | 중간 | 온디바이스 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) |
 
-- **📢 섹션 요약 비유**: PTQ는 이미 찍어둔 사진을 나중에 [[347_compaction|압축]] 소프트웨어로 변환하는 것이고, QAT는 사진을 찍을 때부터 "이 사진은 나중에 [[347_compaction|압축]]될 거야"를 고려해 노출·초점을 최적화하는 것이다. 나중에 [[347_compaction|압축]]해도 손실이 최소인 사진이 된다.
+- **📢 섹션 요약 비유**: PTQ는 이미 찍어둔 사진을 나중에 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 소프트웨어로 변환하는 것이고, QAT는 사진을 찍을 때부터 "이 사진은 나중에 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)될 거야"를 고려해 노출·초점을 최적화하는 것이다. 나중에 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해도 손실이 최소인 사진이 된다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-**[[404_qlora|QLoRA]] ([[404_qlora|Quantized LoRA]])**: 기반 모델을 4비트로 [[434_quantization|양자화]]하고, 그 위에 16비트 [[617_lora_lorawan_css_chirp_spread_spectrum|LoRA]] [[259_adapter_pattern_interface_wrapper|어댑터]]를 추가하는 기법이다. 70B 모델을 단일 48GB GPU에서 [[304_fine_tuning|파인 튜닝]] 가능하게 해 [[191_oss_license_compliance|오픈소스]] [[263_llm_large_language_model|LLM]] [[304_fine_tuning|파인 튜닝]]의 혁명을 일으켰다.
+**[QLoRA](/knowledge-base/studynote/10_ai/05_data_science_ml/404_qlora/) ([Quantized LoRA](/knowledge-base/studynote/10_ai/05_data_science_ml/404_qlora/))**: 기반 모델을 4비트로 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)하고, 그 위에 16비트 [LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/) [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)를 추가하는 기법이다. 70B 모델을 단일 48GB GPU에서 [파인 튜닝](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/) 가능하게 해 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) [파인 튜닝](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)의 혁명을 일으켰다.
 
-**혼합 [[233_precision_recall_f1_roc_auc_threshold|정밀도]] (Mixed [[233_precision_recall_f1_roc_auc_threshold|Precision]])**: 모든 연산을 같은 [[233_precision_recall_f1_roc_auc_threshold|정밀도]]로 하지 않고, 계산(FP16/BF16)과 [[267_weight_bias_activation|가중치]] 업데이트(FP32)를 다른 [[233_precision_recall_f1_roc_auc_threshold|정밀도]]로 처리하여 속도와 [[233_precision_recall_f1_roc_auc_threshold|정밀도]]를 동시에 확보하는 학습 기법.
+**혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) (Mixed [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/))**: 모든 연산을 같은 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)로 하지 않고, 계산(FP16/BF16)과 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 업데이트(FP32)를 다른 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)로 처리하여 속도와 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)를 동시에 확보하는 학습 기법.
 
 | 구분 | 핵심 초점 | 적용 상황 |
 |:---|:---|:---|
-| 기초 접근 | 원리 이해와 기준 [[009_config|설정]] | 작은 규모, 개념 학습 |
-| 모델 [[434_quantization|양자화]] ([[434_quantization|Quantization]]) | [[282_performance_tactics|성능]]과 실용성의 균형 | 대표적인 실무 적용 |
-| 확장 접근 | 자동화·대규모 최적화 | [[090_service_kubernetes_network_load_balancing|서비스]] 고도화 단계 |
+| 기초 접근 | 원리 이해와 기준 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | 작은 규모, 개념 학습 |
+| 모델 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) ([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)) | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 실용성의 균형 | 대표적인 실무 적용 |
+| 확장 접근 | 자동화·대규모 최적화 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 고도화 단계 |
 
-- **📢 섹션 요약 비유**: QLoRA는 냉동 창고에 얼린(4비트 [[434_quantization|양자화]]) 재료를 보관하면서, 요리([[617_lora_lorawan_css_chirp_spread_spectrum|LoRA]] [[304_fine_tuning|파인 튜닝]])할 때만 해당 부분을 해동(16비트 [[617_lora_lorawan_css_chirp_spread_spectrum|LoRA]])하는 [[268_strategy_pattern|전략]]이다. 창고 공간([[418_gpu|GPU]] 메모리)을 최대 절약하면서 요리 품질([[304_fine_tuning|파인 튜닝]] [[282_performance_tactics|성능]])은 유지한다.
+- **📢 섹션 요약 비유**: QLoRA는 냉동 창고에 얼린(4비트 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)) 재료를 보관하면서, 요리([LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/) [파인 튜닝](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/))할 때만 해당 부분을 해동(16비트 [LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/))하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다. 창고 공간([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리)을 최대 절약하면서 요리 품질([파인 튜닝](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))은 유지한다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**하드웨어별 최적 [[434_quantization|양자화]] [[268_strategy_pattern|전략]]**:
-- **NVIDIA [[418_gpu|GPU]] ([[427_tensor_core|Tensor Core]])**: INT8, TensorRT INT8 [[434_quantization|양자화]], GPTQ 적용
-- **Apple Silicon (Neural Engine)**: ANE에서 INT8 최적화, CoreML [[434_quantization|양자화]] 지원
-- **ARM CPU (스마트폰)**: ARM NEON INT8, XNNPACK [[434_quantization|양자화]] [[336_library_vs_framework|라이브러리]]
-- **전용 [[424_npu|NPU]]**: INT4 지원 칩 (퀄컴 스냅드래곤 [[424_npu|NPU]] 등) 활용
+**하드웨어별 최적 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**:
+- **NVIDIA [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/))**: INT8, TensorRT INT8 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/), GPTQ 적용
+- **Apple Silicon (Neural Engine)**: ANE에서 INT8 최적화, CoreML [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) 지원
+- **ARM CPU (스마트폰)**: ARM NEON INT8, XNNPACK [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)
+- **전용 [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)**: INT4 지원 칩 (퀄컴 스냅드래곤 [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) 등) 활용
 
-**정확도 손실 허용 기준 (규제 관점)**: 의료·금융 AI에서 [[434_quantization|양자화]]로 인한 정확도 저하가 실제 의사 결정에 미치는 영향을 사전 평가하고, EU [[190_ai_llm_requirements_specification|AI]] Act 등 규제에서 요구하는 [[282_performance_tactics|성능]] 기준을 충족하는지 [[395_verification_process_review|검증]]해야 한다.
+**정확도 손실 허용 기준 (규제 관점)**: 의료·금융 AI에서 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)로 인한 정확도 저하가 실제 의사 결정에 미치는 영향을 사전 평가하고, EU [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Act 등 규제에서 요구하는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 기준을 충족하는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다.
 
-- **📢 섹션 요약 비유**: 의료 [[190_ai_llm_requirements_specification|AI]] [[434_quantization|양자화]] [[395_verification_process_review|검증]]은 비행기 경량화 테스트와 같다. 기체를 10kg 가볍게 만들면([[434_quantization|양자화]]) 연료 효율이 오르지만(속도↑), 구조 강도가 0.1%라도 약해지면 안 된다(의료 정확도 절대 유지). 엔지니어(개발자)는 경량화 전후 [[282_performance_tactics|성능]] 차이를 법적 기준에 맞게 문서화해야 한다.
+- **📢 섹션 요약 비유**: 의료 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 비행기 경량화 테스트와 같다. 기체를 10kg 가볍게 만들면([양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)) 연료 효율이 오르지만(속도↑), 구조 강도가 0.1%라도 약해지면 안 된다(의료 정확도 절대 유지). 엔지니어(개발자)는 경량화 전후 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이를 법적 기준에 맞게 문서화해야 한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[[434_quantization|양자화]]는 [[190_ai_llm_requirements_specification|AI]] 모델의 "다이어트 기술"이다. 거대 언어 모델이 클라우드 서버에서만 동작하던 시대를 끝내고, 스마트폰·엣지 서버·[[101_iot_concept|IoT]] 기기에서도 강력한 AI가 동작하는 온디바이스 [[190_ai_llm_requirements_specification|AI]] 시대를 열고 있다. GPTQ, AWQ, [[263_llm_large_language_model|LLM]].int8() 등 [[263_llm_large_language_model|LLM]] 특화 [[434_quantization|양자화]] 방법의 빠른 발전으로 INT4 [[434_quantization|양자화]]에서도 FP16과 거의 같은 [[282_performance_tactics|성능]]을 달성하는 수준에 이르렀다.
+[양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델의 "다이어트 기술"이다. 거대 언어 모델이 클라우드 서버에서만 동작하던 시대를 끝내고, 스마트폰·엣지 서버·[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기에서도 강력한 AI가 동작하는 온디바이스 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시대를 열고 있다. GPTQ, AWQ, [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/).int8() 등 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 특화 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) 방법의 빠른 발전으로 INT4 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)에서도 FP16과 거의 같은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 달성하는 수준에 이르렀다.
 
-- **📢 섹션 요약 비유**: [[434_quantization|양자화]]는 AI를 창고형 마트(클라우드 서버)에서 편의점(스마트폰)으로 [[136_variance|분산]]시키는 기술이다. 마트의 모든 상품을 편의점 크기에 맞게 소포장하면, 소비자가 창고까지 가지 않아도 집 근처에서 원하는 것을 즉시 살 수 있다. AI의 [[292_accessibility_kwcag_wcag|접근성]]이 창고에서 편의점 수준으로 민주화된다.
+- **📢 섹션 요약 비유**: [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)는 AI를 창고형 마트(클라우드 서버)에서 편의점(스마트폰)으로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시키는 기술이다. 마트의 모든 상품을 편의점 크기에 맞게 소포장하면, 소비자가 창고까지 가지 않아도 집 근처에서 원하는 것을 즉시 살 수 있다. AI의 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)이 창고에서 편의점 수준으로 민주화된다.
 
 ---
 
@@ -119,11 +123,11 @@ FP32 → INT8로 변환 시 용량이 4배 축소(700GB → 175GB)되고, INT4�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| PTQ | 학습 후 [[434_quantization|양자화]], 빠른 배포 / 가장 간단한 [[434_quantization|양자화]] 방식 |
-| QAT | [[434_quantization|양자화]] 인식 학습, 고성능 / 훈련 중 [[434_quantization|양자화]]를 반영하는 고급 방식 |
-| [[404_qlora|QLoRA]] | 4비트 + [[617_lora_lorawan_css_chirp_spread_spectrum|LoRA]], [[304_fine_tuning|파인 튜닝]] / [[434_quantization|양자화]]와 PEFT를 결합한 경량화 [[304_fine_tuning|파인 튜닝]] |
-| [[252_knowledge_distillation_quantization_edge_slm_diffusion|지식 증류]] | 교사-학생, 소형 모델 / [[434_quantization|양자화]]와 함께 사용하는 보완 [[347_compaction|압축]] 기법 |
-| 온디바이스 [[190_ai_llm_requirements_specification|AI]] | 엣지, [[424_npu|NPU]], 실시간 / [[434_quantization|양자화]]의 핵심 배포 목적지 |
+| PTQ | 학습 후 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/), 빠른 배포 / 가장 간단한 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) 방식 |
+| QAT | [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) 인식 학습, 고성능 / 훈련 중 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)를 반영하는 고급 방식 |
+| [QLoRA](/knowledge-base/studynote/10_ai/05_data_science_ml/404_qlora/) | 4비트 + [LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/), [파인 튜닝](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/) / [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)와 PEFT를 결합한 경량화 [파인 튜닝](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/) |
+| [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/) | 교사-학생, 소형 모델 / [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)와 함께 사용하는 보완 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 기법 |
+| 온디바이스 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) | 엣지, [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/), 실시간 / [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)의 핵심 배포 목적지 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -133,9 +137,9 @@ FP32 → INT8로 변환 시 용량이 4배 축소(700GB → 175GB)되고, INT4�
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **[[434_quantization|양자화]]**는 고화질(FP32) 동영상을 [[347_compaction|압축]](INT8)해서 **4배 더 작게** 만드는 것처럼, [[190_ai_llm_requirements_specification|AI]] 모델의 숫자들을 더 작은 숫자로 바꿔 **용량과 속도를 동시에 개선**하는 거예요!
+1. **[양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)**는 고화질(FP32) 동영상을 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)(INT8)해서 **4배 더 작게** 만드는 것처럼, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델의 숫자들을 더 작은 숫자로 바꿔 **용량과 속도를 동시에 개선**하는 거예요!
 2. 32비트 소수점 숫자를 8비트 정수로 바꾸면 **크기는 4분의 1**, 계산 속도는 **2~4배 빨라**져요 — 단, 약간의 정확도 손실이 생길 수 있어요.
-3. 덕분에 스마트폰에서도 **ChatGPT 같은 거대 [[190_ai_llm_requirements_specification|AI]]**를 인터넷 없이 바로 사용할 수 있게 됐어요!
+3. 덕분에 스마트폰에서도 **ChatGPT 같은 거대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)**를 인터넷 없이 바로 사용할 수 있게 됐어요!
 
 ---
 
@@ -143,7 +147,7 @@ FP32 → INT8로 변환 시 용량이 4배 축소(700GB → 175GB)되고, INT4�
 
 **진행 상황**: 312 / 420
 
-← **이전**: [[311_knowledge_distillation|311. 지식 증류 (Knowledge Distillation)]]
-**다음**: [[313_slm|313. SLM (Small Language Model)]] →
+← **이전**: [311. 지식 증류 (Knowledge Distillation)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/311_knowledge_distillation/)
+**다음**: [313. SLM (Small Language Model)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/313_slm/) →
 
 ---

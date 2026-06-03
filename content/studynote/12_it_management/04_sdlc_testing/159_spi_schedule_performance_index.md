@@ -1,31 +1,35 @@
----
-title: 159. SPI (Schedule Performance Index, 일정 성과 지수)
-date: '2026-04-21'
-tags:
-- studynote-it-management
----
++++
+title = "159. SPI (Schedule Performance Index, 일정 성과 지수)"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-it-management"]
+
+[extra]
+tags = ["studynote-it-management"]
++++
 
 ## 핵심 인사이트
 
-> 1. **본질**: SPI (Schedule [[282_performance_tactics|Performance]] [[154_database_index_b_tree_search_optimization|Index]], 일정 성과 지수)는 `EV / PV`로 계산하는 [[152_evm_earned_value_management|EVM]] ([[040_evm|Earned Value Management]], 획득 가치 관리)의 일정 효율 지표로, 계획된 진도 대비 실제 달성 진도를 비율로 표현한다.
+> 1. **본질**: SPI (Schedule [Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), 일정 성과 지수)는 `EV / PV`로 계산하는 [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) ([Earned Value Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/040_evm/), 획득 가치 관리)의 일정 효율 지표로, 계획된 진도 대비 실제 달성 진도를 비율로 표현한다.
 > 2. **가치**: 절대값인 일정 차이보다 규모에 무관한 상대 비교가 가능해, 여러 프로젝트나 작업 패키지의 일정 건전성을 같은 잣대로 비교할 수 있다.
-> 3. **판단 포인트**: SPI는 1보다 크면 선행, 1보다 작으면 [[015_지연_데이터_관점|지연]]이지만, 프로젝트 종료 시 1에 수렴하는 한계가 있으므로 후반부 일정 판단에는 ES (Earned Schedule, 획득 일정) 기반 보완이 필요하다.
+> 3. **판단 포인트**: SPI는 1보다 크면 선행, 1보다 작으면 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이지만, 프로젝트 종료 시 1에 수렴하는 한계가 있으므로 후반부 일정 판단에는 ES (Earned Schedule, 획득 일정) 기반 보완이 필요하다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-SPI는 프로젝트가 계획한 속도로 [[216_progress_in_synchronization|진행]]되고 있는지를 한눈에 보여 주는 지표다. 전통적인 일정 관리는 완료율이나 감각적 보고에 의존하기 쉬운데, 이 방식은 작업 규모가 다르면 비교가 어렵고 일정 [[015_지연_데이터_관점|지연]]도 늦게 드러난다. EVM은 계획 가치와 획득 가치를 금액 혹은 가치 단위로 통합해, 일정과 원가를 같은 관리 언어로 다루게 만든다.
+SPI는 프로젝트가 계획한 속도로 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)되고 있는지를 한눈에 보여 주는 지표다. 전통적인 일정 관리는 완료율이나 감각적 보고에 의존하기 쉬운데, 이 방식은 작업 규모가 다르면 비교가 어렵고 일정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)도 늦게 드러난다. EVM은 계획 가치와 획득 가치를 금액 혹은 가치 단위로 통합해, 일정과 원가를 같은 관리 언어로 다루게 만든다.
 
-특히 SPI가 필요한 이유는 "얼마나 늦었는가"보다 "얼마나 비효율적으로 [[216_progress_in_synchronization|진행]] 중인가"를 봐야 하기 때문이다. 예를 들어 100만 원 규모 업무가 10만 원 늦은 것과 1억 원 규모 업무가 10만 원 늦은 것은 의미가 다르다. SPI는 이 차이를 비율로 환산해, 일정 상태를 규모와 무관하게 비교 가능하게 만든다.
+특히 SPI가 필요한 이유는 "얼마나 늦었는가"보다 "얼마나 비효율적으로 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중인가"를 봐야 하기 때문이다. 예를 들어 100만 원 규모 업무가 10만 원 늦은 것과 1억 원 규모 업무가 10만 원 늦은 것은 의미가 다르다. SPI는 이 차이를 비율로 환산해, 일정 상태를 규모와 무관하게 비교 가능하게 만든다.
 
-- **📢 섹션 요약 비유**: SPI는 자동차의 현재 위치보다 평균 속도에 가깝다. 같은 10km [[015_지연_데이터_관점|지연]]이라도 도시 골목길과 고속도로에서는 의미가 다르기 때문에, 실제 속도 비율로 봐야 상황을 제대로 판단할 수 있다.
+- **📢 섹션 요약 비유**: SPI는 자동차의 현재 위치보다 평균 속도에 가깝다. 같은 10km [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이라도 도시 골목길과 고속도로에서는 의미가 다르기 때문에, 실제 속도 비율로 봐야 상황을 제대로 판단할 수 있다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-SPI 계산은 단순하지만, 해석은 상태 시점 (Status Date)을 기준으로 해야 한다. 이 시점까지 계획되었던 가치가 [[153_pv_planned_value|PV]] (Planned Value, 계획 가치)이고, 실제로 완료한 작업의 계획 가치가 [[154_ev_earned_value|EV]] (Earned Value, 획득 가치)다. 따라서 SPI는 "해야 했던 만큼 했는가"를 보는 지표다.
+SPI 계산은 단순하지만, 해석은 상태 시점 (Status Date)을 기준으로 해야 한다. 이 시점까지 계획되었던 가치가 [PV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/) (Planned Value, 계획 가치)이고, 실제로 완료한 작업의 계획 가치가 [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) (Earned Value, 획득 가치)다. 따라서 SPI는 "해야 했던 만큼 했는가"를 보는 지표다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────────────┐
@@ -44,16 +48,16 @@ SPI 계산은 단순하지만, 해석은 상태 시점 (Status Date)을 기준�
 
 | 지표 상태 | 의미 | 해석 포인트 |
 | :--- | :--- | :--- |
-| SPI > 1.0 | 일정 선행 | 계획보다 빠르지만 품질 저하 여부 [[396_validation|확인]] 필요 |
+| SPI > 1.0 | 일정 선행 | 계획보다 빠르지만 품질 저하 여부 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 필요 |
 | SPI = 1.0 | 계획 일치 | 일정 기준선과 동일한 효율 |
-| 0.9 ≤ SPI < 1.0 | 경미한 [[015_지연_데이터_관점|지연]] | 원인 분석과 [[233_recovery_database_restoration_overview|회복]] 가능성 검토 필요 |
-| SPI < 0.9 | 유의미한 [[015_지연_데이터_관점|지연]] | 자원 재배치, 공정 재설계 등 즉각 대응 필요 |
+| 0.9 ≤ SPI < 1.0 | 경미한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | 원인 분석과 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 가능성 검토 필요 |
+| SPI < 0.9 | 유의미한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | 자원 재배치, 공정 재설계 등 즉각 대응 필요 |
 
 ### 간단 계산 예시
 
 - BAC (Budget at Completion, 총예산) = 1,000만 원
-- 상태 시점의 계획 완료율 = 60% → [[153_pv_planned_value|PV]] = 600만 원
-- 실제 완료율 = 45% → [[154_ev_earned_value|EV]] = 450만 원
+- 상태 시점의 계획 완료율 = 60% → [PV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/) = 600만 원
+- 실제 완료율 = 45% → [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) = 450만 원
 - **SPI = 450 / 600 = 0.75**
 
 이는 계획 대비 75% 진도만 확보했다는 뜻이며, 현재 속도가 유지되면 일정 만회가 어렵다는 신호다. 다만 SPI는 추세 지표이므로 한 시점 값만 보지 말고 주간·월간 추이를 함께 봐야 한다.
@@ -64,16 +68,16 @@ SPI 계산은 단순하지만, 해석은 상태 시점 (Status Date)을 기준�
 
 ## Ⅲ. 비교 및 연결
 
-SPI를 제대로 이해하려면 [[157_sv_schedule_variance|SV]] (Schedule [[136_variance|Variance]], 일정 차이)와 [[158_cpi_cost_performance_index|CPI]] (Cost [[282_performance_tactics|Performance]] [[154_database_index_b_tree_search_optimization|Index]], 비용 성과 지수), 그리고 SPI(t)를 함께 봐야 한다. SV는 `EV - PV`라서 [[015_지연_데이터_관점|지연]] 규모를 절대값으로 보여 주지만, 프로젝트 크기가 다르면 비교력이 떨어진다. 반면 SPI는 상대 효율을 보여 주므로 포트폴리오 비교에 유리하다.
+SPI를 제대로 이해하려면 [SV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/157_sv_schedule_variance/) (Schedule [Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/), 일정 차이)와 [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) (Cost [Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), 비용 성과 지수), 그리고 SPI(t)를 함께 봐야 한다. SV는 `EV - PV`라서 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 규모를 절대값으로 보여 주지만, 프로젝트 크기가 다르면 비교력이 떨어진다. 반면 SPI는 상대 효율을 보여 주므로 포트폴리오 비교에 유리하다.
 
-| 비교 항목 | SPI | [[157_sv_schedule_variance|SV]] | [[158_cpi_cost_performance_index|CPI]] |
+| 비교 항목 | SPI | [SV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/157_sv_schedule_variance/) | [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) |
 | :--- | :--- | :--- | :--- |
-| 공식 | [[154_ev_earned_value|EV]] / [[153_pv_planned_value|PV]] | [[154_ev_earned_value|EV]] - [[153_pv_planned_value|PV]] | [[154_ev_earned_value|EV]] / [[155_ac_actual_cost|AC]] |
+| 공식 | [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) / [PV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/) | [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) - [PV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/) | [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) / [AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/) |
 | 의미 | 일정 효율 비율 | 일정 차이 규모 | 비용 효율 비율 |
-| 장점 | 규모 무관 비교 가능 | 금액 차이를 직관적으로 [[396_validation|확인]] | 비용 상태 동시 판단 가능 |
+| 장점 | 규모 무관 비교 가능 | 금액 차이를 직관적으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 비용 상태 동시 판단 가능 |
 | 한계 | 종료 시 1에 수렴 | 대규모 프로젝트 편향 | 일정 상태는 직접 설명 못 함 |
 
-또한 후반부 일정 판단에서는 SPI(t)가 중요하다. SPI는 프로젝트가 끝나면 EV와 PV가 모두 BAC (Budget at Completion, 완료 시 예산)와 같아져 1에 가까워진다. 하지만 실제로는 늦게 끝났을 수 있다. 그래서 ES 기반의 SPI(t)는 EV가 [[153_pv_planned_value|PV]] 곡선상 어느 시점에 해당하는지로 시간을 다시 환산해, 일정 [[015_지연_데이터_관점|지연]]을 더 정직하게 보여 준다.
+또한 후반부 일정 판단에서는 SPI(t)가 중요하다. SPI는 프로젝트가 끝나면 EV와 PV가 모두 BAC (Budget at Completion, 완료 시 예산)와 같아져 1에 가까워진다. 하지만 실제로는 늦게 끝났을 수 있다. 그래서 ES 기반의 SPI(t)는 EV가 [PV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/) 곡선상 어느 시점에 해당하는지로 시간을 다시 환산해, 일정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 더 정직하게 보여 준다.
 
 - **📢 섹션 요약 비유**: SPI는 현재 페이스, SV는 얼마나 뒤처졌는지의 거리, CPI는 기름을 얼마나 효율적으로 쓰는지다. 운전 상태를 제대로 보려면 세 계기판을 같이 봐야 한다.
 
@@ -81,7 +85,7 @@ SPI를 제대로 이해하려면 [[157_sv_schedule_variance|SV]] (Schedule [[136
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 SPI는 단독으로 쓰기보다 CPI와 함께 해석해야 한다. `SPI < 1, CPI > 1`이면 비용은 덜 쓰고 있지만 일정은 늦는 상태이므로, 추가 자원 투입으로 일정 [[233_recovery_database_restoration_overview|회복]]을 시도할 여지가 있다. 반대로 `SPI < 1, CPI < 1`이면 일정과 비용이 동시에 악화된 상태라 단순 인력 추가보다 크리티컬 패스 재설계, 범위 조정, 패스트 트래킹 (Fast Tracking) 우선 검토가 필요하다.
+실무에서 SPI는 단독으로 쓰기보다 CPI와 함께 해석해야 한다. `SPI < 1, CPI > 1`이면 비용은 덜 쓰고 있지만 일정은 늦는 상태이므로, 추가 자원 투입으로 일정 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)을 시도할 여지가 있다. 반대로 `SPI < 1, CPI < 1`이면 일정과 비용이 동시에 악화된 상태라 단순 인력 추가보다 크리티컬 패스 재설계, 범위 조정, 패스트 트래킹 (Fast Tracking) 우선 검토가 필요하다.
 
 ### 일정 예측 예시
 
@@ -89,16 +93,16 @@ SPI를 제대로 이해하려면 [[157_sv_schedule_variance|SV]] (Schedule [[136
 - 현재 SPI = 0.80
 - 단순 예측 완료 기간 = `12 / 0.80 = 15개월`
 
-이 예측은 현재 효율이 유지된다는 가정 위에 있다. 따라서 [[233_recovery_database_restoration_overview|회복]] 조치가 시작된 뒤에도 SPI 추세가 실제로 개선되는지 재확인해야 의미가 있다.
+이 예측은 현재 효율이 유지된다는 가정 위에 있다. 따라서 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 조치가 시작된 뒤에도 SPI 추세가 실제로 개선되는지 재확인해야 의미가 있다.
 
-### 기술사 판단 [[435_checklist_based_testing|체크리스트]]
+### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 상태 시점 기준 PV와 [[154_ev_earned_value|EV]] 산정 방식이 일관적인가?
-2. SPI 악화가 크리티컬 패스 작업 [[015_지연_데이터_관점|지연]] 때문인지, 비핵심 작업 [[015_지연_데이터_관점|지연]] 때문인지 구분했는가?
-3. SPI 해석 시 [[158_cpi_cost_performance_index|CPI]], [[157_sv_schedule_variance|SV]], [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 대응 전략을 함께 보았는가?
-4. 프로젝트 후반부라면 SPI(t) 또는 [[150_cpm_critical_path_method|CPM]] ([[037_cpm|Critical Path Method]], 주공정법) 재계산으로 보완했는가?
+1. 상태 시점 기준 PV와 [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) 산정 방식이 일관적인가?
+2. SPI 악화가 크리티컬 패스 작업 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 때문인지, 비핵심 작업 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 때문인지 구분했는가?
+3. SPI 해석 시 [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/), [SV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/157_sv_schedule_variance/), [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 대응 전략을 함께 보았는가?
+4. 프로젝트 후반부라면 SPI(t) 또는 [CPM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/) ([Critical Path Method](/knowledge-base/studynote/04_software_engineering/01_overview_principles/037_cpm/), 주공정법) 재계산으로 보완했는가?
 
-### 대표 [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### 대표 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 완료율을 주관적으로 높게 잡아 EV를 과대평가하는 경우
 - SPI만 보고 품질 저하나 재작업 증가를 놓치는 경우
@@ -110,11 +114,11 @@ SPI를 제대로 이해하려면 [[157_sv_schedule_variance|SV]] (Schedule [[136
 
 ## Ⅴ. 기대효과 및 결론
 
-SPI를 정기적으로 관리하면 일정 [[015_지연_데이터_관점|지연]]을 초기에 감지하고, 포트폴리오 간 비교 기준을 통일하며, [[233_recovery_database_restoration_overview|회복]] 전략의 효과를 수치로 추적할 수 있다. 특히 [[147_pmbok_10_knowledge_areas|PMBOK]] ([[042_relational_algebra_project|Project]] [[372_management|Management]] Body of Knowledge) 기반의 프로젝트 통제에서는 SPI가 경영진 보고와 현장 의사결정 사이를 이어 주는 공통 언어 역할을 한다. 단순한 "늦고 있다"가 아니라 "계획 대비 몇 퍼센트 효율로 가고 있는가"를 말해 주기 때문이다.
+SPI를 정기적으로 관리하면 일정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 초기에 감지하고, 포트폴리오 간 비교 기준을 통일하며, [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 전략의 효과를 수치로 추적할 수 있다. 특히 [PMBOK](/knowledge-base/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) ([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Body of Knowledge) 기반의 프로젝트 통제에서는 SPI가 경영진 보고와 현장 의사결정 사이를 이어 주는 공통 언어 역할을 한다. 단순한 "늦고 있다"가 아니라 "계획 대비 몇 퍼센트 효율로 가고 있는가"를 말해 주기 때문이다.
 
 그러나 SPI는 어디까지나 비율 지표다. 크리티컬 패스 여부, 품질 저하, 재작업, 프로젝트 종료 시 수렴 문제는 별도로 보완해야 한다. 따라서 SPI는 **일정 성과를 빠르게 계량화하는 1차 계기판**으로 기억하고, 후반부에는 ES와 네트워크 분석으로 정밀 판단을 이어 가는 것이 바람직하다.
 
-- **📢 섹션 요약 비유**: SPI는 비행기의 속도계와 같다. 속도계만으로는 연료 상태나 착륙 가능 시간을 다 알 수 없지만, 항로가 계획대로 가는지 [[396_validation|확인]]하는 첫 신호로는 매우 중요하다.
+- **📢 섹션 요약 비유**: SPI는 비행기의 속도계와 같다. 속도계만으로는 연료 상태나 착륙 가능 시간을 다 알 수 없지만, 항로가 계획대로 가는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 첫 신호로는 매우 중요하다.
 
 ---
 
@@ -122,11 +126,11 @@ SPI를 정기적으로 관리하면 일정 [[015_지연_데이터_관점|지연]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[152_evm_earned_value_management|EVM]] ([[040_evm|Earned Value Management]]) | SPI가 속한 일정·원가 통합 관리 프레임워크 |
-| [[153_pv_planned_value|PV]] (Planned Value) | 상태 시점까지 계획된 작업 가치 |
-| [[154_ev_earned_value|EV]] (Earned Value) | 실제 완료한 작업의 계획 가치 |
-| [[157_sv_schedule_variance|SV]] (Schedule [[136_variance|Variance]]) | 절대적 일정 차이를 보여 주는 쌍 지표 |
-| [[158_cpi_cost_performance_index|CPI]] (Cost [[282_performance_tactics|Performance]] [[154_database_index_b_tree_search_optimization|Index]]) | 일정과 함께 봐야 하는 비용 효율 지표 |
+| [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) ([Earned Value Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/040_evm/)) | SPI가 속한 일정·원가 통합 관리 프레임워크 |
+| [PV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/) (Planned Value) | 상태 시점까지 계획된 작업 가치 |
+| [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) (Earned Value) | 실제 완료한 작업의 계획 가치 |
+| [SV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/157_sv_schedule_variance/) (Schedule [Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)) | 절대적 일정 차이를 보여 주는 쌍 지표 |
+| [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) (Cost [Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) | 일정과 함께 봐야 하는 비용 효율 지표 |
 | SPI(t) | 종료 수렴 한계를 보완하는 시간 기반 일정 지표 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -160,7 +164,7 @@ SV · CPI · SPI
 
 **진행 상황**: 273 / 587
 
-← **이전**: [[158_cpi_cost_performance_index|158. CPI (Cost Performance Index, 비용 성과 지수)]]
-**다음**: [[160_qa_vs_qc_quality_management|160. QA vs QC (Quality Assurance vs Quality Control, 품질 보증 vs 품질 통제)]] →
+← **이전**: [158. CPI (Cost Performance Index, 비용 성과 지수)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/)
+**다음**: [160. QA vs QC (Quality Assurance vs Quality Control, 품질 보증 vs 품질 통제)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/160_qa_vs_qc_quality_management/) →
 
 ---

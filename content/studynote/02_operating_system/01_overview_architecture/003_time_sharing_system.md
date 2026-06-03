@@ -1,26 +1,30 @@
----
-title: 3. 시분할 시스템 (Time-sharing System) - 응답 시간 최소화, 인터랙티브
-date: '2026-03-21'
-tags:
-- studynote-operating-system
----
++++
+title = "3. 시분할 시스템 (Time-sharing System) - 응답 시간 최소화, 인터랙티브"
+date = 2026-03-21
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 시분할 시스템 (Time-sharing System)은 CPU 시간을 매우 짧은 시간 단위인 타임 [[331_neuromorphic_ai_db|슬라이스]] (Time [[331_neuromorphic_ai_db|Slice]])로 나누어 여러 사용자나 프로세스에게 번갈아 할당함으로써, 각 사용자가 컴퓨터를 독점하고 있는 듯한 환상 (Illusion)을 제공하는 기술이다.
-> 2. **가치**: 일괄 처리 시스템의 긴 대기 시간을 해결하고 대화형 (Interactive) 인터페이스를 가능하게 하여, 사용자 [[138_response_time|응답 시간]] ([[138_response_time|Response Time]])을 최소화하고 시스템 자원의 민주적 배분을 실현한다.
-> 3. **융합**: 현대 [[675_multitasking_terminology_preemptive|멀티태스킹]] [[001_operating_system_purpose|운영체제]] (OS)의 근간이며, [[381_virtual_memory|가상 메모리]] ([[381_virtual_memory|Virtual Memory]]) 및 고속 [[034_context_switch|컨텍스트 스위칭]] ([[033_context|Context]] Switching) 기술과 결합하여 복잡한 다중 사용자 환경의 안정성을 보장한다.
+> 1. **본질**: 시분할 시스템 (Time-sharing System)은 CPU 시간을 매우 짧은 시간 단위인 타임 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) (Time [Slice](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/))로 나누어 여러 사용자나 프로세스에게 번갈아 할당함으로써, 각 사용자가 컴퓨터를 독점하고 있는 듯한 환상 (Illusion)을 제공하는 기술이다.
+> 2. **가치**: 일괄 처리 시스템의 긴 대기 시간을 해결하고 대화형 (Interactive) 인터페이스를 가능하게 하여, 사용자 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) ([Response Time](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/))을 최소화하고 시스템 자원의 민주적 배분을 실현한다.
+> 3. **융합**: 현대 [멀티태스킹](/knowledge-base/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/) [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (OS)의 근간이며, [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) ([Virtual Memory](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)) 및 고속 [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Switching) 기술과 결합하여 복잡한 다중 사용자 환경의 안정성을 보장한다.
 
 ---
 
-## Ⅰ. 개요 및 필요성 ([[033_context|Context]] & Necessity)
+## Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-- **개념**: 시분할 시스템 (Time-sharing System)은 [[673_multiprogramming_bottleneck_resource|다중 프로그래밍]] ([[673_multiprogramming_bottleneck_resource|Multiprogramming]])의 논리적 확장으로, CPU 스케줄링과 [[673_multiprogramming_bottleneck_resource|다중 프로그래밍]]을 사용하여 각 사용자에게 컴퓨터의 작은 부분을 시각적으로 동시에 제공하는 방식이다. 핵심은 '[[138_response_time|응답 시간]] ([[138_response_time|Response Time]])'의 최소화에 있으며, 이를 위해 [[178_round_robin_scheduling|라운드 로빈]] ([[834_load_balancing_algorithm_round_robin_least_connection|RR]], Round Robin)과 같은 [[166_preemptive_scheduling|선점형 스케줄링]] [[001_algorithm_definition|알고리즘]]을 사용한다.
+- **개념**: 시분할 시스템 (Time-sharing System)은 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) ([Multiprogramming](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/))의 논리적 확장으로, CPU 스케줄링과 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)을 사용하여 각 사용자에게 컴퓨터의 작은 부분을 시각적으로 동시에 제공하는 방식이다. 핵심은 '[응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) ([Response Time](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/))'의 최소화에 있으며, 이를 위해 [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/) ([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/), Round Robin)과 같은 [선점형 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/166_preemptive_scheduling/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 사용한다.
 
-- **필요성**: [[459_quic_fec_forward_error_correction|초기]] 일괄 처리 ([[228_batch_processing_hadoop_spark|Batch Processing]]) 환경에서는 한 사용자의 작업이 끝날 때까지 다른 사용자는 몇 시간씩 기다려야 했다. 또한 프로그램 실행 중에 사용자가 개입하여 [[001_dikw_pyramid|데이터]]를 입력하거나 수정하는 '상호작용 (Interaction)'이 불가능했다. 시분할 시스템은 이러한 긴 [[172_turnaround_waiting_response_time|반환 시간]] ([[172_turnaround_waiting_response_time|Turnaround Time]]) 문제를 해결하고, 여러 사용자가 동시에 단말기를 통해 컴퓨터와 대화하며 작업할 수 있는 환경을 구축하기 위해 등장했다.
+- **필요성**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 일괄 처리 ([Batch Processing](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)) 환경에서는 한 사용자의 작업이 끝날 때까지 다른 사용자는 몇 시간씩 기다려야 했다. 또한 프로그램 실행 중에 사용자가 개입하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 입력하거나 수정하는 '상호작용 (Interaction)'이 불가능했다. 시분할 시스템은 이러한 긴 [반환 시간](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/172_turnaround_waiting_response_time/) ([Turnaround Time](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/172_turnaround_waiting_response_time/)) 문제를 해결하고, 여러 사용자가 동시에 단말기를 통해 컴퓨터와 대화하며 작업할 수 있는 환경을 구축하기 위해 등장했다.
 
 - **💡 비유**: 시분할 시스템은 "다재다능한 체스 고수"와 같다. 고수가 수십 명의 도전자와 동시에 대국을 할 때, 한 명과 끝까지 두는 것이 아니라 각 판을 돌아다니며 한 수씩만 두고 빠르게 다음 판으로 이동하는 것과 같다. 도전자 입장에서는 고수가 내 앞에만 계속 있는 것처럼 느껴지게 된다.
 
-- **발전 배경**: 1960년대 MIT의 CTSS (Compatible Time-Sharing System)와 Multics 프로젝트를 통해 정립되었으며, 이는 이후 UNIX의 탄생과 현대 윈도우, 리눅스 시스템의 [[675_multitasking_terminology_preemptive|멀티태스킹]] 구조로 이어졌다.
+- **발전 배경**: 1960년대 MIT의 CTSS (Compatible Time-Sharing System)와 Multics 프로젝트를 통해 정립되었으며, 이는 이후 UNIX의 탄생과 현대 윈도우, 리눅스 시스템의 [멀티태스킹](/knowledge-base/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/) 구조로 이어졌다.
 
 이 도식은 일괄 처리와 시분할 방식에서 사용자 체감 대기 시간의 근본적 차이를 보여준다.
 
@@ -40,7 +44,7 @@ tags:
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 일괄 처리 ([[228_batch_processing_hadoop_spark|Batch Processing]]) 시스템에서는 선행 작업이 자원을 독점하므로 후행 사용자의 대기 시간이 작업 길이에 비례하여 늘어난다. 반면 시분할 시스템 (Time-sharing System)은 CPU 사용 시간을 작은 조각 (A1, B1 등)으로 쪼개어 번갈아 할당한다. 이때 조각의 크기인 타임 퀀텀 (Time [[690_round_robin_time_quantum|Quantum]])이 충분히 작으면 (보통 10ms~100ms), 사용자는 자신의 작업이 중단되었다고 느끼지 못하고 실시간으로 컴퓨터와 상호작용할 수 있다. 이러한 '[[014_concurrency|동시성]] ([[266_other_transparency|Concurrency]])'은 실제로는 매우 빠른 '순차적 실행'의 연속이며, 이를 지원하기 위해 하드웨어 타이머 ([[071_os_timer|Timer]])와 [[016_interrupt_mechanism|인터럽트]] ([[016_interrupt_mechanism|Interrupt]]) 메커니즘이 필수적으로 뒷받침되어야 한다.
+**[다이어그램 해설]** 일괄 처리 ([Batch Processing](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)) 시스템에서는 선행 작업이 자원을 독점하므로 후행 사용자의 대기 시간이 작업 길이에 비례하여 늘어난다. 반면 시분할 시스템 (Time-sharing System)은 CPU 사용 시간을 작은 조각 (A1, B1 등)으로 쪼개어 번갈아 할당한다. 이때 조각의 크기인 타임 퀀텀 (Time [Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/))이 충분히 작으면 (보통 10ms~100ms), 사용자는 자신의 작업이 중단되었다고 느끼지 못하고 실시간으로 컴퓨터와 상호작용할 수 있다. 이러한 '[동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) ([Concurrency](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/266_other_transparency/))'은 실제로는 매우 빠른 '순차적 실행'의 연속이며, 이를 지원하기 위해 하드웨어 타이머 ([Timer](/knowledge-base/studynote/02_operating_system/01_overview_architecture/071_os_timer/))와 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)) 메커니즘이 필수적으로 뒷받침되어야 한다.
 
 - **📢 섹션 요약 비유**: 한 대의 정수기를 여러 사람이 한 컵씩 번갈아 떠 마시는 방식으로, 앞사람이 물통 전체를 채울 때까지 뒷사람이 목말라 기다리지 않게 하는 공정한 배분 시스템과 같습니다.
 
@@ -52,17 +56,17 @@ tags:
 
 | 요소명 | 역할 | 내부 동작 | 비유 |
 |:---|:---|:---|:---|
-| **타이머 ([[071_os_timer|Timer]])** | 타임 [[331_neuromorphic_ai_db|슬라이스]] 만료 감지 | 하드웨어 [[016_interrupt_mechanism|인터럽트]]를 발생시켜 CPU 제어권 회수 | 알람 시계 |
-| **[[178_round_robin_scheduling|라운드 로빈]] ([[834_load_balancing_algorithm_round_robin_least_connection|RR]]) [[079_kube_scheduler_pod_placement|스케줄러]]** | 공정한 시간 배분 [[001_algorithm_definition|알고리즘]] | [[088_ready_queue|준비 큐]]의 맨 앞 프로세스 선택 후 뒤로 배치 | 회전목마 운영자 |
-| **[[033_context|컨텍스트]] 스위처** | [[086_process_state|프로세스 상태]] 저장 및 [[658_ir_recovery|복구]] | PCB ([[300_process|Process]] Control Block) 정보 교체 | 북마크 (책갈피) |
-| **타임 퀀텀 (Time [[690_round_robin_time_quantum|Quantum]])** | 프로세스당 할당된 고정 시간 | CPU 점유 허용 최대 시간 정의 | 발언 제한 시간 |
-| **[[088_ready_queue|준비 큐]] ([[088_ready_queue|Ready Queue]])** | 실행 대기 프로세스 선입선출 관리 | [[261_fifo_page_replacement|FIFO]] ([[261_fifo_page_replacement|First-In First-Out]]) [[056_linked_list|연결 리스트]] | 줄 서기 라인 |
+| **타이머 ([Timer](/knowledge-base/studynote/02_operating_system/01_overview_architecture/071_os_timer/))** | 타임 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) 만료 감지 | 하드웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 발생시켜 CPU 제어권 회수 | 알람 시계 |
+| **[라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/) ([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/)) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)** | 공정한 시간 배분 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | [준비 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/088_ready_queue/)의 맨 앞 프로세스 선택 후 뒤로 배치 | 회전목마 운영자 |
+| **[컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 스위처** | [프로세스 상태](/knowledge-base/studynote/02_operating_system/02_process_thread/086_process_state/) 저장 및 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | PCB ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Control Block) 정보 교체 | 북마크 (책갈피) |
+| **타임 퀀텀 (Time [Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/))** | 프로세스당 할당된 고정 시간 | CPU 점유 허용 최대 시간 정의 | 발언 제한 시간 |
+| **[준비 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/088_ready_queue/) ([Ready Queue](/knowledge-base/studynote/02_operating_system/02_process_thread/088_ready_queue/))** | 실행 대기 프로세스 선입선출 관리 | [FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) ([First-In First-Out](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/)) [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) | 줄 서기 라인 |
 
 ---
 
-### [[178_round_robin_scheduling|라운드 로빈]] (Round Robin) [[079_kube_scheduler_pod_placement|스케줄러]] 동작 메커니즘
+### [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/) (Round Robin) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 동작 메커니즘
 
-시분할 시스템의 심장부인 [[178_round_robin_scheduling|라운드 로빈]] 스케줄링은 모든 프로세스에게 동일한 우선순위와 시간을 부여하여 기아 현상 ([[314_starvation_prevention|Starvation]])을 방지한다.
+시분할 시스템의 심장부인 [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/) 스케줄링은 모든 프로세스에게 동일한 우선순위와 시간을 부여하여 기아 현상 ([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))을 방지한다.
 
 ```text
 
@@ -83,13 +87,13 @@ tags:
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** [[178_round_robin_scheduling|라운드 로빈]] ([[834_load_balancing_algorithm_round_robin_least_connection|RR]], Round Robin) [[001_algorithm_definition|알고리즘]]은 [[088_ready_queue|준비 큐]] ([[088_ready_queue|Ready Queue]])를 순환 구조로 운영한다. [[079_kube_scheduler_pod_placement|스케줄러]]는 큐의 맨 앞에 있는 프로세스 (P1)를 선택하여 CPU를 할당 (Dispatch)한다. 이때 하드웨어 타이머에 타임 퀀텀 (Time [[690_round_robin_time_quantum|Quantum]]) 값을 세팅한다. 지정된 시간이 지나면 타이머 [[016_interrupt_mechanism|인터럽트]]가 발생하고, [[001_operating_system_purpose|운영체제]]는 현재 실행 중인 P1의 CPU [[057_register|레지스터]] 값과 [[164_pc|프로그램 카운터]] ([[164_pc|PC]], Program [[059_counter|Counter]]) 등을 [[090_pcb_tcb|프로세스 제어 블록]] (PCB, [[300_process|Process]] Control Block)에 저장한 뒤 큐의 맨 뒤로 보낸다. 이어 다음 순서인 P2를 로드하여 실행을 재개한다. 이 과정이 무한히 반복됨으로써 모든 프로세스는 공평하게 CPU 시간을 나누어 갖게 되며, 특정 프로세스가 자원을 독점하여 타 사용자의 응답성을 저해하는 상황을 구조적으로 방지한다.
+**[다이어그램 해설]** [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/) ([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/), Round Robin) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 [준비 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/088_ready_queue/) ([Ready Queue](/knowledge-base/studynote/02_operating_system/02_process_thread/088_ready_queue/))를 순환 구조로 운영한다. [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 큐의 맨 앞에 있는 프로세스 (P1)를 선택하여 CPU를 할당 (Dispatch)한다. 이때 하드웨어 타이머에 타임 퀀텀 (Time [Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/)) 값을 세팅한다. 지정된 시간이 지나면 타이머 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 발생하고, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 현재 실행 중인 P1의 CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 값과 [프로그램 카운터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) ([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), Program [Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)) 등을 [프로세스 제어 블록](/knowledge-base/studynote/02_operating_system/02_process_thread/090_pcb_tcb/) (PCB, [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Control Block)에 저장한 뒤 큐의 맨 뒤로 보낸다. 이어 다음 순서인 P2를 로드하여 실행을 재개한다. 이 과정이 무한히 반복됨으로써 모든 프로세스는 공평하게 CPU 시간을 나누어 갖게 되며, 특정 프로세스가 자원을 독점하여 타 사용자의 응답성을 저해하는 상황을 구조적으로 방지한다.
 
 ---
 
-### [[034_context_switch|컨텍스트 스위칭]] ([[033_context|Context]] Switching)의 내부 구조
+### [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Switching)의 내부 구조
 
-시분할 시스템에서 빈번하게 발생하는 [[034_context_switch|컨텍스트 스위칭]]은 오버헤드 (Overhead)를 수반하므로 효율적인 관리가 중요하다.
+시분할 시스템에서 빈번하게 발생하는 [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/)은 오버헤드 (Overhead)를 수반하므로 효율적인 관리가 중요하다.
 
 ```text
   [프로세스 A 실행 중]
@@ -104,51 +108,51 @@ tags:
   (프로세스 B 실행 시작) ──┘
 ```
 
-**[다이어그램 해설]** [[034_context_switch|컨텍스트 스위칭]] ([[033_context|Context]] Switching)은 CPU가 한 프로세스에서 다른 프로세스로 전환될 때 발생한다. 이는 [[001_operating_system_purpose|운영체제]]가 현재 실행 중인 프로세스의 상태 (CPU [[057_register|레지스터]], [[166_sp|스택 포인터]] 등)를 나중에 다시 시작할 수 있도록 PCB에 안전하게 저장하고, 새로 실행할 프로세스의 상태를 PCB로부터 [[658_ir_recovery|복구]]하는 과정이다. 시분할 시스템에서는 타임 [[331_neuromorphic_ai_db|슬라이스]]마다 이 전환이 일어나기 때문에, 전환에 걸리는 시간이 너무 길어지면 실제 작업을 처리하는 시간보다 관리하는 시간이 더 많아지는 주객전도 상황이 발생한다. 따라서 현대 하드웨어는 [[057_register|레지스터]] 세트를 여러 개 두거나 전용 명령어를 제공하여 이 오버헤드를 최소화한다. 실무적으로 타임 퀀텀은 이 [[034_context_switch|컨텍스트 스위칭]] 오버헤드보다 훨씬 커야 시스템 효율이 보장된다.
+**[다이어그램 해설]** [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Switching)은 CPU가 한 프로세스에서 다른 프로세스로 전환될 때 발생한다. 이는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 현재 실행 중인 프로세스의 상태 (CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), [스택 포인터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) 등)를 나중에 다시 시작할 수 있도록 PCB에 안전하게 저장하고, 새로 실행할 프로세스의 상태를 PCB로부터 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하는 과정이다. 시분할 시스템에서는 타임 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)마다 이 전환이 일어나기 때문에, 전환에 걸리는 시간이 너무 길어지면 실제 작업을 처리하는 시간보다 관리하는 시간이 더 많아지는 주객전도 상황이 발생한다. 따라서 현대 하드웨어는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 세트를 여러 개 두거나 전용 명령어를 제공하여 이 오버헤드를 최소화한다. 실무적으로 타임 퀀텀은 이 [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) 오버헤드보다 훨씬 커야 시스템 효율이 보장된다.
 
-- **📢 섹션 요약 비유**: 여러 권의 책을 번갈아 읽을 때, 읽던 페이지를 표시하고(저장) 다음 책의 표시된 부분을 찾는([[658_ir_recovery|복구]]) 책갈피 작업과 같습니다.
+- **📢 섹션 요약 비유**: 여러 권의 책을 번갈아 읽을 때, 읽던 페이지를 표시하고(저장) 다음 책의 표시된 부분을 찾는([복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)) 책갈피 작업과 같습니다.
 
 ---
 
 ## Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
-### [[673_multiprogramming_bottleneck_resource|다중 프로그래밍]]과 시분할 시스템의 심층 비교
+### [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)과 시분할 시스템의 심층 비교
 
-| 비교 항목 | [[673_multiprogramming_bottleneck_resource|다중 프로그래밍]] ([[673_multiprogramming_bottleneck_resource|Multiprogramming]]) | 시분할 시스템 (Time-sharing) |
+| 비교 항목 | [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) ([Multiprogramming](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)) | 시분할 시스템 (Time-sharing) |
 |:---|:---|:---|
-| **주요 목적** | CPU 활용률 (Utilization) 극대화 | [[138_response_time|응답 시간]] ([[138_response_time|Response Time]]) 최소화 |
-| **작업 전환 동기** | I/O 발생 시 (Non-preemptive 성향) | 타임 [[331_neuromorphic_ai_db|슬라이스]] 만료 시 (Preemptive) |
+| **주요 목적** | CPU 활용률 (Utilization) 극대화 | [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) ([Response Time](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)) 최소화 |
+| **작업 전환 동기** | I/O 발생 시 (Non-preemptive 성향) | 타임 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) 만료 시 (Preemptive) |
 | **사용자 인터페이스** | 일괄 처리 (Batch), 비대화형 | 대화형 (Interactive), 실시간 대응 |
-| **스케줄링 핵심** | 작업 길이, [[139_throughput|처리량]] 중심 | 공정성, 시간 배분 중심 |
-| **메모리 요구사항** | 여러 작업을 동시에 올려둠 | 동적 [[335_swapping|스와핑]] ([[335_swapping|Swapping]]) 및 [[381_virtual_memory|가상 메모리]] 활용 |
+| **스케줄링 핵심** | 작업 길이, [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 중심 | 공정성, 시간 배분 중심 |
+| **메모리 요구사항** | 여러 작업을 동시에 올려둠 | 동적 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/) ([Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)) 및 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 활용 |
 
-### 타임 퀀텀 (Time [[690_round_robin_time_quantum|Quantum]]) 크기에 따른 트레이드오프
+### 타임 퀀텀 (Time [Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/)) 크기에 따른 트레이드오프
 
-타임 퀀텀의 결정은 시분할 시스템 [[282_performance_tactics|성능]]의 핵심 변수다.
-- **너무 큰 경우**: [[173_fcfs_scheduling|FCFS]] ([[173_fcfs_scheduling|First-Come First-Served]])와 다를 바 없어져 [[138_response_time|응답 시간]]이 길어지고 대화형 시스템의 장점이 사라진다.
-- **너무 작은 경우**: [[034_context_switch|컨텍스트 스위칭]] 오버헤드가 누적되어 실제 유효 작업 [[139_throughput|처리량]]이 급감한다 (스래싱과 유사한 효율 저하).
-- **최적의 지점**: 일반적으로 [[034_context_switch|컨텍스트 스위칭]] 시간의 100배 정도를 타임 퀀텀으로 설정하여, 오버헤드 비중을 1% 미만으로 관리하는 것이 실무적인 가이드라인이다.
+타임 퀀텀의 결정은 시분할 시스템 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 핵심 변수다.
+- **너무 큰 경우**: [FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/) ([First-Come First-Served](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/))와 다를 바 없어져 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)이 길어지고 대화형 시스템의 장점이 사라진다.
+- **너무 작은 경우**: [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) 오버헤드가 누적되어 실제 유효 작업 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 급감한다 (스래싱과 유사한 효율 저하).
+- **최적의 지점**: 일반적으로 [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) 시간의 100배 정도를 타임 퀀텀으로 설정하여, 오버헤드 비중을 1% 미만으로 관리하는 것이 실무적인 가이드라인이다.
 
 - **📢 섹션 요약 비유**: 선풍기 날개가 너무 천천히 돌면 바람이 끊기고(응답성 저하), 너무 빨리 돌려고 하면 엔진 과부하가 걸리는 것(오버헤드 과다) 사이에서 적절한 속도를 찾는 과정입니다.
 
 ---
 
-## Ⅳ. 실무 적용 및 기술사적 판단 ([[268_strategy_pattern|Strategy]] & Decision)
+## Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 
-### 실무 적용 시나리오 및 튜닝 [[268_strategy_pattern|전략]]
+### 실무 적용 시나리오 및 튜닝 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
-1. **시나리오 — 인터랙티브 서버의 반응 속도 최적화**: 웹 서버나 터미널 서버에서 사용자 입력에 대한 반응이 느리다는 민원이 발생할 때, 타임 퀀텀 값을 점검해야 한다. 만약 타임 퀀텀이 너무 길게 잡혀 있다면 짧은 작업을 수행하는 사용자도 긴 작업 뒤에 줄을 서야 하므로 반응성이 떨어진다. 이때는 타임 퀀텀을 줄이거나, [[691_mlfq_multi_level_feedback_queue|다단계 피드백 큐]] ([[691_mlfq_multi_level_feedback_queue|MLFQ]], Multilevel Feedback [[058_queue|Queue]])를 도입하여 짧은 작업에 높은 우선순위를 부여해야 한다.
+1. **시나리오 — 인터랙티브 서버의 반응 속도 최적화**: 웹 서버나 터미널 서버에서 사용자 입력에 대한 반응이 느리다는 민원이 발생할 때, 타임 퀀텀 값을 점검해야 한다. 만약 타임 퀀텀이 너무 길게 잡혀 있다면 짧은 작업을 수행하는 사용자도 긴 작업 뒤에 줄을 서야 하므로 반응성이 떨어진다. 이때는 타임 퀀텀을 줄이거나, [다단계 피드백 큐](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) ([MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/), Multilevel Feedback [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))를 도입하여 짧은 작업에 높은 우선순위를 부여해야 한다.
 
-2. **시나리오 — 배치 작업 위주의 백엔드 처리 시스템**: [[001_dikw_pyramid|데이터]] 분석이나 이미지 렌더링처럼 상호작용이 필요 없는 대규모 계산 작업 환경에서는 타임 퀀텀을 길게 설정하는 것이 유리하다. 잦은 전환은 오히려 전체 처리 완료 시간 ([[172_turnaround_waiting_response_time|Turnaround Time]])을 늦추기 때문이다. 실무에서는 작업 성격에 따라 스케줄링 [[164_policy|정책]]을 분리하여 운영한다.
+2. **시나리오 — 배치 작업 위주의 백엔드 처리 시스템**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석이나 이미지 렌더링처럼 상호작용이 필요 없는 대규모 계산 작업 환경에서는 타임 퀀텀을 길게 설정하는 것이 유리하다. 잦은 전환은 오히려 전체 처리 완료 시간 ([Turnaround Time](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/172_turnaround_waiting_response_time/))을 늦추기 때문이다. 실무에서는 작업 성격에 따라 스케줄링 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 분리하여 운영한다.
 
-### 도입 시 [[435_checklist_based_testing|체크리스트]]
-- **[[138_response_time|응답 시간]] ([[138_response_time|Response Time]])**: 80% 이상의 사용자 요청이 100ms 이내에 CPU 할당을 받는가?
-- **오버헤드 비율**: 전체 CPU 시간 중 [[034_context_switch|컨텍스트 스위칭]]에 소모되는 시간이 5% 미만인가?
-- **공정성 보장**: 특정 고부하 프로세스가 CPU를 점유하여 저부하 프로세스의 기아 ([[314_starvation_prevention|Starvation]])를 유발하지 않는가?
+### 도입 시 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+- **[응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) ([Response Time](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/))**: 80% 이상의 사용자 요청이 100ms 이내에 CPU 할당을 받는가?
+- **오버헤드 비율**: 전체 CPU 시간 중 [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/)에 소모되는 시간이 5% 미만인가?
+- **공정성 보장**: 특정 고부하 프로세스가 CPU를 점유하여 저부하 프로세스의 기아 ([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))를 유발하지 않는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - **단일 타임 퀀텀 고수**: 모든 종류의 작업에 동일한 타임 퀀텀을 적용하면 효율이 떨어진다. I/O 중심 작업은 짧게 자주, CPU 중심 작업은 길게 주는 차별화가 필요하다.
-- **하드웨어 타이머 무시**: 정확한 타이머 [[016_interrupt_mechanism|인터럽트]]가 보장되지 않는 환경에서 시분할을 시도하면 시간 배분이 왜곡되어 특정 프로세스에 특혜가 가는 '스케줄링 편향'이 발생한다.
+- **하드웨어 타이머 무시**: 정확한 타이머 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 보장되지 않는 환경에서 시분할을 시도하면 시간 배분이 왜곡되어 특정 프로세스에 특혜가 가는 '스케줄링 편향'이 발생한다.
 
 - **📢 섹션 요약 비유**: 모든 손님에게 무조건 5분만 식사 시간을 주는 것이 아니라, 간단한 음료 손님(I/O 바운드)은 빨리 보내고 식사 손님(CPU 바운드)은 충분히 시간을 주는 유연한 운영이 필요합니다.
 
@@ -161,28 +165,28 @@ tags:
 | 구분 | 도입 전 (Batch) | 도입 후 (Time-sharing) | 기대 효과 |
 |:---|:---|:---|:---|
 | **응답성** | 수 분 ~ 수 시간 대기 | 수 밀리초 (ms) 내 반응 | 사용자 생산성 비약적 향상 |
-| **자원 공유** | 1인 독점 ([[611_cpu_idle_wait_optimization|Idle]] 자원 발생) | 다중 공유 (자원 활용 평활화) | 고가 자원의 투자 수익률 ([[012_roi_return_on_investment|ROI]]) 향상 |
-| **시스템 구조** | 단순 순차 실행 | 복잡한 [[016_interrupt_mechanism|인터럽트]] 및 [[571_protection_vs_security|보호]] 구조 | 현대적 [[001_operating_system_purpose|운영체제]] 아키텍처 확립 |
+| **자원 공유** | 1인 독점 ([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) 자원 발생) | 다중 공유 (자원 활용 평활화) | 고가 자원의 투자 수익률 ([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/)) 향상 |
+| **시스템 구조** | 단순 순차 실행 | 복잡한 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 및 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 구조 | 현대적 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 아키텍처 확립 |
 
 ### 미래 전망
-미래의 시분할 시스템은 **[[015_virtualization|가상화]] [[561_container_based_deployment|컨테이너]] 기반의 마이크로 시분할**로 진화하고 있다. 클라우드 환경에서는 물리 CPU 코어를 수천 개의 마이크로 VM이 시분할로 나누어 쓰며, 이때의 타임 [[331_neuromorphic_ai_db|슬라이스]]는 하드웨어가 아닌 [[054_hypervisor|하이퍼바이저]] 수준에서 나노초 단위로 제어된다. 또한 [[190_ai_llm_requirements_specification|AI]] [[079_kube_scheduler_pod_placement|스케줄러]]가 사용자의 다음 입력 타이밍을 예측하여 선제적으로 타임 퀀텀을 조절하는 지능형 시분할 기술이 연구되고 있다.
+미래의 시분할 시스템은 **[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 기반의 마이크로 시분할**로 진화하고 있다. 클라우드 환경에서는 물리 CPU 코어를 수천 개의 마이크로 VM이 시분할로 나누어 쓰며, 이때의 타임 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)는 하드웨어가 아닌 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 수준에서 나노초 단위로 제어된다. 또한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 사용자의 다음 입력 타이밍을 예측하여 선제적으로 타임 퀀텀을 조절하는 지능형 시분할 기술이 연구되고 있다.
 
 ### 참고 표준
-- **POSIX.1b (Real-time extensions)**: 시분할 스케줄링 [[164_policy|정책]] (SCHED_RR) 및 타이머 인터페이스 정의.
-- **ISO/IEC 9945**: [[001_operating_system_purpose|운영체제]] [[090_service_kubernetes_network_load_balancing|서비스]] 및 인터페이스 표준.
+- **POSIX.1b (Real-time extensions)**: 시분할 스케줄링 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) (SCHED_RR) 및 타이머 인터페이스 정의.
+- **ISO/IEC 9945**: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 및 인터페이스 표준.
 
 - **📢 섹션 요약 비유**: 한 명의 천재가 한 번에 한 가지 문제만 푸는 것이 아니라, 수만 명의 아이디어를 동시에 받아 적고 답해주는 거대한 지능형 터미널의 완성입니다.
 
 ---
 
-### 📌 관련 개념 맵 ([[160_knowledge_graph_graphrag_integration|Knowledge Graph]])
-| 개념 명칭 | [[083_relationship_in_er_model|관계]] 및 시너지 설명 |
+### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
+| 개념 명칭 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 및 시너지 설명 |
 |:---|:---|
-| **[[178_round_robin_scheduling|라운드 로빈]] (Round Robin)** | 시분할 시스템에서 공정한 시간 배분을 위해 사용되는 핵심 스케줄링 [[001_algorithm_definition|알고리즘]] |
-| **타임 [[331_neuromorphic_ai_db|슬라이스]] (Time [[331_neuromorphic_ai_db|Slice]])** | 한 프로세스가 CPU를 연속적으로 점유할 수 있도록 허용된 최소 시간 단위 |
-| **[[034_context_switch|컨텍스트 스위칭]] ([[033_context|Context]] Switching)** | 타임 [[331_neuromorphic_ai_db|슬라이스]] 만료 시 프로세스를 안전하게 교체하기 위한 상태 저장/[[658_ir_recovery|복구]] 기술 |
-| **[[138_response_time|응답 시간]] ([[138_response_time|Response Time]])** | 요청 후 첫 번째 반응이 나올 때까지의 시간으로, 시분할 시스템의 최대 [[282_performance_tactics|성능]] 지표 |
-| **[[016_interrupt_mechanism|인터럽트]] ([[016_interrupt_mechanism|Interrupt]])** | 하드웨어 타이머를 통해 시분할 전환 시점을 OS 커널에 알리는 핵심 [[130_signal|신호]] 체계 |
+| **[라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/) (Round Robin)** | 시분할 시스템에서 공정한 시간 배분을 위해 사용되는 핵심 스케줄링 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
+| **타임 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) (Time [Slice](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/))** | 한 프로세스가 CPU를 연속적으로 점유할 수 있도록 허용된 최소 시간 단위 |
+| **[컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Switching)** | 타임 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) 만료 시 프로세스를 안전하게 교체하기 위한 상태 저장/[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 기술 |
+| **[응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) ([Response Time](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/))** | 요청 후 첫 번째 반응이 나올 때까지의 시간으로, 시분할 시스템의 최대 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표 |
+| **[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))** | 하드웨어 타이머를 통해 시분할 전환 시점을 OS 커널에 알리는 핵심 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 체계 |
 
 ---
 
@@ -207,7 +211,7 @@ tags:
 [인터럽트 (Interrupt)]
 ```
 
-이 흐름도는 :---에서 출발해 [[138_response_time|응답 시간]] ([[138_response_time|Response Time]])까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
+이 흐름도는 :---에서 출발해 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) ([Response Time](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/))까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 시분할 시스템은 컴퓨터가 **"초능력자 선생님"**이 된 것과 같아요. 반 아이들 30명이 동시에 질문해도, 아주 빠르게 한 명씩 답해주기 때문에 모두가 선생님이랑 1대 1로 대화하는 기분이 들어요.
@@ -220,7 +224,7 @@ tags:
 
 **진행 상황**: 3 / 800
 
-← **이전**: [[002_multiprogramming|2. 다중 프로그래밍 (Multiprogramming) - CPU 활용도 극대화]]
-**다음**: [[004_multiprocessing_system|4. 다중 처리 시스템 (Multiprocessing System)]] →
+← **이전**: [2. 다중 프로그래밍 (Multiprogramming) - CPU 활용도 극대화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/002_multiprogramming/)
+**다음**: [4. 다중 처리 시스템 (Multiprocessing System)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/004_multiprocessing_system/) →
 
 ---

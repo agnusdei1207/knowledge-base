@@ -1,14 +1,18 @@
----
-title: 039. 탐지 위험 vs 미탐지 위험 (Detected vs Undetected Risk)
-date: '2026-03-04'
-tags:
-- studynote-security
----
++++
+title = "039. 탐지 위험 vs 미탐지 위험 (Detected vs Undetected Risk)"
+date = 2026-03-04
+
+[taxonomies]
+tags = ["studynote-security"]
+
+[extra]
+tags = ["studynote-security"]
++++
 
 > **핵심 인사이트**
-> 1. 탐지 위험(Detected [[096_risk_non_risk_architecture_evaluation_flaws|Risk]])은 이미 식별된 위험으로 통제·모니터링이 가능하지만, 미탐지 위험(Undetected [[096_risk_non_risk_architecture_evaluation_flaws|Risk]])은 존재하지만 아직 식별되지 않아 아무런 대응이 없는 위험 — 가장 위험한 것은 "우리가 모르는 것을 모른다(Unknown Unknown)"는 사각지대다.
-> 2. 보안의 핵심 도전은 미탐지 위험의 최소화 — 지속적 취약점 스캐닝, 위협 인텔리전스(CTI), [[681_red_team|레드팀]] 훈련, [[131_soc|SOC]](보안 운영 센터)의 이상 행위 탐지가 미탐지 위험을 탐지 위험으로 전환하는 핵심 수단이다.
-> 3. MTTD(평균 탐지 시간)와 [[451_mttr|MTTR]](평균 [[658_ir_recovery|복구]] 시간)은 탐지 효율성의 핵심 지표 — 글로벌 평균 MTTD는 ~197일(IBM 2023)이며, 이 기간 동안 공격자는 내부를 자유롭게 탐색할 수 있다.
+> 1. 탐지 위험(Detected [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))은 이미 식별된 위험으로 통제·모니터링이 가능하지만, 미탐지 위험(Undetected [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))은 존재하지만 아직 식별되지 않아 아무런 대응이 없는 위험 — 가장 위험한 것은 "우리가 모르는 것을 모른다(Unknown Unknown)"는 사각지대다.
+> 2. 보안의 핵심 도전은 미탐지 위험의 최소화 — 지속적 취약점 스캐닝, 위협 인텔리전스(CTI), [레드팀](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/681_red_team/) 훈련, [SOC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/)(보안 운영 센터)의 이상 행위 탐지가 미탐지 위험을 탐지 위험으로 전환하는 핵심 수단이다.
+> 3. MTTD(평균 탐지 시간)와 [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)(평균 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간)은 탐지 효율성의 핵심 지표 — 글로벌 평균 MTTD는 ~197일(IBM 2023)이며, 이 기간 동안 공격자는 내부를 자유롭게 탐색할 수 있다.
 
 ---
 
@@ -71,11 +75,11 @@ tags:
    정상 권한 사용 -> 행위 기반 탐지 어려움
 ```
 
-> 📢 **섹션 요약 비유**: [[933_cctv|CCTV]] 없는 구석(사각지대), 화면이 너무 많아 담당자가 못 보는 관제실(알람 피로) — 둘 다 탐지 실패의 원인.
+> 📢 **섹션 요약 비유**: [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 없는 구석(사각지대), 화면이 너무 많아 담당자가 못 보는 관제실(알람 피로) — 둘 다 탐지 실패의 원인.
 
 ---
 
-## III. MTTD와 [[451_mttr|MTTR]]
+## III. MTTD와 [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)
 
 ```
 핵심 보안 시간 지표:
@@ -108,14 +112,14 @@ MTBF (Mean Time Between Failures):
 | 지표   | 의미             | 목표          |
 |------|----------------|-------------|
 | MTTD | 탐지까지 시간       | < 30일       |
-| [[451_mttr|MTTR]] | [[658_ir_recovery|복구]]까지 시간       | < 1시간       |
-| [[360_mttf|MTTF]] | 첫 사고까지 시간 (예방) | 최대화        |
+| [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) | [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)까지 시간       | < 1시간       |
+| [MTTF](/knowledge-base/studynote/04_software_engineering/06_software_architecture/360_mttf/) | 첫 사고까지 시간 (예방) | 최대화        |
 
 > 📢 **섹션 요약 비유**: MTTD는 화재 발생부터 소방차 도착까지 시간 — 200일이면 집이 다 타고도 남음.
 
 ---
 
-## [[288_version_ihl_tos_total_length|IV]]. 미탐지 위험 감소 [[268_strategy_pattern|전략]]
+## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 미탐지 위험 감소 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
 ```
 지속적 탐지 강화:
@@ -142,11 +146,11 @@ MTBF (Mean Time Between Failures):
    MTTR < 분 단위로 단축
 ```
 
-> 📢 **섹션 요약 비유**: 공격 표면 관리는 집 외부 모든 출입구 목록 만들기, [[681_red_team|레드팀]]은 "도둑처럼 생각하기" — 내가 뚫을 수 있으면 남도 뚫을 수 있음.
+> 📢 **섹션 요약 비유**: 공격 표면 관리는 집 외부 모든 출입구 목록 만들기, [레드팀](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/681_red_team/)은 "도둑처럼 생각하기" — 내가 뚫을 수 있으면 남도 뚫을 수 있음.
 
 ---
 
-## V. 실무 시나리오 — [[748_apt|APT]] 탐지 케이스
+## V. 실무 시나리오 — [APT](/knowledge-base/studynote/09_security/15_malware_attack_vectors/748_apt/) 탐지 케이스
 
 ```
 APT 공격 타임라인:
@@ -174,7 +178,7 @@ Day 45~48: 대응 (Containment):
   C2 통신 패턴 차단 규칙 추가
 ```
 
-> 📢 **섹션 요약 비유**: 45일 동안 내부 탐색 후 발각 — [[613_ueba|UEBA]] 경보를 진지하게 봤다면 Day 1에 잡을 수 있었던 사고.
+> 📢 **섹션 요약 비유**: 45일 동안 내부 탐색 후 발각 — [UEBA](/knowledge-base/studynote/09_security/12_identity_threat_advanced/613_ueba/) 경보를 진지하게 봤다면 Day 1에 잡을 수 있었던 사고.
 
 ---
 
@@ -226,8 +230,8 @@ MTTD 측정, 탐지 중심 패러다임
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. 탐지된 위험은 내가 아는 위험이라 막을 수 있지만, 미탐지 위험은 모르는 구멍 — 가장 위험한 건 "우리가 모른다는 걸 모르는 것"이에요.
-2. 평균 197일이 지나서야 해킹을 발견하는 현실에서, [[624_siem|SIEM]]·[[613_ueba|UEBA]] 같은 도구가 그 시간을 최대한 단축시켜 피해를 줄여요.
-3. [[681_red_team|레드팀]]은 "우리 회사를 해킹해봐" 하는 훈련 — 내가 뚫을 수 있으면 진짜 해커도 뚫을 수 있다는 전제로 미탐지 구멍을 먼저 찾아요!
+2. 평균 197일이 지나서야 해킹을 발견하는 현실에서, [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/)·[UEBA](/knowledge-base/studynote/09_security/12_identity_threat_advanced/613_ueba/) 같은 도구가 그 시간을 최대한 단축시켜 피해를 줄여요.
+3. [레드팀](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/681_red_team/)은 "우리 회사를 해킹해봐" 하는 훈련 — 내가 뚫을 수 있으면 진짜 해커도 뚫을 수 있다는 전제로 미탐지 구멍을 먼저 찾아요!
 
 ---
 
@@ -235,7 +239,7 @@ MTTD 측정, 탐지 중심 패러다임
 
 **진행 상황**: 39 / 1108
 
-← **이전**: [[038_residual_risk|038. 잔여 위험 (Residual Risk) — 통제 후 남는 위험]]
-**다음**: [[040_inherited_risk|040. 상속된 위험 (Inherited Risk)]] →
+← **이전**: [038. 잔여 위험 (Residual Risk) — 통제 후 남는 위험](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/)
+**다음**: [040. 상속된 위험 (Inherited Risk)](/knowledge-base/studynote/09_security/01_intro_principles/040_inherited_risk/) →
 
 ---

@@ -1,14 +1,18 @@
----
-title: 073. Enigma — 독일 제2차 세계대전 기계식 암호
-date: '2026-04-05'
-tags:
-- studynote-security
----
++++
+title = "073. Enigma — 독일 제2차 세계대전 기계식 암호"
+date = 2026-04-05
+
+[taxonomies]
+tags = ["studynote-security"]
+
+[extra]
+tags = ["studynote-security"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Enigma는 로터와 플러그보드로 구성된 기계식 다중 치환 암호기다.
-> 2. **가치**: 복잡한 [[009_config|설정]]으로 당시에는 매우 강력한 암호였다.
+> 2. **가치**: 복잡한 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)으로 당시에는 매우 강력한 암호였다.
 > 3. **판단**: 절차적 약점과 운영 실수 때문에 해독되었다.
 
 ---
@@ -53,8 +57,8 @@ Enigma는 키를 누를 때마다 암호 치환이 바뀌어 복잡도를 크게
 
 | 약점 | 설명 |
 | :-- | :-- |
-| Operational [[283_security_tactics|Security]] | 운용 실수 |
-| Reused Settings | 반복 [[009_config|설정]] |
+| Operational [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) | 운용 실수 |
+| Reused Settings | 반복 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) |
 
 Enigma는 암호학과 정보전의 상징적 사례다.
 
@@ -64,7 +68,7 @@ Enigma는 암호학과 정보전의 상징적 사례다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 로터/플러그보드 원리를 아는가?
 2. 다중 치환 암호임을 아는가?
@@ -72,7 +76,7 @@ Enigma는 암호학과 정보전의 상징적 사례다.
 4. 역사적 의미를 설명할 수 있는가?
 5. 현대 암호와 비교할 수 있는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - Enigma를 단순 전자 암호로 보는 설계
 - 운용 실수를 무시하는 설계
@@ -131,7 +135,7 @@ Enigma는 그런 기계예요.
 
 **진행 상황**: 73 / 1108
 
-← **이전**: [[072_vigenere_cipher|072. 다중 치환 암호 (Vigenère Cipher) — 키워드 기반 복수 치환]]
-**다음**: [[074_one_time_pad|074. 일회용 패드 (One-Time Pad)]] →
+← **이전**: [072. 다중 치환 암호 (Vigenère Cipher) — 키워드 기반 복수 치환](/knowledge-base/studynote/09_security/02_crypto/072_vigenere_cipher/)
+**다음**: [074. 일회용 패드 (One-Time Pad)](/knowledge-base/studynote/09_security/02_crypto/074_one_time_pad/) →
 
 ---

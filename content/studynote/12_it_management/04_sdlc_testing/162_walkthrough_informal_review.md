@@ -1,25 +1,29 @@
----
-title: 162. 워크스루 (Walkthrough, 비공식 검토)
-date: '2026-04-21'
-tags:
-- studynote-it-management
----
++++
+title = "162. 워크스루 (Walkthrough, 비공식 검토)"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-it-management"]
+
+[extra]
+tags = ["studynote-it-management"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 워크스루 (Walkthrough)는 저자(Author)가 산출물을 직접 설명하고 참여자가 질문과 의견을 더하는 저자 주도형 비공식 검토 기법이다.
-> 2. **가치**: 공식 [[161_inspection_formal_review|인스펙션]] (Inspection)보다 가볍고 빠르기 때문에 설계 초안, 코드 구조, 업무 규칙을 팀에 공유하고 조기 피드백을 얻는 데 효과적이다.
-> 3. **판단 포인트**: 워크스루의 강점은 속도와 이해 공유지만, 약점은 저자 편향이다. 안전 필수·[[606_auditing_linux_auditd|감사]] 대상 산출물처럼 객관성과 추적성이 중요한 경우에는 [[161_inspection_formal_review|인스펙션]]이나 기술 검토가 더 적합하다.
+> 2. **가치**: 공식 [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/) (Inspection)보다 가볍고 빠르기 때문에 설계 초안, 코드 구조, 업무 규칙을 팀에 공유하고 조기 피드백을 얻는 데 효과적이다.
+> 3. **판단 포인트**: 워크스루의 강점은 속도와 이해 공유지만, 약점은 저자 편향이다. 안전 필수·[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 대상 산출물처럼 객관성과 추적성이 중요한 경우에는 [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/)이나 기술 검토가 더 적합하다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-워크스루 (Walkthrough)는 소프트웨어 산출물을 만든 저자가 직접 문서, 설계, 코드, 테스트 시나리오를 설명하면서 참여자의 질문과 피드백을 받는 비공식 리뷰 방식이다. 회의의 목적은 단순 [[352_defect_definition|결함]] 검출만이 아니라, 산출물의 맥락을 공유하고 [[459_quic_fec_forward_error_correction|초기]] 방향성을 함께 조율하는 데 있다. 그래서 정형 절차와 [[352_defect_definition|결함]] [[568_logs_distributed_logging_elk_fluentd|로그]]에 초점을 둔 [[161_inspection_formal_review|인스펙션]]보다 학습과 의사소통의 비중이 더 크다.
+워크스루 (Walkthrough)는 소프트웨어 산출물을 만든 저자가 직접 문서, 설계, 코드, 테스트 시나리오를 설명하면서 참여자의 질문과 피드백을 받는 비공식 리뷰 방식이다. 회의의 목적은 단순 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 검출만이 아니라, 산출물의 맥락을 공유하고 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 방향성을 함께 조율하는 데 있다. 그래서 정형 절차와 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에 초점을 둔 [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/)보다 학습과 의사소통의 비중이 더 크다.
 
-워크스루가 필요한 이유는 프로젝트 [[459_quic_fec_forward_error_correction|초기]]에 정답보다 합의가 더 중요한 순간이 많기 때문이다. 요구사항 해석, 화면 흐름, [[001_algorithm_definition|알고리즘]] 분기, 예외 처리 정책은 문서만 읽어서는 오해가 생기기 쉽다. 이때 저자가 직접 의도와 전제를 설명하면 팀은 빠르게 같은 그림을 보게 되고, 큰 오해를 [[459_quic_fec_forward_error_correction|초기]] 단계에서 줄일 수 있다.
+워크스루가 필요한 이유는 프로젝트 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 정답보다 합의가 더 중요한 순간이 많기 때문이다. 요구사항 해석, 화면 흐름, [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 분기, 예외 처리 정책은 문서만 읽어서는 오해가 생기기 쉽다. 이때 저자가 직접 의도와 전제를 설명하면 팀은 빠르게 같은 그림을 보게 되고, 큰 오해를 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계에서 줄일 수 있다.
 
-특히 [[004_agile_relation|애자일]] ([[004_agile_relation|Agile]]) 환경에서는 완성도 100%보다 빠른 피드백 루프가 중요하다. 워크스루는 무거운 승인 절차 없이 [[067_sprint_timebox|스프린트]] 중간에도 운영 가능하므로, 변경이 잦은 팀에서 실용성이 높다.
+특히 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) ([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 환경에서는 완성도 100%보다 빠른 피드백 루프가 중요하다. 워크스루는 무거운 승인 절차 없이 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 중간에도 운영 가능하므로, 변경이 잦은 팀에서 실용성이 높다.
 
 - **📢 섹션 요약 비유**: 워크스루는 새로 그린 지도를 친구들에게 직접 펼쳐 보이며 "여기서 이렇게 가면 된다"고 설명하는 시간과 같다. 완성본 심사보다 길을 함께 이해하는 데 초점이 있다.
 
@@ -27,7 +31,7 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-워크스루의 핵심 구조는 단순하다. 저자가 산출물을 준비하고, 회의에서 단계별로 설명하고, 참여자는 자유롭게 질문하거나 개선 의견을 제시한다. 공식 [[352_defect_definition|결함]] 분류표나 엄격한 입·출력 기준이 필수는 아니지만, 목적이 흐려지면 단순 설명회로 끝날 수 있으므로 [[216_progress_in_synchronization|진행]] 목표는 분명해야 한다.
+워크스루의 핵심 구조는 단순하다. 저자가 산출물을 준비하고, 회의에서 단계별로 설명하고, 참여자는 자유롭게 질문하거나 개선 의견을 제시한다. 공식 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 분류표나 엄격한 입·출력 기준이 필수는 아니지만, 목적이 흐려지면 단순 설명회로 끝날 수 있으므로 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 목표는 분명해야 한다.
 
 아래 그림은 워크스루가 "저자 설명 → 참여자 질문 → 수정 후보 정리"로 이어지는 피드백 루프임을 보여 준다.
 
@@ -51,7 +55,7 @@ tags:
 | 역할 | 주요 책임 | 성공 포인트 |
 | :--- | :--- | :--- |
 | 저자 (Author) | 산출물 의도와 흐름 설명 | 방어보다 설명에 집중하고 질문을 유도해야 한다. |
-| 참여자 (Reviewer/Participant) | 질문, [[352_defect_definition|결함]] 지적, 대안 제안 | 사소한 문구보다 [[369_logic_bomb|논리]]·누락·운영 영향에 집중해야 한다. |
+| 참여자 (Reviewer/Participant) | 질문, [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 지적, 대안 제안 | 사소한 문구보다 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)·누락·운영 영향에 집중해야 한다. |
 | 기록자 (Recorder, 선택) | 주요 의견과 액션 아이템 기록 | 비공식 리뷰라도 후속 조치 누락을 막아 준다. |
 
 워크스루가 효과를 내려면 세 가지 원리가 필요하다. 첫째, 설명 대상이 아니라 쟁점이 분명해야 한다. 둘째, 참여자는 "틀렸다"보다 "운영에서 어떤 문제가 생길까"를 묻는 쪽이 생산적이다. 셋째, 결과물은 비공식이어도 후속 조치 책임자는 남겨야 실제 개선으로 이어진다.
@@ -62,22 +66,22 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-워크스루를 정확히 이해하려면 [[161_inspection_formal_review|인스펙션]], 기술 검토 (Technical [[153_requirements_review_inspection_walkthrough|Review]]), [[163_peer_review|동료 검토]] ([[163_peer_review|Peer Review]])와 구분해야 한다. 가장 큰 차이는 주도권과 공식성이다. 워크스루는 저자 주도이며 학습과 조기 피드백에 강하고, [[161_inspection_formal_review|인스펙션]]은 사회자([[760_inspection_moderator_formal_review|Moderator]]) 주도이며 [[352_defect_definition|결함]] 검출과 추적성에 강하다.
+워크스루를 정확히 이해하려면 [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/), 기술 검토 (Technical [Review](/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/)), [동료 검토](/knowledge-base/studynote/12_it_management/04_sdlc_testing/163_peer_review/) ([Peer Review](/knowledge-base/studynote/12_it_management/04_sdlc_testing/163_peer_review/))와 구분해야 한다. 가장 큰 차이는 주도권과 공식성이다. 워크스루는 저자 주도이며 학습과 조기 피드백에 강하고, [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/)은 사회자([Moderator](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/760_inspection_moderator_formal_review/)) 주도이며 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 검출과 추적성에 강하다.
 
-| 구분 | 워크스루 | [[161_inspection_formal_review|인스펙션]] (Inspection) | 기술 검토 (Technical [[153_requirements_review_inspection_walkthrough|Review]]) | [[163_peer_review|동료 검토]] ([[163_peer_review|Peer Review]]) |
+| 구분 | 워크스루 | [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/) (Inspection) | 기술 검토 (Technical [Review](/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/)) | [동료 검토](/knowledge-base/studynote/12_it_management/04_sdlc_testing/163_peer_review/) ([Peer Review](/knowledge-base/studynote/12_it_management/04_sdlc_testing/163_peer_review/)) |
 | :--- | :--- | :--- | :--- | :--- |
-| 주도자 | 저자 | 사회자([[760_inspection_moderator_formal_review|Moderator]]) | 기술 책임자 또는 전문가 | 동료 개발자 |
+| 주도자 | 저자 | 사회자([Moderator](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/760_inspection_moderator_formal_review/)) | 기술 책임자 또는 전문가 | 동료 개발자 |
 | 공식성 | 낮음 | 높음 | 중간 | 중간 |
-| 주목적 | 이해 공유, 조기 피드백 | 체계적 [[352_defect_definition|결함]] 검출 | 기술 타당성 판단 | 품질 향상, 상호 학습 |
-| [[435_checklist_based_testing|체크리스트]] | 선택 | 보통 필수 | 권장 | 팀 규칙 의존 |
-| 결과 기록 | 비공식 메모 중심 | [[352_defect_definition|결함]] [[568_logs_distributed_logging_elk_fluentd|로그]]·조치 추적 | 회의록 | [[067_pull_request_pr_merge_request_code_review|PR]] 코멘트 등 |
-| 적합 시점 | 초안·설계 [[459_quic_fec_forward_error_correction|초기]] | [[025_baseline|기준선]]([[025_baseline|Baseline]]) 직전 | 주요 기술 의사결정 시 | 일상 개발 과정 |
+| 주목적 | 이해 공유, 조기 피드백 | 체계적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 검출 | 기술 타당성 판단 | 품질 향상, 상호 학습 |
+| [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) | 선택 | 보통 필수 | 권장 | 팀 규칙 의존 |
+| 결과 기록 | 비공식 메모 중심 | [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·조치 추적 | 회의록 | [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 코멘트 등 |
+| 적합 시점 | 초안·설계 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) | [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)) 직전 | 주요 기술 의사결정 시 | 일상 개발 과정 |
 
-워크스루는 품질 관리 (Quality [[372_management|Management]]) 체계 안에서 예방형 리뷰 도구로 이해하면 좋다. 테스트처럼 실행 결과로 [[352_defect_definition|결함]]을 찾는 것이 아니라, 산출물이 운영 단계로 넘어가기 전에 [[369_logic_bomb|논리]]적 [[352_defect_definition|결함]]과 오해를 앞단에서 줄인다. 그래서 [[161_inspection_formal_review|인스펙션]]보다 가볍지만, 테스트를 대체하는 도구는 아니다.
+워크스루는 품질 관리 (Quality [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) 체계 안에서 예방형 리뷰 도구로 이해하면 좋다. 테스트처럼 실행 결과로 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 찾는 것이 아니라, 산출물이 운영 단계로 넘어가기 전에 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)과 오해를 앞단에서 줄인다. 그래서 [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/)보다 가볍지만, 테스트를 대체하는 도구는 아니다.
 
-또한 워크스루는 [[004_agile_relation|애자일]] 세레모니와도 자연스럽게 연결된다. 백로그 정제, 설계 공유, [[014_api_posix|API]] 계약 논의는 형식이 다를 뿐 본질적으로 워크스루적 요소를 가진다. 즉 정식 명칭이 아니더라도 많은 팀이 이미 워크스루를 실무에 활용하고 있다.
+또한 워크스루는 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 세레모니와도 자연스럽게 연결된다. 백로그 정제, 설계 공유, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 계약 논의는 형식이 다를 뿐 본질적으로 워크스루적 요소를 가진다. 즉 정식 명칭이 아니더라도 많은 팀이 이미 워크스루를 실무에 활용하고 있다.
 
-- **📢 섹션 요약 비유**: 워크스루가 가족 회의라면, [[161_inspection_formal_review|인스펙션]]은 [[606_auditing_linux_auditd|감사]]팀 점검이다. 둘 다 문제를 찾지만 분위기와 증거 수준, 기록 방식이 다르다.
+- **📢 섹션 요약 비유**: 워크스루가 가족 회의라면, [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/)은 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)팀 점검이다. 둘 다 문제를 찾지만 분위기와 증거 수준, 기록 방식이 다르다.
 
 ---
 
@@ -85,22 +89,22 @@ tags:
 
 실무에서 워크스루는 "언제 쓰면 좋은가"를 구분하는 것이 핵심이다. 설계 초안, 업무 규칙 해석, 복잡한 배치 흐름, 신규 아키텍처 설명처럼 맥락 공유가 중요한 경우에는 매우 효율적이다. 반면 금융 규제 문서, 안전 필수 제어 로직, 계약 산출물처럼 추적성과 독립성이 필요한 경우에는 워크스루만으로 충분하지 않다.
 
-### 워크스루 적용 [[435_checklist_based_testing|체크리스트]]
+### 워크스루 적용 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 지금 필요한 것이 공식 승인보다 빠른 피드백인가?
 2. 산출물의 핵심 쟁점이 무엇인지 저자가 미리 정리했는가?
 3. 참여자 구성이 이해관계자와 실무 검토자를 균형 있게 포함하는가?
 4. 회의 후 수정 항목과 책임자를 남길 수 있는가?
-5. 안전성·규제성 때문에 별도 [[161_inspection_formal_review|인스펙션]]이 추가로 필요한가?
+5. 안전성·규제성 때문에 별도 [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/)이 추가로 필요한가?
 
 ### 저자 편향 완화 방법
 
 - 사전 자료를 짧게라도 배포해 참여자가 설명에 끌려가지 않도록 한다.
 - 질문 시간을 별도로 두어 저자 설명 속도를 조절한다.
-- 주요 [[352_defect_definition|결함]]은 기록자가 액션 아이템으로 남긴다.
-- 중요한 산출물은 워크스루 후 [[161_inspection_formal_review|인스펙션]] 또는 정적 분석으로 보강한다.
+- 주요 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)은 기록자가 액션 아이템으로 남긴다.
+- 중요한 산출물은 워크스루 후 [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/) 또는 정적 분석으로 보강한다.
 
-기술사 답안에서는 "워크스루 = 비공식이므로 낮은 수준"처럼 쓰면 부족하다. 정확한 표현은 "워크스루는 목적이 다르다"이다. 즉 [[352_defect_definition|결함]] 검출 극대화에는 불리하지만, 이해 공유와 [[459_quic_fec_forward_error_correction|초기]] 합의 형성에는 매우 강한 리뷰 기법이라는 점을 함께 써야 균형 잡힌 답안이 된다.
+기술사 답안에서는 "워크스루 = 비공식이므로 낮은 수준"처럼 쓰면 부족하다. 정확한 표현은 "워크스루는 목적이 다르다"이다. 즉 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 검출 극대화에는 불리하지만, 이해 공유와 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 합의 형성에는 매우 강한 리뷰 기법이라는 점을 함께 써야 균형 잡힌 답안이 된다.
 
 - **📢 섹션 요약 비유**: 워크스루는 집을 짓기 전 가족이 도면을 보며 의견을 내는 과정과 같다. 방향을 빨리 맞추는 데는 좋지만, 최종 안전 검사는 결국 전문가가 따로 해야 한다.
 
@@ -108,11 +112,11 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-워크스루를 적절히 활용하면 팀은 저비용으로 빠른 피드백 루프를 만들 수 있다. [[459_quic_fec_forward_error_correction|초기]] 설계 오해를 줄이고, 신규 인력 온보딩 속도를 높이며, 복잡한 규칙을 팀 공통 지식으로 바꾸는 데 도움이 된다. 특히 프로젝트 [[459_quic_fec_forward_error_correction|초기]]에 큰 방향 오류를 일찍 발견하면 이후 테스트와 재작업 비용을 크게 낮출 수 있다.
+워크스루를 적절히 활용하면 팀은 저비용으로 빠른 피드백 루프를 만들 수 있다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 설계 오해를 줄이고, 신규 인력 온보딩 속도를 높이며, 복잡한 규칙을 팀 공통 지식으로 바꾸는 데 도움이 된다. 특히 프로젝트 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 큰 방향 오류를 일찍 발견하면 이후 테스트와 재작업 비용을 크게 낮출 수 있다.
 
-그러나 워크스루는 객관적 [[352_defect_definition|결함]] 검출률, 형식적 추적성, [[606_auditing_linux_auditd|감사]] 대응 측면에서 한계가 있다. 따라서 모든 리뷰를 워크스루로 통일하는 것은 위험하다. 실제로는 워크스루로 빠르게 방향을 맞추고, 중요한 [[025_baseline|기준선]] 산출물은 [[161_inspection_formal_review|인스펙션]]·테스트·[[020_software_configuration_management|형상 관리]] 절차로 이어지는 다층 리뷰 전략이 효과적이다.
+그러나 워크스루는 객관적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 검출률, 형식적 추적성, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 대응 측면에서 한계가 있다. 따라서 모든 리뷰를 워크스루로 통일하는 것은 위험하다. 실제로는 워크스루로 빠르게 방향을 맞추고, 중요한 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 산출물은 [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/)·테스트·[형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) 절차로 이어지는 다층 리뷰 전략이 효과적이다.
 
-결론적으로 워크스루는 "가벼운 리뷰"가 아니라 "[[459_quic_fec_forward_error_correction|초기]] 합의와 이해 공유에 최적화된 리뷰"로 기억하는 것이 맞다. 즉 속도 중심 도구이면서도, 올바른 조건에서 쓰면 품질 비용을 크게 줄여 주는 예방형 기법이다.
+결론적으로 워크스루는 "가벼운 리뷰"가 아니라 "[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 합의와 이해 공유에 최적화된 리뷰"로 기억하는 것이 맞다. 즉 속도 중심 도구이면서도, 올바른 조건에서 쓰면 품질 비용을 크게 줄여 주는 예방형 기법이다.
 
 - **📢 섹션 요약 비유**: 워크스루는 공연 전 리허설과 같다. 완성도를 끌어올리는 데 꼭 필요하지만, 그것만으로 정식 품질 보증이 끝난 것은 아니다.
 
@@ -122,11 +126,11 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[161_inspection_formal_review|인스펙션]] (Inspection) | 워크스루보다 공식성이 높고 [[352_defect_definition|결함]] 검출과 추적성이 강하다. |
-| [[163_peer_review|동료 검토]] ([[163_peer_review|Peer Review]]) | 일상 개발 흐름에서 이루어지는 상호 검토로, 워크스루와 목적이 일부 겹친다. |
-| 사회자 ([[760_inspection_moderator_formal_review|Moderator]]) | [[161_inspection_formal_review|인스펙션]]의 핵심 역할로, 저자 주도인 워크스루와 대비된다. |
-| 품질 보증 (QA, Quality Assurance) | 테스트 이전 단계에서 [[352_defect_definition|결함]] 예방과 합의 형성에 기여한다. |
-| [[020_software_configuration_management|형상 관리]] ([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]]) | [[025_baseline|기준선]] 이전에 워크스루를 수행하면 변경 비용을 줄일 수 있다. |
+| [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/) (Inspection) | 워크스루보다 공식성이 높고 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 검출과 추적성이 강하다. |
+| [동료 검토](/knowledge-base/studynote/12_it_management/04_sdlc_testing/163_peer_review/) ([Peer Review](/knowledge-base/studynote/12_it_management/04_sdlc_testing/163_peer_review/)) | 일상 개발 흐름에서 이루어지는 상호 검토로, 워크스루와 목적이 일부 겹친다. |
+| 사회자 ([Moderator](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/760_inspection_moderator_formal_review/)) | [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/)의 핵심 역할로, 저자 주도인 워크스루와 대비된다. |
+| 품질 보증 (QA, Quality Assurance) | 테스트 이전 단계에서 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 예방과 합의 형성에 기여한다. |
+| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 이전에 워크스루를 수행하면 변경 비용을 줄일 수 있다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -159,7 +163,7 @@ tags:
 
 **진행 상황**: 276 / 587
 
-← **이전**: [[161_inspection_formal_review|161. 인스펙션 (Inspection, 공식 검토)]]
-**다음**: [[163_peer_review|163. 동료 검토 (Peer Review, 동료 코드 품질 검증)]] →
+← **이전**: [161. 인스펙션 (Inspection, 공식 검토)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/)
+**다음**: [163. 동료 검토 (Peer Review, 동료 코드 품질 검증)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/163_peer_review/) →
 
 ---

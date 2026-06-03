@@ -1,27 +1,31 @@
----
-title: 6. 감리 프레임워크 (Audit Framework) 3차원 구조 - 감리 영역, 감리 관점, 감리 단계
-date: '2026-04-05'
-description: 감리 영역, 감리 관점, 감리 단계의 3차원 구조로 구성된 정보시스템 감리 프레임워크의 체계와 적용
-tags:
-- design_supervision
----
++++
+title = "6. 감리 프레임워크 (Audit Framework) 3차원 구조 - 감리 영역, 감리 관점, 감리 단계"
+description = "감리 영역, 감리 관점, 감리 단계의 3차원 구조로 구성된 정보시스템 감리 프레임워크의 체계와 적용"
+date = 2026-04-05
+
+[taxonomies]
+tags = ["design_supervision"]
+
+[extra]
+tags = ["design_supervision"]
++++
 
 # 06. 감리 프레임워크 3차원 구조
 
 #### 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 감리 프레임워크는 [[007_audit_domain|감리 영역]]([[007_audit_domain|Audit Domain]]), [[008_audit_perspective|감리 관점]]([[008_audit_perspective|Audit Perspective]]), [[009_audit_phase|감리 단계]]([[009_audit_phase|Audit Phase]])라는 세 개의 축이 形成하는 3차원 立체적 구조로, 이 结构을 통해 감리의 모든면을 빠짐없이 Cover한다.
-> 2. **가치**: 이 3차원 프레임워크는 감리의 scope을 정의하고, 각 项目에 대한 점검 방향을 설정하며, 사업 [[216_progress_in_synchronization|진행]] 시점에 맞는 적절한 감리活動を지시하는 나침반 역할을 한다.
+> 1. **본질**: 감리 프레임워크는 [감리 영역](/knowledge-base/studynote/11_design_supervision/01_audit_framework/007_audit_domain/)([Audit Domain](/knowledge-base/studynote/11_design_supervision/01_audit_framework/007_audit_domain/)), [감리 관점](/knowledge-base/studynote/11_design_supervision/01_audit_framework/008_audit_perspective/)([Audit Perspective](/knowledge-base/studynote/11_design_supervision/01_audit_framework/008_audit_perspective/)), [감리 단계](/knowledge-base/studynote/11_design_supervision/01_audit_framework/009_audit_phase/)([Audit Phase](/knowledge-base/studynote/11_design_supervision/01_audit_framework/009_audit_phase/))라는 세 개의 축이 形成하는 3차원 立체적 구조로, 이 结构을 통해 감리의 모든면을 빠짐없이 Cover한다.
+> 2. **가치**: 이 3차원 프레임워크는 감리의 scope을 정의하고, 각 项目에 대한 점검 방향을 설정하며, 사업 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 시점에 맞는 적절한 감리活動を지시하는 나침반 역할을 한다.
 > 3. **융합**: 영역(무엇을), 관점(어떤 기준으로), 단계(언제)의 조합으로 감리 업무를 模块화하여, 감리팀의خصص 영역을 정의하고 업무负荷을 효율적으로分配하는 데 활용된다.
 
 ---
 
-### Ⅰ. 개요 및 필요성 ([[033_context|Context]] & Necessity)
+### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-정보시스템 감리는 그 범위([[512_oauth_scope|Scope]])가 매우 넓다. 하나의 정보화 사업을 감리하려면 사업 管理 영역부터 응용 시스템, [[002_database_definition|데이터베이스]], 보안에 이르기까지 数 많은 분야를 점검해야 하고, 각 분야마다 절차, 산출물, 성과 등 다양한 관점에서 접근해야 하며, 이는 要求定義부터 종료 시점까지 사업의 全生命周期에 걸쳐 [[216_progress_in_synchronization|진행]]된다.
+정보시스템 감리는 그 범위([Scope](/knowledge-base/studynote/09_security/05_web_app_security/512_oauth_scope/))가 매우 넓다. 하나의 정보화 사업을 감리하려면 사업 管理 영역부터 응용 시스템, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), 보안에 이르기까지 数 많은 분야를 점검해야 하고, 각 분야마다 절차, 산출물, 성과 등 다양한 관점에서 접근해야 하며, 이는 要求定義부터 종료 시점까지 사업의 全生命周期에 걸쳐 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)된다.
 
 이러한多次元的인 감리 업무를 체계적으로 수행하기 위해서는統一된框架(Framework)이 필요하다. 만약 그러한框架가 없다면, 감리팀은 项目을aning 곳하거나 重複して検查하거나, 또는 중요한 项目를 놓치기 쉽상이게 된다. 감리 프레임워크 3차원 구조는 이러한混乱을防止하고, 全領域에 대한 체계적 감리를 가능하게 하는 뼈대다.
 
-이 프레임워크의 세 축은 각각 다른 관점에서 감리业务를 구조화한다. [[007_audit_domain|감리 영역]]은 "무엇을 감리할 것인가"를 정의하고, [[008_audit_perspective|감리 관점]]은 "어떤 기준으로 감리할 것인가"를 정의하며, [[009_audit_phase|감리 단계]]는 "언제 감리할 것인가"를 정의한다. 이 세 축의 교차점에 감리 개별 项目이 위치하게 되어, 全 감리 项目이 이立体적 공간 안에서 빠짐없이 관리된다.
+이 프레임워크의 세 축은 각각 다른 관점에서 감리业务를 구조화한다. [감리 영역](/knowledge-base/studynote/11_design_supervision/01_audit_framework/007_audit_domain/)은 "무엇을 감리할 것인가"를 정의하고, [감리 관점](/knowledge-base/studynote/11_design_supervision/01_audit_framework/008_audit_perspective/)은 "어떤 기준으로 감리할 것인가"를 정의하며, [감리 단계](/knowledge-base/studynote/11_design_supervision/01_audit_framework/009_audit_phase/)는 "언제 감리할 것인가"를 정의한다. 이 세 축의 교차점에 감리 개별 项目이 위치하게 되어, 全 감리 项目이 이立体적 공간 안에서 빠짐없이 관리된다.
 
 다음 다이어그램은 이 3차원 프레임워크의構造를 立體적으로 보여준다.
 
@@ -66,11 +70,11 @@ tags:
 
 | 축 (Axis) | 정의 | 하위 요소 | 역할 |
 |:---|:---|:---|:---|
-| **[[007_audit_domain|감리 영역]] ([[064_relation_domain|Domain]])** | 감리 대상의 专业分野 | 사업관리, 응용시스템, DB/보안 | "무엇을" 감리할 것인가 |
-| **[[008_audit_perspective|감리 관점]] (Perspective)** | 감리 접근 기준 | 절차(Procedure), 산출물(Deliverable), 성과([[282_performance_tactics|Performance]]) | "어떤 기준으로" 감리할 것인가 |
-| **[[009_audit_phase|감리 단계]] (Phase)** | 사업 [[216_progress_in_synchronization|진행]] 시점 | 요구정의, 설계, 종료 | "언제" 감리할 것인가 |
+| **[감리 영역](/knowledge-base/studynote/11_design_supervision/01_audit_framework/007_audit_domain/) ([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))** | 감리 대상의 专业分野 | 사업관리, 응용시스템, DB/보안 | "무엇을" 감리할 것인가 |
+| **[감리 관점](/knowledge-base/studynote/11_design_supervision/01_audit_framework/008_audit_perspective/) (Perspective)** | 감리 접근 기준 | 절차(Procedure), 산출물(Deliverable), 성과([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)) | "어떤 기준으로" 감리할 것인가 |
+| **[감리 단계](/knowledge-base/studynote/11_design_supervision/01_audit_framework/009_audit_phase/) (Phase)** | 사업 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 시점 | 요구정의, 설계, 종료 | "언제" 감리할 것인가 |
 
-[[007_audit_domain|감리 영역]] × [[008_audit_perspective|감리 관점]] × [[009_audit_phase|감리 단계]]의 3차원 조합에서 도출되는 구체적 감리 项目 수를 나타내면 다음과 같다.
+[감리 영역](/knowledge-base/studynote/11_design_supervision/01_audit_framework/007_audit_domain/) × [감리 관점](/knowledge-base/studynote/11_design_supervision/01_audit_framework/008_audit_perspective/) × [감리 단계](/knowledge-base/studynote/11_design_supervision/01_audit_framework/009_audit_phase/)의 3차원 조합에서 도출되는 구체적 감리 项目 수를 나타내면 다음과 같다.
 
 ```text
 [3차원 조합에 의한 감리 项目 수 (예시)]
@@ -98,7 +102,7 @@ tags:
 
 이 계산의 핵심은 단순히数量的인 项目 수의 合算이 아니라, 三個 축의 조합을 통해 均衔되고 빠짐없는 감리 Coverage를實現한다는 점이다. 만약 3차원框架가 없이 단순 목록式으로 관리했다면, 같은 영역에서 다른 관점의 项目이 누락되거나, 중요한 사업 단계에서의 점검項目이抜け落ちる 문제가 발생했을 것이다.
 
-📢 **섹션 요약 비유**: 3차원 프레임워크의構造는 **'체스를 두는 [[268_strategy_pattern|전략]]'**과 같습니다. 흑과 백으로 나뉜盘上で、各コマ(감리 项目)는 横(영역), 縦(관점), 深さ(단계) 3개의座標로捕らえられ, 3차원 적으로思考해야 各局面에서最优의수를 둘 수 있습니다.
+📢 **섹션 요약 비유**: 3차원 프레임워크의構造는 **'체스를 두는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)'**과 같습니다. 흑과 백으로 나뉜盘上で、各コマ(감리 项目)는 横(영역), 縦(관점), 深さ(단계) 3개의座標로捕らえられ, 3차원 적으로思考해야 各局面에서最优의수를 둘 수 있습니다.
 
 ---
 
@@ -108,14 +112,14 @@ tags:
 
 **[3차원 프레임워크와 다른 方法론의 比較/ 융합]**
 
-| 비교 항목 | 3차원 프레임워크 | [[022_cisa_certification_audit|CISA]] 방법론 ([[021_isaca_global_standard|ISACA]]) | [[229_atam_architecture_trade_off_analysis_method|ATAM]] (아키텍처 평가) |
+| 비교 항목 | 3차원 프레임워크 | [CISA](/knowledge-base/studynote/11_design_supervision/01_audit_framework/022_cisa_certification_audit/) 방법론 ([ISACA](/knowledge-base/studynote/11_design_supervision/01_audit_framework/021_isaca_global_standard/)) | [ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) (아키텍처 평가) |
 |:---|:---|:---|:---|
-| **基本単位** | 영역×관점×단계 | 5개 [[022_cisa_certification_audit|CISA]] [[064_relation_domain|도메인]] | [[094_sensitivity_point_architecture_tradeoff_control_knob|민감도점]]×[[095_tradeoff_point_architecture_evaluation_atam_conflict|상충점]]×[[096_risk_non_risk_architecture_evaluation_flaws|리스크]] |
+| **基本単位** | 영역×관점×단계 | 5개 [CISA](/knowledge-base/studynote/11_design_supervision/01_audit_framework/022_cisa_certification_audit/) [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) | [민감도점](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/094_sensitivity_point_architecture_tradeoff_control_knob/)×[상충점](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/095_tradeoff_point_architecture_evaluation_atam_conflict/)×[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) |
 | **포커스** | 감리 Coverage 관리 | 글로벌監査標準 | 아키텍처 품질属性 |
 | **사용 주체** | 공공 감리팀 | 국제 감리인 | 아키텍처 설계자 |
 | **관점 차이** | 관리 струк화 (Management-oriented) | 통제 중심 (Control-oriented) | 품질 중심 (Quality-oriented) |
 
-이러한差异에도 불구하고, 세 方法론은 상호 보완적으로機能할 수 있다. 3차원 프레임워크가 감리의全局적 구조를 제공하고, [[022_cisa_certification_audit|CISA]] 방법론이監査技術의 전문성을补完하며, ATAM이 아키텍처层面的 깊이를 제공하는 방식이다.
+이러한差异에도 불구하고, 세 方法론은 상호 보완적으로機能할 수 있다. 3차원 프레임워크가 감리의全局적 구조를 제공하고, [CISA](/knowledge-base/studynote/11_design_supervision/01_audit_framework/022_cisa_certification_audit/) 방법론이監査技術의 전문성을补完하며, ATAM이 아키텍처层面的 깊이를 제공하는 방식이다.
 
 ```text
 [다양한 감리 方法론의 시너지 構造]
@@ -142,11 +146,11 @@ tags:
 
 이 시너지構造의 핵심은 3차원 프레임워크가骨子(Skeleton) 역할을 하고, 다른 방법론이肌肉(Muscle)과脏器(Organ) 역할을 하는 生物学的 비유로 이해하면 된다. 뼈대 없이는肌肉이 붙을 곳이 없고, 肌肉이 없으면脏器를支えていた 功能が喪失한다. 따라서 세 방법론은各自의 역할을 다하면서相互補完해야 한다.
 
-📢 **섹션 요약 비유**: 3차원 프레임워크와 다른 방법론의関係는 **'韩食과 양식의融合'**과 같습니다. 한식의 기본estructura(3차원 프레임워크)에 양식의 전문 조리법([[022_cisa_certification_audit|CISA]], [[229_atam_architecture_trade_off_analysis_method|ATAM]])을 접목하여,体系적이면서도深度 있는 fusion cuisine(融合 감리)을 만들어낼 수 있습니다.
+📢 **섹션 요약 비유**: 3차원 프레임워크와 다른 방법론의関係는 **'韩食과 양식의融合'**과 같습니다. 한식의 기본estructura(3차원 프레임워크)에 양식의 전문 조리법([CISA](/knowledge-base/studynote/11_design_supervision/01_audit_framework/022_cisa_certification_audit/), [ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/))을 접목하여,体系적이면서도深度 있는 fusion cuisine(融合 감리)을 만들어낼 수 있습니다.
 
 ---
 
-### Ⅳ. 실무 적용 및 기술사적 판단 ([[268_strategy_pattern|Strategy]] & Decision)
+### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 
 실제 감리 현장에서 3차원 프레임워크를 적용할 때의 판단 사례를 살펴보자.
 
@@ -156,11 +160,11 @@ tags:
 
 **2. 감리 범위 조정 사례: "일정이 빠듯해서 일부 项目을 줄이고 싶습니다"**
 *   **상황**:，当初计划的된 要求정의 단계 감리에서 일부 项目을 생략하여 일정을 단축하고 싶다.
-*   **기술사적 판단**: 3차원框架에서 특정 项目을省略하면, 그座標에 해당하는 감리가 누락된다. 따라서省略 가능한 项目을 判断할 때, 각 축의重要性을분석해야 한다. 예를 들어, 要求정의 단계에서 가장 중요한のは "사업관리-산출물-요구정의"(사업자 提出物 completeness [[396_validation|확인]])이므로, 이것을省略하면后续 단계에서問題가拡大될 위험이 높다. 반면 "응용시스템-절차-요구정의"는 要求정의 단계에서는 상대적으로 중요도가 낮을 수 있다.
+*   **기술사적 판단**: 3차원框架에서 특정 项目을省略하면, 그座標에 해당하는 감리가 누락된다. 따라서省略 가능한 项目을 判断할 때, 각 축의重要性을분석해야 한다. 예를 들어, 要求정의 단계에서 가장 중요한のは "사업관리-산출물-요구정의"(사업자 提出物 completeness [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))이므로, 이것을省略하면后续 단계에서問題가拡大될 위험이 높다. 반면 "응용시스템-절차-요구정의"는 要求정의 단계에서는 상대적으로 중요도가 낮을 수 있다.
 
 **3. 감리 결과 분석 사례: "종합 감리 결과가 나왔는데, 이것을 어떻게 요약해야 하나?"**
 *   **상황**: 모든 영역, 관점, 단계의 감리가完了하고, 종합 결과 보고서를 작성해야 한다.
-*   **기술사적 판단**: 3차원 프레임워크를 기준으로 결과를整理하면, 어떤 영역/관점/단계에서 주로問題가 발견되었는지pattern을把握할 수 있다. 만약 "DB/보안-산출물-종료" 영역에서 반복적으로问题가 발견된다면, 이는 해당分野의 산출물 管理 체계에 系统적問題가 있을 가능성이 높다. 이처럼 3차원 프레임워크로 분석하면, 막연한 종합이 아니라 [[001_dikw_pyramid|데이터]] 기반의pattern 분석이 가능해진다.
+*   **기술사적 판단**: 3차원 프레임워크를 기준으로 결과를整理하면, 어떤 영역/관점/단계에서 주로問題가 발견되었는지pattern을把握할 수 있다. 만약 "DB/보안-산출물-종료" 영역에서 반복적으로问题가 발견된다면, 이는 해당分野의 산출물 管理 체계에 系统적問題가 있을 가능성이 높다. 이처럼 3차원 프레임워크로 분석하면, 막연한 종합이 아니라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반의pattern 분석이 가능해진다.
 
 ```text
 [3차원 프레임워크 기반 감리結果 分析 方法]
@@ -190,24 +194,24 @@ tags:
 
 | 기대 효과 | 세부 내용 | 측정 지표 |
 |:---|:---|:---|
-| **体系적 [[017_audit_execution|감리 수행]]** | 모든 영역/관점/단계를 빠짐없이 커버 | 감리 项目 누락률 0% |
+| **体系적 [감리 수행](/knowledge-base/studynote/11_design_supervision/01_audit_framework/017_audit_execution/)** | 모든 영역/관점/단계를 빠짐없이 커버 | 감리 项目 누락률 0% |
 | **효율적 人力 配置** | 팀원 专业성 기반 영역별分工 |每人 업무 量 불균형 20% 이내 |
-| **[[001_dikw_pyramid|데이터]] 기반 결과 분석** | 3차원座標 기반 패턴 分析 |分析 시간 30% 단축 |
-| **글로벌 기준과의 정합성** | [[022_cisa_certification_audit|CISA]]/[[004_cobit|COBIT]] 등 国际標準과의 호환 |国際項目 含산率 90% 이상 |
+| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 결과 분석** | 3차원座標 기반 패턴 分析 |分析 시간 30% 단축 |
+| **글로벌 기준과의 정합성** | [CISA](/knowledge-base/studynote/11_design_supervision/01_audit_framework/022_cisa_certification_audit/)/[COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/) 등 国际標準과의 호환 |国際項目 含산率 90% 이상 |
 
 **미래 전망:**
-미래의 감리 프레임워크는 더욱 다이나믹한 형태로 진화할 전망이다. [[004_agile_relation|애자일]]([[004_agile_relation|Agile]]) 프로젝트에서는 단계(Phase) 개념이 희석되고, [[036_mvp|MVP]](최소 기능 제품) 기반의 반복 개발이主流가 되면서, 전통적인 3단계(要求定義/설계/종료) 프레임워크에 대한 재검토가 필요할 수 있다. 또한 [[190_ai_llm_requirements_specification|AI]] 기반 자동화 감리 도구가 보편화되면,人力에의존하지 않고 실시간으로 全영역/전단계의 감리를 수행하는 4차원(시간 축 추가) 프레임워크로의 진화도 기대할 수 있다.
+미래의 감리 프레임워크는 더욱 다이나믹한 형태로 진화할 전망이다. [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 프로젝트에서는 단계(Phase) 개념이 희석되고, [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/)(최소 기능 제품) 기반의 반복 개발이主流가 되면서, 전통적인 3단계(要求定義/설계/종료) 프레임워크에 대한 재검토가 필요할 수 있다. 또한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 자동화 감리 도구가 보편화되면,人力에의존하지 않고 실시간으로 全영역/전단계의 감리를 수행하는 4차원(시간 축 추가) 프레임워크로의 진화도 기대할 수 있다.
 
-📢 **섹션 요약 비유**: 미래의 감리 프레임워크 진화는 **'구글 맵스의进化'**와 같습니다. 처음에는 2D 지도(기존 관리),后来添加实时交通情报(3차원 관점), 이제는 [[190_ai_llm_requirements_specification|AI]] 기반 경로 추천(4차원: 시간 축)까지 추가되듯이, 감리 프레임워크도 새로운 축을 추가하며 진화할 것입니다.
+📢 **섹션 요약 비유**: 미래의 감리 프레임워크 진화는 **'구글 맵스의进化'**와 같습니다. 처음에는 2D 지도(기존 관리),后来添加实时交通情报(3차원 관점), 이제는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 경로 추천(4차원: 시간 축)까지 추가되듯이, 감리 프레임워크도 새로운 축을 추가하며 진화할 것입니다.
 
 ---
 
-### 📌 관련 개념 맵 ([[160_knowledge_graph_graphrag_integration|Knowledge Graph]])
-*   [[007_audit_domain|감리 영역]] ([[007_audit_domain|Audit Domain]]) | 사업관리, 응용시스템, DB/보안 등 감리 대상의 전문分野
-*   [[008_audit_perspective|감리 관점]] ([[008_audit_perspective|Audit Perspective]]) | 절차([[300_process|Process]]), 산출물(Product), 성과([[282_performance_tactics|Performance]]) 등 감리 접근의 기준
-*   [[009_audit_phase|감리 단계]] ([[009_audit_phase|Audit Phase]]) | 要求定義, 설계, 종료 등 사업 [[216_progress_in_synchronization|진행]] 시점에 따른 감리 시점
-*   [[022_cisa_certification_audit|CISA]] (Certified Information Systems Auditor) | ISACA의 국제 공인 정보시스템 감사사로, 글로벌审计標準
-*   [[229_atam_architecture_trade_off_analysis_method|ATAM]] ([[319_architecture|Architecture]] Trade-off Analysis Method) | [[201_software_architecture_definition|소프트웨어 아키텍처]]的品质 속성을 평가하는 방법론
+### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
+*   [감리 영역](/knowledge-base/studynote/11_design_supervision/01_audit_framework/007_audit_domain/) ([Audit Domain](/knowledge-base/studynote/11_design_supervision/01_audit_framework/007_audit_domain/)) | 사업관리, 응용시스템, DB/보안 등 감리 대상의 전문分野
+*   [감리 관점](/knowledge-base/studynote/11_design_supervision/01_audit_framework/008_audit_perspective/) ([Audit Perspective](/knowledge-base/studynote/11_design_supervision/01_audit_framework/008_audit_perspective/)) | 절차([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/)), 산출물(Product), 성과([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)) 등 감리 접근의 기준
+*   [감리 단계](/knowledge-base/studynote/11_design_supervision/01_audit_framework/009_audit_phase/) ([Audit Phase](/knowledge-base/studynote/11_design_supervision/01_audit_framework/009_audit_phase/)) | 要求定義, 설계, 종료 등 사업 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 시점에 따른 감리 시점
+*   [CISA](/knowledge-base/studynote/11_design_supervision/01_audit_framework/022_cisa_certification_audit/) (Certified Information Systems Auditor) | ISACA의 국제 공인 정보시스템 감사사로, 글로벌审计標準
+*   [ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Trade-off Analysis Method) | [소프트웨어 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/)的品质 속성을 평가하는 방법론
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -224,11 +228,11 @@ tags:
 [리스크 통제 (Risk Control)]
 ```
 
-이 흐름도는 [[007_audit_domain|감리 영역]]을 3차원 체계로 묶어 QA와 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 통제로 이어지는 구조를 보여준다.
+이 흐름도는 [감리 영역](/knowledge-base/studynote/11_design_supervision/01_audit_framework/007_audit_domain/)을 3차원 체계로 묶어 QA와 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 통제로 이어지는 구조를 보여준다.
 ### 👶 어린이를 위한 3줄 비유 설명
-1. **개념**: 감리 프레임워크 3차원 구조는lego 블록을 세 방향(위아래, 왼쪽오른쪽, 앞뒤)에서 [[396_validation|확인]]하는 것과 같아요. 세 방향 모두에서 빠짐없이 맞춰져야 멋진 작품(정보시스템)이 되는 거예요.
-2. **원리**: 세 방향은 각각 "무엇을 만들었는지(영역)", "어떤 방법으로 만들었는지(관점)", "언제 [[396_validation|확인]]했는지(단계)"를代表해요.
-3. **효과**: 세 방향을 모두 [[396_validation|확인]]하면 blocks의 빈틈이나 기울어진 부분을 정확히 찾을 수 있듯이, 감리에서도 시스템의빠짐없는 점검이 가능해져요!
+1. **개념**: 감리 프레임워크 3차원 구조는lego 블록을 세 방향(위아래, 왼쪽오른쪽, 앞뒤)에서 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것과 같아요. 세 방향 모두에서 빠짐없이 맞춰져야 멋진 작품(정보시스템)이 되는 거예요.
+2. **원리**: 세 방향은 각각 "무엇을 만들었는지(영역)", "어떤 방법으로 만들었는지(관점)", "언제 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)했는지(단계)"를代表해요.
+3. **효과**: 세 방향을 모두 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하면 blocks의 빈틈이나 기울어진 부분을 정확히 찾을 수 있듯이, 감리에서도 시스템의빠짐없는 점검이 가능해져요!
 
 ---
 
@@ -236,7 +240,7 @@ tags:
 
 **진행 상황**: 6 / 530
 
-← **이전**: [[005_audit_standards|5. 정보시스템 감리기준 (행정안전부 고시)]]
-**다음**: [[007_audit_domain|7. 감리 영역 (Audit Domain) - 사업 관리, 응용 시스템, 데이터베이스, 시스템 아키텍처/보안]] →
+← **이전**: [5. 정보시스템 감리기준 (행정안전부 고시)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/005_audit_standards/)
+**다음**: [7. 감리 영역 (Audit Domain) - 사업 관리, 응용 시스템, 데이터베이스, 시스템 아키텍처/보안](/knowledge-base/studynote/11_design_supervision/01_audit_framework/007_audit_domain/) →
 
 ---

@@ -1,9 +1,13 @@
----
-title: 070. 카이사르 암호 (Caesar Cipher) — 알파벳 3자리 이동
-date: '2026-04-05'
-tags:
-- studynote-security
----
++++
+title = "070. 카이사르 암호 (Caesar Cipher) — 알파벳 3자리 이동"
+date = 2026-04-05
+
+[taxonomies]
+tags = ["studynote-security"]
+
+[extra]
+tags = ["studynote-security"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -15,7 +19,7 @@ tags:
 
 ## Ⅰ. 개요 및 필요성
 
-고대 로마의 간단한 비밀 통신에서 유래한 고전 암호다. 가장 직관적이어서 [[652_cryptography_concept_encryption_decryption|암호학]] 입문에 자주 쓰인다.
+고대 로마의 간단한 비밀 통신에서 유래한 고전 암호다. 가장 직관적이어서 [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/) 입문에 자주 쓰인다.
 
 하지만 안전성은 매우 낮다.
 
@@ -33,7 +37,7 @@ Plaintext -> shift -> Ciphertext
 | :-- | :-- |
 | Shift | 고정 이동 값 |
 | Substitution | 문자 치환 |
-| [[067_db_key_uniqueness_minimality|Key]] Space | 매우 작음 |
+| [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Space | 매우 작음 |
 
 카이사르 암호는 모든 문자를 동일한 칸수로 이동시킨다. 그래서 원리를 이해하기는 쉽지만 보안성은 낮다.
 
@@ -51,7 +55,7 @@ Plaintext -> shift -> Ciphertext
 
 | 약점 | 설명 |
 | :-- | :-- |
-| Small [[067_db_key_uniqueness_minimality|key]] space | 키가 적음 |
+| Small [key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) space | 키가 적음 |
 | Pattern leakage | 패턴 노출 |
 
 카이사르 암호는 고전 암호의 대표 사례로, 현대 암호와의 차이를 이해하는 데 좋다.
@@ -62,7 +66,7 @@ Plaintext -> shift -> Ciphertext
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 치환 원리를 설명할 수 있는가?
 2. 키 공간이 작다는 점을 아는가?
@@ -70,7 +74,7 @@ Plaintext -> shift -> Ciphertext
 4. 역사적 의미를 설명할 수 있는가?
 5. 현대 암호와 비교할 수 있는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 카이사르 암호를 실무 보안으로 쓰는 설계
 - 키 공간이 작다는 걸 무시하는 설계
@@ -85,7 +89,7 @@ Plaintext -> shift -> Ciphertext
 
 ## Ⅴ. 기대효과 및 결론
 
-카이사르 암호는 [[652_cryptography_concept_encryption_decryption|암호학]]의 기본 아이디어를 배우는 데 좋다. 그러나 보안용으로는 부적절하다.
+카이사르 암호는 [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)의 기본 아이디어를 배우는 데 좋다. 그러나 보안용으로는 부적절하다.
 
 결론적으로 카이사르 암호는 일정 칸수 이동 치환 방식이다.
 
@@ -131,7 +135,7 @@ Modern Cryptography
 
 **진행 상황**: 70 / 1108
 
-← **이전**: [[069_classical_cipher|069. 고전 암호 — 치환 암호, 전치 암호]]
-**다음**: [[071_monoalphabetic_cipher|071. 단일 치환 암호 — 하나의 알파벳을 하나의 문자로 치환]] →
+← **이전**: [069. 고전 암호 — 치환 암호, 전치 암호](/knowledge-base/studynote/09_security/02_crypto/069_classical_cipher/)
+**다음**: [071. 단일 치환 암호 — 하나의 알파벳을 하나의 문자로 치환](/knowledge-base/studynote/09_security/02_crypto/071_monoalphabetic_cipher/) →
 
 ---

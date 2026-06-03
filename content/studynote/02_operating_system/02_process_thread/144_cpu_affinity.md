@@ -1,15 +1,19 @@
----
-title: 144. CPU 친화성 (CPU Affinity) - Soft Affinity vs Hard Affinity
-date: '2026-05-08'
-tags:
-- studynote-operating-system
----
++++
+title = "144. CPU 친화성 (CPU Affinity) - Soft Affinity vs Hard Affinity"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: CPU 친화성 (CPU [[778_process_affinity_scheduling_pinning|Affinity]])은 프로세스와 [[092_thread_lwp|스레드]]의 [[087_process_state_transition|생성]]·실행·협력에서 핵심 흐름을 결정하는 개념으로, 시스템이 무엇을 먼저 관리하고 어떤 순서로 제어할지를 분명하게 만든다.
-> 2. **가치**: 이 개념을 이해하면 자원 효율, [[138_response_time|응답 시간]], 안정성 사이의 균형을 더 정확하게 설명할 수 있고, [[377_numa_allocation|NUMA]]-인식 [[092_thread_lwp|스레드]] 스케줄링로 이어지는 이유도 자연스럽게 파악된다.
-> 3. **판단 포인트**: [[034_context_switch|컨텍스트 스위칭]] 최소화를 위한 [[092_thread_lwp|스레드]] 고정 ([[092_thread_lwp|Thread]] [[778_process_affinity_scheduling_pinning|Affinity]]/Pinning)과의 관계를 함께 봐야 CPU 친화성 (CPU [[778_process_affinity_scheduling_pinning|Affinity]])을 단순 정의가 아니라 실제 설계·운영 판단 기준으로 사용할 수 있다.
+> 1. **본질**: CPU 친화성 (CPU [Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/))은 프로세스와 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·실행·협력에서 핵심 흐름을 결정하는 개념으로, 시스템이 무엇을 먼저 관리하고 어떤 순서로 제어할지를 분명하게 만든다.
+> 2. **가치**: 이 개념을 이해하면 자원 효율, [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), 안정성 사이의 균형을 더 정확하게 설명할 수 있고, [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)-인식 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 스케줄링로 이어지는 이유도 자연스럽게 파악된다.
+> 3. **판단 포인트**: [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) 최소화를 위한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 고정 ([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/)/Pinning)과의 관계를 함께 봐야 CPU 친화성 (CPU [Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/))을 단순 정의가 아니라 실제 설계·운영 판단 기준으로 사용할 수 있다.
 
 ---
 
@@ -17,7 +21,7 @@ tags:
 
 ### 1. 정의
 
-CPU 어피니티(CPU [[778_process_affinity_scheduling_pinning|Affinity]])는 프로세스나 [[092_thread_lwp|스레드]]가 실행될 CPU 코어의 집합을 지정 또는 선호하는 속성이다. [[001_operating_system_purpose|운영체제]] 스케줄러의 [[092_thread_lwp|스레드]] 배치 정책에 직접적인 영향을 미친다.
+CPU 어피니티(CPU [Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/))는 프로세스나 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 실행될 CPU 코어의 집합을 지정 또는 선호하는 속성이다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 스케줄러의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 배치 정책에 직접적인 영향을 미친다.
 
 > **비유:** 아이가 항상 앉던 자리를 선호하는 것(Soft)과, 담임 선생님이 특정 자리를 지정하는 것(Hard)의 차이와 같다.
 
@@ -36,11 +40,11 @@ CPU 어피니티(CPU [[778_process_affinity_scheduling_pinning|Affinity]])는 �
 └────────────────────────────────────────────────┘
 ```
 
-### 2. 소프트 어피니티 (Soft [[778_process_affinity_scheduling_pinning|Affinity]])
+### 2. 소프트 어피니티 (Soft [Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/))
 
-[[001_operating_system_purpose|운영체제]]가 이전에 실행했던 코어를 선호하도록 하는 정책이다. 강제성이 없으며, 부하 분산이 필요한 경우 다른 코어로 마이그레이션할 수 있다.
+[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 이전에 실행했던 코어를 선호하도록 하는 정책이다. 강제성이 없으며, 부하 분산이 필요한 경우 다른 코어로 마이그레이션할 수 있다.
 
-- **구현 방식**: 스케줄러의 마이그레이션 저항도(migration [[003_resistance|resistance]]) [[009_config|설정]]
+- **구현 방식**: 스케줄러의 마이그레이션 저항도(migration [resistance](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
 - **목표**: 캐시 지역성 유지와 부하 분산의 균형
 
 ```
@@ -57,12 +61,12 @@ CPU 어피니티(CPU [[778_process_affinity_scheduling_pinning|Affinity]])는 �
 └──────────────────────────────────────────┘
 ```
 
-### 3. 하드 어피니티 (Hard [[778_process_affinity_scheduling_pinning|Affinity]])
+### 3. 하드 어피니티 (Hard [Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/))
 
-프로세스가 지정된 CPU 코어 집합 외에서는 절대 실행되지 않도록 강제하는 [[009_config|설정]]이다.
+프로세스가 지정된 CPU 코어 집합 외에서는 절대 실행되지 않도록 강제하는 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이다.
 
 - **구현 방식**: `sched_setaffinity()` 시스템 콜
-- **목표**: 결정적 실행, 실시간 [[282_performance_tactics|성능]] 보장
+- **목표**: 결정적 실행, 실시간 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 보장
 
 ```
 ┌────────── Hard Affinity 동작 ───────────┐
@@ -117,7 +121,7 @@ CPU 어피니티 마스크는 각 비트가 코어를 나타내는 정수 값이
 └───────────────────────────────────────┘
 ```
 
-### 2. 리눅스에서의 확인과 [[009_config|설정]]
+### 2. 리눅스에서의 확인과 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
 
 ```bash
 # 프로세스의 CPU 어피니티 확인
@@ -163,13 +167,13 @@ echo "0-1" > /sys/fs/cgroup/cpuset/mygroup/cpuset.cpus
 | 위험 | 설명 | 대응 |
 |------|------|------|
 | **로드 불균형** | 특정 코어만 과부하 | 실시간 모니터링 |
-| **오버커밋** | 코어 수보다 많은 [[092_thread_lwp|스레드]] 고정 | 코어 수에 맞게 조정 |
+| **오버커밋** | 코어 수보다 많은 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 고정 | 코어 수에 맞게 조정 |
 | **유연성 상실** | 부하 변화에 대응 불가 | 소프트 어피니티 검토 |
 | **핫스팟** | 특정 코어 온도 상승 | 균형 배치 |
 
 > **비유:** 4개의 계산대가 있는 마트에서 모든 손님을 1번 계산대로만 보내면 혼잡해지는 것과 같다.
 
-### 1. [[377_numa_allocation|NUMA]] 시스템에서의 어피니티
+### 1. [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 시스템에서의 어피니티
 
 ```
 ┌──────────── NUMA Node + CPU Affinity ────────────┐
@@ -192,13 +196,13 @@ echo "0-1" > /sys/fs/cgroup/cpuset/mygroup/cpuset.cpus
 └─────────────────────────────────────────────────────┘
 ```
 
-### 2. [[377_numa_allocation|NUMA]] 인식 어피니티 [[009_config|설정]]
+### 2. [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 인식 어피니티 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
 
-| [[009_config|설정]] | [[158_instruction|명령어]] | 효과 |
+| [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) | 효과 |
 |------|--------|------|
 | **CPU 노드 바인딩** | `numactl --cpunodebind=0` | Node 0의 코어만 사용 |
 | **메모리 노드 바인딩** | `numactl --membind=0` | Node 0의 메모리만 할당 |
-| **선호도 [[009_config|설정]]** | `numactl --preferred=0` | Node 0 선호, 부족 시 다른 노드 |
+| **선호도 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)** | `numactl --preferred=0` | Node 0 선호, 부족 시 다른 노드 |
 
 - **📢 섹션 요약 비유**: 비슷해 보이는 공구를 나란히 놓고 언제 망치를 쓰고 언제 드라이버를 써야 하는지 구분하는 것과 같다.
 
@@ -209,10 +213,10 @@ echo "0-1" > /sys/fs/cgroup/cpuset/mygroup/cpuset.cpus
 | 약어 | Full Name |
 |------|-----------|
 | **CPU** | Central Processing Unit |
-| **[[377_numa_allocation|NUMA]]** | [[377_numa_allocation|Non-Uniform Memory Access]] |
+| **[NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)** | [Non-Uniform Memory Access](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) |
 | **QPI** | QuickPath Interconnect |
-| **[[357_tlb|TLB]]** | [[291_tlb|Translation Lookaside Buffer]] |
-| **PID** | [[300_process|Process]] [[088_identifier_in_er_model|Identifier]] |
+| **[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/)** | [Translation Lookaside Buffer](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/) |
+| **PID** | [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/) |
 
 - **📢 섹션 요약 비유**: 운전자가 도로 상황에 따라 기어와 브레이크를 다르게 선택하는 것처럼 조건별 판단이 중요하다.
 
@@ -262,10 +266,10 @@ CPU 친화성 Soft/Hard Affinity
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[142_event_loop|이벤트 루프]] ([[142_event_loop|Event Loop]]) 기반 비동기 처리 (Node.js) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [[034_context_switch|컨텍스트 스위칭]] 최소화를 위한 [[092_thread_lwp|스레드]] 고정 ([[092_thread_lwp|Thread]] [[778_process_affinity_scheduling_pinning|Affinity]]/Pinning) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [[377_numa_allocation|NUMA]]-인식 [[092_thread_lwp|스레드]] 스케줄링 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [[146_realtime_process|실시간 프로세스]] ([[146_realtime_process|Real-time Process]]) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/) ([Event Loop](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/)) 기반 비동기 처리 (Node.js) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) 최소화를 위한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 고정 ([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/)/Pinning) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)-인식 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 스케줄링 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [실시간 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/146_realtime_process/) ([Real-time Process](/knowledge-base/studynote/02_operating_system/02_process_thread/146_realtime_process/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -283,9 +287,9 @@ CPU 친화성 Soft/Hard Affinity
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. CPU 친화성 (CPU [[778_process_affinity_scheduling_pinning|Affinity]])은 컴퓨터가 여러 일을 나눠서 처리하고 서로 기다리게 하는 약속이에요.
-2. 먼저 [[034_context_switch|컨텍스트 스위칭]] 최소화를 위한 [[092_thread_lwp|스레드]] 고정 ([[092_thread_lwp|Thread]] [[778_process_affinity_scheduling_pinning|Affinity]]/Pinning)을 이해하면 CPU 친화성 (CPU [[778_process_affinity_scheduling_pinning|Affinity]])이 왜 필요한지 더 쉽게 보여요.
-3. 그래서 CPU 친화성 (CPU [[778_process_affinity_scheduling_pinning|Affinity]])을 잘 알면 나중에 [[377_numa_allocation|NUMA]]-인식 [[092_thread_lwp|스레드]] 스케줄링도 훨씬 쉽게 배울 수 있어요.
+1. CPU 친화성 (CPU [Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/))은 컴퓨터가 여러 일을 나눠서 처리하고 서로 기다리게 하는 약속이에요.
+2. 먼저 [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) 최소화를 위한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 고정 ([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/)/Pinning)을 이해하면 CPU 친화성 (CPU [Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/))이 왜 필요한지 더 쉽게 보여요.
+3. 그래서 CPU 친화성 (CPU [Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/))을 잘 알면 나중에 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)-인식 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 스케줄링도 훨씬 쉽게 배울 수 있어요.
 
 ---
 
@@ -293,7 +297,7 @@ CPU 친화성 Soft/Hard Affinity
 
 **진행 상황**: 144 / 800
 
-← **이전**: [[143_thread_affinity_pinning|143. 컨텍스트 스위칭 최소화를 위한 스레드 고정 (Thread Affinity/Pinning)]]
-**다음**: [[145_numa_thread_scheduling|145. NUMA-인식 스레드 스케줄링 (NUMA Thread Scheduling)]] →
+← **이전**: [143. 컨텍스트 스위칭 최소화를 위한 스레드 고정 (Thread Affinity/Pinning)](/knowledge-base/studynote/02_operating_system/02_process_thread/143_thread_affinity_pinning/)
+**다음**: [145. NUMA-인식 스레드 스케줄링 (NUMA Thread Scheduling)](/knowledge-base/studynote/02_operating_system/02_process_thread/145_numa_thread_scheduling/) →
 
 ---

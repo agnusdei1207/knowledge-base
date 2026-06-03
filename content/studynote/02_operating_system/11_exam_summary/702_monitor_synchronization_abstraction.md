@@ -1,44 +1,48 @@
----
-title: 702. 모니터 (Monitor) 동기화 추상화
-date: '2026-05-09'
-tags:
-- studynote-operating-system
----
++++
+title = "702. 모니터 (Monitor) 동기화 추상화"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[229_monitor|모니터]]([[229_monitor|Monitor]])는 개발자가 직접 P와 V 연산([[224_semaphore|세마포어]])을 호출하다가 실수로 데드락([[281_deadlock_definition|Deadlock]])을 내는 것을 막기 위해, **프로그래밍 언어 차원(Java 등)에서 제공하는 고수준의 '[[212_synchronization_mechanisms|동기화]] 자동화' 추상 자료형**이다.
-> 2. **구조**: [[229_monitor|모니터]]는 공유 [[001_dikw_pyramid|데이터]]와 이를 조작하는 함수(메서드)를 하나의 캡슐로 묶고, "이 캡슐 안에는 오직 한 번에 하나의 [[092_thread_lwp|스레드]]만 들어올 수 있다"는 [[283_mutual_exclusion|상호 배제]]([[223_mutex|Mutex]])를 언어의 컴파일러가 자동으로 보장해 준다.
-> 3. **[[228_condition_variable|조건 변수]] ([[228_condition_variable|Condition Variable]])**: [[229_monitor|모니터]] 안으로 들어왔지만 아직 작업할 조건(예: 버퍼가 빔)이 안 맞을 때, 락을 쥔 채로 멍때리지 않고 스스로 락을 풀고 잠들 수 있도록 도와주는 `wait()`와 `notify()` 메커니즘을 제공하여 생산자-소비자 문제를 우아하게 해결한다.
+> 1. **본질**: [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)([Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/))는 개발자가 직접 P와 V 연산([세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/))을 호출하다가 실수로 데드락([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))을 내는 것을 막기 위해, **프로그래밍 언어 차원(Java 등)에서 제공하는 고수준의 '[동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 자동화' 추상 자료형**이다.
+> 2. **구조**: [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)는 공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 이를 조작하는 함수(메서드)를 하나의 캡슐로 묶고, "이 캡슐 안에는 오직 한 번에 하나의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)만 들어올 수 있다"는 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))를 언어의 컴파일러가 자동으로 보장해 준다.
+> 3. **[조건 변수](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/) ([Condition Variable](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/))**: [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 안으로 들어왔지만 아직 작업할 조건(예: 버퍼가 빔)이 안 맞을 때, 락을 쥔 채로 멍때리지 않고 스스로 락을 풀고 잠들 수 있도록 도와주는 `wait()`와 `notify()` 메커니즘을 제공하여 생산자-소비자 문제를 우아하게 해결한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **[[229_monitor|모니터]] ([[229_monitor|Monitor]])**: 순차적이고 재사용 가능한 [[283_mutual_exclusion|상호 배제]] 코드 블록. 내부의 프로시저(함수)들은 한 번에 하나의 프로세스만 실행할 수 있도록 보장된다.
-  - **[[228_condition_variable|조건 변수]] ([[228_condition_variable|Condition Variable]])**: 특정 조건이 만족될 때까지 [[092_thread_lwp|스레드]]를 대기열에 재워두고, 조건이 맞으면 깨워주는 [[229_monitor|모니터]] 내부의 신호등.
+  - **[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) ([Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/))**: 순차적이고 재사용 가능한 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 코드 블록. 내부의 프로시저(함수)들은 한 번에 하나의 프로세스만 실행할 수 있도록 보장된다.
+  - **[조건 변수](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/) ([Condition Variable](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/))**: 특정 조건이 만족될 때까지 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 대기열에 재워두고, 조건이 맞으면 깨워주는 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 내부의 신호등.
 
-- **필요성 ([[224_semaphore|세마포어]]의 휴먼 에러 극복)**: 
-  - [[224_semaphore|세마포어]]는 훌륭하지만 '어셈블리어'처럼 너무 날것([[225_raw|Raw]])이다. 개발자가 `P()`와 `V()`의 순서를 바꾸거나, `P()`를 두 번 쓰거나, `V()`를 까먹으면 시스템 전체가 데드락에 빠지거나 [[001_dikw_pyramid|데이터]]가 다 깨져버린다.
-  - **해결책**: "개발자를 믿지 마라! 아예 언어(Compiler)가 함수 시작할 때 자동으로 자물쇠를 잠그고, 함수 끝날 때 자동으로 풀어주게 만들자!" 이것이 바로 C.A.R. Hoare와 Brinch Hansen이 제안한 [[229_monitor|모니터]]다.
+- **필요성 ([세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)의 휴먼 에러 극복)**: 
+  - [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 훌륭하지만 '어셈블리어'처럼 너무 날것([Raw](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/))이다. 개발자가 `P()`와 `V()`의 순서를 바꾸거나, `P()`를 두 번 쓰거나, `V()`를 까먹으면 시스템 전체가 데드락에 빠지거나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 다 깨져버린다.
+  - **해결책**: "개발자를 믿지 마라! 아예 언어(Compiler)가 함수 시작할 때 자동으로 자물쇠를 잠그고, 함수 끝날 때 자동으로 풀어주게 만들자!" 이것이 바로 C.A.R. Hoare와 Brinch Hansen이 제안한 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)다.
 
-  - **[[224_semaphore|세마포어]]**: 방(공유 자원)에 들어가기 전에 내가 직접 열쇠(P)로 문을 따고 들어가서, 나올 때 내가 직접 문을 잠그고(V) 열쇠를 반납해야 하는 수동 화장실. (까먹고 열어두고 가면 남이 들어와서 사고가 남)
-  - **[[229_monitor|모니터]]**: 최신식 슬라이딩 자동문이 달린 화장실. 내가 화장실 안에 들어가면 문이 '알아서' 잠기고, 내가 밖으로 나오면 문이 '알아서' 열린다. 내가 락([[510_lock|Lock]])을 관리할 필요가 전혀 없다.
+  - **[세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)**: 방(공유 자원)에 들어가기 전에 내가 직접 열쇠(P)로 문을 따고 들어가서, 나올 때 내가 직접 문을 잠그고(V) 열쇠를 반납해야 하는 수동 화장실. (까먹고 열어두고 가면 남이 들어와서 사고가 남)
+  - **[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)**: 최신식 슬라이딩 자동문이 달린 화장실. 내가 화장실 안에 들어가면 문이 '알아서' 잠기고, 내가 밖으로 나오면 문이 '알아서' 열린다. 내가 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 관리할 필요가 전혀 없다.
 
 - **발전 과정**:
-  1. **뮤텍스 / [[224_semaphore|세마포어]] (OS 레벨)**: 강력하지만 코딩하기 너무 까다로움.
-  2. **[[229_monitor|모니터]] (언어 레벨)**: Concurrent Pascal, Java, C# 등 최신 객체 지향 언어들이 언어 스펙으로 채택하여 개발 생산성을 극대화.
+  1. **뮤텍스 / [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) (OS 레벨)**: 강력하지만 코딩하기 너무 까다로움.
+  2. **[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) (언어 레벨)**: Concurrent Pascal, Java, C# 등 최신 객체 지향 언어들이 언어 스펙으로 채택하여 개발 생산성을 극대화.
 
-- **📢 섹션 요약 비유**: [[224_semaphore|세마포어]]가 자동차의 수동 변속기(클러치 밟고 기어 변속)라면, [[229_monitor|모니터]]는 오토매틱(자동 변속기)입니다. 엑셀([[294_function_calling_tool_use|함수 호출]])만 밟으면 기어 변속(락 획득/반납)은 차(언어)가 알아서 해줍니다.
+- **📢 섹션 요약 비유**: [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)가 자동차의 수동 변속기(클러치 밟고 기어 변속)라면, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)는 오토매틱(자동 변속기)입니다. 엑셀([함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/))만 밟으면 기어 변속(락 획득/반납)은 차(언어)가 알아서 해줍니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [[229_monitor|모니터]]의 내부 구조 ([[283_mutual_exclusion|상호 배제]] 큐 + 조건 [[089_wait_queue|대기 큐]])
+### [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)의 내부 구조 ([상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 큐 + 조건 [대기 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/))
 
-[[229_monitor|모니터]]는 방(Room)이 하나뿐인 병원 진료실과 같다. 이 진료실을 굴리기 위해 두 가지 대기열([[058_queue|Queue]])이 존재한다.
+[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)는 방(Room)이 하나뿐인 병원 진료실과 같다. 이 진료실을 굴리기 위해 두 가지 대기열([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))이 존재한다.
 
 ```text
   ┌───────────────────────────────────────────────────────────────────┐
@@ -65,48 +69,48 @@ tags:
   └───────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 진입 큐(Entry [[058_queue|Queue]])는 화장실 밖에서 기다리는 줄이다. [[283_mutual_exclusion|상호 배제]]를 보장한다. [[228_condition_variable|조건 변수]] 큐(Condition [[058_queue|Queue]])는 이미 화장실 안으로 들어오긴 했는데, 휴지가 없어서(조건 불만족) 변기에 앉지 못하고 **화장실 구석에 쪼그려 자면서(wait) 누군가 밖에서 휴지를 던져주기(notify)를 기다리는 줄**이다.
+**[다이어그램 해설]** 진입 큐(Entry [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))는 화장실 밖에서 기다리는 줄이다. [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)를 보장한다. [조건 변수](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/) 큐(Condition [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))는 이미 화장실 안으로 들어오긴 했는데, 휴지가 없어서(조건 불만족) 변기에 앉지 못하고 **화장실 구석에 쪼그려 자면서(wait) 누군가 밖에서 휴지를 던져주기(notify)를 기다리는 줄**이다.
 
 ---
 
-### [[228_condition_variable|조건 변수]]([[228_condition_variable|Condition Variable]])의 `wait()`와 `notify()`
+### [조건 변수](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/)([Condition Variable](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/))의 `wait()`와 `notify()`
 
-생산자-소비자 문제에서 [[229_monitor|모니터]]가 어떻게 우아하게 작동하는지 보자.
+생산자-소비자 문제에서 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)가 어떻게 우아하게 작동하는지 보자.
 
 - **`wait()` 의 마법**: 
-  - 소비자가 [[229_monitor|모니터]] 안으로 들어왔는데(락 획득 성공), 버퍼가 텅 비어있다. 
+  - 소비자가 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 안으로 들어왔는데(락 획득 성공), 버퍼가 텅 비어있다. 
   - 소비자는 `wait()`를 부른다. 
-  - **이 순간, 소비자는 자기가 꽉 쥐고 있던 [[229_monitor|모니터]]의 락([[510_lock|Lock]])을 스스로 풀고! [[228_condition_variable|조건 변수]] 큐(구석탱이)로 가서 잠이 든다.** 
-  - 락이 풀렸으므로 밖에서 기다리던 생산자가 드디어 [[229_monitor|모니터]] 안으로 들어올 수 있게 된다! (이것이 [[224_semaphore|세마포어]]로 짜기 제일 헷갈리는 부분인데, [[229_monitor|모니터]]가 완벽하게 처리해 준다.)
+  - **이 순간, 소비자는 자기가 꽉 쥐고 있던 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)의 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 스스로 풀고! [조건 변수](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/) 큐(구석탱이)로 가서 잠이 든다.** 
+  - 락이 풀렸으므로 밖에서 기다리던 생산자가 드디어 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 안으로 들어올 수 있게 된다! (이것이 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)로 짜기 제일 헷갈리는 부분인데, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)가 완벽하게 처리해 준다.)
   
 - **`notify() / signal()` 의 마법**:
-  - 새로 들어온 생산자가 버퍼에 [[001_dikw_pyramid|데이터]]를 채운다.
+  - 새로 들어온 생산자가 버퍼에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 채운다.
   - 생산자가 `notify()`를 부른다.
   - 구석에서 자고 있던 소비자 1명이 깨어난다. (하지만 아직 락은 생산자가 쥐고 있으므로 즉시 실행되진 않고 다시 진입 큐로 이동한다.)
 
-- **📢 섹션 요약 비유**: 식당([[229_monitor|모니터]])에 들어왔는데 내가 시킨 메뉴의 재료가 떨어졌습니다. 내가 식탁([[510_lock|Lock]])을 계속 차지하고 앉아있으면 식당이 망합니다. 저는 쿨하게 식탁을 비워주고 대기실(wait)로 갑니다. 재료 배달 트럭이 와서 식탁에 재료를 놓은 뒤 저를 부르면(notify), 저는 다시 식탁으로 가서 밥을 먹습니다.
+- **📢 섹션 요약 비유**: 식당([모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/))에 들어왔는데 내가 시킨 메뉴의 재료가 떨어졌습니다. 내가 식탁([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 계속 차지하고 앉아있으면 식당이 망합니다. 저는 쿨하게 식탁을 비워주고 대기실(wait)로 갑니다. 재료 배달 트럭이 와서 식탁에 재료를 놓은 뒤 저를 부르면(notify), 저는 다시 식탁으로 가서 밥을 먹습니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### [[229_monitor|모니터]]와 [[224_semaphore|세마포어]]의 1:1 매핑 및 철학 차이
+### [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)와 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)의 1:1 매핑 및 철학 차이
 
-두 기법은 수학적으로 완전히 동일한 능력을 갖추고 있다. ([[224_semaphore|세마포어]]로 [[229_monitor|모니터]]를 짤 수 있고, [[229_monitor|모니터]]로 [[224_semaphore|세마포어]]를 짤 수 있다.)
+두 기법은 수학적으로 완전히 동일한 능력을 갖추고 있다. ([세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)로 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)를 짤 수 있고, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)로 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)를 짤 수 있다.)
 
-| 비교 항목 | [[224_semaphore|Semaphore]] ([[224_semaphore|세마포어]]) | [[229_monitor|Monitor]] ([[229_monitor|모니터]]) |
+| 비교 항목 | [Semaphore](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) ([세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)) | [Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) ([모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)) |
 |:---|:---|:---|
-| **소속 계층** | OS 커널이 제공하는 시스템 콜 [[014_api_posix|API]] | 프로그래밍 언어와 컴파일러가 제공하는 기능 |
-| **은닉성 (Encapsulation)**| [[001_dikw_pyramid|데이터]]와 락이 분리되어 있어 실수하기 쉬움 | [[001_dikw_pyramid|데이터]]와 메서드가 캡슐화되어 있어 100% 안전 |
-| **Signaling의 특성** | `V()`를 부르면 카운터가 증가해 흔적이 남음(Stateful) | **`notify()`를 불렀을 때 자는 놈이 없으면 신호가 허공에 증발함([[239_stateless_redis|Stateless]])** |
+| **소속 계층** | OS 커널이 제공하는 시스템 콜 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) | 프로그래밍 언어와 컴파일러가 제공하는 기능 |
+| **은닉성 (Encapsulation)**| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 락이 분리되어 있어 실수하기 쉬움 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 메서드가 캡슐화되어 있어 100% 안전 |
+| **Signaling의 특성** | `V()`를 부르면 카운터가 증가해 흔적이 남음(Stateful) | **`notify()`를 불렀을 때 자는 놈이 없으면 신호가 허공에 증발함([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/))** |
 | **코딩 난이도** | 데드락 유발 가능성 매우 높음 | **초보자도 직관적이고 안전하게 코딩 가능** |
 
 ### 과목 융합 관점
 
-- **프로그래밍 언어 (Java)**: 자바의 모든 `Object`는 태생적으로 내부에 1개의 '[[229_monitor|모니터]] 락([[229_monitor|Monitor]] [[510_lock|Lock]])'과 1개의 '[[228_condition_variable|조건 변수]] 큐(Wait Set)'를 가지고 태어난다. `synchronized` 키워드를 메서드에 붙이면 그 자체가 [[229_monitor|모니터]]의 진입 큐를 활성화하는 것이며, 메서드 안에서 `wait()`와 `notifyAll()`을 부르는 것이 바로 [[228_condition_variable|조건 변수]] 큐를 다루는 완벽한 [[229_monitor|모니터]] 패턴의 구현이다.
-- **소프트웨어공학 (SE)**: 객체 지향 프로그래밍([[322_oop_4_characteristics|OOP]])의 근본 철학인 '[[001_dikw_pyramid|데이터]] 은닉([[199_information_hiding_encapsulation|Information Hiding]])'을 [[014_concurrency|동시성]] 제어 영역까지 확장한 것이 [[229_monitor|모니터]]다. 외부 [[092_thread_lwp|스레드]]는 공유 [[001_dikw_pyramid|데이터]]의 상태를 알 필요 없이, 그저 공개된 [[229_monitor|모니터]]의 메서드만 호출하면 안전성이 보장된다는 점에서 인터페이스 설계의 교과서라 할 수 있다.
+- **프로그래밍 언어 (Java)**: 자바의 모든 `Object`는 태생적으로 내부에 1개의 '[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 락([Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))'과 1개의 '[조건 변수](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/) 큐(Wait Set)'를 가지고 태어난다. `synchronized` 키워드를 메서드에 붙이면 그 자체가 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)의 진입 큐를 활성화하는 것이며, 메서드 안에서 `wait()`와 `notifyAll()`을 부르는 것이 바로 [조건 변수](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/) 큐를 다루는 완벽한 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 패턴의 구현이다.
+- **소프트웨어공학 (SE)**: 객체 지향 프로그래밍([OOP](/knowledge-base/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/))의 근본 철학인 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 은닉([Information Hiding](/knowledge-base/studynote/04_software_engineering/04_testing_quality/199_information_hiding_encapsulation/))'을 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어 영역까지 확장한 것이 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)다. 외부 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 상태를 알 필요 없이, 그저 공개된 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)의 메서드만 호출하면 안전성이 보장된다는 점에서 인터페이스 설계의 교과서라 할 수 있다.
 
-- **📢 섹션 요약 비유**: [[224_semaphore|세마포어]]는 개발자에게 '망치와 못'을 쥐여주고 집을 지으라는 것이고, [[229_monitor|모니터]]는 '레고 블록'을 주고 조립만 하라는 것입니다. 둘 다 집을 지을 수 있지만, 레고 블록은 절대 못에 찔려 피가 날(데드락) 위험이 없습니다.
+- **📢 섹션 요약 비유**: [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 개발자에게 '망치와 못'을 쥐여주고 집을 지으라는 것이고, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)는 '레고 블록'을 주고 조립만 하라는 것입니다. 둘 다 집을 지을 수 있지만, 레고 블록은 절대 못에 찔려 피가 날(데드락) 위험이 없습니다.
 
 ---
 
@@ -114,15 +118,15 @@ tags:
 
 ### 실무 시나리오
 
-1. **시나리오 — 자바 `wait()` 호출 시 락 해제의 오해로 인한 [[281_deadlock_definition|교착 상태]]([[281_deadlock_definition|Deadlock]])**: [[092_thread_lwp|스레드]] A가 `synchronized` 블록([[229_monitor|모니터]]) 안에 진입한 후, 외부 [[014_api_posix|API]] 응답을 기다리겠다며 `Thread.sleep(1000)`을 호출함.
-   - **원인 분석**: `wait()`와 `sleep()`의 차이를 모르는 주니어의 치명적 실수다. [[229_monitor|모니터]] 내부에서 `wait()`를 부르면 [[229_monitor|모니터]] 락을 예쁘게 풀고 대기실로 가서 다른 [[092_thread_lwp|스레드]]가 들어올 수 있게 양보한다. 하지만 `sleep()`은 **[[229_monitor|모니터]] 락(자물쇠)을 꽉 쥔 채로 침을 흘리며 자버리는 행위**다. 1초 동안 다른 어떤 [[092_thread_lwp|스레드]]도 [[229_monitor|모니터]]에 못 들어오고 전체 서버의 트래픽이 멈춰 선다([[281_deadlock_definition|Deadlock]]).
-   - **대응 (기술사적 가이드)**: [[229_monitor|모니터]]([[214_critical_section|임계 구역]]) 내부에서는 절대로 `sleep()`이나 동기식 네트워크 I/O를 호출해서는 안 된다. 대기가 필요하다면 무조건 `wait()`를 통해 락을 풀고 [[228_condition_variable|조건 변수]]로 빠져야 한다.
+1. **시나리오 — 자바 `wait()` 호출 시 락 해제의 오해로 인한 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))**: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 `synchronized` 블록([모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)) 안에 진입한 후, 외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 응답을 기다리겠다며 `Thread.sleep(1000)`을 호출함.
+   - **원인 분석**: `wait()`와 `sleep()`의 차이를 모르는 주니어의 치명적 실수다. [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 내부에서 `wait()`를 부르면 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 락을 예쁘게 풀고 대기실로 가서 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 들어올 수 있게 양보한다. 하지만 `sleep()`은 **[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 락(자물쇠)을 꽉 쥔 채로 침을 흘리며 자버리는 행위**다. 1초 동안 다른 어떤 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)도 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)에 못 들어오고 전체 서버의 트래픽이 멈춰 선다([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)).
+   - **대응 (기술사적 가이드)**: [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)([임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)) 내부에서는 절대로 `sleep()`이나 동기식 네트워크 I/O를 호출해서는 안 된다. 대기가 필요하다면 무조건 `wait()`를 통해 락을 풀고 [조건 변수](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/)로 빠져야 한다.
 
 2. **시나리오 — `notify()`의 허공 증발 (Lost Wake-up Problem)**: 
-   - [[092_thread_lwp|스레드]] B가 `notify()`를 날려 [[092_thread_lwp|스레드]] A를 깨우려 했다.
-   - 그런데 우연한 타이밍 문제([[213_race_condition|Race Condition]])로 인해, [[092_thread_lwp|스레드]] A가 `wait()`를 호출하며 잠들기 0.001초 전에 [[092_thread_lwp|스레드]] B가 `notify()`를 먼저 불렀다.
-   - **원인 분석**: [[224_semaphore|세마포어]]는 $S$라는 숫자를 +1 올려두기 때문에 나중에 온 [[092_thread_lwp|스레드]] A가 통과한다. 하지만 **[[229_monitor|모니터]]의 `notify()`는 상태(숫자)를 저장하지 않는다.** 깨울 놈이 없으면 그냥 허공에 흩어지고 끝이다. 0.001초 뒤에 잠든 A [[092_thread_lwp|스레드]]는 영원히 깨워줄 사람이 없어 무한 수면에 빠진다(Lost Wake-up).
-   - **아키텍처 적용**: 이 버그를 막기 위해 [[229_monitor|모니터]] 패턴에서는 반드시 `wait()`를 **`while` 루프 안에서 조건문과 함께 검사**해야 한다. `if`문이 아니라 `while (count == 0) { wait(); }` 처럼 짜야, 자다 깼을 때 진짜 밥이 나왔는지 다시 확인하고, 밥이 늦게 나와도 오류를 막을 수 있다 (Spurious Wakeup 방어).
+   - [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) B가 `notify()`를 날려 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A를 깨우려 했다.
+   - 그런데 우연한 타이밍 문제([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))로 인해, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 `wait()`를 호출하며 잠들기 0.001초 전에 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) B가 `notify()`를 먼저 불렀다.
+   - **원인 분석**: [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 $S$라는 숫자를 +1 올려두기 때문에 나중에 온 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 통과한다. 하지만 **[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)의 `notify()`는 상태(숫자)를 저장하지 않는다.** 깨울 놈이 없으면 그냥 허공에 흩어지고 끝이다. 0.001초 뒤에 잠든 A [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 영원히 깨워줄 사람이 없어 무한 수면에 빠진다(Lost Wake-up).
+   - **아키텍처 적용**: 이 버그를 막기 위해 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 패턴에서는 반드시 `wait()`를 **`while` 루프 안에서 조건문과 함께 검사**해야 한다. `if`문이 아니라 `while (count == 0) { wait(); }` 처럼 짜야, 자다 깼을 때 진짜 밥이 나왔는지 다시 확인하고, 밥이 늦게 나와도 오류를 막을 수 있다 (Spurious Wakeup 방어).
 
 ### 의사결정 및 튜닝 플로우
 
@@ -146,12 +150,12 @@ tags:
   └───────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 초보 개발자는 CPU를 아끼겠다며 `notify()` 하나만 날린다. 하지만 [[092_thread_lwp|스레드]]가 10개 자고 있을 때 누가 깰지는 OS 맘이다. 빵이 없어서 자고 있던 소비자 A가, 빵이 생겨서 깼다가 빵이 꽉 차서 자고 있는 생산자 B를 깨워야 하는데, 엉뚱하게 소비자 C를 깨우면 둘 다 빵이 없어서 다시 잠들고 전 우주가 멈춘다. `notifyAll()`로 일단 다 깨우고(Broadcasting), 각자 `while` 문으로 상황을 파악해 다시 자게 만드는 것이 [[229_monitor|모니터]] 코딩의 바이블이다.
+**[다이어그램 해설]** 초보 개발자는 CPU를 아끼겠다며 `notify()` 하나만 날린다. 하지만 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 10개 자고 있을 때 누가 깰지는 OS 맘이다. 빵이 없어서 자고 있던 소비자 A가, 빵이 생겨서 깼다가 빵이 꽉 차서 자고 있는 생산자 B를 깨워야 하는데, 엉뚱하게 소비자 C를 깨우면 둘 다 빵이 없어서 다시 잠들고 전 우주가 멈춘다. `notifyAll()`로 일단 다 깨우고(Broadcasting), 각자 `while` 문으로 상황을 파악해 다시 자게 만드는 것이 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 코딩의 바이블이다.
 
-### 도입 [[435_checklist_based_testing|체크리스트]]
-- **Reentrant Lock과 다중 Condition**: 자바의 기본 `synchronized` (내장 [[229_monitor|모니터]])는 대기실(Wait Set)이 딱 1개밖에 없다. 생산자와 소비자가 하나의 대기실에 섞여 자는 불상사를 막기 위해, 최신 [[212_synchronization_mechanisms|동기화]] 기법인 `ReentrantLock`을 사용하여 `newCondition()`으로 **생산자 전용 대기실**과 **소비자 전용 대기실**을 두 개 뚫어서 정확한 타겟에게만 `Signal()`을 쏘도록 최적화했는가?
+### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+- **Reentrant Lock과 다중 Condition**: 자바의 기본 `synchronized` (내장 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/))는 대기실(Wait Set)이 딱 1개밖에 없다. 생산자와 소비자가 하나의 대기실에 섞여 자는 불상사를 막기 위해, 최신 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 기법인 `ReentrantLock`을 사용하여 `newCondition()`으로 **생산자 전용 대기실**과 **소비자 전용 대기실**을 두 개 뚫어서 정확한 타겟에게만 `Signal()`을 쏘도록 최적화했는가?
 
-- **📢 섹션 요약 비유**: 대기실이 하나일 때는 "김 대리 나와!" 했을 때 박 대리가 깨서 나오는 실수가 생깁니다. 대기실을 여러 개 뚫어놓고(다중 [[228_condition_variable|Condition Variable]]) "생산자 방 기상!", "소비자 방 기상!"을 따로 외치는 것이 최신 [[212_synchronization_mechanisms|동기화]]의 튜닝입니다.
+- **📢 섹션 요약 비유**: 대기실이 하나일 때는 "김 대리 나와!" 했을 때 박 대리가 깨서 나오는 실수가 생깁니다. 대기실을 여러 개 뚫어놓고(다중 [Condition Variable](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/)) "생산자 방 기상!", "소비자 방 기상!"을 따로 외치는 것이 최신 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)의 튜닝입니다.
 
 ---
 
@@ -159,19 +163,19 @@ tags:
 
 ### 정량/정성 기대효과
 
-| 구분 | 순수 OS [[224_semaphore|세마포어]](P,V) 코딩 | 언어 레벨 [[229_monitor|모니터]]([[229_monitor|Monitor]]) 사용 | 개선 효과 |
+| 구분 | 순수 OS [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)(P,V) 코딩 | 언어 레벨 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)([Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)) 사용 | 개선 효과 |
 |:---|:---|:---|:---|
-| **정성 (안전성)** | `P()` 누락 시 100% 데드락/[[001_dikw_pyramid|데이터]] 파괴 | 컴파일러가 락 해제를 100% 보장 | 휴먼 에러에 의한 [[014_concurrency|동시성]] 버그 원천 차단 |
-| **정성 (유지보수)**| 락 조작 코드가 비즈니스 로직과 엉킴 | `synchronized` 선언 하나로 분리 | [[193_cohesion_levels|응집도]] 높고 캡슐화된 객체 지향 코드 달성 |
-| **정량 (개발 속도)**| [[430_index_fast_full_scan|병렬]] 프로그래밍 설계에 막대한 공수 | [[198_abstraction_control_data_process|추상화]]된 API로 직관적 설계 가능 | 멀티스레드 애플리케이션 출시일 단축 (Time-to-Market) |
+| **정성 (안전성)** | `P()` 누락 시 100% 데드락/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파괴 | 컴파일러가 락 해제를 100% 보장 | 휴먼 에러에 의한 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 버그 원천 차단 |
+| **정성 (유지보수)**| 락 조작 코드가 비즈니스 로직과 엉킴 | `synchronized` 선언 하나로 분리 | [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) 높고 캡슐화된 객체 지향 코드 달성 |
+| **정량 (개발 속도)**| [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 프로그래밍 설계에 막대한 공수 | [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)된 API로 직관적 설계 가능 | 멀티스레드 애플리케이션 출시일 단축 (Time-to-Market) |
 
 ### 미래 전망
-- **비동기 스트림(Reactive)으로의 진화**: [[229_monitor|모니터]]의 `wait()`는 결국 [[092_thread_lwp|스레드]]를 잠재운다([[122_sync_async_communication|Blocking]]). 수만 명의 동시 접속을 처리하는 넷플릭스나 우버는, [[092_thread_lwp|스레드]]를 재우는 [[229_monitor|모니터]] 방식조차 무겁다고 판단했다. 이를 극복하기 위해 `Project Reactor`나 `RxJava` 같이 이벤트가 준비되면 콜백으로 통보받아 락([[510_lock|Lock]]) 없이 [[001_dikw_pyramid|데이터]]가 파이프라인처럼 흐르는(Non-[[122_sync_async_communication|blocking]]) 리액티브 프로그래밍으로 백엔드 아키텍처가 전환되고 있다.
+- **비동기 스트림(Reactive)으로의 진화**: [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)의 `wait()`는 결국 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 잠재운다([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)). 수만 명의 동시 접속을 처리하는 넷플릭스나 우버는, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 재우는 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 방식조차 무겁다고 판단했다. 이를 극복하기 위해 `Project Reactor`나 `RxJava` 같이 이벤트가 준비되면 콜백으로 통보받아 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 없이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 파이프라인처럼 흐르는(Non-[blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 리액티브 프로그래밍으로 백엔드 아키텍처가 전환되고 있다.
 
 ### 결론
-[[229_monitor|모니터]]([[229_monitor|Monitor]]) [[212_synchronization_mechanisms|동기화]] [[198_abstraction_control_data_process|추상화]]는 컴퓨터 과학이 하드웨어의 야만성([[213_race_condition|Race Condition]])을 어떻게 소프트웨어의 문명(객체 지향)으로 길들였는지를 보여주는 가장 아름다운 사례다. [[224_semaphore|세마포어]]가 제공한 날카로운 칼날에 베여 피를 흘리던 수많은 프로그래머들을 위해, 언어 설계자들은 그 칼날에 보이지 않는 칼집(캡슐화)을 씌워주었다. 오늘날 자바나 C#에서 안전하게 멀티스레드 코드를 짤 수 있는 모든 영광은, '[[212_synchronization_mechanisms|동기화]]의 책임을 개발자가 아닌 컴파일러에게 지운' [[229_monitor|모니터]]의 혁신적인 [[198_abstraction_control_data_process|추상화]] 덕분이다.
+[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)([Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)는 컴퓨터 과학이 하드웨어의 야만성([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))을 어떻게 소프트웨어의 문명(객체 지향)으로 길들였는지를 보여주는 가장 아름다운 사례다. [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)가 제공한 날카로운 칼날에 베여 피를 흘리던 수많은 프로그래머들을 위해, 언어 설계자들은 그 칼날에 보이지 않는 칼집(캡슐화)을 씌워주었다. 오늘날 자바나 C#에서 안전하게 멀티스레드 코드를 짤 수 있는 모든 영광은, '[동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)의 책임을 개발자가 아닌 컴파일러에게 지운' [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)의 혁신적인 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 덕분이다.
 
-- **📢 섹션 요약 비유**: 수동 기어([[224_semaphore|세마포어]])를 몰 줄 아는 것은 훌륭한 기술이지만, 꽉 막힌 출퇴근길([[014_concurrency|동시성]] 제어)에서 운전자의 피로(버그)를 막아주는 것은 결국 오토 기어([[229_monitor|모니터]])입니다. [[229_monitor|모니터]]는 개발자가 길(비즈니스 로직)에만 집중할 수 있게 해 준 최고의 운전 보조 시스템입니다.
+- **📢 섹션 요약 비유**: 수동 기어([세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/))를 몰 줄 아는 것은 훌륭한 기술이지만, 꽉 막힌 출퇴근길([동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어)에서 운전자의 피로(버그)를 막아주는 것은 결국 오토 기어([모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/))입니다. [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)는 개발자가 길(비즈니스 로직)에만 집중할 수 있게 해 준 최고의 운전 보조 시스템입니다.
 
 ---
 
@@ -179,8 +183,8 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[700_spinlock_busy_waiting|스핀락 바쁜 대기]] ([[700_spinlock_busy_waiting|Busy Wait]]) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [[224_semaphore|세마포어]] P, V 연산 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [스핀락 바쁜 대기](/knowledge-base/studynote/02_operating_system/11_exam_summary/700_spinlock_busy_waiting/) ([Busy Wait](/knowledge-base/studynote/02_operating_system/11_exam_summary/700_spinlock_busy_waiting/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) P, V 연산 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
 | 생산자 소비자 유한 버퍼 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
 | 식사하는 철학자 교착 문제 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
@@ -200,9 +204,9 @@ tags:
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [[224_semaphore|세마포어]]는 내가 직접 열쇠로 문을 열고 들어가고, 나올 때 꼭 내가 문을 잠가야 하는 화장실이에요. 까먹으면 큰일 나죠!
-2. [[229_monitor|모니터]]([[229_monitor|Monitor]])는 센서가 달린 최신식 슬라이딩 자동문 화장실이에요! 내가 들어가면 문이 '알아서' 잠기고, 일 다 보고 나오면 '알아서' 풀리니까 실수할 일이 없어요.
-3. 화장실([[229_monitor|모니터]])에 들어갔는데 휴지가 없다면? 당황하지 않고 '휴지 기다리는 의자([[228_condition_variable|조건 변수]])'에 앉아서 잡니다! 누군가 밖에서 휴지를 넣어주며 깨워줄 때까지 화장실 문은 다른 사람을 위해 알아서 열려 있답니다!
+1. [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 내가 직접 열쇠로 문을 열고 들어가고, 나올 때 꼭 내가 문을 잠가야 하는 화장실이에요. 까먹으면 큰일 나죠!
+2. [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)([Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/))는 센서가 달린 최신식 슬라이딩 자동문 화장실이에요! 내가 들어가면 문이 '알아서' 잠기고, 일 다 보고 나오면 '알아서' 풀리니까 실수할 일이 없어요.
+3. 화장실([모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/))에 들어갔는데 휴지가 없다면? 당황하지 않고 '휴지 기다리는 의자([조건 변수](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/))'에 앉아서 잡니다! 누군가 밖에서 휴지를 넣어주며 깨워줄 때까지 화장실 문은 다른 사람을 위해 알아서 열려 있답니다!
 
 ---
 
@@ -210,7 +214,7 @@ tags:
 
 **진행 상황**: 702 / 800
 
-← **이전**: [[701_semaphore_p_v_operations|701. 세마포어 P, V 연산 (Semaphore P V Operations)]]
-**다음**: [[703_producer_consumer_bounded_buffer|703. 생산자 소비자 유한 버퍼 (Producer Consumer Bounded Buffer)]] →
+← **이전**: [701. 세마포어 P, V 연산 (Semaphore P V Operations)](/knowledge-base/studynote/02_operating_system/11_exam_summary/701_semaphore_p_v_operations/)
+**다음**: [703. 생산자 소비자 유한 버퍼 (Producer Consumer Bounded Buffer)](/knowledge-base/studynote/02_operating_system/11_exam_summary/703_producer_consumer_bounded_buffer/) →
 
 ---

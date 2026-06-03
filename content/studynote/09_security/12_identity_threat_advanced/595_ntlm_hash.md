@@ -1,21 +1,25 @@
----
-title: 595. NTLM Hash (NTLM Hash)
-date: '2026-05-08'
-tags:
-- studynote-security
----
++++
+title = "595. NTLM Hash (NTLM Hash)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-security"]
+
+[extra]
+tags = ["studynote-security"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[594_ntlm|NTLM]] Hash는 신원 위협에서 [[002_confidentiality|기밀성]], [[003_integrity|무결성]], [[303_authentication_authorization_patterns|인증]], 키 [[571_protection_vs_security|보호]] 가운데 하나 이상을 수학적으로 보장하려는 핵심 메커니즘이다.
-> 2. **가치**: [[594_ntlm|NTLM]] Hash를 이해하면 [[001_algorithm_definition|알고리즘]] 선택을 넘어 키 수명주기, 구현 실수, [[295_protocol_field_tcp_udp_icmp|프로토콜]] 통합까지 함께 판단할 수 있다.
-> 3. **판단 포인트**: [[001_algorithm_definition|알고리즘]] 자체의 안전성뿐 아니라 키 길이, 난수 품질, 운용 모드, 구현 방식이 [[594_ntlm|NTLM]] Hash의 실제 안전성을 결정한다.
+> 1. **본질**: [NTLM](/knowledge-base/studynote/09_security/12_identity_threat_advanced/594_ntlm/) Hash는 신원 위협에서 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/), [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 키 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 가운데 하나 이상을 수학적으로 보장하려는 핵심 메커니즘이다.
+> 2. **가치**: [NTLM](/knowledge-base/studynote/09_security/12_identity_threat_advanced/594_ntlm/) Hash를 이해하면 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 선택을 넘어 키 수명주기, 구현 실수, [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 통합까지 함께 판단할 수 있다.
+> 3. **판단 포인트**: [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 자체의 안전성뿐 아니라 키 길이, 난수 품질, 운용 모드, 구현 방식이 [NTLM](/knowledge-base/studynote/09_security/12_identity_threat_advanced/594_ntlm/) Hash의 실제 안전성을 결정한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[[594_ntlm|NTLM]] Hash는 신원 위협에서 반복적으로 등장하는 문제를 일정한 원리로 다루기 위해 정리된 개념이다. 이 주제를 이해할 때는 단순 정의보다 "왜 지금 이 개념이 필요해졌는가"를 먼저 봐야 한다. [[594_ntlm|NTLM]] Hash가 등장한 배경에는 자산 가치 상승, 공격 정교화, 운영 복잡도 증가가 동시에 작용한다. 대표 세부 포인트로는 MD4(UTF-16LE(password))가 있다. 이 개념이 없거나 잘못 적용되면 보안 통제가 단편화되어 위험이 눈에 잘 보이지 않거나, 반대로 과도한 통제가 운영 비용을 키우는 문제가 생긴다.
+[NTLM](/knowledge-base/studynote/09_security/12_identity_threat_advanced/594_ntlm/) Hash는 신원 위협에서 반복적으로 등장하는 문제를 일정한 원리로 다루기 위해 정리된 개념이다. 이 주제를 이해할 때는 단순 정의보다 "왜 지금 이 개념이 필요해졌는가"를 먼저 봐야 한다. [NTLM](/knowledge-base/studynote/09_security/12_identity_threat_advanced/594_ntlm/) Hash가 등장한 배경에는 자산 가치 상승, 공격 정교화, 운영 복잡도 증가가 동시에 작용한다. 대표 세부 포인트로는 MD4(UTF-16LE(password))가 있다. 이 개념이 없거나 잘못 적용되면 보안 통제가 단편화되어 위험이 눈에 잘 보이지 않거나, 반대로 과도한 통제가 운영 비용을 키우는 문제가 생긴다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -26,7 +30,7 @@ tags:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-이 그림은 [[594_ntlm|NTLM]] Hash가 등장한 배경을 "노출 증가 → 위험 확대 → 통제 필요" 흐름으로 요약한다. 핵심은 이 개념이 단독 기능이 아니라, 더 큰 보안 체계의 빈틈을 메우기 위해 등장했다는 점이다.
+이 그림은 [NTLM](/knowledge-base/studynote/09_security/12_identity_threat_advanced/594_ntlm/) Hash가 등장한 배경을 "노출 증가 → 위험 확대 → 통제 필요" 흐름으로 요약한다. 핵심은 이 개념이 단독 기능이 아니라, 더 큰 보안 체계의 빈틈을 메우기 위해 등장했다는 점이다.
 
 - **📢 섹션 요약 비유**: 튼튼한 금고를 고르는 것만큼 열쇠를 어디에 두고 언제 바꿀지 정하는 일이 중요하다.
 
@@ -34,13 +38,13 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[[594_ntlm|NTLM]] Hash의 핵심은 입력·상태·[[164_policy|정책]]·결과를 한 흐름으로 묶어 보는 데 있다. [[594_ntlm|NTLM]] Hash를 잘 적용하려면 구성 요소만 나열하는 것이 아니라, 어떤 조건에서 판단이 이뤄지고 실패 시 무엇이 남는지를 함께 봐야 한다. 대표 세부 포인트로는 MD4(UTF-16LE(password))가 있다. 즉 [[594_ntlm|NTLM]] Hash는 기술 한 점이 아니라 운영과 설계를 연결하는 작은 아키텍처로 이해해야 한다.
+[NTLM](/knowledge-base/studynote/09_security/12_identity_threat_advanced/594_ntlm/) Hash의 핵심은 입력·상태·[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)·결과를 한 흐름으로 묶어 보는 데 있다. [NTLM](/knowledge-base/studynote/09_security/12_identity_threat_advanced/594_ntlm/) Hash를 잘 적용하려면 구성 요소만 나열하는 것이 아니라, 어떤 조건에서 판단이 이뤄지고 실패 시 무엇이 남는지를 함께 봐야 한다. 대표 세부 포인트로는 MD4(UTF-16LE(password))가 있다. 즉 [NTLM](/knowledge-base/studynote/09_security/12_identity_threat_advanced/594_ntlm/) Hash는 기술 한 점이 아니라 운영과 설계를 연결하는 작은 아키텍처로 이해해야 한다.
 
 | 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
-| MD4 UTF-16LE password | [[594_ntlm|NTLM]] Hash를 구성하거나 이해할 때 먼저 봐야 하는 핵심 축 | 단독 기능보다 상위 [[164_policy|정책]]과 연결해야 한다. |
-| 처리 흐름 | [[594_ntlm|NTLM]] Hash가 실제로 값을 바꾸거나 결정을 내리는 단계 | 입력 조건과 실패 시 동작을 명확히 해야 한다. |
-| 운영 포인트 | [[594_ntlm|NTLM]] Hash를 장기 운영할 때 관리해야 할 관측·[[571_protection_vs_security|보호]] 요소 | [[568_logs_distributed_logging_elk_fluentd|로그]], 자동화, 수명주기 관리가 품질을 좌우한다. |
+| MD4 UTF-16LE password | [NTLM](/knowledge-base/studynote/09_security/12_identity_threat_advanced/594_ntlm/) Hash를 구성하거나 이해할 때 먼저 봐야 하는 핵심 축 | 단독 기능보다 상위 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 연결해야 한다. |
+| 처리 흐름 | [NTLM](/knowledge-base/studynote/09_security/12_identity_threat_advanced/594_ntlm/) Hash가 실제로 값을 바꾸거나 결정을 내리는 단계 | 입력 조건과 실패 시 동작을 명확히 해야 한다. |
+| 운영 포인트 | [NTLM](/knowledge-base/studynote/09_security/12_identity_threat_advanced/594_ntlm/) Hash를 장기 운영할 때 관리해야 할 관측·[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 요소 | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 자동화, 수명주기 관리가 품질을 좌우한다. |
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -51,7 +55,7 @@ tags:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-이 구조를 볼 때는 입력 조건, 핵심 처리, 결과뿐 아니라 [[164_policy|정책]]과 상태가 어디에서 관리되는지까지 함께 봐야 한다. 그래야 [[594_ntlm|NTLM]] Hash를 다른 기술과 연결해도 설명이 흔들리지 않는다.
+이 구조를 볼 때는 입력 조건, 핵심 처리, 결과뿐 아니라 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 상태가 어디에서 관리되는지까지 함께 봐야 한다. 그래야 [NTLM](/knowledge-base/studynote/09_security/12_identity_threat_advanced/594_ntlm/) Hash를 다른 기술과 연결해도 설명이 흔들리지 않는다.
 
 - **📢 섹션 요약 비유**: 기계 자체는 정교해도 조작 순서가 틀리면 잠금 효과가 깨지는 정밀 자물쇠와 같다.
 
@@ -59,31 +63,31 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-[[594_ntlm|NTLM]] Hash는 비슷한 영역의 다른 접근과 비교할 때 경계가 더 분명해진다. 중요한 것은 "무엇이 더 강한가"보다 "어떤 가정 위에서 효과가 나는가"를 구분하는 것이다. 그래야 [[594_ntlm|NTLM]] Hash를 단순 유행 기술이나 암기형 용어가 아니라, 특정 위험과 운영 제약에 맞춘 선택지로 설명할 수 있다.
+[NTLM](/knowledge-base/studynote/09_security/12_identity_threat_advanced/594_ntlm/) Hash는 비슷한 영역의 다른 접근과 비교할 때 경계가 더 분명해진다. 중요한 것은 "무엇이 더 강한가"보다 "어떤 가정 위에서 효과가 나는가"를 구분하는 것이다. 그래야 [NTLM](/knowledge-base/studynote/09_security/12_identity_threat_advanced/594_ntlm/) Hash를 단순 유행 기술이나 암기형 용어가 아니라, 특정 위험과 운영 제약에 맞춘 선택지로 설명할 수 있다.
 
 | 비교 축 | 현재 개념 | 인접 접근 |
 | :--- | :--- | :--- |
-| [[571_protection_vs_security|보호]] 대상 | [[594_ntlm|NTLM]] Hash는 특정 보안 속성이나 통신 절차를 정교하게 보장한다. | 레거시·단순 방식은 일부 속성만 보장하거나 가정이 약하다. |
-| 운영 부담 | 키·[[160_session_controlling_terminal|세션]]·[[344_compatibility_usability|호환성]]·[[282_performance_tactics|성능]]을 함께 관리해야 한다. | 구현은 단순하지만 장기적으로 취약성이 누적되기 쉽다. |
+| [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 대상 | [NTLM](/knowledge-base/studynote/09_security/12_identity_threat_advanced/594_ntlm/) Hash는 특정 보안 속성이나 통신 절차를 정교하게 보장한다. | 레거시·단순 방식은 일부 속성만 보장하거나 가정이 약하다. |
+| 운영 부담 | 키·[세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)·[호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)·[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 함께 관리해야 한다. | 구현은 단순하지만 장기적으로 취약성이 누적되기 쉽다. |
 | 실무 선택 | 보안성과 상호운용성을 함께 본 뒤 표준 권장 구성을 택한다. | 편의성만 보고 구형 옵션을 유지하면 위험이 커진다. |
 
-신원 위협 관점에서는 [[594_ntlm|NTLM]] Hash가 상위 [[164_policy|정책]], 하위 구현, 관측 지표와 어떻게 이어지는지까지 함께 설명해야 한다. 이 연결이 보여야 단순 정의 암기에서 벗어나 실제 설계 언어가 된다.
+신원 위협 관점에서는 [NTLM](/knowledge-base/studynote/09_security/12_identity_threat_advanced/594_ntlm/) Hash가 상위 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 하위 구현, 관측 지표와 어떻게 이어지는지까지 함께 설명해야 한다. 이 연결이 보여야 단순 정의 암기에서 벗어나 실제 설계 언어가 된다.
 
-- **📢 섹션 요약 비유**: 쇠문, 비밀번호, 경비원 역할이 서로 다르듯 암호화·[[303_authentication_authorization_patterns|인증]]·키 관리도 맡는 역할이 다르다.
+- **📢 섹션 요약 비유**: 쇠문, 비밀번호, 경비원 역할이 서로 다르듯 암호화·[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·키 관리도 맡는 역할이 다르다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 [[594_ntlm|NTLM]] Hash를 도입하는 순간보다 운영하는 시간이 훨씬 길다. 따라서 설계 단계에서 목적, 적용 범위, [[568_logs_distributed_logging_elk_fluentd|로그]] 포인트, 예외 처리, [[098_rollback_strategy_pipeline_error_threshold|롤백]] 절차를 함께 정하는 것이 좋다. 예를 들어 인터넷 노출 자산이나 고권한 경로, 민감 [[001_dikw_pyramid|데이터]] 처리 구간처럼 위험이 높은 영역에서는 [[594_ntlm|NTLM]] Hash를 먼저 적용하고, 사용자 경험이나 [[282_performance_tactics|성능]] 영향이 큰 구간은 점진적으로 확장하는 편이 안전하다.
+실무에서는 [NTLM](/knowledge-base/studynote/09_security/12_identity_threat_advanced/594_ntlm/) Hash를 도입하는 순간보다 운영하는 시간이 훨씬 길다. 따라서 설계 단계에서 목적, 적용 범위, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 포인트, 예외 처리, [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 절차를 함께 정하는 것이 좋다. 예를 들어 인터넷 노출 자산이나 고권한 경로, 민감 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 구간처럼 위험이 높은 영역에서는 [NTLM](/knowledge-base/studynote/09_security/12_identity_threat_advanced/594_ntlm/) Hash를 먼저 적용하고, 사용자 경험이나 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 영향이 큰 구간은 점진적으로 확장하는 편이 안전하다.
 
-### 실무 판단 [[435_checklist_based_testing|체크리스트]]
+### 실무 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. [[594_ntlm|NTLM]] Hash가 [[571_protection_vs_security|보호]]하려는 자산과 위협 시나리오가 문서로 정의되어 있는가?
+1. [NTLM](/knowledge-base/studynote/09_security/12_identity_threat_advanced/594_ntlm/) Hash가 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하려는 자산과 위협 시나리오가 문서로 정의되어 있는가?
 2. 실패 시 기본값이 안전한 방향으로 동작하고, 우회 경로가 없는가?
-3. [[568_logs_distributed_logging_elk_fluentd|로그]]·알림·[[606_auditing_linux_auditd|감사]] 추적이 남아 운영 중 효과를 [[395_verification_process_review|검증]]할 수 있는가?
+3. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·알림·[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적이 남아 운영 중 효과를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있는가?
 
-기술사 답안에서는 "도입한다"보다 "어떤 자산에 먼저 적용하고, 어떤 부작용을 어떻게 줄일 것인가"를 적는 편이 설득력이 높다. 즉 [[594_ntlm|NTLM]] Hash는 기능 소개보다 적용 순서와 운영 [[395_verification_process_review|검증]] 방법을 함께 써야 완성도가 올라간다.
+기술사 답안에서는 "도입한다"보다 "어떤 자산에 먼저 적용하고, 어떤 부작용을 어떻게 줄일 것인가"를 적는 편이 설득력이 높다. 즉 [NTLM](/knowledge-base/studynote/09_security/12_identity_threat_advanced/594_ntlm/) Hash는 기능 소개보다 적용 순서와 운영 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 방법을 함께 써야 완성도가 올라간다.
 
 - **📢 섹션 요약 비유**: 실무에서는 최고급 금고 하나보다 교체 주기와 출입 기록이 더 큰 차이를 만든다.
 
@@ -91,7 +95,7 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-[[594_ntlm|NTLM]] Hash를 제대로 이해하면 개념 하나를 외우는 데서 끝나지 않고, 상위 [[164_policy|정책]]과 하위 구현을 한 문장으로 연결할 수 있다. 기대효과는 위험 감소, 운영 가시성 향상, 의사결정 [[194_consistency_database_integrity|일관성]] 확보에 있다. 반면 전제 조건 없이 도입하면 복잡도만 늘거나, 형식적 통제에 머무를 수 있다는 한계도 있다. 앞으로는 자동화, 지속 [[395_verification_process_review|검증]], 표준화된 인터페이스와 결합되면서 [[594_ntlm|NTLM]] Hash의 활용 범위가 더 넓어질 가능성이 크다.
+[NTLM](/knowledge-base/studynote/09_security/12_identity_threat_advanced/594_ntlm/) Hash를 제대로 이해하면 개념 하나를 외우는 데서 끝나지 않고, 상위 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 하위 구현을 한 문장으로 연결할 수 있다. 기대효과는 위험 감소, 운영 가시성 향상, 의사결정 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 확보에 있다. 반면 전제 조건 없이 도입하면 복잡도만 늘거나, 형식적 통제에 머무를 수 있다는 한계도 있다. 앞으로는 자동화, 지속 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 표준화된 인터페이스와 결합되면서 [NTLM](/knowledge-base/studynote/09_security/12_identity_threat_advanced/594_ntlm/) Hash의 활용 범위가 더 넓어질 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 좋은 암호 기술은 열쇠를 오래 숨기는 것이 아니라 바꿔 끼우기 쉬운 자물쇠 체계를 만드는 데 가깝다.
 
@@ -101,10 +105,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 티켓·토큰 [[571_protection_vs_security|보호]] | 신원 위협은 [[303_authentication_authorization_patterns|인증]] 재료 탈취와 재사용에서 자주 출발한다. |
-| 조건부 접근 | 정적 계정 [[571_protection_vs_security|보호]]를 넘어 위험 기반 [[164_policy|정책]]이 필요하다. |
+| 티켓·토큰 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | 신원 위협은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 재료 탈취와 재사용에서 자주 출발한다. |
+| 조건부 접근 | 정적 계정 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)를 넘어 위험 기반 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 필요하다. |
 | 행동 분석 | 정상 신원처럼 보이는 공격은 이상 행위 분석으로 잡는다. |
-| 특권 [[571_protection_vs_security|보호]] | 고권한 계정 [[571_protection_vs_security|보호]]가 전체 침해 확산을 좌우한다. |
+| 특권 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | 고권한 계정 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)가 전체 침해 확산을 좌우한다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -118,11 +122,11 @@ tags:
     └──▶ [프로토콜 통합 적용]
 ```
 
-이 흐름도는 [[594_ntlm|NTLM]] Hash를 단일 용어가 아니라 선행 문제, 현재 해결 방식, 후속 확장 방향으로 기억하게 해 준다. 시험과 실무 모두에서 이 연결 구조를 함께 말할 수 있어야 개념이 살아난다.
+이 흐름도는 [NTLM](/knowledge-base/studynote/09_security/12_identity_threat_advanced/594_ntlm/) Hash를 단일 용어가 아니라 선행 문제, 현재 해결 방식, 후속 확장 방향으로 기억하게 해 준다. 시험과 실무 모두에서 이 연결 구조를 함께 말할 수 있어야 개념이 살아난다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [[594_ntlm|NTLM]] Hash는 비밀 편지를 안전하게 잠그거나 진짜인지 확인하는 특별한 약속이에요.
+1. [NTLM](/knowledge-base/studynote/09_security/12_identity_threat_advanced/594_ntlm/) Hash는 비밀 편지를 안전하게 잠그거나 진짜인지 확인하는 특별한 약속이에요.
 2. 하지만 자물쇠가 좋아도 열쇠를 아무 데나 두면 금방 들켜요.
 3. 그래서 암호는 만드는 방법과 열쇠를 지키는 방법을 같이 배워야 해요.
 
@@ -132,7 +136,7 @@ tags:
 
 **진행 상황**: 651 / 1108
 
-← **이전**: [[594_ntlm|594. NTLM (NTLM)]]
-**다음**: [[596_ntlm_authentication|596. NTLM Authentication (NTLM Authentication)]] →
+← **이전**: [594. NTLM (NTLM)](/knowledge-base/studynote/09_security/12_identity_threat_advanced/594_ntlm/)
+**다음**: [596. NTLM Authentication (NTLM Authentication)](/knowledge-base/studynote/09_security/12_identity_threat_advanced/596_ntlm_authentication/) →
 
 ---

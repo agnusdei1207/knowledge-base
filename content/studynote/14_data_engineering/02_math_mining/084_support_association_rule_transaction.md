@@ -1,24 +1,27 @@
----
-title: 84. 지지도 (Support) - 연관 규칙 평가 지표
-date: '2026-03-04'
-tags:
-- math-mining
-- studynote-data-engineering
----
++++
+title = "84. 지지도 (Support) - 연관 규칙 평가 지표"
+date = 2026-03-04
+
+[taxonomies]
+tags = ["math-mining", "studynote-data-engineering"]
+
+[extra]
+tags = ["math-mining", "studynote-data-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 지지도 (Support)는 거래 집합에서 항목집합이 얼마나 자주 등장하는지를 나타내는 빈도 지표다.
-> 2. **가치**: 지지도는 희귀하지만 우연한 패턴을 먼저 걸러 내고, [[106_association_rules|연관 규칙]] 탐색의 검색 공간을 줄여 준다.
+> 2. **가치**: 지지도는 희귀하지만 우연한 패턴을 먼저 걸러 내고, [연관 규칙](/knowledge-base/studynote/16_bigdata/05_analysis/106_association_rules/) 탐색의 검색 공간을 줄여 준다.
 > 3. **판단 포인트**: Support만 보면 규칙의 유용성을 착각하기 쉽다. Confidence와 Lift를 함께 봐야 진짜 연관성을 판단할 수 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-지지도 (Support)는 [[106_association_rules|연관 규칙]]에서 항목집합이 전체 거래([[191_transaction_concept_states|transaction]]) 중 얼마나 자주 나타나는지를 나타내는 값이다. 장바구니 분석처럼 '같이 자주 등장하는 것'을 찾을 때 가장 먼저 보는 기준이다. 거래는 한 번의 구매나 한 세트의 로그처럼, 항목들이 함께 묶여 있는 단위다.
+지지도 (Support)는 [연관 규칙](/knowledge-base/studynote/16_bigdata/05_analysis/106_association_rules/)에서 항목집합이 전체 거래([transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)) 중 얼마나 자주 나타나는지를 나타내는 값이다. 장바구니 분석처럼 '같이 자주 등장하는 것'을 찾을 때 가장 먼저 보는 기준이다. 거래는 한 번의 구매나 한 세트의 로그처럼, 항목들이 함께 묶여 있는 단위다.
 
-이 지표가 필요한 이유는 항목 조합이 너무 많기 때문이다. 지원도가 낮은 조합은 우연일 가능성이 높고, [[001_dikw_pyramid|데이터]]가 커질수록 후보 조합 수는 폭발적으로 늘어난다. 그래서 support는 [[106_association_rules|연관 규칙]]의 첫 번째 필터가 된다.
+이 지표가 필요한 이유는 항목 조합이 너무 많기 때문이다. 지원도가 낮은 조합은 우연일 가능성이 높고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 커질수록 후보 조합 수는 폭발적으로 늘어난다. 그래서 support는 [연관 규칙](/knowledge-base/studynote/16_bigdata/05_analysis/106_association_rules/)의 첫 번째 필터가 된다.
 
 ```text
 거래 T1: {bread, milk}
@@ -39,8 +42,8 @@ Support는 항목집합 X가 포함된 거래 수를 전체 거래 수로 나눈
 | 지표 | 계산식 | 의미 |
 | :--- | :--- | :--- |
 | Support | count(X) / N | 전체에서 얼마나 자주 나타나는가 |
-| [[085_confidence_association_rule_conditional_probability|Confidence]] | support(X ∪ Y) / support(X) | X가 있을 때 Y가 따를 [[130_probability|확률]] |
-| [[086_lift_association_rule_marketing|Lift]] | [[085_confidence_association_rule_conditional_probability|Confidence]] / support(Y) | 우연 대비 얼마나 강한가 |
+| [Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) | support(X ∪ Y) / support(X) | X가 있을 때 Y가 따를 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) |
+| [Lift](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) | [Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) / support(Y) | 우연 대비 얼마나 강한가 |
 
 ```text
 T1 {bread, milk}
@@ -52,7 +55,7 @@ T5 {bread, milk, diaper, cola}
 support({bread, milk}) = 3 / 5 = 60%
 ```
 
-예를 들어 거래가 5개일 때 {bread, milk}가 3개에 포함되면 support는 60%다. 최소 지지도(Minimum Support, minsup)를 넘는 항목집합만 남기면, 다음 단계의 [[085_confidence_association_rule_conditional_probability|confidence]] 계산과 규칙 생성이 훨씬 쉬워진다.
+예를 들어 거래가 5개일 때 {bread, milk}가 3개에 포함되면 support는 60%다. 최소 지지도(Minimum Support, minsup)를 넘는 항목집합만 남기면, 다음 단계의 [confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 계산과 규칙 생성이 훨씬 쉬워진다.
 
 - **📢 섹션 요약 비유**: 같은 반 친구 5명 중 3명이 점심에 빵과 우유를 같이 먹었다면, 단순한 우연보다 습관일 가능성이 높다.
 
@@ -60,13 +63,13 @@ support({bread, milk}) = 3 / 5 = 60%
 
 ## Ⅲ. 비교 및 연결
 
-지지도는 빈도 지표이고, [[085_confidence_association_rule_conditional_probability|신뢰도]] ([[085_confidence_association_rule_conditional_probability|Confidence]])는 조건부 [[130_probability|확률]]이며, [[086_lift_association_rule_marketing|향상도]] ([[086_lift_association_rule_marketing|Lift]])는 우연 대비 강도를 본다. 이 셋을 섞으면 안 된다. support가 높아도 confidence가 낮을 수 있고, confidence가 높아도 전체 유행과 다를 수 있으며, lift가 1에 가까우면 거의 독립적이다.
+지지도는 빈도 지표이고, [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) ([Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/))는 조건부 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이며, [향상도](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) ([Lift](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/))는 우연 대비 강도를 본다. 이 셋을 섞으면 안 된다. support가 높아도 confidence가 낮을 수 있고, confidence가 높아도 전체 유행과 다를 수 있으며, lift가 1에 가까우면 거의 독립적이다.
 
 | 지표 | 질문 | 주의점 |
 | :--- | :--- | :--- |
 | Support | 얼마나 자주 함께 나오는가? | 희귀하지만 중요한 패턴은 놓칠 수 있음 |
-| [[085_confidence_association_rule_conditional_probability|Confidence]] | X가 있으면 Y도 따르는가? | Y 자체가 흔하면 과대평가될 수 있음 |
-| [[086_lift_association_rule_marketing|Lift]] | 우연보다 강한가? | 표본이 너무 적으면 불안정 |
+| [Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) | X가 있으면 Y도 따르는가? | Y 자체가 흔하면 과대평가될 수 있음 |
+| [Lift](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) | 우연보다 강한가? | 표본이 너무 적으면 불안정 |
 
 실무에서는 support를 먼저 써서 후보를 줄이고, 그다음 confidence와 lift로 규칙을 평가한다. 이 순서가 바뀌면 계산량이 커지고, 의미 없는 규칙이 먼저 눈에 띄어 해석이 흔들린다.
 
@@ -76,16 +79,16 @@ support({bread, milk}) = 3 / 5 = 60%
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 최소 지지도(minsup)를 [[001_dikw_pyramid|데이터]] 크기와 [[064_relation_domain|도메인]] 특성에 맞춰 잡아야 한다. 너무 낮으면 조합 폭발이 일어나고, 너무 높으면 중요한 희귀 패턴을 놓친다. 특히 의료나 보안처럼 희귀하지만 중요한 사건이 있는 분야에서는 support만으로 판단하지 말고 [[064_relation_domain|도메인]] 가중치를 함께 봐야 한다.
+실무에서는 최소 지지도(minsup)를 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기와 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특성에 맞춰 잡아야 한다. 너무 낮으면 조합 폭발이 일어나고, 너무 높으면 중요한 희귀 패턴을 놓친다. 특히 의료나 보안처럼 희귀하지만 중요한 사건이 있는 분야에서는 support만으로 판단하지 말고 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 가중치를 함께 봐야 한다.
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 거래 단위와 항목 집합 정의가 명확한가?
-2. support / [[085_confidence_association_rule_conditional_probability|confidence]] / lift를 섞지 않고 해석하는가?
-3. minsup가 [[001_dikw_pyramid|데이터]] 규모와 업무 중요도에 맞는가?
+2. support / [confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) / lift를 섞지 않고 해석하는가?
+3. minsup가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모와 업무 중요도에 맞는가?
 4. 희귀하지만 중요한 패턴을 별도로 검토하는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - confidence만 보고 의미를 단정하는 경우
 - support가 높다고 자동으로 유용하다고 생각하는 경우
@@ -97,9 +100,9 @@ support({bread, milk}) = 3 / 5 = 60%
 
 ## Ⅴ. 기대효과 및 결론
 
-Support는 [[106_association_rules|연관 규칙]] 탐색의 첫 관문으로서, [[001_dikw_pyramid|데이터]]를 빠르게 압축하고 의미 있는 후보만 남기는 효과가 있다. 그러나 support는 '얼마나 자주'만 말해 줄 뿐 '왜 강한지'는 말해 주지 않는다. 그래서 결국 confidence와 [[086_lift_association_rule_marketing|lift]], 그리고 비즈니스 맥락이 함께 필요하다.
+Support는 [연관 규칙](/knowledge-base/studynote/16_bigdata/05_analysis/106_association_rules/) 탐색의 첫 관문으로서, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 빠르게 압축하고 의미 있는 후보만 남기는 효과가 있다. 그러나 support는 '얼마나 자주'만 말해 줄 뿐 '왜 강한지'는 말해 주지 않는다. 그래서 결국 confidence와 [lift](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/), 그리고 비즈니스 맥락이 함께 필요하다.
 
-결론적으로 support는 [[106_association_rules|연관 규칙]]의 출발점이며, 빈도와 중요성을 구분하는 첫 번째 필터다. 숫자 하나만 보고 결론 내리지 말고, 규칙의 세 가지 얼굴을 함께 봐야 한다.
+결론적으로 support는 [연관 규칙](/knowledge-base/studynote/16_bigdata/05_analysis/106_association_rules/)의 출발점이며, 빈도와 중요성을 구분하는 첫 번째 필터다. 숫자 하나만 보고 결론 내리지 말고, 규칙의 세 가지 얼굴을 함께 봐야 한다.
 
 - **📢 섹션 요약 비유**: 동전이 많이 모였다고 모두 보물이 되는 것은 아니고, 어떤 동전인지까지 봐야 한다.
 
@@ -109,12 +112,12 @@ Support는 [[106_association_rules|연관 규칙]] 탐색의 첫 관문으로서
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[191_transaction_concept_states|Transaction]] | 항목이 함께 묶인 [[001_dikw_pyramid|데이터]] 단위 |
+| [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) | 항목이 함께 묶인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 단위 |
 | Itemset | 같이 등장하는 항목의 집합 |
 | Support | 전체 거래 대비 등장 빈도 |
-| [[085_confidence_association_rule_conditional_probability|Confidence]] | 조건부 등장 [[130_probability|확률]] |
-| [[086_lift_association_rule_marketing|Lift]] | 우연 대비 연관 강도 |
-| Apriori | 지지도 기반 후보 축소 [[001_algorithm_definition|알고리즘]] |
+| [Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) | 조건부 등장 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) |
+| [Lift](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) | 우연 대비 연관 강도 |
+| Apriori | 지지도 기반 후보 축소 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -145,7 +148,7 @@ confidence / lift 평가
 
 **진행 상황**: 84 / 258
 
-← **이전**: [[083_association_rule_apriori_market_basket|83. 연관 규칙 탐색 (Association Rule) - Apriori 알고리즘]]
-**다음**: [[085_confidence_association_rule_conditional_probability|85. 신뢰도 (Confidence) - 연관 규칙 조건부 확률]] →
+← **이전**: [83. 연관 규칙 탐색 (Association Rule) - Apriori 알고리즘](/knowledge-base/studynote/14_data_engineering/02_math_mining/083_association_rule_apriori_market_basket/)
+**다음**: [85. 신뢰도 (Confidence) - 연관 규칙 조건부 확률](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) →
 
 ---

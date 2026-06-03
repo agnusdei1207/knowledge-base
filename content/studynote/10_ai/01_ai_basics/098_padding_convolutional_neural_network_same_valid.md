@@ -1,13 +1,17 @@
----
-title: 98. 패딩 (Padding) - 이미지 크기 축소 방지와 가장자리 보존
-date: '2026-04-10'
-tags:
-- studynote-ai
----
++++
+title = "98. 패딩 (Padding) - 이미지 크기 축소 방지와 가장자리 보존"
+date = 2026-04-10
+
+[taxonomies]
+tags = ["studynote-ai"]
+
+[extra]
+tags = ["studynote-ai"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 패딩 (Padding)은 [[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]] ([[089_CNN_Convolutional|Convolutional Neural Network]])에서 [[284_convolution_stride_padding|합성곱 연산]] 시 입력 이미지 테두리에 0과 같은 가상의 픽셀을 덧대어 이미지의 공간 크기를 확장하는 기법이다.
+> 1. **본질**: 패딩 (Padding)은 [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) ([Convolutional Neural Network](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/))에서 [합성곱 연산](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/) 시 입력 이미지 테두리에 0과 같은 가상의 픽셀을 덧대어 이미지의 공간 크기를 확장하는 기법이다.
 > 2. **가치**: 필터를 거치면서 텐서의 해상도가 축소되는 것을 막고, 이미지 가장자리(Edge) 픽셀 정보가 연산에서 소외되어 소멸하는 문제를 방지한다.
 > 3. **판단 포인트**: 네트워크를 깊게 쌓으려면 공간 크기를 유지하는 Same Padding이 필수적이며, 의도적으로 차원을 줄여 연산량을 감소시킬 때는 Valid Padding을 선택해야 한다.
 
@@ -15,22 +19,22 @@ tags:
 
 ## Ⅰ. 개요 및 필요성
 
-패딩 (Padding)은 [[228_cnn_1d_2d_3d_video_medical|합성곱]]([[284_convolution_stride_padding|Convolution]]) 층을 통과할 때마다 입력 [[001_dikw_pyramid|데이터]]의 가로세로 크기가 줄어드는 현상을 막기 위해 원본 [[001_dikw_pyramid|데이터]] 주변을 특정 값(주로 0)으로 둘러싸는 처리 방법이다. 
+패딩 (Padding)은 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)([Convolution](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/)) 층을 통과할 때마다 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 가로세로 크기가 줄어드는 현상을 막기 위해 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 주변을 특정 값(주로 0)으로 둘러싸는 처리 방법이다. 
 
-[[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]] ([[089_CNN_Convolutional|Convolutional Neural Network]])에서 [[022_kernel_role|커널]]([[022_kernel_role|Kernel]])이 이미지를 슬라이딩하며 연산할 때, [[022_kernel_role|커널]]이 이미지 밖으로 벗어날 수 없으므로 출력 [[099_feature_map_activation_map_cnn_output|특성 맵]]([[099_feature_map_activation_map_cnn_output|Feature Map]])의 크기는 입력보다 작아지게 된다. 또한, 이미지 중앙 픽셀은 [[022_kernel_role|커널]]에 여러 번 노출되어 연산에 많이 반영되지만, 가장자리 픽셀은 적게 노출되어 [[001_dikw_pyramid|데이터]] 손실 및 불균형이 발생한다. 패딩은 이 두 가지 근본적인 한계를 해결하기 위해 등장했다.
+[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) ([Convolutional Neural Network](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/))에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))이 이미지를 슬라이딩하며 연산할 때, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 이미지 밖으로 벗어날 수 없으므로 출력 [특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)([Feature Map](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/))의 크기는 입력보다 작아지게 된다. 또한, 이미지 중앙 픽셀은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 여러 번 노출되어 연산에 많이 반영되지만, 가장자리 픽셀은 적게 노출되어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실 및 불균형이 발생한다. 패딩은 이 두 가지 근본적인 한계를 해결하기 위해 등장했다.
 
-- **📢 섹션 요약 비유**: 패딩은 피자 도우 테두리에 빵(가짜 픽셀)을 넓게 덧붙여 굽는 것과 같다. [[475_cookie_local_state|쿠키]] 틀(필터)로 피자 전체를 찍어낼 때, 진짜 피자의 맛있는 테두리 부분까지 버려지지 않고 틀 안쪽 정중앙에 온전히 담기게 해 준다.
+- **📢 섹션 요약 비유**: 패딩은 피자 도우 테두리에 빵(가짜 픽셀)을 넓게 덧붙여 굽는 것과 같다. [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) 틀(필터)로 피자 전체를 찍어낼 때, 진짜 피자의 맛있는 테두리 부분까지 버려지지 않고 틀 안쪽 정중앙에 온전히 담기게 해 준다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-제로 패딩 ([[585_zero_skipping|Zero]] Padding)은 가장 널리 쓰이는 방식으로 테두리에 0을 덧댄다. 이를 통해 [[022_kernel_role|커널]]이 원래 가장자리에 있던 픽셀도 여러 번 훑고 지나갈 수 있도록 슬라이딩 영역을 확보해 준다. 
+제로 패딩 ([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Padding)은 가장 널리 쓰이는 방식으로 테두리에 0을 덧댄다. 이를 통해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 원래 가장자리에 있던 픽셀도 여러 번 훑고 지나갈 수 있도록 슬라이딩 영역을 확보해 준다. 
 
-[[284_convolution_stride_padding|합성곱 연산]] 후 출력 크기 $O$는 입력 크기 $I$, [[022_kernel_role|커널]] 크기 $K$, [[097_stride_convolutional_neural_network_downsampling|스트라이드]]([[097_stride_convolutional_neural_network_downsampling|Stride]]) $S$, 패딩 크기 $P$에 의해 다음 공식으로 결정된다.
+[합성곱 연산](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/) 후 출력 크기 $O$는 입력 크기 $I$, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 크기 $K$, [스트라이드](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)) $S$, 패딩 크기 $P$에 의해 다음 공식으로 결정된다.
 $$O = \frac{I - K + 2P}{S} + 1$$
 
-이때 $O = I$를 만족하게 하려면 $P = \frac{K - 1}{2}$로 [[009_config|설정]]해야 한다.
+이때 $O = I$를 만족하게 하려면 $P = \frac{K - 1}{2}$로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)해야 한다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -49,9 +53,9 @@ $$O = \frac{I - K + 2P}{S} + 1$$
 └─────────────────────────────────────────────────────────────┘
 ```
 
-패딩을 추가하면 [[022_kernel_role|커널]]이 이미지의 가장자리에서도 중앙과 동일하게 연산될 수 있다. 위 그림처럼 원본 주위를 0으로 감싸면 모서리 [[001_dikw_pyramid|데이터]]도 안전하게 살아남아 다음 층으로 전달된다.
+패딩을 추가하면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 이미지의 가장자리에서도 중앙과 동일하게 연산될 수 있다. 위 그림처럼 원본 주위를 0으로 감싸면 모서리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 안전하게 살아남아 다음 층으로 전달된다.
 
-- **📢 섹션 요약 비유**: 패딩은 액자 테두리와 같다. 작은 그림(원본) 주위에 넓은 여백(0)을 둔 액자를 끼워 놓으면, 돋보기([[022_kernel_role|커널]])가 그림의 구석을 살펴볼 때도 렌즈 밖으로 나가지 않고 편안하게 스캔할 수 있다.
+- **📢 섹션 요약 비유**: 패딩은 액자 테두리와 같다. 작은 그림(원본) 주위에 넓은 여백(0)을 둔 액자를 끼워 놓으면, 돋보기([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))가 그림의 구석을 살펴볼 때도 렌즈 밖으로 나가지 않고 편안하게 스캔할 수 있다.
 
 ---
 
@@ -62,11 +66,11 @@ $$O = \frac{I - K + 2P}{S} + 1$$
 | 구분 | Valid Padding (유효 패딩) | Same Padding (동일 패딩) |
 | :--- | :--- | :--- |
 | **적용 방식** | 패딩 적용 안 함 ($P = 0$) | 출력 크기가 입력과 같아지도록 패딩 ($P > 0$) |
-| **출력 크기** | 원본보다 작아짐 ([[081_dimensionality_reduction_pca_principal_component_analysis|차원 축소]]) | 원본과 동일하게 유지 |
+| **출력 크기** | 원본보다 작아짐 ([차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/)) | 원본과 동일하게 유지 |
 | **가장자리 정보** | 많이 소실됨 | 보존율이 높음 |
-| **주요 용도** | 연산량 감축, [[285_pooling_layer|풀링]]과 함께 네트워크 [[347_compaction|압축]] 시 | VGGNet, [[287_resnet_skip_connection|ResNet]] 등 깊은 네트워크 구축 시 |
+| **주요 용도** | 연산량 감축, [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)과 함께 네트워크 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 시 | VGGNet, [ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/) 등 깊은 네트워크 구축 시 |
 
-딥러닝의 관점에서 [[097_stride_convolutional_neural_network_downsampling|스트라이드]]([[097_stride_convolutional_neural_network_downsampling|Stride]])가 공간을 [[347_compaction|압축]]하며 연산 속도를 높이는 '가속 페달'이라면, 패딩(Padding)은 공간을 유지하며 층을 깊게 쌓을 수 있게 해 주는 '안전벨트' 역할을 한다. 두 기법을 적절히 조합해야 최적의 모델 크기와 [[282_performance_tactics|성능]]을 얻을 수 있다.
+딥러닝의 관점에서 [스트라이드](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/))가 공간을 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하며 연산 속도를 높이는 '가속 페달'이라면, 패딩(Padding)은 공간을 유지하며 층을 깊게 쌓을 수 있게 해 주는 '안전벨트' 역할을 한다. 두 기법을 적절히 조합해야 최적의 모델 크기와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 얻을 수 있다.
 
 - **📢 섹션 요약 비유**: Valid Padding은 원천징수 세금처럼 월급을 깎아서 통장에 넣는 것이고, Same Padding은 회사에서 세금을 대납해 주어 내 월급명세서 크기 그대로 통장에 꽂히게 보장해 주는 것이다.
 
@@ -74,24 +78,24 @@ $$O = \frac{I - K + 2P}{S} + 1$$
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 [[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]] 아키텍처를 설계할 때는 무작정 패딩을 덧대는 것이 아니라 모델의 깊이와 목적에 맞춰 적용해야 한다.
+실무에서 [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 아키텍처를 설계할 때는 무작정 패딩을 덧대는 것이 아니라 모델의 깊이와 목적에 맞춰 적용해야 한다.
 
-### 판단 기준 및 [[435_checklist_based_testing|체크리스트]]
-1. **네트워크 깊이 (Depth)**: 레이어를 수십~수백 층으로 쌓아야 하는 [[065_dnn_deep_neural_network|심층 신경망]]([[287_resnet_skip_connection|ResNet]] 등)에서는 반드시 Same Padding을 적용해 해상도 붕괴를 막아야 한다.
-2. **외곽선(Edge) 정보 중요도**: 의료 영상이나 [[352_defect_definition|결함]] 탐지처럼 이미지의 가장자리에 있는 미세한 정보가 판독에 결정적이라면 제로 패딩으로 모서리 픽셀을 구출해야 한다.
+### 판단 기준 및 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+1. **네트워크 깊이 (Depth)**: 레이어를 수십~수백 층으로 쌓아야 하는 [심층 신경망](/knowledge-base/studynote/10_ai/01_ai_basics/065_dnn_deep_neural_network/)([ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/) 등)에서는 반드시 Same Padding을 적용해 해상도 붕괴를 막아야 한다.
+2. **외곽선(Edge) 정보 중요도**: 의료 영상이나 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 탐지처럼 이미지의 가장자리에 있는 미세한 정보가 판독에 결정적이라면 제로 패딩으로 모서리 픽셀을 구출해야 한다.
 3. **가짜 노이즈(0)의 영향**: 제로 패딩은 원래 없던 검은색(0) 테두리를 강제로 만드는 것이므로, 가장자리에 민감한 일부 모델에서는 0 대신 인접 픽셀 값을 복사하는 리플렉트 패딩(Reflect Padding) 등의 대안을 검토해야 한다.
 
-- **📢 섹션 요약 비유**: 패딩 설계는 건물 기초를 다지는 일이다. 1층짜리 집(얕은 신경망)은 그냥 지어도(Valid) 되지만, 100층짜리 마천루([[065_dnn_deep_neural_network|심층 신경망]])를 올리려면 철골(Same Padding)로 뼈대 크기를 끝까지 유지해야 무너지지 않는다.
+- **📢 섹션 요약 비유**: 패딩 설계는 건물 기초를 다지는 일이다. 1층짜리 집(얕은 신경망)은 그냥 지어도(Valid) 되지만, 100층짜리 마천루([심층 신경망](/knowledge-base/studynote/10_ai/01_ai_basics/065_dnn_deep_neural_network/))를 올리려면 철골(Same Padding)로 뼈대 크기를 끝까지 유지해야 무너지지 않는다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-패딩은 CNN의 해상도 소멸 문제를 가장 단순하고 수학적으로 우아하게 해결한 꼼수이자 혁신이다. 이를 통해 공간 [[081_dimensionality_reduction_pca_principal_component_analysis|차원 축소]]에 구애받지 않고 무한히 깊은 인공신경망을 설계할 수 있게 되었으며, 가장자리 [[001_dikw_pyramid|데이터]] 유실이라는 고질적인 단점까지 극복했다.
+패딩은 CNN의 해상도 소멸 문제를 가장 단순하고 수학적으로 우아하게 해결한 꼼수이자 혁신이다. 이를 통해 공간 [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/)에 구애받지 않고 무한히 깊은 인공신경망을 설계할 수 있게 되었으며, 가장자리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실이라는 고질적인 단점까지 극복했다.
 
-단순히 0을 덧대는 제로 패딩을 넘어, [[016_replication_factor|복제]]([[016_replication_factor|Replication]]) 방식 등 다양하게 진화하고 있지만, 본질은 "깊은 층을 통과하더라도 정보의 원형 공간을 끝까지 보존한다"는 데 있다. 결국 패딩은 현대 딥러닝 비전(Vision) 아키텍처가 거대한 규모로 성장할 수 있게 만든 핵심 인프라 기술이다.
+단순히 0을 덧대는 제로 패딩을 넘어, [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)([Replication](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)) 방식 등 다양하게 진화하고 있지만, 본질은 "깊은 층을 통과하더라도 정보의 원형 공간을 끝까지 보존한다"는 데 있다. 결국 패딩은 현대 딥러닝 비전(Vision) 아키텍처가 거대한 규모로 성장할 수 있게 만든 핵심 인프라 기술이다.
 
-- **📢 섹션 요약 비유**: 패딩은 택배 상자 안의 뽁뽁이(완충재)와 같다. 뽁뽁이가 내용물의 크기와 형태를 감싸주어, 수많은 배송 단계(레이어)를 거쳐도 물건([[001_dikw_pyramid|데이터]])이 부서지지 않고 안전하게 목적지까지 도달한다.
+- **📢 섹션 요약 비유**: 패딩은 택배 상자 안의 뽁뽁이(완충재)와 같다. 뽁뽁이가 내용물의 크기와 형태를 감싸주어, 수많은 배송 단계(레이어)를 거쳐도 물건([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 부서지지 않고 안전하게 목적지까지 도달한다.
 
 ---
 
@@ -99,10 +103,10 @@ $$O = \frac{I - K + 2P}{S} + 1$$
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[022_kernel_role|커널]] ([[022_kernel_role|Kernel]]) / 필터 (Filter) | 이미지 위를 슬라이딩하며 특징을 추출하는 [[267_weight_bias_activation|가중치]] 행렬 |
-| [[097_stride_convolutional_neural_network_downsampling|스트라이드]] ([[097_stride_convolutional_neural_network_downsampling|Stride]]) | [[022_kernel_role|커널]]이 이동하는 보폭으로, 공간을 [[347_compaction|압축]]하는 반대 급부 역할 |
-| [[099_feature_map_activation_map_cnn_output|특성 맵]] ([[099_feature_map_activation_map_cnn_output|Feature Map]]) | [[284_convolution_stride_padding|합성곱 연산]]을 통과하여 나온 결과물 (출력 텐서) |
-| [[285_pooling_layer|풀링]] ([[285_pooling_layer|Pooling]]) | 패딩과 반대로 의도적으로 차원을 대폭 축소해 주요 특징만 남기는 연산 |
+| [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) ([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) / 필터 (Filter) | 이미지 위를 슬라이딩하며 특징을 추출하는 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 행렬 |
+| [스트라이드](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) ([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)) | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 이동하는 보폭으로, 공간을 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하는 반대 급부 역할 |
+| [특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/) ([Feature Map](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)) | [합성곱 연산](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/)을 통과하여 나온 결과물 (출력 텐서) |
+| [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) ([Pooling](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)) | 패딩과 반대로 의도적으로 차원을 대폭 축소해 주요 특징만 남기는 연산 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -122,7 +126,7 @@ Valid Padding · 가장자리 정보 유실 방치 (초기 모델)
 리플렉트 패딩 (Reflect Padding) 등 특수 패딩 기법 분화
 ```
 
-이 흐름도는 [[001_dikw_pyramid|데이터]] 손실을 감수하던 [[459_quic_fec_forward_error_correction|초기]]에서 벗어나, 해상도 보존을 통해 초거대 딥러닝 네트워크로 발전해 나가는 과정을 보여준다.
+이 흐름도는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실을 감수하던 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에서 벗어나, 해상도 보존을 통해 초거대 딥러닝 네트워크로 발전해 나가는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -136,7 +140,7 @@ Valid Padding · 가장자리 정보 유실 방치 (초기 모델)
 
 **진행 상황**: 98 / 420
 
-← **이전**: [[097_stride_convolutional_neural_network_downsampling|97. 스트라이드 (Stride) - CNN 필터 이동 보폭과 특징 맵 축소]]
-**다음**: [[099_feature_map_activation_map_cnn_output|99. 특성 맵 (Feature Map) - CNN 필터 압축 지도의 실체]] →
+← **이전**: [97. 스트라이드 (Stride) - CNN 필터 이동 보폭과 특징 맵 축소](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)
+**다음**: [99. 특성 맵 (Feature Map) - CNN 필터 압축 지도의 실체](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/) →
 
 ---

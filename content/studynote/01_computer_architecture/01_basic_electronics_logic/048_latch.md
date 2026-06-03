@@ -1,18 +1,22 @@
----
-title: 048. 래치 — Latch
-date: '2026-04-05'
-tags:
-- studynote-computer-architecture
----
++++
+title = "048. 래치 — Latch"
+date = 2026-04-05
+
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
 
 > **핵심 인사이트**
-> 1. 래치(Latch)는 레벨 [[507_acid_properties|트리거]](Level-Triggered) 방식의 1비트 기억 소자 — 입력 [[130_signal|신호]]가 활성 레벨인 동안 계속 상태가 변할 수 있어, [[051_flip_flop|플립플롭]]([[051_flip_flop|Flip-Flop]])과 달리 클럭 에지가 아닌 레벨 구간 전체에서 데이터를 통과시킨다.
+> 1. 래치(Latch)는 레벨 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)(Level-Triggered) 방식의 1비트 기억 소자 — 입력 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 활성 레벨인 동안 계속 상태가 변할 수 있어, [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)([Flip-Flop](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/))과 달리 클럭 에지가 아닌 레벨 구간 전체에서 데이터를 통과시킨다.
 > 2. SR 래치가 모든 래치의 기초 — NOR/NAND 게이트 2개의 피드백 연결만으로 기억 기능을 구현하며, S=1·R=1(NAND: S=0·R=0)의 금지 상태가 설계 시 반드시 고려해야 할 제약이다.
-> 3. 래치의 투명성(Transparency)이 타이밍 해저드의 원인 — 인에이블(EN) [[130_signal|신호]]가 HIGH인 동안 입력 변화가 즉시 출력에 반영되므로, 클럭 스큐([[388_spanner_truetime_clock_skew|Clock Skew]])나 글리치(Glitch)에 취약하여 현대 동기식 설계에서는 D [[051_flip_flop|플립플롭]]을 선호한다.
+> 3. 래치의 투명성(Transparency)이 타이밍 해저드의 원인 — 인에이블(EN) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 HIGH인 동안 입력 변화가 즉시 출력에 반영되므로, 클럭 스큐([Clock Skew](/knowledge-base/studynote/05_database/06_dw_olap_trends/388_spanner_truetime_clock_skew/))나 글리치(Glitch)에 취약하여 현대 동기식 설계에서는 D [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)을 선호한다.
 
 ---
 
-## Ⅰ. SR 래치 ([[049_sr_latch|SR Latch]])
+## Ⅰ. SR 래치 ([SR Latch](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/049_sr_latch/))
 
 ```
 NOR 게이트 SR 래치:
@@ -103,7 +107,7 @@ SR 래치의 문제: S=R=1 금지 상태
 
 ---
 
-## Ⅲ. 래치 vs [[051_flip_flop|플립플롭]]
+## Ⅲ. 래치 vs [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)
 
 ```
 비교:
@@ -143,7 +147,7 @@ Latch Inference 경고:
   → 합성기가 래치로 구현 (경고 발생)
 ```
 
-> 📢 **섹션 요약 비유**: 래치 vs [[051_flip_flop|플립플롭]] = 문 vs 카메라 셔터 — 래치는 문 열린 동안 계속 들어옴(레벨). [[051_flip_flop|플립플롭]]은 셔터 누르는 순간만(에지). 모바일은 에너지 절약 위해 래치 선호!
+> 📢 **섹션 요약 비유**: 래치 vs [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) = 문 vs 카메라 셔터 — 래치는 문 열린 동안 계속 들어옴(레벨). [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)은 셔터 누르는 순간만(에지). 모바일은 에너지 절약 위해 래치 선호!
 
 ---
 
@@ -188,11 +192,11 @@ D 래치 응용:
   D FF: D 래치 × 2 (마스터-슬레이브) ≈ 12 게이트
 ```
 
-> 📢 **섹션 요약 비유**: SR 래치 디바운싱 = 출입문 센서 — 문 살짝 건드려도 여러 번 [[130_signal|신호]] 발생(바운싱). SR 래치가 "한 번 열렸으면 계속 열림"으로 깔끔하게 처리!
+> 📢 **섹션 요약 비유**: SR 래치 디바운싱 = 출입문 센서 — 문 살짝 건드려도 여러 번 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 발생(바운싱). SR 래치가 "한 번 열렸으면 계속 열림"으로 깔끔하게 처리!
 
 ---
 
-## Ⅴ. 실무 시나리오 — [[070_asic|ASIC]] 전력 최적화
+## Ⅴ. 실무 시나리오 — [ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) 전력 최적화
 
 ```
 모바일 SoC ASIC 설계에서 래치 활용:
@@ -234,7 +238,7 @@ D 래치 응용:
   현대 EDA 도구(Cadence, Synopsys) 래치 최적화 자동화 지원
 ```
 
-> 📢 **섹션 요약 비유**: [[070_asic|ASIC]] 래치 최적화 = 전등 [[238_switch_operation_principles|스위치]] 절약 — 항상 켜둘 필요 없는 등(FF)을 조명 센서(래치)로 교체. 면적 18%, 전력 12% 절감. 스마트폰 배터리 늘리는 작은 기술!
+> 📢 **섹션 요약 비유**: [ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) 래치 최적화 = 전등 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 절약 — 항상 켜둘 필요 없는 등(FF)을 조명 센서(래치)로 교체. 면적 18%, 전력 12% 절감. 스마트폰 배터리 늘리는 작은 기술!
 
 ---
 
@@ -295,7 +299,7 @@ Latch-Based Pipeline
 
 1. SR 래치는 시소 기억 장치 — S 누르면 Q 쪽으로, R 누르면 반대로. 손 떼도 그 상태 유지! 둘 다 동시에 누르면 고장(금지 상태)!
 2. D 래치 투명성 = 유리문 — EN=1(열림)이면 D가 즉시 Q로 보임. EN=0(닫힘)이면 마지막 상태 유지. 문 열린 동안 불안정!
-3. [[070_asic|ASIC]] 래치 최적화 = 조명 절약 — 항상 켜둘 필요 없는 불(D FF)을 센서 등(래치)으로. 스마트폰 전력 12% 절감!
+3. [ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) 래치 최적화 = 조명 절약 — 항상 켜둘 필요 없는 불(D FF)을 센서 등(래치)으로. 스마트폰 전력 12% 절감!
 
 ---
 
@@ -303,7 +307,7 @@ Latch-Based Pipeline
 
 **진행 상황**: 48 / 803
 
-← **이전**: [[047_level_trigger|047. 레벨 트리거 — Level Trigger]]
-**다음**: [[049_sr_latch|049. SR 래치 — SR Latch]] →
+← **이전**: [047. 레벨 트리거 — Level Trigger](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/047_level_trigger/)
+**다음**: [049. SR 래치 — SR Latch](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/049_sr_latch/) →
 
 ---

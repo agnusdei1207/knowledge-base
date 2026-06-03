@@ -1,23 +1,27 @@
----
-title: 186. 플래그(Flag) 방식 - 문자 삽입 (Character/Byte Stuffing) - DLE, STX, ETX
-date: '2026-05-06'
-tags:
-- studynote-network
----
++++
+title = "186. 플래그(Flag) 방식 - 문자 삽입 (Character/Byte Stuffing) - DLE, STX, ETX"
+date = 2026-05-06
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 문자 삽입 (Character/[[074_byte|Byte]] Stuffing)은 [[001_dikw_pyramid|데이터]] 링크 계층 ([[001_dikw_pyramid|Data]] Link Layer)에서 제어 문자를 프레임 경계로 쓰되, 본문 안에 같은 문자가 나타나면 이스케이프 처리를 넣어 경계를 보존하는 [[074_byte|바이트]] 지향 [[184_framing_mechanism|프레이밍]] 기법이다.
-> 2. **가치**: DLE ([[001_dikw_pyramid|Data]] Link Escape), STX (Start of Text), ETX (End of Text)를 조합하면 길이 필드 없이도 프레임 시작과 끝을 구분하고, 일정 수준의 재동기화 (Resynchronization)도 가능하다.
-> 3. **판단 포인트**: 문자 삽입은 이해하기 쉽지만 [[074_byte|바이트]] 오버헤드와 문자 집합 의존성이 있어, 임의의 이진 [[001_dikw_pyramid|데이터]]와 고속 회선에서는 [[187_bit_stuffing_flag_mechanism|비트 스터핑]] ([[187_bit_stuffing_flag_mechanism|Bit Stuffing]])보다 불리할 수 있다.
+> 1. **본질**: 문자 삽입 (Character/[Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) Stuffing)은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Link Layer)에서 제어 문자를 프레임 경계로 쓰되, 본문 안에 같은 문자가 나타나면 이스케이프 처리를 넣어 경계를 보존하는 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 지향 [프레이밍](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/) 기법이다.
+> 2. **가치**: DLE ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Link Escape), STX (Start of Text), ETX (End of Text)를 조합하면 길이 필드 없이도 프레임 시작과 끝을 구분하고, 일정 수준의 재동기화 (Resynchronization)도 가능하다.
+> 3. **판단 포인트**: 문자 삽입은 이해하기 쉽지만 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 오버헤드와 문자 집합 의존성이 있어, 임의의 이진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 고속 회선에서는 [비트 스터핑](/knowledge-base/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/) ([Bit Stuffing](/knowledge-base/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/))보다 불리할 수 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-문자 삽입은 연속된 [[074_byte|바이트]] 스트림 속에서 프레임의 시작과 끝을 **특수 제어 문자 시퀀스**로 표시하는 방식이다. 송신기는 보통 `DLE STX`로 프레임 시작을, `DLE ETX`로 프레임 종료를 알린다. 수신기는 이 [[074_byte|바이트]] 조합을 찾아 프레임 경계를 판정한다.
+문자 삽입은 연속된 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 스트림 속에서 프레임의 시작과 끝을 **특수 제어 문자 시퀀스**로 표시하는 방식이다. 송신기는 보통 `DLE STX`로 프레임 시작을, `DLE ETX`로 프레임 종료를 알린다. 수신기는 이 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 조합을 찾아 프레임 경계를 판정한다.
 
-이 방식이 필요했던 이유는 길이 기반 [[184_framing_mechanism|프레이밍]]만으로는 오류 전파를 막기 어렵기 때문이다. [[185_byte_counting_framing|바이트 카운트]] 방식은 길이 필드 하나가 깨지면 다음 프레임까지 경계가 무너질 수 있다. 반면 문자 삽입은 스트림 중간에서 다시 `DLE STX`를 찾으면 어느 정도 재동기화할 수 있어, 문자 중심 통신 환경에서 더 실용적인 선택이 되었다.
+이 방식이 필요했던 이유는 길이 기반 [프레이밍](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/)만으로는 오류 전파를 막기 어렵기 때문이다. [바이트 카운트](/knowledge-base/studynote/03_network/04_data_link_layer_error/185_byte_counting_framing/) 방식은 길이 필드 하나가 깨지면 다음 프레임까지 경계가 무너질 수 있다. 반면 문자 삽입은 스트림 중간에서 다시 `DLE STX`를 찾으면 어느 정도 재동기화할 수 있어, 문자 중심 통신 환경에서 더 실용적인 선택이 되었다.
 
 아래 그림은 문자 삽입이 프레임 경계를 어떻게 표시하는지 보여 준다.
 
@@ -32,7 +36,7 @@ tags:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-핵심은 수신기가 길이를 세지 않고도 "경계 문자를 만날 때까지 읽는다"는 점이다. 따라서 프레임의 본질이 [[074_byte|바이트]] 수보다 **특정 기호의 출현**으로 정의된다.
+핵심은 수신기가 길이를 세지 않고도 "경계 문자를 만날 때까지 읽는다"는 점이다. 따라서 프레임의 본질이 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 수보다 **특정 기호의 출현**으로 정의된다.
 
 - **📢 섹션 요약 비유**: 문자 삽입은 편지 봉투의 "여기서부터 본문 시작", "여기서 끝" 표식을 붙이는 것과 같다. 길이를 재지 않아도 표식만 찾으면 어디까지 읽어야 할지 알 수 있다.
 
@@ -40,13 +44,13 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-문제는 payload 안에 제어 문자와 같은 값이 우연히 들어올 수 있다는 점이다. 이를 해결하려고 DLE를 이스케이프 문자로 사용한다. 송신기는 payload 안에서 `DLE`가 나오면 `DLE DLE`로 하나 더 넣고, 수신기는 프레임 내부에서 `DLE DLE`를 만나면 [[001_dikw_pyramid|데이터]] `DLE` 하나로 복원한다. 즉 `DLE`는 다음 [[074_byte|바이트]]를 "제어"로 읽을지 "[[001_dikw_pyramid|데이터]]"로 읽을지 결정하는 예약 신호다.
+문제는 payload 안에 제어 문자와 같은 값이 우연히 들어올 수 있다는 점이다. 이를 해결하려고 DLE를 이스케이프 문자로 사용한다. 송신기는 payload 안에서 `DLE`가 나오면 `DLE DLE`로 하나 더 넣고, 수신기는 프레임 내부에서 `DLE DLE`를 만나면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) `DLE` 하나로 복원한다. 즉 `DLE`는 다음 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)를 "제어"로 읽을지 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"로 읽을지 결정하는 예약 신호다.
 
-| 송신 전 payload | 송신 후 [[074_byte|바이트]]열 | 수신기 해석 |
+| 송신 전 payload | 송신 후 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)열 | 수신기 해석 |
 | :--- | :--- | :--- |
-| `A B C` | `DLE STX A B C DLE ETX` | 일반 [[001_dikw_pyramid|데이터]] 3바이트 |
-| `A DLE C` | `DLE STX A DLE DLE C DLE ETX` | 중간의 `DLE DLE`를 [[001_dikw_pyramid|데이터]] `DLE`로 복원 |
-| `DLE ETX`라는 [[001_dikw_pyramid|데이터]] | `DLE STX DLE DLE ETX DLE ETX` | 앞 `DLE`가 escape 역할, `ETX`는 [[001_dikw_pyramid|데이터]]로 처리 |
+| `A B C` | `DLE STX A B C DLE ETX` | 일반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 3바이트 |
+| `A DLE C` | `DLE STX A DLE DLE C DLE ETX` | 중간의 `DLE DLE`를 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) `DLE`로 복원 |
+| `DLE ETX`라는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | `DLE STX DLE DLE ETX DLE ETX` | 앞 `DLE`가 escape 역할, `ETX`는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 처리 |
 
 이 과정을 상태 기계로 보면 더 명확하다.
 
@@ -64,25 +68,25 @@ tags:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-이 방식의 장점은 경계 인식 규칙이 단순하다는 데 있다. 하지만 payload에 `DLE`가 많이 들어가면 stuffing 오버헤드가 커지고, 모든 문자를 [[074_byte|바이트]] 단위로 검사해야 하므로 처리 비용도 증가한다. 그래서 문자 삽입은 "단순하지만 항상 효율적인" 방식은 아니다.
+이 방식의 장점은 경계 인식 규칙이 단순하다는 데 있다. 하지만 payload에 `DLE`가 많이 들어가면 stuffing 오버헤드가 커지고, 모든 문자를 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 단위로 검사해야 하므로 처리 비용도 증가한다. 그래서 문자 삽입은 "단순하지만 항상 효율적인" 방식은 아니다.
 
-- **📢 섹션 요약 비유**: 문자 삽입은 글 속 따옴표를 다룰 때 역슬래시를 붙이는 규칙과 같다. 특별한 표식을 그냥 쓰면 문장이 끝난 줄 알 수 있으니, 앞에 [[571_protection_vs_security|보호]] 표시를 붙여 "이건 내용일 뿐"이라고 알려 주는 것이다.
+- **📢 섹션 요약 비유**: 문자 삽입은 글 속 따옴표를 다룰 때 역슬래시를 붙이는 규칙과 같다. 특별한 표식을 그냥 쓰면 문장이 끝난 줄 알 수 있으니, 앞에 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 표시를 붙여 "이건 내용일 뿐"이라고 알려 주는 것이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-[[184_framing_mechanism|프레이밍]] 기법은 경계를 어디에 두느냐에 따라 성격이 갈린다. [[185_byte_counting_framing|바이트 카운트]]는 길이를 세고, 문자 삽입은 제어 문자를 찾고, [[187_bit_stuffing_flag_mechanism|비트 스터핑]]은 특정 [[073_bit|비트]] 패턴을 찾는다. 문자 삽입은 그중 **[[074_byte|바이트]] 지향과 재동기화 가능성의 절충안**에 해당한다.
+[프레이밍](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/) 기법은 경계를 어디에 두느냐에 따라 성격이 갈린다. [바이트 카운트](/knowledge-base/studynote/03_network/04_data_link_layer_error/185_byte_counting_framing/)는 길이를 세고, 문자 삽입은 제어 문자를 찾고, [비트 스터핑](/knowledge-base/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/)은 특정 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 패턴을 찾는다. 문자 삽입은 그중 **[바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 지향과 재동기화 가능성의 절충안**에 해당한다.
 
 | 방식 | 경계 기준 | 장점 | 약점 |
 | :--- | :--- | :--- | :--- |
-| [[185_byte_counting_framing|바이트 카운트]] ([[185_byte_counting_framing|Byte Counting]]) | 길이 필드 | 오버헤드 작음 | 길이 오류가 연쇄 전파 |
+| [바이트 카운트](/knowledge-base/studynote/03_network/04_data_link_layer_error/185_byte_counting_framing/) ([Byte Counting](/knowledge-base/studynote/03_network/04_data_link_layer_error/185_byte_counting_framing/)) | 길이 필드 | 오버헤드 작음 | 길이 오류가 연쇄 전파 |
 | 문자 삽입 (Character Stuffing) | `DLE STX`, `DLE ETX` | 규칙 이해 쉬움, 재동기화 가능 | escape 오버헤드, 문자 집합 의존 |
-| [[187_bit_stuffing_flag_mechanism|비트 스터핑]] ([[187_bit_stuffing_flag_mechanism|Bit Stuffing]]) | `01111110` 같은 [[073_bit|비트]] 플래그 | 이진 [[001_dikw_pyramid|데이터]]에 강함, 현대성 높음 | 구현 복잡도 상승 |
+| [비트 스터핑](/knowledge-base/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/) ([Bit Stuffing](/knowledge-base/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/)) | `01111110` 같은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 플래그 | 이진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 강함, 현대성 높음 | 구현 복잡도 상승 |
 
-문자 삽입은 과거 IBM의 [[019_bsc|BSC]] (Binary [[010_동기식_비동기식_전송|Synchronous]] Communication) 같은 [[074_byte|바이트]] 지향 [[295_protocol_field_tcp_udp_icmp|프로토콜]]과 잘 맞았다. 반면 임의의 바이너리 payload가 많고 회선 속도가 높아질수록 [[074_byte|바이트]] 단위 제어 문자보다 [[073_bit|비트]] 단위 플래그가 더 적합해졌다. 이 때문에 오늘날 고속 링크에서는 [[216_hdlc_high_level_data_link_control|HDLC]] (High-Level [[001_dikw_pyramid|Data]] Link Control)류 [[073_bit|비트]] 지향 [[184_framing_mechanism|프레이밍]]이 주류가 되었다.
+문자 삽입은 과거 IBM의 [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/) (Binary [Synchronous](/knowledge-base/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/) Communication) 같은 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 지향 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)과 잘 맞았다. 반면 임의의 바이너리 payload가 많고 회선 속도가 높아질수록 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 단위 제어 문자보다 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 단위 플래그가 더 적합해졌다. 이 때문에 오늘날 고속 링크에서는 [HDLC](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) (High-Level [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Link Control)류 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 지향 [프레이밍](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/)이 주류가 되었다.
 
-소프트웨어 계층과도 연결된다. [[343_json|JSON]] 문자열에서 따옴표 앞에 백슬래시를 넣거나, CSV 내부 쉼표를 따옴표로 감싸는 규칙 역시 "제어 기호가 본문에 섞였을 때 escape를 넣는다"는 점에서 문자 삽입과 같은 사고방식을 따른다.
+소프트웨어 계층과도 연결된다. [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 문자열에서 따옴표 앞에 백슬래시를 넣거나, CSV 내부 쉼표를 따옴표로 감싸는 규칙 역시 "제어 기호가 본문에 섞였을 때 escape를 넣는다"는 점에서 문자 삽입과 같은 사고방식을 따른다.
 
 - **📢 섹션 요약 비유**: 세 방법은 물건을 포장하는 세 방식과 같다. 하나는 상자 겉면에 개수를 적는 방식이고, 하나는 시작과 끝에 리본을 묶는 방식이며, 하나는 내용물이 어떤 모양이어도 안 헷갈리게 특수 매듭 규칙을 쓰는 방식이다.
 
@@ -90,22 +94,22 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 문자 삽입을 **저속 [[149_serial_communication_rs232_rs485|직렬]] 통신, 제어 문자 체계가 명확한 장비 간 통신, 텍스트 성격이 강한 [[295_protocol_field_tcp_udp_icmp|프로토콜]]**에 적용하기 쉽다. 구현이 단순하고 디버깅 시 사람이 [[074_byte|바이트]] 스트림을 해석하기도 쉽기 때문이다. 하지만 payload가 임의 이진 [[001_dikw_pyramid|데이터]] 중심이면 DLE가 자주 등장할 수 있어 오버헤드가 커지고, [[074_byte|바이트]] 경계에 묶인 처리 특성 때문에 고속 링크에는 비효율적일 수 있다.
+실무에서는 문자 삽입을 **저속 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 통신, 제어 문자 체계가 명확한 장비 간 통신, 텍스트 성격이 강한 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)**에 적용하기 쉽다. 구현이 단순하고 디버깅 시 사람이 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 스트림을 해석하기도 쉽기 때문이다. 하지만 payload가 임의 이진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중심이면 DLE가 자주 등장할 수 있어 오버헤드가 커지고, [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 경계에 묶인 처리 특성 때문에 고속 링크에는 비효율적일 수 있다.
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 통신 환경이 [[074_byte|바이트]] 지향이며 제어 문자 규약을 공유하는가?
+1. 통신 환경이 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 지향이며 제어 문자 규약을 공유하는가?
 2. payload에서 escape 대상 문자가 얼마나 자주 등장하는지 측정했는가?
 3. 프레임 중간 오류 발생 시 다음 `DLE STX` 탐색으로 재동기화할 수 있는가?
-4. 문자 삽입보다 [[187_bit_stuffing_flag_mechanism|비트 스터핑]]이나 길이 필드가 더 단순한 환경은 아닌가?
+4. 문자 삽입보다 [비트 스터핑](/knowledge-base/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/)이나 길이 필드가 더 단순한 환경은 아닌가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 대용량 이진 [[501_file_definition_logical_record|파일]] 전송에 문자 삽입을 기본값으로 고집하는 설계
+- 대용량 이진 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전송에 문자 삽입을 기본값으로 고집하는 설계
 - escape 처리 없이 `STX`, `ETX`, `DLE`를 payload에 그대로 허용하는 설계
-- [[113_crc|CRC]] ([[113_crc|Cyclic Redundancy Check]]) 같은 오류 검출 없이 경계 문자만 믿는 설계
+- [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) ([Cyclic Redundancy Check](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)) 같은 오류 검출 없이 경계 문자만 믿는 설계
 
-기술사 답안에서는 "문자 삽입은 경계 인식만 해결하지, 오류 검출까지 해결하는 것은 아니다"를 분명히 적는 것이 중요하다. [[184_framing_mechanism|프레이밍]]과 에러 검출은 다른 계층적 책임이며, 실제 [[295_protocol_field_tcp_udp_icmp|프로토콜]]은 보통 두 메커니즘을 함께 사용한다.
+기술사 답안에서는 "문자 삽입은 경계 인식만 해결하지, 오류 검출까지 해결하는 것은 아니다"를 분명히 적는 것이 중요하다. [프레이밍](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/)과 에러 검출은 다른 계층적 책임이며, 실제 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 보통 두 메커니즘을 함께 사용한다.
 
 - **📢 섹션 요약 비유**: 문자 삽입은 행사장 입구에 안내 리본을 치는 일과 같다. 리본이 있으면 어디로 들어오고 나가야 하는지는 알 수 있지만, 초대장이 진짜인지 가짜인지는 별도의 검사대가 또 필요하다.
 
@@ -113,13 +117,13 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-문자 삽입 방식의 가장 큰 효과는 [[074_byte|바이트]] 스트림에 경계를 부여해 수신기가 프레임 단위로 [[001_dikw_pyramid|데이터]]를 해석할 수 있게 한다는 점이다. 길이 필드 하나에 전적으로 의존하지 않으므로 일부 환경에서는 재동기화 능력도 좋아진다. 또한 제어 문자 기반 규칙이 단순해 교육용·설계 설명용으로도 매우 유용하다.
+문자 삽입 방식의 가장 큰 효과는 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 스트림에 경계를 부여해 수신기가 프레임 단위로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 해석할 수 있게 한다는 점이다. 길이 필드 하나에 전적으로 의존하지 않으므로 일부 환경에서는 재동기화 능력도 좋아진다. 또한 제어 문자 기반 규칙이 단순해 교육용·설계 설명용으로도 매우 유용하다.
 
-그러나 이 방식은 문자 집합과 escape 규칙에 묶여 있어 임의 이진 [[001_dikw_pyramid|데이터]]가 많은 현대 고속 네트워크에는 한계가 있다. 결국 [[184_framing_mechanism|프레이밍]] 기술은 "무엇을 구분자로 삼을 것인가"의 역사이며, 문자 삽입은 그중에서 [[074_byte|바이트]] 지향 통신 시대를 대표하는 해법이다.
+그러나 이 방식은 문자 집합과 escape 규칙에 묶여 있어 임의 이진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 많은 현대 고속 네트워크에는 한계가 있다. 결국 [프레이밍](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/) 기술은 "무엇을 구분자로 삼을 것인가"의 역사이며, 문자 삽입은 그중에서 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 지향 통신 시대를 대표하는 해법이다.
 
-따라서 이 개념은 단순히 `DLE STX ... DLE ETX`를 외우는 것이 아니라, **제어 기호가 [[001_dikw_pyramid|데이터]] 안에 섞이면 escape가 필요하다**는 일반 원리로 기억해야 한다. 그 원리는 오늘날의 문자열 인코딩, [[149_serial_communication_rs232_rs485|직렬]] 통신, [[295_protocol_field_tcp_udp_icmp|프로토콜]] 설계 전반에 여전히 살아 있다.
+따라서 이 개념은 단순히 `DLE STX ... DLE ETX`를 외우는 것이 아니라, **제어 기호가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 안에 섞이면 escape가 필요하다**는 일반 원리로 기억해야 한다. 그 원리는 오늘날의 문자열 인코딩, [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 통신, [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 설계 전반에 여전히 살아 있다.
 
-- **📢 섹션 요약 비유**: 문자 삽입은 중요한 단어에 따옴표를 치되, 내용 속 따옴표에는 다시 [[571_protection_vs_security|보호]] 표식을 붙이는 글쓰기 규칙과 같다. 경계를 만들고, 그 경계가 본문과 충돌하지 않게 지켜 주는 기술이다.
+- **📢 섹션 요약 비유**: 문자 삽입은 중요한 단어에 따옴표를 치되, 내용 속 따옴표에는 다시 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 표식을 붙이는 글쓰기 규칙과 같다. 경계를 만들고, 그 경계가 본문과 충돌하지 않게 지켜 주는 기술이다.
 
 ---
 
@@ -127,11 +131,11 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[184_framing_mechanism|프레이밍]] ([[184_framing_mechanism|Framing]]) | 연속 [[073_bit|비트]]/[[074_byte|바이트]] 스트림에 프레임 경계를 부여하는 상위 문제 |
-| [[185_byte_counting_framing|바이트 카운트]] ([[185_byte_counting_framing|Byte Counting]]) | 문자 삽입과 대비되는 길이 기반 경계 지정 방식 |
-| [[187_bit_stuffing_flag_mechanism|비트 스터핑]] ([[187_bit_stuffing_flag_mechanism|Bit Stuffing]]) | 문자 삽입을 [[073_bit|비트]] 지향 [[295_protocol_field_tcp_udp_icmp|프로토콜]]로 확장한 현대적 방식 |
-| 이스케이프 문자 (Escape Character) | 제어 문자와 [[001_dikw_pyramid|데이터]] 문자를 구분하기 위한 핵심 장치 |
-| [[113_crc|CRC]] ([[113_crc|Cyclic Redundancy Check]]) | [[184_framing_mechanism|프레이밍]]과 별도로 오류 검출을 담당하는 메커니즘 |
+| [프레이밍](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/) ([Framing](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/)) | 연속 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)/[바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 스트림에 프레임 경계를 부여하는 상위 문제 |
+| [바이트 카운트](/knowledge-base/studynote/03_network/04_data_link_layer_error/185_byte_counting_framing/) ([Byte Counting](/knowledge-base/studynote/03_network/04_data_link_layer_error/185_byte_counting_framing/)) | 문자 삽입과 대비되는 길이 기반 경계 지정 방식 |
+| [비트 스터핑](/knowledge-base/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/) ([Bit Stuffing](/knowledge-base/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/)) | 문자 삽입을 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 지향 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로 확장한 현대적 방식 |
+| 이스케이프 문자 (Escape Character) | 제어 문자와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 문자를 구분하기 위한 핵심 장치 |
+| [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) ([Cyclic Redundancy Check](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)) | [프레이밍](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/)과 별도로 오류 검출을 담당하는 메커니즘 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -151,7 +155,7 @@ DLE 기반 문자 삽입 (Character Stuffing)
 비트 스터핑 · HDLC 같은 비트 지향 프로토콜
 ```
 
-이 흐름은 단순 길이 표기에서 출발해, 제어 문자 기반 [[184_framing_mechanism|프레이밍]]과 escape 규칙을 거쳐 보다 일반적인 [[073_bit|비트]] 지향 [[184_framing_mechanism|프레이밍]]으로 발전하는 과정을 요약한다.
+이 흐름은 단순 길이 표기에서 출발해, 제어 문자 기반 [프레이밍](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/)과 escape 규칙을 거쳐 보다 일반적인 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 지향 [프레이밍](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/)으로 발전하는 과정을 요약한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -165,7 +169,7 @@ DLE 기반 문자 삽입 (Character Stuffing)
 
 **진행 상황**: 307 / 1120
 
-← **이전**: [[185_byte_counting_framing|185. 바이트 카운트 (Byte Counting) 방식]]
-**다음**: [[187_bit_stuffing_flag_mechanism|187. 비트 스터핑 (Bit Stuffing)]] →
+← **이전**: [185. 바이트 카운트 (Byte Counting) 방식](/knowledge-base/studynote/03_network/04_data_link_layer_error/185_byte_counting_framing/)
+**다음**: [187. 비트 스터핑 (Bit Stuffing)](/knowledge-base/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/) →
 
 ---

@@ -1,13 +1,17 @@
----
-title: 54. DAO (Decentralized Autonomous Organization)
-date: '2026-05-01'
-tags:
-- studynote-ict-convergence
----
++++
+title = "54. DAO (Decentralized Autonomous Organization)"
+date = 2026-05-01
+
+[taxonomies]
+tags = ["studynote-ict-convergence"]
+
+[extra]
+tags = ["studynote-ict-convergence"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: DAO (Decentralized Autonomous Organization)는 [[022_smart_contract|스마트 컨트랙트]]로 운영 규칙을 자동화한 [[136_variance|분산]]형 조직이다.
+> 1. **본질**: DAO (Decentralized Autonomous Organization)는 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)로 운영 규칙을 자동화한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)형 조직이다.
 > 2. **가치**: 토큰 기반 거버넌스, 제안/투표/집행 구조로 중앙 관리자 없이 의사결정을 수행한다.
 > 3. **판단 포인트**: 기술만으로 조직이 되지 않는다. 법적 책임, 보안, 오프체인 조정이 함께 필요하다.
 
@@ -15,9 +19,9 @@ tags:
 
 ## Ⅰ. 개요 및 필요성
 
-DAO는 [[004_blockchain|블록체인]] 위에서 조직 운영 규칙을 코드로 구현한 형태다. 전통적인 위계 조직 대신 커뮤니티가 규칙에 따라 의사결정한다.
+DAO는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 위에서 조직 운영 규칙을 코드로 구현한 형태다. 전통적인 위계 조직 대신 커뮤니티가 규칙에 따라 의사결정한다.
 
-[[004_blockchain|블록체인]] 커뮤니티, 투자 펀드, [[295_protocol_field_tcp_udp_icmp|프로토콜]] 운영에서 중앙 집중형 운영의 한계를 줄이기 위해 등장했다.
+[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 커뮤니티, 투자 펀드, [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 운영에서 중앙 집중형 운영의 한계를 줄이기 위해 등장했다.
 
 - **📢 섹션 요약 비유**: DAO는 사람 대신 규칙표가 직접 일을 하는 동아리다.
 
@@ -25,7 +29,7 @@ DAO는 [[004_blockchain|블록체인]] 위에서 조직 운영 규칙을 코드�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-DAO는 제안서, 투표, 실행, 금고(treasury)를 중심으로 돌아간다. 권한은 토큰이나 멤버십으로 [[136_variance|분산]]되고, 결과는 [[022_smart_contract|스마트 컨트랙트]]가 집행한다.
+DAO는 제안서, 투표, 실행, 금고(treasury)를 중심으로 돌아간다. 권한은 토큰이나 멤버십으로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)되고, 결과는 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)가 집행한다.
 
 ```text
 Proposal → Vote → Quorum Check → Smart Contract Execution → Treasury
@@ -34,7 +38,7 @@ Proposal → Vote → Quorum Check → Smart Contract Execution → Treasury
 | 요소 | 역할 | 포인트 |
 | :--- | :--- | :--- |
 | Proposal | 의사결정 제안 | 변경 요청 |
-| Vote | 커뮤니티 선택 | 토큰 [[267_weight_bias_activation|가중치]] |
+| Vote | 커뮤니티 선택 | 토큰 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) |
 | Quorum | 성립 조건 | 최소 참여율 |
 | Treasury | 자금 관리 | 온체인 자산 |
 
@@ -51,7 +55,7 @@ DAO는 전통 기업, 협동조합, 멀티시그(multisig)와 비교할 수 있�
 | 항목 | 전통 조직 | DAO |
 | :--- | :--- | :--- |
 | 의사결정 | 계층형 | 토큰/규칙 기반 |
-| 실행 | 사람 중심 | [[022_smart_contract|스마트 컨트랙트]] |
+| 실행 | 사람 중심 | [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) |
 | 투명성 | 제한적 | 높음 |
 
 DAO는 완전 자동이 아니라, 오프체인 토론과 온체인 실행이 결합된 형태가 많다. 그래서 법적 실체와 기술적 실체를 분리해서 봐야 한다.
@@ -62,22 +66,22 @@ DAO는 완전 자동이 아니라, 오프체인 토론과 온체인 실행이 �
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 투표 공격, 고래 지배, 키 관리, [[022_smart_contract|스마트 컨트랙트]] 취약점, 법적 책임을 같이 봐야 한다. 거버넌스가 [[136_variance|분산]]될수록 보안과 참여 설계가 중요하다.
+실무에서는 투표 공격, 고래 지배, 키 관리, [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 취약점, 법적 책임을 같이 봐야 한다. 거버넌스가 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)될수록 보안과 참여 설계가 중요하다.
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 제안/투표/집행 흐름이 명확한가?
-2. quorum과 [[258_voting_ensemble|voting]] [[069_type_1_2_error_statistical_power|power]] 규칙이 적절한가?
+2. quorum과 [voting](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/) [power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) 규칙이 적절한가?
 3. treasury 보호와 키 관리가 되는가?
 4. 오프체인 법적 책임이 정리되어 있는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 규칙은 온체인인데 실제 의사결정은 소수만 하는 경우
-- [[022_smart_contract|스마트 컨트랙트]] 취약점을 무시하는 경우
+- [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 취약점을 무시하는 경우
 - 법적 책임과 분쟁 처리 절차를 빼먹는 경우
 
-기술사 관점에서는 DAO가 단순 [[004_blockchain|블록체인]] 응용이 아니라, 거버넌스와 실행을 코드로 연결한 조직 모델이라는 점을 설명해야 한다.
+기술사 관점에서는 DAO가 단순 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 응용이 아니라, 거버넌스와 실행을 코드로 연결한 조직 모델이라는 점을 설명해야 한다.
 
 - **📢 섹션 요약 비유**: DAO는 자동 판매기처럼 보이지만, 사실은 뒤에서 설계된 규칙이 아주 중요하다.
 
@@ -85,9 +89,9 @@ DAO는 완전 자동이 아니라, 오프체인 토론과 온체인 실행이 �
 
 ## Ⅴ. 기대효과 및 결론
 
-DAO는 투명성과 참여성을 높이고, 중앙 권한 의존도를 낮춘다. 하지만 기술적 [[136_variance|분산]]이 곧 조직적 성숙을 의미하지는 않는다.
+DAO는 투명성과 참여성을 높이고, 중앙 권한 의존도를 낮춘다. 하지만 기술적 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 곧 조직적 성숙을 의미하지는 않는다.
 
-정리하면, DAO는 "규칙이 조직을 운영하는" [[136_variance|분산]] 거버넌스 모델이다.
+정리하면, DAO는 "규칙이 조직을 운영하는" [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 거버넌스 모델이다.
 
 - **📢 섹션 요약 비유**: DAO는 모두가 규칙을 보고 같이 운영하는 무인 편의점이다.
 
@@ -101,7 +105,7 @@ DAO는 투명성과 참여성을 높이고, 중앙 권한 의존도를 낮춘다
 | Vote | 의사결정 |
 | Quorum | 성립 조건 |
 | Treasury | 자금 |
-| [[022_smart_contract|Smart Contract]] | 집행 |
+| [Smart Contract](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) | 집행 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -132,7 +136,7 @@ DAO
 
 **진행 상황**: 54 / 552
 
-← **이전**: [[053_did_document_public_key|53. DID 문서와 공개키 (DID Document Public Key)]]
-**다음**: [[055_ipfs_interplanetary_file_system|55. IPFS (InterPlanetary File System)]] →
+← **이전**: [53. DID 문서와 공개키 (DID Document Public Key)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/053_did_document_public_key/)
+**다음**: [55. IPFS (InterPlanetary File System)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/) →
 
 ---

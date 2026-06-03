@@ -1,38 +1,42 @@
----
-title: 498. 스마트 팩토리, CPS, 마이크로그리드 통합 (Smart Factory CPS Microgrid Integration)
-date: '2026-05-09'
-tags:
-- studynote-ict-convergence
----
++++
+title = "498. 스마트 팩토리, CPS, 마이크로그리드 통합 (Smart Factory CPS Microgrid Integration)"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-ict-convergence"]
+
+[extra]
+tags = ["studynote-ict-convergence"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[166_smart_factory|스마트 팩토리]]([[166_smart_factory|Smart Factory]])는 [[167_cps_cyber_physical_system|CPS]](Cyber-Physical System)로 사이버 세계(디지털 제어)와 물리 세계(생산 공정)를 실시간 연동하며, [[631_opc_ua_smart_factory_protocol|OPC UA]](산업 자동화 표준 [[295_protocol_field_tcp_udp_icmp|프로토콜]])와 [[546_tsn_hardware|TSN]]([[168_industrial_ethernet_tsn|Time-Sensitive Networking]])으로 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 있는 산업 통신을 구현한다.
-> 2. **가치**: [[163_microgrid_island_mode|마이크로그리드]]([[163_microgrid_island_mode|Microgrid]])는 태양광·[[164_ess_energy_storage_system|ESS]]([[164_ess_energy_storage_system|Energy Storage System]]) 기반 에너지 자급자족을 실현하여 공장 에너지 비용과 탄소 발자국을 동시에 절감하는 에너지 경영 혁신이다.
-> 3. **판단 포인트**: [[166_smart_factory|스마트 팩토리]] 5단계(ISA-95 기반)에서 레벨 3~4 이상 달성이 진정한 디지털 전환이며, [[904_iec_62443|IEC 62443]] 산업 보안 표준 준수가 CPS의 필수 전제 조건이다.
+> 1. **본질**: [스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/)([Smart Factory](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/))는 [CPS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/167_cps_cyber_physical_system/)(Cyber-Physical System)로 사이버 세계(디지털 제어)와 물리 세계(생산 공정)를 실시간 연동하며, [OPC UA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/631_opc_ua_smart_factory_protocol/)(산업 자동화 표준 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))와 [TSN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/)([Time-Sensitive Networking](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/168_industrial_ethernet_tsn/))으로 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 있는 산업 통신을 구현한다.
+> 2. **가치**: [마이크로그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/163_microgrid_island_mode/)([Microgrid](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/163_microgrid_island_mode/))는 태양광·[ESS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/164_ess_energy_storage_system/)([Energy Storage System](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/164_ess_energy_storage_system/)) 기반 에너지 자급자족을 실현하여 공장 에너지 비용과 탄소 발자국을 동시에 절감하는 에너지 경영 혁신이다.
+> 3. **판단 포인트**: [스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/) 5단계(ISA-95 기반)에서 레벨 3~4 이상 달성이 진정한 디지털 전환이며, [IEC 62443](/knowledge-base/studynote/09_security/18_iot_ot_physical/904_iec_62443/) 산업 보안 표준 준수가 CPS의 필수 전제 조건이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-**[[166_smart_factory|스마트 팩토리]] 등장 배경**
+**[스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/) 등장 배경**
 
 - **노동력 부족**: 제조업 인력 감소 → 자동화·무인화 필수.
 - **맞춤 생산(Mass Customization)**: 소품종 대량 생산에서 다품종 소량 생산으로 전환.
 - **에너지 효율화**: 에너지 비용 상승 및 탄소 중립(Carbon Neutrality) 목표.
-- **품질 실시간 관리**: 불량률 0%를 향한 [[190_ai_llm_requirements_specification|AI]] 기반 실시간 검사.
+- **품질 실시간 관리**: 불량률 0%를 향한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 실시간 검사.
 
-**[[166_smart_factory|스마트 팩토리]] 5단계 레벨 (ISA-95 기반)**
+**[스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/) 5단계 레벨 (ISA-95 기반)**
 
 | 레벨 | 명칭 | 특징 |
 |:---:|:---:|:---:|
-| 1단계 | 기초 | [[896_plc_programmable_logic_controller|PLC]]·센서 단순 자동화 |
-| 2단계 | 중간1 | [[119_mes_manufacturing_execution_system|MES]] 도입, 생산 [[001_dikw_pyramid|데이터]] 수집 |
-| 3단계 | 중간2 | [[119_mes_manufacturing_execution_system|MES]]-[[081_erp_enterprise_resource_planning|ERP]] 연동, 실시간 모니터링 |
-| 4단계 | 고도화 | 빅데이터·[[190_ai_llm_requirements_specification|AI]], 예측 유지보수 |
+| 1단계 | 기초 | [PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/)·센서 단순 자동화 |
+| 2단계 | 중간1 | [MES](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/) 도입, 생산 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 |
+| 3단계 | 중간2 | [MES](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/)-[ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 연동, 실시간 모니터링 |
+| 4단계 | 고도화 | 빅데이터·[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), 예측 유지보수 |
 | 5단계 | 지능화 | 완전 자율 운영, 자기 최적화 |
 
-- **📢 섹션 요약 비유**: [[166_smart_factory|스마트 팩토리]] 5단계는 요리사의 성장 단계다. 1단계는 레시피대로만 요리, 2단계는 식재료 재고 파악, 3단계는 주문과 재고 연계, 4단계는 트렌드를 예측해 메뉴를 바꾸고, 5단계는 [[190_ai_llm_requirements_specification|AI]] 셰프가 완전 자율 운영한다.
+- **📢 섹션 요약 비유**: [스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/) 5단계는 요리사의 성장 단계다. 1단계는 레시피대로만 요리, 2단계는 식재료 재고 파악, 3단계는 주문과 재고 연계, 4단계는 트렌드를 예측해 메뉴를 바꾸고, 5단계는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 셰프가 완전 자율 운영한다.
 
 ---
 
@@ -65,63 +69,63 @@ tags:
 
 | 기술 | 역할 | 핵심 특징 |
 |:---:|:---:|:---:|
-| [[631_opc_ua_smart_factory_protocol|OPC UA]] | 산업 통신 표준 | 플랫폼 독립, 보안 내장, 시맨틱 [[014_data_model_components|데이터 모델]] |
-| [[546_tsn_hardware|TSN]]([[168_industrial_ethernet_tsn|Time-Sensitive Networking]]) | 결정론적 통신 | IEEE 802.1 기반, 마이크로초 정밀 [[212_synchronization_mechanisms|동기화]] |
-| [[167_cps_cyber_physical_system|CPS]] | 디지털-물리 연동 | 실시간 센서-제어 [[005_feedback_loop|피드백 루프]] |
-| [[904_iec_62443|IEC 62443]] | 산업 보안 표준 | 산업 자동화·제어 시스템(IACS) 보안 |
-| [[163_microgrid_island_mode|마이크로그리드]] | 에너지 자급 | 계통 분리(Island Mode) 운전 가능 |
+| [OPC UA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/631_opc_ua_smart_factory_protocol/) | 산업 통신 표준 | 플랫폼 독립, 보안 내장, 시맨틱 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/) |
+| [TSN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/)([Time-Sensitive Networking](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/168_industrial_ethernet_tsn/)) | 결정론적 통신 | IEEE 802.1 기반, 마이크로초 정밀 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) |
+| [CPS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/167_cps_cyber_physical_system/) | 디지털-물리 연동 | 실시간 센서-제어 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/) |
+| [IEC 62443](/knowledge-base/studynote/09_security/18_iot_ot_physical/904_iec_62443/) | 산업 보안 표준 | 산업 자동화·제어 시스템(IACS) 보안 |
+| [마이크로그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/163_microgrid_island_mode/) | 에너지 자급 | 계통 분리(Island Mode) 운전 가능 |
 
-- **📢 섹션 요약 비유**: TSN은 철도 [[130_signal|신호]] 시스템이다. 일반 도로([[230_ethernet_structure_and_principles_ieee_802_3|이더넷]])는 [[130_signal|신호]] 지연이 불확실하지만, 철도([[546_tsn_hardware|TSN]])는 정확한 시각에 열차가 지나가도록 결정론적으로 스케줄링된다. 로봇 팔 제어는 마이크로초 오차도 용납 불가하므로 TSN이 필수다.
+- **📢 섹션 요약 비유**: TSN은 철도 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 시스템이다. 일반 도로([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 지연이 불확실하지만, 철도([TSN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/))는 정확한 시각에 열차가 지나가도록 결정론적으로 스케줄링된다. 로봇 팔 제어는 마이크로초 오차도 용납 불가하므로 TSN이 필수다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-**[[631_opc_ua_smart_factory_protocol|OPC UA]] vs 전통 산업 통신**
+**[OPC UA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/631_opc_ua_smart_factory_protocol/) vs 전통 산업 통신**
 
-| 항목 | Modbus/Profibus | [[631_opc_ua_smart_factory_protocol|OPC UA]] |
+| 항목 | Modbus/Profibus | [OPC UA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/631_opc_ua_smart_factory_protocol/) |
 |:---:|:---:|:---:|
 | 표준화 | 벤더별 독립 | IEC 62541, 국제 표준 |
-| 보안 | 없음 | [[694_thread_local_storage_tls|TLS]]·[[303_authentication_authorization_patterns|인증]] 내장 |
-| [[014_data_model_components|데이터 모델]] | 단순 [[057_register|레지스터]] | 계층적 시맨틱 모델 |
+| 보안 | 없음 | [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)·[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 내장 |
+| [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/) | 단순 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) | 계층적 시맨틱 모델 |
 | 클라우드 연동 | 어려움 | 네이티브 지원 |
-| 실시간성 | 일부 | [[546_tsn_hardware|TSN]] 결합으로 강화 |
+| 실시간성 | 일부 | [TSN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/) 결합으로 강화 |
 
-**[[163_microgrid_island_mode|마이크로그리드]] 동작 모드**
+**[마이크로그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/163_microgrid_island_mode/) 동작 모드**
 
 - **계통 연계 모드(Grid-tied)**: 전력망과 연결. 잉여 전력 역송, 부족 시 계통 구매.
 - **독립 운전 모드(Island Mode)**: 계통 장애 시 자체 전원으로 공장 운영 지속.
 
-- **📢 섹션 요약 비유**: [[163_microgrid_island_mode|마이크로그리드]]는 자가발전 빌라다. 평상시엔 한전(계통)과 연결해 전기를 사고팔고, 정전(계통 장애) 시엔 태양광+배터리로 독립 운전한다.
+- **📢 섹션 요약 비유**: [마이크로그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/163_microgrid_island_mode/)는 자가발전 빌라다. 평상시엔 한전(계통)과 연결해 전기를 사고팔고, 정전(계통 장애) 시엔 태양광+배터리로 독립 운전한다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[[166_smart_factory|스마트 팩토리]] 구축 단계별 판단**
+**[스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/) 구축 단계별 판단**
 
 | 단계 | 핵심 기술 | 투자 포인트 |
 |:---|:---:|:---|
-| 기초(1~2단계) | [[896_plc_programmable_logic_controller|PLC]], [[119_mes_manufacturing_execution_system|MES]] 도입 | [[001_dikw_pyramid|데이터]] 수집 기반 확보 |
-| 중간(3단계) | [[631_opc_ua_smart_factory_protocol|OPC UA]], [[119_mes_manufacturing_execution_system|MES]]-[[081_erp_enterprise_resource_planning|ERP]] 연동 | 수평·수직 통합 |
-| 고도화(4단계) | [[546_tsn_hardware|TSN]], [[190_ai_llm_requirements_specification|AI]], [[126_digital_twin_concept|디지털 트윈]] | 예측 유지보수·실시간 최적화 |
-| 지능화(5단계) | 완전 자율 [[167_cps_cyber_physical_system|CPS]], [[190_ai_llm_requirements_specification|AI]] 에이전트 | 자기 최적화 공장 |
+| 기초(1~2단계) | [PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/), [MES](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/) 도입 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 기반 확보 |
+| 중간(3단계) | [OPC UA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/631_opc_ua_smart_factory_protocol/), [MES](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/)-[ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 연동 | 수평·수직 통합 |
+| 고도화(4단계) | [TSN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) | 예측 유지보수·실시간 최적화 |
+| 지능화(5단계) | 완전 자율 [CPS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/167_cps_cyber_physical_system/), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 에이전트 | 자기 최적화 공장 |
 
-**[[904_iec_62443|IEC 62443]] 보안 영역**
+**[IEC 62443](/knowledge-base/studynote/09_security/18_iot_ot_physical/904_iec_62443/) 보안 영역**
 
 - **Zone·Conduit 모델**: 보안 수준별 영역(Zone) 분리, 영역 간 통신로(Conduit) 제어.
-- **SL([[283_security_tactics|Security]] Level) 1~4**: SL1(기본) → SL4(국가 인프라 수준).
-- **[[891_ot_operational_technology|OT]]/IT 융합 보안**: 에어갭(Air-gap) 제거 후 [[891_ot_operational_technology|OT]](운영기술) 망이 IT 망과 연결 → 새로운 공격 경로.
+- **SL([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Level) 1~4**: SL1(기본) → SL4(국가 인프라 수준).
+- **[OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/)/IT 융합 보안**: 에어갭(Air-gap) 제거 후 [OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/)(운영기술) 망이 IT 망과 연결 → 새로운 공격 경로.
 
-- **📢 섹션 요약 비유**: [[904_iec_62443|IEC 62443]] Zone/Conduit는 공장 출입 통제 시스템이다. 일반 사무동(IT Zone)과 생산 현장([[891_ot_operational_technology|OT]] Zone)은 분리 운영하고, 두 구역 간 이동은 반드시 보안 게이트(Conduit)를 통과해야 한다.
+- **📢 섹션 요약 비유**: [IEC 62443](/knowledge-base/studynote/09_security/18_iot_ot_physical/904_iec_62443/) Zone/Conduit는 공장 출입 통제 시스템이다. 일반 사무동(IT Zone)과 생산 현장([OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) Zone)은 분리 운영하고, 두 구역 간 이동은 반드시 보안 게이트(Conduit)를 통과해야 한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[[166_smart_factory|스마트 팩토리]]는 [[167_cps_cyber_physical_system|CPS]]·[[190_ai_llm_requirements_specification|AI]]·[[163_microgrid_island_mode|마이크로그리드]]의 융합으로 생산성·에너지 효율·품질을 동시에 향상시킨다. OPC UA와 TSN의 결합은 산업 통신의 표준으로 자리 잡고 있으며, [[904_iec_62443|IEC 62443]] 보안 체계 준수가 디지털 전환의 신뢰 기반이다. 기술사 시험에서는 5단계 레벨, [[167_cps_cyber_physical_system|CPS]] 원리, [[631_opc_ua_smart_factory_protocol|OPC UA]]/[[546_tsn_hardware|TSN]], [[163_microgrid_island_mode|마이크로그리드]], IEC 62443을 통합적으로 답안에 포함해야 한다.
+[스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/)는 [CPS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/167_cps_cyber_physical_system/)·[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[마이크로그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/163_microgrid_island_mode/)의 융합으로 생산성·에너지 효율·품질을 동시에 향상시킨다. OPC UA와 TSN의 결합은 산업 통신의 표준으로 자리 잡고 있으며, [IEC 62443](/knowledge-base/studynote/09_security/18_iot_ot_physical/904_iec_62443/) 보안 체계 준수가 디지털 전환의 신뢰 기반이다. 기술사 시험에서는 5단계 레벨, [CPS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/167_cps_cyber_physical_system/) 원리, [OPC UA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/631_opc_ua_smart_factory_protocol/)/[TSN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/), [마이크로그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/163_microgrid_island_mode/), IEC 62443을 통합적으로 답안에 포함해야 한다.
 
-- **📢 섹션 요약 비유**: [[166_smart_factory|스마트 팩토리]]는 인체와 같다. 뇌([[081_erp_enterprise_resource_planning|ERP]]/[[119_mes_manufacturing_execution_system|MES]])가 판단하고, 신경계([[631_opc_ua_smart_factory_protocol|OPC UA]]/[[546_tsn_hardware|TSN]])가 명령을 전달하며, 근육([[896_plc_programmable_logic_controller|PLC]]·로봇)이 움직이고, 심장([[163_microgrid_island_mode|마이크로그리드]])이 에너지를 공급한다. 면역계([[904_iec_62443|IEC 62443]])가 외부 침입을 막는다.
+- **📢 섹션 요약 비유**: [스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/)는 인체와 같다. 뇌([ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)/[MES](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/))가 판단하고, 신경계([OPC UA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/631_opc_ua_smart_factory_protocol/)/[TSN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/))가 명령을 전달하며, 근육([PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/)·로봇)이 움직이고, 심장([마이크로그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/163_microgrid_island_mode/))이 에너지를 공급한다. 면역계([IEC 62443](/knowledge-base/studynote/09_security/18_iot_ot_physical/904_iec_62443/))가 외부 침입을 막는다.
 
 ---
 
@@ -129,11 +133,11 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[167_cps_cyber_physical_system|CPS]](Cyber-Physical System) | [[126_digital_twin_concept|디지털 트윈]], 실시간 연동 · 디지털-물리 통합 시스템 |
-| [[631_opc_ua_smart_factory_protocol|OPC UA]] | IEC 62541, 산업 통신 · 표준 산업 자동화 [[295_protocol_field_tcp_udp_icmp|프로토콜]] |
-| [[546_tsn_hardware|TSN]]([[168_industrial_ethernet_tsn|Time-Sensitive Networking]]) | 결정론적 통신, IEEE 802.1 · 마이크로초 정밀 산업 [[230_ethernet_structure_and_principles_ieee_802_3|이더넷]] |
-| [[904_iec_62443|IEC 62443]] | Zone/Conduit, SL · 산업 자동화 보안 국제 표준 |
-| [[164_ess_energy_storage_system|ESS]]([[164_ess_energy_storage_system|Energy Storage System]]) | [[163_microgrid_island_mode|마이크로그리드]], 배터리 · 잉여 전력 저장·방전 |
+| [CPS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/167_cps_cyber_physical_system/)(Cyber-Physical System) | [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/), 실시간 연동 · 디지털-물리 통합 시스템 |
+| [OPC UA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/631_opc_ua_smart_factory_protocol/) | IEC 62541, 산업 통신 · 표준 산업 자동화 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) |
+| [TSN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/)([Time-Sensitive Networking](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/168_industrial_ethernet_tsn/)) | 결정론적 통신, IEEE 802.1 · 마이크로초 정밀 산업 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) |
+| [IEC 62443](/knowledge-base/studynote/09_security/18_iot_ot_physical/904_iec_62443/) | Zone/Conduit, SL · 산업 자동화 보안 국제 표준 |
+| [ESS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/164_ess_energy_storage_system/)([Energy Storage System](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/164_ess_energy_storage_system/)) | [마이크로그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/163_microgrid_island_mode/), 배터리 · 잉여 전력 저장·방전 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -143,9 +147,9 @@ tags:
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [[166_smart_factory|스마트 팩토리]]는 로봇과 컴퓨터가 팀을 이뤄 자동으로 물건을 만드는 공장이에요.
+1. [스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/)는 로봇과 컴퓨터가 팀을 이뤄 자동으로 물건을 만드는 공장이에요.
 2. CPS는 디지털 지도(컴퓨터)와 실제 공장(물리)이 실시간으로 대화하는 것이에요. 공장이 아프면 컴퓨터가 바로 알고 고쳐줘요.
-3. [[163_microgrid_island_mode|마이크로그리드]]는 공장이 태양광 패널로 전기를 직접 만들어 쓰는 것이에요. 전기가 끊겨도 혼자 버틸 수 있어요.
+3. [마이크로그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/163_microgrid_island_mode/)는 공장이 태양광 패널로 전기를 직접 만들어 쓰는 것이에요. 전기가 끊겨도 혼자 버틸 수 있어요.
 
 ---
 
@@ -153,7 +157,7 @@ tags:
 
 **진행 상황**: 498 / 552
 
-← **이전**: [[497_oran_open_radio_access_network|497. O-RAN 오픈 무선 접속 네트워크 (O-RAN Open Radio Access Network)]]
-**다음**: [[499_cloud_service_models_iaas_paas_saas_faas|499. 클라우드 서비스 모델 통합: IaaS~FaaS (Cloud Service Models IaaS PaaS SaaS FaaS)]] →
+← **이전**: [497. O-RAN 오픈 무선 접속 네트워크 (O-RAN Open Radio Access Network)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/497_oran_open_radio_access_network/)
+**다음**: [499. 클라우드 서비스 모델 통합: IaaS~FaaS (Cloud Service Models IaaS PaaS SaaS FaaS)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/499_cloud_service_models_iaas_paas_saas_faas/) →
 
 ---

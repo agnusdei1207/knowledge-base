@@ -1,21 +1,25 @@
----
-title: 62. 퍼셉트론 (Perceptron) - 단층 신경망
-date: '2026-04-07'
-tags:
-- studynote-ai
----
++++
+title = "62. 퍼셉트론 (Perceptron) - 단층 신경망"
+date = 2026-04-07
+
+[taxonomies]
+tags = ["studynote-ai"]
+
+[extra]
+tags = ["studynote-ai"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[239_perceptron_mlp_hidden_layer_weight_activation_sigmoid|퍼셉트론]]([[239_perceptron_mlp_hidden_layer_weight_activation_sigmoid|Perceptron]])은 입력의 가중합이 [[431_ssthresh_slow_start_threshold|임계치]]를 넘으면 1, 아니면 0을 내는 단층 선형 [[104_classification_analysis|분류]]기다.
-> 2. **가치**: [[061_artificial_neural_network_ann_neuron_model|인공 신경망]]의 출발점으로서 [[267_weight_bias_activation|가중치]] 학습과 뉴런 모방의 기초를 만든다.
-> 3. **한계**: XOR (Exclusive OR)처럼 선형 분리 불가능한 문제는 [[265_single_layer_perceptron_xor|단층 퍼셉트론]]만으로 풀 수 없다.
+> 1. **본질**: [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)([Perceptron](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/))은 입력의 가중합이 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 넘으면 1, 아니면 0을 내는 단층 선형 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기다.
+> 2. **가치**: [인공 신경망](/knowledge-base/studynote/10_ai/01_ai_basics/061_artificial_neural_network_ann_neuron_model/)의 출발점으로서 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 학습과 뉴런 모방의 기초를 만든다.
+> 3. **한계**: XOR (Exclusive OR)처럼 선형 분리 불가능한 문제는 [단층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/)만으로 풀 수 없다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-1950년대 컴퓨터는 규칙을 사람이 직접 넣어야만 했다. [[239_perceptron_mlp_hidden_layer_weight_activation_sigmoid|퍼셉트론]]은 "학습하는 [[238_switch_operation_principles|스위치]]"를 만들겠다는 발상에서 출발했다.
+1950년대 컴퓨터는 규칙을 사람이 직접 넣어야만 했다. [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)은 "학습하는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)"를 만들겠다는 발상에서 출발했다.
 
 뉴런의 동작을 수학으로 단순화해, 입력이 여러 개여도 하나의 출력으로 결론을 내리는 구조를 보여 준다.
 
@@ -40,13 +44,13 @@ w1, w2, w3
 | 요소 | 의미 |
 | :-- | :-- |
 | Input | 입력값 |
-| [[267_weight_bias_activation|Weight]] | 중요도 |
-| [[094_bias|Bias]] | 기준 이동 |
+| [Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) | 중요도 |
+| [Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/) | 기준 이동 |
 | Activation | 0/1 결정 |
 
-[[239_perceptron_mlp_hidden_layer_weight_activation_sigmoid|퍼셉트론]]의 기본 식은 `y = f(Σ(wi × xi) + b)`로 요약된다. 단순하지만, 학습을 통해 [[267_weight_bias_activation|가중치]]를 조정할 수 있다는 점이 중요했다.
+[퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)의 기본 식은 `y = f(Σ(wi × xi) + b)`로 요약된다. 단순하지만, 학습을 통해 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 조정할 수 있다는 점이 중요했다.
 
-- **📢 섹션 요약 비유**: 점수를 매겨 합계가 [[025_baseline|기준선]]을 넘으면 합격시키는 심사관이다.
+- **📢 섹션 요약 비유**: 점수를 매겨 합계가 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)을 넘으면 합격시키는 심사관이다.
 
 ---
 
@@ -54,12 +58,12 @@ w1, w2, w3
 
 | 모델 | 특징 | 한계 / 강점 |
 | :-- | :-- | :-- |
-| [[239_perceptron_mlp_hidden_layer_weight_activation_sigmoid|Perceptron]] | 단층 선형 [[104_classification_analysis|분류]] | XOR 불가 |
-| MLP (Multi-Layer [[239_perceptron_mlp_hidden_layer_weight_activation_sigmoid|Perceptron]]) | 은닉층 포함 | 비선형 문제 처리 |
-| [[350_ann|ANN]] | 신경망 일반 | 구조에 따라 다양 |
-| Deep [[240_switch_learning_forwarding_flooding|Learning]] | 깊은 층 구조 | 표현력 매우 강함 |
+| [Perceptron](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) | 단층 선형 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | XOR 불가 |
+| MLP (Multi-Layer [Perceptron](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)) | 은닉층 포함 | 비선형 문제 처리 |
+| [ANN](/knowledge-base/studynote/05_database/06_dw_olap_trends/350_ann/) | 신경망 일반 | 구조에 따라 다양 |
+| Deep [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) | 깊은 층 구조 | 표현력 매우 강함 |
 
-[[239_perceptron_mlp_hidden_layer_weight_activation_sigmoid|퍼셉트론]]은 작지만, 다층 구조와 [[272_backpropagation|역전파]]([[272_backpropagation|Backpropagation]])로 이어지며 현대 딥러닝의 토대가 되었다. 즉, 실패한 모델이 아니라 더 큰 모델의 출발점이다.
+[퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)은 작지만, 다층 구조와 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/))로 이어지며 현대 딥러닝의 토대가 되었다. 즉, 실패한 모델이 아니라 더 큰 모델의 출발점이다.
 
 - **📢 섹션 요약 비유**: 한 칸짜리 계산기가 나중에 거대한 계산 시스템의 첫 벽돌이 된 셈이다.
 
@@ -67,21 +71,21 @@ w1, w2, w3
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. [[001_dikw_pyramid|데이터]]가 선형 분리 가능한가?
-2. [[080_gradient_descent_learning_rate|학습률]]([[240_switch_learning_forwarding_flooding|Learning]] Rate)과 수렴 조건을 [[396_validation|확인]]했는가?
+1. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 선형 분리 가능한가?
+2. [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)([Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Rate)과 수렴 조건을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)했는가?
 3. 단층 모델의 한계를 이해했는가?
 4. 더 복잡한 문제면 다층 구조를 고려했는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- XOR 같은 비선형 문제에 [[265_single_layer_perceptron_xor|단층 퍼셉트론]]을 집어넣는 설계
-- [[267_weight_bias_activation|가중치]]와 [[431_ssthresh_slow_start_threshold|임계치]] 의미를 이해하지 못한 채 남용하는 설계
-- 학습이 안 되는데 [[001_dikw_pyramid|데이터]] 문제를 보지 않는 설계
-- 선형 [[104_classification_analysis|분류]]기와 신경망을 혼동하는 설계
+- XOR 같은 비선형 문제에 [단층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/)을 집어넣는 설계
+- [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)와 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 의미를 이해하지 못한 채 남용하는 설계
+- 학습이 안 되는데 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 문제를 보지 않는 설계
+- 선형 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기와 신경망을 혼동하는 설계
 
-기술사 관점에서는 [[239_perceptron_mlp_hidden_layer_weight_activation_sigmoid|퍼셉트론]]을 "현대 딥러닝의 벽돌"로 이해해야 한다. 단층의 한계가 곧 다층 구조의 필요성을 보여 준다.
+기술사 관점에서는 [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)을 "현대 딥러닝의 벽돌"로 이해해야 한다. 단층의 한계가 곧 다층 구조의 필요성을 보여 준다.
 
 - **📢 섹션 요약 비유**: 한 줄로만 설명하는 기계는 간단하지만, 꼬인 문제는 여러 층이 필요하다.
 
@@ -89,11 +93,11 @@ w1, w2, w3
 
 ## Ⅴ. 기대효과 및 결론
 
-[[239_perceptron_mlp_hidden_layer_weight_activation_sigmoid|퍼셉트론]]은 단순한 [[104_classification_analysis|분류]]기의 이름을 넘어, 신경망 학습의 역사적 출발점이다. 비선형 문제의 한계를 드러내며 다층 신경망의 필요성을 증명했다.
+[퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)은 단순한 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기의 이름을 넘어, 신경망 학습의 역사적 출발점이다. 비선형 문제의 한계를 드러내며 다층 신경망의 필요성을 증명했다.
 
-결국 [[239_perceptron_mlp_hidden_layer_weight_activation_sigmoid|퍼셉트론]]은 "입력-[[267_weight_bias_activation|가중치]]-[[431_ssthresh_slow_start_threshold|임계치]]"라는 신경망의 가장 기본 구조를 보여 준다.
+결국 [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)은 "입력-[가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)-[임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)"라는 신경망의 가장 기본 구조를 보여 준다.
 
-- **📢 섹션 요약 비유**: 작은 [[238_switch_operation_principles|스위치]] 하나가 거대한 전자 두뇌의 시작이었다.
+- **📢 섹션 요약 비유**: 작은 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 하나가 거대한 전자 두뇌의 시작이었다.
 
 ---
 
@@ -139,7 +143,7 @@ MLP / Backpropagation
 
 **진행 상황**: 62 / 420
 
-← **이전**: [[061_artificial_neural_network_ann_neuron_model|61. 인공 신경망 (ANN, Artificial Neural Network)]]
-**다음**: [[063_single_layer_perceptron_xor_problem|63. 단층 퍼셉트론 (Single-Layer Perceptron)과 XOR 문제]] →
+← **이전**: [61. 인공 신경망 (ANN, Artificial Neural Network)](/knowledge-base/studynote/10_ai/01_ai_basics/061_artificial_neural_network_ann_neuron_model/)
+**다음**: [63. 단층 퍼셉트론 (Single-Layer Perceptron)과 XOR 문제](/knowledge-base/studynote/10_ai/01_ai_basics/063_single_layer_perceptron_xor_problem/) →
 
 ---

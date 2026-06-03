@@ -1,15 +1,19 @@
----
-title: 71. 젠킨스 (Jenkins) - 오픈소스 CI/CD 자동화 빌드 서버
-date: '2026-04-10'
-tags:
-- studynote-devops
----
++++
+title = "71. 젠킨스 (Jenkins) - 오픈소스 CI/CD 자동화 빌드 서버"
+date = 2026-04-10
+
+[taxonomies]
+tags = ["studynote-devops"]
+
+[extra]
+tags = ["studynote-devops"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Jenkins는 플러그인 기반의 [[191_oss_license_compliance|오픈소스]] [[090_configuration_item|CI]]/CD 자동화 서버다.
-> 2. **가치**: 빌드, 테스트, 배포를 [[123_pipe|파이프]]라인으로 자동화한다.
-> 3. **판단**: [[082_pipeline|Pipeline]] [[344_as_autonomous_system_asn|as]] Code와 에이전트 구성, 플러그인 관리가 중요하다.
+> 1. **본질**: Jenkins는 플러그인 기반의 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 자동화 서버다.
+> 2. **가치**: 빌드, 테스트, 배포를 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인으로 자동화한다.
+> 3. **판단**: [Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) Code와 에이전트 구성, 플러그인 관리가 중요하다.
 
 ---
 
@@ -36,10 +40,10 @@ Build / Test / Deploy
 | 요소 | 의미 |
 | :-- | :-- |
 | Job | 작업 |
-| [[082_pipeline|Pipeline]] | 단계 흐름 |
+| [Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/) | 단계 흐름 |
 | Agent | 실행 노드 |
 
-Jenkins는 [[123_pipe|파이프]]라인을 정의해 자동화하고, 에이전트로 작업을 [[136_variance|분산]]한다.
+Jenkins는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 정의해 자동화하고, 에이전트로 작업을 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)한다.
 
 - **📢 섹션 요약 비유**: 공정이 순서대로 움직이는 자동 조립 라인이다.
 
@@ -55,7 +59,7 @@ Jenkins는 [[123_pipe|파이프]]라인을 정의해 자동화하고, 에이전�
 
 | 개념 | 의미 |
 | :-- | :-- |
-| [[072_declarative_pipeline_jenkinsfile_as_code|Pipeline as Code]] | 코드로 정의 |
+| [Pipeline as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/072_declarative_pipeline_jenkinsfile_as_code/) | 코드로 정의 |
 | Plugin | 기능 확장 |
 
 Jenkins는 유연하지만 플러그인 관리가 중요하다. 그래서 운영 표준이 필요하다.
@@ -66,22 +70,22 @@ Jenkins는 유연하지만 플러그인 관리가 중요하다. 그래서 운영
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. [[082_pipeline|Pipeline]] [[344_as_autonomous_system_asn|as]] Code를 쓰는가?
+1. [Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) Code를 쓰는가?
 2. 에이전트를 적절히 분리하는가?
 3. 플러그인을 관리하는가?
 4. 빌드/테스트/배포를 자동화하는가?
 5. 보안과 자격 증명을 관리하는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 수동 Job만 잔뜩 쌓는 설계
 - 플러그인 업데이트를 방치하는 설계
 - 자격 증명을 노출하는 설계
-- [[123_pipe|파이프]]라인 코드화 없이 운영하는 설계
+- [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 코드화 없이 운영하는 설계
 
-기술사 관점에서는 Jenkins를 "[[090_configuration_item|CI]]/CD [[123_pipe|파이프]]라인 자동화 서버"로 설명해야 한다.
+기술사 관점에서는 Jenkins를 "[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 자동화 서버"로 설명해야 한다.
 
 - **📢 섹션 요약 비유**: 반복 작업을 대신하는 똑똑한 기계다.
 
@@ -91,7 +95,7 @@ Jenkins는 유연하지만 플러그인 관리가 중요하다. 그래서 운영
 
 Jenkins는 배포 자동화와 품질 확보를 돕는다.
 
-결론적으로 Jenkins는 [[191_oss_license_compliance|오픈소스]] [[090_configuration_item|CI]]/CD 자동화 서버다.
+결론적으로 Jenkins는 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 자동화 서버다.
 
 - **📢 섹션 요약 비유**: 코드가 바뀌면 알아서 공정이 돌아간다.
 
@@ -137,7 +141,7 @@ Automation
 
 **진행 상황**: 71 / 373
 
-← **이전**: [[070_build_tools_maven_gradle_npm|70. 빌드 도구 (Build Tools) - Maven, Gradle (Java), npm (Node.js)]]
-**다음**: [[072_declarative_pipeline_jenkinsfile_as_code|72. 선언적 파이프라인 - Jenkinsfile (Pipeline as Code)]] →
+← **이전**: [70. 빌드 도구 (Build Tools) - Maven, Gradle (Java), npm (Node.js)](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/070_build_tools_maven_gradle_npm/)
+**다음**: [72. 선언적 파이프라인 - Jenkinsfile (Pipeline as Code)](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/072_declarative_pipeline_jenkinsfile_as_code/) →
 
 ---

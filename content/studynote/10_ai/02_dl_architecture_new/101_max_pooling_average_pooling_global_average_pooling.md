@@ -1,31 +1,35 @@
----
-title: 101. 최대 풀링 (Max Pooling) / 평균 풀링 (Average Pooling) 비교
-date: '2026-04-10'
-tags:
-- studynote-ai
----
++++
+title = "101. 최대 풀링 (Max Pooling) / 평균 풀링 (Average Pooling) 비교"
+date = 2026-04-10
+
+[taxonomies]
+tags = ["studynote-ai"]
+
+[extra]
+tags = ["studynote-ai"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[285_pooling_layer|풀링]] ([[285_pooling_layer|Pooling]])은 [[089_CNN_Convolutional|합성곱 신경망]] ([[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]])에서 [[099_feature_map_activation_map_cnn_output|특성 맵]] ([[099_feature_map_activation_map_cnn_output|Feature Map]])의 공간적 크기를 줄여 연산량을 통제하는 다운샘플링 (Downsampling) 기법이다.
-> 2. **가치**: 최대 [[285_pooling_layer|풀링]] (Max [[285_pooling_layer|Pooling]])은 가장 강한 특징만 남겨 윤곽선을 보존하는 데 탁월하며, 전역 평균 [[285_pooling_layer|풀링]] (Global Average [[285_pooling_layer|Pooling]], GAP)은 마지막 층에서 공간 정보를 [[347_compaction|압축]]해 파라미터 폭발을 막는다.
-> 3. **판단 포인트**: 중간 은닉층의 해상도 축소에는 특징 추출이 강한 최대 [[285_pooling_layer|풀링]]을 쓰고, 최종 [[104_classification_analysis|분류]] 직전의 파라미터 경량화에는 전역 평균 [[285_pooling_layer|풀링]]을 사용하는 것이 현대 [[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]] 아키텍처의 표준이다.
+> 1. **본질**: [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) ([Pooling](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/))은 [합성곱 신경망](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/) ([CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/))에서 [특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/) ([Feature Map](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/))의 공간적 크기를 줄여 연산량을 통제하는 다운샘플링 (Downsampling) 기법이다.
+> 2. **가치**: 최대 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) (Max [Pooling](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/))은 가장 강한 특징만 남겨 윤곽선을 보존하는 데 탁월하며, 전역 평균 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) (Global Average [Pooling](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/), GAP)은 마지막 층에서 공간 정보를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 파라미터 폭발을 막는다.
+> 3. **판단 포인트**: 중간 은닉층의 해상도 축소에는 특징 추출이 강한 최대 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)을 쓰고, 최종 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 직전의 파라미터 경량화에는 전역 평균 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)을 사용하는 것이 현대 [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 아키텍처의 표준이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[[089_CNN_Convolutional|합성곱 신경망]] ([[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]], [[089_CNN_Convolutional|Convolutional Neural Network]])은 이미지에서 특징을 추출할 때 다량의 필터를 거치며 엄청난 크기의 [[099_feature_map_activation_map_cnn_output|특성 맵]]을 [[087_process_state_transition|생성]]한다. 이를 그대로 다음 층으로 넘기면 연산량이 기하급수적으로 증가하고, 과적합 ([[245_overfitting_variance|Overfitting]])이 발생하기 쉽다. 따라서 해상도를 줄이면서도 중요한 정보는 남기는 다운샘플링 과정이 필수적인데, 이때 $2 \times 2$ 구역을 어떻게 [[347_compaction|압축]]할 것인가에 따라 최대 [[285_pooling_layer|풀링]] (Max [[285_pooling_layer|Pooling]])과 평균 [[285_pooling_layer|풀링]] (Average [[285_pooling_layer|Pooling]])으로 나뉜다.
+[합성곱 신경망](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/) ([CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/), [Convolutional Neural Network](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/))은 이미지에서 특징을 추출할 때 다량의 필터를 거치며 엄청난 크기의 [특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다. 이를 그대로 다음 층으로 넘기면 연산량이 기하급수적으로 증가하고, 과적합 ([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))이 발생하기 쉽다. 따라서 해상도를 줄이면서도 중요한 정보는 남기는 다운샘플링 과정이 필수적인데, 이때 $2 \times 2$ 구역을 어떻게 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)할 것인가에 따라 최대 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) (Max [Pooling](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/))과 평균 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) (Average [Pooling](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/))으로 나뉜다.
 
-최대 [[285_pooling_layer|풀링]]은 특정 구역에서 가장 강한 자극(가장 큰 값)만 추출하여 엣지(Edge)와 선명한 특징을 살린다. 반면 평균 [[285_pooling_layer|풀링]]은 구역 내 모든 값의 평균을 내어 전체적인 윤곽을 부드럽게 유지한다. 과거에는 두 기법이 혼용되었으나, 이미지 인식의 핵심인 '날카로운 특징'을 보존하는 데 최대 [[285_pooling_layer|풀링]]이 압도적으로 유리함이 증명되면서 중간 층의 표준으로 자리 잡았다.
+최대 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)은 특정 구역에서 가장 강한 자극(가장 큰 값)만 추출하여 엣지(Edge)와 선명한 특징을 살린다. 반면 평균 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)은 구역 내 모든 값의 평균을 내어 전체적인 윤곽을 부드럽게 유지한다. 과거에는 두 기법이 혼용되었으나, 이미지 인식의 핵심인 '날카로운 특징'을 보존하는 데 최대 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)이 압도적으로 유리함이 증명되면서 중간 층의 표준으로 자리 잡았다.
 
-- **📢 섹션 요약 비유**: [[285_pooling_layer|풀링]]은 소설을 요약하는 과정과 같다. 최대 [[285_pooling_layer|풀링]]은 가장 자극적인 하이라이트 장면만 남기는 것이고, 평균 [[285_pooling_layer|풀링]]은 모든 챕터의 줄거리를 조금씩 섞어 무난한 요약본을 만드는 것이다.
+- **📢 섹션 요약 비유**: [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)은 소설을 요약하는 과정과 같다. 최대 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)은 가장 자극적인 하이라이트 장면만 남기는 것이고, 평균 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)은 모든 챕터의 줄거리를 조금씩 섞어 무난한 요약본을 만드는 것이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[[285_pooling_layer|풀링]]은 학습해야 할 [[267_weight_bias_activation|가중치]] ([[267_weight_bias_activation|Weight]]) 파라미터가 없는 정적 연산이다. 주로 $2 \times 2$ 크기의 윈도우([[022_kernel_role|커널]])와 보폭 ([[097_stride_convolutional_neural_network_downsampling|Stride]]) 2를 사용하여 공간 해상도를 정확히 1/4로 줄인다.
+[풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)은 학습해야 할 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) ([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)) 파라미터가 없는 정적 연산이다. 주로 $2 \times 2$ 크기의 윈도우([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))와 보폭 ([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)) 2를 사용하여 공간 해상도를 정확히 1/4로 줄인다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -40,53 +44,53 @@ tags:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-최대 [[285_pooling_layer|풀링]]에서 큰 값(`9`)은 해당 위치에 필터가 찾는 특징(예: 고양이 귀)이 강하게 존재함을 의미한다. 최대 [[285_pooling_layer|풀링]]은 이 강한 [[130_signal|신호]]만 살리고 나머지 노이즈(`1, 2, 5`)는 제거하여 특징을 극대화한다. 반면 평균 [[285_pooling_layer|풀링]]은 노이즈까지 모두 섞어 평균(`4.25`)을 내므로, 특징이 뭉개지는 블러 (Blur) 현상을 초래한다.
+최대 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)에서 큰 값(`9`)은 해당 위치에 필터가 찾는 특징(예: 고양이 귀)이 강하게 존재함을 의미한다. 최대 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)은 이 강한 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)만 살리고 나머지 노이즈(`1, 2, 5`)는 제거하여 특징을 극대화한다. 반면 평균 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)은 노이즈까지 모두 섞어 평균(`4.25`)을 내므로, 특징이 뭉개지는 블러 (Blur) 현상을 초래한다.
 
-- **📢 섹션 요약 비유**: 오디션 프로그램에서 4인 1조로 심사를 볼 때, 최대 [[285_pooling_layer|풀링]]은 1등만 합격시키고 나머지는 탈락시키는 엘리트 선발 방식이고, 평균 [[285_pooling_layer|풀링]]은 4명의 점수를 합산해 평균 점수로 팀 전체를 평가하는 방식이다.
+- **📢 섹션 요약 비유**: 오디션 프로그램에서 4인 1조로 심사를 볼 때, 최대 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)은 1등만 합격시키고 나머지는 탈락시키는 엘리트 선발 방식이고, 평균 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)은 4명의 점수를 합산해 평균 점수로 팀 전체를 평가하는 방식이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-[[459_quic_fec_forward_error_correction|초기]] [[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]] 모델에서는 평균 [[285_pooling_layer|풀링]]을 종종 사용했으나, 특징 소실 문제로 인해 은닉층에서는 거의 퇴출당했다. 그러나 평균 [[285_pooling_layer|풀링]]은 모델의 맨 마지막 층에서 GAP (Global Average [[285_pooling_layer|Pooling]])라는 형태로 부활하여 완전 연결 계층 ([[102_fully_connected_layer_dense_flatten_softmax|FC Layer]], Fully Connected Layer)을 대체하는 혁명을 일으켰다.
+[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 모델에서는 평균 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)을 종종 사용했으나, 특징 소실 문제로 인해 은닉층에서는 거의 퇴출당했다. 그러나 평균 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)은 모델의 맨 마지막 층에서 GAP (Global Average [Pooling](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/))라는 형태로 부활하여 완전 연결 계층 ([FC Layer](/knowledge-base/studynote/10_ai/02_dl_architecture_new/102_fully_connected_layer_dense_flatten_softmax/), Fully Connected Layer)을 대체하는 혁명을 일으켰다.
 
-| 비교 항목 | 최대 [[285_pooling_layer|풀링]] (Max [[285_pooling_layer|Pooling]]) | 평균 [[285_pooling_layer|풀링]] (Average [[285_pooling_layer|Pooling]]) | 전역 평균 [[285_pooling_layer|풀링]] (GAP) |
+| 비교 항목 | 최대 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) (Max [Pooling](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)) | 평균 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) (Average [Pooling](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)) | 전역 평균 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) (GAP) |
 | :--- | :--- | :--- | :--- |
 | **적용 위치** | 모델 중간 (은닉층) | 과거 모델 중간 (현재 안 씀) | 모델 맨 마지막 층 |
-| **목적** | 가장 강한 특징(Edge) 추출 | 부드러운 정보 [[347_compaction|압축]] | 1차원 벡터 변환 ([[104_classification_analysis|분류]]기) |
-| **동작 방식** | 구역 내 최댓값 선택 | 구역 내 평균 계산 | [[099_feature_map_activation_map_cnn_output|특성 맵]] 전체 통째로 평균 계산 |
-| **특징** | 노이즈 제거, 선명함 유지 | 정보가 뭉개짐 (Blurring) | [[696_fibre_channel_protocol|FC]] 층 대체, 파라미터 0개 |
+| **목적** | 가장 강한 특징(Edge) 추출 | 부드러운 정보 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) | 1차원 벡터 변환 ([분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기) |
+| **동작 방식** | 구역 내 최댓값 선택 | 구역 내 평균 계산 | [특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/) 전체 통째로 평균 계산 |
+| **특징** | 노이즈 제거, 선명함 유지 | 정보가 뭉개짐 (Blurring) | [FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) 층 대체, 파라미터 0개 |
 
-GAP는 $7 \times 7$ 크기의 [[099_feature_map_activation_map_cnn_output|특성 맵]] 1장을 통째로 평균 내어 단 1개의 숫자로 [[347_compaction|압축]]한다. VGGNet처럼 마지막에 [[696_fibre_channel_protocol|FC]] 층을 써서 수천만 개의 [[267_weight_bias_activation|가중치]]가 폭발하던 문제를, [[287_resnet_skip_connection|ResNet]] 등의 모던 구조에서는 GAP를 통해 파라미터 수를 '0'으로 만들며 극적으로 해결했다.
+GAP는 $7 \times 7$ 크기의 [특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/) 1장을 통째로 평균 내어 단 1개의 숫자로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)한다. VGGNet처럼 마지막에 [FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) 층을 써서 수천만 개의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 폭발하던 문제를, [ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/) 등의 모던 구조에서는 GAP를 통해 파라미터 수를 '0'으로 만들며 극적으로 해결했다.
 
-- **📢 섹션 요약 비유**: 중간 관리자는 뛰어난 핵심 인재만 추려내는 최대 [[285_pooling_layer|풀링]]을 쓰고, 최종 CEO(GAP)는 각 부서의 전체 평균 실적만 보고받아 회사의 방향([[104_classification_analysis|분류]])을 결정한다.
+- **📢 섹션 요약 비유**: 중간 관리자는 뛰어난 핵심 인재만 추려내는 최대 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)을 쓰고, 최종 CEO(GAP)는 각 부서의 전체 평균 실적만 보고받아 회사의 방향([분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/))을 결정한다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무 아키텍처 설계 시 다운샘플링 [[268_strategy_pattern|전략]]은 모델의 [[282_performance_tactics|성능]]과 크기를 결정짓는 핵심 요소다.
+실무 아키텍처 설계 시 다운샘플링 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 모델의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 크기를 결정짓는 핵심 요소다.
 
-### [[435_checklist_based_testing|체크리스트]]
-1. **은닉층 [[347_compaction|압축]]**: 이미지의 질감, 윤곽선이 중요한 비전 [[150_task|태스크]]([[288_object_detection_yolo_rcnn|객체 탐지]], 분할 등)에서는 반드시 최대 [[285_pooling_layer|풀링]]을 사용하고 있는가?
-2. **[[104_classification_analysis|분류]]기 설계**: 모델의 맨 마지막 [[104_classification_analysis|분류]] 단계를 [[696_fibre_channel_protocol|FC]] 층에서 GAP로 교체하여 과적합을 방지하고 메모리 사용량을 최소화했는가?
-3. **최신 트렌드 반영**: 최근에는 [[285_pooling_layer|풀링]] 연산 자체를 생략하고, [[096_convolution_layer_filter_stride_padding|합성곱 층]]의 보폭([[097_stride_convolutional_neural_network_downsampling|Stride]]=2)을 넓혀 학습 가능한 다운샘플링(Strided [[284_convolution_stride_padding|Convolution]])으로 대체하는 구조(예: ResNet의 일부 층)를 고려했는가?
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+1. **은닉층 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)**: 이미지의 질감, 윤곽선이 중요한 비전 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)([객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/), 분할 등)에서는 반드시 최대 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)을 사용하고 있는가?
+2. **[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기 설계**: 모델의 맨 마지막 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 단계를 [FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) 층에서 GAP로 교체하여 과적합을 방지하고 메모리 사용량을 최소화했는가?
+3. **최신 트렌드 반영**: 최근에는 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) 연산 자체를 생략하고, [합성곱 층](/knowledge-base/studynote/10_ai/01_ai_basics/096_convolution_layer_filter_stride_padding/)의 보폭([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)=2)을 넓혀 학습 가능한 다운샘플링(Strided [Convolution](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/))으로 대체하는 구조(예: ResNet의 일부 층)를 고려했는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
-- 중간 은닉층에 평균 [[285_pooling_layer|풀링]]을 사용하여 윤곽선 정보가 모두 뭉개지는 설계
-- 마지막 [[104_classification_analysis|분류]]기에 거대한 [[696_fibre_channel_protocol|FC]] 층을 여러 겹 배치하여 모델 파라미터가 수억 개로 폭발하는 아키텍처
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- 중간 은닉층에 평균 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)을 사용하여 윤곽선 정보가 모두 뭉개지는 설계
+- 마지막 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기에 거대한 [FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) 층을 여러 겹 배치하여 모델 파라미터가 수억 개로 폭발하는 아키텍처
 
-- **📢 섹션 요약 비유**: 축구팀을 짤 때, 공격수(은닉층)는 가장 빠르고 날카로운 선수(최대 [[285_pooling_layer|풀링]])를 배치하고, 최종 수비수와 골키퍼([[104_classification_analysis|분류]]기)는 전체 팀의 균형을 잡아주는 안정적인 전술(GAP)을 써야 무너지지 않는다.
+- **📢 섹션 요약 비유**: 축구팀을 짤 때, 공격수(은닉층)는 가장 빠르고 날카로운 선수(최대 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/))를 배치하고, 최종 수비수와 골키퍼([분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기)는 전체 팀의 균형을 잡아주는 안정적인 전술(GAP)을 써야 무너지지 않는다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-최대 [[285_pooling_layer|풀링]]과 평균 [[285_pooling_layer|풀링]](특히 GAP)의 적절한 조화는 CNN이 더 깊어지면서도 더 가벼워질 수 있는 원동력이 되었다. 최대 [[285_pooling_layer|풀링]]은 잡음을 제거하고 이동 불변성 (Translation Invariance)을 부여하며, GAP는 신경망의 마지막을 장식하며 파라미터 폭발을 막고 일반화 [[282_performance_tactics|성능]]을 극대화한다.
+최대 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)과 평균 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)(특히 GAP)의 적절한 조화는 CNN이 더 깊어지면서도 더 가벼워질 수 있는 원동력이 되었다. 최대 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)은 잡음을 제거하고 이동 불변성 (Translation Invariance)을 부여하며, GAP는 신경망의 마지막을 장식하며 파라미터 폭발을 막고 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 극대화한다.
 
-결론적으로 [[285_pooling_layer|풀링]]은 단순한 [[001_dikw_pyramid|데이터]] 축소가 아니라 "무엇을 버리고 무엇을 남길 것인가"에 대한 아키텍처적 결단이다. 최신 모델들이 Strided Convolution으로 넘어가고 있음에도 불구하고, [[285_pooling_layer|풀링]] 연산이 가져다준 직관적인 정보 [[347_compaction|압축]]의 철학은 딥러닝 설계의 영원한 기준점으로 남을 것이다.
+결론적으로 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)은 단순한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 축소가 아니라 "무엇을 버리고 무엇을 남길 것인가"에 대한 아키텍처적 결단이다. 최신 모델들이 Strided Convolution으로 넘어가고 있음에도 불구하고, [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) 연산이 가져다준 직관적인 정보 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)의 철학은 딥러닝 설계의 영원한 기준점으로 남을 것이다.
 
-- **📢 섹션 요약 비유**: 짐을 싸서 여행을 갈 때, 꼭 필요한 여권과 카메라만 챙기는 결단력(최대 [[285_pooling_layer|풀링]])과 잔돈들을 하나의 큰 지갑에 모아 깔끔하게 정리하는 지혜(GAP)가 있어야 성공적인 여행(학습)이 된다.
+- **📢 섹션 요약 비유**: 짐을 싸서 여행을 갈 때, 꼭 필요한 여권과 카메라만 챙기는 결단력(최대 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/))과 잔돈들을 하나의 큰 지갑에 모아 깔끔하게 정리하는 지혜(GAP)가 있어야 성공적인 여행(학습)이 된다.
 
 ---
 
@@ -94,10 +98,10 @@ GAP는 $7 \times 7$ 크기의 [[099_feature_map_activation_map_cnn_output|특성
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[099_feature_map_activation_map_cnn_output|특성 맵]] ([[099_feature_map_activation_map_cnn_output|Feature Map]]) | [[228_cnn_1d_2d_3d_video_medical|합성곱]] 필터를 통과하여 [[087_process_state_transition|생성]]된 다차원 [[001_dikw_pyramid|데이터]] |
-| 다운샘플링 (Downsampling) | [[099_feature_map_activation_map_cnn_output|특성 맵]]의 해상도를 줄여 연산량을 제어하는 과정 |
-| 이동 불변성 (Translation Invariance) | 이미지가 약간 이동해도 [[285_pooling_layer|풀링]]을 통해 같은 특징을 뽑아내는 성질 |
-| [[097_stride_convolutional_neural_network_downsampling|스트라이드]] [[228_cnn_1d_2d_3d_video_medical|합성곱]] (Strided [[284_convolution_stride_padding|Convolution]]) | [[285_pooling_layer|풀링]] 대신 보폭을 늘려 [[267_weight_bias_activation|가중치]] 학습이 가능하게 만든 최신 [[347_compaction|압축]] 기법 |
+| [특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/) ([Feature Map](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)) | [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 필터를 통과하여 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 다차원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
+| 다운샘플링 (Downsampling) | [특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)의 해상도를 줄여 연산량을 제어하는 과정 |
+| 이동 불변성 (Translation Invariance) | 이미지가 약간 이동해도 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)을 통해 같은 특징을 뽑아내는 성질 |
+| [스트라이드](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) (Strided [Convolution](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/)) | [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) 대신 보폭을 늘려 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 학습이 가능하게 만든 최신 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 기법 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -116,9 +120,9 @@ GAP는 $7 \times 7$ 크기의 [[099_feature_map_activation_map_cnn_output|특성
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 도화지 크기를 줄일 때, '최대 [[285_pooling_layer|풀링]]'은 가장 진하게 칠해진 테두리만 남겨서 그림의 모양을 또렷하게 살리는 가위질이에요.
-2. '평균 [[285_pooling_layer|풀링]]'은 색깔을 다 섞어버려서 모양이 흐릿해지기 때문에 중간 과정에서는 쓰지 않아요.
-3. 하지만 맨 마지막에 '전역 평균 [[285_pooling_layer|풀링]]'으로 전체 그림의 점수를 딱 하나로 합치면, 컴퓨터가 너무 많은 숫자를 외우지 않아도 되어서 머리가 좋아진답니다!
+1. 도화지 크기를 줄일 때, '최대 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)'은 가장 진하게 칠해진 테두리만 남겨서 그림의 모양을 또렷하게 살리는 가위질이에요.
+2. '평균 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)'은 색깔을 다 섞어버려서 모양이 흐릿해지기 때문에 중간 과정에서는 쓰지 않아요.
+3. 하지만 맨 마지막에 '전역 평균 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)'으로 전체 그림의 점수를 딱 하나로 합치면, 컴퓨터가 너무 많은 숫자를 외우지 않아도 되어서 머리가 좋아진답니다!
 
 ---
 
@@ -126,7 +130,7 @@ GAP는 $7 \times 7$ 크기의 [[099_feature_map_activation_map_cnn_output|특성
 
 **진행 상황**: 101 / 420
 
-← **이전**: [[100_pooling_layer_max_pooling_downsampling_cnn|100. 풀링 층 (Pooling Layer) - 해상도 압축과 불변성 확보]]
-**다음**: [[102_fully_connected_layer_dense_flatten_softmax|102. 완전 연결 층 (FC Layer) - 추출된 특징의 1차원 분류]] →
+← **이전**: [100. 풀링 층 (Pooling Layer) - 해상도 압축과 불변성 확보](/knowledge-base/studynote/10_ai/01_ai_basics/100_pooling_layer_max_pooling_downsampling_cnn/)
+**다음**: [102. 완전 연결 층 (FC Layer) - 추출된 특징의 1차원 분류](/knowledge-base/studynote/10_ai/02_dl_architecture_new/102_fully_connected_layer_dense_flatten_softmax/) →
 
 ---

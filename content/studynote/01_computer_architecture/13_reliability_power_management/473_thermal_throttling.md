@@ -1,23 +1,27 @@
----
-title: 473. 서멀 스로틀링 (Thermal Throttling)
-date: '2026-03-22'
-tags:
-- studynote-computer-architecture
----
++++
+title = "473. 서멀 스로틀링 (Thermal Throttling)"
+date = 2026-03-22
+
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 서멀 스로틀링 (Thermal Throttling)은 접합 온도 (Junction [[386_llm_temperature|Temperature]], Tj)가 최대 접합 온도 ([[735_tjmax|TjMax]])에 가까워질 때 주파수·[[001_voltage|전압]]·실행률을 자동으로 낮춰 열 발생을 줄이는 하드웨어 [[571_protection_vs_security|보호]] 제어다.
-> 2. **가치**: 냉각 여유를 잠시 넘는 상황에서도 즉시 전원을 끄기보다 [[282_performance_tactics|성능]]을 완만하게 낮춰 버티게 하므로, 칩 손상과 [[090_service_kubernetes_network_load_balancing|서비스]] 중단 사이에서 가용성을 지키는 안전판 역할을 한다.
-> 3. **판단 포인트**: 정상적인 [[469_dvfs|DVFS]] (Dynamic [[001_voltage|Voltage]] and Frequency Scaling)가 효율 최적화라면 서멀 스로틀링은 비상 [[571_protection_vs_security|보호]]에 가깝기 때문에, 반복 발생 시 [[282_performance_tactics|성능]]보다 냉각 경로·전력 제한·워크로드 배치를 먼저 점검해야 한다.
+> 1. **본질**: 서멀 스로틀링 (Thermal Throttling)은 접합 온도 (Junction [Temperature](/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/), Tj)가 최대 접합 온도 ([TjMax](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/735_tjmax/))에 가까워질 때 주파수·[전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)·실행률을 자동으로 낮춰 열 발생을 줄이는 하드웨어 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 제어다.
+> 2. **가치**: 냉각 여유를 잠시 넘는 상황에서도 즉시 전원을 끄기보다 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 완만하게 낮춰 버티게 하므로, 칩 손상과 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단 사이에서 가용성을 지키는 안전판 역할을 한다.
+> 3. **판단 포인트**: 정상적인 [DVFS](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/) (Dynamic [Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) and Frequency Scaling)가 효율 최적화라면 서멀 스로틀링은 비상 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)에 가깝기 때문에, 반복 발생 시 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 냉각 경로·전력 제한·워크로드 배치를 먼저 점검해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-서멀 스로틀링 (Thermal Throttling)은 프로세서가 허용 열 범위를 넘지 않도록 [[282_performance_tactics|성능]]을 자동으로 감속하는 온도 기반 [[571_protection_vs_security|보호]] 메커니즘이다. 전력은 거의 그대로 열로 전환되지만, [[736_ihs_integrated_heat_spreader|히트스프레더]]·히트싱크·팬은 그 열을 즉시 외부로 빼내지 못한다. 그래서 사용자는 패키지 표면이 아직 버틸 만해 보여도, 다이 내부의 국소 핫스팟이 먼저 한계에 접근하는 상황을 만나게 된다.
+서멀 스로틀링 (Thermal Throttling)은 프로세서가 허용 열 범위를 넘지 않도록 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 자동으로 감속하는 온도 기반 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 메커니즘이다. 전력은 거의 그대로 열로 전환되지만, [히트스프레더](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/736_ihs_integrated_heat_spreader/)·히트싱크·팬은 그 열을 즉시 외부로 빼내지 못한다. 그래서 사용자는 패키지 표면이 아직 버틸 만해 보여도, 다이 내부의 국소 핫스팟이 먼저 한계에 접근하는 상황을 만나게 된다.
 
-특히 터보 부스트 구간에서는 순간 소비전력이 열 설계 전력 (Thermal Design [[069_type_1_2_error_statistical_power|Power]], TDP)을 잠시 웃돌 수 있다. 문제는 평균 전력이 아니라 가장 뜨거운 지점이 TjMax를 넘는 순간이며, 이 한계를 넘기면 타이밍 여유 감소, 누설 [[002_current|전류]] 증가, 전자 이동 (Electromigration) 가속이 겹쳐 신뢰성이 빠르게 나빠진다. 따라서 스로틀링은 "[[282_performance_tactics|성능]]을 깎는 기능"이 아니라 "손상을 피하기 위해 먼저 속도를 줄이는 기능"으로 이해해야 한다.
+특히 터보 부스트 구간에서는 순간 소비전력이 열 설계 전력 (Thermal Design [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/), TDP)을 잠시 웃돌 수 있다. 문제는 평균 전력이 아니라 가장 뜨거운 지점이 TjMax를 넘는 순간이며, 이 한계를 넘기면 타이밍 여유 감소, 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 증가, 전자 이동 (Electromigration) 가속이 겹쳐 신뢰성이 빠르게 나빠진다. 따라서 스로틀링은 "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 깎는 기능"이 아니라 "손상을 피하기 위해 먼저 속도를 줄이는 기능"으로 이해해야 한다.
 
 이 그림은 왜 냉각 장치가 멀쩡해 보여도 칩 내부는 먼저 위험해질 수 있는지를 보여준다.
 
@@ -39,7 +43,7 @@ tags:
 └────────────────────────────────────────────────────────────────────────────┘
 ```
 
-즉 서멀 스로틀링은 냉각 장치가 못해서 생긴 보조 기능이 아니라, 열이 시간차를 두고 퍼지는 현실을 반영한 필수 [[571_protection_vs_security|보호]] 체계다. 강제 종료만을 마지막 수단으로 남겨 두고, 그 전에 [[282_performance_tactics|성능]]을 조금씩 내려 시스템을 안전 영역으로 되돌린다.
+즉 서멀 스로틀링은 냉각 장치가 못해서 생긴 보조 기능이 아니라, 열이 시간차를 두고 퍼지는 현실을 반영한 필수 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 체계다. 강제 종료만을 마지막 수단으로 남겨 두고, 그 전에 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 조금씩 내려 시스템을 안전 영역으로 되돌린다.
 
 - **📢 섹션 요약 비유**: 서멀 스로틀링은 내리막길에서 브레이크가 과열되기 전에 차가 스스로 속도를 줄이는 안전 장치와 같다. 목적지는 조금 늦게 도착하더라도, 차체를 망가뜨리지 않는 것이 우선이다.
 
@@ -47,9 +51,9 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-실제 제어는 칩 안의 디지털 온도 센서인 DTS (Digital Thermal Sensor)에서 시작된다. 코어, 캐시, 패키지 전역에 분산된 센서가 온도를 계속 보고하면, PCU ([[069_type_1_2_error_statistical_power|Power]] [[206_control_unit|Control Unit]])나 [[032_firmware|펌웨어]] 기반 열 제어기가 이를 임계값과 비교한다. 이때 진입 온도와 해제 온도를 동일하게 두면 경계선에서 클럭이 계속 오르내리는 진동이 생기므로, 보통은 히스테리시스 (Hysteresis)를 둬서 안정적으로 제어한다.
+실제 제어는 칩 안의 디지털 온도 센서인 DTS (Digital Thermal Sensor)에서 시작된다. 코어, 캐시, 패키지 전역에 분산된 센서가 온도를 계속 보고하면, PCU ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) [Control Unit](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/))나 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 기반 열 제어기가 이를 임계값과 비교한다. 이때 진입 온도와 해제 온도를 동일하게 두면 경계선에서 클럭이 계속 오르내리는 진동이 생기므로, 보통은 히스테리시스 (Hysteresis)를 둬서 안정적으로 제어한다.
 
-이 그림은 센서가 본 온도를 어떤 순서로 [[282_performance_tactics|성능]] 제한으로 바꾸는지를 보여준다.
+이 그림은 센서가 본 온도를 어떤 순서로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 제한으로 바꾸는지를 보여준다.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────────┐
@@ -68,17 +72,17 @@ tags:
 └────────────────────────────────────────────────────────────────────────────┘
 ```
 
-가벼운 과열 단계에서는 P-[[272_state_pattern|state]] 하향과 [[001_voltage|전압]] 조정을 통해 발열량을 줄이는 경우가 많다. 더 급한 상황에서는 듀티 사이클을 깎는 T-[[272_state_pattern|state]] 방식처럼 더 거친 제한이 동원되고, x86 계열에서는 대표적으로 PROCHOT# (Processor Hot) 신호로 플랫폼 전체에 과열을 알리기도 한다. 그래도 온도가 내려가지 않으면 최후에는 하드웨어가 비상 정지로 들어간다.
+가벼운 과열 단계에서는 P-[state](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) 하향과 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 조정을 통해 발열량을 줄이는 경우가 많다. 더 급한 상황에서는 듀티 사이클을 깎는 T-[state](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) 방식처럼 더 거친 제한이 동원되고, x86 계열에서는 대표적으로 PROCHOT# (Processor Hot) 신호로 플랫폼 전체에 과열을 알리기도 한다. 그래도 온도가 내려가지 않으면 최후에는 하드웨어가 비상 정지로 들어간다.
 
 | 구성 요소 | 역할 | 설계·운영 포인트 |
 | :-- | :-- | :-- |
 | DTS (Digital Thermal Sensor) | 핫스팟 온도 측정 | 위치별 편차, 보정 정확도 |
 | 열 제어기 | 임계값 비교와 제어 단계 선택 | 반응 속도, 히스테리시스 |
-| [[469_dvfs|DVFS]] 경로 | [[001_voltage|전압]]·주파수 동시 조정 | [[282_performance_tactics|성능]] 저하 폭, 안정 마진 |
-| 냉각 제어 | 팬·펌프·전력 예산 조절 | 센서 반응보다 느린 기계적 [[015_지연_데이터_관점|지연]] |
-| 비상 차단 | 물리 손상 방지 | [[001_dikw_pyramid|데이터]] 가용성보다 안전 우선 |
+| [DVFS](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/) 경로 | [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)·주파수 동시 조정 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 폭, 안정 마진 |
+| 냉각 제어 | 팬·펌프·전력 예산 조절 | 센서 반응보다 느린 기계적 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
+| 비상 차단 | 물리 손상 방지 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 가용성보다 안전 우선 |
 
-핵심은 운영체제보다 하드웨어가 먼저 반응한다는 점이다. OS 스케줄러와 전력 [[164_policy|정책]]은 밀리초 단위로 따라올 수 있지만, 실리콘 [[571_protection_vs_security|보호]]는 더 빠른 응답이 필요하므로 칩 내부 제어가 1차 방어선을 맡는다.
+핵심은 운영체제보다 하드웨어가 먼저 반응한다는 점이다. OS 스케줄러와 전력 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 밀리초 단위로 따라올 수 있지만, 실리콘 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)는 더 빠른 응답이 필요하므로 칩 내부 제어가 1차 방어선을 맡는다.
 
 - **📢 섹션 요약 비유**: 서멀 스로틀링 제어 루프는 주방의 자동 화재 방지 장치와 같다. 연기가 조금 날 때는 불 세기만 낮추고, 위험해지면 가스를 잠그며, 끝내 감당이 안 되면 전체 시스템을 멈춘다.
 
@@ -86,17 +90,17 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-서멀 스로틀링을 정확히 이해하려면 정상적인 전력 최적화와 구분해야 한다. 겉으로는 모두 클럭이 내려가지만, DVFS는 효율을 위한 선택이고 서멀 스로틀링은 안전 한계를 피하기 위한 강제 제어다. 또 전력 제한 ([[069_type_1_2_error_statistical_power|Power]] Capping)은 전원 장치나 랙 예산을 지키기 위한 [[164_policy|정책]] 제어이므로, 같은 감속이라도 출발점이 다르다.
+서멀 스로틀링을 정확히 이해하려면 정상적인 전력 최적화와 구분해야 한다. 겉으로는 모두 클럭이 내려가지만, DVFS는 효율을 위한 선택이고 서멀 스로틀링은 안전 한계를 피하기 위한 강제 제어다. 또 전력 제한 ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Capping)은 전원 장치나 랙 예산을 지키기 위한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 제어이므로, 같은 감속이라도 출발점이 다르다.
 
-| 항목 | 정상 [[469_dvfs|DVFS]] | 전력 제한 ([[069_type_1_2_error_statistical_power|Power]] Capping) | 서멀 스로틀링 |
+| 항목 | 정상 [DVFS](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/) | 전력 제한 ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Capping) | 서멀 스로틀링 |
 | :-- | :-- | :-- | :-- |
-| 촉발 원인 | 부하 변화, 효율 [[164_policy|정책]] | [[125_socket|소켓]]·랙 전력 예산 | 온도 임계값 접근 |
-| 주요 목적 | 전력 대비 [[282_performance_tactics|성능]] 최적화 | 전력 상한 준수 | 칩 [[571_protection_vs_security|보호]] |
-| 제어 주체 | OS/[[032_firmware|펌웨어]] [[164_policy|정책]] | 플랫폼 전력 관리자 | 칩 내부 하드웨어 우선 |
+| 촉발 원인 | 부하 변화, 효율 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)·랙 전력 예산 | 온도 임계값 접근 |
+| 주요 목적 | 전력 대비 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 | 전력 상한 준수 | 칩 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) |
+| 제어 주체 | OS/[펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 플랫폼 전력 관리자 | 칩 내부 하드웨어 우선 |
 | 반응 시간 | ms 수준 | ms~s 수준 | μs~ms 수준 |
 | 실패 시 결과 | 효율 저하 | 예산 초과 | 손상 또는 셧다운 위험 |
 
-이 차이는 운영체제와 [[801_data_center_3_tier_architecture_core_aggregation_access|데이터센터]] 운영에서도 중요하다. 예를 들어 전력 제한은 랙 전체 전원 용량 때문에 걸릴 수 있고, 서멀 스로틀링은 같은 전력에서도 흡기 온도나 히트싱크 접촉 불량 때문에 먼저 발생할 수 있다. 따라서 서버 운영자는 전력 그래프와 온도 그래프를 따로 보고, 스케줄러는 뜨거운 코어의 작업을 다른 코어나 다른 노드로 옮겨 핫스팟을 분산시키는 전략까지 고려해야 한다.
+이 차이는 운영체제와 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 운영에서도 중요하다. 예를 들어 전력 제한은 랙 전체 전원 용량 때문에 걸릴 수 있고, 서멀 스로틀링은 같은 전력에서도 흡기 온도나 히트싱크 접촉 불량 때문에 먼저 발생할 수 있다. 따라서 서버 운영자는 전력 그래프와 온도 그래프를 따로 보고, 스케줄러는 뜨거운 코어의 작업을 다른 코어나 다른 노드로 옮겨 핫스팟을 분산시키는 전략까지 고려해야 한다.
 
 - **📢 섹션 요약 비유**: DVFS가 운전자가 연비를 위해 속도를 줄이는 일이라면, 전력 제한은 톨게이트 앞 속도 제한이고, 서멀 스로틀링은 엔진 과열 경고가 떠서 차가 스스로 출력을 줄이는 상황이다.
 
@@ -106,18 +110,18 @@ tags:
 
 실무에서 중요한 질문은 "정말 칩이 과열된 것인가, 아니면 열을 빼내는 시스템이 병목인가"다. 예를 들어 1U 고밀도 서버는 프로세서 설계가 같아도 랙 내 재순환 공기 때문에 먼저 스로틀링이 시작될 수 있고, 얇은 노트북은 애초에 일정 시간 이후 전력을 낮추는 방향으로 설계되어 있다. 즉 스로틀링은 고장 신호일 수도 있지만, 의도된 열 예산 집행일 수도 있다.
 
-### 적용 판단 [[435_checklist_based_testing|체크리스트]]
+### 적용 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **센서 동시 [[396_validation|확인]]**: 코어 온도, 패키지 온도, 실제 주파수, 스로틀 플래그를 함께 본다.
+1. **센서 동시 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 코어 온도, 패키지 온도, 실제 주파수, 스로틀 플래그를 함께 본다.
 2. **핫스팟 우선 판단**: 평균 온도보다 특정 코어 또는 캐시의 국소 온도가 먼저 임계치에 닿는지 본다.
-3. **열 경로 점검**: 히트싱크 압착, 서멀 인터페이스 재료, 팬 곡선, 흡기 온도, 랙 에어플로를 [[396_validation|확인]]한다.
-4. **전력 [[164_policy|정책]] 분리**: 전력 제한 때문에 느린 것인지, 온도 때문에 느린 것인지 로그로 구분한다.
-5. **워크로드 특성 [[396_validation|확인]]**: 벡터 연산 밀도, 지속적인 올코어 부하, [[418_gpu|GPU]] 메모리 사용 패턴이 핫스팟을 만드는지 본다.
+3. **열 경로 점검**: 히트싱크 압착, 서멀 인터페이스 재료, 팬 곡선, 흡기 온도, 랙 에어플로를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+4. **전력 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 분리**: 전력 제한 때문에 느린 것인지, 온도 때문에 느린 것인지 로그로 구분한다.
+5. **워크로드 특성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 벡터 연산 밀도, 지속적인 올코어 부하, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리 사용 패턴이 핫스팟을 만드는지 본다.
 
-### 피해야 할 [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### 피해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 차가운 상태에서 짧게 실행한 벤치마크만 보고 지속 [[282_performance_tactics|성능]]을 판단하는 것
-- [[571_protection_vs_security|보호]] 기능을 꺼서 문제를 숨기고, 냉각 원인은 그대로 두는 것
+- 차가운 상태에서 짧게 실행한 벤치마크만 보고 지속 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 판단하는 것
+- [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 기능을 꺼서 문제를 숨기고, 냉각 원인은 그대로 두는 것
 - CPU 사용률이 낮으니 열 문제도 없을 것이라고 가정하는 것
 
 기술사 관점에서는 "스로틀링이 생긴다"보다 "왜 생기며, 설계상 허용인지 장애인지 어떻게 구분하는가"를 말해야 한다. 반복적이고 예측 불가능한 스로틀링은 냉각 설계 개선이 우선이고, 짧고 의도된 감속은 전력·소음·폼팩터와의 타협 결과로 받아들일 수 있다.
@@ -128,11 +132,11 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-서멀 스로틀링의 가장 큰 효과는 과열 상황을 "즉시 장애"가 아니라 "[[282_performance_tactics|성능]] 저하를 동반한 생존 모드"로 바꾼다는 점이다. 덕분에 프로세서는 손상을 피하고, 운영자는 냉각 부족이나 랙 설계 문제를 진단할 시간을 확보한다. 또한 열 폭주를 막으면 장기 신뢰성과 수명 측면에서도 이익이 크다.
+서멀 스로틀링의 가장 큰 효과는 과열 상황을 "즉시 장애"가 아니라 "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하를 동반한 생존 모드"로 바꾼다는 점이다. 덕분에 프로세서는 손상을 피하고, 운영자는 냉각 부족이나 랙 설계 문제를 진단할 시간을 확보한다. 또한 열 폭주를 막으면 장기 신뢰성과 수명 측면에서도 이익이 크다.
 
 하지만 이것은 냉각을 대체하는 기술이 아니다. 스로틀링이 자주 발생하면 처리량이 흔들리고 응답시간이 늘어나며, 사용자 입장에서는 "사양은 높은데 오래 돌리면 느려지는 시스템"이 된다. 따라서 좋은 설계는 스로틀링이 **존재하되 자주 드러나지 않는 상태**를 목표로 해야 한다.
 
-앞으로는 코어별 핫스팟 지도, 3차원 적층 패키지의 국소 열 제어, 스케줄러와 랙 냉각 [[164_policy|정책]]의 연동이 더 중요해질 것이다. 결국 서멀 스로틀링은 [[282_performance_tactics|성능]] 기술이 아니라 **실리콘을 안전 영역에 붙잡아 두는 마지막 안전장치**로 기억하는 것이 정확하다.
+앞으로는 코어별 핫스팟 지도, 3차원 적층 패키지의 국소 열 제어, 스케줄러와 랙 냉각 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 연동이 더 중요해질 것이다. 결국 서멀 스로틀링은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 기술이 아니라 **실리콘을 안전 영역에 붙잡아 두는 마지막 안전장치**로 기억하는 것이 정확하다.
 
 - **📢 섹션 요약 비유**: 서멀 스로틀링은 운동선수가 탈진 직전에 페이스를 낮춰 완주를 노리는 전략과 같다. 기록은 조금 손해 보더라도, 쓰러져 경기를 끝내는 것보다는 훨씬 낫다.
 
@@ -142,12 +146,12 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :-- | :-- |
-| 열 설계 전력 (Thermal Design [[069_type_1_2_error_statistical_power|Power]], TDP) | 냉각 장치가 지속적으로 처리해야 할 설계 열 예산이다. |
-| 최대 접합 온도 ([[735_tjmax|TjMax]]) | 스로틀링과 비상 차단이 의식하는 직접 한계값이다. |
-| [[469_dvfs|DVFS]] (Dynamic [[001_voltage|Voltage]] and Frequency Scaling) | 정상 구간에서는 효율 최적화를, 위기 구간에서는 감속 수단을 제공한다. |
-| P-[[272_state_pattern|state]] ([[282_performance_tactics|Performance]] [[272_state_pattern|State]]) | 비교적 부드럽게 [[282_performance_tactics|성능]]을 낮추는 첫 단계 제어에 쓰인다. |
-| T-[[272_state_pattern|state]] (Throttle [[272_state_pattern|State]]) | 급한 과열 상황에서 듀티 사이클을 줄여 즉시 발열을 낮춘다. |
-| 전력 제한 ([[069_type_1_2_error_statistical_power|Power]] Capping) | 온도와 별개로 전력 예산을 맞추는 [[164_policy|정책]] 제어로 함께 분석해야 한다. |
+| 열 설계 전력 (Thermal Design [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/), TDP) | 냉각 장치가 지속적으로 처리해야 할 설계 열 예산이다. |
+| 최대 접합 온도 ([TjMax](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/735_tjmax/)) | 스로틀링과 비상 차단이 의식하는 직접 한계값이다. |
+| [DVFS](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/) (Dynamic [Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) and Frequency Scaling) | 정상 구간에서는 효율 최적화를, 위기 구간에서는 감속 수단을 제공한다. |
+| P-[state](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) ([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) | 비교적 부드럽게 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 낮추는 첫 단계 제어에 쓰인다. |
+| T-[state](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) (Throttle [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) | 급한 과열 상황에서 듀티 사이클을 줄여 즉시 발열을 낮춘다. |
+| 전력 제한 ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Capping) | 온도와 별개로 전력 예산을 맞추는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 제어로 함께 분석해야 한다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -181,7 +185,7 @@ DVFS 연계 온도 보호
 
 **진행 상황**: 473 / 803
 
-← **이전**: [[471_power_gating|471. 전력 게이팅 (Power Gating)]]
-**다음**: [[474_energy_proportional_computing|474. 에너지 비례 컴퓨팅 (Energy Proportional Computing)]] →
+← **이전**: [471. 전력 게이팅 (Power Gating)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/)
+**다음**: [474. 에너지 비례 컴퓨팅 (Energy Proportional Computing)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/474_energy_proportional_computing/) →
 
 ---

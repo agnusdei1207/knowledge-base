@@ -1,23 +1,27 @@
----
-title: 172. 선언형 vs 명령형 인프라 접근 (Declarative vs Imperative Infrastructure)
-date: '2026-04-21'
-tags:
-- studynote-cloud-architecture
----
++++
+title = "172. 선언형 vs 명령형 인프라 접근 (Declarative vs Imperative Infrastructure)"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-cloud-architecture"]
+
+[extra]
+tags = ["studynote-cloud-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 선언형 ([[219_declarative_yaml|Declarative]])은 원하는 최종 상태를 기술하고 시스템이 그 상태로 수렴하게 만드는 방식이며, 명령형 (Imperative)은 사람이 실행 순서와 예외 처리까지 직접 지휘하는 방식이다.
-> 2. **가치**: 선언형은 [[171_idempotency_iac_terraform|멱등성]], 차이 비교, [[606_auditing_linux_auditd|감사]] 추적, 자동 [[658_ir_recovery|복구]]에 강하고, 명령형은 부트스트랩, 복잡한 조건 분기, 일회성 절차에서 더 높은 표현력을 준다.
-> 3. **판단 포인트**: 장기 운영할 인프라 [[025_baseline|기준선]]은 선언형으로 두고, 순서 자체가 핵심인 예외 작업만 명령형으로 분리해야 운영 복잡도와 드리프트가 폭증하지 않는다.
+> 1. **본질**: 선언형 ([Declarative](/knowledge-base/studynote/15_devops_sre/05_devsecops/219_declarative_yaml/))은 원하는 최종 상태를 기술하고 시스템이 그 상태로 수렴하게 만드는 방식이며, 명령형 (Imperative)은 사람이 실행 순서와 예외 처리까지 직접 지휘하는 방식이다.
+> 2. **가치**: 선언형은 [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/), 차이 비교, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적, 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)에 강하고, 명령형은 부트스트랩, 복잡한 조건 분기, 일회성 절차에서 더 높은 표현력을 준다.
+> 3. **판단 포인트**: 장기 운영할 인프라 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)은 선언형으로 두고, 순서 자체가 핵심인 예외 작업만 명령형으로 분리해야 운영 복잡도와 드리프트가 폭증하지 않는다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-클라우드 인프라를 [[062_infrastructure_as_code|Infrastructure as Code]] ([[793_iac_idempotency_template|IaC]])로 다룰 때 가장 먼저 갈리는 축은 "무엇이 되어야 하는가"를 적을지, "어떻게 만들 것인가"를 적을지다. 선언형은 목표 상태를 적고 도구가 현재 상태와 비교해 필요한 변경만 수행한다. 반면 명령형은 [[087_process_state_transition|생성]], 수정, 연결, [[395_verification_process_review|검증]] 순서를 사람이 직접 써 내려가며, 실패했을 때의 [[658_ir_recovery|복구]] 책임도 스크립트 작성자에게 남는다.
+클라우드 인프라를 [Infrastructure as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/) ([IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/))로 다룰 때 가장 먼저 갈리는 축은 "무엇이 되어야 하는가"를 적을지, "어떻게 만들 것인가"를 적을지다. 선언형은 목표 상태를 적고 도구가 현재 상태와 비교해 필요한 변경만 수행한다. 반면 명령형은 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 수정, 연결, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 순서를 사람이 직접 써 내려가며, 실패했을 때의 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 책임도 스크립트 작성자에게 남는다.
 
-[[459_quic_fec_forward_error_correction|초기]] 클라우드 운영은 [[271_command_pattern|Command]] Line Interface (CLI)나 [[044_shell|Shell]] Script 중심의 명령형 접근이 자연스러웠다. 작은 규모에서는 빠르고 직관적이지만, 팀이 커지고 환경이 늘어나면 "같은 스크립트를 다시 돌려도 안전한가", "누가 콘솔에서 바꿨는가", "실패 후 어디까지 적용되었는가"가 더 큰 문제가 된다. 이 지점에서 선언형 접근이 중요해진다.
+[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 클라우드 운영은 [Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) Line Interface (CLI)나 [Shell](/knowledge-base/studynote/02_operating_system/01_overview_architecture/044_shell/) Script 중심의 명령형 접근이 자연스러웠다. 작은 규모에서는 빠르고 직관적이지만, 팀이 커지고 환경이 늘어나면 "같은 스크립트를 다시 돌려도 안전한가", "누가 콘솔에서 바꿨는가", "실패 후 어디까지 적용되었는가"가 더 큰 문제가 된다. 이 지점에서 선언형 접근이 중요해진다.
 
 아래 그림은 같은 목표라도 운영 책임이 어디에 놓이는지가 다름을 보여준다.
 
@@ -43,7 +47,7 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-선언형과 명령형의 차이는 문법보다 제어 루프에 있다. 선언형 도구는 Desired State를 입력으로 받아 실제 상태를 읽고, 차이를 계산한 뒤 필요한 변경만 적용한다. 이 입력은 보통 Git에 저장된 HashiCorp Configuration Language (HCL)나 YAML Ain't Markup Language (YAML) 같은 선언 [[501_file_definition_logical_record|파일]]이다. 반면 명령형 도구는 작성된 순서대로 [[014_api_posix|Application Programming Interface]] ([[014_api_posix|API]])를 호출하며, 중간 실패와 부분 적용을 직접 다뤄야 한다.
+선언형과 명령형의 차이는 문법보다 제어 루프에 있다. 선언형 도구는 Desired State를 입력으로 받아 실제 상태를 읽고, 차이를 계산한 뒤 필요한 변경만 적용한다. 이 입력은 보통 Git에 저장된 HashiCorp Configuration Language (HCL)나 YAML Ain't Markup Language (YAML) 같은 선언 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이다. 반면 명령형 도구는 작성된 순서대로 [Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))를 호출하며, 중간 실패와 부분 적용을 직접 다뤄야 한다.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────┐
@@ -81,9 +85,9 @@ tags:
 | 재실행 | 보통 No-op 또는 차이만 반영 | 조건문 없으면 중복 실행 위험 |
 | 드리프트 처리 | Diff/Refresh로 감지 가능 | 별도 진단 로직 필요 |
 | 의존성 관리 | 엔진이 그래프를 계산 | 사람이 순서를 설계 |
-| 장애 [[658_ir_recovery|복구]] | 다시 Apply해 수렴 | 재시도·[[098_rollback_strategy_pipeline_error_threshold|롤백]] 스크립트 필요 |
+| 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | 다시 Apply해 수렴 | 재시도·[롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 스크립트 필요 |
 
-중요한 포인트는 선언형도 내부적으로는 결국 명령을 실행한다는 사실이다. 차이는 "순서를 없앴다"가 아니라 "순서와 차이 계산의 책임을 도구가 가져갔다"는 데 있다. 그래서 선언형의 핵심 역량은 텍스트 문법이 아니라 상태 추적, [[171_idempotency_iac_terraform|멱등성]], Reconciliation Loop다.
+중요한 포인트는 선언형도 내부적으로는 결국 명령을 실행한다는 사실이다. 차이는 "순서를 없앴다"가 아니라 "순서와 차이 계산의 책임을 도구가 가져갔다"는 데 있다. 그래서 선언형의 핵심 역량은 텍스트 문법이 아니라 상태 추적, [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/), Reconciliation Loop다.
 
 - **📢 섹션 요약 비유**: 선언형은 내비게이션에 목적지만 넣는 방식이고, 명령형은 "직진 300m, 우회전, 다시 좌회전"을 종이에 적어 주는 방식이다. 길을 다시 계산하는 책임이 누구에게 있느냐가 핵심이다.
 
@@ -91,19 +95,19 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-실무 도구를 보면 두 철학은 깔끔하게 양분되지 않는다. Terraform과 Kubernetes는 대표적 선언형이고, Amazon Web Services (AWS) CLI나 [[044_shell|Shell]] Script는 대표적 명령형이다. 하지만 Ansible은 [[192_module_independence|모듈]] 수준에서는 선언형에 가깝고, `shell` 태스크를 쓰면 다시 명령형이 된다. 즉 도구 이름보다 "상태를 누가 소유하는가"를 봐야 한다.
+실무 도구를 보면 두 철학은 깔끔하게 양분되지 않는다. Terraform과 Kubernetes는 대표적 선언형이고, Amazon Web Services (AWS) CLI나 [Shell](/knowledge-base/studynote/02_operating_system/01_overview_architecture/044_shell/) Script는 대표적 명령형이다. 하지만 Ansible은 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 수준에서는 선언형에 가깝고, `shell` 태스크를 쓰면 다시 명령형이 된다. 즉 도구 이름보다 "상태를 누가 소유하는가"를 봐야 한다.
 
 | 도구/패턴 | 기본 성향 | 왜 그렇게 보나 |
 | :--- | :--- | :--- |
-| [[195_terraform_hashicorp_agnostic_aws_gcp|Terraform]] | 선언형 | 리소스와 원하는 속성을 기술하고 Plan/Apply가 차이를 계산 |
-| [[205_kubernetes_container_orchestration|Kubernetes]] `apply` | 선언형 | [[014_api_posix|API]] Server와 Controller가 Desired State를 계속 수렴 |
-| [[198_ansible_os_configuration_management_ssh|Ansible]] `package`, `service` | 준선언형 | 현재 상태를 확인하고 필요한 조치만 수행 |
-| [[044_shell|Shell]] Script / Amazon Web Services (AWS) CLI | 명령형 | 단계와 조건, 예외 [[658_ir_recovery|복구]]를 사용자가 직접 작성 |
-| `kubectl run`, `kubectl edit` | 명령형 성향 | 즉석 변경은 빠르지만 Git [[025_baseline|기준선]]과 멀어지기 쉬움 |
+| [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) | 선언형 | 리소스와 원하는 속성을 기술하고 Plan/Apply가 차이를 계산 |
+| [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) `apply` | 선언형 | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Server와 Controller가 Desired State를 계속 수렴 |
+| [Ansible](/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/) `package`, `service` | 준선언형 | 현재 상태를 확인하고 필요한 조치만 수행 |
+| [Shell](/knowledge-base/studynote/02_operating_system/01_overview_architecture/044_shell/) Script / Amazon Web Services (AWS) CLI | 명령형 | 단계와 조건, 예외 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 사용자가 직접 작성 |
+| `kubectl run`, `kubectl edit` | 명령형 성향 | 즉석 변경은 빠르지만 Git [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)과 멀어지기 쉬움 |
 
-선언형 접근은 [[119_gitops_single_source_of_truth|GitOps]], [[171_idempotency_iac_terraform|멱등성]], 드리프트 탐지와 강하게 연결된다. 반대로 명령형 접근은 부트스트랩, [[001_dikw_pyramid|데이터]] 마이그레이션, 장애 시 임시 우회처럼 "절차 자체가 비즈니스 로직"인 작업과 잘 맞는다. 예를 들어 [[195_terraform_hashicorp_agnostic_aws_gcp|Terraform]] 백엔드를 처음 만드는 [[459_quic_fec_forward_error_correction|초기]] 단계나, [[002_database_definition|데이터베이스]] 스키마를 안전한 순서로 변경하는 작업은 명령형 절차가 더 분명할 수 있다.
+선언형 접근은 [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/), [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/), 드리프트 탐지와 강하게 연결된다. 반대로 명령형 접근은 부트스트랩, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 마이그레이션, 장애 시 임시 우회처럼 "절차 자체가 비즈니스 로직"인 작업과 잘 맞는다. 예를 들어 [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) 백엔드를 처음 만드는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계나, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 스키마를 안전한 순서로 변경하는 작업은 명령형 절차가 더 분명할 수 있다.
 
-반대로 장기적으로 살아 있는 네트워크, [[007_security_policy|보안 정책]], [[205_kubernetes_container_orchestration|Kubernetes]] [[087_deployment_kubernetes_workload_rolling_update|Deployment]] 같은 자원을 명령형만으로 관리하면 운영 부담이 누적된다. 왜냐하면 "현재 무엇이 맞는 상태인가"라는 기준이 스크립트 곳곳에 흩어지고, 콘솔 수동 수정이 섞이면 재실행 신뢰도가 빠르게 무너지기 때문이다.
+반대로 장기적으로 살아 있는 네트워크, [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/), [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) [Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) 같은 자원을 명령형만으로 관리하면 운영 부담이 누적된다. 왜냐하면 "현재 무엇이 맞는 상태인가"라는 기준이 스크립트 곳곳에 흩어지고, 콘솔 수동 수정이 섞이면 재실행 신뢰도가 빠르게 무너지기 때문이다.
 
 - **📢 섹션 요약 비유**: 선언형과 명령형은 망치와 드라이버의 관계가 아니라, 설계도와 작업지시서의 관계에 더 가깝다. 오래 유지할 건물은 설계도가 필요하고, 특별 공정은 작업지시서가 필요하다.
 
@@ -111,7 +115,7 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 "둘 중 하나만 순수하게 사용"하기보다 경계를 명확히 나누는 것이 중요하다. [[025_baseline|기준선]]이 되는 인프라는 선언형으로 두고, 예외 절차는 별도 파이프라인 단계나 운영 스크립트로 분리해야 한다. 선언형 [[501_file_definition_logical_record|파일]] 안에 과도한 `local-exec`, `shell`, `kubectl edit` 관행을 숨기면 겉만 선언형이고 실제 운영은 명령형 부채가 된다.
+실무에서는 "둘 중 하나만 순수하게 사용"하기보다 경계를 명확히 나누는 것이 중요하다. [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)이 되는 인프라는 선언형으로 두고, 예외 절차는 별도 파이프라인 단계나 운영 스크립트로 분리해야 한다. 선언형 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 안에 과도한 `local-exec`, `shell`, `kubectl edit` 관행을 숨기면 겉만 선언형이고 실제 운영은 명령형 부채가 된다.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────┐
@@ -131,20 +135,20 @@ tags:
 
 | 상황 | 권장 판단 | 이유 |
 | :--- | :--- | :--- |
-| [[028_vpc|Virtual Private Cloud]] ([[836_vpc_virtual_private_cloud_subnet_isolation|VPC]]), Identity and Access [[372_management|Management]] ([[526_iam|IAM]]), [[031_load_balancer|Load Balancer]] 같은 [[025_baseline|기준선]] 인프라 | 선언형 | [[606_auditing_linux_auditd|감사]], 재현, 재실행 안전성이 핵심 |
-| [[205_kubernetes_container_orchestration|Kubernetes]] 애플리케이션 배포 | 선언형 | 롤링 업데이트와 자동 [[658_ir_recovery|복구]]가 컨트롤러 철학과 맞음 |
-| 백엔드 부트스트랩, 원타임 마이그레이션 | 명령형 + 체크포인트 | 순서와 중간 [[395_verification_process_review|검증]]이 중요 |
-| 장애 시 임시 우회 | 명령형 가능, 이후 선언형에 환원 | 긴급 조치는 빠르게, [[025_baseline|기준선]]은 다시 코드화 |
-| 복잡한 조건 분기 자동화 | 명령형 또는 [[565_operator_pattern_kubernetes_automation|Operator]] | 상태보다 절차가 핵심일 수 있음 |
+| [Virtual Private Cloud](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/028_vpc/) ([VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/)), Identity and Access [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) ([IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/)), [Load Balancer](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/031_load_balancer/) 같은 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 인프라 | 선언형 | [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/), 재현, 재실행 안전성이 핵심 |
+| [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 애플리케이션 배포 | 선언형 | 롤링 업데이트와 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 컨트롤러 철학과 맞음 |
+| 백엔드 부트스트랩, 원타임 마이그레이션 | 명령형 + 체크포인트 | 순서와 중간 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 중요 |
+| 장애 시 임시 우회 | 명령형 가능, 이후 선언형에 환원 | 긴급 조치는 빠르게, [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)은 다시 코드화 |
+| 복잡한 조건 분기 자동화 | 명령형 또는 [Operator](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/) | 상태보다 절차가 핵심일 수 있음 |
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 1. 선언형 도구 안에서 외부 스크립트를 남발해 실제 상태를 숨기는 것
 2. 운영 중 콘솔에서 고친 내용을 Git과 IaC에 반영하지 않는 것
 3. 장기 자원을 일회성 스크립트로만 관리해 "정답 상태"가 문서화되지 않는 것
 4. 명령형이 더 쉽다는 이유로 드리프트 탐지와 재현성을 포기하는 것
 
-기술사 답안에서는 "선언형이 우월하다"보다 "[[025_baseline|기준선]]은 선언형, 절차성 예외는 명령형"이라는 판단 구조를 제시하는 편이 좋다. 핵심은 도구 선택이 아니라 운영 책임 분리다.
+기술사 답안에서는 "선언형이 우월하다"보다 "[기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)은 선언형, 절차성 예외는 명령형"이라는 판단 구조를 제시하는 편이 좋다. 핵심은 도구 선택이 아니라 운영 책임 분리다.
 
 - **📢 섹션 요약 비유**: 학교 운영에서 시간표는 선언형이고, 소풍 당일 비가 와서 실내 행사로 바꾸는 안내 방송은 명령형이다. 학교 전체는 시간표로 굴리고, 예외 상황만 방송으로 처리해야 질서가 유지된다.
 
@@ -152,9 +156,9 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-선언형 접근이 잘 자리 잡으면 인프라는 "한 번 성공하는 스크립트"가 아니라 "계속 같은 상태로 수렴하는 시스템"이 된다. 그 결과 [[330_code_review|코드 리뷰]], 변경 추적, [[379_dr_architecture|재해 복구]], 환경 [[016_replication_factor|복제]], [[119_gitops_single_source_of_truth|GitOps]] 자동화까지 연결된다. 특히 팀 규모가 커질수록 선언형은 기술 편의보다 조직적 안정성 효과가 더 크다.
+선언형 접근이 잘 자리 잡으면 인프라는 "한 번 성공하는 스크립트"가 아니라 "계속 같은 상태로 수렴하는 시스템"이 된다. 그 결과 [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/), 변경 추적, [재해 복구](/knowledge-base/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/), 환경 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 자동화까지 연결된다. 특히 팀 규모가 커질수록 선언형은 기술 편의보다 조직적 안정성 효과가 더 크다.
 
-물론 선언형이 모든 문제를 해결하는 것은 아니다. [[001_dikw_pyramid|데이터]] 마이그레이션, 외부 승인 절차, 순서가 중요한 배치 작업처럼 상태보다 절차가 중요한 영역은 여전히 명령형이 더 적합하다. 또한 선언형 도구도 상태 저장소, 잠금, 드리프트 관리가 허술하면 쉽게 신뢰를 잃는다.
+물론 선언형이 모든 문제를 해결하는 것은 아니다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 마이그레이션, 외부 승인 절차, 순서가 중요한 배치 작업처럼 상태보다 절차가 중요한 영역은 여전히 명령형이 더 적합하다. 또한 선언형 도구도 상태 저장소, 잠금, 드리프트 관리가 허술하면 쉽게 신뢰를 잃는다.
 
 결국 이 주제는 "무엇이 더 현대적인가"가 아니라 "누가 운영 복잡도를 짊어질 것인가"의 문제로 기억해야 한다. 장기 상태는 선언형에 맡기고, 절차적 예외만 명령형으로 격리하는 설계가 가장 실용적이다.
 
@@ -166,11 +170,11 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[080_kube_controller_manager_desired_state|Desired State]] | 선언형 접근의 [[025_baseline|기준선]], "무엇이 되어야 하는가"를 정의 |
-| [[194_idempotency|Idempotency]] | 같은 선언을 다시 적용해도 같은 결과로 수렴하는 성질 |
+| [Desired State](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/080_kube_controller_manager_desired_state/) | 선언형 접근의 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/), "무엇이 되어야 하는가"를 정의 |
+| [Idempotency](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/) | 같은 선언을 다시 적용해도 같은 결과로 수렴하는 성질 |
 | Drift | 실제 상태가 코드에서 벗어난 상태, 선언형 운영의 핵심 관측 대상 |
 | Reconciliation Loop | 현재 상태와 목표 상태의 차이를 계속 줄이는 제어 구조 |
-| [[119_gitops_single_source_of_truth|GitOps]] | Git을 Desired State의 단일 진실원천으로 두는 운영 모델 |
+| [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) | Git을 Desired State의 단일 진실원천으로 두는 운영 모델 |
 | Bootstrap Script | 선언형 제어면을 만들기 전 필요한 최소한의 명령형 절차 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -202,7 +206,7 @@ State ownership + safe re-apply + audited change management
 
 **진행 상황**: 171 / 371
 
-← **이전**: [[171_idempotency_iac_terraform|171. 멱등성 (Idempotency in IaC)]]
-**다음**: [[173_configuration_management_ansible_chef_puppet|173. 구성 관리 도구 (Configuration Management) — Ansible, Chef, Puppet]] →
+← **이전**: [171. 멱등성 (Idempotency in IaC)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)
+**다음**: [173. 구성 관리 도구 (Configuration Management) — Ansible, Chef, Puppet](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/173_configuration_management_ansible_chef_puppet/) →
 
 ---

@@ -1,24 +1,28 @@
----
-title: 210. 휴리스틱 (Heuristics) 기반 스케줄링
-date: '2026-05-08'
-tags:
-- studynote-operating-system
----
++++
+title = "210. 휴리스틱 (Heuristics) 기반 스케줄링"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 휴리스틱(Heuristics) 스케줄링은 수학적 증명이나 절대적 규칙에 의존하는 대신, **"과거에 이렇게 행동했으니 미래에도 이럴 것이다"라는 경험적 짐작(Rule of Thumb)**을 바탕으로 프로세스의 성격(I/O 바운드 vs CPU 바운드)을 실시간으로 때려잡아 우선순위를 부여하는 기법이다.
-> 2. **가치**: 프로세스가 명시적으로 자기 [[082_attribute_types_er_model|속성]]을 [[022_kernel_role|커널]]에 알려주지 않아도, [[079_kube_scheduler_pod_placement|스케줄러]] 스스로 '타임 퀀텀 소진 여부'나 '수면(Sleep) 시간' 같은 행동 패턴을 감시하여 동적으로 시스템을 최적화([[691_mlfq_multi_level_feedback_queue|MLFQ]], O(1))하는 자가 적응형(Self-adaptive) 체계를 구축했다.
-> 3. **융합**: 하지만 이 눈치 게임(추측)은 3D 게임이나 비디오 렌더링처럼 "연산도 무겁고 대화형이기도 한" [[638_mutation_testing_test_case_verification|돌연변이]] 프로세스를 만나는 순간 오판(Misprediction)을 일으켜 끔찍한 렉(Jitter)을 유발하므로, 현대의 CFS [[079_kube_scheduler_pod_placement|스케줄러]]는 이 더러운 휴리스틱 코드를 싹 다 폐기하고 순수 수학(vruntime)으로 회귀했다.
+> 2. **가치**: 프로세스가 명시적으로 자기 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 알려주지 않아도, [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 스스로 '타임 퀀텀 소진 여부'나 '수면(Sleep) 시간' 같은 행동 패턴을 감시하여 동적으로 시스템을 최적화([MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/), O(1))하는 자가 적응형(Self-adaptive) 체계를 구축했다.
+> 3. **융합**: 하지만 이 눈치 게임(추측)은 3D 게임이나 비디오 렌더링처럼 "연산도 무겁고 대화형이기도 한" [돌연변이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/) 프로세스를 만나는 순간 오판(Misprediction)을 일으켜 끔찍한 렉(Jitter)을 유발하므로, 현대의 CFS [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 이 더러운 휴리스틱 코드를 싹 다 폐기하고 순수 수학(vruntime)으로 회귀했다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 그리스어 '유레카(Eureka, 알아냈다)'와 어원이 같은 단어로, 컴퓨터 과학에서는 **'정답은 아니지만 실용적으로 쓸만한 경험적 추측'**을 의미한다. [[079_kube_scheduler_pod_placement|스케줄러]]가 휴리스틱을 쓴다는 것은, 프로세스의 남은 실행 시간을 정확히 아는 대신 과거의 흔적을 보고 눈치껏 우선순위를 조작한다는 뜻이다.
+- **개념**: 그리스어 '유레카(Eureka, 알아냈다)'와 어원이 같은 단어로, 컴퓨터 과학에서는 **'정답은 아니지만 실용적으로 쓸만한 경험적 추측'**을 의미한다. [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 휴리스틱을 쓴다는 것은, 프로세스의 남은 실행 시간을 정확히 아는 대신 과거의 흔적을 보고 눈치껏 우선순위를 조작한다는 뜻이다.
 - **필요성**: SJF나 SRTF처럼 완벽한 최적 스케줄링을 하려면 미래의 CPU 버스트 길이를 미리 알아야만 한다. 하지만 코드는 사용자 입력이나 조건문에 따라 매번 실행 길이가 달라진다. 미래를 알 수 없다면 멍청하게 기다리기보다 "방금 10ms 동안 꽉 채워 썼으니 다음에도 길게 쓰겠지?"라는 '합리적 의심'을 통해 시스템의 응답성을 끌어올리는 차선책이 절실했다.
 
-- **등장 배경**: 과거 유닉스 시스템과 리눅스 O(1) [[079_kube_scheduler_pod_placement|스케줄러]] 시절, "데스크톱 환경의 마우스 렉을 없애라!"는 지상 과제가 떨어졌다. 마우스를 관리하는 프로세스에 무조건 보너스를 줘야 하는데, [[022_kernel_role|커널]]은 누가 마우스 프로세스인지 모른다. 결국 "잠을 오래 자다 깬 놈은 마우스일 [[130_probability|확률]]이 높다"는 휴리스틱 코드를 수천 줄씩 박아 넣게 되었다.
+- **등장 배경**: 과거 유닉스 시스템과 리눅스 O(1) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 시절, "데스크톱 환경의 마우스 렉을 없애라!"는 지상 과제가 떨어졌다. 마우스를 관리하는 프로세스에 무조건 보너스를 줘야 하는데, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 누가 마우스 프로세스인지 모른다. 결국 "잠을 오래 자다 깬 놈은 마우스일 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 높다"는 휴리스틱 코드를 수천 줄씩 박아 넣게 되었다.
 
 ```text
   [휴리스틱(Heuristics)을 통한 프로세스 성격 자동 분류 메커니즘]
@@ -43,9 +47,9 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 리눅스 O(1) [[079_kube_scheduler_pod_placement|스케줄러]]의 극단적 휴리스틱 (Interactivity [[236_a_star_heuristic_minimax_mcts_monte_carlo|Heuristic]])
+### 리눅스 O(1) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 극단적 휴리스틱 (Interactivity [Heuristic](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/))
 
-과거 리눅스 O(1) [[079_kube_scheduler_pod_placement|스케줄러]]가 대화형(Interactive) 태스크를 골라내어 보너스를 주었던 전설적인 휴리스틱 공식이다.
+과거 리눅스 O(1) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 대화형(Interactive) 태스크를 골라내어 보너스를 주었던 전설적인 휴리스틱 공식이다.
 
 1. **Sleep_avg (수면 시간 평균)** 변수 도입
    - 프로세스가 생성되면 `Sleep_avg` 값을 0으로 세팅한다.
@@ -55,34 +59,34 @@ tags:
    - `동적 우선순위 = Base_Priority(Nice값) - Bonus`
    - 보너스 계산: `Sleep_avg`가 클수록 최대 5점까지 깎아준다. (우선순위는 숫자가 낮을수록 VIP)
    - 페널티 계산: `Sleep_avg`가 낮을수록 최대 -5점까지 더해버린다. (바닥으로 강등)
-3. **Interactive 판별 [[431_ssthresh_slow_start_threshold|임계치]] (Threshold)**
-   - "이 `Sleep_avg` 값이 특정 [[431_ssthresh_slow_start_threshold|임계치]]를 넘으면, 넌 완벽한 대화형(Interactive)이다!"라고 확정 짓고, 이 녀석이 타임 슬라이스를 다 써도 Expired 큐로 안 보내고 [[483_active_vs_passive_ftp|Active]] 큐에 다시 넣어주는 무한 혜택을 줬다.
+3. **Interactive 판별 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) (Threshold)**
+   - "이 `Sleep_avg` 값이 특정 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 넘으면, 넌 완벽한 대화형(Interactive)이다!"라고 확정 짓고, 이 녀석이 타임 슬라이스를 다 써도 Expired 큐로 안 보내고 [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 큐에 다시 넣어주는 무한 혜택을 줬다.
 
-### 꼼수(Gaming)와 족집게 [[079_kube_scheduler_pod_placement|스케줄러]]의 싸움
-휴리스틱이 도입되자 개발자들은 [[079_kube_scheduler_pod_placement|스케줄러]]를 속이기 시작했다. 무거운 수학 연산을 돌리는 프로세스 중간에 의도적으로 `sleep(1ms)`을 수백 번 호출하는 꼼수를 넣은 것이다. 
-[[079_kube_scheduler_pod_placement|스케줄러]]의 휴리스틱 로직은 "어? 잠을 자네? 착한 I/O 바운드구나!" 하고 속아 넘어가서, 이 수학 연산 프로세스에게 어마어마한 보너스와 CPU 시간을 몰아주는 사태가 발생했다. [[022_kernel_role|커널]] 해커들은 이 꼼수를 막기 위해 수면 시간에서 꼼수 수면을 발라내는 예외 처리 코드를 수백 줄씩 덧대야만 했다.
+### 꼼수(Gaming)와 족집게 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 싸움
+휴리스틱이 도입되자 개발자들은 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)를 속이기 시작했다. 무거운 수학 연산을 돌리는 프로세스 중간에 의도적으로 `sleep(1ms)`을 수백 번 호출하는 꼼수를 넣은 것이다. 
+[스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 휴리스틱 로직은 "어? 잠을 자네? 착한 I/O 바운드구나!" 하고 속아 넘어가서, 이 수학 연산 프로세스에게 어마어마한 보너스와 CPU 시간을 몰아주는 사태가 발생했다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 해커들은 이 꼼수를 막기 위해 수면 시간에서 꼼수 수면을 발라내는 예외 처리 코드를 수백 줄씩 덧대야만 했다.
 
-- **📢 섹션 요약 비유**: 선생님([[022_kernel_role|커널]])이 "엎드려 자는 애(Sleep)는 아픈 애(I/O 바운드)니까 깨우지 말고 배려해 줘라"라고 휴리스틱 규칙을 세우자, 놀기 좋아하는 불량 학생(CPU 바운드)들이 일부러 아픈 척 엎드려 자면서 선생님의 배려를 악용하는 꼴입니다.
+- **📢 섹션 요약 비유**: 선생님([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))이 "엎드려 자는 애(Sleep)는 아픈 애(I/O 바운드)니까 깨우지 말고 배려해 줘라"라고 휴리스틱 규칙을 세우자, 놀기 좋아하는 불량 학생(CPU 바운드)들이 일부러 아픈 척 엎드려 자면서 선생님의 배려를 악용하는 꼴입니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 휴리스틱 [[079_kube_scheduler_pod_placement|스케줄러]]의 치명적 붕괴 (Jitter 발생 원리)
+### 휴리스틱 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 치명적 붕괴 (Jitter 발생 원리)
 
 휴리스틱은 "경험적 추측"이므로 필연적으로 **오판 (Misprediction)**을 낳는다. 이 오판이 가장 끔찍하게 터진 곳이 바로 '미디어 플레이어'와 '3D 게임'이었다.
 
-| [[082_attribute_types_er_model|속성]] [[104_classification_analysis|분류]] | 전형적 I/O 바운드 ([[075_word|워드]]) | 전형적 CPU 바운드 (인코딩) | **[[638_mutation_testing_test_case_verification|돌연변이]]: 3D 게임 / 영상 재생** |
+| [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 전형적 I/O 바운드 ([워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)) | 전형적 CPU 바운드 (인코딩) | **[돌연변이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/): 3D 게임 / 영상 재생** |
 |:---|:---|:---|:---|
 | **사용자 상호작용**| 매우 많음 (타이핑) | 전혀 없음 (백그라운드) | **매우 많음 (마우스, 키보드 조작)** |
 | **CPU 사용 패턴** | 매우 적음 (1ms 미만) | 100% 꽉 채워 씀 | **100% 꽉 채워 씀 (그래픽 렌더링)** |
 | **휴리스틱의 판정**| "착한 놈! 보너스 +5 줘!" | "나쁜 놈! 페널티 -5 줘!" | 🚨 **오판**: "너 마우스 쓰지만 CPU 다 쓰네? 넌 나쁜 놈(배치)이야! 페널티 먹고 바닥으로 꺼져!" |
 
-[[079_kube_scheduler_pod_placement|스케줄러]]가 게임 프로세스를 일괄 처리(Batch) 잡으로 오해하여 바닥 큐로 던져버렸다. 그 결과 3D 게임을 하거나 영화를 볼 때마다 화면이 1초씩 멈추는(프레임 드랍, Jitter) 대참사가 일어났다. 이 렉을 풀려면 사용자가 마우스를 미친 듯이 흔들어서 억지로 I/O 인터럽트를 발생시켜 휴리스틱 센서를 속여야만 화면이 다시 부드러워졌다. 
+[스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 게임 프로세스를 일괄 처리(Batch) 잡으로 오해하여 바닥 큐로 던져버렸다. 그 결과 3D 게임을 하거나 영화를 볼 때마다 화면이 1초씩 멈추는(프레임 드랍, Jitter) 대참사가 일어났다. 이 렉을 풀려면 사용자가 마우스를 미친 듯이 흔들어서 억지로 I/O 인터럽트를 발생시켜 휴리스틱 센서를 속여야만 화면이 다시 부드러워졌다. 
 
 ### 수학(CFS) vs 관상(O(1) Heuristics)
 - **O(1) 휴리스틱**: 프로세스의 과거 행동을 분석해 성격을 규정(관상)하고, 성격에 따라 차별 대우한다. (예외 처리에 코드가 지저분함)
-- **CFS ([[203_virtual_runtime_vruntime|가상 실행 시간]])**: 성격 따윈 1도 관심 없다. "네가 뭐 하는 놈이든 상관 안 해. 그냥 네가 CPU를 물리적으로 쓴 시간(vruntime 장부)만큼만 정확히 트리 뒤로 밀려날 뿐이야." (예외 없음, 코드가 예술적으로 깔끔함)
+- **CFS ([가상 실행 시간](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/203_virtual_runtime_vruntime/))**: 성격 따윈 1도 관심 없다. "네가 뭐 하는 놈이든 상관 안 해. 그냥 네가 CPU를 물리적으로 쓴 시간(vruntime 장부)만큼만 정확히 트리 뒤로 밀려날 뿐이야." (예외 없음, 코드가 예술적으로 깔끔함)
 
 - **📢 섹션 요약 비유**: 관상쟁이(휴리스틱)는 문신하고 험상궂게 생긴 사람(3D 게임)이 오면 무조건 깡패인 줄 알고 내쫓았다가 진짜 부자 손님을 놓칩니다. 현대 은행(CFS)은 문신을 하든 안 하든 오직 "통장 잔고(vruntime)"라는 절대적인 팩트만 보고 대출을 내어줍니다.
 
@@ -91,9 +95,9 @@ tags:
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **[[022_kernel_role|커널]] 파라미터 튜닝의 시대 종말**: 과거 휴리스틱 [[079_kube_scheduler_pod_placement|스케줄러]] 시대(리눅스 2.4 ~ 2.6)에는 시스템 엔지니어들이 `sleep_avg` [[431_ssthresh_slow_start_threshold|임계치]]나 `bonus` [[267_weight_bias_activation|가중치]] 같은 [[022_kernel_role|커널]] 소스 코드 내의 '[[503_magic_number_file_signature|매직 넘버]]([[503_magic_number_file_signature|Magic Number]])'들을 튜닝해서 직접 서버를 컴파일하는 흑마법이 유행했다. "이 숫자를 30으로 바꾸면 오라클 DB 속도가 2배 빨라진다"는 식의 무당 같은 튜닝이었다. 하지만 CFS 도입 이후, 이런 더러운 휴리스틱 찌꺼기들이 [[022_kernel_role|커널]]에서 완전히 소멸하면서 이런 종류의 시스템 튜닝은 역사 속으로 사라졌다.
-2. **안티바이러스 / [[555_backup_and_restore_strategy|백업]] 솔루션의 휴리스틱 회피 설계**: 데스크톱에서 돌아가는 알약, V3나 시스템 [[555_backup_and_restore_strategy|백업]] 데몬들은 개발자가 코드를 짤 때 극도로 조심해야 한다. CPU를 미친 듯이 써서 [[589_virus|바이러스]] 검사를 하면 [[079_kube_scheduler_pod_placement|스케줄러]]의 휴리스틱 센서에 걸려 악성 프로세스로 찍히고 강등되어 검사가 하루 종일 걸릴 수 있다.
-   - **아키텍처 결단**: [[555_backup_and_restore_strategy|백업]] 프로세스를 짤 때는 `for` 루프를 돌릴 때마다 의도적으로 `usleep(1000)` 이나 디스크 비동기 I/O를 섞어 넣어 억지로 대기 시간(Sleep_avg)을 벌어주는 코딩 기법([[236_a_star_heuristic_minimax_mcts_monte_carlo|Heuristic]] Cheating)을 써야 OS로부터 쩌리 취급을 받지 않고 부드럽게 백그라운드 작업을 마칠 수 있다.
+1. **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 파라미터 튜닝의 시대 종말**: 과거 휴리스틱 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 시대(리눅스 2.4 ~ 2.6)에는 시스템 엔지니어들이 `sleep_avg` [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)나 `bonus` [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 같은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스 코드 내의 '[매직 넘버](/knowledge-base/studynote/02_operating_system/09_file_system/503_magic_number_file_signature/)([Magic Number](/knowledge-base/studynote/02_operating_system/09_file_system/503_magic_number_file_signature/))'들을 튜닝해서 직접 서버를 컴파일하는 흑마법이 유행했다. "이 숫자를 30으로 바꾸면 오라클 DB 속도가 2배 빨라진다"는 식의 무당 같은 튜닝이었다. 하지만 CFS 도입 이후, 이런 더러운 휴리스틱 찌꺼기들이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 완전히 소멸하면서 이런 종류의 시스템 튜닝은 역사 속으로 사라졌다.
+2. **안티바이러스 / [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 솔루션의 휴리스틱 회피 설계**: 데스크톱에서 돌아가는 알약, V3나 시스템 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 데몬들은 개발자가 코드를 짤 때 극도로 조심해야 한다. CPU를 미친 듯이 써서 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/) 검사를 하면 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 휴리스틱 센서에 걸려 악성 프로세스로 찍히고 강등되어 검사가 하루 종일 걸릴 수 있다.
+   - **아키텍처 결단**: [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 프로세스를 짤 때는 `for` 루프를 돌릴 때마다 의도적으로 `usleep(1000)` 이나 디스크 비동기 I/O를 섞어 넣어 억지로 대기 시간(Sleep_avg)을 벌어주는 코딩 기법([Heuristic](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/) Cheating)을 써야 OS로부터 쩌리 취급을 받지 않고 부드럽게 백그라운드 작업을 마칠 수 있다.
 
 ```text
   ┌─────────────────────────────────────────────────────────────────────┐
@@ -116,22 +120,22 @@ tags:
   │             100% 신뢰 가능하므로 코어 로직(Kernel)에 병합 승인.     │
   └─────────────────────────────────────────────────────────────────────┘
 ```
-**[다이어그램 해설]** 컴퓨터 아키텍처에서 휴리스틱은 "성능을 영끌하기 위한 마약"과 같다. 먹으면 평소엔 기가 막히게 빠르지만, 예외 상황이 터지면 수습이 안 되는 거대한 [[100_technical_debt_monitoring_release_policy|기술 부채]]([[100_technical_debt_monitoring_release_policy|Technical Debt]])를 낳는다. 리누스 토발즈가 리눅스 [[022_kernel_role|커널]]에서 이 휴리스틱 덩어리인 O(1) [[079_kube_scheduler_pod_placement|스케줄러]]를 가차 없이 찢어버린 이유가 바로 이 "유지보수의 더러움과 예측 불가능성" 때문이었다.
+**[다이어그램 해설]** 컴퓨터 아키텍처에서 휴리스틱은 "성능을 영끌하기 위한 마약"과 같다. 먹으면 평소엔 기가 막히게 빠르지만, 예외 상황이 터지면 수습이 안 되는 거대한 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)([Technical Debt](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/))를 낳는다. 리누스 토발즈가 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 이 휴리스틱 덩어리인 O(1) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)를 가차 없이 찢어버린 이유가 바로 이 "유지보수의 더러움과 예측 불가능성" 때문이었다.
 
-- **📢 섹션 요약 비유**: [[190_ai_llm_requirements_specification|AI]] [[211_recommendation_system|추천 시스템]](휴리스틱)이 내가 좋아하는 영화를 찰떡같이 맞춰줄 땐 편하지만, 한 번 실수로 끔찍한 공포 영화를 틀어버리면 트라우마를 남깁니다. 중요한 인프라 설계일수록 화려한 [[190_ai_llm_requirements_specification|AI]](휴리스틱)보다 투박하지만 100% 확실한 [[238_switch_operation_principles|스위치]](결정론적 로직)를 선호하는 이유입니다.
+- **📢 섹션 요약 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)(휴리스틱)이 내가 좋아하는 영화를 찰떡같이 맞춰줄 땐 편하지만, 한 번 실수로 끔찍한 공포 영화를 틀어버리면 트라우마를 남깁니다. 중요한 인프라 설계일수록 화려한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)(휴리스틱)보다 투박하지만 100% 확실한 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(결정론적 로직)를 선호하는 이유입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
 ### 기대효과
-휴리스틱을 잘 활용하면, 프로세스가 자신의 성격을 명시적으로 OS에게 신고하는 [[014_api_posix|API]] 호출(예: `madvise` 등) 없이도 OS가 알아서 투명하게(Transparent) I/O 렉을 없애고 배치 작업의 처리량을 올려주는 극강의 편의성과 자가 조절(Self-tuning) 능력을 시스템에 부여할 수 있다.
+휴리스틱을 잘 활용하면, 프로세스가 자신의 성격을 명시적으로 OS에게 신고하는 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출(예: `madvise` 등) 없이도 OS가 알아서 투명하게(Transparent) I/O 렉을 없애고 배치 작업의 처리량을 올려주는 극강의 편의성과 자가 조절(Self-tuning) 능력을 시스템에 부여할 수 있다.
 
 ### 결론 및 미래 전망
-휴리스틱 코드로 범벅이 된 CPU [[079_kube_scheduler_pod_placement|스케줄러]]의 시대는 리눅스 CFS의 등장으로 완전한 종말을 맞이했다. "인간이 규칙(Rule)을 하드코딩해서 기계를 가르치려 들면 결국 엣지 케이스에 털린다"는 컴퓨터 과학의 뼈아픈 교훈을 남겼기 때문이다.
-그러나 휴리스틱 철학 자체는 죽지 않았다. 안티바이러스의 악성코드 탐지([[236_a_star_heuristic_minimax_mcts_monte_carlo|Heuristic]] Engine), CPU 파이프라인의 [[231_branch_prediction|분기 예측]]([[231_branch_prediction|Branch Prediction]]), [[271_replacement_policy|캐시 교체 알고리즘]]([[262_lru_page_replacement|LRU]]) 등 완벽한 정답이 없는 공간에서는 여전히 최고의 성능을 뽑아내는 핵심 엔진이다. 미래에는 이 어설픈 if-else 휴리스틱이 완벽한 딥러닝(Deep [[240_switch_learning_forwarding_flooding|Learning]]) 및 강화학습(RL) 모델로 대체되어, [[079_kube_scheduler_pod_placement|스케줄러]]가 알아서 게임과 웹서핑의 패턴을 완벽히 분리해 내는 진정한 [[190_ai_llm_requirements_specification|AI]] [[022_kernel_role|커널]]의 시대로 진화할 것이다.
+휴리스틱 코드로 범벅이 된 CPU [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 시대는 리눅스 CFS의 등장으로 완전한 종말을 맞이했다. "인간이 규칙(Rule)을 하드코딩해서 기계를 가르치려 들면 결국 엣지 케이스에 털린다"는 컴퓨터 과학의 뼈아픈 교훈을 남겼기 때문이다.
+그러나 휴리스틱 철학 자체는 죽지 않았다. 안티바이러스의 악성코드 탐지([Heuristic](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/) Engine), CPU 파이프라인의 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)([Branch Prediction](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)), [캐시 교체 알고리즘](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/271_replacement_policy/)([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)) 등 완벽한 정답이 없는 공간에서는 여전히 최고의 성능을 뽑아내는 핵심 엔진이다. 미래에는 이 어설픈 if-else 휴리스틱이 완벽한 딥러닝(Deep [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)) 및 강화학습(RL) 모델로 대체되어, [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 알아서 게임과 웹서핑의 패턴을 완벽히 분리해 내는 진정한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 시대로 진화할 것이다.
 
-- **📢 섹션 요약 비유**: 옛날엔 바둑을 둘 때 "가운데 두는 게 대충 좋더라(휴리스틱)"라는 사람의 감에 의존하다가 이세돌에게 졌다면, 알파고는 그 감을 수억 번의 수학적 [[130_probability|확률]] 계산과 학습으로 업그레이드하여 절대 틀리지 않는 신의 직관을 완성했습니다. 휴리스틱은 버려진 게 아니라 AI라는 이름으로 진화한 것입니다.
+- **📢 섹션 요약 비유**: 옛날엔 바둑을 둘 때 "가운데 두는 게 대충 좋더라(휴리스틱)"라는 사람의 감에 의존하다가 이세돌에게 졌다면, 알파고는 그 감을 수억 번의 수학적 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 계산과 학습으로 업그레이드하여 절대 틀리지 않는 신의 직관을 완성했습니다. 휴리스틱은 버려진 게 아니라 AI라는 이름으로 진화한 것입니다.
 
 ---
 
@@ -139,10 +143,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[208_fixed_priority_scheduling|비례 배분 스케줄링]] ([[208_fixed_priority_scheduling|Proportionate Share Scheduling]]) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| POSIX 스케줄링 [[014_api_posix|API]] | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [비례 배분 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/208_fixed_priority_scheduling/) ([Proportionate Share Scheduling](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/208_fixed_priority_scheduling/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| POSIX 스케줄링 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
 | 리눅스 CFS (Completely Fair Scheduler) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| 대상 [[141_latency|지연 시간]] (Target [[141_latency|Latency]]) / 최소 입자 (Minimum Granularity) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| 대상 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) (Target [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) / 최소 입자 (Minimum Granularity) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -161,7 +165,7 @@ tags:
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 선생님이 아이들을 보고 "쟤는 안경 썼으니까 공부 잘할 거야! 쟤는 덩치가 크니까 체육 잘할 거야!"라고 겉모습(과거 행동)만 보고 찍어 맞추는 걸 **휴리스틱**이라고 해요.
-2. 옛날 컴퓨터(O(1) [[079_kube_scheduler_pod_placement|스케줄러]])는 이 눈치 게임으로 "잠 많이 자는 프로그램은 착하니까 게임 먼저 시켜주자!"라고 똑똑하게 배려했어요.
+2. 옛날 컴퓨터(O(1) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/))는 이 눈치 게임으로 "잠 많이 자는 프로그램은 착하니까 게임 먼저 시켜주자!"라고 똑똑하게 배려했어요.
 3. 그런데 덩치 큰 안경 쓴 애(3D 게임)가 나타나자 선생님이 체육 시킬지 공부 시킬지 헷갈려서 완전 실수를 하는 바람에, 요즘 컴퓨터(CFS)는 눈치 보는 걸 아예 없애고 무조건 수학 점수(장부)로만 공평하게 판단하게 바뀌었답니다!
 
 ---
@@ -170,7 +174,7 @@ tags:
 
 **진행 상황**: 210 / 800
 
-← **이전**: [[209_dynamic_priority_scheduling|209. POSIX 스케줄링 API (Dynamic Priority Scheduling)]]
-**다음**: [[211_context_switch|211. 문맥 교환 (Context Switch)]] →
+← **이전**: [209. POSIX 스케줄링 API (Dynamic Priority Scheduling)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/209_dynamic_priority_scheduling/)
+**다음**: [211. 문맥 교환 (Context Switch)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) →
 
 ---

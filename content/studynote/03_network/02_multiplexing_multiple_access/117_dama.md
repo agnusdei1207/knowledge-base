@@ -1,23 +1,27 @@
----
-title: 117. DAMA (Demand Assignment Multiple Access)
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "117. DAMA (Demand Assignment Multiple Access)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: DAMA (Demand Assignment [[087_다중접속_Multiple_Access|Multiple Access]])는 통신 위성 네트워크에서 고정된 [[140_bandwidth|대역폭]]을 미리 할당하지 않고, 가입자의 실제 트래픽 전송 요구(Demand)가 발생할 때마다 동적으로 채널을 할당하는 [[087_다중접속_Multiple_Access|다중 접속]] 방식이다.
+> 1. **본질**: DAMA (Demand Assignment [Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))는 통신 위성 네트워크에서 고정된 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 미리 할당하지 않고, 가입자의 실제 트래픽 전송 요구(Demand)가 발생할 때마다 동적으로 채널을 할당하는 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 방식이다.
 > 2. **가치**: 트래픽 변동성이 크고 산발적으로 통신이 발생하는 위성망(VSAT 등) 환경에서 귀중한 위성 중계기(Transponder) 자원 효율성을 극대화하여 운용 비용을 획기적으로 낮춘다.
-> 3. **판단 포인트**: [[118_pama|PAMA]]([[118_pama|Pre-Assigned Multiple Access]])와 대비되며, 최근에는 클라우드 인프라 자원의 동적 프로비저닝이나 [[418_5g_embb_urllc_mmtc_slicing|5G]]/[[419_6g_ntn_thz_ris_next_gen|6G]] 비지상망(NTN) 스케줄링 메커니즘과 설계 사상을 공유한다.
+> 3. **판단 포인트**: [PAMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/118_pama/)([Pre-Assigned Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/118_pama/))와 대비되며, 최근에는 클라우드 인프라 자원의 동적 프로비저닝이나 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)/[6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 비지상망(NTN) 스케줄링 메커니즘과 설계 사상을 공유한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[[592_satellite_communication_characteristics|위성 통신]](Satellite Communication) 환경에서 위성 중계기 자원은 매우 희소하고 비싸다. [[459_quic_fec_forward_error_correction|초기]]의 [[118_pama|PAMA]] ([[118_pama|Pre-Assigned Multiple Access]]) 방식은 노드 간 통신 빈도에 상관없이 전용 주파수나 타임 슬롯을 고정적으로 할당하였다. 이는 지속적인 대용량 트래픽 통신에는 적합하지만, 대부분의 지상국(Earth [[218_hdlc_station_primary_secondary|Station]])이나 VSAT(Very Small Aperture Terminal) 노드들이 간헐적이고 돌발적인 트래픽(예: 은행 결제망, 원격 검침)을 발생시키는 환경에서는 [[140_bandwidth|대역폭]] 낭비가 극심했다. 
+[위성 통신](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/592_satellite_communication_characteristics/)(Satellite Communication) 환경에서 위성 중계기 자원은 매우 희소하고 비싸다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)의 [PAMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/118_pama/) ([Pre-Assigned Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/118_pama/)) 방식은 노드 간 통신 빈도에 상관없이 전용 주파수나 타임 슬롯을 고정적으로 할당하였다. 이는 지속적인 대용량 트래픽 통신에는 적합하지만, 대부분의 지상국(Earth [Station](/knowledge-base/studynote/03_network/04_data_link_layer_error/218_hdlc_station_primary_secondary/))이나 VSAT(Very Small Aperture Terminal) 노드들이 간헐적이고 돌발적인 트래픽(예: 은행 결제망, 원격 검침)을 발생시키는 환경에서는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비가 극심했다. 
 
-DAMA (Demand Assignment [[087_다중접속_Multiple_Access|Multiple Access]])는 이러한 한계를 타파하기 위해 등장한 혁신적 패러다임이다. 노드들이 평소에는 공통 제어 채널만 주시하다가, 통신할 [[001_dikw_pyramid|데이터]]가 생겼을 때만 중앙 제어기(NCC)에 채널을 요청하여 임시 대역을 부여받고, 통신이 끝나면 즉각 반납하는 방식을 취한다. 이는 한정된 위성 [[140_bandwidth|대역폭]]으로 실제 물리적 채널 수보다 훨씬 많은 노드를 수용해야 하는 현대 비즈니스 통신망의 핵심 요구를 완벽히 해결한다.
+DAMA (Demand Assignment [Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))는 이러한 한계를 타파하기 위해 등장한 혁신적 패러다임이다. 노드들이 평소에는 공통 제어 채널만 주시하다가, 통신할 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 생겼을 때만 중앙 제어기(NCC)에 채널을 요청하여 임시 대역을 부여받고, 통신이 끝나면 즉각 반납하는 방식을 취한다. 이는 한정된 위성 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)으로 실제 물리적 채널 수보다 훨씬 많은 노드를 수용해야 하는 현대 비즈니스 통신망의 핵심 요구를 완벽히 해결한다.
 
 ```text
 [고정 할당 (PAMA)의 문제점 시각화]
@@ -32,23 +36,23 @@ DAMA (Demand Assignment [[087_다중접속_Multiple_Access|Multiple Access]])는
 결과    : 트래픽 발생 시점에만 자원을 동적 배분하여 낭비율 0% 수렴
 ```
 
-이 도식의 핵심은 DAMA 구조가 개별 노드에 자원을 묶어두지 않고 중앙 집중형 또는 분산형 풀(Pool)에서 자원을 동적으로 스위칭한다는 점이다. 이런 배치는 값비싼 위성 중계기(Transponder) 효율을 극대화할 수 있기 때문이며, 따라서 동일한 위성 인프라로 수배 이상의 가입자를 수용하는 [[282_performance_tactics|성능]]을 보여준다. 실무에서는 간헐적 통신이 주를 이루는 해상, 산간 오지, 재난망 환경에서 운영 비용 절감의 핵심 기술로 채택된다.
+이 도식의 핵심은 DAMA 구조가 개별 노드에 자원을 묶어두지 않고 중앙 집중형 또는 분산형 풀(Pool)에서 자원을 동적으로 스위칭한다는 점이다. 이런 배치는 값비싼 위성 중계기(Transponder) 효율을 극대화할 수 있기 때문이며, 따라서 동일한 위성 인프라로 수배 이상의 가입자를 수용하는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보여준다. 실무에서는 간헐적 통신이 주를 이루는 해상, 산간 오지, 재난망 환경에서 운영 비용 절감의 핵심 기술로 채택된다.
 
-- **📢 섹션 요약 비유**: 마치 직원 각자에게 고정 지정석([[118_pama|PAMA]])을 주면 출장 간 직원의 자리가 놀게 되지만, 공유 오피스([[078_smart_work_mobile_office|스마트워크]] 센터)를 만들어 출근한 직원에게만 자리를 배정(DAMA)하면 공간을 훨씬 알뜰하게 쓸 수 있는 원리와 같습니다.
+- **📢 섹션 요약 비유**: 마치 직원 각자에게 고정 지정석([PAMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/118_pama/))을 주면 출장 간 직원의 자리가 놀게 되지만, 공유 오피스([스마트워크](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/078_smart_work_mobile_office/) 센터)를 만들어 출근한 직원에게만 자리를 배정(DAMA)하면 공간을 훨씬 알뜰하게 쓸 수 있는 원리와 같습니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-DAMA 시스템 아키텍처는 제어 평면(Control Plane)과 [[001_dikw_pyramid|데이터]] 평면([[001_dikw_pyramid|Data]] Plane)을 분리하여 자원을 요청하고 획득하는 메커니즘으로 동작한다.
+DAMA 시스템 아키텍처는 제어 평면(Control Plane)과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane)을 분리하여 자원을 요청하고 획득하는 메커니즘으로 동작한다.
 
 | 구성 요소 | 역할 | 내부 동작 | 통신망 비유 |
 |:---|:---|:---|:---|
-| **NCC (Network Control Center)** | DAMA 제어의 두뇌 | 채널 요청을 수신, 가용 풀 [[396_validation|확인]] 후 주파수/타임슬롯 할당 명령 하달 | 공유 오피스 관리자 |
-| **VSAT 노드** | 원격 지상국 단말 | [[001_dikw_pyramid|데이터]] 발생 시 CSC를 통해 NCC에 [[140_bandwidth|대역폭]] 요청(Request) 전송 | 오피스 사용 희망자 |
-| **CSC (Common Signaling Channel)** | 공통 [[130_signal|신호]] 제어 채널 | 노드 간 경쟁 방식([[112_slotted_aloha|Slotted ALOHA]] 등)으로 자원 요청 및 응답 [[119_message_passing|메시지 전달]] | 안내 데스크 전용 회선 |
-| **Traffic Channel Pool** | 동적 [[001_dikw_pyramid|데이터]] 전송 채널 집합 | NCC의 명령에 따라 임시로 노드 간 통신을 위해 튜닝되는 주파수/슬롯 대역 | 실제 빈 업무 좌석 |
-| **Transponder (중계기)** | 위성 내 물리적 탑재체 | 지상에서 올라온 업링크 [[130_signal|신호]]를 증폭/주파수 변환하여 다운링크로 반사 | 통신 위성 본체 |
+| **NCC (Network Control Center)** | DAMA 제어의 두뇌 | 채널 요청을 수신, 가용 풀 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 후 주파수/타임슬롯 할당 명령 하달 | 공유 오피스 관리자 |
+| **VSAT 노드** | 원격 지상국 단말 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 발생 시 CSC를 통해 NCC에 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 요청(Request) 전송 | 오피스 사용 희망자 |
+| **CSC (Common Signaling Channel)** | 공통 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 제어 채널 | 노드 간 경쟁 방식([Slotted ALOHA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/112_slotted_aloha/) 등)으로 자원 요청 및 응답 [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/) | 안내 데스크 전용 회선 |
+| **Traffic Channel Pool** | 동적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 채널 집합 | NCC의 명령에 따라 임시로 노드 간 통신을 위해 튜닝되는 주파수/슬롯 대역 | 실제 빈 업무 좌석 |
+| **Transponder (중계기)** | 위성 내 물리적 탑재체 | 지상에서 올라온 업링크 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 증폭/주파수 변환하여 다운링크로 반사 | 통신 위성 본체 |
 
 **DAMA 동작 상태 및 타이밍 흐름도**
 
@@ -70,22 +74,22 @@ DAMA 시스템 아키텍처는 제어 평면(Control Plane)과 [[001_dikw_pyrami
    ▼                                ▼                              ▼
 ```
 
-이 타이밍 흐름의 핵심은 [[001_dikw_pyramid|데이터]] 채널(Traffic Channel) 통신 전에 반드시 제어 채널(CSC)을 통한 핸드셰이크 단계가 선행된다는 점이다. [[592_satellite_communication_characteristics|위성 통신]]은 지구 궤도까지 왕복 [[141_latency|지연 시간]]([[441_rtt_round_trip_time_srtt_smoothed|Round Trip Time]], [[441_rtt_round_trip_time_srtt_smoothed|RTT]])이 약 500ms(정지궤도 기준)에 달하기 때문에, 이 [[459_quic_fec_forward_error_correction|초기]] 채널 셋업에만 최소 1~2초의 오버헤드가 발생한다. 따라서 이 구조는 [[501_file_definition_logical_record|파일]] 전송이나 대용량 트래픽 전달에는 매우 유리하지만, 핑(Ping)과 같이 즉각적인 응답이 필요한 초단기 실시간 트래픽에는 치명적인 약점이 된다. 실무에서는 이러한 셋업 [[015_지연_데이터_관점|지연]]을 고려하여, [[160_session_controlling_terminal|세션]] [[573_timeout_retry_backoff_strategy|타임아웃]] 값을 충분히 길게 튜닝해야 한다.
+이 타이밍 흐름의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널(Traffic Channel) 통신 전에 반드시 제어 채널(CSC)을 통한 핸드셰이크 단계가 선행된다는 점이다. [위성 통신](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/592_satellite_communication_characteristics/)은 지구 궤도까지 왕복 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)([Round Trip Time](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/), [RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/))이 약 500ms(정지궤도 기준)에 달하기 때문에, 이 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 채널 셋업에만 최소 1~2초의 오버헤드가 발생한다. 따라서 이 구조는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전송이나 대용량 트래픽 전달에는 매우 유리하지만, 핑(Ping)과 같이 즉각적인 응답이 필요한 초단기 실시간 트래픽에는 치명적인 약점이 된다. 실무에서는 이러한 셋업 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 고려하여, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 값을 충분히 길게 튜닝해야 한다.
 
-- **📢 섹션 요약 비유**: 택시를 잡을 때 빈 차가 올 때까지 길에서 무작정 기다리는 것이 아니라, 콜센터(NCC)에 전화를 걸어 내 위치를 말하면 근처의 빈 택시(채널)를 배정해주는 콜택시 시스템과 같습니다. 배차 시간([[459_quic_fec_forward_error_correction|초기]] [[015_지연_데이터_관점|지연]])은 걸리지만 택시 운영 효율은 극도로 올라갑니다.
+- **📢 섹션 요약 비유**: 택시를 잡을 때 빈 차가 올 때까지 길에서 무작정 기다리는 것이 아니라, 콜센터(NCC)에 전화를 걸어 내 위치를 말하면 근처의 빈 택시(채널)를 배정해주는 콜택시 시스템과 같습니다. 배차 시간([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))은 걸리지만 택시 운영 효율은 극도로 올라갑니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-위성 [[087_다중접속_Multiple_Access|다중 접속]] 방식에서 DAMA는 [[118_pama|PAMA]] 및 무작위 접속(Random Access) 방식과 명확히 구분된다.
+위성 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 방식에서 DAMA는 [PAMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/118_pama/) 및 무작위 접속(Random Access) 방식과 명확히 구분된다.
 
-| 항목 | [[118_pama|PAMA]] (Pre-Assigned) | Random Access ([[111_aloha_protocol|ALOHA]]) | DAMA (Demand Assigned) |
+| 항목 | [PAMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/118_pama/) (Pre-Assigned) | Random Access ([ALOHA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/111_aloha_protocol/)) | DAMA (Demand Assigned) |
 |:---|:---|:---|:---|
 | **할당 방식** | 영구적, 정적 할당 | 무작위 자유 전송 | 요구 발생 시 동적 할당 |
-| **적합한 트래픽** | 대용량, 연속적 백본 트래픽 | 매우 짧은 버스트성 소용량 트래픽 | 간헐적이지만 [[160_session_controlling_terminal|세션]]이 긴 트래픽 |
-| **채널 [[009_config|설정]] [[015_지연_데이터_관점|지연]]** | 없음 (즉시 전송) | 없음 (충돌 없으면 즉시 전송) | 높음 (제어 채널 왕복 [[015_지연_데이터_관점|지연]]) |
-| **[[013_대역폭_효율성|대역폭 효율성]]** | 낮음 (유휴 시간 낭비) | 낮음 (충돌 시 효율 급감) | **매우 높음** (풀 최적 공유) |
+| **적합한 트래픽** | 대용량, 연속적 백본 트래픽 | 매우 짧은 버스트성 소용량 트래픽 | 간헐적이지만 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)이 긴 트래픽 |
+| **채널 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)** | 없음 (즉시 전송) | 없음 (충돌 없으면 즉시 전송) | 높음 (제어 채널 왕복 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) |
+| **[대역폭 효율성](/knowledge-base/studynote/03_network/01_data_communication/013_대역폭_효율성/)** | 낮음 (유휴 시간 낭비) | 낮음 (충돌 시 효율 급감) | **매우 높음** (풀 최적 공유) |
 
 ```text
 ┌────────────── 의사결정 매트릭스: 트래픽 특성에 따른 최적 방식 선택 ─────────────┐
@@ -104,7 +108,7 @@ DAMA 시스템 아키텍처는 제어 평면(Control Plane)과 [[001_dikw_pyrami
 └───────────────────────────────────────────────────────────────────────────┘
 ```
 
-이 매트릭스의 핵심은 트래픽의 버스트성(Bursty)과 [[160_session_controlling_terminal|세션]] 지속 시간에 따라 최적의 접근 방식이 달라진다는 점이다. DAMA는 트래픽이 간헐적이지만 한 번 연결되면 일정 시간 통신을 지속하는 환경에 최적화되어 있다. 반면, [[001_dikw_pyramid|데이터]]가 카드 결제 승인처럼 1~2개 패킷으로 끝나는 초단기 트래픽이라면 DAMA의 긴 채널 할당 [[141_latency|지연 시간]](오버헤드)이 실제 통신 시간보다 길어지는 배보다 배꼽이 더 큰 상황이 발생한다. 실무에서는 네트워크 특성을 획일화하지 않고 DAMA와 Slotted ALOHA를 혼합하여 제어/단문 [[001_dikw_pyramid|데이터]]는 알로하로, 장문 [[001_dikw_pyramid|데이터]]는 DAMA로 처리하는 하이브리드 아키텍처를 많이 채택한다.
+이 매트릭스의 핵심은 트래픽의 버스트성(Bursty)과 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 지속 시간에 따라 최적의 접근 방식이 달라진다는 점이다. DAMA는 트래픽이 간헐적이지만 한 번 연결되면 일정 시간 통신을 지속하는 환경에 최적화되어 있다. 반면, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 카드 결제 승인처럼 1~2개 패킷으로 끝나는 초단기 트래픽이라면 DAMA의 긴 채널 할당 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)(오버헤드)이 실제 통신 시간보다 길어지는 배보다 배꼽이 더 큰 상황이 발생한다. 실무에서는 네트워크 특성을 획일화하지 않고 DAMA와 Slotted ALOHA를 혼합하여 제어/단문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 알로하로, 장문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 DAMA로 처리하는 하이브리드 아키텍처를 많이 채택한다.
 
 - **📢 섹션 요약 비유**: PAMA가 24시간 렌트카(비싸지만 언제든 사용)라면, Random Access는 킥보드 공유(빠르지만 고장/사고 위험 높음)이고, DAMA는 카셰어링 쏘카(필요할 때 예약해서 일정 시간 사용)와 같아 트래픽 특성에 맞게 골라 타야 합니다.
 
@@ -112,7 +116,7 @@ DAMA 시스템 아키텍처는 제어 평면(Control Plane)과 [[001_dikw_pyrami
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-DAMA 시스템을 실제 위성망(예: 국방 전술망, [[915_lte_m_maritime_communication_e_navigation|해상 통신망]])에 적용할 때 엔지니어는 [[141_latency|지연 시간]]과 제어 채널의 병목을 방어해야 한다.
+DAMA 시스템을 실제 위성망(예: 국방 전술망, [해상 통신망](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/915_lte_m_maritime_communication_e_navigation/))에 적용할 때 엔지니어는 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)과 제어 채널의 병목을 방어해야 한다.
 
 **실무 시나리오 및 장애 판단 플로우**
 ```text
@@ -128,30 +132,30 @@ DAMA 시스템을 실제 위성망(예: 국방 전술망, [[915_lte_m_maritime_c
    │        │   └─ 아니오 => [진단] 위성 링크 자체의 물리적 감쇠(Rain Fade 등) 확인 필요.
 ```
 
-이 판단 플로우의 핵심은 DAMA 시스템의 장애 포인트가 '[[001_dikw_pyramid|데이터]] 채널 고갈'뿐만 아니라 '제어 채널(CSC) 혼잡'에서도 발생할 수 있다는 점이다. 단말기 수가 급증하여 동시에 접속 요청을 보내면 CSC에서 충돌이 폭주하여, 정작 비어있는 [[001_dikw_pyramid|데이터]] 채널은 텅텅 비어있는데 아무도 접속하지 못하는 '혼잡 붕괴(Congestion Collapse)' 현상이 나타난다. 실무에서는 전체 [[140_bandwidth|대역폭]] 중 몇 %를 CSC 제어 채널에 할당할 것인지 동적 트래픽 시뮬레이션을 통해 치밀하게 설계해야 한다.
+이 판단 플로우의 핵심은 DAMA 시스템의 장애 포인트가 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널 고갈'뿐만 아니라 '제어 채널(CSC) 혼잡'에서도 발생할 수 있다는 점이다. 단말기 수가 급증하여 동시에 접속 요청을 보내면 CSC에서 충돌이 폭주하여, 정작 비어있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널은 텅텅 비어있는데 아무도 접속하지 못하는 '혼잡 붕괴(Congestion Collapse)' 현상이 나타난다. 실무에서는 전체 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 중 몇 %를 CSC 제어 채널에 할당할 것인지 동적 트래픽 시뮬레이션을 통해 치밀하게 설계해야 한다.
 
-**도입 [[435_checklist_based_testing|체크리스트]]**:
-- [ ] 정지궤도 위성의 높은 [[441_rtt_round_trip_time_srtt_smoothed|RTT]]([[441_rtt_round_trip_time_srtt_smoothed|Round Trip Time]], ~500ms 이상)가 애플리케이션의 [[573_timeout_retry_backoff_strategy|타임아웃]] 정책에 반영되었는가?
-- [ ] 제어 채널(CSC) 장애 시 전체 네트워크 마비를 막기 위한 NCC [[456_dual_redundancy|이중화]] 및 [[171_fallback_resilience_pattern|폴백]]([[129_fallback|Fallback]]) 모드가 구성되었는가?
-- [ ] DAMA 채널 할당 후 통신 종료(Teardown)를 감지하는 Keep-Alive 메커니즘이 정확히 작동하여 유령 [[160_session_controlling_terminal|세션]]을 방지하는가?
+**도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)**:
+- [ ] 정지궤도 위성의 높은 [RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/)([Round Trip Time](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/), ~500ms 이상)가 애플리케이션의 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 정책에 반영되었는가?
+- [ ] 제어 채널(CSC) 장애 시 전체 네트워크 마비를 막기 위한 NCC [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 및 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)([Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/)) 모드가 구성되었는가?
+- [ ] DAMA 채널 할당 후 통신 종료(Teardown)를 감지하는 Keep-Alive 메커니즘이 정확히 작동하여 유령 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 방지하는가?
 
-- **📢 섹션 요약 비유**: 콜택시(DAMA) 회사가 망하는 이유는 택시([[001_dikw_pyramid|데이터]] 채널)가 모자라서일 수도 있지만, 명절에 콜센터 전화통(제어 채널) 자체에 불이 나서 배차 지시가 아예 안 내려가는 것이 더 치명적인 원인이라는 실무적 교훈과 같습니다.
+- **📢 섹션 요약 비유**: 콜택시(DAMA) 회사가 망하는 이유는 택시([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널)가 모자라서일 수도 있지만, 명절에 콜센터 전화통(제어 채널) 자체에 불이 나서 배차 지시가 아예 안 내려가는 것이 더 치명적인 원인이라는 실무적 교훈과 같습니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-DAMA는 고가의 [[592_satellite_communication_characteristics|위성 통신]] 비용을 합리적으로 낮춰 민간 및 산업계의 VSAT 보급을 이끈 일등 공신이다.
+DAMA는 고가의 [위성 통신](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/592_satellite_communication_characteristics/) 비용을 합리적으로 낮춰 민간 및 산업계의 VSAT 보급을 이끈 일등 공신이다.
 
-| 구분 | 기대 효과 및 [[282_performance_tactics|성능]] 지표 |
+| 구분 | 기대 효과 및 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표 |
 |:---|:---|
-| **경제성** | [[118_pama|PAMA]] 대비 동일 위성 중계기로 수용 가능한 가입자 수(수용량) 최대 3~5배 증폭 |
-| **유연성** | 각 노드의 동적 트래픽 변화(음성, 비디오, [[001_dikw_pyramid|데이터]])에 맞춰 타임 슬롯/주파수 대역 즉각 재할당 |
-| **미래 전망** | [[419_6g_ntn_thz_ris_next_gen|6G]] [[154_ntn_non_terrestrial_network_6g|비지상 네트워크]](NTN) 및 저궤도([[595_leo_low_earth_orbit_starlink_6g|LEO]]) 군집 위성망의 [[190_ai_llm_requirements_specification|AI]] 기반 예측형 [[041_resource_allocation|자원 할당]]으로 진화 |
+| **경제성** | [PAMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/118_pama/) 대비 동일 위성 중계기로 수용 가능한 가입자 수(수용량) 최대 3~5배 증폭 |
+| **유연성** | 각 노드의 동적 트래픽 변화(음성, 비디오, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))에 맞춰 타임 슬롯/주파수 대역 즉각 재할당 |
+| **미래 전망** | [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) [비지상 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/154_ntn_non_terrestrial_network_6g/)(NTN) 및 저궤도([LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/)) 군집 위성망의 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 예측형 [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/)으로 진화 |
 
-결론적으로, DAMA (Demand Assignment [[087_다중접속_Multiple_Access|Multiple Access]])는 요구 기반 동적 프로비저닝이라는 클라우드 네이티브의 철학을 [[592_satellite_communication_characteristics|위성 통신]] 물리 계층에 선제적으로 구현한 모델이다. 향후 Starlink 같은 저궤도([[595_leo_low_earth_orbit_starlink_6g|LEO]]) 위성망 시대에서는 [[141_latency|지연 시간]]이 획기적으로 줄어들어 DAMA의 약점인 제어 [[015_지연_데이터_관점|지연]] 오버헤드가 극복됨에 따라, 초연결 모바일 [[1009_backhaul_network_base_station_core_connection|백홀]] 자원 배분 표준 기술로 더욱 고도화될 것이다.
+결론적으로, DAMA (Demand Assignment [Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))는 요구 기반 동적 프로비저닝이라는 클라우드 네이티브의 철학을 [위성 통신](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/592_satellite_communication_characteristics/) 물리 계층에 선제적으로 구현한 모델이다. 향후 Starlink 같은 저궤도([LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/)) 위성망 시대에서는 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)이 획기적으로 줄어들어 DAMA의 약점인 제어 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 오버헤드가 극복됨에 따라, 초연결 모바일 [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/) 자원 배분 표준 기술로 더욱 고도화될 것이다.
 
-- **📢 섹션 요약 비유**: 필요할 때만 자원을 꺼내 쓰고 돌려주는 DAMA의 철학은, 낭비를 죄악시하는 최신 클라우드 오토스케일링(Auto-Scaling) 기술의 우주 [[288_version_ihl_tos_total_length|버전]] 선배격 기술입니다.
+- **📢 섹션 요약 비유**: 필요할 때만 자원을 꺼내 쓰고 돌려주는 DAMA의 철학은, 낭비를 죄악시하는 최신 클라우드 오토스케일링(Auto-Scaling) 기술의 우주 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 선배격 기술입니다.
 
 ---
 
@@ -159,10 +163,10 @@ DAMA는 고가의 [[592_satellite_communication_characteristics|위성 통신]] 
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[118_pama|PAMA]] ([[118_pama|Pre-Assigned Multiple Access]]) | DAMA와 대척점에 있는 고정 [[041_resource_allocation|자원 할당]] 방식으로 대용량 백본에 적합 |
-| VSAT (Very Small Aperture Terminal) | DAMA [[295_protocol_field_tcp_udp_icmp|프로토콜]]이 주로 적용되는 소형 [[171_antenna_basic_dipole_resonance|안테나]] 기반 지구국 통신망 |
-| NTN (Non-Terrestrial Network) | DAMA의 동적 스케줄링 메커니즘이 진화하여 적용될 [[419_6g_ntn_thz_ris_next_gen|6G]] 비지상/위성 네트워크 표준 |
-| [[112_slotted_aloha|Slotted ALOHA]] | DAMA의 제어 채널(CSC)에서 단말들이 [[041_resource_allocation|자원 할당]] 요청을 보낼 때 사용하는 경쟁 [[295_protocol_field_tcp_udp_icmp|프로토콜]] |
+| [PAMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/118_pama/) ([Pre-Assigned Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/118_pama/)) | DAMA와 대척점에 있는 고정 [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) 방식으로 대용량 백본에 적합 |
+| VSAT (Very Small Aperture Terminal) | DAMA [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 주로 적용되는 소형 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 기반 지구국 통신망 |
+| NTN (Non-Terrestrial Network) | DAMA의 동적 스케줄링 메커니즘이 진화하여 적용될 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 비지상/위성 네트워크 표준 |
+| [Slotted ALOHA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/112_slotted_aloha/) | DAMA의 제어 채널(CSC)에서 단말들이 [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) 요청을 보낼 때 사용하는 경쟁 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) |
 | Transponder (중계기) | DAMA 시스템이 극강의 효율로 아껴 쓰고자 하는 위성 내부의 핵심 통신 중계 장비 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -181,7 +185,7 @@ DAMA는 PRMA에서 출발해 현재 메커니즘을 정교화하고, 이후 PAMA
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [[592_satellite_communication_characteristics|위성 통신]]은 우주에 있는 비싼 기지국을 빌려 쓰는 거라 요금이 엄청 비싸요.
+1. [위성 통신](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/592_satellite_communication_characteristics/)은 우주에 있는 비싼 기지국을 빌려 쓰는 거라 요금이 엄청 비싸요.
 2. 모두에게 항상 자기 자리를 지정해 주면 비어 있는 시간 동안 돈이 너무 아까워요.
 3. 그래서 DAMA는 통화하고 싶을 때만 손을 번쩍 들어 빈자리를 빌려 쓰고, 끝나면 바로 돌려줘서 아주 많은 사람이 아껴 쓸 수 있게 만든 마법의 대여 시스템이에요!
 
@@ -191,7 +195,7 @@ DAMA는 PRMA에서 출발해 현재 메커니즘을 정교화하고, 이후 PAMA
 
 **진행 상황**: 238 / 1120
 
-← **이전**: [[116_prma|116. PRMA (Packet Reservation Multiple Access)]]
-**다음**: [[118_pama|118. PAMA (Pre-Assigned Multiple Access)]] →
+← **이전**: [116. PRMA (Packet Reservation Multiple Access)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/116_prma/)
+**다음**: [118. PAMA (Pre-Assigned Multiple Access)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/118_pama/) →
 
 ---

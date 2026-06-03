@@ -1,20 +1,24 @@
----
-title: 맥킨지 7S 모델 (McKinsey 7S Model)
-date: '2026-03-03'
-tags:
-- studynote-enterprise
----
++++
+title = "맥킨지 7S 모델 (McKinsey 7S Model)"
+date = 2026-03-03
+
+[taxonomies]
+tags = ["studynote-enterprise"]
+
+[extra]
+tags = ["studynote-enterprise"]
++++
 
 > **핵심 인사이트 3줄**
-> 1. [[027_seven_s_model|맥킨지]] 7S 모델은 조직 변화를 단순히 [[268_strategy_pattern|전략]]·구조만이 아닌 7가지 상호 의존적 요소([[268_strategy_pattern|Strategy]]·Structure·Systems·Shared Values·Style·Staff·Skills)로 분석하는 프레임워크다.
-> 2. 핵심은 Shared Values(공유 가치)가 중심에 위치해 나머지 6개 요소를 연결한다는 점으로, 조직 문화가 [[268_strategy_pattern|전략]] 실행의 성패를 결정한다.
+> 1. [맥킨지](/knowledge-base/studynote/12_it_management/01_governance_strategy/027_seven_s_model/) 7S 모델은 조직 변화를 단순히 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)·구조만이 아닌 7가지 상호 의존적 요소([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)·Structure·Systems·Shared Values·Style·Staff·Skills)로 분석하는 프레임워크다.
+> 2. 핵심은 Shared Values(공유 가치)가 중심에 위치해 나머지 6개 요소를 연결한다는 점으로, 조직 문화가 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 실행의 성패를 결정한다.
 > 3. IT 시스템 전환·디지털 변혁·M&A 통합 시 7S 정렬 진단이 실패 예방의 핵심 도구로 활용된다.
 
 ---
 
-## Ⅰ. [[027_seven_s_model|맥킨지]] 7S 모델의 개요
+## Ⅰ. [맥킨지](/knowledge-base/studynote/12_it_management/01_governance_strategy/027_seven_s_model/) 7S 모델의 개요
 
-[[027_seven_s_model|맥킨지]] 7S 모델은 **Tom Peters와 Robert Waterman([[027_seven_s_model|맥킨지]])이 1980년대 제안한 조직 분석·변화 관리 프레임워크**다.
+[맥킨지](/knowledge-base/studynote/12_it_management/01_governance_strategy/027_seven_s_model/) 7S 모델은 **Tom Peters와 Robert Waterman([맥킨지](/knowledge-base/studynote/12_it_management/01_governance_strategy/027_seven_s_model/))이 1980년대 제안한 조직 분석·변화 관리 프레임워크**다.
 
 ```
             Strategy (전략)
@@ -31,11 +35,11 @@ tags:
             (기술)
 ```
 
-### 7S 요소 [[104_classification_analysis|분류]]
+### 7S 요소 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)
 
-| [[104_classification_analysis|분류]]       | 요소                  | 설명                         |
+| [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)       | 요소                  | 설명                         |
 |----------|----------------------|-----------------------------|
-| 하드 S     | [[268_strategy_pattern|Strategy]] ([[268_strategy_pattern|전략]])      | 경쟁 우위를 위한 행동 계획    |
+| 하드 S     | [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) ([전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))      | 경쟁 우위를 위한 행동 계획    |
 | 하드 S     | Structure (구조)     | 조직 계층·역할 분담           |
 | 하드 S     | Systems (시스템)     | 프로세스·IT 시스템·절차       |
 | 소프트 S   | Shared Values        | 핵심 가치·문화·사명          |
@@ -43,16 +47,16 @@ tags:
 | 소프트 S   | Staff (인력)         | 인재 채용·육성·동기부여       |
 | 소프트 S   | Skills (기술/역량)   | 핵심 역량·차별화 능력         |
 
-📢 **섹션 요약 비유**: 7S 모델은 자전거 7개 부품 점검이다 — 핸들([[268_strategy_pattern|전략]]), 프레임(구조), 기어(시스템), 안장(공유 가치)이 모두 맞아야 잘 달린다. 하나만 삐끗해도 넘어진다.
+📢 **섹션 요약 비유**: 7S 모델은 자전거 7개 부품 점검이다 — 핸들([전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)), 프레임(구조), 기어(시스템), 안장(공유 가치)이 모두 맞아야 잘 달린다. 하나만 삐끗해도 넘어진다.
 
 ---
 
-## Ⅱ. 하드 S 3요소 — [[268_strategy_pattern|전략]]·구조·시스템
+## Ⅱ. 하드 S 3요소 — [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)·구조·시스템
 
-### [[268_strategy_pattern|Strategy]] ([[268_strategy_pattern|전략]])
+### [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) ([전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))
 
 - 경쟁 환경 변화에 대응하는 명확한 방향
-- 예: "클라우드 우선" [[268_strategy_pattern|전략]], "아시아 시장 집중"
+- 예: "클라우드 우선" [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), "아시아 시장 집중"
 
 ### Structure (구조)
 
@@ -65,11 +69,11 @@ tags:
 
 ### Systems (시스템)
 
-- [[081_erp_enterprise_resource_planning|ERP]], [[107_crm_customer_relationship_management|CRM]], [[167_scm_software_configuration_management|SCM]] 등 운영 시스템
+- [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/), [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/), [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) 등 운영 시스템
 - 의사결정 프로세스·보고 체계
-- **[[055_digital_transformation|디지털 전환]]에서 가장 먼저 바뀌는 요소**
+- **[디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)에서 가장 먼저 바뀌는 요소**
 
-📢 **섹션 요약 비유**: 하드 S는 건물의 뼈대다 — [[268_strategy_pattern|전략]](설계도), 구조(철골), 시스템(배관·전기)이 모두 잘 갖춰져야 건물이 선다.
+📢 **섹션 요약 비유**: 하드 S는 건물의 뼈대다 — [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(설계도), 구조(철골), 시스템(배관·전기)이 모두 잘 갖춰져야 건물이 선다.
 
 ---
 
@@ -99,17 +103,17 @@ tags:
 
 ## Ⅳ. 7S 정렬 진단 활용
 
-### [[055_digital_transformation|디지털 전환]] 7S 진단 예시
+### [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) 7S 진단 예시
 
-| 요소            | [[178_as_is_to_be_analysis|현재 상태]] ([[178_as_is_to_be_analysis|AS-IS]])        | 목표 상태 (TO-BE)        | 갭                     |
+| 요소            | [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) ([AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/))        | 목표 상태 (TO-BE)        | 갭                     |
 |---------------|------------------------|--------------------------|------------------------|
-| [[268_strategy_pattern|Strategy]]      | 오프라인 중심 판매        | 디지털 채널 50% 이상      | 채널 [[268_strategy_pattern|전략]] 전환         |
-| Structure     | 계층형 4단계             | 스쿼드 기반 [[004_agile_relation|애자일]] 팀     | 조직 구조 재편          |
-| Systems       | 레거시 [[081_erp_enterprise_resource_planning|ERP]]              | 클라우드 [[309_saas|SaaS]] 전환        | 시스템 마이그레이션     |
+| [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)      | 오프라인 중심 판매        | 디지털 채널 50% 이상      | 채널 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 전환         |
+| Structure     | 계층형 4단계             | 스쿼드 기반 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 팀     | 조직 구조 재편          |
+| Systems       | 레거시 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)              | 클라우드 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 전환        | 시스템 마이그레이션     |
 | Shared Values | "안정·정확"             | "혁신·속도"              | 문화 변화 프로그램      |
 | Style         | 지시·통제형             | 임파워먼트·자율           | 리더십 개발             |
-| Staff         | IT 인력 부족            | [[001_dikw_pyramid|데이터]] 엔지니어 10명 확보  | 채용·재교육             |
-| Skills        | 운영 역량 강함           | [[190_ai_llm_requirements_specification|AI]]/ML 역량 취약           | 교육 프로그램           |
+| Staff         | IT 인력 부족            | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어 10명 확보  | 채용·재교육             |
+| Skills        | 운영 역량 강함           | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/ML 역량 취약           | 교육 프로그램           |
 
 📢 **섹션 요약 비유**: 7S 갭 분석은 건강검진이다 — 7가지 수치(요소)를 측정해 정상 범위를 벗어난 항목(갭)을 집중 치료(변화 관리)한다.
 
@@ -126,14 +130,14 @@ M&A 실패의 70%: 문화(Shared Values·Style) 충돌
   전략(Strategy) 방향 불일치
 ```
 
-### IT 시스템 전환 [[435_checklist_based_testing|체크리스트]]
+### IT 시스템 전환 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-- ✅ [[268_strategy_pattern|Strategy]]: IT 전환이 사업 [[268_strategy_pattern|전략]]과 연계됐는가?
+- ✅ [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/): IT 전환이 사업 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 연계됐는가?
 - ✅ Structure: IT 거버넌스·책임 구조가 명확한가?
 - ✅ Systems: 마이그레이션·통합 계획이 있는가?
 - ✅ Shared Values: 변화 필요성에 공감대가 있는가?
 - ✅ Staff: 변화 주도할 핵심 인력이 있는가?
-- ✅ Skills: 필요 기술 역량(클라우드·[[190_ai_llm_requirements_specification|AI]])을 갖추었는가?
+- ✅ Skills: 필요 기술 역량(클라우드·[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))을 갖추었는가?
 
 📢 **섹션 요약 비유**: M&A 7S 통합은 두 집안 합가이다 — 살림(시스템), 가훈(가치), 생활 방식(스타일)이 모두 달라 충돌하며, 조율하지 않으면 동거가 아닌 분쟁이 된다.
 
@@ -186,9 +190,9 @@ M&A 통합   IT 시스템 전환              조직 문화 변화
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 7S 모델은 팀 점검 목록이다 — [[268_strategy_pattern|전략]](무엇을 할지), 구조(누가 무엇을 담당하는지), 시스템(어떻게 일하는지)처럼 7가지를 모두 [[396_validation|확인]]한다.
+1. 7S 모델은 팀 점검 목록이다 — [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(무엇을 할지), 구조(누가 무엇을 담당하는지), 시스템(어떻게 일하는지)처럼 7가지를 모두 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
 2. Shared Values는 팀의 응원가다 — 아무리 훈련(기술)이 좋아도 같은 노래를 부르지 않으면 팀워크가 무너진다.
-3. 7S 정렬은 자전거 정비다 — 페달([[268_strategy_pattern|전략]])이 아무리 세도 체인(시스템)이 끊어지면 앞으로 나가지 못한다.
+3. 7S 정렬은 자전거 정비다 — 페달([전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))이 아무리 세도 체인(시스템)이 끊어지면 앞으로 나가지 못한다.
 
 ---
 
@@ -196,7 +200,7 @@ M&A 통합   IT 시스템 전환              조직 문화 변화
 
 **진행 상황**: 33 / 482
 
-← **이전**: [[032_pest_steep_analysis|PEST / STEEP 분석]]
-**다음**: [[034_bcg_matrix_portfolio|BCG 매트릭스 (BCG Matrix) / 포트폴리오 전략]] →
+← **이전**: [PEST / STEEP 분석](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/032_pest_steep_analysis/)
+**다음**: [BCG 매트릭스 (BCG Matrix) / 포트폴리오 전략](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/034_bcg_matrix_portfolio/) →
 
 ---

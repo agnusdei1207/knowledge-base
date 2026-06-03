@@ -1,25 +1,29 @@
----
-title: 619. 모바일 OS 특징 (Android vs iOS 아키텍처 비교)
-date: '2026-05-09'
-tags:
-- studynote-operating-system
----
++++
+title = "619. 모바일 OS 특징 (Android vs iOS 아키텍처 비교)"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Android는 Google이 주도하는 오픈 소스 (Open Source) 모바일 [[001_operating_system_purpose|운영체제]]로 리눅스 [[022_kernel_role|커널]] (Linux [[022_kernel_role|Kernel]]) 위에 [[621_art_android_runtime|ART]] ([[621_art_android_runtime|Android Runtime]]) 가상머신과 Java/Kotlin 애플리케이션 프레임워크를 탑재한 구조이며, iOS는 Apple이 개발한 폐쇄형 모바일 [[001_operating_system_purpose|운영체제]]로 XNU (X is Not Unix) [[025_hybrid_kernel|하이브리드 커널]] 위에 Swift/Objective-C 네이티브 런타임을 탑재한 구조다.
-> 2. **가치**: 두 [[001_operating_system_purpose|운영체제]]는 전 세계 모바일 시장의 99% 이상을 점유하며, 각각의 아키텍처 선택(오픈 생태계 vs 폐쇄 일체형, [[598_vm_migration_nic|VM]] vs 네이티브, [[022_kernel_role|커널]] 커스터마이징 vs 독자 [[022_kernel_role|커널]])이 보안 모델, [[282_performance_tactics|성능]] 특성, 개발자 생태계, 전력 관리 [[268_strategy_pattern|전략]]에 근본적인 차이를 만들어낸다.
-> 3. **융합**: Android의 리눅스 [[022_kernel_role|커널]] 기반 Wakelock 전력 관리, [[662_android_binder_ipc_thread_pool|Binder]] [[117_ipc|IPC]] (Inter-Process Communication), Zygote 프로세스 포킹 (Forking) 메커니즘은 서버 [[001_operating_system_purpose|운영체제]] 기술이 모바일에 적응한 사례이며, iOS의 XNU [[022_kernel_role|커널]]은 Mach [[024_microkernel|마이크로커널]] ([[024_microkernel|Microkernel]])과 BSD (Berkeley Software Distribution) 계층이 융합된 독자적 아키텍처다.
+> 1. **본질**: Android는 Google이 주도하는 오픈 소스 (Open Source) 모바일 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)로 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) (Linux [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) 위에 [ART](/knowledge-base/studynote/02_operating_system/10_security/621_art_android_runtime/) ([Android Runtime](/knowledge-base/studynote/02_operating_system/10_security/621_art_android_runtime/)) 가상머신과 Java/Kotlin 애플리케이션 프레임워크를 탑재한 구조이며, iOS는 Apple이 개발한 폐쇄형 모바일 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)로 XNU (X is Not Unix) [하이브리드 커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/025_hybrid_kernel/) 위에 Swift/Objective-C 네이티브 런타임을 탑재한 구조다.
+> 2. **가치**: 두 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 전 세계 모바일 시장의 99% 이상을 점유하며, 각각의 아키텍처 선택(오픈 생태계 vs 폐쇄 일체형, [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) vs 네이티브, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 커스터마이징 vs 독자 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))이 보안 모델, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 특성, 개발자 생태계, 전력 관리 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)에 근본적인 차이를 만들어낸다.
+> 3. **융합**: Android의 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 기반 Wakelock 전력 관리, [Binder](/knowledge-base/studynote/02_operating_system/10_security/662_android_binder_ipc_thread_pool/) [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) (Inter-Process Communication), Zygote 프로세스 포킹 (Forking) 메커니즘은 서버 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 기술이 모바일에 적응한 사례이며, iOS의 XNU [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 Mach [마이크로커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/) ([Microkernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/))과 BSD (Berkeley Software Distribution) 계층이 융합된 독자적 아키텍처다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 **개념 및 정의**
-모바일 [[001_operating_system_purpose|운영체제]] (Mobile OS, Mobile [[001_operating_system_purpose|Operating System]])는 스마트폰, 태블릿, 웨어러블 (Wearable) 등 휴대용 기기에서 배터리 전력, 열 관리 (Thermal [[372_management|Management]]), 무선 통신, 터치 인터페이스라는 고유한 하드웨어 제약 아래에서 애플리케이션을 실행하고 자원을 관리하는 특수 목적 [[001_operating_system_purpose|운영체제]]다. 데스크톱 OS와의 가장 근본적인 차이는 **"배터리라는 유한 에너지원 아래에서 최대 [[282_performance_tactics|성능]]과 최소 전력 소비 사이의 균형을 실시간으로 조정해야 한다"** 는 점이다.
+모바일 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (Mobile OS, Mobile [Operating System](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))는 스마트폰, 태블릿, 웨어러블 (Wearable) 등 휴대용 기기에서 배터리 전력, 열 관리 (Thermal [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)), 무선 통신, 터치 인터페이스라는 고유한 하드웨어 제약 아래에서 애플리케이션을 실행하고 자원을 관리하는 특수 목적 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)다. 데스크톱 OS와의 가장 근본적인 차이는 **"배터리라는 유한 에너지원 아래에서 최대 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 최소 전력 소비 사이의 균형을 실시간으로 조정해야 한다"** 는 점이다.
 
 **필요성 및 등장 배경**
-2007년 iPhone과 2008년 Android의 등장 이전에는 Symbian, Windows Mobile, BlackBerry OS 등이 모바일 시장을 분할하고 있었다. 그러나 이들은 데스크톱 OS를 축소하거나 기능 중심으로 설계되어 터치 UI (User Interface), 앱 생태계, 클라우드 연동, 실시간 멀티미디어 처리라는 새로운 요구를 충족하지 못했다. Android는 Google의 오픈 생태계 [[268_strategy_pattern|전략]]과 다양한 하드웨어 파트너십(OHA, Open Handset Alliance)을 결합하여 시장 점유율 72%를 달성했고, iOS는 Apple의 독자적 칩([[572_ap_access_point_ds_distribution_system|AP]], Application Processor)과 OS의 긴밀한 통합으로 프리미엄 시장을 장악하며 현재의 양강 구도를 형성했다.
+2007년 iPhone과 2008년 Android의 등장 이전에는 Symbian, Windows Mobile, BlackBerry OS 등이 모바일 시장을 분할하고 있었다. 그러나 이들은 데스크톱 OS를 축소하거나 기능 중심으로 설계되어 터치 UI (User Interface), 앱 생태계, 클라우드 연동, 실시간 멀티미디어 처리라는 새로운 요구를 충족하지 못했다. Android는 Google의 오픈 생태계 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 다양한 하드웨어 파트너십(OHA, Open Handset Alliance)을 결합하여 시장 점유율 72%를 달성했고, iOS는 Apple의 독자적 칩([AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/), Application Processor)과 OS의 긴밀한 통합으로 프리미엄 시장을 장악하며 현재의 양강 구도를 형성했다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────────┐
@@ -45,38 +49,38 @@ tags:
 └──────────────────────┴───────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 이 계층 비교도에서 가장 눈에 띄는 차이는 Android의 중간 계층에 **[[621_art_android_runtime|ART]] ([[621_art_android_runtime|Android Runtime]]) 가상머신**이 존재한다는 점과 iOS가 **XNU [[025_hybrid_kernel|하이브리드 커널]]**을 사용한다는 점이다. Android는 리눅스 [[022_kernel_role|커널]] 위에 [[070_hal|HAL]] (Hardware [[198_abstraction_control_data_process|Abstraction]] Layer)과 ART를 올려 다양한 하드웨어에서 [[344_compatibility_usability|호환성]]을 확보하는 [[268_strategy_pattern|전략]]이며, iOS는 Apple이 직접 칩과 [[022_kernel_role|커널]]을 설계하여 하드웨어-소프트웨어 간 불필요한 [[198_abstraction_control_data_process|추상화]] 계층을 최소화하는 [[268_strategy_pattern|전략]]이다. 이 차이는 [[282_performance_tactics|성능]], 보안, 전력 효율, 그리고 앱 개발 방식 전반에 깊은 영향을 미친다.
+**[다이어그램 해설]** 이 계층 비교도에서 가장 눈에 띄는 차이는 Android의 중간 계층에 **[ART](/knowledge-base/studynote/02_operating_system/10_security/621_art_android_runtime/) ([Android Runtime](/knowledge-base/studynote/02_operating_system/10_security/621_art_android_runtime/)) 가상머신**이 존재한다는 점과 iOS가 **XNU [하이브리드 커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/025_hybrid_kernel/)**을 사용한다는 점이다. Android는 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 위에 [HAL](/knowledge-base/studynote/02_operating_system/01_overview_architecture/070_hal/) (Hardware [Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) Layer)과 ART를 올려 다양한 하드웨어에서 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)을 확보하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이며, iOS는 Apple이 직접 칩과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 설계하여 하드웨어-소프트웨어 간 불필요한 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층을 최소화하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다. 이 차이는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 보안, 전력 효율, 그리고 앱 개발 방식 전반에 깊은 영향을 미친다.
 
-- **📢 섹션 요약 비유**: Android와 iOS의 차이는 **'공용 아파트'와 '단독 주택'** 의 차이와 같습니다. 공용 아파트(Android)는 다양한 건설사(OEM)가 지은 건물에 누구나 이사入住할 수 있도록 표준 규격([[621_art_android_runtime|ART]], [[070_hal|HAL]])을 갖추고 있지만, 그만큼 벽이 두껍고([[198_abstraction_control_data_process|추상화]] 계층) 관리비(오버헤드)가 더 듭니다. 반면 단독 주택(iOS)은 설계자(Apple)가 뼈대부터 인테리어까지 직접 설계하여 효율은 높지만, 다른 가구가 임의로 개조할 수 없는 폐쇄적 구조입니다.
+- **📢 섹션 요약 비유**: Android와 iOS의 차이는 **'공용 아파트'와 '단독 주택'** 의 차이와 같습니다. 공용 아파트(Android)는 다양한 건설사(OEM)가 지은 건물에 누구나 이사入住할 수 있도록 표준 규격([ART](/knowledge-base/studynote/02_operating_system/10_security/621_art_android_runtime/), [HAL](/knowledge-base/studynote/02_operating_system/01_overview_architecture/070_hal/))을 갖추고 있지만, 그만큼 벽이 두껍고([추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층) 관리비(오버헤드)가 더 듭니다. 반면 단독 주택(iOS)은 설계자(Apple)가 뼈대부터 인테리어까지 직접 설계하여 효율은 높지만, 다른 가구가 임의로 개조할 수 없는 폐쇄적 구조입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [[022_kernel_role|커널]] 아키텍처 비교
+### [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 아키텍처 비교
 
-| 특성 | Android (Linux [[022_kernel_role|Kernel]]) | iOS (XNU [[022_kernel_role|Kernel]]) |
+| 특성 | Android (Linux [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) | iOS (XNU [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) |
 |:---|:---|:---|
-| **[[022_kernel_role|커널]] 유형** | 모놀리식 (Monolithic) + 커스터마이징 | 하이브리드 (Mach + BSD) |
+| **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 유형** | 모놀리식 (Monolithic) + 커스터마이징 | 하이브리드 (Mach + BSD) |
 | **소스 공개** | 오픈 소스 (GPL, GNU General Public License) | 폐쇄 소스 (Apple 독점) |
 | **하드웨어 지원** | 다양한 OEM (Samsung, Xiaomi 등) | Apple 기기 전용 |
-| **[[117_ipc|IPC]] 메커니즘** | [[662_android_binder_ipc_thread_pool|Binder]] (동기 [[126_rpc|RPC]]) | Mach [[446_port_and_bus|Port]] (메시지 패싱) |
-| **전력 관리** | Wakelock + Linux PM ([[069_type_1_2_error_statistical_power|Power]] [[372_management|Management]]) | IOKit [[069_type_1_2_error_statistical_power|Power]] [[372_management|Management]] |
-| **보안 모델** | [[583_selinux|SELinux]] + UID 격리 + [[080_seccomp|seccomp]] | Sandbox + Entitlement + [[790_secure_enclave|Secure Enclave]] |
-| **드라이버 모델** | [[067_lkm|LKM]] (Loadable [[022_kernel_role|Kernel]] [[192_module_independence|Module]]) + Vendor [[192_module_independence|Module]] | IOKit Driver Kit (User-space 일부) |
+| **[IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 메커니즘** | [Binder](/knowledge-base/studynote/02_operating_system/10_security/662_android_binder_ipc_thread_pool/) (동기 [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/)) | Mach [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) (메시지 패싱) |
+| **전력 관리** | Wakelock + Linux PM ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) | IOKit [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) |
+| **보안 모델** | [SELinux](/knowledge-base/studynote/02_operating_system/10_security/583_selinux/) + UID 격리 + [seccomp](/knowledge-base/studynote/02_operating_system/01_overview_architecture/080_seccomp/) | Sandbox + Entitlement + [Secure Enclave](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/790_secure_enclave/) |
+| **드라이버 모델** | [LKM](/knowledge-base/studynote/02_operating_system/01_overview_architecture/067_lkm/) (Loadable [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)) + Vendor [Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) | IOKit Driver Kit (User-space 일부) |
 
 ### Android 핵심 메커니즘
 
 **Zygote 프로세스 포킹 (Forking)**
-Android는 부팅 시 Zygote라는 마스터 프로세스를 생성하고, 모든 앱은 Zygote를 `fork()`하여 시작된다. 이 방식은 [[118_shared_memory|공유 메모리]] ([[118_shared_memory|Shared Memory]])를 통해 런타임 라이브러리를 모든 앱이 공유할 수 있게 하여 메모리 사용량을 크게 줄이고, 앱 시작 시간([[347_cold_start_problem|Cold Start]])을 단축한다. 그러나 fork의 [[542_cow_file_system|CoW]] ([[542_cow_file_system|Copy-on-Write]]) 특성상 [[289_cqrs_db|쓰기]] 작업이 많아지면 메모리가 복제되므로, 메모리 집약적 앱에서는 오히려 오버헤드가 될 수 있다.
+Android는 부팅 시 Zygote라는 마스터 프로세스를 생성하고, 모든 앱은 Zygote를 `fork()`하여 시작된다. 이 방식은 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) ([Shared Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/))를 통해 런타임 라이브러리를 모든 앱이 공유할 수 있게 하여 메모리 사용량을 크게 줄이고, 앱 시작 시간([Cold Start](/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/))을 단축한다. 그러나 fork의 [CoW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) ([Copy-on-Write](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/)) 특성상 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 작업이 많아지면 메모리가 복제되므로, 메모리 집약적 앱에서는 오히려 오버헤드가 될 수 있다.
 
-**[[662_android_binder_ipc_thread_pool|Binder]] [[117_ipc|IPC]] (Inter-Process Communication)**
-Android의 시스템 [[090_service_kubernetes_network_load_balancing|서비스]](Activity Manager, Window Manager 등)와 앱 간 통신은 Binder라는 독자적 [[117_ipc|IPC]] 메커니즘을 사용한다. Binder는 [[022_kernel_role|커널]] [[192_module_independence|모듈]](`/dev/binder`)로 구현되며, 한 번의 `ioctl()` 시스템 콜로 [[001_dikw_pyramid|데이터]]를 프로세스 간에 전송할 수 있어 기존 UNIX [[064_relation_domain|도메인]] [[125_socket|소켓]](Unix [[064_relation_domain|Domain]] [[125_socket|Socket]])보다 효율적이다. 그러나 동기적 [[126_rpc|RPC]] ([[126_rpc|Remote Procedure Call]]) 특성상 호출 [[092_thread_lwp|스레드]]가 블록(Block)되므로, ANR (Application Not Responding)을 방지하기 위해 비동기 바인딩(Async Binding)을 활용해야 한다.
+**[Binder](/knowledge-base/studynote/02_operating_system/10_security/662_android_binder_ipc_thread_pool/) [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) (Inter-Process Communication)**
+Android의 시스템 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(Activity Manager, Window Manager 등)와 앱 간 통신은 Binder라는 독자적 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 메커니즘을 사용한다. Binder는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(`/dev/binder`)로 구현되며, 한 번의 `ioctl()` 시스템 콜로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 프로세스 간에 전송할 수 있어 기존 UNIX [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)(Unix [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [Socket](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/))보다 효율적이다. 그러나 동기적 [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/) ([Remote Procedure Call](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/)) 특성상 호출 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 블록(Block)되므로, ANR (Application Not Responding)을 방지하기 위해 비동기 바인딩(Async Binding)을 활용해야 한다.
 
 ### iOS 핵심 메커니즘
 
-**XNU [[025_hybrid_kernel|하이브리드 커널]]**
-XNU (X is Not Unix)는 Apple의 독자 [[022_kernel_role|커널]]로, Mach [[024_microkernel|마이크로커널]]의 메시지 패싱 ([[119_message_passing|Message Passing]]) IPC와 BSD (Berkeley Software Distribution)의 POSIX 호환 계층, 그리고 IOKit 드라이버 프레임워크가 결합된 하이브리드 구조다. Mach 계층은 [[092_thread_lwp|스레드]] 스케줄링, [[381_virtual_memory|가상 메모리]], IPC를 담당하고, BSD 계층은 [[501_file_definition_logical_record|파일]] 시스템, 네트워크 [[057_stack|스택]], POSIX 시스템 콜 [[344_compatibility_usability|호환성]]을 제공한다.
+**XNU [하이브리드 커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/025_hybrid_kernel/)**
+XNU (X is Not Unix)는 Apple의 독자 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로, Mach [마이크로커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/)의 메시지 패싱 ([Message Passing](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/)) IPC와 BSD (Berkeley Software Distribution)의 POSIX 호환 계층, 그리고 IOKit 드라이버 프레임워크가 결합된 하이브리드 구조다. Mach 계층은 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 스케줄링, [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/), IPC를 담당하고, BSD 계층은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템, 네트워크 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/), POSIX 시스템 콜 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)을 제공한다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────────┐
@@ -109,20 +113,20 @@ XNU (X is Not Unix)는 Apple의 독자 [[022_kernel_role|커널]]로, Mach [[024
 └──────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 이 생명주기 비교에서 가장 중요한 차이는 백그라운드 처리 방식이다. Android는 [[090_service_kubernetes_network_load_balancing|Service]] 컴포넌트를 통해 백그라운드에서 지속적으로 실행되는 프로세스를 허용하지만, iOS는 배터리 [[571_protection_vs_security|보호]]를 위해 백그라운드 실행을 엄격히 제한하고 대부분의 앱을 Suspended 상태로 전환한다. 이 차이는 Android의 메모리 사용량이 iOS보다 많은 주요 원인이기도 하며, 반대로 iOS의 전력 효율이 높은 핵심 이유이기도 하다.
+**[다이어그램 해설]** 이 생명주기 비교에서 가장 중요한 차이는 백그라운드 처리 방식이다. Android는 [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 컴포넌트를 통해 백그라운드에서 지속적으로 실행되는 프로세스를 허용하지만, iOS는 배터리 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)를 위해 백그라운드 실행을 엄격히 제한하고 대부분의 앱을 Suspended 상태로 전환한다. 이 차이는 Android의 메모리 사용량이 iOS보다 많은 주요 원인이기도 하며, 반대로 iOS의 전력 효율이 높은 핵심 이유이기도 하다.
 
 ### 런타임 및 개발 환경 비교
 
 | 항목 | Android | iOS |
 |:---|:---|:---|
-| **런타임** | [[621_art_android_runtime|ART]] (AOT + [[568_jit_access|JIT]] [[613_profiling_gprof|프로파일링]]) | Native (LLVM 컴파일) |
+| **런타임** | [ART](/knowledge-base/studynote/02_operating_system/10_security/621_art_android_runtime/) (AOT + [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/) [프로파일링](/knowledge-base/studynote/02_operating_system/10_security/613_profiling_gprof/)) | Native (LLVM 컴파일) |
 | **주 언어** | Kotlin / Java | Swift / Objective-C |
-| **UI 프레임워크** | Jetpack Compose / [[151_sql_view_virtual_table|View]] System | SwiftUI / UIKit |
-| **메모리 관리** | GC ([[380_garbage_collection|Garbage Collection]]) | ARC (Automatic [[316_reference_pattern_nosql|Reference]] Counting) |
+| **UI 프레임워크** | Jetpack Compose / [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) System | SwiftUI / UIKit |
+| **메모리 관리** | GC ([Garbage Collection](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)) | ARC (Automatic [Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) Counting) |
 | **앱 포맷** | APK / AAB (Android App Bundle) | IPA (iOS App Store Package) |
 | **배포** | Google Play + 사이드로딩 (Sideloading) | App Store (유일 공식 채널) |
 
-- **📢 섹션 요약 비유**: Android의 ART는 **'통역사가 동시통역을 하는 회의'** 와 같고, iOS의 네이티브 런타임은 **'같은 언어를 쓰는 회의'** 와 같습니다. 통역사([[621_art_android_runtime|ART]])가 있으면 다양한 언어(Kotlin, Java)를 쓰는 사람들이 참여할 수 있지만 통역 시간(오버헤드)이 추가되고, 같은 언어(Swift)를 쓰면 소통이 빠르지만 참여자가 제한됩니다.
+- **📢 섹션 요약 비유**: Android의 ART는 **'통역사가 동시통역을 하는 회의'** 와 같고, iOS의 네이티브 런타임은 **'같은 언어를 쓰는 회의'** 와 같습니다. 통역사([ART](/knowledge-base/studynote/02_operating_system/10_security/621_art_android_runtime/))가 있으면 다양한 언어(Kotlin, Java)를 쓰는 사람들이 참여할 수 있지만 통역 시간(오버헤드)이 추가되고, 같은 언어(Swift)를 쓰면 소통이 빠르지만 참여자가 제한됩니다.
 
 ---
 
@@ -132,11 +136,11 @@ XNU (X is Not Unix)는 Apple의 독자 [[022_kernel_role|커널]]로, Mach [[024
 
 | 보안 영역 | Android | iOS | 평가 |
 |:---|:---|:---|:---|
-| **앱 샌드박스** | UID 기반 Linux 샌드박스 + [[583_selinux|SELinux]] [[673_mac_message_authentication_code|MAC]] | Entitlement 기능 샌드박스 + XNU Sandbox | iOS가 더 엄격 |
-| **[[022_kernel_role|커널]] [[571_protection_vs_security|보호]]** | [[080_seccomp|seccomp]]-bpf (시스템 콜 필터링) | KPP ([[022_kernel_role|Kernel]] Patch [[571_protection_vs_security|Protection]]) | iOS가 하드웨어 수준 [[571_protection_vs_security|보호]] |
-| **암호화** | File-Based Encryption (FBE) | [[001_dikw_pyramid|Data]] [[571_protection_vs_security|Protection]] (클래스 기반) | 유사한 수준 |
-| **앱 [[395_verification_process_review|검증]]** | Google Play Protect + 서명 [[395_verification_process_review|검증]] | App Store 심사 + 공증(Notarization) | iOS가 사전 심사 강력 |
-| **보안 칩** | [[478_tee|TEE]] (TrustZone) 기기별 상이 | [[790_secure_enclave|Secure Enclave]] (Apple 독자) | iOS가 일관된 보안 칩 |
+| **앱 샌드박스** | UID 기반 Linux 샌드박스 + [SELinux](/knowledge-base/studynote/02_operating_system/10_security/583_selinux/) [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) | Entitlement 기능 샌드박스 + XNU Sandbox | iOS가 더 엄격 |
+| **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)** | [seccomp](/knowledge-base/studynote/02_operating_system/01_overview_architecture/080_seccomp/)-bpf (시스템 콜 필터링) | KPP ([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Patch [Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)) | iOS가 하드웨어 수준 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) |
+| **암호화** | File-Based Encryption (FBE) | [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) (클래스 기반) | 유사한 수준 |
+| **앱 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)** | Google Play Protect + 서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | App Store 심사 + 공증(Notarization) | iOS가 사전 심사 강력 |
+| **보안 칩** | [TEE](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/) (TrustZone) 기기별 상이 | [Secure Enclave](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/790_secure_enclave/) (Apple 독자) | iOS가 일관된 보안 칩 |
 | **루팅/탈옥** | OEM Unlock → 루팅 가능 | Checkm8 등 부팅 체인 익스플로잇 | Android가 상대적으로 개방 |
 
 ```text
@@ -165,17 +169,17 @@ XNU (X is Not Unix)는 Apple의 독자 [[022_kernel_role|커널]]로, Mach [[024
 └──────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 이 보안 [[057_stack|스택]] 비교에서 핵심은 **"보안의 [[194_consistency_database_integrity|일관성]]"** 이다. Android는 다양한 OEM이 하드웨어와 펌웨어를 제조하므로, [[478_tee|TEE]] ([[972_tee_based_ml|Trusted Execution Environment]])의 구현이 기기마다 다르고 [[583_selinux|SELinux]] [[164_policy|정책]]도 커스터마이징될 수 있다. 반면 iOS는 Apple이 칩([[572_ap_access_point_ds_distribution_system|AP]])부터 [[790_secure_enclave|Secure Enclave]], [[022_kernel_role|커널]], 런타임, 앱스토어까지 전체 [[057_stack|스택]]을 통제하므로, 보안 모델의 [[194_consistency_database_integrity|일관성]]과 [[395_verification_process_review|검증]] 가능성이 훨씬 높다. 그러나 이는 동시에 **단일 공급자 의존(Single Vendor Dependency)** 의 위험도 가져온다.
+**[다이어그램 해설]** 이 보안 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 비교에서 핵심은 **"보안의 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)"** 이다. Android는 다양한 OEM이 하드웨어와 펌웨어를 제조하므로, [TEE](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/) ([Trusted Execution Environment](/knowledge-base/studynote/09_security/19_ai_advanced_security/972_tee_based_ml/))의 구현이 기기마다 다르고 [SELinux](/knowledge-base/studynote/02_operating_system/10_security/583_selinux/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)도 커스터마이징될 수 있다. 반면 iOS는 Apple이 칩([AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/))부터 [Secure Enclave](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/790_secure_enclave/), [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/), 런타임, 앱스토어까지 전체 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 통제하므로, 보안 모델의 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능성이 훨씬 높다. 그러나 이는 동시에 **단일 공급자 의존(Single Vendor Dependency)** 의 위험도 가져온다.
 
-### 전력 관리 [[268_strategy_pattern|전략]] 비교
+### 전력 관리 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 비교
 
 | 전력 관리 | Android | iOS |
 |:---|:---|:---|
 | **백그라운드 제한** | Doze + App Standby (기기별 상이) | 엄격한 백그라운드 실행 제한 |
-| **CPU 절전** | Wakelock / cpuidle / HMPscheduler | [[105_clustering_analysis|Clustering]] + [[282_performance_tactics|Performance]] Controller |
+| **CPU 절전** | Wakelock / cpuidle / HMPscheduler | [Clustering](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/) + [Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) Controller |
 | **디스플레이** | Variable Refresh Rate (OEM 구현) | ProMotion (120Hz 적응형) |
 | **네트워크** | JobScheduler / WorkManager | Background Tasks (엄격 한도) |
-| **열 관리** | OEM별 thermal-engine | Apple 독자 [[473_thermal_throttling|thermal throttling]] |
+| **열 관리** | OEM별 thermal-engine | Apple 독자 [thermal throttling](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/473_thermal_throttling/) |
 
 - **📢 섹션 요약 비유**: Android의 보안은 **'여러 브랜드 자물쇠를 조합한 금고'** 와 같고, iOS의 보안은 **'하나의 브랜드가 설계부터 시공까지 담당한 금고'** 와 같습니다. 전자는 다양한 선택지와 커스터마이징이 가능하지만 약한 고리(Weak Link)가 생길 위험이 있고, 후자는 일관된 품질이 보장되지만 한 회사의 설계 결함이 치명적일 수 있습니다.
 
@@ -185,20 +189,20 @@ XNU (X is Not Unix)는 Apple의 독자 [[022_kernel_role|커널]]로, Mach [[024
 
 ### 실무 시나리오별 선택 기준
 
-**시나리오 1: 기업 [[539_mdm_master_data_management|MDM]] (Mobile Device [[372_management|Management]]) 도입**
-- **Android 장점**: 다양한 가격대 기기 선택, Samsung Knox와 같은 엔터프라이즈 보안 플랫폼, 커스텀 [[255_rom|ROM]] 배포 가능
-- **iOS 장점**: 일관된 [[007_security_policy|보안 정책]] 적용, 빠른 OS 업데이트 전파 (5년+ 지원), Apple Business Manager를 통한 기기 관리 간소화
+**시나리오 1: 기업 [MDM](/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/) (Mobile Device [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) 도입**
+- **Android 장점**: 다양한 가격대 기기 선택, Samsung Knox와 같은 엔터프라이즈 보안 플랫폼, 커스텀 [ROM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/255_rom/) 배포 가능
+- **iOS 장점**: 일관된 [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/) 적용, 빠른 OS 업데이트 전파 (5년+ 지원), Apple Business Manager를 통한 기기 관리 간소화
 - **판단**: 보안이 최우선이면 iOS, 기기 다양성과 비용 절감이 필요하면 Android (Samsung Knox 권장)
 
 **시나리오 2: 실시간 멀티미디어 애플리케이션 개발**
 - **Android 장점**: NDK (Native Development Kit)를 통한 C/C++ 네이티브 코드 직접 실행, 오픈 소스 미디어 프레임워크
-- **iOS 장점**: Metal 그래픽 [[014_api_posix|API]] 직접 접근, Core ML의 Neural Engine 활용, 낮은 오디오 레이턴시
-- **판단**: 레이턴시 민감도가 높으면 iOS (Hardware-Accelerated [[082_pipeline|Pipeline]]), 다양한 코덱 지원이 필요하면 Android
+- **iOS 장점**: Metal 그래픽 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 직접 접근, Core ML의 Neural Engine 활용, 낮은 오디오 레이턴시
+- **판단**: 레이턴시 민감도가 높으면 iOS (Hardware-Accelerated [Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/)), 다양한 코덱 지원이 필요하면 Android
 
-**시나리오 3: [[101_iot_concept|IoT]] (Internet of Things) 기기 [[001_operating_system_purpose|운영체제]] 선택**
-- **Android 장점**: Android Things (비록 deprecated되었으나) → AOSP (Android Open Source [[042_relational_algebra_project|Project]]) 기반 커스터마이징 가능, 풍부한 드라이버 생태계
-- **iOS 장점**: HomeKit 프레임워크로 Apple 생태계 내 [[101_iot_concept|IoT]] 제어 (단, iOS 자체를 [[101_iot_concept|IoT]] 기기에 탑재 불가)
-- **판단**: [[101_iot_concept|IoT]] 기기에 OS를 탑재해야 하면 Android (AOSP 기반), Apple 생태계 내 액세서리 제조는 HomeKit MFi (Made for iPhone) [[303_authentication_authorization_patterns|인증]] 필요
+**시나리오 3: [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) (Internet of Things) 기기 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 선택**
+- **Android 장점**: Android Things (비록 deprecated되었으나) → AOSP (Android Open Source [Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/)) 기반 커스터마이징 가능, 풍부한 드라이버 생태계
+- **iOS 장점**: HomeKit 프레임워크로 Apple 생태계 내 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 제어 (단, iOS 자체를 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기에 탑재 불가)
+- **판단**: [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기에 OS를 탑재해야 하면 Android (AOSP 기반), Apple 생태계 내 액세서리 제조는 HomeKit MFi (Made for iPhone) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 필요
 
 ```text
 ┌──────────────────────────────────────────────────────────────────┐
@@ -217,18 +221,18 @@ XNU (X is Not Unix)는 Apple의 독자 [[022_kernel_role|커널]]로, Mach [[024
 └───────────────┴──────────────┴──────────────┴───────────────────┘
 ```
 
-**[다이어그램 해설]** 이 매트릭스는 특정 프로젝트나 조직의 요구에 따라 Android와 iOS 중 어느 것을 우선 선택해야 하는지를 정량적으로 판단하는 기준을 제공한다. 핵심은 **"하나의 OS가 모든 면에서 우월하지 않다"** 는 점이다. 보안 [[194_consistency_database_integrity|일관성]]과 업데이트 속도에서 iOS가 우세하지만, 하드웨어 다양성과 커스터마이징에서는 Android가 압도적으로 유리하다. 따라서 실무에서는 비즈니스 요구사항에 따라 가중치를 부여하여 종합 판단해야 한다.
+**[다이어그램 해설]** 이 매트릭스는 특정 프로젝트나 조직의 요구에 따라 Android와 iOS 중 어느 것을 우선 선택해야 하는지를 정량적으로 판단하는 기준을 제공한다. 핵심은 **"하나의 OS가 모든 면에서 우월하지 않다"** 는 점이다. 보안 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)과 업데이트 속도에서 iOS가 우세하지만, 하드웨어 다양성과 커스터마이징에서는 Android가 압도적으로 유리하다. 따라서 실무에서는 비즈니스 요구사항에 따라 가중치를 부여하여 종합 판단해야 한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]] ([[403_architecture|Anti-Patterns]])
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) ([Anti-Patterns](/knowledge-base/studynote/11_design_supervision/06_exam_summary/403_architecture/))
 
-| [[128_water_scrum_fall_anti_pattern|안티패턴]] | 위험 | 올바른 접근 |
+| [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) | 위험 | 올바른 접근 |
 |:---|:---|:---|
-| **iOS 보안 맹신** | 탈옥(Jailbreak) 기기에서 앱 [[001_dikw_pyramid|데이터]] 노출 | Device Check [[014_api_posix|API]] + 앱 [[003_integrity|무결성]] [[395_verification_process_review|검증]] |
-| **Android 파편화 무시** | 다양한 화면 크기/[[014_api_posix|API]] 레벨에서 크래시 | [[090_configuration_item|CI]]/CD (Firebase Test Lab) 자동화 테스트 |
+| **iOS 보안 맹신** | 탈옥(Jailbreak) 기기에서 앱 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 노출 | Device Check [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) + 앱 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
+| **Android 파편화 무시** | 다양한 화면 크기/[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 레벨에서 크래시 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD (Firebase Test Lab) 자동화 테스트 |
 | **백그라운드 남용** | 배터리 급소모 → 사용자 앱 삭제 | WorkManager(Android) / BG Tasks(iOS) 준수 |
-| **네이티브 코드 과도 사용** | 보안 [[395_verification_process_review|검증]] 어려움, 업데이트 [[015_지연_데이터_관점|지연]] | 플랫폼 [[014_api_posix|API]] 우선, 네이티브는 [[282_performance_tactics|성능]] 병목에만 |
+| **네이티브 코드 과도 사용** | 보안 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 어려움, 업데이트 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | 플랫폼 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 우선, 네이티브는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목에만 |
 
-- **📢 섹션 요약 비유**: 모바일 OS 선택은 **'자동차 구매'** 와 같습니다. 모든 도로(사용 사례)에서 완벽한 자동차는 없습니다. 고속도로([[282_performance_tactics|성능]])에서는 스포츠카(iOS), 험로(커스터마이징)에서는 SUV(Android)가 적합하며, 목적과 예산과 운전자의 기술(개발팀 역량)에 따라 최적의 선택이 달라집니다.
+- **📢 섹션 요약 비유**: 모바일 OS 선택은 **'자동차 구매'** 와 같습니다. 모든 도로(사용 사례)에서 완벽한 자동차는 없습니다. 고속도로([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))에서는 스포츠카(iOS), 험로(커스터마이징)에서는 SUV(Android)가 적합하며, 목적과 예산과 운전자의 기술(개발팀 역량)에 따라 최적의 선택이 달라집니다.
 
 ---
 
@@ -236,16 +240,16 @@ XNU (X is Not Unix)는 Apple의 독자 [[022_kernel_role|커널]]로, Mach [[024
 
 ### 미래 전망
 
-모바일 OS 생태계는 다음 방향으로 진화하고 있다. 첫째, Android는 Mainline Modules ([[042_relational_algebra_project|Project]] Mainline)을 통해 OS 핵심 컴포넌트를 [[192_module_independence|모듈]]화하여, OEM 업데이트 [[015_지연_데이터_관점|지연]] 없이 Google이 직접 보안 패치를 배포하는 방향으로 발전하고 있다. 둘째, iOS는 Apple Silicon의 통합 아키텍처를 활용하여 [[673_mac_message_authentication_code|Mac]](macOS)과 iOS 앱이 공통 플랫폼에서 실행되는 통합 생태계(Catalyst, [[673_mac_message_authentication_code|Mac]] Catalyst)를 확장하고 있다. 셋째, 양쪽 모두 온디바이스 [[190_ai_llm_requirements_specification|AI]] ([[635_on_device_ai|On-device AI]])를 강화하고 있으며, Android는 NNAPI (Neural Networks [[014_api_posix|API]]), iOS는 Core ML과 Neural Engine을 통해 기기 내 [[190_ai_llm_requirements_specification|AI]] 추론(Inference) [[282_performance_tactics|성능]]을 극대화하고 있다.
+모바일 OS 생태계는 다음 방향으로 진화하고 있다. 첫째, Android는 Mainline Modules ([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) Mainline)을 통해 OS 핵심 컴포넌트를 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)화하여, OEM 업데이트 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 없이 Google이 직접 보안 패치를 배포하는 방향으로 발전하고 있다. 둘째, iOS는 Apple Silicon의 통합 아키텍처를 활용하여 [Mac](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)(macOS)과 iOS 앱이 공통 플랫폼에서 실행되는 통합 생태계(Catalyst, [Mac](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) Catalyst)를 확장하고 있다. 셋째, 양쪽 모두 온디바이스 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) ([On-device AI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/635_on_device_ai/))를 강화하고 있으며, Android는 NNAPI (Neural Networks [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)), iOS는 Core ML과 Neural Engine을 통해 기기 내 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 추론(Inference) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 극대화하고 있다.
 
 ### 참고 표준
 
-- **Android [[344_compatibility_usability|Compatibility]] Definition [[037_document|Document]] (CDD)**: Google이 정의한 Android 기기 [[344_compatibility_usability|호환성]] 요구사항
+- **Android [Compatibility](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) Definition [Document](/knowledge-base/studynote/14_data_engineering/01_infrastructure/037_document/) (CDD)**: Google이 정의한 Android 기기 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 요구사항
 - **Apple Human Interface Guidelines (HIG)**: iOS 앱 설계 및 UI/UX 표준 가이드라인
-- **OWASP Mobile [[283_security_tactics|Security]] Testing Guide (MSTG)**: 모바일 앱 보안 테스트 표준 방법론
-- **ISO/IEC 27034 (Application [[283_security_tactics|Security]])**: 애플리케이션 보안 관리 국제 표준
+- **OWASP Mobile [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing Guide (MSTG)**: 모바일 앱 보안 테스트 표준 방법론
+- **ISO/IEC 27034 (Application [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))**: 애플리케이션 보안 관리 국제 표준
 
-- **📢 섹션 요약 비유**: 모바일 OS의 미래는 **'스마트 홈의 중앙 [[152_hub_dummy_switching_intelligent|허브]]'** 가 되어가고 있습니다. 과거에는 단순히 전화와 앱을 실행하는 기기였지만, 이제는 웨어러블, 자동차, 스마트 홈 기기, AR (Augmented Reality) 기기까지 제어하는 생태계의 중심으로 진화하고 있어, OS의 선택이 단일 기기를 넘어 전체 디지털 라이프 스타일을 결정짓는 요소가 되고 있습니다.
+- **📢 섹션 요약 비유**: 모바일 OS의 미래는 **'스마트 홈의 중앙 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)'** 가 되어가고 있습니다. 과거에는 단순히 전화와 앱을 실행하는 기기였지만, 이제는 웨어러블, 자동차, 스마트 홈 기기, AR (Augmented Reality) 기기까지 제어하는 생태계의 중심으로 진화하고 있어, OS의 선택이 단일 기기를 넘어 전체 디지털 라이프 스타일을 결정짓는 요소가 되고 있습니다.
 
 ---
 
@@ -253,10 +257,10 @@ XNU (X is Not Unix)는 Apple의 독자 [[022_kernel_role|커널]]로, Mach [[024
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| I/O [[282_performance_tactics|성능]] 병목 ([[617_io_bottleneck|Bottleneck]]) 탐색법 (iostat, vmstat) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| I/O [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목 ([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/)) 탐색법 (iostat, vmstat) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
 | 캐시 미스 오버헤드 측정 분석망 구조 적용 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| 안드로이드 리눅스 [[022_kernel_role|커널]] 커스터마이징 (Wakelock 전력 통제 [[192_module_independence|모듈]]) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [[621_art_android_runtime|ART]] ([[621_art_android_runtime|Android Runtime]]) AOT/[[568_jit_access|JIT]] 컴파일러 혼합 실행 환경 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| 안드로이드 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 커스터마이징 (Wakelock 전력 통제 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [ART](/knowledge-base/studynote/02_operating_system/10_security/621_art_android_runtime/) ([Android Runtime](/knowledge-base/studynote/02_operating_system/10_security/621_art_android_runtime/)) AOT/[JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/) 컴파일러 혼합 실행 환경 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -274,7 +278,7 @@ XNU (X is Not Unix)는 Apple의 독자 [[022_kernel_role|커널]]로, Mach [[024
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 스마트폰 안에는 작은 컴퓨터([[001_operating_system_purpose|운영체제]])가 살고 있어요. **안드로이드**는 여러 회사(Samsung, Xiaomi 등)가 만든 다양한 집에 누구나 이사 올 수 있는 **'공용 아파트'** 예요.
+1. 스마트폰 안에는 작은 컴퓨터([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))가 살고 있어요. **안드로이드**는 여러 회사(Samsung, Xiaomi 등)가 만든 다양한 집에 누구나 이사 올 수 있는 **'공용 아파트'** 예요.
 2. **아이폰(iOS)** 은 Apple이라는 한 회사가 집 설계부터 가구까지 모두 직접 만드는 **'주문제작 단독주택'** 이에요. 그래서 집이 튼튼하고 효율적이지만, 다른 회사 가구는 잘 안 맞아요.
 3. 두 집 모두 장점이 있어서, 어떤 집에 살지는 가족(사용자)이 무엇을 가장 중요하게 생각하는지(다양성 vs 편리함)에 따라 결정해요!
 
@@ -284,7 +288,7 @@ XNU (X is Not Unix)는 Apple의 독자 [[022_kernel_role|커널]]로, Mach [[024
 
 **진행 상황**: 619 / 800
 
-← **이전**: [[618_cache_miss_overhead|618. 캐시 미스 오버헤드 측정 분석망 구조 적용 (Cache Miss Overhead)]]
-**다음**: [[620_android_runtime_art_wakelock|620. 안드로이드 리눅스 커널 커스터마이징 (Wakelock 전력 통제 모듈)]] →
+← **이전**: [618. 캐시 미스 오버헤드 측정 분석망 구조 적용 (Cache Miss Overhead)](/knowledge-base/studynote/02_operating_system/10_security/618_cache_miss_overhead/)
+**다음**: [620. 안드로이드 리눅스 커널 커스터마이징 (Wakelock 전력 통제 모듈)](/knowledge-base/studynote/02_operating_system/10_security/620_android_runtime_art_wakelock/) →
 
 ---

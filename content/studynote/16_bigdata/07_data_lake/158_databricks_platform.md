@@ -1,32 +1,36 @@
----
-title: 158. Databricks — Spark 기반 레이크하우스 통합 플랫폼
-date: '2026-04-21'
-tags:
-- studynote-bigdata
----
++++
+title = "158. Databricks — Spark 기반 레이크하우스 통합 플랫폼"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-bigdata"]
+
+[extra]
+tags = ["studynote-bigdata"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-1. Databricks는 [[206_spark_inmemory_rdd_lazy_evaluation_lineage|Apache Spark]] 창시자들이 설립한 회사로, [[147_delta_lake|Delta Lake]]·[[150_unity_catalog|Unity Catalog]]·[[180_mlflow|MLflow]]·Photon Engine을 통합한 **[[146_lakehouse|레이크하우스]] 올인원 플랫폼**을 제공하며 컴퓨팅 네이티브(Compute-Native) 아키텍처로 차별화된다.
-2. **[[074_photon_engine|Photon Engine]]**은 C++ 기반 벡터화 [[298_qkv_attention|쿼리]] 엔진으로 기존 Spark 대비 SQL 워크로드에서 최대 8배 [[282_performance_tactics|성능]]을 달성하며, **[[030_auto_scaling|Auto Scaling]]** 클러스터가 워크로드에 따라 노드를 자동으로 조정한다.
-3. AWS·Azure·GCP 모두에서 동일한 API로 동작하는 [[189_multi_cloud_strategy_vendor_lock_in|멀티 클라우드 전략]]과, SQL 친화적 Snowflake와 코드 친화적 Databricks의 포지셔닝 차별화가 핵심 시장 대립 구도를 형성한다.
+1. Databricks는 [Apache Spark](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/) 창시자들이 설립한 회사로, [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/)·[Unity Catalog](/knowledge-base/studynote/16_bigdata/07_data_lake/150_unity_catalog/)·[MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/)·Photon Engine을 통합한 **[레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 올인원 플랫폼**을 제공하며 컴퓨팅 네이티브(Compute-Native) 아키텍처로 차별화된다.
+2. **[Photon Engine](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/)**은 C++ 기반 벡터화 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 엔진으로 기존 Spark 대비 SQL 워크로드에서 최대 8배 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 달성하며, **[Auto Scaling](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/030_auto_scaling/)** 클러스터가 워크로드에 따라 노드를 자동으로 조정한다.
+3. AWS·Azure·GCP 모두에서 동일한 API로 동작하는 [멀티 클라우드 전략](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/189_multi_cloud_strategy_vendor_lock_in/)과, SQL 친화적 Snowflake와 코드 친화적 Databricks의 포지셔닝 차별화가 핵심 시장 대립 구도를 형성한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-Apache Spark는 뛰어난 [[282_performance_tactics|성능]]에도 불구하고 클러스터 [[009_config|설정]], [[336_library_vs_framework|라이브러리]] [[344_compatibility_usability|호환성]], ML 실험 관리, [[052_data_governance_framework|데이터 거버넌스]]를 모두 직접 구성해야 하는 운영 복잡성이 있었다. Databricks는 이 모든 요소를 통합 플랫폼으로 제공하여, [[001_dikw_pyramid|데이터]] 엔지니어·[[001_dikw_pyramid|데이터]] 과학자·BI 분석가가 하나의 환경에서 협업할 수 있게 한다.
+Apache Spark는 뛰어난 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에도 불구하고 클러스터 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/), ML 실험 관리, [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)를 모두 직접 구성해야 하는 운영 복잡성이 있었다. Databricks는 이 모든 요소를 통합 플랫폼으로 제공하여, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학자·BI 분석가가 하나의 환경에서 협업할 수 있게 한다.
 
-[[074_photon_engine|Databricks]] [[146_lakehouse|Lakehouse]] Platform은 [[147_delta_lake|Delta Lake]](저장), [[150_unity_catalog|Unity Catalog]](거버넌스), [[180_mlflow|MLflow]](ML 수명 주기), Workflows([[073_container_orchestration_tools|오케스트레이션]]), SQL Analytics(BI)를 단일 통합 환경으로 제공한다.
+[Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) [Lakehouse](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) Platform은 [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/)(저장), [Unity Catalog](/knowledge-base/studynote/16_bigdata/07_data_lake/150_unity_catalog/)(거버넌스), [MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/)(ML 수명 주기), Workflows([오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)), SQL Analytics(BI)를 단일 통합 환경으로 제공한다.
 
-| 이전 환경 ([[136_variance|분산]] 도구) | [[074_photon_engine|Databricks]] 통합 |
+| 이전 환경 ([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 도구) | [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) 통합 |
 |:---|:---|
-| [[843_hadoop_rack_awareness_data_replication_topology|Hadoop]] + Spark 자체 클러스터 | 관리형 Spark 클러스터 |
-| [[544_hive|Hive]] + 별도 [[209_data_warehouse_schema_on_write|DW]] | [[147_delta_lake|Delta Lake]] 단일 스토리지 |
-| 개별 ML 도구 (Jupyter 등) | [[180_mlflow|MLflow]] + [[165_feature_store_training_serving_consistency|Feature Store]] |
-| 별도 오케스트레이터 (Airflow) | [[074_photon_engine|Databricks]] Workflows |
-| 별도 BI 도구 연결 | [[074_photon_engine|Databricks]] SQL + [[206_serverless_cold_start|Serverless]] |
+| [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) + Spark 자체 클러스터 | 관리형 Spark 클러스터 |
+| [Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/) + 별도 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) | [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/) 단일 스토리지 |
+| 개별 ML 도구 (Jupyter 등) | [MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/) + [Feature Store](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/) |
+| 별도 오케스트레이터 (Airflow) | [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) Workflows |
+| 별도 BI 도구 연결 | [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) SQL + [Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) |
 
-> 📢 **섹션 요약 비유**: Databricks는 스위스 아미 나이프다. [[001_dikw_pyramid|데이터]] 처리(Spark), ML 실험([[180_mlflow|MLflow]]), SQL 분석([[074_photon_engine|Databricks]] SQL), 거버넌스([[150_unity_catalog|Unity Catalog]])가 하나의 손잡이에 모두 달려 있다.
+> 📢 **섹션 요약 비유**: Databricks는 스위스 아미 나이프다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리(Spark), ML 실험([MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/)), SQL 분석([Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) SQL), 거버넌스([Unity Catalog](/knowledge-base/studynote/16_bigdata/07_data_lake/150_unity_catalog/))가 하나의 손잡이에 모두 달려 있다.
 
 ---
 
@@ -68,40 +72,40 @@ Apache Spark는 뛰어난 [[282_performance_tactics|성능]]에도 불구하고 
 
 | 제품/기능 | 역할 | 핵심 특징 |
 |:---|:---|:---|
-| [[147_delta_lake|Delta Lake]] | 저장 포맷 | ACID, 타임 트래블, Z-ORDER |
-| [[150_unity_catalog|Unity Catalog]] | 거버넌스 | 3계층 [[061_namespace|네임스페이스]], [[399_fine_grained_multithreading|Fine-Grained]] [[155_ac_actual_cost|AC]] |
-| [[180_mlflow|MLflow]] | ML 수명 주기 | 실험 추적, [[166_model_registry_versioning_mlflow|모델 레지스트리]], 서빙 |
-| [[074_photon_engine|Photon Engine]] | [[298_qkv_attention|쿼리]] [[282_performance_tactics|성능]] | C++ 벡터화, SQL 최대 8배 가속 |
-| [[074_photon_engine|Databricks]] SQL | BI [[298_qkv_attention|쿼리]] | [[206_serverless_cold_start|서버리스]] SQL 웨어하우스 |
-| Workflows | [[073_container_orchestration_tools|오케스트레이션]] | [[401_bayesian_network_dag_causality|DAG]] 기반 작업 의존성 관리 |
-| [[176_automl_hyperparameter_optimization_bayesian|AutoML]] | ML 자동화 | 자동 [[247_feature_label_variables|피처]] 엔지니어링·하이퍼파라미터 |
-| Delta Live Tables | [[123_pipe|파이프]]라인 | 선언적 스트리밍·배치 통합 [[123_pipe|파이프]]라인 |
+| [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/) | 저장 포맷 | ACID, 타임 트래블, Z-ORDER |
+| [Unity Catalog](/knowledge-base/studynote/16_bigdata/07_data_lake/150_unity_catalog/) | 거버넌스 | 3계층 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/), [Fine-Grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/) [AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/) |
+| [MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/) | ML 수명 주기 | 실험 추적, [모델 레지스트리](/knowledge-base/studynote/14_data_engineering/04_mlops/166_model_registry_versioning_mlflow/), 서빙 |
+| [Photon Engine](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) | [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | C++ 벡터화, SQL 최대 8배 가속 |
+| [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) SQL | BI [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) | [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) SQL 웨어하우스 |
+| Workflows | [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) | [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) 기반 작업 의존성 관리 |
+| [AutoML](/knowledge-base/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/) | ML 자동화 | 자동 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 엔지니어링·하이퍼파라미터 |
+| Delta Live Tables | [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 | 선언적 스트리밍·배치 통합 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 |
 
-> 📢 **섹션 요약 비유**: Photon Engine은 자동차의 터보 엔진이다. 같은 도로([[298_qkv_attention|쿼리]])를 달려도 기존 Spark(일반 엔진)보다 훨씬 빠르게 목적지(결과)에 도달한다.
+> 📢 **섹션 요약 비유**: Photon Engine은 자동차의 터보 엔진이다. 같은 도로([쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/))를 달려도 기존 Spark(일반 엔진)보다 훨씬 빠르게 목적지(결과)에 도달한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-**[[240_databricks_vs_snowflake_dw|Databricks vs Snowflake]] — 핵심 대립 구도**
+**[Databricks vs Snowflake](/knowledge-base/studynote/16_bigdata/12_trends/240_databricks_vs_snowflake_dw/) — 핵심 대립 구도**
 
-| 항목 | [[074_photon_engine|Databricks]] | [[541_cassandra|Snowflake]] |
+| 항목 | [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) | [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) |
 |:---|:---|:---|
 | 핵심 포지셔닝 | 코드 네이티브 (Python/Spark 중심) | SQL 네이티브 (ANSI SQL 중심) |
-| ML/[[190_ai_llm_requirements_specification|AI]] 지원 | 최고 수준 ([[180_mlflow|MLflow]], [[176_automl_hyperparameter_optimization_bayesian|AutoML]] 내장) | Snowpark ML (2023~) |
+| ML/[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 지원 | 최고 수준 ([MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/), [AutoML](/knowledge-base/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/) 내장) | Snowpark ML (2023~) |
 | 스토리지 방식 | 오픈 포맷 (Delta/Iceberg on 객체 스토리지) | 독점 스토리지 포맷 |
-| 스트리밍 | [[061_structured_streaming|Spark Structured Streaming]] + [[919_dlt_distributed_ledger_technology_consensus_bottleneck|DLT]] | Snowpipe (마이크로 배치) |
-| 가격 모델 | DBU ([[074_photon_engine|Databricks]] Unit) 기반 | Credit 기반 |
-| 주 사용자 | [[001_dikw_pyramid|데이터]] 엔지니어, ML 엔지니어 | SQL 분석가, BI 개발자 |
-| 벤더 독립성 | 오픈 포맷 (Delta/Iceberg) | 높은 [[051_vendor_lock_in_cloud_computing|벤더 종속]]성 |
+| 스트리밍 | [Spark Structured Streaming](/knowledge-base/studynote/16_bigdata/03_spark/061_structured_streaming/) + [DLT](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/919_dlt_distributed_ledger_technology_consensus_bottleneck/) | Snowpipe (마이크로 배치) |
+| 가격 모델 | DBU ([Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) Unit) 기반 | Credit 기반 |
+| 주 사용자 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어, ML 엔지니어 | SQL 분석가, BI 개발자 |
+| 벤더 독립성 | 오픈 포맷 (Delta/Iceberg) | 높은 [벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/)성 |
 
 **연관 기술 연결**
 
-- **[[180_mlflow|MLflow]]**: Databricks에서 인큐베이션, 현재 LF [[190_ai_llm_requirements_specification|AI]]&[[001_dikw_pyramid|Data]] 재단 기증
-- **[[147_delta_lake|Delta Lake]]**: Linux Foundation 기증, 벤더 중립화
-- **[[206_spark_inmemory_rdd_lazy_evaluation_lineage|Apache Spark]]**: [[074_photon_engine|Databricks]] 창업자들이 [[087_underpinning_contract|UC]] Berkeley AMPLab에서 개발
+- **[MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/)**: Databricks에서 인큐베이션, 현재 LF [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)&[Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재단 기증
+- **[Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/)**: Linux Foundation 기증, 벤더 중립화
+- **[Apache Spark](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/)**: [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) 창업자들이 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) Berkeley AMPLab에서 개발
 
-> 📢 **섹션 요약 비유**: Databricks는 종합 연구소([[001_dikw_pyramid|데이터]] 처리+ML+SQL 올인원)이고, Snowflake는 최고급 SQL 레스토랑(SQL에 특화)이다. 요리사([[001_dikw_pyramid|데이터]] 엔지니어)에게는 연구소가, 식품 분석가(BI 분석가)에게는 레스토랑이 더 편하다.
+> 📢 **섹션 요약 비유**: Databricks는 종합 연구소([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리+ML+SQL 올인원)이고, Snowflake는 최고급 SQL 레스토랑(SQL에 특화)이다. 요리사([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어)에게는 연구소가, 식품 분석가(BI 분석가)에게는 레스토랑이 더 편하다.
 
 ---
 
@@ -112,20 +116,20 @@ Apache Spark는 뛰어난 [[282_performance_tactics|성능]]에도 불구하고 
 | 클러스터 유형 | 특징 | 사용 시나리오 |
 |:---|:---|:---|
 | All-Purpose Cluster | 상시 실행, 협업 | 탐색적 분석, 개발·디버깅 |
-| Job Cluster | 작업 시작 시 [[087_process_state_transition|생성]], 완료 후 종료 | 운영 배치 [[123_pipe|파이프]]라인 |
-| SQL Warehouse | [[206_serverless_cold_start|서버리스]] SQL 최적화 | BI 도구 연결, SQL 분석 |
-| Instance Pools | 미리 워밍업된 [[598_vm_migration_nic|VM]] | 빠른 클러스터 시작 필요 시 |
+| Job Cluster | 작업 시작 시 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 완료 후 종료 | 운영 배치 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 |
+| SQL Warehouse | [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) SQL 최적화 | BI 도구 연결, SQL 분석 |
+| Instance Pools | 미리 워밍업된 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) | 빠른 클러스터 시작 필요 시 |
 
 **기술사 답안 포인트**
 
 | 질문 | 핵심 답변 |
 |:---|:---|
-| [[074_photon_engine|Databricks]] 핵심 제품 구성 | [[147_delta_lake|Delta Lake]] + [[150_unity_catalog|Unity Catalog]] + [[180_mlflow|MLflow]] + Photon + Workflows |
-| [[074_photon_engine|Photon Engine]] 원리 | C++ 기반 벡터화 실행, JVM 오버헤드 제거, [[370_simd|SIMD]] 활용 |
-| [[240_databricks_vs_snowflake_dw|Databricks vs Snowflake]] | [[074_photon_engine|Databricks]] = 코드 네이티브/ML, [[541_cassandra|Snowflake]] = SQL 네이티브/BI |
-| DBU([[074_photon_engine|Databricks]] Unit) | 클러스터 유형·크기에 따른 가격 단위, 시간당 소비량 |
+| [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) 핵심 제품 구성 | [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/) + [Unity Catalog](/knowledge-base/studynote/16_bigdata/07_data_lake/150_unity_catalog/) + [MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/) + Photon + Workflows |
+| [Photon Engine](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) 원리 | C++ 기반 벡터화 실행, JVM 오버헤드 제거, [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) 활용 |
+| [Databricks vs Snowflake](/knowledge-base/studynote/16_bigdata/12_trends/240_databricks_vs_snowflake_dw/) | [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) = 코드 네이티브/ML, [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) = SQL 네이티브/BI |
+| DBU([Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) Unit) | 클러스터 유형·크기에 따른 가격 단위, 시간당 소비량 |
 
-> 📢 **섹션 요약 비유**: [[074_photon_engine|Databricks]] 선택은 팀 구성에 따라 달라진다. Python/ML 중심 팀이라면 Databricks가 고향이고, SQL BI 중심 팀이라면 Snowflake가 더 자연스럽다.
+> 📢 **섹션 요약 비유**: [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) 선택은 팀 구성에 따라 달라진다. Python/ML 중심 팀이라면 Databricks가 고향이고, SQL BI 중심 팀이라면 Snowflake가 더 자연스럽다.
 
 ---
 
@@ -133,27 +137,27 @@ Apache Spark는 뛰어난 [[282_performance_tactics|성능]]에도 불구하고 
 
 | 효과 | 내용 |
 |:---|:---|
-| 통합 플랫폼 효율 | 여러 도구 연동 [[009_config|설정]] 제거, 단일 보안·거버넌스 |
-| ML 가속 | [[180_mlflow|MLflow]]·Feature Store로 ML 실험→배포 사이클 단축 |
-| 비용 최적화 | [[030_auto_scaling|Auto Scaling]] + Spot 인스턴스 + 작업 완료 종료 |
-| 오픈 포맷 | Delta/Iceberg로 [[051_vendor_lock_in_cloud_computing|벤더 종속]] 최소화 |
+| 통합 플랫폼 효율 | 여러 도구 연동 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 제거, 단일 보안·거버넌스 |
+| ML 가속 | [MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/)·Feature Store로 ML 실험→배포 사이클 단축 |
+| 비용 최적화 | [Auto Scaling](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/030_auto_scaling/) + Spot 인스턴스 + 작업 완료 종료 |
+| 오픈 포맷 | Delta/Iceberg로 [벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/) 최소화 |
 
-Databricks는 2023년 기준 기업 가치 430억 달러로 평가되며, 2024년 IPO를 준비 중인 빅데이터 [[190_ai_llm_requirements_specification|AI]] 플랫폼의 선두 기업이다. [[146_lakehouse|레이크하우스]] 아키텍처의 레퍼런스 구현체로서 기업 [[001_dikw_pyramid|데이터]] 플랫폼 표준에 가장 가까이 있다. 기술사 시험에서는 **[[074_photon_engine|Databricks]] 핵심 제품 구성**, **[[074_photon_engine|Photon Engine]] 특성**, **Snowflake와의 포지셔닝 비교**가 핵심 논점이다.
+Databricks는 2023년 기준 기업 가치 430억 달러로 평가되며, 2024년 IPO를 준비 중인 빅데이터 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 플랫폼의 선두 기업이다. [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 아키텍처의 레퍼런스 구현체로서 기업 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 표준에 가장 가까이 있다. 기술사 시험에서는 **[Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) 핵심 제품 구성**, **[Photon Engine](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) 특성**, **Snowflake와의 포지셔닝 비교**가 핵심 논점이다.
 
-> 📢 **섹션 요약 비유**: Databricks는 [[001_dikw_pyramid|데이터]] 팀의 슈퍼 앱이다. 한 앱에서 [[001_dikw_pyramid|데이터]] 수집·처리·ML·분석·[[003_bigdata_7v|시각화]]를 모두 처리하듯, 하나의 플랫폼에서 [[645_data_pipeline_acceleration|데이터 파이프라인]]부터 [[190_ai_llm_requirements_specification|AI]] 모델 배포까지 완결된다.
+> 📢 **섹션 요약 비유**: Databricks는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 팀의 슈퍼 앱이다. 한 앱에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집·처리·ML·분석·[시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)를 모두 처리하듯, 하나의 플랫폼에서 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)부터 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 배포까지 완결된다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 개념 | [[083_relationship_in_er_model|관계]] | 설명 |
+| 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
 |:---|:---|:---|
-| [[147_delta_lake|Delta Lake]] | 저장 레이어 | [[074_photon_engine|Databricks]] 핵심 [[191_oss_license_compliance|오픈소스]] 기여 |
-| [[150_unity_catalog|Unity Catalog]] | 거버넌스 레이어 | 3계층 [[061_namespace|네임스페이스]], 리니지 |
-| [[180_mlflow|MLflow]] | ML 수명 주기 | 실험·[[235_registry_immutable_tag|레지스트리]]·서빙 통합 |
-| [[074_photon_engine|Photon Engine]] | [[282_performance_tactics|성능]] 가속 | C++ 벡터화, SQL 8배 향상 |
+| [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/) | 저장 레이어 | [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) 핵심 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 기여 |
+| [Unity Catalog](/knowledge-base/studynote/16_bigdata/07_data_lake/150_unity_catalog/) | 거버넌스 레이어 | 3계층 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/), 리니지 |
+| [MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/) | ML 수명 주기 | 실험·[레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)·서빙 통합 |
+| [Photon Engine](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 가속 | C++ 벡터화, SQL 8배 향상 |
 | DBU | 가격 단위 | 클러스터 유형별 시간당 단가 |
-| [[074_photon_engine|Databricks]] SQL | BI 레이어 | [[206_serverless_cold_start|서버리스]] SQL 웨어하우스 |
+| [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) SQL | BI 레이어 | [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) SQL 웨어하우스 |
 
 ---
 
@@ -175,10 +179,10 @@ Databricks는 2023년 기준 기업 가치 430억 달러로 평가되며, 2024�
     ▼
 [Unity Catalog + MLflow — 데이터·모델 거버넌스 통합, 엔드투엔드 AI/ML 파이프라인]
 ```
-이 흐름은 순수 Spark 엔진이 [[001_dikw_pyramid|데이터]] 품질 보장의 한계를 드러내자 Delta Lake의 ACID가 이를 보완하고, [[146_lakehouse|레이크하우스]] 아키텍처와 통합 거버넌스로 발전하는 [[074_photon_engine|Databricks]] 플랫폼의 진화 계보를 보여준다.
+이 흐름은 순수 Spark 엔진이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 보장의 한계를 드러내자 Delta Lake의 ACID가 이를 보완하고, [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 아키텍처와 통합 거버넌스로 발전하는 [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) 플랫폼의 진화 계보를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. Databricks는 모든 도구가 한 건물에 있는 연구소예요. [[001_dikw_pyramid|데이터]] 수집, 분석, [[190_ai_llm_requirements_specification|AI]] 훈련을 한 곳에서 다 할 수 있어요.
+1. Databricks는 모든 도구가 한 건물에 있는 연구소예요. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집, 분석, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 훈련을 한 곳에서 다 할 수 있어요.
 2. Photon Engine은 자동차 터보 장치처럼, 같은 일을 훨씬 빠르게 해주는 특별 엔진이에요.
 3. Spark 만든 사람들이 세운 회사라 마치 요리사가 직접 차린 레스토랑처럼, 도구와 플랫폼이 딱 맞게 설계되어 있어요.
 
@@ -188,7 +192,7 @@ Databricks는 2023년 기준 기업 가치 430억 달러로 평가되며, 2024�
 
 **진행 상황**: 158 / 262
 
-← **이전**: [[157_data_analysis_services|157. 클라우드 빅데이터 분석 서비스 — Amazon EMR/Azure HDInsight/GCP Dataproc]]
-**다음**: [[159_snowflake_data_lake|159. Snowflake on Data Lake — External Table과 Iceberg 지원]] →
+← **이전**: [157. 클라우드 빅데이터 분석 서비스 — Amazon EMR/Azure HDInsight/GCP Dataproc](/knowledge-base/studynote/16_bigdata/07_data_lake/157_data_analysis_services/)
+**다음**: [159. Snowflake on Data Lake — External Table과 Iceberg 지원](/knowledge-base/studynote/16_bigdata/07_data_lake/159_snowflake_data_lake/) →
 
 ---

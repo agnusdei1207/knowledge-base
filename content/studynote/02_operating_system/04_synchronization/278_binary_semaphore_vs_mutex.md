@@ -1,28 +1,32 @@
----
-title: 278. 이진 세마포어 vs 뮤텍스 차이 (소유권 유무) (Binary Semaphore Vs Mutex)
-date: '2026-05-09'
-tags:
-- studynote-operating-system
----
++++
+title = "278. 이진 세마포어 vs 뮤텍스 차이 (소유권 유무) (Binary Semaphore Vs Mutex)"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 뮤텍스([[223_mutex|Mutex]])는 자물쇠를 걸어잠근 당사자([[092_thread_lwp|스레드]])만이 자물쇠를 열 수 있는 **'소유권(Ownership)이 있는 자물쇠'**인 반면, [[225_binary_semaphore|이진 세마포어]]는 A [[092_thread_lwp|스레드]]가 잠가둔 것을 엉뚱한 B [[092_thread_lwp|스레드]]가 풀어버릴 수 있는 **'소유권 없는 단순 [[130_signal|신호]]등'**이다.
-> 2. **가치**: 뮤텍스는 오직 단 하나의 [[092_thread_lwp|스레드]]만 공유 변수를 안전하게 수정하도록 [[571_protection_vs_security|보호]]하는 '[[283_mutual_exclusion|상호 배제]]([[283_mutual_exclusion|Mutual Exclusion]])'의 목적으로 쓰이며, [[224_semaphore|세마포어]]는 [[092_thread_lwp|스레드]] 간에 "내 작업 끝났으니 이제 네가 작업해!"라고 순서를 맞춰주는 '실행 순서 [[212_synchronization_mechanisms|동기화]](Signaling)' 목적으로 쓰인다.
-> 3. **융합**: 이 둘을 헷갈려서 소유권 [[571_protection_vs_security|보호]]가 필요한 곳에 [[225_binary_semaphore|이진 세마포어]]를 쓰면, 해커나 버그가 걸린 [[092_thread_lwp|스레드]]가 임의로 자물쇠를 풀어버리는 치명적인 권한 붕괴가 발생하므로, 용도에 맞게 철저히 분리해서 사용해야 한다.
+> 1. **본질**: 뮤텍스([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))는 자물쇠를 걸어잠근 당사자([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))만이 자물쇠를 열 수 있는 **'소유권(Ownership)이 있는 자물쇠'**인 반면, [이진 세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/225_binary_semaphore/)는 A [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 잠가둔 것을 엉뚱한 B [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 풀어버릴 수 있는 **'소유권 없는 단순 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등'**이다.
+> 2. **가치**: 뮤텍스는 오직 단 하나의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)만 공유 변수를 안전하게 수정하도록 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하는 '[상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)([Mutual Exclusion](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/))'의 목적으로 쓰이며, [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 간에 "내 작업 끝났으니 이제 네가 작업해!"라고 순서를 맞춰주는 '실행 순서 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)(Signaling)' 목적으로 쓰인다.
+> 3. **융합**: 이 둘을 헷갈려서 소유권 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)가 필요한 곳에 [이진 세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/225_binary_semaphore/)를 쓰면, 해커나 버그가 걸린 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 임의로 자물쇠를 풀어버리는 치명적인 권한 붕괴가 발생하므로, 용도에 맞게 철저히 분리해서 사용해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-> ⚠️ 이 문서는 운영체제의 가장 대표적인 두 가지 [[212_synchronization_mechanisms|동기화]] 도구인 '[[225_binary_semaphore|이진 세마포어]]([[225_binary_semaphore|Binary Semaphore]])'와 '뮤텍스([[223_mutex|Mutex]])'가 겉보기에는 똑같이 0과 1만 가지는 자물쇠처럼 보이지만, 그 내부 설계 철학과 용도가 어떻게 완벽하게 다른지 결정짓는 핵심 개념인 **'소유권(Ownership)'**을 다룹니다.
+> ⚠️ 이 문서는 운영체제의 가장 대표적인 두 가지 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 도구인 '[이진 세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/225_binary_semaphore/)([Binary Semaphore](/knowledge-base/studynote/02_operating_system/04_synchronization/225_binary_semaphore/))'와 '뮤텍스([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))'가 겉보기에는 똑같이 0과 1만 가지는 자물쇠처럼 보이지만, 그 내부 설계 철학과 용도가 어떻게 완벽하게 다른지 결정짓는 핵심 개념인 **'소유권(Ownership)'**을 다룹니다.
 
-"뮤텍스([[223_mutex|Mutex]])는 1명만 들어갈 수 있고, [[224_semaphore|세마포어]]([[224_semaphore|Semaphore]])는 카운터만큼 여러 명이 들어갈 수 있다."
+"뮤텍스([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))는 1명만 들어갈 수 있고, [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)([Semaphore](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/))는 카운터만큼 여러 명이 들어갈 수 있다."
 운영체제를 배우는 학생들이 가장 먼저 외우는 공식이다. 그런데 교수님이 이런 질문을 던진다.
-**"그럼 카운터를 1로 설정한 '[[225_binary_semaphore|이진 세마포어]]([[225_binary_semaphore|Binary Semaphore]])'와 '뮤텍스'는 완전히 똑같은 거 아니냐?"**
+**"그럼 카운터를 1로 설정한 '[이진 세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/225_binary_semaphore/)([Binary Semaphore](/knowledge-base/studynote/02_operating_system/04_synchronization/225_binary_semaphore/))'와 '뮤텍스'는 완전히 똑같은 거 아니냐?"**
 
 상태가 0(잠김)과 1(열림)만 존재한다는 동작 원리 자체는 완전히 똑같다. 둘 다 1명이 들어가면 문이 잠기고, 나오면 문이 열린다. 
-하지만 이 둘을 실무 코드에서 섞어 쓰는 순간 시스템은 끔찍한 버그에 시달리게 된다. 왜냐하면 뮤텍스는 화장실의 **'자물쇠'**이고, [[225_binary_semaphore|이진 세마포어]]는 기차역의 **'[[130_signal|신호]]등'**이라는 전혀 다른 철학으로 만들어진 도구이기 때문이다. 이 차이를 가르는 단어는 바로 **소유권(Ownership)**이다.
+하지만 이 둘을 실무 코드에서 섞어 쓰는 순간 시스템은 끔찍한 버그에 시달리게 된다. 왜냐하면 뮤텍스는 화장실의 **'자물쇠'**이고, [이진 세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/225_binary_semaphore/)는 기차역의 **'[신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등'**이라는 전혀 다른 철학으로 만들어진 도구이기 때문이다. 이 차이를 가르는 단어는 바로 **소유권(Ownership)**이다.
 
 - **📢 섹션 요약 비유**: 복잡한 창고에서 필요한 물건을 찾기 위해 먼저 구역과 표지판을 세우는 것과 같다.
 
@@ -30,21 +34,21 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-#### 1. 뮤텍스 ([[223_mutex|Mutex]]: [[283_mutual_exclusion|Mutual Exclusion]])
+#### 1. 뮤텍스 ([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/): [Mutual Exclusion](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/))
 * **핵심 철학**: "내가 잠갔으니, 푸는 것도 나만 풀 수 있다."
 * **작동 원리**: 
-  - [[092_thread_lwp|스레드]] A가 공유 변수에 접근하기 위해 `lock()`을 건다.
-  - 이 순간 OS는 이 뮤텍스의 **'소유자(Owner)'가 [[092_thread_lwp|스레드]] A**임을 명부(TCB)에 기록해 버린다.
-  - 만약 [[092_thread_lwp|스레드]] B가 미쳐서 `unlock()`을 호출하며 강제로 자물쇠를 풀려고 시도하면? OS는 "넌 주인이 아니잖아!" 라며 가차 없이 에러(IllegalMonitorStateException 등)를 뱉고 튕겨낸다.
-* **추가 기능**: 소유권이 있기 때문에, 똑똑한 OS는 A가 락을 쥔 상태에서 죽어버리면 락을 강제로 회수해서 문을 따주는 **[[205_priority_inversion|우선순위 역전]] 방지 ([[206_priority_inheritance|Priority Inheritance]])** 같은 고오급 기술을 뮤텍스에만 적용해 줄 수 있다.
+  - [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 공유 변수에 접근하기 위해 `lock()`을 건다.
+  - 이 순간 OS는 이 뮤텍스의 **'소유자(Owner)'가 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A**임을 명부(TCB)에 기록해 버린다.
+  - 만약 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) B가 미쳐서 `unlock()`을 호출하며 강제로 자물쇠를 풀려고 시도하면? OS는 "넌 주인이 아니잖아!" 라며 가차 없이 에러(IllegalMonitorStateException 등)를 뱉고 튕겨낸다.
+* **추가 기능**: 소유권이 있기 때문에, 똑똑한 OS는 A가 락을 쥔 상태에서 죽어버리면 락을 강제로 회수해서 문을 따주는 **[우선순위 역전](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/) 방지 ([Priority Inheritance](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/206_priority_inheritance/))** 같은 고오급 기술을 뮤텍스에만 적용해 줄 수 있다.
 
-#### 2. [[225_binary_semaphore|이진 세마포어]] ([[225_binary_semaphore|Binary Semaphore]])
+#### 2. [이진 세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/225_binary_semaphore/) ([Binary Semaphore](/knowledge-base/studynote/02_operating_system/04_synchronization/225_binary_semaphore/))
 * **핵심 철학**: "누가 잠그든 누가 열든 상관없어. 0과 1 상태만 바뀌면 돼."
 * **작동 원리**:
-  - [[092_thread_lwp|스레드]] A가 `P()` 연산을 호출하여 [[224_semaphore|세마포어]]를 0으로 만들고(잠금) 잠에 빠진다. (예: A는 [[501_file_definition_logical_record|파일]] 다운로드를 기다리는 중)
-  - 저 멀리서 다운로드를 끝낸 **[[092_thread_lwp|스레드]] B가 `V()` 연산을 호출**하여 [[224_semaphore|세마포어]]를 1로 풀어버린다! 
+  - [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 `P()` 연산을 호출하여 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)를 0으로 만들고(잠금) 잠에 빠진다. (예: A는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 다운로드를 기다리는 중)
+  - 저 멀리서 다운로드를 끝낸 **[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) B가 `V()` 연산을 호출**하여 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)를 1로 풀어버린다! 
   - A가 깨어나서 다음 작업을 진행한다.
-* 즉, [[224_semaphore|세마포어]]는 자물쇠가 아니라 "나 끝났어! 너 시작해!"를 알려주는 **알람 벨(Signaling) 도구**다. 소유자가 누군지 OS는 관심도 없으므로, 버그가 난 코드([[092_thread_lwp|스레드]] C)가 맘대로 `V()`를 계속 호출해 버리면 시스템의 [[212_synchronization_mechanisms|동기화]]가 완벽히 무너진다.
+* 즉, [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 자물쇠가 아니라 "나 끝났어! 너 시작해!"를 알려주는 **알람 벨(Signaling) 도구**다. 소유자가 누군지 OS는 관심도 없으므로, 버그가 난 코드([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) C)가 맘대로 `V()`를 계속 호출해 버리면 시스템의 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 완벽히 무너진다.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────────┐
@@ -68,7 +72,7 @@ tags:
 └────────────────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 이 차이는 개발자에게 엄청난 자유도와 동시에 책임을 부여한다. 공유 [[001_dikw_pyramid|데이터]](예: 은행 계좌)가 동시에 수정되는 것을 막아야 할 때는 무조건 **뮤텍스**를 써야 한다. 반면, 음악 재생 [[092_thread_lwp|스레드]]가 네트워크 다운로드 [[092_thread_lwp|스레드]]를 "기다려야(Wait)" 할 때는 자물쇠가 필요한 게 아니라 알람이 필요한 것이므로 **[[224_semaphore|세마포어]]**를 써야 한다.
+**[다이어그램 해설]** 이 차이는 개발자에게 엄청난 자유도와 동시에 책임을 부여한다. 공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(예: 은행 계좌)가 동시에 수정되는 것을 막아야 할 때는 무조건 **뮤텍스**를 써야 한다. 반면, 음악 재생 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 네트워크 다운로드 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 "기다려야(Wait)" 할 때는 자물쇠가 필요한 게 아니라 알람이 필요한 것이므로 **[세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)**를 써야 한다.
 
 - **📢 섹션 요약 비유**: 공장 컨베이어벨트가 어떤 순서로 부품을 받아 가공하고 내보내는지 설계도를 펼쳐 보는 것과 같다.
 
@@ -76,11 +80,11 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-화성 탐사선 패스파인더(Pathfinder)가 화성 표면에서 갑자기 리부팅되며 멈춰버린 유명한 사건이 있다. 원인은 바로 **'[[205_priority_inversion|우선순위 역전]]([[205_priority_inversion|Priority Inversion]])'**이었다.
+화성 탐사선 패스파인더(Pathfinder)가 화성 표면에서 갑자기 리부팅되며 멈춰버린 유명한 사건이 있다. 원인은 바로 **'[우선순위 역전](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/)([Priority Inversion](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/))'**이었다.
 
-* **상황**: 중요도가 낮은 [[092_thread_lwp|스레드]] L이 락을 쥐고 있고, 중요도가 최고인 [[092_thread_lwp|스레드]] H가 그 락을 기다린다. 중간 중요도 M이 L을 스케줄링에서 밀어내고 영원히 CPU를 차지해 버리면, 최고 중요도 H는 영원히 실행되지 못해 시스템이 죽는다.
-* **뮤텍스의 구원**: 뮤텍스는 **'소유권'**이 있으므로 OS가 "오! H가 L을 기다리네? L의 중요도를 H만큼 임시로 뻥튀기시켜 줄게! 빨리 락 쓰고 내놔!([[206_priority_inheritance|Priority Inheritance]])" 라고 도와줄 수 있다. 화성 탐사선은 이 기능으로 부활했다.
-* **[[224_semaphore|세마포어]]의 비극**: [[224_semaphore|세마포어]]는 소유권 개념이 아예 없기 때문에, OS는 누가 누굴 기다리는지 파악조차 못한다. 따라서 [[224_semaphore|세마포어]]를 [[283_mutual_exclusion|상호 배제]](공유 자원 [[571_protection_vs_security|보호]]) 용도로 쓰다가 [[205_priority_inversion|우선순위 역전]]이 터지면 답이 없다.
+* **상황**: 중요도가 낮은 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) L이 락을 쥐고 있고, 중요도가 최고인 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) H가 그 락을 기다린다. 중간 중요도 M이 L을 스케줄링에서 밀어내고 영원히 CPU를 차지해 버리면, 최고 중요도 H는 영원히 실행되지 못해 시스템이 죽는다.
+* **뮤텍스의 구원**: 뮤텍스는 **'소유권'**이 있으므로 OS가 "오! H가 L을 기다리네? L의 중요도를 H만큼 임시로 뻥튀기시켜 줄게! 빨리 락 쓰고 내놔!([Priority Inheritance](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/206_priority_inheritance/))" 라고 도와줄 수 있다. 화성 탐사선은 이 기능으로 부활했다.
+* **[세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)의 비극**: [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 소유권 개념이 아예 없기 때문에, OS는 누가 누굴 기다리는지 파악조차 못한다. 따라서 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)를 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)(공유 자원 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)) 용도로 쓰다가 [우선순위 역전](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/)이 터지면 답이 없다.
 
 - **📢 섹션 요약 비유**: 비슷해 보이는 공구를 나란히 놓고 언제 망치를 쓰고 언제 드라이버를 써야 하는지 구분하는 것과 같다.
 
@@ -89,7 +93,7 @@ tags:
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 "망치를 자물쇠로 쓰지 마라."
-뮤텍스와 [[225_binary_semaphore|이진 세마포어]]는 내부의 수학적 구현(0과 1)이 같을 뿐, OS가 프로세스를 대하는 관점에서는 전혀 다른 세계의 물건이다. 공유 자원을 망가뜨리지 않게 [[571_protection_vs_security|보호]](Protect)하고 싶다면 철저하게 소유권이 증명되는 **뮤텍스**를 써야 하며, 프로세스 간의 실행 흐름(순서)을 조율하고 알람([[130_signal|Signal]])을 주고받고 싶다면 **[[224_semaphore|세마포어]]**나 [[228_condition_variable|조건 변수]]([[228_condition_variable|Condition Variable]])를 써야 한다. 이 철학을 거스르는 코드는 결국 최악의 [[212_synchronization_mechanisms|동기화]] 버그로 되돌아올 것이다.
+뮤텍스와 [이진 세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/225_binary_semaphore/)는 내부의 수학적 구현(0과 1)이 같을 뿐, OS가 프로세스를 대하는 관점에서는 전혀 다른 세계의 물건이다. 공유 자원을 망가뜨리지 않게 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)(Protect)하고 싶다면 철저하게 소유권이 증명되는 **뮤텍스**를 써야 하며, 프로세스 간의 실행 흐름(순서)을 조율하고 알람([Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))을 주고받고 싶다면 **[세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)**나 [조건 변수](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/)([Condition Variable](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/))를 써야 한다. 이 철학을 거스르는 코드는 결국 최악의 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 버그로 되돌아올 것이다.
 
 - **📢 섹션 요약 비유**: 운전자가 도로 상황에 따라 기어와 브레이크를 다르게 선택하는 것처럼 조건별 판단이 중요하다.
 
@@ -97,7 +101,7 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-[[225_binary_semaphore|이진 세마포어]] vs 뮤텍스 차이 (소유권 유무) ([[225_binary_semaphore|Binary Semaphore]] Vs [[223_mutex|Mutex]])은 [[212_synchronization_mechanisms|동기화]]와 [[283_mutual_exclusion|상호 배제]] 제어을 이해하는 연결 고리 역할을 한다. 이 개념을 익히면 시스템 동작을 더 예측 가능하게 설명할 수 있지만, 만능 해법은 아니므로 적용 전제와 한계를 함께 기억해야 한다. 앞으로는 [[279_reentrant_lock|재진입 가능 락]] ([[279_reentrant_lock|Reentrant Lock]] / Recursive [[510_lock|Lock]])처럼 더 세분화된 기술과 결합되며 자동화·최적화 방향으로 발전한다.
+[이진 세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/225_binary_semaphore/) vs 뮤텍스 차이 (소유권 유무) ([Binary Semaphore](/knowledge-base/studynote/02_operating_system/04_synchronization/225_binary_semaphore/) Vs [Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))은 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)와 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 제어을 이해하는 연결 고리 역할을 한다. 이 개념을 익히면 시스템 동작을 더 예측 가능하게 설명할 수 있지만, 만능 해법은 아니므로 적용 전제와 한계를 함께 기억해야 한다. 앞으로는 [재진입 가능 락](/knowledge-base/studynote/02_operating_system/04_synchronization/279_reentrant_lock/) ([Reentrant Lock](/knowledge-base/studynote/02_operating_system/04_synchronization/279_reentrant_lock/) / Recursive [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))처럼 더 세분화된 기술과 결합되며 자동화·최적화 방향으로 발전한다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -107,10 +111,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 데드락 회피를 위한 [[276_lock_hierarchy|Lock Hierarchy]] ([[276_lock_hierarchy|락 순서화]]) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [[224_semaphore|세마포어]]를 이용한 순서 제어 ([[277_semaphore_ordering|Ordering]]) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [[279_reentrant_lock|재진입 가능 락]] ([[279_reentrant_lock|Reentrant Lock]] / Recursive [[510_lock|Lock]]) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [[280_read_write_lock|읽기-쓰기 락]] ([[280_read_write_lock|Read-Write Lock]]) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| 데드락 회피를 위한 [Lock Hierarchy](/knowledge-base/studynote/02_operating_system/04_synchronization/276_lock_hierarchy/) ([락 순서화](/knowledge-base/studynote/02_operating_system/04_synchronization/276_lock_hierarchy/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)를 이용한 순서 제어 ([Ordering](/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [재진입 가능 락](/knowledge-base/studynote/02_operating_system/04_synchronization/279_reentrant_lock/) ([Reentrant Lock](/knowledge-base/studynote/02_operating_system/04_synchronization/279_reentrant_lock/) / Recursive [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [읽기-쓰기 락](/knowledge-base/studynote/02_operating_system/04_synchronization/280_read_write_lock/) ([Read-Write Lock](/knowledge-base/studynote/02_operating_system/04_synchronization/280_read_write_lock/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -129,8 +133,8 @@ tags:
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 뮤텍스는 내 일기장에 채워둔 **'자물쇠'**예요. 내가 열쇠로 잠갔으니까, 세상에서 나 혼자만 다시 열쇠를 넣고 열 수 있어요. (소유권 O)
-2. [[225_binary_semaphore|이진 세마포어]]는 수영장 화장실의 **'사용 중 팻말([[130_signal|신호]]등)'**이에요. 내가 안에 들어가면서 팻말을 '사용 중'으로 돌렸지만, 장난꾸러기 친구가 밖에서 맘대로 '비었음'으로 돌려버릴 수 있죠. (소유권 X)
-3. 그래서 내 일기장(중요한 [[001_dikw_pyramid|데이터]])을 지킬 때는 무조건 자물쇠(뮤텍스)를 써야 하고, 릴레이 달리기할 때 친구에게 바통([[130_signal|신호]])을 넘길 때는 팻말([[224_semaphore|세마포어]])을 써야 한답니다!
+2. [이진 세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/225_binary_semaphore/)는 수영장 화장실의 **'사용 중 팻말([신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등)'**이에요. 내가 안에 들어가면서 팻말을 '사용 중'으로 돌렸지만, 장난꾸러기 친구가 밖에서 맘대로 '비었음'으로 돌려버릴 수 있죠. (소유권 X)
+3. 그래서 내 일기장(중요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 지킬 때는 무조건 자물쇠(뮤텍스)를 써야 하고, 릴레이 달리기할 때 친구에게 바통([신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))을 넘길 때는 팻말([세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/))을 써야 한답니다!
 
 ---
 
@@ -138,7 +142,7 @@ tags:
 
 **진행 상황**: 278 / 800
 
-← **이전**: [[277_semaphore_ordering|277. 세마포어를 이용한 순서 제어 (Ordering)]]
-**다음**: [[279_reentrant_lock|279. 재진입 가능 락 (Reentrant Lock / Recursive Lock)]] →
+← **이전**: [277. 세마포어를 이용한 순서 제어 (Ordering)](/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/)
+**다음**: [279. 재진입 가능 락 (Reentrant Lock / Recursive Lock)](/knowledge-base/studynote/02_operating_system/04_synchronization/279_reentrant_lock/) →
 
 ---

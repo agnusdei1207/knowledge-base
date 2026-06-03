@@ -1,25 +1,29 @@
----
-title: 308. 프로세스 종료 방식 - 교착 상태 프로세스 전체 강제 종료 (Abort all)
-date: '2026-05-09'
-tags:
-- studynote-operating-system
----
++++
+title = "308. 프로세스 종료 방식 - 교착 상태 프로세스 전체 강제 종료 (Abort all)"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[281_deadlock_definition|교착 상태]]를 [[658_ir_recovery|복구]]하기 위해 선택할 수 있는 가장 무자비하고 압도적인 폭탄 선언으로, **데드락 사이클에 꼬여있는(얽힌) 3명, 4명 혹은 수백 명의 프로세스 전원을 단칼에 한날한시에 전원 강제 사살(Kill/Abort)해 버리는 학살(Termination) 방식**이다.
-> 2. **가치**: "누가 제일 덜 중요한 놈인지 복잡하게 계산할 시간에 다 밀어버리겠다"는 극강의 구현 단순성과 O(1) 수준의 쾌속 [[658_ir_recovery|복구]] 속도를 보장하여, 단 한 번의 철퇴로 데드락 사이클 링(Ring)을 뼈도 안 남기고 리셋시켜준다.
-> 3. **융합**: 그러나 여태껏 P1이 12시간 동안 고생해서 렌더링하던 작업, P2가 다운받고 있던 [[501_file_definition_logical_record|파일]] 등 어마어마한 '매몰 비용(Sunk Cost)'마저 가차 없이 공중분해시키므로, 자원 낭비율이 최악을 달리는 야만성에 기인해 일반 상용 DBMS나 서버에선 버림받고 치명적 오류 회피 시(패닉 블루스크린)에만 원시적으로 융합된다.
+> 1. **본질**: [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)를 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하기 위해 선택할 수 있는 가장 무자비하고 압도적인 폭탄 선언으로, **데드락 사이클에 꼬여있는(얽힌) 3명, 4명 혹은 수백 명의 프로세스 전원을 단칼에 한날한시에 전원 강제 사살(Kill/Abort)해 버리는 학살(Termination) 방식**이다.
+> 2. **가치**: "누가 제일 덜 중요한 놈인지 복잡하게 계산할 시간에 다 밀어버리겠다"는 극강의 구현 단순성과 O(1) 수준의 쾌속 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 속도를 보장하여, 단 한 번의 철퇴로 데드락 사이클 링(Ring)을 뼈도 안 남기고 리셋시켜준다.
+> 3. **융합**: 그러나 여태껏 P1이 12시간 동안 고생해서 렌더링하던 작업, P2가 다운받고 있던 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 등 어마어마한 '매몰 비용(Sunk Cost)'마저 가차 없이 공중분해시키므로, 자원 낭비율이 최악을 달리는 야만성에 기인해 일반 상용 DBMS나 서버에선 버림받고 치명적 오류 회피 시(패닉 블루스크린)에만 원시적으로 융합된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-교착 탐지기([[961_deepfake_detection|Detection]])가 삐용삐용 울며 `P1→P2→P3→P4` 4놈이 교차로에서 둥글게 원형 대기(Cycle)로 알박기 중인 사실을 적발했다고 치자.
+교착 탐지기([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))가 삐용삐용 울며 `P1→P2→P3→P4` 4놈이 교차로에서 둥글게 원형 대기(Cycle)로 알박기 중인 사실을 적발했다고 치자.
 
-[[001_operating_system_purpose|운영체제]](OS)는 [[658_ir_recovery|복구]]([[658_ir_recovery|Recovery]]) 명령을 내린다.
-이때 OS가 고를 수 있는 가장 터프한 `해결책 루트 A`가 바로 **"[[281_deadlock_definition|교착 상태]] 연루자 전원 사살 (Abort All)"**이다.
-"누구 잘못인지 가리기 귀찮으니, 저기 얽힌 4명 모두의 프로세스 ID에 `SIGKILL`을 날려서 싹 다 메모리에서 날려버려(Abort)! 그리고 넷이 양손에 쥐고 있던 모든 락([[510_lock|Lock]]), 모든 메모리(Resource) 싹 다 압수해서 땅바닥에 뿌려!"
+[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(OS)는 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)([Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)) 명령을 내린다.
+이때 OS가 고를 수 있는 가장 터프한 `해결책 루트 A`가 바로 **"[교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 연루자 전원 사살 (Abort All)"**이다.
+"누구 잘못인지 가리기 귀찮으니, 저기 얽힌 4명 모두의 프로세스 ID에 `SIGKILL`을 날려서 싹 다 메모리에서 날려버려(Abort)! 그리고 넷이 양손에 쥐고 있던 모든 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)), 모든 메모리(Resource) 싹 다 압수해서 땅바닥에 뿌려!"
 
 **💡 비유**: 길거리에 4명이 서로 멱살을 잡고 데드락에 빠져 무한 정지 상태에 빠졌다. 경찰(OS)이 와서 누가 잘못했나 CCTV를 보는 대신(연산 로직), 수류탄을 하나 까서 4명 사이에 던져버린다. 4명 다 증발한다. 길거리엔 구경하던 사람들만 남아 여유롭게 길을 지나간다(교착 완전 해방). 
 
@@ -44,7 +48,7 @@ tags:
 └────────────────────────────────────────────────────────────────┘
 ```
 
-**📢 섹션 요약 비유**: Abort All [[658_ir_recovery|복구]] 방식은 집에 쥐(데드락)가 나타났을 때, 쥐덫(세밀한 타깃팅)을 놓는 게 아니라 귀찮다며 집에다 수류탄(전체 [[459_quic_fec_forward_error_correction|초기]]화)을 던져버리는 방식입니다. 쥐는 확실히 잡히지만 내 화장대([[216_progress_in_synchronization|진행]] [[001_dikw_pyramid|데이터]])도 날아갑니다.
+**📢 섹션 요약 비유**: Abort All [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 방식은 집에 쥐(데드락)가 나타났을 때, 쥐덫(세밀한 타깃팅)을 놓는 게 아니라 귀찮다며 집에다 수류탄(전체 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화)을 던져버리는 방식입니다. 쥐는 확실히 잡히지만 내 화장대([진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))도 날아갑니다.
 
 ---
 
@@ -52,11 +56,11 @@ tags:
 
 ### 연루자 척결(Sweep) 메커니즘 
 
-이 전법은 OS 내부의 프로세스 관리 [[022_kernel_role|커널]] 코드로 보면 가장 짜기 쉽다.
+이 전법은 OS 내부의 프로세스 관리 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드로 보면 가장 짜기 쉽다.
 
-1. **포획망(Victim Set) 확보**: 탐지 WFG [[034_dfs|DFS]] 알고리즘에서 `visited 재방문` 배열로 확인된 'Cycle 집합'에 묶인 PID 4개를 리스트로 똑 뗀다.
-2. **SIGKILL 브로드캐스트**: "저기 원 안에 갇힌 놈들 4명한테 묻지도 따지지도 말고 [[001_operating_system_purpose|운영체제]] 9번 시그널(Kill -9) 무조건 전송해!"
-3. **자원 빗자루질 (Resource Reclaim)**: 4놈이 뻗으면서 자원을 뱉는 OS [[016_interrupt_mechanism|인터럽트]] 핸들러가 차르륵 돌면서, System Available 금고가 갑자기 수십 배로 돈육 뻥튀기가 되며 대잔치가 열린다.
+1. **포획망(Victim Set) 확보**: 탐지 WFG [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 알고리즘에서 `visited 재방문` 배열로 확인된 'Cycle 집합'에 묶인 PID 4개를 리스트로 똑 뗀다.
+2. **SIGKILL 브로드캐스트**: "저기 원 안에 갇힌 놈들 4명한테 묻지도 따지지도 말고 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 9번 시그널(Kill -9) 무조건 전송해!"
+3. **자원 빗자루질 (Resource Reclaim)**: 4놈이 뻗으면서 자원을 뱉는 OS [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 핸들러가 차르륵 돌면서, System Available 금고가 갑자기 수십 배로 돈육 뻥튀기가 되며 대잔치가 열린다.
 
 **📢 섹션 요약 비유**: 탐지 데몬이 그려놓은 동그라미(사이클) 위에 있는 사람들의 주민번호를 그대로 수집해서, 한 번의 클릭 'DELETE' 키로 휴지통에 싹 다 쓸어담는 무지성 드래그 & 드롭 식 청소법입니다.
 
@@ -66,7 +70,7 @@ tags:
 
 | 비교 스펙트럼 | Abort All (전원 사살) | Abort One-by-One (순차 사살) |
 |:---|:---|:---|
-| **[[658_ir_recovery|복구]] 연산 오버헤드** | 단칼 1방 (1나노초 비용) | 1명 죽이고 탐지 또 돌림 (O(n²) 뺑뺑이) |
+| **[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 연산 오버헤드** | 단칼 1방 (1나노초 비용) | 1명 죽이고 탐지 또 돌림 (O(n²) 뺑뺑이) |
 | **비용(Cost) 낭비율** | 끔찍함 (애꿎은 정상 작업분까지 다 폭파됨) | 최적의 1놈만 최소 희생양으로 바침 |
 | **데드락 해결 속도** | 체감이 불가할 만큼 빠름 | 누구 죽일지 계산하느라 렉 걸림 |
 
@@ -77,11 +81,11 @@ tags:
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 시나리오**:
-1. **[[036_kernel_panic|커널 패닉]] [[157_oom_killer|OOM]] ([[157_oom_killer|Out Of Memory]]) Killer**: 데드락과는 약간 다르지만 [[157_oom_killer|OOM]](메모리가 가득 차서 OS가 다 터지기 일보 직전의 패닉) 상황에 도달하면, 리눅스 [[022_kernel_role|커널]]은 섬세한 선택이고 자시고 간에 무거운 덩치 프로세스들을 한방 콤보로 서너 개 연쇄 폭파(Kill) 시켜버린다. 
-2. **[[459_quic_fec_forward_error_correction|초기]] 모바일/[[101_iot_concept|IoT]] 시스템의 셧다운**: 하드웨어가 극도로 후달려 복잡한 희생자 계산기($O(n^2)$ 순차 분석)를 켤 전기마저 안 타까운 구형 장비는, 데드락 워프(Watchdog) 불이 들어오는 순간 얽힌 쓰레드 집단을 그냥 한 방에 클리어시키거나 아예 앱 전체를 크래시(Crash) 내 강제 종료시켜 버린다(유저 빡치게 하기). 
+1. **[커널 패닉](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/) [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) ([Out Of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) Killer**: 데드락과는 약간 다르지만 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)(메모리가 가득 차서 OS가 다 터지기 일보 직전의 패닉) 상황에 도달하면, 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 섬세한 선택이고 자시고 간에 무거운 덩치 프로세스들을 한방 콤보로 서너 개 연쇄 폭파(Kill) 시켜버린다. 
+2. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 모바일/[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 시스템의 셧다운**: 하드웨어가 극도로 후달려 복잡한 희생자 계산기($O(n^2)$ 순차 분석)를 켤 전기마저 안 타까운 구형 장비는, 데드락 워프(Watchdog) 불이 들어오는 순간 얽힌 쓰레드 집단을 그냥 한 방에 클리어시키거나 아예 앱 전체를 크래시(Crash) 내 강제 종료시켜 버린다(유저 빡치게 하기). 
 
-**[[128_water_scrum_fall_anti_pattern|안티패턴]]**:
-- **[[191_transaction_concept_states|트랜잭션]](이체) 서버에서의 Abort All 발동**: A가 B에게 1억을 [[489_raid_10_hybrid|10]]% 이체 중이다, B는 C에게 결제 중인데 꼬여서 데드락이 났다. 여기서 `Abort All`을 때려버리면 1억 이체하던 네트워크 패킷과 쿼리가 허공에서 절단 삭제된다. 복잡한 [[098_rollback_strategy_pipeline_error_threshold|롤백]]([[313_rollback|Rollback]]) [[568_logs_distributed_logging_elk_fluentd|로그]] 처리조차 동시에 터져 디비 정합성([[003_integrity|Integrity]])이 영구적인 불능에 빠져 치명적인 파동을 일으킬 수 있다. (절대 쓰면 안 되는 [[064_relation_domain|도메인]]).
+**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**:
+- **[트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)(이체) 서버에서의 Abort All 발동**: A가 B에게 1억을 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 이체 중이다, B는 C에게 결제 중인데 꼬여서 데드락이 났다. 여기서 `Abort All`을 때려버리면 1억 이체하던 네트워크 패킷과 쿼리가 허공에서 절단 삭제된다. 복잡한 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/)) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 처리조차 동시에 터져 디비 정합성([Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))이 영구적인 불능에 빠져 치명적인 파동을 일으킬 수 있다. (절대 쓰면 안 되는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)).
 
 **📢 섹션 요약 비유**: 돈이 달린 무서운 은행(DB)에서는 이걸 절대 쓰지 못합니다. 멱살 잡고 싸운다고 창구 직원이랑 손님 수십 명한테 수소폭탄을 까 버리면, 은행 장부에 돈이 이체되다 말고 증발해서 고소당하기 때문입니다.
 
@@ -91,10 +95,10 @@ tags:
 
 | 장단점 | OS 관점의 평가 | 애플리케이션 및 유저 체감 |
 |:---|:---|:---|
-| 절대적 장점 | [[658_ir_recovery|복구]] 로직 구현 코드가 단 10줄이면 끝남. 계산 빵(0) | "앱이 이유 없이 팅겼네" 하고 다시 켜야 함 |
-| 절대적 치명타 | 그놈들이 지금까지 쓴 시간, 메모리 연산 비용 전부 소각됨 | 저장 안 한 [[075_word|워드]] [[501_file_definition_logical_record|파일]] 10시간짜리가 날아가는 공포 |
+| 절대적 장점 | [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 로직 구현 코드가 단 10줄이면 끝남. 계산 빵(0) | "앱이 이유 없이 팅겼네" 하고 다시 켜야 함 |
+| 절대적 치명타 | 그놈들이 지금까지 쓴 시간, 메모리 연산 비용 전부 소각됨 | 저장 안 한 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 10시간짜리가 날아가는 공포 |
 
-프로세스 전체 강제 종료 (Abort All) 방식은 데드락 [[658_ir_recovery|복구]]의 여명기에 공학자들이 구사한 "가장 확실하고 과격한 치료약"이었다. 그러나 "빈대 잡으려다 초가삼간 다 태운다"는 속담처럼, 단 1%의 부족한 자원 때문에 순환 큐에 말려들었을 뿐인데, 99%를 성실히 마친 무고한 프로세스마저 거리에 나앉혀 버리는 그 막대한 **기회비용(Opportunity Cost)**의 참몰은 공학적 오만의 실패작으로 남았고, 결국 섬세한 `순차 종료(One-by-One)` 메커니즘을 낳게 된 극단적 흑기사형 패러다임이다.
+프로세스 전체 강제 종료 (Abort All) 방식은 데드락 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)의 여명기에 공학자들이 구사한 "가장 확실하고 과격한 치료약"이었다. 그러나 "빈대 잡으려다 초가삼간 다 태운다"는 속담처럼, 단 1%의 부족한 자원 때문에 순환 큐에 말려들었을 뿐인데, 99%를 성실히 마친 무고한 프로세스마저 거리에 나앉혀 버리는 그 막대한 **기회비용(Opportunity Cost)**의 참몰은 공학적 오만의 실패작으로 남았고, 결국 섬세한 `순차 종료(One-by-One)` 메커니즘을 낳게 된 극단적 흑기사형 패러다임이다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -104,10 +108,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[306_detection_overhead|탐지 알고리즘의 오버헤드]] | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [[307_recovery_from_deadlock|교착 상태 복구]] ([[307_recovery_from_deadlock|Recovery from Deadlock]]) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [탐지 알고리즘의 오버헤드](/knowledge-base/studynote/02_operating_system/05_deadlock/306_detection_overhead/) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [교착 상태 복구](/knowledge-base/studynote/02_operating_system/05_deadlock/307_recovery_from_deadlock/) ([Recovery from Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/307_recovery_from_deadlock/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
 | 프로세스 순차 종료 방식 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [[310_victim_selection|종료 대상 선택]] ([[310_victim_selection|희생자 선택]]) 기준 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [종료 대상 선택](/knowledge-base/studynote/02_operating_system/05_deadlock/310_victim_selection/) ([희생자 선택](/knowledge-base/studynote/02_operating_system/05_deadlock/310_victim_selection/)) 기준 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -135,7 +139,7 @@ tags:
 
 **진행 상황**: 308 / 800
 
-← **이전**: [[307_recovery_from_deadlock|307. 교착 상태 복구 (Recovery from Deadlock) - 데드락 해소 조치]]
-**다음**: [[309_abort_one_by_one|309. 프로세스 순차 종료 방식 (Abort One By One)]] →
+← **이전**: [307. 교착 상태 복구 (Recovery from Deadlock) - 데드락 해소 조치](/knowledge-base/studynote/02_operating_system/05_deadlock/307_recovery_from_deadlock/)
+**다음**: [309. 프로세스 순차 종료 방식 (Abort One By One)](/knowledge-base/studynote/02_operating_system/05_deadlock/309_abort_one_by_one/) →
 
 ---

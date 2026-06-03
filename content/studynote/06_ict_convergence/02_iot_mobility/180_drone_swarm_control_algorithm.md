@@ -1,25 +1,29 @@
----
-title: 180. 드론 스웜 (Drone Swarm) - 군집 비행 제어 및 충돌 회피 알고리즘
-date: '2026-05-06'
-tags:
-- studynote-ict-convergence
----
++++
+title = "180. 드론 스웜 (Drone Swarm) - 군집 비행 제어 및 충돌 회피 알고리즘"
+date = 2026-05-06
+
+[taxonomies]
+tags = ["studynote-ict-convergence"]
+
+[extra]
+tags = ["studynote-ict-convergence"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 드론 스웜 (Drone Swarm)은 다수의 UAV (Unmanned Aerial Vehicle)가 서로의 위치·속도·임무 상태를 공유하며, 한 대씩 개별 조종하지 않아도 군집 전체가 하나의 시스템처럼 움직이게 만드는 다중 에이전트 제어 방식이다.
-> 2. **가치**: 중앙 관제만으로는 감당하기 어려운 대수 확장, 통신 [[015_지연_데이터_관점|지연]], [[454_spof|단일 장애점]] 문제를 줄이고, 현장에서 즉시 충돌 회피와 임무 재배치를 수행할 수 있다.
-> 3. **판단 포인트**: 최선의 답은 항상 "완전 [[136_variance|분산]]"이 아니다. 공연형 정밀 편대는 중앙 계획 + 로컬 회피가 유리하고, 재난 탐색처럼 예측 불가능한 환경은 [[136_variance|분산]]형이 유리하므로 임무 특성에 따라 중앙·하이브리드·[[136_variance|분산]]을 고른다.
+> 2. **가치**: 중앙 관제만으로는 감당하기 어려운 대수 확장, 통신 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 문제를 줄이고, 현장에서 즉시 충돌 회피와 임무 재배치를 수행할 수 있다.
+> 3. **판단 포인트**: 최선의 답은 항상 "완전 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)"이 아니다. 공연형 정밀 편대는 중앙 계획 + 로컬 회피가 유리하고, 재난 탐색처럼 예측 불가능한 환경은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)형이 유리하므로 임무 특성에 따라 중앙·하이브리드·[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 고른다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-드론 스웜은 여러 대의 무인 비행체를 하나의 협력 집단으로 운용하는 기술이다. 중요한 점은 "여러 대를 띄운다"가 아니라, **각 기체가 주변 기체와 환경을 함께 고려해 움직인다**는 데 있다. 따라서 스웜은 단순한 편대 비행보다 넓은 개념이며, 군집 제어, [[136_variance|분산]] 의사결정, 충돌 회피, 임무 분담이 모두 포함된다.
+드론 스웜은 여러 대의 무인 비행체를 하나의 협력 집단으로 운용하는 기술이다. 중요한 점은 "여러 대를 띄운다"가 아니라, **각 기체가 주변 기체와 환경을 함께 고려해 움직인다**는 데 있다. 따라서 스웜은 단순한 편대 비행보다 넓은 개념이며, 군집 제어, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 의사결정, 충돌 회피, 임무 분담이 모두 포함된다.
 
-이 기술이 필요한 이유는 드론 수가 늘어날수록 중앙 제어만으로는 즉시성과 확장성을 동시에 얻기 어렵기 때문이다. 5대 정도는 지상국에서 경로를 계산해도 되지만, 수십 대가 실내 물류창고, 재난 현장, 도심 협소 공역에서 함께 움직이면 통신 [[015_지연_데이터_관점|지연]] 100밀리초도 안전성과 효율을 크게 바꾼다. 한 대가 갑자기 장애물을 발견했을 때 중앙 서버를 거쳐 전체 명령을 다시 배포하면 늦을 수 있으므로, 현장 근처 기체가 먼저 피하고 나머지가 연쇄적으로 조정하는 구조가 필요해진다.
+이 기술이 필요한 이유는 드론 수가 늘어날수록 중앙 제어만으로는 즉시성과 확장성을 동시에 얻기 어렵기 때문이다. 5대 정도는 지상국에서 경로를 계산해도 되지만, 수십 대가 실내 물류창고, 재난 현장, 도심 협소 공역에서 함께 움직이면 통신 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 100밀리초도 안전성과 효율을 크게 바꾼다. 한 대가 갑자기 장애물을 발견했을 때 중앙 서버를 거쳐 전체 명령을 다시 배포하면 늦을 수 있으므로, 현장 근처 기체가 먼저 피하고 나머지가 연쇄적으로 조정하는 구조가 필요해진다.
 
-또한 스웜은 [[454_spof|단일 장애점]] ([[454_spof|SPOF]], Single Point of Failure) 을 줄이는 관점에서도 의미가 크다. 중앙 링크가 잠시 끊겨도 각 기체가 최소한의 안전 거리 유지, 충돌 회피, 임시 호버링 같은 기본 행동을 계속 수행할 수 있어야 실제 현장에서 쓸 수 있다. 그래서 드론 스웜은 "중앙 명령을 없애는 기술"이라기보다, **중앙 계획이 실패해도 하늘에서 바로 무너지지 않게 만드는 기술**이라고 보는 편이 정확하다.
+또한 스웜은 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) ([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/), Single Point of Failure) 을 줄이는 관점에서도 의미가 크다. 중앙 링크가 잠시 끊겨도 각 기체가 최소한의 안전 거리 유지, 충돌 회피, 임시 호버링 같은 기본 행동을 계속 수행할 수 있어야 실제 현장에서 쓸 수 있다. 그래서 드론 스웜은 "중앙 명령을 없애는 기술"이라기보다, **중앙 계획이 실패해도 하늘에서 바로 무너지지 않게 만드는 기술**이라고 보는 편이 정확하다.
 
 아래 그림은 중앙 관제만 있는 구조와 스웜형 구조의 차이를 보여 준다.
 
@@ -50,7 +54,7 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-실전 스웜 제어는 보통 **임무 계층, 상태 추정 계층, 이웃 공유 계층, 제어 계층, 안전 계층**으로 나뉜다. 임무 계층은 "어느 구역을 수색할 것인가" 같은 큰 목표를 정하고, 각 드론은 GNSS (Global Navigation Satellite System), IMU (Inertial Measurement Unit), 비전, [[160_uwb_ultra_wideband|UWB]] ([[598_uwb_ultra_wideband_indoor_positioning|Ultra-Wideband]]) 같은 센서로 자신의 위치와 자세를 추정한다. 그 위에서 FANET (Flying Ad-hoc Network) 또는 제한적 메쉬 링크로 이웃 드론의 상태를 공유하고, 마지막으로 군집 제어 법칙이 속도와 방향을 계산한다.
+실전 스웜 제어는 보통 **임무 계층, 상태 추정 계층, 이웃 공유 계층, 제어 계층, 안전 계층**으로 나뉜다. 임무 계층은 "어느 구역을 수색할 것인가" 같은 큰 목표를 정하고, 각 드론은 GNSS (Global Navigation Satellite System), IMU (Inertial Measurement Unit), 비전, [UWB](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/160_uwb_ultra_wideband/) ([Ultra-Wideband](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/598_uwb_ultra_wideband_indoor_positioning/)) 같은 센서로 자신의 위치와 자세를 추정한다. 그 위에서 FANET (Flying Ad-hoc Network) 또는 제한적 메쉬 링크로 이웃 드론의 상태를 공유하고, 마지막으로 군집 제어 법칙이 속도와 방향을 계산한다.
 
 스웜 제어의 핵심은 각 기체의 입력을 하나의 명령으로 합성하는 것이다. 개념적으로는 다음과 같이 이해할 수 있다.
 
@@ -84,13 +88,13 @@ tags:
 
 | 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
-| 상태 추정 ([[272_state_pattern|State]] Estimation) | 자기 위치·속도·자세 계산 | 실외는 GNSS, 실내는 비전/[[160_uwb_ultra_wideband|UWB]] 보강 필요 |
+| 상태 추정 ([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Estimation) | 자기 위치·속도·자세 계산 | 실외는 GNSS, 실내는 비전/[UWB](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/160_uwb_ultra_wideband/) 보강 필요 |
 | 이웃 인지 (Neighbor Awareness) | 가까운 드론의 상대 상태 파악 | 통신 반경과 센서 시야가 제어 품질 좌우 |
 | 대형 유지 (Formation Keeping) | 선형·격자·원형 편대 유지 | 정확도와 유연성의 균형 필요 |
-| 충돌 회피 ([[563_hash_collision_chaining_linear_probing|Collision]] Avoidance) | 최소 분리 거리 보장 | 반응 속도와 진동 없는 궤적이 중요 |
-| 임무 재할당 ([[150_task|Task]] Reallocation) | 이탈 기체 발생 시 역할 재배분 | 배터리, 고장, 링크 품질 반영 필요 |
+| 충돌 회피 ([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/) Avoidance) | 최소 분리 거리 보장 | 반응 속도와 진동 없는 궤적이 중요 |
+| 임무 재할당 ([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) Reallocation) | 이탈 기체 발생 시 역할 재배분 | 배터리, 고장, 링크 품질 반영 필요 |
 
-여기서 가장 중요한 안전 파라미터는 분리 반경과 갱신 주기다. 예를 들어 실내 고밀도 비행에서는 20~50Hz 수준의 빠른 갱신과 짧은 반응 루프가 필요하고, 넓은 야외 탐색에서는 더 느린 공유 주기로도 충분할 수 있다. 즉 스웜 [[001_algorithm_definition|알고리즘]]의 본질은 화려한 [[231_ai_turing_test|인공지능]]보다 **주어진 공역과 기체 [[282_performance_tactics|성능]] 안에서 안정적으로 반복되는 제어 주기**를 만드는 데 있다.
+여기서 가장 중요한 안전 파라미터는 분리 반경과 갱신 주기다. 예를 들어 실내 고밀도 비행에서는 20~50Hz 수준의 빠른 갱신과 짧은 반응 루프가 필요하고, 넓은 야외 탐색에서는 더 느린 공유 주기로도 충분할 수 있다. 즉 스웜 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 본질은 화려한 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)보다 **주어진 공역과 기체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 안에서 안정적으로 반복되는 제어 주기**를 만드는 데 있다.
 
 - **📢 섹션 요약 비유**: 자전거 동호회가 달릴 때도 목적지는 같지만, 앞사람과 간격 유지, 장애물 피하기, 속도 맞추기를 동시에 한다. 스웜 제어는 그 규칙을 기계가 매 순간 자동으로 수행하게 만드는 것과 같다.
 
@@ -98,18 +102,18 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-드론 스웜 [[001_algorithm_definition|알고리즘]]은 한 가지가 아니라, 임무와 공역 특성에 따라 여러 계열로 나뉜다. 중앙 계획형은 전체 궤적을 정밀하게 맞추기 쉽고, 리더-팔로어 (Leader-Follower) 방식은 구현이 단순하며, 보이드 (Boids) 기반 행동형은 현장 적응력이 높다. 반면 모델 예측 제어 (MPC, Model Predictive Control) 나 RVO (Reciprocal Velocity Obstacle) 계열은 충돌 회피를 더 정교하게 다룰 수 있지만 계산 비용이 커진다.
+드론 스웜 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 한 가지가 아니라, 임무와 공역 특성에 따라 여러 계열로 나뉜다. 중앙 계획형은 전체 궤적을 정밀하게 맞추기 쉽고, 리더-팔로어 (Leader-Follower) 방식은 구현이 단순하며, 보이드 (Boids) 기반 행동형은 현장 적응력이 높다. 반면 모델 예측 제어 (MPC, Model Predictive Control) 나 RVO (Reciprocal Velocity Obstacle) 계열은 충돌 회피를 더 정교하게 다룰 수 있지만 계산 비용이 커진다.
 
 | 방식 | 강점 | 약점 | 잘 맞는 상황 |
 | :--- | :--- | :--- | :--- |
 | 중앙 계획형 | 정밀한 편대·공연 연출에 유리 | 링크 장애와 환경 변화에 취약 | 드론 쇼, 사전 정의 경로 |
 | 리더-팔로어 | 구현과 해석이 비교적 단순 | 리더 품질에 민감 | 추종 편대, 물류 호송 |
-| 행동형 / Boids | 확장성과 현장 적응력 우수 | 전체 최적성 보장은 약함 | 탐색, [[136_variance|분산]] 수색, 재난 현장 |
+| 행동형 / Boids | 확장성과 현장 적응력 우수 | 전체 최적성 보장은 약함 | 탐색, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 수색, 재난 현장 |
 | MPC / RVO 기반 | 예측 기반 회피 품질 우수 | 연산량과 모델링 부담 큼 | 협소 공역, 정밀 회피 |
 
-이 비교가 중요한 이유는 스웜이 곧 완전 [[136_variance|분산]]형을 뜻하지 않기 때문이다. 예를 들어 야간 라이트쇼는 센티미터 수준 위치 정합과 초 단위 타이밍이 중요하므로 중앙에서 궤적을 미리 계산하고, 현장에서는 로컬 충돌 회피만 보조하는 하이브리드 구조가 오히려 적합하다. 반대로 붕괴 건물 탐색처럼 장애물과 통신 단절이 계속 바뀌는 환경에서는 보이드 계열이나 [[136_variance|분산]] 합의 기반 재배치가 더 실용적이다.
+이 비교가 중요한 이유는 스웜이 곧 완전 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)형을 뜻하지 않기 때문이다. 예를 들어 야간 라이트쇼는 센티미터 수준 위치 정합과 초 단위 타이밍이 중요하므로 중앙에서 궤적을 미리 계산하고, 현장에서는 로컬 충돌 회피만 보조하는 하이브리드 구조가 오히려 적합하다. 반대로 붕괴 건물 탐색처럼 장애물과 통신 단절이 계속 바뀌는 환경에서는 보이드 계열이나 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 합의 기반 재배치가 더 실용적이다.
 
-또한 드론 스웜은 단독 기술이 아니라 엣지 [[231_ai_turing_test|인공지능]] (Edge [[001_artificial_intelligence|Artificial Intelligence]]), [[131_slam_simultaneous_localization_mapping|SLAM]] (Simultaneous Localization and [[010_schema_mapping|Mapping]]), 저지연 무선망, 지상 교통관리 시스템과도 연결된다. 즉 스웜 [[001_algorithm_definition|알고리즘]]은 "대형 유지 코드"가 아니라, **[[136_variance|분산]] 로봇 시스템 전체를 묶는 제어 프레임**이다.
+또한 드론 스웜은 단독 기술이 아니라 엣지 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) (Edge [Artificial Intelligence](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/)), [SLAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/131_slam_simultaneous_localization_mapping/) (Simultaneous Localization and [Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/)), 저지연 무선망, 지상 교통관리 시스템과도 연결된다. 즉 스웜 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 "대형 유지 코드"가 아니라, **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 로봇 시스템 전체를 묶는 제어 프레임**이다.
 
 - **📢 섹션 요약 비유**: 악보를 완벽히 외워 움직이는 합창단은 중앙 계획형에 가깝고, 산길에서 서로 눈치 보며 간격을 맞추는 등산대는 행동형 스웜에 가깝다. 둘 다 단체 행동이지만 규칙과 강점이 다르다.
 
@@ -117,7 +121,7 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 가장 먼저 묻는 질문은 "이 스웜이 어떤 실패를 견뎌야 하는가"다. 공연용 드론은 패턴 정확도가 중요하고, 재난 대응 드론은 링크 단절과 장애물 변화에 대한 생존성이 더 중요하다. 따라서 기술사 관점에서는 단순히 "드론 수가 많으니 스웜"이 아니라, **[[233_precision_recall_f1_roc_auc_threshold|정밀도]]·[[452_availability|가용성]]·[[015_지연_데이터_관점|지연]]시간 중 무엇을 우선할지**를 먼저 정해야 한다.
+실무에서 가장 먼저 묻는 질문은 "이 스웜이 어떤 실패를 견뎌야 하는가"다. 공연용 드론은 패턴 정확도가 중요하고, 재난 대응 드론은 링크 단절과 장애물 변화에 대한 생존성이 더 중요하다. 따라서 기술사 관점에서는 단순히 "드론 수가 많으니 스웜"이 아니라, **[정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)·[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)·[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 중 무엇을 우선할지**를 먼저 정해야 한다.
 
 다음 의사결정 흐름은 현장에서 자주 쓰는 판단 축을 요약한다.
 
@@ -139,23 +143,23 @@ tags:
 └────────────────────────────────────────────────────────────────────┘
 ```
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 통신이 끊겨도 각 기체가 즉시 호버링, 귀환, 착륙 중 무엇을 할지 명확한가?
-2. GNSS 불안정 환경에서 상대 위치 추정을 비전·[[160_uwb_ultra_wideband|UWB]]·비콘 등으로 보강하는가?
-3. 분리 반경, 최대 속도, 제어 주기가 기체 크기와 제동 [[282_performance_tactics|성능]]에 맞는가?
+2. GNSS 불안정 환경에서 상대 위치 추정을 비전·[UWB](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/160_uwb_ultra_wideband/)·비콘 등으로 보강하는가?
+3. 분리 반경, 최대 속도, 제어 주기가 기체 크기와 제동 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 맞는가?
 4. 배터리 저하나 추락 기체 발생 시 임무 재할당 규칙이 준비되어 있는가?
 5. 모든 기체가 서로 모든 정보를 방송해 무선 채널을 막히게 만들지 않는가?
 6. 지오펜스 (Geofence), 비행 금지 구역, 긴급 정지 정책이 안전 계층에 포함되어 있는가?
 
-### 자주 나오는 [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### 자주 나오는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 중앙 서버 연결을 영구적으로 가정해 로컬 회피 로직을 생략하는 경우
 - 상대 위치 정확도가 부족한데도 과도하게 밀집 편대를 설계하는 경우
-- 공연형 시스템에도 완전 [[136_variance|분산]] [[001_algorithm_definition|알고리즘]]을 적용해 패턴 오차를 키우는 경우
-- 카메라만 믿고 야간·연기·비·무문양 환경에서 동일 [[282_performance_tactics|성능]]을 기대하는 경우
+- 공연형 시스템에도 완전 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 적용해 패턴 오차를 키우는 경우
+- 카메라만 믿고 야간·연기·비·무문양 환경에서 동일 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 기대하는 경우
 
-실전 시나리오로 보면 더 분명하다. 실내 창고 재고 조사라면 공역이 제한적이고 네트워크 품질을 비교적 관리할 수 있으므로 중앙 작업 분배 + 로컬 충돌 회피가 효율적이다. 반면 산불 현장 수색처럼 통신 품질이 불안정하고 장애물이 계속 바뀌는 환경에서는 각 기체가 탐색 구역을 나눠 맡고, 이웃 기반으로 회피와 재배치를 수행하는 [[136_variance|분산]]형이 더 안전하다.
+실전 시나리오로 보면 더 분명하다. 실내 창고 재고 조사라면 공역이 제한적이고 네트워크 품질을 비교적 관리할 수 있으므로 중앙 작업 분배 + 로컬 충돌 회피가 효율적이다. 반면 산불 현장 수색처럼 통신 품질이 불안정하고 장애물이 계속 바뀌는 환경에서는 각 기체가 탐색 구역을 나눠 맡고, 이웃 기반으로 회피와 재배치를 수행하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)형이 더 안전하다.
 
 - **📢 섹션 요약 비유**: 무대 공연은 안무를 정확히 맞추는 춤이고, 재난 탐색은 험한 산길을 함께 걷는 팀워크다. 둘 다 여러 사람이 움직이지만 필요한 규칙은 전혀 다르다.
 
@@ -165,9 +169,9 @@ tags:
 
 드론 스웜이 제대로 구현되면 단일 드론보다 넓은 지역을 빠르게 커버하고, 일부 기체 고장에도 임무를 지속하며, 장애물 변화에 즉시 대응할 수 있다. 결과적으로 수색 범위 확대, 검사 시간 단축, 군집 협업, 재난 현장 적응성 같은 장점을 얻는다. 특히 "한 대의 고성능 기체" 대신 "여러 대의 협력 기체"로 문제를 바꾸는 점이 스웜의 가장 큰 효과다.
 
-하지만 대가도 있다. 기체 수가 늘수록 [[395_verification_process_review|검증]] 난이도, 무선 간섭, 공역 안전성, 규제 대응, 배터리 관리가 함께 어려워진다. 또한 [[136_variance|분산]]형 [[001_algorithm_definition|알고리즘]]은 현장 적응력이 높지만, 전체 패턴의 예측 가능성과 [[303_authentication_authorization_patterns|인증]] 용이성은 오히려 낮아질 수 있다. 그래서 드론 스웜은 "드론을 많이 띄우는 기술"이 아니라, **협력 규칙과 안전 계층을 통해 복잡성을 통제하는 기술**로 이해해야 한다.
+하지만 대가도 있다. 기체 수가 늘수록 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 난이도, 무선 간섭, 공역 안전성, 규제 대응, 배터리 관리가 함께 어려워진다. 또한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)형 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 현장 적응력이 높지만, 전체 패턴의 예측 가능성과 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 용이성은 오히려 낮아질 수 있다. 그래서 드론 스웜은 "드론을 많이 띄우는 기술"이 아니라, **협력 규칙과 안전 계층을 통해 복잡성을 통제하는 기술**로 이해해야 한다.
 
-앞으로는 온디바이스 추론, [[126_digital_twin_concept|디지털 트윈]] 기반 시뮬레이션, 도심 저고도 교통관리 연계가 중요해질 가능성이 크다. 결론적으로 기억해야 할 문장은 이것이다. **좋은 스웜은 모든 드론이 똑같이 똑똑한 상태가 아니라, 각 드론이 최소한의 로컬 규칙으로 전체 임무를 안전하게 이어 가는 상태**다.
+앞으로는 온디바이스 추론, [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 기반 시뮬레이션, 도심 저고도 교통관리 연계가 중요해질 가능성이 크다. 결론적으로 기억해야 할 문장은 이것이다. **좋은 스웜은 모든 드론이 똑같이 똑똑한 상태가 아니라, 각 드론이 최소한의 로컬 규칙으로 전체 임무를 안전하게 이어 가는 상태**다.
 
 - **📢 섹션 요약 비유**: 좋은 축구팀은 모든 선수가 감독처럼 판단하지 않아도 된다. 각자 자리에서 기본 규칙을 지키면 팀 전체가 자연스럽게 공격과 수비를 이어 간다.
 
@@ -179,12 +183,12 @@ tags:
 | :--- | :--- |
 | 다중 에이전트 시스템 (Multi-Agent System) | 여러 기체가 협력 규칙으로 공동 행동을 만드는 상위 개념 |
 | FANET (Flying Ad-hoc Network) | 드론 간 상태 공유와 임무 조정을 위한 공중 애드혹 통신망 |
-| 상태 추정 ([[272_state_pattern|State]] Estimation) | 각 기체가 자기 위치와 자세를 안정적으로 계산하는 기초 |
+| 상태 추정 ([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Estimation) | 각 기체가 자기 위치와 자세를 안정적으로 계산하는 기초 |
 | 대형 유지 (Formation Keeping) | 군집 형태를 보존하기 위한 제어 목표 |
-| 충돌 회피 ([[563_hash_collision_chaining_linear_probing|Collision]] Avoidance) | 최소 분리 거리와 안전 궤적을 보장하는 핵심 계층 |
+| 충돌 회피 ([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/) Avoidance) | 최소 분리 거리와 안전 궤적을 보장하는 핵심 계층 |
 | 리더-팔로어 (Leader-Follower) | 구현이 단순한 대표 편대 제어 구조 |
-| RVO / MPC | 동적 장애물 회피와 예측 제어에 쓰이는 고급 [[001_algorithm_definition|알고리즘]] 축 |
-| 임무 재할당 ([[150_task|Task]] Reallocation) | 고장·배터리 저하 시 역할을 다시 나누는 운영 기능 |
+| RVO / MPC | 동적 장애물 회피와 예측 제어에 쓰이는 고급 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 축 |
+| 임무 재할당 ([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) Reallocation) | 고장·배터리 저하 시 역할을 다시 나누는 운영 기능 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -207,7 +211,7 @@ tags:
                  군집 전체의 안정적 탐색 · 이동 · 협업
 ```
 
-이 흐름도는 "목표 [[009_config|설정]] → 상태 공유 → 제어 법칙 → 안전/협업 행동"으로 이어지는 스웜 [[001_algorithm_definition|알고리즘]]의 핵심 경로를 보여 준다.
+이 흐름도는 "목표 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) → 상태 공유 → 제어 법칙 → 안전/협업 행동"으로 이어지는 스웜 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 핵심 경로를 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -221,7 +225,7 @@ tags:
 
 **진행 상황**: 180 / 552
 
-← **이전**: [[179_bci_brain_computer_interface|179. BCI (Brain-Computer Interface) - 뇌파를 직접 인식하여 기계를 제어하는 신경망 인터페이스 기술 (뉴럴링크)]]
-**다음**: [[181_cloud_computing_nist_characteristics|181. 클라우드 컴퓨팅 5대 특징 (NIST Cloud Computing Characteristics)]] →
+← **이전**: [179. BCI (Brain-Computer Interface) - 뇌파를 직접 인식하여 기계를 제어하는 신경망 인터페이스 기술 (뉴럴링크)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/179_bci_brain_computer_interface/)
+**다음**: [181. 클라우드 컴퓨팅 5대 특징 (NIST Cloud Computing Characteristics)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/181_cloud_computing_nist_characteristics/) →
 
 ---

@@ -1,14 +1,18 @@
----
-title: 127. Service Discovery - MSA 서비스 자동 등록·탐색 메커니즘
-date: '2026-04-19'
-tags:
-- studynote-cloud-architecture
----
++++
+title = "127. Service Discovery - MSA 서비스 자동 등록·탐색 메커니즘"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-cloud-architecture"]
+
+[extra]
+tags = ["studynote-cloud-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [[090_service_kubernetes_network_load_balancing|Service]] Discovery는 **MSA에서 동적으로 변하는 [[090_service_kubernetes_network_load_balancing|서비스]] 인스턴스의 위치(IP:[[446_port_and_bus|Port]])를 자동으로 등록·탐색·갱신**하는 메커니즘이며, [[090_service_kubernetes_network_load_balancing|서비스]] [[235_registry_immutable_tag|레지스트리]]([[090_service_kubernetes_network_load_balancing|Service]] [[235_registry_immutable_tag|Registry]])가 핵심 컴포넌트이다.
-> 2. **가치**: [[561_container_based_deployment|컨테이너]] 환경에서 [[090_service_kubernetes_network_load_balancing|서비스]] 인스턴스는 [[249_scaling_normalization_standardization|스케일링]]·재배포 시 **IP가 수시로 변경**되므로 하드코딩이 불가능하며, [[090_service_kubernetes_network_load_balancing|Service]] Discovery가 **"주문 [[090_service_kubernetes_network_load_balancing|서비스]] 어디 있어?"에 실시간 답변**한다.
-> 3. **판단 포인트**: **Client-side(클라이언트가 [[235_registry_immutable_tag|레지스트리]] 조회)** vs **Server-side(로드밸런서가 [[235_registry_immutable_tag|레지스트리]] 조회)**를 구분하고, K8s의 [[511_dns_hierarchical_distributed_architecture|DNS]] 기반 [[090_service_kubernetes_network_load_balancing|Service]] Discovery가 사실상 표준이다.
+> 1. **본질**: [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Discovery는 **MSA에서 동적으로 변하는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 인스턴스의 위치(IP:[Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))를 자동으로 등록·탐색·갱신**하는 메커니즘이며, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [Registry](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/))가 핵심 컴포넌트이다.
+> 2. **가치**: [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 환경에서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 인스턴스는 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)·재배포 시 **IP가 수시로 변경**되므로 하드코딩이 불가능하며, [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Discovery가 **"주문 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 어디 있어?"에 실시간 답변**한다.
+> 3. **판단 포인트**: **Client-side(클라이언트가 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) 조회)** vs **Server-side(로드밸런서가 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) 조회)**를 구분하고, K8s의 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 기반 [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Discovery가 사실상 표준이다.
 
 ---
 
@@ -27,7 +31,7 @@ tags:
 └───────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: [[090_service_kubernetes_network_load_balancing|Service]] Discovery는 **전화번호부**이다. 사람([[090_service_kubernetes_network_load_balancing|서비스]])이 이사(IP 변경)해도 전화번호부([[235_registry_immutable_tag|레지스트리]])를 보면 **현재 주소를 찾을 수 있다**.
+- **📢 섹션 요약 비유**: [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Discovery는 **전화번호부**이다. 사람([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))이 이사(IP 변경)해도 전화번호부([레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/))를 보면 **현재 주소를 찾을 수 있다**.
 
 ---
 
@@ -37,12 +41,12 @@ tags:
 
 | 방식 | 동작 | 대표 |
 |:---|:---|:---|
-| **Client-side** | 클라이언트가 [[235_registry_immutable_tag|레지스트리]] 조회 + LB | **Eureka** |
-| **Server-side** | LB가 [[235_registry_immutable_tag|레지스트리]] 조회 | **K8s [[090_service_kubernetes_network_load_balancing|Service]]** |
+| **Client-side** | 클라이언트가 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) 조회 + LB | **Eureka** |
+| **Server-side** | LB가 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) 조회 | **K8s [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)** |
 
-### K8s [[303_service_discovery|Service Discovery]]
-- [[198_pod_kubernetes_minimum_deployment_unit|Pod]] [[087_process_state_transition|생성]] → kube-dns에 자동 등록.
-- `order-svc.default.svc.cluster.local`로 [[511_dns_hierarchical_distributed_architecture|DNS]] 조회.
+### K8s [Service Discovery](/knowledge-base/studynote/12_it_management/05_security_compliance/303_service_discovery/)
+- [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → kube-dns에 자동 등록.
+- `order-svc.default.svc.cluster.local`로 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 조회.
 
 - **📢 섹션 요약 비유**: Client-side는 직접 전화번호부를 찾는 것, Server-side는 안내 데스크(LB)에 물어보는 것이다.
 
@@ -50,10 +54,10 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | 하드코딩 | [[303_service_discovery|Service Discovery]] |
+| 비교 | 하드코딩 | [Service Discovery](/knowledge-base/studynote/12_it_management/05_security_compliance/303_service_discovery/) |
 |:---|:---|:---|
 | **IP 변경** | 코드 수정 | **자동 갱신** |
-| **[[249_scaling_normalization_standardization|스케일링]]** | 수동 | **동적 등록** |
+| **[스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)** | 수동 | **동적 등록** |
 | **장애** | 감지 불가 | **헬스체크 제거** |
 
 ---
@@ -61,16 +65,16 @@ tags:
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 대표 도구
-- **Consul** (HashiCorp): [[303_service_discovery|Service Discovery]] + [[009_config|Config]].
+- **Consul** (HashiCorp): [Service Discovery](/knowledge-base/studynote/12_it_management/05_security_compliance/303_service_discovery/) + [Config](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/).
 - **Eureka** (Netflix): Client-side, Spring Cloud.
-- **K8s [[090_service_kubernetes_network_load_balancing|Service]]**: Server-side, [[511_dns_hierarchical_distributed_architecture|DNS]] 기반.
-- **[[078_etcd_distributed_key_value_store|etcd]]**: K8s의 상태 저장소.
+- **K8s [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)**: Server-side, [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 기반.
+- **[etcd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/)**: K8s의 상태 저장소.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[[090_service_kubernetes_network_load_balancing|Service]] Discovery는 **MSA의 [[090_service_kubernetes_network_load_balancing|서비스]] 간 통신의 기본 인프라**이며, K8s 환경에서는 [[511_dns_hierarchical_distributed_architecture|DNS]] 기반으로 투명하게 제공된다.
+[Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Discovery는 **MSA의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 통신의 기본 인프라**이며, K8s 환경에서는 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 기반으로 투명하게 제공된다.
 
 ---
 
@@ -78,11 +82,11 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[[090_service_kubernetes_network_load_balancing|Service]] [[235_registry_immutable_tag|Registry]]** | [[090_service_kubernetes_network_load_balancing|서비스]] 위치 저장소 |
+| **[Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [Registry](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)** | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 위치 저장소 |
 | **헬스체크** | 비정상 인스턴스 자동 제거 |
-| **Consul** | HashiCorp [[306_service_discovery_pattern|서비스 디스커버리]] |
+| **Consul** | HashiCorp [서비스 디스커버리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/) |
 | **Eureka** | Netflix 클라이언트 사이드 |
-| **K8s [[511_dns_hierarchical_distributed_architecture|DNS]]** | 서버 사이드 디스커버리 표준 |
+| **K8s [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)** | 서버 사이드 디스커버리 표준 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -103,9 +107,9 @@ tags:
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. [[090_service_kubernetes_network_load_balancing|Service]] Discovery는 **전화번호부**예요. 친구([[090_service_kubernetes_network_load_balancing|서비스]])가 이사해도 **새 주소**를 찾을 수 있어요.
+1. [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Discovery는 **전화번호부**예요. 친구([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))가 이사해도 **새 주소**를 찾을 수 있어요.
 2. 전화번호부가 없으면 친구가 이사할 때마다 **직접 물어봐야** 해서 불편해요.
-3. [[196_kubernetes_k8s_container_orchestration|쿠버네티스]](K8s)는 전화번호부를 **자동으로 업데이트**해줘서 편리하답니다!
+3. [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s)는 전화번호부를 **자동으로 업데이트**해줘서 편리하답니다!
 
 ---
 
@@ -113,7 +117,7 @@ tags:
 
 **진행 상황**: 126 / 371
 
-← **이전**: [[126_bff|126. BFF (Backend For Frontend) - 클라이언트별 맞춤 API 레이어]]
-**다음**: [[128_circuit_breaker|128. Circuit Breaker - MSA 장애 전파 차단 패턴]] →
+← **이전**: [126. BFF (Backend For Frontend) - 클라이언트별 맞춤 API 레이어](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/126_bff/)
+**다음**: [128. Circuit Breaker - MSA 장애 전파 차단 패턴](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/128_circuit_breaker/) →
 
 ---

@@ -1,14 +1,18 @@
----
-title: 124. BOM (Bill of Materials) - 부품 구성 목록·제조업 데이터 핵심
-date: '2026-04-19'
-tags:
-- studynote-enterprise-systems
----
++++
+title = "124. BOM (Bill of Materials) - 부품 구성 목록·제조업 데이터 핵심"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-enterprise-systems"]
+
+[extra]
+tags = ["studynote-enterprise-systems"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: BOM은 **제품을 구성하는 모든 부품·원자재·반조립품의 계층적 목록**이며, 각 부품의 수량·사양·대체품을 정의하여 설계→조달→제조→[[090_service_kubernetes_network_load_balancing|서비스]]의 기준 [[001_dikw_pyramid|데이터]] 역할을 한다.
-> 2. **가치**: BOM이 부정확하면 부품 발주 오류·제조 라인 정지·완제품 불량이 발생하며, E-BOM(설계 관점)→M-BOM(제조 관점)→S-BOM([[090_service_kubernetes_network_load_balancing|서비스]] 관점) 변환이 제조업 [[001_dikw_pyramid|데이터]] 관리의 핵심이다.
-> 3. **판단 포인트**: **단계 BOM(계층적, 모든 레벨)** vs **단일 수준 BOM(부모-자식 1레벨)**을 구분하고, BOM은 [[123_pdm_product_data_management|PDM]]/PLM에서 관리되어 [[081_erp_enterprise_resource_planning|ERP]]·MES에 전달된다.
+> 1. **본질**: BOM은 **제품을 구성하는 모든 부품·원자재·반조립품의 계층적 목록**이며, 각 부품의 수량·사양·대체품을 정의하여 설계→조달→제조→[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 기준 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 역할을 한다.
+> 2. **가치**: BOM이 부정확하면 부품 발주 오류·제조 라인 정지·완제품 불량이 발생하며, E-BOM(설계 관점)→M-BOM(제조 관점)→S-BOM([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 관점) 변환이 제조업 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리의 핵심이다.
+> 3. **판단 포인트**: **단계 BOM(계층적, 모든 레벨)** vs **단일 수준 BOM(부모-자식 1레벨)**을 구분하고, BOM은 [PDM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/123_pdm_product_data_management/)/PLM에서 관리되어 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)·MES에 전달된다.
 
 ---
 
@@ -42,7 +46,7 @@ tags:
 |:---|:---|:---|
 | **E-BOM** | 설계 (Engineering) | 기능 구조 |
 | **M-BOM** | 제조 (Manufacturing) | 조립 공정 순서 |
-| **S-BOM** | [[090_service_kubernetes_network_load_balancing|서비스]] ([[090_service_kubernetes_network_load_balancing|Service]]) | 교체 부품 |
+| **S-BOM** | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) ([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) | 교체 부품 |
 
 - **📢 섹션 요약 비유**: E-BOM은 건축 설계도, M-BOM은 시공 순서도, S-BOM은 수리 매뉴얼이다.
 
@@ -54,21 +58,21 @@ tags:
 |:---|:---|:---|
 | **관점** | 기능 (설계) | **공정 (제조)** |
 | **구조** | 기능별 그룹 | **조립 순서** |
-| **관리** | [[123_pdm_product_data_management|PDM]] | **[[081_erp_enterprise_resource_planning|ERP]]/[[119_mes_manufacturing_execution_system|MES]]** |
+| **관리** | [PDM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/123_pdm_product_data_management/) | **[ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)/[MES](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/)** |
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### BOM [[002_bigdata_5v|정확성]]의 중요성
-- BOM 오류 1건 → 부품 발주 오류 → 제조 [[015_지연_데이터_관점|지연]] → 납기 위반.
+### BOM [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)의 중요성
+- BOM 오류 1건 → 부품 발주 오류 → 제조 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) → 납기 위반.
 - 글로벌 제조사는 BOM 정확도 **99.5% 이상**을 목표.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-BOM은 **제조업 [[001_dikw_pyramid|데이터]]의 DNA**이며, [[122_plm_product_lifecycle_management|PLM]]→[[081_erp_enterprise_resource_planning|ERP]]→MES를 관통하는 Digital Thread의 핵심 [[001_dikw_pyramid|데이터]] 자산이다.
+BOM은 **제조업 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 DNA**이며, [PLM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/122_plm_product_lifecycle_management/)→[ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)→MES를 관통하는 Digital Thread의 핵심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산이다.
 
 ---
 
@@ -78,9 +82,9 @@ BOM은 **제조업 [[001_dikw_pyramid|데이터]]의 DNA**이며, [[122_plm_prod
 |:---|:---|
 | **E-BOM** | 설계 관점 부품 목록 |
 | **M-BOM** | 제조 관점 부품 목록 |
-| **[[123_pdm_product_data_management|PDM]]/[[122_plm_product_lifecycle_management|PLM]]** | BOM을 관리하는 시스템 |
-| **[[082_mrp_material_requirements_planning|MRP]]** | BOM 기반 자재 소요량 계산 |
-| **Digital [[092_thread_lwp|Thread]]** | BOM이 흐르는 [[001_dikw_pyramid|데이터]] 연속 체계 |
+| **[PDM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/123_pdm_product_data_management/)/[PLM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/122_plm_product_lifecycle_management/)** | BOM을 관리하는 시스템 |
+| **[MRP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/)** | BOM 기반 자재 소요량 계산 |
+| **Digital [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)** | BOM이 흐르는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연속 체계 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -111,7 +115,7 @@ BOM은 **제조업 [[001_dikw_pyramid|데이터]]의 DNA**이며, [[122_plm_prod
 
 **진행 상황**: 124 / 482
 
-← **이전**: [[123_pdm_product_data_management|123. PDM (Product Data Management) - 제품 데이터 관리 시스템]]
-**다음**: [[125_c_commerce_collaborative_commerce|125. C-Commerce (Collaborative Commerce) - 기업 간 협업 상거래]] →
+← **이전**: [123. PDM (Product Data Management) - 제품 데이터 관리 시스템](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/123_pdm_product_data_management/)
+**다음**: [125. C-Commerce (Collaborative Commerce) - 기업 간 협업 상거래](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/125_c_commerce_collaborative_commerce/) →
 
 ---

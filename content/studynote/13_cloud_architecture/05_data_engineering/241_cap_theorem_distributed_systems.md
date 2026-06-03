@@ -1,25 +1,29 @@
----
-title: 241. CAP 정리 (CAP Theorem in Distributed Systems)
-date: '2026-05-05'
-tags:
-- studynote-cloud-architecture
----
++++
+title = "241. CAP 정리 (CAP Theorem in Distributed Systems)"
+date = 2026-05-05
+
+[taxonomies]
+tags = ["studynote-cloud-architecture"]
+
+[extra]
+tags = ["studynote-cloud-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [[341_process|CAP]] 정리는 수천 대의 서버로 구성된 [[136_variance|분산]] [[002_database_definition|데이터베이스]] 시스템이 **C([[194_consistency_database_integrity|일관성]]), A([[452_availability|가용성]]), P(네트워크 분할 허용성)**의 3가지 절대 가치 중, 물리적 한계로 인해 **동시에 최대 2가지만 가질 수 있다는 컴퓨터 공학의 불가능성(Impossibility) 증명**이다.
-> 2. **가치**: "우리 DB는 절대 안 죽고(A), 언제나 최신 [[001_dikw_pyramid|데이터]]만 보여주며(C), 네트워크가 붕괴해도 완벽히 작동합니다(P)!"라고 사기를 치는 벤더사들의 영업 멘트를 박살 내고, 아키텍트에게 비즈니스 목적에 맞춰 무엇을 포기할지(Trade-off) 냉혹한 결단을 내리게 하는 쇳덩어리 기준점이다.
-> 3. **판단 포인트**: 클라우드와 인터넷 환경([[136_variance|분산]] 시스템)에서는 네트워크가 끊어지는 장애([[514_partition_slice_volume|Partition]])를 절대 피할 수 없으므로, 사실상 아키텍트의 선택지는 **'네트워크가 끊겼을 때, 에러를 뱉고 멈출 것인가([[086_CP_순환_전치_GI|CP]])' 아니면 '과거의 옛날 [[001_dikw_pyramid|데이터]]라도 응답할 것인가([[572_ap_access_point_ds_distribution_system|AP]])'의 양자택일**로 강제된다.
+> 1. **본질**: [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리는 수천 대의 서버로 구성된 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 시스템이 **C([일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)), A([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)), P(네트워크 분할 허용성)**의 3가지 절대 가치 중, 물리적 한계로 인해 **동시에 최대 2가지만 가질 수 있다는 컴퓨터 공학의 불가능성(Impossibility) 증명**이다.
+> 2. **가치**: "우리 DB는 절대 안 죽고(A), 언제나 최신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 보여주며(C), 네트워크가 붕괴해도 완벽히 작동합니다(P)!"라고 사기를 치는 벤더사들의 영업 멘트를 박살 내고, 아키텍트에게 비즈니스 목적에 맞춰 무엇을 포기할지(Trade-off) 냉혹한 결단을 내리게 하는 쇳덩어리 기준점이다.
+> 3. **판단 포인트**: 클라우드와 인터넷 환경([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템)에서는 네트워크가 끊어지는 장애([Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))를 절대 피할 수 없으므로, 사실상 아키텍트의 선택지는 **'네트워크가 끊겼을 때, 에러를 뱉고 멈출 것인가([CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/))' 아니면 '과거의 옛날 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)라도 응답할 것인가([AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/))'의 양자택일**로 강제된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-한 대의 거대한 오라클([[188_pl_sql_t_sql_procedural|Oracle]]) 서버로 쇼핑몰을 돌릴 때는 모든 것이 완벽했다(ACID). 하지만 전 세계 수억 명이 접속하자 서버 한 대로는 감당이 안 되어, 미국, 한국, 유럽에 서버(DB)를 100대씩 쪼개어 놓는 [[136_variance|분산]] 시스템 시대가 열렸다. 
+한 대의 거대한 오라클([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/)) 서버로 쇼핑몰을 돌릴 때는 모든 것이 완벽했다(ACID). 하지만 전 세계 수억 명이 접속하자 서버 한 대로는 감당이 안 되어, 미국, 한국, 유럽에 서버(DB)를 100대씩 쪼개어 놓는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 시대가 열렸다. 
 
-[[136_variance|분산]] 시스템의 꿈은 달콤했다. "한국 서버가 죽으면 미국 서버가 대신 대답하면 되고, 한국에 [[001_dikw_pyramid|데이터]]가 써지면 0.1초 만에 미국 서버로 복사([[212_synchronization_mechanisms|동기화]])하면 되지!" 그런데 태평양 해저 케이블이 상어한테 물려 끊어지는 사태(네트워크 단절, [[514_partition_slice_volume|Partition]])가 발생했다. 한국 서버와 미국 서버는 통신이 두절되었다. 이때 한국 유저가 비밀번호를 바꿨는데, 미국 유저가 로그인을 시도한다. 미국 서버는 바뀐 비밀번호를 모른다. 미국 서버는 **과거 비밀번호로 로그인을 허락해야 할까([[452_availability|가용성]], A)? 아니면 한국 서버와 통신이 될 때까지 무조건 에러를 뿜으며 멈춰야 할까([[194_consistency_database_integrity|일관성]], C)?** 
-에릭 브루어(Eric Brewer)는 "이 둘을 동시에 완벽하게 해내는 시스템은 물리적으로 불가능하다"고 쐐기를 박았다. 이것이 바로 아키텍트들을 영원한 번뇌에 빠뜨린 **[[341_process|CAP]] 정리**다.
+[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템의 꿈은 달콤했다. "한국 서버가 죽으면 미국 서버가 대신 대답하면 되고, 한국에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 써지면 0.1초 만에 미국 서버로 복사([동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/))하면 되지!" 그런데 태평양 해저 케이블이 상어한테 물려 끊어지는 사태(네트워크 단절, [Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))가 발생했다. 한국 서버와 미국 서버는 통신이 두절되었다. 이때 한국 유저가 비밀번호를 바꿨는데, 미국 유저가 로그인을 시도한다. 미국 서버는 바뀐 비밀번호를 모른다. 미국 서버는 **과거 비밀번호로 로그인을 허락해야 할까([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), A)? 아니면 한국 서버와 통신이 될 때까지 무조건 에러를 뿜으며 멈춰야 할까([일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), C)?** 
+에릭 브루어(Eric Brewer)는 "이 둘을 동시에 완벽하게 해내는 시스템은 물리적으로 불가능하다"고 쐐기를 박았다. 이것이 바로 아키텍트들을 영원한 번뇌에 빠뜨린 **[CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리**다.
 
-- **📢 섹션 요약 비유**: [[341_process|CAP]] 정리는 '시간, 돈, 체력'의 딜레마다. 젊을 땐 시간과 체력은 있지만 돈이 없고, 중년엔 돈과 체력은 있지만 시간이 없고, 노년엔 시간과 돈은 있지만 체력이 없다. 3가지를 동시에 갖는 것은 신의 영역이듯, [[136_variance|분산]] 시스템도 완벽한 3박자(C, A, P)를 동시에 가질 수 없으니 하나는 무조건 포기해야 한다는 냉혹한 물리 법칙이다.
+- **📢 섹션 요약 비유**: [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리는 '시간, 돈, 체력'의 딜레마다. 젊을 땐 시간과 체력은 있지만 돈이 없고, 중년엔 돈과 체력은 있지만 시간이 없고, 노년엔 시간과 돈은 있지만 체력이 없다. 3가지를 동시에 갖는 것은 신의 영역이듯, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템도 완벽한 3박자(C, A, P)를 동시에 가질 수 없으니 하나는 무조건 포기해야 한다는 냉혹한 물리 법칙이다.
 
 ---
 
@@ -51,53 +55,53 @@ tags:
 └────────────────────────────────────────────────────────┘
 ```
 
-- **C ([[194_consistency_database_integrity|Consistency]], [[194_consistency_database_integrity|일관성]])**: 유저가 한국 서버에 `A=1`을 썼다면, 0.001초 뒤에 미국 서버를 조회해도 무조건 `A=1`이 나와야 한다. (동기식 [[016_replication_factor|복제]])
-- **A ([[452_availability|Availability]], [[452_availability|가용성]])**: 한국 서버가 죽든, 케이블이 끊어지든, 클라이언트는 [[573_timeout_retry_backoff_strategy|타임아웃]](에러) 없이 무조건 응답을 받아야 한다.
-- **P ([[514_partition_slice_volume|Partition]] Tolerance, 분할 허용성)**: 노드 간에 네트워크가 끊겨서 메시지를 서로 못 주고받아도, 전체 시스템은 계속 살아서 동작해야 한다.
+- **C ([Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))**: 유저가 한국 서버에 `A=1`을 썼다면, 0.001초 뒤에 미국 서버를 조회해도 무조건 `A=1`이 나와야 한다. (동기식 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/))
+- **A ([Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))**: 한국 서버가 죽든, 케이블이 끊어지든, 클라이언트는 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)(에러) 없이 무조건 응답을 받아야 한다.
+- **P ([Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) Tolerance, 분할 허용성)**: 노드 간에 네트워크가 끊겨서 메시지를 서로 못 주고받아도, 전체 시스템은 계속 살아서 동작해야 한다.
 
-- **📢 섹션 요약 비유**: [[341_process|CAP]] 정리는 다중 프랜차이즈 식당의 '레시피 관리'다. 본점과 분점의 전화선이 끊겼을 때(P 발생), 본점의 바뀐 레시피를 모르는 분점이 "레시피가 다를 수 있으니 장사 접어!(C 선택, [[086_CP_순환_전치_GI|CP]])"라고 하느냐, 아니면 "일단 옛날 레시피로라도 손님한테 밥은 팔아!(A 선택, [[572_ap_access_point_ds_distribution_system|AP]])"라고 하느냐의 치열한 양자택일이다.
+- **📢 섹션 요약 비유**: [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리는 다중 프랜차이즈 식당의 '레시피 관리'다. 본점과 분점의 전화선이 끊겼을 때(P 발생), 본점의 바뀐 레시피를 모르는 분점이 "레시피가 다를 수 있으니 장사 접어!(C 선택, [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/))"라고 하느냐, 아니면 "일단 옛날 레시피로라도 손님한테 밥은 팔아!(A 선택, [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/))"라고 하느냐의 치열한 양자택일이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### [[086_CP_순환_전치_GI|CP]] ([[194_consistency_database_integrity|일관성]] 최우선) vs [[572_ap_access_point_ds_distribution_system|AP]] ([[452_availability|가용성]] 최우선) 모델
-비즈니스 [[064_relation_domain|도메인]]에 따라 아키텍트는 쇳덩어리 DB의 심장을 고른다.
+### [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) ([일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 최우선) vs [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) ([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 최우선) 모델
+비즈니스 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 따라 아키텍트는 쇳덩어리 DB의 심장을 고른다.
 
-| 시스템 타입 | [[086_CP_순환_전치_GI|CP]] ([[194_consistency_database_integrity|일관성]] + 분할허용성) | [[572_ap_access_point_ds_distribution_system|AP]] ([[452_availability|가용성]] + 분할허용성) |
+| 시스템 타입 | [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) ([일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) + 분할허용성) | [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) ([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) + 분할허용성) |
 |:---|:---|:---|
-| **포기한 가치** | **A ([[452_availability|가용성]])**: 네트워크 끊기면 시스템 멈춤 | **C ([[194_consistency_database_integrity|일관성]])**: 과거의 낡은 [[001_dikw_pyramid|데이터]]를 응답할 수 있음 |
-| **비즈니스 [[064_relation_domain|도메인]]**| **은행(송금), 주식 거래, 좌석 예매** | **페이스북 좋아요, 트위터 피드, 쇼핑몰 장바구니** |
+| **포기한 가치** | **A ([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))**: 네트워크 끊기면 시스템 멈춤 | **C ([일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))**: 과거의 낡은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 응답할 수 있음 |
+| **비즈니스 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)**| **은행(송금), 주식 거래, 좌석 예매** | **페이스북 좋아요, 트위터 피드, 쇼핑몰 장바구니** |
 | **장애 발생 시 행동**| "지금 통신이 끊겨서 잔고를 확실히 몰라요! 에러 퉤!" | "통신은 끊겼지만, 일단 예전 좋아요 100개로 보여줄게!" |
-| **[[001_dikw_pyramid|데이터]] [[212_synchronization_mechanisms|동기화]]** | 동기식 (Sync) - 전부 다 써져야 완료 | **비동기식 (Async) - 최종적 [[194_consistency_database_integrity|일관성]]([[650_eventual_consistency|Eventual Consistency]])**|
-| **대표 [[035_nosql|NoSQL]] DB** | **[[540_mongodb|MongoDB]], [[542_redis|Redis]], [[543_hbase|HBase]], [[798_distributed_lock_zookeeper_consensus|Zookeeper]]** | **[[541_cassandra|Cassandra]], [[545_dynamodb|DynamoDB]], CouchDB** |
+| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)** | 동기식 (Sync) - 전부 다 써져야 완료 | **비동기식 (Async) - 최종적 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)([Eventual Consistency](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/))**|
+| **대표 [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) DB** | **[MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/), [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/), [HBase](/knowledge-base/studynote/05_database/04_transactions_concurrency/543_hbase/), [Zookeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/)** | **[Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), [DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/), CouchDB** |
 
-만약 은행 시스템을 AP로 설계하면 통신이 끊긴 틈을 타서 한국과 미국에서 동시에 100만 원을 인출하는 대형 금융 사기가 터진다(무조건 CP여야 함). 반대로 유튜브 댓글 서버를 CP로 설계하면, 남미 쪽 서버 하나 통신이 끊겼다고 전 세계 유튜브 댓글 창이 마비되는 어처구니없는 오버엔지니어링([[452_availability|가용성]] 폭망)이 터진다(무조건 AP여야 함).
+만약 은행 시스템을 AP로 설계하면 통신이 끊긴 틈을 타서 한국과 미국에서 동시에 100만 원을 인출하는 대형 금융 사기가 터진다(무조건 CP여야 함). 반대로 유튜브 댓글 서버를 CP로 설계하면, 남미 쪽 서버 하나 통신이 끊겼다고 전 세계 유튜브 댓글 창이 마비되는 어처구니없는 오버엔지니어링([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 폭망)이 터진다(무조건 AP여야 함).
 
-- **📢 섹션 요약 비유**: [[086_CP_순환_전치_GI|CP]] 시스템은 '엄격한 은행원'이다. 통신이 끊겨 본점 장부와 1원이라도 차이가 날 것 같으면 셔터를 내리고 아예 돈을 안 내어준다. [[572_ap_access_point_ds_distribution_system|AP]] 시스템은 '융통성 있는 동네 슈퍼'다. 포스기가 인터넷이 끊겨 가격표가 최신이 아니더라도, 손님을 돌려보내지 않고 일단 예전 가격으로라도 물건을 팔아서 장사([[090_service_kubernetes_network_load_balancing|서비스]])를 계속 유지한다.
+- **📢 섹션 요약 비유**: [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) 시스템은 '엄격한 은행원'이다. 통신이 끊겨 본점 장부와 1원이라도 차이가 날 것 같으면 셔터를 내리고 아예 돈을 안 내어준다. [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 시스템은 '융통성 있는 동네 슈퍼'다. 포스기가 인터넷이 끊겨 가격표가 최신이 아니더라도, 손님을 돌려보내지 않고 일단 예전 가격으로라도 물건을 팔아서 장사([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))를 계속 유지한다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **Cassandra를 활용한 쇼핑몰 장바구니 아키텍처 ([[572_ap_access_point_ds_distribution_system|AP]] 모델)**: 아마존(AWS) 아키텍트들은 장바구니 기능을 극한의 [[572_ap_access_point_ds_distribution_system|AP]]([[452_availability|가용성]]) 모델인 [[299_data_lake|카산드라]]/다이나모DB로 설계했다. [[001_dikw_pyramid|데이터]] [[194_consistency_database_integrity|일관성]](C)이 깨져서 내가 방금 폰으로 넣은 콜라가, 노트북 화면에서는 1분 동안 안 보일 수도 있다(낡은 [[001_dikw_pyramid|데이터]] 노출). 하지만 아키텍트는 "장바구니에 담은 물건이 1분 뒤에 보이는 건 고객이 짜증 내고 말지만, 서버가 [[212_synchronization_mechanisms|동기화]]를 기다리느라 멈춰서([[452_availability|가용성]] 하락) 아예 물건을 못 담게 하면 그건 회사의 매출 손실이다!"라고 판단하여, '최종적 [[194_consistency_database_integrity|일관성]]([[650_eventual_consistency|Eventual Consistency]])'이라는 이름 하에 C를 과감히 버리고 A를 챙겼다.
-2. **[[342_pacelc|Pacelc]](파셀크) 정리로의 진화 (CAP의 한계 극복)**: "네트워크가 끊겼을 때(P) C와 A를 고르는 건 알겠어. 그럼 네트워크가 평화로울 때(정상 상태)는 어떻게 되는데?" [[341_process|CAP]] 정리가 대답하지 못한 이 한계를 극복하기 위해 아키텍트들은 **[[342_pacelc|PACELC]] 정리**를 도입했다. 네트워크 분할(P) 시에는 A와 C 중 하나를 고르고(`PAC`), 분할이 없는 정상(E, Else) 상태일 때는 지연시간(L, [[141_latency|Latency]])과 [[194_consistency_database_integrity|일관성]](C, [[194_consistency_database_integrity|Consistency]]) 중 하나를 고른다는(`LC`) 더 정밀한 트레이드오프 수식이다. 오라클/MySQL은 [[164_pc|PC]]/EC(무조건 [[194_consistency_database_integrity|일관성]]), Dynamo는 PA/EL([[452_availability|가용성]]과 속도 우선)로 완벽히 분류된다.
+1. **Cassandra를 활용한 쇼핑몰 장바구니 아키텍처 ([AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 모델)**: 아마존(AWS) 아키텍트들은 장바구니 기능을 극한의 [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/)([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)) 모델인 [카산드라](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/299_data_lake/)/다이나모DB로 설계했다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)(C)이 깨져서 내가 방금 폰으로 넣은 콜라가, 노트북 화면에서는 1분 동안 안 보일 수도 있다(낡은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 노출). 하지만 아키텍트는 "장바구니에 담은 물건이 1분 뒤에 보이는 건 고객이 짜증 내고 말지만, 서버가 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)를 기다리느라 멈춰서([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 하락) 아예 물건을 못 담게 하면 그건 회사의 매출 손실이다!"라고 판단하여, '최종적 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)([Eventual Consistency](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/))'이라는 이름 하에 C를 과감히 버리고 A를 챙겼다.
+2. **[Pacelc](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/342_pacelc/)(파셀크) 정리로의 진화 (CAP의 한계 극복)**: "네트워크가 끊겼을 때(P) C와 A를 고르는 건 알겠어. 그럼 네트워크가 평화로울 때(정상 상태)는 어떻게 되는데?" [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리가 대답하지 못한 이 한계를 극복하기 위해 아키텍트들은 **[PACELC](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/342_pacelc/) 정리**를 도입했다. 네트워크 분할(P) 시에는 A와 C 중 하나를 고르고(`PAC`), 분할이 없는 정상(E, Else) 상태일 때는 지연시간(L, [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))과 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)(C, [Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)) 중 하나를 고른다는(`LC`) 더 정밀한 트레이드오프 수식이다. 오라클/MySQL은 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)/EC(무조건 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)), Dynamo는 PA/EL([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)과 속도 우선)로 완벽히 분류된다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
-- **[[089_contract_account_smart_contract|CA]]([[194_consistency_database_integrity|일관성]]+[[452_availability|가용성]]) 시스템을 클라우드([[136_variance|분산]])에 구현하겠다는 망상**: 비즈니스 기획자가 아키텍트에게 와서 "우리 앱은 단 1원의 오차도 없이 전 세계에서 실시간 [[212_synchronization_mechanisms|동기화]](C)되어야 하고, 서버가 절대 죽어서도 안 됩니다(A). 클라우드 여러 곳에 깔아주세요"라고 요구한다. 아키텍트가 "그럼 네트워크가 끊기면 어떻게 할까요?"라고 묻자, 기획자는 "네트워크는 당연히 안 끊기게 잘 만드셔야죠!"라고 대답한다. 네트워크 단절(P)을 인간의 힘으로 막을 수 있다는 오만함이 가장 끔찍한 [[128_water_scrum_fall_anti_pattern|안티패턴]]이다. 클라우드에서 P는 선택이 아니라 무조건 깔고 가는 기본 상수(Constant)다. 따라서 [[089_contract_account_smart_contract|CA]] 시스템은 [[242_distributed_cloud_edge_computing_aws_outposts|분산 클라우드]] 환경에서는 수학적으로 존재할 수 없는 유니콘이다. (오직 한 대의 컴퓨터에 다 때려 박는 단일 DB만이 CA가 될 수 있다.)
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- **[CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)([일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)+[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)) 시스템을 클라우드([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))에 구현하겠다는 망상**: 비즈니스 기획자가 아키텍트에게 와서 "우리 앱은 단 1원의 오차도 없이 전 세계에서 실시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)(C)되어야 하고, 서버가 절대 죽어서도 안 됩니다(A). 클라우드 여러 곳에 깔아주세요"라고 요구한다. 아키텍트가 "그럼 네트워크가 끊기면 어떻게 할까요?"라고 묻자, 기획자는 "네트워크는 당연히 안 끊기게 잘 만드셔야죠!"라고 대답한다. 네트워크 단절(P)을 인간의 힘으로 막을 수 있다는 오만함이 가장 끔찍한 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다. 클라우드에서 P는 선택이 아니라 무조건 깔고 가는 기본 상수(Constant)다. 따라서 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 시스템은 [분산 클라우드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/242_distributed_cloud_edge_computing_aws_outposts/) 환경에서는 수학적으로 존재할 수 없는 유니콘이다. (오직 한 대의 컴퓨터에 다 때려 박는 단일 DB만이 CA가 될 수 있다.)
 
-- **📢 섹션 요약 비유**: [[136_variance|분산]] 환경에서 [[089_contract_account_smart_contract|CA]] 시스템을 만들어 달라는 요구는, "서울과 부산을 동시에 걷는 사람([[136_variance|분산]])을 만들어주되, 두 사람의 생각은 0.1초의 오차도 없이 완벽히 똑같아야 하고(C), 절대 기절하거나 잠들지 않아야 해(A). 그리고 둘 사이의 텔레파시(통신)는 무조건 안 끊길 거니까 걱정 마!"라고 주문하는 것과 같다. 텔레파시(P)가 끊어지는 순간 그 기괴한 생명체는 멈추거나 생각이 갈라질 수밖에 없다.
+- **📢 섹션 요약 비유**: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 시스템을 만들어 달라는 요구는, "서울과 부산을 동시에 걷는 사람([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))을 만들어주되, 두 사람의 생각은 0.1초의 오차도 없이 완벽히 똑같아야 하고(C), 절대 기절하거나 잠들지 않아야 해(A). 그리고 둘 사이의 텔레파시(통신)는 무조건 안 끊길 거니까 걱정 마!"라고 주문하는 것과 같다. 텔레파시(P)가 끊어지는 순간 그 기괴한 생명체는 멈추거나 생각이 갈라질 수밖에 없다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[[341_process|CAP]] 정리는 클라우드 네이티브와 [[213_msa_microservices_architecture|마이크로서비스 아키텍처]]([[619_msa_traffic_hardware|MSA]]) 시대를 지배하는 가장 거대하고 냉혹한 헌법(Constitution)이다.
+[CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리는 클라우드 네이티브와 [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 시대를 지배하는 가장 거대하고 냉혹한 헌법(Constitution)이다.
 
-[[136_variance|분산]] 시스템을 설계할 때 "모든 것을 완벽하게 하겠다"는 허황된 설계는 결국 시스템 전체를 붕괴시킨다. [[341_process|CAP]] 정리는 아키텍트에게 뼈아픈 타협(Trade-off)을 강요한다. 금융 [[001_dikw_pyramid|데이터]]라면 기꺼이 시스템을 멈춰 세우는 용기를([[086_CP_순환_전치_GI|CP]]), 소셜 미디어 [[001_dikw_pyramid|데이터]]라면 약간의 오차를 허용하고 [[090_service_kubernetes_network_load_balancing|서비스]]를 계속 살려두는 유연함([[572_ap_access_point_ds_distribution_system|AP]])을 선택해야 한다. 결론적으로 [[341_process|CAP]] 정리는 시스템 장애를 죄악이 아니라, 비즈니스 본질에 맞춰 사전에 계획되고 통제된 우아한 거버넌스의 영역으로 끌어올린 위대한 물리 법칙이다.
+[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템을 설계할 때 "모든 것을 완벽하게 하겠다"는 허황된 설계는 결국 시스템 전체를 붕괴시킨다. [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리는 아키텍트에게 뼈아픈 타협(Trade-off)을 강요한다. 금융 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)라면 기꺼이 시스템을 멈춰 세우는 용기를([CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/)), 소셜 미디어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)라면 약간의 오차를 허용하고 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 계속 살려두는 유연함([AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/))을 선택해야 한다. 결론적으로 [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리는 시스템 장애를 죄악이 아니라, 비즈니스 본질에 맞춰 사전에 계획되고 통제된 우아한 거버넌스의 영역으로 끌어올린 위대한 물리 법칙이다.
 
-- **📢 섹션 요약 비유**: [[341_process|CAP]] 정리는 게임 캐릭터의 '스탯 찍기'와 같다. 나에게 주어진 스탯 포인트는 2개뿐이다. 공격력(C)과 방어력(A)을 다 올리고 싶지만 포인트가 모자란다. 전사(은행)를 키울지, 마법사(SNS)를 키울지 직업(비즈니스)에 맞춰 과감히 하나를 포기하고 몰빵(Trade-off)하는 현명한 게이머만이 클라우드라는 가혹한 사냥터에서 살아남을 수 있다.
+- **📢 섹션 요약 비유**: [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리는 게임 캐릭터의 '스탯 찍기'와 같다. 나에게 주어진 스탯 포인트는 2개뿐이다. 공격력(C)과 방어력(A)을 다 올리고 싶지만 포인트가 모자란다. 전사(은행)를 키울지, 마법사(SNS)를 키울지 직업(비즈니스)에 맞춰 과감히 하나를 포기하고 몰빵(Trade-off)하는 현명한 게이머만이 클라우드라는 가혹한 사냥터에서 살아남을 수 있다.
 
 ---
 
@@ -105,9 +109,9 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **최종적 [[194_consistency_database_integrity|일관성]] ([[650_eventual_consistency|Eventual Consistency]])** | [[572_ap_access_point_ds_distribution_system|AP]] 시스템(Dynamo, [[541_cassandra|Cassandra]])의 정신승리. "지금 당장은 한국과 미국 서버의 [[001_dikw_pyramid|데이터]]가 달라도, 한가해질 때 [[212_synchronization_mechanisms|동기화]]할 거니까 언젠가는(Eventual) 똑같아질 거야!"라는 극강의 비동기 타협론 |
-| **ACID ([[191_transaction_concept_states|트랜잭션]] 4원칙)** | 단일 관계형 [[002_database_definition|데이터베이스]](RDBMS)가 신성시하는 법칙. [[341_process|CAP]] 트라이앵글에서 철저하게 C([[194_consistency_database_integrity|일관성]])에 미쳐있는, 하지만 [[136_variance|분산]] 환경에선 속도가 굼벵이가 되는 전통적 쇳덩어리 규칙 |
-| **[[035_nosql|NoSQL]] DB** | [[341_process|CAP]] 정리의 한계를 극복하기 위해, RDBMS의 완벽한 족쇄(조인, ACID)를 깨부수고 [[136_variance|분산]] 환경(P)에서 AP나 [[086_CP_순환_전치_GI|CP]] 중 특정 목적에 극한으로 튜닝된 이단아 스토리지 엔진들 |
+| **최종적 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) ([Eventual Consistency](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/))** | [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 시스템(Dynamo, [Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/))의 정신승리. "지금 당장은 한국과 미국 서버의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 달라도, 한가해질 때 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)할 거니까 언젠가는(Eventual) 똑같아질 거야!"라는 극강의 비동기 타협론 |
+| **ACID ([트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 4원칙)** | 단일 관계형 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(RDBMS)가 신성시하는 법칙. [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 트라이앵글에서 철저하게 C([일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))에 미쳐있는, 하지만 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에선 속도가 굼벵이가 되는 전통적 쇳덩어리 규칙 |
+| **[NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) DB** | [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리의 한계를 극복하기 위해, RDBMS의 완벽한 족쇄(조인, ACID)를 깨부수고 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경(P)에서 AP나 [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) 중 특정 목적에 극한으로 튜닝된 이단아 스토리지 엔진들 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -130,13 +134,13 @@ tags:
 네트워크 정상 상태까지 고려한 PACELC 정리로 진화 및 최종적 일관성(Eventual)의 대중화
 ```
 
-이 흐름도는 "오라클의 완벽주의([[089_contract_account_smart_contract|CA]]) → [[136_variance|분산]]화로 인한 네트워크 장애의 일상화(P) → 물리적 불가능성 증명([[341_process|CAP]]) → 목적에 따른 아키텍처의 포기/진화([[035_nosql|NoSQL]] 파편화)"라는 [[136_variance|분산]] [[001_dikw_pyramid|데이터]] 공학의 위대한 깨달음을 보여준다.
+이 흐름도는 "오라클의 완벽주의([CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)) → [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)화로 인한 네트워크 장애의 일상화(P) → 물리적 불가능성 증명([CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/)) → 목적에 따른 아키텍처의 포기/진화([NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) 파편화)"라는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공학의 위대한 깨달음을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [[341_process|CAP]] 정리는 "완벽하게 예쁘고(C), 절대 고장 안 나고(A), 아무 데서나 쓸 수 있는(P)" 3가지 소원을 들어주는 지니는 세상에 없다는 법칙이에요.
-2. 인터넷이 끊어지는 상황(P)은 무조건 일어나기 때문에, 우리는 "좀 틀려도 계속 돌아가는 장난감([[572_ap_access_point_ds_distribution_system|AP]])"을 고를지, "틀릴 바엔 아예 멈춰버리는 장난감([[086_CP_순환_전치_GI|CP]])"을 고를지 딱 2개 중에 하나만 선택해야 해요.
-3. 은행처럼 돈이 틀리면 큰일 나는 곳은 멈추는 걸([[086_CP_순환_전치_GI|CP]]) 고르고, 유튜브처럼 댓글 하나 늦게 보여도 괜찮은 곳은 안 멈추는 걸([[572_ap_access_point_ds_distribution_system|AP]]) 고르는 똑똑한 포기 방법이랍니다!
+1. [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리는 "완벽하게 예쁘고(C), 절대 고장 안 나고(A), 아무 데서나 쓸 수 있는(P)" 3가지 소원을 들어주는 지니는 세상에 없다는 법칙이에요.
+2. 인터넷이 끊어지는 상황(P)은 무조건 일어나기 때문에, 우리는 "좀 틀려도 계속 돌아가는 장난감([AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/))"을 고를지, "틀릴 바엔 아예 멈춰버리는 장난감([CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/))"을 고를지 딱 2개 중에 하나만 선택해야 해요.
+3. 은행처럼 돈이 틀리면 큰일 나는 곳은 멈추는 걸([CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/)) 고르고, 유튜브처럼 댓글 하나 늦게 보여도 괜찮은 곳은 안 멈추는 걸([AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/)) 고르는 똑똑한 포기 방법이랍니다!
 
 ---
 
@@ -144,7 +148,7 @@ tags:
 
 **진행 상황**: 240 / 371
 
-← **이전**: [[240_time_series_database_influxdb_prometheus|240. 시계열 데이터베이스 (TSDB: InfluxDB, Prometheus)]]
-**다음**: [[242_pacelc_theorem_distributed_tradeoffs|242. PACELC 정리 (PACELC)]] →
+← **이전**: [240. 시계열 데이터베이스 (TSDB: InfluxDB, Prometheus)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/240_time_series_database_influxdb_prometheus/)
+**다음**: [242. PACELC 정리 (PACELC)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/242_pacelc_theorem_distributed_tradeoffs/) →
 
 ---

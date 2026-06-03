@@ -1,31 +1,35 @@
----
-title: 17. 하드웨어 인터럽트 (비동기적)
-date: '2026-03-21'
-tags:
-- studynote-operating-system
----
++++
+title = "17. 하드웨어 인터럽트 (비동기적)"
+date = 2026-03-21
 
-# 하드웨어 [[016_interrupt_mechanism|인터럽트]] (Hardware [[016_interrupt_mechanism|Interrupt]])
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
+
+# 하드웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) (Hardware [Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 하드웨어 [[016_interrupt_mechanism|인터럽트]] (Hardware [[016_interrupt_mechanism|Interrupt]])는 마우스, 키보드, 네트워크 카드, 타이머 등 외부 주변 장치가 CPU (Central Processing Unit)의 [[158_instruction|명령어]] 실행 흐름과 무관하게 비동기적 (Asynchronous)으로 전송하는 전기적 [[130_signal|신호]] 기반의 중단 요청이다.
-> 2. **가치**: CPU가 [[001_dikw_pyramid|데이터]] 입력을 무작정 기다리지 않고 다른 연산을 수행할 수 있게 하여 시스템의 실시간성 (Real-time)과 [[430_index_fast_full_scan|병렬]] 처리 능력을 보장하며, 다중 입출력 장치의 동시적 관리를 가능하게 한다.
-> 3. **융합**: 고성능 서버 환경에서는 [[561_msi|MSI]] ([[561_msi|Message Signaled Interrupts]])와 같은 진화된 방식을 통해 고정된 핀의 한계를 극복하며, [[016_interrupt_mechanism|인터럽트]] 친화성 ([[016_interrupt_mechanism|Interrupt]] [[778_process_affinity_scheduling_pinning|Affinity]]) 설정을 통해 멀티코어 환경의 캐시 지역성 (Cache Locality)을 최적화한다.
+> 1. **본질**: 하드웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) (Hardware [Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))는 마우스, 키보드, 네트워크 카드, 타이머 등 외부 주변 장치가 CPU (Central Processing Unit)의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 실행 흐름과 무관하게 비동기적 (Asynchronous)으로 전송하는 전기적 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 기반의 중단 요청이다.
+> 2. **가치**: CPU가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 입력을 무작정 기다리지 않고 다른 연산을 수행할 수 있게 하여 시스템의 실시간성 (Real-time)과 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 능력을 보장하며, 다중 입출력 장치의 동시적 관리를 가능하게 한다.
+> 3. **융합**: 고성능 서버 환경에서는 [MSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/) ([Message Signaled Interrupts](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/))와 같은 진화된 방식을 통해 고정된 핀의 한계를 극복하며, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 친화성 ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/)) 설정을 통해 멀티코어 환경의 캐시 지역성 (Cache Locality)을 최적화한다.
 
 ---
 
-### Ⅰ. 개요 및 필요성 ([[033_context|Context]] & Necessity)
+### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-- **개념**: 하드웨어 [[016_interrupt_mechanism|인터럽트]] (Hardware [[016_interrupt_mechanism|Interrupt]])는 컴퓨터 시스템의 외부 장치가 CPU에 특정 사건의 발생을 알리기 위해 하드웨어 라인을 통해 보내는 [[130_signal|신호]]다. CPU의 내부 상태 변화에 의해 발생하는 소프트웨어 [[016_interrupt_mechanism|인터럽트]]와 달리, 외부 물리적 장치의 동작 완료나 상태 변화에 의해 유발되므로 발생 시점을 예측할 수 없는 **비동기적 (Asynchronous)** 특성을 갖는다.
+- **개념**: 하드웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) (Hardware [Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))는 컴퓨터 시스템의 외부 장치가 CPU에 특정 사건의 발생을 알리기 위해 하드웨어 라인을 통해 보내는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)다. CPU의 내부 상태 변화에 의해 발생하는 소프트웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)와 달리, 외부 물리적 장치의 동작 완료나 상태 변화에 의해 유발되므로 발생 시점을 예측할 수 없는 **비동기적 (Asynchronous)** 특성을 갖는다.
 
-- **필요성**: 현대 컴퓨터는 수많은 주변 장치와 연결되어 있다. 사용자가 언제 키보드를 누를지, 패킷이 언제 도착할지 알 수 없는 상황에서 CPU가 모든 장치를 순차적으로 감시하는 것은 불가능에 가깝다. 하드웨어 [[016_interrupt_mechanism|인터럽트]]는 장치가 스스로 "준비됨"을 알리게 함으로써 CPU가 연산 자원을 100% 활용할 수 있도록 지원하는 필수적인 자율 호출 시스템이다.
+- **필요성**: 현대 컴퓨터는 수많은 주변 장치와 연결되어 있다. 사용자가 언제 키보드를 누를지, 패킷이 언제 도착할지 알 수 없는 상황에서 CPU가 모든 장치를 순차적으로 감시하는 것은 불가능에 가깝다. 하드웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)는 장치가 스스로 "준비됨"을 알리게 함으로써 CPU가 연산 자원을 100% 활용할 수 있도록 지원하는 필수적인 자율 호출 시스템이다.
 
-- **💡 비유**: 하드웨어 [[016_interrupt_mechanism|인터럽트]]는 아파트 각 세대 입구에 설치된 "초인종"과 같다. 집주인(CPU)이 누군가 올까 봐 문앞에서 계속 기다릴 필요 없이, 방 안에서 책을 읽거나 요리를 하다가 초인종 소리([[130_signal|신호]])가 들릴 때만 현관으로 나가 손님을 맞이하면 된다.
+- **💡 비유**: 하드웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)는 아파트 각 세대 입구에 설치된 "초인종"과 같다. 집주인(CPU)이 누군가 올까 봐 문앞에서 계속 기다릴 필요 없이, 방 안에서 책을 읽거나 요리를 하다가 초인종 소리([신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))가 들릴 때만 현관으로 나가 손님을 맞이하면 된다.
 
 - **등장 배경 및 기술적 병목**:
-  [[459_quic_fec_forward_error_correction|초기]] 마이크로프로세서에서는 단일 [[016_interrupt_mechanism|인터럽트]] 라인만을 제공하여 여러 장치를 구분하기 위해 별도의 소프트웨어적 판단 과정이 필요했다. 장치가 늘어날수록 어떤 장치가 [[130_signal|신호]]를 보냈는지 찾는 '[[016_interrupt_mechanism|인터럽트]] [[655_ir_detection_analysis|식별]] 레이턴시'가 시스템 [[282_performance_tactics|성능]]의 발목을 잡았다. 이를 해결하기 위해 각 장치에 고유 번호를 부여하고 전용 컨트롤러를 통해 관리하는 구조로 발전했다.
+  [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 마이크로프로세서에서는 단일 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 라인만을 제공하여 여러 장치를 구분하기 위해 별도의 소프트웨어적 판단 과정이 필요했다. 장치가 늘어날수록 어떤 장치가 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 보냈는지 찾는 '[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 레이턴시'가 시스템 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 발목을 잡았다. 이를 해결하기 위해 각 장치에 고유 번호를 부여하고 전용 컨트롤러를 통해 관리하는 구조로 발전했다.
 
-  기본적인 하드웨어 [[016_interrupt_mechanism|인터럽트]] [[130_signal|신호]]의 물리적 전달 구조와 CPU와의 인터페이스를 시각화하면 다음과 같다.
+  기본적인 하드웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 물리적 전달 구조와 CPU와의 인터페이스를 시각화하면 다음과 같다.
 
 ```text
   ┌──────────────────────────────────────────────────────────────────┐
@@ -46,26 +50,26 @@ tags:
   └──────────────────────────────────────────────────────────────────┘
 ```
 
-  **[다이어그램 해설]** 하드웨어 [[016_interrupt_mechanism|인터럽트]]의 핵심은 '물리적 배선'이다. 각 장치는 IRQ ([[016_interrupt_mechanism|Interrupt]] Request)라고 불리는 전용 선로를 통해 [[016_interrupt_mechanism|인터럽트]] 컨트롤러 (PIC/APIC)에 연결된다. 장치가 [[001_dikw_pyramid|데이터]]를 준비하면 해당 라인의 전압을 높이거나(Edge) 유지하여(Level) [[130_signal|신호]]를 보낸다. 컨트롤러는 동시에 여러 [[130_signal|신호]]가 들어올 경우 미리 설정된 우선순위에 따라 가장 시급한 것 하나를 선정하여 CPU의 단일 [[016_interrupt_mechanism|인터럽트]] 수신 핀 (INTR)에 전달한다. 이 하드웨어적 중재 과정 덕분에 CPU는 수많은 장치와의 1:N [[083_relationship_in_er_model|관계]]를 효율적으로 관리할 수 있다.
+  **[다이어그램 해설]** 하드웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)의 핵심은 '물리적 배선'이다. 각 장치는 IRQ ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Request)라고 불리는 전용 선로를 통해 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 컨트롤러 (PIC/APIC)에 연결된다. 장치가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 준비하면 해당 라인의 전압을 높이거나(Edge) 유지하여(Level) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 보낸다. 컨트롤러는 동시에 여러 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 들어올 경우 미리 설정된 우선순위에 따라 가장 시급한 것 하나를 선정하여 CPU의 단일 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 수신 핀 (INTR)에 전달한다. 이 하드웨어적 중재 과정 덕분에 CPU는 수많은 장치와의 1:N [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 효율적으로 관리할 수 있다.
 
-- **📢 섹션 요약 비유**: 하드웨어 [[016_interrupt_mechanism|인터럽트]]는 수많은 직원이 각자의 업무를 보다가 급한 건이 생겼을 때만 비서(컨트롤러)를 통해 사장님(CPU)에게 보고서를 올리는 효율적인 기업 보고 체계와 같습니다.
+- **📢 섹션 요약 비유**: 하드웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)는 수많은 직원이 각자의 업무를 보다가 급한 건이 생겼을 때만 비서(컨트롤러)를 통해 사장님(CPU)에게 보고서를 올리는 효율적인 기업 보고 체계와 같습니다.
 
 ---
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-- **하드웨어 [[016_interrupt_mechanism|인터럽트]] 주요 종류 및 특성**:
+- **하드웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 주요 종류 및 특성**:
 
 | 구분 | 종류 | 발생 원인 | 처리 시급성 | 비유 |
 |:---|:---|:---|:---|:---|
-| **타이머 ([[071_os_timer|Timer]])** | 시스템 타이머 | 정해진 시간 간격 경과 (스케줄링용) | 최상 (실시간성) | 정기 알람 |
+| **타이머 ([Timer](/knowledge-base/studynote/02_operating_system/01_overview_architecture/071_os_timer/))** | 시스템 타이머 | 정해진 시간 간격 경과 (스케줄링용) | 최상 (실시간성) | 정기 알람 |
 | **I/O 장치** | 키보드, 마우스 | 사용자 입력 이벤트 발생 | 높음 (반응성) | 벨 소리 |
-| **네트워크** | [[587_nic_offloading|NIC]] (Network Card) | 패킷 수신 및 전송 완료 | 높음 ([[001_dikw_pyramid|데이터]] 유실 방지) | 택배 도착 |
-| **저장장치** | [[327_ssd|SSD]], [[465_hdd_structure|HDD]] | [[001_dikw_pyramid|데이터]] 읽기/[[289_cqrs_db|쓰기]] 명령 완료 | 중간 ([[139_throughput|처리량]] 중심) | 서류 정리 완료 |
-| **[[558_nmi|NMI]]** | Non-Maskable | 치명적 하드웨어 오류 (메모리 패리티 등) | 절대적 (시스템 [[571_protection_vs_security|보호]]) | 비상벨 |
+| **네트워크** | [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) (Network Card) | 패킷 수신 및 전송 완료 | 높음 ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실 방지) | 택배 도착 |
+| **저장장치** | [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/), [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 명령 완료 | 중간 ([처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 중심) | 서류 정리 완료 |
+| **[NMI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/558_nmi/)** | Non-Maskable | 치명적 하드웨어 오류 (메모리 패리티 등) | 절대적 (시스템 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)) | 비상벨 |
 
 - **비동기적 처리 메커니즘 (Asynchronous Flow)**:
-  하드웨어 [[016_interrupt_mechanism|인터럽트]]는 CPU가 어떤 [[158_instruction|명령어]]를 실행 중이든 상관없이 발생한다. 따라서 현재 실행 중인 [[158_instruction|명령어]]의 상태를 완벽하게 보존하는 것이 동작 원리의 핵심이다.
+  하드웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)는 CPU가 어떤 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 실행 중이든 상관없이 발생한다. 따라서 현재 실행 중인 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 상태를 완벽하게 보존하는 것이 동작 원리의 핵심이다.
 
 ```text
   ┌──────────────────────────────────────────────────────────────────┐
@@ -90,10 +94,10 @@ tags:
   └──────────────────────────────────────────────────────────────────┘
 ```
 
-  **[다이어그램 해설]** 이 도식은 하드웨어 [[016_interrupt_mechanism|인터럽트]]가 실행 중인 흐름을 어떻게 '가로채는지'를 보여준다. [[158_instruction|명령어]] 2번과 3번 사이에서 [[016_interrupt_mechanism|인터럽트]]가 발생하면, CPU는 3번 [[158_instruction|명령어]]를 실행하기 직전에 멈춘다. 이때 가장 중요한 것은 하드웨어가 자동으로 [[164_pc|PC]] (Program [[059_counter|Counter]])와 PSW (Processor Status [[075_word|Word]])를 [[022_kernel_role|커널]] 스택에 밀어 넣는(Push) 과정이다. 이후 ISR이 나머지 일반 레지스터들을 추가로 저장한다. '비동기적'이라는 말은 소프트웨어가 이 중단을 대비할 수 없다는 뜻이므로, 운영체제는 아주 세밀한 부분까지 하드웨어 상태를 [[658_ir_recovery|복구]]할 수 있도록 설계되어야 한다. 7nm 이하 미세 공정 CPU에서는 이 저장/[[658_ir_recovery|복구]] 과정에 수십 나노초가 소요되며, 이를 줄이는 것이 저지연 [[022_kernel_role|커널]]의 핵심 목표다.
+  **[다이어그램 해설]** 이 도식은 하드웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 실행 중인 흐름을 어떻게 '가로채는지'를 보여준다. [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 2번과 3번 사이에서 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 발생하면, CPU는 3번 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 실행하기 직전에 멈춘다. 이때 가장 중요한 것은 하드웨어가 자동으로 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) (Program [Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))와 PSW (Processor Status [Word](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/))를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스택에 밀어 넣는(Push) 과정이다. 이후 ISR이 나머지 일반 레지스터들을 추가로 저장한다. '비동기적'이라는 말은 소프트웨어가 이 중단을 대비할 수 없다는 뜻이므로, 운영체제는 아주 세밀한 부분까지 하드웨어 상태를 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)할 수 있도록 설계되어야 한다. 7nm 이하 미세 공정 CPU에서는 이 저장/[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 과정에 수십 나노초가 소요되며, 이를 줄이는 것이 저지연 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 핵심 목표다.
 
 - **심층 제어 원리 (PIC vs APIC)**:
-  과거의 8259A PIC (Programmable [[016_interrupt_mechanism|Interrupt]] Controller)는 단일 코어 환경에 최적화되어 있었으나, 현대의 멀티코어 시스템은 APIC (Advanced PIC)을 사용한다. APIC은 각 코어마다 존재하는 Local APIC과 장치 [[130_signal|신호]]를 분배하는 I/O APIC으로 나뉘어, 특정 코어에 [[016_interrupt_mechanism|인터럽트]] 부하가 쏠리는 현상을 방지하고 코어 간 통신 (IPI, Inter-Processor [[016_interrupt_mechanism|Interrupt]])을 지원한다.
+  과거의 8259A PIC (Programmable [Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Controller)는 단일 코어 환경에 최적화되어 있었으나, 현대의 멀티코어 시스템은 APIC (Advanced PIC)을 사용한다. APIC은 각 코어마다 존재하는 Local APIC과 장치 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 분배하는 I/O APIC으로 나뉘어, 특정 코어에 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 부하가 쏠리는 현상을 방지하고 코어 간 통신 (IPI, Inter-Processor [Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))을 지원한다.
 
 ```text
   ┌───────────────────────────────────────────────────────────────────┐
@@ -115,7 +119,7 @@ tags:
   └───────────────────────────────────────────────────────────────────┘
 ```
 
-  **[다이어그램 해설]** 단일 [[016_interrupt_mechanism|인터럽트]] 라인의 시대가 가고 메시지 기반 [[136_variance|분산]] 처리의 시대가 왔다. I/O APIC은 외부 장치로부터 [[016_interrupt_mechanism|인터럽트]] 메시지를 받아 시스템 버스를 통해 각 코어의 Local APIC으로 전달한다. 이를 통해 하드웨어 [[016_interrupt_mechanism|인터럽트]]는 특정 코어의 연산을 방해하지 않으면서도 시스템 전체의 처리 균형을 맞출 수 있다. 실무에서는 `/proc/interrupts` 파일을 통해 특정 장치의 [[016_interrupt_mechanism|인터럽트]]가 특정 코어에만 몰리는지 확인할 수 있으며, 필요시 `smp_affinity` 설정을 통해 수동으로 [[136_variance|분산]]시켜 네트워크 처리 [[282_performance_tactics|성능]]을 2배 이상 높이기도 한다.
+  **[다이어그램 해설]** 단일 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 라인의 시대가 가고 메시지 기반 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리의 시대가 왔다. I/O APIC은 외부 장치로부터 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 메시지를 받아 시스템 버스를 통해 각 코어의 Local APIC으로 전달한다. 이를 통해 하드웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)는 특정 코어의 연산을 방해하지 않으면서도 시스템 전체의 처리 균형을 맞출 수 있다. 실무에서는 `/proc/interrupts` 파일을 통해 특정 장치의 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 특정 코어에만 몰리는지 확인할 수 있으며, 필요시 `smp_affinity` 설정을 통해 수동으로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시켜 네트워크 처리 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 2배 이상 높이기도 한다.
 
 - **📢 섹션 요약 비유**: APIC 구조는 회사에 전화가 왔을 때 전용 교환기(I/O APIC)가 현재 가장 한가한 사원(Local APIC)에게 전화를 돌려주어 전체 업무 효율을 높이는 스마트 콜센터 시스템과 같습니다.
 
@@ -123,17 +127,17 @@ tags:
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
-- **[[016_interrupt_mechanism|인터럽트]] 전달 방식 비교: Pin-based vs [[561_msi|MSI]]**:
+- **[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 전달 방식 비교: Pin-based vs [MSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/)**:
 
-| 비교 항목 | Pin-based (Legacy IRQ) | [[561_msi|MSI]] ([[561_msi|Message Signaled Interrupts]]) |
+| 비교 항목 | Pin-based (Legacy IRQ) | [MSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/) ([Message Signaled Interrupts](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/)) |
 |:---|:---|:---|
-| **물리 구조** | 전용 구리선 (물리 배선) | [[001_dikw_pyramid|데이터]] 버스를 통한 메시지 기록 (In-band) |
+| **물리 구조** | 전용 구리선 (물리 배선) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 버스를 통한 메시지 기록 (In-band) |
 | **확장성** | 제한적 (일반적으로 15~24개) | 매우 높음 (수천 개 가능) |
-| **공유 문제** | IRQ Sharing 발생 시 [[282_performance_tactics|성능]] 저하 | 공유 없음 (장치별 전용 메시지) |
-| **[[141_latency|지연 시간]]** | 배선 길이에 따른 물리 [[015_지연_데이터_관점|지연]] 존재 | 메모리 [[289_cqrs_db|쓰기]] 방식으로 매우 빠름 |
-| **주 사용처** | 구형 장치, 임베디드 | [[356_pcie|PCIe]] ([[356_pcie|PCI Express]]) 장치, 고성능 서버 |
+| **공유 문제** | IRQ Sharing 발생 시 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 | 공유 없음 (장치별 전용 메시지) |
+| **[지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)** | 배선 길이에 따른 물리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 존재 | 메모리 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 방식으로 매우 빠름 |
+| **주 사용처** | 구형 장치, 임베디드 | [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) ([PCI Express](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/)) 장치, 고성능 서버 |
 
-  [[356_pcie|PCIe]] 장치에서 주로 사용되는 [[561_msi|MSI]] ([[561_msi|Message Signaled Interrupts]])는 기존의 복잡한 배선 문제를 소프트웨어적인 메모리 [[289_cqrs_db|쓰기]] 방식으로 해결했다. 이는 하드웨어 [[016_interrupt_mechanism|인터럽트]]가 더 이상 '전기적 쇼크'가 아니라 하나의 '[[001_dikw_pyramid|데이터]] 패킷'으로 진화했음을 의미한다.
+  [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 장치에서 주로 사용되는 [MSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/) ([Message Signaled Interrupts](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/))는 기존의 복잡한 배선 문제를 소프트웨어적인 메모리 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 방식으로 해결했다. 이는 하드웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 더 이상 '전기적 쇼크'가 아니라 하나의 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패킷'으로 진화했음을 의미한다.
 
 ```text
   ┌──────────────────────────────────────────────────────────────────┐
@@ -152,20 +156,20 @@ tags:
   └──────────────────────────────────────────────────────────────────┘
 ```
 
-  **[다이어그램 해설]** 레거시 방식은 메인보드 설계 시 [[016_interrupt_mechanism|인터럽트]] 선을 일일이 깔아야 했기에 물리적 공간 제약이 컸다. 하지만 MSI는 장치가 직접 CPU의 특정 주소(MsiAddress)에 특정 값(MsiData)을 쓰는 행위 자체를 [[016_interrupt_mechanism|인터럽트]]로 간주한다. 이 방식의 가장 큰 장점은 [[001_dikw_pyramid|데이터]] 전송과 [[016_interrupt_mechanism|인터럽트]] 사이의 선후 [[083_relationship_in_er_model|관계]]가 명확해진다는 점이다. 기존에는 [[001_dikw_pyramid|데이터]]는 버스로 가고 [[016_interrupt_mechanism|인터럽트]]는 전용선으로 가서 순서가 뒤바뀌는 '[[213_race_condition|Race Condition]]'이 발생할 수 있었으나, MSI는 [[001_dikw_pyramid|데이터]]와 동일한 경로를 사용하므로 [[001_dikw_pyramid|데이터]] 도착 직후에 [[016_interrupt_mechanism|인터럽트]]가 처리됨을 보장한다. 고성능 [[482_nvme|NVMe]] ([[482_nvme|Non-Volatile Memory express]]) SSD가 수십 개의 큐를 가질 수 있는 비결도 바로 이 [[561_msi|MSI]]-X 기술 덕분이다.
+  **[다이어그램 해설]** 레거시 방식은 메인보드 설계 시 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 선을 일일이 깔아야 했기에 물리적 공간 제약이 컸다. 하지만 MSI는 장치가 직접 CPU의 특정 주소(MsiAddress)에 특정 값(MsiData)을 쓰는 행위 자체를 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)로 간주한다. 이 방식의 가장 큰 장점은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송과 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 사이의 선후 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 명확해진다는 점이다. 기존에는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 버스로 가고 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)는 전용선으로 가서 순서가 뒤바뀌는 '[Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)'이 발생할 수 있었으나, MSI는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 동일한 경로를 사용하므로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 도착 직후에 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 처리됨을 보장한다. 고성능 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) ([Non-Volatile Memory express](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)) SSD가 수십 개의 큐를 가질 수 있는 비결도 바로 이 [MSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/)-X 기술 덕분이다.
 
-- **📢 섹션 요약 비유**: 레거시 방식이 각 방에 벨을 설치하려고 전선을 다 깔아야 하는 노후 주택이라면, MSI는 스마트폰 메시지로 "저 도착했어요"라고 알리는 최신식 [[101_iot_concept|IoT]] 아파트와 같습니다.
+- **📢 섹션 요약 비유**: 레거시 방식이 각 방에 벨을 설치하려고 전선을 다 깔아야 하는 노후 주택이라면, MSI는 스마트폰 메시지로 "저 도착했어요"라고 알리는 최신식 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 아파트와 같습니다.
 
 ---
 
-### Ⅳ. 실무 적용 및 기술사적 판단 ([[268_strategy_pattern|Strategy]] & Decision)
+### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 
-- **실무 이슈 및 해결 [[268_strategy_pattern|전략]]**:
-  1. **[[016_interrupt_mechanism|인터럽트]] 폭풍 ([[016_interrupt_mechanism|Interrupt]] Storm)**: 고장 난 하드웨어나 과도한 네트워크 유입으로 인해 초당 수만 건의 [[016_interrupt_mechanism|인터럽트]]가 발생하여 CPU가 [[020_isr|ISR]] 처리만 하다가 시스템이 멈추는 현상이다. [[022_kernel_role|커널]] 레벨에서 [[016_interrupt_mechanism|인터럽트]] 빈도를 제한(Throttling)하거나, 앞서 언급한 NAPI ([[087_process_state_transition|New]] [[014_api_posix|API]])처럼 [[448_polling_programmed_io|폴링]] 방식으로 자동 전환하는 [[571_protection_vs_security|보호]] 메커니즘이 필요하다.
-  2. **캐시 지역성 손실**: [[016_interrupt_mechanism|인터럽트]]가 빈번하게 발생하여 실행 코어가 계속 바뀌면 CPU 캐시 적중률이 급감한다. 실무에서는 특정 장치의 [[016_interrupt_mechanism|인터럽트]]를 특정 코어에 고정하는 'IRQ [[778_process_affinity_scheduling_pinning|Affinity]]' 설정을 통해 [[001_dikw_pyramid|데이터]] 처리 경로를 캐시 안에 가두는 최적화를 수행한다.
-  3. **지터 (Jitter) 문제**: 실시간 시스템에서 하드웨어 [[016_interrupt_mechanism|인터럽트]]는 작업 실행 시간을 불규칙하게 만드는 주범이다. 중요 태스크가 실행 중일 때는 불필요한 [[016_interrupt_mechanism|인터럽트]]를 마스킹(Masking)하거나 우선순위를 조정하여 결정론적 (Deterministic) 동작을 보장해야 한다.
+- **실무 이슈 및 해결 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**:
+  1. **[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 폭풍 ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Storm)**: 고장 난 하드웨어나 과도한 네트워크 유입으로 인해 초당 수만 건의 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 발생하여 CPU가 [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) 처리만 하다가 시스템이 멈추는 현상이다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨에서 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 빈도를 제한(Throttling)하거나, 앞서 언급한 NAPI ([New](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))처럼 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 방식으로 자동 전환하는 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 메커니즘이 필요하다.
+  2. **캐시 지역성 손실**: [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 빈번하게 발생하여 실행 코어가 계속 바뀌면 CPU 캐시 적중률이 급감한다. 실무에서는 특정 장치의 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 특정 코어에 고정하는 'IRQ [Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/)' 설정을 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 경로를 캐시 안에 가두는 최적화를 수행한다.
+  3. **지터 (Jitter) 문제**: 실시간 시스템에서 하드웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)는 작업 실행 시간을 불규칙하게 만드는 주범이다. 중요 태스크가 실행 중일 때는 불필요한 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 마스킹(Masking)하거나 우선순위를 조정하여 결정론적 (Deterministic) 동작을 보장해야 한다.
 
-  운영 환경에서 [[016_interrupt_mechanism|인터럽트]] 부하를 모니터링하고 코어별로 [[136_variance|분산]]시키는 최적화 워크플로우는 다음과 같다.
+  운영 환경에서 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 부하를 모니터링하고 코어별로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시키는 최적화 워크플로우는 다음과 같다.
 
 ```text
   ┌──────────────────────────────────────────────────────────────────┐
@@ -182,30 +186,30 @@ tags:
   └──────────────────────────────────────────────────────────────────┘
 ```
 
-  **[다이어그램 해설]** 리눅스 서버 운영 시 가장 흔한 [[282_performance_tactics|성능]] 저하 원인 중 하나가 'Softirq 집중'이다. 하드웨어 [[016_interrupt_mechanism|인터럽트]] 처리가 끝나고 이어지는 소프트웨어 [[016_interrupt_mechanism|인터럽트]] 작업이 특정 코어 하나에만 몰리면, 그 코어는 100% 부하에 빠져 패킷 유실을 유발한다. 이때 `smp_affinity`를 활용해 10G/40G NIC의 멀티 큐를 여러 코어에 1:1로 매핑해주면 전체 시스템 부하가 평탄화된다. 기술사적 판단으로서, [[282_performance_tactics|성능]] 최적화의 첫걸음은 "어떤 하드웨어가 어느 코어의 업무를 방해하고 있는가"를 [[016_interrupt_mechanism|인터럽트]] 통계로 파악하는 것이다.
+  **[다이어그램 해설]** 리눅스 서버 운영 시 가장 흔한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 원인 중 하나가 'Softirq 집중'이다. 하드웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리가 끝나고 이어지는 소프트웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 작업이 특정 코어 하나에만 몰리면, 그 코어는 100% 부하에 빠져 패킷 유실을 유발한다. 이때 `smp_affinity`를 활용해 10G/40G NIC의 멀티 큐를 여러 코어에 1:1로 매핑해주면 전체 시스템 부하가 평탄화된다. 기술사적 판단으로서, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화의 첫걸음은 "어떤 하드웨어가 어느 코어의 업무를 방해하고 있는가"를 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 통계로 파악하는 것이다.
 
-- **📢 섹션 요약 비유**: 한 명의 직원에게만 모든 전화가 몰려 업무가 마비될 때, 업무 성격에 따라 담당 직원을 미리 정해주어([[778_process_affinity_scheduling_pinning|Affinity]]) 각자의 전문 분야에서 신속히 처리하게 하는 조직 개편과 같습니다.
+- **📢 섹션 요약 비유**: 한 명의 직원에게만 모든 전화가 몰려 업무가 마비될 때, 업무 성격에 따라 담당 직원을 미리 정해주어([Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/)) 각자의 전문 분야에서 신속히 처리하게 하는 조직 개편과 같습니다.
 
 ---
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 
-- **기대효과**: 하드웨어 [[016_interrupt_mechanism|인터럽트]]는 시스템에 '생동감'을 부여한다. 이를 통해 컴퓨터는 정적인 연산기에서 벗어나 외부 환경과 실시간으로 상호작용하는 지능형 시스템으로 진화했다. 특히 전력 관리 측면에서 장치가 쉬는 동안 CPU도 절전 모드에 들어갔다가 [[016_interrupt_mechanism|인터럽트]] [[130_signal|신호]]로 깨어나는 'Wake-on-[[016_interrupt_mechanism|Interrupt]]' 기술은 모바일 기기 배터리 수명 연장의 핵심이다.
+- **기대효과**: 하드웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)는 시스템에 '생동감'을 부여한다. 이를 통해 컴퓨터는 정적인 연산기에서 벗어나 외부 환경과 실시간으로 상호작용하는 지능형 시스템으로 진화했다. 특히 전력 관리 측면에서 장치가 쉬는 동안 CPU도 절전 모드에 들어갔다가 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)로 깨어나는 'Wake-on-[Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)' 기술은 모바일 기기 배터리 수명 연장의 핵심이다.
 
-- **미래 전망**: [[231_ai_turing_test|인공지능]] ([[190_ai_llm_requirements_specification|AI]]) 가속기나 [[148_5g_embb_urllc_mmtc|초고속]] 저장장치의 발전으로 [[016_interrupt_mechanism|인터럽트]] 발생 빈도가 임계치를 넘어서고 있다. 미래에는 하드웨어가 직접 운영체제의 개입 없이 메모리 영역을 수정하고 작업을 완료하는 'User-level [[016_interrupt_mechanism|Interrupt]]'나 '[[021_hardware_assisted_virtualization|Hardware-assisted Virtualization]]' 기술이 더욱 정교해져 [[016_interrupt_mechanism|인터럽트]] 오버헤드를 '[[585_zero_skipping|Zero]]'에 가깝게 수렴시킬 것이다.
+- **미래 전망**: [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) ([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) 가속기나 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 저장장치의 발전으로 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 발생 빈도가 임계치를 넘어서고 있다. 미래에는 하드웨어가 직접 운영체제의 개입 없이 메모리 영역을 수정하고 작업을 완료하는 'User-level [Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)'나 '[Hardware-assisted Virtualization](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/021_hardware_assisted_virtualization/)' 기술이 더욱 정교해져 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 오버헤드를 '[Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)'에 가깝게 수렴시킬 것이다.
 
-- **📢 섹션 요약 비유**: 하드웨어 [[016_interrupt_mechanism|인터럽트]]는 잠자던 거인을 깨우는 알람 소리와 같아서, 평소에는 에너지를 아끼다가 필요할 때만 기민하게 움직이게 하는 스마트한 에너지 관리 비결입니다.
+- **📢 섹션 요약 비유**: 하드웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)는 잠자던 거인을 깨우는 알람 소리와 같아서, 평소에는 에너지를 아끼다가 필요할 때만 기민하게 움직이게 하는 스마트한 에너지 관리 비결입니다.
 
 ---
 
-### 📌 관련 개념 맵 ([[160_knowledge_graph_graphrag_integration|Knowledge Graph]])
-| 개념 명칭 | [[083_relationship_in_er_model|관계]] 및 시너지 설명 |
+### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
+| 개념 명칭 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 및 시너지 설명 |
 |:---|:---|
-| **비동기성 (Asynchrony)** | 하드웨어 [[016_interrupt_mechanism|인터럽트]]의 핵심 속성으로, 발생 시점을 예측할 수 없는 특성. |
-| **APIC (Advanced PIC)** | 멀티코어 환경에서 [[016_interrupt_mechanism|인터럽트]]를 효율적으로 분배하고 코어 간 통신을 지원하는 하드웨어. |
-| **IRQ [[778_process_affinity_scheduling_pinning|Affinity]]** | 특정 하드웨어 [[016_interrupt_mechanism|인터럽트]] 처리를 특정 CPU 코어에 고정하여 [[282_performance_tactics|성능]]을 최적화하는 기법. |
-| **SoftIRQ** | 하드웨어 [[016_interrupt_mechanism|인터럽트]] 처리 직후 실행되는 [[015_지연_데이터_관점|지연]] 처리 메커니즘으로, 실제 [[001_dikw_pyramid|데이터]] 처리가 일어나는 곳. |
-| **[[558_nmi|NMI]] (Non-Maskable)** | 어떤 상황에서도 차단할 수 없는 최우선 순위 [[016_interrupt_mechanism|인터럽트]]로, 시스템 [[658_ir_recovery|복구]] 불가능한 하드웨어 장애 시 발생. |
+| **비동기성 (Asynchrony)** | 하드웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)의 핵심 속성으로, 발생 시점을 예측할 수 없는 특성. |
+| **APIC (Advanced PIC)** | 멀티코어 환경에서 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 효율적으로 분배하고 코어 간 통신을 지원하는 하드웨어. |
+| **IRQ [Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/)** | 특정 하드웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리를 특정 CPU 코어에 고정하여 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 최적화하는 기법. |
+| **SoftIRQ** | 하드웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리 직후 실행되는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 처리 메커니즘으로, 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리가 일어나는 곳. |
+| **[NMI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/558_nmi/) (Non-Maskable)** | 어떤 상황에서도 차단할 수 없는 최우선 순위 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)로, 시스템 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 불가능한 하드웨어 장애 시 발생. |
 
 ---
 
@@ -229,10 +233,10 @@ tags:
     ▼
 [MSI-X (Message Signaled Interrupt) — PCIe 버스 상 메시지 기반 인터럽트, APIC 확장]
 ```
-이 흐름은 CPU가 능동적으로 장치를 검사하던 [[448_polling_programmed_io|폴링]] 방식에서 비동기 [[130_signal|신호]] 기반 [[016_interrupt_mechanism|인터럽트]]로 전환된 뒤, 우선순위 관리와 메시지 기반 확장으로 진화하는 OS-하드웨어 상호작용 메커니즘의 발전 계보를 보여준다.
+이 흐름은 CPU가 능동적으로 장치를 검사하던 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 방식에서 비동기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 기반 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)로 전환된 뒤, 우선순위 관리와 메시지 기반 확장으로 진화하는 OS-하드웨어 상호작용 메커니즘의 발전 계보를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 하드웨어 [[016_interrupt_mechanism|인터럽트]]는 컴퓨터 주변 장치들이 CPU 형아에게 보내는 "나 다 했어!"라는 쪽지예요.
+1. 하드웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)는 컴퓨터 주변 장치들이 CPU 형아에게 보내는 "나 다 했어!"라는 쪽지예요.
 2. CPU 형아가 다른 공부를 하고 있을 때 마우스나 키보드가 쪽지를 보내면, 형아는 잠시 공부를 멈추고 쪽지를 읽은 뒤 다시 공부를 시작해요.
 3. 이 쪽지 덕분에 CPU 형아는 마우스가 언제 움직일지 계속 지켜볼 필요 없이 마음 놓고 다른 일을 할 수 있답니다!
 
@@ -242,7 +246,7 @@ tags:
 
 **진행 상황**: 17 / 800
 
-← **이전**: [[016_interrupt_mechanism|16. 인터럽트 (Interrupt) 메커니즘]]
-**다음**: [[018_software_interrupt_trap|18. 소프트웨어 인터럽트 / 트랩 (Trap) / 예외 (Exception)]] →
+← **이전**: [16. 인터럽트 (Interrupt) 메커니즘](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)
+**다음**: [18. 소프트웨어 인터럽트 / 트랩 (Trap) / 예외 (Exception)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/018_software_interrupt_trap/) →
 
 ---

@@ -1,14 +1,18 @@
----
-title: 132. Transfer Learning (전이 학습) - 사전 학습 모델의 재활용
-date: '2026-04-19'
-tags:
-- studynote-ai
----
++++
+title = "132. Transfer Learning (전이 학습) - 사전 학습 모델의 재활용"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-ai"]
+
+[extra]
+tags = ["studynote-ai"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Transfer Learning은 **대규모 [[001_dikw_pyramid|데이터]]로 사전 학습된 모델의 지식을 새로운 작업에 전이(재활용)**하는 학습 기법이며, [[225_foundation_model_peft_lora|Foundation Model]] 시대의 핵심 패러다임이다.
-> 2. **가치**: 처음부터 학습하면 [[418_gpu|GPU]]·[[001_dikw_pyramid|데이터]]·시간이 막대하지만, 사전 학습 모델을 전이하면 **소량 [[001_dikw_pyramid|데이터]]로도 높은 [[282_performance_tactics|성능]]**을 달성(Few-shot)할 수 있다.
-> 3. **판단 포인트**: Feature Extraction(동결)·[[304_fine_tuning|Fine-tuning]]([[133_fine_tuning|미세 조정]])·[[617_lora_lorawan_css_chirp_spread_spectrum|LoRA]](효율적 [[133_fine_tuning|미세 조정]])를 구분하고, [[064_relation_domain|도메인]] 유사도에 따라 [[268_strategy_pattern|전략]]을 선택한다.
+> 1. **본질**: Transfer Learning은 **대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 사전 학습된 모델의 지식을 새로운 작업에 전이(재활용)**하는 학습 기법이며, [Foundation Model](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/) 시대의 핵심 패러다임이다.
+> 2. **가치**: 처음부터 학습하면 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·시간이 막대하지만, 사전 학습 모델을 전이하면 **소량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로도 높은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)**을 달성(Few-shot)할 수 있다.
+> 3. **판단 포인트**: Feature Extraction(동결)·[Fine-tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)([미세 조정](/knowledge-base/studynote/10_ai/02_dl_architecture_new/133_fine_tuning/))·[LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/)(효율적 [미세 조정](/knowledge-base/studynote/10_ai/02_dl_architecture_new/133_fine_tuning/))를 구분하고, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 유사도에 따라 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 선택한다.
 
 ---
 
@@ -20,23 +24,23 @@ tags:
   소량 데이터로도 높은 성능!
 ```
 
-- **📢 섹션 요약 비유**: Transfer Learning은 **대학 교양(사전 학습) 후 전공([[304_fine_tuning|Fine-tuning]]) 선택**이다. 교양을 건너뛰면 전공도 어렵다.
+- **📢 섹션 요약 비유**: Transfer Learning은 **대학 교양(사전 학습) 후 전공([Fine-tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)) 선택**이다. 교양을 건너뛰면 전공도 어렵다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-| 방식 | 설명 | [[001_dikw_pyramid|데이터]]량 |
+| 방식 | 설명 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)량 |
 |:---|:---|:---|
 | **Feature Extraction** | 모델 동결, 마지막 층만 | 극소량 |
-| **[[304_fine_tuning|Fine-tuning]]** | 전체/일부 층 재학습 | 중간 |
-| **[[617_lora_lorawan_css_chirp_spread_spectrum|LoRA]]/[[404_qlora|QLoRA]]** | 저랭크 행렬만 학습 | **효율적** |
+| **[Fine-tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)** | 전체/일부 층 재학습 | 중간 |
+| **[LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/)/[QLoRA](/knowledge-base/studynote/10_ai/05_data_science_ml/404_qlora/)** | 저랭크 행렬만 학습 | **효율적** |
 
 ---
 
 ## Ⅲ~Ⅴ. 결론
 
-Transfer Learning은 **현대 AI의 기본 패러다임**이며, [[617_lora_lorawan_css_chirp_spread_spectrum|LoRA]]/QLoRA로 소규모 팀도 LLM을 커스텀할 수 있다.
+Transfer Learning은 **현대 AI의 기본 패러다임**이며, [LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/)/QLoRA로 소규모 팀도 LLM을 커스텀할 수 있다.
 
 ---
 
@@ -44,11 +48,11 @@ Transfer Learning은 **현대 AI의 기본 패러다임**이며, [[617_lora_lora
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **Transfer [[240_switch_learning_forwarding_flooding|Learning]]** | 지식 전이 |
-| **[[304_fine_tuning|Fine-tuning]]** | 전체 모델 [[133_fine_tuning|미세 조정]] |
-| **[[617_lora_lorawan_css_chirp_spread_spectrum|LoRA]]** | 효율적 파라미터 [[133_fine_tuning|미세 조정]] |
-| **[[225_foundation_model_peft_lora|Foundation Model]]** | 전이의 원천 |
-| **[[064_relation_domain|Domain]] Adaptation** | [[064_relation_domain|도메인]] 차이 극복 |
+| **Transfer [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)** | 지식 전이 |
+| **[Fine-tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)** | 전체 모델 [미세 조정](/knowledge-base/studynote/10_ai/02_dl_architecture_new/133_fine_tuning/) |
+| **[LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/)** | 효율적 파라미터 [미세 조정](/knowledge-base/studynote/10_ai/02_dl_architecture_new/133_fine_tuning/) |
+| **[Foundation Model](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/)** | 전이의 원천 |
+| **[Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Adaptation** | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 차이 극복 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -60,7 +64,7 @@ Transfer Learning은 **현대 AI의 기본 패러다임**이며, [[617_lora_lora
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. Transfer Learning은 **대학 교양(사전 학습)** 후 **전공([[304_fine_tuning|Fine-tuning]])**을 고르는 거예요.
+1. Transfer Learning은 **대학 교양(사전 학습)** 후 **전공([Fine-tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/))**을 고르는 거예요.
 2. 교양을 열심히 하면 **어떤 전공이든 빨리** 배울 수 있어요.
 3. LoRA는 **전공 한두 과목만** 추가로 듣는 효율적인 방법이에요!
 
@@ -70,7 +74,7 @@ Transfer Learning은 **현대 AI의 기본 패러다임**이며, [[617_lora_lora
 
 **진행 상황**: 132 / 420
 
-← **이전**: [[131_self_supervised_learning|131. 자기 지도 학습 (Self-Supervised Learning) - 라벨 없이 학습하는 사전 훈련]]
-**다음**: [[133_fine_tuning|133. Fine-tuning (미세 조정) - 사전 학습 모델의 도메인 적응]] →
+← **이전**: [131. 자기 지도 학습 (Self-Supervised Learning) - 라벨 없이 학습하는 사전 훈련](/knowledge-base/studynote/10_ai/02_dl_architecture_new/131_self_supervised_learning/)
+**다음**: [133. Fine-tuning (미세 조정) - 사전 학습 모델의 도메인 적응](/knowledge-base/studynote/10_ai/02_dl_architecture_new/133_fine_tuning/) →
 
 ---

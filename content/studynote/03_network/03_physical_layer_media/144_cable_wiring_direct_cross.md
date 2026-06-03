@@ -1,13 +1,17 @@
----
-title: '144. 케이블 배선: 다이렉트 케이블 (T568B) vs 크로스오버 케이블'
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "144. 케이블 배선: 다이렉트 케이블 (T568B) vs 크로스오버 케이블"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 케이블 배선: 다이렉트 케이블 vs 크로스오…는 물리 계층과 전송 [[121_transmission_media_guided_unguided|매체]]에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 1. **본질**: 케이블 배선: 다이렉트 케이블 vs 크로스오…는 물리 계층과 전송 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
 > 2. **가치**: 케이블 배선: 다이렉트 케이블 vs 크로스오…를 이해하면 감쇠과 전송 거리 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
@@ -15,10 +19,10 @@ tags:
 
 ## Ⅰ. 개요 및 필요성
 
-TIA/EIA 표준에서는 [[124_unshielded_twisted_pair|UTP]] 케이블 내의 8가닥 선(흰띠 4개, 색깔 4개)을 RJ-45 플러그에 꽂는 순서를 2가지로 정의했습니다.
+TIA/EIA 표준에서는 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 케이블 내의 8가닥 선(흰띠 4개, 색깔 4개)을 RJ-45 플러그에 꽂는 순서를 2가지로 정의했습니다.
 
 ### T568B 규격 (한국 및 전 세계에서 가장 널리 쓰이는 표준)
-왼쪽(1번 핀)부터 오른쪽(8번 핀) 순서대로 [[055_array|배열]]합니다.
+왼쪽(1번 핀)부터 오른쪽(8번 핀) 순서대로 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)합니다.
 1. **흰주** (Tx +)
 2. **주황** (Tx -)
 3. **흰녹** (Rx +)
@@ -29,8 +33,8 @@ TIA/EIA 표준에서는 [[124_unshielded_twisted_pair|UTP]] 케이블 내의 8�
 8. 갈색
 
 ### T568A 규격
-T568B에서 주황색 그룹(1,2번)과 녹색 그룹(3,6번)의 위치를 서로 바꾼 [[055_array|배열]]입니다. 주로 미국 연방 정부 기관 등에서 쓰입니다.
-- [[055_array|배열]]: **흰녹, 녹색, 흰주**, 파랑, 흰파, **주황**, 흰갈, 갈색
+T568B에서 주황색 그룹(1,2번)과 녹색 그룹(3,6번)의 위치를 서로 바꾼 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)입니다. 주로 미국 연방 정부 기관 등에서 쓰입니다.
+- [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/): **흰녹, 녹색, 흰주**, 파랑, 흰파, **주황**, 흰갈, 갈색
 
 ```text
 [Auto-MDIX]
@@ -41,7 +45,7 @@ T568B에서 주황색 그룹(1,2번)과 녹색 그룹(3,6번)의 위치를 서�
     └──▶ [DSU / CSU]
 ```
 
-- **📢 섹션 요약 비유**: 케이블 배선: 다이렉트 케이블 vs 크로스오…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [[170_selectivity_cardinality_distribution_tuning|선택도]] 쉬워진다.
+- **📢 섹션 요약 비유**: 케이블 배선: 다이렉트 케이블 vs 크로스오…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
@@ -49,9 +53,9 @@ T568B에서 주황색 그룹(1,2번)과 녹색 그룹(3,6번)의 위치를 서�
 
 - **제작 방법**: 케이블의 **양쪽 끝단을 모두 똑같은 규격(보통 양쪽 다 T568B)**으로 찍어서(압착하여) 만듭니다. (핀 1번은 1번으로, 2번은 2번으로 직결됨)
 - **용도**: **"서로 다른 성격의 장비(MDI ↔ MDI-X)"**를 연결할 때 사용합니다.
-  - [[164_pc|PC]] ↔ [[238_switch_operation_principles|스위치]] ([[152_hub_dummy_switching_intelligent|허브]])
-  - 라우터 ↔ [[238_switch_operation_principles|스위치]] ([[152_hub_dummy_switching_intelligent|허브]])
-- **작동 원리**: [[238_switch_operation_principles|스위치]] [[446_port_and_bus|포트]] 자체가 내부적으로 1,2번과 3,6번을 꼬아놓았기 때문에, 케이블은 일직선(Straight)으로 뻗어 있어도 [[130_signal|신호]]가 교차되어 잘 전달됩니다.
+  - [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) ↔ [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) ([허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))
+  - 라우터 ↔ [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) ([허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))
+- **작동 원리**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 자체가 내부적으로 1,2번과 3,6번을 꼬아놓았기 때문에, 케이블은 일직선(Straight)으로 뻗어 있어도 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 교차되어 잘 전달됩니다.
 
 ```text
 [Auto-MDIX]
@@ -70,21 +74,21 @@ T568B에서 주황색 그룹(1,2번)과 녹색 그룹(3,6번)의 위치를 서�
 
 - **제작 방법**: 케이블의 **한쪽 끝은 T568B로, 반대쪽 끝은 T568A로** 다르게 찍어서 만듭니다. 이렇게 하면 1,2번 핀(Tx)이 반대쪽의 3,6번 핀(Rx)으로 물리적으로 교차되어 들어갑니다.
 - **용도**: **"서로 같은 성격의 장비(MDI ↔ MDI 또는 MDI-X ↔ MDI-X)"**를 연결할 때 사용합니다.
-  - [[164_pc|PC]] ↔ [[164_pc|PC]] (랜선으로 1:1 직접 연결할 때)
-  - [[238_switch_operation_principles|스위치]] ↔ [[238_switch_operation_principles|스위치]]
-  - [[152_hub_dummy_switching_intelligent|허브]] ↔ [[152_hub_dummy_switching_intelligent|허브]]
-  - 라우터 ↔ 라우터, [[164_pc|PC]] ↔ 라우터 (라우터와 PC는 둘 다 MDI [[446_port_and_bus|포트]]를 가짐)
-- **작동 원리**: 장비 내부에서 [[446_port_and_bus|포트]]를 꼬아주지 않으니, 케이블 자체를 꼬아서 송신과 수신이 부딪히지 않게 만들어 줍니다.
+  - [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) ↔ [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) (랜선으로 1:1 직접 연결할 때)
+  - [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) ↔ [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)
+  - [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) ↔ [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)
+  - 라우터 ↔ 라우터, [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) ↔ 라우터 (라우터와 PC는 둘 다 MDI [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 가짐)
+- **작동 원리**: 장비 내부에서 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 꼬아주지 않으니, 케이블 자체를 꼬아서 송신과 수신이 부딪히지 않게 만들어 줍니다.
 
-*(※ 주의: 현대의 기가비트 장비나 [[143_auto_mdix|Auto-MDIX]] 지원 장비에서는 이 둘을 엄격히 구분하여 제작할 필요가 사라졌지만, 네트워크 이론 시험에서는 단골로 출제되는 고전적인 지식입니다.)*
+*(※ 주의: 현대의 기가비트 장비나 [Auto-MDIX](/knowledge-base/studynote/03_network/03_physical_layer_media/143_auto_mdix/) 지원 장비에서는 이 둘을 엄격히 구분하여 제작할 필요가 사라졌지만, 네트워크 이론 시험에서는 단골로 출제되는 고전적인 지식입니다.)*
 
-케이블 배선: 다이렉트 케이블 vs 크로스오…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. Auto-MDIX가 기반 조건을 만든다면, 케이블 배선: 다이렉트 케이블 vs 크로스오…는 그 위에서 핵심 메커니즘을 구현하고, [[145_dsu_csu_digital_service_unit|DSU]] / CSU는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 감쇠과 전송 거리에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+케이블 배선: 다이렉트 케이블 vs 크로스오…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. Auto-MDIX가 기반 조건을 만든다면, 케이블 배선: 다이렉트 케이블 vs 크로스오…는 그 위에서 핵심 메커니즘을 구현하고, [DSU](/knowledge-base/studynote/03_network/03_physical_layer_media/145_dsu_csu_digital_service_unit/) / CSU는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 감쇠과 전송 거리에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | Auto-MDIX의 기반 정리 | 케이블 배선: 다이렉트 케이블 vs 크로스오…의 핵심 동작 | [[145_dsu_csu_digital_service_unit|DSU]] / CSU의 확장 적용 |
+| 초점 | Auto-MDIX의 기반 정리 | 케이블 배선: 다이렉트 케이블 vs 크로스오…의 핵심 동작 | [DSU](/knowledge-base/studynote/03_network/03_physical_layer_media/145_dsu_csu_digital_service_unit/) / CSU의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 감쇠 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: ** 다이렉트 케이블은 1차선은 1차선으로, 2차선은 2차선으로 **직진만 하는 고속도로**입니다. 반면 크로스오버 케이블은 정면충돌을 막기 위해 중간에 고가도로를 세워 상행선과 하행선을 **X자로 교차시켜 놓은 입체 교차로**입니다.
 
@@ -92,18 +96,18 @@ T568B에서 주황색 그룹(1,2번)과 녹색 그룹(3,6번)의 위치를 서�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 케이블 배선: 다이렉트 케이블 vs 크로스오…를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [[143_auto_mdix|Auto-MDIX]] 수준의 기본 대책으로 충분한지, 아니면 케이블 배선: 다이렉트 케이블 vs 크로스오…가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [[145_dsu_csu_digital_service_unit|DSU]] / CSU와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 케이블 배선: 다이렉트 케이블 vs 크로스오…를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [Auto-MDIX](/knowledge-base/studynote/03_network/03_physical_layer_media/143_auto_mdix/) 수준의 기본 대책으로 충분한지, 아니면 케이블 배선: 다이렉트 케이블 vs 크로스오…가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [DSU](/knowledge-base/studynote/03_network/03_physical_layer_media/145_dsu_csu_digital_service_unit/) / CSU와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 감쇠 부족인지, 전송 거리 악화인지 먼저 분리한다.
-2. 케이블 배선: 다이렉트 케이블 vs 크로스오…가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [[396_validation|확인]]한다.
-3. 도입 후에는 인접 기술인 [[145_dsu_csu_digital_service_unit|DSU]] / CSU와의 연계 방식을 함께 검증한다.
+2. 케이블 배선: 다이렉트 케이블 vs 크로스오…가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+3. 도입 후에는 인접 기술인 [DSU](/knowledge-base/studynote/03_network/03_physical_layer_media/145_dsu_csu_digital_service_unit/) / CSU와의 연계 방식을 함께 검증한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 케이블 배선: 다이렉트 케이블 vs 크로스오…의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- Auto-MDIX와의 경계를 정리하지 않아 중복 투자나 [[164_policy|정책]] 충돌을 만드는 설계
+- Auto-MDIX와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: 케이블 배선: 다이렉트 케이블 vs 크로스오…를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -111,7 +115,7 @@ T568B에서 주황색 그룹(1,2번)과 녹색 그룹(3,6번)의 위치를 서�
 
 ## Ⅴ. 기대효과 및 결론
 
-케이블 배선: 다이렉트 케이블 vs 크로스오…는 물리 계층과 전송 [[121_transmission_media_guided_unguided|매체]]를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 감쇠 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [[145_dsu_csu_digital_service_unit|DSU]] / CSU, 고속 광전송 최적화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 고속 광전송 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+케이블 배선: 다이렉트 케이블 vs 크로스오…는 물리 계층과 전송 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 감쇠 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [DSU](/knowledge-base/studynote/03_network/03_physical_layer_media/145_dsu_csu_digital_service_unit/) / CSU, 고속 광전송 최적화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 고속 광전송 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 케이블 배선: 다이렉트 케이블 vs 크로스오…는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -121,10 +125,10 @@ T568B에서 주황색 그룹(1,2번)과 녹색 그룹(3,6번)의 위치를 서�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[143_auto_mdix|Auto-MDIX]] | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| 감쇠 (Attenuation) | 거리 증가에 따라 [[130_signal|신호]] 세기가 줄어드는 문제다. |
-| 변조 (Modulation) | [[121_transmission_media_guided_unguided|매체]] 특성에 맞춰 [[130_signal|신호]]를 실어 나르는 방법이다. |
-| [[145_dsu_csu_digital_service_unit|DSU]] / CSU | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [Auto-MDIX](/knowledge-base/studynote/03_network/03_physical_layer_media/143_auto_mdix/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 감쇠 (Attenuation) | 거리 증가에 따라 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 세기가 줄어드는 문제다. |
+| 변조 (Modulation) | [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 특성에 맞춰 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 실어 나르는 방법이다. |
+| [DSU](/knowledge-base/studynote/03_network/03_physical_layer_media/145_dsu_csu_digital_service_unit/) / CSU | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -138,7 +142,7 @@ T568B에서 주황색 그룹(1,2번)과 녹색 그룹(3,6번)의 위치를 서�
     └──▶ [확장 B: 고속 광전송 최적화]
 ```
 
-케이블 배선: 다이렉트 케이블 vs 크로스오…는 Auto-MDIX에서 출발해 현재 메커니즘을 정교화하고, 이후 [[145_dsu_csu_digital_service_unit|DSU]] / CSU와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+케이블 배선: 다이렉트 케이블 vs 크로스오…는 Auto-MDIX에서 출발해 현재 메커니즘을 정교화하고, 이후 [DSU](/knowledge-base/studynote/03_network/03_physical_layer_media/145_dsu_csu_digital_service_unit/) / CSU와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -152,7 +156,7 @@ T568B에서 주황색 그룹(1,2번)과 녹색 그룹(3,6번)의 위치를 서�
 
 **진행 상황**: 265 / 1120
 
-← **이전**: [[143_auto_mdix|143. Auto-MDIX (크로스 케이블 자동 인식)]]
-**다음**: [[145_dsu_csu_digital_service_unit|145. DSU (Digital Service Unit) / CSU (Channel Service Unit)]] →
+← **이전**: [143. Auto-MDIX (크로스 케이블 자동 인식)](/knowledge-base/studynote/03_network/03_physical_layer_media/143_auto_mdix/)
+**다음**: [145. DSU (Digital Service Unit) / CSU (Channel Service Unit)](/knowledge-base/studynote/03_network/03_physical_layer_media/145_dsu_csu_digital_service_unit/) →
 
 ---

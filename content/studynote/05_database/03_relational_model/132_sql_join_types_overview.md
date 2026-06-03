@@ -1,14 +1,18 @@
----
-title: 132. SQL JOIN 유형 총정리 - INNER·LEFT·RIGHT·FULL·CROSS·SELF
-date: '2026-04-19'
-tags:
-- studynote-database
----
++++
+title = "132. SQL JOIN 유형 총정리 - INNER·LEFT·RIGHT·FULL·CROSS·SELF"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-database"]
+
+[extra]
+tags = ["studynote-database"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: SQL JOIN은 **두 테이블의 공통 컬럼(키)을 기준으로 행을 결합**하는 연산이며, INNER(교집합)·LEFT(좌측 전체+매칭)·RIGHT(우측 전체+매칭)·FULL(합집합)·CROSS(카테시안 곱)·SELF(자기 [[316_reference_pattern_nosql|참조]])로 구분된다.
-> 2. **가치**: JOIN은 **[[093_normalization|정규화]]된 DB에서 분리된 [[001_dikw_pyramid|데이터]]를 하나로 합치는 유일한 수단**이며, [[521_join|JOIN]] 유형 선택이 결과 행 수와 NULL 처리를 결정한다.
-> 3. **판단 포인트**: INNER는 양쪽 모두 매칭, LEFT는 왼쪽 전체 보존(매칭 없으면 NULL), FULL OUTER는 양쪽 모두 보존이며, **[[154_database_index_b_tree_search_optimization|인덱스]]·[[166_execution_plan_optimizer_navigation_tree|실행 계획]] 최적화**가 [[282_performance_tactics|성능]]의 핵심이다.
+> 1. **본질**: SQL JOIN은 **두 테이블의 공통 컬럼(키)을 기준으로 행을 결합**하는 연산이며, INNER(교집합)·LEFT(좌측 전체+매칭)·RIGHT(우측 전체+매칭)·FULL(합집합)·CROSS(카테시안 곱)·SELF(자기 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))로 구분된다.
+> 2. **가치**: JOIN은 **[정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)된 DB에서 분리된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 하나로 합치는 유일한 수단**이며, [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 유형 선택이 결과 행 수와 NULL 처리를 결정한다.
+> 3. **판단 포인트**: INNER는 양쪽 모두 매칭, LEFT는 왼쪽 전체 보존(매칭 없으면 NULL), FULL OUTER는 양쪽 모두 보존이며, **[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)·[실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 최적화**가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 핵심이다.
 
 ---
 
@@ -29,7 +33,7 @@ SELF JOIN:   A ⋈ A (자기 참조)
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-| [[521_join|JOIN]] | NULL 가능 | 행 수 |
+| [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) | NULL 가능 | 행 수 |
 |:---|:---|:---|
 | **INNER** | 없음 | 매칭만 |
 | **LEFT** | 우측 NULL | **좌측 ≤ 결과** |
@@ -40,7 +44,7 @@ SELF JOIN:   A ⋈ A (자기 참조)
 
 ## Ⅲ~Ⅴ. 결론
 
-JOIN은 **[[083_relationship_in_er_model|관계]]형 DB의 핵심 연산**이며, 적절한 [[154_database_index_b_tree_search_optimization|인덱스]]·[[521_join|JOIN]] 순서·[[166_execution_plan_optimizer_navigation_tree|실행 계획]] 분석이 [[282_performance_tactics|성능]]을 결정한다.
+JOIN은 **[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 DB의 핵심 연산**이며, 적절한 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)·[JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 순서·[실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 분석이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 결정한다.
 
 ---
 
@@ -48,11 +52,11 @@ JOIN은 **[[083_relationship_in_er_model|관계]]형 DB의 핵심 연산**이며
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **INNER [[521_join|JOIN]]** | 교집합 |
-| **LEFT [[521_join|JOIN]]** | 좌측 전체 보존 |
+| **INNER [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)** | 교집합 |
+| **LEFT [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)** | 좌측 전체 보존 |
 | **FULL OUTER** | 합집합 |
-| **Hash/[[431_nested_loop_join|Nested Loop]]/Merge** | [[521_join|JOIN]] [[001_algorithm_definition|알고리즘]] |
-| **[[154_database_index_b_tree_search_optimization|인덱스]]** | [[521_join|JOIN]] [[282_performance_tactics|성능]] 핵심 |
+| **Hash/[Nested Loop](/knowledge-base/studynote/05_database/07_exam_summary/431_nested_loop_join/)/Merge** | [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
+| **[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)** | [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 핵심 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -73,7 +77,7 @@ JOIN은 **[[083_relationship_in_er_model|관계]]형 DB의 핵심 연산**이며
 
 **진행 상황**: 132 / 600
 
-← **이전**: [[131_sql_ansi_iso_standard|131. SQL 표준 (ANSI/ISO SQL) - 관계형 데이터베이스 질의 언어 표준]]
-**다음**: [[133_sql_inner_join_intersection|133. SQL INNER JOIN - 교집합 결합의 기본]] →
+← **이전**: [131. SQL 표준 (ANSI/ISO SQL) - 관계형 데이터베이스 질의 언어 표준](/knowledge-base/studynote/05_database/03_relational_model/131_sql_ansi_iso_standard/)
+**다음**: [133. SQL INNER JOIN - 교집합 결합의 기본](/knowledge-base/studynote/05_database/03_relational_model/133_sql_inner_join_intersection/) →
 
 ---

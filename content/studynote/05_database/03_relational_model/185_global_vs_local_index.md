@@ -1,25 +1,29 @@
----
-title: 185. 전역 인덱스 (Global Index) vs 지역 인덱스 (Local Index, 파티션별 독립 인덱스)
-date: '2026-05-06'
-tags:
-- studynote-database
----
++++
+title = "185. 전역 인덱스 (Global Index) vs 지역 인덱스 (Local Index, 파티션별 독립 인덱스)"
+date = 2026-05-06
+
+[taxonomies]
+tags = ["studynote-database"]
+
+[extra]
+tags = ["studynote-database"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 전역 [[154_database_index_b_tree_search_optimization|인덱스]]는 테이블 전체를 하나의 [[154_database_index_b_tree_search_optimization|인덱스]] 공간으로 다루고, 지역 [[154_database_index_b_tree_search_optimization|인덱스]]는 각 [[514_partition_slice_volume|파티션]]과 [[154_database_index_b_tree_search_optimization|인덱스]]를 1:1로 맞춘다. 핵심 차이는 "검색 구조의 크기"보다 **[[514_partition_slice_volume|파티션]] 경계와 [[154_database_index_b_tree_search_optimization|인덱스]] 경계가 일치하는가**에 있다.
-> 2. **가치**: 지역 [[154_database_index_b_tree_search_optimization|인덱스]]는 [[514_partition_slice_volume|파티션]] 삭제·교체·아카이브를 빠르고 안전하게 만들고, 전역 [[154_database_index_b_tree_search_optimization|인덱스]]는 [[514_partition_slice_volume|파티션]] 키 없이도 전체 범위 점 조회와 전체 유일성 보장을 더 쉽게 지원한다.
-> 3. **판단 포인트**: 보관 주기 관리와 [[514_partition_slice_volume|파티션]] 유지보수가 자주 일어나는 시스템이라면 지역 [[154_database_index_b_tree_search_optimization|인덱스]]를 기본값으로 두고, [[514_partition_slice_volume|파티션]] 키와 무관한 유일 제약이나 전 구간 탐색 요구가 분명할 때만 전역 [[154_database_index_b_tree_search_optimization|인덱스]]를 선택해야 한다.
+> 1. **본질**: 전역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 테이블 전체를 하나의 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 공간으로 다루고, 지역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 각 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)과 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 1:1로 맞춘다. 핵심 차이는 "검색 구조의 크기"보다 **[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 경계와 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 경계가 일치하는가**에 있다.
+> 2. **가치**: 지역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 삭제·교체·아카이브를 빠르고 안전하게 만들고, 전역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키 없이도 전체 범위 점 조회와 전체 유일성 보장을 더 쉽게 지원한다.
+> 3. **판단 포인트**: 보관 주기 관리와 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 유지보수가 자주 일어나는 시스템이라면 지역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 기본값으로 두고, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키와 무관한 유일 제약이나 전 구간 탐색 요구가 분명할 때만 전역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 선택해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-전역 [[154_database_index_b_tree_search_optimization|인덱스]]와 지역 [[154_database_index_b_tree_search_optimization|인덱스]]는 [[514_partition_slice_volume|파티션]] 테이블에서 [[154_database_index_b_tree_search_optimization|인덱스]]의 경계를 어디에 둘지를 정하는 설계 선택이다. [[003_dbms_database_management_system|데이터베이스 관리 시스템]] ([[501_database|Database]] [[372_management|Management]] System, [[502_dbms|DBMS]])이 대용량 주문 이력, 거래 내역, [[568_logs_distributed_logging_elk_fluentd|로그]]성 [[001_dikw_pyramid|데이터]]를 월별·분기별로 나누어 저장하는 이유는 조회 [[282_performance_tactics|성능]]뿐 아니라 보관 주기 관리까지 단순화하기 위해서다. 그런데 [[154_database_index_b_tree_search_optimization|인덱스]]가 이 경계를 따라가지 않으면, 테이블은 잘게 나뉘어도 유지보수는 여전히 하나의 큰 구조를 계속 붙잡게 된다.
+전역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)와 지역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 테이블에서 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)의 경계를 어디에 둘지를 정하는 설계 선택이다. [데이터베이스 관리 시스템](/knowledge-base/studynote/05_database/01_db_architecture_relational/003_dbms_database_management_system/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System, [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/))이 대용량 주문 이력, 거래 내역, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)성 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 월별·분기별로 나누어 저장하는 이유는 조회 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)뿐 아니라 보관 주기 관리까지 단순화하기 위해서다. 그런데 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 이 경계를 따라가지 않으면, 테이블은 잘게 나뉘어도 유지보수는 여전히 하나의 큰 구조를 계속 붙잡게 된다.
 
-이 개념이 중요한 이유는 [[179_table_partitioning_concept|파티셔닝]]의 이점이 질의 [[282_performance_tactics|성능]]과 운영 효율로 나뉘기 때문이다. 예를 들어 지난 36개월 주문 [[001_dikw_pyramid|데이터]]를 월별 [[514_partition_slice_volume|파티션]]으로 관리할 때, 오래된 [[514_partition_slice_volume|파티션]]을 `DROP PARTITION`으로 제거하면 테이블 세그먼트는 깔끔하게 없어지지만 전역 [[154_database_index_b_tree_search_optimization|인덱스]]는 영향을 받아 재구성이 필요할 수 있다. 반대로 지역 [[154_database_index_b_tree_search_optimization|인덱스]]는 해당 [[514_partition_slice_volume|파티션]]과 함께 사라지므로, [[514_partition_slice_volume|파티션]] 관리의 단순함을 그대로 유지한다.
+이 개념이 중요한 이유는 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)의 이점이 질의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 운영 효율로 나뉘기 때문이다. 예를 들어 지난 36개월 주문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 월별 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)으로 관리할 때, 오래된 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 `DROP PARTITION`으로 제거하면 테이블 세그먼트는 깔끔하게 없어지지만 전역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 영향을 받아 재구성이 필요할 수 있다. 반대로 지역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 해당 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)과 함께 사라지므로, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 관리의 단순함을 그대로 유지한다.
 
-아래 그림은 같은 [[514_partition_slice_volume|파티션]] 테이블 위에서 [[154_database_index_b_tree_search_optimization|인덱스]] 경계를 어디에 두는지 보여 준다.
+아래 그림은 같은 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 테이블 위에서 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 경계를 어디에 두는지 보여 준다.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────┐
@@ -36,17 +40,17 @@ tags:
 └────────────────────────────────────────────────────────────────────┘
 ```
 
-즉 질문은 단순히 "어느 [[154_database_index_b_tree_search_optimization|인덱스]]가 더 빠른가"가 아니다. 더 정확한 질문은 "우리 시스템은 [[514_partition_slice_volume|파티션]]을 독립적으로 다뤄야 하는가, 아니면 [[514_partition_slice_volume|파티션]] 경계를 넘어선 일관된 [[154_database_index_b_tree_search_optimization|인덱스]]가 더 중요한가"다.
+즉 질문은 단순히 "어느 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 더 빠른가"가 아니다. 더 정확한 질문은 "우리 시스템은 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 독립적으로 다뤄야 하는가, 아니면 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 경계를 넘어선 일관된 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 더 중요한가"다.
 
-- **📢 섹션 요약 비유**: 책장을 월별 서랍으로 나눠 놓았을 때, 지역 [[154_database_index_b_tree_search_optimization|인덱스]]는 각 서랍 앞에 붙은 개별 라벨이고 전역 [[154_database_index_b_tree_search_optimization|인덱스]]는 서랍장 전체를 한 번에 설명하는 큰 안내판이다. 서랍 하나를 통째로 빼낼 일이 많다면 안내판보다 서랍별 라벨이 훨씬 다루기 쉽다.
+- **📢 섹션 요약 비유**: 책장을 월별 서랍으로 나눠 놓았을 때, 지역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 각 서랍 앞에 붙은 개별 라벨이고 전역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 서랍장 전체를 한 번에 설명하는 큰 안내판이다. 서랍 하나를 통째로 빼낼 일이 많다면 안내판보다 서랍별 라벨이 훨씬 다루기 쉽다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-전역 [[154_database_index_b_tree_search_optimization|인덱스]]는 [[154_database_index_b_tree_search_optimization|인덱스]] 엔트리가 테이블 [[514_partition_slice_volume|파티션]] 경계와 독립적으로 관리되는 구조다. [[154_database_index_b_tree_search_optimization|인덱스]] 자체가 별도로 [[179_table_partitioning_concept|파티셔닝]]될 수도 있지만, 본질은 특정 [[154_database_index_b_tree_search_optimization|인덱스]] [[514_partition_slice_volume|파티션]]이 특정 테이블 [[514_partition_slice_volume|파티션]]과 1:1로 고정되지 않는다는 점이다. 반면 지역 [[154_database_index_b_tree_search_optimization|인덱스]]는 테이블 [[514_partition_slice_volume|파티션]]마다 대응하는 [[154_database_index_b_tree_search_optimization|인덱스]] [[514_partition_slice_volume|파티션]]이 따로 존재하며, [[154_database_index_b_tree_search_optimization|인덱스]] 유지보수 단위도 테이블 [[514_partition_slice_volume|파티션]]과 같이 움직인다.
+전역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 엔트리가 테이블 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 경계와 독립적으로 관리되는 구조다. [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 자체가 별도로 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)될 수도 있지만, 본질은 특정 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)이 특정 테이블 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)과 1:1로 고정되지 않는다는 점이다. 반면 지역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 테이블 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)마다 대응하는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)이 따로 존재하며, [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 유지보수 단위도 테이블 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)과 같이 움직인다.
 
-여기서 자주 오해하는 점이 하나 있다. 지역 [[154_database_index_b_tree_search_optimization|인덱스]]라고 해서 반드시 [[514_partition_slice_volume|파티션]] 키가 [[154_database_index_b_tree_search_optimization|인덱스]] 선두 컬럼이어야 하는 것은 아니다. 핵심은 **[[154_database_index_b_tree_search_optimization|인덱스]]의 물리적 [[514_partition_slice_volume|파티션]] 경계가 테이블 [[514_partition_slice_volume|파티션]] 경계와 일치한다**는 것이며, 질의 최적화에서 [[184_partition_pruning|파티션 프루닝]] ([[184_partition_pruning|Partition Pruning]])과 자연스럽게 결합된다는 데 의미가 있다.
+여기서 자주 오해하는 점이 하나 있다. 지역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)라고 해서 반드시 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키가 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 선두 컬럼이어야 하는 것은 아니다. 핵심은 **[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)의 물리적 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 경계가 테이블 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 경계와 일치한다**는 것이며, 질의 최적화에서 [파티션 프루닝](/knowledge-base/studynote/05_database/03_relational_model/184_partition_pruning/) ([Partition Pruning](/knowledge-base/studynote/05_database/03_relational_model/184_partition_pruning/))과 자연스럽게 결합된다는 데 의미가 있다.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────┐
@@ -66,35 +70,35 @@ tags:
 └────────────────────────────────────────────────────────────────────┘
 ```
 
-| 항목 | 전역 [[154_database_index_b_tree_search_optimization|인덱스]] | 지역 [[154_database_index_b_tree_search_optimization|인덱스]] |
+| 항목 | 전역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) | 지역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) |
 | :--- | :--- | :--- |
-| 경계 기준 | 테이블 전체 기준 | 테이블 [[514_partition_slice_volume|파티션]] 기준 |
-| 질의 강점 | [[514_partition_slice_volume|파티션]] 키 없이도 전체 점 조회에 유리 | [[514_partition_slice_volume|파티션]] 키 조건과 결합될 때 강력 |
-| [[514_partition_slice_volume|파티션]] `DROP/SPLIT/MERGE` 영향 | [[154_database_index_b_tree_search_optimization|인덱스]] 전체 유지 비용이 커질 수 있음 | 해당 [[514_partition_slice_volume|파티션]] 단위로 영향이 국한됨 |
-| 유일성 보장 | [[514_partition_slice_volume|파티션]] 키와 무관한 전체 유일 제약에 유리 | 보통 [[514_partition_slice_volume|파티션]] 경계를 넘는 유일성 보장은 제한적 |
-| 운영 난이도 | 재구성·[[092_availability_management|가용성 관리]]가 더 민감함 | 대량 보관 주기 운영에 유리 |
+| 경계 기준 | 테이블 전체 기준 | 테이블 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 기준 |
+| 질의 강점 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키 없이도 전체 점 조회에 유리 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키 조건과 결합될 때 강력 |
+| [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) `DROP/SPLIT/MERGE` 영향 | [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 전체 유지 비용이 커질 수 있음 | 해당 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 단위로 영향이 국한됨 |
+| 유일성 보장 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키와 무관한 전체 유일 제약에 유리 | 보통 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 경계를 넘는 유일성 보장은 제한적 |
+| 운영 난이도 | 재구성·[가용성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/092_availability_management/)가 더 민감함 | 대량 보관 주기 운영에 유리 |
 
-따라서 전역 [[154_database_index_b_tree_search_optimization|인덱스]]는 "조회 편의"를 위해 운영 독립성을 일부 포기하는 구조이고, 지역 [[154_database_index_b_tree_search_optimization|인덱스]]는 "[[514_partition_slice_volume|파티션]] 독립성"을 지키는 대신 [[514_partition_slice_volume|파티션]] 키 없는 조회에는 불리할 수 있다. 둘의 차이는 단순 [[282_performance_tactics|성능]] 수치보다 **유지보수 비용이 어떤 형태로 나타나는가**에서 더 크게 드러난다.
+따라서 전역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 "조회 편의"를 위해 운영 독립성을 일부 포기하는 구조이고, 지역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 "[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 독립성"을 지키는 대신 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키 없는 조회에는 불리할 수 있다. 둘의 차이는 단순 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 수치보다 **유지보수 비용이 어떤 형태로 나타나는가**에서 더 크게 드러난다.
 
-- **📢 섹션 요약 비유**: 전역 [[154_database_index_b_tree_search_optimization|인덱스]]는 도시 전체 지도를 한 장으로 보는 방식이고, 지역 [[154_database_index_b_tree_search_optimization|인덱스]]는 동네마다 지도를 따로 두는 방식이다. 도시 전체 주소를 빨리 찾기는 전자가 편하지만, 동네 하나를 재개발해 바꿀 때는 후자가 훨씬 덜 번거롭다.
+- **📢 섹션 요약 비유**: 전역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 도시 전체 지도를 한 장으로 보는 방식이고, 지역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 동네마다 지도를 따로 두는 방식이다. 도시 전체 주소를 빨리 찾기는 전자가 편하지만, 동네 하나를 재개발해 바꿀 때는 후자가 훨씬 덜 번거롭다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-전역 [[154_database_index_b_tree_search_optimization|인덱스]]와 지역 [[154_database_index_b_tree_search_optimization|인덱스]]를 제대로 비교하려면 조회 패턴, 유일 제약, [[514_partition_slice_volume|파티션]] 운영 작업을 함께 봐야 한다. 최근 1개월 [[001_dikw_pyramid|데이터]]를 주로 조회하고 오래된 월 [[514_partition_slice_volume|파티션]]을 주기적으로 삭제하는 시스템은 지역 [[154_database_index_b_tree_search_optimization|인덱스]]와 궁합이 좋다. 반대로 `customer_id`, `invoice_no`처럼 [[514_partition_slice_volume|파티션]] 키와 무관한 컬럼으로 전체 테이블에서 점 조회하거나 유일성을 보장해야 하면 전역 [[154_database_index_b_tree_search_optimization|인덱스]]가 더 직접적인 해법이 된다.
+전역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)와 지역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 제대로 비교하려면 조회 패턴, 유일 제약, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 운영 작업을 함께 봐야 한다. 최근 1개월 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주로 조회하고 오래된 월 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 주기적으로 삭제하는 시스템은 지역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)와 궁합이 좋다. 반대로 `customer_id`, `invoice_no`처럼 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키와 무관한 컬럼으로 전체 테이블에서 점 조회하거나 유일성을 보장해야 하면 전역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 더 직접적인 해법이 된다.
 
-| 비교 축 | 전역 [[154_database_index_b_tree_search_optimization|인덱스]]가 유리한 경우 | 지역 [[154_database_index_b_tree_search_optimization|인덱스]]가 유리한 경우 |
+| 비교 축 | 전역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 유리한 경우 | 지역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 유리한 경우 |
 | :--- | :--- | :--- |
-| 조회 패턴 | [[514_partition_slice_volume|파티션]] 키 없이 특정 키를 바로 찾는 전 구간 탐색 | 기간, 테넌트, 지역처럼 [[514_partition_slice_volume|파티션]] 키가 질의에 자주 포함 |
-| 유일성 제약 | [[514_partition_slice_volume|파티션]] 키와 무관한 전 테이블 유일성 필요 | [[514_partition_slice_volume|파티션]] 키를 포함한 유일성으로 충분 |
-| 운영 패턴 | [[514_partition_slice_volume|파티션]] 구조 변경이 드물고 조회 요구가 우선 | [[514_partition_slice_volume|파티션]] 추가·삭제·교체가 자주 발생 |
-| 장애 영향 범위 | [[154_database_index_b_tree_search_optimization|인덱스]] 문제 시 영향 범위가 넓어질 수 있음 | [[514_partition_slice_volume|파티션]] 단위 격리가 쉬움 |
-| 기본 [[268_strategy_pattern|전략]] | 예외적 채택 | [[514_partition_slice_volume|파티션]] 테이블의 일반적 기본값 |
+| 조회 패턴 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키 없이 특정 키를 바로 찾는 전 구간 탐색 | 기간, 테넌트, 지역처럼 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키가 질의에 자주 포함 |
+| 유일성 제약 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키와 무관한 전 테이블 유일성 필요 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키를 포함한 유일성으로 충분 |
+| 운영 패턴 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 구조 변경이 드물고 조회 요구가 우선 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 추가·삭제·교체가 자주 발생 |
+| 장애 영향 범위 | [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 문제 시 영향 범위가 넓어질 수 있음 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 단위 격리가 쉬움 |
+| 기본 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 예외적 채택 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 테이블의 일반적 기본값 |
 
-이 비교가 실무적으로 중요한 이유는 [[184_partition_pruning|파티션 프루닝]]과의 연결 때문이다. 지역 [[154_database_index_b_tree_search_optimization|인덱스]]는 먼저 [[514_partition_slice_volume|파티션]]을 줄이고 그 안에서 다시 [[154_database_index_b_tree_search_optimization|인덱스]]로 행을 줄이는 2단계 최적화에 잘 맞는다. 반면 전역 [[154_database_index_b_tree_search_optimization|인덱스]]는 [[184_partition_pruning|파티션 프루닝]]을 우회해 필요한 [[514_partition_slice_volume|파티션]] 위치를 바로 찾을 수 있지만, 그 대가로 [[514_partition_slice_volume|파티션]] 구조 변경 때 [[154_database_index_b_tree_search_optimization|인덱스]] [[194_consistency_database_integrity|일관성]]을 더 신경 써야 한다.
+이 비교가 실무적으로 중요한 이유는 [파티션 프루닝](/knowledge-base/studynote/05_database/03_relational_model/184_partition_pruning/)과의 연결 때문이다. 지역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 먼저 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 줄이고 그 안에서 다시 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)로 행을 줄이는 2단계 최적화에 잘 맞는다. 반면 전역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 [파티션 프루닝](/knowledge-base/studynote/05_database/03_relational_model/184_partition_pruning/)을 우회해 필요한 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 위치를 바로 찾을 수 있지만, 그 대가로 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 구조 변경 때 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 더 신경 써야 한다.
 
-또한 설계 수준에서는 유일 키 모델 자체를 다시 보는 [[170_selectivity_cardinality_distribution_tuning|선택도]] 가능하다. 예를 들어 전역 유일 [[154_database_index_b_tree_search_optimization|인덱스]]를 만들기 싫다면, [[514_partition_slice_volume|파티션]] 키를 포함한 복합 [[070_primary_key_alternate_key|기본 키]] (Primary [[067_db_key_uniqueness_minimality|Key]], PK)로 바꿀 수 있는지 검토할 수 있다. 즉 전역 [[154_database_index_b_tree_search_optimization|인덱스]]와 지역 [[154_database_index_b_tree_search_optimization|인덱스]]의 선택은 [[154_database_index_b_tree_search_optimization|인덱스]]만의 문제가 아니라 **키 설계와 보관 [[268_strategy_pattern|전략]]까지 포함한 [[014_data_model_components|데이터 모델]]링 문제**다.
+또한 설계 수준에서는 유일 키 모델 자체를 다시 보는 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 가능하다. 예를 들어 전역 유일 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 만들기 싫다면, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키를 포함한 복합 [기본 키](/knowledge-base/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/) (Primary [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/), PK)로 바꿀 수 있는지 검토할 수 있다. 즉 전역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)와 지역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)의 선택은 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)만의 문제가 아니라 **키 설계와 보관 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)까지 포함한 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)링 문제**다.
 
 - **📢 섹션 요약 비유**: 여행할 때 전국 철도 노선도를 하나 들고 다닐지, 도시별 지도를 따로 챙길지 고르는 것과 같다. 어디서든 바로 길을 찾고 싶으면 전국 지도가 편하지만, 도시마다 공사와 변경이 많다면 지역 지도를 따로 관리하는 편이 훨씬 실용적이다.
 
@@ -102,9 +106,9 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 "지역 [[154_database_index_b_tree_search_optimization|인덱스]]를 기본으로 시작하고, 전역 [[154_database_index_b_tree_search_optimization|인덱스]]는 예외 사유가 있을 때만 채택한다"는 접근이 가장 안전하다. 예를 들어 월별 주문 테이블을 48개 [[514_partition_slice_volume|파티션]]으로 관리하면서 매달 말에 오래된 [[514_partition_slice_volume|파티션]]을 아카이브하고 삭제한다면, 지역 [[154_database_index_b_tree_search_optimization|인덱스]]가 운영 복잡도를 크게 줄여 준다. 반대로 외부 주문 번호처럼 월과 무관하게 절대 중복되면 안 되는 키를 [[002_database_definition|데이터베이스]] 수준에서 바로 보장해야 하고, 조회도 그 키 하나로 자주 일어난다면 전역 [[154_database_index_b_tree_search_optimization|인덱스]]를 검토할 근거가 생긴다.
+실무에서는 "지역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 기본으로 시작하고, 전역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 예외 사유가 있을 때만 채택한다"는 접근이 가장 안전하다. 예를 들어 월별 주문 테이블을 48개 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)으로 관리하면서 매달 말에 오래된 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 아카이브하고 삭제한다면, 지역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 운영 복잡도를 크게 줄여 준다. 반대로 외부 주문 번호처럼 월과 무관하게 절대 중복되면 안 되는 키를 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 수준에서 바로 보장해야 하고, 조회도 그 키 하나로 자주 일어난다면 전역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 검토할 근거가 생긴다.
 
-그렇다고 전역 [[154_database_index_b_tree_search_optimization|인덱스]]가 항상 최선은 아니다. 전역 유일성을 꼭 보장해야 하는 요구라도, 별도의 키 [[087_process_state_transition|생성]] [[268_strategy_pattern|전략]]이나 [[316_reference_pattern_nosql|참조]] 테이블, 복합 키 설계로 대체 가능한지 먼저 따져봐야 한다. 전역 [[154_database_index_b_tree_search_optimization|인덱스]]는 질의 하나를 빠르게 만드는 대신, [[514_partition_slice_volume|파티션]] 교체·재구성·장애 [[658_ir_recovery|복구]] 절차를 더 민감하게 만드는 경우가 많기 때문이다.
+그렇다고 전역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 항상 최선은 아니다. 전역 유일성을 꼭 보장해야 하는 요구라도, 별도의 키 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이나 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 테이블, 복합 키 설계로 대체 가능한지 먼저 따져봐야 한다. 전역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 질의 하나를 빠르게 만드는 대신, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 교체·재구성·장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 절차를 더 민감하게 만드는 경우가 많기 때문이다.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────┐
@@ -125,22 +129,22 @@ tags:
 └────────────────────────────────────────────────────────────────────┘
 ```
 
-### 기술사 판단 [[435_checklist_based_testing|체크리스트]]
+### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. [[514_partition_slice_volume|파티션]] 키가 실제 조회 조건과 보관 주기 [[164_policy|정책]]을 함께 반영하는가?
-2. [[514_partition_slice_volume|파티션]] 추가·삭제·교체가 월 단위 이상으로 자주 발생하는가?
-3. [[514_partition_slice_volume|파티션]] 키를 포함하지 않는 전역 유일 제약이 정말 [[002_database_definition|데이터베이스]] 차원에서 필요한가?
-4. 주요 질의가 [[514_partition_slice_volume|파티션]] 키를 포함해 [[184_partition_pruning|파티션 프루닝]]과 지역 [[154_database_index_b_tree_search_optimization|인덱스]]를 함께 활용할 수 있는가?
-5. 전역 [[154_database_index_b_tree_search_optimization|인덱스]] 사용 시 재구성, [[452_availability|가용성]] 저하, 유지보수 윈도우 비용을 감당할 수 있는가?
+1. [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키가 실제 조회 조건과 보관 주기 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 함께 반영하는가?
+2. [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 추가·삭제·교체가 월 단위 이상으로 자주 발생하는가?
+3. [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키를 포함하지 않는 전역 유일 제약이 정말 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 차원에서 필요한가?
+4. 주요 질의가 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키를 포함해 [파티션 프루닝](/knowledge-base/studynote/05_database/03_relational_model/184_partition_pruning/)과 지역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 함께 활용할 수 있는가?
+5. 전역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 사용 시 재구성, [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 저하, 유지보수 윈도우 비용을 감당할 수 있는가?
 
-### 자주 나오는 [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### 자주 나오는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- [[514_partition_slice_volume|파티션]] 테이블이라는 이유만으로 모든 [[154_database_index_b_tree_search_optimization|인덱스]]를 전역으로 만드는 경우
-- 지역 [[154_database_index_b_tree_search_optimization|인덱스]]로는 테이블 전체 유일성이 자동 보장된다고 오해하는 경우
-- 조회는 `customer_id` 중심인데 [[514_partition_slice_volume|파티션]] 키를 `created_month`로만 잡아 전역 탐색 부담을 키우는 경우
-- [[514_partition_slice_volume|파티션]] 운영이 빈번한데도 전역 [[154_database_index_b_tree_search_optimization|인덱스]] 영향 분석 없이 `DROP PARTITION`을 반복하는 경우
+- [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 테이블이라는 이유만으로 모든 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 전역으로 만드는 경우
+- 지역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)로는 테이블 전체 유일성이 자동 보장된다고 오해하는 경우
+- 조회는 `customer_id` 중심인데 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키를 `created_month`로만 잡아 전역 탐색 부담을 키우는 경우
+- [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 운영이 빈번한데도 전역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 영향 분석 없이 `DROP PARTITION`을 반복하는 경우
 
-기술사 답안에서는 "전역 [[154_database_index_b_tree_search_optimization|인덱스]]는 나쁘고 지역 [[154_database_index_b_tree_search_optimization|인덱스]]는 좋다"처럼 단순화하면 부족하다. 정확한 평가는 **운영 독립성은 지역 [[154_database_index_b_tree_search_optimization|인덱스]]가 강하고, 전역 [[292_accessibility_kwcag_wcag|접근성]]과 전체 유일성은 전역 [[154_database_index_b_tree_search_optimization|인덱스]]가 강하다**는 트레이드오프를 분명히 쓰는 것이다.
+기술사 답안에서는 "전역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 나쁘고 지역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 좋다"처럼 단순화하면 부족하다. 정확한 평가는 **운영 독립성은 지역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 강하고, 전역 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)과 전체 유일성은 전역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 강하다**는 트레이드오프를 분명히 쓰는 것이다.
 
 - **📢 섹션 요약 비유**: 대형 창고를 월별 방으로 나눴을 때, 방을 자주 뜯고 새로 꾸민다면 방마다 열쇠를 따로 두는 편이 낫다. 하지만 건물 전체에서 같은 번호 열쇠를 절대 중복 없이 관리해야 한다면 중앙 열쇠 대장이 필요해진다.
 
@@ -148,11 +152,11 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-지역 [[154_database_index_b_tree_search_optimization|인덱스]]를 적절히 쓰면 [[179_table_partitioning_concept|파티셔닝]]의 운영상 장점이 현실화된다. 오래된 [[001_dikw_pyramid|데이터]] 제거, [[514_partition_slice_volume|파티션]] 교체, 통계 관리, 장애 범위 격리가 더 단순해지고, [[184_partition_pruning|파티션 프루닝]]과 결합해 대용량 조회도 효율적으로 처리할 수 있다. 즉 [[179_table_partitioning_concept|파티셔닝]]을 "구조"로 끝내지 않고 "운영 가능한 구조"로 만드는 데 큰 역할을 한다.
+지역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 적절히 쓰면 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)의 운영상 장점이 현실화된다. 오래된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 제거, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 교체, 통계 관리, 장애 범위 격리가 더 단순해지고, [파티션 프루닝](/knowledge-base/studynote/05_database/03_relational_model/184_partition_pruning/)과 결합해 대용량 조회도 효율적으로 처리할 수 있다. 즉 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)을 "구조"로 끝내지 않고 "운영 가능한 구조"로 만드는 데 큰 역할을 한다.
 
-전역 [[154_database_index_b_tree_search_optimization|인덱스]]는 그 반대편에서 분명한 가치를 가진다. [[514_partition_slice_volume|파티션]] 키 없이도 전체 테이블 탐색을 빠르게 만들고, 전체 유일성 같은 강한 제약을 직접 지원할 수 있다. 하지만 그 이익은 [[514_partition_slice_volume|파티션]] 독립성 저하와 유지보수 비용이라는 대가를 동반하므로, 기본값이라기보다 명확한 이유가 있을 때 채택하는 구조로 기억하는 편이 안전하다.
+전역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 그 반대편에서 분명한 가치를 가진다. [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키 없이도 전체 테이블 탐색을 빠르게 만들고, 전체 유일성 같은 강한 제약을 직접 지원할 수 있다. 하지만 그 이익은 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 독립성 저하와 유지보수 비용이라는 대가를 동반하므로, 기본값이라기보다 명확한 이유가 있을 때 채택하는 구조로 기억하는 편이 안전하다.
 
-결국 이 주제의 핵심은 단순하다. **[[514_partition_slice_volume|파티션]] 테이블의 기본 사고는 지역 [[154_database_index_b_tree_search_optimization|인덱스]], 예외 사유가 있으면 전역 [[154_database_index_b_tree_search_optimization|인덱스]]**다. 그리고 그 예외 사유는 조회 편의, 유일성 요구, 운영 비용을 함께 놓고 설명할 수 있어야 한다.
+결국 이 주제의 핵심은 단순하다. **[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 테이블의 기본 사고는 지역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), 예외 사유가 있으면 전역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)**다. 그리고 그 예외 사유는 조회 편의, 유일성 요구, 운영 비용을 함께 놓고 설명할 수 있어야 한다.
 
 - **📢 섹션 요약 비유**: 서랍장을 잘게 나눠 쓴다는 것은 서랍별로 독립적으로 관리하겠다는 뜻이다. 중앙 안내판이 꼭 필요한 특별한 이유가 없다면, 서랍마다 붙은 라벨이 서랍장의 장점을 가장 잘 살린다.
 
@@ -162,12 +166,12 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[179_table_partitioning_concept|파티셔닝]] ([[179_table_partitioning_concept|Partitioning]]) | 대용량 테이블을 물리적으로 나누는 전제 구조이며, 전역/지역 [[154_database_index_b_tree_search_optimization|인덱스]] 선택의 출발점이다. |
-| [[184_partition_pruning|파티션 프루닝]] ([[184_partition_pruning|Partition Pruning]]) | 지역 [[154_database_index_b_tree_search_optimization|인덱스]]가 특히 강점을 보이는 실행 [[268_strategy_pattern|전략]]으로, 읽을 [[514_partition_slice_volume|파티션]] 수를 먼저 줄인다. |
-| 유일 제약 (Unique Constraint) | [[514_partition_slice_volume|파티션]] 키와 무관한 전체 유일성이 필요하면 전역 [[154_database_index_b_tree_search_optimization|인덱스]] 검토 사유가 된다. |
-| [[070_primary_key_alternate_key|기본 키]] (Primary [[067_db_key_uniqueness_minimality|Key]], PK) | 키 설계를 바꾸면 전역 [[154_database_index_b_tree_search_optimization|인덱스]] 필요성을 줄일 수 있는 경우가 있다. |
-| [[514_partition_slice_volume|파티션]] 유지보수 명령 | `DROP`, `SPLIT`, `MERGE`, `EXCHANGE` 같은 작업이 [[154_database_index_b_tree_search_optimization|인덱스]] 구조에 직접 영향을 준다. |
-| [[166_execution_plan_optimizer_navigation_tree|실행 계획]] | 어떤 질의가 전역 [[154_database_index_b_tree_search_optimization|인덱스]] 탐색인지, 지역 [[154_database_index_b_tree_search_optimization|인덱스]] + 프루닝인지 판단하는 실제 근거다. |
+| [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) ([Partitioning](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)) | 대용량 테이블을 물리적으로 나누는 전제 구조이며, 전역/지역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 선택의 출발점이다. |
+| [파티션 프루닝](/knowledge-base/studynote/05_database/03_relational_model/184_partition_pruning/) ([Partition Pruning](/knowledge-base/studynote/05_database/03_relational_model/184_partition_pruning/)) | 지역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 특히 강점을 보이는 실행 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로, 읽을 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수를 먼저 줄인다. |
+| 유일 제약 (Unique Constraint) | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키와 무관한 전체 유일성이 필요하면 전역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 검토 사유가 된다. |
+| [기본 키](/knowledge-base/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/) (Primary [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/), PK) | 키 설계를 바꾸면 전역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 필요성을 줄일 수 있는 경우가 있다. |
+| [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 유지보수 명령 | `DROP`, `SPLIT`, `MERGE`, `EXCHANGE` 같은 작업이 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 구조에 직접 영향을 준다. |
+| [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) | 어떤 질의가 전역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 탐색인지, 지역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) + 프루닝인지 판단하는 실제 근거다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -189,12 +193,12 @@ tags:
                          └─ 전체 유일성 · 전 구간 점 조회
 ```
 
-이 흐름은 "테이블 분할"에서 끝나지 않고, 그 분할 구조를 [[154_database_index_b_tree_search_optimization|인덱스]]와 운영 [[164_policy|정책]]까지 연결해야 진짜 설계가 완성된다는 점을 보여 준다.
+이 흐름은 "테이블 분할"에서 끝나지 않고, 그 분할 구조를 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)와 운영 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)까지 연결해야 진짜 설계가 완성된다는 점을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 큰 장난감 상자를 날짜별 상자로 나눴다면, 지역 [[154_database_index_b_tree_search_optimization|인덱스]]는 상자마다 붙은 이름표예요.
-2. 전역 [[154_database_index_b_tree_search_optimization|인덱스]]는 모든 상자를 한꺼번에 설명하는 큰 안내판이라서 전체를 찾기엔 편하지만 상자 하나를 빼면 다시 고쳐야 할 수 있어요.
+1. 큰 장난감 상자를 날짜별 상자로 나눴다면, 지역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 상자마다 붙은 이름표예요.
+2. 전역 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 모든 상자를 한꺼번에 설명하는 큰 안내판이라서 전체를 찾기엔 편하지만 상자 하나를 빼면 다시 고쳐야 할 수 있어요.
 3. 그래서 상자를 자주 바꾸는 집이라면 보통은 상자별 이름표를 쓰고, 정말 필요할 때만 큰 안내판을 써요.
 
 ---
@@ -203,7 +207,7 @@ tags:
 
 **진행 상황**: 185 / 600
 
-← **이전**: [[184_partition_pruning|184. 파티션 프루닝 (Partition Pruning)]]
-**다음**: [[186_stored_procedure_trigger|186. 스토어드 프로시저 (Stored Procedure) / 트리거 (Trigger) - 데이터베이스 (Database, DB) 서버]] →
+← **이전**: [184. 파티션 프루닝 (Partition Pruning)](/knowledge-base/studynote/05_database/03_relational_model/184_partition_pruning/)
+**다음**: [186. 스토어드 프로시저 (Stored Procedure) / 트리거 (Trigger) - 데이터베이스 (Database, DB) 서버](/knowledge-base/studynote/05_database/03_relational_model/186_stored_procedure_trigger/) →
 
 ---

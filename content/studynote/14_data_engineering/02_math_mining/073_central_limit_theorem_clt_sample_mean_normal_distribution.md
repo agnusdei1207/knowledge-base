@@ -1,13 +1,17 @@
----
-title: 73. 중심 극한 정리 (CLT) - 30개 표본 정규분포 마법
-date: '2026-04-10'
-tags:
-- studynote-data-engineering
----
++++
+title = "73. 중심 극한 정리 (CLT) - 30개 표본 정규분포 마법"
+date = 2026-04-10
+
+[taxonomies]
+tags = ["studynote-data-engineering"]
+
+[extra]
+tags = ["studynote-data-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[139_clt|중심 극한 정리]]는 표본 수가 충분히 크면 표본평균의 분포가 정규분포에 가까워진다는 정리다.
+> 1. **본질**: [중심 극한 정리](/knowledge-base/studynote/08_algorithm_stats/08_stats/139_clt/)는 표본 수가 충분히 크면 표본평균의 분포가 정규분포에 가까워진다는 정리다.
 > 2. **가치**: 통계 추론의 핵심 기반이다.
 > 3. **판단**: 모집단 분포가 정규가 아니어도 표본평균은 정규에 가까워질 수 있다.
 
@@ -49,12 +53,12 @@ Approximately Normal
 | :-- | :-- |
 | Population | 모집단 |
 | Sample Mean | 표본평균 |
-| [[139_clt|CLT]] | [[139_clt|중심 극한 정리]] |
+| [CLT](/knowledge-base/studynote/08_algorithm_stats/08_stats/139_clt/) | [중심 극한 정리](/knowledge-base/studynote/08_algorithm_stats/08_stats/139_clt/) |
 
 | 활용 | 설명 |
 | :-- | :-- |
-| Hypothesis Test | [[145_hypothesis_testing|가설 검정]] |
-| [[146_confidence_interval|Confidence Interval]] | 신뢰구간 |
+| Hypothesis Test | [가설 검정](/knowledge-base/studynote/08_algorithm_stats/08_stats/145_hypothesis_testing/) |
+| [Confidence Interval](/knowledge-base/studynote/08_algorithm_stats/08_stats/146_confidence_interval/) | 신뢰구간 |
 
 CLT는 통계 추론 전체의 바닥에 깔린 기초다.
 
@@ -64,7 +68,7 @@ CLT는 통계 추론 전체의 바닥에 깔린 기초다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 표본 수가 충분한가?
 2. 표본평균 분포를 보는가?
@@ -72,7 +76,7 @@ CLT는 통계 추론 전체의 바닥에 깔린 기초다.
 4. 정규근사를 사용할 수 있는가?
 5. 추론의 기반으로 쓰는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 모집단과 표본평균을 혼동하는 설계
 - CLT를 만능으로 보는 설계
@@ -89,7 +93,7 @@ CLT는 통계 추론 전체의 바닥에 깔린 기초다.
 
 CLT는 통계 추론을 가능하게 하는 핵심 정리다.
 
-결론적으로 [[139_clt|중심 극한 정리]]는 표본평균이 정규분포에 가까워진다는 원리다.
+결론적으로 [중심 극한 정리](/knowledge-base/studynote/08_algorithm_stats/08_stats/139_clt/)는 표본평균이 정규분포에 가까워진다는 원리다.
 
 - **📢 섹션 요약 비유**: 많은 표본이 모이면 정규 모양이 된다.
 
@@ -135,7 +139,7 @@ CLT는 그런 법칙이에요.
 
 **진행 상황**: 73 / 258
 
-← **이전**: [[072_chi_square_test_categorical_independence_goodness_of_fit|72. 카이제곱 검정 (Chi-square Test) - 범주형 데이터 독립성/적합성]]
-**다음**: [[074_law_of_large_numbers_lln_convergence_probability|74. 대수의 법칙 (LLN, Law of Large Numbers) - 수렴 확률]] →
+← **이전**: [72. 카이제곱 검정 (Chi-square Test) - 범주형 데이터 독립성/적합성](/knowledge-base/studynote/14_data_engineering/02_math_mining/072_chi_square_test_categorical_independence_goodness_of_fit/)
+**다음**: [74. 대수의 법칙 (LLN, Law of Large Numbers) - 수렴 확률](/knowledge-base/studynote/14_data_engineering/02_math_mining/074_law_of_large_numbers_lln_convergence_probability/) →
 
 ---

@@ -1,24 +1,28 @@
----
-title: 131. 메모리 맵 파일 (Memory-Mapped File, mmap) 기반 IPC
-date: '2026-05-08'
-tags:
-- studynote-operating-system
----
++++
+title = "131. 메모리 맵 파일 (Memory-Mapped File, mmap) 기반 IPC"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 메모리 맵 [[501_file_definition_logical_record|파일]] ([[308_memory_mapped_file|Memory-Mapped File]], [[749_memory_mapped_file_mmap|mmap]]) 기반 IPC은 프로세스와 스레드의 [[087_process_state_transition|생성]]·실행·협력에서 핵심 흐름을 결정하는 개념으로, 시스템이 무엇을 먼저 관리하고 어떤 순서로 제어할지를 분명하게 만든다.
-> 2. **가치**: 이 개념을 이해하면 자원 효율, [[138_response_time|응답 시간]], 안정성 사이의 균형을 더 정확하게 설명할 수 있고, 시스템 V IPC로 이어지는 이유도 자연스럽게 파악된다.
-> 3. **판단 포인트**: [[130_signal|신호]] ([[130_signal|Signal]])과의 관계를 함께 봐야 메모리 맵 [[501_file_definition_logical_record|파일]] ([[308_memory_mapped_file|Memory-Mapped File]], [[749_memory_mapped_file_mmap|mmap]]) 기반 IPC을 단순 정의가 아니라 실제 설계·운영 판단 기준으로 사용할 수 있다.
+> 1. **본질**: 메모리 맵 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) ([Memory-Mapped File](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/308_memory_mapped_file/), [mmap](/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/)) 기반 IPC은 프로세스와 스레드의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·실행·협력에서 핵심 흐름을 결정하는 개념으로, 시스템이 무엇을 먼저 관리하고 어떤 순서로 제어할지를 분명하게 만든다.
+> 2. **가치**: 이 개념을 이해하면 자원 효율, [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), 안정성 사이의 균형을 더 정확하게 설명할 수 있고, 시스템 V IPC로 이어지는 이유도 자연스럽게 파악된다.
+> 3. **판단 포인트**: [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) ([Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))과의 관계를 함께 봐야 메모리 맵 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) ([Memory-Mapped File](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/308_memory_mapped_file/), [mmap](/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/)) 기반 IPC을 단순 정의가 아니라 실제 설계·운영 판단 기준으로 사용할 수 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: `mmap()` 시스템 콜은 디스크 상의 [[501_file_definition_logical_record|파일]]이나 익명 영역을 호출자 프로세스의 [[381_virtual_memory|가상 메모리]] ([[381_virtual_memory|Virtual Memory]])에 매핑한다. `MAP_SHARED` [[186_character_stuffing_dle_stx_etx|플래그]]를 지정하여 매핑하면, 해당 영역에 대한 [[289_cqrs_db|쓰기]]가 물리 메모리 상의 동일한 [[286_page_frame|페이지]] 프레임 ([[286_page_frame|Page Frame]])에 반영되므로 매핑을 공유하는 모든 프로세스가 즉시 변경 사항을 관찰할 수 있다. 이를 통해 프로세스 간 IPC를 구현한다.
-- **필요성**: 전통적인 [[123_pipe|파이프]] ([[123_pipe|Pipe]])나 [[125_socket|소켓]] ([[125_socket|Socket]]) 기반 IPC는 [[001_dikw_pyramid|데이터]]가 사용자 공간에서 [[022_kernel_role|커널]] 공간으로, 다시 대상 프로세스의 사용자 공간으로 복사되는 2중 버퍼 복사(2x Copy)를 수반한다. 대용량 [[001_dikw_pyramid|데이터]] 구조(예: 수백 MB의 이미지 버퍼)를 교환할 때 이러한 복사 비용은 치명적이다. `mmap()`은 [[720_page_fault_isr|페이지 폴트]] ([[387_page_fault|Page Fault]])를 통해 물리 [[286_page_frame|페이지]]를 직접 공유하므로 복사 오버헤드를 근본적으로 제거할 수 있다.
+- **개념**: `mmap()` 시스템 콜은 디스크 상의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이나 익명 영역을 호출자 프로세스의 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) ([Virtual Memory](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/))에 매핑한다. `MAP_SHARED` [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)를 지정하여 매핑하면, 해당 영역에 대한 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)가 물리 메모리 상의 동일한 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 프레임 ([Page Frame](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))에 반영되므로 매핑을 공유하는 모든 프로세스가 즉시 변경 사항을 관찰할 수 있다. 이를 통해 프로세스 간 IPC를 구현한다.
+- **필요성**: 전통적인 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) ([Pipe](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/))나 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) ([Socket](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)) 기반 IPC는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 사용자 공간에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간으로, 다시 대상 프로세스의 사용자 공간으로 복사되는 2중 버퍼 복사(2x Copy)를 수반한다. 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조(예: 수백 MB의 이미지 버퍼)를 교환할 때 이러한 복사 비용은 치명적이다. `mmap()`은 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) ([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))를 통해 물리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 직접 공유하므로 복사 오버헤드를 근본적으로 제거할 수 있다.
 
-운영체제의 [[353_page_table|페이지 테이블]] ([[353_page_table|Page Table]])이 어떻게 여러 프로세스를 동일한 물리 프레임으로 연결하는지 아키텍처 다이어그램으로 확인할 수 있다.
+운영체제의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) ([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))이 어떻게 여러 프로세스를 동일한 물리 프레임으로 연결하는지 아키텍처 다이어그램으로 확인할 수 있다.
 
 ```text
 ┌─ 프로세스 A 가상 주소 공간 ─┐  ┌─ 프로세스 B 가상 주소 공간 ─┐
@@ -39,24 +43,24 @@ tags:
                         └────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 이 도식의 핵심은 두 프로세스의 [[353_page_table|페이지 테이블]] ([[353_page_table|Page Table]])이 서로 다른 가상 주소(VA, Virtual Address)를 동일한 물리 [[286_page_frame|페이지]] 프레임([[286_page_frame|Page Frame]]) #2048으로 변환한다는 점이다. `MAP_SHARED` [[186_character_stuffing_dle_stx_etx|플래그]]를 사용하면 [[022_kernel_role|커널]]은 매핑 시점에 [[542_cow_file_system|COW]] ([[542_cow_file_system|Copy-on-Write]])를 적용하지 않고, 모든 매핑을 동일한 물리 프레임에 직결한다. 따라서 프로세스 A가 해당 주소에 값을 쓰면 물리 프레임의 내용이 즉시 갱신되며, 프로세스 B가 동일 주소를 읽을 때 [[720_page_fault_isr|페이지 폴트]] 없이 [[402_cache_coherence|캐시 일관성]] ([[402_cache_coherence|Cache Coherence]]) [[295_protocol_field_tcp_udp_icmp|프로토콜]](MESI 등)을 통해 최신 값을 관찰하게 된다.
+**[다이어그램 해설]** 이 도식의 핵심은 두 프로세스의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) ([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))이 서로 다른 가상 주소(VA, Virtual Address)를 동일한 물리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 프레임([Page Frame](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)) #2048으로 변환한다는 점이다. `MAP_SHARED` [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)를 사용하면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 매핑 시점에 [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) ([Copy-on-Write](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/))를 적용하지 않고, 모든 매핑을 동일한 물리 프레임에 직결한다. 따라서 프로세스 A가 해당 주소에 값을 쓰면 물리 프레임의 내용이 즉시 갱신되며, 프로세스 B가 동일 주소를 읽을 때 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 없이 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) ([Cache Coherence](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)(MESI 등)을 통해 최신 값을 관찰하게 된다.
 
-- **📢 섹션 요약 비유**: 두 집(프로세스)이 동일한 공용 냉장고(물리 [[286_page_frame|페이지]])를 각자의 현관문(가상 주소)을 통해 출입할 수 있도록 건축([[353_page_table|페이지 테이블]] 매핑)한 구조와 같습니다. 한쪽에서 우유를 마시고 다시 넣어두면, 다른 쪽에서 열었을 때 바로 빈 자리를 볼 수 있습니다.
+- **📢 섹션 요약 비유**: 두 집(프로세스)이 동일한 공용 냉장고(물리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))를 각자의 현관문(가상 주소)을 통해 출입할 수 있도록 건축([페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 매핑)한 구조와 같습니다. 한쪽에서 우유를 마시고 다시 넣어두면, 다른 쪽에서 열었을 때 바로 빈 자리를 볼 수 있습니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-메모리 맵 [[501_file_definition_logical_record|파일]] IPC의 동작은 [[255_demand_paging|요구 페이징]] ([[255_demand_paging|Demand Paging]]) 메커니즘과 긴밀하게 결합되어 있다.
+메모리 맵 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) IPC의 동작은 [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/) ([Demand Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)) 메커니즘과 긴밀하게 결합되어 있다.
 
 | 구성 요소 | 역할 | 내부 동작 | 관련 개념 | 비유 |
 |:---|:---|:---|:---|:---|
-| **[[749_memory_mapped_file_mmap|mmap]]() 시스템 콜** | [[501_file_definition_logical_record|파일]]을 [[381_virtual_memory|가상 메모리]]에 매핑 | [[428_vma_struct|VMA]] ([[428_vma_struct|Virtual Memory Area]]) [[087_process_state_transition|생성]], [[353_page_table|페이지 테이블]] 항목 초기화 | MAP_SHARED, MAP_PRIVATE | 도면을 책상 위에 펼치기 |
-| **[[720_page_fault_isr|페이지 폴트]] 핸들러** | 실제 물리 [[286_page_frame|페이지]] 할당 | 디스크에서 [[286_page_frame|페이지]]를 읽어 물리 프레임에 적재 | [[255_demand_paging|Demand Paging]] | 처음 펼칠 때만 도면을 꺼내오기 |
-| **MAP_SHARED [[186_character_stuffing_dle_stx_etx|플래그]]** | 변경 사항을 모든 매핑에 반영 | [[542_cow_file_system|COW]] 비활성화, 직접 [[289_cqrs_db|쓰기]] 모드 | [[276_write_through|Write-Through]], [[396_dirty_bit|Dirty Bit]] | 모두가 동시에 보는 화이트보드 |
-| **msync() 시스템 콜** | 변경된 [[286_page_frame|페이지]]를 디스크에 반영 | dirty [[286_page_frame|페이지]]를 [[501_file_definition_logical_record|파일]] 시스템으로 플러시 | fsync(), flush | 화이트보드 내용을 원본에 저장 |
+| **[mmap](/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/)() 시스템 콜** | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)에 매핑 | [VMA](/knowledge-base/studynote/02_operating_system/07_virtual_memory/428_vma_struct/) ([Virtual Memory Area](/knowledge-base/studynote/02_operating_system/07_virtual_memory/428_vma_struct/)) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 항목 초기화 | MAP_SHARED, MAP_PRIVATE | 도면을 책상 위에 펼치기 |
+| **[페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 핸들러** | 실제 물리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 할당 | 디스크에서 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 읽어 물리 프레임에 적재 | [Demand Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/) | 처음 펼칠 때만 도면을 꺼내오기 |
+| **MAP_SHARED [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)** | 변경 사항을 모든 매핑에 반영 | [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 비활성화, 직접 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 모드 | [Write-Through](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/276_write_through/), [Dirty Bit](/knowledge-base/studynote/02_operating_system/07_virtual_memory/396_dirty_bit/) | 모두가 동시에 보는 화이트보드 |
+| **msync() 시스템 콜** | 변경된 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 디스크에 반영 | dirty [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템으로 플러시 | fsync(), flush | 화이트보드 내용을 원본에 저장 |
 
-`mmap()`을 통한 [[001_dikw_pyramid|데이터]] 공유가 실제로 어떤 시점에 물리 메모리를 소비하는지 타이밍 다이어그램으로 시각화할 수 있다.
+`mmap()`을 통한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공유가 실제로 어떤 시점에 물리 메모리를 소비하는지 타이밍 다이어그램으로 시각화할 수 있다.
 
 ```text
   프로세스 A                      커널                      프로세스 B
@@ -79,25 +83,25 @@ tags:
      │                            ├── 42 반환 ───────────────▶  │
 ```
 
-**[다이어그램 해설]** 이 순차 흐름도는 `mmap()` 기반 IPC의 [[015_지연_데이터_관점|지연]] 할당([[380_computational_graph_lazy_eager_execution|Lazy]] Allocation) 특성을 명확히 보여준다. `mmap()` 호출 시점에는 [[022_kernel_role|커널]]이 단지 [[428_vma_struct|VMA]] ([[428_vma_struct|Virtual Memory Area]]) 객체를 [[087_process_state_transition|생성]]할 뿐 실제 물리 메모리를 할당하지 않는다. 프로세스 A가 처음으로 해당 영역에 [[289_cqrs_db|쓰기]]를 시도하면 [[720_page_fault_isr|페이지 폴트]]([[387_page_fault|Page Fault]])가 발생하고, 그 시점에서야 [[022_kernel_role|커널]]이 디스크에서 [[001_dikw_pyramid|데이터]]를 읽어 물리 프레임에 적재한다. 프로세스 B가 이후 동일 [[501_file_definition_logical_record|파일]]을 `mmap()`으로 매핑하면, [[022_kernel_role|커널]]은 이미 적재된 물리 프레임을 B의 [[353_page_table|페이지 테이블]]에 추가로 연결하므로 추가적인 디스크 I/O 없이 즉시 A의 [[289_cqrs_db|쓰기]] 결과(값 42)를 읽을 수 있다. 이것이 `mmap()` IPC가 복사 오버헤드 없이 동작하는 핵심 원리다.
+**[다이어그램 해설]** 이 순차 흐름도는 `mmap()` 기반 IPC의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 할당([Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Allocation) 특성을 명확히 보여준다. `mmap()` 호출 시점에는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 단지 [VMA](/knowledge-base/studynote/02_operating_system/07_virtual_memory/428_vma_struct/) ([Virtual Memory Area](/knowledge-base/studynote/02_operating_system/07_virtual_memory/428_vma_struct/)) 객체를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 뿐 실제 물리 메모리를 할당하지 않는다. 프로세스 A가 처음으로 해당 영역에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 시도하면 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))가 발생하고, 그 시점에서야 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 디스크에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽어 물리 프레임에 적재한다. 프로세스 B가 이후 동일 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 `mmap()`으로 매핑하면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이미 적재된 물리 프레임을 B의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)에 추가로 연결하므로 추가적인 디스크 I/O 없이 즉시 A의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 결과(값 42)를 읽을 수 있다. 이것이 `mmap()` IPC가 복사 오버헤드 없이 동작하는 핵심 원리다.
 
-- **📢 섹션 요약 비유**: 도서관에서 책을 빌릴 때 즉시 책의 모든 [[286_page_frame|페이지]]를 복사해서 가져오는 것이 아니라, 처음 읽으려는 [[286_page_frame|페이지]]를 펼칠 때만 직원이 찾아오는([[255_demand_paging|demand paging]]) 지혜로운 시스템과 같습니다.
+- **📢 섹션 요약 비유**: 도서관에서 책을 빌릴 때 즉시 책의 모든 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 복사해서 가져오는 것이 아니라, 처음 읽으려는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 펼칠 때만 직원이 찾아오는([demand paging](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)) 지혜로운 시스템과 같습니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-`mmap()` IPC는 POSIX [[118_shared_memory|공유 메모리]] (`shm_open` + `mmap`) 및 System V [[118_shared_memory|공유 메모리]] (`shmget` + `shmat`)와 유사한 결과를 낳지만, 내부 구현과 생명주기에서 중요한 차이가 존재한다.
+`mmap()` IPC는 POSIX [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) (`shm_open` + `mmap`) 및 System V [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) (`shmget` + `shmat`)와 유사한 결과를 낳지만, 내부 구현과 생명주기에서 중요한 차이가 존재한다.
 
-| 항목 | [[749_memory_mapped_file_mmap|mmap]]() [[501_file_definition_logical_record|파일]] 매핑 | POSIX shm_open + [[749_memory_mapped_file_mmap|mmap]] | System V shmget + shmat |
+| 항목 | [mmap](/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/)() [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 매핑 | POSIX shm_open + [mmap](/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/) | System V shmget + shmat |
 |:---|:---|:---|:---|
-| **백엔드 저장소** | 실제 [[501_file_definition_logical_record|파일]] 시스템의 [[501_file_definition_logical_record|파일]] | tmpfs (/dev/shm 내) | [[022_kernel_role|커널]] 내부 메모리 |
-| **[[022_kernel_role|커널]] 종료 후 지속성** | [[501_file_definition_logical_record|파일]]에 기록되면 영속 | tmpfs이므로 휘발성 | [[022_kernel_role|커널]] 파라미터로 제어 |
-| **[[212_synchronization_mechanisms|동기화]] 필요 여부** | 명시적 [[212_synchronization_mechanisms|동기화]] 필수 | 명시적 [[212_synchronization_mechanisms|동기화]] 필수 | 명시적 [[212_synchronization_mechanisms|동기화]] 필수 |
+| **백엔드 저장소** | 실제 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) | tmpfs (/dev/shm 내) | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부 메모리 |
+| **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 종료 후 지속성** | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 기록되면 영속 | tmpfs이므로 휘발성 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 파라미터로 제어 |
+| **[동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 필요 여부** | 명시적 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 필수 | 명시적 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 필수 | 명시적 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 필수 |
 | **이식성 (Portability)** | POSIX 표준, 범용 | POSIX 표준, 비교적 최신 | System V 계열 한정 |
-| **복사 횟수 (Copy Count)** | 0회 ([[566_mmap_zero_copy_sendfile|zero-copy]]) | 0회 ([[566_mmap_zero_copy_sendfile|zero-copy]]) | 0회 ([[566_mmap_zero_copy_sendfile|zero-copy]]) |
+| **복사 횟수 (Copy Count)** | 0회 ([zero-copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/)) | 0회 ([zero-copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/)) | 0회 ([zero-copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/)) |
 
-세 가지 [[118_shared_memory|공유 메모리]] [[117_ipc|IPC]] 기법의 물리 메모리 연결 방식을 구조적으로 비교할 수 있다.
+세 가지 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 기법의 물리 메모리 연결 방식을 구조적으로 비교할 수 있다.
 
 ```text
 [1] mmap() 파일 매핑                [2] POSIX shm + mmap
@@ -125,25 +129,25 @@ tags:
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 이 세 가지 구조의 결정적 차이는 '백엔드 저장소(Backend Store)'의 존재 여부와 위치에 있다. `mmap()` [[501_file_definition_logical_record|파일]] 매핑은 실제 [[501_file_definition_logical_record|파일]] 시스템 상의 [[501_file_definition_logical_record|파일]]을 백엔드로 삼아, 물리 메모리가 부족할 때 디스크로 스왑아웃(Swap-out)이 가능하다. 반면 System V [[118_shared_memory|공유 메모리]]는 [[501_file_definition_logical_record|파일]] 시스템과 무관하게 [[022_kernel_role|커널]] 내부에만 존재하며, POSIX [[118_shared_memory|공유 메모리]]는 `tmpfs`라는 메모리 기반 [[501_file_definition_logical_record|파일]] 시스템을 백엔드로 사용한다. `mmap()` [[501_file_definition_logical_record|파일]] 매핑의 고유한 장점은 [[001_dikw_pyramid|데이터]]가 자동으로 [[501_file_definition_logical_record|파일]]에 반영되므로, 프로세스 재시작 후에도 이전 상태를 복원할 수 있는 지속성(Persistence)을 제공한다는 점이다.
+**[다이어그램 해설]** 이 세 가지 구조의 결정적 차이는 '백엔드 저장소(Backend Store)'의 존재 여부와 위치에 있다. `mmap()` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 매핑은 실제 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 상의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 백엔드로 삼아, 물리 메모리가 부족할 때 디스크로 스왑아웃(Swap-out)이 가능하다. 반면 System V [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템과 무관하게 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부에만 존재하며, POSIX [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)는 `tmpfs`라는 메모리 기반 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템을 백엔드로 사용한다. `mmap()` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 매핑의 고유한 장점은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 자동으로 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 반영되므로, 프로세스 재시작 후에도 이전 상태를 복원할 수 있는 지속성(Persistence)을 제공한다는 점이다.
 
-- **컴퓨터구조 ([[089_contract_account_smart_contract|CA]], Computer [[319_architecture|Architecture]]) 관점**: `mmap()`은 [[357_tlb|TLB]] ([[291_tlb|Translation Lookaside Buffer]])를 최대한 활용하는 설계다. 한 번 매핑된 [[286_page_frame|페이지]]에 대해 [[357_tlb|TLB]] 엔트리가 [[087_process_state_transition|생성]]되면, 이후의 접근은 하드웨어 수준에서 주소 변환이 완료되므로 소프트웨어 개입 없이 나노초 단위의 접근 [[015_지연_데이터_관점|지연]]으로 공유 [[001_dikw_pyramid|데이터]]를 읽고 쓸 수 있다.
+- **컴퓨터구조 ([CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/), Computer [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/)) 관점**: `mmap()`은 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) ([Translation Lookaside Buffer](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/))를 최대한 활용하는 설계다. 한 번 매핑된 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에 대해 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 엔트리가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되면, 이후의 접근은 하드웨어 수준에서 주소 변환이 완료되므로 소프트웨어 개입 없이 나노초 단위의 접근 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)으로 공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽고 쓸 수 있다.
 
-- **📢 섹션 요약 비유**: 세 가지 방식은 모두 같은 '공용 게시판(물리 프레임)'을 사용하지만, 게시판이 밖에 있는지([[749_memory_mapped_file_mmap|mmap]] [[501_file_definition_logical_record|파일]]), 사내 라커에 있는지(POSIX shm), 아니면 사장님 서랍에만 있는지(System V shm)가 다른 셈입니다.
+- **📢 섹션 요약 비유**: 세 가지 방식은 모두 같은 '공용 게시판(물리 프레임)'을 사용하지만, 게시판이 밖에 있는지([mmap](/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)), 사내 라커에 있는지(POSIX shm), 아니면 사장님 서랍에만 있는지(System V shm)가 다른 셈입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-`mmap()` 기반 IPC는 고성능 애플리케이션에서 널리 사용되지만, [[212_synchronization_mechanisms|동기화]] 누락 시 [[001_dikw_pyramid|데이터]] [[194_consistency_database_integrity|일관성]]이 파괴되는 치명적 리스크가 존재한다.
+`mmap()` 기반 IPC는 고성능 애플리케이션에서 널리 사용되지만, [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 누락 시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 파괴되는 치명적 리스크가 존재한다.
 
-**실무 시나리오 1. 영상 처리 [[123_pipe|파이프]]라인에서의 프레임 버퍼 공유**:
-4K 해상도(3840x2160)의 미처리 영상 프레임 한 장은 약 33MB(RGB 3바이트/픽셀)이다. [[123_pipe|파이프]]나 [[125_socket|소켓]]으로 매 초 60프레임을 전송하면 초당 약 2GB의 버퍼 복사가 발생한다. `mmap()` 기반 [[118_shared_memory|공유 메모리]] 버퍼를 사용하면, 프로듀서(카메라 캡처 프로세스)가 프레임을 버퍼에 기록하고 소비자(인코딩 프로세스)가 즉시 동일 주소를 읽으므로 복사가 전혀 발생하지 않는다.
+**실무 시나리오 1. 영상 처리 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서의 프레임 버퍼 공유**:
+4K 해상도(3840x2160)의 미처리 영상 프레임 한 장은 약 33MB(RGB 3바이트/픽셀)이다. [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)나 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)으로 매 초 60프레임을 전송하면 초당 약 2GB의 버퍼 복사가 발생한다. `mmap()` 기반 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 버퍼를 사용하면, 프로듀서(카메라 캡처 프로세스)가 프레임을 버퍼에 기록하고 소비자(인코딩 프로세스)가 즉시 동일 주소를 읽으므로 복사가 전혀 발생하지 않는다.
 
-**실무 시나리오 2. [[212_synchronization_mechanisms|동기화]] 누락으로 인한 레이스 컨디션 ([[213_race_condition|Race Condition]])**:
-두 프로세스가 `mmap()`으로 공유한 카운터를 [[212_synchronization_mechanisms|동기화]] 없이 증가시키면, 읽기-수정-[[289_cqrs_db|쓰기]](Read-Modify-Write) 연산이 원자적(Atomic)이지 않아 값이 소실된다. 반드시 `futex` 기반의 POSIX [[224_semaphore|세마포어]] 또는 `pthread_mutex`를 [[118_shared_memory|공유 메모리]] 내에 배치하여 보호해야 한다.
+**실무 시나리오 2. [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 누락으로 인한 레이스 컨디션 ([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))**:
+두 프로세스가 `mmap()`으로 공유한 카운터를 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 없이 증가시키면, 읽기-수정-[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Read-Modify-Write) 연산이 원자적(Atomic)이지 않아 값이 소실된다. 반드시 `futex` 기반의 POSIX [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) 또는 `pthread_mutex`를 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 내에 배치하여 보호해야 한다.
 
-아키텍트는 [[117_ipc|IPC]] 메커니즘 선택을 위한 의사결정 기준을 수립해야 한다.
+아키텍트는 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 메커니즘 선택을 위한 의사결정 기준을 수립해야 한다.
 
 ```text
    [ IPC 메커니즘 선택 트리 ]
@@ -161,38 +165,38 @@ tags:
                           (작은 메시지에 최적화, 커널 버퍼 관리 자동)
 ```
 
-**[다이어그램 해설]** 이 의사결정 트리는 [[001_dikw_pyramid|데이터]] 크기와 실시간성 요구를 기준으로 최적의 IPC를 선택하는 기준을 제공한다. `mmap()` IPC는 대용량 [[001_dikw_pyramid|데이터]]의 [[566_mmap_zero_copy_sendfile|zero-copy]] 전달에 압도적 우위를 가지지만, 작은 제어 메시지(수바이트~수킬로바이트)에는 오히려 [[428_vma_struct|VMA]] [[009_config|설정]] 및 [[720_page_fault_isr|페이지 폴트]] 처리 오버헤드가 더 크다. 따라서 명령어나 상태 [[130_signal|신호]] 같은 소규모 메시지에는 [[123_pipe|파이프]]나 [[125_socket|소켓]]이 더 효율적이다. 또한 `mmap()`은 반드시 외부 [[212_synchronization_mechanisms|동기화]] 수단을 병행해야 하므로, 개발 복잡도도 함께 평가해야 한다.
+**[다이어그램 해설]** 이 의사결정 트리는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기와 실시간성 요구를 기준으로 최적의 IPC를 선택하는 기준을 제공한다. `mmap()` IPC는 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [zero-copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/) 전달에 압도적 우위를 가지지만, 작은 제어 메시지(수바이트~수킬로바이트)에는 오히려 [VMA](/knowledge-base/studynote/02_operating_system/07_virtual_memory/428_vma_struct/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 및 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 처리 오버헤드가 더 크다. 따라서 명령어나 상태 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 같은 소규모 메시지에는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)나 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)이 더 효율적이다. 또한 `mmap()`은 반드시 외부 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 수단을 병행해야 하므로, 개발 복잡도도 함께 평가해야 한다.
 
-**도입 [[435_checklist_based_testing|체크리스트]]**:
-- [[118_shared_memory|공유 메모리]] 영역에 대한 접근이 반드시 [[224_semaphore|세마포어]] 또는 뮤텍스로 보호되고 있는가?
-- 매핑 크기가 [[352_page_size|페이지 크기]]([[352_page_size|Page Size]], 일반적으로 4KB)의 배수로 정렬되어 있는가?
-- [[107_process_termination|프로세스 종료]] 시 `munmap()`을 호출하여 VMA를 해제하고 있는가?
+**도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)**:
+- [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 영역에 대한 접근이 반드시 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) 또는 뮤텍스로 보호되고 있는가?
+- 매핑 크기가 [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)([Page Size](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/), 일반적으로 4KB)의 배수로 정렬되어 있는가?
+- [프로세스 종료](/knowledge-base/studynote/02_operating_system/02_process_thread/107_process_termination/) 시 `munmap()`을 호출하여 VMA를 해제하고 있는가?
 
-- **📢 섹션 요약 비유**: 대량의 화물(대용량 [[001_dikw_pyramid|데이터]])을 옮길 때는 트럭을 여러 번 보내는 것([[125_socket|소켓]]/[[123_pipe|파이프]])보다, 두 창고 사이에 직통 도로를 깔아놓고([[749_memory_mapped_file_mmap|mmap]]) 지게차가 직접 드나들게 하는 것이 효율적이지만, 출입 순서를 안내하는 교통 정리([[212_synchronization_mechanisms|동기화]])는 반드시 필요합니다.
+- **📢 섹션 요약 비유**: 대량의 화물(대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 옮길 때는 트럭을 여러 번 보내는 것([소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)/[파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/))보다, 두 창고 사이에 직통 도로를 깔아놓고([mmap](/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/)) 지게차가 직접 드나들게 하는 것이 효율적이지만, 출입 순서를 안내하는 교통 정리([동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/))는 반드시 필요합니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-`mmap()` 기반 IPC는 대용량 [[001_dikw_pyramid|데이터]] 공유의 표준으로 자리 잡았으며, [[561_container_based_deployment|컨테이너]] 및 [[015_virtualization|가상화]] 환경에서도 핵심적인 역할을 수행한다.
+`mmap()` 기반 IPC는 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공유의 표준으로 자리 잡았으며, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 및 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 환경에서도 핵심적인 역할을 수행한다.
 
-| 구분 | [[123_pipe|파이프]]/[[125_socket|소켓]] 기반 [[117_ipc|IPC]] | [[749_memory_mapped_file_mmap|mmap]]() 기반 [[117_ipc|IPC]] | 비즈니스 파급 효과 |
+| 구분 | [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)/[소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 기반 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) | [mmap](/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/)() 기반 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) | 비즈니스 파급 효과 |
 |:---|:---|:---|:---|
-| **[[001_dikw_pyramid|데이터]] 복사 횟수** | 2회 (User-[[022_kernel_role|Kernel]]-User) | 0회 ([[566_mmap_zero_copy_sendfile|zero-copy]]) | 대용량 처리 시 CPU 활용률 극대화 |
-| **[[141_latency|지연 시간]] ([[141_latency|Latency]])** | 마이크로초~밀리초 | 나노초([[358_tlb_hit_miss|TLB Hit]] 시) | 실시간 영상/금융 시스템에서 결정적 응답 보장 |
-| **구현 복잡도** | 낮음 ([[022_kernel_role|커널]]이 관리) | 높음 ([[212_synchronization_mechanisms|동기화]] 직접 구현) | 개발 및 테스트 비용 증가, 디버깅 난이도 상승 |
+| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복사 횟수** | 2회 (User-[Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)-User) | 0회 ([zero-copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/)) | 대용량 처리 시 CPU 활용률 극대화 |
+| **[지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) ([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))** | 마이크로초~밀리초 | 나노초([TLB Hit](/knowledge-base/studynote/02_operating_system/06_memory_management/358_tlb_hit_miss/) 시) | 실시간 영상/금융 시스템에서 결정적 응답 보장 |
+| **구현 복잡도** | 낮음 ([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 관리) | 높음 ([동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 직접 구현) | 개발 및 테스트 비용 증가, 디버깅 난이도 상승 |
 
 **미래 전망**:
-`mmap()` 메커니즘은 [[022_kernel_role|커널]] 바이패스 ([[022_kernel_role|Kernel]] Bypass) 기술인 [[671_dpdk|DPDK]] ([[001_dikw_pyramid|Data]] Plane Development Kit) 및 [[672_spdk|SPDK]] (Storage [[282_performance_tactics|Performance]] Development Kit)와 융합하여, 네트워크 및 스토리지 I/O 경로에서도 zero-copy를 실현하는 핵심 기반으로 진화하고 있다. 또한 [[441_cxl|CXL]] ([[441_cxl|Compute Express Link]]) 메모리 의미론( Semantics)이 도입되면서, `mmap()`으로 매핑된 영역이 다른 노드의 원격 메모리를 직접 참조하는 [[136_variance|분산]] [[118_shared_memory|공유 메모리]] (DSM, Distributed [[118_shared_memory|Shared Memory]]) 패러다임으로 확장될 전망이다.
+`mmap()` 메커니즘은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 바이패스 ([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Bypass) 기술인 [DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane Development Kit) 및 [SPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/672_spdk/) (Storage [Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) Development Kit)와 융합하여, 네트워크 및 스토리지 I/O 경로에서도 zero-copy를 실현하는 핵심 기반으로 진화하고 있다. 또한 [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) ([Compute Express Link](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)) 메모리 의미론( Semantics)이 도입되면서, `mmap()`으로 매핑된 영역이 다른 노드의 원격 메모리를 직접 참조하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) (DSM, Distributed [Shared Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)) 패러다임으로 확장될 전망이다.
 
-- **📢 섹션 요약 비유**: `mmap()`은 두 도시(프로세스) 사이에 성벽([[022_kernel_role|커널]])을 뚫고 직통 고속도로([[566_mmap_zero_copy_sendfile|zero-copy]])를 건설하여 화물을 실시간으로 주고받게 한 획기적인 인프라로, 앞으로는 다른 나라의 창고까지 연결하는 국제 고속도로([[136_variance|분산]] [[118_shared_memory|공유 메모리]])로 확장될 것입니다.
+- **📢 섹션 요약 비유**: `mmap()`은 두 도시(프로세스) 사이에 성벽([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))을 뚫고 직통 고속도로([zero-copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/))를 건설하여 화물을 실시간으로 주고받게 한 획기적인 인프라로, 앞으로는 다른 나라의 창고까지 연결하는 국제 고속도로([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/))로 확장될 것입니다.
 
 ---
 
 #### 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 메모리 맵 [[501_file_definition_logical_record|파일]] [[117_ipc|IPC]] (Inter-Process Communication)는 운영체제의 `mmap()` 시스템 콜을 통해 [[501_file_definition_logical_record|파일]] 또는 [[391_anonymous_memory|익명 메모리]] 영역을 프로세스의 [[382_virtual_address_space|가상 주소 공간]] ([[382_virtual_address_space|Virtual Address Space]])에 직접 매핑하여, 프로세스 간 [[001_dikw_pyramid|데이터]]를 [[022_kernel_role|커널]] 버퍼를 경유하지 않고 [[720_page_fault_isr|페이지 폴트]] ([[387_page_fault|Page Fault]]) 기반으로 공유하는 통신 기법이다.
-> 2. **가치**: `MAP_SHARED` [[186_character_stuffing_dle_stx_etx|플래그]]를 사용하면 여러 프로세스가 동일한 물리 [[286_page_frame|페이지]] (Physical [[286_page_frame|Page]])를 공유하므로, 대용량 [[001_dikw_pyramid|데이터]]를 복사 없이([[566_mmap_zero_copy_sendfile|zero-copy]]) 교환할 수 있어 고성능 IPC가 가능하며, [[501_file_definition_logical_record|파일]] 시스템과의 [[194_consistency_database_integrity|일관성]]도 자동으로 보장된다.
-> 3. **융합**: POSIX [[118_shared_memory|공유 메모리]] (POSIX [[118_shared_memory|Shared Memory]], `shm_open`)의 내부 구현이 사실상 `mmap()` 기반으로 동작하므로, 메모리 맵 [[501_file_definition_logical_record|파일]]은 POSIX IPC의 근간을 이루는 핵심 메커니즘이다. 다만 [[212_synchronization_mechanisms|동기화]]는 별도의 [[224_semaphore|세마포어]] ([[224_semaphore|Semaphore]])나 [[501_file_definition_logical_record|파일]] 락 ([[501_file_definition_logical_record|File]] [[510_lock|Lock]])으로 명시적으로 수행해야 한다.
+> 1. **본질**: 메모리 맵 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) (Inter-Process Communication)는 운영체제의 `mmap()` 시스템 콜을 통해 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 또는 [익명 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/391_anonymous_memory/) 영역을 프로세스의 [가상 주소 공간](/knowledge-base/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/) ([Virtual Address Space](/knowledge-base/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/))에 직접 매핑하여, 프로세스 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 버퍼를 경유하지 않고 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) ([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)) 기반으로 공유하는 통신 기법이다.
+> 2. **가치**: `MAP_SHARED` [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)를 사용하면 여러 프로세스가 동일한 물리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) (Physical [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))를 공유하므로, 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복사 없이([zero-copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/)) 교환할 수 있어 고성능 IPC가 가능하며, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템과의 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)도 자동으로 보장된다.
+> 3. **융합**: POSIX [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) (POSIX [Shared Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/), `shm_open`)의 내부 구현이 사실상 `mmap()` 기반으로 동작하므로, 메모리 맵 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 POSIX IPC의 근간을 이루는 핵심 메커니즘이다. 다만 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)는 별도의 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) ([Semaphore](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/))나 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 락 ([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))으로 명시적으로 수행해야 한다.
 
 ---
 
@@ -200,10 +204,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[129_lpc_alpc|로컬 프로시저 호출]] (LPC, Local Procedure [[189_subroutine_call_return|Call]]) / ALPC (Windows) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [[130_signal|신호]] ([[130_signal|Signal]]) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| 시스템 V [[117_ipc|IPC]] | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [[133_posix_ipc|POSIX IPC]] | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [로컬 프로시저 호출](/knowledge-base/studynote/02_operating_system/02_process_thread/129_lpc_alpc/) (LPC, Local Procedure [Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/)) / ALPC (Windows) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) ([Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| 시스템 V [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [POSIX IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/133_posix_ipc/) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -221,9 +225,9 @@ tags:
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. `mmap()`은 두 사람이 같은 그림책(물리 [[286_page_frame|페이지]])을 각자의 책상 위에 펼쳐놓고 동시에 보는 마법의 거울을 만들어주는 시스템이에요.
+1. `mmap()`은 두 사람이 같은 그림책(물리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))을 각자의 책상 위에 펼쳐놓고 동시에 보는 마법의 거울을 만들어주는 시스템이에요.
 2. `MAP_SHARED`라고 말하면 한쪽에서 그림을 수정하면 다른 쪽의 거울에도 즉시 반영되어, 책을 복사해서 전해줄 필요가 없어요.
-3. 하지만 두 사람이 동시에 같은 [[286_page_frame|페이지]]에 그림을 그리면 엉망이 되니까, 돌아가면서 그릴 수 있게 순서표([[224_semaphore|세마포어]])를 반드시 함께 사용해야 해요!
+3. 하지만 두 사람이 동시에 같은 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에 그림을 그리면 엉망이 되니까, 돌아가면서 그릴 수 있게 순서표([세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/))를 반드시 함께 사용해야 해요!
 
 ---
 
@@ -231,7 +235,7 @@ tags:
 
 **진행 상황**: 131 / 800
 
-← **이전**: [[130_signal|130. 신호 (Signal) - 소프트웨어 인터럽트 방식 IPC (kill, SIGINT, SIGKILL)]]
-**다음**: [[132_system_v_ipc|132. 시스템 V IPC (System V IPC)]] →
+← **이전**: [130. 신호 (Signal) - 소프트웨어 인터럽트 방식 IPC (kill, SIGINT, SIGKILL)](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)
+**다음**: [132. 시스템 V IPC (System V IPC)](/knowledge-base/studynote/02_operating_system/02_process_thread/132_system_v_ipc/) →
 
 ---

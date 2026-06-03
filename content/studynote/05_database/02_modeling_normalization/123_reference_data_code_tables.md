@@ -1,13 +1,17 @@
----
-title: 123. 참조 데이터 & 코드 테이블 (Reference Data & Code Tables) - 코드성 데이터 표준화
-date: '2026-04-19'
-tags:
-- studynote-database
----
++++
+title = "123. 참조 데이터 & 코드 테이블 (Reference Data & Code Tables) - 코드성 데이터 표준화"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-database"]
+
+[extra]
+tags = ["studynote-database"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [[316_reference_pattern_nosql|참조]] [[001_dikw_pyramid|데이터]]([[316_reference_pattern_nosql|Reference]] [[001_dikw_pyramid|Data]])는 **성별(M/F)·상태([[483_active_vs_passive_ftp|ACTIVE]]/INACTIVE)·지역코드** 등 **비즈니스 규칙에 의해 정해진 코드 값의 집합**이며, 코드 테이블([[082_process_memory_structure|Code]] Table)로 관리한다.
-> 2. **가치**: 코드를 하드코딩하면 변경 시 소스코드 수정이 필요하지만, 코드 테이블로 분리하면 **DB [[001_dikw_pyramid|데이터]] 수정만으로 코드 값을 추가·변경**할 수 있고 전사 표준화가 가능하다.
+> 1. **본질**: [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))는 **성별(M/F)·상태([ACTIVE](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)/INACTIVE)·지역코드** 등 **비즈니스 규칙에 의해 정해진 코드 값의 집합**이며, 코드 테이블([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Table)로 관리한다.
+> 2. **가치**: 코드를 하드코딩하면 변경 시 소스코드 수정이 필요하지만, 코드 테이블로 분리하면 **DB [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수정만으로 코드 값을 추가·변경**할 수 있고 전사 표준화가 가능하다.
 > 3. **판단 포인트**: 코드 테이블 설계 시 **통합 코드 테이블(하나의 테이블에 모든 코드 유형)** vs **개별 코드 테이블(유형별 별도 테이블)**의 트레이드오프를 이해해야 한다.
 
 ---
@@ -68,7 +72,7 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-[[316_reference_pattern_nosql|참조]] [[001_dikw_pyramid|데이터]] 관리는 **[[126_data_standardization_word_domain_term|데이터 표준화]]·MDM의 기초**이며, 코드 테이블의 체계적 관리가 전사 [[001_dikw_pyramid|데이터]] 품질의 출발점이다.
+[참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리는 **[데이터 표준화](/knowledge-base/studynote/05_database/02_modeling_normalization/126_data_standardization_word_domain_term/)·MDM의 기초**이며, 코드 테이블의 체계적 관리가 전사 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질의 출발점이다.
 
 ---
 
@@ -76,11 +80,11 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **코드 테이블** | [[316_reference_pattern_nosql|참조]] [[001_dikw_pyramid|데이터]]의 저장소 |
-| **[[539_mdm_master_data_management|MDM]]** | [[316_reference_pattern_nosql|참조]] [[001_dikw_pyramid|데이터]]를 포함한 마스터 관리 |
-| **[[001_dikw_pyramid|데이터]] 표준** | 코드 값의 전사 표준화 |
+| **코드 테이블** | [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 저장소 |
+| **[MDM](/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/)** | [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 포함한 마스터 관리 |
+| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 표준** | 코드 값의 전사 표준화 |
 | **Enum** | 프로그래밍 언어의 코드 값 표현 |
-| **캐시** | 코드 테이블의 [[282_performance_tactics|성능]] 최적화 |
+| **캐시** | 코드 테이블의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -111,7 +115,7 @@ tags:
 
 **진행 상황**: 123 / 600
 
-← **이전**: [[122_master_data_management_db_perspective|122. 마스터 데이터 관리 (MDM, Master Data Management) - 데이터 품질·일관성의 근간]]
-**다음**: [[124_data_governance_db_perspective|124. 데이터 거버넌스 (Data Governance) - 데이터 품질·보안·표준의 전사 관리 체계]] →
+← **이전**: [122. 마스터 데이터 관리 (MDM, Master Data Management) - 데이터 품질·일관성의 근간](/knowledge-base/studynote/05_database/02_modeling_normalization/122_master_data_management_db_perspective/)
+**다음**: [124. 데이터 거버넌스 (Data Governance) - 데이터 품질·보안·표준의 전사 관리 체계](/knowledge-base/studynote/05_database/02_modeling_normalization/124_data_governance_db_perspective/) →
 
 ---

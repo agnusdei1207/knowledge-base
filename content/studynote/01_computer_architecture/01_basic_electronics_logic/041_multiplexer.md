@@ -1,18 +1,22 @@
----
-title: 041. 멀티플렉서 (MUX, Multiplexer)
-date: '2026-03-20'
-tags:
-- studynote-computer-architecture
----
++++
+title = "041. 멀티플렉서 (MUX, Multiplexer)"
+date = 2026-03-20
+
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
 
 > **핵심 인사이트**
-> 1. 멀티플렉서([[944_mux_demux_multiplexer_demultiplexer_circuit_sharing|MUX]])는 2ⁿ개의 입력 중 n비트 선택 [[130_signal|신호]]([[520_select|Select]] Line)에 의해 하나의 입력을 출력으로 선택하는 조합 [[369_logic_bomb|논리]] 회로로, 디지털 시스템에서 [[130_signal|신호]] [[339_routing_overview_best_path_selection|라우팅]]([[339_routing_overview_best_path_selection|Routing]])과 [[001_dikw_pyramid|데이터]] 선택의 핵심 빌딩 블록이다.
-> 2. MUX는 임의의 불 함수(Boolean Function)를 구현할 수 있는 범용 [[369_logic_bomb|논리]] 회로로, 2ⁿ⁺¹ -1개 입력 MUX로 n+1변수 함수를, 2ⁿ-1개 MUX로 n변수 함수를 진리표만으로 구현할 수 있다.
-> 3. [[042_demultiplexer|디멀티플렉서]](DEMUX)는 MUX의 역(逆)으로 하나의 입력을 선택 [[130_signal|신호]]에 따라 2ⁿ개 출력 중 하나로 보내며, [[944_mux_demux_multiplexer_demultiplexer_circuit_sharing|MUX]]-DEMUX 쌍은 [[075_시분할_다중화_TDM|시분할 다중화]](TDM) 통신의 핵심 하드웨어 구조다.
+> 1. 멀티플렉서([MUX](/knowledge-base/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/))는 2ⁿ개의 입력 중 n비트 선택 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)([Select](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/) Line)에 의해 하나의 입력을 출력으로 선택하는 조합 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로로, 디지털 시스템에서 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)([Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 선택의 핵심 빌딩 블록이다.
+> 2. MUX는 임의의 불 함수(Boolean Function)를 구현할 수 있는 범용 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로로, 2ⁿ⁺¹ -1개 입력 MUX로 n+1변수 함수를, 2ⁿ-1개 MUX로 n변수 함수를 진리표만으로 구현할 수 있다.
+> 3. [디멀티플렉서](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/042_demultiplexer/)(DEMUX)는 MUX의 역(逆)으로 하나의 입력을 선택 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)에 따라 2ⁿ개 출력 중 하나로 보내며, [MUX](/knowledge-base/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/)-DEMUX 쌍은 [시분할 다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/075_시분할_다중화_TDM/)(TDM) 통신의 핵심 하드웨어 구조다.
 
 ---
 
-## Ⅰ. [[944_mux_demux_multiplexer_demultiplexer_circuit_sharing|MUX]] 기본 구조
+## Ⅰ. [MUX](/knowledge-base/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/) 기본 구조
 
 ```
 4:1 MUX (2비트 선택):
@@ -39,7 +43,7 @@ tags:
 일반화: 2ⁿ:1 MUX = n비트 선택 신호
 ```
 
-> 📢 **섹션 요약 비유**: MUX는 TV 리모컨 채널 선택 — 여러 방송 [[130_signal|신호]] 중 버튼([[520_select|Select]]) 누른 하나만 화면(출력)에 표시.
+> 📢 **섹션 요약 비유**: MUX는 TV 리모컨 채널 선택 — 여러 방송 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 중 버튼([Select](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/)) 누른 하나만 화면(출력)에 표시.
 
 ---
 
@@ -68,11 +72,11 @@ MUX를 이용한 범용 논리 구현:
   예: F(A,B,C) -> 4:1 MUX + C 활용
 ```
 
-> 📢 **섹션 요약 비유**: MUX로 [[369_logic_bomb|논리]] 함수 구현은 레고 범용 블록 — 진리표를 [[944_mux_demux_multiplexer_demultiplexer_circuit_sharing|MUX]] 입력에 그대로 꽂아서 어떤 함수도 만들 수 있다.
+> 📢 **섹션 요약 비유**: MUX로 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 함수 구현은 레고 범용 블록 — 진리표를 [MUX](/knowledge-base/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/) 입력에 그대로 꽂아서 어떤 함수도 만들 수 있다.
 
 ---
 
-## Ⅲ. [[042_demultiplexer|디멀티플렉서]] (DEMUX)
+## Ⅲ. [디멀티플렉서](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/042_demultiplexer/) (DEMUX)
 
 ```
 DEMUX (Demultiplexer):
@@ -100,11 +104,11 @@ MUX-DEMUX 쌍:
 TDM (Time Division Multiplexing) 구현
 ```
 
-> 📢 **섹션 요약 비유**: DEMUX는 우체국 배달 시스템 — 중앙 우체국(입력)에서 받은 우편을 각 가정(출력)에 주소(선택 [[130_signal|신호]])에 맞게 배달.
+> 📢 **섹션 요약 비유**: DEMUX는 우체국 배달 시스템 — 중앙 우체국(입력)에서 받은 우편을 각 가정(출력)에 주소(선택 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))에 맞게 배달.
 
 ---
 
-## Ⅳ. [[944_mux_demux_multiplexer_demultiplexer_circuit_sharing|MUX]] 계층화와 [[344_bus|버스]] 구조
+## Ⅳ. [MUX](/knowledge-base/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/) 계층화와 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 구조
 
 ```
 대형 MUX 구성:
@@ -135,7 +139,7 @@ CPU 내부 MUX 사용:
 
 ---
 
-## Ⅴ. 실무 시나리오 — CPU [[205_datapath|데이터패스]]
+## Ⅴ. 실무 시나리오 — CPU [데이터패스](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/205_datapath/)
 
 ```
 RISC CPU 데이터패스의 MUX:
@@ -164,7 +168,7 @@ FPGA에서 MUX:
   모든 논리 함수 = LUT로 구현
 ```
 
-> 📢 **섹션 요약 비유**: CPU [[205_datapath|데이터패스]]의 MUX는 철도 분기기 — [[158_instruction|명령어]] 종류에 따라 [[001_dikw_pyramid|데이터]]가 올바른 경로([[117_alu|ALU]] or 메모리)로 흐르도록 분기.
+> 📢 **섹션 요약 비유**: CPU [데이터패스](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/205_datapath/)의 MUX는 철도 분기기 — [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 종류에 따라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 올바른 경로([ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) or 메모리)로 흐르도록 분기.
 
 ---
 
@@ -217,9 +221,9 @@ SerDes (직렬화/역직렬화)
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 멀티플렉서는 여러 수도꼭지(입력) 중에서 손잡이(선택 [[130_signal|신호]])로 하나만 골라 물(출력)이 나오게 하는 분배기예요.
-2. 4개 입력이 있으면 2비트 [[130_signal|신호]](00, 01, [[489_raid_10_hybrid|10]], [[308_static_dynamic_nat_pat_port_address_translation|11]])로 어느 것을 선택할지 결정해요.
-3. CPU 내부에도 수십 개의 MUX가 있어서 어떤 [[001_dikw_pyramid|데이터]]를 계산에 쓸지 매 순간 선택하고 있어요!
+1. 멀티플렉서는 여러 수도꼭지(입력) 중에서 손잡이(선택 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))로 하나만 골라 물(출력)이 나오게 하는 분배기예요.
+2. 4개 입력이 있으면 2비트 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(00, 01, [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/), [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/))로 어느 것을 선택할지 결정해요.
+3. CPU 내부에도 수십 개의 MUX가 있어서 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 계산에 쓸지 매 순간 선택하고 있어요!
 
 ---
 
@@ -227,7 +231,7 @@ SerDes (직렬화/역직렬화)
 
 **진행 상황**: 41 / 803
 
-← **이전**: [[040_encoder|040. 인코더 (Encoder)]]
-**다음**: [[042_demultiplexer|042. 디멀티플렉서 (Demultiplexer, DEMUX)]] →
+← **이전**: [040. 인코더 (Encoder)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)
+**다음**: [042. 디멀티플렉서 (Demultiplexer, DEMUX)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/042_demultiplexer/) →
 
 ---

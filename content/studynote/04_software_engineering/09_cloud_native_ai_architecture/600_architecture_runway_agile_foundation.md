@@ -1,14 +1,18 @@
----
-title: 600. 아키텍처 런웨이 (Architecture Runway) - 비즈니스 요구 수용을 위해 사전에 마련하는 기술적 기반 구조
-date: '2026-05-08'
-tags:
-- studynote-software-engineering
----
++++
+title = "600. 아키텍처 런웨이 (Architecture Runway) - 비즈니스 요구 수용을 위해 사전에 마련하는 기술적 기반 구조"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-software-engineering"]
+
+[extra]
+tags = ["studynote-software-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 아키텍처 런웨이 ([[319_architecture|Architecture]] Runway) - 비즈니스 요구 수용을 위해 사전에 마련하는 기술적 기반 구조은(는) [[001_software_engineering_definition|소프트웨어 공학]]의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[[346_maintainability_portability|유지보수성]]·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 아키텍처 런웨이 ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Runway) - 비즈니스 요구 수용을 위해 사전에 마련하는 기술적 기반 구조은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
@@ -17,16 +21,16 @@ tags:
 
 - **개념**: 
   - **Feature (비행기 / 비즈니스 가치)**: "장바구니 쿠폰 결제 기능!" ➡ 유저가 직접 만지고 사장님이 돈 버는(Value) 화려한 껍데기 기능들.
-  - **Runway (활주로 / 인프라 뼈대)**: "[[179_kafka_flink_watermark_time_window|Kafka]] 비동기 큐, OAuth 2.0 사내 공통 로그인 [[192_module_independence|모듈]], [[542_redis|Redis]] [[456_caching|캐싱]] 세팅" ➡ 유저 눈에는 1도 안 보이고 돈도 당장 안 벌어주지만, 이게 없으면 위의 '결제 기능'을 코딩할 때 서버가 터져 죽거나 개발 기간이 1달에서 1년으로 뻥튀기되는 절대적 밑바닥 기반 공사(Enablers).
+  - **Runway (활주로 / 인프라 뼈대)**: "[Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 비동기 큐, OAuth 2.0 사내 공통 로그인 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/), [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 세팅" ➡ 유저 눈에는 1도 안 보이고 돈도 당장 안 벌어주지만, 이게 없으면 위의 '결제 기능'을 코딩할 때 서버가 터져 죽거나 개발 기간이 1달에서 1년으로 뻥튀기되는 절대적 밑바닥 기반 공사(Enablers).
 
-- **필요성 ([[004_agile_relation|애자일]]([[004_agile_relation|Agile]]) 무지성 폭주의 파멸적 한계 돌파)**: 465장 [[658_agile_scrum_roles|애자일 스크럼]]([[658_agile_scrum_roles|Scrum]])을 도입하며 회사에 뽕이 찼다. "우린 2주마다 기획팀이 던져주는 신상 뷰(UI) 기능을 미친 듯이 찍어내서 배포한다 얍!!" 1년 뒤, 앱은 스파게티 쓰레기장이 되었다. 공통된 에러 처리(Exception Handler) 룰 뼈대조차 없이 10개 팀이 각자 지들 맘대로 중복 똥 코드를 짜놨고, DB 커넥션 튜닝을 안 해놔서 유저가 조금만 몰려도 서버가 하얗게 뻗었다. **"아 ㅆㅂ! 2주 단위로 좁은 시야([[067_sprint_timebox|스프린트]])만 보고 당장 눈앞의 찰흙(기능)만 덧붙여 빚어냈더니, 건물의 큰 기둥(아키텍처)이 썩어 문드러져서 이젠 3층을 올릴 수가 없이 무너지기 직전이잖아!! 제발 기능 찍어내는 공장(Feature) 멈추고, 도로 포장([[319_architecture|Architecture]]) 뼈대 공사부터 먼저 선행으로 깔아주면 안 돼?!"** 이 [[004_agile_relation|애자일]] 근시안(Short-sightedness)의 대참사를 구원하기 위해 런웨이 사상이 제정되었다.
+- **필요성 ([애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 무지성 폭주의 파멸적 한계 돌파)**: 465장 [애자일 스크럼](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/)([Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/))을 도입하며 회사에 뽕이 찼다. "우린 2주마다 기획팀이 던져주는 신상 뷰(UI) 기능을 미친 듯이 찍어내서 배포한다 얍!!" 1년 뒤, 앱은 스파게티 쓰레기장이 되었다. 공통된 에러 처리(Exception Handler) 룰 뼈대조차 없이 10개 팀이 각자 지들 맘대로 중복 똥 코드를 짜놨고, DB 커넥션 튜닝을 안 해놔서 유저가 조금만 몰려도 서버가 하얗게 뻗었다. **"아 ㅆㅂ! 2주 단위로 좁은 시야([스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/))만 보고 당장 눈앞의 찰흙(기능)만 덧붙여 빚어냈더니, 건물의 큰 기둥(아키텍처)이 썩어 문드러져서 이젠 3층을 올릴 수가 없이 무너지기 직전이잖아!! 제발 기능 찍어내는 공장(Feature) 멈추고, 도로 포장([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/)) 뼈대 공사부터 먼저 선행으로 깔아주면 안 돼?!"** 이 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 근시안(Short-sightedness)의 대참사를 구원하기 위해 런웨이 사상이 제정되었다.
 
-- **💡 비유**: 쌩 [[004_agile_relation|애자일]] 폭주가 **'달리는 기차 앞바닥에 철로 1개씩 땀 뻘뻘 흘리며 깔면서 아슬아슬하게 질주하는 짓([[100_technical_debt_monitoring_release_policy|기술 부채]] 폭발)'**이라면, 아키텍처 런웨이는 **'기차가 오기 3달 전, 중장비(아키텍트)를 동원해 산을 뚫고 콘크리트 터널 100km를 단단하게 완벽히 선공사 해두는 것'**입니다. 3달 동안은 기차가 못 달리니 사장님이 빡칩니다. 하지만 뚫린 순간! KTX(기능 개발팀)는 단 1개의 덜컹거림도 없이 시속 300km로 엑셀을 풀로 밟고 미친 속도로 신기능을 런칭해 시장의 돈을 싹 쓸어 담는 우주적 가속도의 마술입니다.
+- **💡 비유**: 쌩 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 폭주가 **'달리는 기차 앞바닥에 철로 1개씩 땀 뻘뻘 흘리며 깔면서 아슬아슬하게 질주하는 짓([기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 폭발)'**이라면, 아키텍처 런웨이는 **'기차가 오기 3달 전, 중장비(아키텍트)를 동원해 산을 뚫고 콘크리트 터널 100km를 단단하게 완벽히 선공사 해두는 것'**입니다. 3달 동안은 기차가 못 달리니 사장님이 빡칩니다. 하지만 뚫린 순간! KTX(기능 개발팀)는 단 1개의 덜컹거림도 없이 시속 300km로 엑셀을 풀로 밟고 미친 속도로 신기능을 런칭해 시장의 돈을 싹 쓸어 담는 우주적 가속도의 마술입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **Big Design Up Front (BDUF, 원시 시대 폭포수)**: 폭포수(Waterfall) 모델. "코딩 시작하기 전에 1년 동안 완벽한 인프라 도면 다 그려!!" (너무 무거워서 런칭하기도 전에 회사 망함).
-  2. **[[658_agile_scrum_roles|Scrum]] / [[004_agile_relation|Agile]] Hype (과도기)**: "설계 좆까! 걍 2주마다 찰흙 덧붙이듯 기능만 무지성으로 찍어내서 배포해!" (속도는 빠른데 1년 뒤 거대 스파게티 괴물이 탄생하여 유지보수 파산함).
-  3. **[[093_safe_scaled_agile_framework_art_pi|SAFe]] ([[093_safe_scaled_agile_framework_art_pi|Scaled Agile Framework]])의 등장 (현재)**: 전 세계 대기업(포춘 500대)들이 다 망해가다 깨달았다. **"[[004_agile_relation|애자일]]의 민첩성은 살리되, 큰 그림(뼈대)은 선공사로 깔아주는 하이브리드가 무조건 답이다!"** [[004_agile_relation|애자일]]과 아키텍처 설계가 가장 예술적으로 타협한 [[093_safe_scaled_agile_framework_art_pi|SAFe]] 방법론의 코어 용어로 런웨이가 등극했다.
+  2. **[Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/) / [Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) Hype (과도기)**: "설계 좆까! 걍 2주마다 찰흙 덧붙이듯 기능만 무지성으로 찍어내서 배포해!" (속도는 빠른데 1년 뒤 거대 스파게티 괴물이 탄생하여 유지보수 파산함).
+  3. **[SAFe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) ([Scaled Agile Framework](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/))의 등장 (현재)**: 전 세계 대기업(포춘 500대)들이 다 망해가다 깨달았다. **"[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)의 민첩성은 살리되, 큰 그림(뼈대)은 선공사로 깔아주는 하이브리드가 무조건 답이다!"** [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)과 아키텍처 설계가 가장 예술적으로 타협한 [SAFe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) 방법론의 코어 용어로 런웨이가 등극했다.
 
 - **📢 섹션 요약 비유**: 이 런웨이(활주로) 사상은 **'대형 레고 테마파크 건설'**과 완벽히 똑같습니다. 알바생들(개발자)한테 "걍 당장 자동차 100개, 나무 100개 무지성으로 찍어 만들어(Feature)!!" 지시하면 테이블 위가 개판 5분 전이 됩니다. 훌륭한 감독(아키텍트)은 알바생이 조립을 시작하기 전, 테이블에 커다란 **'초록색 잔디판 뼈대 블록과 튼튼한 도로 타일판(Runway)'**을 딱 10개 튼튼하게 깔아줍니다. 알바생들은 뇌를 비우고 그 도로 위 정해진 돌기(Interface)에 맞춰서 블록만 꽂으면 됩니다. 삽질(부채) 0%의 압도적 건설 스피드가 뽑힙니다.
 
@@ -57,18 +61,18 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-아키텍처 런웨이 ([[319_architecture|Architecture]] Runway) - 비즈니스 요구 수용을 위해 사전에 마련하는 기술적 기반 구조의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
+아키텍처 런웨이 ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Runway) - 비즈니스 요구 수용을 위해 사전에 마련하는 기술적 기반 구조의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
 
 | 구성 요소 | 역할 | 적용 기준 |
 | :--- | :--- | :--- |
-| 개념 정의 | 핵심 용어와 범위를 명확히 [[009_config|설정]] | 용어 혼용·오해 방지 |
-| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | [[194_consistency_database_integrity|일관성]]·품질 기준 |
+| 개념 정의 | 핵심 용어와 범위를 명확히 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | 용어 혼용·오해 방지 |
+| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)·품질 기준 |
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-아키텍처 런웨이 ([[319_architecture|Architecture]] Runway)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+아키텍처 런웨이 ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Runway)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
-- **📢 섹션 요약 비유**: 아키텍처 런웨이 ([[319_architecture|Architecture]] Runway)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
+- **📢 섹션 요약 비유**: 아키텍처 런웨이 ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Runway)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
 ---
 
@@ -78,18 +82,18 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-아키텍처 런웨이 ([[319_architecture|Architecture]] Runway)을(를) 유사 개념과 비교하면 경계와 특성이 더 명확해진다.
+아키텍처 런웨이 ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Runway)을(를) 유사 개념과 비교하면 경계와 특성이 더 명확해진다.
 
-| 비교 항목 | 아키텍처 런웨이 ([[319_architecture|Architecture]] Runway) | 유사 대안 |
+| 비교 항목 | 아키텍처 런웨이 ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Runway) | 유사 대안 |
 | :--- | :--- | :--- |
 | 핵심 목적 | 체계적 품질·생산성 향상 | 임시 방편적 해결 |
 | 적용 규모 | 중·대규모 프로젝트에서 효과적 | 소규모에서는 오버헤드 발생 가능 |
 | 조직 요건 | 팀 전체의 공통 이해와 훈련 필요 | 개인 역량 의존 |
 | 측정 가능성 | 정량적 지표로 성과 측정 가능 | 주관적 판단에 의존 |
 
-다른 [[001_software_engineering_definition|소프트웨어 공학]] 개념과의 연결을 보면, 아키텍처 런웨이 ([[319_architecture|Architecture]] Runway)은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 [[020_software_configuration_management|형상 관리]]([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]])와 긴밀하게 연계된다.
+다른 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 개념과의 연결을 보면, 아키텍처 런웨이 ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Runway)은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/))와 긴밀하게 연계된다.
 
-- **📢 섹션 요약 비유**: 아키텍처 런웨이 ([[319_architecture|Architecture]] Runway)과 유사 대안의 차이는 지도를 가지고 산에 오르는 것과 감으로만 오르는 차이와 같다. 지도(체계적 방법)가 있으면 정상까지 최단 경로를 찾을 수 있지만, 없으면 같은 곳을 맴돌거나 낭떠러지에 빠질 수 있다.
+- **📢 섹션 요약 비유**: 아키텍처 런웨이 ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Runway)과 유사 대안의 차이는 지도를 가지고 산에 오르는 것과 감으로만 오르는 차이와 같다. 지도(체계적 방법)가 있으면 정상까지 최단 경로를 찾을 수 있지만, 없으면 같은 곳을 맴돌거나 낭떠러지에 빠질 수 있다.
 
 ---
 
@@ -99,9 +103,9 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-아키텍처 런웨이 ([[319_architecture|Architecture]] Runway)을(를) 실무에 적용할 때는 다음 판단 기준을 참고한다.
+아키텍처 런웨이 ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Runway)을(를) 실무에 적용할 때는 다음 판단 기준을 참고한다.
 
-- **📢 섹션 요약 비유**: 아키텍처 런웨이 ([[319_architecture|Architecture]] Runway)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: 아키텍처 런웨이 ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Runway)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 ---
 
@@ -109,21 +113,21 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-아키텍처 런웨이 ([[319_architecture|Architecture]] Runway)을(를) 올바르게 적용하면 [[339_software_quality_definition|소프트웨어 품질]]·[[346_maintainability_portability|유지보수성]]·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [[459_quic_fec_forward_error_correction|초기]] 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
+아키텍처 런웨이 ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Runway)을(를) 올바르게 적용하면 [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/)·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
 
 **한계와 전제 조건**:
 - 소규모 프로젝트에서는 오버헤드가 발생할 수 있다
 - 팀 전체의 충분한 교육과 실습 기간이 필요하다
-- 도구 지원 환경 구축에 [[459_quic_fec_forward_error_correction|초기]] 비용이 발생한다
+- 도구 지원 환경 구축에 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용이 발생한다
 
 **미래 발전 방향**:
-- [[190_ai_llm_requirements_specification|AI]]·[[263_llm_large_language_model|LLM]] 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [[531_cloud_native_architecture|클라우드 네이티브]]·[[652_devops_calms_culture|DevOps]] 환경에서의 진화적 적용
+- [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
-아키텍처 런웨이 ([[319_architecture|Architecture]] Runway)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
+아키텍처 런웨이 ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Runway)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: 아키텍처 런웨이 ([[319_architecture|Architecture]] Runway)의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [[001_software_engineering_definition|소프트웨어 공학]]의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
+- **📢 섹션 요약 비유**: 아키텍처 런웨이 ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Runway)의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
 
 ---
 
@@ -135,10 +139,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[001_software_engineering_definition|소프트웨어 공학]] ([[001_software_engineering_definition|Software Engineering]]) | 아키텍처 런웨이 ([[319_architecture|Architecture]] Runway)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [[003_sdlc|소프트웨어 생명주기]] ([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]], Software Development Life Cycle) | 아키텍처 런웨이 ([[319_architecture|Architecture]] Runway)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | 아키텍처 런웨이 ([[319_architecture|Architecture]] Runway) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [[020_software_configuration_management|형상 관리]] ([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]]) | 아키텍처 런웨이 ([[319_architecture|Architecture]] Runway)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 아키텍처 런웨이 ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Runway)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 아키텍처 런웨이 ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Runway)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | 아키텍처 런웨이 ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Runway) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 아키텍처 런웨이 ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Runway)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -158,13 +162,13 @@ tags:
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [[002_software_crisis|소프트웨어 위기]] 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 아키텍처 런웨이 ([[319_architecture|Architecture]] Runway)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. 아키텍처 런웨이 ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Runway)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
 
 ---
 
@@ -172,7 +176,7 @@ tags:
 
 **진행 상황**: 766 / 973
 
-← **이전**: [[599_modular_monolith_architecture|599. 모듈러 모놀리스 (Modular Monolith) 아키텍처 - MSA 전환 전 단계, 모듈 간 강결합 방지 아키텍처]]
-**다음**: [[601_solid_principles_object_oriented_design|601. 객체지향 5원칙 SOLID 완벽 매핑]] →
+← **이전**: [599. 모듈러 모놀리스 (Modular Monolith) 아키텍처 - MSA 전환 전 단계, 모듈 간 강결합 방지 아키텍처](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/599_modular_monolith_architecture/)
+**다음**: [601. 객체지향 5원칙 SOLID 완벽 매핑](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/601_solid_principles_object_oriented_design/) →
 
 ---

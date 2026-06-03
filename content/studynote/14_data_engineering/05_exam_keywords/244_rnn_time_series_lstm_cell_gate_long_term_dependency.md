@@ -1,20 +1,24 @@
----
-title: 244. RNN (Recurrent Neural Network) 시계열 LSTM 셀 게이트 장기 의존성 극복
-date: '2026-04-21'
-tags:
-- studynote-data-engineering
----
++++
+title = "244. RNN (Recurrent Neural Network) 시계열 LSTM 셀 게이트 장기 의존성 극복"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-data-engineering"]
+
+[extra]
+tags = ["studynote-data-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: RNN(Recurrent Neural Network)은 순환 구조(Recurrent Structure)로 시퀀스 [[001_dikw_pyramid|데이터]]의 시간 의존성을 포착하지만, [[272_backpropagation|역전파]]([[114_bptt_backpropagation_through_time|Backpropagation Through Time]])에서 [[088_vanishing_gradient_relu_skip_connection|기울기 소실]]([[240_relu_vanishing_gradient_softmax_backprop_chain|Vanishing Gradient]]) 문제가 발생한다.
-> 2. **가치**: [[292_lstm|LSTM]]([[292_lstm|Long Short-Term Memory]])은 셀 상태(Cell [[272_state_pattern|State]])라는 고속도로와 입력·망각·출력 게이트(Gate) 3개로 [[291_long_term_dependency|장기 의존성]]([[291_long_term_dependency|Long-Term Dependency]])을 선택적으로 기억·망각·출력하는 메커니즘을 구현한다.
-> 3. **판단 포인트**: [[294_gru|GRU]]([[294_gru|Gated Recurrent Unit]])는 LSTM을 2개 게이트로 간소화해 파라미터를 줄이면서도 유사한 [[282_performance_tactics|성능]]을 제공하며, [[246_transformer_self_attention_parallel_positional_encoding|Transformer]] 등장 이후 [[291_long_term_dependency|장기 의존성]] 처리의 주류는 어텐션 메커니즘으로 전환되었다.
+> 1. **본질**: RNN(Recurrent Neural Network)은 순환 구조(Recurrent Structure)로 시퀀스 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 시간 의존성을 포착하지만, [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)([Backpropagation Through Time](/knowledge-base/studynote/10_ai/02_dl_architecture_new/114_bptt_backpropagation_through_time/))에서 [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)([Vanishing Gradient](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/)) 문제가 발생한다.
+> 2. **가치**: [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/)([Long Short-Term Memory](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/))은 셀 상태(Cell [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))라는 고속도로와 입력·망각·출력 게이트(Gate) 3개로 [장기 의존성](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/291_long_term_dependency/)([Long-Term Dependency](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/291_long_term_dependency/))을 선택적으로 기억·망각·출력하는 메커니즘을 구현한다.
+> 3. **판단 포인트**: [GRU](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/)([Gated Recurrent Unit](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/))는 LSTM을 2개 게이트로 간소화해 파라미터를 줄이면서도 유사한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 제공하며, [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 등장 이후 [장기 의존성](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/291_long_term_dependency/) 처리의 주류는 어텐션 메커니즘으로 전환되었다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-시퀀스 [[001_dikw_pyramid|데이터]](텍스트, 음성, 주가, 센서 [[130_signal|신호]])는 순서 정보가 핵심이다. CNN이나 MLP(Multi-Layer [[239_perceptron_mlp_hidden_layer_weight_activation_sigmoid|Perceptron]])는 입력의 순서를 고려하지 않으므로 이런 [[001_dikw_pyramid|데이터]]에 부적합하다.
+시퀀스 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(텍스트, 음성, 주가, 센서 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))는 순서 정보가 핵심이다. CNN이나 MLP(Multi-Layer [Perceptron](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/))는 입력의 순서를 고려하지 않으므로 이런 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 부적합하다.
 
 ### RNN의 순환 구조
 
@@ -33,14 +37,14 @@ h_t = tanh(W_h · h_{t-1} + W_x · x_t + b)
 y_t = W_y · h_t
 ```
 
-- **은닉 상태(Hidden [[272_state_pattern|State]]) h_t**: 이전 시간 정보를 누적
-- **[[267_weight_bias_activation|가중치]] 공유**: 모든 시간 단계에서 동일한 W 사용
+- **은닉 상태(Hidden [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) h_t**: 이전 시간 정보를 누적
+- **[가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 공유**: 모든 시간 단계에서 동일한 W 사용
 
 | 특성 | 설명 |
 |:---|:---|
 | 순환 연결 | 이전 상태 h_{t-1}을 현재 입력에 결합 |
 | 가변 길이 처리 | 임의 길이의 시퀀스 처리 가능 |
-| 파라미터 공유 | 모든 시간 스텝 동일 [[267_weight_bias_activation|가중치]] → 효율적 |
+| 파라미터 공유 | 모든 시간 스텝 동일 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) → 효율적 |
 
 📢 **섹션 요약 비유**: RNN은 일기를 매일 쓰는 것과 같다. 오늘 일기를 쓸 때 어제 일기를 참고하고, 어제는 그 전날을 참고한다. 하지만 너무 오래된 일기는 기억이 흐릿해지는 문제가 있다.
 
@@ -48,9 +52,9 @@ y_t = W_y · h_t
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [[088_vanishing_gradient_relu_skip_connection|기울기 소실]]/폭발 문제 (Vanishing/[[089_exploding_gradient_clipping|Exploding Gradient]])
+### [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)/폭발 문제 (Vanishing/[Exploding Gradient](/knowledge-base/studynote/10_ai/01_ai_basics/089_exploding_gradient_clipping/))
 
-[[114_bptt_backpropagation_through_time|BPTT]]([[114_bptt_backpropagation_through_time|Backpropagation Through Time]]) 과정에서 기울기는 시간 스텝을 거슬러 올라가며 반복 곱셈된다.
+[BPTT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/114_bptt_backpropagation_through_time/)([Backpropagation Through Time](/knowledge-base/studynote/10_ai/02_dl_architecture_new/114_bptt_backpropagation_through_time/)) 과정에서 기울기는 시간 스텝을 거슬러 올라가며 반복 곱셈된다.
 
 ```
 ∂L/∂h_0 = ∂L/∂h_T · Π(t=1→T) ∂h_t/∂h_{t-1}
@@ -62,7 +66,7 @@ T가 크면:
   │W_h│ > 1 → 지수적 증가 → 기울기 폭발 (발산)
 ```
 
-### [[292_lstm|LSTM]] ([[292_lstm|Long Short-Term Memory]]) 구조
+### [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) ([Long Short-Term Memory](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/)) 구조
 
 ```
 LSTM 셀 내부 구조
@@ -87,7 +91,7 @@ LSTM 셀 내부 구조
 | 망각 게이트 (Forget Gate) | f_t = σ(W_f·[h_{t-1},x_t] + b_f) | 이전 셀 상태 중 버릴 것 결정 |
 | 입력 게이트 (Input Gate) | i_t = σ(W_i·[h_{t-1},x_t] + b_i) | 새 정보 중 저장할 것 결정 |
 | 출력 게이트 (Output Gate) | o_t = σ(W_o·[h_{t-1},x_t] + b_o) | 셀 상태 중 출력할 것 결정 |
-| 후보 셀 상태 | C̃_t = [[070_hyperbolic_tangent_tanh_activation|tanh]](W_c·[h_{t-1},x_t] + b_c) | 새로 추가될 후보 정보 |
+| 후보 셀 상태 | C̃_t = [tanh](/knowledge-base/studynote/10_ai/01_ai_basics/070_hyperbolic_tangent_tanh_activation/)(W_c·[h_{t-1},x_t] + b_c) | 새로 추가될 후보 정보 |
 
 **셀 상태 갱신**:
 ```
@@ -95,9 +99,9 @@ C_t = f_t ⊙ C_{t-1} + i_t ⊙ C̃_t
 h_t = o_t ⊙ tanh(C_t)
 ```
 
-⊙: 원소별 곱(Element-wise Product), σ: [[268_sigmoid_vanishing_gradient|시그모이드]]
+⊙: 원소별 곱(Element-wise Product), σ: [시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)
 
-**핵심**: 셀 상태 C_t는 덧셈(+)으로만 갱신 → 기울기가 1로 흐름 → [[088_vanishing_gradient_relu_skip_connection|기울기 소실]] 극복
+**핵심**: 셀 상태 C_t는 덧셈(+)으로만 갱신 → 기울기가 1로 흐름 → [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 극복
 
 📢 **섹션 요약 비유**: LSTM은 세 개의 밸브가 달린 수도관과 같다. 망각 밸브는 오래된 물을 빼고, 입력 밸브는 새 물을 넣고, 출력 밸브는 지금 사용할 물을 조절한다. 관 자체(셀 상태)는 막힘없이 흘러 오래된 정보도 보존된다.
 
@@ -105,7 +109,7 @@ h_t = o_t ⊙ tanh(C_t)
 
 ## Ⅲ. 비교 및 연결
 
-### [[294_gru|GRU]] ([[294_gru|Gated Recurrent Unit]]) — [[292_lstm|LSTM]] 간소화
+### [GRU](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/) ([Gated Recurrent Unit](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/)) — [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) 간소화
 
 ```
 GRU 구조 (게이트 2개)
@@ -115,25 +119,25 @@ GRU 구조 (게이트 2개)
                                          = (1-z_t)⊙h_{t-1} + z_t⊙h̃_t
 ```
 
-| 구분 | [[292_lstm|LSTM]] | [[294_gru|GRU]] |
+| 구분 | [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) | [GRU](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/) |
 |:---|:---|:---|
 | 게이트 수 | 3개 (입력/망각/출력) | 2개 (리셋/업데이트) |
 | 상태 수 | 2개 (C_t, h_t) | 1개 (h_t) |
 | 파라미터 수 | 많음 (4W 행렬) | 적음 (3W 행렬) |
-| [[282_performance_tactics|성능]] | 일반적으로 우수 | 유사 (소규모 [[001_dikw_pyramid|데이터]]에서 유리) |
+| [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 일반적으로 우수 | 유사 (소규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 유리) |
 | 훈련 속도 | 느림 | 빠름 |
 
 ### RNN 변형 모델 비교
 
-| 모델 | 특징 | 적합 [[150_task|태스크]] |
+| 모델 | 특징 | 적합 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) |
 |:---|:---|:---|
-| Vanilla RNN | 단순, [[088_vanishing_gradient_relu_skip_connection|기울기 소실]] | 매우 짧은 시퀀스 |
-| [[292_lstm|LSTM]] | [[291_long_term_dependency|장기 의존성]] 해결 | 언어 모델, 번역 |
-| [[294_gru|GRU]] | 경량 [[292_lstm|LSTM]] | 빠른 학습 필요 시 |
-| Bidirectional [[292_lstm|LSTM]] | 양방향 문맥 파악 | [[117_ner|NER]], 감정 분석 |
-| Stacked [[292_lstm|LSTM]] | 다층 [[292_lstm|LSTM]] | 복잡한 시퀀스 |
+| Vanilla RNN | 단순, [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) | 매우 짧은 시퀀스 |
+| [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) | [장기 의존성](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/291_long_term_dependency/) 해결 | 언어 모델, 번역 |
+| [GRU](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/) | 경량 [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) | 빠른 학습 필요 시 |
+| Bidirectional [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) | 양방향 문맥 파악 | [NER](/knowledge-base/studynote/16_bigdata/05_analysis/117_ner/), 감정 분석 |
+| Stacked [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) | 다층 [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) | 복잡한 시퀀스 |
 
-📢 **섹션 요약 비유**: GRU는 LSTM의 리모델링 버전이다. 방 3개 짜리 집을 방 2개로 줄였는데 생활 편의는 거의 같다. 공간이 좁은 환경(적은 [[001_dikw_pyramid|데이터]]·메모리)에서는 GRU가 더 효율적이다.
+📢 **섹션 요약 비유**: GRU는 LSTM의 리모델링 버전이다. 방 3개 짜리 집을 방 2개로 줄였는데 생활 편의는 거의 같다. 공간이 좁은 환경(적은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·메모리)에서는 GRU가 더 효율적이다.
 
 ---
 
@@ -157,13 +161,13 @@ GRU 구조 (게이트 2개)
 
 ### 적용 사례별 모델 선택
 
-| [[150_task|태스크]] | 추천 모델 | 이유 |
+| [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) | 추천 모델 | 이유 |
 |:---|:---|:---|
-| 주가 예측 | [[292_lstm|LSTM]] + Attention | 장기 패턴 중요 |
-| [[236_anomaly_based_detection_zero_day_false_positive|이상 탐지]] | Bidirectional [[292_lstm|LSTM]] | 전후 문맥 필요 |
-| 텍스트 [[104_classification_analysis|분류]] | [[294_gru|GRU]] / [[246_transformer_self_attention_parallel_positional_encoding|Transformer]] | 빠른 학습 |
-| 음성 인식 | [[292_lstm|LSTM]] + CTC | 가변 길이 입력 |
-| 기계 번역 | [[246_transformer_self_attention_parallel_positional_encoding|Transformer]] ([[292_lstm|LSTM]] 대체) | [[430_index_fast_full_scan|병렬]] 처리 가능 |
+| 주가 예측 | [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) + Attention | 장기 패턴 중요 |
+| [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) | Bidirectional [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) | 전후 문맥 필요 |
+| 텍스트 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | [GRU](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/) / [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) | 빠른 학습 |
+| 음성 인식 | [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) + CTC | 가변 길이 입력 |
+| 기계 번역 | [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) ([LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) 대체) | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 가능 |
 
 ### NLP 적용: 언어 모델
 
@@ -178,13 +182,13 @@ model = Sequential([
 ])
 ```
 
-📢 **섹션 요약 비유**: [[292_lstm|LSTM]] 언어 모델은 소설을 읽으면서 다음 단어를 예측하는 독자와 같다. 앞에서 읽은 내용(셀 상태)을 기억하면서, 지금 읽는 단어(입력)와 결합해 "아마 다음은 이 단어가 오겠지"라고 예측한다.
+📢 **섹션 요약 비유**: [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) 언어 모델은 소설을 읽으면서 다음 단어를 예측하는 독자와 같다. 앞에서 읽은 내용(셀 상태)을 기억하면서, 지금 읽는 단어(입력)와 결합해 "아마 다음은 이 단어가 오겠지"라고 예측한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-### [[292_lstm|LSTM]] → [[246_transformer_self_attention_parallel_positional_encoding|Transformer]] 전환 배경
+### [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) → [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 전환 배경
 
 ```
 LSTM의 한계               Transformer의 해결
@@ -200,27 +204,27 @@ O(n²) 시간 복잡도      →  O(n²)이지만 병렬화됨
 
 ### 기술사 시험 핵심 포인트
 
-1. **RNN [[088_vanishing_gradient_relu_skip_connection|기울기 소실]] 원인**: BPTT에서 기울기 반복 곱셈 → 지수 감소
-2. **[[292_lstm|LSTM]] 3개 게이트**: 망각(f)·입력(i)·출력(o) 게이트 수식 기술
+1. **RNN [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 원인**: BPTT에서 기울기 반복 곱셈 → 지수 감소
+2. **[LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) 3개 게이트**: 망각(f)·입력(i)·출력(o) 게이트 수식 기술
 3. **셀 상태 갱신**: `C_t = f_t⊙C_{t-1} + i_t⊙C̃_t` (덧셈 = 기울기 보존)
-4. **[[294_gru|GRU]] vs [[292_lstm|LSTM]]** 차이: 게이트 수, 상태 수, [[282_performance_tactics|성능]] 비교
+4. **[GRU](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/) vs [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/)** 차이: 게이트 수, 상태 수, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비교
 5. **시계열 vs NLP** 적합 모델 선택 근거
 
-📢 **섹션 요약 비유**: LSTM에서 Transformer로의 전환은 릴레이 전화(순차)에서 단체 화상 회의([[430_index_fast_full_scan|병렬]])로의 변화다. 릴레이는 맨 앞 사람 목소리가 맨 끝에 오면 작아지지만, 화상 회의는 모두가 동시에 직접 소통한다.
+📢 **섹션 요약 비유**: LSTM에서 Transformer로의 전환은 릴레이 전화(순차)에서 단체 화상 회의([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/))로의 변화다. 릴레이는 맨 앞 사람 목소리가 맨 끝에 오면 작아지지만, 화상 회의는 모두가 동시에 직접 소통한다.
 
 ---
 
 ### 📌 관련 개념 맵
-| [[083_relationship_in_er_model|관계]] | 개념 | 설명 |
+| [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
 |:---|:---|:---|
 | 기반 모델 | RNN (Recurrent Neural Network) | 순환 구조 시퀀스 처리 |
-| 핵심 문제 | [[088_vanishing_gradient_relu_skip_connection|기울기 소실]] ([[240_relu_vanishing_gradient_softmax_backprop_chain|Vanishing Gradient]]) | BPTT에서 장거리 학습 실패 |
-| 핵심 해결 | [[292_lstm|LSTM]] | 셀 상태 + 3개 게이트 |
-| 경량 대안 | [[294_gru|GRU]] | 2개 게이트 간소화 |
-| 발전 방향 | [[246_transformer_self_attention_parallel_positional_encoding|Transformer]] | 어텐션으로 [[430_index_fast_full_scan|병렬]]화 |
-| 핵심 상태 | 셀 상태 (Cell [[272_state_pattern|State]]) | 장기 기억 고속도로 |
+| 핵심 문제 | [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) ([Vanishing Gradient](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/)) | BPTT에서 장거리 학습 실패 |
+| 핵심 해결 | [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) | 셀 상태 + 3개 게이트 |
+| 경량 대안 | [GRU](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/) | 2개 게이트 간소화 |
+| 발전 방향 | [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) | 어텐션으로 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 |
+| 핵심 상태 | 셀 상태 (Cell [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) | 장기 기억 고속도로 |
 | 핵심 메커니즘 | 게이트 (Gate) | 정보 흐름 선택적 제어 |
-| 응용 분야 | 시계열 예측, NLP | [[292_lstm|LSTM]]/[[294_gru|GRU]] 주요 활용 |
+| 응용 분야 | 시계열 예측, NLP | [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/)/[GRU](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/) 주요 활용 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. RNN은 어제 일기를 오늘 일기에 참고하는 것처럼, 이전 내용을 기억하면서 새 내용을 처리하는 신경망이야.
@@ -240,7 +244,7 @@ LSTM: Forget · Input · Output Gate → 장기 기억
 GRU (간소화 LSTM) → Transformer (병렬화)
 ```
 2. LSTM의 세 개 게이트는 "무엇을 잊을까(망각)", "무엇을 새로 기억할까(입력)", "무엇을 지금 말할까(출력)"를 결정하는 세 명의 기억 관리자야.
-3. GRU는 LSTM보다 관리자가 한 명 적어서 더 빠르게 일하는데, 결과는 거의 비슷해서 바쁠 때 [[289_cqrs_db|쓰기]] 좋아.
+3. GRU는 LSTM보다 관리자가 한 명 적어서 더 빠르게 일하는데, 결과는 거의 비슷해서 바쁠 때 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 좋아.
 
 ---
 
@@ -248,7 +252,7 @@ GRU (간소화 LSTM) → Transformer (병렬화)
 
 **진행 상황**: 244 / 258
 
-← **이전**: [[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|243. CNN (Convolutional Neural Network) 스트라이드 풀링 ResNet 잔차 연결 YOLO 객체 탐지]]
-**다음**: [[245_seq2seq_context_vector_attention_dynamic_weight|245. Seq2Seq (Sequence-to-Sequence) 컨텍스트 벡터 (Context Vector) 어텐션 동적 가중]] →
+← **이전**: [243. CNN (Convolutional Neural Network) 스트라이드 풀링 ResNet 잔차 연결 YOLO 객체 탐지](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)
+**다음**: [245. Seq2Seq (Sequence-to-Sequence) 컨텍스트 벡터 (Context Vector) 어텐션 동적 가중](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/245_seq2seq_context_vector_attention_dynamic_weight/) →
 
 ---

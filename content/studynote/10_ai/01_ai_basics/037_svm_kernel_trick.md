@@ -1,18 +1,22 @@
----
-title: 037. SVM 커널 트릭 (Kernel Trick)
-date: '2026-03-03'
-tags:
-- studynote-ai
----
++++
+title = "037. SVM 커널 트릭 (Kernel Trick)"
+date = 2026-03-03
+
+[taxonomies]
+tags = ["studynote-ai"]
+
+[extra]
+tags = ["studynote-ai"]
++++
 
 > **핵심 인사이트**
-> 1. [[059_kernel_trick_rbf_polynomial|커널 트릭]]([[059_kernel_trick_rbf_polynomial|Kernel Trick]])은 원래 특징 공간에서 선형적으로 분리 불가능한 [[001_dikw_pyramid|데이터]]를 고차원(심지어 무한 차원)으로 변환해 선형 분리 가능하게 만들되, 실제 변환 계산 없이 [[022_kernel_role|커널]] 함수 K(xi, xj) = φ(xi)·φ(xj)만으로 내적을 계산하는 수학적 기법이다.
-> 2. SVM의 최적화 문제(쌍대 문제)가 [[001_dikw_pyramid|데이터]] 점 간의 내적만으로 표현되기 때문에, 실제 고차원 변환 φ(x) 대신 [[022_kernel_role|커널]] 함수로 대체할 수 있다 — 무한 차원 특징 공간도 유한 계산으로 처리.
-> 3. RBF(Radial Basis Function) [[022_kernel_role|커널]]은 가장 널리 사용되며, 사실상 무한 차원 특징 공간으로 변환하면서도 두 파라미터(C, γ)로 모델 복잡도를 제어할 수 있어 실무에서 SVM의 기본 [[022_kernel_role|커널]]로 채택된다.
+> 1. [커널 트릭](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/)([Kernel Trick](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/))은 원래 특징 공간에서 선형적으로 분리 불가능한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 고차원(심지어 무한 차원)으로 변환해 선형 분리 가능하게 만들되, 실제 변환 계산 없이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 함수 K(xi, xj) = φ(xi)·φ(xj)만으로 내적을 계산하는 수학적 기법이다.
+> 2. SVM의 최적화 문제(쌍대 문제)가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 점 간의 내적만으로 표현되기 때문에, 실제 고차원 변환 φ(x) 대신 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 함수로 대체할 수 있다 — 무한 차원 특징 공간도 유한 계산으로 처리.
+> 3. RBF(Radial Basis Function) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 가장 널리 사용되며, 사실상 무한 차원 특징 공간으로 변환하면서도 두 파라미터(C, γ)로 모델 복잡도를 제어할 수 있어 실무에서 SVM의 기본 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 채택된다.
 
 ---
 
-## I. [[059_kernel_trick_rbf_polynomial|커널 트릭]]의 직관
+## I. [커널 트릭](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/)의 직관
 
 ```
 문제: XOR 데이터 — 2D에서 선형 분리 불가능
@@ -36,11 +40,11 @@ tags:
   로 대체 -> 변환 없이 내적 계산
 ```
 
-> 📢 **섹션 요약 비유**: 2D 지도에서 길이 겹쳐 분리 안 되는 도로를 3D 입체 교차로로 올려서 분리하는 것 — [[059_kernel_trick_rbf_polynomial|커널 트릭]]은 입체 지도를 그리지 않고 수식만으로 같은 효과를 낸다.
+> 📢 **섹션 요약 비유**: 2D 지도에서 길이 겹쳐 분리 안 되는 도로를 3D 입체 교차로로 올려서 분리하는 것 — [커널 트릭](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/)은 입체 지도를 그리지 않고 수식만으로 같은 효과를 낸다.
 
 ---
 
-## II. 주요 [[022_kernel_role|커널]] 함수
+## II. 주요 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 함수
 
 ```
 1. 선형 커널 (Linear Kernel):
@@ -61,18 +65,18 @@ tags:
    사용: 신경망과 유사 (일부 데이터에 적합)
 ```
 
-| [[022_kernel_role|커널]]     | 수식                          | 적합 [[001_dikw_pyramid|데이터]]          | 파라미터   |
+| [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)     | 수식                          | 적합 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)          | 파라미터   |
 |--------|------------------------------|-------------------|----------|
-| 선형     | xi·xj                        | 고차원 희소 [[001_dikw_pyramid|데이터]]   | C만       |
-| [[195_polynomial_generator_crc|다항식]]   | (γxi·xj+r)^d                 | 이미지, 구조적 [[001_dikw_pyramid|데이터]]| C, γ, d, r|
+| 선형     | xi·xj                        | 고차원 희소 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)   | C만       |
+| [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/)   | (γxi·xj+r)^d                 | 이미지, 구조적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)| C, γ, d, r|
 | RBF     | exp(-γ‖xi-xj‖²)              | 범용, 비선형        | C, γ     |
-| [[268_sigmoid_vanishing_gradient|시그모이드]]| [[070_hyperbolic_tangent_tanh_activation|tanh]](γxi·xj+r)               | 특정 패턴           | C, γ, r  |
+| [시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)| [tanh](/knowledge-base/studynote/10_ai/01_ai_basics/070_hyperbolic_tangent_tanh_activation/)(γxi·xj+r)               | 특정 패턴           | C, γ, r  |
 
-> 📢 **섹션 요약 비유**: [[022_kernel_role|커널]]은 [[001_dikw_pyramid|데이터]]를 보는 렌즈 — 직선 렌즈(선형), 곡선 렌즈([[195_polynomial_generator_crc|다항식]]), 가우시안 흐림 렌즈(RBF).
+> 📢 **섹션 요약 비유**: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보는 렌즈 — 직선 렌즈(선형), 곡선 렌즈([다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/)), 가우시안 흐림 렌즈(RBF).
 
 ---
 
-## III. RBF [[022_kernel_role|커널]] 파라미터 조정
+## III. RBF [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 파라미터 조정
 
 ```
 SVM 핵심 파라미터:
@@ -92,11 +96,11 @@ C (Regularization Parameter):
     -> 5-Fold Cross Validation으로 최적 조합 선택
 ```
 
-> 📢 **섹션 요약 비유**: C는 규율의 엄격함(너무 엄격하면 [[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]]에 과도 반응), γ는 판단 거리(너무 짧으면 옆 점만 보고 판단).
+> 📢 **섹션 요약 비유**: C는 규율의 엄격함(너무 엄격하면 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)에 과도 반응), γ는 판단 거리(너무 짧으면 옆 점만 보고 판단).
 
 ---
 
-## [[288_version_ihl_tos_total_length|IV]]. [[238_svm_margin_kernel_trick_naive_bayes|SVM]] vs 딥러닝 비교
+## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) vs 딥러닝 비교
 
 ```
 SVM 장점:
@@ -121,11 +125,11 @@ SVM이 더 나은 경우:
   - 고차원 텍스트 (TF-IDF + Linear SVM)
 ```
 
-> 📢 **섹션 요약 비유**: SVM은 숙련된 장인 — 작은 양의 [[001_dikw_pyramid|데이터]]에서 정밀하고 [[369_logic_bomb|논리]]적. 딥러닝은 대규모 공장 — 많은 [[001_dikw_pyramid|데이터]]에서 빠르게 학습.
+> 📢 **섹션 요약 비유**: SVM은 숙련된 장인 — 작은 양의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 정밀하고 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적. 딥러닝은 대규모 공장 — 많은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 빠르게 학습.
 
 ---
 
-## V. 실무 시나리오 — 텍스트 [[104_classification_analysis|분류]] (스팸 필터)
+## V. 실무 시나리오 — 텍스트 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) (스팸 필터)
 
 ```
 스팸 메일 분류 (TF-IDF + Linear SVM):
@@ -148,7 +152,7 @@ SVM 설계:
       복잡한 커널보다 빠르고 정확
 ```
 
-> 📢 **섹션 요약 비유**: 단어 20,000개 특징이 이미 고차원이어서 추가 변환이 불필요 — 텍스트 [[104_classification_analysis|분류]]는 선형 [[022_kernel_role|커널]]로 충분.
+> 📢 **섹션 요약 비유**: 단어 20,000개 특징이 이미 고차원이어서 추가 변환이 불필요 — 텍스트 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 선형 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 충분.
 
 ---
 
@@ -206,9 +210,9 @@ Kernel Methods 연구 지속
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [[059_kernel_trick_rbf_polynomial|커널 트릭]]은 평면(2D)에서 섞여있는 점들을 3D 공간으로 올려서 쉽게 나눌 수 있게 만드는 마법이에요.
-2. 실제로 3D로 계산하지 않고 특별한 수식([[022_kernel_role|커널]] 함수)으로 같은 결과를 훨씬 빠르게 얻어요.
-3. 이 기술 덕분에 복잡한 패턴도 SVM이 정확하게 [[104_classification_analysis|분류]]할 수 있답니다!
+1. [커널 트릭](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/)은 평면(2D)에서 섞여있는 점들을 3D 공간으로 올려서 쉽게 나눌 수 있게 만드는 마법이에요.
+2. 실제로 3D로 계산하지 않고 특별한 수식([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 함수)으로 같은 결과를 훨씬 빠르게 얻어요.
+3. 이 기술 덕분에 복잡한 패턴도 SVM이 정확하게 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)할 수 있답니다!
 
 ---
 
@@ -216,7 +220,7 @@ Kernel Methods 연구 지속
 
 **진행 상황**: 37 / 420
 
-← **이전**: [[036_support_vector_machine|036. 서포트 벡터 머신 (Support Vector Machine, SVM)]]
-**다음**: [[038_knn|038. k-최근접 이웃 (k-NN, k-Nearest Neighbors)]] →
+← **이전**: [036. 서포트 벡터 머신 (Support Vector Machine, SVM)](/knowledge-base/studynote/10_ai/01_ai_basics/036_support_vector_machine/)
+**다음**: [038. k-최근접 이웃 (k-NN, k-Nearest Neighbors)](/knowledge-base/studynote/10_ai/01_ai_basics/038_knn/) →
 
 ---

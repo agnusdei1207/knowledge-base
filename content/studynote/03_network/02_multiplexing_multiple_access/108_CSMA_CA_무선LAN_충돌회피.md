@@ -1,22 +1,26 @@
----
-title: 108. CSMA/CA (무선 LAN 충돌 회피)
-date: '2026-04-01'
-tags:
-- studynote-network
----
++++
+title = "108. CSMA/CA (무선 LAN 충돌 회피)"
+date = 2026-04-01
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [[104_csma|CSMA]]/[[089_contract_account_smart_contract|CA]](Carrier Sense [[087_다중접속_Multiple_Access|Multiple Access]] with [[563_hash_collision_chaining_linear_probing|Collision]] Avoidance)는 '충돌 감지'가 물리적으로 불가능한 무선 환경의 태생적 한계를 극복하기 위해, 전송 전에 무작위 대기 시간을 가져 충돌을 선제적으로 '회피'하는 IEEE 802.11의 핵심 [[183_mac_media_access_control|매체 접근 제어]] 방식이다.
-> 2. **가치**: IFS(Inter-Frame Space)라는 차등적 타이머를 통해 프레임의 우선순위를 부여하고, 백오프(Backoff) 윈도우를 전송 전에 가동함으로써 반이중(Half-Duplex) 무선 채널의 혼잡을 극적으로 [[136_variance|분산]]시켰다.
-> 3. **판단 포인트**: 전송 성공을 증명하기 위해 수신 측으로부터 명시적인 ACK 프레임을 받아야만 하는 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 구조를 결합하여 유선과는 다른 오류 [[658_ir_recovery|복구]] 생태계를 구축했으나, 단말기가 많아지면 대기 시간(오버헤드)이 폭증하므로 고밀도 환경에서는 치명적인 [[282_performance_tactics|성능]] 저하를 유발한다.
+> 1. **본질**: [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/[CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)(Carrier Sense [Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) with [Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/) Avoidance)는 '충돌 감지'가 물리적으로 불가능한 무선 환경의 태생적 한계를 극복하기 위해, 전송 전에 무작위 대기 시간을 가져 충돌을 선제적으로 '회피'하는 IEEE 802.11의 핵심 [매체 접근 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/183_mac_media_access_control/) 방식이다.
+> 2. **가치**: IFS(Inter-Frame Space)라는 차등적 타이머를 통해 프레임의 우선순위를 부여하고, 백오프(Backoff) 윈도우를 전송 전에 가동함으로써 반이중(Half-Duplex) 무선 채널의 혼잡을 극적으로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시켰다.
+> 3. **판단 포인트**: 전송 성공을 증명하기 위해 수신 측으로부터 명시적인 ACK 프레임을 받아야만 하는 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 구조를 결합하여 유선과는 다른 오류 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 생태계를 구축했으나, 단말기가 많아지면 대기 시간(오버헤드)이 폭증하므로 고밀도 환경에서는 치명적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하를 유발한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-유선 [[230_ethernet_structure_and_principles_ieee_802_3|이더넷]] 환경에서 대성공을 거둔 [[104_csma|CSMA]]/CD(충돌 감지) 프로토콜은 무선 LAN 환경(Wi-Fi)으로 넘어오면서 치명적인 물리적 장벽에 부딪혔다. 무선 단말기는 전파를 쏘는 순간(송신) [[171_antenna_basic_dipole_resonance|안테나]] 주변의 [[001_voltage|전압]] 에너지가 극도로 높아져, 자신이 보내는 [[130_signal|신호]]에 귀가 멀어버린다. 즉, 다른 전파가 들어와 내 전파와 섞여 '충돌'이 일어나더라도 이를 감지([[106_CSMA_CD_유선이더넷_충돌감지|Collision Detection]])할 수 없는 완벽한 반이중(Half-Duplex) 상태에 놓인다.
+유선 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 환경에서 대성공을 거둔 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD(충돌 감지) 프로토콜은 무선 LAN 환경(Wi-Fi)으로 넘어오면서 치명적인 물리적 장벽에 부딪혔다. 무선 단말기는 전파를 쏘는 순간(송신) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 주변의 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 에너지가 극도로 높아져, 자신이 보내는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)에 귀가 멀어버린다. 즉, 다른 전파가 들어와 내 전파와 섞여 '충돌'이 일어나더라도 이를 감지([Collision Detection](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/106_CSMA_CD_유선이더넷_충돌감지/))할 수 없는 완벽한 반이중(Half-Duplex) 상태에 놓인다.
 
-충돌을 감지할 수 없다면, 충돌 후 수습하는 전략을 버리고 애초에 '충돌이 나지 않도록' 예방하는 전략이 절대적으로 필요했다. 이것이 바로 [[104_csma|CSMA]]/CA의 탄생 배경이다. "일단 쏴보고 충돌 나면 멈춘다"는 유선의 사상은 무선에서 작동할 수 없으며, "쏘기 전에 충분히 눈치를 보고 무작위로 기다렸다가 쏜다"는 방어적 사상이 도입되어 현대 Wi-Fi 통신의 근간이 되었다.
+충돌을 감지할 수 없다면, 충돌 후 수습하는 전략을 버리고 애초에 '충돌이 나지 않도록' 예방하는 전략이 절대적으로 필요했다. 이것이 바로 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CA의 탄생 배경이다. "일단 쏴보고 충돌 나면 멈춘다"는 유선의 사상은 무선에서 작동할 수 없으며, "쏘기 전에 충분히 눈치를 보고 무작위로 기다렸다가 쏜다"는 방어적 사상이 도입되어 현대 Wi-Fi 통신의 근간이 되었다.
 
 - **📢 섹션 요약 비유**: 너무 큰 소리로 노래를 부를 때는 내 귀에 내 목소리만 쟁쟁하게 울려서 다른 사람의 반주가 틀렸는지 들리지 않는(충돌 감지 불가) 현상과 같습니다. 그래서 다 같이 노래를 부르기 전에 무조건 침묵하며 눈치를 보는 시간(충돌 회피)을 강제로 만든 것입니다.
 
@@ -24,14 +28,14 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[[104_csma|CSMA]]/CA의 동작 아키텍처는 프레임의 우선순위를 결정하는 IFS(Inter-Frame Space) 타이머와, 충돌을 [[136_variance|분산]]시키는 랜덤 백오프 [[001_algorithm_definition|알고리즘]]의 결합으로 완성된다.
+[CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CA의 동작 아키텍처는 프레임의 우선순위를 결정하는 IFS(Inter-Frame Space) 타이머와, 충돌을 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시키는 랜덤 백오프 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 결합으로 완성된다.
 
 | 핵심 메커니즘 | 동작 원리 및 용도 | 비유 |
 |:---|:---|:---|
-| **DIFS** | 일반 [[001_dikw_pyramid|데이터]] 전송 전 필수적으로 대기해야 하는 기본 휴지기 | 일반 차량의 [[130_signal|신호]] 대기 |
+| **DIFS** | 일반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 전 필수적으로 대기해야 하는 기본 휴지기 | 일반 차량의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 대기 |
 | **SIFS** | ACK, CTS 등 긴급/제어 프레임을 위한 가장 짧은 대기 시간 | 구급차의 하이패스 통과 |
 | **CW (백오프 윈도우)** | DIFS 대기 후 추가로 뽑는 무작위 난수 대기 시간 | 임의의 번호표 뽑고 세기 |
-| **ACK 프레임** | [[001_dikw_pyramid|데이터]] 수신 후 SIFS 대기 후 즉시 송신자에게 응답하는 [[396_validation|확인]]증 | 등기 우편 수령 [[396_validation|확인]]증 |
+| **ACK 프레임** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수신 후 SIFS 대기 후 즉시 송신자에게 응답하는 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)증 | 등기 우편 수령 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)증 |
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -59,34 +63,34 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-유선의 [[104_csma|CSMA]]/CD와 무선의 [[104_csma|CSMA]]/CA는 [[121_transmission_media_guided_unguided|매체]]를 다루는 철학에서 극명한 차이를 보인다.
+유선의 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD와 무선의 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CA는 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)를 다루는 철학에서 극명한 차이를 보인다.
 
-| 비교 항목 | [[104_csma|CSMA]]/CD (유선 [[230_ethernet_structure_and_principles_ieee_802_3|이더넷]]) | [[104_csma|CSMA]]/[[089_contract_account_smart_contract|CA]] (무선 LAN) |
+| 비교 항목 | [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD (유선 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)) | [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/[CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) (무선 LAN) |
 |:---|:---|:---|
-| **충돌 처리 사상** | 사후 [[658_ir_recovery|복구]] (충돌 나면 [[107_잼_신호_백오프_알고리즘|잼 신호]] 쏘고 중단) | 사전 예방 (쏘기 전 무조건 랜덤 대기) |
+| **충돌 처리 사상** | 사후 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) (충돌 나면 [잼 신호](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/107_잼_신호_백오프_알고리즘/) 쏘고 중단) | 사전 예방 (쏘기 전 무조건 랜덤 대기) |
 | **백오프 발생 시점** | 오직 '충돌'이 발생했을 때만 작동 | 채널이 비어 있어도 '항상' 작동 |
-| **전송 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] [[396_validation|확인]]** | 충돌 없었으면 전송 성공으로 '간주' | 수신 측의 'ACK 프레임' 필수 수신 |
+| **전송 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)** | 충돌 없었으면 전송 성공으로 '간주' | 수신 측의 'ACK 프레임' 필수 수신 |
 | **은닉 노드 대응** | 고려하지 않음 (케이블은 모두 연결됨) | RTS/CTS 메커니즘 옵션 지원 |
 
-[[104_csma|CSMA]]/CA가 단순히 충돌을 회피하는 것을 넘어 [[673_mac_message_authentication_code|MAC]] 계층 수준에서 자체적인 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] [[658_ir_recovery|복구]] 로직(ACK)을 내장하고 있다는 점은 매우 중요하다. 구리선의 품질이 뛰어난 유선은 충돌만 나지 않으면 [[001_dikw_pyramid|데이터]]가 훼손될 확률이 0에 가깝지만, 무선 환경은 간섭과 잡음으로 인해 충돌이 안 나도 패킷이 증발할 확률이 매우 높다. 따라서 [[104_csma|CSMA]]/CA는 상위 계층([[405_tcp_transmission_control_protocol_connection_oriented|TCP]])에 의존하기 전에 가장 짧은 대기시간(SIFS)으로 즉각적인 ACK를 요구하는 강박적인 절차를 갖게 되었다.
+[CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CA가 단순히 충돌을 회피하는 것을 넘어 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 계층 수준에서 자체적인 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 로직(ACK)을 내장하고 있다는 점은 매우 중요하다. 구리선의 품질이 뛰어난 유선은 충돌만 나지 않으면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 훼손될 확률이 0에 가깝지만, 무선 환경은 간섭과 잡음으로 인해 충돌이 안 나도 패킷이 증발할 확률이 매우 높다. 따라서 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CA는 상위 계층([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))에 의존하기 전에 가장 짧은 대기시간(SIFS)으로 즉각적인 ACK를 요구하는 강박적인 절차를 갖게 되었다.
 
-- **📢 섹션 요약 비유**: 우체통에 편지를 넣고 반송 안 되면 잘 갔다고 믿는 것([[104_csma|CSMA]]/CD)과, 반드시 집배원이 받는 사람의 서명을 받아 내게 영수증(ACK)을 가져다줘야 안심하는 것([[104_csma|CSMA]]/[[089_contract_account_smart_contract|CA]])의 차이입니다.
+- **📢 섹션 요약 비유**: 우체통에 편지를 넣고 반송 안 되면 잘 갔다고 믿는 것([CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD)과, 반드시 집배원이 받는 사람의 서명을 받아 내게 영수증(ACK)을 가져다줘야 안심하는 것([CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/[CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/))의 차이입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-[[104_csma|CSMA]]/[[089_contract_account_smart_contract|CA]] 기반의 Wi-Fi망은 접속자가 몰릴수록 급격한 [[282_performance_tactics|성능]] 저하를 겪는 구조적 한계를 지닌다.
+[CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/[CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 기반의 Wi-Fi망은 접속자가 몰릴수록 급격한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하를 겪는 구조적 한계를 지닌다.
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **채널 혼잡도 분석**: 채널 활용률(Channel Utilization)이 80% 이상 치솟았을 때, 실제 대용량 전송 중인지 아니면 다수의 단말이 붙어 [[372_management|Management]]/Control 프레임(ACK 등) 오버헤드만 폭발하고 있는지 패킷 분석기로 [[396_validation|확인]]했는가?
-2. **ACK [[573_timeout_retry_backoff_strategy|타임아웃]] 튜닝**: 장거리 무선 [[260_bridge_pattern_abstraction_implementation|브리지]](수 km)를 구축할 때 [[130_signal|신호]] [[015_지연_데이터_관점|지연]]([[016_전파_지연|Propagation Delay]])으로 인해 ACK가 늦게 도착하여 재전송이 폭주하는 것을 막기 위해, [[572_ap_access_point_ds_distribution_system|AP]] 설정에서 거리(Distance) 파라미터를 늘려 ACK [[573_timeout_retry_backoff_strategy|타임아웃]] 조절을 했는가?
-3. **[[576_802_11ax_wifi_6_ofdma_twt|Wi-Fi 6]] ([[945_ofdma_orthogonal_frequency_division_multiple_access_resource_block|OFDMA]]) 전환 고려**: 사용자가 밀집한 스타벅스나 경기장 환경에서 [[104_csma|CSMA]]/CA의 대기 [[015_지연_데이터_관점|지연]]이 극심하다면, 채널을 물리적으로 쪼개어 동시 전송을 허용하는 [[576_802_11ax_wifi_6_ofdma_twt|Wi-Fi 6]](802.[[576_802_11ax_wifi_6_ofdma_twt|11ax]]) 인프라로의 전환을 기획했는가?
+1. **채널 혼잡도 분석**: 채널 활용률(Channel Utilization)이 80% 이상 치솟았을 때, 실제 대용량 전송 중인지 아니면 다수의 단말이 붙어 [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)/Control 프레임(ACK 등) 오버헤드만 폭발하고 있는지 패킷 분석기로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)했는가?
+2. **ACK [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 튜닝**: 장거리 무선 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)(수 km)를 구축할 때 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Propagation Delay](/knowledge-base/studynote/03_network/01_data_communication/016_전파_지연/))으로 인해 ACK가 늦게 도착하여 재전송이 폭주하는 것을 막기 위해, [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 설정에서 거리(Distance) 파라미터를 늘려 ACK [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 조절을 했는가?
+3. **[Wi-Fi 6](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/) ([OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/)) 전환 고려**: 사용자가 밀집한 스타벅스나 경기장 환경에서 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CA의 대기 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 극심하다면, 채널을 물리적으로 쪼개어 동시 전송을 허용하는 [Wi-Fi 6](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/)(802.[11ax](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/)) 인프라로의 전환을 기획했는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- **무분별한 단말기 수용 보장**: "[[572_ap_access_point_ds_distribution_system|AP]] 한 대가 100명을 수용할 수 있다"는 제조사의 스펙만 믿고 회의실 하나에 [[572_ap_access_point_ds_distribution_system|AP]] 1대만 설치하는 설계. [[104_csma|CSMA]]/CA는 1바이트짜리 패킷 하나를 보내기 위해 DIFS 대기, 백오프, SIFS 대기, ACK 수신의 긴 공백을 필요로 하므로, 100명이 붙으면 [[001_dikw_pyramid|데이터]] 전송 없이 눈치만 보느라 네트워크가 완전히 마비되는 콜리전 도메인의 늪에 빠진다.
+- **무분별한 단말기 수용 보장**: "[AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 한 대가 100명을 수용할 수 있다"는 제조사의 스펙만 믿고 회의실 하나에 [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 1대만 설치하는 설계. [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CA는 1바이트짜리 패킷 하나를 보내기 위해 DIFS 대기, 백오프, SIFS 대기, ACK 수신의 긴 공백을 필요로 하므로, 100명이 붙으면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 없이 눈치만 보느라 네트워크가 완전히 마비되는 콜리전 도메인의 늪에 빠진다.
 
 - **📢 섹션 요약 비유**: 회의에 50명이 참석해서 한 마디씩만 하려고 해도, 각자 예의 차리느라 "제가 먼저.. 아 먼저 하세요.. 네 그럼.." 하는 인사치레(오버헤드) 시간이 실제 대화 시간보다 10배는 길어지는 비효율적인 상황과 같습니다.
 
@@ -94,11 +98,11 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-[[104_csma|CSMA]]/CA는 눈에 보이지 않는 전파 환경에서 "누구도 상처받지 않기 위해 미리 물러선다"는 매우 안전하고 이상적인 [[136_variance|분산]] 제어 [[001_algorithm_definition|알고리즘]]이다. 이 [[001_algorithm_definition|알고리즘]] 덕분에 우리는 선 연결 없이 전 세계 어디서든 자유롭게 무선 인터넷을 향유할 수 있었다.
+[CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CA는 눈에 보이지 않는 전파 환경에서 "누구도 상처받지 않기 위해 미리 물러선다"는 매우 안전하고 이상적인 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 제어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다. 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 덕분에 우리는 선 연결 없이 전 세계 어디서든 자유롭게 무선 인터넷을 향유할 수 있었다.
 
-하지만 초연결 시대로 접어들며 수많은 기기가 폭증하면서 맹목적 양보보다는 중앙의 효율적 통제가 절실해졌다. 최신 [[576_802_11ax_wifi_6_ofdma_twt|Wi-Fi 6]] 표준([[945_ofdma_orthogonal_frequency_division_multiple_access_resource_block|OFDMA]])은 [[104_csma|CSMA]]/CA의 지분을 줄이고 중앙([[572_ap_access_point_ds_distribution_system|AP]]) 스케줄링의 비중을 높이는 방향으로 급격히 진화하고 있다. 그럼에도 불구하고 누구의 지시 없이 자율적으로 무선망을 형성하는 기저 철학으로서 [[104_csma|CSMA]]/CA는 영원한 기술적 기준점으로 남을 것이다.
+하지만 초연결 시대로 접어들며 수많은 기기가 폭증하면서 맹목적 양보보다는 중앙의 효율적 통제가 절실해졌다. 최신 [Wi-Fi 6](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/) 표준([OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/))은 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CA의 지분을 줄이고 중앙([AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/)) 스케줄링의 비중을 높이는 방향으로 급격히 진화하고 있다. 그럼에도 불구하고 누구의 지시 없이 자율적으로 무선망을 형성하는 기저 철학으로서 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CA는 영원한 기술적 기준점으로 남을 것이다.
 
-- **📢 섹션 요약 비유**: 골목길에서 운전자들이 눈치껏 양보하던 훌륭한 시민 의식([[104_csma|CSMA]]/[[089_contract_account_smart_contract|CA]]) 덕분에 오랫동안 사고가 안 났지만, 이제는 차가 너무 많아져 중앙 통제소에서 강제로 [[130_signal|신호]]등과 차선을 지시해 주는 첨단 도로([[945_ofdma_orthogonal_frequency_division_multiple_access_resource_block|OFDMA]])로 업그레이드되는 과정과 같습니다.
+- **📢 섹션 요약 비유**: 골목길에서 운전자들이 눈치껏 양보하던 훌륭한 시민 의식([CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/[CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)) 덕분에 오랫동안 사고가 안 났지만, 이제는 차가 너무 많아져 중앙 통제소에서 강제로 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등과 차선을 지시해 주는 첨단 도로([OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/))로 업그레이드되는 과정과 같습니다.
 
 ---
 
@@ -106,10 +110,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[[104_csma|CSMA]]/CD** | 유선에서 쓰인 충돌 감지 프로토콜로, 무선 적용이 불가해 CA를 탄생시킨 반면교사. |
-| **Half-Duplex (반이중)** | 무선 통신 시 송신 [[171_antenna_basic_dipole_resonance|안테나]]가 켜지면 수신 기능이 마비되어 충돌 감지를 불가능하게 한 물리적 원인. |
-| **RTS/CTS** | [[104_csma|CSMA]]/CA만으로는 서로 보이지 않는 단말 간의 충돌(은닉 노드 문제)을 막지 못할 때 도입하는 사전 통신 예약 프레임. |
-| **[[945_ofdma_orthogonal_frequency_division_multiple_access_resource_block|OFDMA]]** | [[104_csma|CSMA]]/CA의 극심한 대기 [[015_지연_데이터_관점|지연]](오버헤드)을 해결하기 위해 Wi-Fi 6부터 도입된 주파수 쪼개기 동시 전송 기술. |
+| **[CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD** | 유선에서 쓰인 충돌 감지 프로토콜로, 무선 적용이 불가해 CA를 탄생시킨 반면교사. |
+| **Half-Duplex (반이중)** | 무선 통신 시 송신 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 켜지면 수신 기능이 마비되어 충돌 감지를 불가능하게 한 물리적 원인. |
+| **RTS/CTS** | [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CA만으로는 서로 보이지 않는 단말 간의 충돌(은닉 노드 문제)을 막지 못할 때 도입하는 사전 통신 예약 프레임. |
+| **[OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/)** | [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CA의 극심한 대기 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(오버헤드)을 해결하기 위해 Wi-Fi 6부터 도입된 주파수 쪼개기 동시 전송 기술. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -136,7 +140,7 @@ RTS/CTS 교환 도입 (가상 캐리어 센싱을 통한 채널 예약)
 
 1. 무전기로 말을 할 때는 버튼을 누르고 있는 동안 내 귀에 아무 소리도 안 들려서, 다른 사람 말이랑 겹쳤는지 모를 수 있어요.
 2. 그래서 무선 인터넷(와이파이)은 무조건 말을 하기 전에 속으로 1, 2, 3초를 랜덤으로 세고 눈치를 살피는 똑똑한 규칙을 만들었어요.
-3. 이 규칙 덕분에 허공에서 서로 전파가 부딪혀서 인터넷이 끊기는 걸 미리미리 피해 갈 수 있는데, 이것을 [[104_csma|CSMA]]/CA라고 부른답니다!
+3. 이 규칙 덕분에 허공에서 서로 전파가 부딪혀서 인터넷이 끊기는 걸 미리미리 피해 갈 수 있는데, 이것을 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CA라고 부른답니다!
 
 ---
 
@@ -144,7 +148,7 @@ RTS/CTS 교환 도입 (가상 캐리어 센싱을 통한 채널 예약)
 
 **진행 상황**: 198 / 1120
 
-← **이전**: [[1089_diffserv_dscp_classification_phb_qos|1089. DiffServ DSCP 분류 PHB]]
-**다음**: [[1090_rsvp_resource_reservation_protocol_qos|1090. RSVP 자원 예약 플로우]] →
+← **이전**: [1089. DiffServ DSCP 분류 PHB](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1089_diffserv_dscp_classification_phb_qos/)
+**다음**: [1090. RSVP 자원 예약 플로우](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1090_rsvp_resource_reservation_protocol_qos/) →
 
 ---

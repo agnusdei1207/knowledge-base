@@ -1,25 +1,28 @@
----
-title: 64. ADPCM (Adaptive DPCM) - 적응형 차분 펄스 부호 변조
-date: '2024-05-15'
-description: DPCM의 한계인 경사 과부하 왜곡과 양자화 잡음을 해결하기 위해, 양자화 스텝 크기와 예측 계수를 동적으로 조절하는 적응형
-  부호화 기술
-tags:
-- network
----
++++
+title = "64. ADPCM (Adaptive DPCM) - 적응형 차분 펄스 부호 변조"
+description = "DPCM의 한계인 경사 과부하 왜곡과 양자화 잡음을 해결하기 위해, 양자화 스텝 크기와 예측 계수를 동적으로 조절하는 적응형 부호화 기술"
+date = 2024-05-15
+
+[taxonomies]
+tags = ["network"]
+
+[extra]
+tags = ["network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: ADPCM(Adaptive Differential Pulse [[082_process_memory_structure|Code]] Modulation)은 DPCM에 적응형 [[434_quantization|양자화]]와 예측을 더해 [[130_signal|신호]] 변화에 맞춰 [[347_compaction|압축]] 효율을 높이는 방식이다.
-> 2. **가치**: 음성처럼 구간마다 특성이 달라지는 [[130_signal|신호]]에서 고정 스텝 크기보다 더 안정적으로 품질과 [[073_bit|비트]] 수를 절충할 수 있다.
+> 1. **본질**: ADPCM(Adaptive Differential Pulse [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Modulation)은 DPCM에 적응형 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)와 예측을 더해 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 변화에 맞춰 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 효율을 높이는 방식이다.
+> 2. **가치**: 음성처럼 구간마다 특성이 달라지는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)에서 고정 스텝 크기보다 더 안정적으로 품질과 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수를 절충할 수 있다.
 > 3. **판단**: 스텝 크기 적응, 예측 계수 변화, 오차 전파를 함께 봐야 ADPCM의 장단점을 설명할 수 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-DPCM은 차이값을 보내 효율적이지만, [[130_signal|신호]] 변화가 급하면 경사 과부하 왜곡이 생길 수 있다. ADPCM은 이 문제를 스텝 크기와 예측을 적응시켜 보완한다.
+DPCM은 차이값을 보내 효율적이지만, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 변화가 급하면 경사 과부하 왜곡이 생길 수 있다. ADPCM은 이 문제를 스텝 크기와 예측을 적응시켜 보완한다.
 
-즉, [[130_signal|신호]]가 조용할 때는 촘촘하게, 급변할 때는 넓게 따라가며 효율을 유지하는 방식이다.
+즉, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 조용할 때는 촘촘하게, 급변할 때는 넓게 따라가며 효율을 유지하는 방식이다.
 
 - **📢 섹션 요약 비유**: 길이 좁을 때는 작은 차로, 넓을 때는 큰 차로를 쓰는 것과 같다.
 
@@ -45,10 +48,10 @@ Feedback + Step-size Control
 | :-- | :-- |
 | Predictor | 다음 샘플 추정 |
 | Adaptive Quantizer | 스텝 크기 조절 |
-| Step-size Control | [[130_signal|신호]] 변화에 맞춰 [[434_quantization|양자화]] 폭 변경 |
+| Step-size Control | [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 변화에 맞춰 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) 폭 변경 |
 | Feedback | 복원 결과를 다음 예측에 반영 |
 
-ADPCM은 [[130_signal|신호]]가 안정적일 때는 작은 스텝으로 세밀하게, 급격히 변할 때는 큰 스텝으로 빠르게 따라가도록 조절한다. 이것이 DPCM보다 실용적인 이유다.
+ADPCM은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 안정적일 때는 작은 스텝으로 세밀하게, 급격히 변할 때는 큰 스텝으로 빠르게 따라가도록 조절한다. 이것이 DPCM보다 실용적인 이유다.
 
 - **📢 섹션 요약 비유**: 천천히 걸을 땐 작은 보폭, 달릴 땐 큰 보폭을 쓰는 느낌이다.
 
@@ -58,17 +61,17 @@ ADPCM은 [[130_signal|신호]]가 안정적일 때는 작은 스텝으로 세밀
 
 | 방식 | 특징 | 장점 | 한계 |
 | :-- | :-- | :-- | :-- |
-| [[943_pcm_pulse_code_modulation_sampling_quantization|PCM]] | 원샘플 전송 | 단순 | [[073_bit|비트]] 수 큼 |
-| [[063_DPCM_차분_펄스_부호_변조|DPCM]] | 차이값 전송 | [[347_compaction|압축]] 효율 | 오차 전파 |
+| [PCM](/knowledge-base/studynote/03_network/19_frequent_topics_terms/943_pcm_pulse_code_modulation_sampling_quantization/) | 원샘플 전송 | 단순 | [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수 큼 |
+| [DPCM](/knowledge-base/studynote/03_network/01_data_communication/063_DPCM_차분_펄스_부호_변조/) | 차이값 전송 | [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 효율 | 오차 전파 |
 | ADPCM | 차이값 + 적응형 스텝 | 품질/효율 균형 | 제어 복잡 |
 
 | 문제 | ADPCM 대응 |
 | :-- | :-- |
 | 경사 과부하 왜곡 | 큰 스텝으로 빠르게 추적 |
-| [[060_양자화_잡음_양자화_스텝|양자화 잡음]] | 세밀한 스텝으로 감소 |
-| [[130_signal|신호]] 변화 | 적응형 제어로 대응 |
+| [양자화 잡음](/knowledge-base/studynote/03_network/01_data_communication/060_양자화_잡음_양자화_스텝/) | 세밀한 스텝으로 감소 |
+| [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 변화 | 적응형 제어로 대응 |
 
-ADPCM은 표준화된 음성 코덱(G.726 등)에서 널리 쓰였다. 결국 핵심은 "고정 규칙"이 아니라 "[[130_signal|신호]]에 맞는 변화"다.
+ADPCM은 표준화된 음성 코덱(G.726 등)에서 널리 쓰였다. 결국 핵심은 "고정 규칙"이 아니라 "[신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)에 맞는 변화"다.
 
 - **📢 섹션 요약 비유**: 길이 좁아졌다 넓어졌다 할 때, 운전 속도도 같이 바꾸는 것이다.
 
@@ -76,22 +79,22 @@ ADPCM은 표준화된 음성 코덱(G.726 등)에서 널리 쓰였다. 결국 �
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. [[130_signal|신호]] 변화에 맞는 적응 로직이 있는가?
-2. [[434_quantization|양자화]] 스텝이 너무 크거나 작지 않은가?
+1. [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 변화에 맞는 적응 로직이 있는가?
+2. [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) 스텝이 너무 크거나 작지 않은가?
 3. 오차 전파와 품질 저하를 분석했는가?
-4. 음성/오디오 같은 연속 [[130_signal|신호]]에 적합한가?
-5. [[943_pcm_pulse_code_modulation_sampling_quantization|PCM]]/[[063_DPCM_차분_펄스_부호_변조|DPCM]] 대비 이점을 설명할 수 있는가?
+4. 음성/오디오 같은 연속 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)에 적합한가?
+5. [PCM](/knowledge-base/studynote/03_network/19_frequent_topics_terms/943_pcm_pulse_code_modulation_sampling_quantization/)/[DPCM](/knowledge-base/studynote/03_network/01_data_communication/063_DPCM_차분_펄스_부호_변조/) 대비 이점을 설명할 수 있는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 모든 [[130_signal|신호]]에 같은 스텝 크기를 쓰는 설계
+- 모든 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)에 같은 스텝 크기를 쓰는 설계
 - 적응 로직 없이 DPCM만 변형한 설계
-- 오차 전파를 무시하고 [[347_compaction|압축]]률만 보는 설계
-- [[130_signal|신호]] 특성과 무관하게 코덱을 선택하는 설계
+- 오차 전파를 무시하고 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률만 보는 설계
+- [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 특성과 무관하게 코덱을 선택하는 설계
 
-기술사 관점에서는 ADPCM을 "더 복잡한 [[347_compaction|압축]]"이 아니라 "[[130_signal|신호]]에 맞춰 스스로 조절하는 [[347_compaction|압축]]"으로 설명해야 한다.
+기술사 관점에서는 ADPCM을 "더 복잡한 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)"이 아니라 "[신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)에 맞춰 스스로 조절하는 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)"으로 설명해야 한다.
 
 - **📢 섹션 요약 비유**: 상황에 따라 브레이크와 가속을 자동으로 조절하는 차다.
 
@@ -147,7 +150,7 @@ ADPCM은 그때그때 보폭을 바꾸는 방법이에요.
 
 **진행 상황**: 64 / 1120
 
-← **이전**: [[063_DPCM_차분_펄스_부호_변조|63. DPCM (Differential PCM) - 차분 펄스 부호 변조]]
-**다음**: [[065_델타_변조_DM|65. 델타 변조 (DM, Delta Modulation) - 1비트 전송]] →
+← **이전**: [63. DPCM (Differential PCM) - 차분 펄스 부호 변조](/knowledge-base/studynote/03_network/01_data_communication/063_DPCM_차분_펄스_부호_변조/)
+**다음**: [65. 델타 변조 (DM, Delta Modulation) - 1비트 전송](/knowledge-base/studynote/03_network/01_data_communication/065_델타_변조_DM/) →
 
 ---

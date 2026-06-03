@@ -1,23 +1,27 @@
----
-title: 102. BLAKE2/BLAKE3 — 빠른 성능 해시, AES 대체
-date: '2026-04-05'
-tags:
-- studynote-security
----
++++
+title = "102. BLAKE2/BLAKE3 — 빠른 성능 해시, AES 대체"
+date = 2026-04-05
+
+[taxonomies]
+tags = ["studynote-security"]
+
+[extra]
+tags = ["studynote-security"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: BLAKE 패밀리 (BLAKE2, BLAKE3)는 "안전한 암호학적 해시는 느리다"는 고정관념을 부수고, 소프트웨어 환경([[370_simd|SIMD]] [[430_index_fast_full_scan|병렬]] 처리)에 극도로 최적화하여 설계된 [[148_5g_embb_urllc_mmtc|초고속]] 차세대 [[667_hash_function_integrity_one_way|해시 함수]]다.
-> 2. **가치**: 보안이 취약해졌음에도 '속도' 때문에 서버 인프라에서 버리지 못하던 MD5나 SHA-1을 완전히 대체할 수 있다. [[101_sha_3|SHA-3]] 수준의 강력한 보안성을 제공하면서도 처리 속도는 기존 해시를 압도한다.
-> 3. **판단 포인트**: [[501_file_definition_logical_record|파일]] [[003_integrity|무결성]] [[395_verification_process_review|검증]], 클라우드 중복 제거 등 대용량 [[001_dikw_pyramid|데이터]]를 실시간으로 처리해야 하는 병목 구간에서, BLAKE3의 [[007_merkle_tree|머클 트리]]([[007_merkle_tree|Merkle Tree]]) 내장 [[430_index_fast_full_scan|병렬]] 해싱 아키텍처는 필수적인 도입 고려 대상이다.
+> 1. **본질**: BLAKE 패밀리 (BLAKE2, BLAKE3)는 "안전한 암호학적 해시는 느리다"는 고정관념을 부수고, 소프트웨어 환경([SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리)에 극도로 최적화하여 설계된 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 차세대 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)다.
+> 2. **가치**: 보안이 취약해졌음에도 '속도' 때문에 서버 인프라에서 버리지 못하던 MD5나 SHA-1을 완전히 대체할 수 있다. [SHA-3](/knowledge-base/studynote/09_security/02_crypto/101_sha_3/) 수준의 강력한 보안성을 제공하면서도 처리 속도는 기존 해시를 압도한다.
+> 3. **판단 포인트**: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 클라우드 중복 제거 등 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실시간으로 처리해야 하는 병목 구간에서, BLAKE3의 [머클 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/)([Merkle Tree](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/)) 내장 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 해싱 아키텍처는 필수적인 도입 고려 대상이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-BLAKE2 (2012년)와 BLAKE3 (2020년)는 [[101_sha_3|SHA-3]] 공모전 결승에 올랐던 BLAKE [[001_algorithm_definition|알고리즘]]을 기반으로 탄생했다. 당시 표준으로 채택된 SHA-3는 보안성은 훌륭했지만 소프트웨어에서 구동할 때 이전 세대인 SHA-2보다도 연산 속도가 느렸다.
+BLAKE2 (2012년)와 BLAKE3 (2020년)는 [SHA-3](/knowledge-base/studynote/09_security/02_crypto/101_sha_3/) 공모전 결승에 올랐던 BLAKE [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 기반으로 탄생했다. 당시 표준으로 채택된 SHA-3는 보안성은 훌륭했지만 소프트웨어에서 구동할 때 이전 세대인 SHA-2보다도 연산 속도가 느렸다.
 
-서버 백엔드 환경에서는 패스워드 암호화뿐만 아니라 대용량 [[501_file_definition_logical_record|파일]] 전송 [[395_verification_process_review|검증]], 클라우드 [[112_checksum|체크섬]] 등 엄청난 양의 [[001_dikw_pyramid|데이터]]를 해싱해야 한다. SHA-3가 너무 무겁자, 개발자들은 속도를 핑계로 이미 뚫려버린 구시대의 유물([[668_md5_hash_collision_vulnerability|MD5]])을 계속 쓰는 위험한 타협을 했다. BLAKE 패밀리는 이 딜레마를 해결하기 위해 '무결점 보안'과 '소프트웨어 최고 속도' 두 마리 토끼를 모두 잡는 것을 목표로 설계되었다.
+서버 백엔드 환경에서는 패스워드 암호화뿐만 아니라 대용량 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전송 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 클라우드 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) 등 엄청난 양의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 해싱해야 한다. SHA-3가 너무 무겁자, 개발자들은 속도를 핑계로 이미 뚫려버린 구시대의 유물([MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/))을 계속 쓰는 위험한 타협을 했다. BLAKE 패밀리는 이 딜레마를 해결하기 위해 '무결점 보안'과 '소프트웨어 최고 속도' 두 마리 토끼를 모두 잡는 것을 목표로 설계되었다.
 
 - **📢 섹션 요약 비유**: MD5가 빠르지만 자물쇠가 허술한 낡은 스쿠터고, SHA-3가 절대 안 뚫리지만 기어가는 무거운 탱크라면, BLAKE3는 탱크의 장갑을 두르고 스포츠카의 엔진을 단 차세대 전투 차량이다.
 
@@ -25,9 +29,9 @@ BLAKE2 (2012년)와 BLAKE3 (2020년)는 [[101_sha_3|SHA-3]] 공모전 결승에 
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-BLAKE3가 압도적인 속도를 내는 핵심 메커니즘은 [[001_algorithm_definition|알고리즘]] 내부에 구현된 **[[007_merkle_tree|머클 트리]] ([[007_merkle_tree|Merkle Tree]])** 기반의 무한 [[430_index_fast_full_scan|병렬]] 처리 구조다.
+BLAKE3가 압도적인 속도를 내는 핵심 메커니즘은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 내부에 구현된 **[머클 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/) ([Merkle Tree](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/))** 기반의 무한 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 구조다.
 
-전통적인 [[667_hash_function_integrity_one_way|해시 함수]](SHA-2, [[101_sha_3|SHA-3]])는 [[001_dikw_pyramid|데이터]] 블록을 처음부터 끝까지 순서대로([[149_serial_communication_rs232_rs485|직렬]]로) 씹어 먹어야 한다. 반면 BLAKE3는 대용량 [[001_dikw_pyramid|데이터]]를 작은 청크(Chunk, 1KB)로 잘게 쪼갠다.
+전통적인 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)(SHA-2, [SHA-3](/knowledge-base/studynote/09_security/02_crypto/101_sha_3/))는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록을 처음부터 끝까지 순서대로([직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)로) 씹어 먹어야 한다. 반면 BLAKE3는 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 작은 청크(Chunk, 1KB)로 잘게 쪼갠다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -51,7 +55,7 @@ BLAKE3가 압도적인 속도를 내는 핵심 메커니즘은 [[001_algorithm_d
 └──────────────────────────────────────────────────────────────┘
 ```
 
-이 다이어그램처럼, 시스템의 CPU 코어가 많으면 많을수록 여러 청크를 동시에 해싱하여 하나로 모은다. 여기에 [[370_simd|SIMD]](단일 [[158_instruction|명령어]] 다중 [[001_dikw_pyramid|데이터]] 처리) [[158_instruction|명령어]] 셋까지 극한으로 활용하여, 기가비트 시대에 초당 수 GB의 [[001_dikw_pyramid|데이터]]를 갈아버리는 물리적 한계 돌파를 이뤄냈다.
+이 다이어그램처럼, 시스템의 CPU 코어가 많으면 많을수록 여러 청크를 동시에 해싱하여 하나로 모은다. 여기에 [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/)(단일 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 다중 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 셋까지 극한으로 활용하여, 기가비트 시대에 초당 수 GB의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 갈아버리는 물리적 한계 돌파를 이뤄냈다.
 
 - **📢 섹션 요약 비유**: 두꺼운 책의 오타를 혼자서 1쪽부터 끝까지 다 읽는 것이 기존 해시라면, BLAKE3는 알바생 10명을 고용해 책을 10등분해서 동시에 읽게 하고 나중에 결과를 합치는 구조다.
 
@@ -59,36 +63,36 @@ BLAKE3가 압도적인 속도를 내는 핵심 메커니즘은 [[001_algorithm_d
 
 ## Ⅲ. 비교 및 연결
 
-BLAKE 패밀리는 단순히 빠른 것만이 아니라 실무에서 요구하는 암호학적 기능들을 자체 내장하여 다른 [[667_hash_function_integrity_one_way|해시 함수]]들과 차별화된다.
+BLAKE 패밀리는 단순히 빠른 것만이 아니라 실무에서 요구하는 암호학적 기능들을 자체 내장하여 다른 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)들과 차별화된다.
 
-| 항목 | 기존 해시 ([[668_md5_hash_collision_vulnerability|MD5]], SHA-2) | BLAKE3 |
+| 항목 | 기존 해시 ([MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/), SHA-2) | BLAKE3 |
 | :--- | :--- | :--- |
-| **처리 구조** | [[149_serial_communication_rs232_rs485|직렬]] (가내수공업 방식) | 완전 [[430_index_fast_full_scan|병렬]] ([[007_merkle_tree|머클 트리]] 내장) |
+| **처리 구조** | [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) (가내수공업 방식) | 완전 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) ([머클 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/) 내장) |
 | **길이 연장 공격** | SHA-2는 취약함 | 완벽 방어 (내부 난수 스왑) |
-| **[[673_mac_message_authentication_code|MAC]] (메시지 [[303_authentication_authorization_patterns|인증]])** | [[674_hmac_hash_based_mac_ipsec|HMAC]] 등 외부 [[001_algorithm_definition|알고리즘]] 래핑 필요 | 비밀키 슬롯 자체 내장 (Keyed Hashing) |
-| **주요 사용처** | 범용 보안 및 레거시 시스템 | 대용량 [[501_file_definition_logical_record|파일]] [[395_verification_process_review|검증]], 클라우드 중복 제거 |
+| **[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) (메시지 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))** | [HMAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/) 등 외부 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 래핑 필요 | 비밀키 슬롯 자체 내장 (Keyed Hashing) |
+| **주요 사용처** | 범용 보안 및 레거시 시스템 | 대용량 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 클라우드 중복 제거 |
 
-특히 별도의 [[674_hmac_hash_based_mac_ipsec|HMAC]] [[001_algorithm_definition|알고리즘]] 없이 해시 자체에 비밀키를 꽂아 넣어 즉시 [[673_mac_message_authentication_code|MAC]](메시지 [[303_authentication_authorization_patterns|인증]] 코드)로 동작하는 Keyed Hashing 기능은 백엔드 개발 시 코드 복잡도를 크게 낮춰준다.
+특히 별도의 [HMAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 없이 해시 자체에 비밀키를 꽂아 넣어 즉시 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)(메시지 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 코드)로 동작하는 Keyed Hashing 기능은 백엔드 개발 시 코드 복잡도를 크게 낮춰준다.
 
-- **📢 섹션 요약 비유**: 기존에는 망치(해시)와 못 뽑이([[674_hmac_hash_based_mac_ipsec|HMAC]])를 따로 들고 다녀야 했다면, BLAKE3는 뒤에 못 뽑이가 달려 있고 모터까지 장착된 최신형 전동 해머다.
+- **📢 섹션 요약 비유**: 기존에는 망치(해시)와 못 뽑이([HMAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/))를 따로 들고 다녀야 했다면, BLAKE3는 뒤에 못 뽑이가 달려 있고 모터까지 장착된 최신형 전동 해머다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-현대 IT 인프라에서 "속도"와 "[[003_integrity|무결성]]"이 충돌하는 구간을 설계할 때 기술사는 BLAKE3의 도입을 적극적으로 검토해야 한다.
+현대 IT 인프라에서 "속도"와 "[무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)"이 충돌하는 구간을 설계할 때 기술사는 BLAKE3의 도입을 적극적으로 검토해야 한다.
 
-예를 들어, 수천만 명의 유저가 업로드하는 구글 드라이브 같은 클라우드 스토리지 서버에서 **[[546_data_deduplication|데이터 중복 제거]](Deduplication)**를 구현한다고 가정해 보자. [[501_file_definition_logical_record|파일]]이 들어올 때마다 해시 지문을 떠서 중복을 확인해야 하는데, SHA-256을 쓰면 CPU 비용이 너무 크고 MD5를 쓰면 [[563_hash_collision_chaining_linear_probing|해시 충돌]] 공격([[563_hash_collision_chaining_linear_probing|Collision]])에 당해 다른 사람의 [[501_file_definition_logical_record|파일]]이 덮어씌워질 위험이 있다. 이럴 때 압도적인 [[139_throughput|처리량]]([[139_throughput|Throughput]])과 안전성을 보장하는 BLAKE3를 [[112_checksum|체크섬]] 툴로 채택하는 것이 정답이다.
+예를 들어, 수천만 명의 유저가 업로드하는 구글 드라이브 같은 클라우드 스토리지 서버에서 **[데이터 중복 제거](/knowledge-base/studynote/02_operating_system/09_file_system/546_data_deduplication/)(Deduplication)**를 구현한다고 가정해 보자. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 들어올 때마다 해시 지문을 떠서 중복을 확인해야 하는데, SHA-256을 쓰면 CPU 비용이 너무 크고 MD5를 쓰면 [해시 충돌](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/) 공격([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))에 당해 다른 사람의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 덮어씌워질 위험이 있다. 이럴 때 압도적인 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))과 안전성을 보장하는 BLAKE3를 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) 툴로 채택하는 것이 정답이다.
 
-단, [[004_blockchain|블록체인]] 채굴이나 비밀번호 저장([[144_hkdf_tls_1_3|KDF]]) 등 **의도적으로 느리게 연산해야 하는 곳**에는 BLAKE3를 쓰면 안 된다. 워낙 빠르기 때문에 해커의 무차별 대입 공격(Brute-force) 역시 광속으로 이뤄져 버리기 때문이다. (이 경우 Argon2나 bcrypt를 써야 한다.)
+단, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 채굴이나 비밀번호 저장([KDF](/knowledge-base/studynote/09_security/03_network_security/144_hkdf_tls_1_3/)) 등 **의도적으로 느리게 연산해야 하는 곳**에는 BLAKE3를 쓰면 안 된다. 워낙 빠르기 때문에 해커의 무차별 대입 공격(Brute-force) 역시 광속으로 이뤄져 버리기 때문이다. (이 경우 Argon2나 bcrypt를 써야 한다.)
 
-- **📢 섹션 요약 비유**: 레이싱용 스포츠카(BLAKE3)는 고속도로 물류 배송(대용량 [[395_verification_process_review|검증]])에는 최고지만, 천천히 짐을 옮겨야 하는 험난한 산길(비밀번호 해싱)에서는 오히려 사고(해킹)를 유발할 수 있다.
+- **📢 섹션 요약 비유**: 레이싱용 스포츠카(BLAKE3)는 고속도로 물류 배송(대용량 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))에는 최고지만, 천천히 짐을 옮겨야 하는 험난한 산길(비밀번호 해싱)에서는 오히려 사고(해킹)를 유발할 수 있다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-BLAKE3를 도입하면 서버의 CPU 부하는 극적으로 줄어들고 [[001_dikw_pyramid|데이터]] [[003_integrity|무결성]] [[395_verification_process_review|검증]] 파이프라인의 병목이 사라진다. 개발자는 더 이상 성능을 위해 보안성을 희생할 필요가 없어진다.
+BLAKE3를 도입하면 서버의 CPU 부하는 극적으로 줄어들고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 파이프라인의 병목이 사라진다. 개발자는 더 이상 성능을 위해 보안성을 희생할 필요가 없어진다.
 
 결론적으로 BLAKE 패밀리는 암호학의 빛나는 공학적 승리다. 수학적 안전성과 소프트웨어적 극한의 최적화가 만난 결정체로서, 대용량 실시간 처리가 기본이 된 현대 IT 아키텍처에서 레거시 해시를 완전히 퇴출시킬 차세대 표준으로 자리 잡을 것이다.
 
@@ -100,10 +104,10 @@ BLAKE3를 도입하면 서버의 CPU 부하는 극적으로 줄어들고 [[001_d
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[[007_merkle_tree|머클 트리]] ([[007_merkle_tree|Merkle Tree]])** | [[001_dikw_pyramid|데이터]]를 청크 단위로 분할하여 [[430_index_fast_full_scan|병렬]] 해싱을 가능하게 만드는 핵심 자료구조 |
-| **[[673_mac_message_authentication_code|MAC]] ([[673_mac_message_authentication_code|Message Authentication Code]])** | BLAKE3가 [[674_hmac_hash_based_mac_ipsec|HMAC]] 래퍼 없이 자체적으로 지원하는 키 기반 메시지 [[003_integrity|무결성]] [[395_verification_process_review|검증]] 기능 |
+| **[머클 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/) ([Merkle Tree](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/))** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 청크 단위로 분할하여 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 해싱을 가능하게 만드는 핵심 자료구조 |
+| **[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) ([Message Authentication Code](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))** | BLAKE3가 [HMAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/) 래퍼 없이 자체적으로 지원하는 키 기반 메시지 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기능 |
 | **길이 연장 공격 (Length Extension Attack)** | 기존 SHA-2가 가진 취약점이며, BLAKE 패밀리가 구조적으로 방어해 내는 해킹 기법 |
-| **중복 제거 (Deduplication)** | 클라우드 인프라에서 동일 [[501_file_definition_logical_record|파일]] 저장을 막기 위해 고속 해시(BLAKE3)가 활약하는 실무 분야 |
+| **중복 제거 (Deduplication)** | 클라우드 인프라에서 동일 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 저장을 막기 위해 고속 해시(BLAKE3)가 활약하는 실무 분야 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -135,7 +139,7 @@ BLAKE3 (머클 트리 내장 및 SIMD 극대화로 초고속 병렬 해시 완�
 
 **진행 상황**: 153 / 1108
 
-← **이전**: [[1029_responsible_disclosure|1029. Responsible Disclosure (책임 있는 공개)]]
-**다음**: [[1030_coordinated_disclosure|1030. Coordinated Disclosure (협력적 공개)]] →
+← **이전**: [1029. Responsible Disclosure (책임 있는 공개)](/knowledge-base/studynote/09_security/20_extra_exam_prep/1029_responsible_disclosure/)
+**다음**: [1030. Coordinated Disclosure (협력적 공개)](/knowledge-base/studynote/09_security/20_extra_exam_prep/1030_coordinated_disclosure/) →
 
 ---

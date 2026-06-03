@@ -1,21 +1,25 @@
----
-title: 338. 성능 APM·TPS 튜닝 (APM TPS Performance Tuning)
-date: '2026-05-10'
-tags:
-- studynote-design-supervision
----
++++
+title = "338. 성능 APM·TPS 튜닝 (APM TPS Performance Tuning)"
+date = 2026-05-10
+
+[taxonomies]
+tags = ["studynote-design-supervision"]
+
+[extra]
+tags = ["studynote-design-supervision"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 애플리케이션 [[609_performance_monitoring|성능 모니터링]]([[162_apm_application_performance_management|APM]], Application [[609_performance_monitoring|Performance Monitoring]])과 초당 처리건수(TPS, Transactions Per Second) 튜닝는 응답시간, TPS 병목, 튜닝 근거를 한 체계로 묶어 판단하는 설계·감리 주제다.
+> 1. **본질**: 애플리케이션 [성능 모니터링](/knowledge-base/studynote/02_operating_system/10_security/609_performance_monitoring/)([APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/), Application [Performance Monitoring](/knowledge-base/studynote/02_operating_system/10_security/609_performance_monitoring/))과 초당 처리건수(TPS, Transactions Per Second) 튜닝는 응답시간, TPS 병목, 튜닝 근거를 한 체계로 묶어 판단하는 설계·감리 주제다.
 > 2. **가치**: 기준 문서와 현장 증거를 연결해 보고서가 실제 개선과 의사결정으로 이어지게 한다.
 > 3. **판단 포인트**: 범위 정의, 실행 증거, 후속 조치가 끝까지 닫혔는지를 확인하는 것이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
-애플리케이션 [[609_performance_monitoring|성능 모니터링]]([[162_apm_application_performance_management|APM]], Application [[609_performance_monitoring|Performance Monitoring]])과 초당 처리건수(TPS, Transactions Per Second) 튜닝는 현상을 수치로 설명하는 지표 주제다. 최근 환경에서는 응답시간, TPS 병목, 튜닝 근거가 따로 놀면 형식상 적합과 실제 품질 사이의 간극이 커지므로, 설계와 운영을 한 문장으로 설명할 수 있는 구조가 필요하다.
-특히 [[282_performance_tactics|성능]] [[162_apm_application_performance_management|APM]]·TPS 튜닝은 문서만 맞는지 보는 수준을 넘어서 [[568_logs_distributed_logging_elk_fluentd|로그]], 테스트, 산출물, 인터뷰 증거가 같은 방향을 가리키는지 확인해야 한다. 그래야 감리 결과가 일회성 지적이 아니라 재현 가능한 개선 기준이 된다.
+애플리케이션 [성능 모니터링](/knowledge-base/studynote/02_operating_system/10_security/609_performance_monitoring/)([APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/), Application [Performance Monitoring](/knowledge-base/studynote/02_operating_system/10_security/609_performance_monitoring/))과 초당 처리건수(TPS, Transactions Per Second) 튜닝는 현상을 수치로 설명하는 지표 주제다. 최근 환경에서는 응답시간, TPS 병목, 튜닝 근거가 따로 놀면 형식상 적합과 실제 품질 사이의 간극이 커지므로, 설계와 운영을 한 문장으로 설명할 수 있는 구조가 필요하다.
+특히 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/)·TPS 튜닝은 문서만 맞는지 보는 수준을 넘어서 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 테스트, 산출물, 인터뷰 증거가 같은 방향을 가리키는지 확인해야 한다. 그래야 감리 결과가 일회성 지적이 아니라 재현 가능한 개선 기준이 된다.
 
 ```text
 ┌──────────────┐
@@ -36,12 +40,12 @@ tags:
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-[[282_performance_tactics|성능]] [[162_apm_application_performance_management|APM]]·TPS 튜닝의 핵심 원리는 응답시간로 범위를 고정하고, TPS 병목로 구조를 설계하며, 튜닝 근거로 결과를 [[395_verification_process_review|검증]]하는 것이다. 이때 속도·비용·통제강도 중 무엇을 우선할지 정해야 트레이드오프가 선명해지고, 기술사 답안에서도 단순 나열이 아니라 판단이 드러난다.
+[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/)·TPS 튜닝의 핵심 원리는 응답시간로 범위를 고정하고, TPS 병목로 구조를 설계하며, 튜닝 근거로 결과를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 것이다. 이때 속도·비용·통제강도 중 무엇을 우선할지 정해야 트레이드오프가 선명해지고, 기술사 답안에서도 단순 나열이 아니라 판단이 드러난다.
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
 | 지표 정의 | 응답시간의 산식과 목표치를 먼저 고정한다. | 정의가 흔들리면 숫자도 의미가 없다. |
-| 수집 체계 | TPS 병목 데이터의 수집 경로와 정합성을 확보한다. | 자동 수집과 [[395_verification_process_review|검증]] 규칙이 중요하다. |
+| 수집 체계 | TPS 병목 데이터의 수집 경로와 정합성을 확보한다. | 자동 수집과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 규칙이 중요하다. |
 | 해석·조치 | 튜닝 근거 변화를 원인·개선계획과 연결한다. | 숫자는 행동으로 이어져야 한다. |
 
 ```text
@@ -50,31 +54,31 @@ tags:
 └────────────┴────────────┴────────────┘
 ```
 
-또한 [[282_performance_tactics|성능]] [[162_apm_application_performance_management|APM]]·TPS 튜닝은 한 단계만 잘해서는 완성되지 않는다. [[025_baseline|기준선]], 실행 메커니즘, 증적이 순환 구조를 이루어야 하며, 하나라도 비면 적합 판정의 신뢰도가 떨어진다.
+또한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/)·TPS 튜닝은 한 단계만 잘해서는 완성되지 않는다. [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/), 실행 메커니즘, 증적이 순환 구조를 이루어야 하며, 하나라도 비면 적합 판정의 신뢰도가 떨어진다.
 - **📢 섹션 요약 비유**: 계기판 숫자가 실제 엔진 상태와 연결되어야 운전이 가능한 것과 같다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
-[[282_performance_tactics|성능]] [[162_apm_application_performance_management|APM]]·TPS 튜닝는 절대값 관리와 추세 기반 관리를 함께 볼 때 경계가 분명해진다. 전자만 강조하면 실행 증거가 약해지고, 후자만 강조하면 사전 설계의 힘이 사라진다. 따라서 두 축의 균형을 설명하는 것이 실무와 시험 모두에서 중요하다.
+[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/)·TPS 튜닝는 절대값 관리와 추세 기반 관리를 함께 볼 때 경계가 분명해진다. 전자만 강조하면 실행 증거가 약해지고, 후자만 강조하면 사전 설계의 힘이 사라진다. 따라서 두 축의 균형을 설명하는 것이 실무와 시험 모두에서 중요하다.
 
 | 비교 축 | 절대값 관리 | 추세 기반 관리 |
 |:---|:---|:---|
-| 목표 | [[025_baseline|기준선]] 충족 여부 판정 | 변화 추세와 원인 해석 |
+| 목표 | [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 충족 여부 판정 | 변화 추세와 원인 해석 |
 | 주 증거 | 단일 시점 수치 | 기간별 분포와 변화율 |
-| 판단 포인트 | 최소 [[025_baseline|기준선]] 만족 | 변동성·선행지표 해석 |
+| 판단 포인트 | 최소 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 만족 | 변동성·선행지표 해석 |
 
-연결 개념으로는 목표치와 추세, 변경관리, 재검증이 있다. 즉 [[282_performance_tactics|성능]] [[162_apm_application_performance_management|APM]]·TPS 튜닝는 단일 기법이 아니라 거버넌스와 운영 체계 속에서 읽어야 답안의 깊이가 생긴다.
+연결 개념으로는 목표치와 추세, 변경관리, 재검증이 있다. 즉 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/)·TPS 튜닝는 단일 기법이 아니라 거버넌스와 운영 체계 속에서 읽어야 답안의 깊이가 생긴다.
 - **📢 섹션 요약 비유**: 한 번의 시험 점수보다 여러 번의 변화 추이를 보는 것과 같다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
-실무에서는 [[282_performance_tactics|성능]] [[162_apm_application_performance_management|APM]]·TPS 튜닝를 도입했는가보다 어떤 조건에서 효과가 나는가를 먼저 봐야 한다. 기술사 답안도 '무조건 적용'이 아니라 범위, 증거, 예외, 비용을 함께 써야 설득력이 생긴다.
+실무에서는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/)·TPS 튜닝를 도입했는가보다 어떤 조건에서 효과가 나는가를 먼저 봐야 한다. 기술사 답안도 '무조건 적용'이 아니라 범위, 증거, 예외, 비용을 함께 써야 설득력이 생긴다.
 
-### 판단 [[435_checklist_based_testing|체크리스트]]
+### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 지표 정의와 산식이 응답시간 기준으로 고정되었는가?
-2. TPS 병목 수집 경로가 자동화되고 [[395_verification_process_review|검증]] 가능한가?
+2. TPS 병목 수집 경로가 자동화되고 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한가?
 3. 튜닝 근거 변화가 원인과 조치 계획으로 설명되는가?
 4. 목표치 미달 시 우선순위와 보고 체계가 연결되는가?
 - **📢 섹션 요약 비유**: 성적표에 원인과 보완 계획까지 적어 두는 것과 같다.
@@ -82,8 +86,8 @@ tags:
 ---
 
 ## Ⅴ. 기대효과 및 결론
-[[282_performance_tactics|성능]] [[162_apm_application_performance_management|APM]]·TPS 튜닝를 제대로 적용하면 [[025_baseline|기준선]]이 통일되고, 증거 수집이 쉬워지며, 지적사항이 후속 조치까지 이어진다. 또한 [[173_stakeholder_identification_impact_matrix|이해관계자]] 사이의 해석 차이를 줄여 일정·품질·보안 중 무엇을 우선해야 하는지 더 명확히 설명할 수 있다.
-결론적으로 [[282_performance_tactics|성능]] [[162_apm_application_performance_management|APM]]·TPS 튜닝는 개념 암기보다 판단 기준을 세우는 데 가치가 있다. 범위 정의, 구조 설계, 증거 [[395_verification_process_review|검증]], 종결 관리의 네 축을 함께 쓰는 것이 실무형 답안의 핵심이다.
+[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/)·TPS 튜닝를 제대로 적용하면 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)이 통일되고, 증거 수집이 쉬워지며, 지적사항이 후속 조치까지 이어진다. 또한 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 사이의 해석 차이를 줄여 일정·품질·보안 중 무엇을 우선해야 하는지 더 명확히 설명할 수 있다.
+결론적으로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/)·TPS 튜닝는 개념 암기보다 판단 기준을 세우는 데 가치가 있다. 범위 정의, 구조 설계, 증거 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 종결 관리의 네 축을 함께 쓰는 것이 실무형 답안의 핵심이다.
 - **📢 섹션 요약 비유**: 숫자를 보는 목적은 점수 자랑이 아니라 다음 행동을 정하는 것과 같다.
 
 ---
@@ -92,7 +96,7 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 응답시간 | [[282_performance_tactics|성능]] [[162_apm_application_performance_management|APM]]·TPS 튜닝의 출발점이 되는 핵심 [[025_baseline|기준선]]이다. |
+| 응답시간 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/)·TPS 튜닝의 출발점이 되는 핵심 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)이다. |
 | TPS 병목 | 실제 설계·운영·관리 메커니즘으로 이어지는 연결 축이다. |
 | 튜닝 근거 | 판정과 재검증의 신뢰도를 높이는 증거 축이다. |
 | 목표치와 추세 | 개별 활동을 거버넌스와 지속 개선으로 확장하는 축이다. |
@@ -100,10 +104,10 @@ tags:
 ### 📈 관련 키워드 및 발전 흐름도
 
 - 관련 키워드: 응답시간, TPS 병목, 튜닝 근거, 목표치와 추세
-[서버 자원 모니터링] → [[[162_apm_application_performance_management|APM]] 기반 [[282_performance_tactics|성능]] 분석] → [사용자 경험 중심 최적화]
+[서버 자원 모니터링] → APM 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 분석] → [사용자 경험 중심 최적화]
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. [[282_performance_tactics|성능]] [[162_apm_application_performance_management|APM]]·TPS 튜닝은 체온계로 몸 상태를 재고 기록하는 것과 비슷해요.
+1. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/)·TPS 튜닝은 체온계로 몸 상태를 재고 기록하는 것과 비슷해요.
 2. 숫자만 보는 게 아니라 왜 올라갔는지 같이 살펴야 해요.
 3. 그래야 다음에 무엇을 고칠지 바로 결정할 수 있어요.
 
@@ -113,7 +117,7 @@ tags:
 
 **진행 상황**: 416 / 530
 
-← **이전**: [[337_dr_rto_rpo|337. DR·RTO·RPO 모의 훈련 (DR RTO RPO Drill)]]
-**다음**: [[339_process|339. 개인정보 암호화 단방향·양방향 조치 (Personal Data Encryption Control)]] →
+← **이전**: [337. DR·RTO·RPO 모의 훈련 (DR RTO RPO Drill)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/337_dr_rto_rpo/)
+**다음**: [339. 개인정보 암호화 단방향·양방향 조치 (Personal Data Encryption Control)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/339_process/) →
 
 ---

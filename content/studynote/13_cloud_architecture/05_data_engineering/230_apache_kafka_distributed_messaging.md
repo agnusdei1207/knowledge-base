@@ -1,20 +1,24 @@
----
-title: 230. 아파치 카프카 (Apache Kafka)
-date: '2026-04-21'
-tags:
-- studynote-cloud-architecture
----
++++
+title = "230. 아파치 카프카 (Apache Kafka)"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-cloud-architecture"]
+
+[extra]
+tags = ["studynote-cloud-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Apache Kafka는 [[136_variance|분산]] 이벤트 스트리밍 플랫폼으로, 수천만 TPS(Transactions Per Second)의 대규모 실시간 [[568_logs_distributed_logging_elk_fluentd|로그]]·이벤트를 **내구성 있게 보관하며 다수의 소비자가 독립적으로 읽어갈 수 있는** 고가용 메시지 브로커다.
-> 2. **가치**: 생산자(Producer)와 소비자(Consumer)를 **분리(Decoupling)**하여 시스템 간 결합도를 낮추고, [[514_partition_slice_volume|파티션]] 기반 [[430_index_fast_full_scan|병렬]] 처리로 수평 확장이 가능하며, 메시지를 디스크에 영속 저장해 재처리를 지원한다.
-> 3. **판단 포인트**: Kafka는 **전통적 메시지 큐(RabbitMQ)와 달리 소비 후에도 메시지를 보존**하므로, 여러 팀이 동일 스트림을 독립적으로 소비하는 이벤트 [[152_hub_dummy_switching_intelligent|허브]] 용도에 최적이다.
+> 1. **본질**: Apache Kafka는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 이벤트 스트리밍 플랫폼으로, 수천만 TPS(Transactions Per Second)의 대규모 실시간 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·이벤트를 **내구성 있게 보관하며 다수의 소비자가 독립적으로 읽어갈 수 있는** 고가용 메시지 브로커다.
+> 2. **가치**: 생산자(Producer)와 소비자(Consumer)를 **분리(Decoupling)**하여 시스템 간 결합도를 낮추고, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 기반 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리로 수평 확장이 가능하며, 메시지를 디스크에 영속 저장해 재처리를 지원한다.
+> 3. **판단 포인트**: Kafka는 **전통적 메시지 큐(RabbitMQ)와 달리 소비 후에도 메시지를 보존**하므로, 여러 팀이 동일 스트림을 독립적으로 소비하는 이벤트 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 용도에 최적이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-2010년 LinkedIn에서 대규모 활동 [[568_logs_distributed_logging_elk_fluentd|로그]]([[286_page_frame|페이지]]뷰, 클릭, 좋아요)를 실시간으로 처리하기 위해 개발했다. LinkedIn의 [[001_dikw_pyramid|데이터]] 시스템들이 서로 직접 연결되어 있었는데, [[090_service_kubernetes_network_load_balancing|서비스]]가 늘어날수록 N×M 연결 지옥이 됐다. Kafka는 이를 **스타 토폴로지**로 해결했다.
+2010년 LinkedIn에서 대규모 활동 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)뷰, 클릭, 좋아요)를 실시간으로 처리하기 위해 개발했다. LinkedIn의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 시스템들이 서로 직접 연결되어 있었는데, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 늘어날수록 N×M 연결 지옥이 됐다. Kafka는 이를 **스타 토폴로지**로 해결했다.
 
 ```
 [Kafka 이전: 직접 연결 지옥]          [Kafka 이후: 허브 토폴로지]
@@ -30,15 +34,15 @@ tags:
 - 초당 수십만 건 이벤트를 다수의 소비자가 읽어야 할 때
 - 생산자-소비자 처리 속도 차이를 버퍼링할 때
 - 소비자 장애 시 재처리를 보장해야 할 때
-- [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]]([[307_event_sourcing|Event Sourcing]]) 아키텍처 구현
+- [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)([Event Sourcing](/knowledge-base/studynote/12_it_management/05_security_compliance/307_event_sourcing/)) 아키텍처 구현
 
-📢 **섹션 요약 비유**: Kafka는 TV 방송국이다. 방송국([[179_kafka_flink_watermark_time_window|Kafka]])은 프로그램(이벤트)을 한 번 방송하면, 수백만 시청자(Consumer)가 각자 원하는 시간에 다시 보기(재소비)할 수 있다. 방송 프로그램은 지워지지 않고 보존된다.
+📢 **섹션 요약 비유**: Kafka는 TV 방송국이다. 방송국([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))은 프로그램(이벤트)을 한 번 방송하면, 수백만 시청자(Consumer)가 각자 원하는 시간에 다시 보기(재소비)할 수 있다. 방송 프로그램은 지워지지 않고 보존된다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [[179_kafka_flink_watermark_time_window|Kafka]] 클러스터 아키텍처
+### [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 클러스터 아키텍처
 
 ```
 ┌────────────────────────────────────────────────────────────────┐
@@ -65,16 +69,16 @@ tags:
 
 | 구성 요소 | 역할 | 핵심 특성 |
 |:---|:---|:---|
-| **Topic** | 메시지 [[104_classification_analysis|분류]] 채널 | 이름으로 구분, 논리적 스트림 |
-| **[[514_partition_slice_volume|Partition]]** | Topic 물리 분할 단위 | 순서 보장 ([[514_partition_slice_volume|파티션]] 내), [[430_index_fast_full_scan|병렬]] 처리 |
-| **Broker** | [[179_kafka_flink_watermark_time_window|Kafka]] 서버 | [[514_partition_slice_volume|파티션]] 저장·서빙, 다수 브로커 클러스터 |
-| **Producer** | 메시지 발행자 | [[514_partition_slice_volume|파티션]] 키로 [[514_partition_slice_volume|파티션]] 선택 |
+| **Topic** | 메시지 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 채널 | 이름으로 구분, 논리적 스트림 |
+| **[Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)** | Topic 물리 분할 단위 | 순서 보장 ([파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 내), [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 |
+| **Broker** | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 서버 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 저장·서빙, 다수 브로커 클러스터 |
+| **Producer** | 메시지 발행자 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키로 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 선택 |
 | **Consumer** | 메시지 소비자 | 오프셋 기반 순차 읽기 |
-| **[[191_consumer_group_kafka_partition_load_balancing|Consumer Group]]** | 소비자 그룹 | [[514_partition_slice_volume|파티션]] [[136_variance|분산]] 소비, [[202_scale_out_distributed_horizontal_expansion|Scale-out]] |
-| **Offset** | [[514_partition_slice_volume|파티션]] 내 메시지 위치 | 소비자가 어디까지 읽었는지 추적 |
-| **[[016_replication_factor|Replication Factor]]** | [[514_partition_slice_volume|파티션]] [[016_replication_factor|복제]] 수 | 브로커 장애 시 [[452_availability|가용성]] 보장 |
+| **[Consumer Group](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/)** | 소비자 그룹 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 소비, [Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) |
+| **Offset** | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 내 메시지 위치 | 소비자가 어디까지 읽었는지 추적 |
+| **[Replication Factor](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)** | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 수 | 브로커 장애 시 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 보장 |
 
-### [[179_kafka_flink_watermark_time_window|Kafka]] 메시지 저장 구조
+### [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 메시지 저장 구조
 
 ```
 Topic: "user-events"  Replication Factor: 3
@@ -92,42 +96,42 @@ Topic: "user-events"  Replication Factor: 3
 메시지 보존: log.retention.hours 설정 (기본 168시간=7일)
 ```
 
-📢 **섹션 요약 비유**: [[514_partition_slice_volume|파티션]]과 오프셋은 책의 챕터와 [[286_page_frame|페이지]] 번호다. 여러 챕터([[514_partition_slice_volume|파티션]])가 있고, 각 챕터를 여러 독자(Consumer)가 각자 어디까지 읽었는지(오프셋) 북마크를 가진다. 책은 읽어도 지워지지 않는다.
+📢 **섹션 요약 비유**: [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)과 오프셋은 책의 챕터와 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 번호다. 여러 챕터([파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))가 있고, 각 챕터를 여러 독자(Consumer)가 각자 어디까지 읽었는지(오프셋) 북마크를 가진다. 책은 읽어도 지워지지 않는다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### [[179_kafka_flink_watermark_time_window|Kafka]] vs 전통 메시지 큐 비교
+### [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) vs 전통 메시지 큐 비교
 
-| 비교 항목 | [[214_kafka_pubsub_topic_partition_offset_broker|Apache Kafka]] | RabbitMQ | Amazon SQS |
+| 비교 항목 | [Apache Kafka](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/) | RabbitMQ | Amazon SQS |
 |:---|:---|:---|:---|
-| **처리 모델** | Pub/Sub + Log | Pub/Sub + [[058_queue|Queue]] | [[058_queue|Queue]] |
+| **처리 모델** | Pub/Sub + Log | Pub/Sub + [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) | [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) |
 | **메시지 보존** | 설정된 기간 보존 | 소비 후 삭제 | 소비 후 삭제 |
-| **재처리** | 오프셋 리셋으로 재소비 | 불가 (삭제됨) | 가시성 [[573_timeout_retry_backoff_strategy|타임아웃]] |
-| **[[139_throughput|처리량]]** | 매우 높음 (수백만 TPS) | 보통 | 보통 |
-| **순서 보장** | [[514_partition_slice_volume|파티션]] 내 보장 | Queue별 보장 | 제한적 |
+| **재처리** | 오프셋 리셋으로 재소비 | 불가 (삭제됨) | 가시성 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) |
+| **[처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)** | 매우 높음 (수백만 TPS) | 보통 | 보통 |
+| **순서 보장** | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 내 보장 | Queue별 보장 | 제한적 |
 | **소비자 모델** | Pull 방식 | Push 방식 | Pull 방식 |
-| **클러스터링** | 네이티브 [[136_variance|분산]] | 클러스터 가능 | AWS 관리형 |
-| **적합 사례** | 이벤트 스트리밍, [[568_logs_distributed_logging_elk_fluentd|로그]] | 작업 큐, [[126_rpc|RPC]] | AWS [[090_service_kubernetes_network_load_balancing|서비스]] 간 큐 |
+| **클러스터링** | 네이티브 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) | 클러스터 가능 | AWS 관리형 |
+| **적합 사례** | 이벤트 스트리밍, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) | 작업 큐, [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/) | AWS [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 큐 |
 
-### [[179_kafka_flink_watermark_time_window|Kafka]] 활용 패턴
+### [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 활용 패턴
 
 | 패턴 | 설명 | 예시 |
 |:---|:---|:---|
-| **이벤트 [[152_hub_dummy_switching_intelligent|허브]]** | 다수 시스템 이벤트 중앙 집중 | [[532_microservices_decomposition_patterns|마이크로서비스]] [[539_event_bus_stream_processing|이벤트 버스]] |
-| **[[568_logs_distributed_logging_elk_fluentd|로그]] 집계** | [[136_variance|분산]] 서버 [[568_logs_distributed_logging_elk_fluentd|로그]] 중앙 수집 | ELK [[057_stack|스택]] [[568_logs_distributed_logging_elk_fluentd|로그]] 파이프라인 |
-| **[[217_cdc_binlog_change_capture_debezium|CDC]] 파이프라인** | DB 변경 이벤트 전달 | Debezium → [[179_kafka_flink_watermark_time_window|Kafka]] → [[209_data_warehouse_schema_on_write|DW]] |
-| **[[229_stream_processing_kafka_flink|스트림 처리]]** | Flink/Spark가 실시간 처리 | 실시간 [[236_anomaly_based_detection_zero_day_false_positive|이상 탐지]] |
-| **[[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]]** | 상태 변경을 이벤트로 보관 | 주문 상태 변경 이력 |
+| **이벤트 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)** | 다수 시스템 이벤트 중앙 집중 | [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/) |
+| **[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 집계** | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 서버 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 중앙 수집 | ELK [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 파이프라인 |
+| **[CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) 파이프라인** | DB 변경 이벤트 전달 | Debezium → [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) → [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) |
+| **[스트림 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/)** | Flink/Spark가 실시간 처리 | 실시간 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) |
+| **[이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)** | 상태 변경을 이벤트로 보관 | 주문 상태 변경 이력 |
 
-📢 **섹션 요약 비유**: Kafka와 RabbitMQ의 차이는 TV 방송과 편지 배달의 차이다. TV([[179_kafka_flink_watermark_time_window|Kafka]])는 방송을 저장했다가 누구든 원하는 시간에 다시 볼 수 있지만, 편지(RabbitMQ)는 받은 사람이 읽으면 배달부가 수거해 간다.
+📢 **섹션 요약 비유**: Kafka와 RabbitMQ의 차이는 TV 방송과 편지 배달의 차이다. TV([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))는 방송을 저장했다가 누구든 원하는 시간에 다시 볼 수 있지만, 편지(RabbitMQ)는 받은 사람이 읽으면 배달부가 수거해 간다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[179_kafka_flink_watermark_time_window|Kafka]] 클러스터 설계 원칙
+### [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 클러스터 설계 원칙
 
 ```
 [Kafka 설계 체크리스트]
@@ -144,12 +148,12 @@ Topic: "user-events"  Replication Factor: 3
 
 | 장애 | 원인 | 대응 |
 |:---|:---|:---|
-| 컨슈머 [[015_지연_데이터_관점|지연]] 증가 | 처리 속도 < 생산 속도 | [[514_partition_slice_volume|파티션]] 수 증가, 컨슈머 수 증가 |
-| [[514_partition_slice_volume|파티션]] 쏠림 | [[514_partition_slice_volume|파티션]] 키 편중 | [[514_partition_slice_volume|파티션]] 키 재설계 |
+| 컨슈머 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 증가 | 처리 속도 < 생산 속도 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 증가, 컨슈머 수 증가 |
+| [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 쏠림 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키 편중 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키 재설계 |
 | 리더 선출 폭풍 | 브로커 동시 재시작 | 롤링 재시작, Unclean Leader 방지 |
 | 오프셋 커밋 누락 | 컨슈머 비정상 종료 | enable.auto.commit=false + 수동 커밋 |
 
-📢 **섹션 요약 비유**: [[179_kafka_flink_watermark_time_window|Kafka]] [[514_partition_slice_volume|파티션]]과 [[191_consumer_group_kafka_partition_load_balancing|컨슈머 그룹]]의 관계는 [[059_counter|카운터]]와 계산원 관계다. 마트 [[059_counter|카운터]]([[514_partition_slice_volume|파티션]]) 3개에 계산원(컨슈머)이 3명이면 최적이지만, 계산원이 2명이면 한 명이 [[059_counter|카운터]] 2개를 담당해야 해서 처리가 느려진다.
+📢 **섹션 요약 비유**: [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)과 [컨슈머 그룹](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/)의 관계는 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)와 계산원 관계다. 마트 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)([파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)) 3개에 계산원(컨슈머)이 3명이면 최적이지만, 계산원이 2명이면 한 명이 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 2개를 담당해야 해서 처리가 느려진다.
 
 ---
 
@@ -161,7 +165,7 @@ Topic: "user-events"  Replication Factor: 3
 |:---|:---|
 | **고처리량** | 수백만 TPS 처리, LinkedIn 기준 1조 건/일 |
 | **내구성** | 디스크 영속 저장, 브로커 장애 시 레플리카 자동 승격 |
-| **재처리 지원** | 오프셋 리셋으로 과거 [[001_dikw_pyramid|데이터]] 재처리 가능 |
+| **재처리 지원** | 오프셋 리셋으로 과거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재처리 가능 |
 | **시스템 분리** | Producer-Consumer 독립 배포·확장 |
 | **멀티 컨슈머** | 동일 토픽을 여러 팀이 독립 소비 |
 
@@ -169,25 +173,25 @@ Topic: "user-events"  Replication Factor: 3
 
 | 한계 | 내용 |
 |:---|:---|
-| **운영 복잡성** | [[798_distributed_lock_zookeeper_consensus|ZooKeeper]](또는 KRaft), 브로커 관리 필요 |
-| **[[514_partition_slice_volume|파티션]] 수 고정** | [[514_partition_slice_volume|파티션]] 수 줄이기 불가 (증가는 가능) |
-| **메시지 순서** | [[514_partition_slice_volume|파티션]] 내 순서만 보장, 전체 토픽 순서 미보장 |
-| **소비자 그룹 리밸런싱** | 컨슈머 추가/제거 시 [[514_partition_slice_volume|파티션]] 재할당 중 처리 중단 |
-| **학습 곡선** | [[514_partition_slice_volume|파티션]]·오프셋·그룹 개념 이해 필요 |
+| **운영 복잡성** | [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/)(또는 KRaft), 브로커 관리 필요 |
+| **[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 고정** | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 줄이기 불가 (증가는 가능) |
+| **메시지 순서** | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 내 순서만 보장, 전체 토픽 순서 미보장 |
+| **소비자 그룹 리밸런싱** | 컨슈머 추가/제거 시 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 재할당 중 처리 중단 |
+| **학습 곡선** | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)·오프셋·그룹 개념 이해 필요 |
 
-📢 **섹션 요약 비유**: Kafka는 거대한 [[568_logs_distributed_logging_elk_fluentd|로그]] 기록 시스템이다. 모든 이벤트를 빠짐없이 순서대로 기록하고(순서 보장), 원하는 시점으로 되감아 다시 읽을 수 있다(재처리). 단, 이 시스템을 운영하려면 전문 관리자(운영 복잡성)가 필요하다.
+📢 **섹션 요약 비유**: Kafka는 거대한 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기록 시스템이다. 모든 이벤트를 빠짐없이 순서대로 기록하고(순서 보장), 원하는 시점으로 되감아 다시 읽을 수 있다(재처리). 단, 이 시스템을 운영하려면 전문 관리자(운영 복잡성)가 필요하다.
 
 ---
 
 ### 📌 관련 개념 맵
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[179_kafka_flink_watermark_time_window|카프카]] 토픽/[[514_partition_slice_volume|파티션]]/[[191_consumer_group_kafka_partition_load_balancing|컨슈머 그룹]] | [[179_kafka_flink_watermark_time_window|Kafka]] 내부 구조의 핵심 세 요소 |
-| [[215_flink_native_stream_watermark_window_time|Apache Flink]] | Kafka를 소스로 사용하는 [[229_stream_processing_kafka_flink|스트림 처리]] 엔진 |
-| [[217_cdc_binlog_change_capture_debezium|CDC]] / Debezium | DB 변경 이벤트를 Kafka로 전송하는 패턴 |
-| [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]] | [[179_kafka_flink_watermark_time_window|Kafka]] 토픽을 이벤트 저장소로 사용하는 아키텍처 |
+| [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 토픽/[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)/[컨슈머 그룹](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/) | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 내부 구조의 핵심 세 요소 |
+| [Apache Flink](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/215_flink_native_stream_watermark_window_time/) | Kafka를 소스로 사용하는 [스트림 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/) 엔진 |
+| [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) / Debezium | DB 변경 이벤트를 Kafka로 전송하는 패턴 |
+| [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 토픽을 이벤트 저장소로 사용하는 아키텍처 |
 | Pub/Sub 패턴 | Kafka의 핵심 메시징 패턴 |
-| [[005_schema|스키마]] [[235_registry_immutable_tag|레지스트리]] | [[179_kafka_flink_watermark_time_window|Kafka]] 메시지 [[005_schema|스키마]] [[288_version_ihl_tos_total_length|버전]] 관리 ([[094_reinforcement_learning|Confluent]]) |
+| [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 메시지 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 ([Confluent](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/)) |
 | RabbitMQ / SQS | 전통 메시지 큐와의 비교 대상 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -207,7 +211,7 @@ Kafka: 분산 로그 기반 Pub/Sub
     ▼
 Event-Driven Architecture (EDA) + CDC
 ```
-2. [[514_partition_slice_volume|파티션]]은 유튜브 재생목록과 같다. 한 채널의 영상이 여러 재생목록에 나뉘어 있으면, 여러 친구가 각자 다른 재생목록을 동시에 볼 수 있어 더 빠르다([[430_index_fast_full_scan|병렬]] 처리).
+2. [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 유튜브 재생목록과 같다. 한 채널의 영상이 여러 재생목록에 나뉘어 있으면, 여러 친구가 각자 다른 재생목록을 동시에 볼 수 있어 더 빠르다([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리).
 3. 오프셋은 책갈피다. 어디까지 읽었는지(소비했는지) 북마크를 저장해두면, 다음에 이어서 읽을 수 있고, 처음부터 다시 읽고 싶으면 북마크를 앞으로 옮기면 된다(재처리).
 
 ---
@@ -216,7 +220,7 @@ Event-Driven Architecture (EDA) + CDC
 
 **진행 상황**: 229 / 371
 
-← **이전**: [[229_stream_processing_kafka_flink|229. 스트림 처리 (Stream Processing)]]
-**다음**: [[231_kafka_topic_partition_consumer_group|231. 카프카 토픽 / 파티션 / 컨슈머 그룹]] →
+← **이전**: [229. 스트림 처리 (Stream Processing)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/)
+**다음**: [231. 카프카 토픽 / 파티션 / 컨슈머 그룹](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/231_kafka_topic_partition_consumer_group/) →
 
 ---

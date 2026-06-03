@@ -1,14 +1,18 @@
----
-title: 30. XOR·XNOR 게이트 — 동치와 배타적 논리
-date: '2026-04-29'
-tags:
-- studynote-computer-architecture
----
++++
+title = "30. XOR·XNOR 게이트 — 동치와 배타적 논리"
+date = 2026-04-29
+
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: XOR(Exclusive OR)은 두 입력이 서로 다를 때만 1을 출력하는 게이트이며, XNOR은 XOR의 반전으로 두 입력이 같을 때 1을 출력한다. XOR은 "다름을 감지"하고, XNOR은 "같음을 감지"하는 연산이다.
-> 2. **가치**: XOR의 핵심 특성은 반전 가능성(A XOR 1 = Ā, A XOR 0 = A)과 자기 역연산(A XOR B XOR B = A)이다. 이 특성이 암호화·오류 검출·이진 덧셈 [[033_half_adder|반가산기]]의 기반이 된다.
-> 3. **판단 포인트**: [[033_half_adder|반가산기]]에서 합(Sum)은 XOR로, 올림(Carry)은 AND로 구현된다. 컴퓨터 산술 연산의 최소 단위가 XOR+AND 조합이다.
+> 2. **가치**: XOR의 핵심 특성은 반전 가능성(A XOR 1 = Ā, A XOR 0 = A)과 자기 역연산(A XOR B XOR B = A)이다. 이 특성이 암호화·오류 검출·이진 덧셈 [반가산기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/033_half_adder/)의 기반이 된다.
+> 3. **판단 포인트**: [반가산기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/033_half_adder/)에서 합(Sum)은 XOR로, 올림(Carry)은 AND로 구현된다. 컴퓨터 산술 연산의 최소 단위가 XOR+AND 조합이다.
 
 ---
 
@@ -32,7 +36,7 @@ XOR: 다를 때 1        XNOR: 같을 때 1
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [[033_half_adder|반가산기]] ([[033_half_adder|Half Adder]]) — XOR의 핵심 응용
+### [반가산기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/033_half_adder/) ([Half Adder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/033_half_adder/)) — XOR의 핵심 응용
 
 ```text
   A ─┬─ XOR ─── Sum (합)
@@ -67,7 +71,7 @@ A=1, B=0: Sum=1, Carry=0 (1+0=01₂)
 |:---|:---|:---|:---|
 | 1 출력 조건 | 다를 때 | 하나라도 1 | 같을 때 |
 | 암호화 | ✅ 역연산 가능 | ❌ | ❌ |
-| [[033_half_adder|반가산기]] 합 | ✅ | ❌ | ❌ |
+| [반가산기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/033_half_adder/) 합 | ✅ | ❌ | ❌ |
 | 동치 비교 | ❌ | ❌ | ✅ |
 
 - **📢 섹션 요약 비유**: XOR·OR·XNOR은 세 가지 "다름/같음" 판별 기준이다. OR은 "하나라도 있으면 OK", XOR은 "정확히 하나만 있어야 OK", XNOR은 "둘 다 같아야 OK"다.
@@ -97,13 +101,13 @@ A=1, B=0: Sum=1, Carry=0 (1+0=01₂)
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **CPU 산술** | [[033_half_adder|반가산기]]로 모든 이진 덧셈 구현 |
+| **CPU 산술** | [반가산기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/033_half_adder/)로 모든 이진 덧셈 구현 |
 | **암호화** | 역연산 특성으로 대칭 암호의 핵심 |
-| **오류 검출** | [[113_crc|CRC]]·패리티로 [[001_dikw_pyramid|데이터]] [[003_integrity|무결성]] 확보 |
+| **오류 검출** | [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)·패리티로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 확보 |
 
-양자 컴퓨팅에서 CNOT 게이트는 XOR의 양자 버전이다. 제어 큐비트가 1일 때 타깃 큐비트를 반전시키는 CNOT은 [[220_quantum_entanglement|양자 얽힘]] 생성과 양자 오류 수정의 기반이 된다.
+양자 컴퓨팅에서 CNOT 게이트는 XOR의 양자 버전이다. 제어 큐비트가 1일 때 타깃 큐비트를 반전시키는 CNOT은 [양자 얽힘](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/220_quantum_entanglement/) 생성과 양자 오류 수정의 기반이 된다.
 
-- **📢 섹션 요약 비유**: 양자 XOR(CNOT)은 양자 세계의 XOR이다. 고전 컴퓨터의 XOR이 비트를 조건부로 뒤집듯이, CNOT은 큐비트를 조건부로 뒤집어 [[220_quantum_entanglement|양자 얽힘]]을 만든다.
+- **📢 섹션 요약 비유**: 양자 XOR(CNOT)은 양자 세계의 XOR이다. 고전 컴퓨터의 XOR이 비트를 조건부로 뒤집듯이, CNOT은 큐비트를 조건부로 뒤집어 [양자 얽힘](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/220_quantum_entanglement/)을 만든다.
 
 ---
 
@@ -111,10 +115,10 @@ A=1, B=0: Sum=1, Carry=0 (1+0=01₂)
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[[033_half_adder|반가산기]]** | Sum=XOR, Carry=AND |
-| **[[034_full_adder|전가산기]]** | [[033_half_adder|반가산기]] 2개 + OR |
-| **[[113_crc|CRC]]** | XOR 기반 오류 검출 |
-| **[[656_aes_advanced_encryption_standard_rijndael|AES]]** | SubBytes에서 XOR 활용 |
+| **[반가산기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/033_half_adder/)** | Sum=XOR, Carry=AND |
+| **[전가산기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/)** | [반가산기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/033_half_adder/) 2개 + OR |
+| **[CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)** | XOR 기반 오류 검출 |
+| **[AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)** | SubBytes에서 XOR 활용 |
 | **CNOT** | 양자 컴퓨팅의 XOR |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -150,7 +154,7 @@ A=1, B=0: Sum=1, Carry=0 (1+0=01₂)
 
 **진행 상황**: 30 / 803
 
-← **이전**: [[029_nand_nor|29. NAND/NOR 게이트 (NAND/NOR Gates)]]
-**다음**: [[031_universal_gate|31. 범용 게이트 — NAND와 NOR으로 모든 논리를]] →
+← **이전**: [29. NAND/NOR 게이트 (NAND/NOR Gates)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/029_nand_nor/)
+**다음**: [31. 범용 게이트 — NAND와 NOR으로 모든 논리를](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/031_universal_gate/) →
 
 ---

@@ -1,37 +1,41 @@
----
-title: 08. Flink Savepoint / Checkpoint — 상태 저장 및 재시작 지점
-date: '2026-04-21'
-tags:
-- studynote-bigdata
----
++++
+title = "08. Flink Savepoint / Checkpoint — 상태 저장 및 재시작 지점"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-bigdata"]
+
+[extra]
+tags = ["studynote-bigdata"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-- **본질**: Flink의 Checkpoint (체크포인트)는 자동으로 주기적으로 스트리밍 상태 [[022_snapshot_backup_architecture|스냅샷]]을 저장하여 장애 [[658_ir_recovery|복구]]를 지원하고, [[200_savepoint_partial_rollback|Savepoint]] (세이브포인트)는 사용자가 수동으로 [[507_acid_properties|트리거]]하여 애플리케이션 업그레이드·마이그레이션·디버깅에 사용하는 명시적 상태 보존 메커니즘이다.
-- **가치**: 두 메커니즘 모두 Chandy-Lamport [[136_variance|분산]] [[022_snapshot_backup_architecture|스냅샷]] [[001_algorithm_definition|알고리즘]]을 기반으로 하여, 스트리밍 처리를 중단하지 않고도 글로벌 [[194_consistency_database_integrity|일관성]] 있는 상태를 캡처하므로 Exactly-Once 보장과 무중단 운영이 동시에 가능하다.
-- **판단 포인트**: 체크포인트는 Flink가 내부적으로 관리하며 장애 [[658_ir_recovery|복구]] 후 삭제될 수 있지만, 세이브포인트는 영구 저장이 목적이므로 [[288_version_ihl_tos_total_length|버전]] 업그레이드나 클러스터 마이그레이션 전에는 반드시 세이브포인트를 [[087_process_state_transition|생성]]해야 한다.
+- **본질**: Flink의 Checkpoint (체크포인트)는 자동으로 주기적으로 스트리밍 상태 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)을 저장하여 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 지원하고, [Savepoint](/knowledge-base/studynote/05_database/04_transactions_concurrency/200_savepoint_partial_rollback/) (세이브포인트)는 사용자가 수동으로 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)하여 애플리케이션 업그레이드·마이그레이션·디버깅에 사용하는 명시적 상태 보존 메커니즘이다.
+- **가치**: 두 메커니즘 모두 Chandy-Lamport [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 기반으로 하여, 스트리밍 처리를 중단하지 않고도 글로벌 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 있는 상태를 캡처하므로 Exactly-Once 보장과 무중단 운영이 동시에 가능하다.
+- **판단 포인트**: 체크포인트는 Flink가 내부적으로 관리하며 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 후 삭제될 수 있지만, 세이브포인트는 영구 저장이 목적이므로 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 업그레이드나 클러스터 마이그레이션 전에는 반드시 세이브포인트를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### 1. 스트리밍 처리에서 상태([[272_state_pattern|State]])의 중요성
+### 1. 스트리밍 처리에서 상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))의 중요성
 
 스트리밍 애플리케이션은 이전 이벤트의 정보를 기억해야 의미있는 결과를 낼 수 있다.
 
 - **집계**: 지난 5분간 사용자별 구매 금액 합계 → 이전 이벤트 기억 필요
 - **조인**: 클릭과 구매 이벤트를 사용자 ID로 연결 → 두 스트림 상태 유지
-- **[[098_cep|CEP]]**: 이상 패턴([[568_logs_distributed_logging_elk_fluentd|로그]]인 실패 3회 → 계정 잠금) → 이벤트 시퀀스 기억
+- **[CEP](/knowledge-base/studynote/16_bigdata/04_streaming/098_cep/)**: 이상 패턴([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인 실패 3회 → 계정 잠금) → 이벤트 시퀀스 기억
 
-이 상태([[272_state_pattern|State]])가 대용량 장기 실행 스트리밍에서 중요해지면, 장애 시 상태 [[658_ir_recovery|복구]]와 운영 중 상태 보존이 핵심 과제가 된다.
+이 상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))가 대용량 장기 실행 스트리밍에서 중요해지면, 장애 시 상태 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)와 운영 중 상태 보존이 핵심 과제가 된다.
 
 ### 2. 체크포인트 vs 세이브포인트 개요
 
-| 항목 | Checkpoint | [[200_savepoint_partial_rollback|Savepoint]] |
+| 항목 | Checkpoint | [Savepoint](/knowledge-base/studynote/05_database/04_transactions_concurrency/200_savepoint_partial_rollback/) |
 |:---|:---|:---|
-| [[507_acid_properties|트리거]] | Flink 자동 (주기적) | 사용자 수동 |
-| 목적 | 장애 [[658_ir_recovery|복구]] | 업그레이드/마이그레이션/디버깅 |
-| 보존 [[164_policy|정책]] | 장애 [[658_ir_recovery|복구]] 후 삭제 가능 | 영구 저장 (사용자 관리) |
+| [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) | Flink 자동 (주기적) | 사용자 수동 |
+| 목적 | 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | 업그레이드/마이그레이션/디버깅 |
+| 보존 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 후 삭제 가능 | 영구 저장 (사용자 관리) |
 | 포맷 | 내부 최적화 포맷 | 이식 가능한 외부 포맷 |
 
 **📢 섹션 요약 비유**
@@ -41,7 +45,7 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 1. Chandy-Lamport [[136_variance|분산]] [[022_snapshot_backup_architecture|스냅샷]] [[001_algorithm_definition|알고리즘]]
+### 1. Chandy-Lamport [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 
 ```
 [Checkpoint 동작 과정]
@@ -68,9 +72,9 @@ Source Operator ──── [Barrier N] ────→
                                        JobManager에 완료 보고
 ```
 
-**Barrier (배리어)**: 체크포인트 ID를 담은 특수 마커 [[389_mesh_topology|메시]]지. [[001_dikw_pyramid|데이터]] 스트림에 삽입되어 각 연산자가 배리어 도착 시점의 상태를 [[022_snapshot_backup_architecture|스냅샷]]으로 저장하게 한다.
+**Barrier (배리어)**: 체크포인트 ID를 담은 특수 마커 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스트림에 삽입되어 각 연산자가 배리어 도착 시점의 상태를 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)으로 저장하게 한다.
 
-### 2. Checkpoint [[009_config|설정]]
+### 2. Checkpoint [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
 
 ```java
 StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
@@ -90,7 +94,7 @@ config.enableExternalizedCheckpoints(
 );
 ```
 
-### 3. [[200_savepoint_partial_rollback|Savepoint]] 운영
+### 3. [Savepoint](/knowledge-base/studynote/05_database/04_transactions_concurrency/200_savepoint_partial_rollback/) 운영
 
 ```bash
 # 실행 중인 잡에 세이브포인트 트리거
@@ -112,12 +116,12 @@ curl http://flink-jobmanager:8081/jobs/overview
 
 | 구성 요소 | 저장 내용 |
 |:---|:---|
-| 연산자 상태 [[022_snapshot_backup_architecture|스냅샷]] | KeyedState, OperatorState의 [[149_serial_communication_rs232_rs485|직렬]]화된 [[001_dikw_pyramid|데이터]] |
-| [[012_metadata|메타데이터]] | 체크포인트 ID, 연산자 ID, 저장 경로 |
-| 오프셋 정보 | [[179_kafka_flink_watermark_time_window|Kafka]] 소스의 읽기 오프셋 (Exactly-Once 재시작용) |
+| 연산자 상태 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) | KeyedState, OperatorState의 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
+| [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) | 체크포인트 ID, 연산자 ID, 저장 경로 |
+| 오프셋 정보 | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 소스의 읽기 오프셋 (Exactly-Once 재시작용) |
 
 **📢 섹션 요약 비유**
-> Chandy-Lamport [[001_algorithm_definition|알고리즘]]의 배리어는 "강을 따라 흘러가는 부표(Barrier)"와 같다. 각 어부(연산자)는 부표가 자기 앞을 지나는 순간 지금까지 잡은 물고기(상태)를 기록하고, 부표를 다음 강(하류 연산자)으로 보낸다.
+> Chandy-Lamport [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 배리어는 "강을 따라 흘러가는 부표(Barrier)"와 같다. 각 어부(연산자)는 부표가 자기 앞을 지나는 순간 지금까지 잡은 물고기(상태)를 기록하고, 부표를 다음 강(하류 연산자)으로 보낸다.
 
 ---
 
@@ -127,8 +131,8 @@ curl http://flink-jobmanager:8081/jobs/overview
 
 | 모드 | 동작 | 장점 | 단점 |
 |:---|:---|:---|:---|
-| EXACTLY_ONCE | 배리어 정렬 후 [[022_snapshot_backup_architecture|스냅샷]] | [[083_cross_validation|정확히 한 번]] 보장 | 배리어 정렬 [[015_지연_데이터_관점|지연]] |
-| AT_LEAST_ONCE | 배리어 미정렬 | 낮은 [[015_지연_데이터_관점|지연]] | 중복 처리 가능 |
+| EXACTLY_ONCE | 배리어 정렬 후 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) | [정확히 한 번](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_cross_validation/) 보장 | 배리어 정렬 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
+| AT_LEAST_ONCE | 배리어 미정렬 | 낮은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | 중복 처리 가능 |
 
 ### 2. 세이브포인트와 코드 변경
 
@@ -142,7 +146,7 @@ stream
     .process(new MyProcess()).uid("my-process-uid");
 ```
 
-UID 없이는 자동 [[087_process_state_transition|생성]] UID가 코드 변경마다 달라져 세이브포인트에서 상태를 복원하지 못할 수 있다.
+UID 없이는 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) UID가 코드 변경마다 달라져 세이브포인트에서 상태를 복원하지 못할 수 있다.
 
 **📢 섹션 요약 비유**
 > 세이브포인트의 연산자 UID는 "직원 사번"과 같다. 이름(코드)이 바뀌어도 사번(UID)이 같으면 같은 직원으로 인식하고 기존 업무 내용(상태)을 이어받을 수 있다.
@@ -155,22 +159,22 @@ UID 없이는 자동 [[087_process_state_transition|생성]] UID가 코드 변�
 
 | 시나리오 | 권장 도구 |
 |:---|:---|
-| 장애 자동 [[658_ir_recovery|복구]] | 체크포인트 (자동) |
-| Flink [[288_version_ihl_tos_total_length|버전]] 업그레이드 | 세이브포인트 → 업그레이드 → 세이브포인트 재시작 |
+| 장애 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | 체크포인트 (자동) |
+| Flink [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 업그레이드 | 세이브포인트 → 업그레이드 → 세이브포인트 재시작 |
 | 비즈니스 로직 코드 변경 배포 | 세이브포인트 → 배포 → 세이브포인트 재시작 |
 | 클러스터 마이그레이션 | 세이브포인트 → 새 클러스터에서 재시작 |
 | A/B 테스트 (같은 상태로 분기) | 세이브포인트 → 두 잡에 각각 재시작 |
 
-### 2. [[435_checklist_based_testing|체크리스트]]
+### 2. [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-- [ ] 체크포인트 간격: 30초~5분 ([[015_지연_데이터_관점|지연]]-오버헤드 트레이드오프)
-- [ ] 체크포인트 저장소: [[013_hdfs|HDFS]]/S3 (내구성 있는 [[136_variance|분산]] 스토리지)
-- [ ] 연산자 UID 명시적 지정 (`uid("...")`) — 세이브포인트 [[344_compatibility_usability|호환성]] 필수
+- [ ] 체크포인트 간격: 30초~5분 ([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)-오버헤드 트레이드오프)
+- [ ] 체크포인트 저장소: [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/)/S3 (내구성 있는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 스토리지)
+- [ ] 연산자 UID 명시적 지정 (`uid("...")`) — 세이브포인트 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 필수
 - [ ] RocksDB StateBackend 사용 시 체크포인트 크기 증가 고려
-- [ ] 배포 전 세이브포인트 [[087_process_state_transition|생성]] 자동화 ([[090_configuration_item|CI]]/CD [[123_pipe|파이프]]라인 통합)
+- [ ] 배포 전 세이브포인트 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 자동화 ([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 통합)
 
 **📢 섹션 요약 비유**
-> 체크포인트-세이브포인트 [[268_strategy_pattern|전략]]은 "집 열쇠 관리"와 같다. 자동 체크포인트는 "스마트 잠금장치가 매 30분마다 [[178_as_is_to_be_analysis|현재 상태]] 기록"이고, 세이브포인트는 "이사 전 집 열쇠 복사본 만들기"다. 이사(업그레이드)후에도 새 집(클러스터)에서 복사본(세이브포인트)으로 들어갈 수 있다.
+> 체크포인트-세이브포인트 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 "집 열쇠 관리"와 같다. 자동 체크포인트는 "스마트 잠금장치가 매 30분마다 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 기록"이고, 세이브포인트는 "이사 전 집 열쇠 복사본 만들기"다. 이사(업그레이드)후에도 새 집(클러스터)에서 복사본(세이브포인트)으로 들어갈 수 있다.
 
 ---
 
@@ -180,29 +184,29 @@ UID 없이는 자동 [[087_process_state_transition|생성]] UID가 코드 변�
 
 | 효과 | 설명 |
 |:---|:---|
-| Exactly-Once 장애 [[658_ir_recovery|복구]] | 체크포인트로 중복/누락 없이 재시작 |
-| [[082_zero_downtime_deployment_rolling_blue_green_canary|무중단 배포]] | 세이브포인트 기반 코드 업그레이드 |
+| Exactly-Once 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | 체크포인트로 중복/누락 없이 재시작 |
+| [무중단 배포](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/082_zero_downtime_deployment_rolling_blue_green_canary/) | 세이브포인트 기반 코드 업그레이드 |
 | 상태 이식성 | 세이브포인트로 클러스터 간 상태 이전 |
-| 실험적 분기 | 같은 세이브포인트에서 여러 [[288_version_ihl_tos_total_length|버전]] 테스트 |
+| 실험적 분기 | 같은 세이브포인트에서 여러 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 테스트 |
 
 ### 2. 결론
 
-Flink의 체크포인트와 세이브포인트는 **상태 기반 스트리밍의 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]]과 운영성을 보장하는 두 기둥**이다. 기술사 답안에서는 Chandy-Lamport [[001_algorithm_definition|알고리즘]]의 배리어 메커니즘, 체크포인트(자동·장애 [[658_ir_recovery|복구]])와 세이브포인트(수동·업그레이드)의 차이, 연산자 UID의 중요성을 [[369_logic_bomb|논리]]적으로 서술하는 것이 핵심이다.
+Flink의 체크포인트와 세이브포인트는 **상태 기반 스트리밍의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)과 운영성을 보장하는 두 기둥**이다. 기술사 답안에서는 Chandy-Lamport [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 배리어 메커니즘, 체크포인트(자동·장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))와 세이브포인트(수동·업그레이드)의 차이, 연산자 UID의 중요성을 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 서술하는 것이 핵심이다.
 
 **📢 섹션 요약 비유**
-> Flink의 체크포인트는 "비행 중 자동 기록되는 블랙박스"이고, 세이브포인트는 "[[501_file_definition_logical_record|파일]]럿이 장거리 비행 전 수동으로 만드는 비행 계획서 사본"이다. 사고(장애)는 블랙박스로 분석하고, 항로 변경(업그레이드)은 계획서 사본으로 새 항로를 이어간다.
+> Flink의 체크포인트는 "비행 중 자동 기록되는 블랙박스"이고, 세이브포인트는 "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)럿이 장거리 비행 전 수동으로 만드는 비행 계획서 사본"이다. 사고(장애)는 블랙박스로 분석하고, 항로 변경(업그레이드)은 계획서 사본으로 새 항로를 이어간다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 개념 | [[083_relationship_in_er_model|관계]] | 설명 |
+| 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
 |:---|:---|:---|
-| Chandy-Lamport [[001_algorithm_definition|알고리즘]] | 구현 기반 | 배리어 기반 글로벌 [[022_snapshot_backup_architecture|스냅샷]] |
-| [[083_cross_validation|Exactly-Once Semantics]] | 목적 | 체크포인트가 달성하는 처리 보장 수준 |
-| [[272_state_pattern|State]] Backend | 저장 위치 | [[078_heap_datastructure|Heap]]/RocksDB → [[013_hdfs|HDFS]]/S3 체크포인트 |
+| Chandy-Lamport [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 구현 기반 | 배리어 기반 글로벌 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) |
+| [Exactly-Once Semantics](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_cross_validation/) | 목적 | 체크포인트가 달성하는 처리 보장 수준 |
+| [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Backend | 저장 위치 | [Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)/RocksDB → [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/)/S3 체크포인트 |
 | JobManager | 조율자 | CheckpointCoordinator가 내장 |
-| [[179_kafka_flink_watermark_time_window|Kafka]] Offset | 연동 개념 | 체크포인트에 오프셋 함께 저장 |
+| [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) Offset | 연동 개념 | 체크포인트에 오프셋 함께 저장 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -222,7 +226,7 @@ Flink의 체크포인트와 세이브포인트는 **상태 기반 스트리밍�
 [정확히 한 번 처리 (Exactly-Once Semantics)]
 ```
 
-스트리밍 처리의 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]]이 글로벌 [[022_snapshot_backup_architecture|스냅샷]] 이론에서 자동 체크포인트와 수동 세이브포인트를 거쳐 [[083_cross_validation|정확히 한 번]] 처리로 실현된 흐름이다.
+스트리밍 처리의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)이 글로벌 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) 이론에서 자동 체크포인트와 수동 세이브포인트를 거쳐 [정확히 한 번](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_cross_validation/) 처리로 실현된 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -234,7 +238,7 @@ Flink의 체크포인트와 세이브포인트는 **상태 기반 스트리밍�
 
 **진행 상황**: 83 / 262
 
-← **이전**: [[082_datastream_api_table_api|07. DataStream API / Table API & SQL — Flink 두 계층 처리]]
-**다음**: [[084_event_time_vs_processing_time|09. 이벤트 시간 vs 처리 시간 (Event Time vs Processing Time)]] →
+← **이전**: [07. DataStream API / Table API & SQL — Flink 두 계층 처리](/knowledge-base/studynote/16_bigdata/04_streaming/082_datastream_api_table_api/)
+**다음**: [09. 이벤트 시간 vs 처리 시간 (Event Time vs Processing Time)](/knowledge-base/studynote/16_bigdata/04_streaming/084_event_time_vs_processing_time/) →
 
 ---

@@ -1,33 +1,37 @@
----
-title: 1. 선형 탐색 (Linear Search) — O(n)
-date: '2026-04-21'
-tags:
-- studynote-algorithm
----
++++
+title = "1. 선형 탐색 (Linear Search) — O(n)"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-algorithm"]
+
+[extra]
+tags = ["studynote-algorithm"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[055_array|배열]]을 처음부터 끝까지 순차적으로 비교하는 가장 단순한 탐색 [[001_algorithm_definition|알고리즘]]으로, 정렬 여부에 상관없이 동작한다.
-> 2. **가치**: 구현이 극히 단순하고 전처리가 필요 없어 소규모 [[001_dikw_pyramid|데이터]]나 정렬 비용이 높은 상황에서 오히려 최선의 선택이 된다.
-> 3. **판단 포인트**: [[001_dikw_pyramid|데이터]]가 정렬·인덱싱되어 있으면 이진/[[032_hash_search|해시 탐색]]으로 전환하되, 단건·소규모·비정렬·[[056_linked_list|연결 리스트]]에서는 선형 탐색이 합리적이다.
+> 1. **본질**: [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 처음부터 끝까지 순차적으로 비교하는 가장 단순한 탐색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로, 정렬 여부에 상관없이 동작한다.
+> 2. **가치**: 구현이 극히 단순하고 전처리가 필요 없어 소규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)나 정렬 비용이 높은 상황에서 오히려 최선의 선택이 된다.
+> 3. **판단 포인트**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 정렬·인덱싱되어 있으면 이진/[해시 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/032_hash_search/)으로 전환하되, 단건·소규모·비정렬·[연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)에서는 선형 탐색이 합리적이다.
 
 ## Ⅰ. 개요 및 필요성
 
-선형 탐색 (Linear Search)은 [[055_array|배열]]의 첫 번째 원소부터 마지막 원소까지 목표값과 하나씩 순서대로 비교하는 [[001_algorithm_definition|알고리즘]]이다. 별도의 사전 조건(정렬 등)이 없어 어떤 [[001_dikw_pyramid|데이터]]에도 바로 적용할 수 있다.
+선형 탐색 (Linear Search)은 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 첫 번째 원소부터 마지막 원소까지 목표값과 하나씩 순서대로 비교하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다. 별도의 사전 조건(정렬 등)이 없어 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에도 바로 적용할 수 있다.
 
 | 특성 | 내용 |
 |:---|:---|
-| [[002_time_complexity|시간 복잡도]] | 최선 O(1), 평균 O(n/2), 최악 O(n) |
-| [[003_space_complexity|공간 복잡도]] | O(1) |
+| [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/) | 최선 O(1), 평균 O(n/2), 최악 O(n) |
+| [공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/) | O(1) |
 | 전제 조건 | 없음 (비정렬 가능) |
-| 주요 용도 | 소규모 [[055_array|배열]], [[056_linked_list|연결 리스트]], 단일 탐색 |
+| 주요 용도 | 소규모 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/), [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/), 단일 탐색 |
 
 선형 탐색이 적합한 상황:
 
-- [[001_dikw_pyramid|데이터]]가 정렬되어 있지 않고 정렬 비용이 탐색 이득보다 클 때
-- [[055_array|배열]] 크기가 작아 탐색 비용 차이가 미미할 때 (n < 100 수준)
-- [[056_linked_list|연결 리스트]]처럼 임의 접근 (Random Access)이 불가능한 자료구조
-- 스트리밍 [[001_dikw_pyramid|데이터]]에서 조건을 만족하는 첫 원소를 실시간으로 추출할 때
+- [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 정렬되어 있지 않고 정렬 비용이 탐색 이득보다 클 때
+- [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 크기가 작아 탐색 비용 차이가 미미할 때 (n < 100 수준)
+- [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)처럼 임의 접근 (Random Access)이 불가능한 자료구조
+- 스트리밍 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 조건을 만족하는 첫 원소를 실시간으로 추출할 때
 
 📢 **섹션 요약 비유**: 선형 탐색은 도서관에서 책을 찾을 때 처음 책장부터 한 권씩 훑어보는 것과 같다. 책이 몇 권뿐이라면 정리하는 시간조차 아까우니 이 방법이 오히려 빠르다.
 
@@ -45,7 +49,7 @@ tags:
 단계 5:  i=4 → arr[4]=9  → 9 = 9 → 반환(4) ✓
 ```
 
-### [[103_ascii|ASCII]] 다이어그램 — 선형 탐색 포인터 이동
+### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 — 선형 탐색 포인터 이동
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -64,10 +68,10 @@ tags:
 ### Sentinel(감시자) 최적화
 
 일반 선형 탐색은 매 반복마다 두 가지 조건을 검사한다:
-1. [[154_database_index_b_tree_search_optimization|인덱스]]가 [[055_array|배열]] 범위를 벗어났는가?
+1. [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 범위를 벗어났는가?
 2. 현재 원소가 목표값과 같은가?
 
-Sentinel 기법은 [[055_array|배열]] 끝에 목표값을 추가하여 범위 검사를 제거한다.
+Sentinel 기법은 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 끝에 목표값을 추가하여 범위 검사를 제거한다.
 
 ```
 일반:     while (i < n) AND (arr[i] != target)
@@ -85,73 +89,73 @@ Sentinel: arr[n] = target;   while (arr[i] != target)   // 범위 검사 제거
 
 ## Ⅲ. 비교 및 연결
 
-### 탐색 [[001_algorithm_definition|알고리즘]] 3종 비교
+### 탐색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 3종 비교
 
-| 항목 | 선형 탐색 | [[031_binary_search_algorithm|이진 탐색]] | [[032_hash_search|해시 탐색]] |
+| 항목 | 선형 탐색 | [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) | [해시 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/032_hash_search/) |
 |:---|:---:|:---:|:---:|
-| 평균 [[002_time_complexity|시간 복잡도]] | O(n) | O(log n) | O(1) |
+| 평균 [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/) | O(n) | O(log n) | O(1) |
 | 정렬 전제 조건 | 불필요 | 필수 | 불필요 |
 | 추가 공간 | O(1) | O(1) | O(n) |
-| 임의 접근 필요 | 불필요 | 필수 | [[067_hash_table|해시 테이블]] |
+| 임의 접근 필요 | 불필요 | 필수 | [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/) |
 | 범위 탐색 가능 | 가능 | 가능 | 불가 |
-| n=1,000 기준 비교 수 | ~500 | ~[[489_raid_10_hybrid|10]] | ~1 |
+| n=1,000 기준 비교 수 | ~500 | ~[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) | ~1 |
 
 ### 선형 탐색의 실질적 강점
 
-- **문자열 매칭**: Naive 패턴 매칭 [[001_algorithm_definition|알고리즘]] = 텍스트 상의 선형 탐색 확장
-- **스트리밍 처리**: 실시간 [[001_dikw_pyramid|데이터]] 스트림에서 조건 원소 추출 (정렬 불가)
-- **[[056_linked_list|연결 리스트]]**: 임의 접근 불가이므로 [[031_binary_search_algorithm|이진 탐색]] 자체가 불가능
+- **문자열 매칭**: Naive 패턴 매칭 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) = 텍스트 상의 선형 탐색 확장
+- **스트리밍 처리**: 실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스트림에서 조건 원소 추출 (정렬 불가)
+- **[연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)**: 임의 접근 불가이므로 [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) 자체가 불가능
 
-📢 **섹션 요약 비유**: 선형 탐색과 [[031_binary_search_algorithm|이진 탐색]]의 [[083_relationship_in_er_model|관계]]는 작은 동네 골목길과 고속도로의 차이다. 골목이 짧다면 굳이 고속도로 진입로를 찾을 필요가 없다.
+📢 **섹션 요약 비유**: 선형 탐색과 [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/)의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 작은 동네 골목길과 고속도로의 차이다. 골목이 짧다면 굳이 고속도로 진입로를 찾을 필요가 없다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
 
-**시나리오 1**: 소규모 [[263_cache_hit_miss|캐시 히트]] [[396_validation|확인]] (n=16)
-- [[262_lru_page_replacement|LRU]] ([[262_lru_page_replacement|Least Recently Used]]) 캐시에서 [[263_cache_hit_miss|캐시 히트]] [[396_validation|확인]]
-- n=16 수준이면 선형 탐색이 캐시 라인 전체를 L1 캐시에 적재 → [[031_binary_search_algorithm|이진 탐색]]보다 빠를 수 있음
+**시나리오 1**: 소규모 [캐시 히트](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) (n=16)
+- [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) ([Least Recently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)) 캐시에서 [캐시 히트](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
+- n=16 수준이면 선형 탐색이 캐시 라인 전체를 L1 캐시에 적재 → [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/)보다 빠를 수 있음
 
 **시나리오 2**: DB 풀 테이블 스캔 (Full Table Scan)
-- SQL `WHERE` 절에 [[154_database_index_b_tree_search_optimization|인덱스]] 없는 컬럼 조건 → 내부적으로 선형 탐색
-- 대용량 테이블에서 [[282_performance_tactics|성능]] 병목 → [[154_database_index_b_tree_search_optimization|인덱스]] 설계로 이진/[[032_hash_search|해시 탐색]] 전환이 필수
+- SQL `WHERE` 절에 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 없는 컬럼 조건 → 내부적으로 선형 탐색
+- 대용량 테이블에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목 → [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 설계로 이진/[해시 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/032_hash_search/) 전환이 필수
 
 **시나리오 3**: 단일 탐색 후 대용량 정렬
-- 리스트가 한 번만 탐색된다면: 정렬 O(n log n) + [[031_binary_search_algorithm|이진 탐색]] O(log n) > 선형 탐색 O(n)
-- 여러 번 탐색: 정렬 비용을 분할 상각 → [[031_binary_search_algorithm|이진 탐색]]이 유리
+- 리스트가 한 번만 탐색된다면: 정렬 O(n log n) + [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) O(log n) > 선형 탐색 O(n)
+- 여러 번 탐색: 정렬 비용을 분할 상각 → [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/)이 유리
 
 ### 기술사 판단 기준
 
-| 판단 기준 | 선형 탐색 | [[031_binary_search_algorithm|이진 탐색]] |
+| 판단 기준 | 선형 탐색 | [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) |
 |:---|:---:|:---:|
-| [[001_dikw_pyramid|데이터]] 정렬 여부 | 비정렬 | 정렬됨 |
+| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정렬 여부 | 비정렬 | 정렬됨 |
 | 탐색 횟수 | 1~소수 회 | 반복적 탐색 |
-| 자료구조 | [[055_array|배열]]·연결리스트 | [[055_array|배열]] (임의 접근) |
-| [[001_dikw_pyramid|데이터]] 크기 | n < 100 권장 | n ≥ 1,000 |
+| 자료구조 | [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)·연결리스트 | [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) (임의 접근) |
+| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기 | n < 100 권장 | n ≥ 1,000 |
 | 정렬 비용 감당 | 불가 | 가능 |
 
-📢 **섹션 요약 비유**: 기술사 시험에서 선형 탐색은 "작은 문제에 복잡한 도구를 꺼낼 필요 없다"는 원칙의 증거다. [[001_dikw_pyramid|데이터]]가 10개인데 [[031_binary_search_algorithm|이진 탐색]] [[154_database_index_b_tree_search_optimization|인덱스]]를 구축하는 것은 가위로 종이 한 장 자르려고 레이저 커터를 설치하는 격이다.
+📢 **섹션 요약 비유**: 기술사 시험에서 선형 탐색은 "작은 문제에 복잡한 도구를 꺼낼 필요 없다"는 원칙의 증거다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 10개인데 [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 구축하는 것은 가위로 종이 한 장 자르려고 레이저 커터를 설치하는 격이다.
 
 ## Ⅴ. 기대효과 및 결론
 
 선형 탐색 (Linear Search)은 O(n)이라는 한계에도 불구하고 **정렬 불필요, 구현 단순, 임의 접근 불요**라는 세 가지 장점으로 실무에서 지속적으로 활용된다.
 
-Sentinel 최적화로 분기 횟수를 절반으로 줄일 수 있고, 하드웨어 수준에서 소규모 [[055_array|배열]](n < 32)은 [[031_binary_search_algorithm|이진 탐색]]보다 캐시 친화적이어서 실질 [[282_performance_tactics|성능]]이 더 빠른 경우도 있다.
+Sentinel 최적화로 분기 횟수를 절반으로 줄일 수 있고, 하드웨어 수준에서 소규모 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)(n < 32)은 [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/)보다 캐시 친화적이어서 실질 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 더 빠른 경우도 있다.
 
-**핵심 결론**: [[001_dikw_pyramid|데이터]]가 작고 정렬이 없을 때, 선형 탐색은 최선의 선택이다. 선택 기준은 이론적 복잡도가 아니라 실제 상황([[001_dikw_pyramid|데이터]] 크기, 탐색 빈도, 정렬 비용)이다.
+**핵심 결론**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 작고 정렬이 없을 때, 선형 탐색은 최선의 선택이다. 선택 기준은 이론적 복잡도가 아니라 실제 상황([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기, 탐색 빈도, 정렬 비용)이다.
 
-📢 **섹션 요약 비유**: 선형 탐색은 스위스 아미 나이프 같은 존재다. 전문 도구보다 [[282_performance_tactics|성능]]은 낮지만, 항상 손에 들고 다닐 수 있어서 작은 작업에는 가장 먼저 꺼내는 도구다.
+📢 **섹션 요약 비유**: 선형 탐색은 스위스 아미 나이프 같은 존재다. 전문 도구보다 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 낮지만, 항상 손에 들고 다닐 수 있어서 작은 작업에는 가장 먼저 꺼내는 도구다.
 
 ### 📌 관련 개념 맵
 
-| 개념 | [[083_relationship_in_er_model|관계]] | 설명 |
+| 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
 |:---|:---|:---|
-| [[031_binary_search_algorithm|이진 탐색]] ([[031_binary_search_algorithm|Binary Search]]) | 대안·업그레이드 | 정렬된 [[055_array|배열]]에서 O(log n) |
-| [[032_hash_search|해시 탐색]] ([[032_hash_search|Hash Search]]) | 대안 | 평균 O(1), [[067_hash_table|해시 테이블]] 필요 |
+| [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) ([Binary Search](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/)) | 대안·업그레이드 | 정렬된 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에서 O(log n) |
+| [해시 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/032_hash_search/) ([Hash Search](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/032_hash_search/)) | 대안 | 평균 O(1), [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/) 필요 |
 | Sentinel 최적화 | 최적화 기법 | 범위 검사 제거, 분기 감소 |
-| 풀 테이블 스캔 (Full Table Scan) | 응용 | DB [[154_database_index_b_tree_search_optimization|인덱스]] 없는 선형 탐색 |
+| 풀 테이블 스캔 (Full Table Scan) | 응용 | DB [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 없는 선형 탐색 |
 | Naive 문자열 매칭 | 응용 | 텍스트 위의 선형 탐색 확장 |
-| [[262_lru_page_replacement|LRU]] Cache | 응용 | 소규모 [[263_cache_hit_miss|캐시 히트]] [[396_validation|확인]] |
+| [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) Cache | 응용 | 소규모 [캐시 히트](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -172,7 +176,7 @@ Sentinel 최적화로 분기 횟수를 절반으로 줄일 수 있고, 하드웨
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 🔍 숨바꼭질에서 친구를 찾을 때 방마다 하나씩 문을 열어보는 것처럼, 선형 탐색은 [[055_array|배열]]을 처음부터 순서대로 [[396_validation|확인]]한다.
+1. 🔍 숨바꼭질에서 친구를 찾을 때 방마다 하나씩 문을 열어보는 것처럼, 선형 탐색은 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 처음부터 순서대로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
 2. 📦 택배가 100개 쌓인 창고에서 이름표 없이 박스를 하나씩 열어보는 것과 같아서, 박스가 많을수록 오래 걸린다.
 3. ✅ 하지만 박스가 딱 5개라면? 정리하는 시간조차 아까우니 그냥 하나씩 열어보는 게 가장 빠른 방법이다.
 
@@ -182,7 +186,7 @@ Sentinel 최적화로 분기 횟수를 절반으로 줄일 수 있고, 하드웨
 
 **진행 상황**: 30 / 175
 
-← **이전**: [[029_shell_sort|18. 셸 정렬 (Shell Sort) — 삽입 정렬 개선, O(n^1.5)]]
-**다음**: [[031_binary_search_algorithm|2. 이진 탐색 (Binary Search) — O(log n)]] →
+← **이전**: [18. 셸 정렬 (Shell Sort) — 삽입 정렬 개선, O(n^1.5)](/knowledge-base/studynote/08_algorithm_stats/02_sorting/029_shell_sort/)
+**다음**: [2. 이진 탐색 (Binary Search) — O(log n)](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) →
 
 ---

@@ -1,23 +1,27 @@
----
-title: 780. 물리적 분해 분석 (Reverse Engineering)
-date: '2026-05-08'
-tags:
-- studynote-computer-architecture
----
++++
+title = "780. 물리적 분해 분석 (Reverse Engineering)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 물리적 분해 분석은 패키지를 열고 층을 벗겨 다이 이미지를 얻은 뒤, 배선·[[014_transistor|트랜지스터]]·[[255_rom|ROM]] (Read-Only Memory) 구조를 다시 조합해 칩 내부 회로와 저장 정보를 복원하는 파괴적 Reverse Engineering이다.
-> 2. **가치**: 목표는 키 한 번 탈취에 그치지 않고 IP (Intellectual Property) [[016_replication_factor|복제]], 보안 로직 우회, [[781_fib_circuit_edit|FIB]] ([[781_fib_circuit_edit|Focused Ion Beam]]) 수정, 프로빙 표적화까지 가능한 **후속 공격의 지도**를 얻는 데 있다.
-> 3. **판단 포인트**: 저장된 비밀은 언젠가 사진과 배선 수준에서 읽힐 수 있다는 전제를 두고, [[783_anti_tamper_mesh|안티 탬퍼]] [[389_mesh_topology|메시]], [[784_zeroization_circuit|제로화]], 회로 위장, [[485_puf|PUF]] (Physically Unclonable Function) 기반 키 파생처럼 "열어보면 가치가 사라지는" 구조를 설계해야 한다.
+> 1. **본질**: 물리적 분해 분석은 패키지를 열고 층을 벗겨 다이 이미지를 얻은 뒤, 배선·[트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)·[ROM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/255_rom/) (Read-Only Memory) 구조를 다시 조합해 칩 내부 회로와 저장 정보를 복원하는 파괴적 Reverse Engineering이다.
+> 2. **가치**: 목표는 키 한 번 탈취에 그치지 않고 IP (Intellectual Property) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), 보안 로직 우회, [FIB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/) ([Focused Ion Beam](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/)) 수정, 프로빙 표적화까지 가능한 **후속 공격의 지도**를 얻는 데 있다.
+> 3. **판단 포인트**: 저장된 비밀은 언젠가 사진과 배선 수준에서 읽힐 수 있다는 전제를 두고, [안티 탬퍼](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/783_anti_tamper_mesh/) [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/), [제로화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/), 회로 위장, [PUF](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/485_puf/) (Physically Unclonable Function) 기반 키 파생처럼 "열어보면 가치가 사라지는" 구조를 설계해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-물리적 분해 분석은 [[009_semiconductor|반도체]] 패키지를 제거하고 내부 레이어를 하나씩 드러내며 칩의 실제 구조를 재구성하는 파괴적 [[029_reverse_engineering|역공학]] 기법이다. 소프트웨어 [[029_reverse_engineering|역공학]]이 [[032_firmware|펌웨어]]나 명령 흐름을 대상으로 한다면, 이 방식은 다이 위 금속 배선, 비아(via), [[014_transistor|트랜지스터]] 패턴, [[255_rom|ROM]] [[073_bit|비트]]셀, eFuse 상태 같은 **물리적 흔적 자체**를 읽는다. 즉 코드를 해석하는 수준이 아니라 회로도를 다시 그리는 수준의 분석이다.
+물리적 분해 분석은 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 패키지를 제거하고 내부 레이어를 하나씩 드러내며 칩의 실제 구조를 재구성하는 파괴적 [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/) 기법이다. 소프트웨어 [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)이 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)나 명령 흐름을 대상으로 한다면, 이 방식은 다이 위 금속 배선, 비아(via), [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 패턴, [ROM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/255_rom/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)셀, eFuse 상태 같은 **물리적 흔적 자체**를 읽는다. 즉 코드를 해석하는 수준이 아니라 회로도를 다시 그리는 수준의 분석이다.
 
-이 분석이 중요한 이유는 강력한 암호 구현도 결국 실리콘 어딘가에 회로와 저장 구조로 남아 있기 때문이다. 제품 [[016_replication_factor|복제]], 경쟁사 IP 도난, 군사·금융 장비 분석, 하드웨어 [[726_trojan_horse|트로이목마]] [[395_verification_process_review|검증]], 타겟형 fault attack 준비까지 모두 이 단계의 정보를 필요로 한다. 한 번 다이 구조가 드러나면 이후의 프로빙, EMA, [[781_fib_circuit_edit|FIB]] 수정은 훨씬 정밀해진다.
+이 분석이 중요한 이유는 강력한 암호 구현도 결국 실리콘 어딘가에 회로와 저장 구조로 남아 있기 때문이다. 제품 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), 경쟁사 IP 도난, 군사·금융 장비 분석, 하드웨어 [트로이목마](/knowledge-base/studynote/09_security/15_malware_attack_vectors/726_trojan_horse/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 타겟형 fault attack 준비까지 모두 이 단계의 정보를 필요로 한다. 한 번 다이 구조가 드러나면 이후의 프로빙, EMA, [FIB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/) 수정은 훨씬 정밀해진다.
 
 아래 그림은 물리적 분해 분석이 단순 분해가 아니라 "패키지 제거 → 층별 관찰 → 구조 복원"으로 이어지는 파이프라인임을 보여준다.
 
@@ -46,17 +50,17 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-물리적 분해 분석의 핵심은 상단 레이어부터 차례로 제거하며 각 층을 이미지와 [[001_dikw_pyramid|데이터]]로 보존하는 데 있다. [[459_quic_fec_forward_error_correction|초기]] 단계에서는 [[782_decapping_probing|디캡핑]]([[782_decapping_probing|Decapping]])으로 패키지를 제거하고, 이후 디프로세싱(Delayering, Deprocessing)으로 passivation과 metal layer를 한 층씩 벗긴다. 레거시 공정은 광학 현미경만으로도 많은 정보가 보이지만, 미세 공정에서는 SEM (Scanning Electron Microscope), [[001_voltage|전압]] 대비 관찰, 단면 가공이 필요해진다.
+물리적 분해 분석의 핵심은 상단 레이어부터 차례로 제거하며 각 층을 이미지와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 보존하는 데 있다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계에서는 [디캡핑](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/782_decapping_probing/)([Decapping](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/782_decapping_probing/))으로 패키지를 제거하고, 이후 디프로세싱(Delayering, Deprocessing)으로 passivation과 metal layer를 한 층씩 벗긴다. 레거시 공정은 광학 현미경만으로도 많은 정보가 보이지만, 미세 공정에서는 SEM (Scanning Electron Microscope), [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 대비 관찰, 단면 가공이 필요해진다.
 
 | 단계 | 수행 내용 | 산출물 | 후속 활용 |
 | :--- | :--- | :--- | :--- |
-| [[782_decapping_probing|디캡핑]] | 패키지 제거, 다이 노출 | 실리콘 다이 접근 | 프로빙·이미징 준비 |
+| [디캡핑](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/782_decapping_probing/) | 패키지 제거, 다이 노출 | 실리콘 다이 접근 | 프로빙·이미징 준비 |
 | 디프로세싱 | 상부 금속층부터 순차 제거 | 층별 사진, 배선 패턴 | 넷리스트 복원 |
-| 이미징 | 광학/SEM 촬영, 스티칭 | 전체 레이어 맵 | [[255_rom|ROM]]·eFuse·레이아웃 판독 |
-| 구조 복원 | 셀 [[336_library_vs_framework|라이브러리]] 매칭, 비아 연결 추적 | 회로도, 넷리스트 | IP [[016_replication_factor|복제]], 취약점 탐색 |
-| 정밀 개입 | 프로빙, [[781_fib_circuit_edit|FIB]] 수정, fault 실험 | live [[130_signal|signal]]·회로 변경 | [[303_authentication_authorization_patterns|인증]] 우회, 공격 자동화 |
+| 이미징 | 광학/SEM 촬영, 스티칭 | 전체 레이어 맵 | [ROM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/255_rom/)·eFuse·레이아웃 판독 |
+| 구조 복원 | 셀 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 매칭, 비아 연결 추적 | 회로도, 넷리스트 | IP [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), 취약점 탐색 |
+| 정밀 개입 | 프로빙, [FIB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/) 수정, fault 실험 | live [signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)·회로 변경 | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 우회, 공격 자동화 |
 
-특히 Mask [[255_rom|ROM]] [[073_bit|비트]], eFuse, anti-[[554_fuse_filesystem_in_userspace|fuse]], 테스트 회로는 물리 이미지에서 직접 읽을 수 있는 경우가 많다. 예를 들어 ROM은 접점 유무나 도핑 차이로 0/1이 구분되고, eFuse는 끊어진 링크 구조가 이미지에 남는다. 따라서 "키를 메모리에 저장만 하지 않으면 안전하다"가 아니라, **어떤 형식으로 저장해도 물리 구조가 남으면 언젠가 읽힐 수 있다**는 전제로 설계해야 한다.
+특히 Mask [ROM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/255_rom/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/), eFuse, anti-[fuse](/knowledge-base/studynote/02_operating_system/09_file_system/554_fuse_filesystem_in_userspace/), 테스트 회로는 물리 이미지에서 직접 읽을 수 있는 경우가 많다. 예를 들어 ROM은 접점 유무나 도핑 차이로 0/1이 구분되고, eFuse는 끊어진 링크 구조가 이미지에 남는다. 따라서 "키를 메모리에 저장만 하지 않으면 안전하다"가 아니라, **어떤 형식으로 저장해도 물리 구조가 남으면 언젠가 읽힐 수 있다**는 전제로 설계해야 한다.
 
 아래 단면도는 물리적 분해 분석이 왜 레이어별 작업인지 보여 준다.
 
@@ -82,48 +86,48 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-물리적 분해 분석은 [[782_decapping_probing|디캡핑]], 프로빙, [[781_fib_circuit_edit|FIB]] 수정과 긴밀히 연결되지만 역할은 서로 다르다. [[782_decapping_probing|디캡핑]]은 내부 접근을 여는 "입구", 프로빙은 살아 있는 신호를 읽는 "실시간 관찰", [[781_fib_circuit_edit|FIB]] 수정은 회로를 자르고 이어 바꾸는 "능동 개입"이다. Reverse Engineering은 이들을 가능하게 하는 **구조 이해의 기반**에 가깝다.
+물리적 분해 분석은 [디캡핑](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/782_decapping_probing/), 프로빙, [FIB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/) 수정과 긴밀히 연결되지만 역할은 서로 다르다. [디캡핑](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/782_decapping_probing/)은 내부 접근을 여는 "입구", 프로빙은 살아 있는 신호를 읽는 "실시간 관찰", [FIB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/) 수정은 회로를 자르고 이어 바꾸는 "능동 개입"이다. Reverse Engineering은 이들을 가능하게 하는 **구조 이해의 기반**에 가깝다.
 
 | 기법 | 주된 목적 | 얻는 정보 | 특징 |
 | :--- | :--- | :--- | :--- |
-| 물리적 분해 분석 | 구조 복원, IP 파악 | 레이아웃, 넷리스트, [[255_rom|ROM]] 구조 | 파괴적, 장기적 가치 큼 |
-| [[782_decapping_probing|디캡핑]] / 프로빙 | live [[130_signal|signal]] 관측 | [[344_bus|버스]] [[001_voltage|전압]], 실시간 [[001_dikw_pyramid|데이터]] | 표적 위치를 알아야 효율적 |
-| [[781_fib_circuit_edit|FIB]] 회로 수정 | 회로 우회·패치 | 금속선 절단/연결 결과 | 매우 고가, 정밀 개입 가능 |
-| [[032_firmware|펌웨어]] [[029_reverse_engineering|역공학]] | 코드 로직 분석 | [[001_algorithm_definition|알고리즘]] 흐름, 명령 수준 의미 | 물리 구조는 직접 안 보임 |
+| 물리적 분해 분석 | 구조 복원, IP 파악 | 레이아웃, 넷리스트, [ROM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/255_rom/) 구조 | 파괴적, 장기적 가치 큼 |
+| [디캡핑](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/782_decapping_probing/) / 프로빙 | live [signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 관측 | [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/), 실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 표적 위치를 알아야 효율적 |
+| [FIB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/) 회로 수정 | 회로 우회·패치 | 금속선 절단/연결 결과 | 매우 고가, 정밀 개입 가능 |
+| [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/) | 코드 로직 분석 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 흐름, 명령 수준 의미 | 물리 구조는 직접 안 보임 |
 
-또 다른 연결점은 side-channel 공격이다. 예를 들어 다이 사진을 통해 [[656_aes_advanced_encryption_standard_rijndael|AES]] 코어의 위치와 키 [[208_schedule_history_transaction_execution_order|스케줄]] 경로를 알면 EMA hotspot 탐색이 쉬워지고, 특정 [[344_bus|버스]]의 길이와 배치를 보면 DPA·EMA의 누설 지점을 예측할 수 있다. 즉 물리적 분해 분석은 단독 공격이면서 동시에 다른 공격을 정밀화하는 정보 공급원이다.
+또 다른 연결점은 side-channel 공격이다. 예를 들어 다이 사진을 통해 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 코어의 위치와 키 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 경로를 알면 EMA hotspot 탐색이 쉬워지고, 특정 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)의 길이와 배치를 보면 DPA·EMA의 누설 지점을 예측할 수 있다. 즉 물리적 분해 분석은 단독 공격이면서 동시에 다른 공격을 정밀화하는 정보 공급원이다.
 
-보안 관점에서는 "회로를 숨기면 된다"는 생각이 가장 위험하다. 공정이 복잡할수록 분석 비용은 오르지만, 한 번 분석에 성공하면 [[016_replication_factor|복제]]·우회·공격 자동화까지 이어질 수 있다. 그래서 obscurity는 [[015_지연_데이터_관점|지연]] 수단일 뿐, 단독 방어책이 되기 어렵다.
+보안 관점에서는 "회로를 숨기면 된다"는 생각이 가장 위험하다. 공정이 복잡할수록 분석 비용은 오르지만, 한 번 분석에 성공하면 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)·우회·공격 자동화까지 이어질 수 있다. 그래서 obscurity는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 수단일 뿐, 단독 방어책이 되기 어렵다.
 
-- **📢 섹션 요약 비유**: [[782_decapping_probing|디캡핑]]이 문을 여는 일이라면, Reverse Engineering은 집 안 구조를 평면도로 다시 그리는 일이다. 문 한 번 열어 본 것보다 평면도를 손에 넣는 쪽이 훨씬 위험하다.
+- **📢 섹션 요약 비유**: [디캡핑](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/782_decapping_probing/)이 문을 여는 일이라면, Reverse Engineering은 집 안 구조를 평면도로 다시 그리는 일이다. 문 한 번 열어 본 것보다 평면도를 손에 넣는 쪽이 훨씬 위험하다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 물리적 분해 분석을 고려해야 하는 대상은 장기간 동일한 비밀을 저장하는 장치다. 스마트카드, Secure Element, [[476_tpm|TPM]] ([[476_tpm|Trusted Platform Module]]), 국방용 [[131_soc|SoC]] ([[131_soc|System on Chip]]), [[475_hsm|HSM]] ([[157_hsm_hardware_security_module|Hardware Security Module]]), 자동차 ECU (Electronic [[206_control_unit|Control Unit]]) 보안 모듈은 제품 수명이 길고 비밀 가치가 높아 분석 투자 가치가 충분하다. 따라서 이 영역에서는 "분해당할 수 있다"를 예외가 아니라 기본 가정으로 두어야 한다.
+실무에서 물리적 분해 분석을 고려해야 하는 대상은 장기간 동일한 비밀을 저장하는 장치다. 스마트카드, Secure Element, [TPM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/) ([Trusted Platform Module](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/)), 국방용 [SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) ([System on Chip](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/)), [HSM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/) ([Hardware Security Module](/knowledge-base/studynote/09_security/03_network_security/157_hsm_hardware_security_module/)), 자동차 ECU (Electronic [Control Unit](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/)) 보안 모듈은 제품 수명이 길고 비밀 가치가 높아 분석 투자 가치가 충분하다. 따라서 이 영역에서는 "분해당할 수 있다"를 예외가 아니라 기본 가정으로 두어야 한다.
 
 ### 기술사 판단 기준
 
-1. **정적 키 최소화**: master key를 Mask ROM이나 eFuse에 평문으로 오래 저장하는 설계는 최후에 사진으로 읽힐 수 있다. 가능하면 [[485_puf|PUF]] 기반 파생 키나 [[140_session_key|세션 키]] 구조를 우선한다.
-2. **[[783_anti_tamper_mesh|안티 탬퍼]] 전면화**: [[483_active_vs_passive_ftp|Active]] [[389_mesh_topology|Mesh]], 광·[[001_voltage|전압]]·온도 센서, [[784_zeroization_circuit|제로화]] 회로가 키 저장소뿐 아니라 [[344_bus|버스]]와 디버그 경로까지 덮어야 한다.
-3. **회로 위장 병행**: camouflaged cell, [[459_dummy_test_double|dummy]] via, 불투명 배선은 분석 비용을 올리지만, 단독 방어가 아니라 [[784_zeroization_circuit|제로화]]·키 파생과 함께 써야 한다.
-4. **제조 후 [[395_verification_process_review|검증]]**: 생산 샘플에 대해 실제 [[782_decapping_probing|디캡핑]]/이미징 기반 [[681_red_team|red team]] 평가를 수행해, [[571_protection_vs_security|보호]] 구조가 문서대로 구현되었는지 확인한다.
+1. **정적 키 최소화**: master key를 Mask ROM이나 eFuse에 평문으로 오래 저장하는 설계는 최후에 사진으로 읽힐 수 있다. 가능하면 [PUF](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/485_puf/) 기반 파생 키나 [세션 키](/knowledge-base/studynote/09_security/03_network_security/140_session_key/) 구조를 우선한다.
+2. **[안티 탬퍼](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/783_anti_tamper_mesh/) 전면화**: [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) [Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/), 광·[전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)·온도 센서, [제로화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/) 회로가 키 저장소뿐 아니라 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)와 디버그 경로까지 덮어야 한다.
+3. **회로 위장 병행**: camouflaged cell, [dummy](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) via, 불투명 배선은 분석 비용을 올리지만, 단독 방어가 아니라 [제로화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/)·키 파생과 함께 써야 한다.
+4. **제조 후 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**: 생산 샘플에 대해 실제 [디캡핑](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/782_decapping_probing/)/이미징 기반 [red team](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/681_red_team/) 평가를 수행해, [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 구조가 문서대로 구현되었는지 확인한다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-- 민감한 키가 [[255_rom|ROM]], eFuse, NVM (Non-Volatile Memory)에 그대로 남아 있는가?
+- 민감한 키가 [ROM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/255_rom/), eFuse, NVM (Non-Volatile Memory)에 그대로 남아 있는가?
 - 테스트 패드, scan chain, JTAG (Joint Test Action Group) 포트가 완전히 폐쇄되었는가?
-- [[483_active_vs_passive_ftp|Active]] Mesh가 메모리만 감싸고 [[344_bus|버스]]나 디버그 로직은 비워 두고 있지 않은가?
-- reverse engineering에 성공해도 공격 가치가 남지 않도록 [[160_session_controlling_terminal|세션]] 기반 키 구조를 설계했는가?
+- [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) Mesh가 메모리만 감싸고 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)나 디버그 로직은 비워 두고 있지 않은가?
+- reverse engineering에 성공해도 공격 가치가 남지 않도록 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 기반 키 구조를 설계했는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - "공정이 미세하니 분석이 불가능하다"고 가정하는 것
-- [[783_anti_tamper_mesh|안티 탬퍼]] 없이 회로 배치만 복잡하게 만들고 안심하는 것
-- 생산 편의상 남겨 둔 테스트 모드와 [[554_fuse_filesystem_in_userspace|fuse]] override를 최종 제품에서도 유지하는 것
+- [안티 탬퍼](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/783_anti_tamper_mesh/) 없이 회로 배치만 복잡하게 만들고 안심하는 것
+- 생산 편의상 남겨 둔 테스트 모드와 [fuse](/knowledge-base/studynote/02_operating_system/09_file_system/554_fuse_filesystem_in_userspace/) override를 최종 제품에서도 유지하는 것
 
-기술사에게 중요한 판단은 분석을 완전히 불가능하게 만드는 것이 아니라, **분해 비용을 올리고, 성공해도 얻는 가치가 작게 만드는 것**이다. 결국 방어는 [[015_지연_데이터_관점|지연]](delay)과 무효화(invalidate)의 조합이어야 한다.
+기술사에게 중요한 판단은 분석을 완전히 불가능하게 만드는 것이 아니라, **분해 비용을 올리고, 성공해도 얻는 가치가 작게 만드는 것**이다. 결국 방어는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(delay)과 무효화(invalidate)의 조합이어야 한다.
 
 - **📢 섹션 요약 비유**: 보물상자를 아무도 못 열게 만드는 것보다, 억지로 열면 지도는 타 버리고 보석은 모양이 바뀌게 만드는 편이 더 현실적인 방어다. 분해가 성공해도 쓸모가 없게 해야 한다.
 
@@ -131,9 +135,9 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-물리적 분해 분석을 이해하면 하드웨어 보안의 관점이 달라진다. 기능 [[395_verification_process_review|검증]]만 통과한 칩이 아니라, 분해·촬영·복원·개조까지 당한다고 가정했을 때도 비밀 가치가 유지되는지 봐야 한다. 이는 보안 칩, 결제 카드, 국방 SoC처럼 긴 수명과 높은 가치가 결합된 제품에서 특히 중요하다.
+물리적 분해 분석을 이해하면 하드웨어 보안의 관점이 달라진다. 기능 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)만 통과한 칩이 아니라, 분해·촬영·복원·개조까지 당한다고 가정했을 때도 비밀 가치가 유지되는지 봐야 한다. 이는 보안 칩, 결제 카드, 국방 SoC처럼 긴 수명과 높은 가치가 결합된 제품에서 특히 중요하다.
 
-이 기법은 비용이 높고 시간이 오래 걸리며 대개 파괴적이라는 한계가 있다. 하지만 한 번 성공하면 개별 키 탈취를 넘어 제품군 전체 [[016_replication_factor|복제]], [[303_authentication_authorization_patterns|인증]] 우회, 경쟁사 분석이라는 더 큰 피해로 이어진다. 그래서 방어자는 단순히 "공격이 어렵다"가 아니라, "성공해도 시스템적 가치가 남지 않게 만들었다"는 수준까지 가야 한다.
+이 기법은 비용이 높고 시간이 오래 걸리며 대개 파괴적이라는 한계가 있다. 하지만 한 번 성공하면 개별 키 탈취를 넘어 제품군 전체 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 우회, 경쟁사 분석이라는 더 큰 피해로 이어진다. 그래서 방어자는 단순히 "공격이 어렵다"가 아니라, "성공해도 시스템적 가치가 남지 않게 만들었다"는 수준까지 가야 한다.
 
 결론적으로 물리적 분해 분석은 하드웨어 보안의 최종 질문을 던진다. "이 칩을 완전히 열어 본 사람에게도 아직 비밀이 남는가?" 이 질문에 답할 수 있을 때 비로소 설계는 진정한 물리 보안 수준에 도달한다.
 
@@ -145,11 +149,11 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[782_decapping_probing|디캡핑]] ([[782_decapping_probing|Decapping]]) | 패키지를 제거해 다이 접근을 여는 첫 단계 |
+| [디캡핑](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/782_decapping_probing/) ([Decapping](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/782_decapping_probing/)) | 패키지를 제거해 다이 접근을 여는 첫 단계 |
 | 디프로세싱 (Delayering / Deprocessing) | 금속층을 순차 제거하며 레이어별 이미지를 얻는 핵심 공정 |
-| SEM (Scanning Electron Microscope) | 미세 공정의 배선, 셀, [[554_fuse_filesystem_in_userspace|fuse]] 구조를 읽는 대표 이미징 장비 |
-| [[781_fib_circuit_edit|FIB]] ([[781_fib_circuit_edit|Focused Ion Beam]]) | 분석 결과를 바탕으로 회로를 절단·연결해 우회하는 정밀 개입 도구 |
-| [[485_puf|PUF]] (Physically Unclonable Function) | 정적 저장 키 대신 칩 고유 특성으로 키를 파생해 분석 가치 자체를 낮추는 방어 개념 |
+| SEM (Scanning Electron Microscope) | 미세 공정의 배선, 셀, [fuse](/knowledge-base/studynote/02_operating_system/09_file_system/554_fuse_filesystem_in_userspace/) 구조를 읽는 대표 이미징 장비 |
+| [FIB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/) ([Focused Ion Beam](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/)) | 분석 결과를 바탕으로 회로를 절단·연결해 우회하는 정밀 개입 도구 |
+| [PUF](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/485_puf/) (Physically Unclonable Function) | 정적 저장 키 대신 칩 고유 특성으로 키를 파생해 분석 가치 자체를 낮추는 방어 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -170,7 +174,7 @@ Netlist / ROM / eFuse 복원
 Active Mesh · Zeroization · PUF · Camouflaging
 ```
 
-이 흐름은 물리적 접근이 구조 복원으로 이어지고, 다시 실시간 관측·회로 수정·[[016_replication_factor|복제]] 같은 후속 공격으로 확장되며, 이에 대응해 [[783_anti_tamper_mesh|안티 탬퍼]]와 키 무효화 설계가 요구되는 과정을 보여준다.
+이 흐름은 물리적 접근이 구조 복원으로 이어지고, 다시 실시간 관측·회로 수정·[복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 같은 후속 공격으로 확장되며, 이에 대응해 [안티 탬퍼](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/783_anti_tamper_mesh/)와 키 무효화 설계가 요구되는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -184,7 +188,7 @@ Active Mesh · Zeroization · PUF · Camouflaging
 
 **진행 상황**: 781 / 803
 
-← **이전**: [[779_ema_attack|779. 전자기 분석 공격 - EMA]]
-**다음**: [[781_fib_circuit_edit|781. FIB (Focused Ion Beam) 수정]] →
+← **이전**: [779. 전자기 분석 공격 - EMA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/779_ema_attack/)
+**다음**: [781. FIB (Focused Ion Beam) 수정](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/) →
 
 ---

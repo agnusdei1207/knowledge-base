@@ -1,27 +1,31 @@
----
-title: 385. 선행 페이징 (Prepaging) - 페이지 부재 감소를 위해 미리 묶어 올림
-date: '2026-05-09'
-tags:
-- studynote-operating-system
----
++++
+title = "385. 선행 페이징 (Prepaging) - 페이지 부재 감소를 위해 미리 묶어 올림"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 선행 [[259_paging|페이징]](Prepaging)은 [[384_pure_demand_paging|순수 요구 페이징]]([[384_pure_demand_paging|Pure Demand Paging]])의 치명적 약점인 '[[459_quic_fec_forward_error_correction|초기]] 부팅 시 폭우처럼 쏟아지는 [[720_page_fault_isr|페이지 폴트]] 렉([[347_cold_start_problem|Cold Start]] Penalty)'을 막기 위해, **CPU가 요구하지도 않았는데 OS가 눈치껏 인접한 [[286_page_frame|페이지]] 여러 장을 한 번에 뭉텅이로 램에 미리 퍼다 나르는 예측 적재 기법**이다.
-> 2. **가치**: 프로그램의 '공간 지역성([[248_spatial_locality|Spatial Locality]])'과 하드디스크의 '순차 읽기(Sequential Read)' 이점을 극대화하여, **단 한 번의 디스크 I/O만으로 여러 장의 [[286_page_frame|페이지]]를 [[456_caching|캐싱]]해 둠으로써 체감 실행 속도를 수십 배 끌어올린다**.
-> 3. **융합**: 하지만 예측이 빗나갔을 때 한 번도 안 쓰일 쓰레기 [[001_dikw_pyramid|데이터]]로 귀중한 램(RAM) 용량을 낭비하게 되므로, 현대 [[001_operating_system_purpose|운영체제]]는 윈도우의 SuperFetch나 리눅스의 Readahead 메커니즘을 통해 **[[255_demand_paging|요구 페이징]]과 선행 [[259_paging|페이징]]을 교묘하게 섞어 쓰는 하이브리드(Hybrid) 아키텍처**로 진화했다.
+> 1. **본질**: 선행 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)(Prepaging)은 [순수 요구 페이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/384_pure_demand_paging/)([Pure Demand Paging](/knowledge-base/studynote/02_operating_system/07_virtual_memory/384_pure_demand_paging/))의 치명적 약점인 '[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 부팅 시 폭우처럼 쏟아지는 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 렉([Cold Start](/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/) Penalty)'을 막기 위해, **CPU가 요구하지도 않았는데 OS가 눈치껏 인접한 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 여러 장을 한 번에 뭉텅이로 램에 미리 퍼다 나르는 예측 적재 기법**이다.
+> 2. **가치**: 프로그램의 '공간 지역성([Spatial Locality](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/))'과 하드디스크의 '순차 읽기(Sequential Read)' 이점을 극대화하여, **단 한 번의 디스크 I/O만으로 여러 장의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)해 둠으로써 체감 실행 속도를 수십 배 끌어올린다**.
+> 3. **융합**: 하지만 예측이 빗나갔을 때 한 번도 안 쓰일 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 귀중한 램(RAM) 용량을 낭비하게 되므로, 현대 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 윈도우의 SuperFetch나 리눅스의 Readahead 메커니즘을 통해 **[요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)과 선행 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)을 교묘하게 섞어 쓰는 하이브리드(Hybrid) 아키텍처**로 진화했다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [[720_page_fault_isr|페이지 폴트]]([[387_page_fault|Page Fault]])가 발생해서 디스크에서 특정 [[286_page_frame|페이지]]를 램으로 가져올 때, 해당 [[286_page_frame|페이지]] 딱 1장(4KB)만 가져오는 것이 아니라 그 근처에 있는 [[286_page_frame|페이지]]들(예: 8장, 32KB)을 한꺼번에 묶어서 램으로 미리(Pre) 가져와 적재하는 [[001_operating_system_purpose|운영체제]] 커널의 최적화 로직이다.
-- **필요성**: 하드디스크([[465_hdd_structure|HDD]])의 물리적 구조를 보면, 100km를 달려가서([[467_disk_access_time|Seek Time]]) [[001_dikw_pyramid|데이터]] 1개를 주워오나 100개를 주워오나 기름값과 걸리는 시간은 거의 똑같다. 그런데 [[384_pure_demand_paging|순수 요구 페이징]]은 1개 쓰고 100km 달려가고, 또 1개 쓰고 100km 달려가는 끔찍한 비효율을 낳았다. 부팅할 때 엄청난 렉이 걸린다. "기왕 트럭 몰고 디스크까지 간 김에, 나중에 쓸 것 같은 옆에 있는 [[001_dikw_pyramid|데이터]]들 싹 다 트럭에 쓸어 담아오자!"라는 디스크 I/O 최적화의 뼈저린 교훈이 선행 [[259_paging|페이징]]을 탄생시켰다.
+- **개념**: [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))가 발생해서 디스크에서 특정 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 램으로 가져올 때, 해당 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 딱 1장(4KB)만 가져오는 것이 아니라 그 근처에 있는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들(예: 8장, 32KB)을 한꺼번에 묶어서 램으로 미리(Pre) 가져와 적재하는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 커널의 최적화 로직이다.
+- **필요성**: 하드디스크([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/))의 물리적 구조를 보면, 100km를 달려가서([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/)) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 1개를 주워오나 100개를 주워오나 기름값과 걸리는 시간은 거의 똑같다. 그런데 [순수 요구 페이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/384_pure_demand_paging/)은 1개 쓰고 100km 달려가고, 또 1개 쓰고 100km 달려가는 끔찍한 비효율을 낳았다. 부팅할 때 엄청난 렉이 걸린다. "기왕 트럭 몰고 디스크까지 간 김에, 나중에 쓸 것 같은 옆에 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들 싹 다 트럭에 쓸어 담아오자!"라는 디스크 I/O 최적화의 뼈저린 교훈이 선행 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)을 탄생시켰다.
 
 - **등장 배경 및 I/O 병목의 해소**:
-  1. **[[459_quic_fec_forward_error_correction|초기]] [[255_demand_paging|요구 페이징]]의 렉**: 앱 아이콘을 누르면 폴트가 수백 번 터져 디스크 긁는 소리만 나고 화면이 10초 동안 안 켜졌다.
-  2. **하드웨어 디스크의 역학**: 디스크의 회전 [[141_latency|지연 시간]]([[325_rotational_latency|Rotational Latency]])을 극복하려면 한 번 찌를 때 뭉텅이(Sequential)로 읽어내는 것만이 살길이었다.
-  3. **공간 지역성(Locality)의 확신**: 통계적으로 프로그래머가 10번 [[286_page_frame|페이지]]를 읽으면 무조건 0.1초 뒤에 11번, 12번 [[286_page_frame|페이지]]를 읽는다는 절대 법칙이 증명되었기에, 예측 로딩(Pre-loading)에 대한 강력한 수학적 정당성이 부여되었다.
+  1. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)의 렉**: 앱 아이콘을 누르면 폴트가 수백 번 터져 디스크 긁는 소리만 나고 화면이 10초 동안 안 켜졌다.
+  2. **하드웨어 디스크의 역학**: 디스크의 회전 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)([Rotational Latency](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/))을 극복하려면 한 번 찌를 때 뭉텅이(Sequential)로 읽어내는 것만이 살길이었다.
+  3. **공간 지역성(Locality)의 확신**: 통계적으로 프로그래머가 10번 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 읽으면 무조건 0.1초 뒤에 11번, 12번 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 읽는다는 절대 법칙이 증명되었기에, 예측 로딩(Pre-loading)에 대한 강력한 수학적 정당성이 부여되었다.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────┐
@@ -46,17 +50,17 @@ tags:
 │   ✅ 결과: 디스크 지연 페널티가 딱 1번으로 줄어듦. 속도 4배 상승!      │
 └────────────────────────────────────────────────────────────────────────┘
 ```
-**[다이어그램 해설]** 디스크는 '찾아가는 시간(탐색)'이 '퍼 담는 시간(전송)'보다 압도적으로 길다. 선행 [[259_paging|페이징]]은 탐색 시간을 1번으로 고정시키고 전송량만 살짝 늘려 I/O [[140_bandwidth|대역폭]]을 한계치까지 쥐어짜는 기술이다. 이 덕분에 끔찍한 [[559_serverless_cold_start_mitigation|콜드 스타트]]([[347_cold_start_problem|Cold Start]]) [[015_지연_데이터_관점|지연]]이 해결되어 앱이 더블클릭과 동시에 켜지는 마법을 부릴 수 있게 되었다.
+**[다이어그램 해설]** 디스크는 '찾아가는 시간(탐색)'이 '퍼 담는 시간(전송)'보다 압도적으로 길다. 선행 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)은 탐색 시간을 1번으로 고정시키고 전송량만 살짝 늘려 I/O [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 한계치까지 쥐어짜는 기술이다. 이 덕분에 끔찍한 [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/)([Cold Start](/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/)) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 해결되어 앱이 더블클릭과 동시에 켜지는 마법을 부릴 수 있게 되었다.
 
-- **📢 섹션 요약 비유**: 우물(디스크)에 물 길으러 갈 때 종이컵(1페이지)을 들고 가서 100번 왕복하는 바보([[255_demand_paging|요구 페이징]])가 되지 말고, 양동이(선행 [[259_paging|페이징]] 묶음)를 가져가서 한 번에 꽉 채워 들고 오면 99번의 헛수고([[720_page_fault_isr|페이지 폴트]])를 안 해도 되는 노동 최적화의 진리입니다.
+- **📢 섹션 요약 비유**: 우물(디스크)에 물 길으러 갈 때 종이컵(1페이지)을 들고 가서 100번 왕복하는 바보([요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/))가 되지 말고, 양동이(선행 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 묶음)를 가져가서 한 번에 꽉 채워 들고 오면 99번의 헛수고([페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/))를 안 해도 되는 노동 최적화의 진리입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 커널의 '[[537_read_ahead_delayed_write|미리 읽기]](Readahead)' [[001_algorithm_definition|알고리즘]] 파이프라인
+### 커널의 '[미리 읽기](/knowledge-base/studynote/02_operating_system/09_file_system/537_read_ahead_delayed_write/)(Readahead)' [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 파이프라인
 
-현대 리눅스 커널은 선행 [[259_paging|페이징]]을 **Readahead([[537_read_ahead_delayed_write|미리 읽기]])**라는 이름의 고도화된 [[210_heuristics_scheduling|휴리스틱]]([[236_a_star_heuristic_minimax_mcts_monte_carlo|Heuristic]]) [[001_algorithm_definition|알고리즘]]으로 구현한다.
+현대 리눅스 커널은 선행 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)을 **Readahead([미리 읽기](/knowledge-base/studynote/02_operating_system/09_file_system/537_read_ahead_delayed_write/))**라는 이름의 고도화된 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)([Heuristic](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 구현한다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────────────────────┐
@@ -81,39 +85,39 @@ tags:
 └──────────────────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** OS는 무턱대고 아무 때나 왕창 퍼오지 않는다. 처음에 살짝 미끼를 던져보고, 앱이 순차적으로 읽는 패턴([[504_file_access_methods_sequential_direct|Sequential Access]])을 보이면 확신을 갖고 미리 읽는 양(Readahead Window)을 기하급수적으로 뻥튀기한다. 반면 이리 찔끔, 저리 찔끔 랜덤(Random Access)으로 읽는 앱이면 즉각 "이놈한테 선행 [[259_paging|페이징]]을 쓰면 쓰레기만 차겠군" 하고 Readahead 창문을 0으로 닫아버려 램 용량을 방어한다. [[190_ai_llm_requirements_specification|AI]] 뺨치는 똑똑한 눈치 싸움이다.
+**[다이어그램 해설]** OS는 무턱대고 아무 때나 왕창 퍼오지 않는다. 처음에 살짝 미끼를 던져보고, 앱이 순차적으로 읽는 패턴([Sequential Access](/knowledge-base/studynote/02_operating_system/09_file_system/504_file_access_methods_sequential_direct/))을 보이면 확신을 갖고 미리 읽는 양(Readahead Window)을 기하급수적으로 뻥튀기한다. 반면 이리 찔끔, 저리 찔끔 랜덤(Random Access)으로 읽는 앱이면 즉각 "이놈한테 선행 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)을 쓰면 쓰레기만 차겠군" 하고 Readahead 창문을 0으로 닫아버려 램 용량을 방어한다. [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 뺨치는 똑똑한 눈치 싸움이다.
 
 ---
 
-### [[335_swapping|스와핑]]([[335_swapping|Swapping]])의 [[282_performance_tactics|성능]] 구원
+### [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)([Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/))의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 구원
 
-메모리가 꽉 차서 쫓겨났던 프로세스가 다시 램으로 돌아올 때(Swap-In), [[384_pure_demand_paging|순수 요구 페이징]]을 쓰면 이 덩치를 1장씩 긁어오느라 영원한 렉에 빠진다.
-- OS가 어떤 프로세스를 [[336_swap_out_in|스왑 아웃]](Swap-Out)시킬 때, 그 프로세스의 **'[[265_working_set|워킹 셋]]([[265_working_set|Working Set]], 현재 활발히 쓰는 [[286_page_frame|페이지]] 뭉치)'** 목록을 몰래 장부에 적어둔다.
-- 나중에 이 프로세스를 램으로 부활(Swap-In)시킬 때, 1장씩 찌를 때까지 안 기다린다. 장부에 적어둔 [[265_working_set|워킹 셋]] 100장을 **단 1번의 뭉텅이 디스크 I/O로(선행 [[259_paging|페이징]])** 램에 화끈하게 때려 박아버린다.
-- 이 기술 덕분에 [[762_accelerated_life_testing|Alt]]+Tab으로 숨겨둔 게임을 다시 화면에 띄울 때 화면이 끊기지 않고 1초 만에 복구되는 것이다.
+메모리가 꽉 차서 쫓겨났던 프로세스가 다시 램으로 돌아올 때(Swap-In), [순수 요구 페이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/384_pure_demand_paging/)을 쓰면 이 덩치를 1장씩 긁어오느라 영원한 렉에 빠진다.
+- OS가 어떤 프로세스를 [스왑 아웃](/knowledge-base/studynote/02_operating_system/06_memory_management/336_swap_out_in/)(Swap-Out)시킬 때, 그 프로세스의 **'[워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/), 현재 활발히 쓰는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 뭉치)'** 목록을 몰래 장부에 적어둔다.
+- 나중에 이 프로세스를 램으로 부활(Swap-In)시킬 때, 1장씩 찌를 때까지 안 기다린다. 장부에 적어둔 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/) 100장을 **단 1번의 뭉텅이 디스크 I/O로(선행 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))** 램에 화끈하게 때려 박아버린다.
+- 이 기술 덕분에 [Alt](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/762_accelerated_life_testing/)+Tab으로 숨겨둔 게임을 다시 화면에 띄울 때 화면이 끊기지 않고 1초 만에 복구되는 것이다.
 
-- **📢 섹션 요약 비유**: 잠자던 아이([[336_swap_out_in|스왑 아웃]]된 앱)를 깨울 때, 교복 입히고 밥 먹이고 가방 챙기느라 아침에 지각([[387_page_fault|Page Fault]] 렉)하지 않게 하려고, 어젯밤에 엄마(OS)가 내일 입을 교복과 책가방([[265_working_set|워킹 셋]])을 미리 침대 옆에 다 세팅해 두어(선행 [[259_paging|페이징]]) 1초 만에 등교시키는 육아 비법입니다.
+- **📢 섹션 요약 비유**: 잠자던 아이([스왑 아웃](/knowledge-base/studynote/02_operating_system/06_memory_management/336_swap_out_in/)된 앱)를 깨울 때, 교복 입히고 밥 먹이고 가방 챙기느라 아침에 지각([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 렉)하지 않게 하려고, 어젯밤에 엄마(OS)가 내일 입을 교복과 책가방([워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/))을 미리 침대 옆에 다 세팅해 두어(선행 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)) 1초 만에 등교시키는 육아 비법입니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 비교 1: [[384_pure_demand_paging|순수 요구 페이징]] vs 선행 [[259_paging|페이징]]의 트레이드오프
+### 비교 1: [순수 요구 페이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/384_pure_demand_paging/) vs 선행 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 트레이드오프
 
-| 특성 | [[384_pure_demand_paging|순수 요구 페이징]] (Pure Demand) | 선행 [[259_paging|페이징]] (Prepaging) |
+| 특성 | [순수 요구 페이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/384_pure_demand_paging/) (Pure Demand) | 선행 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) (Prepaging) |
 |:---|:---|:---|
 | **설계 철학** | 보수적, 게으름, 확실성(100% 필요한 것만) | 진취적, 예측성, I/O 스루풋 극대화 |
-| **메모리(RAM) 낭비** | **0% 완벽 방어** | 예측 실패 시 안 쓰는 쓰레기 [[286_page_frame|페이지]]로 **램 낭비 심각** |
-| **디스크(I/O) 부하** | 탐색 [[015_지연_데이터_관점|지연]](Seek Penalty) **최악** | 순차 I/O로 [[140_bandwidth|대역폭]]([[140_bandwidth|Bandwidth]]) 100% 활용 |
-| **[[559_serverless_cold_start_mitigation|콜드 스타트]](부팅 렉)**| 앱 킬 때 **수 초간 버벅거림 폭발** | 더블클릭 즉시 **부드럽게 켜짐 (UX 최강)** |
-| **타겟 워크로드** | 무작위로 여기저기 찌르는 DB (Random Access) | 영화, 대용량 [[501_file_definition_logical_record|파일]] 복사 ([[504_file_access_methods_sequential_direct|Sequential Access]]) |
+| **메모리(RAM) 낭비** | **0% 완벽 방어** | 예측 실패 시 안 쓰는 쓰레기 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)로 **램 낭비 심각** |
+| **디스크(I/O) 부하** | 탐색 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Seek Penalty) **최악** | 순차 I/O로 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)) 100% 활용 |
+| **[콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/)(부팅 렉)**| 앱 킬 때 **수 초간 버벅거림 폭발** | 더블클릭 즉시 **부드럽게 켜짐 (UX 최강)** |
+| **타겟 워크로드** | 무작위로 여기저기 찌르는 DB (Random Access) | 영화, 대용량 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 복사 ([Sequential Access](/knowledge-base/studynote/02_operating_system/09_file_system/504_file_access_methods_sequential_direct/)) |
 
-### [[286_page_frame|Page]] Pollution (캐시 오염의 재앙)
+### [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Pollution (캐시 오염의 재앙)
 
-선행 [[259_paging|페이징]]이 독약으로 변하는 순간이 있다. "미리 읽었는데 안 쓸 때"다.
-- 커널이 "이거 100장 다 쓸 거야!" 하고 램에 100장의 [[286_page_frame|페이지]]를 쏟아부었는데, 프로세스가 1장만 읽고 종료(Exit)해버렸다.
-- 이 억울한 99장의 찌꺼기 [[286_page_frame|페이지]] 때문에, 램에 조용히 잘 살고 있던 남의 소중한 캐시 [[286_page_frame|페이지]] 99장이 밖으로 쫓겨나 버리는(Eviction) 대참사가 발생한다.
-- 이를 **[[286_page_frame|페이지]] 오염([[286_page_frame|Page]] Pollution)**이라 부른다. 과도한 예측(Prepaging)은 멀쩡한 시스템의 램 생태계를 쑥대밭으로 만들 수 있는 양날의 검이다.
+선행 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)이 독약으로 변하는 순간이 있다. "미리 읽었는데 안 쓸 때"다.
+- 커널이 "이거 100장 다 쓸 거야!" 하고 램에 100장의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 쏟아부었는데, 프로세스가 1장만 읽고 종료(Exit)해버렸다.
+- 이 억울한 99장의 찌꺼기 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 때문에, 램에 조용히 잘 살고 있던 남의 소중한 캐시 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 99장이 밖으로 쫓겨나 버리는(Eviction) 대참사가 발생한다.
+- 이를 **[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 오염([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Pollution)**이라 부른다. 과도한 예측(Prepaging)은 멀쩡한 시스템의 램 생태계를 쑥대밭으로 만들 수 있는 양날의 검이다.
 
 ```text
 ┌──────────┬────────────┬────────────┬───────────────────────┐
@@ -123,9 +127,9 @@ tags:
 │ 빗나감(Miss)│ ☠️ 쓰레기 폭발│ 헛수고 낭비  │ 🐢 램 오염 렉 │
 └──────────┴────────────┴────────────┴───────────────────────┘
 ```
-**[매트릭스 해설]** 완벽한 적재 정책은 존재하지 않는다. 램이 남는 부자 환경에서는 선행 [[259_paging|페이징]]을 미친 듯이 돌려서 쾌적함을 쥐어짜는 게 무조건 이득이다. 하지만 램이 10MB밖에 없는 가난한 셋탑박스나 스마트워치에서 선행 [[259_paging|페이징]]의 오지랖을 부렸다간 메모리가 초토화되어 시스템이 뻗어버리므로 [[384_pure_demand_paging|순수 요구 페이징]]의 깐깐함을 써야 한다.
+**[매트릭스 해설]** 완벽한 적재 정책은 존재하지 않는다. 램이 남는 부자 환경에서는 선행 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)을 미친 듯이 돌려서 쾌적함을 쥐어짜는 게 무조건 이득이다. 하지만 램이 10MB밖에 없는 가난한 셋탑박스나 스마트워치에서 선행 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 오지랖을 부렸다간 메모리가 초토화되어 시스템이 뻗어버리므로 [순수 요구 페이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/384_pure_demand_paging/)의 깐깐함을 써야 한다.
 
-- **📢 섹션 요약 비유**: 손님이 뭘 먹을지 몰라 테이블에 반찬 30개를 꽉 차게 미리 다 깔아뒀습니다(선행 [[259_paging|페이징]]). 손님이 그걸 다 먹으면 감동([[263_cache_hit_miss|Hit]])의 도가니지만, 손님이 물 한 잔만 먹고 나가버리면 멀쩡한 밥상을 치울 공간이 부족해 다른 손님을 못 받고 음식(메모리 오염)만 몽땅 버리는 낭비의 늪에 빠집니다.
+- **📢 섹션 요약 비유**: 손님이 뭘 먹을지 몰라 테이블에 반찬 30개를 꽉 차게 미리 다 깔아뒀습니다(선행 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)). 손님이 그걸 다 먹으면 감동([Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/))의 도가니지만, 손님이 물 한 잔만 먹고 나가버리면 멀쩡한 밥상을 치울 공간이 부족해 다른 손님을 못 받고 음식(메모리 오염)만 몽땅 버리는 낭비의 늪에 빠집니다.
 
 ---
 
@@ -135,20 +139,20 @@ tags:
 윈도우 사용자들이 겪는 기묘한 현상이 있다. 컴퓨터를 켜고 가만히 놔뒀는데 하드디스크 혼자 미친 듯이 드르륵드르륵 돌아가고 램 사용량이 80%를 찍는다.
 1. **과거의 불만**: 윈도우 부팅이나 포토샵을 켤 때 너무 오래 걸린다는 불만이 폭주했다.
 2. **SuperFetch의 등장**: 
-   - 마이크로소프트는 극한의 선행 [[259_paging|페이징]] 기술인 `SuperFetch(현재 SysMain)`를 도입했다.
+   - 마이크로소프트는 극한의 선행 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 기술인 `SuperFetch(현재 SysMain)`를 도입했다.
    - 이 데몬은 유저의 며칠 치 사용 습관을 백그라운드에서 머신러닝으로 분석한다.
-   - "아, 이 유저는 오후 1시에 항상 크롬과 롤(LoL)을 켜네?" -> 12시 50분부터 디스크가 혼자 몰래 돌면서 크롬과 롤의 수백 MB 코드 덩어리들을 램의 남는 공간에 모조리 [[456_caching|캐싱]](Prepaging)해 둔다.
+   - "아, 이 유저는 오후 1시에 항상 크롬과 롤(LoL)을 켜네?" -> 12시 50분부터 디스크가 혼자 몰래 돌면서 크롬과 롤의 수백 MB 코드 덩어리들을 램의 남는 공간에 모조리 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)(Prepaging)해 둔다.
 3. **UX의 극대화와 체감 렉**:
    - 오후 1시에 롤을 더블클릭하면? 디스크를 1바이트도 안 읽고 램에서 0.1초 만에 켜지는 신기루를 보여준다.
-   - 하지만 램 용량이 적은 똥컴에서는 이 데몬이 램을 꽉꽉 채워버려 컴퓨터 자체가 멈추는 악성 종양 취급을 받는다. 실무 커뮤니티의 "윈도우 포맷 후 1순위: SysMain 끄기"라는 팁은 바로 이 과도한 선행 [[259_paging|페이징]]의 오지랖을 끄려는 몸부림이다.
+   - 하지만 램 용량이 적은 똥컴에서는 이 데몬이 램을 꽉꽉 채워버려 컴퓨터 자체가 멈추는 악성 종양 취급을 받는다. 실무 커뮤니티의 "윈도우 포맷 후 1순위: SysMain 끄기"라는 팁은 바로 이 과도한 선행 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 오지랖을 끄려는 몸부림이다.
 
 ### mmap과 readahead 튜닝 (madvise)
-C++ 리눅스 백엔드 서버를 짤 때, 개발자는 `madvise()` 시스템 콜을 통해 OS 커널의 선행 [[259_paging|페이징]] 로직에 직접 '개입'할 수 있다.
-- `MADV_SEQUENTIAL`: "나 이 거대 [[501_file_definition_logical_record|파일]] 0번부터 끝까지 쫙 훑을 거니까, OS야 제발 1장씩 말고 100장씩 미친 듯이 퍼 와라!(강력한 Prepaging 요구)"
-- `MADV_RANDOM`: "나 이 [[501_file_definition_logical_record|파일]] 포인터로 미친 듯이 랜덤 점프 뛸 거니까, 절대 미리 읽지 마! 쓰레기만 차니까 딱 내가 찌른 1장만 퍼와!(Pure Demand 요구)"
-최정상급 엔지니어는 OS를 믿지 않고, 이처럼 코드 레벨에서 선행 [[259_paging|페이징]] 엔진을 조종해 I/O [[282_performance_tactics|성능]]의 끝을 본다.
+C++ 리눅스 백엔드 서버를 짤 때, 개발자는 `madvise()` 시스템 콜을 통해 OS 커널의 선행 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 로직에 직접 '개입'할 수 있다.
+- `MADV_SEQUENTIAL`: "나 이 거대 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 0번부터 끝까지 쫙 훑을 거니까, OS야 제발 1장씩 말고 100장씩 미친 듯이 퍼 와라!(강력한 Prepaging 요구)"
+- `MADV_RANDOM`: "나 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 포인터로 미친 듯이 랜덤 점프 뛸 거니까, 절대 미리 읽지 마! 쓰레기만 차니까 딱 내가 찌른 1장만 퍼와!(Pure Demand 요구)"
+최정상급 엔지니어는 OS를 믿지 않고, 이처럼 코드 레벨에서 선행 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 엔진을 조종해 I/O [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 끝을 본다.
 
-- **📢 섹션 요약 비유**: 똑똑한 [[231_ai_turing_test|인공지능]] 비서(SuperFetch)가 사장님이 내일 무슨 옷을 입을지 예측해서 옷장에 수십 벌의 옷을 미리 쫙 걸어놓는(Prepaging) 서비스입니다. 예측이 맞으면 사장님은 1초 만에 출근하지만, 옷장(RAM)이 너무 작으면 기존 옷이 다 버려져서 비서를 해고(SysMain 끄기)하게 되는 실무의 냉혹함입니다.
+- **📢 섹션 요약 비유**: 똑똑한 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 비서(SuperFetch)가 사장님이 내일 무슨 옷을 입을지 예측해서 옷장에 수십 벌의 옷을 미리 쫙 걸어놓는(Prepaging) 서비스입니다. 예측이 맞으면 사장님은 1초 만에 출근하지만, 옷장(RAM)이 너무 작으면 기존 옷이 다 버려져서 비서를 해고(SysMain 끄기)하게 되는 실무의 냉혹함입니다.
 
 ---
 
@@ -158,15 +162,15 @@ C++ 리눅스 백엔드 서버를 짤 때, 개발자는 `madvise()` 시스템 �
 
 | 구분 | 내용 |
 |:---|:---|
-| **I/O 병목 돌파** | 디스크의 치명적 약점인 탐색 [[015_지연_데이터_관점|지연]]([[467_disk_access_time|Seek Time]])을 상쇄하고 [[140_bandwidth|대역폭]] 단위의 덩어리 전송을 이끌어내어 앱 로딩 속도를 수십 배 가속 |
-| **[[720_page_fault_isr|페이지 폴트]]([[387_page_fault|Page Fault]]) 격감** | [[559_serverless_cold_start_mitigation|콜드 스타트]] 시 필연적으로 폭발하는 수만 번의 인터럽트를 단 몇 번의 폴트로 막아내어 CPU 파이프라인 정지(Stall) 방어 |
-| **지능형 예측 [[456_caching|캐싱]] 진화** | 단순한 지역성 법칙을 넘어, 프로세스의 행동 패턴을 학습하여 미리 메모리 위에 판을 깔아두는 현대적 캐시 [[190_ai_llm_requirements_specification|AI]] 모델의 초석 마련 |
+| **I/O 병목 돌파** | 디스크의 치명적 약점인 탐색 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/))을 상쇄하고 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 단위의 덩어리 전송을 이끌어내어 앱 로딩 속도를 수십 배 가속 |
+| **[페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)) 격감** | [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/) 시 필연적으로 폭발하는 수만 번의 인터럽트를 단 몇 번의 폴트로 막아내어 CPU 파이프라인 정지(Stall) 방어 |
+| **지능형 예측 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 진화** | 단순한 지역성 법칙을 넘어, 프로세스의 행동 패턴을 학습하여 미리 메모리 위에 판을 깔아두는 현대적 캐시 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델의 초석 마련 |
 
 ### 결론 및 미래 전망
 
-선행 [[259_paging|페이징]] (Prepaging)은 가상 메모리가 낳은 '[[015_지연_데이터_관점|지연]]([[141_latency|Latency]])'이라는 악마를 '예측(Prediction)과 무더기 수송([[389_bulk_insert_batching_optimization|Batching]])'으로 무찌른 통계 공학의 승리다. 아무리 게으른 [[255_demand_paging|요구 페이징]]([[255_demand_paging|Demand Paging]])이 이론적으로 훌륭해도, 결국 인간은 0.1초의 버벅거림조차 참지 못하는 사용자 경험(UX)의 동물이었기에 이 과감한 '선취(Pre-fetch)' 아키텍처가 세상의 주류로 등극할 수밖에 없었다. 오늘날 SSD의 엄청난 랜덤 읽기 속도 덕분에 디스크 암(Arm)의 물리적 [[015_지연_데이터_관점|지연]]은 사라졌지만, NAND [[256_flash_memory|플래시 메모리]] 컨트롤러나 네트워크 너머 클라우드 스토리지(S3 등)에서 [[001_dikw_pyramid|데이터]]를 긁어올 때의 [[295_protocol_field_tcp_udp_icmp|프로토콜]] 오버헤드를 덮기 위해 이 선행 [[259_paging|페이징]](Readahead)의 철학은 엣지 컴퓨팅의 예지 [[456_caching|캐싱]](Predictive [[456_caching|Caching]])으로 그 영토를 끝없이 넓혀가고 있다.
+선행 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) (Prepaging)은 가상 메모리가 낳은 '[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))'이라는 악마를 '예측(Prediction)과 무더기 수송([Batching](/knowledge-base/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/))'으로 무찌른 통계 공학의 승리다. 아무리 게으른 [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)([Demand Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/))이 이론적으로 훌륭해도, 결국 인간은 0.1초의 버벅거림조차 참지 못하는 사용자 경험(UX)의 동물이었기에 이 과감한 '선취(Pre-fetch)' 아키텍처가 세상의 주류로 등극할 수밖에 없었다. 오늘날 SSD의 엄청난 랜덤 읽기 속도 덕분에 디스크 암(Arm)의 물리적 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 사라졌지만, NAND [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/) 컨트롤러나 네트워크 너머 클라우드 스토리지(S3 등)에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 긁어올 때의 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 오버헤드를 덮기 위해 이 선행 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)(Readahead)의 철학은 엣지 컴퓨팅의 예지 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)(Predictive [Caching](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/))으로 그 영토를 끝없이 넓혀가고 있다.
 
-- **📢 섹션 요약 비유**: 수험생(CPU)이 공부할 때 책장(디스크)에 한 권씩 가지러 가는 시간조차 아까워서, 어머니(OS)가 오늘 공부할 수학책, 연습장, 필통([[265_working_set|워킹 셋]] 뭉치)을 아예 책상(램)에 한 방에 세팅해 주는(선행 [[259_paging|페이징]]) 덕분에 수험생은 고개 한번 안 들고 공부에만 미친 듯이 몰입할 수 있게 된 감동적인 뒷바라지의 전설입니다.
+- **📢 섹션 요약 비유**: 수험생(CPU)이 공부할 때 책장(디스크)에 한 권씩 가지러 가는 시간조차 아까워서, 어머니(OS)가 오늘 공부할 수학책, 연습장, 필통([워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/) 뭉치)을 아예 책상(램)에 한 방에 세팅해 주는(선행 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)) 덕분에 수험생은 고개 한번 안 들고 공부에만 미친 듯이 몰입할 수 있게 된 감동적인 뒷바라지의 전설입니다.
 
 ---
 
@@ -174,10 +178,10 @@ C++ 리눅스 백엔드 서버를 짤 때, 개발자는 `madvise()` 시스템 �
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[255_demand_paging|요구 페이징]] ([[255_demand_paging|Demand Paging]]) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [[384_pure_demand_paging|순수 요구 페이징]] ([[384_pure_demand_paging|Pure Demand Paging]]) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [[386_valid_invalid_bit|유효-무효 비트]] ([[355_paging_memory_protection|Valid-Invalid Bit]]) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [[387_page_fault|페이지 부재]] ([[387_page_fault|Page Fault]]) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/) ([Demand Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [순수 요구 페이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/384_pure_demand_paging/) ([Pure Demand Paging](/knowledge-base/studynote/02_operating_system/07_virtual_memory/384_pure_demand_paging/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [유효-무효 비트](/knowledge-base/studynote/02_operating_system/07_virtual_memory/386_valid_invalid_bit/) ([Valid-Invalid Bit](/knowledge-base/studynote/02_operating_system/06_memory_management/355_paging_memory_protection/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) ([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -195,9 +199,9 @@ C++ 리눅스 백엔드 서버를 짤 때, 개발자는 `madvise()` 시스템 �
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 선행 [[259_paging|페이징]] (Prepaging)은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
-2. 먼저 [[384_pure_demand_paging|순수 요구 페이징]] ([[384_pure_demand_paging|Pure Demand Paging]])을 이해하면 선행 [[259_paging|페이징]] (Prepaging)이 왜 필요한지 더 쉽게 보여요.
-3. 그래서 선행 [[259_paging|페이징]] (Prepaging)을 잘 알면 나중에 [[386_valid_invalid_bit|유효-무효 비트]] ([[355_paging_memory_protection|Valid-Invalid Bit]])도 훨씬 쉽게 배울 수 있어요.
+1. 선행 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) (Prepaging)은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
+2. 먼저 [순수 요구 페이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/384_pure_demand_paging/) ([Pure Demand Paging](/knowledge-base/studynote/02_operating_system/07_virtual_memory/384_pure_demand_paging/))을 이해하면 선행 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) (Prepaging)이 왜 필요한지 더 쉽게 보여요.
+3. 그래서 선행 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) (Prepaging)을 잘 알면 나중에 [유효-무효 비트](/knowledge-base/studynote/02_operating_system/07_virtual_memory/386_valid_invalid_bit/) ([Valid-Invalid Bit](/knowledge-base/studynote/02_operating_system/06_memory_management/355_paging_memory_protection/))도 훨씬 쉽게 배울 수 있어요.
 
 ---
 
@@ -205,7 +209,7 @@ C++ 리눅스 백엔드 서버를 짤 때, 개발자는 `madvise()` 시스템 �
 
 **진행 상황**: 385 / 800
 
-← **이전**: [[384_pure_demand_paging|384. 순수 요구 페이징 (Pure Demand Paging) - 시작할 때 아무것도 안 올림]]
-**다음**: [[386_valid_invalid_bit|386. 유효-무효 비트 (Valid-Invalid Bit) - 적재 여부 표시]] →
+← **이전**: [384. 순수 요구 페이징 (Pure Demand Paging) - 시작할 때 아무것도 안 올림](/knowledge-base/studynote/02_operating_system/07_virtual_memory/384_pure_demand_paging/)
+**다음**: [386. 유효-무효 비트 (Valid-Invalid Bit) - 적재 여부 표시](/knowledge-base/studynote/02_operating_system/07_virtual_memory/386_valid_invalid_bit/) →
 
 ---

@@ -1,27 +1,31 @@
----
-title: 387. 페이지 부재 (Page Fault) - 무효 페이지 접근 시 발생하는 트랩(인터럽트)
-date: '2026-05-09'
-tags:
-- studynote-operating-system
----
++++
+title = "387. 페이지 부재 (Page Fault) - 무효 페이지 접근 시 발생하는 트랩(인터럽트)"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[286_page_frame|페이지]] 부재([[286_page_frame|Page]] Fault)는 CPU가 접근하려는 [[381_virtual_memory|가상 메모리]] 조각([[286_page_frame|페이지]])이 현재 물리 메모리(RAM)에 존재하지 않고 디스크에 있을 때, 하드웨어 MMU가 냅다 발생시키는 **'살려달라'는 [[022_kernel_role|커널]] [[016_interrupt_mechanism|인터럽트]]([[677_trap_based_system_call_implementation|Trap]]) [[130_signal|신호]]**다.
-> 2. **가치**: 이 에러 같은 현상은 사실 오류가 아니라, 디스크에 있는 거대한 프로그램을 램 용량에 구애받지 않고 잘게 쪼개어 실시간으로 가져와 실행하게 만드는 **'[[255_demand_paging|요구 페이징]]([[255_demand_paging|Demand Paging]])' 시스템의 가장 핵심적이고 정상적인 동력(Engine)**이다.
-> 3. **융합**: [[720_page_fault_isr|페이지 폴트]]가 터지면 CPU의 하드웨어 연산이 멈추고 OS 소프트웨어의 디스크 I/O 작업과 [[079_kube_scheduler_pod_placement|스케줄러]]([[211_context_switch|문맥 교환]])가 깨어나는, **소프트웨어와 하드웨어의 가장 극적인 바통 터치([[211_context_switch|Context Switch]])**가 일어나는 융합 지점이다.
+> 1. **본질**: [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 부재([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault)는 CPU가 접근하려는 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 조각([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))이 현재 물리 메모리(RAM)에 존재하지 않고 디스크에 있을 때, 하드웨어 MMU가 냅다 발생시키는 **'살려달라'는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)**다.
+> 2. **가치**: 이 에러 같은 현상은 사실 오류가 아니라, 디스크에 있는 거대한 프로그램을 램 용량에 구애받지 않고 잘게 쪼개어 실시간으로 가져와 실행하게 만드는 **'[요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)([Demand Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/))' 시스템의 가장 핵심적이고 정상적인 동력(Engine)**이다.
+> 3. **융합**: [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 터지면 CPU의 하드웨어 연산이 멈추고 OS 소프트웨어의 디스크 I/O 작업과 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)([문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))가 깨어나는, **소프트웨어와 하드웨어의 가장 극적인 바통 터치([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))**가 일어나는 융합 지점이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [[286_page_frame|페이지]] 부재([[286_page_frame|Page]] Fault)는 에러(Error)가 아니라 예외(Exception) 처리의 일종인 [[677_trap_based_system_call_implementation|트랩]]([[677_trap_based_system_call_implementation|Trap]])이다. CPU가 [[353_page_table|페이지 테이블]] 장부를 들여다봤는데 [[386_valid_invalid_bit|유효-무효 비트]]가 `Invalid(I)`로 찍혀있을 때 하드웨어가 멱살을 잡고 실행을 중지시킨 후, [[001_operating_system_purpose|운영체제]](OS)의 '[[286_page_frame|Page]] Fault Handler'라는 응급 [[658_ir_recovery|복구]] 코드를 호출하는 사건이다.
-- **필요성**: 램(RAM) 16GB짜리 컴퓨터에서 100GB짜리 GTA 게임을 실행하려면, 100GB를 몽땅 램에 올릴 수 없다. 결국 필요할 때마다 램의 낡은 조각을 버리고 디스크에서 새 조각을 가져와야 한다. 그런데 CPU는 자기가 100GB 램을 혼자 쓰고 있다고 착각([[381_virtual_memory|가상 메모리]])하며 무지성으로 다음 줄 코드를 팍팍 읽어나간다. "어? 여기 [[001_dikw_pyramid|데이터]] 없는데? 잠깐 멈춰! 디스크에서 퍼올 때까지 기다려!"라고 폭주하는 CPU를 멈춰 세우고 디스크에 심부름을 보낼 강력한 하드웨어 브레이크가 절대적으로 필요했다.
+- **개념**: [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 부재([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault)는 에러(Error)가 아니라 예외(Exception) 처리의 일종인 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))이다. CPU가 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 장부를 들여다봤는데 [유효-무효 비트](/knowledge-base/studynote/02_operating_system/07_virtual_memory/386_valid_invalid_bit/)가 `Invalid(I)`로 찍혀있을 때 하드웨어가 멱살을 잡고 실행을 중지시킨 후, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(OS)의 '[Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault Handler'라는 응급 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 코드를 호출하는 사건이다.
+- **필요성**: 램(RAM) 16GB짜리 컴퓨터에서 100GB짜리 GTA 게임을 실행하려면, 100GB를 몽땅 램에 올릴 수 없다. 결국 필요할 때마다 램의 낡은 조각을 버리고 디스크에서 새 조각을 가져와야 한다. 그런데 CPU는 자기가 100GB 램을 혼자 쓰고 있다고 착각([가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/))하며 무지성으로 다음 줄 코드를 팍팍 읽어나간다. "어? 여기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 없는데? 잠깐 멈춰! 디스크에서 퍼올 때까지 기다려!"라고 폭주하는 CPU를 멈춰 세우고 디스크에 심부름을 보낼 강력한 하드웨어 브레이크가 절대적으로 필요했다.
 
 - **등장 배경 및 아키텍처 타협**:
   1. **사전 적재의 실패**: 램이 커졌지만 프로그램 덩치는 더 빨리 커졌다. 다 올리면 부팅에 한 세월이 걸렸다.
-  2. **[[381_virtual_memory|가상 메모리]]의 선포**: "일단 안 올려놓고 시작할 테니, 읽다가 없으면 그때그때 가져오자"는 [[380_computational_graph_lazy_eager_execution|Lazy]] 아키텍처가 채택되었다.
-  3. **[[286_page_frame|Page]] Fault의 일상화**: 원래는 '진짜 불법 에러'를 잡으려던 [[677_trap_based_system_call_implementation|트랩]] 기술을, '[[001_dikw_pyramid|데이터]] 배달 주문' 벨로 용도를 확장([[323_overloading_vs_overriding|Overloading]])하여 [[381_virtual_memory|가상 메모리]]의 심장 박동으로 삼았다.
+  2. **[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 선포**: "일단 안 올려놓고 시작할 테니, 읽다가 없으면 그때그때 가져오자"는 [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) 아키텍처가 채택되었다.
+  3. **[Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault의 일상화**: 원래는 '진짜 불법 에러'를 잡으려던 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 기술을, '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배달 주문' 벨로 용도를 확장([Overloading](/knowledge-base/studynote/04_software_engineering/06_software_architecture/323_overloading_vs_overriding/))하여 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 심장 박동으로 삼았다.
 
 ```text
 ┌───────────────────────────────────────────────────────────────────────┐
@@ -47,9 +51,9 @@ tags:
 │              -> 디스크로 달려가 데이터를 램으로 퍼 나름.              │
 └───────────────────────────────────────────────────────────────────────┘
 ```
-**[다이어그램 해설]** 초보자들이 가장 많이 헷갈리는 부분이다. 윈도우 블루스크린이나 앱이 뻗는 건 'SegFault(불법)'이고, 우리가 말하는 '[[286_page_frame|Page]] Fault'는 컴퓨터가 숨 쉬듯 초당 수백 번씩 정상적으로 일어나는 [[001_dikw_pyramid|데이터]] 배달 주문이다. 하드웨어([[328_mmu|MMU]])는 멍청해서 둘을 구분 못 하고 무조건 [[677_trap_based_system_call_implementation|트랩]]을 터뜨리지만, 똑똑한 소프트웨어(OS)가 그걸 받아보고 "죽일 놈"과 "밥 줄 놈"을 가려내는 완벽한 협업 시스템이다.
+**[다이어그램 해설]** 초보자들이 가장 많이 헷갈리는 부분이다. 윈도우 블루스크린이나 앱이 뻗는 건 'SegFault(불법)'이고, 우리가 말하는 '[Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault'는 컴퓨터가 숨 쉬듯 초당 수백 번씩 정상적으로 일어나는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배달 주문이다. 하드웨어([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))는 멍청해서 둘을 구분 못 하고 무조건 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)을 터뜨리지만, 똑똑한 소프트웨어(OS)가 그걸 받아보고 "죽일 놈"과 "밥 줄 놈"을 가려내는 완벽한 협업 시스템이다.
 
-- **📢 섹션 요약 비유**: 경찰([[328_mmu|MMU]])이 길에서 신분증(램 [[001_dikw_pyramid|데이터]])이 없는 사람(I [[073_bit|비트]])을 무조건 체포해 서장(OS)에게 데려갑니다. 서장이 조사해 보고 진짜 간첩(SegFault)이면 감옥에 가두고, 그냥 지갑을 집에 두고 온 선량한 시민([[286_page_frame|Page]] Fault)이면 집(디스크)에 다녀오게 풀어주는 빈틈없는 치안 시스템입니다.
+- **📢 섹션 요약 비유**: 경찰([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))이 길에서 신분증(램 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 없는 사람(I [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))을 무조건 체포해 서장(OS)에게 데려갑니다. 서장이 조사해 보고 진짜 간첩(SegFault)이면 감옥에 가두고, 그냥 지갑을 집에 두고 온 선량한 시민([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault)이면 집(디스크)에 다녀오게 풀어주는 빈틈없는 치안 시스템입니다.
 
 ---
 
@@ -57,28 +61,28 @@ tags:
 
 ### 치명적 부작용: EAT(실질 접근 시간)의 붕괴
 
-[[720_page_fault_isr|페이지 폴트]]는 [[381_virtual_memory|가상 메모리]]를 돌아가게 하는 마법이지만, 그 대가로 치러야 하는 **'시간 페널티'**는 우주적 규모다.
-- 램(RAM)에서 [[001_dikw_pyramid|데이터]] 하나 읽어오기: 약 **100 나노초 (0.0001 밀리초)**
-- 하드디스크([[465_hdd_structure|HDD]])에서 4KB [[001_dikw_pyramid|데이터]] 읽어오기 ([[286_page_frame|Page]] Fault 발생 시): 약 **8 밀리초 (8,000,000 나노초)**
-- **결론**: [[720_page_fault_isr|페이지 폴트]] 한 번이 터지면, 램을 읽을 때보다 무려 **8만 배(80,000배)** 느려진다! 
+[페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)는 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)를 돌아가게 하는 마법이지만, 그 대가로 치러야 하는 **'시간 페널티'**는 우주적 규모다.
+- 램(RAM)에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 하나 읽어오기: 약 **100 나노초 (0.0001 밀리초)**
+- 하드디스크([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/))에서 4KB [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 읽어오기 ([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault 발생 시): 약 **8 밀리초 (8,000,000 나노초)**
+- **결론**: [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 한 번이 터지면, 램을 읽을 때보다 무려 **8만 배(80,000배)** 느려진다! 
 
-CPU가 이 8만 배의 시간을 멍때리고 기다리면 컴퓨터는 완전히 멈춰버린다. 그래서 OS는 [[720_page_fault_isr|페이지 폴트]]가 터지는 그 즉시 **해당 프로세스를 수면(Wait/Sleep) 상태로 뻗게 만들고, CPU 제어권을 다른 프로세스(예: 멜론 플레이어)로 넘겨버리는 [[211_context_switch|문맥 교환]]([[211_context_switch|Context Switch]])**을 빛의 속도로 단행한다.
+CPU가 이 8만 배의 시간을 멍때리고 기다리면 컴퓨터는 완전히 멈춰버린다. 그래서 OS는 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 터지는 그 즉시 **해당 프로세스를 수면(Wait/Sleep) 상태로 뻗게 만들고, CPU 제어권을 다른 프로세스(예: 멜론 플레이어)로 넘겨버리는 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))**을 빛의 속도로 단행한다.
 
 ---
 
 ### 마이너 폴트 (Minor) vs 메이저 폴트 (Major)
 
-리눅스 [[022_kernel_role|커널]] 소스코드를 보면 [[720_page_fault_isr|페이지 폴트]]도 맵기에 따라 두 가지로 나뉜다. 이 둘의 차이가 실무 [[282_performance_tactics|성능]] 튜닝의 핵심 지표다.
+리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스코드를 보면 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)도 맵기에 따라 두 가지로 나뉜다. 이 둘의 차이가 실무 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝의 핵심 지표다.
 
-1. **[[429_minor_vs_major_page_fault|마이너 페이지 폴트]] (Soft [[286_page_frame|Page]] Fault)**
-   - 디스크(하드/[[327_ssd|SSD]])까지 갈 필요 없이 램 안에서 해결되는 폴트.
-   - 예: [[333_shared_library|공유 라이브러리]](`libc.so`)를 A 앱이 이미 램에 올려놨다. B 앱이 그걸 처음 부르면 `I` [[073_bit|비트]]라 폴트가 터지지만, OS가 "어? 저기 램에 이미 있네? 주소만 연결해 줄게!" 하고 0.001초 만에 쓱 연결해 주고 끝낸다.
-   - 또는 0으로 가득 찬 빈 [[286_page_frame|페이지]](Zero-fill-on-demand)를 요구할 때 발생한다. (속도 빠름)
+1. **[마이너 페이지 폴트](/knowledge-base/studynote/02_operating_system/07_virtual_memory/429_minor_vs_major_page_fault/) (Soft [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault)**
+   - 디스크(하드/[SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))까지 갈 필요 없이 램 안에서 해결되는 폴트.
+   - 예: [공유 라이브러리](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/)(`libc.so`)를 A 앱이 이미 램에 올려놨다. B 앱이 그걸 처음 부르면 `I` [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)라 폴트가 터지지만, OS가 "어? 저기 램에 이미 있네? 주소만 연결해 줄게!" 하고 0.001초 만에 쓱 연결해 주고 끝낸다.
+   - 또는 0으로 가득 찬 빈 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(Zero-fill-on-demand)를 요구할 때 발생한다. (속도 빠름)
 
-2. **메이저 [[720_page_fault_isr|페이지 폴트]] (Hard [[286_page_frame|Page]] Fault)**
+2. **메이저 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) (Hard [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault)**
    - **우리가 아는 그 무시무시한 폴트다.**
-   - 램에 [[001_dikw_pyramid|데이터]]가 전혀 없어서 무거운 디스크 바늘(Head)을 덜그럭 움직여서 [[001_dikw_pyramid|데이터]]를 4KB 퍼와야 하는 지옥의 폴트다.
-   - 이것이 초당 수백 번 터지면 하드디스크 LED에 불이 미친 듯이 들어오며 서버가 멈춰버리는 **[[257_thrashing|스래싱]]([[257_thrashing|Thrashing]])** 현상이 발생한다.
+   - 램에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 전혀 없어서 무거운 디스크 바늘(Head)을 덜그럭 움직여서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 4KB 퍼와야 하는 지옥의 폴트다.
+   - 이것이 초당 수백 번 터지면 하드디스크 LED에 불이 미친 듯이 들어오며 서버가 멈춰버리는 **[스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))** 현상이 발생한다.
 
 - **📢 섹션 요약 비유**: 마이너 폴트는 식당에서 "물 좀 주세요" 했을 때 옆 테이블에 있던 물통을 그냥 1초 만에 쓱 건네주는 것이고, 메이저 폴트는 "물 좀 주세요" 했는데 물이 다 떨어져서 직원이 뒷산 약수터(디스크)까지 1시간 걸려 물을 떠 와야 하는 대참사입니다.
 
@@ -86,22 +90,22 @@ CPU가 이 8만 배의 시간을 멍때리고 기다리면 컴퓨터는 완전�
 
 ## Ⅲ. 비교 및 연결
 
-### 비교 1: [[286_page_frame|Page]] Fault vs [[357_tlb|TLB]] Miss vs Cache Miss
+### 비교 1: [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault vs [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) Miss vs Cache Miss
 
 주소가 없어서 터지는 3대 Miss 형제다. 이 셋은 발생 계층이 완전히 다르다.
 
-| 에러 종류 | 발생 위치 (하드웨어) | 잃어버린 대상 | 해결 시 걸리는 [[141_latency|지연 시간]] |
+| 에러 종류 | 발생 위치 (하드웨어) | 잃어버린 대상 | 해결 시 걸리는 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) |
 |:---|:---|:---|:---|
-| **L1/[[261_l2_cache|L2 Cache]] Miss**| CPU 코어 내부 [[001_dikw_pyramid|데이터]] 캐시 | 램에 있는 실제 변수, 코드 조각 | 약 50 ~ 100 나노초 (램 다녀옴) |
-| **[[357_tlb|TLB]] Miss** | [[328_mmu|MMU]] 내부 주소 번역 캐시 | [[353_page_table|페이지 테이블]] 매핑 장부 기록 | 약 100 나노초 (램 장부 다녀옴) |
-| **[[286_page_frame|Page]] Fault** | **[[001_operating_system_purpose|운영체제]](OS) 소프트웨어 단**| [[001_dikw_pyramid|데이터]]가 램에 없고 디스크에 있음| **약 [[489_raid_10_hybrid|10]],000,000 나노초 (디스크 I/O)** |
+| **L1/[L2 Cache](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/261_l2_cache/) Miss**| CPU 코어 내부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 캐시 | 램에 있는 실제 변수, 코드 조각 | 약 50 ~ 100 나노초 (램 다녀옴) |
+| **[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) Miss** | [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 내부 주소 번역 캐시 | [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 매핑 장부 기록 | 약 100 나노초 (램 장부 다녀옴) |
+| **[Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault** | **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(OS) 소프트웨어 단**| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 램에 없고 디스크에 있음| **약 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000,000 나노초 (디스크 I/O)** |
 
-### [[255_demand_paging|요구 페이징]]([[255_demand_paging|Demand Paging]])의 역설: [[158_instruction|Instruction]] Restart
+### [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)([Demand Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/))의 역설: [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Restart
 
-[[720_page_fault_isr|페이지 폴트]]가 처리되고 나면, OS는 방금 뻗었던 그 프로세스를 깨우고 멈췄던 **[[158_instruction|명령어]]를 다시 재실행(Restart)**시켜야 한다.
-- 만약 `ADD A, B` (A와 B를 더해 A에 넣어라)라는 [[158_instruction|명령어]]에서 B를 읽으려다 [[286_page_frame|Page]] Fault가 터졌다 치자.
-- 디스크에서 B를 가져왔으니, OS는 [[164_pc|프로그램 카운터]]([[164_pc|PC]])를 살짝 뒤로 돌려서 `ADD A, B`를 처음부터 다시 실행시킨다.
-- ⚠ **치명적 한계**: 만약 `A`의 값이 이미 절반쯤 더해진 상태에서 폴트가 터졌다면? 다시 처음부터 덮어쓰면 [[001_dikw_pyramid|데이터]]가 박살 난다! 그래서 인텔과 ARM 등 CPU 하드웨어 설계자들은, [[158_instruction|명령어]] 실행 중간에 폴트가 터져도 [[057_register|레지스터]] 상태를 완벽하게 이전으로 [[098_rollback_strategy_pipeline_error_threshold|롤백]](Roll-back)시킬 수 있는 어마어마하게 복잡한 회로 설계를 [[328_mmu|MMU]] 안에 쑤셔 넣어야만 했다. [[720_page_fault_isr|페이지 폴트]]는 하드웨어 엔지니어들의 뼈와 살을 깎아 만든 마법이다.
+[페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 처리되고 나면, OS는 방금 뻗었던 그 프로세스를 깨우고 멈췄던 **[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 다시 재실행(Restart)**시켜야 한다.
+- 만약 `ADD A, B` (A와 B를 더해 A에 넣어라)라는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)에서 B를 읽으려다 [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault가 터졌다 치자.
+- 디스크에서 B를 가져왔으니, OS는 [프로그램 카운터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))를 살짝 뒤로 돌려서 `ADD A, B`를 처음부터 다시 실행시킨다.
+- ⚠ **치명적 한계**: 만약 `A`의 값이 이미 절반쯤 더해진 상태에서 폴트가 터졌다면? 다시 처음부터 덮어쓰면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 박살 난다! 그래서 인텔과 ARM 등 CPU 하드웨어 설계자들은, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 실행 중간에 폴트가 터져도 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 상태를 완벽하게 이전으로 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)(Roll-back)시킬 수 있는 어마어마하게 복잡한 회로 설계를 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 안에 쑤셔 넣어야만 했다. [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)는 하드웨어 엔지니어들의 뼈와 살을 깎아 만든 마법이다.
 
 ```text
 ┌──────────┬────────────┬────────────┬────────────────────────┐
@@ -111,30 +115,30 @@ CPU가 이 8만 배의 시간을 멍때리고 기다리면 컴퓨터는 완전�
 │ 페이지 폴트│ 멱살 잡히듯 멈춤│ ☠️ 지옥 수준 │ 디스크 퍼오기 │
 └──────────┴────────────┴────────────┴────────────────────────┘
 ```
-**[매트릭스 해설]** [[720_page_fault_isr|페이지 폴트]]는 예고 없이 뒤통수를 치는 [[016_interrupt_mechanism|인터럽트]]다. 언제 터질지 모르기 때문에, 하드웨어는 매 클럭마다 상태를 백업할 준비를 하고 있어야 한다. 이 하드웨어 복원 회로([[393_undo|Undo]] Logic)가 완벽하지 않았다면 현대의 [[381_virtual_memory|가상 메모리]] 체계는 성립조차 할 수 없었을 것이다.
+**[매트릭스 해설]** [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)는 예고 없이 뒤통수를 치는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)다. 언제 터질지 모르기 때문에, 하드웨어는 매 클럭마다 상태를 백업할 준비를 하고 있어야 한다. 이 하드웨어 복원 회로([Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) Logic)가 완벽하지 않았다면 현대의 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 체계는 성립조차 할 수 없었을 것이다.
 
-- **📢 섹션 요약 비유**: 롤러코스터([[158_instruction|명령어]])가 수직 낙하하는 중간에 전기가 끊겨([[286_page_frame|Page]] Fault) 공중에 매달렸습니다. 전기가 들어왔을 때, 거기서부터 다시 출발하면 관성이 깨져 열차가 뒤집어지므로, 어떻게든 열차를 출발점([[158_instruction|명령어]] 처음)으로 살금살금 [[098_rollback_strategy_pipeline_error_threshold|롤백]]시켜서 다시 부드럽게 떨어뜨려 주는 무시무시한 안전장치 기술이 동반되어야 합니다.
+- **📢 섹션 요약 비유**: 롤러코스터([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))가 수직 낙하하는 중간에 전기가 끊겨([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault) 공중에 매달렸습니다. 전기가 들어왔을 때, 거기서부터 다시 출발하면 관성이 깨져 열차가 뒤집어지므로, 어떻게든 열차를 출발점([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 처음)으로 살금살금 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)시켜서 다시 부드럽게 떨어뜨려 주는 무시무시한 안전장치 기술이 동반되어야 합니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 실무 시나리오: SAR [[158_instruction|명령어]]를 통한 서버 렉 분석
-1. **서버의 절규**: 개발자가 만든 [[241_machine_learning_basics|머신러닝]] [[001_dikw_pyramid|데이터]] 전처리 파이썬 스크립트가 16GB 램 서버에서 3일째 돌고 있는데 끝나지를 않는다.
-2. **엔지니어의 진단 (`sar -B 1 5` [[158_instruction|명령어]])**:
-   - 리눅스 서버에 접속해 초당 [[720_page_fault_isr|페이지 폴트]] 수치를 모니터링하는 [[158_instruction|명령어]]를 친다.
+### 실무 시나리오: SAR [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 통한 서버 렉 분석
+1. **서버의 절규**: 개발자가 만든 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전처리 파이썬 스크립트가 16GB 램 서버에서 3일째 돌고 있는데 끝나지를 않는다.
+2. **엔지니어의 진단 (`sar -B 1 5` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))**:
+   - 리눅스 서버에 접속해 초당 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 수치를 모니터링하는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 친다.
    - `majflt/s (초당 메이저 폴트 횟수)`가 평소엔 0인데, 무려 **5,000**을 찍고 있다!
-   - 즉, 초당 5천 번씩 디스크를 긁어오며 서버가 램 부족으로 인한 [[257_thrashing|스래싱]]([[257_thrashing|Thrashing]]) 늪에 빠져 허우적대고 있는 것이다.
+   - 즉, 초당 5천 번씩 디스크를 긁어오며 서버가 램 부족으로 인한 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)) 늪에 빠져 허우적대고 있는 것이다.
 3. **실무적 결단**:
-   - 이 상태로 두면 스크립트는 3년이 지나도 안 끝난다 (EAT [[015_지연_데이터_관점|지연]] 폭발). 
-   - 엔지니어는 즉각 `kill -9`로 파이썬 스크립트를 쏴 죽이고, 개발자에게 "램 32GB 이상 되는 서버로 이사 가든지, 코드를 짤 때 덩어리로 잘라서(Batch) 올리게 최적화해라!"라고 빠꾸를 먹인다. 시스템 관리에 있어 [[286_page_frame|Page]] Fault 수치는 서버의 건강을 진단하는 가장 정직한 체온계다.
+   - 이 상태로 두면 스크립트는 3년이 지나도 안 끝난다 (EAT [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 폭발). 
+   - 엔지니어는 즉각 `kill -9`로 파이썬 스크립트를 쏴 죽이고, 개발자에게 "램 32GB 이상 되는 서버로 이사 가든지, 코드를 짤 때 덩어리로 잘라서(Batch) 올리게 최적화해라!"라고 빠꾸를 먹인다. 시스템 관리에 있어 [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault 수치는 서버의 건강을 진단하는 가장 정직한 체온계다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]: JVM 웜업(Warm-up) 없는 트래픽 투입
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): JVM 웜업(Warm-up) 없는 트래픽 투입
 Java Spring 서버를 띄우자마자 무지성으로 유저 트래픽 1만 명을 부어버리면 서버가 펑 터진다. 
-이유는 자바 클래스와 객체들이 아직 램에 안 올라와 있고 디스크(혹은 미사용 상태)에 있어서, 트래픽이 닿는 순간 수만 번의 **[[286_page_frame|Page]] Fault ([[559_serverless_cold_start_mitigation|콜드 스타트]] 렉)**가 융단폭격처럼 터지기 때문이다.
-그래서 [[196_kubernetes_k8s_container_orchestration|쿠버네티스]](k8s) 실무에서는 컨테이너를 띄운 뒤 바로 트래픽을 주지 않고, 10초 정도 가짜 트래픽(Health Check/Warm-up)을 흘려보내어 [[286_page_frame|Page]] Fault 소나기를 미리 다 맞게 한 뒤, 램에 코드가 꽉 찬 쾌적한 상태가 되면 비로소 진짜 유저를 받는다.
+이유는 자바 클래스와 객체들이 아직 램에 안 올라와 있고 디스크(혹은 미사용 상태)에 있어서, 트래픽이 닿는 순간 수만 번의 **[Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault ([콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/) 렉)**가 융단폭격처럼 터지기 때문이다.
+그래서 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(k8s) 실무에서는 컨테이너를 띄운 뒤 바로 트래픽을 주지 않고, 10초 정도 가짜 트래픽(Health Check/Warm-up)을 흘려보내어 [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault 소나기를 미리 다 맞게 한 뒤, 램에 코드가 꽉 찬 쾌적한 상태가 되면 비로소 진짜 유저를 받는다.
 
-- **📢 섹션 요약 비유**: 메이저 폴트가 폭발하는 서버는 감기에 걸려 1초마다 기침을 컥컥 대는 환자([[257_thrashing|Thrashing]])와 같습니다. 기침하느라 일을 아예 못합니다. 그래서 실무에서는 출근 전에 따뜻한 물(웜업)을 미리 먹여 기침(콜드 폴트)을 다 뽑아낸 뒤에 일을 시키는 깐깐한 프로세스를 거칩니다.
+- **📢 섹션 요약 비유**: 메이저 폴트가 폭발하는 서버는 감기에 걸려 1초마다 기침을 컥컥 대는 환자([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))와 같습니다. 기침하느라 일을 아예 못합니다. 그래서 실무에서는 출근 전에 따뜻한 물(웜업)을 미리 먹여 기침(콜드 폴트)을 다 뽑아낸 뒤에 일을 시키는 깐깐한 프로세스를 거칩니다.
 
 ---
 
@@ -144,15 +148,15 @@ Java Spring 서버를 띄우자마자 무지성으로 유저 트래픽 1만 명�
 
 | 구분 | 내용 |
 |:---|:---|
-| **메모리 환상의 완성** | 물리 램보다 100배 큰 프로그램을 띄워도 터지지 않고 돌아가는, OS 역사상 가장 위대한 기적([[381_virtual_memory|Virtual Memory]])의 실행 엔진 |
-| **물리 램 사용률 극대화** | "요구될 때만 올린다"는 철학으로, 램 전체에 엑기스(정말 쓰는 코드)만 꽉꽉 채워넣어 [[673_multiprogramming_bottleneck_resource|다중 프로그래밍]] 한계치 돌파 |
-| **[[001_operating_system_purpose|운영체제]] [[079_kube_scheduler_pod_placement|스케줄러]]와의 융합**| 폴트로 인한 I/O 대기 시간을 [[079_kube_scheduler_pod_placement|스케줄러]]가 남의 프로세스 돌리는 데 100% 재활용하여 CPU 사이클 낭비를 0으로 수렴시킴 |
+| **메모리 환상의 완성** | 물리 램보다 100배 큰 프로그램을 띄워도 터지지 않고 돌아가는, OS 역사상 가장 위대한 기적([Virtual Memory](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/))의 실행 엔진 |
+| **물리 램 사용률 극대화** | "요구될 때만 올린다"는 철학으로, 램 전체에 엑기스(정말 쓰는 코드)만 꽉꽉 채워넣어 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 한계치 돌파 |
+| **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)와의 융합**| 폴트로 인한 I/O 대기 시간을 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 남의 프로세스 돌리는 데 100% 재활용하여 CPU 사이클 낭비를 0으로 수렴시킴 |
 
 ### 결론 및 미래 전망
 
-[[286_page_frame|페이지]] 부재 ([[286_page_frame|Page]] Fault)는 이름에는 '[[352_defect_definition|결함]](Fault)'이 들어가 있지만, 사실 현대 컴퓨터 공학에서 이 녀석만큼 성실하고 아름답게 작동하는 톱니바퀴도 없다. 이 [[016_interrupt_mechanism|인터럽트]]가 터져주지 않으면 디스크에 있는 수백 GB짜리 게임은 영원히 램으로 올라올 수 없다. 과거 HDD의 느린 탐색 속도(8ms) 탓에 [[720_page_fault_isr|페이지 폴트]]는 공포의 대상이었지만, [[482_nvme|NVMe]] [[356_pcie|PCIe]] 4.0/5.0 SSD의 등장으로 I/O [[015_지연_데이터_관점|지연]]이 마이크로초 단위로 분쇄되면서, [[720_page_fault_isr|페이지 폴트]]가 유발하는 페널티는 점차 체감하기 어려운 영역으로 지워지고 있다. 향후 [[441_cxl|CXL]] [[442_memory_pooling|메모리 풀링]] 아키텍처에서는 이 [[720_page_fault_isr|페이지 폴트]]가 "디스크가 아니라 옆 랙(Rack)에 있는 남는 램에서 0.001ms 만에 훔쳐 오는" 초광속 네트워크 [[016_interrupt_mechanism|인터럽트]]로 진화하여, 진정한 무한 램의 세계를 여는 열쇠가 될 것이다.
+[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 부재 ([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault)는 이름에는 '[결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)(Fault)'이 들어가 있지만, 사실 현대 컴퓨터 공학에서 이 녀석만큼 성실하고 아름답게 작동하는 톱니바퀴도 없다. 이 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 터져주지 않으면 디스크에 있는 수백 GB짜리 게임은 영원히 램으로 올라올 수 없다. 과거 HDD의 느린 탐색 속도(8ms) 탓에 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)는 공포의 대상이었지만, [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 4.0/5.0 SSD의 등장으로 I/O [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 마이크로초 단위로 분쇄되면서, [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 유발하는 페널티는 점차 체감하기 어려운 영역으로 지워지고 있다. 향후 [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) [메모리 풀링](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/442_memory_pooling/) 아키텍처에서는 이 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 "디스크가 아니라 옆 랙(Rack)에 있는 남는 램에서 0.001ms 만에 훔쳐 오는" 초광속 네트워크 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)로 진화하여, 진정한 무한 램의 세계를 여는 열쇠가 될 것이다.
 
-- **📢 섹션 요약 비유**: 영화 필름이 돌 때 사실 중간중간 끊긴 사진([[286_page_frame|Page]] Fault)들이 이어지는 것이지만, 1초에 60번을 갈아 끼우는 빠른 속도([[327_ssd|SSD]])와 영사기(OS)의 부드러운 연결 덕분에 우리 눈에는 한 편의 아름다운 연속된 영상([[381_virtual_memory|가상 메모리]])으로만 보이는 위대한 환영 예술입니다.
+- **📢 섹션 요약 비유**: 영화 필름이 돌 때 사실 중간중간 끊긴 사진([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault)들이 이어지는 것이지만, 1초에 60번을 갈아 끼우는 빠른 속도([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))와 영사기(OS)의 부드러운 연결 덕분에 우리 눈에는 한 편의 아름다운 연속된 영상([가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/))으로만 보이는 위대한 환영 예술입니다.
 
 ---
 
@@ -160,10 +164,10 @@ Java Spring 서버를 띄우자마자 무지성으로 유저 트래픽 1만 명�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[385_prepaging|선행 페이징]] ([[385_prepaging|Prepaging]]) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [[386_valid_invalid_bit|유효-무효 비트]] ([[355_paging_memory_protection|Valid-Invalid Bit]]) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [[286_page_frame|페이지]] 부재 처리 과정 6단계 (OS [[677_trap_based_system_call_implementation|트랩]], [[057_register|레지스터]] 저장, 디스크 읽기, 문맥교환 등) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [[389_page_fault_rate_eat|페이지 부재율]] ([[389_page_fault_rate_eat|Page Fault Rate]]) 와 실질 접근 시간 (EAT) [[282_performance_tactics|성능]] [[083_relationship_in_er_model|관계]] | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [선행 페이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/385_prepaging/) ([Prepaging](/knowledge-base/studynote/02_operating_system/07_virtual_memory/385_prepaging/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [유효-무효 비트](/knowledge-base/studynote/02_operating_system/07_virtual_memory/386_valid_invalid_bit/) ([Valid-Invalid Bit](/knowledge-base/studynote/02_operating_system/06_memory_management/355_paging_memory_protection/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 부재 처리 과정 6단계 (OS [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/), [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 저장, 디스크 읽기, 문맥교환 등) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [페이지 부재율](/knowledge-base/studynote/02_operating_system/07_virtual_memory/389_page_fault_rate_eat/) ([Page Fault Rate](/knowledge-base/studynote/02_operating_system/07_virtual_memory/389_page_fault_rate_eat/)) 와 실질 접근 시간 (EAT) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -181,9 +185,9 @@ Java Spring 서버를 띄우자마자 무지성으로 유저 트래픽 1만 명�
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [[286_page_frame|페이지]] 부재 ([[286_page_frame|Page]] Fault)은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
-2. 먼저 [[386_valid_invalid_bit|유효-무효 비트]] ([[355_paging_memory_protection|Valid-Invalid Bit]])을 이해하면 [[286_page_frame|페이지]] 부재 ([[286_page_frame|Page]] Fault)이 왜 필요한지 더 쉽게 보여요.
-3. 그래서 [[286_page_frame|페이지]] 부재 ([[286_page_frame|Page]] Fault)을 잘 알면 나중에 [[286_page_frame|페이지]] 부재 처리 과정 6단계 (OS [[677_trap_based_system_call_implementation|트랩]], [[057_register|레지스터]] 저장, 디스크 읽기, 문맥교환 등)도 훨씬 쉽게 배울 수 있어요.
+1. [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 부재 ([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault)은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
+2. 먼저 [유효-무효 비트](/knowledge-base/studynote/02_operating_system/07_virtual_memory/386_valid_invalid_bit/) ([Valid-Invalid Bit](/knowledge-base/studynote/02_operating_system/06_memory_management/355_paging_memory_protection/))을 이해하면 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 부재 ([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault)이 왜 필요한지 더 쉽게 보여요.
+3. 그래서 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 부재 ([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault)을 잘 알면 나중에 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 부재 처리 과정 6단계 (OS [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/), [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 저장, 디스크 읽기, 문맥교환 등)도 훨씬 쉽게 배울 수 있어요.
 
 ---
 
@@ -191,7 +195,7 @@ Java Spring 서버를 띄우자마자 무지성으로 유저 트래픽 1만 명�
 
 **진행 상황**: 387 / 800
 
-← **이전**: [[386_valid_invalid_bit|386. 유효-무효 비트 (Valid-Invalid Bit) - 적재 여부 표시]]
-**다음**: [[388_page_fault_handling_6_steps|388. 페이지 부재 처리 과정 6단계 (OS 트랩, 레지스터 저장, 디스크 읽기, 문맥교환 등)]] →
+← **이전**: [386. 유효-무효 비트 (Valid-Invalid Bit) - 적재 여부 표시](/knowledge-base/studynote/02_operating_system/07_virtual_memory/386_valid_invalid_bit/)
+**다음**: [388. 페이지 부재 처리 과정 6단계 (OS 트랩, 레지스터 저장, 디스크 읽기, 문맥교환 등)](/knowledge-base/studynote/02_operating_system/07_virtual_memory/388_page_fault_handling_6_steps/) →
 
 ---

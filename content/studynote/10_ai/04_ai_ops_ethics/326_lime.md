@@ -1,21 +1,25 @@
----
-title: 326. LIME (Local Interpretable Model-agnostic Explanations)
-date: '2026-05-09'
-tags:
-- studynote-ai
----
++++
+title = "326. LIME (Local Interpretable Model-agnostic Explanations)"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-ai"]
+
+[extra]
+tags = ["studynote-ai"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: LIME (Local Interpretable Model-agnostic Explanations)은 특정 예측 인스턴스 주변에 수백 개의 가짜 샘플을 [[087_process_state_transition|생성]]하여 **해석 가능한 선형 모델(대리 모델, Surrogate Model)**을 국소적으로 근사 학습하고, 이 간단한 모델의 계수로 원본 블랙박스 모델의 해당 예측을 설명하는 모델 불가지론적 [[227_xai_explainable_ai_lime_shap|XAI]] 기법이다.
-> 2. **가치**: 딥러닝·[[353_random_forest|랜덤 포레스트]]·XGBoost 등 어떤 복잡한 모델에도 적용 가능(Model-Agnostic)하며, 특정 고객의 대출 거절 이유, 특정 이미지 [[104_classification_analysis|분류]] 결정 이유를 인간 친화적으로 설명하는 실용적 국소 설명 도구다.
-> 3. **판단 포인트**: LIME의 한계는 가짜 샘플 [[087_process_state_transition|생성]] 방법과 [[022_kernel_role|커널]] 너비(ε) [[009_config|설정]]에 따라 설명이 불안정하게 변하는 **설명 불안정성(Explanation Instability)**이다. 동일 예측에 대해 LIME 실행 시마다 다른 설명이 나올 수 있어, 안정성이 중요한 규제 환경에서는 SHAP을 선호한다.
+> 1. **본질**: LIME (Local Interpretable Model-agnostic Explanations)은 특정 예측 인스턴스 주변에 수백 개의 가짜 샘플을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하여 **해석 가능한 선형 모델(대리 모델, Surrogate Model)**을 국소적으로 근사 학습하고, 이 간단한 모델의 계수로 원본 블랙박스 모델의 해당 예측을 설명하는 모델 불가지론적 [XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) 기법이다.
+> 2. **가치**: 딥러닝·[랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)·XGBoost 등 어떤 복잡한 모델에도 적용 가능(Model-Agnostic)하며, 특정 고객의 대출 거절 이유, 특정 이미지 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 결정 이유를 인간 친화적으로 설명하는 실용적 국소 설명 도구다.
+> 3. **판단 포인트**: LIME의 한계는 가짜 샘플 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 방법과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 너비(ε) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에 따라 설명이 불안정하게 변하는 **설명 불안정성(Explanation Instability)**이다. 동일 예측에 대해 LIME 실행 시마다 다른 설명이 나올 수 있어, 안정성이 중요한 규제 환경에서는 SHAP을 선호한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-"고양이 vs 개" [[104_classification_analysis|분류]] 딥러닝 모델이 왜 특정 사진을 "고양이"로 예측했는가? 딥러닝 전체를 해석하기는 너무 복잡하다. 그러나 이 사진 주변의 아주 작은 영역에서 모델이 어떻게 행동하는지는 간단한 선형 모델로 설명할 수 있지 않을까?
+"고양이 vs 개" [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 딥러닝 모델이 왜 특정 사진을 "고양이"로 예측했는가? 딥러닝 전체를 해석하기는 너무 복잡하다. 그러나 이 사진 주변의 아주 작은 영역에서 모델이 어떻게 행동하는지는 간단한 선형 모델로 설명할 수 있지 않을까?
 
 **LIME**은 이 아이디어를 구현한다: 해당 예측 인스턴스 x₀의 "근방(Neighborhood)"에서 복잡한 블랙박스 f가 어떻게 행동하는지 관찰하고, 이를 설명 가능한 간단한 모델 g(x)(선형 회귀, 결정 트리)로 근사한다.
 
@@ -63,11 +67,11 @@ tags:
 └──────────────────────────────────────────────────────────────────┘
 ```
 
-| [[001_dikw_pyramid|데이터]] 타입 | 특징 분해 방식 | [[003_bigdata_7v|시각화]] 방법 |
+| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입 | 특징 분해 방식 | [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 방법 |
 |:---|:---|:---|
-| 표 [[001_dikw_pyramid|데이터]] (Tabular) | 각 컬럼이 특징 | 바 차트 (기여도 크기와 방향) |
+| 표 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (Tabular) | 각 컬럼이 특징 | 바 차트 (기여도 크기와 방향) |
 | 텍스트 | 단어/토큰이 특징 | 중요 단어 하이라이트 |
-| 이미지 | 슈퍼픽셀이 특징 | 중요 영역 [[172_maas_mobility_as_a_service|마스]]킹 [[003_bigdata_7v|시각화]] |
+| 이미지 | 슈퍼픽셀이 특징 | 중요 영역 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) |
 
 - **📢 섹션 요약 비유**: LIME의 섭동 샘플은 "단어를 하나씩 지워보면서 예측이 얼마나 달라지나 관찰"하는 것이다. "이 리뷰는 부정적이에요" 예측에서 '최악' 단어를 지우면 예측이 크게 바뀐다 → '최악'이 결정적 단어다. '을'을 지워도 예측이 안 변한다 → '을'은 중요하지 않다. 지우기를 반복하며 어떤 단어가 핵심인지 알아낸다.
 
@@ -75,8 +79,8 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-**LIME vs [[327_shap|SHAP]]**:
-| 항목 | LIME | [[327_shap|SHAP]] |
+**LIME vs [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/)**:
+| 항목 | LIME | [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) |
 |:---|:---|:---|
 | 설명 범위 | 국소적만 | 국소적 + 전역적 |
 | 이론적 엄격성 | 근사 기반 | 게임 이론적 보장 |
@@ -98,19 +102,19 @@ exp = explainer.explain_instance(X_test[0], model.predict_proba, num_features=5)
 exp.show_in_notebook()
 ```
 
-**LIME 설명 품질 [[395_verification_process_review|검증]]**: [[087_process_state_transition|생성]]된 설명이 실제로 의미 있는지 [[395_verification_process_review|검증]]하는 방법 — 중요 특징으로 지목된 특징을 실제로 변경했을 때 예측이 설명한 방향으로 변하는지(Faithfulness Test) [[396_validation|확인]].
+**LIME 설명 품질 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**: [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 설명이 실제로 의미 있는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 방법 — 중요 특징으로 지목된 특징을 실제로 변경했을 때 예측이 설명한 방향으로 변하는지(Faithfulness Test) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
 
-**이미지 LIME 실용성**: 의료 영상 AI에서 LIME으로 어느 병변 부위(슈퍼픽셀)가 양성 진단에 기여했는지 [[003_bigdata_7v|시각화]]하면, 의사가 [[190_ai_llm_requirements_specification|AI]] 진단 결과를 [[395_verification_process_review|검증]]하고 임상 신뢰를 높이는 데 직접 활용된다.
+**이미지 LIME 실용성**: 의료 영상 AI에서 LIME으로 어느 병변 부위(슈퍼픽셀)가 양성 진단에 기여했는지 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)하면, 의사가 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 진단 결과를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하고 임상 신뢰를 높이는 데 직접 활용된다.
 
-- **📢 섹션 요약 비유**: LIME Faithfulness Test는 "설명대로 변경하면 예측도 바뀌나?" [[396_validation|확인]]하는 것이다. "단어 '최악'이 부정적 예측의 원인"이라는 설명이 맞다면, 실제로 '최악'을 '좋은'으로 바꾸면 예측이 긍정으로 바뀌어야 한다. 이 [[395_verification_process_review|검증]]을 통과해야 진짜 유의미한 설명이다.
+- **📢 섹션 요약 비유**: LIME Faithfulness Test는 "설명대로 변경하면 예측도 바뀌나?" [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것이다. "단어 '최악'이 부정적 예측의 원인"이라는 설명이 맞다면, 실제로 '최악'을 '좋은'으로 바꾸면 예측이 긍정으로 바뀌어야 한다. 이 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 통과해야 진짜 유의미한 설명이다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-LIME은 [[227_xai_explainable_ai_lime_shap|XAI]] 도구 중 구현이 가장 직관적이고 사용이 쉬워, [[190_ai_llm_requirements_specification|AI]] 팀이 복잡한 모델의 예측을 빠르게 디버깅하고 [[173_stakeholder_identification_impact_matrix|이해관계자]]에게 설명하는 첫 번째 도구로 널리 활용된다. 이미지·텍스트·표 [[001_dikw_pyramid|데이터]] 모두를 지원하고 어떤 모델에도 적용 가능한 범용성이 강점이다. 안정성과 이론적 엄격성이 요구되는 환경에서는 SHAP과 함께 사용하는 조합 [[268_strategy_pattern|전략]]이 [[227_xai_explainable_ai_lime_shap|XAI]] 실무의 모범 사례다.
+LIME은 [XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) 도구 중 구현이 가장 직관적이고 사용이 쉬워, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 팀이 복잡한 모델의 예측을 빠르게 디버깅하고 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)에게 설명하는 첫 번째 도구로 널리 활용된다. 이미지·텍스트·표 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모두를 지원하고 어떤 모델에도 적용 가능한 범용성이 강점이다. 안정성과 이론적 엄격성이 요구되는 환경에서는 SHAP과 함께 사용하는 조합 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 [XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) 실무의 모범 사례다.
 
-- **📢 섹션 요약 비유**: LIME은 [[190_ai_llm_requirements_specification|AI]] 세계의 "탐정 루페(돋보기)"다. 복잡한 범죄 현장(블랙박스 예측) 전체를 한 번에 이해하기 어렵지만, 특정 단서 주변을 루페로 확대(국소 근사)하면 "이 발자국이 범인"(중요 특징)이라는 명확한 단서를 찾을 수 있다. 전체 사건은 복잡하지만, 중요한 현장 한 곳은 간단하게 설명 가능하다.
+- **📢 섹션 요약 비유**: LIME은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 세계의 "탐정 루페(돋보기)"다. 복잡한 범죄 현장(블랙박스 예측) 전체를 한 번에 이해하기 어렵지만, 특정 단서 주변을 루페로 확대(국소 근사)하면 "이 발자국이 범인"(중요 특징)이라는 명확한 단서를 찾을 수 있다. 전체 사건은 복잡하지만, 중요한 현장 한 곳은 간단하게 설명 가능하다.
 
 ---
 
@@ -119,10 +123,10 @@ LIME은 [[227_xai_explainable_ai_lime_shap|XAI]] 도구 중 구현이 가장 직
 | 개념 | 연결 포인트 |
 |:---|:---|
 | 대리 모델 (Surrogate Model) | 선형 회귀, 해석 가능 / LIME이 국소 근사에 사용하는 간단한 모델 |
-| 섭동 샘플 (Perturbed Samples) | 단어 제거, [[172_maas_mobility_as_a_service|마스]]킹, 노이즈 / LIME의 [[001_dikw_pyramid|데이터]] 타입별 샘플 [[087_process_state_transition|생성]] 방법 |
-| [[327_shap|SHAP]] | 샤플리 값, 안정성 / LIME보다 이론적으로 엄격한 [[227_xai_explainable_ai_lime_shap|XAI]] 방법 |
-| [[227_xai_explainable_ai_lime_shap|XAI]] | 모델 불가지론, 국소/전역 / LIME이 속하는 [[190_ai_llm_requirements_specification|AI]] 설명 가능성 분야 |
-| Faithfulness | 설명 [[395_verification_process_review|검증]], 특징 변경 / LIME 설명 품질 [[395_verification_process_review|검증]] 핵심 기준 |
+| 섭동 샘플 (Perturbed Samples) | 단어 제거, [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹, 노이즈 / LIME의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입별 샘플 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 방법 |
+| [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) | 샤플리 값, 안정성 / LIME보다 이론적으로 엄격한 [XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) 방법 |
+| [XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) | 모델 불가지론, 국소/전역 / LIME이 속하는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 설명 가능성 분야 |
+| Faithfulness | 설명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 특징 변경 / LIME 설명 품질 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 핵심 기준 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -134,7 +138,7 @@ LIME은 [[227_xai_explainable_ai_lime_shap|XAI]] 도구 중 구현이 가장 직
 
 1. **LIME**은 복잡한 AI가 "왜 이 결정을 했는지"를 알기 위해, **주변의 비슷한 예시들을 많이 만들어보고** 간단한 규칙으로 설명하는 방법이에요!
 2. "이 리뷰가 부정적" 이유를 알고 싶으면 **단어를 하나씩 지워가며** "어떤 단어가 없어지면 예측이 바뀌나?" 관찰해서 핵심 단어를 찾아요.
-3. 딥러닝·[[353_random_forest|랜덤 포레스트]] 등 **어떤 AI에도 쓸 수 있는** 범용 설명 도구라서, [[190_ai_llm_requirements_specification|AI]] 개발 현장에서 빠른 디버깅에 많이 활용돼요!
+3. 딥러닝·[랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/) 등 **어떤 AI에도 쓸 수 있는** 범용 설명 도구라서, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 개발 현장에서 빠른 디버깅에 많이 활용돼요!
 
 ---
 
@@ -142,7 +146,7 @@ LIME은 [[227_xai_explainable_ai_lime_shap|XAI]] 도구 중 구현이 가장 직
 
 **진행 상황**: 326 / 420
 
-← **이전**: [[325_xai|325. 설명 가능한 AI (XAI, eXplainable AI)]]
-**다음**: [[327_shap|327. SHAP (SHapley Additive exPlanations)]] →
+← **이전**: [325. 설명 가능한 AI (XAI, eXplainable AI)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/325_xai/)
+**다음**: [327. SHAP (SHapley Additive exPlanations)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) →
 
 ---

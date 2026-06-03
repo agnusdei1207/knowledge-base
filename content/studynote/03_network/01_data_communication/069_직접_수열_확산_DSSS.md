@@ -1,24 +1,28 @@
----
-title: 69. 직접 수열 확산 스펙트럼 (DSSS, Direct Sequence Spread Spectrum) - PN 시퀀스
-date: '2024-05-24'
-description: PN 시퀀스를 사용하여 데이터를 넓은 대역으로 직접 확산시키는 무선 통신 핵심 원리
-tags:
-- network
----
++++
+title = "69. 직접 수열 확산 스펙트럼 (DSSS, Direct Sequence Spread Spectrum) - PN 시퀀스"
+description = "PN 시퀀스를 사용하여 데이터를 넓은 대역으로 직접 확산시키는 무선 통신 핵심 원리"
+date = 2024-05-24
+
+[taxonomies]
+tags = ["network"]
+
+[extra]
+tags = ["network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DSSS는 PN 시퀀스로 데이터를 직접 확산해 넓은 대역에 퍼뜨리는 방식이다.
 > 2. **가치**: 처리 이득(processing gain)으로 잡음과 간섭에 강해진다.
-> 3. **판단**: 송신과 수신이 같은 PN 코드로 [[212_synchronization_mechanisms|동기화]]되어야 복원이 가능하다.
+> 3. **판단**: 송신과 수신이 같은 PN 코드로 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)되어야 복원이 가능하다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-좁은 대역 [[130_signal|신호]]는 간섭에 취약하다. DSSS는 데이터를 넓게 퍼뜨려 이를 완화한다.
+좁은 대역 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)는 간섭에 취약하다. DSSS는 데이터를 넓게 퍼뜨려 이를 완화한다.
 
-그래서 [[957_cdma_code_division_multiple_access_dsss_orthogonality|CDMA]] 같은 [[087_다중접속_Multiple_Access|다중 접속]] 기술의 핵심 개념이 된다.
+그래서 [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) 같은 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 기술의 핵심 개념이 된다.
 
 - **📢 섹션 요약 비유**: 작은 점을 넓은 종이에 흩뿌려 찾기 어렵게 만드는 것이다.
 
@@ -40,9 +44,9 @@ Despread with Same PN
 | :-- | :-- |
 | PN Sequence | 의사난수 확산 코드 |
 | Spreading | 대역 확장 |
-| Despreading | 원 [[130_signal|신호]] 복원 |
+| Despreading | 원 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 복원 |
 
-DSSS는 송신 측에서 원 [[130_signal|신호]]를 PN 코드로 확산하고, 수신 측에서 같은 코드로 다시 좁혀 복원한다.
+DSSS는 송신 측에서 원 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 PN 코드로 확산하고, 수신 측에서 같은 코드로 다시 좁혀 복원한다.
 
 - **📢 섹션 요약 비유**: 같은 퍼즐 조각표를 알아야 다시 맞출 수 있다.
 
@@ -52,15 +56,15 @@ DSSS는 송신 측에서 원 [[130_signal|신호]]를 PN 코드로 확산하고,
 
 | 방식 | 특징 | 장점 |
 | :-- | :-- | :-- |
-| [[956_dsss_direct_sequence_spread_spectrum_chipping_code|DSSS]] | 코드 기반 확산 | 처리 이득 |
-| [[955_fhss_frequency_hopping_spread_spectrum_bluetooth|FHSS]] | 주파수 점프 | 재밍 회피 |
+| [DSSS](/knowledge-base/studynote/03_network/19_frequent_topics_terms/956_dsss_direct_sequence_spread_spectrum_chipping_code/) | 코드 기반 확산 | 처리 이득 |
+| [FHSS](/knowledge-base/studynote/03_network/19_frequent_topics_terms/955_fhss_frequency_hopping_spread_spectrum_bluetooth/) | 주파수 점프 | 재밍 회피 |
 
 | 개념 | 의미 |
 | :-- | :-- |
 | Processing Gain | 잡음 저항성 향상 |
-| PN [[082_process_memory_structure|Code]] | 확산/복원 핵심 |
+| PN [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) | 확산/복원 핵심 |
 
-DSSS는 잡음에 강하고, [[212_synchronization_mechanisms|동기화]]가 맞으면 복원이 정확하다.
+DSSS는 잡음에 강하고, [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 맞으면 복원이 정확하다.
 
 - **📢 섹션 요약 비유**: 같은 암호문을 알고 있어야 흩어진 글을 다시 모을 수 있다.
 
@@ -68,18 +72,18 @@ DSSS는 잡음에 강하고, [[212_synchronization_mechanisms|동기화]]가 맞
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. PN 시퀀스 [[212_synchronization_mechanisms|동기화]]가 가능한가?
+1. PN 시퀀스 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 가능한가?
 2. 처리 이득을 설명할 수 있는가?
-3. DSSS와 [[955_fhss_frequency_hopping_spread_spectrum_bluetooth|FHSS]] 차이를 아는가?
+3. DSSS와 [FHSS](/knowledge-base/studynote/03_network/19_frequent_topics_terms/955_fhss_frequency_hopping_spread_spectrum_bluetooth/) 차이를 아는가?
 4. 다중 사용자 환경에서 활용 가능한가?
 5. 잡음/간섭 환경을 고려했는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - DSSS를 단순 대역 확장으로 보는 설계
-- [[212_synchronization_mechanisms|동기화]] 문제를 무시하는 설계
+- [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 문제를 무시하는 설계
 - PN 코드의 역할을 이해하지 않는 설계
 - 보안성과 성능을 혼동하는 설계
 
@@ -139,7 +143,7 @@ DSSS는 그런 통신 방법이에요.
 
 **진행 상황**: 69 / 1120
 
-← **이전**: [[068_스펙트럼_확산_Spread_Spectrum|68. 스펙트럼 확산 (Spread Spectrum)]]
-**다음**: [[070_주파수_도약_확산_FHSS|70. 주파수 도약 확산 스펙트럼 (FHSS, Frequency Hopping Spread Spectrum)]] →
+← **이전**: [68. 스펙트럼 확산 (Spread Spectrum)](/knowledge-base/studynote/03_network/01_data_communication/068_스펙트럼_확산_Spread_Spectrum/)
+**다음**: [70. 주파수 도약 확산 스펙트럼 (FHSS, Frequency Hopping Spread Spectrum)](/knowledge-base/studynote/03_network/01_data_communication/070_주파수_도약_확산_FHSS/) →
 
 ---

@@ -1,21 +1,25 @@
----
-title: 20. 람다 아키텍처 (Lambda Architecture) — 배치+실시간 이중 처리
-date: '2026-04-21'
-tags:
-- studynote-bigdata
----
++++
+title = "20. 람다 아키텍처 (Lambda Architecture) — 배치+실시간 이중 처리"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-bigdata"]
+
+[extra]
+tags = ["studynote-bigdata"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-- **본질**: [[216_lambda_kappa_architecture_batch_realtime|Lambda]] [[319_architecture|Architecture]] ([[216_lambda_kappa_architecture_batch_realtime|람다]] 아키텍처)는 Nathan Marz(트위터, 2011)가 제안한 빅데이터 아키텍처 패턴으로, 모든 [[001_dikw_pyramid|데이터]]를 완전하게 재처리하는 배치 레이어(Batch Layer), 최근 [[001_dikw_pyramid|데이터]]를 빠르게 처리하는 스피드 레이어([[092_GPT_NLP|Speed Layer]]), 두 레이어의 결과를 병합하는 서빙 레이어(Serving Layer)로 구성하여 [[002_bigdata_5v|정확성]]과 저지연을 동시에 달성한다.
-- **가치**: 배치 레이어는 전체 히스토리 [[001_dikw_pyramid|데이터]]로 정확한 뷰를 [[087_process_state_transition|생성]]하고, 스피드 레이어는 최근 [[001_dikw_pyramid|데이터]]의 근사치(Approximate)를 빠르게 제공하여, 사용자는 항상 낮은 [[015_지연_데이터_관점|지연]]의 근사치를 보다가 배치 뷰가 완성되면 정확한 값으로 대체된다.
-- **판단 포인트**: [[216_lambda_kappa_architecture_batch_realtime|Lambda]] 아키텍처의 핵심 문제는 **코드 [[456_dual_redundancy|이중화]]([[082_process_memory_structure|Code]] Duplication)**다. 배치(Spark/[[843_hadoop_rack_awareness_data_replication_topology|Hadoop]])와 실시간(Flink/[[060_spark_streaming_dstream|Spark Streaming]])에서 동일한 비즈니스 로직을 각각 구현·유지해야 하며, 이 운영 복잡도를 해소하기 위해 [[096_kappa_architecture|Kappa Architecture]](단일 스트리밍)가 대안으로 등장했다.
+- **본질**: [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) ([람다](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 아키텍처)는 Nathan Marz(트위터, 2011)가 제안한 빅데이터 아키텍처 패턴으로, 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 완전하게 재처리하는 배치 레이어(Batch Layer), 최근 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 빠르게 처리하는 스피드 레이어([Speed Layer](/knowledge-base/studynote/12_it_management/02_itsm_itil/092_GPT_NLP/)), 두 레이어의 결과를 병합하는 서빙 레이어(Serving Layer)로 구성하여 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)과 저지연을 동시에 달성한다.
+- **가치**: 배치 레이어는 전체 히스토리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 정확한 뷰를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하고, 스피드 레이어는 최근 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 근사치(Approximate)를 빠르게 제공하여, 사용자는 항상 낮은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)의 근사치를 보다가 배치 뷰가 완성되면 정확한 값으로 대체된다.
+- **판단 포인트**: [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 아키텍처의 핵심 문제는 **코드 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Duplication)**다. 배치(Spark/[Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/))와 실시간(Flink/[Spark Streaming](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/))에서 동일한 비즈니스 로직을 각각 구현·유지해야 하며, 이 운영 복잡도를 해소하기 위해 [Kappa Architecture](/knowledge-base/studynote/16_bigdata/04_streaming/096_kappa_architecture/)(단일 스트리밍)가 대안으로 등장했다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### 1. [[216_lambda_kappa_architecture_batch_realtime|Lambda]] Architecture의 탄생 배경
+### 1. [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) Architecture의 탄생 배경
 
 2010년대 초반 빅데이터 처리의 핵심 딜레마:
 
@@ -37,18 +41,18 @@ Lambda Architecture의 해결책:
 
 | 레이어 | 역할 | 특성 | 기술 예시 |
 |:---|:---|:---|:---|
-| Batch Layer | 전체 [[001_dikw_pyramid|데이터]] 재처리, 정확한 배치 뷰 [[087_process_state_transition|생성]] | 고지연, 고정확도 | [[843_hadoop_rack_awareness_data_replication_topology|Hadoop]], Spark, [[544_hive|Hive]] |
-| [[092_GPT_NLP|Speed Layer]] | 최근 [[001_dikw_pyramid|데이터]] 실시간 처리, 근사치 뷰 [[087_process_state_transition|생성]] | 저지연, 근사값 | Flink, [[060_spark_streaming_dstream|Spark Streaming]] |
-| Serving Layer | 배치 뷰 + 실시간 뷰 병합, [[298_qkv_attention|쿼리]] 제공 | 읽기 전용 | [[541_cassandra|Cassandra]], [[543_hbase|HBase]], [[302_cdc|Elasticsearch]] |
+| Batch Layer | 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재처리, 정확한 배치 뷰 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 고지연, 고정확도 | [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/), Spark, [Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/) |
+| [Speed Layer](/knowledge-base/studynote/12_it_management/02_itsm_itil/092_GPT_NLP/) | 최근 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 실시간 처리, 근사치 뷰 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 저지연, 근사값 | Flink, [Spark Streaming](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/) |
+| Serving Layer | 배치 뷰 + 실시간 뷰 병합, [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 제공 | 읽기 전용 | [Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), [HBase](/knowledge-base/studynote/05_database/04_transactions_concurrency/543_hbase/), [Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/) |
 
 **📢 섹션 요약 비유**
-> [[216_lambda_kappa_architecture_batch_realtime|Lambda]] Architecture는 "투표 결과 집계 시스템"과 같다. 개표 [[216_progress_in_synchronization|진행]] 중(스피드 레이어)에는 예상 집계를 보여주고, 전체 개표 완료(배치 레이어) 후 최종 정확한 결과로 교체된다. 투표 시스템(서빙 레이어)은 항상 가장 최신 결과를 보여준다.
+> [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) Architecture는 "투표 결과 집계 시스템"과 같다. 개표 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중(스피드 레이어)에는 예상 집계를 보여주고, 전체 개표 완료(배치 레이어) 후 최종 정확한 결과로 교체된다. 투표 시스템(서빙 레이어)은 항상 가장 최신 결과를 보여준다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 1. [[216_lambda_kappa_architecture_batch_realtime|Lambda]] [[319_architecture|Architecture]] 다이어그램
+### 1. [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) 다이어그램
 
 ```
 원본 데이터 스트림
@@ -83,7 +87,7 @@ Lambda Architecture의 해결책:
                        사용자/서비스 쿼리
 ```
 
-### 2. 실제 [[001_dikw_pyramid|데이터]] [[298_qkv_attention|쿼리]] 흐름
+### 2. 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 흐름
 
 ```
 사용자 쿼리: "user-001의 지난 30일 구매 합계"
@@ -99,34 +103,34 @@ Serving Layer:
   → 실시간 뷰: 오늘 추가분만 다시 계산
 ```
 
-### 3. [[216_lambda_kappa_architecture_batch_realtime|Lambda]] [[319_architecture|Architecture]] 장단점
+### 3. [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) 장단점
 
 | 장점 | 단점 |
 |:---|:---|
-| [[002_bigdata_5v|정확성]] 보장 (배치 레이어 재처리) | 코드 [[456_dual_redundancy|이중화]] (배치 + 실시간 동일 로직) |
+| [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/) 보장 (배치 레이어 재처리) | 코드 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) (배치 + 실시간 동일 로직) |
 | 저지연 응답 (스피드 레이어) | 운영 복잡도 2배 (두 시스템 유지) |
-| 장애 [[658_ir_recovery|복구]] 용이 (배치로 재처리 가능) | 결과 병합 로직 복잡 |
-| [[395_verification_process_review|검증]]된 패턴 | 기술 [[057_stack|스택]] 이질성 (Spark + Flink) |
+| 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 용이 (배치로 재처리 가능) | 결과 병합 로직 복잡 |
+| [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 패턴 | 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 이질성 (Spark + Flink) |
 
 **📢 섹션 요약 비유**
-> Lambda의 코드 [[456_dual_redundancy|이중화]]는 "같은 서류를 영어와 한국어로 각각 만드는 것"이다. 내용(비즈니스 로직)은 같은데 형식(배치용, 실시간용)이 달라 하나가 바뀌면 둘 다 수정해야 한다.
+> Lambda의 코드 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)는 "같은 서류를 영어와 한국어로 각각 만드는 것"이다. 내용(비즈니스 로직)은 같은데 형식(배치용, 실시간용)이 달라 하나가 바뀌면 둘 다 수정해야 한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 1. [[271_lambda_kappa_architecture_streaming|Lambda vs Kappa Architecture]]
+### 1. [Lambda vs Kappa Architecture](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/271_lambda_kappa_architecture_streaming/)
 
-| 비교 | [[216_lambda_kappa_architecture_batch_realtime|Lambda]] [[319_architecture|Architecture]] | [[096_kappa_architecture|Kappa Architecture]] |
+| 비교 | [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) | [Kappa Architecture](/knowledge-base/studynote/16_bigdata/04_streaming/096_kappa_architecture/) |
 |:---|:---|:---|
 | 스트리밍 레이어 수 | 배치 + 실시간 (2개) | 실시간만 (1개) |
-| 재처리 방법 | 배치 레이어 재실행 | [[179_kafka_flink_watermark_time_window|Kafka]] 리플레이 |
+| 재처리 방법 | 배치 레이어 재실행 | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 리플레이 |
 | 코드 중복 | 있음 (배치 + 실시간) | 없음 (스트리밍 단일) |
 | 운영 복잡도 | 높음 | 낮음 |
 | 정확도 | 배치로 완전 보정 | 리플레이로 재처리 |
 | 적합 케이스 | 복잡한 배치 집계 + 실시간 필요 | 단순 스트리밍 처리 |
 
-### 2. 현대적 대안: [[146_lakehouse|Lakehouse]] 패턴
+### 2. 현대적 대안: [Lakehouse](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 패턴
 
 ```
 Lambda의 현대적 재해석:
@@ -139,13 +143,13 @@ Lambda의 현대적 재해석:
 ```
 
 **📢 섹션 요약 비유**
-> [[216_lambda_kappa_architecture_batch_realtime|Lambda]] vs Kappa는 "두 공장 운영 vs 한 공장 운영"이다. 두 공장([[216_lambda_kappa_architecture_batch_realtime|Lambda]])은 서로 보완하지만 관리 비용이 2배다. 한 공장([[235_kappa|Kappa]])은 단순하지만 모든 생산을 감당할 수 있어야 한다.
+> [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) vs Kappa는 "두 공장 운영 vs 한 공장 운영"이다. 두 공장([Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/))은 서로 보완하지만 관리 비용이 2배다. 한 공장([Kappa](/knowledge-base/studynote/16_bigdata/12_trends/235_kappa/))은 단순하지만 모든 생산을 감당할 수 있어야 한다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 1. [[216_lambda_kappa_architecture_batch_realtime|Lambda]] [[319_architecture|Architecture]] 적합 케이스
+### 1. [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) 적합 케이스
 
 | 적합 상황 | 이유 |
 |:---|:---|
@@ -163,7 +167,7 @@ Lambda → Kappa 전환 검토 시점:
 ```
 
 **📢 섹션 요약 비유**
-> [[216_lambda_kappa_architecture_batch_realtime|Lambda]] [[319_architecture|Architecture]] 유지 결정은 "두 지점 운영 vs 본점 확장"이다. 처음엔 두 지점이 서로 다른 고객층을 커버했지만, 본점이 충분히 커지면 두 지점을 하나로 합치는 것이 더 효율적이다.
+> [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) 유지 결정은 "두 지점 운영 vs 본점 확장"이다. 처음엔 두 지점이 서로 다른 고객층을 커버했지만, 본점이 충분히 커지면 두 지점을 하나로 합치는 것이 더 효율적이다.
 
 ---
 
@@ -175,25 +179,25 @@ Lambda → Kappa 전환 검토 시점:
 |:---|:---|
 | 정확도 + 저지연 동시 달성 | 배치 정확도 + 실시간 속도 병행 |
 | 장애 복원력 | 실시간 오류 → 배치로 재처리하여 보정 |
-| [[395_verification_process_review|검증]]된 패턴 | 트위터, Netflix 등 대형 플랫폼에서 [[395_verification_process_review|검증]] |
+| [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 패턴 | 트위터, Netflix 등 대형 플랫폼에서 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 
 ### 2. 결론
 
-[[216_lambda_kappa_architecture_batch_realtime|Lambda]] Architecture는 **실시간 처리의 속도와 [[228_batch_processing_hadoop_spark|배치 처리]]의 [[002_bigdata_5v|정확성]]을 동시에 달성하는 [[395_verification_process_review|검증]]된 빅데이터 아키텍처 패턴**이다. 기술사 답안에서는 3개 레이어의 역할·기술·[[001_dikw_pyramid|데이터]] 흐름, 코드 [[456_dual_redundancy|이중화]] 문제, [[235_kappa|Kappa]] Architecture와의 비교, 그리고 Lakehouse로의 현대적 진화를 함께 서술하면 완성도 높은 답안이 된다.
+[Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) Architecture는 **실시간 처리의 속도와 [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)의 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)을 동시에 달성하는 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 빅데이터 아키텍처 패턴**이다. 기술사 답안에서는 3개 레이어의 역할·기술·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름, 코드 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 문제, [Kappa](/knowledge-base/studynote/16_bigdata/12_trends/235_kappa/) Architecture와의 비교, 그리고 Lakehouse로의 현대적 진화를 함께 서술하면 완성도 높은 답안이 된다.
 
 **📢 섹션 요약 비유**
-> [[216_lambda_kappa_architecture_batch_realtime|Lambda]] Architecture는 "주식 시장의 실시간 전광판(스피드 레이어)과 공식 마감 시황 뉴스(배치 레이어)"를 동시에 운영하는 것이다. 전광판은 빠르지만 근사치이고, 마감 시황은 늦지만 정확하다. 투자자(서빙 레이어)는 두 정보를 합쳐서 의사결정한다.
+> [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) Architecture는 "주식 시장의 실시간 전광판(스피드 레이어)과 공식 마감 시황 뉴스(배치 레이어)"를 동시에 운영하는 것이다. 전광판은 빠르지만 근사치이고, 마감 시황은 늦지만 정확하다. 투자자(서빙 레이어)는 두 정보를 합쳐서 의사결정한다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 개념 | [[083_relationship_in_er_model|관계]] | 설명 |
+| 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
 |:---|:---|:---|
-| [[096_kappa_architecture|Kappa Architecture]] | 대안 패턴 | Lambda의 코드 [[456_dual_redundancy|이중화]] 문제를 해소 |
-| [[214_kafka_pubsub_topic_partition_offset_broker|Apache Kafka]] | 공통 기반 | 두 레이어 모두 Kafka를 원본 소스로 사용 |
-| [[147_delta_lake|Delta Lake]] / Iceberg | 현대적 구현 | 배치+스트리밍 통합한 [[146_lakehouse|Lakehouse]] 패턴 |
-| Exactly-Once | [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] | 스피드 레이어의 정확도 향상을 위한 보장 |
+| [Kappa Architecture](/knowledge-base/studynote/16_bigdata/04_streaming/096_kappa_architecture/) | 대안 패턴 | Lambda의 코드 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 문제를 해소 |
+| [Apache Kafka](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/) | 공통 기반 | 두 레이어 모두 Kafka를 원본 소스로 사용 |
+| [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/) / Iceberg | 현대적 구현 | 배치+스트리밍 통합한 [Lakehouse](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 패턴 |
+| Exactly-Once | [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) | 스피드 레이어의 정확도 향상을 위한 보장 |
 | 마이크로배치 | 스피드 레이어 | Spark Structured Streaming의 접근 방식 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -213,11 +217,11 @@ Lambda → Kappa 전환 검토 시점:
     ▼
 [Lakehouse 아키텍처 — 데이터 레이크 + 데이터 웨어하우스 통합]
 ```
-배치와 스트리밍의 결합을 [[216_lambda_kappa_architecture_batch_realtime|람다]] 아키텍처가 해결했고, 복잡성 문제를 [[096_kappa_architecture|카파 아키텍처]]가 단순화했으며, 최종적으로 Lakehouse가 ACID와 대규모 분석을 통합했다.
+배치와 스트리밍의 결합을 [람다](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 아키텍처가 해결했고, 복잡성 문제를 [카파 아키텍처](/knowledge-base/studynote/16_bigdata/04_streaming/096_kappa_architecture/)가 단순화했으며, 최종적으로 Lakehouse가 ACID와 대규모 분석을 통합했다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-[[216_lambda_kappa_architecture_batch_realtime|Lambda]] Architecture는 "운동회 점수판"과 같아요. 실시간 점수판(스피드 레이어)은 경기 중 계속 업데이트되고, 심판의 공식 집계(배치 레이어)는 경기 끝나고 정확히 정산해요. 최종 결과(서빙 레이어)는 공식 집계가 나올 때까지는 실시간 점수를 보여주다가, 공식 집계가 나오면 그것으로 교체해요. 문제는 같은 점수 계산 규칙을 두 번 만들어야 한다는 거예요!
+[Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) Architecture는 "운동회 점수판"과 같아요. 실시간 점수판(스피드 레이어)은 경기 중 계속 업데이트되고, 심판의 공식 집계(배치 레이어)는 경기 끝나고 정확히 정산해요. 최종 결과(서빙 레이어)는 공식 집계가 나올 때까지는 실시간 점수를 보여주다가, 공식 집계가 나오면 그것으로 교체해요. 문제는 같은 점수 계산 규칙을 두 번 만들어야 한다는 거예요!
 
 ---
 
@@ -225,7 +229,7 @@ Lambda → Kappa 전환 검토 시점:
 
 **진행 상황**: 95 / 262
 
-← **이전**: [[094_apache_pulsar|19. Apache Pulsar — 컴퓨팅/스토리지 분리 메시징]]
-**다음**: [[096_kappa_architecture|21. 카파 아키텍처 (Kappa Architecture) — 스트리밍 단일화]] →
+← **이전**: [19. Apache Pulsar — 컴퓨팅/스토리지 분리 메시징](/knowledge-base/studynote/16_bigdata/04_streaming/094_apache_pulsar/)
+**다음**: [21. 카파 아키텍처 (Kappa Architecture) — 스트리밍 단일화](/knowledge-base/studynote/16_bigdata/04_streaming/096_kappa_architecture/) →
 
 ---

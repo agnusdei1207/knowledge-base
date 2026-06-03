@@ -1,15 +1,19 @@
----
-title: 21. 해밀턴 경로 (Hamiltonian Path) — NP-완전, 백트래킹
-date: '2026-04-21'
-tags:
-- studynote-algorithm
----
++++
+title = "21. 해밀턴 경로 (Hamiltonian Path) — NP-완전, 백트래킹"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-algorithm"]
+
+[extra]
+tags = ["studynote-algorithm"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 해밀턴 경로 (Hamiltonian Path)는 [[070_graph_datastructure|그래프]]의 모든 정점을 정확히 한 번씩 방문하는 경로로, 존재 판별 자체가 NP-완전 ([[108_np_complete|NP-Complete]]) 문제다.
-> 2. **가치**: Dirac 정리, Ore 정리 등 충분조건으로 존재를 보장할 수 있고, [[010_backtracking|백트래킹]]으로 탐색하거나 [[007_dynamic_programming|동적 프로그래밍]] (DP + 비트마스크, O(2ⁿn²))으로 TSP와 동일하게 접근한다.
-> 3. **판단 포인트**: 오일러 경로(간선 방문, P)와 혼동하지 말 것 — 해밀턴 경로는 정점 방문이며 NP-완전으로 [[195_polynomial_generator_crc|다항식]] 시간 [[001_algorithm_definition|알고리즘]]이 알려져 있지 않다.
+> 1. **본질**: 해밀턴 경로 (Hamiltonian Path)는 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 모든 정점을 정확히 한 번씩 방문하는 경로로, 존재 판별 자체가 NP-완전 ([NP-Complete](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/108_np_complete/)) 문제다.
+> 2. **가치**: Dirac 정리, Ore 정리 등 충분조건으로 존재를 보장할 수 있고, [백트래킹](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/)으로 탐색하거나 [동적 프로그래밍](/knowledge-base/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/) (DP + 비트마스크, O(2ⁿn²))으로 TSP와 동일하게 접근한다.
+> 3. **판단 포인트**: 오일러 경로(간선 방문, P)와 혼동하지 말 것 — 해밀턴 경로는 정점 방문이며 NP-완전으로 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 시간 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 알려져 있지 않다.
 
 ## Ⅰ. 개요 및 필요성
 
@@ -18,10 +22,10 @@ tags:
 | 특성 | 내용 |
 |:---|:---|
 | 정의 | 모든 정점을 정확히 1번 방문하는 경로 |
-| 복잡도 클래스 | NP-완전 ([[108_np_complete|NP-Complete]]) |
+| 복잡도 클래스 | NP-완전 ([NP-Complete](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/108_np_complete/)) |
 | 결정 문제 | 존재 여부 판별 = NP-완전 |
-| 최적화 문제 | 최단 해밀턴 경로 = [[109_np_hard|NP-hard]] ([[106_fenwick_tree|TSP]]) |
-| [[010_backtracking|백트래킹]] | O(n!) 최악 |
+| 최적화 문제 | 최단 해밀턴 경로 = [NP-hard](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/109_np_hard/) ([TSP](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/)) |
+| [백트래킹](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/) | O(n!) 최악 |
 | DP + 비트마스크 | O(2ⁿn²) |
 
 📢 **섹션 요약 비유**: 해밀턴 경로는 도시들을 한 번씩만 방문하는 여행 경로가 존재하는지 찾는 것이다. 오일러(도로를 한 번씩)와 달리, 정점을 한 번씩 방문하는 조건은 훨씬 어렵다.
@@ -30,9 +34,9 @@ tags:
 
 ### 해밀턴 경로 존재 충분조건
 
-**Dirac 정리 (1952)**: n ≥ 3인 [[070_graph_datastructure|그래프]]에서 모든 정점의 차수 ≥ n/2이면 해밀턴 회로 존재
+**Dirac 정리 (1952)**: n ≥ 3인 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 모든 정점의 차수 ≥ n/2이면 해밀턴 회로 존재
 
-**Ore 정리 (1960)**: n ≥ 3인 [[070_graph_datastructure|그래프]]에서 인접하지 않은 모든 정점 쌍 (u, v)에 대해 deg(u) + deg(v) ≥ n이면 해밀턴 회로 존재
+**Ore 정리 (1960)**: n ≥ 3인 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 인접하지 않은 모든 정점 쌍 (u, v)에 대해 deg(u) + deg(v) ≥ n이면 해밀턴 회로 존재
 
 ```
 주의: 이 조건들은 충분조건이지 필요조건이 아님
@@ -40,7 +44,7 @@ tags:
   → 조건 만족 = 해밀턴 경로 반드시 존재
 ```
 
-### [[010_backtracking|백트래킹]] [[001_algorithm_definition|알고리즘]]
+### [백트래킹](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 
 ```
 path[0..n-1]: 방문 순서
@@ -57,7 +61,7 @@ solve(pos):
   return false
 ```
 
-### [[103_ascii|ASCII]] 다이어그램 — [[010_backtracking|백트래킹]] 탐색 트리
+### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 — [백트래킹](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/) 탐색 트리
 
 ```
 ┌──────────────────────────────────────────────────────────┐
@@ -90,11 +94,11 @@ dp[1<<s][s] = 0  (시작 정점 s에서 시작)
 최종: dp[(1<<n)-1][*] 중 최솟값 = 최단 해밀턴 경로
 ```
 
-| 방식 | [[002_time_complexity|시간 복잡도]] | [[003_space_complexity|공간 복잡도]] | 적용 규모 |
+| 방식 | [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/) | [공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/) | 적용 규모 |
 |:---|:---:|:---:|:---:|
-| [[010_backtracking|백트래킹]] | O(n!) 최악 | O(n) | n ≤ [[489_raid_10_hybrid|10]] |
+| [백트래킹](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/) | O(n!) 최악 | O(n) | n ≤ [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) |
 | DP + 비트마스크 | O(2ⁿn²) | O(2ⁿn) | n ≤ 20 |
-| [[012_approximation_algorithm|근사 알고리즘]] | O(n²) | O(n) | 대규모 |
+| [근사 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/) | O(n²) | O(n) | 대규모 |
 
 📢 **섹션 요약 비유**: 비트마스크 DP는 "어느 도시를 방문했는지"를 비트로 기록하는 여행 일지다. 20개 도시라면 2²⁰=100만 가지 상태만 기록하면 된다.
 
@@ -105,12 +109,12 @@ dp[1<<s][s] = 0  (시작 정점 s에서 시작)
 | 항목 | 오일러 경로 | 해밀턴 경로 |
 |:---|:---:|:---:|
 | 방문 대상 | 모든 간선 | 모든 정점 |
-| 복잡도 | P ([[195_polynomial_generator_crc|다항식]]) | NP-완전 |
+| 복잡도 | P ([다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/)) | NP-완전 |
 | 존재 판별 | O(V) | NP-완전 |
-| 효율적 [[001_algorithm_definition|알고리즘]] | Hierholzer O(E) | 없음 (지수적) |
-| 응용 | 한붓그리기, DNA | [[106_fenwick_tree|TSP]], 게놈 조립 |
+| 효율적 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | Hierholzer O(E) | 없음 (지수적) |
+| 응용 | 한붓그리기, DNA | [TSP](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/), 게놈 조립 |
 
-### [[106_fenwick_tree|TSP]] ([[106_fenwick_tree|외판원 문제]])와의 [[083_relationship_in_er_model|관계]]
+### [TSP](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/) ([외판원 문제](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/))와의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
 ```
 TSP = 최단 가중치 해밀턴 회로 탐색
@@ -118,15 +122,15 @@ TSP = 최단 가중치 해밀턴 회로 탐색
 TSP 최적화 = NP-hard
 ```
 
-📢 **섹션 요약 비유**: 해밀턴 경로 존재 판별 ≤ [[106_fenwick_tree|TSP]] ≤ NP-hard의 계층 [[083_relationship_in_er_model|관계]]를 이해하면, "왜 내비게이션은 최적 경로를 즉시 못 찾나?"의 이론적 이유가 명확해진다.
+📢 **섹션 요약 비유**: 해밀턴 경로 존재 판별 ≤ [TSP](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/) ≤ NP-hard의 계층 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 이해하면, "왜 내비게이션은 최적 경로를 즉시 못 찾나?"의 이론적 이유가 명확해진다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
 
 **시나리오 1**: 게놈 서열 조립 (Genome Assembly)
-- DNA 조각들(reads)을 겹침 [[070_graph_datastructure|그래프]]에서 해밀턴 경로로 재조합
-- 실용적 접근: De Bruijn [[070_graph_datastructure|그래프]] + [[046_euler_path|Euler Path]] (정점 → 간선 변환)
+- DNA 조각들(reads)을 겹침 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 해밀턴 경로로 재조합
+- 실용적 접근: De Bruijn [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) + [Euler Path](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/046_euler_path/) (정점 → 간선 변환)
 
 **시나리오 2**: 파레트 포장 순서 (물류)
 - 여러 창고를 한 번씩 방문하는 트럭 경로
@@ -134,38 +138,38 @@ TSP 최적화 = NP-hard
 
 **시나리오 3**: 집적회로 테스트 경로
 - 칩의 모든 핀을 한 번씩 테스트하는 탐침 순서
-- 소규모 핀 [[055_array|배열]](n≤20)에 DP 비트마스크 적용
+- 소규모 핀 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)(n≤20)에 DP 비트마스크 적용
 
 ### 기술사 판단 포인트
 
 | 상황 | 판단 |
 |:---|:---|
 | 모든 정점 방문 경로 | 해밀턴 경로 (NP-완전) |
-| 대규모 (n > 20) | [[012_approximation_algorithm|근사 알고리즘]] 또는 메타휴리스틱 |
+| 대규모 (n > 20) | [근사 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/) 또는 메타휴리스틱 |
 | 소규모 (n ≤ 20) | DP + 비트마스크 O(2ⁿn²) |
-| 존재 보장 필요 | Dirac/Ore 정리 충분조건 [[396_validation|확인]] |
+| 존재 보장 필요 | Dirac/Ore 정리 충분조건 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
 | DNA 조립 | 오일러 경로로 환원 (De Bruijn) |
 
 📢 **섹션 요약 비유**: 해밀턴 경로는 퍼즐처럼 어렵다. 30개 도시만 되어도 완전 탐색이 우주 나이보다 오래 걸린다. 그래서 현실에서는 "충분히 좋은" 근사 해법을 사용한다.
 
 ## Ⅴ. 기대효과 및 결론
 
-해밀턴 경로 (Hamiltonian Path)는 NP-완전 문제로 효율적인 일반 [[001_algorithm_definition|알고리즘]]이 존재하지 않는다. 소규모에서는 DP + 비트마스크, 대규모에서는 [[012_approximation_algorithm|근사 알고리즘]]이나 메타휴리스틱을 사용한다. Dirac/Ore 정리는 존재 보장에 활용한다.
+해밀턴 경로 (Hamiltonian Path)는 NP-완전 문제로 효율적인 일반 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 존재하지 않는다. 소규모에서는 DP + 비트마스크, 대규모에서는 [근사 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/)이나 메타휴리스틱을 사용한다. Dirac/Ore 정리는 존재 보장에 활용한다.
 
-**핵심 결론**: 해밀턴 경로는 P≠NP 가설에 의해 [[195_polynomial_generator_crc|다항식]] 시간 [[001_algorithm_definition|알고리즘]]이 존재하지 않을 것으로 믿어지는 문제다. 현실 시스템에서는 근사와 휴리스틱이 실용적 해법이다.
+**핵심 결론**: 해밀턴 경로는 P≠NP 가설에 의해 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 시간 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 존재하지 않을 것으로 믿어지는 문제다. 현실 시스템에서는 근사와 휴리스틱이 실용적 해법이다.
 
 📢 **섹션 요약 비유**: 해밀턴 경로는 "모든 도시를 한 번씩 방문하는 완벽한 여행 계획"이다. 완벽한 답을 구하려면 지수적 시간이 걸리고, 현실에서는 "아주 좋지만 완벽하지 않은" 경로로 타협한다.
 
 ### 📌 관련 개념 맵
 
-| 개념 | [[083_relationship_in_er_model|관계]] | 설명 |
+| 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
 |:---|:---|:---|
-| [[106_fenwick_tree|TSP]] ([[106_fenwick_tree|외판원 문제]]) | 최적화 [[288_version_ihl_tos_total_length|버전]] | 최단 해밀턴 회로 |
+| [TSP](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/) ([외판원 문제](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/)) | 최적화 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) | 최단 해밀턴 회로 |
 | 오일러 경로 | 대비 개념 | 간선 방문, P 복잡도 |
-| NP-완전 | 복잡도 클래스 | [[195_polynomial_generator_crc|다항식]] [[001_algorithm_definition|알고리즘]] 없음 |
-| DP + 비트마스크 | 정확 [[001_algorithm_definition|알고리즘]] | O(2ⁿn²), n≤20 |
+| NP-완전 | 복잡도 클래스 | [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 없음 |
+| DP + 비트마스크 | 정확 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | O(2ⁿn²), n≤20 |
 | Dirac/Ore 정리 | 존재 충분조건 | 차수 기반 보장 |
-| De Bruijn [[070_graph_datastructure|그래프]] | 응용 변환 | 정점→간선 변환으로 Euler 활용 |
+| De Bruijn [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) | 응용 변환 | 정점→간선 변환으로 Euler 활용 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -184,11 +188,11 @@ TSP 최적화 = NP-hard
     ▼
 [메타휴리스틱 (대규모 근사해 — 유전 알고리즘·모의담금질)]
 ```
-해밀턴 경로는 P≠NP 가설에 의해 [[195_polynomial_generator_crc|다항식]] 해가 없는 NP-완전 문제로, 소규모에서 DP+비트마스크, 대규모에서 메타휴리스틱 근사가 실용적 해법이다.
+해밀턴 경로는 P≠NP 가설에 의해 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 해가 없는 NP-완전 문제로, 소규모에서 DP+비트마스크, 대규모에서 메타휴리스틱 근사가 실용적 해법이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 🏙️ 해밀턴 경로는 모든 도시를 딱 한 번씩만 방문하는 여행 코스를 찾는 것인데, 이 코스가 존재하는지 [[396_validation|확인]]하는 것조차 매우 어렵다.
+1. 🏙️ 해밀턴 경로는 모든 도시를 딱 한 번씩만 방문하는 여행 코스를 찾는 것인데, 이 코스가 존재하는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것조차 매우 어렵다.
 2. 🧩 도시가 20개만 넘어도 가능한 경우의 수가 우주의 원자 수보다 많아질 수 있어서, 컴퓨터도 완벽한 답을 빠르게 찾지 못한다.
 3. 🔍 그래서 실제로는 "완벽하지 않아도 충분히 좋은" 경로를 빠르게 찾는 근사 방법을 사용한다.
 
@@ -198,7 +202,7 @@ TSP 최적화 = NP-hard
 
 **진행 상황**: 49 / 175
 
-← **이전**: [[048_bubble_sort_algorithm|21. 퀵 정렬 최적화 — 3-way Partition, Median-of-3 Pivot]]
-**다음**: [[050_selection_sort_algorithm|22. 힙 정렬 (Heap Sort) — O(n log n), 불안정, 제자리]] →
+← **이전**: [21. 퀵 정렬 최적화 — 3-way Partition, Median-of-3 Pivot](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/048_bubble_sort_algorithm/)
+**다음**: [22. 힙 정렬 (Heap Sort) — O(n log n), 불안정, 제자리](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/050_selection_sort_algorithm/) →
 
 ---

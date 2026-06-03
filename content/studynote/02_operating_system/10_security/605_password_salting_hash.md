@@ -1,25 +1,29 @@
----
-title: 605. 비밀번호 솔팅 (Salting) 기반 해시 처리 방어 구조
-date: '2026-05-09'
-tags:
-- studynote-operating-system
----
++++
+title = "605. 비밀번호 솔팅 (Salting) 기반 해시 처리 방어 구조"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 패스워드 솔팅 (Salting)은 사용자의 평문 비밀번호를 [[008_단방향_반이중_전이중|단방향]] 해시(Hash) [[001_algorithm_definition|알고리즘]]으로 변환하기 직전에, 무작위의 고유한 난수 문자열([[671_password_hash_salt_pbkdf2_bcrypt_argon2|Salt]])을 덧붙여 해시 결과값을 완전히 뒤섞어버리는 보안 기법이다.
-> 2. **가치**: [[002_database_definition|데이터베이스]](DB)가 해커에게 통째로 유출(Breach)되는 최악의 상황에서도, 해커가 미리 계산해둔 거대한 해시 사딕(레인보우 테이블)을 무용지물로 만들어 평문 패스워드 복원을 수학적·물리적으로 불가능하게 만드는 최후의 저지선이다.
-> 3. **융합**: [[001_operating_system_purpose|운영체제]]의 `/etc/shadow` [[501_file_definition_logical_record|파일]] 구조와 [[652_cryptography_concept_encryption_decryption|암호학]]([[652_cryptography_concept_encryption_decryption|Cryptography]])의 [[008_단방향_반이중_전이중|단방향]] [[667_hash_function_integrity_one_way|해시 함수]](SHA-256, bcrypt, Argon2) 특성이 융합된 기술로, 단순한 암호화(Encryption)와 해싱(Hashing)의 근본적 차이를 보여주는 아키텍처 설계의 교과서적 사례다.
+> 1. **본질**: 패스워드 솔팅 (Salting)은 사용자의 평문 비밀번호를 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 해시(Hash) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 변환하기 직전에, 무작위의 고유한 난수 문자열([Salt](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/))을 덧붙여 해시 결과값을 완전히 뒤섞어버리는 보안 기법이다.
+> 2. **가치**: [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(DB)가 해커에게 통째로 유출(Breach)되는 최악의 상황에서도, 해커가 미리 계산해둔 거대한 해시 사딕(레인보우 테이블)을 무용지물로 만들어 평문 패스워드 복원을 수학적·물리적으로 불가능하게 만드는 최후의 저지선이다.
+> 3. **융합**: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 `/etc/shadow` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 구조와 [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)([Cryptography](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/))의 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)(SHA-256, bcrypt, Argon2) 특성이 융합된 기술로, 단순한 암호화(Encryption)와 해싱(Hashing)의 근본적 차이를 보여주는 아키텍처 설계의 교과서적 사례다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 **개념 및 정의**
-[[001_operating_system_purpose|운영체제]](OS)와 현대 애플리케이션은 사용자의 패스워드를 저장할 때 '평문(Plain text)'이나 양방향 복호화가 가능한 '암호문(Encryption)'으로 저장하지 않는다. 대신 원래 값으로 되돌릴 수 없는 [[008_단방향_반이중_전이중|단방향]] 암호화인 '해시(Hash)' 값으로 저장한다. 패스워드 솔팅(Salting)은 여기서 한 걸음 더 나아가, 동일한 패스워드라도 사용자마다 각기 다른 무작위 [[001_dikw_pyramid|데이터]]([[671_password_hash_salt_pbkdf2_bcrypt_argon2|Salt]])를 추가하여 항상 고유한 해시 결과값이 나오도록 강제하는 메커니즘이다.
+[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(OS)와 현대 애플리케이션은 사용자의 패스워드를 저장할 때 '평문(Plain text)'이나 양방향 복호화가 가능한 '암호문(Encryption)'으로 저장하지 않는다. 대신 원래 값으로 되돌릴 수 없는 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 암호화인 '해시(Hash)' 값으로 저장한다. 패스워드 솔팅(Salting)은 여기서 한 걸음 더 나아가, 동일한 패스워드라도 사용자마다 각기 다른 무작위 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Salt](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/))를 추가하여 항상 고유한 해시 결과값이 나오도록 강제하는 메커니즘이다.
 
 **필요성 및 등장 배경**
-[[459_quic_fec_forward_error_correction|초기]] 시스템들은 패스워드 해시 저장이 안전하다고 믿었다. 하지만 [[008_단방향_반이중_전이중|단방향]] 해시라도 `123456` 같은 흔한 패스워드의 해시값은 항상 똑같이 나온다는 치명적 맹점이 존재했다. 공격자들은 "어차피 사람들이 쓰는 패스워드는 수천만 개 정도니, 모든 경우의 수의 해시값을 미리 계산해서 표(레인보우 테이블, [[107_rainbow_table|Rainbow Table]])로 만들어 두자"는 발상을 실행에 옮겼다. 서버 DB가 털리면 해커는 이 거대한 엑셀 표(레인보우 테이블)에서 DB의 해시값을 검색(Look-up)하기만 하면 단 1초 만에 원래 패스워드를 알아낼 수 있었다. 이를 파괴하기 위해 소금([[671_password_hash_salt_pbkdf2_bcrypt_argon2|Salt]])을 뿌려 해커의 미리 계산된 식단을 망쳐버리는 솔팅 기술이 등장했다.
+[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 시스템들은 패스워드 해시 저장이 안전하다고 믿었다. 하지만 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 해시라도 `123456` 같은 흔한 패스워드의 해시값은 항상 똑같이 나온다는 치명적 맹점이 존재했다. 공격자들은 "어차피 사람들이 쓰는 패스워드는 수천만 개 정도니, 모든 경우의 수의 해시값을 미리 계산해서 표(레인보우 테이블, [Rainbow Table](/knowledge-base/studynote/09_security/02_crypto/107_rainbow_table/))로 만들어 두자"는 발상을 실행에 옮겼다. 서버 DB가 털리면 해커는 이 거대한 엑셀 표(레인보우 테이블)에서 DB의 해시값을 검색(Look-up)하기만 하면 단 1초 만에 원래 패스워드를 알아낼 수 있었다. 이를 파괴하기 위해 소금([Salt](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/))을 뿌려 해커의 미리 계산된 식단을 망쳐버리는 솔팅 기술이 등장했다.
 
 ```text
 ┌────────────────────────────────────────────────────────────┐
@@ -42,9 +46,9 @@ tags:
 └────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 이 구조도는 "해시(Hash)는 복호화가 불가능하니까 안전하다"는 고정관념을 해커들이 어떻게 박살 냈는지를 보여준다. [[667_hash_function_integrity_one_way|해시 함수]] 자체는 [[008_단방향_반이중_전이중|단방향]]이 맞지만, 수학적 [[099_one_to_one_model|일대일]] 매핑이 성립하므로(동일 입력 = 동일 출력), 해커가 오프라인에서 미리 10테라바이트짜리 거대한 '입력-출력 매핑 테이블([[107_rainbow_table|Rainbow Table]])'을 수년 동안 만들어두면 방어막이 순식간에 뚫린다. 특히 여러 사용자가 동일한 패스워드를 쓰는 경우, 한 명의 패스워드가 풀리면 똑같은 해시값을 가진 수천 명의 패스워드도 동시에 노출되는 군집 붕괴 현상이 발생한다.
+**[다이어그램 해설]** 이 구조도는 "해시(Hash)는 복호화가 불가능하니까 안전하다"는 고정관념을 해커들이 어떻게 박살 냈는지를 보여준다. [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) 자체는 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/)이 맞지만, 수학적 [일대일](/knowledge-base/studynote/02_operating_system/02_process_thread/099_one_to_one_model/) 매핑이 성립하므로(동일 입력 = 동일 출력), 해커가 오프라인에서 미리 10테라바이트짜리 거대한 '입력-출력 매핑 테이블([Rainbow Table](/knowledge-base/studynote/09_security/02_crypto/107_rainbow_table/))'을 수년 동안 만들어두면 방어막이 순식간에 뚫린다. 특히 여러 사용자가 동일한 패스워드를 쓰는 경우, 한 명의 패스워드가 풀리면 똑같은 해시값을 가진 수천 명의 패스워드도 동시에 노출되는 군집 붕괴 현상이 발생한다.
 
-- **📢 섹션 요약 비유**: 해커가 세상 모든 열쇠와 자물쇠 모양을 도감(레인보우 테이블)으로 만들어 들고 다녀서 자물쇠 겉모양만 보고도 열쇠를 깎아내는 상황인데, 자물쇠 안에 불규칙하게 튀어나온 소금 알갱이([[671_password_hash_salt_pbkdf2_bcrypt_argon2|Salt]])를 뿌려 도감 자체를 휴지 조각으로 만들어버리는 기술입니다.
+- **📢 섹션 요약 비유**: 해커가 세상 모든 열쇠와 자물쇠 모양을 도감(레인보우 테이블)으로 만들어 들고 다녀서 자물쇠 겉모양만 보고도 열쇠를 깎아내는 상황인데, 자물쇠 안에 불규칙하게 튀어나온 소금 알갱이([Salt](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/))를 뿌려 도감 자체를 휴지 조각으로 만들어버리는 기술입니다.
 
 ---
 
@@ -55,14 +59,14 @@ tags:
 | 요소명 | 역할 | 내부 동작 | 비유 |
 |:---|:---|:---|:---|
 | **평문 패스워드 (Plain PW)** | 사용자가 입력한 원래 비밀번호 | `Password123!` | 요리용 기본 식재료 |
-| **[[671_password_hash_salt_pbkdf2_bcrypt_argon2|솔트]] ([[671_password_hash_salt_pbkdf2_bcrypt_argon2|Salt]] 값)** | 사용자마다 다르게 생성되는 긴 난수 | 난수 발생기([[1001_csprng_random_generator|CSPRNG]])로 생성된 고유 문자열 (`Ex: 8fA2#k`) | 음식마다 다르게 치는 양념 |
-| **[[667_hash_function_integrity_one_way|해시 함수]] (Hash [[001_algorithm_definition|Algorithm]])** | 평문과 [[671_password_hash_salt_pbkdf2_bcrypt_argon2|솔트]]의 결합을 섞어 돌림 | `Hash(PW + Salt)` 또는 `Hash(Salt + PW)` 연산 수행 | 강력한 블렌더(믹서기) |
-| **[[109_key_stretching|키 스트레칭]] ([[109_key_stretching|Key Stretching]])** | 해커의 브루트 포스 연산을 [[015_지연_데이터_관점|지연]] | 해시 결과값을 다시 [[667_hash_function_integrity_one_way|해시 함수]]에 넣는 과정을 수천~수만 번 반복 | 믹서기를 [[489_raid_10_hybrid|10]],000번 돌리기 |
-| **저장소 (ex: `/etc/shadow`)** | 최종 해시 및 [[671_password_hash_salt_pbkdf2_bcrypt_argon2|솔트]]값, [[001_algorithm_definition|알고리즘]] [[012_metadata|메타데이터]] 보관 | `$알고리즘$솔트값$최종해시값` 형태로 DB/[[501_file_definition_logical_record|파일]]에 기록 | 레시피 결과물 보관소 |
+| **[솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/) ([Salt](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/) 값)** | 사용자마다 다르게 생성되는 긴 난수 | 난수 발생기([CSPRNG](/knowledge-base/studynote/09_security/20_extra_exam_prep/1001_csprng_random_generator/))로 생성된 고유 문자열 (`Ex: 8fA2#k`) | 음식마다 다르게 치는 양념 |
+| **[해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) (Hash [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))** | 평문과 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)의 결합을 섞어 돌림 | `Hash(PW + Salt)` 또는 `Hash(Salt + PW)` 연산 수행 | 강력한 블렌더(믹서기) |
+| **[키 스트레칭](/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/) ([Key Stretching](/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/))** | 해커의 브루트 포스 연산을 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | 해시 결과값을 다시 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)에 넣는 과정을 수천~수만 번 반복 | 믹서기를 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000번 돌리기 |
+| **저장소 (ex: `/etc/shadow`)** | 최종 해시 및 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)값, [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 보관 | `$알고리즘$솔트값$최종해시값` 형태로 DB/[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 기록 | 레시피 결과물 보관소 |
 
-### 심층 동작 원리: 솔팅(Salting)과 [[109_key_stretching|키 스트레칭]]([[109_key_stretching|Key Stretching]])의 융합
+### 심층 동작 원리: 솔팅(Salting)과 [키 스트레칭](/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/)([Key Stretching](/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/))의 융합
 
-현대 OS와 [[303_authentication_authorization_patterns|인증]] 프레임워크(Spring [[283_security_tactics|Security]], Django 등)는 단순히 [[671_password_hash_salt_pbkdf2_bcrypt_argon2|Salt]] 하나만 추가하는 것에 만족하지 않는다. 해커들의 [[418_gpu|GPU]] 연산(초당 수십 억 번 해시 계산)이 너무 빨라졌기 때문이다. 이에 대응하기 위해 해시를 한 번만 하는 것이 아니라 반복 횟수(Work Factor/Cost)를 주어 일부러 계산을 느리게 만드는 **[[109_key_stretching|키 스트레칭]]([[109_key_stretching|Key Stretching]])**을 솔팅과 융합하여 아키텍처를 설계한다. 대표적인 [[001_algorithm_definition|알고리즘]]이 **bcrypt, PBKDF2, Argon2** 이다.
+현대 OS와 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 프레임워크(Spring [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/), Django 등)는 단순히 [Salt](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/) 하나만 추가하는 것에 만족하지 않는다. 해커들의 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 연산(초당 수십 억 번 해시 계산)이 너무 빨라졌기 때문이다. 이에 대응하기 위해 해시를 한 번만 하는 것이 아니라 반복 횟수(Work Factor/Cost)를 주어 일부러 계산을 느리게 만드는 **[키 스트레칭](/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/)([Key Stretching](/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/))**을 솔팅과 융합하여 아키텍처를 설계한다. 대표적인 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 **bcrypt, PBKDF2, Argon2** 이다.
 
 ```text
 ┌────────────────────────────────────────────────────────────┐
@@ -90,26 +94,26 @@ tags:
 └────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 이 구조도는 단순한 암호화가 아닌, 해커의 컴퓨팅 파워를 소모시키기 위한 "의도적 [[015_지연_데이터_관점|지연]](Delay)" 아키텍처를 보여준다. 사용자 계정이 생성될 때마다 새로운 [[671_password_hash_salt_pbkdf2_bcrypt_argon2|솔트]]([[671_password_hash_salt_pbkdf2_bcrypt_argon2|Salt]])가 발급되므로, 두 사용자가 똑같이 `apple123`이라는 패스워드를 쓰더라도 DB에 저장되는 최종 해시값은 완전히 달라진다. [[671_password_hash_salt_pbkdf2_bcrypt_argon2|솔트]] 값 자체는 암호가 아니므로 DB에 해시값과 나란히 평문으로 저장해도 무방하다. ([[671_password_hash_salt_pbkdf2_bcrypt_argon2|솔트]]는 레인보우 테이블을 무력화할 뿐, [[671_password_hash_salt_pbkdf2_bcrypt_argon2|솔트]] 자체가 비밀일 필요는 없다). 여기에 `Cost Factor(12)`가 주어지면, 해시 연산을 $2^{12}$(4,096)번 이상 반복한다. 정상 사용자가 로그인할 때는 0.1초의 [[015_지연_데이터_관점|지연]]만 생기므로 UX에 지장이 없지만, 해커가 DB를 털어가서 1억 개의 패스워드 사전을 브루트 포스(Brute-Force) 공격으로 대입하려 하면, 한 번 시도할 때마다 0.1초가 걸려 해킹에 수천 년이 걸리게 만드는 물리적 방어 체계다.
+**[다이어그램 해설]** 이 구조도는 단순한 암호화가 아닌, 해커의 컴퓨팅 파워를 소모시키기 위한 "의도적 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Delay)" 아키텍처를 보여준다. 사용자 계정이 생성될 때마다 새로운 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)([Salt](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/))가 발급되므로, 두 사용자가 똑같이 `apple123`이라는 패스워드를 쓰더라도 DB에 저장되는 최종 해시값은 완전히 달라진다. [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/) 값 자체는 암호가 아니므로 DB에 해시값과 나란히 평문으로 저장해도 무방하다. ([솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)는 레인보우 테이블을 무력화할 뿐, [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/) 자체가 비밀일 필요는 없다). 여기에 `Cost Factor(12)`가 주어지면, 해시 연산을 $2^{12}$(4,096)번 이상 반복한다. 정상 사용자가 로그인할 때는 0.1초의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)만 생기므로 UX에 지장이 없지만, 해커가 DB를 털어가서 1억 개의 패스워드 사전을 브루트 포스(Brute-Force) 공격으로 대입하려 하면, 한 번 시도할 때마다 0.1초가 걸려 해킹에 수천 년이 걸리게 만드는 물리적 방어 체계다.
 
-- **📢 섹션 요약 비유**: 해커가 엄청나게 빠른 헬리콥터([[418_gpu|GPU]])를 타고 도망가려 할 때, [[671_password_hash_salt_pbkdf2_bcrypt_argon2|솔트]]([[671_password_hash_salt_pbkdf2_bcrypt_argon2|Salt]])가 출발 방향을 수억 갈래로 흐트러뜨리고, [[109_key_stretching|키 스트레칭]]이 헬기에 무거운 모래주머니 수만 개를 매달아 버려 결국 날아오르지 못하게 만드는 물리적 억제술과 같습니다.
+- **📢 섹션 요약 비유**: 해커가 엄청나게 빠른 헬리콥터([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))를 타고 도망가려 할 때, [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)([Salt](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/))가 출발 방향을 수억 갈래로 흐트러뜨리고, [키 스트레칭](/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/)이 헬기에 무거운 모래주머니 수만 개를 매달아 버려 결국 날아오르지 못하게 만드는 물리적 억제술과 같습니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 패스워드 방어 [[001_algorithm_definition|알고리즘]]의 진화 과정 ([[668_md5_hash_collision_vulnerability|MD5]] -> Bcrypt -> Argon2)
+### 패스워드 방어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 진화 과정 ([MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/) -> Bcrypt -> Argon2)
 
-과거 웹 개발자들은 속도가 빠르다는 이유로 MD5나 SHA-1 같은 일반 범용 [[667_hash_function_integrity_one_way|해시 함수]]를 사용했다. 하지만 이들은 [[501_file_definition_logical_record|파일]] [[003_integrity|무결성]]을 빠르게 체크하기 위해 발명된 [[001_algorithm_definition|알고리즘]]일 뿐, 패스워드 [[571_protection_vs_security|보호]]용으로는 최악의 선택이다.
+과거 웹 개발자들은 속도가 빠르다는 이유로 MD5나 SHA-1 같은 일반 범용 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)를 사용했다. 하지만 이들은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 빠르게 체크하기 위해 발명된 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)일 뿐, 패스워드 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)용으로는 최악의 선택이다.
 
-| 해시 [[001_algorithm_definition|알고리즘]] | 개발 목적 | 패스워드 방어 특징 | 한계점 및 보안 수준 |
+| 해시 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 개발 목적 | 패스워드 방어 특징 | 한계점 및 보안 수준 |
 |:---|:---|:---|:---|
-| **[[668_md5_hash_collision_vulnerability|MD5]] / SHA-1** | [[501_file_definition_logical_record|파일]] 다운로드 [[003_integrity|무결성]] [[148_5g_embb_urllc_mmtc|초고속]] [[395_verification_process_review|검증]] ([[112_checksum|Checksum]]) | 연산 속도가 너무 빠름 (GPU로 초당 수백억 번 연산) | **사용 금지**. 해커의 Brute-Force 공격 방어력 0. 충돌 취약점 존재. |
-| **PBKDF2** | [[652_cryptography_concept_encryption_decryption|암호학]]적 키 도출 및 [[571_protection_vs_security|보호]] | [[671_password_hash_salt_pbkdf2_bcrypt_argon2|솔트]] 지원 + 수만 번의 반복 해시 연산([[109_key_stretching|키 스트레칭]]) 제공 | 연산이 오직 CPU(연산량)에만 의존하여, 해커가 [[070_asic|ASIC]]/[[418_gpu|GPU]] 팜을 구축하면 뚫릴 위험 있음. |
-| **Bcrypt** | **전용 패스워드 해시 암호화** | Cost Factor를 조절하여 컴퓨팅 [[282_performance_tactics|성능]] 발전에 대응 가능 | 리눅스, 스프링 등 현대 IT 인프라의 **글로벌 기본 표준 (De Facto)**. |
-| **Argon2** | 차세대 패스워드 해싱 대회(PHC) 우승작 | CPU 연산량 + **메모리(RAM) 요구량** + [[430_index_fast_full_scan|병렬]] 처리 [[092_thread_lwp|스레드]] 수까지 통제 | **최고 보안 등급**. 해커가 [[430_index_fast_full_scan|병렬]] GPU를 써도 막대한 RAM이 필요해 칩을 만들 수 없게 물리적으로 차단. |
+| **[MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/) / SHA-1** | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 다운로드 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) ([Checksum](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)) | 연산 속도가 너무 빠름 (GPU로 초당 수백억 번 연산) | **사용 금지**. 해커의 Brute-Force 공격 방어력 0. 충돌 취약점 존재. |
+| **PBKDF2** | [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)적 키 도출 및 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/) 지원 + 수만 번의 반복 해시 연산([키 스트레칭](/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/)) 제공 | 연산이 오직 CPU(연산량)에만 의존하여, 해커가 [ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/)/[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 팜을 구축하면 뚫릴 위험 있음. |
+| **Bcrypt** | **전용 패스워드 해시 암호화** | Cost Factor를 조절하여 컴퓨팅 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 발전에 대응 가능 | 리눅스, 스프링 등 현대 IT 인프라의 **글로벌 기본 표준 (De Facto)**. |
+| **Argon2** | 차세대 패스워드 해싱 대회(PHC) 우승작 | CPU 연산량 + **메모리(RAM) 요구량** + [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수까지 통제 | **최고 보안 등급**. 해커가 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) GPU를 써도 막대한 RAM이 필요해 칩을 만들 수 없게 물리적으로 차단. |
 
-가장 최신 표준인 **Argon2**의 핵심은 해시 연산 시 CPU뿐만 아니라 대량의 메모리(Memory-Hard)를 요구한다는 점이다. 해커는 [[418_gpu|GPU]] 안에 수천 개의 코어를 가지고 있지만 RAM 용량은 제한적이므로, Argon2 [[001_algorithm_definition|알고리즘]] 앞에서는 GPU의 장점을 전혀 살릴 수 없다.
+가장 최신 표준인 **Argon2**의 핵심은 해시 연산 시 CPU뿐만 아니라 대량의 메모리(Memory-Hard)를 요구한다는 점이다. 해커는 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 안에 수천 개의 코어를 가지고 있지만 RAM 용량은 제한적이므로, Argon2 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 앞에서는 GPU의 장점을 전혀 살릴 수 없다.
 
 ```text
 ┌────────────────────────────────────────────────────────────┐
@@ -133,7 +137,7 @@ tags:
 └────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 이 비교도는 사이버 창과 방패의 싸움이 단순한 수학 [[001_algorithm_definition|알고리즘]]을 넘어 하드웨어 아키텍처(CPU vs Memory)의 한계를 공략하는 물리전으로 진화했음을 보여준다. Bcrypt나 PBKDF2는 연산 시간을 늘려(Time-cost) 방어하지만, 해커들이 비트코인 채굴에 쓰이는 [[430_index_fast_full_scan|병렬]] 연산 특화 괴물 [[418_gpu|GPU]] 팜을 구성하자 이 시간 [[015_지연_데이터_관점|지연]]이 [[430_index_fast_full_scan|병렬]] 처리로 무력화되었다. 이에 방어자들은 해시 계산 과정에 거대한 [[459_dummy_test_double|더미]] [[001_dikw_pyramid|데이터]]를 메모리에 쓰고 읽기를 반복하게 만드는 Argon2 [[001_algorithm_definition|알고리즘]]을 도입했다. 해커가 [[430_index_fast_full_scan|병렬]] 코어를 돌리려 해도 메모리(Memory-cost) 대역폭과 용량이 발목을 잡아, 하드웨어 확장의 가성비가 최악으로 떨어지게 만들어 브루트 포스 공격의 경제성을 완전히 파괴해버린 예술적 방어 설계다.
+**[다이어그램 해설]** 이 비교도는 사이버 창과 방패의 싸움이 단순한 수학 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 넘어 하드웨어 아키텍처(CPU vs Memory)의 한계를 공략하는 물리전으로 진화했음을 보여준다. Bcrypt나 PBKDF2는 연산 시간을 늘려(Time-cost) 방어하지만, 해커들이 비트코인 채굴에 쓰이는 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산 특화 괴물 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 팜을 구성하자 이 시간 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리로 무력화되었다. 이에 방어자들은 해시 계산 과정에 거대한 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 메모리에 쓰고 읽기를 반복하게 만드는 Argon2 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 도입했다. 해커가 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 코어를 돌리려 해도 메모리(Memory-cost) 대역폭과 용량이 발목을 잡아, 하드웨어 확장의 가성비가 최악으로 떨어지게 만들어 브루트 포스 공격의 경제성을 완전히 파괴해버린 예술적 방어 설계다.
 
 - **📢 섹션 요약 비유**: 옛날 방어법(Bcrypt)이 범인에게 엄청나게 복잡한 수학 문제를 내어 시간을 끌게 했다면, 최신 방어법(Argon2)은 수학 문제를 풀려면 100평짜리 축구장(메모리)을 뛰어다니며 숫자를 주워오도록 강제하여 범인의 체력과 공간 자체를 물리적으로 고갈시키는 전법입니다.
 
@@ -141,47 +145,47 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 실무 시나리오: 레거시 [[668_md5_hash_collision_vulnerability|MD5]] 시스템에서 Bcrypt 아키텍처로의 무중단 마이그레이션
+### 실무 시나리오: 레거시 [MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/) 시스템에서 Bcrypt 아키텍처로의 무중단 마이그레이션
 
-1. **상황**: 10년 된 쇼핑몰의 DB를 [[606_auditing_linux_auditd|감사]]([[363_audit|Audit]])해 보니, 200만 명 고객의 패스워드가 [[671_password_hash_salt_pbkdf2_bcrypt_argon2|솔트]]([[671_password_hash_salt_pbkdf2_bcrypt_argon2|Salt]]) 없이 단순 `MD5`나 `SHA-256`으로 저장되어 있었다. 만약 DB가 털리면 고객의 패스워드가 평문으로 노출되는 치명적 보안 리스크가 발견되었다.
-2. **문제점 (딜레마)**: 관리자가 DB 내의 기존 [[668_md5_hash_collision_vulnerability|MD5]] 해시값을 Bcrypt로 일괄 변환하고 싶어도, [[667_hash_function_integrity_one_way|해시 함수]]의 특성상 [[008_단방향_반이중_전이중|단방향]]이므로 원래 패스워드(평문)를 알 수 없어 자체 변환이 불가능하다. 고객들에게 "비밀번호를 일괄 재설정해주세요"라고 공지하면 비즈니스 이탈률(Churn rate)이 심각해진다.
-3. **아키텍트의 의사결정 ([[380_computational_graph_lazy_eager_execution|Lazy]]/Wrapping Migration [[268_strategy_pattern|전략]])**:
-   - DB 컬럼을 추가하거나 저장 포맷을 변경하여, 이 해시값이 구형([[668_md5_hash_collision_vulnerability|MD5]])인지 신형(Bcrypt)인지 식별할 수 있는 [[288_version_ihl_tos_total_length|버전]] 플래그를 넣는다.
+1. **상황**: 10년 된 쇼핑몰의 DB를 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))해 보니, 200만 명 고객의 패스워드가 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)([Salt](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)) 없이 단순 `MD5`나 `SHA-256`으로 저장되어 있었다. 만약 DB가 털리면 고객의 패스워드가 평문으로 노출되는 치명적 보안 리스크가 발견되었다.
+2. **문제점 (딜레마)**: 관리자가 DB 내의 기존 [MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/) 해시값을 Bcrypt로 일괄 변환하고 싶어도, [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)의 특성상 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/)이므로 원래 패스워드(평문)를 알 수 없어 자체 변환이 불가능하다. 고객들에게 "비밀번호를 일괄 재설정해주세요"라고 공지하면 비즈니스 이탈률(Churn rate)이 심각해진다.
+3. **아키텍트의 의사결정 ([Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/)/Wrapping Migration [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))**:
+   - DB 컬럼을 추가하거나 저장 포맷을 변경하여, 이 해시값이 구형([MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/))인지 신형(Bcrypt)인지 식별할 수 있는 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 플래그를 넣는다.
    - 사용자가 로그인을 시도할 때 입력하는 **평문 패스워드가 들어오는 그 찰나의 순간**을 이용한다.
-   - 서버 로직: 입력된 평문을 기존 [[668_md5_hash_collision_vulnerability|MD5]] 로직으로 돌려 DB 값과 일치하는지 먼저 확인하여 [[303_authentication_authorization_patterns|인증]]을 통과시킨다.
-   - 통과 직후, 서버는 메모리에 들고 있던 그 "평문 패스워드"를 즉시 신형 **Bcrypt ([[671_password_hash_salt_pbkdf2_bcrypt_argon2|솔트]] + 스트레칭)** 로 다시 해싱하여 DB의 기존 [[668_md5_hash_collision_vulnerability|MD5]] 값을 조용히(백그라운드에서) 덮어씌운다(업데이트).
+   - 서버 로직: 입력된 평문을 기존 [MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/) 로직으로 돌려 DB 값과 일치하는지 먼저 확인하여 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 통과시킨다.
+   - 통과 직후, 서버는 메모리에 들고 있던 그 "평문 패스워드"를 즉시 신형 **Bcrypt ([솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/) + 스트레칭)** 로 다시 해싱하여 DB의 기존 [MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/) 값을 조용히(백그라운드에서) 덮어씌운다(업데이트).
    - 이 방식으로 사용자가 1번이라도 로그인하는 순간 시스템은 최신 보안 등급으로 투명하게 무중단 마이그레이션된다.
 
-### 도입 [[435_checklist_based_testing|체크리스트]] (패스워드 저장 [[164_policy|정책]])
-- **Pepper(페퍼)의 추가 적용 유무**: [[671_password_hash_salt_pbkdf2_bcrypt_argon2|솔트]]([[671_password_hash_salt_pbkdf2_bcrypt_argon2|Salt]])가 DB에 저장되어 DB 유출 시 함께 노출되는 방어의 한계를 극복하기 위해, [[671_password_hash_salt_pbkdf2_bcrypt_argon2|솔트]]와 별개로 애플리케이션 서버(소스코드나 환변변수, [[1013_aws_kms|AWS KMS]]) 내부 깊숙이 숨겨둔 고정 비밀키인 **페퍼(Pepper)**를 해싱 과정에 추가로 섞어 넣었는가? (DB와 소스코드가 동시에 털리지 않는 한 해독 불가 상태 구축).
-- **[[671_password_hash_salt_pbkdf2_bcrypt_argon2|솔트]]([[671_password_hash_salt_pbkdf2_bcrypt_argon2|Salt]])의 고유성 (Uniqueness)**: 하나의 전역 [[671_password_hash_salt_pbkdf2_bcrypt_argon2|솔트]](Global [[671_password_hash_salt_pbkdf2_bcrypt_argon2|Salt]])를 모든 유저에게 재사용하는 것은 [[128_water_scrum_fall_anti_pattern|안티패턴]]이다. 1명의 유저당 1개의 고유한 Random Salt가 매번 새로 발급(User-Level [[671_password_hash_salt_pbkdf2_bcrypt_argon2|Salt]])되도록 설계되었는가?
+### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) (패스워드 저장 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))
+- **Pepper(페퍼)의 추가 적용 유무**: [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)([Salt](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/))가 DB에 저장되어 DB 유출 시 함께 노출되는 방어의 한계를 극복하기 위해, [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)와 별개로 애플리케이션 서버(소스코드나 환변변수, [AWS KMS](/knowledge-base/studynote/09_security/20_extra_exam_prep/1013_aws_kms/)) 내부 깊숙이 숨겨둔 고정 비밀키인 **페퍼(Pepper)**를 해싱 과정에 추가로 섞어 넣었는가? (DB와 소스코드가 동시에 털리지 않는 한 해독 불가 상태 구축).
+- **[솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)([Salt](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/))의 고유성 (Uniqueness)**: 하나의 전역 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)(Global [Salt](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/))를 모든 유저에게 재사용하는 것은 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다. 1명의 유저당 1개의 고유한 Random Salt가 매번 새로 발급(User-Level [Salt](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/))되도록 설계되었는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
-- **프론트엔드(Client-Side) 해싱 남용**: "서버 부하를 줄이겠다"는 핑계로, 웹 브라우저(JavaScript) 단에서 평문 비밀번호를 해싱한 뒤 서버로 전송하는 아키텍처. 이 경우 네트워크를 타고 넘어가는 해시값 자체가 하나의 '평문 패스워드' 역할을 해버리므로(해시 패스 더 해시 공격), 스니핑이나 DB 유출 발생 시 해커가 그 해시값을 그대로 로그인 API에 던져넣어 즉시 [[303_authentication_authorization_patterns|인증]]을 통과하는 대재앙([[592_pth|Pass-the-Hash]])을 초래한다. 해싱과 솔팅은 반드시 안전한 백엔드 서버에서 이루어져야 한다.
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- **프론트엔드(Client-Side) 해싱 남용**: "서버 부하를 줄이겠다"는 핑계로, 웹 브라우저(JavaScript) 단에서 평문 비밀번호를 해싱한 뒤 서버로 전송하는 아키텍처. 이 경우 네트워크를 타고 넘어가는 해시값 자체가 하나의 '평문 패스워드' 역할을 해버리므로(해시 패스 더 해시 공격), 스니핑이나 DB 유출 발생 시 해커가 그 해시값을 그대로 로그인 API에 던져넣어 즉시 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 통과하는 대재앙([Pass-the-Hash](/knowledge-base/studynote/09_security/12_identity_threat_advanced/592_pth/))을 초래한다. 해싱과 솔팅은 반드시 안전한 백엔드 서버에서 이루어져야 한다.
 
-- **📢 섹션 요약 비유**: 낡은 금고([[668_md5_hash_collision_vulnerability|MD5]])를 최신형 티타늄 금고(Bcrypt)로 바꿀 때 억지로 문을 뜯는 게 아니라, 주인이 정당한 열쇠를 들고 와서 금고를 여는 그 찰나의 순간에 관리자가 몰래 새 자물쇠로 교체해두어 아무런 불편 없이 보안을 높이는 지혜로운 전환 [[268_strategy_pattern|전략]]입니다.
+- **📢 섹션 요약 비유**: 낡은 금고([MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/))를 최신형 티타늄 금고(Bcrypt)로 바꿀 때 억지로 문을 뜯는 게 아니라, 주인이 정당한 열쇠를 들고 와서 금고를 여는 그 찰나의 순간에 관리자가 몰래 새 자물쇠로 교체해두어 아무런 불편 없이 보안을 높이는 지혜로운 전환 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-### 정량/정성 기대효과 ([[671_password_hash_salt_pbkdf2_bcrypt_argon2|솔트]] 및 [[109_key_stretching|키 스트레칭]] 도입 시)
+### 정량/정성 기대효과 ([솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/) 및 [키 스트레칭](/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/) 도입 시)
 
 | 구분 | 단순 해시 (SHA-256) 저장 시 | Bcrypt / Argon2 기반 솔팅 적용 시 | 기술적 함의 |
 |:---|:---|:---|:---|
 | **정량 (방어력)** | 레인보우 테이블로 1시간 내 DB 전체 90% 크랙 | 단일 계정 Brute-Force에 **수천 년~수만 년 소요** | 공격의 물리적/시간적 경제성 완전 파괴 (포기 유도) |
-| **운영 장애** | 동일 패스워드 사용자의 군집 붕괴(연쇄 탈취) | 고유 [[671_password_hash_salt_pbkdf2_bcrypt_argon2|솔트]]로 인해 1명 털려도 다른 유저에 영향 없음 | 장애 [[064_relation_domain|도메인]] 격리(Blast [[541_radius_remote_authentication_aaa|Radius]]) 최적화 |
-| **정성 (컴플라이언스)** | [[171_isms_p|ISMS-P]], [[783_pipa_korea|개인정보보호법]] 위반으로 과징금 철퇴 | 최고 수준의 암호화 보관 의무 준수로 법적 면책 요건 충족 | 기업 [[085_confidence_association_rule_conditional_probability|신뢰도]] 하락 방지 및 보안 감리 무사 통과 |
+| **운영 장애** | 동일 패스워드 사용자의 군집 붕괴(연쇄 탈취) | 고유 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)로 인해 1명 털려도 다른 유저에 영향 없음 | 장애 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 격리(Blast [Radius](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/)) 최적화 |
+| **정성 (컴플라이언스)** | [ISMS-P](/knowledge-base/studynote/12_it_management/05_security_compliance/171_isms_p/), [개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/) 위반으로 과징금 철퇴 | 최고 수준의 암호화 보관 의무 준수로 법적 면책 요건 충족 | 기업 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 하락 방지 및 보안 감리 무사 통과 |
 
 ### 미래 전망
-현재 패스워드 저장의 궁극적 도달점은 Argon2 프로토콜의 정착이다. 그러나 보안 업계의 궁극적인 비전은 "해시를 어떻게 안전하게 짤 것인가"를 넘어 **"패스워드 자체를 없애는 것(Passwordless)"** 이다. FIDO2 [[303_authentication_authorization_patterns|인증]]이나 WebAuthn(패스키, [[562_passkey|Passkey]]) 같은 비대칭 키([[159_pki_public_key_infrastructure|PKI]]) 아키텍처가 전면 도입되면, 사용자 서버 DB에는 해시값이 아닌 오직 '공개키(Public [[067_db_key_uniqueness_minimality|Key]])'만이 평문으로 저장된다. 이 시대가 도래하면 해커가 DB를 통째로 유출해 가더라도, 서버엔 [[395_verification_process_review|검증]]용 껍데기만 있을 뿐 로그인할 수 있는 권한(개인키)은 사용자의 스마트폰 보안 칩(TrustZone) 내부에만 존재하므로, 수십 년간 이어져 온 평문-해시 변환의 역사 자체가 자연스럽게 종말을 맞이하게 될 것이다.
+현재 패스워드 저장의 궁극적 도달점은 Argon2 프로토콜의 정착이다. 그러나 보안 업계의 궁극적인 비전은 "해시를 어떻게 안전하게 짤 것인가"를 넘어 **"패스워드 자체를 없애는 것(Passwordless)"** 이다. FIDO2 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)이나 WebAuthn(패스키, [Passkey](/knowledge-base/studynote/09_security/11_iam_access_control/562_passkey/)) 같은 비대칭 키([PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/)) 아키텍처가 전면 도입되면, 사용자 서버 DB에는 해시값이 아닌 오직 '공개키(Public [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))'만이 평문으로 저장된다. 이 시대가 도래하면 해커가 DB를 통째로 유출해 가더라도, 서버엔 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)용 껍데기만 있을 뿐 로그인할 수 있는 권한(개인키)은 사용자의 스마트폰 보안 칩(TrustZone) 내부에만 존재하므로, 수십 년간 이어져 온 평문-해시 변환의 역사 자체가 자연스럽게 종말을 맞이하게 될 것이다.
 
 ### 참고 표준
-- **[[853_nist_sp_800_63b|NIST SP 800-63B]]**: 패스워드 저장소 관리 (Salting 및 [[109_key_stretching|Key Stretching]](반복 최소 [[489_raid_10_hybrid|10]],000회 이상) 강제)
+- **[NIST SP 800-63B](/knowledge-base/studynote/09_security/17_framework_compliance/853_nist_sp_800_63b/)**: 패스워드 저장소 관리 (Salting 및 [Key Stretching](/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/)(반복 최소 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000회 이상) 강제)
 - **OWASP Password Storage Cheat Sheet**: 현대 웹 애플리케이션의 패스워드 저장 권고안 (Argon2id > Bcrypt 선호)
-- **개인정보의 안전성 확보조치 기준 (KISA)**: 제7조(비밀번호 암호화) 관련 [[671_password_hash_salt_pbkdf2_bcrypt_argon2|솔트]] 적용 필수 법제도
+- **개인정보의 안전성 확보조치 기준 (KISA)**: 제7조(비밀번호 암호화) 관련 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/) 적용 필수 법제도
 
-- **📢 섹션 요약 비유**: 해커의 슈퍼컴퓨터가 아무리 빨라지더라도, ನಾವು 믹서기([[109_key_stretching|키 스트레칭]])를 돌리는 횟수를 만 번에서 십만 번으로 늘리고 소금([[671_password_hash_salt_pbkdf2_bcrypt_argon2|Salt]])에 후추(Pepper)까지 뿌려버리는 방식으로 무조건 이길 수밖에 없는 방어의 체스를 두는 것과 같습니다.
+- **📢 섹션 요약 비유**: 해커의 슈퍼컴퓨터가 아무리 빨라지더라도, ನಾವು 믹서기([키 스트레칭](/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/))를 돌리는 횟수를 만 번에서 십만 번으로 늘리고 소금([Salt](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/))에 후추(Pepper)까지 뿌려버리는 방식으로 무조건 이길 수밖에 없는 방어의 체스를 두는 것과 같습니다.
 
 ---
 
@@ -189,10 +193,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[603_rootkit_syscall_hooking|루트킷]] ([[603_rootkit_syscall_hooking|Rootkit]]) [[022_kernel_role|커널]] [[192_module_independence|모듈]] 감염 방식 (시스템 콜 테이블 후킹) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [[604_authentication_factors|사용자 인증]] ([[604_authentication_factors|Authentication]]) 요소 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [[606_auditing_linux_auditd|감사]] ([[606_auditing_linux_auditd|Auditing]]) 로깅 프레임워크 (Linux Auditd) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| 물리적 보안 및 [[475_hsm|하드웨어 보안 모듈]] ([[476_tpm|TPM]], [[476_tpm|Trusted Platform Module]]) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [루트킷](/knowledge-base/studynote/02_operating_system/10_security/603_rootkit_syscall_hooking/) ([Rootkit](/knowledge-base/studynote/02_operating_system/10_security/603_rootkit_syscall_hooking/)) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 감염 방식 (시스템 콜 테이블 후킹) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [사용자 인증](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/) ([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/)) 요소 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) ([Auditing](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)) 로깅 프레임워크 (Linux Auditd) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| 물리적 보안 및 [하드웨어 보안 모듈](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/) ([TPM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/), [Trusted Platform Module](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -220,7 +224,7 @@ tags:
 
 **진행 상황**: 605 / 800
 
-← **이전**: [[604_authentication_factors|604. 사용자 인증 (Authentication) 요소 - Something you know, have, are]]
-**다음**: [[606_auditing_linux_auditd|606. 감사 (Auditing) 로깅 프레임워크 (Linux Auditd)]] →
+← **이전**: [604. 사용자 인증 (Authentication) 요소 - Something you know, have, are](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/)
+**다음**: [606. 감사 (Auditing) 로깅 프레임워크 (Linux Auditd)](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) →
 
 ---

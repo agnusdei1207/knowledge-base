@@ -1,23 +1,27 @@
----
-title: 316. Redis 캐시와 Thundering Herd 장애 회피 전략
-date: '2026-05-09'
-tags:
-- studynote-enterprise
----
++++
+title = "316. Redis 캐시와 Thundering Herd 장애 회피 전략"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-enterprise"]
+
+[extra]
+tags = ["studynote-enterprise"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 선더링 허드 (Thundering Herd)는 캐시 만료(Cache Expiration) 또는 장애 시 다수의 클라이언트가 동시에 DB에 요청을 쏟아내어 DB가 다운되는 현상으로, [[542_redis|Redis]] ([[297_snowflake_schema|레디스]]) 캐시 기반 시스템에서 반드시 사전 설계가 필요한 장애 패턴이다.
-> 2. **가치**: 캐시 만료 [[136_variance|분산]] (Cache Expiry Jitter), 캐시 잠금 (Cache [[510_lock|Lock]] / [[223_mutex|Mutex]]), 조기 갱신 ([[566_cache_stampede_mutex_probabilistic_early_expiration|Probabilistic Early Expiration]]), Pub/Sub 기반 캐시 워밍 [[268_strategy_pattern|전략]]으로 선더링 허드를 방지할 수 있다.
-> 3. **판단 포인트**: [[296_star_schema|캐시 스탬피드]] ([[296_star_schema|Cache Stampede]])를 방지하기 위한 [[294_ttl_time_to_live_looping_prevention|TTL]] ([[294_ttl_time_to_live_looping_prevention|Time To Live]], 생존 시간) 설계와 만료 [[136_variance|분산]] [[268_strategy_pattern|전략]]은 [[542_redis|Redis]] 기반 고트래픽 [[065_service_design|서비스 설계]]의 핵심 요소다.
+> 1. **본질**: 선더링 허드 (Thundering Herd)는 캐시 만료(Cache Expiration) 또는 장애 시 다수의 클라이언트가 동시에 DB에 요청을 쏟아내어 DB가 다운되는 현상으로, [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) ([레디스](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/297_snowflake_schema/)) 캐시 기반 시스템에서 반드시 사전 설계가 필요한 장애 패턴이다.
+> 2. **가치**: 캐시 만료 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) (Cache Expiry Jitter), 캐시 잠금 (Cache [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) / [Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/)), 조기 갱신 ([Probabilistic Early Expiration](/knowledge-base/studynote/05_database/04_transactions_concurrency/566_cache_stampede_mutex_probabilistic_early_expiration/)), Pub/Sub 기반 캐시 워밍 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 선더링 허드를 방지할 수 있다.
+> 3. **판단 포인트**: [캐시 스탬피드](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/296_star_schema/) ([Cache Stampede](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/296_star_schema/))를 방지하기 위한 [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) ([Time To Live](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/), 생존 시간) 설계와 만료 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 기반 고트래픽 [서비스 설계](/knowledge-base/studynote/12_it_management/02_itsm_itil/065_service_design/)의 핵심 요소다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-Redis는 인메모리 키-값 캐시로 DB 앞단에 위치하여 반복적인 조회 요청을 DB 없이 처리한다. [[263_cache_hit_miss|캐시 히트]]율 (Cache [[359_effective_access_time|Hit Ratio]])이 99%라면 DB는 1%의 요청만 처리하면 된다. 그런데 이 캐시가 만료되거나 장애가 발생하면, 평소 1%만 받던 DB가 갑자기 100%의 요청을 받아 과부하로 다운된다.
+Redis는 인메모리 키-값 캐시로 DB 앞단에 위치하여 반복적인 조회 요청을 DB 없이 처리한다. [캐시 히트](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)율 (Cache [Hit Ratio](/knowledge-base/studynote/02_operating_system/06_memory_management/359_effective_access_time/))이 99%라면 DB는 1%의 요청만 처리하면 된다. 그런데 이 캐시가 만료되거나 장애가 발생하면, 평소 1%만 받던 DB가 갑자기 100%의 요청을 받아 과부하로 다운된다.
 
-이것이 선더링 허드다. 유명 이벤트 시작(티켓 판매 오픈, 방송 시작)처럼 많은 사용자가 동시에 몰리는 순간 캐시 TTL이 만료되면, 수만 개의 요청이 동시에 DB를 직접 조회하는 폭발적 부하([[296_star_schema|Cache Stampede]])가 발생한다.
+이것이 선더링 허드다. 유명 이벤트 시작(티켓 판매 오픈, 방송 시작)처럼 많은 사용자가 동시에 몰리는 순간 캐시 TTL이 만료되면, 수만 개의 요청이 동시에 DB를 직접 조회하는 폭발적 부하([Cache Stampede](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/296_star_schema/))가 발생한다.
 
 - **📢 섹션 요약 비유**: 선더링 허드는 인기 식당 웨이팅 명단이 갑자기 사라졌을 때 모든 손님이 동시에 입구로 달려오는 상황이다. 대기 명단(캐시)이 없어지면 혼란이 발생한다.
 
@@ -48,29 +52,29 @@ Redis는 인메모리 키-값 캐시로 DB 앞단에 위치하여 반복적인 �
 └──────────────────────────────────────────────────────────────────┘
 ```
 
-| [[268_strategy_pattern|전략]]                          | 원리                         | 장단점                          |
+| [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)                          | 원리                         | 장단점                          |
 |:-----------------------------|:----------------------------|:-------------------------------|
-| [[294_ttl_time_to_live_looping_prevention|TTL]] Jitter                   | 만료 시간 무작위 [[136_variance|분산]]          | 간단, 완전한 방지는 아님          |
-| Cache [[510_lock|Lock]] ([[223_mutex|Mutex]])           | 첫 요청만 DB 조회, 나머지 대기 | 확실한 방지, 대기 레이턴시 발생    |
-| [[566_cache_stampede_mutex_probabilistic_early_expiration|Probabilistic Early Expiration]] | 만료 전 [[130_probability|확률]]적 선제 갱신      | 낮은 레이턴시, 구현 복잡도 있음   |
+| [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) Jitter                   | 만료 시간 무작위 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)          | 간단, 완전한 방지는 아님          |
+| Cache [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) ([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))           | 첫 요청만 DB 조회, 나머지 대기 | 확실한 방지, 대기 레이턴시 발생    |
+| [Probabilistic Early Expiration](/knowledge-base/studynote/05_database/04_transactions_concurrency/566_cache_stampede_mutex_probabilistic_early_expiration/) | 만료 전 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 선제 갱신      | 낮은 레이턴시, 구현 복잡도 있음   |
 | Cache Warming                 | 배포/이벤트 전 캐시 미리 채움  | 이벤트 예측 가능 시 가장 효과적   |
 
-- **📢 섹션 요약 비유**: [[294_ttl_time_to_live_looping_prevention|TTL]] Jitter는 학생들 하교 시간을 학년별로 다르게 해서 교문 앞 혼잡을 막는 것이다. Cache Lock은 교문에 안내원 1명만 두고 나머지는 줄 세우는 방식이다.
+- **📢 섹션 요약 비유**: [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) Jitter는 학생들 하교 시간을 학년별로 다르게 해서 교문 앞 혼잡을 막는 것이다. Cache Lock은 교문에 안내원 1명만 두고 나머지는 줄 세우는 방식이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
 **캐시 장애 유형 비교**:
-- [[296_star_schema|Cache Stampede]] (선더링 허드): 동시 만료로 DB 폭발
+- [Cache Stampede](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/296_star_schema/) (선더링 허드): 동시 만료로 DB 폭발
 - Cache Avalanche (캐시 사태): 다수 캐시 키가 동시에 만료 → 대규모 DB 부하
-- Cache [[163_penetration_diffraction_radio_waves|Penetration]] (캐시 침투): 존재하지 않는 키를 계속 조회 → DB 반복 조회
+- Cache [Penetration](/knowledge-base/studynote/03_network/03_physical_layer_media/163_penetration_diffraction_radio_waves/) (캐시 침투): 존재하지 않는 키를 계속 조회 → DB 반복 조회
 
-| 장애 유형          | 원인                          | 방지 [[268_strategy_pattern|전략]]                         |
+| 장애 유형          | 원인                          | 방지 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)                         |
 |:----------------|:-----------------------------|:---------------------------------|
-| [[296_star_schema|Cache Stampede]]  | 단일 인기 키 동시 만료           | Cache [[510_lock|Lock]], [[294_ttl_time_to_live_looping_prevention|TTL]] Jitter            |
-| Cache Avalanche | 다수 키 동시 만료               | [[294_ttl_time_to_live_looping_prevention|TTL]] [[136_variance|분산]], 영구 캐시                |
-| Cache [[163_penetration_diffraction_radio_waves|Penetration]]| 없는 키 반복 조회               | Null Cache, [[061_bloomfilter|Bloom Filter]]          |
+| [Cache Stampede](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/296_star_schema/)  | 단일 인기 키 동시 만료           | Cache [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/), [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) Jitter            |
+| Cache Avalanche | 다수 키 동시 만료               | [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/), 영구 캐시                |
+| Cache [Penetration](/knowledge-base/studynote/03_network/03_physical_layer_media/163_penetration_diffraction_radio_waves/)| 없는 키 반복 조회               | Null Cache, [Bloom Filter](/knowledge-base/studynote/12_it_management/02_itsm_itil/061_bloomfilter/)          |
 
 - **📢 섹션 요약 비유**: Cache Stampede는 인기 제품 재입고 알림이 같은 시간에 나가서 모두가 동시에 클릭하는 현상, Cache Avalanche는 여러 제품이 동시에 품절되는 현상이다.
 
@@ -78,7 +82,7 @@ Redis는 인메모리 키-값 캐시로 DB 앞단에 위치하여 반복적인 �
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[[542_redis|Redis]] 선더링 허드 방지 구현 패턴** (의사코드):
+**[Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 선더링 허드 방지 구현 패턴** (의사코드):
 
 ```python
 # Cache Lock (Mutex) 패턴
@@ -99,20 +103,20 @@ def get_data(key):
         return redis.get(key)
 ```
 
-**[[542_redis|Redis]] 클러스터 설계 시 주의**:
-- Hot [[067_db_key_uniqueness_minimality|Key]] Problem: 단일 키에 트래픽 집중 → [[280_sharding|샤딩]] 키 [[136_variance|분산]] 또는 로컬 캐시 ([[260_l1_cache|L1 Cache]]) 병행
-- [[542_redis|Redis]] Sentinel vs Cluster: 단일 [[172_maas_mobility_as_a_service|마스]]터 HA (Sentinel), 수평 확장 (Cluster)
-- Eviction [[164_policy|Policy]] 선택: `allkeys-lru`, `volatile-lru` 등 메모리 용량 초과 시 [[164_policy|정책]] 명확히 [[009_config|설정]]
+**[Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 클러스터 설계 시 주의**:
+- Hot [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Problem: 단일 키에 트래픽 집중 → [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) 키 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 또는 로컬 캐시 ([L1 Cache](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/260_l1_cache/)) 병행
+- [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) Sentinel vs Cluster: 단일 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터 HA (Sentinel), 수평 확장 (Cluster)
+- Eviction [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 선택: `allkeys-lru`, `volatile-lru` 등 메모리 용량 초과 시 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 명확히 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
 
-- **📢 섹션 요약 비유**: [[542_redis|Redis]] Cache Lock은 인기 식당에서 한 명씩만 주방에 들어가도록 대기표를 주는 것이다. 무질서하게 모두 달려들면 주방(DB)이 마비된다.
+- **📢 섹션 요약 비유**: [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) Cache Lock은 인기 식당에서 한 명씩만 주방에 들어가도록 대기표를 주는 것이다. 무질서하게 모두 달려들면 주방(DB)이 마비된다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-선더링 허드 방지 [[268_strategy_pattern|전략]]을 적절히 설계하면 트래픽 [[129_spike_agile_technical_investigation|스파이크]] 상황에서 DB 과부하를 방지하고, [[090_service_kubernetes_network_load_balancing|서비스]] [[452_availability|가용성]]을 유지할 수 있다. [[294_ttl_time_to_live_looping_prevention|TTL]] Jitter와 Cache Lock을 결합하면 대부분의 [[296_star_schema|캐시 스탬피드]] 시나리오를 방어할 수 있다.
+선더링 허드 방지 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 적절히 설계하면 트래픽 [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) 상황에서 DB 과부하를 방지하고, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)을 유지할 수 있다. [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) Jitter와 Cache Lock을 결합하면 대부분의 [캐시 스탬피드](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/296_star_schema/) 시나리오를 방어할 수 있다.
 
-더 나아가 [[542_redis|Redis]] 클러스터, 읽기 [[016_replication_factor|복제]]본(Replica), 로컬 캐시([[260_l1_cache|L1 Cache]]) 계층을 추가하면 단일 [[542_redis|Redis]] 인스턴스 장애에도 [[090_service_kubernetes_network_load_balancing|서비스]] 연속성을 유지할 수 있다. 캐시 [[268_strategy_pattern|전략]]은 단순히 "캐시를 둔다"가 아니라, 장애 모드를 사전에 설계하는 것이 핵심이다.
+더 나아가 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 클러스터, 읽기 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본(Replica), 로컬 캐시([L1 Cache](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/260_l1_cache/)) 계층을 추가하면 단일 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 인스턴스 장애에도 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 연속성을 유지할 수 있다. 캐시 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 단순히 "캐시를 둔다"가 아니라, 장애 모드를 사전에 설계하는 것이 핵심이다.
 
 - **📢 섹션 요약 비유**: 선더링 허드 방지는 불이 나기 전에 스프링클러를 설치하는 것이다. 불이 나고 나서(장애 발생 후) 설치하면 이미 늦다.
 
@@ -122,11 +126,11 @@ def get_data(key):
 
 | 개념                          | 연결 포인트                              |
 |:-----------------------------|:----------------------------------------|
-| [[296_star_schema|Cache Stampede]]                | 동시 만료로 발생하는 DB 폭발 패턴          |
-| SET NX (Set if Not [[435_exists_boolean_fast_search|eXists]])   | [[542_redis|Redis]] 원자적 캐시 락 구현 핵심 [[158_instruction|명령어]]     |
-| [[294_ttl_time_to_live_looping_prevention|TTL]] Jitter                    | 만료 시간 [[136_variance|분산]]으로 동시 만료 방지         |
-| Cache Avalanche / [[163_penetration_diffraction_radio_waves|Penetration]] | 캐시 장애 유형 3가지                     |
-| Hot [[067_db_key_uniqueness_minimality|Key]] Problem               | 단일 키 집중 트래픽 [[136_variance|분산]] [[268_strategy_pattern|전략]]            |
+| [Cache Stampede](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/296_star_schema/)                | 동시 만료로 발생하는 DB 폭발 패턴          |
+| SET NX (Set if Not [eXists](/knowledge-base/studynote/05_database/07_exam_summary/435_exists_boolean_fast_search/))   | [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 원자적 캐시 락 구현 핵심 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)     |
+| [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) Jitter                    | 만료 시간 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)으로 동시 만료 방지         |
+| Cache Avalanche / [Penetration](/knowledge-base/studynote/03_network/03_physical_layer_media/163_penetration_diffraction_radio_waves/) | 캐시 장애 유형 3가지                     |
+| Hot [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Problem               | 단일 키 집중 트래픽 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)            |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -150,7 +154,7 @@ Redis Cluster + Replica + 로컬 L1 캐시 계층화
 
 1. Redis는 자주 찾는 정보를 빠른 메모장(캐시)에 적어두는 것이에요. 없어지면 원래 책(DB)을 다시 찾아야 해요.
 2. 선더링 허드는 메모장이 갑자기 지워졌을 때 모든 사람이 동시에 책을 펼치면 책장이 무너지는 현상이에요.
-3. 해결책은 메모장 유효기간을 조금씩 다르게 [[009_config|설정]]하거나, 한 명이 책을 찾는 동안 나머지는 기다리는 규칙을 만드는 거예요!
+3. 해결책은 메모장 유효기간을 조금씩 다르게 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하거나, 한 명이 책을 찾는 동안 나머지는 기다리는 규칙을 만드는 거예요!
 
 ---
 
@@ -158,7 +162,7 @@ Redis Cluster + Replica + 로컬 L1 캐시 계층화
 
 **진행 상황**: 316 / 482
 
-← **이전**: [[315_nosql_base_cap_theorem|315. NoSQL BASE 결과적 일관성 CAP 정리 트레이드오프 (NoSQL BASE CAP Theorem)]]
-**다음**: [[317_tde_vs_application_encryption|317. TDE vs 애플리케이션 레벨 암호화 - 데이터베이스 암호화 전략]] →
+← **이전**: [315. NoSQL BASE 결과적 일관성 CAP 정리 트레이드오프 (NoSQL BASE CAP Theorem)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/315_nosql_base_cap_theorem/)
+**다음**: [317. TDE vs 애플리케이션 레벨 암호화 - 데이터베이스 암호화 전략](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/317_tde_vs_application_encryption/) →
 
 ---

@@ -1,9 +1,13 @@
----
-title: 585. 캡티브 포털 (Captive Portal)
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "585. 캡티브 포털 (Captive Portal)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -15,9 +19,9 @@ tags:
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: Captive Portal(포획된 포털)은 사용자가 무선/유선 네트워크에 처음 접속했을 때 외부 인터넷으로 가는 길을 막아두고(Walled Garden, 벽으로 둘러싸인 정원), 관리자가 지정한 특정 웹페이지(포털)로 강제 접속(Redirect)시키는 네트워크 접속 제어 기술이다. [[303_authentication_authorization_patterns|인증]], 결제, 약관 동의 후 [[690_firewall_generation_evolution|방화벽]]이 열린다.
-- **필요성**: 공항이나 호텔에서 와이파이를 무료로 열어두면 지나가는 누구나 대역폭을 훔쳐 써서 인프라가 마비된다. 그렇다고 [[582_wpa2_aes_ccmp_personal_enterprise|WPA2]] 비밀번호를 걸면 리셉션 직원이 하루 종일 "비밀번호 뭐예요?"라는 질문에 시달려야 하고, 영수증 번호별로 돈을 내고 쓰게 할 방법도 없다. 즉, **"비밀번호 없이 접속은 시켜주되, 웹 브라우저를 강제로 띄워 광고를 보거나 카드를 긁게 만드는 브라우저 레벨의 통제소"**가 비즈니스적으로 절대 절실했다.
-- **등장 배경**: ① 스타벅스, 호텔 등 대형 공공 핫스팟(Public Hotspot)의 무선 과금 모델 및 법적 면책(약관 동의) 필요성 폭발 → ② 별도의 프로그램 설치 없이 모든 폰과 노트북에 깔려있는 '웹 브라우저'를 [[303_authentication_authorization_patterns|인증]]의 도구로 활용하는 [[461_http_stateless_connection_oriented|HTTP]] Redirection 기법 고안 → ③ 모바일 기기의 급증으로, 접속하자마자 자동으로 팝업이 뜨는 OS 내장형 감지(CNA) 메커니즘으로의 진화.
+- **개념**: Captive Portal(포획된 포털)은 사용자가 무선/유선 네트워크에 처음 접속했을 때 외부 인터넷으로 가는 길을 막아두고(Walled Garden, 벽으로 둘러싸인 정원), 관리자가 지정한 특정 웹페이지(포털)로 강제 접속(Redirect)시키는 네트워크 접속 제어 기술이다. [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 결제, 약관 동의 후 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 열린다.
+- **필요성**: 공항이나 호텔에서 와이파이를 무료로 열어두면 지나가는 누구나 대역폭을 훔쳐 써서 인프라가 마비된다. 그렇다고 [WPA2](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/) 비밀번호를 걸면 리셉션 직원이 하루 종일 "비밀번호 뭐예요?"라는 질문에 시달려야 하고, 영수증 번호별로 돈을 내고 쓰게 할 방법도 없다. 즉, **"비밀번호 없이 접속은 시켜주되, 웹 브라우저를 강제로 띄워 광고를 보거나 카드를 긁게 만드는 브라우저 레벨의 통제소"**가 비즈니스적으로 절대 절실했다.
+- **등장 배경**: ① 스타벅스, 호텔 등 대형 공공 핫스팟(Public Hotspot)의 무선 과금 모델 및 법적 면책(약관 동의) 필요성 폭발 → ② 별도의 프로그램 설치 없이 모든 폰과 노트북에 깔려있는 '웹 브라우저'를 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)의 도구로 활용하는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) Redirection 기법 고안 → ③ 모바일 기기의 급증으로, 접속하자마자 자동으로 팝업이 뜨는 OS 내장형 감지(CNA) 메커니즘으로의 진화.
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -44,9 +48,9 @@ tags:
 └─────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 캡티브 포털은 고도의 암호화 기술([[581_wpa_tkip_802_1x_eap|WPA]])이 아니라, 일종의 **합법적인 네트워크 중간자(MITM) 낚시질** 아키텍처다. 폰은 공유기에 붙자마자 자신이 인터넷이 되는지 [[396_validation|확인]]하기 위해 애플이나 구글의 특정 사이트(예: `captive.apple.com`)로 찔러보기 패킷([[461_http_stateless_connection_oriented|HTTP]] GET)을 날린다. 공유기(또는 WLC)는 아직 [[303_authentication_authorization_patterns|인증]]되지 않은 폰의 이 패킷을 낚아채어, 무조건 공유기 안에 저장된 호텔 로고가 박힌 웹페이지 주소로 튕겨내 버린다([[461_http_stateless_connection_oriented|HTTP]] 302 Redirect). 사용자가 그 화면에서 버튼을 누르면, 공유기가 [[690_firewall_generation_evolution|방화벽]] [[009_config|설정]]([[549_acl_access_control_list|ACL]])에서 해당 폰의 [[673_mac_message_authentication_code|MAC]] 주소를 '접속 허용(Allow)'으로 바꿔치기해 주면서 비로소 바깥세상(인터넷)으로 가는 문이 열린다.
+**[다이어그램 해설]** 캡티브 포털은 고도의 암호화 기술([WPA](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/581_wpa_tkip_802_1x_eap/))이 아니라, 일종의 **합법적인 네트워크 중간자(MITM) 낚시질** 아키텍처다. 폰은 공유기에 붙자마자 자신이 인터넷이 되는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하기 위해 애플이나 구글의 특정 사이트(예: `captive.apple.com`)로 찔러보기 패킷([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) GET)을 날린다. 공유기(또는 WLC)는 아직 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)되지 않은 폰의 이 패킷을 낚아채어, 무조건 공유기 안에 저장된 호텔 로고가 박힌 웹페이지 주소로 튕겨내 버린다([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 302 Redirect). 사용자가 그 화면에서 버튼을 누르면, 공유기가 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)([ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/))에서 해당 폰의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 '접속 허용(Allow)'으로 바꿔치기해 주면서 비로소 바깥세상(인터넷)으로 가는 문이 열린다.
 
-- **📢 섹션 요약 비유**: 놀이공원 입구에 도착했습니다. 문이 뻥 뚫려 있어서(비번 없는 와이파이) 그냥 들어갔더니, 앞으로 나가는 길은 막혀있고 웬 매표소 골목(캡티브 포털)으로 강제로 떠밀려 들어갑니다. 매표소 직원에게 "나 동의서에 사인할게!"라고 도장을 찍어야만 그제야 닫혀있던 큰 철문([[690_firewall_generation_evolution|방화벽]])이 스르륵 열리며 놀이기구(인터넷)를 탈 수 있는 강제 톨게이트 시스템입니다.
+- **📢 섹션 요약 비유**: 놀이공원 입구에 도착했습니다. 문이 뻥 뚫려 있어서(비번 없는 와이파이) 그냥 들어갔더니, 앞으로 나가는 길은 막혀있고 웬 매표소 골목(캡티브 포털)으로 강제로 떠밀려 들어갑니다. 매표소 직원에게 "나 동의서에 사인할게!"라고 도장을 찍어야만 그제야 닫혀있던 큰 철문([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))이 스르륵 열리며 놀이기구(인터넷)를 탈 수 있는 강제 톨게이트 시스템입니다.
 
 ---
 
@@ -54,30 +58,30 @@ tags:
 
 ### Walled Garden (벽으로 둘러싸인 정원) 통제와 리다이렉션 로직
 
-캡티브 포털의 심장은 [[303_authentication_authorization_patterns|인증]]을 받지 않은 폰(Guest)을 어떻게 가두고 어떻게 풀어주는지에 대한 논리적 [[690_firewall_generation_evolution|방화벽]] 상태 관리([[272_state_pattern|State]] Machine)에 있다.
+캡티브 포털의 심장은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 받지 않은 폰(Guest)을 어떻게 가두고 어떻게 풀어주는지에 대한 논리적 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 상태 관리([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Machine)에 있다.
 
-1. **Pre-[[604_authentication_factors|Authentication]] ([[303_authentication_authorization_patterns|인증]] 전 상태 = Walled Garden)**: 폰이 AP에 접속해 IP([[522_dhcp_dynamic_host_configuration_protocol|DHCP]])를 받은 직후 상태. 이 폰의 인터넷은 **99% 차단**되어 있다.
-   - 단, 1%의 예외 구멍을 뚫어준다. 폰이 [[511_dns_hierarchical_distributed_architecture|DNS]] 서버로 사이트 이름을 물어보는 패킷과, 캡티브 팝업창을 띄우기 위한 호텔의 특정 로컬 웹서버 IP로 가는 길목만 열어준다(이를 **Walled Garden**이라 부른다. 정원 안에서만 놀 수 있다는 뜻).
-2. **[[511_dns_hierarchical_distributed_architecture|DNS]] [[598_spoofing|스푸핑]] & [[461_http_stateless_connection_oriented|HTTP]] Redirection (납치 단계)**: 폰이 "네이버 IP가 뭐야?"라고 물어보면, 공유기의 DNS가 거짓말을 쳐서 호텔 웹서버 IP를 주거나([[976_dns_spoofing|DNS Spoofing]]), 폰이 [[461_http_stateless_connection_oriented|HTTP]](80포트)로 요청을 날릴 때 강제로 `302 Found` 코드를 쏴서 팝업창 주소로 튕겨낸다.
-3. **Post-[[604_authentication_factors|Authentication]] ([[303_authentication_authorization_patterns|인증]] 후 해방 상태)**: 폰 화면에 뜬 팝업에서 사용자가 [동의함]을 누르면, 그 신호가 컨트롤러(또는 [[541_radius_remote_authentication_aaa|RADIUS]])로 넘어간다. 컨트롤러는 해당 폰의 [[673_mac_message_authentication_code|MAC]] 주소를 [[690_firewall_generation_evolution|방화벽]]의 **[전면 허용 리스트(White-list)]**로 갱신(Dynamic [[549_acl_access_control_list|ACL]] Update)해 준다. 이제 이 폰은 Walled Garden 밖으로 자유롭게 나갈 수 있다.
+1. **Pre-[Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/) ([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 전 상태 = Walled Garden)**: 폰이 AP에 접속해 IP([DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/))를 받은 직후 상태. 이 폰의 인터넷은 **99% 차단**되어 있다.
+   - 단, 1%의 예외 구멍을 뚫어준다. 폰이 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버로 사이트 이름을 물어보는 패킷과, 캡티브 팝업창을 띄우기 위한 호텔의 특정 로컬 웹서버 IP로 가는 길목만 열어준다(이를 **Walled Garden**이라 부른다. 정원 안에서만 놀 수 있다는 뜻).
+2. **[DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) & [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) Redirection (납치 단계)**: 폰이 "네이버 IP가 뭐야?"라고 물어보면, 공유기의 DNS가 거짓말을 쳐서 호텔 웹서버 IP를 주거나([DNS Spoofing](/knowledge-base/studynote/03_network/19_frequent_topics_terms/976_dns_spoofing/)), 폰이 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)(80포트)로 요청을 날릴 때 강제로 `302 Found` 코드를 쏴서 팝업창 주소로 튕겨낸다.
+3. **Post-[Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/) ([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 후 해방 상태)**: 폰 화면에 뜬 팝업에서 사용자가 [동의함]을 누르면, 그 신호가 컨트롤러(또는 [RADIUS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/))로 넘어간다. 컨트롤러는 해당 폰의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)의 **[전면 허용 리스트(White-list)]**로 갱신(Dynamic [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) Update)해 준다. 이제 이 폰은 Walled Garden 밖으로 자유롭게 나갈 수 있다.
 
 ### HTTPS의 재앙과 모바일 OS의 구원: CNA (Captive Network Assistant)
 
-2010년대 중반, 캡티브 포털 아키텍처에 멸망의 위기가 닥쳤다. 인터넷의 99%가 **[[471_https_http_over_tls|HTTPS]] (암호화된 웹, [[446_port_and_bus|포트]] 443)**로 바뀌어버린 것이다.
+2010년대 중반, 캡티브 포털 아키텍처에 멸망의 위기가 닥쳤다. 인터넷의 99%가 **[HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) (암호화된 웹, [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 443)**로 바뀌어버린 것이다.
 
-- **[[471_https_http_over_tls|HTTPS]] 납치의 딜레마**: 사용자가 브라우저에 `https://naver.com`을 쳤을 때, 캡티브 포털이 중간에서 낚아채어 호텔 [[286_page_frame|페이지]]로 튕겨버리면 어떻게 될까? 사용자의 브라우저는 "어? 내가 네이버([[303_authentication_authorization_patterns|인증]]서)랑 암호화 통신을 맺으려는데, 이상한 호텔 놈이 응답을 하네? **이거 중간자 해킹(MITM)이다!**"라며 새빨간 [보안 경고: 연결이 비공개로 [[009_config|설정]]되어 있지 않습니다] 창을 띄우고 접속을 아예 막아버렸다. 캡티브 팝업 자체가 뜨지 않는 재앙이 터졌다.
+- **[HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) 납치의 딜레마**: 사용자가 브라우저에 `https://naver.com`을 쳤을 때, 캡티브 포털이 중간에서 낚아채어 호텔 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)로 튕겨버리면 어떻게 될까? 사용자의 브라우저는 "어? 내가 네이버([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서)랑 암호화 통신을 맺으려는데, 이상한 호텔 놈이 응답을 하네? **이거 중간자 해킹(MITM)이다!**"라며 새빨간 [보안 경고: 연결이 비공개로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)되어 있지 않습니다] 창을 띄우고 접속을 아예 막아버렸다. 캡티브 팝업 자체가 뜨지 않는 재앙이 터졌다.
 - **OS 차원의 구원자, CNA (Captive Network Assistant)**: 이 사태를 해결하기 위해 Apple(iOS)과 Google(Android)이 폰 OS 자체에 백그라운드 탐지 기술을 심었다.
-  - 아이폰이 와이파이에 붙자마자, 사용자가 사파리를 켜기도 전에 몰래 `http://captive.apple.com` (암호화 안 된 순수 [[461_http_stateless_connection_oriented|HTTP]] [[286_page_frame|페이지]])을 찔러본다.
+  - 아이폰이 와이파이에 붙자마자, 사용자가 사파리를 켜기도 전에 몰래 `http://captive.apple.com` (암호화 안 된 순수 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))을 찔러본다.
   - 만약 원래 와야 할 "Success"라는 텍스트 대신에 호텔의 302 튕기기 코드가 날아오면?
-  - 아이폰 OS는 "아하! 이 와이파이는 캡티브 포털에 갇혀있군!" 하고 깨닫고, 사파리 대신 **OS에 내장된 미니 팝업 브라우저(CNA)**를 화면 위로 쑤욱 띄워서 호텔 [[286_page_frame|페이지]]를 안전하게 보여준다. 우리가 스타벅스에 가면 알아서 팝업창이 뜨는 게 다 이 스마트한 OS들의 찔러보기(Probe) 융합 기술 덕분이다.
+  - 아이폰 OS는 "아하! 이 와이파이는 캡티브 포털에 갇혀있군!" 하고 깨닫고, 사파리 대신 **OS에 내장된 미니 팝업 브라우저(CNA)**를 화면 위로 쑤욱 띄워서 호텔 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 안전하게 보여준다. 우리가 스타벅스에 가면 알아서 팝업창이 뜨는 게 다 이 스마트한 OS들의 찔러보기(Probe) 융합 기술 덕분이다.
 
-캡티브 포털은 단순한 [[303_authentication_authorization_patterns|인증]]을 넘어, 빅데이터 수집과 수익 창출을 위한 거대한 비즈니스 파이프라인(Splash [[286_page_frame|Page]])으로 융합되었다.
+캡티브 포털은 단순한 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 넘어, 빅데이터 수집과 수익 창출을 위한 거대한 비즈니스 파이프라인(Splash [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))으로 융합되었다.
 
-| [[303_authentication_authorization_patterns|인증]]/통제 방식 | 작동 메커니즘 아키텍처 | 비즈니스 적용 시나리오 및 효과 |
+| [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)/통제 방식 | 작동 메커니즘 아키텍처 | 비즈니스 적용 시나리오 및 효과 |
 |:---|:---|:---|
-| **1. Click-to-Accept (단순 약관 동의)** | 아무 정보도 묻지 않고 "해킹당해도 호텔 책임 아님" **[동의] 버튼 하나만** 누르게 만듦. | 대형 쇼핑몰, 공항. 고객을 귀찮게 하지 않고 0.1초 만에 뚫어주되, **법적 면책 조항([[789_terms_of_use|Terms of Use]]) 방패막이**를 치는 용도. |
-| **2. SNS/소셜 로그인 ([[001_dikw_pyramid|Data]] Harvesting)**| 페이스북, 구글, 카카오톡 버튼을 눌러야만 무료 와이파이가 열리게 만듦. (OAuth 2.0 연동) | 카페, 식당. 무료 와이파이를 주는 대가로 **손님의 연령, 성별, 이메일 주소 등 마케팅 빅데이터를 쪽쪽 빨아들여** 타깃 광고에 써먹음. |
-| **3. PMS (호텔 객실) / 결제 (Billing) 연동**| 팝업창에 **[객실 번호 + 투숙객 영문 성(Last Name)]**을 쳐야 열리거나, 신용카드 결제 모듈을 띄움. | 고급 호텔(PMS 시스템 연동), 기내(비행기) 와이파이. 투숙객이 맞는지 사내 서버와 실시간 [[014_api_posix|API]] 통신으로 [[396_validation|확인]]하거나, **시간당 만 원씩 무선 통신 수익을 창출하는 캐시카우.** |
+| **1. Click-to-Accept (단순 약관 동의)** | 아무 정보도 묻지 않고 "해킹당해도 호텔 책임 아님" **[동의] 버튼 하나만** 누르게 만듦. | 대형 쇼핑몰, 공항. 고객을 귀찮게 하지 않고 0.1초 만에 뚫어주되, **법적 면책 조항([Terms of Use](/knowledge-base/studynote/09_security/16_data_privacy/789_terms_of_use/)) 방패막이**를 치는 용도. |
+| **2. SNS/소셜 로그인 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Harvesting)**| 페이스북, 구글, 카카오톡 버튼을 눌러야만 무료 와이파이가 열리게 만듦. (OAuth 2.0 연동) | 카페, 식당. 무료 와이파이를 주는 대가로 **손님의 연령, 성별, 이메일 주소 등 마케팅 빅데이터를 쪽쪽 빨아들여** 타깃 광고에 써먹음. |
+| **3. PMS (호텔 객실) / 결제 (Billing) 연동**| 팝업창에 **[객실 번호 + 투숙객 영문 성(Last Name)]**을 쳐야 열리거나, 신용카드 결제 모듈을 띄움. | 고급 호텔(PMS 시스템 연동), 기내(비행기) 와이파이. 투숙객이 맞는지 사내 서버와 실시간 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 통신으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하거나, **시간당 만 원씩 무선 통신 수익을 창출하는 캐시카우.** |
 
 ```text
 ┌───────────────────────────────────────────────────────────────┐
@@ -102,7 +106,7 @@ tags:
 └───────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 엔터프라이즈 환경에서 캡티브 포털(Splash [[286_page_frame|Page]])은 공유기 속에 들어있는 단순한 웹 쪼가리가 아니다. 시스코나 아루바 같은 고급 무선 컨트롤러(WLC)는 캡티브 포털 화면에 입력된 [[001_dikw_pyramid|데이터]]를 뒷구멍으로 기업의 백엔드 서버(호텔 PMS, 결제 서버, 카카오톡 [[014_api_posix|API]])로 넘겨주는 거대한 [[014_api_posix|API]] 미들웨어 역할을 한다. 손님이 방 번호를 치면, WLC가 호텔 메인 서버로 질의를 던지고 투숙객이 맞는지 검증한다. 더 무서운 점은 응답([[541_radius_remote_authentication_aaa|RADIUS]] CoA)을 받을 때 "이 손님은 돈을 안 냈으니 속도 5Mbps만 줘라" 같은 [[090_service_kubernetes_network_load_balancing|서비스]] 품질([[388_qos_quality_of_service_best_effort_intserv_diffserv|QoS]]) 칼질 옵션까지 동적으로 받아와 무선 대역폭을 통제하는 예술적인 과금 아키텍처를 구현한다는 점이다.
+**[다이어그램 해설]** 엔터프라이즈 환경에서 캡티브 포털(Splash [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))은 공유기 속에 들어있는 단순한 웹 쪼가리가 아니다. 시스코나 아루바 같은 고급 무선 컨트롤러(WLC)는 캡티브 포털 화면에 입력된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 뒷구멍으로 기업의 백엔드 서버(호텔 PMS, 결제 서버, 카카오톡 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))로 넘겨주는 거대한 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 미들웨어 역할을 한다. 손님이 방 번호를 치면, WLC가 호텔 메인 서버로 질의를 던지고 투숙객이 맞는지 검증한다. 더 무서운 점은 응답([RADIUS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/) CoA)을 받을 때 "이 손님은 돈을 안 냈으니 속도 5Mbps만 줘라" 같은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)) 칼질 옵션까지 동적으로 받아와 무선 대역폭을 통제하는 예술적인 과금 아키텍처를 구현한다는 점이다.
 
 - **📢 섹션 요약 비유**: 단순한 캡티브 포털은 가게 문 앞에 놓인 "신발 털고 들어오세요"라는 발매트(단순 동의)입니다. 하지만 호텔이나 스타벅스의 캡티브 포털은 최첨단 고객 센터입니다. 손님이 들어올 때 "멤버십 카드(객실 번호) 보여주세요, 돈(결제) 내세요, 우리 가게 인스타 팔로우(소셜 로그인) 하세요!"라고 미션을 완수하게 한 뒤에야 문을 열어주는 거대한 마케팅 수문장입니다.
 
@@ -110,13 +114,13 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-캡티브 포털을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [[584_802_1x_pnac_eap_radius|1X]] [[303_authentication_authorization_patterns|인증]] 및 [[229_eap_extensible_authentication_protocol|EAP]]/[[541_radius_remote_authentication_aaa|RADIUS]] 체계가 기반 조건을 만든다면, 캡티브 포털은 그 위에서 핵심 메커니즘을 구현하고, [[171_antenna_basic_dipole_resonance|안테나]] 증폭 측정 지표: dBm 반값 전력각…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 스펙트럼 효율과 이동성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+캡티브 포털을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [1X](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 및 [EAP](/knowledge-base/studynote/03_network/04_data_link_layer_error/229_eap_extensible_authentication_protocol/)/[RADIUS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/) 체계가 기반 조건을 만든다면, 캡티브 포털은 그 위에서 핵심 메커니즘을 구현하고, [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 증폭 측정 지표: dBm 반값 전력각…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 스펙트럼 효율과 이동성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [[584_802_1x_pnac_eap_radius|1X]] [[303_authentication_authorization_patterns|인증]] 및 [[229_eap_extensible_authentication_protocol|EAP]]/[[541_radius_remote_authentication_aaa|RADIUS]] 체계의 기반 정리 | 캡티브 포털의 핵심 동작 | [[171_antenna_basic_dipole_resonance|안테나]] 증폭 측정 지표: dBm 반값 전력각…의 확장 적용 |
+| 초점 | [1X](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 및 [EAP](/knowledge-base/studynote/03_network/04_data_link_layer_error/229_eap_extensible_authentication_protocol/)/[RADIUS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/) 체계의 기반 정리 | 캡티브 포털의 핵심 동작 | [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 증폭 측정 지표: dBm 반값 전력각…의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 스펙트럼 효율 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: 캡티브 포털은 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -125,17 +129,17 @@ tags:
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 1. **상황**: 공항 와이파이는 캡티브 포털에서 [무료 접속] 버튼을 누르면 1시간만 인터넷을 쓰게 해 주고 강제로 끊어버린다. 그런데 옆자리의 해커가 돈도 안 내고 하루 종일 공항 와이파이로 영화를 펑펑 다운받고 있다.
-2. **원인 ([[673_mac_message_authentication_code|MAC]] 주소 [[303_authentication_authorization_patterns|인증]]의 허점)**: 캡티브 포털이 "이 폰은 [[303_authentication_authorization_patterns|인증]]을 통과했다"고 [[690_firewall_generation_evolution|방화벽]]에 기억해 두는 유일한 기준표가 바로 스마트폰의 고유 번호인 **[[673_mac_message_authentication_code|MAC]] 주소**다. 공유기는 "[[673_mac_message_authentication_code|MAC]] `AA:BB:CC` 폰은 1시간 통과!"라고 리스트에 적어둔다. 해커는 1시간이 끝나갈 때쯤, 자기 노트북 랜카드의 [[673_mac_message_authentication_code|MAC]] 주소를 가짜(`DD:EE:FF`)로 변경해 버린다([[673_mac_message_authentication_code|MAC]] [[598_spoofing|Spoofing]]). 공유기는 "어? 아까 걔가 아니네? 새로운 손님이군!"이라며 캡티브 팝업을 또 띄워주고, 해커는 버튼을 또 눌러서 무한 리필 꼼수를 쓰는 것이다. 심지어 돈을 낸 사람의 [[673_mac_message_authentication_code|MAC]] 주소를 허공에서 훔쳐서 자기 폰 MAC을 거기로 바꿔치기해([[673_mac_message_authentication_code|MAC]] Cloning) 돈 낸 사람 행세를 하며 [[690_firewall_generation_evolution|방화벽]]을 우회하기도 한다.
-3. **의사결정 및 조치 ([[160_session_controlling_terminal|세션]] [[573_timeout_retry_backoff_strategy|타임아웃]] 및 L7 심층 방어 적용)**:
-   - 캡티브 포털 설계자는 [[673_mac_message_authentication_code|MAC]] 주소 1개만 믿는 바보 같은 아키텍처를 버려야 한다.
-   - 단말기의 [[673_mac_message_authentication_code|MAC]] 주소뿐만 아니라, 브라우저 [[475_cookie_local_state|쿠키]]([[475_cookie_local_state|Cookie]])나 단말기의 지문(OS [[288_version_ihl_tos_total_length|버전]], [[522_dhcp_dynamic_host_configuration_protocol|DHCP]] 옵션 등 Device Fingerprinting)을 결합하여 [[673_mac_message_authentication_code|MAC]] 주소를 억지로 바꿔도 동일인임을 추적해 밴(Ban)시키는 고도화된 컨트롤러(WLC) 룰을 켠다.
-   - 또한 무료 [[160_session_controlling_terminal|세션]](1시간)이 종료되면([[611_cpu_idle_wait_optimization|Idle]] [[319_timeout_prevention|Timeout]]/[[160_session_controlling_terminal|Session]] [[319_timeout_prevention|Timeout]]), 해당 폰의 기존 IP까지 다 회수해 버리고 통신 [[160_session_controlling_terminal|세션]]을 하드하게 날려버려 강제 로그아웃시키는 정책을 적용한다.
+2. **원인 ([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)의 허점)**: 캡티브 포털이 "이 폰은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 통과했다"고 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)에 기억해 두는 유일한 기준표가 바로 스마트폰의 고유 번호인 **[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소**다. 공유기는 "[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) `AA:BB:CC` 폰은 1시간 통과!"라고 리스트에 적어둔다. 해커는 1시간이 끝나갈 때쯤, 자기 노트북 랜카드의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 가짜(`DD:EE:FF`)로 변경해 버린다([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) [Spoofing](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)). 공유기는 "어? 아까 걔가 아니네? 새로운 손님이군!"이라며 캡티브 팝업을 또 띄워주고, 해커는 버튼을 또 눌러서 무한 리필 꼼수를 쓰는 것이다. 심지어 돈을 낸 사람의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 허공에서 훔쳐서 자기 폰 MAC을 거기로 바꿔치기해([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) Cloning) 돈 낸 사람 행세를 하며 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 우회하기도 한다.
+3. **의사결정 및 조치 ([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 및 L7 심층 방어 적용)**:
+   - 캡티브 포털 설계자는 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 1개만 믿는 바보 같은 아키텍처를 버려야 한다.
+   - 단말기의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소뿐만 아니라, 브라우저 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)([Cookie](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/))나 단말기의 지문(OS [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 옵션 등 Device Fingerprinting)을 결합하여 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 억지로 바꿔도 동일인임을 추적해 밴(Ban)시키는 고도화된 컨트롤러(WLC) 룰을 켠다.
+   - 또한 무료 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)(1시간)이 종료되면([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) [Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)/[Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)), 해당 폰의 기존 IP까지 다 회수해 버리고 통신 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 하드하게 날려버려 강제 로그아웃시키는 정책을 적용한다.
 
-### 도입 [[435_checklist_based_testing|체크리스트]] 및 [[128_water_scrum_fall_anti_pattern|안티패턴]]
-- **구형 안드로이드/[[101_iot_concept|IoT]] 기기의 CNA 팝업 실패 (무한 블랙홀)**: 회사에 손님용 와이파이 캡티브 포털을 깔았는데, 최신 아이폰은 팝업이 잘 뜨지만, 싸구려 안드로이드 태블릿이나 액정이 없는 스마트TV는 와이파이를 잡아도 팝업창이 안 뜨고 영원히 인터넷이 안 되는 먹통 상태에 빠진다. 스마트TV는 안에 브라우저(CNA)가 없어 팝업창을 띄울 지능이 없기 때문이다. 따라서 엔터프라이즈 환경에서는 캡티브 포털을 깔 때 반드시 **[[673_mac_message_authentication_code|MAC]] [[604_authentication_factors|Authentication]] Bypass (MAB)** 기능을 백도어로 준비해야 한다. 액정이 없는 프린터나 TV의 [[673_mac_message_authentication_code|MAC]] 주소는 미리 캡티브 시스템 화이트리스트에 등록해 두어, 팝업창 띄우는 과정을 통째로 생략(Bypass)하고 다이렉트로 [[690_firewall_generation_evolution|방화벽]]을 뚫어주는 예외 처리 아키텍처가 필수다.
-- **[[128_water_scrum_fall_anti_pattern|안티패턴]] (보안과 캡티브 포털의 기괴한 혼합)**: "우리 회사는 철저하니까, 사내 와이파이에 [[582_wpa2_aes_ccmp_personal_enterprise|WPA2]] 비밀번호(`wifi1234`)도 걸고, 접속하면 캡티브 포털 팝업창도 또 뜨게 해서 사번을 두 번 치게 만들자!"라는 이중 과세 [[128_water_scrum_fall_anti_pattern|안티패턴]]. 사용자는 미치고 팔짝 뛴다. **비밀번호([[142_psk_pre_shared_key|PSK]])와 캡티브 포털은 극상성이다.** 캡티브 포털의 철학은 대문을 활짝 열어(Open 망) 쉽게 팝업을 띄우는 데 있다. 사내 보안을 챙기려면 애초에 팝업창(캡티브) 같은 허접한 웹 장난질을 치면 안 되고 무조건 584번 문서의 **802.[[584_802_1x_pnac_eap_radius|1X]] ([[230_eap_tls_mutual_authentication_pki|EAP-TLS]]/[[229_peap_protected_eap_tls_tunnel_authentication|PEAP]])** 스피드 게이트를 까는 게 네트워크 공학의 정석이다. 캡티브는 오직 뜨내기 '게스트(Guest)'들을 가두기 위한 통발일 뿐이다.
+### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- **구형 안드로이드/[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기의 CNA 팝업 실패 (무한 블랙홀)**: 회사에 손님용 와이파이 캡티브 포털을 깔았는데, 최신 아이폰은 팝업이 잘 뜨지만, 싸구려 안드로이드 태블릿이나 액정이 없는 스마트TV는 와이파이를 잡아도 팝업창이 안 뜨고 영원히 인터넷이 안 되는 먹통 상태에 빠진다. 스마트TV는 안에 브라우저(CNA)가 없어 팝업창을 띄울 지능이 없기 때문이다. 따라서 엔터프라이즈 환경에서는 캡티브 포털을 깔 때 반드시 **[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) [Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/) Bypass (MAB)** 기능을 백도어로 준비해야 한다. 액정이 없는 프린터나 TV의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소는 미리 캡티브 시스템 화이트리스트에 등록해 두어, 팝업창 띄우는 과정을 통째로 생략(Bypass)하고 다이렉트로 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 뚫어주는 예외 처리 아키텍처가 필수다.
+- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) (보안과 캡티브 포털의 기괴한 혼합)**: "우리 회사는 철저하니까, 사내 와이파이에 [WPA2](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/) 비밀번호(`wifi1234`)도 걸고, 접속하면 캡티브 포털 팝업창도 또 뜨게 해서 사번을 두 번 치게 만들자!"라는 이중 과세 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/). 사용자는 미치고 팔짝 뛴다. **비밀번호([PSK](/knowledge-base/studynote/09_security/03_network_security/142_psk_pre_shared_key/))와 캡티브 포털은 극상성이다.** 캡티브 포털의 철학은 대문을 활짝 열어(Open 망) 쉽게 팝업을 띄우는 데 있다. 사내 보안을 챙기려면 애초에 팝업창(캡티브) 같은 허접한 웹 장난질을 치면 안 되고 무조건 584번 문서의 **802.[1X](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/) ([EAP-TLS](/knowledge-base/studynote/09_security/05_web_app_security/230_eap_tls_mutual_authentication_pki/)/[PEAP](/knowledge-base/studynote/09_security/05_web_app_security/229_peap_protected_eap_tls_tunnel_authentication/))** 스피드 게이트를 까는 게 네트워크 공학의 정석이다. 캡티브는 오직 뜨내기 '게스트(Guest)'들을 가두기 위한 통발일 뿐이다.
 
-- **📢 섹션 요약 비유**: 해커가 놀이공원 매표소(캡티브 포털)에서 1시간 무료 도장을 받은 명찰([[673_mac_message_authentication_code|MAC]] 주소)을 옷에 달고 놉니다. 1시간이 지나면 해커는 몰래 화장실에서 남의 이름이 적힌 가짜 명찰로 싹 바꿔 달고([[673_mac_message_authentication_code|MAC]] [[598_spoofing|스푸핑]]) 다시 매표소로 가 "저 방금 온 새 사람입니다!"라며 1시간 무료 도장을 또 받아내는 치사한 사기극이 캡티브 포털 최대의 약점입니다.
+- **📢 섹션 요약 비유**: 해커가 놀이공원 매표소(캡티브 포털)에서 1시간 무료 도장을 받은 명찰([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소)을 옷에 달고 놉니다. 1시간이 지나면 해커는 몰래 화장실에서 남의 이름이 적힌 가짜 명찰로 싹 바꿔 달고([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)) 다시 매표소로 가 "저 방금 온 새 사람입니다!"라며 1시간 무료 도장을 또 받아내는 치사한 사기극이 캡티브 포털 최대의 약점입니다.
 
 ---
 
@@ -143,21 +147,21 @@ tags:
 
 | 구분 | 완전 개방 망 (Open Wi-Fi) | 캡티브 포털 (Walled Garden) 적용 망 | 개선 효과 |
 |:---|:---|:---|:---|
-| **정량 (수익 및 마케팅 수집)** | 수익 모델 0원, 비용만 낭비됨 | 광고 노출, 카카오싱크 연동으로 이메일/전번 수집 | 무료 인프라 제공 대가로 **연간 수십만 건의 고객 마케팅 [[001_dikw_pyramid|데이터]](DB) 확보 창출.** |
-| **정량 (무선망 자원 관리)** | 동네 백수들이 영화 받느라 망 다운됨 | 1명당 속도 5Mbps, 1시간 제한([[388_qos_quality_of_service_best_effort_intserv_diffserv|QoS]]) 강제 | 악성 헤비 유저를 쳐내어 전체 손님의 **평균 체감 속도와 품질([[085_sla|SLA]]) 3배 이상 안정화.** |
+| **정량 (수익 및 마케팅 수집)** | 수익 모델 0원, 비용만 낭비됨 | 광고 노출, 카카오싱크 연동으로 이메일/전번 수집 | 무료 인프라 제공 대가로 **연간 수십만 건의 고객 마케팅 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(DB) 확보 창출.** |
+| **정량 (무선망 자원 관리)** | 동네 백수들이 영화 받느라 망 다운됨 | 1명당 속도 5Mbps, 1시간 제한([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)) 강제 | 악성 헤비 유저를 쳐내어 전체 손님의 **평균 체감 속도와 품질([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)) 3배 이상 안정화.** |
 | **정성 (법적 면책 조항)**| 와이파이로 해킹 범죄 발생 시 카페 사장 수사 | 팝업창에서 [이용 약관 및 불법 행위 금지] 도장 받음 | 불법 다운로드/사이버 범죄 발생 시 핫스팟 제공자(호텔/카페)의 **법적 책임(Liability) 완벽 분리 면책.** |
 
 ### 미래 전망 및 진화 방향
-- **Passpoint (Hotspot 2.0) 시대의 도래**: 캡티브 포털은 사용자가 와이파이를 잡을 때마다 브라우저가 뜨고 버튼을 눌러야 하는 지독하게 귀찮은(Friction) 구조다. Wi-Fi Alliance는 이 낡은 웹 팝업 방식을 멸종시키기 위해 **Passpoint (802.11u)** 기술을 상용화했다. 미리 폰에 통신사 프로파일([[303_authentication_authorization_patterns|인증]]서)을 깔아두면, 전 세계 스타벅스든 공항이든 와이파이 근처에 가기만 하면 캡티브 팝업창 하나 없이 자동으로(Cellular-like) 보안 연결(WPA3급)이 뚫려버리는 궁극의 자동 [[560_roaming|로밍]] 시대가 캡티브 포털을 대체해 나가고 있다.
-- **[[583_wpa3_sae_owe_enhanced_open|WPA3]] OWE (Enhanced Open)와의 완벽한 융합**: 기존 캡티브 포털은 비번이 없는 Open 망이라서 브라우저 팝업을 띄우는 동안 내 카톡이 다 털리는 [[701_sniffing_eavesdropping_promiscuous|도청]] 지옥이었다. 이제는 최신 583번 문서의 **[[583_wpa3_sae_owe_enhanced_open|WPA3]] OWE** 규격과 캡티브 포털이 융합되었다. 폰이 와이파이를 잡자마자 0.1초 만에 허공의 전파를 암호화(OWE)해 버린 뒤, 안전한 상태에서 캡티브 팝업창을 띄워준다. 손님은 비번 없이 팝업창 버튼만 누르는 편리함을 그대로 누리면서, 해커의 [[701_sniffing_eavesdropping_promiscuous|도청]] 공포에서는 완벽하게 해방된 21세기 퓨전 핫스팟이 완성되었다.
+- **Passpoint (Hotspot 2.0) 시대의 도래**: 캡티브 포털은 사용자가 와이파이를 잡을 때마다 브라우저가 뜨고 버튼을 눌러야 하는 지독하게 귀찮은(Friction) 구조다. Wi-Fi Alliance는 이 낡은 웹 팝업 방식을 멸종시키기 위해 **Passpoint (802.11u)** 기술을 상용화했다. 미리 폰에 통신사 프로파일([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서)을 깔아두면, 전 세계 스타벅스든 공항이든 와이파이 근처에 가기만 하면 캡티브 팝업창 하나 없이 자동으로(Cellular-like) 보안 연결(WPA3급)이 뚫려버리는 궁극의 자동 [로밍](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/560_roaming/) 시대가 캡티브 포털을 대체해 나가고 있다.
+- **[WPA3](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/583_wpa3_sae_owe_enhanced_open/) OWE (Enhanced Open)와의 완벽한 융합**: 기존 캡티브 포털은 비번이 없는 Open 망이라서 브라우저 팝업을 띄우는 동안 내 카톡이 다 털리는 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 지옥이었다. 이제는 최신 583번 문서의 **[WPA3](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/583_wpa3_sae_owe_enhanced_open/) OWE** 규격과 캡티브 포털이 융합되었다. 폰이 와이파이를 잡자마자 0.1초 만에 허공의 전파를 암호화(OWE)해 버린 뒤, 안전한 상태에서 캡티브 팝업창을 띄워준다. 손님은 비번 없이 팝업창 버튼만 누르는 편리함을 그대로 누리면서, 해커의 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 공포에서는 완벽하게 해방된 21세기 퓨전 핫스팟이 완성되었다.
 
 ### 참고 표준
-- **RFC 8952 (Captive Portals [[319_architecture|Architecture]])**: 20여 년간 근본 없이 302 Redirect 꼼수로만 굴러가던 캡티브 포털을, IETF가 보다 못해 "폰과 공유기가 팝업창을 띄울 때 어떻게 대화해야 스마트한가"를 정립한 인터넷 아키텍처 공식 문서.
-- **Apple CNA (Captive Network Assistant)**: [[461_http_stateless_connection_oriented|HTTP]] 요청을 가로채는 캡티브 포털을 감지하기 위해 애플이 아이폰 iOS에 최초로 도입한 백그라운드 찌르기(Probing) [[001_algorithm_definition|알고리즘]]. (구글 안드로이드도 `generate_204`라는 [[286_page_frame|페이지]]로 똑같이 베껴서 도입함).
+- **RFC 8952 (Captive Portals [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))**: 20여 년간 근본 없이 302 Redirect 꼼수로만 굴러가던 캡티브 포털을, IETF가 보다 못해 "폰과 공유기가 팝업창을 띄울 때 어떻게 대화해야 스마트한가"를 정립한 인터넷 아키텍처 공식 문서.
+- **Apple CNA (Captive Network Assistant)**: [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 요청을 가로채는 캡티브 포털을 감지하기 위해 애플이 아이폰 iOS에 최초로 도입한 백그라운드 찌르기(Probing) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/). (구글 안드로이드도 `generate_204`라는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)로 똑같이 베껴서 도입함).
 
-캡티브 포털은 무선 보안([[283_security_tactics|Security]])의 관점에서 보면 형편없는 속임수이자 가짜 [[690_firewall_generation_evolution|방화벽]]에 불과하다. 하지만 비즈니스(Business)와 사용자 경험(UX) 관점에서는 역사상 가장 위대한 "강제 광고판이자 과금소"였다. 어려운 암호화 수학 공식이나 골치 아픈 802.[[584_802_1x_pnac_eap_radius|1X]] [[303_authentication_authorization_patterns|인증]]서 세팅 없이, 전 국민이 할 줄 아는 "웹 브라우저 화면의 뻔한 버튼 누르기" 하나만으로 무선 네트워크 접속 권한을 통제해 낸 이 단순무식한 아키텍처야말로, 전 세계에 무료 공공 와이파이가 폭발적으로 깔릴 수 있었던 가장 강력한 경제적 원동력이다.
+캡티브 포털은 무선 보안([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))의 관점에서 보면 형편없는 속임수이자 가짜 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)에 불과하다. 하지만 비즈니스(Business)와 사용자 경험(UX) 관점에서는 역사상 가장 위대한 "강제 광고판이자 과금소"였다. 어려운 암호화 수학 공식이나 골치 아픈 802.[1X](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 세팅 없이, 전 국민이 할 줄 아는 "웹 브라우저 화면의 뻔한 버튼 누르기" 하나만으로 무선 네트워크 접속 권한을 통제해 낸 이 단순무식한 아키텍처야말로, 전 세계에 무료 공공 와이파이가 폭발적으로 깔릴 수 있었던 가장 강력한 경제적 원동력이다.
 
-- **📢 섹션 요약 비유**: 캡티브 포털은 백화점 1층의 강제 동선 에스컬레이터와 같습니다. 정문에 들어온 손님(스마트폰)이 2층 매장(인터넷)으로 직행하고 싶어도 길을 다 막아놓고, 무조건 향수 코너와 팝업 스토어(호텔 광고 팝업창)를 빙글빙글 돌아서 거쳐가야만 2층으로 가는 진짜 에스컬레이터([[690_firewall_generation_evolution|방화벽]] 열림)를 탈 수 있게 만들어 놓은 고도의 얌체 비즈니스 통제 시스템입니다.
+- **📢 섹션 요약 비유**: 캡티브 포털은 백화점 1층의 강제 동선 에스컬레이터와 같습니다. 정문에 들어온 손님(스마트폰)이 2층 매장(인터넷)으로 직행하고 싶어도 길을 다 막아놓고, 무조건 향수 코너와 팝업 스토어(호텔 광고 팝업창)를 빙글빙글 돌아서 거쳐가야만 2층으로 가는 진짜 에스컬레이터([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 열림)를 탈 수 있게 만들어 놓은 고도의 얌체 비즈니스 통제 시스템입니다.
 
 ---
 
@@ -165,10 +169,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[584_802_1x_pnac_eap_radius|1X]] [[303_authentication_authorization_patterns|인증]] 및 [[229_eap_extensible_authentication_protocol|EAP]]/[[541_radius_remote_authentication_aaa|RADIUS]] 체계 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| 셀 (Cell) | 무선 [[090_service_kubernetes_network_load_balancing|서비스]] 범위를 나누는 기본 단위다. |
-| [[556_handover_handoff_types_concept|핸드오버]] ([[556_handover_handoff_types_concept|Handover]]) | 이동 중에도 연결을 유지하게 만든다. |
-| [[171_antenna_basic_dipole_resonance|안테나]] 증폭 측정 지표: dBm 반값 전력각… | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [1X](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 및 [EAP](/knowledge-base/studynote/03_network/04_data_link_layer_error/229_eap_extensible_authentication_protocol/)/[RADIUS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/) 체계 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 셀 (Cell) | 무선 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 범위를 나누는 기본 단위다. |
+| [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) ([Handover](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)) | 이동 중에도 연결을 유지하게 만든다. |
+| [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 증폭 측정 지표: dBm 반값 전력각… | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -182,13 +186,13 @@ tags:
     └──▶ [확장 B: 지능형 무선 자원 제어]
 ```
 
-캡티브 포털는 [[584_802_1x_pnac_eap_radius|1X]] [[303_authentication_authorization_patterns|인증]] 및 [[229_eap_extensible_authentication_protocol|EAP]]/[[541_radius_remote_authentication_aaa|RADIUS]] 체계에서 출발해 현재 메커니즘을 정교화하고, 이후 [[171_antenna_basic_dipole_resonance|안테나]] 증폭 측정 지표: dBm 반값 전력각…와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+캡티브 포털는 [1X](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 및 [EAP](/knowledge-base/studynote/03_network/04_data_link_layer_error/229_eap_extensible_authentication_protocol/)/[RADIUS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/) 체계에서 출발해 현재 메커니즘을 정교화하고, 이후 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 증폭 측정 지표: dBm 반값 전력각…와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 비밀번호가 없는 놀이공원 와이파이에 붙어서 유튜브를 보려고 했더니, 유튜브는 안 켜지고 웬 "호텔 이용에 동의하십니까?"라는 웹페이지가 강제로 떴어요!
 2. 이게 바로 '캡티브 포털'이라는 골목길 톨게이트예요. 놀이공원 아저씨가 "인터넷 공짜로 쓰고 싶으면 일단 이 화면에서 동의 버튼부터 눌러!"라고 길을 막고 가둬둔 거죠.
-3. 귀찮지만 그 팝업창에서 [동의] 버튼을 꾹 누르는 순간, 닫혀있던 큰 [[690_firewall_generation_evolution|방화벽]] 문이 활짝 열리면서 갇혀있던 스마트폰이 바깥세상(유튜브, 카톡)으로 슝~ 하고 날아갈 수 있게 된답니다!
+3. 귀찮지만 그 팝업창에서 [동의] 버튼을 꾹 누르는 순간, 닫혀있던 큰 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 문이 활짝 열리면서 갇혀있던 스마트폰이 바깥세상(유튜브, 카톡)으로 슝~ 하고 날아갈 수 있게 된답니다!
 
 ---
 
@@ -196,7 +200,7 @@ tags:
 
 **진행 상황**: 706 / 1120
 
-← **이전**: [[584_802_1x_pnac_eap_radius|584. 1X (PNAC, Port Based Network Access Control) 인증 및 EAP/RADIUS 체계]]
-**다음**: [[586_antenna_gain_dbm_half_power_beam_width|586. 안테나 증폭 측정 지표: dBm 반값 전력각 등]] →
+← **이전**: [584. 1X (PNAC, Port Based Network Access Control) 인증 및 EAP/RADIUS 체계](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/)
+**다음**: [586. 안테나 증폭 측정 지표: dBm 반값 전력각 등](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/586_antenna_gain_dbm_half_power_beam_width/) →
 
 ---

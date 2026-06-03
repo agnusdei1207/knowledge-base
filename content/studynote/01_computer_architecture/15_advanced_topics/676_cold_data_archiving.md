@@ -1,39 +1,43 @@
----
-title: 676. 콜드 데이터 (Cold Data) 아카이빙
-date: '2026-05-08'
-tags:
-- studynote-computer-architecture
----
++++
+title = "676. 콜드 데이터 (Cold Data) 아카이빙"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 콜드 [[001_dikw_pyramid|데이터]] (Cold [[001_dikw_pyramid|Data]]) 아카이빙은 거의 읽지 않지만 삭제할 수 없는 [[001_dikw_pyramid|데이터]]를 운영 저장소에서 분리해, 저비용·고내구성 저장소에 장기 보존하는 설계다.
-> 2. **가치**: 주 저장소의 용량과 전력 부담을 줄이는 동시에, 불변성·오프라인 [[121_transmission_media_guided_unguided|매체]]를 활용해 [[730_ransomware|랜섬웨어]]와 내부 오남용 위험까지 낮출 수 있다.
-> 3. **판단 포인트**: 아카이브는 단순한 덤프가 아니라 보존 기간, 검색 가능한 [[012_metadata|메타데이터]], 복원 시간, [[501_file_definition_logical_record|파일]] 형식 지속성, 키 관리가 함께 설계되어야 진짜 자산이 된다.
+> 1. **본질**: 콜드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (Cold [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 아카이빙은 거의 읽지 않지만 삭제할 수 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 운영 저장소에서 분리해, 저비용·고내구성 저장소에 장기 보존하는 설계다.
+> 2. **가치**: 주 저장소의 용량과 전력 부담을 줄이는 동시에, 불변성·오프라인 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)를 활용해 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/)와 내부 오남용 위험까지 낮출 수 있다.
+> 3. **판단 포인트**: 아카이브는 단순한 덤프가 아니라 보존 기간, 검색 가능한 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/), 복원 시간, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 형식 지속성, 키 관리가 함께 설계되어야 진짜 자산이 된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-콜드 [[001_dikw_pyramid|데이터]]는 "쓸모없는 [[001_dikw_pyramid|데이터]]"가 아니라, 평소에는 거의 읽지 않지만 필요할 때 반드시 꺼낼 수 있어야 하는 [[001_dikw_pyramid|데이터]]다. 금융 거래 기록, 의료 영상, 설계 이력, [[606_auditing_linux_auditd|감사]] [[568_logs_distributed_logging_elk_fluentd|로그]]처럼 접근 빈도는 낮아도 법적·사업적 가치는 크다. 이런 [[001_dikw_pyramid|데이터]]를 단순히 오래됐다는 이유로 지우면 규제 위반이나 소송 대응 실패로 이어질 수 있다.
+콜드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 "쓸모없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"가 아니라, 평소에는 거의 읽지 않지만 필요할 때 반드시 꺼낼 수 있어야 하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)다. 금융 거래 기록, 의료 영상, 설계 이력, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)처럼 접근 빈도는 낮아도 법적·사업적 가치는 크다. 이런 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 단순히 오래됐다는 이유로 지우면 규제 위반이나 소송 대응 실패로 이어질 수 있다.
 
-문제는 이런 [[001_dikw_pyramid|데이터]]가 시간이 지날수록 빠르게 쌓인다는 점이다. 운영 서비스가 사용하는 핵심 working set은 작아도, 보존해야 할 전체 기록은 꾸준히 커진다. 이를 계속 고가의 주 저장소에 묶어 두면 비용과 전력만 늘고, 공격 표면도 불필요하게 넓어진다. 그래서 아키텍처는 "실시간 처리 공간"과 "증거 보관 공간"을 분리하게 된다.
+문제는 이런 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 시간이 지날수록 빠르게 쌓인다는 점이다. 운영 서비스가 사용하는 핵심 working set은 작아도, 보존해야 할 전체 기록은 꾸준히 커진다. 이를 계속 고가의 주 저장소에 묶어 두면 비용과 전력만 늘고, 공격 표면도 불필요하게 넓어진다. 그래서 아키텍처는 "실시간 처리 공간"과 "증거 보관 공간"을 분리하게 된다.
 
 즉 아카이빙의 필요성은 속도 향상이 아니라 **보존 의무와 비용 압력을 함께 해결하는 것**에 있다. 여기서 핵심 질문은 "얼마나 빨리 읽을 수 있나"보다 "얼마나 오래, 안전하게, 찾을 수 있게 보관하나"이다.
 
-- **📢 섹션 요약 비유**: 콜드 [[001_dikw_pyramid|데이터]] 아카이빙은 매일 쓰는 서랍과 졸업앨범 보관함을 분리하는 것과 같다. 졸업앨범은 자주 보지 않아도 절대 잃어버리면 안 되기 때문에, 책상 위가 아니라 안전한 보관함에 넣어 두는 편이 맞다.
+- **📢 섹션 요약 비유**: 콜드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 아카이빙은 매일 쓰는 서랍과 졸업앨범 보관함을 분리하는 것과 같다. 졸업앨범은 자주 보지 않아도 절대 잃어버리면 안 되기 때문에, 책상 위가 아니라 안전한 보관함에 넣어 두는 편이 맞다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-아카이빙 시스템은 보통 선별, 포장, 보존, 복원 네 단계로 생각하면 이해하기 쉽다. 먼저 [[001_dikw_pyramid|데이터]]를 연령, 접근 빈도, 보존 규칙, legal hold 여부로 분류하고, 그다음 [[347_compaction|압축]]·중복 제거·암호화·[[112_checksum|체크섬]]을 적용해 archive package를 만든다. 이후 [[342_metadata_catalog|메타데이터 카탈로그]]와 함께 보존 [[121_transmission_media_guided_unguided|매체]]에 기록하고, 필요 시 검색과 복원 절차를 통해 다시 운영 계층으로 가져온다.
+아카이빙 시스템은 보통 선별, 포장, 보존, 복원 네 단계로 생각하면 이해하기 쉽다. 먼저 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 연령, 접근 빈도, 보존 규칙, legal hold 여부로 분류하고, 그다음 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)·중복 제거·암호화·[체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)을 적용해 archive package를 만든다. 이후 [메타데이터 카탈로그](/knowledge-base/studynote/05_database/06_dw_olap_trends/342_metadata_catalog/)와 함께 보존 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)에 기록하고, 필요 시 검색과 복원 절차를 통해 다시 운영 계층으로 가져온다.
 
-| [[121_transmission_media_guided_unguided|매체]]/방식 | 강점 | 약점 | 잘 맞는 상황 |
+| [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)/방식 | 강점 | 약점 | 잘 맞는 상황 |
 | :--- | :--- | :--- | :--- |
-| 오브젝트 아카이브 | 운영 자동화와 확장성이 좋음 | 복원 지연과 [[189_egress|egress]] 비용 고려 필요 | 클라우드 장기 보존 |
-| LTO (Linear Tape-Open) 테이프 | 매우 낮은 비용, air gap 효과 | 복원 시간이 길고 로봇/[[336_library_vs_framework|라이브러리]] 관리 필요 | 장기 보존, 규제 대응 |
-| [[691_maid_storage|MAID]] (Massive [[055_array|Array]] of [[611_cpu_idle_wait_optimization|Idle]] Disks) | 디스크 기반이라 검색이 비교적 쉬움 | 테이프보다 전력과 장비 비용이 큼 | 드물지만 조금 더 자주 찾는 보관 [[001_dikw_pyramid|데이터]] |
+| 오브젝트 아카이브 | 운영 자동화와 확장성이 좋음 | 복원 지연과 [egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) 비용 고려 필요 | 클라우드 장기 보존 |
+| LTO (Linear Tape-Open) 테이프 | 매우 낮은 비용, air gap 효과 | 복원 시간이 길고 로봇/[라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 관리 필요 | 장기 보존, 규제 대응 |
+| [MAID](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/691_maid_storage/) (Massive [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) of [Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) Disks) | 디스크 기반이라 검색이 비교적 쉬움 | 테이프보다 전력과 장비 비용이 큼 | 드물지만 조금 더 자주 찾는 보관 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 
 ```text
 ┌──────────────────────────────────────────────────────────────────────────────┐
@@ -45,7 +49,7 @@ tags:
 └──────────────────────────────────────────────────────────────────────────────┘
 ```
 
-여기서 Write Once Read Many ([[590_worm|WORM]]) [[164_policy|정책]]과 [[394_catalog_metadata|카탈로그]]가 특히 중요하다. WORM은 기록 후 임의 수정이나 삭제를 어렵게 만들어 [[003_integrity|무결성]]과 규제 준수를 돕고, [[394_catalog_metadata|카탈로그]]는 나중에 "무엇을 어디에 저장했는가"를 찾게 해 준다. [[394_catalog_metadata|카탈로그]] 없이 [[501_file_definition_logical_record|파일]]만 쌓아 두면 저장은 했지만 찾을 수 없는 [[001_dikw_pyramid|데이터]] 무덤이 되기 쉽다.
+여기서 Write Once Read Many ([WORM](/knowledge-base/studynote/02_operating_system/10_security/590_worm/)) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)가 특히 중요하다. WORM은 기록 후 임의 수정이나 삭제를 어렵게 만들어 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)과 규제 준수를 돕고, [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)는 나중에 "무엇을 어디에 저장했는가"를 찾게 해 준다. [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 없이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)만 쌓아 두면 저장은 했지만 찾을 수 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 무덤이 되기 쉽다.
 
 - **📢 섹션 요약 비유**: 아카이브 시스템은 물건을 그냥 박스에 넣어 창고에 쌓는 일이 아니라, 상자에 번호를 붙이고 내용 목록을 적고 열쇠까지 따로 관리하는 창고 운영과 같다. 그래야 몇 년 뒤에도 필요한 상자를 바로 찾을 수 있다.
 
@@ -53,17 +57,17 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-콜드 [[001_dikw_pyramid|데이터]] 아카이빙은 [[555_backup_and_restore_strategy|백업]], [[022_snapshot_backup_architecture|스냅샷]], [[674_storage_tiering|스토리지 티어링]]과 닮아 보이지만 목적이 다르다. 특히 [[555_backup_and_restore_strategy|백업]]과 아카이브를 혼동하면 보존 [[164_policy|정책]]이 쉽게 무너진다.
+콜드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 아카이빙은 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/), [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/), [스토리지 티어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/674_storage_tiering/)과 닮아 보이지만 목적이 다르다. 특히 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)과 아카이브를 혼동하면 보존 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 쉽게 무너진다.
 
 | 구분 | 주된 목적 | 보존 대상 | 시간 기준 | 핵심 판단 기준 |
 | :--- | :--- | :--- | :--- | :--- |
-| [[555_backup_and_restore_strategy|백업]] ([[555_backup_and_restore_strategy|Backup]]) | 장애 [[658_ir_recovery|복구]] | 시스템 상태 전체 또는 큰 범위 | 일~주~월 | [[177_rpo_recovery_point_objective|Recovery Point Objective]] ([[177_rpo_recovery_point_objective|RPO]]), [[176_rto_recovery_time_objective|Recovery Time Objective]] ([[176_rto_recovery_time_objective|RTO]]) |
-| **아카이빙 (Archiving)** | 장기 보존, [[606_auditing_linux_auditd|감사]] 대응, 비용 절감 | 선별된 기록과 증빙 [[001_dikw_pyramid|데이터]] | 년 단위 이상 | 보존 기간, 검색성, 불변성 |
-| [[674_storage_tiering|스토리지 티어링]] ([[674_storage_tiering|Storage Tiering]]) | 운영 [[001_dikw_pyramid|데이터]]의 비용/[[282_performance_tactics|성능]] 균형 | 여전히 운영 중인 원본 [[001_dikw_pyramid|데이터]] | 분~일 | [[001_dikw_pyramid|데이터]] 온도, 마이그레이션 [[164_policy|정책]] |
+| [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) ([Backup](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)) | 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | 시스템 상태 전체 또는 큰 범위 | 일~주~월 | [Recovery Point Objective](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/) ([RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/)), [Recovery Time Objective](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) ([RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/)) |
+| **아카이빙 (Archiving)** | 장기 보존, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 대응, 비용 절감 | 선별된 기록과 증빙 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 년 단위 이상 | 보존 기간, 검색성, 불변성 |
+| [스토리지 티어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/674_storage_tiering/) ([Storage Tiering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/674_storage_tiering/)) | 운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 비용/[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 균형 | 여전히 운영 중인 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 분~일 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 온도, 마이그레이션 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) |
 
-[[555_backup_and_restore_strategy|백업]]은 서비스가 깨졌을 때 되돌리는 것이 목적이고, 아카이브는 오래된 기록을 나중에 증거로 꺼내는 것이 목적이다. [[555_backup_and_restore_strategy|백업]]본이 오래 남는다고 해서 자동으로 아카이브가 되지 않는 이유도 여기에 있다. 검색 가능한 [[394_catalog_metadata|카탈로그]], 보존 [[164_policy|정책]], 삭제 보류, 장기 형식 관리가 없으면 그것은 단지 오래된 복사본일 뿐이다.
+[백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)은 서비스가 깨졌을 때 되돌리는 것이 목적이고, 아카이브는 오래된 기록을 나중에 증거로 꺼내는 것이 목적이다. [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)본이 오래 남는다고 해서 자동으로 아카이브가 되지 않는 이유도 여기에 있다. 검색 가능한 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/), 보존 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 삭제 보류, 장기 형식 관리가 없으면 그것은 단지 오래된 복사본일 뿐이다.
 
-- **📢 섹션 요약 비유**: [[555_backup_and_restore_strategy|백업]]이 오늘 숙제를 잃어버렸을 때 다시 출력하는 복사본이라면, 아카이브는 졸업 후에도 남겨야 하는 생활기록부 원본 보관함에 가깝다. 둘 다 종이를 보관하지만 쓰임새는 완전히 다르다.
+- **📢 섹션 요약 비유**: [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)이 오늘 숙제를 잃어버렸을 때 다시 출력하는 복사본이라면, 아카이브는 졸업 후에도 남겨야 하는 생활기록부 원본 보관함에 가깝다. 둘 다 종이를 보관하지만 쓰임새는 완전히 다르다.
 
 ---
 
@@ -71,31 +75,31 @@ tags:
 
 ### 실무 시나리오
 
-1. **금융·공공 [[606_auditing_linux_auditd|감사]] [[568_logs_distributed_logging_elk_fluentd|로그]] 보존**
-   - 거래 기록과 접근 [[568_logs_distributed_logging_elk_fluentd|로그]]는 자주 읽지 않더라도 수년간 보존해야 한다.
-   - 이때 [[590_worm|WORM]] [[164_policy|정책]], 검색 가능한 [[394_catalog_metadata|카탈로그]], 법적 보류 기능이 함께 있어야 [[606_auditing_linux_auditd|감사]] 대응이 가능하다.
+1. **금융·공공 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 보존**
+   - 거래 기록과 접근 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 자주 읽지 않더라도 수년간 보존해야 한다.
+   - 이때 [WORM](/knowledge-base/studynote/02_operating_system/10_security/590_worm/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 검색 가능한 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/), 법적 보류 기능이 함께 있어야 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 대응이 가능하다.
 
-2. **의료·영상·연구 [[001_dikw_pyramid|데이터]] 장기 보존**
-   - 의료 영상이나 실험 원본 [[001_dikw_pyramid|데이터]]는 [[087_process_state_transition|생성]] 직후에는 뜨겁지만, 이후에는 드물게만 조회된다.
-   - 주 저장소에서 분리해도 [[012_metadata|메타데이터]]와 환자·실험 맥락은 유지해야 나중에 재활용할 수 있다.
+2. **의료·영상·연구 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 장기 보존**
+   - 의료 영상이나 실험 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 직후에는 뜨겁지만, 이후에는 드물게만 조회된다.
+   - 주 저장소에서 분리해도 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)와 환자·실험 맥락은 유지해야 나중에 재활용할 수 있다.
 
 3. **사이버 복원력 강화**
-   - 오프라인 테이프나 격리된 아카이브 계층은 [[730_ransomware|랜섬웨어]]가 바로 덮어쓰지 못하는 마지막 방어선이 된다.
-   - 단, 암호화 키와 [[394_catalog_metadata|카탈로그]]까지 같은 공격면에 두면 [[571_protection_vs_security|보호]] 효과가 크게 약해진다.
+   - 오프라인 테이프나 격리된 아카이브 계층은 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/)가 바로 덮어쓰지 못하는 마지막 방어선이 된다.
+   - 단, 암호화 키와 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)까지 같은 공격면에 두면 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 효과가 크게 약해진다.
 
 ### 채택/회피 판단 체크포인트
 
 - **채택이 유리한 경우**
-  - 접근 빈도는 낮지만, 보존 의무나 재활용 가치가 명확한 [[001_dikw_pyramid|데이터]]가 많을 때
+  - 접근 빈도는 낮지만, 보존 의무나 재활용 가치가 명확한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 많을 때
   - 주 저장소 비용과 전력 사용량이 빠르게 증가하고 있을 때
-  - 복원 시간이 다소 길어도 괜찮은 [[001_dikw_pyramid|데이터]]와 즉시 복원이 필요한 [[001_dikw_pyramid|데이터]]를 구분할 수 있을 때
+  - 복원 시간이 다소 길어도 괜찮은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 즉시 복원이 필요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 구분할 수 있을 때
 
 - **주의가 필요한 경우**
-  - [[342_metadata_catalog|메타데이터 카탈로그]] 없이 [[501_file_definition_logical_record|파일]]만 옮겨 담으려 할 때
-  - 독점 [[501_file_definition_logical_record|파일]] 형식이나 사내 전용 뷰어에만 의존해 장기 가독성을 해칠 때
-  - 복원 훈련과 [[112_checksum|체크섬]] [[395_verification_process_review|검증]] 없이 "저장했으니 안전하겠지"라고 가정할 때
+  - [메타데이터 카탈로그](/knowledge-base/studynote/05_database/06_dw_olap_trends/342_metadata_catalog/) 없이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)만 옮겨 담으려 할 때
+  - 독점 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 형식이나 사내 전용 뷰어에만 의존해 장기 가독성을 해칠 때
+  - 복원 훈련과 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 없이 "저장했으니 안전하겠지"라고 가정할 때
 
-기술사 답안에서는 [[121_transmission_media_guided_unguided|매체]] 종류만 나열하기보다, **어떤 [[001_dikw_pyramid|데이터]]가 왜 archive candidate가 되는지, 그리고 나중에 어떻게 찾아 복원할지**를 함께 설명해야 한다. 또한 암호화 키 보관, [[003_integrity|무결성]] 점검, [[121_transmission_media_guided_unguided|매체]] 세대 교체까지 포함해야 장기 보존 설계로 완성된다.
+기술사 답안에서는 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 종류만 나열하기보다, **어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 왜 archive candidate가 되는지, 그리고 나중에 어떻게 찾아 복원할지**를 함께 설명해야 한다. 또한 암호화 키 보관, [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 점검, [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 세대 교체까지 포함해야 장기 보존 설계로 완성된다.
 
 - **📢 섹션 요약 비유**: 아카이빙을 잘한다는 것은 이삿짐을 창고에 넣는 데서 끝나지 않고, 상자 목록표와 열쇠를 따로 챙겨 두는 것과 같다. 상자만 쌓아 놓고 어디에 뭐가 있는지 모르면 나중에 창고가 있어도 소용이 없다.
 
@@ -103,9 +107,9 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-콜드 [[001_dikw_pyramid|데이터]] 아카이빙은 비싼 운영 스토리지에서 오래된 [[001_dikw_pyramid|데이터]]를 떼어 내 전체 저장 비용과 전력 사용량을 줄여 준다. 동시에 불변성과 오프라인 [[121_transmission_media_guided_unguided|매체]]를 활용하면 [[730_ransomware|랜섬웨어]], 실수 삭제, 내부 오남용에 대한 복원력도 높일 수 있다. 즉, 비용 절감과 보안 강화가 한 방향으로 맞물리는 드문 저장 전략이다.
+콜드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 아카이빙은 비싼 운영 스토리지에서 오래된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 떼어 내 전체 저장 비용과 전력 사용량을 줄여 준다. 동시에 불변성과 오프라인 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)를 활용하면 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/), 실수 삭제, 내부 오남용에 대한 복원력도 높일 수 있다. 즉, 비용 절감과 보안 강화가 한 방향으로 맞물리는 드문 저장 전략이다.
 
-하지만 아카이브는 "넣어 두면 끝"이 아니다. 검색 가능한 [[394_catalog_metadata|카탈로그]]를 유지해야 하고, 형식과 [[121_transmission_media_guided_unguided|매체]]가 오래 버티도록 주기적으로 점검해야 하며, 실제 복원 절차를 반복 훈련해야 한다. 그래서 콜드 [[001_dikw_pyramid|데이터]] 아카이빙은 단순한 장기 저장이 아니라 **증거와 기록을 미래에도 읽을 수 있게 보존하는 정보 관리 체계**로 기억해야 한다.
+하지만 아카이브는 "넣어 두면 끝"이 아니다. 검색 가능한 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)를 유지해야 하고, 형식과 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)가 오래 버티도록 주기적으로 점검해야 하며, 실제 복원 절차를 반복 훈련해야 한다. 그래서 콜드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 아카이빙은 단순한 장기 저장이 아니라 **증거와 기록을 미래에도 읽을 수 있게 보존하는 정보 관리 체계**로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: 좋은 아카이브는 오래된 보물상자를 땅에 묻는 일이 아니라, 지도와 열쇠를 함께 남겨 두는 일과 같다. 그래야 훗날 정말 필요할 때 다시 꺼내 쓸 수 있다.
 
@@ -115,11 +119,11 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 보존 [[164_policy|정책]] ([[515_mvcc|Retention]] [[164_policy|Policy]]) | 어떤 [[001_dikw_pyramid|데이터]]를 언제 archive로 내릴지, 언제 삭제 가능한지 결정한다. |
-| [[590_worm|WORM]] (Write Once Read Many) | 아카이브의 [[003_integrity|무결성]]과 규제 준수를 강화하는 대표 [[164_policy|정책]]이다. |
-| LTO (Linear Tape-Open) [[336_library_vs_framework|라이브러리]] | 장기 보존과 air gap 전략에서 자주 쓰이는 물리 [[121_transmission_media_guided_unguided|매체]]다. |
+| 보존 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) ([Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/) [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)) | 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 언제 archive로 내릴지, 언제 삭제 가능한지 결정한다. |
+| [WORM](/knowledge-base/studynote/02_operating_system/10_security/590_worm/) (Write Once Read Many) | 아카이브의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)과 규제 준수를 강화하는 대표 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이다. |
+| LTO (Linear Tape-Open) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) | 장기 보존과 air gap 전략에서 자주 쓰이는 물리 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)다. |
 | 오브젝트 아카이브 | 대규모 장기 저장을 자동화하기 쉬운 현대적 보존 계층이다. |
-| [[555_backup_and_restore_strategy|백업]] ([[555_backup_and_restore_strategy|Backup]]) | 아카이브와 가장 자주 혼동되므로 목적과 시간축을 명확히 구분해야 한다. |
+| [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) ([Backup](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)) | 아카이브와 가장 자주 혼동되므로 목적과 시간축을 명확히 구분해야 한다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -139,7 +143,7 @@ Object archive / tape / MAID
 Integrity audit + rehydration workflow
 ```
 
-이 흐름은 오래된 [[001_dikw_pyramid|데이터]]를 단순히 옮겨 담는 수준에서 벗어나, [[012_metadata|메타데이터]]·불변성·복원 절차를 함께 갖춘 장기 보존 체계로 발전하는 과정을 보여준다.
+이 흐름은 오래된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 단순히 옮겨 담는 수준에서 벗어나, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)·불변성·복원 절차를 함께 갖춘 장기 보존 체계로 발전하는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -153,7 +157,7 @@ Integrity audit + rehydration workflow
 
 **진행 상황**: 677 / 803
 
-← **이전**: [[675_hot_data_caching|675. 핫 데이터 (Hot Data) 캐싱]]
-**다음**: [[677_object_storage|677. 오브젝트 스토리지 (Object Storage)]] →
+← **이전**: [675. 핫 데이터 (Hot Data) 캐싱](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/675_hot_data_caching/)
+**다음**: [677. 오브젝트 스토리지 (Object Storage)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/677_object_storage/) →
 
 ---

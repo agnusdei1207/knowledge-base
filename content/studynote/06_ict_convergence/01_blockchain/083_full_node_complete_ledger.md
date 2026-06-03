@@ -1,23 +1,27 @@
----
-title: 83. 풀 노드 (Full Node) - 제네시스 블록부터 모든 거래 내역을 보관하고 검증하는 노드
-tags:
-- ict_convergence
----
++++
+title = "83. 풀 노드 (Full Node) - 제네시스 블록부터 모든 거래 내역을 보관하고 검증하는 노드"
+
+[taxonomies]
+tags = ["ict_convergence"]
+
+[extra]
+tags = ["ict_convergence"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-- **본질**: 풀 노드 (Full Node)는 제네시스 블록부터 현재 블록까지의 원장을 로컬에 보관하며, 거래와 블록을 스스로 [[395_verification_process_review|검증]]하는 독립 노드다.
-- **가치**: [[082_light_node_spv_simplified_payment_verification|라이트 노드]] (Light Node)나 SPV (Simplified Payment [[395_verification_process_review|Verification]])보다 신뢰 의존이 작아, 검열 저항성과 네트워크 건전성을 지탱한다.
-- **판단 포인트**: 디스크·[[212_synchronization_mechanisms|동기화]] 비용이 크더라도 직접 [[395_verification_process_review|검증]]이 필요한지, 아니면 프루닝이나 경량 [[395_verification_process_review|검증]]으로도 충분한지 먼저 갈라야 한다.
+- **본질**: 풀 노드 (Full Node)는 제네시스 블록부터 현재 블록까지의 원장을 로컬에 보관하며, 거래와 블록을 스스로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 독립 노드다.
+- **가치**: [라이트 노드](/knowledge-base/studynote/06_ict_convergence/01_blockchain/082_light_node_spv_simplified_payment_verification/) (Light Node)나 SPV (Simplified Payment [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))보다 신뢰 의존이 작아, 검열 저항성과 네트워크 건전성을 지탱한다.
+- **판단 포인트**: 디스크·[동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 비용이 크더라도 직접 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 필요한지, 아니면 프루닝이나 경량 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)으로도 충분한지 먼저 갈라야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-공개 [[004_blockchain|블록체인]]은 은행처럼 중앙 장부가 있는 구조가 아니다. 그래서 누군가는 블록과 거래 규칙을 외부에 묻지 않고 직접 읽고 판정해야 한다. 풀 노드는 바로 그 역할을 맡는 주체로, 블록 헤더만 보는 지갑과 달리 거래 본문과 서명, 스크립트까지 확인한다.
+공개 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 은행처럼 중앙 장부가 있는 구조가 아니다. 그래서 누군가는 블록과 거래 규칙을 외부에 묻지 않고 직접 읽고 판정해야 한다. 풀 노드는 바로 그 역할을 맡는 주체로, 블록 헤더만 보는 지갑과 달리 거래 본문과 서명, 스크립트까지 확인한다.
 
 이런 역할이 중요해진 이유는 신뢰를 아끼기 위해서다. 사용자가 매번 블록 탐색기나 중앙 서버에 잔액을 물어보면 편하긴 하지만, 잘못된 정보나 검열에 종속될 수 있다. 풀 노드는 "Don't Trust, Verify"를 네트워크 수준에서 구현해, 각 참여자가 합의 규칙의 최종 판정자가 되게 만든다.
 
-2024년 기준 비트코인 체인은 약 600GB, 이더리움은 1TB+까지 커졌다. [[459_quic_fec_forward_error_correction|초기]] [[212_synchronization_mechanisms|동기화]]인 IBD (Initial Block Download)는 수일~수주가 걸릴 수 있다. 즉, 풀 노드는 빠른 사용성보다 독립 [[395_verification_process_review|검증]]을 우선할 때 선택하는 구조다.
+2024년 기준 비트코인 체인은 약 600GB, 이더리움은 1TB+까지 커졌다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)인 IBD (Initial Block Download)는 수일~수주가 걸릴 수 있다. 즉, 풀 노드는 빠른 사용성보다 독립 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 우선할 때 선택하는 구조다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -29,23 +33,23 @@ tags:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: [[082_light_node_spv_simplified_payment_verification|라이트 노드]]는 신문 헤드라인만 읽는 사람이고, 풀 노드는 원문과 첨부자료까지 직접 확인하는 사서다.
+- **📢 섹션 요약 비유**: [라이트 노드](/knowledge-base/studynote/06_ict_convergence/01_blockchain/082_light_node_spv_simplified_payment_verification/)는 신문 헤드라인만 읽는 사람이고, 풀 노드는 원문과 첨부자료까지 직접 확인하는 사서다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-풀 노드는 피어 네트워크에서 블록 헤더를 먼저 받아 체인워크를 확인하고, 이후 블록 본문을 내려받아 UTXO (Unspent [[191_transaction_concept_states|Transaction]] Output) 집합과 서명 규칙으로 [[395_verification_process_review|검증]]한다. 여기서 핵심은 "받는 순서"가 아니라 "규칙을 통과했는가"이며, 한 번이라도 위반되면 해당 블록은 로컬 체인에 붙지 않는다.
+풀 노드는 피어 네트워크에서 블록 헤더를 먼저 받아 체인워크를 확인하고, 이후 블록 본문을 내려받아 UTXO (Unspent [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Output) 집합과 서명 규칙으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. 여기서 핵심은 "받는 순서"가 아니라 "규칙을 통과했는가"이며, 한 번이라도 위반되면 해당 블록은 로컬 체인에 붙지 않는다.
 
-[[395_verification_process_review|검증]] 흐름은 대체로 다음과 같다. 헤더 [[212_synchronization_mechanisms|동기화]]로 가장 긴 체인을 찾고, PoW (Proof of Work) 또는 합의 규칙을 검사한 뒤, 각 거래의 입력이 아직 사용 가능한지 확인한다. 그다음 스크립트와 서명을 실행하고, 통과한 거래만 UTXO 집합을 갱신한 후 다른 피어에게 전파한다. 채굴 노드 (Mining Node)는 이 풀 노드 기능 위에 블록 템플릿 [[087_process_state_transition|생성]]과 PoW 계산을 얹은 형태다.
+[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 흐름은 대체로 다음과 같다. 헤더 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)로 가장 긴 체인을 찾고, PoW (Proof of Work) 또는 합의 규칙을 검사한 뒤, 각 거래의 입력이 아직 사용 가능한지 확인한다. 그다음 스크립트와 서명을 실행하고, 통과한 거래만 UTXO 집합을 갱신한 후 다른 피어에게 전파한다. 채굴 노드 (Mining Node)는 이 풀 노드 기능 위에 블록 템플릿 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)과 PoW 계산을 얹은 형태다.
 
 | 구성 | 역할 | 병목 |
 | :--- | :--- | :--- |
 | 블록 저장소 | 과거 블록과 헤더 보관 | 디스크 용량 |
-| [[395_verification_process_review|검증]] 엔진 | PoW, 서명, 스크립트 검사 | CPU |
-| UTXO 집합 | 현재 사용 가능한 출력 관리 | RAM/[[327_ssd|SSD]] |
-| 피어 릴레이 | 유효 정보 전파 | 네트워크 [[140_bandwidth|대역폭]] |
-| 보관 [[164_policy|정책]] | prune/archive 선택 | 저장과 [[606_auditing_linux_auditd|감사]]성의 균형 |
+| [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 엔진 | PoW, 서명, 스크립트 검사 | CPU |
+| UTXO 집합 | 현재 사용 가능한 출력 관리 | RAM/[SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) |
+| 피어 릴레이 | 유효 정보 전파 | 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) |
+| 보관 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | prune/archive 선택 | 저장과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)성의 균형 |
 
 ```text
 ┌────────────────────────────────────────────────────────────────┐
@@ -56,7 +60,7 @@ tags:
 └────────────────────────────────────────────────────────────────┘
 ```
 
-이 구조의 장점은 [[395_verification_process_review|검증]] 책임이 한 노드 안에서 닫힌다는 점이다. 반면 저장과 [[212_synchronization_mechanisms|동기화]] 비용은 그만큼 커진다. 그래서 풀 노드는 단순 저장 장치가 아니라, [[004_blockchain|블록체인]] 규칙을 로컬에서 재현하는 계산 장치로 봐야 한다.
+이 구조의 장점은 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 책임이 한 노드 안에서 닫힌다는 점이다. 반면 저장과 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 비용은 그만큼 커진다. 그래서 풀 노드는 단순 저장 장치가 아니라, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 규칙을 로컬에서 재현하는 계산 장치로 봐야 한다.
 
 - **📢 섹션 요약 비유**: 도서관 사서는 책을 빌려주는 것보다, 책 내용이 위조되지 않았는지 한 장씩 확인하는 사람에 가깝다.
 
@@ -64,16 +68,16 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-풀 노드의 경계는 [[082_light_node_spv_simplified_payment_verification|라이트 노드]], 프루닝 노드, 아카이브 노드와 비교할 때 가장 선명해진다. 비트코인은 UTXO 중심이라 [[395_verification_process_review|검증]] 후 과거 본문을 지워도 되지만, 이더리움은 계정·상태 기반이라 과거 상태를 묻는 서비스가 많아 Archive Node의 수요가 크다.
+풀 노드의 경계는 [라이트 노드](/knowledge-base/studynote/06_ict_convergence/01_blockchain/082_light_node_spv_simplified_payment_verification/), 프루닝 노드, 아카이브 노드와 비교할 때 가장 선명해진다. 비트코인은 UTXO 중심이라 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 후 과거 본문을 지워도 되지만, 이더리움은 계정·상태 기반이라 과거 상태를 묻는 서비스가 많아 Archive Node의 수요가 크다.
 
-| 유형 | 저장 범위 | [[395_verification_process_review|검증]] 독립성 | 대표 용도 |
+| 유형 | 저장 범위 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 독립성 | 대표 용도 |
 | :--- | :--- | :--- | :--- |
-| 풀 노드 | genesis~latest block body | 높음 | 개인 [[395_verification_process_review|검증]], 노드 운영 |
-| [[082_light_node_spv_simplified_payment_verification|라이트 노드]](SPV) | 헤더 only | 부분적 | 모바일 지갑 |
+| 풀 노드 | genesis~latest block body | 높음 | 개인 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 노드 운영 |
+| [라이트 노드](/knowledge-base/studynote/06_ict_convergence/01_blockchain/082_light_node_spv_simplified_payment_verification/)(SPV) | 헤더 only | 부분적 | 모바일 지갑 |
 | 프루닝 풀 노드 | 최신 상태 + 일부 블록 | 높음 | 저장 절약형 운영 |
 | 아카이브 노드 | 모든 블록 + 과거 상태 | 높음 + 역사 조회 | 탐색기, 분석, 포렌식 |
 
-채굴 노드 (Mining Node)는 풀 노드 기능에 블록 템플릿 [[087_process_state_transition|생성]]과 PoW 계산을 더한 것이다. 반대로 모든 풀 노드가 채굴 노드는 아니다. [[395_verification_process_review|검증]]은 누구나 할 수 있지만, 블록 [[087_process_state_transition|생성]]권은 합의 조건과 채굴 자원에 따라 따로 결정된다.
+채굴 노드 (Mining Node)는 풀 노드 기능에 블록 템플릿 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)과 PoW 계산을 더한 것이다. 반대로 모든 풀 노드가 채굴 노드는 아니다. [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 누구나 할 수 있지만, 블록 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)권은 합의 조건과 채굴 자원에 따라 따로 결정된다.
 
 결국 Full Node와 Light Node의 차이는 "내가 규칙을 직접 실행하는가"와 "남이 준 결과를 받아들이는가"의 차이다. 이 경계가 곧 탈중앙화의 깊이다.
 
@@ -83,7 +87,7 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-운영 판단은 목적부터 나눠야 한다. 개인 지갑이나 저사양 장비라면 [[082_light_node_spv_simplified_payment_verification|라이트 노드]]나 프루닝 노드가 충분할 수 있지만, 거래소·수탁·[[395_verification_process_review|검증]] 서비스처럼 "틀린 블록을 직접 거절해야 하는" 업무라면 풀 노드가 필요하다. 과거 상태를 근거로 [[606_auditing_linux_auditd|감사]]와 분석을 해야 한다면 아카이브 노드가 맞다.
+운영 판단은 목적부터 나눠야 한다. 개인 지갑이나 저사양 장비라면 [라이트 노드](/knowledge-base/studynote/06_ict_convergence/01_blockchain/082_light_node_spv_simplified_payment_verification/)나 프루닝 노드가 충분할 수 있지만, 거래소·수탁·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 서비스처럼 "틀린 블록을 직접 거절해야 하는" 업무라면 풀 노드가 필요하다. 과거 상태를 근거로 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)와 분석을 해야 한다면 아카이브 노드가 맞다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -96,12 +100,12 @@ tags:
 ```
 
 체크리스트는 간단하다.
-1. 잔액과 거래를 외부 API에 의존하지 않고 [[395_verification_process_review|검증]]해야 하는가?
-2. IBD 시간을 감당할 디스크와 [[140_bandwidth|대역폭]]이 있는가?
-3. 과거 블록/상태를 되짚어야 하는 [[606_auditing_linux_auditd|감사]] 요구가 있는가?
-4. 네트워크 참여 목적이 채굴·[[395_verification_process_review|검증]]·보관 중 무엇인지 명확한가?
+1. 잔액과 거래를 외부 API에 의존하지 않고 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 하는가?
+2. IBD 시간을 감당할 디스크와 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 있는가?
+3. 과거 블록/상태를 되짚어야 하는 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 요구가 있는가?
+4. 네트워크 참여 목적이 채굴·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·보관 중 무엇인지 명확한가?
 
-안티패턴은 분명하다. 블록 탐색기 [[014_api_posix|API]] 하나만 믿고 핵심 시스템을 운영하거나, SPV 하나로 전부 해결하려고 하거나, [[606_auditing_linux_auditd|감사]] 서비스인데 프루닝 노드로 과거를 지워버리는 경우다. 이때는 기술보다 운영 철학이 먼저 틀린 것이다.
+안티패턴은 분명하다. 블록 탐색기 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 하나만 믿고 핵심 시스템을 운영하거나, SPV 하나로 전부 해결하려고 하거나, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 서비스인데 프루닝 노드로 과거를 지워버리는 경우다. 이때는 기술보다 운영 철학이 먼저 틀린 것이다.
 
 - **📢 섹션 요약 비유**: 지도를 남이 그려준 길 안내만 믿을지, 직접 나침반을 들고 길을 찾을지 결정하는 문제다.
 
@@ -109,20 +113,20 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-풀 노드가 많을수록 네트워크는 더 [[395_verification_process_review|검증]] 가능하고, 더 분산되며, 특정 사업자의 규칙 해석에 덜 끌려간다. 프루닝은 저장 부담을 줄이고, 아카이브는 역사적 추적을 가능하게 하며, 풀 노드는 그 둘의 기준선이 된다.
+풀 노드가 많을수록 네트워크는 더 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능하고, 더 분산되며, 특정 사업자의 규칙 해석에 덜 끌려간다. 프루닝은 저장 부담을 줄이고, 아카이브는 역사적 추적을 가능하게 하며, 풀 노드는 그 둘의 기준선이 된다.
 
-미래에는 [[022_snapshot_backup_architecture|스냅샷]] [[212_synchronization_mechanisms|동기화]], [[347_compaction|압축]] 전파, [[239_stateless_redis|stateless]] [[003_audit_stakeholders|client]] 같은 기법이 더 발전하겠지만, 원칙은 변하지 않는다. "내가 직접 [[395_verification_process_review|검증]]할 수 있어야 진짜 주권을 가진다"는 점이다. 풀 노드는 저장 장치가 아니라, 규칙 실행을 내 손에 쥐는 선언이다.
+미래에는 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 전파, [stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/) [client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) 같은 기법이 더 발전하겠지만, 원칙은 변하지 않는다. "내가 직접 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있어야 진짜 주권을 가진다"는 점이다. 풀 노드는 저장 장치가 아니라, 규칙 실행을 내 손에 쥐는 선언이다.
 
 ### 📌 관련 개념 맵
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| SPV (Simplified Payment [[395_verification_process_review|Verification]]) | 헤더만 보고 포함 여부를 확인하는 경량 [[395_verification_process_review|검증]] |
-| UTXO (Unspent [[191_transaction_concept_states|Transaction]] Output) | 비트코인 [[395_verification_process_review|검증]] 상태의 핵심 [[001_dikw_pyramid|데이터]] |
-| IBD (Initial Block Download) | 최초 전체 [[212_synchronization_mechanisms|동기화]] 과정 |
-| Pruned Full Node | [[395_verification_process_review|검증]]은 유지하고 과거 본문은 삭제 |
+| SPV (Simplified Payment [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)) | 헤더만 보고 포함 여부를 확인하는 경량 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
+| UTXO (Unspent [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Output) | 비트코인 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 상태의 핵심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
+| IBD (Initial Block Download) | 최초 전체 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 과정 |
+| Pruned Full Node | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 유지하고 과거 본문은 삭제 |
 | Archive Node | 과거 상태까지 보관하는 확장형 노드 |
-| Mining Node | 풀 노드 + PoW 계산과 블록 [[087_process_state_transition|생성]] |
+| Mining Node | 풀 노드 + PoW 계산과 블록 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -142,7 +146,7 @@ IBD (Initial Block Download)
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [[082_light_node_spv_simplified_payment_verification|라이트 노드]]는 책 제목만 보는 사람이고, 풀 노드는 책 내용을 직접 읽는 사람이에요.
+1. [라이트 노드](/knowledge-base/studynote/06_ict_convergence/01_blockchain/082_light_node_spv_simplified_payment_verification/)는 책 제목만 보는 사람이고, 풀 노드는 책 내용을 직접 읽는 사람이에요.
 2. 프루닝 노드는 다 읽은 뒤 옛날 책장을 조금 비우는 사람이고, 아카이브 노드는 전부 모아두는 사람이에요.
 3. 그래서 진짜 규칙을 알고 싶으면, 남의 요약보다 내가 직접 책을 읽어야 한답니다.
 
@@ -152,7 +156,7 @@ IBD (Initial Block Download)
 
 **진행 상황**: 83 / 552
 
-← **이전**: [[082_light_node_spv_simplified_payment_verification|82. 라이트 노드 (Light Node / SPV, Simplified Payment Verification)]]
-**다음**: [[084_blockchain_interoperability_polkadot_cosmos|84. 블록체인 상호운용성 (Interoperability) 폴카닷(Polkadot), 코스모스(Cosmos) 네트워크]] →
+← **이전**: [82. 라이트 노드 (Light Node / SPV, Simplified Payment Verification)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/082_light_node_spv_simplified_payment_verification/)
+**다음**: [84. 블록체인 상호운용성 (Interoperability) 폴카닷(Polkadot), 코스모스(Cosmos) 네트워크](/knowledge-base/studynote/06_ict_convergence/01_blockchain/084_blockchain_interoperability_polkadot_cosmos/) →
 
 ---

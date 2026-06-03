@@ -1,23 +1,27 @@
----
-title: 160. 피연산자 (Operand)
-date: '2026-05-05'
-tags:
-- studynote-computer-architecture
----
++++
+title = "160. 피연산자 (Operand)"
+date = 2026-05-05
+
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 피연산자 (Operand)는 [[158_instruction|명령어]]가 실제로 다룰 [[001_dikw_pyramid|데이터]] 자체 또는 그 [[001_dikw_pyramid|데이터]]의 위치를 지정하는 정보다.
-> 2. **가치**: 피연산자가 상수인지, [[057_register|레지스터]]인지, 메모리인지에 따라 CPU (Central Processing Unit)의 지연시간, 코드 밀도, 하드웨어 복잡도가 크게 달라진다.
-> 3. **판단 포인트**: [[157_isa|ISA]] ([[157_isa|Instruction Set Architecture]])는 피연산자 개수와 위치를 어떻게 제한하느냐에 따라 [[196_cisc|CISC]] (Complex [[158_instruction|Instruction]] Set Computer)형 표현력과 [[195_risc|RISC]] (Reduced [[158_instruction|Instruction]] Set Computer)형 단순성 사이에서 균형을 잡는다.
+> 1. **본질**: 피연산자 (Operand)는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 실제로 다룰 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체 또는 그 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 위치를 지정하는 정보다.
+> 2. **가치**: 피연산자가 상수인지, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)인지, 메모리인지에 따라 CPU (Central Processing Unit)의 지연시간, 코드 밀도, 하드웨어 복잡도가 크게 달라진다.
+> 3. **판단 포인트**: [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) ([Instruction Set Architecture](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))는 피연산자 개수와 위치를 어떻게 제한하느냐에 따라 [CISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/) (Complex [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer)형 표현력과 [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) (Reduced [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer)형 단순성 사이에서 균형을 잡는다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-피연산자 (Operand)는 [[158_instruction|명령어]]가 "무엇을 대상으로 연산할지"를 지정하는 요소다. `ADD` 같은 [[159_opcode|연산 코드]]만 있어서는 CPU가 무엇을 더해야 하는지 알 수 없으므로, 실제 값이나 값이 들어 있는 [[057_register|레지스터]]·메모리 위치를 함께 알려 주어야 한다. 즉 피연산자는 [[158_instruction|명령어]]의 동사가 현실의 [[001_dikw_pyramid|데이터]]와 만나는 접점이다.
+피연산자 (Operand)는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 "무엇을 대상으로 연산할지"를 지정하는 요소다. `ADD` 같은 [연산 코드](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/159_opcode/)만 있어서는 CPU가 무엇을 더해야 하는지 알 수 없으므로, 실제 값이나 값이 들어 있는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)·메모리 위치를 함께 알려 주어야 한다. 즉 피연산자는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 동사가 현실의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 만나는 접점이다.
 
-이 개념이 중요한 이유는 연산 속도보다 [[001_dikw_pyramid|데이터]] 접근 비용이 더 큰 병목이 되기 쉽기 때문이다. 같은 덧셈이라도 즉시값은 [[158_instruction|명령어]] 안에서 바로 읽을 수 있고, [[057_register|레지스터]] 값은 코어 내부에서 빠르게 가져오지만, 메모리 값은 캐시와 메모리 계층을 거쳐야 하므로 훨씬 느리다. 피연산자를 어떻게 설계하느냐는 결국 "연산을 빠르게 할 것인가"보다 "[[001_dikw_pyramid|데이터]]를 얼마나 효율적으로 데려올 것인가"의 문제다.
+이 개념이 중요한 이유는 연산 속도보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근 비용이 더 큰 병목이 되기 쉽기 때문이다. 같은 덧셈이라도 즉시값은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 안에서 바로 읽을 수 있고, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 값은 코어 내부에서 빠르게 가져오지만, 메모리 값은 캐시와 메모리 계층을 거쳐야 하므로 훨씬 느리다. 피연산자를 어떻게 설계하느냐는 결국 "연산을 빠르게 할 것인가"보다 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 얼마나 효율적으로 데려올 것인가"의 문제다.
 
 - **📢 섹션 요약 비유**: 피연산자는 요리 지시서의 재료 칸과 같다. "볶아라"라는 동사만으로는 요리가 안 되고, 양파를 볶을지 고기를 볶을지까지 적혀 있어야 주방이 움직인다.
 
@@ -25,18 +29,18 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[[158_instruction|명령어]] 내부에서 피연산자는 보통 즉시값, [[057_register|레지스터]] 번호, 메모리 주소, 혹은 암묵적 [[057_stack|스택]] 위치처럼 표현된다. CPU는 이 정보를 해독해 [[057_register|레지스터]] [[501_file_definition_logical_record|파일]] ([[175_register_addressing|Register]] [[501_file_definition_logical_record|File]]), 캐시, 메모리 중 어디에서 [[001_dikw_pyramid|데이터]]를 가져올지 결정하고, 산술논리장치인 [[117_alu|ALU]] ([[117_alu|Arithmetic Logic Unit]])로 전달한다. 따라서 피연산자 구조는 단순 표기법이 아니라 [[001_dikw_pyramid|데이터]] 경로를 여는 스위치다.
+[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 내부에서 피연산자는 보통 즉시값, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 번호, 메모리 주소, 혹은 암묵적 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 위치처럼 표현된다. CPU는 이 정보를 해독해 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) ([Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/) [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)), 캐시, 메모리 중 어디에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가져올지 결정하고, 산술논리장치인 [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) ([Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/))로 전달한다. 따라서 피연산자 구조는 단순 표기법이 아니라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로를 여는 스위치다.
 
 ### 대표 피연산자 형태
 
 | 형태 | 의미 | 장점 | 한계 |
 | :--- | :--- | :--- | :--- |
-| 즉시값 ([[174_immediate_addressing|Immediate]]) | [[158_instruction|명령어]] 안에 값 자체 포함 | 메모리 접근 없이 빠름 | 표현 가능한 상수 크기 제한 |
-| [[057_register|레지스터]] 피연산자 | [[057_register|레지스터]] 번호로 지정 | 가장 짧은 지연시간, 파이프라인 친화적 | [[057_register|레지스터]] 수가 한정됨 |
-| 메모리 피연산자 | 주소를 통해 메모리에서 읽음 | 큰 [[001_dikw_pyramid|데이터]] 공간 활용 가능 | 캐시 미스 시 지연이 큼 |
-| 암묵적 피연산자 | [[161_accumulator|누산기]]·[[057_stack|스택]] 상단처럼 위치를 생략 | [[158_instruction|명령어]] 길이 절감 | 표현력이 제한되고 숨은 제약이 많음 |
+| 즉시값 ([Immediate](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/174_immediate_addressing/)) | [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 안에 값 자체 포함 | 메모리 접근 없이 빠름 | 표현 가능한 상수 크기 제한 |
+| [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 피연산자 | [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 번호로 지정 | 가장 짧은 지연시간, 파이프라인 친화적 | [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 수가 한정됨 |
+| 메모리 피연산자 | 주소를 통해 메모리에서 읽음 | 큰 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공간 활용 가능 | 캐시 미스 시 지연이 큼 |
+| 암묵적 피연산자 | [누산기](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/)·[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 상단처럼 위치를 생략 | [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 길이 절감 | 표현력이 제한되고 숨은 제약이 많음 |
 
-아래 그림은 피연산자 종류에 따라 CPU 내부의 [[001_dikw_pyramid|데이터]] 이동 경로가 달라지는 모습을 보여 준다.
+아래 그림은 피연산자 종류에 따라 CPU 내부의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 경로가 달라지는 모습을 보여 준다.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────────┐
@@ -60,16 +64,16 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-피연산자는 단순히 "값 하나"의 문제가 아니라 [[170_instruction_format|명령어 형식]] 전체와 연결된다. 특히 피연산자 개수는 코드 길이, 원본 [[001_dikw_pyramid|데이터]] 보존, 하드웨어 디코딩 복잡도에 직접 영향을 준다. 그래서 0-주소, 1-주소, 2-주소, 3-주소 구조는 각각 다른 철학을 가진다.
+피연산자는 단순히 "값 하나"의 문제가 아니라 [명령어 형식](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/170_instruction_format/) 전체와 연결된다. 특히 피연산자 개수는 코드 길이, 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보존, 하드웨어 디코딩 복잡도에 직접 영향을 준다. 그래서 0-주소, 1-주소, 2-주소, 3-주소 구조는 각각 다른 철학을 가진다.
 
 | 구조 | 예시 형태 | 특징 | 설계 의미 |
 | :--- | :--- | :--- | :--- |
-| 0-주소 | `ADD` | [[057_stack|스택]] 상단 두 값을 암묵적으로 사용 | [[158_instruction|명령어]]는 짧지만 [[001_dikw_pyramid|데이터]] 흐름이 숨겨짐 |
-| 1-주소 | `ADD X` | [[161_accumulator|누산기]] ([[161_accumulator|Accumulator]])를 기본 결과 위치로 사용 | 하드웨어 단순하지만 메모리 접근 증가 |
+| 0-주소 | `ADD` | [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 상단 두 값을 암묵적으로 사용 | [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 짧지만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름이 숨겨짐 |
+| 1-주소 | `ADD X` | [누산기](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/) ([Accumulator](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/))를 기본 결과 위치로 사용 | 하드웨어 단순하지만 메모리 접근 증가 |
 | 2-주소 | `ADD A, B` | 결과가 보통 A를 덮어씀 | 코드 밀도와 표현력의 절충 |
 | 3-주소 | `ADD A, B, C` | 입력과 결과를 분리 | 컴파일러 최적화와 파이프라인에 유리 |
 
-여기서 [[173_addressing_modes|주소 지정 방식]] (Addressing Mode)과도 연결된다. 같은 2-주소 구조라도 한쪽이 메모리 허용인지, 둘 다 [[057_register|레지스터]]만 허용인지에 따라 전혀 다른 ISA가 된다. 예를 들어 전통적 CISC는 메모리 피연산자를 넓게 허용해 코드 수를 줄였고, 현대 RISC는 로드-스토어 아키텍처 ([[197_load_store_architecture|Load-Store Architecture]])로 연산 피연산자를 사실상 [[057_register|레지스터]] 중심으로 제한해 파이프라인 예측성과 단순성을 얻었다.
+여기서 [주소 지정 방식](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/173_addressing_modes/) (Addressing Mode)과도 연결된다. 같은 2-주소 구조라도 한쪽이 메모리 허용인지, 둘 다 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)만 허용인지에 따라 전혀 다른 ISA가 된다. 예를 들어 전통적 CISC는 메모리 피연산자를 넓게 허용해 코드 수를 줄였고, 현대 RISC는 로드-스토어 아키텍처 ([Load-Store Architecture](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/197_load_store_architecture/))로 연산 피연산자를 사실상 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 중심으로 제한해 파이프라인 예측성과 단순성을 얻었다.
 
 - **📢 섹션 요약 비유**: 피연산자 개수 차이는 그릇 수가 다른 주방과 같다. 그릇이 많으면 재료와 결과를 분리해 깔끔하게 조리할 수 있지만, 그만큼 주방 공간과 비용이 더 든다.
 
@@ -77,18 +81,18 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 피연산자 설계가 컴파일러 [[087_process_state_transition|생성]] 코드, [[282_performance_tactics|성능]] 최적화, [[158_instruction|명령어]] 확장성에 그대로 드러난다. 예를 들어 임베디드 프로세서는 짧은 [[158_instruction|명령어]] 길이를 유지하기 위해 즉시값 [[073_bit|비트]]를 줄이는 대신 여러 명령으로 큰 상수를 조합하고, 고성능 프로세서는 메모리 피연산자를 직접 연산에 쓰기보다 먼저 [[057_register|레지스터]]에 적재하도록 강제한다. 결국 좋은 피연산자 설계는 "프로그래머가 편한가"와 "파이프라인이 안정적인가"를 함께 판단해야 한다.
+실무에서는 피연산자 설계가 컴파일러 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 코드, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 확장성에 그대로 드러난다. 예를 들어 임베디드 프로세서는 짧은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 길이를 유지하기 위해 즉시값 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 줄이는 대신 여러 명령으로 큰 상수를 조합하고, 고성능 프로세서는 메모리 피연산자를 직접 연산에 쓰기보다 먼저 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 적재하도록 강제한다. 결국 좋은 피연산자 설계는 "프로그래머가 편한가"와 "파이프라인이 안정적인가"를 함께 판단해야 한다.
 
-### 판단 [[435_checklist_based_testing|체크리스트]]
+### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **연산 피연산자를 [[057_register|레지스터]] 중심으로 제한할 것인가?** 고성능 파이프라인일수록 로드와 연산을 분리하는 편이 유리하다.
-2. **즉시값 [[073_bit|비트]] 폭이 실제 워크로드를 감당하는가?** 너무 좁으면 상수 로딩 명령 수가 늘고, 너무 넓으면 다른 필드 공간이 줄어든다.
-3. **피연산자 수가 컴파일러 최적화와 맞는가?** 3-주소 구조는 [[057_register|레지스터]] 할당에 유리하지만 [[158_instruction|명령어]] 폭 부담이 있다.
+1. **연산 피연산자를 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 중심으로 제한할 것인가?** 고성능 파이프라인일수록 로드와 연산을 분리하는 편이 유리하다.
+2. **즉시값 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 폭이 실제 워크로드를 감당하는가?** 너무 좁으면 상수 로딩 명령 수가 늘고, 너무 넓으면 다른 필드 공간이 줄어든다.
+3. **피연산자 수가 컴파일러 최적화와 맞는가?** 3-주소 구조는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 할당에 유리하지만 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 폭 부담이 있다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 메모리 피연산자를 과도하게 허용해 파이프라인 병목을 키우는 설계
-- 큰 상수를 한 번에 넣을 수 있다고 가정해 코드 [[087_process_state_transition|생성]] 비용을 과소평가하는 설계
+- 큰 상수를 한 번에 넣을 수 있다고 가정해 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 비용을 과소평가하는 설계
 - 암묵적 피연산자를 남발해 디버깅과 예측 가능성을 낮추는 설계
 
 - **📢 섹션 요약 비유**: 피연산자 설계는 배달 동선을 짜는 일과 같다. 가게에서 바로 집 앞까지 오는 길을 잘 설계해야지, 주문할 때마다 창고를 세 군데 들렀다 오게 만들면 서비스가 느려질 수밖에 없다.
@@ -97,9 +101,9 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-피연산자를 잘 설계하면 같은 기능도 더 짧은 코드, 더 단순한 [[039_decoder|디코더]], 더 예측 가능한 실행 흐름으로 구현할 수 있다. 특히 [[057_register|레지스터]] 중심 피연산자 체계는 파이프라인, [[231_branch_prediction|분기 예측]], 캐시 활용과 잘 맞아 현대 CPU의 기본 전제가 되었다. 반대로 표현력을 욕심내 메모리 피연산자와 복잡한 암묵 규칙을 지나치게 늘리면, 코드가 짧아지는 대신 하드웨어와 최적화 도구가 복잡해진다.
+피연산자를 잘 설계하면 같은 기능도 더 짧은 코드, 더 단순한 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/), 더 예측 가능한 실행 흐름으로 구현할 수 있다. 특히 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 중심 피연산자 체계는 파이프라인, [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/), 캐시 활용과 잘 맞아 현대 CPU의 기본 전제가 되었다. 반대로 표현력을 욕심내 메모리 피연산자와 복잡한 암묵 규칙을 지나치게 늘리면, 코드가 짧아지는 대신 하드웨어와 최적화 도구가 복잡해진다.
 
-따라서 피연산자는 "연산의 대상"이라는 정의로만 기억하면 부족하다. 실제로는 [[158_instruction|명령어]]가 [[001_dikw_pyramid|데이터]] 계층을 어떻게 통과할지 결정하는 계약이며, [[157_isa|ISA]] 성격을 드러내는 핵심 설계 변수다. 이 관점으로 보면 피연산자는 문법 요소가 아니라 [[282_performance_tactics|성능]]과 구조를 동시에 좌우하는 아키텍처 선택지다.
+따라서 피연산자는 "연산의 대상"이라는 정의로만 기억하면 부족하다. 실제로는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계층을 어떻게 통과할지 결정하는 계약이며, [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) 성격을 드러내는 핵심 설계 변수다. 이 관점으로 보면 피연산자는 문법 요소가 아니라 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 구조를 동시에 좌우하는 아키텍처 선택지다.
 
 - **📢 섹션 요약 비유**: 피연산자는 택배 송장의 목적지 칸과 같다. 주소를 짧고 정확하게 적으면 배송이 빠르지만, 규칙이 복잡하거나 길이 제한이 애매하면 분류와 배송이 모두 느려진다.
 
@@ -109,10 +113,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[159_opcode|연산 코드]] ([[159_opcode|Opcode]]) | 무엇을 할지 정한다면, 피연산자는 무엇에 대해 할지를 정한다. |
-| [[173_addressing_modes|주소 지정 방식]] (Addressing Mode) | 피연산자가 값 자체인지, 주소인지, 간접 참조인지 해석하는 규칙이다. |
-| [[057_register|레지스터]] [[501_file_definition_logical_record|파일]] ([[175_register_addressing|Register]] [[501_file_definition_logical_record|File]]) | [[057_register|레지스터]] 피연산자가 실제로 읽히고 기록되는 가장 빠른 저장 계층이다. |
-| 로드-스토어 아키텍처 ([[197_load_store_architecture|Load-Store Architecture]]) | 연산 피연산자를 [[057_register|레지스터]]로 제한해 메모리 접근과 연산을 분리한다. |
+| [연산 코드](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/159_opcode/) ([Opcode](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/159_opcode/)) | 무엇을 할지 정한다면, 피연산자는 무엇에 대해 할지를 정한다. |
+| [주소 지정 방식](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/173_addressing_modes/) (Addressing Mode) | 피연산자가 값 자체인지, 주소인지, 간접 참조인지 해석하는 규칙이다. |
+| [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) ([Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/) [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)) | [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 피연산자가 실제로 읽히고 기록되는 가장 빠른 저장 계층이다. |
+| 로드-스토어 아키텍처 ([Load-Store Architecture](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/197_load_store_architecture/)) | 연산 피연산자를 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)로 제한해 메모리 접근과 연산을 분리한다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -133,7 +137,7 @@ tags:
 컴파일러의 레지스터 할당 최적화
 ```
 
-이 흐름은 "[[001_dikw_pyramid|데이터]]를 어디서 읽는가"라는 문제에서 시작해, 현대 ISA와 컴파일러 최적화 전략으로 이어지는 연결을 보여 준다.
+이 흐름은 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어디서 읽는가"라는 문제에서 시작해, 현대 ISA와 컴파일러 최적화 전략으로 이어지는 연결을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -147,7 +151,7 @@ tags:
 
 **진행 상황**: 160 / 803
 
-← **이전**: [[159_opcode|159. 연산 코드 (Opcode)]]
-**다음**: [[161_accumulator|161. 누산기 (Accumulator)]] →
+← **이전**: [159. 연산 코드 (Opcode)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/159_opcode/)
+**다음**: [161. 누산기 (Accumulator)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/) →
 
 ---

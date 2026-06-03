@@ -1,24 +1,28 @@
----
-title: 17. MOSFET
-date: '2026-04-19'
-tags:
-- studynote-computer-architecture
----
++++
+title = "17. MOSFET"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: MOSFET (금속-산화막-[[009_semiconductor|반도체]] [[016_fet|전계효과 트랜지스터]])은 게이트를 얇은 [[010_insulator|절연체]](산화막)로 막아, 물리적인 [[002_current|전류]] 소모 없이 [[001_voltage|전압]](전기장)만으로 [[238_switch_operation_principles|스위치]]를 켜고 끄는 완벽한 무접점 소자다.
-> 2. **가치**: 동작 특성이 정반대인 NMOS와 PMOS를 하나로 묶은 [[018_cmos|CMOS]] 아키텍처를 탄생시켰으며, 이를 통해 대기 전력 소모를 0으로 수렴시켜 수백억 개 집적 회로 시대의 승자가 되었다.
-> 3. **판단 포인트**: 공정 미세화 시 절연막이 얇아져 전자가 벽을 뚫는 양자 [[377_tunneling_mechanism_overview|터널링]](누설)이 발생하자, 이를 막기 위해 두꺼우면서도 통제력이 강한 High-K 메탈 게이트(HKMG) 기술을 융합하여 한계를 돌파했다.
+> 1. **본질**: MOSFET (금속-산화막-[반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) [전계효과 트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/016_fet/))은 게이트를 얇은 [절연체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/010_insulator/)(산화막)로 막아, 물리적인 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 소모 없이 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)(전기장)만으로 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 켜고 끄는 완벽한 무접점 소자다.
+> 2. **가치**: 동작 특성이 정반대인 NMOS와 PMOS를 하나로 묶은 [CMOS](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/) 아키텍처를 탄생시켰으며, 이를 통해 대기 전력 소모를 0으로 수렴시켜 수백억 개 집적 회로 시대의 승자가 되었다.
+> 3. **판단 포인트**: 공정 미세화 시 절연막이 얇아져 전자가 벽을 뚫는 양자 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)(누설)이 발생하자, 이를 막기 위해 두꺼우면서도 통제력이 강한 High-K 메탈 게이트(HKMG) 기술을 융합하여 한계를 돌파했다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-MOSFET (Metal-Oxide-[[009_semiconductor|Semiconductor]] Field-Effect [[014_transistor|Transistor]])은 얇은 절연막(산화막, Oxide)을 사이에 두고 게이트 전극(Metal)과 [[009_semiconductor|반도체]]([[009_semiconductor|Semiconductor]]) 채널이 마주보는 구조의 [[014_transistor|트랜지스터]]다. 
+MOSFET (Metal-Oxide-[Semiconductor](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) Field-Effect [Transistor](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/))은 얇은 절연막(산화막, Oxide)을 사이에 두고 게이트 전극(Metal)과 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)([Semiconductor](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)) 채널이 마주보는 구조의 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)다. 
 
-[[459_quic_fec_forward_error_correction|초기]] [[014_transistor|트랜지스터]]들은 상태를 유지하기 위해 계속 전기를 먹거나, 실리콘 표면이 불안정해 불량이 잦았다. MOSFET은 [[009_semiconductor|반도체]] 표면을 유리처럼 산화시켜 완벽한 절연 뚜껑($SiO_2$)을 덮어버림으로써 게이트로 [[002_current|전류]]가 단 한 방울도 새지 않게 만들었다. "[[001_voltage|전압]]만 걸어주면 전기를 먹지 않고 길(채널)이 열리는" 이 기적의 구조 덕분에 열 폭주 없이 손톱만 한 칩에 수백억 개의 [[238_switch_operation_principles|스위치]]를 박아넣을 수 있게 되었다.
+[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)들은 상태를 유지하기 위해 계속 전기를 먹거나, 실리콘 표면이 불안정해 불량이 잦았다. MOSFET은 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 표면을 유리처럼 산화시켜 완벽한 절연 뚜껑($SiO_2$)을 덮어버림으로써 게이트로 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 단 한 방울도 새지 않게 만들었다. "[전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)만 걸어주면 전기를 먹지 않고 길(채널)이 열리는" 이 기적의 구조 덕분에 열 폭주 없이 손톱만 한 칩에 수백억 개의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 박아넣을 수 있게 되었다.
 
-- **📢 섹션 요약 비유**: 투명한 유리 덮개가 씌워진 마법의 쇳가루 미로와 같다. 사람이 유리를 뚫고 손을 넣을 순 없지만, 유리 위에 자석([[001_voltage|전압]])을 갖다 대기만 하면 그 자력(전기장)이 밑으로 전해져 쇳가루(전자)들이 길을 활짝 열어주는 완벽한 무마찰 원격 조종이다.
+- **📢 섹션 요약 비유**: 투명한 유리 덮개가 씌워진 마법의 쇳가루 미로와 같다. 사람이 유리를 뚫고 손을 넣을 순 없지만, 유리 위에 자석([전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/))을 갖다 대기만 하면 그 자력(전기장)이 밑으로 전해져 쇳가루(전자)들이 길을 활짝 열어주는 완벽한 무마찰 원격 조종이다.
 
 ---
 
@@ -29,9 +33,9 @@ MOSFET은 눈에 보이는 3개의 단자와 보이지 않는 바닥 뼈대까�
 | 단자 명칭 | 칩 아키텍처 내 역할 | 물리적 비유 |
 |:---|:---|:---|
 | **게이트 (Gate)** | 전기장 레이저를 쏴 아래쪽의 채널 형성을 명령하는 사령탑 | 댐 수문을 원격으로 여닫는 통제실 버튼 |
-| **산화막 (Oxide)** | 게이트와 기판 사이를 차단하여 [[002_current|전류]] 누수를 막는 절연막 | 통제실을 보호하는 두꺼운 방탄유리벽 |
-| **소스/드레인 (S/D)** | 전자가 밀려 들어오고(소스), 빠져나가는(드레인) 터미널 | 물이 콸콸 쏟아져 들어오고 나가는 대형 [[123_pipe|파이프]] |
-| **바디 (Body/Bulk)** | 댐 전체가 박혀있는 [[009_semiconductor|반도체]] 기판 (문턱 [[001_voltage|전압]] 튜닝에 사용) | 전체 댐 시설을 지탱하는 거대한 암반 지대 |
+| **산화막 (Oxide)** | 게이트와 기판 사이를 차단하여 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 누수를 막는 절연막 | 통제실을 보호하는 두꺼운 방탄유리벽 |
+| **소스/드레인 (S/D)** | 전자가 밀려 들어오고(소스), 빠져나가는(드레인) 터미널 | 물이 콸콸 쏟아져 들어오고 나가는 대형 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) |
+| **바디 (Body/Bulk)** | 댐 전체가 박혀있는 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 기판 (문턱 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 튜닝에 사용) | 전체 댐 시설을 지탱하는 거대한 암반 지대 |
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -51,7 +55,7 @@ MOSFET은 눈에 보이는 3개의 단자와 보이지 않는 바닥 뼈대까�
 └──────────────────────────────────────────────────────────────┘
 ```
 
-게이트에 [[001_voltage|전압]](+)을 가하면, 방탄유리(산화막) 때문에 전자는 밖으로 나가지 못한다. 대신 그 강한 전기장이 기판 밑바닥에 숨어있던 전자(-)들을 표면으로 멱살 잡고 끌어올린다. 표면에 모인 전자들이 소스와 드레인을 잇는 튼튼한 징검다리(채널)를 만들어, 마침내 전기가 폭포수처럼 흐르게(Turn-On) 된다.
+게이트에 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)(+)을 가하면, 방탄유리(산화막) 때문에 전자는 밖으로 나가지 못한다. 대신 그 강한 전기장이 기판 밑바닥에 숨어있던 전자(-)들을 표면으로 멱살 잡고 끌어올린다. 표면에 모인 전자들이 소스와 드레인을 잇는 튼튼한 징검다리(채널)를 만들어, 마침내 전기가 폭포수처럼 흐르게(Turn-On) 된다.
 
 - **📢 섹션 요약 비유**: 두 절벽 사이에 깊은 구덩이가 파여 있어 평소엔 건널 수 없다. 하지만 하늘의 사령탑(게이트)이 투명한 방어막 너머로 강력한 레이저 광선(전기장)을 쏘면, 구덩이 밑의 벽돌(전자)들이 일제히 허공으로 떠올라 순식간에 절벽을 잇는 다리가 된다.
 
@@ -59,15 +63,15 @@ MOSFET은 눈에 보이는 3개의 단자와 보이지 않는 바닥 뼈대까�
 
 ## Ⅲ. 비교 및 연결
 
-디지털 논리는 특성이 정반대인 두 가지 MOSFET, 즉 NMOS와 PMOS의 대칭적 결합([[018_cmos|CMOS]])으로 완성된다.
+디지털 논리는 특성이 정반대인 두 가지 MOSFET, 즉 NMOS와 PMOS의 대칭적 결합([CMOS](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/))으로 완성된다.
 
-| 비교 항목 | NMOS (N-channel) | PMOS (P-channel) | [[018_cmos|CMOS]] 아키텍처 (결합) |
+| 비교 항목 | NMOS (N-channel) | PMOS (P-channel) | [CMOS](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/) 아키텍처 (결합) |
 |:---|:---|:---|:---|
 | **동작 캐리어** | 전자 (가볍고 아주 빠름) | 정공 (무겁고 느림) | 둘의 장점을 융합 배치 |
-| **[[238_switch_operation_principles|스위치]] 켜짐** | [[001_voltage|전압]]이 High(1)일 때 열림 | [[001_voltage|전압]]이 Low(0)일 때 열림 | **1과 0 모두에 철벽 대응** |
-| **연결 담당** | 바닥 [[001_voltage|전압]](GND)을 끌어옴 | 천장 [[001_voltage|전압]](VDD)을 끌어옴 | **동시에 열리는 일 절대 없음** |
+| **[스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 켜짐** | [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 High(1)일 때 열림 | [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 Low(0)일 때 열림 | **1과 0 모두에 철벽 대응** |
+| **연결 담당** | 바닥 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)(GND)을 끌어옴 | 천장 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)(VDD)을 끌어옴 | **동시에 열리는 일 절대 없음** |
 
-이 두 청개구리 [[238_switch_operation_principles|스위치]]를 위아래로 묶어놓은 것이 [[018_cmos|CMOS]](상보형 금속 산화막 [[009_semiconductor|반도체]])다. 입력이 1이든 0이든 둘 중 하나는 무조건 닫혀있게 만든 구조 덕분에, 상태를 유지하는 동안 전원에서 바닥으로 [[002_current|전류]]가 직통으로 줄줄 새는 합선(Short Circuit)이 원천 차단된다. 이 마법 덕분에 스마트폰의 대기 전력이 0에 수렴하게 되었다.
+이 두 청개구리 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 위아래로 묶어놓은 것이 [CMOS](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/)(상보형 금속 산화막 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/))다. 입력이 1이든 0이든 둘 중 하나는 무조건 닫혀있게 만든 구조 덕분에, 상태를 유지하는 동안 전원에서 바닥으로 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 직통으로 줄줄 새는 합선(Short Circuit)이 원천 차단된다. 이 마법 덕분에 스마트폰의 대기 전력이 0에 수렴하게 되었다.
 
 - **📢 섹션 요약 비유**: 앞뒤로 밀고 당기는 이중 은행 금고 문과 같다. 손님이 들어올 때 1번 문이 열리면 2번 문이 꽉 잠기고, 반대로 2번 문이 열리면 1번 문이 철저히 닫혀서, 절대 양쪽 문이 동시에 뻥 뚫려 은행 돈(전력)이 도둑맞는 일이 생기지 않는다.
 
@@ -75,16 +79,16 @@ MOSFET은 눈에 보이는 3개의 단자와 보이지 않는 바닥 뼈대까�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-공정이 미세화되면서 산화막이 원자 몇 개 두께(1.2nm)로 얇아지자, 전자가 파동으로 변해 벽을 스윽 뚫고 도망가버리는 양자 [[377_tunneling_mechanism_overview|터널링]](누설 [[002_current|전류]]) 재앙이 발생했다.
+공정이 미세화되면서 산화막이 원자 몇 개 두께(1.2nm)로 얇아지자, 전자가 파동으로 변해 벽을 스윽 뚫고 도망가버리는 양자 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)(누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)) 재앙이 발생했다.
 
-### [[435_checklist_based_testing|체크리스트]] 및 판단 기준
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 판단 기준
 1. **High-K 메탈 게이트 (HKMG)** 적용: 누설을 막으려면 벽(산화막)을 두껍게 만들어야 하지만, 그러면 통제력(전기장)이 약해진다. 이를 타개하기 위해 유전율(K)이 $SiO_2$보다 5배 높은 하프늄 기반 소재를 발랐는가? (두께를 5배 키워 전자를 물리적으로 완벽히 튕겨내면서도, 쥐어짜는 전기장의 힘은 그대로 유지하는 혁신 기술)
 2. **Multi-Vt 하이브리드 배치**: 벤치마크 속도를 올리기 위해 칩 전체를 전기를 퍼먹는 저전압(Low-Vt) MOSFET으로 도배하지 않았는가? 타이밍 병목 경로에만 고속 셀을, 대기가 긴 주변부에는 뻑뻑하지만 누설이 없는 고전압(High-Vt) 셀을 적절히 섞었는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
-- 칩 크기만 절반으로 줄이면 전기도 덜 먹고 무조건 빨라질 것이라는 과거의 맹신. 5nm 이하에서는 [[238_switch_operation_principles|스위치]]를 꺼도 문틈으로 줄줄 새는 '대기 누설 [[002_current|전류]]'가 진짜 연산 [[002_current|전류]]를 압도하여 칩이 타버리는 [[155_dark_silicon|다크 실리콘]]([[155_dark_silicon|Dark Silicon]]) 현상에 직면한다. 이를 막으려면 3D 구조([[019_finfet|FinFET]]/[[020_gaa|GAA]])로의 뼈대 교체가 필수적이다.
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- 칩 크기만 절반으로 줄이면 전기도 덜 먹고 무조건 빨라질 것이라는 과거의 맹신. 5nm 이하에서는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 꺼도 문틈으로 줄줄 새는 '대기 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)'가 진짜 연산 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 압도하여 칩이 타버리는 [다크 실리콘](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/155_dark_silicon/)([Dark Silicon](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/155_dark_silicon/)) 현상에 직면한다. 이를 막으려면 3D 구조([FinFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/019_finfet/)/[GAA](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/020_gaa/))로의 뼈대 교체가 필수적이다.
 
-- **📢 섹션 요약 비유**: 아파트 방을 작게 만드느라 벽(산화막)이 종이처럼 얇아져 옆방 소음(누설 [[002_current|전류]])이 다 들리게 되었다. 그래서 낡은 종이 벽지를 뜯어내고, 같은 두께라도 소음을 완벽히 차단하는 우주선용 특수 [[347_compaction|압축]] 방음판(High-K)을 두껍게 덧대어 고요함을 되찾은 것이다.
+- **📢 섹션 요약 비유**: 아파트 방을 작게 만드느라 벽(산화막)이 종이처럼 얇아져 옆방 소음(누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/))이 다 들리게 되었다. 그래서 낡은 종이 벽지를 뜯어내고, 같은 두께라도 소음을 완벽히 차단하는 우주선용 특수 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 방음판(High-K)을 두껍게 덧대어 고요함을 되찾은 것이다.
 
 ---
 
@@ -92,9 +96,9 @@ MOSFET은 눈에 보이는 3개의 단자와 보이지 않는 바닥 뼈대까�
 
 MOSFET은 진공관의 발열 딜레마를 '전기장과 절연막'이라는 획기적인 무접점 구조로 박살 내며 현대 IT 하드웨어의 지배자가 되었다.
 
-미래에는 2D 평면을 넘어 FinFET의 3면 제어, GAA의 4면 제어로 누설 [[002_current|전류]]의 숨통을 조이고 있으며, 종국에는 NMOS와 PMOS를 아파트처럼 수직으로 겹쳐 짓는 CFET 시대로 진입할 것이다. MOSFET의 역사는 "아무리 미세한 공간이라도 [[010_insulator|절연체]]와 전기장을 이용해 완벽하게 0과 1을 격리해 내는 입체 통제권 확보의 역사"다.
+미래에는 2D 평면을 넘어 FinFET의 3면 제어, GAA의 4면 제어로 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)의 숨통을 조이고 있으며, 종국에는 NMOS와 PMOS를 아파트처럼 수직으로 겹쳐 짓는 CFET 시대로 진입할 것이다. MOSFET의 역사는 "아무리 미세한 공간이라도 [절연체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/010_insulator/)와 전기장을 이용해 완벽하게 0과 1을 격리해 내는 입체 통제권 확보의 역사"다.
 
-- **📢 섹션 요약 비유**: 수압이 센 고압 호스를 손가락 하나로 누르다 물이 새니까(평면 MOSFET), 나중엔 세 손가락으로 잡고([[019_finfet|FinFET]]), 결국엔 주먹 전체로 [[123_pipe|파이프]] 사방을 완벽히 꽉 쥐어짜서([[020_gaa|GAA]]) 단 한 방울의 물(누설 [[002_current|전류]])도 새지 않게 지배력을 키워가는 과정이다.
+- **📢 섹션 요약 비유**: 수압이 센 고압 호스를 손가락 하나로 누르다 물이 새니까(평면 MOSFET), 나중엔 세 손가락으로 잡고([FinFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/019_finfet/)), 결국엔 주먹 전체로 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 사방을 완벽히 꽉 쥐어짜서([GAA](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/020_gaa/)) 단 한 방울의 물(누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/))도 새지 않게 지배력을 키워가는 과정이다.
 
 ---
 
@@ -102,9 +106,9 @@ MOSFET은 진공관의 발열 딜레마를 '전기장과 절연막'이라는 획
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[[018_cmos|CMOS]] ([[018_cmos|Complementary MOS]])** | NMOS와 PMOS를 상보적으로 결합해 관통 [[002_current|전류]]를 원천 차단하고 대기 전력을 0으로 만든 혁명적 회로 |
-| **High-K 절연막** | 미세화에 따른 양자 [[377_tunneling_mechanism_overview|터널링]](누설)을 막기 위해 도입된 고유전율 소재로, 칩의 물리적 붕괴를 구원함 |
-| **양자 [[377_tunneling_mechanism_overview|터널링]] ([[690_round_robin_time_quantum|Quantum]] [[377_tunneling_mechanism_overview|Tunneling]])** | 산화막이 너무 얇아지면 전자가 파동으로 변해 절연 벽을 그대로 뚫고 도망가버리는 치명적 양자 현상 |
+| **[CMOS](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/) ([Complementary MOS](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/))** | NMOS와 PMOS를 상보적으로 결합해 관통 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 원천 차단하고 대기 전력을 0으로 만든 혁명적 회로 |
+| **High-K 절연막** | 미세화에 따른 양자 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)(누설)을 막기 위해 도입된 고유전율 소재로, 칩의 물리적 붕괴를 구원함 |
+| **양자 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) ([Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) [Tunneling](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/))** | 산화막이 너무 얇아지면 전자가 파동으로 변해 절연 벽을 그대로 뚫고 도망가버리는 치명적 양자 현상 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -126,12 +130,12 @@ MOSFET은 진공관의 발열 딜레마를 '전기장과 절연막'이라는 획
     ▼
 [CFET (Complementary FET) — NMOS·PMOS 수직 적층, 1nm 시대 면적 혁신]
 ```
-이 흐름은 [[014_transistor|트랜지스터]]가 열전자 소자에서 [[001_voltage|전압]] 제어 절연 게이트로 진화한 뒤, 미세화의 물리적 한계를 3D 입체 구조 확보로 돌파해가는 [[009_semiconductor|반도체]] [[249_scaling_normalization_standardization|스케일링]] 기술의 계보를 보여준다.
+이 흐름은 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)가 열전자 소자에서 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 제어 절연 게이트로 진화한 뒤, 미세화의 물리적 한계를 3D 입체 구조 확보로 돌파해가는 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 기술의 계보를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. MOSFET은 유리 덮개가 덮여 있어서 전기를 전혀 먹지 않는 짱짱맨 스마트 [[238_switch_operation_principles|스위치]]예요.
-2. 위에서 자석([[001_voltage|전압]])을 쓱 갖다 대면, 그 힘이 유리를 뚫고 내려가서 밑에 있는 구슬(전자)들을 일렬로 세워 길을 짠! 하고 열어줘요.
+1. MOSFET은 유리 덮개가 덮여 있어서 전기를 전혀 먹지 않는 짱짱맨 스마트 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)예요.
+2. 위에서 자석([전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/))을 쓱 갖다 대면, 그 힘이 유리를 뚫고 내려가서 밑에 있는 구슬(전자)들을 일렬로 세워 길을 짠! 하고 열어줘요.
 3. 전기를 먹지 않아서 폰이 뜨거워지지도 않고, 배터리도 오래가서 지금 우리가 쓰는 컴퓨터의 심장이 되었답니다.
 
 ---
@@ -140,7 +144,7 @@ MOSFET은 진공관의 발열 딜레마를 '전기장과 절연막'이라는 획
 
 **진행 상황**: 17 / 803
 
-← **이전**: [[016_fet|16. FET (전계효과 트랜지스터)]]
-**다음**: [[018_cmos|18. CMOS (Complementary MOS)]] →
+← **이전**: [16. FET (전계효과 트랜지스터)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/016_fet/)
+**다음**: [18. CMOS (Complementary MOS)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/) →
 
 ---

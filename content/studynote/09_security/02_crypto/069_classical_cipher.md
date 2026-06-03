@@ -1,13 +1,17 @@
----
-title: 069. 고전 암호 — 치환 암호, 전치 암호
-date: '2026-04-05'
-tags:
-- studynote-security
----
++++
+title = "069. 고전 암호 — 치환 암호, 전치 암호"
+date = 2026-04-05
+
+[taxonomies]
+tags = ["studynote-security"]
+
+[extra]
+tags = ["studynote-security"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 고전 암호는 문자나 위치를 바꾸는 방식으로 정보를 숨기는 [[459_quic_fec_forward_error_correction|초기]] 암호 체계다.
+> 1. **본질**: 고전 암호는 문자나 위치를 바꾸는 방식으로 정보를 숨기는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 암호 체계다.
 > 2. **가치**: 현대 암호학의 출발점으로, 치환과 전치의 기본 발상을 이해하게 해 준다.
 > 3. **판단**: 단순해서 깨지기 쉽지만, 암호 설계의 역사와 원리를 배우는 데 유용하다.
 
@@ -65,7 +69,7 @@ Ciphertext
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 치환과 전치를 구분하는가?
 2. 빈도 분석 약점을 아는가?
@@ -73,7 +77,7 @@ Ciphertext
 4. 역사적 의미를 이해하는가?
 5. 교육용 예제로 적절한가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 고전 암호를 실무 보안으로 쓰는 설계
 - 치환과 전치를 혼동하는 설계
@@ -90,7 +94,7 @@ Ciphertext
 
 고전 암호를 이해하면 현대 암호학의 필요성과 발전을 더 잘 이해할 수 있다.
 
-결론적으로 고전 암호는 치환과 전치를 중심으로 한 [[459_quic_fec_forward_error_correction|초기]] 암호 방식이다.
+결론적으로 고전 암호는 치환과 전치를 중심으로 한 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 암호 방식이다.
 
 - **📢 섹션 요약 비유**: 옛날 자물쇠를 알아야 새 자물쇠가 왜 나왔는지 안다.
 
@@ -136,7 +140,7 @@ Cryptography
 
 **진행 상황**: 69 / 1108
 
-← **이전**: [[068_cryptography|068. 암호학 (Cryptography) — 기밀성·무결성·인증·부인방지 제공]]
-**다음**: [[070_caesar_cipher|070. 카이사르 암호 (Caesar Cipher) — 알파벳 3자리 이동]] →
+← **이전**: [068. 암호학 (Cryptography) — 기밀성·무결성·인증·부인방지 제공](/knowledge-base/studynote/09_security/02_crypto/068_cryptography/)
+**다음**: [070. 카이사르 암호 (Caesar Cipher) — 알파벳 3자리 이동](/knowledge-base/studynote/09_security/02_crypto/070_caesar_cipher/) →
 
 ---

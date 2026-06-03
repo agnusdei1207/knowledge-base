@@ -1,14 +1,18 @@
----
-title: 129. 관측 가능성 vs 모니터링 (Observability vs Monitoring)
-date: '2026-04-19'
-tags:
-- studynote-devops-sre
----
++++
+title = "129. 관측 가능성 vs 모니터링 (Observability vs Monitoring)"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-devops-sre"]
+
+[extra]
+tags = ["studynote-devops-sre"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [[229_monitor|모니터]]링은 **"사전에 예상한 문제를 대시보드로 감시"**하는 것이고, [[111_observability_metrics_logs_traces|관측 가능성]]([[642_observability_telemetry|Observability]])은 **"예상하지 못한 문제도 시스템 출력([[342_routing_metric_hop_bandwidth_delay|메트릭]]·[[568_logs_distributed_logging_elk_fluentd|로그]]·트레이스)만으로 내부 상태를 추론"**할 수 있는 시스템 [[082_attribute_types_er_model|속성]]이다.
-> 2. **가치**: [[229_monitor|모니터]]링만으로는 "CPU 80% 알림"은 받지만 **"왜 80%인지"를 모르고**, [[111_observability_metrics_logs_traces|관측 가능성]]은 트레이스·[[568_logs_distributed_logging_elk_fluentd|로그]]를 따라가며 **근본 원인을 실시간 탐색**할 수 있다.
-> 3. **판단 포인트**: [[111_observability_metrics_logs_traces|관측 가능성]]의 3대 축(Three Pillars)은 **[[342_routing_metric_hop_bandwidth_delay|메트릭]]([[567_metrics_time_series_prometheus_grafana|Metrics]])·[[568_logs_distributed_logging_elk_fluentd|로그]]([[568_logs_distributed_logging_elk_fluentd|Logs]])·트레이스(Traces)**이며, OpenTelemetry가 통합 표준이다.
+> 1. **본질**: [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링은 **"사전에 예상한 문제를 대시보드로 감시"**하는 것이고, [관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/))은 **"예상하지 못한 문제도 시스템 출력([메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·트레이스)만으로 내부 상태를 추론"**할 수 있는 시스템 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이다.
+> 2. **가치**: [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링만으로는 "CPU 80% 알림"은 받지만 **"왜 80%인지"를 모르고**, [관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)은 트레이스·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 따라가며 **근본 원인을 실시간 탐색**할 수 있다.
+> 3. **판단 포인트**: [관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)의 3대 축(Three Pillars)은 **[메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)([Metrics](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/))·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)([Logs](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))·트레이스(Traces)**이며, OpenTelemetry가 통합 표준이다.
 
 ---
 
@@ -29,16 +33,16 @@ tags:
 └───────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: [[229_monitor|모니터]]링은 체온계(예상 지표만 측정), [[111_observability_metrics_logs_traces|관측 가능성]]은 MRI(내부를 자유롭게 탐색)이다.
+- **📢 섹션 요약 비유**: [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링은 체온계(예상 지표만 측정), [관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)은 MRI(내부를 자유롭게 탐색)이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-| 비교 | [[229_monitor|모니터]]링 | [[111_observability_metrics_logs_traces|관측 가능성]] |
+| 비교 | [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 | [관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/) |
 |:---|:---|:---|
 | **질문** | "알려진 문제 발생?" | **"왜 이런 현상?"** |
-| **방식** | 대시보드·알림 | **탐색·[[325_correlation_analysis_pearson_spearman|상관 분석]]** |
+| **방식** | 대시보드·알림 | **탐색·[상관 분석](/knowledge-base/studynote/06_ict_convergence/05_data_science/325_correlation_analysis_pearson_spearman/)** |
 | **범위** | 사전 정의 | **자유 질의** |
 
 ---
@@ -47,15 +51,15 @@ tags:
 
 | 필러 | 용도 | 도구 |
 |:---|:---|:---|
-| **[[567_metrics_time_series_prometheus_grafana|Metrics]]** | 추세·알림 | [[136_prometheus|Prometheus]] |
-| **[[568_logs_distributed_logging_elk_fluentd|Logs]]** | 상세 이벤트 | ELK, Loki |
-| **Traces** | [[569_distributed_tracing_opentelemetry_jaeger|분산 추적]] | Jaeger, Tempo |
+| **[Metrics](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/)** | 추세·알림 | [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) |
+| **[Logs](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)** | 상세 이벤트 | ELK, Loki |
+| **Traces** | [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/) | Jaeger, Tempo |
 
 ---
 
 ## Ⅳ~Ⅴ. 결론
 
-[[111_observability_metrics_logs_traces|관측 가능성]]은 **[[619_msa_traffic_hardware|MSA]] 시대 운영의 필수 [[082_attribute_types_er_model|속성]]**이며, OpenTelemetry가 [[342_routing_metric_hop_bandwidth_delay|메트릭]]·[[568_logs_distributed_logging_elk_fluentd|로그]]·트레이스를 통합하는 산업 표준이다.
+[관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)은 **[MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 시대 운영의 필수 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)**이며, OpenTelemetry가 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·트레이스를 통합하는 산업 표준이다.
 
 ---
 
@@ -63,11 +67,11 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[[567_metrics_time_series_prometheus_grafana|Metrics]]** | 수치 지표 ([[136_prometheus|Prometheus]]) |
-| **[[568_logs_distributed_logging_elk_fluentd|Logs]]** | 이벤트 기록 (ELK) |
-| **Traces** | [[569_distributed_tracing_opentelemetry_jaeger|분산 추적]] (Jaeger) |
-| **[[146_opentelemetry_otel_observability_standard|OpenTelemetry]]** | 통합 수집 표준 |
-| **[[100_sre_site_reliability_engineering_error_budget|SRE]]** | [[111_observability_metrics_logs_traces|관측 가능성]]의 운영 조직 |
+| **[Metrics](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/)** | 수치 지표 ([Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/)) |
+| **[Logs](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)** | 이벤트 기록 (ELK) |
+| **Traces** | [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/) (Jaeger) |
+| **[OpenTelemetry](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/)** | 통합 수집 표준 |
+| **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)** | [관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)의 운영 조직 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -79,8 +83,8 @@ tags:
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. [[229_monitor|모니터]]링은 **체온계**예요. 열이 나는지(예상 문제)만 [[396_validation|확인]]해요.
-2. [[111_observability_metrics_logs_traces|관측 가능성]]은 **MRI**예요. **왜 아픈지** 몸 속을 자세히 볼 수 있어요.
+1. [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링은 **체온계**예요. 열이 나는지(예상 문제)만 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해요.
+2. [관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)은 **MRI**예요. **왜 아픈지** 몸 속을 자세히 볼 수 있어요.
 3. MRI(3 Pillars)가 있으면 **예상 못 한 병**도 찾을 수 있답니다!
 
 ---
@@ -89,7 +93,7 @@ tags:
 
 **진행 상황**: 129 / 373
 
-← **이전**: [[128_blameless_postmortem|128. Blameless Postmortem - 비난 없는 장애 사후 분석]]
-**다음**: [[130_monitoring_vs_observability|130. 모니터링 vs 관측 가능성 심화 - MELT와 OpenTelemetry]] →
+← **이전**: [128. Blameless Postmortem - 비난 없는 장애 사후 분석](/knowledge-base/studynote/15_devops_sre/03_sre_observability/128_blameless_postmortem/)
+**다음**: [130. 모니터링 vs 관측 가능성 심화 - MELT와 OpenTelemetry](/knowledge-base/studynote/15_devops_sre/03_sre_observability/130_monitoring_vs_observability/) →
 
 ---

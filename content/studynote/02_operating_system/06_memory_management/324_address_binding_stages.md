@@ -1,14 +1,18 @@
----
-title: 324. 주소 바인딩 (Address Binding) 3단계 시점
-date: '2026-05-09'
-tags:
-- studynote-operating-system
----
++++
+title = "324. 주소 바인딩 (Address Binding) 3단계 시점"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 개발자가 코드 [[501_file_definition_logical_record|파일]]에 쓴 환상 속의 별명 변수나 0번지 `논리 주소(Virtual)`를, 도대체 **"언제쯤" 실제 램의 차가운 나노미터급 `물리 주소(Physical)` 닻으로 단단히 채워 넣을(Bind) 것인가**를 결정하는 타이밍 역사 발전의 3단 기어 변속 과정이다.
-> 2. **가치**: 바인딩이 일찍 일어날수록(컴파일 타임) 주소 변환 하드웨어 돈이 안 들어서 컴퓨터는 날게 되지만 오직 평생 한 프로그램만 돌릴 수 있고, 가장 늦게 일어날수록(실행 타임) 미친 성능의 변환기([[328_mmu|MMU]]) 칩셋 비용을 치러야 하지만 수백 개의 앱과 해킹 방어용 동적 [[374_aslr|ASLR]] 셔플을 자유자재로 해내는 현대 멀티태스킹의 기적을 탄생시켰다.
+> 1. **본질**: 개발자가 코드 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 쓴 환상 속의 별명 변수나 0번지 `논리 주소(Virtual)`를, 도대체 **"언제쯤" 실제 램의 차가운 나노미터급 `물리 주소(Physical)` 닻으로 단단히 채워 넣을(Bind) 것인가**를 결정하는 타이밍 역사 발전의 3단 기어 변속 과정이다.
+> 2. **가치**: 바인딩이 일찍 일어날수록(컴파일 타임) 주소 변환 하드웨어 돈이 안 들어서 컴퓨터는 날게 되지만 오직 평생 한 프로그램만 돌릴 수 있고, 가장 늦게 일어날수록(실행 타임) 미친 성능의 변환기([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/)) 칩셋 비용을 치러야 하지만 수백 개의 앱과 해킹 방어용 동적 [ASLR](/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/) 셔플을 자유자재로 해내는 현대 멀티태스킹의 기적을 탄생시켰다.
 > 3. **융합**: `컴파일 시간(절대 코드)` → `적재 시간(재배치 코드)` → `실행 시간(MMU 동적 바인딩)`으로 이어지는 기술사적 이양은 하드웨어와 OS 커널이 서로의 멱살을 잡고 어떻게 소프트웨어의 자유도를 찢어발기며 무한 확장시켜왔는지를 단적으로 보여주는 OS 융합 마일스톤이다.
 
 ---
@@ -16,7 +20,7 @@ tags:
 ## Ⅰ. 개요 및 필요성
 
 여러분이 C언어로 `int a = 5;` 라고 치고 빌드했다. 
-변수 이름 `a`는 소스 코드상의 애칭일 뿐이다. CPU가 이걸 처리하려면 결국 램(RAM)의 진짜 실리콘 구멍 번호([[323_physical_address|물리 주소]])를 알아야 한다.
+변수 이름 `a`는 소스 코드상의 애칭일 뿐이다. CPU가 이걸 처리하려면 결국 램(RAM)의 진짜 실리콘 구멍 번호([물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/))를 알아야 한다.
 그럼 대체, 이 가짜 애칭을 **언제 진짜 이마트 물리 번지로 묶어(Binding)서 확정 지을 것인가?**
 
 이 타이밍을 늦추면 늦출수록 시스템은 엄청난 자유(프로그램 켜고 위치 맘대로 바꾸기)를 얻지만 1초에 1억 번씩 주소 번역 알바를 해야 해서 끔찍하게 피곤해진다. 옛날 천재들은 컴파일할 때 한방에 정해버렸고, 오늘날 천재들은 CPU가 스파크를 일으킬 때 매 순간마다 도망 다니듯 바인딩을 미루어버린다. 주소 바인딩 3단계 역사는 곧 '컴퓨터 자유도 획득 투쟁'의 연대기다.
@@ -24,7 +28,7 @@ tags:
 **💡 비유**: 좌석표(주소)를 나눠주는 영화관 시나리오. 
 [1단계] 티켓 인쇄소에서 아예 도장 쾅쾅 찍어 티켓에 "G열 3번" 다 박아버림 (컴파일 타임). 다른 영화 못 틀고 자리 고정!
 [2단계] 극장 입구 매표소에서 들어가는 순간 "오늘 남는 자리 여기네요" 하고 빈자리 도장 찍어줌 (적재 타임). 앉으면 다시 못 일어남.
-[3단계] 극장 안을 쏘다니고 있는데 스태프([[328_mmu|MMU]])가 1초마다 다가와서 "잠깐만요, 다른 분 들어오니 옆자리로 스르륵 옮기시죠!" 라며 실시간으로 앉을 자리를 무한 재배치해 줌 (실행 타임). 복잡하지만 황제급 유연성!
+[3단계] 극장 안을 쏘다니고 있는데 스태프([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))가 1초마다 다가와서 "잠깐만요, 다른 분 들어오니 옆자리로 스르륵 옮기시죠!" 라며 실시간으로 앉을 자리를 무한 재배치해 줌 (실행 타임). 복잡하지만 황제급 유연성!
 
 ```text
 ┌──────────────────────────────────────────────────────────────────────┐
@@ -50,34 +54,34 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 1. [[325_compile_time_binding|컴파일 시간 바인딩]] ([[325_compile_time_binding|Compile Time Binding]])
+### 1. [컴파일 시간 바인딩](/knowledge-base/studynote/02_operating_system/06_memory_management/325_compile_time_binding/) ([Compile Time Binding](/knowledge-base/studynote/02_operating_system/06_memory_management/325_compile_time_binding/))
 - **방식**: 소스코드(`.c`)를 목적코드(`.obj`)로 컴파일하는 기계어 번역 그 찰나의 순간에, 프로그래머나 컴파일러가 "야. 이건 무조건 램 2000번지에 올려." 라고 쾅 박아버린다.
-- **결과**: 이렇게 만들어진 기계어를 **절대 코드 (Absolute [[082_process_memory_structure|Code]])**라 부른다.
+- **결과**: 이렇게 만들어진 기계어를 **절대 코드 (Absolute [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))**라 부른다.
 - **한계**: 만약 램 2000번지에 윈도우 커널이 깔려있거나 남의 게임이 돌고 있으면? 이 프로그램은 켜보지도 못하고 메모리 에러로 폭사한다. 도스(MS-DOS)나 싸구려 아두이노 장난감에서나 쓰는 선사시대 기술.
 
-### 2. [[326_load_time_binding|적재 시간 바인딩]] ([[326_load_time_binding|Load Time Binding]])
-- **방식**: 컴파일러가 바보가 됐다. "어디 박힐진 난 모르겠고 대충 임시 0번지(상대 주소)로 계산해서 넘겨둘게." 그리고 이 [[501_file_definition_logical_record|파일]](.exe)을 더블클릭해서 OS가 **메모리에 올리는(Load) 순간**, 텅 빈 여유 공간(예: 5000번지)을 찾아서 소스 코드 모든 주소에 `+5000`을 더해 수정을 싹 때리고 적재한다.
-- **결과**: 이 코드를 **재배치 가능 코드 (Relocatable [[082_process_memory_structure|Code]])**라 부른다.
+### 2. [적재 시간 바인딩](/knowledge-base/studynote/02_operating_system/06_memory_management/326_load_time_binding/) ([Load Time Binding](/knowledge-base/studynote/02_operating_system/06_memory_management/326_load_time_binding/))
+- **방식**: 컴파일러가 바보가 됐다. "어디 박힐진 난 모르겠고 대충 임시 0번지(상대 주소)로 계산해서 넘겨둘게." 그리고 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(.exe)을 더블클릭해서 OS가 **메모리에 올리는(Load) 순간**, 텅 빈 여유 공간(예: 5000번지)을 찾아서 소스 코드 모든 주소에 `+5000`을 더해 수정을 싹 때리고 적재한다.
+- **결과**: 이 코드를 **재배치 가능 코드 (Relocatable [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))**라 부른다.
 - **한계**: 한 번 5000번지에 안착해 실행을 시작했다면, 프로그램 끝날 때까지 다신 방을 옮기지 못한다. 가변 메모리 디프래그먼트(조각모음) 같은 환상적인 기술 적용 불가!
 
-### 3. [[327_execution_time_binding|실행 시간 바인딩]] ([[327_execution_time_binding|Execution Time Binding]])
-- **방식**: 메모리에 올라갔는데도 끝까지 [[322_logical_virtual_address|논리 주소]](상대 0번지)인 척 버틴다. 그러다 대망의 CPU가 "그 [[001_dikw_pyramid|데이터]] 가져와!"하고 스파크 전기를 쏘아 보내는 **바로 그 찰나의 나노초(Execution) 마다**, 하드웨어 `MMU` 칩이 번쩍 개입해서 중간에 주소를 낚아채 진짜 [[323_physical_address|물리 주소]]로 휙휙 바꿔치기한다.
-- **결과**: 실행 중에도 OS가 맘에 안 들면 프로그램의 [[323_physical_address|물리 주소]]를 강남에서 부산으로 남몰래 옮겨버려도, 프로그램 위쪽은 눈치조차 못 채고 계속 잘 돌아간다 ([[335_swapping|스와핑]], [[381_virtual_memory|가상 메모리]] 기적). 단 이 말도 안 되는 주소 낚아채기 연산을 감당하기 위해 비싼 하드웨어([[328_mmu|Memory-Management Unit]])가 소켓에 떡 박혀있어야 한다. 현대 Windows/Linux의 절대적 채택 룰.
+### 3. [실행 시간 바인딩](/knowledge-base/studynote/02_operating_system/06_memory_management/327_execution_time_binding/) ([Execution Time Binding](/knowledge-base/studynote/02_operating_system/06_memory_management/327_execution_time_binding/))
+- **방식**: 메모리에 올라갔는데도 끝까지 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/)(상대 0번지)인 척 버틴다. 그러다 대망의 CPU가 "그 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 가져와!"하고 스파크 전기를 쏘아 보내는 **바로 그 찰나의 나노초(Execution) 마다**, 하드웨어 `MMU` 칩이 번쩍 개입해서 중간에 주소를 낚아채 진짜 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)로 휙휙 바꿔치기한다.
+- **결과**: 실행 중에도 OS가 맘에 안 들면 프로그램의 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)를 강남에서 부산으로 남몰래 옮겨버려도, 프로그램 위쪽은 눈치조차 못 채고 계속 잘 돌아간다 ([스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/), [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 기적). 단 이 말도 안 되는 주소 낚아채기 연산을 감당하기 위해 비싼 하드웨어([Memory-Management Unit](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))가 소켓에 떡 박혀있어야 한다. 현대 Windows/Linux의 절대적 채택 룰.
 
-**📢 섹션 요약 비유**: 1단계는 엑스칼리버 바위에 검 꽂아두고 평생 거기 와서 기도하는 거고, 2단계는 텐트 가져와서 빈터(적재 위치)에 치면 1박 2일간 못 옮기는 거고, 3단계는 주인이 잠자고 숨 쉴 때마다 보디가드([[328_mmu|MMU]])가 몰래 침대째로 들고 호텔 방을 계속 옮겨 다니는(동적 보안/최적화) 첩보 작전입니다!
+**📢 섹션 요약 비유**: 1단계는 엑스칼리버 바위에 검 꽂아두고 평생 거기 와서 기도하는 거고, 2단계는 텐트 가져와서 빈터(적재 위치)에 치면 1박 2일간 못 옮기는 거고, 3단계는 주인이 잠자고 숨 쉴 때마다 보디가드([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))가 몰래 침대째로 들고 호텔 방을 계속 옮겨 다니는(동적 보안/최적화) 첩보 작전입니다!
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
 **실무 시나리오**:
-1. **[[374_aslr|ASLR]] (보안 랜덤 배치 기술)**: 해킹을 뚫는 [[591_buffer_overflow|버퍼 오버플로우]] 폭격기 해커들은 메모리 주소를 고정값으로 예상하고 공격한다. 하지만 현대 OS는 `실행 시간 바인딩(Execution Time)`을 통해 카카오톡을 켤 때마다, 함수를 호출할 때마다 스택과 힙의 **실제 물리적 메모리([[328_mmu|MMU]] 매핑) 주소를 주사위 굴려 그물망 섞듯 무작위 재배치 패를 돌려버린다 ([[374_aslr|ASLR]])**. 해커가 옛날 해킹법으로 예측 주소에 총알을 쏘면 총알은 허공의 안방으로 날아가 박히며 프로그램이 해킹당하는 대신 그냥 크래쉬되어 안전하게 서버가 보호된다.
-2. **동적 링킹 ([[332_dynamic_linking|Dynamic Linking]], .DLL)**: 컴파일 때 다 박아버리면(컴파일 타임) 윈도우 그래픽 카드 드라이버 [[336_library_vs_framework|라이브러리]] 용량까지 내 엑셀 프로그램 안에 우겨 넣어져서 앱 용량이 수십 GB가 넘칠 거다. 하지만 실행 시간에 바인딩을 미루면서, 수십 개의 앱이 메모리 어딘가 덜렁 하나만 떠 있는 `user32.dll` 하나를 각자의 가상 빈 자리에 끈(Binding)으로 연결해 우르르 공유해 먹는 눈물겨운 메모리 아끼기 똥꼬쇼 기적이 가능해졌다.
+1. **[ASLR](/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/) (보안 랜덤 배치 기술)**: 해킹을 뚫는 [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/) 폭격기 해커들은 메모리 주소를 고정값으로 예상하고 공격한다. 하지만 현대 OS는 `실행 시간 바인딩(Execution Time)`을 통해 카카오톡을 켤 때마다, 함수를 호출할 때마다 스택과 힙의 **실제 물리적 메모리([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 매핑) 주소를 주사위 굴려 그물망 섞듯 무작위 재배치 패를 돌려버린다 ([ASLR](/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/))**. 해커가 옛날 해킹법으로 예측 주소에 총알을 쏘면 총알은 허공의 안방으로 날아가 박히며 프로그램이 해킹당하는 대신 그냥 크래쉬되어 안전하게 서버가 보호된다.
+2. **동적 링킹 ([Dynamic Linking](/knowledge-base/studynote/02_operating_system/06_memory_management/332_dynamic_linking/), .DLL)**: 컴파일 때 다 박아버리면(컴파일 타임) 윈도우 그래픽 카드 드라이버 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 용량까지 내 엑셀 프로그램 안에 우겨 넣어져서 앱 용량이 수십 GB가 넘칠 거다. 하지만 실행 시간에 바인딩을 미루면서, 수십 개의 앱이 메모리 어딘가 덜렁 하나만 떠 있는 `user32.dll` 하나를 각자의 가상 빈 자리에 끈(Binding)으로 연결해 우르르 공유해 먹는 눈물겨운 메모리 아끼기 똥꼬쇼 기적이 가능해졌다.
 
-**[[128_water_scrum_fall_anti_pattern|안티패턴]]**:
-- **임베디드 하드코딩 패망**: 저사양 냉장고나 세탁기 OS(RTOS)를 짜는데, 최신 데스크탑뽕에 취해서 [[381_virtual_memory|가상 메모리]] 관리와 [[327_execution_time_binding|실행 시간 바인딩]] 커널을 넣어 코딩을 했다. 결과? 냉장고 온도 센서 체크하는데 [[328_mmu|MMU]] 장비가 없어서 OS가 주소 변환 소프트웨어 연산하다가 CPU 불타 터지고 얼음 다 녹아버린다! 초저사양 싸구려 칩에는 아직도 `컴파일 시간 절대 주소 바인딩`이 최고의 최적화 미학이자 무기라는 걸 망각하면 하드웨어 파산을 겪는다.
+**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**:
+- **임베디드 하드코딩 패망**: 저사양 냉장고나 세탁기 OS(RTOS)를 짜는데, 최신 데스크탑뽕에 취해서 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 관리와 [실행 시간 바인딩](/knowledge-base/studynote/02_operating_system/06_memory_management/327_execution_time_binding/) 커널을 넣어 코딩을 했다. 결과? 냉장고 온도 센서 체크하는데 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 장비가 없어서 OS가 주소 변환 소프트웨어 연산하다가 CPU 불타 터지고 얼음 다 녹아버린다! 초저사양 싸구려 칩에는 아직도 `컴파일 시간 절대 주소 바인딩`이 최고의 최적화 미학이자 무기라는 걸 망각하면 하드웨어 파산을 겪는다.
 
-**📢 섹션 요약 비유**: 비싼 맥북 프로에서는 "[[327_execution_time_binding|실행 시간 바인딩]]"이라는 억대 연봉 호텔 매니저([[328_mmu|MMU]])가 서빙하지만, 동네 구멍가게(세탁기 칩)에서는 매니저 고용 포기하고 그냥 "물건 위치 절대 고정! 아무도 옮기지 마!(컴파일 고정 바인딩)" 라고 사장님이 소리치는 룰(구세대 기술의 생존)이 여전히 먹히는 법입니다.
+**📢 섹션 요약 비유**: 비싼 맥북 프로에서는 "[실행 시간 바인딩](/knowledge-base/studynote/02_operating_system/06_memory_management/327_execution_time_binding/)"이라는 억대 연봉 호텔 매니저([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))가 서빙하지만, 동네 구멍가게(세탁기 칩)에서는 매니저 고용 포기하고 그냥 "물건 위치 절대 고정! 아무도 옮기지 마!(컴파일 고정 바인딩)" 라고 사장님이 소리치는 룰(구세대 기술의 생존)이 여전히 먹히는 법입니다.
 
 ---
 
@@ -86,10 +90,10 @@ tags:
 | 기준 | 컴파일 타임 바인딩 시대 | 실행 타임 (Execution) 동적 바인딩 개화 |
 |:---|:---|:---|
 | 소프트웨어 크기 | 다른 놈이랑 충돌 날까 봐 무서워 동시에 앱 여러 개 못 켬 | 내 수식(가상)과 땅통(물리)이 철저히 분리돼 무한대 앱 구동 |
-| 디스크 압박 | 공통 함수(Print) 코드마저 집집마다 다 박아놔서 용량 폭발 | DLL 공유와 [[335_swapping|스와핑]] 마법으로 조그만 램에 온 우주를 구겨 넣음 |
+| 디스크 압박 | 공통 함수(Print) 코드마저 집집마다 다 박아놔서 용량 폭발 | DLL 공유와 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/) 마법으로 조그만 램에 온 우주를 구겨 넣음 |
 
-`주소 바인딩(Address Binding)` 타이밍을 '개발자의 손(컴파일)'에서 '하드웨어의 무영각 연산(실행 시간 [[328_mmu|MMU]])'으로 미루어낸 10년의 역사는, 폰 노이만 아키텍처에서 인류가 얻어낸 최고로 값비싼 마법 트릭이다. 
-단지 CPU가 전기를 뿜어내기 직전 0.0001초의 틈을 비집고 들어가 좌표계를 틀어버린(Relocate on the fly) 발상을 통해, OS는 각 프로세스에게 '가짜 무한 메모리 환상'을 맘껏 파는 악덕 사기꾼이 됨과 동시에, 남의 영역을 절대로 볼 수 없게 만드는 철통같은 [[195_isolation_concurrency_control|격리성]]([[195_isolation_concurrency_control|Isolation]]) 요새를 세워주었다. 이것이 현대 격리형 컴퓨팅의 절대 존엄 설계다.
+`주소 바인딩(Address Binding)` 타이밍을 '개발자의 손(컴파일)'에서 '하드웨어의 무영각 연산(실행 시간 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))'으로 미루어낸 10년의 역사는, 폰 노이만 아키텍처에서 인류가 얻어낸 최고로 값비싼 마법 트릭이다. 
+단지 CPU가 전기를 뿜어내기 직전 0.0001초의 틈을 비집고 들어가 좌표계를 틀어버린(Relocate on the fly) 발상을 통해, OS는 각 프로세스에게 '가짜 무한 메모리 환상'을 맘껏 파는 악덕 사기꾼이 됨과 동시에, 남의 영역을 절대로 볼 수 없게 만드는 철통같은 [격리성](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/)([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/)) 요새를 세워주었다. 이것이 현대 격리형 컴퓨팅의 절대 존엄 설계다.
 
 - **📢 섹션 요약 비유**: 운전자가 도로 상황에 따라 기어와 브레이크를 다르게 선택하는 것처럼 조건별 판단이 중요하다.
 
@@ -97,7 +101,7 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-주소 바인딩 (Address Binding) 3단계 시점은 메모리 할당과 주소 변환을 이해하는 연결 고리 역할을 한다. 이 개념을 익히면 시스템 동작을 더 예측 가능하게 설명할 수 있지만, 만능 해법은 아니므로 적용 전제와 한계를 함께 기억해야 한다. 앞으로는 [[325_compile_time_binding|컴파일 시간 바인딩]] ([[325_compile_time_binding|Compile Time]])처럼 더 세분화된 기술과 결합되며 자동화·최적화 방향으로 발전한다.
+주소 바인딩 (Address Binding) 3단계 시점은 메모리 할당과 주소 변환을 이해하는 연결 고리 역할을 한다. 이 개념을 익히면 시스템 동작을 더 예측 가능하게 설명할 수 있지만, 만능 해법은 아니므로 적용 전제와 한계를 함께 기억해야 한다. 앞으로는 [컴파일 시간 바인딩](/knowledge-base/studynote/02_operating_system/06_memory_management/325_compile_time_binding/) ([Compile Time](/knowledge-base/studynote/02_operating_system/06_memory_management/325_compile_time_binding/))처럼 더 세분화된 기술과 결합되며 자동화·최적화 방향으로 발전한다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -107,10 +111,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[322_logical_virtual_address|논리 주소]] (Logical/Virtual Address) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [[323_physical_address|물리 주소]] ([[323_physical_address|Physical Address]]) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [[325_compile_time_binding|컴파일 시간 바인딩]] ([[325_compile_time_binding|Compile Time]]) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [[326_load_time_binding|적재 시간 바인딩]] ([[326_load_time_binding|Load Time]]) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/) (Logical/Virtual Address) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/) ([Physical Address](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [컴파일 시간 바인딩](/knowledge-base/studynote/02_operating_system/06_memory_management/325_compile_time_binding/) ([Compile Time](/knowledge-base/studynote/02_operating_system/06_memory_management/325_compile_time_binding/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [적재 시간 바인딩](/knowledge-base/studynote/02_operating_system/06_memory_management/326_load_time_binding/) ([Load Time](/knowledge-base/studynote/02_operating_system/06_memory_management/326_load_time_binding/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -138,7 +142,7 @@ tags:
 
 **진행 상황**: 324 / 800
 
-← **이전**: [[323_physical_address|323. 물리 주소 (Physical Address) - 메모리 장치가 보는 주소]]
-**다음**: [[325_compile_time_binding|325. 컴파일 시간 바인딩 (Compile Time) - 절대 코드 (Absolute Code) 생성]] →
+← **이전**: [323. 물리 주소 (Physical Address) - 메모리 장치가 보는 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)
+**다음**: [325. 컴파일 시간 바인딩 (Compile Time) - 절대 코드 (Absolute Code) 생성](/knowledge-base/studynote/02_operating_system/06_memory_management/325_compile_time_binding/) →
 
 ---

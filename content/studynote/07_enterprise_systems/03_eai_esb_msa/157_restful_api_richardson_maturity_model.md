@@ -1,23 +1,27 @@
----
-title: 157. RESTful API 성숙도 모델 (Richardson Maturity Model)
-date: '2026-05-05'
-tags:
-- studynote-enterprise-systems
----
++++
+title = "157. RESTful API 성숙도 모델 (Richardson Maturity Model)"
+date = 2026-05-05
+
+[taxonomies]
+tags = ["studynote-enterprise-systems"]
+
+[extra]
+tags = ["studynote-enterprise-systems"]
++++
 
 ## 핵심 인사이트
 
-> 1. **본질**: [[974_restful_api_stateless_http_methods_uri|RESTful API]] 성숙도 모델 (Richardson [[011_maturity_model|Maturity Model]])은 웹 애플리케이션 프로그래밍 인터페이스 ([[014_api_posix|API]], [[014_api_posix|Application Programming Interface]])가 얼마나 [[156_rest_representational_state_transfer|REST]] ([[477_rest_api_architecture|Representational State Transfer]])의 설계 철학을 따르고 있는지 단계별로 평가하는 틀이다.
-> 2. **가치**: 단일 엔드포인트 기반 [[126_rpc|RPC]] ([[126_rpc|Remote Procedure Call]]) 스타일에서 벗어나, 자원 [[655_ir_detection_analysis|식별]]·[[461_http_stateless_connection_oriented|HTTP]] ([[461_http_stateless_connection_oriented|HyperText Transfer Protocol]]) 메서드 활용·하이퍼미디어까지 설계를 점진적으로 고도화할 수 있다.
-> 3. **판단 포인트**: 실무에서는 보통 Level 2가 균형점이지만, [[014_api_posix|API]] 소비자가 동적으로 [[632_state_transition_diagram_testing|상태 전이]]를 따라가야 하는 환경이라면 Level 3의 HATEOAS ([[161_rest_level_3_hateoas|Hypermedia As The Engine Of Application State]])까지 검토할 가치가 있다.
+> 1. **본질**: [RESTful API](/knowledge-base/studynote/03_network/19_frequent_topics_terms/974_restful_api_stateless_http_methods_uri/) 성숙도 모델 (Richardson [Maturity Model](/knowledge-base/studynote/12_it_management/01_governance_strategy/011_maturity_model/))은 웹 애플리케이션 프로그래밍 인터페이스 ([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))가 얼마나 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) ([Representational State Transfer](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/))의 설계 철학을 따르고 있는지 단계별로 평가하는 틀이다.
+> 2. **가치**: 단일 엔드포인트 기반 [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/) ([Remote Procedure Call](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/)) 스타일에서 벗어나, 자원 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)·[HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) ([HyperText Transfer Protocol](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)) 메서드 활용·하이퍼미디어까지 설계를 점진적으로 고도화할 수 있다.
+> 3. **판단 포인트**: 실무에서는 보통 Level 2가 균형점이지만, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 소비자가 동적으로 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)를 따라가야 하는 환경이라면 Level 3의 HATEOAS ([Hypermedia As The Engine Of Application State](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/161_rest_level_3_hateoas/))까지 검토할 가치가 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-리처드슨 성숙도 모델은 레너드 리처드슨(Leonard Richardson)이 제시한 [[014_api_posix|API]] 평가 프레임워크로, 웹 애플리케이션 프로그래밍 인터페이스 ([[014_api_posix|API]], [[014_api_posix|Application Programming Interface]])를 Level 0부터 Level 3까지 나눠 RESTfulness의 정도를 설명한다. 이 모델이 중요한 이유는 많은 시스템이 HTTP를 사용한다는 이유만으로 스스로를 RESTful이라고 부르지만, 실제로는 **RPC를 [[461_http_stateless_connection_oriented|HTTP]] 위에 얹은 형태**에 머무는 경우가 많기 때문이다.
+리처드슨 성숙도 모델은 레너드 리처드슨(Leonard Richardson)이 제시한 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 평가 프레임워크로, 웹 애플리케이션 프로그래밍 인터페이스 ([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))를 Level 0부터 Level 3까지 나눠 RESTfulness의 정도를 설명한다. 이 모델이 중요한 이유는 많은 시스템이 HTTP를 사용한다는 이유만으로 스스로를 RESTful이라고 부르지만, 실제로는 **RPC를 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 위에 얹은 형태**에 머무는 경우가 많기 때문이다.
 
-이 모델은 [[014_api_posix|API]] 품질을 점수화하려는 도구라기보다, 설계자가 "무엇이 부족한가"를 분명히 보게 하는 기준에 가깝다. 자원을 URI (Uniform Resource [[088_identifier_in_er_model|Identifier]])로 분리했는지, 메서드 의미를 지켰는지, 응답이 다음 행동을 안내하는지 등을 단계적으로 점검하게 만든다. 즉 리처드슨 성숙도 모델은 REST를 추상 개념이 아니라 **실제 설계 [[435_checklist_based_testing|체크리스트]]**로 바꿔 주는 틀이다.
+이 모델은 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 품질을 점수화하려는 도구라기보다, 설계자가 "무엇이 부족한가"를 분명히 보게 하는 기준에 가깝다. 자원을 URI (Uniform Resource [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/))로 분리했는지, 메서드 의미를 지켰는지, 응답이 다음 행동을 안내하는지 등을 단계적으로 점검하게 만든다. 즉 리처드슨 성숙도 모델은 REST를 추상 개념이 아니라 **실제 설계 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)**로 바꿔 주는 틀이다.
 
 - **📢 섹션 요약 비유**: 이 모델은 "인터넷으로 주문받는다"는 말만으로 잘 만든 식당 시스템이라고 볼 수 없듯, API도 단순 접속 여부가 아니라 주문표·창구·안내 체계가 얼마나 정돈됐는지를 단계별로 보는 기준표와 같다.
 
@@ -25,7 +29,7 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-리처드슨 성숙도 모델의 핵심은 네 단계가 서로 단절된 기술 목록이 아니라, **점진적 진화 경로**라는 점이다. Level이 올라갈수록 URI 설계, [[461_http_stateless_connection_oriented|HTTP]] 메서드 의미, 상태 코드, 링크 기반 전이가 점차 강화된다.
+리처드슨 성숙도 모델의 핵심은 네 단계가 서로 단절된 기술 목록이 아니라, **점진적 진화 경로**라는 점이다. Level이 올라갈수록 URI 설계, [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드 의미, 상태 코드, 링크 기반 전이가 점차 강화된다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -57,11 +61,11 @@ Level 1의 의미는 "무엇을 다루는가"를 URI로 분리하는 데 있다.
 
 ## Ⅲ. 비교 및 연결
 
-실무적으로 가장 중요한 비교는 Level 2와 Level 3 사이에 있다. Level 2만 되어도 자원 중심 URI, [[461_http_stateless_connection_oriented|HTTP]] 메서드, 상태 코드를 활용할 수 있어 대부분의 웹·모바일 [[014_api_posix|API]] 요구를 충족한다. 그래서 많은 조직이 오픈API 명세 ([[495_oas_openapi_specification|OpenAPI Specification]]), 게이트웨이 [[164_policy|정책]], 캐시 [[268_strategy_pattern|전략]]까지 포함한 운영 체계를 Level 2 기반으로 안정화한다.
+실무적으로 가장 중요한 비교는 Level 2와 Level 3 사이에 있다. Level 2만 되어도 자원 중심 URI, [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드, 상태 코드를 활용할 수 있어 대부분의 웹·모바일 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 요구를 충족한다. 그래서 많은 조직이 오픈API 명세 ([OpenAPI Specification](/knowledge-base/studynote/09_security/05_web_app_security/495_oas_openapi_specification/)), 게이트웨이 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 캐시 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)까지 포함한 운영 체계를 Level 2 기반으로 안정화한다.
 
-반면 Level 3는 HATEOAS를 통해 [[014_api_posix|API]] 응답이 다음 행동을 직접 알려주므로, 워크플로가 자주 바뀌는 시스템이나 범용 클라이언트에서 장점이 있다. 다만 프런트엔드가 링크 해석 로직을 더 가져야 하고, 문서·테스트·응답 설계가 복잡해진다. 따라서 Level 3는 "더 고급"이라기보다, **동적 탐색 가능성을 위해 복잡도를 추가로 감수하는 선택**에 가깝다.
+반면 Level 3는 HATEOAS를 통해 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 응답이 다음 행동을 직접 알려주므로, 워크플로가 자주 바뀌는 시스템이나 범용 클라이언트에서 장점이 있다. 다만 프런트엔드가 링크 해석 로직을 더 가져야 하고, 문서·테스트·응답 설계가 복잡해진다. 따라서 Level 3는 "더 고급"이라기보다, **동적 탐색 가능성을 위해 복잡도를 추가로 감수하는 선택**에 가깝다.
 
-또한 이 모델은 [[153_soap_simple_object_access_protocol|SOAP]] ([[153_soap_simple_object_access_protocol|Simple Object Access Protocol]])이나 전통적 [[126_rpc|RPC]] 스타일과의 경계도 분명히 보여 준다. [[153_soap_simple_object_access_protocol|SOAP]]/RPC가 "무슨 함수를 호출할 것인가"에 가깝다면, 성숙도 모델이 지향하는 REST는 "어떤 자원 상태를 어떻게 바꿀 것인가"에 더 가깝다. 이 차이는 [[532_microservices_decomposition_patterns|마이크로서비스]], [[014_api_posix|API]] 게이트웨이, 캐시, [[288_version_ihl_tos_total_length|버전]] 관리 [[268_strategy_pattern|전략]]에도 직접 영향을 준다.
+또한 이 모델은 [SOAP](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/153_soap_simple_object_access_protocol/) ([Simple Object Access Protocol](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/153_soap_simple_object_access_protocol/))이나 전통적 [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/) 스타일과의 경계도 분명히 보여 준다. [SOAP](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/153_soap_simple_object_access_protocol/)/RPC가 "무슨 함수를 호출할 것인가"에 가깝다면, 성숙도 모델이 지향하는 REST는 "어떤 자원 상태를 어떻게 바꿀 것인가"에 더 가깝다. 이 차이는 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/), [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이, 캐시, [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)에도 직접 영향을 준다.
 
 - **📢 섹션 요약 비유**: Level 2는 잘 정리된 대형마트 안내판이고, Level 3는 고객이 현재 위치에 따라 다음 코너까지 자동으로 안내받는 길찾기 앱과 같다. 더 똑똑하지만, 그만큼 만들기도 더 어렵다.
 
@@ -69,20 +73,20 @@ Level 1의 의미는 "무엇을 다루는가"를 URI로 분리하는 데 있다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 핵심 질문은 "우리 API가 어느 레벨이어야 하는가"이다. 내부 시스템 간 연동, 모바일 앱 백엔드, 대다수 기업용 업무 API라면 Level 2가 가장 현실적인 목표다. 자원 중심 URI, 메서드 분리, 상태 코드 [[194_consistency_database_integrity|일관성]]만 잘 지켜도 [[333_readability_vs_efficiency|가독성]]·캐시 활용·문서화 효율이 크게 향상된다.
+실무에서 핵심 질문은 "우리 API가 어느 레벨이어야 하는가"이다. 내부 시스템 간 연동, 모바일 앱 백엔드, 대다수 기업용 업무 API라면 Level 2가 가장 현실적인 목표다. 자원 중심 URI, 메서드 분리, 상태 코드 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)만 잘 지켜도 [가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/)·캐시 활용·문서화 효율이 크게 향상된다.
 
-반면 파트너 생태계가 넓고, 소비자가 [[014_api_posix|API]] 문서를 미리 깊게 알지 못해도 동적으로 흐름을 따라가야 하는 경우라면 Level 3를 고려할 수 있다. 예를 들어 결제, 예약, 승인 같은 [[632_state_transition_diagram_testing|상태 전이]] 흐름이 복잡하고 단계가 자주 바뀌는 [[090_service_kubernetes_network_load_balancing|서비스]]는 응답 링크 기반 설계가 도움이 된다. 다만 이때도 HATEOAS를 형식적으로만 넣는 것이 아니라, 실제로 **클라이언트의 다음 행동을 안내하는 정보**여야 의미가 있다.
+반면 파트너 생태계가 넓고, 소비자가 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 문서를 미리 깊게 알지 못해도 동적으로 흐름을 따라가야 하는 경우라면 Level 3를 고려할 수 있다. 예를 들어 결제, 예약, 승인 같은 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 흐름이 복잡하고 단계가 자주 바뀌는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 응답 링크 기반 설계가 도움이 된다. 다만 이때도 HATEOAS를 형식적으로만 넣는 것이 아니라, 실제로 **클라이언트의 다음 행동을 안내하는 정보**여야 의미가 있다.
 
-### 설계 [[435_checklist_based_testing|체크리스트]]
+### 설계 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. URI가 동사가 아니라 자원 중심으로 설계되었는가?
 2. `GET`과 `POST`를 혼용하지 않고 메서드 의미를 지키는가?
-3. 상태 코드와 오류 [[389_mesh_topology|메시]]지가 일관적인가?
-4. HATEOAS가 필요하다면 실제 [[632_state_transition_diagram_testing|상태 전이]]를 줄여 주는가?
+3. 상태 코드와 오류 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지가 일관적인가?
+4. HATEOAS가 필요하다면 실제 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)를 줄여 주는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- `POST /getUser`, `POST /deleteOrder` 같은 [[126_rpc|RPC]] 스타일을 REST라고 부르는 것
+- `POST /getUser`, `POST /deleteOrder` 같은 [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/) 스타일을 REST라고 부르는 것
 - 자원 URI는 만들었지만 모든 작업을 `POST` 하나로 처리하는 것
 - HATEOAS 링크를 넣었지만 클라이언트가 여전히 하드코딩된 문서에 의존하는 것
 
@@ -92,11 +96,11 @@ Level 1의 의미는 "무엇을 다루는가"를 URI로 분리하는 데 있다.
 
 ## Ⅴ. 기대효과 및 결론
 
-리처드슨 성숙도 모델을 적용하면 [[014_api_posix|API]] 설계의 언어가 선명해진다. 자원 경계가 분리되고, [[461_http_stateless_connection_oriented|HTTP]] 표준 의미를 살릴 수 있으며, 클라이언트와 서버의 역할도 더 명확해진다. 그 결과 문서화, 테스트, 캐시 [[268_strategy_pattern|전략]], 오류 처리 [[164_policy|정책]]이 함께 정돈된다.
+리처드슨 성숙도 모델을 적용하면 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 설계의 언어가 선명해진다. 자원 경계가 분리되고, [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 표준 의미를 살릴 수 있으며, 클라이언트와 서버의 역할도 더 명확해진다. 그 결과 문서화, 테스트, 캐시 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), 오류 처리 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 함께 정돈된다.
 
-다만 모든 시스템이 Level 3까지 가야 하는 것은 아니다. 중요한 것은 높은 점수를 받는 것이 아니라, **[[090_service_kubernetes_network_load_balancing|서비스]] 특성에 맞는 수준을 의식적으로 선택하는 것**이다. 대부분의 기업 시스템에서 Level 2는 충분히 강력하며, Level 3는 동적 탐색 가치가 분명할 때만 채택하는 것이 균형 잡힌 접근이다.
+다만 모든 시스템이 Level 3까지 가야 하는 것은 아니다. 중요한 것은 높은 점수를 받는 것이 아니라, **[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 특성에 맞는 수준을 의식적으로 선택하는 것**이다. 대부분의 기업 시스템에서 Level 2는 충분히 강력하며, Level 3는 동적 탐색 가치가 분명할 때만 채택하는 것이 균형 잡힌 접근이다.
 
-결국 이 모델은 REST의 정답표가 아니라, "우리 API가 아직 [[294_function_calling_tool_use|함수 호출]] 사고방식에 머물러 있는가, 아니면 자원 중심 웹 아키텍처로 성숙했는가"를 묻는 거울이다. 그래서 이 개념은 [[156_rest_representational_state_transfer|REST]] 용어 암기보다, **[[014_api_posix|API]] 설계 성숙도를 진단하는 프레임워크**로 기억하는 편이 유용하다.
+결국 이 모델은 REST의 정답표가 아니라, "우리 API가 아직 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) 사고방식에 머물러 있는가, 아니면 자원 중심 웹 아키텍처로 성숙했는가"를 묻는 거울이다. 그래서 이 개념은 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) 용어 암기보다, **[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 설계 성숙도를 진단하는 프레임워크**로 기억하는 편이 유용하다.
 
 - **📢 섹션 요약 비유**: 리처드슨 성숙도 모델은 학교 성적표처럼 남을 평가하려는 도구가 아니라, 내가 지금 어느 단계까지 정리됐는지 보고 다음에 무엇을 고칠지 알려주는 학습 지도와 같다.
 
@@ -106,11 +110,11 @@ Level 1의 의미는 "무엇을 다루는가"를 URI로 분리하는 데 있다.
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[156_rest_representational_state_transfer|REST]] | 성숙도 모델이 평가하는 상위 [[114_architecture_style|아키텍처 스타일]] |
-| URI | 자원 [[655_ir_detection_analysis|식별]]의 출발점 |
-| [[461_http_stateless_connection_oriented|HTTP]] 메서드 | 행위 의미를 표준화하는 수단 |
+| [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) | 성숙도 모델이 평가하는 상위 [아키텍처 스타일](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/114_architecture_style/) |
+| URI | 자원 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)의 출발점 |
+| [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드 | 행위 의미를 표준화하는 수단 |
 | 상태 코드 | 응답 결과를 기계적으로 해석하게 함 |
-| HATEOAS | Level 3의 핵심, 링크 기반 [[632_state_transition_diagram_testing|상태 전이]] |
+| HATEOAS | Level 3의 핵심, 링크 기반 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -133,7 +137,7 @@ Level 3 ─ HATEOAS 기반 동적 탐색
 운영 성숙도 향상(문서화 · 캐시 · 확장성)
 ```
 
-이 흐름도는 [[014_api_posix|API]] 설계가 "[[294_function_calling_tool_use|함수 호출]]" 중심에서 "자원 [[632_state_transition_diagram_testing|상태 전이]]" 중심으로 이동하는 과정을 단계적으로 보여준다.
+이 흐름도는 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 설계가 "[함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/)" 중심에서 "자원 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)" 중심으로 이동하는 과정을 단계적으로 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -147,7 +151,7 @@ Level 3 ─ HATEOAS 기반 동적 탐색
 
 **진행 상황**: 157 / 482
 
-← **이전**: [[156_rest_representational_state_transfer|156. REST (Representational State Transfer)]]
-**다음**: [[158_rest_level_0_rpc_style|158. Level 0 - 단일 URI, 단일 POST 메서드만 사용 (RPC 스타일)]] →
+← **이전**: [156. REST (Representational State Transfer)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/)
+**다음**: [158. Level 0 - 단일 URI, 단일 POST 메서드만 사용 (RPC 스타일)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/158_rest_level_0_rpc_style/) →
 
 ---

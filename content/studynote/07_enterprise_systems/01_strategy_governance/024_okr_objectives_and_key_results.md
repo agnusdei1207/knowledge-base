@@ -1,20 +1,24 @@
----
-title: 24. OKR (Objectives and Key Results) — 도전적 목표와 측정 가능한 핵심 결과
-date: '2026-04-29'
-tags:
-- studynote-enterprise-systems
----
++++
+title = "24. OKR (Objectives and Key Results) — 도전적 목표와 측정 가능한 핵심 결과"
+date = 2026-04-29
+
+[taxonomies]
+tags = ["studynote-enterprise-systems"]
+
+[extra]
+tags = ["studynote-enterprise-systems"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [[039_okr_objectives_key_results|OKR]] ([[039_okr_objectives_key_results|Objectives and Key Results]], 목표 및 핵심 결과)은 인텔 앤디 그로브(Andy Grove)가 [[025_mbo_management_by_objectives|MBO]]([[025_mbo_management_by_objectives|Management by Objectives]])를 개선하여 개발하고 구글이 전사 도입한 성과 관리 프레임워크로, 정성적 O (목표)와 정량적 KR (핵심 결과 3~5개)의 쌍으로 목표와 측정을 연결한다.
-> 2. **가치**: OKR의 핵심은 "달성률 70%를 성공으로 본다"는 도전적 목표(Moonshot Goal) [[009_config|설정]]이다. 100% 달성을 목표로 하면 안전한 목표만 세우게 되어 혁신이 없어지며, OKR의 투명한 공유는 전사 정렬(Alignment)과 집중(Focus)을 동시에 달성한다.
-> 3. **판단 포인트**: OKR은 [[018_kpi|KPI]]([[020_kpi|Key Performance Indicator]])와 다르다. KPI는 현재 사업 운영 측정이고 OKR은 변화·혁신 목표이며, OKR을 성과급·인사 평가에 직접 연결하면 보수적 목표 [[009_config|설정]]으로 OKR의 도전적 정신이 사라진다.
+> 1. **본질**: [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) ([Objectives and Key Results](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/), 목표 및 핵심 결과)은 인텔 앤디 그로브(Andy Grove)가 [MBO](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/025_mbo_management_by_objectives/)([Management by Objectives](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/025_mbo_management_by_objectives/))를 개선하여 개발하고 구글이 전사 도입한 성과 관리 프레임워크로, 정성적 O (목표)와 정량적 KR (핵심 결과 3~5개)의 쌍으로 목표와 측정을 연결한다.
+> 2. **가치**: OKR의 핵심은 "달성률 70%를 성공으로 본다"는 도전적 목표(Moonshot Goal) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이다. 100% 달성을 목표로 하면 안전한 목표만 세우게 되어 혁신이 없어지며, OKR의 투명한 공유는 전사 정렬(Alignment)과 집중(Focus)을 동시에 달성한다.
+> 3. **판단 포인트**: OKR은 [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/)([Key Performance Indicator](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/020_kpi/))와 다르다. KPI는 현재 사업 운영 측정이고 OKR은 변화·혁신 목표이며, OKR을 성과급·인사 평가에 직접 연결하면 보수적 목표 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)으로 OKR의 도전적 정신이 사라진다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-OKR은 조직의 목표를 계층화(Cascading)하여 회사 → 팀 → 개인 수준까지 정렬하고, 분기 단위로 [[216_progress_in_synchronization|진행]] 상황을 추적하는 [[004_agile_relation|애자일]]([[004_agile_relation|Agile]]) 성과 관리 체계다.
+OKR은 조직의 목표를 계층화(Cascading)하여 회사 → 팀 → 개인 수준까지 정렬하고, 분기 단위로 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 상황을 추적하는 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 성과 관리 체계다.
 
 ```text
 ┌───────────────────────────────────────────────────────────┐
@@ -36,18 +40,18 @@ OKR은 조직의 목표를 계층화(Cascading)하여 회사 → 팀 → 개인 
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [[039_okr_objectives_key_results|OKR]] 운영 사이클
+### [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) 운영 사이클
 
 | 단계 | 시기 | 활동 |
 |:---|:---|:---|
-| **[[039_okr_objectives_key_results|OKR]] [[009_config|설정]]** | 분기 초 1주 | 회사→팀→개인 [[039_okr_objectives_key_results|OKR]] Cascading |
+| **[OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)** | 분기 초 1주 | 회사→팀→개인 [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) Cascading |
 | **중간 점검** | 분기 중 2회 | 달성률 Check-in, 장애 요인 논의 |
-| **마감 리뷰** | 분기 말 | 달성률 평가, 다음 분기 [[039_okr_objectives_key_results|OKR]] 도출 |
-| **연간 회고** | 연말 | 연 [[039_okr_objectives_key_results|OKR]] 총 리뷰, [[268_strategy_pattern|전략]] 방향 조정 |
+| **마감 리뷰** | 분기 말 | 달성률 평가, 다음 분기 [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) 도출 |
+| **연간 회고** | 연말 | 연 [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) 총 리뷰, [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 방향 조정 |
 
-### [[039_okr_objectives_key_results|OKR]] vs [[018_kpi|KPI]] vs [[025_mbo_management_by_objectives|MBO]] 비교
+### [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) vs [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) vs [MBO](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/025_mbo_management_by_objectives/) 비교
 
-| 항목 | [[039_okr_objectives_key_results|OKR]] | [[018_kpi|KPI]] | [[025_mbo_management_by_objectives|MBO]] |
+| 항목 | [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) | [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) | [MBO](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/025_mbo_management_by_objectives/) |
 |:---|:---|:---|:---|
 | **목적** | 혁신·변화 달성 | 운영 성과 측정 | 연간 목표 관리 |
 | **주기** | 분기 (3개월) | 월/분기/연간 | 연간 |
@@ -55,34 +59,34 @@ OKR은 조직의 목표를 계층화(Cascading)하여 회사 → 팀 → 개인 
 | **투명성** | 전사 공개 | 부서 내 | 상하 간 |
 | **보상 연결** | 비연결 권장 | 연결 | 강하게 연결 |
 
-- **📢 섹션 요약 비유**: OKR은 마라톤 페이스 목표(달성률 70%면 훌륭), KPI는 혈압·맥박 [[229_monitor|모니터]]링([[178_as_is_to_be_analysis|현재 상태]] 측정), MBO는 연말 성과급 계약(반드시 달성해야 하는 약속)이다.
+- **📢 섹션 요약 비유**: OKR은 마라톤 페이스 목표(달성률 70%면 훌륭), KPI는 혈압·맥박 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링([현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 측정), MBO는 연말 성과급 계약(반드시 달성해야 하는 약속)이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-OKR의 "O는 정성적, KR은 정량적" 원칙은 [[019_bsc|BSC]](Balanced Scorecard)의 [[268_strategy_pattern|전략]] 맵과 결합하면 강력하다. BSC가 [[268_strategy_pattern|전략]]의 4대 관점(재무·고객·내부 프로세스·학습)을 제공하고, OKR이 각 관점의 분기 도전 목표를 운영한다.
+OKR의 "O는 정성적, KR은 정량적" 원칙은 [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/)(Balanced Scorecard)의 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 맵과 결합하면 강력하다. BSC가 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 4대 관점(재무·고객·내부 프로세스·학습)을 제공하고, OKR이 각 관점의 분기 도전 목표를 운영한다.
 
-- **📢 섹션 요약 비유**: BSC는 지도([[268_strategy_pattern|전략]]의 전체 그림)이고 OKR은 GPS 내비게이션(다음 분기의 구체적 경로)이다. 지도 없이 내비게이션만 쓰면 방향을 잃고, 내비게이션 없이 지도만 보면 현재 위치를 모른다.
+- **📢 섹션 요약 비유**: BSC는 지도([전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 전체 그림)이고 OKR은 GPS 내비게이션(다음 분기의 구체적 경로)이다. 지도 없이 내비게이션만 쓰면 방향을 잃고, 내비게이션 없이 지도만 보면 현재 위치를 모른다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 실무 시나리오: 스타트업 [[039_okr_objectives_key_results|OKR]] 도입
-50인 스타트업의 첫 [[039_okr_objectives_key_results|OKR]] 도입 3개월 계획.
+### 실무 시나리오: 스타트업 [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) 도입
+50인 스타트업의 첫 [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) 도입 3개월 계획.
 
-1. **교육 (1주)**: [[039_okr_objectives_key_results|OKR]] 철학, KPI와 차이, 70% 성공 기준 이해.
-2. **회사 [[039_okr_objectives_key_results|OKR]] [[009_config|설정]] (2주)**: C-Level이 회사 [[039_okr_objectives_key_results|OKR]] 1개(O) + KR 3개 [[009_config|설정]]. 전사 공개.
-3. **팀 [[039_okr_objectives_key_results|OKR]] Cascading (2주)**: 각 팀이 회사 OKR과 연계한 팀 [[039_okr_objectives_key_results|OKR]] 수립.
-4. **개인 [[039_okr_objectives_key_results|OKR]]**: 팀 [[039_okr_objectives_key_results|OKR]] 기반 개인 [[039_okr_objectives_key_results|OKR]] (선택적).
+1. **교육 (1주)**: [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) 철학, KPI와 차이, 70% 성공 기준 이해.
+2. **회사 [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) (2주)**: C-Level이 회사 [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) 1개(O) + KR 3개 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/). 전사 공개.
+3. **팀 [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) Cascading (2주)**: 각 팀이 회사 OKR과 연계한 팀 [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) 수립.
+4. **개인 [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/)**: 팀 [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) 기반 개인 [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) (선택적).
 5. **격주 Check-in**: 15분 스탠드업에서 달성률 업데이트.
-6. **분기말 리뷰**: 달성률 평가 → 다음 [[039_okr_objectives_key_results|OKR]] 방향성 도출.
+6. **분기말 리뷰**: 달성률 평가 → 다음 [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) 방향성 도출.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
-- OKR을 성과급·인사 고과에 직접 연결하는 [[128_water_scrum_fall_anti_pattern|안티패턴]]. 연결하면 구성원이 100% 달성 가능한 쉬운 목표만 세우게 되어 OKR의 "도전적 목표(Moonshot)" 정신이 붕괴된다. Google은 OKR과 보상을 명확히 분리하는 것을 원칙으로 한다.
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- OKR을 성과급·인사 고과에 직접 연결하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/). 연결하면 구성원이 100% 달성 가능한 쉬운 목표만 세우게 되어 OKR의 "도전적 목표(Moonshot)" 정신이 붕괴된다. Google은 OKR과 보상을 명확히 분리하는 것을 원칙으로 한다.
 
-- **📢 섹션 요약 비유**: [[039_okr_objectives_key_results|OKR]] 달성률에 성과급을 걸면, 모든 팀이 확실히 깰 수 있는 작은 목표만 세운다. 에베레스트 등반을 목표로 했는데 인사 고과가 걸리면 갑자기 "동네 뒷산 3회 등반"으로 바꾸는 것과 같다.
+- **📢 섹션 요약 비유**: [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) 달성률에 성과급을 걸면, 모든 팀이 확실히 깰 수 있는 작은 목표만 세운다. 에베레스트 등반을 목표로 했는데 인사 고과가 걸리면 갑자기 "동네 뒷산 3회 등반"으로 바꾸는 것과 같다.
 
 ---
 
@@ -90,13 +94,13 @@ OKR의 "O는 정성적, KR은 정량적" 원칙은 [[019_bsc|BSC]](Balanced Scor
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **전사 정렬** | 회사→팀→개인 목표 [[194_consistency_database_integrity|일관성]] |
+| **전사 정렬** | 회사→팀→개인 목표 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) |
 | **집중** | 분기 핵심 3~5개에만 자원 집중 |
-| **투명성** | 전사 [[039_okr_objectives_key_results|OKR]] 공개 → 협업·이해 향상 |
+| **투명성** | 전사 [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) 공개 → 협업·이해 향상 |
 
-OKR은 원격 근무(Remote Work)와 [[136_variance|분산]] 팀 환경에서 더욱 중요해졌으며, Asana·Notion·Monday.com 등 협업 툴과 통합하여 [[039_okr_objectives_key_results|OKR]] [[216_progress_in_synchronization|진행]] 현황을 실시간으로 추적·공유하는 디지털 [[039_okr_objectives_key_results|OKR]] 운영이 표준으로 자리 잡고 있다.
+OKR은 원격 근무(Remote Work)와 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 팀 환경에서 더욱 중요해졌으며, Asana·Notion·Monday.com 등 협업 툴과 통합하여 [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 현황을 실시간으로 추적·공유하는 디지털 [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) 운영이 표준으로 자리 잡고 있다.
 
-- **📢 섹션 요약 비유**: OKR은 회사 전체가 같은 방향을 보며 달리게 하는 나침반이다. 각자 다른 방향으로 뛰어도 빠를 순 있지만, 나침반([[039_okr_objectives_key_results|OKR]])이 있으면 모두가 같은 정상을 향해 달릴 수 있다.
+- **📢 섹션 요약 비유**: OKR은 회사 전체가 같은 방향을 보며 달리게 하는 나침반이다. 각자 다른 방향으로 뛰어도 빠를 순 있지만, 나침반([OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/))이 있으면 모두가 같은 정상을 향해 달릴 수 있다.
 
 ---
 
@@ -104,11 +108,11 @@ OKR은 원격 근무(Remote Work)와 [[136_variance|분산]] 팀 환경에서 �
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[[018_kpi|KPI]]** | OKR의 비교 대상; 운영 지표 측정 |
-| **[[019_bsc|BSC]] (균형성과표)** | [[268_strategy_pattern|전략]] 관점 제공; OKR과 결합 시 강력 |
-| **[[025_mbo_management_by_objectives|MBO]]** | OKR의 전신; 연간 목표 관리 |
+| **[KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/)** | OKR의 비교 대상; 운영 지표 측정 |
+| **[BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/) (균형성과표)** | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 관점 제공; OKR과 결합 시 강력 |
+| **[MBO](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/025_mbo_management_by_objectives/)** | OKR의 전신; 연간 목표 관리 |
 | **Moonshot Goal** | 70% 달성을 성공으로 보는 도전적 목표 원칙 |
-| **[[039_okr_objectives_key_results|OKR]] Cascading** | 회사→팀→개인 목표 계층화 정렬 |
+| **[OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) Cascading** | 회사→팀→개인 목표 계층화 정렬 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -130,7 +134,7 @@ OKR은 원격 근무(Remote Work)와 [[136_variance|분산]] 팀 환경에서 �
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. OKR은 반 전체가 "이번 학기에 영어 말하기 대회 우승하자(O)"라는 꿈을 세우고, "매주 영어 일기 [[289_cqrs_db|쓰기]](KR1), 원어민 선생님과 주 2회 대화(KR2)"처럼 구체적 약속을 정하는 것이에요!
+1. OKR은 반 전체가 "이번 학기에 영어 말하기 대회 우승하자(O)"라는 꿈을 세우고, "매주 영어 일기 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(KR1), 원어민 선생님과 주 2회 대화(KR2)"처럼 구체적 약속을 정하는 것이에요!
 2. 70%만 달성해도 성공이라서, 처음부터 너무 쉬운 목표 대신 정말 도전적인 꿈을 세울 수 있어요.
 3. 반 전체가 목표를 공유하니까 서로 도와가며 같은 방향으로 노력할 수 있답니다!
 
@@ -140,7 +144,7 @@ OKR은 원격 근무(Remote Work)와 [[136_variance|분산]] 팀 환경에서 �
 
 **진행 상황**: 24 / 482
 
-← **이전**: [[023_strategy_map|23. 전략 체계도 (Strategy Map)]]
-**다음**: [[025_mbo_management_by_objectives|25. MBO (Management by Objectives) — 목표 관리]] →
+← **이전**: [23. 전략 체계도 (Strategy Map)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/023_strategy_map/)
+**다음**: [25. MBO (Management by Objectives) — 목표 관리](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/025_mbo_management_by_objectives/) →
 
 ---

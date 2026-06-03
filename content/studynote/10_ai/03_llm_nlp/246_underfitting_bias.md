@@ -1,37 +1,41 @@
----
-title: 246. 과소 적합 (Underfitting)
-date: '2026-05-09'
-tags:
-- studynote-ai
----
++++
+title = "246. 과소 적합 (Underfitting)"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-ai"]
+
+[extra]
+tags = ["studynote-ai"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 과소적합(Underfitting)은 모델이 지나치게 단순하여 훈련 [[001_dikw_pyramid|데이터]]조차 제대로 학습하지 못하고, 훈련 오차와 테스트 오차가 모두 높은 상태다.
-> 2. **가치**: 과소적합 진단은 모델 선택([[084_model_selection|Model Selection]])과 특성 공학([[081_feature_engineering|Feature Engineering]])의 방향성을 결정하는 핵심 [[130_signal|신호]]이며, [[241_machine_learning_basics|머신러닝]] 프로젝트 [[459_quic_fec_forward_error_correction|초기]] 단계에서 반드시 점검해야 한다.
-> 3. **판단 포인트**: 편향([[094_bias|Bias]])이 높다는 것은 모델 가정(Model Assumption)이 현실 [[001_dikw_pyramid|데이터]]의 복잡성과 맞지 않는 것이며, 해결책은 모델 복잡도 증가 또는 유의미한 특성 추가다.
+> 1. **본질**: 과소적합(Underfitting)은 모델이 지나치게 단순하여 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)조차 제대로 학습하지 못하고, 훈련 오차와 테스트 오차가 모두 높은 상태다.
+> 2. **가치**: 과소적합 진단은 모델 선택([Model Selection](/knowledge-base/studynote/12_it_management/02_itsm_itil/084_model_selection/))과 특성 공학([Feature Engineering](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/))의 방향성을 결정하는 핵심 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)이며, [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 프로젝트 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계에서 반드시 점검해야 한다.
+> 3. **판단 포인트**: 편향([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))이 높다는 것은 모델 가정(Model Assumption)이 현실 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 복잡성과 맞지 않는 것이며, 해결책은 모델 복잡도 증가 또는 유의미한 특성 추가다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 ### 1.1 과소적합이란?
-모델이 훈련 [[001_dikw_pyramid|데이터]]의 패턴을 충분히 학습하지 못한 상태다. 선형 모델로 비선형 패턴을 학습하려 할 때, 또는 모델 파라미터가 너무 적을 때 주로 발생한다. 훈련 오차와 테스트 오차가 모두 높다는 점에서 과대적합([[245_overfitting_variance|Overfitting]])과 구분된다.
+모델이 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 패턴을 충분히 학습하지 못한 상태다. 선형 모델로 비선형 패턴을 학습하려 할 때, 또는 모델 파라미터가 너무 적을 때 주로 발생한다. 훈련 오차와 테스트 오차가 모두 높다는 점에서 과대적합([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))과 구분된다.
 
 ### 1.2 과소적합 진단 기준
 
-| 지표 | 과소적합 [[130_signal|신호]] | 정상 [[130_signal|신호]] |
+| 지표 | 과소적합 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) | 정상 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) |
 |:---|:---|:---|
 | 훈련 오차 | 높음 (기준치 미달) | 낮음 |
 | 테스트 오차 | 높음 (훈련과 유사) | 낮음 (훈련과 근접) |
-| 학습 곡선 | 훈련·[[395_verification_process_review|검증]] 오차 모두 높고 수렴 안됨 | 수렴하며 낮아짐 |
-| 결정 경계 | 지나치게 단순한 경계선 | [[001_dikw_pyramid|데이터]] 분포를 적절히 반영 |
+| 학습 곡선 | 훈련·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 오차 모두 높고 수렴 안됨 | 수렴하며 낮아짐 |
+| 결정 경계 | 지나치게 단순한 경계선 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포를 적절히 반영 |
 
 ### 1.3 주요 발생 원인
 - 모델 복잡도 부족 (선형 모델로 비선형 문제 해결 시도)
 - 유의미한 특성(Feature) 누락
 - 충분하지 않은 학습 반복 횟수(Epoch)
-- 과도하게 강한 규제([[134_regularization_dropout_batch_norm|Regularization]]) 적용
+- 과도하게 강한 규제([Regularization](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/)) 적용
 - 잘못된 특성 전처리(Feature Preprocessing)
 
 ```text
@@ -49,7 +53,7 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 2.1 [[110_bias_variance_tradeoff|편향-분산 트레이드오프]] ([[110_bias_variance_tradeoff|Bias-Variance Tradeoff]]) — 편향 관점
+### 2.1 [편향-분산 트레이드오프](/knowledge-base/studynote/14_data_engineering/02_math_mining/110_bias_variance_tradeoff/) ([Bias-Variance Tradeoff](/knowledge-base/studynote/14_data_engineering/02_math_mining/110_bias_variance_tradeoff/)) — 편향 관점
 
 ```
 ┌────────────────────────────────────────────────────┐
@@ -70,8 +74,8 @@ tags:
 └────────────────────────────────────────────────────┘
 ```
 
-- **편향([[094_bias|Bias]])**: 예측값의 [[135_expected_value|기댓값]]과 실제 정답의 차이 — 모델의 체계적 오류
-- 높은 편향은 모델이 "너무 단순한 가정"을 하고 있다는 [[130_signal|신호]]
+- **편향([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))**: 예측값의 [기댓값](/knowledge-base/studynote/08_algorithm_stats/08_stats/135_expected_value/)과 실제 정답의 차이 — 모델의 체계적 오류
+- 높은 편향은 모델이 "너무 단순한 가정"을 하고 있다는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)
 - 수식: `편향² = (E[ŷ] - y)²`
 
 ### 2.2 과소적합 해결 기법
@@ -79,13 +83,13 @@ tags:
 | 기법 | 설명 | 효과 |
 |:---|:---|:---|
 | **모델 복잡도 증가** | 더 깊은 신경망, 더 많은 트리 | 표현력 향상으로 복잡한 패턴 학습 |
-| **특성 추가(Feature Addition)** | [[064_relation_domain|도메인]] 지식 기반 파생 특성 [[087_process_state_transition|생성]] | 정보량 증가로 패턴 [[655_ir_detection_analysis|식별]] 개선 |
-| **다항 특성([[195_polynomial_generator_crc|Polynomial]] Feature)** | 기존 특성의 거듭제곱 및 교차항 추가 | 비선형 경계 표현 가능 |
-| **규제 완화** | λ([[093_normalization|정규화]] 계수) 감소 | [[267_weight_bias_activation|가중치]] 자유도 증가 |
+| **특성 추가(Feature Addition)** | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식 기반 파생 특성 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 정보량 증가로 패턴 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 개선 |
+| **다항 특성([Polynomial](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) Feature)** | 기존 특성의 거듭제곱 및 교차항 추가 | 비선형 경계 표현 가능 |
+| **규제 완화** | λ([정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 계수) 감소 | [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 자유도 증가 |
 | **에폭 증가** | 학습 반복 횟수 늘림 | 수렴 기회 증가 |
-| **다른 [[001_algorithm_definition|알고리즘]] 선택** | 선형→트리 기반→신경망 | 근본적 표현력 향상 |
+| **다른 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 선택** | 선형→트리 기반→신경망 | 근본적 표현력 향상 |
 
-### 2.3 학습 곡선 [[003_bigdata_7v|시각화]]
+### 2.3 학습 곡선 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)
 
 ```
 ┌──────────────────────────────────────────────────┐
@@ -102,7 +106,7 @@ tags:
 └──────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 편향([[094_bias|Bias]])이 높은 모델은 레이더가 없는 전투기 조종사처럼, 하늘에 뭔가 있다는 것은 알지만 정확히 어디 있는지 체계적으로 틀리는 것이다. 문제는 장비(모델) 자체의 한계다.
+- **📢 섹션 요약 비유**: 편향([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))이 높은 모델은 레이더가 없는 전투기 조종사처럼, 하늘에 뭔가 있다는 것은 알지만 정확히 어디 있는지 체계적으로 틀리는 것이다. 문제는 장비(모델) 자체의 한계다.
 
 ---
 
@@ -110,27 +114,27 @@ tags:
 
 ### 3.1 과소적합 vs 과대적합 완벽 정리
 
-| 구분 | 과소적합(Underfitting) | 과대적합([[245_overfitting_variance|Overfitting]]) |
+| 구분 | 과소적합(Underfitting) | 과대적합([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/)) |
 |:---|:---|:---|
-| 다른 이름 | 고편향(High [[094_bias|Bias]]) | 고분산(High [[136_variance|Variance]]) |
+| 다른 이름 | 고편향(High [Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/)) | 고분산(High [Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)) |
 | 훈련 오차 | 높음 | 매우 낮음 |
-| [[395_verification_process_review|검증]] 오차 | 높음 (훈련과 유사) | 높음 (훈련보다 크게 높음) |
+| [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 오차 | 높음 (훈련과 유사) | 높음 (훈련보다 크게 높음) |
 | 모델 복잡도 | 너무 낮음 | 너무 높음 |
-| 해결 방향 | 복잡도↑, 특성↑, 규제↓ | 복잡도↓, 규제↑, [[001_dikw_pyramid|데이터]]↑ |
+| 해결 방향 | 복잡도↑, 특성↑, 규제↓ | 복잡도↓, 규제↑, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)↑ |
 
 ### 3.2 전형적인 시나리오별 진단
 
 | 시나리오 | 문제 유형 | 해결 방법 |
 |:---|:---|:---|
-| 선형 모델 → 비선형 [[001_dikw_pyramid|데이터]] | 과소적합 | 다항 특성 추가 또는 비선형 모델 교체 |
-| 결정 트리 깊이=2 → 복잡한 [[001_dikw_pyramid|데이터]] | 과소적합 | 트리 깊이 증가 |
+| 선형 모델 → 비선형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 과소적합 | 다항 특성 추가 또는 비선형 모델 교체 |
+| 결정 트리 깊이=2 → 복잡한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 과소적합 | 트리 깊이 증가 |
 | 강한 L2 규제 (λ=100) | 과소적합 | λ 값 감소 |
-| 100개 [[001_dikw_pyramid|데이터]] + 1000개 파라미터 | 과대적합 | [[001_dikw_pyramid|데이터]] 증가 또는 모델 축소 |
+| 100개 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) + 1000개 파라미터 | 과대적합 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증가 또는 모델 축소 |
 
-### 3.3 특성 공학([[081_feature_engineering|Feature Engineering]])으로 편향 감소
+### 3.3 특성 공학([Feature Engineering](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/))으로 편향 감소
 - 기존 특성의 비선형 변환: `x²`, `log(x)`, `√x`
 - 특성 교차(Feature Crossing): `x₁ × x₂`
-- [[064_relation_domain|도메인]] 지식 기반 파생 변수 [[087_process_state_transition|생성]]
+- [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식 기반 파생 변수 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
 
 - **📢 섹션 요약 비유**: 과소적합과 과대적합은 체중계와 같다. 과소적합은 배터리가 방전되어 항상 "오류" 표시가 뜨는 것이고, 과대적합은 어제 잰 체중만 기억해서 항상 그 숫자를 보여주는 것이다. 둘 다 실제 체중(패턴)을 모른다.
 
@@ -138,7 +142,7 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 4.1 모델 선택([[084_model_selection|Model Selection]]) 워크플로우
+### 4.1 모델 선택([Model Selection](/knowledge-base/studynote/12_it_management/02_itsm_itil/084_model_selection/)) 워크플로우
 
 ```
 데이터 수집/전처리
@@ -160,15 +164,15 @@ tags:
 - **진단 우선순위**: 모델 복잡도 조정 전 반드시 학습 곡선 분석
 - **단계적 접근**: 단순 → 복잡 모델 순차 시도 (Occam's Razor, 오컴의 면도날)
 - **특성 공학 우선**: 종종 모델 교체보다 특성 개선이 더 효과적
-- **규제 점검**: 과소적합 의심 시 규제 계수(λ) 과도 여부 먼저 [[396_validation|확인]]
+- **규제 점검**: 과소적합 의심 시 규제 계수(λ) 과도 여부 먼저 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
 
 ### 4.3 실제 사례
 
 | 상황 | 증상 | 처방 |
 |:---|:---|:---|
 | 주택 가격 예측(선형 회귀) | 훈련 RMSE=500만원 유지 | 다항 특성 추가, 위치 × 면적 교차항 |
-| 이미지 [[104_classification_analysis|분류]](얕은 [[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]]) | 훈련 정확도 60% | 레이어 깊이 증가, [[228_cnn_1d_2d_3d_video_medical|합성곱]] 필터 수 증가 |
-| 텍스트 [[104_classification_analysis|분류]](너무 강한 L2) | 모든 클래스 동일 예측 | λ를 1에서 0.01로 감소 |
+| 이미지 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)(얕은 [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)) | 훈련 정확도 60% | 레이어 깊이 증가, [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 필터 수 증가 |
+| 텍스트 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)(너무 강한 L2) | 모든 클래스 동일 예측 | λ를 1에서 0.01로 감소 |
 
 - **📢 섹션 요약 비유**: 과소적합 해결은 요리사에게 더 많은 재료(특성)와 더 정교한 조리 도구(복잡한 모델)를 주는 것이다. 재료와 도구가 부족하면 아무리 훌륭한 요리사도 레시피를 완성할 수 없다.
 
@@ -177,12 +181,12 @@ tags:
 ## Ⅴ. 기대효과 및 결론
 
 ### 5.1 과소적합 해결의 기대효과
-- 훈련 오차 감소 → 모델 기본 [[282_performance_tactics|성능]] 확보
+- 훈련 오차 감소 → 모델 기본 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 확보
 - 실서비스에서 의미 있는 예측력 달성
-- [[001_dikw_pyramid|데이터]]의 내재된 패턴 발견으로 인사이트 추출
+- [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 내재된 패턴 발견으로 인사이트 추출
 
 ### 5.2 결론
-과소적합은 모델이 문제를 "이해조차 못하는" 상태다. [[110_bias_variance_tradeoff|편향-분산 트레이드오프]] 프레임워크에서 과소적합은 고편향(High [[094_bias|Bias]]) 문제이며, 모델 복잡도 증가와 특성 공학으로 해결한다. 기술사 시험에서는 과소적합과 과대적합을 명확히 구분하고, 각각의 해결 기법을 학습 곡선과 함께 설명할 수 있어야 한다.
+과소적합은 모델이 문제를 "이해조차 못하는" 상태다. [편향-분산 트레이드오프](/knowledge-base/studynote/14_data_engineering/02_math_mining/110_bias_variance_tradeoff/) 프레임워크에서 과소적합은 고편향(High [Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/)) 문제이며, 모델 복잡도 증가와 특성 공학으로 해결한다. 기술사 시험에서는 과소적합과 과대적합을 명확히 구분하고, 각각의 해결 기법을 학습 곡선과 함께 설명할 수 있어야 한다.
 
 - **📢 섹션 요약 비유**: 과소적합을 고치는 것은 초등학생에게 고등학교 교과서를 주는 것과 같다. 내용이 너무 쉬워 패턴을 못 배우는 것이 문제라면, 더 어렵고 풍부한 교재(복잡한 모델)로 바꿔야 한다.
 
@@ -192,12 +196,12 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 과소적합 | 높은 편향, 낮은 [[136_variance|분산]] / [[110_bias_variance_tradeoff|편향-분산 트레이드오프]] |
-| 편향([[094_bias|Bias]]) | 체계적 오류, 단순 모델 가정 / 과소적합의 주요 오차 |
-| 모델 복잡도 증가 | 깊은 신경망, [[257_ensemble_learning|앙상블]] / 편향 감소 수단 |
+| 과소적합 | 높은 편향, 낮은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) / [편향-분산 트레이드오프](/knowledge-base/studynote/14_data_engineering/02_math_mining/110_bias_variance_tradeoff/) |
+| 편향([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/)) | 체계적 오류, 단순 모델 가정 / 과소적합의 주요 오차 |
+| 모델 복잡도 증가 | 깊은 신경망, [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) / 편향 감소 수단 |
 | 특성 공학 | 파생 변수, 다항 특성 / 편향 감소를 위한 정보 추가 |
 | 규제 완화 | λ 감소, 자유도 증가 / 과도한 규제로 인한 과소적합 수정 |
-| 학습 곡선 | 훈련/[[395_verification_process_review|검증]] 오차 [[070_graph_datastructure|그래프]] / 과소/과대적합 시각적 진단 도구 |
+| 학습 곡선 | 훈련/[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 오차 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) / 과소/과대적합 시각적 진단 도구 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -217,7 +221,7 @@ tags:
 
 **진행 상황**: 246 / 420
 
-← **이전**: [[245_overfitting_variance|245. 과대 적합 (Overfitting)]]
-**다음**: [[247_feature_label_variables|247. 독립 변수 (피처) / 종속 변수 (라벨)]] →
+← **이전**: [245. 과대 적합 (Overfitting)](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/)
+**다음**: [247. 독립 변수 (피처) / 종속 변수 (라벨)](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) →
 
 ---

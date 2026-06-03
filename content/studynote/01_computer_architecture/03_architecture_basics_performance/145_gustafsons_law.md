@@ -1,25 +1,29 @@
----
-title: 145. 구스타프슨의 법칙 (Gustafson's Law)
-date: '2026-04-19'
-tags:
-- studynote-computer-architecture
----
++++
+title = "145. 구스타프슨의 법칙 (Gustafson's Law)"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 구스타프슨의 법칙 (Gustafson's Law)은 프로세서 수가 늘어날수록 같은 문제를 더 빨리 끝내는 데 그치지 않고, **같은 시간 안에 더 큰 문제를 푸는 방향으로 [[282_performance_tactics|성능]]을 해석해야 한다**는 확장형 [[430_index_fast_full_scan|병렬]] [[282_performance_tactics|성능]] 모델이다.
-> 2. **가치**: 순차 구간이 조금 남아 있어도, 문제 크기가 커지면 [[430_index_fast_full_scan|병렬]] 구간의 비중이 커져 **대규모 [[430_index_fast_full_scan|병렬]] 시스템의 투자 가치와 [[139_throughput|처리량]] 확장성**을 설명할 수 있다.
-> 3. **판단 포인트**: 사용자 체감 [[138_response_time|응답 시간]] ([[141_latency|Latency]])을 줄이는 문제에는 암달의 법칙 (Amdahl's Law)이 더 중요하고, 시뮬레이션·[[231_ai_turing_test|인공지능]] 학습·대규모 분석처럼 **문제 자체를 키울 수 있는 환경**에서는 구스타프슨의 법칙이 더 실무적이다.
+> 1. **본질**: 구스타프슨의 법칙 (Gustafson's Law)은 프로세서 수가 늘어날수록 같은 문제를 더 빨리 끝내는 데 그치지 않고, **같은 시간 안에 더 큰 문제를 푸는 방향으로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 해석해야 한다**는 확장형 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 모델이다.
+> 2. **가치**: 순차 구간이 조금 남아 있어도, 문제 크기가 커지면 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 구간의 비중이 커져 **대규모 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 시스템의 투자 가치와 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 확장성**을 설명할 수 있다.
+> 3. **판단 포인트**: 사용자 체감 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) ([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))을 줄이는 문제에는 암달의 법칙 (Amdahl's Law)이 더 중요하고, 시뮬레이션·[인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 학습·대규모 분석처럼 **문제 자체를 키울 수 있는 환경**에서는 구스타프슨의 법칙이 더 실무적이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-구스타프슨의 법칙은 **고정된 실행 시간 안에서 문제 크기를 확장했을 때 얻는 [[430_index_fast_full_scan|병렬]] [[282_performance_tactics|성능]] 이득**을 설명하는 법칙이다. 암달의 법칙이 "일의 총량이 고정되어 있다"는 전제에서 [[430_index_fast_full_scan|병렬]]화 한계를 강조했다면, 구스타프슨은 실제 슈퍼컴퓨팅 환경에서는 프로세서가 늘어나면 연구자들이 더 정밀한 계산, 더 큰 [[001_dikw_pyramid|데이터]]셋, 더 긴 시뮬레이션 시간을 선택한다고 보았다.
+구스타프슨의 법칙은 **고정된 실행 시간 안에서 문제 크기를 확장했을 때 얻는 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 이득**을 설명하는 법칙이다. 암달의 법칙이 "일의 총량이 고정되어 있다"는 전제에서 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 한계를 강조했다면, 구스타프슨은 실제 슈퍼컴퓨팅 환경에서는 프로세서가 늘어나면 연구자들이 더 정밀한 계산, 더 큰 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋, 더 긴 시뮬레이션 시간을 선택한다고 보았다.
 
-이 관점이 필요한 이유는 현실의 대규모 시스템이 단순히 "빨리 끝내기"만을 목표로 하지 않기 때문이다. 기상 예측은 격자를 더 촘촘히 나누고, 유전체 분석은 더 많은 샘플을 처리하며, [[231_ai_turing_test|인공지능]] 학습은 더 큰 모델과 더 긴 컨텍스트를 요구한다. 즉, [[430_index_fast_full_scan|병렬]] 자원이 늘어났을 때 실제 현장은 고정 문제를 짧게 끝내기보다 **문제의 해상도와 범위를 확장**한다.
+이 관점이 필요한 이유는 현실의 대규모 시스템이 단순히 "빨리 끝내기"만을 목표로 하지 않기 때문이다. 기상 예측은 격자를 더 촘촘히 나누고, 유전체 분석은 더 많은 샘플을 처리하며, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 학습은 더 큰 모델과 더 긴 컨텍스트를 요구한다. 즉, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 자원이 늘어났을 때 실제 현장은 고정 문제를 짧게 끝내기보다 **문제의 해상도와 범위를 확장**한다.
 
-따라서 구스타프슨의 법칙은 [[430_index_fast_full_scan|병렬]] 컴퓨터의 존재 이유를 설명하는 데 유용하다. 순차 구간이 조금 남아 있어도 전체 문제 규모가 커지면 그 비중은 상대적으로 작아지고, 시스템은 많은 프로세서를 투입한 만큼 더 큰 성과를 만들어낼 수 있다.
+따라서 구스타프슨의 법칙은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 컴퓨터의 존재 이유를 설명하는 데 유용하다. 순차 구간이 조금 남아 있어도 전체 문제 규모가 커지면 그 비중은 상대적으로 작아지고, 시스템은 많은 프로세서를 투입한 만큼 더 큰 성과를 만들어낼 수 있다.
 
 - **📢 섹션 요약 비유**: 작은 밭을 더 빨리 가는 트랙터만 생각하면 암달의 시선이고, 트랙터가 많아졌으니 아예 더 넓은 밭을 갈겠다고 생각하면 구스타프슨의 시선이다.
 
@@ -27,15 +31,15 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-구스타프슨의 법칙은 **순차 구간은 거의 고정되어 있고, [[430_index_fast_full_scan|병렬]] 구간은 자원 증가에 맞춰 확장된다**는 가정 위에 서 있다. 여기서 핵심은 실행 시간을 고정한 뒤, 그 시간 안에 수행할 수 있는 전체 작업량이 얼마나 커지는지를 보는 것이다. 대표식은 다음과 같다.
+구스타프슨의 법칙은 **순차 구간은 거의 고정되어 있고, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 구간은 자원 증가에 맞춰 확장된다**는 가정 위에 서 있다. 여기서 핵심은 실행 시간을 고정한 뒤, 그 시간 안에 수행할 수 있는 전체 작업량이 얼마나 커지는지를 보는 것이다. 대표식은 다음과 같다.
 
-- $S(N) = N - \[[068_significance_level_alpha_p_value_hypothesis|alpha]] (N - 1)$
+- $S(N) = N - \[alpha](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/) (N - 1)$
 - $N$: 프로세서 수
-- $\[[068_significance_level_alpha_p_value_hypothesis|alpha]]$: 전체 실행 시간 중 순차 구간의 비율
+- $\[alpha](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/)$: 전체 실행 시간 중 순차 구간의 비율
 
-이 식은 순차 비율 $\[[068_significance_level_alpha_p_value_hypothesis|alpha]]$ 가 작을수록 [[144_speedup|속도 향상도]] $S(N)$ 가 $N$에 가깝게 커짐을 보여준다. 예를 들어 순차 비율이 5%이고 프로세서가 64개라면, $S(64) = 64 - 0.05 \times 63 = 60.85$가 된다. 즉 이상적인 선형 확장에는 못 미치더라도, 실제로는 상당히 높은 확장 효율을 기대할 수 있다.
+이 식은 순차 비율 $\[alpha](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/)$ 가 작을수록 [속도 향상도](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/144_speedup/) $S(N)$ 가 $N$에 가깝게 커짐을 보여준다. 예를 들어 순차 비율이 5%이고 프로세서가 64개라면, $S(64) = 64 - 0.05 \times 63 = 60.85$가 된다. 즉 이상적인 선형 확장에는 못 미치더라도, 실제로는 상당히 높은 확장 효율을 기대할 수 있다.
 
-아래 그림은 암달의 관점과 구스타프슨의 관점이 어디서 갈리는지를 보여준다. 같은 1시간을 기준으로 보더라도, 프로세서가 늘어날수록 [[430_index_fast_full_scan|병렬]] 구간이 감당하는 작업량을 키우면 순차 구간의 상대적 비중이 작아진다.
+아래 그림은 암달의 관점과 구스타프슨의 관점이 어디서 갈리는지를 보여준다. 같은 1시간을 기준으로 보더라도, 프로세서가 늘어날수록 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 구간이 감당하는 작업량을 키우면 순차 구간의 상대적 비중이 작아진다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────────────┐
@@ -54,14 +58,14 @@ tags:
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
-이 원리는 특히 약결합 확장 (Weak Scaling) 해석과 잘 맞는다. 각 노드가 담당할 [[001_dikw_pyramid|데이터]] 조각을 유지하면서 전체 [[001_dikw_pyramid|데이터]] 크기를 함께 키우면, [[430_index_fast_full_scan|병렬]] 시스템은 더 큰 문제를 거의 같은 시간 안에 처리하는 방향으로 설계 가치를 입증할 수 있다.
+이 원리는 특히 약결합 확장 (Weak Scaling) 해석과 잘 맞는다. 각 노드가 담당할 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조각을 유지하면서 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기를 함께 키우면, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 시스템은 더 큰 문제를 거의 같은 시간 안에 처리하는 방향으로 설계 가치를 입증할 수 있다.
 
 | 항목 | 의미 | 구스타프슨 관점의 해석 |
 | :--- | :--- | :--- |
-| 순차 구간 | 초기화, 집계, 일부 [[212_synchronization_mechanisms|동기화]] | 완전히 사라지지는 않지만 상대 비중이 작아짐 |
-| [[430_index_fast_full_scan|병렬]] 구간 | 분할 가능한 계산 | 자원 증가에 맞춰 문제 크기를 확장하는 핵심 영역 |
-| [[282_performance_tactics|성능]] 목표 | 처리 시간 고정 | 더 큰 모델, 더 높은 해상도, 더 많은 [[001_dikw_pyramid|데이터]] 처리 |
-| 핵심 지표 | 확장 속도 향상 | 선형에 가까운 [[139_throughput|처리량]] 증가 가능성 |
+| 순차 구간 | 초기화, 집계, 일부 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | 완전히 사라지지는 않지만 상대 비중이 작아짐 |
+| [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 구간 | 분할 가능한 계산 | 자원 증가에 맞춰 문제 크기를 확장하는 핵심 영역 |
+| [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 목표 | 처리 시간 고정 | 더 큰 모델, 더 높은 해상도, 더 많은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 |
+| 핵심 지표 | 확장 속도 향상 | 선형에 가까운 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 증가 가능성 |
 
 - **📢 섹션 요약 비유**: 요리사 1명이 1시간에 한 솥을 끓이던 식당이 요리사 10명을 뽑으면, 같은 솥을 더 빨리 끓이는 데서 끝나지 않고 연회장 손님 10배를 받는 식으로 가게 규모를 키우는 셈이다.
 
@@ -74,14 +78,14 @@ tags:
 | 비교 항목 | 암달의 법칙 (Amdahl's Law) | 구스타프슨의 법칙 (Gustafson's Law) |
 | :--- | :--- | :--- |
 | 기본 전제 | 문제 크기 고정 | 실행 시간 고정, 문제 크기 확장 |
-| 주 관심사 | [[138_response_time|응답 시간]] 단축 | [[139_throughput|처리량]]과 규모 확장 |
-| [[282_performance_tactics|성능]] 한계 해석 | 순차 구간이 상한을 결정 | 순차 구간 비중이 상대적으로 희석 |
-| 잘 맞는 환경 | 실시간 제어, 단일 요청 처리 | 과학 계산, 배치 분석, [[190_ai_llm_requirements_specification|AI]] 학습 |
+| 주 관심사 | [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 단축 | [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)과 규모 확장 |
+| [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계 해석 | 순차 구간이 상한을 결정 | 순차 구간 비중이 상대적으로 희석 |
+| 잘 맞는 환경 | 실시간 제어, 단일 요청 처리 | 과학 계산, 배치 분석, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습 |
 | 확장 방식 | 강결합 확장 (Strong Scaling) 중심 | 약결합 확장 (Weak Scaling) 중심 |
 
-이 차이는 현대 시스템 구조에서도 그대로 드러난다. 온라인 거래 시스템처럼 사용자가 기다리는 시간이 중요한 서비스는 암달의 법칙 관점이 강하고, [[418_gpu|GPU]] ([[418_gpu|Graphics Processing Unit]]) 클러스터 기반 학습이나 [[548_automotive_hpc|HPC]] ([[226_hpc_supercomputing_infrastructure|High Performance Computing]]) 시뮬레이션처럼 [[001_dikw_pyramid|데이터]]·모델·격자를 키울 수 있는 분야는 구스타프슨의 법칙이 더 설득력 있다.
+이 차이는 현대 시스템 구조에서도 그대로 드러난다. 온라인 거래 시스템처럼 사용자가 기다리는 시간이 중요한 서비스는 암달의 법칙 관점이 강하고, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 클러스터 기반 학습이나 [HPC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/) ([High Performance Computing](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/226_hpc_supercomputing_infrastructure/)) 시뮬레이션처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·모델·격자를 키울 수 있는 분야는 구스타프슨의 법칙이 더 설득력 있다.
 
-또한 구스타프슨의 법칙은 [[139_throughput|처리량]] ([[139_throughput|Throughput]]), 수평 확장 ([[202_scale_out_distributed_horizontal_expansion|Scale-out]]), 약결합 확장 같은 개념과 자연스럽게 연결된다. 반대로 [[212_synchronization_mechanisms|동기화]] 오버헤드, 네트워크 통신, 집계 병목이 커지면 순차 구간이 다시 커지므로 구스타프슨의 낙관도 현실 제약을 받는다.
+또한 구스타프슨의 법칙은 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)), 수평 확장 ([Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)), 약결합 확장 같은 개념과 자연스럽게 연결된다. 반대로 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 오버헤드, 네트워크 통신, 집계 병목이 커지면 순차 구간이 다시 커지므로 구스타프슨의 낙관도 현실 제약을 받는다.
 
 - **📢 섹션 요약 비유**: 암달은 "자동차 한 대를 더 빨리 달리게 할 수 있나"를 묻고, 구스타프슨은 "차가 많아졌으니 더 많은 짐을 실어 더 큰 물류망을 운영할 수 있나"를 묻는다.
 
@@ -89,21 +93,21 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 구스타프슨의 법칙은 "코어를 늘리면 빨라지는가"보다 **"코어를 늘렸을 때 더 큰 문제를 맡길 수 있는가"**를 묻는 기준으로 써야 한다. 즉, 워크로드가 자연스럽게 커질 수 있고 [[001_dikw_pyramid|데이터]] 분할이 잘 되며 노드 간 통신이 계산량보다 작을 때 채택 가치가 높다.
+실무에서 구스타프슨의 법칙은 "코어를 늘리면 빨라지는가"보다 **"코어를 늘렸을 때 더 큰 문제를 맡길 수 있는가"**를 묻는 기준으로 써야 한다. 즉, 워크로드가 자연스럽게 커질 수 있고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분할이 잘 되며 노드 간 통신이 계산량보다 작을 때 채택 가치가 높다.
 
-대표 사례는 대규모 [[231_ai_turing_test|인공지능]] 학습, 유체 해석, 렌더링 팜, 유전체 분석, [[568_logs_distributed_logging_elk_fluentd|로그]] [[228_batch_processing_hadoop_spark|배치 처리]]다. 이런 환경에서는 프로세서를 더 붙이면 배치 크기, 학습 파라미터, 시뮬레이션 격자 수, 탐색 범위를 키울 수 있다. 반면 단일 [[014_api_posix|API]] 호출 [[015_지연_데이터_관점|지연]], [[191_transaction_concept_states|트랜잭션]] [[138_response_time|응답 시간]], 게임 프레임 처리처럼 한 번의 작업을 빨리 끝내야 하는 영역에서는 구스타프슨의 법칙만 믿고 코어를 늘리면 기대와 다른 결과가 나온다.
+대표 사례는 대규모 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 학습, 유체 해석, 렌더링 팜, 유전체 분석, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)다. 이런 환경에서는 프로세서를 더 붙이면 배치 크기, 학습 파라미터, 시뮬레이션 격자 수, 탐색 범위를 키울 수 있다. 반면 단일 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), 게임 프레임 처리처럼 한 번의 작업을 빨리 끝내야 하는 영역에서는 구스타프슨의 법칙만 믿고 코어를 늘리면 기대와 다른 결과가 나온다.
 
-### 설계 [[435_checklist_based_testing|체크리스트]]
+### 설계 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 문제 크기를 실제로 확장할 수 있는가?
-2. [[001_dikw_pyramid|데이터]]가 노드별로 잘 분할되어 통신보다 계산이 충분히 큰가?
-3. 초기화·[[212_synchronization_mechanisms|동기화]]·집계 같은 순차 구간이 전체 시간에서 작게 유지되는가?
-4. [[282_performance_tactics|성능]] 목표가 [[138_response_time|응답 시간]]인지, [[139_throughput|처리량]]과 해상도 향상인지 명확한가?
+2. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 노드별로 잘 분할되어 통신보다 계산이 충분히 큰가?
+3. 초기화·[동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)·집계 같은 순차 구간이 전체 시간에서 작게 유지되는가?
+4. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 목표가 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)인지, [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)과 해상도 향상인지 명확한가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 고정 크기 웹 요청 처리에 단순 코어 증설만으로 선형 향상을 기대하는 경우
-- [[136_variance|분산]] 시스템인데도 중앙 집계나 락 경합을 방치해 순차 구간을 키우는 경우
+- [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템인데도 중앙 집계나 락 경합을 방치해 순차 구간을 키우는 경우
 - 문제 크기를 키울 수 없는 환경에서 구스타프슨의 법칙을 만능 해답처럼 적용하는 경우
 
 - **📢 섹션 요약 비유**: 운동장 크기는 그대로인데 사람만 100명 더 불러 놓고 달리기 기록이 100배 좋아질 거라 믿는 건 오해다. 구스타프슨은 운동장도 함께 넓어질 때 힘을 발휘한다.
@@ -112,13 +116,13 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-구스타프슨의 법칙은 대규모 [[430_index_fast_full_scan|병렬]] 시스템을 이해할 때 시선을 바꿔 준다. [[430_index_fast_full_scan|병렬]] 컴퓨터의 가치는 같은 일을 무조건 더 빨리 끝내는 데만 있지 않고, **이전에는 감당할 수 없던 규모의 문제를 같은 시간 안에 풀게 하는 데** 있다는 점을 보여준다. 그래서 이 법칙은 슈퍼컴퓨터, 클라우드 [[228_batch_processing_hadoop_spark|배치 처리]], [[190_ai_llm_requirements_specification|AI]] 학습 인프라의 경제성과 기술적 정당성을 설명하는 핵심 논리로 남아 있다.
+구스타프슨의 법칙은 대규모 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 시스템을 이해할 때 시선을 바꿔 준다. [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 컴퓨터의 가치는 같은 일을 무조건 더 빨리 끝내는 데만 있지 않고, **이전에는 감당할 수 없던 규모의 문제를 같은 시간 안에 풀게 하는 데** 있다는 점을 보여준다. 그래서 이 법칙은 슈퍼컴퓨터, 클라우드 [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습 인프라의 경제성과 기술적 정당성을 설명하는 핵심 논리로 남아 있다.
 
-다만 이 법칙은 낙관적 전제 위에 서 있다. 문제 크기를 실제로 키울 수 있어야 하고, 통신·[[212_synchronization_mechanisms|동기화]]·메모리 병목이 [[430_index_fast_full_scan|병렬]] 이득을 잠식하지 않아야 한다. 따라서 실무에서는 "[[430_index_fast_full_scan|병렬]] 자원을 늘릴 수 있는가"보다 "늘어난 자원에 맞는 더 큰 문제를 안정적으로 공급할 수 있는가"를 함께 판단해야 한다.
+다만 이 법칙은 낙관적 전제 위에 서 있다. 문제 크기를 실제로 키울 수 있어야 하고, 통신·[동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)·메모리 병목이 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 이득을 잠식하지 않아야 한다. 따라서 실무에서는 "[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 자원을 늘릴 수 있는가"보다 "늘어난 자원에 맞는 더 큰 문제를 안정적으로 공급할 수 있는가"를 함께 판단해야 한다.
 
-결국 구스타프슨의 법칙은 [[430_index_fast_full_scan|병렬]] [[282_performance_tactics|성능]]을 **시간 단축의 관점이 아니라 문제 규모 확장의 관점에서 기억하라**는 메시지다. 이것이 암달의 한계를 부정하는 것이 아니라, 다른 현실을 설명하는 보완적 시선이라는 점이 중요하다.
+결국 구스타프슨의 법칙은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 **시간 단축의 관점이 아니라 문제 규모 확장의 관점에서 기억하라**는 메시지다. 이것이 암달의 한계를 부정하는 것이 아니라, 다른 현실을 설명하는 보완적 시선이라는 점이 중요하다.
 
-- **📢 섹션 요약 비유**: 좋은 [[430_index_fast_full_scan|병렬]] 시스템은 작은 물컵을 더 빨리 채우는 수도가 아니라, 같은 시간 안에 수영장까지 채울 수 있게 설계된 급수망에 가깝다.
+- **📢 섹션 요약 비유**: 좋은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 시스템은 작은 물컵을 더 빨리 채우는 수도가 아니라, 같은 시간 안에 수영장까지 채울 수 있게 설계된 급수망에 가깝다.
 
 ---
 
@@ -126,11 +130,11 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 암달의 법칙 (Amdahl's Law) | 문제 크기 고정 전제에서 [[430_index_fast_full_scan|병렬]]화 상한을 설명하는 대비 개념 |
-| [[144_speedup|속도 향상도]] ([[144_speedup|Speedup]]) | [[430_index_fast_full_scan|병렬]] 처리 [[282_performance_tactics|성능]]을 수치화하는 기본 지표이며, 구스타프슨은 이를 확장된 문제 기준으로 해석한다 |
-| [[139_throughput|처리량]] ([[139_throughput|Throughput]]) | 구스타프슨의 법칙이 특히 잘 설명하는 [[282_performance_tactics|성능]] 목표로, 같은 시간 안의 총 [[139_throughput|처리량]] 증가와 직결된다 |
+| 암달의 법칙 (Amdahl's Law) | 문제 크기 고정 전제에서 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 상한을 설명하는 대비 개념 |
+| [속도 향상도](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/144_speedup/) ([Speedup](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/144_speedup/)) | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 수치화하는 기본 지표이며, 구스타프슨은 이를 확장된 문제 기준으로 해석한다 |
+| [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) | 구스타프슨의 법칙이 특히 잘 설명하는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 목표로, 같은 시간 안의 총 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 증가와 직결된다 |
 | 약결합 확장 (Weak Scaling) | 프로세서 수 증가에 맞춰 문제 크기도 함께 늘리는 확장 모델로 구스타프슨의 법칙과 가장 밀접하다 |
-| 수평 확장 ([[202_scale_out_distributed_horizontal_expansion|Scale-out]]) | 노드를 늘려 더 큰 워크로드를 처리하는 [[136_variance|분산]] 시스템 전략이며 구스타프슨의 실무 구현 형태다 |
+| 수평 확장 ([Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)) | 노드를 늘려 더 큰 워크로드를 처리하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 전략이며 구스타프슨의 실무 구현 형태다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -155,7 +159,7 @@ tags:
 HPC (High Performance Computing) · GPU 클러스터 · 대규모 AI 학습
 ```
 
-이 흐름은 [[430_index_fast_full_scan|병렬]] [[282_performance_tactics|성능]] 논의가 "고정된 일을 얼마나 빨리 끝내는가"에서 "같은 시간 안에 얼마나 더 큰 일을 처리하는가"로 확장되는 방향을 보여준다.
+이 흐름은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 논의가 "고정된 일을 얼마나 빨리 끝내는가"에서 "같은 시간 안에 얼마나 더 큰 일을 처리하는가"로 확장되는 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -169,7 +173,7 @@ HPC (High Performance Computing) · GPU 클러스터 · 대규모 AI 학습
 
 **진행 상황**: 145 / 803
 
-← **이전**: [[144_speedup|144. 속도 향상도 (Speedup)]]
-**다음**: [[146_moores_law|146. 무어의 법칙 (Moore's Law)]] →
+← **이전**: [144. 속도 향상도 (Speedup)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/144_speedup/)
+**다음**: [146. 무어의 법칙 (Moore's Law)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/146_moores_law/) →
 
 ---

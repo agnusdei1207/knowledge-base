@@ -1,18 +1,22 @@
----
-title: 046. 대기 모드 — OS Standby & Sleep Modes
-date: '2026-04-05'
-tags:
-- studynote-operating-system
----
++++
+title = "046. 대기 모드 — OS Standby & Sleep Modes"
+date = 2026-04-05
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 > **핵심 인사이트**
-> 1. 대기 모드(Standby/Sleep Mode)는 OS가 시스템 전력을 절감하면서도 빠른 복귀를 보장하는 전력 관리 상태 — [[075_acpi|ACPI]](Advanced Configuration and [[069_type_1_2_error_statistical_power|Power]] Interface) 표준이 S0(완전 활성)부터 S5(소프트 파워오프)까지 6단계를 정의한다.
-> 2. CPU P-State와 C-State는 OS 전력 관리의 핵심 — C-State는 CPU 유휴 시 코어별 절전(C0~C10), P-State는 [[469_dvfs|DVFS]](Dynamic [[001_voltage|Voltage]] Frequency Scaling)로 성능-전력 균형을 조절하며 Linux의 cpufreq 드라이버가 이를 제어한다.
+> 1. 대기 모드(Standby/Sleep Mode)는 OS가 시스템 전력을 절감하면서도 빠른 복귀를 보장하는 전력 관리 상태 — [ACPI](/knowledge-base/studynote/02_operating_system/01_overview_architecture/075_acpi/)(Advanced Configuration and [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Interface) 표준이 S0(완전 활성)부터 S5(소프트 파워오프)까지 6단계를 정의한다.
+> 2. CPU P-State와 C-State는 OS 전력 관리의 핵심 — C-State는 CPU 유휴 시 코어별 절전(C0~C10), P-State는 [DVFS](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/)(Dynamic [Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) Frequency Scaling)로 성능-전력 균형을 조절하며 Linux의 cpufreq 드라이버가 이를 제어한다.
 > 3. 현대 OS의 전력 관리는 반응성과 효율의 트레이드오프 — Windows Modern Standby(S0ix)는 스마트폰처럼 네트워크 연결을 유지하면서 저전력을 달성하나, 배경 프로세스 관리가 불충분하면 배터리 드레인 문제가 발생한다.
 
 ---
 
-## Ⅰ. [[075_acpi|ACPI]] 전력 상태
+## Ⅰ. [ACPI](/knowledge-base/studynote/02_operating_system/01_overview_architecture/075_acpi/) 전력 상태
 
 ```
 ACPI (Advanced Configuration and Power Interface):
@@ -56,7 +60,7 @@ Windows 대응:
   Modern Standby → S0ix
 ```
 
-> 📢 **섹션 요약 비유**: [[075_acpi|ACPI]] S-State는 회사 퇴근 단계 — S0=열심히 일하는 중, S1=잠깐 자리 비움, S3=퇴근(짐 두고), S4=완전 퇴근([[164_pc|PC]] 끔), S5=전원 off. 빠른 복귀 vs 완전 절전 트레이드오프!
+> 📢 **섹션 요약 비유**: [ACPI](/knowledge-base/studynote/02_operating_system/01_overview_architecture/075_acpi/) S-State는 회사 퇴근 단계 — S0=열심히 일하는 중, S1=잠깐 자리 비움, S3=퇴근(짐 두고), S4=완전 퇴근([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 끔), S5=전원 off. 빠른 복귀 vs 완전 절전 트레이드오프!
 
 ---
 
@@ -253,7 +257,7 @@ macOS:
   1000대 × 20W = 20kW = 연 1,750만원 절감
 ```
 
-> 📢 **섹션 요약 비유**: 배터리 드레인 진단은 전기 누수 찾기 — powercfg는 전력계, 이상한 드라이버([[605_bluetooth_ieee_802_15_1_piconet_scatternet|블루투스]])가 잠자는 동안 몰래 전기 쓰는 것을 잡아내요!
+> 📢 **섹션 요약 비유**: 배터리 드레인 진단은 전기 누수 찾기 — powercfg는 전력계, 이상한 드라이버([블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/))가 잠자는 동안 몰래 전기 쓰는 것을 잡아내요!
 
 ---
 
@@ -320,7 +324,7 @@ Android Doze 고도화
 
 **진행 상황**: 46 / 800
 
-← **이전**: [[045_cluster_system|045. 클러스터 시스템 — Cluster System]]
-**다음**: [[047_dlm|047. DLM — 분산 잠금 관리자]] →
+← **이전**: [045. 클러스터 시스템 — Cluster System](/knowledge-base/studynote/02_operating_system/01_overview_architecture/045_cluster_system/)
+**다음**: [047. DLM — 분산 잠금 관리자](/knowledge-base/studynote/02_operating_system/01_overview_architecture/047_dlm/) →
 
 ---

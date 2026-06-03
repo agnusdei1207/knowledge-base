@@ -1,36 +1,40 @@
----
-title: 509. 인가 (Authorization) 모델 - RBAC(역할 기반), ABAC(속성 기반, 조건부 규칙)
-date: '2026-05-08'
-tags:
-- studynote-software-engineering
----
++++
+title = "509. 인가 (Authorization) 모델 - RBAC(역할 기반), ABAC(속성 기반, 조건부 규칙)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-software-engineering"]
+
+[extra]
+tags = ["studynote-software-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 인가 (Authorization) 모델 - [[569_rbac|RBAC]](역할 기반), [[572_abac|ABAC]]([[082_attribute_types_er_model|속성]] 기반, 조건부 규칙)은(는) [[001_software_engineering_definition|소프트웨어 공학]]의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[[346_maintainability_portability|유지보수성]]·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 인가 (Authorization) 모델 - [RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/)(역할 기반), [ABAC](/knowledge-base/studynote/09_security/11_iam_access_control/572_abac/)([속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 기반, 조건부 규칙)은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: **[[303_authentication_authorization_patterns|인증]](AuthN)**이 "너 신분증 내놔(누구야?)"라면, **인가(AuthZ)**는 "네 신분증이 대리(Role)네? 그럼 이 VVIP 폴더는 못 읽어. 꺼져!" 라고 권한을 제어하는 행위다. 
-  - **[[569_rbac|RBAC]] (Role-Based)**: 부장, 대리, 사원이라는 '명찰(역할)' 딱지를 기준으로 폴더 출입문을 막는다.
-  - **[[572_abac|ABAC]] ([[082_attribute_types_er_model|Attribute]]-Based)**: 명찰뿐만 아니라, "퇴근 시간 후(시간 [[082_attribute_types_er_model|속성]])에 폰으로 접속(기기 [[082_attribute_types_er_model|속성]])"하면 부장이라도 폴더를 못 열게 하는 미친 듯이 깐깐한 동적 규칙이다.
+- **개념**: **[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)(AuthN)**이 "너 신분증 내놔(누구야?)"라면, **인가(AuthZ)**는 "네 신분증이 대리(Role)네? 그럼 이 VVIP 폴더는 못 읽어. 꺼져!" 라고 권한을 제어하는 행위다. 
+  - **[RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/) (Role-Based)**: 부장, 대리, 사원이라는 '명찰(역할)' 딱지를 기준으로 폴더 출입문을 막는다.
+  - **[ABAC](/knowledge-base/studynote/09_security/11_iam_access_control/572_abac/) ([Attribute](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)-Based)**: 명찰뿐만 아니라, "퇴근 시간 후(시간 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))에 폰으로 접속(기기 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))"하면 부장이라도 폴더를 못 열게 하는 미친 듯이 깐깐한 동적 규칙이다.
 
-- **필요성**: 병원 시스템을 만들었다. 의사(Role)는 환자의 차트를 볼 수 있어야 한다. 그래서 코드를 `if (role == '의사') return 환자정보;` 라고 RBAC로 대충 짰다. 그랬더니 서울 병원에 있는 A의사가, 부산 병원에 있는 B의사 환자의 차트까지 모조리 다 볼 수 있는 끔찍한 대참사([[418_idor|IDOR]] 해킹)가 터졌다. **단순한 '역할(Role)' 1차원 통제로는 "나와 관련된 진짜 [[001_dikw_pyramid|데이터]](Ownership)만 볼 수 있는가?"라는 복잡다단한 현대 비즈니스의 경계를 절대 지켜낼 수 없기 때문에, [[082_attribute_types_er_model|속성]]([[082_attribute_types_er_model|Attribute]])까지 쥐어짜 내 검사하는 고도의 인가 아키텍처가 필수적으로 진화했다.**
+- **필요성**: 병원 시스템을 만들었다. 의사(Role)는 환자의 차트를 볼 수 있어야 한다. 그래서 코드를 `if (role == '의사') return 환자정보;` 라고 RBAC로 대충 짰다. 그랬더니 서울 병원에 있는 A의사가, 부산 병원에 있는 B의사 환자의 차트까지 모조리 다 볼 수 있는 끔찍한 대참사([IDOR](/knowledge-base/studynote/09_security/05_web_app_security/418_idor/) 해킹)가 터졌다. **단순한 '역할(Role)' 1차원 통제로는 "나와 관련된 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Ownership)만 볼 수 있는가?"라는 복잡다단한 현대 비즈니스의 경계를 절대 지켜낼 수 없기 때문에, [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)([Attribute](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))까지 쥐어짜 내 검사하는 고도의 인가 아키텍처가 필수적으로 진화했다.**
 
-- **💡 비유**: 인가 모델은 **'군부대 출입 통제 [[238_switch_operation_principles|스위치]]'**와 똑같습니다. 위병소에서 민증 검사([[303_authentication_authorization_patterns|인증]])를 하고 들어왔다 칩시다. 
-  - **[[569_rbac|RBAC]]**: 병사가 가슴에 **'대위'**라는 계급장(Role)을 달고 있으니까 식당과 연병장(일반 [[286_page_frame|페이지]])은 다 패스시키고, 장군 화장실(관리자 [[286_page_frame|페이지]])은 막는 단순 무식한 룰입니다.
-  - **[[572_abac|ABAC]]**: 계급이 '대위'라도, **지금 시간이 밤 12시(시간 [[082_attribute_types_er_model|속성]])**이고, **대위가 만취 상태(상태 [[082_attribute_types_er_model|속성]])**라면, 식당(일반 [[286_page_frame|페이지]]) 출입조차 기계가 즉각 거부해 버리는 훨씬 정밀하고 융통성 있는 스마트 도어록입니다.
+- **💡 비유**: 인가 모델은 **'군부대 출입 통제 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)'**와 똑같습니다. 위병소에서 민증 검사([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))를 하고 들어왔다 칩시다. 
+  - **[RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/)**: 병사가 가슴에 **'대위'**라는 계급장(Role)을 달고 있으니까 식당과 연병장(일반 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))은 다 패스시키고, 장군 화장실(관리자 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))은 막는 단순 무식한 룰입니다.
+  - **[ABAC](/knowledge-base/studynote/09_security/11_iam_access_control/572_abac/)**: 계급이 '대위'라도, **지금 시간이 밤 12시(시간 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))**이고, **대위가 만취 상태(상태 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))**라면, 식당(일반 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)) 출입조차 기계가 즉각 거부해 버리는 훨씬 정밀하고 융통성 있는 스마트 도어록입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **[[673_mac_message_authentication_code|MAC]]/DAC의 낭만 (과거)**: [[001_operating_system_purpose|운영체제]](리눅스 폴더 권한 777) 시절 쓰던 군대식 보안. 사용자가 직접 자기 폴더 권한을 남에게 주거나(DAC), 국가가 1급/2급 기밀 딱지를 붙여 통제([[673_mac_message_authentication_code|MAC]])했다. 웹 환경에 맞지 않아 버려졌다.
+  1. **[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)/DAC의 낭만 (과거)**: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(리눅스 폴더 권한 777) 시절 쓰던 군대식 보안. 사용자가 직접 자기 폴더 권한을 남에게 주거나(DAC), 국가가 1급/2급 기밀 딱지를 붙여 통제([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))했다. 웹 환경에 맞지 않아 버려졌다.
   2. **RBAC의 대통일 (2000년대)**: 엔터프라이즈(B2B) 기업 환경이 웹에 올라타며, 사원/대리/부장 이라는 '직급 그룹(Role)'에 권한 100개를 묶어서 던져주는 방식이 천하를 통일했다. (관리가 짱 편함)
-  3. **ABAC와 제로 트러스트의 강림 (현재)**: MSA와 클라우드가 열리며 유저가 집(재택), 카페, 모바일 어디서 접속할지 모르는 시대가 왔다. Role만 믿다간 다 털린다! "접속 환경, 시간, 위치, 자원 주인(Owner)"의 [[082_attribute_types_er_model|속성]] 변수들을 런타임에 1초 단위로 씹어먹으며 허락해 주는 [[572_abac|ABAC]] 시대가 인프라를 장악 중이다.
+  3. **ABAC와 제로 트러스트의 강림 (현재)**: MSA와 클라우드가 열리며 유저가 집(재택), 카페, 모바일 어디서 접속할지 모르는 시대가 왔다. Role만 믿다간 다 털린다! "접속 환경, 시간, 위치, 자원 주인(Owner)"의 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 변수들을 런타임에 1초 단위로 씹어먹으며 허락해 주는 [ABAC](/knowledge-base/studynote/09_security/11_iam_access_control/572_abac/) 시대가 인프라를 장악 중이다.
 
-- **📢 섹션 요약 비유**: 이 과정은 **'놀이공원 놀이기구 탑승 룰'**과 같습니다. 옛날([[569_rbac|RBAC]])엔 **"어른(Role)은 청룡열차 탈 수 있음, 애들은 회전목마만"** 이 끝이었습니다. 하지만 사고가 났죠. 지금([[572_abac|ABAC]])은 **"어른이라도 심장병이 있고([[082_attribute_types_er_model|속성]]), 비가 오는 날(환경)에는 청룡열차 탑승 불가!"**라는 복잡한 변수를 조합해 생명([[001_dikw_pyramid|데이터]])을 더욱 완벽하게 지켜내는 맞춤형 통제로 진화한 것입니다.
+- **📢 섹션 요약 비유**: 이 과정은 **'놀이공원 놀이기구 탑승 룰'**과 같습니다. 옛날([RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/))엔 **"어른(Role)은 청룡열차 탈 수 있음, 애들은 회전목마만"** 이 끝이었습니다. 하지만 사고가 났죠. 지금([ABAC](/knowledge-base/studynote/09_security/11_iam_access_control/572_abac/))은 **"어른이라도 심장병이 있고([속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)), 비가 오는 날(환경)에는 청룡열차 탑승 불가!"**라는 복잡한 변수를 조합해 생명([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 더욱 완벽하게 지켜내는 맞춤형 통제로 진화한 것입니다.
 
 ---
 
@@ -59,12 +63,12 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-인가 (Authorization) 모델 - [[569_rbac|RBAC]](역할 기반), [[572_abac|ABAC]]([[082_attribute_types_er_model|속성]] 기반, 조건부 규칙)의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
+인가 (Authorization) 모델 - [RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/)(역할 기반), [ABAC](/knowledge-base/studynote/09_security/11_iam_access_control/572_abac/)([속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 기반, 조건부 규칙)의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
 
 | 구성 요소 | 역할 | 적용 기준 |
 | :--- | :--- | :--- |
-| 개념 정의 | 핵심 용어와 범위를 명확히 [[009_config|설정]] | 용어 혼용·오해 방지 |
-| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | [[194_consistency_database_integrity|일관성]]·품질 기준 |
+| 개념 정의 | 핵심 용어와 범위를 명확히 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | 용어 혼용·오해 방지 |
+| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)·품질 기준 |
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
@@ -89,7 +93,7 @@ tags:
 | 조직 요건 | 팀 전체의 공통 이해와 훈련 필요 | 개인 역량 의존 |
 | 측정 가능성 | 정량적 지표로 성과 측정 가능 | 주관적 판단에 의존 |
 
-다른 [[001_software_engineering_definition|소프트웨어 공학]] 개념과의 연결을 보면, 인가 (Authorization) 모델은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 [[020_software_configuration_management|형상 관리]]([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]])와 긴밀하게 연계된다.
+다른 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 개념과의 연결을 보면, 인가 (Authorization) 모델은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/))와 긴밀하게 연계된다.
 
 - **📢 섹션 요약 비유**: 인가 (Authorization) 모델과 유사 대안의 차이는 지도를 가지고 산에 오르는 것과 감으로만 오르는 차이와 같다. 지도(체계적 방법)가 있으면 정상까지 최단 경로를 찾을 수 있지만, 없으면 같은 곳을 맴돌거나 낭떠러지에 빠질 수 있다.
 
@@ -111,21 +115,21 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-인가 (Authorization) 모델을(를) 올바르게 적용하면 [[339_software_quality_definition|소프트웨어 품질]]·[[346_maintainability_portability|유지보수성]]·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [[459_quic_fec_forward_error_correction|초기]] 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
+인가 (Authorization) 모델을(를) 올바르게 적용하면 [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/)·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
 
 **한계와 전제 조건**:
 - 소규모 프로젝트에서는 오버헤드가 발생할 수 있다
 - 팀 전체의 충분한 교육과 실습 기간이 필요하다
-- 도구 지원 환경 구축에 [[459_quic_fec_forward_error_correction|초기]] 비용이 발생한다
+- 도구 지원 환경 구축에 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용이 발생한다
 
 **미래 발전 방향**:
-- [[190_ai_llm_requirements_specification|AI]]·[[263_llm_large_language_model|LLM]] 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [[531_cloud_native_architecture|클라우드 네이티브]]·[[652_devops_calms_culture|DevOps]] 환경에서의 진화적 적용
+- [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 인가 (Authorization) 모델은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: 인가 (Authorization) 모델의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [[001_software_engineering_definition|소프트웨어 공학]]의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
+- **📢 섹션 요약 비유**: 인가 (Authorization) 모델의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
 
 ---
 
@@ -137,10 +141,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[001_software_engineering_definition|소프트웨어 공학]] ([[001_software_engineering_definition|Software Engineering]]) | 인가 (Authorization) 모델의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [[003_sdlc|소프트웨어 생명주기]] ([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]], Software Development Life Cycle) | 인가 (Authorization) 모델은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 인가 (Authorization) 모델의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 인가 (Authorization) 모델은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 인가 (Authorization) 모델 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [[020_software_configuration_management|형상 관리]] ([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]]) | 인가 (Authorization) 모델에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 인가 (Authorization) 모델에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -160,13 +164,13 @@ tags:
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [[002_software_crisis|소프트웨어 위기]] 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 인가 (Authorization) 모델은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
 
 ---
 
@@ -174,7 +178,7 @@ tags:
 
 **진행 상황**: 610 / 973
 
-← **이전**: [[509_authorization_models|509. 인가 (Authorization) 모델 - RBAC, ABAC]]
-**다음**: [[510_api_security_management|510. API 보안 관리 - OAuth 2.0, OIDC, JWT]] →
+← **이전**: [509. 인가 (Authorization) 모델 - RBAC, ABAC](/knowledge-base/studynote/04_software_engineering/11_testing_validation/509_authorization_models/)
+**다음**: [510. API 보안 관리 - OAuth 2.0, OIDC, JWT](/knowledge-base/studynote/04_software_engineering/11_testing_validation/510_api_security_management/) →
 
 ---

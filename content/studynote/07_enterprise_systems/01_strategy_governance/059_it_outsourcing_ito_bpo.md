@@ -1,15 +1,19 @@
----
-title: 59. 정보기술 아웃소싱 (ITO, IT Outsourcing) / BPO (비즈니스 프로세스 아웃소싱)
-date: '2026-04-19'
-tags:
-- studynote-enterprise-systems
----
++++
+title = "59. 정보기술 아웃소싱 (ITO, IT Outsourcing) / BPO (비즈니스 프로세스 아웃소싱)"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-enterprise-systems"]
+
+[extra]
+tags = ["studynote-enterprise-systems"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[043_it_outsourcing_ito_strategy|ITO]](Information Technology Outsourcing)는 IT 운영·개발을, [[044_bpo_business_process_outsourcing|BPO]]([[044_bpo_business_process_outsourcing|Business Process Outsourcing]])는 업무 프로세스 자체를 외부 전문업체에 맡기는 [[268_strategy_pattern|전략]]이다.
-> 2. **가치**: 비용 절감과 핵심 역량 집중이 가능하지만, 내부 역량 약화와 [[051_vendor_lock_in_cloud_computing|벤더 종속]]([[362_lock_in_portability|lock-in]]) 위험이 따라온다.
-> 3. **판단 포인트**: [[085_sla|SLA]]([[085_sla|Service Level Agreement]]), 보안, 전환/철수 계획, 지식 이전을 설계하지 않으면 아웃소싱은 실패한다.
+> 1. **본질**: [ITO](/knowledge-base/studynote/12_it_management/01_governance_strategy/043_it_outsourcing_ito_strategy/)(Information Technology Outsourcing)는 IT 운영·개발을, [BPO](/knowledge-base/studynote/12_it_management/01_governance_strategy/044_bpo_business_process_outsourcing/)([Business Process Outsourcing](/knowledge-base/studynote/12_it_management/01_governance_strategy/044_bpo_business_process_outsourcing/))는 업무 프로세스 자체를 외부 전문업체에 맡기는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
+> 2. **가치**: 비용 절감과 핵심 역량 집중이 가능하지만, 내부 역량 약화와 [벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/)([lock-in](/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/)) 위험이 따라온다.
+> 3. **판단 포인트**: [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)), 보안, 전환/철수 계획, 지식 이전을 설계하지 않으면 아웃소싱은 실패한다.
 
 ---
 
@@ -37,14 +41,14 @@ ITO는 서버 운영, 네트워크, 유지보수, 애플리케이션 운영 같�
 SLA / KPI / 보안 / 정산
 ```
 
-| 구분 | [[043_it_outsourcing_ito_strategy|ITO]] | [[044_bpo_business_process_outsourcing|BPO]] |
+| 구분 | [ITO](/knowledge-base/studynote/12_it_management/01_governance_strategy/043_it_outsourcing_ito_strategy/) | [BPO](/knowledge-base/studynote/12_it_management/01_governance_strategy/044_bpo_business_process_outsourcing/) |
 | :-- | :-- | :-- |
 | 대상 | IT 인프라, 개발, 운영 | 회계, 인사, 콜센터 등 업무 프로세스 |
 | 목적 | 운영 효율, 전문성 확보 | 비핵심 업무의 표준화와 비용 절감 |
 | 위험 | 기술 종속, 운영 중단 | 품질 편차, 정보 유출 |
-| 핵심 계약 | [[085_sla|SLA]], 유지보수 범위 | [[085_sla|SLA]], [[139_throughput|처리량]], 응답시간, 정산 규칙 |
+| 핵심 계약 | [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/), 유지보수 범위 | [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/), [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), 응답시간, 정산 규칙 |
 
-아웃소싱은 "밖에 맡긴다"로 끝나지 않는다. 책임 경계, 성과 지표, [[001_dikw_pyramid|데이터]] 소유권, [[009_incident_response|사고 대응]]을 계약으로 못 박아야 한다.
+아웃소싱은 "밖에 맡긴다"로 끝나지 않는다. 책임 경계, 성과 지표, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유권, [사고 대응](/knowledge-base/studynote/09_security/01_intro_principles/009_incident_response/)을 계약으로 못 박아야 한다.
 
 - **📢 섹션 요약 비유**: 주방 일을 맡기더라도 레시피, 위생, 마감시간은 계약서로 정해 두는 것이다.
 
@@ -57,8 +61,8 @@ SLA / KPI / 보안 / 정산
 | 방식 | 장점 | 단점 |
 | :-- | :-- | :-- |
 | 인하우스 | 통제 용이, 지식 축적 | 고정비 증가, 전문성 확보 부담 |
-| [[043_it_outsourcing_ito_strategy|ITO]] | IT 전문성 활용, 운영 효율 | 기술 종속, 내부 역량 약화 |
-| [[044_bpo_business_process_outsourcing|BPO]] | 반복 업무 표준화, 확장성 | 품질 관리 어려움, [[001_dikw_pyramid|데이터]] 민감도 증가 |
+| [ITO](/knowledge-base/studynote/12_it_management/01_governance_strategy/043_it_outsourcing_ito_strategy/) | IT 전문성 활용, 운영 효율 | 기술 종속, 내부 역량 약화 |
+| [BPO](/knowledge-base/studynote/12_it_management/01_governance_strategy/044_bpo_business_process_outsourcing/) | 반복 업무 표준화, 확장성 | 품질 관리 어려움, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 민감도 증가 |
 
 ITO는 시스템 운영과 기술 지원에 강하고, BPO는 업무 단위의 표준화에 강하다. 둘 다 핵심은 "무엇을 남기고 무엇을 넘길지"를 정확히 자르는 데 있다.
 
@@ -70,25 +74,25 @@ ITO는 시스템 운영과 기술 지원에 강하고, BPO는 업무 단위의 �
 
 아웃소싱이 성공하려면 계약보다 운영 거버넌스가 중요하다. 벤더를 바꾸기 어렵게 만드는 구조를 먼저 경계해야 한다.
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 핵심 역량과 비핵심 업무를 분리했는가?
-2. [[085_sla|SLA]], [[018_kpi|KPI]], 보안 책임 범위가 문서화되어 있는가?
+2. [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/), [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/), 보안 책임 범위가 문서화되어 있는가?
 3. 지식 이전과 철수(exit) 계획이 있는가?
 4. 장애·보안사고 대응 책임이 명확한가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 내부에 아무도 모르게 되는 공동화(hollowing out)
 - 계약서만 있고 실질 운영 지표가 없는 아웃소싱
-- [[001_dikw_pyramid|데이터]]/권한 통제를 벤더에게 과도하게 넘기는 설계
+- [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)/권한 통제를 벤더에게 과도하게 넘기는 설계
 
 ### 실무 포인트
 
 - RFP(Request for Proposal)와 입찰 비교
 - 운영 KPI와 월간 품질 리뷰
-- 보안 통제와 [[606_auditing_linux_auditd|감사]] 권한
-- 벤더 전환 계획과 [[555_backup_and_restore_strategy|백업]] 운영
+- 보안 통제와 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 권한
+- 벤더 전환 계획과 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 운영
 
 - **📢 섹션 요약 비유**: 남에게 청소를 맡기더라도, 열쇠와 비상 연락망은 집주인이 쥐고 있어야 한다.
 
@@ -96,7 +100,7 @@ ITO는 시스템 운영과 기술 지원에 강하고, BPO는 업무 단위의 �
 
 ## Ⅴ. 기대효과 및 결론
 
-ITO와 BPO는 비용 절감만이 아니라, 자원을 [[268_strategy_pattern|전략]] 업무에 집중시키는 경영 도구다. 다만 통제를 잃으면 [[051_vendor_lock_in_cloud_computing|벤더 종속]]과 지식 공백이 남는다.
+ITO와 BPO는 비용 절감만이 아니라, 자원을 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 업무에 집중시키는 경영 도구다. 다만 통제를 잃으면 [벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/)과 지식 공백이 남는다.
 
 따라서 아웃소싱은 "버리기"가 아니라 "관리하는 외부화"로 이해해야 한다. 핵심은 계약이 아니라 운영 통제다.
 
@@ -146,7 +150,7 @@ BPO는 계산이나 안내 같은 업무까지 더 크게 맡기는 거예요.
 
 **진행 상황**: 59 / 482
 
-← **이전**: [[058_it_compliance_sox_basel_gdpr_isms|58. IT 컴플라이언스 (Compliance) - SOX, Basel, GDPR, ISMS]]
-**다음**: [[060_cloud_msp_managed_service_provider|60. 클라우드 MSP (Managed Service Provider) - 클라우드 운영 대행 아웃소싱]] →
+← **이전**: [58. IT 컴플라이언스 (Compliance) - SOX, Basel, GDPR, ISMS](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/)
+**다음**: [60. 클라우드 MSP (Managed Service Provider) - 클라우드 운영 대행 아웃소싱](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/060_cloud_msp_managed_service_provider/) →
 
 ---

@@ -1,14 +1,18 @@
----
-title: 048. BPSK·QPSK — 위상 편이 변조
-date: '2026-04-05'
-tags:
-- studynote-network
----
++++
+title = "048. BPSK·QPSK — 위상 편이 변조"
+date = 2026-04-05
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 > **핵심 인사이트**
-> 1. [[142_psk_pre_shared_key|PSK]](Phase Shift Keying)는 반송파의 위상(Phase)을 변화시켜 디지털 [[001_dikw_pyramid|데이터]]를 전송 — BPSK는 2가지 위상(0°/180°)으로 1비트, QPSK는 4가지 위상(0°/90°/180°/270°)으로 2비트를 동시에 전송한다.
-> 2. QPSK는 BPSK와 동일한 [[140_bandwidth|대역폭]]([[140_bandwidth|Bandwidth]])으로 2배 [[001_dikw_pyramid|데이터]] 전송 — 위상 수를 4개로 늘려 심볼당 [[073_bit|비트]] 수를 2배로 높이면서도 BER([[086_fenwick_tree|Bit]] Error Rate) 성능은 BPSK와 동일하게 유지되는 효율적인 변조 방식이다.
-> 3. 현대 통신에서 QAM(직교진폭변조)으로의 진화 — [[418_5g_embb_urllc_mmtc_slicing|5G]] NR에서 256-QAM을 사용하면 심볼당 8비트 전송이 가능하지만, [[024_신호_대_잡음비|SNR]] 요구사항도 급격히 높아지는 트레이드오프가 존재하며, 채널 상태에 따라 QPSK~256-QAM을 적응적으로 선택(AMC)한다.
+> 1. [PSK](/knowledge-base/studynote/09_security/03_network_security/142_psk_pre_shared_key/)(Phase Shift Keying)는 반송파의 위상(Phase)을 변화시켜 디지털 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송 — BPSK는 2가지 위상(0°/180°)으로 1비트, QPSK는 4가지 위상(0°/90°/180°/270°)으로 2비트를 동시에 전송한다.
+> 2. QPSK는 BPSK와 동일한 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))으로 2배 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 — 위상 수를 4개로 늘려 심볼당 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수를 2배로 높이면서도 BER([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Error Rate) 성능은 BPSK와 동일하게 유지되는 효율적인 변조 방식이다.
+> 3. 현대 통신에서 QAM(직교진폭변조)으로의 진화 — [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) NR에서 256-QAM을 사용하면 심볼당 8비트 전송이 가능하지만, [SNR](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/) 요구사항도 급격히 높아지는 트레이드오프가 존재하며, 채널 상태에 따라 QPSK~256-QAM을 적응적으로 선택(AMC)한다.
 
 ---
 
@@ -56,7 +60,7 @@ BER (Bit Error Rate):
   (두 점 간 거리가 최대)
 ```
 
-> 📢 **섹션 요약 비유**: BPSK = 동전 앞뒤 [[130_signal|신호]] — 앞면(0°) = 1, 뒷면(180°) = 0. 딱 두 가지만 구분하니 잡음에 강해요. 단, 한 번에 1비트만 전송!
+> 📢 **섹션 요약 비유**: BPSK = 동전 앞뒤 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) — 앞면(0°) = 1, 뒷면(180°) = 0. 딱 두 가지만 구분하니 잡음에 강해요. 단, 한 번에 1비트만 전송!
 
 ---
 
@@ -107,7 +111,7 @@ QPSK vs BPSK 비교:
   → 심볼 간 거리 유지 → 동등한 오류 성능
 ```
 
-> 📢 **섹션 요약 비유**: QPSK = 나침반 4방향 [[130_signal|신호]] — 북(0°)=00, 동(90°)=01, 남(180°)=[[308_static_dynamic_nat_pat_port_address_translation|11]], 서(270°)=[[489_raid_10_hybrid|10]]. 4방향으로 한 번에 2비트! BPSK와 같은 도로폭으로 2배 짐을 실어요!
+> 📢 **섹션 요약 비유**: QPSK = 나침반 4방향 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) — 북(0°)=00, 동(90°)=01, 남(180°)=[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/), 서(270°)=[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). 4방향으로 한 번에 2비트! BPSK와 같은 도로폭으로 2배 짐을 실어요!
 
 ---
 
@@ -152,7 +156,7 @@ AMC (Adaptive Modulation and Coding):
   → 매 서브프레임(1ms)마다 변조 방식 전환
 ```
 
-> 📢 **섹션 요약 비유**: QAM 진화 = 암호 복잡도 증가 — BPSK(2가지 [[130_signal|신호]]), 256-QAM(256가지 [[130_signal|신호]]). 가까우면 복잡한 [[130_signal|신호]]로 빠르게, 멀면 단순 [[130_signal|신호]]로 안전하게. AMC가 자동 선택!
+> 📢 **섹션 요약 비유**: QAM 진화 = 암호 복잡도 증가 — BPSK(2가지 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)), 256-QAM(256가지 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)). 가까우면 복잡한 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)로 빠르게, 멀면 단순 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)로 안전하게. AMC가 자동 선택!
 
 ---
 
@@ -196,11 +200,11 @@ DOCSIS (케이블 인터넷):
   256-QAM: 8000 bps
 ```
 
-> 📢 **섹션 요약 비유**: 통신 시스템 변조 선택 = 도로별 차 크기 — 위성(울퉁불퉁 도로): 작은 차(BPSK). [[418_5g_embb_urllc_mmtc_slicing|5G]](도시 고속도로): 트럭(256-QAM). 케이블(고속도로): 대형 트럭(1024-QAM)!
+> 📢 **섹션 요약 비유**: 통신 시스템 변조 선택 = 도로별 차 크기 — 위성(울퉁불퉁 도로): 작은 차(BPSK). [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)(도시 고속도로): 트럭(256-QAM). 케이블(고속도로): 대형 트럭(1024-QAM)!
 
 ---
 
-## Ⅴ. 실무 시나리오 — [[418_5g_embb_urllc_mmtc_slicing|5G]] 기지국 AMC
+## Ⅴ. 실무 시나리오 — [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국 AMC
 
 ```
 5G NR AMC 동작 예시:
@@ -240,7 +244,7 @@ AMC 효과:
   → 7배 효율 향상
 ```
 
-> 📢 **섹션 요약 비유**: [[418_5g_embb_urllc_mmtc_slicing|5G]] AMC = 도로 상황별 속도 조절 — 고속도로(가까운 기지국)엔 256-QAM으로 질주, 막히는 골목(먼 거리)엔 QPSK로 안전 운행. 매 1ms마다 자동 조정!
+> 📢 **섹션 요약 비유**: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) AMC = 도로 상황별 속도 조절 — 고속도로(가까운 기지국)엔 256-QAM으로 질주, 막히는 골목(먼 거리)엔 QPSK로 안전 운행. 매 1ms마다 자동 조정!
 
 ---
 
@@ -302,8 +306,8 @@ Wi-Fi 6E, 6G 연구
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. BPSK = 동전 [[130_signal|신호]] — 앞면(0°)=1, 뒷면(180°)=0. 딱 두 가지라 잡음에 강해요. 단, 한 번에 1비트만!
-2. QPSK = 나침반 [[130_signal|신호]] — 북/동/남/서 4방향으로 한 번에 2비트! BPSK와 같은 도로폭에서 2배 [[001_dikw_pyramid|데이터]]!
+1. BPSK = 동전 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) — 앞면(0°)=1, 뒷면(180°)=0. 딱 두 가지라 잡음에 강해요. 단, 한 번에 1비트만!
+2. QPSK = 나침반 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) — 북/동/남/서 4방향으로 한 번에 2비트! BPSK와 같은 도로폭에서 2배 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)!
 3. AMC = 도로 상황별 속도 — 고속도로(256-QAM: 빠름), 골목길(QPSK: 안전). 5G가 매 1ms마다 자동 선택!
 
 ---
@@ -312,7 +316,7 @@ Wi-Fi 6E, 6G 연구
 
 **진행 상황**: 48 / 1120
 
-← **이전**: [[047_위상_편이_변조_PSK|047. PSK — 위상 편이 변조]]
-**다음**: [[049_OQPSK_Pi_4_QPSK|049. OQPSK / π/4-QPSK — 오프셋 위상 변조]] →
+← **이전**: [047. PSK — 위상 편이 변조](/knowledge-base/studynote/03_network/01_data_communication/047_위상_편이_변조_PSK/)
+**다음**: [049. OQPSK / π/4-QPSK — 오프셋 위상 변조](/knowledge-base/studynote/03_network/01_data_communication/049_OQPSK_Pi_4_QPSK/) →
 
 ---

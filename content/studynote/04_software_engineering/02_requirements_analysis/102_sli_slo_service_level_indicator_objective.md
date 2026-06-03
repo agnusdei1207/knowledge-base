@@ -1,18 +1,22 @@
----
-title: 102. SLI (Service Level Indicator) / SLO (Service Level Objective)
-tags:
-- software_engineering
----
++++
+title = "102. SLI (Service Level Indicator) / SLO (Service Level Objective)"
+
+[taxonomies]
+tags = ["software_engineering"]
+
+[extra]
+tags = ["software_engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [[100_sre_site_reliability_engineering_error_budget|SRE]] ([[100_sre_site_reliability_engineering_error_budget|Site Reliability Engineering]])에서 시스템의 신뢰성을 측정하는 근간으로, **SLI (지표)**는 사용자가 체감하는 현재의 객관적 수치이며, **[[181_slo_service_level_objective|SLO]] (목표)**는 그 지표가 도달해야 할 사내 합의 기준선이다.
-> 2. **가치**: 감이나 추측이 아니라 [[001_dikw_pyramid|데이터]] 기반으로 시스템 안정성을 평가하며, 안정성과 새로운 기능 출시 속도 사이의 트레이드오프를 조율하는 [[101_error_budget_sre|에러 예산]] ([[101_error_budget_sre|Error Budget]])을 창출한다.
+> 1. **본질**: [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))에서 시스템의 신뢰성을 측정하는 근간으로, **SLI (지표)**는 사용자가 체감하는 현재의 객관적 수치이며, **[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) (목표)**는 그 지표가 도달해야 할 사내 합의 기준선이다.
+> 2. **가치**: 감이나 추측이 아니라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반으로 시스템 안정성을 평가하며, 안정성과 새로운 기능 출시 속도 사이의 트레이드오프를 조율하는 [에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) ([Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/))을 창출한다.
 > 3. **판단 포인트**: SLI는 철저히 사용자 여정 (User Journey) 관점에서 측정해야 하며, SLO를 100%로 잡으면 시스템 변경이 불가능해지므로 비즈니스 영향도를 고려해 99.9% 같은 현실적 타협점을 찾아야 한다.
 
 ## Ⅰ. 개요 및 필요성
-과거 IT 조직에서 개발팀은 "빨리 새로운 기능을 배포하자"고 외치고, 운영팀은 "서버 터지니 배포하지 마라"고 싸웠다. 이 소모적인 감정싸움을 끝내기 위해 구글(Google)의 [[100_sre_site_reliability_engineering_error_budget|SRE]] 프레임워크가 도입한 객관적 심판관이 바로 **SLI ([[090_service_kubernetes_network_load_balancing|Service]] Level Indicator)**와 **[[181_slo_service_level_objective|SLO]] ([[123_slo_service_level_objective|Service Level Objective]])**다.
+과거 IT 조직에서 개발팀은 "빨리 새로운 기능을 배포하자"고 외치고, 운영팀은 "서버 터지니 배포하지 마라"고 싸웠다. 이 소모적인 감정싸움을 끝내기 위해 구글(Google)의 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 프레임워크가 도입한 객관적 심판관이 바로 **SLI ([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Level Indicator)**와 **[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) ([Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/))**다.
 
-"우리 서비스가 안정적인가?"라는 주관적 질문을 "어제 하루 결제 API의 200 OK 응답 비율이 99.9%를 넘었는가?"라는 [[001_dikw_pyramid|데이터]]로 치환한다. 이를 통해 개발과 운영, 비즈니스 부서는 동일한 숫자를 보며 소통하게 되고, 목표에 미달하면 배포를 멈추고 시스템 안정화에 집중하는 자동화된 의사결정 체계를 세울 수 있다.
+"우리 서비스가 안정적인가?"라는 주관적 질문을 "어제 하루 결제 API의 200 OK 응답 비율이 99.9%를 넘었는가?"라는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 치환한다. 이를 통해 개발과 운영, 비즈니스 부서는 동일한 숫자를 보며 소통하게 되고, 목표에 미달하면 배포를 멈추고 시스템 안정화에 집중하는 자동화된 의사결정 체계를 세울 수 있다.
 
 - **📢 섹션 요약 비유**: SLI는 환자의 입에 문 '체온계의 눈금(38도)'이고, SLO는 의사가 정해준 '정상 체온 범위(36.5도 유지)'다. 눈금이 정상을 벗어나면 당장 밖에서 노는 것(신규 배포)을 멈추고 약을 먹어야(버그 수정) 한다.
 
@@ -21,11 +25,11 @@ tags:
 
 1. **SLI (지표)의 측정 원리**
    - SLI는 보통 **(성공한 이벤트 수 / 전체 유효 이벤트 수) $\times 100$** 의 백분율 비율로 계산된다.
-   - 예를 들어, [[452_availability|가용성]]([[452_availability|Availability]]) SLI는 "성공한 [[461_http_stateless_connection_oriented|HTTP]] 요청 / 전체 [[461_http_stateless_connection_oriented|HTTP]] 요청", [[141_latency|지연 시간]]([[141_latency|Latency]]) SLI는 "100ms 이내 응답 / 전체 요청"으로 정의한다. CPU 80% 같은 인프라 지표가 아니라, 고객이 체감하는 엔드포인트 지표여야 한다.
+   - 예를 들어, [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)([Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)) SLI는 "성공한 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 요청 / 전체 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 요청", [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) SLI는 "100ms 이내 응답 / 전체 요청"으로 정의한다. CPU 80% 같은 인프라 지표가 아니라, 고객이 체감하는 엔드포인트 지표여야 한다.
 
-2. **[[181_slo_service_level_objective|SLO]] (목표)와 [[101_error_budget_sre|에러 예산]] ([[101_error_budget_sre|Error Budget]]) 아키텍처**
-   - SLO는 SLI가 달성해야 할 타깃이다. 예: "[[452_availability|가용성]] SLI $\ge$ 99.9%".
-   - 이 목표를 설정하는 순간 시스템이 허용 가능한 실패치, 즉 **[[101_error_budget_sre|에러 예산]] ([[101_error_budget_sre|Error Budget]]) = $100\% - [[181_slo_service_level_objective|SLO]]$** 가 자동으로 도출된다. 99.9%가 목표라면 0.1%의 요청은 실패해도 괜찮다는 여유 자금이 생긴 것이다.
+2. **[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) (목표)와 [에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) ([Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)) 아키텍처**
+   - SLO는 SLI가 달성해야 할 타깃이다. 예: "[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) SLI $\ge$ 99.9%".
+   - 이 목표를 설정하는 순간 시스템이 허용 가능한 실패치, 즉 **[에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) ([Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)) = $100\% - [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)$** 가 자동으로 도출된다. 99.9%가 목표라면 0.1%의 요청은 실패해도 괜찮다는 여유 자금이 생긴 것이다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -42,45 +46,45 @@ tags:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 한 달 용돈([[101_error_budget_sre|에러 예산]])이 10만 원이다. 이번 주에 밥값이 9만 원(SLI 성공률)밖에 안 들었다면 목표([[181_slo_service_level_objective|SLO]])를 지켰으니 남은 만 원으로 PC방(신규 기능 배포)을 갈 수 있는 권리가 생긴다.
+- **📢 섹션 요약 비유**: 한 달 용돈([에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/))이 10만 원이다. 이번 주에 밥값이 9만 원(SLI 성공률)밖에 안 들었다면 목표([SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/))를 지켰으니 남은 만 원으로 PC방(신규 기능 배포)을 갈 수 있는 권리가 생긴다.
 
 ## Ⅲ. 비교 및 연결
-[[100_sre_site_reliability_engineering_error_budget|SRE]] 개념을 헷갈리지 않으려면 내부 목표([[181_slo_service_level_objective|SLO]])와 외부 계약([[085_sla|SLA]])의 경계를 그어야 한다.
+[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 개념을 헷갈리지 않으려면 내부 목표([SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/))와 외부 계약([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))의 경계를 그어야 한다.
 
-| 구분 | SLI (지표) | [[181_slo_service_level_objective|SLO]] (목표) | [[085_sla|SLA]] (계약) |
+| 구분 | SLI (지표) | [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) (목표) | [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) (계약) |
 |:---|:---|:---|:---|
-| **역할** | [[178_as_is_to_be_analysis|현재 상태]] 측정 수치 (Fact) | 사내 팀 간 달성 목표 (Target) | 외부 고객과의 법적 계약 (Contract) |
+| **역할** | [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 측정 수치 (Fact) | 사내 팀 간 달성 목표 (Target) | 외부 고객과의 법적 계약 (Contract) |
 | **비유** | 체중계 75kg 숫자 | 다이어트 목표 70kg 이하 | 관장님과 맺은 벌금 내기 80kg 이하 |
 | **대상자** | 엔지니어 모니터링 대시보드 | 개발팀, 운영팀, 비즈니스 부서장 | 영업팀, 법무팀, 외부 고객 |
 | **결과** | 수집 및 통계치 기록 | 미달 시 신규 배포 중단, 안정화 집중 | 미달 시 위약금, 요금 환불, 소송 |
 
-SLA는 돈과 소송이 걸려 있으므로, 기업은 항상 **SLO를 SLA보다 훨씬 빡빡하게(보수적으로) 잡아 안전 쿠션**을 둔다. 사내 목표([[181_slo_service_level_objective|SLO]])인 99.9%가 무너지더라도 고객과 약속한 SLA인 99.0% 방어선은 지켜서 위약금을 물어주지 않도록 하기 위함이다.
+SLA는 돈과 소송이 걸려 있으므로, 기업은 항상 **SLO를 SLA보다 훨씬 빡빡하게(보수적으로) 잡아 안전 쿠션**을 둔다. 사내 목표([SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/))인 99.9%가 무너지더라도 고객과 약속한 SLA인 99.0% 방어선은 지켜서 위약금을 물어주지 않도록 하기 위함이다.
 
-- **📢 섹션 요약 비유**: SLO는 시험에서 "나 스스로 90점 이상 맞겠다"는 결심이고, SLA는 "만약 80점 밑으로 떨어지면 엄마한테 용돈을 깎이겠다"는 구두 계약이다. 결심([[181_slo_service_level_objective|SLO]])이 흔들려도 계약([[085_sla|SLA]]) 방어선은 지켜야 산다.
+- **📢 섹션 요약 비유**: SLO는 시험에서 "나 스스로 90점 이상 맞겠다"는 결심이고, SLA는 "만약 80점 밑으로 떨어지면 엄마한테 용돈을 깎이겠다"는 구두 계약이다. 결심([SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/))이 흔들려도 계약([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)) 방어선은 지켜야 산다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 실무에서 SLO를 도입할 때 겪는 가장 흔한 실패는 100% 완벽함을 추구하는 것이다.
 
-### 판단 시나리오 및 [[435_checklist_based_testing|체크리스트]]
-1. **절대 [[181_slo_service_level_objective|SLO]] 100%를 설정하지 마라**: 100% [[452_availability|가용성]]을 목표로 하면 시스템 아키텍처 비용이 기하급수적으로 늘어나고, 어떠한 코드 변경도 할 수 없다. 구글의 철학처럼 "사용자는 99.9%와 100%의 차이를 느끼지 못한다."
-2. **비즈니스 여정에 따른 [[181_slo_service_level_objective|SLO]] 차등 적용**: 모든 API가 동일하게 중요하지 않다. '장바구니 결제 [[014_api_posix|API]]'는 [[181_slo_service_level_objective|SLO]] 99.99%를 부여하여 최우선 방어하고, '유저 프로필 사진 렌더링 [[014_api_posix|API]]'는 [[181_slo_service_level_objective|SLO]] 99.0%로 느슨하게 잡아 인프라 비용을 세이브하는 설계적 결단이 필요하다.
-3. **[[101_error_budget_sre|에러 예산]] 소진 시 [[164_policy|정책]] 강제성**: SLO가 뚫려 [[101_error_budget_sre|에러 예산]]이 마이너스가 되면, PO(Product Owner)가 신규 배포를 압박하더라도 철저히 거부하고 백엔드 리팩토링과 버그 수정에 [[067_sprint_timebox|스프린트]] 자원을 몰빵해야 하는 강제 합의가 사전에 되어 있어야 한다.
+### 판단 시나리오 및 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+1. **절대 [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) 100%를 설정하지 마라**: 100% [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)을 목표로 하면 시스템 아키텍처 비용이 기하급수적으로 늘어나고, 어떠한 코드 변경도 할 수 없다. 구글의 철학처럼 "사용자는 99.9%와 100%의 차이를 느끼지 못한다."
+2. **비즈니스 여정에 따른 [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) 차등 적용**: 모든 API가 동일하게 중요하지 않다. '장바구니 결제 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)'는 [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) 99.99%를 부여하여 최우선 방어하고, '유저 프로필 사진 렌더링 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)'는 [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) 99.0%로 느슨하게 잡아 인프라 비용을 세이브하는 설계적 결단이 필요하다.
+3. **[에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) 소진 시 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 강제성**: SLO가 뚫려 [에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)이 마이너스가 되면, PO(Product Owner)가 신규 배포를 압박하더라도 철저히 거부하고 백엔드 리팩토링과 버그 수정에 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 자원을 몰빵해야 하는 강제 합의가 사전에 되어 있어야 한다.
 
 - **📢 섹션 요약 비유**: 과녁의 정중앙 10점(100% 완벽)만 노리느라 활을 쏘지도 못하고 덜덜 떠는 것보다, 8점 원(99.9%) 안에만 들어가면 합격이라고 마음을 비우면 훨씬 빠르게 화살(신규 배포)을 쏠 수 있다.
 
 ## Ⅴ. 기대효과 및 결론
-SLI와 [[181_slo_service_level_objective|SLO]] 체계는 모호한 시스템의 체력을 [[001_dikw_pyramid|데이터]]로 계량화하여 조직의 의사결정 기준을 세운다.
+SLI와 [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) 체계는 모호한 시스템의 체력을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 계량화하여 조직의 의사결정 기준을 세운다.
 
-이를 통해 개발팀은 [[101_error_budget_sre|에러 예산]]이 남아돌 때는 마음껏 혁신적이고 파괴적인 테스트 배포를 감행하는 자유를 얻고, 운영팀은 지표가 흔들릴 때 합법적으로 브레이크를 밟아 시스템 붕괴를 사전에 막아내는 권한을 얻는다. 결국 SLO는 기계와 서버를 위한 지표가 아니라, 사람 간의 갈등을 숫자로 조율해 주는 가장 훌륭한 소프트웨어 공학의 심판관이다.
+이를 통해 개발팀은 [에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)이 남아돌 때는 마음껏 혁신적이고 파괴적인 테스트 배포를 감행하는 자유를 얻고, 운영팀은 지표가 흔들릴 때 합법적으로 브레이크를 밟아 시스템 붕괴를 사전에 막아내는 권한을 얻는다. 결국 SLO는 기계와 서버를 위한 지표가 아니라, 사람 간의 갈등을 숫자로 조율해 주는 가장 훌륭한 소프트웨어 공학의 심판관이다.
 
-- **📢 섹션 요약 비유**: 도로에 속도 위반 단속 카메라(SLI)와 규정 속도 표지판([[181_slo_service_level_objective|SLO]])이 생기면 운전자와 경찰이 싸울 필요가 없다. 엑셀을 밟을지 브레이크를 밟을지는 오직 카메라에 찍힌 명확한 숫자만이 결정해 준다.
+- **📢 섹션 요약 비유**: 도로에 속도 위반 단속 카메라(SLI)와 규정 속도 표지판([SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/))이 생기면 운전자와 경찰이 싸울 필요가 없다. 엑셀을 밟을지 브레이크를 밟을지는 오직 카메라에 찍힌 명확한 숫자만이 결정해 준다.
 
 ### 📌 관련 개념 맵
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[[101_error_budget_sre|Error Budget]] ([[101_error_budget_sre|에러 예산]])** | 100%에서 SLO를 뺀 나머지 공간. 이 예산 안에서 개발팀은 장애를 감수하며 빠른 배포를 태울 수 있다. |
-| **[[100_sre_site_reliability_engineering_error_budget|SRE]] ([[100_sre_site_reliability_engineering_error_budget|Site Reliability Engineering]])** | SLI, [[181_slo_service_level_objective|SLO]], [[085_sla|SLA]] 체계를 고안하여 소프트웨어 공학의 접근법으로 IT 운영 문제를 해결하는 구글의 조직 철학. |
-| **[[451_mttr|MTTR]] (Mean Time To [[658_ir_recovery|Recovery]])** | 장애 발생 후 복구까지 걸리는 시간. 이 수치를 극단적으로 줄이면 SLI가 방어되어 [[181_slo_service_level_objective|SLO]] 달성에 성공한다. |
+| **[Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) ([에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/))** | 100%에서 SLO를 뺀 나머지 공간. 이 예산 안에서 개발팀은 장애를 감수하며 빠른 배포를 태울 수 있다. |
+| **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))** | SLI, [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 체계를 고안하여 소프트웨어 공학의 접근법으로 IT 운영 문제를 해결하는 구글의 조직 철학. |
+| **[MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) (Mean Time To [Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))** | 장애 발생 후 복구까지 걸리는 시간. 이 수치를 극단적으로 줄이면 SLI가 방어되어 [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) 달성에 성공한다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
@@ -110,7 +114,7 @@ SLA (서비스 수준 계약) ──▶ 비즈니스 위약금/보상 체계 연
 
 **진행 상황**: 102 / 973
 
-← **이전**: [[101_error_budget_sre|101. 에러 예산 (Error Budget) - 안정성 vs 속도 트레이드 오프]]
-**다음**: [[103_sla_service_level_agreement_penalty|103. SLA (Service Level Agreement)]] →
+← **이전**: [101. 에러 예산 (Error Budget) - 안정성 vs 속도 트레이드 오프](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)
+**다음**: [103. SLA (Service Level Agreement)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/103_sla_service_level_agreement_penalty/) →
 
 ---

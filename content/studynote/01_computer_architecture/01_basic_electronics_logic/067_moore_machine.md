@@ -1,9 +1,13 @@
----
-title: 67. 무어 머신 (Moore Machine)
-date: '2026-04-19'
-tags:
-- studynote-computer-architecture
----
++++
+title = "67. 무어 머신 (Moore Machine)"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -32,7 +36,7 @@ State  -> Output
 
 | 구성 요소 | 역할 |
 | :-- | :-- |
-| [[272_state_pattern|State]] | 현재 제어 상황 |
+| [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) | 현재 제어 상황 |
 | Transition | 입력에 따른 상태 변화 |
 | Output | 상태 기준 출력 |
 
@@ -58,7 +62,7 @@ Moore와 Mealy는 서로 대체 관계가 아니라 설계 목적에 따라 선�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 출력이 상태에만 의존하는가?
 2. 상태 수와 전이 조건이 명확한가?
@@ -66,7 +70,7 @@ Moore와 Mealy는 서로 대체 관계가 아니라 설계 목적에 따라 선�
 4. 입력 잡음에 안정적인가?
 5. 회로/소프트웨어 FSM에 적용 가능한가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - Moore와 Mealy를 혼동하는 설계
 - 출력이 입력에 과도하게 흔들리는 설계
@@ -129,7 +133,7 @@ Control Logic
 
 **진행 상황**: 67 / 803
 
-← **이전**: [[066_state_table|66. 상태표 (State Table)]]
-**다음**: [[068_mealy_machine|68. 밀리 머신 (Mealy Machine)]] →
+← **이전**: [66. 상태표 (State Table)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/066_state_table/)
+**다음**: [68. 밀리 머신 (Mealy Machine)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/068_mealy_machine/) →
 
 ---

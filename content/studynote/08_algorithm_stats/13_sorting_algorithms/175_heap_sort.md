@@ -1,27 +1,31 @@
----
-title: 힙 정렬 (Heap Sort)
-date: '2026-05-06'
-tags:
-- studynote-algorithm
----
++++
+title = "힙 정렬 (Heap Sort)"
+date = 2026-05-06
+
+[taxonomies]
+tags = ["studynote-algorithm"]
+
+[extra]
+tags = ["studynote-algorithm"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[080_heap_sort|힙 정렬]] ([[080_heap_sort|Heap Sort]])은 [[055_array|배열]]을 최대 힙 (Max [[078_heap_datastructure|Heap]]) 으로 만든 뒤, 루트의 최댓값을 [[055_array|배열]] 끝으로 보내고 남은 구간을 다시 힙으로 [[658_ir_recovery|복구]]하는 과정을 반복하는 정렬이다.
-> 2. **가치**: 추가 [[055_array|배열]] 없이 `O(n log n)` 최악 시간과 `O(1)` 추가 공간을 보장하므로, 메모리 제약이 크거나 최악 [[282_performance_tactics|성능]] 상한이 중요한 환경에서 안정적인 선택지가 된다.
-> 3. **판단 포인트**: 이론상 강력하지만 캐시 지역성, 상수 비용, 불안정성 때문에 일반 목적 [[336_library_vs_framework|라이브러리]]의 "항상 가장 빠른 기본값"은 아니며, 종종 Introsort의 안전망 역할로 쓰인다.
+> 1. **본질**: [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/) ([Heap Sort](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/))은 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 최대 힙 (Max [Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 으로 만든 뒤, 루트의 최댓값을 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 끝으로 보내고 남은 구간을 다시 힙으로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하는 과정을 반복하는 정렬이다.
+> 2. **가치**: 추가 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 없이 `O(n log n)` 최악 시간과 `O(1)` 추가 공간을 보장하므로, 메모리 제약이 크거나 최악 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 상한이 중요한 환경에서 안정적인 선택지가 된다.
+> 3. **판단 포인트**: 이론상 강력하지만 캐시 지역성, 상수 비용, 불안정성 때문에 일반 목적 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)의 "항상 가장 빠른 기본값"은 아니며, 종종 Introsort의 안전망 역할로 쓰인다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[[080_heap_sort|힙 정렬]]은 완전 [[060_binary_tree|이진 트리]] (Complete [[060_binary_tree|Binary Tree]])를 [[055_array|배열]] 안에 [[347_compaction|압축]] 표현한 힙 자료구조를 이용하는 비교 기반 정렬이다. 최대 힙에서는 부모가 자식보다 항상 크거나 같으므로, 루트에는 언제나 현재 구간의 최댓값이 놓인다. 이 성질을 이용해 최댓값을 하나씩 뒤로 보내면 정렬이 완성된다.
+[힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)은 완전 [이진 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/060_binary_tree/) (Complete [Binary Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/060_binary_tree/))를 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 안에 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 표현한 힙 자료구조를 이용하는 비교 기반 정렬이다. 최대 힙에서는 부모가 자식보다 항상 크거나 같으므로, 루트에는 언제나 현재 구간의 최댓값이 놓인다. 이 성질을 이용해 최댓값을 하나씩 뒤로 보내면 정렬이 완성된다.
 
-이 [[001_algorithm_definition|알고리즘]]이 의미 있는 이유는 [[024_selection_sort|선택 정렬]] ([[024_selection_sort|Selection Sort]])의 약점을 구조적으로 개선하기 때문이다. [[024_selection_sort|선택 정렬]]도 최댓값을 반복해서 찾지만, 매 단계마다 전체 구간을 선형 탐색하므로 `O(n²)`가 된다. 반면 [[080_heap_sort|힙 정렬]]은 "최댓값 찾기"를 힙의 루트 접근으로 바꾸고, 교환 뒤 필요한 [[658_ir_recovery|복구]] 비용만 `O(log n)`으로 제한한다.
+이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 의미 있는 이유는 [선택 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/024_selection_sort/) ([Selection Sort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/024_selection_sort/))의 약점을 구조적으로 개선하기 때문이다. [선택 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/024_selection_sort/)도 최댓값을 반복해서 찾지만, 매 단계마다 전체 구간을 선형 탐색하므로 `O(n²)`가 된다. 반면 [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)은 "최댓값 찾기"를 힙의 루트 접근으로 바꾸고, 교환 뒤 필요한 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 비용만 `O(log n)`으로 제한한다.
 
-즉 [[080_heap_sort|힙 정렬]]의 필요성은 단순히 또 하나의 정렬법이 있다는 데 있지 않다. **최악의 경우에도 [[002_time_complexity|시간 복잡도]]를 예측 가능하게 유지하면서, 추가 메모리를 거의 쓰지 않는 정렬**이라는 조합을 제공하기 때문에 중요하다.
+즉 [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)의 필요성은 단순히 또 하나의 정렬법이 있다는 데 있지 않다. **최악의 경우에도 [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)를 예측 가능하게 유지하면서, 추가 메모리를 거의 쓰지 않는 정렬**이라는 조합을 제공하기 때문에 중요하다.
 
-아래 그림은 [[080_heap_sort|힙 정렬]]의 핵심 흐름을 한눈에 요약한다. 정렬의 중심이 "매번 전체를 다시 보는 것"이 아니라, **힙 경계와 정렬 완료 구간을 나눠 관리하는 것**임을 보여 준다.
+아래 그림은 [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)의 핵심 흐름을 한눈에 요약한다. 정렬의 중심이 "매번 전체를 다시 보는 것"이 아니라, **힙 경계와 정렬 완료 구간을 나눠 관리하는 것**임을 보여 준다.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────┐
@@ -36,7 +40,7 @@ tags:
 └────────────────────────────────────────────────────────────────────┘
 ```
 
-따라서 [[080_heap_sort|힙 정렬]]은 "트리 정렬"처럼 보이지만, 실제 구현은 대부분 [[055_array|배열]] 위에서 제자리 (In-place)로 이루어진다. 이 점이 메모리 추가 사용이 큰 병합 정렬 ([[044_merge_sort|Merge Sort]])과 구별되는 핵심이다.
+따라서 [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)은 "트리 정렬"처럼 보이지만, 실제 구현은 대부분 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 위에서 제자리 (In-place)로 이루어진다. 이 점이 메모리 추가 사용이 큰 병합 정렬 ([Merge Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/))과 구별되는 핵심이다.
 
 - **📢 섹션 요약 비유**: 제일 큰 짐을 매번 맨 앞으로 꺼내기 쉽게 산처럼 쌓아 두고, 꺼낸 짐은 뒤쪽 완성 구역으로 보내는 방식과 같다. 한 번 산을 잘 만들어 두면 다음 큰 짐을 찾는 시간이 크게 줄어든다.
 
@@ -44,18 +48,18 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[[080_heap_sort|힙 정렬]]은 크게 **Build-[[078_heap_datastructure|Heap]] 단계**와 **반복 추출 단계**로 나뉜다. 먼저 [[055_array|배열]] 전체를 최대 힙으로 만든 뒤, 루트와 마지막 원소를 바꾸고 힙 크기를 하나 줄인다. 그다음 새 루트를 아래로 내려 보내며 힙 [[082_attribute_types_er_model|속성]]을 회복하는 Sift-Down 또는 Heapify 과정을 반복한다.
+[힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)은 크게 **Build-[Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/) 단계**와 **반복 추출 단계**로 나뉜다. 먼저 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 전체를 최대 힙으로 만든 뒤, 루트와 마지막 원소를 바꾸고 힙 크기를 하나 줄인다. 그다음 새 루트를 아래로 내려 보내며 힙 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 회복하는 Sift-Down 또는 Heapify 과정을 반복한다.
 
-| 단계 | 핵심 동작 | [[002_time_complexity|시간 복잡도]] | 실무적으로 중요한 점 |
+| 단계 | 핵심 동작 | [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/) | 실무적으로 중요한 점 |
 | :--- | :--- | :--- | :--- |
-| Build-[[078_heap_datastructure|Heap]] | 바닥에서부터 부모 노드를 내려 보내며 최대 힙 구성 | `O(n)` | 반복 삽입보다 훨씬 효율적 |
+| Build-[Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/) | 바닥에서부터 부모 노드를 내려 보내며 최대 힙 구성 | `O(n)` | 반복 삽입보다 훨씬 효율적 |
 | Swap | 루트 최댓값과 힙 마지막 원소 교환 | `O(1)` | 정렬 완료 구간이 오른쪽에 쌓임 |
 | Sift-Down | 새 루트를 자식과 비교하며 적절한 위치로 이동 | `O(log n)` | 실제 비용 대부분이 여기서 발생 |
 | 반복 종료 | 힙 크기가 1이 될 때까지 반복 | 전체 `O(n log n)` | 최악에서도 상한이 흔들리지 않음 |
 
-힙이 [[055_array|배열]]에 저장될 때의 [[154_database_index_b_tree_search_optimization|인덱스]] 관계도 중요하다. [[154_database_index_b_tree_search_optimization|인덱스]] `i`에 대해 부모는 `(i-1)/2`, 왼쪽 자식은 `2i+1`, 오른쪽 자식은 `2i+2`로 계산된다. 이 덕분에 포인터 기반 트리를 만들지 않고도 힙을 구현할 수 있다.
+힙이 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에 저장될 때의 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 관계도 중요하다. [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) `i`에 대해 부모는 `(i-1)/2`, 왼쪽 자식은 `2i+1`, 오른쪽 자식은 `2i+2`로 계산된다. 이 덕분에 포인터 기반 트리를 만들지 않고도 힙을 구현할 수 있다.
 
-아래 구조는 힙 영역과 이미 정렬이 끝난 접미 구간이 어떻게 공존하는지 보여 준다. [[080_heap_sort|힙 정렬]]은 [[055_array|배열]] 하나 안에서 두 세계를 동시에 관리한다.
+아래 구조는 힙 영역과 이미 정렬이 끝난 접미 구간이 어떻게 공존하는지 보여 준다. [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)은 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 하나 안에서 두 세계를 동시에 관리한다.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────┐
@@ -69,9 +73,9 @@ tags:
 └────────────────────────────────────────────────────────────────────┘
 ```
 
-여기서 자주 놓치는 포인트가 Build-Heap의 복잡도다. 겉보기에는 각 노드마다 내려 보내니 `O(n log n)`처럼 보이지만, 실제로는 아래쪽 노드들이 거의 움직이지 않기 때문에 바닥부터 만드는 방법은 `O(n)`에 수렴한다. 즉 [[080_heap_sort|힙 정렬]]의 총비용은 **[[459_quic_fec_forward_error_correction|초기]] 힙 구성 `O(n)` + 추출 반복 `O(n log n)`** 으로 이해하는 것이 정확하다.
+여기서 자주 놓치는 포인트가 Build-Heap의 복잡도다. 겉보기에는 각 노드마다 내려 보내니 `O(n log n)`처럼 보이지만, 실제로는 아래쪽 노드들이 거의 움직이지 않기 때문에 바닥부터 만드는 방법은 `O(n)`에 수렴한다. 즉 [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)의 총비용은 **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 힙 구성 `O(n)` + 추출 반복 `O(n log n)`** 으로 이해하는 것이 정확하다.
 
-또한 [[080_heap_sort|힙 정렬]]은 안정 정렬 (Stable Sort)이 아니다. 같은 값 두 개가 있어도 상대 순서가 유지된다는 보장이 없고, [[055_array|배열]] 안에서 멀리 떨어진 원소를 자주 교환하므로 CPU (Central Processing Unit) 캐시 친화성도 [[047_quick_sort|퀵 정렬]]보다 불리한 편이다. 이 특성이 실전 [[282_performance_tactics|성능]] 차이를 만든다.
+또한 [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)은 안정 정렬 (Stable Sort)이 아니다. 같은 값 두 개가 있어도 상대 순서가 유지된다는 보장이 없고, [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 안에서 멀리 떨어진 원소를 자주 교환하므로 CPU (Central Processing Unit) 캐시 친화성도 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)보다 불리한 편이다. 이 특성이 실전 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이를 만든다.
 
 - **📢 섹션 요약 비유**: 높은 상자 더미에서 맨 위의 가장 큰 상자를 꺼낸 뒤, 빈자리에 있던 상자를 아래로 내려 적당한 층에 다시 끼워 넣는 작업과 같다. 꺼내는 건 쉽지만, 새 상자를 어디까지 내려야 하는지가 매번 핵심이다.
 
@@ -79,64 +83,64 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-[[080_heap_sort|힙 정렬]]을 정확히 보려면 [[047_quick_sort|퀵 정렬]] ([[047_quick_sort|Quick Sort]]), 병합 정렬 ([[044_merge_sort|Merge Sort]]) 과 함께 비교해야 한다. 셋 다 `O(n log n)` 영역의 대표 주자지만, 어디에서 비용을 쓰는지가 다르다.
+[힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)을 정확히 보려면 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) ([Quick Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)), 병합 정렬 ([Merge Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)) 과 함께 비교해야 한다. 셋 다 `O(n log n)` 영역의 대표 주자지만, 어디에서 비용을 쓰는지가 다르다.
 
-| 비교 축 | [[080_heap_sort|힙 정렬]] | [[047_quick_sort|퀵 정렬]] | 병합 정렬 |
+| 비교 축 | [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/) | [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) | 병합 정렬 |
 | :--- | :--- | :--- | :--- |
 | 평균 시간 | `O(n log n)` | 평균 `O(n log n)` | `O(n log n)` |
 | 최악 시간 | `O(n log n)` | `O(n²)` | `O(n log n)` |
-| 추가 공간 | `O(1)` | 보통 `O(log n)` [[014_recursion|재귀]] [[057_stack|스택]] | `O(n)` |
+| 추가 공간 | `O(1)` | 보통 `O(log n)` [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) | `O(n)` |
 | 안정성 | 불안정 | 불안정 | 안정 |
 | 캐시 지역성 | 상대적으로 불리함 | 매우 좋음 | 보통 |
-| 잘 맞는 경우 | 메모리 제한, 최악 보장 | 일반 [[055_array|배열]] 고속 정렬 | 안정성, [[023_external_sort|외부 정렬]] |
+| 잘 맞는 경우 | 메모리 제한, 최악 보장 | 일반 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 고속 정렬 | 안정성, [외부 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/023_external_sort/) |
 
-즉 [[080_heap_sort|힙 정렬]]의 강점은 "언제나 비슷하게 버틴다"는 데 있다. [[047_quick_sort|퀵 정렬]]은 평균적으로 더 빠른 경우가 많지만 피벗이 나쁘면 최악 `O(n²)`가 나올 수 있다. 병합 정렬은 안정적이고 예측 가능하지만 별도 버퍼가 필요하다. [[080_heap_sort|힙 정렬]]은 이 둘 사이에서 **최악 시간 보장 + 제자리 정렬**이라는 독특한 위치를 차지한다.
+즉 [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)의 강점은 "언제나 비슷하게 버틴다"는 데 있다. [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)은 평균적으로 더 빠른 경우가 많지만 피벗이 나쁘면 최악 `O(n²)`가 나올 수 있다. 병합 정렬은 안정적이고 예측 가능하지만 별도 버퍼가 필요하다. [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)은 이 둘 사이에서 **최악 시간 보장 + 제자리 정렬**이라는 독특한 위치를 차지한다.
 
-또한 [[080_heap_sort|힙 정렬]]은 [[083_priority_queue|우선순위 큐]] ([[083_priority_queue|Priority Queue]]) 와도 직접 연결된다. [[083_priority_queue|우선순위 큐]]는 최댓값이나 최솟값을 자주 꺼내는 자료구조이고, 힙은 그 대표 구현이다. 다만 전체 정렬이 목적이 아니라 상위 `k`개만 필요하다면, 힙 전체 정렬보다 [[083_priority_queue|우선순위 큐]] 연산만 이용하는 편이 더 경제적일 수 있다.
+또한 [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)은 [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/) ([Priority Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/)) 와도 직접 연결된다. [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/)는 최댓값이나 최솟값을 자주 꺼내는 자료구조이고, 힙은 그 대표 구현이다. 다만 전체 정렬이 목적이 아니라 상위 `k`개만 필요하다면, 힙 전체 정렬보다 [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/) 연산만 이용하는 편이 더 경제적일 수 있다.
 
-현대 표준 [[336_library_vs_framework|라이브러리]]에서 [[080_heap_sort|힙 정렬]]이 자주 언급되는 이유는 단독 우승자가 아니라 **안전망**이기 때문이다. 예를 들어 Introsort는 [[047_quick_sort|퀵 정렬]]로 달리다가 [[014_recursion|재귀]] 깊이가 위험 수준까지 늘어나면 [[080_heap_sort|힙 정렬]]로 전환해 최악 시간 상한을 지킨다. 즉 [[080_heap_sort|힙 정렬]]은 직접 쓰일 때도 중요하지만, 다른 정렬을 보호하는 보조 [[001_algorithm_definition|알고리즘]]으로도 매우 중요하다.
+현대 표준 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)에서 [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)이 자주 언급되는 이유는 단독 우승자가 아니라 **안전망**이기 때문이다. 예를 들어 Introsort는 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)로 달리다가 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 깊이가 위험 수준까지 늘어나면 [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)로 전환해 최악 시간 상한을 지킨다. 즉 [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)은 직접 쓰일 때도 중요하지만, 다른 정렬을 보호하는 보조 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로도 매우 중요하다.
 
-- **📢 섹션 요약 비유**: [[080_heap_sort|힙 정렬]]은 험한 산길도 꾸준히 오르는 등산가이고, [[047_quick_sort|퀵 정렬]]은 평지에서 아주 빠른 단거리 주자에 가깝다. 평소 속도는 다를 수 있어도, 위험한 길에서 끝까지 완주하는 힘은 [[080_heap_sort|힙 정렬]]의 장점이다.
+- **📢 섹션 요약 비유**: [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)은 험한 산길도 꾸준히 오르는 등산가이고, [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)은 평지에서 아주 빠른 단거리 주자에 가깝다. 평소 속도는 다를 수 있어도, 위험한 길에서 끝까지 완주하는 힘은 [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)의 장점이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 [[080_heap_sort|힙 정렬]]은 메모리를 아껴야 하면서도 최악 [[282_performance_tactics|성능]]을 예측 가능하게 묶어야 하는 상황에서 유용하다. [[010_embedded_system|임베디드 시스템]], 실시간 성격이 강한 처리, [[336_library_vs_framework|라이브러리]] 내부의 최악 시간 방어, 보안적으로 입력 편향을 덜 허용하고 싶은 경우가 대표적이다. 특히 사용자가 악의적으로 정렬 입력을 만들 수 있는 환경에서는 최악 `O(n²)` 가능성이 있는 순수 [[047_quick_sort|퀵 정렬]]보다 보수적인 선택이 될 수 있다.
+실무에서 [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)은 메모리를 아껴야 하면서도 최악 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 예측 가능하게 묶어야 하는 상황에서 유용하다. [임베디드 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/010_embedded_system/), 실시간 성격이 강한 처리, [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 내부의 최악 시간 방어, 보안적으로 입력 편향을 덜 허용하고 싶은 경우가 대표적이다. 특히 사용자가 악의적으로 정렬 입력을 만들 수 있는 환경에서는 최악 `O(n²)` 가능성이 있는 순수 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)보다 보수적인 선택이 될 수 있다.
 
-하지만 일반적인 메모리 내 [[055_array|배열]] 정렬에서 항상 최고의 체감 속도를 주는 것은 아니다. 원소 간 교환이 멀리 떨어져 일어나고, 트리 형태의 접근 패턴 때문에 캐시 적중률이 좋지 않기 때문이다. 그래서 범용 [[336_library_vs_framework|라이브러리]]는 보통 [[080_heap_sort|힙 정렬]] 하나만 쓰지 않고, [[047_quick_sort|퀵 정렬]]·삽입 정렬과 결합한 하이브리드 구조를 택한다.
+하지만 일반적인 메모리 내 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 정렬에서 항상 최고의 체감 속도를 주는 것은 아니다. 원소 간 교환이 멀리 떨어져 일어나고, 트리 형태의 접근 패턴 때문에 캐시 적중률이 좋지 않기 때문이다. 그래서 범용 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)는 보통 [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/) 하나만 쓰지 않고, [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)·삽입 정렬과 결합한 하이브리드 구조를 택한다.
 
-### 기술사 판단 [[435_checklist_based_testing|체크리스트]]
+### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 추가 메모리를 거의 쓸 수 없는 환경인가?
 2. 평균 속도보다 **최악 시간 상한** 보장이 더 중요한가?
 3. 같은 키의 상대 순서를 반드시 유지해야 하는가?
 4. 전체 정렬이 필요한가, 아니면 상위 `k`개 추출만으로 충분한가?
-5. 표준 [[336_library_vs_framework|라이브러리]]의 [[020_introsort|Introsort]] 같은 하이브리드 정렬을 그대로 쓰는 편이 더 안전하지 않은가?
+5. 표준 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)의 [Introsort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/020_introsort/) 같은 하이브리드 정렬을 그대로 쓰는 편이 더 안전하지 않은가?
 6. Build-Heap을 반복 삽입으로 구현해 불필요하게 `O(n log n)`을 만들고 있지 않은가?
 
-### 자주 나오는 [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### 자주 나오는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 상위 `k`개만 필요하면서도 전체 [[055_array|배열]]을 [[080_heap_sort|힙 정렬]]해 버리는 경우
-- 안정성이 필요한 레코드 정렬에 불안정한 [[080_heap_sort|힙 정렬]]을 무심코 쓰는 경우
-- 바닥부터 힙을 만드는 선형 Build-[[078_heap_datastructure|Heap]] 대신 반복 삽입으로만 구현하는 경우
+- 상위 `k`개만 필요하면서도 전체 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)해 버리는 경우
+- 안정성이 필요한 레코드 정렬에 불안정한 [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)을 무심코 쓰는 경우
+- 바닥부터 힙을 만드는 선형 Build-[Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/) 대신 반복 삽입으로만 구현하는 경우
 - 제자리 정렬이라는 이유만으로 실제 실행 시간까지 가장 빠를 것이라 가정하는 경우
 
-기술사 관점에서 핵심 판단은 이렇다. **[[080_heap_sort|힙 정렬]]은 빠른 평균보다 단단한 상한을 선택하는 [[001_algorithm_definition|알고리즘]]**이다. 따라서 [[282_performance_tactics|성능]] 목표가 "평균적으로 가장 빠름"인지, "최악에서도 무너지지 않음"인지 먼저 정해야 제대로 선택할 수 있다.
+기술사 관점에서 핵심 판단은 이렇다. **[힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)은 빠른 평균보다 단단한 상한을 선택하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**이다. 따라서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 목표가 "평균적으로 가장 빠름"인지, "최악에서도 무너지지 않음"인지 먼저 정해야 제대로 선택할 수 있다.
 
-- **📢 섹션 요약 비유**: [[080_heap_sort|힙 정렬]]은 스포츠카보다 사륜구동 차량에 가깝다. 평소 최고 속도는 아닐 수 있어도, 길이 나빠져도 일정한 속도로 끝까지 가는 안정감이 강점이다.
+- **📢 섹션 요약 비유**: [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)은 스포츠카보다 사륜구동 차량에 가깝다. 평소 최고 속도는 아닐 수 있어도, 길이 나빠져도 일정한 속도로 끝까지 가는 안정감이 강점이다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[[080_heap_sort|힙 정렬]]의 기대효과는 분명하다. 추가 메모리를 거의 쓰지 않으면서도 전체 정렬을 `O(n log n)` 최악 시간 안에 끝낼 수 있으므로, 메모리와 시간 상한을 동시에 관리해야 하는 문제에 강하다. 또한 힙이라는 자료구조를 함께 이해하게 해 주므로, [[083_priority_queue|우선순위 큐]]와 스케줄링 [[001_algorithm_definition|알고리즘]]까지 시야가 확장된다.
+[힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)의 기대효과는 분명하다. 추가 메모리를 거의 쓰지 않으면서도 전체 정렬을 `O(n log n)` 최악 시간 안에 끝낼 수 있으므로, 메모리와 시간 상한을 동시에 관리해야 하는 문제에 강하다. 또한 힙이라는 자료구조를 함께 이해하게 해 주므로, [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/)와 스케줄링 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)까지 시야가 확장된다.
 
-반면 한계도 분명하다. 불안정 정렬이며, 캐시 지역성이 좋지 않고, 일반적인 [[055_array|배열]] 정렬에서 [[047_quick_sort|퀵 정렬]] 계열보다 느리게 느껴질 수 있다. 그래서 [[080_heap_sort|힙 정렬]]은 "언제나 최고의 정렬"이 아니라, **상황이 까다로울수록 빛나는 정렬**로 기억하는 편이 맞다.
+반면 한계도 분명하다. 불안정 정렬이며, 캐시 지역성이 좋지 않고, 일반적인 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 정렬에서 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) 계열보다 느리게 느껴질 수 있다. 그래서 [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)은 "언제나 최고의 정렬"이 아니라, **상황이 까다로울수록 빛나는 정렬**로 기억하는 편이 맞다.
 
-결론적으로 [[080_heap_sort|힙 정렬]]은 단순한 시험용 [[001_algorithm_definition|알고리즘]]이 아니라, 자료구조와 정렬 전략이 만나는 지점에 있는 실전 기법이다. 기억해야 할 핵심은 하나다. **최댓값을 찾는 일을 힙의 구조적 성질로 싸게 만들고, 그 대가로 캐시 친화성과 안정성을 일부 포기한다**는 것이다.
+결론적으로 [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)은 단순한 시험용 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 아니라, 자료구조와 정렬 전략이 만나는 지점에 있는 실전 기법이다. 기억해야 할 핵심은 하나다. **최댓값을 찾는 일을 힙의 구조적 성질로 싸게 만들고, 그 대가로 캐시 친화성과 안정성을 일부 포기한다**는 것이다.
 
-- **📢 섹션 요약 비유**: [[080_heap_sort|힙 정렬]]은 큰 짐부터 차례로 꺼내 뒤쪽 창고에 쌓아 가는 방식이다. 꺼내는 순서는 매우 안정적이지만, 창고 안을 이리저리 오가느라 발걸음은 [[047_quick_sort|퀵 정렬]]보다 덜 가볍다.
+- **📢 섹션 요약 비유**: [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)은 큰 짐부터 차례로 꺼내 뒤쪽 창고에 쌓아 가는 방식이다. 꺼내는 순서는 매우 안정적이지만, 창고 안을 이리저리 오가느라 발걸음은 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)보다 덜 가볍다.
 
 ---
 
@@ -144,13 +148,13 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 최대 힙 (Max [[078_heap_datastructure|Heap]]) | [[080_heap_sort|힙 정렬]]에서 매 단계 최댓값을 즉시 꺼내게 해 주는 구조 |
-| 완전 [[060_binary_tree|이진 트리]] (Complete [[060_binary_tree|Binary Tree]]) | 힙의 [[369_logic_bomb|논리]] 구조로, [[055_array|배열]] [[154_database_index_b_tree_search_optimization|인덱스]] 계산이 가능한 이유 |
-| Heapify / Sift-Down | 교환 뒤 힙 [[082_attribute_types_er_model|속성]]을 [[658_ir_recovery|복구]]하는 핵심 연산 |
-| [[083_priority_queue|우선순위 큐]] ([[083_priority_queue|Priority Queue]]) | [[080_heap_sort|힙 정렬]]과 같은 자료구조를 활용하는 대표 응용 |
-| [[020_introsort|Introsort]] | [[047_quick_sort|퀵 정렬]]의 평균 [[282_performance_tactics|성능]]과 [[080_heap_sort|힙 정렬]]의 최악 보장을 결합한 하이브리드 |
-| 제자리 정렬 (In-place Sort) | [[080_heap_sort|힙 정렬]]이 추가 [[055_array|배열]] 없이 동작한다는 특징 |
-| 안정 정렬 (Stable Sort) | [[080_heap_sort|힙 정렬]]이 기본적으로 보장하지 않는 [[082_attribute_types_er_model|속성]] |
+| 최대 힙 (Max [Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) | [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)에서 매 단계 최댓값을 즉시 꺼내게 해 주는 구조 |
+| 완전 [이진 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/060_binary_tree/) (Complete [Binary Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/060_binary_tree/)) | 힙의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조로, [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 계산이 가능한 이유 |
+| Heapify / Sift-Down | 교환 뒤 힙 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하는 핵심 연산 |
+| [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/) ([Priority Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/)) | [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)과 같은 자료구조를 활용하는 대표 응용 |
+| [Introsort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/020_introsort/) | [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)의 평균 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)의 최악 보장을 결합한 하이브리드 |
+| 제자리 정렬 (In-place Sort) | [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)이 추가 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 없이 동작한다는 특징 |
+| 안정 정렬 (Stable Sort) | [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)이 기본적으로 보장하지 않는 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -173,7 +177,7 @@ Heapify 로 힙 속성 복구
 우선순위 큐 / Introsort 안전망으로 확장
 ```
 
-이 흐름은 "힙 구조 이해 → [[055_array|배열]] 구현 → 반복 추출 → [[658_ir_recovery|복구]] → 정렬 완성 → 하이브리드 정렬 및 자료구조 응용"으로 이어지는 연결을 보여 준다.
+이 흐름은 "힙 구조 이해 → [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 구현 → 반복 추출 → [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) → 정렬 완성 → 하이브리드 정렬 및 자료구조 응용"으로 이어지는 연결을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -187,7 +191,7 @@ Heapify 로 힙 속성 복구
 
 **진행 상황**: 175 / 175
 
-← **이전**: [[174_quick_sort|퀵 정렬 (Quick Sort)]]
+← **이전**: [퀵 정렬 (Quick Sort)](/knowledge-base/studynote/08_algorithm_stats/13_sorting_algorithms/174_quick_sort/)
 
 ✅ **마지막 글입니다.**
 

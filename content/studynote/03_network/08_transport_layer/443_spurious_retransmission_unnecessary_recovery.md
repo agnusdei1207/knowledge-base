@@ -1,28 +1,32 @@
----
-title: 443. 불필요한 재전송 (Spurious Retransmission) 해결 방안
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "443. 불필요한 재전송 (Spurious Retransmission) 해결 방안"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 불필요한 재전송 해결 방안은 전송 계층에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: 불필요한 재전송 해결 방안을 이해하면 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]]과 [[015_지연_데이터_관점|지연]] 사이의 균형을 더 정확히 볼 수 있다.
+> 2. **가치**: 불필요한 재전송 해결 방안을 이해하면 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 실제로는 패킷이나 ACK가 유실되지 않았으나, [[441_rtt_round_trip_time_srtt_smoothed|RTT]] [[015_지연_데이터_관점|지연]], 재경로 [[009_config|설정]](Re-routing) 등의 이유로 [[176_rto_recovery_time_objective|RTO]] 타이머가 먼저 만료되거나 순서가 뒤집혀, 송신 측이 오판하여 동일한 패킷을 불필요하게 재전송하는 현상.
-- **필요성**: 모바일 시대가 오면서 내가 지하철 와이파이에서 LTE로 망을 휙휙 갈아타는 일([[556_handover_handoff_types_concept|Handover]])이 잦아졌다. 폰이 기지국을 갈아타는 1초의 틈 동안 패킷이 안 죽고 잠깐 버퍼에 갇혀([[015_지연_데이터_관점|지연]]) 있었다. 1.1초 뒤에 무사히 통과했는데, 송신자(유튜브 서버)는 타이머가 1초에 맞춰져 있어서 "어? 죽었네! 재전송 빵! 속도(CWND) 1로 떡락!" 해버렸다. **"아니! 패킷이 안 죽고 살아서 잘 갔는데, 단지 0.1초 늦게 영수증이 도착했다고 내 스피드를 바닥으로 깎아버리는 게 말이 돼? 내가 헛발질(Spurious)한 걸 눈치챘으면, 깎았던 속도를 다시 원상 [[658_ir_recovery|복구]] 시켜주는 [[001_algorithm_definition|알고리즘]]이 필요해!!"**
+- **개념**: 실제로는 패킷이나 ACK가 유실되지 않았으나, [RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 재경로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(Re-routing) 등의 이유로 [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) 타이머가 먼저 만료되거나 순서가 뒤집혀, 송신 측이 오판하여 동일한 패킷을 불필요하게 재전송하는 현상.
+- **필요성**: 모바일 시대가 오면서 내가 지하철 와이파이에서 LTE로 망을 휙휙 갈아타는 일([Handover](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/))이 잦아졌다. 폰이 기지국을 갈아타는 1초의 틈 동안 패킷이 안 죽고 잠깐 버퍼에 갇혀([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) 있었다. 1.1초 뒤에 무사히 통과했는데, 송신자(유튜브 서버)는 타이머가 1초에 맞춰져 있어서 "어? 죽었네! 재전송 빵! 속도(CWND) 1로 떡락!" 해버렸다. **"아니! 패킷이 안 죽고 살아서 잘 갔는데, 단지 0.1초 늦게 영수증이 도착했다고 내 스피드를 바닥으로 깎아버리는 게 말이 돼? 내가 헛발질(Spurious)한 걸 눈치챘으면, 깎았던 속도를 다시 원상 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시켜주는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 필요해!!"**
 
 - **💡 비유**: 불필요한 재전송은 식당에서의 **"음식 중복 주문 대참사"**와 같습니다.
-  - 내가 김치찌개를 시켰는데 15분([[176_rto_recovery_time_objective|RTO]])이 지나도 안 나옵니다.
+  - 내가 김치찌개를 시켰는데 15분([RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/))이 지나도 안 나옵니다.
   - 빡쳐서 "아줌마! 아까 시킨 김치찌개 취소된 거 아니에요? 다시 주문 넣어주세요!(재전송)"라고 소리칩니다.
-  - 그런데 1분 뒤, 주방에서 이미 끓여둔 **첫 번째 김치찌개([[015_지연_데이터_관점|지연]]된 원본)**가 나옵니다.
-  - 그리고 10분 뒤, 내가 아까 빡쳐서 다시 주문한 **두 번째 김치찌개(불필요한 재전송)**마저 나와버립니다. 나는 내 배([[140_bandwidth|대역폭]])를 채울 수도 없는 김치찌개 두 그릇 값을 내는 멍청한 짓을 한 것입니다.
+  - 그런데 1분 뒤, 주방에서 이미 끓여둔 **첫 번째 김치찌개([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)된 원본)**가 나옵니다.
+  - 그리고 10분 뒤, 내가 아까 빡쳐서 다시 주문한 **두 번째 김치찌개(불필요한 재전송)**마저 나와버립니다. 나는 내 배([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))를 채울 수도 없는 김치찌개 두 그릇 값을 내는 멍청한 짓을 한 것입니다.
 
 ```text
 [칸 알고리즘]
@@ -33,7 +37,7 @@ tags:
     └──▶ [TCP Keep-Alive 타이머]
 ```
 
-- **📢 섹션 요약 비유**: ** Spurious Retransmission은 상대방이 카톡을 못 본 게 아니라 **단지 회의 중이라 답장을 "늦게(Delay)" 하는 것뿐인데, 혼자 "차단당했네!"라고 오해([[319_timeout_prevention|Timeout]])하여 구질구질하게 문자를 한 번 더 보내는 흑역사**와 같습니다. 이 착각 때문에 우리 사이(통신 속도)는 [[233_recovery_database_restoration_overview|회복]] 불가(CWND=1)로 곤두박질칩니다.
+- **📢 섹션 요약 비유**: ** Spurious Retransmission은 상대방이 카톡을 못 본 게 아니라 **단지 회의 중이라 답장을 "늦게(Delay)" 하는 것뿐인데, 혼자 "차단당했네!"라고 오해([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/))하여 구질구질하게 문자를 한 번 더 보내는 흑역사**와 같습니다. 이 착각 때문에 우리 사이(통신 속도)는 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 불가(CWND=1)로 곤두박질칩니다.
 
 ---
 
@@ -41,9 +45,9 @@ tags:
 
 ### 1. 오판의 결과: 속도 박살 (False Congestion Avoidance)
 TCP의 가장 뼈아픈 약점이다.
-- 송신자는 [[573_timeout_retry_backoff_strategy|타임아웃]]이 터지자마자, 이게 진짜 길이 꽉 막혀서 터진 건지, 아니면 와이파이가 잠깐 끊겨서 [[015_지연_데이터_관점|지연]]된 건지 절대 알 도리가 없다.
-- 그래서 무조건 `ssthresh`를 절반으로 깎고, `CWND`를 1로 박살 낸다([[430_slow_start_exponential_growth_cwnd|슬로우 스타트]]).
-- 만약 모바일 [[418_5g_embb_urllc_mmtc_slicing|5G]] 환경에서 [[015_지연_데이터_관점|지연]](Jitter)이 심하면, 패킷 유실이 0%인데도 속도는 맨날 바닥을 기어 다니는 황당한 현상이 벌어진다.
+- 송신자는 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)이 터지자마자, 이게 진짜 길이 꽉 막혀서 터진 건지, 아니면 와이파이가 잠깐 끊겨서 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)된 건지 절대 알 도리가 없다.
+- 그래서 무조건 `ssthresh`를 절반으로 깎고, `CWND`를 1로 박살 낸다([슬로우 스타트](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/)).
+- 만약 모바일 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 환경에서 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Jitter)이 심하면, 패킷 유실이 0%인데도 속도는 맨날 바닥을 기어 다니는 황당한 현상이 벌어진다.
 
 ### 2. 수신자의 팩폭: D-SACK (Duplicate SACK)
 "야 송신자야, 네가 아까 보낸 1번 택배 분명히 어제 잘 도착했거든? 근데 네가 오늘 아침에 1번 택배를 한 번 더(재전송) 보냈더라?"
@@ -71,26 +75,26 @@ TCP의 가장 뼈아픈 약점이다.
  └─────────────────────────────────────────────────────────────┘
 ```
 
-### 3. F-[[176_rto_recovery_time_objective|RTO]] ([[235_forward_backward_chaining|Forward]] [[176_rto_recovery_time_objective|RTO]]-Recovery)
-D-SACK은 영수증이 올 때까지 기다려야 아는 거지만, **F-[[176_rto_recovery_time_objective|RTO]]**는 한술 더 뜬 방어책이다.
-- [[573_timeout_retry_backoff_strategy|타임아웃]]이 나서 재전송을 딱 1개 갈겨본다. 
+### 3. F-[RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) ([Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/)-Recovery)
+D-SACK은 영수증이 올 때까지 기다려야 아는 거지만, **F-[RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/)**는 한술 더 뜬 방어책이다.
+- [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)이 나서 재전송을 딱 1개 갈겨본다. 
 - 그런데 연달아 날아오는 다음 영수증들을 보니까 "어라? 상대방이 2번, 3번 영수증을 정상적으로 부르네?" 
-- "아! [[573_timeout_retry_backoff_strategy|타임아웃]] 난 게 진짜 혼잡이 터진 게 아니라, 방금 잠깐 스파크가 튀어서 [[015_지연_데이터_관점|지연]]된 거였구나!" 
+- "아! [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 난 게 진짜 혼잡이 터진 게 아니라, 방금 잠깐 스파크가 튀어서 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)된 거였구나!" 
 - 즉시 바닥으로 깎았던 CWND를 원래대로 휙 돌려버린다. 이 기능 덕분에 스마트폰이 와이파이를 갈아타도 유튜브가 거의 안 끊긴다.
 
-- **📢 섹션 요약 비유**: ** 불필요한 재전송의 [[098_rollback_strategy_pipeline_error_threshold|롤백]]([[393_undo|Undo]]) [[001_algorithm_definition|알고리즘]]은 오해로 헤어질 뻔한 연인들의 **"빠른 사과와 화해"**입니다. "네가 안 읽씹 한 줄 알고 화내서(CWND=1) 미안해. 핸드폰이 꺼졌던 거였구나([[015_지연_데이터_관점|지연]]). 화낸 거 다 취소([[393_undo|Undo]])하고 우리 다시 예전처럼 지내자!"라며 재빠르게 원상 [[658_ir_recovery|복구]]하는 훈훈한 결말입니다.
+- **📢 섹션 요약 비유**: ** 불필요한 재전송의 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)([Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 오해로 헤어질 뻔한 연인들의 **"빠른 사과와 화해"**입니다. "네가 안 읽씹 한 줄 알고 화내서(CWND=1) 미안해. 핸드폰이 꺼졌던 거였구나([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)). 화낸 거 다 취소([Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/))하고 우리 다시 예전처럼 지내자!"라며 재빠르게 원상 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하는 훈훈한 결말입니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-불필요한 재전송 해결 방안을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 칸 [[001_algorithm_definition|알고리즘]]이 기반 조건을 만든다면, 불필요한 재전송 해결 방안은 그 위에서 핵심 메커니즘을 구현하고, [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] Keep-Alive 타이머는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]]과 [[015_지연_데이터_관점|지연]]에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+불필요한 재전송 해결 방안을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 칸 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 기반 조건을 만든다면, 불필요한 재전송 해결 방안은 그 위에서 핵심 메커니즘을 구현하고, [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Keep-Alive 타이머는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | 칸 [[001_algorithm_definition|알고리즘]]의 기반 정리 | 불필요한 재전송 해결 방안의 핵심 동작 | [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] Keep-Alive 타이머의 확장 적용 |
-| 자원 관점 | 기본 조건 확보 | [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 초점 | 칸 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 기반 정리 | 불필요한 재전송 해결 방안의 핵심 동작 | [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Keep-Alive 타이머의 확장 적용 |
+| 자원 관점 | 기본 조건 확보 | [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 최적화 | 규모와 범위 확대 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: 불필요한 재전송 해결 방안은 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -98,18 +102,18 @@ D-SACK은 영수증이 올 때까지 기다려야 아는 거지만, **F-[[176_rt
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 불필요한 재전송 해결 방안을 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 칸 [[001_algorithm_definition|알고리즘]] 수준의 기본 대책으로 충분한지, 아니면 불필요한 재전송 해결 방안이 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] Keep-Alive 타이머와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 불필요한 재전송 해결 방안을 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 칸 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 수준의 기본 대책으로 충분한지, 아니면 불필요한 재전송 해결 방안이 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Keep-Alive 타이머와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 현재 문제의 핵심이 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 부족인지, [[015_지연_데이터_관점|지연]] 악화인지 먼저 분리한다.
-2. 불필요한 재전송 해결 방안가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [[396_validation|확인]]한다.
-3. 도입 후에는 인접 기술인 [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] Keep-Alive 타이머와의 연계 방식을 함께 검증한다.
+1. 현재 문제의 핵심이 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 부족인지, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 악화인지 먼저 분리한다.
+2. 불필요한 재전송 해결 방안가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+3. 도입 후에는 인접 기술인 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Keep-Alive 타이머와의 연계 방식을 함께 검증한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 불필요한 재전송 해결 방안의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- 칸 [[001_algorithm_definition|알고리즘]]와의 경계를 정리하지 않아 중복 투자나 [[164_policy|정책]] 충돌을 만드는 설계
+- 칸 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: 불필요한 재전송 해결 방안을 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -117,7 +121,7 @@ D-SACK은 영수증이 올 때까지 기다려야 아는 거지만, **F-[[176_rt
 
 ## Ⅴ. 기대효과 및 결론
 
-불필요한 재전송 해결 방안은 전송 계층을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] Keep-Alive 타이머, 적응형 저지연 전송, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 적응형 저지연 전송 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+불필요한 재전송 해결 방안은 전송 계층을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Keep-Alive 타이머, 적응형 저지연 전송, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 적응형 저지연 전송 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 불필요한 재전송 해결 방안은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -127,10 +131,10 @@ D-SACK은 영수증이 올 때까지 기다려야 아는 거지만, **F-[[176_rt
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 칸 [[001_algorithm_definition|알고리즘]] | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| 세그먼트 ([[407_tcp_segment_header_structure_20_60_bytes|Segment]]) | 전송 계층이 다루는 기본 단위다. |
-| [[213_flow_control_buffer_overflow|흐름 제어]] ([[421_tcp_flow_control_sliding_window_algorithm|Flow Control]]) | 수신자 처리 속도를 넘지 않게 조절한다. |
-| [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] Keep-Alive 타이머 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| 칸 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 세그먼트 ([Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/)) | 전송 계층이 다루는 기본 단위다. |
+| [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/) ([Flow Control](/knowledge-base/studynote/03_network/08_transport_layer/421_tcp_flow_control_sliding_window_algorithm/)) | 수신자 처리 속도를 넘지 않게 조절한다. |
+| [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Keep-Alive 타이머 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -144,7 +148,7 @@ D-SACK은 영수증이 올 때까지 기다려야 아는 거지만, **F-[[176_rt
     └──▶ [확장 B: 적응형 저지연 전송]
 ```
 
-불필요한 재전송 해결 방안는 칸 [[001_algorithm_definition|알고리즘]]에서 출발해 현재 메커니즘을 정교화하고, 이후 [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] Keep-Alive 타이머와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+불필요한 재전송 해결 방안는 칸 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Keep-Alive 타이머와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -158,7 +162,7 @@ D-SACK은 영수증이 올 때까지 기다려야 아는 거지만, **F-[[176_rt
 
 **진행 상황**: 564 / 1120
 
-← **이전**: [[442_karns_algorithm_exclude_retransmitted_rtt|442. 칸 알고리즘 (Karn's Algorithm)]]
-**다음**: [[444_tcp_keep_alive_timer|444. TCP Keep-Alive 타이머]] →
+← **이전**: [442. 칸 알고리즘 (Karn's Algorithm)](/knowledge-base/studynote/03_network/08_transport_layer/442_karns_algorithm_exclude_retransmitted_rtt/)
+**다음**: [444. TCP Keep-Alive 타이머](/knowledge-base/studynote/03_network/08_transport_layer/444_tcp_keep_alive_timer/) →
 
 ---

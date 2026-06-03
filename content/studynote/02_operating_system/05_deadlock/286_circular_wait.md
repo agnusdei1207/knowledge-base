@@ -1,24 +1,28 @@
----
-title: 286. 순환 대기 (Circular Wait) - 대기 그래프가 사이클(Cycle)을 형성
-date: '2026-05-09'
-tags:
-- studynote-operating-system
----
++++
+title = "286. 순환 대기 (Circular Wait) - 대기 그래프가 사이클(Cycle)을 형성"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 순환 대기 (Circular Wait)는 [[281_deadlock_definition|교착 상태]] 발생 4조건 중 대미를 장식하는 상태로, 프로세스와 자원들의 대기 관계가 수학 [[070_graph_datastructure|그래프]]의 완전한 폐쇄 회로(Cycle) 고리 구조(P1→R2→P2→R3→P3→R1→P1)를 형성하여 누구도 진행하지 못하는 구조적 함정이다.
-> 2. **가치**: 상호 배제나 [[285_no_preemption|비선점]]처럼 시스템 특성상 부정(Prevention)하기 어려운 조건들과 달리, 자원에 선형적 순서(Hierarchy)를 부여하는 규약만으로도 오름차순 접근이 가능해 순환 형성 자체를 절반의 비용으로 완전히 깰 수 있다.
-> 3. **융합**: [[287_resource_allocation_graph|자원 할당 그래프]]([[287_resource_allocation_graph|Resource-Allocation Graph]])나 뱅커스(Banker's) 대기 탐색 [[070_graph_datastructure|그래프]]의 방향성 사이클 검사기, 혹은 DB 엔진의 [[039_topological_sort|위상 정렬]]([[039_topological_sort|Topological Sort]]) 분석과 융합하여 [[281_deadlock_definition|교착 상태]] 유무를 가장 시각적, 알고리즘적으로 확정 트리거하는 증거물로 쓰인다.
+> 1. **본질**: 순환 대기 (Circular Wait)는 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 발생 4조건 중 대미를 장식하는 상태로, 프로세스와 자원들의 대기 관계가 수학 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 완전한 폐쇄 회로(Cycle) 고리 구조(P1→R2→P2→R3→P3→R1→P1)를 형성하여 누구도 진행하지 못하는 구조적 함정이다.
+> 2. **가치**: 상호 배제나 [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)처럼 시스템 특성상 부정(Prevention)하기 어려운 조건들과 달리, 자원에 선형적 순서(Hierarchy)를 부여하는 규약만으로도 오름차순 접근이 가능해 순환 형성 자체를 절반의 비용으로 완전히 깰 수 있다.
+> 3. **융합**: [자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/)([Resource-Allocation Graph](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/))나 뱅커스(Banker's) 대기 탐색 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 방향성 사이클 검사기, 혹은 DB 엔진의 [위상 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/039_topological_sort/)([Topological Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/039_topological_sort/)) 분석과 융합하여 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 유무를 가장 시각적, 알고리즘적으로 확정 트리거하는 증거물로 쓰인다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-자원 두 개가 있다고 가정하자. [[092_thread_lwp|스레드]] A가 자원 1을 점유하고 자원 2를 요청한다. 여기까지는 '1자형 라인'이다. 
-그런데 [[092_thread_lwp|스레드]] B가 동시에 자원 2를 점유하고 자원 1을 요청하는 순간, 두 [[092_thread_lwp|스레드]]의 화살표가 **원을 그려 닫히는 고리(Cycle)**를 형성한다. 이 사이클이 바로 **순환 대기(Circular Wait)**다.
+자원 두 개가 있다고 가정하자. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 자원 1을 점유하고 자원 2를 요청한다. 여기까지는 '1자형 라인'이다. 
+그런데 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) B가 동시에 자원 2를 점유하고 자원 1을 요청하는 순간, 두 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 화살표가 **원을 그려 닫히는 고리(Cycle)**를 형성한다. 이 사이클이 바로 **순환 대기(Circular Wait)**다.
 
-직선 대기라면 끝에 있는 [[092_thread_lwp|스레드]]가 작업 후 하나씩 풀면 연쇄적으로 해소되겠지만, 닫힌 원 위에서는 누구도 시작점이자 끝점이 될 수 없어 무한 멈춤이 발생한다.
+직선 대기라면 끝에 있는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 작업 후 하나씩 풀면 연쇄적으로 해소되겠지만, 닫힌 원 위에서는 누구도 시작점이자 끝점이 될 수 없어 무한 멈춤이 발생한다.
 
 **💡 비유**: 길게 늘어선 도로 정체 구간. 일직선 정체는 맨 앞차가 빠지면 결국 해소된다. 하지만 차량들이 교차로 네 방향에서 꼬리를 물고 들어가 완벽한 □(정사각형) 링 모양으로 멈추면(Gridlock), 아무리 기다려도 어느 한 차도 먼저 나갈 수 없는 순환 대기에 빠진다.
 
@@ -48,9 +52,9 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [[296_deny_circular_wait|순환 대기 부정]] (Prevention: 자원 순서화)
+### [순환 대기 부정](/knowledge-base/studynote/02_operating_system/05_deadlock/296_deny_circular_wait/) (Prevention: 자원 순서화)
 
-4조건을 찢어버릴 [[268_strategy_pattern|전략]]들 중에 **가장 소프트웨어적으로 현실성 있는 [[268_strategy_pattern|전략]]**이 바로 "순환 대기를 파괴하는 것"이다. 이는 자원에 넘버링 위계(Hierarchy [[277_semaphore_ordering|Ordering]])를 가해서 강제적인 오름차순(Ascending order) 요청만 허락하면 된다.
+4조건을 찢어버릴 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)들 중에 **가장 소프트웨어적으로 현실성 있는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**이 바로 "순환 대기를 파괴하는 것"이다. 이는 자원에 넘버링 위계(Hierarchy [Ordering](/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/))를 가해서 강제적인 오름차순(Ascending order) 요청만 허락하면 된다.
 
 ```text
 ┌───────────────────────────────────────────────────────────────┐
@@ -72,7 +76,7 @@ tags:
 └───────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** [[510_lock|Lock]] Order 제약은 다중 락을 디자인할 때의 불문율이다. 무작위 요청 시 터지던 P1(1잡고 2기다림)과 P2(2잡고 1기다림)가 사라지고, 둘 다 (1부터 잡고 2잡음)로 통일되니, 처음부터 1번을 선점한 녀석이 스무스하게 끝내고 반납할 수 있다.
+**[다이어그램 해설]** [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) Order 제약은 다중 락을 디자인할 때의 불문율이다. 무작위 요청 시 터지던 P1(1잡고 2기다림)과 P2(2잡고 1기다림)가 사라지고, 둘 다 (1부터 잡고 2잡음)로 통일되니, 처음부터 1번을 선점한 녀석이 스무스하게 끝내고 반납할 수 있다.
 
 **📢 섹션 요약 비유**: 은행 서류 창구 순서 — 1번 창구(대출)→2번 창구(승인) 순으로만 가야 하고 역방향 진행은 안 된다고 룰을 정하면 서로 부딪혀 동선이 멈추는 일이 절대 없습니다.
 
@@ -80,13 +84,13 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-[[296_deny_circular_wait|순환 대기 부정]] 모델의 트레이드오프:
+[순환 대기 부정](/knowledge-base/studynote/02_operating_system/05_deadlock/296_deny_circular_wait/) 모델의 트레이드오프:
 
 | 기법 적용 | 오버헤드 | 설계자 부담 | 실행 병목 |
 |:---|:---|:---|:---|
 | 자원 획득 무질서 개방 | 매우 낮음 | 자유로움 (마음대로 코딩) | 데드락 폭발의 잠재성 |
 | 정적 오름차순 부여 | 약간의 리스트 추적비용 | 모든 락 주소를 파악해야 함 | 나중 자원을 미리 잡아야할 때 비효율 유도 |
-| 동적 주소 해시 체인 | CPU Hash 연산 추가 | [[603_component_independent_deployment_unit|컴포넌트]] 객체 [[316_reference_pattern_nosql|참조]] 자동 정렬 | 자연스러운 데드락 프리(Free) 달성 |
+| 동적 주소 해시 체인 | CPU Hash 연산 추가 | [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 객체 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 자동 정렬 | 자연스러운 데드락 프리(Free) 달성 |
 
 **📢 섹션 요약 비유**: 순서를 박아두면 편하지만, 가끔은 뒤에 쓸 자원을 앞에 미리 대기번호 뽑아두느라, 정작 필요한 사람의 자리가 막히는 비효율이 조금 생기는 대가가 따릅니다.
 
@@ -95,11 +99,11 @@ tags:
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 시나리오**:
-1. **[[022_kernel_role|커널]] C코드 개발 가이드라인**: Linux [[022_kernel_role|커널]]에 [[517_virtual_file_system_vfs|VFS]] 등 파일시스템 커밋 시 서로 다른 두 i-node 락을 걸 일이 생긴다면, 룰 매뉴얼에는 "항상 더 낮은 메모리 주소를 가진 i-node 객체를 먼저 잠그고([[510_lock|Lock]]), 높은 쪽을 잠가라"라고 적혀있다. (이 동적 [[276_lock_hierarchy|락 순서화]] 기법이 순환 대기 박멸의 기본 전술)
-2. **이체 시스템([[281_deadlock_definition|Deadlock]] 자유 [[212_synchronization_mechanisms|동기화]])**: Java로 `Account A -> B` 이체 코드를 짤 때 `A`의 락, `B`락을 연달아 걸면 [[281_deadlock_definition|교착 상태]]로 사망한다(`B -> A` 역이체 시). 해결법: System.identityHashCode 로 해시값을 뽑아 값이 더 작은 계좌번호 락부터 획득. 완벽히 사이클을 파괴함.
+1. **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) C코드 개발 가이드라인**: Linux [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 등 파일시스템 커밋 시 서로 다른 두 i-node 락을 걸 일이 생긴다면, 룰 매뉴얼에는 "항상 더 낮은 메모리 주소를 가진 i-node 객체를 먼저 잠그고([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)), 높은 쪽을 잠가라"라고 적혀있다. (이 동적 [락 순서화](/knowledge-base/studynote/02_operating_system/04_synchronization/276_lock_hierarchy/) 기법이 순환 대기 박멸의 기본 전술)
+2. **이체 시스템([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 자유 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/))**: Java로 `Account A -> B` 이체 코드를 짤 때 `A`의 락, `B`락을 연달아 걸면 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)로 사망한다(`B -> A` 역이체 시). 해결법: System.identityHashCode 로 해시값을 뽑아 값이 더 작은 계좌번호 락부터 획득. 완벽히 사이클을 파괴함.
 
-**[[128_water_scrum_fall_anti_pattern|안티패턴]]**:
-- **블랙박스형 [[385_third_party_cookie_deprecation_cdw|서드파티]] 의존 락**: 외부 [[336_library_vs_framework|라이브러리]] 객체를 [[212_synchronization_mechanisms|동기화]]할 때, 그 객체 내부에서 자기가 어떤 락을 어떤 내부 순서로 부를지 모르는 상태로 내가 호출을 감싼다(Wrapping [[510_lock|Lock]]). 내부가 내 락 주소와 엇갈리게 락을 시전 시(Reentrant 거부) 보이지 않는 순환 대기 형성. 서브시스템 간 경계를 넘어가는 [[212_synchronization_mechanisms|동기화]]는 최소화해야 함.
+**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**:
+- **블랙박스형 [서드파티](/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) 의존 락**: 외부 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 객체를 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)할 때, 그 객체 내부에서 자기가 어떤 락을 어떤 내부 순서로 부를지 모르는 상태로 내가 호출을 감싼다(Wrapping [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)). 내부가 내 락 주소와 엇갈리게 락을 시전 시(Reentrant 거부) 보이지 않는 순환 대기 형성. 서브시스템 간 경계를 넘어가는 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)는 최소화해야 함.
 
 **📢 섹션 요약 비유**: 계좌 A와 B의 돈 교환은 "언제나 더 작은 잔고 계좌나 번호가 빠른 사람부터 도장 먼저 찍고 가라"고 정해버리면 양쪽 창구가 서로 노려보며 마비되는 일 100% 차단!
 
@@ -109,11 +113,11 @@ tags:
 
 | 기준 | 순환 대기 형성(허용) | 순환 대기 원천 차단 |
 |:---|:---|:---|
-| 프로그래밍 패러다임 | 락 사용 자유 방임주의 | 엄격한 락 순서 획득 의무([[276_lock_hierarchy|Lock Hierarchy]]) |
-| 데드락 안정성 | 탐지 툴/[[319_timeout_prevention|Timeout]] 없으면 서버 사망 | 수학적으로 데드락 0% 증명 가능 |
+| 프로그래밍 패러다임 | 락 사용 자유 방임주의 | 엄격한 락 순서 획득 의무([Lock Hierarchy](/knowledge-base/studynote/02_operating_system/04_synchronization/276_lock_hierarchy/)) |
+| 데드락 안정성 | 탐지 툴/[Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/) 없으면 서버 사망 | 수학적으로 데드락 0% 증명 가능 |
 | 도입 현실성 | 레거시나 무질서한 DB 구조에 만연 | 가장 프로그래머가 개입할 여지가 뛰어난 방어법 |
 
-[[281_deadlock_definition|교착 상태]] 4대 근원 중 유일하게 **"소프트웨어 설계자의 코드 라인 순서"** 만으로 박살 낼 수 있는 가장 취약한 악의 조건이다. 상호 배제나 [[285_no_preemption|비선점]]처럼 OS나 하드웨어 물성에 종속되는 것도 아니고, 점유 대기처럼 극악의 효율 저하를 겪지도 않으니 실무 엔지니어의 데드락 해결 키스톤(Keystone)과 같은 기술이다.
+[교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 4대 근원 중 유일하게 **"소프트웨어 설계자의 코드 라인 순서"** 만으로 박살 낼 수 있는 가장 취약한 악의 조건이다. 상호 배제나 [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)처럼 OS나 하드웨어 물성에 종속되는 것도 아니고, 점유 대기처럼 극악의 효율 저하를 겪지도 않으니 실무 엔지니어의 데드락 해결 키스톤(Keystone)과 같은 기술이다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -123,9 +127,9 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[284_hold_and_wait|점유하며 대기]] ([[284_hold_and_wait|Hold-and-Wait]]) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [[285_no_preemption|비선점]] ([[285_no_preemption|No Preemption]]) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [[287_resource_allocation_graph|자원 할당 그래프]] ([[287_resource_allocation_graph|Resource-Allocation Graph]]) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [점유하며 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/284_hold_and_wait/) ([Hold-and-Wait](/knowledge-base/studynote/02_operating_system/05_deadlock/284_hold_and_wait/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/) ([No Preemption](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/) ([Resource-Allocation Graph](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
 | 단일 인스턴스 자원 환경 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -154,7 +158,7 @@ tags:
 
 **진행 상황**: 286 / 800
 
-← **이전**: [[285_no_preemption|285. 비선점 (No Preemption) - 다른 프로세스의 자원을 강제로 뺏을 수 없음]]
-**다음**: [[287_resource_allocation_graph|287. 자원 할당 그래프 (Resource-Allocation Graph) - 정점(프로세스, 자원)과 간선(요청, 할당)]] →
+← **이전**: [285. 비선점 (No Preemption) - 다른 프로세스의 자원을 강제로 뺏을 수 없음](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)
+**다음**: [287. 자원 할당 그래프 (Resource-Allocation Graph) - 정점(프로세스, 자원)과 간선(요청, 할당)](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/) →
 
 ---

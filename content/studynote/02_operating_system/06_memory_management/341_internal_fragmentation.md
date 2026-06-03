@@ -1,27 +1,31 @@
----
-title: 341. 내부 단편화 (Internal Fragmentation) - 할당된 공간 내 남는 공간
-date: '2026-05-09'
-tags:
-- studynote-operating-system
----
++++
+title = "341. 내부 단편화 (Internal Fragmentation) - 할당된 공간 내 남는 공간"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 내부 [[291_fragmentation_and_reassembly_process|단편화]](Internal [[291_fragmentation_and_reassembly_process|Fragmentation]])는 메모리를 미리 고정된 크기의 블록([[514_partition_slice_volume|파티션]], [[286_page_frame|페이지]] 등)으로 나누어 할당할 때, **할당된 블록 크기보다 실제 적재된 프로세스의 크기가 작아서 남게 되는 잉여 공간**을 의미한다.
+> 1. **본질**: 내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)(Internal [Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))는 메모리를 미리 고정된 크기의 블록([파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/), [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 등)으로 나누어 할당할 때, **할당된 블록 크기보다 실제 적재된 프로세스의 크기가 작아서 남게 되는 잉여 공간**을 의미한다.
 > 2. **가치**: 이 공간은 OS 장부상 이미 해당 프로세스에게 "할당 완료"된 것으로 처리되므로, 시스템 전체에 메모리가 부족해도 다른 프로세스가 절대 가져다 쓸 수 없는 영구적인 **데드 스페이스(Dead Space)**가 된다.
-> 3. **융합**: [[339_fixed_partition|고정 분할 방식]]에서 극단적으로 나타났으며, 현대의 [[259_paging|페이징]]([[259_paging|Paging]]) 기법에서도 프로세스의 마지막 [[286_page_frame|페이지]] 프레임에서 필연적으로 발생하지만 그 크기가 수 KB(평균 2KB)에 불과해 '허용 가능한 트레이드오프'로 취급된다.
+> 3. **융합**: [고정 분할 방식](/knowledge-base/studynote/02_operating_system/06_memory_management/339_fixed_partition/)에서 극단적으로 나타났으며, 현대의 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)) 기법에서도 프로세스의 마지막 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 프레임에서 필연적으로 발생하지만 그 크기가 수 KB(평균 2KB)에 불과해 '허용 가능한 트레이드오프'로 취급된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 내부 [[291_fragmentation_and_reassembly_process|단편화]]는 메모리 할당 단위(블록) 내부에서 발생하는 조각(Fragment)이다. 메모리를 요구하는 프로세스에게 정확히 요구한 크기만큼만 주는 것이 아니라, 시스템 관리의 편의를 위해 "정해진 규격"으로 올림(Round up)하여 할당할 때 발생하는 필연적 차이(Delta)값이다.
-- **필요성**: 메모리 관리를 극도로 단순하게 만들고 속도를 높이려면, 모든 프로세스의 크기를 일일이 재고 맞춤 재단하는 것보다 기성복 사이즈(4KB, 8KB, 20MB 등)로 일괄 제공하는 것이 훨씬 빠르다. 즉, 내부 [[291_fragmentation_and_reassembly_process|단편화]]는 **'빠르고 단순한 메모리 관리를 위해 의도적으로 지불하는 공간적 세금(Tax)'**이다.
+- **개념**: 내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)는 메모리 할당 단위(블록) 내부에서 발생하는 조각(Fragment)이다. 메모리를 요구하는 프로세스에게 정확히 요구한 크기만큼만 주는 것이 아니라, 시스템 관리의 편의를 위해 "정해진 규격"으로 올림(Round up)하여 할당할 때 발생하는 필연적 차이(Delta)값이다.
+- **필요성**: 메모리 관리를 극도로 단순하게 만들고 속도를 높이려면, 모든 프로세스의 크기를 일일이 재고 맞춤 재단하는 것보다 기성복 사이즈(4KB, 8KB, 20MB 등)로 일괄 제공하는 것이 훨씬 빠르다. 즉, 내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)는 **'빠르고 단순한 메모리 관리를 위해 의도적으로 지불하는 공간적 세금(Tax)'**이다.
 
 - **등장 배경 및 발생 구조**:
-  1. **[[339_fixed_partition|고정 분할 방식]]의 부작용**: [[673_multiprogramming_bottleneck_resource|다중 프로그래밍]] 초기에 메모리를 10MB, 20MB 등의 커다란 고정 [[514_partition_slice_volume|파티션]]으로 나누었다. 20MB 방에 5MB 프로그램이 들어가면 15MB라는 거대한 내부 [[291_fragmentation_and_reassembly_process|단편화]]가 발생해 시스템 효율을 심각하게 갉아먹었다.
-  2. **가변 분할의 [[342_external_fragmentation|외부 단편화]]**: 이를 해결하고자 가변 분할(프로세스 크기 딱 맞춤)을 도입했더니, 이번엔 내부 [[291_fragmentation_and_reassembly_process|단편화]]는 0이 되었으나 [[342_external_fragmentation|외부 단편화]](External)가 발생해 [[347_compaction|압축]]([[347_compaction|Compaction]]) 비용이 폭발했다.
-  3. **[[259_paging|페이징]]의 타협**: 결국 현대 OS는 메모리를 다시 고정 크기(4KB)로 쪼개는 [[259_paging|페이징]] 기법으로 돌아왔다. 다만 블록 크기를 아주 작게(4KB) 만들어, 프로세스의 맨 마지막 블록에서만 최대 3.99KB의 내부 [[291_fragmentation_and_reassembly_process|단편화]]가 발생하게끔 통제(Control)하는 타협안을 도출했다.
+  1. **[고정 분할 방식](/knowledge-base/studynote/02_operating_system/06_memory_management/339_fixed_partition/)의 부작용**: [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 초기에 메모리를 10MB, 20MB 등의 커다란 고정 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)으로 나누었다. 20MB 방에 5MB 프로그램이 들어가면 15MB라는 거대한 내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)가 발생해 시스템 효율을 심각하게 갉아먹었다.
+  2. **가변 분할의 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)**: 이를 해결하고자 가변 분할(프로세스 크기 딱 맞춤)을 도입했더니, 이번엔 내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)는 0이 되었으나 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)(External)가 발생해 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)) 비용이 폭발했다.
+  3. **[페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 타협**: 결국 현대 OS는 메모리를 다시 고정 크기(4KB)로 쪼개는 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 기법으로 돌아왔다. 다만 블록 크기를 아주 작게(4KB) 만들어, 프로세스의 맨 마지막 블록에서만 최대 3.99KB의 내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)가 발생하게끔 통제(Control)하는 타협안을 도출했다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────────┐
@@ -43,7 +47,7 @@ tags:
 │        (※ 이 3KB는 다른 프로그램이 절대 쓸 수 없음!)             │
 └──────────────────────────────────────────────────────────────────┘
 ```
-**[다이어그램 해설]** 내부 [[291_fragmentation_and_reassembly_process|단편화]]의 수학적 본질은 `할당된 공간 - 요구한 공간 = 잉여 공간(내부 단편화)`이다. 위 그림처럼 [[259_paging|페이징]] 환경에서 내부 [[291_fragmentation_and_reassembly_process|단편화]]는 오직 프로세스의 '가장 마지막 [[286_page_frame|페이지]]' 단 한 곳에서만 발생한다. 아무리 거대한(수 GB) 프로세스라도 발생하는 내부 [[291_fragmentation_and_reassembly_process|단편화]]의 크기는 최대 4KB(정확히는 4KB - 1Byte)를 넘지 않는다. 평균적으로는 한 프로세스당 [[352_page_size|페이지 크기]]의 절반(약 2KB)의 내부 [[291_fragmentation_and_reassembly_process|단편화]]가 발생한다.
+**[다이어그램 해설]** 내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)의 수학적 본질은 `할당된 공간 - 요구한 공간 = 잉여 공간(내부 단편화)`이다. 위 그림처럼 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 환경에서 내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)는 오직 프로세스의 '가장 마지막 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)' 단 한 곳에서만 발생한다. 아무리 거대한(수 GB) 프로세스라도 발생하는 내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)의 크기는 최대 4KB(정확히는 4KB - 1Byte)를 넘지 않는다. 평균적으로는 한 프로세스당 [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)의 절반(약 2KB)의 내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)가 발생한다.
 
 - **📢 섹션 요약 비유**: 계란 3개가 필요한데 마트에서는 10개들이 팩으로만 팔아서 어쩔 수 없이 한 팩을 사고 남은 계란 7개가 냉장고에서 썩어가는 현상입니다.
 
@@ -51,25 +55,25 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 내부 [[291_fragmentation_and_reassembly_process|단편화]] 발생 아키텍처
+### 내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 발생 아키텍처
 
-내부 [[291_fragmentation_and_reassembly_process|단편화]]는 소프트웨어(OS)와 하드웨어([[328_mmu|MMU]])의 매핑 로직 구조상 발생하는 필연적 결과다.
+내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)는 소프트웨어(OS)와 하드웨어([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))의 매핑 로직 구조상 발생하는 필연적 결과다.
 
-| 관여 요소 | 역할 | 내부 [[291_fragmentation_and_reassembly_process|단편화]]와 [[083_relationship_in_er_model|관계]] | 비유 |
+| 관여 요소 | 역할 | 내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)와 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 비유 |
 |:---|:---|:---|:---|
-| **OS 할당기 (Allocator)** | 빈 블록(Frame) 탐색 및 부여 | 요구 크기를 [[352_page_size|페이지 크기]] 배수로 '올림(Ceiling)'하여 할당함 | 옷의 기성 사이즈 올림 |
-| **[[353_page_table|페이지 테이블]] ([[353_page_table|Page Table]])**| [[369_logic_bomb|논리]] → 물리 매핑 | [[369_logic_bomb|논리]] [[286_page_frame|페이지]] 1개당 물리 프레임 1개를 통째로 매핑함 | 1인 1실 배정표 |
+| **OS 할당기 (Allocator)** | 빈 블록(Frame) 탐색 및 부여 | 요구 크기를 [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/) 배수로 '올림(Ceiling)'하여 할당함 | 옷의 기성 사이즈 올림 |
+| **[페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) ([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))**| [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) → 물리 매핑 | [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 1개당 물리 프레임 1개를 통째로 매핑함 | 1인 1실 배정표 |
 | **물리 프레임 (Frame)** | 실제 하드웨어 메모리 조각 | 남는 공간이 있어도 물리적으로 쪼개서 분할 제공 불가능 | 콘크리트로 지어진 방 |
 
 ---
 
-### 블록 크기(Block Size)와 [[291_fragmentation_and_reassembly_process|단편화]]의 상관관계 공식
+### 블록 크기(Block Size)와 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)의 상관관계 공식
 
 시스템 설계자는 이 "규격(Block Size)"을 정할 때 심각한 트레이드오프에 직면한다.
-- **[[352_page_size|페이지 크기]]를 키우면 (예: 4KB -> 4MB)**: 
-  [[353_page_table|페이지 테이블]] 크기가 줄어들고 디스크 I/O 효율이 좋아지지만, 프로세스당 버려지는 내부 [[291_fragmentation_and_reassembly_process|단편화]] 공간이 최대 3.99MB로 폭증한다. (메모리 낭비 심화)
-- **[[352_page_size|페이지 크기]]를 줄이면 (예: 4KB -> 512Byte)**: 
-  내부 [[291_fragmentation_and_reassembly_process|단편화]] 낭비는 최대 511Byte로 줄어들지만, 수억 개의 조각이 생겨 [[353_page_table|페이지 테이블]]이 메모리의 절반을 차지해버리는 배보다 배꼽이 큰 상황이 발생한다.
+- **[페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)를 키우면 (예: 4KB -> 4MB)**: 
+  [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 크기가 줄어들고 디스크 I/O 효율이 좋아지지만, 프로세스당 버려지는 내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 공간이 최대 3.99MB로 폭증한다. (메모리 낭비 심화)
+- **[페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)를 줄이면 (예: 4KB -> 512Byte)**: 
+  내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 낭비는 최대 511Byte로 줄어들지만, 수억 개의 조각이 생겨 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)이 메모리의 절반을 차지해버리는 배보다 배꼽이 큰 상황이 발생한다.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────┐
@@ -95,30 +99,30 @@ tags:
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 이 그래프는 메모리 관리의 황금비율이 왜 4KB가 되었는지를 설명한다. [[352_page_size|페이지 크기]]가 커질수록 '마지막 블록'에서 버려지는 공간의 기댓값이 선형적으로 증가한다. 내부 [[291_fragmentation_and_reassembly_process|단편화]]는 막을 수 있는 에러가 아니라, 관리 비용(테이블 크기)을 줄이기 위해 자발적으로 지불하는 '구독료' 같은 개념이다.
+**[다이어그램 해설]** 이 그래프는 메모리 관리의 황금비율이 왜 4KB가 되었는지를 설명한다. [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)가 커질수록 '마지막 블록'에서 버려지는 공간의 기댓값이 선형적으로 증가한다. 내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)는 막을 수 있는 에러가 아니라, 관리 비용(테이블 크기)을 줄이기 위해 자발적으로 지불하는 '구독료' 같은 개념이다.
 
-- **📢 섹션 요약 비유**: 택배 박스 규격을 무조건 우체국 5호 상자(큰 [[286_page_frame|페이지]])로 통일하면 포장 속도는 빠르지만 빈 공간(내부 [[291_fragmentation_and_reassembly_process|단편화]])에 뽁뽁이를 엄청 채워야 하고, 박스 규격을 100종류로 늘리면 낭비는 없지만 박스 찾느라 시간이 다 가는 것과 같은 딜레마다.
+- **📢 섹션 요약 비유**: 택배 박스 규격을 무조건 우체국 5호 상자(큰 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))로 통일하면 포장 속도는 빠르지만 빈 공간(내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))에 뽁뽁이를 엄청 채워야 하고, 박스 규격을 100종류로 늘리면 낭비는 없지만 박스 찾느라 시간이 다 가는 것과 같은 딜레마다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 비교 1: 내부 [[291_fragmentation_and_reassembly_process|단편화]] (Internal) vs [[342_external_fragmentation|외부 단편화]] (External)
+### 비교 1: 내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) (Internal) vs [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) (External)
 
 이 두 개념을 완벽하게 구분하는 것이 메모리 관리의 핵심이다.
 
-| 비교 항목 | 내부 [[291_fragmentation_and_reassembly_process|단편화]] (Internal [[291_fragmentation_and_reassembly_process|Fragmentation]]) | [[342_external_fragmentation|외부 단편화]] ([[342_external_fragmentation|External Fragmentation]]) |
+| 비교 항목 | 내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) (Internal [Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)) | [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) ([External Fragmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)) |
 |:---|:---|:---|
 | **발생 위치** | **할당된 영역 내부** (In allocated space) | **할당된 영역 외부** (In free space) |
 | **낭비 원인** | 프로세스 크기가 방 크기보다 작아서 (올림 계산) | 프로세스들이 나간 자리가 연속되지 않고 쪼개져서 |
 | **사용 가능성**| 다른 프로세스가 **절대 쓸 수 없음** (장부상 할당됨) | 쪼개져 있을 뿐, 이론적으로는 비어있음 (합치면 쓸 수 있음) |
-| **주요 발생 기법**| [[339_fixed_partition|고정 분할 방식]], **[[259_paging|페이징]]([[259_paging|Paging]])** | [[340_variable_partition|가변 분할 방식]], **[[364_segmentation|세그멘테이션]]([[364_segmentation|Segmentation]])** |
-| **해결책** | 완벽한 해결 불가, [[352_page_size|페이지 크기]] 축소로 손실 완화 | 메모리 [[347_compaction|압축]]([[347_compaction|Compaction]]), [[259_paging|페이징]] 도입 |
+| **주요 발생 기법**| [고정 분할 방식](/knowledge-base/studynote/02_operating_system/06_memory_management/339_fixed_partition/), **[페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))** | [가변 분할 방식](/knowledge-base/studynote/02_operating_system/06_memory_management/340_variable_partition/), **[세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)([Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/))** |
+| **해결책** | 완벽한 해결 불가, [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/) 축소로 손실 완화 | 메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)), [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 도입 |
 
-### 결합 현상 ([[364_segmentation|세그멘테이션]] + [[259_paging|페이징]])
-현대 OS는 [[364_segmentation|세그멘테이션]]([[342_external_fragmentation|외부 단편화]] 발생)의 단점을 막기 위해, 세그먼트 내부를 다시 [[259_paging|페이징]](내부 [[291_fragmentation_and_reassembly_process|단편화]] 발생)으로 쪼개는 **[[367_paged_segmentation|Paged Segmentation]]** 기법을 쓴다.
-- 즉, 최신 시스템에서는 [[342_external_fragmentation|외부 단편화]]는 완전히 사라지지만, 각 세그먼트의 마지막 조각들에서 다수의 내부 [[291_fragmentation_and_reassembly_process|단편화]]들이 존재하게 된다.
-- "[[342_external_fragmentation|외부 단편화]]는 시스템을 멈추지만, 내부 [[291_fragmentation_and_reassembly_process|단편화]]는 돈(RAM 용량)으로 때울 수 있다"는 공학적 결론이다.
+### 결합 현상 ([세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) + [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))
+현대 OS는 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)([외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 발생)의 단점을 막기 위해, 세그먼트 내부를 다시 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)(내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 발생)으로 쪼개는 **[Paged Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/367_paged_segmentation/)** 기법을 쓴다.
+- 즉, 최신 시스템에서는 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)는 완전히 사라지지만, 각 세그먼트의 마지막 조각들에서 다수의 내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)들이 존재하게 된다.
+- "[외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)는 시스템을 멈추지만, 내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)는 돈(RAM 용량)으로 때울 수 있다"는 공학적 결론이다.
 
 ```text
 ┌──────────┬────────────┬────────────┬────────────────────┐
@@ -130,29 +134,29 @@ tags:
 │ 세그멘테이션│ 없음       │ 심함       │ 보조 기법       │
 └──────────┴────────────┴────────────┴────────────────────┘
 ```
-**[매트릭스 해설]** 컴퓨터 공학자들은 내부 [[291_fragmentation_and_reassembly_process|단편화]]와 [[342_external_fragmentation|외부 단편화]]라는 두 악마 중 하나를 선택해야 했다. [[342_external_fragmentation|외부 단편화]]는 이를 해결하기 위해 메모리 전체를 멈추고 셔플하는 '[[347_compaction|압축]]([[347_compaction|Compaction]])'이라는 극악의 CPU 오버헤드를 유발한다. 반면 내부 [[291_fragmentation_and_reassembly_process|단편화]]는 그냥 램 공간 조금 버리고 무시하면 시스템 속도에는 아무런 타격을 주지 않는다. 그래서 인류는 내부 [[291_fragmentation_and_reassembly_process|단편화]]를 수용하는 쪽([[259_paging|페이징]])으로 진화의 방향을 잡았다.
+**[매트릭스 해설]** 컴퓨터 공학자들은 내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)와 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)라는 두 악마 중 하나를 선택해야 했다. [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)는 이를 해결하기 위해 메모리 전체를 멈추고 셔플하는 '[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))'이라는 극악의 CPU 오버헤드를 유발한다. 반면 내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)는 그냥 램 공간 조금 버리고 무시하면 시스템 속도에는 아무런 타격을 주지 않는다. 그래서 인류는 내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)를 수용하는 쪽([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))으로 진화의 방향을 잡았다.
 
-- **📢 섹션 요약 비유**: '[[342_external_fragmentation|외부 단편화]]'가 길이 끊어져서 목적지에 가지 못하는 치명적 붕괴라면, '내부 [[291_fragmentation_and_reassembly_process|단편화]]'는 갓길에 차를 세우면 남는 공간처럼 그냥 조금 아깝고 마는 감수할 수 있는 손해입니다.
+- **📢 섹션 요약 비유**: '[외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)'가 길이 끊어져서 목적지에 가지 못하는 치명적 붕괴라면, '내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)'는 갓길에 차를 세우면 남는 공간처럼 그냥 조금 아깝고 마는 감수할 수 있는 손해입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 실무 시나리오: [[517_huge_page|Huge Page]] 도입 시의 [[157_oom_killer|OOM]]([[157_oom_killer|Out of Memory]]) [[129_spike_agile_technical_investigation|스파이크]]
-1. **상황**: [[282_performance_tactics|성능]] 최적화를 위해 [[002_database_definition|데이터베이스]](MySQL) 서버에 리눅스의 [[517_huge_page|Huge Page]] (2MB)를 적용했다. 기본 4KB보다 512배 큰 블록이다.
-2. **내부 [[291_fragmentation_and_reassembly_process|단편화]] 폭발**:
+### 실무 시나리오: [Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/) 도입 시의 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)([Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)
+1. **상황**: [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화를 위해 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(MySQL) 서버에 리눅스의 [Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/) (2MB)를 적용했다. 기본 4KB보다 512배 큰 블록이다.
+2. **내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 폭발**:
    - 시스템에 수많은 작은 프로세스(예: 백그라운드 스크립트, 크론잡)들이 50KB씩 메모리를 요청한다.
-   - OS는 할당 정책에 따라 이 50KB짜리 프로세스에게 무조건 2MB([[517_huge_page|Huge Page]])를 통째로 떼어준다.
-   - 1개의 프로세스마다 무려 1.95MB의 내부 [[291_fragmentation_and_reassembly_process|단편화]](버려지는 공간)가 발생한다. 프로세스 1000개가 뜨면 2GB의 램이 허공으로 증발한다.
+   - OS는 할당 정책에 따라 이 50KB짜리 프로세스에게 무조건 2MB([Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/))를 통째로 떼어준다.
+   - 1개의 프로세스마다 무려 1.95MB의 내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)(버려지는 공간)가 발생한다. 프로세스 1000개가 뜨면 2GB의 램이 허공으로 증발한다.
 3. **의사결정 판단**:
-   - DB 서버처럼 수십 GB를 하나의 통짜 덩어리로 쓰는 프로세스에는 Huge Page가 좋지만, 이를 시스템 전역(Transparent [[371_huge_pages|Huge Pages]])에 강제로 켜두면, 무수히 작은 프로세스들이 유발하는 거대한 내부 [[291_fragmentation_and_reassembly_process|단편화]] 때문에 서버 메모리가 순식간에 고갈되어 [[157_oom_killer|OOM]] Killer가 발동한다.
+   - DB 서버처럼 수십 GB를 하나의 통짜 덩어리로 쓰는 프로세스에는 Huge Page가 좋지만, 이를 시스템 전역(Transparent [Huge Pages](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/))에 강제로 켜두면, 무수히 작은 프로세스들이 유발하는 거대한 내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 때문에 서버 메모리가 순식간에 고갈되어 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer가 발동한다.
    - 실무에서는 이 두 가지 상황을 분리하여 적용해야 한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]: 과도한 구조체 정렬(Struct Alignment) [[098_padding_convolutional_neural_network_same_valid|패딩]]
-소프트웨어(C언어) 레벨에서도 내부 [[291_fragmentation_and_reassembly_process|단편화]]가 존재한다.
-`struct { char a; int b; }`를 선언하면, 5바이트가 아니라 컴파일러가 CPU 접근 속도를 위해 8바이트로 [[098_padding_convolutional_neural_network_same_valid|패딩]]([[098_padding_convolutional_neural_network_same_valid|Padding]])을 채운다. 이 버려진 3바이트 역시 프로그램 관점에서의 내부 [[291_fragmentation_and_reassembly_process|단편화]]다. 네트워크 통신이나 [[501_file_definition_logical_record|파일]] I/O 시 이를 방치하면 [[140_bandwidth|대역폭]] 낭비가 발생한다.
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): 과도한 구조체 정렬(Struct Alignment) [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)
+소프트웨어(C언어) 레벨에서도 내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)가 존재한다.
+`struct { char a; int b; }`를 선언하면, 5바이트가 아니라 컴파일러가 CPU 접근 속도를 위해 8바이트로 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))을 채운다. 이 버려진 3바이트 역시 프로그램 관점에서의 내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)다. 네트워크 통신이나 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O 시 이를 방치하면 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비가 발생한다.
 
-- **📢 섹션 요약 비유**: 큰 창고([[517_huge_page|Huge Page]])를 임대해 큰 물건(DB)을 넣는 건 좋지만, 작은 구슬(작은 프로세스) 하나 보관하려고 200평 창고를 통째로 대여하는 바보 같은 짓을 막는 것이 실무 튜닝의 핵심입니다.
+- **📢 섹션 요약 비유**: 큰 창고([Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/))를 임대해 큰 물건(DB)을 넣는 건 좋지만, 작은 구슬(작은 프로세스) 하나 보관하려고 200평 창고를 통째로 대여하는 바보 같은 짓을 막는 것이 실무 튜닝의 핵심입니다.
 
 ---
 
@@ -162,15 +166,15 @@ tags:
 
 | 구분 | 내용 |
 |:---|:---|
-| **관리 오버헤드 감소** | 빈 공간을 [[074_byte|바이트]] 단위로 계산하고 쪼개는 연산 로직([[345_best_fit|Best-fit]] 등)을 없애 OS 스케줄링 고속화 |
-| **예측 가능성 증가** | 메모리 할당과 해제가 항상 4KB 등 정해진 단위로 딱딱 떨어지므로 [[442_memory_pooling|메모리 풀링]](Pool)이 극도로 쉬워짐 |
-| **공간적 희생의 수용**| 프로세스당 평균 `(페이지 크기 / 2)`의 공간 손실을 감수함으로써, [[342_external_fragmentation|외부 단편화]]로 인한 시스템 정지를 방지 |
+| **관리 오버헤드 감소** | 빈 공간을 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 단위로 계산하고 쪼개는 연산 로직([Best-fit](/knowledge-base/studynote/02_operating_system/06_memory_management/345_best_fit/) 등)을 없애 OS 스케줄링 고속화 |
+| **예측 가능성 증가** | 메모리 할당과 해제가 항상 4KB 등 정해진 단위로 딱딱 떨어지므로 [메모리 풀링](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/442_memory_pooling/)(Pool)이 극도로 쉬워짐 |
+| **공간적 희생의 수용**| 프로세스당 평균 `(페이지 크기 / 2)`의 공간 손실을 감수함으로써, [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)로 인한 시스템 정지를 방지 |
 
 ### 결론 및 미래 전망
 
-내부 [[291_fragmentation_and_reassembly_process|단편화]] (Internal [[291_fragmentation_and_reassembly_process|Fragmentation]])는 메모리를 '고정된 블록 단위'로 관리하기로 한 인류의 결정이 낳은 필연적인 찌꺼기다. 메모리 용량이 수십 KB에 불과했던 과거에는 이 찌꺼기조차 아까워서 가변 분할([[342_external_fragmentation|외부 단편화]] 방식)에 매달렸지만, 메모리가 수십 GB 단위로 커진 현대에는 4KB 안의 1~2KB 낭비는 현미경으로나 보이는 먼지에 불과해졌다. 관리의 고속화를 위해 약간의 재료 낭비를 쿨하게 허용하는 것, 이것이 컴퓨터 시스템 최적화에서 가장 널리 쓰이는 "공간(Space)을 버리고 시간(Time)을 벌어들인다"는 철학의 완벽한 표본이다.
+내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) (Internal [Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))는 메모리를 '고정된 블록 단위'로 관리하기로 한 인류의 결정이 낳은 필연적인 찌꺼기다. 메모리 용량이 수십 KB에 불과했던 과거에는 이 찌꺼기조차 아까워서 가변 분할([외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 방식)에 매달렸지만, 메모리가 수십 GB 단위로 커진 현대에는 4KB 안의 1~2KB 낭비는 현미경으로나 보이는 먼지에 불과해졌다. 관리의 고속화를 위해 약간의 재료 낭비를 쿨하게 허용하는 것, 이것이 컴퓨터 시스템 최적화에서 가장 널리 쓰이는 "공간(Space)을 버리고 시간(Time)을 벌어들인다"는 철학의 완벽한 표본이다.
 
-- **📢 섹션 요약 비유**: 두부를 자를 때 칼에 묻어나가 버려지는 두부 찌꺼기(내부 [[291_fragmentation_and_reassembly_process|단편화]])가 아깝다고 두부를 안 자르고 통째로 끓일 순 없는 것처럼, 맛있는 요리(빠른 시스템)를 위해 기꺼이 감수하는 필수불가결한 손실입니다.
+- **📢 섹션 요약 비유**: 두부를 자를 때 칼에 묻어나가 버려지는 두부 찌꺼기(내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))가 아깝다고 두부를 안 자르고 통째로 끓일 순 없는 것처럼, 맛있는 요리(빠른 시스템)를 위해 기꺼이 감수하는 필수불가결한 손실입니다.
 
 ---
 
@@ -178,10 +182,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[339_fixed_partition|고정 분할 방식]] ([[339_fixed_partition|Fixed Partition]]) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [[340_variable_partition|가변 분할 방식]] ([[340_variable_partition|Variable Partition]]) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [[342_external_fragmentation|외부 단편화]] ([[342_external_fragmentation|External Fragmentation]]) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| 동적 메모리 할당 문제 (가변 분할 배치 [[001_algorithm_definition|알고리즘]]) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [고정 분할 방식](/knowledge-base/studynote/02_operating_system/06_memory_management/339_fixed_partition/) ([Fixed Partition](/knowledge-base/studynote/02_operating_system/06_memory_management/339_fixed_partition/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [가변 분할 방식](/knowledge-base/studynote/02_operating_system/06_memory_management/340_variable_partition/) ([Variable Partition](/knowledge-base/studynote/02_operating_system/06_memory_management/340_variable_partition/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) ([External Fragmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| 동적 메모리 할당 문제 (가변 분할 배치 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -195,13 +199,13 @@ tags:
     └──▶ [동적 메모리 할당 문제 (가변 분할 배치 알고리즘)]
 ```
 
-이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [[347_compaction|압축]]해 보여준다.
+이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 내부 [[291_fragmentation_and_reassembly_process|단편화]] (Internal [[291_fragmentation_and_reassembly_process|Fragmentation]])은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
-2. 먼저 [[340_variable_partition|가변 분할 방식]] ([[340_variable_partition|Variable Partition]])을 이해하면 내부 [[291_fragmentation_and_reassembly_process|단편화]] (Internal [[291_fragmentation_and_reassembly_process|Fragmentation]])이 왜 필요한지 더 쉽게 보여요.
-3. 그래서 내부 [[291_fragmentation_and_reassembly_process|단편화]] (Internal [[291_fragmentation_and_reassembly_process|Fragmentation]])을 잘 알면 나중에 [[342_external_fragmentation|외부 단편화]] ([[342_external_fragmentation|External Fragmentation]])도 훨씬 쉽게 배울 수 있어요.
+1. 내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) (Internal [Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
+2. 먼저 [가변 분할 방식](/knowledge-base/studynote/02_operating_system/06_memory_management/340_variable_partition/) ([Variable Partition](/knowledge-base/studynote/02_operating_system/06_memory_management/340_variable_partition/))을 이해하면 내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) (Internal [Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))이 왜 필요한지 더 쉽게 보여요.
+3. 그래서 내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) (Internal [Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))을 잘 알면 나중에 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) ([External Fragmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/))도 훨씬 쉽게 배울 수 있어요.
 
 ---
 
@@ -209,7 +213,7 @@ tags:
 
 **진행 상황**: 341 / 800
 
-← **이전**: [[340_variable_partition|340. 가변 분할 방식 (Variable Partition)]]
-**다음**: [[342_external_fragmentation|342. 외부 단편화 (External Fragmentation) - 가용 공간은 충분하나 불연속적이라 할당 불가]] →
+← **이전**: [340. 가변 분할 방식 (Variable Partition)](/knowledge-base/studynote/02_operating_system/06_memory_management/340_variable_partition/)
+**다음**: [342. 외부 단편화 (External Fragmentation) - 가용 공간은 충분하나 불연속적이라 할당 불가](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) →
 
 ---

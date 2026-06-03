@@ -1,31 +1,35 @@
----
-title: 96. 리스크(Risk)와 비리스크(Non-risk) - 아키텍처 평가 위험 도출
-date: '2026-04-10'
-tags:
-- studynote-design
----
++++
+title = "96. 리스크(Risk)와 비리스크(Non-risk) - 아키텍처 평가 위험 도출"
+date = 2026-04-10
+
+[taxonomies]
+tags = ["studynote-design"]
+
+[extra]
+tags = ["studynote-design"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 리스크 (Risk)와 비리스크 (Non-risk)는 [[229_atam_architecture_trade_off_analysis_method|ATAM]] ([[319_architecture|Architecture]] Trade-off Analysis Method) 등 아키텍처 평가에서, 설계 결정이 요구되는 [[352_process|품질 속성 시나리오]]를 달성하는 데 미치는 위협의 정도를 분류한 결과물이다.
-> 2. **가치**: 코딩이 시작되기 전인 설계 단계에서 치명적인 실패 요인을 조기에 적발하여([[242_shift_left_sdlc|Shift-Left]]), 천문학적인 재설계 비용을 예방하고 프로젝트의 생존을 보장한다.
+> 1. **본질**: 리스크 (Risk)와 비리스크 (Non-risk)는 [ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Trade-off Analysis Method) 등 아키텍처 평가에서, 설계 결정이 요구되는 [품질 속성 시나리오](/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/)를 달성하는 데 미치는 위협의 정도를 분류한 결과물이다.
+> 2. **가치**: 코딩이 시작되기 전인 설계 단계에서 치명적인 실패 요인을 조기에 적발하여([Shift-Left](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)), 천문학적인 재설계 비용을 예방하고 프로젝트의 생존을 보장한다.
 > 3. **판단 포인트**: 특정 설계 방식(전술)이 비즈니스 목표를 무너뜨린다면 리스크로 규정하여 즉시 수정하고, 수용 가능한 한계 내에 있거나 긍정적이면 비리스크로 문서화하여 책임을 명확히 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-소프트웨어 시스템이 거대해짐에 따라, 기능이 잘 동작하는 것 이상으로 [[452_availability|가용성]], [[282_performance_tactics|성능]], 보안 등의 품질 [[082_attribute_types_er_model|속성]] (Quality [[082_attribute_types_er_model|Attribute]])이 비즈니스의 성패를 좌우하게 되었다. 아키텍트는 요구사항을 만족시키기 위해 다양한 기술적 결정을 내리는데, 이 결정들이 복합적으로 얽히며 예상치 못한 부작용을 낳기도 한다.
+소프트웨어 시스템이 거대해짐에 따라, 기능이 잘 동작하는 것 이상으로 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 보안 등의 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) (Quality [Attribute](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))이 비즈니스의 성패를 좌우하게 되었다. 아키텍트는 요구사항을 만족시키기 위해 다양한 기술적 결정을 내리는데, 이 결정들이 복합적으로 얽히며 예상치 못한 부작용을 낳기도 한다.
 
-시스템을 짓고 나서 테스트할 때 문제를 발견하면 이미 수십억 원의 개발비가 날아간 뒤다. 따라서 도면만 있는 상태에서 "이 설계대로 지으면 1만 명 동시 접속 시나리오에서 시스템이 죽을 것인가?"를 미리 [[395_verification_process_review|검증]]해야 한다. 이 [[395_verification_process_review|검증]] 과정에서 도출되는 치명적 구멍이 리스크이며, 이것을 없애지 않으면 프로젝트는 재앙을 맞이한다.
+시스템을 짓고 나서 테스트할 때 문제를 발견하면 이미 수십억 원의 개발비가 날아간 뒤다. 따라서 도면만 있는 상태에서 "이 설계대로 지으면 1만 명 동시 접속 시나리오에서 시스템이 죽을 것인가?"를 미리 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다. 이 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 과정에서 도출되는 치명적 구멍이 리스크이며, 이것을 없애지 않으면 프로젝트는 재앙을 맞이한다.
 
-- **📢 섹션 요약 비유**: 건물을 다 짓고 나서 태풍을 불게 해보는 것이 아니라, 모형 설계도를 컴퓨터로 시뮬레이션 돌려보고 "지붕이 날아가는 [[352_defect_definition|결함]](Risk)"을 미리 찾아내는 과정이다.
+- **📢 섹션 요약 비유**: 건물을 다 짓고 나서 태풍을 불게 해보는 것이 아니라, 모형 설계도를 컴퓨터로 시뮬레이션 돌려보고 "지붕이 날아가는 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)(Risk)"을 미리 찾아내는 과정이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-리스크와 비리스크는 단독으로 튀어나오지 않는다. 설계 결정이 품질 [[082_attribute_types_er_model|속성]]에 영향을 주는 [[094_sensitivity_point_architecture_tradeoff_control_knob|민감도점]] ([[094_sensitivity_point_architecture_tradeoff_control_knob|Sensitivity Point]])과, 여러 품질 [[082_attribute_types_er_model|속성]]이 서로 충돌하는 타협점 ([[095_tradeoff_point_architecture_evaluation_atam_conflict|Trade-off Point]]) 분석을 거쳐 최종적으로 도출된다.
+리스크와 비리스크는 단독으로 튀어나오지 않는다. 설계 결정이 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)에 영향을 주는 [민감도점](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/094_sensitivity_point_architecture_tradeoff_control_knob/) ([Sensitivity Point](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/094_sensitivity_point_architecture_tradeoff_control_knob/))과, 여러 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 서로 충돌하는 타협점 ([Trade-off Point](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/095_tradeoff_point_architecture_evaluation_atam_conflict/)) 분석을 거쳐 최종적으로 도출된다.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────┐
@@ -40,7 +44,7 @@ tags:
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
-이 그림은 하나의 설계 결정이 어떻게 위험으로 발전하는지 보여준다. 리스크(Risk)는 품질 [[082_attribute_types_er_model|속성]] 목표를 달성하지 못하게 방해하는 구조적 [[352_defect_definition|결함]]이다. 반면 비리스크(Non-risk)는 현재 주어진 시나리오 하에서는 목표 달성을 방해하지 않는 수용 가능한 결정이다. 비리스크라고 해서 완벽하다는 뜻은 아니며, 미래의 요구사항 변경 시에는 언제든 리스크로 돌변할 수 있다.
+이 그림은 하나의 설계 결정이 어떻게 위험으로 발전하는지 보여준다. 리스크(Risk)는 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 목표를 달성하지 못하게 방해하는 구조적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이다. 반면 비리스크(Non-risk)는 현재 주어진 시나리오 하에서는 목표 달성을 방해하지 않는 수용 가능한 결정이다. 비리스크라고 해서 완벽하다는 뜻은 아니며, 미래의 요구사항 변경 시에는 언제든 리스크로 돌변할 수 있다.
 
 - **📢 섹션 요약 비유**: 약을 먹었을 때(아키텍처 결정), 열이 내리면(민감도), 간 수치가 올라가는 부작용(타협점)이 생깁니다. 이때 간 수치가 치명적 수치를 넘으면 의사는 투약 금지(Risk)를 선언하고, 안전 범위 내라면 투약 유지(Non-risk)를 결정합니다.
 
@@ -52,10 +56,10 @@ tags:
 
 | 구분 | 리스크 (Risk) | 비리스크 (Non-risk) |
 | :--- | :--- | :--- |
-| **정의** | [[352_process|품질 속성 시나리오]] 달성을 위협하는 설계 결정 | 현재 시나리오 하에서 수용 가능하거나 긍정적인 결정 |
-| **조치 방향** | 즉각적인 아키텍처 수정 및 완화([[605_golden_silver_ticket_mitigation|Mitigation]]) 계획 수립 | 아키텍처 결정 문서(AD)에 기록하고 모니터링 유지 |
+| **정의** | [품질 속성 시나리오](/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/) 달성을 위협하는 설계 결정 | 현재 시나리오 하에서 수용 가능하거나 긍정적인 결정 |
+| **조치 방향** | 즉각적인 아키텍처 수정 및 완화([Mitigation](/knowledge-base/studynote/09_security/12_identity_threat_advanced/605_golden_silver_ticket_mitigation/)) 계획 수립 | 아키텍처 결정 문서(AD)에 기록하고 모니터링 유지 |
 | **비즈니스 영향** | 방치 시 프로젝트 실패 및 막대한 금전적 손실 유발 | 현재 목표 달성에 기여, 혹은 무해한 상태 |
-| **변화 가능성** | 재설계를 통해 비리스크로 전환되어야 함 | 요구사항 [[431_ssthresh_slow_start_threshold|임계치]] 초과 시 미래에 리스크로 돌변 가능 |
+| **변화 가능성** | 재설계를 통해 비리스크로 전환되어야 함 | 요구사항 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 초과 시 미래에 리스크로 돌변 가능 |
 
 비리스크를 도출하는 이유는 면피성 알리바이의 성격도 있다. "현재 합의된 1,000명 동시 접속 시나리오에서는 이 구조가 안전함(Non-risk)"이라고 도장을 찍어두어야, 향후 트래픽이 1만 명으로 폭증해 시스템이 멈췄을 때 설계의 잘못이 아니라 요구사항의 변경임을 명확히 할 수 있다.
 
@@ -65,12 +69,12 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무 아키텍처 평가 워크숍([[229_atam_architecture_trade_off_analysis_method|ATAM]])에서 리스크가 발견되면, 단순히 빨간펜을 긋고 끝나는 것이 아니라 완화 [[268_strategy_pattern|전략]]([[605_golden_silver_ticket_mitigation|Mitigation]] [[268_strategy_pattern|Strategy]])을 도출해야 한다.
+실무 아키텍처 평가 워크숍([ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/))에서 리스크가 발견되면, 단순히 빨간펜을 긋고 끝나는 것이 아니라 완화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)([Mitigation](/knowledge-base/studynote/09_security/12_identity_threat_advanced/605_golden_silver_ticket_mitigation/) [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))을 도출해야 한다.
 
-### 기술사 판단: 리스크 해결 [[268_strategy_pattern|전략]]
+### 기술사 판단: 리스크 해결 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 1. **우선순위 할당**: 모든 리스크를 고칠 수는 없다. 비즈니스 중요도와 발생 확률을 곱하여 최우선 해결 과제를 선정한다.
-2. **타협의 재조정**: [[452_availability|가용성]](DB [[456_dual_redundancy|이중화]]) 때문에 예산(비용) 리스크가 커졌다면, 사장님과 협상하여 "[[452_availability|가용성]] 목표를 99.99%에서 99.9%로 낮추는 대신 비용 리스크를 비리스크로 돌리자"는 비즈니스 타협을 이끌어내야 한다.
-3. **위험 주제 (Risk [[184_theme_agile_requirements|Theme]]) 도출**: 개별 리스크들을 모아보면 "이 시스템은 전체적으로 네트워크 지연에 취약하다"는 거시적인 위험 테마가 도출된다. 이는 경영진에게 보고하는 핵심 메시지가 된다.
+2. **타협의 재조정**: [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)(DB [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)) 때문에 예산(비용) 리스크가 커졌다면, 사장님과 협상하여 "[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 목표를 99.99%에서 99.9%로 낮추는 대신 비용 리스크를 비리스크로 돌리자"는 비즈니스 타협을 이끌어내야 한다.
+3. **위험 주제 (Risk [Theme](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/)) 도출**: 개별 리스크들을 모아보면 "이 시스템은 전체적으로 네트워크 지연에 취약하다"는 거시적인 위험 테마가 도출된다. 이는 경영진에게 보고하는 핵심 메시지가 된다.
 
 - **📢 섹션 요약 비유**: 배에 구멍이 났을 때(Risk 발견), 모든 구멍을 완벽하게 메울 재료가 없다면, 가장 물이 많이 새는 구멍부터 메우고(우선순위), 작은 구멍은 양동이로 물을 퍼내는 방법(타협 및 완화)으로 항해를 계속하는 의사결정입니다.
 
@@ -78,7 +82,7 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-아키텍처 평가를 통해 리스크와 비리스크를 명확히 식별하면, 구현 단계에서 발생할 수 있는 재앙적 [[352_defect_definition|결함]]을 사전에 90% 이상 예방할 수 있다. 이는 개발 팀에게 명확한 가이드라인을 제공하고, [[173_stakeholder_identification_impact_matrix|이해관계자]] 간의 품질 눈높이를 맞추는 결정적 역할을 한다.
+아키텍처 평가를 통해 리스크와 비리스크를 명확히 식별하면, 구현 단계에서 발생할 수 있는 재앙적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 사전에 90% 이상 예방할 수 있다. 이는 개발 팀에게 명확한 가이드라인을 제공하고, [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 간의 품질 눈높이를 맞추는 결정적 역할을 한다.
 
 결론적으로 리스크는 시스템의 적이 아니라, 더 튼튼한 구조를 만들기 위해 아키텍트가 환영해야 할 예방 주사다. 리스크가 모두 비리스크로 전환되는 순간, 비로소 코딩이라는 거대한 공장의 스위치를 켤 수 있는 완벽한 도면이 완성된 것으로 기억해야 한다.
 
@@ -90,10 +94,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[[229_atam_architecture_trade_off_analysis_method|ATAM]] ([[319_architecture|Architecture]] Trade-off Analysis Method)** | 리스크와 비리스크를 도출하는 카네기멜론 대학의 아키텍처 평가 표준 |
-| **[[094_sensitivity_point_architecture_tradeoff_control_knob|민감도점]] ([[094_sensitivity_point_architecture_tradeoff_control_knob|Sensitivity Point]])** | 특정 아키텍처 결정이 특정 품질 [[082_attribute_types_er_model|속성]]에 크게 영향을 미치는 지점 |
-| **타협점 ([[095_tradeoff_point_architecture_evaluation_atam_conflict|Trade-off Point]])** | 여러 품질 [[082_attribute_types_er_model|속성]] 간의 충돌이 발생하여 균형을 맞춰야 하는 지점 |
-| **[[352_process|품질 속성 시나리오]] (QA Scenario)** | 리스크인지 아닌지를 판정하는 절대적인 측정 기준 (예: 응답시간, 장애 [[658_ir_recovery|복구]] 시간) |
+| **[ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Trade-off Analysis Method)** | 리스크와 비리스크를 도출하는 카네기멜론 대학의 아키텍처 평가 표준 |
+| **[민감도점](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/094_sensitivity_point_architecture_tradeoff_control_knob/) ([Sensitivity Point](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/094_sensitivity_point_architecture_tradeoff_control_knob/))** | 특정 아키텍처 결정이 특정 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)에 크게 영향을 미치는 지점 |
+| **타협점 ([Trade-off Point](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/095_tradeoff_point_architecture_evaluation_atam_conflict/))** | 여러 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 간의 충돌이 발생하여 균형을 맞춰야 하는 지점 |
+| **[품질 속성 시나리오](/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/) (QA Scenario)** | 리스크인지 아닌지를 판정하는 절대적인 측정 기준 (예: 응답시간, 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -125,7 +129,7 @@ tags:
 
 **진행 상황**: 139 / 530
 
-← **이전**: [[095_tradeoff_point_architecture_evaluation_atam_conflict|95. 상충점 (Trade-off Point) - 성능 대 보안 아키텍처 결단]]
-**다음**: [[097_cbam_cost_benefit_analysis_method_architecture_roi|97. CBAM (Cost Benefit Analysis Method) - 아키텍처 경제성 ROI 평가]] →
+← **이전**: [95. 상충점 (Trade-off Point) - 성능 대 보안 아키텍처 결단](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/095_tradeoff_point_architecture_evaluation_atam_conflict/)
+**다음**: [97. CBAM (Cost Benefit Analysis Method) - 아키텍처 경제성 ROI 평가](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/097_cbam_cost_benefit_analysis_method_architecture_roi/) →
 
 ---

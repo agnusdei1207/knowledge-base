@@ -1,44 +1,48 @@
----
-title: 163. 장기 스케줄러 (Long-term Scheduler) - 다중 프로그래밍 정도 조절
-date: '2026-03-22'
-tags:
-- studynote-operating-system
----
++++
+title = "163. 장기 스케줄러 (Long-term Scheduler) - 다중 프로그래밍 정도 조절"
+date = 2026-03-22
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 장기 [[079_kube_scheduler_pod_placement|스케줄러]]인 Long-term Scheduler는 디스크의 작업 풀에서 어떤 작업을 메모리에 올려 프로세스로 진입시킬지 결정하는 입장 통제 장치다.
-> 2. **가치**: 이 장치는 [[258_degree_of_multiprogramming|다중 프로그래밍 정도]] ([[258_degree_of_multiprogramming|Degree of Multiprogramming]])를 조절해 메모리 과밀과 자원 놀림을 동시에 줄이고, CPU (Central Processing Unit) 바운드와 I/O (Input/Output) 바운드 작업의 균형을 맞춘다.
-> 3. **판단 포인트**: 전통적인 장기 [[079_kube_scheduler_pod_placement|스케줄러]]는 배치 시스템에서 강했지만, 현대 범용 [[001_operating_system_purpose|운영체제]]에서는 역할이 축소되었고 오늘날에는 배치 클러스터·워크로드 매니저의 입장 제어로 철학이 이어진다.
+> 1. **본질**: 장기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)인 Long-term Scheduler는 디스크의 작업 풀에서 어떤 작업을 메모리에 올려 프로세스로 진입시킬지 결정하는 입장 통제 장치다.
+> 2. **가치**: 이 장치는 [다중 프로그래밍 정도](/knowledge-base/studynote/02_operating_system/04_synchronization/258_degree_of_multiprogramming/) ([Degree of Multiprogramming](/knowledge-base/studynote/02_operating_system/04_synchronization/258_degree_of_multiprogramming/))를 조절해 메모리 과밀과 자원 놀림을 동시에 줄이고, CPU (Central Processing Unit) 바운드와 I/O (Input/Output) 바운드 작업의 균형을 맞춘다.
+> 3. **판단 포인트**: 전통적인 장기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 배치 시스템에서 강했지만, 현대 범용 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에서는 역할이 축소되었고 오늘날에는 배치 클러스터·워크로드 매니저의 입장 제어로 철학이 이어진다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-장기 [[079_kube_scheduler_pod_placement|스케줄러]]는 시스템에 들어오려는 작업들 중 일부만 골라 메모리에 적재하고 Ready 상태의 프로세스로 만드는 [[001_operating_system_purpose|운영체제]] 기능이다. [[161_short_term_scheduler|단기 스케줄러]]가 "지금 CPU (Central Processing Unit)를 누구에게 줄까"를 정한다면, 장기 [[079_kube_scheduler_pod_placement|스케줄러]]는 그보다 앞단에서 "애초에 지금 시스템 안으로 누구를 들여보낼까"를 결정한다. 즉 관심 대상은 CPU 시간보다 **시스템 전체 수용량**이다.
+장기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 시스템에 들어오려는 작업들 중 일부만 골라 메모리에 적재하고 Ready 상태의 프로세스로 만드는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 기능이다. [단기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/161_short_term_scheduler/)가 "지금 CPU (Central Processing Unit)를 누구에게 줄까"를 정한다면, 장기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 그보다 앞단에서 "애초에 지금 시스템 안으로 누구를 들여보낼까"를 결정한다. 즉 관심 대상은 CPU 시간보다 **시스템 전체 수용량**이다.
 
-이 개념이 중요해진 배경은 [[459_quic_fec_forward_error_correction|초기]] 배치 시스템의 자원 제약 때문이다. 작업은 디스크의 작업 큐에 많이 쌓여 있었지만, 주기억장치는 작고 I/O 장치도 느렸기 때문에 모든 작업을 한꺼번에 올릴 수 없었다. CPU 바운드 작업만 가득 들이면 디스크와 터미널이 놀고, I/O 바운드 작업만 들이면 CPU가 놀기 때문에, 적절한 혼합을 유지할 문지기가 필요했다.
+이 개념이 중요해진 배경은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 배치 시스템의 자원 제약 때문이다. 작업은 디스크의 작업 큐에 많이 쌓여 있었지만, 주기억장치는 작고 I/O 장치도 느렸기 때문에 모든 작업을 한꺼번에 올릴 수 없었다. CPU 바운드 작업만 가득 들이면 디스크와 터미널이 놀고, I/O 바운드 작업만 들이면 CPU가 놀기 때문에, 적절한 혼합을 유지할 문지기가 필요했다.
 
-따라서 장기 [[079_kube_scheduler_pod_placement|스케줄러]]는 단순 선착순 입장이 아니라, 시스템 성능의 큰 방향을 정하는 조절기였다. 없으면 메모리 과밀로 전체 응답성이 무너지거나, 반대로 자원을 충분히 활용하지 못해 처리량이 떨어질 수 있다.
+따라서 장기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 단순 선착순 입장이 아니라, 시스템 성능의 큰 방향을 정하는 조절기였다. 없으면 메모리 과밀로 전체 응답성이 무너지거나, 반대로 자원을 충분히 활용하지 못해 처리량이 떨어질 수 있다.
 
-- **📢 섹션 요약 비유**: 장기 [[079_kube_scheduler_pod_placement|스케줄러]]는 공연장 입구의 총괄 입장 관리자와 같다. 안에 사람이 너무 적어도 공연장이 비고, 너무 많아도 움직일 수 없으니 적정 인원을 골라 들여보낸다.
+- **📢 섹션 요약 비유**: 장기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 공연장 입구의 총괄 입장 관리자와 같다. 안에 사람이 너무 적어도 공연장이 비고, 너무 많아도 움직일 수 없으니 적정 인원을 골라 들여보낸다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-장기 [[079_kube_scheduler_pod_placement|스케줄러]]는 보통 작업 풀, 입장 판단 기준, 메모리 적재, [[088_ready_queue|Ready Queue]] 연결이라는 흐름으로 이해한다. 호출 빈도는 짧은 타임슬라이스마다 동작하는 [[161_short_term_scheduler|단기 스케줄러]]보다 훨씬 낮다. 대신 한 번의 결정이 시스템 부하 전체에 미치는 영향은 더 크다.
+장기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 보통 작업 풀, 입장 판단 기준, 메모리 적재, [Ready Queue](/knowledge-base/studynote/02_operating_system/02_process_thread/088_ready_queue/) 연결이라는 흐름으로 이해한다. 호출 빈도는 짧은 타임슬라이스마다 동작하는 [단기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/161_short_term_scheduler/)보다 훨씬 낮다. 대신 한 번의 결정이 시스템 부하 전체에 미치는 영향은 더 크다.
 
 ### 장기 스케줄링의 판단 요소
 
 | 요소 | 무엇을 보나 | 왜 중요한가 |
 | :--- | :--- | :--- |
-| 메모리 여유 | 새 작업을 올릴 공간이 있는가 | 과도한 적재는 [[257_thrashing|스래싱]] 위험 증가 |
+| 메모리 여유 | 새 작업을 올릴 공간이 있는가 | 과도한 적재는 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 위험 증가 |
 | 작업 성격 | CPU 바운드 / I/O 바운드 비율 | 자원 이용률 균형 유지 |
-| 우선순위·[[164_policy|정책]] | 먼저 처리해야 할 배치인지 | [[090_service_kubernetes_network_load_balancing|서비스]] 수준과 응답성 보장 |
+| 우선순위·[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 먼저 처리해야 할 배치인지 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준과 응답성 보장 |
 | 예상 실행 시간 | 짧은 작업과 긴 작업의 혼합 | 턴어라운드 시간과 공정성에 영향 |
 
-아래 그림은 장기 [[079_kube_scheduler_pod_placement|스케줄러]]가 개입하는 위치를 보여 준다.
+아래 그림은 장기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 개입하는 위치를 보여 준다.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────────┐
@@ -60,61 +64,61 @@ tags:
 
 핵심은 단순히 빈자리가 생길 때 하나 채우는 것이 아니다. 시스템 안에 이미 CPU 바운드 작업이 많다면 다음에는 I/O 바운드 작업을 선택해 CPU와 장치가 번갈아 바쁘게 돌아가도록 만드는 것이 더 유리할 수 있다. 그래서 장기 스케줄링은 공정성보다도 **적절한 작업 조합을 설계하는 문제**에 가깝다.
 
-이때 [[258_degree_of_multiprogramming|다중 프로그래밍 정도]]는 메모리에 상주하는 프로세스 수와 거의 같은 의미로 쓰인다. 너무 낮으면 CPU가 놀고, 너무 높으면 각 프로세스가 충분한 메모리를 확보하지 못해 [[257_thrashing|스래싱]]으로 이어질 수 있다. 장기 [[079_kube_scheduler_pod_placement|스케줄러]]는 이 수치를 앞단에서 완만하게 조절하는 역할을 한다.
+이때 [다중 프로그래밍 정도](/knowledge-base/studynote/02_operating_system/04_synchronization/258_degree_of_multiprogramming/)는 메모리에 상주하는 프로세스 수와 거의 같은 의미로 쓰인다. 너무 낮으면 CPU가 놀고, 너무 높으면 각 프로세스가 충분한 메모리를 확보하지 못해 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)으로 이어질 수 있다. 장기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 이 수치를 앞단에서 완만하게 조절하는 역할을 한다.
 
-- **📢 섹션 요약 비유**: 장기 [[079_kube_scheduler_pod_placement|스케줄러]]는 식당 예약 담당자와 같다. 손님을 무조건 많이 받는다고 매출이 오르는 것이 아니라, 주방이 감당할 수 있는 만큼만 받아야 [[090_service_kubernetes_network_load_balancing|서비스]]가 망가지지 않는다.
+- **📢 섹션 요약 비유**: 장기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 식당 예약 담당자와 같다. 손님을 무조건 많이 받는다고 매출이 오르는 것이 아니라, 주방이 감당할 수 있는 만큼만 받아야 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 망가지지 않는다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-장기 [[079_kube_scheduler_pod_placement|스케줄러]]는 [[162_medium_term_scheduler_swapping|중기 스케줄러]], [[161_short_term_scheduler|단기 스케줄러]]와 구분해야 개념이 선명해진다. 셋 다 프로세스 흐름을 조절하지만, 개입 시점과 다루는 자원이 서로 다르다. 장기 [[079_kube_scheduler_pod_placement|스케줄러]]는 "입장 전", [[162_medium_term_scheduler_swapping|중기 스케줄러]]는 "메모리 압박 시", [[161_short_term_scheduler|단기 스케줄러]]는 "CPU 할당 순간"을 다룬다.
+장기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 [중기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/162_medium_term_scheduler_swapping/), [단기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/161_short_term_scheduler/)와 구분해야 개념이 선명해진다. 셋 다 프로세스 흐름을 조절하지만, 개입 시점과 다루는 자원이 서로 다르다. 장기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 "입장 전", [중기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/162_medium_term_scheduler_swapping/)는 "메모리 압박 시", [단기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/161_short_term_scheduler/)는 "CPU 할당 순간"을 다룬다.
 
-| 구분 | 장기 [[079_kube_scheduler_pod_placement|스케줄러]] | [[162_medium_term_scheduler_swapping|중기 스케줄러]] | [[161_short_term_scheduler|단기 스케줄러]] |
+| 구분 | 장기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) | [중기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/162_medium_term_scheduler_swapping/) | [단기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/161_short_term_scheduler/) |
 | :--- | :--- | :--- | :--- |
 | 개입 시점 | 작업이 시스템에 들어올 때 | 실행 중 메모리 압박 시 | 매우 자주, CPU 배정 시 |
 | 주요 자원 | 전체 시스템 수용량 | 메모리 상주 집합 | CPU 시간 |
-| 대표 [[632_state_transition_diagram_testing|상태 전이]] | [[087_process_state_transition|New]] → Ready | Ready/Waiting ↔ Suspended | Ready → Running |
-| 핵심 목표 | 적정 [[258_degree_of_multiprogramming|다중 프로그래밍 정도]] 유지 | [[257_thrashing|스래싱]] 완화 | 응답성·공정성 확보 |
+| 대표 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) | [New](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → Ready | Ready/Waiting ↔ Suspended | Ready → Running |
+| 핵심 목표 | 적정 [다중 프로그래밍 정도](/knowledge-base/studynote/02_operating_system/04_synchronization/258_degree_of_multiprogramming/) 유지 | [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 완화 | 응답성·공정성 확보 |
 
-또한 역사적 관점도 중요하다. 전통적 배치 시스템에서는 장기 [[079_kube_scheduler_pod_placement|스케줄러]]가 분명한 [[192_module_independence|모듈]]이었지만, 현대 시분할 [[001_operating_system_purpose|운영체제]]는 사용자 응답성을 위해 프로그램 실행 요청을 즉시 받아들이는 경향이 강하다. 대신 [[381_virtual_memory|가상 메모리]], [[260_page_replacement|페이지 교체]], 중기 스케줄링, [[561_container_based_deployment|컨테이너]] 제한 같은 메커니즘이 뒤에서 부하를 조절한다.
+또한 역사적 관점도 중요하다. 전통적 배치 시스템에서는 장기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 분명한 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이었지만, 현대 시분할 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 사용자 응답성을 위해 프로그램 실행 요청을 즉시 받아들이는 경향이 강하다. 대신 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/), [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/), 중기 스케줄링, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 제한 같은 메커니즘이 뒤에서 부하를 조절한다.
 
-그렇다고 개념이 사라진 것은 아니다. 오늘날 배치 클러스터, 슈퍼컴퓨팅 센터, [[001_dikw_pyramid|데이터]] 분석 플랫폼에서는 여전히 "지금 자원이 충분할 때만 실행을 허용한다"는 [[164_policy|정책]]이 핵심이며, 이는 장기 [[079_kube_scheduler_pod_placement|스케줄러]]의 철학과 거의 같다. 즉 구현 위치가 [[022_kernel_role|커널]] 내부에서 클러스터 관리자 바깥으로 이동한 셈이다.
+그렇다고 개념이 사라진 것은 아니다. 오늘날 배치 클러스터, 슈퍼컴퓨팅 센터, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 플랫폼에서는 여전히 "지금 자원이 충분할 때만 실행을 허용한다"는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 핵심이며, 이는 장기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 철학과 거의 같다. 즉 구현 위치가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부에서 클러스터 관리자 바깥으로 이동한 셈이다.
 
-- **📢 섹션 요약 비유**: 장기·중기·[[161_short_term_scheduler|단기 스케줄러]]는 경기장 입장 담당, 대기실 정리 담당, 실제 경기 [[216_progress_in_synchronization|진행]] 담당과 같다. 모두 흐름을 조절하지만 맡은 구간이 다르다.
+- **📢 섹션 요약 비유**: 장기·중기·[단기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/161_short_term_scheduler/)는 경기장 입장 담당, 대기실 정리 담당, 실제 경기 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 담당과 같다. 모두 흐름을 조절하지만 맡은 구간이 다르다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-현대 데스크톱 [[001_operating_system_purpose|운영체제]]에서 전통적 장기 [[079_kube_scheduler_pod_placement|스케줄러]]를 직접 의식할 일은 많지 않다. 사용자가 프로그램을 실행하면 [[001_operating_system_purpose|운영체제]]는 대개 바로 프로세스를 만들고, 이후 메모리 부족은 [[381_virtual_memory|가상 메모리]]와 중기 스케줄링 [[164_policy|정책]]으로 완화한다. 따라서 일반 범용 OS에서 장기 [[079_kube_scheduler_pod_placement|스케줄러]]를 설명할 때는 "고전적 개념"과 "현대적 약화"를 함께 적어야 정확하다.
+현대 데스크톱 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에서 전통적 장기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)를 직접 의식할 일은 많지 않다. 사용자가 프로그램을 실행하면 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 대개 바로 프로세스를 만들고, 이후 메모리 부족은 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)와 중기 스케줄링 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 완화한다. 따라서 일반 범용 OS에서 장기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)를 설명할 때는 "고전적 개념"과 "현대적 약화"를 함께 적어야 정확하다.
 
-반면 실무에서 이 개념은 다른 모습으로 자주 살아난다. 예를 들어 Slurm 같은 고성능 컴퓨팅 ([[548_automotive_hpc|HPC]], High-Performance Computing) [[079_kube_scheduler_pod_placement|스케줄러]]는 [[418_gpu|GPU]], 메모리, 노드 수를 확인한 뒤에만 작업을 시작시킨다. 또한 [[561_container_based_deployment|컨테이너]] 환경의 쿼터, PID 제한, 배치 큐 [[164_policy|정책]]도 결국 "지금 시스템에 얼마만큼의 작업을 들여보낼 것인가"를 조절하는 입장 관리다.
+반면 실무에서 이 개념은 다른 모습으로 자주 살아난다. 예를 들어 Slurm 같은 고성능 컴퓨팅 ([HPC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/), High-Performance Computing) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), 메모리, 노드 수를 확인한 뒤에만 작업을 시작시킨다. 또한 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 환경의 쿼터, PID 제한, 배치 큐 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)도 결국 "지금 시스템에 얼마만큼의 작업을 들여보낼 것인가"를 조절하는 입장 관리다.
 
-### 판단 [[435_checklist_based_testing|체크리스트]]
+### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. **현재 환경이 배치 중심인가, 상호작용 중심인가?** 상호작용 중심이면 과도한 입장 지연은 사용자 경험을 해친다.
 2. **메모리와 장치 자원이 충분한가?** 부족하면 무제한 진입보다 입장 통제가 낫다.
 3. **작업의 성격이 크게 다른가?** CPU 바운드와 I/O 바운드 혼합이 중요하다.
-4. **[[022_kernel_role|커널]] 내부가 아니라 상위 플랫폼에서 같은 역할을 수행하고 있지는 않은가?** 클러스터 [[079_kube_scheduler_pod_placement|스케줄러]], 배치 큐, admission control을 함께 본다.
+4. **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부가 아니라 상위 플랫폼에서 같은 역할을 수행하고 있지는 않은가?** 클러스터 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/), 배치 큐, admission control을 함께 본다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 장기 [[079_kube_scheduler_pod_placement|스케줄러]]를 단순히 "옛날에만 있던 개념"으로 치부해 현대 워크로드 매니저와 연결하지 못하는 경우
-- [[258_degree_of_multiprogramming|다중 프로그래밍 정도]]를 무조건 높이면 처리량도 무조건 오른다고 보는 경우
-- 장기·중기·[[161_short_term_scheduler|단기 스케줄러]]의 차이를 모두 CPU 배분 문제로만 설명하는 경우
+- 장기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)를 단순히 "옛날에만 있던 개념"으로 치부해 현대 워크로드 매니저와 연결하지 못하는 경우
+- [다중 프로그래밍 정도](/knowledge-base/studynote/02_operating_system/04_synchronization/258_degree_of_multiprogramming/)를 무조건 높이면 처리량도 무조건 오른다고 보는 경우
+- 장기·중기·[단기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/161_short_term_scheduler/)의 차이를 모두 CPU 배분 문제로만 설명하는 경우
 
-- **📢 섹션 요약 비유**: 장기 [[079_kube_scheduler_pod_placement|스케줄러]] 판단은 쇼핑몰 주차장 관리와 같다. 빈자리와 회전율을 보지 않고 차를 무조건 들이면 결국 진입로까지 막혀 모두가 손해 본다.
+- **📢 섹션 요약 비유**: 장기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 판단은 쇼핑몰 주차장 관리와 같다. 빈자리와 회전율을 보지 않고 차를 무조건 들이면 결국 진입로까지 막혀 모두가 손해 본다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-장기 스케줄링이 잘 되면 시스템은 감당 가능한 수준의 작업만 받아들이면서도 CPU와 I/O 장치를 균형 있게 활용할 수 있다. 그 결과 처리량과 자원 이용률이 올라가고, 과부하로 인한 급격한 품질 저하를 피하기 쉬워진다. 즉 장기 [[079_kube_scheduler_pod_placement|스케줄러]]의 효과는 개별 프로세스 가속보다 **전체 시스템 안정화**에 있다.
+장기 스케줄링이 잘 되면 시스템은 감당 가능한 수준의 작업만 받아들이면서도 CPU와 I/O 장치를 균형 있게 활용할 수 있다. 그 결과 처리량과 자원 이용률이 올라가고, 과부하로 인한 급격한 품질 저하를 피하기 쉬워진다. 즉 장기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 효과는 개별 프로세스 가속보다 **전체 시스템 안정화**에 있다.
 
-하지만 오늘날 범용 [[001_operating_system_purpose|운영체제]]에서는 응답성, [[381_virtual_memory|가상 메모리]], 동적 자원 회수 [[164_policy|정책]]이 강해지면서 장기 [[079_kube_scheduler_pod_placement|스케줄러]]의 전통적 모습은 많이 희미해졌다. 따라서 이 주제는 "현재 [[022_kernel_role|커널]]에서 항상 보이는 [[192_module_independence|모듈]]"이 아니라, "작업 진입량을 조절해 시스템 수용량을 관리하는 철학"으로 기억하는 것이 맞다.
+하지만 오늘날 범용 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에서는 응답성, [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/), 동적 자원 회수 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 강해지면서 장기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 전통적 모습은 많이 희미해졌다. 따라서 이 주제는 "현재 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 항상 보이는 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)"이 아니라, "작업 진입량을 조절해 시스템 수용량을 관리하는 철학"으로 기억하는 것이 맞다.
 
-- **📢 섹션 요약 비유**: 장기 [[079_kube_scheduler_pod_placement|스케줄러]]는 강의실 좌석표를 관리하는 담당자와 같다. 모두를 바로 앉히는 것이 친절해 보여도, 수용 인원을 넘기면 수업 자체가 무너진다.
+- **📢 섹션 요약 비유**: 장기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 강의실 좌석표를 관리하는 담당자와 같다. 모두를 바로 앉히는 것이 친절해 보여도, 수용 인원을 넘기면 수업 자체가 무너진다.
 
 ---
 
@@ -122,10 +126,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[258_degree_of_multiprogramming|다중 프로그래밍 정도]] | 장기 [[079_kube_scheduler_pod_placement|스케줄러]]가 직접 조절하려는 핵심 대상이다. |
-| 작업 큐 (Job [[058_queue|Queue]]) | 장기 [[079_kube_scheduler_pod_placement|스케줄러]]가 선택할 후보 작업이 대기하는 공간이다. |
-| [[162_medium_term_scheduler_swapping|중기 스케줄러]] | 이미 들어온 프로세스를 메모리 밖으로 조절하는 후속 완충 장치다. |
-| CPU 바운드 / I/O 바운드 | 장기 [[079_kube_scheduler_pod_placement|스케줄러]]가 자원 활용 균형을 위해 섞어야 하는 작업 성격이다. |
+| [다중 프로그래밍 정도](/knowledge-base/studynote/02_operating_system/04_synchronization/258_degree_of_multiprogramming/) | 장기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 직접 조절하려는 핵심 대상이다. |
+| 작업 큐 (Job [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) | 장기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 선택할 후보 작업이 대기하는 공간이다. |
+| [중기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/162_medium_term_scheduler_swapping/) | 이미 들어온 프로세스를 메모리 밖으로 조절하는 후속 완충 장치다. |
+| CPU 바운드 / I/O 바운드 | 장기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 자원 활용 균형을 위해 섞어야 하는 작업 성격이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -145,11 +149,11 @@ tags:
 HPC / 클러스터 workload admission으로 철학 계승
 ```
 
-이 흐름은 장기 [[079_kube_scheduler_pod_placement|스케줄러]]가 메인프레임 배치 환경에서 출발해, 현대에는 [[022_kernel_role|커널]] 내부보다 클러스터와 플랫폼의 입장 통제 [[164_policy|정책]]으로 재해석되고 있음을 보여 준다.
+이 흐름은 장기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 메인프레임 배치 환경에서 출발해, 현대에는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부보다 클러스터와 플랫폼의 입장 통제 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 재해석되고 있음을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 장기 [[079_kube_scheduler_pod_placement|스케줄러]]는 놀이공원 입구에서 "지금 몇 명까지 들어와도 괜찮을까"를 정하는 사람 같아요.
+1. 장기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 놀이공원 입구에서 "지금 몇 명까지 들어와도 괜찮을까"를 정하는 사람 같아요.
 2. 너무 많이 들이면 안이 꽉 막히고, 너무 적게 들이면 놀이기구가 놀게 돼요.
 3. 그래서 안이 잘 돌아가도록 알맞은 수만 골라 들여보내는 거예요.
 
@@ -159,7 +163,7 @@ HPC / 클러스터 workload admission으로 철학 계승
 
 **진행 상황**: 163 / 800
 
-← **이전**: [[162_medium_term_scheduler_swapping|162. 중기 스케줄러 (Medium-term Scheduler) - 스와핑 (Swapping)]]
-**다음**: [[164_io_bound_process|164. I/O 바운드 프로세스 (I/O Bound Process)]] →
+← **이전**: [162. 중기 스케줄러 (Medium-term Scheduler) - 스와핑 (Swapping)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/162_medium_term_scheduler_swapping/)
+**다음**: [164. I/O 바운드 프로세스 (I/O Bound Process)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/164_io_bound_process/) →
 
 ---

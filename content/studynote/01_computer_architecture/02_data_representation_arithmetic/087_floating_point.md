@@ -1,21 +1,25 @@
----
-title: 87. 부동소수점 (Floating Point)
-date: '2026-04-19'
-tags:
-- studynote-computer-architecture
----
++++
+title = "87. 부동소수점 (Floating Point)"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
     > 1. **본질**: 부동소수점 (Floating Point)은 아주 큰 수와 아주 작은 수를 같은 형식으로 다루기 위해 가수와 지수를 분리한 근사 표현이다.
-    > 2. **가치**: [[088_ieee_754|IEEE 754]] (Institute of Electrical and Electronics Engineers 754)는 표현 범위, 반올림, 특수값을 표준화해 서로 다른 시스템 간 호환성을 높였다.
+    > 2. **가치**: [IEEE 754](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/088_ieee_754/) (Institute of Electrical and Electronics Engineers 754)는 표현 범위, 반올림, 특수값을 표준화해 서로 다른 시스템 간 호환성을 높였다.
     > 3. **판단 포인트**: 실수처럼 보인다고 정확한 실수가 아니므로, 금액·비교·누적 계산에서는 오차 한계를 전제로 설계해야 한다.
 
     ---
 
     ## Ⅰ. 개요 및 필요성
 
-    고정 소수점이나 정수는 작은 값에는 강하지만, 범위가 넓어지면 자릿수가 부족하다. 부동소수점 (Floating Point)은 숫자를 `(-1)^sign × 1.fraction × 2^(exponent-bias)` 형태로 저장해, 범위와 [[233_precision_recall_f1_roc_auc_threshold|정밀도]]를 절충한다.
+    고정 소수점이나 정수는 작은 값에는 강하지만, 범위가 넓어지면 자릿수가 부족하다. 부동소수점 (Floating Point)은 숫자를 `(-1)^sign × 1.fraction × 2^(exponent-bias)` 형태로 저장해, 범위와 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)를 절충한다.
 
 그래서 과학 계산, 그래픽, 기계학습처럼 값의 크기 변화가 큰 영역에서 필수적이다. 반대로 돈 계산처럼 정확한 소수점이 중요한 경우에는 오차가 누적되므로, 부동소수점만 믿고 설계하면 안 된다.
 
@@ -29,8 +33,8 @@ tags:
 
 | 형식 | 부호 | 지수 | 가수 | 특징 |
 | :-- | :--: | :--: | :--: | :-- |
-| [[089_single_precision|single precision]] | 1 | 8 | 23 | 빠르고 메모리 절약 |
-| [[090_double_precision|double precision]] | 1 | [[308_static_dynamic_nat_pat_port_address_translation|11]] | 52 | 더 넓은 범위와 [[233_precision_recall_f1_roc_auc_threshold|정밀도]] |
+| [single precision](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/089_single_precision/) | 1 | 8 | 23 | 빠르고 메모리 절약 |
+| [double precision](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/090_double_precision/) | 1 | [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) | 52 | 더 넓은 범위와 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) |
 
 ```text
 32-bit single precision
@@ -40,7 +44,7 @@ tags:
 값 = (-1)^sign × 1.fraction × 2^(exponent-127)
 ```
 
-지수가 모두 0이면 subnormal 또는 0, 모두 1이면 Infinity와 [[097_nan|NaN]] ([[097_nan|Not a Number]])을 나타낸다. 이 특수값 덕분에 오류 상태를 수치 공간 안에 표현할 수 있다.
+지수가 모두 0이면 subnormal 또는 0, 모두 1이면 Infinity와 [NaN](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/097_nan/) ([Not a Number](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/097_nan/))을 나타낸다. 이 특수값 덕분에 오류 상태를 수치 공간 안에 표현할 수 있다.
 
     - **📢 섹션 요약 비유**: 숫자를 부호·지수·가수로 나눠 적는 것은 주소와 방 번호를 함께 적는 것처럼 생각하면 된다.
 
@@ -48,7 +52,7 @@ tags:
 
     ## Ⅲ. 비교 및 연결
 
-    부동소수점은 정수나 고정 소수점보다 범위가 넓지만, [[233_precision_recall_f1_roc_auc_threshold|정밀도]]가 균일하지 않다. 값이 커질수록 인접한 수 사이 간격이 벌어지므로, `0.1 + 0.2 == 0.3` 같은 비교가 실패할 수 있다.
+    부동소수점은 정수나 고정 소수점보다 범위가 넓지만, [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)가 균일하지 않다. 값이 커질수록 인접한 수 사이 간격이 벌어지므로, `0.1 + 0.2 == 0.3` 같은 비교가 실패할 수 있다.
 
 | 형식 | 장점 | 한계 |
 | :-- | :-- | :-- |
@@ -66,13 +70,13 @@ tags:
 
     실무에서는 오차 허용 범위를 먼저 정하고, 비교는 절대 오차와 상대 오차를 함께 사용해야 한다. 또한 합산 순서가 결과를 바꾸므로, 큰 값과 작은 값을 섞어 더할 때는 보정 합산을 고려한다.
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 금액과 수량을 부동소수점으로 저장하지 않는가?
 2. 비교 시 epsilon을 기준으로 판단하는가?
-3. 누적 연산의 순서와 반올림 [[164_policy|정책]]을 정의했는가?
-4. 필요한 [[233_precision_recall_f1_roc_auc_threshold|정밀도]]에 맞는 형식(single/double)을 선택했는가?
+3. 누적 연산의 순서와 반올림 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 정의했는가?
+4. 필요한 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)에 맞는 형식(single/double)을 선택했는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 실수 비교를 `==`로만 처리하는 것
 - 돈을 0.1 단위 float로 계산하는 것
 - NaN과 Infinity를 예외가 아닌 정상값처럼 넘기는 것
@@ -83,9 +87,9 @@ tags:
 
     ## Ⅴ. 기대효과 및 결론
 
-    부동소수점은 "완벽한 실수"가 아니라 "계산 가능한 근사 실수"다. 이 사실을 이해하면 [[233_precision_recall_f1_roc_auc_threshold|정밀도]] 예산을 설계할 수 있고, 오차를 버그가 아니라 모델의 일부로 다룰 수 있다.
+    부동소수점은 "완벽한 실수"가 아니라 "계산 가능한 근사 실수"다. 이 사실을 이해하면 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 예산을 설계할 수 있고, 오차를 버그가 아니라 모델의 일부로 다룰 수 있다.
 
-따라서 부동소수점은 편리한 기본형이면서도, 오차 분석과 비교 [[164_policy|정책]]이 함께 있어야 안전하다. 정확성이 최우선인 영역에서는 표현 방식부터 다시 고르는 것이 맞다.
+따라서 부동소수점은 편리한 기본형이면서도, 오차 분석과 비교 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 함께 있어야 안전하다. 정확성이 최우선인 영역에서는 표현 방식부터 다시 고르는 것이 맞다.
 
     - **📢 섹션 요약 비유**: 큰 그림은 멀리서 보되, 아주 정확한 조립은 다른 도구를 써야 한다.
 
@@ -95,10 +99,10 @@ tags:
 
     | 개념 | 연결 포인트 |
 | :-- | :-- |
-| [[088_ieee_754|IEEE 754]] (Institute of Electrical and Electronics Engineers 754) | 부동소수점 표준 |
-| sign / exponent / fraction | [[073_bit|비트]] 필드 구조 |
-| [[094_bias|bias]] | 지수 저장 보정값 |
-| [[097_nan|NaN]] ([[097_nan|Not a Number]]) | 계산 오류를 나타내는 특수값 |
+| [IEEE 754](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/088_ieee_754/) (Institute of Electrical and Electronics Engineers 754) | 부동소수점 표준 |
+| sign / exponent / fraction | [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 필드 구조 |
+| [bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/) | 지수 저장 보정값 |
+| [NaN](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/097_nan/) ([Not a Number](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/097_nan/)) | 계산 오류를 나타내는 특수값 |
 | ULP (Unit in the Last Place) | 인접 표현값 간 거리 |
 
     ### 📈 관련 키워드 및 발전 흐름도
@@ -112,7 +116,7 @@ tags:
 반올림과 특수값 처리
     │
     ▼
-오차 예산과 비교 [[164_policy|정책]]
+오차 예산과 비교 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)
 
     ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -126,7 +130,7 @@ tags:
 
 **진행 상황**: 87 / 803
 
-← **이전**: [[086_fixed_point|86. 고정소수점 (Fixed Point)]]
-**다음**: [[088_ieee_754|88. IEEE 754 표준]] →
+← **이전**: [86. 고정소수점 (Fixed Point)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/086_fixed_point/)
+**다음**: [88. IEEE 754 표준](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/088_ieee_754/) →
 
 ---

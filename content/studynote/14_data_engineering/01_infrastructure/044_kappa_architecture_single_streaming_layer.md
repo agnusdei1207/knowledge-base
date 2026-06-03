@@ -1,18 +1,22 @@
----
-title: 044. 카파 아키텍처 — 단일 스트리밍 레이어
-date: '2026-04-05'
-tags:
-- studynote-data-engineering
----
++++
+title = "044. 카파 아키텍처 — 단일 스트리밍 레이어"
+date = 2026-04-05
+
+[taxonomies]
+tags = ["studynote-data-engineering"]
+
+[extra]
+tags = ["studynote-data-engineering"]
++++
 
 > **핵심 인사이트**
-> 1. [[096_kappa_architecture|카파 아키텍처]]([[096_kappa_architecture|Kappa Architecture]])는 Jay Kreps(LinkedIn)가 2014년 제안한 [[001_dikw_pyramid|데이터]] 처리 아키텍처로 — [[216_lambda_kappa_architecture_batch_realtime|람다]] 아키텍처의 "배치 + 스피드 레이어 이중 코드" 문제를 스트리밍 레이어 하나로 통합하여 해결한다.
-> 2. 카파의 핵심은 Kafka를 이벤트 [[568_logs_distributed_logging_elk_fluentd|로그]](Event Log)로 활용하는 것으로 — 모든 히스토리 이벤트를 Kafka에 보관하고, 재처리(Reprocessing)가 필요할 때 스트리밍 처리를 처음부터 재실행하여 배치 처리를 대체한다.
-> 3. 카파는 코드 단순성과 운영 효율에서 [[216_lambda_kappa_architecture_batch_realtime|람다]]를 능가하지만 — 대규모 재처리 시 자원 집약적이고 Kafka의 무한 보관 비용이 실용적 제약이 되어, 실제로는 도메인과 워크로드 특성에 따라 [[216_lambda_kappa_architecture_batch_realtime|람다]]·카파·통합 플랫폼을 선택적으로 적용하는 것이 현실이다.
+> 1. [카파 아키텍처](/knowledge-base/studynote/16_bigdata/04_streaming/096_kappa_architecture/)([Kappa Architecture](/knowledge-base/studynote/16_bigdata/04_streaming/096_kappa_architecture/))는 Jay Kreps(LinkedIn)가 2014년 제안한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 아키텍처로 — [람다](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 아키텍처의 "배치 + 스피드 레이어 이중 코드" 문제를 스트리밍 레이어 하나로 통합하여 해결한다.
+> 2. 카파의 핵심은 Kafka를 이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(Event Log)로 활용하는 것으로 — 모든 히스토리 이벤트를 Kafka에 보관하고, 재처리(Reprocessing)가 필요할 때 스트리밍 처리를 처음부터 재실행하여 배치 처리를 대체한다.
+> 3. 카파는 코드 단순성과 운영 효율에서 [람다](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)를 능가하지만 — 대규모 재처리 시 자원 집약적이고 Kafka의 무한 보관 비용이 실용적 제약이 되어, 실제로는 도메인과 워크로드 특성에 따라 [람다](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)·카파·통합 플랫폼을 선택적으로 적용하는 것이 현실이다.
 
 ---
 
-## Ⅰ. [[096_kappa_architecture|카파 아키텍처]] 개념
+## Ⅰ. [카파 아키텍처](/knowledge-base/studynote/16_bigdata/04_streaming/096_kappa_architecture/) 개념
 
 ```
 카파 아키텍처 (Kappa Architecture):
@@ -53,11 +57,11 @@ tags:
   카파: 하나의 파이프라인 (속도 + 정확성)
 ```
 
-> 📢 **섹션 요약 비유**: [[096_kappa_architecture|카파 아키텍처]]는 단 하나의 스마트 컨베이어 — [[216_lambda_kappa_architecture_batch_realtime|람다]]가 낮 컨베이어(배치) + 야간 컨베이어(스피드) 두 개라면, 카파는 하나의 스마트 컨베이어로 모든 것 처리.
+> 📢 **섹션 요약 비유**: [카파 아키텍처](/knowledge-base/studynote/16_bigdata/04_streaming/096_kappa_architecture/)는 단 하나의 스마트 컨베이어 — [람다](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)가 낮 컨베이어(배치) + 야간 컨베이어(스피드) 두 개라면, 카파는 하나의 스마트 컨베이어로 모든 것 처리.
 
 ---
 
-## Ⅱ. [[179_kafka_flink_watermark_time_window|Kafka]] 이벤트 [[568_logs_distributed_logging_elk_fluentd|로그]]
+## Ⅱ. [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)
 
 ```
 Kafka 이벤트 로그 (Event Log):
@@ -101,7 +105,7 @@ Kafka 보관 설정:
   재처리: 처음부터 재생하면 현재 상태 재현 가능
 ```
 
-> 📢 **섹션 요약 비유**: [[179_kafka_flink_watermark_time_window|Kafka]] 이벤트 [[568_logs_distributed_logging_elk_fluentd|로그]]는 일기장 — 오늘의 상태(모놀리식 DB) 대신, 매일 일어난 사건(이벤트)을 일기로 기록. 처음부터 일기 읽으면 현재 상태를 재현할 수 있어요.
+> 📢 **섹션 요약 비유**: [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 일기장 — 오늘의 상태(모놀리식 DB) 대신, 매일 일어난 사건(이벤트)을 일기로 기록. 처음부터 일기 읽으면 현재 상태를 재현할 수 있어요.
 
 ---
 
@@ -145,7 +149,7 @@ Apache Spark Structured Streaming:
   기존 Spark 환경: Structured Streaming
 ```
 
-> 📢 **섹션 요약 비유**: 스트리밍 엔진 선택은 배달 방식 선택 — Flink는 즉시 배달(수ms), Spark Streaming은 배달 묶음(수초), [[179_kafka_flink_watermark_time_window|Kafka]] Streams는 자전거 배달(경량). 주문 규모에 맞게 선택.
+> 📢 **섹션 요약 비유**: 스트리밍 엔진 선택은 배달 방식 선택 — Flink는 즉시 배달(수ms), Spark Streaming은 배달 묶음(수초), [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) Streams는 자전거 배달(경량). 주문 규모에 맞게 선택.
 
 ---
 
@@ -198,7 +202,7 @@ Apache Spark Structured Streaming:
   람다의 이점 + 카파의 단순성 = 통합 아키텍처
 ```
 
-> 📢 **섹션 요약 비유**: 카파 vs [[216_lambda_kappa_architecture_batch_realtime|람다]]는 하나의 다용도 냄비 vs 전용 요리기구 세트 — 카파는 하나로 다 해결(단순하지만 한계), [[216_lambda_kappa_architecture_batch_realtime|람다]]는 각 음식별 전용 도구(복잡하지만 최적화).
+> 📢 **섹션 요약 비유**: 카파 vs [람다](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)는 하나의 다용도 냄비 vs 전용 요리기구 세트 — 카파는 하나로 다 해결(단순하지만 한계), [람다](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)는 각 음식별 전용 도구(복잡하지만 최적화).
 
 ---
 
@@ -246,7 +250,7 @@ Apache Spark Structured Streaming:
     → 카파의 재처리로는 비효율적
 ```
 
-> 📢 **섹션 요약 비유**: 결제 사기 탐지 카파는 보안 카메라 + 즉시 알림 — 모든 거래(이벤트)를 실시간으로 분석하고, 의심 패턴 발견 시 즉시 차단. 녹화([[179_kafka_flink_watermark_time_window|Kafka]] 보관)를 처음부터 재생하면 과거 분석도 가능.
+> 📢 **섹션 요약 비유**: 결제 사기 탐지 카파는 보안 카메라 + 즉시 알림 — 모든 거래(이벤트)를 실시간으로 분석하고, 의심 패턴 발견 시 즉시 차단. 녹화([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 보관)를 처음부터 재생하면 과거 분석도 가능.
 
 ---
 
@@ -302,9 +306,9 @@ Kafka + Flink 사실상 표준
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [[096_kappa_architecture|카파 아키텍처]]는 하나의 스마트 컨베이어 — [[216_lambda_kappa_architecture_batch_realtime|람다]]가 낮 컨베이어 + 야간 컨베이어 두 개라면, 카파는 하나로 24시간 처리해요!
+1. [카파 아키텍처](/knowledge-base/studynote/16_bigdata/04_streaming/096_kappa_architecture/)는 하나의 스마트 컨베이어 — [람다](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)가 낮 컨베이어 + 야간 컨베이어 두 개라면, 카파는 하나로 24시간 처리해요!
 2. Kafka는 일기장 — 모든 사건을 일기로 기록해두면, 나중에 처음부터 읽어서 현재 상태를 재현할 수 있어요.
-3. 재처리가 핵심 장점 — 분석 방법을 바꿔야 할 때, [[179_kafka_flink_watermark_time_window|Kafka]] 일기장의 처음부터 다시 읽으면 되어요. 배치 시스템 없이도 가능!
+3. 재처리가 핵심 장점 — 분석 방법을 바꿔야 할 때, [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 일기장의 처음부터 다시 읽으면 되어요. 배치 시스템 없이도 가능!
 
 ---
 
@@ -312,7 +316,7 @@ Kafka + Flink 사실상 표준
 
 **진행 상황**: 44 / 258
 
-← **이전**: [[043_lambda_architecture_batch_speed_layer|043. 람다 아키텍처 — 배치 & 스피드 레이어]]
-**다음**: [[045_columnar_storage_format_parquet_orc|045. 컬럼형 저장 형식 — Parquet & ORC]] →
+← **이전**: [043. 람다 아키텍처 — 배치 & 스피드 레이어](/knowledge-base/studynote/14_data_engineering/01_infrastructure/043_lambda_architecture_batch_speed_layer/)
+**다음**: [045. 컬럼형 저장 형식 — Parquet & ORC](/knowledge-base/studynote/14_data_engineering/01_infrastructure/045_columnar_storage_format_parquet_orc/) →
 
 ---

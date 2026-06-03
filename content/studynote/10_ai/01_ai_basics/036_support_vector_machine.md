@@ -1,18 +1,22 @@
----
-title: 036. 서포트 벡터 머신 (Support Vector Machine, SVM)
-date: '2026-03-03'
-tags:
-- studynote-ai
----
++++
+title = "036. 서포트 벡터 머신 (Support Vector Machine, SVM)"
+date = 2026-03-03
+
+[taxonomies]
+tags = ["studynote-ai"]
+
+[extra]
+tags = ["studynote-ai"]
++++
 
 > **핵심 인사이트**
-> 1. [[238_svm_margin_kernel_trick_naive_bayes|SVM]] ([[238_svm_margin_kernel_trick_naive_bayes|Support Vector Machine]])은 두 클래스를 분리하는 초평면(Hyperplane) 중 마진(Margin, 클래스 간 간격)이 최대인 것을 찾는 최대 마진 [[104_classification_analysis|분류]]기로, 소규모·고차원 [[001_dikw_pyramid|데이터]]에서 강력한 [[282_performance_tactics|성능]]을 보인다.
-> 2. [[059_kernel_trick_rbf_polynomial|커널 트릭]]([[059_kernel_trick_rbf_polynomial|Kernel Trick]])은 비선형 [[001_dikw_pyramid|데이터]]를 고차원 특성 공간으로 암묵적으로 변환해 선형 분리를 가능하게 하며, 실제로 변환을 수행하지 않고 [[022_kernel_role|커널]] 함수만으로 내적을 계산한다.
-> 3. 딥러닝 등장 이전 이미지·텍스트 [[104_classification_analysis|분류]]의 표준이었으나, 대용량 [[001_dikw_pyramid|데이터]]에서 확장성 한계가 있어 현재는 중소규모 고차원 [[001_dikw_pyramid|데이터]](NLP, 바이오인포매틱스)와 [[257_ensemble_learning|앙상블]]에 활용된다.
+> 1. [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) ([Support Vector Machine](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/))은 두 클래스를 분리하는 초평면(Hyperplane) 중 마진(Margin, 클래스 간 간격)이 최대인 것을 찾는 최대 마진 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기로, 소규모·고차원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 강력한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보인다.
+> 2. [커널 트릭](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/)([Kernel Trick](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/))은 비선형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 고차원 특성 공간으로 암묵적으로 변환해 선형 분리를 가능하게 하며, 실제로 변환을 수행하지 않고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 함수만으로 내적을 계산한다.
+> 3. 딥러닝 등장 이전 이미지·텍스트 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)의 표준이었으나, 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 확장성 한계가 있어 현재는 중소규모 고차원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(NLP, 바이오인포매틱스)와 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)에 활용된다.
 
 ---
 
-## I. 최대 마진 [[104_classification_analysis|분류]]기
+## I. 최대 마진 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기
 
 ```
 선형 분리 가능한 2클래스 문제:
@@ -34,14 +38,14 @@ tags:
 | 개념         | 설명                               |
 |------------|-----------------------------------|
 | 초평면       | w·x + b = 0, 클래스를 분리하는 경계 |
-| 서포트 벡터  | 초평면과 가장 가까운 [[001_dikw_pyramid|데이터]] 포인트   |
+| 서포트 벡터  | 초평면과 가장 가까운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포인트   |
 | 마진         | 서포트 벡터 간의 거리               |
 
-> 📢 **섹션 요약 비유**: 두 나라 사이에 [[219_demilitarized_zone_dmz_public_subnet|DMZ]](비무장지대)를 최대한 넓게 만드는 것 — 경계가 애매하지 않을수록 [[104_classification_analysis|분류]]가 안정적이다.
+> 📢 **섹션 요약 비유**: 두 나라 사이에 [DMZ](/knowledge-base/studynote/09_security/05_web_app_security/219_demilitarized_zone_dmz_public_subnet/)(비무장지대)를 최대한 넓게 만드는 것 — 경계가 애매하지 않을수록 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)가 안정적이다.
 
 ---
 
-## II. 소프트 마진 [[238_svm_margin_kernel_trick_naive_bayes|SVM]] (Soft Margin)
+## II. 소프트 마진 [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) (Soft Margin)
 
 ```
 선형 분리 불가능한 경우:
@@ -58,14 +62,14 @@ tags:
 
 | C값    | 마진     | 오분류 허용 | 효과           |
 |-------|---------|---------|----------------|
-| 크다   | 좁음    | 거의 없음 | 훈련 [[001_dikw_pyramid|데이터]] 최적|
+| 크다   | 좁음    | 거의 없음 | 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 최적|
 | 작다   | 넓음    | 많음     | 일반화 향상     |
 
-> 📢 **섹션 요약 비유**: C가 크면 "틀리면 안 돼" 엄격한 선생님, C가 작으면 "약간 틀려도 돼" 너그러운 선생님 — 실제 [[001_dikw_pyramid|데이터]]는 조금 유연한 게 낫다.
+> 📢 **섹션 요약 비유**: C가 크면 "틀리면 안 돼" 엄격한 선생님, C가 작으면 "약간 틀려도 돼" 너그러운 선생님 — 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 조금 유연한 게 낫다.
 
 ---
 
-## III. [[059_kernel_trick_rbf_polynomial|커널 트릭]] ([[059_kernel_trick_rbf_polynomial|Kernel Trick]])
+## III. [커널 트릭](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/) ([Kernel Trick](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/))
 
 ```
 1차원 데이터: XOR 문제 (선형 분리 불가)
@@ -84,19 +88,19 @@ tags:
   다항 커널:  K = (xi·xj + c)^d
 ```
 
-> 📢 **섹션 요약 비유**: 구겨진 종이(2D 비선형)를 펼치면(고차원) 직선으로 나눌 수 있다 — [[022_kernel_role|커널]]은 펼치는 비용 없이 결과만 계산한다.
+> 📢 **섹션 요약 비유**: 구겨진 종이(2D 비선형)를 펼치면(고차원) 직선으로 나눌 수 있다 — [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 펼치는 비용 없이 결과만 계산한다.
 
 ---
 
-## [[288_version_ihl_tos_total_length|IV]]. [[238_svm_margin_kernel_trick_naive_bayes|SVM]] vs 딥러닝
+## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) vs 딥러닝
 
-| 비교       | [[238_svm_margin_kernel_trick_naive_bayes|SVM]]                  | 딥러닝 ([[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]], [[246_transformer_self_attention_parallel_positional_encoding|Transformer]])  |
+| 비교       | [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/)                  | 딥러닝 ([CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/), [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/))  |
 |-----------|----------------------|--------------------------|
-| [[001_dikw_pyramid|데이터]] 규모 | 소규모 강점           | 대규모 강점               |
-| 차원       | 고차원 [[001_dikw_pyramid|데이터]] 강점     | 자동 특성 추출            |
+| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모 | 소규모 강점           | 대규모 강점               |
+| 차원       | 고차원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 강점     | 자동 특성 추출            |
 | 해석 가능성 | 중간 (서포트 벡터)    | 낮음 (블랙박스)           |
 | 학습 시간  | 빠름 (소규모)         | 느림                      |
-| [[022_kernel_role|커널]] 튜닝  | 필요                  | 불필요 (자동)             |
+| [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 튜닝  | 필요                  | 불필요 (자동)             |
 
 > 📢 **섹션 요약 비유**: SVM은 정밀한 수술용 메스(소규모 고정밀), 딥러닝은 공장형 대량 생산 기계 — 상황에 맞게 선택.
 
@@ -117,7 +121,7 @@ Python sklearn:
   svm.fit(X_train, y_train)
 ```
 
-> 📢 **섹션 요약 비유**: SVM은 [[001_dikw_pyramid|데이터]]가 많지 않고 특성이 많은 전문 분야(바이오, 보안)에서 여전히 최강 — 딥러닝이 모든 걸 대체하지 않는다.
+> 📢 **섹션 요약 비유**: SVM은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 많지 않고 특성이 많은 전문 분야(바이오, 보안)에서 여전히 최강 — 딥러닝이 모든 걸 대체하지 않는다.
 
 ---
 
@@ -172,9 +176,9 @@ One-Class SVM (이상 탐지)
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. SVM은 빨간 공과 파란 공을 나누는 선을 그을 때, 두 무리 사이에 가장 넓은 통로를 만드는 [[001_algorithm_definition|알고리즘]]이에요.
-2. 직선으로 나눌 수 없을 때는 [[022_kernel_role|커널]]이라는 마법으로 공들을 더 높은 차원으로 올려 직선으로 나눠요.
-3. [[001_dikw_pyramid|데이터]]가 많지 않고 특성이 복잡한 의학·보안 분야에서 지금도 자주 쓰인답니다!
+1. SVM은 빨간 공과 파란 공을 나누는 선을 그을 때, 두 무리 사이에 가장 넓은 통로를 만드는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이에요.
+2. 직선으로 나눌 수 없을 때는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이라는 마법으로 공들을 더 높은 차원으로 올려 직선으로 나눠요.
+3. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 많지 않고 특성이 복잡한 의학·보안 분야에서 지금도 자주 쓰인답니다!
 
 ---
 
@@ -182,7 +186,7 @@ One-Class SVM (이상 탐지)
 
 **진행 상황**: 36 / 420
 
-← **이전**: [[035_xgboost_lightgbm|035. XGBoost & LightGBM]]
-**다음**: [[037_svm_kernel_trick|037. SVM 커널 트릭 (Kernel Trick)]] →
+← **이전**: [035. XGBoost & LightGBM](/knowledge-base/studynote/10_ai/01_ai_basics/035_xgboost_lightgbm/)
+**다음**: [037. SVM 커널 트릭 (Kernel Trick)](/knowledge-base/studynote/10_ai/01_ai_basics/037_svm_kernel_trick/) →
 
 ---

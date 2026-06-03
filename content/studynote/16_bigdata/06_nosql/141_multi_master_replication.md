@@ -1,20 +1,24 @@
----
-title: 141. 멀티 마스터 복제 (Multi-Master Replication) — CouchDB/DynamoDB Global Tables
-date: '2026-04-21'
-tags:
-- studynote-bigdata
----
++++
+title = "141. 멀티 마스터 복제 (Multi-Master Replication) — CouchDB/DynamoDB Global Tables"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-bigdata"]
+
+[extra]
+tags = ["studynote-bigdata"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-- **본질**: [[272_multi_master_replication|멀티 마스터 복제]]는 여러 노드 또는 리전에서 동시에 [[289_cqrs_db|쓰기]]를 허용하여 단일 [[289_cqrs_db|쓰기]] [[172_maas_mobility_as_a_service|마스]]터의 지리적 병목과 [[454_spof|단일 장애점]]을 제거하는 [[136_variance|분산]] [[016_replication_factor|복제]] 아키텍처다.
-- **가치**: 글로벌 [[090_service_kubernetes_network_load_balancing|서비스]]에서 "가장 가까운 리전에 [[289_cqrs_db|쓰기]]"가 가능해져 [[289_cqrs_db|쓰기]] [[015_지연_데이터_관점|지연]]이 수백ms에서 수ms로 줄어들고, 리전 전체 장애 시에도 다른 리전이 [[289_cqrs_db|쓰기]]를 계속 수용한다.
-- **판단 포인트**: 충돌 해결 [[268_strategy_pattern|전략]](LWW/벡터 클록/CRDT) 선택이 핵심으로, [[001_dikw_pyramid|데이터]] 손실을 최소화하려면 CRDT 또는 앱 레벨 병합이 필요하며 LWW는 단순하지만 [[289_cqrs_db|쓰기]] 손실 위험이 있다.
+- **본질**: [멀티 마스터 복제](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/272_multi_master_replication/)는 여러 노드 또는 리전에서 동시에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 허용하여 단일 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터의 지리적 병목과 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)을 제거하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 아키텍처다.
+- **가치**: 글로벌 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에서 "가장 가까운 리전에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)"가 가능해져 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 수백ms에서 수ms로 줄어들고, 리전 전체 장애 시에도 다른 리전이 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 계속 수용한다.
+- **판단 포인트**: 충돌 해결 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(LWW/벡터 클록/CRDT) 선택이 핵심으로, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실을 최소화하려면 CRDT 또는 앱 레벨 병합이 필요하며 LWW는 단순하지만 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 손실 위험이 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### 단일 [[172_maas_mobility_as_a_service|마스]]터 vs 멀티 [[172_maas_mobility_as_a_service|마스]]터 비교
+### 단일 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터 vs 멀티 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터 비교
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -52,13 +56,13 @@ tags:
 ```
 
 📢 **섹션 요약 비유**
-> [[272_multi_master_replication|멀티 마스터 복제]]는 구글 독스의 실시간 협업 편집과 같다. 서울과 뉴욕의 두 편집자가 같은 문서를 동시에 수정할 수 있지만, 같은 단어를 서로 다르게 고쳤다면 충돌을 어떻게 해결할지 규칙이 필요하다.
+> [멀티 마스터 복제](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/272_multi_master_replication/)는 구글 독스의 실시간 협업 편집과 같다. 서울과 뉴욕의 두 편집자가 같은 문서를 동시에 수정할 수 있지만, 같은 단어를 서로 다르게 고쳤다면 충돌을 어떻게 해결할지 규칙이 필요하다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 충돌 해결 [[268_strategy_pattern|전략]] 3가지
+### 충돌 해결 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 3가지
 
 ```text
 ┌────────────────────────────────────────────────────────────┐
@@ -93,7 +97,7 @@ tags:
 └────────────────────────────────────────────────────────────┘
 ```
 
-### [[545_dynamodb|DynamoDB]] Global Tables 아키텍처
+### [DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/) Global Tables 아키텍처
 
 ```text
 ┌───────────────────────────────────────────────────────────────┐
@@ -151,16 +155,16 @@ CouchDB 오프라인 우선 동기화:
 
 ## Ⅲ. 비교 및 연결
 
-### 멀티 [[172_maas_mobility_as_a_service|마스]]터 vs 단일 [[172_maas_mobility_as_a_service|마스]]터 vs [[172_maas_mobility_as_a_service|마스]]터리스
+### 멀티 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터 vs 단일 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터 vs [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터리스
 
-| 항목 | 단일 [[172_maas_mobility_as_a_service|마스]]터 | 멀티 [[172_maas_mobility_as_a_service|마스]]터 | [[172_maas_mobility_as_a_service|마스]]터리스 ([[541_cassandra|Cassandra]]) |
+| 항목 | 단일 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터 | 멀티 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터 | [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터리스 ([Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/)) |
 |:---:|:---:|:---:|:---:|
-| [[289_cqrs_db|쓰기]] 지점 | 1개 | N개 (리전별) | 모든 노드 |
+| [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 지점 | 1개 | N개 (리전별) | 모든 노드 |
 | 충돌 가능성 | 없음 | 있음 (해결 필요) | 있음 (QUORUM) |
-| [[289_cqrs_db|쓰기]] [[452_availability|가용성]] | [[172_maas_mobility_as_a_service|마스]]터 의존 | 높음 | 매우 높음 |
-| [[015_지연_데이터_관점|지연]] (로컬 [[289_cqrs_db|쓰기]]) | [[172_maas_mobility_as_a_service|마스]]터까지 거리 | 로컬 | 로컬 |
+| [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) | [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터 의존 | 높음 | 매우 높음 |
+| [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) (로컬 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)) | [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터까지 거리 | 로컬 | 로컬 |
 | 복잡도 | 낮음 | 중간 | 낮음 (설계만 다름) |
-| 적합 | 단순 [[090_service_kubernetes_network_load_balancing|서비스]] | 글로벌 RDBMS/[[035_nosql|NoSQL]] | 대규모 [[035_nosql|NoSQL]] |
+| 적합 | 단순 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | 글로벌 RDBMS/[NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) | 대규모 [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) |
 
 ### Operational Transformation vs CRDT
 
@@ -177,13 +181,13 @@ CRDT: 분산 시스템 방식
 ```
 
 📢 **섹션 요약 비유**
-> 멀티 [[172_maas_mobility_as_a_service|마스]]터와 [[172_maas_mobility_as_a_service|마스]]터리스의 차이는 다국적 기업의 의사결정 구조와 같다. 멀티 [[172_maas_mobility_as_a_service|마스]]터는 "서울·뉴욕 둘 다 결재권 있음" (그러나 같은 안건에 서로 다른 결재 시 충돌), [[172_maas_mobility_as_a_service|마스]]터리스는 "모든 지사가 결재권 있지만 과반수 동의 필요" ([[541_cassandra|Cassandra]] QUORUM).
+> 멀티 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터와 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터리스의 차이는 다국적 기업의 의사결정 구조와 같다. 멀티 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터는 "서울·뉴욕 둘 다 결재권 있음" (그러나 같은 안건에 서로 다른 결재 시 충돌), [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터리스는 "모든 지사가 결재권 있지만 과반수 동의 필요" ([Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) QUORUM).
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 글로벌 e-커머스 멀티 [[172_maas_mobility_as_a_service|마스]]터 설계
+### 글로벌 e-커머스 멀티 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터 설계
 
 ```text
 요구: 서울·뉴욕·유럽 동시 쓰기, 재고 정확도 보장
@@ -204,44 +208,44 @@ CRDT: 분산 시스템 방식
 
 | 패턴 | 설명 | 적용 예시 |
 |:---:|:---|:---:|
-| **[[514_partition_slice_volume|파티션]]별 소유권** | 각 리전이 다른 키 범위 담당 | 서울: KR 사용자, 뉴욕: US 사용자 |
-| **수렴 자료구조** | CRDT 사용 | 좋아요 [[059_counter|카운터]], 장바구니 |
-| **[[171_idempotency_iac_terraform|멱등성]] 연산** | 같은 요청 여러 번 실행해도 동일 결과 | 결제 처리 |
-| **인과 [[012_metadata|메타데이터]]** | [[288_version_ihl_tos_total_length|버전]] 토큰과 함께 [[289_cqrs_db|쓰기]] | 조건부 업데이트 |
+| **[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)별 소유권** | 각 리전이 다른 키 범위 담당 | 서울: KR 사용자, 뉴욕: US 사용자 |
+| **수렴 자료구조** | CRDT 사용 | 좋아요 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/), 장바구니 |
+| **[멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/) 연산** | 같은 요청 여러 번 실행해도 동일 결과 | 결제 처리 |
+| **인과 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)** | [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 토큰과 함께 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) | 조건부 업데이트 |
 
 📢 **섹션 요약 비유**
-> [[514_partition_slice_volume|파티션]]별 소유권 패턴은 나라별 담당자를 정하는 것과 같다. 한국 고객 [[001_dikw_pyramid|데이터]]는 서울 [[172_maas_mobility_as_a_service|마스]]터만, 미국 고객 [[001_dikw_pyramid|데이터]]는 뉴욕 [[172_maas_mobility_as_a_service|마스]]터만 수정한다. 담당 구역이 겹치지 않으니 충돌 자체가 발생하지 않는 가장 근본적인 충돌 방지 방법이다.
+> [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)별 소유권 패턴은 나라별 담당자를 정하는 것과 같다. 한국 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 서울 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터만, 미국 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 뉴욕 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터만 수정한다. 담당 구역이 겹치지 않으니 충돌 자체가 발생하지 않는 가장 근본적인 충돌 방지 방법이다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-### 멀티 [[172_maas_mobility_as_a_service|마스]]터 도입 효과 (글로벌 [[090_service_kubernetes_network_load_balancing|서비스]] 기준)
+### 멀티 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터 도입 효과 (글로벌 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 기준)
 
-| 지표 | 단일 [[172_maas_mobility_as_a_service|마스]]터(도쿄) | 멀티 [[172_maas_mobility_as_a_service|마스]]터(4 리전) |
+| 지표 | 단일 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터(도쿄) | 멀티 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터(4 리전) |
 |:---:|:---:|:---:|
-| 서울 [[289_cqrs_db|쓰기]] [[015_지연_데이터_관점|지연]] | ~30ms (도쿄 왕복) | ~3ms (로컬) |
-| 도쿄 장애 시 [[289_cqrs_db|쓰기]] | 불가 (수십 초 페일오버) | 즉시 다른 리전 |
-| 글로벌 [[289_cqrs_db|쓰기]] [[452_availability|가용성]] | 99.95% | 99.999% |
+| 서울 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | ~30ms (도쿄 왕복) | ~3ms (로컬) |
+| 도쿄 장애 시 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) | 불가 (수십 초 페일오버) | 즉시 다른 리전 |
+| 글로벌 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) | 99.95% | 99.999% |
 | 아키텍처 복잡도 | 낮음 | 중간 (충돌 처리 필요) |
 
 ### 결론
-[[272_multi_master_replication|멀티 마스터 복제]]는 글로벌 [[289_cqrs_db|쓰기]] [[452_availability|가용성]]과 낮은 [[015_지연_데이터_관점|지연]]이 비즈니스 요구 사항일 때의 필수 아키텍처 패턴이다. 그러나 충돌 해결은 [[001_dikw_pyramid|데이터]]의 비즈니스 특성에 맞게 세심하게 설계해야 한다. 기술사 시험에서는 **LWW vs 벡터 클록 vs CRDT 충돌 해결 비교**, **[[545_dynamodb|DynamoDB]] Global Tables 작동 원리**, **CouchDB 개정 기반 충돌 감지**, **[[514_partition_slice_volume|파티션]]별 소유권 설계 패턴**이 핵심 논점이다.
+[멀티 마스터 복제](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/272_multi_master_replication/)는 글로벌 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)과 낮은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 비즈니스 요구 사항일 때의 필수 아키텍처 패턴이다. 그러나 충돌 해결은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 비즈니스 특성에 맞게 세심하게 설계해야 한다. 기술사 시험에서는 **LWW vs 벡터 클록 vs CRDT 충돌 해결 비교**, **[DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/) Global Tables 작동 원리**, **CouchDB 개정 기반 충돌 감지**, **[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)별 소유권 설계 패턴**이 핵심 논점이다.
 
 📢 **섹션 요약 비유**
-> [[272_multi_master_replication|멀티 마스터 복제]]는 세계 각지에 지사를 두되, 각 지사가 독립적으로 결정을 내릴 수 있게 하는 [[136_variance|분산]] 경영 방식이다. 결정이 충돌하면 누구의 결정을 따를지 규칙(충돌 해결 [[268_strategy_pattern|전략]])이 있어야 하고, 충돌이 최소화되도록 각 지사의 담당 업무를 명확히 나누는([[514_partition_slice_volume|파티션]]별 소유권) 것이 운영의 핵심이다.
+> [멀티 마스터 복제](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/272_multi_master_replication/)는 세계 각지에 지사를 두되, 각 지사가 독립적으로 결정을 내릴 수 있게 하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 경영 방식이다. 결정이 충돌하면 누구의 결정을 따를지 규칙(충돌 해결 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))이 있어야 하고, 충돌이 최소화되도록 각 지사의 담당 업무를 명확히 나누는([파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)별 소유권) 것이 운영의 핵심이다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 개념 | [[083_relationship_in_er_model|관계]] | 설명 |
+| 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
 |:---:|:---:|:---|
-| LWW (Last-Write-Wins) | 충돌 해결 | 타임스탬프로 최신 [[289_cqrs_db|쓰기]] 선택 |
-| 벡터 클록 | 충돌 탐지 | 인과 [[083_relationship_in_er_model|관계]] 기반 충돌 정밀 감지 |
+| LWW (Last-Write-Wins) | 충돌 해결 | 타임스탬프로 최신 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 선택 |
+| 벡터 클록 | 충돌 탐지 | 인과 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 기반 충돌 정밀 감지 |
 | CRDT | 충돌 없는 설계 | 자동 병합 가능한 자료구조 |
-| [[483_active_vs_passive_ftp|Active]]-[[483_active_vs_passive_ftp|Active]] | 배포 패턴 | 모든 노드가 읽기/[[289_cqrs_db|쓰기]] 처리 |
-| [[556_master_slave_replication_lag_inconsistency|Replication Lag]] | [[016_replication_factor|복제]] [[015_지연_데이터_관점|지연]] | 노드 간 [[001_dikw_pyramid|데이터]] [[212_synchronization_mechanisms|동기화]] [[141_latency|지연 시간]] |
+| [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)-[Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) | 배포 패턴 | 모든 노드가 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 처리 |
+| [Replication Lag](/knowledge-base/studynote/05_database/04_transactions_concurrency/556_master_slave_replication_lag_inconsistency/) | [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | 노드 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -260,12 +264,12 @@ CRDT: 분산 시스템 방식
     ▼
 [글로벌 분산 DB (CockroachDB·Spanner) — 지역별 멀티 마스터 + 일관성 보장]
 ```
-[[272_multi_master_replication|멀티 마스터 복제]]는 단일 [[172_maas_mobility_as_a_service|마스]]터의 [[452_availability|가용성]] 한계를 극복하지만 충돌 해결 복잡성을 낳으며, CRDT와 글로벌 [[136_variance|분산]] [[002_database_definition|데이터베이스]]로 진화해 지역 레이턴시와 [[194_consistency_database_integrity|일관성]]을 동시에 해결한다.
+[멀티 마스터 복제](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/272_multi_master_replication/)는 단일 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터의 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 한계를 극복하지만 충돌 해결 복잡성을 낳으며, CRDT와 글로벌 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)로 진화해 지역 레이턴시와 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 동시에 해결한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 멀티 [[172_maas_mobility_as_a_service|마스]]터는 분반된 학급에서 모든 반이 수업을 동시에 [[216_progress_in_synchronization|진행]]하는 것 — 어느 반에 가도 수업을 받을 수 있어서 한 반이 쉬어도 괜찮아요.
+1. 멀티 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터는 분반된 학급에서 모든 반이 수업을 동시에 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)하는 것 — 어느 반에 가도 수업을 받을 수 있어서 한 반이 쉬어도 괜찮아요.
 2. 충돌은 두 선생님이 같은 칠판에 동시에 다른 내용을 쓰는 것 — 나중에 쓴 것을 채택(LWW)하거나, 내용을 합쳐서(CRDT) 해결해요.
-3. [[545_dynamodb|DynamoDB]] Global Tables는 전 세계 편의점 체인처럼 — 어느 나라 지점에서 상품을 사도 재고가 자동으로 업데이트되고, 충돌 시 가장 최신 시각의 정보가 채택돼요.
+3. [DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/) Global Tables는 전 세계 편의점 체인처럼 — 어느 나라 지점에서 상품을 사도 재고가 자동으로 업데이트되고, 충돌 시 가장 최신 시각의 정보가 채택돼요.
 
 ---
 
@@ -273,7 +277,7 @@ CRDT: 분산 시스템 방식
 
 **진행 상황**: 141 / 262
 
-← **이전**: [[140_consistency_levels|140. 일관성 수준 선택 (Consistency Levels) — Strong/Eventual/Bounded Staleness]]
-**다음**: [[142_schemaless_design_patterns|142. 스키마리스 설계 패턴 (Schemaless Design Patterns) — 임베딩 vs 참조]] →
+← **이전**: [140. 일관성 수준 선택 (Consistency Levels) — Strong/Eventual/Bounded Staleness](/knowledge-base/studynote/16_bigdata/06_nosql/140_consistency_levels/)
+**다음**: [142. 스키마리스 설계 패턴 (Schemaless Design Patterns) — 임베딩 vs 참조](/knowledge-base/studynote/16_bigdata/06_nosql/142_schemaless_design_patterns/) →
 
 ---

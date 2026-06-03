@@ -1,29 +1,33 @@
----
-title: 503. IP PBX
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "503. IP PBX"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: IP PBX는 응용 계층과 웹/메일에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: IP PBX를 이해하면 응답 시간과 [[344_compatibility_usability|호환성]] 사이의 균형을 더 정확히 볼 수 있다.
+> 2. **가치**: IP PBX를 이해하면 응답 시간과 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: IP-PBX는 IP 네트워크상에서 음성, 비디오, 메시징을 [[339_routing_overview_best_path_selection|라우팅]]하고 스위칭하는 사설 전화 교환 시스템이다. H.323이나 [[535_system_in_package|SIP]]([[501_sip_session_initiation_protocol_voip|Session Initiation Protocol]]) 같은 표준 [[295_protocol_field_tcp_udp_icmp|프로토콜]]을 사용해 IP 폰(단말) 간의 [[160_session_controlling_terminal|세션]]을 연결하고, 외부망(PSTN)과 인터넷망(VoIP) 사이의 게이트웨이 역할을 수행한다.
+- **개념**: IP-PBX는 IP 네트워크상에서 음성, 비디오, 메시징을 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)하고 스위칭하는 사설 전화 교환 시스템이다. H.323이나 [SIP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/)([Session Initiation Protocol](/knowledge-base/studynote/03_network/09_application_layer_web_email/501_sip_session_initiation_protocol_voip/)) 같은 표준 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 사용해 IP 폰(단말) 간의 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 연결하고, 외부망(PSTN)과 인터넷망(VoIP) 사이의 게이트웨이 역할을 수행한다.
 
-- **필요성**: 1990년대 회사를 차리려면 통신 공사부터 지옥이었다. 책상마다 PC용 '랜선(인터넷)' 1가닥, 구형 전화기용 '구리선(PSTN)' 1가닥 총 2가닥을 깔아야 했다. 부서 이동이라도 하면 구리선을 뽑아서 옆 방으로 다시 까느라 전산실 직원이 밤을 새웠다. 게다가 서울 본사에서 부산 지사로 업무 전화를 하면 시외전화 요금이 1분에 100원씩 뚝뚝 떨어져 회사 전화비가 수천만 원씩 나왔다. **"야! 어차피 책상마다 랜선(인터넷) 빵빵하게 깔려있는데, 왜 전화선을 따로 깔아? 그냥 내 목소리를 [[347_compaction|압축]](디지털)해서 인터넷 랜선 위에 올려서 부산 지사로 무료([[001_dikw_pyramid|데이터]])로 쏴버려!"** 이 당연한 [[001_dikw_pyramid|데이터]]-음성 융합(Convergence)의 욕망이 구리선 교환기(Legacy PBX)를 쳐내고 랜선 교환기(IP-PBX)를 회사의 통신 대장으로 등극시켰다.
+- **필요성**: 1990년대 회사를 차리려면 통신 공사부터 지옥이었다. 책상마다 PC용 '랜선(인터넷)' 1가닥, 구형 전화기용 '구리선(PSTN)' 1가닥 총 2가닥을 깔아야 했다. 부서 이동이라도 하면 구리선을 뽑아서 옆 방으로 다시 까느라 전산실 직원이 밤을 새웠다. 게다가 서울 본사에서 부산 지사로 업무 전화를 하면 시외전화 요금이 1분에 100원씩 뚝뚝 떨어져 회사 전화비가 수천만 원씩 나왔다. **"야! 어차피 책상마다 랜선(인터넷) 빵빵하게 깔려있는데, 왜 전화선을 따로 깔아? 그냥 내 목소리를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)(디지털)해서 인터넷 랜선 위에 올려서 부산 지사로 무료([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))로 쏴버려!"** 이 당연한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)-음성 융합(Convergence)의 욕망이 구리선 교환기(Legacy PBX)를 쳐내고 랜선 교환기(IP-PBX)를 회사의 통신 대장으로 등극시켰다.
 
-- **💡 비유**: **기존 PBX(구형 전화기)**는 집에 **'수도관(전화선)'**과 **'가스관(인터넷선)'**을 따로따로 [[123_pipe|파이프]] 2개씩 묻는 비효율적인 공사입니다. 물 마실 땐 수도관, 밥 끓일 땐 가스관을 쓰죠. **IP-PBX**는 가스관(인터넷선) 하나를 엄청나게 크고 튼튼하게 깔아놓고, **"이제부터 이 큰 가스관 안으로 물(목소리 [[001_dikw_pyramid|데이터]])도 캡슐에 담아서 같이 쏴줄게!"**라고 선언한 겁니다. [[123_pipe|파이프]] 하나로 물과 가스를 동시에 쓰고, 공사비는 반값으로 줄이는 마법입니다.
+- **💡 비유**: **기존 PBX(구형 전화기)**는 집에 **'수도관(전화선)'**과 **'가스관(인터넷선)'**을 따로따로 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 2개씩 묻는 비효율적인 공사입니다. 물 마실 땐 수도관, 밥 끓일 땐 가스관을 쓰죠. **IP-PBX**는 가스관(인터넷선) 하나를 엄청나게 크고 튼튼하게 깔아놓고, **"이제부터 이 큰 가스관 안으로 물(목소리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))도 캡슐에 담아서 같이 쏴줄게!"**라고 선언한 겁니다. [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 하나로 물과 가스를 동시에 쓰고, 공사비는 반값으로 줄이는 마법입니다.
 
 - **등장 배경**:
   1. **All-IP 망으로의 시대 전환**: 통신사들이 비싼 아날로그 서킷(회선) 망 유지보수를 포기하고, 전 세계 모든 백본망을 인터넷(패킷) 기반으로 갈아엎으면서 사내 교환기도 IP화의 압박을 받았다.
-  2. **[[191_oss_license_compliance|오픈소스]] PBX (Asterisk)의 반란**: 어바이어(Avaya), 시스코([[539_netflow_sflow_traffic_monitoring|Cisco]]) 같은 글로벌 벤더가 수천만 원에 팔던 IP-PBX 쇳덩이를, 누군가 리눅스 서버에 무료로 깔 수 있는 소프트웨어(Asterisk)로 풀어버리면서 스타트업도 자체 인터넷 전화를 뚝딱 구축하는 대중화가 터졌다.
+  2. **[오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) PBX (Asterisk)의 반란**: 어바이어(Avaya), 시스코([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/)) 같은 글로벌 벤더가 수천만 원에 팔던 IP-PBX 쇳덩이를, 누군가 리눅스 서버에 무료로 깔 수 있는 소프트웨어(Asterisk)로 풀어버리면서 스타트업도 자체 인터넷 전화를 뚝딱 구축하는 대중화가 터졌다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -54,27 +58,27 @@ tags:
 └─────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** "IP-PBX 깔면 전화 요금 말고 뭐가 좋은데요?"라는 임원진의 질문을 종식시키는 '스마트 워크([[078_smart_work_mobile_office|Smart Work]])' 아키텍처 도면이다. 과거 구형 전화기는 책상 위에서만 울렸다(장소의 노예). 하지만 IP-PBX는 직원들에게 '가상 내선 번호(Virtual Extension)'를 부여한다. 직원이 101번 번호를 IP 폰에 치든, 스마트폰 앱(소프트폰)에 로그인하든, 집 노트북에 치든, IP-PBX는 전 세계 어디든 IP(인터넷)가 연결된 그 기기로 전화를 [[339_routing_overview_best_path_selection|라우팅]](배달)해버린다. 장소(책상)에 얽매였던 회사 전화를 100% 모바일 중심의 유연한 기동성 체계로 완전히 세탁해 버린 것이다.
+**[다이어그램 해설]** "IP-PBX 깔면 전화 요금 말고 뭐가 좋은데요?"라는 임원진의 질문을 종식시키는 '스마트 워크([Smart Work](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/078_smart_work_mobile_office/))' 아키텍처 도면이다. 과거 구형 전화기는 책상 위에서만 울렸다(장소의 노예). 하지만 IP-PBX는 직원들에게 '가상 내선 번호(Virtual Extension)'를 부여한다. 직원이 101번 번호를 IP 폰에 치든, 스마트폰 앱(소프트폰)에 로그인하든, 집 노트북에 치든, IP-PBX는 전 세계 어디든 IP(인터넷)가 연결된 그 기기로 전화를 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)(배달)해버린다. 장소(책상)에 얽매였던 회사 전화를 100% 모바일 중심의 유연한 기동성 체계로 완전히 세탁해 버린 것이다.
 
-- **📢 섹션 요약 비유**: 구형 PBX는 회사 내에 우체통(자리)이 딱 고정되어 있어서 우체부(전화)가 오면 무조건 그 책상 앞으로 가야 편지를 받을 수 있습니다. **IP-PBX**는 나를 쫓아다니는 **'마법의 투명 우체통'**입니다. 내가 제주도에 있든 미국에 있든, 핸드폰 앱(소프트폰)만 켜서 "나 여기 있어([[535_system_in_package|SIP]] [[175_register_addressing|Register]])"라고 로그인하는 순간, 서울 회사로 걸려 온 내 전화를 눈치껏 내 앞(미국)으로 즉시 공간 이동(포워딩) 시켜서 꽂아주는 스마트 우체국장입니다.
+- **📢 섹션 요약 비유**: 구형 PBX는 회사 내에 우체통(자리)이 딱 고정되어 있어서 우체부(전화)가 오면 무조건 그 책상 앞으로 가야 편지를 받을 수 있습니다. **IP-PBX**는 나를 쫓아다니는 **'마법의 투명 우체통'**입니다. 내가 제주도에 있든 미국에 있든, 핸드폰 앱(소프트폰)만 켜서 "나 여기 있어([SIP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/) [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))"라고 로그인하는 순간, 서울 회사로 걸려 온 내 전화를 눈치껏 내 앞(미국)으로 즉시 공간 이동(포워딩) 시켜서 꽂아주는 스마트 우체국장입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 1. IP-PBX의 핵심 하드웨어 융합: [[265_poe_power_over_ethernet|PoE]] ([[265_poe_power_over_ethernet|Power over Ethernet]])
+### 1. IP-PBX의 핵심 하드웨어 융합: [PoE](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/265_poe_power_over_ethernet/) ([Power over Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/265_poe_power_over_ethernet/))
 
 책상에 구리 전화선 1가닥을 없앤 건 좋은데, 새로운 치명적 문제가 터졌다.
-- **딜레마**: 구형 구리 전화기는 정전이 나도 통화가 됐다(전화국에서 미세한 직류 전기를 구리선으로 같이 쏴줬기 때문). 그런데 책상에 놓인 신형 IP 전화기는 '랜선([[124_unshielded_twisted_pair|UTP]])'만 꼽혀 있다. 그럼 인터넷은 되는데, 화면에 불을 켤 '220V 전원 [[259_adapter_pattern_interface_wrapper|어댑터]]' 콘센트를 직원마다 따로 책상 밑에 또 꼽아야 하나? 100명이면 멀티탭만 100개다(지옥).
-- **구원자 [[265_poe_power_over_ethernet|PoE]] ([[265_poe_power_over_ethernet|Power over Ethernet]]) [[238_switch_operation_principles|스위치]]**: 네트워크 아키텍트는 천재였다. "야! 랜선 안에 8가닥 구리 심선이 있는데 인터넷([[001_dikw_pyramid|데이터]]) 쏠 때 4가닥밖에 안 쓰잖아! 노는 나머지 4가닥 선으로 48V 전기를 쏴서 IP 전화기 화면을 켜버려!"
-- **결론**: 전산실의 네트워크 [[238_switch_operation_principles|스위치]](L2)를 비싼 '[[265_poe_power_over_ethernet|PoE]] 지원 [[238_switch_operation_principles|스위치]]'로 갈아 끼운다. 그러면 랜선 1개만 IP 폰에 딱 꼽으면 **'통신(인터넷) + 전기 공급'이 100% 동시에 해결된다.** 220V 멀티탭 지옥에서 벗어나 책상 밑이 우주에서 가장 깔끔해지는 물리적 인프라 혁명이 완성되었다.
+- **딜레마**: 구형 구리 전화기는 정전이 나도 통화가 됐다(전화국에서 미세한 직류 전기를 구리선으로 같이 쏴줬기 때문). 그런데 책상에 놓인 신형 IP 전화기는 '랜선([UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/))'만 꼽혀 있다. 그럼 인터넷은 되는데, 화면에 불을 켤 '220V 전원 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)' 콘센트를 직원마다 따로 책상 밑에 또 꼽아야 하나? 100명이면 멀티탭만 100개다(지옥).
+- **구원자 [PoE](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/265_poe_power_over_ethernet/) ([Power over Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/265_poe_power_over_ethernet/)) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)**: 네트워크 아키텍트는 천재였다. "야! 랜선 안에 8가닥 구리 심선이 있는데 인터넷([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 쏠 때 4가닥밖에 안 쓰잖아! 노는 나머지 4가닥 선으로 48V 전기를 쏴서 IP 전화기 화면을 켜버려!"
+- **결론**: 전산실의 네트워크 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(L2)를 비싼 '[PoE](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/265_poe_power_over_ethernet/) 지원 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)'로 갈아 끼운다. 그러면 랜선 1개만 IP 폰에 딱 꼽으면 **'통신(인터넷) + 전기 공급'이 100% 동시에 해결된다.** 220V 멀티탭 지옥에서 벗어나 책상 밑이 우주에서 가장 깔끔해지는 물리적 인프라 혁명이 완성되었다.
 
 ### 2. FMC (Fixed Mobile Convergence - 유무선 융합)
 
 IP-PBX가 가져온 가장 파괴적인 비즈니스 모델 혁신이다.
 - **Fixed (유선)**: 책상 위의 02-1234 번호.
 - **Mobile (무선)**: 주머니 속의 010 번호.
-- **Convergence (융합)**: 직원이 퇴근 후 집에 가는데 회사 고객에게 전화해야 한다. 내 개인 010 폰으로 걸면 사생활이 노출(카톡 친추 됨)된다. FMC 앱(소프트폰)을 켠다. 와이파이(또는 [[752_lte_long_term_evolution_4g|LTE]])를 타고 회사 IP-PBX 서버로 원격 접속된다. 그리고 전화를 건다.
+- **Convergence (융합)**: 직원이 퇴근 후 집에 가는데 회사 고객에게 전화해야 한다. 내 개인 010 폰으로 걸면 사생활이 노출(카톡 친추 됨)된다. FMC 앱(소프트폰)을 켠다. 와이파이(또는 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/))를 타고 회사 IP-PBX 서버로 원격 접속된다. 그리고 전화를 건다.
 - **결과**: 고객의 핸드폰 화면에는 내 개인 010 번호가 아니라 **회사의 '02-1234' 공식 번호가 찍힌다.** 외근 중인 100명의 영업사원 주머니 속에 회사 책상 전화기를 통째로 구겨 넣어, 완벽한 사생활 분리와 스마트 워크 기동성을 동시에 잡아버린 기업 통신의 정점이다.
 
 ```text
@@ -86,39 +90,39 @@ IP-PBX가 가져온 가장 파괴적인 비즈니스 모델 혁신이다.
     └──▶ [IPTV 멀티캐스트 전송]
 ```
 
-- **📢 섹션 요약 비유**: 구형 전화기와 IP 폰의 차이는 **'무선 청소기 배터리'**와 같습니다. 예전엔 청소기(전화기)를 돌리려면 벽 콘센트(220V)에 무조건 전기 코드를 따로 꼽아야 했죠. IP 폰([[265_poe_power_over_ethernet|PoE]] 적용)은 그냥 인터넷 선 딱 하나만 꽂으면 그 선 안에서 마법처럼 전기까지 같이 흘러나와 기계를 켜주는 **'충전+인터넷 일체형 슈퍼 케이블'**입니다.
+- **📢 섹션 요약 비유**: 구형 전화기와 IP 폰의 차이는 **'무선 청소기 배터리'**와 같습니다. 예전엔 청소기(전화기)를 돌리려면 벽 콘센트(220V)에 무조건 전기 코드를 따로 꼽아야 했죠. IP 폰([PoE](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/265_poe_power_over_ethernet/) 적용)은 그냥 인터넷 선 딱 하나만 꽂으면 그 선 안에서 마법처럼 전기까지 같이 흘러나와 기계를 켜주는 **'충전+인터넷 일체형 슈퍼 케이블'**입니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 딜레마: [[061_on_premise_legacy_infrastructure|On-Premise]] IP-PBX (내가 소유) vs Cloud PBX / UCaaS (월세 구독)
+### 딜레마: [On-Premise](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) IP-PBX (내가 소유) vs Cloud PBX / UCaaS (월세 구독)
 
 10년 전엔 서버실에 무조건 IP-PBX 쇳덩이를 샀지만, 이젠 클라우드가 지배하고 있다.
 
-| 인프라 모델 | 구축형 IP-PBX ([[061_on_premise_legacy_infrastructure|On-Premise]]) | 클라우드 PBX (UCaaS / 구독형) | 아키텍트의 결단 |
+| 인프라 모델 | 구축형 IP-PBX ([On-Premise](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)) | 클라우드 PBX (UCaaS / 구독형) | 아키텍트의 결단 |
 |:---|:---|:---|:---|
 | **위치 및 통제권** | 우리 회사 전산실. (서버 내가 삼) | 통신사(KT, LG) 클라우드 중앙 서버. (나는 그냥 로그인만 함) | 보안이 미친 듯이 중요한 은행/공공기관은 구축형. 나머진 클라우드. |
-| **비용 (Cost)** | [[459_quic_fec_forward_error_correction|초기]] 구축 장비값 1억 원 쾅! (CAPEX) | 설치비 0원. 1명당 매월 1만 원 (OPEX) | 신규 스타트업이나 콜센터 유동성이 큰 회사는 무조건 클라우드! |
+| **비용 (Cost)** | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 구축 장비값 1억 원 쾅! (CAPEX) | 설치비 0원. 1명당 매월 1만 원 (OPEX) | 신규 스타트업이나 콜센터 유동성이 큰 회사는 무조건 클라우드! |
 | **유지보수 재앙** | 서버 램 타면 전산팀 직원이 밤새워 고침. 고장 나면 1일 전화 불통. | 관리? KT가 다 해줌. 나는 장애 나면 전화해서 소리 지르면 됨. | 전산 인력이 없는 일반 회사가 PBX 사면 유지보수하다 피 토함. |
 | **융합 트렌드** | 낡아빠져서 단종(EoL) 테크 타는 중. | MS Teams, Zoom Phone 등 **화상 회의와 합체(UCaaS)하여 천하 통일 중.** | 쇳덩이 IP-PBX의 시대는 저물었다. 전부 월세(클라우드)로 넘어감. |
 
 ### 과목 융합 관점
 
-- **보안 공학 ([[535_system_in_package|SIP]] 톨 프라우드 Toll Fraud 폭파 척살)**: IP-PBX를 사내에 구축하면 가장 무서운 게 해킹이다. 구리선 PBX 시절엔 해커가 몰래 밤에 전봇대 구리선 피복을 까고 찝게를 물리지 않는 이상 도청이나 도둑 전화가 불가능했다(물리적 한계). 하지만 IP-PBX는 인터넷(IP)에 연결되어 있다. 러시아 해커가 밤새 [[446_port_and_bus|포트]] 스캐닝을 돌리다 우리 회사 PBX 서버([[406_udp_user_datagram_protocol_connectionless_fast|UDP]] 5060)를 발견한다. `admin / 1234` 로 비밀번호를 뚫고 쓱 들어온다. 그리고 아프리카 나이지리아의 프리미엄(1분에 1만 원) 국제전화 번호로 밤새 봇(Bot)을 돌려 1만 통의 전화를 쏴버린다(Toll Fraud). 다음 달 회사 통신 요금 청구서에 '1억 원'이 찍혀 회사가 파산한다. 아키텍트는 5060 [[446_port_and_bus|포트]]를 절대 외부망에 열면 안 되며, 무조건 **SBC([[160_session_controlling_terminal|Session]] Border Controller, [[535_system_in_package|SIP]] 전용 L7 [[690_firewall_generation_evolution|방화벽]])**를 앞단에 겹겹이 세우고 해외 IP(GeoIP) 대역 차단 룰셋을 하드코딩해 두어야 감방에 안 간다.
-- **네트워크 공학 (음성 [[388_qos_quality_of_service_best_effort_intserv_diffserv|QoS]] 트래픽 엔지니어링)**: 랜선 하나로 합치니 공사비는 아꼈는데 피 터지는 생존 경쟁이 열렸다. 랜선 안에서 "나 회사 유튜브 영상 볼래([[001_dikw_pyramid|데이터]])" 트래픽과 "나 사장님한테 보고 전화할래(음성 [[451_rtp_real_time_transport_protocol|RTP]])" 패킷이 같이 달리기 시작했다. 직원이 대용량 엑셀 [[501_file_definition_logical_record|파일]]을 다운받아 랜선 대역폭이 꽉 차면? 뒷줄에 서 있던 사장님의 음성 패킷([[451_rtp_real_time_transport_protocol|RTP]])이 막혀서 목소리가 1초씩 뚝뚝 끊기고 로봇 소리가 난다(지터 Jitter 붕괴). 네트워크 아키텍트는 [[238_switch_operation_principles|스위치]]와 라우터 장비 커널에 접속해서 무조건 **[[388_qos_quality_of_service_best_effort_intserv_diffserv|QoS]]([[388_qos_quality_of_service_best_effort_intserv_diffserv|Quality of Service]])** 정책을 깐다. "엑셀 [[001_dikw_pyramid|데이터]]([[405_tcp_transmission_control_protocol_connection_oriented|TCP]]) 패킷 100개가 밀려있어도 다 끄집어내리고, 무조건 보이스([[406_udp_user_datagram_protocol_connectionless_fast|UDP]] [[451_rtp_real_time_transport_protocol|RTP]]) 패킷한테 1순위 하이패스 새치기 전용 차선을 열어줘라(Strict Priority Queueing)!" 이 눈물겨운 트래픽 서열화(우대) 작업이 없으면 통신 융합은 재앙이 된다.
+- **보안 공학 ([SIP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/) 톨 프라우드 Toll Fraud 폭파 척살)**: IP-PBX를 사내에 구축하면 가장 무서운 게 해킹이다. 구리선 PBX 시절엔 해커가 몰래 밤에 전봇대 구리선 피복을 까고 찝게를 물리지 않는 이상 도청이나 도둑 전화가 불가능했다(물리적 한계). 하지만 IP-PBX는 인터넷(IP)에 연결되어 있다. 러시아 해커가 밤새 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 스캐닝을 돌리다 우리 회사 PBX 서버([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 5060)를 발견한다. `admin / 1234` 로 비밀번호를 뚫고 쓱 들어온다. 그리고 아프리카 나이지리아의 프리미엄(1분에 1만 원) 국제전화 번호로 밤새 봇(Bot)을 돌려 1만 통의 전화를 쏴버린다(Toll Fraud). 다음 달 회사 통신 요금 청구서에 '1억 원'이 찍혀 회사가 파산한다. 아키텍트는 5060 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 절대 외부망에 열면 안 되며, 무조건 **SBC([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) Border Controller, [SIP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/) 전용 L7 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))**를 앞단에 겹겹이 세우고 해외 IP(GeoIP) 대역 차단 룰셋을 하드코딩해 두어야 감방에 안 간다.
+- **네트워크 공학 (음성 [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 트래픽 엔지니어링)**: 랜선 하나로 합치니 공사비는 아꼈는데 피 터지는 생존 경쟁이 열렸다. 랜선 안에서 "나 회사 유튜브 영상 볼래([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))" 트래픽과 "나 사장님한테 보고 전화할래(음성 [RTP](/knowledge-base/studynote/03_network/08_transport_layer/451_rtp_real_time_transport_protocol/))" 패킷이 같이 달리기 시작했다. 직원이 대용량 엑셀 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 다운받아 랜선 대역폭이 꽉 차면? 뒷줄에 서 있던 사장님의 음성 패킷([RTP](/knowledge-base/studynote/03_network/08_transport_layer/451_rtp_real_time_transport_protocol/))이 막혀서 목소리가 1초씩 뚝뚝 끊기고 로봇 소리가 난다(지터 Jitter 붕괴). 네트워크 아키텍트는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 라우터 장비 커널에 접속해서 무조건 **[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)([Quality of Service](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/))** 정책을 깐다. "엑셀 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)) 패킷 100개가 밀려있어도 다 끄집어내리고, 무조건 보이스([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) [RTP](/knowledge-base/studynote/03_network/08_transport_layer/451_rtp_real_time_transport_protocol/)) 패킷한테 1순위 하이패스 새치기 전용 차선을 열어줘라(Strict Priority Queueing)!" 이 눈물겨운 트래픽 서열화(우대) 작업이 없으면 통신 융합은 재앙이 된다.
 
-- **📢 섹션 요약 비유**: 전화선과 인터넷 선을 1개로 합친 것(통합 랜선)은 엄청 편하지만, 마치 **'왕복 2차선 시골길'에 승용차(인터넷 [[501_file_definition_logical_record|파일]])와 구급차(음성 전화)를 다 같이 몰아넣은 꼴**입니다. [[501_file_definition_logical_record|파일]] 다운로드가 많아 길이 꽉 막히면 구급차가 못 가서 환자(목소리)가 죽죠(통화 끊김). 그래서 네트워크 [[238_switch_operation_principles|스위치]] 경찰관이 **[[388_qos_quality_of_service_best_effort_intserv_diffserv|QoS]]**라는 마법의 경광봉을 들고, "야 [[501_file_definition_logical_record|파일]] 다운로드 차들 다 옆으로 비켜!! 목소리 구급차 1순위로 통과해!!"라며 강제로 VIP 모세의 기적 길을 뚫어주는 극단적인 차별 튜닝을 해야만 통화 품질이 살아납니다.
+- **📢 섹션 요약 비유**: 전화선과 인터넷 선을 1개로 합친 것(통합 랜선)은 엄청 편하지만, 마치 **'왕복 2차선 시골길'에 승용차(인터넷 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))와 구급차(음성 전화)를 다 같이 몰아넣은 꼴**입니다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 다운로드가 많아 길이 꽉 막히면 구급차가 못 가서 환자(목소리)가 죽죠(통화 끊김). 그래서 네트워크 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 경찰관이 **[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)**라는 마법의 경광봉을 들고, "야 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 다운로드 차들 다 옆으로 비켜!! 목소리 구급차 1순위로 통과해!!"라며 강제로 VIP 모세의 기적 길을 뚫어주는 극단적인 차별 튜닝을 해야만 통화 품질이 살아납니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-1. **시나리오 — 구형 PBX 노후화에 따른 IPT(IP Telephony) 빅뱅 마이그레이션**: 사옥 내선 전화를 20년 된 구형 시스코([[539_netflow_sflow_traffic_monitoring|Cisco]]) 하드웨어 교환기로 돌리고 있었다. 단종(EoL)으로 부품이 안 나와서 비가 오면 전화기가 꺼진다. 사장이 "다음 주 주말 동안 구형 싹 다 버리고 신형 IP-PBX로 100% 교체해!" 지시했다.
-   - **판단**: 통신사/사내 IT팀 최악의 둠스데이, **번호 보존(Number Portability)과 무중단([[585_zero_skipping|Zero]] Downtime) 컷오버(Cut-over)** 시나리오다. 월요일 아침 9시에 1,000명의 직원이 출근해서 전화를 들었을 때 신호가 안 가면 IT팀은 사표를 써야 한다. 금요일 밤 12시, 외부에서 들어오는 KT 국선 케이블을 구형 쇳덩이에서 뽑아 신형 **Voice Gateway (보이스 게이트웨이)**에 꽂는 컷오버를 친다. 그리고 책상의 낡은 아날로그 전화기 1,000대를 밤새 뛰어다니며 싹 다 폐기하고 새 IP 폰으로 교체한 뒤 랜선을 꽂는다. 토요일 오전 10시부터 1,000대 전화기 전체에 핑(Ping)을 날리고, 임원실 내선(101번 등)이 다이얼 플랜(Dial Plan)에 맞게 [[339_routing_overview_best_path_selection|라우팅]]되는지 밤을 꼬박 새우며 모의 통화 테스트 스크립트를 수만 번 돌려 100% 정합성을 확인해야 하는 뼈를 깎는 인프라 빅뱅 수술이다.
+1. **시나리오 — 구형 PBX 노후화에 따른 IPT(IP Telephony) 빅뱅 마이그레이션**: 사옥 내선 전화를 20년 된 구형 시스코([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/)) 하드웨어 교환기로 돌리고 있었다. 단종(EoL)으로 부품이 안 나와서 비가 오면 전화기가 꺼진다. 사장이 "다음 주 주말 동안 구형 싹 다 버리고 신형 IP-PBX로 100% 교체해!" 지시했다.
+   - **판단**: 통신사/사내 IT팀 최악의 둠스데이, **번호 보존(Number Portability)과 무중단([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Downtime) 컷오버(Cut-over)** 시나리오다. 월요일 아침 9시에 1,000명의 직원이 출근해서 전화를 들었을 때 신호가 안 가면 IT팀은 사표를 써야 한다. 금요일 밤 12시, 외부에서 들어오는 KT 국선 케이블을 구형 쇳덩이에서 뽑아 신형 **Voice Gateway (보이스 게이트웨이)**에 꽂는 컷오버를 친다. 그리고 책상의 낡은 아날로그 전화기 1,000대를 밤새 뛰어다니며 싹 다 폐기하고 새 IP 폰으로 교체한 뒤 랜선을 꽂는다. 토요일 오전 10시부터 1,000대 전화기 전체에 핑(Ping)을 날리고, 임원실 내선(101번 등)이 다이얼 플랜(Dial Plan)에 맞게 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)되는지 밤을 꼬박 새우며 모의 통화 테스트 스크립트를 수만 번 돌려 100% 정합성을 확인해야 하는 뼈를 깎는 인프라 빅뱅 수술이다.
 
 2. **시나리오 — 클라우드 UCaaS(통합 커뮤니케이션)의 콜센터(CCaaS) 포식**: 쇼핑몰이 100석 규모의 콜센터를 차리려고 IP-PBX 견적을 받았다. 서버, CTI(컴퓨터 전화 통합), 녹취 서버(Voice Recording), ARS(자동응답) 장비를 따로따로 다 사서 이어 붙이려니 견적이 5억이 나왔다.
-   - **판단**: 쇳덩이 모놀리식 IP-PBX를 구축하는 시대 착오적 오판이다. 실무 아키텍트는 5억 견적서를 찢어버리고, **아마존 커넥트(Amazon Connect)**나 제네시스(Genesys) 같은 **CCaaS(클라우드 콜센터 [[309_saas|SaaS]])**로 즉시 턴어라운드해야 한다. [[459_quic_fec_forward_error_correction|초기]] 쇳덩이 구매 비용 0원. 브라우저 클릭 몇 번으로 "안녕하세요, 1번 누르면 환불, 2번 누르면 상담원" 이라는 ARS 다이얼 흐름도([[189_subroutine_call_return|Call]] Flow)를 마우스로 예쁘게 그려서([[163_bpmn_business_process_modeling_notation|BPMN]] 융합) 클라우드에 배포(Deploy)해 버린다. 상담원 책상엔 10만 원짜리 IP 전화기조차 살 필요 없이 0원짜리 크롬 브라우저와 헤드셋만 던져주면(Softphone), 백엔드 클라우드 렌더링 서버가 콜 [[339_routing_overview_best_path_selection|라우팅]], 녹음, [[190_ai_llm_requirements_specification|AI]] 음성 인식 요약([[819_stt_stateless_transport_tunneling_offload|STT]])까지 월 5만 원 구독료에 다 해치워 버리는 파괴적 프론트엔드-콜센터 융합을 이룩한다.
+   - **판단**: 쇳덩이 모놀리식 IP-PBX를 구축하는 시대 착오적 오판이다. 실무 아키텍트는 5억 견적서를 찢어버리고, **아마존 커넥트(Amazon Connect)**나 제네시스(Genesys) 같은 **CCaaS(클라우드 콜센터 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/))**로 즉시 턴어라운드해야 한다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 쇳덩이 구매 비용 0원. 브라우저 클릭 몇 번으로 "안녕하세요, 1번 누르면 환불, 2번 누르면 상담원" 이라는 ARS 다이얼 흐름도([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) Flow)를 마우스로 예쁘게 그려서([BPMN](/knowledge-base/studynote/04_software_engineering/03_design_architecture/163_bpmn_business_process_modeling_notation/) 융합) 클라우드에 배포(Deploy)해 버린다. 상담원 책상엔 10만 원짜리 IP 전화기조차 살 필요 없이 0원짜리 크롬 브라우저와 헤드셋만 던져주면(Softphone), 백엔드 클라우드 렌더링 서버가 콜 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 녹음, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 음성 인식 요약([STT](/knowledge-base/studynote/03_network/16_data_center_cloud/819_stt_stateless_transport_tunneling_offload/))까지 월 5만 원 구독료에 다 해치워 버리는 파괴적 프론트엔드-콜센터 융합을 이룩한다.
 
 ```text
   ┌─────────────────────────────────────────────────────────────┐
@@ -147,16 +151,16 @@ IP-PBX가 가져온 가장 파괴적인 비즈니스 모델 혁신이다.
 └─────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** "전화 교환기(IP-PBX)를 중앙에 1대만 두면 본사 죽으면 전 세계 지사 전화 다 끊기는 거 아닌가요?"라는 임원의 합리적 의심을 무마시키는 시스코([[539_netflow_sflow_traffic_monitoring|Cisco]])의 궁극적 무기 **SRST (생존 가능한 원격지 통신)** 아키텍처다. 평소엔 바보 깡통([[238_switch_operation_principles|스위치]])처럼 웅크리고 있다가 중앙 서버와의 탯줄(Heartbeat)이 끊어지는 그 찰나의 순간, 깡통 [[238_switch_operation_principles|스위치]]가 임시로 DHCP를 뿌리고 임시 번호 장부(Dial Plan)를 가동하는 통제관으로 1초 만에 각성(Take-over)한다. 비록 복잡한 착신 전환 같은 고급 기능은 안 되지만, 최소한 옆자리 김 과장한테 101번 내선으로 전화를 거는 '최후의 호흡기'를 유지해 주는 극한의 [[136_variance|분산]] 재난 [[658_ir_recovery|복구]]([[360_ospf_dr_bdr_designated_router_lsa_flooding|DR]]) 융합 망이다.
+**[다이어그램 해설]** "전화 교환기(IP-PBX)를 중앙에 1대만 두면 본사 죽으면 전 세계 지사 전화 다 끊기는 거 아닌가요?"라는 임원의 합리적 의심을 무마시키는 시스코([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/))의 궁극적 무기 **SRST (생존 가능한 원격지 통신)** 아키텍처다. 평소엔 바보 깡통([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))처럼 웅크리고 있다가 중앙 서버와의 탯줄(Heartbeat)이 끊어지는 그 찰나의 순간, 깡통 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 임시로 DHCP를 뿌리고 임시 번호 장부(Dial Plan)를 가동하는 통제관으로 1초 만에 각성(Take-over)한다. 비록 복잡한 착신 전환 같은 고급 기능은 안 되지만, 최소한 옆자리 김 과장한테 101번 내선으로 전화를 거는 '최후의 호흡기'를 유지해 주는 극한의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 재난 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)([DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/)) 융합 망이다.
 
-### 도입 [[435_checklist_based_testing|체크리스트]]
-- **기술적**: 사내 메신저(슬랙, 팀즈), 그룹웨어(결재), IP-PBX(전화)를 서로 다 다른 회사 제품으로 사서 [[002_silo_hyeonhyung|사일로]]([[002_silo_hyeonhyung|Silo]])로 찢어놓고 직원을 고문하고 있는가? 모던 엔터프라이즈 통신의 완성은 **[[087_underpinning_contract|UC]](Unified Communication, 통합 커뮤니케이션)**다. 사내 메신저에서 김 과장 이름 옆에 마우스를 올렸을 때 '빨간색(현재 다른 사람과 통화 중)'이라는 프레즌스(Presence) 상태가 실시간 동기화로 떠야 하고, 그 버튼을 클릭하면 내 PC에서 바로 101번 내선 전화([[535_system_in_package|SIP]])가 연결되어야 한다. [[001_dikw_pyramid|데이터]]망(메신저)과 음성망(PBX)을 CTI(Computer Telephony Integration) 미들웨어로 강제 융합 접착시키는 마스터플랜 없이 개별 쇳덩이만 사들여서는 안 된다.
-- **운영·보안적**: 사내 와이파이(Wi-Fi) 망에 스마트폰(소프트폰 앱)을 붙여서 폰 1개로 개인 전화와 회사 내선(FMC)을 다 쓰는 건 훌륭하다. 하지만 와이파이 망의 패스워드 체계가 WPA2-Personal (비번 하나로 온 직원이 공유) 수준으로 허접하다면? 퇴사한 직원이 건물 밖 주차장에서 기존 와이파이 비번으로 붙은 뒤, 회사 소프트폰 앱을 켜서 회사 공짜 국제 전화로 중국에 100만 원어치 전화를 걸고 튀는 (Rogue Access) 사태가 터진다. FMC 융합망을 열 때는 무조건 사내 와이파이를 **802.[[584_802_1x_pnac_eap_radius|1x]] [[303_authentication_authorization_patterns|인증]] ([[541_radius_remote_authentication_aaa|RADIUS]] 서버 기반, 직원 1명당 고유 ID/PW [[303_authentication_authorization_patterns|인증]])** 엔터프라이즈 보안 등급으로 철통같이 올려치고, 퇴사 즉시 AD([[483_active_vs_passive_ftp|액티브]] 디렉토리)에서 계정을 죽여 와이파이와 PBX [[339_routing_overview_best_path_selection|라우팅]] 권한을 동시에 폭파시켜버리는 통합 계정 관리망을 짜둬야 한다.
+### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+- **기술적**: 사내 메신저(슬랙, 팀즈), 그룹웨어(결재), IP-PBX(전화)를 서로 다 다른 회사 제품으로 사서 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/))로 찢어놓고 직원을 고문하고 있는가? 모던 엔터프라이즈 통신의 완성은 **[UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/)(Unified Communication, 통합 커뮤니케이션)**다. 사내 메신저에서 김 과장 이름 옆에 마우스를 올렸을 때 '빨간색(현재 다른 사람과 통화 중)'이라는 프레즌스(Presence) 상태가 실시간 동기화로 떠야 하고, 그 버튼을 클릭하면 내 PC에서 바로 101번 내선 전화([SIP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/))가 연결되어야 한다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)망(메신저)과 음성망(PBX)을 CTI(Computer Telephony Integration) 미들웨어로 강제 융합 접착시키는 마스터플랜 없이 개별 쇳덩이만 사들여서는 안 된다.
+- **운영·보안적**: 사내 와이파이(Wi-Fi) 망에 스마트폰(소프트폰 앱)을 붙여서 폰 1개로 개인 전화와 회사 내선(FMC)을 다 쓰는 건 훌륭하다. 하지만 와이파이 망의 패스워드 체계가 WPA2-Personal (비번 하나로 온 직원이 공유) 수준으로 허접하다면? 퇴사한 직원이 건물 밖 주차장에서 기존 와이파이 비번으로 붙은 뒤, 회사 소프트폰 앱을 켜서 회사 공짜 국제 전화로 중국에 100만 원어치 전화를 걸고 튀는 (Rogue Access) 사태가 터진다. FMC 융합망을 열 때는 무조건 사내 와이파이를 **802.[1x](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) ([RADIUS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/) 서버 기반, 직원 1명당 고유 ID/PW [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))** 엔터프라이즈 보안 등급으로 철통같이 올려치고, 퇴사 즉시 AD([액티브](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 디렉토리)에서 계정을 죽여 와이파이와 PBX [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 권한을 동시에 폭파시켜버리는 통합 계정 관리망을 짜둬야 한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
-- **구형 아날로그 팩스(Fax)와 [[146_modem_modulator_demodulator|모뎀]] 장비의 무리한 IP 융합 떡칠**: 사내 통신망을 IP-PBX로 100% [[055_digital_transformation|디지털 전환]](All-IP)했다고 뿌듯해하던 아키텍트의 뒤통수를 치는 존재가 바로 '사장님 방의 낡은 아날로그 팩스기'다. 팩스가 쏘는 아날로그 소리 신호는 너무나 미세해서, IP 패킷(VoIP 코덱)으로 잘게 쪼개서 인터넷으로 던지는 순간([[347_compaction|압축]] 손실) 팩스 [[001_dikw_pyramid|데이터]]가 깨져서 종이 절반이 까맣게 인쇄되는 에러의 늪(Fax over IP의 지옥)에 빠진다. **"아날로그의 극치인 팩스와 결제 단말기(카드기)는 억지로 VoIP(T.38 [[295_protocol_field_tcp_udp_icmp|프로토콜]])로 디지털 변환하려다 암에 걸리지 마라. 그냥 걔네 전용으로 KT 아날로그 구리선(PSTN) 1가닥을 따로 빼서 다이렉트로 꼽아두고 우회시키는 게 100배 싸고 안전하다"**는 피 튀기는 현장 튜닝의 진리가 있다. 모든 것을 디지털(IP)로 통합하겠다는 오만함이 오히려 시스템 안정성을 찢어버리는 [[128_water_scrum_fall_anti_pattern|안티패턴]]이다.
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- **구형 아날로그 팩스(Fax)와 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) 장비의 무리한 IP 융합 떡칠**: 사내 통신망을 IP-PBX로 100% [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)(All-IP)했다고 뿌듯해하던 아키텍트의 뒤통수를 치는 존재가 바로 '사장님 방의 낡은 아날로그 팩스기'다. 팩스가 쏘는 아날로그 소리 신호는 너무나 미세해서, IP 패킷(VoIP 코덱)으로 잘게 쪼개서 인터넷으로 던지는 순간([압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 손실) 팩스 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 깨져서 종이 절반이 까맣게 인쇄되는 에러의 늪(Fax over IP의 지옥)에 빠진다. **"아날로그의 극치인 팩스와 결제 단말기(카드기)는 억지로 VoIP(T.38 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))로 디지털 변환하려다 암에 걸리지 마라. 그냥 걔네 전용으로 KT 아날로그 구리선(PSTN) 1가닥을 따로 빼서 다이렉트로 꼽아두고 우회시키는 게 100배 싸고 안전하다"**는 피 튀기는 현장 튜닝의 진리가 있다. 모든 것을 디지털(IP)로 통합하겠다는 오만함이 오히려 시스템 안정성을 찢어버리는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다.
 
-- **📢 섹션 요약 비유**: 사내 모든 통신을 최신 IP(인터넷)망으로 100% 통일(All-IP)하는 건 마치 서울 시내의 모든 흙길을 밀어버리고 **'최첨단 고속도로'**로 쫙 까는 겁니다. 스포츠카(스마트폰), [[344_bus|버스]](화상회의)는 미친 듯이 달리기 좋죠. 그런데 시골 할아버지의 **'손수레(아날로그 팩스기)'**는 고속도로에 올라가면 속도도 안 맞고 덜덜거리다 타이어가 빠집니다. 천재 아키텍트는 억지로 손수레를 고속도로(IP망)에 밀어 넣지 않고, 고속도로 옆에 자그마한 흙길(아날로그 [[266_leased_line_basics_e1_t1_t3|전용선]])을 살포시 남겨두는 현실 타협의 지혜를 발휘합니다.
+- **📢 섹션 요약 비유**: 사내 모든 통신을 최신 IP(인터넷)망으로 100% 통일(All-IP)하는 건 마치 서울 시내의 모든 흙길을 밀어버리고 **'최첨단 고속도로'**로 쫙 까는 겁니다. 스포츠카(스마트폰), [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)(화상회의)는 미친 듯이 달리기 좋죠. 그런데 시골 할아버지의 **'손수레(아날로그 팩스기)'**는 고속도로에 올라가면 속도도 안 맞고 덜덜거리다 타이어가 빠집니다. 천재 아키텍트는 억지로 손수레를 고속도로(IP망)에 밀어 넣지 않고, 고속도로 옆에 자그마한 흙길(아날로그 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/))을 살포시 남겨두는 현실 타협의 지혜를 발휘합니다.
 
 ---
 
@@ -164,19 +168,19 @@ IP-PBX가 가져온 가장 파괴적인 비즈니스 모델 혁신이다.
 
 | 구분 | 레거시 PBX 및 KTS (아날로그 키폰) | IP-PBX 및 FMC 융합 스마트 워크망 | 개선 효과 |
 |:---|:---|:---|:---|
-| **정량** | 서울 ➔ 부산 지사 통화 시 시외/국제 요금 부과 | 지사 간 [[983_vpn_virtual_private_network|VPN]](인터넷) 터널로 묶어 사내 내선(무료)화 | 기업의 **월간 글로벌 통신 요금 80% 이상 극한의 절감** |
-| **정량** | 책상마다 랜선 1가닥 + 구리 전화선 1가닥 포설 | 책상에 랜선([[124_unshielded_twisted_pair|UTP]]) 단 1가닥만 포설 ([[265_poe_power_over_ethernet|PoE]] 전원 공급) | 사옥 이전/자리 재배치 시 **배선 공사 및 M/M 비용 50% 반토막** |
+| **정량** | 서울 ➔ 부산 지사 통화 시 시외/국제 요금 부과 | 지사 간 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/)(인터넷) 터널로 묶어 사내 내선(무료)화 | 기업의 **월간 글로벌 통신 요금 80% 이상 극한의 절감** |
+| **정량** | 책상마다 랜선 1가닥 + 구리 전화선 1가닥 포설 | 책상에 랜선([UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/)) 단 1가닥만 포설 ([PoE](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/265_poe_power_over_ethernet/) 전원 공급) | 사옥 이전/자리 재배치 시 **배선 공사 및 M/M 비용 50% 반토막** |
 | **정성** | "김 대리 외근 갔어요. 010 번호로 다시 걸어보세요." | 고객이 회사 번호로 걸어도 밖의 김 대리 스마트폰이 울림 | 고객 응대(CS)의 **원콜 해결률(FCR) 수직 상승 및 완벽한 FMC 기동성 확보** |
 
 ### 미래 전망
-- **IP-PBX의 관 뚜껑, MS Teams와 클라우드(UCaaS)의 천하 통일**: 서버실에 까만색 쇳덩이 IP-PBX 라우터를 1억 주고 랙(Rack)에 나사로 조이던 시대는 사망했다. 세상의 모든 기업 통신 뼈대는 **마이크로소프트 팀즈(MS Teams)**나 **슬랙(Slack)** 같은 순수 클라우드 웹 기반의 UCaaS(통합 커뮤니케이션 [[090_service_kubernetes_network_load_balancing|서비스]])로 100% 흡수 합병당하고 있다. 예전엔 "팀즈는 채팅방, 전화는 시스코 전화기" 였지만, 지금은 MS 팀즈 뒤통수에 직접 통신사 KT/SKT 국선을 [[535_system_in_package|SIP]] 트렁크([[176_direct_addressing|Direct]] [[339_routing_overview_best_path_selection|Routing]])로 다이렉트로 꽂아버린다. 전 세계 1만 명의 직원은 책상 위 플라스틱 전화기를 몽땅 쓰레기통에 버리고, 그냥 노트북 팀즈 화면에서 다이얼 패드를 마우스로 딸깍 눌러서 02-123-4567 전화를 걸고 받는, 거대한 '쇳덩이의 멸종과 소프트웨어화' 대관식이 이미 끝났다.
-- **[[190_ai_llm_requirements_specification|AI]] 비서 (Copilot) 의 통화 [[339_routing_overview_best_path_selection|라우팅]] 난입**: 예전 IP-PBX의 최고급 기능이라 봤자 "근무 시간이 지났습니다. 삐 소리 후 음성을 남겨주세요(Voicemail)" 수준의 멍청한 자동응답(IVR)이었다. 이제는 챗GPT([[263_llm_large_language_model|LLM]])가 융합된 [[190_ai_llm_requirements_specification|AI]] 에이전트 비서가 회사 대표번호 PBX 중앙에 앉는다. 고객이 "아니 그저께 샀던 에어컨 물 빠져요!"라고 말하면, AI가 목소리를 1초 만에 텍스트로 쪼개고([[819_stt_stateless_transport_tunneling_offload|STT]]), 감정 분석을 쳐서 분노 지수 99%를 확인한 뒤, 이 빡친 전화를 초보 신입 사원 1번 내선이 아니라 가장 말솜씨가 좋은 최고참 77번 팀장의 내선([[535_system_in_package|SIP]]) 번호로 강제 스위칭(Skill-based [[339_routing_overview_best_path_selection|Routing]])시켜 꽂아주는, 무시무시한 초지능형 감정 라우터(Intelligent [[339_routing_overview_best_path_selection|Routing]])의 융합 엔진으로 진화 중이다.
+- **IP-PBX의 관 뚜껑, MS Teams와 클라우드(UCaaS)의 천하 통일**: 서버실에 까만색 쇳덩이 IP-PBX 라우터를 1억 주고 랙(Rack)에 나사로 조이던 시대는 사망했다. 세상의 모든 기업 통신 뼈대는 **마이크로소프트 팀즈(MS Teams)**나 **슬랙(Slack)** 같은 순수 클라우드 웹 기반의 UCaaS(통합 커뮤니케이션 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))로 100% 흡수 합병당하고 있다. 예전엔 "팀즈는 채팅방, 전화는 시스코 전화기" 였지만, 지금은 MS 팀즈 뒤통수에 직접 통신사 KT/SKT 국선을 [SIP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/) 트렁크([Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) [Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))로 다이렉트로 꽂아버린다. 전 세계 1만 명의 직원은 책상 위 플라스틱 전화기를 몽땅 쓰레기통에 버리고, 그냥 노트북 팀즈 화면에서 다이얼 패드를 마우스로 딸깍 눌러서 02-123-4567 전화를 걸고 받는, 거대한 '쇳덩이의 멸종과 소프트웨어화' 대관식이 이미 끝났다.
+- **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 비서 (Copilot) 의 통화 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 난입**: 예전 IP-PBX의 최고급 기능이라 봤자 "근무 시간이 지났습니다. 삐 소리 후 음성을 남겨주세요(Voicemail)" 수준의 멍청한 자동응답(IVR)이었다. 이제는 챗GPT([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))가 융합된 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 에이전트 비서가 회사 대표번호 PBX 중앙에 앉는다. 고객이 "아니 그저께 샀던 에어컨 물 빠져요!"라고 말하면, AI가 목소리를 1초 만에 텍스트로 쪼개고([STT](/knowledge-base/studynote/03_network/16_data_center_cloud/819_stt_stateless_transport_tunneling_offload/)), 감정 분석을 쳐서 분노 지수 99%를 확인한 뒤, 이 빡친 전화를 초보 신입 사원 1번 내선이 아니라 가장 말솜씨가 좋은 최고참 77번 팀장의 내선([SIP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/)) 번호로 강제 스위칭(Skill-based [Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))시켜 꽂아주는, 무시무시한 초지능형 감정 라우터(Intelligent [Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))의 융합 엔진으로 진화 중이다.
 
 ### 참고 표준
-- **[[535_system_in_package|SIP]] ([[501_sip_session_initiation_protocol_voip|Session Initiation Protocol]])**: IP-PBX가 전 세계 단말기들을 하나로 묶을 수 있었던 절대적인 통신 헌법. 과거 어바이어(Avaya) 전용 전화기만 꽂아야 했던 폐쇄적인 교환기 시장을 찢어버리고, 다이소에서 산 3만 원짜리 싸구려 중국산 IP 폰도 [[535_system_in_package|SIP]] 표준만 지키면 시스코([[539_netflow_sflow_traffic_monitoring|Cisco]]) 교환기에 찰떡같이 묶이게 만든 개방형 생태계의 1등 공신.
-- **G.711 / G.729 (음성 코덱)**: 우리의 아날로그 목소리를 IP 패킷(숫자)으로 자르고 [[347_compaction|압축]]할 때 쓰는 도마. 회사 인터넷이 널널하면 음질이 짱짱한 G.711(64kbps) 무손실을 쓰고, 회사 인터넷이 막혀서 목소리가 끊기면 음질을 라디오 수준으로 뭉개버리는 대신 크기를 8분의 1로 [[347_compaction|압축]]하는 G.729(8kbps)로 깎아버리는 숨 막히는 네트워크 품질([[388_qos_quality_of_service_best_effort_intserv_diffserv|QoS]]) 저울질의 잣대.
+- **[SIP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/) ([Session Initiation Protocol](/knowledge-base/studynote/03_network/09_application_layer_web_email/501_sip_session_initiation_protocol_voip/))**: IP-PBX가 전 세계 단말기들을 하나로 묶을 수 있었던 절대적인 통신 헌법. 과거 어바이어(Avaya) 전용 전화기만 꽂아야 했던 폐쇄적인 교환기 시장을 찢어버리고, 다이소에서 산 3만 원짜리 싸구려 중국산 IP 폰도 [SIP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/) 표준만 지키면 시스코([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/)) 교환기에 찰떡같이 묶이게 만든 개방형 생태계의 1등 공신.
+- **G.711 / G.729 (음성 코덱)**: 우리의 아날로그 목소리를 IP 패킷(숫자)으로 자르고 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)할 때 쓰는 도마. 회사 인터넷이 널널하면 음질이 짱짱한 G.711(64kbps) 무손실을 쓰고, 회사 인터넷이 막혀서 목소리가 끊기면 음질을 라디오 수준으로 뭉개버리는 대신 크기를 8분의 1로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하는 G.729(8kbps)로 깎아버리는 숨 막히는 네트워크 품질([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)) 저울질의 잣대.
 
-"구리선을 찢어버리고 0과 1의 인터넷 망 위로 올라탄 음성은 더 이상 공간(책상)에 얽매이지 않는 투명한 영혼이 되었다." 과거 100년 동안 전화기(PBX)는 묵직한 플라스틱 껍데기와 그 껍데기를 벽에 묶어두는 굵은 구리선으로 인간의 근무지를 통제했다. IP-PBX의 등장은 단순한 장비 교체가 아니었다. 목소리라는 아날로그 파동을 [[001_dikw_pyramid|데이터]] 패킷(IP)으로 완전히 분해하여 사내 인트라넷 이더넷의 핏줄 속에 섞어버린 연금술이었다. 이 극단적인 매체의 통일(Convergence) 덕분에, 회사의 통신은 더 이상 전산실 바닥의 거미줄 같은 랜선 공사가 아니라 소프트웨어 마우스 클릭 한 번으로 수만 마일 밖의 지사를 하나의 사무실처럼 엮어버리는([[339_routing_overview_best_path_selection|Routing]]) 거대한 가상의 생태계로 진화했다. 010 주머니 폰과 02 책상 전화를 하나(FMC)로 녹여버린 이 사내 통신의 혁명은, 공간의 제약을 완벽히 부수고 인간을 어디서든 연결되게 만든 진정한 스마트 워크([[078_smart_work_mobile_office|Smart Work]]) 클라우드 융합의 가장 위대하고도 성공적인 마중물이다.
+"구리선을 찢어버리고 0과 1의 인터넷 망 위로 올라탄 음성은 더 이상 공간(책상)에 얽매이지 않는 투명한 영혼이 되었다." 과거 100년 동안 전화기(PBX)는 묵직한 플라스틱 껍데기와 그 껍데기를 벽에 묶어두는 굵은 구리선으로 인간의 근무지를 통제했다. IP-PBX의 등장은 단순한 장비 교체가 아니었다. 목소리라는 아날로그 파동을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패킷(IP)으로 완전히 분해하여 사내 인트라넷 이더넷의 핏줄 속에 섞어버린 연금술이었다. 이 극단적인 매체의 통일(Convergence) 덕분에, 회사의 통신은 더 이상 전산실 바닥의 거미줄 같은 랜선 공사가 아니라 소프트웨어 마우스 클릭 한 번으로 수만 마일 밖의 지사를 하나의 사무실처럼 엮어버리는([Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)) 거대한 가상의 생태계로 진화했다. 010 주머니 폰과 02 책상 전화를 하나(FMC)로 녹여버린 이 사내 통신의 혁명은, 공간의 제약을 완벽히 부수고 인간을 어디서든 연결되게 만든 진정한 스마트 워크([Smart Work](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/078_smart_work_mobile_office/)) 클라우드 융합의 가장 위대하고도 성공적인 마중물이다.
 
 - **📢 섹션 요약 비유**: 구형 전화 시스템(Legacy PBX)은 집마다 무조건 **'유선 전화기'**를 놔두고 그 줄이 닿는 반경 1미터 안에서만 전화를 받아야 하는 목줄입니다. **IP-PBX**는 내 회사 번호(02-1234)를 내 몸에 심어놓은 **'투명한 영혼의 바코드'**로 만들어버린 겁니다. 내가 노트북을 열든, 밖에서 폰(소프트폰)을 켜든, 제주도 피시방을 가든, 내 바코드로 로그인만 하면 전 세계 50억 개 랜선망이 눈치껏 나를 찾아내어 사장님 전화를 내 귀에 다이렉트로 꽂아주는 마법의 공간 텔레포트 통신망입니다.
 
@@ -187,9 +191,9 @@ IP-PBX가 가져온 가장 파괴적인 비즈니스 모델 혁신이다.
 | 개념 | 연결 포인트 |
 |:---|:---|
 | H.323 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [[160_session_controlling_terminal|세션]] ([[160_session_controlling_terminal|Session]]) | 사용자 상태 유지와 요청 흐름을 묶는다. |
+| [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)) | 사용자 상태 유지와 요청 흐름을 묶는다. |
 | 캐시 (Cache) | 응답 속도와 백엔드 부하에 직접 영향을 준다. |
-| IPTV [[298_ip_classes_a_b_c_d_multicast_e_experimental|멀티캐스트]] 전송 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| IPTV [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 전송 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -203,12 +207,12 @@ IP-PBX가 가져온 가장 파괴적인 비즈니스 모델 혁신이다.
     └──▶ [확장 B: 지능형 애플리케이션 전달]
 ```
 
-IP PBX는 H.323에서 출발해 현재 메커니즘을 정교화하고, 이후 IPTV [[298_ip_classes_a_b_c_d_multicast_e_experimental|멀티캐스트]] 전송와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+IP PBX는 H.323에서 출발해 현재 메커니즘을 정교화하고, 이후 IPTV [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 전송와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 옛날엔 아빠 회사 책상 밑에 **'인터넷 컴퓨터 줄(랜선)'**이랑 **'전화기 줄(구리선)'** 두 개가 더럽게 꼬여 있어서 청소하기도 힘들고 공사비도 엄청 비쌌어요.
-2. **IP-PBX(인터넷 사내 교환기)**라는 똑똑한 기계가 오면서, 낡은 전화선은 싹 다 가위로 잘라 버리고 **크고 튼튼한 인터넷 줄 딱 1개** 안에 컴퓨터 [[001_dikw_pyramid|데이터]]랑 아빠 목소리를 같이 예쁘게 담아서 슝~ 보내게 묶어버렸어요!
+2. **IP-PBX(인터넷 사내 교환기)**라는 똑똑한 기계가 오면서, 낡은 전화선은 싹 다 가위로 잘라 버리고 **크고 튼튼한 인터넷 줄 딱 1개** 안에 컴퓨터 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)랑 아빠 목소리를 같이 예쁘게 담아서 슝~ 보내게 묶어버렸어요!
 3. 더 엄청난 건, 아빠가 밖에서 개인 핸드폰(앱)을 켜면 인터넷을 타고 그게 회사 전화기처럼 변신해서, 미국 출장을 가도 공짜로 옆방 삼촌이랑 맑은 목소리로 통화할 수 있게 해주는 마법의 통신 대장이랍니다!
 
 ---
@@ -217,7 +221,7 @@ IP PBX는 H.323에서 출발해 현재 메커니즘을 정교화하고, 이후 I
 
 **진행 상황**: 624 / 1120
 
-← **이전**: [[502_h323_itu_t_multimedia_conferencing|502. H.323]]
-**다음**: [[504_iptv_multicast_igmp_pim|504. IPTV 멀티캐스트 (IGMP, PIM) 전송]] →
+← **이전**: [502. H.323](/knowledge-base/studynote/03_network/09_application_layer_web_email/502_h323_itu_t_multimedia_conferencing/)
+**다음**: [504. IPTV 멀티캐스트 (IGMP, PIM) 전송](/knowledge-base/studynote/03_network/09_application_layer_web_email/504_iptv_multicast_igmp_pim/) →
 
 ---

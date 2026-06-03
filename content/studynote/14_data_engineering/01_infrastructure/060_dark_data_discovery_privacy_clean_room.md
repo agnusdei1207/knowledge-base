@@ -1,23 +1,27 @@
----
-title: 60. 다크 데이터 (Dark Data) 발굴 및 프라이버시 클린 룸 (Privacy Clean Room)
-date: '2026-04-10'
-tags:
-- studynote-data-engineering
----
++++
+title = "60. 다크 데이터 (Dark Data) 발굴 및 프라이버시 클린 룸 (Privacy Clean Room)"
+date = 2026-04-10
+
+[taxonomies]
+tags = ["studynote-data-engineering"]
+
+[extra]
+tags = ["studynote-data-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[062_darkdata|Dark Data]]([[062_darkdata|다크 데이터]])는 쌓아 두기만 하고 쓰지 못하는 비정형 [[001_dikw_pyramid|데이터]]이며, 발견(Discovery)되지 않으면 비용만 늘어난다.
-> 2. **확장**: NLP (Natural Language Processing), OCR (Optical Character Recognition), [[819_stt_stateless_transport_tunneling_offload|STT]] (Speech-to-Text)로 메타데이터를 붙여 [[001_dikw_pyramid|데이터]] 카탈로그로 자산화한다.
-> 3. **[[571_protection_vs_security|보호]]**: [[400_privacy_clean_room_data_sharing|Privacy Clean Room]](프라이버시 클린 룸)은 원본을 노출하지 않고도 두 회사의 [[001_dikw_pyramid|데이터]]를 안전하게 결합하고 통계만 얻는 협업 방식이다.
+> 1. **본질**: [Dark Data](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/)([다크 데이터](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/))는 쌓아 두기만 하고 쓰지 못하는 비정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)이며, 발견(Discovery)되지 않으면 비용만 늘어난다.
+> 2. **확장**: NLP (Natural Language Processing), OCR (Optical Character Recognition), [STT](/knowledge-base/studynote/03_network/16_data_center_cloud/819_stt_stateless_transport_tunneling_offload/) (Speech-to-Text)로 메타데이터를 붙여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 카탈로그로 자산화한다.
+> 3. **[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)**: [Privacy Clean Room](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/400_privacy_clean_room_data_sharing/)(프라이버시 클린 룸)은 원본을 노출하지 않고도 두 회사의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 안전하게 결합하고 통계만 얻는 협업 방식이다.
 
 ---
 
-## Ⅰ. [[062_darkdata|다크 데이터]]의 공포와 발견
+## Ⅰ. [다크 데이터](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/)의 공포와 발견
 
-기업에는 [[568_logs_distributed_logging_elk_fluentd|로그]], 음성 녹취, 이미지, 클릭 기록처럼 쌓이기만 하고 검색도 안 되는 [[001_dikw_pyramid|데이터]]가 많다. 이런 [[001_dikw_pyramid|데이터]]는 보관 비용을 늘리지만, 적절히 발견하면 중요한 인사이트의 원천이 된다.
+기업에는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 음성 녹취, 이미지, 클릭 기록처럼 쌓이기만 하고 검색도 안 되는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 많다. 이런 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 보관 비용을 늘리지만, 적절히 발견하면 중요한 인사이트의 원천이 된다.
 
-발견(Discovery)의 핵심은 비정형 [[001_dikw_pyramid|데이터]]를 읽을 수 있는 형태로 바꾸는 것이다. 그때 메타데이터와 태그가 붙고, [[001_dikw_pyramid|데이터]] 카탈로그에 올라가 자산으로 바뀐다.
+발견(Discovery)의 핵심은 비정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽을 수 있는 형태로 바꾸는 것이다. 그때 메타데이터와 태그가 붙고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 카탈로그에 올라가 자산으로 바뀐다.
 
 - **📢 섹션 요약 비유**: 창고에 쌓인 상자를 하나씩 열어 보고, 쓸모 있는 물건에 라벨을 붙여 정리장으로 옮기는 일이다.
 
@@ -39,11 +43,11 @@ Data Catalog
 | :-- | :-- |
 | NLP (Natural Language Processing) | 텍스트/대화의 의미를 추출 |
 | OCR (Optical Character Recognition) | 이미지에서 글자를 읽음 |
-| [[819_stt_stateless_transport_tunneling_offload|STT]] (Speech-to-Text) | 음성을 텍스트로 변환 |
-| [[012_metadata|Metadata]] | 검색과 분류를 돕는 설명 정보 |
-| [[213_data_catalog_metadata|Data Catalog]] | 자산화된 [[001_dikw_pyramid|데이터]]를 찾고 관리하는 진열장 |
+| [STT](/knowledge-base/studynote/03_network/16_data_center_cloud/819_stt_stateless_transport_tunneling_offload/) (Speech-to-Text) | 음성을 텍스트로 변환 |
+| [Metadata](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) | 검색과 분류를 돕는 설명 정보 |
+| [Data Catalog](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) | 자산화된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 찾고 관리하는 진열장 |
 
-발견 단계에서 중요한 것은 "버리기"가 아니라 "분류하기"다. 규정 준수, [[606_auditing_linux_auditd|감사]]를 위해 남겨야 하는 [[001_dikw_pyramid|데이터]]도 많기 때문에, 무의미한 보관이 아니라 의미 있는 보관 구조로 전환해야 한다.
+발견 단계에서 중요한 것은 "버리기"가 아니라 "분류하기"다. 규정 준수, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)를 위해 남겨야 하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 많기 때문에, 무의미한 보관이 아니라 의미 있는 보관 구조로 전환해야 한다.
 
 - **📢 섹션 요약 비유**: 낡은 물건을 그냥 쌓아 두는 대신, 어디에 쓰는 물건인지 적어 두는 순간 창고가 보물창고로 바뀐다.
 
@@ -51,12 +55,12 @@ Data Catalog
 
 ## Ⅲ. 비교 및 연결
 
-| 구분 | 원본 공유 | [[400_privacy_clean_room_data_sharing|Privacy Clean Room]] |
+| 구분 | 원본 공유 | [Privacy Clean Room](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/400_privacy_clean_room_data_sharing/) |
 | :-- | :-- | :-- |
-| [[001_dikw_pyramid|데이터]] 노출 | 원본 행(row) 그대로 노출 | 원본 비노출 |
-| 결합 방식 | [[501_file_definition_logical_record|파일]] 전송, SQL 덤프 | [[164_policy|정책]] 기반 [[298_qkv_attention|쿼리]] |
+| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 노출 | 원본 행(row) 그대로 노출 | 원본 비노출 |
+| 결합 방식 | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전송, SQL 덤프 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) |
 | 결과 | 원하는 만큼 자세함 | 집계/통계 중심 |
-| [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] | [[781_personal_information|개인정보]] 유출 | threshold/[[164_policy|정책]]으로 통제 |
+| [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) | [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 유출 | threshold/[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 통제 |
 
 ```text
 A사 데이터 -- hash/token --\
@@ -64,7 +68,7 @@ A사 데이터 -- hash/token --\
 B사 데이터 -- hash/token --/
 ```
 
-클린 룸은 보통 Hashing, [[820_tokenization|Tokenization]], HE ([[1019_homomorphic_encryption|Homomorphic Encryption]]), MPC (Multi-Party Computation) 같은 기술을 조합해 원본을 숨긴다. [[298_qkv_attention|쿼리]]는 허용되지만, 결과는 작은 표본을 숨기고 집계만 내보내도록 설계한다.
+클린 룸은 보통 Hashing, [Tokenization](/knowledge-base/studynote/09_security/16_data_privacy/820_tokenization/), HE ([Homomorphic Encryption](/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/)), MPC (Multi-Party Computation) 같은 기술을 조합해 원본을 숨긴다. [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)는 허용되지만, 결과는 작은 표본을 숨기고 집계만 내보내도록 설계한다.
 
 - **📢 섹션 요약 비유**: 서로 열쇠를 바꾸지 않고도, 비밀 방 안에서 숫자만 세어 보는 안전한 공동 작업실이다.
 
@@ -72,22 +76,22 @@ B사 데이터 -- hash/token --/
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. [[781_personal_information|개인정보]]와 민감정보가 충분히 비식별화되었는가?
-2. [[001_dikw_pyramid|데이터]] 결합 목적과 동의 범위가 명확한가?
-3. [[298_qkv_attention|쿼리]] 허용 범위, threshold, 출력 제한이 있는가?
-4. 원본 접근 권한과 [[606_auditing_linux_auditd|감사]] [[568_logs_distributed_logging_elk_fluentd|로그]]가 분리되어 있는가?
-5. [[001_dikw_pyramid|데이터]] 보존 기간과 파기 기준이 있는가?
+1. [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)와 민감정보가 충분히 비식별화되었는가?
+2. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 결합 목적과 동의 범위가 명확한가?
+3. [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 허용 범위, threshold, 출력 제한이 있는가?
+4. 원본 접근 권한과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 분리되어 있는가?
+5. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보존 기간과 파기 기준이 있는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 원본 PII (Personally Identifiable Information)를 평문 [[501_file_definition_logical_record|파일]]로 주고받는 설계
-- 클린 룸을 [[001_dikw_pyramid|데이터]] 레이크처럼 아무 [[298_qkv_attention|쿼리]]나 허용하는 설계
+- 원본 PII (Personally Identifiable Information)를 평문 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 주고받는 설계
+- 클린 룸을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레이크처럼 아무 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)나 허용하는 설계
 - 소수 표본 결과까지 그대로 보여 주는 설계
 - 동의 없이 마케팅 목적 결합을 먼저 해 버리는 설계
 
-기술사 관점에서 중요한 것은 "어떤 알고리즘을 썼는가"보다 "누가 어떤 결과까지 볼 수 있는가"다. [[001_dikw_pyramid|데이터]]는 많을수록 좋은 것이 아니라, 목적에 맞게 통제된 상태로 써야 가치가 생긴다.
+기술사 관점에서 중요한 것은 "어떤 알고리즘을 썼는가"보다 "누가 어떤 결과까지 볼 수 있는가"다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 많을수록 좋은 것이 아니라, 목적에 맞게 통제된 상태로 써야 가치가 생긴다.
 
 - **📢 섹션 요약 비유**: 손님 명단을 서로 보여 주지 않고도, 겹치는 손님 수만 안전하게 세는 계산기 방이다.
 
@@ -95,9 +99,9 @@ B사 데이터 -- hash/token --/
 
 ## Ⅴ. 기대효과 및 결론
 
-[[062_darkdata|다크 데이터]] 발견은 저장 비용을 줄이고, 클린 룸은 그 [[001_dikw_pyramid|데이터]]를 법과 프라이버시를 지키며 연결하게 해 준다. 둘을 함께 쓰면 잠자던 [[001_dikw_pyramid|데이터]]를 자산으로 바꾸면서도 신뢰를 잃지 않는다.
+[다크 데이터](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/) 발견은 저장 비용을 줄이고, 클린 룸은 그 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 법과 프라이버시를 지키며 연결하게 해 준다. 둘을 함께 쓰면 잠자던 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 자산으로 바꾸면서도 신뢰를 잃지 않는다.
 
-결국 [[001_dikw_pyramid|데이터]] 엔지니어링의 성숙도는 "얼마나 많이 모았는가"보다 "얼마나 안전하게 찾고, 안전하게 결합하는가"에서 드러난다.
+결국 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링의 성숙도는 "얼마나 많이 모았는가"보다 "얼마나 안전하게 찾고, 안전하게 결합하는가"에서 드러난다.
 
 - **📢 섹션 요약 비유**: 창고 정리와 공동 장터를 동시에 잘해야 진짜 돈이 되는 것이다.
 
@@ -137,7 +141,7 @@ Clean Room
 
 ## 어린이를 위한 3줄 비유 설명
 
-[[062_darkdata|다크 데이터]]는 창고에 묻혀 있는 장난감 상자예요.  
+[다크 데이터](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/)는 창고에 묻혀 있는 장난감 상자예요.  
 AI는 상자 안 물건에 이름표를 붙여 정리해 줘요.  
 클린 룸은 서로 장난감을 보여 주지 않고도 개수만 같이 세는 비밀 방이에요.
 
@@ -147,7 +151,7 @@ AI는 상자 안 물건에 이름표를 붙여 정리해 줘요.
 
 **진행 상황**: 60 / 258
 
-← **이전**: [[059_bloom_filter_false_positive_disk_io|59. 블룸 필터 (Bloom Filter) - 디스크 I/O 최적화 확률적 검색]]
-**다음**: [[061_data_mining_framework_kdd_crisp_dm|61. 데이터 마이닝 프레임워크 - KDD와 CRISP-DM]] →
+← **이전**: [59. 블룸 필터 (Bloom Filter) - 디스크 I/O 최적화 확률적 검색](/knowledge-base/studynote/14_data_engineering/01_infrastructure/059_bloom_filter_false_positive_disk_io/)
+**다음**: [61. 데이터 마이닝 프레임워크 - KDD와 CRISP-DM](/knowledge-base/studynote/14_data_engineering/02_math_mining/061_data_mining_framework_kdd_crisp_dm/) →
 
 ---

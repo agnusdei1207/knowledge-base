@@ -1,22 +1,26 @@
----
-title: 178. 스몰셀 (Small Cell) / 매크로셀 (Macro Cell) / 펨토셀 (Femto Cell)
-tags:
-- network
----
++++
+title = "178. 스몰셀 (Small Cell) / 매크로셀 (Macro Cell) / 펨토셀 (Femto Cell)"
+
+[taxonomies]
+tags = ["network"]
+
+[extra]
+tags = ["network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 매크로셀 ([[553_macro_micro_pico_femto_cell_topology|Macro Cell]])은 넓은 지역을 덮는 거대 기지국 계층이고, 스몰셀 (Small Cell)은 그 안에서 용량과 실내 커버리지를 촘촘히 보강하는 저전력 셀 계층이며, 펨토셀 (Femto Cell)은 그중 가장 작은 실내형 셀이다.
-> 2. **가치**: 이동통신 품질은 단순히 "더 세게 쏘는 것"보다 **전파를 얼마나 짧은 거리에서 재사용하느냐**에 의해 좌우되므로, 5세대 이동통신 ([[418_5g_embb_urllc_mmtc_slicing|5G]]) 이후에는 매크로셀 단독보다 계층형 셀 설계가 더 중요해졌다.
-> 3. **판단 포인트**: 광역 이동성은 매크로셀이, 도심 핫스팟과 실내 음영 지역은 스몰셀·펨토셀이 강하므로, 배치 판단은 커버리지·용량·[[1009_backhaul_network_base_station_core_connection|백홀]]·간섭 관리·이동성 요구를 함께 봐야 한다.
+> 1. **본질**: 매크로셀 ([Macro Cell](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/553_macro_micro_pico_femto_cell_topology/))은 넓은 지역을 덮는 거대 기지국 계층이고, 스몰셀 (Small Cell)은 그 안에서 용량과 실내 커버리지를 촘촘히 보강하는 저전력 셀 계층이며, 펨토셀 (Femto Cell)은 그중 가장 작은 실내형 셀이다.
+> 2. **가치**: 이동통신 품질은 단순히 "더 세게 쏘는 것"보다 **전파를 얼마나 짧은 거리에서 재사용하느냐**에 의해 좌우되므로, 5세대 이동통신 ([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)) 이후에는 매크로셀 단독보다 계층형 셀 설계가 더 중요해졌다.
+> 3. **판단 포인트**: 광역 이동성은 매크로셀이, 도심 핫스팟과 실내 음영 지역은 스몰셀·펨토셀이 강하므로, 배치 판단은 커버리지·용량·[백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/)·간섭 관리·이동성 요구를 함께 봐야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-셀 (Cell)은 기지국 하나가 무선 신호를 제공하는 [[090_service_kubernetes_network_load_balancing|서비스]] 구역이다. 이때 **매크로셀 ([[553_macro_micro_pico_femto_cell_topology|Macro Cell]])** 은 넓은 반경을 커버하는 대형 셀이고, **스몰셀 (Small Cell)** 은 그보다 훨씬 작은 전력과 반경으로 특정 지역의 품질을 보강하는 셀의 묶음 개념이다. **펨토셀 (Femto Cell)** 은 스몰셀 계열 중에서도 가정·소형 사무실 수준의 초소형 실내 셀에 해당한다.
+셀 (Cell)은 기지국 하나가 무선 신호를 제공하는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 구역이다. 이때 **매크로셀 ([Macro Cell](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/553_macro_micro_pico_femto_cell_topology/))** 은 넓은 반경을 커버하는 대형 셀이고, **스몰셀 (Small Cell)** 은 그보다 훨씬 작은 전력과 반경으로 특정 지역의 품질을 보강하는 셀의 묶음 개념이다. **펨토셀 (Femto Cell)** 은 스몰셀 계열 중에서도 가정·소형 사무실 수준의 초소형 실내 셀에 해당한다.
 
-이 구분이 중요해진 이유는 이동통신망의 문제가 더 이상 "전파가 아예 안 간다" 하나로 끝나지 않기 때문이다. Long Term Evolution ([[752_lte_long_term_evolution_4g|LTE]]) 이후 [[001_dikw_pyramid|데이터]] 사용량이 급증했고, 5G는 더 높은 주파수 대역과 좁은 셀 반경을 적극 활용한다. 주파수가 높아질수록 건물 투과 손실과 경로 손실이 커지므로, 넓은 우산 같은 매크로셀만으로는 도심 밀집 구간과 실내 품질을 만족시키기 어렵다. 결국 네트워크는 **광역 커버리지용 매크로셀 + 국지적 밀집 보강용 스몰셀** 구조로 진화했다.
+이 구분이 중요해진 이유는 이동통신망의 문제가 더 이상 "전파가 아예 안 간다" 하나로 끝나지 않기 때문이다. Long Term Evolution ([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)) 이후 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 사용량이 급증했고, 5G는 더 높은 주파수 대역과 좁은 셀 반경을 적극 활용한다. 주파수가 높아질수록 건물 투과 손실과 경로 손실이 커지므로, 넓은 우산 같은 매크로셀만으로는 도심 밀집 구간과 실내 품질을 만족시키기 어렵다. 결국 네트워크는 **광역 커버리지용 매크로셀 + 국지적 밀집 보강용 스몰셀** 구조로 진화했다.
 
 아래 그림은 왜 하나의 거대한 기지국만으로는 현대 무선망 요구를 다 만족시키기 어려운지 보여 준다.
 
@@ -46,12 +50,12 @@ tags:
 
 | 구분 | 전형적 반경 | 설치 위치 | 출력/규모 감각 | 주된 역할 |
 | :--- | :--- | :--- | :--- | :--- |
-| 매크로셀 ([[553_macro_micro_pico_femto_cell_topology|Macro Cell]]) | 수백 m ~ 수 km 이상 | 철탑, 옥상, 고지대 | 고출력, 광역 커버 | 도시·도로·기본 이동성 제공 |
+| 매크로셀 ([Macro Cell](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/553_macro_micro_pico_femto_cell_topology/)) | 수백 m ~ 수 km 이상 | 철탑, 옥상, 고지대 | 고출력, 광역 커버 | 도시·도로·기본 이동성 제공 |
 | 마이크로셀 (Micro Cell) | 수백 m ~ 약 2 km | 도심 가로등, 번화가 | 매크로보다 저전력 | 도심 용량 보강 |
-| 피코셀 (Pico Cell) | 수십 m ~ 수백 m | 쇼핑몰, 역사, 경기장 | 실내/핫스팟 중심 | 군중 밀집 구간 [[136_variance|분산]] |
+| 피코셀 (Pico Cell) | 수십 m ~ 수백 m | 쇼핑몰, 역사, 경기장 | 실내/핫스팟 중심 | 군중 밀집 구간 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) |
 | 펨토셀 (Femto Cell) | 수 m ~ 수십 m | 가정, 소형 사무실 | 초소형, 초저전력 | 실내 음영 해소, 가입자 밀착 |
 
-특히 펨토셀은 "작은 공용 기지국"이라기보다 **가입자 인터넷 회선을 [[1009_backhaul_network_base_station_core_connection|백홀]] ([[1009_backhaul_network_base_station_core_connection|Backhaul]])로 활용하는 실내형 셀**이라는 점이 중요하다. 통신사는 펨토셀을 통해 실내 음영을 보완하지만, [[001_dikw_pyramid|데이터]]는 가정용 광회선이나 Ethernet을 통해 코어망으로 전달된다. 그래서 펨토셀은 설치는 쉽지만, [[1009_backhaul_network_base_station_core_connection|백홀]] 품질·[[303_authentication_authorization_patterns|인증]]·간섭 [[164_policy|정책]]까지 함께 설계해야 한다.
+특히 펨토셀은 "작은 공용 기지국"이라기보다 **가입자 인터넷 회선을 [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/) ([Backhaul](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/))로 활용하는 실내형 셀**이라는 점이 중요하다. 통신사는 펨토셀을 통해 실내 음영을 보완하지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 가정용 광회선이나 Ethernet을 통해 코어망으로 전달된다. 그래서 펨토셀은 설치는 쉽지만, [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/) 품질·[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·간섭 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)까지 함께 설계해야 한다.
 
 아래 그림은 매크로셀과 스몰셀이 어떻게 역할을 나누는지 보여 준다.
 
@@ -71,7 +75,7 @@ tags:
 └────────────────────────────────────────────────────────────────────┘
 ```
 
-이 구조는 단순히 기지국을 많이 깔았다는 뜻이 아니다. 매크로셀은 이동 중 단말의 연속성을 책임지고, 스몰셀은 가까운 거리의 높은 [[024_신호_대_잡음비|Signal-to-Noise Ratio]] ([[024_신호_대_잡음비|SNR]])를 바탕으로 용량을 끌어올린다. 따라서 셀 계층 설계는 커버리지와 용량을 분리해서 최적화하는 작업으로 이해하는 편이 정확하다.
+이 구조는 단순히 기지국을 많이 깔았다는 뜻이 아니다. 매크로셀은 이동 중 단말의 연속성을 책임지고, 스몰셀은 가까운 거리의 높은 [Signal-to-Noise Ratio](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/) ([SNR](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/))를 바탕으로 용량을 끌어올린다. 따라서 셀 계층 설계는 커버리지와 용량을 분리해서 최적화하는 작업으로 이해하는 편이 정확하다.
 
 - **📢 섹션 요약 비유**: 매크로셀은 대형 가로등처럼 넓은 거리를 밝히고, 스몰셀은 사람들이 몰리는 상점 앞에 추가로 두는 스포트라이트와 같다. 펨토셀은 집 현관 안쪽 센서등처럼 실내 바로 근처를 가장 확실하게 비춘다.
 
@@ -81,18 +85,18 @@ tags:
 
 매크로셀과 스몰셀의 차이는 단순한 크기 차이가 아니다. **이동성·용량·설치 주체·간섭 관리 방식**이 함께 달라진다. 매크로셀은 차량 이동이나 광역 커버리지처럼 빠르게 움직이는 사용자를 안정적으로 붙잡는 데 유리하고, 스몰셀은 짧은 거리와 높은 밀도를 이용해 같은 면적 안의 수용 용량을 늘리는 데 강하다.
 
-| 비교 축 | 매크로셀 ([[553_macro_micro_pico_femto_cell_topology|Macro Cell]]) | 피코/스몰셀 (Pico / Small Cell) | 펨토셀 (Femto Cell) |
+| 비교 축 | 매크로셀 ([Macro Cell](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/553_macro_micro_pico_femto_cell_topology/)) | 피코/스몰셀 (Pico / Small Cell) | 펨토셀 (Femto Cell) |
 | :--- | :--- | :--- | :--- |
 | 주목표 | 넓은 커버리지, 이동성 | 핫스팟 용량, 실내 보강 | 가정·소형 사무실 음영 해소 |
 | 사용자 범위 | 불특정 다수, 광역 | 공공 또는 특정 건물 사용자 | 제한 가입자 또는 소규모 그룹 가능 |
-| [[1009_backhaul_network_base_station_core_connection|백홀]] | 통신사 전용 회선 중심 | 광/[[230_ethernet_structure_and_principles_ieee_802_3|이더넷]] 등 운영자 회선 | 가입자 브로드밴드 활용 가능 |
+| [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/) | 통신사 전용 회선 중심 | 광/[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 등 운영자 회선 | 가입자 브로드밴드 활용 가능 |
 | 간섭 이슈 | 셀 간 경계 조정 | 인접 셀 밀집 간섭 관리 중요 | 매크로와 실내 간섭 조정 중요 |
-| 이동성 처리 | 고속 이동에 유리 | 잦은 [[556_handover_handoff_types_concept|핸드오버]] 가능성 증가 | 저이동성·정적 환경에 적합 |
-| 경제성 | 사이트 비용 큼 | 지역 단위 확장 유리 | 설치는 쉬우나 운영 [[164_policy|정책]] 필요 |
+| 이동성 처리 | 고속 이동에 유리 | 잦은 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) 가능성 증가 | 저이동성·정적 환경에 적합 |
+| 경제성 | 사이트 비용 큼 | 지역 단위 확장 유리 | 설치는 쉬우나 운영 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 필요 |
 
-이 계층 구조는 이종 네트워크 ([[273_heterogeneous_db|Heterogeneous]] Network, HetNet) 개념으로 확장된다. HetNet은 매크로셀, 피코셀, 펨토셀, [[1017_wifi_offloading_cellular_traffic_congestion|와이파이 오프로딩]], [[136_variance|분산]] [[171_antenna_basic_dipole_resonance|안테나]] 시스템 (Distributed [[171_antenna_basic_dipole_resonance|Antenna]] System, [[339_das|DAS]]) 등을 함께 묶어 **한 사용자에게 가장 적합한 접속 지점을 선택**하는 전략이다. 여기서 중요한 것은 셀 수를 늘리는 것보다, 셀 간 간섭과 [[556_handover_handoff_types_concept|핸드오버]]를 어떻게 제어하느냐다.
+이 계층 구조는 이종 네트워크 ([Heterogeneous](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/273_heterogeneous_db/) Network, HetNet) 개념으로 확장된다. HetNet은 매크로셀, 피코셀, 펨토셀, [와이파이 오프로딩](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1017_wifi_offloading_cellular_traffic_congestion/), [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 시스템 (Distributed [Antenna](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) System, [DAS](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/339_das/)) 등을 함께 묶어 **한 사용자에게 가장 적합한 접속 지점을 선택**하는 전략이다. 여기서 중요한 것은 셀 수를 늘리는 것보다, 셀 간 간섭과 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)를 어떻게 제어하느냐다.
 
-또한 스몰셀은 와이파이 액세스 포인트와 혼동되기 쉽지만, 원칙적으로는 **이동통신 코어망과 연동되는 라이선스 기반 셀**이라는 점이 다르다. 둘 다 실내 용량 보강에 쓰일 수 있으나, 셀룰러 [[303_authentication_authorization_patterns|인증]]·이동성·통신사 [[164_policy|정책]] 제어가 필요하다면 스몰셀이, 비면허 대역의 단순 로컬 접속이면 와이파이가 더 적합할 수 있다.
+또한 스몰셀은 와이파이 액세스 포인트와 혼동되기 쉽지만, 원칙적으로는 **이동통신 코어망과 연동되는 라이선스 기반 셀**이라는 점이 다르다. 둘 다 실내 용량 보강에 쓰일 수 있으나, 셀룰러 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·이동성·통신사 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 제어가 필요하다면 스몰셀이, 비면허 대역의 단순 로컬 접속이면 와이파이가 더 적합할 수 있다.
 
 - **📢 섹션 요약 비유**: 매크로셀은 도시 전체를 도는 시내버스 노선이고, 스몰셀은 사람 많은 지역만 빠르게 도는 셔틀버스다. 펨토셀은 아파트 단지 안에서만 움직이는 작은 전기카트에 가깝다.
 
@@ -102,7 +106,7 @@ tags:
 
 실무에서 셀 유형을 고를 때는 "어디가 안 터지는가?"만 보면 부족하다. **문제가 커버리지 부족인지, 용량 부족인지, 실내 침투 손실인지, 이동성 요구인지**를 먼저 구분해야 한다. 예를 들어 고속도로·농어촌처럼 넓은 지역을 끊김 없이 덮어야 하면 매크로셀 우선이 맞고, 경기장·지하철 역사처럼 사람이 순간적으로 몰리는 곳은 피코셀이나 마이크로셀 같은 스몰셀 보강이 더 효과적이다. 아파트 지하 주차장이나 개별 사무실처럼 한정된 실내 음영이면 펨토셀이 경제적일 수 있다.
 
-하지만 스몰셀을 많이 깐다고 항상 좋은 것은 아니다. 셀이 촘촘할수록 [[556_handover_handoff_types_concept|핸드오버]] 수가 늘고, 상호 간섭도 커진다. 그래서 실제 설계에서는 Self-Organizing Network (SON), 셀 범위 확장, Inter-Cell Interference Coordination (ICIC), enhanced ICIC (eICIC) 같은 제어 기법을 함께 사용한다. 특히 펨토셀은 설치가 쉽다는 장점 뒤에, 가정용 회선 품질 편차와 운영자 제어 한계라는 현실적 제약이 따른다.
+하지만 스몰셀을 많이 깐다고 항상 좋은 것은 아니다. 셀이 촘촘할수록 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) 수가 늘고, 상호 간섭도 커진다. 그래서 실제 설계에서는 Self-Organizing Network (SON), 셀 범위 확장, Inter-Cell Interference Coordination (ICIC), enhanced ICIC (eICIC) 같은 제어 기법을 함께 사용한다. 특히 펨토셀은 설치가 쉽다는 장점 뒤에, 가정용 회선 품질 편차와 운영자 제어 한계라는 현실적 제약이 따른다.
 
 아래 흐름은 현장에서 어떤 셀 계층을 우선 검토할지 빠르게 가르는 기준이다.
 
@@ -123,15 +127,15 @@ tags:
 
 1. **문제의 본질이 커버리지인가 용량인가?** 커버리지면 매크로, 용량이면 스몰셀 보강이 우선이다.
 2. **실내인가 실외인가?** 벽 투과 손실이 크면 실내 셀을 따로 두는 편이 낫다.
-3. **[[1009_backhaul_network_base_station_core_connection|백홀]]을 안정적으로 확보할 수 있는가?** 스몰셀은 무선 구간보다 [[1009_backhaul_network_base_station_core_connection|백홀]] 제약에 더 자주 막힌다.
-4. **이동성이 높은가?** 셀이 너무 작으면 [[556_handover_handoff_types_concept|핸드오버]] 비용이 커질 수 있다.
+3. **[백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/)을 안정적으로 확보할 수 있는가?** 스몰셀은 무선 구간보다 [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/) 제약에 더 자주 막힌다.
+4. **이동성이 높은가?** 셀이 너무 작으면 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) 비용이 커질 수 있다.
 5. **간섭 제어 체계가 있는가?** 밀집 배치는 간섭 관리 없이는 오히려 품질을 떨어뜨린다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 광역 커버리지 문제를 스몰셀 다수로만 해결하려는 것
-- [[1009_backhaul_network_base_station_core_connection|백홀]]과 전원, 사이트 확보 없이 소형 기지국만 추가하는 것
-- 펨토셀을 설치해 놓고 가입자 [[303_authentication_authorization_patterns|인증]]·간섭·운영 [[164_policy|정책]]을 무시하는 것
+- [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/)과 전원, 사이트 확보 없이 소형 기지국만 추가하는 것
+- 펨토셀을 설치해 놓고 가입자 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·간섭·운영 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 무시하는 것
 
 - **📢 섹션 요약 비유**: 스몰셀 설계는 동네에 가로등을 늘리는 일과 비슷하다. 어두운 곳만 보고 무작정 많이 세우면 전기선과 눈부심 문제가 생기므로, 큰 등과 작은 등을 어디에 섞어 둘지 함께 계산해야 한다.
 
@@ -141,7 +145,7 @@ tags:
 
 매크로셀과 스몰셀을 계층적으로 운영하면, 같은 주파수 자원을 더 짧은 거리에서 반복 활용할 수 있어 면적당 용량이 크게 향상된다. 실내 사용자는 가까운 셀에 붙어 더 높은 변조 차수와 속도를 얻고, 매크로셀은 광역 이동성과 제어 신호를 안정적으로 담당한다. 결국 네트워크는 "하나의 거대한 탑"에서 "여러 크기의 셀이 겹쳐진 구조"로 바뀐다.
 
-반면 이 구조는 설계 난이도를 높인다. 사이트 확보, [[1009_backhaul_network_base_station_core_connection|백홀]], 간섭 조정, [[556_handover_handoff_types_concept|핸드오버]] 튜닝, 운영 자동화가 함께 따라와야 하며, 셀이 작아질수록 운영 복잡도는 커진다. 따라서 스몰셀은 단순한 소형화가 아니라, **무선망 밀도 전략과 운영 자동화가 결합된 아키텍처 변화**로 봐야 한다.
+반면 이 구조는 설계 난이도를 높인다. 사이트 확보, [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/), 간섭 조정, [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) 튜닝, 운영 자동화가 함께 따라와야 하며, 셀이 작아질수록 운영 복잡도는 커진다. 따라서 스몰셀은 단순한 소형화가 아니라, **무선망 밀도 전략과 운영 자동화가 결합된 아키텍처 변화**로 봐야 한다.
 
 정리하면 매크로셀은 광역 이동성의 뼈대이고, 스몰셀은 용량과 실내 품질을 촘촘히 채우는 보강망이며, 펨토셀은 그중 가장 가까운 실내 접점이다. 기억할 핵심은 분명하다. **큰 셀 하나로 모든 문제를 푸는 시대에서, 여러 크기의 셀을 겹쳐 최적 품질을 만드는 시대로 이동했다**는 점이다.
 
@@ -153,12 +157,12 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 매크로셀 ([[553_macro_micro_pico_femto_cell_topology|Macro Cell]]) | 광역 커버리지와 이동성의 기본 계층이다 |
+| 매크로셀 ([Macro Cell](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/553_macro_micro_pico_femto_cell_topology/)) | 광역 커버리지와 이동성의 기본 계층이다 |
 | 스몰셀 (Small Cell) | 저전력·소반경 셀을 통칭하며 용량 밀도를 높인다 |
 | 피코셀 (Pico Cell) | 공공 실내나 핫스팟의 중간 규모 스몰셀이다 |
 | 펨토셀 (Femto Cell) | 가정·소규모 사무실 중심의 초소형 실내 셀이다 |
-| 이종 네트워크 ([[273_heterogeneous_db|Heterogeneous]] Network, HetNet) | 서로 다른 셀 계층을 통합 운영하는 구조다 |
-| [[1009_backhaul_network_base_station_core_connection|백홀]] ([[1009_backhaul_network_base_station_core_connection|Backhaul]]) | 소형 기지국이 코어망과 연결되기 위해 반드시 필요한 유선/무선 전송 구간이다 |
+| 이종 네트워크 ([Heterogeneous](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/273_heterogeneous_db/) Network, HetNet) | 서로 다른 셀 계층을 통합 운영하는 구조다 |
+| [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/) ([Backhaul](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/)) | 소형 기지국이 코어망과 연결되기 위해 반드시 필요한 유선/무선 전송 구간이다 |
 | eICIC (enhanced Inter-Cell Interference Coordination) | 매크로와 스몰셀 사이 간섭을 줄이는 대표 제어 기법이다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -194,7 +198,7 @@ small-cell densification
 
 **진행 상황**: 299 / 1120
 
-← **이전**: [[177_smart_antenna_phased_array|177. 스마트 안테나 (Smart Antenna) / 위상 배열 안테나 (Phased Array)]]
-**다음**: [[179_plc_power_line_communication|179. 전력선 통신 (PLC, Power Line Communication)]] →
+← **이전**: [177. 스마트 안테나 (Smart Antenna) / 위상 배열 안테나 (Phased Array)](/knowledge-base/studynote/03_network/03_physical_layer_media/177_smart_antenna_phased_array/)
+**다음**: [179. 전력선 통신 (PLC, Power Line Communication)](/knowledge-base/studynote/03_network/03_physical_layer_media/179_plc_power_line_communication/) →
 
 ---

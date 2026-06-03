@@ -1,29 +1,33 @@
----
-title: 227. 로지스틱 회귀 (Logistic Regression) CLT p-value 1/2종 오류
-date: '2026-04-21'
-tags:
-- studynote-data-engineering
----
++++
+title = "227. 로지스틱 회귀 (Logistic Regression) CLT p-value 1/2종 오류"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-data-engineering"]
+
+[extra]
+tags = ["studynote-data-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 로지스틱 회귀(Logistic Regression)는 선형 회귀의 출력을 [[268_sigmoid_vanishing_gradient|시그모이드]]([[268_sigmoid_vanishing_gradient|Sigmoid]]) 함수로 압축해 0~1 [[130_probability|확률]]을 예측하는 [[104_classification_analysis|분류]] 모델이며, 우도 최대화([[143_mle|MLE]], Maximum Likelihood Estimation)로 계수를 추정한다.
-> 2. **가치**: 중심극한정리([[139_clt|CLT]], Central Limit Theorem)는 표본 통계량의 정규분포 수렴 성질로 가설검정의 수학적 토대를 제공하며, p-value와 1/2종 오류 이해는 올바른 통계적 의사결정의 핵심이다.
-> 3. **판단 포인트**: [[337_p_value_significance|p-value]] < 0.05는 "유의하다"는 의미이지만 "맞다"는 의미가 아니며, 1종 오류(거짓 양성)와 2종 오류(거짓 음성)의 트레이드오프를 [[064_relation_domain|도메인]] 맥락에 맞게 조정해야 한다.
+> 1. **본질**: 로지스틱 회귀(Logistic Regression)는 선형 회귀의 출력을 [시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)([Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)) 함수로 압축해 0~1 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 예측하는 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델이며, 우도 최대화([MLE](/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/), Maximum Likelihood Estimation)로 계수를 추정한다.
+> 2. **가치**: 중심극한정리([CLT](/knowledge-base/studynote/08_algorithm_stats/08_stats/139_clt/), Central Limit Theorem)는 표본 통계량의 정규분포 수렴 성질로 가설검정의 수학적 토대를 제공하며, p-value와 1/2종 오류 이해는 올바른 통계적 의사결정의 핵심이다.
+> 3. **판단 포인트**: [p-value](/knowledge-base/studynote/06_ict_convergence/05_data_science/337_p_value_significance/) < 0.05는 "유의하다"는 의미이지만 "맞다"는 의미가 아니며, 1종 오류(거짓 양성)와 2종 오류(거짓 음성)의 트레이드오프를 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 맥락에 맞게 조정해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### 왜 [[104_classification_analysis|분류]] 문제에 선형 회귀를 쓰면 안 되는가?
+### 왜 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 문제에 선형 회귀를 쓰면 안 되는가?
 
-선형 회귀(y = β₀ + β₁x)의 출력은 -∞ ~ +∞다. 이메일 스팸 여부(0 또는 1)를 예측하는데 출력이 -0.3이나 1.7이면 의미가 없다. 로지스틱 회귀는 [[268_sigmoid_vanishing_gradient|시그모이드]] 함수로 이 문제를 해결한다.
+선형 회귀(y = β₀ + β₁x)의 출력은 -∞ ~ +∞다. 이메일 스팸 여부(0 또는 1)를 예측하는데 출력이 -0.3이나 1.7이면 의미가 없다. 로지스틱 회귀는 [시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) 함수로 이 문제를 해결한다.
 
 ```
 선형 회귀 출력범위: -∞ ~ +∞  (연속 예측에 적합)
 로지스틱 회귀 출력: 0 ~ 1    (확률 예측, 이진 분류에 적합)
 ```
 
-📢 **섹션 요약 비유**: 선형 회귀는 "수직선 위에서 위치를 예측"하고, 로지스틱 회귀는 "0과 1 사이의 [[130_probability|확률]] 문으로 통과 여부를 판단"한다. 거리를 재는 자와 O/X 판단 도구의 차이다.
+📢 **섹션 요약 비유**: 선형 회귀는 "수직선 위에서 위치를 예측"하고, 로지스틱 회귀는 "0과 1 사이의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 문으로 통과 여부를 판단"한다. 거리를 재는 자와 O/X 판단 도구의 차이다.
 
 ---
 
@@ -50,7 +54,7 @@ log (────────) = β₀ + β₁x₁ + β₂x₂ + ... + βₙxₙ
 → x₁이 1 증가할 때 오즈가 1.65배 증가
 ```
 
-### 2-2. [[143_mle|MLE]] (Maximum Likelihood Estimation, 우도 최대화)
+### 2-2. [MLE](/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/) (Maximum Likelihood Estimation, 우도 최대화)
 
 선형 회귀는 OLS(최소제곱법)로 계수를 구하지만, 로지스틱 회귀는 MLE를 사용한다.
 
@@ -64,7 +68,7 @@ L(β) = Σ[yᵢ log P(xᵢ) + (1-yᵢ) log(1 - P(xᵢ))]
            = -L(β)    ← 최소화 방향
 ```
 
-### 2-3. 중심극한정리 ([[139_clt|CLT]], Central Limit Theorem)
+### 2-3. 중심극한정리 ([CLT](/knowledge-base/studynote/08_algorithm_stats/08_stats/139_clt/), Central Limit Theorem)
 
 가설검정의 수학적 기반이다.
 
@@ -79,7 +83,7 @@ CLT 핵심 명제:
 의의: 모집단 분포를 몰라도 표본 통계량으로 모수를 추정 가능
 ```
 
-### 2-4. [[337_p_value_significance|p-value]] 정확한 해석
+### 2-4. [p-value](/knowledge-base/studynote/06_ict_convergence/05_data_science/337_p_value_significance/) 정확한 해석
 
 ```
 p-value 정의:
@@ -118,7 +122,7 @@ p = 0.03 ≠ "연구 결과가 재현될 확률이 97%"
 | 상황 | 더 위험한 오류 | 이유 |
 |:---|:---|:---|
 | 신약 임상시험 | 2종 오류 (치료 효과 놓침) | 환자 치료 기회 상실 |
-| [[589_virus|바이러스]] 감지 (보안) | 2종 오류 (위협 놓침) | 침해 허용 |
+| [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/) 감지 (보안) | 2종 오류 (위협 놓침) | 침해 허용 |
 | 스팸 필터 | 1종 오류 (정상 메일 차단) | 업무 메일 손실 |
 | 품질 검사 (제조) | 2종 오류 (불량품 통과) | 리콜·안전사고 |
 
@@ -128,14 +132,14 @@ p = 0.03 ≠ "연구 결과가 재현될 확률이 97%"
 
 ## Ⅲ. 비교 및 연결
 
-### 3-1. 로지스틱 회귀 vs 다른 [[104_classification_analysis|분류]] 모델
+### 3-1. 로지스틱 회귀 vs 다른 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델
 
-| 구분 | 로지스틱 회귀 | 의사결정트리 | [[238_svm_margin_kernel_trick_naive_bayes|SVM]] | 신경망 |
+| 구분 | 로지스틱 회귀 | 의사결정트리 | [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) | 신경망 |
 |:---|:---|:---|:---|:---|
 | 해석 가능성 | 높음 (계수·OR 해석) | 높음 | 낮음 | 매우 낮음 |
 | 선형 경계 | 선형만 가능 | 비선형 가능 | 커널로 비선형 | 비선형 |
-| [[130_probability|확률]] 출력 | 자연스러운 [[130_probability|확률]] | 불순도 기반 | 경계 거리 기반 | [[270_softmax|Softmax]] |
-| 과적합 | 낮음 | 높음 ([[435_pruning_hardware|가지치기]] 필요) | 중간 | 높음 |
+| [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 출력 | 자연스러운 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) | 불순도 기반 | 경계 거리 기반 | [Softmax](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) |
+| 과적합 | 낮음 | 높음 ([가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) 필요) | 중간 | 높음 |
 
 ### 3-2. 통계적 유의성의 한계 (p-hacking 문제)
 
@@ -153,7 +157,7 @@ p-hacking (p-해킹) 시나리오:
 - 사전 등록(Pre-registration): 가설 먼저 공개
 ```
 
-### 3-3. 검정력 (Statistical [[069_type_1_2_error_statistical_power|Power]]) 설계
+### 3-3. 검정력 (Statistical [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/)) 설계
 
 ```
 Power = 1 - β = P(H₀ 기각 | H₁ 참)
@@ -203,41 +207,41 @@ AUC (Area Under Curve) = 0.5 (랜덤) ~ 1.0 (완벽)
 실무 기준: AUC ≥ 0.8 = 양호
 ```
 
-📢 **섹션 요약 비유**: ROC 커브는 "보안 검색대의 민감도 [[009_config|설정]]"이다. 민감도를 높이면 범죄자를 더 잘 잡지만(2종 오류 감소), 무고한 여행자도 더 많이 걸린다(1종 오류 증가).
+📢 **섹션 요약 비유**: ROC 커브는 "보안 검색대의 민감도 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)"이다. 민감도를 높이면 범죄자를 더 잘 잡지만(2종 오류 감소), 무고한 여행자도 더 많이 걸린다(1종 오류 증가).
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-로지스틱 회귀·[[139_clt|CLT]]·[[337_p_value_significance|p-value]]·오류 유형은 [[241_machine_learning_basics|머신러닝]] 시대에도 여전히 유효한 통계의 핵심 개념이다. 블랙박스 딥러닝 모델의 예측 결과를 검증하거나, 실험 결과를 보고할 때 반드시 필요한 언어이기 때문이다.
+로지스틱 회귀·[CLT](/knowledge-base/studynote/08_algorithm_stats/08_stats/139_clt/)·[p-value](/knowledge-base/studynote/06_ict_convergence/05_data_science/337_p_value_significance/)·오류 유형은 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 시대에도 여전히 유효한 통계의 핵심 개념이다. 블랙박스 딥러닝 모델의 예측 결과를 검증하거나, 실험 결과를 보고할 때 반드시 필요한 언어이기 때문이다.
 
 ### 핵심 정리
 
 | 개념 | 핵심 포인트 |
 |:---|:---|
-| 로지스틱 회귀 | [[268_sigmoid_vanishing_gradient|시그모이드]] 출력, [[143_mle|MLE]] 계수 추정, OR 해석 |
-| [[139_clt|CLT]] | 충분한 표본 → 표본 평균 정규분포 수렴 |
-| [[337_p_value_significance|p-value]] | 귀무가설 하 관측값 [[130_probability|확률]]. "맞다"가 아님 |
+| 로지스틱 회귀 | [시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) 출력, [MLE](/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/) 계수 추정, OR 해석 |
+| [CLT](/knowledge-base/studynote/08_algorithm_stats/08_stats/139_clt/) | 충분한 표본 → 표본 평균 정규분포 수렴 |
+| [p-value](/knowledge-base/studynote/06_ict_convergence/05_data_science/337_p_value_significance/) | 귀무가설 하 관측값 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/). "맞다"가 아님 |
 | 1종 오류 | False Positive, α로 통제 |
 | 2종 오류 | False Negative, β, 검정력(1-β) |
-| AUC-ROC | 임계값 불문 모델 [[282_performance_tactics|성능]] 지표 |
+| AUC-ROC | 임계값 불문 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표 |
 
-📢 **섹션 요약 비유**: 통계 검정은 "망원경으로 별을 관측하는 것"과 같다. p-value는 "이 빛이 배경 잡음일 [[130_probability|확률]]"이고, 효과 크기는 "별의 밝기"이며, 검정력은 "망원경의 해상도"다.
+📢 **섹션 요약 비유**: 통계 검정은 "망원경으로 별을 관측하는 것"과 같다. p-value는 "이 빛이 배경 잡음일 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)"이고, 효과 크기는 "별의 밝기"이며, 검정력은 "망원경의 해상도"다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| [[083_relationship_in_er_model|관계]] | 개념 | 설명 |
+| [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
 |:---|:---|:---|
-| 핵심 모델 | Logistic Regression (로지스틱 회귀) | 이진 [[104_classification_analysis|분류]] [[130_probability|확률]] 예측 |
-| 함수 | [[268_sigmoid_vanishing_gradient|Sigmoid]] Function ([[268_sigmoid_vanishing_gradient|시그모이드]]) | 0~1 [[130_probability|확률]] 변환 |
-| 추정법 | [[143_mle|MLE]] (Maximum Likelihood Estimation) | 우도 최대화 계수 추정 |
-| 이론 | [[139_clt|CLT]] (Central Limit Theorem) | 표본 평균 정규 수렴 이론 |
-| 검정 | [[337_p_value_significance|p-value]] | 귀무가설 하 관측 [[130_probability|확률]] |
+| 핵심 모델 | Logistic Regression (로지스틱 회귀) | 이진 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 예측 |
+| 함수 | [Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) Function ([시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)) | 0~1 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 변환 |
+| 추정법 | [MLE](/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/) (Maximum Likelihood Estimation) | 우도 최대화 계수 추정 |
+| 이론 | [CLT](/knowledge-base/studynote/08_algorithm_stats/08_stats/139_clt/) (Central Limit Theorem) | 표본 평균 정규 수렴 이론 |
+| 검정 | [p-value](/knowledge-base/studynote/06_ict_convergence/05_data_science/337_p_value_significance/) | 귀무가설 하 관측 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) |
 | 오류 | Type I Error (1종 오류) | 거짓 양성, α |
 | 오류 | Type II Error (2종 오류) | 거짓 음성, β |
-| [[282_performance_tactics|성능]] | AUC-ROC | 임계값 독립 [[104_classification_analysis|분류]] [[282_performance_tactics|성능]] |
+| [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | AUC-ROC | 임계값 독립 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) |
 | 해석 | Odds Ratio (오즈비) | 로지스틱 계수 해석 |
 | 문제 | p-hacking | 다중 검정 거짓 유의성 |
 
@@ -245,7 +249,7 @@ AUC (Area Under Curve) = 0.5 (랜덤) ~ 1.0 (완벽)
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 로지스틱 회귀는 "내일 비가 올 [[130_probability|확률]]이 70%다"처럼 0~100% [[130_probability|확률]]로 답을 내는 [[104_classification_analysis|분류]] 방법이다. 단순히 "0 또는 1"이 아니라 얼마나 확신하는지까지 알려준다.
+1. 로지스틱 회귀는 "내일 비가 올 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 70%다"처럼 0~100% [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 답을 내는 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 방법이다. 단순히 "0 또는 1"이 아니라 얼마나 확신하는지까지 알려준다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -272,7 +276,7 @@ AUC (Area Under Curve) = 0.5 (랜덤) ~ 1.0 (완벽)
 
 **진행 상황**: 227 / 258
 
-← **이전**: [[226_pearson_correlation_regression_r2_vif_multicollinearity|226. 피어슨 상관 (Pearson Correlation) 회귀 R² 결정계수 다중공선성 VIF]]
-**다음**: [[228_pca_lda_tsne_dimensionality_reduction|228. PCA (Principal Component Analysis) LDA t-SNE 차원 축소]] →
+← **이전**: [226. 피어슨 상관 (Pearson Correlation) 회귀 R² 결정계수 다중공선성 VIF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/226_pearson_correlation_regression_r2_vif_multicollinearity/)
+**다음**: [228. PCA (Principal Component Analysis) LDA t-SNE 차원 축소](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/228_pca_lda_tsne_dimensionality_reduction/) →
 
 ---

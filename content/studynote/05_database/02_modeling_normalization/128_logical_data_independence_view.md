@@ -1,14 +1,18 @@
----
-title: 128. 논리적 데이터 독립성 & 뷰 (Logical Data Independence & View)
-date: '2026-04-19'
-tags:
-- studynote-database
----
++++
+title = "128. 논리적 데이터 독립성 & 뷰 (Logical Data Independence & View)"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-database"]
+
+[extra]
+tags = ["studynote-database"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [[369_logic_bomb|논리]]적 [[004_data_independence|데이터 독립성]]은 **[[369_logic_bomb|논리]] [[005_schema|스키마]](테이블 구조)를 변경해도 [[007_external_schema|외부 스키마]](뷰·응용 프로그램)에 영향을 주지 않는 성질**이며, ANSI/SPARC 3단계 아키텍처의 핵심이다.
-> 2. **가치**: 테이블 분할·컬럼 추가 등 [[369_logic_bomb|논리]] [[005_schema|스키마]] 변경 시 **뷰([[151_sql_view_virtual_table|View]])**가 완충 역할을 하여 기존 응용 프로그램이 수정 없이 동작할 수 있으며, 이것이 뷰의 본질적 존재 이유이다.
-> 3. **판단 포인트**: 뷰는 [[004_data_independence|데이터 독립성]]뿐 아니라 **보안(민감 컬럼 제외)·편의성(복잡 조인 캡슐화)**도 제공하며, 물리적 [[004_data_independence|데이터 독립성]](저장 구조 변경↔[[369_logic_bomb|논리]] [[005_schema|스키마]])과 구분해야 한다.
+> 1. **본질**: [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [데이터 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/)은 **[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)(테이블 구조)를 변경해도 [외부 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/007_external_schema/)(뷰·응용 프로그램)에 영향을 주지 않는 성질**이며, ANSI/SPARC 3단계 아키텍처의 핵심이다.
+> 2. **가치**: 테이블 분할·컬럼 추가 등 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경 시 **뷰([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))**가 완충 역할을 하여 기존 응용 프로그램이 수정 없이 동작할 수 있으며, 이것이 뷰의 본질적 존재 이유이다.
+> 3. **판단 포인트**: 뷰는 [데이터 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/)뿐 아니라 **보안(민감 컬럼 제외)·편의성(복잡 조인 캡슐화)**도 제공하며, 물리적 [데이터 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/)(저장 구조 변경↔[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/))과 구분해야 한다.
 
 ---
 
@@ -26,7 +30,7 @@ tags:
 └───────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 뷰는 **커튼([[007_external_schema|외부 스키마]])**이다. 방(테이블)의 가구를 재배치해도 커튼만 바꾸면 밖에서 보는 모습(응용)은 그대로이다.
+- **📢 섹션 요약 비유**: 뷰는 **커튼([외부 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/007_external_schema/))**이다. 방(테이블)의 가구를 재배치해도 커튼만 바꾸면 밖에서 보는 모습(응용)은 그대로이다.
 
 ---
 
@@ -36,12 +40,12 @@ tags:
 
 | 기능 | 설명 |
 |:---|:---|
-| **독립성** | [[369_logic_bomb|논리]] [[005_schema|스키마]] 변경으로부터 응용 [[571_protection_vs_security|보호]] |
+| **독립성** | [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경으로부터 응용 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) |
 | **보안** | 민감 컬럼 제외하여 접근 제어 |
 | **편의성** | 복잡 JOIN을 단순 뷰로 제공 |
 
 ### 뷰의 한계
-- Materialized [[151_sql_view_virtual_table|View]] 아닌 경우 **저장 없이 [[298_qkv_attention|쿼리]] 시 재계산**.
+- Materialized [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) 아닌 경우 **저장 없이 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 시 재계산**.
 - 일부 뷰는 **INSERT/UPDATE 불가** (복합 뷰).
 
 - **📢 섹션 요약 비유**: 뷰는 창문(볼 수만 있음)이고, Materialized View는 사진(저장됨, 갱신 필요)이다.
@@ -50,11 +54,11 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | [[369_logic_bomb|논리]]적 독립성 | 물리적 독립성 |
+| 비교 | [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 독립성 | 물리적 독립성 |
 |:---|:---|:---|
 | **변경** | 테이블 구조 | 저장 구조 |
-| **[[571_protection_vs_security|보호]]** | [[007_external_schema|외부 스키마]] | [[008_conceptual_schema|개념 스키마]] |
-| **수단** | **뷰** | [[009_internal_schema|내부 스키마]] 매핑 |
+| **[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)** | [외부 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/007_external_schema/) | [개념 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/008_conceptual_schema/) |
+| **수단** | **뷰** | [내부 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/009_internal_schema/) 매핑 |
 
 ---
 
@@ -62,14 +66,14 @@ tags:
 
 ### 실무 뷰 활용
 1. 보안 뷰: `SELECT name, dept FROM emp` (salary 제외).
-2. 집계 뷰: 월별 매출 요약 (복잡 [[298_qkv_attention|쿼리]] 캡슐화).
+2. 집계 뷰: 월별 매출 요약 (복잡 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 캡슐화).
 3. 호환 뷰: 테이블 분할 후 기존 뷰 유지.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[[369_logic_bomb|논리]]적 [[004_data_independence|데이터 독립성]]은 **DBMS의 존재 이유 중 하나**이며, 뷰가 이를 실현하는 핵심 메커니즘이다.
+[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [데이터 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/)은 **DBMS의 존재 이유 중 하나**이며, 뷰가 이를 실현하는 핵심 메커니즘이다.
 
 ---
 
@@ -77,11 +81,11 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[[369_logic_bomb|논리]]적 독립성** | 외부↔[[008_conceptual_schema|개념 스키마]] 분리 |
-| **물리적 독립성** | 개념↔[[009_internal_schema|내부 스키마]] 분리 |
-| **[[151_sql_view_virtual_table|View]]** | [[369_logic_bomb|논리]]적 독립성의 구현 수단 |
-| **Materialized [[151_sql_view_virtual_table|View]]** | 저장되는 뷰 ([[282_performance_tactics|성능]]↑) |
-| **ANSI/SPARC** | [[006_three_level_schema_architecture|3단계 스키마 아키텍처]] |
+| **[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 독립성** | 외부↔[개념 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/008_conceptual_schema/) 분리 |
+| **물리적 독립성** | 개념↔[내부 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/009_internal_schema/) 분리 |
+| **[View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)** | [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 독립성의 구현 수단 |
+| **Materialized [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)** | 저장되는 뷰 ([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)↑) |
+| **ANSI/SPARC** | [3단계 스키마 아키텍처](/knowledge-base/studynote/05_database/01_db_architecture_relational/006_three_level_schema_architecture/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -104,7 +108,7 @@ tags:
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 뷰는 방의 **커튼**이에요. 방 안(테이블)을 바꿔도 **밖에서 보는 모습**은 그대로예요.
 2. 민감한 물건(비밀번호 컬럼)은 **커튼으로 가릴(보안)** 수 있어요.
-3. 덕분에 방을 리모델링([[005_schema|스키마]] 변경)해도 **손님(프로그램)은 영향 없이** 지낼 수 있어요!
+3. 덕분에 방을 리모델링([스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경)해도 **손님(프로그램)은 영향 없이** 지낼 수 있어요!
 
 ---
 
@@ -112,7 +116,7 @@ tags:
 
 **진행 상황**: 128 / 600
 
-← **이전**: [[127_information_engineering_methodology_ie|127. 정보공학 방법론 (IE, Information Engineering) - 데이터 중심 시스템 개발]]
-**다음**: [[129_orm_impedance_mismatch|129. ORM & 임피던스 불일치 (Object-Relational Mismatch)]] →
+← **이전**: [127. 정보공학 방법론 (IE, Information Engineering) - 데이터 중심 시스템 개발](/knowledge-base/studynote/05_database/02_modeling_normalization/127_information_engineering_methodology_ie/)
+**다음**: [129. ORM & 임피던스 불일치 (Object-Relational Mismatch)](/knowledge-base/studynote/05_database/02_modeling_normalization/129_orm_impedance_mismatch/) →
 
 ---

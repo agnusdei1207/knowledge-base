@@ -1,23 +1,27 @@
----
-title: 346. LLM RAG 환각 제어·벡터 임베딩 DB 검색 (Large Language Model Retrieval-Augmented Generation)
-date: '2026-05-09'
-tags:
-- studynote-devops-sre
----
++++
+title = "346. LLM RAG 환각 제어·벡터 임베딩 DB 검색 (Large Language Model Retrieval-Augmented Generation)"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-devops-sre"]
+
+[extra]
+tags = ["studynote-devops-sre"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[263_llm_large_language_model|LLM]] ([[263_llm_large_language_model|Large Language Model]]) 기반 [[276_fine_tuning|RAG]] ([[585_rag_retrieval_augmented_generation|Retrieval-Augmented Generation]])는 모델 내부 파라미터만 믿지 않고, 외부 지식 저장소에서 근거 문서를 검색해 답변 [[087_process_state_transition|생성]]에 주입하는 아키텍처다.
-> 2. **가치**: 파인튜닝([[304_fine_tuning|Fine-tuning]]) 없이도 최신 문서와 사내 지식을 반영해 [[275_react_framework|환각]]([[345_llm_foundation_model_hallucination|Hallucination]])을 줄이고, 응답 근거와 갱신 주기를 운영 가능한 수준으로 관리할 수 있다.
-> 3. **판단 포인트**: RAG의 [[282_performance_tactics|성능]]은 모델 크기보다 청크 분할, [[278_instruction_tuning|임베딩]] 품질, [[279_rlhf_reinforcement_learning_human_feedback|하이브리드 검색]], 재랭킹, 근거 인용, 평가 체계가 얼마나 정교한지에서 갈린다.
+> 1. **본질**: [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) ([Large Language Model](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)) 기반 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) ([Retrieval-Augmented Generation](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/585_rag_retrieval_augmented_generation/))는 모델 내부 파라미터만 믿지 않고, 외부 지식 저장소에서 근거 문서를 검색해 답변 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)에 주입하는 아키텍처다.
+> 2. **가치**: 파인튜닝([Fine-tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)) 없이도 최신 문서와 사내 지식을 반영해 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)([Hallucination](/knowledge-base/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/))을 줄이고, 응답 근거와 갱신 주기를 운영 가능한 수준으로 관리할 수 있다.
+> 3. **판단 포인트**: RAG의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 모델 크기보다 청크 분할, [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 품질, [하이브리드 검색](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/279_rlhf_reinforcement_learning_human_feedback/), 재랭킹, 근거 인용, 평가 체계가 얼마나 정교한지에서 갈린다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[[582_llm_based_code_generation_tools|대규모 언어 모델]]은 방대한 사전학습을 통해 일반 지식을 익히지만, 최신 사내 문서나 [[164_policy|정책]] 변경 사항까지 자동으로 보장하지는 못한다. 이때 모델은 그럴듯하지만 틀린 답을 만들 수 있는데, 이를 [[275_react_framework|환각]]이라고 부른다. 특히 [[652_devops_calms_culture|DevOps]]·보안·운영 지식처럼 문서 최신성과 근거 추적이 중요한 영역에서는 “그럴듯함”보다 “[[395_verification_process_review|검증]] 가능함”이 더 중요하다.
+[대규모 언어 모델](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/582_llm_based_code_generation_tools/)은 방대한 사전학습을 통해 일반 지식을 익히지만, 최신 사내 문서나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 변경 사항까지 자동으로 보장하지는 못한다. 이때 모델은 그럴듯하지만 틀린 답을 만들 수 있는데, 이를 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)이라고 부른다. 특히 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)·보안·운영 지식처럼 문서 최신성과 근거 추적이 중요한 영역에서는 “그럴듯함”보다 “[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능함”이 더 중요하다.
 
-RAG는 이 문제를 모델 재학습이 아니라 지식 접근 경로로 해결한다. 질문과 관련된 문서를 검색해서 함께 넣어 주면, 모델은 기억만으로 답하는 대신 검색된 근거에 의존할 수 있다. 따라서 RAG의 필요성은 모델 [[282_performance_tactics|성능]] 향상보다도 지식 최신성과 운영 통제를 확보하는 데 있다.
+RAG는 이 문제를 모델 재학습이 아니라 지식 접근 경로로 해결한다. 질문과 관련된 문서를 검색해서 함께 넣어 주면, 모델은 기억만으로 답하는 대신 검색된 근거에 의존할 수 있다. 따라서 RAG의 필요성은 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상보다도 지식 최신성과 운영 통제를 확보하는 데 있다.
 
 - **📢 섹션 요약 비유**: 기억력이 좋은 학생에게도 시험 때 교과서를 잠깐 보여 주면, 헷갈리는 부분을 더 정확히 답할 수 있는 것과 같다.
 
@@ -25,14 +29,14 @@ RAG는 이 문제를 모델 재학습이 아니라 지식 접근 경로로 해�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[[276_fine_tuning|RAG]] [[123_pipe|파이프]]라인은 보통 `문서 수집 → 청크 분할 → 임베딩 생성 → 벡터 DB 저장 → 질의 임베딩 → 검색/재랭킹 → LLM 생성`으로 구성된다. 최근에는 키워드 검색(BM25)과 벡터 검색을 결합한 [[279_rlhf_reinforcement_learning_human_feedback|하이브리드 검색]], Cross-[[040_encoder|Encoder]] 재랭킹, 답변 후 근거 인용 [[395_verification_process_review|검증]]이 함께 쓰인다.
+[RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 보통 `문서 수집 → 청크 분할 → 임베딩 생성 → 벡터 DB 저장 → 질의 임베딩 → 검색/재랭킹 → LLM 생성`으로 구성된다. 최근에는 키워드 검색(BM25)과 벡터 검색을 결합한 [하이브리드 검색](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/279_rlhf_reinforcement_learning_human_feedback/), Cross-[Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) 재랭킹, 답변 후 근거 인용 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 함께 쓰인다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
-| 문서 인덱싱 | 문서를 청크와 [[012_metadata|메타데이터]]로 정리 | chunk size, overlap, 최신성 |
-| [[278_instruction_tuning|임베딩]] 모델 | 의미 기반 벡터 [[087_process_state_transition|생성]] | [[064_relation_domain|도메인]] 적합성, 언어 지원 |
-| [[151_vector_database_embedding_ann_search|Vector DB]] | 근접 검색 수행 | 필터링, 증분 갱신, 비용 |
-| Generator [[263_llm_large_language_model|LLM]] | 검색된 문맥으로 응답 [[087_process_state_transition|생성]] | 인용, 거부 응답, 토큰 예산 |
+| 문서 인덱싱 | 문서를 청크와 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)로 정리 | chunk size, overlap, 최신성 |
+| [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 모델 | 의미 기반 벡터 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 적합성, 언어 지원 |
+| [Vector DB](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/151_vector_database_embedding_ann_search/) | 근접 검색 수행 | 필터링, 증분 갱신, 비용 |
+| Generator [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) | 검색된 문맥으로 응답 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 인용, 거부 응답, 토큰 예산 |
 
 ```text
 ┌──────────────┐   chunking   ┌──────────────┐   embed    ┌──────────────┐
@@ -46,7 +50,7 @@ RAG는 이 문제를 모델 재학습이 아니라 지식 접근 경로로 해�
 └──────────────┘                    └──────────────┘            └──────────────┘
 ```
 
-핵심 원리는 “검색 품질이 [[087_process_state_transition|생성]] 품질을 결정한다”는 점이다. 벡터 검색만으로는 정확한 [[289_identification_flags_fragmentation_offset|식별자]]나 최신 [[288_version_ihl_tos_total_length|버전]]을 놓칠 수 있으므로, [[012_metadata|메타데이터]] 필터와 키워드 검색을 섞는 설계가 자주 쓰인다. 또한 근거가 부족할 때는 답변을 강하게 [[087_process_state_transition|생성]]하는 대신 “모른다”고 말하게 만드는 [[164_policy|정책]]이 [[275_react_framework|환각]] 제어에 중요하다.
+핵심 원리는 “검색 품질이 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 품질을 결정한다”는 점이다. 벡터 검색만으로는 정확한 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)나 최신 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 놓칠 수 있으므로, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 필터와 키워드 검색을 섞는 설계가 자주 쓰인다. 또한 근거가 부족할 때는 답변을 강하게 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 대신 “모른다”고 말하게 만드는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) 제어에 중요하다.
 
 - **📢 섹션 요약 비유**: 똑똑한 안내원이 아무 책이나 떠올려 말하는 게 아니라, 먼저 서가에서 관련 책을 꺼내 보고 설명하는 방식과 같다.
 
@@ -58,44 +62,44 @@ RAG는 파인튜닝과 자주 비교된다. 파인튜닝은 모델 내부 성향
 
 | 방식 | 장점 | 한계 |
 | :--- | :--- | :--- |
-| Prompt Only | 빠른 실험, 비용 적음 | 최신 지식 부족, [[275_react_framework|환각]] 제어 약함 |
-| [[304_fine_tuning|Fine-tuning]] | 작업 스타일 최적화 | 지식 갱신 비용 큼 |
-| [[276_fine_tuning|RAG]] | 최신 문서 반영, 근거 추적 | 검색 품질에 크게 의존 |
+| Prompt Only | 빠른 실험, 비용 적음 | 최신 지식 부족, [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) 제어 약함 |
+| [Fine-tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/) | 작업 스타일 최적화 | 지식 갱신 비용 큼 |
+| [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) | 최신 문서 반영, 근거 추적 | 검색 품질에 크게 의존 |
 
-RAG는 [[348_mlops|MLOps]], [[221_llmops_large_language_model_ops|LLMOps]], Observability와도 연결된다. 검색된 문서의 적합도, 답변 충실도(Faithfulness), 인용 커버리지, [[015_지연_데이터_관점|지연]]시간, 비용을 함께 측정해야 실제 [[090_service_kubernetes_network_load_balancing|서비스]] 품질을 판단할 수 있다. 즉 RAG는 단순 검색 기능이 아니라 [[190_ai_llm_requirements_specification|AI]] 운영 [[123_pipe|파이프]]라인의 일부다.
+RAG는 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/), [LLMOps](/knowledge-base/studynote/12_it_management/05_security_compliance/221_llmops_large_language_model_ops/), Observability와도 연결된다. 검색된 문서의 적합도, 답변 충실도(Faithfulness), 인용 커버리지, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간, 비용을 함께 측정해야 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질을 판단할 수 있다. 즉 RAG는 단순 검색 기능이 아니라 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 운영 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 일부다.
 
-- **📢 섹션 요약 비유**: 외운 답으로만 말하는 학생과, 참고서를 펼쳐 [[396_validation|확인]]한 뒤 설명하는 학생의 차이라고 보면 된다.
+- **📢 섹션 요약 비유**: 외운 답으로만 말하는 학생과, 참고서를 펼쳐 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한 뒤 설명하는 학생의 차이라고 보면 된다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 RAG를 설계할 때는 “어떤 문서를 넣을 것인가”보다 “어떤 문서를 빼야 하는가”가 더 중요할 수 있다. 오래된 운영 매뉴얼, 권한 없는 문서, 상충되는 [[288_version_ihl_tos_total_length|버전]]이 같이 검색되면 오히려 신뢰가 떨어진다. 따라서 인덱싱 단계에서 최신성, 권한, 문서 타입, 민감도 태그를 [[012_metadata|메타데이터]]로 관리해야 한다.
+실무에서 RAG를 설계할 때는 “어떤 문서를 넣을 것인가”보다 “어떤 문서를 빼야 하는가”가 더 중요할 수 있다. 오래된 운영 매뉴얼, 권한 없는 문서, 상충되는 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이 같이 검색되면 오히려 신뢰가 떨어진다. 따라서 인덱싱 단계에서 최신성, 권한, 문서 타입, 민감도 태그를 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)로 관리해야 한다.
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 문서 청크 [[268_strategy_pattern|전략]]이 문맥 단절 없이 검색 품질을 유지하는가?
-2. 벡터 검색에 키워드 검색과 [[012_metadata|메타데이터]] 필터를 결합했는가?
-3. 답변 평가에 정답률뿐 아니라 충실도, 인용 정확도, 무응답 [[164_policy|정책]]을 포함하는가?
-4. [[278_instruction_tuning|임베딩]] 재생성, [[154_database_index_b_tree_search_optimization|인덱스]] 갱신, 모델 교체가 [[090_configuration_item|CI]]/CD처럼 운영되는가?
+1. 문서 청크 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 문맥 단절 없이 검색 품질을 유지하는가?
+2. 벡터 검색에 키워드 검색과 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 필터를 결합했는가?
+3. 답변 평가에 정답률뿐 아니라 충실도, 인용 정확도, 무응답 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 포함하는가?
+4. [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 재생성, [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 갱신, 모델 교체가 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD처럼 운영되는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - PDF를 통째로 넣고 청크 설계 없이 벡터 DB만 붙이는 경우
-- 검색 근거가 약한데도 모델이 답을 강하게 [[087_process_state_transition|생성]]하도록 허용하는 경우
-- 권한 통제가 없는 [[154_database_index_b_tree_search_optimization|인덱스]]를 만들어 사용자 권한보다 넓은 문서를 검색시키는 경우
+- 검색 근거가 약한데도 모델이 답을 강하게 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하도록 허용하는 경우
+- 권한 통제가 없는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 만들어 사용자 권한보다 넓은 문서를 검색시키는 경우
 
-기술사 답안에서는 RAG를 “모델 보강”이 아니라 “검색과 [[087_process_state_transition|생성]]의 결합 운영”으로 설명해야 완성도가 높다.
+기술사 답안에서는 RAG를 “모델 보강”이 아니라 “검색과 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)의 결합 운영”으로 설명해야 완성도가 높다.
 
-- **📢 섹션 요약 비유**: 도서관 사서가 책장을 잘못 [[104_classification_analysis|분류]]하면 아무리 똑똑한 학생도 틀린 책을 들고 와서 엉뚱한 답을 하게 되는 것과 같다.
+- **📢 섹션 요약 비유**: 도서관 사서가 책장을 잘못 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하면 아무리 똑똑한 학생도 틀린 책을 들고 와서 엉뚱한 답을 하게 되는 것과 같다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-RAG를 잘 구축하면 모델 지식 최신성을 높이면서도 재학습 비용을 줄일 수 있다. 사내 위키, 운영 매뉴얼, [[164_policy|정책]] 문서를 기반으로 답변 근거를 제공할 수 있어, [[087_process_state_transition|생성]]형 AI를 실제 업무 도구로 연결하기 쉬워진다. 특히 보안, 장애 대응, 고객지원처럼 최신 문서가 중요한 영역에서 효과가 크다.
+RAG를 잘 구축하면 모델 지식 최신성을 높이면서도 재학습 비용을 줄일 수 있다. 사내 위키, 운영 매뉴얼, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 문서를 기반으로 답변 근거를 제공할 수 있어, [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)형 AI를 실제 업무 도구로 연결하기 쉬워진다. 특히 보안, 장애 대응, 고객지원처럼 최신 문서가 중요한 영역에서 효과가 크다.
 
-그러나 RAG는 검색 품질이 낮으면 오히려 잘못된 확신을 만들 수 있다. 따라서 핵심은 벡터 DB 도입이 아니라, 문서 수명주기 관리와 평가 자동화, 권한 통제, 인용 기반 UX를 갖추는 것이다. 기억해야 할 요점은 “좋은 RAG는 답변 [[087_process_state_transition|생성]]기보다 좋은 지식 공급 체계”라는 점이다.
+그러나 RAG는 검색 품질이 낮으면 오히려 잘못된 확신을 만들 수 있다. 따라서 핵심은 벡터 DB 도입이 아니라, 문서 수명주기 관리와 평가 자동화, 권한 통제, 인용 기반 UX를 갖추는 것이다. 기억해야 할 요점은 “좋은 RAG는 답변 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)기보다 좋은 지식 공급 체계”라는 점이다.
 
 - **📢 섹션 요약 비유**: 좋은 비서가 똑똑한 이유는 말을 잘해서가 아니라, 필요한 서류를 제때 정확히 찾아오기 때문이다.
 
@@ -105,9 +109,9 @@ RAG를 잘 구축하면 모델 지식 최신성을 높이면서도 재학습 비
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[223_vector_database_embedding|Vector Database]] | 의미 기반 근접 검색의 저장소 |
-| Re-ranking | [[459_quic_fec_forward_error_correction|초기]] 검색 결과의 [[233_precision_recall_f1_roc_auc_threshold|정밀도]] 향상 |
-| [[221_llmops_large_language_model_ops|LLMOps]] | [[087_process_state_transition|생성]]형 [[190_ai_llm_requirements_specification|AI]] [[067_service_operation|서비스 운영]]과 배포 자동화 |
+| [Vector Database](/knowledge-base/studynote/12_it_management/05_security_compliance/223_vector_database_embedding/) | 의미 기반 근접 검색의 저장소 |
+| Re-ranking | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 검색 결과의 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 향상 |
+| [LLMOps](/knowledge-base/studynote/12_it_management/05_security_compliance/221_llmops_large_language_model_ops/) | [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)형 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [서비스 운영](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_service_operation/)과 배포 자동화 |
 | Grounding | 외부 근거를 바탕으로 답변을 정렬하는 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -125,7 +129,7 @@ Hybrid Retrieval + Re-ranking
 RAG with Evaluation / Citation / Guardrails
 ```
 
-이 흐름은 “기억 기반 답변 → 의미 검색 → 정밀 검색 → 근거 기반 [[087_process_state_transition|생성]] 운영”으로 발전하는 모습을 보여준다.
+이 흐름은 “기억 기반 답변 → 의미 검색 → 정밀 검색 → 근거 기반 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 운영”으로 발전하는 모습을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -139,7 +143,7 @@ RAG with Evaluation / Citation / Guardrails
 
 **진행 상황**: 346 / 373
 
-← **이전**: [[345_mlops|345. MLOps 피처 스토어·모델 드리프트·재학습 파이프라인 (Machine Learning Operations)]]
-**다음**: [[347_process|347. 프롬프트 인젝션 방어·탈옥 보호 (Prompt Injection Defense)]] →
+← **이전**: [345. MLOps 피처 스토어·모델 드리프트·재학습 파이프라인 (Machine Learning Operations)](/knowledge-base/studynote/15_devops_sre/05_devsecops/345_mlops/)
+**다음**: [347. 프롬프트 인젝션 방어·탈옥 보호 (Prompt Injection Defense)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/347_process/) →
 
 ---

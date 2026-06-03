@@ -1,24 +1,28 @@
----
-title: 89. TDMA (Time Division Multiple Access) - 슬롯 할당
-date: '2026-03-30'
-description: 디지털 압축을 통해 하나의 주파수를 시간표로 쪼개어 다수의 사용자를 수용하는 TDMA의 원리와 타이밍 동기화
-tags:
-- network
----
++++
+title = "89. TDMA (Time Division Multiple Access) - 슬롯 할당"
+description = "디지털 압축을 통해 하나의 주파수를 시간표로 쪼개어 다수의 사용자를 수용하는 TDMA의 원리와 타이밍 동기화"
+date = 2026-03-30
+
+[taxonomies]
+tags = ["network"]
+
+[extra]
+tags = ["network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 시분할 [[087_다중접속_Multiple_Access|다중 접속]] (TDMA, Time [[411_division_operation|Division]] [[087_다중접속_Multiple_Access|Multiple Access]])은 넓은 주파수 대역 하나를 짧은 타임 슬롯 (Time Slot)으로 쪼개어 다수의 사용자에게 번갈아 발언권을 주는 디지털 2G [[087_다중접속_Multiple_Access|다중 접속]] 아키텍처다.
+> 1. **본질**: 시분할 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) (TDMA, Time [Division](/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/) [Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))은 넓은 주파수 대역 하나를 짧은 타임 슬롯 (Time Slot)으로 쪼개어 다수의 사용자에게 번갈아 발언권을 주는 디지털 2G [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 아키텍처다.
 > 2. **가치**: 한 명이 채널을 영구 독점하던 아날로그 FDMA의 극심한 낭비를 해결했으며, 데이터를 버퍼에 모아두었다가 자기 차례에만 쏘는 버스트 (Burst) 송신을 통해 충돌을 원천 차단하고 단말기의 배터리 소모를 극적으로 줄였다.
-> 3. **판단 포인트**: 빛의 속도로 인한 전파 지연조차 슬롯 충돌을 유발하므로 정밀한 타이밍 어드밴스 (Timing Advance) 제어가 필수적이며, 현재는 극단적 절전과 충돌 회피가 필요한 [[592_satellite_communication_characteristics|위성 통신]], 무전기, [[101_iot_concept|IoT]] 센서망 등에서 확고한 역할을 한다.
+> 3. **판단 포인트**: 빛의 속도로 인한 전파 지연조차 슬롯 충돌을 유발하므로 정밀한 타이밍 어드밴스 (Timing Advance) 제어가 필수적이며, 현재는 극단적 절전과 충돌 회피가 필요한 [위성 통신](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/592_satellite_communication_characteristics/), 무전기, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서망 등에서 확고한 역할을 한다.
 
 ---
 
 ## Ⅰ. 개요 및 탄생 배경
 
-시분할 [[087_다중접속_Multiple_Access|다중 접속]] (TDMA)은 동일한 주파수를 다수가 공유하기 위해 시간축을 프레임 (Frame)과 여러 개의 타임 슬롯 (Time Slot)으로 분할하여, 기지국이 정해준 자신의 순서에만 데이터를 전송하는 방식이다.
+시분할 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) (TDMA)은 동일한 주파수를 다수가 공유하기 위해 시간축을 프레임 (Frame)과 여러 개의 타임 슬롯 (Time Slot)으로 분할하여, 기지국이 정해준 자신의 순서에만 데이터를 전송하는 방식이다.
 
-1세대 아날로그 망인 [[088_주파수_분할_다중접속_FDMA|FDMA]] (Frequency [[411_division_operation|Division]] [[087_다중접속_Multiple_Access|Multiple Access]])는 사용자가 침묵할 때조차 주파수 채널을 100% 점유하여 대역폭이 순식간에 고갈되는 치명적인 결함이 있었다. 엔지니어들은 음성을 0과 1의 디지털 비트로 [[347_compaction|압축]]([[943_pcm_pulse_code_modulation_sampling_quantization|PCM]])하면 실제 전송 시간이 대폭 줄어든다는 사실에 착안했다. 단일 주파수를 쪼개 "0.1초는 철수, 0.2초는 영희"처럼 사용자에게 돌아가며 전파를 쏘게 만든 것이다. 사용자들은 눈치채지 못하지만, 스마트폰은 찰나의 순간에 데이터를 기관총처럼 쏘고 다음 차례까지 앰프를 끄고 쉬는 마법을 부린다.
+1세대 아날로그 망인 [FDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/088_주파수_분할_다중접속_FDMA/) (Frequency [Division](/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/) [Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))는 사용자가 침묵할 때조차 주파수 채널을 100% 점유하여 대역폭이 순식간에 고갈되는 치명적인 결함이 있었다. 엔지니어들은 음성을 0과 1의 디지털 비트로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([PCM](/knowledge-base/studynote/03_network/19_frequent_topics_terms/943_pcm_pulse_code_modulation_sampling_quantization/))하면 실제 전송 시간이 대폭 줄어든다는 사실에 착안했다. 단일 주파수를 쪼개 "0.1초는 철수, 0.2초는 영희"처럼 사용자에게 돌아가며 전파를 쏘게 만든 것이다. 사용자들은 눈치채지 못하지만, 스마트폰은 찰나의 순간에 데이터를 기관총처럼 쏘고 다음 차례까지 앰프를 끄고 쉬는 마법을 부린다.
 
 - **📢 섹션 요약 비유**: 한 대뿐인 체스판(주파수)에서 여러 명이 동시에 손을 뻗으면 말이 부딪혀 엎어지므로(충돌), 타이머를 두고 완벽하게 자기 턴(Turn)에만 말을 옮겨 싸움을 막는 규칙과 같다.
 
@@ -26,7 +30,7 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-TDMA 시스템은 시간을 통제하여 충돌을 막기 위해 단말기와 기지국 간의 정밀한 [[212_synchronization_mechanisms|동기화]]와 전송 주기 관리를 요구한다.
+TDMA 시스템은 시간을 통제하여 충돌을 막기 위해 단말기와 기지국 간의 정밀한 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)와 전송 주기 관리를 요구한다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -45,7 +49,7 @@ TDMA 시스템은 시간을 통제하여 충돌을 막기 위해 단말기와 �
 └──────────────────────────────────────────────────────────────┘
 ```
 
-이 구조도의 핵심은 아날로그 FDMA가 주파수 사이의 가드 밴드 ([[946_guard_band_fdm_adjacent_channel_interference|Guard Band]])를 낭비했다면, TDMA는 슬롯 사이의 가드 타임 (Guard Time)을 소모한다는 점이다. 단말기는 음성 데이터를 임시 메모리에 쌓아두었다가 자신의 타임 슬롯이 도래하면 전력 앰프를 켜고 풀파워로 데이터를 쏘아 보내는(Burst) '스토어 앤 포워드' 방식으로 동작한다.
+이 구조도의 핵심은 아날로그 FDMA가 주파수 사이의 가드 밴드 ([Guard Band](/knowledge-base/studynote/03_network/19_frequent_topics_terms/946_guard_band_fdm_adjacent_channel_interference/))를 낭비했다면, TDMA는 슬롯 사이의 가드 타임 (Guard Time)을 소모한다는 점이다. 단말기는 음성 데이터를 임시 메모리에 쌓아두었다가 자신의 타임 슬롯이 도래하면 전력 앰프를 켜고 풀파워로 데이터를 쏘아 보내는(Burst) '스토어 앤 포워드' 방식으로 동작한다.
 
 - **📢 섹션 요약 비유**: 편지를 쓸 때마다 우체국에 뛰어가는 것이 아니라, 하루 종일 내용을 버퍼에 모아두었다가 내 차례가 온 딱 1분 동안만 한꺼번에 편지 뭉치를 던지고 다시 잠을 자는 스마트한 업무 처리와 같다.
 
@@ -53,16 +57,16 @@ TDMA 시스템은 시간을 통제하여 충돌을 막기 위해 단말기와 �
 
 ## Ⅲ. 비교 및 연결
 
-TDMA와 그 뒤를 이은 [[957_cdma_code_division_multiple_access_dsss_orthogonality|CDMA]] ([[082_process_memory_structure|Code]] [[411_division_operation|Division]] [[087_다중접속_Multiple_Access|Multiple Access]])의 설계 사상을 비교하면 시간과 수학이라는 두 가지 [[087_다중접속_Multiple_Access|다중 접속]] 철학의 경계를 이해할 수 있다.
+TDMA와 그 뒤를 이은 [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) ([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) [Division](/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/) [Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))의 설계 사상을 비교하면 시간과 수학이라는 두 가지 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 철학의 경계를 이해할 수 있다.
 
-| 비교 항목 | TDMA (시분할) | [[957_cdma_code_division_multiple_access_dsss_orthogonality|CDMA]] (코드 분할) | 아키텍처 판단 포인트 |
+| 비교 항목 | TDMA (시분할) | [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) (코드 분할) | 아키텍처 판단 포인트 |
 | :--- | :--- | :--- | :--- |
-| **물리적 충돌 관리** | 시간 분리로 충돌 완전 차단 | 코드로 분리하여 수신단에서 해독 | [[087_다중접속_Multiple_Access|다중 접속]] 철학 |
-| **단말기 배터리 소모** | 자기 슬롯 외엔 앰프 끄기 (극강 절전) | 약한 전력으로 연속 켜둠 (연속 소모) | [[101_iot_concept|IoT]] 센서 적용 여부 |
-| **전력 제어 민감도** | 비교적 낮음 (자기 슬롯 혼자 씀) | 극도로 높음 ([[092_근거리_원거리_문제_CDMA_전력제어|Near-Far Problem]]) | 시스템 복잡도 위치 |
-| **[[212_synchronization_mechanisms|동기화]] 난이도** | 극도로 높음 (마이크로초 제어 필수) | 중간 수준 | 마스터 클럭 의존성 |
+| **물리적 충돌 관리** | 시간 분리로 충돌 완전 차단 | 코드로 분리하여 수신단에서 해독 | [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 철학 |
+| **단말기 배터리 소모** | 자기 슬롯 외엔 앰프 끄기 (극강 절전) | 약한 전력으로 연속 켜둠 (연속 소모) | [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서 적용 여부 |
+| **전력 제어 민감도** | 비교적 낮음 (자기 슬롯 혼자 씀) | 극도로 높음 ([Near-Far Problem](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/092_근거리_원거리_문제_CDMA_전력제어/)) | 시스템 복잡도 위치 |
+| **[동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 난이도** | 극도로 높음 (마이크로초 제어 필수) | 중간 수준 | 마스터 클럭 의존성 |
 
-TDMA는 시간 통제로 충돌을 원천 차단하지만, 거리 지연으로 인해 타임 슬롯이 헝클어질 위험이 있다. 이를 해결하기 위해 기지국은 핑을 때려 거리를 재고 먼 단말기에게 "0.5초 일찍 출발시켜"라고 명령하는 타이밍 어드밴스 (Timing Advance) [[001_algorithm_definition|알고리즘]]을 사용한다. 반면 CDMA는 주파수와 시간을 다 같이 쓰면서 수학적 직교 코드로 분리해 냈다.
+TDMA는 시간 통제로 충돌을 원천 차단하지만, 거리 지연으로 인해 타임 슬롯이 헝클어질 위험이 있다. 이를 해결하기 위해 기지국은 핑을 때려 거리를 재고 먼 단말기에게 "0.5초 일찍 출발시켜"라고 명령하는 타이밍 어드밴스 (Timing Advance) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 사용한다. 반면 CDMA는 주파수와 시간을 다 같이 쓰면서 수학적 직교 코드로 분리해 냈다.
 
 - **📢 섹션 요약 비유**: 오케스트라에서 거리가 멀어 소리가 늦게 도착하는 타악기 연주자에게 "너는 앞줄보다 0.5초 먼저 북을 쳐라"라고 지시하여 관객의 귀에 완벽한 타이밍으로 들리게 만드는 정밀한 예술과 같다.
 
@@ -72,11 +76,11 @@ TDMA는 시간 통제로 충돌을 원천 차단하지만, 거리 지연으로 �
 
 TDMA의 버스트(Burst) 특성을 완벽히 이해해야 전자기 노이즈를 잡고 저전력망을 성공적으로 설계할 수 있다.
 
-### [[435_checklist_based_testing|체크리스트]] 및 실무 판단
-1. **EMI 간섭과 버스트 노이즈 [[656_ir_containment|억제]]**: TDMA 방식(GSM 등) 단말기가 1초에 수십 번씩 전원을 풀파워로 온/오프 하면서 발생하는 거대한 전자기 펄스가 주변 스피커나 정밀 의료기기에 간섭(징징거리는 노이즈)을 일으키지 않도록 하드웨어 쉴드(Shield) 캔 설계를 강화했는가?
-2. **초저전력 [[101_iot_concept|IoT]] 센서망의 [[295_protocol_field_tcp_udp_icmp|프로토콜]] 채택**: 수년간 배터리를 갈 수 없는 스마트 팜 센서망 설계 시, 충돌 제어로 전력을 낭비하는 [[104_csma|CSMA]] 기반 기술 대신, 자신의 시간표가 아닐 때 라디오를 완전히 딥 슬립(Deep Sleep) 시키는 TSCH 같은 TDMA 베이스의 [[673_mac_message_authentication_code|MAC]] [[295_protocol_field_tcp_udp_icmp|프로토콜]]을 채택했는가?
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 실무 판단
+1. **EMI 간섭과 버스트 노이즈 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)**: TDMA 방식(GSM 등) 단말기가 1초에 수십 번씩 전원을 풀파워로 온/오프 하면서 발생하는 거대한 전자기 펄스가 주변 스피커나 정밀 의료기기에 간섭(징징거리는 노이즈)을 일으키지 않도록 하드웨어 쉴드(Shield) 캔 설계를 강화했는가?
+2. **초저전력 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서망의 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 채택**: 수년간 배터리를 갈 수 없는 스마트 팜 센서망 설계 시, 충돌 제어로 전력을 낭비하는 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/) 기반 기술 대신, 자신의 시간표가 아닐 때 라디오를 완전히 딥 슬립(Deep Sleep) 시키는 TSCH 같은 TDMA 베이스의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 채택했는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 수백 km를 커버하는 위성이나 해상 통신망에서 무리하게 촘촘한 TDMA 슬롯을 설계하는 것. 물리적인 전파 지연이 너무 커서 충돌 방지용 가드 타임을 무한정 늘리다 보면 결국 실제 데이터가 들어갈 자리가 사라져 스루풋이 붕괴한다.
 
 - **📢 섹션 요약 비유**: 하루 종일 무전기를 켜두어 배터리를 다 닳게 만드는 초보 병사와 달리, 정해진 차례 딱 1분만 무전기를 켜서 보고하고 나머지 시간은 꺼버려 배터리를 한 달 내내 유지하는 베테랑의 노하우와 같다.
@@ -87,7 +91,7 @@ TDMA의 버스트(Burst) 특성을 완벽히 이해해야 전자기 노이즈를
 
 TDMA는 주파수를 독점하던 아날로그의 낭비를 거부하고, 시간이라는 자원을 디지털 스위치로 썰어서 수용량을 극대화한 혁신적인 아키텍처다.
 
-비록 대용량 트래픽의 스마트폰 주류 통신망에서는 CDMA나 OFDMA에 자리를 내주었지만, 충돌이 절대 발생하지 않는 확정적 결정성(Determinism)과 극단적 배터리 절약 능력은 여전히 독보적이다. 그 결과, 군용 무전기, 해상 통신, 저전력 [[101_iot_concept|IoT]] 센서망 등 생존성과 타이밍이 생명인 특수 분야에서는 영원히 대체 불가능한 핵심 통신 규격으로 자리 잡고 있다.
+비록 대용량 트래픽의 스마트폰 주류 통신망에서는 CDMA나 OFDMA에 자리를 내주었지만, 충돌이 절대 발생하지 않는 확정적 결정성(Determinism)과 극단적 배터리 절약 능력은 여전히 독보적이다. 그 결과, 군용 무전기, 해상 통신, 저전력 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서망 등 생존성과 타이밍이 생명인 특수 분야에서는 영원히 대체 불가능한 핵심 통신 규격으로 자리 잡고 있다.
 
 - **📢 섹션 요약 비유**: 복잡한 시장통에서 아무나 떠드는 것을 멈추게 하고, 1마이크로초 단위의 칼 같은 시간표에 맞춰 완벽한 순서대로 합창을 이끌어낸 공학자들의 극한의 시간 관리 오케스트라와 같다.
 
@@ -97,9 +101,9 @@ TDMA는 주파수를 독점하던 아날로그의 낭비를 거부하고, 시간
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[[087_다중접속_Multiple_Access|Multiple Access]] ([[087_다중접속_Multiple_Access|다중 접속]])** | 제한된 전파 자원을 분할하는 규칙으로, TDMA는 시간을 칼같이 썰어서 나누는 방식이다 |
-| **Timing Advance (타이밍 보상)** | 기지국과 단말기 사이의 거리를 계산해 전송 시작 시점을 앞당겨 슬롯 충돌을 막는 필수 [[001_algorithm_definition|알고리즘]] |
-| **Guard Time ([[571_protection_vs_security|보호]] 시간)** | 전파 지연으로 앞뒤 사용자의 버스트 데이터가 겹치지 않게 슬롯 사이에 두는 안전 마진 |
+| **[Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) ([다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))** | 제한된 전파 자원을 분할하는 규칙으로, TDMA는 시간을 칼같이 썰어서 나누는 방식이다 |
+| **Timing Advance (타이밍 보상)** | 기지국과 단말기 사이의 거리를 계산해 전송 시작 시점을 앞당겨 슬롯 충돌을 막는 필수 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
+| **Guard Time ([보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 시간)** | 전파 지연으로 앞뒤 사용자의 버스트 데이터가 겹치지 않게 슬롯 사이에 두는 안전 마진 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -133,7 +137,7 @@ TDMA는 주파수를 독점하던 아날로그의 낭비를 거부하고, 시간
 
 **진행 상황**: 89 / 1120
 
-← **이전**: [[088_주파수_분할_다중접속_FDMA|88. FDMA (Frequency Division Multiple Access)]]
-**다음**: [[090_코드_분할_다중접속_CDMA|90. CDMA (Code Division Multiple Access) - 왈시 코드 (Walsh Code)]] →
+← **이전**: [88. FDMA (Frequency Division Multiple Access)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/088_주파수_분할_다중접속_FDMA/)
+**다음**: [90. CDMA (Code Division Multiple Access) - 왈시 코드 (Walsh Code)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/090_코드_분할_다중접속_CDMA/) →
 
 ---

@@ -1,13 +1,17 @@
----
-title: 168. 품질 기능 전개 (QFD, Quality Function Deployment)
-date: '2026-04-03'
-tags:
-- studynote-software-engineering
----
++++
+title = "168. 품질 기능 전개 (QFD, Quality Function Deployment)"
+date = 2026-04-03
+
+[taxonomies]
+tags = ["studynote-software-engineering"]
+
+[extra]
+tags = ["studynote-software-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 품질 기능 전개 (Quality Function [[087_deployment_kubernetes_workload_rolling_update|Deployment]], QFD)는 고객의 목소리 (Voice of [[026_three_c_analysis|Customer]], VOC)를 설계 특성, 부품 특성, 공정, 테스트 기준으로 단계적으로 변환해 주는 요구사항 전개 방법론이다.
+> 1. **본질**: 품질 기능 전개 (Quality Function [Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/), QFD)는 고객의 목소리 (Voice of [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/), VOC)를 설계 특성, 부품 특성, 공정, 테스트 기준으로 단계적으로 변환해 주는 요구사항 전개 방법론이다.
 > 2. **가치**: QFD는 "좋아 보이는 기능"이 아니라 "고객 가치와 연결된 기술 항목"에 자원을 집중하게 만들어, 오버엔지니어링과 재작업 비용을 줄인다.
 > 3. **판단 포인트**: QFD의 목적은 문서를 많이 만드는 것이 아니라 추상 요구를 계량 가능한 목표로 번역하는 데 있다. 따라서 하우스 오브 퀄리티 (House of Quality, HoQ) 점수와 목표치는 반드시 측정 가능한 형태여야 한다.
 
@@ -15,9 +19,9 @@ tags:
 
 ## Ⅰ. 개요 및 필요성
 
-QFD는 고객이 말하는 요구를 엔지니어가 실행 가능한 설계 언어로 번역하는 체계적 방법이다. 고객은 보통 "빠르면 좋겠다", "안전했으면 좋겠다", "사용하기 편했으면 좋겠다"처럼 목적 중심의 언어로 말한다. 반면 개발 조직은 응답시간, 오류율, 암호화 수준, 장애 [[658_ir_recovery|복구]] 시간처럼 측정 가능한 기술 지표로 움직인다.
+QFD는 고객이 말하는 요구를 엔지니어가 실행 가능한 설계 언어로 번역하는 체계적 방법이다. 고객은 보통 "빠르면 좋겠다", "안전했으면 좋겠다", "사용하기 편했으면 좋겠다"처럼 목적 중심의 언어로 말한다. 반면 개발 조직은 응답시간, 오류율, 암호화 수준, 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간처럼 측정 가능한 기술 지표로 움직인다.
 
-이 간극을 메우지 못하면 프로젝트는 쉽게 어긋난다. 고객은 만족하지 못하는데 팀 내부에서는 "요구사항대로 만들었다"고 느끼고, 개발자는 중요한 품질 [[082_attribute_types_er_model|속성]]을 수치화하지 못한 채 감으로 우선순위를 정하게 된다. QFD는 이런 모호함을 줄이기 위해 고객 요구를 중요도와 [[083_relationship_in_er_model|관계]]도로 분해하고, 이를 설계·구현·[[395_verification_process_review|검증]] 단계까지 이어 붙인다.
+이 간극을 메우지 못하면 프로젝트는 쉽게 어긋난다. 고객은 만족하지 못하는데 팀 내부에서는 "요구사항대로 만들었다"고 느끼고, 개발자는 중요한 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 수치화하지 못한 채 감으로 우선순위를 정하게 된다. QFD는 이런 모호함을 줄이기 위해 고객 요구를 중요도와 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)도로 분해하고, 이를 설계·구현·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 단계까지 이어 붙인다.
 
 이 그림은 QFD가 왜 단순 요구 수집이 아니라 "번역 파이프라인"으로 불리는지 보여준다.
 
@@ -46,14 +50,14 @@ QFD는 고객이 말하는 요구를 엔지니어가 실행 가능한 설계 언
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-QFD의 대표 도구는 HoQ다. 왼쪽에는 고객 요구(WHAT), 위쪽에는 기술 특성(HOW)을 놓고, 가운데 [[083_relationship_in_er_model|관계]] 행렬에서 각 요구와 기술 요소의 연관 강도를 평가한다. 여기에 고객 중요도, 경쟁사 비교, 기술 간 상충 [[083_relationship_in_er_model|관계]], 목표값을 함께 얹으면 "무엇을 얼마나 개선해야 하는가"가 구조적으로 드러난다.
+QFD의 대표 도구는 HoQ다. 왼쪽에는 고객 요구(WHAT), 위쪽에는 기술 특성(HOW)을 놓고, 가운데 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 행렬에서 각 요구와 기술 요소의 연관 강도를 평가한다. 여기에 고객 중요도, 경쟁사 비교, 기술 간 상충 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/), 목표값을 함께 얹으면 "무엇을 얼마나 개선해야 하는가"가 구조적으로 드러난다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :-------- | :--- | :---------- |
 | WHAT | 고객 요구와 중요도 | 고객 언어를 과장 없이 정리 |
 | HOW | 기술 특성·설계 지표 | 반드시 측정 가능해야 함 |
-| [[083_relationship_in_er_model|관계]] 행렬 | WHAT-HOW 연관 강도 | 9/3/1 등 일관된 척도 유지 |
-| 지붕(Roof) | HOW-HOW 상충 [[083_relationship_in_er_model|관계]] | 속도 vs 보안 같은 충돌 [[655_ir_detection_analysis|식별]] |
+| [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 행렬 | WHAT-HOW 연관 강도 | 9/3/1 등 일관된 척도 유지 |
+| 지붕(Roof) | HOW-HOW 상충 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 속도 vs 보안 같은 충돌 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) |
 | 목표치 | 우선순위와 달성 수준 | 테스트 가능한 수치로 표현 |
 
 이 그림은 HoQ의 핵심 구조를 단순화한 것이다.
@@ -70,7 +74,7 @@ QFD의 대표 도구는 HoQ다. 왼쪽에는 고객 요구(WHAT), 위쪽에는 �
 └──────────────────────────────────────────────────────────────┘
 ```
 
-QFD의 중요한 특징은 "전개"에 있다. 첫 번째 HoQ에서 정리한 제품 수준 기술 특성은 다음 단계에서는 다시 WHAT이 되어, 세부 [[192_module_independence|모듈]] 설계·부품 선택·공정 조건·테스트 기준으로 이어진다. 그래서 QFD를 제대로 쓰면 "고객이 왜 그 기능을 원하는가"와 "테스터가 무엇을 [[395_verification_process_review|검증]]해야 하는가"가 한 줄의 추적성으로 연결된다.
+QFD의 중요한 특징은 "전개"에 있다. 첫 번째 HoQ에서 정리한 제품 수준 기술 특성은 다음 단계에서는 다시 WHAT이 되어, 세부 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 설계·부품 선택·공정 조건·테스트 기준으로 이어진다. 그래서 QFD를 제대로 쓰면 "고객이 왜 그 기능을 원하는가"와 "테스터가 무엇을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 하는가"가 한 줄의 추적성으로 연결된다.
 
 - **📢 섹션 요약 비유**: QFD는 큰 설계도를 작은 작업 지시서로 계속 번역해 내려가는 건축 공정과 같다. 처음에는 "햇빛이 잘 드는 집"이지만, 마지막 단계에서는 창문 크기와 유리 두께 같은 숫자로 바뀌어야 공사가 가능하다.
 
@@ -78,45 +82,45 @@ QFD의 중요한 특징은 "전개"에 있다. 첫 번째 HoQ에서 정리한 �
 
 ## Ⅲ. 비교 및 연결
 
-QFD는 종종 [[167_kano_model_quality_attributes|카노 모델]] ([[167_kano_model_quality_attributes|Kano Model]])이나 MoSCoW 우선순위화 기법과 함께 비교된다. [[167_kano_model_quality_attributes|카노 모델]]이 고객 만족의 성격을 파악하는 데 강하다면, QFD는 그 만족 요인을 실제 설계 변수로 치환하는 데 강하다. 즉 카노가 "무엇이 감동과 불만을 만드는가"를 [[104_classification_analysis|분류]]한다면, QFD는 "그 감동을 만들려면 어떤 기술 값을 맞춰야 하는가"를 정한다.
+QFD는 종종 [카노 모델](/knowledge-base/studynote/04_software_engineering/03_design_architecture/167_kano_model_quality_attributes/) ([Kano Model](/knowledge-base/studynote/04_software_engineering/03_design_architecture/167_kano_model_quality_attributes/))이나 MoSCoW 우선순위화 기법과 함께 비교된다. [카노 모델](/knowledge-base/studynote/04_software_engineering/03_design_architecture/167_kano_model_quality_attributes/)이 고객 만족의 성격을 파악하는 데 강하다면, QFD는 그 만족 요인을 실제 설계 변수로 치환하는 데 강하다. 즉 카노가 "무엇이 감동과 불만을 만드는가"를 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)한다면, QFD는 "그 감동을 만들려면 어떤 기술 값을 맞춰야 하는가"를 정한다.
 
-| 비교 축 | [[167_kano_model_quality_attributes|카노 모델]] | QFD |
+| 비교 축 | [카노 모델](/knowledge-base/studynote/04_software_engineering/03_design_architecture/167_kano_model_quality_attributes/) | QFD |
 | :------ | :-------- | :-- |
-| 주 목적 | 요구의 만족 성격 [[104_classification_analysis|분류]] | 요구를 기술 목표로 변환 |
+| 주 목적 | 요구의 만족 성격 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 요구를 기술 목표로 변환 |
 | 입력 | 고객 반응, 설문, 인터뷰 | 고객 요구, 중요도, 기술 항목 |
-| 출력 | 당연적/일원적/매력적 품질 | 우선순위, 목표치, 상충 [[083_relationship_in_er_model|관계]] |
+| 출력 | 당연적/일원적/매력적 품질 | 우선순위, 목표치, 상충 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 | 강점 | 시장 관점 통찰 | 설계·개발·테스트 연결 |
 
-또한 HoQ와 QFD는 동일 개념이 아니다. HoQ는 QFD의 1단계 핵심 도구이고, QFD는 그보다 넓은 전개 방법론이다. HoQ만 한 장 작성해 놓고 이후 설계나 테스트로 연결하지 않으면 "보기 좋은 분석표"로 끝날 위험이 있다. 반대로 QFD가 제대로 작동하면 [[131_requirements_engineering|요구사항 공학]] ([[131_requirements_engineering|Requirements Engineering]]), 품질 [[082_attribute_types_er_model|속성]] 설계, [[441_test_case|테스트 케이스]] 정의, 운영 지표 설계까지 일관된 흐름을 만들 수 있다.
+또한 HoQ와 QFD는 동일 개념이 아니다. HoQ는 QFD의 1단계 핵심 도구이고, QFD는 그보다 넓은 전개 방법론이다. HoQ만 한 장 작성해 놓고 이후 설계나 테스트로 연결하지 않으면 "보기 좋은 분석표"로 끝날 위험이 있다. 반대로 QFD가 제대로 작동하면 [요구사항 공학](/knowledge-base/studynote/04_software_engineering/03_design_architecture/131_requirements_engineering/) ([Requirements Engineering](/knowledge-base/studynote/04_software_engineering/03_design_architecture/131_requirements_engineering/)), 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 설계, [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 정의, 운영 지표 설계까지 일관된 흐름을 만들 수 있다.
 
-이 점에서 QFD는 [[652_devops_calms_culture|데브옵스]] ([[652_devops_calms_culture|DevOps]])나 품질 관리와도 연결된다. 목표 응답시간 200ms, 장애 [[658_ir_recovery|복구]] 시간 5분, [[452_availability|가용성]] 99.95% 같은 수치가 HoQ에서 도출되면, 이후 [[282_performance_tactics|성능]] 테스트와 [[090_service_kubernetes_network_load_balancing|서비스]] 수준 목표 ([[123_slo_service_level_objective|Service Level Objective]], [[181_slo_service_level_objective|SLO]])까지 자연스럽게 이어질 수 있다.
+이 점에서 QFD는 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) ([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/))나 품질 관리와도 연결된다. 목표 응답시간 200ms, 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 5분, [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 99.95% 같은 수치가 HoQ에서 도출되면, 이후 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 테스트와 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 목표 ([Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/), [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/))까지 자연스럽게 이어질 수 있다.
 
-- **📢 섹션 요약 비유**: [[167_kano_model_quality_attributes|카노 모델]]이 손님이 무엇을 좋아하는지 알아보는 메뉴 조사라면, QFD는 그 메뉴를 실제 레시피와 조리 시간으로 바꾸는 주방 설계표와 같다. 좋아하는 것만 알아서는 요리가 완성되지 않는다.
+- **📢 섹션 요약 비유**: [카노 모델](/knowledge-base/studynote/04_software_engineering/03_design_architecture/167_kano_model_quality_attributes/)이 손님이 무엇을 좋아하는지 알아보는 메뉴 조사라면, QFD는 그 메뉴를 실제 레시피와 조리 시간으로 바꾸는 주방 설계표와 같다. 좋아하는 것만 알아서는 요리가 완성되지 않는다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 QFD는 "고객 가치와 기술 투자 사이의 거리"를 줄이는 도구로 가장 유용하다. 예를 들어 모바일 뱅킹 앱에서 고객 요구가 "이체가 빠르고 안심된다"라면, 이를 응답시간 2초 이하, 이중 [[303_authentication_authorization_patterns|인증]] 성공률, 장애 시 [[658_ir_recovery|복구]] 시간, 암호화 수준 같은 지표로 번역해야 개발팀과 품질팀이 같은 목표를 공유할 수 있다. 그렇지 않으면 한 팀은 UI 애니메이션을 다듬고, 다른 팀은 불필요한 [[532_microservices_decomposition_patterns|마이크로서비스]] 분리만 하면서 서로 다른 방향으로 자원을 쓸 수 있다.
+실무에서 QFD는 "고객 가치와 기술 투자 사이의 거리"를 줄이는 도구로 가장 유용하다. 예를 들어 모바일 뱅킹 앱에서 고객 요구가 "이체가 빠르고 안심된다"라면, 이를 응답시간 2초 이하, 이중 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 성공률, 장애 시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간, 암호화 수준 같은 지표로 번역해야 개발팀과 품질팀이 같은 목표를 공유할 수 있다. 그렇지 않으면 한 팀은 UI 애니메이션을 다듬고, 다른 팀은 불필요한 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 분리만 하면서 서로 다른 방향으로 자원을 쓸 수 있다.
 
 ### 실무 시나리오
 
-1. **모바일 금융 [[090_service_kubernetes_network_load_balancing|서비스]]**: 고객 요구 중요도가 "거래 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 5, 응답 속도 4"라면, QFD는 장애 [[658_ir_recovery|복구]] 목표, 이중 승인율, [[014_api_posix|API]] 응답시간 같은 기술 목표의 우선순위를 정하게 한다.
-2. **임베디드 제품 개발**: "배터리가 오래간다"라는 요구를 평균 전력 소비량, 대기 전력, 충전 시간으로 분해해야 하드웨어·[[032_firmware|펌웨어]] 팀이 같은 기준으로 움직일 수 있다.
-3. **프로젝트 착수 의사결정**: 경쟁사 벤치마크를 HoQ에 반영하면, 어떤 품질 [[082_attribute_types_er_model|속성]]이 차별화 포인트인지 정량적으로 판단할 수 있다.
+1. **모바일 금융 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)**: 고객 요구 중요도가 "거래 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 5, 응답 속도 4"라면, QFD는 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 목표, 이중 승인율, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 응답시간 같은 기술 목표의 우선순위를 정하게 한다.
+2. **임베디드 제품 개발**: "배터리가 오래간다"라는 요구를 평균 전력 소비량, 대기 전력, 충전 시간으로 분해해야 하드웨어·[펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 팀이 같은 기준으로 움직일 수 있다.
+3. **프로젝트 착수 의사결정**: 경쟁사 벤치마크를 HoQ에 반영하면, 어떤 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 차별화 포인트인지 정량적으로 판단할 수 있다.
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 - WHAT이 고객 언어로 정리되어 있는가?
-- HOW가 ms, %, 건수, [[452_availability|가용성]]처럼 측정 가능한 단위로 표현되었는가?
-- 기술 항목 간 상충 [[083_relationship_in_er_model|관계]]를 지붕에서 검토했는가?
+- HOW가 ms, %, 건수, [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)처럼 측정 가능한 단위로 표현되었는가?
+- 기술 항목 간 상충 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 지붕에서 검토했는가?
 - 도출된 우선순위가 테스트·운영 지표까지 이어지는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 추상 문장을 HOW 칸에 그대로 옮겨 적는 것
-- [[083_relationship_in_er_model|관계]] 점수에 근거 없이 정치적으로 점수를 주는 것
-- HoQ를 작성해 놓고 설계·[[395_verification_process_review|검증]] 단계에 연결하지 않는 것
+- [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 점수에 근거 없이 정치적으로 점수를 주는 것
+- HoQ를 작성해 놓고 설계·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 단계에 연결하지 않는 것
 
 - **📢 섹션 요약 비유**: QFD 없는 프로젝트는 장을 보러 가면서 "맛있는 것 좀 사 와"만 말하는 것과 같다. QFD를 쓰면 필요한 재료와 수량이 적혀 있어, 돈과 시간이 엉뚱한 물건에 새지 않는다.
 
@@ -124,9 +128,9 @@ QFD는 종종 [[167_kano_model_quality_attributes|카노 모델]] ([[167_kano_mo
 
 ## Ⅴ. 기대효과 및 결론
 
-QFD를 올바르게 적용하면 요구사항의 모호성이 줄고, 설계·구현·테스트 간의 추적성이 높아진다. 고객이 중요하게 여기는 품질 [[082_attribute_types_er_model|속성]]이 기술 목표와 [[395_verification_process_review|검증]] 기준으로 이어지므로, 재작업과 우선순위 충돌을 줄이고 조직 간 합의를 빠르게 만들 수 있다. 특히 복수 부서가 동시에 움직이는 대형 프로젝트에서 효과가 크다.
+QFD를 올바르게 적용하면 요구사항의 모호성이 줄고, 설계·구현·테스트 간의 추적성이 높아진다. 고객이 중요하게 여기는 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 기술 목표와 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기준으로 이어지므로, 재작업과 우선순위 충돌을 줄이고 조직 간 합의를 빠르게 만들 수 있다. 특히 복수 부서가 동시에 움직이는 대형 프로젝트에서 효과가 크다.
 
-물론 QFD에도 비용이 있다. 요구와 기술 항목을 구조화하고 점수를 합의하는 과정에는 시간과 협업 노력이 필요하다. 그래서 모든 프로젝트에 거대한 HoQ를 그리는 대신, 핵심 기능과 핵심 품질 [[082_attribute_types_er_model|속성]]에 집중한 경량 QFD가 더 현실적일 때도 많다.
+물론 QFD에도 비용이 있다. 요구와 기술 항목을 구조화하고 점수를 합의하는 과정에는 시간과 협업 노력이 필요하다. 그래서 모든 프로젝트에 거대한 HoQ를 그리는 대신, 핵심 기능과 핵심 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)에 집중한 경량 QFD가 더 현실적일 때도 많다.
 
 결국 QFD는 문서를 위한 문서가 아니라, 고객 가치가 개발 활동으로 왜곡 없이 전달되도록 만드는 번역 체계다. 기억해야 할 포인트는 단순하다. 좋은 요구사항은 예쁜 문장이 아니라, 설계와 테스트가 바로 움직일 수 있는 측정 가능한 목표다.
 
@@ -138,11 +142,11 @@ QFD를 올바르게 적용하면 요구사항의 모호성이 줄고, 설계·�
 
 | 개념 | 연결 포인트 |
 | :--- | :---------- |
-| VOC (Voice of [[026_three_c_analysis|Customer]]) | QFD의 출발점이 되는 고객 요구 입력 |
+| VOC (Voice of [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)) | QFD의 출발점이 되는 고객 요구 입력 |
 | HoQ (House of Quality) | WHAT과 HOW를 연결하는 QFD의 핵심 분석 도구 |
-| [[131_requirements_engineering|요구사항 공학]] ([[131_requirements_engineering|Requirements Engineering]]) | 요구를 구조화하고 추적성 있게 관리하는 상위 활동 |
-| [[167_kano_model_quality_attributes|카노 모델]] ([[167_kano_model_quality_attributes|Kano Model]]) | 고객 만족 성격을 [[104_classification_analysis|분류]]해 QFD 입력 품질을 높여 주는 선행 기법 |
-| [[181_slo_service_level_objective|SLO]] ([[123_slo_service_level_objective|Service Level Objective]]) | QFD에서 도출한 품질 목표를 운영 지표로 연결하는 개념 |
+| [요구사항 공학](/knowledge-base/studynote/04_software_engineering/03_design_architecture/131_requirements_engineering/) ([Requirements Engineering](/knowledge-base/studynote/04_software_engineering/03_design_architecture/131_requirements_engineering/)) | 요구를 구조화하고 추적성 있게 관리하는 상위 활동 |
+| [카노 모델](/knowledge-base/studynote/04_software_engineering/03_design_architecture/167_kano_model_quality_attributes/) ([Kano Model](/knowledge-base/studynote/04_software_engineering/03_design_architecture/167_kano_model_quality_attributes/)) | 고객 만족 성격을 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)해 QFD 입력 품질을 높여 주는 선행 기법 |
+| [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) ([Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/)) | QFD에서 도출한 품질 목표를 운영 지표로 연결하는 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -176,7 +180,7 @@ HoQ 작성
 
 **진행 상황**: 168 / 973
 
-← **이전**: [[167_kano_model_quality_attributes|167. 카노 모델 (Kano Model) - 당연적, 일원적, 매력적 품질]]
-**다음**: [[169_hoq_house_of_quality_matrix|169. 품질의 집 (HoQ, House of Quality) 매트릭스]] →
+← **이전**: [167. 카노 모델 (Kano Model) - 당연적, 일원적, 매력적 품질](/knowledge-base/studynote/04_software_engineering/03_design_architecture/167_kano_model_quality_attributes/)
+**다음**: [169. 품질의 집 (HoQ, House of Quality) 매트릭스](/knowledge-base/studynote/04_software_engineering/03_design_architecture/169_hoq_house_of_quality_matrix/) →
 
 ---

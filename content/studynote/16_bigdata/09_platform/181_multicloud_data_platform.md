@@ -1,25 +1,29 @@
----
-title: 181. 멀티클라우드 데이터 플랫폼 (Multi-cloud Data Platform) — Snowflake/Databricks
-date: '2026-04-21'
-tags:
-- studynote-bigdata
----
++++
+title = "181. 멀티클라우드 데이터 플랫폼 (Multi-cloud Data Platform) — Snowflake/Databricks"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-bigdata"]
+
+[extra]
+tags = ["studynote-bigdata"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 멀티클라우드 [[001_dikw_pyramid|데이터]] 플랫폼은 두 개 이상의 [[007_public_cloud|퍼블릭 클라우드]]에 흩어진 [[001_dikw_pyramid|데이터]]와 계산 자원을 하나의 운영 모델로 묶되, 실제 [[001_dikw_pyramid|데이터]] 처리는 가능한 한 각 클라우드 현지에서 수행하도록 설계한 통합 [[104_da_as_is_analysis|데이터 아키텍처]]다.
-> 2. **가치**: [[809_data_sovereignty|데이터 주권]], 인수합병, 고가용성, [[051_vendor_lock_in_cloud_computing|벤더 종속]] 완화 같은 현실 요구를 충족하면서도 [[541_cassandra|Snowflake]], [[074_photon_engine|Databricks]] 같은 공통 플랫폼 위에서 거버넌스와 협업을 표준화할 수 있다.
-> 3. **판단 포인트**: 성공의 핵심은 "모든 [[001_dikw_pyramid|데이터]]를 모든 클라우드에 [[016_replication_factor|복제]]"하는 것이 아니라, 공통 Control Plane은 통합하고 [[001_dikw_pyramid|Data]] Plane은 지역화하여 이그레스 비용과 운영 복잡도를 통제하는 데 있다.
+> 1. **본질**: 멀티클라우드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼은 두 개 이상의 [퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/)에 흩어진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 계산 자원을 하나의 운영 모델로 묶되, 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리는 가능한 한 각 클라우드 현지에서 수행하도록 설계한 통합 [데이터 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/)다.
+> 2. **가치**: [데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/), 인수합병, 고가용성, [벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/) 완화 같은 현실 요구를 충족하면서도 [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) 같은 공통 플랫폼 위에서 거버넌스와 협업을 표준화할 수 있다.
+> 3. **판단 포인트**: 성공의 핵심은 "모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모든 클라우드에 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)"하는 것이 아니라, 공통 Control Plane은 통합하고 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane은 지역화하여 이그레스 비용과 운영 복잡도를 통제하는 데 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-멀티클라우드 [[001_dikw_pyramid|데이터]] 플랫폼은 여러 클라우드에 흩어진 [[001_dikw_pyramid|데이터]] 자산을 하나의 분석·거버넌스 체계로 다루려는 시도다. 기업이 AWS (Amazon Web Services), Microsoft Azure, Google Cloud Platform (GCP)을 동시에 쓰는 이유는 단순한 유행이 아니라, 지역 규제, 기존 투자, [[090_service_kubernetes_network_load_balancing|서비스]]별 강점, 장애 [[136_variance|분산]], 인수합병 (M&A) 후 통합 같은 현실 때문이다. 문제는 클라우드 수가 늘어날수록 [[645_data_pipeline_acceleration|데이터 파이프라인]], 권한 체계, [[012_metadata|메타데이터]], 비용 구조가 빠르게 분열된다는 점이다.
+멀티클라우드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼은 여러 클라우드에 흩어진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산을 하나의 분석·거버넌스 체계로 다루려는 시도다. 기업이 AWS (Amazon Web Services), Microsoft Azure, Google Cloud Platform (GCP)을 동시에 쓰는 이유는 단순한 유행이 아니라, 지역 규제, 기존 투자, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 강점, 장애 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/), 인수합병 (M&A) 후 통합 같은 현실 때문이다. 문제는 클라우드 수가 늘어날수록 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/), 권한 체계, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/), 비용 구조가 빠르게 분열된다는 점이다.
 
-특히 빅데이터 환경에서는 [[001_dikw_pyramid|Data]] Gravity가 강하게 작동한다. 수십 테라바이트에서 페타바이트 단위 [[001_dikw_pyramid|데이터]]는 애플리케이션보다 훨씬 느리게 이동하며, 한 번 이동할 때마다 [[189_egress|Egress]] 비용과 [[015_지연_데이터_관점|지연]]이 발생한다. 따라서 멀티클라우드 [[268_strategy_pattern|전략]]의 본질은 "어디든 쉽게 옮긴다"가 아니라, "옮기지 않아도 운영할 수 있는 통합 구조를 만든다"에 가깝다.
+특히 빅데이터 환경에서는 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Gravity가 강하게 작동한다. 수십 테라바이트에서 페타바이트 단위 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 애플리케이션보다 훨씬 느리게 이동하며, 한 번 이동할 때마다 [Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) 비용과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 발생한다. 따라서 멀티클라우드 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 본질은 "어디든 쉽게 옮긴다"가 아니라, "옮기지 않아도 운영할 수 있는 통합 구조를 만든다"에 가깝다.
 
-Snowflake와 Databricks가 주목받는 이유도 여기 있다. 둘 다 여러 클라우드를 지원하면서 계정, [[394_catalog_metadata|카탈로그]], 권한, [[386_data_clean_room_sharing|데이터 공유]], [[298_qkv_attention|쿼리]] 경험을 일정 수준 통합해 준다. 즉 멀티클라우드 [[001_dikw_pyramid|데이터]] 플랫폼은 클라우드를 늘리는 [[268_strategy_pattern|전략]]이라기보다, **클라우드가 여러 개일 때도 [[001_dikw_pyramid|데이터]] 운영을 하나처럼 보이게 만드는 [[268_strategy_pattern|전략]]**이다.
+Snowflake와 Databricks가 주목받는 이유도 여기 있다. 둘 다 여러 클라우드를 지원하면서 계정, [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/), 권한, [데이터 공유](/knowledge-base/studynote/05_database/06_dw_olap_trends/386_data_clean_room_sharing/), [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 경험을 일정 수준 통합해 준다. 즉 멀티클라우드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼은 클라우드를 늘리는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이라기보다, **클라우드가 여러 개일 때도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 운영을 하나처럼 보이게 만드는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**이다.
 
 아래 그림은 멀티클라우드가 필요한 배경을 요약한다.
 
@@ -41,24 +45,24 @@ Snowflake와 Databricks가 주목받는 이유도 여기 있다. 둘 다 여러 
 └──────────────────────────────────────────────────────────────┘
 ```
 
-즉 멀티클라우드 [[001_dikw_pyramid|데이터]] 플랫폼은 "클라우드를 두 개 이상 쓰자"가 아니라, **여러 클라우드의 필연적 파편화를 줄이기 위한 [[001_dikw_pyramid|데이터]] 운영 해법**으로 이해해야 한다.
+즉 멀티클라우드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼은 "클라우드를 두 개 이상 쓰자"가 아니라, **여러 클라우드의 필연적 파편화를 줄이기 위한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 운영 해법**으로 이해해야 한다.
 
-- **📢 섹션 요약 비유**: 멀티클라우드 [[001_dikw_pyramid|데이터]] 플랫폼은 여러 도시에 흩어진 창고를 한 지도와 한 규칙으로 운영하는 물류 본부와 같다. 창고는 각 도시에 남아 있지만, 재고와 배송 규칙은 하나처럼 보이게 만든다.
+- **📢 섹션 요약 비유**: 멀티클라우드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼은 여러 도시에 흩어진 창고를 한 지도와 한 규칙으로 운영하는 물류 본부와 같다. 창고는 각 도시에 남아 있지만, 재고와 배송 규칙은 하나처럼 보이게 만든다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-멀티클라우드 [[001_dikw_pyramid|데이터]] 플랫폼의 핵심 원리는 단순하다. Control Plane은 통합하고, [[001_dikw_pyramid|Data]] Plane은 지역화한다. Control Plane은 [[394_catalog_metadata|카탈로그]], 권한, 계보, [[164_policy|정책]], 비용 가시성, [[154_data_product|데이터 제품]] 정의처럼 전사 공통 규칙을 담당한다. 반면 [[001_dikw_pyramid|Data]] Plane은 AWS S3 (Simple Storage [[090_service_kubernetes_network_load_balancing|Service]]), Azure [[641_data_lake_storage|Data Lake Storage]] (ADLS), Google Cloud Storage (GCS), 각 클라우드의 Compute Engine처럼 실제 [[001_dikw_pyramid|데이터]] 저장과 계산이 일어나는 현지 계층이다.
+멀티클라우드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼의 핵심 원리는 단순하다. Control Plane은 통합하고, [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane은 지역화한다. Control Plane은 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/), 권한, 계보, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 비용 가시성, [데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/) 정의처럼 전사 공통 규칙을 담당한다. 반면 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane은 AWS S3 (Simple Storage [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)), Azure [Data Lake Storage](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/641_data_lake_storage/) (ADLS), Google Cloud Storage (GCS), 각 클라우드의 Compute Engine처럼 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장과 계산이 일어나는 현지 계층이다.
 
 | 계층 | 구성 요소 | 설계 원리 |
 | :--- | :--- | :--- |
-| Control Plane | [[394_catalog_metadata|Catalog]], Lineage, [[526_iam|Identity and Access Management]] ([[526_iam|IAM]]) [[543_federation|Federation]], [[164_policy|Policy]], Financial Operations ([[344_finops|FinOps]]) | 전사 공통 기준 유지 |
-| Regional [[001_dikw_pyramid|Data]] Plane | [[494_object_storage|Object Storage]], Warehouse, [[146_lakehouse|Lakehouse]], Streaming | [[001_dikw_pyramid|데이터]]는 가까운 곳에서 처리 |
-| Sharing Layer | [[541_cassandra|Snowflake]] [[001_dikw_pyramid|Data]] Sharing, Delta Sharing, [[014_api_posix|Application Programming Interface]] ([[014_api_posix|API]]) | 필요한 결과만 선택 공유 |
-| Semantic Layer | 공통 지표, [[154_data_product|데이터 제품]], 표준 [[005_schema|스키마]] | 클라우드가 달라도 같은 의미 보장 |
+| Control Plane | [Catalog](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/), Lineage, [Identity and Access Management](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) ([IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/)) [Federation](/knowledge-base/studynote/09_security/11_iam_access_control/543_federation/), [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), Financial Operations ([FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/)) | 전사 공통 기준 유지 |
+| Regional [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane | [Object Storage](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/), Warehouse, [Lakehouse](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/), Streaming | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 가까운 곳에서 처리 |
+| Sharing Layer | [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Sharing, Delta Sharing, [Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) | 필요한 결과만 선택 공유 |
+| Semantic Layer | 공통 지표, [데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/), 표준 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) | 클라우드가 달라도 같은 의미 보장 |
 
-아래 구조는 멀티클라우드 [[001_dikw_pyramid|데이터]] 플랫폼의 전형적인 형태를 보여 준다.
+아래 구조는 멀티클라우드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼의 전형적인 형태를 보여 준다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -78,9 +82,9 @@ Snowflake와 Databricks가 주목받는 이유도 여기 있다. 둘 다 여러 
            └──── curated share / selective replication ───┘
 ```
 
-이 구조에서 가장 중요한 설계 선택은 [[001_dikw_pyramid|데이터]] 이동 패턴이다. 첫째, 원칙적으로 계산을 [[001_dikw_pyramid|데이터]]가 있는 클라우드에서 수행한다. 둘째, 전사 공통 소비가 필요한 결과 집합만 [[016_replication_factor|복제]]하거나 공유한다. 셋째, 원본 전체를 무차별 [[016_replication_factor|복제]]하지 않고 [[064_relation_domain|도메인]]별 [[154_data_product|Data Product]] 단위로 이동을 제한한다. 이 원칙이 있어야 [[189_egress|Egress]] 비용과 [[194_consistency_database_integrity|일관성]] 부하를 통제할 수 있다.
+이 구조에서 가장 중요한 설계 선택은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 패턴이다. 첫째, 원칙적으로 계산을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있는 클라우드에서 수행한다. 둘째, 전사 공통 소비가 필요한 결과 집합만 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하거나 공유한다. 셋째, 원본 전체를 무차별 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하지 않고 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)별 [Data Product](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/) 단위로 이동을 제한한다. 이 원칙이 있어야 [Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) 비용과 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 부하를 통제할 수 있다.
 
-Snowflake는 Account와 [[001_dikw_pyramid|Data]] Sharing, [[501_database|Database]] [[016_replication_factor|Replication]] 같은 관리형 경험이 강점이고, Databricks는 [[147_delta_lake|Delta Lake]], Delta Sharing, [[206_spark_inmemory_rdd_lazy_evaluation_lineage|Apache Spark]] 기반 개방성과 Machine [[240_switch_learning_forwarding_flooding|Learning]] 통합이 강점이다. 둘 다 멀티클라우드를 지원하지만, 하나는 관리형 [[194_consistency_database_integrity|일관성]]에, 다른 하나는 오픈 포맷과 워크로드 유연성에 더 무게가 있다.
+Snowflake는 Account와 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Sharing, [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Replication](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 같은 관리형 경험이 강점이고, Databricks는 [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/), Delta Sharing, [Apache Spark](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/) 기반 개방성과 Machine [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) 통합이 강점이다. 둘 다 멀티클라우드를 지원하지만, 하나는 관리형 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)에, 다른 하나는 오픈 포맷과 워크로드 유연성에 더 무게가 있다.
 
 - **📢 섹션 요약 비유**: 멀티클라우드 플랫폼은 모든 물건을 본사로 옮겨 쌓는 방식이 아니라, 각 창고에서 물건은 그대로 두고 재고판과 배송 규칙만 본사에서 통합 관리하는 방식과 같다.
 
@@ -88,49 +92,49 @@ Snowflake는 Account와 [[001_dikw_pyramid|Data]] Sharing, [[501_database|Databa
 
 ## Ⅲ. 비교 및 연결
 
-멀티클라우드 [[001_dikw_pyramid|데이터]] 플랫폼은 단일 클라우드, [[009_hybrid_cloud|하이브리드 클라우드]], 무작정 [[016_replication_factor|복제]]하는 멀티클라우드와 구분해야 의미가 선명해진다. 핵심 비교 축은 [[051_vendor_lock_in_cloud_computing|벤더 종속]], [[189_egress|Egress]] 비용, 운영 복잡도, [[809_data_sovereignty|데이터 주권]] 대응력이다.
+멀티클라우드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼은 단일 클라우드, [하이브리드 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/009_hybrid_cloud/), 무작정 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하는 멀티클라우드와 구분해야 의미가 선명해진다. 핵심 비교 축은 [벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/), [Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) 비용, 운영 복잡도, [데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/) 대응력이다.
 
-| [[268_strategy_pattern|전략]] | 장점 | 한계 | 잘 맞는 상황 |
+| [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 장점 | 한계 | 잘 맞는 상황 |
 | :--- | :--- | :--- | :--- |
-| 단일 클라우드 | 가장 단순하고 운영 효율 높음 | 특정 벤더와 리전에 강하게 종속 | [[809_data_sovereignty|데이터 주권]] 제약이 약한 환경 |
-| 멀티클라우드 전면 [[016_replication_factor|복제]] | 장애 [[136_variance|분산]]과 이동성 확보 | [[189_egress|Egress]]·중복 저장·[[194_consistency_database_integrity|일관성]] 비용 큼 | 극히 제한된 핵심 [[001_dikw_pyramid|데이터]]셋 |
-| 멀티클라우드 공유형 플랫폼 | 거버넌스 통합, 현지 처리 가능 | [[012_metadata|메타데이터]]·[[164_policy|정책]] 체계 설계 필요 | 대기업, 글로벌 [[090_service_kubernetes_network_load_balancing|서비스]], M&A 환경 |
-| [[009_hybrid_cloud|하이브리드 클라우드]] | [[061_on_premise_legacy_infrastructure|온프레미스]] 규제 대응 가능 | 네트워크·운영 복잡도 가장 큼 | 금융·공공·레거시 결합 환경 |
+| 단일 클라우드 | 가장 단순하고 운영 효율 높음 | 특정 벤더와 리전에 강하게 종속 | [데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/) 제약이 약한 환경 |
+| 멀티클라우드 전면 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) | 장애 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)과 이동성 확보 | [Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/)·중복 저장·[일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 비용 큼 | 극히 제한된 핵심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋 |
+| 멀티클라우드 공유형 플랫폼 | 거버넌스 통합, 현지 처리 가능 | [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)·[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 체계 설계 필요 | 대기업, 글로벌 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), M&A 환경 |
+| [하이브리드 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/009_hybrid_cloud/) | [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 규제 대응 가능 | 네트워크·운영 복잡도 가장 큼 | 금융·공공·레거시 결합 환경 |
 
 Snowflake와 Databricks도 멀티클라우드를 구현하는 방식이 다르다.
 
-| 항목 | [[541_cassandra|Snowflake]] | [[074_photon_engine|Databricks]] |
+| 항목 | [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) | [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) |
 | :--- | :--- | :--- |
-| 강점 | 관리형 공유, [[016_replication_factor|복제]], Structured Query Language (SQL) 중심 협업 | 오픈 포맷, Spark 기반 처리, Machine [[240_switch_learning_forwarding_flooding|Learning]] (ML) 통합 |
-| 대표 공유 방식 | Secure [[001_dikw_pyramid|Data]] Sharing, [[501_database|Database]] [[016_replication_factor|Replication]] | Delta Sharing, [[150_unity_catalog|Unity Catalog]] |
-| [[001_dikw_pyramid|데이터]] 포맷 [[268_strategy_pattern|전략]] | [[090_service_kubernetes_network_load_balancing|서비스]] 내부 [[198_abstraction_control_data_process|추상화]] 강함 | [[147_delta_lake|Delta Lake]], [[148_apache_iceberg|Apache Iceberg]] 연계 용이 |
-| 잘 맞는 경우 | 분석 소비자 다수, 관리형 표준 선호 | 엔지니어링 유연성, [[001_dikw_pyramid|데이터]]/[[001_artificial_intelligence|Artificial Intelligence]] ([[190_ai_llm_requirements_specification|AI]]) 통합 중시 |
+| 강점 | 관리형 공유, [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), Structured Query Language (SQL) 중심 협업 | 오픈 포맷, Spark 기반 처리, Machine [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) (ML) 통합 |
+| 대표 공유 방식 | Secure [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Sharing, [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Replication](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) | Delta Sharing, [Unity Catalog](/knowledge-base/studynote/16_bigdata/07_data_lake/150_unity_catalog/) |
+| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포맷 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 내부 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 강함 | [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/), [Apache Iceberg](/knowledge-base/studynote/16_bigdata/07_data_lake/148_apache_iceberg/) 연계 용이 |
+| 잘 맞는 경우 | 분석 소비자 다수, 관리형 표준 선호 | 엔지니어링 유연성, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)/[Artificial Intelligence](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/) ([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) 통합 중시 |
 
-이 비교에서 중요한 것은 플랫폼을 바꾸면 멀티클라우드 문제가 자동 해결된다고 보는 착각을 버리는 것이다. 어떤 플랫폼을 선택하든, 공통 [[012_metadata|메타데이터]] 모델, 권한 위임, [[005_schema|스키마]] [[344_compatibility_usability|호환성]], 공통 지표 정의가 없으면 클라우드 수만 늘어난다. 결국 멀티클라우드는 도구보다 **의미 체계와 이동 [[164_policy|정책]]**이 먼저다.
+이 비교에서 중요한 것은 플랫폼을 바꾸면 멀티클라우드 문제가 자동 해결된다고 보는 착각을 버리는 것이다. 어떤 플랫폼을 선택하든, 공통 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 모델, 권한 위임, [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/), 공통 지표 정의가 없으면 클라우드 수만 늘어난다. 결국 멀티클라우드는 도구보다 **의미 체계와 이동 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)**이 먼저다.
 
-또한 이 주제는 [[146_lakehouse|Lakehouse]], [[320_data_mesh|Data Mesh]], FinOps와도 이어진다. Lakehouse는 공통 포맷과 분석 기반을 제공하고, [[001_dikw_pyramid|Data]] Mesh는 각 [[064_relation_domain|도메인]]이 [[154_data_product|데이터 제품]]을 소유하게 하며, FinOps는 실제 이동 비용과 [[016_replication_factor|복제]] 비용을 수치화한다. 멀티클라우드 [[001_dikw_pyramid|데이터]] 플랫폼은 이 세 축을 동시에 요구하는 상위 운영 문제다.
+또한 이 주제는 [Lakehouse](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/), [Data Mesh](/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/), FinOps와도 이어진다. Lakehouse는 공통 포맷과 분석 기반을 제공하고, [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Mesh는 각 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)이 [데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/)을 소유하게 하며, FinOps는 실제 이동 비용과 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 비용을 수치화한다. 멀티클라우드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼은 이 세 축을 동시에 요구하는 상위 운영 문제다.
 
-- **📢 섹션 요약 비유**: 국제 체인 호텔을 선택해도 각 나라 법, 세금, 물류 규칙을 무시할 수 없는 것처럼, Snowflake나 Databricks를 써도 [[001_dikw_pyramid|데이터]] 의미와 이동 규칙을 따로 설계해야 진짜 통합이 된다.
+- **📢 섹션 요약 비유**: 국제 체인 호텔을 선택해도 각 나라 법, 세금, 물류 규칙을 무시할 수 없는 것처럼, Snowflake나 Databricks를 써도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의미와 이동 규칙을 따로 설계해야 진짜 통합이 된다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 멀티클라우드는 "선언"보다 "선별"이 중요하다. 모든 [[001_dikw_pyramid|데이터]]셋을 모든 클라우드에 활성-활성으로 [[016_replication_factor|복제]]하면 보기에는 안전해 보이지만, 대개 비용과 운영 난이도만 폭증한다. 따라서 먼저 어떤 [[001_dikw_pyramid|데이터]]가 지역 고정이어야 하는지, 어떤 결과만 공유하면 되는지, 어떤 워크로드만 다중 클라우드가 필요한지부터 구분해야 한다.
+실무에서 멀티클라우드는 "선언"보다 "선별"이 중요하다. 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋을 모든 클라우드에 활성-활성으로 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하면 보기에는 안전해 보이지만, 대개 비용과 운영 난이도만 폭증한다. 따라서 먼저 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 지역 고정이어야 하는지, 어떤 결과만 공유하면 되는지, 어떤 워크로드만 다중 클라우드가 필요한지부터 구분해야 한다.
 
 | 판단 항목 | 질문 | 권장 방향 |
 | :--- | :--- | :--- |
-| 규제·[[809_data_sovereignty|데이터 주권]] | 원본이 특정 국가·리전에 고정돼야 하는가 | 원본 고정 + 익명화/집계 결과만 공유 |
-| 비용 | 하루 이동량이 큰가 | 계산을 [[001_dikw_pyramid|데이터]] 가까이 배치, 선택 [[016_replication_factor|복제]] |
-| [[658_ir_recovery|복구]] [[268_strategy_pattern|전략]] | 클라우드 장애 시 완전 대체가 필요한가 | 핵심 [[154_data_product|데이터 제품]]만 [[456_dual_redundancy|이중화]] |
-| 플랫폼 선택 | Structured Query Language (SQL) 소비가 중심인가, [[001_artificial_intelligence|Artificial Intelligence]] ([[190_ai_llm_requirements_specification|AI]]) [[123_pipe|파이프]]라인이 중심인가 | [[541_cassandra|Snowflake]] vs [[074_photon_engine|Databricks]] 강점 분리 검토 |
-| 운영 인력 | [[526_iam|IAM]], 네트워크, [[394_catalog_metadata|카탈로그]]를 다중 운영할 역량이 있는가 | Control Plane 자동화 우선 |
+| 규제·[데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/) | 원본이 특정 국가·리전에 고정돼야 하는가 | 원본 고정 + 익명화/집계 결과만 공유 |
+| 비용 | 하루 이동량이 큰가 | 계산을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 가까이 배치, 선택 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) |
+| [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 클라우드 장애 시 완전 대체가 필요한가 | 핵심 [데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/)만 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) |
+| 플랫폼 선택 | Structured Query Language (SQL) 소비가 중심인가, [Artificial Intelligence](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/) ([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 중심인가 | [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) vs [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) 강점 분리 검토 |
+| 운영 인력 | [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/), 네트워크, [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)를 다중 운영할 역량이 있는가 | Control Plane 자동화 우선 |
 
-예를 들어 European Union (EU) 고객 [[001_dikw_pyramid|데이터]]는 Azure 유럽 리전에 두고, 미국 행동 [[568_logs_distributed_logging_elk_fluentd|로그]]는 AWS에 유지하며, 글로벌 분석 팀에는 익명화된 집계 테이블만 [[541_cassandra|Snowflake]] Sharing 또는 Delta Sharing으로 공급하는 방식이 현실적이다. 이렇게 하면 원본 이동을 최소화하면서도 전사적 분석과 Machine [[240_switch_learning_forwarding_flooding|Learning]] 학습용 [[247_feature_label_variables|피처]] 공급을 병행할 수 있다.
+예를 들어 European Union (EU) 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 Azure 유럽 리전에 두고, 미국 행동 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 AWS에 유지하며, 글로벌 분석 팀에는 익명화된 집계 테이블만 [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) Sharing 또는 Delta Sharing으로 공급하는 방식이 현실적이다. 이렇게 하면 원본 이동을 최소화하면서도 전사적 분석과 Machine [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) 학습용 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 공급을 병행할 수 있다.
 
-[[128_water_scrum_fall_anti_pattern|안티패턴]]도 명확하다. 첫째, [[051_vendor_lock_in_cloud_computing|벤더 종속]]을 피하겠다며 [[005_schema|스키마]]와 거버넌스까지 클라우드별로 다르게 가져가는 경우다. 둘째, [[189_egress|Egress]] 비용은 무시한 채 대용량 원본 [[001_dikw_pyramid|데이터]]를 주기적으로 왕복 [[016_replication_factor|복제]]하는 경우다. 셋째, [[303_authentication_authorization_patterns|인증]]·권한 모델이 달라 [[606_auditing_linux_auditd|감사]] 추적이 끊기는 경우다. 넷째, "멀티클라우드 = 재해복구 완료"라고 오해해 실제 [[658_ir_recovery|복구]] 시나리오를 [[395_verification_process_review|검증]]하지 않는 경우다.
+[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)도 명확하다. 첫째, [벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/)을 피하겠다며 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)와 거버넌스까지 클라우드별로 다르게 가져가는 경우다. 둘째, [Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) 비용은 무시한 채 대용량 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주기적으로 왕복 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하는 경우다. 셋째, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·권한 모델이 달라 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적이 끊기는 경우다. 넷째, "멀티클라우드 = 재해복구 완료"라고 오해해 실제 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시나리오를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하지 않는 경우다.
 
-기술사 답안에서는 멀티클라우드의 장점만 쓰지 말고, **[[001_dikw_pyramid|Data]] Gravity, [[189_egress|Egress]], Residency, [[344_finops|FinOps]], 공통 [[012_metadata|메타데이터]]**를 함께 묶어 설명해야 한다. 그래야 단순 유행어가 아니라 실행 가능한 플랫폼 아키텍처가 된다.
+기술사 답안에서는 멀티클라우드의 장점만 쓰지 말고, **[Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Gravity, [Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/), Residency, [FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/), 공통 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)**를 함께 묶어 설명해야 한다. 그래야 단순 유행어가 아니라 실행 가능한 플랫폼 아키텍처가 된다.
 
 - **📢 섹션 요약 비유**: 멀티클라우드 설계는 이삿짐을 매일 옮기는 게 아니라, 어느 물건은 현지 창고에 두고 어느 물건만 본사로 보낼지 미리 정하는 이사 계획과 같다. 무작정 다 옮기면 통행료와 관리비만 커진다.
 
@@ -138,13 +142,13 @@ Snowflake와 Databricks도 멀티클라우드를 구현하는 방식이 다르�
 
 ## Ⅴ. 기대효과 및 결론
 
-잘 설계된 멀티클라우드 [[001_dikw_pyramid|데이터]] 플랫폼은 세 가지 효과를 준다. 첫째, 지역 규제와 [[809_data_sovereignty|데이터 주권]]을 지키면서도 글로벌 분석을 가능하게 한다. 둘째, 특정 벤더 장애나 계약 변경에 대한 [[233_recovery_database_restoration_overview|회복]]력을 높인다. 셋째, 여러 팀이 서로 다른 클라우드에서 일해도 공통 지표와 공통 거버넌스를 유지할 수 있다.
+잘 설계된 멀티클라우드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼은 세 가지 효과를 준다. 첫째, 지역 규제와 [데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/)을 지키면서도 글로벌 분석을 가능하게 한다. 둘째, 특정 벤더 장애나 계약 변경에 대한 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)력을 높인다. 셋째, 여러 팀이 서로 다른 클라우드에서 일해도 공통 지표와 공통 거버넌스를 유지할 수 있다.
 
-하지만 이 [[268_strategy_pattern|전략]]은 무료가 아니다. [[012_metadata|메타데이터]] 통합, 공통 권한 체계, [[005_schema|스키마]] 합의, 네트워크 설계, 비용 추적이 모두 필요하다. 특히 [[001_dikw_pyramid|데이터]] 이동량이 큰 조직에서는 멀티클라우드의 이론적 이점보다 실제 Egress와 운영 인건비가 더 큰 문제가 될 수 있다.
+하지만 이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 무료가 아니다. [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 통합, 공통 권한 체계, [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 합의, 네트워크 설계, 비용 추적이 모두 필요하다. 특히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동량이 큰 조직에서는 멀티클라우드의 이론적 이점보다 실제 Egress와 운영 인건비가 더 큰 문제가 될 수 있다.
 
-미래 방향은 명확하다. [[148_apache_iceberg|Apache Iceberg]], [[147_delta_lake|Delta Lake]], Delta Sharing 같은 오픈 포맷과 공유 [[295_protocol_field_tcp_udp_icmp|프로토콜]]이 발전할수록, 플랫폼은 저장소를 통일하기보다 의미와 [[164_policy|정책]]을 통일하는 쪽으로 진화할 것이다. 결론적으로 멀티클라우드 [[001_dikw_pyramid|데이터]] 플랫폼은 "모든 곳에 [[016_replication_factor|복제]]된 [[801_data_center_3_tier_architecture_core_aggregation_access|데이터센터]]"가 아니라, **공통 Control Plane 위에서 [[001_dikw_pyramid|데이터]]는 현지에 남기고 필요한 의미만 안전하게 연결하는 구조**로 기억해야 한다.
+미래 방향은 명확하다. [Apache Iceberg](/knowledge-base/studynote/16_bigdata/07_data_lake/148_apache_iceberg/), [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/), Delta Sharing 같은 오픈 포맷과 공유 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 발전할수록, 플랫폼은 저장소를 통일하기보다 의미와 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 통일하는 쪽으로 진화할 것이다. 결론적으로 멀티클라우드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼은 "모든 곳에 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)된 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)"가 아니라, **공통 Control Plane 위에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 현지에 남기고 필요한 의미만 안전하게 연결하는 구조**로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: 멀티클라우드 [[001_dikw_pyramid|데이터]] 플랫폼은 여러 도시에 지점을 둔 회사가 모든 서류 원본을 본사로 보내는 대신, 공통 전산 시스템으로 필요한 정보만 공유하는 방식과 같다. 지점은 각자 남아 있지만 회사는 하나처럼 움직인다.
+- **📢 섹션 요약 비유**: 멀티클라우드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼은 여러 도시에 지점을 둔 회사가 모든 서류 원본을 본사로 보내는 대신, 공통 전산 시스템으로 필요한 정보만 공유하는 방식과 같다. 지점은 각자 남아 있지만 회사는 하나처럼 움직인다.
 
 ---
 
@@ -152,13 +156,13 @@ Snowflake와 Databricks도 멀티클라우드를 구현하는 방식이 다르�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[001_dikw_pyramid|Data]] Gravity | 대용량 [[001_dikw_pyramid|데이터]]가 쉽게 이동하지 못해 현지 처리 원칙을 강화하는 힘 |
-| [[001_dikw_pyramid|Data]] Residency | [[001_dikw_pyramid|데이터]] 저장·처리 위치를 규제하는 법적 요구 |
-| [[189_egress|Egress]] Cost | 클라우드 간 또는 외부 전송 시 발생하는 핵심 비용 |
-| [[541_cassandra|Snowflake]] [[001_dikw_pyramid|Data]] Sharing | 관리형 [[386_data_clean_room_sharing|데이터 공유]]와 [[016_replication_factor|복제]] [[268_strategy_pattern|전략]]의 대표 사례 |
-| Delta Sharing | [[074_photon_engine|Databricks]] 계열의 개방형 [[386_data_clean_room_sharing|데이터 공유]] 메커니즘 |
-| [[146_lakehouse|Lakehouse]] | 멀티클라우드에서도 공통 포맷과 분석 경험을 유지하는 기반 |
-| [[344_finops|FinOps]] | 이동량, [[016_replication_factor|복제]]량, 저장량을 비용 관점에서 통제하는 운영 체계 |
+| [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Gravity | 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 쉽게 이동하지 못해 현지 처리 원칙을 강화하는 힘 |
+| [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Residency | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장·처리 위치를 규제하는 법적 요구 |
+| [Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) Cost | 클라우드 간 또는 외부 전송 시 발생하는 핵심 비용 |
+| [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Sharing | 관리형 [데이터 공유](/knowledge-base/studynote/05_database/06_dw_olap_trends/386_data_clean_room_sharing/)와 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 대표 사례 |
+| Delta Sharing | [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) 계열의 개방형 [데이터 공유](/knowledge-base/studynote/05_database/06_dw_olap_trends/386_data_clean_room_sharing/) 메커니즘 |
+| [Lakehouse](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) | 멀티클라우드에서도 공통 포맷과 분석 경험을 유지하는 기반 |
+| [FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/) | 이동량, [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)량, 저장량을 비용 관점에서 통제하는 운영 체계 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -182,11 +186,11 @@ Snowflake와 Databricks도 멀티클라우드를 구현하는 방식이 다르�
 정책 통합형 Data Fabric / 글로벌 거버넌스 확장
 ```
 
-이 흐름은 단일 클라우드 중심 [[001_dikw_pyramid|데이터]] 운영이 규제와 비용 한계에 부딪힌 뒤, 통합 거버넌스와 현지 처리를 결합한 플랫폼 모델로 발전하는 방향을 보여 준다.
+이 흐름은 단일 클라우드 중심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 운영이 규제와 비용 한계에 부딪힌 뒤, 통합 거버넌스와 현지 처리를 결합한 플랫폼 모델로 발전하는 방향을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 멀티클라우드 [[001_dikw_pyramid|데이터]] 플랫폼은 여러 도시에 있는 창고를 한 관리판으로 같이 보는 거예요.
+1. 멀티클라우드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼은 여러 도시에 있는 창고를 한 관리판으로 같이 보는 거예요.
 2. 물건은 가까운 창고에 두고 필요한 것만 서로 나눠 써야 돈도 덜 들고 빨라요.
 3. 그래서 중요한 건 모든 물건을 옮기는 게 아니라, 어디에 무엇이 있고 누가 써도 되는지 똑같이 정하는 거예요.
 
@@ -196,7 +200,7 @@ Snowflake와 Databricks도 멀티클라우드를 구현하는 방식이 다르�
 
 **진행 상황**: 181 / 262
 
-← **이전**: [[180_data_hub|180. 데이터 허브 (Data Hub) — 중앙 데이터 집계 및 배포 계층]]
-**다음**: [[182_serverless_bigdata|182. 서버리스 빅데이터 (Serverless Big Data) — Amazon Athena/Google BigQuery/Amazon]] →
+← **이전**: [180. 데이터 허브 (Data Hub) — 중앙 데이터 집계 및 배포 계층](/knowledge-base/studynote/16_bigdata/09_platform/180_data_hub/)
+**다음**: [182. 서버리스 빅데이터 (Serverless Big Data) — Amazon Athena/Google BigQuery/Amazon](/knowledge-base/studynote/16_bigdata/09_platform/182_serverless_bigdata/) →
 
 ---

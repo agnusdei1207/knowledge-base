@@ -1,14 +1,18 @@
----
-title: 004. NP-어려움 (NP-Hard)
-date: '2026-04-05'
-tags:
-- studynote-algorithm-stats
----
++++
+title = "004. NP-어려움 (NP-Hard)"
+date = 2026-04-05
+
+[taxonomies]
+tags = ["studynote-algorithm-stats"]
+
+[extra]
+tags = ["studynote-algorithm-stats"]
++++
 
 > **핵심 인사이트**
 > 1. NP-Hard(NP-어려움)는 모든 NP 문제보다 최소한 동등하게 어려운 문제 집합으로, NP-Complete는 반드시 NP에 속하지만 NP-Hard는 NP 밖(결정 문제가 아닌 최적화 문제 등)에도 존재할 수 있어 더 광범위한 개념이다.
-> 2. NP-Hard 문제는 "해 존재 여부 결정(Yes/No)"이 아닌 "최적값 찾기"인 최적화 문제가 많아 현실 세계 공학 문제([[208_schedule_history_transaction_execution_order|스케줄]]링, 경로 최적화, 자원 배분)의 상당수가 NP-Hard임을 의미한다.
-> 3. NP-Hard와 NP-Complete의 [[083_relationship_in_er_model|관계]]는 포함 [[083_relationship_in_er_model|관계]]([[108_np_complete|NP-Complete]] ⊆ NP-Hard)로, NP-Complete는 "NP-Hard이면서 NP에도 속하는" 문제이며 NP-Hard에서 결정 문제 부분이 NP-Complete가 된다.
+> 2. NP-Hard 문제는 "해 존재 여부 결정(Yes/No)"이 아닌 "최적값 찾기"인 최적화 문제가 많아 현실 세계 공학 문제([스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링, 경로 최적화, 자원 배분)의 상당수가 NP-Hard임을 의미한다.
+> 3. NP-Hard와 NP-Complete의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 포함 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)([NP-Complete](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/108_np_complete/) ⊆ NP-Hard)로, NP-Complete는 "NP-Hard이면서 NP에도 속하는" 문제이며 NP-Hard에서 결정 문제 부분이 NP-Complete가 된다.
 
 ---
 
@@ -48,11 +52,11 @@ NP-Complete ⊆ NP-Hard : 정의상 참
 NP-Hard \ NP : 존재 (최적화 NP-Hard 등)
 ```
 
-> 📢 **섹션 요약 비유**: NP-Hard는 "어려운 문제들의 클럽" 전체이고, NP-Complete는 그 클럽 중 "답 [[396_validation|확인]]이 빠른(NP)" 멤버만 따로 모은 것.
+> 📢 **섹션 요약 비유**: NP-Hard는 "어려운 문제들의 클럽" 전체이고, NP-Complete는 그 클럽 중 "답 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이 빠른(NP)" 멤버만 따로 모은 것.
 
 ---
 
-## Ⅱ. [[108_np_complete|NP-Complete]] vs NP-Hard 차이
+## Ⅱ. [NP-Complete](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/108_np_complete/) vs NP-Hard 차이
 
 ```
 NP-Complete vs NP-Hard:
@@ -81,7 +85,7 @@ PSPACE-Hard:
   → NP-Hard ⊆ PSPACE-Hard
 ```
 
-> 📢 **섹션 요약 비유**: NP-Complete는 "어렵지만 답이 맞는지 빠르게 [[396_validation|확인]] 가능", NP-Hard는 "어렵고 답 [[396_validation|확인]]도 어려울 수 있음" — 더 넓은 범위.
+> 📢 **섹션 요약 비유**: NP-Complete는 "어렵지만 답이 맞는지 빠르게 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 가능", NP-Hard는 "어렵고 답 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)도 어려울 수 있음" — 더 넓은 범위.
 
 ---
 
@@ -164,7 +168,7 @@ NP-Complete와 공통 방법 + 추가:
 
 ---
 
-## Ⅴ. 실무 시나리오 — 제조 [[208_schedule_history_transaction_execution_order|스케줄]]링
+## Ⅴ. 실무 시나리오 — 제조 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링
 
 ```
 제조업 A사 생산 스케줄링:
@@ -204,7 +208,7 @@ NP-Complete와 공통 방법 + 추가:
 비용 절감: 연간 4억원 (가동률 개선)
 ```
 
-> 📢 **섹션 요약 비유**: NP-Hard 제조 [[208_schedule_history_transaction_execution_order|스케줄]]링은 퍼즐 맞추기 제한 시간 도전 — 완벽한 정답을 5분 안에 못 맞추지만, 98% 완성된 것으로 공장을 돌린다.
+> 📢 **섹션 요약 비유**: NP-Hard 제조 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링은 퍼즐 맞추기 제한 시간 도전 — 완벽한 정답을 5분 안에 못 맞추지만, 98% 완성된 것으로 공장을 돌린다.
 
 ---
 
@@ -261,8 +265,8 @@ Graph Neural Network으로 TSP 근사
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. NP-Hard는 "세상에서 가장 어려운 문제들의 집합" — NP-완전보다 더 넓어서, 답이 맞는지 빠르게 [[396_validation|확인]]하는 것조차 어려운 문제도 포함돼요!
-2. 공장 작업 [[208_schedule_history_transaction_execution_order|스케줄]] 짜기, 물류 경로 최적화 같은 현실 문제가 NP-Hard이기 때문에 완벽한 답 대신 "충분히 좋은 답"을 빠르게 찾는 알고리즘을 써요.
+1. NP-Hard는 "세상에서 가장 어려운 문제들의 집합" — NP-완전보다 더 넓어서, 답이 맞는지 빠르게 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것조차 어려운 문제도 포함돼요!
+2. 공장 작업 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 짜기, 물류 경로 최적화 같은 현실 문제가 NP-Hard이기 때문에 완벽한 답 대신 "충분히 좋은 답"을 빠르게 찾는 알고리즘을 써요.
 3. NP-Complete는 NP-Hard의 부분집합 — NP-Hard는 NP-Complete를 포함하는 더 큰 "어려운 문제들의 우주"예요!
 
 ---
@@ -271,7 +275,7 @@ Graph Neural Network으로 TSP 근사
 
 **진행 상황**: 109 / 175
 
-← **이전**: [[108_np_complete|003. NP-완전 (NP-Complete)]]
-**다음**: [[110_p_equals_np|005. P = NP 문제]] →
+← **이전**: [003. NP-완전 (NP-Complete)](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/108_np_complete/)
+**다음**: [005. P = NP 문제](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/110_p_equals_np/) →
 
 ---

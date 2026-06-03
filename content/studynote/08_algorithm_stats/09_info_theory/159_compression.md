@@ -1,38 +1,42 @@
----
-title: 10. 데이터 압축 (Compression) — 무손실/손실, 허프만/LZ/웨이블릿
-date: '2026-04-21'
-tags:
-- studynote-algorithm
----
++++
+title = "10. 데이터 압축 (Compression) — 무손실/손실, 허프만/LZ/웨이블릿"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-algorithm"]
+
+[extra]
+tags = ["studynote-algorithm"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[001_dikw_pyramid|데이터]] [[347_compaction|압축]]은 *중복성 (Redundancy) 제거* — 무손실은 통계적 중복 제거, 손실은 지각적 불필요 정보 제거라는 근본 원리가 다르다.
-> 2. **가치**: LZ77 + 허프만 = DEFLATE, DCT + [[434_quantization|양자화]] = JPEG, 모션 보상 + DCT = H.265 — 현대 디지털 콘텐츠 전체가 이 두 원리 위에 서 있다.
-> 3. **판단 포인트**: 신경망 [[347_compaction|압축]]이 JPEG와 H.265를 추월하기 시작했다 — 기존 [[001_algorithm_definition|알고리즘]]의 한계와 학습 기반 [[347_compaction|압축]]의 장점을 구체적으로 설명할 수 있어야 한다.
+> 1. **본질**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 *중복성 (Redundancy) 제거* — 무손실은 통계적 중복 제거, 손실은 지각적 불필요 정보 제거라는 근본 원리가 다르다.
+> 2. **가치**: LZ77 + 허프만 = DEFLATE, DCT + [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) = JPEG, 모션 보상 + DCT = H.265 — 현대 디지털 콘텐츠 전체가 이 두 원리 위에 서 있다.
+> 3. **판단 포인트**: 신경망 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)이 JPEG와 H.265를 추월하기 시작했다 — 기존 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 한계와 학습 기반 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)의 장점을 구체적으로 설명할 수 있어야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[[001_dikw_pyramid|데이터]] [[347_compaction|압축]]의 두 축:
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)의 두 축:
 
 | 구분 | 방식 | 복원 | 적용 |
 |:---|:---|:---:|:---|
 | 무손실 (Lossless) | 통계적 중복 제거 | 완벽 복원 | 텍스트, 코드, 의료 영상 |
 | 손실 (Lossy) | 지각적 불필요 정보 제거 | 근사 복원 | 이미지, 오디오, 동영상 |
 
-**[[347_compaction|압축]]비 (Compression Ratio)** = 원본 크기 / [[347_compaction|압축]] 크기
+**[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)비 (Compression Ratio)** = 원본 크기 / [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 크기
 
-**[[073_bit|비트]]율 ([[086_fenwick_tree|Bit]] Rate)** = [[347_compaction|압축]] 후 [[073_bit|비트]] 수 / 원본 심볼 수 [bits/pixel, bits/sample]
+**[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)율 ([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Rate)** = [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 후 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수 / 원본 심볼 수 [bits/pixel, bits/sample]
 
-📢 **섹션 요약 비유**: 무손실 [[347_compaction|압축]]은 "원본 그대로 더 작게 접기"고, 손실 [[347_compaction|압축]]은 "눈/귀로 구분 못 하는 부분을 버리고 접기"다.
+📢 **섹션 요약 비유**: 무손실 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 "원본 그대로 더 작게 접기"고, 손실 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 "눈/귀로 구분 못 하는 부분을 버리고 접기"다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 무손실 [[347_compaction|압축]] 계층 구조
+### 무손실 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 계층 구조
 
 ```
 원본 데이터
@@ -64,9 +68,9 @@ tags:
   'c'  → (5, 3, 'd')   (5칸 앞에서 3글자 'cab' + 다음 문자 'd')
 ```
 
-반복 패턴을 (오프셋, 길이, 다음 문자) 삼중 쌍으로 [[347_compaction|압축]].
+반복 패턴을 (오프셋, 길이, 다음 문자) 삼중 쌍으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/).
 
-### JPEG 손실 [[347_compaction|압축]] 파이프라인
+### JPEG 손실 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 파이프라인
 
 ```
 원본 이미지 (RGB)
@@ -93,7 +97,7 @@ tags:
 
 ### 웨이블릿 변환과 JPEG 2000
 
-DCT는 8×8 블록 경계에서 [[075_artifact_management_nexus_docker_registry|아티팩트]] 발생 ("블록 현상") → **웨이블릿 변환 (Wavelet Transform)** 으로 해결:
+DCT는 8×8 블록 경계에서 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) 발생 ("블록 현상") → **웨이블릿 변환 (Wavelet Transform)** 으로 해결:
 
 - 전체 이미지를 다해상도 (Multi-Resolution) 로 분해
 - JPEG 2000, 의료 영상 (DICOM), 디지털 시네마 (DCP) 채택
@@ -103,29 +107,29 @@ DCT는 8×8 블록 경계에서 [[075_artifact_management_nexus_docker_registry|
 | 변환 | DCT (블록) | 웨이블릿 (전체) |
 | 블록 현상 | 심함 | 없음 |
 | 무손실 지원 | ❌ | ✅ |
-| [[012_roi_return_on_investment|ROI]] 지원 | ❌ | ✅ |
+| [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 지원 | ❌ | ✅ |
 | 처리 속도 | 빠름 | 느림 |
 
-📢 **섹션 요약 비유**: JPEG DCT는 "퍼즐을 8×8 조각으로 쪼개 각 조각 [[347_compaction|압축]]"이고, JPEG 2000 웨이블릿은 "퍼즐 전체를 여러 해상도로 동시에 보면서 [[347_compaction|압축]]"이다 — 후자가 경계선에서 더 자연스럽다.
+📢 **섹션 요약 비유**: JPEG DCT는 "퍼즐을 8×8 조각으로 쪼개 각 조각 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)"이고, JPEG 2000 웨이블릿은 "퍼즐 전체를 여러 해상도로 동시에 보면서 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)"이다 — 후자가 경계선에서 더 자연스럽다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### [[001_algorithm_definition|알고리즘]] 계층별 비교
+### [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 계층별 비교
 
-| [[001_algorithm_definition|알고리즘]] | 방식 | [[347_compaction|압축]]비 | 속도 | 주요 형식 |
+| [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 방식 | [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)비 | 속도 | 주요 형식 |
 |:---|:---|:---:|:---:|:---|
 | LZ77 | 슬라이딩 윈도우 | 중간 | 빠름 | ZIP, gzip |
 | LZW | 동적 사전 | 중간 | 빠름 | GIF, TIFF |
 | DEFLATE | LZ77 + 허프만 | 좋음 | 빠름 | ZIP, PNG, gzip |
-| Brotli | 개선 LZ + [[033_context|컨텍스트]] | 더 좋음 | 느림 | [[471_https_http_over_tls|HTTPS]] (웹) |
+| Brotli | 개선 LZ + [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) | 더 좋음 | 느림 | [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) (웹) |
 | Zstandard (zstd) | LZ + ANS | 좋음 | 매우 빠름 | 서버, DB |
-| JPEG | DCT + [[434_quantization|양자화]] | 매우 좋음 | 빠름 | 사진 |
+| JPEG | DCT + [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) | 매우 좋음 | 빠름 | 사진 |
 | H.264/H.265 | 모션 보상 + DCT | 탁월 | 느림 | 동영상 |
 | MP3/AAC | 심리음향 모델 | 탁월 | 중간 | 오디오 |
 
-### 비디오 [[347_compaction|압축]]의 핵심: 모션 보상 (Motion Compensation)
+### 비디오 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)의 핵심: 모션 보상 (Motion Compensation)
 
 ```
 I-프레임 (Intra): 독립적 JPEG 압축
@@ -136,7 +140,7 @@ B-프레임 (Bidirectional): 앞뒤 프레임 참조
 공간 중복성 제거: DCT + 양자화로 같은 I-프레임 내 처리
 ```
 
-### 신경망 기반 [[347_compaction|압축]] (Learned Compression)
+### 신경망 기반 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) (Learned Compression)
 
 ```
 원본 x
@@ -157,28 +161,28 @@ B-프레임 (Bidirectional): 앞뒤 프레임 참조
 ```
 
 - Ballé et al. (2018): 기존 JPEG 화질 능가
-- VVC (Versatile Video Coding) 이후 [[190_ai_llm_requirements_specification|AI]] 코덱 경쟁 치열
+- VVC (Versatile Video Coding) 이후 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 코덱 경쟁 치열
 
-📢 **섹션 요약 비유**: 신경망 [[347_compaction|압축]]은 "AI가 '눈에 안 보이는 부분'을 직접 배운 것"이다 — 고정 수식(DCT) 대신 [[001_dikw_pyramid|데이터]]로부터 최적 표현을 학습한다.
+📢 **섹션 요약 비유**: 신경망 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 "AI가 '눈에 안 보이는 부분'을 직접 배운 것"이다 — 고정 수식(DCT) 대신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로부터 최적 표현을 학습한다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 사용 사례별 [[347_compaction|압축]] 선택
+### 사용 사례별 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 선택
 
 | 시나리오 | 권장 기술 | 이유 |
 |:---|:---|:---|
-| [[014_api_posix|API]] [[343_json|JSON]] 응답 | Brotli / gzip | [[471_https_http_over_tls|HTTPS]] 헤더 Accept-Encoding 지원 |
-| [[568_logs_distributed_logging_elk_fluentd|로그]] 아카이브 | Zstandard | 고속 [[347_compaction|압축]], 랜덤 접근 |
-| 사진 [[090_service_kubernetes_network_load_balancing|서비스]] | WebP / AVIF | JPEG 대비 30~50% 크기 감소 |
-| 동영상 스트리밍 | H.265 / AV1 | [[140_bandwidth|대역폭]] 절감 (H.264 대비 40~50%) |
-| 의료 영상 | JPEG 2000 / PNG | 무손실 또는 [[012_roi_return_on_investment|ROI]] 손실 허용 |
-| ML 모델 배포 | GZIP + [[434_quantization|양자화]] + [[435_pruning_hardware|가지치기]] | 추론 속도 + 크기 동시 최적화 |
+| [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 응답 | Brotli / gzip | [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) 헤더 Accept-Encoding 지원 |
+| [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 아카이브 | Zstandard | 고속 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/), 랜덤 접근 |
+| 사진 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | WebP / AVIF | JPEG 대비 30~50% 크기 감소 |
+| 동영상 스트리밍 | H.265 / AV1 | [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 절감 (H.264 대비 40~50%) |
+| 의료 영상 | JPEG 2000 / PNG | 무손실 또는 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 손실 허용 |
+| ML 모델 배포 | GZIP + [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) + [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) | 추론 속도 + 크기 동시 최적화 |
 
-### [[140_bandwidth|대역폭]] vs 품질 트레이드오프 계산
+### [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) vs 품질 트레이드오프 계산
 
-동영상 스트리밍 4K (3840×2160, 60fps) 필요 [[140_bandwidth|대역폭]]:
+동영상 스트리밍 4K (3840×2160, 60fps) 필요 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/):
 
 ```
 무압축: 3840 × 2160 × 3바이트 × 60fps = ~1.5 Gbps
@@ -187,22 +191,22 @@ H.265: ~12~25 Mbps (H.264 대비 50% 절감)
 AV1:   ~8~15 Mbps (H.265 대비 30% 추가 절감)
 ```
 
-📢 **섹션 요약 비유**: AV1은 "최신 [[347_compaction|압축]] 고속도로"다 — 같은 화질을 H.265보다 30% 적은 [[001_dikw_pyramid|데이터]]로 보낸다, 마치 더 효율적인 포장재로 같은 제품을 더 가볍게 배송하는 것처럼.
+📢 **섹션 요약 비유**: AV1은 "최신 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 고속도로"다 — 같은 화질을 H.265보다 30% 적은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 보낸다, 마치 더 효율적인 포장재로 같은 제품을 더 가볍게 배송하는 것처럼.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[[001_dikw_pyramid|데이터]] [[347_compaction|압축]]은 **디지털 인프라 비용과 사용자 경험**을 직결하는 핵심 기술이다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 **디지털 인프라 비용과 사용자 경험**을 직결하는 핵심 기술이다.
 
-2023년 기준 [[347_compaction|압축]] 기술의 경쟁 구도:
+2023년 기준 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 기술의 경쟁 구도:
 - **이미지**: JPEG → WebP → AVIF (AV1 기반)
 - **동영상**: H.264 → H.265 → AV1 → VVC (H.266)
 - **범용 무손실**: gzip → Brotli → Zstandard
 
-신경망 [[347_compaction|압축]]은 전통 [[001_algorithm_definition|알고리즘]]의 "고정 수식" 한계를 [[001_dikw_pyramid|데이터]]로 학습한 "유연한 표현"으로 대체하며, 이미지 [[347_compaction|압축]]에서 이미 최고 성능을 보이고 있다.
+신경망 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 전통 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 "고정 수식" 한계를 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 학습한 "유연한 표현"으로 대체하며, 이미지 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)에서 이미 최고 성능을 보이고 있다.
 
-📢 **섹션 요약 비유**: [[347_compaction|압축]] 기술의 발전은 "점점 더 작은 가방에 같은 짐 넣기"다 — 수학이 발전할수록 같은 정보를 더 적은 [[073_bit|비트]]에 담을 수 있게 되며, AI는 그 한계를 더 멀리 밀어내고 있다.
+📢 **섹션 요약 비유**: [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 기술의 발전은 "점점 더 작은 가방에 같은 짐 넣기"다 — 수학이 발전할수록 같은 정보를 더 적은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)에 담을 수 있게 되며, AI는 그 한계를 더 멀리 밀어내고 있다.
 
 ---
 
@@ -210,13 +214,13 @@ AV1:   ~8~15 Mbps (H.265 대비 30% 추가 절감)
 
 | 개념 | 방식 | 형식 |
 |:---|:---|:---|
-| [[100_huffman_coding|허프만 코딩]] | 빈도 기반 가변 길이 | DEFLATE, ZIP |
+| [허프만 코딩](/knowledge-base/studynote/08_algorithm_stats/05_string/100_huffman_coding/) | 빈도 기반 가변 길이 | DEFLATE, ZIP |
 | LZ77 | 슬라이딩 윈도우 | gzip, ZIP, PNG |
 | LZW | 동적 사전 | GIF, TIFF |
 | DCT | 주파수 변환 | JPEG, H.264 |
 | 웨이블릿 | 다해상도 분해 | JPEG 2000 |
 | 모션 보상 | 프레임 간 차이 | H.264, H.265, AV1 |
-| 신경망 [[347_compaction|압축]] | 학습 기반 [[040_encoder|인코더]]/[[039_decoder|디코더]] | 학습 기반 이미지 코덱 |
+| 신경망 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) | 학습 기반 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)/[디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) | 학습 기반 이미지 코덱 |
 
 ---
 
@@ -241,13 +245,13 @@ AV1:   ~8~15 Mbps (H.265 대비 30% 추가 절감)
                 ▼
             [AV1 / VVC / AI 코덱 — 차세대 멀티미디어 압축]
 ```
-[[347_compaction|압축]] 기술은 중복 제거에서 출발해 손실·무손실을 분화했고, 이제는 학습 기반 표현으로 차세대 코덱까지 확장되고 있다.
+[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 기술은 중복 제거에서 출발해 손실·무손실을 분화했고, 이제는 학습 기반 표현으로 차세대 코덱까지 확장되고 있다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. **무손실은 "완벽한 접기"**: 원래대로 다시 펼 수 있게 종이를 접는 것 — 내용이 하나도 안 없어진다.
 2. **손실은 "스케치로 바꾸기"**: 정밀한 사진을 예쁜 스케치로 바꾸면 파일이 작아지지만, 원본과 완전히 같지는 않다.
-3. **[[190_ai_llm_requirements_specification|AI]] [[347_compaction|압축]]은 "더 영리한 [[347_compaction|압축]]"**: AI가 "사람이 잘 못 보는 부분"을 배워서 버릴 정보를 더 잘 골라낸다.
+3. **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 "더 영리한 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)"**: AI가 "사람이 잘 못 보는 부분"을 배워서 버릴 정보를 더 잘 골라낸다.
 
 ---
 
@@ -255,7 +259,7 @@ AV1:   ~8~15 Mbps (H.265 대비 30% 추가 절감)
 
 **진행 상황**: 159 / 175
 
-← **이전**: [[158_error_correcting_codes|9. 오류 정정 부호 (ECC, Error Correcting Codes) — 해밍/터보/LDPC/폴라]]
-**다음**: [[160_linear_equations|1. 선형 연립방정식 — 행렬 표현, 가우스 소거]] →
+← **이전**: [9. 오류 정정 부호 (ECC, Error Correcting Codes) — 해밍/터보/LDPC/폴라](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/158_error_correcting_codes/)
+**다음**: [1. 선형 연립방정식 — 행렬 표현, 가우스 소거](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/160_linear_equations/) →
 
 ---

@@ -1,25 +1,29 @@
----
-title: 161. 누산기 (Accumulator)
-date: '2026-05-05'
-tags:
-- studynote-computer-architecture
----
++++
+title = "161. 누산기 (Accumulator)"
+date = 2026-05-05
+
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 누산기 (Accumulator)는 산술논리장치인 [[117_alu|ALU]] ([[117_alu|Arithmetic Logic Unit]])와 가장 가깝게 연결되어 중간 연산 결과를 반복해서 담는 핵심 작업 [[057_register|레지스터]]다.
-> 2. **가치**: 누산기를 기본 입력·출력 위치로 정하면 1-주소 [[158_instruction|명령어]]를 만들 수 있어 [[459_quic_fec_forward_error_correction|초기]] CPU (Central Processing Unit)의 [[158_instruction|명령어]] 길이와 하드웨어 복잡도를 크게 줄일 수 있다.
-> 3. **판단 포인트**: 누산기 구조는 단순성과 코드 밀도에는 유리하지만 [[001_dikw_pyramid|데이터]] 의존성이 한곳에 몰려 [[430_index_fast_full_scan|병렬]]성이 낮아지므로, 범용 프로세서에서는 [[162_gpr|GPR]] (General Purpose [[175_register_addressing|Register]]) 중심 구조로 넘어가고 특수 연산기에서는 여전히 살아남는다.
+> 1. **본질**: 누산기 (Accumulator)는 산술논리장치인 [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) ([Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/))와 가장 가깝게 연결되어 중간 연산 결과를 반복해서 담는 핵심 작업 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)다.
+> 2. **가치**: 누산기를 기본 입력·출력 위치로 정하면 1-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 만들 수 있어 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) CPU (Central Processing Unit)의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 길이와 하드웨어 복잡도를 크게 줄일 수 있다.
+> 3. **판단 포인트**: 누산기 구조는 단순성과 코드 밀도에는 유리하지만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존성이 한곳에 몰려 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성이 낮아지므로, 범용 프로세서에서는 [GPR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/162_gpr/) (General Purpose [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)) 중심 구조로 넘어가고 특수 연산기에서는 여전히 살아남는다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-누산기 (Accumulator)는 연산 결과를 임시로 저장하고 다음 연산의 입력으로 다시 사용하는 전용 [[057_register|레지스터]]다. 특히 [[459_quic_fec_forward_error_correction|초기]] [[158_instruction|명령어]] 집합 구조인 [[157_isa|ISA]] ([[157_isa|Instruction Set Architecture]])에서는 "결과는 일단 누산기에 둔다"는 규칙을 두어, 모든 명령이 목적지 주소를 길게 적지 않아도 되게 만들었다. 즉 누산기는 저장 공간인 동시에 [[158_instruction|명령어]] 형식을 단순화하는 약속이다.
+누산기 (Accumulator)는 연산 결과를 임시로 저장하고 다음 연산의 입력으로 다시 사용하는 전용 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)다. 특히 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 집합 구조인 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) ([Instruction Set Architecture](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))에서는 "결과는 일단 누산기에 둔다"는 규칙을 두어, 모든 명령이 목적지 주소를 길게 적지 않아도 되게 만들었다. 즉 누산기는 저장 공간인 동시에 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 형식을 단순화하는 약속이다.
 
-이 개념이 필요했던 이유는 [[459_quic_fec_forward_error_correction|초기]] 컴퓨터에서 메모리와 회로 면적이 매우 비쌌기 때문이다. 덧셈 하나를 위해 입력 둘과 출력 하나의 위치를 모두 명시하면 [[158_instruction|명령어]] [[073_bit|비트]] 수가 커지고 디코더도 복잡해진다. 반대로 누산기를 기본 작업대처럼 쓰면 `ADD X`만으로도 `ACC ← ACC + M[X]`를 표현할 수 있어, 작은 하드웨어로도 연속 계산을 수행할 수 있다.
+이 개념이 필요했던 이유는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 컴퓨터에서 메모리와 회로 면적이 매우 비쌌기 때문이다. 덧셈 하나를 위해 입력 둘과 출력 하나의 위치를 모두 명시하면 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수가 커지고 디코더도 복잡해진다. 반대로 누산기를 기본 작업대처럼 쓰면 `ADD X`만으로도 `ACC ← ACC + M[X]`를 표현할 수 있어, 작은 하드웨어로도 연속 계산을 수행할 수 있다.
 
-누산기가 없으면 중간 결과를 매번 메모리에 저장했다가 다시 읽어 와야 하므로 메모리 접근 횟수가 늘고 [[282_performance_tactics|성능]]도 떨어진다. 그래서 누산기는 "연산을 어디에 쌓아 둘 것인가"라는 문제에 대한 가장 경제적인 [[459_quic_fec_forward_error_correction|초기]] 해법이었다.
+누산기가 없으면 중간 결과를 매번 메모리에 저장했다가 다시 읽어 와야 하므로 메모리 접근 횟수가 늘고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)도 떨어진다. 그래서 누산기는 "연산을 어디에 쌓아 둘 것인가"라는 문제에 대한 가장 경제적인 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 해법이었다.
 
 - **📢 섹션 요약 비유**: 누산기는 요리사가 계속 들고 있는 한 개의 볼과 같다. 재료를 섞을 때마다 새 그릇을 꺼내지 않고 같은 볼에 계속 담아야 주방이 단순해진다.
 
@@ -27,16 +31,16 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-누산기 기반 [[001_dikw_pyramid|데이터]] 경로의 핵심은 입력과 출력의 일부를 암묵적으로 정해 둔다는 점이다. [[158_instruction|명령어]]는 보통 [[159_opcode|연산 코드]]인 Opcode와 외부 [[160_operand|피연산자]] 하나만 담고, 내부에서는 누산기가 자동으로 한쪽 입력과 결과 저장 위치를 맡는다. 이 방식은 제어가 단순하지만, 모든 연산 흐름이 누산기를 거치므로 병목도 함께 생긴다.
+누산기 기반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로의 핵심은 입력과 출력의 일부를 암묵적으로 정해 둔다는 점이다. [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 보통 [연산 코드](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/159_opcode/)인 Opcode와 외부 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) 하나만 담고, 내부에서는 누산기가 자동으로 한쪽 입력과 결과 저장 위치를 맡는다. 이 방식은 제어가 단순하지만, 모든 연산 흐름이 누산기를 거치므로 병목도 함께 생긴다.
 
 ### 누산기 기반 구성 요소
 
 | 요소 | 역할 | 설계상 의미 |
 | :--- | :--- | :--- |
 | 누산기 (Accumulator) | 중간 결과 저장, 다음 연산의 기본 입력 | 목적지 필드 생략 가능 |
-| [[117_alu|ALU]] ([[117_alu|Arithmetic Logic Unit]]) | 산술·[[369_logic_bomb|논리]] 연산 수행 | 누산기와 강하게 결합 |
-| 메모리 [[160_operand|피연산자]] | 외부 [[001_dikw_pyramid|데이터]] 공급 | 1-주소 [[158_instruction|명령어]]의 명시적 입력 |
-| 상태 [[186_character_stuffing_dle_stx_etx|플래그]] (Status Flags) | [[585_zero_skipping|Zero]], Carry, Sign 등 결과 상태 기록 | 분기와 조건 연산의 근거 |
+| [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) ([Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)) | 산술·[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산 수행 | 누산기와 강하게 결합 |
+| 메모리 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) | 외부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공급 | 1-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 명시적 입력 |
+| 상태 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) (Status Flags) | [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/), Carry, Sign 등 결과 상태 기록 | 분기와 조건 연산의 근거 |
 
 아래 그림은 누산기 중심 1-주소 구조가 어떻게 동작하는지 보여 준다.
 
@@ -56,9 +60,9 @@ tags:
 └────────────────────────────────────────────────────────────────────────────┘
 ```
 
-이 그림의 핵심은 누산기가 단순 저장소가 아니라 연산 경로를 고정하는 중심점이라는 것이다. 연산 결과는 다시 누산기로 돌아오므로, 연속 계산에서는 빠르게 이어질 수 있다. 대신 여러 독립 연산을 동시에 진행하기 어렵고, 컴파일러도 값을 오래 보존하려면 결국 메모리나 다른 보조 [[057_register|레지스터]]를 써야 한다.
+이 그림의 핵심은 누산기가 단순 저장소가 아니라 연산 경로를 고정하는 중심점이라는 것이다. 연산 결과는 다시 누산기로 돌아오므로, 연속 계산에서는 빠르게 이어질 수 있다. 대신 여러 독립 연산을 동시에 진행하기 어렵고, 컴파일러도 값을 오래 보존하려면 결국 메모리나 다른 보조 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 써야 한다.
 
-또한 누산기는 상태 [[186_character_stuffing_dle_stx_etx|플래그]]와 자주 함께 움직인다. 예를 들어 덧셈 후 Carry가 켜졌는지, 결과가 0인지 같은 정보가 즉시 남기 때문에 분기 명령과 잘 연결된다. 그래서 누산기 구조는 단순 [[117_alu|ALU]] 설계, 짧은 [[158_instruction|명령어]], 조건 분기 체계를 함께 묶어 주는 축이었다.
+또한 누산기는 상태 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)와 자주 함께 움직인다. 예를 들어 덧셈 후 Carry가 켜졌는지, 결과가 0인지 같은 정보가 즉시 남기 때문에 분기 명령과 잘 연결된다. 그래서 누산기 구조는 단순 [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) 설계, 짧은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/), 조건 분기 체계를 함께 묶어 주는 축이었다.
 
 - **📢 섹션 요약 비유**: 누산기 구조는 계산용 화이트보드 한 장을 모두가 공유하는 방식과 같다. 바로 이어서 계산하기는 쉽지만, 여러 사람이 동시에 다른 식을 풀기에는 불편하다.
 
@@ -66,41 +70,41 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-누산기를 이해하려면 [[162_gpr|GPR]] 중심 구조와 비교해야 경계가 선명해진다. 누산기 기반 ISA는 [[158_instruction|명령어]]가 짧고 디코딩이 쉽지만, 결과가 한곳으로 모이기 때문에 명령 간 의존성이 강하다. 반면 [[162_gpr|GPR]] 구조는 [[158_instruction|명령어]]에 [[057_register|레지스터]] 번호를 더 많이 써야 하지만 여러 값을 동시에 보관하고 [[430_index_fast_full_scan|병렬]]로 다루기 쉽다.
+누산기를 이해하려면 [GPR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/162_gpr/) 중심 구조와 비교해야 경계가 선명해진다. 누산기 기반 ISA는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 짧고 디코딩이 쉽지만, 결과가 한곳으로 모이기 때문에 명령 간 의존성이 강하다. 반면 [GPR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/162_gpr/) 구조는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)에 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 번호를 더 많이 써야 하지만 여러 값을 동시에 보관하고 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 다루기 쉽다.
 
-| 항목 | 누산기 기반 1-주소 구조 | [[162_gpr|GPR]] 기반 다주소 구조 |
+| 항목 | 누산기 기반 1-주소 구조 | [GPR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/162_gpr/) 기반 다주소 구조 |
 | :--- | :--- | :--- |
-| 결과 저장 위치 | 누산기로 암묵적 고정 | [[158_instruction|명령어]]가 명시 |
-| [[158_instruction|명령어]] 길이 | 짧음 | 상대적으로 김 |
-| 하드웨어 복잡도 | 낮음 | [[057_register|레지스터]] [[501_file_definition_logical_record|파일]]·[[446_port_and_bus|포트]] 증가 |
-| [[430_index_fast_full_scan|병렬]] 실행성 | 낮음 | 높음 |
-| 대표 용도 | [[459_quic_fec_forward_error_correction|초기]] CPU, 소형 제어기 | 현대 범용 CPU, 고성능 프로세서 |
+| 결과 저장 위치 | 누산기로 암묵적 고정 | [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 명시 |
+| [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 길이 | 짧음 | 상대적으로 김 |
+| 하드웨어 복잡도 | 낮음 | [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)·[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 증가 |
+| [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행성 | 낮음 | 높음 |
+| 대표 용도 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) CPU, 소형 제어기 | 현대 범용 CPU, 고성능 프로세서 |
 
-이 차이는 단순한 형식 차이가 아니라 [[282_performance_tactics|성능]] 철학 차이다. 누산기 구조는 메모리와 회로가 귀하던 시절에 "최소 자원으로 계산한다"는 철학에 맞았고, [[162_gpr|GPR]] 구조는 파이프라인과 [[158_instruction|명령어]] 수준 [[430_index_fast_full_scan|병렬]]성인 ILP ([[158_instruction|Instruction]]-Level Parallelism)를 끌어올리는 방향에 맞다. 즉 누산기에서 GPR로의 이동은 더 많은 [[057_register|레지스터]]를 둔 변화가 아니라, 병목을 한 점에서 여러 점으로 분산한 변화다.
+이 차이는 단순한 형식 차이가 아니라 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 철학 차이다. 누산기 구조는 메모리와 회로가 귀하던 시절에 "최소 자원으로 계산한다"는 철학에 맞았고, [GPR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/162_gpr/) 구조는 파이프라인과 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수준 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성인 ILP ([Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)-Level Parallelism)를 끌어올리는 방향에 맞다. 즉 누산기에서 GPR로의 이동은 더 많은 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 둔 변화가 아니라, 병목을 한 점에서 여러 점으로 분산한 변화다.
 
-또한 누산기의 개념은 사라진 것이 아니라 형태를 바꾸어 남아 있다. DSP (Digital [[130_signal|Signal]] Processor)나 [[424_npu|NPU]] ([[424_npu|Neural Processing Unit]])의 [[673_mac_message_authentication_code|MAC]] ([[428_mac_operation|Multiply-Accumulate]]) 유닛은 곱셈 결과를 빠르게 더하기 위해 여전히 전용 누산기를 둔다. 범용 제어에서는 밀렸지만, 반복 합산이 많은 특수 연산에서는 누산기 철학이 오히려 최적이다.
+또한 누산기의 개념은 사라진 것이 아니라 형태를 바꾸어 남아 있다. DSP (Digital [Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) Processor)나 [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) ([Neural Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/))의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) ([Multiply-Accumulate](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/428_mac_operation/)) 유닛은 곱셈 결과를 빠르게 더하기 위해 여전히 전용 누산기를 둔다. 범용 제어에서는 밀렸지만, 반복 합산이 많은 특수 연산에서는 누산기 철학이 오히려 최적이다.
 
-- **📢 섹션 요약 비유**: 누산기 구조는 계산 창구가 하나뿐인 은행과 같고, [[162_gpr|GPR]] 구조는 창구가 여러 개인 은행과 같다. 전자는 단순하지만 줄이 길어지고, 후자는 복잡해도 손님을 더 빨리 처리한다.
+- **📢 섹션 요약 비유**: 누산기 구조는 계산 창구가 하나뿐인 은행과 같고, [GPR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/162_gpr/) 구조는 창구가 여러 개인 은행과 같다. 전자는 단순하지만 줄이 길어지고, 후자는 복잡해도 손님을 더 빨리 처리한다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 누산기 개념은 두 방향으로 등장한다. 첫째, 초소형 마이크로컨트롤러에서는 하드웨어 면적과 전력 소모를 줄이기 위해 누산기 중심 설계가 여전히 유효하다. 둘째, [[190_ai_llm_requirements_specification|AI]] 가속기나 DSP에서는 누적 합산이 많은 워크로드를 처리하기 위해 범용 [[057_register|레지스터]]가 아니라 전용 누산기를 둔다.
+실무에서 누산기 개념은 두 방향으로 등장한다. 첫째, 초소형 마이크로컨트롤러에서는 하드웨어 면적과 전력 소모를 줄이기 위해 누산기 중심 설계가 여전히 유효하다. 둘째, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속기나 DSP에서는 누적 합산이 많은 워크로드를 처리하기 위해 범용 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)가 아니라 전용 누산기를 둔다.
 
-반대로 범용 고성능 프로세서에서는 누산기 중심 구조를 피하는 것이 일반적이다. 여러 연산을 동시에 발행하는 슈퍼스칼라 ([[236_superscalar|Superscalar]]) 구조에서는 결과 저장 위치가 하나로 고정되면 [[001_dikw_pyramid|데이터]] 의존성과 [[446_port_and_bus|포트]] 경쟁이 빠르게 커지기 때문이다. 따라서 기술사 답안에서는 "누산기는 단순화 장치이자 병목 유발점"이라는 양면성을 함께 써야 한다.
+반대로 범용 고성능 프로세서에서는 누산기 중심 구조를 피하는 것이 일반적이다. 여러 연산을 동시에 발행하는 슈퍼스칼라 ([Superscalar](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/236_superscalar/)) 구조에서는 결과 저장 위치가 하나로 고정되면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존성과 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 경쟁이 빠르게 커지기 때문이다. 따라서 기술사 답안에서는 "누산기는 단순화 장치이자 병목 유발점"이라는 양면성을 함께 써야 한다.
 
-### 판단 [[435_checklist_based_testing|체크리스트]]
+### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. **하드웨어 자원이 극도로 제한된가?** 그렇다면 누산기 중심 구조가 유리하다.
-2. **동시에 여러 독립 연산을 많이 처리해야 하는가?** 그렇다면 [[162_gpr|GPR]] 구조가 더 적합하다.
-3. **워크로드가 반복 누적형인가?** FIR (Finite Impulse Response) 필터, 행렬 곱처럼 [[673_mac_message_authentication_code|MAC]] 중심이면 전용 누산기 채택 가치가 크다.
+2. **동시에 여러 독립 연산을 많이 처리해야 하는가?** 그렇다면 [GPR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/162_gpr/) 구조가 더 적합하다.
+3. **워크로드가 반복 누적형인가?** FIR (Finite Impulse Response) 필터, 행렬 곱처럼 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 중심이면 전용 누산기 채택 가치가 크다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 현대 범용 CPU 설계에 누산기 하나로 높은 [[430_index_fast_full_scan|병렬]]성을 기대하는 경우
+- 현대 범용 CPU 설계에 누산기 하나로 높은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 기대하는 경우
 - 누산기 구조의 단순함만 보고 메모리 왕복 비용과 의존성 증가를 무시하는 경우
-- 특수 연산기에서 누적 경로가 핵심인데도 범용 [[057_register|레지스터]]만으로 우회하려는 경우
+- 특수 연산기에서 누적 경로가 핵심인데도 범용 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)만으로 우회하려는 경우
 
 - **📢 섹션 요약 비유**: 누산기 선택은 작은 작업실에 만능 공구 하나를 둘지, 큰 공장에 전문 공구 여러 개를 둘지 결정하는 일과 같다. 규모와 작업 방식이 다르면 정답도 달라진다.
 
@@ -108,7 +112,7 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-누산기는 [[459_quic_fec_forward_error_correction|초기]] 컴퓨터가 제한된 자원으로도 실용적인 연산을 수행하게 만든 핵심 아이디어였다. 이 구조 덕분에 [[158_instruction|명령어]]는 짧아지고 제어는 단순해졌으며, 중간 결과를 빠르게 이어 쓰는 계산 모델이 가능해졌다. 즉 누산기는 "적은 비용으로 계산을 굴리는 법"을 보여 준 역사적 설계 해법이다.
+누산기는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 컴퓨터가 제한된 자원으로도 실용적인 연산을 수행하게 만든 핵심 아이디어였다. 이 구조 덕분에 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 짧아지고 제어는 단순해졌으며, 중간 결과를 빠르게 이어 쓰는 계산 모델이 가능해졌다. 즉 누산기는 "적은 비용으로 계산을 굴리는 법"을 보여 준 역사적 설계 해법이다.
 
 다만 현대 시스템 관점에서는 누산기의 장점만 기억하면 불완전하다. 범용 CPU에서는 다수의 GPR과 재정렬 실행이 더 적합하고, 누산기는 특수 목적 연산 블록 안에서 선택적으로 살아남는다. 따라서 이 주제는 "누산기는 사라진 기술"이 아니라 "일반 목적에서는 분산되고, 특수 목적에서는 농축된 구조"로 이해하는 것이 맞다.
 
@@ -120,10 +124,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[159_opcode|연산 코드]] ([[159_opcode|Opcode]]) | 누산기를 쓸 때는 연산 종류만으로도 내부 [[001_dikw_pyramid|데이터]] 경로가 많이 결정된다. |
-| [[160_operand|피연산자]] ([[160_operand|Operand]]) | 외부 [[160_operand|피연산자]] 하나만 명시하고 다른 입력은 누산기로 암묵 처리하는 경우가 많다. |
-| [[162_gpr|GPR]] (General Purpose [[175_register_addressing|Register]]) | 누산기 중심 구조의 병목을 분산한 현대적 대안이다. |
-| [[673_mac_message_authentication_code|MAC]] ([[428_mac_operation|Multiply-Accumulate]]) | 누산기 철학이 특수 연산기에서 다시 강하게 나타나는 대표 사례다. |
+| [연산 코드](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/159_opcode/) ([Opcode](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/159_opcode/)) | 누산기를 쓸 때는 연산 종류만으로도 내부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로가 많이 결정된다. |
+| [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) ([Operand](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/)) | 외부 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) 하나만 명시하고 다른 입력은 누산기로 암묵 처리하는 경우가 많다. |
+| [GPR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/162_gpr/) (General Purpose [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)) | 누산기 중심 구조의 병목을 분산한 현대적 대안이다. |
+| [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) ([Multiply-Accumulate](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/428_mac_operation/)) | 누산기 철학이 특수 연산기에서 다시 강하게 나타나는 대표 사례다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -143,7 +147,7 @@ GPR (General Purpose Register) 기반 다주소 ISA
 DSP / NPU의 전용 MAC 누산기
 ```
 
-이 흐름은 누산기가 [[459_quic_fec_forward_error_correction|초기]] CPU의 기본 구조에서 출발해, 범용 시스템에서는 분산되고 특수 연산기에서는 재등장하는 과정을 보여 준다.
+이 흐름은 누산기가 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) CPU의 기본 구조에서 출발해, 범용 시스템에서는 분산되고 특수 연산기에서는 재등장하는 과정을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -157,7 +161,7 @@ DSP / NPU의 전용 MAC 누산기
 
 **진행 상황**: 161 / 803
 
-← **이전**: [[160_operand|160. 피연산자 (Operand)]]
-**다음**: [[162_gpr|162. 범용 레지스터 (GPR)]] →
+← **이전**: [160. 피연산자 (Operand)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/)
+**다음**: [162. 범용 레지스터 (GPR)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/162_gpr/) →
 
 ---

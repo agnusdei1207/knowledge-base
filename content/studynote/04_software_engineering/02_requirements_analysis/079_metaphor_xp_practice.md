@@ -1,13 +1,17 @@
----
-title: 079. 메타포 (Metaphor - XP Practice)
-date: '2026-05-05'
-tags:
-- studynote-software-engineering
----
++++
+title = "079. 메타포 (Metaphor - XP Practice)"
+date = 2026-05-05
+
+[taxonomies]
+tags = ["studynote-software-engineering"]
+
+[extra]
+tags = ["studynote-software-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [[073_xp_extreme_programming|eXtreme Programming]]([[073_xp_extreme_programming|XP]])의 핵심 실천법 중 하나인 메타포(Metaphor)는, 복잡하고 추상적인 소프트웨어 아키텍처를 개발자와 고객 모두가 즉시 이해할 수 있는 **'현실 세계의 쉬운 비유(은유)'로 이름 짓는 의사소통 체계**다.
-> 2. **가치**: "[[064_b_tree|B-Tree]] [[154_database_index_b_tree_search_optimization|인덱스]] 기반 검색 엔진의 레코드 삽입" 같은 외계어를 버리고 "도서관 사서의 책꽂이 채우기"라는 메타포를 도입함으로써, 코딩을 모르는 비즈니스 담당자(고객)와 개발자가 한 가지 언어([[220_ubiquitous_language_ddd_communication|Ubiquitous Language]])로 시스템을 함께 스케치할 수 있게 만든다.
+> 1. **본질**: [eXtreme Programming](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/)([XP](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/))의 핵심 실천법 중 하나인 메타포(Metaphor)는, 복잡하고 추상적인 소프트웨어 아키텍처를 개발자와 고객 모두가 즉시 이해할 수 있는 **'현실 세계의 쉬운 비유(은유)'로 이름 짓는 의사소통 체계**다.
+> 2. **가치**: "[B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 기반 검색 엔진의 레코드 삽입" 같은 외계어를 버리고 "도서관 사서의 책꽂이 채우기"라는 메타포를 도입함으로써, 코딩을 모르는 비즈니스 담당자(고객)와 개발자가 한 가지 언어([Ubiquitous Language](/knowledge-base/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/))로 시스템을 함께 스케치할 수 있게 만든다.
 > 3. **판단 포인트**: 메타포가 단순한 말장난으로 끝나면 안 되며, 실제 클래스(Class)와 변수명(Variable) 네이밍 규칙까지 지배하는 거버넌스 뼈대로 융합되어야만 전체 시스템 구조를 지탱하는 아키텍처적 가치를 지닌다.
 
 ---
@@ -15,9 +19,9 @@ tags:
 ## Ⅰ. 개요 및 필요성
 
 소프트웨어 개발 프로젝트에서 가장 큰 비극은 '번역의 상실'이다.
-고객은 "장바구니에 담긴 물건을 결제해 줘"라고 말하는데, 개발자는 "[[160_session_controlling_terminal|세션]] 객체의 `CartList` 배열을 순회하며 `TransactionManager`를 호출해"라고 알아듣는다. 둘이 회의실에 앉아 각자의 외계어로 말하니 시스템 설계도가 엉뚱한 산으로 간다.
+고객은 "장바구니에 담긴 물건을 결제해 줘"라고 말하는데, 개발자는 "[세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 객체의 `CartList` 배열을 순회하며 `TransactionManager`를 호출해"라고 알아듣는다. 둘이 회의실에 앉아 각자의 외계어로 말하니 시스템 설계도가 엉뚱한 산으로 간다.
 
-XP의 창시자 켄트 벡(Kent Beck)은 이 벽을 부수기 위해 거대한 아키텍처 다이어그램([[232_uml_unified_modeling_language_overview|UML]])을 찢어버리고, **메타포(Metaphor, 비유)**라는 무기를 들고나왔다. 전체 시스템의 동작 원리를 초등학생도 이해할 수 있는 일상생활의 비유로 정의해 버린 것이다. 윈도우(Windows) OS가 '바탕화면(Desktop)', '휴지통(Recycle Bin)', '폴더(Folder)'라는 메타포를 도입해 컴퓨터를 모르는 일반인도 1초 만에 시스템을 이해하고 클릭하게 만든 것이 가장 위대한 메타포의 성공 사례다.
+XP의 창시자 켄트 벡(Kent Beck)은 이 벽을 부수기 위해 거대한 아키텍처 다이어그램([UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/))을 찢어버리고, **메타포(Metaphor, 비유)**라는 무기를 들고나왔다. 전체 시스템의 동작 원리를 초등학생도 이해할 수 있는 일상생활의 비유로 정의해 버린 것이다. 윈도우(Windows) OS가 '바탕화면(Desktop)', '휴지통(Recycle Bin)', '폴더(Folder)'라는 메타포를 도입해 컴퓨터를 모르는 일반인도 1초 만에 시스템을 이해하고 클릭하게 만든 것이 가장 위대한 메타포의 성공 사례다.
 
 - **📢 섹션 요약 비유**: 메타포는 외국인 노동자들과 집을 지을 때 쓰는 '그림 언어'다. "철근 콘크리트 배합비 3:1"을 말로 설명하면 못 알아듣지만, "밀가루 반죽에 초코칩 넣듯이"라고 비유하면 찰떡같이 알아듣고 정확히 벽돌을 굽기 시작한다. 프로젝트 팀 전원을 연결하는 생각의 다리다.
 
@@ -50,23 +54,23 @@ XP의 창시자 켄트 벡(Kent Beck)은 이 벽을 부수기 위해 거대한 �
 
 이 메타포가 정립되면, 새로 입사한 주니어 개발자도 "아, `TaxiStand` 클래스에서 `passenger.board()`를 부르면 상담이 매칭되는구나"라며 전체 시스템의 뼈대를 5분 만에 머릿속에 렌더링할 수 있다.
 
-- **📢 섹션 요약 비유**: 메타포 아키텍처는 게임의 '스킨(Skin) 덮어씌우기'다. 체스 게임의 규칙([[001_algorithm_definition|알고리즘]])이 아무리 복잡해도, 킹, 퀸, 나이트, 폰이라는 직관적인 계급 메타포(스킨)를 덮어씌웠기 때문에 룰을 설명하기도 쉽고 말의 움직임을 암기하기도 수월해진다.
+- **📢 섹션 요약 비유**: 메타포 아키텍처는 게임의 '스킨(Skin) 덮어씌우기'다. 체스 게임의 규칙([알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))이 아무리 복잡해도, 킹, 퀸, 나이트, 폰이라는 직관적인 계급 메타포(스킨)를 덮어씌웠기 때문에 룰을 설명하기도 쉽고 말의 움직임을 암기하기도 수월해진다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 무거운 아키텍처([[232_uml_unified_modeling_language_overview|UML]]) vs 가벼운 메타포([[073_xp_extreme_programming|XP]])
+### 무거운 아키텍처([UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/)) vs 가벼운 메타포([XP](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/))
 소프트웨어 구조를 설명하는 두 가지 상반된 철학의 충돌이다.
 
-| 항목 | 전통적 방법론 ([[232_uml_unified_modeling_language_overview|UML]] 중심) | [[073_xp_extreme_programming|XP]] 실천법 (Metaphor 중심) |
+| 항목 | 전통적 방법론 ([UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) 중심) | [XP](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/) 실천법 (Metaphor 중심) |
 |:---|:---|:---|
-| **소통의 도구** | 수백 장의 복잡한 클래스/[[235_sequence_diagram_dynamic_interaction_uml|시퀀스 다이어그램]] | **한 줄의 일상 비유 (예: "공장 컨베이어 벨트")** |
+| **소통의 도구** | 수백 장의 복잡한 클래스/[시퀀스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/235_sequence_diagram_dynamic_interaction_uml/) | **한 줄의 일상 비유 (예: "공장 컨베이어 벨트")** |
 | **타겟 청중** | 훈련받은 소프트웨어 엔지니어 | **비즈니스 고객, 기획자, 초급 개발자 전체** |
 | **의미 전달 속도**| 한 달 내내 공부해야 구조 파악 가능 | **1초 만에 직관적 이해 (Aha! Moment)** |
 | **위험성** | 문서를 안 읽고 버려짐 | **비유가 잘못되면 시스템 설계 전체가 오염됨** |
 
-거대한 시스템을 구축할 때 100페이지짜리 아키텍처 명세서([[232_uml_unified_modeling_language_overview|UML]])는 개발자들조차도 3페이지 읽고 덮어버린다. 하지만 "우리 시스템은 '벌통([[544_hive|Hive]])'이야. 벌(Agent)들이 꿀([[001_dikw_pyramid|Data]])을 물어와서 여왕벌(DB)에게 바치는 구조지"라는 단 하나의 메타포는, 문서 없이도 100명의 팀원 뇌 속에 완벽히 똑같은 아키텍처 그림을 동기화시키는 폭발력을 지닌다.
+거대한 시스템을 구축할 때 100페이지짜리 아키텍처 명세서([UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/))는 개발자들조차도 3페이지 읽고 덮어버린다. 하지만 "우리 시스템은 '벌통([Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/))'이야. 벌(Agent)들이 꿀([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 물어와서 여왕벌(DB)에게 바치는 구조지"라는 단 하나의 메타포는, 문서 없이도 100명의 팀원 뇌 속에 완벽히 똑같은 아키텍처 그림을 동기화시키는 폭발력을 지닌다.
 
 - **📢 섹션 요약 비유**: UML이 복잡한 '건축 설계 청사진'이라면, 메타포는 모델하우스의 '조감도 미니어처'다. 청사진은 도면을 읽을 줄 아는 기사님(개발자)만 볼 수 있지만, 미니어처(메타포)는 돈을 대는 건물주(고객)도 한눈에 보고 "여기 창문을 넓혀줘"라고 요구사항을 말할 수 있게 만든다.
 
@@ -75,10 +79,10 @@ XP의 창시자 켄트 벡(Kent Beck)은 이 벽을 부수기 위해 거대한 �
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **[[310_architecture|도메인 주도 설계]]([[310_architecture|DDD]])의 [[220_ubiquitous_language_ddd_communication|유비쿼터스 언어]]([[220_ubiquitous_language_ddd_communication|Ubiquitous Language]]) 융합**: 메타포의 개념은 현대 [[532_microservices_decomposition_patterns|마이크로서비스]]([[619_msa_traffic_hardware|MSA]]) 설계의 성서인 DDD로 진화했다. 이커머스 [[064_relation_domain|도메인]]을 설계할 때 개발자와 기획자는 회의실에 모여 '장바구니(Cart)', '계산대(Checkout)', '영수증(Receipt)'이라는 보편적인 메타포를 확정한다. 기획자가 요구사항을 `Cart`에 담는다고 썼으면, DB 테이블 이름도 무조건 `cart_table`이어야 하고 Java 클래스 이름도 `Cart.java`여야 한다. 번역과 오해의 낭비를 소멸시키는 궁극의 소통 거버넌스다.
-2. **배치 프로세싱(Batch) 시스템의 메타포 도입**: 매일 밤 은행 [[001_dikw_pyramid|데이터]]를 정산하는 복잡한 데몬 프로그램을 짤 때, 개발팀은 "식당 주방 마감"이라는 메타포를 쓴다. [[001_dikw_pyramid|데이터]]를 씻는 과정은 `DishWasher`, 찌꺼기 로그를 버리는 건 `TrashBin`, 정산 장부 마감은 `CashRegister` 객체로 매핑한다. 6개월 뒤 서버가 뻗어 장애 로그에 `DishWasher Exception`이 찍히면, 유지보수 개발자는 "아, [[001_dikw_pyramid|데이터]] 클렌징(세척) 쪽 로직이 터졌구나!"라고 직관적으로 핀포인트 디버깅에 들어간다.
+1. **[도메인 주도 설계](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/)([DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/))의 [유비쿼터스 언어](/knowledge-base/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/)([Ubiquitous Language](/knowledge-base/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/)) 융합**: 메타포의 개념은 현대 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 설계의 성서인 DDD로 진화했다. 이커머스 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 설계할 때 개발자와 기획자는 회의실에 모여 '장바구니(Cart)', '계산대(Checkout)', '영수증(Receipt)'이라는 보편적인 메타포를 확정한다. 기획자가 요구사항을 `Cart`에 담는다고 썼으면, DB 테이블 이름도 무조건 `cart_table`이어야 하고 Java 클래스 이름도 `Cart.java`여야 한다. 번역과 오해의 낭비를 소멸시키는 궁극의 소통 거버넌스다.
+2. **배치 프로세싱(Batch) 시스템의 메타포 도입**: 매일 밤 은행 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정산하는 복잡한 데몬 프로그램을 짤 때, 개발팀은 "식당 주방 마감"이라는 메타포를 쓴다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 씻는 과정은 `DishWasher`, 찌꺼기 로그를 버리는 건 `TrashBin`, 정산 장부 마감은 `CashRegister` 객체로 매핑한다. 6개월 뒤 서버가 뻗어 장애 로그에 `DishWasher Exception`이 찍히면, 유지보수 개발자는 "아, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 클렌징(세척) 쪽 로직이 터졌구나!"라고 직관적으로 핀포인트 디버깅에 들어간다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - **나쁜 비유(Bad Metaphor)의 억지 끼워 맞추기**: 개발팀이 있어 보이려고 '태양계 행성' 메타포를 도입하여, 메인 서버는 `Sun`, 서브 노드들은 `Mercury`, `Venus`로 이름 지어놨다. 그런데 시스템 요구사항이 바뀌어 위성 노드가 다른 시스템과 통신해야 하는데, 우주 물리법칙상 말이 안 되는 통신 궤도가 나온다. 비유의 한계(Boundary)를 넘어가는 억지 메타포는 코드를 더 난해한 외계어로 만들고 개발자들을 혼돈의 구렁텅이로 빠뜨린다. 메타포가 현실을 담지 못하면 당장 버려야 한다.
 
 - **📢 섹션 요약 비유**: 나쁜 메타포는 회사 조직을 '개미 떼'로 비유하는 것과 같다. 직원들을 일개미로, 사장을 여왕개미로 부르는 것은 재밌지만, "일개미가 옆 부서의 일개미에게 이메일을 보낸다"는 개념을 설명할 때 개미는 이메일을 못 쓰므로 비유가 완전히 박살 난다. 비유는 행동의 룰을 깨지 않는 범위 내에서만 작동해야 한다.
@@ -87,9 +91,9 @@ XP의 창시자 켄트 벡(Kent Beck)은 이 벽을 부수기 위해 거대한 �
 
 ## Ⅴ. 기대효과 및 결론
 
-메타포(Metaphor)는 기계의 차갑고 딱딱한 논리를 인간의 따뜻하고 익숙한 경험 세계로 번역해 내는 [[001_software_engineering_definition|소프트웨어 공학]] 최고의 통역기다.
+메타포(Metaphor)는 기계의 차갑고 딱딱한 논리를 인간의 따뜻하고 익숙한 경험 세계로 번역해 내는 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 최고의 통역기다.
 
-소프트웨어 개발이 점점 더 고도화될수록, 실패의 원인은 기계적인 버그가 아니라 '고객과 개발자 간의 소통 단절'에서 터진다. [[004_agile_relation|애자일]]([[004_agile_relation|Agile]])과 XP가 [[164_tdd_test_driven_development|TDD]]([[077_tdd_test_driven_development|테스트 주도 개발]])나 [[090_configuration_item|CI]]/CD 같은 기술적 쇳덩어리들 사이에 뜬금없이 '비유(메타포)'라는 인문학적 실천법을 핵심 원칙(Core Practice)으로 떡하니 박아놓은 이유는, 코딩보다 사람의 생각을 일치시키는(Alignment) 것이 프로젝트 생존에 수천 배 더 중요하기 때문이다.
+소프트웨어 개발이 점점 더 고도화될수록, 실패의 원인은 기계적인 버그가 아니라 '고객과 개발자 간의 소통 단절'에서 터진다. [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))과 XP가 [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)([테스트 주도 개발](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/077_tdd_test_driven_development/))나 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 같은 기술적 쇳덩어리들 사이에 뜬금없이 '비유(메타포)'라는 인문학적 실천법을 핵심 원칙(Core Practice)으로 떡하니 박아놓은 이유는, 코딩보다 사람의 생각을 일치시키는(Alignment) 것이 프로젝트 생존에 수천 배 더 중요하기 때문이다.
 
 - **📢 섹션 요약 비유**: 메타포는 여러 나라에서 모인 용병(기획자, 디자이너, 개발자)들이 전투(프로젝트)에 임할 때 쓰는 '공용 수신호'다. 영어, 한국어, 불어를 몰라도 주먹을 쥐면(메타포) 멈추고, 손을 흔들면 후퇴한다는 강력하고 직관적인 공통 언어가 부대의 몰살을 막는다.
 
@@ -99,9 +103,9 @@ XP의 창시자 켄트 벡(Kent Beck)은 이 벽을 부수기 위해 거대한 �
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[[220_ubiquitous_language_ddd_communication|유비쿼터스 언어]] ([[220_ubiquitous_language_ddd_communication|Ubiquitous Language]])** | 메타포 사상을 극대화하여, 기획자의 기획서부터 개발자의 소스 코드 변수명까지 100% 동일한 단어(비유)를 쓰도록 강제하는 [[310_architecture|도메인 주도 설계]]([[310_architecture|DDD]])의 핵심 철학 |
-| **[[073_xp_extreme_programming|XP]] ([[073_xp_extreme_programming|eXtreme Programming]])** | 켄트 벡이 창시한 [[004_agile_relation|애자일]] 방법론의 정수. [[164_tdd_test_driven_development|TDD]], 짝 프로그래밍, [[090_configuration_item|CI]] 등과 함께 메타포(Metaphor)를 12대 핵심 실천법으로 지정하여 소통의 장벽을 부숨 |
-| **객체 지향 프로그래밍 ([[322_oop_4_characteristics|OOP]])** | 객체(Object) 자체가 현실 세계 사물의 은유(Metaphor)다. 메타포 실천법은 결국 훌륭한 클래스와 인터페이스 설계를 낳는 디자인 패턴의 엄마 역할 |
+| **[유비쿼터스 언어](/knowledge-base/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/) ([Ubiquitous Language](/knowledge-base/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/))** | 메타포 사상을 극대화하여, 기획자의 기획서부터 개발자의 소스 코드 변수명까지 100% 동일한 단어(비유)를 쓰도록 강제하는 [도메인 주도 설계](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/)([DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/))의 핵심 철학 |
+| **[XP](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/) ([eXtreme Programming](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/))** | 켄트 벡이 창시한 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 방법론의 정수. [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/), 짝 프로그래밍, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 등과 함께 메타포(Metaphor)를 12대 핵심 실천법으로 지정하여 소통의 장벽을 부숨 |
+| **객체 지향 프로그래밍 ([OOP](/knowledge-base/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/))** | 객체(Object) 자체가 현실 세계 사물의 은유(Metaphor)다. 메타포 실천법은 결국 훌륭한 클래스와 인터페이스 설계를 낳는 디자인 패턴의 엄마 역할 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -126,7 +130,7 @@ eXtreme Programming (XP) 선언 및 소통 최우선(Communication) 가치 대�
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 메타포는 컴퓨터의 어려운 규칙들을 설명할 때, "이건 마치 놀이터의 미끄럼틀 같은 거야!"라고 아주 쉽게 비유해서 알려주는 마법의 단어예요.
-2. 개발자 삼촌과 요리사 손님이 대화할 때, 컴퓨터 용어 대신 "손님이 주문서([[001_dikw_pyramid|데이터]])를 넣으면 주방장(서버)이 요리해서 나온다"라고 말하면 서로 찰떡같이 알아듣죠.
+2. 개발자 삼촌과 요리사 손님이 대화할 때, 컴퓨터 용어 대신 "손님이 주문서([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 넣으면 주방장(서버)이 요리해서 나온다"라고 말하면 서로 찰떡같이 알아듣죠.
 3. 이렇게 똑같은 그림을 머릿속에 그리면, 나중에 완성된 컴퓨터 프로그램이 엉뚱한 모양으로 만들어지는 걸 막을 수 있답니다!
 
 ---
@@ -135,7 +139,7 @@ eXtreme Programming (XP) 선언 및 소통 최우선(Communication) 가치 대�
 
 **진행 상황**: 79 / 973
 
-← **이전**: [[078_refactoring_code_smells|78. 리팩토링 (Refactoring) - 외부 동작 변경 없이 내부 구조 개선]]
-**다음**: [[080_small_releases|080. 소규모 릴리즈 (Small Releases - XP Practice)]] →
+← **이전**: [78. 리팩토링 (Refactoring) - 외부 동작 변경 없이 내부 구조 개선](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/078_refactoring_code_smells/)
+**다음**: [080. 소규모 릴리즈 (Small Releases - XP Practice)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/080_small_releases/) →
 
 ---

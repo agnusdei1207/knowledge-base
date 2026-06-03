@@ -1,25 +1,29 @@
----
-title: 209. 해독 사이클 (Decode Cycle)
-date: '2026-04-20'
-tags:
-- studynote-computer-architecture
----
++++
+title = "209. 해독 사이클 (Decode Cycle)"
+date = 2026-04-20
+
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 해독 사이클 (Decode Cycle)은 [[165_ir|명령어 레지스터]] ([[158_instruction|Instruction]] [[175_register_addressing|Register]], [[165_ir|IR]])에 담긴 [[073_bit|비트]]열을 "무슨 연산을, 어떤 자원으로, 어떤 순서로 수행할지"라는 제어 정보로 번역하는 단계다.
-> 2. **가치**: 이 단계가 빠르고 정확해야 파이프라인 앞단이 실행부를 굶기지 않으며, 해저드 감지·분기 준비·[[160_operand|피연산자]] 읽기가 제때 이뤄져 전체 [[139_throughput|처리량]]이 유지된다.
-> 3. **판단 포인트**: 단순히 opcode만 읽는 단계가 아니라, [[158_instruction|명령어]] 집합 구조 ([[157_isa|Instruction Set Architecture]], [[157_isa|ISA]]) 복잡도에 따라 [[039_decoder|디코더]] 비용·전력·클럭 한계가 크게 갈리는 프론트엔드 병목 구간으로 봐야 한다.
+> 1. **본질**: 해독 사이클 (Decode Cycle)은 [명령어 레지스터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/) ([Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/), [IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/))에 담긴 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)열을 "무슨 연산을, 어떤 자원으로, 어떤 순서로 수행할지"라는 제어 정보로 번역하는 단계다.
+> 2. **가치**: 이 단계가 빠르고 정확해야 파이프라인 앞단이 실행부를 굶기지 않으며, 해저드 감지·분기 준비·[피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) 읽기가 제때 이뤄져 전체 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 유지된다.
+> 3. **판단 포인트**: 단순히 opcode만 읽는 단계가 아니라, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 집합 구조 ([Instruction Set Architecture](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/), [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)) 복잡도에 따라 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) 비용·전력·클럭 한계가 크게 갈리는 프론트엔드 병목 구간으로 봐야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-해독 사이클 (Decode Cycle)은 인출 단계에서 가져온 [[158_instruction|명령어]]를 CPU가 실제로 사용할 수 있는 제어 [[130_signal|신호]]와 [[160_operand|피연산자]] 정보로 바꾸는 단계다. 메모리에서 읽어온 0과 1의 나열은 그 자체로는 의미가 없고, 어느 [[073_bit|비트]]가 [[159_opcode|연산 코드]] ([[159_opcode|Opcode]])인지, 어느 [[073_bit|비트]]가 원본 [[057_register|레지스터]]인지, 어느 [[073_bit|비트]]가 즉치값 ([[174_immediate_addressing|Immediate]])인지를 해석해야 비로소 실행이 가능해진다.
+해독 사이클 (Decode Cycle)은 인출 단계에서 가져온 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 CPU가 실제로 사용할 수 있는 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)와 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) 정보로 바꾸는 단계다. 메모리에서 읽어온 0과 1의 나열은 그 자체로는 의미가 없고, 어느 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 [연산 코드](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/159_opcode/) ([Opcode](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/159_opcode/))인지, 어느 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 원본 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)인지, 어느 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 즉치값 ([Immediate](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/174_immediate_addressing/))인지를 해석해야 비로소 실행이 가능해진다.
 
-이 단계가 필요한 이유는 CPU 내부 자원이 모두 역할이 다르기 때문이다. 산술논리장치 ([[117_alu|Arithmetic Logic Unit]], [[117_alu|ALU]]), [[057_register|레지스터]] [[501_file_definition_logical_record|파일]] ([[175_register_addressing|Register]] [[501_file_definition_logical_record|File]]), 분기 판단 로직, 메모리 접근 경로는 같은 [[158_instruction|명령어]]라도 서로 다른 조합으로 활성화되어야 한다. 해독이 부정확하면 잘못된 경로가 열리고, 해독이 느리면 뒤의 실행 유닛이 놀게 된다.
+이 단계가 필요한 이유는 CPU 내부 자원이 모두 역할이 다르기 때문이다. 산술논리장치 ([Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/), [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)), [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) ([Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/) [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)), 분기 판단 로직, 메모리 접근 경로는 같은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)라도 서로 다른 조합으로 활성화되어야 한다. 해독이 부정확하면 잘못된 경로가 열리고, 해독이 느리면 뒤의 실행 유닛이 놀게 된다.
 
-특히 파이프라인 구조에서는 해독이 단순한 해석을 넘어선다. [[158_instruction|명령어]] 종류를 파악하는 동시에 소스 [[057_register|레지스터]]를 읽고, 즉치값을 확장하며, 필요하면 분기 대상 주소의 일부를 미리 계산해야 한다. 그래서 해독 단계는 "뜻을 이해하는 단계"이면서 동시에 "다음 단계가 바로 일할 수 있게 작업대를 세팅하는 단계"다.
+특히 파이프라인 구조에서는 해독이 단순한 해석을 넘어선다. [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 종류를 파악하는 동시에 소스 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 읽고, 즉치값을 확장하며, 필요하면 분기 대상 주소의 일부를 미리 계산해야 한다. 그래서 해독 단계는 "뜻을 이해하는 단계"이면서 동시에 "다음 단계가 바로 일할 수 있게 작업대를 세팅하는 단계"다.
 
 - **📢 섹션 요약 비유**: 해독 사이클은 외국어로 적힌 작업 지시서를 현장 관리자에게 맞는 작업표로 바꾸는 번역실과 같다. 번역이 틀리면 엉뚱한 장비가 켜지고, 번역이 늦으면 현장 인력은 멀뚱히 기다리게 된다.
 
@@ -27,19 +31,19 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-해독 단계는 보통 네 가지 일을 겹쳐서 처리한다. 첫째, opcode를 보고 명령 종류를 판별한다. 둘째, [[158_instruction|명령어]] [[073_bit|비트]] 필드에서 소스/목적지 [[057_register|레지스터]] 번호를 추출한다. 셋째, 즉치값이면 부호 확장 (Sign Extension) 또는 영 확장 ([[585_zero_skipping|Zero]] Extension)을 수행한다. 넷째, [[206_control_unit|제어 유닛]] ([[206_control_unit|Control Unit]])이 다음 단계에 필요한 제어 [[130_signal|신호]] 묶음을 만든다.
+해독 단계는 보통 네 가지 일을 겹쳐서 처리한다. 첫째, opcode를 보고 명령 종류를 판별한다. 둘째, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 필드에서 소스/목적지 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 번호를 추출한다. 셋째, 즉치값이면 부호 확장 (Sign Extension) 또는 영 확장 ([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Extension)을 수행한다. 넷째, [제어 유닛](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/) ([Control Unit](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/))이 다음 단계에 필요한 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 묶음을 만든다.
 
 아래 표는 해독 단계의 대표 요소와 역할을 보여준다.
 
-| 구성 요소 | 역할 | [[282_performance_tactics|성능]] 포인트 |
+| 구성 요소 | 역할 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 포인트 |
 | :--- | :--- | :--- |
-| [[165_ir|명령어 레지스터]] ([[158_instruction|Instruction]] [[175_register_addressing|Register]], [[165_ir|IR]]) | 인출된 [[158_instruction|명령어]]를 잠시 보관 | 필드 분리가 쉬워야 다음 단계 [[015_지연_데이터_관점|지연]] 감소 |
-| [[039_decoder|디코더]] ([[039_decoder|Decoder]]) | opcode와 형식을 해석 | ISA가 복잡할수록 [[369_logic_bomb|논리]] 깊이 증가 |
-| [[057_register|레지스터]] [[501_file_definition_logical_record|파일]] ([[175_register_addressing|Register]] [[501_file_definition_logical_record|File]]) | 소스 [[160_operand|피연산자]] 읽기 | 읽기 [[446_port_and_bus|포트]] 수가 디코드 폭에 영향 |
-| 즉치값 확장기 ([[174_immediate_addressing|Immediate]] Extender) | 상수 폭 보정 | 부호 유지 여부가 연산 정확도 좌우 |
-| [[206_control_unit|제어 유닛]] ([[206_control_unit|Control Unit]]) | [[117_alu|ALU]], [[944_mux_demux_multiplexer_demultiplexer_circuit_sharing|MUX]], 메모리 경로 제어 [[130_signal|신호]] [[087_process_state_transition|생성]] | 임계 경로 (Critical Path) 길이에 직접 영향 |
+| [명령어 레지스터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/) ([Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/), [IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/)) | 인출된 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 잠시 보관 | 필드 분리가 쉬워야 다음 단계 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 감소 |
+| [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) ([Decoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)) | opcode와 형식을 해석 | ISA가 복잡할수록 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 깊이 증가 |
+| [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) ([Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/) [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)) | 소스 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) 읽기 | 읽기 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 수가 디코드 폭에 영향 |
+| 즉치값 확장기 ([Immediate](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/174_immediate_addressing/) Extender) | 상수 폭 보정 | 부호 유지 여부가 연산 정확도 좌우 |
+| [제어 유닛](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/) ([Control Unit](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/)) | [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/), [MUX](/knowledge-base/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/), 메모리 경로 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 임계 경로 (Critical Path) 길이에 직접 영향 |
 
-다음 그림은 해독 단계가 단일 동작이 아니라 [[430_index_fast_full_scan|병렬]] 준비 단계임을 보여준다.
+다음 그림은 해독 단계가 단일 동작이 아니라 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 준비 단계임을 보여준다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────────────┐
@@ -57,9 +61,9 @@ tags:
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
-이 그림의 핵심은 해독 단계가 순차 번역기가 아니라 [[430_index_fast_full_scan|병렬]] 분배기라는 점이다. 명령 종류를 완전히 이해한 다음 [[160_operand|피연산자]]를 읽는 것이 아니라, 필드 구조가 정해져 있다는 [[157_isa|ISA]] 규칙을 이용해 여러 준비를 동시에 시작한다. 그래서 [[195_risc|RISC]] (Reduced [[158_instruction|Instruction]] Set Computer) 구조는 [[171_fixed_length_instruction|고정 길이 명령어]] 덕분에 이런 [[430_index_fast_full_scan|병렬]]화가 쉽고, [[196_cisc|CISC]] (Complex [[158_instruction|Instruction]] Set Computer) 구조는 길이와 형식이 다양해 해독 회로가 더 무거워진다.
+이 그림의 핵심은 해독 단계가 순차 번역기가 아니라 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 분배기라는 점이다. 명령 종류를 완전히 이해한 다음 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/)를 읽는 것이 아니라, 필드 구조가 정해져 있다는 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) 규칙을 이용해 여러 준비를 동시에 시작한다. 그래서 [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) (Reduced [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer) 구조는 [고정 길이 명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/171_fixed_length_instruction/) 덕분에 이런 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화가 쉽고, [CISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/) (Complex [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer) 구조는 길이와 형식이 다양해 해독 회로가 더 무거워진다.
 
-또한 해독 단계는 파이프라인의 임계 경로를 자주 결정한다. 한 클럭 안에 [[158_instruction|명령어]] 분리, [[057_register|레지스터]] 읽기, 제어 [[130_signal|신호]] [[087_process_state_transition|생성]], 해저드 검사까지 몰리기 때문이다. 그래서 설계자는 [[039_decoder|디코더]]를 단순화하거나, 해독 폭 (Decode Width)을 제한하거나, [[213_micro_operation|마이크로 오퍼레이션]] ([[213_micro_operation|Micro-operation]], uOP) 캐시를 두어 반복 번역 비용을 줄이는 [[268_strategy_pattern|전략]]을 쓴다.
+또한 해독 단계는 파이프라인의 임계 경로를 자주 결정한다. 한 클럭 안에 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 분리, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 읽기, 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 해저드 검사까지 몰리기 때문이다. 그래서 설계자는 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)를 단순화하거나, 해독 폭 (Decode Width)을 제한하거나, [마이크로 오퍼레이션](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/213_micro_operation/) ([Micro-operation](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/213_micro_operation/), uOP) 캐시를 두어 반복 번역 비용을 줄이는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 쓴다.
 
 - **📢 섹션 요약 비유**: 해독 단계는 주문서를 읽는 동시에 재료 창고에서 재료를 꺼내고, 조리도구를 놓고, 불 세기까지 맞추는 주방 준비 시간과 같다. 주문을 다 읽고 나서 하나씩 준비하면 손님 줄을 절대 감당할 수 없다.
 
@@ -67,46 +71,46 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-해독 사이클을 제대로 이해하려면 RISC와 CISC의 차이를 먼저 봐야 한다. RISC는 [[158_instruction|명령어]] 길이와 형식이 비교적 규칙적이어서 [[039_decoder|디코더]]가 단순하고 빠르다. 반면 CISC는 가변 길이 [[158_instruction|명령어]]와 복합 [[173_addressing_modes|주소 지정 방식]] 때문에 먼저 경계를 찾고, 그다음 의미를 해석하고, 경우에 따라 내부 uOP 여러 개로 쪼개야 한다.
+해독 사이클을 제대로 이해하려면 RISC와 CISC의 차이를 먼저 봐야 한다. RISC는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 길이와 형식이 비교적 규칙적이어서 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)가 단순하고 빠르다. 반면 CISC는 가변 길이 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)와 복합 [주소 지정 방식](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/173_addressing_modes/) 때문에 먼저 경계를 찾고, 그다음 의미를 해석하고, 경우에 따라 내부 uOP 여러 개로 쪼개야 한다.
 
-| 비교 항목 | [[195_risc|RISC]] 계열 해독 | [[196_cisc|CISC]] 계열 해독 |
+| 비교 항목 | [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) 계열 해독 | [CISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/) 계열 해독 |
 | :--- | :--- | :--- |
-| [[158_instruction|명령어]] 길이 | 대체로 고정 길이 | 가변 길이 |
-| 필드 위치 | 일정해 [[430_index_fast_full_scan|병렬]] 분리 용이 | 위치가 달라 선행 판별 필요 |
-| 제어 방식 | 단순 조합 [[369_logic_bomb|논리]] 중심 | 복합 [[039_decoder|디코더]]·마이크로코드 활용 가능 |
-| 장점 | 짧은 [[015_지연_데이터_관점|지연]], 넓은 디코드 폭 구현 용이 | [[157_isa|ISA]] 표현력 높음 |
+| [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 길이 | 대체로 고정 길이 | 가변 길이 |
+| 필드 위치 | 일정해 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 분리 용이 | 위치가 달라 선행 판별 필요 |
+| 제어 방식 | 단순 조합 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 중심 | 복합 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)·마이크로코드 활용 가능 |
+| 장점 | 짧은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 넓은 디코드 폭 구현 용이 | [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) 표현력 높음 |
 | 약점 | 코드 밀도 손해 가능 | 프론트엔드 전력·면적 부담 큼 |
 
-파이프라인 관점에서도 해독은 중요한 연결점이다. 인출 단계는 [[158_instruction|명령어]]를 가져오고, 해독 단계는 그 [[158_instruction|명령어]]를 구조화하며, 실행 단계는 실제 계산을 수행한다. 이 중 해독 단계가 막히면 인출이 아무리 빨라도 쌓인 [[158_instruction|명령어]]를 실행 가능한 형태로 넘기지 못하므로 전체 코어가 프론트엔드 바운드 (Front-end Bound) 상태에 빠진다.
+파이프라인 관점에서도 해독은 중요한 연결점이다. 인출 단계는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 가져오고, 해독 단계는 그 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 구조화하며, 실행 단계는 실제 계산을 수행한다. 이 중 해독 단계가 막히면 인출이 아무리 빨라도 쌓인 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 실행 가능한 형태로 넘기지 못하므로 전체 코어가 프론트엔드 바운드 (Front-end Bound) 상태에 빠진다.
 
-해저드와의 연결도 중요하다. [[223_data_hazard|데이터 해저드]] ([[223_data_hazard|Data Hazard]])는 현재 [[158_instruction|명령어]]가 읽으려는 [[057_register|레지스터]]가 아직 이전 [[158_instruction|명령어]]에 의해 갱신되지 않았을 때 발생한다. 많은 파이프라인은 바로 해독 단계에서 [[057_register|레지스터]] 번호를 비교해 스톨 (Stall) 또는 포워딩 (Forwarding) 필요 여부를 판단한다. 즉 해독은 번역 단계이면서 동시에 "앞뒤 [[158_instruction|명령어]] 충돌 검사대"이기도 하다.
+해저드와의 연결도 중요하다. [데이터 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/223_data_hazard/) ([Data Hazard](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/223_data_hazard/))는 현재 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 읽으려는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)가 아직 이전 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)에 의해 갱신되지 않았을 때 발생한다. 많은 파이프라인은 바로 해독 단계에서 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 번호를 비교해 스톨 (Stall) 또는 포워딩 (Forwarding) 필요 여부를 판단한다. 즉 해독은 번역 단계이면서 동시에 "앞뒤 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 충돌 검사대"이기도 하다.
 
-분기 [[158_instruction|명령어]]와의 관계도 빼놓을 수 없다. 단순 파이프라인에서는 해독 단계에서 [[057_register|레지스터]] 비교와 분기 목표 주소 계산 일부를 앞당겨 분기 패널티를 줄인다. 그래서 해독의 품질은 단순한 명령 이해력뿐 아니라 [[224_control_hazard|제어 해저드]] ([[224_control_hazard|Control Hazard]]) 대응력과도 연결된다.
+분기 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)와의 관계도 빼놓을 수 없다. 단순 파이프라인에서는 해독 단계에서 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 비교와 분기 목표 주소 계산 일부를 앞당겨 분기 패널티를 줄인다. 그래서 해독의 품질은 단순한 명령 이해력뿐 아니라 [제어 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/224_control_hazard/) ([Control Hazard](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/224_control_hazard/)) 대응력과도 연결된다.
 
-- **📢 섹션 요약 비유**: [[195_risc|RISC]] 해독은 규격 상자로 온 택배를 분류하는 작업과 같고, [[196_cisc|CISC]] 해독은 크기와 포장이 제각각인 국제 화물을 열어 다시 작은 상자로 재포장하는 작업과 같다. 둘 다 분류는 하지만 드는 시간과 인력은 크게 다르다.
+- **📢 섹션 요약 비유**: [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) 해독은 규격 상자로 온 택배를 분류하는 작업과 같고, [CISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/) 해독은 크기와 포장이 제각각인 국제 화물을 열어 다시 작은 상자로 재포장하는 작업과 같다. 둘 다 분류는 하지만 드는 시간과 인력은 크게 다르다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무나 시험형 답안에서 해독 사이클은 "[[159_opcode|opcode]] 해석 단계"라고만 쓰면 부족하다. 실제 판단 포인트는 [[039_decoder|디코더]]가 얼마나 넓은 폭으로 [[158_instruction|명령어]]를 공급할 수 있는지, 해저드 감지와 [[057_register|레지스터]] 읽기를 같은 단계에 둘지, 복잡한 ISA를 어떻게 uOP로 분해할지에 있다. 특히 고성능 코어일수록 실행 유닛 수보다 프론트엔드 공급 능력이 먼저 병목이 되는 경우가 많다.
+실무나 시험형 답안에서 해독 사이클은 "[opcode](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/159_opcode/) 해석 단계"라고만 쓰면 부족하다. 실제 판단 포인트는 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)가 얼마나 넓은 폭으로 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 공급할 수 있는지, 해저드 감지와 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 읽기를 같은 단계에 둘지, 복잡한 ISA를 어떻게 uOP로 분해할지에 있다. 특히 고성능 코어일수록 실행 유닛 수보다 프론트엔드 공급 능력이 먼저 병목이 되는 경우가 많다.
 
-예를 들어 4-way 슈퍼스칼라 코어라면 이론상 한 클럭에 4개 명령을 실행할 수 있어야 하지만, [[039_decoder|디코더]]가 클럭당 2개만 안정적으로 해석하면 실제 [[139_throughput|처리량]]은 그보다 낮아진다. 반대로 디코드 폭을 넓히면 [[057_register|레지스터]] [[501_file_definition_logical_record|파일]] 읽기 [[446_port_and_bus|포트]] 수, 소비전력, 배선 복잡도, [[133_clock_cycle_time|클럭 주기]] 부담이 함께 증가한다. 그래서 무조건 넓은 [[039_decoder|디코더]]가 정답은 아니다.
+예를 들어 4-way 슈퍼스칼라 코어라면 이론상 한 클럭에 4개 명령을 실행할 수 있어야 하지만, [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)가 클럭당 2개만 안정적으로 해석하면 실제 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 그보다 낮아진다. 반대로 디코드 폭을 넓히면 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 읽기 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 수, 소비전력, 배선 복잡도, [클럭 주기](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/133_clock_cycle_time/) 부담이 함께 증가한다. 그래서 무조건 넓은 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)가 정답은 아니다.
 
-### 설계 판단 [[435_checklist_based_testing|체크리스트]]
+### 설계 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 디코드 폭 (Decode Width)이 백엔드 실행 폭과 균형을 이루는가?
-2. 해독 단계 안에 해저드 검사, 분기 비교, [[057_register|레지스터]] 읽기를 넣었을 때 임계 경로를 감당할 수 있는가?
-3. 복잡한 [[158_instruction|명령어]]는 마이크로코드 (Microcode) 또는 uOP 캐시로 우회할 것인가?
-4. 전력 효율이 중요한 코어인지, 최고 [[282_performance_tactics|성능]]이 중요한 코어인지 목표가 명확한가?
+2. 해독 단계 안에 해저드 검사, 분기 비교, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 읽기를 넣었을 때 임계 경로를 감당할 수 있는가?
+3. 복잡한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 마이크로코드 (Microcode) 또는 uOP 캐시로 우회할 것인가?
+4. 전력 효율이 중요한 코어인지, 최고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 중요한 코어인지 목표가 명확한가?
 
-### 대표 [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### 대표 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 해독 단계에 과도한 기능을 몰아넣어 [[132_clock_frequency|클럭 주파수]] 한계를 스스로 낮추는 설계
+- 해독 단계에 과도한 기능을 몰아넣어 [클럭 주파수](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/) 한계를 스스로 낮추는 설계
 - 실행 유닛만 늘리고 프론트엔드 디코드 대역폭은 그대로 두는 불균형 설계
-- 복잡한 [[196_cisc|CISC]] [[158_instruction|명령어]] 번역 비용을 무시한 채 [[157_isa|ISA]] 표현력만 강조하는 판단
+- 복잡한 [CISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 번역 비용을 무시한 채 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) 표현력만 강조하는 판단
 
-기술사 관점에서는 "해독 단계는 [[206_control_unit|제어 유닛]]의 [[369_logic_bomb|논리]] 설계 문제"로만 보지 말고, 파이프라인 [[139_throughput|처리량]]·전력·분기 패널티·해저드 제어가 만나는 절충 지점으로 설명하는 것이 좋다. 좋은 답안은 디코드 자체의 정의보다, 왜 이 단계가 현대 CPU 프론트엔드의 핵심 병목이 되는지까지 연결해 준다.
+기술사 관점에서는 "해독 단계는 [제어 유닛](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/)의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 설계 문제"로만 보지 말고, 파이프라인 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)·전력·분기 패널티·해저드 제어가 만나는 절충 지점으로 설명하는 것이 좋다. 좋은 답안은 디코드 자체의 정의보다, 왜 이 단계가 현대 CPU 프론트엔드의 핵심 병목이 되는지까지 연결해 준다.
 
 - **📢 섹션 요약 비유**: 해독 단계 설계는 경기장 입구의 검색대 운영과 같다. 너무 엄격하게 한곳에 다 몰아넣으면 안전은 챙겨도 입장이 늦어지고, 너무 느슨하면 안쪽에서 사고가 난다. 결국 핵심은 속도와 통제의 균형이다.
 
@@ -114,11 +118,11 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-잘 설계된 해독 단계는 파이프라인 전체를 부드럽게 만든다. [[158_instruction|명령어]]를 빠르게 해석하고 필요한 [[160_operand|피연산자]]를 제때 공급하면 실행 유닛 활용도가 높아지고, 분기나 [[001_dikw_pyramid|데이터]] 의존성으로 인한 낭비도 줄어든다. 결국 해독 [[282_performance_tactics|성능]]은 단순한 앞단 기능이 아니라 [[158_instruction|명령어]] [[139_throughput|처리량]] ([[135_ipc|Instructions Per Cycle]], [[117_ipc|IPC]]) 개선의 직접 조건이 된다.
+잘 설계된 해독 단계는 파이프라인 전체를 부드럽게 만든다. [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 빠르게 해석하고 필요한 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/)를 제때 공급하면 실행 유닛 활용도가 높아지고, 분기나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존성으로 인한 낭비도 줄어든다. 결국 해독 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 단순한 앞단 기능이 아니라 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Instructions Per Cycle](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/135_ipc/), [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/)) 개선의 직접 조건이 된다.
 
-반대로 해독 단계가 약하면, 뒤에 아무리 많은 연산 유닛을 달아도 실효 [[282_performance_tactics|성능]]은 제한된다. 이 때문에 현대 CPU는 프리디코드, [[231_branch_prediction|분기 예측]], uOP 캐시, 매크로 퓨전 (Macro Fusion) 같은 기법으로 "디코드 부담을 줄이거나 우회하는 [[268_strategy_pattern|전략]]"을 적극 사용한다. 해독을 빠르게 만드는 것만큼, 해독 자체를 덜 하게 만드는 것도 중요해진 셈이다.
+반대로 해독 단계가 약하면, 뒤에 아무리 많은 연산 유닛을 달아도 실효 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 제한된다. 이 때문에 현대 CPU는 프리디코드, [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/), uOP 캐시, 매크로 퓨전 (Macro Fusion) 같은 기법으로 "디코드 부담을 줄이거나 우회하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)"을 적극 사용한다. 해독을 빠르게 만드는 것만큼, 해독 자체를 덜 하게 만드는 것도 중요해진 셈이다.
 
-앞으로도 해독 단계는 두 방향으로 진화할 가능성이 크다. 하나는 반복되는 번역을 캐시해 프론트엔드 전력을 줄이는 방향이고, 다른 하나는 [[157_isa|ISA]] 복잡도를 내부 uOP 계층으로 숨겨 외부 호환성과 내부 단순성을 동시에 잡는 방향이다. 따라서 해독 사이클은 "[[158_instruction|명령어]]를 읽는 단계"가 아니라 "아키텍처 복잡도를 실행 가능한 작업으로 정리하는 관문"으로 기억하는 것이 정확하다.
+앞으로도 해독 단계는 두 방향으로 진화할 가능성이 크다. 하나는 반복되는 번역을 캐시해 프론트엔드 전력을 줄이는 방향이고, 다른 하나는 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) 복잡도를 내부 uOP 계층으로 숨겨 외부 호환성과 내부 단순성을 동시에 잡는 방향이다. 따라서 해독 사이클은 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 읽는 단계"가 아니라 "아키텍처 복잡도를 실행 가능한 작업으로 정리하는 관문"으로 기억하는 것이 정확하다.
 
 - **📢 섹션 요약 비유**: 좋은 해독 단계는 바쁜 공항의 환승 데스크와 같다. 승객을 빠르게 다음 게이트로 보내면 공항 전체가 매끄럽게 돌아가지만, 여기서 막히면 활주로가 넓어도 비행기는 제시간에 뜨지 못한다.
 
@@ -128,12 +132,12 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[208_fetch_cycle|인출 사이클]] ([[208_fetch_cycle|Fetch Cycle]]) | 해독 단계에 원재료가 되는 [[158_instruction|명령어]]를 공급하는 바로 앞 단계 |
-| [[206_control_unit|제어 유닛]] ([[206_control_unit|Control Unit]]) | 해독 결과를 실제 제어 [[130_signal|신호]]로 바꾸는 핵심 주체 |
-| [[057_register|레지스터]] [[501_file_definition_logical_record|파일]] ([[175_register_addressing|Register]] [[501_file_definition_logical_record|File]]) | 해독 단계에서 소스 [[160_operand|피연산자]]를 읽어 실행 준비를 마침 |
-| [[223_data_hazard|데이터 해저드]] ([[223_data_hazard|Data Hazard]]) | 해독 중 [[057_register|레지스터]] 의존성을 감지해 스톨/포워딩 여부를 판단 |
-| [[213_micro_operation|마이크로 오퍼레이션]] ([[213_micro_operation|Micro-operation]], uOP) | 복잡한 [[158_instruction|명령어]]를 내부 실행 친화적 단위로 쪼개는 결과물 |
-| [[231_branch_prediction|분기 예측]] ([[231_branch_prediction|Branch Prediction]]) | 해독 단계와 연계되어 잘못된 경로 진입 비용을 줄임 |
+| [인출 사이클](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/208_fetch_cycle/) ([Fetch Cycle](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/208_fetch_cycle/)) | 해독 단계에 원재료가 되는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 공급하는 바로 앞 단계 |
+| [제어 유닛](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/) ([Control Unit](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/)) | 해독 결과를 실제 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)로 바꾸는 핵심 주체 |
+| [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) ([Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/) [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)) | 해독 단계에서 소스 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/)를 읽어 실행 준비를 마침 |
+| [데이터 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/223_data_hazard/) ([Data Hazard](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/223_data_hazard/)) | 해독 중 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 의존성을 감지해 스톨/포워딩 여부를 판단 |
+| [마이크로 오퍼레이션](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/213_micro_operation/) ([Micro-operation](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/213_micro_operation/), uOP) | 복잡한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 내부 실행 친화적 단위로 쪼개는 결과물 |
+| [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) ([Branch Prediction](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)) | 해독 단계와 연계되어 잘못된 경로 진입 비용을 줄임 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -167,7 +171,7 @@ uOP 변환 · uOP 캐시 · 프론트엔드 최적화
 
 **진행 상황**: 209 / 803
 
-← **이전**: [[208_fetch_cycle|208. 인출 사이클 (Fetch Cycle)]]
-**다음**: [[210_execute_cycle|210. 실행 사이클 (Execute Cycle)]] →
+← **이전**: [208. 인출 사이클 (Fetch Cycle)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/208_fetch_cycle/)
+**다음**: [210. 실행 사이클 (Execute Cycle)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/210_execute_cycle/) →
 
 ---

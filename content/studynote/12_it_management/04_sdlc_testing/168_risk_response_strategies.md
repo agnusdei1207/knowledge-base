@@ -1,25 +1,29 @@
----
-title: 168. 프로젝트 리스크 대응 전략 (Risk Response Strategies)
-date: '2026-04-21'
-tags:
-- studynote-it-management
----
++++
+title = "168. 프로젝트 리스크 대응 전략 (Risk Response Strategies)"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-it-management"]
+
+[extra]
+tags = ["studynote-it-management"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 대응 [[268_strategy_pattern|전략]] ([[042_risk_response_strategies|Risk Response]] Strategies)은 [[655_ir_detection_analysis|식별]]된 위협과 기회에 대해 회피·전가·완화·수용 같은 실행 방식을 선택해, [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 노출도 ([[096_risk_non_risk_architecture_evaluation_flaws|Risk]] Exposure)를 관리 가능한 수준으로 낮추는 의사결정 체계다.
-> 2. **가치**: 같은 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]라도 [[130_probability|확률]], 영향, 대응 비용, 책임 주체가 다르므로 [[268_strategy_pattern|전략]]을 구분하면 예산 낭비를 줄이고, [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]가 이슈 (Issue)로 전환되는 순간에도 즉시 실행할 대응안을 갖출 수 있다.
-> 3. **판단 포인트**: 전가 (Transfer)는 제거가 아니며, 대응 후 남는 잔여 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] ([[038_residual_risk|Residual Risk]])와 대응 때문에 새로 생기는 2차 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] (Secondary [[096_risk_non_risk_architecture_evaluation_flaws|Risk]])까지 등록부에서 따로 관리해야 한다.
+> 1. **본질**: [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 대응 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) ([Risk Response](/knowledge-base/studynote/04_software_engineering/01_overview_principles/042_risk_response_strategies/) Strategies)은 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)된 위협과 기회에 대해 회피·전가·완화·수용 같은 실행 방식을 선택해, [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 노출도 ([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Exposure)를 관리 가능한 수준으로 낮추는 의사결정 체계다.
+> 2. **가치**: 같은 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)라도 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/), 영향, 대응 비용, 책임 주체가 다르므로 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 구분하면 예산 낭비를 줄이고, [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 이슈 (Issue)로 전환되는 순간에도 즉시 실행할 대응안을 갖출 수 있다.
+> 3. **판단 포인트**: 전가 (Transfer)는 제거가 아니며, 대응 후 남는 잔여 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) ([Residual Risk](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/))와 대응 때문에 새로 생기는 2차 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) (Secondary [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))까지 등록부에서 따로 관리해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 대응 [[268_strategy_pattern|전략]]은 프로젝트에서 [[655_ir_detection_analysis|식별]]·분석된 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]에 대해 "무시할 것인가, 줄일 것인가, 다른 주체에게 넘길 것인가, 아예 경로를 바꿀 것인가"를 결정하는 관리 활동이다. [[147_pmbok_10_knowledge_areas|PMBOK]] ([[042_relational_algebra_project|Project]] [[372_management|Management]] Body of Knowledge)에서는 이를 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 관리의 핵심 단계로 본다. [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]를 단순히 적어 두는 것만으로는 프로젝트가 안전해지지 않기 때문에, 실제 행동 계획까지 연결하는 대응 [[268_strategy_pattern|전략]]이 필요하다.
+[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 대응 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 프로젝트에서 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)·분석된 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)에 대해 "무시할 것인가, 줄일 것인가, 다른 주체에게 넘길 것인가, 아예 경로를 바꿀 것인가"를 결정하는 관리 활동이다. [PMBOK](/knowledge-base/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) ([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Body of Knowledge)에서는 이를 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리의 핵심 단계로 본다. [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 단순히 적어 두는 것만으로는 프로젝트가 안전해지지 않기 때문에, 실제 행동 계획까지 연결하는 대응 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 필요하다.
 
-이 단계가 중요한 이유는 모든 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]에 같은 자원을 쓰는 것이 비효율적이기 때문이다. 발생 [[130_probability|확률]]이 5%이고 영향도 낮은 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]에 과도한 예산을 쓰면, 정작 [[130_probability|확률]] 60%의 고위험 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 대응 여력이 줄어든다. 따라서 프로젝트 관리자는 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 노출도와 대응 비용을 함께 보고, "대응이 더 싼지, 그냥 감수하는 게 더 싼지"를 판단해야 한다.
+이 단계가 중요한 이유는 모든 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)에 같은 자원을 쓰는 것이 비효율적이기 때문이다. 발생 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 5%이고 영향도 낮은 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)에 과도한 예산을 쓰면, 정작 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 60%의 고위험 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 대응 여력이 줄어든다. 따라서 프로젝트 관리자는 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 노출도와 대응 비용을 함께 보고, "대응이 더 싼지, 그냥 감수하는 게 더 싼지"를 판단해야 한다.
 
-아래 그림은 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 대응이 왜 별도 의사결정 단계로 필요한지를 보여준다.
+아래 그림은 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 대응이 왜 별도 의사결정 단계로 필요한지를 보여준다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -33,15 +37,15 @@ tags:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-또한 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]는 부정적 사건인 위협 (Threat)만이 아니라 긍정적 사건인 기회 (Opportunity)도 포함한다. 그래서 좋은 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 관리는 "문제를 막는 기술"이면서 동시에 "유리한 가능성을 의도적으로 키우는 기술"이기도 하다.
+또한 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)는 부정적 사건인 위협 (Threat)만이 아니라 긍정적 사건인 기회 (Opportunity)도 포함한다. 그래서 좋은 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리는 "문제를 막는 기술"이면서 동시에 "유리한 가능성을 의도적으로 키우는 기술"이기도 하다.
 
-- **📢 섹션 요약 비유**: 날씨 예보를 본 뒤 우산을 살지, 약속 장소를 바꿀지, 보험을 들지, 그냥 비를 맞을지 결정하는 과정이 바로 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 대응 [[268_strategy_pattern|전략]]이다. 비가 온다는 사실 자체보다, 그 사실에 어떻게 준비하느냐가 더 중요하다.
+- **📢 섹션 요약 비유**: 날씨 예보를 본 뒤 우산을 살지, 약속 장소를 바꿀지, 보험을 들지, 그냥 비를 맞을지 결정하는 과정이 바로 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 대응 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다. 비가 온다는 사실 자체보다, 그 사실에 어떻게 준비하느냐가 더 중요하다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 대응은 보통 `식별 → 분석 → 전략 선택 → 실행계획 → 모니터링` 흐름으로 운영된다. [[268_strategy_pattern|전략]] 선택의 핵심 기준은 네 가지다. 첫째, [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]를 없앨 수 있는가. 둘째, 제3자가 더 잘 감당할 수 있는가. 셋째, [[130_probability|확률]]이나 영향을 줄일 수 있는가. 넷째, 대응 비용보다 감수 비용이 더 작은가. 이 기준에 따라 위협에는 회피·전가·완화·수용을, 기회에는 활용·공유·강화·수용을 적용한다.
+[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 대응은 보통 `식별 → 분석 → 전략 선택 → 실행계획 → 모니터링` 흐름으로 운영된다. [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 선택의 핵심 기준은 네 가지다. 첫째, [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 없앨 수 있는가. 둘째, 제3자가 더 잘 감당할 수 있는가. 셋째, [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이나 영향을 줄일 수 있는가. 넷째, 대응 비용보다 감수 비용이 더 작은가. 이 기준에 따라 위협에는 회피·전가·완화·수용을, 기회에는 활용·공유·강화·수용을 적용한다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -59,21 +63,21 @@ tags:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-| 위협 대응 [[268_strategy_pattern|전략]] | 의미 | 대표 수단 | 주의점 |
+| 위협 대응 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 의미 | 대표 수단 | 주의점 |
 | :--- | :--- | :--- | :--- |
-| 회피 (Avoid) | [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 원인 자체 제거 | 범위 변경, 일정 변경, 기술 대체 | 요구사항·비용 변화가 큼 |
-| 전가 (Transfer) | 책임과 영향 일부를 제3자로 이전 | 보험, 외주, 고정가 계약 | [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]가 사라지는 것은 아님 |
-| 완화 (Mitigate) | [[130_probability|확률]] 또는 영향 축소 | PoC, 추가 테스트, [[456_dual_redundancy|이중화]] | 비용 대비 효과 검토 필요 |
-| 수용 (Accept) | [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]를 감수 | 소극적 수용, 비상 준비금 | 방치와 혼동하면 안 됨 |
+| 회피 (Avoid) | [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 원인 자체 제거 | 범위 변경, 일정 변경, 기술 대체 | 요구사항·비용 변화가 큼 |
+| 전가 (Transfer) | 책임과 영향 일부를 제3자로 이전 | 보험, 외주, 고정가 계약 | [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 사라지는 것은 아님 |
+| 완화 (Mitigate) | [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 또는 영향 축소 | PoC, 추가 테스트, [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) | 비용 대비 효과 검토 필요 |
+| 수용 (Accept) | [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 감수 | 소극적 수용, 비상 준비금 | 방치와 혼동하면 안 됨 |
 
-| 기회 대응 [[268_strategy_pattern|전략]] | 의미 | 예시 |
+| 기회 대응 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 의미 | 예시 |
 | :--- | :--- | :--- |
 | 활용 (Exploit) | 기회가 반드시 실현되게 함 | 핵심 인력을 집중 배치 |
-| 공유 (Share) | 기회를 잘 살릴 파트너와 나눔 | [[268_strategy_pattern|전략]]적 제휴, 조인트 벤처 |
-| 강화 (Enhance) | [[130_probability|확률]]이나 효과를 키움 | 마케팅 확대, 기능 우선 배치 |
+| 공유 (Share) | 기회를 잘 살릴 파트너와 나눔 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 제휴, 조인트 벤처 |
+| 강화 (Enhance) | [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이나 효과를 키움 | 마케팅 확대, 기능 우선 배치 |
 | 수용 (Accept) | 기회가 오면 활용하되 별도 투자 안 함 | 낮은 우선순위 기회 유지 |
 
-정량 판단이 필요할 때는 기대화폐가치 (EMV, Expected Monetary Value)를 활용한다. 예를 들어 발생 [[130_probability|확률]] 30%, 손실 2,000만 원이면 EMV는 `0.3 × -2,000만 = -600만 원`이다. 완화 비용이 300만 원으로 손실 기대값을 200만 원 수준까지 줄일 수 있다면 완화가 합리적이지만, 완화 비용이 1,000만 원이라면 수용이나 전가가 더 나은 선택일 수 있다.
+정량 판단이 필요할 때는 기대화폐가치 (EMV, Expected Monetary Value)를 활용한다. 예를 들어 발생 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 30%, 손실 2,000만 원이면 EMV는 `0.3 × -2,000만 = -600만 원`이다. 완화 비용이 300만 원으로 손실 기대값을 200만 원 수준까지 줄일 수 있다면 완화가 합리적이지만, 완화 비용이 1,000만 원이라면 수용이나 전가가 더 나은 선택일 수 있다.
 
 - **📢 섹션 요약 비유**: 위험한 길을 갈 때 길 자체를 바꾸면 회피, 경호원을 고용하면 전가, 헬멧을 쓰고 속도를 줄이면 완화, 작은 흠집 정도는 감수하면 수용이다. 중요한 것은 무조건 겁내는 것이 아니라 상황에 맞는 준비를 고르는 일이다.
 
@@ -81,43 +85,43 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-네 가지 위협 대응 [[268_strategy_pattern|전략]]은 모두 "위험을 다룬다"는 공통점이 있지만, 비용 구조와 책임 구조가 크게 다르다. 회피는 가장 강력하지만 범위 변경 비용이 크고, 전가는 전문성을 활용하기 좋지만 통제력이 줄어들 수 있다. 완화는 현실적으로 가장 많이 쓰이지만 완전 제거는 어렵고, 수용은 싸 보이지만 준비금과 대응 시나리오가 없으면 사실상 방치가 된다.
+네 가지 위협 대응 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 모두 "위험을 다룬다"는 공통점이 있지만, 비용 구조와 책임 구조가 크게 다르다. 회피는 가장 강력하지만 범위 변경 비용이 크고, 전가는 전문성을 활용하기 좋지만 통제력이 줄어들 수 있다. 완화는 현실적으로 가장 많이 쓰이지만 완전 제거는 어렵고, 수용은 싸 보이지만 준비금과 대응 시나리오가 없으면 사실상 방치가 된다.
 
-| [[268_strategy_pattern|전략]] | [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 소유권 | 비용 구조 | 적합 상황 | 대표 오해 |
+| [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 소유권 | 비용 구조 | 적합 상황 | 대표 오해 |
 | :--- | :--- | :--- | :--- | :--- |
 | 회피 | 제거 또는 근본 축소 | 범위·계획 변경 비용 큼 | 치명적 고위험 | "무조건 안전해서 최고" |
 | 전가 | 외부로 일부 이전 | 보험료·계약 프리미엄 | 전문업체 활용 가능 | "이제 우리 책임이 아님" |
 | 완화 | 내부 유지 | 예방 활동 비용 | 빈도·영향을 줄일 수 있음 | "완화했으니 끝" |
 | 수용 | 내부 유지 | 준비금 또는 무대응 | 대응 비용이 더 비쌈 | "아무것도 안 하는 것" |
 
-[[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 대응에서는 잔여 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]와 2차 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]를 반드시 구분해야 한다. 잔여 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]는 대응 후에도 남아 있는 위험이고, 2차 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]는 대응 조치 자체가 새로 만든 위험이다. 예를 들어 납기 [[015_지연_데이터_관점|지연]]을 줄이려고 외주를 주면 기존 [[015_지연_데이터_관점|지연]] [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]는 줄 수 있지만, 외주 품질 저하나 보안 노출이라는 새 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]가 생길 수 있다.
+[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 대응에서는 잔여 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)와 2차 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 반드시 구분해야 한다. 잔여 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)는 대응 후에도 남아 있는 위험이고, 2차 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)는 대응 조치 자체가 새로 만든 위험이다. 예를 들어 납기 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 줄이려고 외주를 주면 기존 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)는 줄 수 있지만, 외주 품질 저하나 보안 노출이라는 새 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 생길 수 있다.
 
-이 개념은 일정 관리, 계약 관리, 품질 관리와도 직접 연결된다. 회피는 범위 변경과 맞닿아 있고, 전가는 조달·계약 [[268_strategy_pattern|전략]]과 연결되며, 완화는 품질 보증 (Quality Assurance)과 시험 [[268_strategy_pattern|전략]]의 강화로 이어진다. 그래서 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 대응 [[268_strategy_pattern|전략]]은 독립 문서가 아니라 [[149_wbs_work_breakdown_structure|WBS]] ([[149_wbs_work_breakdown_structure|Work Breakdown Structure]]), 일정, 예산, 계약 계획과 함께 움직여야 한다.
+이 개념은 일정 관리, 계약 관리, 품질 관리와도 직접 연결된다. 회피는 범위 변경과 맞닿아 있고, 전가는 조달·계약 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 연결되며, 완화는 품질 보증 (Quality Assurance)과 시험 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 강화로 이어진다. 그래서 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 대응 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 독립 문서가 아니라 [WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/) ([Work Breakdown Structure](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/)), 일정, 예산, 계약 계획과 함께 움직여야 한다.
 
-- **📢 섹션 요약 비유**: 감기약을 먹고 열은 내려갔지만 기침이 조금 남으면 잔여 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]이고, 약 때문에 졸음이 오는 것은 2차 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]다. 병을 관리하려면 둘 다 따로 살펴봐야 한다.
+- **📢 섹션 요약 비유**: 감기약을 먹고 열은 내려갔지만 기침이 조금 남으면 잔여 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)이고, 약 때문에 졸음이 오는 것은 2차 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)다. 병을 관리하려면 둘 다 따로 살펴봐야 한다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] [[268_strategy_pattern|전략]]을 단일 문장이 아니라 "구체 행동"으로 내려야 한다. 예를 들어 공공 클라우드 전환 프로젝트에서 [[001_dikw_pyramid|데이터]] 이관 실패 가능성이 높다면, 핵심 거래 시스템은 단계적 전환으로 범위를 조정해 회피하고, 법률·규제 해석은 전문 자문사에 전가하며, [[001_dikw_pyramid|데이터]] 변환 오류는 파일럿 이행과 이중 검증으로 완화할 수 있다. 반면 한밤중에만 드물게 발생하는 비핵심 리포트 [[015_지연_데이터_관점|지연]]은 비상 운영 절차만 두고 수용하는 편이 더 경제적일 수 있다.
+실무에서는 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 단일 문장이 아니라 "구체 행동"으로 내려야 한다. 예를 들어 공공 클라우드 전환 프로젝트에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이관 실패 가능성이 높다면, 핵심 거래 시스템은 단계적 전환으로 범위를 조정해 회피하고, 법률·규제 해석은 전문 자문사에 전가하며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변환 오류는 파일럿 이행과 이중 검증으로 완화할 수 있다. 반면 한밤중에만 드물게 발생하는 비핵심 리포트 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 비상 운영 절차만 두고 수용하는 편이 더 경제적일 수 있다.
 
-[[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 오너와 [[507_acid_properties|트리거]]를 명확히 적는 것도 중요하다. "벤더 [[014_api_posix|API]] ([[014_api_posix|Application Programming Interface]]) 응답 [[015_지연_데이터_관점|지연]]이 2초를 넘으면 즉시 [[171_fallback_resilience_pattern|폴백]] 서버 활성화"처럼 [[507_acid_properties|트리거]]와 실행 조건이 있어야 대응 [[268_strategy_pattern|전략]]이 실제로 작동한다. 그렇지 않으면 등록부에 [[268_strategy_pattern|전략]] 이름만 적혀 있고 현장에서는 아무도 움직이지 않는 경우가 많다.
+[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 오너와 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)를 명확히 적는 것도 중요하다. "벤더 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 2초를 넘으면 즉시 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/) 서버 활성화"처럼 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)와 실행 조건이 있어야 대응 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 실제로 작동한다. 그렇지 않으면 등록부에 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 이름만 적혀 있고 현장에서는 아무도 움직이지 않는 경우가 많다.
 
-### 적용 [[435_checklist_based_testing|체크리스트]]
+### 적용 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]별 오너, [[507_acid_properties|트리거]], 대응 기한이 정의되어 있는가?
-2. 전가 [[268_strategy_pattern|전략]]에 계약 조건, [[085_sla|SLA]] ([[085_sla|Service Level Agreement]]), 벌칙 조항이 포함되어 있는가?
-3. 수용 [[268_strategy_pattern|전략]]에 비상 준비금 (Contingency Reserve)과 우회 절차가 있는가?
-4. 대응 후 잔여 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]와 2차 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]를 다시 분석했는가?
+1. [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)별 오너, [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/), 대응 기한이 정의되어 있는가?
+2. 전가 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)에 계약 조건, [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)), 벌칙 조항이 포함되어 있는가?
+3. 수용 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)에 비상 준비금 (Contingency Reserve)과 우회 절차가 있는가?
+4. 대응 후 잔여 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)와 2차 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 다시 분석했는가?
 
-### 대표 [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### 대표 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 전가를 제거로 착각해 모니터링을 중단하는 경우
-- 고영향 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]를 "일단 수용"으로 넘기고 준비금도 잡지 않는 경우
+- 고영향 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 "일단 수용"으로 넘기고 준비금도 잡지 않는 경우
 - 완화 활동은 했지만 성공 기준과 종료 기준이 없는 경우
 
-기술사 관점에서는 "[[268_strategy_pattern|전략]] 선택 기준"과 "[[268_strategy_pattern|전략]] 실행 장치"를 함께 쓰는 것이 중요하다. 회피·전가·완화·수용이라는 이름을 외우는 것보다, 어떤 상황에서 어떤 [[268_strategy_pattern|전략]]이 조직·계약·비용 구조와 맞는지 설명해야 실무형 답안이 된다.
+기술사 관점에서는 "[전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 선택 기준"과 "[전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 실행 장치"를 함께 쓰는 것이 중요하다. 회피·전가·완화·수용이라는 이름을 외우는 것보다, 어떤 상황에서 어떤 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 조직·계약·비용 구조와 맞는지 설명해야 실무형 답안이 된다.
 
 - **📢 섹션 요약 비유**: 위험한 여행을 준비할 때 여행을 취소하면 회피, 여행사를 쓰면 전가, 응급약과 지도 앱을 챙기면 완화, 가벼운 비 정도는 그냥 받아들이면 수용이다. 하지만 어떤 선택이든 누가 책임지고 무엇을 준비할지는 반드시 정해 둬야 한다.
 
@@ -125,11 +129,11 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-[[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 대응 [[268_strategy_pattern|전략]]을 체계화하면 프로젝트는 불확실성을 "설명 가능한 관리 항목"으로 바꿀 수 있다. 고위험 영역에 자원을 집중하고, 낮은 위험은 합리적으로 감수하며, 기회 영역에는 공격적으로 투자할 수 있어 예산과 일정의 품질이 함께 좋아진다. 또한 이해관계자에게도 "무엇을 걱정하고 무엇을 준비했는가"를 명확히 설명할 수 있어 신뢰 확보에 유리하다.
+[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 대응 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 체계화하면 프로젝트는 불확실성을 "설명 가능한 관리 항목"으로 바꿀 수 있다. 고위험 영역에 자원을 집중하고, 낮은 위험은 합리적으로 감수하며, 기회 영역에는 공격적으로 투자할 수 있어 예산과 일정의 품질이 함께 좋아진다. 또한 이해관계자에게도 "무엇을 걱정하고 무엇을 준비했는가"를 명확히 설명할 수 있어 신뢰 확보에 유리하다.
 
-다만 모든 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]를 없앨 수는 없다. 회피는 범위 축소를 부르고, 전가는 통제력 손실을 만들며, 완화는 비용이 들고, 수용은 항상 잔여 불확실성을 남긴다. 그래서 좋은 프로젝트는 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]가 없는 프로젝트가 아니라, **중요한 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]에 대해 이유 있는 [[268_strategy_pattern|전략]]을 선택한 프로젝트**라고 보는 편이 정확하다.
+다만 모든 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 없앨 수는 없다. 회피는 범위 축소를 부르고, 전가는 통제력 손실을 만들며, 완화는 비용이 들고, 수용은 항상 잔여 불확실성을 남긴다. 그래서 좋은 프로젝트는 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 없는 프로젝트가 아니라, **중요한 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)에 대해 이유 있는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 선택한 프로젝트**라고 보는 편이 정확하다.
 
-결론적으로 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 대응 [[268_strategy_pattern|전략]]은 "위험을 두려워하는 기술"이 아니라 "위험을 분류하고, 비용 대비 최선의 행동을 고르는 기술"이다. 기술사 답안에서도 이 관점을 중심에 두면 단순 암기형 설명을 넘어선다.
+결론적으로 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 대응 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 "위험을 두려워하는 기술"이 아니라 "위험을 분류하고, 비용 대비 최선의 행동을 고르는 기술"이다. 기술사 답안에서도 이 관점을 중심에 두면 단순 암기형 설명을 넘어선다.
 
 - **📢 섹션 요약 비유**: 좋은 선장은 바다를 무서워해서 항해를 포기하지 않는다. 대신 폭풍을 피할지, 보험을 들지, 배를 보강할지, 작은 파도는 감수할지를 미리 정해 두고 출항한다.
 
@@ -139,11 +143,11 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 등록부 ([[096_risk_non_risk_architecture_evaluation_flaws|Risk]] [[175_register_addressing|Register]]) | [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 설명, 오너, [[268_strategy_pattern|전략]], [[507_acid_properties|트리거]], 잔여 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]를 기록하는 중심 문서 |
+| [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 등록부 ([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)) | [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 설명, 오너, [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/), 잔여 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 기록하는 중심 문서 |
 | EMV (Expected Monetary Value) | 대응 비용과 기대 손실을 비교하는 정량 기준 |
-| 비상 준비금 (Contingency Reserve) | 적극적 수용 [[268_strategy_pattern|전략]]에서 확보하는 예산 완충 장치 |
-| 잔여 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] ([[038_residual_risk|Residual Risk]]) | 대응 후에도 남아 지속 모니터링이 필요한 위험 |
-| 2차 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] (Secondary [[096_risk_non_risk_architecture_evaluation_flaws|Risk]]) | 대응 조치로 새롭게 생겨 별도 대응이 필요한 위험 |
+| 비상 준비금 (Contingency Reserve) | 적극적 수용 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)에서 확보하는 예산 완충 장치 |
+| 잔여 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) ([Residual Risk](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/)) | 대응 후에도 남아 지속 모니터링이 필요한 위험 |
+| 2차 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) (Secondary [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)) | 대응 조치로 새롭게 생겨 별도 대응이 필요한 위험 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -166,11 +170,11 @@ tags:
 모니터링 · 트리거 실행 · 교훈 반영
 ```
 
-이 흐름도는 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 대응이 단발성 선택이 아니라, 분석에서 실행·재평가까지 이어지는 순환 관리임을 보여준다.
+이 흐름도는 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 대응이 단발성 선택이 아니라, 분석에서 실행·재평가까지 이어지는 순환 관리임을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 비가 올지 모를 때 우산을 미리 챙기거나, 실내 놀이터로 장소를 바꾸는 것이 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 대응이에요.
+1. 비가 올지 모를 때 우산을 미리 챙기거나, 실내 놀이터로 장소를 바꾸는 것이 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 대응이에요.
 2. 어떤 위험은 없애고, 어떤 위험은 다른 사람 도움을 받고, 어떤 위험은 조금 줄이고, 어떤 위험은 그냥 받아들이는 거예요.
 3. 중요한 것은 "비가 올 수도 있다"고 아는 것에서 끝나지 않고, 그때 어떻게 할지 미리 정해 두는 거예요.
 
@@ -180,7 +184,7 @@ tags:
 
 **진행 상황**: 282 / 587
 
-← **이전**: [[167_scm_software_configuration_management|167. SCM (Software Configuration Management, 소프트웨어 형상 관리)]]
-**다음**: [[169_technical_debt_control_matrix|169. 기술 부채 통제 매트릭스 (Technical Debt Control Matrix)]] →
+← **이전**: [167. SCM (Software Configuration Management, 소프트웨어 형상 관리)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/)
+**다음**: [169. 기술 부채 통제 매트릭스 (Technical Debt Control Matrix)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/169_technical_debt_control_matrix/) →
 
 ---

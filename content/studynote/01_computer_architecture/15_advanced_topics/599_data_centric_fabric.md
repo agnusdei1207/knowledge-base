@@ -1,25 +1,29 @@
----
-title: 599. 데이터 중심 패브릭 (Data-Centric Fabric)
-date: '2026-05-08'
-tags:
-- studynote-computer-architecture
----
++++
+title = "599. 데이터 중심 패브릭 (Data-Centric Fabric)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[383_data_centric_architecture|데이터 중심]] 패브릭은 중앙처리장치 (Central Processing Unit, CPU) 중심의 고정 서버 상자를 해체하고, 메모리·가속기·스토리지를 패브릭으로 묶어 [[001_dikw_pyramid|데이터]]가 있는 쪽에 연산 자원을 조립해 붙이는 아키텍처다.
-> 2. **가치**: 거대 [[231_ai_turing_test|인공지능]] 모델, [[139_inmemory_db|인메모리 데이터베이스]], 분석 플랫폼처럼 [[001_dikw_pyramid|데이터]] 이동 비용이 계산 비용보다 커지는 환경에서 복사 횟수와 유휴 자원 낭비를 동시에 줄일 수 있다.
-> 3. **판단 포인트**: 진짜 성패는 링크 속도보다 메모리 계층화, [[194_consistency_database_integrity|일관성]] 범위, 보안 격리, 장애 [[064_relation_domain|도메인]] 설계에 달려 있으며, 원격 메모리를 로컬 메모리처럼 무비판적으로 쓰면 더 큰 비균일 메모리 접근 ([[377_numa_allocation|Non-Uniform Memory Access]], [[377_numa_allocation|NUMA]])만 만들 수 있다.
+> 1. **본질**: [데이터 중심](/knowledge-base/studynote/04_software_engineering/06_software_architecture/383_data_centric_architecture/) 패브릭은 중앙처리장치 (Central Processing Unit, CPU) 중심의 고정 서버 상자를 해체하고, 메모리·가속기·스토리지를 패브릭으로 묶어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있는 쪽에 연산 자원을 조립해 붙이는 아키텍처다.
+> 2. **가치**: 거대 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 모델, [인메모리 데이터베이스](/knowledge-base/studynote/16_bigdata/06_nosql/139_inmemory_db/), 분석 플랫폼처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 비용이 계산 비용보다 커지는 환경에서 복사 횟수와 유휴 자원 낭비를 동시에 줄일 수 있다.
+> 3. **판단 포인트**: 진짜 성패는 링크 속도보다 메모리 계층화, [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 범위, 보안 격리, 장애 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 설계에 달려 있으며, 원격 메모리를 로컬 메모리처럼 무비판적으로 쓰면 더 큰 비균일 메모리 접근 ([Non-Uniform Memory Access](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/), [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/))만 만들 수 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-전통적인 서버는 CPU, 동적 램 (Dynamic Random Access Memory, [[251_dram|DRAM]]), 저장장치가 한 섀시 안에 묶인 채 함께 증설되는 구조였다. 이 방식은 관리가 단순하지만, 실제 운영에서는 어떤 서버는 메모리가 남고 어떤 서버는 그래픽 처리 장치 ([[418_gpu|Graphics Processing Unit]], [[418_gpu|GPU]])가 부족한 식으로 자원이 상자 안에 갇힌다. [[001_dikw_pyramid|데이터]]가 커질수록 문제는 더 심해진다. 남는 연산 자원이 있어도 [[001_dikw_pyramid|데이터]]가 다른 서버에 있으면 복사 비용이 먼저 병목이 되기 때문이다.
+전통적인 서버는 CPU, 동적 램 (Dynamic Random Access Memory, [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/)), 저장장치가 한 섀시 안에 묶인 채 함께 증설되는 구조였다. 이 방식은 관리가 단순하지만, 실제 운영에서는 어떤 서버는 메모리가 남고 어떤 서버는 그래픽 처리 장치 ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))가 부족한 식으로 자원이 상자 안에 갇힌다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 커질수록 문제는 더 심해진다. 남는 연산 자원이 있어도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 다른 서버에 있으면 복사 비용이 먼저 병목이 되기 때문이다.
 
-[[383_data_centric_architecture|데이터 중심]] 패브릭은 이 병목의 관점을 바꾼다. CPU가 [[001_dikw_pyramid|데이터]]를 끌어오는 구조에서 [[001_dikw_pyramid|데이터]] 주위에 필요한 CPU, [[418_gpu|GPU]], 신경망 처리 장치 ([[424_npu|Neural Processing Unit]], [[424_npu|NPU]]), 메모리를 붙이는 구조로 이동하는 것이다. 그래서 이 아키텍처의 핵심은 단순한 빠른 배선이 아니라, 서버보다 [[001_dikw_pyramid|데이터]]를 배치 중심으로 삼는 시스템 사고방식에 있다.
+[데이터 중심](/knowledge-base/studynote/04_software_engineering/06_software_architecture/383_data_centric_architecture/) 패브릭은 이 병목의 관점을 바꾼다. CPU가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 끌어오는 구조에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 주위에 필요한 CPU, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), 신경망 처리 장치 ([Neural Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/), [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)), 메모리를 붙이는 구조로 이동하는 것이다. 그래서 이 아키텍처의 핵심은 단순한 빠른 배선이 아니라, 서버보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 배치 중심으로 삼는 시스템 사고방식에 있다.
 
-이 그림은 서버 중심 구조와 [[383_data_centric_architecture|데이터 중심]] 패브릭의 차이를 압축해서 보여 준다.
+이 그림은 서버 중심 구조와 [데이터 중심](/knowledge-base/studynote/04_software_engineering/06_software_architecture/383_data_centric_architecture/) 패브릭의 차이를 압축해서 보여 준다.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────────┐
@@ -37,25 +41,25 @@ tags:
 └────────────────────────────────────────────────────────────────────────────┘
 ```
 
-이 구조가 중요한 이유는 [[231_ai_turing_test|인공지능]] 추론, [[114_graph_analytics|그래프 분석]], 실시간 디지털 트윈처럼 working set이 단일 서버 메모리를 자주 넘어서기 때문이다. 같은 [[001_dikw_pyramid|데이터]]를 여러 서버에 반복 [[016_replication_factor|복제]]하면 비용과 [[015_지연_데이터_관점|지연]]이 커지고, 반대로 한 곳에만 두면 연산 병렬성이 떨어진다. [[383_data_centric_architecture|데이터 중심]] 패브릭은 이 둘 사이에서 공유 가능한 [[001_dikw_pyramid|데이터]] 풀과 조립 가능한 연산 자원을 만드는 해법이다.
+이 구조가 중요한 이유는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 추론, [그래프 분석](/knowledge-base/studynote/16_bigdata/05_analysis/114_graph_analytics/), 실시간 디지털 트윈처럼 working set이 단일 서버 메모리를 자주 넘어서기 때문이다. 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 서버에 반복 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하면 비용과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 커지고, 반대로 한 곳에만 두면 연산 병렬성이 떨어진다. [데이터 중심](/knowledge-base/studynote/04_software_engineering/06_software_architecture/383_data_centric_architecture/) 패브릭은 이 둘 사이에서 공유 가능한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 풀과 조립 가능한 연산 자원을 만드는 해법이다.
 
-- **📢 섹션 요약 비유**: 예전에는 집집마다 냉장고와 창고를 따로 사 놓고 남는 음식도 서로 못 나눴다면, [[383_data_centric_architecture|데이터 중심]] 패브릭은 큰 공동 냉장창고를 만들고 필요한 요리사만 그 앞에 배치하는 방식과 같다. 음식이 있는 곳을 중심으로 주방을 꾸리는 셈이다.
+- **📢 섹션 요약 비유**: 예전에는 집집마다 냉장고와 창고를 따로 사 놓고 남는 음식도 서로 못 나눴다면, [데이터 중심](/knowledge-base/studynote/04_software_engineering/06_software_architecture/383_data_centric_architecture/) 패브릭은 큰 공동 냉장창고를 만들고 필요한 요리사만 그 앞에 배치하는 방식과 같다. 음식이 있는 곳을 중심으로 주방을 꾸리는 셈이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[[383_data_centric_architecture|데이터 중심]] 패브릭의 핵심은 자원 분해와 재조립이다. 컴퓨트 익스프레스 링크 ([[441_cxl|Compute Express Link]], [[441_cxl|CXL]]) 같은 저지연 인터커넥트는 메모리 확장과 공유를 더 자연스럽게 만들고, [[238_switch_operation_principles|스위치]]는 여러 호스트와 메모리 장치를 연결하며, fabric manager는 누가 어떤 풀을 얼마나 볼 수 있는지 결정한다. 이때 중요한 것은 모든 장치가 완전히 동일한 속도로 보이는 것이 아니라, 뜨거운 [[001_dikw_pyramid|데이터]]는 로컬, 큰 [[001_dikw_pyramid|데이터]]는 패브릭 풀에 두는 계층화다.
+[데이터 중심](/knowledge-base/studynote/04_software_engineering/06_software_architecture/383_data_centric_architecture/) 패브릭의 핵심은 자원 분해와 재조립이다. 컴퓨트 익스프레스 링크 ([Compute Express Link](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/), [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)) 같은 저지연 인터커넥트는 메모리 확장과 공유를 더 자연스럽게 만들고, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 여러 호스트와 메모리 장치를 연결하며, fabric manager는 누가 어떤 풀을 얼마나 볼 수 있는지 결정한다. 이때 중요한 것은 모든 장치가 완전히 동일한 속도로 보이는 것이 아니라, 뜨거운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 로컬, 큰 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 패브릭 풀에 두는 계층화다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
-| Fabric-attached Compute | CPU, [[418_gpu|GPU]], NPU가 패브릭을 통해 공용 자원에 접근한다 | 가장 뜨거운 working set은 여전히 로컬 메모리에 남겨야 한다 |
-| Fabric [[238_switch_operation_principles|Switch]] | 여러 호스트와 메모리·가속기 장치를 연결한다 | hop 수와 oversubscription이 [[015_지연_데이터_관점|지연]]과 대역폭을 좌우한다 |
-| [[118_shared_memory|Shared Memory]] Pool | 용량이 큰 메모리를 여러 노드가 필요 시점에 할당받는다 | capacity tier로는 좋지만 local DRAM과 완전히 같지는 않다 |
+| Fabric-attached Compute | CPU, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), NPU가 패브릭을 통해 공용 자원에 접근한다 | 가장 뜨거운 working set은 여전히 로컬 메모리에 남겨야 한다 |
+| Fabric [Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) | 여러 호스트와 메모리·가속기 장치를 연결한다 | hop 수와 oversubscription이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 대역폭을 좌우한다 |
+| [Shared Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) Pool | 용량이 큰 메모리를 여러 노드가 필요 시점에 할당받는다 | capacity tier로는 좋지만 local DRAM과 완전히 같지는 않다 |
 | Fabric Manager | 주소 할당, 접근 권한, 자원 조합을 제어한다 | 운영 자동화와 다중 tenant 격리가 핵심이다 |
-| [[283_security_tactics|Security]] / [[195_isolation_concurrency_control|Isolation]] Layer | tenant별 접근 제어와 [[003_integrity|무결성]] 보호를 담당한다 | 패브릭 전체가 하나의 실패·침해 [[064_relation_domain|도메인]]이 되지 않게 해야 한다 |
+| [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) / [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) Layer | tenant별 접근 제어와 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 보호를 담당한다 | 패브릭 전체가 하나의 실패·침해 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)이 되지 않게 해야 한다 |
 
-아래 그림은 [[001_dikw_pyramid|데이터]]가 어디에 놓이고, 어떤 계층에서 어떤 의미론으로 접근하는지 보여 준다.
+아래 그림은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어디에 놓이고, 어떤 계층에서 어떤 의미론으로 접근하는지 보여 준다.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────────┐
@@ -74,7 +78,7 @@ tags:
 └────────────────────────────────────────────────────────────────────────────┘
 ```
 
-여기서 memory semantics가 중요하다. 전통적인 저장장치처럼 파일이나 블록 단위로 주고받는 것이 아니라, 더 짧은 [[015_지연_데이터_관점|지연]]과 load/store에 가까운 모델로 접근할수록 [[001_dikw_pyramid|데이터]] 복사와 소프트웨어 계층이 줄어든다. 하지만 그만큼 [[194_consistency_database_integrity|일관성]], 보안, 장애 [[658_ir_recovery|복구]] 문제도 더 민감해진다. 따라서 [[383_data_centric_architecture|데이터 중심]] 패브릭은 단순한 I/O 확장이 아니라 메모리 아키텍처의 외연 확장으로 보는 것이 맞다.
+여기서 memory semantics가 중요하다. 전통적인 저장장치처럼 파일이나 블록 단위로 주고받는 것이 아니라, 더 짧은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 load/store에 가까운 모델로 접근할수록 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복사와 소프트웨어 계층이 줄어든다. 하지만 그만큼 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), 보안, 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 문제도 더 민감해진다. 따라서 [데이터 중심](/knowledge-base/studynote/04_software_engineering/06_software_architecture/383_data_centric_architecture/) 패브릭은 단순한 I/O 확장이 아니라 메모리 아키텍처의 외연 확장으로 보는 것이 맞다.
 
 - **📢 섹션 요약 비유**: 동네마다 따로 창고를 두는 대신, 시내 중심에 거대한 물류 허브를 만들고 주문이 들어오면 필요한 기사와 차량을 그쪽에 배치하는 것과 같다. 다만 허브가 커질수록 출입 통제와 교통 정리가 더 중요해진다.
 
@@ -82,17 +86,17 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-[[383_data_centric_architecture|데이터 중심]] 패브릭은 기존의 빠른 네트워크와 비슷해 보이지만, 실제로는 공유 단위와 접근 의미가 다르다. 비교해 보면 왜 [[441_cxl|CXL]] 기반 메모리 풀과 원격 [[450_dma_direct_memory_access|직접 메모리 접근]] (Remote [[318_dma|Direct Memory Access]], [[639_rdma_kernel_bypass|RDMA]]) 네트워크를 같은 것으로 보면 안 되는지 선명해진다.
+[데이터 중심](/knowledge-base/studynote/04_software_engineering/06_software_architecture/383_data_centric_architecture/) 패브릭은 기존의 빠른 네트워크와 비슷해 보이지만, 실제로는 공유 단위와 접근 의미가 다르다. 비교해 보면 왜 [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 기반 메모리 풀과 원격 [직접 메모리 접근](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/450_dma_direct_memory_access/) (Remote [Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/), [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/)) 네트워크를 같은 것으로 보면 안 되는지 선명해진다.
 
 | 방식 | 공유 단위 | 접근 의미 | 강점 | 한계 |
 | :--- | :--- | :--- | :--- | :--- |
-| 서버 중심 확장 | 서버 한 대 전체 | 로컬 [[344_bus|버스]] 중심 | 단순하고 검증이 쉽다 | 자원이 상자 안에 갇힌다 |
-| [[639_rdma_kernel_bypass|RDMA]] / 스토리지 패브릭 | 버퍼, 메시지, 블록 | put/get 또는 block I/O | [[136_variance|분산]] 시스템 통신에 강하다 | 메모리 풀과 [[194_consistency_database_integrity|일관성]] 관리까지 바로 되지는 않는다 |
-| [[383_data_centric_architecture|데이터 중심]] 패브릭 | 메모리, 가속기, capacity tier | load/store에 가까운 메모리 의미론 | composable 인프라와 [[001_dikw_pyramid|데이터]] 근접 처리에 유리하다 | [[194_consistency_database_integrity|일관성]], 격리, [[015_지연_데이터_관점|지연]] 계층 설계가 어렵다 |
+| 서버 중심 확장 | 서버 한 대 전체 | 로컬 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 중심 | 단순하고 검증이 쉽다 | 자원이 상자 안에 갇힌다 |
+| [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) / 스토리지 패브릭 | 버퍼, 메시지, 블록 | put/get 또는 block I/O | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 통신에 강하다 | 메모리 풀과 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 관리까지 바로 되지는 않는다 |
+| [데이터 중심](/knowledge-base/studynote/04_software_engineering/06_software_architecture/383_data_centric_architecture/) 패브릭 | 메모리, 가속기, capacity tier | load/store에 가까운 메모리 의미론 | composable 인프라와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 근접 처리에 유리하다 | [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), 격리, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 계층 설계가 어렵다 |
 
-또한 이 주제는 선행 표준과의 연결도 중요하다. Gen-Z, OpenCAPI 같은 시도는 서버보다 [[383_data_centric_architecture|데이터 중심]]이라는 철학을 먼저 제시했고, 최근에는 CXL이 [[355_pci|PCI]] 익스프레스 ([[355_pci|Peripheral Component Interconnect]] Express, [[356_pcie|PCIe]]) 생태계를 발판으로 더 현실적인 확산 경로를 만들고 있다. 즉 [[383_data_centric_architecture|데이터 중심]] 패브릭은 갑자기 등장한 유행이 아니라, 메모리 분해·공유를 향한 인터커넥트 진화의 누적 결과다.
+또한 이 주제는 선행 표준과의 연결도 중요하다. Gen-Z, OpenCAPI 같은 시도는 서버보다 [데이터 중심](/knowledge-base/studynote/04_software_engineering/06_software_architecture/383_data_centric_architecture/)이라는 철학을 먼저 제시했고, 최근에는 CXL이 [PCI](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) 익스프레스 ([Peripheral Component Interconnect](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) Express, [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/)) 생태계를 발판으로 더 현실적인 확산 경로를 만들고 있다. 즉 [데이터 중심](/knowledge-base/studynote/04_software_engineering/06_software_architecture/383_data_centric_architecture/) 패브릭은 갑자기 등장한 유행이 아니라, 메모리 분해·공유를 향한 인터커넥트 진화의 누적 결과다.
 
-여기서 가장 중요한 경계는 원격 메모리가 로컬 메모리와 완전히 같지는 않다는 점이다. 원격 풀은 용량 확장과 공유에는 좋지만, 가장 민감한 hot path까지 모두 보내면 거대한 [[377_numa_allocation|NUMA]] penalty로 돌아온다. 그래서 이 구조는 메모리 벽을 지우는 기술이 아니라, 메모리 계층을 더 넓게 다시 그리는 기술로 이해해야 한다.
+여기서 가장 중요한 경계는 원격 메모리가 로컬 메모리와 완전히 같지는 않다는 점이다. 원격 풀은 용량 확장과 공유에는 좋지만, 가장 민감한 hot path까지 모두 보내면 거대한 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) penalty로 돌아온다. 그래서 이 구조는 메모리 벽을 지우는 기술이 아니라, 메모리 계층을 더 넓게 다시 그리는 기술로 이해해야 한다.
 
 - **📢 섹션 요약 비유**: 가까운 부엌과 멀리 있는 공동 창고는 둘 다 음식이 있지만 용도가 다르다. 부엌 냄비까지 공동 창고에 두면 불편하고, 반대로 큰 식자재를 집집마다 다 쌓아 두면 낭비가 커진다.
 
@@ -100,26 +104,26 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 [[383_data_centric_architecture|데이터 중심]] 패브릭이 빛나는 곳은 메모리 요구량과 자원 불균형이 큰 환경이다. 예를 들어 거대 [[231_ai_turing_test|인공지능]] 추론에서는 모델 파라미터가 크지만 모든 토큰 계산이 동시에 가장 뜨거운 것은 아니다. 이 경우 자주 접근하는 부분은 가속기 옆 고대역폭 메모리 ([[495_hbm|High Bandwidth Memory]], [[495_hbm|HBM]])에 두고, 나머지는 패브릭 메모리 풀에 두는 식의 tiering이 가능하다. [[139_inmemory_db|인메모리 데이터베이스]]도 마찬가지로, 전체 [[001_dikw_pyramid|데이터]]셋을 [[118_shared_memory|공유 메모리]] 풀에 두고 hot table만 로컬에 붙이는 구성이 현실적이다.
+실무에서 [데이터 중심](/knowledge-base/studynote/04_software_engineering/06_software_architecture/383_data_centric_architecture/) 패브릭이 빛나는 곳은 메모리 요구량과 자원 불균형이 큰 환경이다. 예를 들어 거대 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 추론에서는 모델 파라미터가 크지만 모든 토큰 계산이 동시에 가장 뜨거운 것은 아니다. 이 경우 자주 접근하는 부분은 가속기 옆 고대역폭 메모리 ([High Bandwidth Memory](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/), [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/))에 두고, 나머지는 패브릭 메모리 풀에 두는 식의 tiering이 가능하다. [인메모리 데이터베이스](/knowledge-base/studynote/16_bigdata/06_nosql/139_inmemory_db/)도 마찬가지로, 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋을 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 풀에 두고 hot table만 로컬에 붙이는 구성이 현실적이다.
 
-반면 패브릭을 마법의 [[251_dram|DRAM]] 확장선처럼 쓰면 실패하기 쉽다. 로컬과 원격의 [[015_지연_데이터_관점|지연]] 차이를 무시하거나, fabric manager 없이 수동으로 자원을 붙이거나, 멀티 tenant 환경에서 [[003_integrity|무결성]] 및 [[001_dikw_pyramid|데이터]] 암호화 ([[003_integrity|Integrity]] and [[001_dikw_pyramid|Data]] Encryption, IDE)와 접근 제어를 빼먹으면 성능보다 운영 위험이 먼저 커진다. 공유 구조는 효율을 주지만, 동시에 실패 [[064_relation_domain|도메인]]과 보안 표면을 넓힌다.
+반면 패브릭을 마법의 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 확장선처럼 쓰면 실패하기 쉽다. 로컬과 원격의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 차이를 무시하거나, fabric manager 없이 수동으로 자원을 붙이거나, 멀티 tenant 환경에서 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 및 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 암호화 ([Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) and [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Encryption, IDE)와 접근 제어를 빼먹으면 성능보다 운영 위험이 먼저 커진다. 공유 구조는 효율을 주지만, 동시에 실패 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)과 보안 표면을 넓힌다.
 
-### 적용 판단 [[435_checklist_based_testing|체크리스트]]
+### 적용 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 내 workload의 hot working set과 warm capacity set을 계층적으로 나눌 수 있는가?
-2. 원격 메모리 접근 비율이 높아져도 [[090_service_kubernetes_network_load_balancing|서비스]] 수준 협약을 만족할 만큼 [[015_지연_데이터_관점|지연]] 예산이 남는가?
-3. [[441_cxl|CXL]] [[238_switch_operation_principles|스위치]], fabric manager, 모니터링 체계가 다중 tenant 환경을 감당하는가?
-4. IDE, 접근 제어, 오류 격리, 장애 시 [[300_failover_architecture|failover]] 절차가 준비되어 있는가?
+2. 원격 메모리 접근 비율이 높아져도 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 협약을 만족할 만큼 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 예산이 남는가?
+3. [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), fabric manager, 모니터링 체계가 다중 tenant 환경을 감당하는가?
+4. IDE, 접근 제어, 오류 격리, 장애 시 [failover](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/) 절차가 준비되어 있는가?
 5. 자원 조립의 민첩성이 복잡성과 비용 증가를 상쇄할 만큼 큰가?
 
-### 피해야 할 [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### 피해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 모든 메모리를 동일 속도로 가정해 가장 뜨거운 경로까지 원격 풀로 보내는 설계
 - fabric manager와 telemetry 없이 수작업으로만 자원을 조립해 장애 원인을 추적하지 못하는 운영
-- 멀티 tenant [[118_shared_memory|공유 메모리]] 구조에서 보안 격리와 암호화를 사후 과제로 미루는 판단
-- [[238_switch_operation_principles|스위치]] 대역폭과 hop 수를 무시한 채 CXL이니 다 빠를 것이라 가정하는 용량 중심 증설
+- 멀티 tenant [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 구조에서 보안 격리와 암호화를 사후 과제로 미루는 판단
+- [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 대역폭과 hop 수를 무시한 채 CXL이니 다 빠를 것이라 가정하는 용량 중심 증설
 
-기술사 답안에서는 [[383_data_centric_architecture|데이터 중심]] 패브릭을 단순히 서버 자원 공유로 쓰면 부족하다. 어떤 [[001_dikw_pyramid|데이터]]는 로컬에, 어떤 [[001_dikw_pyramid|데이터]]는 원격 풀에 둘지, 그리고 공유로 인해 커지는 보안·장애 [[064_relation_domain|도메인]]을 어떻게 다룰지까지 함께 써야 진짜 설계 논리가 된다.
+기술사 답안에서는 [데이터 중심](/knowledge-base/studynote/04_software_engineering/06_software_architecture/383_data_centric_architecture/) 패브릭을 단순히 서버 자원 공유로 쓰면 부족하다. 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 로컬에, 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 원격 풀에 둘지, 그리고 공유로 인해 커지는 보안·장애 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 어떻게 다룰지까지 함께 써야 진짜 설계 논리가 된다.
 
 - **📢 섹션 요약 비유**: 공동 창고는 집집마다 공간을 아껴 주지만, 누구 물건인지 표식이 없고 출입문이 허술하면 금방 혼란이 온다. 공유가 편리할수록 관리 규칙은 더 정교해야 한다.
 
@@ -127,13 +131,13 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-[[383_data_centric_architecture|데이터 중심]] 패브릭을 잘 설계하면 서버 안에 갇혀 놀던 메모리와 가속기를 더 유연하게 재조합할 수 있다. 그 결과 [[001_dikw_pyramid|데이터]] [[016_replication_factor|복제]] 횟수가 줄고, 대규모 메모리 작업을 위해 서버를 통째로 증설하는 비효율도 낮아진다. 특히 컴퓨팅보다 [[001_dikw_pyramid|데이터]] 위치가 더 중요한 워크로드에서는 자원 이용률과 배치 민첩성이 함께 좋아진다.
+[데이터 중심](/knowledge-base/studynote/04_software_engineering/06_software_architecture/383_data_centric_architecture/) 패브릭을 잘 설계하면 서버 안에 갇혀 놀던 메모리와 가속기를 더 유연하게 재조합할 수 있다. 그 결과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 횟수가 줄고, 대규모 메모리 작업을 위해 서버를 통째로 증설하는 비효율도 낮아진다. 특히 컴퓨팅보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위치가 더 중요한 워크로드에서는 자원 이용률과 배치 민첩성이 함께 좋아진다.
 
-하지만 한계도 분명하다. 원격 접근 [[015_지연_데이터_관점|지연]]은 사라지지 않으며, [[238_switch_operation_principles|스위치]]·[[295_protocol_field_tcp_udp_icmp|프로토콜]]·관리 소프트웨어 복잡도는 오히려 커진다. 앞으로는 [[441_cxl|CXL]] 3.x switching, 광 패브릭, [[285_pooling_layer|풀링]]된 가속기 메모리, [[164_policy|정책]] 기반 자동 배치가 발전하면서, [[383_data_centric_architecture|데이터 중심]] 패브릭은 단순 메모리 확장을 넘어 컴포저블 [[001_dikw_pyramid|데이터]]센터의 운영체제에 가까운 방향으로 진화할 가능성이 크다.
+하지만 한계도 분명하다. 원격 접근 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 사라지지 않으며, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)·[프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)·관리 소프트웨어 복잡도는 오히려 커진다. 앞으로는 [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 3.x switching, 광 패브릭, [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)된 가속기 메모리, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 자동 배치가 발전하면서, [데이터 중심](/knowledge-base/studynote/04_software_engineering/06_software_architecture/383_data_centric_architecture/) 패브릭은 단순 메모리 확장을 넘어 컴포저블 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터의 운영체제에 가까운 방향으로 진화할 가능성이 크다.
 
-결론적으로 [[383_data_centric_architecture|데이터 중심]] 패브릭은 CPU보다 빠른 선이 아니라, [[001_dikw_pyramid|데이터]]를 중심에 두고 연산·메모리·스토리지를 다시 엮는 시스템 재배치 철학이다. 그러므로 이 개념을 기억할 때는 속도보다도 복사할 것인가, 공유할 것인가, 어디까지를 로컬로 남길 것인가라는 설계 질문과 함께 떠올리는 것이 맞다.
+결론적으로 [데이터 중심](/knowledge-base/studynote/04_software_engineering/06_software_architecture/383_data_centric_architecture/) 패브릭은 CPU보다 빠른 선이 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 중심에 두고 연산·메모리·스토리지를 다시 엮는 시스템 재배치 철학이다. 그러므로 이 개념을 기억할 때는 속도보다도 복사할 것인가, 공유할 것인가, 어디까지를 로컬로 남길 것인가라는 설계 질문과 함께 떠올리는 것이 맞다.
 
-- **📢 섹션 요약 비유**: 좋은 도시는 도로만 넓다고 완성되지 않는다. 사람들이 자주 가는 곳 근처에 상점과 창고를 적절히 배치해야 진짜 효율이 난다. [[383_data_centric_architecture|데이터 중심]] 패브릭도 결국 [[001_dikw_pyramid|데이터]] 주변에 자원을 잘 배치하는 도시계획이다.
+- **📢 섹션 요약 비유**: 좋은 도시는 도로만 넓다고 완성되지 않는다. 사람들이 자주 가는 곳 근처에 상점과 창고를 적절히 배치해야 진짜 효율이 난다. [데이터 중심](/knowledge-base/studynote/04_software_engineering/06_software_architecture/383_data_centric_architecture/) 패브릭도 결국 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 주변에 자원을 잘 배치하는 도시계획이다.
 
 ---
 
@@ -141,12 +145,12 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 컴퓨트 익스프레스 링크 ([[441_cxl|Compute Express Link]], [[441_cxl|CXL]]) | [[383_data_centric_architecture|데이터 중심]] 패브릭에서 메모리 확장과 [[285_pooling_layer|풀링]]을 현실화하는 대표 인터커넥트다. |
-| [[442_memory_pooling|메모리 풀링]] ([[442_memory_pooling|Memory Pooling]]) | 여러 호스트가 큰 메모리 자원을 필요 시점에 공유하도록 만드는 핵심 기법이다. |
+| 컴퓨트 익스프레스 링크 ([Compute Express Link](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/), [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)) | [데이터 중심](/knowledge-base/studynote/04_software_engineering/06_software_architecture/383_data_centric_architecture/) 패브릭에서 메모리 확장과 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)을 현실화하는 대표 인터커넥트다. |
+| [메모리 풀링](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/442_memory_pooling/) ([Memory Pooling](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/442_memory_pooling/)) | 여러 호스트가 큰 메모리 자원을 필요 시점에 공유하도록 만드는 핵심 기법이다. |
 | 자원 분해 (Resource Disaggregation) | CPU, 메모리, 가속기를 서버 상자에서 떼어 내는 구조적 출발점이다. |
 | 컴포저블 인프라 (Composable Infrastructure) | 분해된 자원을 workload별로 다시 조립하는 운영 철학이다. |
-| 비균일 메모리 접근 ([[377_numa_allocation|Non-Uniform Memory Access]], [[377_numa_allocation|NUMA]]) | [[383_data_centric_architecture|데이터 중심]] 패브릭이 로컬/원격 메모리 [[015_지연_데이터_관점|지연]] 차이를 어떻게 다뤄야 하는지 보여 주는 기초 개념이다. |
-| [[003_integrity|무결성]] 및 [[001_dikw_pyramid|데이터]] 암호화 ([[003_integrity|Integrity]] and [[001_dikw_pyramid|Data]] Encryption, IDE) | 공유 패브릭에서 tenant 격리와 [[001_dikw_pyramid|데이터]] 보호를 강화하는 보안 장치다. |
+| 비균일 메모리 접근 ([Non-Uniform Memory Access](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/), [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)) | [데이터 중심](/knowledge-base/studynote/04_software_engineering/06_software_architecture/383_data_centric_architecture/) 패브릭이 로컬/원격 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 차이를 어떻게 다뤄야 하는지 보여 주는 기초 개념이다. |
+| [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 및 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 암호화 ([Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) and [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Encryption, IDE) | 공유 패브릭에서 tenant 격리와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보호를 강화하는 보안 장치다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -173,7 +177,7 @@ Data-Centric Fabric / Composable Infrastructure
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [[383_data_centric_architecture|데이터 중심]] 패브릭은 친구마다 장난감을 따로 숨겨 두는 대신, 큰 공용 장난감 창고를 만드는 거예요.
+1. [데이터 중심](/knowledge-base/studynote/04_software_engineering/06_software_architecture/383_data_centric_architecture/) 패브릭은 친구마다 장난감을 따로 숨겨 두는 대신, 큰 공용 장난감 창고를 만드는 거예요.
 2. 필요한 친구가 그 창고 앞에 와서 로봇이나 블록을 빌려 쓰니까, 놀다가 남는 장난감이 줄어들어요.
 3. 하지만 공용 창고라서 누가 무엇을 쓰는지 잘 정리하고 지켜야 모두가 편하게 놀 수 있어요.
 
@@ -183,7 +187,7 @@ Data-Centric Fabric / Composable Infrastructure
 
 **진행 상황**: 599 / 803
 
-← **이전**: [[598_vm_migration_nic|598. VM (Virtual Machine) 마이그레이션 NIC (Network Interface Card)]]
-**다음**: [[600_exascale_node_board|600. 엑사스케일 컴퓨팅 노드 보드 (Exascale Node Board)]] →
+← **이전**: [598. VM (Virtual Machine) 마이그레이션 NIC (Network Interface Card)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)
+**다음**: [600. 엑사스케일 컴퓨팅 노드 보드 (Exascale Node Board)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/600_exascale_node_board/) →
 
 ---

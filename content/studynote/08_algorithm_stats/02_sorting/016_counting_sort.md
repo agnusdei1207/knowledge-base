@@ -1,27 +1,31 @@
----
-title: 9. 계수 정렬 (Counting Sort) — O(n+k), 비교 불필요
-date: '2026-04-21'
-tags:
-- studynote-algorithm
----
++++
+title = "9. 계수 정렬 (Counting Sort) — O(n+k), 비교 불필요"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-algorithm"]
+
+[extra]
+tags = ["studynote-algorithm"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 계수 정렬은 요소 간 비교 없이 각 값의 등장 횟수를 세어 정렬하는 비교 기반 하한 O(n log n)을 돌파하는 [[001_algorithm_definition|알고리즘]]이다.
-> 2. **가치**: 키 범위 k가 작은 정수 [[001_dikw_pyramid|데이터]](성적, 나이, 코드값 등)에서 O(n+k) 선형 시간을 달성하며 안정 정렬(Stable Sort) 성질을 보장한다.
-> 3. **판단 포인트**: k >> n 인 경우(예: 32비트 정수 전체 범위) 메모리와 시간이 폭발적으로 증가하므로, [[017_radix_sort|기수 정렬]]([[017_radix_sort|Radix Sort]])로 전환하거나 적용 대상을 제한해야 한다.
+> 1. **본질**: 계수 정렬은 요소 간 비교 없이 각 값의 등장 횟수를 세어 정렬하는 비교 기반 하한 O(n log n)을 돌파하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
+> 2. **가치**: 키 범위 k가 작은 정수 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(성적, 나이, 코드값 등)에서 O(n+k) 선형 시간을 달성하며 안정 정렬(Stable Sort) 성질을 보장한다.
+> 3. **판단 포인트**: k >> n 인 경우(예: 32비트 정수 전체 범위) 메모리와 시간이 폭발적으로 증가하므로, [기수 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/)([Radix Sort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/))로 전환하거나 적용 대상을 제한해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-비교 기반 정렬(Comparison-Based Sort)의 이론적 하한은 **Ω(n log n)**이다. 이 한계를 돌파하려면 비교 연산 외의 추가 정보(값의 범위)를 활용해야 한다. **계수 정렬 (Counting Sort)**은 입력 [[001_dikw_pyramid|데이터]]가 **0부터 k까지의 정수**라는 조건 하에, 각 값이 몇 번 등장하는지 세는 방식으로 O(n+k) 시간 복잡도를 달성한다.
+비교 기반 정렬(Comparison-Based Sort)의 이론적 하한은 **Ω(n log n)**이다. 이 한계를 돌파하려면 비교 연산 외의 추가 정보(값의 범위)를 활용해야 한다. **계수 정렬 (Counting Sort)**은 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 **0부터 k까지의 정수**라는 조건 하에, 각 값이 몇 번 등장하는지 세는 방식으로 O(n+k) 시간 복잡도를 달성한다.
 
 ### 적용 전제 조건
 
 | 조건 | 설명 |
 |:---|:---|
 | 정수(혹은 이산값) | 실수나 문자열에는 직접 적용 불가 |
-| 범위 k가 알려짐 | [[055_array|배열]] 크기가 k+1로 결정됨 |
+| 범위 k가 알려짐 | [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 크기가 k+1로 결정됨 |
 | k = O(n) 수준 | k가 n보다 지나치게 크면 비효율 |
 
 📢 **섹션 요약 비유**: 계수 정렬은 학급 시험 성적 집계와 같다. 100점 만점 시험이라면 0~100점 칸이 있는 집계표에 표시만 하면 되고, 누가 누구보다 높은지 일일이 비교할 필요가 없다.
@@ -30,13 +34,13 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [[001_algorithm_definition|알고리즘]] 3단계
+### [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 3단계
 
-1. **Count 단계**: 입력 [[055_array|배열]]을 순회하며 count[v]++ (값 v의 등장 횟수 기록)  
+1. **Count 단계**: 입력 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 순회하며 count[v]++ (값 v의 등장 횟수 기록)  
 2. **Prefix Sum 단계**: count[i] += count[i-1] (누적합 → 각 값의 마지막 위치)  
-3. **Place 단계**: 입력 [[055_array|배열]]을 역순으로 순회하며 output[count[v]-1] = v, count[v]-- (안정 정렬 보장)
+3. **Place 단계**: 입력 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 역순으로 순회하며 output[count[v]-1] = v, count[v]-- (안정 정렬 보장)
 
-### [[103_ascii|ASCII]] 다이어그램 — 계수 정렬 동작 과정
+### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 — 계수 정렬 동작 과정
 
 ```
 입력: [3, 1, 4, 1, 5, 2, 3, 2]  (k=5)
@@ -62,7 +66,7 @@ count: [ 0,  2,  4,  6,  7,  8 ]
 출력: [1, 1, 2, 2, 3, 3, 4, 5] ✅
 ```
 
-### 시간/[[003_space_complexity|공간 복잡도]]
+### 시간/[공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/)
 
 | 항목 | 복잡도 |
 |:---|:---:|
@@ -70,7 +74,7 @@ count: [ 0,  2,  4,  6,  7,  8 ]
 | 시간 (Prefix Sum) | O(k) |
 | 시간 (Place) | O(n) |
 | **전체 시간** | **O(n+k)** |
-| 공간 (보조 [[055_array|배열]]) | O(n+k) |
+| 공간 (보조 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)) | O(n+k) |
 | 안정 정렬 여부 | ✅ 안정 |
 | 제자리 정렬 여부 | ❌ 비제자리 |
 
@@ -87,18 +91,18 @@ count: [ 0,  2,  4,  6,  7,  8 ]
 | 이론적 하한 | O(n log n) | O(n+k) |
 | 제약 조건 | 없음 | 정수, 범위 제한 |
 | 범용성 | 높음 | 낮음 |
-| 추가 메모리 | [[001_algorithm_definition|알고리즘]]마다 다름 | O(n+k) 항상 필요 |
+| 추가 메모리 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)마다 다름 | O(n+k) 항상 필요 |
 
-### 유사 [[001_algorithm_definition|알고리즘]] 비교
+### 유사 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 비교
 
-| [[001_algorithm_definition|알고리즘]] | 시간 | 공간 | 안정 | 특징 |
+| [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 시간 | 공간 | 안정 | 특징 |
 |:---|:---:|:---:|:---:|:---|
 | 계수 정렬 | O(n+k) | O(n+k) | ✅ | k가 작을 때 최적 |
-| [[017_radix_sort|기수 정렬]] ([[017_radix_sort|Radix Sort]]) | O(d·(n+k)) | O(n+k) | ✅ | 큰 정수도 처리 |
-| [[018_bucket_sort|버킷 정렬]] ([[018_bucket_sort|Bucket Sort]]) | O(n) avg | O(n) | ✅ | 균등 분포 [[087_floating_point|부동소수점]] |
-| 병합 정렬 ([[044_merge_sort|Merge Sort]]) | O(n log n) | O(n) | ✅ | 범용 |
+| [기수 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/) ([Radix Sort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/)) | O(d·(n+k)) | O(n+k) | ✅ | 큰 정수도 처리 |
+| [버킷 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/018_bucket_sort/) ([Bucket Sort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/018_bucket_sort/)) | O(n) avg | O(n) | ✅ | 균등 분포 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) |
+| 병합 정렬 ([Merge Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)) | O(n log n) | O(n) | ✅ | 범용 |
 
-📢 **섹션 요약 비유**: 계수 정렬, [[017_radix_sort|기수 정렬]], [[018_bucket_sort|버킷 정렬]]은 모두 "특화된 도구"다. 계수 정렬은 소규모 범위 정수 전용 렌치, [[017_radix_sort|기수 정렬]]은 자릿수 전용 드라이버, [[018_bucket_sort|버킷 정렬]]은 균등 분포 전용 스패너다.
+📢 **섹션 요약 비유**: 계수 정렬, [기수 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/), [버킷 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/018_bucket_sort/)은 모두 "특화된 도구"다. 계수 정렬은 소규모 범위 정수 전용 렌치, [기수 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/)은 자릿수 전용 드라이버, [버킷 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/018_bucket_sort/)은 균등 분포 전용 스패너다.
 
 ---
 
@@ -110,7 +114,7 @@ count: [ 0,  2,  4,  6,  7,  8 ]
 → k=101, n=100,000 → O(100,101) ≈ O(n) ✅  
 → 병합 정렬 O(n log n) ≈ 1,700,000 연산 대비 약 17배 빠름
 
-**시나리오 2 — [[017_radix_sort|기수 정렬]]의 서브루틴**: [[017_radix_sort|기수 정렬]]은 각 자릿수(digit)마다 계수 정렬을 적용하므로, 계수 정렬의 안정성이 전체 [[001_algorithm_definition|알고리즘]] 정확성의 핵심
+**시나리오 2 — [기수 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/)의 서브루틴**: [기수 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/)은 각 자릿수(digit)마다 계수 정렬을 적용하므로, 계수 정렬의 안정성이 전체 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 정확성의 핵심
 
 **시나리오 3 — DNA 염기서열 정렬**: A/T/G/C 4종류(k=4)로 O(n+4) = O(n) 달성 가능
 
@@ -136,7 +140,7 @@ count: [ 0,  2,  4,  6,  7,  8 ]
 
 ## Ⅴ. 기대효과 및 결론
 
-계수 정렬은 **비교 연산을 아예 없애는 발상의 전환**으로 이론적 하한을 돌파한다. 키 범위가 제한된 [[064_relation_domain|도메인]](성적, 나이, 카테고리 코드)에서는 최고의 성능을 발휘하며, [[017_radix_sort|기수 정렬]]의 핵심 서브루틴으로도 활약한다.
+계수 정렬은 **비교 연산을 아예 없애는 발상의 전환**으로 이론적 하한을 돌파한다. 키 범위가 제한된 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)(성적, 나이, 카테고리 코드)에서는 최고의 성능을 발휘하며, [기수 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/)의 핵심 서브루틴으로도 활약한다.
 
 ### 효과 정리
 
@@ -144,7 +148,7 @@ count: [ 0,  2,  4,  6,  7,  8 ]
 |:---|:---|
 | 속도 | O(n+k) 선형 시간, 비교 정렬 한계 돌파 |
 | 안정성 | 동일 키 원소의 상대 순서 보장 |
-| 결합성 | [[017_radix_sort|기수 정렬]]과 결합 시 대용량 정수 정렬 가능 |
+| 결합성 | [기수 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/)과 결합 시 대용량 정수 정렬 가능 |
 
 📢 **섹션 요약 비유**: 계수 정렬의 O(n+k)는 마치 번호표 시스템과 같다. 누가 먼저 왔는지 모두 비교하는 대신, 번호표를 나눠주고 번호 순서대로 부르면 된다. 번호 범위(k)가 합리적이면 이 방식이 압도적으로 빠르다.
 
@@ -152,10 +156,10 @@ count: [ 0,  2,  4,  6,  7,  8 ]
 
 ### 📌 관련 개념 맵
 
-| 개념 | 연결 [[083_relationship_in_er_model|관계]] | 설명 |
+| 개념 | 연결 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
 |:---|:---|:---|
-| [[017_radix_sort|기수 정렬]] ([[017_radix_sort|Radix Sort]]) | ← 계수 정렬 사용 | 계수 정렬이 서브루틴 |
-| [[018_bucket_sort|버킷 정렬]] ([[018_bucket_sort|Bucket Sort]]) | 유사 개념 | 구간 분할 방식의 비교 |
+| [기수 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/) ([Radix Sort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/)) | ← 계수 정렬 사용 | 계수 정렬이 서브루틴 |
+| [버킷 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/018_bucket_sort/) ([Bucket Sort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/018_bucket_sort/)) | 유사 개념 | 구간 분할 방식의 비교 |
 | 안정 정렬 (Stable Sort) | → 성질 | 병합 정렬과 함께 대표 안정 정렬 |
 | 비교 기반 하한 정리 | ↔ 돌파 | Ω(n log n) 하한 우회 |
 
@@ -177,7 +181,7 @@ count: [ 0,  2,  4,  6,  7,  8 ]
 [기수 정렬(Radix Sort) 확장]
 ```
 
-계수 정렬은 비교 기반 정렬의 한계를 넘어 누적 카운트와 안정성을 이용해 [[017_radix_sort|기수 정렬]]로 확장된다.
+계수 정렬은 비교 기반 정렬의 한계를 넘어 누적 카운트와 안정성을 이용해 [기수 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/)로 확장된다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -191,7 +195,7 @@ count: [ 0,  2,  4,  6,  7,  8 ]
 
 **진행 상황**: 16 / 175
 
-← **이전**: [[015_quick_sort_optimization|퀵 정렬 최적화 (Quick Sort Optimization)]]
-**다음**: [[017_radix_sort|10. 기수 정렬 (Radix Sort) — O(d·n), 고정 자릿수]] →
+← **이전**: [퀵 정렬 최적화 (Quick Sort Optimization)](/knowledge-base/studynote/08_algorithm_stats/02_sorting/015_quick_sort_optimization/)
+**다음**: [10. 기수 정렬 (Radix Sort) — O(d·n), 고정 자릿수](/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/) →
 
 ---

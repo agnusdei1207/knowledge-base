@@ -1,15 +1,19 @@
----
-title: 7. 라그랑주 승수법 (Lagrange Multiplier) — 제약 최적화
-date: '2026-04-21'
-tags:
-- studynote-algorithm
----
++++
+title = "7. 라그랑주 승수법 (Lagrange Multiplier) — 제약 최적화"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-algorithm"]
+
+[extra]
+tags = ["studynote-algorithm"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 라그랑주 승수법 (Lagrange Multiplier) 은 *등호 제약 조건 g(x)=0 아래에서의 최적화를 무제약 최적화로 변환*하는 기법 — 최적점에서 ∇f와 ∇g가 평행하다는 기하적 사실을 이용한다.
-> 2. **가치**: KKT (Karush-Kuhn-Tucker) 조건으로 부등호 제약 일반화 → SVM의 마진 최대화, 포트폴리오 최적화, 최대 [[151_entropy|엔트로피]] 모델의 수학적 기반이 모두 여기서 출발한다.
-> 3. **판단 포인트**: 쌍대 문제 (Dual Problem) 전환 — 원 문제의 변수가 많아도 지지 벡터([[084_support_association_rule_transaction|Support]] Vector) 수가 적으면 듀얼이 빠르다. SVM의 [[022_kernel_role|커널]] 트릭이 가능한 이유가 바로 듀얼 표현이다.
+> 2. **가치**: KKT (Karush-Kuhn-Tucker) 조건으로 부등호 제약 일반화 → SVM의 마진 최대화, 포트폴리오 최적화, 최대 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 모델의 수학적 기반이 모두 여기서 출발한다.
+> 3. **판단 포인트**: 쌍대 문제 (Dual Problem) 전환 — 원 문제의 변수가 많아도 지지 벡터([Support](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) Vector) 수가 적으면 듀얼이 빠르다. SVM의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 트릭이 가능한 이유가 바로 듀얼 표현이다.
 
 ---
 
@@ -25,7 +29,7 @@ subject to gᵢ(x) = 0    (등호 제약, i = 1,...,m)
 
 왜 제약이 필요한가?
 - 자원 제한 (예산 ≤ B)
-- 물리적 제약 (에너지 보존, [[130_probability|확률]] 합 = 1)
+- 물리적 제약 (에너지 보존, [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 합 = 1)
 - 설계 요구사항 (응력 ≤ 허용치)
 
 📢 **섹션 요약 비유**: 제약 최적화는 "규칙 있는 최선 선택"이다 — 주어진 예산(제약) 안에서 만족도(목적함수)를 최대화하는 쇼핑이 바로 제약 최적화 문제다.
@@ -87,9 +91,9 @@ KKT 조건 (필요충분 조건, 볼록 문제일 때):
 
 ## Ⅲ. 비교 및 연결
 
-### [[238_svm_margin_kernel_trick_naive_bayes|SVM]] 듀얼 문제 유도
+### [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) 듀얼 문제 유도
 
-[[238_svm_margin_kernel_trick_naive_bayes|SVM]] 원 문제 (Primal):
+[SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) 원 문제 (Primal):
 
 ```
 min_{w,b}  ½‖w‖²
@@ -115,11 +119,11 @@ s.t.     Σᵢ αᵢyᵢ = 0,  αᵢ ≥ 0
 내적 xᵢᵀxⱼ → 커널 K(xᵢ, xⱼ)로 교체!  ← 커널 트릭 가능
 ```
 
-KKT 상보 여유: αᵢ > 0인 샘플이 **지지 벡터 ([[084_support_association_rule_transaction|Support]] Vector)**.
+KKT 상보 여유: αᵢ > 0인 샘플이 **지지 벡터 ([Support](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) Vector)**.
 
-### 최대 [[151_entropy|엔트로피]]와 라그랑주
+### 최대 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)와 라그랑주
 
-특성 함수 fₖ에 대한 기대값 제약 E[fₖ] = c̃ₖ 하에서 최대 [[151_entropy|엔트로피]] 분포:
+특성 함수 fₖ에 대한 기대값 제약 E[fₖ] = c̃ₖ 하에서 최대 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 분포:
 
 ```
 maximize   H(P) = -Σ P(x) log P(x)
@@ -130,7 +134,7 @@ s.t.       Σ P(x)·fₖ(x) = c̃ₖ   ∀k
                          (로지스틱 회귀의 분포 형태와 동일!)
 ```
 
-📢 **섹션 요약 비유**: [[238_svm_margin_kernel_trick_naive_bayes|SVM]] 듀얼의 지지 벡터는 "결정의 경계를 만드는 필수 증인"이다 — 무수히 많은 [[001_dikw_pyramid|데이터]] 중 경계에서 딱 접하는 몇 개(αᵢ>0)만 결정 경계를 완전히 결정한다.
+📢 **섹션 요약 비유**: [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) 듀얼의 지지 벡터는 "결정의 경계를 만드는 필수 증인"이다 — 무수히 많은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중 경계에서 딱 접하는 몇 개(αᵢ>0)만 결정 경계를 완전히 결정한다.
 
 ---
 
@@ -152,14 +156,14 @@ L = wᵀΣw - λ₁(μᵀw - r) - λ₂(1ᵀw - 1)
 ### 신경망 제약 최적화 응용
 
 딥러닝에서 제약이 있는 학습:
-- **L2 [[093_normalization|정규화]]** = ‖w‖² ≤ c 제약 최적화의 라그랑지안 → λ‖w‖² 페널티
-- **스펙트럼 [[093_normalization|정규화]]** = 각 레이어 [[267_weight_bias_activation|가중치]] 행렬의 최대 특이값 ≤ 1
+- **L2 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)** = ‖w‖² ≤ c 제약 최적화의 라그랑지안 → λ‖w‖² 페널티
+- **스펙트럼 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)** = 각 레이어 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 행렬의 최대 특이값 ≤ 1
 - **페어니스 제약** = 인구통계 집단 간 오류율 차이 ≤ ε
 
 ### 기술사 판단 포인트
 
 1. **"라그랑주 승수 λ의 의미는?"** → 제약 완화 시 목적 함수 변화율 (Shadow Price, 경제학의 가격 해석)
-2. **"SVM에서 [[022_kernel_role|커널]] 트릭이 가능한 이유?"** → 듀얼 문제에서 내적 xᵢᵀxⱼ만 나타나므로 고차원 매핑 없이 [[022_kernel_role|커널]] 대체 가능
+2. **"SVM에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 트릭이 가능한 이유?"** → 듀얼 문제에서 내적 xᵢᵀxⱼ만 나타나므로 고차원 매핑 없이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 대체 가능
 3. **"KKT 조건이 충분조건이 되는 경우?"** → 볼록 최적화 (원 문제와 듀얼 강한 쌍대성 성립 시)
 
 📢 **섹션 요약 비유**: 라그랑주 승수 λ는 "제약의 가격표"다 — 제약을 1단위 완화할 때 목적 함수가 얼마나 개선되는지, 그 한계 가치가 λ다.
@@ -168,7 +172,7 @@ L = wᵀΣw - λ₁(μᵀw - r) - λ₂(1ᵀw - 1)
 
 ## Ⅴ. 기대효과 및 결론
 
-라그랑주 승수법과 KKT 조건은 **제약 최적화의 통일 언어**다. 물리학(에너지 최소화), 경제학(효용 최대화), [[241_machine_learning_basics|머신러닝]]([[238_svm_margin_kernel_trick_naive_bayes|SVM]], 최대 [[151_entropy|엔트로피]]), 공학(설계 최적화) 모두 같은 수학 도구를 공유한다.
+라그랑주 승수법과 KKT 조건은 **제약 최적화의 통일 언어**다. 물리학(에너지 최소화), 경제학(효용 최대화), [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)([SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/), 최대 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)), 공학(설계 최적화) 모두 같은 수학 도구를 공유한다.
 
 강한 쌍대성 (Strong Duality): 볼록 + Slater 조건 만족 → 원 문제와 듀얼 문제의 최적값 일치 → 쉬운 듀얼로 원 문제 해결 가능.
 
@@ -182,9 +186,9 @@ L = wᵀΣw - λ₁(μᵀw - r) - λ₂(1ᵀw - 1)
 |:---|:---|:---|
 | 라그랑지안 | L = f - λg | 등호 제약 최적화 |
 | KKT 조건 | 정류+가능+상보여유 | 부등호 제약 최적화 |
-| [[238_svm_margin_kernel_trick_naive_bayes|SVM]] 듀얼 | max Σαᵢ - ½ΣαᵢαⱼyᵢyⱼK(xᵢ,xⱼ) | [[022_kernel_role|커널]] [[238_svm_margin_kernel_trick_naive_bayes|SVM]] |
-| 지지 벡터 | KKT 상보 여유: αᵢ>0 | [[238_svm_margin_kernel_trick_naive_bayes|SVM]] 경계 결정 |
-| 최대 [[151_entropy|엔트로피]] | Gibbs 분포 | [[227_logistic_regression_clt_pvalue_type_error|로지스틱 회귀]] |
+| [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) 듀얼 | max Σαᵢ - ½ΣαᵢαⱼyᵢyⱼK(xᵢ,xⱼ) | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) |
+| 지지 벡터 | KKT 상보 여유: αᵢ>0 | [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) 경계 결정 |
+| 최대 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) | Gibbs 분포 | [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -214,7 +218,7 @@ L = wᵀΣw - λ₁(μᵀw - r) - λ₂(1ᵀw - 1)
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. **라그랑주 승수법은 "규칙 속 최선 선택"**: 주어진 예산(제약) 안에서 가장 많이 살 수 있는 물건(최적값)을 찾는 수학적 방법.
-2. **지지 벡터는 "경계 위의 핵심 선수"**: 수천 명의 [[001_dikw_pyramid|데이터]] 중 결정 경계를 실제로 정하는 것은 경계에 바로 붙어 있는 몇 개의 지지 벡터들뿐.
+2. **지지 벡터는 "경계 위의 핵심 선수"**: 수천 명의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중 결정 경계를 실제로 정하는 것은 경계에 바로 붙어 있는 몇 개의 지지 벡터들뿐.
 3. **강한 쌍대성은 "두 길이 같은 목적지"**: 어렵고 구불구불한 길(원 문제)과 다른 지름길(듀얼)이 결국 같은 곳에 도착한다.
 
 ---
@@ -223,7 +227,7 @@ L = wᵀΣw - λ₁(μᵀw - r) - λ₂(1ᵀw - 1)
 
 **진행 상황**: 166 / 175
 
-← **이전**: [[165_gradient_descent|6. 기울기 하강법 (Gradient Descent) — 최적화 기본]]
-**다음**: [[167_linear_programming|8. 선형 프로그래밍 (LP, Linear Programming) — 심플렉스법]] →
+← **이전**: [6. 기울기 하강법 (Gradient Descent) — 최적화 기본](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/)
+**다음**: [8. 선형 프로그래밍 (LP, Linear Programming) — 심플렉스법](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/167_linear_programming/) →
 
 ---

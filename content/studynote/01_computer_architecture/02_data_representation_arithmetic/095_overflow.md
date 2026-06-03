@@ -1,36 +1,40 @@
----
-title: 95. 오버플로우 (Overflow)
-date: '2026-03-26'
-tags:
-- studynote-computer-architecture
----
++++
+title = "95. 오버플로우 (Overflow)"
+date = 2026-03-26
+
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 오버플로우 (Overflow)는 컴퓨터가 값을 저장하기 위해 할당한 고정된 [[073_bit|비트]] 메모리의 수용 한계치를 [[001_dikw_pyramid|데이터]]가 초과하여, 올바르지 않은 값으로 덮어쓰여지는 수치 연산 오류 현상이다.
-> 2. **가치**: 이 현상은 단순한 연산 에러에 그치지 않고 부호 역전 (Sign Inversion)을 일으켜 치명적인 [[369_logic_bomb|논리]] 오류와 시스템 붕괴, 나아가 보안 취약점으로 직결된다.
-> 3. **판단 포인트**: 하드웨어 측면에서는 부호 [[073_bit|비트]]로의 들어오는 캐리와 나가는 캐리의 불일치를 판단하여 즉각적으로 [[186_character_stuffing_dle_stx_etx|플래그]] ([[186_character_stuffing_dle_stx_etx|Flag]]) [[057_register|레지스터]]를 띄우며, 소프트웨어 측면에서는 변수 크기와 [[001_dikw_pyramid|데이터]] 범위를 일치시키거나 포화 연산 (Saturation Arithmetic)을 적용해 방어해야 한다.
+> 1. **본질**: 오버플로우 (Overflow)는 컴퓨터가 값을 저장하기 위해 할당한 고정된 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 메모리의 수용 한계치를 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 초과하여, 올바르지 않은 값으로 덮어쓰여지는 수치 연산 오류 현상이다.
+> 2. **가치**: 이 현상은 단순한 연산 에러에 그치지 않고 부호 역전 (Sign Inversion)을 일으켜 치명적인 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 오류와 시스템 붕괴, 나아가 보안 취약점으로 직결된다.
+> 3. **판단 포인트**: 하드웨어 측면에서는 부호 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)로의 들어오는 캐리와 나가는 캐리의 불일치를 판단하여 즉각적으로 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) ([Flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)) [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 띄우며, 소프트웨어 측면에서는 변수 크기와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 범위를 일치시키거나 포화 연산 (Saturation Arithmetic)을 적용해 방어해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-오버플로우 (Overflow)는 유한한 크기의 메모리 공간([[057_register|레지스터]])에 그 공간이 표현할 수 있는 최대값을 넘어서는 [[001_dikw_pyramid|데이터]]가 할당될 때 발생하는 상태 이상이다. [[057_register|레지스터]]가 8비트라면 256가지의 상태만 저장할 수 있는데, 이를 넘어가는 연산 결과가 나오면 초과된 상위 [[073_bit|비트]]는 버려지고 하위 [[073_bit|비트]]만 남게 되어 완전히 다른 값으로 변질된다.
+오버플로우 (Overflow)는 유한한 크기의 메모리 공간([레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/))에 그 공간이 표현할 수 있는 최대값을 넘어서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 할당될 때 발생하는 상태 이상이다. [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)가 8비트라면 256가지의 상태만 저장할 수 있는데, 이를 넘어가는 연산 결과가 나오면 초과된 상위 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 버려지고 하위 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)만 남게 되어 완전히 다른 값으로 변질된다.
 
-컴퓨터의 메모리 자원은 한정되어 있기 때문에, 무한한 숫자를 다루는 인간의 수학과 달리 기계는 명확한 최대/최소 한계선을 가진다. 이 한계를 초과했을 때 시스템이 이를 감지하지 못하고 잘못된 계산을 계속 수행하면 아리안 5호 폭발 사고처럼 심각한 물리적, 경제적 피해를 초래할 수 있다. 따라서 기계 스스로 [[001_dikw_pyramid|데이터]] 한계를 감지하고 [[001_operating_system_purpose|운영체제]] (OS, [[001_operating_system_purpose|Operating System]])에 예외 (Exception)를 알려주는 방어 메커니즘이 필수적이다.
+컴퓨터의 메모리 자원은 한정되어 있기 때문에, 무한한 숫자를 다루는 인간의 수학과 달리 기계는 명확한 최대/최소 한계선을 가진다. 이 한계를 초과했을 때 시스템이 이를 감지하지 못하고 잘못된 계산을 계속 수행하면 아리안 5호 폭발 사고처럼 심각한 물리적, 경제적 피해를 초래할 수 있다. 따라서 기계 스스로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 한계를 감지하고 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (OS, [Operating System](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))에 예외 (Exception)를 알려주는 방어 메커니즘이 필수적이다.
 
-- **📢 섹션 요약 비유**: 오버플로우는 자동차의 아날로그 주행거리 계기판과 같다. 99,999km까지 표시되는 계기판이 100,000km를 넘는 순간 제일 앞자리를 표시할 칸이 없어 00,000km로 돌아가 버리듯, 한정된 자리를 넘어가면 [[001_dikw_pyramid|데이터]]가 거짓말을 하게 된다.
+- **📢 섹션 요약 비유**: 오버플로우는 자동차의 아날로그 주행거리 계기판과 같다. 99,999km까지 표시되는 계기판이 100,000km를 넘는 순간 제일 앞자리를 표시할 칸이 없어 00,000km로 돌아가 버리듯, 한정된 자리를 넘어가면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 거짓말을 하게 된다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-오버플로우는 가장 대표적으로 [[082_signed_integer|부호 있는 정수]] ([[082_signed_integer|Signed Integer]])를 다룰 때 발생하며, 2의 보수 (2's Complement) 표현 방식과 맞물려 파국을 일으킨다. 하드웨어의 [[117_alu|ALU]] ([[117_alu|Arithmetic Logic Unit]])는 내부의 덧셈 회로를 통해 이를 연산하며, 특정 조건을 만족할 때 OF (Overflow [[186_character_stuffing_dle_stx_etx|Flag]])를 1로 세팅한다.
+오버플로우는 가장 대표적으로 [부호 있는 정수](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/082_signed_integer/) ([Signed Integer](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/082_signed_integer/))를 다룰 때 발생하며, 2의 보수 (2's Complement) 표현 방식과 맞물려 파국을 일으킨다. 하드웨어의 [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) ([Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/))는 내부의 덧셈 회로를 통해 이를 연산하며, 특정 조건을 만족할 때 OF (Overflow [Flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))를 1로 세팅한다.
 
-| 구성 요소 | 역할 | 핵심 판단 [[369_logic_bomb|논리]] |
+| 구성 요소 | 역할 | 핵심 판단 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) |
 | :--- | :--- | :--- |
-| **부호 [[073_bit|비트]] ([[080_msb|MSB]])** | 양수(0)와 음수(1) 상태를 결정 | 덧셈 결과 MSB가 예상치 못하게 뒤집히면 에러 발생 |
-| **[[117_alu|ALU]] 덧셈기** | [[073_bit|비트]] 단위의 덧셈을 연속 수행 | 자리올림(Carry)을 발생시키며 상위 [[073_bit|비트]]로 전달 |
+| **부호 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) ([MSB](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/))** | 양수(0)와 음수(1) 상태를 결정 | 덧셈 결과 MSB가 예상치 못하게 뒤집히면 에러 발생 |
+| **[ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) 덧셈기** | [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 단위의 덧셈을 연속 수행 | 자리올림(Carry)을 발생시키며 상위 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)로 전달 |
 | **XOR 게이트** | 들어오는 캐리와 나가는 캐리 비교 | MSB로 들어오는 캐리와 나가는 캐리가 다르면(XOR=1) 오버플로우 감지 |
 
 ```text
@@ -53,24 +57,24 @@ tags:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-위 다이어그램이 보여주듯, 양수끼리 더했는데 부호 [[073_bit|비트]] 공간까지 자리올림이 침범하면서 값 전체가 음수로 역전된다. 이를 하드웨어는 [[080_msb|MSB]] ([[080_msb|Most Significant Bit]])로 들어가는 Carry-in과 나가는 Carry-out의 XOR 연산을 통해 오버플로우로 판별하고, OF 상태를 업데이트하여 후속 처리를 유도한다.
+위 다이어그램이 보여주듯, 양수끼리 더했는데 부호 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 공간까지 자리올림이 침범하면서 값 전체가 음수로 역전된다. 이를 하드웨어는 [MSB](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/) ([Most Significant Bit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/))로 들어가는 Carry-in과 나가는 Carry-out의 XOR 연산을 통해 오버플로우로 판별하고, OF 상태를 업데이트하여 후속 처리를 유도한다.
 
-- **📢 섹션 요약 비유**: 작은 풍선(고정된 메모리)에 공기를 계속 불어넣다가, 풍선의 재질이 견딜 수 있는 한계 용량을 한 모금이라도 넘기는 순간 펑 하고 터지면서 원래의 형태([[001_dikw_pyramid|데이터]])를 완전히 잃어버리는 폭발과 같다.
+- **📢 섹션 요약 비유**: 작은 풍선(고정된 메모리)에 공기를 계속 불어넣다가, 풍선의 재질이 견딜 수 있는 한계 용량을 한 모금이라도 넘기는 순간 펑 하고 터지면서 원래의 형태([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 완전히 잃어버리는 폭발과 같다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-오버플로우는 흔히 [[081_unsigned_integer|부호 없는 정수]](Unsigned) 연산에서 범위를 벗어나는 자리올림(Carry) 현상과 비교된다. CPU는 자신이 더하는 값이 부호가 있는지 없는지 알 수 없으므로 두 가지 [[186_character_stuffing_dle_stx_etx|플래그]]를 동시에 제공하여 소프트웨어가 판단하게 한다.
+오버플로우는 흔히 [부호 없는 정수](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/081_unsigned_integer/)(Unsigned) 연산에서 범위를 벗어나는 자리올림(Carry) 현상과 비교된다. CPU는 자신이 더하는 값이 부호가 있는지 없는지 알 수 없으므로 두 가지 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)를 동시에 제공하여 소프트웨어가 판단하게 한다.
 
 | 항목 | 오버플로우 (Overflow) | 자리올림 (Carry) |
 | :--- | :--- | :--- |
-| **적용 [[001_dikw_pyramid|데이터]] 타입** | [[082_signed_integer|부호 있는 정수]] ([[082_signed_integer|Signed Integer]]) | [[081_unsigned_integer|부호 없는 정수]] ([[081_unsigned_integer|Unsigned Integer]]) |
+| **적용 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입** | [부호 있는 정수](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/082_signed_integer/) ([Signed Integer](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/082_signed_integer/)) | [부호 없는 정수](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/081_unsigned_integer/) ([Unsigned Integer](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/081_unsigned_integer/)) |
 | **발생 조건 (8비트 기준)** | -128 미만 혹은 +127 초과 연산 시 | 255 초과 연산 시 (255 + 1) |
-| **[[186_character_stuffing_dle_stx_etx|플래그]] ([[186_character_stuffing_dle_stx_etx|Flag]])** | OF (Overflow [[186_character_stuffing_dle_stx_etx|Flag]]) 세팅 | CF ([[169_carry_flag|Carry Flag]]) 세팅 |
-| **결과의 성질** | 부호 역전으로 [[369_logic_bomb|논리]]적 파괴 발생 | 상위 자리수로 올림수 발생, 값 초기화 |
+| **[플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) ([Flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))** | OF (Overflow [Flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)) 세팅 | CF ([Carry Flag](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/169_carry_flag/)) 세팅 |
+| **결과의 성질** | 부호 역전으로 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 파괴 발생 | 상위 자리수로 올림수 발생, 값 초기화 |
 
-오버플로우는 범위의 위쪽을 넘어서는 것이며, 반대로 범위의 최솟값 밑으로 내려가는 것은 [[096_underflow|언더플로우]] ([[096_underflow|Underflow]])라 부른다. [[096_underflow|언더플로우]] 역시 오버플로우와 본질적인 메커니즘을 공유하며 [[087_floating_point|부동소수점]] (Floating-point) 연산이나 정수의 뺄셈에서 0을 뚫고 내려갈 때 발생한다.
+오버플로우는 범위의 위쪽을 넘어서는 것이며, 반대로 범위의 최솟값 밑으로 내려가는 것은 [언더플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/) ([Underflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/))라 부른다. [언더플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/) 역시 오버플로우와 본질적인 메커니즘을 공유하며 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) (Floating-point) 연산이나 정수의 뺄셈에서 0을 뚫고 내려갈 때 발생한다.
 
 - **📢 섹션 요약 비유**: 오버플로우와 캐리는 배에 문제가 생겼을 때 울리는 두 종류의 경고 방송이다. 하나는 화물칸의 무게 초과(Carry)를, 하나는 승객칸의 정원 초과(Overflow)를 알려준다. 선장은 배에 실린 것이 화물인지 승객인지에 따라 올바른 경고 방송을 듣고 판단해야 한다.
 
@@ -80,22 +84,22 @@ tags:
 
 실무 개발 환경에서 오버플로우는 치명적인 버그의 원인이자 해커들이 노리는 주요 공격 벡터 (Attack Vector)다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]] 및 의사결정
-1. **타임스탬프 자료형 설계 (Y2K38 문제)**: 시스템의 현재 시간을 32비트 [[082_signed_integer|Signed Integer]] (초 단위)로 관리하면 2038년에 오버플로우가 발생하여 시간이 1901년으로 역행한다. 이를 방지하기 위해 DB와 서버의 날짜 자료형을 반드시 64비트 정수로 설계하거나 Unsigned 형식으로 마이그레이션해야 한다.
-2. **포화 연산 (Saturation Arithmetic) 채택 여부**: 이미지 픽셀 밝기 조절이나 오디오 [[130_signal|신호]] 처리 등 멀티미디어 연산에서는 오버플로우로 밝기가 0으로 돌아가는 것보다, 최댓값(255)에서 멈추게 하는 것이 자연스럽다. 이때는 CPU의 특수 명령어인 포화 덧셈기를 활용하도록 컴파일러 최적화 옵션을 설정해야 한다.
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 의사결정
+1. **타임스탬프 자료형 설계 (Y2K38 문제)**: 시스템의 현재 시간을 32비트 [Signed Integer](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/082_signed_integer/) (초 단위)로 관리하면 2038년에 오버플로우가 발생하여 시간이 1901년으로 역행한다. 이를 방지하기 위해 DB와 서버의 날짜 자료형을 반드시 64비트 정수로 설계하거나 Unsigned 형식으로 마이그레이션해야 한다.
+2. **포화 연산 (Saturation Arithmetic) 채택 여부**: 이미지 픽셀 밝기 조절이나 오디오 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리 등 멀티미디어 연산에서는 오버플로우로 밝기가 0으로 돌아가는 것보다, 최댓값(255)에서 멈추게 하는 것이 자연스럽다. 이때는 CPU의 특수 명령어인 포화 덧셈기를 활용하도록 컴파일러 최적화 옵션을 설정해야 한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
-- **스마트 컨트랙트에서의 무방비 연산**: [[004_blockchain|블록체인]] 환경에서 사용자의 잔액을 확인할 때, 언더/오버플로우 [[395_verification_process_review|검증]] 로직 없이 차감을 수행하는 경우다. 0원에서 1원을 뺄 때 막대한 양의 잔액으로 둔갑하는 취약점 (Integer [[096_underflow|Underflow]]/Overflow Attack)이 발생할 수 있으므로, 반드시 `SafeMath` 라이브러리나 오버플로우를 자동 차단하는 최신 컴파일러 버전을 사용해야 한다.
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- **스마트 컨트랙트에서의 무방비 연산**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 환경에서 사용자의 잔액을 확인할 때, 언더/오버플로우 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 로직 없이 차감을 수행하는 경우다. 0원에서 1원을 뺄 때 막대한 양의 잔액으로 둔갑하는 취약점 (Integer [Underflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/)/Overflow Attack)이 발생할 수 있으므로, 반드시 `SafeMath` 라이브러리나 오버플로우를 자동 차단하는 최신 컴파일러 버전을 사용해야 한다.
 
-- **📢 섹션 요약 비유**: 엘리베이터에 정원 초과 센서(오버플로우 [[395_verification_process_review|검증]] 로직)를 끄고 운영하는 것과 같다. 평소에는 문제가 없지만, 한계를 초과하는 인원이 탑승하는 순간 엘리베이터가 지하실로 추락하는 치명적인 참사가 발생한다.
+- **📢 섹션 요약 비유**: 엘리베이터에 정원 초과 센서(오버플로우 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 로직)를 끄고 운영하는 것과 같다. 평소에는 문제가 없지만, 한계를 초과하는 인원이 탑승하는 순간 엘리베이터가 지하실로 추락하는 치명적인 참사가 발생한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-오버플로우에 대한 방어 메커니즘을 올바르게 이해하고 적용하면, 시스템의 [[003_integrity|무결성]] ([[003_integrity|Integrity]])을 지키고 예측할 수 없는 런타임 크래시를 예방할 수 있다. 하드웨어 수준에서의 [[186_character_stuffing_dle_stx_etx|플래그]] 알림과 소프트웨어 수준에서의 타입 [[395_verification_process_review|검증]]이 결합되어 안정적인 컴퓨팅 환경을 보장한다.
+오버플로우에 대한 방어 메커니즘을 올바르게 이해하고 적용하면, 시스템의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) ([Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))을 지키고 예측할 수 없는 런타임 크래시를 예방할 수 있다. 하드웨어 수준에서의 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 알림과 소프트웨어 수준에서의 타입 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 결합되어 안정적인 컴퓨팅 환경을 보장한다.
 
-향후 시스템 아키텍처는 고성능 처리를 위해 [[345_data_bus|데이터 버스]] 폭을 지속적으로 확장(32비트 → 64비트 → 128비트)하여 오버플로우 발생 한계를 우주적 스케일로 미루고 있으며, 프로그래밍 언어 차원 (예: [[782_memory_safety_rust_compiler_verification|Rust]], Swift)에서도 오버플로우 발생 시 프로그램을 안전하게 중단시키는 (Panic) 패러다임이 기본값으로 자리잡고 있다. 결론적으로 오버플로우는 기계적 유한성을 인정하고 변수의 안전한 그릇 크기를 설계하는 통찰력을 요구하는 핵심 개념이다.
+향후 시스템 아키텍처는 고성능 처리를 위해 [데이터 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/345_data_bus/) 폭을 지속적으로 확장(32비트 → 64비트 → 128비트)하여 오버플로우 발생 한계를 우주적 스케일로 미루고 있으며, 프로그래밍 언어 차원 (예: [Rust](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/782_memory_safety_rust_compiler_verification/), Swift)에서도 오버플로우 발생 시 프로그램을 안전하게 중단시키는 (Panic) 패러다임이 기본값으로 자리잡고 있다. 결론적으로 오버플로우는 기계적 유한성을 인정하고 변수의 안전한 그릇 크기를 설계하는 통찰력을 요구하는 핵심 개념이다.
 
 - **📢 섹션 요약 비유**: 바텐더가 컵의 용량을 정확히 알고 넘치기 전에 물을 멈추는 통제력과 같다. 컴퓨터는 넘치면 바닥까지 쏟아버리고 독약(쓰레기 값)으로 채우는 기계이므로, 프로그래머라는 바텐더가 용량 제한 센서를 각별히 신경 써서 달아주어야 한다.
 
@@ -105,8 +109,8 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **2의 보수 (2's Complement)** | 음수 표현을 덧셈기 하나로 처리하게 해주지만, [[080_msb|MSB]] 연산 시 오버플로우 부호 역전 현상을 유발하는 근본 메커니즘 |
-| **[[167_status_register|상태 레지스터]] (EFLAGS)** | CPU의 ALU가 연산을 마치고 OF (오버플로우), CF (캐리) 등의 에러 상태를 즉각 기록하여 OS에 보고하는 중앙 관제소 |
+| **2의 보수 (2's Complement)** | 음수 표현을 덧셈기 하나로 처리하게 해주지만, [MSB](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/) 연산 시 오버플로우 부호 역전 현상을 유발하는 근본 메커니즘 |
+| **[상태 레지스터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/167_status_register/) (EFLAGS)** | CPU의 ALU가 연산을 마치고 OF (오버플로우), CF (캐리) 등의 에러 상태를 즉각 기록하여 OS에 보고하는 중앙 관제소 |
 | **포화 연산 (Saturation Arithmetic)** | 한계치 초과 시 값을 순환(Wrap-around)시키지 않고, 최댓값이나 최솟값으로 고정시켜버리는 대안적 연산 방식 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -133,7 +137,7 @@ ALU 연산 한계 초과 및 부호 역전 (Sign Inversion) 현상 발생
 
 1. 아주 작은 마법 저금통에 동전을 꽉 채웠는데, 욕심을 내서 하나를 더 쑤셔 넣으면 저금통이 터져버려 돈이 영원히 사라지는 현상이 오버플로우예요.
 2. 어떤 저금통은 터지는 순간 엄청난 마이너스 빚쟁이로 모습이 변해버리는 끔찍한 마법을 부리기도 한답니다.
-3. 그래서 똑똑한 컴퓨터 경찰(오버플로우 [[186_character_stuffing_dle_stx_etx|플래그]])이 저금통이 터지기 직전에 "삐용삐용! 멈춰!"라고 경보를 울려서 컴퓨터가 엉뚱한 계산을 하지 않게 막아줘요.
+3. 그래서 똑똑한 컴퓨터 경찰(오버플로우 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))이 저금통이 터지기 직전에 "삐용삐용! 멈춰!"라고 경보를 울려서 컴퓨터가 엉뚱한 계산을 하지 않게 막아줘요.
 
 ---
 
@@ -141,7 +145,7 @@ ALU 연산 한계 초과 및 부호 역전 (Sign Inversion) 현상 발생
 
 **진행 상황**: 95 / 803
 
-← **이전**: [[094_bias|94. 편향 지수 (Bias)]]
-**다음**: [[096_underflow|96. 언더플로우 (Underflow)]] →
+← **이전**: [94. 편향 지수 (Bias)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/)
+**다음**: [96. 언더플로우 (Underflow)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/) →
 
 ---

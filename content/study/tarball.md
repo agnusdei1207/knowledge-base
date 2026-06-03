@@ -1,14 +1,18 @@
----
-title: 📦 tarball이 뭔지 1분 만에 이해하기
-tags:
-- study
----
++++
+title = "📦 tarball이 뭔지 1분 만에 이해하기"
+
+[taxonomies]
+tags = ["study"]
+
+[extra]
+tags = ["study"]
++++
 
 > **결론부터: ZIP 같은 거예요. 끝.** (더 자세히 보고 싶으면 아래로)
 
 관련 문서:
-- [[quartz-deployment]]
-- [[tech-stack]]
+- [quartz-deployment](/knowledge-base/work/quartz-deployment/)
+- [tech-stack](/knowledge-base/work/tech-stack/)
 
 ---
 
@@ -73,7 +77,7 @@ tar -xzf quartz.tar.gz
 ```
 → 이게 **tarball 다운로드 + 압축 해제**.
 
-### 2. 우리 [[quartz-deployment]] 스크립트
+### 2. 우리 [quartz-deployment](/knowledge-base/work/quartz-deployment/) 스크립트
 ```bash
 QUARTZ_TARBALL_URL="https://github.com/jackyzha0/quartz/archive/refs/heads/${QUARTZ_REF}.tar.gz"
 

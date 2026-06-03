@@ -1,9 +1,13 @@
----
-title: 581. WPA (TKIP + 802.1X + EAP)
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "581. WPA (TKIP + 802.1X + EAP)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -15,9 +19,9 @@ tags:
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: WPA (Wi-Fi Protected Access)는 2003년 Wi-Fi Alliance가 주도하여 급하게 발표한 무선 보안 표준이다. WEP과 동일한 [[654_stream_cipher_rc4_chacha20|스트림 암호]] 엔진인 **[[081_rc4_stream_cipher|RC4]]**를 그대로 사용하지만, 패킷마다 키를 섞는 **TKIP**과 변조 방지 해시인 **MIC (Michael)**를 덮어씌워 WEP의 수학적 맹점([[288_version_ihl_tos_total_length|IV]] 재사용)을 방어했다.
-- **필요성**: 2001년 WEP의 [[288_version_ihl_tos_total_length|IV]] 충돌 취약점이 해킹 논문으로 만천하에 까발려졌다. 대기업이나 은행의 사내 와이파이는 사실상 [[701_sniffing_eavesdropping_promiscuous|도청]] 장치나 다름없는 상태가 되었다. 완벽한 군용 암호인 AES가 탑재된 802.11i([[582_wpa2_aes_ccmp_personal_enterprise|WPA2]]) 표준은 2004년에나 나올 예정이었고, AES를 돌리려면 칩셋(CPU) 성능이 좋아야 해서 기존 공유기들을 전부 버리고 새로 사야 했다. 통신 업계는 "기계를 안 버리고 당장 급한 불을 끌 소프트웨어 백신"이 절실했다.
-- **등장 배경**: ① [[580_wep_wired_equivalent_privacy_rc4|WEP]]([[081_rc4_stream_cipher|RC4]])의 24비트 [[288_version_ihl_tos_total_length|IV]] 재사용으로 인한 1분 컷 오프라인 해킹의 공포 → ② "기계(Hardware)는 냅두고 공식(Software)만 바꾸자"는 타협점 모색 → ③ 매번 암호가 바뀌는 TKIP과 [[001_dikw_pyramid|데이터]] 위조를 막는 MIC을 결합한 WPA([[288_version_ihl_tos_total_length|버전]] 1) 긴급 출범.
+- **개념**: WPA (Wi-Fi Protected Access)는 2003년 Wi-Fi Alliance가 주도하여 급하게 발표한 무선 보안 표준이다. WEP과 동일한 [스트림 암호](/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/) 엔진인 **[RC4](/knowledge-base/studynote/09_security/02_crypto/081_rc4_stream_cipher/)**를 그대로 사용하지만, 패킷마다 키를 섞는 **TKIP**과 변조 방지 해시인 **MIC (Michael)**를 덮어씌워 WEP의 수학적 맹점([IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 재사용)을 방어했다.
+- **필요성**: 2001년 WEP의 [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 충돌 취약점이 해킹 논문으로 만천하에 까발려졌다. 대기업이나 은행의 사내 와이파이는 사실상 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 장치나 다름없는 상태가 되었다. 완벽한 군용 암호인 AES가 탑재된 802.11i([WPA2](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/)) 표준은 2004년에나 나올 예정이었고, AES를 돌리려면 칩셋(CPU) 성능이 좋아야 해서 기존 공유기들을 전부 버리고 새로 사야 했다. 통신 업계는 "기계를 안 버리고 당장 급한 불을 끌 소프트웨어 백신"이 절실했다.
+- **등장 배경**: ① [WEP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/580_wep_wired_equivalent_privacy_rc4/)([RC4](/knowledge-base/studynote/09_security/02_crypto/081_rc4_stream_cipher/))의 24비트 [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 재사용으로 인한 1분 컷 오프라인 해킹의 공포 → ② "기계(Hardware)는 냅두고 공식(Software)만 바꾸자"는 타협점 모색 → ③ 매번 암호가 바뀌는 TKIP과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위조를 막는 MIC을 결합한 WPA([버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 1) 긴급 출범.
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -43,36 +47,36 @@ tags:
 └─────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** WPA의 심장인 TKIP(Temporal [[078_key_integrity|Key Integrity]] [[295_protocol_field_tcp_udp_icmp|Protocol]])의 위대함은 "마스터 패스워드와 실제 암호화에 쓰는 키를 완벽히 분리(Decoupling)"한 것에 있다. WEP은 공유기에 입력한 `1234`가 그대로 무선 허공에 날아다니는 패킷의 암호화 공식에 대입되었다. WPA는 `1234`를 씨앗(Seed)으로만 쓴다. 통신이 시작될 때 송신자 [[673_mac_message_authentication_code|MAC]] 주소와 IV를 미친 듯이 섞어 **매 패킷마다 전혀 다른 128비트 임시 키(Temporal [[067_db_key_uniqueness_minimality|Key]])**를 새로 빚어내어 [[081_rc4_stream_cipher|RC4]] 믹서기에 넣는다. RC4라는 구형 믹서기 기계 자체는 그대로지만, 들어가는 재료(키)가 1초마다 바뀌니 해커는 도저히 겹치는 패턴을 찾을 수 없어 오프라인 크래킹이 멈추게 되었다.
+**[다이어그램 해설]** WPA의 심장인 TKIP(Temporal [Key Integrity](/knowledge-base/studynote/05_database/02_modeling_normalization/078_key_integrity/) [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))의 위대함은 "마스터 패스워드와 실제 암호화에 쓰는 키를 완벽히 분리(Decoupling)"한 것에 있다. WEP은 공유기에 입력한 `1234`가 그대로 무선 허공에 날아다니는 패킷의 암호화 공식에 대입되었다. WPA는 `1234`를 씨앗(Seed)으로만 쓴다. 통신이 시작될 때 송신자 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소와 IV를 미친 듯이 섞어 **매 패킷마다 전혀 다른 128비트 임시 키(Temporal [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))**를 새로 빚어내어 [RC4](/knowledge-base/studynote/09_security/02_crypto/081_rc4_stream_cipher/) 믹서기에 넣는다. RC4라는 구형 믹서기 기계 자체는 그대로지만, 들어가는 재료(키)가 1초마다 바뀌니 해커는 도저히 겹치는 패턴을 찾을 수 없어 오프라인 크래킹이 멈추게 되었다.
 
-- **📢 섹션 요약 비유**: WEP은 도어록 비밀번호가 1234인데 10년 동안 절대 바꾸지 않아서 버튼 지문이 닳아 도둑이 알아챈 겁니다. WPA(TKIP)는 똑같은 낡은 도어록 기계지만, 1시간마다 은행 [[748_otp|OTP]] 카드처럼 버튼 위치가 휙휙 바뀌는 소프트웨어 마법을 걸어둬서 도둑이 지문 자국을 백날 찾아봐야 소용없게 만든 천재적인 땜질입니다.
+- **📢 섹션 요약 비유**: WEP은 도어록 비밀번호가 1234인데 10년 동안 절대 바꾸지 않아서 버튼 지문이 닳아 도둑이 알아챈 겁니다. WPA(TKIP)는 똑같은 낡은 도어록 기계지만, 1시간마다 은행 [OTP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/748_otp/) 카드처럼 버튼 위치가 휙휙 바뀌는 소프트웨어 마법을 걸어둬서 도둑이 지문 자국을 백날 찾아봐야 소용없게 만든 천재적인 땜질입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-TKIP은 WEP을 구하기 위한 눈물겨운 "소프트웨어 래퍼(Wrapper)" 아키텍처다. 하드웨어([[081_rc4_stream_cipher|RC4]])를 건드리지 않아야 했기에 극한의 튜닝이 들어갔다.
+TKIP은 WEP을 구하기 위한 눈물겨운 "소프트웨어 래퍼(Wrapper)" 아키텍처다. 하드웨어([RC4](/knowledge-base/studynote/09_security/02_crypto/081_rc4_stream_cipher/))를 건드리지 않아야 했기에 극한의 튜닝이 들어갔다.
 
-| 방어 목표 | WEP의 치명적 [[352_defect_definition|결함]] | TKIP(WPA)의 혁신적 해결책 |
+| 방어 목표 | WEP의 치명적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) | TKIP(WPA)의 혁신적 해결책 |
 |:---|:---|:---|
-| **[[288_version_ihl_tos_total_length|IV]] 길이 고갈 (번호표 겹침)** | [[288_version_ihl_tos_total_length|IV]] 길이가 24비트(1,600만 개)라 4시간마다 번호가 한 바퀴 돌아 재사용됨. | [[288_version_ihl_tos_total_length|IV]] 길이를 **48비트**로 2배 늘림. 우주가 멸망할 때까지 통신해도 [[288_version_ihl_tos_total_length|IV]] 번호표가 한 바퀴 돌지 않음. **(충돌 원천 봉쇄)** |
-| **정적 키 (Static [[067_db_key_uniqueness_minimality|Key]])** | 누군가 알려준 암호를 평생 고정으로 씀. | 통신할 때마다 마스터 키(PMK)에서 파생된 **임시 [[140_session_key|세션 키]](PTK)**를 발급받고, 심지어 매 패킷마다 [[673_mac_message_authentication_code|MAC]] 주소랑 섞어서(Per-Packet [[067_db_key_uniqueness_minimality|Key]]) 해커를 혼란시킴. |
+| **[IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 길이 고갈 (번호표 겹침)** | [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 길이가 24비트(1,600만 개)라 4시간마다 번호가 한 바퀴 돌아 재사용됨. | [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 길이를 **48비트**로 2배 늘림. 우주가 멸망할 때까지 통신해도 [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 번호표가 한 바퀴 돌지 않음. **(충돌 원천 봉쇄)** |
+| **정적 키 (Static [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))** | 누군가 알려준 암호를 평생 고정으로 씀. | 통신할 때마다 마스터 키(PMK)에서 파생된 **임시 [세션 키](/knowledge-base/studynote/09_security/03_network_security/140_session_key/)(PTK)**를 발급받고, 심지어 매 패킷마다 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소랑 섞어서(Per-Packet [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) 해커를 혼란시킴. |
 
-### 2. [[001_dikw_pyramid|데이터]] [[003_integrity|무결성]] 방어: MIC (Message [[003_integrity|Integrity]] [[082_process_memory_structure|Code]], Michael)
+### 2. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 방어: MIC (Message [Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/), Michael)
 
-[[580_wep_wired_equivalent_privacy_rc4|WEP]] 시절 해커들은 암호는 못 풀어도, 그냥 암호문의 글자([[086_fenwick_tree|Bit]])를 임의로 1에서 0으로 휙 뒤집어치기([[086_fenwick_tree|Bit]]-Flipping)하는 장난을 쳤다. WEP의 통신 에러 검출기인 CRC-32는 선형적 구조라 이 조작을 잡아내지 못하고 "정상 패킷이네!"라며 다 통과시켰다([[312_arp_address_resolution_protocol_ip_to_mac|ARP]] 스푸핑의 원흉).
+[WEP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/580_wep_wired_equivalent_privacy_rc4/) 시절 해커들은 암호는 못 풀어도, 그냥 암호문의 글자([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))를 임의로 1에서 0으로 휙 뒤집어치기([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)-Flipping)하는 장난을 쳤다. WEP의 통신 에러 검출기인 CRC-32는 선형적 구조라 이 조작을 잡아내지 못하고 "정상 패킷이네!"라며 다 통과시켰다([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 스푸핑의 원흉).
 
-WPA는 이 구멍을 막기 위해 **MIC (일명 Michael [[001_algorithm_definition|알고리즘]])**라는 암호학적 해시를 도입했다. [[001_dikw_pyramid|데이터]]의 꼬리에 8바이트짜리 마이클 도장을 쾅 찍어 보낸다. 해커가 중간에 암호문의 글자를 단 한 개라도 위조하면 마이클 도장 값이 완전히 깨진다.
+WPA는 이 구멍을 막기 위해 **MIC (일명 Michael [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))**라는 암호학적 해시를 도입했다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 꼬리에 8바이트짜리 마이클 도장을 쾅 찍어 보낸다. 해커가 중간에 암호문의 글자를 단 한 개라도 위조하면 마이클 도장 값이 완전히 깨진다.
 - **가혹한 조치 (Countermeasure)**: 공유기가 검사했는데 마이클 도장이 2번 연속 위조된 패킷이 들어오면? "이 동네에 짭새(해커)가 떴다!"라며 공유기는 **1분 동안 와이파이 통신을 완전히 셧다운(강제 중지)** 시켜버린다. 이는 해커가 가짜 패킷을 무한정 때려 넣는 것(Brute-force) 자체를 방해하기 위한 WPA만의 독특한 자폭 방어술이다.
 
-WPA가 무선랜 역사에 남긴 가장 위대한 업적은 보안 강도를 개인과 기업으로 나누는 **802.[[584_802_1x_pnac_eap_radius|1X]] 기반의 [[303_authentication_authorization_patterns|인증]] 아키텍처(Enterprise)**를 최초로 탑재했다는 점이다.
+WPA가 무선랜 역사에 남긴 가장 위대한 업적은 보안 강도를 개인과 기업으로 나누는 **802.[1X](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/) 기반의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 아키텍처(Enterprise)**를 최초로 탑재했다는 점이다.
 
-| 구분 | WPA-Personal ([[142_psk_pre_shared_key|PSK]] 방식) | WPA-Enterprise (802.[[584_802_1x_pnac_eap_radius|1X]] + [[229_eap_extensible_authentication_protocol|EAP]] 방식) |
+| 구분 | WPA-Personal ([PSK](/knowledge-base/studynote/09_security/03_network_security/142_psk_pre_shared_key/) 방식) | WPA-Enterprise (802.[1X](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/) + [EAP](/knowledge-base/studynote/03_network/04_data_link_layer_error/229_eap_extensible_authentication_protocol/) 방식) |
 |:---|:---|:---|
 | **사용 환경** | 가정집, 소규모 카페, 원룸 | 대기업, 관공서, 대학 캠퍼스 (eduroam 등) |
-| **[[303_authentication_authorization_patterns|인증]] 수단** | **Pre-Shared [[067_db_key_uniqueness_minimality|Key]] (미리 공유된 비번 1개).** 가족 모두가 `wifi1234`를 같이 돌려 씀. | **사원증 번호 + 개인 패스워드 (또는 [[303_authentication_authorization_patterns|인증]]서).** 중앙의 [[541_radius_remote_authentication_aaa|RADIUS]] 서버(인사 DB)가 한 명 한 명 신분을 검사함. |
-| **마스터 키 획득** | 1234라는 문자를 암호 공식(PBKDF2)에 넣어서 돌린 값을 공유기와 폰이 나눠 가짐. | [[541_radius_remote_authentication_aaa|RADIUS]] 서버가 [[303_authentication_authorization_patterns|인증]]을 끝낸 뒤, 허공을 통해 몰래 폰과 공유기 양쪽 귓속에 유니크한 마스터 키(PMK)를 던져줌. |
-| **퇴사자 처리 (치명상)**| 알바생 한 명이 그만두면 가게 **공유기 비번을 바꾸고 직원 모두에게 새로 다 알려줘야 함.** | 인사팀이 [[541_radius_remote_authentication_aaa|RADIUS]] 서버에서 퇴사자 **계정 버튼만 '정지'** 누르면 끝. 나머지 직원들은 아무 영향 없음. |
+| **[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 수단** | **Pre-Shared [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) (미리 공유된 비번 1개).** 가족 모두가 `wifi1234`를 같이 돌려 씀. | **사원증 번호 + 개인 패스워드 (또는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서).** 중앙의 [RADIUS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/) 서버(인사 DB)가 한 명 한 명 신분을 검사함. |
+| **마스터 키 획득** | 1234라는 문자를 암호 공식(PBKDF2)에 넣어서 돌린 값을 공유기와 폰이 나눠 가짐. | [RADIUS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/) 서버가 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 끝낸 뒤, 허공을 통해 몰래 폰과 공유기 양쪽 귓속에 유니크한 마스터 키(PMK)를 던져줌. |
+| **퇴사자 처리 (치명상)**| 알바생 한 명이 그만두면 가게 **공유기 비번을 바꾸고 직원 모두에게 새로 다 알려줘야 함.** | 인사팀이 [RADIUS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/) 서버에서 퇴사자 **계정 버튼만 '정지'** 누르면 끝. 나머지 직원들은 아무 영향 없음. |
 
 ```text
 ┌───────────────────────────────────────────────────────────────┐
@@ -98,7 +102,7 @@ WPA가 무선랜 역사에 남긴 가장 위대한 업적은 보안 강도를 �
 └───────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** WPA1 시절부터 확립된 이 802.[[584_802_1x_pnac_eap_radius|1X]]/[[229_eap_extensible_authentication_protocol|EAP]] 아키텍처는 수백 대의 무선 AP를 거느린 대기업의 구세주였다. [[572_ap_access_point_ds_distribution_system|AP]] 기계 하나하나에 비밀번호를 세팅할 필요 없이, AP는 오직 무선 전파를 유선으로 토스해 주는 '중계기(Authenticator)' 역할만 한다. 진짜 깐깐한 [[303_authentication_authorization_patterns|인증]]([[584_as|Authentication Server]])은 사내 서버실 깊숙이 박혀있는 [[541_radius_remote_authentication_aaa|RADIUS]] 서버(또는 [[548_active_directory|Active Directory]])가 도맡아 처리한다. 중앙 통제(Centralized Control)와 무선 액세스를 완벽히 분리(Decoupling)한 걸작이다.
+**[다이어그램 해설]** WPA1 시절부터 확립된 이 802.[1X](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/)/[EAP](/knowledge-base/studynote/03_network/04_data_link_layer_error/229_eap_extensible_authentication_protocol/) 아키텍처는 수백 대의 무선 AP를 거느린 대기업의 구세주였다. [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 기계 하나하나에 비밀번호를 세팅할 필요 없이, AP는 오직 무선 전파를 유선으로 토스해 주는 '중계기(Authenticator)' 역할만 한다. 진짜 깐깐한 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([Authentication Server](/knowledge-base/studynote/09_security/12_identity_threat_advanced/584_as/))은 사내 서버실 깊숙이 박혀있는 [RADIUS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/) 서버(또는 [Active Directory](/knowledge-base/studynote/09_security/11_iam_access_control/548_active_directory/))가 도맡아 처리한다. 중앙 통제(Centralized Control)와 무선 액세스를 완벽히 분리(Decoupling)한 걸작이다.
 
 - **📢 섹션 요약 비유**: Personal 모드는 아파트 공동 현관문 번호를 전 세대가 같이 쓰는 겁니다. 배달원 한 명에게 번호를 알려주면 온 동네가 불안해집니다. Enterprise 모드는 사원증 카드로 찍고 들어가는 호텔 게이트입니다. 한 직원이 그만두면 그 직원의 사원증 전산망만 꺼버리면 되니, 다른 직원들은 아무 불편 없이 최고의 보안을 유지할 수 있습니다.
 
@@ -106,13 +110,13 @@ WPA가 무선랜 역사에 남긴 가장 위대한 업적은 보안 강도를 �
 
 ## Ⅲ. 비교 및 연결
 
-WPA를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. WEP가 기반 조건을 만든다면, WPA는 그 위에서 핵심 메커니즘을 구현하고, [[582_wpa2_aes_ccmp_personal_enterprise|WPA2]] 강력 암호화, 개인용/기업용은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 스펙트럼 효율과 이동성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+WPA를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. WEP가 기반 조건을 만든다면, WPA는 그 위에서 핵심 메커니즘을 구현하고, [WPA2](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/) 강력 암호화, 개인용/기업용은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 스펙트럼 효율과 이동성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | WEP의 기반 정리 | WPA의 핵심 동작 | [[582_wpa2_aes_ccmp_personal_enterprise|WPA2]] 강력 암호화, 개인용/기업용의 확장 적용 |
+| 초점 | WEP의 기반 정리 | WPA의 핵심 동작 | [WPA2](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/) 강력 암호화, 개인용/기업용의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 스펙트럼 효율 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: WPA는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -120,39 +124,39 @@ WPA를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-1. **상황 (2008년의 악몽)**: WPA(TKIP)는 WEP의 급한 불을 꺼준 고마운 패치였지만, "[[081_rc4_stream_cipher|RC4]] 기계 칩셋의 한계"를 소프트웨어로 덮은 누더기 옷에 불과했다. 결국 2008년, 일본의 해커들에 의해 "TKIP의 마이클(MIC) 위조 방지 [[001_algorithm_definition|알고리즘]]이 너무 단순해서, 15분 만에 패킷을 위조해 밀어 넣을 수 있다"는 논문(Beck-Tews Attack)이 발표된다. WPA의 방어벽이 다시 구멍 나기 시작했다.
-2. **원인**: 소프트웨어(TKIP)는 완벽을 기했으나, 하부의 하드웨어 엔진인 [[654_stream_cipher_rc4_chacha20|스트림 암호]]([[081_rc4_stream_cipher|RC4]]) 자체가 태생적으로 수학적 선형성(패턴 겹침)의 한계를 품고 있는 20년 된 고물 엔진이었기 때문이다.
-3. **의사결정 및 조치 ([[582_wpa2_aes_ccmp_personal_enterprise|WPA2]]-[[656_aes_advanced_encryption_standard_rijndael|AES]] 전면 교체)**:
-   - 통신 아키텍트들은 "더 이상의 [[032_firmware|펌웨어]] 땜질은 불가능하다"고 판단한다.
-   - IEEE는 802.11i 최종 스펙을 발표하며 **[[582_wpa2_aes_ccmp_personal_enterprise|WPA2]]**라는 이름으로, 아예 미 국방부가 쓰는 완벽한 하드웨어 블록 암호인 **[[656_aes_advanced_encryption_standard_rijndael|AES]] ([[656_aes_advanced_encryption_standard_rijndael|Advanced Encryption Standard]])** 전용 칩셋을 강제 탑재하도록 지시한다.
-   - 결국 회사들은 낡은 WPA1(TKIP) 공유기들을 쓰레기통에 내다 버리고, [[656_aes_advanced_encryption_standard_rijndael|AES]] 전용 암호화 칩셋이 달린 새로운 [[582_wpa2_aes_ccmp_personal_enterprise|WPA2]] 공유기로 인프라를 대대적으로 물리적 교체(Forklift Upgrade)하게 된다.
+1. **상황 (2008년의 악몽)**: WPA(TKIP)는 WEP의 급한 불을 꺼준 고마운 패치였지만, "[RC4](/knowledge-base/studynote/09_security/02_crypto/081_rc4_stream_cipher/) 기계 칩셋의 한계"를 소프트웨어로 덮은 누더기 옷에 불과했다. 결국 2008년, 일본의 해커들에 의해 "TKIP의 마이클(MIC) 위조 방지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 너무 단순해서, 15분 만에 패킷을 위조해 밀어 넣을 수 있다"는 논문(Beck-Tews Attack)이 발표된다. WPA의 방어벽이 다시 구멍 나기 시작했다.
+2. **원인**: 소프트웨어(TKIP)는 완벽을 기했으나, 하부의 하드웨어 엔진인 [스트림 암호](/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/)([RC4](/knowledge-base/studynote/09_security/02_crypto/081_rc4_stream_cipher/)) 자체가 태생적으로 수학적 선형성(패턴 겹침)의 한계를 품고 있는 20년 된 고물 엔진이었기 때문이다.
+3. **의사결정 및 조치 ([WPA2](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/)-[AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 전면 교체)**:
+   - 통신 아키텍트들은 "더 이상의 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 땜질은 불가능하다"고 판단한다.
+   - IEEE는 802.11i 최종 스펙을 발표하며 **[WPA2](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/)**라는 이름으로, 아예 미 국방부가 쓰는 완벽한 하드웨어 블록 암호인 **[AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) ([Advanced Encryption Standard](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))** 전용 칩셋을 강제 탑재하도록 지시한다.
+   - 결국 회사들은 낡은 WPA1(TKIP) 공유기들을 쓰레기통에 내다 버리고, [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 전용 암호화 칩셋이 달린 새로운 [WPA2](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/) 공유기로 인프라를 대대적으로 물리적 교체(Forklift Upgrade)하게 된다.
 
-### 도입 [[435_checklist_based_testing|체크리스트]] 및 [[128_water_scrum_fall_anti_pattern|안티패턴]]
-- **구형 장비의 TKIP/[[656_aes_advanced_encryption_standard_rijndael|AES]] 혼합 모드 (Mixed Mode) 함정**: 실무에서 관리자가 가장 많이 저지르는 실수가 공유기 보안 [[009_config|설정]]에 들어가 귀찮다고 `WPA/WPA2-Mixed (TKIP+AES)`를 골라버리는 것이다. 낡은 15년 전 스마트폰이 붙을까 봐 배려하는 이 [[128_water_scrum_fall_anti_pattern|안티패턴]]은 사내망을 지옥으로 만든다. 최신 아이폰([[656_aes_advanced_encryption_standard_rijndael|AES]])과 구형 PDA(TKIP)가 하나의 공유기에 동시에 붙으면, 공유기는 전체 네트워크의 방송(Multicast) [[130_signal|신호]] 암호를 구형 장비 수준에 맞춰 억지로 TKIP으로 강등(Downgrade)시킨다. 또한 [[574_802_11n_wifi_4_mimo_channel_bonding|Wi-Fi 4]]([[574_802_11n_wifi_4_mimo_channel_bonding|11n]]) 이상의 속도 규격은 [[656_aes_advanced_encryption_standard_rijndael|AES]] 암호를 써야만 300Mbps 풀 속도를 내어주는데, TKIP 모드가 켜지는 순간 IEEE 규격 위반이 되어 전체 와이파이 속도가 **옛날 11g 수준인 최대 54Mbps로 강제 칼질(Throttling)** 당해버린다. 최신 망에서는 반드시 **'[[582_wpa2_aes_ccmp_personal_enterprise|WPA2]]-[[656_aes_advanced_encryption_standard_rijndael|AES]] 전용(Only)'**으로 세팅해야 한다.
+### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- **구형 장비의 TKIP/[AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 혼합 모드 (Mixed Mode) 함정**: 실무에서 관리자가 가장 많이 저지르는 실수가 공유기 보안 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에 들어가 귀찮다고 `WPA/WPA2-Mixed (TKIP+AES)`를 골라버리는 것이다. 낡은 15년 전 스마트폰이 붙을까 봐 배려하는 이 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)은 사내망을 지옥으로 만든다. 최신 아이폰([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))과 구형 PDA(TKIP)가 하나의 공유기에 동시에 붙으면, 공유기는 전체 네트워크의 방송(Multicast) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 암호를 구형 장비 수준에 맞춰 억지로 TKIP으로 강등(Downgrade)시킨다. 또한 [Wi-Fi 4](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/574_802_11n_wifi_4_mimo_channel_bonding/)([11n](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/574_802_11n_wifi_4_mimo_channel_bonding/)) 이상의 속도 규격은 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 암호를 써야만 300Mbps 풀 속도를 내어주는데, TKIP 모드가 켜지는 순간 IEEE 규격 위반이 되어 전체 와이파이 속도가 **옛날 11g 수준인 최대 54Mbps로 강제 칼질(Throttling)** 당해버린다. 최신 망에서는 반드시 **'[WPA2](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/)-[AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 전용(Only)'**으로 세팅해야 한다.
 
-- **📢 섹션 요약 비유**: TKIP(WPA)은 낡은 경차([[081_rc4_stream_cipher|RC4]])에 [[231_ai_turing_test|인공지능]] 자율주행 칩을 박아넣어 어떻게든 사고를 막아보려 한 눈물겨운 발악이었습니다. 하지만 시속 200km가 넘어가자 차체가 버티지 못하고 바퀴가 빠지기 시작했죠. 결국 공학자들은 "이 똥차로는 답이 없다!"며 차를 폐차하고 아예 처음부터 장갑차([[656_aes_advanced_encryption_standard_rijndael|AES]])로 새로 뽑은 것이 바로 다음 세대인 WPA2입니다.
+- **📢 섹션 요약 비유**: TKIP(WPA)은 낡은 경차([RC4](/knowledge-base/studynote/09_security/02_crypto/081_rc4_stream_cipher/))에 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 자율주행 칩을 박아넣어 어떻게든 사고를 막아보려 한 눈물겨운 발악이었습니다. 하지만 시속 200km가 넘어가자 차체가 버티지 못하고 바퀴가 빠지기 시작했죠. 결국 공학자들은 "이 똥차로는 답이 없다!"며 차를 폐차하고 아예 처음부터 장갑차([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))로 새로 뽑은 것이 바로 다음 세대인 WPA2입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-| 구분 | [[580_wep_wired_equivalent_privacy_rc4|WEP]] ([[459_quic_fec_forward_error_correction|초기]] 1세대) | WPA (TKIP, 2세대 땜질) | 개선 효과 |
+| 구분 | [WEP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/580_wep_wired_equivalent_privacy_rc4/) ([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 1세대) | WPA (TKIP, 2세대 땜질) | 개선 효과 |
 |:---|:---|:---|:---|
-| **정량 (비밀번호 교체율)** | 4시간이면 패턴([[288_version_ihl_tos_total_length|IV]]) 고갈 | 패킷마다 섞고 10KB마다 리셋 | [[288_version_ihl_tos_total_length|IV]] 길이가 24비트 -> 48비트로 2배 증가. **우주 나이만큼 통신해도 [[288_version_ihl_tos_total_length|IV]] 고갈 안 남.** |
-| **정량 (기존 인프라 매몰 비용)**| Aircrack에 뚫려 전면 폐기 위기 | [[032_firmware|펌웨어]](소프트웨어) 패치만으로 방어 | 수천만 대의 낡은 [[081_rc4_stream_cipher|RC4]] 공유기를 **하드웨어 교체 비용 0원으로 3년간 수명 연장시킴.** |
-| **정성 ([[003_integrity|무결성]] 및 [[303_authentication_authorization_patterns|인증]])**| 누구나 가짜 패킷([[312_arp_address_resolution_protocol_ip_to_mac|ARP]]) 주입 가능 | MIC 해시 및 802.[[584_802_1x_pnac_eap_radius|1X]](Enterprise) 도입 | 패킷 위조 적발 시 공유기 1분 셧다운(강력한 방어) 및 **직원별 독립 [[303_authentication_authorization_patterns|인증]](엔터프라이즈) 토대 구축.** |
+| **정량 (비밀번호 교체율)** | 4시간이면 패턴([IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)) 고갈 | 패킷마다 섞고 10KB마다 리셋 | [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 길이가 24비트 -> 48비트로 2배 증가. **우주 나이만큼 통신해도 [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 고갈 안 남.** |
+| **정량 (기존 인프라 매몰 비용)**| Aircrack에 뚫려 전면 폐기 위기 | [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)(소프트웨어) 패치만으로 방어 | 수천만 대의 낡은 [RC4](/knowledge-base/studynote/09_security/02_crypto/081_rc4_stream_cipher/) 공유기를 **하드웨어 교체 비용 0원으로 3년간 수명 연장시킴.** |
+| **정성 ([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 및 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))**| 누구나 가짜 패킷([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/)) 주입 가능 | MIC 해시 및 802.[1X](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/)(Enterprise) 도입 | 패킷 위조 적발 시 공유기 1분 셧다운(강력한 방어) 및 **직원별 독립 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)(엔터프라이즈) 토대 구축.** |
 
 ### 미래 전망 및 진화 방향
-- **공식적인 죽음 (Deprecated)**: WPA(TKIP)는 2004년 [[582_wpa2_aes_ccmp_personal_enterprise|WPA2]]([[656_aes_advanced_encryption_standard_rijndael|AES]])가 등장한 직후부터 역사 속으로 저물기 시작했고, 2012년 와이파이 얼라이언스는 신규 기기에서 WPA-TKIP을 공식적으로 빼라고 지시했다. 현재의 [[576_802_11ax_wifi_6_ofdma_twt|Wi-Fi 6]](802.[[576_802_11ax_wifi_6_ofdma_twt|11ax]]) 공유기 환경에서는 TKIP을 켜는 순간 속도 저하의 범인으로 지목되며 아예 [[009_config|설정]] 메뉴에서 사라진 죽은 언어(Dead [[295_protocol_field_tcp_udp_icmp|Protocol]])가 되었다.
-- **[[582_wpa2_aes_ccmp_personal_enterprise|WPA2]], WPA3를 향한 위대한 교두보**: 비록 WPA(TKIP)의 수명은 3년에 불과한 임시방편이었으나, 이 짧은 기간 동안 정립된 **'802.[[584_802_1x_pnac_eap_radius|1X]] 기반의 [[229_eap_extensible_authentication_protocol|EAP]] 서버 연동 아키텍처'**와 접속 시 동적으로 키를 만들어내는 **'4-Way Handshake(PTK 교환)'**의 논리적 뼈대 소프트웨어는 후속작인 WPA2와 WPA3에도 고스란히 계승되었다. WPA는 하드웨어([[081_rc4_stream_cipher|RC4]])가 후져서 죽었을 뿐, 그 훌륭한 시스템 소프트웨어 구조는 오늘날 무선랜의 찬란한 유산이 되었다.
+- **공식적인 죽음 (Deprecated)**: WPA(TKIP)는 2004년 [WPA2](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/)([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))가 등장한 직후부터 역사 속으로 저물기 시작했고, 2012년 와이파이 얼라이언스는 신규 기기에서 WPA-TKIP을 공식적으로 빼라고 지시했다. 현재의 [Wi-Fi 6](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/)(802.[11ax](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/)) 공유기 환경에서는 TKIP을 켜는 순간 속도 저하의 범인으로 지목되며 아예 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 메뉴에서 사라진 죽은 언어(Dead [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))가 되었다.
+- **[WPA2](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/), WPA3를 향한 위대한 교두보**: 비록 WPA(TKIP)의 수명은 3년에 불과한 임시방편이었으나, 이 짧은 기간 동안 정립된 **'802.[1X](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/) 기반의 [EAP](/knowledge-base/studynote/03_network/04_data_link_layer_error/229_eap_extensible_authentication_protocol/) 서버 연동 아키텍처'**와 접속 시 동적으로 키를 만들어내는 **'4-Way Handshake(PTK 교환)'**의 논리적 뼈대 소프트웨어는 후속작인 WPA2와 WPA3에도 고스란히 계승되었다. WPA는 하드웨어([RC4](/knowledge-base/studynote/09_security/02_crypto/081_rc4_stream_cipher/))가 후져서 죽었을 뿐, 그 훌륭한 시스템 소프트웨어 구조는 오늘날 무선랜의 찬란한 유산이 되었다.
 
 ### 참고 표준
 - **IEEE 802.11i (Draft 3)**: 완벽한 WPA2가 나오기 전, 너무 급해서 중간 초안(Draft) 단계에 있던 TKIP 기술을 뜯어내 상용화시킨 와이파이 얼라이언스의 WPA1 긴급 스펙.
-- **IEEE 802.[[584_802_1x_pnac_eap_radius|1X]]**: 원래는 유선 [[238_switch_operation_principles|스위치]] 잭에 랜선을 꽂을 때 "너 사원증 대봐"라고 묻기 위해 만든 PNAC([[446_port_and_bus|포트]] 기반 접근 제어) 기술인데, WPA가 이 훌륭한 유선 기술을 무선 허공(무형의 [[446_port_and_bus|포트]])으로 그대로 끌고 올라와 엔터프라이즈 보안의 전설을 썼다.
+- **IEEE 802.[1X](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/)**: 원래는 유선 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 잭에 랜선을 꽂을 때 "너 사원증 대봐"라고 묻기 위해 만든 PNAC([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 기반 접근 제어) 기술인데, WPA가 이 훌륭한 유선 기술을 무선 허공(무형의 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))으로 그대로 끌고 올라와 엔터프라이즈 보안의 전설을 썼다.
 
-WPA (TKIP)는 IT 역사상 가장 드라마틱한 '땜질([[076_workaround_temporary_fix_incident|Workaround]])'의 승리다. 전 세계의 무선 인프라가 [[580_wep_wired_equivalent_privacy_rc4|WEP]] 해킹으로 불타오르고 있을 때, 공학자들은 낡은 하드웨어 칩셋([[081_rc4_stream_cipher|RC4]])을 버리지 않으면서 오직 소프트웨어의 논리적 뒤틀기([[288_version_ihl_tos_total_length|IV]] 확장, [[067_db_key_uniqueness_minimality|Key]] Mixing, MIC)만으로 해커들의 맹공을 막아냈다. 완벽한 대체제([[582_wpa2_aes_ccmp_personal_enterprise|WPA2]] [[656_aes_advanced_encryption_standard_rijndael|AES]])가 완성되기까지의 3년, WPA가 벌어준 그 황금 같은 시간이 없었다면 전 세계의 기업들은 무선망을 아예 뜯어내고 케이블 시대로 회귀했을지도 모른다.
+WPA (TKIP)는 IT 역사상 가장 드라마틱한 '땜질([Workaround](/knowledge-base/studynote/12_it_management/02_itsm_itil/076_workaround_temporary_fix_incident/))'의 승리다. 전 세계의 무선 인프라가 [WEP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/580_wep_wired_equivalent_privacy_rc4/) 해킹으로 불타오르고 있을 때, 공학자들은 낡은 하드웨어 칩셋([RC4](/knowledge-base/studynote/09_security/02_crypto/081_rc4_stream_cipher/))을 버리지 않으면서 오직 소프트웨어의 논리적 뒤틀기([IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 확장, [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Mixing, MIC)만으로 해커들의 맹공을 막아냈다. 완벽한 대체제([WPA2](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/) [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))가 완성되기까지의 3년, WPA가 벌어준 그 황금 같은 시간이 없었다면 전 세계의 기업들은 무선망을 아예 뜯어내고 케이블 시대로 회귀했을지도 모른다.
 
-- **📢 섹션 요약 비유**: 집에 불이 나고 있는데([[580_wep_wired_equivalent_privacy_rc4|WEP]] 붕괴), 완벽한 티타늄 방화복([[582_wpa2_aes_ccmp_personal_enterprise|WPA2]])은 3년 뒤에나 배송된다고 합니다. 다 죽게 생긴 찰나, 동네 수리공들이 당장 집에 굴러다니는 양철판(TKIP)과 물수건(MIC)을 기가 막히게 테이프로 기워 붙여서 3년 동안 불길을 완벽하게 버텨낸 눈물겨운 '가장 위대한 임시 피난처'가 바로 WPA입니다.
+- **📢 섹션 요약 비유**: 집에 불이 나고 있는데([WEP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/580_wep_wired_equivalent_privacy_rc4/) 붕괴), 완벽한 티타늄 방화복([WPA2](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/))은 3년 뒤에나 배송된다고 합니다. 다 죽게 생긴 찰나, 동네 수리공들이 당장 집에 굴러다니는 양철판(TKIP)과 물수건(MIC)을 기가 막히게 테이프로 기워 붙여서 3년 동안 불길을 완벽하게 버텨낸 눈물겨운 '가장 위대한 임시 피난처'가 바로 WPA입니다.
 
 ---
 
@@ -160,10 +164,10 @@ WPA (TKIP)는 IT 역사상 가장 드라마틱한 '땜질([[076_workaround_tempo
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[580_wep_wired_equivalent_privacy_rc4|WEP]] | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| 셀 (Cell) | 무선 [[090_service_kubernetes_network_load_balancing|서비스]] 범위를 나누는 기본 단위다. |
-| [[556_handover_handoff_types_concept|핸드오버]] ([[556_handover_handoff_types_concept|Handover]]) | 이동 중에도 연결을 유지하게 만든다. |
-| [[582_wpa2_aes_ccmp_personal_enterprise|WPA2]] 강력 암호화, 개인용/기업용 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [WEP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/580_wep_wired_equivalent_privacy_rc4/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 셀 (Cell) | 무선 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 범위를 나누는 기본 단위다. |
+| [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) ([Handover](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)) | 이동 중에도 연결을 유지하게 만든다. |
+| [WPA2](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/) 강력 암호화, 개인용/기업용 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -177,12 +181,12 @@ WPA (TKIP)는 IT 역사상 가장 드라마틱한 '땜질([[076_workaround_tempo
     └──▶ [확장 B: 지능형 무선 자원 제어]
 ```
 
-WPA는 WEP에서 출발해 현재 메커니즘을 정교화하고, 이후 [[582_wpa2_aes_ccmp_personal_enterprise|WPA2]] 강력 암호화, 개인용/기업용와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+WPA는 WEP에서 출발해 현재 메커니즘을 정교화하고, 이후 [WPA2](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/) 강력 암호화, 개인용/기업용와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 옛날 와이파이([[580_wep_wired_equivalent_privacy_rc4|WEP]])는 '1234'라는 고정된 자물쇠를 평생 써서 도둑이 금방 비밀번호를 외워버렸어요. 이걸 고치려면 자물쇠 통(기계)을 다 버려야 해서 돈이 너무 아까웠죠.
-2. 그래서 똑똑한 아저씨들이 기계는 안 버리고, 자물쇠 다이얼 번호(TKIP)가 매일 1시간마다 은행 보안카드([[748_otp|OTP]])처럼 계속 휙휙 바뀌게 하는 컴퓨터 마법(WPA)을 걸어줬어요.
+1. 옛날 와이파이([WEP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/580_wep_wired_equivalent_privacy_rc4/))는 '1234'라는 고정된 자물쇠를 평생 써서 도둑이 금방 비밀번호를 외워버렸어요. 이걸 고치려면 자물쇠 통(기계)을 다 버려야 해서 돈이 너무 아까웠죠.
+2. 그래서 똑똑한 아저씨들이 기계는 안 버리고, 자물쇠 다이얼 번호(TKIP)가 매일 1시간마다 은행 보안카드([OTP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/748_otp/))처럼 계속 휙휙 바뀌게 하는 컴퓨터 마법(WPA)을 걸어줬어요.
 3. 도둑이 번호를 1234라고 외워서 오면 자물쇠가 이미 5678로 변해있으니, 완전 멘붕에 빠져서 도망가게 만든 아주 기발하고 고마운 '임시 수리법'이랍니다!
 
 ---
@@ -191,7 +195,7 @@ WPA는 WEP에서 출발해 현재 메커니즘을 정교화하고, 이후 [[582_
 
 **진행 상황**: 702 / 1120
 
-← **이전**: [[580_wep_wired_equivalent_privacy_rc4|580. WEP (Wired Equivalent Privacy)]]
-**다음**: [[582_wpa2_aes_ccmp_personal_enterprise|582. WPA2 (AES-CCMP 기반) 강력 암호화, 개인용(PSK)/기업용(Enterprise/RADIUS)]] →
+← **이전**: [580. WEP (Wired Equivalent Privacy)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/580_wep_wired_equivalent_privacy_rc4/)
+**다음**: [582. WPA2 (AES-CCMP 기반) 강력 암호화, 개인용(PSK)/기업용(Enterprise/RADIUS)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/) →
 
 ---

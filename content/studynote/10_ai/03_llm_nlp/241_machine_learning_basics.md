@@ -1,29 +1,33 @@
----
-title: 241. 머신러닝 (경험 기반 학습) 기초
-date: '2026-05-09'
-tags:
-- studynote-ai
----
++++
+title = "241. 머신러닝 (경험 기반 학습) 기초"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-ai"]
+
+[extra]
+tags = ["studynote-ai"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 머신러닝(Machine [[240_switch_learning_forwarding_flooding|Learning]])은 인간의 오만을 꺾은 기술이다. 과거엔 천재 개발자가 "고양이는 귀가 뾰족하고 수염이 있다"는 규칙(If-Then)을 컴퓨터에 직접 코딩으로 우겨넣으려다 실패했다. 머신러닝은 **"규칙 따윈 묻지 마! 그냥 고양이 사진 10만 장([[001_dikw_pyramid|데이터]]/경험)을 던져줄 테니, 컴퓨터 네가 알아서 눈치껏 수학적 패턴(규칙)을 찾아내!"**라고 패러다임을 뒤집어버린 혁명이다.
-> 2. **가치**: [[001_dikw_pyramid|데이터]]를 부으면 부을수록 컴퓨터가 내뿜는 방정식(모델)의 오차(Loss)가 줄어들며 진화한다. 스팸 메일 필터링부터 주식 가격 예측, 신용카드 사기 탐지까지 인간이 차마 수십만 줄의 룰(Rule)로 설명할 수 없는 미묘한 '직감의 영역'을 수학의 통계 모델로 찍어내어 IT 산업의 지형을 바꿨다.
-> 3. **판단 포인트**: 머신러닝 아키텍트의 무대는 코딩 실력이 아니라 **[[001_dikw_pyramid|데이터]] 퀄리티([[270_data_quality_great_expectations|Data Quality]])와 [[001_algorithm_definition|알고리즘]] 편향성 제어**에 있다. "쓰레기가 들어가면 쓰레기가 나온다(GIGO)"는 대원칙 아래, 어떤 특성(Feature)을 뽑아서([[081_feature_engineering|Feature Engineering]]), 어떤 평가 지표([[342_routing_metric_hop_bandwidth_delay|Metric]])로 훈련시킬 것인가가 머신러닝 [[123_pipe|파이프]]라인([[348_mlops|MLOps]])의 생명줄이다.
+> 1. **본질**: 머신러닝(Machine [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))은 인간의 오만을 꺾은 기술이다. 과거엔 천재 개발자가 "고양이는 귀가 뾰족하고 수염이 있다"는 규칙(If-Then)을 컴퓨터에 직접 코딩으로 우겨넣으려다 실패했다. 머신러닝은 **"규칙 따윈 묻지 마! 그냥 고양이 사진 10만 장([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)/경험)을 던져줄 테니, 컴퓨터 네가 알아서 눈치껏 수학적 패턴(규칙)을 찾아내!"**라고 패러다임을 뒤집어버린 혁명이다.
+> 2. **가치**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 부으면 부을수록 컴퓨터가 내뿜는 방정식(모델)의 오차(Loss)가 줄어들며 진화한다. 스팸 메일 필터링부터 주식 가격 예측, 신용카드 사기 탐지까지 인간이 차마 수십만 줄의 룰(Rule)로 설명할 수 없는 미묘한 '직감의 영역'을 수학의 통계 모델로 찍어내어 IT 산업의 지형을 바꿨다.
+> 3. **판단 포인트**: 머신러닝 아키텍트의 무대는 코딩 실력이 아니라 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 퀄리티([Data Quality](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/270_data_quality_great_expectations/))와 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 편향성 제어**에 있다. "쓰레기가 들어가면 쓰레기가 나온다(GIGO)"는 대원칙 아래, 어떤 특성(Feature)을 뽑아서([Feature Engineering](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/)), 어떤 평가 지표([Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))로 훈련시킬 것인가가 머신러닝 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인([MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/))의 생명줄이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-1980년대 컴퓨터 공학자들은 거만한 '[[233_expert_system|전문가 시스템]]([[233_expert_system|Expert System]])'에 빠져 있었다. 
+1980년대 컴퓨터 공학자들은 거만한 '[전문가 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/)([Expert System](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/))'에 빠져 있었다. 
 "이메일이 왔을 때 제목에 '공짜'나 '비아그라'가 있으면 스팸(Spam) 메일로 튕겨내라!"라고 개발자가 `if` 문을 수천 줄씩 코딩했다. 
 그러자 스팸 업자들은 '공.짜', '비아9라'로 글자를 꼬아서 필터를 뚫고 들어왔다. 개발자는 밤을 새워 또 수만 줄의 예외 코드를 추가해야 했고, 결국 스파게티처럼 꼬인 코드는 펑 하고 폭발해 버렸다. 인간이 세상의 모든 룰을 수동으로 입력한다는 건 불가능했다.
 
 이때 스탠퍼드 대학교의 아서 사무엘(Arthur Samuel)이 1959년에 남긴 미친 철학이 부활했다.
-**"컴퓨터에게 일일이 규칙을 코딩해 주지 말고, 스스로 경험([[001_dikw_pyramid|데이터]])을 통해 배우게 할 순 없을까?"**
+**"컴퓨터에게 일일이 규칙을 코딩해 주지 말고, 스스로 경험([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 통해 배우게 할 순 없을까?"**
 
-이것이 **머신러닝(Machine [[240_switch_learning_forwarding_flooding|Learning]])**의 강림이다. 개발자는 더 이상 '공짜'라는 글자를 스팸이라고 코딩하지 않는다. 그냥 과거의 진짜 스팸 메일 10만 통과 정상 메일 10만 통([[001_dikw_pyramid|데이터]])을 무더기로 컴퓨터에게 먹인다. 
-컴퓨터는 밤새도록 단어들의 통계를 내고 수학 [[130_probability|확률]]을 돌리더니, **"아항! '당첨'이라는 단어가 '계좌'라는 단어와 같이 쓰일 때 스팸일 [[130_probability|확률]]이 98%구나!"라는 거대한 수학 방정식(모델)을 자기 스스로 뱉어냈다.** 코딩의 시대가 저물고, 학습([[240_switch_learning_forwarding_flooding|Learning]])의 시대가 열린 것이다.
+이것이 **머신러닝(Machine [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))**의 강림이다. 개발자는 더 이상 '공짜'라는 글자를 스팸이라고 코딩하지 않는다. 그냥 과거의 진짜 스팸 메일 10만 통과 정상 메일 10만 통([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 무더기로 컴퓨터에게 먹인다. 
+컴퓨터는 밤새도록 단어들의 통계를 내고 수학 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 돌리더니, **"아항! '당첨'이라는 단어가 '계좌'라는 단어와 같이 쓰일 때 스팸일 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 98%구나!"라는 거대한 수학 방정식(모델)을 자기 스스로 뱉어냈다.** 코딩의 시대가 저물고, 학습([Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))의 시대가 열린 것이다.
 
 ```text
 ┌──────────────────────────────────────────────┐
@@ -34,13 +38,13 @@ tags:
 └──────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 기존 프로그래밍(룰 기반)은 '요리 레시피 강요'다. 엄마가 아이에게 "물은 500ml, 소금은 10g 넣어라"라고 1부터 10까지 깐깐하게 지시한다. 찌개가 바뀌면 레시피를 또 적어줘야 한다(개발자 과로사). 머신러닝은 '요리 시식 학습'이다. 아이 눈을 가리고 맛있는 찌개 100번, 맛없는 찌개 100번을 맛보게([[001_dikw_pyramid|데이터]] 경험) 한다. 아이는 스스로 혀의 감각(수학적 [[267_weight_bias_activation|가중치]])을 깨우쳐서, 처음 보는 찌개도 냄새만 맡고 "이건 소금이 부족해!"라고 정확히 직감하는 완벽한 요리사로 진화한다.
+- **📢 섹션 요약 비유**: 기존 프로그래밍(룰 기반)은 '요리 레시피 강요'다. 엄마가 아이에게 "물은 500ml, 소금은 10g 넣어라"라고 1부터 10까지 깐깐하게 지시한다. 찌개가 바뀌면 레시피를 또 적어줘야 한다(개발자 과로사). 머신러닝은 '요리 시식 학습'이다. 아이 눈을 가리고 맛있는 찌개 100번, 맛없는 찌개 100번을 맛보게([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경험) 한다. 아이는 스스로 혀의 감각(수학적 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))을 깨우쳐서, 처음 보는 찌개도 냄새만 맡고 "이건 소금이 부족해!"라고 정확히 직감하는 완벽한 요리사로 진화한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-전통적 프로그래밍과 머신러닝의 [[123_pipe|파이프]]라인 아키텍처는 **입력(Input)과 출력(Output)의 위치가 180도 완전히 역전**되어 있다.
+전통적 프로그래밍과 머신러닝의 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 아키텍처는 **입력(Input)과 출력(Output)의 위치가 180도 완전히 역전**되어 있다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -66,62 +70,62 @@ tags:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-**핵심 원리 (경험 $E$, 작업 $T$, [[282_performance_tactics|성능]] $P$)**:
-톰 미첼(Tom Mitchell) 교수의 우아한 정의에 따르면, 머신러닝은 **"경험(E)이 쌓일수록 [[282_performance_tactics|성능]](P)이 올라가면, 이 기계는 작업(T)을 학습([[240_switch_learning_forwarding_flooding|Learning]])하고 있다"**고 말한다.
-여기서 컴퓨터가 규칙을 찾아내는 과정은 마법이 아니라 지독한 수학 노가다다. 모델이 대충 찍은 정답과 진짜 정답 사이의 오차(Loss/Cost)를 구한 뒤, 그 오차가 산골짜기 밑바닥(0)으로 떨어질 때까지 **미분([[165_gradient_descent|Gradient Descent]])**을 반복하며 내부의 숫자([[267_weight_bias_activation|가중치]] [[267_weight_bias_activation|Weight]])를 미세하게 깎아 나가는 과정, 이것이 기계가 땀 흘려 얻는 '경험 기반 학습'의 정체다.
+**핵심 원리 (경험 $E$, 작업 $T$, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) $P$)**:
+톰 미첼(Tom Mitchell) 교수의 우아한 정의에 따르면, 머신러닝은 **"경험(E)이 쌓일수록 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(P)이 올라가면, 이 기계는 작업(T)을 학습([Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))하고 있다"**고 말한다.
+여기서 컴퓨터가 규칙을 찾아내는 과정은 마법이 아니라 지독한 수학 노가다다. 모델이 대충 찍은 정답과 진짜 정답 사이의 오차(Loss/Cost)를 구한 뒤, 그 오차가 산골짜기 밑바닥(0)으로 떨어질 때까지 **미분([Gradient Descent](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/))**을 반복하며 내부의 숫자([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) [Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))를 미세하게 깎아 나가는 과정, 이것이 기계가 땀 흘려 얻는 '경험 기반 학습'의 정체다.
 
 | 요소 | 역할 |
 |:---|:---|
-| [[075_loss_function_cost_function|손실 함수]] | 모델이 줄여야 할 오차를 정의하며 학습 방향을 만든다. |
-| [[080_gradient_descent_learning_rate|학습률]] | 업데이트 폭을 결정해 수렴 속도와 발산 위험을 좌우한다. |
-| 일반화 | 훈련 [[282_performance_tactics|성능]]이 아니라 실제 [[001_dikw_pyramid|데이터]] [[282_performance_tactics|성능]]으로 품질을 판단하게 만든다. |
-| [[136_variance|분산]] 학습 | 대규모 모델에서 학습 속도와 자원 배치를 현실화한다. |
+| [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/) | 모델이 줄여야 할 오차를 정의하며 학습 방향을 만든다. |
+| [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) | 업데이트 폭을 결정해 수렴 속도와 발산 위험을 좌우한다. |
+| 일반화 | 훈련 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 아니라 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)으로 품질을 판단하게 만든다. |
+| [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 학습 | 대규모 모델에서 학습 속도와 자원 배치를 현실화한다. |
 
-- **📢 섹션 요약 비유**: 이 패러다임 역전은 '족집게 과외'다. 옛날에는 선생님(개발자)이 학생(컴퓨터)에게 "수학 공식(룰)"을 다 외우게 시킨 뒤 시험(정답 도출)을 치게 했다. 공식 밖에서 문제가 나오면 다 틀렸다. 머신러닝은 "답안지가 달린 기출문제 1만 장([[001_dikw_pyramid|데이터]]+정답)"을 그냥 학생에게 던져주고 방에 가둔다. 학생은 밤을 새워 기출문제를 분석하더니 스스로 "아! 이런 문제는 이렇게 푸는구나!" 하고 깨달음의 '자신만의 공식(모델/룰)'을 머릿속에 만들어낸다. 이제 내일 수능(실전 [[001_dikw_pyramid|데이터]])이 시작되면 자기가 만든 공식으로 미친 듯이 정답을 찍어 맞춘다.
+- **📢 섹션 요약 비유**: 이 패러다임 역전은 '족집게 과외'다. 옛날에는 선생님(개발자)이 학생(컴퓨터)에게 "수학 공식(룰)"을 다 외우게 시킨 뒤 시험(정답 도출)을 치게 했다. 공식 밖에서 문제가 나오면 다 틀렸다. 머신러닝은 "답안지가 달린 기출문제 1만 장([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)+정답)"을 그냥 학생에게 던져주고 방에 가둔다. 학생은 밤을 새워 기출문제를 분석하더니 스스로 "아! 이런 문제는 이렇게 푸는구나!" 하고 깨달음의 '자신만의 공식(모델/룰)'을 머릿속에 만들어낸다. 이제 내일 수능(실전 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 시작되면 자기가 만든 공식으로 미친 듯이 정답을 찍어 맞춘다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-머신러닝(ML)은 [[001_dikw_pyramid|데이터]]의 형태(정답지가 있나 없나)와 학습의 목적(무엇을 원하는가)에 따라 크게 3가지 거대한 대륙으로 쪼개어 진화했다.
+머신러닝(ML)은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 형태(정답지가 있나 없나)와 학습의 목적(무엇을 원하는가)에 따라 크게 3가지 거대한 대륙으로 쪼개어 진화했다.
 
-| 머신러닝 3대 분파 | 훈련 [[001_dikw_pyramid|데이터]]의 상태 (Input) | 학습의 최종 목적 (Output) | 대표적인 실무 활용 [[001_algorithm_definition|알고리즘]] |
+| 머신러닝 3대 분파 | 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 상태 (Input) | 학습의 최종 목적 (Output) | 대표적인 실무 활용 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
 |:---|:---|:---|:---|
-| **1. [[121_supervised_learning|지도 학습]] (Supervised)** | 친절하게 **'정답표(Label)'**가 다 붙어있는 교과서 [[001_dikw_pyramid|데이터]] | 새로운 [[001_dikw_pyramid|데이터]]가 들어올 때, 이놈의 **정답을 예측([[104_classification_analysis|분류]]/회귀)함** | 개/고양이 사진 [[104_classification_analysis|분류]] ([[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]]), 집값/주식 가격 예측 ([[353_random_forest|Random Forest]], XGBoost) |
-| **2. [[122_unsupervised_learning|비지도 학습]] (Unsupervised)** | 정답표 따위는 전혀 없는 **'순수 날것(Unlabeled)'**의 쓰레기장 [[001_dikw_pyramid|데이터]] | [[001_dikw_pyramid|데이터]] 안에서 자기들끼리 비슷한 놈들로 **끼리끼리 묶거나 숨겨진 원리를 찾음** | 백화점 고객 장바구니 패턴 분석 (K-Means [[105_clustering_analysis|군집화]]), [[001_dikw_pyramid|데이터]] 용량 [[347_compaction|압축]] ([[163_pca|PCA]] [[081_dimensionality_reduction_pca_principal_component_analysis|차원 축소]]) |
-| **3. [[253_reinforcement_learning_mdp_policy_value_q_learning_dqn|강화 학습]] (Reinforcement)** | [[001_dikw_pyramid|데이터]]가 아예 없음. 대신 **'환경([[066_gitlab_flow_environment_branch_strategy|Environment]])과 보상(Reward)'**만 주어짐 | 기계가 수백만 번 헛발질하며 행동(Action)해 보고, **보상을 최대화하는 생존 [[268_strategy_pattern|전략]]을 터득함** | 딥마인드 알파고(바둑 승리), 자율주행 자동차(사고 안 나고 주행), 주식 자동매매 봇 |
+| **1. [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/) (Supervised)** | 친절하게 **'정답표(Label)'**가 다 붙어있는 교과서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 새로운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 들어올 때, 이놈의 **정답을 예측([분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)/회귀)함** | 개/고양이 사진 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) ([CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)), 집값/주식 가격 예측 ([Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/), XGBoost) |
+| **2. [비지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/) (Unsupervised)** | 정답표 따위는 전혀 없는 **'순수 날것(Unlabeled)'**의 쓰레기장 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 안에서 자기들끼리 비슷한 놈들로 **끼리끼리 묶거나 숨겨진 원리를 찾음** | 백화점 고객 장바구니 패턴 분석 (K-Means [군집화](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/)), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 용량 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) ([PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/)) |
+| **3. [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) (Reinforcement)** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 아예 없음. 대신 **'환경([Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/))과 보상(Reward)'**만 주어짐 | 기계가 수백만 번 헛발질하며 행동(Action)해 보고, **보상을 최대화하는 생존 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 터득함** | 딥마인드 알파고(바둑 승리), 자율주행 자동차(사고 안 나고 주행), 주식 자동매매 봇 |
 
-그리고 최근에는 이 3대장을 짬뽕시킨 기괴한 변종들이 시장을 지배하고 있다. 정답이 100개밖에 없는데 [[001_dikw_pyramid|데이터]]는 100만 개일 때, 100개로 훈련시킨 모델이 스스로 나머지 99만 개에 뻥카 정답(Pseudo-label)을 매기며 진화하는 **'준지도 학습(Semi-supervised)'**이나, 사람의 피드백 보상으로 챗GPT의 뇌를 세뇌하는 **'[[250_rlhf_human_feedback_reinforcement_alignment_cot|RLHF]](인간 피드백 강화학습)'**가 이 머신러닝 뿌리 위에서 자라난 거대한 [[638_mutation_testing_test_case_verification|돌연변이]] 가지들이다.
+그리고 최근에는 이 3대장을 짬뽕시킨 기괴한 변종들이 시장을 지배하고 있다. 정답이 100개밖에 없는데 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 100만 개일 때, 100개로 훈련시킨 모델이 스스로 나머지 99만 개에 뻥카 정답(Pseudo-label)을 매기며 진화하는 **'준지도 학습(Semi-supervised)'**이나, 사람의 피드백 보상으로 챗GPT의 뇌를 세뇌하는 **'[RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/)(인간 피드백 강화학습)'**가 이 머신러닝 뿌리 위에서 자라난 거대한 [돌연변이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/) 가지들이다.
 
-- **📢 섹션 요약 비유**: [[121_supervised_learning|지도 학습]](Supervised)은 '정답지 있는 문제집 풀기'다. 틀리면 바로 빨간펜이 그어지니 가장 빠르고 정확하게 똑똑해진다. [[122_unsupervised_learning|비지도 학습]](Unsupervised)은 '모래사장에서 조개 껍데기 [[104_classification_analysis|분류]]하기'다. 정답은 없지만, 학생이 알아서 "아, 얘네는 둥그니까 이쪽에 모으고, 뾰족한 건 저쪽에 모으자"라고 끼리끼리 묶는 통찰력을 발휘한다. [[253_reinforcement_learning_mdp_policy_value_q_learning_dqn|강화 학습]](Reinforcement)은 '자전거 타기'다. 아무도 타는 법([[001_dikw_pyramid|데이터]])을 안 가르쳐준다. 넘어지면 아프고(마이너스 보상), 앞으로 가면 짜릿하다(플러스 보상). 수천 번 무릎이 까진 끝에 몸으로 완벽한 균형 감각(생존 [[268_strategy_pattern|전략]])을 깨우치는 눈물겨운 야생의 훈련법이다.
+- **📢 섹션 요약 비유**: [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)(Supervised)은 '정답지 있는 문제집 풀기'다. 틀리면 바로 빨간펜이 그어지니 가장 빠르고 정확하게 똑똑해진다. [비지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/)(Unsupervised)은 '모래사장에서 조개 껍데기 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하기'다. 정답은 없지만, 학생이 알아서 "아, 얘네는 둥그니까 이쪽에 모으고, 뾰족한 건 저쪽에 모으자"라고 끼리끼리 묶는 통찰력을 발휘한다. [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)(Reinforcement)은 '자전거 타기'다. 아무도 타는 법([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 안 가르쳐준다. 넘어지면 아프고(마이너스 보상), 앞으로 가면 짜릿하다(플러스 보상). 수천 번 무릎이 까진 끝에 몸으로 완벽한 균형 감각(생존 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))을 깨우치는 눈물겨운 야생의 훈련법이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-스타트업이 "우린 머신러닝으로 매출을 예측할 겁니다!"라며 [[348_mlops|MLOps]] [[123_pipe|파이프]]라인을 깔 때, 코드를 짜기 전 [[001_dikw_pyramid|데이터]]의 본질적 저주(Curse)를 막지 않으면 프로젝트가 공중 분해된다.
+스타트업이 "우린 머신러닝으로 매출을 예측할 겁니다!"라며 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 깔 때, 코드를 짜기 전 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 본질적 저주(Curse)를 막지 않으면 프로젝트가 공중 분해된다.
 
-### 실무 아키텍처 판단 ([[435_checklist_based_testing|체크리스트]])
-1. **과적합 ([[245_overfitting_variance|Overfitting]])과 일반화(Generalization)의 트레이드오프 브레이크**: 머신러닝의 영원한 적은 과적합이다. 모델에게 2010년부터 2020년까지의 회사 매출 [[001_dikw_pyramid|데이터]](훈련셋)를 1,000번 반복해서 먹였더니, 모델이 그 [[001_dikw_pyramid|데이터]]의 미세한 노이즈(먼지)까지 통째로 달달 외워버려 훈련 점수는 100점이 나왔다. 하지만 당장 내일(2021년 실전 [[001_dikw_pyramid|데이터]]) 매출을 예측하라니까 0점을 뱉어내며 폭망한다. 아키텍트는 훈련 [[123_pipe|파이프]]라인에 반드시 **[[093_normalization|정규화]]([[134_regularization_dropout_batch_norm|Regularization]], [[267_weight_bias_activation|가중치]]가 커지지 못하게 벌점 부여)**와 **[[281_early_stopping|조기 종료]]([[281_early_stopping|Early Stopping]], 과적합 기미가 보이면 훈련 [[238_switch_operation_principles|스위치]]를 확 내려버림)**라는 안전 브레이크를 하드코딩해 넣어야 모델이 실전 야생성(일반화 능력)을 갖춘다.
-2. **[[247_feature_label_variables|피처]] 엔지니어링 ([[081_feature_engineering|Feature Engineering]]) 수동 전처리 결단**: 딥러닝이 아닌 엑스지부스트(XGBoost), [[353_random_forest|랜덤 포레스트]] 등 전통적 기계학습(Classic ML)을 돌릴 때는 원본 쓰레기 [[001_dikw_pyramid|데이터]]를 그대로 넣으면 모델이 질식한다. 집값 예측을 할 때, '방 개수'와 '화장실 개수' [[001_dikw_pyramid|데이터]]를 각각 넣지 말고, 사람이 수작업으로 `방 개수 * 화장실 개수 / 평수`라는 강력한 새로운 지표(파생 변수, Feature)를 짜내어 모델 입에 떠먹여 주는 **[[064_relation_domain|도메인]] 전문가의 [[247_feature_label_variables|피처]] 엔지니어링 개입**이 [[190_ai_llm_requirements_specification|AI]] [[282_performance_tactics|성능]]의 90%를 결정짓는 핵심 병목 구간이다.
+### 실무 아키텍처 판단 ([체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/))
+1. **과적합 ([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))과 일반화(Generalization)의 트레이드오프 브레이크**: 머신러닝의 영원한 적은 과적합이다. 모델에게 2010년부터 2020년까지의 회사 매출 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(훈련셋)를 1,000번 반복해서 먹였더니, 모델이 그 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 미세한 노이즈(먼지)까지 통째로 달달 외워버려 훈련 점수는 100점이 나왔다. 하지만 당장 내일(2021년 실전 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 매출을 예측하라니까 0점을 뱉어내며 폭망한다. 아키텍트는 훈련 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에 반드시 **[정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)([Regularization](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/), [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 커지지 못하게 벌점 부여)**와 **[조기 종료](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/)([Early Stopping](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/), 과적합 기미가 보이면 훈련 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 확 내려버림)**라는 안전 브레이크를 하드코딩해 넣어야 모델이 실전 야생성(일반화 능력)을 갖춘다.
+2. **[피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 엔지니어링 ([Feature Engineering](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/)) 수동 전처리 결단**: 딥러닝이 아닌 엑스지부스트(XGBoost), [랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/) 등 전통적 기계학습(Classic ML)을 돌릴 때는 원본 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 그대로 넣으면 모델이 질식한다. 집값 예측을 할 때, '방 개수'와 '화장실 개수' [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 각각 넣지 말고, 사람이 수작업으로 `방 개수 * 화장실 개수 / 평수`라는 강력한 새로운 지표(파생 변수, Feature)를 짜내어 모델 입에 떠먹여 주는 **[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 전문가의 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 엔지니어링 개입**이 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 90%를 결정짓는 핵심 병목 구간이다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
-- **차원의 저주 ([[080_curse_of_dimensionality|Curse of Dimensionality]]) 무지성 수집 병목**: "[[001_dikw_pyramid|데이터]]는 다다익선(많을수록 좋다)이야!"라며 고객의 나이, 성별뿐만 아니라 오늘 입은 팬티 색깔, 어제 먹은 점심 메뉴까지 1,000개의 쓸데없는 칼럼(차원)을 몽땅 DB에서 긁어와 머신러닝 모델에 밀어 넣는 최악의 호더(Hoarder) 짓. 차원(변수 개수)이 늘어날수록 모델이 정답을 찾기 위해 헤매야 하는 수학적 공간의 부피는 기하급수적으로 팽창하여, 모델이 빈 공간의 허상(노이즈)을 정답으로 착각하는 버그가 터진다. 모델링 전단에 반드시 **[[163_pca|PCA]]([[338_pca_principal_component_analysis|주성분 분석]])**를 달아 쓸데없는 변수를 1,000개에서 10개 핵심으로 쥐어짜 [[347_compaction|압축]]([[081_dimensionality_reduction_pca_principal_component_analysis|차원 축소]])하지 않으면 클라우드 훈련 비용이 수천만 원 단위로 증발한다.
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- **차원의 저주 ([Curse of Dimensionality](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_curse_of_dimensionality/)) 무지성 수집 병목**: "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 다다익선(많을수록 좋다)이야!"라며 고객의 나이, 성별뿐만 아니라 오늘 입은 팬티 색깔, 어제 먹은 점심 메뉴까지 1,000개의 쓸데없는 칼럼(차원)을 몽땅 DB에서 긁어와 머신러닝 모델에 밀어 넣는 최악의 호더(Hoarder) 짓. 차원(변수 개수)이 늘어날수록 모델이 정답을 찾기 위해 헤매야 하는 수학적 공간의 부피는 기하급수적으로 팽창하여, 모델이 빈 공간의 허상(노이즈)을 정답으로 착각하는 버그가 터진다. 모델링 전단에 반드시 **[PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/)([주성분 분석](/knowledge-base/studynote/06_ict_convergence/05_data_science/338_pca_principal_component_analysis/))**를 달아 쓸데없는 변수를 1,000개에서 10개 핵심으로 쥐어짜 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/))하지 않으면 클라우드 훈련 비용이 수천만 원 단위로 증발한다.
 
-- **📢 섹션 요약 비유**: 과적합([[245_overfitting_variance|Overfitting]])은 훈련장에서는 백발백중인데 실전에선 죽 쑤는 '새가슴 사격 선수'다. 바람 한 점 없는 실내 사격장(훈련 [[001_dikw_pyramid|데이터]])의 느낌을 근육에 너무 완벽하게 세뇌해 버려서, 야외 실전에서 바람(새로운 [[001_dikw_pyramid|데이터]] 변수)이 조금만 불어도 다 빗나간다. 차원의 저주([[080_curse_of_dimensionality|Curse of Dimensionality]])는 범인 찾기 수사본부에서 '범인의 양말 색깔, 아침 메뉴' 같은 쓸데없는 정보 1,000개를 수사 칠판에 붙여놓는 멍청한 형사다. 정보(차원)가 너무 많아지면 핵심 단서(지문, 흉기)가 묻혀버려 오히려 범인(정답)을 영원히 놓치게 된다. [[435_pruning_hardware|가지치기]]([[347_compaction|압축]])가 생명이다.
+- **📢 섹션 요약 비유**: 과적합([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))은 훈련장에서는 백발백중인데 실전에선 죽 쑤는 '새가슴 사격 선수'다. 바람 한 점 없는 실내 사격장(훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))의 느낌을 근육에 너무 완벽하게 세뇌해 버려서, 야외 실전에서 바람(새로운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변수)이 조금만 불어도 다 빗나간다. 차원의 저주([Curse of Dimensionality](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_curse_of_dimensionality/))는 범인 찾기 수사본부에서 '범인의 양말 색깔, 아침 메뉴' 같은 쓸데없는 정보 1,000개를 수사 칠판에 붙여놓는 멍청한 형사다. 정보(차원)가 너무 많아지면 핵심 단서(지문, 흉기)가 묻혀버려 오히려 범인(정답)을 영원히 놓치게 된다. [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)([압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))가 생명이다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-머신러닝(Machine [[240_switch_learning_forwarding_flooding|Learning]]) 패러다임은 인류가 컴퓨터와 대화하는 문법을 "명령([[271_command_pattern|Command]])의 시대"에서 **"[[001_dikw_pyramid|데이터]]를 통한 귀납적 추론(Inductive Reasoning)의 시대"**로 진화시킨 [[001_software_engineering_definition|소프트웨어 공학]]의 위대한 특이점이다.
+머신러닝(Machine [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)) 패러다임은 인류가 컴퓨터와 대화하는 문법을 "명령([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/))의 시대"에서 **"[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 통한 귀납적 추론(Inductive Reasoning)의 시대"**로 진화시킨 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 위대한 특이점이다.
 
-인간의 뇌는 찰나의 순간 고양이와 강아지를 완벽히 구별하지만, 정작 자신의 뇌세포가 어떤 수학적 연산을 거쳐 그 결론에 도달했는지 [[369_logic_bomb|논리]]적인 글(Rule)로 적어내지 못하는 '자기 모순'을 안고 있다. 폴라니의 역설(Polanyi’s Paradox), 즉 "우리는 우리가 말할 수 있는 것보다 더 많이 안다"는 인간 지능의 한계 때문에 전통적인 코딩(If-Then)은 망할 수밖에 없었다. 
-머신러닝은 이 모순을 박살 냈다. 인간이 설명하지 못하는 그 오묘하고 끈적한 직감의 영역(패턴)을, 컴퓨터가 미친듯한 반복 계산과 [[130_probability|확률]] 미적분([[275_gradient_descent_sgd|경사 하강법]])을 통해 기계 스스로 깨우치고 수학 모델로 [[016_replication_factor|복제]]해 버린 것이다.
+인간의 뇌는 찰나의 순간 고양이와 강아지를 완벽히 구별하지만, 정작 자신의 뇌세포가 어떤 수학적 연산을 거쳐 그 결론에 도달했는지 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적인 글(Rule)로 적어내지 못하는 '자기 모순'을 안고 있다. 폴라니의 역설(Polanyi’s Paradox), 즉 "우리는 우리가 말할 수 있는 것보다 더 많이 안다"는 인간 지능의 한계 때문에 전통적인 코딩(If-Then)은 망할 수밖에 없었다. 
+머신러닝은 이 모순을 박살 냈다. 인간이 설명하지 못하는 그 오묘하고 끈적한 직감의 영역(패턴)을, 컴퓨터가 미친듯한 반복 계산과 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 미적분([경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/))을 통해 기계 스스로 깨우치고 수학 모델로 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)해 버린 것이다.
 
-오늘날 당신의 스마트폰에 깔린 유튜브 추천 [[001_algorithm_definition|알고리즘]], 구글 번역기, 스팸 차단기 뒤에는 모두 수억 개의 [[001_dikw_pyramid|데이터]]를 먹고 진화한 거대한 방정식(ML 모델)들이 조용히 숨을 쉬고 있다. 앞으로의 IT 비즈니스는 천재 코더를 얼마나 보유했느냐가 아니라, 기계에게 먹일 '얼마나 순도 높고 방대한 [[001_dikw_pyramid|데이터]](경험)'를 독점하고 있느냐는 **[[001_dikw_pyramid|데이터]] 자본주의([[001_dikw_pyramid|Data]] Capitalism)** 전쟁으로 완전히 궤도를 바꾸었으며, 이 전쟁의 포문을 연 위대한 선구자가 바로 기계학습이다.
+오늘날 당신의 스마트폰에 깔린 유튜브 추천 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/), 구글 번역기, 스팸 차단기 뒤에는 모두 수억 개의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 먹고 진화한 거대한 방정식(ML 모델)들이 조용히 숨을 쉬고 있다. 앞으로의 IT 비즈니스는 천재 코더를 얼마나 보유했느냐가 아니라, 기계에게 먹일 '얼마나 순도 높고 방대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(경험)'를 독점하고 있느냐는 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자본주의([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Capitalism)** 전쟁으로 완전히 궤도를 바꾸었으며, 이 전쟁의 포문을 연 위대한 선구자가 바로 기계학습이다.
 
-- **📢 섹션 요약 비유**: 옛날 컴퓨터 프로그래머는 조각상(결과물)을 만들기 위해 정 한 번, 망치 한 번을 어디에 어떻게 쳐야 할지(If-then) 1만 번의 명령을 깐깐하게 종이에 적어주는 '피곤한 감독관'이었다. 머신러닝 시대의 프로그래머는 '찰흙과 오븐을 던져주는 공방 주인'이다. "자, 여기 예쁜 조각상 사진 1만 장([[001_dikw_pyramid|데이터]]) 뒀으니, 네가 직접 진흙([[267_weight_bias_activation|가중치]])을 이리저리 만지면서 오븐(훈련)에 구워봐!"라고 던져둔다. 밤새 찰흙을 부수고 다시 빚던 기계는 아침이 되면 미켈란젤로급의 완벽한 다비드상(모델)을 완성해 내며 인류의 명령 없이 스스로 진화하는 기적을 보여준다.
+- **📢 섹션 요약 비유**: 옛날 컴퓨터 프로그래머는 조각상(결과물)을 만들기 위해 정 한 번, 망치 한 번을 어디에 어떻게 쳐야 할지(If-then) 1만 번의 명령을 깐깐하게 종이에 적어주는 '피곤한 감독관'이었다. 머신러닝 시대의 프로그래머는 '찰흙과 오븐을 던져주는 공방 주인'이다. "자, 여기 예쁜 조각상 사진 1만 장([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 뒀으니, 네가 직접 진흙([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))을 이리저리 만지면서 오븐(훈련)에 구워봐!"라고 던져둔다. 밤새 찰흙을 부수고 다시 빚던 기계는 아침이 되면 미켈란젤로급의 완벽한 다비드상(모델)을 완성해 내며 인류의 명령 없이 스스로 진화하는 기적을 보여준다.
 
 ---
 
@@ -129,10 +133,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[[275_gradient_descent_sgd|경사 하강법]] ([[165_gradient_descent|Gradient Descent]])** | 머신러닝이 어떻게 스스로 똑똑해지는지(학습) 설명하는 절대 심장. 모델이 내린 멍청한 정답과 진짜 정답 사이의 오차(Loss) 산에서, 가장 깊은 바닥(정답)을 향해 굴러 내려가며 내부 수치를 깎아내는 미적분 마법 |
-| **딥러닝 (Deep [[240_switch_learning_forwarding_flooding|Learning]])** | 머신러닝의 하위 카테고리이자 현대 AI의 지배자. 인간의 [[247_feature_label_variables|피처]] 엔지니어링(수작업 변수 깎기)조차 귀찮다며, 아예 인간 뇌 신경망([[266_mlp_hidden_layers|다층 퍼셉트론]])을 흉내 내 특징 추출부터 [[104_classification_analysis|분류]]까지 통째로 기계가 다 해 먹는 깡패 기술 |
-| **과적합 ([[245_overfitting_variance|Overfitting]])** | 머신러닝이 걸리는 가장 무섭고 흔한 감기. 훈련 [[001_dikw_pyramid|데이터]] 문제집만 달달 1만 번 외워버려서 훈련장에선 100점을 맞는데, 모의고사(실전 야생 [[001_dikw_pyramid|데이터]])만 나가면 와르르 무너져서 0점을 맞는 무쓸모 암기왕 상태 |
-| **[[348_mlops|MLOps]] (머신러닝 운영)** | 모델 훈련이 끝났다고 끝이 아니다! 훈련된 뇌(모델)를 서버에 배포하고, 매일 쏟아지는 새로운 고객 [[001_dikw_pyramid|데이터]]를 [[229_monitor|모니터]]링하다가 똑똑함이 떨어지면 다시 밤에 재학습시키는 머신러닝판 [[090_configuration_item|CI]]/CD 공장 [[123_pipe|파이프]]라인 |
+| **[경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/) ([Gradient Descent](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/))** | 머신러닝이 어떻게 스스로 똑똑해지는지(학습) 설명하는 절대 심장. 모델이 내린 멍청한 정답과 진짜 정답 사이의 오차(Loss) 산에서, 가장 깊은 바닥(정답)을 향해 굴러 내려가며 내부 수치를 깎아내는 미적분 마법 |
+| **딥러닝 (Deep [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))** | 머신러닝의 하위 카테고리이자 현대 AI의 지배자. 인간의 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 엔지니어링(수작업 변수 깎기)조차 귀찮다며, 아예 인간 뇌 신경망([다층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/266_mlp_hidden_layers/))을 흉내 내 특징 추출부터 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)까지 통째로 기계가 다 해 먹는 깡패 기술 |
+| **과적합 ([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))** | 머신러닝이 걸리는 가장 무섭고 흔한 감기. 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 문제집만 달달 1만 번 외워버려서 훈련장에선 100점을 맞는데, 모의고사(실전 야생 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))만 나가면 와르르 무너져서 0점을 맞는 무쓸모 암기왕 상태 |
+| **[MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) (머신러닝 운영)** | 모델 훈련이 끝났다고 끝이 아니다! 훈련된 뇌(모델)를 서버에 배포하고, 매일 쏟아지는 새로운 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링하다가 똑똑함이 떨어지면 다시 밤에 재학습시키는 머신러닝판 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 공장 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -143,8 +147,8 @@ tags:
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 옛날 컴퓨터한테 자전거 타는 법을 가르치려면, **"왼쪽으로 10도 꺾어라, 페달을 5의 힘으로 밟아라"**라고 사람이 일일이 규칙(If-Then 코드)을 적어줘야 해서 너무너무 힘들었어요.
-2. **머신러닝(기계학습)**은 쿨하게 규칙을 버렸어요! 그냥 컴퓨터를 자전거에 태우고 **"넘어지든 말든 네가 1만 번 타보면서 스스로 깨우쳐봐!([[001_dikw_pyramid|데이터]] 경험)"** 하고 내버려 두는 거예요.
-3. 1만 번 넘어져서 무릎이 까진 컴퓨터는 몸의 감각(수학적 [[267_weight_bias_activation|가중치]])으로 어떻게 균형을 잡는지 **스스로 완벽한 규칙(모델)을 만들어내서**, 평생 안 넘어지는 최고의 라이더로 진화한답니다!
+2. **머신러닝(기계학습)**은 쿨하게 규칙을 버렸어요! 그냥 컴퓨터를 자전거에 태우고 **"넘어지든 말든 네가 1만 번 타보면서 스스로 깨우쳐봐!([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경험)"** 하고 내버려 두는 거예요.
+3. 1만 번 넘어져서 무릎이 까진 컴퓨터는 몸의 감각(수학적 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))으로 어떻게 균형을 잡는지 **스스로 완벽한 규칙(모델)을 만들어내서**, 평생 안 넘어지는 최고의 라이더로 진화한답니다!
 
 ---
 
@@ -152,7 +156,7 @@ tags:
 
 **진행 상황**: 241 / 420
 
-← **이전**: [[240_mcts_monte_carlo|240. 몬테카를로 트리 탐색 (MCTS)]]
-**다음**: [[242_supervised_learning|242. 지도 학습 (Supervised Learning) : 분류와 회귀]] →
+← **이전**: [240. 몬테카를로 트리 탐색 (MCTS)](/knowledge-base/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/)
+**다음**: [242. 지도 학습 (Supervised Learning) : 분류와 회귀](/knowledge-base/studynote/10_ai/03_llm_nlp/242_supervised_learning/) →
 
 ---

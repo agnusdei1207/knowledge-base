@@ -1,15 +1,19 @@
----
-title: 310. 종료 대상 선택 (희생자 선택) 기준 (Victim Selection)
-date: '2026-05-09'
-tags:
-- studynote-operating-system
----
++++
+title = "310. 종료 대상 선택 (희생자 선택) 기준 (Victim Selection)"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 교착 상태를 해소하기 위한 `부분 순차 복구(One-by-One)` 메커니즘에서, 얽혀있는 프로세스 중 대체 **어떤 불쌍한 놈을 '가장 타격이 적은 비용(Min Cost) 희생양(Victim)'으로 지목하여 살해(Abort) 혹은 [[098_rollback_strategy_pipeline_error_threshold|롤백]]([[313_rollback|Rollback]])시킬지 판결을 내리는 수학적 저울질(채점표) 수식체계**다.
-> 2. **가치**: 12시간 연산한 모델을 끄는 참사를 막고 가장 싼(방금 켜진) 놈 하나만 쏙 골라 자폭시킴으로써, 시스템의 매몰 비용(Sunk Cost) 소실을 제로에 가깝게 방어하는 완벽한 공리주의적 [[658_ir_recovery|복구]] 철학의 뼈대를 이룬다.
-> 3. **융합**: 프로세스의 우선순위(Priority), 실행 경과 시간, 보유(점유)한 자원의 수량, 앞으로 끝내기 위해 필요한 잉여 자원 수 등을 복합 [[267_weight_bias_activation|가중치]](Weighted Formula)로 융합하여 실시간으로 계산하며, "너무 싼 놈만 계속 패면 굶어 죽는다(기아)"는 기아 이슈([[314_starvation_prevention|Starvation]])를 방지할 카운터와 설계부터 맞물려 동작한다.
+> 1. **본질**: 교착 상태를 해소하기 위한 `부분 순차 복구(One-by-One)` 메커니즘에서, 얽혀있는 프로세스 중 대체 **어떤 불쌍한 놈을 '가장 타격이 적은 비용(Min Cost) 희생양(Victim)'으로 지목하여 살해(Abort) 혹은 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/))시킬지 판결을 내리는 수학적 저울질(채점표) 수식체계**다.
+> 2. **가치**: 12시간 연산한 모델을 끄는 참사를 막고 가장 싼(방금 켜진) 놈 하나만 쏙 골라 자폭시킴으로써, 시스템의 매몰 비용(Sunk Cost) 소실을 제로에 가깝게 방어하는 완벽한 공리주의적 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 철학의 뼈대를 이룬다.
+> 3. **융합**: 프로세스의 우선순위(Priority), 실행 경과 시간, 보유(점유)한 자원의 수량, 앞으로 끝내기 위해 필요한 잉여 자원 수 등을 복합 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)(Weighted Formula)로 융합하여 실시간으로 계산하며, "너무 싼 놈만 계속 패면 굶어 죽는다(기아)"는 기아 이슈([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))를 방지할 카운터와 설계부터 맞물려 동작한다.
 
 ---
 
@@ -48,14 +52,14 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### Victim [[022_mcts_four_stages|Selection]] 수식의 마력
+### Victim [Selection](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/) 수식의 마력
 
 OS는 단순히 기분에 따라 쏘지 않고 `Cost = a*(Priority) + b*(Time) + c*(Resources)...` 같은 파라미터 튜닝을 거친다.
 
 1. **프로세스의 우선순위 (Priority)**: 
-   - 사용자가 백그라운드 띄운 크롬 탭 vs [[001_operating_system_purpose|운영체제]]의 마우스 [[021_interrupt_handler|인터럽트 핸들러]] 무조건 후자를 [[571_protection_vs_security|보호]].
+   - 사용자가 백그라운드 띄운 크롬 탭 vs [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 마우스 [인터럽트 핸들러](/knowledge-base/studynote/02_operating_system/01_overview_architecture/021_interrupt_handler/) 무조건 후자를 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/).
 2. **지금까지 실행된 시간 (Accumulated Time)** vs **끝날 때까지 남은 시간 (Time to Complete)**:
-   - 이건 `매몰 비용(Sunk Cost)`을 맹렬히 방어하기 위한 지표다. 10분 돌린 녀석은 [[098_rollback_strategy_pipeline_error_threshold|롤백]]할 때 그 시간 파편이 너무 소중해서 아깝다. 0.1초 돌린 놈이 죽어주는 게 경제적 우상향이다. 반대로 이제 2초 뒤면 졸업(Finish)하는 놈이라면 절대 죽여선 안 된다!
+   - 이건 `매몰 비용(Sunk Cost)`을 맹렬히 방어하기 위한 지표다. 10분 돌린 녀석은 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)할 때 그 시간 파편이 너무 소중해서 아깝다. 0.1초 돌린 놈이 죽어주는 게 경제적 우상향이다. 반대로 이제 2초 뒤면 졸업(Finish)하는 놈이라면 절대 죽여선 안 된다!
 3. **현재 점유 중인 자원의 수량 (Assigned Resources)**:
    - 교착을 뚫으려면 빈 공간(여유 자원)이 대량 필요하다. 이걸 해결하려면? 자원을 10개 쥐고 있는 뚱뚱한 애를 죽이는 게 효율적인가, 구두주걱 1개 쥐고 있는 애를 죽이는 게 좋은가. 당연히 전자다. **"네가 지금 재산을 많이 쥐고 있으면 표적이 1순위가 된다."**
 
@@ -68,7 +72,7 @@ OS는 단순히 기분에 따라 쏘지 않고 `Cost = a*(Priority) + b*(Time) +
 | 척도 항목 | 만약 반대로 지목한다면? (재앙 시나리오) | 실제 OS의 타게팅 방향 |
 |:---|:---|:---|
 | **실행 시간** | 12시간 랜더링한 디자이너 앱을 강제 킬(Kill)시킴 | 0.2초 켜진 찌꺼기 크롤러를 우선 킬 |
-| **남은 완료 시간** | 99% 다 되어서 포장만 남은 [[092_thread_lwp|스레드]] 폭파시킴 | 시작률 1%인 뉴비 [[092_thread_lwp|스레드]] 폭파 |
+| **남은 완료 시간** | 99% 다 되어서 포장만 남은 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 폭파시킴 | 시작률 1%인 뉴비 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 폭파 |
 | **보유 자원 수** | 자원 빈털터리 죽임 (사이클이 안 풀려 또 남을 죽여야 함) | 락 10개 쥐고 있는 괴물 폭파 (자원 10개 우수수~ 1방에 해소) |
 
 **📢 섹션 요약 비유**: 저울추(기준)를 멍청하게 반대로 만들면, 엄청 고생해서 10시간짜리 탑(매몰비용)을 쌓은 아이의 탑을 고의로 발로 차서 무너뜨려버리는 악덕 튜닝이 돼버립니다. OS 설계자의 수식 튜닝이 시스템의 도덕성을 가릅니다.
@@ -78,23 +82,23 @@ OS는 단순히 기분에 따라 쏘지 않고 `Cost = a*(Priority) + b*(Time) +
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 시나리오**:
-1. **DB [[191_transaction_concept_states|트랜잭션]] [[098_rollback_strategy_pipeline_error_threshold|롤백]] 매커니즘 ([[188_pl_sql_t_sql_procedural|Oracle]]/MySQL InnoDB)**: 오라클이나 MySQL은 "[[001_operating_system_purpose|운영체제]] 프로세스 우선순위" 같은 애매한 건 보지 않고, 오직 `Undo Log Records Size (롤백 시 지워내야 하는 데이터의 양)` 하나만 절대적 비용 함수 기준으로 잡는다. "야 A [[191_transaction_concept_states|트랜잭션]]은 [[098_rollback_strategy_pipeline_error_threshold|롤백]]하려면 과거 쓰레기 1천만 줄 지워야 하니까 건들지 마. B [[191_transaction_concept_states|트랜잭션]]은 Insert 3줄 했네? 오케이 희생자(Victim) 합격! 잘라!" 실무 코어 락 해소의 진수다.
+1. **DB [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 매커니즘 ([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/)/MySQL InnoDB)**: 오라클이나 MySQL은 "[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 프로세스 우선순위" 같은 애매한 건 보지 않고, 오직 `Undo Log Records Size (롤백 시 지워내야 하는 데이터의 양)` 하나만 절대적 비용 함수 기준으로 잡는다. "야 A [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)은 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)하려면 과거 쓰레기 1천만 줄 지워야 하니까 건들지 마. B [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)은 Insert 3줄 했네? 오케이 희생자(Victim) 합격! 잘라!" 실무 코어 락 해소의 진수다.
 
-**[[128_water_scrum_fall_anti_pattern|안티패턴]]**:
-- **기아 ([[314_starvation_prevention|Starvation]]) 방지 장치 누락**: OS가 "가장 최근에 뜬 가벼운 프로그램"을 희생양 공식으로 지정했는데, A라는 프로그램이 데드락에 묶여 [[658_ir_recovery|복구]](Kill)되었다. 유저가 A를 5초 뒤 다시 켰는데 또 동일 데드락 큐에 말렸다. OS 알고리즘이 "어라? 저 새끼 또 가장 최근에 뜬 가벼운 놈 1위네? 죽여!" 무한 킬 타게팅 지옥에 빠져 A는 평생 실행될 수 없는, 억울한 [[314_starvation_prevention|기아 상태]]([[314_starvation_prevention|Starvation]]) 프레임에 갇힌다. 
+**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**:
+- **기아 ([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) 방지 장치 누락**: OS가 "가장 최근에 뜬 가벼운 프로그램"을 희생양 공식으로 지정했는데, A라는 프로그램이 데드락에 묶여 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(Kill)되었다. 유저가 A를 5초 뒤 다시 켰는데 또 동일 데드락 큐에 말렸다. OS 알고리즘이 "어라? 저 새끼 또 가장 최근에 뜬 가벼운 놈 1위네? 죽여!" 무한 킬 타게팅 지옥에 빠져 A는 평생 실행될 수 없는, 억울한 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) 프레임에 갇힌다. 
 
-**📢 섹션 요약 비유**: 희생자 수식 기능이 아무리 완벽해도 부작용(기아)이 끔찍합니다. 학교 일진들이 돈 뜯을 때 "가장 키 작고 안경 쓴 애(조건 수식)"만 고르다 보니 맨날 똑같은 한 명(A)이 매일 삥 뜯겨 학교를 자퇴하게 되는 버그([[314_starvation_prevention|Starvation]])가 생깁니다.
+**📢 섹션 요약 비유**: 희생자 수식 기능이 아무리 완벽해도 부작용(기아)이 끔찍합니다. 학교 일진들이 돈 뜯을 때 "가장 키 작고 안경 쓴 애(조건 수식)"만 고르다 보니 맨날 똑같은 한 명(A)이 매일 삥 뜯겨 학교를 자퇴하게 되는 버그([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))가 생깁니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-| 기준 | Victim [[022_mcts_four_stages|Selection]] 부재 (Abort All의 야만) | Victim [[022_mcts_four_stages|Selection]] 융합 (순차적 핀셋 제거) |
+| 기준 | Victim [Selection](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/) 부재 (Abort All의 야만) | Victim [Selection](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/) 융합 (순차적 핀셋 제거) |
 |:---|:---|:---|
-| 피해 최소화 ([[585_zero_skipping|Zero]] Sunk-cost) | 여태 쓴 시간 다 쓰레기로 만듦 | 최소의 [[098_rollback_strategy_pipeline_error_threshold|롤백]] 코스트만 허용하는 아름다움 달성 |
+| 피해 최소화 ([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Sunk-cost) | 여태 쓴 시간 다 쓰레기로 만듦 | 최소의 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 코스트만 허용하는 아름다움 달성 |
 | 엔지니어링 구현 부하 | 잴 게 없으니 쾌속 | 우선순위, 남은 시간, 보유락 등을 계산해 점수 매겨 정렬(Sort) |
 
-`종료 대상 선택 (Victim Selection)` 기준은 맹목적이고 잔인했던 [[658_ir_recovery|복구]]([[658_ir_recovery|Recovery]]) 사슬에 **최소 비용 경로 탐색(Min-Cost Path)**이라는 경제학적 공리주의를 투여한 역사적 나침반이다. 이를 통해 컴퓨터 시스템은 우발적 데드락을 맞이했을 때 시스템 전반의 파멸 [[212_synchronization_mechanisms|동기화]]([[308_abort_all|Abort All]])를 방어하고, 단 한두 줄의 가벼운 [[191_transaction_concept_states|트랜잭션]]을 희생양 삼아 수백만 달러어치 100% 무결점 서버 통신망을 지켜내는 기적 방어가 가능해졌다.
+`종료 대상 선택 (Victim Selection)` 기준은 맹목적이고 잔인했던 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)([Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)) 사슬에 **최소 비용 경로 탐색(Min-Cost Path)**이라는 경제학적 공리주의를 투여한 역사적 나침반이다. 이를 통해 컴퓨터 시스템은 우발적 데드락을 맞이했을 때 시스템 전반의 파멸 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)([Abort All](/knowledge-base/studynote/02_operating_system/05_deadlock/308_abort_all/))를 방어하고, 단 한두 줄의 가벼운 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 희생양 삼아 수백만 달러어치 100% 무결점 서버 통신망을 지켜내는 기적 방어가 가능해졌다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -104,10 +108,10 @@ OS는 단순히 기분에 따라 쏘지 않고 `Cost = a*(Priority) + b*(Time) +
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[107_process_termination|프로세스 종료]] 방식 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [프로세스 종료](/knowledge-base/studynote/02_operating_system/02_process_thread/107_process_termination/) 방식 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
 | 프로세스 순차 종료 방식 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [[311_resource_preemption|자원 선점]] ([[311_resource_preemption|Resource Preemption]]) 방식 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| 희생자 선택 (Victim [[022_mcts_four_stages|Selection]]) 최소 비용 기준 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [자원 선점](/knowledge-base/studynote/02_operating_system/05_deadlock/311_resource_preemption/) ([Resource Preemption](/knowledge-base/studynote/02_operating_system/05_deadlock/311_resource_preemption/)) 방식 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| 희생자 선택 (Victim [Selection](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/)) 최소 비용 기준 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -135,7 +139,7 @@ OS는 단순히 기분에 따라 쏘지 않고 `Cost = a*(Priority) + b*(Time) +
 
 **진행 상황**: 310 / 800
 
-← **이전**: [[309_abort_one_by_one|309. 프로세스 순차 종료 방식 (Abort One By One)]]
-**다음**: [[311_resource_preemption|311. 자원 선점 (Resource Preemption) 방식 - 다른 프로세스의 자원을 강제로 뺏음]] →
+← **이전**: [309. 프로세스 순차 종료 방식 (Abort One By One)](/knowledge-base/studynote/02_operating_system/05_deadlock/309_abort_one_by_one/)
+**다음**: [311. 자원 선점 (Resource Preemption) 방식 - 다른 프로세스의 자원을 강제로 뺏음](/knowledge-base/studynote/02_operating_system/05_deadlock/311_resource_preemption/) →
 
 ---

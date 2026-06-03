@@ -1,13 +1,17 @@
----
-title: 190. 순방향 에러 수정 (FEC, Forward Error Correction)
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "190. 순방향 에러 수정 (FEC, Forward Error Correction)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 순방향 에러 수정은 [[001_dikw_pyramid|데이터]] 링크 계층에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 1. **본질**: 순방향 에러 수정은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
 > 2. **가치**: 순방향 에러 수정을 이해하면 오류율과 재전송 비용 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
@@ -15,11 +19,11 @@ tags:
 
 ## Ⅰ. 개요 및 필요성
 
-우리가 인터넷을 쓸 때는 보통 쿨하게 패킷을 버리고 재전송([[949_arq_automatic_repeat_request_go_back_n_selective|ARQ]], [[405_tcp_transmission_control_protocol_connection_oriented|TCP]])을 받습니다. 하지만 세상에는 재전송을 절대로 기다려 줄 수 없는 극한의 통신 환경들이 있습니다.
+우리가 인터넷을 쓸 때는 보통 쿨하게 패킷을 버리고 재전송([ARQ](/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/), [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))을 받습니다. 하지만 세상에는 재전송을 절대로 기다려 줄 수 없는 극한의 통신 환경들이 있습니다.
 
-1. **[[015_지연_데이터_관점|지연]]이 치명적인 경우 (실시간 방송)**: 월드컵 라이브 중계나 줌(Zoom) 화상회의 도중 패킷 하나가 깨졌다고 1초 뒤에 다시 보내달라고 하면, 화면이 버퍼링에 걸려 완전히 엉망이 됩니다.
+1. **[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 치명적인 경우 (실시간 방송)**: 월드컵 라이브 중계나 줌(Zoom) 화상회의 도중 패킷 하나가 깨졌다고 1초 뒤에 다시 보내달라고 하면, 화면이 버퍼링에 걸려 완전히 엉망이 됩니다.
 2. **거리가 너무 먼 경우 (우주 통신)**: 화성 탐사선(큐리오시티)이 지구로 사진을 보냅니다. 사진 1비트가 깨졌다고 지구에서 "다시 보내!"라고 신호를 보내면, 화성까지 갔다 오는 데 수십 분이 걸립니다.
-3. **[[008_단방향_반이중_전이중|단방향]] 통신 (TV 방송)**: [[160_radio_propagation_ground_sky_space|지상파]] TV탑은 그냥 쏘기만 할 뿐([[406_linear_programming_simplex|Simplex]]), 각 가정의 TV가 송신탑에 역으로 "나 못 받았어"라고 말할 회선 자체가 없습니다.
+3. **[단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 통신 (TV 방송)**: [지상파](/knowledge-base/studynote/03_network/03_physical_layer_media/160_radio_propagation_ground_sky_space/) TV탑은 그냥 쏘기만 할 뿐([Simplex](/knowledge-base/studynote/06_ict_convergence/05_data_science/406_linear_programming_simplex/)), 각 가정의 TV가 송신탑에 역으로 "나 못 받았어"라고 말할 회선 자체가 없습니다.
 
 이런 환경에서는 수신기가 **스스로 찢어진 사진을 테이프로 붙여서 복원해 내는 능력(FEC)**이 생명입니다.
 
@@ -32,17 +36,17 @@ tags:
     └──▶ [역방향 에러 수정 / 자동 재전송 요청]
 ```
 
-- **📢 섹션 요약 비유**: 순방향 에러 수정은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [[170_selectivity_cardinality_distribution_tuning|선택도]] 쉬워진다.
+- **📢 섹션 요약 비유**: 순방향 에러 수정은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-FEC를 가능하게 하는 대표적인 마법의 알고리즘이 1950년 리차드 해밍이 고안한 **[[111_hamming_code|해밍 코드]]([[111_hamming_code|Hamming Code]])**입니다.
+FEC를 가능하게 하는 대표적인 마법의 알고리즘이 1950년 리차드 해밍이 고안한 **[해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/)([Hamming Code](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/))**입니다.
 
-- **잉여 [[073_bit|비트]]의 대량 투입**: 4비트의 원본 [[001_dikw_pyramid|데이터]](예: `1011`)를 보내기 위해, 송신기는 이 [[001_dikw_pyramid|데이터]]의 짝수/홀수 성질을 이리저리 꼬아서 만든 3비트짜리 [[167_sql_hint_optimizer_override|힌트]]([[107_parity_bit|패리티 비트]])를 추가로 붙여 **총 7비트짜리 비효율적인 블록**을 보냅니다.
-- **수신기의 추리**: 수신기에 1비트가 에러가 나서 `1001`로 도착했습니다. 수신기는 뒤에 달린 3비트의 [[167_sql_hint_optimizer_override|힌트]]를 벤 다이어그램(행렬 연산)에 넣고 쓱쓱 돌려봅니다.
-- **기적의 교정**: "아하! [[167_sql_hint_optimizer_override|힌트]]들을 조합해 보니 정확히 **'3번째 [[073_bit|비트]]'**에서 모순이 발생했네. 원래 1이었는데 번개 맞고 0으로 깨졌구나!" ➔ **수신기가 스스로 3번째 [[073_bit|비트]]를 다시 1로 휙 뒤집어 완벽한 원본으로 수리(Correction)해 냅니다.**
+- **잉여 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)의 대량 투입**: 4비트의 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(예: `1011`)를 보내기 위해, 송신기는 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 짝수/홀수 성질을 이리저리 꼬아서 만든 3비트짜리 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)([패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/))를 추가로 붙여 **총 7비트짜리 비효율적인 블록**을 보냅니다.
+- **수신기의 추리**: 수신기에 1비트가 에러가 나서 `1001`로 도착했습니다. 수신기는 뒤에 달린 3비트의 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)를 벤 다이어그램(행렬 연산)에 넣고 쓱쓱 돌려봅니다.
+- **기적의 교정**: "아하! [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)들을 조합해 보니 정확히 **'3번째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)'**에서 모순이 발생했네. 원래 1이었는데 번개 맞고 0으로 깨졌구나!" ➔ **수신기가 스스로 3번째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 다시 1로 휙 뒤집어 완벽한 원본으로 수리(Correction)해 냅니다.**
 
 ```text
 [비트 에러율]
@@ -59,35 +63,35 @@ FEC를 가능하게 하는 대표적인 마법의 알고리즘이 1950년 리차
 
 ## Ⅲ. 비교 및 연결
 
-- **장점**: **연속성과 실시간성.** 재전송 [[015_지연_데이터_관점|지연]](Delay)이 전혀 없으므로 오디오, 비디오 스트리밍이나 무선 셀룰러망의 물리 계층(채널 코딩)에서 찰떡같이 쓰입니다. ([[199_reed_solomon_code_burst_error|리드-솔로몬 코드]], 길쌈 부호, [[202_turbo_code_shannon_limit|터보 코드]], [[203_ldpc_low_density_parity_check|LDPC]] 등이 현대 FEC의 주역입니다.)
-- **치명적 단점 (오버헤드)**: 100바이트 원본을 보내기 위해 30바이트짜리 [[167_sql_hint_optimizer_override|힌트]] 코드를 매번 억지로 달고 다녀야 합니다. 에러가 안 나는 맑은 날씨에도 30%의 네트워크 도로([[140_bandwidth|대역폭]])를 [[167_sql_hint_optimizer_override|힌트]] 코드들이 낭비하며 잡아먹는 꼴이 됩니다.
+- **장점**: **연속성과 실시간성.** 재전송 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Delay)이 전혀 없으므로 오디오, 비디오 스트리밍이나 무선 셀룰러망의 물리 계층(채널 코딩)에서 찰떡같이 쓰입니다. ([리드-솔로몬 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/199_reed_solomon_code_burst_error/), 길쌈 부호, [터보 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/202_turbo_code_shannon_limit/), [LDPC](/knowledge-base/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/) 등이 현대 FEC의 주역입니다.)
+- **치명적 단점 (오버헤드)**: 100바이트 원본을 보내기 위해 30바이트짜리 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) 코드를 매번 억지로 달고 다녀야 합니다. 에러가 안 나는 맑은 날씨에도 30%의 네트워크 도로([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))를 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) 코드들이 낭비하며 잡아먹는 꼴이 됩니다.
 
-순방향 에러 수정을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [[189_ber_bit_error_rate|비트 에러율]]이 기반 조건을 만든다면, 순방향 에러 수정은 그 위에서 핵심 메커니즘을 구현하고, 역방향 에러 수정 / 자동 재전송 요청은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 오류율과 재전송 비용에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+순방향 에러 수정을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [비트 에러율](/knowledge-base/studynote/03_network/04_data_link_layer_error/189_ber_bit_error_rate/)이 기반 조건을 만든다면, 순방향 에러 수정은 그 위에서 핵심 메커니즘을 구현하고, 역방향 에러 수정 / 자동 재전송 요청은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 오류율과 재전송 비용에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [[189_ber_bit_error_rate|비트 에러율]]의 기반 정리 | 순방향 에러 수정의 핵심 동작 | 역방향 에러 수정 / 자동 재전송 요청의 확장 적용 |
+| 초점 | [비트 에러율](/knowledge-base/studynote/03_network/04_data_link_layer_error/189_ber_bit_error_rate/)의 기반 정리 | 순방향 에러 수정의 핵심 동작 | 역방향 에러 수정 / 자동 재전송 요청의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 오류율 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: ** [[949_arq_automatic_repeat_request_go_back_n_selective|ARQ]](재전송)가 글을 쓰다 틀리면 **지우개로 다 지우고 다시 써달라고 부탁하는 것**이라면, FEC는 암호 해독가입니다. 첩보원이 적진에서 보낸 암호문 글자가 비에 번져서 안 보여도(에러), 해독가는 다시 보내달라고 할 수 없으니 문장의 **앞뒤 문맥과 띄어쓰기 패턴(잉여 [[073_bit|비트]])을 스스로 유추하여 뭉개진 글자를 완벽히 때려 맞춰 복원(수정)**해 내는 고도의 지적 작업입니다.
+- **📢 섹션 요약 비유**: ** [ARQ](/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/)(재전송)가 글을 쓰다 틀리면 **지우개로 다 지우고 다시 써달라고 부탁하는 것**이라면, FEC는 암호 해독가입니다. 첩보원이 적진에서 보낸 암호문 글자가 비에 번져서 안 보여도(에러), 해독가는 다시 보내달라고 할 수 없으니 문장의 **앞뒤 문맥과 띄어쓰기 패턴(잉여 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))을 스스로 유추하여 뭉개진 글자를 완벽히 때려 맞춰 복원(수정)**해 내는 고도의 지적 작업입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 순방향 에러 수정을 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [[189_ber_bit_error_rate|비트 에러율]] 수준의 기본 대책으로 충분한지, 아니면 순방향 에러 수정이 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 역방향 에러 수정 / 자동 재전송 요청와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 순방향 에러 수정을 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [비트 에러율](/knowledge-base/studynote/03_network/04_data_link_layer_error/189_ber_bit_error_rate/) 수준의 기본 대책으로 충분한지, 아니면 순방향 에러 수정이 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 역방향 에러 수정 / 자동 재전송 요청와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 오류율 부족인지, 재전송 비용 악화인지 먼저 분리한다.
-2. 순방향 에러 수정가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [[396_validation|확인]]한다.
+2. 순방향 에러 수정가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
 3. 도입 후에는 인접 기술인 역방향 에러 수정 / 자동 재전송 요청와의 연계 방식을 함께 검증한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 순방향 에러 수정의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- [[189_ber_bit_error_rate|비트 에러율]]와의 경계를 정리하지 않아 중복 투자나 [[164_policy|정책]] 충돌을 만드는 설계
+- [비트 에러율](/knowledge-base/studynote/03_network/04_data_link_layer_error/189_ber_bit_error_rate/)와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: 순방향 에러 수정을 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -95,7 +99,7 @@ FEC를 가능하게 하는 대표적인 마법의 알고리즘이 1950년 리차
 
 ## Ⅴ. 기대효과 및 결론
 
-순방향 에러 수정은 [[001_dikw_pyramid|데이터]] 링크 계층을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 오류율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 역방향 에러 수정 / 자동 재전송 요청, 고신뢰 저지연 링크 제어, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 고신뢰 저지연 링크 제어 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+순방향 에러 수정은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 오류율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 역방향 에러 수정 / 자동 재전송 요청, 고신뢰 저지연 링크 제어, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 고신뢰 저지연 링크 제어 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 순방향 에러 수정은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -105,9 +109,9 @@ FEC를 가능하게 하는 대표적인 마법의 알고리즘이 1950년 리차
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[189_ber_bit_error_rate|비트 에러율]] | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [[184_framing_mechanism|프레이밍]] ([[184_framing_mechanism|Framing]]) | [[073_bit|비트]]열을 의미 있는 전송 단위로 구분한다. |
-| [[188_error_control_overview|오류 제어]] ([[188_error_control_overview|Error Control]]) | 검출과 [[658_ir_recovery|복구]] [[164_policy|정책]]을 함께 설계해야 한다. |
+| [비트 에러율](/knowledge-base/studynote/03_network/04_data_link_layer_error/189_ber_bit_error_rate/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [프레이밍](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/) ([Framing](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/)) | [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)열을 의미 있는 전송 단위로 구분한다. |
+| [오류 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/) ([Error Control](/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/)) | 검출과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 함께 설계해야 한다. |
 | 역방향 에러 수정 / 자동 재전송 요청 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -122,11 +126,11 @@ FEC를 가능하게 하는 대표적인 마법의 알고리즘이 1950년 리차
     └──▶ [확장 B: 고신뢰 저지연 링크 제어]
 ```
 
-순방향 에러 수정는 [[189_ber_bit_error_rate|비트 에러율]]에서 출발해 현재 메커니즘을 정교화하고, 이후 역방향 에러 수정 / 자동 재전송 요청와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+순방향 에러 수정는 [비트 에러율](/knowledge-base/studynote/03_network/04_data_link_layer_error/189_ber_bit_error_rate/)에서 출발해 현재 메커니즘을 정교화하고, 이후 역방향 에러 수정 / 자동 재전송 요청와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 편지를 보낼 때 봉투를 제대로 닫고 틀린 글자가 없는지 [[396_validation|확인]]해야 해요.
+1. 편지를 보낼 때 봉투를 제대로 닫고 틀린 글자가 없는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 해요.
 2. 이 개념은 편지가 깨지거나 사라졌을 때 다시 보내는 규칙까지 정해줘요.
 3. 그래서 중간에 흔들려도 중요한 내용이 더 안전하게 도착해요.
 
@@ -136,7 +140,7 @@ FEC를 가능하게 하는 대표적인 마법의 알고리즘이 1950년 리차
 
 **진행 상황**: 311 / 1120
 
-← **이전**: [[189_ber_bit_error_rate|189. 비트 에러율 (BER, Bit Error Rate)]]
-**다음**: [[191_arq_automatic_repeat_request_types|191. 역방향 에러 수정 / 자동 재전송 요청 (ARQ, Automatic Repeat reQuest)]] →
+← **이전**: [189. 비트 에러율 (BER, Bit Error Rate)](/knowledge-base/studynote/03_network/04_data_link_layer_error/189_ber_bit_error_rate/)
+**다음**: [191. 역방향 에러 수정 / 자동 재전송 요청 (ARQ, Automatic Repeat reQuest)](/knowledge-base/studynote/03_network/04_data_link_layer_error/191_arq_automatic_repeat_request_types/) →
 
 ---

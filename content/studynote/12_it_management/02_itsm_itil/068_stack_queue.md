@@ -1,20 +1,24 @@
----
-title: 68. 스택/큐 (Stack / Queue)
-tags:
-- it_management
----
++++
+title = "68. 스택/큐 (Stack / Queue)"
+
+[taxonomies]
+tags = ["it_management"]
+
+[extra]
+tags = ["it_management"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[057_stack|스택]]([[057_stack|Stack]])은 LIFO, 큐([[058_queue|Queue]])는 [[261_fifo_page_replacement|FIFO]] 원칙을 따르는 기본 자료 구조다.
-> 2. **가치**: 호출 [[057_stack|스택]], 작업 대기열, [[035_bfs|BFS]]/[[034_dfs|DFS]] 등에서 자주 쓰인다.
-> 3. **판단**: [[001_dikw_pyramid|데이터]] 흐름의 순서를 설계할 때 가장 먼저 떠올려야 하는 기본 도구다.
+> 1. **본질**: [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))은 LIFO, 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))는 [FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) 원칙을 따르는 기본 자료 구조다.
+> 2. **가치**: 호출 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/), 작업 대기열, [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/)/[DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 등에서 자주 쓰인다.
+> 3. **판단**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름의 순서를 설계할 때 가장 먼저 떠올려야 하는 기본 도구다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[[057_stack|스택]]과 큐는 자료 구조의 가장 기본적인 두 축이다. 순서를 어떻게 처리할지에 따라 둘 중 하나를 고르면 된다.
+[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)과 큐는 자료 구조의 가장 기본적인 두 축이다. 순서를 어떻게 처리할지에 따라 둘 중 하나를 고르면 된다.
 
 단순하지만 활용 범위가 매우 넓다.
 
@@ -31,10 +35,10 @@ Queue: enqueue / dequeue
 
 | 구조 | 원리 | 예 |
 | :-- | :-- | :-- |
-| [[057_stack|Stack]] | LIFO | [[294_function_calling_tool_use|함수 호출]], 되돌리기 |
-| [[058_queue|Queue]] | [[261_fifo_page_replacement|FIFO]] | 작업 대기, [[035_bfs|BFS]] |
+| [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) | LIFO | [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/), 되돌리기 |
+| [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) | [FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) | 작업 대기, [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/) |
 
-[[057_stack|스택]]은 마지막에 넣은 것이 먼저 나오고, 큐는 먼저 들어온 것이 먼저 나온다.
+[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)은 마지막에 넣은 것이 먼저 나오고, 큐는 먼저 들어온 것이 먼저 나온다.
 
 - **📢 섹션 요약 비유**: 나중에 놓은 책이 맨 위, 먼저 온 손님이 먼저 입장하는 것이다.
 
@@ -42,18 +46,18 @@ Queue: enqueue / dequeue
 
 ## Ⅲ. 비교 및 연결
 
-| 구분 | [[057_stack|Stack]] | [[058_queue|Queue]] |
+| 구분 | [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) | [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) |
 | :-- | :-- | :-- |
-| 순서 | LIFO | [[261_fifo_page_replacement|FIFO]] |
-| 주요 연산 | push/[[120_pop_point_of_production|pop]] | enqueue/dequeue |
-| 용도 | [[014_recursion|재귀]]/역추적 | 스케줄링/대기열 |
+| 순서 | LIFO | [FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) |
+| 주요 연산 | push/[pop](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/120_pop_point_of_production/) | enqueue/dequeue |
+| 용도 | [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)/역추적 | 스케줄링/대기열 |
 
 | 관련 개념 | 의미 |
 | :-- | :-- |
-| [[084_deque|Deque]] | 양방향 |
-| Circular [[058_queue|Queue]] | 원형 큐 |
+| [Deque](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/084_deque/) | 양방향 |
+| Circular [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) | 원형 큐 |
 
-[[057_stack|스택]]과 큐는 알고리즘의 흐름과 운영 시스템의 작업 처리에서 모두 중요하다.
+[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)과 큐는 알고리즘의 흐름과 운영 시스템의 작업 처리에서 모두 중요하다.
 
 - **📢 섹션 요약 비유**: 쌓는지, 줄 세우는지에 따라 처리 방식이 달라진다.
 
@@ -61,22 +65,22 @@ Queue: enqueue / dequeue
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. LIFO와 FIFO를 구분하는가?
 2. 연산의 시간 복잡도를 아는가?
-3. [[057_stack|스택]] 오버플로/언더플로를 고려하는가?
+3. [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 오버플로/언더플로를 고려하는가?
 4. 큐의 병목과 순서를 관리하는가?
 5. 상황에 맞는 구조를 고르는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- [[057_stack|스택]]과 큐를 혼동하는 설계
+- [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)과 큐를 혼동하는 설계
 - 대기열 순서를 무시하는 설계
-- [[014_recursion|재귀]] 깊이와 [[057_stack|스택]] 한계를 무시하는 설계
+- [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 깊이와 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 한계를 무시하는 설계
 - 목적 없이 자료 구조를 선택하는 설계
 
-기술사 관점에서는 [[057_stack|스택]]과 큐를 "순서 제어의 기본 자료 구조"로 설명해야 한다.
+기술사 관점에서는 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)과 큐를 "순서 제어의 기본 자료 구조"로 설명해야 한다.
 
 - **📢 섹션 요약 비유**: 쌓을지, 줄 설지 먼저 정해야 한다.
 
@@ -84,9 +88,9 @@ Queue: enqueue / dequeue
 
 ## Ⅴ. 기대효과 및 결론
 
-[[057_stack|스택]]과 큐를 이해하면 알고리즘과 시스템 설계를 더 명확히 할 수 있다.
+[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)과 큐를 이해하면 알고리즘과 시스템 설계를 더 명확히 할 수 있다.
 
-결론적으로 [[057_stack|스택]]은 LIFO, 큐는 FIFO를 구현하는 기본 자료 구조다.
+결론적으로 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)은 LIFO, 큐는 FIFO를 구현하는 기본 자료 구조다.
 
 - **📢 섹션 요약 비유**: 순서가 바뀌면 결과도 달라진다.
 
@@ -124,7 +128,7 @@ Scheduling / Traversal
 
 쌓아 두면 나중에 올린 게 먼저 나와요.  
 줄 서면 먼저 온 사람이 먼저 가요.  
-[[057_stack|스택]]과 큐는 그런 순서예요.
+[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)과 큐는 그런 순서예요.
 
 ---
 
@@ -132,7 +136,7 @@ Scheduling / Traversal
 
 **진행 상황**: 120 / 587
 
-← **이전**: [[068_csi|68. 지속적 서비스 개선 (CSI, Continual Service Improvement)]]
-**다음**: [[069_deque_circular_queue|69. 데크/원형 큐 (Deque / Circular Queue)]] →
+← **이전**: [68. 지속적 서비스 개선 (CSI, Continual Service Improvement)](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/)
+**다음**: [69. 데크/원형 큐 (Deque / Circular Queue)](/knowledge-base/studynote/12_it_management/02_itsm_itil/069_deque_circular_queue/) →
 
 ---

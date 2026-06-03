@@ -1,25 +1,29 @@
----
-title: 256. 브리지 ID (Priority + MAC), 비용 (Path Cost)
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "256. 브리지 ID (Priority + MAC), 비용 (Path Cost)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[260_bridge_pattern_abstraction_implementation|브리지]] ID, 비용은 LAN/WAN과 2계층 장비에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: [[260_bridge_pattern_abstraction_implementation|브리지]] ID, 비용을 이해하면 스위칭 효율과 브로드캐스트 범위 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) ID, 비용은 LAN/WAN과 2계층 장비에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) ID, 비용을 이해하면 스위칭 효율과 브로드캐스트 범위 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [[570_stp_vs_mtp|STP]] 알고리즘이 선거와 계산을 수행할 때 사용하는 수학적 파라미터.
-- **필요성**: [[238_switch_operation_principles|스위치]] 10대가 연결된 망에서 "누가 대장 할래?"라고 물으면 기계들은 결정을 내릴 수 없다. 반드시 모든 기계가 동의할 수 있는 객관적이고 유일무이한 숫자 값이 필요하다. 또한 대장까지 가는 길이 여러 갈래일 때 "어느 길이 제일 빠른가?"를 판단할 거리 단위도 필요하다. 이 두 가지 기준이 없으면 트리 구조 자체가 그려지지 않는다.
+- **개념**: [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/) 알고리즘이 선거와 계산을 수행할 때 사용하는 수학적 파라미터.
+- **필요성**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 10대가 연결된 망에서 "누가 대장 할래?"라고 물으면 기계들은 결정을 내릴 수 없다. 반드시 모든 기계가 동의할 수 있는 객관적이고 유일무이한 숫자 값이 필요하다. 또한 대장까지 가는 길이 여러 갈래일 때 "어느 길이 제일 빠른가?"를 판단할 거리 단위도 필요하다. 이 두 가지 기준이 없으면 트리 구조 자체가 그려지지 않는다.
 
 - **💡 비유**: 반장 선거와 같습니다. 
-  - **[[260_bridge_pattern_abstraction_implementation|브리지]] ID**: 반장(대장)을 뽑을 때 무조건 **"출석 번호(우선순위+[[673_mac_message_authentication_code|MAC]])가 제일 빠른(낮은) 사람"**이 반장이 된다는 엄격한 학교 규칙입니다.
+  - **[브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) ID**: 반장(대장)을 뽑을 때 무조건 **"출석 번호(우선순위+[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))가 제일 빠른(낮은) 사람"**이 반장이 된다는 엄격한 학교 규칙입니다.
   - **비용(Cost)**: 반장 집까지 놀러 갈 때 좁은 흙길(10Mbps)로 가면 피로도(Cost)가 100이고, 넓은 고속도로(1Gbps)로 가면 피로도가 4입니다. 당연히 덜 피곤한(Cost가 낮은) 길을 선택합니다.
 
 ```text
@@ -31,20 +35,20 @@ tags:
     └──▶ [STP 4단계 상태 전이]
 ```
 
-- **📢 섹션 요약 비유**: ** [[260_bridge_pattern_abstraction_implementation|브리지]] ID는 [[238_switch_operation_principles|스위치]]의 **"군번(계급장)"**이고, Path Cost는 도로의 넓이에 따라 매겨진 **"통행료"**입니다. 군번이 가장 빠른 자가 지휘관이 되고, 통행료가 가장 싼 길만 남겨두고 비싼 길은 모두 통제(Block)해 버립니다.
+- **📢 섹션 요약 비유**: ** [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) ID는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 **"군번(계급장)"**이고, Path Cost는 도로의 넓이에 따라 매겨진 **"통행료"**입니다. 군번이 가장 빠른 자가 지휘관이 되고, 통행료가 가장 싼 길만 남겨두고 비싼 길은 모두 통제(Block)해 버립니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 1. [[260_bridge_pattern_abstraction_implementation|브리지]] ID ([[260_bridge_pattern_abstraction_implementation|Bridge]] ID)의 구성
+### 1. [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) ID ([Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) ID)의 구성
 총 8바이트(64비트)로 이루어져 있다.
 - **Priority (2바이트 / 16비트)**: 관리자가 0부터 65535까지 수동으로 바꿀 수 있는 우선순위 값. 기본값은 **32,768**이다. (보통 4096 단위로 증가/감소하도록 강제됨).
-- **[[673_mac_message_authentication_code|MAC]] 주소 (6바이트 / 48비트)**: 해당 [[238_switch_operation_principles|스위치]]의 하드웨어 [[673_mac_message_authentication_code|MAC]] 주소.
+- **[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 (6바이트 / 48비트)**: 해당 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 하드웨어 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소.
 
-**선출의 법칙**: 두 [[238_switch_operation_principles|스위치]]가 BPDU를 주고받을 때, 무조건 숫자가 '작은' 쪽이 승리한다.
-- 먼저 Priority를 비교한다. 관리자가 A [[238_switch_operation_principles|스위치]]의 Priority를 `4096`으로 세팅했다면, 기본값 `32768`을 가진 다른 [[238_switch_operation_principles|스위치]]들을 다 이기고 대장(Root)이 된다.
-- 만약 Priority가 같다면? [[673_mac_message_authentication_code|MAC]] 주소를 비교하여 더 작은 놈이 이긴다. 공장에서 옛날에 생산된 구형 [[238_switch_operation_principles|스위치]]일수록 [[673_mac_message_authentication_code|MAC]] 주소가 앞 번호이므로, 관리자가 Priority 설정을 안 해두면 회사 내의 가장 낡고 구린 [[238_switch_operation_principles|스위치]]가 대장이 되어 망 전체가 느려지는 대참사가 발생한다.
+**선출의 법칙**: 두 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 BPDU를 주고받을 때, 무조건 숫자가 '작은' 쪽이 승리한다.
+- 먼저 Priority를 비교한다. 관리자가 A [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 Priority를 `4096`으로 세팅했다면, 기본값 `32768`을 가진 다른 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들을 다 이기고 대장(Root)이 된다.
+- 만약 Priority가 같다면? [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 비교하여 더 작은 놈이 이긴다. 공장에서 옛날에 생산된 구형 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)일수록 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소가 앞 번호이므로, 관리자가 Priority 설정을 안 해두면 회사 내의 가장 낡고 구린 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 대장이 되어 망 전체가 느려지는 대참사가 발생한다.
 
 ```text
  ┌─────────────────────────────────────────────────────────────┐
@@ -61,14 +65,14 @@ tags:
 ```
 
 ### 2. 비용 (Path Cost)의 기준과 누적 연산
-Root Bridge가 선출되면, 나머지 [[238_switch_operation_principles|스위치]]들은 대장에게 가는 루트 [[446_port_and_bus|포트]]([[370_pim_rp_rendezvous_point_rpf_loop_prevention|RP]])를 찾아야 한다. 이때 IEEE가 정의한 선로 [[140_bandwidth|대역폭]](속도)별 Cost를 합산한다. 속도가 빠를수록 값이 낮다.
-- **[[489_raid_10_hybrid|10]] Mbps** [[230_ethernet_structure_and_principles_ieee_802_3|이더넷]] = Cost **100**
-- **100 Mbps** 패스트 [[230_ethernet_structure_and_principles_ieee_802_3|이더넷]] = Cost **19**
-- **1 Gbps** 기가비트 [[230_ethernet_structure_and_principles_ieee_802_3|이더넷]] = Cost **4**
-- **[[489_raid_10_hybrid|10]] Gbps** [[230_ethernet_structure_and_principles_ieee_802_3|이더넷]] = Cost **2**
+Root Bridge가 선출되면, 나머지 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들은 대장에게 가는 루트 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)([RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/))를 찾아야 한다. 이때 IEEE가 정의한 선로 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(속도)별 Cost를 합산한다. 속도가 빠를수록 값이 낮다.
+- **[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) Mbps** [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) = Cost **100**
+- **100 Mbps** 패스트 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) = Cost **19**
+- **1 Gbps** 기가비트 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) = Cost **4**
+- **[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) Gbps** [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) = Cost **2**
 
-**누적 계산(Accumulation)**: 내가 대장한테 가기 위해 거쳐야 하는 '수신 [[446_port_and_bus|포트]]'들의 Cost를 전부 더한다.
-- [[238_switch_operation_principles|스위치]] C가 [[238_switch_operation_principles|스위치]] B를 거쳐(100M 선, Cost 19), [[238_switch_operation_principles|스위치]] A(대장)로(100M 선, Cost 19) 간다면 총 누적 Cost는 19 + 19 = **38**이다. 만약 [[238_switch_operation_principles|스위치]] C에서 A로 다이렉트로 가는 1Gbps 선(Cost 4)이 있다면, C는 Cost가 4인 다이렉트 선을 RP로 삼고, Cost가 38인 우회로는 Block(차단) 시켜 버린다.
+**누적 계산(Accumulation)**: 내가 대장한테 가기 위해 거쳐야 하는 '수신 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)'들의 Cost를 전부 더한다.
+- [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) C가 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) B를 거쳐(100M 선, Cost 19), [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) A(대장)로(100M 선, Cost 19) 간다면 총 누적 Cost는 19 + 19 = **38**이다. 만약 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) C에서 A로 다이렉트로 가는 1Gbps 선(Cost 4)이 있다면, C는 Cost가 4인 다이렉트 선을 RP로 삼고, Cost가 38인 우회로는 Block(차단) 시켜 버린다.
 
 - **📢 섹션 요약 비유**: ** 숫자가 작을수록 좋다는 STP의 철칙은 마치 **"골프(Golf)"** 경기와 같습니다. 랭킹 점수(Priority)도 작아야 1등이고, 구멍에 넣기까지 친 타수(Cost)도 적어야 승리합니다.
 
@@ -76,42 +80,42 @@ Root Bridge가 선출되면, 나머지 [[238_switch_operation_principles|스위�
 
 ## Ⅲ. 비교 및 연결
 
-[[260_bridge_pattern_abstraction_implementation|브리지]] ID, 비용을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [[255_root_bridge_rp_dp_bp|루트 브리지]], 루트 [[446_port_and_bus|포트]], 지정 [[446_port_and_bus|포트]], 차단…가 기반 조건을 만든다면, [[260_bridge_pattern_abstraction_implementation|브리지]] ID, 비용은 그 위에서 핵심 메커니즘을 구현하고, [[570_stp_vs_mtp|STP]] 4단계 [[632_state_transition_diagram_testing|상태 전이]]는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 스위칭 효율과 브로드캐스트 범위에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+[브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) ID, 비용을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [루트 브리지](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/255_root_bridge_rp_dp_bp/), 루트 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 지정 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 차단…가 기반 조건을 만든다면, [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) ID, 비용은 그 위에서 핵심 메커니즘을 구현하고, [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/) 4단계 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 스위칭 효율과 브로드캐스트 범위에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [[255_root_bridge_rp_dp_bp|루트 브리지]], 루트 [[446_port_and_bus|포트]], 지정 [[446_port_and_bus|포트]], 차단…의 기반 정리 | [[260_bridge_pattern_abstraction_implementation|브리지]] ID, 비용의 핵심 동작 | [[570_stp_vs_mtp|STP]] 4단계 [[632_state_transition_diagram_testing|상태 전이]]의 확장 적용 |
+| 초점 | [루트 브리지](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/255_root_bridge_rp_dp_bp/), 루트 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 지정 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 차단…의 기반 정리 | [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) ID, 비용의 핵심 동작 | [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/) 4단계 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 스위칭 효율 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: [[260_bridge_pattern_abstraction_implementation|브리지]] ID, 비용은 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
+- **📢 섹션 요약 비유**: [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) ID, 비용은 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 [[260_bridge_pattern_abstraction_implementation|브리지]] ID, 비용을 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [[255_root_bridge_rp_dp_bp|루트 브리지]], 루트 [[446_port_and_bus|포트]], 지정 [[446_port_and_bus|포트]], 차단… 수준의 기본 대책으로 충분한지, 아니면 [[260_bridge_pattern_abstraction_implementation|브리지]] ID, 비용이 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [[570_stp_vs_mtp|STP]] 4단계 [[632_state_transition_diagram_testing|상태 전이]]와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) ID, 비용을 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [루트 브리지](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/255_root_bridge_rp_dp_bp/), 루트 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 지정 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 차단… 수준의 기본 대책으로 충분한지, 아니면 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) ID, 비용이 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/) 4단계 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 스위칭 효율 부족인지, 브로드캐스트 범위 악화인지 먼저 분리한다.
-2. [[260_bridge_pattern_abstraction_implementation|브리지]] ID, 비용가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [[396_validation|확인]]한다.
-3. 도입 후에는 인접 기술인 [[570_stp_vs_mtp|STP]] 4단계 [[632_state_transition_diagram_testing|상태 전이]]와의 연계 방식을 함께 검증한다.
+2. [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) ID, 비용가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+3. 도입 후에는 인접 기술인 [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/) 4단계 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)와의 연계 방식을 함께 검증한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- [[260_bridge_pattern_abstraction_implementation|브리지]] ID, 비용의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- [[255_root_bridge_rp_dp_bp|루트 브리지]], 루트 [[446_port_and_bus|포트]], 지정 [[446_port_and_bus|포트]], 차단…와의 경계를 정리하지 않아 중복 투자나 [[164_policy|정책]] 충돌을 만드는 설계
+- [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) ID, 비용의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
+- [루트 브리지](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/255_root_bridge_rp_dp_bp/), 루트 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 지정 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 차단…와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
-- **📢 섹션 요약 비유**: [[260_bridge_pattern_abstraction_implementation|브리지]] ID, 비용을 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
+- **📢 섹션 요약 비유**: [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) ID, 비용을 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[[260_bridge_pattern_abstraction_implementation|브리지]] ID, 비용은 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 스위칭 효율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [[570_stp_vs_mtp|STP]] 4단계 [[632_state_transition_diagram_testing|상태 전이]], 지능형 캠퍼스 패브릭, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 지능형 캠퍼스 패브릭 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+[브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) ID, 비용은 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 스위칭 효율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/) 4단계 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/), 지능형 캠퍼스 패브릭, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 지능형 캠퍼스 패브릭 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: [[260_bridge_pattern_abstraction_implementation|브리지]] ID, 비용은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
+- **📢 섹션 요약 비유**: [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) ID, 비용은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
 ---
 
@@ -119,10 +123,10 @@ Root Bridge가 선출되면, 나머지 [[238_switch_operation_principles|스위�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[255_root_bridge_rp_dp_bp|루트 브리지]], 루트 [[446_port_and_bus|포트]], 지정 [[446_port_and_bus|포트]], 차단… | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [[673_mac_message_authentication_code|MAC]] 주소 ([[121_transmission_media_guided_unguided|Media]] [[547_access_control_rwx|Access Control]] Address) | 2계층 전달 대상을 식별하는 기본 주소다. |
-| [[238_switch_operation_principles|스위치]] ([[238_switch_operation_principles|Switch]]) | 프레임을 적절한 [[446_port_and_bus|포트]]로 전달하는 핵심 장비다. |
-| [[570_stp_vs_mtp|STP]] 4단계 [[632_state_transition_diagram_testing|상태 전이]] | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [루트 브리지](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/255_root_bridge_rp_dp_bp/), 루트 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 지정 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 차단… | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 ([Media](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) [Access Control](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/) Address) | 2계층 전달 대상을 식별하는 기본 주소다. |
+| [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) ([Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)) | 프레임을 적절한 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 전달하는 핵심 장비다. |
+| [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/) 4단계 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -136,12 +140,12 @@ Root Bridge가 선출되면, 나머지 [[238_switch_operation_principles|스위�
     └──▶ [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
-[[260_bridge_pattern_abstraction_implementation|브리지]] ID, 비용는 [[255_root_bridge_rp_dp_bp|루트 브리지]], 루트 [[446_port_and_bus|포트]], 지정 [[446_port_and_bus|포트]], 차단…에서 출발해 현재 메커니즘을 정교화하고, 이후 [[570_stp_vs_mtp|STP]] 4단계 [[632_state_transition_diagram_testing|상태 전이]]와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+[브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) ID, 비용는 [루트 브리지](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/255_root_bridge_rp_dp_bp/), 루트 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 지정 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 차단…에서 출발해 현재 메커니즘을 정교화하고, 이후 [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/) 4단계 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 학교 우편함에 이름표가 붙어 있어야 편지가 엉뚱한 곳에 가지 않아요.
-2. 이 개념은 어느 교실로 보내야 할지 알아보는 [[104_classification_analysis|분류]] 규칙과 같아요.
+2. 이 개념은 어느 교실로 보내야 할지 알아보는 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 규칙과 같아요.
 3. 그래서 같은 건물 안에서도 편지가 더 빠르고 질서 있게 움직여요.
 
 ---
@@ -150,7 +154,7 @@ Root Bridge가 선출되면, 나머지 [[238_switch_operation_principles|스위�
 
 **진행 상황**: 377 / 1120
 
-← **이전**: [[255_root_bridge_rp_dp_bp|255. 루트 브리지 (Root Bridge), 루트 포트 (RP), 지정 포트 (DP), 차단 포트 (BP, Non-Designated)]]
-**다음**: [[257_stp_4_states_blocking_listening_learning_forwarding|257. STP 4단계 상태 전이 (단절, 청취, 학습, 전송)]] →
+← **이전**: [255. 루트 브리지 (Root Bridge), 루트 포트 (RP), 지정 포트 (DP), 차단 포트 (BP, Non-Designated)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/255_root_bridge_rp_dp_bp/)
+**다음**: [257. STP 4단계 상태 전이 (단절, 청취, 학습, 전송)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/257_stp_4_states_blocking_listening_learning_forwarding/) →
 
 ---

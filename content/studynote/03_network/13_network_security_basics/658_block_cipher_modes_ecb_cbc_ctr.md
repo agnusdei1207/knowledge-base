@@ -1,21 +1,25 @@
----
-title: 658. 블록 암호 운영 모드 (ECB 기본/취약 모드, CBC(IV 필요), CFB, OFB, CTR)
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "658. 블록 암호 운영 모드 (ECB 기본/취약 모드, CBC(IV 필요), CFB, OFB, CTR)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[655_block_cipher_des_3des_feistel|블록 암호]] 운영 모드, CFB, OFB, C…는 [[1117_network_security_zero_trust_policy|네트워크 보안]] 기본에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: [[655_block_cipher_des_3des_feistel|블록 암호]] 운영 모드, CFB, OFB, C…를 이해하면 [[002_confidentiality|기밀성]]과 [[003_integrity|무결성]] 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 운영 모드, CFB, OFB, C…는 [네트워크 보안](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 기본에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 운영 모드, CFB, OFB, C…를 이해하면 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[[656_aes_advanced_encryption_standard_rijndael|AES]] [[655_block_cipher_des_3des_feistel|블록 암호]]는 128비트(16바이트) 단위로만 데이터를 먹습니다. 실제 기가바이트 단위의 파일을 암호화하려면 128비트로 수없이 토막 내어 각각 암호화해야 합니다. 이때 **이 여러 개의 블록들을 서로 어떻게 연결하여 암호화할지 결정하는 절차**가 운영 모드입니다.
+[AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)는 128비트(16바이트) 단위로만 데이터를 먹습니다. 실제 기가바이트 단위의 파일을 암호화하려면 128비트로 수없이 토막 내어 각각 암호화해야 합니다. 이때 **이 여러 개의 블록들을 서로 어떻게 연결하여 암호화할지 결정하는 절차**가 운영 모드입니다.
 
 ```text
 [SEED, ARIA, LEA]
@@ -26,7 +30,7 @@ tags:
     └──▶ [GCM 모드]
 ```
 
-- **📢 섹션 요약 비유**: [[655_block_cipher_des_3des_feistel|블록 암호]] 운영 모드, CFB, OFB, C…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [[170_selectivity_cardinality_distribution_tuning|선택도]] 쉬워진다.
+- **📢 섹션 요약 비유**: [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 운영 모드, CFB, OFB, C…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
@@ -37,18 +41,18 @@ tags:
 - **치명적 문제**: 만약 1번 블록 평문이 "안녕"이고 3번 블록 평문도 "안녕"이라면, 1번 암호문과 3번 암호문의 결과값이 **완전히 똑같이(복붙처럼)** 나옵니다.
 - **결과**: 펭귄 사진을 ECB 모드로 암호화하면, 암호문 픽셀 덩어리를 봤을 때 펭귄의 테두리 윤곽선이 그대로 노출되어 버립니다. 보안 등급 0점입니다.
 
-### 2. [[089_cbc_mode|CBC]] 모드 ([[089_cbc_mode|Cipher Block Chaining]]) - "가장 널리 쓰이는 표준 모드"
-- **원리**: 이전 [[655_block_cipher_des_3des_feistel|블록 암호]]화의 결과물이 다음 [[655_block_cipher_des_3des_feistel|블록 암호]]화에 영향을 미치도록 **쇠사슬(Chain)처럼 엮어버리는 방식**입니다.
+### 2. [CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/) 모드 ([Cipher Block Chaining](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/)) - "가장 널리 쓰이는 표준 모드"
+- **원리**: 이전 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)화의 결과물이 다음 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)화에 영향을 미치도록 **쇠사슬(Chain)처럼 엮어버리는 방식**입니다.
 - **동작**: 2번 평문을 암호화할 때, 아까 만든 1번 암호문을 가져와 평문과 XOR(섞기)를 한 뒤 자물쇠를 돌립니다. 평문이 똑같은 "안녕"이어도 앞 블록의 모양에 따라 암호문이 완전히 다르게 나옵니다. 펭귄 사진은 완벽한 TV 노이즈 화면으로 바뀝니다.
-- **초기화 벡터 ([[288_version_ihl_tos_total_length|IV]])**: 맨 처음 1번 블록은 앞에 엮을 게 없으므로 가상의 쓰레기 데이터인 **[[288_version_ihl_tos_total_length|IV]](초기화 벡터)**를 주입해서 시작합니다. ([[471_https_http_over_tls|HTTPS]] 등에 가장 보편적으로 쓰임)
+- **초기화 벡터 ([IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/))**: 맨 처음 1번 블록은 앞에 엮을 게 없으므로 가상의 쓰레기 데이터인 **[IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(초기화 벡터)**를 주입해서 시작합니다. ([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) 등에 가장 보편적으로 쓰임)
 
 ### 3. CFB (Cipher FeedBack) & OFB (Output FeedBack) 모드
-- **특징**: [[655_block_cipher_des_3des_feistel|블록 암호]]([[656_aes_advanced_encryption_standard_rijndael|AES]])를 쓰면서도, 마치 [[654_stream_cipher_rc4_chacha20|스트림 암호]]([[081_rc4_stream_cipher|RC4]], 1비트씩 졸졸 처리)처럼 동작하도록 꼼수를 부린 방식입니다. 암호화 기계를 헛돌려서 만든 난수열에 평문을 씌우는 방식입니다.
+- **특징**: [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))를 쓰면서도, 마치 [스트림 암호](/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/)([RC4](/knowledge-base/studynote/09_security/02_crypto/081_rc4_stream_cipher/), 1비트씩 졸졸 처리)처럼 동작하도록 꼼수를 부린 방식입니다. 암호화 기계를 헛돌려서 만든 난수열에 평문을 씌우는 방식입니다.
 - CFB는 통신 에러가 나면 뒤 패킷들이 연달아 박살 나지만, OFB는 오류 전파가 안 되어 위성 통신처럼 에러가 잦은 곳에 씁니다.
 
-### 4. [[090_ctr_mode|CTR]] 모드 ([[059_counter|Counter]]) - "현대 인터넷 [[148_5g_embb_urllc_mmtc|초고속]]의 제왕"
-- **원리**: 1씩 증가하는 **[[059_counter|카운터]] 숫자 (1, 2, 3...)**를 암호화 기계에 집어넣어 난수를 뽑아낸 뒤, 그걸 평문에 덮어씌웁니다.
-- **압도적 장점 ([[430_index_fast_full_scan|병렬]] 처리)**: [[089_cbc_mode|CBC]] 모드는 1번이 암호화가 끝날 때까지 2번이 기다려야 합니다(체인 구조). 하지만 [[090_ctr_mode|CTR]] 모드는 1, 2, 3번 [[059_counter|카운터]]가 독립적이므로, **CPU 코어 8개를 동원해 8개 블록을 동시에 [[430_index_fast_full_scan|병렬]]로 암호화/복호화해 버립니다.** 미친듯한 고속 처리가 가능해 현대 인터넷([[589_ipsec_offload|IPsec]] 등)에서 가장 사랑받는 모드입니다.
+### 4. [CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/) 모드 ([Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)) - "현대 인터넷 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)의 제왕"
+- **원리**: 1씩 증가하는 **[카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 숫자 (1, 2, 3...)**를 암호화 기계에 집어넣어 난수를 뽑아낸 뒤, 그걸 평문에 덮어씌웁니다.
+- **압도적 장점 ([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리)**: [CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/) 모드는 1번이 암호화가 끝날 때까지 2번이 기다려야 합니다(체인 구조). 하지만 [CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/) 모드는 1, 2, 3번 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)가 독립적이므로, **CPU 코어 8개를 동원해 8개 블록을 동시에 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 암호화/복호화해 버립니다.** 미친듯한 고속 처리가 가능해 현대 인터넷([IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 등)에서 가장 사랑받는 모드입니다.
 
 ```text
 [SEED, ARIA, LEA]
@@ -59,48 +63,48 @@ tags:
     └──▶ [GCM 모드]
 ```
 
-- **📢 섹션 요약 비유**: ECB는 매번 똑같은 물감(열쇠)으로 캔버스에 도장을 찍는 것입니다. 도장이 쌓이면 원래 무슨 그림(펭귄)이었는지 테두리가 드러납니다. CBC는 첫 번째 도장을 찍고, 그 찍힌 모양에 맞춰 두 번째 도장 모양을 비틀고(사슬 연결), 세 번째 도장을 또 비틀어 찍어 완벽한 무작위 패턴을 만듭니다. 하지만 앞사람이 찍을 때까지 뒷사람이 기다려야 합니다. CTR은 직원 100명이 각자 번호표([[059_counter|카운터]])를 들고 100군데에서 한꺼번에 제각각의 패턴을 동시에 찍어내어 1초 만에 그림을 완벽히 은폐해버리는 [[148_5g_embb_urllc_mmtc|초고속]] [[430_index_fast_full_scan|병렬]] 시스템입니다.
+- **📢 섹션 요약 비유**: ECB는 매번 똑같은 물감(열쇠)으로 캔버스에 도장을 찍는 것입니다. 도장이 쌓이면 원래 무슨 그림(펭귄)이었는지 테두리가 드러납니다. CBC는 첫 번째 도장을 찍고, 그 찍힌 모양에 맞춰 두 번째 도장 모양을 비틀고(사슬 연결), 세 번째 도장을 또 비틀어 찍어 완벽한 무작위 패턴을 만듭니다. 하지만 앞사람이 찍을 때까지 뒷사람이 기다려야 합니다. CTR은 직원 100명이 각자 번호표([카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))를 들고 100군데에서 한꺼번에 제각각의 패턴을 동시에 찍어내어 1초 만에 그림을 완벽히 은폐해버리는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 시스템입니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-[[655_block_cipher_des_3des_feistel|블록 암호]] 운영 모드, CFB, OFB, C…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. SEED, ARIA, LEA가 기반 조건을 만든다면, [[655_block_cipher_des_3des_feistel|블록 암호]] 운영 모드, CFB, OFB, C…는 그 위에서 핵심 메커니즘을 구현하고, [[659_gcm_galois_counter_mode_aead|GCM]] 모드는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [[002_confidentiality|기밀성]]과 [[003_integrity|무결성]]에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+[블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 운영 모드, CFB, OFB, C…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. SEED, ARIA, LEA가 기반 조건을 만든다면, [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 운영 모드, CFB, OFB, C…는 그 위에서 핵심 메커니즘을 구현하고, [GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) 모드는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | SEED, ARIA, LEA의 기반 정리 | [[655_block_cipher_des_3des_feistel|블록 암호]] 운영 모드, CFB, OFB, C…의 핵심 동작 | [[659_gcm_galois_counter_mode_aead|GCM]] 모드의 확장 적용 |
-| 자원 관점 | 기본 조건 확보 | [[002_confidentiality|기밀성]] 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 초점 | SEED, ARIA, LEA의 기반 정리 | [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 운영 모드, CFB, OFB, C…의 핵심 동작 | [GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) 모드의 확장 적용 |
+| 자원 관점 | 기본 조건 확보 | [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) 최적화 | 규모와 범위 확대 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: [[655_block_cipher_des_3des_feistel|블록 암호]] 운영 모드, CFB, OFB, C…는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
+- **📢 섹션 요약 비유**: [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 운영 모드, CFB, OFB, C…는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 [[655_block_cipher_des_3des_feistel|블록 암호]] 운영 모드, CFB, OFB, C…를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 SEED, ARIA, LEA 수준의 기본 대책으로 충분한지, 아니면 [[655_block_cipher_des_3des_feistel|블록 암호]] 운영 모드, CFB, OFB, C…가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [[659_gcm_galois_counter_mode_aead|GCM]] 모드와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 운영 모드, CFB, OFB, C…를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 SEED, ARIA, LEA 수준의 기본 대책으로 충분한지, 아니면 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 운영 모드, CFB, OFB, C…가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) 모드와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 현재 문제의 핵심이 [[002_confidentiality|기밀성]] 부족인지, [[003_integrity|무결성]] 악화인지 먼저 분리한다.
-2. [[655_block_cipher_des_3des_feistel|블록 암호]] 운영 모드, CFB, OFB, C…가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [[396_validation|확인]]한다.
-3. 도입 후에는 인접 기술인 [[659_gcm_galois_counter_mode_aead|GCM]] 모드와의 연계 방식을 함께 검증한다.
+1. 현재 문제의 핵심이 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) 부족인지, [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 악화인지 먼저 분리한다.
+2. [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 운영 모드, CFB, OFB, C…가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+3. 도입 후에는 인접 기술인 [GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) 모드와의 연계 방식을 함께 검증한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- [[655_block_cipher_des_3des_feistel|블록 암호]] 운영 모드, CFB, OFB, C…의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- SEED, ARIA, LEA와의 경계를 정리하지 않아 중복 투자나 [[164_policy|정책]] 충돌을 만드는 설계
+- [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 운영 모드, CFB, OFB, C…의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
+- SEED, ARIA, LEA와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
-- **📢 섹션 요약 비유**: [[655_block_cipher_des_3des_feistel|블록 암호]] 운영 모드, CFB, OFB, C…를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
+- **📢 섹션 요약 비유**: [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 운영 모드, CFB, OFB, C…를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[[655_block_cipher_des_3des_feistel|블록 암호]] 운영 모드, CFB, OFB, C…는 [[1117_network_security_zero_trust_policy|네트워크 보안]] 기본을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 [[002_confidentiality|기밀성]] 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [[659_gcm_galois_counter_mode_aead|GCM]] 모드, 자동화된 신뢰 체계, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 자동화된 신뢰 체계 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+[블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 운영 모드, CFB, OFB, C…는 [네트워크 보안](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 기본을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) 모드, 자동화된 신뢰 체계, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 자동화된 신뢰 체계 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: [[655_block_cipher_des_3des_feistel|블록 암호]] 운영 모드, CFB, OFB, C…는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
+- **📢 섹션 요약 비유**: [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 운영 모드, CFB, OFB, C…는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
 ---
 
@@ -109,9 +113,9 @@ tags:
 | 개념 | 연결 포인트 |
 |:---|:---|
 | SEED, ARIA, LEA | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [[303_authentication_authorization_patterns|인증]] ([[604_authentication_factors|Authentication]]) | 통신 상대가 진짜인지 [[396_validation|확인]]한다. |
+| [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) ([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/)) | 통신 상대가 진짜인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다. |
 | 암호화 (Encryption) | 데이터를 읽지 못하게 보호한다. |
-| [[659_gcm_galois_counter_mode_aead|GCM]] 모드 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) 모드 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -125,12 +129,12 @@ tags:
     └──▶ [확장 B: 자동화된 신뢰 체계]
 ```
 
-[[655_block_cipher_des_3des_feistel|블록 암호]] 운영 모드, CFB, OFB, C…는 SEED, ARIA, LEA에서 출발해 현재 메커니즘을 정교화하고, 이후 [[659_gcm_galois_counter_mode_aead|GCM]] 모드와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+[블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 운영 모드, CFB, OFB, C…는 SEED, ARIA, LEA에서 출발해 현재 메커니즘을 정교화하고, 이후 [GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) 모드와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 비밀 편지를 보낼 때는 자물쇠와 비밀번호가 필요해요.
-2. 이 개념은 누가 진짜 친구인지 [[396_validation|확인]]하고, 편지가 바뀌지 않았는지도 살펴봐요.
+2. 이 개념은 누가 진짜 친구인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 편지가 바뀌지 않았는지도 살펴봐요.
 3. 그래서 나쁜 사람이 중간에 훔쳐보거나 바꾸기 어려워져요.
 
 ---
@@ -139,7 +143,7 @@ tags:
 
 **진행 상황**: 779 / 1120
 
-← **이전**: [[657_seed_aria_lea_korean_cryptography|657. SEED, ARIA, LEA]]
-**다음**: [[659_gcm_galois_counter_mode_aead|659. GCM (Galois/Counter Mode) 모드]] →
+← **이전**: [657. SEED, ARIA, LEA](/knowledge-base/studynote/03_network/13_network_security_basics/657_seed_aria_lea_korean_cryptography/)
+**다음**: [659. GCM (Galois/Counter Mode) 모드](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) →
 
 ---

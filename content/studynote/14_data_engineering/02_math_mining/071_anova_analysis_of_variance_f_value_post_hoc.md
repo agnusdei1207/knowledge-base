@@ -1,14 +1,18 @@
----
-title: 71. 분산 분석 (ANOVA) - 다수 집단 간 평균 차이 통계적 검증
-date: '2026-04-10'
-tags:
-- studynote-data-engineering
----
++++
+title = "71. 분산 분석 (ANOVA) - 다수 집단 간 평균 차이 통계적 검증"
+date = 2026-04-10
+
+[taxonomies]
+tags = ["studynote-data-engineering"]
+
+[extra]
+tags = ["studynote-data-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: ANOVA는 세 집단 이상에서 평균 차이가 있는지 판단하는 검정이다.
-> 2. **가치**: F-value를 통해 집단 간 [[136_variance|분산]]과 집단 내 [[136_variance|분산]]을 비교한다.
+> 2. **가치**: F-value를 통해 집단 간 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)과 집단 내 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 비교한다.
 > 3. **판단**: 유의하면 사후 검정(post hoc)으로 어디가 다른지 추가 분석해야 한다.
 
 ---
@@ -37,9 +41,9 @@ Post Hoc
 
 | 요소 | 의미 |
 | :-- | :-- |
-| Between-group [[136_variance|variance]] | 집단 간 [[136_variance|분산]] |
-| Within-group [[136_variance|variance]] | 집단 내 [[136_variance|분산]] |
-| F-value | [[136_variance|분산]] 비율 |
+| Between-group [variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) | 집단 간 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) |
+| Within-group [variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) | 집단 내 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) |
+| F-value | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 비율 |
 
 ANOVA는 집단 간 차이가 우연인지 확인한다. 유의하면 사후 검정으로 상세 비교를 한다.
 
@@ -51,8 +55,8 @@ ANOVA는 집단 간 차이가 우연인지 확인한다. 유의하면 사후 검
 
 | 검정 | 대상 | 차이 |
 | :-- | :-- | :-- |
-| [[070_t_test_independent_paired_mean_difference|t-Test]] | 2집단 | 평균 비교 |
-| ANOVA | 3집단 이상 | [[136_variance|분산]] 비교 |
+| [t-Test](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/) | 2집단 | 평균 비교 |
+| ANOVA | 3집단 이상 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 비교 |
 
 | 후속 분석 | 의미 |
 | :-- | :-- |
@@ -67,7 +71,7 @@ ANOVA는 다수 집단을 다루는 기본 검정이며, F-value 해석이 핵�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 집단 수가 3개 이상인가?
 2. F-value를 해석하는가?
@@ -75,7 +79,7 @@ ANOVA는 다수 집단을 다루는 기본 검정이며, F-value 해석이 핵�
 4. 유의 후 사후 검정을 하는가?
 5. 다중 비교 문제를 아는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - t-검정만 반복하는 설계
 - 사후 검정을 생략하는 설계
@@ -138,7 +142,7 @@ ANOVA는 그런 검사예요.
 
 **진행 상황**: 71 / 258
 
-← **이전**: [[070_t_test_independent_paired_mean_difference|70. T-검정 (t-Test) - 두 집단 간 평균 차이 통계적 검증]]
-**다음**: [[072_chi_square_test_categorical_independence_goodness_of_fit|72. 카이제곱 검정 (Chi-square Test) - 범주형 데이터 독립성/적합성]] →
+← **이전**: [70. T-검정 (t-Test) - 두 집단 간 평균 차이 통계적 검증](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/)
+**다음**: [72. 카이제곱 검정 (Chi-square Test) - 범주형 데이터 독립성/적합성](/knowledge-base/studynote/14_data_engineering/02_math_mining/072_chi_square_test_categorical_independence_goodness_of_fit/) →
 
 ---

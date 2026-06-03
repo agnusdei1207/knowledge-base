@@ -1,14 +1,18 @@
----
-title: Blameless Postmortem
-date: '2026-05-09'
-tags:
-- studynote-devops-sre
----
++++
+title = "Blameless Postmortem"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-devops-sre"]
+
+[extra]
+tags = ["studynote-devops-sre"]
++++
 
 > **핵심 인사이트**
-> - [[128_blameless_postmortem|Blameless Postmortem]] (무비난 회고)은 장애 원인을 개인이 아닌 시스템·프로세스에서 찾아 근본적 개선을 이끄는 [[100_sre_site_reliability_engineering_error_budget|SRE]] 문화다.
+> - [Blameless Postmortem](/knowledge-base/studynote/15_devops_sre/03_sre_observability/128_blameless_postmortem/) (무비난 회고)은 장애 원인을 개인이 아닌 시스템·프로세스에서 찾아 근본적 개선을 이끄는 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 문화다.
 > - 타임라인·근본 원인·영향 분석·재발 방지 액션 아이템이 Postmortem 문서의 4대 필수 요소다.
-> - 장애를 숨기지 않고 공유하는 문화가 조직 전체의 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 학습 속도를 높인다.
+> - 장애를 숨기지 않고 공유하는 문화가 조직 전체의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 학습 속도를 높인다.
 
 ---
 
@@ -79,7 +83,7 @@ Blameless Postmortem은 "시스템이 왜 그 실수를 가능하게 했는가?"
 ## Ⅳ. 액션 아이템과 후속 관리
 
 효과적인 액션 아이템 조건:
-- **Specific**: "DB [[573_timeout_retry_backoff_strategy|타임아웃]] [[009_config|설정]] 추가"처럼 구체적
+- **Specific**: "DB [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 추가"처럼 구체적
 - **Assignee**: 담당자 명시
 - **Due Date**: 완료 기한 명시
 - **Verifiable**: 완료 여부 측정 가능
@@ -103,7 +107,7 @@ Postmortem 리뷰:
 | Blameless           | 개인이 아닌 시스템 원인 분석 원칙        |
 | Postmortem          | 장애 후 공식 회고 문서                  |
 | 5-Why               | 근본 원인 도출 기법                     |
-| 타임라인            | 장애 감지~[[658_ir_recovery|복구]] 시간순 기록              |
+| 타임라인            | 장애 감지~[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간순 기록              |
 | 액션 아이템         | 담당자·기한이 있는 재발 방지 과제        |
 | Runbook             | 장애 대응 절차 매뉴얼                   |
 
@@ -126,7 +130,7 @@ Blameless Postmortem
 
 **진행 상황**: 319 / 373
 
-← **이전**: [[318_process|Toil SRE Automation]]
-**다음**: [[320_metric|Observability Metrics Logs Traces]] →
+← **이전**: [Toil SRE Automation](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/318_process/)
+**다음**: [Observability Metrics Logs Traces](/knowledge-base/studynote/15_devops_sre/05_devsecops/320_metric/) →
 
 ---

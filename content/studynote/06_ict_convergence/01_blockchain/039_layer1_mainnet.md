@@ -1,18 +1,22 @@
----
-title: 039. 레이어1 메인넷 (Layer 1 Mainnet) — 블록체인 기반 계층
-date: '2026-03-04'
-tags:
-- studynote-ict-convergence
----
++++
+title = "039. 레이어1 메인넷 (Layer 1 Mainnet) — 블록체인 기반 계층"
+date = 2026-03-04
+
+[taxonomies]
+tags = ["studynote-ict-convergence"]
+
+[extra]
+tags = ["studynote-ict-convergence"]
++++
 
 > **핵심 인사이트**
-> 1. 레이어1(Layer 1)은 [[004_blockchain|블록체인]] 스택의 기반 계층으로, 자체 합의 메커니즘과 네이티브 토큰을 통해 [[136_variance|분산]] 원장의 보안·[[010_decentralization|탈중앙화]]·[[139_throughput|처리량]](Scalability) 세 가지를 모두 달성하려는 [[040_blockchain_trilemma|블록체인 트릴레마]](Trilemma)의 최전선이다.
-> 2. 비트코인(PoW, 7TPS), 이더리움(PoS, ~30TPS), 솔라나(PoH+PoS, ~65,000TPS)는 각각 다른 트릴레마 트레이드오프 — 비트코인은 보안 최우선, 이더리움은 [[010_decentralization|탈중앙화]]+보안, 솔라나는 [[139_throughput|처리량]]+속도 — 를 선택한 결과다.
-> 3. 레이어1 확장 [[268_strategy_pattern|전략]]은 두 갈래 — 레이어1 자체 개선([[280_sharding|샤딩]], [[011_consensus_algorithm|합의 알고리즘]] 교체)과 레이어2에게 처리 위임(채널, [[042_rollup_l2_solution|롤업]]) — 이며, 현재 주류는 레이어1 보안을 유지하며 레이어2로 [[139_throughput|처리량]]을 위임하는 방향이다.
+> 1. 레이어1(Layer 1)은 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 스택의 기반 계층으로, 자체 합의 메커니즘과 네이티브 토큰을 통해 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 원장의 보안·[탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/)·[처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)(Scalability) 세 가지를 모두 달성하려는 [블록체인 트릴레마](/knowledge-base/studynote/06_ict_convergence/01_blockchain/040_blockchain_trilemma/)(Trilemma)의 최전선이다.
+> 2. 비트코인(PoW, 7TPS), 이더리움(PoS, ~30TPS), 솔라나(PoH+PoS, ~65,000TPS)는 각각 다른 트릴레마 트레이드오프 — 비트코인은 보안 최우선, 이더리움은 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/)+보안, 솔라나는 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)+속도 — 를 선택한 결과다.
+> 3. 레이어1 확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 두 갈래 — 레이어1 자체 개선([샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/), [합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/) 교체)과 레이어2에게 처리 위임(채널, [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)) — 이며, 현재 주류는 레이어1 보안을 유지하며 레이어2로 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 위임하는 방향이다.
 
 ---
 
-## I. [[040_blockchain_trilemma|블록체인 트릴레마]]
+## I. [블록체인 트릴레마](/knowledge-base/studynote/06_ict_convergence/01_blockchain/040_blockchain_trilemma/)
 
 ```
 블록체인 트릴레마 (Vitalik Buterin):
@@ -70,7 +74,7 @@ TPS:            7         ~30       ~4,000   ~250
 
 ---
 
-## III. 레이어1 확장 [[268_strategy_pattern|전략]]
+## III. 레이어1 확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
 ```
 레이어1 자체 확장:
@@ -104,7 +108,7 @@ TPS:            7         ~30       ~4,000   ~250
 
 ---
 
-## [[288_version_ihl_tos_total_length|IV]]. [[152_evm_earned_value_management|EVM]] [[344_compatibility_usability|호환성]]
+## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)
 
 ```
 EVM (Ethereum Virtual Machine) 생태계:
@@ -131,11 +135,11 @@ EVM 트레이드오프:
   독자 VM: 성능/기능 최적화 가능
 ```
 
-> 📢 **섹션 요약 비유**: [[152_evm_earned_value_management|EVM]] 호환은 안드로이드 호환 스마트폰처럼 — 기존 앱([[032_dapp_decentralized_application|DApp]])을 그대로 실행 가능, 독자 생태계보다 유리.
+> 📢 **섹션 요약 비유**: [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) 호환은 안드로이드 호환 스마트폰처럼 — 기존 앱([DApp](/knowledge-base/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/))을 그대로 실행 가능, 독자 생태계보다 유리.
 
 ---
 
-## V. 실무 시나리오 — [[033_defi_decentralized_finance|DeFi]] [[295_protocol_field_tcp_udp_icmp|프로토콜]] L1 선택
+## V. 실무 시나리오 — [DeFi](/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) L1 선택
 
 ```
 DeFi 프로토콜 개발팀 L1 선택 기준:
@@ -218,8 +222,8 @@ L1 보안 + L2 처리량 분리 트렌드
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 레이어1은 나라의 법과 화폐처럼 [[004_blockchain|블록체인]]의 가장 기본 규칙을 정하는 층이에요 — 비트코인, 이더리움, 솔라나가 각자 다른 나라처럼 독립적으로 운영돼요.
-2. 안전성·[[010_decentralization|탈중앙화]]·속도 세 가지를 동시에 완벽하게 달성할 수 없어서, 각 [[004_blockchain|블록체인]]은 어떤 것을 우선할지 선택해야 해요.
+1. 레이어1은 나라의 법과 화폐처럼 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 가장 기본 규칙을 정하는 층이에요 — 비트코인, 이더리움, 솔라나가 각자 다른 나라처럼 독립적으로 운영돼요.
+2. 안전성·[탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/)·속도 세 가지를 동시에 완벽하게 달성할 수 없어서, 각 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 어떤 것을 우선할지 선택해야 해요.
 3. 이더리움은 느리지만 안전해서 큰 돈이 오가는 금융에 쓰이고, 솔라나는 빠르지만 가끔 멈추기도 해서 빠른 거래에 쓰여요!
 
 ---
@@ -228,7 +232,7 @@ L1 보안 + L2 처리량 분리 트렌드
 
 **진행 상황**: 39 / 552
 
-← **이전**: [[038_zk_snarks_non_interactive|038. zk-SNARK 비대화형 증명 (Non-Interactive Zero-Knowledge Proof)]]
-**다음**: [[040_blockchain_trilemma|040. 블록체인 트릴레마 (Blockchain Trilemma)]] →
+← **이전**: [038. zk-SNARK 비대화형 증명 (Non-Interactive Zero-Knowledge Proof)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/038_zk_snarks_non_interactive/)
+**다음**: [040. 블록체인 트릴레마 (Blockchain Trilemma)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/040_blockchain_trilemma/) →
 
 ---

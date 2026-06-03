@@ -1,13 +1,17 @@
----
-title: 130. 인수 기준 vs 완료 정의 (Acceptance Criteria vs Definition of Done)
-date: '2026-04-19'
-tags:
-- studynote-software-engineering
----
++++
+title = "130. 인수 기준 vs 완료 정의 (Acceptance Criteria vs Definition of Done)"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-software-engineering"]
+
+[extra]
+tags = ["studynote-software-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [[155_ac_actual_cost|AC]]([[165_acceptance_criteria_definition|Acceptance Criteria]])는 **개별 스토리의 비즈니스 요구사항 충족 조건**이고, DoD(Definition of Done)는 **모든 스토리에 공통 적용되는 품질·프로세스 완료 기준**이다.
-> 2. **가치**: AC만 있으면 "기능은 작동하지만 테스트·[[330_code_review|코드 리뷰]]·배포 준비가 안 된" 상태가 발생하고, DoD만 있으면 "프로세스는 통과했지만 비즈니스 요건을 충족하지 못한" 결과가 나온다. 둘 다 필요하다.
+> 1. **본질**: [AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/)([Acceptance Criteria](/knowledge-base/studynote/04_software_engineering/03_design_architecture/165_acceptance_criteria_definition/))는 **개별 스토리의 비즈니스 요구사항 충족 조건**이고, DoD(Definition of Done)는 **모든 스토리에 공통 적용되는 품질·프로세스 완료 기준**이다.
+> 2. **가치**: AC만 있으면 "기능은 작동하지만 테스트·[코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/)·배포 준비가 안 된" 상태가 발생하고, DoD만 있으면 "프로세스는 통과했지만 비즈니스 요건을 충족하지 못한" 결과가 나온다. 둘 다 필요하다.
 > 3. **판단 포인트**: AC는 PO가 정의(스토리별 다름), DoD는 팀이 합의(전체 공통)하며, 스토리가 "Done"이 되려면 **AC와 DoD 모두 충족**해야 한다.
 
 ---
@@ -26,18 +30,18 @@ DoD (전체 공통): 코드 리뷰 완료, 단위 테스트 80%+, CI 통과, 배
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-| 비교 | [[155_ac_actual_cost|AC]] | DoD |
+| 비교 | [AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/) | DoD |
 |:---|:---|:---|
 | **범위** | 개별 스토리 | **전체 공통** |
 | **정의자** | PO | **팀 합의** |
 | **내용** | 비즈니스 조건 | **품질·프로세스** |
-| **형식** | Given/When/Then | [[435_checklist_based_testing|체크리스트]] |
+| **형식** | Given/When/Then | [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) |
 
 ---
 
 ## Ⅲ~Ⅴ. 결론
 
-[[155_ac_actual_cost|AC]]+DoD는 **Agile에서 "완료"의 의미를 명확히 하는 두 축**이며, 둘 다 충족해야 진정한 Done이다.
+[AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/)+DoD는 **Agile에서 "완료"의 의미를 명확히 하는 두 축**이며, 둘 다 충족해야 진정한 Done이다.
 
 ---
 
@@ -45,11 +49,11 @@ DoD (전체 공통): 코드 리뷰 완료, 단위 테스트 80%+, CI 통과, 배
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[[155_ac_actual_cost|AC]]** | 스토리별 비즈니스 조건 |
+| **[AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/)** | 스토리별 비즈니스 조건 |
 | **DoD** | 전체 공통 품질 기준 |
-| **[[165_bdd_behavior_driven_development|BDD]]** | AC를 Given/When/Then으로 표현 |
+| **[BDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/)** | AC를 Given/When/Then으로 표현 |
 | **DoR** | 스토리 시작 준비 조건 |
-| **[[070_sprint_review_demo|Sprint Review]]** | [[155_ac_actual_cost|AC]] [[395_verification_process_review|검증]] 시점 |
+| **[Sprint Review](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/070_sprint_review_demo/)** | [AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 시점 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -63,7 +67,7 @@ DoD (전체 공통): 코드 리뷰 완료, 단위 테스트 80%+, CI 통과, 배
 ### 👶 어린이를 위한 3줄 비유 설명
 1. AC는 **요리 레시피(맛 조건)**예요. "이 케이크는 딸기맛이어야 해!"
 2. DoD는 **위생 기준**이에요. "모든 요리는 깨끗한 주방에서, 유통기한 내 재료로!"
-3. 레시피([[155_ac_actual_cost|AC]])와 위생(DoD) **둘 다 통과**해야 손님에게 낼 수 있어요!
+3. 레시피([AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/))와 위생(DoD) **둘 다 통과**해야 손님에게 낼 수 있어요!
 
 ---
 
@@ -71,7 +75,7 @@ DoD (전체 공통): 코드 리뷰 완료, 단위 테스트 80%+, CI 통과, 배
 
 **진행 상황**: 130 / 973
 
-← **이전**: [[129_spike_agile_technical_investigation|129. Spike (스파이크) - Agile 기술 불확실성 해소 탐구]]
-**다음**: [[131_requirements_engineering|131. 요구사항 공학 (Requirements Engineering) - 체계적 요구 수집·분석·관리]] →
+← **이전**: [129. Spike (스파이크) - Agile 기술 불확실성 해소 탐구](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)
+**다음**: [131. 요구사항 공학 (Requirements Engineering) - 체계적 요구 수집·분석·관리](/knowledge-base/studynote/04_software_engineering/03_design_architecture/131_requirements_engineering/) →
 
 ---

@@ -1,26 +1,29 @@
----
-title: 92. 근거리-원거리 문제 (Near-Far Problem) - CDMA 전력 제어
-date: '2026-03-31'
-description: CDMA 시스템의 치명적 결함인 근거리-원거리 문제의 발생 원리와 이를 극복하기 위한 정밀한 전력 제어(Power Control)
-  메커니즘
-tags:
-- network
----
++++
+title = "92. 근거리-원거리 문제 (Near-Far Problem) - CDMA 전력 제어"
+description = "CDMA 시스템의 치명적 결함인 근거리-원거리 문제의 발생 원리와 이를 극복하기 위한 정밀한 전력 제어(Power Control) 메커니즘"
+date = 2026-03-31
+
+[taxonomies]
+tags = ["network"]
+
+[extra]
+tags = ["network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 근거리-원거리 문제 (Near-Far Problem)는 기지국 바로 밑에 있는 단말기의 강력한 전파가 멀리 있는 단말기의 미약한 전파를 완전히 덮어버려 시스템을 마비시키는 CDMA의 태생적 결함이다.
-> 2. **가치**: 이를 극복하기 위해 CDMA는 초당 수백~수천 번 단말기의 송신 출력을 미세 조정하여, 기지국에 수신되는 모든 단말기의 [[130_signal|신호]] 세기를 '완벽하게 동일하게' 평탄화하는 고속 전력 제어 ([[069_type_1_2_error_statistical_power|Power]] Control)를 도입했다.
+> 2. **가치**: 이를 극복하기 위해 CDMA는 초당 수백~수천 번 단말기의 송신 출력을 미세 조정하여, 기지국에 수신되는 모든 단말기의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 세기를 '완벽하게 동일하게' 평탄화하는 고속 전력 제어 ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Control)를 도입했다.
 > 3. **판단 포인트**: 엄청난 오버헤드를 발생시키는 피드백 구조임에도 불구하고, 이를 통해 간섭을 최소화하여 가입자 수용 용량(Capacity)을 극대화하고 단말기 배터리 수명을 혁신적으로 늘린 무선 통신 설계의 마스터피스다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[[957_cdma_code_division_multiple_access_dsss_orthogonality|CDMA]] ([[082_process_memory_structure|Code]] [[411_division_operation|Division]] [[087_다중접속_Multiple_Access|Multiple Access]])는 모든 사용자가 동일한 주파수를 같은 시간에 공유하되, 오직 수학적 코드([[082_process_memory_structure|Code]])의 직교성만을 이용해 각자의 [[130_signal|신호]]를 구별하는 통신 방식이다. 이 거대한 공용 공간에서 가장 치명적인 문제는 물리적 거리에 따른 전파 감쇠 현상, 즉 **근거리-원거리 문제 (Near-Far Problem)**였다.
+[CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) ([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) [Division](/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/) [Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))는 모든 사용자가 동일한 주파수를 같은 시간에 공유하되, 오직 수학적 코드([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))의 직교성만을 이용해 각자의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 구별하는 통신 방식이다. 이 거대한 공용 공간에서 가장 치명적인 문제는 물리적 거리에 따른 전파 감쇠 현상, 즉 **근거리-원거리 문제 (Near-Far Problem)**였다.
 
-자연계에서 전파의 세기는 거리의 제곱(도심 환경에서는 3~4제곱)에 반비례하여 급격히 줄어든다. 기지국에서 100m 거리에 있는 A 단말기와 3km 거리에 있는 B 단말기가 동일한 전력으로 송신할 경우, 기지국에 도달한 A의 [[130_signal|신호]]는 B보다 수만 배 강력하다. CDMA는 코드가 다르면 서로의 [[130_signal|신호]]를 '백색 잡음(Noise)'으로 취급하는데, A가 뿜어내는 거대한 잡음이 B의 미약한 [[130_signal|신호]]를 완전히 집어삼켜 버린다. 결과적으로 가까운 1~2명만 통신이 가능해지는 셀 마비 사태가 발생한다. 
+자연계에서 전파의 세기는 거리의 제곱(도심 환경에서는 3~4제곱)에 반비례하여 급격히 줄어든다. 기지국에서 100m 거리에 있는 A 단말기와 3km 거리에 있는 B 단말기가 동일한 전력으로 송신할 경우, 기지국에 도달한 A의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)는 B보다 수만 배 강력하다. CDMA는 코드가 다르면 서로의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 '백색 잡음(Noise)'으로 취급하는데, A가 뿜어내는 거대한 잡음이 B의 미약한 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 완전히 집어삼켜 버린다. 결과적으로 가까운 1~2명만 통신이 가능해지는 셀 마비 사태가 발생한다. 
 
-모든 단말기의 수신 전력이 기지국에서 '마법처럼 똑같아지도록' 통제하는 전력 제어([[069_type_1_2_error_statistical_power|Power]] Control) 메커니즘은 선택이 아니라 생존을 위한 필수 조건이었다.
+모든 단말기의 수신 전력이 기지국에서 '마법처럼 똑같아지도록' 통제하는 전력 제어([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Control) 메커니즘은 선택이 아니라 생존을 위한 필수 조건이었다.
 
 - **📢 섹션 요약 비유**: 넓은 강당에서 수백 명이 동시에 대화할 때, 마이크(기지국) 바로 앞에서 고함을 지르는 사람 때문에 뒷사람의 목소리가 묻히는 현상이다. 해결책은 마이크에 가까운 사람은 개미처럼 속삭이고, 먼 사람은 큰 소리로 외치도록 규칙을 강제하는 것뿐이다.
 
@@ -28,7 +31,7 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[[957_cdma_code_division_multiple_access_dsss_orthogonality|CDMA]] 시스템은 개루프(Open Loop)와 폐루프(Closed Loop) 전력 제어라는 정밀한 이중 방어 아키텍처를 통해 [[130_signal|신호]] 레벨을 평탄화(Equalization)한다.
+[CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) 시스템은 개루프(Open Loop)와 폐루프(Closed Loop) 전력 제어라는 정밀한 이중 방어 아키텍처를 통해 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 레벨을 평탄화(Equalization)한다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -56,25 +59,25 @@ tags:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-1. **개루프 전력 제어 (Open Loop)**: 단말기가 처음 전원을 켤 때 기지국 파일럿 [[130_signal|신호]]를 측정하여 스스로 대략적인 송신 전력을 맞춘다. 오차가 커서 [[459_quic_fec_forward_error_correction|초기]] 접속 충돌 방지에만 쓰인다.
-2. **내부 폐루프 (Inner Loop)**: 기지국이 단말기의 [[130_signal|신호]](SIR)를 측정해, 목표치보다 낮으면 "전력 올려([[069_type_1_2_error_statistical_power|Power]] Up)", 높으면 "내려(Down)"라는 1비트짜리 명령을 초당 1,500번([[091_동기식_비동기식_CDMA_WCDMA|WCDMA]] 기준) 단말기에게 폭격하듯 쏜다. 이 극도로 빠른 피드백 속도만이 건물을 지날 때 발생하는 고속 레일리 [[167_fading_large_scale_small_scale|페이딩]](Rayleigh [[167_fading_large_scale_small_scale|Fading]])의 진폭 요동을 억제할 수 있다.
+1. **개루프 전력 제어 (Open Loop)**: 단말기가 처음 전원을 켤 때 기지국 파일럿 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 측정하여 스스로 대략적인 송신 전력을 맞춘다. 오차가 커서 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 접속 충돌 방지에만 쓰인다.
+2. **내부 폐루프 (Inner Loop)**: 기지국이 단말기의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(SIR)를 측정해, 목표치보다 낮으면 "전력 올려([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Up)", 높으면 "내려(Down)"라는 1비트짜리 명령을 초당 1,500번([WCDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/091_동기식_비동기식_CDMA_WCDMA/) 기준) 단말기에게 폭격하듯 쏜다. 이 극도로 빠른 피드백 속도만이 건물을 지날 때 발생하는 고속 레일리 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)(Rayleigh [Fading](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/))의 진폭 요동을 억제할 수 있다.
 3. **외부 폐루프 (Outer Loop)**: 기지국이나 제어국이 통화 품질(FER)을 분석하여, 내부 폐루프가 기준으로 삼는 '목표 SIR(Target SIR)' 자체를 실시간으로 올리거나 내리는 거시적 제어를 담당한다.
 
-- **📢 섹션 요약 비유**: 개루프 제어가 목욕탕에서 손 감각으로 온수를 맞추는 것이라면, 폐루프 제어(내부/외부)는 0.001초마다 체온을 재서 찬물과 더운물을 트는 자동 센서이자, 사람의 컨디션에 맞춰 목표 온도 자체를 바꿔주는 [[231_ai_turing_test|인공지능]] 주치의의 융합이다.
+- **📢 섹션 요약 비유**: 개루프 제어가 목욕탕에서 손 감각으로 온수를 맞추는 것이라면, 폐루프 제어(내부/외부)는 0.001초마다 체온을 재서 찬물과 더운물을 트는 자동 센서이자, 사람의 컨디션에 맞춰 목표 온도 자체를 바꿔주는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 주치의의 융합이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-[[087_다중접속_Multiple_Access|다중 접속]] 방식의 패러다임 차이에 따라 전력 제어의 중요도는 극명하게 갈라진다.
+[다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 방식의 패러다임 차이에 따라 전력 제어의 중요도는 극명하게 갈라진다.
 
-| [[087_다중접속_Multiple_Access|다중 접속]] 방식 | 전파 분리 축 | 근거리-원거리 문제 체감도 | 전력 제어 중요도 |
+| [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 방식 | 전파 분리 축 | 근거리-원거리 문제 체감도 | 전력 제어 중요도 |
 |:---|:---|:---|:---|
-| **[[088_주파수_분할_다중접속_FDMA|FDMA]] (1G)** | 주파수 분리 | 낮음 (서로 다른 주파수라 안 들림) | 배터리 절약 목적 정도로만 사용 |
-| **[[089_시분할_다중접속_TDMA|TDMA]] (2G)** | 시간 분리 | 중간 (발언 시간이 달라 겹치지 않음) | 중간 수준 통제 |
-| **[[957_cdma_code_division_multiple_access_dsss_orthogonality|CDMA]] (3G)** | **코드 분리** | **절대적 (한 방에서 모두가 섞임)** | **시스템의 생존을 결정하는 코어 엔진** |
+| **[FDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/088_주파수_분할_다중접속_FDMA/) (1G)** | 주파수 분리 | 낮음 (서로 다른 주파수라 안 들림) | 배터리 절약 목적 정도로만 사용 |
+| **[TDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/) (2G)** | 시간 분리 | 중간 (발언 시간이 달라 겹치지 않음) | 중간 수준 통제 |
+| **[CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) (3G)** | **코드 분리** | **절대적 (한 방에서 모두가 섞임)** | **시스템의 생존을 결정하는 코어 엔진** |
 
-CDMA가 초당 수천 번이나 되는 [[154_tpc|TPC]] 비트를 전송하느라 [[001_dikw_pyramid|데이터]] 대역폭을 희생하는 엄청난 '통신 오버헤드'를 감수하면서도 이 방식을 택한 이유는 분명하다. 완벽한 수신 전력 평탄화가 이루어지는 순간, 셀(Cell) 내의 간섭 파워가 최저치로 통제되어 하나의 기지국이 수용할 수 있는 가입자 용량(Capacity)이 기하급수적으로 늘어나기 때문이다. 트레이드오프의 극적인 승리다.
+CDMA가 초당 수천 번이나 되는 [TPC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/154_tpc/) 비트를 전송하느라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 대역폭을 희생하는 엄청난 '통신 오버헤드'를 감수하면서도 이 방식을 택한 이유는 분명하다. 완벽한 수신 전력 평탄화가 이루어지는 순간, 셀(Cell) 내의 간섭 파워가 최저치로 통제되어 하나의 기지국이 수용할 수 있는 가입자 용량(Capacity)이 기하급수적으로 늘어나기 때문이다. 트레이드오프의 극적인 승리다.
 
 - **📢 섹션 요약 비유**: TDMA가 1차선 도로를 시간제로 돌아가며 달리는 것이라면, CDMA는 거대한 광장을 동시에 뛰어다니는 군중이다. 서로 부딪히지 않기 위해 모두가 '완벽히 똑같은 보폭과 발소리'를 맞추는 지독한 훈련(전력 제어)이 필수적이다.
 
@@ -84,9 +87,9 @@ CDMA가 초당 수천 번이나 되는 [[154_tpc|TPC]] 비트를 전송하느라
 
 실제 무선망 최적화 실무에서 전력 제어 실패는 곧 통화 품질 저하와 커버리지 축소로 직결된다.
 
-### [[435_checklist_based_testing|체크리스트]] 및 실무 판단
-1. **핑퐁 효과(Ping-Pong) 및 최대 출력 제한 제어**: 단말기가 지하 주차장 같은 음영 지역에 깊숙이 들어가면 목표 SIR을 맞추기 위해 출력을 한계치까지 올린다. 기지국은 여전히 "전력 올려"라고 지시하지만 단말기는 응답할 여력이 없어 배터리만 방전되다 결국 통화가 끊긴다([[189_subroutine_call_return|Call]] Drop). 이를 막기 위해 Max [[069_type_1_2_error_statistical_power|Power]] Limit 도달 시 무의미한 제어 루프를 끊고 인접 기지국으로 빠르게 [[556_handover_handoff_types_concept|핸드오버]] 시키는 최적화가 필수다.
-2. **[[093_셀_호흡_현상|셀 호흡]]([[093_셀_호흡_현상|Cell Breathing]]) 방어**: CDMA에서 가입자가 몰려 간섭 전력이 폭증하면 기지국은 모든 단말기의 전력을 올리게 만들고, 결국 전파 커버리지 자체가 수축해버린다. 실무자는 Outer Loop의 Target SIR 임계값을 무리하게 높이지 않고 통신 품질의 최소치(FER 1%)로 타협하여 전체 셀 커버리지를 방어해야 한다.
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 실무 판단
+1. **핑퐁 효과(Ping-Pong) 및 최대 출력 제한 제어**: 단말기가 지하 주차장 같은 음영 지역에 깊숙이 들어가면 목표 SIR을 맞추기 위해 출력을 한계치까지 올린다. 기지국은 여전히 "전력 올려"라고 지시하지만 단말기는 응답할 여력이 없어 배터리만 방전되다 결국 통화가 끊긴다([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) Drop). 이를 막기 위해 Max [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Limit 도달 시 무의미한 제어 루프를 끊고 인접 기지국으로 빠르게 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) 시키는 최적화가 필수다.
+2. **[셀 호흡](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/093_셀_호흡_현상/)([Cell Breathing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/093_셀_호흡_현상/)) 방어**: CDMA에서 가입자가 몰려 간섭 전력이 폭증하면 기지국은 모든 단말기의 전력을 올리게 만들고, 결국 전파 커버리지 자체가 수축해버린다. 실무자는 Outer Loop의 Target SIR 임계값을 무리하게 높이지 않고 통신 품질의 최소치(FER 1%)로 타협하여 전체 셀 커버리지를 방어해야 한다.
 
 - **📢 섹션 요약 비유**: 전력 제어 시스템을 잘못 튜닝하는 것은, 자동차가 터널에 갇혀 속도를 낼 수 없는데도 액셀을 계속 밟으라고 지시하여 엔진(배터리)을 태워 먹는 것과 같다. 한계를 인지하는 차단 로직이 필요하다.
 
@@ -96,7 +99,7 @@ CDMA가 초당 수천 번이나 되는 [[154_tpc|TPC]] 비트를 전송하느라
 
 근거리-원거리 문제를 극복하기 위해 설계된 CDMA의 전력 제어 아키텍처는 통신사에 주파수 효율성의 극대화를 가져왔을 뿐 아니라, 부수적으로 단말기 배터리 수명을 혁명적으로 연장했다. 기지국 바로 밑에 있는 단말기는 1mW도 안 되는 극한의 미세 전력으로 통신하게 되면서 대기 시간이 비약적으로 늘어났다.
 
-현재의 4G LTE나 [[763_5g_nr_new_radio_scalable_numerology|5G NR]] 환경은 직교 주파수를 쓰는 [[945_ofdma_orthogonal_frequency_division_multiple_access_resource_block|OFDMA]] 방식을 채택하여 셀 내부(Intra-cell)의 근거리-원거리 문제는 사라졌다. 하지만, 인접 기지국 간섭(Inter-cell Interference) 제어와 [[101_iot_concept|IoT]] 기기의 배터리 생존을 위해 과거 CDMA가 창조한 개루프/폐루프 기반의 Fractional [[069_type_1_2_error_statistical_power|Power]] Control 알고리즘은 여전히 모바일 네트워크의 핵심 DNA로 계승되어 동작하고 있다.
+현재의 4G LTE나 [5G NR](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/) 환경은 직교 주파수를 쓰는 [OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) 방식을 채택하여 셀 내부(Intra-cell)의 근거리-원거리 문제는 사라졌다. 하지만, 인접 기지국 간섭(Inter-cell Interference) 제어와 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기의 배터리 생존을 위해 과거 CDMA가 창조한 개루프/폐루프 기반의 Fractional [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Control 알고리즘은 여전히 모바일 네트워크의 핵심 DNA로 계승되어 동작하고 있다.
 
 - **📢 섹션 요약 비유**: 근거리-원거리 문제와 전력 제어의 관계는, 거센 '폭풍우(전파 감쇠)'를 뚫고 비행해야 하는 한계를 극복하기 위해 초당 천 번씩 날개 각도를 보정하는 '자이로스코프(전력 제어)'를 발명하여, 오히려 폭풍우 속에서 가장 빠르고 안정적으로 날게 된 셈이다.
 
@@ -106,10 +109,10 @@ CDMA가 초당 수천 번이나 되는 [[154_tpc|TPC]] 비트를 전송하느라
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[[167_fading_large_scale_small_scale|페이딩]] ([[167_fading_large_scale_small_scale|Fading]])** | 이동 중 건물에 반사된 전파로 인해 수신 [[130_signal|신호]] 세기가 급격히 변동하는 현상. 이 고속 요동을 잡기 위해 폐루프 제어가 초당 1,500회 수행된다. |
-| **[[093_셀_호흡_현상|셀 호흡]] ([[093_셀_호흡_현상|Cell Breathing]])** | 가입자 증가로 간섭 잡음이 상승하면, 단말기 전력이 최대치를 쳐서 결국 기지국의 [[090_service_kubernetes_network_load_balancing|서비스]] 반경이 줄어드는 [[957_cdma_code_division_multiple_access_dsss_orthogonality|CDMA]] 특유의 현상. |
-| **[[558_soft_handoff|소프트 핸드오버]] (Soft [[556_handover_handoff_types_concept|Handover]])** | 단말기가 두 기지국의 경계에 있을 때 양쪽 기지국의 폐루프 전력 제어 명령을 동시에 받아 가장 유리한 쪽의 출력을 따르는 결합 기술. |
-| **[[945_ofdma_orthogonal_frequency_division_multiple_access_resource_block|OFDMA]]** | 4G/5G의 접속 방식. 주파수 분할 직교성을 써서 근거리-원거리 문제가 크게 완화되었으나 기지국 간 간섭 억제를 위해 전력 제어 유산을 승계했다. |
+| **[페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) ([Fading](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/))** | 이동 중 건물에 반사된 전파로 인해 수신 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 세기가 급격히 변동하는 현상. 이 고속 요동을 잡기 위해 폐루프 제어가 초당 1,500회 수행된다. |
+| **[셀 호흡](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/093_셀_호흡_현상/) ([Cell Breathing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/093_셀_호흡_현상/))** | 가입자 증가로 간섭 잡음이 상승하면, 단말기 전력이 최대치를 쳐서 결국 기지국의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 반경이 줄어드는 [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) 특유의 현상. |
+| **[소프트 핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/558_soft_handoff/) (Soft [Handover](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/))** | 단말기가 두 기지국의 경계에 있을 때 양쪽 기지국의 폐루프 전력 제어 명령을 동시에 받아 가장 유리한 쪽의 출력을 따르는 결합 기술. |
+| **[OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/)** | 4G/5G의 접속 방식. 주파수 분할 직교성을 써서 근거리-원거리 문제가 크게 완화되었으나 기지국 간 간섭 억제를 위해 전력 제어 유산을 승계했다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -144,7 +147,7 @@ FER 기반 타겟 품질 동적 재설정 (외부 폐루프 전력 제어)
 
 **진행 상황**: 92 / 1120
 
-← **이전**: [[091_동기식_비동기식_CDMA_WCDMA|91. 동기식 CDMA vs 비동기식 CDMA (WCDMA)]]
-**다음**: [[093_셀_호흡_현상|93. 셀 호흡 (Cell Breathing) 현상]] →
+← **이전**: [91. 동기식 CDMA vs 비동기식 CDMA (WCDMA)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/091_동기식_비동기식_CDMA_WCDMA/)
+**다음**: [93. 셀 호흡 (Cell Breathing) 현상](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/093_셀_호흡_현상/) →
 
 ---

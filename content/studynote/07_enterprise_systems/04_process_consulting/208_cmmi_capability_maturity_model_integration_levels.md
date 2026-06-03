@@ -1,23 +1,27 @@
----
-title: 208. CMMI (Capability Maturity Model Integration) - 성숙도 수준 평가
-date: '2026-05-08'
-tags:
-- studynote-enterprise
----
++++
+title = "208. CMMI (Capability Maturity Model Integration) - 성숙도 수준 평가"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-enterprise"]
+
+[extra]
+tags = ["studynote-enterprise"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[133_cmmi_capability_maturity_model_integration_levels|CMMI]] ([[133_cmmi_capability_maturity_model_integration_levels|Capability Maturity Model Integration]])는 조직이 소프트웨어와 시스템 개발을 얼마나 반복 가능하고 예측 가능하게 수행하는지 평가하는 프로세스 성숙도 모델이다.
-> 2. **가치**: 개인 영웅에 의존하는 조직을 표준화된 수행 체계로 바꾸어 품질 편차와 사업 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]를 줄이고, 대형 프로젝트 수주 [[085_confidence_association_rule_conditional_probability|신뢰도]]를 높인다.
+> 1. **본질**: [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) ([Capability Maturity Model Integration](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/))는 조직이 소프트웨어와 시스템 개발을 얼마나 반복 가능하고 예측 가능하게 수행하는지 평가하는 프로세스 성숙도 모델이다.
+> 2. **가치**: 개인 영웅에 의존하는 조직을 표준화된 수행 체계로 바꾸어 품질 편차와 사업 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 줄이고, 대형 프로젝트 수주 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)를 높인다.
 > 3. **판단 포인트**: 성숙도 수준이 높을수록 좋은 것은 맞지만, Level 4~5는 측정 체계와 개선 문화가 함께 성숙해야 하므로 조직 규모와 목적에 맞는 목표 수준을 잡아야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[[133_cmmi_capability_maturity_model_integration_levels|CMMI]] ([[133_cmmi_capability_maturity_model_integration_levels|Capability Maturity Model Integration]])는 조직의 개발·[[018_admin_processes|관리 프로세스]]가 얼마나 체계화되어 있는지 단계별로 평가하는 모델이다. 핵심은 결과물 한 건의 성공 여부가 아니라, 비슷한 프로젝트를 반복해도 일정·품질·비용을 예측 가능한 수준으로 재현할 수 있는지에 있다. 즉 "잘하는 사람"보다 "잘하게 만드는 시스템"을 본다.
+[CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) ([Capability Maturity Model Integration](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/))는 조직의 개발·[관리 프로세스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/018_admin_processes/)가 얼마나 체계화되어 있는지 단계별로 평가하는 모델이다. 핵심은 결과물 한 건의 성공 여부가 아니라, 비슷한 프로젝트를 반복해도 일정·품질·비용을 예측 가능한 수준으로 재현할 수 있는지에 있다. 즉 "잘하는 사람"보다 "잘하게 만드는 시스템"을 본다.
 
-이 모델이 필요한 이유는 대형 정보시스템 사업일수록 개인 의존성이 치명적이기 때문이다. 특정 프로젝트가 우연히 성공해도 [[158_requirements_management_change_control|요구사항 관리]], 형상관리, 품질보증, 측정 체계가 약하면 규모가 커질수록 일정 [[015_지연_데이터_관점|지연]]과 재작업이 폭발한다. 특히 공공·국방·금융처럼 실패 비용이 큰 영역에서는 결과보다 프로세스 역량을 사전에 [[395_verification_process_review|검증]]할 필요가 있어, CMMI가 조직 [[085_confidence_association_rule_conditional_probability|신뢰도]]의 언어로 쓰인다.
+이 모델이 필요한 이유는 대형 정보시스템 사업일수록 개인 의존성이 치명적이기 때문이다. 특정 프로젝트가 우연히 성공해도 [요구사항 관리](/knowledge-base/studynote/04_software_engineering/03_design_architecture/158_requirements_management_change_control/), 형상관리, 품질보증, 측정 체계가 약하면 규모가 커질수록 일정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 재작업이 폭발한다. 특히 공공·국방·금융처럼 실패 비용이 큰 영역에서는 결과보다 프로세스 역량을 사전에 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 필요가 있어, CMMI가 조직 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)의 언어로 쓰인다.
 
 - **📢 섹션 요약 비유**: 맛있는 식당을 평가할 때 오늘 셰프 컨디션만 보는 것이 아니라, 누가 요리해도 같은 맛을 내는 조리법과 주방 운영 체계를 보는 것과 같다. CMMI는 한 접시의 운보다 주방 시스템의 성숙도를 보는 기준이다.
 
@@ -32,7 +36,7 @@ CMMI의 중심은 성숙도 수준 (Maturity Level) 1에서 5까지의 계단 �
 | Level 1 | Initial | 개인 역량 의존 | 재현성 낮음, 성공·실패 편차 큼 |
 | Level 2 | Managed | 프로젝트 단위 관리 | 일정·요구사항·형상관리 기본 체계 확보 |
 | Level 3 | Defined | 조직 표준 정립 | 전사 표준 프로세스와 템플릿 공유 |
-| Level 4 | Quantitatively Managed | 정량적 관리 | 통계·측정 기반으로 품질과 [[282_performance_tactics|성능]] 통제 |
+| Level 4 | Quantitatively Managed | 정량적 관리 | 통계·측정 기반으로 품질과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 통제 |
 | Level 5 | Optimizing | 지속 개선 | 원인 분석과 혁신을 통해 프로세스 개선 |
 
 아래 그림은 CMMI가 단순한 등급표가 아니라, 통제 수준이 점진적으로 높아지는 구조임을 보여준다.
@@ -49,7 +53,7 @@ CMMI의 중심은 성숙도 수준 (Maturity Level) 1에서 5까지의 계단 �
 └──────────────────────────────────────────────────────────────┘
 ```
 
-실무적으로 중요하게 보는 축은 세 가지다. 첫째, 요구사항과 변경을 추적하는 관리 체계가 있는가. 둘째, 품질보증 (QA, Quality Assurance)과 형상관리 같은 공통 활동이 조직 표준으로 정착되어 있는가. 셋째, [[355_defect_density|결함 밀도]], 일정 편차, 생산성 같은 지표를 통해 프로세스를 실제로 조정하는가다.
+실무적으로 중요하게 보는 축은 세 가지다. 첫째, 요구사항과 변경을 추적하는 관리 체계가 있는가. 둘째, 품질보증 (QA, Quality Assurance)과 형상관리 같은 공통 활동이 조직 표준으로 정착되어 있는가. 셋째, [결함 밀도](/knowledge-base/studynote/04_software_engineering/06_software_architecture/355_defect_density/), 일정 편차, 생산성 같은 지표를 통해 프로세스를 실제로 조정하는가다.
 
 - **📢 섹션 요약 비유**: 계단을 올라간다는 것은 단순히 점수표가 좋아지는 것이 아니라, 비 오는 날에도 미끄러지지 않게 난간과 조명을 갖추는 일과 같다. 위로 갈수록 조직은 운이 아니라 구조로 움직인다.
 
@@ -63,31 +67,31 @@ CMMI를 이해할 때 가장 많이 비교하는 것은 단계적 표현 (Staged
 | :--- | :--- | :--- |
 | 평가 단위 | 조직 전체 성숙도 | 프로세스 영역별 역량 |
 | 결과 형태 | Level 1~5 종합 수준 | 영역별 Capability Profile |
-| 활용 목적 | 입찰, [[303_authentication_authorization_patterns|인증]], 대외 신뢰 | 취약 영역 개선, 내부 진단 |
-| 장점 | [[389_mesh_topology|메시]]지가 단순하고 명확함 | 세밀한 처방과 투자 우선순위 [[009_config|설정]] 가능 |
+| 활용 목적 | 입찰, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 대외 신뢰 | 취약 영역 개선, 내부 진단 |
+| 장점 | [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지가 단순하고 명확함 | 세밀한 처방과 투자 우선순위 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 가능 |
 
-또한 CMMI는 [[004_agile_relation|애자일]] ([[004_agile_relation|Agile]])이나 [[652_devops_calms_culture|데브옵스]] ([[652_devops_calms_culture|DevOps]])와 대립하는 개념이 아니다. [[004_agile_relation|애자일]]은 개발 방식의 민첩성을 강조하고, [[652_devops_calms_culture|데브옵스]]는 개발과 운영의 연계를 강화하며, CMMI는 이 활동들이 재현 가능하게 돌아가는 관리 체계를 묻는다. 따라서 현대 조직에서는 CMMI를 "문서 중심 구시대 모델"로 보지 말고, 측정·표준화·개선의 거버넌스 틀로 이해하는 것이 적절하다.
+또한 CMMI는 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) ([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))이나 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) ([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/))와 대립하는 개념이 아니다. [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)은 개발 방식의 민첩성을 강조하고, [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)는 개발과 운영의 연계를 강화하며, CMMI는 이 활동들이 재현 가능하게 돌아가는 관리 체계를 묻는다. 따라서 현대 조직에서는 CMMI를 "문서 중심 구시대 모델"로 보지 말고, 측정·표준화·개선의 거버넌스 틀로 이해하는 것이 적절하다.
 
-- **📢 섹션 요약 비유**: 학교에서 전교 석차를 보는 것은 단계적 표현이고, 과목별 성적표를 보는 것은 연속적 표현과 같다. 둘 다 필요하지만, 자랑할 때와 공부 [[268_strategy_pattern|전략]]을 짤 때 쓰는 도구가 다르다.
+- **📢 섹션 요약 비유**: 학교에서 전교 석차를 보는 것은 단계적 표현이고, 과목별 성적표를 보는 것은 연속적 표현과 같다. 둘 다 필요하지만, 자랑할 때와 공부 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 짤 때 쓰는 도구가 다르다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-현실에서는 모든 조직이 Level 5를 목표로 삼을 필요는 없다. 문서화와 표준화가 약한 조직은 Level 2~3 확보만으로도 일정 안정성과 품질 [[194_consistency_database_integrity|일관성]]이 크게 올라간다. 반면 Level 4~5는 측정 자동화, [[001_dikw_pyramid|데이터]] [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]], 원인 분석 문화까지 필요하므로 중소 규모 조직이 무리하게 추진하면 관리 비용이 현업 속도를 압도할 수 있다.
+현실에서는 모든 조직이 Level 5를 목표로 삼을 필요는 없다. 문서화와 표준화가 약한 조직은 Level 2~3 확보만으로도 일정 안정성과 품질 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 크게 올라간다. 반면 Level 4~5는 측정 자동화, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/), 원인 분석 문화까지 필요하므로 중소 규모 조직이 무리하게 추진하면 관리 비용이 현업 속도를 압도할 수 있다.
 
 ### 적용 판단 포인트
 
-1. 공공·금융·국방처럼 대형 사업 수주 [[085_confidence_association_rule_conditional_probability|신뢰도]]가 중요한가?
+1. 공공·금융·국방처럼 대형 사업 수주 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)가 중요한가?
 2. 프로젝트별 수행 방식 차이가 커서 품질 편차가 심한가?
-3. [[352_defect_definition|결함]], 일정, 생산성 지표를 실제로 수집하고 있는가?
-4. 프로세스 [[606_auditing_linux_auditd|감사]]가 형식적 문서 검토에 그치지 않고 개선 활동과 연결되는가?
+3. [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/), 일정, 생산성 지표를 실제로 수집하고 있는가?
+4. 프로세스 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)가 형식적 문서 검토에 그치지 않고 개선 활동과 연결되는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 템플릿만 늘리고 현업은 따르지 않는 문서 과잉 조직
 - 지표는 모으지만 의사결정에 반영하지 않는 수치 장식 조직
-- [[303_authentication_authorization_patterns|인증]] 획득 자체를 목표로 삼아 개선 문화가 남지 않는 조직
+- [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 획득 자체를 목표로 삼아 개선 문화가 남지 않는 조직
 
 기술사 답안에서는 보통 Level 3가 조직 표준화의 분기점이라는 점을 강조하면 좋다. 이후 Level 4는 정량 관리, Level 5는 원인 분석과 혁신이라는 차이를 분명히 적어야 한다. 즉 CMMI는 "문서 많음"의 문제가 아니라 "예측 가능성과 개선 역량"의 문제라는 식으로 정리하면 설계 관점이 살아난다.
 
@@ -97,7 +101,7 @@ CMMI를 이해할 때 가장 많이 비교하는 것은 단계적 표현 (Staged
 
 ## Ⅴ. 기대효과 및 결론
 
-CMMI를 제대로 적용하면 요구사항 누락 감소, 일정 편차 축소, [[352_defect_definition|결함]] 예방 강화, 인력 교체 시 생산성 하락 완화 같은 효과를 기대할 수 있다. 특히 대규모 조직에서는 프로젝트마다 달랐던 관행을 조직 공통 기준으로 묶어, 품질과 통제의 최소선을 확보하는 데 큰 의미가 있다. 이는 신규 인력 온보딩과 협력사 관리에도 유리하다.
+CMMI를 제대로 적용하면 요구사항 누락 감소, 일정 편차 축소, [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 예방 강화, 인력 교체 시 생산성 하락 완화 같은 효과를 기대할 수 있다. 특히 대규모 조직에서는 프로젝트마다 달랐던 관행을 조직 공통 기준으로 묶어, 품질과 통제의 최소선을 확보하는 데 큰 의미가 있다. 이는 신규 인력 온보딩과 협력사 관리에도 유리하다.
 
 하지만 형식주의로 흐르면 역효과도 크다. 현업과 분리된 문서 체계는 유지비만 높이고, 과도한 승인 체계는 민첩성을 갉아먹는다. 따라서 CMMI는 "무조건 높은 단계"보다 "우리 조직이 감당할 수 있는 표준화와 측정 수준"을 설계하는 관점으로 접근해야 한다.
 
@@ -112,10 +116,10 @@ CMMI를 제대로 적용하면 요구사항 누락 감소, 일정 편차 축소,
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | 품질보증 (QA, Quality Assurance) | 프로세스 준수와 품질 활동을 조직 차원에서 정착시킴 |
-| 형상관리 ([[089_configuration_management|Configuration Management]]) | 변경 이력과 [[025_baseline|기준선]] 통제를 통해 반복 가능성을 높임 |
-| 정량적 관리 (Quantitative [[372_management|Management]]) | Level 4에서 핵심 지표 기반 통제를 수행함 |
-| 원인 분석과 해결 (CAR, Causal Analysis and Resolution) | Level 5에서 [[352_defect_definition|결함]]의 재발 방지를 구조화함 |
-| [[004_agile_relation|애자일]] ([[004_agile_relation|Agile]]) / [[652_devops_calms_culture|데브옵스]] ([[652_devops_calms_culture|DevOps]]) | 개발 방식은 달라도 재현성과 측정 체계라는 관리 기반과 연결됨 |
+| 형상관리 ([Configuration Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/)) | 변경 이력과 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 통제를 통해 반복 가능성을 높임 |
+| 정량적 관리 (Quantitative [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) | Level 4에서 핵심 지표 기반 통제를 수행함 |
+| 원인 분석과 해결 (CAR, Causal Analysis and Resolution) | Level 5에서 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)의 재발 방지를 구조화함 |
+| [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) ([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) / [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) ([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)) | 개발 방식은 달라도 재현성과 측정 체계라는 관리 기반과 연결됨 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -149,7 +153,7 @@ Level 5 지속 개선 · 혁신
 
 **진행 상황**: 208 / 482
 
-← **이전**: [[207_model_enhancement_process_mining_simulation|207. 모델 향상 (Model Enhancement) - 프로세스 마이닝 기반 개선]]
-**다음**: [[209_it_organization_assessment_3p_people_process_technology|209. IT 조직 진단 3P (People, Process, Platform/Technology)]] →
+← **이전**: [207. 모델 향상 (Model Enhancement) - 프로세스 마이닝 기반 개선](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/207_model_enhancement_process_mining_simulation/)
+**다음**: [209. IT 조직 진단 3P (People, Process, Platform/Technology)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/209_it_organization_assessment_3p_people_process_technology/) →
 
 ---

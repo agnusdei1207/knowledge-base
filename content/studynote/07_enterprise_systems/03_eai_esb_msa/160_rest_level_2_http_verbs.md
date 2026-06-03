@@ -1,25 +1,29 @@
----
-title: 160. Level 2 - HTTP 메서드의 적절한 분리 사용 (가장 대중적 단계)
-date: '2026-05-05'
-tags:
-- studynote-enterprise-systems
----
++++
+title = "160. Level 2 - HTTP 메서드의 적절한 분리 사용 (가장 대중적 단계)"
+date = 2026-05-05
+
+[taxonomies]
+tags = ["studynote-enterprise-systems"]
+
+[extra]
+tags = ["studynote-enterprise-systems"]
++++
 
 ## 핵심 인사이트
 
-> 1. **본질**: 리처드슨 성숙도 모델 ([[157_restful_api_richardson_maturity_model|Richardson Maturity Model]])의 Level 2는 리소스별 URI (Uniform Resource [[088_identifier_in_er_model|Identifier]])에 더해, **[[461_http_stateless_connection_oriented|HTTP]] ([[461_http_stateless_connection_oriented|HyperText Transfer Protocol]]) 메서드 의미를 작업 종류에 맞게 분리하는 단계**다.
-> 2. **가치**: `GET`, `POST`, `PUT`, `PATCH`, `DELETE`를 올바르게 쓰면 캐시, 재시도, [[171_idempotency_iac_terraform|멱등성]] ([[194_idempotency|Idempotency]]), 상태 코드 해석 같은 웹의 기본 도구를 자연스럽게 활용할 수 있다.
-> 3. **판단 포인트**: Level 2는 산업계에서 가장 널리 쓰이는 [[156_rest_representational_state_transfer|REST]] ([[477_rest_api_architecture|Representational State Transfer]]) [[025_baseline|기준선]]이지만, 메서드 이름만 흉내 내고 의미를 어기면 오히려 운영 혼란을 키운다.
+> 1. **본질**: 리처드슨 성숙도 모델 ([Richardson Maturity Model](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/157_restful_api_richardson_maturity_model/))의 Level 2는 리소스별 URI (Uniform Resource [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/))에 더해, **[HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) ([HyperText Transfer Protocol](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)) 메서드 의미를 작업 종류에 맞게 분리하는 단계**다.
+> 2. **가치**: `GET`, `POST`, `PUT`, `PATCH`, `DELETE`를 올바르게 쓰면 캐시, 재시도, [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/) ([Idempotency](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/)), 상태 코드 해석 같은 웹의 기본 도구를 자연스럽게 활용할 수 있다.
+> 3. **판단 포인트**: Level 2는 산업계에서 가장 널리 쓰이는 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) ([Representational State Transfer](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/)) [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)이지만, 메서드 이름만 흉내 내고 의미를 어기면 오히려 운영 혼란을 키운다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-Level 2는 리소스를 URI로 구분하는 Level 1 위에, 행위 의미를 [[461_http_stateless_connection_oriented|HTTP]] 메서드에 맞게 배치한 단계다. 즉 `/orders/1001`이라는 자원을 두고도 조회는 `GET`, 전체 수정은 `PUT`, 부분 수정은 `PATCH`, 삭제는 `DELETE`처럼 **표준 동사로 의도를 분리**한다. 이때 API는 단순한 원격 [[294_function_calling_tool_use|함수 호출]]이 아니라, 웹 [[295_protocol_field_tcp_udp_icmp|프로토콜]]의 의미를 따르는 인터페이스로 바뀌기 시작한다.
+Level 2는 리소스를 URI로 구분하는 Level 1 위에, 행위 의미를 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드에 맞게 배치한 단계다. 즉 `/orders/1001`이라는 자원을 두고도 조회는 `GET`, 전체 수정은 `PUT`, 부분 수정은 `PATCH`, 삭제는 `DELETE`처럼 **표준 동사로 의도를 분리**한다. 이때 API는 단순한 원격 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/)이 아니라, 웹 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 의미를 따르는 인터페이스로 바뀌기 시작한다.
 
-이 단계가 필요한 이유는 URI만 자원형이어도 모든 요청을 `POST`로 처리하면 웹 인프라의 이점을 살리지 못하기 때문이다. 캐시 서버는 `GET`을 이해하지만 임의의 `POST` 바디 안 `action` 필드는 이해하지 못한다. 또한 재시도 [[164_policy|정책]], [[264_proxy_pattern_surrogate_access_control|프록시]] 동작, 상태 코드 해석도 메서드 의미가 분명해야 안정적으로 작동한다.
+이 단계가 필요한 이유는 URI만 자원형이어도 모든 요청을 `POST`로 처리하면 웹 인프라의 이점을 살리지 못하기 때문이다. 캐시 서버는 `GET`을 이해하지만 임의의 `POST` 바디 안 `action` 필드는 이해하지 못한다. 또한 재시도 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 동작, 상태 코드 해석도 메서드 의미가 분명해야 안정적으로 작동한다.
 
-따라서 Level 2의 본질은 "메서드를 예쁘게 나눈다"가 아니라, **자원 중심 구조 위에 웹 표준의 의미 계층을 얹는다**는 데 있다. 그래서 많은 기업이 Level 2를 사실상의 [[974_restful_api_stateless_http_methods_uri|RESTful API]] [[025_baseline|기준선]]으로 삼는다.
+따라서 Level 2의 본질은 "메서드를 예쁘게 나눈다"가 아니라, **자원 중심 구조 위에 웹 표준의 의미 계층을 얹는다**는 데 있다. 그래서 많은 기업이 Level 2를 사실상의 [RESTful API](/knowledge-base/studynote/03_network/19_frequent_topics_terms/974_restful_api_stateless_http_methods_uri/) [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)으로 삼는다.
 
 - **📢 섹션 요약 비유**: Level 2는 창구를 업무별로 나누는 데서 한 걸음 더 나아가, 신청서 색깔마다 접수 규칙이 다른 행정 시스템을 만드는 것과 같다.
 
@@ -27,7 +31,7 @@ Level 2는 리소스를 URI로 구분하는 Level 1 위에, 행위 의미를 [[4
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-Level 2의 핵심 원리는 같은 리소스 URI라도 메서드에 따라 의미가 달라진다는 점이다. 컬렉션 URI는 [[087_process_state_transition|생성]]과 목록 조회를, 개별 리소스 URI는 읽기·수정·삭제를 담당한다. 여기에 상태 코드 (Status [[082_process_memory_structure|Code]])를 함께 사용하면, 클라이언트는 응답 본문을 깊게 읽기 전에도 성공과 실패의 종류를 빠르게 해석할 수 있다.
+Level 2의 핵심 원리는 같은 리소스 URI라도 메서드에 따라 의미가 달라진다는 점이다. 컬렉션 URI는 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)과 목록 조회를, 개별 리소스 URI는 읽기·수정·삭제를 담당한다. 여기에 상태 코드 (Status [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))를 함께 사용하면, 클라이언트는 응답 본문을 깊게 읽기 전에도 성공과 실패의 종류를 빠르게 해석할 수 있다.
 
 아래 그림은 Level 2가 자원과 메서드를 어떻게 결합하는지 보여준다.
 
@@ -46,13 +50,13 @@ Level 2의 핵심 원리는 같은 리소스 URI라도 메서드에 따라 의�
 └────────────────────────────────────────────────────────────────────┘
 ```
 
-이 그림의 핵심은 URI가 아니라 **메서드와 상태 코드 조합**이 [[014_api_posix|API]] 의미를 완성한다는 점이다. 예를 들어 `GET`은 안전성 ([[093_safe_scaled_agile_framework_art_pi|Safe]])과 [[171_idempotency_iac_terraform|멱등성]]을 기대할 수 있으므로 캐시와 재시도에 유리하다. `PUT`과 `DELETE`도 [[171_idempotency_iac_terraform|멱등성]]이 있어 네트워크 재전송 환경에서 관리가 쉽다. 반면 `POST`는 보통 멱등하지 않으므로 중복 [[087_process_state_transition|생성]] 방지 [[268_strategy_pattern|전략]]이 필요하다.
+이 그림의 핵심은 URI가 아니라 **메서드와 상태 코드 조합**이 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 의미를 완성한다는 점이다. 예를 들어 `GET`은 안전성 ([Safe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/))과 [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)을 기대할 수 있으므로 캐시와 재시도에 유리하다. `PUT`과 `DELETE`도 [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)이 있어 네트워크 재전송 환경에서 관리가 쉽다. 반면 `POST`는 보통 멱등하지 않으므로 중복 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 방지 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 필요하다.
 
-| 메서드 | 대표 의미 | [[093_safe_scaled_agile_framework_art_pi|Safe]] | Idempotent | 실무 포인트 |
+| 메서드 | 대표 의미 | [Safe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) | Idempotent | 실무 포인트 |
 | :--- | :--- | :---: | :---: | :--- |
 | `GET` | 조회 | O | O | 캐시와 조회 전용에 적합 |
-| `POST` | [[087_process_state_transition|생성]]·비멱등 처리 | X | X | 중복 요청 방지 필요 |
-| `PUT` | 전체 대체 | X | O | 자원 전체 표현 [[194_consistency_database_integrity|일관성]] 중요 |
+| `POST` | [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·비멱등 처리 | X | X | 중복 요청 방지 필요 |
+| `PUT` | 전체 대체 | X | O | 자원 전체 표현 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 중요 |
 | `PATCH` | 부분 변경 | X | 상황별 | 변경 규칙 명확화 필요 |
 | `DELETE` | 삭제 | X | O | 반복 호출 시 동일 결과 유지 고려 |
 
@@ -64,19 +68,19 @@ Level 2의 핵심 원리는 같은 리소스 URI라도 메서드에 따라 의�
 
 ## Ⅲ. 비교 및 연결
 
-Level 2를 이해하려면 Level 1, Level 3와의 경계를 함께 봐야 한다. Level 1은 리소스 URI까지는 도입했지만 메서드 의미가 약해 `POST` 편중 구조가 남을 수 있다. 반면 Level 3은 여기에 하이퍼미디어 (HATEOAS, [[161_rest_level_3_hateoas|Hypermedia as the Engine of Application State]])까지 더해, 클라이언트가 링크를 따라 다음 행동을 발견하게 만든다. 따라서 Level 2는 "웹 의미를 본격적으로 [[289_cqrs_db|쓰기]] 시작한 단계"라고 정리할 수 있다.
+Level 2를 이해하려면 Level 1, Level 3와의 경계를 함께 봐야 한다. Level 1은 리소스 URI까지는 도입했지만 메서드 의미가 약해 `POST` 편중 구조가 남을 수 있다. 반면 Level 3은 여기에 하이퍼미디어 (HATEOAS, [Hypermedia as the Engine of Application State](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/161_rest_level_3_hateoas/))까지 더해, 클라이언트가 링크를 따라 다음 행동을 발견하게 만든다. 따라서 Level 2는 "웹 의미를 본격적으로 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시작한 단계"라고 정리할 수 있다.
 
 | 항목 | Level 1 | Level 2 | Level 3 |
 | :--- | :--- | :--- | :--- |
-| 중심 요소 | 리소스 URI | 리소스 URI + [[461_http_stateless_connection_oriented|HTTP]] 메서드 | 메서드 + 하이퍼미디어 |
+| 중심 요소 | 리소스 URI | 리소스 URI + [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드 | 메서드 + 하이퍼미디어 |
 | 메서드 활용 | 제한적 | 명확히 분리 | 명확히 분리 |
 | 상태 코드 활용 | 부분적 | 적극 활용 | 적극 활용 |
 | 클라이언트 탐색성 | 낮음 | 중간 | 높음 |
 | 산업계 채택 | 높음 | 매우 높음 | 제한적 |
 
-실무적으로 Level 2가 널리 채택되는 이유는 비용 대비 효과가 크기 때문이다. URI, 메서드, 상태 코드만 정리해도 문서화·테스트·[[229_monitor|모니터]]링·에러 처리 품질이 크게 개선된다. 반면 Level 3는 장점이 분명해도 클라이언트 구현과 표준화 비용이 더 들어, 모든 조직이 채택하지는 않는다.
+실무적으로 Level 2가 널리 채택되는 이유는 비용 대비 효과가 크기 때문이다. URI, 메서드, 상태 코드만 정리해도 문서화·테스트·[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링·에러 처리 품질이 크게 개선된다. 반면 Level 3는 장점이 분명해도 클라이언트 구현과 표준화 비용이 더 들어, 모든 조직이 채택하지는 않는다.
 
-또한 Level 2는 오픈 [[014_api_posix|API]] 명세 ([[495_oas_openapi_specification|OpenAPI Specification]]), [[014_api_posix|API]] 게이트웨이, [[264_proxy_pattern_surrogate_access_control|프록시]] 캐시, [[302_service_mesh_istio|서비스 메시]] 같은 운영 도구와도 잘 맞는다. 이들이 이해하는 기본 문법이 바로 [[461_http_stateless_connection_oriented|HTTP]] 메서드와 상태 코드이기 때문이다.
+또한 Level 2는 오픈 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 명세 ([OpenAPI Specification](/knowledge-base/studynote/09_security/05_web_app_security/495_oas_openapi_specification/)), [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이, [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 캐시, [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) 같은 운영 도구와도 잘 맞는다. 이들이 이해하는 기본 문법이 바로 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드와 상태 코드이기 때문이다.
 
 - **📢 섹션 요약 비유**: Level 1이 창구 이름표를 붙인 단계라면, Level 2는 창구마다 어떤 서류를 어떤 절차로 받는지 규칙서까지 붙인 단계다. Level 3는 그다음에 다음 창구로 가는 안내표지까지 자동으로 주는 셈이다.
 
@@ -84,18 +88,18 @@ Level 2를 이해하려면 Level 1, Level 3와의 경계를 함께 봐야 한다
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 Level 2를 잘 적용하려면 메서드 이름보다 **자원 모델과 변경 의미**를 먼저 명확히 해야 한다. 예를 들어 `PUT`은 전체 표현을 대체한다는 뜻이므로, 부분 수정에 무심코 쓰면 필드 누락이 [[001_dikw_pyramid|데이터]] 손실로 이어질 수 있다. 반대로 `PATCH`는 부분 수정에 적합하지만, 패치 문법과 충돌 처리 규칙을 합의하지 않으면 [[014_api_posix|API]] [[194_consistency_database_integrity|일관성]]이 무너진다.
+실무에서 Level 2를 잘 적용하려면 메서드 이름보다 **자원 모델과 변경 의미**를 먼저 명확히 해야 한다. 예를 들어 `PUT`은 전체 표현을 대체한다는 뜻이므로, 부분 수정에 무심코 쓰면 필드 누락이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실로 이어질 수 있다. 반대로 `PATCH`는 부분 수정에 적합하지만, 패치 문법과 충돌 처리 규칙을 합의하지 않으면 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 무너진다.
 
 또한 `POST`를 만능 액션으로 남발하는 습관을 경계해야 한다. 결제 승인처럼 자원보다는 명령 성격이 강한 경우는 별도 하위 리소스나 작업 리소스로 모델링할 수 있다. 중요한 것은 "동작을 숨기지 않고, 메서드 의미를 깨지 않도록 외부 모델을 설계하는가"이다.
 
-### 판단 [[435_checklist_based_testing|체크리스트]]
+### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 조회 작업이 정말 `GET`으로 분리되어 캐시와 재시도 이점을 얻는가?
 2. `PUT`과 `PATCH`의 의미 차이를 팀이 일관되게 이해하는가?
-3. [[087_process_state_transition|생성]] 성공 시 `201 Created`, 삭제 성공 시 `204 No Content` 등 상태 코드가 적절한가?
+3. [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 성공 시 `201 Created`, 삭제 성공 시 `204 No Content` 등 상태 코드가 적절한가?
 4. 비즈니스 명령형 작업을 자원 모델 안에서 설명 가능하게 표현했는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 모든 요청을 `POST`로 보내고 본문 필드로만 행위를 구분하는 것
 - 조회 API인데도 서버 상태를 바꾸어 `GET`의 안전성을 깨는 것
@@ -107,13 +111,13 @@ Level 2를 이해하려면 Level 1, Level 3와의 경계를 함께 봐야 한다
 
 ## Ⅴ. 기대효과 및 결론
 
-Level 2의 가장 큰 효과는 API가 웹 표준과 같은 언어로 대화하기 시작한다는 점이다. 클라이언트는 메서드만 봐도 대략적인 의도를 파악할 수 있고, 상태 코드만으로도 오류 유형을 빠르게 [[104_classification_analysis|분류]]할 수 있다. 그 결과 테스트 자동화, 문서화, 캐시 [[268_strategy_pattern|전략]], 관찰성 ([[642_observability_telemetry|Observability]])까지 함께 좋아진다.
+Level 2의 가장 큰 효과는 API가 웹 표준과 같은 언어로 대화하기 시작한다는 점이다. 클라이언트는 메서드만 봐도 대략적인 의도를 파악할 수 있고, 상태 코드만으로도 오류 유형을 빠르게 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)할 수 있다. 그 결과 테스트 자동화, 문서화, 캐시 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), 관찰성 ([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/))까지 함께 좋아진다.
 
-하지만 한계도 있다. 메서드와 상태 코드를 잘 쓴다고 해서 곧바로 완전한 REST가 되는 것은 아니다. 다음 [[632_state_transition_diagram_testing|상태 전이]]를 응답 안 링크로 안내하지 않으면, 클라이언트는 여전히 별도 문서에 의존해야 한다. 그래서 Level 2는 매우 실용적이지만, **완전성보다 표준성과 운영 효율을 우선한 타협점**으로 보는 것이 맞다.
+하지만 한계도 있다. 메서드와 상태 코드를 잘 쓴다고 해서 곧바로 완전한 REST가 되는 것은 아니다. 다음 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)를 응답 안 링크로 안내하지 않으면, 클라이언트는 여전히 별도 문서에 의존해야 한다. 그래서 Level 2는 매우 실용적이지만, **완전성보다 표준성과 운영 효율을 우선한 타협점**으로 보는 것이 맞다.
 
-결론적으로 Level 2는 가장 대중적인 RESTful API의 [[025_baseline|기준선]]이다. 핵심은 [[461_http_stateless_connection_oriented|HTTP]] 메서드를 나열하는 것이 아니라, **자원·행위·응답 의미를 웹 표준에 맞춰 정렬하는 것**이다.
+결론적으로 Level 2는 가장 대중적인 RESTful API의 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)이다. 핵심은 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드를 나열하는 것이 아니라, **자원·행위·응답 의미를 웹 표준에 맞춰 정렬하는 것**이다.
 
-- **📢 섹션 요약 비유**: Level 2는 모두가 같은 행정 용어를 쓰게 만들어, 처음 온 사람도 규칙을 예측할 수 있게 하는 공공 [[090_service_kubernetes_network_load_balancing|서비스]] 체계와 같다.
+- **📢 섹션 요약 비유**: Level 2는 모두가 같은 행정 용어를 쓰게 만들어, 처음 온 사람도 규칙을 예측할 수 있게 하는 공공 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 체계와 같다.
 
 ---
 
@@ -122,9 +126,9 @@ Level 2의 가장 큰 효과는 API가 웹 표준과 같은 언어로 대화하�
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | 리처드슨 성숙도 모델 | Level 2의 위치를 규정하는 프레임워크 |
-| URI | 리소스를 [[655_ir_detection_analysis|식별]]하는 기본 주소 체계 |
-| [[093_safe_scaled_agile_framework_art_pi|Safe]] / Idempotent | 메서드 의미를 설계할 때 꼭 [[396_validation|확인]]할 [[082_attribute_types_er_model|속성]] |
-| 상태 코드 (Status [[082_process_memory_structure|Code]]) | 성공·실패 의미를 표준화하는 응답 수단 |
+| URI | 리소스를 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하는 기본 주소 체계 |
+| [Safe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) / Idempotent | 메서드 의미를 설계할 때 꼭 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) |
+| 상태 코드 (Status [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)) | 성공·실패 의미를 표준화하는 응답 수단 |
 | HATEOAS | Level 3에서 추가되는 하이퍼미디어 확장 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -146,7 +150,7 @@ Level 3
   (HATEOAS 기반 상태 전이 안내)
 ```
 
-이 흐름도는 [[156_rest_representational_state_transfer|REST]] 성숙도가 단순 주소 정리에서 끝나지 않고, 웹 [[295_protocol_field_tcp_udp_icmp|프로토콜]]의 의미와 탐색 가능성까지 확장되는 과정을 보여준다.
+이 흐름도는 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) 성숙도가 단순 주소 정리에서 끝나지 않고, 웹 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 의미와 탐색 가능성까지 확장되는 과정을 보여준다.
 
 ### 👶 어린이 비유 설명
 
@@ -160,7 +164,7 @@ Level 3
 
 **진행 상황**: 160 / 482
 
-← **이전**: [[159_rest_level_1_resources|159. Level 1 - 리소스별 고유 URI 할당]]
-**다음**: [[161_rest_level_3_hateoas|161. Level 3 - HATEOAS (Hypermedia As The Engine Of Application State), 응답에]] →
+← **이전**: [159. Level 1 - 리소스별 고유 URI 할당](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/159_rest_level_1_resources/)
+**다음**: [161. Level 3 - HATEOAS (Hypermedia As The Engine Of Application State), 응답에](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/161_rest_level_3_hateoas/) →
 
 ---

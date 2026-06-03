@@ -1,27 +1,31 @@
----
-title: 5. 크로스 엔트로피 (Cross-Entropy) — 분류 손실 함수
-date: '2026-04-21'
-tags:
-- studynote-algorithm
----
++++
+title = "5. 크로스 엔트로피 (Cross-Entropy) — 분류 손실 함수"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-algorithm"]
+
+[extra]
+tags = ["studynote-algorithm"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 크로스 [[151_entropy|엔트로피]] H(P,Q) = -Σ P(x)·log Q(x)는 *실제 분포 P를 가정하고 모델 분포 Q로 코딩할 때 평균 코드 길이* — 항상 진짜 [[151_entropy|엔트로피]] H(P) 이상이다.
-> 2. **가치**: 딥러닝 [[104_classification_analysis|분류]] 학습의 표준 손실함수로, 최소화가 곧 최대우도추정 ([[143_mle|MLE]], Maximum Likelihood Estimation) 과 수학적으로 동치이며 [[272_backpropagation|역전파]]에 수치적으로 안정적이다.
-> 3. **판단 포인트**: H(P,Q) = H(P) + D_KL(P‖Q) — P가 고정 레이블이면 H(P)는 상수이므로 크로스 [[151_entropy|엔트로피]] 최소화 = KL 다이버전스 최소화 = [[143_mle|MLE]] 완전 동치.
+> 1. **본질**: 크로스 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) H(P,Q) = -Σ P(x)·log Q(x)는 *실제 분포 P를 가정하고 모델 분포 Q로 코딩할 때 평균 코드 길이* — 항상 진짜 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) H(P) 이상이다.
+> 2. **가치**: 딥러닝 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 학습의 표준 손실함수로, 최소화가 곧 최대우도추정 ([MLE](/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/), Maximum Likelihood Estimation) 과 수학적으로 동치이며 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)에 수치적으로 안정적이다.
+> 3. **판단 포인트**: H(P,Q) = H(P) + D_KL(P‖Q) — P가 고정 레이블이면 H(P)는 상수이므로 크로스 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 최소화 = KL 다이버전스 최소화 = [MLE](/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/) 완전 동치.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-**크로스 [[151_entropy|엔트로피]] (Cross-[[151_entropy|Entropy]])** 는 두 분포 P(실제), Q(모델) 사이의 정보량 불일치를 측정한다:
+**크로스 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) (Cross-[Entropy](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/))** 는 두 분포 P(실제), Q(모델) 사이의 정보량 불일치를 측정한다:
 
 ```
 H(P, Q) = -Σ_{x} P(x) · log Q(x)
 ```
 
-직관적 해석: "실제 분포 P로 생성된 메시지를, 잘못된 분포 Q를 기준으로 설계한 코드로 인코딩할 때 필요한 평균 [[073_bit|비트]] 수"
+직관적 해석: "실제 분포 P로 생성된 메시지를, 잘못된 분포 Q를 기준으로 설계한 코드로 인코딩할 때 필요한 평균 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수"
 
 ### 핵심 부등식
 
@@ -30,35 +34,35 @@ H(P, Q) ≥ H(P)        (항등식: Q = P일 때만 등호 성립)
 H(P, Q) = H(P) + D_KL(P‖Q)
 ```
 
-Q가 P에서 멀수록 추가 [[073_bit|비트]] 낭비 = D_KL(P‖Q) 증가.
+Q가 P에서 멀수록 추가 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 낭비 = D_KL(P‖Q) 증가.
 
-📢 **섹션 요약 비유**: 크로스 [[151_entropy|엔트로피]]는 "잘못된 지도로 길 찾기"다 — 실제 도시(P)와 다른 지도(Q)를 들고 가면, 올바른 지도일 때보다 더 많이 헤맨다(더 많은 [[073_bit|비트]] 낭비).
+📢 **섹션 요약 비유**: 크로스 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)는 "잘못된 지도로 길 찾기"다 — 실제 도시(P)와 다른 지도(Q)를 들고 가면, 올바른 지도일 때보다 더 많이 헤맨다(더 많은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 낭비).
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [[104_classification_analysis|분류]] 작업에서의 크로스 [[151_entropy|엔트로피]]
+### [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 작업에서의 크로스 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)
 
-**이진 [[104_classification_analysis|분류]] (Binary Cross-[[151_entropy|Entropy]], BCE)**:
+**이진 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) (Binary Cross-[Entropy](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/), BCE)**:
 
 ```
 L_BCE = -[y·log(ŷ) + (1-y)·log(1-ŷ)]
 ```
 
 - y: 실제 레이블 (0 or 1)
-- ŷ: 모델 예측 [[130_probability|확률]] ([[268_sigmoid_vanishing_gradient|시그모이드]] 출력)
+- ŷ: 모델 예측 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) ([시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) 출력)
 
-**다중 클래스 [[104_classification_analysis|분류]] (Categorical Cross-[[151_entropy|Entropy]], CCE)**:
+**다중 클래스 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) (Categorical Cross-[Entropy](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/), CCE)**:
 
 ```
 L_CCE = -Σ_{c=1}^{C} y_c · log(ŷ_c)
 ```
 
-- y_c: [[079_one_hot_encoding_categorical_dummy_variable|원-핫 인코딩]] 레이블
-- ŷ_c: [[270_softmax|소프트맥스]] ([[270_softmax|Softmax]]) 출력 [[130_probability|확률]]
+- y_c: [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) 레이블
+- ŷ_c: [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) ([Softmax](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/)) 출력 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)
 
-### [[270_softmax|소프트맥스]] + 크로스 [[151_entropy|엔트로피]] 연결
+### [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) + 크로스 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 연결
 
 ```
 입력 로짓 z = [z₁, z₂, ..., zC]
@@ -73,18 +77,18 @@ L = -Σ y_c · log(ŷ_c)
 ∂L/∂z_c = ŷ_c - y_c     ← 매우 깔끔한 수식!
 ```
 
-[[270_softmax|소프트맥스]] + CCE 조합의 그래디언트가 **예측 - 실제** 형태로 나오는 것은 [[272_backpropagation|역전파]] 수치 안정성의 핵심이다.
+[소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) + CCE 조합의 그래디언트가 **예측 - 실제** 형태로 나오는 것은 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 수치 안정성의 핵심이다.
 
-### 크로스 [[151_entropy|엔트로피]] vs [[076_mse_mean_squared_error_regression|MSE]] ([[076_mse_mean_squared_error_regression|Mean Squared Error]]) 비교
+### 크로스 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) vs [MSE](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/) ([Mean Squared Error](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/)) 비교
 
-| 항목 | 크로스 [[151_entropy|엔트로피]] | [[076_mse_mean_squared_error_regression|MSE]] |
+| 항목 | 크로스 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) | [MSE](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/) |
 |:---|:---|:---|
-| 용도 | [[104_classification_analysis|분류]] ([[130_probability|확률]] 출력) | 회귀 |
-| 그래디언트 포화 | 없음 ([[268_sigmoid_vanishing_gradient|시그모이드]]와 결합 시) | 있음 |
-| [[130_probability|확률]] 해석 | ✅ 자연스러움 | ❌ 부자연스러움 |
-| [[143_mle|MLE]] 동치 | ✅ [[104_classification_analysis|분류]]기 [[143_mle|MLE]] | ✅ 가우시안 노이즈 [[143_mle|MLE]] |
+| 용도 | [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) ([확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 출력) | 회귀 |
+| 그래디언트 포화 | 없음 ([시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)와 결합 시) | 있음 |
+| [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 해석 | ✅ 자연스러움 | ❌ 부자연스러움 |
+| [MLE](/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/) 동치 | ✅ [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기 [MLE](/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/) | ✅ 가우시안 노이즈 [MLE](/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/) |
 
-📢 **섹션 요약 비유**: [[270_softmax|소프트맥스]] + 크로스 [[151_entropy|엔트로피]]의 깔끔한 그래디언트는 "정확한 GPS"와 같다 — 어디에 있고(ŷ) 어디로 가야 하는지(y)를 빼기만 하면 방향이 나온다.
+📢 **섹션 요약 비유**: [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) + 크로스 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)의 깔끔한 그래디언트는 "정확한 GPS"와 같다 — 어디에 있고(ŷ) 어디로 가야 하는지(y)를 빼기만 하면 방향이 나온다.
 
 ---
 
@@ -100,9 +104,9 @@ L = -Σ y_c · log(ŷ_c)
    = argmin_{θ} H(P_data, P_θ)       ← 크로스 엔트로피 최소화
 ```
 
-따라서 **[[143_mle|MLE]] = 크로스 [[151_entropy|엔트로피]] 최소화**.
+따라서 **[MLE](/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/) = 크로스 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 최소화**.
 
-### 크로스 [[151_entropy|엔트로피]] > [[151_entropy|엔트로피]]인 이유
+### 크로스 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) > [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)인 이유
 
 ```
 H(P, Q) - H(P) = D_KL(P‖Q) ≥ 0
@@ -111,11 +115,11 @@ H(P, Q) - H(P) = D_KL(P‖Q) ≥ 0
    (최솟값)         (Q가 P와 다를수록 증가)
 ```
 
-완벽한 모델(Q = P)일 때만 크로스 [[151_entropy|엔트로피]] = [[151_entropy|엔트로피]].
+완벽한 모델(Q = P)일 때만 크로스 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) = [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/).
 
-### 온도 조정과 크로스 [[151_entropy|엔트로피]]
+### 온도 조정과 크로스 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)
 
-[[252_knowledge_distillation_quantization_edge_slm_diffusion|지식 증류]], [[263_llm_large_language_model|LLM]] ([[263_llm_large_language_model|Large Language Model]]) 샘플링에서 온도 T 사용:
+[지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/), [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) ([Large Language Model](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)) 샘플링에서 온도 T 사용:
 
 ```
 ŷ_c(T) = exp(z_c/T) / Σ exp(z_j/T)
@@ -131,7 +135,7 @@ T → 0: 최댓값에 집중 (argmax)
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[104_classification_analysis|분류]]기 학습 파이프라인
+### [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기 학습 파이프라인
 
 ```
 입력 x
@@ -149,7 +153,7 @@ T → 0: 최댓값에 집중 (argmax)
 ∂L/∂z_c = ŷ_c - y_c
 ```
 
-정답 클래스 [[130_probability|확률]]이 높을수록 L → 0, 낮을수록 L → ∞.
+정답 클래스 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 높을수록 L → 0, 낮을수록 L → ∞.
 
 ### 레이블 스무딩 (Label Smoothing)
 
@@ -162,17 +166,17 @@ y_smooth_c = (1-ε)·y_c + ε/C
   원래 [1, 0, 0] → [0.933, 0.033, 0.033]
 ```
 
-모델 과확신 (overconfidence) 방지 → 일반화 [[282_performance_tactics|성능]] 향상.
+모델 과확신 (overconfidence) 방지 → 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상.
 
 ### 불균형 클래스 처리
 
 | 방법 | 수식 변형 |
 |:---|:---|
-| 가중 크로스 [[151_entropy|엔트로피]] | L = -Σ w_c · y_c · log(ŷ_c) |
+| 가중 크로스 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) | L = -Σ w_c · y_c · log(ŷ_c) |
 | 포컬 손실 (Focal Loss) | L = -Σ (1-ŷ_c)^γ · y_c · log(ŷ_c) |
-| 클래스 균형 샘플링 | [[075_loss_function_cost_function|손실 함수]] 변경 없이 [[001_dikw_pyramid|데이터]] 재샘플링 |
+| 클래스 균형 샘플링 | [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/) 변경 없이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재샘플링 |
 
-포컬 손실은 [[288_object_detection_yolo_rcnn|객체 탐지]] (RetinaNet) 에서 쉬운 예시의 기여를 억제하는 데 활용.
+포컬 손실은 [객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/) (RetinaNet) 에서 쉬운 예시의 기여를 억제하는 데 활용.
 
 📢 **섹션 요약 비유**: 레이블 스무딩은 "자만심 방지 장치"다 — 모델이 한 답만 100% 옳다고 믿지 않도록 조금씩 여지를 두어 더 겸손한(일반화된) 모델을 만든다.
 
@@ -180,27 +184,27 @@ y_smooth_c = (1-ε)·y_c + ε/C
 
 ## Ⅴ. 기대효과 및 결론
 
-크로스 [[151_entropy|엔트로피]]는 **현대 딥러닝 [[104_classification_analysis|분류]]의 표준 손실함수**로 자리 잡았다. 그 이유:
+크로스 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)는 **현대 딥러닝 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)의 표준 손실함수**로 자리 잡았다. 그 이유:
 
-1. **[[143_mle|MLE]] 동치**: [[130_probability|확률]]론적 근거가 명확
-2. **그래디언트 안정성**: [[270_softmax|소프트맥스]]와 결합 시 포화 없음
+1. **[MLE](/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/) 동치**: [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)론적 근거가 명확
+2. **그래디언트 안정성**: [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/)와 결합 시 포화 없음
 3. **정보이론적 해석**: 모델과 실제 분포의 KL 거리 최소화
 
-LLM에서는 다음 토큰 예측이 전부 크로스 [[151_entropy|엔트로피]]로 학습된다 — ChatGPT, GPT-4 등 모든 언어 모델의 사전 훈련 목표가 크로스 [[151_entropy|엔트로피]] 최소화다.
+LLM에서는 다음 토큰 예측이 전부 크로스 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)로 학습된다 — ChatGPT, GPT-4 등 모든 언어 모델의 사전 훈련 목표가 크로스 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 최소화다.
 
-📢 **섹션 요약 비유**: 크로스 [[151_entropy|엔트로피]] 최소화는 "모범 답안 따라 [[289_cqrs_db|쓰기]]"다 — 실제 정답 분포(P)를 최대한 흉내 내도록 모델(Q)을 훈련하는 가장 자연스러운 학습 방법이다.
+📢 **섹션 요약 비유**: 크로스 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 최소화는 "모범 답안 따라 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)"다 — 실제 정답 분포(P)를 최대한 흉내 내도록 모델(Q)을 훈련하는 가장 자연스러운 학습 방법이다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 개념 | [[083_relationship_in_er_model|관계]] | 비고 |
+| 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 비고 |
 |:---|:---|:---|
-| H(P,Q) 크로스 [[151_entropy|엔트로피]] | H(P) + D_KL(P‖Q) | [[151_entropy|엔트로피]] + KL |
-| [[143_mle|MLE]] | 크로스 [[151_entropy|엔트로피]] 최소화와 동치 | [[104_classification_analysis|분류]]기 학습 |
-| [[270_softmax|소프트맥스]] | 로짓 → [[130_probability|확률]] 변환 | 다중 [[104_classification_analysis|분류]] |
-| 레이블 스무딩 | 과확신 방지 [[093_normalization|정규화]] | 일반화 향상 |
-| 포컬 손실 | (1-p)^γ 가중 크로스 [[151_entropy|엔트로피]] | 불균형 클래스 |
+| H(P,Q) 크로스 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) | H(P) + D_KL(P‖Q) | [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) + KL |
+| [MLE](/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/) | 크로스 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 최소화와 동치 | [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기 학습 |
+| [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) | 로짓 → [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 변환 | 다중 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) |
+| 레이블 스무딩 | 과확신 방지 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) | 일반화 향상 |
+| 포컬 손실 | (1-p)^γ 가중 크로스 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) | 불균형 클래스 |
 
 ---
 
@@ -222,12 +226,12 @@ LLM에서는 다음 토큰 예측이 전부 크로스 [[151_entropy|엔트로피
 [포컬 손실 (Focal Loss)]
 ```
 
-이 흐름도는 크로스 [[151_entropy|엔트로피]] (Cross [[151_entropy|Entropy]])에서 출발해 포컬 손실 (Focal Loss)까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
+이 흐름도는 크로스 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) (Cross [Entropy](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/))에서 출발해 포컬 손실 (Focal Loss)까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **크로스 [[151_entropy|엔트로피]]는 "잘못된 비밀 코드 [[289_cqrs_db|쓰기]]"**: 실제 언어(P)가 아닌 잘못된 언어(Q)로 쓰면 더 많은 종이([[073_bit|비트]])가 필요하다.
-2. **MLE와의 동치는 "최선의 흉내"**: 선생님(실제 [[001_dikw_pyramid|데이터]])의 답을 가장 잘 따라 쓰는 것([[143_mle|MLE]]) = 크로스 [[151_entropy|엔트로피]] 최소화.
+1. **크로스 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)는 "잘못된 비밀 코드 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)"**: 실제 언어(P)가 아닌 잘못된 언어(Q)로 쓰면 더 많은 종이([비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))가 필요하다.
+2. **MLE와의 동치는 "최선의 흉내"**: 선생님(실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))의 답을 가장 잘 따라 쓰는 것([MLE](/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/)) = 크로스 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 최소화.
 3. **레이블 스무딩은 "살짝 겸손하게"**: "반드시 이 답이야!"가 아니라 "이 답이 맞을 것 같아"로 살짝 여지를 두면 더 잘 맞히게 된다.
 
 ---
@@ -236,7 +240,7 @@ LLM에서는 다음 토큰 예측이 전부 크로스 [[151_entropy|엔트로피
 
 **진행 상황**: 154 / 175
 
-← **이전**: [[153_kl_divergence|4. KL 다이버전스 (KL Divergence, Kullback-Leibler Divergence) — 분포 차이]]
-**다음**: [[155_channel_capacity|6. 채널 용량 (Channel Capacity) — 샤논 용량 공식]] →
+← **이전**: [4. KL 다이버전스 (KL Divergence, Kullback-Leibler Divergence) — 분포 차이](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/153_kl_divergence/)
+**다음**: [6. 채널 용량 (Channel Capacity) — 샤논 용량 공식](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/) →
 
 ---

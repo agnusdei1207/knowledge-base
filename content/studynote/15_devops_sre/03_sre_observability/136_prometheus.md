@@ -1,14 +1,18 @@
----
-title: 136. Prometheus - 클라우드 네이티브 메트릭 수집·저장 엔진
-date: '2026-04-19'
-tags:
-- studynote-devops-sre
----
++++
+title = "136. Prometheus - 클라우드 네이티브 메트릭 수집·저장 엔진"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-devops-sre"]
+
+[extra]
+tags = ["studynote-devops-sre"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Prometheus는 **Pull 방식으로 [[090_service_kubernetes_network_load_balancing|서비스]]의 /[[567_metrics_time_series_prometheus_grafana|metrics]] 엔드포인트에서 시계열 [[342_routing_metric_hop_bandwidth_delay|메트릭]]을 수집·저장**하는 [[190_cncf_landscape_observability|CNCF]] 졸업 프로젝트이며, [[531_cloud_native_architecture|클라우드 네이티브]] [[229_monitor|모니터]]링의 사실상 표준이다.
-> 2. **가치**: Push 기반(StatsD)은 [[090_service_kubernetes_network_load_balancing|서비스]]가 [[229_monitor|모니터]]링 시스템에 종속되지만, Prometheus의 Pull은 **[[090_service_kubernetes_network_load_balancing|서비스]]가 [[342_routing_metric_hop_bandwidth_delay|메트릭]]을 노출만 하면** Prometheus가 주기적으로 가져가므로 느슨한 결합이다.
-> 3. **판단 포인트**: PromQL([[298_qkv_attention|쿼리]] 언어)·Alertmanager(알림)·[[303_service_discovery|Service Discovery]](K8s 자동 발견)·장기 저장(Thanos·Mimir)이 핵심 [[031_에코_반향|에코]]시스템이다.
+> 1. **본질**: Prometheus는 **Pull 방식으로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 /[metrics](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/) 엔드포인트에서 시계열 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)을 수집·저장**하는 [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) 졸업 프로젝트이며, [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링의 사실상 표준이다.
+> 2. **가치**: Push 기반(StatsD)은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 시스템에 종속되지만, Prometheus의 Pull은 **[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)을 노출만 하면** Prometheus가 주기적으로 가져가므로 느슨한 결합이다.
+> 3. **판단 포인트**: PromQL([쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 언어)·Alertmanager(알림)·[Service Discovery](/knowledge-base/studynote/12_it_management/05_security_compliance/303_service_discovery/)(K8s 자동 발견)·장기 저장(Thanos·Mimir)이 핵심 [에코](/knowledge-base/studynote/03_network/01_data_communication/031_에코_반향/)시스템이다.
 
 ---
 
@@ -20,13 +24,13 @@ tags:
   → Alertmanager → PagerDuty/Slack 알림
 ```
 
-- **📢 섹션 요약 비유**: Prometheus는 **우편배달부(Pull)**이다. 각 집([[090_service_kubernetes_network_load_balancing|서비스]])의 우편함(/[[567_metrics_time_series_prometheus_grafana|metrics]])에서 편지([[342_routing_metric_hop_bandwidth_delay|메트릭]])를 수거한다.
+- **📢 섹션 요약 비유**: Prometheus는 **우편배달부(Pull)**이다. 각 집([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))의 우편함(/[metrics](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/))에서 편지([메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))를 수거한다.
 
 ---
 
 ## Ⅱ~Ⅴ. 결론
 
-Prometheus는 **K8s 환경의 [[342_routing_metric_hop_bandwidth_delay|메트릭]] 표준**이며, Thanos/Mimir로 장기 저장·고가용성을 확보한다.
+Prometheus는 **K8s 환경의 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 표준**이며, Thanos/Mimir로 장기 저장·고가용성을 확보한다.
 
 ---
 
@@ -34,11 +38,11 @@ Prometheus는 **K8s 환경의 [[342_routing_metric_hop_bandwidth_delay|메트릭
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **Prometheus** | Pull [[342_routing_metric_hop_bandwidth_delay|메트릭]] 수집 |
-| **PromQL** | [[342_routing_metric_hop_bandwidth_delay|메트릭]] 조회 언어 |
-| **Alertmanager** | 알림 [[339_routing_overview_best_path_selection|라우팅]] |
+| **Prometheus** | Pull [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 수집 |
+| **PromQL** | [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 조회 언어 |
+| **Alertmanager** | 알림 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) |
 | **Thanos** | 장기 저장·HA |
-| **Mimir** | [[168_grafana|Grafana]] Labs 장기 저장 |
+| **Mimir** | [Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/) Labs 장기 저장 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -50,8 +54,8 @@ Prometheus는 **K8s 환경의 [[342_routing_metric_hop_bandwidth_delay|메트릭
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. Prometheus는 **우편배달부**예요. 각 [[090_service_kubernetes_network_load_balancing|서비스]](집)의 우편함(/[[567_metrics_time_series_prometheus_grafana|metrics]])에서 **편지를 수거**해요.
-2. 수거한 편지를 **정리(TSDB)**하고 **[[070_graph_datastructure|그래프]]([[168_grafana|Grafana]])**로 보여줘요.
+1. Prometheus는 **우편배달부**예요. 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(집)의 우편함(/[metrics](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/))에서 **편지를 수거**해요.
+2. 수거한 편지를 **정리(TSDB)**하고 **[그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)([Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/))**로 보여줘요.
 3. 위험한 편지(이상 지표)가 오면 **비상벨(Alertmanager)**을 울려요!
 
 ---
@@ -60,7 +64,7 @@ Prometheus는 **K8s 환경의 [[342_routing_metric_hop_bandwidth_delay|메트릭
 
 **진행 상황**: 136 / 373
 
-← **이전**: [[135_red_method_service_analysis|135. RED 메서드 (Rate·Errors·Duration) - 서비스 중심 분석]]
-**다음**: [[137_grafana|137. Grafana - 통합 관측 가능성 시각화 플랫폼]] →
+← **이전**: [135. RED 메서드 (Rate·Errors·Duration) - 서비스 중심 분석](/knowledge-base/studynote/15_devops_sre/03_sre_observability/135_red_method_service_analysis/)
+**다음**: [137. Grafana - 통합 관측 가능성 시각화 플랫폼](/knowledge-base/studynote/15_devops_sre/03_sre_observability/137_grafana/) →
 
 ---

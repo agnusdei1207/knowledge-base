@@ -1,14 +1,18 @@
----
-title: 133. EPM/CPM (Enterprise Performance Management) - 기업 성과 관리
-date: '2026-04-19'
-tags:
-- studynote-enterprise-systems
----
++++
+title = "133. EPM/CPM (Enterprise Performance Management) - 기업 성과 관리"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-enterprise-systems"]
+
+[extra]
+tags = ["studynote-enterprise-systems"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: EPM(Enterprise [[282_performance_tactics|Performance]] [[372_management|Management]], =[[150_cpm_critical_path_method|CPM]])은 **기업의 [[268_strategy_pattern|전략]] 목표를 재무·운영 성과 지표로 분해하고 계획→실행→[[229_monitor|모니터]]링→분석의 순환으로 경영 성과를 관리**하는 시스템이다.
-> 2. **가치**: ERP가 "운영 [[001_dikw_pyramid|데이터]]를 기록"한다면, EPM은 **"[[001_dikw_pyramid|데이터]]를 분석하여 의사결정을 지원"**하며, 예산 계획·실적 비교·시나리오 분석·[[018_kpi|KPI]] 대시보드가 핵심 기능이다.
-> 3. **판단 포인트**: [[019_bsc|BSC]](Balanced Scorecard)가 EPM의 성과 관리 프레임워크이며, [[188_pl_sql_t_sql_procedural|Oracle]] Hyperion·SAP BPC·Anaplan이 대표 솔루션이다.
+> 1. **본질**: EPM(Enterprise [Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/), =[CPM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/))은 **기업의 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 목표를 재무·운영 성과 지표로 분해하고 계획→실행→[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링→분석의 순환으로 경영 성과를 관리**하는 시스템이다.
+> 2. **가치**: ERP가 "운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 기록"한다면, EPM은 **"[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석하여 의사결정을 지원"**하며, 예산 계획·실적 비교·시나리오 분석·[KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) 대시보드가 핵심 기능이다.
+> 3. **판단 포인트**: [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/)(Balanced Scorecard)가 EPM의 성과 관리 프레임워크이며, [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) Hyperion·SAP BPC·Anaplan이 대표 솔루션이다.
 
 ---
 
@@ -31,13 +35,13 @@ EPM 순환: 전략 → 계획(예산) → 실행 → 모니터링(KPI) → 분�
 | **계획·예산** | 연간 예산·Rolling Forecast |
 | **실적 분석** | 예산 vs 실적 비교 |
 | **시나리오** | What-if 분석 |
-| **[[018_kpi|KPI]] 대시보드** | [[019_bsc|BSC]] 기반 성과 [[003_bigdata_7v|시각화]] |
+| **[KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) 대시보드** | [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/) 기반 성과 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) |
 
 ---
 
 ## Ⅲ~Ⅴ. 결론
 
-EPM은 **[[081_erp_enterprise_resource_planning|ERP]] [[001_dikw_pyramid|데이터]]를 경영 의사결정으로 전환**하는 핵심 시스템이며, [[190_ai_llm_requirements_specification|AI]] 예측과 결합하여 지능형 경영 관리로 진화하고 있다.
+EPM은 **[ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 경영 의사결정으로 전환**하는 핵심 시스템이며, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 예측과 결합하여 지능형 경영 관리로 진화하고 있다.
 
 ---
 
@@ -45,10 +49,10 @@ EPM은 **[[081_erp_enterprise_resource_planning|ERP]] [[001_dikw_pyramid|데이�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **EPM/[[150_cpm_critical_path_method|CPM]]** | 기업 성과 관리 |
-| **[[019_bsc|BSC]]** | 균형 성과 관리 (4관점) |
-| **[[081_erp_enterprise_resource_planning|ERP]]** | 운영 [[001_dikw_pyramid|데이터]] 원천 |
-| **[[018_kpi|KPI]]** | [[018_kpi|핵심 성과 지표]] |
+| **EPM/[CPM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/)** | 기업 성과 관리 |
+| **[BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/)** | 균형 성과 관리 (4관점) |
+| **[ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)** | 운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 원천 |
+| **[KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/)** | [핵심 성과 지표](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) |
 | **Anaplan** | 클라우드 EPM 대표 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -71,7 +75,7 @@ EPM은 **[[081_erp_enterprise_resource_planning|ERP]] [[001_dikw_pyramid|데이�
 
 **진행 상황**: 133 / 482
 
-← **이전**: [[132_hris_e_hr_talent_management_system|132. HRIS·e-HR·인재관리시스템 (Talent Management) - 디지털 인사 관리]]
-**다음**: [[134_esg_management_it_system_carbon_tracking|134. ESG 경영 & IT 시스템 - 탄소 추적·ESG 데이터 관리]] →
+← **이전**: [132. HRIS·e-HR·인재관리시스템 (Talent Management) - 디지털 인사 관리](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/132_hris_e_hr_talent_management_system/)
+**다음**: [134. ESG 경영 & IT 시스템 - 탄소 추적·ESG 데이터 관리](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/134_esg_management_it_system_carbon_tracking/) →
 
 ---

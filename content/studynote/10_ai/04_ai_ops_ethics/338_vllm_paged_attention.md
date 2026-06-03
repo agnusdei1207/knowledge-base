@@ -1,31 +1,35 @@
----
-title: 338. vLLM과 PagedAttention (페이지드 어텐션)
-date: '2026-05-09'
-tags:
-- studynote-ai
----
++++
+title = "338. vLLM과 PagedAttention (페이지드 어텐션)"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-ai"]
+
+[extra]
+tags = ["studynote-ai"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: vLLM 의 PagedAttention ([[286_page_frame|페이지]]드 어텐션) 은 OS 의 [[381_virtual_memory|가상 메모리]] [[259_paging|페이징]] 아이디어를 KV 캐시 ([[291_kv_cache|Key-Value Cache]]) 에 적용해, 사전 할당 없이 블록 단위 동적 메모리 관리로 [[418_gpu|GPU]] 메모리 [[291_fragmentation_and_reassembly_process|단편화]] ([[291_fragmentation_and_reassembly_process|Fragmentation]]) 를 90% 이상 제거한다.
-> 2. **가치**: Continuous [[389_bulk_insert_batching_optimization|Batching]] 과 결합해 동일 [[418_gpu|GPU]] 에서 기존 대비 [[139_throughput|처리량]] ([[139_throughput|Throughput]]) 을 최대 24배 향상시켜 [[263_llm_large_language_model|LLM]] [[090_service_kubernetes_network_load_balancing|서비스]]의 단가를 혁신적으로 낮춘다.
-> 3. **판단 포인트**: KV 캐시가 [[087_process_state_transition|생성]] 길이에 따라 동적으로 증가하는 구조이기 때문에 정적 사전 할당은 메모리 낭비를 초래하며, PagedAttention 이 이를 해결하는 방식을 블록 테이블과 함께 설명해야 한다.
+> 1. **본질**: vLLM 의 PagedAttention ([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)드 어텐션) 은 OS 의 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 아이디어를 KV 캐시 ([Key-Value Cache](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/291_kv_cache/)) 에 적용해, 사전 할당 없이 블록 단위 동적 메모리 관리로 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) ([Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)) 를 90% 이상 제거한다.
+> 2. **가치**: Continuous [Batching](/knowledge-base/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/) 과 결합해 동일 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 에서 기존 대비 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) 을 최대 24배 향상시켜 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 단가를 혁신적으로 낮춘다.
+> 3. **판단 포인트**: KV 캐시가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 길이에 따라 동적으로 증가하는 구조이기 때문에 정적 사전 할당은 메모리 낭비를 초래하며, PagedAttention 이 이를 해결하는 방식을 블록 테이블과 함께 설명해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### KV 캐시 [[291_fragmentation_and_reassembly_process|단편화]] 문제
+### KV 캐시 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 문제
 
-자동회귀 ([[248_bert_encoder_mlm_gpt_decoder_autoregressive_comparison|Autoregressive]]) [[087_process_state_transition|생성]]에서 각 토큰은 이전 토큰의 K ([[067_db_key_uniqueness_minimality|Key]]), V (Value) 벡터를 재사용해야 한다. 기존 방식은 요청별로 최대 [[087_process_state_transition|생성]] 길이만큼 연속 메모리를 사전 예약해 다음 문제를 일으켰다.
+자동회귀 ([Autoregressive](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/248_bert_encoder_mlm_gpt_decoder_autoregressive_comparison/)) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)에서 각 토큰은 이전 토큰의 K ([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)), V (Value) 벡터를 재사용해야 한다. 기존 방식은 요청별로 최대 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 길이만큼 연속 메모리를 사전 예약해 다음 문제를 일으켰다.
 
 | 문제 유형 | 원인 | 영향 |
 |:---|:---|:---|
-| [[341_internal_fragmentation|내부 단편화]] | 최대 길이 예약 후 짧게 [[087_process_state_transition|생성]] | 예약 메모리의 60~80% 낭비 |
-| [[342_external_fragmentation|외부 단편화]] | 연속 메모리 확보 실패 | 새 요청 수용 불가 |
-| 배치 크기 제한 | VRAM 조기 소진 | [[139_throughput|처리량]] 저하 |
+| [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/) | 최대 길이 예약 후 짧게 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 예약 메모리의 60~80% 낭비 |
+| [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) | 연속 메모리 확보 실패 | 새 요청 수용 불가 |
+| 배치 크기 제한 | VRAM 조기 소진 | [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 저하 |
 
-실제로 기존 [[263_llm_large_language_model|LLM]] 서빙 시스템에서 KV [[259_cache_memory|캐시 메모리]]의 20~40%만 실질적으로 활용되고 있었다.
+실제로 기존 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 서빙 시스템에서 KV [캐시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/259_cache_memory/)의 20~40%만 실질적으로 활용되고 있었다.
 
 ```text
 ┌──────────────────────────────────────────────┐
@@ -42,7 +46,7 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### PagedAttention ([[286_page_frame|페이지]]드 어텐션) 구조
+### PagedAttention ([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)드 어텐션) 구조
 
 ```
   기존 방식 (연속 메모리 할당)
@@ -68,7 +72,7 @@ tags:
   블록 테이블 (Block Table): 논리 블록 → 물리 블록 매핑
 ```
 
-### Continuous [[389_bulk_insert_batching_optimization|Batching]] (연속 배치) 동작
+### Continuous [Batching](/knowledge-base/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/) (연속 배치) 동작
 
 ```
   기존 Static Batching:
@@ -86,30 +90,30 @@ tags:
   → GPU 활용률 극대화, 짧은 요청 지연 최소화
 ```
 
-### Prefix [[456_caching|Caching]] (프리픽스 [[456_caching|캐싱]])
+### Prefix [Caching](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) (프리픽스 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/))
 
 동일한 시스템 프롬프트를 공유하는 요청들의 KV 블록을 재사용해 중복 계산 제거. vLLM v0.3+ 에서 자동 활성화.
 
 | 요소 | 역할 |
 |:---|:---|
-| [[278_instruction_tuning|임베딩]] | 질문과 문서를 같은 벡터 공간에 배치해 검색 가능하게 만든다. |
-| 검색 [[123_pipe|파이프]]라인 | 관련 [[033_context|컨텍스트]]를 찾아 [[087_process_state_transition|생성]] 모델에 주입하는 단계다. |
-| 관측성 | 응답 품질, [[015_지연_데이터_관점|지연]], 실패 원인을 운영 중에 추적하게 만든다. |
-| 거버넌스 | 출처, 평가, [[387_access_control_pattern|접근 통제]]로 [[087_process_state_transition|생성]]형 AI의 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]]을 확보한다. |
+| [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) | 질문과 문서를 같은 벡터 공간에 배치해 검색 가능하게 만든다. |
+| 검색 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 | 관련 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)를 찾아 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델에 주입하는 단계다. |
+| 관측성 | 응답 품질, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 실패 원인을 운영 중에 추적하게 만든다. |
+| 거버넌스 | 출처, 평가, [접근 통제](/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/)로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)형 AI의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 확보한다. |
 
-- **📢 섹션 요약 비유**: PagedAttention 은 "OS 가 RAM 을 [[286_page_frame|페이지]] 단위로 관리하듯, [[418_gpu|GPU]] 메모리를 고정 블록으로 나눠 필요할 때만 할당하는 [[381_virtual_memory|가상 메모리]] 시스템"이다. 연속 메모리 없이도 [[369_logic_bomb|논리]]적으로 연속인 것처럼 처리한다.
+- **📢 섹션 요약 비유**: PagedAttention 은 "OS 가 RAM 을 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위로 관리하듯, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리를 고정 블록으로 나눠 필요할 때만 할당하는 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 시스템"이다. 연속 메모리 없이도 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 연속인 것처럼 처리한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### [[263_llm_large_language_model|LLM]] 서빙 프레임워크 비교
+### [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 서빙 프레임워크 비교
 
-| 프레임워크 | 핵심 기술 | [[139_throughput|처리량]] | 특징 |
+| 프레임워크 | 핵심 기술 | [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) | 특징 |
 |:---|:---|:---:|:---|
-| Hugging Face TGI | 기본 KV 캐시 | 기준 [[584_802_1x_pnac_eap_radius|1x]] | 범용, 쉬운 [[009_config|설정]] |
-| vLLM | PagedAttention + Continuous [[389_bulk_insert_batching_optimization|Batching]] | 최대 24x | 고처리량 서빙 |
-| TensorRT-[[263_llm_large_language_model|LLM]] | NVIDIA 전용 최적화 | 최대 30x | H100 특화 |
+| Hugging Face TGI | 기본 KV 캐시 | 기준 [1x](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/) | 범용, 쉬운 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) |
+| vLLM | PagedAttention + Continuous [Batching](/knowledge-base/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/) | 최대 24x | 고처리량 서빙 |
+| TensorRT-[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) | NVIDIA 전용 최적화 | 최대 30x | H100 특화 |
 | DeepSpeed-FastGen | Dynamic SplitFuse | 최대 3.7x | 짧은 요청 특화 |
 
 ### KV 캐시 크기 계산 (참고)
@@ -119,7 +123,7 @@ tags:
 
 예: LLaMA-2 7B, FP16, seq=2048: 약 2 × 2048 × 32 × 128 × 2 = 32 MB (레이어당)
 
-- **📢 섹션 요약 비유**: Continuous [[389_bulk_insert_batching_optimization|Batching]] 은 "[[344_bus|버스]]가 종점까지 기다리지 않고, 내리는 승객 자리가 생기면 바로 다음 손님을 태우는" 급행 [[344_bus|버스]] 운영 방식이다. 빈 좌석이 생기는 즉시 채운다.
+- **📢 섹션 요약 비유**: Continuous [Batching](/knowledge-base/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/) 은 "[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 종점까지 기다리지 않고, 내리는 승객 자리가 생기면 바로 다음 손님을 태우는" 급행 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 운영 방식이다. 빈 좌석이 생기는 즉시 채운다.
 
 ---
 
@@ -138,26 +142,26 @@ python -m vllm.entrypoints.openai.api_server \
 
 ### 기술사 출제 포인트
 
-- KV 캐시 [[291_fragmentation_and_reassembly_process|단편화]] 문제를 정량적으로 설명 (기존 20~40% 활용률)
-- PagedAttention 의 블록 테이블 (Block Table) [[369_logic_bomb|논리]]-물리 매핑 구조 서술
-- Continuous [[389_bulk_insert_batching_optimization|Batching]] vs Static [[389_bulk_insert_batching_optimization|Batching]] [[139_throughput|처리량]] 차이 설명
-- Prefix [[456_caching|Caching]] 으로 공유 프롬프트 중복 계산 제거 방식 언급
+- KV 캐시 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 문제를 정량적으로 설명 (기존 20~40% 활용률)
+- PagedAttention 의 블록 테이블 (Block Table) [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)-물리 매핑 구조 서술
+- Continuous [Batching](/knowledge-base/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/) vs Static [Batching](/knowledge-base/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/) [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 차이 설명
+- Prefix [Caching](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 으로 공유 프롬프트 중복 계산 제거 방식 언급
 
-- **📢 섹션 요약 비유**: vLLM 은 "[[190_ai_llm_requirements_specification|AI]] 응답 공장의 생산 라인 최적화" — 기존엔 한 주문 끝날 때까지 다음 주문 시작 못했는데, 이제는 각 기계가 다른 주문을 동시에 처리하며 빈 순간을 없앤다.
+- **📢 섹션 요약 비유**: vLLM 은 "[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 응답 공장의 생산 라인 최적화" — 기존엔 한 주문 끝날 때까지 다음 주문 시작 못했는데, 이제는 각 기계가 다른 주문을 동시에 처리하며 빈 순간을 없앤다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-- **[[139_throughput|처리량]]**: 동일 [[418_gpu|GPU]] 로 최대 24배 더 많은 요청 처리
-- **메모리 효율**: KV 캐시 [[291_fragmentation_and_reassembly_process|단편화]] 90%+ 제거
-- **비용**: 같은 [[090_service_kubernetes_network_load_balancing|서비스]] 수준을 더 적은 [[418_gpu|GPU]] 로 운영 가능
-- **생태계**: OpenAI [[014_api_posix|API]] 호환 인터페이스로 쉬운 전환
+- **[처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)**: 동일 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 로 최대 24배 더 많은 요청 처리
+- **메모리 효율**: KV 캐시 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 90%+ 제거
+- **비용**: 같은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준을 더 적은 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 로 운영 가능
+- **생태계**: OpenAI [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호환 인터페이스로 쉬운 전환
 - **한계**: 매우 짧은 요청 (< 100 토큰) 에서는 오버헤드 발생 가능
 
-vLLM 과 PagedAttention 은 [[263_llm_large_language_model|LLM]] 을 상용 [[090_service_kubernetes_network_load_balancing|서비스]]로 배포하는 데 있어 사실상 표준 기술이 됐다. 기술사 시험에서는 KV 캐시 [[291_fragmentation_and_reassembly_process|단편화]] → 블록 테이블 해결 → Continuous [[389_bulk_insert_batching_optimization|Batching]] [[139_throughput|처리량]] 향상의 [[369_logic_bomb|논리]] 흐름을 명확히 서술하면 고득점 가능하다.
+vLLM 과 PagedAttention 은 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 을 상용 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 배포하는 데 있어 사실상 표준 기술이 됐다. 기술사 시험에서는 KV 캐시 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) → 블록 테이블 해결 → Continuous [Batching](/knowledge-base/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/) [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 향상의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 흐름을 명확히 서술하면 고득점 가능하다.
 
-- **📢 섹션 요약 비유**: PagedAttention 은 "컴퓨터가 RAM 부족 문제를 [[381_virtual_memory|가상 메모리]]로 해결했듯, [[418_gpu|GPU]] 가 [[263_llm_large_language_model|LLM]] 메모리 부족을 블록 매핑으로 해결한" 동일한 천재적 아이디어의 [[190_ai_llm_requirements_specification|AI]] [[288_version_ihl_tos_total_length|버전]]이다.
+- **📢 섹션 요약 비유**: PagedAttention 은 "컴퓨터가 RAM 부족 문제를 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)로 해결했듯, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 가 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 메모리 부족을 블록 매핑으로 해결한" 동일한 천재적 아이디어의 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이다.
 
 ---
 
@@ -165,12 +169,12 @@ vLLM 과 PagedAttention 은 [[263_llm_large_language_model|LLM]] 을 상용 [[09
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| KV 캐시 ([[291_kv_cache|Key-Value Cache]]) | 어텐션, 자동회귀 / [[087_process_state_transition|생성]] 중 재사용할 K·V 저장소 |
-| PagedAttention | 블록 테이블, 비연속 메모리 / KV [[291_fragmentation_and_reassembly_process|단편화]] 해결 핵심 기술 |
-| Continuous [[389_bulk_insert_batching_optimization|Batching]] | 동적 배치, [[418_gpu|GPU]] 활용률 / [[139_throughput|처리량]] 극대화 [[208_schedule_history_transaction_execution_order|스케줄]]링 |
-| Prefix [[456_caching|Caching]] | 공유 프롬프트 / 중복 KV 계산 제거 |
-| vLLM | TGI, TensorRT-[[263_llm_large_language_model|LLM]] / PagedAttention [[191_oss_license_compliance|오픈소스]] 구현체 |
-| [[381_virtual_memory|가상 메모리]] ([[381_virtual_memory|Virtual Memory]]) | OS [[259_paging|페이징]], [[353_page_table|페이지 테이블]] / PagedAttention 의 영감 원천 |
+| KV 캐시 ([Key-Value Cache](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/291_kv_cache/)) | 어텐션, 자동회귀 / [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 중 재사용할 K·V 저장소 |
+| PagedAttention | 블록 테이블, 비연속 메모리 / KV [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 해결 핵심 기술 |
+| Continuous [Batching](/knowledge-base/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/) | 동적 배치, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 활용률 / [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 극대화 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링 |
+| Prefix [Caching](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) | 공유 프롬프트 / 중복 KV 계산 제거 |
+| vLLM | TGI, TensorRT-[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) / PagedAttention [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 구현체 |
+| [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) ([Virtual Memory](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)) | OS [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/), [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) / PagedAttention 의 영감 원천 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -180,9 +184,9 @@ vLLM 과 PagedAttention 은 [[263_llm_large_language_model|LLM]] 을 상용 [[09
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 📖 [[190_ai_llm_requirements_specification|AI]] 가 글을 쓸 때 앞에서 한 말을 계속 기억해야 해서(KV 캐시), 메모장을 많이 써요.
+1. 📖 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가 글을 쓸 때 앞에서 한 말을 계속 기억해야 해서(KV 캐시), 메모장을 많이 써요.
 2. 📄 PagedAttention 은 메모장을 조각조각 나눠서 필요할 때만 쓰니까 낭비가 없어요.
-3. 🚌 Continuous [[389_bulk_insert_batching_optimization|Batching]] 덕분에 [[190_ai_llm_requirements_specification|AI]] 가 여러 질문을 동시에 처리해서 24배나 빠르게 답해줄 수 있어요!
+3. 🚌 Continuous [Batching](/knowledge-base/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/) 덕분에 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가 여러 질문을 동시에 처리해서 24배나 빠르게 답해줄 수 있어요!
 
 ---
 
@@ -190,7 +194,7 @@ vLLM 과 PagedAttention 은 [[263_llm_large_language_model|LLM]] 을 상용 [[09
 
 **진행 상황**: 338 / 420
 
-← **이전**: [[337_rlhf|337. RLHF (Reinforcement Learning from Human Feedback)]]
-**다음**: [[339_word2vec|339. Word2Vec (Word2vec)]] →
+← **이전**: [337. RLHF (Reinforcement Learning from Human Feedback)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/337_rlhf/)
+**다음**: [339. Word2Vec (Word2vec)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/339_word2vec/) →
 
 ---

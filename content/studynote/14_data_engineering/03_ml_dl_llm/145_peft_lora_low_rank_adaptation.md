@@ -1,13 +1,17 @@
----
-title: 145. PEFT & LoRA (Low-Rank Adaptation) - 효율적 파라미터 미세 조정
-date: '2026-04-19'
-tags:
-- studynote-dataengineering
----
++++
+title = "145. PEFT & LoRA (Low-Rank Adaptation) - 효율적 파라미터 미세 조정"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-dataengineering"]
+
+[extra]
+tags = ["studynote-dataengineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: LoRA는 **사전 학습된 [[267_weight_bias_activation|가중치]] 행렬 W에 저랭크 분해 행렬(A·B)을 추가**하여, 전체 파라미터의 **0.1~1%만 학습**하면서도 Full Fine-tuning과 유사한 성능을 달성하는 [[306_peft_lora|PEFT]]([[306_peft_lora|Parameter-Efficient Fine-Tuning]]) 기법이다.
-> 2. **가치**: 7B 모델 Full FT는 **[[418_gpu|GPU]] 메모리 112GB+(FP16)** 필요하지만, LoRA는 **추가 파라미터만 학습**하여 단일 [[418_gpu|GPU]](24GB)로도 가능하다. [[404_qlora|QLoRA]](4비트 [[434_quantization|양자화]]+[[617_lora_lorawan_css_chirp_spread_spectrum|LoRA]])는 더 적은 메모리로 가능하다.
+> 1. **본질**: LoRA는 **사전 학습된 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 행렬 W에 저랭크 분해 행렬(A·B)을 추가**하여, 전체 파라미터의 **0.1~1%만 학습**하면서도 Full Fine-tuning과 유사한 성능을 달성하는 [PEFT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/)([Parameter-Efficient Fine-Tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/)) 기법이다.
+> 2. **가치**: 7B 모델 Full FT는 **[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리 112GB+(FP16)** 필요하지만, LoRA는 **추가 파라미터만 학습**하여 단일 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)(24GB)로도 가능하다. [QLoRA](/knowledge-base/studynote/10_ai/05_data_science_ml/404_qlora/)(4비트 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)+[LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/))는 더 적은 메모리로 가능하다.
 > 3. **판단 포인트**: 랭크 r(4~64)이 핵심 하이퍼파라미터이며, r이 클수록 표현력↑ 비용↑. 어텐션 레이어(Q·V)에 적용하는 것이 표준이다.
 
 ---
@@ -28,7 +32,7 @@ LoRA: W' = W + ΔW = W + B·A
 
 ## Ⅱ~Ⅴ. 결론
 
-LoRA는 **[[263_llm_large_language_model|LLM]] Fine-tuning의 사실상 표준**이며, QLoRA로 소비자 GPU에서도 학습이 가능하다.
+LoRA는 **[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) Fine-tuning의 사실상 표준**이며, QLoRA로 소비자 GPU에서도 학습이 가능하다.
 
 ---
 
@@ -36,11 +40,11 @@ LoRA는 **[[263_llm_large_language_model|LLM]] Fine-tuning의 사실상 표준**
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[[617_lora_lorawan_css_chirp_spread_spectrum|LoRA]]** | 저랭크 적응 |
-| **[[404_qlora|QLoRA]]** | 4비트+[[617_lora_lorawan_css_chirp_spread_spectrum|LoRA]] |
-| **[[306_peft_lora|PEFT]]** | 효율적 [[133_fine_tuning|미세 조정]] |
+| **[LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/)** | 저랭크 적응 |
+| **[QLoRA](/knowledge-base/studynote/10_ai/05_data_science_ml/404_qlora/)** | 4비트+[LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/) |
+| **[PEFT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/)** | 효율적 [미세 조정](/knowledge-base/studynote/10_ai/02_dl_architecture_new/133_fine_tuning/) |
 | **랭크 r** | 핵심 하이퍼파라미터 |
-| **[[259_adapter_pattern_interface_wrapper|Adapter]]** | LoRA의 전신 |
+| **[Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)** | LoRA의 전신 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -61,7 +65,7 @@ LoRA는 **[[263_llm_large_language_model|LLM]] Fine-tuning의 사실상 표준**
 
 **진행 상황**: 145 / 258
 
-← **이전**: [[144_fine_tuning_transfer_learning|144. Fine-tuning & Transfer Learning - 사전 학습 모델 적응]]
-**다음**: [[146_quantization_qlora_model_compression|146. 양자화 & QLoRA - 모델 압축과 효율적 학습]] →
+← **이전**: [144. Fine-tuning & Transfer Learning - 사전 학습 모델 적응](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/144_fine_tuning_transfer_learning/)
+**다음**: [146. 양자화 & QLoRA - 모델 압축과 효율적 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/146_quantization_qlora_model_compression/) →
 
 ---

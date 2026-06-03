@@ -1,14 +1,18 @@
----
-title: 31. Red-Black 트리 — STL·JVM의 표준 균형 BST
-date: '2026-04-29'
-tags:
-- studynote-algorithm-stats
----
++++
+title = "31. Red-Black 트리 — STL·JVM의 표준 균형 BST"
+date = 2026-04-29
+
+[taxonomies]
+tags = ["studynote-algorithm-stats"]
+
+[extra]
+tags = ["studynote-algorithm-stats"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Red-Black Tree는 각 노드에 색(Red/Black)을 부여하는 5가지 규칙으로 균형을 유지하는 자가 균형 BST다. AVL보다 균형 조건이 덜 엄격하지만, 삽입·삭제가 더 빠르다.
-> 2. **가치**: Red-Black Tree의 높이는 2 log₂(N+1) 이하로 보장된다. 따라서 검색·삽입·삭제 모두 O(log N)이다. C++ STL의 map/set/multimap, Java의 TreeMap/TreeSet, Linux [[022_kernel_role|커널]]의 CFS [[079_kube_scheduler_pod_placement|스케줄러]]가 Red-Black Tree를 사용한다.
-> 3. **판단 포인트**: Red-Black Tree의 규칙 중 핵심은 "빨간 노드의 자녀는 반드시 검정"이다. 이를 위반하면 삽입 후 회전(Rotation) + 재색칠(Recoloring)로 규칙을 [[658_ir_recovery|복구]]한다.
+> 2. **가치**: Red-Black Tree의 높이는 2 log₂(N+1) 이하로 보장된다. 따라서 검색·삽입·삭제 모두 O(log N)이다. C++ STL의 map/set/multimap, Java의 TreeMap/TreeSet, Linux [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 CFS [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 Red-Black Tree를 사용한다.
+> 3. **판단 포인트**: Red-Black Tree의 규칙 중 핵심은 "빨간 노드의 자녀는 반드시 검정"이다. 이를 위반하면 삽입 후 회전(Rotation) + 재색칠(Recoloring)로 규칙을 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)한다.
 
 ---
 
@@ -27,13 +31,13 @@ Red-Black Tree 5가지 규칙:
 → 5 규칙으로 트리 높이 ≤ 2 log₂(N+1) 보장
 ```
 
-- **📢 섹션 요약 비유**: Red-Black 규칙은 교통 [[130_signal|신호]] 규칙이다. "빨간불(Red) 뒤에는 반드시 초록불(Black)"처럼, Red 노드 뒤에는 반드시 Black 노드가 와야 한다는 규칙이 트리 균형을 유지한다.
+- **📢 섹션 요약 비유**: Red-Black 규칙은 교통 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 규칙이다. "빨간불(Red) 뒤에는 반드시 초록불(Black)"처럼, Red 노드 뒤에는 반드시 Black 노드가 와야 한다는 규칙이 트리 균형을 유지한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 삽입 후 규칙 [[658_ir_recovery|복구]]
+### 삽입 후 규칙 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)
 
 ```text
 새 노드 삽입 → 항상 Red로 삽입
@@ -64,27 +68,27 @@ std::map<key, value> 내부:
     → 정렬된 데이터 범위 검색에 최적
 ```
 
-- **📢 섹션 요약 비유**: RB Tree 재색칠은 빨간불 연속 [[130_signal|신호]]등 수리다. 빨간불 두 개가 연속(Red-Red 위반)이면, 앞 [[130_signal|신호]]등을 초록(Black)으로 바꾸고 필요하면 교차로 구조(회전)도 변경한다.
+- **📢 섹션 요약 비유**: RB Tree 재색칠은 빨간불 연속 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등 수리다. 빨간불 두 개가 연속(Red-Red 위반)이면, 앞 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등을 초록(Black)으로 바꾸고 필요하면 교차로 구조(회전)도 변경한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | AVL | Red-Black | [[110_skip_list|Skip List]] |
+| 비교 | AVL | Red-Black | [Skip List](/knowledge-base/studynote/12_it_management/03_ea_isp/110_skip_list/) |
 |:---|:---|:---|:---|
 | 균형 | 엄격 (±1) | 유연 (2×) | 확률적 |
 | 검색 | 약간 빠름 | 약간 느림 | O(log N) 평균 |
 | 삽입/삭제 | 약간 느림 | 약간 빠름 | O(log N) 평균 |
-| [[430_index_fast_full_scan|병렬]]화 | 어려움 | 어려움 | 쉬움 |
-| 사용처 | 읽기 집중 | 표준 [[336_library_vs_framework|라이브러리]] | [[542_redis|Redis]], LevelDB |
+| [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 | 어려움 | 어려움 | 쉬움 |
+| 사용처 | 읽기 집중 | 표준 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) | [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/), LevelDB |
 
-- **📢 섹션 요약 비유**: AVL·RB·Skip List는 세 정렬 방식이다. AVL(완벽한 ABC 정리), RB(빠른 정리, 약간 느슨), [[110_skip_list|Skip List]](확률적 정리, [[430_index_fast_full_scan|병렬]] 가능)로 상황에 맞게 선택한다.
+- **📢 섹션 요약 비유**: AVL·RB·Skip List는 세 정렬 방식이다. AVL(완벽한 ABC 정리), RB(빠른 정리, 약간 느슨), [Skip List](/knowledge-base/studynote/12_it_management/03_ea_isp/110_skip_list/)(확률적 정리, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 가능)로 상황에 맞게 선택한다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### Linux CFS [[079_kube_scheduler_pod_placement|스케줄러]]의 RB Tree
+### Linux CFS [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 RB Tree
 
 ```text
 Linux Completely Fair Scheduler (CFS):
@@ -120,10 +124,10 @@ System.out.println(ranking.subMap(800, 1100)); // 800-1100 범위
 | 기대효과 | 내용 |
 |:---|:---|
 | **O(log N) 보장** | 삽입·삭제 집중 환경에서 빠른 균형 |
-| **범용성** | STL·JVM·Linux [[022_kernel_role|커널]] 표준 채택 |
+| **범용성** | STL·JVM·Linux [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 표준 채택 |
 | **정렬 유지** | 범위 검색·순위 관리에 최적 |
 
-Persistent Red-Black Tree는 함수형 프로그래밍에서 불변([[298_immutable|Immutable]]) 자료 구조로 활용된다. 버전별 트리 스냅샷을 O(log N) 공간만 추가하여 유지하는 구조적 공유(Structural Sharing)로 함수형 언어(Clojure·Haskell)의 불변 Map/Set을 효율적으로 구현한다.
+Persistent Red-Black Tree는 함수형 프로그래밍에서 불변([Immutable](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/)) 자료 구조로 활용된다. 버전별 트리 스냅샷을 O(log N) 공간만 추가하여 유지하는 구조적 공유(Structural Sharing)로 함수형 언어(Clojure·Haskell)의 불변 Map/Set을 효율적으로 구현한다.
 
 - **📢 섹션 요약 비유**: Persistent RB Tree는 Git과 비슷하다. 매 변경마다 전체를 복사하지 않고, 변경된 경로만 새로 만들어서 이전 버전을 O(log N) 추가 공간으로 유지한다.
 
@@ -134,9 +138,9 @@ Persistent Red-Black Tree는 함수형 프로그래밍에서 불변([[298_immuta
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **AVL 트리** | RB의 더 엄격한 균형 대안 |
-| **B+Tree** | 디스크 기반 DB [[154_database_index_b_tree_search_optimization|인덱스]] 확장 |
-| **Linux CFS** | RB Tree 기반 공정 [[079_kube_scheduler_pod_placement|스케줄러]] |
-| **STL map/TreeMap** | RB Tree 표준 [[336_library_vs_framework|라이브러리]] 적용 |
+| **B+Tree** | 디스크 기반 DB [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 확장 |
+| **Linux CFS** | RB Tree 기반 공정 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) |
+| **STL map/TreeMap** | RB Tree 표준 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 적용 |
 | **Persistent RB Tree** | 함수형 불변 자료 구조 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -161,7 +165,7 @@ Persistent Red-Black Tree는 함수형 프로그래밍에서 불변([[298_immuta
 
 1. Red-Black 트리는 빨간불 연속 금지 규칙으로 균형을 유지하는 트리예요!
 2. C++의 map과 Java의 TreeMap이 모두 Red-Black 트리를 사용해서 정렬과 검색을 O(log N)으로 해요!
-3. Linux [[022_kernel_role|커널]]도 이 트리로 프로세스 스케줄링을 공정하게 관리한답니다!
+3. Linux [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)도 이 트리로 프로세스 스케줄링을 공정하게 관리한답니다!
 
 ---
 
@@ -169,7 +173,7 @@ Persistent Red-Black Tree는 함수형 프로그래밍에서 불변([[298_immuta
 
 **진행 상황**: 89 / 175
 
-← **이전**: [[088_avl_tree|31. AVL 트리 — 자가 균형 이진 탐색 트리]]
-**다음**: [[090_b_plus_tree|B+트리 (B+-Tree)]] →
+← **이전**: [31. AVL 트리 — 자가 균형 이진 탐색 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/088_avl_tree/)
+**다음**: [B+트리 (B+-Tree)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/090_b_plus_tree/) →
 
 ---

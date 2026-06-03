@@ -1,14 +1,18 @@
----
-title: 043. AARRR 퍼널 — 해적 지표 (Pirate Metrics)
-date: '2026-04-05'
-tags:
-- studynote-enterprise-systems
----
++++
+title = "043. AARRR 퍼널 — 해적 지표 (Pirate Metrics)"
+date = 2026-04-05
+
+[taxonomies]
+tags = ["studynote-enterprise-systems"]
+
+[extra]
+tags = ["studynote-enterprise-systems"]
++++
 
 > **핵심 인사이트**
-> 1. AARRR([[042_aarrr_funnel|Acquisition]] → Activation → [[515_mvcc|Retention]] → Referral → Revenue)은 Dave McClure가 2007년 제안한 스타트업 성장 지표 프레임워크로 — 각 단계별 전환율을 측정하고 병목([[617_io_bottleneck|Bottleneck]]) 단계를 [[655_ir_detection_analysis|식별]]해 집중 개선하는 [[001_dikw_pyramid|데이터]] 기반 성장 [[268_strategy_pattern|전략]]의 핵심이다.
+> 1. AARRR([Acquisition](/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/) → Activation → [Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/) → Referral → Revenue)은 Dave McClure가 2007년 제안한 스타트업 성장 지표 프레임워크로 — 각 단계별 전환율을 측정하고 병목([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/)) 단계를 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)해 집중 개선하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 성장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 핵심이다.
 > 2. AARRR의 핵심 통찰은 "가장 약한 단계가 전체 성장을 제한한다"는 병목 이론으로 — Activation 단계에서 30%를 잃으면 이후 아무리 Retention을 개선해도 시작 사용자가 적어 효과가 제한되므로 단계 순서대로 개선 우선순위를 정해야 한다.
-> 3. 현대 PLG(Product-[[013_led|Led]] Growth) 시대에 AARRR은 RARRA([[515_mvcc|Retention]] → Activation → Referral → Revenue → [[042_aarrr_funnel|Acquisition]])로 재정렬되는 경향이 있으며 — Retention이 모든 것의 기초임을 강조하고, 기존 사용자 유지가 신규 획득보다 비용 효율이 높다는 실증 연구 결과를 반영한다.
+> 3. 현대 PLG(Product-[Led](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/) Growth) 시대에 AARRR은 RARRA([Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/) → Activation → Referral → Revenue → [Acquisition](/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/))로 재정렬되는 경향이 있으며 — Retention이 모든 것의 기초임을 강조하고, 기존 사용자 유지가 신규 획득보다 비용 효율이 높다는 실증 연구 결과를 반영한다.
 
 ---
 
@@ -176,11 +180,11 @@ AARRR 2.0 — 커뮤니티 추가:
   Discord 서버 운영 = 커뮤니티 기반 Retention 전략
 ```
 
-> 📢 **섹션 요약 비유**: RARRA는 집 수리 우선순위 — 새 가구 사기([[042_aarrr_funnel|Acquisition]]) 전에 벽 균열([[515_mvcc|Retention]] 문제) 먼저 고치는 게 순서. 구멍 뚫린 통에 물 부어봐야 금방 비어요.
+> 📢 **섹션 요약 비유**: RARRA는 집 수리 우선순위 — 새 가구 사기([Acquisition](/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/)) 전에 벽 균열([Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/) 문제) 먼저 고치는 게 순서. 구멍 뚫린 통에 물 부어봐야 금방 비어요.
 
 ---
 
-## Ⅴ. 실무 시나리오 — [[309_saas|SaaS]] 성장 [[268_strategy_pattern|전략]]
+## Ⅴ. 실무 시나리오 — [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 성장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
 ```
 B2B SaaS 그로스 해킹 AARRR 분석:
@@ -233,7 +237,7 @@ AARRR 현황 진단:
   → MAU 50,000~60,000 달성 예상
 ```
 
-> 📢 **섹션 요약 비유**: AARRR 분석은 자동차 점검표 — 각 바퀴(단계)의 공기압을 [[396_validation|확인]]하고, 가장 빠진 타이어(병목)부터 먼저 수리해야 달릴 수 있어요.
+> 📢 **섹션 요약 비유**: AARRR 분석은 자동차 점검표 — 각 바퀴(단계)의 공기압을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 가장 빠진 타이어(병목)부터 먼저 수리해야 달릴 수 있어요.
 
 ---
 
@@ -300,7 +304,7 @@ Figma, Notion, Slack 모델
 
 **진행 상황**: 43 / 482
 
-← **이전**: [[042_growth_hacking_marketing|042. 그로스 해킹 마케팅 (Growth Hacking Marketing)]]
-**다음**: [[044_agile_management_enterprise|044. 기업 애자일 경영]] →
+← **이전**: [042. 그로스 해킹 마케팅 (Growth Hacking Marketing)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/042_growth_hacking_marketing/)
+**다음**: [044. 기업 애자일 경영](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/044_agile_management_enterprise/) →
 
 ---

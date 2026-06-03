@@ -1,30 +1,34 @@
----
-title: '473. 캐시 제어 헤더 (Cache-Control: max-age, no-cache, no-store 등)'
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "473. 캐시 제어 헤더 (Cache-Control: max-age, no-cache, no-store 등)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 캐시 제어 헤더는 응용 계층과 웹/메일에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: 캐시 제어 헤더를 이해하면 응답 시간과 [[344_compatibility_usability|호환성]] 사이의 균형을 더 정확히 볼 수 있다.
+> 2. **가치**: 캐시 제어 헤더를 이해하면 응답 시간과 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: `Cache-Control`은 [[461_http_stateless_connection_oriented|HTTP]] 통신 과정에서 요청(Request)과 응답(Response) 헤더 모두에 사용될 수 있으나, 주로 웹 서버가 브라우저나 중간 [[264_proxy_pattern_surrogate_access_control|프록시]]([[506_cdn_content_delivery_network_edge_caching|CDN]])에게 "이 응답 [[001_dikw_pyramid|데이터]]를 어떻게 보관하고 언제 버려야 하는가"를 명시적으로 지시하는 콤마(,) 분리형 [[158_instruction|명령어]] 집합이다.
+- **개념**: `Cache-Control`은 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 통신 과정에서 요청(Request)과 응답(Response) 헤더 모두에 사용될 수 있으나, 주로 웹 서버가 브라우저나 중간 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)([CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/))에게 "이 응답 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어떻게 보관하고 언제 버려야 하는가"를 명시적으로 지시하는 콤마(,) 분리형 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 집합이다.
 
-- **필요성**: 웹 인프라에는 내 컴퓨터의 브라우저부터 통신사의 투명 [[264_proxy_pattern_surrogate_access_control|프록시]], 글로벌 CDN까지 수많은 계층의 캐시 저장소가 널려 있다. 서버가 응답 [[001_dikw_pyramid|데이터]]에 꼬리표를 달아주지 않으면, 각 중간자들은 자신들의 임의적인 [[210_heuristics_scheduling|휴리스틱]]([[236_a_star_heuristic_minimax_mcts_monte_carlo|Heuristic]]) 로직에 따라 엉뚱한 만료 시간을 추측하여 저장해버린다. 그 결과, 개인정보가 공유 캐시에 남아 남의 화면에 뜨거나, 업데이트된 쇼핑몰 메인 화면이 일주일 전 상태로 멈춰있는 치명적인 [[090_service_kubernetes_network_load_balancing|서비스]] 장애가 발생한다. 이를 일원화하여 철저히 통제할 '절대 권력의 사령탑'이 필요했다.
+- **필요성**: 웹 인프라에는 내 컴퓨터의 브라우저부터 통신사의 투명 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/), 글로벌 CDN까지 수많은 계층의 캐시 저장소가 널려 있다. 서버가 응답 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 꼬리표를 달아주지 않으면, 각 중간자들은 자신들의 임의적인 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)([Heuristic](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/)) 로직에 따라 엉뚱한 만료 시간을 추측하여 저장해버린다. 그 결과, 개인정보가 공유 캐시에 남아 남의 화면에 뜨거나, 업데이트된 쇼핑몰 메인 화면이 일주일 전 상태로 멈춰있는 치명적인 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애가 발생한다. 이를 일원화하여 철저히 통제할 '절대 권력의 사령탑'이 필요했다.
 
 - **💡 비유**: 반찬가게에서 음식을 팔 때 뚜껑에 붙여주는 취급 주의 스티커와 같습니다. "이 반찬은 가족끼리만 드세요(private), 냉장고에 1주일만 보관하세요(max-age), 먹기 전엔 상했는지 냄새를 꼭 맡으세요(no-cache), 절대로 보관하지 말고 그 자리에서 다 먹어 치우세요(no-store)"라고 명시하는 것과 똑같습니다.
 
 - **등장 배경**:
-  1. **[[461_http_stateless_connection_oriented|HTTP]]/1.0의 한계 (Expires)**: 과거 [[461_http_stateless_connection_oriented|HTTP]]/1.0 시절에는 `Expires: Wed, 21 Oct 2026 07:28:00 GMT`처럼 절대 시간을 기록했다. 이는 서버와 클라이언트 간의 시스템 시계(Timezone)가 1분만 틀어져도 캐시가 오동작하는 심각한 문제를 안고 있었다.
+  1. **[HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.0의 한계 (Expires)**: 과거 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.0 시절에는 `Expires: Wed, 21 Oct 2026 07:28:00 GMT`처럼 절대 시간을 기록했다. 이는 서버와 클라이언트 간의 시스템 시계(Timezone)가 1분만 틀어져도 캐시가 오동작하는 심각한 문제를 안고 있었다.
   2. **Pragma 땜질**: `Pragma: no-cache`라는 임시방편을 썼으나 일관성이 부족했다.
-  3. **[[461_http_stateless_connection_oriented|HTTP]]/1.1 Cache-Control 도입**: 상대적 수명(초 단위)을 나타내는 `max-age`를 도입해 시계 불일치 문제를 해결하고, 저장 위치와 [[395_verification_process_review|검증]] 강제성까지 하나의 헤더로 조합할 수 있는 강력한 규약을 완성했다. `Cache-Control`은 항상 `Expires`보다 우선순위가 높다.
+  3. **[HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.1 Cache-Control 도입**: 상대적 수명(초 단위)을 나타내는 `max-age`를 도입해 시계 불일치 문제를 해결하고, 저장 위치와 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 강제성까지 하나의 헤더로 조합할 수 있는 강력한 규약을 완성했다. `Cache-Control`은 항상 `Expires`보다 우선순위가 높다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -47,7 +51,7 @@ tags:
 └─────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** [[461_http_stateless_connection_oriented|HTTP]]/1.0의 절대 시간(`Expires`) 방식은 통신 당사자 간의 물리적 시계 [[212_synchronization_mechanisms|동기화]]([[536_ntp_network_time_protocol_stratum|NTP]])가 완벽하다는 환상에 기반했다. 하지만 실세계 PC와 모바일의 시계는 제각각이었고, 캐시는 무용지물이 되곤 했다. [[461_http_stateless_connection_oriented|HTTP]]/1.1이 `Cache-Control: max-age=초`라는 "다운로드 받은 순간부터 시작되는 타이머(상대 시간)" 개념을 도입하면서 이 고질병은 완전히 해결되었다. 현대 웹에서는 하위 [[344_compatibility_usability|호환성]]을 위해 두 헤더를 같이 보내기도 하지만, 브라우저는 무조건 `Cache-Control`을 절대 우위로 해석한다.
+**[다이어그램 해설]** [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.0의 절대 시간(`Expires`) 방식은 통신 당사자 간의 물리적 시계 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)([NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/))가 완벽하다는 환상에 기반했다. 하지만 실세계 PC와 모바일의 시계는 제각각이었고, 캐시는 무용지물이 되곤 했다. [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.1이 `Cache-Control: max-age=초`라는 "다운로드 받은 순간부터 시작되는 타이머(상대 시간)" 개념을 도입하면서 이 고질병은 완전히 해결되었다. 현대 웹에서는 하위 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)을 위해 두 헤더를 같이 보내기도 하지만, 브라우저는 무조건 `Cache-Control`을 절대 우위로 해석한다.
 
 - **📢 섹션 요약 비유**: 통조림에 "2026년 1월 1일 자정까지 유통(Expires)"이라고 적으면 시차가 있는 나라에서 헷갈리지만, "제조일(다운로드 시점)로부터 365일 보관 가능(max-age)"이라고 적으면 전 세계 어디서나 똑같이 정확하게 지켜지는 것과 같습니다.
 
@@ -57,18 +61,18 @@ tags:
 
 ### 핵심 디렉티브 (지시자) 구성 요소
 
-| 디렉티브([[158_instruction|명령어]]) | 역할과 의미 | 내부 동작 및 [[164_policy|정책]] | 실무 적용 대상 (비유) |
+| 디렉티브([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)) | 역할과 의미 | 내부 동작 및 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 실무 적용 대상 (비유) |
 |:---|:---|:---|:---|
-| **max-age=N** | 캐시의 상대적 유효 수명(초 단위) | [[009_config|설정]]된 시간 동안은 네트워크 I/O 없이 사본 사용 | 유통 기한 [[009_config|설정]] (초 단위) |
-| **no-cache** | **주의!** "캐시하지 마라"가 **아님**. "캐시는 하되, **사용 전 무조건 서버에 원본 변경 여부를 [[396_validation|확인]]([[395_verification_process_review|검증]])해라**"는 뜻 | 캐시 사본을 [[289_cqrs_db|쓰기]] 전 항상 `If-None-Match`(ETag) 등으로 304 상태 [[396_validation|확인]] 강제 | 냄새 꼭 맡아보고 먹을 것 |
-| **no-store** | **진짜로 저장 금지**. "절대로 하드디스크나 메모리에 흔적도 남기지 마라" | 로컬 및 공유 캐시에 [[001_dikw_pyramid|데이터]] 저장 차단. 매번 원본 요청 | 1급 기밀문서 즉시 파쇄 |
-| **public** | 중간 [[264_proxy_pattern_surrogate_access_control|프록시]]([[506_cdn_content_delivery_network_edge_caching|CDN]] 등)를 포함해 "모두가 캐시하고 공유해도 좋다" | 응답에 [[303_authentication_authorization_patterns|인증]] 헤더가 있어도 공용 엣지 서버에 [[456_caching|캐싱]] 허용 | 광장 게시판 전단지 |
+| **max-age=N** | 캐시의 상대적 유효 수명(초 단위) | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)된 시간 동안은 네트워크 I/O 없이 사본 사용 | 유통 기한 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) (초 단위) |
+| **no-cache** | **주의!** "캐시하지 마라"가 **아님**. "캐시는 하되, **사용 전 무조건 서버에 원본 변경 여부를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))해라**"는 뜻 | 캐시 사본을 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 전 항상 `If-None-Match`(ETag) 등으로 304 상태 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 강제 | 냄새 꼭 맡아보고 먹을 것 |
+| **no-store** | **진짜로 저장 금지**. "절대로 하드디스크나 메모리에 흔적도 남기지 마라" | 로컬 및 공유 캐시에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 차단. 매번 원본 요청 | 1급 기밀문서 즉시 파쇄 |
+| **public** | 중간 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)([CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 등)를 포함해 "모두가 캐시하고 공유해도 좋다" | 응답에 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 헤더가 있어도 공용 엣지 서버에 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 허용 | 광장 게시판 전단지 |
 | **private** | "최종 사용자의 브라우저(로컬)에만 저장해라. 중간 CDN은 보관 금지" | 타인 노출 방지. 마이페이지, 개인화 피드에 필수 | 나만의 일기장 |
-| **s-maxage=N** | 오직 공유 캐시([[506_cdn_content_delivery_network_edge_caching|CDN]], [[264_proxy_pattern_surrogate_access_control|프록시]])에게만 적용되는 수명 (브라우저 무시) | 브라우저(`max-age`)와 [[506_cdn_content_delivery_network_edge_caching|CDN]] 만료 시간을 다르게 분리 | 창고 유통기한과 냉장고 유통기한 분리 |
+| **s-maxage=N** | 오직 공유 캐시([CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/), [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/))에게만 적용되는 수명 (브라우저 무시) | 브라우저(`max-age`)와 [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 만료 시간을 다르게 분리 | 창고 유통기한과 냉장고 유통기한 분리 |
 
 ### 이름이 헷갈리는 가장 큰 함정: no-cache vs no-store
 
-[[461_http_stateless_connection_oriented|HTTP]] 캐시 스펙에서 개발자들이 가장 많이 오해하여 대형 사고를 내는 지점이 바로 `no-cache`라는 단어의 직관성 부족이다. 영어 뜻만 보면 "저장하지 말라"는 것 같지만, 실상은 정반대다.
+[HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 캐시 스펙에서 개발자들이 가장 많이 오해하여 대형 사고를 내는 지점이 바로 `no-cache`라는 단어의 직관성 부족이다. 영어 뜻만 보면 "저장하지 말라"는 것 같지만, 실상은 정반대다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────────┐
@@ -90,9 +94,9 @@ tags:
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** `no-cache`는 캐시를 저장소에 보관(Store)하는 것 자체는 묵인한다. 단, 쓸 때마다 매번 서버 허락([[396_validation|Validation]])을 맡으라는 조건부 허용이다. 주로 가벼운 HTML 껍데기 [[501_file_definition_logical_record|파일]]이나 실시간 업데이트가 중요하지만 다운로드 용량을 아끼고 싶은 [[014_api_posix|API]] 응답에 쓴다. 반면, `no-store`는 브라우저를 끄고 다른 사람이 PC를 켰을 때 잔여 [[001_dikw_pyramid|데이터]]가 유출되는 것을 막기 위해, 디스크나 메모리 캐시 풀에 단 1바이트도 흔적을 남기지 말라는 최고 보안 등급의 셧다운 [[158_instruction|명령어]]다. 민감한 결제 정보나 금융 API에 실수로 `no-cache`만 걸어두면 브라우저 캐시 폴더에 고객 [[001_dikw_pyramid|데이터]] 찌꺼기가 평문으로 남는 참사가 벌어진다.
+**[다이어그램 해설]** `no-cache`는 캐시를 저장소에 보관(Store)하는 것 자체는 묵인한다. 단, 쓸 때마다 매번 서버 허락([Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))을 맡으라는 조건부 허용이다. 주로 가벼운 HTML 껍데기 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이나 실시간 업데이트가 중요하지만 다운로드 용량을 아끼고 싶은 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 응답에 쓴다. 반면, `no-store`는 브라우저를 끄고 다른 사람이 PC를 켰을 때 잔여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 유출되는 것을 막기 위해, 디스크나 메모리 캐시 풀에 단 1바이트도 흔적을 남기지 말라는 최고 보안 등급의 셧다운 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)다. 민감한 결제 정보나 금융 API에 실수로 `no-cache`만 걸어두면 브라우저 캐시 폴더에 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 찌꺼기가 평문으로 남는 참사가 벌어진다.
 
-- **📢 섹션 요약 비유**: `no-cache`는 "냉장고에 우유를 둬도 되지만, 마시기 전에 무조건 유통기한 냄새를 맡고(서버 [[396_validation|확인]]) 마셔라"이고, `no-store`는 "그 우유는 독약이 될 수 있으니 절대 냉장고 근처에도 두지 마라"는 경고입니다.
+- **📢 섹션 요약 비유**: `no-cache`는 "냉장고에 우유를 둬도 되지만, 마시기 전에 무조건 유통기한 냄새를 맡고(서버 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)) 마셔라"이고, `no-store`는 "그 우유는 독약이 될 수 있으니 절대 냉장고 근처에도 두지 마라"는 경고입니다.
 
 ---
 
@@ -103,25 +107,25 @@ tags:
 | 항목 | Last-Modified (수정 시간 기반) | ETag (콘텐츠 해시 기반) |
 |:---|:---|:---|
 | **서버 응답 헤더** | `Last-Modified: Wed, 21 Oct...` | `ETag: "686897696a7c876b7e"` |
-| **클라이언트 [[396_validation|확인]] 헤더** | `If-Modified-Since` | `If-None-Match` |
-| **[[233_precision_recall_f1_roc_auc_threshold|정밀도]] 한계** | 1초 단위로만 [[655_ir_detection_analysis|식별]] 가능 (1초 내 수정 시 캐시 못 잡음) | 1바이트만 바뀌어도 해시가 바뀌어 완벽 [[655_ir_detection_analysis|식별]] |
-| **무의미한 갱신 방지** | [[501_file_definition_logical_record|파일]] 내용이 똑같은데 서버에서 '저장(touch)'만 눌러 날짜만 바뀐 경우, 새 [[501_file_definition_logical_record|파일]]로 취급해 불필요한 다운로드 발생 | 내용물 자체의 해시이므로, 날짜가 바뀌어도 내용이 같으면 304 반환 |
-| **실무 표준** | 구형 시스템 하위 [[344_compatibility_usability|호환성]]용 (보조) | **현대 웹의 완벽한 [[655_ir_detection_analysis|식별]] 표준 (메인)** |
+| **클라이언트 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 헤더** | `If-Modified-Since` | `If-None-Match` |
+| **[정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 한계** | 1초 단위로만 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 가능 (1초 내 수정 시 캐시 못 잡음) | 1바이트만 바뀌어도 해시가 바뀌어 완벽 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) |
+| **무의미한 갱신 방지** | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 내용이 똑같은데 서버에서 '저장(touch)'만 눌러 날짜만 바뀐 경우, 새 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 취급해 불필요한 다운로드 발생 | 내용물 자체의 해시이므로, 날짜가 바뀌어도 내용이 같으면 304 반환 |
+| **실무 표준** | 구형 시스템 하위 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)용 (보조) | **현대 웹의 완벽한 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 표준 (메인)** |
 
-[[461_http_stateless_connection_oriented|HTTP]]/1.1 명세에 따라, ETag와 Last-Modified가 응답에 같이 떨어지면 브라우저는 무조건 더 정확한 ETag를 최우선 잣대로 사용한다(강한 [[395_verification_process_review|검증]]).
+[HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.1 명세에 따라, ETag와 Last-Modified가 응답에 같이 떨어지면 브라우저는 무조건 더 정확한 ETag를 최우선 잣대로 사용한다(강한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)).
 
 ### 과목 융합 관점
 
-- **[[002_database_definition|데이터베이스]] (DB)**: ETag는 마치 [[002_database_definition|데이터베이스]] 낙관적 락(Optimistic [[510_lock|Lock]])의 [[288_version_ihl_tos_total_length|버전]](`version` 컬럼)과 개념이 똑같다. [[191_transaction_concept_states|트랜잭션]] 갱신 충돌을 막기 위해 [[288_version_ihl_tos_total_length|버전]]을 대조하듯, 브라우저 캐시도 덮어쓰기/재사용의 정합성을 ETag 문자열로 [[395_verification_process_review|검증]]한다.
-- **[[136_variance|분산]] 시스템 (Cloud)**: 로드밸런서 뒤에 웹 서버가 10대 떠 있을 때, [[501_file_definition_logical_record|파일]] 수정 날짜(`Last-Modified`)나 기본 ETag [[087_process_state_transition|생성]] 규칙(i-node 의존)이 리눅스 서버별로 다르게 세팅되어 있다면, 유저는 요청을 날릴 때마다 다른 서버에 걸려서 멀쩡한 캐시를 계속 헛방 치는 끔찍한 Cache Miss가 발생한다. 엣지 아키텍처 설계 시 반드시 ETag 알고리즘을 콘텐츠 내용([[668_md5_hash_collision_vulnerability|MD5]]/SHA) 단일 기준으로 강제 고정해야 한다.
+- **[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) (DB)**: ETag는 마치 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 낙관적 락(Optimistic [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))의 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(`version` 컬럼)과 개념이 똑같다. [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 갱신 충돌을 막기 위해 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 대조하듯, 브라우저 캐시도 덮어쓰기/재사용의 정합성을 ETag 문자열로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
+- **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 (Cloud)**: 로드밸런서 뒤에 웹 서버가 10대 떠 있을 때, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 수정 날짜(`Last-Modified`)나 기본 ETag [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 규칙(i-node 의존)이 리눅스 서버별로 다르게 세팅되어 있다면, 유저는 요청을 날릴 때마다 다른 서버에 걸려서 멀쩡한 캐시를 계속 헛방 치는 끔찍한 Cache Miss가 발생한다. 엣지 아키텍처 설계 시 반드시 ETag 알고리즘을 콘텐츠 내용([MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/)/SHA) 단일 기준으로 강제 고정해야 한다.
 
-- **📢 섹션 요약 비유**: `Last-Modified`가 "며칠 날 도장 찍은 서류야?"라고 날짜로 대충 묻는 것이라면, `ETag`는 서류 원본에 떨어진 "침방울 자국(지문) 모양이 똑같아?"라고 현미경으로 [[395_verification_process_review|검증]]하는 수준의 [[233_precision_recall_f1_roc_auc_threshold|정밀도]]입니다.
+- **📢 섹션 요약 비유**: `Last-Modified`가 "며칠 날 도장 찍은 서류야?"라고 날짜로 대충 묻는 것이라면, `ETag`는 서류 원본에 떨어진 "침방울 자국(지문) 모양이 똑같아?"라고 현미경으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 수준의 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-1. **시나리오 — 배포 직후 고객 화면 갱신 불능 ([[110_unlicensed_lpwan_lorawan_sigfox|CSS]]/JS 캐시 지옥)**: 프론트엔드가 SPA(React) 앱을 빌드하고 Nginx에 배포했다. 그런데 고객들이 접속하면 빈 화면이 뜨거나 옛날 디자인이 보인다고 클레임이 속출했다. Nginx [[009_config|설정]] [[501_file_definition_logical_record|파일]]에 일괄적으로 `location ~* \.(js|css|html)$ { Cache-Control: public, max-age=86400; }` 라고 박아둔 것이 원인이었다. 배포를 새로 해도 HTML [[501_file_definition_logical_record|파일]]마저 하루 종일(86400초) 고객 컴퓨터 캐시에서 나오니 앱이 갱신되지 못했다.
+1. **시나리오 — 배포 직후 고객 화면 갱신 불능 ([CSS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/110_unlicensed_lpwan_lorawan_sigfox/)/JS 캐시 지옥)**: 프론트엔드가 SPA(React) 앱을 빌드하고 Nginx에 배포했다. 그런데 고객들이 접속하면 빈 화면이 뜨거나 옛날 디자인이 보인다고 클레임이 속출했다. Nginx [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 일괄적으로 `location ~* \.(js|css|html)$ { Cache-Control: public, max-age=86400; }` 라고 박아둔 것이 원인이었다. 배포를 새로 해도 HTML [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)마저 하루 종일(86400초) 고객 컴퓨터 캐시에서 나오니 앱이 갱신되지 못했다.
    - **판단**: 실무 프론트엔드 캐시 아키텍처의 **가장 완벽한 이원화 모범 답안**으로 뜯어고쳐야 한다. HTML과 정적 자산을 철저히 분리 통제하는 것이 핵심이다.
 
 ```text
@@ -144,17 +148,17 @@ tags:
   └───────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 브라우저는 가장 먼저 `index.html`을 달라고 요청한다. 이 HTML [[501_file_definition_logical_record|파일]]에는 `no-store`가 걸려있어 매번 원본 서버에서 새롭게 다운받는다(수 킬로바이트 수준으로 가벼움). 새롭게 받아온 HTML의 안쪽을 들여다보니, 어제는 `<script src="chunk-A.js">`였는데 오늘은 프론트 개발자가 배포를 해서 `<script src="chunk-B.js">`로 링크 이름이 바뀌어 있다. 브라우저는 `chunk-A`는 캐시에 있지만 `chunk-B`는 캐시에 없으므로 서버에 새 [[501_file_definition_logical_record|파일]]을 달라고 요청한다. 만약 배포가 없었다면 HTML 내의 링크가 어제와 똑같은 `chunk-A.js`일 테고, 이 [[501_file_definition_logical_record|파일]]은 `max-age=1년`이 걸려있으므로 서버에 일절 물어보지도 않고 0ms 만에 하드디스크에서 꺼내온다. **이것이 네트워크 트래픽을 아끼면서 배포 즉시 화면이 갱신되도록 만드는 캐시 무효화 통제권의 마스터키다.**
+**[다이어그램 해설]** 브라우저는 가장 먼저 `index.html`을 달라고 요청한다. 이 HTML [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에는 `no-store`가 걸려있어 매번 원본 서버에서 새롭게 다운받는다(수 킬로바이트 수준으로 가벼움). 새롭게 받아온 HTML의 안쪽을 들여다보니, 어제는 `<script src="chunk-A.js">`였는데 오늘은 프론트 개발자가 배포를 해서 `<script src="chunk-B.js">`로 링크 이름이 바뀌어 있다. 브라우저는 `chunk-A`는 캐시에 있지만 `chunk-B`는 캐시에 없으므로 서버에 새 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 달라고 요청한다. 만약 배포가 없었다면 HTML 내의 링크가 어제와 똑같은 `chunk-A.js`일 테고, 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 `max-age=1년`이 걸려있으므로 서버에 일절 물어보지도 않고 0ms 만에 하드디스크에서 꺼내온다. **이것이 네트워크 트래픽을 아끼면서 배포 즉시 화면이 갱신되도록 만드는 캐시 무효화 통제권의 마스터키다.**
 
-2. **시나리오 — 중간 [[264_proxy_pattern_surrogate_access_control|프록시]]([[506_cdn_content_delivery_network_edge_caching|CDN]])의 Stale [[001_dikw_pyramid|Data]] 서빙 문제**: 대형 언론사 메인 서버가 장애로 3분간 다운되었다. 이 순간 트래픽이 몰리며 모든 접속자에게 `502 Bad Gateway`가 떴다. 엣지 서버([[506_cdn_content_delivery_network_edge_caching|CDN]])에는 불과 1초 전까지 쌩쌩하게 살아있던 만료된 뉴스 홈 캐시 사본(Stale)이 쌓여있었는데, 서버가 응답하지 않자 에러를 내뱉어버린 것이다.
-   - **판단**: 백엔드 응답 헤더에 `Cache-Control: stale-while-revalidate=60, stale-if-error=3600` (RFC 5861 확장)을 선언하는 아키텍처를 도입한다. 이 마법의 지시어는 "서버가 죽어있으면 1시간(3600초) 동안은 유통기한이 좀 지났더라도 에러 화면 대신 옛날 캐시 화면을 보여줘서 장애를 우아하게 가려라(stale-if-error)"라는 뜻이다. [[452_availability|가용성]]([[452_availability|Availability]]) 방어를 위한 최고의 캐시 전략이다.
+2. **시나리오 — 중간 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)([CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/))의 Stale [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 서빙 문제**: 대형 언론사 메인 서버가 장애로 3분간 다운되었다. 이 순간 트래픽이 몰리며 모든 접속자에게 `502 Bad Gateway`가 떴다. 엣지 서버([CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/))에는 불과 1초 전까지 쌩쌩하게 살아있던 만료된 뉴스 홈 캐시 사본(Stale)이 쌓여있었는데, 서버가 응답하지 않자 에러를 내뱉어버린 것이다.
+   - **판단**: 백엔드 응답 헤더에 `Cache-Control: stale-while-revalidate=60, stale-if-error=3600` (RFC 5861 확장)을 선언하는 아키텍처를 도입한다. 이 마법의 지시어는 "서버가 죽어있으면 1시간(3600초) 동안은 유통기한이 좀 지났더라도 에러 화면 대신 옛날 캐시 화면을 보여줘서 장애를 우아하게 가려라(stale-if-error)"라는 뜻이다. [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)([Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)) 방어를 위한 최고의 캐시 전략이다.
 
-### 도입 [[435_checklist_based_testing|체크리스트]]
-- **기술적**: [[014_api_posix|API]] 연동 시 [[471_https_http_over_tls|HTTPS]] 응답에 `Pragma`와 `Expires` 등 과거 유물 헤더가 `Cache-Control`과 충돌하게 섞여 나가지 않는지 백엔드 프레임워크 [[009_config|설정]]을 정리했는가?
-- **운영·보안적**: 로그아웃 후 뒤로가기 버튼을 눌렀을 때 민감한 고객 정보 화면이 브라우저 디스크 캐시(bfcache)에서 되살아나오는 보안 취약점을 막기 위해, [[303_authentication_authorization_patterns|인증]] [[509_authorization_models_rbac_abac|인가]] 페이지에 `no-store, must-revalidate` 헤더가 강제 주입되어 있는가?
+### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+- **기술적**: [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연동 시 [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) 응답에 `Pragma`와 `Expires` 등 과거 유물 헤더가 `Cache-Control`과 충돌하게 섞여 나가지 않는지 백엔드 프레임워크 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 정리했는가?
+- **운영·보안적**: 로그아웃 후 뒤로가기 버튼을 눌렀을 때 민감한 고객 정보 화면이 브라우저 디스크 캐시(bfcache)에서 되살아나오는 보안 취약점을 막기 위해, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) 페이지에 `no-store, must-revalidate` 헤더가 강제 주입되어 있는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
-- **`max-age=0` 남발**: `no-cache`와 비슷한 효과를 내지만 스펙상 모호함이 발생할 수 있고, 일부 구형 모바일 브라우저에서 오동작하여 리소스를 [[456_caching|캐싱]] 풀에서 즉각 지워버리는 경우가 생긴다. [[395_verification_process_review|검증]]을 원하면 정석대로 `no-cache`를 쓰는 것이 낫다.
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- **`max-age=0` 남발**: `no-cache`와 비슷한 효과를 내지만 스펙상 모호함이 발생할 수 있고, 일부 구형 모바일 브라우저에서 오동작하여 리소스를 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 풀에서 즉각 지워버리는 경우가 생긴다. [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 원하면 정석대로 `no-cache`를 쓰는 것이 낫다.
 
 - **📢 섹션 요약 비유**: 냉장고에 이것저것 마구잡이로 넣어두면 음식이 상해 탈이 납니다. "절대 넣지 말 것", "넣되 먹기 전 냄새 맡을 것", "1년 내내 얼려둘 것"을 확실히 이름표로 붙여두어야 가장 신선하고 배부르게 먹을 수 있습니다.
 
@@ -164,21 +168,21 @@ tags:
 
 | 구분 | 무분별한 캐시 제어 | 이원화 + 확장 헤더 통제 | 개선 효과 |
 |:---|:---|:---|:---|
-| **정량** | 매 접속시 무의미한 304 통신 폭주 | Hash 분리 + 1년 영구 [[456_caching|캐싱]] | 렌더링 로드 시간([[225_lcp_link_control_protocol|LCP]]) **절반 이하 단축**, 트래픽 비용 극감 |
+| **정량** | 매 접속시 무의미한 304 통신 폭주 | Hash 분리 + 1년 영구 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) | 렌더링 로드 시간([LCP](/knowledge-base/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/)) **절반 이하 단축**, 트래픽 비용 극감 |
 | **정량** | 서버 장애 시 502 에러 화면 노출 | `stale-if-error`로 캐시 방어 | 일시적 백엔드 장애(Downtime) 시 **유저 이탈률 0% 방어** |
-| **정성** | 배포 후 "화면 갱신 안됨" 민원 | 배포 즉시 고객 화면 무결점 갱신 | 프론트엔드 배포 및 운영 [[085_confidence_association_rule_conditional_probability|신뢰도]] 완벽 확보 |
+| **정성** | 배포 후 "화면 갱신 안됨" 민원 | 배포 즉시 고객 화면 무결점 갱신 | 프론트엔드 배포 및 운영 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 완벽 확보 |
 
 ### 미래 전망
-- **Cache-Control 스펙의 세분화 확장**: 최신 웹 [[282_performance_tactics|성능]] 스펙에서는 `stale-while-revalidate` (만료된 캐시를 일단 화면에 먼저 띄워주고, 백그라운드에서 조용히 서버에 갱신 요청을 날림) 같은 UX(사용자 경험) 친화적 확장이 크롬 등 메이저 브라우저에 도입되어, 로딩 스피너(뱅글뱅글 도는 애니메이션)를 화면에서 완전히 멸종시키고 있다.
-- **[[003_audit_stakeholders|Client]] Hints와 결합**: 브라우저의 메모리 여력이나 모바일 네트워크 상태(4G, [[418_5g_embb_urllc_mmtc_slicing|5G]], Save-[[001_dikw_pyramid|Data]] 모드)를 감지하여, 서버 측에서 동적으로 `Cache-Control` 만료 시간을 길게 주거나 짧게 주는 적응형(Adaptive) [[456_caching|캐싱]] [[164_policy|정책]]으로 고도화되는 추세다.
+- **Cache-Control 스펙의 세분화 확장**: 최신 웹 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 스펙에서는 `stale-while-revalidate` (만료된 캐시를 일단 화면에 먼저 띄워주고, 백그라운드에서 조용히 서버에 갱신 요청을 날림) 같은 UX(사용자 경험) 친화적 확장이 크롬 등 메이저 브라우저에 도입되어, 로딩 스피너(뱅글뱅글 도는 애니메이션)를 화면에서 완전히 멸종시키고 있다.
+- **[Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) Hints와 결합**: 브라우저의 메모리 여력이나 모바일 네트워크 상태(4G, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/), Save-[Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모드)를 감지하여, 서버 측에서 동적으로 `Cache-Control` 만료 시간을 길게 주거나 짧게 주는 적응형(Adaptive) [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 고도화되는 추세다.
 
 ### 참고 표준
-- **RFC 7234 ([[461_http_stateless_connection_oriented|HTTP]]/1.1 [[456_caching|Caching]])**: Cache-Control의 핵심 구문과 의미
-- **RFC 5861**: [[461_http_stateless_connection_oriented|HTTP]] Cache-Control Extensions for Stale Content (`stale-while-revalidate`, `stale-if-error`)
+- **RFC 7234 ([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.1 [Caching](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/))**: Cache-Control의 핵심 구문과 의미
+- **RFC 5861**: [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) Cache-Control Extensions for Stale Content (`stale-while-revalidate`, `stale-if-error`)
 
-`Cache-Control` 헤더 하나에 무엇을 적어 넣느냐에 따라, [[090_service_kubernetes_network_load_balancing|서비스]] 인프라 비용이 수천만 원 늘어나기도 하고 사이트가 다운되기도 하며, 고객 정보 유출로 뉴스에 나오기도 한다. 개발자는 백엔드 코드의 로직 튜닝만큼이나 이 한 줄의 [[461_http_stateless_connection_oriented|HTTP]] 헤더 [[009_config|설정]]표가 [[090_service_kubernetes_network_load_balancing|서비스]] 전체 아키텍처를 뒤흔드는 가장 거대하고 강력한 [[282_performance_tactics|성능]] 밸브(Valve)임을 명심해야 한다.
+`Cache-Control` 헤더 하나에 무엇을 적어 넣느냐에 따라, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 인프라 비용이 수천만 원 늘어나기도 하고 사이트가 다운되기도 하며, 고객 정보 유출로 뉴스에 나오기도 한다. 개발자는 백엔드 코드의 로직 튜닝만큼이나 이 한 줄의 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 헤더 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)표가 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 전체 아키텍처를 뒤흔드는 가장 거대하고 강력한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 밸브(Valve)임을 명심해야 한다.
 
-- **📢 섹션 요약 비유**: 수백만 대의 자동차([[001_dikw_pyramid|데이터]])가 오가는 고속도로(인터넷)에서 어느 차선은 멈추지 않고 하이패스로 쏘게 하고([[298_immutable|immutable]]), 어느 차선은 검문소에서 멈춰 세우고(no-cache), 어느 차는 아예 터널을 못 들어가게(no-store) 만드는 위대한 교통 통제관입니다.
+- **📢 섹션 요약 비유**: 수백만 대의 자동차([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 오가는 고속도로(인터넷)에서 어느 차선은 멈추지 않고 하이패스로 쏘게 하고([immutable](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/)), 어느 차선은 검문소에서 멈춰 세우고(no-cache), 어느 차는 아예 터널을 못 들어가게(no-store) 만드는 위대한 교통 통제관입니다.
 
 ---
 
@@ -186,10 +190,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| WWW [[456_caching|캐싱]] 메커니즘 / [[264_proxy_pattern_surrogate_access_control|프록시]] | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [[160_session_controlling_terminal|세션]] ([[160_session_controlling_terminal|Session]]) | 사용자 상태 유지와 요청 흐름을 묶는다. |
+| WWW [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 메커니즘 / [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)) | 사용자 상태 유지와 요청 흐름을 묶는다. |
 | 캐시 (Cache) | 응답 속도와 백엔드 부하에 직접 영향을 준다. |
-| ETag / Last-Modified [[395_verification_process_review|검증]] | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| ETag / Last-Modified [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -203,7 +207,7 @@ tags:
     └──▶ [확장 B: 지능형 애플리케이션 전달]
 ```
 
-캐시 제어 헤더는 WWW [[456_caching|캐싱]] 메커니즘 / [[264_proxy_pattern_surrogate_access_control|프록시]]에서 출발해 현재 메커니즘을 정교화하고, 이후 ETag / Last-Modified [[395_verification_process_review|검증]]와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+캐시 제어 헤더는 WWW [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 메커니즘 / [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)에서 출발해 현재 메커니즘을 정교화하고, 이후 ETag / Last-Modified [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -217,7 +221,7 @@ tags:
 
 **진행 상황**: 594 / 1120
 
-← **이전**: [[472_www_caching_mechanism_proxy|472. WWW 캐싱 메커니즘 / 프록시]]
-**다음**: [[474_etag_last_modified_304|474. ETag / Last-Modified 검증 (304 Not Modified)]] →
+← **이전**: [472. WWW 캐싱 메커니즘 / 프록시](/knowledge-base/studynote/03_network/09_application_layer_web_email/472_www_caching_mechanism_proxy/)
+**다음**: [474. ETag / Last-Modified 검증 (304 Not Modified)](/knowledge-base/studynote/03_network/09_application_layer_web_email/474_etag_last_modified_304/) →
 
 ---

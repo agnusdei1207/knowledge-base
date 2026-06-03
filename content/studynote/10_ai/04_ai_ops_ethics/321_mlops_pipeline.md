@@ -1,26 +1,30 @@
----
-title: 321. MLOps (Machine Learning Operations)
-date: '2026-05-09'
-tags:
-- studynote-ai
----
++++
+title = "321. MLOps (Machine Learning Operations)"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-ai"]
+
+[extra]
+tags = ["studynote-ai"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[348_mlops|MLOps]] ([[220_mlops_machine_learning_operations|Machine Learning Operations]])는 ML (Machine [[240_switch_learning_forwarding_flooding|Learning]]) 모델의 개발(Development)·배포([[087_deployment_kubernetes_workload_rolling_update|Deployment]])·운영(Operations) 전 주기를 자동화·표준화하는 엔지니어링 철학으로, [[652_devops_calms_culture|DevOps]] 원칙을 ML 시스템에 적용하여 모델이 지속적으로 학습·배포·[[229_monitor|모니터]]링되는 [[090_configuration_item|CI]]/CD [[123_pipe|파이프]]라인을 구축한다.
-> 2. **가치**: 연구소 실험 단계 모델이 실제 프로덕션 [[090_service_kubernetes_network_load_balancing|서비스]]로 안정적으로 전환되지 못하는 "ML 프로젝트의 87% 배포 실패"라는 실무 문제를 해결하여, 모델 개발 사이클을 단축하고 운영 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]]을 확보한다.
-> 3. **판단 포인트**: [[348_mlops|MLOps]] 성숙도 레벨(Level 0: 수동, Level 1: 자동화 [[123_pipe|파이프]]라인, Level 2: [[090_configuration_item|CI]]/CD)에 따라 조직의 [[190_ai_llm_requirements_specification|AI]] 생산성이 결정되며, [[163_data_drift_statistical_distribution_shift|데이터 드리프트]] 감지와 자동 재학습이 Level 2의 핵심 구성 요소다.
+> 1. **본질**: [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) ([Machine Learning Operations](/knowledge-base/studynote/12_it_management/05_security_compliance/220_mlops_machine_learning_operations/))는 ML (Machine [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)) 모델의 개발(Development)·배포([Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/))·운영(Operations) 전 주기를 자동화·표준화하는 엔지니어링 철학으로, [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 원칙을 ML 시스템에 적용하여 모델이 지속적으로 학습·배포·[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링되는 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 구축한다.
+> 2. **가치**: 연구소 실험 단계 모델이 실제 프로덕션 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 안정적으로 전환되지 못하는 "ML 프로젝트의 87% 배포 실패"라는 실무 문제를 해결하여, 모델 개발 사이클을 단축하고 운영 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 확보한다.
+> 3. **판단 포인트**: [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 성숙도 레벨(Level 0: 수동, Level 1: 자동화 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인, Level 2: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)에 따라 조직의 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 생산성이 결정되며, [데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/) 감지와 자동 재학습이 Level 2의 핵심 구성 요소다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[[001_dikw_pyramid|데이터]] 과학자가 정확도 95%의 고객 이탈 예측 모델을 개발했다. 하지만 이 모델을 [[090_service_kubernetes_network_load_balancing|서비스]] 서버에 배포하고 6개월 후 [[229_monitor|모니터]]링하는 전 과정을 수동으로 하면, 다음 문제가 발생한다:
-- 모델 코드가 서버 환경과 다른 Python [[288_version_ihl_tos_total_length|버전]]으로 실행 오류
-- 6개월 후 고객 행동 패턴 변화로 정확도 70%로 하락 ([[163_data_drift_statistical_distribution_shift|데이터 드리프트]])
-- 어떤 [[288_version_ihl_tos_total_length|버전]]이 프로덕션에 있는지 추적 불가 ([[288_version_ihl_tos_total_length|버전]] 관리 부재)
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학자가 정확도 95%의 고객 이탈 예측 모델을 개발했다. 하지만 이 모델을 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 서버에 배포하고 6개월 후 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링하는 전 과정을 수동으로 하면, 다음 문제가 발생한다:
+- 모델 코드가 서버 환경과 다른 Python [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)으로 실행 오류
+- 6개월 후 고객 행동 패턴 변화로 정확도 70%로 하락 ([데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/))
+- 어떤 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이 프로덕션에 있는지 추적 불가 ([버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 부재)
 
-**[[348_mlops|MLOps]]**는 DevOps의 [[090_configuration_item|CI]]/CD([[076_ci_continuous_integration|지속적 통합]]/배포), [[793_iac_idempotency_template|인프라 코드]]화, [[229_monitor|모니터]]링 원칙을 ML 시스템에 적용해 이 문제를 해결한다. 모델 학습에서 서빙까지 전 [[123_pipe|파이프]]라인이 자동화되고 추적 가능하게 된다.
+**[MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/)**는 DevOps의 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD([지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)/배포), [인프라 코드](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/)화, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 원칙을 ML 시스템에 적용해 이 문제를 해결한다. 모델 학습에서 서빙까지 전 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 자동화되고 추적 가능하게 된다.
 
 ```text
 ┌──────────────────────────────────────────────┐
@@ -31,7 +35,7 @@ tags:
 └──────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: [[348_mlops|MLOps]] 없는 ML 배포는 레스토랑 주방에서 셰프가 매번 손으로 모든 레시피를 처음부터 조리하는 것이다. 메뉴가 조금 바뀌면([[163_data_drift_statistical_distribution_shift|데이터 드리프트]]) 모든 조리법을 수동으로 다시 설계해야 한다. MLOps는 자동화된 식품 공장 라인처럼, 재료가 들어오면 자동으로 가공·품질검사·포장·배송되는 시스템이다.
+- **📢 섹션 요약 비유**: [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 없는 ML 배포는 레스토랑 주방에서 셰프가 매번 손으로 모든 레시피를 처음부터 조리하는 것이다. 메뉴가 조금 바뀌면([데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/)) 모든 조리법을 수동으로 다시 설계해야 한다. MLOps는 자동화된 식품 공장 라인처럼, 재료가 들어오면 자동으로 가공·품질검사·포장·배송되는 시스템이다.
 
 ---
 
@@ -64,54 +68,54 @@ tags:
 └──────────────────────────────────────────────────────────────────┘
 ```
 
-| [[348_mlops|MLOps]] 핵심 구성 요소 | 역할 | 대표 도구 |
+| [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 핵심 구성 요소 | 역할 | 대표 도구 |
 |:---|:---|:---|
-| 실험 추적 (Experiment Tracking) | 파라미터·[[342_routing_metric_hop_bandwidth_delay|메트릭]]·[[075_artifact_management_nexus_docker_registry|아티팩트]] 기록 | [[180_mlflow|MLflow]], Weights & Biases |
-| [[165_feature_store_training_serving_consistency|피처 스토어]] ([[165_feature_store_training_serving_consistency|Feature Store]]) | 특징 공유·재사용·[[456_caching|캐싱]] | Feast, Tecton, Vertex [[190_ai_llm_requirements_specification|AI]] |
-| [[166_model_registry_versioning_mlflow|모델 레지스트리]] ([[166_model_registry_versioning_mlflow|Model Registry]]) | 모델 [[288_version_ihl_tos_total_length|버전]]·상태 관리 | [[180_mlflow|MLflow]], AWS SageMaker |
-| [[123_pipe|파이프]]라인 [[073_container_orchestration_tools|오케스트레이션]] | 워크플로우 자동화 | [[167_kubeflow_kubernetes_ml_pipeline|Kubeflow]], Airflow, Argo |
-| 서빙 인프라 | 모델 추론 [[090_service_kubernetes_network_load_balancing|서비스]] | BentoML, Triton, TorchServe |
-| [[229_monitor|모니터]]링 | 드리프트·[[282_performance_tactics|성능]] 감시 | Evidently, WhyLogs |
+| 실험 추적 (Experiment Tracking) | 파라미터·[메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)·[아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) 기록 | [MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/), Weights & Biases |
+| [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/) ([Feature Store](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)) | 특징 공유·재사용·[캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) | Feast, Tecton, Vertex [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) |
+| [모델 레지스트리](/knowledge-base/studynote/14_data_engineering/04_mlops/166_model_registry_versioning_mlflow/) ([Model Registry](/knowledge-base/studynote/14_data_engineering/04_mlops/166_model_registry_versioning_mlflow/)) | 모델 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)·상태 관리 | [MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/), AWS SageMaker |
+| [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) | 워크플로우 자동화 | [Kubeflow](/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/), Airflow, Argo |
+| 서빙 인프라 | 모델 추론 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | BentoML, Triton, TorchServe |
+| [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 | 드리프트·[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 감시 | Evidently, WhyLogs |
 
-- **📢 섹션 요약 비유**: [[180_mlflow|MLflow]] 실험 추적은 요리 경연대회 심사 일지다. 참가자(모델)별로 레시피(하이퍼파라미터), 재료 원산지([[001_dikw_pyramid|데이터]]셋 [[288_version_ihl_tos_total_length|버전]]), 심사 점수(평가 [[342_routing_metric_hop_bandwidth_delay|메트릭]]), 최종 요리 사진(모델 [[075_artifact_management_nexus_docker_registry|아티팩트]])을 모두 기록한다. 나중에 "어느 레시피가 제일 맛있었나?"를 바로 찾아볼 수 있다.
+- **📢 섹션 요약 비유**: [MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/) 실험 추적은 요리 경연대회 심사 일지다. 참가자(모델)별로 레시피(하이퍼파라미터), 재료 원산지([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)), 심사 점수(평가 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)), 최종 요리 사진(모델 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/))을 모두 기록한다. 나중에 "어느 레시피가 제일 맛있었나?"를 바로 찾아볼 수 있다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-**[[652_devops_calms_culture|DevOps]] vs MLOps의 차이**:
-| 항목 | [[652_devops_calms_culture|DevOps]] | [[348_mlops|MLOps]] |
+**[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) vs MLOps의 차이**:
+| 항목 | [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) | [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) |
 |:---|:---|:---|
-| [[075_artifact_management_nexus_docker_registry|아티팩트]] | 코드(소프트웨어) | 코드 + [[001_dikw_pyramid|데이터]] + 모델 |
-| 테스트 | 유닛/[[400_integration_testing|통합 테스트]] | [[001_dikw_pyramid|데이터]] [[395_verification_process_review|검증]] + 모델 [[445_performance_test_types|성능 테스트]] |
-| 배포 [[507_acid_properties|트리거]] | 코드 커밋 | 코드 커밋 + 새 [[001_dikw_pyramid|데이터]] + 드리프트 감지 |
-| [[229_monitor|모니터]]링 | 시스템 [[342_routing_metric_hop_bandwidth_delay|메트릭]] (CPU, 에러율) | 시스템 + [[163_data_drift_statistical_distribution_shift|데이터 드리프트]] + 모델 정확도 |
+| [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) | 코드(소프트웨어) | 코드 + [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) + 모델 |
+| 테스트 | 유닛/[통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) + 모델 [성능 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/445_performance_test_types/) |
+| 배포 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) | 코드 커밋 | 코드 커밋 + 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) + 드리프트 감지 |
+| [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 | 시스템 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) (CPU, 에러율) | 시스템 + [데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/) + 모델 정확도 |
 
-- **📢 섹션 요약 비유**: [[348_mlops|MLOps]] = [[652_devops_calms_culture|DevOps]] + "[[001_dikw_pyramid|데이터]]라는 생물체 관리". 소프트웨어(코드)는 한 번 작성하면 변하지 않지만, ML 모델의 입력([[001_dikw_pyramid|데이터]])은 세상이 바뀌면 함께 변한다. DevOps는 공장 기계 유지보수, MLOps는 공장 기계 + 원재료([[001_dikw_pyramid|데이터]]) 품질 변화까지 감시하는 시스템이다.
+- **📢 섹션 요약 비유**: [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) = [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) + "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)라는 생물체 관리". 소프트웨어(코드)는 한 번 작성하면 변하지 않지만, ML 모델의 입력([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 세상이 바뀌면 함께 변한다. DevOps는 공장 기계 유지보수, MLOps는 공장 기계 + 원재료([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 품질 변화까지 감시하는 시스템이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[[348_mlops|MLOps]] 플랫폼 선택 기준**:
-1. **클라우드 의존**: AWS SageMaker, GCP Vertex [[190_ai_llm_requirements_specification|AI]], Azure ML → 완전 관리형, 높은 비용
-2. **[[191_oss_license_compliance|오픈소스]] 자체 구축**: [[167_kubeflow_kubernetes_ml_pipeline|Kubeflow]] + [[180_mlflow|MLflow]] + Airflow → 유연성, 구축·운영 부담
-3. **[[309_saas|SaaS]] 하이브리드**: Weights & Biases + Feast + BentoML 조합
+**[MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 플랫폼 선택 기준**:
+1. **클라우드 의존**: AWS SageMaker, GCP Vertex [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), Azure ML → 완전 관리형, 높은 비용
+2. **[오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 자체 구축**: [Kubeflow](/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/) + [MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/) + Airflow → 유연성, 구축·운영 부담
+3. **[SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 하이브리드**: Weights & Biases + Feast + BentoML 조합
 
-**[[348_mlops|MLOps]] 도입 [[012_roi_return_on_investment|ROI]] (투자 대비 수익)**:
+**[MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 도입 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) (투자 대비 수익)**:
 - 모델 배포 주기: 월 1회 → 일 1회로 단축
-- 모델 [[282_performance_tactics|성능]] 저하 탐지: 수동 발견(수주) → 자동 감지(시간 내)
-- [[001_dikw_pyramid|데이터]] 과학자 생산성: 비기술 인프라 작업 70% 감소
+- 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 탐지: 수동 발견(수주) → 자동 감지(시간 내)
+- [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학자 생산성: 비기술 인프라 작업 70% 감소
 
-- **📢 섹션 요약 비유**: [[348_mlops|MLOps]] 도입 ROI는 세탁기 구입 효과와 같다. 손빨래(수동 ML)는 매번 시간과 노력이 크지만, 세탁기([[348_mlops|MLOps]] 자동화) 구입 [[459_quic_fec_forward_error_correction|초기]] 비용 후에는 훨씬 적은 노력으로 더 자주, 더 깨끗하게 처리할 수 있다. 세탁기(자동화 [[123_pipe|파이프]]라인)가 있어야만 대규모 세탁(다수 ML 모델 운영)이 가능하다.
+- **📢 섹션 요약 비유**: [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 도입 ROI는 세탁기 구입 효과와 같다. 손빨래(수동 ML)는 매번 시간과 노력이 크지만, 세탁기([MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 자동화) 구입 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용 후에는 훨씬 적은 노력으로 더 자주, 더 깨끗하게 처리할 수 있다. 세탁기(자동화 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인)가 있어야만 대규모 세탁(다수 ML 모델 운영)이 가능하다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-MLOps는 AI를 실험실에서 세상으로 꺼내는 다리다. 아무리 뛰어난 모델도 안정적으로 배포·운영되지 않으면 아무 가치가 없다. [[348_mlops|MLOps]] Level 2의 완전 자동화 [[123_pipe|파이프]]라인은 [[001_dikw_pyramid|데이터]]가 들어오면 모델이 자동으로 재학습되고, [[282_performance_tactics|성능]]이 [[395_verification_process_review|검증]]되면 자동으로 프로덕션에 배포되는 "살아있는 [[190_ai_llm_requirements_specification|AI]] 시스템"을 구현한다. 이 역량이 [[190_ai_llm_requirements_specification|AI]] 프로젝트의 [[386_sustainability_green_coding|지속 가능성]]과 비즈니스 가치를 결정한다.
+MLOps는 AI를 실험실에서 세상으로 꺼내는 다리다. 아무리 뛰어난 모델도 안정적으로 배포·운영되지 않으면 아무 가치가 없다. [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) Level 2의 완전 자동화 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 들어오면 모델이 자동으로 재학습되고, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되면 자동으로 프로덕션에 배포되는 "살아있는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시스템"을 구현한다. 이 역량이 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 프로젝트의 [지속 가능성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/386_sustainability_green_coding/)과 비즈니스 가치를 결정한다.
 
-- **📢 섹션 요약 비유**: MLOps가 없는 AI는 레이싱카만 있고 정비소가 없는 것이다. 처음 레이스([[459_quic_fec_forward_error_correction|초기]] 배포)는 잘 달리지만 몇 바퀴 후(시간 경과) 타이어가 닳고([[163_data_drift_statistical_distribution_shift|데이터 드리프트]]) 엔진이 과열(시스템 오류)되어도 수리할 체계가 없다. MLOps는 모든 레이스에서 최고 [[282_performance_tactics|성능]]을 유지하는 자동화된 피트 스톱 팀이다.
+- **📢 섹션 요약 비유**: MLOps가 없는 AI는 레이싱카만 있고 정비소가 없는 것이다. 처음 레이스([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 배포)는 잘 달리지만 몇 바퀴 후(시간 경과) 타이어가 닳고([데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/)) 엔진이 과열(시스템 오류)되어도 수리할 체계가 없다. MLOps는 모든 레이스에서 최고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 유지하는 자동화된 피트 스톱 팀이다.
 
 ---
 
@@ -119,11 +123,11 @@ MLOps는 AI를 실험실에서 세상으로 꺼내는 다리다. 아무리 뛰�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[163_data_drift_statistical_distribution_shift|데이터 드리프트]] | 분포 변화, 모델 [[282_performance_tactics|성능]] 저하 / [[348_mlops|MLOps]] [[229_monitor|모니터]]링의 핵심 감시 대상 |
-| [[165_feature_store_training_serving_consistency|피처 스토어]] | 특징 공유, 재사용 / [[348_mlops|MLOps]] [[123_pipe|파이프]]라인의 [[001_dikw_pyramid|데이터]] 레이어 |
-| [[166_model_registry_versioning_mlflow|모델 레지스트리]] | [[288_version_ihl_tos_total_length|버전]] 관리, 배포 상태 / MLOps의 모델 관리 중앙 저장소 |
-| [[090_configuration_item|CI]]/CD | [[076_ci_continuous_integration|지속적 통합]]/배포, 자동화 / MLOps의 소프트웨어 엔지니어링 기반 |
-| [[167_kubeflow_kubernetes_ml_pipeline|Kubeflow]] | [[196_kubernetes_k8s_container_orchestration|쿠버네티스]], ML [[123_pipe|파이프]]라인 / 대표적 [[191_oss_license_compliance|오픈소스]] [[348_mlops|MLOps]] 플랫폼 |
+| [데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/) | 분포 변화, 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 / [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링의 핵심 감시 대상 |
+| [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/) | 특징 공유, 재사용 / [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레이어 |
+| [모델 레지스트리](/knowledge-base/studynote/14_data_engineering/04_mlops/166_model_registry_versioning_mlflow/) | [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리, 배포 상태 / MLOps의 모델 관리 중앙 저장소 |
+| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD | [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)/배포, 자동화 / MLOps의 소프트웨어 엔지니어링 기반 |
+| [Kubeflow](/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/) | [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/), ML [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 / 대표적 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 플랫폼 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -133,9 +137,9 @@ MLOps는 AI를 실험실에서 세상으로 꺼내는 다리다. 아무리 뛰�
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **[[348_mlops|MLOps]]**는 [[190_ai_llm_requirements_specification|AI]] 모델을 만들고, [[090_service_kubernetes_network_load_balancing|서비스]]에 올리고, 잘 작동하는지 감시하는 **전 과정을 자동으로** 처리하는 시스템이에요!
-2. "[[001_dikw_pyramid|데이터]] 준비 → 모델 학습 → 배포 → [[229_monitor|모니터]]링 → 다시 학습" 사이클을 사람 손 없이 **컨베이어 벨트처럼 자동으로** 돌아가게 해요.
-3. AI를 연구실에서 **실제 [[090_service_kubernetes_network_load_balancing|서비스]]로 안정적으로 이전**하는 데 반드시 필요한, [[190_ai_llm_requirements_specification|AI]] 엔지니어의 필수 기술이에요!
+1. **[MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/)**는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델을 만들고, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 올리고, 잘 작동하는지 감시하는 **전 과정을 자동으로** 처리하는 시스템이에요!
+2. "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 준비 → 모델 학습 → 배포 → [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 → 다시 학습" 사이클을 사람 손 없이 **컨베이어 벨트처럼 자동으로** 돌아가게 해요.
+3. AI를 연구실에서 **실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 안정적으로 이전**하는 데 반드시 필요한, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 엔지니어의 필수 기술이에요!
 
 ---
 
@@ -143,7 +147,7 @@ MLOps는 AI를 실험실에서 세상으로 꺼내는 다리다. 아무리 뛰�
 
 **진행 상황**: 321 / 420
 
-← **이전**: [[320_diffusion_model|320. 디퓨전 모델 (Diffusion Model)]]
-**다음**: [[322_data_concept_drift|322. 데이터 드리프트 (Data Drift) / 컨셉 드리프트 (Concept Drift)]] →
+← **이전**: [320. 디퓨전 모델 (Diffusion Model)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/320_diffusion_model/)
+**다음**: [322. 데이터 드리프트 (Data Drift) / 컨셉 드리프트 (Concept Drift)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/322_data_concept_drift/) →
 
 ---

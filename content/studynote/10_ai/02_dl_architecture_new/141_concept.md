@@ -1,14 +1,18 @@
----
-title: 141. LLM 핵심 개념 - 대규모 언어 모델의 원리와 구조
-date: '2026-04-19'
-tags:
-- studynote-ai
----
++++
+title = "141. LLM 핵심 개념 - 대규모 언어 모델의 원리와 구조"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-ai"]
+
+[extra]
+tags = ["studynote-ai"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [[263_llm_large_language_model|LLM]]([[263_llm_large_language_model|Large Language Model]])은 **수십~수천억 파라미터의 [[246_transformer_self_attention_parallel_positional_encoding|Transformer]] 기반 모델**을 대규모 텍스트로 사전 학습하여, 다음 토큰 예측(CLM)·빈칸 채우기([[138_mlm_learning|MLM]])를 통해 언어 이해·[[087_process_state_transition|생성]] 능력을 획득한 모델이다.
-> 2. **가치**: 특정 작업을 위한 별도 모델 학습 없이, **프롬프트만으로([[585_zero_skipping|Zero]]/Few-shot)** 번역·요약·코딩·추론 등 다양한 작업을 수행하며, [[249_scaling_normalization_standardization|스케일링]] 법칙에 의해 **모델 크기↑ → 능력 창발(Emergence)**이 나타난다.
-> 3. **판단 포인트**: 사전 학습(Pre-[[588_mlops_pipeline_automation|training]])→지시 튜닝([[147_instruction_tuning_rlhf_alignment|Instruction Tuning]])→[[250_rlhf_human_feedback_reinforcement_alignment_cot|RLHF]](인간 피드백 정렬)의 3단계가 ChatGPT급 모델의 학습 [[123_pipe|파이프]]라인이다.
+> 1. **본질**: [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)([Large Language Model](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))은 **수십~수천억 파라미터의 [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 기반 모델**을 대규모 텍스트로 사전 학습하여, 다음 토큰 예측(CLM)·빈칸 채우기([MLM](/knowledge-base/studynote/10_ai/02_dl_architecture_new/138_mlm_learning/))를 통해 언어 이해·[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 능력을 획득한 모델이다.
+> 2. **가치**: 특정 작업을 위한 별도 모델 학습 없이, **프롬프트만으로([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)/Few-shot)** 번역·요약·코딩·추론 등 다양한 작업을 수행하며, [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 법칙에 의해 **모델 크기↑ → 능력 창발(Emergence)**이 나타난다.
+> 3. **판단 포인트**: 사전 학습(Pre-[training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/))→지시 튜닝([Instruction Tuning](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/147_instruction_tuning_rlhf_alignment/))→[RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/)(인간 피드백 정렬)의 3단계가 ChatGPT급 모델의 학습 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이다.
 
 ---
 
@@ -21,13 +25,13 @@ LLM 학습 파이프라인:
   3. RLHF: 인간 선호 피드백 → 유해 출력 억제 → 정렬(Alignment)
 ```
 
-- **📢 섹션 요약 비유**: LLM은 **대학 교육(Pre-[[588_mlops_pipeline_automation|training]]) → 직무 교육(IT) → 사회생활 매너([[250_rlhf_human_feedback_reinforcement_alignment_cot|RLHF]])**의 3단계로 완성된다.
+- **📢 섹션 요약 비유**: LLM은 **대학 교육(Pre-[training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/)) → 직무 교육(IT) → 사회생활 매너([RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/))**의 3단계로 완성된다.
 
 ---
 
 ## Ⅱ~Ⅴ. 결론
 
-LLM은 **Pre-[[588_mlops_pipeline_automation|training]] + IT + [[250_rlhf_human_feedback_reinforcement_alignment_cot|RLHF]]**의 3단계로 완성되며, [[249_scaling_normalization_standardization|스케일링]] 법칙과 Emergence가 핵심 현상이다.
+LLM은 **Pre-[training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/) + IT + [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/)**의 3단계로 완성되며, [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 법칙과 Emergence가 핵심 현상이다.
 
 ---
 
@@ -35,10 +39,10 @@ LLM은 **Pre-[[588_mlops_pipeline_automation|training]] + IT + [[250_rlhf_human_
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[[263_llm_large_language_model|LLM]]** | [[582_llm_based_code_generation_tools|대규모 언어 모델]] |
-| **Pre-[[588_mlops_pipeline_automation|training]]** | 기반 능력 학습 |
-| **[[147_instruction_tuning_rlhf_alignment|Instruction Tuning]]** | 지시 따르기 |
-| **[[250_rlhf_human_feedback_reinforcement_alignment_cot|RLHF]]** | 인간 정렬 |
+| **[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)** | [대규모 언어 모델](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/582_llm_based_code_generation_tools/) |
+| **Pre-[training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/)** | 기반 능력 학습 |
+| **[Instruction Tuning](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/147_instruction_tuning_rlhf_alignment/)** | 지시 따르기 |
+| **[RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/)** | 인간 정렬 |
 | **Emergence** | 창발적 능력 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -51,8 +55,8 @@ LLM은 **Pre-[[588_mlops_pipeline_automation|training]] + IT + [[250_rlhf_human_
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. LLM은 **엄청 많은 책을 읽은 [[190_ai_llm_requirements_specification|AI]]**예요. 수십억 문장을 읽었어요.
-2. 책을 읽고(Pre-[[588_mlops_pipeline_automation|training]]), **선생님 말씀 듣는 법(IT)**을 배우고, **예의([[250_rlhf_human_feedback_reinforcement_alignment_cot|RLHF]])**를 배워요.
+1. LLM은 **엄청 많은 책을 읽은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)**예요. 수십억 문장을 읽었어요.
+2. 책을 읽고(Pre-[training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/)), **선생님 말씀 듣는 법(IT)**을 배우고, **예의([RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/))**를 배워요.
 3. ChatGPT처럼 **질문하면 답하는** 똑똑한 AI가 되는 거예요!
 
 ---
@@ -61,7 +65,7 @@ LLM은 **Pre-[[588_mlops_pipeline_automation|training]] + IT + [[250_rlhf_human_
 
 **진행 상황**: 141 / 420
 
-← **이전**: [[140_gpt|140. GPT (Generative Pre-trained Transformer) - 자기회귀 언어 모델]]
-**다음**: [[142_concept|142. LLM 스케일링 법칙 & Emergence - 규모의 법칙과 창발]] →
+← **이전**: [140. GPT (Generative Pre-trained Transformer) - 자기회귀 언어 모델](/knowledge-base/studynote/10_ai/02_dl_architecture_new/140_gpt/)
+**다음**: [142. LLM 스케일링 법칙 & Emergence - 규모의 법칙과 창발](/knowledge-base/studynote/10_ai/02_dl_architecture_new/142_concept/) →
 
 ---

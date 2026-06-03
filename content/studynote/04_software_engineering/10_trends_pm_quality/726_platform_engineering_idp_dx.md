@@ -1,31 +1,35 @@
----
-title: 726. 플랫폼 엔지니어링 IDP 포털 개발자 경험(DX)
-date: '2026-05-08'
-tags:
-- studynote-software-engineering
----
++++
+title = "726. 플랫폼 엔지니어링 IDP 포털 개발자 경험(DX)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-software-engineering"]
+
+[extra]
+tags = ["studynote-software-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[109_platform_engineering_cognitive_load|플랫폼 엔지니어링]] [[536_idp_identity_provider|IDP]] 포털 [[058_dx_developer_experience|개발자 경험]](DX)은(는) [[001_software_engineering_definition|소프트웨어 공학]]의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[[346_maintainability_portability|유지보수성]]·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) 포털 [개발자 경험](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/)(DX)은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-지난 10년간 IT 업계를 지배한 철학은 **"You build it, you run it (네가 만든 건 네가 운영해라)"**라는 DevOps였다. 개발팀이 코드도 짜고, AWS 서버도 세팅하고, [[196_kubernetes_k8s_container_orchestration|쿠버네티스]](K8s) 배포 스크립트도 직접 만들었다.
+지난 10년간 IT 업계를 지배한 철학은 **"You build it, you run it (네가 만든 건 네가 운영해라)"**라는 DevOps였다. 개발팀이 코드도 짜고, AWS 서버도 세팅하고, [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s) 배포 스크립트도 직접 만들었다.
 
-하지만 이 유토피아는 현실에서 **'개발자의 번아웃([[686_cognitive_load_team_topologies|인지 부하]] 초과)'**이라는 참사로 끝났다. 개발자가 자바(Java) 코딩을 하다가 K8s의 [[157_oom_killer|OOM]]([[157_oom_killer|Out of Memory]]) 에러를 잡고, [[195_terraform_hashicorp_agnostic_aws_gcp|테라폼]]([[195_terraform_hashicorp_agnostic_aws_gcp|Terraform]]) 문법을 공부하느라 진짜 돈을 버는 비즈니스 로직 개발은 뒷전이 되었다. 반대로 인프라팀은 각 개발팀이 마구잡이로 만들어낸 스파게티 인프라를 수습하느라 지쳐갔다.
+하지만 이 유토피아는 현실에서 **'개발자의 번아웃([인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/) 초과)'**이라는 참사로 끝났다. 개발자가 자바(Java) 코딩을 하다가 K8s의 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)([Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) 에러를 잡고, [테라폼](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)([Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)) 문법을 공부하느라 진짜 돈을 버는 비즈니스 로직 개발은 뒷전이 되었다. 반대로 인프라팀은 각 개발팀이 마구잡이로 만들어낸 스파게티 인프라를 수습하느라 지쳐갔다.
 
-이 문제를 해결하기 위해 **"개발자에게 인프라의 복잡성을 완전히 감춰주자!"**는 **[[109_platform_engineering_cognitive_load|플랫폼 엔지니어링]]([[109_platform_engineering_cognitive_load|Platform Engineering]])**이 등장했다. 사내 플랫폼 팀이 넷플릭스나 쿠팡 같은 멋진 '내부 포털([[536_idp_identity_provider|IDP]])'을 만들어주고, 개발자는 그곳에서 클릭 몇 번으로 인프라를 쇼핑하듯 받아 쓰는(Self-service) 새로운 패러다임이다.
+이 문제를 해결하기 위해 **"개발자에게 인프라의 복잡성을 완전히 감춰주자!"**는 **[플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)([Platform Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/))**이 등장했다. 사내 플랫폼 팀이 넷플릭스나 쿠팡 같은 멋진 '내부 포털([IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/))'을 만들어주고, 개발자는 그곳에서 클릭 몇 번으로 인프라를 쇼핑하듯 받아 쓰는(Self-service) 새로운 패러다임이다.
 
-- **📢 섹션 요약 비유**: 과거의 데브옵스가 요리사에게 "직접 가스레인지도 조립하고 후드 배관도 깔고 요리도 해"라고 강요했다면, [[109_platform_engineering_cognitive_load|플랫폼 엔지니어링]]은 "최고급 주방([[536_idp_identity_provider|IDP]])을 다 세팅해 뒀으니 넌 들어와서 버튼만 누르고 요리(코드)만 해!"라고 배려하는 것이다.
+- **📢 섹션 요약 비유**: 과거의 데브옵스가 요리사에게 "직접 가스레인지도 조립하고 후드 배관도 깔고 요리도 해"라고 강요했다면, [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)은 "최고급 주방([IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/))을 다 세팅해 뒀으니 넌 들어와서 버튼만 누르고 요리(코드)만 해!"라고 배려하는 것이다.
 
 ---
 
-다음은 [[109_platform_engineering_cognitive_load|플랫폼 엔지니어링]] [[536_idp_identity_provider|IDP]] 포털 개발자의 핵심 구조와 흐름을 보여주는 다이어그램이다.
+다음은 [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) 포털 개발자의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -40,7 +44,7 @@ tags:
 └─────────────────────────────────────────────────────────────┘
 ```
 
-이 다이어그램은 [[109_platform_engineering_cognitive_load|플랫폼 엔지니어링]] [[536_idp_identity_provider|IDP]] 포털 개발자가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
+이 다이어그램은 [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) 포털 개발자가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
 ---
 
@@ -50,13 +54,13 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[[109_platform_engineering_cognitive_load|플랫폼 엔지니어링]]의 최종 산출물은 **[[536_idp_identity_provider|IDP]] (Internal Developer Portal, 내부 개발자 포털)**다.
+[플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)의 최종 산출물은 **[IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) (Internal Developer Portal, 내부 개발자 포털)**다.
 
-- **📢 섹션 요약 비유**: [[109_platform_engineering_cognitive_load|플랫폼 엔지니어링]] [[536_idp_identity_provider|IDP]] 포털 [[058_dx_developer_experience|개발자 경험]](DX)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) 포털 [개발자 경험](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/)(DX)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 | 항목 | 설명 | 비고 |
 | :--- | :--- | :--- |
-| 핵심 특성 | [[109_platform_engineering_cognitive_load|플랫폼 엔지니어링]] [[536_idp_identity_provider|IDP]] 포털 [[058_dx_developer_experience|개발자 경험]](DX)의 핵심 특성과 동작 방식 | 필수 이해 요소 |
+| 핵심 특성 | [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) 포털 [개발자 경험](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/)(DX)의 핵심 특성과 동작 방식 | 필수 이해 요소 |
 | 적용 범위 | 어떤 프로젝트·상황에서 활용하는지 | 선택 기준 |
 | 제약 조건 | 적용 시 주의해야 할 전제·한계 | 트레이드오프 |
 
@@ -68,16 +72,16 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-[[109_platform_engineering_cognitive_load|플랫폼 엔지니어링]]은 데브옵스의 실패를 부정하는 것이 아니라, 데브옵스의 '다음 진화 단계'다.
+[플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)은 데브옵스의 실패를 부정하는 것이 아니라, 데브옵스의 '다음 진화 단계'다.
 
-| 비교 항목 | 전통적 IT 운영 (Ops) | [[652_devops_calms_culture|DevOps]] (2010년대) | [[109_platform_engineering_cognitive_load|플랫폼 엔지니어링]] (2020년대) |
+| 비교 항목 | 전통적 IT 운영 (Ops) | [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) (2010년대) | [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) (2020년대) |
 |:---|:---|:---|:---|
-| **일하는 방식** | 티켓 발행 (Jira) $\rightarrow$ 사람이 수동 세팅 | 개발자가 인프라 스크립트([[793_iac_idempotency_template|IaC]]) 직접 코딩 | **[[536_idp_identity_provider|IDP]](포털)에서 셀프 [[090_service_kubernetes_network_load_balancing|서비스]]로 원클릭 자동 세팅** |
-| **개발자의 [[686_cognitive_load_team_topologies|인지 부하]]**| 낮음 (다 남이 해줌) | **극도로 높음 (번아웃)** | **다시 낮아짐 (추상화됨)** |
-| **플랫폼 팀의 정체성**| 인프라 지원팀 ([[084_support_association_rule_transaction|Support]]) | 도구 제공팀 (Tooling) | **'[[536_idp_identity_provider|IDP]]'라는 사내 제품을 파는 프로덕트 팀** |
-| **[[018_kpi|핵심 성과 지표]]** | 장애율 (Uptime) | 배포 빈도 ([[201_dora_metrics_devops_performance|DORA Metrics]]) | **[[058_dx_developer_experience|개발자 경험]] (DX, Developer Experience)** |
+| **일하는 방식** | 티켓 발행 (Jira) $\rightarrow$ 사람이 수동 세팅 | 개발자가 인프라 스크립트([IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/)) 직접 코딩 | **[IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/)(포털)에서 셀프 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 원클릭 자동 세팅** |
+| **개발자의 [인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/)**| 낮음 (다 남이 해줌) | **극도로 높음 (번아웃)** | **다시 낮아짐 (추상화됨)** |
+| **플랫폼 팀의 정체성**| 인프라 지원팀 ([Support](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/)) | 도구 제공팀 (Tooling) | **'[IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/)'라는 사내 제품을 파는 프로덕트 팀** |
+| **[핵심 성과 지표](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/)** | 장애율 (Uptime) | 배포 빈도 ([DORA Metrics](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/201_dora_metrics_devops_performance/)) | **[개발자 경험](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/) (DX, Developer Experience)** |
 
-- **📢 섹션 요약 비유**: 과거 운영팀이 "말하면 해줄게(수동)"였다면, DevOps는 "네가 알아서 해봐(방목)"였고, [[109_platform_engineering_cognitive_load|플랫폼 엔지니어링]]은 "네가 [[289_cqrs_db|쓰기]] 편하게 다 세팅해놨으니 버튼만 눌러(셀프 [[090_service_kubernetes_network_load_balancing|서비스]])"로 진화한 것이다.
+- **📢 섹션 요약 비유**: 과거 운영팀이 "말하면 해줄게(수동)"였다면, DevOps는 "네가 알아서 해봐(방목)"였고, [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)은 "네가 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 편하게 다 세팅해놨으니 버튼만 눌러(셀프 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))"로 진화한 것이다.
 
 ---
 
@@ -89,9 +93,9 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-최근 스포티파이(Spotify)가 오픈소스로 공개한 **Backstage**가 [[536_idp_identity_provider|IDP]] 시장의 절대적인 글로벌 표준으로 자리 잡았다.
+최근 스포티파이(Spotify)가 오픈소스로 공개한 **Backstage**가 [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) 시장의 절대적인 글로벌 표준으로 자리 잡았다.
 
-- **📢 섹션 요약 비유**: [[109_platform_engineering_cognitive_load|플랫폼 엔지니어링]] [[536_idp_identity_provider|IDP]] 포털 [[058_dx_developer_experience|개발자 경험]](DX)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) 포털 [개발자 경험](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/)(DX)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 ---
 
@@ -101,11 +105,11 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-[[109_platform_engineering_cognitive_load|플랫폼 엔지니어링]]과 IDP를 성공적으로 도입하면, 신규 입사한 개발자가 첫날 오전에 IDP에서 버튼 하나를 눌러 자신만의 프로젝트와 파이프라인을 세팅하고, 오후에 첫 코드를 실서버에 배포하는 엄청난 **[[058_dx_developer_experience|개발자 경험]](DX, Developer Experience)** 혁신이 일어난다.
+[플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)과 IDP를 성공적으로 도입하면, 신규 입사한 개발자가 첫날 오전에 IDP에서 버튼 하나를 눌러 자신만의 프로젝트와 파이프라인을 세팅하고, 오후에 첫 코드를 실서버에 배포하는 엄청난 **[개발자 경험](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/)(DX, Developer Experience)** 혁신이 일어난다.
 
-결론적으로 소프트웨어 아키텍처는 기술의 문제를 넘어 '조직의 문제(Conway's Law)'를 다루는 영역으로 넘어왔다. 기술 리더(CTO)는 외부 고객을 위한 앱뿐만 아니라, 우리 회사 내부 개발자들을 위한 우아한 플랫폼([[536_idp_identity_provider|IDP]])을 구축하는 데 막대한 예산과 엘리트 인력을 투자해야만 기업의 개발 생산성을 극대화할 수 있다.
+결론적으로 소프트웨어 아키텍처는 기술의 문제를 넘어 '조직의 문제(Conway's Law)'를 다루는 영역으로 넘어왔다. 기술 리더(CTO)는 외부 고객을 위한 앱뿐만 아니라, 우리 회사 내부 개발자들을 위한 우아한 플랫폼([IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/))을 구축하는 데 막대한 예산과 엘리트 인력을 투자해야만 기업의 개발 생산성을 극대화할 수 있다.
 
-- **📢 섹션 요약 비유**: 전쟁터(비즈니스)에서 이기려면 싸우는 군인(개발자)의 총과 식량을 제때 공급해 주는 병참 시스템(플랫폼)이 완벽해야 한다. [[109_platform_engineering_cognitive_load|플랫폼 엔지니어링]]은 군인들이 보급품 걱정 없이 오직 적을 쓰러뜨리는 데만 집중하게 만드는 최고의 군수 지원 시스템이다.
+- **📢 섹션 요약 비유**: 전쟁터(비즈니스)에서 이기려면 싸우는 군인(개발자)의 총과 식량을 제때 공급해 주는 병참 시스템(플랫폼)이 완벽해야 한다. [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)은 군인들이 보급품 걱정 없이 오직 적을 쓰러뜨리는 데만 집중하게 만드는 최고의 군수 지원 시스템이다.
 
 ---
 
@@ -119,10 +123,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[001_software_engineering_definition|소프트웨어 공학]] ([[001_software_engineering_definition|Software Engineering]]) | [[109_platform_engineering_cognitive_load|플랫폼 엔지니어링]] [[536_idp_identity_provider|IDP]] 포털 [[058_dx_developer_experience|개발자 경험]](DX)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [[003_sdlc|소프트웨어 생명주기]] ([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]], Software Development Life Cycle) | [[109_platform_engineering_cognitive_load|플랫폼 엔지니어링]] [[536_idp_identity_provider|IDP]] 포털 [[058_dx_developer_experience|개발자 경험]](DX)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | [[109_platform_engineering_cognitive_load|플랫폼 엔지니어링]] [[536_idp_identity_provider|IDP]] 포털 [[058_dx_developer_experience|개발자 경험]](DX) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [[020_software_configuration_management|형상 관리]] ([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]]) | [[109_platform_engineering_cognitive_load|플랫폼 엔지니어링]] [[536_idp_identity_provider|IDP]] 포털 [[058_dx_developer_experience|개발자 경험]](DX)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) 포털 [개발자 경험](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/)(DX)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) 포털 [개발자 경험](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/)(DX)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) 포털 [개발자 경험](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/)(DX) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) 포털 [개발자 경험](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/)(DX)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -142,13 +146,13 @@ tags:
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [[002_software_crisis|소프트웨어 위기]] 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [[109_platform_engineering_cognitive_load|플랫폼 엔지니어링]] [[536_idp_identity_provider|IDP]] 포털 [[058_dx_developer_experience|개발자 경험]](DX)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) 포털 [개발자 경험](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/)(DX)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
 
 ---
 
@@ -156,7 +160,7 @@ tags:
 
 **진행 상황**: 899 / 973
 
-← **이전**: [[725_declarative_infrastructure_reconciliation_loop|725. 선언적 인프라 상태 일치 루프]]
-**다음**: [[727_dora_metrics_4_indicators|727. DORA 메트릭스 4대 지표 (배포 빈도 등)]] →
+← **이전**: [725. 선언적 인프라 상태 일치 루프](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/725_declarative_infrastructure_reconciliation_loop/)
+**다음**: [727. DORA 메트릭스 4대 지표 (배포 빈도 등)](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/727_dora_metrics_4_indicators/) →
 
 ---

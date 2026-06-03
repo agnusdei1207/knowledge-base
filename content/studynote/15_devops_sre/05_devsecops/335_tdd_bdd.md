@@ -1,16 +1,19 @@
----
-title: 335. TDD BDD 인수테스트 Mock 격리 (TDD BDD Acceptance Testing Mock Stub Spy Test Pyramid
-  Red Green Refactor)
-date: '2026-05-09'
-tags:
-- studynote-devops-sre
----
++++
+title = "335. TDD BDD 인수테스트 Mock 격리 (TDD BDD Acceptance Testing Mock Stub Spy Test Pyramid Red Green Refactor)"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-devops-sre"]
+
+[extra]
+tags = ["studynote-devops-sre"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[164_tdd_test_driven_development|TDD]] ([[411_process|Test-Driven Development]], [[077_tdd_test_driven_development|테스트 주도 개발]])는 Red-Green-[[213_refactoring_cloud_native_rearchitecture|Refactor]] 사이클로 코드를 설계하는 방법론이다. [[165_bdd_behavior_driven_development|BDD]] ([[126_bdd_behavior_driven_development_given_when_then|Behavior-Driven Development]], [[412_process|행위 주도 개발]])는 TDD를 확장해 비즈니스 언어(Given/When/Then)로 테스트를 기술하고 [[173_stakeholder_identification_impact_matrix|이해관계자]]와 소통한다.
-> 2. **설계 효과**: TDD를 실천하면 테스트 가능한 코드가 자연스럽게 나온다. 테스트 불가능한 코드는 설계가 잘못된 [[130_signal|신호]]다. [[243_srp_single_responsibility_principle|SRP]] ([[243_srp_single_responsibility_principle|Single Responsibility Principle]]), [[190_enterprise_di_framework_lifecycle|DI]] ([[337_dependency_injection|Dependency Injection]])이 자연스럽게 강제된다.
-> 3. **판단 포인트**: 테스트 피라미드(Test Pyramid)에서 [[397_unit_test|단위 테스트]]([[397_unit_test|Unit Test]])가 기반이 되어야 한다. [[462_mock_test_double|Mock]]/[[460_stub_test_double|Stub]]/Spy로 외부 의존성을 격리해 [[397_unit_test|단위 테스트]]를 빠르고 안정적으로 유지하는 것이 핵심이다.
+> 1. **본질**: [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) ([Test-Driven Development](/knowledge-base/studynote/11_design_supervision/06_exam_summary/411_process/), [테스트 주도 개발](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/077_tdd_test_driven_development/))는 Red-Green-[Refactor](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 사이클로 코드를 설계하는 방법론이다. [BDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/) ([Behavior-Driven Development](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/126_bdd_behavior_driven_development_given_when_then/), [행위 주도 개발](/knowledge-base/studynote/11_design_supervision/06_exam_summary/412_process/))는 TDD를 확장해 비즈니스 언어(Given/When/Then)로 테스트를 기술하고 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)와 소통한다.
+> 2. **설계 효과**: TDD를 실천하면 테스트 가능한 코드가 자연스럽게 나온다. 테스트 불가능한 코드는 설계가 잘못된 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)다. [SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/) ([Single Responsibility Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/)), [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) ([Dependency Injection](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/))이 자연스럽게 강제된다.
+> 3. **판단 포인트**: 테스트 피라미드(Test Pyramid)에서 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)([Unit Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/))가 기반이 되어야 한다. [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/)/[Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/)/Spy로 외부 의존성을 격리해 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)를 빠르고 안정적으로 유지하는 것이 핵심이다.
 
 ---
 
@@ -18,7 +21,7 @@ tags:
 
 소프트웨어 개발에서 버그는 발견 시점이 늦을수록 수정 비용이 기하급수적으로 증가한다. IBM 연구에 따르면 프로덕션에서 발견된 버그는 설계 단계에서 발견된 것보다 100배 비용이 더 든다.
 
-TDD는 이 문제를 코딩 시점에 해결한다. 테스트를 먼저 작성하면 구현 전에 요구사항을 명확히 정의하고, 구현 직후 테스트로 [[395_verification_process_review|검증]]한다. 리그레션(Regression) 버그도 자동으로 잡힌다.
+TDD는 이 문제를 코딩 시점에 해결한다. 테스트를 먼저 작성하면 구현 전에 요구사항을 명확히 정의하고, 구현 직후 테스트로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. 리그레션(Regression) 버그도 자동으로 잡힌다.
 
 BDD는 TDD의 테스트가 너무 기술적이어서 비개발자가 이해하기 어렵다는 한계를 해결한다. Given/When/Then으로 시나리오를 기술하면 PO (Product Owner), QA, 개발자가 같은 문서를 공유한다.
 

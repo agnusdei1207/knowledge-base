@@ -1,14 +1,18 @@
----
-title: 133. 볼류메트릭 비디오 & 홀로그램 - 3D 실감 콘텐츠 기술
-date: '2026-04-19'
-tags:
-- studynote-ict-convergence
----
++++
+title = "133. 볼류메트릭 비디오 & 홀로그램 - 3D 실감 콘텐츠 기술"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-ict-convergence"]
+
+[extra]
+tags = ["studynote-ict-convergence"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 볼류메트릭 비디오(Volumetric Video)는 **피사체를 360도 다방향 카메라로 촬영하여 3D 포인트 클라우드/메시로 재구성**한 콘텐츠이며, 시청자가 **자유 시점(Free Viewpoint)**에서 감상할 수 있다.
 > 2. **가치**: 기존 2D 영상은 촬영 각도에 고정되지만, 볼류메트릭은 **원하는 각도에서 자유롭게 관찰**할 수 있어 XR·스포츠 중계·공연·교육에 혁신적 경험을 제공한다.
-> 3. **판단 포인트**: [[001_dikw_pyramid|데이터]]량이 막대(프레임당 수백MB)하여 **[[347_compaction|압축]]·스트리밍·렌더링 최적화**가 핵심 과제이며, NeRF·3D Gaussian Splatting이 차세대 기술이다.
+> 3. **판단 포인트**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)량이 막대(프레임당 수백MB)하여 **[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)·스트리밍·렌더링 최적화**가 핵심 과제이며, NeRF·3D Gaussian Splatting이 차세대 기술이다.
 
 ---
 
@@ -30,7 +34,7 @@ tags:
 |:---|:---|:---|:---|
 | **시점** | 고정 | 회전 | **자유** |
 | **깊이** | 없음 | 없음 | **있음** |
-| **[[001_dikw_pyramid|데이터]]** | 소 | 중 | **대** |
+| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)** | 소 | 중 | **대** |
 
 ---
 
@@ -47,7 +51,7 @@ tags:
 | **볼류메트릭** | 3D 실감 비디오 |
 | **NeRF** | 신경 방사장 (소수 사진→3D) |
 | **Gaussian Splatting** | 실시간 3D 렌더링 |
-| **포인트 클라우드** | 3D 점 [[001_dikw_pyramid|데이터]] |
+| **포인트 클라우드** | 3D 점 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 | **Free Viewpoint** | 자유 시점 감상 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -69,7 +73,7 @@ tags:
 
 **진행 상황**: 133 / 552
 
-← **이전**: [[132_v_slam_visual_slam_camera|132. Visual SLAM (V-SLAM) - 카메라 기반 동시 위치 추정과 지도 작성]]
-**다음**: [[134_metaverse_virtual_reality_economy|134. 메타버스 & 가상 현실 경제 - 디지털 세계의 경제 생태계]] →
+← **이전**: [132. Visual SLAM (V-SLAM) - 카메라 기반 동시 위치 추정과 지도 작성](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/132_v_slam_visual_slam_camera/)
+**다음**: [134. 메타버스 & 가상 현실 경제 - 디지털 세계의 경제 생태계](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/134_metaverse_virtual_reality_economy/) →
 
 ---

@@ -1,22 +1,26 @@
----
-title: 148. 그룹 바이 (GROUP BY) / 해빙 (HAVING) - HAVING은 그룹화 결과에 대한 조건
-date: '2026-05-03'
-tags:
-- studynote-database
----
++++
+title = "148. 그룹 바이 (GROUP BY) / 해빙 (HAVING) - HAVING은 그룹화 결과에 대한 조건"
+date = 2026-05-03
+
+[taxonomies]
+tags = ["studynote-database"]
+
+[extra]
+tags = ["studynote-database"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: `GROUP BY`는 수백만 건의 원본 [[001_dikw_pyramid|데이터]]를 지정된 기준(예: 부서명)으로 묶어 요약된 집계 덩어리로 [[347_compaction|압축]]하는 연산이며, `HAVING`은 그 [[347_compaction|압축]]된 결과 통계값에 대해 조건을 걸어 걸러내는 2차 필터링 구문이다.
-> 2. **가치**: 개별 [[001_dikw_pyramid|데이터]] 1건을 심사하는 `WHERE` 절의 한계를 넘어, [[282_business_intelligence_bi_technology_framework|비즈니스 인텔리전스]](BI)가 요구하는 거시적 집단 통계(예: "평균 매출 10억 이상인 우수 지점")를 단 한 번의 [[298_qkv_attention|쿼리]]로 추출할 수 있게 한다.
-> 3. **판단 포인트**: `WHERE` 절에서 1차로 개별 불량 [[001_dikw_pyramid|데이터]]를 버려 그룹핑 연산 부하를 줄이고, [[087_process_state_transition|생성]]된 그룹 통계에 `HAVING`을 적용하는 투트랙(Two-track) 필터링 설계가 [[002_database_definition|데이터베이스]] [[282_performance_tactics|성능]] 튜닝의 핵심이다.
+> 1. **본질**: `GROUP BY`는 수백만 건의 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 지정된 기준(예: 부서명)으로 묶어 요약된 집계 덩어리로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하는 연산이며, `HAVING`은 그 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)된 결과 통계값에 대해 조건을 걸어 걸러내는 2차 필터링 구문이다.
+> 2. **가치**: 개별 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 1건을 심사하는 `WHERE` 절의 한계를 넘어, [비즈니스 인텔리전스](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/282_business_intelligence_bi_technology_framework/)(BI)가 요구하는 거시적 집단 통계(예: "평균 매출 10억 이상인 우수 지점")를 단 한 번의 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)로 추출할 수 있게 한다.
+> 3. **판단 포인트**: `WHERE` 절에서 1차로 개별 불량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 버려 그룹핑 연산 부하를 줄이고, [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 그룹 통계에 `HAVING`을 적용하는 투트랙(Two-track) 필터링 설계가 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝의 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-`GROUP BY` 절은 동일한 값을 가진 행(Row)들을 [[369_logic_bomb|논리]]적인 하나의 그룹으로 묶어 통계 연산을 수행하는 [[038_relational_algebra|관계 대수]] 연산이다. 반면 `HAVING` 절은 `GROUP BY`로 [[087_process_state_transition|생성]]된 각 그룹에 대해 [[147_aggregate_function_group_by|집계 함수]](`SUM`, `AVG`, `COUNT` 등)의 결과를 조건으로 검사하여 불합격한 그룹을 통째로 제외하는 전용 필터링 구문이다.
+`GROUP BY` 절은 동일한 값을 가진 행(Row)들을 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적인 하나의 그룹으로 묶어 통계 연산을 수행하는 [관계 대수](/knowledge-base/studynote/05_database/01_db_architecture_relational/038_relational_algebra/) 연산이다. 반면 `HAVING` 절은 `GROUP BY`로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 각 그룹에 대해 [집계 함수](/knowledge-base/studynote/05_database/03_relational_model/147_aggregate_function_group_by/)(`SUM`, `AVG`, `COUNT` 등)의 결과를 조건으로 검사하여 불합격한 그룹을 통째로 제외하는 전용 필터링 구문이다.
 
-그룹핑 연산은 왜 `WHERE` 절로 해결할 수 없을까? `WHERE` 절은 디스크에서 [[001_dikw_pyramid|데이터]]를 퍼 올릴 때 개별 행(Row) 단위로 참/거짓을 평가한다. 즉, 여러 행이 뭉쳐야만 계산할 수 있는 '평균'이나 '합계' 같은 통계 점수는 [[001_dikw_pyramid|데이터]]가 모두 묶이기 전인 `WHERE` 단계에서는 물리적으로 알 수 없다. 따라서 "그룹으로 묶은 **이후(After)**에 그 통계값을 채점할 전용 검색대"가 구조적으로 필요해졌고, 이것이 `HAVING` 절이 탄생한 이유다.
+그룹핑 연산은 왜 `WHERE` 절로 해결할 수 없을까? `WHERE` 절은 디스크에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 퍼 올릴 때 개별 행(Row) 단위로 참/거짓을 평가한다. 즉, 여러 행이 뭉쳐야만 계산할 수 있는 '평균'이나 '합계' 같은 통계 점수는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 모두 묶이기 전인 `WHERE` 단계에서는 물리적으로 알 수 없다. 따라서 "그룹으로 묶은 **이후(After)**에 그 통계값을 채점할 전용 검색대"가 구조적으로 필요해졌고, 이것이 `HAVING` 절이 탄생한 이유다.
 
 - **📢 섹션 요약 비유**: 수영 대회 예선전과 같습니다. `WHERE` 절은 수영장에 들어가기 전 '키 150cm 이하 선수'를 돌려보내는 개별 신체검사입니다. `GROUP BY`는 남은 선수들을 4명씩 릴레이 팀으로 묶는 과정입니다. `HAVING` 절은 팀의 '합산 기록(SUM)'이 10분을 넘기면 4명 팀 전체를 통째로 탈락시키는 무서운 연대 책임입니다.
 
@@ -24,7 +28,7 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-SQL [[298_qkv_attention|쿼리]]의 실행 순서는 작성된 텍스트 순서와 전혀 다르며, 이 실행 순서를 이해하는 것이 튜닝의 출발점이다.
+SQL [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)의 실행 순서는 작성된 텍스트 순서와 전혀 다르며, 이 실행 순서를 이해하는 것이 튜닝의 출발점이다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -47,7 +51,7 @@ SQL [[298_qkv_attention|쿼리]]의 실행 순서는 작성된 텍스트 순서�
 └─────────────────────────────────────────────────────────────┘
 ```
 
-가장 흔한 에러는 `GROUP BY`의 컬럼 제한 규칙을 어길 때 발생한다. `SELECT 부서, 이름, SUM(급여) FROM 사원 GROUP BY 부서;`를 실행하면 에러가 난다. 1만 명을 10개의 부서 단위로 뭉개서 [[347_compaction|압축]]했는데, [[347_compaction|압축]]되어 사라진 개별 사원의 '이름'을 출력하라고 지시했기 때문이다. `GROUP BY`를 쓰면 `SELECT` 절에는 오직 믹서기의 기준이 된 컬럼(`부서`)과 [[147_aggregate_function_group_by|집계 함수]]의 결과물(`SUM`)만 적을 수 있다.
+가장 흔한 에러는 `GROUP BY`의 컬럼 제한 규칙을 어길 때 발생한다. `SELECT 부서, 이름, SUM(급여) FROM 사원 GROUP BY 부서;`를 실행하면 에러가 난다. 1만 명을 10개의 부서 단위로 뭉개서 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)했는데, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)되어 사라진 개별 사원의 '이름'을 출력하라고 지시했기 때문이다. `GROUP BY`를 쓰면 `SELECT` 절에는 오직 믹서기의 기준이 된 컬럼(`부서`)과 [집계 함수](/knowledge-base/studynote/05_database/03_relational_model/147_aggregate_function_group_by/)의 결과물(`SUM`)만 적을 수 있다.
 
 - **📢 섹션 요약 비유**: 포도 100알을 믹서기에 갈아 포도 주스 1잔(`GROUP BY`)으로 만들었습니다. 주방장에게 "아까 넣은 34번째 포도알 껍질 색깔 좀 보여줘!"라고 하면 화를 냅니다. 이미 다 갈려 형체가 사라졌으므로, 전체 주스의 당도(`SUM`, `AVG`)만 물어볼 수 있습니다.
 
@@ -55,16 +59,16 @@ SQL [[298_qkv_attention|쿼리]]의 실행 순서는 작성된 텍스트 순서�
 
 ## Ⅲ. 비교 및 연결
 
-`WHERE`와 `HAVING`은 둘 다 [[001_dikw_pyramid|데이터]]를 걸러내는 필터지만, 시스템 부하와 튜닝 관점에서는 결정적 차이가 있다.
+`WHERE`와 `HAVING`은 둘 다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 걸러내는 필터지만, 시스템 부하와 튜닝 관점에서는 결정적 차이가 있다.
 
 | 비교 항목 | `WHERE` 절 (조기 진압) | `HAVING` 절 (사후 진압) |
 | :--- | :--- | :--- |
-| **필터링 시점** | [[001_dikw_pyramid|데이터]]가 `GROUP BY`로 묶이기 **전** | [[001_dikw_pyramid|데이터]]가 `GROUP BY`로 묶인 **후** |
-| **평가 대상** | 개별 행(Row)의 컬럼 값 | 그룹 전체의 [[147_aggregate_function_group_by|집계 함수]](`SUM`, `AVG` 등) 결과값 |
-| **[[282_performance_tactics|성능]] 최적화 효과** | 쓸모없는 [[001_dikw_pyramid|데이터]]를 미리 버려 **메모리와 연산 부하를 대폭 줄임** | 일단 모든 계산을 다 한 뒤에 버리므로 **연산 낭비가 발생할 수 있음** |
-| **제약 사항** | [[147_aggregate_function_group_by|집계 함수]](`SUM`, `AVG`) 사용 불가 | [[147_aggregate_function_group_by|집계 함수]]를 조건으로 사용할 수 있는 유일한 곳 |
+| **필터링 시점** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 `GROUP BY`로 묶이기 **전** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 `GROUP BY`로 묶인 **후** |
+| **평가 대상** | 개별 행(Row)의 컬럼 값 | 그룹 전체의 [집계 함수](/knowledge-base/studynote/05_database/03_relational_model/147_aggregate_function_group_by/)(`SUM`, `AVG` 등) 결과값 |
+| **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 효과** | 쓸모없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 미리 버려 **메모리와 연산 부하를 대폭 줄임** | 일단 모든 계산을 다 한 뒤에 버리므로 **연산 낭비가 발생할 수 있음** |
+| **제약 사항** | [집계 함수](/knowledge-base/studynote/05_database/03_relational_model/147_aggregate_function_group_by/)(`SUM`, `AVG`) 사용 불가 | [집계 함수](/knowledge-base/studynote/05_database/03_relational_model/147_aggregate_function_group_by/)를 조건으로 사용할 수 있는 유일한 곳 |
 
-만약 특정 부서 하나만의 평균을 보고 싶다면, `HAVING 부서 = '영업부'`를 쓰는 것은 최악의 [[128_water_scrum_fall_anti_pattern|안티패턴]]이다. 10만 명을 모두 메모리에 올려 100개 부서의 평균을 다 계산한 뒤 마지막에 영업부 1개만 남기고 99개를 버리기 때문이다. 반면 `WHERE 부서 = '영업부'`로 먼저 필터링하면 처음부터 영업부 [[001_dikw_pyramid|데이터]] 1천 명만 골라내어 연산하므로 속도가 100배 빨라진다.
+만약 특정 부서 하나만의 평균을 보고 싶다면, `HAVING 부서 = '영업부'`를 쓰는 것은 최악의 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다. 10만 명을 모두 메모리에 올려 100개 부서의 평균을 다 계산한 뒤 마지막에 영업부 1개만 남기고 99개를 버리기 때문이다. 반면 `WHERE 부서 = '영업부'`로 먼저 필터링하면 처음부터 영업부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 1천 명만 골라내어 연산하므로 속도가 100배 빨라진다.
 
 - **📢 섹션 요약 비유**: 사과 100박스 중 빨간 사과 통계만 필요할 때, `WHERE` 튜닝은 농장에서 파란 사과를 아예 싣지 않고 출발하는 훌륭한 사장님입니다. `HAVING`에 일반 조건을 거는 것은 파란 사과까지 전부 트럭에 싣고 서울로 와서 비싸게 주스를 다 짜놓은 다음 "아 파란색 주스는 버려"라고 하는 낭비입니다.
 
@@ -72,26 +76,26 @@ SQL [[298_qkv_attention|쿼리]]의 실행 순서는 작성된 텍스트 순서�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 [[002_database_definition|데이터베이스]] 엔진의 부하를 줄이고 정확한 통계를 뽑기 위해 `GROUP BY`와 `HAVING`은 정밀하게 다뤄져야.
+실무에서 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 엔진의 부하를 줄이고 정확한 통계를 뽑기 위해 `GROUP BY`와 `HAVING`은 정밀하게 다뤄져야.
 
-### [[435_checklist_based_testing|체크리스트]] 및 실무 시나리오
-1. **HAVING을 활용한 '중복 [[001_dikw_pyramid|데이터]]' 색출**: 고객 테이블에 시스템 버그로 동일 이메일이 여러 번 가입된 징후가 있다. `WHERE`로는 중복 여부를 개별 행에서 판단할 수 없다. 이때 `SELECT 이메일 FROM 고객 GROUP BY 이메일 HAVING COUNT(*) > 1;` 단 한 줄의 [[298_qkv_attention|쿼리]]로 중복 가입자를 광속으로 색출해 낼 수 있다.
-2. **다차원 통계 함수 ([[042_rollup_l2_solution|ROLLUP]] / CUBE) 융합**: 경영진이 "지역별, 연령별 소계와 전사 총합계를 엑셀 [[037_pivot|피벗]]처럼 한 번에 뽑아와라"라고 지시했다. `GROUP BY` [[298_qkv_attention|쿼리]] 여러 개를 무식하게 `UNION ALL`로 이어 붙이면 테이블을 4번 풀스캔하여 디스크 I/O가 폭주한다. 현대 RDBMS는 `GROUP BY ROLLUP(지역, 연령)` 단어를 지원하여, 테이블을 단 1번만 읽으면서 메모리 해시 공간에서 다차원 소계와 총합계를 다이나믹하게 쏟아내는 [[316_olap|OLAP]] 튜닝을 제공한다.
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 실무 시나리오
+1. **HAVING을 활용한 '중복 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)' 색출**: 고객 테이블에 시스템 버그로 동일 이메일이 여러 번 가입된 징후가 있다. `WHERE`로는 중복 여부를 개별 행에서 판단할 수 없다. 이때 `SELECT 이메일 FROM 고객 GROUP BY 이메일 HAVING COUNT(*) > 1;` 단 한 줄의 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)로 중복 가입자를 광속으로 색출해 낼 수 있다.
+2. **다차원 통계 함수 ([ROLLUP](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) / CUBE) 융합**: 경영진이 "지역별, 연령별 소계와 전사 총합계를 엑셀 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)처럼 한 번에 뽑아와라"라고 지시했다. `GROUP BY` [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 여러 개를 무식하게 `UNION ALL`로 이어 붙이면 테이블을 4번 풀스캔하여 디스크 I/O가 폭주한다. 현대 RDBMS는 `GROUP BY ROLLUP(지역, 연령)` 단어를 지원하여, 테이블을 단 1번만 읽으면서 메모리 해시 공간에서 다차원 소계와 총합계를 다이나믹하게 쏟아내는 [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/) 튜닝을 제공한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
-- **[[154_database_index_b_tree_search_optimization|인덱스]] 없는 무거운 Sort [[522_group_by|Group By]] 방치**: [[298_qkv_attention|쿼리]] 튜닝 시 `GROUP BY` 컬럼에 [[154_database_index_b_tree_search_optimization|인덱스]]가 없으면, DB 엔진은 흩어진 [[001_dikw_pyramid|데이터]]를 모으기 위해 막대한 메모리(Sort Area)를 할당하여 정렬 작업을 시도한다. 대용량 [[001_dikw_pyramid|데이터]]의 경우 디스크 스왑(Temp 공간 사용)이 발생해 [[298_qkv_attention|쿼리]]가 수십 분간 정지된다. [[154_database_index_b_tree_search_optimization|인덱스]]를 태우거나 메모리 파라미터를 조절해 [[148_5g_embb_urllc_mmtc|초고속]] Hash Group By로 유도해야 한다.
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- **[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 없는 무거운 Sort [Group By](/knowledge-base/studynote/05_database/04_transactions_concurrency/522_group_by/) 방치**: [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 튜닝 시 `GROUP BY` 컬럼에 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 없으면, DB 엔진은 흩어진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모으기 위해 막대한 메모리(Sort Area)를 할당하여 정렬 작업을 시도한다. 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 경우 디스크 스왑(Temp 공간 사용)이 발생해 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 수십 분간 정지된다. [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 태우거나 메모리 파라미터를 조절해 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) Hash Group By로 유도해야 한다.
 
-- **📢 섹션 요약 비유**: 중복 [[001_dikw_pyramid|데이터]]를 찾는 과정은 범인 색출과 같습니다. 사람 얼굴을 하나씩 쳐다보는 것(`WHERE`)으로는 누가 쌍둥이인지 알 수 없습니다. 사람들을 모두 성씨별로 운동장에 모아놓고(`GROUP BY`), 그 무리 중에서 2명 이상인 그룹만 색출(`HAVING`)해 내는 것이 가장 빠르고 완벽한 레이더망입니다.
+- **📢 섹션 요약 비유**: 중복 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 찾는 과정은 범인 색출과 같습니다. 사람 얼굴을 하나씩 쳐다보는 것(`WHERE`)으로는 누가 쌍둥이인지 알 수 없습니다. 사람들을 모두 성씨별로 운동장에 모아놓고(`GROUP BY`), 그 무리 중에서 2명 이상인 그룹만 색출(`HAVING`)해 내는 것이 가장 빠르고 완벽한 레이더망입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[[002_database_definition|데이터베이스]] 엔진 내에서 `GROUP BY`와 `HAVING`을 적절히 사용하는 것은 단순한 문법의 문제가 아니라 네트워크 [[140_bandwidth|대역폭]]과 애플리케이션 메모리 부하를 방어하는 핵심 아키텍처 [[268_strategy_pattern|전략]]이다. 수억 건의 원본 [[001_dikw_pyramid|데이터]]를 WAS(웹 서버) 메모리로 끌고 와 자바 로직으로 루프를 돌려 통계를 내는 것은 시스템 장애의 지름길이다. 연산은 가장 하단에 있는 DB 엔진의 최적화된 C 코어(해시 그룹핑)에 맡기고, 백엔드 서버는 그 요약된 통계 결과 몇십 줄만 네트워크로 가볍게 넘겨받아야 한다.
+[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 엔진 내에서 `GROUP BY`와 `HAVING`을 적절히 사용하는 것은 단순한 문법의 문제가 아니라 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 애플리케이션 메모리 부하를 방어하는 핵심 아키텍처 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다. 수억 건의 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 WAS(웹 서버) 메모리로 끌고 와 자바 로직으로 루프를 돌려 통계를 내는 것은 시스템 장애의 지름길이다. 연산은 가장 하단에 있는 DB 엔진의 최적화된 C 코어(해시 그룹핑)에 맡기고, 백엔드 서버는 그 요약된 통계 결과 몇십 줄만 네트워크로 가볍게 넘겨받아야 한다.
 
-결국 이 SQL의 낡은 철학은 [[843_hadoop_rack_awareness_data_replication_topology|하둡]]([[843_hadoop_rack_awareness_data_replication_topology|Hadoop]])과 스파크(Spark)를 거치며 빅데이터 [[136_variance|분산]] 컴퓨팅의 '[[018_mapreduce|맵리듀스]](Map-Reduce)' 사상으로 완벽히 계승되었다. [[001_dikw_pyramid|데이터]]를 그룹 단위로 묶어(Map/Shuffle) 통계를 짜내는(Reduce) 원리는 1대의 DB 서버에서 수만 대의 클라우드 노드로 [[202_scale_out_distributed_horizontal_expansion|스케일 아웃]]되었을 뿐, 그 본질적 가치는 변함없이 [[001_dikw_pyramid|데이터]] 엔지니어링의 영원한 심장으로 뛰고 있다.
+결국 이 SQL의 낡은 철학은 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)([Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/))과 스파크(Spark)를 거치며 빅데이터 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 컴퓨팅의 '[맵리듀스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)(Map-Reduce)' 사상으로 완벽히 계승되었다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 그룹 단위로 묶어(Map/Shuffle) 통계를 짜내는(Reduce) 원리는 1대의 DB 서버에서 수만 대의 클라우드 노드로 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)되었을 뿐, 그 본질적 가치는 변함없이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링의 영원한 심장으로 뛰고 있다.
 
-- **📢 섹션 요약 비유**: 수만 장의 모래알(원본 [[001_dikw_pyramid|데이터]])을 체(`WHERE`)로 한 번 거릅니다. 고운 모래들만 가마에 부어 뜨거운 불로 녹여 유리 조각 10개(`GROUP BY` 통계 덩어리)로 뭉칩니다. 마지막으로 검사관(`HAVING`)이 두드려 보고 금이 간 불량 유리 조각은 통째로 쓰레기통에 버려버리는 완벽한 [[001_dikw_pyramid|데이터]] 세공 공정입니다.
+- **📢 섹션 요약 비유**: 수만 장의 모래알(원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 체(`WHERE`)로 한 번 거릅니다. 고운 모래들만 가마에 부어 뜨거운 불로 녹여 유리 조각 10개(`GROUP BY` 통계 덩어리)로 뭉칩니다. 마지막으로 검사관(`HAVING`)이 두드려 보고 금이 간 불량 유리 조각은 통째로 쓰레기통에 버려버리는 완벽한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 세공 공정입니다.
 
 ---
 
@@ -99,10 +103,10 @@ SQL [[298_qkv_attention|쿼리]]의 실행 순서는 작성된 텍스트 순서�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **WHERE 절** | 믹서기가 돌아가기 전 [[001_dikw_pyramid|데이터]]를 1차로 걸러내어, 메모리와 연산 낭비를 막아주는 최고의 튜닝 방파제 |
-| **[[147_aggregate_function_group_by|집계 함수]] ([[147_aggregate_function_group_by|Aggregate Function]])** | `SUM`, `AVG`, `COUNT` 등 그룹으로 묶인 칸막이 안에서 연산을 수행해 단 1줄의 결괏값으로 [[347_compaction|압축]]하는 함수 |
-| **[[042_rollup_l2_solution|ROLLUP]] / CUBE** | 일반적인 `GROUP BY`를 확장하여, 소계(Sub-total)와 총계(Grand-total)를 한 번의 스캔으로 자동 [[087_process_state_transition|생성]]하는 [[316_olap|OLAP]] 전용 문법 |
-| **[[018_mapreduce|맵리듀스]] (Map-Reduce)** | 흩어진 [[001_dikw_pyramid|데이터]]를 [[067_db_key_uniqueness_minimality|Key]] 단위로 섞어 묶고(Map/Shuffle) 통계 연산을 수행하는(Reduce) [[843_hadoop_rack_awareness_data_replication_topology|하둡]]의 철학으로 `GROUP BY`와 본질이 같다. |
+| **WHERE 절** | 믹서기가 돌아가기 전 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 1차로 걸러내어, 메모리와 연산 낭비를 막아주는 최고의 튜닝 방파제 |
+| **[집계 함수](/knowledge-base/studynote/05_database/03_relational_model/147_aggregate_function_group_by/) ([Aggregate Function](/knowledge-base/studynote/05_database/03_relational_model/147_aggregate_function_group_by/))** | `SUM`, `AVG`, `COUNT` 등 그룹으로 묶인 칸막이 안에서 연산을 수행해 단 1줄의 결괏값으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하는 함수 |
+| **[ROLLUP](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) / CUBE** | 일반적인 `GROUP BY`를 확장하여, 소계(Sub-total)와 총계(Grand-total)를 한 번의 스캔으로 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/) 전용 문법 |
+| **[맵리듀스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) (Map-Reduce)** | 흩어진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) 단위로 섞어 묶고(Map/Shuffle) 통계 연산을 수행하는(Reduce) [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)의 철학으로 `GROUP BY`와 본질이 같다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -137,7 +141,7 @@ Map-Reduce 분산 병렬 컴퓨팅으로 철학 계승 (빅데이터 집계)
 
 **진행 상황**: 148 / 600
 
-← **이전**: [[147_aggregate_function_group_by|147. 집계 함수 (Aggregate Function) - SUM, AVG, MAX, MIN, COUNT]]
-**다음**: [[149_rollup_cube_grouping_sets|149. ROLLUP, CUBE, GROUPING SETS (Rollup Cube Grouping Sets)]] →
+← **이전**: [147. 집계 함수 (Aggregate Function) - SUM, AVG, MAX, MIN, COUNT](/knowledge-base/studynote/05_database/03_relational_model/147_aggregate_function_group_by/)
+**다음**: [149. ROLLUP, CUBE, GROUPING SETS (Rollup Cube Grouping Sets)](/knowledge-base/studynote/05_database/03_relational_model/149_rollup_cube_grouping_sets/) →
 
 ---

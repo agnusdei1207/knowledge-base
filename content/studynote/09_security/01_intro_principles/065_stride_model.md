@@ -1,15 +1,19 @@
----
-title: 065. STRIDE 모델 — Spoofing/Tampering/Repudiation/Information Disclosure/DoS/Elevation
-date: '2026-04-05'
-tags:
-- studynote-security
----
++++
+title = "065. STRIDE 모델 — Spoofing/Tampering/Repudiation/Information Disclosure/DoS/Elevation"
+date = 2026-04-05
+
+[taxonomies]
+tags = ["studynote-security"]
+
+[extra]
+tags = ["studynote-security"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: STRIDE는 [[598_spoofing|Spoofing]], Tampering, Repudiation, Information Disclosure, Denial of [[090_service_kubernetes_network_load_balancing|Service]], Elevation of Privilege 여섯 가지 위협 범주를 제공하는 [[104_classification_analysis|분류]] 프레임이다.
+> 1. **본질**: STRIDE는 [Spoofing](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/), Tampering, Repudiation, Information Disclosure, Denial of [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), Elevation of Privilege 여섯 가지 위협 범주를 제공하는 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 프레임이다.
 > 2. **가치**: 위협 모델링에서 "무슨 공격이 가능한가"를 빠르게 정리해 설계 검토를 체계화한다.
-> 3. **판단**: STRIDE는 [[104_classification_analysis|분류]] 도구이므로, 실제 우선순위는 DREAD 같은 점수화나 보완 분석과 함께 봐야 한다.
+> 3. **판단**: STRIDE는 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 도구이므로, 실제 우선순위는 DREAD 같은 점수화나 보완 분석과 함께 봐야 한다.
 
 ---
 
@@ -19,7 +23,7 @@ tags:
 
 설계도만 보고도 어떤 공격이 가능한지 짚어낼 수 있어야, 구현 전에 방어 포인트를 정할 수 있다.
 
-- **📢 섹션 요약 비유**: 집을 볼 때 도둑, 훼손, 부인, 유출, 정전, 권한 탈취를 각각 떠올려 보는 [[435_checklist_based_testing|체크리스트]]다.
+- **📢 섹션 요약 비유**: 집을 볼 때 도둑, 훼손, 부인, 유출, 정전, 권한 탈취를 각각 떠올려 보는 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)다.
 
 ---
 
@@ -35,14 +39,14 @@ Mitigation Ideas
 
 | 범주 | 의미 | 예시 |
 | :-- | :-- | :-- |
-| [[598_spoofing|Spoofing]] | 신원 위조 | 계정 도용 |
-| Tampering | [[001_dikw_pyramid|데이터]] 변조 | 파라미터 조작 |
-| Repudiation | 부인 | [[568_logs_distributed_logging_elk_fluentd|로그]] 부재 |
-| Information Disclosure | 정보 유출 | [[782_sensitive_information|민감정보]] 노출 |
-| Denial of [[090_service_kubernetes_network_load_balancing|Service]] | [[599_dos_ddos_attack|서비스 거부]] | 트래픽 과부하 |
-| Elevation of Privilege | [[356_privilege_escalation|권한 상승]] | 관리자 권한 탈취 |
+| [Spoofing](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) | 신원 위조 | 계정 도용 |
+| Tampering | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변조 | 파라미터 조작 |
+| Repudiation | 부인 | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 부재 |
+| Information Disclosure | 정보 유출 | [민감정보](/knowledge-base/studynote/09_security/16_data_privacy/782_sensitive_information/) 노출 |
+| Denial of [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | [서비스 거부](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/) | 트래픽 과부하 |
+| Elevation of Privilege | [권한 상승](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/) | 관리자 권한 탈취 |
 
-STRIDE는 [[001_dikw_pyramid|데이터]] 흐름과 신뢰 경계를 따라 "어떤 위협이 생길 수 있는가"를 체계적으로 질문하게 해 준다.
+STRIDE는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름과 신뢰 경계를 따라 "어떤 위협이 생길 수 있는가"를 체계적으로 질문하게 해 준다.
 
 - **📢 섹션 요약 비유**: 문, 창문, 지하실을 하나씩 점검하는 집안 안전 점검표다.
 
@@ -52,34 +56,34 @@ STRIDE는 [[001_dikw_pyramid|데이터]] 흐름과 신뢰 경계를 따라 "어�
 
 | 프레임 | 역할 | 적합한 시점 |
 | :-- | :-- | :-- |
-| [[097_stride_convolutional_neural_network_downsampling|STRIDE]] | 위협 [[104_classification_analysis|분류]] | 설계 검토 초반 |
+| [STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) | 위협 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 설계 검토 초반 |
 | DREAD | 위험 점수화 | 우선순위 결정 |
-| [[642_mitre_attack|MITRE ATT&CK]] | 공격 전술 분석 | 공격 시나리오 해석 |
+| [MITRE ATT&CK](/knowledge-base/studynote/09_security/13_secops_ir_forensics/642_mitre_attack/) | 공격 전술 분석 | 공격 시나리오 해석 |
 
 STRIDE는 공격을 빠짐없이 나열하는 데 강하고, DREAD는 그중 어떤 것을 먼저 고칠지 정하는 데 강하다.
 
-- **📢 섹션 요약 비유**: 어떤 문제가 있는지 [[104_classification_analysis|분류]]하는 상자와, 무엇부터 고칠지 정하는 순서표는 서로 다르다.
+- **📢 섹션 요약 비유**: 어떤 문제가 있는지 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는 상자와, 무엇부터 고칠지 정하는 순서표는 서로 다르다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 각 [[001_dikw_pyramid|데이터]] 흐름에 STRIDE를 적용했는가?
+1. 각 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에 STRIDE를 적용했는가?
 2. 신뢰 경계를 명확히 정의했는가?
 3. 범주별 대응책이 설계에 반영되었는가?
 4. DREAD 또는 다른 평가와 연결했는가?
 5. 결과를 개발/운영 백로그로 넘겼는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - STRIDE를 문서 한 번 쓰고 끝내는 설계
 - 범주만 나열하고 대응을 안 적는 설계
 - 신뢰 경계를 무시하는 설계
-- 공격 [[104_classification_analysis|분류]]와 우선순위를 혼동하는 설계
+- 공격 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)와 우선순위를 혼동하는 설계
 
-기술사 관점에서는 STRIDE를 "보안 [[435_checklist_based_testing|체크리스트]]"가 아니라 "설계 검토 프레임"으로 봐야 한다.
+기술사 관점에서는 STRIDE를 "보안 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)"가 아니라 "설계 검토 프레임"으로 봐야 한다.
 
 - **📢 섹션 요약 비유**: 위험한 문을 하나씩 이름 붙여 두면, 나중에 보수하기 쉬워진다.
 
@@ -89,7 +93,7 @@ STRIDE는 공격을 빠짐없이 나열하는 데 강하고, DREAD는 그중 어
 
 STRIDE를 쓰면 설계 리뷰가 빠지고, 공격 범주가 빠짐없이 정리된다. 그래서 시큐어 디자인의 기본 도구로 쓸 수 있다.
 
-결론적으로 STRIDE는 위협 [[104_classification_analysis|분류]]의 출발점이다.
+결론적으로 STRIDE는 위협 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)의 출발점이다.
 
 - **📢 섹션 요약 비유**: 무서운 것들을 종류별로 분리해 놓으면 대처가 쉬워진다.
 
@@ -127,7 +131,7 @@ Security Review
 
 무서운 일이 어떤 종류인지 먼저 나눠 봐요.  
 도둑, 훼손, 유출 같은 이름표를 붙여요.  
-STRIDE는 그런 위협 [[104_classification_analysis|분류]]표예요.
+STRIDE는 그런 위협 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)표예요.
 
 ---
 
@@ -135,7 +139,7 @@ STRIDE는 그런 위협 [[104_classification_analysis|분류]]표예요.
 
 **진행 상황**: 65 / 1108
 
-← **이전**: [[064_dread_model|064. DREAD 모델 — Damage/Reproducibility/Exploitability/Affected Users discoverability]]
-**다음**: [[066_pasta_threat_modeling|066. PASTA (Process for Attack Simulation and Threat Analysis) — 7단계 위협 모델링]] →
+← **이전**: [064. DREAD 모델 — Damage/Reproducibility/Exploitability/Affected Users discoverability](/knowledge-base/studynote/09_security/01_intro_principles/064_dread_model/)
+**다음**: [066. PASTA (Process for Attack Simulation and Threat Analysis) — 7단계 위협 모델링](/knowledge-base/studynote/09_security/01_intro_principles/066_pasta_threat_modeling/) →
 
 ---

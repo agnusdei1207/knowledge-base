@@ -1,14 +1,18 @@
----
-title: 134. Saga 패턴 - MSA 분산 트랜잭션의 표준 솔루션
-date: '2026-04-19'
-tags:
-- studynote-cloud-architecture
----
++++
+title = "134. Saga 패턴 - MSA 분산 트랜잭션의 표준 솔루션"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-cloud-architecture"]
+
+[extra]
+tags = ["studynote-cloud-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Saga는 **여러 마이크로서비스에 걸친 비즈니스 [[191_transaction_concept_states|트랜잭션]]을 로컬 [[191_transaction_concept_states|트랜잭션]]의 시퀀스로 분해**하고, 실패 시 **[[551_compensating_transaction_logical_rollback|보상 트랜잭션]]([[551_compensating_transaction_logical_rollback|Compensating Transaction]])**으로 롤백하는 패턴이다.
-> 2. **가치**: 2PC의 블로킹·[[454_spof|단일 장애점]] 문제 없이 **[[090_service_kubernetes_network_load_balancing|서비스]] 자율성을 유지**하면서 [[001_dikw_pyramid|데이터]] [[194_consistency_database_integrity|일관성]]([[650_eventual_consistency|Eventual Consistency]])을 달성한다.
-> 3. **판단 포인트**: **Choreography(이벤트 기반, 각 [[090_service_kubernetes_network_load_balancing|서비스]] 독립)** vs **[[073_container_orchestration_tools|Orchestration]](중앙 오케스트레이터)** — [[090_service_kubernetes_network_load_balancing|서비스]] 수가 적으면 Choreography, 복잡하면 [[073_container_orchestration_tools|Orchestration]](Temporal/Cadence).
+> 1. **본질**: Saga는 **여러 마이크로서비스에 걸친 비즈니스 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 로컬 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)의 시퀀스로 분해**하고, 실패 시 **[보상 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/)([Compensating Transaction](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/))**으로 롤백하는 패턴이다.
+> 2. **가치**: 2PC의 블로킹·[단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 문제 없이 **[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 자율성을 유지**하면서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)([Eventual Consistency](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/))을 달성한다.
+> 3. **판단 포인트**: **Choreography(이벤트 기반, 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 독립)** vs **[Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)(중앙 오케스트레이터)** — [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수가 적으면 Choreography, 복잡하면 [Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)(Temporal/Cadence).
 
 ---
 
@@ -26,7 +30,7 @@ Orchestration: 오케스트레이터→주문, →결제, →배송 (중앙 제�
 
 ## Ⅱ~Ⅴ. 결론
 
-Saga는 **[[619_msa_traffic_hardware|MSA]] [[248_distributed_transaction_multiple_nodes|분산 트랜잭션]]의 사실상 표준**이며, Temporal/Cadence가 [[073_container_orchestration_tools|Orchestration]] Saga의 대표 프레임워크이다.
+Saga는 **[MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) [분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/)의 사실상 표준**이며, Temporal/Cadence가 [Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) Saga의 대표 프레임워크이다.
 
 ---
 
@@ -34,11 +38,11 @@ Saga는 **[[619_msa_traffic_hardware|MSA]] [[248_distributed_transaction_multipl
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[[305_saga|Saga]]** | [[248_distributed_transaction_multiple_nodes|분산 트랜잭션]] 패턴 |
+| **[Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)** | [분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/) 패턴 |
 | **Choreography** | 이벤트 기반 (독립) |
-| **[[073_container_orchestration_tools|Orchestration]]** | 중앙 제어 (Temporal) |
-| **[[551_compensating_transaction_logical_rollback|보상 트랜잭션]]** | 실패 시 되돌리기 |
-| **[[650_eventual_consistency|Eventual Consistency]]** | 최종 [[194_consistency_database_integrity|일관성]] |
+| **[Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)** | 중앙 제어 (Temporal) |
+| **[보상 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/)** | 실패 시 되돌리기 |
+| **[Eventual Consistency](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/)** | 최종 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -52,8 +56,8 @@ Saga는 **[[619_msa_traffic_hardware|MSA]] [[248_distributed_transaction_multipl
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Saga는 **릴레이 달리기**예요. 각 선수가 자기 구간을 달리고 **바톤을 넘겨요**.
-2. 한 선수가 넘어지면(실패) **그 구간만 다시 달려요([[551_compensating_transaction_logical_rollback|보상 트랜잭션]])**.
-3. 전원이 동시에 출발하는 것([[549_2pc_two_phase_commit_limitations_msa|2PC]])보다 **빠르고 안전**하답니다!
+2. 한 선수가 넘어지면(실패) **그 구간만 다시 달려요([보상 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/))**.
+3. 전원이 동시에 출발하는 것([2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/))보다 **빠르고 안전**하답니다!
 
 ---
 
@@ -61,7 +65,7 @@ Saga는 **[[619_msa_traffic_hardware|MSA]] [[248_distributed_transaction_multipl
 
 **진행 상황**: 133 / 371
 
-← **이전**: [[133_2pc_limitations|133. 2PC 한계와 MSA 분산 트랜잭션 - 왜 Saga가 필요한가]]
-**다음**: [[135_choreography_saga|135. Choreography Saga - 이벤트 기반 분산 트랜잭션]] →
+← **이전**: [133. 2PC 한계와 MSA 분산 트랜잭션 - 왜 Saga가 필요한가](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/133_2pc_limitations/)
+**다음**: [135. Choreography Saga - 이벤트 기반 분산 트랜잭션](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/135_choreography_saga/) →
 
 ---

@@ -1,31 +1,35 @@
----
-title: 408. 개선된 2차 기회 알고리즘 (Enhanced Second Chance Algorithm)
-date: '2026-05-09'
-tags:
-- studynote-operating-system
----
++++
+title = "408. 개선된 2차 기회 알고리즘 (Enhanced Second Chance Algorithm)"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 기존 클럭 [[001_algorithm_definition|알고리즘]]이 '최근 사용 여부([[316_reference_pattern_nosql|참조]] [[073_bit|비트]])' 하나만 보고 희생양을 골랐다면, 개선된 [[407_second_chance_algorithm|2차 기회 알고리즘]]은 여기에 **'[[001_dikw_pyramid|데이터]] 수정 여부([[396_dirty_bit|변경 비트]]/[[396_dirty_bit|Dirty Bit]])'를 추가 결합하여 2개의 [[073_bit|비트]] 조합(00, 01, [[489_raid_10_hybrid|10]], [[308_static_dynamic_nat_pat_port_address_translation|11]])으로 교체 타겟의 계급을 나누는 고도화된 타겟팅 기법**이다.
-> 2. **가치**: 램에서 [[286_page_frame|페이지]]를 쫓아낼 때 발생하는 디스크 [[289_cqrs_db|쓰기]]([[277_write_back|Write-back]], 8ms [[015_지연_데이터_관점|지연]]) 페널티를 회피하기 위해, **어차피 쫓아낼 거라면 무조건 '수정되지 않은 깨끗한(Clean) [[286_page_frame|페이지]]'부터 0순위로 사살하여 시스템의 I/O 속도를 2배 이상 끌어올린다.**
-> 3. **융합**: [[316_reference_pattern_nosql|참조]] [[073_bit|비트]]를 통한 '지역성(Locality) 보장'과 [[396_dirty_bit|변경 비트]]를 통한 '디스크 병목(I/O Bottle-neck) 회피'라는, **하드웨어 캐시와 소프트웨어 스토리지의 극단적인 오버헤드를 동시에 방어하는 범용 [[001_operating_system_purpose|운영체제]]([[673_mac_message_authentication_code|Mac]], Linux) [[260_page_replacement|페이지 교체]]의 실전 완성형 아키텍처**다.
+> 1. **본질**: 기존 클럭 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 '최근 사용 여부([참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))' 하나만 보고 희생양을 골랐다면, 개선된 [2차 기회 알고리즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/407_second_chance_algorithm/)은 여기에 **'[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수정 여부([변경 비트](/knowledge-base/studynote/02_operating_system/07_virtual_memory/396_dirty_bit/)/[Dirty Bit](/knowledge-base/studynote/02_operating_system/07_virtual_memory/396_dirty_bit/))'를 추가 결합하여 2개의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 조합(00, 01, [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/), [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/))으로 교체 타겟의 계급을 나누는 고도화된 타겟팅 기법**이다.
+> 2. **가치**: 램에서 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 쫓아낼 때 발생하는 디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)([Write-back](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/), 8ms [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) 페널티를 회피하기 위해, **어차피 쫓아낼 거라면 무조건 '수정되지 않은 깨끗한(Clean) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)'부터 0순위로 사살하여 시스템의 I/O 속도를 2배 이상 끌어올린다.**
+> 3. **융합**: [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 통한 '지역성(Locality) 보장'과 [변경 비트](/knowledge-base/studynote/02_operating_system/07_virtual_memory/396_dirty_bit/)를 통한 '디스크 병목(I/O Bottle-neck) 회피'라는, **하드웨어 캐시와 소프트웨어 스토리지의 극단적인 오버헤드를 동시에 방어하는 범용 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)([Mac](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/), Linux) [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/)의 실전 완성형 아키텍처**다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [[353_page_table|페이지 테이블]] 엔트리(PTE)에 있는 두 개의 하드웨어 [[186_character_stuffing_dle_stx_etx|플래그]], 즉 **R([[316_reference_pattern_nosql|Reference]], [[316_reference_pattern_nosql|참조]]) [[073_bit|비트]]**와 **M(Modify, 변경/Dirty) [[073_bit|비트]]**를 [[063_relation_tuple_cardinality|튜플]] `(R, M)`로 묶어 희생양(Victim)을 검색하는 클럭(원형 큐) [[001_algorithm_definition|알고리즘]]이다.
-- **필요성**: 기존 [[045_clock|Clock]] [[001_algorithm_definition|알고리즘]]은 R=0 인 놈을 발견하면 무조건 쏴 죽였다. 그런데 그 죽인 놈이 우연히 M=1(Dirty, 수정된 [[001_dikw_pyramid|데이터]]) 이었다면? 디스크에 덮어쓰기를 하느라 16ms([[289_cqrs_db|쓰기]] 8ms + 새거 읽기 8ms)의 더블 페널티 렉이 걸린다. OS 설계자는 분노했다. "아니, 바로 옆에 똑같이 안 쓴 R=0 이면서 디스크 [[289_cqrs_db|쓰기]]도 안 해도 되는 M=0(Clean)인 놈이 버젓이 있는데 왜 굳이 렉 걸리는 Dirty를 먼저 쫓아내냐?" 이 지독한 디스크 병목을 최소화하기 위해, 살생부에 '더티 여부'라는 깐깐한 가중치를 추가해야만 했다.
+- **개념**: [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 엔트리(PTE)에 있는 두 개의 하드웨어 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/), 즉 **R([Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/), [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)**와 **M(Modify, 변경/Dirty) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)**를 [튜플](/knowledge-base/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/) `(R, M)`로 묶어 희생양(Victim)을 검색하는 클럭(원형 큐) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
+- **필요성**: 기존 [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 R=0 인 놈을 발견하면 무조건 쏴 죽였다. 그런데 그 죽인 놈이 우연히 M=1(Dirty, 수정된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 이었다면? 디스크에 덮어쓰기를 하느라 16ms([쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 8ms + 새거 읽기 8ms)의 더블 페널티 렉이 걸린다. OS 설계자는 분노했다. "아니, 바로 옆에 똑같이 안 쓴 R=0 이면서 디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)도 안 해도 되는 M=0(Clean)인 놈이 버젓이 있는데 왜 굳이 렉 걸리는 Dirty를 먼저 쫓아내냐?" 이 지독한 디스크 병목을 최소화하기 위해, 살생부에 '더티 여부'라는 깐깐한 가중치를 추가해야만 했다.
 
-  - 1순위 타겟 `(R=0, M=0)`: 최근에 건물에 코빼기도 안 보이고, 방도 더럽히지 않은(Clean) 깔끔한 놈. -> **"당장 쫓아내! 방 청소(디스크 [[289_cqrs_db|쓰기]])할 필요도 없이 바로 새 손님 받으면 되니까 개꿀!"**
-  - 2순위 타겟 `(R=0, M=1)`: 최근에 코빼기도 안 보이지만, 방에 쓰레기(Dirty)를 잔뜩 어질러 놓은 놈. -> **"쫓아내긴 해야 하는데... 이놈 쫓아내면 내가 도배장판(디스크 [[289_cqrs_db|쓰기]] 8ms) 다시 해야 해서 너무 귀찮아. 일단 보류!"**
+  - 1순위 타겟 `(R=0, M=0)`: 최근에 건물에 코빼기도 안 보이고, 방도 더럽히지 않은(Clean) 깔끔한 놈. -> **"당장 쫓아내! 방 청소(디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))할 필요도 없이 바로 새 손님 받으면 되니까 개꿀!"**
+  - 2순위 타겟 `(R=0, M=1)`: 최근에 코빼기도 안 보이지만, 방에 쓰레기(Dirty)를 잔뜩 어질러 놓은 놈. -> **"쫓아내긴 해야 하는데... 이놈 쫓아내면 내가 도배장판(디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 8ms) 다시 해야 해서 너무 귀찮아. 일단 보류!"**
   - 3순위, 4순위 타겟 `(R=1)`: 어쨌든 최근에 들어와 살고 있는 단골손님들 -> **"방을 더럽혔든 깨끗하든 단골이니까 살려둬!"**
 
-- **등장 배경 및 [[282_performance_tactics|성능]] 한계의 돌파**:
-  1. **[[045_clock|Clock]] [[001_algorithm_definition|알고리즘]]의 맹점**: [[262_lru_page_replacement|LRU]] 흉내는 잘 냈지만, 디스크 [[289_cqrs_db|쓰기]] 속도라는 물리적 족쇄를 고려하지 못함.
+- **등장 배경 및 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계의 돌파**:
+  1. **[Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 맹점**: [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 흉내는 잘 냈지만, 디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 속도라는 물리적 족쇄를 고려하지 못함.
   2. **I/O 병목의 극대화**: 램은 수 기가헤르츠(GHz)인데 디스크는 수 밀리초(ms)로 격차가 만 배 이상 벌어짐. I/O 회피가 최고의 튜닝이 됨.
-  3. **다중 스캔 체제의 확립**: 바늘을 여러 번 돌리더라도, 기어코 Clean [[286_page_frame|페이지]]를 찾아내어 I/O를 아끼는 것이 시스템 전체 적으로 이득이라는 수학적 증명이 완료됨.
+  3. **다중 스캔 체제의 확립**: 바늘을 여러 번 돌리더라도, 기어코 Clean [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 찾아내어 I/O를 아끼는 것이 시스템 전체 적으로 이득이라는 수학적 증명이 완료됨.
 
 ```text
 ┌───────────────────────────────────────────────────────────────────────┐
@@ -47,7 +51,7 @@ tags:
 │   -> 지금 미친 듯이 값을 바꾸고 있는 초핵심 변수. 절대 건드리면 안 됨!│
 └───────────────────────────────────────────────────────────────────────┘
 ```
-**[다이어그램 해설]** 이 표에서 재미있는 점은 2계급 `(0, 1)`이다. "최근에 안 썼는데(R=0) 값이 바뀌어(M=1) 있다?"는 게 모순처럼 보이지만, 하드웨어가 R [[073_bit|비트]]를 주기적으로 0으로 깎아내리기 때문에 '과거에 수정된 채 방치된 [[286_page_frame|페이지]]'가 이 계급으로 몰리게 된다. OS는 R=0을 최우선으로 죽이되, 그중에서도 무조건 M=0 인 놈을 발라내기 위해 피나는 노력을 한다.
+**[다이어그램 해설]** 이 표에서 재미있는 점은 2계급 `(0, 1)`이다. "최근에 안 썼는데(R=0) 값이 바뀌어(M=1) 있다?"는 게 모순처럼 보이지만, 하드웨어가 R [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 주기적으로 0으로 깎아내리기 때문에 '과거에 수정된 채 방치된 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)'가 이 계급으로 몰리게 된다. OS는 R=0을 최우선으로 죽이되, 그중에서도 무조건 M=0 인 놈을 발라내기 위해 피나는 노력을 한다.
 
 - **📢 섹션 요약 비유**: 도마 위에 올릴 희생양을 고를 때, '잡아먹기 쉬운 놈(최근 안 씀)' 중에서도 '털 뽑고 내장 가를 필요 없이 바로 끓이면 되는 손질된 고기(Clean)'를 무조건 1순위로 찾는 주방장(OS)의 지독한 효율성 추구입니다.
 
@@ -57,7 +61,7 @@ tags:
 
 ### 악마의 다중 스캔 (Multi-pass Scan) 아키텍처
 
-개선된 [[407_second_chance_algorithm|2차 기회 알고리즘]]의 가장 큰 문제는 **"바늘이 램 400만 장을 여러 바퀴(최대 4바퀴) 돌아야 할 수도 있다"**는 탐색 오버헤드다.
+개선된 [2차 기회 알고리즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/407_second_chance_algorithm/)의 가장 큰 문제는 **"바늘이 램 400만 장을 여러 바퀴(최대 4바퀴) 돌아야 할 수도 있다"**는 탐색 오버헤드다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────────────────┐
@@ -83,14 +87,14 @@ tags:
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** "어떻게든 더티 [[286_page_frame|페이지]](디스크 [[289_cqrs_db|쓰기]])를 쫓아내는 것을 미루겠다"는 집념이 빚어낸 4단 필터링 구조다. 디스크에 쓰는 시간 8ms(8,000,000 나노초)가 너무나 끔찍하기 때문에, 차라리 램 400만 장을 CPU가 4바퀴 돌면서 스캔하는 시간(수만 나노초)을 버리더라도 무조건 Clean [[286_page_frame|페이지]]를 찾아내는 것이 수학적으로 압도적 이득이기 때문이다.
+**[다이어그램 해설]** "어떻게든 더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))를 쫓아내는 것을 미루겠다"는 집념이 빚어낸 4단 필터링 구조다. 디스크에 쓰는 시간 8ms(8,000,000 나노초)가 너무나 끔찍하기 때문에, 차라리 램 400만 장을 CPU가 4바퀴 돌면서 스캔하는 시간(수만 나노초)을 버리더라도 무조건 Clean [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 찾아내는 것이 수학적으로 압도적 이득이기 때문이다.
 
 ---
 
-### [[673_mac_message_authentication_code|Mac]] OS X (Mach [[022_kernel_role|커널]])의 핵심 엔진
+### [Mac](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) OS X (Mach [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))의 핵심 엔진
 
-이 개선된 [[407_second_chance_algorithm|2차 기회 알고리즘]]은 애플(Apple) [[001_operating_system_purpose|운영체제]]의 근간인 Mach [[022_kernel_role|커널]] 기반의 **macOS와 iOS**에서 오랫동안 사랑받은 핵심 [[260_page_replacement|페이지 교체]] 엔진 중 하나다.
-사용자가 아이폰에서 여러 앱을 미친 듯이 띄워 램이 꽉 찼을 때, 사파리(웹 브라우저)의 읽기 전용 캐시(Clean)부터 자비 없이 날려버리고 게임의 [[216_progress_in_synchronization|진행]] [[001_dikw_pyramid|데이터]](Dirty)는 끝까지 살려두어 사용자 경험(UX)의 뚝뚝 끊김을 방어하는 비밀 무기가 바로 이 M [[073_bit|비트]] 스캐닝 로직에 숨어있다.
+이 개선된 [2차 기회 알고리즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/407_second_chance_algorithm/)은 애플(Apple) [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 근간인 Mach [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 기반의 **macOS와 iOS**에서 오랫동안 사랑받은 핵심 [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/) 엔진 중 하나다.
+사용자가 아이폰에서 여러 앱을 미친 듯이 띄워 램이 꽉 찼을 때, 사파리(웹 브라우저)의 읽기 전용 캐시(Clean)부터 자비 없이 날려버리고 게임의 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Dirty)는 끝까지 살려두어 사용자 경험(UX)의 뚝뚝 끊김을 방어하는 비밀 무기가 바로 이 M [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 스캐닝 로직에 숨어있다.
 
 - **📢 섹션 요약 비유**: 수만 명의 포로를 세워놓고 "살고 싶은 자는 손(R비트)을 들어라" 합니다. 1바퀴 돌 때는 손 안 들고 무기(M비트)도 없는 자를 처형합니다. 못 찾으면 2바퀴째엔 손 안 든 무장 병사를 처형하면서, 지나가며 손든 사람들의 팔을 다 억지로 내립니다. 3바퀴째엔 방금 팔이 내려간 비무장 병사를 처형하는, 살 떨리는 4단계 오디션입니다.
 
@@ -98,23 +102,23 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-### 비교 1: 일반 [[045_clock|Clock]] (2차 기회) vs Enhanced [[045_clock|Clock]] (개선된 2차 기회)
+### 비교 1: 일반 [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) (2차 기회) vs Enhanced [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) (개선된 2차 기회)
 
-| 비교 항목 | 일반 [[045_clock|Clock]] (1비트) | 개선된 [[045_clock|Clock]] (2비트, R+M) |
+| 비교 항목 | 일반 [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) (1비트) | 개선된 [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) (2비트, R+M) |
 |:---|:---|:---|
-| **고려 변수** | [[316_reference_pattern_nosql|참조]] [[073_bit|비트]](R) 단 1개 | [[316_reference_pattern_nosql|참조]] [[073_bit|비트]](R) + [[396_dirty_bit|변경 비트]](M) 2개 융합 |
-| **디스크 I/O 최적화**| 전혀 없음 (복불복으로 Dirty 터짐) | **극한의 [[656_ir_containment|억제]] (Clean 우선 처형)** |
+| **고려 변수** | [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(R) 단 1개 | [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(R) + [변경 비트](/knowledge-base/studynote/02_operating_system/07_virtual_memory/396_dirty_bit/)(M) 2개 융합 |
+| **디스크 I/O 최적화**| 전혀 없음 (복불복으로 Dirty 터짐) | **극한의 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) (Clean 우선 처형)** |
 | **스캔 오버헤드** | 최대 2바퀴면 100% 찾음 (빠름) | **최대 4바퀴까지 헛돌 수 있음 (무거움)** |
 | **타겟 우선순위** | 단순 O/X | 4단계의 세밀한 계급 사회 구축 |
 
-### 스캔 [[015_지연_데이터_관점|지연]](Scan Overhead) 폭발의 위험성
+### 스캔 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Scan Overhead) 폭발의 위험성
 
 이론은 완벽하지만 이 "4바퀴 스캔"은 엄청난 폭탄을 안고 있다.
-- 서버에 램이 256GB가 꽂혀있다. [[286_page_frame|페이지]] 프레임 개수가 무려 6,700만 개다.
-- 만약 DB가 미쳐 날뛰어서 6,700만 개의 R [[073_bit|비트]]와 M [[073_bit|비트]]가 몽땅 1로 켜져 있다면? `(1, 1)` 상태.
-- OS의 청소부 데몬(kswapd)은 이 거대한 배열을 **4바퀴(2억 6천만 번의 루프 연산)**나 뺑글뺑글 돌고 나서야 겨우 1개의 [[286_page_frame|페이지]]를 스왑으로 쫓아낸다.
-- 이 과정에서 CPU 코어 하나가 100% 풀로드를 찍으며 [[022_kernel_role|커널]] 타임(`sy`)을 미친 듯이 처먹는 **'[[022_kernel_role|커널]] 데몬 [[257_thrashing|스래싱]]'**이 발생한다.
-- **해결책**: 현대 리눅스는 이렇게 무식하게 4바퀴를 돌지 않고, 아예 큐 자체를 [[483_active_vs_passive_ftp|Active]](핫), Inactive(콜드) 리스트로 쪼개고 M비트에 따른 비동기 Flush를 미리 때려두는 방식으로 아키텍처를 완전히 갈아엎었다.
+- 서버에 램이 256GB가 꽂혀있다. [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 프레임 개수가 무려 6,700만 개다.
+- 만약 DB가 미쳐 날뛰어서 6,700만 개의 R [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)와 M [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 몽땅 1로 켜져 있다면? `(1, 1)` 상태.
+- OS의 청소부 데몬(kswapd)은 이 거대한 배열을 **4바퀴(2억 6천만 번의 루프 연산)**나 뺑글뺑글 돌고 나서야 겨우 1개의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 스왑으로 쫓아낸다.
+- 이 과정에서 CPU 코어 하나가 100% 풀로드를 찍으며 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 타임(`sy`)을 미친 듯이 처먹는 **'[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 데몬 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)'**이 발생한다.
+- **해결책**: 현대 리눅스는 이렇게 무식하게 4바퀴를 돌지 않고, 아예 큐 자체를 [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)(핫), Inactive(콜드) 리스트로 쪼개고 M비트에 따른 비동기 Flush를 미리 때려두는 방식으로 아키텍처를 완전히 갈아엎었다.
 
 ```text
 ┌──────────┬────────────┬────────────┬────────────────────────────┐
@@ -126,30 +130,30 @@ tags:
 │ 4-Pass   │ 강등된 (0, 1)│ ☠️ 최악의 렉   │ 실패 (I/O 터짐)      │
 └──────────┴────────────┴────────────┴────────────────────────────┘
 ```
-**[매트릭스 해설]** 디스크를 안 긁기 위해 CPU를 긁어버리는 전형적인 Trade-off 다. 옛날 [[465_hdd_structure|HDD]] 시절엔 CPU를 아무리 긁어도 HDD가 1만 배 느렸으니 이 방식이 신의 한 수였지만, [[482_nvme|NVMe]] SSD가 램 스피드를 맹추격하는 현대에는 4바퀴를 도는 CPU 연산 [[015_지연_데이터_관점|지연]]이 [[327_ssd|SSD]] 읽고 쓰는 시간보다 더 걸릴 수도 있는 딜레마에 봉착해 있다.
+**[매트릭스 해설]** 디스크를 안 긁기 위해 CPU를 긁어버리는 전형적인 Trade-off 다. 옛날 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 시절엔 CPU를 아무리 긁어도 HDD가 1만 배 느렸으니 이 방식이 신의 한 수였지만, [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) SSD가 램 스피드를 맹추격하는 현대에는 4바퀴를 도는 CPU 연산 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 읽고 쓰는 시간보다 더 걸릴 수도 있는 딜레마에 봉착해 있다.
 
-- **📢 섹션 요약 비유**: 쓰레기봉투(디스크 [[289_cqrs_db|쓰기]]) 값을 아끼려고 쓰레기장(램 6천만 장) 전체를 4바퀴나 돌면서 재활용품(Clean)을 찾는 인건비(CPU 낭비)가, 그냥 눈에 띄는 쓰레기를 종량제 봉투에 휙휙 담아버리고 봉투값([[482_nvme|NVMe]] [[327_ssd|SSD]]) 내는 것보다 오히려 더 비싸지는 현대 자본주의의 역전 현상입니다.
+- **📢 섹션 요약 비유**: 쓰레기봉투(디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)) 값을 아끼려고 쓰레기장(램 6천만 장) 전체를 4바퀴나 돌면서 재활용품(Clean)을 찾는 인건비(CPU 낭비)가, 그냥 눈에 띄는 쓰레기를 종량제 봉투에 휙휙 담아버리고 봉투값([NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)) 내는 것보다 오히려 더 비싸지는 현대 자본주의의 역전 현상입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 실무 시나리오: 백그라운드 Dirty [[286_page_frame|Page]] Flush 데몬 (pdflush/bdflush)
-[[001_operating_system_purpose|운영체제]]가 램이 꽉 찼을 때 4바퀴를 돌며 `(0, 1)` 즉 더티 [[286_page_frame|페이지]]를 쫓아내는 건 너무 고통스럽다. 그래서 리눅스는 이 [[001_algorithm_definition|알고리즘]]을 돕는 천재적인 보조 시스템을 만들었다.
+### 실무 시나리오: 백그라운드 Dirty [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Flush 데몬 (pdflush/bdflush)
+[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 램이 꽉 찼을 때 4바퀴를 돌며 `(0, 1)` 즉 더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 쫓아내는 건 너무 고통스럽다. 그래서 리눅스는 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 돕는 천재적인 보조 시스템을 만들었다.
 1. **Background Flush (선제 타격)**:
    - 램에 쫓아낼 놈을 찾으러 갔더니 다 `M=1 (Dirty)`이라 쫓아낼 수 없는 상황을 미연에 방지한다.
-   - OS [[022_kernel_role|커널]]은 5초마다 백그라운드 데몬 [[092_thread_lwp|스레드]](`flush` [[092_thread_lwp|스레드]])를 조용히 깨운다.
+   - OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 5초마다 백그라운드 데몬 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)(`flush` [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))를 조용히 깨운다.
 2. **미리 디스크에 덮어쓰기 (Cleaning)**:
-   - 이 데몬이 램을 쓱 스캔하며, 급하지 않은 Dirty Page들을 미리미리 디스크 원본에 [[212_synchronization_mechanisms|동기화]]([[277_write_back|Write-back]])시켜버리고 M [[073_bit|비트]]를 `0 (Clean)`으로 세탁해 놓는다.
+   - 이 데몬이 램을 쓱 스캔하며, 급하지 않은 Dirty Page들을 미리미리 디스크 원본에 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)([Write-back](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/))시켜버리고 M [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 `0 (Clean)`으로 세탁해 놓는다.
    - 즉, 평소에 틈틈이 `(0, 1)` 계급의 놈들을 `(0, 0)` 최하위 계급으로 강등시켜 놓는 밑밥 작업이다.
 3. **결과**:
-   - 진짜로 램이 모자라서 [[286_page_frame|페이지]] 폴트가 터졌을 때, 개선된 [[045_clock|Clock]] 바늘이 1회전만 돌아도 이미 세탁된 `(0, 0)` Clean [[286_page_frame|페이지]]가 널려있어 0초 컷으로 즉시 희생양을 확보하게 된다.
-   - 이 비동기 디스크 기록(Asynchronous Write) 시스템이 없었다면, 개선된 [[407_second_chance_algorithm|2차 기회 알고리즘]]은 4바퀴 렉에 갇혀 실무에서 절대 쓰일 수 없었을 것이다.
+   - 진짜로 램이 모자라서 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 폴트가 터졌을 때, 개선된 [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) 바늘이 1회전만 돌아도 이미 세탁된 `(0, 0)` Clean [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 널려있어 0초 컷으로 즉시 희생양을 확보하게 된다.
+   - 이 비동기 디스크 기록(Asynchronous Write) 시스템이 없었다면, 개선된 [2차 기회 알고리즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/407_second_chance_algorithm/)은 4바퀴 렉에 갇혀 실무에서 절대 쓰일 수 없었을 것이다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]: 거대 [[568_logs_distributed_logging_elk_fluentd|로그]] [[289_cqrs_db|쓰기]]와 [[286_page_frame|Page]] Cache 터짐
-개발자가 [[501_file_definition_logical_record|파일]] 로깅([[526_security_logging_and_monitoring_failures|Logging]])을 짤 때 무식하게 `fwrite` 루프를 돌리면, 램의 [[501_file_definition_logical_record|파일]] 캐시 수 기가바이트가 순식간에 `M=1 (Dirty)` 상태로 도배된다. 이때 다른 앱이 램을 요구해 [[045_clock|Clock]] 바늘이 돌면, 램 전체가 더티 지뢰밭이라 쫓아낼 `(0, 0)`이 하나도 없어서 서버 전체 I/O 대기(iowait)가 100%를 치고 모든 서비스가 마비된다. 대용량 [[289_cqrs_db|쓰기]]는 반드시 `O_DIRECT` 옵션으로 캐시를 우회하거나 Batch 단위로 `fsync`를 쳐서 Dirty [[286_page_frame|Page]] 비율을 통제해야 한다.
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): 거대 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)와 [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache 터짐
+개발자가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 로깅([Logging](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/526_security_logging_and_monitoring_failures/))을 짤 때 무식하게 `fwrite` 루프를 돌리면, 램의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 캐시 수 기가바이트가 순식간에 `M=1 (Dirty)` 상태로 도배된다. 이때 다른 앱이 램을 요구해 [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) 바늘이 돌면, 램 전체가 더티 지뢰밭이라 쫓아낼 `(0, 0)`이 하나도 없어서 서버 전체 I/O 대기(iowait)가 100%를 치고 모든 서비스가 마비된다. 대용량 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)는 반드시 `O_DIRECT` 옵션으로 캐시를 우회하거나 Batch 단위로 `fsync`를 쳐서 Dirty [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 비율을 통제해야 한다.
 
-- **📢 섹션 요약 비유**: 손님이 밥 다 먹은 그릇(Dirty [[286_page_frame|Page]])을 테이블에 끝까지 쌓아두다가 새 손님 올 때 부랴부랴 설거지(디스크 I/O)하려 하면 식당이 마비됩니다. 그래서 홀서빙 알바(pdflush)가 수시로 돌아다니며 빈 그릇을 미리미리 설거지통에 치워 테이블을 깨끗하게(Clean) 세팅해 두어야 새 손님을 1초 만에 받을 수 있는 식당 회전율의 법칙입니다.
+- **📢 섹션 요약 비유**: 손님이 밥 다 먹은 그릇(Dirty [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))을 테이블에 끝까지 쌓아두다가 새 손님 올 때 부랴부랴 설거지(디스크 I/O)하려 하면 식당이 마비됩니다. 그래서 홀서빙 알바(pdflush)가 수시로 돌아다니며 빈 그릇을 미리미리 설거지통에 치워 테이블을 깨끗하게(Clean) 세팅해 두어야 새 손님을 1초 만에 받을 수 있는 식당 회전율의 법칙입니다.
 
 ---
 
@@ -159,13 +163,13 @@ tags:
 
 | 구분 | 내용 |
 |:---|:---|
-| **디스크 I/O 페널티 최소화**| 램 회수 시 발생하는 막대한 디스크 [[289_cqrs_db|쓰기]]([[277_write_back|Write-back]]) 트래픽을 회피하여 [[260_page_replacement|페이지 교체]] 응답성을 체감상 2배 이상 가속 |
-| **Dirty [[286_page_frame|Page]] 관리 체계화** | [[501_file_definition_logical_record|파일]] 시스템의 [[015_지연_데이터_관점|지연]] [[289_cqrs_db|쓰기]]([[380_computational_graph_lazy_eager_execution|Lazy]] Write)와 가상 메모리의 교체 [[001_algorithm_definition|알고리즘]]을 2비트 [[063_relation_tuple_cardinality|튜플]] 안에서 완벽하게 연결하는 고리 역할 |
-| **[[001_operating_system_purpose|운영체제]] [[079_kube_scheduler_pod_placement|스케줄러]] 세분화**| 단순 이분법(O/X)을 넘어 4단계의 마이크로 상태(Micro-state) 추적을 가능케 하여, 메모리 회수(Reclaim) 데몬의 스마트화 견인 |
+| **디스크 I/O 페널티 최소화**| 램 회수 시 발생하는 막대한 디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)([Write-back](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/)) 트래픽을 회피하여 [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/) 응답성을 체감상 2배 이상 가속 |
+| **Dirty [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 관리 체계화** | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)([Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Write)와 가상 메모리의 교체 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 2비트 [튜플](/knowledge-base/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/) 안에서 완벽하게 연결하는 고리 역할 |
+| **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 세분화**| 단순 이분법(O/X)을 넘어 4단계의 마이크로 상태(Micro-state) 추적을 가능케 하여, 메모리 회수(Reclaim) 데몬의 스마트화 견인 |
 
 ### 결론 및 미래 전망
 
-개선된 [[407_second_chance_algorithm|2차 기회 알고리즘]] (Enhanced Second-Chance)은 컴퓨터 아키텍처에서 가장 두려운 적폐인 '디스크 I/O 병목'을 피하기 위해, [[001_operating_system_purpose|운영체제]]가 하드웨어 [[073_bit|비트]] 두 개(R, M)를 부여잡고 얼마나 처절하게 뇌를 굴려 꼼수를 짜냈는지를 보여주는 핏빛 결정체다. 이 [[001_algorithm_definition|알고리즘]] 덕분에 우리는 램이 100% 꽉 찬 절망적인 상황에서도 마우스가 멈추지 않고 간신히 숨통을 틀 수 있었다. 오늘날 리눅스와 윈도우는 이 4바퀴 스캔의 오버헤드를 피하기 위해 [[483_active_vs_passive_ftp|Active]]/Inactive 멀티 큐 리스트라는 더 고도화된 공간 분리 아키텍처로 진화했지만, 타겟을 고를 때 "최근에 썼는가?"와 "수정되었는가?"를 교차로 평가하여 사살 순위를 매긴다는 이 위대한 '2차원 필터링'의 영혼만큼은 현대 시스템의 가장 깊은 곳에 지울 수 없는 DNA로 영원히 각인되어 있다.
+개선된 [2차 기회 알고리즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/407_second_chance_algorithm/) (Enhanced Second-Chance)은 컴퓨터 아키텍처에서 가장 두려운 적폐인 '디스크 I/O 병목'을 피하기 위해, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 하드웨어 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 두 개(R, M)를 부여잡고 얼마나 처절하게 뇌를 굴려 꼼수를 짜냈는지를 보여주는 핏빛 결정체다. 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 덕분에 우리는 램이 100% 꽉 찬 절망적인 상황에서도 마우스가 멈추지 않고 간신히 숨통을 틀 수 있었다. 오늘날 리눅스와 윈도우는 이 4바퀴 스캔의 오버헤드를 피하기 위해 [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)/Inactive 멀티 큐 리스트라는 더 고도화된 공간 분리 아키텍처로 진화했지만, 타겟을 고를 때 "최근에 썼는가?"와 "수정되었는가?"를 교차로 평가하여 사살 순위를 매긴다는 이 위대한 '2차원 필터링'의 영혼만큼은 현대 시스템의 가장 깊은 곳에 지울 수 없는 DNA로 영원히 각인되어 있다.
 
 - **📢 섹션 요약 비유**: 쫓아낼 직원을 고를 때 "최근에 일했냐?(R비트)"라는 단편적 기준을 넘어, "이 직원을 자르면 거래처 인수인계(디스크 I/O) 하느라 회사가 마비되진 않는가?(M비트)"라는 퇴직 비용까지 다차원적으로 계산하여 회사의 손실을 0으로 틀어막는 가장 악랄하고 완벽한 인사팀의 구조조정 매뉴얼입니다.
 
@@ -175,10 +179,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[262_lru_page_replacement|LRU]] [[012_approximation_algorithm|근사 알고리즘]] ([[406_lru_approximation|LRU Approximation]]) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [[407_second_chance_algorithm|2차 기회 알고리즘]] (Second-Chance / [[302_clock_algorithm|Clock Algorithm]]) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [[263_lfu_page_replacement|LFU]] ([[263_lfu_page_replacement|Least Frequently Used]]) [[001_algorithm_definition|알고리즘]] | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [[410_mfu_algorithm|MFU]] ([[410_mfu_algorithm|Most Frequently Used]]) [[001_algorithm_definition|알고리즘]] | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) [근사 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/) ([LRU Approximation](/knowledge-base/studynote/02_operating_system/07_virtual_memory/406_lru_approximation/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [2차 기회 알고리즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/407_second_chance_algorithm/) (Second-Chance / [Clock Algorithm](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/302_clock_algorithm/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) ([Least Frequently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [MFU](/knowledge-base/studynote/02_operating_system/07_virtual_memory/410_mfu_algorithm/) ([Most Frequently Used](/knowledge-base/studynote/02_operating_system/07_virtual_memory/410_mfu_algorithm/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -196,9 +200,9 @@ tags:
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 개선된 [[407_second_chance_algorithm|2차 기회 알고리즘]] (Enhanced [[407_second_chance_algorithm|Second Chance Algorithm]])은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
-2. 먼저 [[407_second_chance_algorithm|2차 기회 알고리즘]] (Second-Chance / [[302_clock_algorithm|Clock Algorithm]])을 이해하면 개선된 [[407_second_chance_algorithm|2차 기회 알고리즘]] (Enhanced [[407_second_chance_algorithm|Second Chance Algorithm]])이 왜 필요한지 더 쉽게 보여요.
-3. 그래서 개선된 [[407_second_chance_algorithm|2차 기회 알고리즘]] (Enhanced [[407_second_chance_algorithm|Second Chance Algorithm]])을 잘 알면 나중에 [[263_lfu_page_replacement|LFU]] ([[263_lfu_page_replacement|Least Frequently Used]]) [[001_algorithm_definition|알고리즘]]도 훨씬 쉽게 배울 수 있어요.
+1. 개선된 [2차 기회 알고리즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/407_second_chance_algorithm/) (Enhanced [Second Chance Algorithm](/knowledge-base/studynote/02_operating_system/07_virtual_memory/407_second_chance_algorithm/))은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
+2. 먼저 [2차 기회 알고리즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/407_second_chance_algorithm/) (Second-Chance / [Clock Algorithm](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/302_clock_algorithm/))을 이해하면 개선된 [2차 기회 알고리즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/407_second_chance_algorithm/) (Enhanced [Second Chance Algorithm](/knowledge-base/studynote/02_operating_system/07_virtual_memory/407_second_chance_algorithm/))이 왜 필요한지 더 쉽게 보여요.
+3. 그래서 개선된 [2차 기회 알고리즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/407_second_chance_algorithm/) (Enhanced [Second Chance Algorithm](/knowledge-base/studynote/02_operating_system/07_virtual_memory/407_second_chance_algorithm/))을 잘 알면 나중에 [LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) ([Least Frequently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)도 훨씬 쉽게 배울 수 있어요.
 
 ---
 
@@ -206,7 +210,7 @@ tags:
 
 **진행 상황**: 408 / 800
 
-← **이전**: [[407_second_chance_algorithm|407. 2차 기회 알고리즘 (Second-Chance / Clock Algorithm) - 참조 비트가 1이면 0으로 바꾸고 통과,]]
-**다음**: [[409_lfu_algorithm|409. LFU (Least Frequently Used) 알고리즘 - 참조 횟수가 가장 적은 페이지 교체]] →
+← **이전**: [407. 2차 기회 알고리즘 (Second-Chance / Clock Algorithm) - 참조 비트가 1이면 0으로 바꾸고 통과,](/knowledge-base/studynote/02_operating_system/07_virtual_memory/407_second_chance_algorithm/)
+**다음**: [409. LFU (Least Frequently Used) 알고리즘 - 참조 횟수가 가장 적은 페이지 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/409_lfu_algorithm/) →
 
 ---

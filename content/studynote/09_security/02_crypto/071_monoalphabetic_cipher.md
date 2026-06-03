@@ -1,9 +1,13 @@
----
-title: 071. 단일 치환 암호 — 하나의 알파벳을 하나의 문자로 치환
-date: '2026-04-05'
-tags:
-- studynote-security
----
++++
+title = "071. 단일 치환 암호 — 하나의 알파벳을 하나의 문자로 치환"
+date = 2026-04-05
+
+[taxonomies]
+tags = ["studynote-security"]
+
+[extra]
+tags = ["studynote-security"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -33,9 +37,9 @@ Ciphertext
 
 | 요소 | 의미 |
 | :-- | :-- |
-| [[010_schema_mapping|Mapping]] | 문자 대응표 |
-| [[067_db_key_uniqueness_minimality|Key]] | 치환 규칙 |
-| [[099_one_to_one_model|One-to-One]] | [[099_one_to_one_model|일대일]] 대응 |
+| [Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/) | 문자 대응표 |
+| [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) | 치환 규칙 |
+| [One-to-One](/knowledge-base/studynote/02_operating_system/02_process_thread/099_one_to_one_model/) | [일대일](/knowledge-base/studynote/02_operating_system/02_process_thread/099_one_to_one_model/) 대응 |
 
 단일 치환은 문자 하나를 다른 문자 하나로 바꾸는 방식이므로, 문자 빈도 패턴이 남을 수 있다.
 
@@ -54,7 +58,7 @@ Ciphertext
 | 약점 | 설명 |
 | :-- | :-- |
 | Pattern Leak | 패턴 노출 |
-| Small [[283_security_tactics|Security]] | 낮은 보안 |
+| Small [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) | 낮은 보안 |
 
 단일 치환은 고전 암호 중 중요한 단계지만, 현대 보안에는 부족하다.
 
@@ -64,15 +68,15 @@ Ciphertext
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. [[099_one_to_one_model|일대일]] 치환임을 아는가?
+1. [일대일](/knowledge-base/studynote/02_operating_system/02_process_thread/099_one_to_one_model/) 치환임을 아는가?
 2. 빈도 분석 취약성을 아는가?
 3. 카이사르 암호와 비교할 수 있는가?
 4. 현대 암호와 구분하는가?
 5. 교육용 예제로 적절한가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 실무 보안에 쓰는 설계
 - 빈도 분석을 무시하는 설계
@@ -133,7 +137,7 @@ Frequency Analysis
 
 **진행 상황**: 71 / 1108
 
-← **이전**: [[070_caesar_cipher|070. 카이사르 암호 (Caesar Cipher) — 알파벳 3자리 이동]]
-**다음**: [[072_vigenere_cipher|072. 다중 치환 암호 (Vigenère Cipher) — 키워드 기반 복수 치환]] →
+← **이전**: [070. 카이사르 암호 (Caesar Cipher) — 알파벳 3자리 이동](/knowledge-base/studynote/09_security/02_crypto/070_caesar_cipher/)
+**다음**: [072. 다중 치환 암호 (Vigenère Cipher) — 키워드 기반 복수 치환](/knowledge-base/studynote/09_security/02_crypto/072_vigenere_cipher/) →
 
 ---

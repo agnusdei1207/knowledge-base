@@ -1,14 +1,18 @@
----
-title: 26. 토큰 이코노미 (Token Economy) — 블록체인 기반 경제 인센티브 시스템
-date: '2026-04-29'
-tags:
-- studynote-ict-convergence
----
++++
+title = "26. 토큰 이코노미 (Token Economy) — 블록체인 기반 경제 인센티브 시스템"
+date = 2026-04-29
+
+[taxonomies]
+tags = ["studynote-ict-convergence"]
+
+[extra]
+tags = ["studynote-ict-convergence"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 토큰 이코노미(Token Economy)는 [[004_blockchain|블록체인]] 네트워크에서 토큰(Token)을 매개로 참여자들의 행동을 경제적 인센티브로 유도하는 설계 체계다. [[004_blockchain|블록체인]]의 [[010_decentralization|탈중앙화]] 특성과 [[022_smart_contract|스마트 컨트랙트]]의 자동화를 결합하여, 중앙 기관 없이 신뢰할 수 있는 경제 시스템을 구성한다.
-> 2. **가치**: 비트코인의 채굴 보상(Mining Reward)이 최초의 성공적 토큰 이코노미로, "정직하게 작업 증명을 수행하면 비트코인 보상"이라는 인센티브가 네트워크 보안을 유지한다. [[033_defi_decentralized_finance|DeFi]] (Decentralized Finance), [[054_dao_decentralized_autonomous_organization|DAO]] ([[054_dao_decentralized_autonomous_organization|Decentralized Autonomous Organization]]), NFT 생태계의 경제 설계가 모두 토큰 이코노미에 기반한다.
-> 3. **판단 포인트**: 토큰 이코노미 설계의 가장 어려운 문제는 "인플레이션 방지"와 "참여 인센티브" 사이의 균형이다. 토큰 발행량이 너무 많으면 가치가 희석되고(인플레이션), 너무 적으면 [[459_quic_fec_forward_error_correction|초기]] 참여자에게만 이득이 집중된다(중앙화 위험). 토큰 소각(Burn), 스테이킹(Staking), 베스팅(Vesting) 스케줄이 이 균형을 조절하는 핵심 메커니즘이다.
+> 1. **본질**: 토큰 이코노미(Token Economy)는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 네트워크에서 토큰(Token)을 매개로 참여자들의 행동을 경제적 인센티브로 유도하는 설계 체계다. [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 특성과 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)의 자동화를 결합하여, 중앙 기관 없이 신뢰할 수 있는 경제 시스템을 구성한다.
+> 2. **가치**: 비트코인의 채굴 보상(Mining Reward)이 최초의 성공적 토큰 이코노미로, "정직하게 작업 증명을 수행하면 비트코인 보상"이라는 인센티브가 네트워크 보안을 유지한다. [DeFi](/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/) (Decentralized Finance), [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) ([Decentralized Autonomous Organization](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/)), NFT 생태계의 경제 설계가 모두 토큰 이코노미에 기반한다.
+> 3. **판단 포인트**: 토큰 이코노미 설계의 가장 어려운 문제는 "인플레이션 방지"와 "참여 인센티브" 사이의 균형이다. 토큰 발행량이 너무 많으면 가치가 희석되고(인플레이션), 너무 적으면 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 참여자에게만 이득이 집중된다(중앙화 위험). 토큰 소각(Burn), 스테이킹(Staking), 베스팅(Vesting) 스케줄이 이 균형을 조절하는 핵심 메커니즘이다.
 
 ---
 
@@ -26,7 +30,7 @@ tags:
 └──────────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 토큰은 테마파크의 코인이다. 코인을 구입하여(토큰 매입) 놀이기구를 타고([[090_service_kubernetes_network_load_balancing|서비스]] 이용), 코인이 부족해지면 가치가 올라간다(희소성). 하지만 테마파크가 코인을 무한정 발행하면 코인 가치가 떨어진다(인플레이션).
+- **📢 섹션 요약 비유**: 토큰은 테마파크의 코인이다. 코인을 구입하여(토큰 매입) 놀이기구를 타고([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 이용), 코인이 부족해지면 가치가 올라간다(희소성). 하지만 테마파크가 코인을 무한정 발행하면 코인 가치가 떨어진다(인플레이션).
 
 ---
 
@@ -65,7 +69,7 @@ tags:
 [검증자]
 ```
 
-- **📢 섹션 요약 비유**: EIP-1559의 수수료 소각은 버스표를 구입할 때마다 일부를 불태우는 것이다. 사용할수록 표([[118_eth|ETH]])가 줄어들어 남은 표의 가치가 오른다. 사용량이 많을수록 오히려 희소성이 높아지는 디플레이션 메커니즘이다.
+- **📢 섹션 요약 비유**: EIP-1559의 수수료 소각은 버스표를 구입할 때마다 일부를 불태우는 것이다. 사용할수록 표([ETH](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/))가 줄어들어 남은 표의 가치가 오른다. 사용량이 많을수록 오히려 희소성이 높아지는 디플레이션 메커니즘이다.
 
 ---
 
@@ -74,8 +78,8 @@ tags:
 | 항목 | PoW 토큰 이코노미 | PoS 토큰 이코노미 |
 |:---|:---|:---|
 | **인센티브** | 채굴 보상 (전기→토큰) | 스테이킹 보상 (토큰→토큰) |
-| **보안 비용** | [[466_power_consumption|전력 소모]] | 토큰 잠금 (Slashing 위험) |
-| **토큰 집중** | 채굴 풀 중앙화 위험 | [[459_quic_fec_forward_error_correction|초기]] 보유자 유리 |
+| **보안 비용** | [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/) | 토큰 잠금 (Slashing 위험) |
+| **토큰 집중** | 채굴 풀 중앙화 위험 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 보유자 유리 |
 
 - **📢 섹션 요약 비유**: PoW는 금 채굴(물리적 노동으로 가치 창출)이고, PoS는 예금 이자(자산을 맡기면 이자 수령)다. 채굴(PoW)은 전기를 쓰고, 스테이킹(PoS)은 자본을 잠근다.
 
@@ -83,13 +87,13 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[033_defi_decentralized_finance|DeFi]] 유동성 채굴(Liquidity Mining) 토큰 이코노미
-1. [[295_protocol_field_tcp_udp_icmp|프로토콜]]이 유동성 공급자(LP)에게 거버넌스 토큰으로 보상.
+### [DeFi](/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/) 유동성 채굴(Liquidity Mining) 토큰 이코노미
+1. [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 유동성 공급자(LP)에게 거버넌스 토큰으로 보상.
 2. 높은 APY(Annual Percentage Yield) → 유동성 급속 유입.
 3. 토큰 가격 하락 → APY 감소 → 유동성 이탈("death spiral").
-4. 방어: 토큰 소각, 바이백, [[295_protocol_field_tcp_udp_icmp|프로토콜]] 수익 분배로 [[386_sustainability_green_coding|지속 가능성]] 확보.
+4. 방어: 토큰 소각, 바이백, [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 수익 분배로 [지속 가능성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/386_sustainability_green_coding/) 확보.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 토큰 발행만으로 경제를 설계하는 "폰지 토큰 이코노미". 실제 효용(Utility) 없이 신규 참여자의 토큰 구매 자금으로 기존 참여자를 보상하는 구조는 신규 유입이 중단되는 순간 붕괴한다. Luna-UST 사태가 대표적 사례다.
 
 - **📢 섹션 요약 비유**: 실제 효용 없는 토큰 이코노미는 신규 회원 가입비로 기존 회원에게 수익을 주는 다단계 판매다. 신규 유입이 멈추는 순간 전체가 무너진다.
@@ -100,13 +104,13 @@ tags:
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **[[010_decentralization|탈중앙화]] 인센티브** | 중앙 기관 없이 네트워크 참여 유도 |
+| **[탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 인센티브** | 중앙 기관 없이 네트워크 참여 유도 |
 | **거버넌스 민주화** | 토큰 보유자 의사결정 참여 |
-| **새 경제 모델** | [[033_defi_decentralized_finance|DeFi]], [[054_dao_decentralized_autonomous_organization|DAO]], NFT 생태계 기반 |
+| **새 경제 모델** | [DeFi](/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/), [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/), NFT 생태계 기반 |
 
-토큰 이코노미는 게임 이코노미(게임 내 재화 설계), 소셜 미디어 보상 시스템(Brave Browser BAT 토큰), 탄소 크레딧 거래 등 [[004_blockchain|블록체인]]을 넘어 다양한 디지털 인센티브 설계 분야로 확장되고 있다.
+토큰 이코노미는 게임 이코노미(게임 내 재화 설계), 소셜 미디어 보상 시스템(Brave Browser BAT 토큰), 탄소 크레딧 거래 등 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)을 넘어 다양한 디지털 인센티브 설계 분야로 확장되고 있다.
 
-- **📢 섹션 요약 비유**: 토큰 이코노미는 디지털 세계의 경제학이다. 인간의 행동을 설계된 인센티브로 원하는 방향으로 유도하는 행동경제학(Behavioral Economics)의 [[004_blockchain|블록체인]] 버전이다.
+- **📢 섹션 요약 비유**: 토큰 이코노미는 디지털 세계의 경제학이다. 인간의 행동을 설계된 인센티브로 원하는 방향으로 유도하는 행동경제학(Behavioral Economics)의 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 버전이다.
 
 ---
 
@@ -114,9 +118,9 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[[022_smart_contract|스마트 컨트랙트]]** | 토큰 이코노미 규칙의 자동 실행 코드 |
-| **[[033_defi_decentralized_finance|DeFi]]** | 토큰 이코노미 기반 [[010_decentralization|탈중앙화]] 금융 |
-| **[[054_dao_decentralized_autonomous_organization|DAO]]** | 토큰 거버넌스로 조직 운영 |
+| **[스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)** | 토큰 이코노미 규칙의 자동 실행 코드 |
+| **[DeFi](/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/)** | 토큰 이코노미 기반 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 금융 |
+| **[DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/)** | 토큰 거버넌스로 조직 운영 |
 | **EIP-1559** | 이더리움 토큰 소각 인플레이션 조절 |
 | **스테이킹** | PoS에서 토큰 잠금 기반 인센티브 |
 
@@ -140,9 +144,9 @@ tags:
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 토큰 이코노미는 학교 칭찬 스티커 시스템이에요! 좋은 행동(네트워크 기여)을 하면 스티커(토큰)를 받고, 스티커로 보상([[090_service_kubernetes_network_load_balancing|서비스]])을 받을 수 있어요.
+1. 토큰 이코노미는 학교 칭찬 스티커 시스템이에요! 좋은 행동(네트워크 기여)을 하면 스티커(토큰)를 받고, 스티커로 보상([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))을 받을 수 있어요.
 2. 스티커가 너무 많으면 가치가 떨어지니까, 일부를 없애는(소각) 규칙이 있어요.
-3. [[004_blockchain|블록체인]] 덕분에 선생님(중앙 기관) 없이도 규칙이 자동으로 지켜지는 공정한 보상 시스템을 만들 수 있답니다!
+3. [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 덕분에 선생님(중앙 기관) 없이도 규칙이 자동으로 지켜지는 공정한 보상 시스템을 만들 수 있답니다!
 
 ---
 
@@ -150,7 +154,7 @@ tags:
 
 **진행 상황**: 26 / 552
 
-← **이전**: [[025_turing_completeness|25. 튜링 완전성 (Turing Completeness) — 스마트 컨트랙트의 계산 능력 기준]]
-**다음**: [[027_ico_sto_ieo|27. ICO / STO / IEO — 블록체인 기반 자금 조달 방식]] →
+← **이전**: [25. 튜링 완전성 (Turing Completeness) — 스마트 컨트랙트의 계산 능력 기준](/knowledge-base/studynote/06_ict_convergence/01_blockchain/025_turing_completeness/)
+**다음**: [27. ICO / STO / IEO — 블록체인 기반 자금 조달 방식](/knowledge-base/studynote/06_ict_convergence/01_blockchain/027_ico_sto_ieo/) →
 
 ---

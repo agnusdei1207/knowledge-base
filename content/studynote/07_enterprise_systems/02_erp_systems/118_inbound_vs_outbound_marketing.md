@@ -1,12 +1,16 @@
----
-title: 118. 인바운드 vs 아웃바운드 마케팅 - Pull vs Push 마케팅 전략 비교
-date: '2026-04-19'
-tags:
-- studynote-enterprise-systems
----
++++
+title = "118. 인바운드 vs 아웃바운드 마케팅 - Pull vs Push 마케팅 전략 비교"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-enterprise-systems"]
+
+[extra]
+tags = ["studynote-enterprise-systems"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 아웃바운드 마케팅은 기업이 고객에게 **먼저 [[389_mesh_topology|메시]]지를 보내는(Push)** 전통 방식(TV 광고·콜드콜·배너)이고, 인바운드 마케팅은 **고객이 자발적으로 찾아오게(Pull)** 만드는 콘텐츠 중심 [[268_strategy_pattern|전략]](블로그·SEO·웨비나)이다.
+> 1. **본질**: 아웃바운드 마케팅은 기업이 고객에게 **먼저 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 보내는(Push)** 전통 방식(TV 광고·콜드콜·배너)이고, 인바운드 마케팅은 **고객이 자발적으로 찾아오게(Pull)** 만드는 콘텐츠 중심 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(블로그·SEO·웨비나)이다.
 > 2. **가치**: 아웃바운드는 리드 당 비용(CPL)이 높고 광고 차단(Ad Blocker)에 취약하지만, 인바운드는 **콘텐츠 자산이 누적**되어 시간이 갈수록 CPL이 낮아지는 복리 효과가 있다.
 > 3. **판단 포인트**: 현대 마케팅은 인바운드(콘텐츠·SEO)와 아웃바운드(리타겟팅·이메일)를 **혼합(Blended)** 사용하며, HubSpot이 인바운드 마케팅 방법론의 선구자다.
 
@@ -41,8 +45,8 @@ tags:
 | 단계 | 활동 | 도구 |
 |:---|:---|:---|
 | **Attract** | 블로그·SEO·소셜 콘텐츠 | HubSpot, WordPress |
-| **Convert** | CTA·랜딩 [[286_page_frame|페이지]]·리드 수집 | 폼, 전자책 다운로드 |
-| **Close** | 이메일 너처링·[[107_crm_customer_relationship_management|CRM]] | HubSpot, Salesforce |
+| **Convert** | CTA·랜딩 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)·리드 수집 | 폼, 전자책 다운로드 |
+| **Close** | 이메일 너처링·[CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) | HubSpot, Salesforce |
 | **Delight** | 고객 성공·추천 프로그램 | NPS, 리뷰 |
 
 - **📢 섹션 요약 비유**: 인바운드 퍼널은 낚시다. 미끼(콘텐츠)를 던져 물고기(리드)가 스스로 물게 하고, 릴(너처링)로 천천히 끌어당긴다.
@@ -55,14 +59,14 @@ tags:
 |:---|:---|:---|
 | **방향** | Push (기업→고객) | **Pull (고객→기업)** |
 | **CPL** | 높음 | **낮음 (시간 경과 시)** |
-| **[[085_confidence_association_rule_conditional_probability|신뢰도]]** | 낮음 (광고 피로) | **높음 (콘텐츠 가치)** |
-| **측정** | 어려움 | **GA4·[[107_crm_customer_relationship_management|CRM]] 추적 용이** |
+| **[신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)** | 낮음 (광고 피로) | **높음 (콘텐츠 가치)** |
+| **측정** | 어려움 | **GA4·[CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) 추적 용이** |
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### Blended [[268_strategy_pattern|전략]]
+### Blended [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 - **인바운드**: 블로그·SEO로 유입 → 리드 수집.
 - **아웃바운드**: 수집된 리드에 이메일 너처링·리타겟팅 광고.
 
@@ -70,7 +74,7 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-인바운드 마케팅은 콘텐츠 자산의 복리 효과로 장기적으로 CPL이 감소하며, GenAI가 콘텐츠 생산 비용을 혁신적으로 낮추면서 인바운드 [[268_strategy_pattern|전략]]의 진입 장벽이 크게 낮아지고 있다.
+인바운드 마케팅은 콘텐츠 자산의 복리 효과로 장기적으로 CPL이 감소하며, GenAI가 콘텐츠 생산 비용을 혁신적으로 낮추면서 인바운드 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 진입 장벽이 크게 낮아지고 있다.
 
 ---
 
@@ -78,11 +82,11 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **인바운드 마케팅** | Pull [[268_strategy_pattern|전략]], HubSpot 방법론 |
-| **아웃바운드 마케팅** | Push [[268_strategy_pattern|전략]], 전통 광고 |
+| **인바운드 마케팅** | Pull [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), HubSpot 방법론 |
+| **아웃바운드 마케팅** | Push [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), 전통 광고 |
 | **SEO** | 인바운드의 핵심 유입 채널 |
 | **콘텐츠 마케팅** | 인바운드의 엔진 |
-| **ABM** | B2B 인바운드+아웃바운드 혼합 [[268_strategy_pattern|전략]] |
+| **ABM** | B2B 인바운드+아웃바운드 혼합 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -105,7 +109,7 @@ tags:
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 아웃바운드는 길에서 **전단지를 뿌리는** 거예요. 많은 사람이 그냥 지나가요.
 2. 인바운드는 **맛있는 음식을 만들어서** 손님이 알아서 찾아오게 하는 거예요.
-3. 요즘은 맛집(인바운드)이 되면서 **가끔 쿠폰(아웃바운드)**도 보내는 혼합 [[268_strategy_pattern|전략]]이 대세랍니다!
+3. 요즘은 맛집(인바운드)이 되면서 **가끔 쿠폰(아웃바운드)**도 보내는 혼합 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 대세랍니다!
 
 ---
 
@@ -113,7 +117,7 @@ tags:
 
 **진행 상황**: 118 / 482
 
-← **이전**: [[117_martech_marketing_technology_convergence|117. 마테크 (MarTech, Marketing Technology) - 마케팅·기술 융합 생태계]]
-**다음**: [[119_mes_manufacturing_execution_system|119. MES (Manufacturing Execution System) - 제조 실행 시스템·스마트 팩토리 핵심]] →
+← **이전**: [117. 마테크 (MarTech, Marketing Technology) - 마케팅·기술 융합 생태계](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/117_martech_marketing_technology_convergence/)
+**다음**: [119. MES (Manufacturing Execution System) - 제조 실행 시스템·스마트 팩토리 핵심](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/) →
 
 ---

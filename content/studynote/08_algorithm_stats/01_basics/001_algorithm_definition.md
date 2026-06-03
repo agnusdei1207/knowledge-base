@@ -1,25 +1,29 @@
----
-title: 1. 알고리즘 (Algorithm) 정의 — 유한성/확정성/입력/출력/효율성
-tags:
-- algorithm_stats
----
++++
+title = "1. 알고리즘 (Algorithm) 정의 — 유한성/확정성/입력/출력/효율성"
+
+[taxonomies]
+tags = ["algorithm_stats"]
+
+[extra]
+tags = ["algorithm_stats"]
++++
 
 # 01. 알고리즘 (Algorithm) 정의
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 알고리즘(Algorithm)은 유한한 수의 단계(Step)를 거쳐 입력을 출력으로 변환하는 명확하고 확정적인 계산 절차이다. 모든 단계는 기계적으로 수행 가능해야 하며, 반드시 유한 시간 내에 종료되어야 한다.
 > 2. **가치**: 동일한 문제를 풀더라도 알고리즘의 품질에 따라 성능이 수십 배에서 수천 배까지 차이가 나며, 이것이 컴퓨터 과학에서 알고리즘 분석이 핵심 교과목으로 자리 잡은 이유이다.
-> 3. **융합**: 알고리즘의 5대 [[082_attribute_types_er_model|속성]](유한성/확정성/입력/출력/효율성)은 소프트웨어 공학의 설계 원칙, 보안의 암호학적 [[295_protocol_field_tcp_udp_icmp|프로토콜]], 인공지능의 탐색 [[268_strategy_pattern|전략]] 등 모든 컴퓨팅 영역의 공통 언어가 된다.
+> 3. **융합**: 알고리즘의 5대 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(유한성/확정성/입력/출력/효율성)은 소프트웨어 공학의 설계 원칙, 보안의 암호학적 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/), 인공지능의 탐색 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 등 모든 컴퓨팅 영역의 공통 언어가 된다.
 
 ---
 
-## Ⅰ. 개요 및 필요성 ([[033_context|Context]] & Necessity)
+## Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-알고리즘(Algorithm)이라는 용어는 9세기 페르시아의 수학자 알콰리즈미(Muḥammad [[857_ibn_intent_based_networking_declarative_automation|ibn]] Mūsā al-Khwārizmī)의 이름에서 유래했다. 그는 대수학(Algebra)의 기법과 함께 산술 연산을 체계화한 저작을 남겼으며, 이러한 체계적 계산 절차라는 개념이 오늘날의 알고리즘 정의로 발전했다. 알고리즘은 단순히 "컴퓨터가 수행하는 계산 절차"를 넘어, 문제를 해결하기 위한 논리적 사고의 흐름そのものである。
+알고리즘(Algorithm)이라는 용어는 9세기 페르시아의 수학자 알콰리즈미(Muḥammad [ibn](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) Mūsā al-Khwārizmī)의 이름에서 유래했다. 그는 대수학(Algebra)의 기법과 함께 산술 연산을 체계화한 저작을 남겼으며, 이러한 체계적 계산 절차라는 개념이 오늘날의 알고리즘 정의로 발전했다. 알고리즘은 단순히 "컴퓨터가 수행하는 계산 절차"를 넘어, 문제를 해결하기 위한 논리적 사고의 흐름そのものである。
 
-컴퓨터 프로그램이 현실에서 유용하려면, 반드시 5가지 핵심 [[082_attribute_types_er_model|속성]]을 충족해야 한다. 첫째, **유한성(Finiteness)**: 알고리즘은 유한 개의 단계 후 반드시 종료되어야 한다. 무한 루프에 빠지는 절차는 알고리즘으로 인정되지 않는다. 둘째, **확정성(Definiteness)**: 각 단계는 명확하고 모호하지 않은 명령이어야 한다. "약간 크게", "적당히加热" 같은 모호한 표현은 허용되지 않는다. 셋째, **입력(Input)**:-zero 개 이상의 입력을 받을 수 있어야 한다. 넷째, **출력(Output)**: 하나 이상의 출력을 생성해야 한다. 다섯째, **효율성(Effectiveness)**: 각 단계는 기본 연산으로 구성되어 실제 컴퓨터에서 실행 가능해야 한다.
+컴퓨터 프로그램이 현실에서 유용하려면, 반드시 5가지 핵심 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 충족해야 한다. 첫째, **유한성(Finiteness)**: 알고리즘은 유한 개의 단계 후 반드시 종료되어야 한다. 무한 루프에 빠지는 절차는 알고리즘으로 인정되지 않는다. 둘째, **확정성(Definiteness)**: 각 단계는 명확하고 모호하지 않은 명령이어야 한다. "약간 크게", "적당히加热" 같은 모호한 표현은 허용되지 않는다. 셋째, **입력(Input)**:-zero 개 이상의 입력을 받을 수 있어야 한다. 넷째, **출력(Output)**: 하나 이상의 출력을 생성해야 한다. 다섯째, **효율성(Effectiveness)**: 각 단계는 기본 연산으로 구성되어 실제 컴퓨터에서 실행 가능해야 한다.
 
-> 이 도식은 알고리즘의 5대 [[082_attribute_types_er_model|속성]]과它们的 관계를 보여준다.
+> 이 도식은 알고리즘의 5대 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)과它们的 관계를 보여준다.
 
 ```text
 [알고리즘의 5대 속성 (5 Properties of Algorithm)]
@@ -58,10 +62,10 @@ tags:
 - 효율성: 실제로 실해 가능하고 실용적인지 여부를 결정
 ```
 
-- **관찰**: 5대 [[082_attribute_types_er_model|속성]] 중 하나라도 결여되면 그것은 알고리즘이 아니라 "잘못된 절차" 또는 "잠재적 버그"가 된다.
+- **관찰**: 5대 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 중 하나라도 결여되면 그것은 알고리즘이 아니라 "잘못된 절차" 또는 "잠재적 버그"가 된다.
 - **원인**: 컴퓨터는 명시적인 명령만 수행할 수 있고, 모호성이나 무한성이 있으면 실행이 불가능하거나 멈추기 때문이다.
-- **결과**: 이러한 엄격한 정의 덕분에 우리는 알고리즘의 [[002_bigdata_5v|정확성]]을 수학적으로 증명할 수 있다.
-- **판단**: 실무에서 무한 루프([[700_spinlock_busy_waiting|Busy Wait]])나 모호한 조건문(if (x > 0) then... else if (x >= 0)...)은 알고리즘의 확정성 [[082_attribute_types_er_model|속성]]을 위반하는 전형적인 [[128_water_scrum_fall_anti_pattern|안티패턴]]이다.
+- **결과**: 이러한 엄격한 정의 덕분에 우리는 알고리즘의 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)을 수학적으로 증명할 수 있다.
+- **판단**: 실무에서 무한 루프([Busy Wait](/knowledge-base/studynote/02_operating_system/11_exam_summary/700_spinlock_busy_waiting/))나 모호한 조건문(if (x > 0) then... else if (x >= 0)...)은 알고리즘의 확정성 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 위반하는 전형적인 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다.
 
 📢 **섹션 요약 비유**: 알고리즘은 요리 레시피와 같습니다. 재료(입력)를 정해진 조리 단계(확정적 명령)를 따라 처리하면 반드시 완성 요리(출력)가 나오며, 레시피는 유한한 조리 단계를 거쳐 끝나고(유한성), 각 단계는 누구든 따라 할 수 있는 기본 동작(효율성)으로 구성됩니다.
 
@@ -69,9 +73,9 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-알고리즘의 품질을 평가하는 두 축은 **[[002_time_complexity|시간 복잡도]]([[002_time_complexity|Time Complexity]])**와 **[[003_space_complexity|공간 복잡도]]([[003_space_complexity|Space Complexity]])**이다. [[002_time_complexity|시간 복잡도]]는 알고리즘이 작업을 완료하는 데 필요한 기본 연산 횟수의 증가 추이를 의미하며, [[003_space_complexity|공간 복잡도]]는 동일한 작업을 수행하는 데 필요한 메모리량의 증가 추이를 의미한다. 이 두 가지 척도는 입력 크기 N이 증가할 때算法的 성능이 어떻게 변하는지를 예측하게 해준다.
+알고리즘의 품질을 평가하는 두 축은 **[시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)([Time Complexity](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/))**와 **[공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/)([Space Complexity](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/))**이다. [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)는 알고리즘이 작업을 완료하는 데 필요한 기본 연산 횟수의 증가 추이를 의미하며, [공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/)는 동일한 작업을 수행하는 데 필요한 메모리량의 증가 추이를 의미한다. 이 두 가지 척도는 입력 크기 N이 증가할 때算法的 성능이 어떻게 변하는지를 예측하게 해준다.
 
-알고리즘을 설계할 때 가장 먼저 고려해야 할 것은 **[[002_bigdata_5v|정확성]](Correctness)**이다. 주어진 모든 입력에 대해 올바른 출력을 produziert하는지 수학적 귀납법이나 불변량(Invariant) [[395_verification_process_review|검증]]을 통해 증명해야 한다. 그 다음이 **효율성(Efficiency)**이며, 같은 문제를 푸는 여러 알고리즘 중 가장 적은 자원을 사용하는 것을 선택해야 한다.
+알고리즘을 설계할 때 가장 먼저 고려해야 할 것은 **[정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)(Correctness)**이다. 주어진 모든 입력에 대해 올바른 출력을 produziert하는지 수학적 귀납법이나 불변량(Invariant) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 통해 증명해야 한다. 그 다음이 **효율성(Efficiency)**이며, 같은 문제를 푸는 여러 알고리즘 중 가장 적은 자원을 사용하는 것을 선택해야 한다.
 
 > 이 도식은 알고리즘 분석의 기본 틀을 보여준다.
 
@@ -110,19 +114,19 @@ tags:
 ```
 
 - **관찰**: 실제 실행 시간(초)보다는 입력 크기 N이 커질 때 연산 횟수가 어떻게 증가하는지가 핵심이다.
-- **원인**: 실제 실행 시간은 CPU 속도, 컴파일러 최적화, [[001_operating_system_purpose|운영체제]] 스케줄링 등 다양한 변수에 영향을 받아 알고리즘 자체의 성능을 반영하지 못하기 때문이다.
+- **원인**: 실제 실행 시간은 CPU 속도, 컴파일러 최적화, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 스케줄링 등 다양한 변수에 영향을 받아 알고리즘 자체의 성능을 반영하지 못하기 때문이다.
 - **결과**: 점근적 분석(Big-O 표기법 등)을 통해 알고리즘의 본질적 효율성을 비교할 수 있다.
 - **판단**: 기술사 시험에서는 정확한 복잡도 계산과 순서 판정이 반드시 출제되므로, 각 복잡도 등급의 의미를 직관적으로 이해하는 것이 중요하다.
 
-📢 **섹션 요약 비유**: 알고리즘 복잡도는 도시의 교통 체증 정도와 같습니다. 도시 인구(입력 크기)가 늘어나면서 출근 시간(실행 시간)이 어떻게 늘어나는지 예측하는 것이 핵심이며, 중앙순환도로([[055_array|배열]] 접근)와 외곽 순환도로([[056_linked_list|연결 리스트]] 접근)의 구조적 차이가 속도 차이로 직결됩니다.
+📢 **섹션 요약 비유**: 알고리즘 복잡도는 도시의 교통 체증 정도와 같습니다. 도시 인구(입력 크기)가 늘어나면서 출근 시간(실행 시간)이 어떻게 늘어나는지 예측하는 것이 핵심이며, 중앙순환도로([배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 접근)와 외곽 순환도로([연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) 접근)의 구조적 차이가 속도 차이로 직결됩니다.
 
 ---
 
 ## Ⅲ. 구현 및 실무 응용 (Implementation & Practice)
 
-실무에서 알고리즘의 5대 [[082_attribute_types_er_model|속성]]을 충족시키지 못하는 코드는 프로덕션 환경에서 치명적인 버그로 이어진다. 대표적인 [[128_water_scrum_fall_anti_pattern|안티패턴]]들을 살펴보면, **무한 루프(Infinite Loop)**는 유한성 [[082_attribute_types_er_model|속성]]을 위반하며, CPU를 100% 점유하며 프로그램을 멈추게 만든다. **모호한 조건문(Ambiguous Condition)**은 확정성 [[082_attribute_types_er_model|속성]]을 위반하여 실행 시마다 다른 결과를 산출할 수 있다.
+실무에서 알고리즘의 5대 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 충족시키지 못하는 코드는 프로덕션 환경에서 치명적인 버그로 이어진다. 대표적인 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)들을 살펴보면, **무한 루프(Infinite Loop)**는 유한성 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 위반하며, CPU를 100% 점유하며 프로그램을 멈추게 만든다. **모호한 조건문(Ambiguous Condition)**은 확정성 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 위반하여 실행 시마다 다른 결과를 산출할 수 있다.
 
-알고리즘의 기본 구조는 **순차(Sequence)**, **선택([[022_mcts_four_stages|Selection]])**, **반복(Iteration)**의 3가지로 구성된다. 이 세 가지 구조만으로 모든 계산 가능한 문제(Computable Problem)를 표현할 수 있다는 것이 구조적 프로그래밍(Structured Programming)의 핵심 명제이다. 이를 테면, 순차 실행은 입력 수신 후 각 처리 단계가 차례로 실행되는 흐름이고, 선택 실행은 조건 분기를 통해 서로 다른 경로를 취하는 것이며, 반복 실행은 루프를 통해 동일한 작업을 되풀이 하는 것이다.
+알고리즘의 기본 구조는 **순차(Sequence)**, **선택([Selection](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/))**, **반복(Iteration)**의 3가지로 구성된다. 이 세 가지 구조만으로 모든 계산 가능한 문제(Computable Problem)를 표현할 수 있다는 것이 구조적 프로그래밍(Structured Programming)의 핵심 명제이다. 이를 테면, 순차 실행은 입력 수신 후 각 처리 단계가 차례로 실행되는 흐름이고, 선택 실행은 조건 분기를 통해 서로 다른 경로를 취하는 것이며, 반복 실행은 루프를 통해 동일한 작업을 되풀이 하는 것이다.
 
 ```text
 [알고리즘의 3대 기본 구조]
@@ -173,25 +177,25 @@ tags:
 
 ## Ⅳ. 품질 관리 및 테스트 (Quality & Testing)
 
-알고리즘의 품질을 관리하는 것은 소프트웨어工程质量의 핵심이다. 알고리즘 수준의 품질 관리에서 가장 중요한 것은 **[[002_bigdata_5v|정확성]] [[395_verification_process_review|검증]](Correctness [[395_verification_process_review|Verification]])**이다. 모든 유효한 입력에 대해 올바른 출력을내는지 테스트해야 하며, 특히 **[[414_boundary_value_analysis|경계값 분석]]([[414_boundary_value_analysis|Boundary Value Analysis]])**과 **경우의 수 [[395_verification_process_review|검증]](Exhaustive Testing)**이 중요하다.
+알고리즘의 품질을 관리하는 것은 소프트웨어工程质量의 핵심이다. 알고리즘 수준의 품질 관리에서 가장 중요한 것은 **[정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(Correctness [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))**이다. 모든 유효한 입력에 대해 올바른 출력을내는지 테스트해야 하며, 특히 **[경계값 분석](/knowledge-base/studynote/04_software_engineering/11_testing_validation/414_boundary_value_analysis/)([Boundary Value Analysis](/knowledge-base/studynote/04_software_engineering/11_testing_validation/414_boundary_value_analysis/))**과 **경우의 수 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(Exhaustive Testing)**이 중요하다.
 
-**[[128_water_scrum_fall_anti_pattern|안티패턴]] 및 점검 사항**은 다음과 같다. 무한 루프 가능성: 루프 종료 조건이 논리적으로 항상 도달 가능한지 검토한다. [[601_input_validation|입력 검증]] 누락: 모든 입력이 유효 범위 내에 있는지 확인한다. 산술 [[095_overflow|오버플로우]]: 정수 연산에서 [[095_overflow|오버플로우]]가 발생할 가능성이 있는지 검토한다. [[087_floating_point|부동소수점]] 오차: [[087_floating_point|부동소수점]] 비교에서 [[233_precision_recall_f1_roc_auc_threshold|정밀도]] 손실을 고려한다.
+**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 및 점검 사항**은 다음과 같다. 무한 루프 가능성: 루프 종료 조건이 논리적으로 항상 도달 가능한지 검토한다. [입력 검증](/knowledge-base/studynote/09_security/uncategorized/601_input_validation/) 누락: 모든 입력이 유효 범위 내에 있는지 확인한다. 산술 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/): 정수 연산에서 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)가 발생할 가능성이 있는지 검토한다. [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 오차: [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 비교에서 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 손실을 고려한다.
 
-📢 **섹션 요약 비유**: 알고리즘 품질 관리는 신建筑的 안전検査와 같습니다. 건축물이坍塌하지 않는지([[002_bigdata_5v|정확성]]), 내진 설계가 되었는지(효율성), 사용 기간이 얼마나 되는지(유한성)를 엄격히 검사해야 비극적 사고를 예방할 수 있습니다.
+📢 **섹션 요약 비유**: 알고리즘 품질 관리는 신建筑的 안전検査와 같습니다. 건축물이坍塌하지 않는지([정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)), 내진 설계가 되었는지(효율성), 사용 기간이 얼마나 되는지(유한성)를 엄격히 검사해야 비극적 사고를 예방할 수 있습니다.
 
 ---
 
 ## Ⅴ. 최신 트렌드 및 결론 (Trends & Conclusion)
 
-알고리즘 연구의 최신 트렌드는 **양자 알고리즘([[690_round_robin_time_quantum|Quantum]] Algorithm)**의 등장으로 새로운 패러다임이 열리고 있다. 양자 컴퓨터는 기존의クラシック 컴퓨터에서根本无法 해결하는 문제(예: 매우 큰 수의 소인수 분해)를 다항 시간에 해결할 수 있는 가능성을 보여주고 있다. 또한 **[[241_machine_learning_basics|머신러닝]] 기반 알고리즘 자동 최적화([[176_automl_hyperparameter_optimization_bayesian|AutoML]], Neural [[319_architecture|Architecture]] Search)**가 전통적인 알고리즘 설계를 보완하고 있다.
+알고리즘 연구의 최신 트렌드는 **양자 알고리즘([Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) Algorithm)**의 등장으로 새로운 패러다임이 열리고 있다. 양자 컴퓨터는 기존의クラシック 컴퓨터에서根本无法 해결하는 문제(예: 매우 큰 수의 소인수 분해)를 다항 시간에 해결할 수 있는 가능성을 보여주고 있다. 또한 **[머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 기반 알고리즘 자동 최적화([AutoML](/knowledge-base/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/), Neural [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Search)**가 전통적인 알고리즘 설계를 보완하고 있다.
 
-알고리즘의 5대 [[082_attribute_types_er_model|속성]]은 컴퓨터 과학의 영원한 기초이다. 새로운 하드웨어, 새로운 프로그래밍 언어, 새로운 패러다임이 등장해도算法의 본질—유한하고 확정적이며 입출력이 명확하고 효율적인 계산 절차—은 변하지 않는다. 기술사 시험에서도 이러한 기본 원리의 깊은 이해를 물어보는 것은, 단순한 암기가 아닌 실제 문제 해결 능력을 [[395_verification_process_review|검증]]하기 위함이다.
+알고리즘의 5대 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 컴퓨터 과학의 영원한 기초이다. 새로운 하드웨어, 새로운 프로그래밍 언어, 새로운 패러다임이 등장해도算法의 본질—유한하고 확정적이며 입출력이 명확하고 효율적인 계산 절차—은 변하지 않는다. 기술사 시험에서도 이러한 기본 원리의 깊은 이해를 물어보는 것은, 단순한 암기가 아닌 실제 문제 해결 능력을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하기 위함이다.
 
-📢 **섹션 요약 비유**: 알고리즘의 5대 [[082_attribute_types_er_model|속성]]은 도刀的 5대品質과 같습니다. 칼날이든激光手术 로봇이든,尖端 기술이든 기본 구조(유한하고 확정적이며 효율적인 절차)이 무너지면 도구로서的功能을喪失합니다.
+📢 **섹션 요약 비유**: 알고리즘의 5대 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 도刀的 5대品質과 같습니다. 칼날이든激光手术 로봇이든,尖端 기술이든 기본 구조(유한하고 확정적이며 효율적인 절차)이 무너지면 도구로서的功能을喪失합니다.
 
 ---
 
-## 핵심 인사이트 [[103_ascii|ASCII]] 다이어그램 ([[120_concept|Concept]] Map)
+## 핵심 인사이트 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 ([Concept](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/) Map)
 
 ```text
 [알고리즘(Algorithm) 핵심 개념 맵]
@@ -239,8 +243,8 @@ tags:
 - 모든 약어는 반드시 전체 명칭과 함께 표기
 - 일어/중국어 절대 사용 금지
 - 각 섹션 끝에 📢 요약 비유 반드시 추가
-- 최소 800자/[[501_file_definition_logical_record|파일]]
-- [[501_file_definition_logical_record|파일]]명: 01_, 02_... 형식
+- 최소 800자/[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)
+- [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)명: 01_, 02_... 형식
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -267,6 +271,6 @@ tags:
 
 ← **이전**: (첫 번째 글입니다)
 
-**다음**: [[002_time_complexity|2. 시간 복잡도 (Time Complexity) — Big-O / Ω / Θ 표기법]] →
+**다음**: [2. 시간 복잡도 (Time Complexity) — Big-O / Ω / Θ 표기법](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/) →
 
 ---

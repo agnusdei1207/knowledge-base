@@ -1,13 +1,17 @@
----
-title: 138. 10BASE-T, 100BASE-TX (Fast Ethernet)
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "138. 10BASE-T, 100BASE-TX (Fast Ethernet)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 10BASE-T, 100BASE-TX는 물리 계층과 전송 [[121_transmission_media_guided_unguided|매체]]에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 1. **본질**: 10BASE-T, 100BASE-TX는 물리 계층과 전송 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
 > 2. **가치**: 10BASE-T, 100BASE-TX를 이해하면 감쇠과 전송 거리 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
@@ -15,14 +19,14 @@ tags:
 
 ## Ⅰ. 개요 및 필요성
 
-10BASE-T는 IEEE 802.3i 표준으로, 현대 사무실과 가정에서 흔히 보는 **RJ-45 잭과 [[124_unshielded_twisted_pair|UTP]] 케이블을 사용하는 최초의 대중적인 [[230_ethernet_structure_and_principles_ieee_802_3|이더넷]] 규격**입니다.
+10BASE-T는 IEEE 802.3i 표준으로, 현대 사무실과 가정에서 흔히 보는 **RJ-45 잭과 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 케이블을 사용하는 최초의 대중적인 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 규격**입니다.
 
-1. **규격 해석**: 10Mbps 속도 / [[940_baseband_line_coding_nrz_rz_manchester|기저대역]]([[940_baseband_line_coding_nrz_rz_manchester|Baseband]]) 전송 / T(Twisted Pair, 꼬임 쌍선).
-2. **사용 케이블**: Cat 3(카테고리 3) 이상의 [[124_unshielded_twisted_pair|UTP]] 케이블.
-3. **핀 사용 (2 Pairs)**: [[124_unshielded_twisted_pair|UTP]] 케이블 내부의 8가닥(4쌍) 중 **2쌍(4가닥)**만 사용합니다.
+1. **규격 해석**: 10Mbps 속도 / [기저대역](/knowledge-base/studynote/03_network/19_frequent_topics_terms/940_baseband_line_coding_nrz_rz_manchester/)([Baseband](/knowledge-base/studynote/03_network/19_frequent_topics_terms/940_baseband_line_coding_nrz_rz_manchester/)) 전송 / T(Twisted Pair, 꼬임 쌍선).
+2. **사용 케이블**: Cat 3(카테고리 3) 이상의 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 케이블.
+3. **핀 사용 (2 Pairs)**: [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 케이블 내부의 8가닥(4쌍) 중 **2쌍(4가닥)**만 사용합니다.
    - 핀 1, 2번: 송신(Tx)
    - 핀 3, 6번: 수신(Rx)
-4. **인코딩**: **맨체스터 인코딩(Manchester Encoding)**을 사용합니다. 클럭과 데이터를 동시에 전송하지만, [[140_bandwidth|대역폭]] 효율성이 낮아 10Mbps 전송을 위해 20MHz의 [[140_bandwidth|대역폭]]이 필요합니다.
+4. **인코딩**: **맨체스터 인코딩(Manchester Encoding)**을 사용합니다. 클럭과 데이터를 동시에 전송하지만, [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 효율성이 낮아 10Mbps 전송을 위해 20MHz의 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 필요합니다.
 
 ```text
 [10BASE-T / 100BASE-TX 핀 배열 (T568B 기준)]
@@ -42,16 +46,16 @@ Pin 8: 갈색 (사용 안 함)
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-네트워크 트래픽이 급증하면서 10Mbps로는 한계에 부딪혔고, 이를 10배로 높인 100Mbps 규격인 **Fast [[230_ethernet_structure_and_principles_ieee_802_3|Ethernet]] (IEEE 802.3u)**이 등장했습니다. 그중 가장 널리 쓰인 물리 규격이 100BASE-TX입니다.
+네트워크 트래픽이 급증하면서 10Mbps로는 한계에 부딪혔고, 이를 10배로 높인 100Mbps 규격인 **Fast [Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) (IEEE 802.3u)**이 등장했습니다. 그중 가장 널리 쓰인 물리 규격이 100BASE-TX입니다.
 
-1. **사용 케이블**: Cat 5 이상의 [[124_unshielded_twisted_pair|UTP]] 케이블.
-2. **[[344_compatibility_usability|호환성]]**: 10BASE-T와 똑같이 **2쌍(핀 1,2,3,6)만 사용**하므로, 기존의 케이블 인프라를 교체할 필요 없이 장비([[238_switch_operation_principles|스위치]]/랜카드)만 업그레이드하면 되었습니다. (이것이 100BASE-TX가 성공한 가장 큰 이유입니다.)
+1. **사용 케이블**: Cat 5 이상의 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 케이블.
+2. **[호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)**: 10BASE-T와 똑같이 **2쌍(핀 1,2,3,6)만 사용**하므로, 기존의 케이블 인프라를 교체할 필요 없이 장비([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)/랜카드)만 업그레이드하면 되었습니다. (이것이 100BASE-TX가 성공한 가장 큰 이유입니다.)
 
 ### 어떻게 똑같은 선으로 10배 빨라졌을까?
-단순히 주파수를 10배로 높이면 케이블에 엄청난 간섭([[030_누화_크로스토크|누화]])과 손실이 발생합니다. 100BASE-TX는 효율적인 **인코딩과 변조 방식**을 도입했습니다.
+단순히 주파수를 10배로 높이면 케이블에 엄청난 간섭([누화](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/))과 손실이 발생합니다. 100BASE-TX는 효율적인 **인코딩과 변조 방식**을 도입했습니다.
 
 1. **4B/5B 블록 코딩**: 4비트 데이터를 5비트의 특정 패턴으로 매핑합니다. 연속된 0이나 1을 없애 클럭 동기화를 돕고 에러 검출 기능을 가집니다. 이로 인해 100Mbps 데이터를 125Mbps 속도로 변환합니다.
-2. **MLT-3 인코딩**: 125Mbps로 변환된 디지털 데이터를 (+1, 0, -1)의 3가지 [[001_voltage|전압]] 레벨을 사용하여 전기 [[130_signal|신호]]로 바꿉니다. 3진법을 [[289_cqrs_db|쓰기]] 때문에 주파수를 확 낮출 수 있습니다. 결과적으로 케이블에 실리는 실제 최대 주파수는 10배가 아닌 **약 31.25MHz**에 불과하여 Cat 5 케이블로도 충분히 전송이 가능해졌습니다.
+2. **MLT-3 인코딩**: 125Mbps로 변환된 디지털 데이터를 (+1, 0, -1)의 3가지 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 레벨을 사용하여 전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)로 바꿉니다. 3진법을 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때문에 주파수를 확 낮출 수 있습니다. 결과적으로 케이블에 실리는 실제 최대 주파수는 10배가 아닌 **약 31.25MHz**에 불과하여 Cat 5 케이블로도 충분히 전송이 가능해졌습니다.
 
 ```text
 [이더넷 물리 계층 표준]
@@ -68,41 +72,41 @@ Pin 8: 갈색 (사용 안 함)
 
 ## Ⅲ. 비교 및 연결
 
-Fast Ethernet의 도입으로, 한 사무실에 10Mbps 랜카드와 100Mbps 랜카드가 혼재하게 되었습니다. [[238_switch_operation_principles|스위치]]가 이를 어떻게 구분할까요?
+Fast Ethernet의 도입으로, 한 사무실에 10Mbps 랜카드와 100Mbps 랜카드가 혼재하게 되었습니다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 이를 어떻게 구분할까요?
 
-**오토 네고시에이션(Auto-Negotiation)** 기능이 이때 도입되었습니다. 랜선을 꽂는 순간 [[238_switch_operation_principles|스위치]]와 PC의 랜카드는 FLP(Fast Link Pulse)라는 짧은 전기 펄스를 주고받으며 서로의 최고 성능을 [[396_validation|확인]]합니다.
+**오토 네고시에이션(Auto-Negotiation)** 기능이 이때 도입되었습니다. 랜선을 꽂는 순간 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 PC의 랜카드는 FLP(Fast Link Pulse)라는 짧은 전기 펄스를 주고받으며 서로의 최고 성능을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)합니다.
 1. "나 100Mbps 전이중(Full Duplex) 지원해!"
 2. "어, 나는 10Mbps 반이중(Half Duplex)밖에 안 되는데."
 3. "알았어, 그럼 너한테 맞춰서 10Mbps 반이중으로 통신할게."
 
 이렇게 양쪽 장비가 지원하는 **공통분모 중 가장 빠른 속도와 통신 방식(이중 방식)**으로 링크를 자동으로 설정합니다.
 
-10BASE-T, 100BASE-TX를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [[230_ethernet_structure_and_principles_ieee_802_3|이더넷]] 물리 계층 표준이 기반 조건을 만든다면, 10BASE-T, 100BASE-TX는 그 위에서 핵심 메커니즘을 구현하고, 1000BASE-T는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 감쇠과 전송 거리에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+10BASE-T, 100BASE-TX를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 물리 계층 표준이 기반 조건을 만든다면, 10BASE-T, 100BASE-TX는 그 위에서 핵심 메커니즘을 구현하고, 1000BASE-T는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 감쇠과 전송 거리에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [[230_ethernet_structure_and_principles_ieee_802_3|이더넷]] 물리 계층 표준의 기반 정리 | 10BASE-T, 100BASE-TX의 핵심 동작 | 1000BASE-T의 확장 적용 |
+| 초점 | [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 물리 계층 표준의 기반 정리 | 10BASE-T, 100BASE-TX의 핵심 동작 | 1000BASE-T의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 감쇠 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: ** 100BASE-TX는 도로(케이블)는 그대로 둔 채, **차량에 테트리스(4B/5B)로 짐을 효율적으로 싣고 [[130_signal|신호]]등 체계(MLT-3)를 개선하여 통행량을 10배로 늘린 기적 같은 교통 공학**입니다. [[238_switch_operation_principles|스위치]]와 PC가 속도를 협상하는 것은 **서로 눈치를 보며 최적의 언어(속도)를 맞추는 통역사**와 같습니다.
+- **📢 섹션 요약 비유**: ** 100BASE-TX는 도로(케이블)는 그대로 둔 채, **차량에 테트리스(4B/5B)로 짐을 효율적으로 싣고 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등 체계(MLT-3)를 개선하여 통행량을 10배로 늘린 기적 같은 교통 공학**입니다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 PC가 속도를 협상하는 것은 **서로 눈치를 보며 최적의 언어(속도)를 맞추는 통역사**와 같습니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 10BASE-T, 100BASE-TX를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [[230_ethernet_structure_and_principles_ieee_802_3|이더넷]] 물리 계층 표준 수준의 기본 대책으로 충분한지, 아니면 10BASE-T, 100BASE-TX가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 1000BASE-T와 같은 후속 기술, 자동화 체계, 표준 [[344_compatibility_usability|호환성]]까지 함께 검토해야 한다.
+실무에서는 10BASE-T, 100BASE-TX를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 물리 계층 표준 수준의 기본 대책으로 충분한지, 아니면 10BASE-T, 100BASE-TX가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 1000BASE-T와 같은 후속 기술, 자동화 체계, 표준 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)까지 함께 검토해야 한다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 감쇠 부족인지, 전송 거리 악화인지 먼저 분리한다.
-2. 10BASE-T, 100BASE-TX가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [[396_validation|확인]]한다.
+2. 10BASE-T, 100BASE-TX가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
 3. 도입 후에는 인접 기술인 1000BASE-T와의 연계 방식을 함께 검증한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 10BASE-T, 100BASE-TX의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- [[230_ethernet_structure_and_principles_ieee_802_3|이더넷]] 물리 계층 표준와의 경계를 정리하지 않아 중복 투자나 [[164_policy|정책]] 충돌을 만드는 설계
+- [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 물리 계층 표준와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: 10BASE-T, 100BASE-TX를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -110,7 +114,7 @@ Fast Ethernet의 도입으로, 한 사무실에 10Mbps 랜카드와 100Mbps 랜�
 
 ## Ⅴ. 기대효과 및 결론
 
-10BASE-T, 100BASE-TX는 물리 계층과 전송 [[121_transmission_media_guided_unguided|매체]]를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 감쇠 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [[139_1000base_t_gigabit_ethernet|1000BASE-T]], 고속 광전송 최적화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 고속 광전송 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+10BASE-T, 100BASE-TX는 물리 계층과 전송 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 감쇠 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [1000BASE-T](/knowledge-base/studynote/03_network/03_physical_layer_media/139_1000base_t_gigabit_ethernet/), 고속 광전송 최적화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 고속 광전송 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 10BASE-T, 100BASE-TX는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -120,10 +124,10 @@ Fast Ethernet의 도입으로, 한 사무실에 10Mbps 랜카드와 100Mbps 랜�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[230_ethernet_structure_and_principles_ieee_802_3|이더넷]] 물리 계층 표준 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| 감쇠 (Attenuation) | 거리 증가에 따라 [[130_signal|신호]] 세기가 줄어드는 문제다. |
-| 변조 (Modulation) | [[121_transmission_media_guided_unguided|매체]] 특성에 맞춰 [[130_signal|신호]]를 실어 나르는 방법이다. |
-| [[139_1000base_t_gigabit_ethernet|1000BASE-T]] | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 물리 계층 표준 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 감쇠 (Attenuation) | 거리 증가에 따라 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 세기가 줄어드는 문제다. |
+| 변조 (Modulation) | [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 특성에 맞춰 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 실어 나르는 방법이다. |
+| [1000BASE-T](/knowledge-base/studynote/03_network/03_physical_layer_media/139_1000base_t_gigabit_ethernet/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -137,7 +141,7 @@ Fast Ethernet의 도입으로, 한 사무실에 10Mbps 랜카드와 100Mbps 랜�
     └──▶ [확장 B: 고속 광전송 최적화]
 ```
 
-10BASE-T, 100BASE-TX는 [[230_ethernet_structure_and_principles_ieee_802_3|이더넷]] 물리 계층 표준에서 출발해 현재 메커니즘을 정교화하고, 이후 1000BASE-T와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+10BASE-T, 100BASE-TX는 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 물리 계층 표준에서 출발해 현재 메커니즘을 정교화하고, 이후 1000BASE-T와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -151,7 +155,7 @@ Fast Ethernet의 도입으로, 한 사무실에 10Mbps 랜카드와 100Mbps 랜�
 
 **진행 상황**: 259 / 1120
 
-← **이전**: [[137_ieee_802_3_phy_ethernet_standard|137. 이더넷 물리 계층 표준 (IEEE 802.3 PHY)]]
-**다음**: [[139_1000base_t_gigabit_ethernet|139. 1000BASE-T (Gigabit Ethernet)]] →
+← **이전**: [137. 이더넷 물리 계층 표준 (IEEE 802.3 PHY)](/knowledge-base/studynote/03_network/03_physical_layer_media/137_ieee_802_3_phy_ethernet_standard/)
+**다음**: [139. 1000BASE-T (Gigabit Ethernet)](/knowledge-base/studynote/03_network/03_physical_layer_media/139_1000base_t_gigabit_ethernet/) →
 
 ---

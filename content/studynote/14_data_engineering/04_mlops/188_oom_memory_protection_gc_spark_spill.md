@@ -1,21 +1,25 @@
----
-title: 188. OOM (Out of Memory) 메모리 보호 GC (Garbage Collection) 스파크 스왑 방어
-date: '2026-04-21'
-tags:
-- studynote-data-engineering
----
++++
+title = "188. OOM (Out of Memory) 메모리 보호 GC (Garbage Collection) 스파크 스왑 방어"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-data-engineering"]
+
+[extra]
+tags = ["studynote-data-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[157_oom_killer|OOM]]([[157_oom_killer|Out of Memory]])은 [[612_memory_leak_detection|메모리 누수]]·과다 적재·비효율적 파티셔닝이 복합적으로 작용하여 JVM 힙이 고갈되는 현상으로, **Spark 메모리 모델(Execution/Storage 통합 메모리)**을 이해하고 Tungsten 엔진과 스필(Spill) 메커니즘을 활용하는 것이 핵심이다.
-> 2. **가치**: G1GC·ZGC 같은 현대 JVM GC 튜닝과 Spark의 메모리 파라미터(spark.memory.fraction 등)를 최적화하면 **수백 GB [[001_dikw_pyramid|데이터]] 처리 시 [[157_oom_killer|OOM]] 없이 안정적인 배치 파이프라인**을 구축할 수 있다.
-> 3. **판단 포인트**: [[157_oom_killer|OOM]] 디버깅 [[435_checklist_based_testing|체크리스트]]—[[514_partition_slice_volume|파티션]] 크기 [[396_validation|확인]](200MB 기준), 스큐([[001_dikw_pyramid|Data]] Skew) 제거, 브로드캐스트 조인 활용, 불필요한 캐시 해제—이 기술사 답안에서 실무 역량을 보여주는 핵심이다.
+> 1. **본질**: [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)([Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))은 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)·과다 적재·비효율적 파티셔닝이 복합적으로 작용하여 JVM 힙이 고갈되는 현상으로, **Spark 메모리 모델(Execution/Storage 통합 메모리)**을 이해하고 Tungsten 엔진과 스필(Spill) 메커니즘을 활용하는 것이 핵심이다.
+> 2. **가치**: G1GC·ZGC 같은 현대 JVM GC 튜닝과 Spark의 메모리 파라미터(spark.memory.fraction 등)를 최적화하면 **수백 GB [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 시 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 없이 안정적인 배치 파이프라인**을 구축할 수 있다.
+> 3. **판단 포인트**: [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 디버깅 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)—[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 크기 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(200MB 기준), 스큐([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Skew) 제거, 브로드캐스트 조인 활용, 불필요한 캐시 해제—이 기술사 답안에서 실무 역량을 보여주는 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### 1.1 [[157_oom_killer|OOM]] 발생 원인 [[104_classification_analysis|분류]]
+### 1.1 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 발생 원인 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)
 
 ```
 OOM 원인 트리:
@@ -31,7 +35,7 @@ OOM 원인 트리:
   └─ DataFrame 캐시 미해제└─ UDF 비효율   └─ 넓은 윈도우 함수
 ```
 
-### 1.2 Spark [[157_oom_killer|OOM]] 발생 시 에러 패턴
+### 1.2 Spark [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 발생 시 에러 패턴
 
 ```
 Executor OOM:
@@ -48,7 +52,7 @@ GC 관련:
   → 실제 OOM 전 단계 경고, 즉시 대응 필요
 ```
 
-📢 **섹션 요약 비유**: OOM은 마치 너무 많은 [[501_file_definition_logical_record|파일]]을 책상(메모리) 위에 올려놓아 더 이상 공간이 없어 작업을 멈추는 것과 같다. [[501_file_definition_logical_record|파일]]을 서랍(디스크, Spill)에 잠깐 넣거나, 불필요한 [[501_file_definition_logical_record|파일]]을 버리는(GC) 것이 해결책이다.
+📢 **섹션 요약 비유**: OOM은 마치 너무 많은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 책상(메모리) 위에 올려놓아 더 이상 공간이 없어 작업을 멈추는 것과 같다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 서랍(디스크, Spill)에 잠깐 넣거나, 불필요한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 버리는(GC) 것이 해결책이다.
 
 ---
 
@@ -104,15 +108,15 @@ Tungsten (Code Generation + Off-Heap):
     spark.memory.offHeap.size = 2g
 ```
 
-### 2.3 JVM GC [[001_algorithm_definition|알고리즘]] 비교
+### 2.3 JVM GC [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 비교
 
-| GC [[001_algorithm_definition|알고리즘]] | 특징 | Spark 추천 여부 |
+| GC [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 특징 | Spark 추천 여부 |
 |:---|:---|:---|
 | G1GC (Garbage First) | 대용량 힙, 정지 시간 예측 가능 | ✅ Spark 기본 권장 |
-| ZGC | 초저지연 (< 1ms STW), JDK 15+ | ✅ [[015_지연_데이터_관점|지연]] 민감 워크로드 |
-| Shenandoah | ZGC 유사, Red Hat 개발 | ⚠️ 일부 [[288_version_ihl_tos_total_length|버전]] 불안정 |
+| ZGC | 초저지연 (< 1ms STW), JDK 15+ | ✅ [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 민감 워크로드 |
+| Shenandoah | ZGC 유사, Red Hat 개발 | ⚠️ 일부 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 불안정 |
 | CMS (Concurrent Mark Sweep) | 구형, JDK 14에서 제거됨 | ❌ 사용 금지 |
-| Parallel GC | [[139_throughput|처리량]] 최대화, 긴 정지 | ⚠️ 배치 전용 |
+| Parallel GC | [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 최대화, 긴 정지 | ⚠️ 배치 전용 |
 
 ```
 G1GC Spark 최적화 설정:
@@ -156,7 +160,7 @@ G1GC Spark 최적화 설정:
 
 ## Ⅲ. 비교 및 연결
 
-### 3.1 [[001_dikw_pyramid|데이터]] 스큐 ([[001_dikw_pyramid|Data]] Skew) vs 균등 [[514_partition_slice_volume|파티션]]
+### 3.1 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스큐 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Skew) vs 균등 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)
 
 ```
 데이터 스큐 예시:
@@ -187,7 +191,7 @@ G1GC Spark 최적화 설정:
      → 런타임 스큐 파티션 자동 분할
 ```
 
-### 3.2 [[157_oom_killer|OOM]] 방지 [[514_partition_slice_volume|파티션]] 설계
+### 3.2 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 방지 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 설계
 
 ```
 파티션 크기 권장 기준:
@@ -210,21 +214,21 @@ G1GC Spark 최적화 설정:
 
 | 기법 | 효과 | 적용 케이스 |
 |:---|:---|:---|
-| [[514_partition_slice_volume|파티션]] 재조정 | 균일한 메모리 사용 | [[001_dikw_pyramid|데이터]] 스큐 |
+| [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 재조정 | 균일한 메모리 사용 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스큐 |
 | 브로드캐스트 조인 | 셔플 메모리 제거 | 작은 테이블 (< 10MB) |
 | AQE 활성화 | 런타임 스큐 자동 처리 | Spark 3.0+ |
-| 컬럼 선택 (Projection Pushdown) | 불필요한 컬럼 조기 제거 | 와이드 [[005_schema|스키마]] |
-| 술어 푸시다운 (Predicate Pushdown) | [[501_file_definition_logical_record|파일]] 수준 필터링 | [[178_parquet_rle_encoding_columnar_compression|파케이]]([[178_parquet_rle_encoding_columnar_compression|Parquet]]) [[501_file_definition_logical_record|파일]] |
+| 컬럼 선택 (Projection Pushdown) | 불필요한 컬럼 조기 제거 | 와이드 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) |
+| 술어 푸시다운 (Predicate Pushdown) | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 수준 필터링 | [파케이](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/)([Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/)) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) |
 | 캐시 관리 | 불필요한 캐시 해제 | 장시간 실행 잡 |
 | Off-Heap 활성화 | GC 압력 감소 | 대용량 집계 |
 
-📢 **섹션 요약 비유**: [[001_dikw_pyramid|데이터]] 스큐는 마치 이삿짐을 옮길 때 한 트럭에 모든 가구를 싣고 나머지 트럭은 비어있는 것과 같다. [[671_password_hash_salt_pbkdf2_bcrypt_argon2|솔트]] 키 기법은 소파를 반으로 분해해서 여러 트럭에 나눠 싣는 방법이다.
+📢 **섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스큐는 마치 이삿짐을 옮길 때 한 트럭에 모든 가구를 싣고 나머지 트럭은 비어있는 것과 같다. [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/) 키 기법은 소파를 반으로 분해해서 여러 트럭에 나눠 싣는 방법이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 4.1 Spark [[157_oom_killer|OOM]] 디버깅 [[435_checklist_based_testing|체크리스트]]
+### 4.1 Spark [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 디버깅 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 ```
 단계별 OOM 진단 프로세스:
@@ -288,7 +292,7 @@ Spark OOM 방지 설계 시 필수 언급:
   ✓ Driver OOM: collect/toPandas 제한, writeTo 사용 권장
 ```
 
-📢 **섹션 요약 비유**: Spark [[157_oom_killer|OOM]] 디버깅은 마치 막히는 도로(GC, Spill)를 찾아 교통 정리를 하는 것이다. Spark UI는 CCTV로 어디가 막히는지 보여주고, [[514_partition_slice_volume|파티션]] 재조정은 좁은 도로에 차를 분산시키는 우회로 설치다.
+📢 **섹션 요약 비유**: Spark [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 디버깅은 마치 막히는 도로(GC, Spill)를 찾아 교통 정리를 하는 것이다. Spark UI는 CCTV로 어디가 막히는지 보여주고, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 재조정은 좁은 도로에 차를 분산시키는 우회로 설치다.
 
 ---
 
@@ -299,12 +303,12 @@ Spark OOM 방지 설계 시 필수 언급:
 | 최적화 기법 | 효과 |
 |:---|:---|
 | G1GC → ZGC 전환 | GC 정지 시간 200ms → 1ms 이하 |
-| AQE 활성화 | 스큐 [[514_partition_slice_volume|파티션]] 자동 처리로 안정성 향상 |
-| Tungsten Off-Heap | GC 부담 30~40% 감소, [[139_throughput|처리량]] 향상 |
-| [[070_partition_optimization|파티션 최적화]] | [[157_oom_killer|OOM]] 발생률 80% 이상 감소 |
+| AQE 활성화 | 스큐 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 자동 처리로 안정성 향상 |
+| Tungsten Off-Heap | GC 부담 30~40% 감소, [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 향상 |
+| [파티션 최적화](/knowledge-base/studynote/16_bigdata/03_spark/070_partition_optimization/) | [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 발생률 80% 이상 감소 |
 | 브로드캐스트 조인 | 셔플 메모리 100% 제거 (해당 조인) |
 
-### 5.2 메모리 최적화 [[124_decision_tree|의사결정 트리]]
+### 5.2 메모리 최적화 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)
 
 ```
 ┌──────────────────────────────────────────────────────┐
@@ -328,28 +332,28 @@ Spark OOM 방지 설계 시 필수 언급:
 └──────────────────────────────────────────────────────┘
 ```
 
-📢 **섹션 요약 비유**: Spark [[157_oom_killer|OOM]] 최적화 [[124_decision_tree|의사결정 트리]]는 마치 건강 검진 [[435_checklist_based_testing|체크리스트]]와 같다. 혈압(GC Time)이 높으면 약(GC 튜닝)을 쓰고, 허리([[514_partition_slice_volume|파티션]] 균형)가 나쁘면 자세를 고치고, 그래도 안 되면 더 큰 침대(메모리)를 사용한다.
+📢 **섹션 요약 비유**: Spark [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 최적화 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)는 마치 건강 검진 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)와 같다. 혈압(GC Time)이 높으면 약(GC 튜닝)을 쓰고, 허리([파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 균형)가 나쁘면 자세를 고치고, 그래도 안 되면 더 큰 침대(메모리)를 사용한다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| [[083_relationship_in_er_model|관계]] | 개념 | 설명 |
+| [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
 |:---|:---|:---|
-| 핵심 장애 | [[157_oom_killer|OOM]] ([[157_oom_killer|Out of Memory]]) | JVM 힙 고갈로 [[107_process_termination|프로세스 종료]] |
-| 메모리 관리 | GC ([[380_garbage_collection|Garbage Collection]]) | 불필요한 객체 메모리 회수 |
-| 현대 GC | G1GC / ZGC / Shenandoah | 대용량·저지연 GC [[001_algorithm_definition|알고리즘]] |
-| Spark 최적화 | Tungsten | 코드 [[087_process_state_transition|생성]] + 오프힙 바이너리 처리 |
+| 핵심 장애 | [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) ([Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) | JVM 힙 고갈로 [프로세스 종료](/knowledge-base/studynote/02_operating_system/02_process_thread/107_process_termination/) |
+| 메모리 관리 | GC ([Garbage Collection](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)) | 불필요한 객체 메모리 회수 |
+| 현대 GC | G1GC / ZGC / Shenandoah | 대용량·저지연 GC [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
+| Spark 최적화 | Tungsten | 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) + 오프힙 바이너리 처리 |
 | 안전 밸브 | Spill to Disk | 메모리 부족 시 디스크로 임시 저장 |
-| 핵심 문제 | [[001_dikw_pyramid|데이터]] 스큐 ([[001_dikw_pyramid|Data]] Skew) | [[514_partition_slice_volume|파티션]] 불균형으로 일부 [[157_oom_killer|OOM]] |
+| 핵심 문제 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스큐 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Skew) | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 불균형으로 일부 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) |
 | 자동 최적화 | AQE (Adaptive Query Execution) | 런타임 통계 기반 자동 최적화 |
-| 조인 최적화 | 브로드캐스트 조인 | 소규모 테이블 전 [[514_partition_slice_volume|파티션]] 복사 |
+| 조인 최적화 | 브로드캐스트 조인 | 소규모 테이블 전 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 복사 |
 
 ---
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **[[157_oom_killer|OOM]]**은 마치 책상 위에 책을 너무 많이 쌓아서 결국 책상이 무너지는 것처럼, 컴퓨터가 한꺼번에 너무 많은 [[001_dikw_pyramid|데이터]]를 기억하려다 뻗어버리는 상황이에요.
+1. **[OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)**은 마치 책상 위에 책을 너무 많이 쌓아서 결국 책상이 무너지는 것처럼, 컴퓨터가 한꺼번에 너무 많은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 기억하려다 뻗어버리는 상황이에요.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -371,8 +375,8 @@ OOM (Out of Memory) 발생
     ▼
 프로액티브 모니터링 → OOM 사전 경보 · 자동 스케일링
 ```
-2. **GC(쓰레기 수거)**는 마치 수업 중에 가끔 선생님이 "이제 필요 없는 노트 버려라!"라고 하는 것처럼, 컴퓨터가 사용이 끝난 [[001_dikw_pyramid|데이터]]를 자동으로 치워서 공간을 만드는 작업이에요—너무 자주 하면 수업이 멈추니 조절이 중요해요.
-3. **Spill to Disk**는 책상이 가득 찼을 때 당장 쓰지 않는 책을 임시로 사물함(디스크)에 넣어두는 것처럼, 메모리가 부족하면 [[001_dikw_pyramid|데이터]]를 디스크에 잠깐 저장하고 나중에 다시 꺼내 작업을 계속하는 방법이에요.
+2. **GC(쓰레기 수거)**는 마치 수업 중에 가끔 선생님이 "이제 필요 없는 노트 버려라!"라고 하는 것처럼, 컴퓨터가 사용이 끝난 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 자동으로 치워서 공간을 만드는 작업이에요—너무 자주 하면 수업이 멈추니 조절이 중요해요.
+3. **Spill to Disk**는 책상이 가득 찼을 때 당장 쓰지 않는 책을 임시로 사물함(디스크)에 넣어두는 것처럼, 메모리가 부족하면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 디스크에 잠깐 저장하고 나중에 다시 꺼내 작업을 계속하는 방법이에요.
 
 ---
 
@@ -380,7 +384,7 @@ OOM (Out of Memory) 발생
 
 **진행 상황**: 188 / 258
 
-← **이전**: [[187_time_series_interpolation_rollup_dashboard|187. 시계열 DB 보간법 (Interpolation) 롤업 (Rollup) 통계 지표 대시보드]]
-**다음**: [[189_kafka_consumer_lag_monitoring_alert|189. 카프카 컨슈머 랙 (Kafka Consumer Lag) 지연 모니터링 경보 파이프]] →
+← **이전**: [187. 시계열 DB 보간법 (Interpolation) 롤업 (Rollup) 통계 지표 대시보드](/knowledge-base/studynote/14_data_engineering/04_mlops/187_time_series_interpolation_rollup_dashboard/)
+**다음**: [189. 카프카 컨슈머 랙 (Kafka Consumer Lag) 지연 모니터링 경보 파이프](/knowledge-base/studynote/14_data_engineering/04_mlops/189_kafka_consumer_lag_monitoring_alert/) →
 
 ---

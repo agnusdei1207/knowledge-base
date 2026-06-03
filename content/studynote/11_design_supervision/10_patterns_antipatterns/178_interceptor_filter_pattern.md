@@ -1,25 +1,29 @@
----
-title: 178. 인터셉터 / 필터 패턴 (Interceptor / Filter Pattern)
-date: '2026-05-06'
-tags:
-- studynote-design-supervision
----
++++
+title = "178. 인터셉터 / 필터 패턴 (Interceptor / Filter Pattern)"
+date = 2026-05-06
+
+[taxonomies]
+tags = ["studynote-design-supervision"]
+
+[extra]
+tags = ["studynote-design-supervision"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 인터셉터 / 필터 패턴은 요청·응답 흐름 바깥에 횡단 관심사(Cross-Cutting Concern)를 체인 형태로 배치해, 핵심 비즈니스 로직을 건드리지 않고 공통 [[164_policy|정책]]을 삽입하는 설계망 구조다.
-> 2. **가치**: [[303_authentication_authorization_patterns|인증]], 로깅, 인코딩, 보안 헤더, [[606_auditing_linux_auditd|감사]] 추적, [[282_performance_tactics|성능]] 계측을 중앙화해 코드 중복과 [[164_policy|정책]] 누락을 줄이고, 요청을 중간에서 차단하거나 후처리할 수 있게 한다.
-> 3. **판단 포인트**: Filter는 [[561_container_based_deployment|컨테이너]]/미들웨어 레벨의 전역 처리에, Interceptor는 프레임워크·핸들러 문맥을 아는 세밀한 처리에 적합하며, [[090_service_kubernetes_network_load_balancing|서비스]] 메서드 수준 횡단 관심사는 AOP (Aspect-Oriented Programming)와 구분해 써야 한다.
+> 1. **본질**: 인터셉터 / 필터 패턴은 요청·응답 흐름 바깥에 횡단 관심사(Cross-Cutting Concern)를 체인 형태로 배치해, 핵심 비즈니스 로직을 건드리지 않고 공통 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 삽입하는 설계망 구조다.
+> 2. **가치**: [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 로깅, 인코딩, 보안 헤더, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 계측을 중앙화해 코드 중복과 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 누락을 줄이고, 요청을 중간에서 차단하거나 후처리할 수 있게 한다.
+> 3. **판단 포인트**: Filter는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)/미들웨어 레벨의 전역 처리에, Interceptor는 프레임워크·핸들러 문맥을 아는 세밀한 처리에 적합하며, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 메서드 수준 횡단 관심사는 AOP (Aspect-Oriented Programming)와 구분해 써야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-웹 시스템이 커질수록 비즈니스 로직보다 더 자주 반복되는 코드가 생긴다. [[568_logs_distributed_logging_elk_fluentd|로그]]인 여부 [[396_validation|확인]], 요청 추적 ID 부여, 공통 예외 포맷, 응답 [[347_compaction|압축]], 보안 헤더 추가 같은 로직이다. 이런 코드를 각 Controller나 Handler마다 직접 넣기 시작하면 공통 [[164_policy|정책]]이 흩어지고, 한 군데 누락된 곳이 보안 사고나 운영 장애의 시작점이 된다.
+웹 시스템이 커질수록 비즈니스 로직보다 더 자주 반복되는 코드가 생긴다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인 여부 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), 요청 추적 ID 부여, 공통 예외 포맷, 응답 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/), 보안 헤더 추가 같은 로직이다. 이런 코드를 각 Controller나 Handler마다 직접 넣기 시작하면 공통 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 흩어지고, 한 군데 누락된 곳이 보안 사고나 운영 장애의 시작점이 된다.
 
-인터셉터와 필터 패턴은 이 문제를 해결하기 위해 등장했다. 핵심 아이디어는 단순하다. **업무 처리 전에 지나가는 공통 통로를 만들고, 그 통로에 [[164_policy|정책]]을 배치한다.** 그러면 프론트 컨트롤러 (Front Controller)가 요청을 한곳으로 모으고, 필터와 인터셉터가 그 주변에서 [[164_policy|정책]]을 분담하는 구조가 된다.
+인터셉터와 필터 패턴은 이 문제를 해결하기 위해 등장했다. 핵심 아이디어는 단순하다. **업무 처리 전에 지나가는 공통 통로를 만들고, 그 통로에 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 배치한다.** 그러면 프론트 컨트롤러 (Front Controller)가 요청을 한곳으로 모으고, 필터와 인터셉터가 그 주변에서 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 분담하는 구조가 된다.
 
-즉 이 패턴의 필요성은 "후킹 포인트가 있으면 편하다"가 아니라, **횡단 관심사를 업무 코드에서 분리해 책임 경계를 선명하게 만드는 것**에 있다. 설계감리 관점에서도 공통 [[164_policy|정책]]의 위치와 순서를 눈으로 [[396_validation|확인]]할 수 있어 구조 품질을 평가하기 쉽다.
+즉 이 패턴의 필요성은 "후킹 포인트가 있으면 편하다"가 아니라, **횡단 관심사를 업무 코드에서 분리해 책임 경계를 선명하게 만드는 것**에 있다. 설계감리 관점에서도 공통 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 위치와 순서를 눈으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있어 구조 품질을 평가하기 쉽다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────────────┐
@@ -33,19 +37,19 @@ tags:
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 인터셉터와 필터는 교실마다 따로 출석 [[396_validation|확인]]을 하는 대신, 학교 정문과 복도에 공통 검사 지점을 두어 규칙을 한 번에 지키게 만드는 방식과 같다.
+- **📢 섹션 요약 비유**: 인터셉터와 필터는 교실마다 따로 출석 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)을 하는 대신, 학교 정문과 복도에 공통 검사 지점을 두어 규칙을 한 번에 지키게 만드는 방식과 같다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-이 패턴은 보통 요청 파이프라인의 서로 다른 층에 두 겹으로 배치된다. Filter는 웹 [[561_container_based_deployment|컨테이너]]나 미들웨어 레벨에서 가장 먼저 요청을 받으며, Interceptor는 프레임워크가 핸들러를 고른 뒤 더 풍부한 문맥을 가진 상태에서 동작한다. 둘 다 체인([[276_chain_of_responsibility_pattern|Chain of Responsibility]]) 구조를 이루며, 조건에 따라 다음 단계로 넘기거나 즉시 차단할 수 있다.
+이 패턴은 보통 요청 파이프라인의 서로 다른 층에 두 겹으로 배치된다. Filter는 웹 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)나 미들웨어 레벨에서 가장 먼저 요청을 받으며, Interceptor는 프레임워크가 핸들러를 고른 뒤 더 풍부한 문맥을 가진 상태에서 동작한다. 둘 다 체인([Chain of Responsibility](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/276_chain_of_responsibility_pattern/)) 구조를 이루며, 조건에 따라 다음 단계로 넘기거나 즉시 차단할 수 있다.
 
 | 구성 요소 | 위치 | 주된 역할 | 대표 예시 |
 | :--- | :--- | :--- | :--- |
-| Filter / Middleware | 웹 [[561_container_based_deployment|컨테이너]] 앞단 | 인코딩, CORS (Cross-Origin Resource Sharing), [[347_compaction|압축]], 보안 헤더, 요청 래핑 | Servlet Filter, Node Middleware |
-| Front Controller | 프레임워크 진입점 | [[339_routing_overview_best_path_selection|라우팅]], 공통 제어 시작점 | DispatcherServlet |
-| Interceptor | 핸들러 전후 | [[303_authentication_authorization_patterns|인증]]/[[509_authorization_models_rbac_abac|인가]], [[606_auditing_linux_auditd|감사]], [[282_performance_tactics|성능]] 계측, 메뉴/권한 문맥 | Spring HandlerInterceptor |
+| Filter / Middleware | 웹 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 앞단 | 인코딩, CORS (Cross-Origin Resource Sharing), [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/), 보안 헤더, 요청 래핑 | Servlet Filter, Node Middleware |
+| Front Controller | 프레임워크 진입점 | [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 공통 제어 시작점 | DispatcherServlet |
+| Interceptor | 핸들러 전후 | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)/[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/), [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/), [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 계측, 메뉴/권한 문맥 | Spring HandlerInterceptor |
 | Handler / Controller | 업무 처리 | 실제 유스케이스 수행 | Controller, Endpoint |
 | Exception Resolver | 후단 응답 표준화 | 예외를 공통 응답으로 변환 | Error Handler |
 
@@ -78,11 +82,11 @@ tags:
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
-이 구조의 핵심은 **순서와 중단 가능성**이다. 예를 들어 문자 인코딩은 가장 앞단에서 처리해야 하고, [[303_authentication_authorization_patterns|인증]] 실패는 Controller에 도달하기 전에 막는 편이 낫다. 반면 어떤 핸들러가 선택되었는지 알아야 하는 권한 검사나 메뉴 [[606_auditing_linux_auditd|감사]]는 Interceptor가 더 적합하다. 응답이 나갈 때는 필터가 헤더나 [[347_compaction|압축]]을 마무리하고, 인터셉터는 실행 시간과 예외 정보를 정리한다.
+이 구조의 핵심은 **순서와 중단 가능성**이다. 예를 들어 문자 인코딩은 가장 앞단에서 처리해야 하고, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 실패는 Controller에 도달하기 전에 막는 편이 낫다. 반면 어떤 핸들러가 선택되었는지 알아야 하는 권한 검사나 메뉴 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)는 Interceptor가 더 적합하다. 응답이 나갈 때는 필터가 헤더나 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)을 마무리하고, 인터셉터는 실행 시간과 예외 정보를 정리한다.
 
-또한 이 패턴은 Decorator처럼 요청과 응답을 감싸기도 한다. 일부 Filter는 Request/Response 객체를 래핑해 본문 [[456_caching|캐싱]], [[726_xss_cross_site_scripting_types|XSS]] ([[470_xss|Cross-Site Scripting]]) 방어, [[347_compaction|압축]] 해제를 수행한다. 그래서 단순 "전/후 콜백"이 아니라 **제어 흐름과 [[001_dikw_pyramid|데이터]] 형식 모두에 영향을 주는 외곽 [[164_policy|정책]]층**으로 이해해야 한다.
+또한 이 패턴은 Decorator처럼 요청과 응답을 감싸기도 한다. 일부 Filter는 Request/Response 객체를 래핑해 본문 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/), [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) ([Cross-Site Scripting](/knowledge-base/studynote/09_security/05_web_app_security/470_xss/)) 방어, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 해제를 수행한다. 그래서 단순 "전/후 콜백"이 아니라 **제어 흐름과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 형식 모두에 영향을 주는 외곽 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)층**으로 이해해야 한다.
 
-- **📢 섹션 요약 비유**: 필터와 인터셉터는 경기장 입구의 보안 검색대와 경기장 안쪽의 구역별 출입 통제처럼, 같은 사람을 검사하더라도 위치와 [[396_validation|확인]] 기준이 다른 두 단계의 안전망이다.
+- **📢 섹션 요약 비유**: 필터와 인터셉터는 경기장 입구의 보안 검색대와 경기장 안쪽의 구역별 출입 통제처럼, 같은 사람을 검사하더라도 위치와 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 기준이 다른 두 단계의 안전망이다.
 
 ---
 
@@ -92,44 +96,44 @@ tags:
 
 | 비교 축 | Filter / Middleware | Interceptor | AOP |
 | :--- | :--- | :--- | :--- |
-| 개입 지점 | 웹 [[561_container_based_deployment|컨테이너]], 요청 입구 | 프레임워크가 핸들러를 선택한 이후 | 메서드 호출 경계 |
-| 다룰 수 있는 정보 | 원시 Request/Response | 핸들러, 모델, [[339_routing_overview_best_path_selection|라우팅]] 정보 | [[090_service_kubernetes_network_load_balancing|서비스]]/리포지토리 메서드와 인자 |
-| 대표 용도 | 인코딩, CORS, 보안 헤더, [[347_compaction|압축]] | [[303_authentication_authorization_patterns|인증]]/[[509_authorization_models_rbac_abac|인가]], [[606_auditing_linux_auditd|감사]], 실행 시간 측정 | [[191_transaction_concept_states|트랜잭션]], 공통 로깅, 권한 검사 |
+| 개입 지점 | 웹 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/), 요청 입구 | 프레임워크가 핸들러를 선택한 이후 | 메서드 호출 경계 |
+| 다룰 수 있는 정보 | 원시 Request/Response | 핸들러, 모델, [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 정보 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)/리포지토리 메서드와 인자 |
+| 대표 용도 | 인코딩, CORS, 보안 헤더, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)/[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/), [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/), 실행 시간 측정 | [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/), 공통 로깅, 권한 검사 |
 | 적용 범위 | 정적 자원 포함 전역 | 프레임워크가 관리하는 요청 | 웹 외 영역까지 포함 |
 | 판단 기준 | 가장 앞단에서 처리해야 하는가 | 어떤 핸들러인지 알아야 하는가 | HTTP와 무관한 비즈니스 경계인가 |
 
-프론트 컨트롤러와의 관계도 중요하다. 프론트 컨트롤러는 요청을 중앙 진입점으로 모아 어떤 핸들러를 호출할지 결정한다. 필터는 그 앞뒤에서 **전역 규칙**을 적용하고, 인터셉터는 프론트 컨트롤러 내부에서 **선택된 핸들러 주변 규칙**을 적용한다. 따라서 이 패턴은 프론트 컨트롤러를 대체하는 것이 아니라, 그 주변에 [[164_policy|정책]]망을 친 구조다.
+프론트 컨트롤러와의 관계도 중요하다. 프론트 컨트롤러는 요청을 중앙 진입점으로 모아 어떤 핸들러를 호출할지 결정한다. 필터는 그 앞뒤에서 **전역 규칙**을 적용하고, 인터셉터는 프론트 컨트롤러 내부에서 **선택된 핸들러 주변 규칙**을 적용한다. 따라서 이 패턴은 프론트 컨트롤러를 대체하는 것이 아니라, 그 주변에 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)망을 친 구조다.
 
-현대 프레임워크에서 이름은 달라도 본질은 같다. Java의 Servlet Filter, Spring Interceptor, Node.js의 middleware, ASP.NET Core [[082_pipeline|pipeline]] 모두 "체인으로 요청을 감싸며 조건에 따라 중단·후처리한다"는 공통 철학을 공유한다. 즉 특정 기술 문법보다 **[[164_policy|정책]]을 외곽 체인에 둔다**는 설계 원리를 기억해야 한다.
+현대 프레임워크에서 이름은 달라도 본질은 같다. Java의 Servlet Filter, Spring Interceptor, Node.js의 middleware, ASP.NET Core [pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/) 모두 "체인으로 요청을 감싸며 조건에 따라 중단·후처리한다"는 공통 철학을 공유한다. 즉 특정 기술 문법보다 **[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 외곽 체인에 둔다**는 설계 원리를 기억해야 한다.
 
-- **📢 섹션 요약 비유**: 프론트 컨트롤러가 중앙 안내 데스크라면, 필터는 건물 정문 경비, 인터셉터는 해당 부서 앞 출입 카드 [[396_validation|확인]], AOP는 건물 안 사무실에서 이루어지는 공통 업무 규칙에 가깝다.
+- **📢 섹션 요약 비유**: 프론트 컨트롤러가 중앙 안내 데스크라면, 필터는 건물 정문 경비, 인터셉터는 해당 부서 앞 출입 카드 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), AOP는 건물 안 사무실에서 이루어지는 공통 업무 규칙에 가깝다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 "모든 공통 로직을 인터셉터로" 또는 "보안은 전부 필터로"처럼 단순화하면 실패한다. 중요한 것은 책임 배치다. 전역적이고 저수준인 작업은 Filter에, 핸들러 문맥이 필요한 작업은 Interceptor에, [[461_http_stateless_connection_oriented|HTTP]] 요청과 무관한 [[090_service_kubernetes_network_load_balancing|서비스]] 계층 공통 로직은 AOP에 두는 것이 일반적으로 안정적이다.
+실무에서는 "모든 공통 로직을 인터셉터로" 또는 "보안은 전부 필터로"처럼 단순화하면 실패한다. 중요한 것은 책임 배치다. 전역적이고 저수준인 작업은 Filter에, 핸들러 문맥이 필요한 작업은 Interceptor에, [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 요청과 무관한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 계층 공통 로직은 AOP에 두는 것이 일반적으로 안정적이다.
 
 | 처리 요구 | 적합한 위치 | 이유 |
 | :--- | :--- | :--- |
-| [[105_utf8|UTF-8]] 인코딩, CORS, 보안 헤더, [[347_compaction|압축]] | Filter | 가장 앞단에서 모든 요청·응답에 공통 적용해야 함 |
-| [[549_jwt_json_web_token|JWT]] ([[549_jwt_json_web_token|JSON Web Token]]) 파싱, [[303_authentication_authorization_patterns|인증]] 체인 | Filter 또는 보안 필터 체인 | Controller 도달 전 차단이 유리함 |
-| 핸들러별 권한 검사, 메뉴 [[606_auditing_linux_auditd|감사]], 실행 시간 측정 | Interceptor | 어떤 핸들러가 선택되었는지 알아야 함 |
-| [[191_transaction_concept_states|트랜잭션]], [[090_service_kubernetes_network_load_balancing|서비스]] 메서드 로깅 | AOP | 웹 요청 여부와 무관하게 메서드 단위로 적용 가능 |
+| [UTF-8](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/105_utf8/) 인코딩, CORS, 보안 헤더, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) | Filter | 가장 앞단에서 모든 요청·응답에 공통 적용해야 함 |
+| [JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/) ([JSON Web Token](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/)) 파싱, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 체인 | Filter 또는 보안 필터 체인 | Controller 도달 전 차단이 유리함 |
+| 핸들러별 권한 검사, 메뉴 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/), 실행 시간 측정 | Interceptor | 어떤 핸들러가 선택되었는지 알아야 함 |
+| [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/), [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 메서드 로깅 | AOP | 웹 요청 여부와 무관하게 메서드 단위로 적용 가능 |
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 필터와 인터셉터의 순서가 문서와 코드에서 일치하는가?
 2. 차단 로직이 어디서 끝나는지와 에러 응답 형식이 일관적인가?
 3. Request Body를 읽는 Filter가 있다면 이후 단계에서 다시 읽을 수 있게 래핑했는가?
 4. 인스턴스 필드에 요청별 상태를 저장하지 않아 멀티스레드 안전성을 지키는가?
-5. [[303_authentication_authorization_patterns|인증]], [[509_authorization_models_rbac_abac|인가]], [[606_auditing_linux_auditd|감사]], 예외 처리의 책임이 Filter / Interceptor / [[090_service_kubernetes_network_load_balancing|Service]] 사이에서 중복되지 않는가?
+5. [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/), [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/), 예외 처리의 책임이 Filter / Interceptor / [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 사이에서 중복되지 않는가?
 
-### 자주 발생하는 [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### 자주 발생하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 필터 안에서 비즈니스 규칙과 DB ([[501_database|Database]]) 업데이트까지 수행하는 구조
-- 인터셉터와 컨트롤러가 같은 [[303_authentication_authorization_patterns|인증]] 검사를 중복 수행하는 설계
-- 순서가 중요한 체인을 [[009_config|설정]] 파일과 코드에서 다르게 관리하는 운영
+- 필터 안에서 비즈니스 규칙과 DB ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/)) 업데이트까지 수행하는 구조
+- 인터셉터와 컨트롤러가 같은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 검사를 중복 수행하는 설계
+- 순서가 중요한 체인을 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 파일과 코드에서 다르게 관리하는 운영
 - Request Body를 한 번 읽고 소모해 버려 하위 핸들러가 본문을 못 읽는 구현
 - 상태를 멤버 변수에 저장해 동시 요청 간 값이 섞이는 구현
 
@@ -141,9 +145,9 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-인터셉터 / 필터 패턴이 잘 적용되면 시스템은 공통 [[164_policy|정책]]을 추가하거나 변경할 때 핵심 업무 코드를 덜 건드리게 된다. 그 결과 [[303_authentication_authorization_patterns|인증]] 누락, [[568_logs_distributed_logging_elk_fluentd|로그]] 형식 불일치, 예외 응답 편차, 관측성 부재 같은 문제가 줄고, 운영팀은 요청 흐름의 어느 지점에서 [[164_policy|정책]]이 적용되는지 더 쉽게 추적할 수 있다. 설계감리에서도 체인 구조와 순서만 보아도 많은 품질 이슈를 빠르게 발견할 수 있다.
+인터셉터 / 필터 패턴이 잘 적용되면 시스템은 공통 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 추가하거나 변경할 때 핵심 업무 코드를 덜 건드리게 된다. 그 결과 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 누락, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 형식 불일치, 예외 응답 편차, 관측성 부재 같은 문제가 줄고, 운영팀은 요청 흐름의 어느 지점에서 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 적용되는지 더 쉽게 추적할 수 있다. 설계감리에서도 체인 구조와 순서만 보아도 많은 품질 이슈를 빠르게 발견할 수 있다.
 
-반대로 이 패턴을 과도하게 남용하면 숨겨진 제어 흐름이 늘어나 디버깅이 어려워진다. 그래서 좋은 구조는 **얇고, 순서가 명확하고, 상태를 갖지 않으며, 책임이 분명한 체인**이다. 결국 이 패턴은 "어디든 끼워 넣는 후킹 기술"이 아니라, **[[164_policy|정책]]을 외곽으로 밀어내어 본업 코드를 깨끗하게 만드는 설계망**으로 기억해야 한다.
+반대로 이 패턴을 과도하게 남용하면 숨겨진 제어 흐름이 늘어나 디버깅이 어려워진다. 그래서 좋은 구조는 **얇고, 순서가 명확하고, 상태를 갖지 않으며, 책임이 분명한 체인**이다. 결국 이 패턴은 "어디든 끼워 넣는 후킹 기술"이 아니라, **[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 외곽으로 밀어내어 본업 코드를 깨끗하게 만드는 설계망**으로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: 인터셉터와 필터는 집 안 모든 방마다 소화기를 두는 대신, 복도와 현관에 소방 설비를 체계적으로 배치해 집 전체를 지키는 안전 설계와 같다.
 
@@ -154,10 +158,10 @@ tags:
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | Front Controller | 모든 요청을 모은 뒤 인터셉터를 호출하는 중앙 진입점이다. |
-| [[276_chain_of_responsibility_pattern|Chain of Responsibility]] | 필터와 인터셉터가 순차적으로 제어를 넘기는 이론적 기반이다. |
+| [Chain of Responsibility](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/276_chain_of_responsibility_pattern/) | 필터와 인터셉터가 순차적으로 제어를 넘기는 이론적 기반이다. |
 | Middleware | 다른 플랫폼에서 같은 철학을 구현하는 유사 개념이다. |
-| AOP (Aspect-Oriented Programming) | [[461_http_stateless_connection_oriented|HTTP]] 밖의 메서드 단위 횡단 관심사를 분리하는 상위 개념이다. |
-| Spring [[283_security_tactics|Security]] Filter Chain | 실무에서 보안 [[164_policy|정책]]을 필터 체인으로 구현하는 대표 사례다. |
+| AOP (Aspect-Oriented Programming) | [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 밖의 메서드 단위 횡단 관심사를 분리하는 상위 개념이다. |
+| Spring [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Filter Chain | 실무에서 보안 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 필터 체인으로 구현하는 대표 사례다. |
 | Exception Resolver | 체인에서 발생한 오류를 표준 응답으로 바꾸는 후단 협력 요소다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -178,7 +182,7 @@ Interceptor 기반 핸들러 전후 제어
 AOP · Security Chain · Observability로 확장된 정책망
 ```
 
-이 흐름은 웹 요청 처리가 단순 [[339_routing_overview_best_path_selection|라우팅]]에서 출발해, 공통 [[164_policy|정책]]을 외곽 체인으로 분리하는 프레임워크 중심 구조로 발전하는 과정을 보여 준다.
+이 흐름은 웹 요청 처리가 단순 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)에서 출발해, 공통 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 외곽 체인으로 분리하는 프레임워크 중심 구조로 발전하는 과정을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -192,7 +196,7 @@ AOP · Security Chain · Observability로 확장된 정책망
 
 **진행 상황**: 234 / 530
 
-← **이전**: [[177_front_controller_pattern|177. 프론트 컨트롤러 패턴 (Front Controller Pattern)]]
-**다음**: [[179_repository_pattern|179. 레파지토리 패턴 (Repository Pattern)]] →
+← **이전**: [177. 프론트 컨트롤러 패턴 (Front Controller Pattern)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/177_front_controller_pattern/)
+**다음**: [179. 레파지토리 패턴 (Repository Pattern)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/179_repository_pattern/) →
 
 ---

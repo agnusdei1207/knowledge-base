@@ -1,13 +1,17 @@
----
-title: 🛠️ R&D 로드맵 초안
-tags:
-- r-and-d
----
++++
+title = "🛠️ R&D 로드맵 초안"
+
+[taxonomies]
+tags = ["r-and-d"]
+
+[extra]
+tags = ["r-and-d"]
++++
 
 이 문서는 분기 단위 기술 검증과 내부 실험 우선순위를 정리한 초안입니다.
 
 상위 문서:
-- [[r-and-d]]
+- [r-and-d](/knowledge-base/r-and-d/)
 
 ---
 

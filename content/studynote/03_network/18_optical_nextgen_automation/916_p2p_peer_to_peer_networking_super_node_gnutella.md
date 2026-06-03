@@ -1,9 +1,13 @@
----
-title: 916. P2P (Peer-to-Peer)
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "916. P2P (Peer-to-Peer)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -15,8 +19,8 @@ tags:
 
 ## Ⅰ. 개요 및 필요성
 
-- 인터넷의 99%는 중앙의 Server(제공자)가 있고, 우리 스마트폰 [[003_audit_stakeholders|Client]](소비자)가 접속해 데이터를 구걸하는 방식입니다.
-- **문제점**: 중앙 서버 1대가 터지면([[454_spof|SPOF]]) 전 국민이 카카오톡을 못 합니다. 또한 트래픽 100%를 서버가 부담해야 하니 인프라 유지 비용이 천문학적입니다.
+- 인터넷의 99%는 중앙의 Server(제공자)가 있고, 우리 스마트폰 [Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)(소비자)가 접속해 데이터를 구걸하는 방식입니다.
+- **문제점**: 중앙 서버 1대가 터지면([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)) 전 국민이 카카오톡을 못 합니다. 또한 트래픽 100%를 서버가 부담해야 하니 인프라 유지 비용이 천문학적입니다.
 
 ```text
 [해상 통신망 LTE-M / e-Navigat…]
@@ -27,7 +31,7 @@ tags:
     └──▶ [비트토렌트 초크/언초크 리치 통신 대역폭 인…]
 ```
 
-- **📢 섹션 요약 비유**: P2P는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [[170_selectivity_cardinality_distribution_tuning|선택도]] 쉬워진다.
+- **📢 섹션 요약 비유**: P2P는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
@@ -36,19 +40,19 @@ tags:
 P2P는 중앙 서버를 없애는 과정 속에서 3단계로 진화했습니다.
 
 ### 1. 하이브리드 P2P (1세대, 냅스터 Napster)
-- **방식**: [[501_file_definition_logical_record|파일]]을 주고받는 건 개인 컴퓨터([[060_hyperledger_architecture_peer_orderer_msp|Peer]])끼리 1:1로 직거래합니다. 하지만, **"누가 어떤 MP3 [[501_file_definition_logical_record|파일]]을 갖고 있는지(목차 장부)"는 무조건 중앙 서버(디렉토리 서버)에 접속해서 검색**해야 합니다.
-- **최후**: 음원 [[583_ai_code_license_security_threats|저작권]] 협회가 소송을 걸어 중앙 장부 서버 1대만 경찰이 압수수색해 전원을 뽑아버리자, 전 세계 P2P 통신망이 그날로 아예 멸망해 버렸습니다(단일 고장점의 저주). 
+- **방식**: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 주고받는 건 개인 컴퓨터([Peer](/knowledge-base/studynote/06_ict_convergence/01_blockchain/060_hyperledger_architecture_peer_orderer_msp/))끼리 1:1로 직거래합니다. 하지만, **"누가 어떤 MP3 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 갖고 있는지(목차 장부)"는 무조건 중앙 서버(디렉토리 서버)에 접속해서 검색**해야 합니다.
+- **최후**: 음원 [저작권](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/583_ai_code_license_security_threats/) 협회가 소송을 걸어 중앙 장부 서버 1대만 경찰이 압수수색해 전원을 뽑아버리자, 전 세계 P2P 통신망이 그날로 아예 멸망해 버렸습니다(단일 고장점의 저주). 
 
 ### 2. 순수 P2P (2세대, Gnutella) - "진정한 바퀴벌레망"
 - **방식**: 경찰한테 털릴 '중앙 서버'라는 존재 자체를 시스템에서 100% 삭제해 버렸습니다.
-- **[[501_file_definition_logical_record|파일]] 탐색 (Flooding)**: 내가 야동을 찾고 싶으면, 내 옆에 붙은 3명의 이웃 컴퓨터([[060_hyperledger_architecture_peer_orderer_msp|Peer]])에게 "야동 있어?"라고 방송(Flooding)합니다. 없으면 그 이웃이 자기 이웃 3명에게 또 묻습니다. 다단계 피라미드처럼 전 세계 컴퓨터에 수소문(비집중 탐색)해서 [[501_file_definition_logical_record|파일]]을 찾아냅니다.
-- **최후**: 경찰이 서버를 털 수 없어 영원불멸의 망이 되었지만, 전 세계 모든 컴퓨터가 서로에게 "야동 있어?"라고 물어대는 무식한 브로드캐스트(Broadcasting Storm) 트래픽 때문에 인터넷망 전체가 멈춰버리는 재앙([[140_bandwidth|대역폭]] 폭발)이 터져 멸망했습니다.
+- **[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 탐색 (Flooding)**: 내가 야동을 찾고 싶으면, 내 옆에 붙은 3명의 이웃 컴퓨터([Peer](/knowledge-base/studynote/06_ict_convergence/01_blockchain/060_hyperledger_architecture_peer_orderer_msp/))에게 "야동 있어?"라고 방송(Flooding)합니다. 없으면 그 이웃이 자기 이웃 3명에게 또 묻습니다. 다단계 피라미드처럼 전 세계 컴퓨터에 수소문(비집중 탐색)해서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 찾아냅니다.
+- **최후**: 경찰이 서버를 털 수 없어 영원불멸의 망이 되었지만, 전 세계 모든 컴퓨터가 서로에게 "야동 있어?"라고 물어대는 무식한 브로드캐스트(Broadcasting Storm) 트래픽 때문에 인터넷망 전체가 멈춰버리는 재앙([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 폭발)이 터져 멸망했습니다.
 
 ### 3. 슈퍼 노드 P2P (3세대, Skype / 최신 Gnutella) 🌟 핵심 🌟
 1세대와 2세대의 장점만 합친 현실적 타협안입니다.
 - **방식**: 중앙 서버는 없습니다. 대신 동네 컴퓨터들 중에서 **인터넷 속도가 유독 빵빵하고 컴퓨터를 24시간 켜놓는 놈(PC방 컴퓨터 등)을 벼슬을 줘서 '슈퍼 노드(Super Node, 반장)'로 강제 승격**시킵니다.
-- 이 슈퍼 노드는 동네 피어(일반 컴퓨터) 1,000명의 [[501_file_definition_logical_record|파일]] 목차 장부를 대신 모아서 들고 있습니다.
-- **탐색**: 내가 [[501_file_definition_logical_record|파일]]을 찾고 싶으면 멍청하게 온 동네에 소리치지 않고(플러딩 X), 우리 동네 반장(슈퍼 노드)에게 귓속말로 물어봅니다. 속도가 미친 듯이 빠르며 망 트래픽 낭비도 0%가 되는 혁명입니다. 스카이프(Skype)가 이 기술로 전 세계 무료 음성통화 망을 구축했습니다.
+- 이 슈퍼 노드는 동네 피어(일반 컴퓨터) 1,000명의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 목차 장부를 대신 모아서 들고 있습니다.
+- **탐색**: 내가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 찾고 싶으면 멍청하게 온 동네에 소리치지 않고(플러딩 X), 우리 동네 반장(슈퍼 노드)에게 귓속말로 물어봅니다. 속도가 미친 듯이 빠르며 망 트래픽 낭비도 0%가 되는 혁명입니다. 스카이프(Skype)가 이 기술로 전 세계 무료 음성통화 망을 구축했습니다.
 
 ```text
 [해상 통신망 LTE-M / e-Navigat…]
@@ -65,16 +69,16 @@ P2P는 중앙 서버를 없애는 과정 속에서 3단계로 진화했습니다
 
 ## Ⅲ. 비교 및 연결
 
-- P2P망에서 [[501_file_definition_logical_record|파일]]의 조각이 [[489_raid_10_hybrid|10]],000개로 쪼개져 있을 때, "너 1번 조각 있어? 넌 2번 있어?"를 엮어주는 중매쟁이가 바로 **트래커(Tracker)**입니다. 
-- 트래커는 [[501_file_definition_logical_record|파일]]을 가지고 있지 않습니다. 오직 "이 해시(Hash)값 영화 [[501_file_definition_logical_record|파일]]은 IP 1.1.1.1 놈이랑 IP 2.2.2.2 놈이 들고 있으니 걔네 둘한테 가서 뜯어내렴" 하고 짝짓기(매칭)만 시켜줍니다. (917번 [[917_bittorrent_choke_unchoke_p2p_incentive_algorithm|비트토렌트]] 문서에서 완성됩니다.)
+- P2P망에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 조각이 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000개로 쪼개져 있을 때, "너 1번 조각 있어? 넌 2번 있어?"를 엮어주는 중매쟁이가 바로 **트래커(Tracker)**입니다. 
+- 트래커는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 가지고 있지 않습니다. 오직 "이 해시(Hash)값 영화 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 IP 1.1.1.1 놈이랑 IP 2.2.2.2 놈이 들고 있으니 걔네 둘한테 가서 뜯어내렴" 하고 짝짓기(매칭)만 시켜줍니다. (917번 [비트토렌트](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/917_bittorrent_choke_unchoke_p2p_incentive_algorithm/) 문서에서 완성됩니다.)
 
-P2P를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [[915_lte_m_maritime_communication_e_navigation|해상 통신망]] [[621_ltem_emtc_iot_mobility_voice|LTE-M]] / e-Navigat…가 기반 조건을 만든다면, P2P는 그 위에서 핵심 메커니즘을 구현하고, [[917_bittorrent_choke_unchoke_p2p_incentive_algorithm|비트토렌트]] 초크/언초크 리치 통신 [[140_bandwidth|대역폭]] 인…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전송 용량과 자동 제어성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+P2P를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [해상 통신망](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/915_lte_m_maritime_communication_e_navigation/) [LTE-M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/) / e-Navigat…가 기반 조건을 만든다면, P2P는 그 위에서 핵심 메커니즘을 구현하고, [비트토렌트](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/917_bittorrent_choke_unchoke_p2p_incentive_algorithm/) 초크/언초크 리치 통신 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 인…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전송 용량과 자동 제어성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [[915_lte_m_maritime_communication_e_navigation|해상 통신망]] [[621_ltem_emtc_iot_mobility_voice|LTE-M]] / e-Navigat…의 기반 정리 | P2P의 핵심 동작 | [[917_bittorrent_choke_unchoke_p2p_incentive_algorithm|비트토렌트]] 초크/언초크 리치 통신 [[140_bandwidth|대역폭]] 인…의 확장 적용 |
+| 초점 | [해상 통신망](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/915_lte_m_maritime_communication_e_navigation/) [LTE-M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/) / e-Navigat…의 기반 정리 | P2P의 핵심 동작 | [비트토렌트](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/917_bittorrent_choke_unchoke_p2p_incentive_algorithm/) 초크/언초크 리치 통신 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 인…의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 전송 용량 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: 기존 서버-클라이언트(C/S) 방식은 **'중앙 통제식 대형 도서관'**입니다. 100만 명의 학생이 백과사전을 빌리러 사서(서버) 1명에게 우르르 몰려가니 사서가 과로사합니다. **순수 P2P(2세대)**는 도서관을 불태워버리고, 동네 골목에서 확성기를 들고 "백과사전 1페이지 가진 사람!!" 소리치며 물어물어 동네방네 시끄럽게 책을 복사하는 무식한 짓입니다. 이를 완성시킨 **슈퍼 노드 P2P(3세대)**는 동네마다 기억력이 좋은 '똑똑한 통장 아저씨(슈퍼 노드)'를 한 명씩 임명한 체계입니다. 확성기를 켤 필요 없이 통장 아저씨한테 가서 "백과사전 누구네 집에 있어요?"라고 조용히 물어보면, 통장이 "앞집 철수네 하드디스크에 있다!"고 1초 만에 짝을 지어줍니다. 사서(중앙 서버)가 없어도 전 국민이 지들끼리 조용하고 빛의 속도로 백과사전 조각을 복사해서 나눠 갖는 궁극의 품앗이 지식 공유망입니다.
 
@@ -82,18 +86,18 @@ P2P를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 P2P를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [[915_lte_m_maritime_communication_e_navigation|해상 통신망]] [[621_ltem_emtc_iot_mobility_voice|LTE-M]] / e-Navigat… 수준의 기본 대책으로 충분한지, 아니면 P2P가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [[917_bittorrent_choke_unchoke_p2p_incentive_algorithm|비트토렌트]] 초크/언초크 리치 통신 [[140_bandwidth|대역폭]] 인…와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 P2P를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [해상 통신망](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/915_lte_m_maritime_communication_e_navigation/) [LTE-M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/) / e-Navigat… 수준의 기본 대책으로 충분한지, 아니면 P2P가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [비트토렌트](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/917_bittorrent_choke_unchoke_p2p_incentive_algorithm/) 초크/언초크 리치 통신 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 인…와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 전송 용량 부족인지, 자동 제어성 악화인지 먼저 분리한다.
-2. P2P가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [[396_validation|확인]]한다.
-3. 도입 후에는 인접 기술인 [[917_bittorrent_choke_unchoke_p2p_incentive_algorithm|비트토렌트]] 초크/언초크 리치 통신 [[140_bandwidth|대역폭]] 인…와의 연계 방식을 함께 검증한다.
+2. P2P가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+3. 도입 후에는 인접 기술인 [비트토렌트](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/917_bittorrent_choke_unchoke_p2p_incentive_algorithm/) 초크/언초크 리치 통신 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 인…와의 연계 방식을 함께 검증한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - P2P의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- [[915_lte_m_maritime_communication_e_navigation|해상 통신망]] [[621_ltem_emtc_iot_mobility_voice|LTE-M]] / e-Navigat…와의 경계를 정리하지 않아 중복 투자나 [[164_policy|정책]] 충돌을 만드는 설계
+- [해상 통신망](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/915_lte_m_maritime_communication_e_navigation/) [LTE-M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/) / e-Navigat…와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: P2P를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -101,7 +105,7 @@ P2P를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 
 ## Ⅴ. 기대효과 및 결론
 
-P2P는 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 전송 용량 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [[917_bittorrent_choke_unchoke_p2p_incentive_algorithm|비트토렌트]] 초크/언초크 리치 통신 [[140_bandwidth|대역폭]] 인…, 의미 기반 통신 최적화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의미 기반 통신 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+P2P는 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 전송 용량 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [비트토렌트](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/917_bittorrent_choke_unchoke_p2p_incentive_algorithm/) 초크/언초크 리치 통신 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 인…, 의미 기반 통신 최적화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의미 기반 통신 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: P2P는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -111,10 +115,10 @@ P2P는 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 주
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[915_lte_m_maritime_communication_e_navigation|해상 통신망]] [[621_ltem_emtc_iot_mobility_voice|LTE-M]] / e-Navigat… | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| 광 전송 (Optical Transport) | [[148_5g_embb_urllc_mmtc|초고속]] 백본의 기본 전달 수단이다. |
+| [해상 통신망](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/915_lte_m_maritime_communication_e_navigation/) [LTE-M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/) / e-Navigat… | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 광 전송 (Optical Transport) | [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 백본의 기본 전달 수단이다. |
 | 텔레메트리 (Telemetry) | 실시간 상태 측정과 제어 피드백을 가능하게 한다. |
-| [[917_bittorrent_choke_unchoke_p2p_incentive_algorithm|비트토렌트]] 초크/언초크 리치 통신 [[140_bandwidth|대역폭]] 인… | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [비트토렌트](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/917_bittorrent_choke_unchoke_p2p_incentive_algorithm/) 초크/언초크 리치 통신 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 인… | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -128,7 +132,7 @@ P2P는 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 주
     └──▶ [확장 B: 의미 기반 통신 최적화]
 ```
 
-P2P는 [[915_lte_m_maritime_communication_e_navigation|해상 통신망]] [[621_ltem_emtc_iot_mobility_voice|LTE-M]] / e-Navigat…에서 출발해 현재 메커니즘을 정교화하고, 이후 [[917_bittorrent_choke_unchoke_p2p_incentive_algorithm|비트토렌트]] 초크/언초크 리치 통신 [[140_bandwidth|대역폭]] 인…와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+P2P는 [해상 통신망](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/915_lte_m_maritime_communication_e_navigation/) [LTE-M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/) / e-Navigat…에서 출발해 현재 메커니즘을 정교화하고, 이후 [비트토렌트](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/917_bittorrent_choke_unchoke_p2p_incentive_algorithm/) 초크/언초크 리치 통신 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 인…와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -142,7 +146,7 @@ P2P는 [[915_lte_m_maritime_communication_e_navigation|해상 통신망]] [[621_
 
 **진행 상황**: 1037 / 1120
 
-← **이전**: [[915_lte_m_maritime_communication_e_navigation|915. 해상 통신망 (LTE-M)]]
-**다음**: [[917_bittorrent_choke_unchoke_p2p_incentive_algorithm|917. 비트토렌트 (BitTorrent) 초크/언초크 리치 통신 대역폭 인센티브 알고리즘망 파편화 전송 구성/다운 최적 효율망 동적]] →
+← **이전**: [915. 해상 통신망 (LTE-M)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/915_lte_m_maritime_communication_e_navigation/)
+**다음**: [917. 비트토렌트 (BitTorrent) 초크/언초크 리치 통신 대역폭 인센티브 알고리즘망 파편화 전송 구성/다운 최적 효율망 동적](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/917_bittorrent_choke_unchoke_p2p_incentive_algorithm/) →
 
 ---

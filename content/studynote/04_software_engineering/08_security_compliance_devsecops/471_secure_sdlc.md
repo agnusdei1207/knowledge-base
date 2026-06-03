@@ -1,32 +1,36 @@
----
-title: 471. 소프트웨어 개발 보안 (Secure SDLC) - 기획, 설계, 구현, 테스트 전 단계 보안 활동
-date: '2026-05-08'
-tags:
-- studynote-software-engineering
----
++++
+title = "471. 소프트웨어 개발 보안 (Secure SDLC) - 기획, 설계, 구현, 테스트 전 단계 보안 활동"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-software-engineering"]
+
+[extra]
+tags = ["studynote-software-engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 소프트웨어 개발 보안 (Secure [[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]]) - 기획, 설계, 구현, 테스트 전 단계 보안 활동은(는) [[001_software_engineering_definition|소프트웨어 공학]]의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[[346_maintainability_portability|유지보수성]]·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 소프트웨어 개발 보안 (Secure [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/)) - 기획, 설계, 구현, 테스트 전 단계 보안 활동은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]](Software Development Life Cycle)는 집을 짓는 순서(기획 -> 설계 -> 공사 -> 검수)다. 여기에 Secure(안전한)가 붙으면, 단순히 예쁜 집을 짓는 게 아니라 처음부터 도둑이 못 들어오는 구조를 그리는 것이다. 기획 단계부터 비밀번호 암호화 요구사항을 명시하고, 설계 단계에서 [[001_dikw_pyramid|데이터]] 유출 경로를 예측하며, 코딩할 때는 보안 린터(Linter)를 켜놓고 치는 일련의 보안 내재화 프로세스다.
+- **개념**: [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/)(Software Development Life Cycle)는 집을 짓는 순서(기획 -> 설계 -> 공사 -> 검수)다. 여기에 Secure(안전한)가 붙으면, 단순히 예쁜 집을 짓는 게 아니라 처음부터 도둑이 못 들어오는 구조를 그리는 것이다. 기획 단계부터 비밀번호 암호화 요구사항을 명시하고, 설계 단계에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유출 경로를 예측하며, 코딩할 때는 보안 린터(Linter)를 켜놓고 치는 일련의 보안 내재화 프로세스다.
 
-- **필요성**: 2000년대까지만 해도 개발자들은 기능만 쌩쌩 돌게 짰고(속도전), 보안팀은 오픈 하루 전날 찾아와 "SQL [[480_injection|인젝션]] 터지니까 오픈 안 됨"이라고 태클만 거는 웬수지간이었다. 그런데 앱이 거대해지며, 100만 줄의 코드를 다 짜고 나서 보안 구멍을 메우려다 보니 DB 구조 자체를 갈아엎어야 하는 대참사가 일어났다. 즉, **"보안은 나중에 덧붙이는 반창고가 아니라, 건물의 철근 자체에 섞어야 하는 시멘트"**라는 처절한 깨달음 속에서 Secure SDLC가 탄생했다.
+- **필요성**: 2000년대까지만 해도 개발자들은 기능만 쌩쌩 돌게 짰고(속도전), 보안팀은 오픈 하루 전날 찾아와 "SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 터지니까 오픈 안 됨"이라고 태클만 거는 웬수지간이었다. 그런데 앱이 거대해지며, 100만 줄의 코드를 다 짜고 나서 보안 구멍을 메우려다 보니 DB 구조 자체를 갈아엎어야 하는 대참사가 일어났다. 즉, **"보안은 나중에 덧붙이는 반창고가 아니라, 건물의 철근 자체에 섞어야 하는 시멘트"**라는 처절한 깨달음 속에서 Secure SDLC가 탄생했다.
 
-- **💡 비유**: Secure SDLC는 **'면역력을 키우는 식단과 운동(예방)'**과 같습니다. 옛날에는 아무거나 막 먹고(더러운 코딩), 병(해킹)에 걸리면 독한 약(사후 패치)을 먹어 치료했습니다. 몸(시스템)은 이미 망가졌고 약값도 비쌉니다. Secure SDLC는 어릴 때부터 밥 먹기 전에 손을 씻고, 몸에 좋은 밥을 짓는 법(설계/기획)부터 철저히 지켜서 아예 바이러스가 침투해도 스스로 이겨내는 강철 면역 체계(Built-in [[283_security_tactics|Security]])를 만드는 평생 건강 관리법입니다.
+- **💡 비유**: Secure SDLC는 **'면역력을 키우는 식단과 운동(예방)'**과 같습니다. 옛날에는 아무거나 막 먹고(더러운 코딩), 병(해킹)에 걸리면 독한 약(사후 패치)을 먹어 치료했습니다. 몸(시스템)은 이미 망가졌고 약값도 비쌉니다. Secure SDLC는 어릴 때부터 밥 먹기 전에 손을 씻고, 몸에 좋은 밥을 짓는 법(설계/기획)부터 철저히 지켜서 아예 바이러스가 침투해도 스스로 이겨내는 강철 면역 체계(Built-in [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))를 만드는 평생 건강 관리법입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **사후 약방문(Patching) 시대**: 해커가 뚫으면, 부랴부랴 패치(Patch) 코드를 만들어 배포하는 두더지 잡기 식 방어였다.
-  2. **마이크로소프트의 대각성 (2004)**: 빌 게이츠가 "보안 버그 때문에 윈도우 못 쓰겠다!"는 원성에 충격을 받고, MS-SDL을 전사적으로 강제 선포하며 "보안 룰을 안 지키면 코드 배포 금지!"라는 최초의 Secure [[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]] 제국을 열었다. (473번 연계)
-  3. **[[653_devsecops_shift_left|DevSecOps]] (현재)**: [[090_configuration_item|CI]]/CD가 유행하자 이 긴 보안 절차를 자동화(기계화)하여 [[071_jenkins_ci_cd_pipeline_automation|젠킨스]]([[071_jenkins_ci_cd_pipeline_automation|Jenkins]]) 파이프라인에 통째로 욱여넣은 [[004_agile_relation|애자일]] 보안 시대가 완성되었다.
+  2. **마이크로소프트의 대각성 (2004)**: 빌 게이츠가 "보안 버그 때문에 윈도우 못 쓰겠다!"는 원성에 충격을 받고, MS-SDL을 전사적으로 강제 선포하며 "보안 룰을 안 지키면 코드 배포 금지!"라는 최초의 Secure [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/) 제국을 열었다. (473번 연계)
+  3. **[DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) (현재)**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD가 유행하자 이 긴 보안 절차를 자동화(기계화)하여 [젠킨스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)([Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)) 파이프라인에 통째로 욱여넣은 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 보안 시대가 완성되었다.
 
-- **📢 섹션 요약 비유**: Secure [[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]] 없이 코딩하는 것은, **'창문과 자물쇠 없이 금고를 만들고, 다 지은 다음 그물망을 덮어놓는 멍청한 짓'**입니다. Secure SDLC는 설계도를 그릴 때부터 "여기엔 지문 인식기를 달고, 창문은 아예 만들지 마!"라고 못을 박고 시작하는 가장 완벽한 성벽 축조술입니다.
+- **📢 섹션 요약 비유**: Secure [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/) 없이 코딩하는 것은, **'창문과 자물쇠 없이 금고를 만들고, 다 지은 다음 그물망을 덮어놓는 멍청한 짓'**입니다. Secure SDLC는 설계도를 그릴 때부터 "여기엔 지문 인식기를 달고, 창문은 아예 만들지 마!"라고 못을 박고 시작하는 가장 완벽한 성벽 축조술입니다.
 
 ---
 
@@ -55,18 +59,18 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-소프트웨어 개발 보안 (Secure [[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]]) - 기획, 설계, 구현, 테스트 전 단계 보안 활동의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
+소프트웨어 개발 보안 (Secure [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/)) - 기획, 설계, 구현, 테스트 전 단계 보안 활동의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
 
 | 구성 요소 | 역할 | 적용 기준 |
 | :--- | :--- | :--- |
-| 개념 정의 | 핵심 용어와 범위를 명확히 [[009_config|설정]] | 용어 혼용·오해 방지 |
-| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | [[194_consistency_database_integrity|일관성]]·품질 기준 |
+| 개념 정의 | 핵심 용어와 범위를 명확히 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | 용어 혼용·오해 방지 |
+| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)·품질 기준 |
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-소프트웨어 개발 보안 (Secure [[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]])의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+소프트웨어 개발 보안 (Secure [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
-- **📢 섹션 요약 비유**: 소프트웨어 개발 보안 (Secure [[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]])의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
+- **📢 섹션 요약 비유**: 소프트웨어 개발 보안 (Secure [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
 ---
 
@@ -76,18 +80,18 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-소프트웨어 개발 보안 (Secure [[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]])을(를) 유사 개념과 비교하면 경계와 특성이 더 명확해진다.
+소프트웨어 개발 보안 (Secure [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))을(를) 유사 개념과 비교하면 경계와 특성이 더 명확해진다.
 
-| 비교 항목 | 소프트웨어 개발 보안 (Secure [[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]]) | 유사 대안 |
+| 비교 항목 | 소프트웨어 개발 보안 (Secure [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/)) | 유사 대안 |
 | :--- | :--- | :--- |
 | 핵심 목적 | 체계적 품질·생산성 향상 | 임시 방편적 해결 |
 | 적용 규모 | 중·대규모 프로젝트에서 효과적 | 소규모에서는 오버헤드 발생 가능 |
 | 조직 요건 | 팀 전체의 공통 이해와 훈련 필요 | 개인 역량 의존 |
 | 측정 가능성 | 정량적 지표로 성과 측정 가능 | 주관적 판단에 의존 |
 
-다른 [[001_software_engineering_definition|소프트웨어 공학]] 개념과의 연결을 보면, 소프트웨어 개발 보안 (Secure [[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]])은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 [[020_software_configuration_management|형상 관리]]([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]])와 긴밀하게 연계된다.
+다른 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 개념과의 연결을 보면, 소프트웨어 개발 보안 (Secure [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/))와 긴밀하게 연계된다.
 
-- **📢 섹션 요약 비유**: 소프트웨어 개발 보안 (Secure [[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]])과 유사 대안의 차이는 지도를 가지고 산에 오르는 것과 감으로만 오르는 차이와 같다. 지도(체계적 방법)가 있으면 정상까지 최단 경로를 찾을 수 있지만, 없으면 같은 곳을 맴돌거나 낭떠러지에 빠질 수 있다.
+- **📢 섹션 요약 비유**: 소프트웨어 개발 보안 (Secure [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))과 유사 대안의 차이는 지도를 가지고 산에 오르는 것과 감으로만 오르는 차이와 같다. 지도(체계적 방법)가 있으면 정상까지 최단 경로를 찾을 수 있지만, 없으면 같은 곳을 맴돌거나 낭떠러지에 빠질 수 있다.
 
 ---
 
@@ -97,9 +101,9 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-소프트웨어 개발 보안 (Secure [[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]])을(를) 실무에 적용할 때는 다음 판단 기준을 참고한다.
+소프트웨어 개발 보안 (Secure [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))을(를) 실무에 적용할 때는 다음 판단 기준을 참고한다.
 
-- **📢 섹션 요약 비유**: 소프트웨어 개발 보안 (Secure [[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]])은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: 소프트웨어 개발 보안 (Secure [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 ---
 
@@ -107,21 +111,21 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-소프트웨어 개발 보안 (Secure [[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]])을(를) 올바르게 적용하면 [[339_software_quality_definition|소프트웨어 품질]]·[[346_maintainability_portability|유지보수성]]·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [[459_quic_fec_forward_error_correction|초기]] 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
+소프트웨어 개발 보안 (Secure [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))을(를) 올바르게 적용하면 [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/)·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
 
 **한계와 전제 조건**:
 - 소규모 프로젝트에서는 오버헤드가 발생할 수 있다
 - 팀 전체의 충분한 교육과 실습 기간이 필요하다
-- 도구 지원 환경 구축에 [[459_quic_fec_forward_error_correction|초기]] 비용이 발생한다
+- 도구 지원 환경 구축에 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용이 발생한다
 
 **미래 발전 방향**:
-- [[190_ai_llm_requirements_specification|AI]]·[[263_llm_large_language_model|LLM]] 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [[531_cloud_native_architecture|클라우드 네이티브]]·[[652_devops_calms_culture|DevOps]] 환경에서의 진화적 적용
+- [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
+- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
-소프트웨어 개발 보안 (Secure [[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]])은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
+소프트웨어 개발 보안 (Secure [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: 소프트웨어 개발 보안 (Secure [[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]])의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [[001_software_engineering_definition|소프트웨어 공학]]의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
+- **📢 섹션 요약 비유**: 소프트웨어 개발 보안 (Secure [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
 
 ---
 
@@ -133,10 +137,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[001_software_engineering_definition|소프트웨어 공학]] ([[001_software_engineering_definition|Software Engineering]]) | 소프트웨어 개발 보안 (Secure [[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]])의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [[003_sdlc|소프트웨어 생명주기]] ([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]], Software Development Life Cycle) | 소프트웨어 개발 보안 (Secure [[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]])은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | 소프트웨어 개발 보안 (Secure [[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]]) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [[020_software_configuration_management|형상 관리]] ([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]]) | 소프트웨어 개발 보안 (Secure [[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]])에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 소프트웨어 개발 보안 (Secure [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 소프트웨어 개발 보안 (Secure [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | 소프트웨어 개발 보안 (Secure [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/)) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 소프트웨어 개발 보안 (Secure [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -156,13 +160,13 @@ tags:
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [[002_software_crisis|소프트웨어 위기]] 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 소프트웨어 개발 보안 (Secure [[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]])은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. 소프트웨어 개발 보안 (Secure [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
 
 ---
 
@@ -170,7 +174,7 @@ tags:
 
 **진행 상황**: 534 / 973
 
-← **이전**: [[471_secure_sdlc|471. 소프트웨어 개발 보안 (Secure SDLC)]]
-**다음**: [[472_bsimm|472. BSIMM (Building Security In Maturity Model)]] →
+← **이전**: [471. 소프트웨어 개발 보안 (Secure SDLC)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/471_secure_sdlc/)
+**다음**: [472. BSIMM (Building Security In Maturity Model)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/472_bsimm/) →
 
 ---

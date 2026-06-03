@@ -1,52 +1,56 @@
----
-title: 78. 웹3.0 소셜 네트워크 (Mastodon, Bluesky, Nostr 기반 프로토콜)
-tags:
-- ict_convergence
----
++++
+title = "78. 웹3.0 소셜 네트워크 (Mastodon, Bluesky, Nostr 기반 프로토콜)"
+
+[taxonomies]
+tags = ["ict_convergence"]
+
+[extra]
+tags = ["ict_convergence"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Web3 (Web 3.0) 소셜 네트워크는 [[295_protocol_field_tcp_udp_icmp|프로토콜]] 중심으로 바뀌어 계정과 [[001_dikw_pyramid|데이터]]의 주도권을 플랫폼 밖으로 옮기려는 시도다.
-> 2. **가치**: Mastodon은 ActivityPub (ActivityPub), Nostr는 공개키 릴레이, Bluesky는 AT [[295_protocol_field_tcp_udp_icmp|Protocol]] (Authenticated Transfer [[295_protocol_field_tcp_udp_icmp|Protocol]])로 서로 다른 [[136_variance|분산]] 방식을 보여 준다.
-> 3. **판단 포인트**: [[136_variance|분산]]이 곧 해결책은 아니며, 스팸·검색성·모더레이션·사용성은 따로 설계해야 한다.
+> 1. **본질**: Web3 (Web 3.0) 소셜 네트워크는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 중심으로 바뀌어 계정과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 주도권을 플랫폼 밖으로 옮기려는 시도다.
+> 2. **가치**: Mastodon은 ActivityPub (ActivityPub), Nostr는 공개키 릴레이, Bluesky는 AT [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) (Authenticated Transfer [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))로 서로 다른 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 방식을 보여 준다.
+> 3. **판단 포인트**: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 곧 해결책은 아니며, 스팸·검색성·모더레이션·사용성은 따로 설계해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-중앙형 SNS는 추천 알고리즘과 계정 [[164_policy|정책]]이 한 곳에 묶여 있어 이동성과 통제가 약하다. 그래서 Web3 계열 소셜은 "[[090_service_kubernetes_network_load_balancing|서비스]]"보다 "[[295_protocol_field_tcp_udp_icmp|프로토콜]]"을 먼저 보게 만든다.
+중앙형 SNS는 추천 알고리즘과 계정 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 한 곳에 묶여 있어 이동성과 통제가 약하다. 그래서 Web3 계열 소셜은 "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)"보다 "[프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)"을 먼저 보게 만든다.
 사용자는 계정을 옮기고 싶고, 커뮤니티는 자신만의 규칙을 두고 싶다. 이 요구가 federation과 relay 기반 구조를 낳았다.
 ```text
 사용자 ─▶ 키/인스턴스 ─▶ 릴레이/연합 ─▶ 공개 피드
      └────────────▶ 다른 서버와도 연결
 ```
 
-- **📢 섹션 요약 비유**: 플랫폼보다 [[295_protocol_field_tcp_udp_icmp|프로토콜]]을 먼저 봐야 탈중앙의 의미가 보인다.
+- **📢 섹션 요약 비유**: 플랫폼보다 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 먼저 봐야 탈중앙의 의미가 보인다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-Mastodon은 서버 간 연합([[543_federation|federation]])으로 동작하고, 각 인스턴스가 [[164_policy|정책]]과 모더레이션을 가진다. Nostr는 공개키가 정체성이며 릴레이는 게시글 전달만 맡는다.
-Bluesky는 AT Protocol을 써서 계정과 [[001_dikw_pyramid|데이터]] 저장소를 분리하고, 클라이언트와 중재 계층을 분리한다. 그래서 같은 글도 다른 앱과 다른 [[164_policy|정책]]으로 볼 수 있다.
+Mastodon은 서버 간 연합([federation](/knowledge-base/studynote/09_security/11_iam_access_control/543_federation/))으로 동작하고, 각 인스턴스가 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 모더레이션을 가진다. Nostr는 공개키가 정체성이며 릴레이는 게시글 전달만 맡는다.
+Bluesky는 AT Protocol을 써서 계정과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소를 분리하고, 클라이언트와 중재 계층을 분리한다. 그래서 같은 글도 다른 앱과 다른 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 볼 수 있다.
 | 플랫폼 | 정체성 | 전달 방식 | 모더레이션 |
 | --- | --- | --- | --- |
-| Mastodon | 서버 계정 | ActivityPub 기반 연합 | 인스턴스 단위 [[164_policy|정책]] |
+| Mastodon | 서버 계정 | ActivityPub 기반 연합 | 인스턴스 단위 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) |
 | Nostr | 공개키 | 릴레이 브로드캐스트 | 클라이언트·릴레이 조합 |
-| Bluesky | 계정/레포지토리 | AT [[295_protocol_field_tcp_udp_icmp|Protocol]] | 외부 중재와 선택형 필터 |
+| Bluesky | 계정/레포지토리 | AT [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) | 외부 중재와 선택형 필터 |
 
-- **📢 섹션 요약 비유**: Mastodon, Nostr, Bluesky는 [[136_variance|분산]] 방식이 서로 다르다.
+- **📢 섹션 요약 비유**: Mastodon, Nostr, Bluesky는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 방식이 서로 다르다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-중앙형은 UX와 검색성이 좋지만 제어가 집중되고, federation은 자치성이 좋지만 [[164_policy|정책]] 편차가 크다. relay 기반은 더 가볍지만 스팸과 발견성 문제가 더 쉽게 드러난다.
-이 계열의 핵심은 블록체인에 글을 저장하는 것이 아니라, 신원과 분배를 분리해 신뢰 경계를 다시 짜는 데 있다. 그래서 Web3라는 이름보다 [[295_protocol_field_tcp_udp_icmp|프로토콜]] 설계를 봐야 한다.
+중앙형은 UX와 검색성이 좋지만 제어가 집중되고, federation은 자치성이 좋지만 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 편차가 크다. relay 기반은 더 가볍지만 스팸과 발견성 문제가 더 쉽게 드러난다.
+이 계열의 핵심은 블록체인에 글을 저장하는 것이 아니라, 신원과 분배를 분리해 신뢰 경계를 다시 짜는 데 있다. 그래서 Web3라는 이름보다 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 설계를 봐야 한다.
 | 비교축 | 중앙형 SNS | 연합형 SNS | 릴레이형 SNS |
 | --- | --- | --- | --- |
 | 계정 소유 | 플랫폼이 좌우 | 인스턴스가 관리 | 공개키가 기준 |
-| 검열/자치 | 플랫폼 [[164_policy|정책]] 의존 | 커뮤니티 자치 가능 | 클라이언트 선택 의존 |
+| 검열/자치 | 플랫폼 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 의존 | 커뮤니티 자치 가능 | 클라이언트 선택 의존 |
 | 이동성 | 낮다 | 중간 | 높다 |
 
 - **📢 섹션 요약 비유**: 탈중앙은 블록체인보다 신원·전달·운영 설계가 더 중요하다.
@@ -56,26 +60,26 @@ Bluesky는 AT Protocol을 써서 계정과 [[001_dikw_pyramid|데이터]] 저장
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 Mastodon은 커뮤니티 운영과 지역 규칙이 중요할 때, Nostr는 검열 저항과 가벼운 전달이 중요할 때, Bluesky는 사용자 경험과 선택형 모더레이션이 중요할 때 적합하다.
-반대로 토큰 발행이나 온체인 저장만 붙이고 스팸·악성 사용자 대응을 안 하면 실패한다. [[136_variance|분산]]은 자유를 주지만 운영 책임을 없애지 않는다.
-### [[435_checklist_based_testing|체크리스트]]
+반대로 토큰 발행이나 온체인 저장만 붙이고 스팸·악성 사용자 대응을 안 하면 실패한다. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)은 자유를 주지만 운영 책임을 없애지 않는다.
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 계정 이동성과 [[001_dikw_pyramid|데이터]] 내보내기가 가능한가?
-2. 스팸, 차단, 신고, 중재 [[164_policy|정책]]이 분리돼 있는가?
+1. 계정 이동성과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 내보내기가 가능한가?
+2. 스팸, 차단, 신고, 중재 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 분리돼 있는가?
 3. 사용자 경험이 중앙형과 비교해도 버틸 수 있는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 모든 게시물을 블록체인에 넣는 것
 - 모더레이션 없이 탈중앙화만 외치는 것
 
-- **📢 섹션 요약 비유**: 모더레이션이 빠진 [[136_variance|분산]]은 곧 운영 실패가 된다.
+- **📢 섹션 요약 비유**: 모더레이션이 빠진 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)은 곧 운영 실패가 된다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[[136_variance|분산]] 소셜의 기대효과는 플랫폼 종속 완화, 이동성 강화, 커뮤니티 자치 확장이다. 다만 이 효과는 [[295_protocol_field_tcp_udp_icmp|프로토콜]]과 운영이 함께 맞아야 나온다.
-앞으로는 서로 다른 [[295_protocol_field_tcp_udp_icmp|프로토콜]]을 잇는 [[260_bridge_pattern_abstraction_implementation|브리지]], 선택형 모더레이션, 신원 휴대성이 더 중요해진다.
+[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 소셜의 기대효과는 플랫폼 종속 완화, 이동성 강화, 커뮤니티 자치 확장이다. 다만 이 효과는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)과 운영이 함께 맞아야 나온다.
+앞으로는 서로 다른 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 잇는 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/), 선택형 모더레이션, 신원 휴대성이 더 중요해진다.
 기술사는 이 주제를 "서버가 아니라 규칙과 신원을 먼저 설계하는 SNS"로 기억하면 된다.
 
 - **📢 섹션 요약 비유**: 이동성보다 중요한 것은 규칙의 이식성이다.
@@ -86,12 +90,12 @@ Mastodon은 커뮤니티 운영과 지역 규칙이 중요할 때, Nostr는 검�
 
 | 개념 | 연결 포인트 |
 | --- | --- |
-| ActivityPub | 연합형 소셜 [[295_protocol_field_tcp_udp_icmp|프로토콜]]이다 |
-| AT [[295_protocol_field_tcp_udp_icmp|Protocol]] | 계정과 [[001_dikw_pyramid|데이터]] 저장소를 분리한다 |
+| ActivityPub | 연합형 소셜 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이다 |
+| AT [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) | 계정과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소를 분리한다 |
 | Nostr | 공개키와 릴레이를 쓴다 |
-| [[543_federation|Federation]] | 서버 간 연합을 가능하게 한다 |
+| [Federation](/knowledge-base/studynote/09_security/11_iam_access_control/543_federation/) | 서버 간 연합을 가능하게 한다 |
 | Relay | 이벤트 전달만 담당한다 |
-| Moderation | [[136_variance|분산]] 환경의 핵심 운영 요소다 |
+| Moderation | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경의 핵심 운영 요소다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -123,7 +127,7 @@ federation 또는 relay 전달
 
 **진행 상황**: 78 / 552
 
-← **이전**: [[077_crypto_mixing_tumbler_tornado_cash|77. 암호화폐 믹싱 (Coin Mixing / Tumbler) - 거래 자금 출처 추적을 어렵게 하는 트랜잭션 섞기 (Tornado]]
-**다음**: [[079_mydata_system_blockchain_receipt|079. 마이데이터 체계와 블록체인 데이터 영수증 (MyData & Blockchain Receipt)]] →
+← **이전**: [77. 암호화폐 믹싱 (Coin Mixing / Tumbler) - 거래 자금 출처 추적을 어렵게 하는 트랜잭션 섞기 (Tornado](/knowledge-base/studynote/06_ict_convergence/01_blockchain/077_crypto_mixing_tumbler_tornado_cash/)
+**다음**: [079. 마이데이터 체계와 블록체인 데이터 영수증 (MyData & Blockchain Receipt)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/079_mydata_system_blockchain_receipt/) →
 
 ---

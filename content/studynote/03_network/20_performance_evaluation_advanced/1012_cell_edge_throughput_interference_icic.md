@@ -1,13 +1,17 @@
----
-title: 1012. 셀 엣지 수율 (Cell Edge Throughput)
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "1012. 셀 엣지 수율 (Cell Edge Throughput)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 셀 엣지 수율은 [[282_performance_tactics|성능]] 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 1. **본질**: 셀 엣지 수율은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
 > 2. **가치**: 셀 엣지 수율을 이해하면 측정 정확도과 모델 적합성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
@@ -15,11 +19,11 @@ tags:
 
 ## Ⅰ. 개요 및 필요성
 
-- **셀룰러 네트워크 ([[551_cellular_network_concept_reuse_handover|Cellular Network]])**: 통신망은 벌집(육각형 Cell) 모양으로 동네마다 기지국을 박아 전 국토를 덮습니다.
+- **셀룰러 네트워크 ([Cellular Network](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/551_cellular_network_concept_reuse_handover/))**: 통신망은 벌집(육각형 Cell) 모양으로 동네마다 기지국을 박아 전 국토를 덮습니다.
 - **셀 엣지 (Cell Edge, 기지국 경계) 🌟**: 육각형 벌집과 벌집이 맞닿는 선(경계 구역)입니다. 기지국에서 가장 멀리 떨어져 있습니다.
 - **두 가지 끔찍한 저주**:
-  1. **[[130_signal|신호]] 감쇠 (Path Loss)**: 거리가 멀어 전파 힘([[130_signal|신호]])이 바닥을 칩니다.
-  2. **인접 셀 간섭 (ICI, Inter-Cell Interference)**: 옆 동네(B 기지국)에서 쏘는 똑같은 주파수 전파가 내 귀로 흘러들어와 굉음(잡음 노이즈)을 냅니다. [[130_signal|신호]](S)는 약한데 잡음(N)이 커서 941번의 **[[941_shannon_hartley_theorem_channel_capacity_snr|샤논-하틀리]] 속도 공식**에 의해 다운로드 속도([[139_throughput|Throughput]])가 0으로 수직 낙하합니다.
+  1. **[신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 감쇠 (Path Loss)**: 거리가 멀어 전파 힘([신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))이 바닥을 칩니다.
+  2. **인접 셀 간섭 (ICI, Inter-Cell Interference)**: 옆 동네(B 기지국)에서 쏘는 똑같은 주파수 전파가 내 귀로 흘러들어와 굉음(잡음 노이즈)을 냅니다. [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(S)는 약한데 잡음(N)이 커서 941번의 **[샤논-하틀리](/knowledge-base/studynote/03_network/19_frequent_topics_terms/941_shannon_hartley_theorem_channel_capacity_snr/) 속도 공식**에 의해 다운로드 속도([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))가 0으로 수직 낙하합니다.
 
 ```text
 [프론트홀]
@@ -30,13 +34,13 @@ tags:
     └──▶ [CoMP]
 ```
 
-- **📢 섹션 요약 비유**: 셀 엣지 수율은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [[170_selectivity_cardinality_distribution_tuning|선택도]] 쉬워진다.
+- **📢 섹션 요약 비유**: 셀 엣지 수율은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 기지국 [[130_signal|신호]]가 가장 약하고 간섭이 제일 심한 **악조건의 경계 지역(Cell Edge)에 위치한 단말기(스마트폰)가 얻어낼 수 있는 '실질적인 최소 보장 [[001_dikw_pyramid|데이터]] 전송 속도([[139_throughput|Throughput]])'**입니다.
+- **개념**: 기지국 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 가장 약하고 간섭이 제일 심한 **악조건의 경계 지역(Cell Edge)에 위치한 단말기(스마트폰)가 얻어낼 수 있는 '실질적인 최소 보장 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 속도([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))'**입니다.
 - 통신사 간 품질(QoE) 경쟁의 핵심 지표입니다. 기지국 밑에서 2Gbps가 나오는 것보다, 산골짜기 경계선에서 10Mbps가 안 끊기고 나오는 것이 고객 만족도를 100배 올립니다.
 
 ```text
@@ -58,24 +62,24 @@ tags:
 
 ### 1. ICIC (인접 셀 간 간섭 조정, Inter-Cell Interference Coordination) 🌟
 - **원리**: A 기지국과 B 기지국이 무전기(X2 인터페이스)로 서로 짬짜미(협상)를 합니다.
-- **주파수 양보 (Fractional [[554_frequency_reuse_cluster_capacity|Frequency Reuse]])**: "야 B기지국! 우리 경계선(셀 엣지)에 있는 철수한테 내가 100MHz 주파수로 [[001_dikw_pyramid|데이터]] 쏠 거니까, **너는 그 시간에 100MHz 주파수 대역 절대 쓰지 말고 비워둬!**" 
-- B 기지국이 양보해서 그 주파수를 비워주면, 철수 입장에서는 간섭(노이즈)이 0이 되어 약한 [[130_signal|신호]]라도 깨끗하게 들을 수 있어 다운로드 속도가 부활합니다. (주파수 쪼개기 마법)
+- **주파수 양보 (Fractional [Frequency Reuse](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/554_frequency_reuse_cluster_capacity/))**: "야 B기지국! 우리 경계선(셀 엣지)에 있는 철수한테 내가 100MHz 주파수로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 쏠 거니까, **너는 그 시간에 100MHz 주파수 대역 절대 쓰지 말고 비워둬!**" 
+- B 기지국이 양보해서 그 주파수를 비워주면, 철수 입장에서는 간섭(노이즈)이 0이 되어 약한 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)라도 깨끗하게 들을 수 있어 다운로드 속도가 부활합니다. (주파수 쪼개기 마법)
 
-### 2. [[1013_comp_coordinated_multipoint_transmission|CoMP]] ([[1013_comp_coordinated_multipoint_transmission|협력 통신]], Coordinated Multi-Point) (913번 심화 / 1013번 문서)
+### 2. [CoMP](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1013_comp_coordinated_multipoint_transmission/) ([협력 통신](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1013_comp_coordinated_multipoint_transmission/), Coordinated Multi-Point) (913번 심화 / 1013번 문서)
 - 기지국끼리 싸우지 말고 아예 힘을 합칩니다.
-- A 기지국과 B 기지국이 철수에게 **동시에 100% 똑같은 [[001_dikw_pyramid|데이터]] 전파를 정밀한 타이밍으로 조준해서 쏴버립니다(Joint Transmission).** 두 전파가 공중에서 파동 겹침으로 더해져서 [[130_signal|신호]] 세기(에너지)가 2배로 뻥튀기되며 엣지 수율이 폭발합니다.
+- A 기지국과 B 기지국이 철수에게 **동시에 100% 똑같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전파를 정밀한 타이밍으로 조준해서 쏴버립니다(Joint Transmission).** 두 전파가 공중에서 파동 겹침으로 더해져서 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 세기(에너지)가 2배로 뻥튀기되며 엣지 수율이 폭발합니다.
 
-### 3. [[101_beamforming|빔포밍]] ([[101_beamforming|Beamforming]]) 및 [[099_Massive_MIMO_대규모_다중_안테나|Massive MIMO]]
+### 3. [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) ([Beamforming](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/)) 및 [Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/)
 - 기지국 안테나가 360도로 둥글게 전파를 퍼뜨리지 않습니다. 
 - 엣지에 있는 철수 스마트폰의 정확한 위치를 계산해, 손전등을 켜듯 **레이저 빔(지향성 전파)을 철수의 정수리에만 다이렉트로 꽂아버립니다.** 옆 사람에게 전파가 새지 않으니 간섭이 줄고, 철수는 에너지를 온전히 다 받아 속도가 떡상합니다.
 
-셀 엣지 수율을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [[784_fronthaul_ecpri_split_option|프론트홀]]이 기반 조건을 만든다면, 셀 엣지 수율은 그 위에서 핵심 메커니즘을 구현하고, CoMP는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+셀 엣지 수율을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/)이 기반 조건을 만든다면, 셀 엣지 수율은 그 위에서 핵심 메커니즘을 구현하고, CoMP는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [[784_fronthaul_ecpri_split_option|프론트홀]]의 기반 정리 | 셀 엣지 수율의 핵심 동작 | CoMP의 확장 적용 |
+| 초점 | [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/)의 기반 정리 | 셀 엣지 수율의 핵심 동작 | CoMP의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 측정 정확도 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: 셀 엣지 수율은 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -83,9 +87,9 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 5G는 전파가 직진만 하고 벽을 못 뚫는 28GHz 고주파를 씁니다. 그래서 4G LTE보다 이 셀 엣지(사각지대) 구역이 10배는 더 많습니다. 이를 메꾸기 위해 [[178_small_cell_macro_femto|스몰셀]](소형 기지국)을 가로등마다 도배하는 돈지랄을 하고 있습니다.
+- 5G는 전파가 직진만 하고 벽을 못 뚫는 28GHz 고주파를 씁니다. 그래서 4G LTE보다 이 셀 엣지(사각지대) 구역이 10배는 더 많습니다. 이를 메꾸기 위해 [스몰셀](/knowledge-base/studynote/03_network/03_physical_layer_media/178_small_cell_macro_femto/)(소형 기지국)을 가로등마다 도배하는 돈지랄을 하고 있습니다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
@@ -97,7 +101,7 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-셀 엣지 수율은 [[282_performance_tactics|성능]] 평가와 고급 분석을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 측정 정확도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [[1013_comp_coordinated_multipoint_transmission|CoMP]], [[190_ai_llm_requirements_specification|AI]] 기반 [[282_performance_tactics|성능]] 예측, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [[190_ai_llm_requirements_specification|AI]] 기반 [[282_performance_tactics|성능]] 예측 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+셀 엣지 수율은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 측정 정확도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [CoMP](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1013_comp_coordinated_multipoint_transmission/), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 셀 엣지 수율은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -107,10 +111,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[784_fronthaul_ecpri_split_option|프론트홀]] | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [[139_throughput|처리량]] ([[139_throughput|Throughput]]) | 실제 전달 [[282_performance_tactics|성능]]을 나타내는 대표 지표다. |
-| [[015_지연_데이터_관점|지연]] ([[141_latency|Latency]]) | 사용자 체감 품질을 좌우한다. |
-| [[1013_comp_coordinated_multipoint_transmission|CoMP]] | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) | 실제 전달 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 나타내는 대표 지표다. |
+| [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) ([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) | 사용자 체감 품질을 좌우한다. |
+| [CoMP](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1013_comp_coordinated_multipoint_transmission/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -124,7 +128,7 @@ tags:
     └──▶ [확장 B: AI 기반 성능 예측]
 ```
 
-셀 엣지 수율는 [[784_fronthaul_ecpri_split_option|프론트홀]]에서 출발해 현재 메커니즘을 정교화하고, 이후 CoMP와 [[190_ai_llm_requirements_specification|AI]] 기반 [[282_performance_tactics|성능]] 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+셀 엣지 수율는 [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/)에서 출발해 현재 메커니즘을 정교화하고, 이후 CoMP와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -138,7 +142,7 @@ tags:
 
 **진행 상황**: 113 / 1120
 
-← **이전**: [[1011_fronthaul_network_c_ran_cpri_roef|1011. 프론트홀 (Fronthaul)]]
-**다음**: [[1013_comp_coordinated_multipoint_transmission|1013. CoMP (협력 통신)]] →
+← **이전**: [1011. 프론트홀 (Fronthaul)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1011_fronthaul_network_c_ran_cpri_roef/)
+**다음**: [1013. CoMP (협력 통신)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1013_comp_coordinated_multipoint_transmission/) →
 
 ---

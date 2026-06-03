@@ -1,23 +1,27 @@
----
-title: 155. 데코레이터 패턴 (Decorator Pattern)
-date: '2026-05-10'
-tags:
-- studynote-design-supervision
----
++++
+title = "155. 데코레이터 패턴 (Decorator Pattern)"
+date = 2026-05-10
+
+[taxonomies]
+tags = ["studynote-design-supervision"]
+
+[extra]
+tags = ["studynote-design-supervision"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[262_decorator_pattern_dynamic_wrapper|데코레이터]] 패턴 ([[262_decorator_pattern_dynamic_wrapper|Decorator]] Pattern)은 GoF 구조 패턴으로, 객체를 런타임에 동적으로 새로운 책임(기능)을 추가하는 패턴이다. [[234_uml_class_relationships_generalization_dependency|상속]](Inheritance) 대신 구성(Composition)과 위임(Delegation)을 사용하여 기존 클래스를 변경하지 않고 기능을 확장한다.
-> 2. **가치**: 클래스 수의 폭발적 증가 없이 런타임에 기능을 조합할 수 있다. Java IO 스트림(`BufferedInputStream(new FileInputStream(...))`)처럼 기능 조합이 자유롭고 [[243_srp_single_responsibility_principle|SRP]]·OCP를 동시에 달성한다.
-> 3. **판단 포인트**: [[262_decorator_pattern_dynamic_wrapper|데코레이터]]는 '같은 인터페이스를 구현하는 래퍼(Wrapper)'라는 점이 핵심이다. 원본 객체와 동일한 인터페이스를 가져야 클라이언트 코드를 수정하지 않고도 [[262_decorator_pattern_dynamic_wrapper|데코레이터]]로 투명하게 교체할 수 있다. [[158_proxy_pattern|프록시 패턴]]과의 차이는 목적이다: [[262_decorator_pattern_dynamic_wrapper|데코레이터]]는 기능 추가, [[264_proxy_pattern_surrogate_access_control|프록시]]는 접근 제어.
+> 1. **본질**: [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/) 패턴 ([Decorator](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/) Pattern)은 GoF 구조 패턴으로, 객체를 런타임에 동적으로 새로운 책임(기능)을 추가하는 패턴이다. [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)(Inheritance) 대신 구성(Composition)과 위임(Delegation)을 사용하여 기존 클래스를 변경하지 않고 기능을 확장한다.
+> 2. **가치**: 클래스 수의 폭발적 증가 없이 런타임에 기능을 조합할 수 있다. Java IO 스트림(`BufferedInputStream(new FileInputStream(...))`)처럼 기능 조합이 자유롭고 [SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/)·OCP를 동시에 달성한다.
+> 3. **판단 포인트**: [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/)는 '같은 인터페이스를 구현하는 래퍼(Wrapper)'라는 점이 핵심이다. 원본 객체와 동일한 인터페이스를 가져야 클라이언트 코드를 수정하지 않고도 [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/)로 투명하게 교체할 수 있다. [프록시 패턴](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/158_proxy_pattern/)과의 차이는 목적이다: [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/)는 기능 추가, [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)는 접근 제어.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[[234_uml_class_relationships_generalization_dependency|상속]]으로 기능을 확장하면 모든 조합에 대한 서브클래스가 필요하다. 예를 들어 커피(Coffee)에 우유(Milk)·설탕(Sugar)·휘핑크림(Whip)을 추가한다면, [[234_uml_class_relationships_generalization_dependency|상속]]으로는 `MilkCoffee`, `SugarCoffee`, `MilkSugarCoffee`, `MilkSugarWhipCoffee` 등 2^n개의 서브클래스가 필요하다.
+[상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)으로 기능을 확장하면 모든 조합에 대한 서브클래스가 필요하다. 예를 들어 커피(Coffee)에 우유(Milk)·설탕(Sugar)·휘핑크림(Whip)을 추가한다면, [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)으로는 `MilkCoffee`, `SugarCoffee`, `MilkSugarCoffee`, `MilkSugarWhipCoffee` 등 2^n개의 서브클래스가 필요하다.
 
-[[262_decorator_pattern_dynamic_wrapper|데코레이터]] 패턴은 이 '서브클래스 폭발' 문제를 해결한다. `new WhipDecorator(new SugarDecorator(new MilkDecorator(new Coffee())))`처럼 런타임에 자유롭게 기능을 조합할 수 있다.
+[데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/) 패턴은 이 '서브클래스 폭발' 문제를 해결한다. `new WhipDecorator(new SugarDecorator(new MilkDecorator(new Coffee())))`처럼 런타임에 자유롭게 기능을 조합할 수 있다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -36,13 +40,13 @@ tags:
 └─────────────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 아이스크림(원본 객체)에 토핑([[262_decorator_pattern_dynamic_wrapper|데코레이터]])을 하나씩 올리는 방식이다. 아이스크림 자체를 바꾸지 않고 런타임에 초콜릿·견과류·크림을 자유롭게 조합한다.
+- **📢 섹션 요약 비유**: 아이스크림(원본 객체)에 토핑([데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/))을 하나씩 올리는 방식이다. 아이스크림 자체를 바꾸지 않고 런타임에 초콜릿·견과류·크림을 자유롭게 조합한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-Java IO는 [[262_decorator_pattern_dynamic_wrapper|데코레이터]] 패턴의 교과서적 구현이다. `InputStream`이 [[603_component_independent_deployment_unit|Component]], `FileInputStream`·`ByteArrayInputStream`이 ConcreteComponent, `FilterInputStream`이 [[262_decorator_pattern_dynamic_wrapper|Decorator]] 추상 클래스, `BufferedInputStream`·`DataInputStream`·`GZIPInputStream`이 ConcreteDecorator다.
+Java IO는 [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/) 패턴의 교과서적 구현이다. `InputStream`이 [Component](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/), `FileInputStream`·`ByteArrayInputStream`이 ConcreteComponent, `FilterInputStream`이 [Decorator](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/) 추상 클래스, `BufferedInputStream`·`DataInputStream`·`GZIPInputStream`이 ConcreteDecorator다.
 
 ```java
 // 데코레이터 체이닝 예시
@@ -55,9 +59,9 @@ InputStream is = new GZIPInputStream(
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
-| [[603_component_independent_deployment_unit|Component]] | 공통 인터페이스 | InputStream |
+| [Component](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) | 공통 인터페이스 | InputStream |
 | ConcreteComponent | 원본 기능 구현 | FileInputStream |
-| [[262_decorator_pattern_dynamic_wrapper|Decorator]] | 위임 + 기능 추가 | FilterInputStream |
+| [Decorator](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/) | 위임 + 기능 추가 | FilterInputStream |
 | ConcreteDecorator | 특정 기능 추가 | BufferedInputStream |
 
 ```text
@@ -72,68 +76,68 @@ InputStream is = new GZIPInputStream(
 └─────────────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 러시아 마트료시카 인형처럼, 바깥 인형([[262_decorator_pattern_dynamic_wrapper|데코레이터]])이 안쪽 인형(원본)을 감싸며 추가 기능을 더한다. 각 인형은 동일한 '인형 인터페이스'를 갖는다.
+- **📢 섹션 요약 비유**: 러시아 마트료시카 인형처럼, 바깥 인형([데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/))이 안쪽 인형(원본)을 감싸며 추가 기능을 더한다. 각 인형은 동일한 '인형 인터페이스'를 갖는다.
 
 ---
 ## Ⅲ. 비교 및 연결
 
-[[262_decorator_pattern_dynamic_wrapper|데코레이터]]와 [[158_proxy_pattern|프록시 패턴]]은 구조가 동일하지만 의도가 다르다. [[262_decorator_pattern_dynamic_wrapper|데코레이터]]는 기능을 동적으로 추가하기 위한 것이고, [[264_proxy_pattern_surrogate_access_control|프록시]]는 접근 제어([[456_caching|캐싱]], 로깅, 보안)를 위한 것이다.
+[데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/)와 [프록시 패턴](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/158_proxy_pattern/)은 구조가 동일하지만 의도가 다르다. [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/)는 기능을 동적으로 추가하기 위한 것이고, [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)는 접근 제어([캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/), 로깅, 보안)를 위한 것이다.
 
 | 비교 축 | A | B |
 |:---|:---|:---|
 | 목적 | 기능 추가 | 접근 제어 |
 | 구성 방식 | 동적 (런타임 조합) | 정적 (컴파일 타임 또는 프레임워크) |
-| 대표 예시 | Java IO [[467_http2_stream_multiplexing_tcp_hol|Stream]] | Spring AOP |
-| 클라이언트 인식 | [[262_decorator_pattern_dynamic_wrapper|데코레이터]] 존재 알 수 있음 | [[264_proxy_pattern_surrogate_access_control|프록시]] 존재 모름 |
+| 대표 예시 | Java IO [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/) | Spring AOP |
+| 클라이언트 인식 | [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/) 존재 알 수 있음 | [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 존재 모름 |
 
-- **📢 섹션 요약 비유**: [[262_decorator_pattern_dynamic_wrapper|데코레이터]]는 옷(기능)을 레이어로 입는 것이고, [[264_proxy_pattern_surrogate_access_control|프록시]]는 비서(접근 제어)를 두어 모든 연락을 비서가 처리하게 하는 것이다.
+- **📢 섹션 요약 비유**: [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/)는 옷(기능)을 레이어로 입는 것이고, [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)는 비서(접근 제어)를 두어 모든 연락을 비서가 처리하게 하는 것이다.
 
 ---
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-스프링 AOP(Aspect-Oriented Programming)는 [[262_decorator_pattern_dynamic_wrapper|데코레이터]]([[264_proxy_pattern_surrogate_access_control|프록시]]) 패턴의 프레임워크 수준 구현이다. `@Transactional`, `@Cacheable`, `@Aspect`가 원본 Bean 메서드에 [[191_transaction_concept_states|트랜잭션]]·[[456_caching|캐싱]]·로깅 등의 관심사(Concern)를 동적으로 추가한다.
+스프링 AOP(Aspect-Oriented Programming)는 [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/)([프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)) 패턴의 프레임워크 수준 구현이다. `@Transactional`, `@Cacheable`, `@Aspect`가 원본 Bean 메서드에 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)·[캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)·로깅 등의 관심사(Concern)를 동적으로 추가한다.
 
-### 판단 [[435_checklist_based_testing|체크리스트]]
-1. [[262_decorator_pattern_dynamic_wrapper|데코레이터]]가 Component와 동일한 인터페이스를 구현하여 클라이언트 코드가 투명하게 사용하는가?
-2. 기능 추가가 [[234_uml_class_relationships_generalization_dependency|상속]]이 아닌 구성(Composition)과 위임(Delegation)으로 이루어지는가?
-3. [[262_decorator_pattern_dynamic_wrapper|데코레이터]] 체이닝이 올바른 순서로 적용되어 있는가?
-4. [[158_proxy_pattern|프록시 패턴]]과 [[262_decorator_pattern_dynamic_wrapper|데코레이터]] 패턴을 혼동하지 않고 목적에 맞게 사용하는가?
-5. 서브클래스 폭발 문제를 [[262_decorator_pattern_dynamic_wrapper|데코레이터]]로 해결하고 있는가?
+### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+1. [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/)가 Component와 동일한 인터페이스를 구현하여 클라이언트 코드가 투명하게 사용하는가?
+2. 기능 추가가 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)이 아닌 구성(Composition)과 위임(Delegation)으로 이루어지는가?
+3. [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/) 체이닝이 올바른 순서로 적용되어 있는가?
+4. [프록시 패턴](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/158_proxy_pattern/)과 [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/) 패턴을 혼동하지 않고 목적에 맞게 사용하는가?
+5. 서브클래스 폭발 문제를 [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/)로 해결하고 있는가?
 
-- **📢 섹션 요약 비유**: 피자에 토핑을 추가하듯, 기존 [[090_service_kubernetes_network_load_balancing|서비스]](피자)를 수정하지 않고 로깅·[[456_caching|캐싱]]·[[191_transaction_concept_states|트랜잭션]](토핑) [[262_decorator_pattern_dynamic_wrapper|데코레이터]]를 감싸서 기능을 동적으로 추가한다.
+- **📢 섹션 요약 비유**: 피자에 토핑을 추가하듯, 기존 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(피자)를 수정하지 않고 로깅·[캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)·[트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)(토핑) [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/)를 감싸서 기능을 동적으로 추가한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[[262_decorator_pattern_dynamic_wrapper|데코레이터]] 패턴을 적용하면 클래스 수의 폭발 없이 다양한 기능 조합이 가능하고, [[243_srp_single_responsibility_principle|SRP]](각 [[262_decorator_pattern_dynamic_wrapper|데코레이터]]가 단일 책임)와 [[746_ocp|OCP]](기존 클래스 수정 없이 기능 추가)를 동시에 달성한다. 런타임에 동적으로 기능을 추가·제거할 수 있어 유연성이 높다.
+[데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/) 패턴을 적용하면 클래스 수의 폭발 없이 다양한 기능 조합이 가능하고, [SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/)(각 [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/)가 단일 책임)와 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/)(기존 클래스 수정 없이 기능 추가)를 동시에 달성한다. 런타임에 동적으로 기능을 추가·제거할 수 있어 유연성이 높다.
 
-한계는 [[262_decorator_pattern_dynamic_wrapper|데코레이터]] 체이닝이 깊어질수록 디버깅이 어렵고, [[262_decorator_pattern_dynamic_wrapper|데코레이터]]가 너무 많으면 코드 흐름을 파악하기 어려워진다.
+한계는 [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/) 체이닝이 깊어질수록 디버깅이 어렵고, [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/)가 너무 많으면 코드 흐름을 파악하기 어려워진다.
 
-미래 방향으로는 ① 함수형 미들웨어(Middleware) 패턴이 [[262_decorator_pattern_dynamic_wrapper|데코레이터]]의 함수형 [[288_version_ihl_tos_total_length|버전]], ② 스프링 AOP가 [[262_decorator_pattern_dynamic_wrapper|데코레이터]]를 선언적으로 적용하는 현대적 방식으로 발전하고 있다.
+미래 방향으로는 ① 함수형 미들웨어(Middleware) 패턴이 [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/)의 함수형 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), ② 스프링 AOP가 [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/)를 선언적으로 적용하는 현대적 방식으로 발전하고 있다.
 
-- **📢 섹션 요약 비유**: 양파([[262_decorator_pattern_dynamic_wrapper|데코레이터]] 체인)는 겹겹이 벗길수록 구조가 복잡하지만, 각 겹이 독립적인 역할을 하여 전체를 구성한다.
+- **📢 섹션 요약 비유**: 양파([데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/) 체인)는 겹겹이 벗길수록 구조가 복잡하지만, 각 겹이 독립적인 역할을 하여 전체를 구성한다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-[상속 기반 기능 확장 한계] → [데코레이터 패턴(구성+위임)] → [Java IO [[467_http2_stream_multiplexing_tcp_hol|Stream]]] → [스프링 AOP] → [함수형 미들웨어]
+[상속 기반 기능 확장 한계] → [데코레이터 패턴(구성+위임)] → [Java IO [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/)] → [스프링 AOP] → [함수형 미들웨어]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[158_proxy_pattern|프록시 패턴]] | 구조 동일하나 목적이 접근 제어 |
-| [[746_ocp|OCP]] ([[356_process|개방-폐쇄 원칙]]) | [[262_decorator_pattern_dynamic_wrapper|데코레이터]]로 달성하는 핵심 원칙 |
-| 스프링 AOP | [[262_decorator_pattern_dynamic_wrapper|데코레이터]] 패턴의 프레임워크 구현 |
-| Java IO | [[262_decorator_pattern_dynamic_wrapper|데코레이터]] 패턴의 교과서적 구현 사례 |
+| [프록시 패턴](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/158_proxy_pattern/) | 구조 동일하나 목적이 접근 제어 |
+| [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) ([개방-폐쇄 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/356_process/)) | [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/)로 달성하는 핵심 원칙 |
+| 스프링 AOP | [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/) 패턴의 프레임워크 구현 |
+| Java IO | [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/) 패턴의 교과서적 구현 사례 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[상속 서브클래스 폭발] → [GoF [[262_decorator_pattern_dynamic_wrapper|데코레이터]] 패턴(1994)] → [Java IO 구현] → [스프링 AOP 선언적 데코레이터] → [함수형 미들웨어 패턴]
+[상속 서브클래스 폭발] → [GoF [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/) 패턴(1994)] → [Java IO 구현] → [스프링 AOP 선언적 데코레이터] → [함수형 미들웨어 패턴]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [[262_decorator_pattern_dynamic_wrapper|데코레이터]]는 아이스크림에 토핑을 올리는 것처럼, 원래 아이스크림을 바꾸지 않고 기능을 추가해요.
+1. [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/)는 아이스크림에 토핑을 올리는 것처럼, 원래 아이스크림을 바꾸지 않고 기능을 추가해요.
 2. 초콜릿·견과류·크림을 순서대로 올릴 수 있고, 어떤 조합이든 자유롭게 만들 수 있어요.
 3. Java IO Stream이 바로 이 패턴을 사용해요!
 
@@ -143,7 +147,7 @@ InputStream is = new GZIPInputStream(
 
 **진행 상황**: 211 / 530
 
-← **이전**: [[154_composite_pattern|154. 구조 패턴: 컴포지트 (Composite Pattern) - 트리 쇳덩이를 단일 껍데기로 압살 융합한 마트료시카 마법]]
-**다음**: [[156_facade_pattern|156. 파사드 패턴 (Facade Pattern)]] →
+← **이전**: [154. 구조 패턴: 컴포지트 (Composite Pattern) - 트리 쇳덩이를 단일 껍데기로 압살 융합한 마트료시카 마법](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/154_composite_pattern/)
+**다음**: [156. 파사드 패턴 (Facade Pattern)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/156_facade_pattern/) →
 
 ---

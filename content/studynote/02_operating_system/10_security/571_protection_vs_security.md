@@ -1,28 +1,32 @@
----
-title: 571. 보호 (Protection) vs 보안 (Security)의 개념 차이
-date: '2026-05-09'
-tags:
-- studynote-operating-system
----
++++
+title = "571. 보호 (Protection) vs 보안 (Security)의 개념 차이"
+date = 2026-05-09
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: **보호(Protection)**는 [[001_operating_system_purpose|운영체제]] [[022_kernel_role|커널]] 내부에서 정상 프로세스들이 서로의 메모리나 자원에 실수로 침범하지 못하게 막는 **내부 교통정리 체계(Internal Mechanism)**이고, **보안([[283_security_tactics|Security]])**은 해커나 [[589_virus|바이러스]] 등 외부 적의 침입을 차단하는 **외곽 방어망(External [[164_policy|Policy]])**이다.
-> 2. **가치**: 이 **이중 방어 체계(Dual Defense [[319_architecture|Architecture]])**덕분에, 비밀번호 [[303_authentication_authorization_patterns|인증]]을 뚫고 들어온 해커조차도 OS [[022_kernel_role|커널]]의 [[501_file_definition_logical_record|파일]] 접근 권한(보호)에 묶여 아무것도 하지 못하고 거부당하는 다층 방어([[012_defense_in_depth|Defense in Depth]])를 구현할 수 있다.
-> 3. **한계**: 보호(Protection) 체계가 아무리 잘 설계되어 있어도, 관리자 계정 탈취와 같은 보안([[283_security_tactics|Security]]) 침해가 발생하면 내부의 모든 보호 장치가 무력화되는 **단일 실패점(Cascading Failure)** 위험을 항상 안고 있다.
+> 1. **본질**: **보호(Protection)**는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부에서 정상 프로세스들이 서로의 메모리나 자원에 실수로 침범하지 못하게 막는 **내부 교통정리 체계(Internal Mechanism)**이고, **보안([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))**은 해커나 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/) 등 외부 적의 침입을 차단하는 **외곽 방어망(External [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))**이다.
+> 2. **가치**: 이 **이중 방어 체계(Dual Defense [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))**덕분에, 비밀번호 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 뚫고 들어온 해커조차도 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 접근 권한(보호)에 묶여 아무것도 하지 못하고 거부당하는 다층 방어([Defense in Depth](/knowledge-base/studynote/09_security/01_intro_principles/012_defense_in_depth/))를 구현할 수 있다.
+> 3. **한계**: 보호(Protection) 체계가 아무리 잘 설계되어 있어도, 관리자 계정 탈취와 같은 보안([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) 침해가 발생하면 내부의 모든 보호 장치가 무력화되는 **단일 실패점(Cascading Failure)** 위험을 항상 안고 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 ### 1.1 보호(Protection)의 개념
-**보호(Protection)**는 성(OS) 안에서 실행되는 프로세스들 간의 규칙이다. [[075_word|워드]] 프로세서가 엑셀 프로세스의 메모리 주소 공간에 무단으로 접근하려고 하면, [[022_kernel_role|커널]]의 [[328_mmu|MMU]]([[284_mmu|Memory Management Unit]])가 이를 차단하여 **[[364_segmentation|세그멘테이션]] 폴트([[364_segmentation|Segmentation]] Fault)**를 발생시킨다.
+**보호(Protection)**는 성(OS) 안에서 실행되는 프로세스들 간의 규칙이다. [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 프로세서가 엑셀 프로세스의 메모리 주소 공간에 무단으로 접근하려고 하면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/)([Memory Management Unit](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/))가 이를 차단하여 **[세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) 폴트([Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) Fault)**를 발생시킨다.
 
-### 1.2 보안([[283_security_tactics|Security]])의 개념
-**보안([[283_security_tactics|Security]])**은 성 밖에서 침입하려는 해커나 악성 트래픽을 차단하는 외곽 철조망이다. [[690_firewall_generation_evolution|방화벽]]([[690_firewall_generation_evolution|Firewall]]), 패스워드 [[303_authentication_authorization_patterns|인증]], 암호화(Encryption), [[601_ids_ips_syscall_tracing|IDS]]/[[695_ips_network_intrusion_prevention_system|IPS]] 등이 해당한다.
+### 1.2 보안([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))의 개념
+**보안([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))**은 성 밖에서 침입하려는 해커나 악성 트래픽을 차단하는 외곽 철조망이다. [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([Firewall](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)), 패스워드 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 암호화(Encryption), [IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/)/[IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 등이 해당한다.
 
 ### 1.3 분리된 경계망의 필요성
-1970년대 초반에는 컴퓨터에 사용자가 1명이라 외부 보안만으로 충분했다. 그러나 인터넷과 다중 사용자(Multi-User) 환경이 도입되면서, 이미 [[303_authentication_authorization_patterns|인증]]된 정상 사용자들조차 서로의 디렉터리를 침범하는 문제가 발생했다. 따라서 **외곽 보안([[283_security_tactics|Security]])**과 **내부 보호(Protection)**가 모두 필수적이다.
+1970년대 초반에는 컴퓨터에 사용자가 1명이라 외부 보안만으로 충분했다. 그러나 인터넷과 다중 사용자(Multi-User) 환경이 도입되면서, 이미 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)된 정상 사용자들조차 서로의 디렉터리를 침범하는 문제가 발생했다. 따라서 **외곽 보안([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))**과 **내부 보호(Protection)**가 모두 필수적이다.
 
 - **📢 섹션 요약 비유**: 복잡한 창고에서 필요한 물건을 찾기 위해 먼저 구역과 표지판을 세우는 것과 같다.
 
@@ -30,19 +34,19 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 2.1 메커니즘(Mechanism)과 [[164_policy|정책]]([[164_policy|Policy]])의 분리
+### 2.1 메커니즘(Mechanism)과 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))의 분리
 
-[[043_protection_security|보호와 보안]]을 구현하기 위해서는 **"기계 장치(메커니즘)"**와 **"그 장치를 조작하는 규칙([[164_policy|정책]])"**이 분리되어야 한다.
+[보호와 보안](/knowledge-base/studynote/02_operating_system/01_overview_architecture/043_protection_security/)을 구현하기 위해서는 **"기계 장치(메커니즘)"**와 **"그 장치를 조작하는 규칙([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))"**이 분리되어야 한다.
 
-| 구분 | 메커니즘 (Mechanism) | [[164_policy|정책]] ([[164_policy|Policy]]) |
+| 구분 | 메커니즘 (Mechanism) | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) ([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)) |
 |:---|:---|:---|
 | **역할** | "어떻게(How) 막을 것인가?" | "무엇을(What/Who) 막을 것인가?" |
-| **변경 빈도** | [[022_kernel_role|커널]] 재부팅 없이는 변경 불가 | [[009_config|설정]] [[501_file_definition_logical_record|파일]]로 유동적 변경 가능 |
-| **예시** | `rwx` [[073_bit|비트]] 해석 및 차단 [[022_kernel_role|커널]] 코드 |人事팀 폴더에 대해 인사팀 그룹만 읽기 권한 부여 |
+| **변경 빈도** | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 재부팅 없이는 변경 불가 | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 유동적 변경 가능 |
+| **예시** | `rwx` [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 해석 및 차단 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드 |人事팀 폴더에 대해 인사팀 그룹만 읽기 권한 부여 |
 
 ### 2.2 분리 실패 사례: MS-DOS
 
-과거 Windows 95 [[022_kernel_role|커널]]에서는 "누가 C드라이브를 지울 수 있는가"가 OS 코드에 하드코딩되어 있었다. 따라서 "외주 직원에게 B드라이브 접근 차단" [[164_policy|정책]]을 추가하려면 OS 자체를 재설계해야 하는 극악의 종속성이 발생했다.
+과거 Windows 95 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서는 "누가 C드라이브를 지울 수 있는가"가 OS 코드에 하드코딩되어 있었다. 따라서 "외주 직원에게 B드라이브 접근 차단" [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 추가하려면 OS 자체를 재설계해야 하는 극악의 종속성이 발생했다.
 
 - **📢 섹션 요약 비유**: 공장 컨베이어벨트가 어떤 순서로 부품을 받아 가공하고 내보내는지 설계도를 펼쳐 보는 것과 같다.
 
@@ -50,16 +54,16 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-### 3.1 보안([[283_security_tactics|Security]])만 믿다가 발생한 사고
+### 3.1 보안([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))만 믿다가 발생한 사고
 
-주니어 엔지니어가 AWS에 서버를 띄우고 `Security Group`으로 외부 접근을 차단했다. 그러나 내부 프로세스의 [[526_iam|IAM]] 권한이 과도하게 부여되어 있어, USB로 감염된 내부 PC가 해킹당했을 때 [[002_database_definition|데이터베이스]] 전체가 삭제되는 사고가 발생했다.
+주니어 엔지니어가 AWS에 서버를 띄우고 `Security Group`으로 외부 접근을 차단했다. 그러나 내부 프로세스의 [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) 권한이 과도하게 부여되어 있어, USB로 감염된 내부 PC가 해킹당했을 때 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 전체가 삭제되는 사고가 발생했다.
 
 ### 3.2 이중 방어 체계 적용
 
 | 단계 | 유형 | 적용 기술 |
 |:---|:---|:---|
-| **1차 방어** | [[283_security_tactics|Security]] (보안) | [[283_security_tactics|Security]] Group / NACL로 외부 차단 |
-| **2차 방어** | Protection (보호) | [[010_least_privilege|Least Privilege]] 기반 [[526_iam|IAM]] Role으로 내부 권한 최소화 |
+| **1차 방어** | [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) (보안) | [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Group / NACL로 외부 차단 |
+| **2차 방어** | Protection (보호) | [Least Privilege](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/) 기반 [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) Role으로 내부 권한 최소화 |
 
 - **📢 섹션 요약 비유**: 비슷해 보이는 공구를 나란히 놓고 언제 망치를 쓰고 언제 드라이버를 써야 하는지 구분하는 것과 같다.
 
@@ -68,8 +72,8 @@ tags:
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - **보호(Protection) 체계**는 내부 프로세스 간 접근을 제어하여,万一(만약) 악성 코드가 시스템에 감염되어도 영향 범위를 제한한다.
-- **보안([[283_security_tactics|Security]]) 체계**는 외부 침입을 차단하여, 내부 보호 체계가 무력화되는 것을 방지한다.
-- 두 체계의 **분리 설계(Mechanism vs [[164_policy|Policy]])**는 1970년대 이래로 유닉스 시스템의 핵심 설계 원칙으로 이어져 왔다.
+- **보안([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) 체계**는 외부 침입을 차단하여, 내부 보호 체계가 무력화되는 것을 방지한다.
+- 두 체계의 **분리 설계(Mechanism vs [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))**는 1970년대 이래로 유닉스 시스템의 핵심 설계 원칙으로 이어져 왔다.
 
 - **📢 섹션 요약 비유**: 운전자가 도로 상황에 따라 기어와 브레이크를 다르게 선택하는 것처럼 조건별 판단이 중요하다.
 
@@ -77,7 +81,7 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-보호 (Protection) vs 보안 ([[283_security_tactics|Security]])의 개념 차이은 [[001_operating_system_purpose|운영체제]] [[043_protection_security|보호와 보안]] 메커니즘을 이해하는 연결 고리 역할을 한다. 이 개념을 익히면 시스템 동작을 더 예측 가능하게 설명할 수 있지만, 만능 해법은 아니므로 적용 전제와 한계를 함께 기억해야 한다. 앞으로는 [[572_protection_domain|보호 도메인]] ([[572_protection_domain|Protection Domain]])처럼 더 세분화된 기술과 결합되며 자동화·최적화 방향으로 발전한다.
+보호 (Protection) vs 보안 ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))의 개념 차이은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [보호와 보안](/knowledge-base/studynote/02_operating_system/01_overview_architecture/043_protection_security/) 메커니즘을 이해하는 연결 고리 역할을 한다. 이 개념을 익히면 시스템 동작을 더 예측 가능하게 설명할 수 있지만, 만능 해법은 아니므로 적용 전제와 한계를 함께 기억해야 한다. 앞으로는 [보호 도메인](/knowledge-base/studynote/02_operating_system/10_security/572_protection_domain/) ([Protection Domain](/knowledge-base/studynote/02_operating_system/10_security/572_protection_domain/))처럼 더 세분화된 기술과 결합되며 자동화·최적화 방향으로 발전한다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -87,10 +91,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[569_sparse_file_holes|스파스 파일]] ([[569_sparse_file_holes|Sparse File]]) 저장 공간 절약 기술 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [[570_inotify_file_monitoring|리눅스 inotify 시스템]] | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [[572_protection_domain|보호 도메인]] ([[572_protection_domain|Protection Domain]]) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [[573_access_matrix|접근 제어 행렬]] ([[573_access_matrix|Access Matrix]]) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [스파스 파일](/knowledge-base/studynote/02_operating_system/09_file_system/569_sparse_file_holes/) ([Sparse File](/knowledge-base/studynote/02_operating_system/09_file_system/569_sparse_file_holes/)) 저장 공간 절약 기술 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [리눅스 inotify 시스템](/knowledge-base/studynote/02_operating_system/09_file_system/570_inotify_file_monitoring/) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [보호 도메인](/knowledge-base/studynote/02_operating_system/10_security/572_protection_domain/) ([Protection Domain](/knowledge-base/studynote/02_operating_system/10_security/572_protection_domain/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [접근 제어 행렬](/knowledge-base/studynote/02_operating_system/10_security/573_access_matrix/) ([Access Matrix](/knowledge-base/studynote/02_operating_system/10_security/573_access_matrix/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -110,7 +114,7 @@ tags:
 
 1. **보호(Protection)**는 아파트 건물 내부의 **방문록 시스템**과 같다. 入주민(거주자)끼리 서로의 집에勝手(마음대로) 들어가지 못하게 각 문에 자물쇠를 채워두는 것과 같다.
 
-2. **보안([[283_security_tactics|Security]])**는 건물의 **정문 경비 시스템**과 같다.택배 기사로 위장한 도둑이 건물에 들어오지 못하게 1층에서 확인하고 쫓아내는 것과 같다.
+2. **보안([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))**는 건물의 **정문 경비 시스템**과 같다.택배 기사로 위장한 도둑이 건물에 들어오지 못하게 1층에서 확인하고 쫓아내는 것과 같다.
 
 3. **둘 다 중요한 이유**: 정문 경비(보안)가 도둑을 막아도,万一(만약) 도둑이 거주자로 위장하여 들어왔다면, 각 집의 자물쇠(보호)가 없으면 금고 속 보석을 털어갈 수 있다. 그래서 **두 가지 시스템이 모두 필요**하다.
 
@@ -120,7 +124,7 @@ tags:
 
 **진행 상황**: 571 / 800
 
-← **이전**: [[570_inotify_file_monitoring|570. 리눅스 inotify 시스템 (Inotify File Monitoring)]]
-**다음**: [[572_protection_domain|572. 보호 도메인 (Protection Domain) - 프로세스가 접근할 수 있는 자원(객체)과 권한(Access Right)의]] →
+← **이전**: [570. 리눅스 inotify 시스템 (Inotify File Monitoring)](/knowledge-base/studynote/02_operating_system/09_file_system/570_inotify_file_monitoring/)
+**다음**: [572. 보호 도메인 (Protection Domain) - 프로세스가 접근할 수 있는 자원(객체)과 권한(Access Right)의](/knowledge-base/studynote/02_operating_system/10_security/572_protection_domain/) →
 
 ---

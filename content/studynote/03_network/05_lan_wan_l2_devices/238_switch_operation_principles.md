@@ -1,9 +1,13 @@
----
-title: 238. 스위치 (Switch) 의 동작 원리
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "238. 스위치 (Switch) 의 동작 원리"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -15,12 +19,12 @@ tags:
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 스위치(Network Switch, Switching [[152_hub_dummy_switching_intelligent|Hub]])는 [[001_dikw_pyramid|데이터]] 링크 계층([[673_mac_message_authentication_code|MAC]] 계층)에서 프레임을 전송하는 하드웨어 장비다. 내부 메모리에 [[673_mac_message_authentication_code|MAC]] 주소와 [[446_port_and_bus|포트]] 번호를 매핑한 테이블(CAM Table)을 칩셋([[070_asic|ASIC]])에 구워 넣어 마이크로초 단위의 [[148_5g_embb_urllc_mmtc|초고속]] [[001_dikw_pyramid|데이터]] 전송을 수행한다.
-- **필요성**: 1계층 장비인 [[152_hub_dummy_switching_intelligent|허브]]([[459_dummy_test_double|더미]] [[152_hub_dummy_switching_intelligent|허브]])는 [[446_port_and_bus|포트]] 1번에서 [[001_dikw_pyramid|데이터]]가 들어오면 2, 3, 4번 등 나머지 모든 [[446_port_and_bus|포트]]로 무식하게 복사해서 뿌렸다. 이러면 엉뚱한 PC들도 필요 없는 [[001_dikw_pyramid|데이터]]를 받아 폐기해야 하니 CPU가 낭비되고, 무엇보다 두 대가 동시에 [[001_dikw_pyramid|데이터]]를 보내면 [[152_hub_dummy_switching_intelligent|허브]] 내부에서 '충돌([[563_hash_collision_chaining_linear_probing|Collision]])'이 발생했다. 스위치는 편지봉투(프레임) 겉면의 이름([[673_mac_message_authentication_code|MAC]])을 읽고 정확히 그 집([[446_port_and_bus|포트]]) 문만 열어주기 위해 발명되었다.
+- **개념**: 스위치(Network Switch, Switching [Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 계층)에서 프레임을 전송하는 하드웨어 장비다. 내부 메모리에 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소와 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호를 매핑한 테이블(CAM Table)을 칩셋([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/))에 구워 넣어 마이크로초 단위의 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송을 수행한다.
+- **필요성**: 1계층 장비인 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)([더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))는 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 1번에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 들어오면 2, 3, 4번 등 나머지 모든 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 무식하게 복사해서 뿌렸다. 이러면 엉뚱한 PC들도 필요 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받아 폐기해야 하니 CPU가 낭비되고, 무엇보다 두 대가 동시에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내면 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 내부에서 '충돌([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))'이 발생했다. 스위치는 편지봉투(프레임) 겉면의 이름([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))을 읽고 정확히 그 집([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)) 문만 열어주기 위해 발명되었다.
 
 - **💡 비유**: 
-  - **[[152_hub_dummy_switching_intelligent|허브]]([[152_hub_dummy_switching_intelligent|Hub]])**: 동네 한가운데 서서 "홍길동 씨! 편지 왔어요!"라고 소리치는 **"우물정자 동네 이장님"**입니다. 길동이가 아닌 사람들도 시끄러워서 깨게 됩니다.
-  - **스위치(Switch)**: 각 세대의 동호수([[673_mac_message_authentication_code|MAC]])를 수첩에 적어놓고, 편지가 오면 조용히 길동이네 집 우편함([[446_port_and_bus|포트]])에만 편지를 꽂아주고 오는 **"스마트한 우체부"**입니다.
+  - **[허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))**: 동네 한가운데 서서 "홍길동 씨! 편지 왔어요!"라고 소리치는 **"우물정자 동네 이장님"**입니다. 길동이가 아닌 사람들도 시끄러워서 깨게 됩니다.
+  - **스위치(Switch)**: 각 세대의 동호수([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))를 수첩에 적어놓고, 편지가 오면 조용히 길동이네 집 우편함([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))에만 편지를 꽂아주고 오는 **"스마트한 우체부"**입니다.
 
 ```text
 [충돌 도메인 / 브로드캐스트 도메인]
@@ -31,20 +35,20 @@ tags:
     └──▶ [MAC 주소 테이블]
 ```
 
-- **📢 섹션 요약 비유**: ** 스위치는 들어오는 기차([[001_dikw_pyramid|데이터]])의 행선지 표지판([[673_mac_message_authentication_code|MAC]] 주소)을 보고 0.001초 만에 **"철도 선로([[446_port_and_bus|포트]])의 방향을 정확히 착! 하고 바꿔주는 철도 신호수"**입니다.
+- **📢 섹션 요약 비유**: ** 스위치는 들어오는 기차([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))의 행선지 표지판([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소)을 보고 0.001초 만에 **"철도 선로([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))의 방향을 정확히 착! 하고 바꿔주는 철도 신호수"**입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 1. 스위치 내부 구조 ([[070_asic|ASIC]] 칩과 백플레인)
-- **[[070_asic|ASIC]] (Application-Specific Integrated Circuit)**: 스위치는 CPU가 소프트웨어로 패킷을 처리하지 않는다. [[673_mac_message_authentication_code|MAC]] 주소를 읽고 테이블을 검색하는 모든 과정을 하드웨어 칩([[070_asic|ASIC]]) 구워버려서 기계적으로(Wire-speed) 처리한다.
-- **Switching Fabric (백플레인)**: 내부에서 1번 [[446_port_and_bus|포트]]와 5번 [[446_port_and_bus|포트]] 간에 독립적인 [[001_dikw_pyramid|데이터]] 고속도로를 임시로 뚫어준다(회선 교환처럼). 
+### 1. 스위치 내부 구조 ([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) 칩과 백플레인)
+- **[ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) (Application-Specific Integrated Circuit)**: 스위치는 CPU가 소프트웨어로 패킷을 처리하지 않는다. [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 읽고 테이블을 검색하는 모든 과정을 하드웨어 칩([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/)) 구워버려서 기계적으로(Wire-speed) 처리한다.
+- **Switching Fabric (백플레인)**: 내부에서 1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)와 5번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 간에 독립적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 고속도로를 임시로 뚫어준다(회선 교환처럼). 
 
-### 2. [[104_csma|CSMA]]/CD의 종식과 전이중(Full-Duplex) 통신
-과거에는 선이 하나여서 보내는 선과 받는 선을 공유했다(반이중). 스위치 환경에서는 PC와 스위치 [[446_port_and_bus|포트]]가 1:1로 연결되고, [[124_unshielded_twisted_pair|UTP]] 케이블 내부에 송신선(Tx)과 수신선(Rx)이 물리적으로 완전히 분리되어 있다. 
-- 스위치 [[446_port_and_bus|포트]] 내부에 전용 버퍼(메모리)가 있어 들어오는 [[001_dikw_pyramid|데이터]]와 나가는 [[001_dikw_pyramid|데이터]]를 안전하게 저장한다.
-- 따라서 동시에 말을 해도(송수신) 절대 충돌([[563_hash_collision_chaining_linear_probing|Collision]])이 발생하지 않는 **전이중(Full-Duplex)** 통신이 완성된다. [[237_collision_domain_vs_broadcast_domain|충돌 도메인]]이 [[446_port_and_bus|포트]]별로 쪼개진 것이다.
+### 2. [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD의 종식과 전이중(Full-Duplex) 통신
+과거에는 선이 하나여서 보내는 선과 받는 선을 공유했다(반이중). 스위치 환경에서는 PC와 스위치 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 1:1로 연결되고, [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 케이블 내부에 송신선(Tx)과 수신선(Rx)이 물리적으로 완전히 분리되어 있다. 
+- 스위치 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 내부에 전용 버퍼(메모리)가 있어 들어오는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 나가는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 안전하게 저장한다.
+- 따라서 동시에 말을 해도(송수신) 절대 충돌([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))이 발생하지 않는 **전이중(Full-Duplex)** 통신이 완성된다. [충돌 도메인](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/237_collision_domain_vs_broadcast_domain/)이 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)별로 쪼개진 것이다.
 
 ```text
  ┌─────────────────────────────────────────────────────────────┐
@@ -70,19 +74,19 @@ tags:
  └─────────────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: ** [[152_hub_dummy_switching_intelligent|허브]]가 모든 파이프가 뻥 뚫려 있어서 어느 한 곳에 물감을 타면 전체 물이 다 오염되는 거대한 **"공용 수영장"**이라면, 스위치는 수많은 파이프에 **"지능형 밸브"**를 달아 내가 원하는 수도꼭지로만 정확히 물을 틀어주는 최첨단 배관 시스템입니다.
+- **📢 섹션 요약 비유**: ** [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)가 모든 파이프가 뻥 뚫려 있어서 어느 한 곳에 물감을 타면 전체 물이 다 오염되는 거대한 **"공용 수영장"**이라면, 스위치는 수많은 파이프에 **"지능형 밸브"**를 달아 내가 원하는 수도꼭지로만 정확히 물을 틀어주는 최첨단 배관 시스템입니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-스위치 의 동작 원리를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [[237_collision_domain_vs_broadcast_domain|충돌 도메인]] / 브로드캐스트 [[064_relation_domain|도메인]]이 기반 조건을 만든다면, 스위치 의 동작 원리는 그 위에서 핵심 메커니즘을 구현하고, [[673_mac_message_authentication_code|MAC]] 주소 테이블은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 스위칭 효율과 브로드캐스트 범위에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+스위치 의 동작 원리를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [충돌 도메인](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/237_collision_domain_vs_broadcast_domain/) / 브로드캐스트 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)이 기반 조건을 만든다면, 스위치 의 동작 원리는 그 위에서 핵심 메커니즘을 구현하고, [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 테이블은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 스위칭 효율과 브로드캐스트 범위에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [[237_collision_domain_vs_broadcast_domain|충돌 도메인]] / 브로드캐스트 [[064_relation_domain|도메인]]의 기반 정리 | 스위치 의 동작 원리의 핵심 동작 | [[673_mac_message_authentication_code|MAC]] 주소 테이블의 확장 적용 |
+| 초점 | [충돌 도메인](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/237_collision_domain_vs_broadcast_domain/) / 브로드캐스트 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)의 기반 정리 | 스위치 의 동작 원리의 핵심 동작 | [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 테이블의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 스위칭 효율 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: 스위치 의 동작 원리는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -90,18 +94,18 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 스위치 의 동작 원리를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [[237_collision_domain_vs_broadcast_domain|충돌 도메인]] / 브로드캐스트 [[064_relation_domain|도메인]] 수준의 기본 대책으로 충분한지, 아니면 스위치 의 동작 원리가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [[673_mac_message_authentication_code|MAC]] 주소 테이블와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 스위치 의 동작 원리를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [충돌 도메인](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/237_collision_domain_vs_broadcast_domain/) / 브로드캐스트 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 수준의 기본 대책으로 충분한지, 아니면 스위치 의 동작 원리가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 테이블와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 스위칭 효율 부족인지, 브로드캐스트 범위 악화인지 먼저 분리한다.
-2. 스위치 의 동작 원리가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [[396_validation|확인]]한다.
-3. 도입 후에는 인접 기술인 [[673_mac_message_authentication_code|MAC]] 주소 테이블와의 연계 방식을 함께 검증한다.
+2. 스위치 의 동작 원리가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+3. 도입 후에는 인접 기술인 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 테이블와의 연계 방식을 함께 검증한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 스위치 의 동작 원리의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- [[237_collision_domain_vs_broadcast_domain|충돌 도메인]] / 브로드캐스트 [[064_relation_domain|도메인]]와의 경계를 정리하지 않아 중복 투자나 [[164_policy|정책]] 충돌을 만드는 설계
+- [충돌 도메인](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/237_collision_domain_vs_broadcast_domain/) / 브로드캐스트 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: 스위치 의 동작 원리를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -109,7 +113,7 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-스위치 의 동작 원리는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 스위칭 효율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [[673_mac_message_authentication_code|MAC]] 주소 테이블, 지능형 캠퍼스 패브릭, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 지능형 캠퍼스 패브릭 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+스위치 의 동작 원리는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 스위칭 효율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 테이블, 지능형 캠퍼스 패브릭, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 지능형 캠퍼스 패브릭 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 스위치 의 동작 원리는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -119,10 +123,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[237_collision_domain_vs_broadcast_domain|충돌 도메인]] / 브로드캐스트 [[064_relation_domain|도메인]] | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [[673_mac_message_authentication_code|MAC]] 주소 ([[121_transmission_media_guided_unguided|Media]] [[547_access_control_rwx|Access Control]] Address) | 2계층 전달 대상을 식별하는 기본 주소다. |
-| 스위치 (Switch) | 프레임을 적절한 [[446_port_and_bus|포트]]로 전달하는 핵심 장비다. |
-| [[673_mac_message_authentication_code|MAC]] 주소 테이블 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [충돌 도메인](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/237_collision_domain_vs_broadcast_domain/) / 브로드캐스트 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 ([Media](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) [Access Control](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/) Address) | 2계층 전달 대상을 식별하는 기본 주소다. |
+| 스위치 (Switch) | 프레임을 적절한 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 전달하는 핵심 장비다. |
+| [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 테이블 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -136,12 +140,12 @@ tags:
     └──▶ [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
-스위치 의 동작 원리는 [[237_collision_domain_vs_broadcast_domain|충돌 도메인]] / 브로드캐스트 [[064_relation_domain|도메인]]에서 출발해 현재 메커니즘을 정교화하고, 이후 [[673_mac_message_authentication_code|MAC]] 주소 테이블와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+스위치 의 동작 원리는 [충돌 도메인](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/237_collision_domain_vs_broadcast_domain/) / 브로드캐스트 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 테이블와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 학교 우편함에 이름표가 붙어 있어야 편지가 엉뚱한 곳에 가지 않아요.
-2. 이 개념은 어느 교실로 보내야 할지 알아보는 [[104_classification_analysis|분류]] 규칙과 같아요.
+2. 이 개념은 어느 교실로 보내야 할지 알아보는 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 규칙과 같아요.
 3. 그래서 같은 건물 안에서도 편지가 더 빠르고 질서 있게 움직여요.
 
 ---
@@ -150,7 +154,7 @@ tags:
 
 **진행 상황**: 359 / 1120
 
-← **이전**: [[237_collision_domain_vs_broadcast_domain|237. 충돌 도메인 (Collision Domain) / 브로드캐스트 도메인 (Broadcast Domain)]]
-**다음**: [[239_mac_address_table_cam_table|239. MAC 주소 테이블 (MAC Address Table, CAM Table)]] →
+← **이전**: [237. 충돌 도메인 (Collision Domain) / 브로드캐스트 도메인 (Broadcast Domain)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/237_collision_domain_vs_broadcast_domain/)
+**다음**: [239. MAC 주소 테이블 (MAC Address Table, CAM Table)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/239_mac_address_table_cam_table/) →
 
 ---

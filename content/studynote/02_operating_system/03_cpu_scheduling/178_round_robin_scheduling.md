@@ -1,23 +1,27 @@
----
-title: 178. 라운드 로빈 (Round Robin, RR) 스케줄링 - 시분할 시스템, 선점형
-date: '2026-03-22'
-tags:
-- studynote-operating-system
----
++++
+title = "178. 라운드 로빈 (Round Robin, RR) 스케줄링 - 시분할 시스템, 선점형"
+date = 2026-03-22
+
+[taxonomies]
+tags = ["studynote-operating-system"]
+
+[extra]
+tags = ["studynote-operating-system"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 라운드 로빈 (Round Robin, [[834_load_balancing_algorithm_round_robin_least_connection|RR]])은 Ready 큐의 프로세스에게 동일한 [[179_time_quantum_context_switch|시간 할당량]] (Time [[690_round_robin_time_quantum|Quantum]])을 순환 배분하고, 시간이 끝나면 타이머 [[016_interrupt_mechanism|인터럽트]]로 강제 선점하는 대표적인 시분할 스케줄링이다.
+> 1. **본질**: 라운드 로빈 (Round Robin, [RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/))은 Ready 큐의 프로세스에게 동일한 [시간 할당량](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/179_time_quantum_context_switch/) (Time [Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/))을 순환 배분하고, 시간이 끝나면 타이머 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)로 강제 선점하는 대표적인 시분할 스케줄링이다.
 > 2. **가치**: 실행 시간을 미리 몰라도 모든 프로세스가 일정 주기 안에 CPU (Central Processing Unit)를 한 번씩 받게 만들어, 상호작용형 시스템의 응답성과 공정성을 동시에 확보한다.
-> 3. **판단 포인트**: RR의 품질은 [[179_time_quantum_context_switch|시간 할당량]] 크기에 크게 좌우되므로, 너무 크면 [[173_fcfs_scheduling|FCFS]] (First Come First Served)처럼 굼떠지고 너무 작으면 [[211_context_switch|문맥 교환]] ([[211_context_switch|Context Switch]]) 비용이 폭증한다.
+> 3. **판단 포인트**: RR의 품질은 [시간 할당량](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/179_time_quantum_context_switch/) 크기에 크게 좌우되므로, 너무 크면 [FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/) (First Come First Served)처럼 굼떠지고 너무 작으면 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) ([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) 비용이 폭증한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-라운드 로빈 스케줄링은 **준비된 프로세스를 원형 큐처럼 순서대로 돌리되, 각 프로세스가 CPU를 연속 점유할 수 있는 최대 시간을 제한하는 선점형 [[164_policy|정책]]**이다. 프로세스가 할당받은 시간 안에 일을 끝내면 빠져나가고, 끝내지 못하면 큐의 뒤로 돌아가 다음 차례를 기다린다. 핵심은 "누구도 CPU를 오래 독점하지 못하게 한다"는 데 있다.
+라운드 로빈 스케줄링은 **준비된 프로세스를 원형 큐처럼 순서대로 돌리되, 각 프로세스가 CPU를 연속 점유할 수 있는 최대 시간을 제한하는 선점형 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)**이다. 프로세스가 할당받은 시간 안에 일을 끝내면 빠져나가고, 끝내지 못하면 큐의 뒤로 돌아가 다음 차례를 기다린다. 핵심은 "누구도 CPU를 오래 독점하지 못하게 한다"는 데 있다.
 
-이 방식이 필요해진 배경은 일괄 처리 시스템이 아닌 **시분할 (Time-sharing) 환경**이다. 사용자 여러 명이 같은 시스템을 함께 쓰는 상황에서 FCFS는 긴 작업 하나가 앞에 서면 뒤의 짧은 입력 처리까지 모두 멈추게 만든다. 반대로 [[175_sjf_scheduling|SJF]] ([[175_sjf_scheduling|Shortest Job First]])나 [[177_srtf_scheduling|SRTF]] (Shortest Remaining Time First)는 짧은 작업에는 유리하지만, 실행 시간을 미리 알아야 하거나 긴 작업 [[314_starvation_prevention|기아 상태]] ([[314_starvation_prevention|Starvation]])를 유발할 수 있다. RR은 실행 시간을 몰라도 된다는 현실성과, 차례를 강제로 돌린다는 공정성을 결합한 해법이다.
+이 방식이 필요해진 배경은 일괄 처리 시스템이 아닌 **시분할 (Time-sharing) 환경**이다. 사용자 여러 명이 같은 시스템을 함께 쓰는 상황에서 FCFS는 긴 작업 하나가 앞에 서면 뒤의 짧은 입력 처리까지 모두 멈추게 만든다. 반대로 [SJF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/) ([Shortest Job First](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/))나 [SRTF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/177_srtf_scheduling/) (Shortest Remaining Time First)는 짧은 작업에는 유리하지만, 실행 시간을 미리 알아야 하거나 긴 작업 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) ([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))를 유발할 수 있다. RR은 실행 시간을 몰라도 된다는 현실성과, 차례를 강제로 돌린다는 공정성을 결합한 해법이다.
 
 아래 그림은 RR이 왜 "시분할의 기본형"으로 불리는지 보여 준다.
 
@@ -43,13 +47,13 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-RR의 동작은 단순하지만, 실제로는 **타이머 [[016_interrupt_mechanism|인터럽트]]·Ready 큐·[[168_dispatcher|디스패처]]·[[211_context_switch|문맥 교환]]**이 맞물려야 성립한다. [[079_kube_scheduler_pod_placement|스케줄러]]는 프로세스를 실행시킬 때 [[179_time_quantum_context_switch|시간 할당량]] `q`를 함께 설정하고, 타이머가 만료되면 현재 프로세스를 중단시켜 문맥을 저장한 뒤 다음 프로세스로 전환한다. 따라서 RR은 단순한 큐 [[164_policy|정책]]이 아니라, 하드웨어 타이머가 보장하는 선점 메커니즘 위에서만 구현된다.
+RR의 동작은 단순하지만, 실제로는 **타이머 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)·Ready 큐·[디스패처](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/168_dispatcher/)·[문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)**이 맞물려야 성립한다. [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 프로세스를 실행시킬 때 [시간 할당량](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/179_time_quantum_context_switch/) `q`를 함께 설정하고, 타이머가 만료되면 현재 프로세스를 중단시켜 문맥을 저장한 뒤 다음 프로세스로 전환한다. 따라서 RR은 단순한 큐 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 아니라, 하드웨어 타이머가 보장하는 선점 메커니즘 위에서만 구현된다.
 
-| 이벤트 | [[079_kube_scheduler_pod_placement|스케줄러]] 동작 | 의미 |
+| 이벤트 | [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 동작 | 의미 |
 | :--- | :--- | :--- |
 | 프로세스 디스패치 | 큐의 맨 앞 프로세스를 CPU에 배정 | 차례 시작 |
-| [[179_time_quantum_context_switch|시간 할당량]] 만료 | 현재 문맥 저장 후 큐 뒤로 이동 | 강제 선점 |
-| CPU 버스트 종료 | [[107_process_termination|프로세스 종료]] 또는 다음 단계로 이동 | 큐에서 제거 |
+| [시간 할당량](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/179_time_quantum_context_switch/) 만료 | 현재 문맥 저장 후 큐 뒤로 이동 | 강제 선점 |
+| CPU 버스트 종료 | [프로세스 종료](/knowledge-base/studynote/02_operating_system/02_process_thread/107_process_termination/) 또는 다음 단계로 이동 | 큐에서 제거 |
 | I/O (Input/Output) 대기 진입 | CPU를 스스로 반환 | 짧은 작업이 빠르게 빠져나감 |
 | I/O 완료 후 Ready 복귀 | 큐 뒤에 다시 삽입 | 다음 순환에 참여 |
 
@@ -71,7 +75,7 @@ RR의 동작은 단순하지만, 실제로는 **타이머 [[016_interrupt_mechan
 └────────────────────────────────────────────────────────────────────┘
 ```
 
-이때 중요한 성질은 **대기 상한선을 대략 계산할 수 있다**는 점이다. 준비 큐에 `n`개 프로세스가 있고 모두 같은 우선순위라면, 한 프로세스가 선점된 뒤 다시 CPU를 얻기까지 기다리는 시간은 대체로 `(n - 1) × q` 범위 안에서 이해할 수 있다. 즉 RR은 평균 [[282_performance_tactics|성능]] 최적화보다는, "언제쯤 다시 차례가 오는가"를 예측 가능하게 만든다는 장점이 크다.
+이때 중요한 성질은 **대기 상한선을 대략 계산할 수 있다**는 점이다. 준비 큐에 `n`개 프로세스가 있고 모두 같은 우선순위라면, 한 프로세스가 선점된 뒤 다시 CPU를 얻기까지 기다리는 시간은 대체로 `(n - 1) × q` 범위 안에서 이해할 수 있다. 즉 RR은 평균 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화보다는, "언제쯤 다시 차례가 오는가"를 예측 가능하게 만든다는 장점이 크다.
 
 - **📢 섹션 요약 비유**: RR은 회전문을 통과하는 규칙과 같다. 누구도 문을 붙잡고 오래 서 있을 수 없고, 한 바퀴 돌면 다시 차례가 오기 때문에 기다림이 무한정 늘어나지 않는다.
 
@@ -79,19 +83,19 @@ RR의 동작은 단순하지만, 실제로는 **타이머 [[016_interrupt_mechan
 
 ## Ⅲ. 비교 및 연결
 
-RR을 다른 스케줄링과 비교하면, 이 알고리즘이 **최적화보다 공정성에 무게를 둔다**는 점이 분명해진다. FCFS는 구조가 단순하지만 긴 작업이 전체를 막아 [[138_response_time|응답 시간]]이 악화되고, [[175_sjf_scheduling|SJF]]/SRTF는 평균 대기 시간은 줄이지만 실행 시간 예측과 [[314_starvation_prevention|기아 상태]] 문제가 있다. RR은 이론적 최단 평균 대기 시간을 포기하는 대신, 누구나 빠르게 첫 응답을 받도록 설계된다.
+RR을 다른 스케줄링과 비교하면, 이 알고리즘이 **최적화보다 공정성에 무게를 둔다**는 점이 분명해진다. FCFS는 구조가 단순하지만 긴 작업이 전체를 막아 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)이 악화되고, [SJF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/)/SRTF는 평균 대기 시간은 줄이지만 실행 시간 예측과 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) 문제가 있다. RR은 이론적 최단 평균 대기 시간을 포기하는 대신, 누구나 빠르게 첫 응답을 받도록 설계된다.
 
-| [[164_policy|정책]] | 선점 여부 | 강한 목표 | 장점 | 약점 |
+| [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 선점 여부 | 강한 목표 | 장점 | 약점 |
 | :--- | :---: | :--- | :--- | :--- |
-| [[173_fcfs_scheduling|FCFS]] (First Come First Served) | 아니오 | 단순성 | 구현이 가장 쉽다 | 긴 작업이 전체를 막는다 |
-| [[175_sjf_scheduling|SJF]] ([[175_sjf_scheduling|Shortest Job First]]) | 아니오 | 평균 대기 시간 절감 | 짧은 작업에 유리 | 늦게 온 짧은 작업이 기다린다 |
-| [[177_srtf_scheduling|SRTF]] (Shortest Remaining Time First) | 예 | 평균 [[282_performance_tactics|성능]] 최적화 | 짧은 작업 응답 우수 | 예측 필요, 기아 위험 |
-| [[834_load_balancing_algorithm_round_robin_least_connection|RR]] (Round Robin) | 예 | 공정한 시간 분할 | 응답성, 기아 방지 | 평균 반환 시간은 비효율 가능 |
-| [[691_mlfq_multi_level_feedback_queue|MLFQ]] (Multilevel Feedback [[058_queue|Queue]]) | 예 | 응답성과 적응성 동시 확보 | RR보다 현실 친화적 | [[164_policy|정책]]과 튜닝이 복잡 |
+| [FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/) (First Come First Served) | 아니오 | 단순성 | 구현이 가장 쉽다 | 긴 작업이 전체를 막는다 |
+| [SJF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/) ([Shortest Job First](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/)) | 아니오 | 평균 대기 시간 절감 | 짧은 작업에 유리 | 늦게 온 짧은 작업이 기다린다 |
+| [SRTF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/177_srtf_scheduling/) (Shortest Remaining Time First) | 예 | 평균 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 | 짧은 작업 응답 우수 | 예측 필요, 기아 위험 |
+| [RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/) (Round Robin) | 예 | 공정한 시간 분할 | 응답성, 기아 방지 | 평균 반환 시간은 비효율 가능 |
+| [MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) (Multilevel Feedback [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) | 예 | 응답성과 적응성 동시 확보 | RR보다 현실 친화적 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 튜닝이 복잡 |
 
-RR은 현대 운영체제에서 단독으로만 쓰이지는 않는다. 대신 [[691_mlfq_multi_level_feedback_queue|다단계 피드백 큐]] (Multilevel Feedback [[058_queue|Queue]], [[691_mlfq_multi_level_feedback_queue|MLFQ]]) 내부에서 **각 큐를 돌리는 기본 메커니즘**으로 자주 쓰인다. 즉 "차례대로 짧게 나눠 준다"는 RR의 철학은 유지하되, 우선순위·I/O 성향·최근 CPU 사용량을 함께 고려하는 형태로 발전한 것이다.
+RR은 현대 운영체제에서 단독으로만 쓰이지는 않는다. 대신 [다단계 피드백 큐](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) (Multilevel Feedback [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/), [MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/)) 내부에서 **각 큐를 돌리는 기본 메커니즘**으로 자주 쓰인다. 즉 "차례대로 짧게 나눠 준다"는 RR의 철학은 유지하되, 우선순위·I/O 성향·최근 CPU 사용량을 함께 고려하는 형태로 발전한 것이다.
 
-또한 RR은 "작업 길이를 몰라도 되는 공정한 분배"라는 점에서 서버 [[092_thread_lwp|스레드]] 스케줄링, 라운드 로빈 부하분산, 시분할 자원 배분 등 다른 분야로 철학이 확장된다. 다만 운영체제의 RR은 타이머 기반 선점과 [[211_context_switch|문맥 교환]]을 전제로 하므로, 단순한 순번 배분과는 구별해서 이해해야 한다.
+또한 RR은 "작업 길이를 몰라도 되는 공정한 분배"라는 점에서 서버 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 스케줄링, 라운드 로빈 부하분산, 시분할 자원 배분 등 다른 분야로 철학이 확장된다. 다만 운영체제의 RR은 타이머 기반 선점과 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)을 전제로 하므로, 단순한 순번 배분과는 구별해서 이해해야 한다.
 
 - **📢 섹션 요약 비유**: FCFS가 한 명씩 끝날 때까지 상담하는 창구라면, RR은 모두에게 3분씩 돌아가며 상담하는 창구다. 문제를 가장 빨리 끝내는 방식은 아닐 수 있어도, 누구도 "내 차례가 아예 안 온다"는 불안은 덜하다.
 
@@ -99,11 +103,11 @@ RR은 현대 운영체제에서 단독으로만 쓰이지는 않는다. 대신 [
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 RR을 쓸지 판단할 때 가장 먼저 보는 것은 **응답성 목표와 [[179_time_quantum_context_switch|시간 할당량]]의 크기**다. 터미널, GUI (Graphical User Interface), 웹 요청처럼 짧은 상호작용이 많다면 [[834_load_balancing_algorithm_round_robin_least_connection|RR]] 계열 [[164_policy|정책]]이 유리하다. 반면 긴 계산 작업만 몰려 있는 배치 환경에서는 지나친 선점이 캐시와 [[211_context_switch|문맥 교환]] 비용만 늘릴 수 있어, 더 긴 슬라이스나 다른 [[164_policy|정책]]이 더 적합하다.
+실무에서 RR을 쓸지 판단할 때 가장 먼저 보는 것은 **응답성 목표와 [시간 할당량](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/179_time_quantum_context_switch/)의 크기**다. 터미널, GUI (Graphical User Interface), 웹 요청처럼 짧은 상호작용이 많다면 [RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/) 계열 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 유리하다. 반면 긴 계산 작업만 몰려 있는 배치 환경에서는 지나친 선점이 캐시와 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 비용만 늘릴 수 있어, 더 긴 슬라이스나 다른 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 더 적합하다.
 
-[[179_time_quantum_context_switch|시간 할당량]]은 RR의 핵심 조절점이다. 너무 크면 사실상 FCFS처럼 동작해 뒤 프로세스의 첫 응답이 늦어진다. 너무 작으면 매 퀀텀마다 문맥 저장·복원, 캐시 웜업, [[291_tlb|Translation Lookaside Buffer]] ([[357_tlb|TLB]]) 재사용 저하가 반복되어 CPU가 일보다 자리 교체에 바빠진다. 따라서 보통은 **[[211_context_switch|문맥 교환]] 시간보다 충분히 크고, 짧은 CPU 버스트 다수를 한 번에 처리할 만큼은 짧은 값**을 찾는다.
+[시간 할당량](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/179_time_quantum_context_switch/)은 RR의 핵심 조절점이다. 너무 크면 사실상 FCFS처럼 동작해 뒤 프로세스의 첫 응답이 늦어진다. 너무 작으면 매 퀀텀마다 문맥 저장·복원, 캐시 웜업, [Translation Lookaside Buffer](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/) ([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/)) 재사용 저하가 반복되어 CPU가 일보다 자리 교체에 바빠진다. 따라서 보통은 **[문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 시간보다 충분히 크고, 짧은 CPU 버스트 다수를 한 번에 처리할 만큼은 짧은 값**을 찾는다.
 
-아래 의사결정 흐름은 [[834_load_balancing_algorithm_round_robin_least_connection|RR]] 계열 적용 여부를 빠르게 가르는 기준이다.
+아래 의사결정 흐름은 [RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/) 계열 적용 여부를 빠르게 가르는 기준이다.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────┐
@@ -121,18 +125,18 @@ RR은 현대 운영체제에서 단독으로만 쓰이지는 않는다. 대신 [
 
 ### 실무 판단 기준
 
-1. **[[138_response_time|응답 시간]]이 중요한가?** 상호작용형 서비스라면 [[834_load_balancing_algorithm_round_robin_least_connection|RR]] 계열이 기본 후보가 된다.
-2. **[[211_context_switch|문맥 교환]] 비용이 감당 가능한가?** 퀀텀이 너무 작으면 처리량이 오히려 감소한다.
+1. **[응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)이 중요한가?** 상호작용형 서비스라면 [RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/) 계열이 기본 후보가 된다.
+2. **[문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 비용이 감당 가능한가?** 퀀텀이 너무 작으면 처리량이 오히려 감소한다.
 3. **긴 작업의 공정성 보장이 필요한가?** RR은 기아를 줄이는 데 강하다.
-4. **하드 실시간 (Hard Real-Time)[[509_authorization_models_rbac_abac|인가]]?** RR은 [[766_realtime_scheduling_deadline|deadline]] 보장용 기본 해법이 아니다.
+4. **하드 실시간 (Hard Real-Time)[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)?** RR은 [deadline](/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/) 보장용 기본 해법이 아니다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - RR이 항상 평균 대기 시간을 최소화한다고 오해하는 것
-- 퀀텀을 사용자 체감 지연만 보고 줄여 [[211_context_switch|문맥 교환]] 폭증을 만드는 것
-- [[766_realtime_scheduling_deadline|deadline]] 기반 문제를 [[834_load_balancing_algorithm_round_robin_least_connection|RR]] 하나로 해결하려는 것
+- 퀀텀을 사용자 체감 지연만 보고 줄여 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 폭증을 만드는 것
+- [deadline](/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/) 기반 문제를 [RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/) 하나로 해결하려는 것
 
-- **📢 섹션 요약 비유**: [[834_load_balancing_algorithm_round_robin_least_connection|RR]] 운영은 회전 초밥집 접시 속도를 정하는 것과 같다. 너무 느리면 뒤 손님이 한참 기다리고, 너무 빠르면 먹기도 전에 접시만 계속 지나가서 오히려 정신없어진다.
+- **📢 섹션 요약 비유**: [RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/) 운영은 회전 초밥집 접시 속도를 정하는 것과 같다. 너무 느리면 뒤 손님이 한참 기다리고, 너무 빠르면 먹기도 전에 접시만 계속 지나가서 오히려 정신없어진다.
 
 ---
 
@@ -140,9 +144,9 @@ RR은 현대 운영체제에서 단독으로만 쓰이지는 않는다. 대신 [
 
 RR의 가장 큰 효과는 **공정한 응답 기회 보장**이다. 긴 작업이 있더라도 다른 프로세스가 완전히 굶지는 않으며, 사용자는 여러 작업이 동시에 진행되는 듯한 체감을 얻는다. 그래서 RR은 시분할 운영체제의 역사에서 "현실적 선점 스케줄링의 출발점"으로 평가된다.
 
-하지만 RR은 만능이 아니다. 평균 반환 시간만 놓고 보면 더 나은 알고리즘이 있을 수 있고, [[179_time_quantum_context_switch|시간 할당량]]이 잘못 잡히면 장점이 단점으로 바뀐다. 또한 우선순위, 멀티코어, 캐시 친화도, 에너지 관리까지 고려하는 현대 운영체제는 RR을 단순 원형 그대로 쓰기보다 더 정교한 [[164_policy|정책]] 속에 흡수한다.
+하지만 RR은 만능이 아니다. 평균 반환 시간만 놓고 보면 더 나은 알고리즘이 있을 수 있고, [시간 할당량](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/179_time_quantum_context_switch/)이 잘못 잡히면 장점이 단점으로 바뀐다. 또한 우선순위, 멀티코어, 캐시 친화도, 에너지 관리까지 고려하는 현대 운영체제는 RR을 단순 원형 그대로 쓰기보다 더 정교한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 속에 흡수한다.
 
-정리하면 RR은 **CPU 시간을 잘게 나누어 모두에게 돌아가게 만드는 공정성 중심 스케줄링**이다. 기억할 핵심은 분명하다. **작업 길이 예측 없이 응답성을 확보하는 데 강하지만, 품질은 결국 [[179_time_quantum_context_switch|시간 할당량]] 설계에 달려 있다**는 점이다.
+정리하면 RR은 **CPU 시간을 잘게 나누어 모두에게 돌아가게 만드는 공정성 중심 스케줄링**이다. 기억할 핵심은 분명하다. **작업 길이 예측 없이 응답성을 확보하는 데 강하지만, 품질은 결국 [시간 할당량](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/179_time_quantum_context_switch/) 설계에 달려 있다**는 점이다.
 
 - **📢 섹션 요약 비유**: RR은 달리기 시합에서 모두에게 일정 거리씩 바통을 건네며 뛰게 하는 계주와 같다. 최고 기록만 노리는 방식은 아닐 수 있지만, 팀원 모두가 경기에 참여하게 만든다.
 
@@ -152,12 +156,12 @@ RR의 가장 큰 효과는 **공정한 응답 기회 보장**이다. 긴 작업�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[179_time_quantum_context_switch|시간 할당량]] (Time [[690_round_robin_time_quantum|Quantum]]) | RR의 공정성과 오버헤드를 함께 결정하는 핵심 파라미터다 |
-| [[166_preemptive_scheduling|선점형 스케줄링]] ([[166_preemptive_scheduling|Preemptive Scheduling]]) | 타이머 만료 시 CPU를 강제로 회수해야 RR이 성립한다 |
-| [[211_context_switch|문맥 교환]] ([[211_context_switch|Context Switch]]) | 퀀텀이 작을수록 더 자주 발생하는 직접 비용이다 |
-| [[138_response_time|응답 시간]] ([[138_response_time|Response Time]]) | RR이 특히 개선하려는 사용자 체감 [[282_performance_tactics|성능]] 지표다 |
-| [[314_starvation_prevention|기아 상태]] ([[314_starvation_prevention|Starvation]]) | RR이 완화하는 대표적 문제다 |
-| [[691_mlfq_multi_level_feedback_queue|다단계 피드백 큐]] (Multilevel Feedback [[058_queue|Queue]], [[691_mlfq_multi_level_feedback_queue|MLFQ]]) | RR의 철학을 확장해 우선순위 적응성을 더한 구조다 |
+| [시간 할당량](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/179_time_quantum_context_switch/) (Time [Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/)) | RR의 공정성과 오버헤드를 함께 결정하는 핵심 파라미터다 |
+| [선점형 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/166_preemptive_scheduling/) ([Preemptive Scheduling](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/166_preemptive_scheduling/)) | 타이머 만료 시 CPU를 강제로 회수해야 RR이 성립한다 |
+| [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) ([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) | 퀀텀이 작을수록 더 자주 발생하는 직접 비용이다 |
+| [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) ([Response Time](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)) | RR이 특히 개선하려는 사용자 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표다 |
+| [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) ([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) | RR이 완화하는 대표적 문제다 |
+| [다단계 피드백 큐](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) (Multilevel Feedback [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/), [MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/)) | RR의 철학을 확장해 우선순위 적응성을 더한 구조다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -178,7 +182,7 @@ Round Robin scheduling
         └──────────────▶ MLFQ / modern fair schedulers
 ```
 
-이 흐름도는 RR이 단순한 고전 알고리즘이 아니라, 시분할 요구에서 출발해 현대 공정성 [[079_kube_scheduler_pod_placement|스케줄러]]의 토대가 된 과정을 보여 준다.
+이 흐름도는 RR이 단순한 고전 알고리즘이 아니라, 시분할 요구에서 출발해 현대 공정성 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 토대가 된 과정을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -192,7 +196,7 @@ Round Robin scheduling
 
 **진행 상황**: 178 / 800
 
-← **이전**: [[177_srtf_scheduling|177. SRTF (Shortest Remaining Time First) 스케줄링 - SJF의 선점형 버전]]
-**다음**: [[179_time_quantum_context_switch|179. 시간 할당량 (Time Quantum / Time Slice) 의 크기와 문맥 교환 오버헤드]] →
+← **이전**: [177. SRTF (Shortest Remaining Time First) 스케줄링 - SJF의 선점형 버전](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/177_srtf_scheduling/)
+**다음**: [179. 시간 할당량 (Time Quantum / Time Slice) 의 크기와 문맥 교환 오버헤드](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/179_time_quantum_context_switch/) →
 
 ---

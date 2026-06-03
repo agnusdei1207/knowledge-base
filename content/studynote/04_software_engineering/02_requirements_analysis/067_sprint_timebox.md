@@ -1,8 +1,12 @@
----
-title: 67. 스프린트 (Sprint) - 1~4주의 개발 주기
-tags:
-- software_engineering
----
++++
+title = "67. 스프린트 (Sprint) - 1~4주의 개발 주기"
+
+[taxonomies]
+tags = ["software_engineering"]
+
+[extra]
+tags = ["software_engineering"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -39,7 +43,7 @@ Adapt
 | Timebox | 고정된 기간 |
 | Sprint Goal | 이번 주기의 목표 |
 | Increment | 완성된 결과물 |
-| [[153_requirements_review_inspection_walkthrough|Review]] / Retro | 점검과 개선 |
+| [Review](/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/) / Retro | 점검과 개선 |
 
 스프린트는 "얼마나 오래 하느냐"보다 "무엇을 완성하느냐"가 중요하다. 그래서 정의된 종료와 점검이 핵심이다.
 
@@ -58,9 +62,9 @@ Adapt
 | 활동 | 역할 |
 | :-- | :-- |
 | Planning | 목표와 범위 결정 |
-| [[069_daily_standup_scrum|Daily Scrum]] | [[216_progress_in_synchronization|진행]] 점검 |
-| [[153_requirements_review_inspection_walkthrough|Review]] | 결과 검토 |
-| [[796_retrospective|Retrospective]] | 과정 개선 |
+| [Daily Scrum](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/069_daily_standup_scrum/) | [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 점검 |
+| [Review](/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/) | 결과 검토 |
+| [Retrospective](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/796_retrospective/) | 과정 개선 |
 
 스프린트는 반복되는 학습 구조다. 매 주기마다 결과를 확인하고 다음 주기에 반영한다.
 
@@ -70,7 +74,7 @@ Adapt
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [[435_checklist_based_testing|체크리스트]]
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 스프린트 길이가 팀에 맞는가?
 2. 목표가 명확한가?
@@ -78,11 +82,11 @@ Adapt
 4. 증분이 실제로 완성되는가?
 5. 리뷰와 회고가 연결되는가?
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 스프린트를 장기 프로젝트로 쓰는 설계
 - Timebox를 무시하고 범위를 늘리는 설계
-- 완료 기준 없이 [[216_progress_in_synchronization|진행]]하는 설계
+- 완료 기준 없이 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)하는 설계
 - 회고를 하지 않는 설계
 
 기술사 관점에서는 스프린트를 "일정표"가 아니라 "작동 증분을 만드는 운영 리듬"으로 봐야 한다.
@@ -141,7 +145,7 @@ Continuous Improvement
 
 **진행 상황**: 67 / 973
 
-← **이전**: [[066_product_backlog_grooming|66. 제품 백로그 (Product Backlog) - 요구사항 우선순위 목록]]
-**다음**: [[068_sprint_planning|68. 스프린트 계획 회의 (Sprint Planning)]] →
+← **이전**: [66. 제품 백로그 (Product Backlog) - 요구사항 우선순위 목록](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/)
+**다음**: [68. 스프린트 계획 회의 (Sprint Planning)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/068_sprint_planning/) →
 
 ---

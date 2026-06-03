@@ -1,28 +1,31 @@
----
-title: 13. TOGAF (The Open Group Architecture Framework) - ADM(Architecture Development
-  Method) 기반 국제 표준 EA 프레임워크
-date: '2024-05-24'
-description: The Open Group에서 개발한 기업 아키텍처(EA) 표준 프레임워크 TOGAF와 핵심 반복 프로세스인 ADM 심층 분석
-tags:
-- enterprise_systems
----
++++
+title = "13. TOGAF (The Open Group Architecture Framework) - ADM(Architecture Development Method) 기반 국제 표준 EA 프레임워크"
+description = "The Open Group에서 개발한 기업 아키텍처(EA) 표준 프레임워크 TOGAF와 핵심 반복 프로세스인 ADM 심층 분석"
+date = 2024-05-24
 
-# 13. [[113_togaf|TOGAF]] 프레임워크 및 [[066_적응형_델타_변조_ADM|ADM]] ([[114_togaf_adm_architecture_development_method|Architecture Development Method]])
+[taxonomies]
+tags = ["enterprise_systems"]
+
+[extra]
+tags = ["enterprise_systems"]
++++
+
+# 13. [TOGAF](/knowledge-base/studynote/12_it_management/03_ea_isp/113_togaf/) 프레임워크 및 [ADM](/knowledge-base/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/) ([Architecture Development Method](/knowledge-base/studynote/12_it_management/03_ea_isp/114_togaf_adm_architecture_development_method/))
 
 #### 핵심 인사이트 (3줄 요약)
-> 1. **본질**: TOGAF는 전사적 아키텍처([[110_enterprise_architecture_ea|EA]])를 구축, 관리, 유지하기 위한 국제 표준 프레임워크이며, 그 심장부는 반복적이고 [[395_verification_process_review|검증]] 가능한 순환 개발 방법론인 [[066_적응형_델타_변조_ADM|ADM]]([[114_togaf_adm_architecture_development_method|Architecture Development Method]])이다.
-> 2. **가치**: 특정 벤더나 솔루션에 종속되지 않는 개방형(Open) 표준을 제공하여, 기업이 글로벌 모범 사례([[087_erp_package_advantages_best_practice|Best Practice]])를 기반으로 IT 구조를 최적화하고 통제 위원회를 체계화할 수 있게 한다.
-> 3. **융합**: 아키텍처 산출물의 구조를 정의하는 [[112_zachman_framework|잭맨 프레임워크]](정적)와 완벽한 상호보완적 [[083_relationship_in_er_model|관계]]를 맺으며, 최근에는 [[004_agile_relation|애자일]]([[004_agile_relation|Agile]]) 배포 주기와 결합한 '[[192_module_independence|모듈]]형/지속적 아키텍처'로 진화하고 있다.
+> 1. **본질**: TOGAF는 전사적 아키텍처([EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/))를 구축, 관리, 유지하기 위한 국제 표준 프레임워크이며, 그 심장부는 반복적이고 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 순환 개발 방법론인 [ADM](/knowledge-base/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/)([Architecture Development Method](/knowledge-base/studynote/12_it_management/03_ea_isp/114_togaf_adm_architecture_development_method/))이다.
+> 2. **가치**: 특정 벤더나 솔루션에 종속되지 않는 개방형(Open) 표준을 제공하여, 기업이 글로벌 모범 사례([Best Practice](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/087_erp_package_advantages_best_practice/))를 기반으로 IT 구조를 최적화하고 통제 위원회를 체계화할 수 있게 한다.
+> 3. **융합**: 아키텍처 산출물의 구조를 정의하는 [잭맨 프레임워크](/knowledge-base/studynote/12_it_management/03_ea_isp/112_zachman_framework/)(정적)와 완벽한 상호보완적 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 맺으며, 최근에는 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 배포 주기와 결합한 '[모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)형/지속적 아키텍처'로 진화하고 있다.
 
 ---
 
-### Ⅰ. 개요 및 필요성 ([[033_context|Context]] & Necessity)
+### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-**[[113_togaf|TOGAF]] ([[875_togaf|The Open Group Architecture Framework]])**는 기업의 IT 인프라와 비즈니스 [[268_strategy_pattern|전략]]을 정렬하기 위한 실천적이고 종합적인 프레임워크이다. [[112_zachman_framework|잭맨 프레임워크]]가 아키텍처 산출물의 '[[104_classification_analysis|분류]]표(서랍장)'를 제시했다면, TOGAF는 실제로 그 산출물을 어떻게 기획하고, 어떤 순서로 설계하며, 운영 및 폐기까지 어떻게 관리할 것인지에 대한 상세한 '레시피(프로세스)'를 제공한다.
+**[TOGAF](/knowledge-base/studynote/12_it_management/03_ea_isp/113_togaf/) ([The Open Group Architecture Framework](/knowledge-base/studynote/09_security/17_framework_compliance/875_togaf/))**는 기업의 IT 인프라와 비즈니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 정렬하기 위한 실천적이고 종합적인 프레임워크이다. [잭맨 프레임워크](/knowledge-base/studynote/12_it_management/03_ea_isp/112_zachman_framework/)가 아키텍처 산출물의 '[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)표(서랍장)'를 제시했다면, TOGAF는 실제로 그 산출물을 어떻게 기획하고, 어떤 순서로 설계하며, 운영 및 폐기까지 어떻게 관리할 것인지에 대한 상세한 '레시피(프로세스)'를 제공한다.
 
-[[459_quic_fec_forward_error_correction|초기]]의 정보시스템 구축은 거대한 [[172_maas_mobility_as_a_service|마스]]터플랜([[101_isp_information_strategy_planning_4_steps|ISP]])을 일회성으로 그리고 수년간 방치하는 폭포수(Waterfall) 모델의 한계에 갇혀 있었다. 비즈니스 환경이 급변함에 따라 아키텍처도 끊임없이 진화해야 했으나, 표준화된 절차와 산출물 가이드가 없었기에 담당자가 바뀔 때마다 아키텍처 철학이 무너지는 문제([[319_architecture|Architecture]] Erosion)가 발생했다. 
+[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)의 정보시스템 구축은 거대한 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터플랜([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))을 일회성으로 그리고 수년간 방치하는 폭포수(Waterfall) 모델의 한계에 갇혀 있었다. 비즈니스 환경이 급변함에 따라 아키텍처도 끊임없이 진화해야 했으나, 표준화된 절차와 산출물 가이드가 없었기에 담당자가 바뀔 때마다 아키텍처 철학이 무너지는 문제([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Erosion)가 발생했다. 
 
-이를 해결하기 위해 The Open Group은 전 세계 IT 거인들의 모범 사례를 집대성하여 TOGAF를 제정했다. TOGAF의 핵심은 아키텍처를 한 번에 완벽히 그리는 것이 아니라, 예비 단계부터 변화 관리 단계까지 지속적으로 순환하며 성숙도를 높여가는 **[[066_적응형_델타_변조_ADM|ADM]] ([[114_togaf_adm_architecture_development_method|Architecture Development Method]])** 사이클에 있다.
+이를 해결하기 위해 The Open Group은 전 세계 IT 거인들의 모범 사례를 집대성하여 TOGAF를 제정했다. TOGAF의 핵심은 아키텍처를 한 번에 완벽히 그리는 것이 아니라, 예비 단계부터 변화 관리 단계까지 지속적으로 순환하며 성숙도를 높여가는 **[ADM](/knowledge-base/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/) ([Architecture Development Method](/knowledge-base/studynote/12_it_management/03_ea_isp/114_togaf_adm_architecture_development_method/))** 사이클에 있다.
 
 ```text
 [기존 일회성 아키텍처 구축의 한계]
@@ -35,27 +38,27 @@ tags:
       ▲                      │                                       │
       └────────────── [Architecture Change Management] ◀────────────┘
 ```
-*해설: 이 구조도는 TOGAF가 왜 필요한지를 명확히 보여준다. 기존 방식은 도면과 실제 시스템이 빠르게 불일치하여 쓸모없는 문서로 전락하지만, TOGAF는 '아키텍처 [[079_change_enablement|변경 관리]](Phase H)'를 프로세스 내부에 강제 탑재함으로써 지속적인 [[005_feedback_loop|피드백 루프]]를 형성하여 생명력을 유지한다.*
+*해설: 이 구조도는 TOGAF가 왜 필요한지를 명확히 보여준다. 기존 방식은 도면과 실제 시스템이 빠르게 불일치하여 쓸모없는 문서로 전락하지만, TOGAF는 '아키텍처 [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/)(Phase H)'를 프로세스 내부에 강제 탑재함으로써 지속적인 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)를 형성하여 생명력을 유지한다.*
 
-📢 **섹션 요약 비유**: TOGAF는 요리사의 '완벽한 레시피 북'과 같습니다. 식재료를 어떻게 [[104_classification_analysis|분류]]할지(잭맨) 아는 것을 넘어, 언제 불을 켜고, 어떤 순서로 양념을 넣으며, 맛이 변했을 때 어떻게 수정할지([[066_적응형_델타_변조_ADM|ADM]])까지 세밀하게 알려주어 누가 요리하든 일관된 미슐랭급 코스 요리(기업 시스템)를 만들게 해 줍니다.
+📢 **섹션 요약 비유**: TOGAF는 요리사의 '완벽한 레시피 북'과 같습니다. 식재료를 어떻게 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)할지(잭맨) 아는 것을 넘어, 언제 불을 켜고, 어떤 순서로 양념을 넣으며, 맛이 변했을 때 어떻게 수정할지([ADM](/knowledge-base/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/))까지 세밀하게 알려주어 누가 요리하든 일관된 미슐랭급 코스 요리(기업 시스템)를 만들게 해 줍니다.
 
 ---
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-TOGAF의 뼈대는 4대 아키텍처 [[064_relation_domain|도메인]](BDAT: Business, [[001_dikw_pyramid|Data]], Application, Technology)이며, 이를 구동하는 엔진이 **[[066_적응형_델타_변조_ADM|ADM]] ([[114_togaf_adm_architecture_development_method|Architecture Development Method]])**이다. ADM은 '예비 단계(Preliminary)'를 중심 축으로 하여 A부터 H까지 순환하는 고리 형태를 띤다.
+TOGAF의 뼈대는 4대 아키텍처 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)(BDAT: Business, [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), Application, Technology)이며, 이를 구동하는 엔진이 **[ADM](/knowledge-base/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/) ([Architecture Development Method](/knowledge-base/studynote/12_it_management/03_ea_isp/114_togaf_adm_architecture_development_method/))**이다. ADM은 '예비 단계(Preliminary)'를 중심 축으로 하여 A부터 H까지 순환하는 고리 형태를 띤다.
 
-#### [[066_적응형_델타_변조_ADM|ADM]] ([[114_togaf_adm_architecture_development_method|Architecture Development Method]]) 핵심 사이클 단계
-- **Preliminary (예비 단계)**: [[110_enterprise_architecture_ea|EA]] 도입을 위한 원칙, 프레임워크 선택, 조직 구성(ARB 세팅).
-- **Phase A (아키텍처 비전)**: 프로젝트 범위 [[009_config|설정]], [[173_stakeholder_identification_impact_matrix|이해관계자]] 파악, 핵심 비전 도출.
-- **Phase B ([[103_ba_as_is_analysis|비즈니스 아키텍처]])**: [[344_as_autonomous_system_asn|As]]-Is와 To-Be 프로세스 모델링, 갭(Gap) 분석.
-- **Phase C (정보시스템 아키텍처)**: [[001_dikw_pyramid|데이터]]([[001_dikw_pyramid|Data]]) 및 애플리케이션(App) 아키텍처 상세 설계.
-- **Phase D ([[106_ta_as_is_analysis|기술 아키텍처]])**: H/W, N/W 인프라스트럭처 설계. (이 시점에서 B-D 간 완전한 Alignment [[396_validation|확인]])
-- **Phase E (기회 및 솔루션)**: 목표 달성을 위한 구체적인 솔루션 평가, 이행 [[268_strategy_pattern|전략]] 수립.
+#### [ADM](/knowledge-base/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/) ([Architecture Development Method](/knowledge-base/studynote/12_it_management/03_ea_isp/114_togaf_adm_architecture_development_method/)) 핵심 사이클 단계
+- **Preliminary (예비 단계)**: [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 도입을 위한 원칙, 프레임워크 선택, 조직 구성(ARB 세팅).
+- **Phase A (아키텍처 비전)**: 프로젝트 범위 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 파악, 핵심 비전 도출.
+- **Phase B ([비즈니스 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/103_ba_as_is_analysis/))**: [As](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Is와 To-Be 프로세스 모델링, 갭(Gap) 분석.
+- **Phase C (정보시스템 아키텍처)**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 및 애플리케이션(App) 아키텍처 상세 설계.
+- **Phase D ([기술 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/))**: H/W, N/W 인프라스트럭처 설계. (이 시점에서 B-D 간 완전한 Alignment [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))
+- **Phase E (기회 및 솔루션)**: 목표 달성을 위한 구체적인 솔루션 평가, 이행 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수립.
 - **Phase F (마이그레이션 계획)**: 구축 우선순위 부여, 이행 로드맵 작성.
 - **Phase G (구현 거버넌스)**: 실제 개발 프로젝트가 아키텍처 표준을 준수하는지 통제.
-- **Phase H (아키텍처 [[079_change_enablement|변경 관리]])**: 기술 변화, 비즈니스 변화 수용 및 다음 사이클 [[507_acid_properties|트리거]].
-- **중앙: [[158_requirements_management_change_control|요구사항 관리]] (Requirements [[372_management|Management]])**: 모든 Phase의 중심에서 요구사항의 [[194_consistency_database_integrity|일관성]] 유지.
+- **Phase H (아키텍처 [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/))**: 기술 변화, 비즈니스 변화 수용 및 다음 사이클 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/).
+- **중앙: [요구사항 관리](/knowledge-base/studynote/04_software_engineering/03_design_architecture/158_requirements_management_change_control/) (Requirements [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))**: 모든 Phase의 중심에서 요구사항의 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 유지.
 
 ```text
 ┌────────────────────────────────────────────────────────┐
@@ -78,10 +81,10 @@ TOGAF의 뼈대는 4대 아키텍처 [[064_relation_domain|도메인]](BDAT: Bus
 │          └──────┘               └──────┘               │
 └────────────────────────────────────────────────────────┘
 ```
-*해설: 이 [[066_적응형_델타_변조_ADM|ADM]] 크롭 도식에서 주목할 점은 중앙의 '[[158_requirements_management_change_control|요구사항 관리]](Requirements [[372_management|Management]])'이다. 모든 A~H 단계는 독립적으로 흐르는 것이 아니라 끊임없이 중앙의 요구사항과 대조된다. 또한 [[008_단방향_반이중_전이중|단방향]] 폭포수가 아니라, D 단계에서 기술적 제약이 발견되면 언제든 B 단계로 돌아가 비즈니스 프로세스를 재설정할 수 있는 순환적 트레이드오프 구조를 갖는다.*
+*해설: 이 [ADM](/knowledge-base/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/) 크롭 도식에서 주목할 점은 중앙의 '[요구사항 관리](/knowledge-base/studynote/04_software_engineering/03_design_architecture/158_requirements_management_change_control/)(Requirements [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))'이다. 모든 A~H 단계는 독립적으로 흐르는 것이 아니라 끊임없이 중앙의 요구사항과 대조된다. 또한 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 폭포수가 아니라, D 단계에서 기술적 제약이 발견되면 언제든 B 단계로 돌아가 비즈니스 프로세스를 재설정할 수 있는 순환적 트레이드오프 구조를 갖는다.*
 
 #### Enterprise Continuum (엔터프라이즈 연속체)
-TOGAF의 또 다른 핵심 개념으로, 아키텍처 자산(자료, 모델)들이 가장 범용적인 기초 수준(Foundation [[319_architecture|Architecture]])에서 시작하여 특정 산업 표준(Industry Arch), 최종적으로 개별 기업에 특화된(Organization-Specific Arch) 형태로 구체화되어 가는 가상의 저장소 개념이다. 이를 통해 자산의 재사용성을 극대화한다.
+TOGAF의 또 다른 핵심 개념으로, 아키텍처 자산(자료, 모델)들이 가장 범용적인 기초 수준(Foundation [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))에서 시작하여 특정 산업 표준(Industry Arch), 최종적으로 개별 기업에 특화된(Organization-Specific Arch) 형태로 구체화되어 가는 가상의 저장소 개념이다. 이를 통해 자산의 재사용성을 극대화한다.
 
 📢 **섹션 요약 비유**: ADM은 훌륭한 나선형 계단과 같습니다. 한 층(사이클)을 돌 때마다 비전에서 기술, 거버넌스까지 전체를 훑고 지나가며, 완벽하지 않아도 일단 실행한 뒤 다음 사이클에서 요구사항(중앙 기둥)을 기준으로 더 정교하고 높은 수준의 아키텍처로 깎아 올라갑니다.
 
@@ -89,16 +92,16 @@ TOGAF의 또 다른 핵심 개념으로, 아키텍처 자산(자료, 모델)들�
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
-EA를 구현하는 양대 산맥인 TOGAF와 잭맨([[243_zachman_framework_matrix|Zachman]]) 프레임워크는 종종 비교되지만, 실무적으로는 상호 보완적 융합을 이룬다.
+EA를 구현하는 양대 산맥인 TOGAF와 잭맨([Zachman](/knowledge-base/studynote/12_it_management/05_security_compliance/243_zachman_framework_matrix/)) 프레임워크는 종종 비교되지만, 실무적으로는 상호 보완적 융합을 이룬다.
 
-| 관점 | [[113_togaf|TOGAF]] ([[066_적응형_델타_변조_ADM|ADM]] 중심) | [[112_zachman_framework|잭맨 프레임워크]] ([[243_zachman_framework_matrix|Zachman]]) | 범정부 [[110_enterprise_architecture_ea|EA]] ([[115_gea_government_ea_framework|GEA]]/FEAF) |
+| 관점 | [TOGAF](/knowledge-base/studynote/12_it_management/03_ea_isp/113_togaf/) ([ADM](/knowledge-base/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/) 중심) | [잭맨 프레임워크](/knowledge-base/studynote/12_it_management/03_ea_isp/112_zachman_framework/) ([Zachman](/knowledge-base/studynote/12_it_management/05_security_compliance/243_zachman_framework_matrix/)) | 범정부 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) ([GEA](/knowledge-base/studynote/12_it_management/03_ea_isp/115_gea_government_ea_framework/)/FEAF) |
 |:---|:---|:---|:---|
-| **핵심 목적** | 아키텍처를 '어떻게 개발할 것인가' (동적) | 아키텍처를 '어떻게 [[104_classification_analysis|분류]]할 것인가' (정적) | 공공기관의 '[[287_interoperability_tactics|상호운용성]]/예산 통제' |
-| **강점** | 구체적 실행 지침, 반복적 개선([[066_적응형_델타_변조_ADM|ADM]]), 표준화 | 철저한 [[215_mece_mutually_exclusive_collectively_exhaustive_issue_tree|MECE]] 원칙, 완벽한 추적성 | 정부 예산과 성과 측정 연계([[121_prm_performance_reference_model_it_roi|PRM]]) |
-| **단점** | 문서화 및 산출물 [[104_classification_analysis|분류]] 체계가 상대적으로 약함 | 실행 프로세스와 우선순위 결정 방식 부재 | 관료적 통제, 신기술 수용 민첩성 부족 |
+| **핵심 목적** | 아키텍처를 '어떻게 개발할 것인가' (동적) | 아키텍처를 '어떻게 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)할 것인가' (정적) | 공공기관의 '[상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/)/예산 통제' |
+| **강점** | 구체적 실행 지침, 반복적 개선([ADM](/knowledge-base/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/)), 표준화 | 철저한 [MECE](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/215_mece_mutually_exclusive_collectively_exhaustive_issue_tree/) 원칙, 완벽한 추적성 | 정부 예산과 성과 측정 연계([PRM](/knowledge-base/studynote/12_it_management/03_ea_isp/121_prm_performance_reference_model_it_roi/)) |
+| **단점** | 문서화 및 산출물 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계가 상대적으로 약함 | 실행 프로세스와 우선순위 결정 방식 부재 | 관료적 통제, 신기술 수용 민첩성 부족 |
 
-**융합적 활용 ([[113_togaf|TOGAF]] + [[243_zachman_framework_matrix|Zachman]])**: 
-가장 이상적인 IT [[268_strategy_pattern|전략]] 컨설팅에서는 TOGAF의 ADM을 메인 프로세스로 차용하여 Phase B, C, D를 수행한다. 그리고 이 단계들에서 도출된 수많은 산출물(다이어그램, 명세서)을 보관하고 정합성을 [[395_verification_process_review|검증]]할 빈칸(Template)으로 [[112_zachman_framework|잭맨 프레임워크]]의 36개 매트릭스를 사용한다. 이는 "동적 방법론으로 생산하고 정적 온톨로지로 [[395_verification_process_review|검증]]한다"는 완벽한 조화를 이끌어낸다.
+**융합적 활용 ([TOGAF](/knowledge-base/studynote/12_it_management/03_ea_isp/113_togaf/) + [Zachman](/knowledge-base/studynote/12_it_management/05_security_compliance/243_zachman_framework_matrix/))**: 
+가장 이상적인 IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 컨설팅에서는 TOGAF의 ADM을 메인 프로세스로 차용하여 Phase B, C, D를 수행한다. 그리고 이 단계들에서 도출된 수많은 산출물(다이어그램, 명세서)을 보관하고 정합성을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 빈칸(Template)으로 [잭맨 프레임워크](/knowledge-base/studynote/12_it_management/03_ea_isp/112_zachman_framework/)의 36개 매트릭스를 사용한다. 이는 "동적 방법론으로 생산하고 정적 온톨로지로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다"는 완벽한 조화를 이끌어낸다.
 
 ```text
 [프레임워크 특성 비교 및 트레이드오프 매트릭스]
@@ -113,19 +116,19 @@ EA를 구현하는 양대 산맥인 TOGAF와 잭맨([[243_zachman_framework_matr
           ● Zachman
       (분류 강점, 방법론 약점)
 ```
-*해설: 이 산포도는 각 프레임워크가 놓인 [[268_strategy_pattern|전략]]적 위치를 보여준다. TOGAF는 민간 기업에서 유연하게 적용하기 가장 좋은 범용성을 가졌다. 반면 잭맨은 [[369_logic_bomb|논리]]적 정밀함은 높으나 범용적 적용(Action)이 어렵고, 정부 주도형([[115_gea_government_ea_framework|GEA]])은 철저한 통제와 지침 하에 묶여 있다. 따라서 글로벌 기업의 80% 이상이 TOGAF를 베이스 라인으로 선택한다.*
+*해설: 이 산포도는 각 프레임워크가 놓인 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 위치를 보여준다. TOGAF는 민간 기업에서 유연하게 적용하기 가장 좋은 범용성을 가졌다. 반면 잭맨은 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 정밀함은 높으나 범용적 적용(Action)이 어렵고, 정부 주도형([GEA](/knowledge-base/studynote/12_it_management/03_ea_isp/115_gea_government_ea_framework/))은 철저한 통제와 지침 하에 묶여 있다. 따라서 글로벌 기업의 80% 이상이 TOGAF를 베이스 라인으로 선택한다.*
 
-📢 **섹션 요약 비유**: TOGAF가 차를 설계하고 조립하는 '공장의 컨베이어 벨트(생산 공정)'라면, 잭맨은 그 부품들이 종류별로 담겨있는 '창고의 부품함([[104_classification_analysis|분류]] 체계)'입니다. 공정 없이 부품만 있으면 차를 못 만들고, 부품함 없이 공정만 돌리면 뒤죽박죽이 됩니다.
+📢 **섹션 요약 비유**: TOGAF가 차를 설계하고 조립하는 '공장의 컨베이어 벨트(생산 공정)'라면, 잭맨은 그 부품들이 종류별로 담겨있는 '창고의 부품함([분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계)'입니다. 공정 없이 부품만 있으면 차를 못 만들고, 부품함 없이 공정만 돌리면 뒤죽박죽이 됩니다.
 
 ---
 
-### Ⅳ. 실무 적용 및 기술사적 판단 ([[268_strategy_pattern|Strategy]] & Decision)
+### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 
 실무에서 TOGAF를 무비판적으로 전면 도입하는 것은 거대한 재앙(Over-engineering)을 초래한다.
 
-1. **테일러링([[058_methodology_tailoring|Tailoring]]) 필수**: TOGAF의 수백 [[286_page_frame|페이지]]에 달하는 산출물 양식을 모두 작성하는 것은 스타트업이나 [[004_agile_relation|애자일]] 조직에는 치명적이다. 실무에서는 Phase A(비전), B/C/D(아키텍처 코어), G(거버넌스)에만 집중하고 나머지 단계는 약식으로 통과하는 '경량화된 [[113_togaf|TOGAF]](Lightweight [[113_togaf|TOGAF]])' [[268_strategy_pattern|전략]]을 구사해야 한다.
-2. **거버넌스(Phase G)의 병목 통제**: 아키텍처가 설계되었어도, 개발팀이 일정 압박 때문에 이를 무시하면 소용없다. 따라서 ARB([[123_arb_architecture_review_board|아키텍처 검토 위원회]])는 개발 단계에서 [[330_code_review|코드 리뷰]]나 [[090_configuration_item|CI]]/CD [[123_pipe|파이프]]라인과 결합하여 표준 준수 여부를 자동화된 룰(Rule)로 강제하는 판단이 필요하다.
-3. **[[128_water_scrum_fall_anti_pattern|안티패턴]] 주의**: ADM을 한 방향으로만 흐르는 폭포수(Waterfall)로 사용하는 것은 최악의 [[128_water_scrum_fall_anti_pattern|안티패턴]]이다. 요구사항이 변했는데도 이전 단계로 돌아가지(Iteration) 않고 무리하게 [[216_progress_in_synchronization|진행]]하면 결국 Phase H([[079_change_enablement|변경 관리]])에서 전체 시스템을 갈아엎어야 하는 사태가 발생한다.
+1. **테일러링([Tailoring](/knowledge-base/studynote/04_software_engineering/01_overview_principles/058_methodology_tailoring/)) 필수**: TOGAF의 수백 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에 달하는 산출물 양식을 모두 작성하는 것은 스타트업이나 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 조직에는 치명적이다. 실무에서는 Phase A(비전), B/C/D(아키텍처 코어), G(거버넌스)에만 집중하고 나머지 단계는 약식으로 통과하는 '경량화된 [TOGAF](/knowledge-base/studynote/12_it_management/03_ea_isp/113_togaf/)(Lightweight [TOGAF](/knowledge-base/studynote/12_it_management/03_ea_isp/113_togaf/))' [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 구사해야 한다.
+2. **거버넌스(Phase G)의 병목 통제**: 아키텍처가 설계되었어도, 개발팀이 일정 압박 때문에 이를 무시하면 소용없다. 따라서 ARB([아키텍처 검토 위원회](/knowledge-base/studynote/12_it_management/03_ea_isp/123_arb_architecture_review_board/))는 개발 단계에서 [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/)나 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인과 결합하여 표준 준수 여부를 자동화된 룰(Rule)로 강제하는 판단이 필요하다.
+3. **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 주의**: ADM을 한 방향으로만 흐르는 폭포수(Waterfall)로 사용하는 것은 최악의 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다. 요구사항이 변했는데도 이전 단계로 돌아가지(Iteration) 않고 무리하게 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)하면 결국 Phase H([변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/))에서 전체 시스템을 갈아엎어야 하는 사태가 발생한다.
 
 ```text
 [실무 의사결정 트리: TOGAF 도입 및 테일러링 전략]
@@ -142,9 +145,9 @@ EA를 구현하는 양대 산맥인 TOGAF와 잭맨([[243_zachman_framework_matr
                   ├─ (Yes) ─▶ ADM Full Cycle 가동. B/C/D 갭 분석 정밀 수행.
                   └─ (No) ──▶ 부서 단위 최적화. Phase A(비전)와 F(이행) 위주 약식 적용.
 ```
-*해설: 이 플로우차트는 기술사가 조직 문화를 바탕으로 프레임워크의 무게를 조절하는 판단 기준이다. 최신 IT 트렌드에서는 두꺼운 설계 문서보다 '작동하는 코드'가 우위이므로, [[113_togaf|TOGAF]] 역시 엄격한 문서 [[087_process_state_transition|생성]]기에서 '최소한의 가이드레일을 제공하는 나침반' 역할로 테일러링 되어야 한다.*
+*해설: 이 플로우차트는 기술사가 조직 문화를 바탕으로 프레임워크의 무게를 조절하는 판단 기준이다. 최신 IT 트렌드에서는 두꺼운 설계 문서보다 '작동하는 코드'가 우위이므로, [TOGAF](/knowledge-base/studynote/12_it_management/03_ea_isp/113_togaf/) 역시 엄격한 문서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)기에서 '최소한의 가이드레일을 제공하는 나침반' 역할로 테일러링 되어야 한다.*
 
-📢 **섹션 요약 비유**: TOGAF를 실무에 쓰는 것은 고급 피트니스 센터의 수많은 헬스 기구를 사용하는 것과 같습니다. 초보자([[004_agile_relation|애자일]] 소형 프로젝트)가 모든 기구를 한 번씩 다 쓰려다가는 근육통(오버엔지니어링)으로 쓰러집니다. 트레이너(기술사)의 조언에 따라 내 몸에 맞는 필수 기구 3~4개만 골라 반복하는 것이 정답입니다.
+📢 **섹션 요약 비유**: TOGAF를 실무에 쓰는 것은 고급 피트니스 센터의 수많은 헬스 기구를 사용하는 것과 같습니다. 초보자([애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 소형 프로젝트)가 모든 기구를 한 번씩 다 쓰려다가는 근육통(오버엔지니어링)으로 쓰러집니다. 트레이너(기술사)의 조언에 따라 내 몸에 맞는 필수 기구 3~4개만 골라 반복하는 것이 정답입니다.
 
 ---
 
@@ -154,22 +157,22 @@ TOGAF는 기업 단위의 거대한 IT 의사결정을 감으로 하는 것이 �
 
 | 지표 | 정량적 / 정성적 기대효과 | 비고 |
 |:---|:---|:---|
-| **[[012_roi_return_on_investment|ROI]] 최적화** | IT 예산의 중복 투자 방지 및 운영 비용 20% 절감 | [[178_as_is_to_be_analysis|As-Is]] / To-Be 갭 분석의 효과 |
-| **[[051_vendor_lock_in_cloud_computing|벤더 종속]] 탈피** | 특정 솔루션([[188_pl_sql_t_sql_procedural|Oracle]], SAP 등) 록인([[362_lock_in_portability|Lock-in]]) [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 감소 | 표준 인터페이스와 개방형 아키텍처 추구 |
-| **변화 수용력** | M&A 등 급격한 비즈니스 통합 시 IT 마이그레이션 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 최소화 | Phase E/F 이행 계획 체계화 |
+| **[ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 최적화** | IT 예산의 중복 투자 방지 및 운영 비용 20% 절감 | [As-Is](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) / To-Be 갭 분석의 효과 |
+| **[벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/) 탈피** | 특정 솔루션([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/), SAP 등) 록인([Lock-in](/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/)) [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 감소 | 표준 인터페이스와 개방형 아키텍처 추구 |
+| **변화 수용력** | M&A 등 급격한 비즈니스 통합 시 IT 마이그레이션 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 최소화 | Phase E/F 이행 계획 체계화 |
 
-최근의 [[113_togaf|TOGAF]] 표준은 [[531_cloud_native_architecture|클라우드 네이티브]]와 [[071_digital_transformation_dx|디지털 트랜스포메이션]](DT) 흐름을 수용하여 [[192_module_independence|모듈]]화되고 있다. 즉, 과거처럼 방대한 전체 시스템을 그리는 대신, '비즈니스 역량(Business Capability)' 단위로 쪼개어 부분적으로 ADM을 빠르게 회전시키는 **[[004_agile_relation|애자일]] [[110_enterprise_architecture_ea|EA]] ([[004_agile_relation|Agile]] [[110_enterprise_architecture_ea|EA]])** 사상이 결합되고 있다. 결론적으로 TOGAF는 정체된 유물이 아니라, 기업이 복잡성을 다루는 가장 [[395_verification_process_review|검증]]된 프로세스 프레임워크로 계속 기능할 것이다.
+최근의 [TOGAF](/knowledge-base/studynote/12_it_management/03_ea_isp/113_togaf/) 표준은 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)와 [디지털 트랜스포메이션](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/071_digital_transformation_dx/)(DT) 흐름을 수용하여 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)화되고 있다. 즉, 과거처럼 방대한 전체 시스템을 그리는 대신, '비즈니스 역량(Business Capability)' 단위로 쪼개어 부분적으로 ADM을 빠르게 회전시키는 **[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) ([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/))** 사상이 결합되고 있다. 결론적으로 TOGAF는 정체된 유물이 아니라, 기업이 복잡성을 다루는 가장 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 프로세스 프레임워크로 계속 기능할 것이다.
 
-📢 **섹션 요약 비유**: [[113_togaf|TOGAF]] 프레임워크 도입은 기업에 튼튼한 '내비게이션과 핸들'을 장착하는 것과 같습니다. 길이 바뀌거나 목적지(비즈니스 목표)가 변경되어도 당황하지 않고, 시스템을 멈춰 세우는 일 없이 유연하고 안전하게 방향을 재조정(Phase H) 할 수 있는 궁극의 역량을 제공합니다.
+📢 **섹션 요약 비유**: [TOGAF](/knowledge-base/studynote/12_it_management/03_ea_isp/113_togaf/) 프레임워크 도입은 기업에 튼튼한 '내비게이션과 핸들'을 장착하는 것과 같습니다. 길이 바뀌거나 목적지(비즈니스 목표)가 변경되어도 당황하지 않고, 시스템을 멈춰 세우는 일 없이 유연하고 안전하게 방향을 재조정(Phase H) 할 수 있는 궁극의 역량을 제공합니다.
 
 ---
 
-### 📌 관련 개념 맵 ([[160_knowledge_graph_graphrag_integration|Knowledge Graph]])
-* **[[066_적응형_델타_변조_ADM|ADM]] ([[114_togaf_adm_architecture_development_method|Architecture Development Method]])** | TOGAF의 핵심 엔진으로 예비 단계부터 H단계까지 반복 순환하며 아키텍처를 진화시키는 방법론
-* **Enterprise Continuum (엔터프라이즈 연속체)** | 기초 아키텍처부터 조직 특화 아키텍처까지 자산을 재사용하기 위해 [[369_logic_bomb|논리]]적으로 [[104_classification_analysis|분류]]해 둔 가상 저장소
-* **ARB ([[319_architecture|Architecture]] [[153_requirements_review_inspection_walkthrough|Review]] Board)** | ADM의 Phase G(거버넌스) 단계에서 실제 프로젝트가 아키텍처 표준을 따르는지 심사하고 통제하는 최고 위원회
-* **[[112_zachman_framework|Zachman Framework]] ([[112_zachman_framework|잭맨 프레임워크]])** | TOGAF의 동적 방법론과 결합하여 산출물을 누락 없이 정적 매트릭스로 [[104_classification_analysis|분류]]하는 데 사용되는 온톨로지
-* **[[004_agile_relation|Agile]] [[110_enterprise_architecture_ea|EA]] ([[004_agile_relation|애자일]] [[110_enterprise_architecture_ea|EA]])** | 무거운 TOGAF를 경량화하여, [[532_microservices_decomposition_patterns|마이크로서비스]]([[619_msa_traffic_hardware|MSA]])와 클라우드 환경에 맞춰 빠르고 작게 ADM을 순환시키는 현대적 접근법
+### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
+* **[ADM](/knowledge-base/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/) ([Architecture Development Method](/knowledge-base/studynote/12_it_management/03_ea_isp/114_togaf_adm_architecture_development_method/))** | TOGAF의 핵심 엔진으로 예비 단계부터 H단계까지 반복 순환하며 아키텍처를 진화시키는 방법론
+* **Enterprise Continuum (엔터프라이즈 연속체)** | 기초 아키텍처부터 조직 특화 아키텍처까지 자산을 재사용하기 위해 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)해 둔 가상 저장소
+* **ARB ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) [Review](/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/) Board)** | ADM의 Phase G(거버넌스) 단계에서 실제 프로젝트가 아키텍처 표준을 따르는지 심사하고 통제하는 최고 위원회
+* **[Zachman Framework](/knowledge-base/studynote/12_it_management/03_ea_isp/112_zachman_framework/) ([잭맨 프레임워크](/knowledge-base/studynote/12_it_management/03_ea_isp/112_zachman_framework/))** | TOGAF의 동적 방법론과 결합하여 산출물을 누락 없이 정적 매트릭스로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는 데 사용되는 온톨로지
+* **[Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) ([애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/))** | 무거운 TOGAF를 경량화하여, [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))와 클라우드 환경에 맞춰 빠르고 작게 ADM을 순환시키는 현대적 접근법
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -189,11 +192,11 @@ TOGAF는 기업 단위의 거대한 IT 의사결정을 감으로 하는 것이 �
 [TOGAF 10 / 아키텍처 거버넌스 — 디지털 전환 시대의 지속적 EA 운영 체계]
 ```
 
-이 흐름은 엔터프라이즈 아키텍처의 필요성에서 출발하여 TOGAF의 [[066_적응형_델타_변조_ADM|ADM]] 사이클이 수립되고, 리포지토리 기반 거버넌스로 진화하는 [[110_enterprise_architecture_ea|EA]] 관리 방식의 발전 과정을 보여준다.
+이 흐름은 엔터프라이즈 아키텍처의 필요성에서 출발하여 TOGAF의 [ADM](/knowledge-base/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/) 사이클이 수립되고, 리포지토리 기반 거버넌스로 진화하는 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 관리 방식의 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. TOGAF는 세상에서 가장 똑똑한 건축가들이 모여서 만든 '절대 실패하지 않는 도시 건설 가이드북'이에요.
-2. 여기에는 '비전 세우기 → 건물 모양 정하기 → 컴퓨터망 깔기 → 공사 규칙 지키기'처럼 단계별로 무엇을 해야 하는지([[066_적응형_델타_변조_ADM|ADM]]) 빙글빙글 도는 쳇바퀴처럼 설명되어 있어요.
+2. 여기에는 '비전 세우기 → 건물 모양 정하기 → 컴퓨터망 깔기 → 공사 규칙 지키기'처럼 단계별로 무엇을 해야 하는지([ADM](/knowledge-base/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/)) 빙글빙글 도는 쳇바퀴처럼 설명되어 있어요.
 3. 이 가이드북을 따르면 회사들이 엉뚱한 데 돈을 쓰거나 건물이 무너지는 일 없이, 미래 기술이 나와도 쉽게 건물을 고쳐 쓸 수 있답니다!
 
 ---
@@ -202,7 +205,7 @@ TOGAF는 기업 단위의 거대한 IT 의사결정을 감으로 하는 것이 �
 
 **진행 상황**: 13 / 482
 
-← **이전**: [[012_zachman_framework|12. 잭맨 프레임워크 (Zachman Framework) - 6x6 매트릭스 (Who, What, Where, When, Why, How]]
-**다음**: [[014_gea_framework|14. 범정부 EA 프레임워크 (GEA) - 공공기관 정보화 아키텍처 의무 지침]] →
+← **이전**: [12. 잭맨 프레임워크 (Zachman Framework) - 6x6 매트릭스 (Who, What, Where, When, Why, How](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/012_zachman_framework/)
+**다음**: [14. 범정부 EA 프레임워크 (GEA) - 공공기관 정보화 아키텍처 의무 지침](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/014_gea_framework/) →
 
 ---

@@ -1,23 +1,27 @@
----
-title: 247. 시간적 지역성 (Temporal Locality)
-date: '2026-04-20'
-tags:
-- studynote-computer-architecture
----
++++
+title = "247. 시간적 지역성 (Temporal Locality)"
+date = 2026-04-20
+
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 시간적 지역성 (Temporal Locality)은 한 번 참조한 주소나 [[001_dikw_pyramid|데이터]]가 가까운 시간 안에 다시 필요해질 확률이 높다는 실행 패턴의 재사용 법칙이다.
-> 2. **가치**: 이 성질이 있기 때문에 [[259_cache_memory|캐시 메모리]] ([[259_cache_memory|Cache Memory]])는 최근에 쓴 [[001_dikw_pyramid|데이터]]를 곧바로 버리지 않고 붙잡아 두는 것만으로도 큰 [[282_performance_tactics|성능]] 이득을 얻는다.
-> 3. **판단 포인트**: [[282_performance_tactics|성능]] 문제를 볼 때는 "[[001_dikw_pyramid|데이터]]가 가까이 있느냐"보다 먼저 "방금 쓴 [[001_dikw_pyramid|데이터]]를 다시 쓰느냐"를 봐야 하며, 반복 사용이 약하면 큰 캐시도 기대만큼 효과를 내지 못한다.
+> 1. **본질**: 시간적 지역성 (Temporal Locality)은 한 번 참조한 주소나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 가까운 시간 안에 다시 필요해질 확률이 높다는 실행 패턴의 재사용 법칙이다.
+> 2. **가치**: 이 성질이 있기 때문에 [캐시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/259_cache_memory/) ([Cache Memory](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/259_cache_memory/))는 최근에 쓴 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 곧바로 버리지 않고 붙잡아 두는 것만으로도 큰 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 이득을 얻는다.
+> 3. **판단 포인트**: [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제를 볼 때는 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 가까이 있느냐"보다 먼저 "방금 쓴 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다시 쓰느냐"를 봐야 하며, 반복 사용이 약하면 큰 캐시도 기대만큼 효과를 내지 못한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-시간적 지역성 (Temporal Locality)은 프로그램이 어떤 메모리 위치를 한 번 사용한 뒤, 그리 멀지 않은 미래에 같은 위치를 다시 참조하는 경향을 뜻한다. 반복문 안의 [[161_accumulator|누산기]], [[294_function_calling_tool_use|함수 호출]] 중 반복해서 읽는 [[057_stack|스택]] 변수, 자주 호출되는 루틴의 [[158_instruction|명령어]]가 대표적인 사례다. 즉 핵심은 "같은 주소의 재사용"이지, 단순히 근처 주소를 따라가는 것만을 말하지는 않는다.
+시간적 지역성 (Temporal Locality)은 프로그램이 어떤 메모리 위치를 한 번 사용한 뒤, 그리 멀지 않은 미래에 같은 위치를 다시 참조하는 경향을 뜻한다. 반복문 안의 [누산기](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/), [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) 중 반복해서 읽는 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 변수, 자주 호출되는 루틴의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 대표적인 사례다. 즉 핵심은 "같은 주소의 재사용"이지, 단순히 근처 주소를 따라가는 것만을 말하지는 않는다.
 
-이 개념이 중요한 이유는 중앙처리장치인 CPU (Central Processing Unit)와 주기억장치인 [[251_dram|DRAM]] (Dynamic Random Access Memory) 사이의 속도 차이가 너무 크기 때문이다. CPU는 수 ns 안에 연산을 끝내지만, [[251_dram|DRAM]] 접근은 그보다 훨씬 느리다. 만약 방금 읽은 [[001_dikw_pyramid|데이터]]를 곧 다시 읽는 일이 자주 일어난다면, 그 [[001_dikw_pyramid|데이터]]를 비싸고 빠른 정적 램인 [[250_sram|SRAM]] (Static Random Access Memory) 기반 캐시에 잠시 붙잡아 두는 것만으로도 [[015_지연_데이터_관점|지연]] 시간을 크게 줄일 수 있다.
+이 개념이 중요한 이유는 중앙처리장치인 CPU (Central Processing Unit)와 주기억장치인 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory) 사이의 속도 차이가 너무 크기 때문이다. CPU는 수 ns 안에 연산을 끝내지만, [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 접근은 그보다 훨씬 느리다. 만약 방금 읽은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 곧 다시 읽는 일이 자주 일어난다면, 그 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 비싸고 빠른 정적 램인 [SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/) (Static Random Access Memory) 기반 캐시에 잠시 붙잡아 두는 것만으로도 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간을 크게 줄일 수 있다.
 
 이 그림은 시간적 지역성이 있을 때와 없을 때 캐시가 왜 달라지는지를 시간 축으로 보여준다.
 
@@ -37,7 +41,7 @@ tags:
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
-핵심은 캐시가 미래를 정확히 예언하지 못하더라도, "최근에 쓴 것은 또 쓸 가능성이 높다"는 경험 법칙 하나만으로도 합리적인 결정을 내릴 수 있다는 점이다. 이 성질이 약한 워크로드에서는 캐시 용량을 늘려도 체감 [[282_performance_tactics|성능]]이 제한적이지만, 반복 재사용이 강한 워크로드에서는 작은 L1 캐시만으로도 큰 효과가 난다.
+핵심은 캐시가 미래를 정확히 예언하지 못하더라도, "최근에 쓴 것은 또 쓸 가능성이 높다"는 경험 법칙 하나만으로도 합리적인 결정을 내릴 수 있다는 점이다. 이 성질이 약한 워크로드에서는 캐시 용량을 늘려도 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 제한적이지만, 반복 재사용이 강한 워크로드에서는 작은 L1 캐시만으로도 큰 효과가 난다.
 
 - **📢 섹션 요약 비유**: 시간적 지역성은 자주 쓰는 볼펜을 서랍 깊숙이 넣지 않고 책상 위에 두는 습관과 같다. 방금 쓴 물건을 곧 또 쓸 가능성이 높기 때문에, 가까운 곳에 남겨두는 것만으로도 행동이 훨씬 빨라진다.
 
@@ -45,16 +49,16 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-시간적 지역성은 캐시가 "가져오는 방식"보다 "남겨두는 방식"을 설계하게 만든다. [[248_spatial_locality|공간적 지역성]]이 캐시 라인 크기와 프리페치에 영향을 준다면, 시간적 지역성은 교체 [[164_policy|정책]]과 작업 집합 유지 전략을 지배한다. 대표적으로 최근 사용 이력을 반영하는 [[262_lru_page_replacement|LRU]] ([[262_lru_page_replacement|Least Recently Used]]) 계열 [[164_policy|정책]]은 시간적 지역성을 가장 직접적으로 활용하는 방법이다.
+시간적 지역성은 캐시가 "가져오는 방식"보다 "남겨두는 방식"을 설계하게 만든다. [공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/)이 캐시 라인 크기와 프리페치에 영향을 준다면, 시간적 지역성은 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 작업 집합 유지 전략을 지배한다. 대표적으로 최근 사용 이력을 반영하는 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) ([Least Recently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)) 계열 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 시간적 지역성을 가장 직접적으로 활용하는 방법이다.
 
-캐시 관점에서 중요한 질문은 단순하다. "지금 캐시 안에 있는 이 [[001_dikw_pyramid|데이터]]가 곧 다시 쓰일까?" 여기서 재사용 간격이 짧으면 캐시 히트가 나고, 재사용 간격이 길어 그 사이에 다른 [[001_dikw_pyramid|데이터]]가 너무 많이 들어오면 축출되어 캐시 미스가 난다. 그래서 시간적 지역성은 단순한 감각적 개념이 아니라, 사실상 재참조 간격과 작업 집합 크기를 읽는 관점이라고 볼 수 있다.
+캐시 관점에서 중요한 질문은 단순하다. "지금 캐시 안에 있는 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 곧 다시 쓰일까?" 여기서 재사용 간격이 짧으면 캐시 히트가 나고, 재사용 간격이 길어 그 사이에 다른 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 너무 많이 들어오면 축출되어 캐시 미스가 난다. 그래서 시간적 지역성은 단순한 감각적 개념이 아니라, 사실상 재참조 간격과 작업 집합 크기를 읽는 관점이라고 볼 수 있다.
 
 | 구성 요소 | 시간적 지역성과의 연결 | 설계 시 의미 |
 | :-- | :-- | :-- |
-| [[057_register|레지스터]] ([[175_register_addressing|Register]]) | 가장 짧은 재사용 [[001_dikw_pyramid|데이터]]를 즉시 보관 | 수 회~수십 회 연산 재사용 흡수 |
-| L1/L2 캐시 | 최근 접근 [[001_dikw_pyramid|데이터]]를 계층적으로 유지 | 짧은 재참조 간격에 유리 |
-| 교체 [[164_policy|정책]] | 무엇을 오래 남기고 무엇을 버릴지 결정 | 최근성(Recency) 추적 중요 |
-| 작업 집합 ([[265_working_set|Working Set]]) | 일정 시간 동안 반복 참조되는 [[001_dikw_pyramid|데이터]] 묶음 | 캐시/메모리 용량 판단 기준 |
+| [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) ([Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)) | 가장 짧은 재사용 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 즉시 보관 | 수 회~수십 회 연산 재사용 흡수 |
+| L1/L2 캐시 | 최근 접근 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 계층적으로 유지 | 짧은 재참조 간격에 유리 |
+| 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 무엇을 오래 남기고 무엇을 버릴지 결정 | 최근성(Recency) 추적 중요 |
+| 작업 집합 ([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)) | 일정 시간 동안 반복 참조되는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 묶음 | 캐시/메모리 용량 판단 기준 |
 
 이 그림은 시간적 지역성이 캐시 히트로 바뀌는 과정을 보여준다.
 
@@ -73,7 +77,7 @@ tags:
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
-이 메커니즘 때문에 같은 코드라도 루프를 잘게 나누어 같은 [[001_dikw_pyramid|데이터]]를 짧은 시간 안에 반복 사용하면 훨씬 빨라진다. 반대로 한 번 읽고 오래 돌아서 다시 오는 구조는 [[001_dikw_pyramid|데이터]]가 이미 캐시 밖으로 밀려났을 가능성이 높다. 고성능 행렬 연산에서 블로킹 ([[122_sync_async_communication|Blocking]])이나 타일링 (Tiling)을 쓰는 이유도 큰 [[055_array|배열]] 전체를 한 번에 훑는 대신, 작은 조각을 짧은 시간에 집중 재사용하여 시간적 지역성을 인위적으로 강화하려는 데 있다.
+이 메커니즘 때문에 같은 코드라도 루프를 잘게 나누어 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 짧은 시간 안에 반복 사용하면 훨씬 빨라진다. 반대로 한 번 읽고 오래 돌아서 다시 오는 구조는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 이미 캐시 밖으로 밀려났을 가능성이 높다. 고성능 행렬 연산에서 블로킹 ([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/))이나 타일링 (Tiling)을 쓰는 이유도 큰 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 전체를 한 번에 훑는 대신, 작은 조각을 짧은 시간에 집중 재사용하여 시간적 지역성을 인위적으로 강화하려는 데 있다.
 
 - **📢 섹션 요약 비유**: 시간적 지역성은 주방에서 요리할 때 소금통을 손 닿는 곳에 두는 운영 방식과 같다. 곧 또 쓸 재료를 가까이에 두면 흐름이 끊기지 않지만, 쓸 때마다 창고까지 다녀오면 요리 전체 속도가 무너진다.
 
@@ -81,46 +85,46 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-시간적 지역성을 제대로 이해하려면 [[248_spatial_locality|공간적 지역성]] ([[248_spatial_locality|Spatial Locality]]), [[249_sequential_locality|순차적 지역성]] ([[249_sequential_locality|Sequential Locality]])과 구분해서 봐야 한다. 시간적 지역성은 같은 주소의 재사용에 초점을 두고, [[248_spatial_locality|공간적 지역성]]은 인접 주소의 연속 접근에 초점을 둔다. [[249_sequential_locality|순차적 지역성]]은 그중에서도 [[158_instruction|명령어]] 흐름처럼 주소가 일정한 방향으로 이어지는 특수한 패턴에 가깝다.
+시간적 지역성을 제대로 이해하려면 [공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/) ([Spatial Locality](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/)), [순차적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/249_sequential_locality/) ([Sequential Locality](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/249_sequential_locality/))과 구분해서 봐야 한다. 시간적 지역성은 같은 주소의 재사용에 초점을 두고, [공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/)은 인접 주소의 연속 접근에 초점을 둔다. [순차적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/249_sequential_locality/)은 그중에서도 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 흐름처럼 주소가 일정한 방향으로 이어지는 특수한 패턴에 가깝다.
 
-| 비교 항목 | 시간적 지역성 (Temporal Locality) | [[248_spatial_locality|공간적 지역성]] ([[248_spatial_locality|Spatial Locality]]) | [[249_sequential_locality|순차적 지역성]] ([[249_sequential_locality|Sequential Locality]]) |
+| 비교 항목 | 시간적 지역성 (Temporal Locality) | [공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/) ([Spatial Locality](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/)) | [순차적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/249_sequential_locality/) ([Sequential Locality](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/249_sequential_locality/)) |
 | :-- | :-- | :-- | :-- |
-| 핵심 질문 | 같은 [[001_dikw_pyramid|데이터]]를 곧 다시 쓰는가 | 근처 [[001_dikw_pyramid|데이터]]를 곧 쓰는가 | 주소가 순서대로 진행되는가 |
-| 대표 원인 | 루프 변수, [[675_hot_data_caching|핫 데이터]], 반복 호출 | [[055_array|배열]] 순회, 연속 배치 | [[158_instruction|명령어]] 실행, 스트리밍 읽기 |
-| 하드웨어 대응 | 교체 [[164_policy|정책]], 유지 시간 | 캐시 라인 크기, 프리페치 | [[231_branch_prediction|분기 예측]], [[158_instruction|명령어]] 페치 최적화 |
-| 실패 양상 | 최근 [[001_dikw_pyramid|데이터]]가 너무 빨리 축출됨 | 한 블록을 가져와도 활용도가 낮음 | 분기 많아 흐름이 자주 끊김 |
+| 핵심 질문 | 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 곧 다시 쓰는가 | 근처 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 곧 쓰는가 | 주소가 순서대로 진행되는가 |
+| 대표 원인 | 루프 변수, [핫 데이터](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/675_hot_data_caching/), 반복 호출 | [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 순회, 연속 배치 | [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 실행, 스트리밍 읽기 |
+| 하드웨어 대응 | 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 유지 시간 | 캐시 라인 크기, 프리페치 | [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/), [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 페치 최적화 |
+| 실패 양상 | 최근 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 너무 빨리 축출됨 | 한 블록을 가져와도 활용도가 낮음 | 분기 많아 흐름이 자주 끊김 |
 
-[[001_operating_system_purpose|운영체제]] 관점에서는 시간적 지역성이 [[286_page_frame|페이지]] 교체와 작업 집합 이론으로 확장된다. 프로세스가 짧은 시간 동안 반복해서 참조하는 [[286_page_frame|페이지]] 묶음을 유지하지 못하면 [[257_thrashing|스래싱]] ([[257_thrashing|Thrashing]])이 발생한다. [[002_database_definition|데이터베이스]] 관점에서는 핫 키 (Hot [[067_db_key_uniqueness_minimality|Key]]), 버퍼 풀, [[160_session_controlling_terminal|세션]] 캐시가 같은 원리로 설명된다. 결국 시간적 지역성은 CPU 캐시만의 이야기가 아니라, "최근에 많이 쓰는 것을 가까이에 둔다"는 전 계층 공통 전략이다.
+[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 관점에서는 시간적 지역성이 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 교체와 작업 집합 이론으로 확장된다. 프로세스가 짧은 시간 동안 반복해서 참조하는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 묶음을 유지하지 못하면 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) ([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))이 발생한다. [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 관점에서는 핫 키 (Hot [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)), 버퍼 풀, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 캐시가 같은 원리로 설명된다. 결국 시간적 지역성은 CPU 캐시만의 이야기가 아니라, "최근에 많이 쓰는 것을 가까이에 둔다"는 전 계층 공통 전략이다.
 
-또한 시간적 지역성은 [[248_spatial_locality|공간적 지역성]]과 협력할 때 가장 강력하다. 예를 들어 반복문이 [[055_array|배열]] 한 구간을 여러 번 스캔하면, 한 번에 가져온 블록이 인접 [[001_dikw_pyramid|데이터]] 접근으로 활용되고 그 블록 자체도 짧은 시간 안에 다시 호출된다. 반대로 대용량 [[568_logs_distributed_logging_elk_fluentd|로그]]를 한 번만 순차적으로 읽는 작업은 순차적·[[248_spatial_locality|공간적 지역성]]은 있을 수 있어도 시간적 지역성은 약하다. 그래서 이런 작업은 프리페치에는 잘 맞아도, 캐시에 오래 남겨둘 가치는 낮다.
+또한 시간적 지역성은 [공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/)과 협력할 때 가장 강력하다. 예를 들어 반복문이 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 한 구간을 여러 번 스캔하면, 한 번에 가져온 블록이 인접 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근으로 활용되고 그 블록 자체도 짧은 시간 안에 다시 호출된다. 반대로 대용량 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 한 번만 순차적으로 읽는 작업은 순차적·[공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/)은 있을 수 있어도 시간적 지역성은 약하다. 그래서 이런 작업은 프리페치에는 잘 맞아도, 캐시에 오래 남겨둘 가치는 낮다.
 
-- **📢 섹션 요약 비유**: 시간적 지역성은 같은 노래를 반복 재생하는 습관이고, [[248_spatial_locality|공간적 지역성]]은 같은 앨범의 다음 곡을 이어 듣는 습관이다. 둘 다 음악 플레이어를 빠르게 만들지만, 무엇을 캐시에 남길지는 결국 "다시 들을 노래인가"가 결정한다.
+- **📢 섹션 요약 비유**: 시간적 지역성은 같은 노래를 반복 재생하는 습관이고, [공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/)은 같은 앨범의 다음 곡을 이어 듣는 습관이다. 둘 다 음악 플레이어를 빠르게 만들지만, 무엇을 캐시에 남길지는 결국 "다시 들을 노래인가"가 결정한다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 시간적 지역성은 "캐시가 있는가"보다 "재사용 창이 충분히 짧은가"를 따질 때 의미가 있다. 따라서 기술사 답안이나 아키텍처 판단에서는 단순히 캐시 적중률을 말하기보다, 어떤 [[001_dikw_pyramid|데이터]]가 어느 시간 폭 안에서 다시 쓰이는지까지 연결해 설명해야 설득력이 생긴다.
+실무에서 시간적 지역성은 "캐시가 있는가"보다 "재사용 창이 충분히 짧은가"를 따질 때 의미가 있다. 따라서 기술사 답안이나 아키텍처 판단에서는 단순히 캐시 적중률을 말하기보다, 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어느 시간 폭 안에서 다시 쓰이는지까지 연결해 설명해야 설득력이 생긴다.
 
-### 실무 판단 [[435_checklist_based_testing|체크리스트]]
+### 실무 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **[[675_hot_data_caching|핫 데이터]]가 실제로 반복 재사용되는가?** 단순 조회량이 높아도 재참조 간격이 길면 시간적 지역성이 약하다.
-2. **작업 집합이 캐시나 메모리 용량 안에 들어오는가?** 재사용 대상이 너무 크면 최근성 [[164_policy|정책]]이 있어도 계속 밀려난다.
-3. **스트리밍 [[001_dikw_pyramid|데이터]]가 [[675_hot_data_caching|핫 데이터]]를 오염시키는가?** 한 번 읽고 버릴 [[001_dikw_pyramid|데이터]]가 캐시를 채우면 중요한 [[001_dikw_pyramid|데이터]]가 축출된다.
+1. **[핫 데이터](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/675_hot_data_caching/)가 실제로 반복 재사용되는가?** 단순 조회량이 높아도 재참조 간격이 길면 시간적 지역성이 약하다.
+2. **작업 집합이 캐시나 메모리 용량 안에 들어오는가?** 재사용 대상이 너무 크면 최근성 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 있어도 계속 밀려난다.
+3. **스트리밍 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 [핫 데이터](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/675_hot_data_caching/)를 오염시키는가?** 한 번 읽고 버릴 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 캐시를 채우면 중요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 축출된다.
 
 ### 대표 시나리오
 
-- **루프 블로킹 적용**: 행렬 곱셈에서 큰 [[055_array|배열]] 전체를 그대로 도는 대신 블록 단위로 쪼개면, 같은 부분 행렬을 짧은 시간 안에 반복 사용하게 되어 시간적 지역성이 강화된다.
-- **핫 [[160_session_controlling_terminal|세션]] 캐시 유지**: 웹 [[090_service_kubernetes_network_load_balancing|서비스]]에서 [[568_logs_distributed_logging_elk_fluentd|로그]]인 토큰, 권한 정보, 장바구니처럼 몇 초~몇 분 안에 반복 조회되는 [[001_dikw_pyramid|데이터]]는 메모리 캐시에 남길 가치가 크다.
-- **배치 스캔 분리**: [[555_backup_and_restore_strategy|백업]], 분석, [[568_logs_distributed_logging_elk_fluentd|로그]] 리플레이처럼 재사용성이 약한 대량 스캔은 [[090_service_kubernetes_network_load_balancing|서비스]] 캐시와 분리하거나 우회해야 한다.
+- **루프 블로킹 적용**: 행렬 곱셈에서 큰 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 전체를 그대로 도는 대신 블록 단위로 쪼개면, 같은 부분 행렬을 짧은 시간 안에 반복 사용하게 되어 시간적 지역성이 강화된다.
+- **핫 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 캐시 유지**: 웹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에서 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인 토큰, 권한 정보, 장바구니처럼 몇 초~몇 분 안에 반복 조회되는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 메모리 캐시에 남길 가치가 크다.
+- **배치 스캔 분리**: [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/), 분석, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 리플레이처럼 재사용성이 약한 대량 스캔은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 캐시와 분리하거나 우회해야 한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 최근에 쓴 [[001_dikw_pyramid|데이터]]를 계속 재사용해야 하는 루프 안에서 큰 임시 버퍼를 반복 생성해 캐시를 불필요하게 밀어내는 패턴
-- 실시간 [[090_service_kubernetes_network_load_balancing|서비스]]와 일회성 배치 작업이 동일한 버퍼 풀을 공유해 [[675_hot_data_caching|핫 데이터]]의 시간적 지역성을 깨뜨리는 구성
-- 교체 [[164_policy|정책]]을 단순 선입선출인 [[261_fifo_page_replacement|FIFO]] (First-In, First-Out)처럼 두어 최근 사용 [[001_dikw_pyramid|데이터]] 보호가 약한 상태를 방치하는 설계
+- 최근에 쓴 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 계속 재사용해야 하는 루프 안에서 큰 임시 버퍼를 반복 생성해 캐시를 불필요하게 밀어내는 패턴
+- 실시간 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 일회성 배치 작업이 동일한 버퍼 풀을 공유해 [핫 데이터](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/675_hot_data_caching/)의 시간적 지역성을 깨뜨리는 구성
+- 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 단순 선입선출인 [FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) (First-In, First-Out)처럼 두어 최근 사용 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보호가 약한 상태를 방치하는 설계
 
-결국 실무 판단은 "무엇을 저장할까"보다 "무엇을 오래 남겨둘 가치가 있는가"에 가깝다. 시간적 지역성이 강한 [[001_dikw_pyramid|데이터]]는 메모리 비용을 들여서라도 붙잡아야 하지만, 재사용성이 낮은 [[001_dikw_pyramid|데이터]]까지 같은 방식으로 다루면 오히려 캐시 오염만 커진다.
+결국 실무 판단은 "무엇을 저장할까"보다 "무엇을 오래 남겨둘 가치가 있는가"에 가깝다. 시간적 지역성이 강한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 메모리 비용을 들여서라도 붙잡아야 하지만, 재사용성이 낮은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)까지 같은 방식으로 다루면 오히려 캐시 오염만 커진다.
 
 - **📢 섹션 요약 비유**: 시간적 지역성을 활용한 운영은 단골 손님 명단을 계산대 옆에 두는 것과 같다. 자주 다시 올 손님 정보를 가까이에 두면 응대가 빨라지지만, 하루에 한 번 보고 끝날 전단지까지 그 자리를 차지하면 정작 중요한 손님을 느리게 만든다.
 
@@ -128,11 +132,11 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-시간적 지역성을 잘 활용하면 작은 고속 메모리만으로도 큰 시스템 [[282_performance_tactics|성능]] 향상을 얻을 수 있다. 캐시 적중률이 높아지면 평균 메모리 접근 시간 (Average Memory Access Time) 이 줄고, 파이프라인 정지와 메모리 대기 시간이 함께 감소한다. 같은 하드웨어에서도 코드 구조와 [[001_dikw_pyramid|데이터]] 재사용 방식만 바꿔 [[282_performance_tactics|성능]]이 크게 달라지는 이유가 여기에 있다.
+시간적 지역성을 잘 활용하면 작은 고속 메모리만으로도 큰 시스템 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상을 얻을 수 있다. 캐시 적중률이 높아지면 평균 메모리 접근 시간 (Average Memory Access Time) 이 줄고, 파이프라인 정지와 메모리 대기 시간이 함께 감소한다. 같은 하드웨어에서도 코드 구조와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재사용 방식만 바꿔 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 크게 달라지는 이유가 여기에 있다.
 
-다만 시간적 지역성은 만능이 아니다. [[001_dikw_pyramid|데이터]]셋이 너무 크거나, 재참조 간격이 길거나, 스트리밍 접근이 지배적이면 이득이 제한된다. 그래서 현대 아키텍처는 단순 LRU만이 아니라 재참조 간격을 더 정교하게 추정하는 RRIP (Re-[[316_reference_pattern_nosql|Reference]] Interval Prediction) 같은 [[164_policy|정책]], 소프트웨어 [[167_sql_hint_optimizer_override|힌트]], 계층별 전용 캐시 전략을 함께 사용한다.
+다만 시간적 지역성은 만능이 아니다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋이 너무 크거나, 재참조 간격이 길거나, 스트리밍 접근이 지배적이면 이득이 제한된다. 그래서 현대 아키텍처는 단순 LRU만이 아니라 재참조 간격을 더 정교하게 추정하는 RRIP (Re-[Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) Interval Prediction) 같은 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 소프트웨어 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/), 계층별 전용 캐시 전략을 함께 사용한다.
 
-결론적으로 시간적 지역성은 "메모리를 빨리 만드는 기술"이 아니라 "다시 쓸 [[001_dikw_pyramid|데이터]]를 오래 붙잡아 두는 판단 기준"으로 기억하는 것이 정확하다. [[282_performance_tactics|성능]] 튜닝의 첫 질문도 결국 이것이다. "이 [[001_dikw_pyramid|데이터]]는 방금 썼는데, 곧 또 쓰는가?" 이 질문에 예라고 답할 수 있을수록 캐시는 강력해진다.
+결론적으로 시간적 지역성은 "메모리를 빨리 만드는 기술"이 아니라 "다시 쓸 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 오래 붙잡아 두는 판단 기준"으로 기억하는 것이 정확하다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝의 첫 질문도 결국 이것이다. "이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 방금 썼는데, 곧 또 쓰는가?" 이 질문에 예라고 답할 수 있을수록 캐시는 강력해진다.
 
 - **📢 섹션 요약 비유**: 좋은 캐시 설계는 자주 보는 서류를 손 닿는 파일철에 남겨두는 비서와 같다. 모든 서류를 가까이에 둘 수는 없지만, 곧 다시 찾을 서류를 알아보고 남겨두면 업무 속도는 눈에 띄게 빨라진다.
 
@@ -142,11 +146,11 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :-- | :-- |
-| [[253_locality_of_reference|참조의 지역성]] ([[253_locality_of_reference|Locality of Reference]]) | 시간적 지역성과 [[248_spatial_locality|공간적 지역성]]을 함께 묶는 상위 개념이다. |
-| 캐시 교체 [[164_policy|정책]] (Cache [[271_replacement_policy|Replacement Policy]]) | 최근 사용 [[001_dikw_pyramid|데이터]]를 얼마나 잘 보호하느냐가 시간적 지역성 활용 수준을 결정한다. |
-| 작업 집합 ([[265_working_set|Working Set]]) | 일정 시간 안에 반복 참조되는 [[001_dikw_pyramid|데이터]] 묶음으로, 시간적 지역성의 범위를 실무적으로 표현한다. |
-| [[257_thrashing|스래싱]] ([[257_thrashing|Thrashing]]) | 재사용되어야 할 [[286_page_frame|페이지]]나 캐시 라인이 너무 빨리 밀려나 시간적 지역성이 붕괴된 상태다. |
-| 캐시 오염 (Cache Pollution) | 재사용성이 낮은 [[001_dikw_pyramid|데이터]]가 캐시를 채워 시간적 지역성이 높은 [[001_dikw_pyramid|데이터]]를 축출하는 현상이다. |
+| [참조의 지역성](/knowledge-base/studynote/02_operating_system/04_synchronization/253_locality_of_reference/) ([Locality of Reference](/knowledge-base/studynote/02_operating_system/04_synchronization/253_locality_of_reference/)) | 시간적 지역성과 [공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/)을 함께 묶는 상위 개념이다. |
+| 캐시 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) (Cache [Replacement Policy](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/271_replacement_policy/)) | 최근 사용 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 얼마나 잘 보호하느냐가 시간적 지역성 활용 수준을 결정한다. |
+| 작업 집합 ([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)) | 일정 시간 안에 반복 참조되는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 묶음으로, 시간적 지역성의 범위를 실무적으로 표현한다. |
+| [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) ([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)) | 재사용되어야 할 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)나 캐시 라인이 너무 빨리 밀려나 시간적 지역성이 붕괴된 상태다. |
+| 캐시 오염 (Cache Pollution) | 재사용성이 낮은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 캐시를 채워 시간적 지역성이 높은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 축출하는 현상이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -164,13 +168,13 @@ tags:
         └─▶ 캐시 오염 제어 · RRIP (Re-Reference Interval Prediction)
 ```
 
-이 흐름은 단순한 경험 법칙이 교체 [[164_policy|정책]], 메모리 관리, 현대 예측형 캐시 [[164_policy|정책]]으로 확장되는 경로를 보여준다.
+이 흐름은 단순한 경험 법칙이 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 메모리 관리, 현대 예측형 캐시 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 확장되는 경로를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 방금 가지고 논 장난감은 조금 뒤에도 또 가지고 놀 확률이 높아요.
 2. 그래서 엄마는 그 장난감을 상자 맨 아래가 아니라 바로 손 닿는 곳에 두어요.
-3. 컴퓨터도 똑같이, 방금 쓴 [[001_dikw_pyramid|데이터]]를 가까운 캐시에 남겨 두었다가 다시 빨리 꺼내 쓴답니다.
+3. 컴퓨터도 똑같이, 방금 쓴 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가까운 캐시에 남겨 두었다가 다시 빨리 꺼내 쓴답니다.
 
 ---
 
@@ -178,7 +182,7 @@ tags:
 
 **진행 상황**: 247 / 803
 
-← **이전**: [[246_locality_of_reference|246. 참조의 지역성 (Locality of Reference)]]
-**다음**: [[248_spatial_locality|248. 공간적 지역성 (Spatial Locality)]] →
+← **이전**: [246. 참조의 지역성 (Locality of Reference)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/246_locality_of_reference/)
+**다음**: [248. 공간적 지역성 (Spatial Locality)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/) →
 
 ---

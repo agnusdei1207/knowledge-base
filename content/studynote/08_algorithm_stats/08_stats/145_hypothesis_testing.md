@@ -1,15 +1,19 @@
----
-title: 16. 가설 검정 (Hypothesis Testing) — 귀무가설, p-값
-date: '2026-04-21'
-tags:
-- studynote-algorithm
----
++++
+title = "16. 가설 검정 (Hypothesis Testing) — 귀무가설, p-값"
+date = 2026-04-21
+
+[taxonomies]
+tags = ["studynote-algorithm"]
+
+[extra]
+tags = ["studynote-algorithm"]
++++
 
 ## 핵심 인사이트
 
-> 가설 검정(Hypothesis Testing)의 핵심은 "귀무 가설(Null Hypothesis, H₀)이 참이라는 전제 하에, 관측된 [[001_dikw_pyramid|데이터]]가 얼마나 극단적인지"를 p-값([[337_p_value_significance|p-value]])으로 정량화하는 과정이다.
-> 1종 오류(Type I Error, α)와 2종 오류(Type II Error, β)는 트레이드오프 [[083_relationship_in_er_model|관계]]이며, [[068_significance_level_alpha_p_value_hypothesis|유의 수준]] α를 낮추면 β가 커지고, 검정력([[069_type_1_2_error_statistical_power|Power]] = 1-β)이 낮아진다 — 엄격한 기준이 놓치는 실수를 만든다.
-> p-값은 "H₀ 하에서 이 결과가 우연히 나올 [[130_probability|확률]]"이지, "H₀이 맞을 [[130_probability|확률]]"이 아니다 — 이 구분을 잘못 이해하는 것이 재현성 위기([[016_replication_factor|Replication]] Crisis)의 주요 원인 중 하나다.
+> 가설 검정(Hypothesis Testing)의 핵심은 "귀무 가설(Null Hypothesis, H₀)이 참이라는 전제 하에, 관측된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 얼마나 극단적인지"를 p-값([p-value](/knowledge-base/studynote/06_ict_convergence/05_data_science/337_p_value_significance/))으로 정량화하는 과정이다.
+> 1종 오류(Type I Error, α)와 2종 오류(Type II Error, β)는 트레이드오프 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)이며, [유의 수준](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/) α를 낮추면 β가 커지고, 검정력([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) = 1-β)이 낮아진다 — 엄격한 기준이 놓치는 실수를 만든다.
+> p-값은 "H₀ 하에서 이 결과가 우연히 나올 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)"이지, "H₀이 맞을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)"이 아니다 — 이 구분을 잘못 이해하는 것이 재현성 위기([Replication](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) Crisis)의 주요 원인 중 하나다.
 
 ---
 
@@ -23,8 +27,8 @@ tags:
 - H₁: μ ≠ 170cm (양측) 또는 μ > 170cm (단측)
 
 **검정 절차**:
-1. H₀과 H₁ [[009_config|설정]]
-2. [[068_significance_level_alpha_p_value_hypothesis|유의 수준]] α 결정 (보통 0.05)
+1. H₀과 H₁ [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
+2. [유의 수준](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/) α 결정 (보통 0.05)
 3. 검정 통계량(Test Statistic) 계산
 4. p-값 계산: P(검정 통계량 ≥ 관측값 | H₀)
 5. p-값 < α이면 H₀ 기각 (귀무 가설 기각, H₁ 채택)
@@ -50,7 +54,7 @@ tags:
 - **단측 (One-Tailed)**: α가 한쪽에만 (H₁: μ > μ₀ 또는 μ < μ₀)
 - **양측 (Two-Tailed)**: α/2씩 양쪽에 (H₁: μ ≠ μ₀)
 
-📢 **섹션 요약 비유**: 가설 검정은 "법정 재판"과 같다. 피고인(H₀)은 유죄가 증명되기 전까지 무죄(귀무 가설 유지). 증거([[001_dikw_pyramid|데이터]])가 너무 극단적이면(p-값 < α) 유죄 판결(H₀ 기각)을 내린다.
+📢 **섹션 요약 비유**: 가설 검정은 "법정 재판"과 같다. 피고인(H₀)은 유죄가 증명되기 전까지 무죄(귀무 가설 유지). 증거([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 너무 극단적이면(p-값 < α) 유죄 판결(H₀ 기각)을 내린다.
 
 ---
 
@@ -59,16 +63,16 @@ tags:
 | | H₀ 실제로 참 | H₀ 실제로 거짓 |
 |:---|:---:|:---:|
 | **H₀ 채택** | ✅ 올바른 결정 | ❌ **2종 오류 β** (False Negative) |
-| **H₀ 기각** | ❌ **1종 오류 α** (False Positive) | ✅ **검정력 ([[069_type_1_2_error_statistical_power|Power]] = 1-β)** |
+| **H₀ 기각** | ❌ **1종 오류 α** (False Positive) | ✅ **검정력 ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) = 1-β)** |
 
 - **1종 오류 (Type I Error, α)**: 실제로 차이 없는데 있다고 판정 (가짜 양성)
 - **2종 오류 (Type II Error, β)**: 실제로 차이 있는데 없다고 판정 (가짜 음성)
-- **검정력 ([[069_type_1_2_error_statistical_power|Power]])** = 1 - β: 실제 효과가 있을 때 올바르게 탐지하는 [[130_probability|확률]]
+- **검정력 ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/))** = 1 - β: 실제 효과가 있을 때 올바르게 탐지하는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)
 
 **검정력에 영향을 주는 요인**:
 - 표본 크기 n ↑ → 검정력 ↑
 - 효과 크기(Effect Size) ↑ → 검정력 ↑
-- [[068_significance_level_alpha_p_value_hypothesis|유의 수준]] α ↑ → 검정력 ↑ (but 1종 오류도 ↑)
+- [유의 수준](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/) α ↑ → 검정력 ↑ (but 1종 오류도 ↑)
 - 모집단 표준편차 σ ↓ → 검정력 ↑
 
 📢 **섹션 요약 비유**: 1종/2종 오류는 "불량품 검수"와 같다. 1종 오류는 정상 제품을 불량이라 버리는 것(엄격함의 부작용), 2종 오류는 불량품을 정상이라 통과시키는 것(느슨함의 부작용). 둘 다 줄이려면 검수 비용(표본 크기)을 늘려야 한다.
@@ -83,13 +87,13 @@ tags:
 z = (x̄ - μ₀) / (σ/√n)   ~  N(0,1)
 ```
 
-**[[070_t_test_independent_paired_mean_difference|t-검정]] ([[070_t_test_independent_paired_mean_difference|t-Test]])**: 모표준편차 σ를 모르는 경우, 표본 표준편차 s로 대체
+**[t-검정](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/) ([t-Test](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/))**: 모표준편차 σ를 모르는 경우, 표본 표준편차 s로 대체
 
 ```
 t = (x̄ - μ₀) / (s/√n)   ~  t(n-1)
 ```
 
-**[[147_chi_square_test|카이제곱 검정]] ([[147_chi_square_test|Chi-Square Test]], χ²)**:
+**[카이제곱 검정](/knowledge-base/studynote/08_algorithm_stats/08_stats/147_chi_square_test/) ([Chi-Square Test](/knowledge-base/studynote/08_algorithm_stats/08_stats/147_chi_square_test/), χ²)**:
 - 적합도: 관측 빈도가 기대 분포에 맞는지
 - 독립성: 두 범주형 변수의 독립성
 
@@ -101,7 +105,7 @@ t = (x̄ - μ₀) / (s/√n)   ~  t(n-1)
 
 | 목적 | σ 알 때 | σ 모를 때 | 범주형 |
 |:---|:---:|:---:|:---:|
-| 단일 평균 | z-검정 | [[070_t_test_independent_paired_mean_difference|t-검정]] | — |
+| 단일 평균 | z-검정 | [t-검정](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/) | — |
 | 두 평균 비교 | z-검정 | 이표본 t | — |
 | 대응 비교 | — | 대응 t | — |
 | 빈도 분포 | — | — | χ² 적합도 |
@@ -115,10 +119,10 @@ t = (x̄ - μ₀) / (s/√n)   ~  t(n-1)
 
 **다중 검정 문제**: 100개 독립 검정을 α=0.05로 실시하면, 평균 5개는 우연히 유의하게 나온다.
 
-**1종 오류 누적 [[130_probability|확률]]**: P(최소 1개 우연 유의) = 1 - (1-α)^m → 1에 가까워짐
+**1종 오류 누적 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)**: P(최소 1개 우연 유의) = 1 - (1-α)^m → 1에 가까워짐
 
 **본페로니 보정 (Bonferroni Correction)**:
-- 보정된 [[068_significance_level_alpha_p_value_hypothesis|유의 수준]]: α_보정 = α/m (m = 검정 수)
+- 보정된 [유의 수준](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/): α_보정 = α/m (m = 검정 수)
 - 보수적(Conservative) — FDR이 필요한 상황에서는 과도하게 엄격
 
 **FDR (False Discovery Rate, 거짓 발견율) — Benjamini-Hochberg 절차**:
@@ -139,19 +143,19 @@ BH 절차:
 ## Ⅴ. p-값의 오해와 재현성 위기
 
 **p-값에 대한 올바른 해석**:
-- ✅ "H₀이 참일 때, 이 결과 이상으로 극단적인 결과가 나올 [[130_probability|확률]]"
-- ❌ "H₀이 참일 [[130_probability|확률]]" (이것은 사후 [[130_probability|확률]] — 베이즈 방식 필요)
+- ✅ "H₀이 참일 때, 이 결과 이상으로 극단적인 결과가 나올 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)"
+- ❌ "H₀이 참일 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)" (이것은 사후 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) — 베이즈 방식 필요)
 - ❌ "효과 크기가 크다는 의미" (작은 효과도 n이 크면 p < 0.05)
 - ❌ "연구 결과가 재현된다는 의미"
 
-**재현성 위기 ([[016_replication_factor|Replication]] Crisis)**: 심리학, 의학, 경제학 분야에서 발표된 연구의 상당수가 재현 불가능함이 드러남.
+**재현성 위기 ([Replication](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) Crisis)**: 심리학, 의학, 경제학 분야에서 발표된 연구의 상당수가 재현 불가능함이 드러남.
 
 주요 원인:
 - **p-해킹 (p-Hacking)**: p < 0.05가 될 때까지 분석 조정
-- **출판 편향 (Publication [[094_bias|Bias]])**: 유의한 결과만 출판
+- **출판 편향 (Publication [Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))**: 유의한 결과만 출판
 - **표본 크기 부족**: 낮은 검정력으로 불안정한 추정
 
-**대안 제안**: 효과 크기(Cohen's d) 보고, [[146_confidence_interval|신뢰 구간]] 제시, 사전 등록(Pre-Registration), 베이즈 인자(Bayes Factor) 사용.
+**대안 제안**: 효과 크기(Cohen's d) 보고, [신뢰 구간](/knowledge-base/studynote/08_algorithm_stats/08_stats/146_confidence_interval/) 제시, 사전 등록(Pre-Registration), 베이즈 인자(Bayes Factor) 사용.
 
 📢 **섹션 요약 비유**: p < 0.05는 "지갑에 1만원이 있다"는 것이지 "부자다"는 의미가 아니다. 통계적 유의성은 실용적 중요성(Effect Size)과 다르며, "우연이 아닐 것 같다"는 뜻이지 "효과가 크다"는 뜻이 아니다.
 
@@ -159,13 +163,13 @@ BH 절차:
 
 ### 📌 관련 개념 맵
 
-| 개념 | 연결 개념 | [[083_relationship_in_er_model|관계]] |
+| 개념 | 연결 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 |:---|:---|:---|
 | 귀무 가설 H₀ | p-값 | p-값은 H₀ 하에서 계산 |
-| [[068_significance_level_alpha_p_value_hypothesis|유의 수준]] α | 1종 오류 | α = 1종 오류 [[130_probability|확률]] |
-| 검정력 | 2종 오류 β | [[069_type_1_2_error_statistical_power|Power]] = 1-β |
+| [유의 수준](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/) α | 1종 오류 | α = 1종 오류 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) |
+| 검정력 | 2종 오류 β | [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) = 1-β |
 | 다중 검정 | Bonferroni / BH | 보정 방법 |
-| p-해킹 | 재현성 위기 | 원인 [[083_relationship_in_er_model|관계]] |
+| p-해킹 | 재현성 위기 | 원인 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 | 베이즈 인자 | p-값 대안 | 다른 접근법 |
 
 ---
@@ -188,12 +192,12 @@ BH 절차:
     ▼
 [베이즈 통계 (Bayesian Statistics) — 사전 확률 갱신, p-값 한계 극복]
 ```
-이 흐름은 [[001_dikw_pyramid|데이터]]를 요약하는 기술통계에서 모집단을 추론하는 통계적 가설 검정으로 발전한 후, p-값 남용 문제를 인식하고 효과 크기와 베이즈 관점으로 보완하는 통계적 추론 방법론의 성숙 과정을 보여준다.
+이 흐름은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 요약하는 기술통계에서 모집단을 추론하는 통계적 가설 검정으로 발전한 후, p-값 남용 문제를 인식하고 효과 크기와 베이즈 관점으로 보완하는 통계적 추론 방법론의 성숙 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 "이 약이 효과 없다"고 가정하고 실험했는데 결과가 너무 신기하면(p < 0.05), "역시 효과가 있나봐!"라고 결론 내리는 게 가설 검정이야.
-p-값은 "운이 좋아서 이런 결과가 나올 [[130_probability|확률]]"이지, "내 가설이 맞을 [[130_probability|확률]]"이 아니야 — 이걸 헷갈리면 큰 실수가 생겨!
+p-값은 "운이 좋아서 이런 결과가 나올 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)"이지, "내 가설이 맞을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)"이 아니야 — 이걸 헷갈리면 큰 실수가 생겨!
 100개 실험하면 5개는 우연히 "효과 있어 보이는" 가짜 결과가 나와 — 그래서 여러 번 검정할 때는 기준을 더 엄격하게 조정해야 해.
 
 ---
@@ -202,7 +206,7 @@ p-값은 "운이 좋아서 이런 결과가 나올 [[130_probability|확률]]"�
 
 **진행 상황**: 145 / 175
 
-← **이전**: [[144_bayesian_estimation|15. 베이즈 추정 (Bayesian Estimation) — MAP 최대 사후 확률]]
-**다음**: [[146_confidence_interval|17. 신뢰 구간 (Confidence Interval) — 모수 추정의 불확실성]] →
+← **이전**: [15. 베이즈 추정 (Bayesian Estimation) — MAP 최대 사후 확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/144_bayesian_estimation/)
+**다음**: [17. 신뢰 구간 (Confidence Interval) — 모수 추정의 불확실성](/knowledge-base/studynote/08_algorithm_stats/08_stats/146_confidence_interval/) →
 
 ---

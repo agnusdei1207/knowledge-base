@@ -1,15 +1,19 @@
----
-title: 209. 읽기-쓰기 락 패턴 (Read-Write Lock Pattern)
-date: '2026-05-10'
-tags:
-- studynote-design-supervision
----
++++
+title = "209. 읽기-쓰기 락 패턴 (Read-Write Lock Pattern)"
+date = 2026-05-10
+
+[taxonomies]
+tags = ["studynote-design-supervision"]
+
+[extra]
+tags = ["studynote-design-supervision"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[280_read_write_lock|Read-Write Lock]] ([[280_read_write_lock|읽기-쓰기 락]]) 패턴은 여러 [[092_thread_lwp|스레드]]의 동시 읽기([[214_shared_lock_read_concurrency|공유 락]], Shared [[510_lock|Lock]])는 허용하고, [[289_cqrs_db|쓰기]] 시에만 단독 접근([[215_exclusive_lock_write_concurrency|배타 락]], Exclusive [[510_lock|Lock]])을 보장하여 읽기 [[282_performance_tactics|성능]]과 [[289_cqrs_db|쓰기]] [[194_consistency_database_integrity|일관성]]을 동시에 달성한다.
-> 2. **가치**: 전통적인 `synchronized`(모든 접근 직렬화)는 읽기만 해도 차단되는 비효율이 있다. Read-Write Lock은 읽기가 빈번한 시나리오에서 [[139_throughput|처리량]]([[139_throughput|Throughput]])을 극적으로 향상시킨다.
-> 3. **판단 포인트**: 읽기/[[289_cqrs_db|쓰기]] 비율이 [[489_raid_10_hybrid|10]]:1 이상처럼 읽기 빈번하고 [[289_cqrs_db|쓰기]] 드문 경우에 적합하다. [[289_cqrs_db|쓰기]]가 빈번하면 오버헤드로 오히려 역효과다.
+> 1. **본질**: [Read-Write Lock](/knowledge-base/studynote/02_operating_system/04_synchronization/280_read_write_lock/) ([읽기-쓰기 락](/knowledge-base/studynote/02_operating_system/04_synchronization/280_read_write_lock/)) 패턴은 여러 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 동시 읽기([공유 락](/knowledge-base/studynote/05_database/04_transactions_concurrency/214_shared_lock_read_concurrency/), Shared [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))는 허용하고, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시에만 단독 접근([배타 락](/knowledge-base/studynote/05_database/04_transactions_concurrency/215_exclusive_lock_write_concurrency/), Exclusive [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 보장하여 읽기 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 동시에 달성한다.
+> 2. **가치**: 전통적인 `synchronized`(모든 접근 직렬화)는 읽기만 해도 차단되는 비효율이 있다. Read-Write Lock은 읽기가 빈번한 시나리오에서 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 극적으로 향상시킨다.
+> 3. **판단 포인트**: 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 비율이 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/):1 이상처럼 읽기 빈번하고 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 드문 경우에 적합하다. [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)가 빈번하면 오버헤드로 오히려 역효과다.
 
 ---
 
@@ -25,10 +29,10 @@ tags:
     캐시 조회, 설정 읽기 등 읽기 집중 작업에서 심각한 성능 저하
 ```
 
-| 접근 유형 | 동시 읽기 [[092_thread_lwp|스레드]] 존재 시 | [[289_cqrs_db|쓰기]] [[092_thread_lwp|스레드]] 존재 시 |
+| 접근 유형 | 동시 읽기 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 존재 시 | [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 존재 시 |
 |:---|:---|:---|
-| 새 읽기 시도 | ✅ 허용 (Shared [[510_lock|Lock]] 공유) | ❌ 차단 |
-| 새 [[289_cqrs_db|쓰기]] 시도 | ❌ 차단 | ❌ 차단 |
+| 새 읽기 시도 | ✅ 허용 (Shared [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 공유) | ❌ 차단 |
+| 새 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시도 | ❌ 차단 | ❌ 차단 |
 
 ```
   Read-Write Lock 접근 규칙:
@@ -51,7 +55,7 @@ tags:
 └──────────────┘    └──────────────┘    └──────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 도서관 열람실 — 책을 읽는 사람은 여럿이어도 괜찮지만, 누군가 책을 수정([[289_cqrs_db|쓰기]])할 때는 다른 사람이 읽거나 쓸 수 없게 책을 잠근다.
+- **📢 섹션 요약 비유**: 도서관 열람실 — 책을 읽는 사람은 여럿이어도 괜찮지만, 누군가 책을 수정([쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))할 때는 다른 사람이 읽거나 쓸 수 없게 책을 잠근다.
 
 ---
 
@@ -97,7 +101,7 @@ public void setData(String key, String value) {
 }
 ```
 
-Java 8에서 도입된 StampedLock은 **낙관적 읽기(Optimistic Read [[510_lock|Lock]])**를 추가:
+Java 8에서 도입된 StampedLock은 **낙관적 읽기(Optimistic Read [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))**를 추가:
 
 ```
   StampedLock 낙관적 읽기 흐름:
@@ -130,21 +134,21 @@ Java 8에서 도입된 StampedLock은 **낙관적 읽기(Optimistic Read [[510_l
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
 | 핵심 역할 | 입력·상태·출력을 분리하는 책임 경계 | 구현보다 경계를 먼저 본다. |
-| 제어 지점 | 조건, 이벤트, [[164_policy|정책]]이 만나는 곳 | 병목과 결합이 생기는 곳이다. |
-| [[395_verification_process_review|검증]] 포인트 | 테스트·[[568_logs_distributed_logging_elk_fluentd|로그]]·모니터링으로 확인할 지점 | 운영 가능성이 설계 품질을 결정한다. |
+| 제어 지점 | 조건, 이벤트, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 만나는 곳 | 병목과 결합이 생기는 곳이다. |
+| [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 포인트 | 테스트·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·모니터링으로 확인할 지점 | 운영 가능성이 설계 품질을 결정한다. |
 
-- **📢 섹션 요약 비유**: 고속도로 하이패스 — 요금을 내는 차([[289_cqrs_db|쓰기]])는 게이트가 닫히지만, 잠깐 표지판만 보는 차(읽기)는 그냥 통과해도 된다.
+- **📢 섹션 요약 비유**: 고속도로 하이패스 — 요금을 내는 차([쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))는 게이트가 닫히지만, 잠깐 표지판만 보는 차(읽기)는 그냥 통과해도 된다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
-| 락 종류 | 동시 읽기 | [[276_write_through|동시 쓰기]] | 읽기-[[289_cqrs_db|쓰기]] 동시 | 구현 |
+| 락 종류 | 동시 읽기 | [동시 쓰기](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/276_write_through/) | 읽기-[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 동시 | 구현 |
 |:---|:---|:---|:---|:---|
 | **synchronized** | ❌ | ❌ | ❌ | Java 내장 |
 | **ReentrantLock** | ❌ | ❌ | ❌ | java.util.concurrent |
 | **ReadWriteLock** | ✅ | ❌ | ❌ | ReentrantReadWriteLock |
 | **StampedLock** | ✅ (낙관적) | ❌ | ❌ | Java 8+ |
-| **[[224_semaphore|Semaphore]](n)** | n개까지 | [[009_config|설정]]에 따라 | [[009_config|설정]]에 따라 | java.util.concurrent |
+| **[Semaphore](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)(n)** | n개까지 | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에 따라 | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에 따라 | java.util.concurrent |
 
 ```
   ReadWriteLock의 쓰기 기아 문제:
@@ -160,7 +164,7 @@ Java 8에서 도입된 StampedLock은 **낙관적 읽기(Optimistic Read [[510_l
   → 단, 성능 감소 (20~30% 오버헤드)
 ```
 
-- **📢 섹션 요약 비유**: [[344_bus|버스]] 우선 [[130_signal|신호]] — 읽기(일반 차)는 많이 다닐 수 있지만, [[289_cqrs_db|쓰기]]([[344_bus|버스]])도 너무 오래 기다리면 안 된다. 공정성 [[164_policy|정책]]은 [[344_bus|버스]] 전용 [[130_signal|신호]]와 같다.
+- **📢 섹션 요약 비유**: [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 우선 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) — 읽기(일반 차)는 많이 다닐 수 있지만, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)([버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))도 너무 오래 기다리면 안 된다. 공정성 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 전용 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)와 같다.
 
 ---
 
@@ -200,57 +204,57 @@ public class ReadHeavyCache<K, V> {
   └────────────────────────────────────────────────┘
 ```
 
-- **Shared [[510_lock|Lock]]([[214_shared_lock_read_concurrency|공유 락]]) vs Exclusive [[510_lock|Lock]]([[215_exclusive_lock_write_concurrency|배타 락]])** 용어 명확히 구분
-- **[[289_cqrs_db|쓰기]] 기아(Write [[314_starvation_prevention|Starvation]])**와 공정성(Fairness) [[164_policy|정책]] 언급
-- 읽기/[[289_cqrs_db|쓰기]] 비율에 따른 패턴 선택 기준 제시
+- **Shared [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)([공유 락](/knowledge-base/studynote/05_database/04_transactions_concurrency/214_shared_lock_read_concurrency/)) vs Exclusive [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)([배타 락](/knowledge-base/studynote/05_database/04_transactions_concurrency/215_exclusive_lock_write_concurrency/))** 용어 명확히 구분
+- **[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 기아(Write [Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))**와 공정성(Fairness) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 언급
+- 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 비율에 따른 패턴 선택 기준 제시
 - StampedLock의 낙관적 읽기(Optimistic Read) 고급 최적화 언급
 
-### 판단 [[435_checklist_based_testing|체크리스트]]
+### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 해결하려는 변화 축이 분명한가?
-2. [[198_abstraction_control_data_process|추상화]] 비용보다 변경 절감 효과가 큰가?
-3. 테스트·[[568_logs_distributed_logging_elk_fluentd|로그]]·운영 가시성이 확보되는가?
+2. [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 비용보다 변경 절감 효과가 큰가?
+3. 테스트·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·운영 가시성이 확보되는가?
 4. 팀이 이 구조를 일관되게 유지할 수 있는가?
 
-- **📢 섹션 요약 비유**: 공공 Wi-Fi — 여러 명이 인터넷을 함께 사용(읽기)할 수 있지만, 네트워크 [[009_config|설정]]을 변경([[289_cqrs_db|쓰기]])할 때는 혼자만 접근해야 한다.
+- **📢 섹션 요약 비유**: 공공 Wi-Fi — 여러 명이 인터넷을 함께 사용(읽기)할 수 있지만, 네트워크 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 변경([쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))할 때는 혼자만 접근해야 한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 | 효과 | 설명 |
 |:---|:---|
-| 읽기 [[139_throughput|처리량]] 대폭 향상 | 읽기 90% 시나리오에서 ~5x [[282_performance_tactics|성능]] 향상 |
-| [[289_cqrs_db|쓰기]] [[194_consistency_database_integrity|일관성]] 보장 | [[289_cqrs_db|쓰기]] 시 단독 접근으로 [[001_dikw_pyramid|데이터]] [[003_integrity|무결성]] |
-| 배압 없는 읽기 | 읽기 [[092_thread_lwp|스레드]] 간 서로 차단하지 않음 |
+| 읽기 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 대폭 향상 | 읽기 90% 시나리오에서 ~5x [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 |
+| [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 보장 | [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시 단독 접근으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) |
+| 배압 없는 읽기 | 읽기 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 간 서로 차단하지 않음 |
 
-- 읽기/[[289_cqrs_db|쓰기]] 비율이 균등하면 오버헤드로 `synchronized`보다 느릴 수 있음
-- [[289_cqrs_db|쓰기]] 기아([[314_starvation_prevention|Starvation]]) 방지를 위한 공정성 [[164_policy|정책]] 검토 필요
+- 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 비율이 균등하면 오버헤드로 `synchronized`보다 느릴 수 있음
+- [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 기아([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) 방지를 위한 공정성 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 검토 필요
 - 락 업그레이드(Read → Write) 불가 → 해제 후 재획득 필요
 
-[[280_read_write_lock|Read-Write Lock]] ([[280_read_write_lock|읽기-쓰기 락]]) 패턴은 읽기 집중적인 시스템에서 [[014_concurrency|동시성]]과 [[194_consistency_database_integrity|일관성]]을 모두 달성하는 핵심 기법이다. 캐시, [[009_config|설정]] 관리, 조회 [[014_api_posix|API]] 등에 광범위하게 적용된다. StampedLock을 활용한 낙관적 읽기는 그 진화형으로 더 높은 [[282_performance_tactics|성능]]을 제공한다.
+[Read-Write Lock](/knowledge-base/studynote/02_operating_system/04_synchronization/280_read_write_lock/) ([읽기-쓰기 락](/knowledge-base/studynote/02_operating_system/04_synchronization/280_read_write_lock/)) 패턴은 읽기 집중적인 시스템에서 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)과 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 모두 달성하는 핵심 기법이다. 캐시, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 관리, 조회 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 등에 광범위하게 적용된다. StampedLock을 활용한 낙관적 읽기는 그 진화형으로 더 높은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 제공한다.
 
-확장 방향은 ① 선언형 API와의 결합, ② [[111_observability_metrics_logs_traces|관측 가능성]]([[642_observability_telemetry|Observability]]) 내장, ③ [[136_variance|분산]] 환경에 맞는 변형 패턴 적용이다.
+확장 방향은 ① 선언형 API와의 결합, ② [관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)) 내장, ③ [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에 맞는 변형 패턴 적용이다.
 
 - **📢 섹션 요약 비유**: 도서관 규칙 — "책을 빌려 읽는 것"은 동시에 여러 명이 가능하지만, "책 내용을 수정하는 것"은 한 번에 한 명만 가능한 것처럼, Read-Write Lock도 이 원칙을 코드로 구현한 것이다.
 
 ---
 
 ### 📌 관련 개념 맵
-| [[083_relationship_in_er_model|관계]] | 개념 | 설명 |
+| [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
 |:---|:---|:---|
-| 상위 개념 | [[278_concurrency_patterns|동시성 패턴]] ([[266_other_transparency|Concurrency]] Pattern) | [[430_index_fast_full_scan|병렬]] 처리 설계 패턴 그룹 |
-| 연관 개념 | Shared [[510_lock|Lock]] ([[214_shared_lock_read_concurrency|공유 락]]) | 다수 읽기 허용 락 |
-| 연관 개념 | Exclusive [[510_lock|Lock]] ([[215_exclusive_lock_write_concurrency|배타 락]]) | 단독 [[289_cqrs_db|쓰기]] 보장 락 |
+| 상위 개념 | [동시성 패턴](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/278_concurrency_patterns/) ([Concurrency](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/266_other_transparency/) Pattern) | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 설계 패턴 그룹 |
+| 연관 개념 | Shared [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) ([공유 락](/knowledge-base/studynote/05_database/04_transactions_concurrency/214_shared_lock_read_concurrency/)) | 다수 읽기 허용 락 |
+| 연관 개념 | Exclusive [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) ([배타 락](/knowledge-base/studynote/05_database/04_transactions_concurrency/215_exclusive_lock_write_concurrency/)) | 단독 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 보장 락 |
 | 연관 개념 | ReentrantReadWriteLock | Java 표준 구현 |
 | 연관 개념 | StampedLock | 낙관적 읽기 지원 고급 구현 |
-| 연관 개념 | [[314_starvation_prevention|Starvation]] (기아) | Write [[314_starvation_prevention|Starvation]] 방지 필요 |
+| 연관 개념 | [Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) (기아) | Write [Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) 방지 필요 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-[[223_mutex|Mutex]] [[571_protection_vs_security|보호]] → [[280_read_write_lock|읽기-쓰기 락]] 패턴 → 락 세분화
+[Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) → [읽기-쓰기 락](/knowledge-base/studynote/02_operating_system/04_synchronization/280_read_write_lock/) 패턴 → 락 세분화
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 그림책은 여러 친구가 동시에 볼 수 있어요 — 읽기 락은 공유해요!
-2. 하지만 그림책에 낙서([[289_cqrs_db|쓰기]])할 때는 다른 친구들이 잠깐 기다려야 해요.
-3. 그래서 [[280_read_write_lock|읽기-쓰기 락]]은 "함께 읽되, 쓸 때는 혼자만"이라는 규칙이에요!
+2. 하지만 그림책에 낙서([쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))할 때는 다른 친구들이 잠깐 기다려야 해요.
+3. 그래서 [읽기-쓰기 락](/knowledge-base/studynote/02_operating_system/04_synchronization/280_read_write_lock/)은 "함께 읽되, 쓸 때는 혼자만"이라는 규칙이에요!
 
 ---
 
@@ -258,7 +262,7 @@ public class ReadHeavyCache<K, V> {
 
 **진행 상황**: 270 / 530
 
-← **이전**: [[208_guarded_suspension_pattern|208. 가드 서스펜션 패턴 (Guarded Suspension Pattern)]]
-**다음**: [[210_monitor_object_pattern|210. 모니터 객체 패턴 (Monitor Object Pattern)]] →
+← **이전**: [208. 가드 서스펜션 패턴 (Guarded Suspension Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/208_guarded_suspension_pattern/)
+**다음**: [210. 모니터 객체 패턴 (Monitor Object Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/210_monitor_object_pattern/) →
 
 ---

@@ -1,25 +1,29 @@
----
-title: 760. HASS (Highly Accelerated Stress Screen)
-date: '2026-05-08'
-tags:
-- studynote-computer-architecture
----
++++
+title = "760. HASS (Highly Accelerated Stress Screen)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-computer-architecture"]
+
+[extra]
+tags = ["studynote-computer-architecture"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: HASS (Highly Accelerated Stress Screen)는 HALT로 확인한 설계 마진 안에서 양산품에 높은 온도·진동·전원 스트레스를 짧게 가해 제조·조립 [[352_defect_definition|결함]]을 빠르게 걸러내는 생산 screening이다.
-> 2. **가치**: 긴 시간의 완만한 검사 대신 짧고 강한 스크린으로 출하 품질을 높여, 고객 현장 [[459_quic_fec_forward_error_correction|초기]] 장애와 재작업 비용을 줄인다.
-> 3. **판단 포인트**: HASS 프로파일은 정상품을 손상시키지 않는 안전 마진 안에 있어야 하며, HALT와 Proof of Screen 없이 [[009_config|설정]]하면 screening이 아니라 과잉 손상이 될 수 있다.
+> 1. **본질**: HASS (Highly Accelerated Stress Screen)는 HALT로 확인한 설계 마진 안에서 양산품에 높은 온도·진동·전원 스트레스를 짧게 가해 제조·조립 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 빠르게 걸러내는 생산 screening이다.
+> 2. **가치**: 긴 시간의 완만한 검사 대신 짧고 강한 스크린으로 출하 품질을 높여, 고객 현장 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 장애와 재작업 비용을 줄인다.
+> 3. **판단 포인트**: HASS 프로파일은 정상품을 손상시키지 않는 안전 마진 안에 있어야 하며, HALT와 Proof of Screen 없이 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하면 screening이 아니라 과잉 손상이 될 수 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-HASS는 설계가 이미 안정화된 뒤, 양산 단계에서 남아 있는 제조·조립 편차를 빠르게 찾기 위한 출하 전 스크리닝이다. 설계 약점은 HALT에서 먼저 찾아 고쳤다고 가정하고, HASS에서는 납땜 불량, 커넥터 체결 문제, 조립 편차, 잠복한 부품 [[352_defect_definition|결함]]처럼 개체별 편차를 드러내는 데 집중한다. 즉 질문이 설계가 약한가에서 이 개체가 양품인가로 바뀐다.
+HASS는 설계가 이미 안정화된 뒤, 양산 단계에서 남아 있는 제조·조립 편차를 빠르게 찾기 위한 출하 전 스크리닝이다. 설계 약점은 HALT에서 먼저 찾아 고쳤다고 가정하고, HASS에서는 납땜 불량, 커넥터 체결 문제, 조립 편차, 잠복한 부품 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)처럼 개체별 편차를 드러내는 데 집중한다. 즉 질문이 설계가 약한가에서 이 개체가 양품인가로 바뀐다.
 
-이 기법이 필요한 이유는 단순 기능 시험만으로는 조립 직후의 잠복 [[352_defect_definition|결함]]을 충분히 찾기 어렵기 때문이다. 특히 서버, 통신 장비, 자동차 전장처럼 부품 수가 많고 현장 장애 비용이 큰 제품에서는 출하 후 1건의 조기 장애가 생산 라인에서의 짧은 추가 시험보다 훨씬 비싸다. HASS는 이 비용 구조를 바꾸기 위해 도입된다.
+이 기법이 필요한 이유는 단순 기능 시험만으로는 조립 직후의 잠복 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 충분히 찾기 어렵기 때문이다. 특히 서버, 통신 장비, 자동차 전장처럼 부품 수가 많고 현장 장애 비용이 큰 제품에서는 출하 후 1건의 조기 장애가 생산 라인에서의 짧은 추가 시험보다 훨씬 비싸다. HASS는 이 비용 구조를 바꾸기 위해 도입된다.
 
-또한 HASS는 모든 제품에 무조건 길게 돌리는 [[758_burn_in_test|번인]]과도 다르다. 더 높은 스트레스를 더 짧게 주어 빠르게 약한 개체만 골라내는 것이 핵심이며, 그래서 반드시 설계 마진을 알고 있어야 한다. 설계 마진을 모르는 상태의 HASS는 검사가 아니라 복권과 비슷해진다.
+또한 HASS는 모든 제품에 무조건 길게 돌리는 [번인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/758_burn_in_test/)과도 다르다. 더 높은 스트레스를 더 짧게 주어 빠르게 약한 개체만 골라내는 것이 핵심이며, 그래서 반드시 설계 마진을 알고 있어야 한다. 설계 마진을 모르는 상태의 HASS는 검사가 아니라 복권과 비슷해진다.
 
 - **📢 섹션 요약 비유**: 공장에서 만든 의자를 바로 손님에게 보내기 전에, 흔들림과 하중을 조금 강하게 짧게 줘 보며 약하게 조립된 의자를 미리 골라내는 것과 같다. 좋은 의자는 멀쩡히 통과하고, 약한 의자만 먼저 삐걱거린다.
 
@@ -27,7 +31,7 @@ HASS는 설계가 이미 안정화된 뒤, 양산 단계에서 남아 있는 제
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-HASS의 핵심은 정상 사용 조건보다 강하지만 파괴 한계보다 낮은 영역에 프로파일을 [[009_config|설정]]하는 것이다. 이 영역은 보통 HALT에서 얻은 작동 한계와 파괴 한계를 바탕으로 정한다. 이후 Proof of Screen으로 정상품이 손상되지 않는지 확인한 뒤, 양산 라인에 적용한다. 즉 HASS는 강한 시험이지만, 설계 마진을 알고 쓰는 통제된 강함이다.
+HASS의 핵심은 정상 사용 조건보다 강하지만 파괴 한계보다 낮은 영역에 프로파일을 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하는 것이다. 이 영역은 보통 HALT에서 얻은 작동 한계와 파괴 한계를 바탕으로 정한다. 이후 Proof of Screen으로 정상품이 손상되지 않는지 확인한 뒤, 양산 라인에 적용한다. 즉 HASS는 강한 시험이지만, 설계 마진을 알고 쓰는 통제된 강함이다.
 
 아래 그림은 HASS가 위치해야 할 영역을 보여 준다.
 
@@ -45,13 +49,13 @@ HASS의 핵심은 정상 사용 조건보다 강하지만 파괴 한계보다 �
 
 | 요소 | 역할 | 주의점 |
 | :--- | :--- | :--- |
-| 온도 단계 또는 온도 사이클 | 열팽창 차이로 조립 약점을 드러냄 | HALT에서 확인한 안전 범위 안에서 [[009_config|설정]] |
+| 온도 단계 또는 온도 사이클 | 열팽창 차이로 조립 약점을 드러냄 | HALT에서 확인한 안전 범위 안에서 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) |
 | 진동 | 체결, 커넥터, 기구 약점 노출 | 과도하면 정상품에도 피로 손상 유발 |
 | 전원/동작 부하 | 전기적 경계 조건 자극 | 실제 사용 패턴과 동떨어지지 않아야 함 |
-| 짧은 반복 시간 | 생산성을 유지하며 screening 수행 | 너무 짧으면 [[352_defect_definition|결함]] 검출률이 떨어짐 |
+| 짧은 반복 시간 | 생산성을 유지하며 screening 수행 | 너무 짧으면 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 검출률이 떨어짐 |
 | 모니터링과 자동 판정 | 실패 개체 분리와 원인 추적 | 불합격품 분석이 뒤따라야 함 |
 
-HASS는 환경 스트레스 스크리닝 (Environmental Stress Screening, [[164_ess_energy_storage_system|ESS]])의 한 형태지만, 일반 ESS보다 더 공격적이고 [[759_halt|HALT]] 결과와 직접 연결된다는 점에서 다르다. 따라서 단순히 챔버에 넣고 흔드는 것이 아니라, 설계 마진과 생산성 사이를 정교하게 조율하는 관리 기법이라고 봐야 한다.
+HASS는 환경 스트레스 스크리닝 (Environmental Stress Screening, [ESS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/164_ess_energy_storage_system/))의 한 형태지만, 일반 ESS보다 더 공격적이고 [HALT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/759_halt/) 결과와 직접 연결된다는 점에서 다르다. 따라서 단순히 챔버에 넣고 흔드는 것이 아니라, 설계 마진과 생산성 사이를 정교하게 조율하는 관리 기법이라고 봐야 한다.
 
 - **📢 섹션 요약 비유**: HASS는 다리를 부러뜨릴 정도로 세게 뛰게 하는 것이 아니라, 체육 시간에 조금 더 힘든 코스를 달리게 해서 체력이 약한 학생만 드러나게 하는 것과 같다. 강하지만 안전선 안에 있어야 한다.
 
@@ -59,14 +63,14 @@ HASS는 환경 스트레스 스크리닝 (Environmental Stress Screening, [[164_
 
 ## Ⅲ. 비교 및 연결
 
-HASS는 [[758_burn_in_test|번인]]과 [[759_halt|HALT]] 사이에서 자주 헷갈리지만, 세 기법은 역할이 분명히 다르다. HALT는 설계 약점을 찾는 개발 시험이고, [[758_burn_in_test|번인]]은 [[459_quic_fec_forward_error_correction|초기]] 불량을 비교적 완만한 조건에서 시간으로 걸러내는 방식이며, HASS는 HALT에서 확보한 마진 안에서 양산품을 짧고 강하게 screening하는 방식이다.
+HASS는 [번인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/758_burn_in_test/)과 [HALT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/759_halt/) 사이에서 자주 헷갈리지만, 세 기법은 역할이 분명히 다르다. HALT는 설계 약점을 찾는 개발 시험이고, [번인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/758_burn_in_test/)은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 불량을 비교적 완만한 조건에서 시간으로 걸러내는 방식이며, HASS는 HALT에서 확보한 마진 안에서 양산품을 짧고 강하게 screening하는 방식이다.
 
 | 기법 | 대상 | 목적 | 특징 |
 | :--- | :--- | :--- | :--- |
-| [[759_halt|HALT]] | 시제품 | 설계 약점 탐색 | 작동 한계·파괴 한계 탐색, 설계 수정 중심 |
-| [[758_burn_in_test|번인]] ([[758_burn_in_test|Burn-in]]) 테스트 | 양산품·조립품 | [[459_quic_fec_forward_error_correction|초기]] 고장기 불량 선별 | 비교적 긴 시간, 열·전기 스트레스 중심 |
-| HASS | 양산품 | 제조·조립 [[352_defect_definition|결함]] 고속 선별 | [[759_halt|HALT]] 기반 고강도·단시간 screening |
-| [[164_ess_energy_storage_system|ESS]] | 생산품 일반 | 환경성 [[352_defect_definition|결함]] 선별 | 범용 개념, HASS보다 완만할 수 있음 |
+| [HALT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/759_halt/) | 시제품 | 설계 약점 탐색 | 작동 한계·파괴 한계 탐색, 설계 수정 중심 |
+| [번인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/758_burn_in_test/) ([Burn-in](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/758_burn_in_test/)) 테스트 | 양산품·조립품 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 고장기 불량 선별 | 비교적 긴 시간, 열·전기 스트레스 중심 |
+| HASS | 양산품 | 제조·조립 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 고속 선별 | [HALT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/759_halt/) 기반 고강도·단시간 screening |
+| [ESS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/164_ess_energy_storage_system/) | 생산품 일반 | 환경성 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 선별 | 범용 개념, HASS보다 완만할 수 있음 |
 
 또한 HASS는 낙오품 분석과 함께 써야 가치가 커진다. 어떤 생산 배치에서 특정 온도 사이클 구간마다 커넥터 불량이 반복된다면, 이는 screening 성공일 뿐 아니라 조립 공정 개선 신호이기도 하다. 즉 HASS는 선별 장치이면서 동시에 생산 라인의 편차를 드러내는 센서다.
 
@@ -78,23 +82,23 @@ HASS는 [[758_burn_in_test|번인]]과 [[759_halt|HALT]] 사이에서 자주 헷
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 HASS를 도입할 때는 먼저 [[759_halt|HALT]] 완료 여부와 Proof of Screen 결과를 확인해야 한다. 그다음 제품 특성에 맞춰 전수 검사, 샘플 검사, 배치별 감사형 검사 중 어떤 방식을 택할지 정한다. 서버처럼 조립 후 케이블, 메모리 [[192_module_independence|모듈]], 전원 [[192_module_independence|모듈]] 상호작용이 큰 제품은 완제품 상태에서 HASS를 거는 편이 의미가 크다.
+실무에서 HASS를 도입할 때는 먼저 [HALT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/759_halt/) 완료 여부와 Proof of Screen 결과를 확인해야 한다. 그다음 제품 특성에 맞춰 전수 검사, 샘플 검사, 배치별 감사형 검사 중 어떤 방식을 택할지 정한다. 서버처럼 조립 후 케이블, 메모리 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/), 전원 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 상호작용이 큰 제품은 완제품 상태에서 HASS를 거는 편이 의미가 크다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. HALT로 작동 한계와 파괴 한계를 먼저 확보했는가?
-2. 정상품 손상이 없음을 Proof of Screen으로 [[395_verification_process_review|검증]]했는가?
-3. 온도·진동·부하 프로파일이 제품별 특성에 맞게 [[009_config|설정]]되었는가?
+2. 정상품 손상이 없음을 Proof of Screen으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)했는가?
+3. 온도·진동·부하 프로파일이 제품별 특성에 맞게 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)되었는가?
 4. 불합격품을 단순 폐기하지 않고 공정 원인 분석으로 환류하는가?
-5. 현장 [[459_quic_fec_forward_error_correction|초기]] 장애율과 HASS 낙오율을 연결해 프로파일을 주기적으로 보정하는가?
+5. 현장 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 장애율과 HASS 낙오율을 연결해 프로파일을 주기적으로 보정하는가?
 
-### 피해야 할 [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### 피해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- **[[759_halt|HALT]] 없이 HASS부터 적용**: 안전 마진이 없어 정상품 손상과 과소 screening 위험이 동시에 커진다.
+- **[HALT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/759_halt/) 없이 HASS부터 적용**: 안전 마진이 없어 정상품 손상과 과소 screening 위험이 동시에 커진다.
 - **다른 제품의 프로파일 복붙**: 폼팩터, 기구 구조, 열 경로가 다르면 적정 프로파일도 다르다.
 - **낙오율만 관리**: 낙오 원인을 생산 공정 개선으로 연결하지 않으면 장기 품질 향상이 없다.
 
-기술사 답안에서는 HASS를 강한 출하 검사라고만 쓰기보다, [[759_halt|HALT]] 기반 마진 [[009_config|설정]]과 생산 스크리닝의 연결 구조까지 제시하는 것이 중요하다. 핵심은 세게 흔든다가 아니라, **세게 흔들어도 좋은 제품은 남고 나쁜 제품만 떨어지게 만드는 프로파일 설계**에 있다.
+기술사 답안에서는 HASS를 강한 출하 검사라고만 쓰기보다, [HALT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/759_halt/) 기반 마진 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)과 생산 스크리닝의 연결 구조까지 제시하는 것이 중요하다. 핵심은 세게 흔든다가 아니라, **세게 흔들어도 좋은 제품은 남고 나쁜 제품만 떨어지게 만드는 프로파일 설계**에 있다.
 
 - **📢 섹션 요약 비유**: 반 아이들 달리기 시험을 할 때 건강한 아이는 무사히 완주하고, 몸 상태가 안 좋은 아이만 먼저 드러나게 하려면 코스가 너무 쉽지도 너무 무섭지도 않아야 한다. HASS도 그 균형을 잡는 시험이다.
 
@@ -102,11 +106,11 @@ HASS는 [[758_burn_in_test|번인]]과 [[759_halt|HALT]] 사이에서 자주 헷
 
 ## Ⅴ. 기대효과 및 결론
 
-HASS가 잘 설계되면 출하 품질이 높아지고, 고객 현장의 [[459_quic_fec_forward_error_correction|초기]] 장애와 재작업 비용이 줄어든다. 특히 조립 복잡도가 높은 장비에서는 긴 [[758_burn_in_test|번인]]보다 짧은 HASS가 생산성을 더 잘 지키면서도 불량 검출률을 높일 수 있다. 또한 HASS 낙오품 분석은 공정 능력 향상과 협력사 품질 관리에도 직접적인 [[001_dikw_pyramid|데이터]]를 제공한다.
+HASS가 잘 설계되면 출하 품질이 높아지고, 고객 현장의 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 장애와 재작업 비용이 줄어든다. 특히 조립 복잡도가 높은 장비에서는 긴 [번인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/758_burn_in_test/)보다 짧은 HASS가 생산성을 더 잘 지키면서도 불량 검출률을 높일 수 있다. 또한 HASS 낙오품 분석은 공정 능력 향상과 협력사 품질 관리에도 직접적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 제공한다.
 
-그러나 HASS는 강력한 만큼 관리가 필요하다. 프로파일이 과하면 정상품 수명을 깎고, 약하면 screening 효과가 떨어진다. 장비 교정, 챔버 유지보수, 프로파일 [[395_verification_process_review|검증]], 불합격품 분석이 함께 돌아가야 진짜 품질 향상으로 이어진다.
+그러나 HASS는 강력한 만큼 관리가 필요하다. 프로파일이 과하면 정상품 수명을 깎고, 약하면 screening 효과가 떨어진다. 장비 교정, 챔버 유지보수, 프로파일 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 불합격품 분석이 함께 돌아가야 진짜 품질 향상으로 이어진다.
 
-앞으로는 생산 이력, 센서 [[001_dikw_pyramid|데이터]], 현장 반품 [[001_dikw_pyramid|데이터]]를 결합해 제품별로 더 정밀한 HASS 프로파일을 만드는 방향으로 발전할 것이다. 그래도 결론은 명확하다. HASS는 설계가 아니라 생산 편차를 겨냥하는, **[[759_halt|HALT]] 이후 양산 단계의 고속 품질 문지기**다.
+앞으로는 생산 이력, 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 현장 반품 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 결합해 제품별로 더 정밀한 HASS 프로파일을 만드는 방향으로 발전할 것이다. 그래도 결론은 명확하다. HASS는 설계가 아니라 생산 편차를 겨냥하는, **[HALT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/759_halt/) 이후 양산 단계의 고속 품질 문지기**다.
 
 - **📢 섹션 요약 비유**: 빵집에서 갓 나온 빵을 살짝 눌러 보며 속이 비었는지 확인하는 것과 같다. 좋은 빵은 멀쩡하고, 속이 약한 빵만 먼저 티가 난다.
 
@@ -116,10 +120,10 @@ HASS가 잘 설계되면 출하 품질이 높아지고, 고객 현장의 [[459_q
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[759_halt|HALT]] | HASS 프로파일 상한과 안전 마진을 정하는 선행 시험이다. |
-| Proof of Screen | 정상품을 손상시키지 않는지 [[395_verification_process_review|검증]]하는 HASS 도입 전 단계다. |
-| [[164_ess_energy_storage_system|ESS]] | HASS가 포함되는 상위 개념으로, 환경 스트레스 기반 screening을 뜻한다. |
-| [[758_burn_in_test|번인]] ([[758_burn_in_test|Burn-in]]) 테스트 | [[459_quic_fec_forward_error_correction|초기]] 고장기 선별 기법으로, HASS와 목적은 겹치지만 강도·시간 구조가 다르다. |
+| [HALT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/759_halt/) | HASS 프로파일 상한과 안전 마진을 정하는 선행 시험이다. |
+| Proof of Screen | 정상품을 손상시키지 않는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 HASS 도입 전 단계다. |
+| [ESS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/164_ess_energy_storage_system/) | HASS가 포함되는 상위 개념으로, 환경 스트레스 기반 screening을 뜻한다. |
+| [번인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/758_burn_in_test/) ([Burn-in](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/758_burn_in_test/)) 테스트 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 고장기 선별 기법으로, HASS와 목적은 겹치지만 강도·시간 구조가 다르다. |
 | 고장 분석 (Failure Analysis) | HASS 낙오품을 공정 개선과 연결하는 핵심 루프다. |
 | 출하 품질 (Outgoing Quality) | HASS가 직접 향상시키려는 생산 지표다. |
 
@@ -157,7 +161,7 @@ HASS (Highly Accelerated Stress Screen)
 
 **진행 상황**: 761 / 803
 
-← **이전**: [[759_halt|759. HALT (Highly Accelerated Life Test)]]
-**다음**: [[761_mil_hdbk_217|761. MIL-HDBK-217 고장률 예측]] →
+← **이전**: [759. HALT (Highly Accelerated Life Test)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/759_halt/)
+**다음**: [761. MIL-HDBK-217 고장률 예측](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/761_mil_hdbk_217/) →
 
 ---

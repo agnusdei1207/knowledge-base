@@ -1,14 +1,18 @@
----
-title: 🔌 MCP 클라이언트 설정 규격
-tags:
-- work
----
++++
+title = "🔌 MCP 클라이언트 설정 규격"
+
+[taxonomies]
+tags = ["work"]
+
+[extra]
+tags = ["work"]
++++
 
 이 문서는 Claude Code, Codex, OpenCode가 같은 공용 MCP 서버를 보도록 맞추는 표준 설정 문서입니다.
 
 관련 문서:
-- [[claude-code-mcp]]
-- [[operations]]
+- [claude-code-mcp](/knowledge-base/work/claude-code-mcp/)
+- [operations](/knowledge-base/work/operations/)
 
 ---
 

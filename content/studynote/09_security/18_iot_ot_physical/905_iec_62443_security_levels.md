@@ -1,21 +1,25 @@
----
-title: 905. ISA/IEC 62443 Security Levels (SL 0-4)
-date: '2026-05-08'
-tags:
-- studynote-security
----
++++
+title = "905. ISA/IEC 62443 Security Levels (SL 0-4)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-security"]
+
+[extra]
+tags = ["studynote-security"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [[157_isa|ISA]]/[[904_iec_62443|IEC 62443]] [[283_security_tactics|Security]] Levels (SL 0-4)는 [[101_iot_concept|IoT]]·[[891_ot_operational_technology|OT]]·물리 보안에서 장치, 환경, 현장 접근, 운영 안전을 함께 다루는 인프라 [[571_protection_vs_security|보호]] 개념이다.
-> 2. **가치**: [[157_isa|ISA]]/[[904_iec_62443|IEC 62443]] [[283_security_tactics|Security]] Levels (SL 0-4)는 현장 환경과 안전 요구를 [[369_logic_bomb|논리]] 보안과 연결해 실제 운영 중단 위험을 줄이는 데 가치가 있다.
-> 3. **판단 포인트**: [[452_availability|가용성]], 안전, 현장 제약을 무시한 채 IT 방식만 가져오면 [[157_isa|ISA]]/[[904_iec_62443|IEC 62443]] [[283_security_tactics|Security]] Levels (SL 0-4)는 오히려 운영 리스크를 키울 수 있다.
+> 1. **본질**: [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)/[IEC 62443](/knowledge-base/studynote/09_security/18_iot_ot_physical/904_iec_62443/) [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Levels (SL 0-4)는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)·[OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/)·물리 보안에서 장치, 환경, 현장 접근, 운영 안전을 함께 다루는 인프라 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 개념이다.
+> 2. **가치**: [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)/[IEC 62443](/knowledge-base/studynote/09_security/18_iot_ot_physical/904_iec_62443/) [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Levels (SL 0-4)는 현장 환경과 안전 요구를 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 보안과 연결해 실제 운영 중단 위험을 줄이는 데 가치가 있다.
+> 3. **판단 포인트**: [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), 안전, 현장 제약을 무시한 채 IT 방식만 가져오면 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)/[IEC 62443](/knowledge-base/studynote/09_security/18_iot_ot_physical/904_iec_62443/) [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Levels (SL 0-4)는 오히려 운영 리스크를 키울 수 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[[157_isa|ISA]]/[[904_iec_62443|IEC 62443]] [[283_security_tactics|Security]] Levels (SL 0-4)는 [[101_iot_concept|IoT]]·[[891_ot_operational_technology|OT]]·물리 보안에서 반복적으로 등장하는 문제를 일정한 원리로 다루기 위해 정리된 개념이다. 이 주제를 이해할 때는 단순 정의보다 "왜 지금 이 개념이 필요해졌는가"를 먼저 봐야 한다. [[157_isa|ISA]]/[[904_iec_62443|IEC 62443]] [[283_security_tactics|Security]] Levels (SL 0-4)가 등장한 배경에는 자산 가치 상승, 공격 정교화, 운영 복잡도 증가가 동시에 작용한다. 이 개념이 없거나 잘못 적용되면 보안 통제가 단편화되어 위험이 눈에 잘 보이지 않거나, 반대로 과도한 통제가 운영 비용을 키우는 문제가 생긴다.
+[ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)/[IEC 62443](/knowledge-base/studynote/09_security/18_iot_ot_physical/904_iec_62443/) [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Levels (SL 0-4)는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)·[OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/)·물리 보안에서 반복적으로 등장하는 문제를 일정한 원리로 다루기 위해 정리된 개념이다. 이 주제를 이해할 때는 단순 정의보다 "왜 지금 이 개념이 필요해졌는가"를 먼저 봐야 한다. [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)/[IEC 62443](/knowledge-base/studynote/09_security/18_iot_ot_physical/904_iec_62443/) [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Levels (SL 0-4)가 등장한 배경에는 자산 가치 상승, 공격 정교화, 운영 복잡도 증가가 동시에 작용한다. 이 개념이 없거나 잘못 적용되면 보안 통제가 단편화되어 위험이 눈에 잘 보이지 않거나, 반대로 과도한 통제가 운영 비용을 키우는 문제가 생긴다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -26,7 +30,7 @@ tags:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-이 그림은 [[157_isa|ISA]]/[[904_iec_62443|IEC 62443]] [[283_security_tactics|Security]] Levels (SL 0-4)가 등장한 배경을 "노출 증가 → 위험 확대 → 통제 필요" 흐름으로 요약한다. 핵심은 이 개념이 단독 기능이 아니라, 더 큰 보안 체계의 빈틈을 메우기 위해 등장했다는 점이다.
+이 그림은 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)/[IEC 62443](/knowledge-base/studynote/09_security/18_iot_ot_physical/904_iec_62443/) [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Levels (SL 0-4)가 등장한 배경을 "노출 증가 → 위험 확대 → 통제 필요" 흐름으로 요약한다. 핵심은 이 개념이 단독 기능이 아니라, 더 큰 보안 체계의 빈틈을 메우기 위해 등장했다는 점이다.
 
 - **📢 섹션 요약 비유**: 서버실과 공장 설비는 비밀번호만으로 지키는 것이 아니라 문, 센서, 온도, 출입 동선을 함께 보는 창고 관리와 같다.
 
@@ -34,13 +38,13 @@ tags:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[[157_isa|ISA]]/[[904_iec_62443|IEC 62443]] [[283_security_tactics|Security]] Levels (SL 0-4)의 핵심은 입력·상태·[[164_policy|정책]]·결과를 한 흐름으로 묶어 보는 데 있다. [[157_isa|ISA]]/[[904_iec_62443|IEC 62443]] [[283_security_tactics|Security]] Levels (SL 0-4)를 잘 적용하려면 구성 요소만 나열하는 것이 아니라, 어떤 조건에서 판단이 이뤄지고 실패 시 무엇이 남는지를 함께 봐야 한다. 실무적으로는 [[164_policy|정책]] 정의, 실행 지점, 관찰 지표가 서로 맞물려야 구조가 완성된다. 즉 [[157_isa|ISA]]/[[904_iec_62443|IEC 62443]] [[283_security_tactics|Security]] Levels (SL 0-4)는 기술 한 점이 아니라 운영과 설계를 연결하는 작은 아키텍처로 이해해야 한다.
+[ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)/[IEC 62443](/knowledge-base/studynote/09_security/18_iot_ot_physical/904_iec_62443/) [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Levels (SL 0-4)의 핵심은 입력·상태·[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)·결과를 한 흐름으로 묶어 보는 데 있다. [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)/[IEC 62443](/knowledge-base/studynote/09_security/18_iot_ot_physical/904_iec_62443/) [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Levels (SL 0-4)를 잘 적용하려면 구성 요소만 나열하는 것이 아니라, 어떤 조건에서 판단이 이뤄지고 실패 시 무엇이 남는지를 함께 봐야 한다. 실무적으로는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 정의, 실행 지점, 관찰 지표가 서로 맞물려야 구조가 완성된다. 즉 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)/[IEC 62443](/knowledge-base/studynote/09_security/18_iot_ot_physical/904_iec_62443/) [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Levels (SL 0-4)는 기술 한 점이 아니라 운영과 설계를 연결하는 작은 아키텍처로 이해해야 한다.
 
 | 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
-| 입력 | [[157_isa|ISA]]/[[904_iec_62443|IEC 62443]] [[283_security_tactics|Security]] Levels (SL 0-4)가 판단 대상으로 삼는 요청, [[001_dikw_pyramid|데이터]], [[130_signal|신호]], 상태 | 입력 형식과 신뢰 수준을 명확히 해야 한다. |
-| 핵심 처리 | [[395_verification_process_review|검증]], [[164_policy|정책]] 결정, 암호 연산, [[160_session_controlling_terminal|세션]] 제어 등 실제 메커니즘 | 실패 시 안전한 기본값이 중요하다. |
-| 출력·운영 | 허용·거부·암호문·알림·[[568_logs_distributed_logging_elk_fluentd|로그]] 같은 결과와 운영 정보 | [[606_auditing_linux_auditd|감사]] 가능성과 자동화 연계가 필요하다. |
+| 입력 | [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)/[IEC 62443](/knowledge-base/studynote/09_security/18_iot_ot_physical/904_iec_62443/) [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Levels (SL 0-4)가 판단 대상으로 삼는 요청, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/), 상태 | 입력 형식과 신뢰 수준을 명확히 해야 한다. |
+| 핵심 처리 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 결정, 암호 연산, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 제어 등 실제 메커니즘 | 실패 시 안전한 기본값이 중요하다. |
+| 출력·운영 | 허용·거부·암호문·알림·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 같은 결과와 운영 정보 | [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능성과 자동화 연계가 필요하다. |
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -51,7 +55,7 @@ tags:
 └──────────────────────────────────────────────────────────────┘
 ```
 
-이 구조를 볼 때는 입력 조건, 핵심 처리, 결과뿐 아니라 [[164_policy|정책]]과 상태가 어디에서 관리되는지까지 함께 봐야 한다. 그래야 [[157_isa|ISA]]/[[904_iec_62443|IEC 62443]] [[283_security_tactics|Security]] Levels (SL 0-4)를 다른 기술과 연결해도 설명이 흔들리지 않는다.
+이 구조를 볼 때는 입력 조건, 핵심 처리, 결과뿐 아니라 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 상태가 어디에서 관리되는지까지 함께 봐야 한다. 그래야 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)/[IEC 62443](/knowledge-base/studynote/09_security/18_iot_ot_physical/904_iec_62443/) [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Levels (SL 0-4)를 다른 기술과 연결해도 설명이 흔들리지 않는다.
 
 - **📢 섹션 요약 비유**: 현장에서는 컴퓨터를 끄는 것보다 장비를 멈추지 않는 것이 더 중요해, 보안도 안전 규칙 안에서 움직여야 한다.
 
@@ -59,15 +63,15 @@ tags:
 
 ## Ⅲ. 비교 및 연결
 
-[[157_isa|ISA]]/[[904_iec_62443|IEC 62443]] [[283_security_tactics|Security]] Levels (SL 0-4)는 비슷한 영역의 다른 접근과 비교할 때 경계가 더 분명해진다. 중요한 것은 "무엇이 더 강한가"보다 "어떤 가정 위에서 효과가 나는가"를 구분하는 것이다. 그래야 [[157_isa|ISA]]/[[904_iec_62443|IEC 62443]] [[283_security_tactics|Security]] Levels (SL 0-4)를 단순 유행 기술이나 암기형 용어가 아니라, 특정 위험과 운영 제약에 맞춘 선택지로 설명할 수 있다.
+[ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)/[IEC 62443](/knowledge-base/studynote/09_security/18_iot_ot_physical/904_iec_62443/) [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Levels (SL 0-4)는 비슷한 영역의 다른 접근과 비교할 때 경계가 더 분명해진다. 중요한 것은 "무엇이 더 강한가"보다 "어떤 가정 위에서 효과가 나는가"를 구분하는 것이다. 그래야 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)/[IEC 62443](/knowledge-base/studynote/09_security/18_iot_ot_physical/904_iec_62443/) [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Levels (SL 0-4)를 단순 유행 기술이나 암기형 용어가 아니라, 특정 위험과 운영 제약에 맞춘 선택지로 설명할 수 있다.
 
 | 비교 축 | 현재 개념 | 인접 접근 |
 | :--- | :--- | :--- |
-| 관점 | [[157_isa|ISA]]/[[904_iec_62443|IEC 62443]] [[283_security_tactics|Security]] Levels (SL 0-4)는 기능 하나보다 전체 흐름 속 역할로 이해해야 한다. | 현장 접근이 가능할 때 어떤 통제가 먼저 깨지는지 봐야 한다. |
-| 운영성 | [[164_policy|정책]], [[568_logs_distributed_logging_elk_fluentd|로그]], 자동화, 책임 분담과 같이 운영 요소가 중요하다. | 기능 중심 접근만으로는 지속 가능성이 떨어진다. |
+| 관점 | [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)/[IEC 62443](/knowledge-base/studynote/09_security/18_iot_ot_physical/904_iec_62443/) [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Levels (SL 0-4)는 기능 하나보다 전체 흐름 속 역할로 이해해야 한다. | 현장 접근이 가능할 때 어떤 통제가 먼저 깨지는지 봐야 한다. |
+| 운영성 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 자동화, 책임 분담과 같이 운영 요소가 중요하다. | 기능 중심 접근만으로는 지속 가능성이 떨어진다. |
 | 도입 판단 | 자산 가치, 위협 수준, 사용자 경험의 균형이 필요하다. | 단순 기능 비교만으로는 실제 적합성을 설명하기 어렵다. |
 
-[[101_iot_concept|IoT]]·[[891_ot_operational_technology|OT]]·물리 보안 관점에서는 [[157_isa|ISA]]/[[904_iec_62443|IEC 62443]] [[283_security_tactics|Security]] Levels (SL 0-4)가 상위 [[164_policy|정책]], 하위 구현, 관측 지표와 어떻게 이어지는지까지 함께 설명해야 한다. 이 연결이 보여야 단순 정의 암기에서 벗어나 실제 설계 언어가 된다.
+[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)·[OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/)·물리 보안 관점에서는 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)/[IEC 62443](/knowledge-base/studynote/09_security/18_iot_ot_physical/904_iec_62443/) [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Levels (SL 0-4)가 상위 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 하위 구현, 관측 지표와 어떻게 이어지는지까지 함께 설명해야 한다. 이 연결이 보여야 단순 정의 암기에서 벗어나 실제 설계 언어가 된다.
 
 - **📢 섹션 요약 비유**: 집 열쇠, 소화기, CCTV가 서로 다른 역할을 하듯 물리 보안도 계층별로 나뉜다.
 
@@ -75,15 +79,15 @@ tags:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 [[157_isa|ISA]]/[[904_iec_62443|IEC 62443]] [[283_security_tactics|Security]] Levels (SL 0-4)를 도입하는 순간보다 운영하는 시간이 훨씬 길다. 따라서 설계 단계에서 목적, 적용 범위, [[568_logs_distributed_logging_elk_fluentd|로그]] 포인트, 예외 처리, [[098_rollback_strategy_pipeline_error_threshold|롤백]] 절차를 함께 정하는 것이 좋다. 예를 들어 인터넷 노출 자산이나 고권한 경로, 민감 [[001_dikw_pyramid|데이터]] 처리 구간처럼 위험이 높은 영역에서는 [[157_isa|ISA]]/[[904_iec_62443|IEC 62443]] [[283_security_tactics|Security]] Levels (SL 0-4)를 먼저 적용하고, 사용자 경험이나 [[282_performance_tactics|성능]] 영향이 큰 구간은 점진적으로 확장하는 편이 안전하다.
+실무에서는 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)/[IEC 62443](/knowledge-base/studynote/09_security/18_iot_ot_physical/904_iec_62443/) [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Levels (SL 0-4)를 도입하는 순간보다 운영하는 시간이 훨씬 길다. 따라서 설계 단계에서 목적, 적용 범위, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 포인트, 예외 처리, [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 절차를 함께 정하는 것이 좋다. 예를 들어 인터넷 노출 자산이나 고권한 경로, 민감 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 구간처럼 위험이 높은 영역에서는 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)/[IEC 62443](/knowledge-base/studynote/09_security/18_iot_ot_physical/904_iec_62443/) [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Levels (SL 0-4)를 먼저 적용하고, 사용자 경험이나 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 영향이 큰 구간은 점진적으로 확장하는 편이 안전하다.
 
-### 실무 판단 [[435_checklist_based_testing|체크리스트]]
+### 실무 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. [[157_isa|ISA]]/[[904_iec_62443|IEC 62443]] [[283_security_tactics|Security]] Levels (SL 0-4)가 [[571_protection_vs_security|보호]]하려는 자산과 위협 시나리오가 문서로 정의되어 있는가?
+1. [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)/[IEC 62443](/knowledge-base/studynote/09_security/18_iot_ot_physical/904_iec_62443/) [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Levels (SL 0-4)가 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하려는 자산과 위협 시나리오가 문서로 정의되어 있는가?
 2. 실패 시 기본값이 안전한 방향으로 동작하고, 우회 경로가 없는가?
-3. [[568_logs_distributed_logging_elk_fluentd|로그]]·알림·[[606_auditing_linux_auditd|감사]] 추적이 남아 운영 중 효과를 [[395_verification_process_review|검증]]할 수 있는가?
+3. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·알림·[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적이 남아 운영 중 효과를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있는가?
 
-기술사 답안에서는 "도입한다"보다 "어떤 자산에 먼저 적용하고, 어떤 부작용을 어떻게 줄일 것인가"를 적는 편이 설득력이 높다. 즉 [[157_isa|ISA]]/[[904_iec_62443|IEC 62443]] [[283_security_tactics|Security]] Levels (SL 0-4)는 기능 소개보다 적용 순서와 운영 [[395_verification_process_review|검증]] 방법을 함께 써야 완성도가 올라간다.
+기술사 답안에서는 "도입한다"보다 "어떤 자산에 먼저 적용하고, 어떤 부작용을 어떻게 줄일 것인가"를 적는 편이 설득력이 높다. 즉 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)/[IEC 62443](/knowledge-base/studynote/09_security/18_iot_ot_physical/904_iec_62443/) [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Levels (SL 0-4)는 기능 소개보다 적용 순서와 운영 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 방법을 함께 써야 완성도가 올라간다.
 
 - **📢 섹션 요약 비유**: 실무에서는 현장 운영을 멈추지 않으면서도 접근을 줄이는 절충안을 설계해야 한다.
 
@@ -91,7 +95,7 @@ tags:
 
 ## Ⅴ. 기대효과 및 결론
 
-[[157_isa|ISA]]/[[904_iec_62443|IEC 62443]] [[283_security_tactics|Security]] Levels (SL 0-4)를 제대로 이해하면 개념 하나를 외우는 데서 끝나지 않고, 상위 [[164_policy|정책]]과 하위 구현을 한 문장으로 연결할 수 있다. 기대효과는 위험 감소, 운영 가시성 향상, 의사결정 [[194_consistency_database_integrity|일관성]] 확보에 있다. 반면 전제 조건 없이 도입하면 복잡도만 늘거나, 형식적 통제에 머무를 수 있다는 한계도 있다. 앞으로는 자동화, 지속 [[395_verification_process_review|검증]], 표준화된 인터페이스와 결합되면서 [[157_isa|ISA]]/[[904_iec_62443|IEC 62443]] [[283_security_tactics|Security]] Levels (SL 0-4)의 활용 범위가 더 넓어질 가능성이 크다.
+[ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)/[IEC 62443](/knowledge-base/studynote/09_security/18_iot_ot_physical/904_iec_62443/) [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Levels (SL 0-4)를 제대로 이해하면 개념 하나를 외우는 데서 끝나지 않고, 상위 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 하위 구현을 한 문장으로 연결할 수 있다. 기대효과는 위험 감소, 운영 가시성 향상, 의사결정 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 확보에 있다. 반면 전제 조건 없이 도입하면 복잡도만 늘거나, 형식적 통제에 머무를 수 있다는 한계도 있다. 앞으로는 자동화, 지속 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 표준화된 인터페이스와 결합되면서 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)/[IEC 62443](/knowledge-base/studynote/09_security/18_iot_ot_physical/904_iec_62443/) [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Levels (SL 0-4)의 활용 범위가 더 넓어질 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 좋은 현장 보안은 쇠문 하나가 아니라, 들어오는 길을 늦추고 보이게 만드는 여러 겹의 울타리다.
 
@@ -101,10 +105,10 @@ tags:
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [[452_availability|가용성]] | 운영 기술은 기밀성보다 [[452_availability|가용성]]과 안전이 더 우선일 수 있다. |
-| 구간 분리 | IT/[[891_ot_operational_technology|OT]] 분리와 Zone/Conduit 설계가 핵심이다. |
-| [[032_firmware|펌웨어]] [[003_integrity|무결성]] | 장치 보안은 부팅 체인과 업데이트 [[395_verification_process_review|검증]]에서 갈린다. |
-| 물리 [[387_access_control_pattern|접근 통제]] | 실제 접근이 가능하면 많은 [[369_logic_bomb|논리]] 통제가 무력화된다. |
+| [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) | 운영 기술은 기밀성보다 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)과 안전이 더 우선일 수 있다. |
+| 구간 분리 | IT/[OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 분리와 Zone/Conduit 설계가 핵심이다. |
+| [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) | 장치 보안은 부팅 체인과 업데이트 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에서 갈린다. |
+| 물리 [접근 통제](/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/) | 실제 접근이 가능하면 많은 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 통제가 무력화된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -118,11 +122,11 @@ tags:
     └──▶ [원격 증명·무결성 검증]
 ```
 
-이 흐름도는 [[157_isa|ISA]]/[[904_iec_62443|IEC 62443]] [[283_security_tactics|Security]] Levels (SL 0-4)를 단일 용어가 아니라 선행 문제, 현재 해결 방식, 후속 확장 방향으로 기억하게 해 준다. 시험과 실무 모두에서 이 연결 구조를 함께 말할 수 있어야 개념이 살아난다.
+이 흐름도는 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)/[IEC 62443](/knowledge-base/studynote/09_security/18_iot_ot_physical/904_iec_62443/) [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Levels (SL 0-4)를 단일 용어가 아니라 선행 문제, 현재 해결 방식, 후속 확장 방향으로 기억하게 해 준다. 시험과 실무 모두에서 이 연결 구조를 함께 말할 수 있어야 개념이 살아난다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [[157_isa|ISA]]/[[904_iec_62443|IEC 62443]] [[283_security_tactics|Security]] Levels (SL 0-4)는 컴퓨터 세상을 더 안전하게 만들기 위한 중요한 약속이나 도구예요.
+1. [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)/[IEC 62443](/knowledge-base/studynote/09_security/18_iot_ot_physical/904_iec_62443/) [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Levels (SL 0-4)는 컴퓨터 세상을 더 안전하게 만들기 위한 중요한 약속이나 도구예요.
 2. 겉으로는 어려워 보여도, 왜 필요한지와 어떻게 움직이는지를 알면 훨씬 쉬워져요.
 3. 그래서 이름만 외우지 말고 어디에 쓰이는지 같이 기억해야 해요.
 
@@ -132,7 +136,7 @@ tags:
 
 **진행 상황**: 992 / 1108
 
-← **이전**: [[904_iec_62443|904. IEC 62443 (IEC 62443)]]
-**다음**: [[906_sl_cf_capability|906. SL-CF (Security Level Capability)]] →
+← **이전**: [904. IEC 62443 (IEC 62443)](/knowledge-base/studynote/09_security/18_iot_ot_physical/904_iec_62443/)
+**다음**: [906. SL-CF (Security Level Capability)](/knowledge-base/studynote/09_security/18_iot_ot_physical/906_sl_cf_capability/) →
 
 ---

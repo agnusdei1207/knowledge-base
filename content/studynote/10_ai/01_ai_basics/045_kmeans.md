@@ -1,18 +1,22 @@
----
-title: 045. K-평균 군집화 — K-Means Clustering
-date: '2026-04-05'
-tags:
-- studynote-ai
----
++++
+title = "045. K-평균 군집화 — K-Means Clustering"
+date = 2026-04-05
+
+[taxonomies]
+tags = ["studynote-ai"]
+
+[extra]
+tags = ["studynote-ai"]
++++
 
 > **핵심 인사이트**
-> 1. K-Means는 [[001_dikw_pyramid|데이터]]를 K개의 군집(Cluster)으로 나누는 [[122_unsupervised_learning|비지도 학습]]([[122_unsupervised_learning|Unsupervised Learning]])의 대표 [[001_algorithm_definition|알고리즘]] — 각 군집의 중심점(Centroid)을 반복 갱신해 군집 내 [[136_variance|분산]]을 최소화하며, 라벨(정답)이 없는 [[001_dikw_pyramid|데이터]]에서 숨은 패턴을 발견한다.
-> 2. K-Means의 두 핵심 문제는 K 선택과 [[459_quic_fec_forward_error_correction|초기]]화 민감성 — Elbow Method나 Silhouette Score로 최적 K를 찾고, K-Means++ [[459_quic_fec_forward_error_correction|초기]]화로 수렴 안정성을 개선한다.
-> 3. K-Means는 볼록(Convex) 형태 군집에만 적합 — 비선형 경계, 불균일 밀도, 노이즈가 많은 [[001_dikw_pyramid|데이터]]에는 DBSCAN이나 [[358_hierarchical_clustering|계층적 군집화]]가 더 적합하며, 실무에서는 군집 특성에 맞는 [[001_algorithm_definition|알고리즘]] 선택이 핵심이다.
+> 1. K-Means는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 K개의 군집(Cluster)으로 나누는 [비지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/)([Unsupervised Learning](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/))의 대표 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) — 각 군집의 중심점(Centroid)을 반복 갱신해 군집 내 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 최소화하며, 라벨(정답)이 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 숨은 패턴을 발견한다.
+> 2. K-Means의 두 핵심 문제는 K 선택과 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 민감성 — Elbow Method나 Silhouette Score로 최적 K를 찾고, K-Means++ [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화로 수렴 안정성을 개선한다.
+> 3. K-Means는 볼록(Convex) 형태 군집에만 적합 — 비선형 경계, 불균일 밀도, 노이즈가 많은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에는 DBSCAN이나 [계층적 군집화](/knowledge-base/studynote/10_ai/05_data_science_ml/358_hierarchical_clustering/)가 더 적합하며, 실무에서는 군집 특성에 맞는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 선택이 핵심이다.
 
 ---
 
-## Ⅰ. K-Means [[001_algorithm_definition|알고리즘]]
+## Ⅰ. K-Means [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 
 ```
 K-Means 알고리즘 단계:
@@ -102,7 +106,7 @@ K-Means 알고리즘 단계:
 
 ---
 
-## Ⅲ. K-Means++ [[459_quic_fec_forward_error_correction|초기]]화
+## Ⅲ. K-Means++ [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화
 
 ```
 K-Means 초기화 문제:
@@ -141,11 +145,11 @@ Mini-Batch K-Means:
   10M+ 데이터에 적합
 ```
 
-> 📢 **섹션 요약 비유**: K-Means++는 반장 후보 [[268_strategy_pattern|전략]] 배치 — 첫 반장은 아무나, 두 번째 반장은 첫 반장에서 최대한 먼 곳에서 선택. 골고루 퍼진 출발점!
+> 📢 **섹션 요약 비유**: K-Means++는 반장 후보 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 배치 — 첫 반장은 아무나, 두 번째 반장은 첫 반장에서 최대한 먼 곳에서 선택. 골고루 퍼진 출발점!
 
 ---
 
-## Ⅳ. 한계와 대안 [[001_algorithm_definition|알고리즘]]
+## Ⅳ. 한계와 대안 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 
 ```
 K-Means 한계:
@@ -199,7 +203,7 @@ Spectral Clustering:
 
 ---
 
-## Ⅴ. 실무 시나리오 — 고객 [[364_segmentation|세그멘테이션]]
+## Ⅴ. 실무 시나리오 — 고객 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)
 
 ```
 E-커머스 고객 세그멘테이션:
@@ -249,7 +253,7 @@ K-Means++ 실행:
   labels = km.fit_predict(X_scaled)
 ```
 
-> 📢 **섹션 요약 비유**: 고객 [[364_segmentation|세그멘테이션]]은 학급 능력별 반 편성 — RFM 점수로 VIP반·일반반·잠재반·이탈위험반 나누고, 각 반에 맞는 맞춤 교육(마케팅) 적용!
+> 📢 **섹션 요약 비유**: 고객 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)은 학급 능력별 반 편성 — RFM 점수로 VIP반·일반반·잠재반·이탈위험반 나누고, 각 반에 맞는 맞춤 교육(마케팅) 적용!
 
 ---
 
@@ -316,7 +320,7 @@ Deep Embedded Clustering
 
 **진행 상황**: 45 / 420
 
-← **이전**: [[044_tsne|044. t-SNE — 고차원 데이터 시각화]]
-**다음**: [[046_dbscan|046. DBSCAN — 밀도 기반 군집화]] →
+← **이전**: [044. t-SNE — 고차원 데이터 시각화](/knowledge-base/studynote/10_ai/01_ai_basics/044_tsne/)
+**다음**: [046. DBSCAN — 밀도 기반 군집화](/knowledge-base/studynote/10_ai/01_ai_basics/046_dbscan/) →
 
 ---

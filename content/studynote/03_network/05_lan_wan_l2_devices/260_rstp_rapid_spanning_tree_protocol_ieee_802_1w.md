@@ -1,9 +1,13 @@
----
-title: 260. RSTP (Rapid STP)
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "260. RSTP (Rapid STP)"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -15,8 +19,8 @@ tags:
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 기존의 거북이 같은 802.1D [[959_spanning_tree_protocol_stp_loop_avoidance|스패닝 트리]]를 대체하기 위해 IEEE 802.1w로 발표된 "빠른(Rapid)" [[959_spanning_tree_protocol_stp_loop_avoidance|스패닝 트리]] 규격. (현재는 802.1D 표준 자체가 802.1w로 흡수 통합됨)
-- **필요성**: 1990년대까진 50초 끊기는 건 커피 한 잔 마시고 오면 되는 일이었다. 하지만 VoIP(인터넷 전화), 실시간 온라인 게임, 화상 회의, 금융 트레이딩 서버 시대가 도래하며 단 3초의 끊김조차 회사 수억 원의 손실을 낳게 되었다. **"안전을 담보하면서도 타이머를 기다리지 않고 즉시 길을 열어야 한다"**는 강박증 수준의 고속 [[658_ir_recovery|복구]] 니즈가 RSTP를 탄생시켰다.
+- **개념**: 기존의 거북이 같은 802.1D [스패닝 트리](/knowledge-base/studynote/03_network/19_frequent_topics_terms/959_spanning_tree_protocol_stp_loop_avoidance/)를 대체하기 위해 IEEE 802.1w로 발표된 "빠른(Rapid)" [스패닝 트리](/knowledge-base/studynote/03_network/19_frequent_topics_terms/959_spanning_tree_protocol_stp_loop_avoidance/) 규격. (현재는 802.1D 표준 자체가 802.1w로 흡수 통합됨)
+- **필요성**: 1990년대까진 50초 끊기는 건 커피 한 잔 마시고 오면 되는 일이었다. 하지만 VoIP(인터넷 전화), 실시간 온라인 게임, 화상 회의, 금융 트레이딩 서버 시대가 도래하며 단 3초의 끊김조차 회사 수억 원의 손실을 낳게 되었다. **"안전을 담보하면서도 타이머를 기다리지 않고 즉시 길을 열어야 한다"**는 강박증 수준의 고속 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 니즈가 RSTP를 탄생시켰다.
 
 - **💡 비유**: 길을 막고 있던 톨게이트 차단기가 열리는 속도입니다. 구형 STP가 앞차가 지나간 뒤 무조건 **"속으로 50초를 센 뒤에야 수동으로 바리케이드를 올려주는 할아버지 요금소"**라면, RSTP는 차가 다가오는 즉시 센서로 인식하고 **"1초 만에 착! 하고 열리는 하이패스 요금소"**입니다.
 
@@ -29,24 +33,24 @@ tags:
     └──▶ [백업 포트, 대체 포트 추가]
 ```
 
-- **📢 섹션 요약 비유**: ** RSTP는 사고가 나면 그때서야 대책 회의를 여는 관료주의([[570_stp_vs_mtp|STP]])를 혁파하고, **"플랜 B(대체 [[446_port_and_bus|포트]])를 미리 결재받아 책상 서랍에 넣어뒀다가, 사고 즉시 서류를 꺼내 1초 만에 실행하는 [[148_5g_embb_urllc_mmtc|초고속]] 결재 시스템"**입니다.
+- **📢 섹션 요약 비유**: ** RSTP는 사고가 나면 그때서야 대책 회의를 여는 관료주의([STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/))를 혁파하고, **"플랜 B(대체 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))를 미리 결재받아 책상 서랍에 넣어뒀다가, 사고 즉시 서류를 꺼내 1초 만에 실행하는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 결재 시스템"**입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 1. 상태([[272_state_pattern|State]])의 축소와 통합
-RSTP는 기존 STP의 쓸데없이 복잡했던 5가지 [[446_port_and_bus|포트]] 상태를 3가지로 압축해 직관성을 높였다.
-- Disabled, [[122_sync_async_communication|Blocking]], Listening ──▶ **Discarding (차단/버림)**: [[001_dikw_pyramid|데이터]]를 보내지도 않고, MAC도 안 배우는 그냥 차단 상태로 통폐합.
-- [[240_switch_learning_forwarding_flooding|Learning]] ──▶ **[[240_switch_learning_forwarding_flooding|Learning]] (학습)**: [[673_mac_message_authentication_code|MAC]] 주소만 배우는 상태 (유지).
-- Forwarding ──▶ **Forwarding (전송)**: [[001_dikw_pyramid|데이터]] 정상 전송 (유지).
+### 1. 상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))의 축소와 통합
+RSTP는 기존 STP의 쓸데없이 복잡했던 5가지 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 상태를 3가지로 압축해 직관성을 높였다.
+- Disabled, [Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/), Listening ──▶ **Discarding (차단/버림)**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내지도 않고, MAC도 안 배우는 그냥 차단 상태로 통폐합.
+- [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) ──▶ **[Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) (학습)**: [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소만 배우는 상태 (유지).
+- Forwarding ──▶ **Forwarding (전송)**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정상 전송 (유지).
 
 ### 2. Proposal / Agreement (제안과 동의 메커니즘)
-구형 STP는 [[446_port_and_bus|포트]]를 열기 위해 Listening(15초), [[240_switch_learning_forwarding_flooding|Learning]](15초)의 '고정 타이머'를 하염없이 기다렸다.
-하지만 RSTP는 [[238_switch_operation_principles|스위치]] 양단이 서로 능동적으로 대화한다.
-- [[238_switch_operation_principles|스위치]] A: "야, 우리 사이 링크 방금 꽂혔네? 이거 내가 포워딩(DP)으로 열 테니까 동의해? (Proposal)"
-- [[238_switch_operation_principles|스위치]] B: (루프 안 생기는 거 바로 계산해 봄) "ㅇㅋ! 문제없어 동의함! (Agreement)"
-- **결과**: 이 대화가 끝나자마자 타이머 대기 없이 1~2초 내에 [[446_port_and_bus|포트]]가 Forwarding으로 확 열린다(Sync).
+구형 STP는 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 열기 위해 Listening(15초), [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)(15초)의 '고정 타이머'를 하염없이 기다렸다.
+하지만 RSTP는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 양단이 서로 능동적으로 대화한다.
+- [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) A: "야, 우리 사이 링크 방금 꽂혔네? 이거 내가 포워딩(DP)으로 열 테니까 동의해? (Proposal)"
+- [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) B: (루프 안 생기는 거 바로 계산해 봄) "ㅇㅋ! 문제없어 동의함! (Agreement)"
+- **결과**: 이 대화가 끝나자마자 타이머 대기 없이 1~2초 내에 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 Forwarding으로 확 열린다(Sync).
 
 ```text
  ┌─────────────────────────────────────────────────────────────┐
@@ -66,27 +70,27 @@ RSTP는 기존 STP의 쓸데없이 복잡했던 5가지 [[446_port_and_bus|포�
  └─────────────────────────────────────────────────────────────┘
 ```
 
-### 3. 플랜 B의 상시 준비: Alternate Port와 [[261_rstp_backup_port_and_alternate_port|Backup Port]]
-구형 STP의 Block [[446_port_and_bus|포트]]를 구체적으로 세분화하여 **역할(Role)**을 늘렸다.
-- **Alternate [[446_port_and_bus|Port]] (대체 [[446_port_and_bus|포트]])**: 대장(Root)에게 가는 1순위 문([[370_pim_rp_rendezvous_point_rpf_loop_prevention|RP]])이 죽었을 때, **곧바로 [[370_pim_rp_rendezvous_point_rpf_loop_prevention|RP]] 자리를 승계하기 위해 곁에서 대기 중인 2순위 문**. RP가 뽑히자마자 Alternate [[446_port_and_bus|포트]]는 1초 만에 차단을 풀고 Forwarding으로 바뀐다. (50초 대기 없음)
-- **[[261_rstp_backup_port_and_alternate_port|Backup Port]] ([[261_rstp_backup_port_and_alternate_port|백업 포트]])**: 하위 네트워크로 내려보내는 1순위 문(DP)이 죽었을 때를 대비한 2순위 [[555_backup_and_restore_strategy|백업]] 문. (실무에선 잘 쓰이지 않음)
+### 3. 플랜 B의 상시 준비: Alternate Port와 [Backup Port](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/261_rstp_backup_port_and_alternate_port/)
+구형 STP의 Block [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 구체적으로 세분화하여 **역할(Role)**을 늘렸다.
+- **Alternate [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) (대체 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))**: 대장(Root)에게 가는 1순위 문([RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/))이 죽었을 때, **곧바로 [RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/) 자리를 승계하기 위해 곁에서 대기 중인 2순위 문**. RP가 뽑히자마자 Alternate [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 1초 만에 차단을 풀고 Forwarding으로 바뀐다. (50초 대기 없음)
+- **[Backup Port](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/261_rstp_backup_port_and_alternate_port/) ([백업 포트](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/261_rstp_backup_port_and_alternate_port/))**: 하위 네트워크로 내려보내는 1순위 문(DP)이 죽었을 때를 대비한 2순위 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 문. (실무에선 잘 쓰이지 않음)
 
-### 4. [[254_bpdu_bridge_protocol_data_unit|BPDU]] 주체 변경
-기존에는 오직 대장(Root)만 2초마다 엽서([[254_bpdu_bridge_protocol_data_unit|BPDU]])를 만들고 나머지는 전달만 했다. RSTP에서는 **모든 [[238_switch_operation_principles|스위치]]가 각자 능동적으로 2초마다 엽서를 만들어 뿜어낸다**. 상대가 3번(6초) 연속 엽서를 안 보내면 "죽었네!" 판단하고 즉시 플랜 B를 가동한다. (과거 20초 기다리던 답답함 해결).
+### 4. [BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/) 주체 변경
+기존에는 오직 대장(Root)만 2초마다 엽서([BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/))를 만들고 나머지는 전달만 했다. RSTP에서는 **모든 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 각자 능동적으로 2초마다 엽서를 만들어 뿜어낸다**. 상대가 3번(6초) 연속 엽서를 안 보내면 "죽었네!" 판단하고 즉시 플랜 B를 가동한다. (과거 20초 기다리던 답답함 해결).
 
-- **📢 섹션 요약 비유**: ** RSTP의 [[148_5g_embb_urllc_mmtc|초고속]] [[658_ir_recovery|복구]]의 핵심은 **"스페어타이어(Alternate [[446_port_and_bus|Port]])"**입니다. 타이어에 펑크가 났을 때 긴급 출동을 부르고 정비소에 가서 고치는(50초) 것이 아니라, 트렁크에서 이미 빵빵하게 공기가 채워진 스페어타이어를 꺼내 1초 만에 갈아 끼우고 즉시 다시 달리는 혁신입니다.
+- **📢 섹션 요약 비유**: ** RSTP의 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)의 핵심은 **"스페어타이어(Alternate [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))"**입니다. 타이어에 펑크가 났을 때 긴급 출동을 부르고 정비소에 가서 고치는(50초) 것이 아니라, 트렁크에서 이미 빵빵하게 공기가 채워진 스페어타이어를 꺼내 1초 만에 갈아 끼우고 즉시 다시 달리는 혁신입니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-RSTP를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [[259_portfast_and_bpdu_guard_cisco|포트 패스트]] / [[254_bpdu_bridge_protocol_data_unit|BPDU]] Guard가 기반 조건을 만든다면, RSTP는 그 위에서 핵심 메커니즘을 구현하고, [[261_rstp_backup_port_and_alternate_port|백업 포트]], 대체 [[446_port_and_bus|포트]] 추가는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 스위칭 효율과 브로드캐스트 범위에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+RSTP를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [포트 패스트](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/259_portfast_and_bpdu_guard_cisco/) / [BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/) Guard가 기반 조건을 만든다면, RSTP는 그 위에서 핵심 메커니즘을 구현하고, [백업 포트](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/261_rstp_backup_port_and_alternate_port/), 대체 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 추가는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 스위칭 효율과 브로드캐스트 범위에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [[259_portfast_and_bpdu_guard_cisco|포트 패스트]] / [[254_bpdu_bridge_protocol_data_unit|BPDU]] Guard의 기반 정리 | RSTP의 핵심 동작 | [[261_rstp_backup_port_and_alternate_port|백업 포트]], 대체 [[446_port_and_bus|포트]] 추가의 확장 적용 |
+| 초점 | [포트 패스트](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/259_portfast_and_bpdu_guard_cisco/) / [BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/) Guard의 기반 정리 | RSTP의 핵심 동작 | [백업 포트](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/261_rstp_backup_port_and_alternate_port/), 대체 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 추가의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 스위칭 효율 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: RSTP는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -94,18 +98,18 @@ RSTP를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 RSTP를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [[259_portfast_and_bpdu_guard_cisco|포트 패스트]] / [[254_bpdu_bridge_protocol_data_unit|BPDU]] Guard 수준의 기본 대책으로 충분한지, 아니면 RSTP가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [[261_rstp_backup_port_and_alternate_port|백업 포트]], 대체 [[446_port_and_bus|포트]] 추가와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 RSTP를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [포트 패스트](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/259_portfast_and_bpdu_guard_cisco/) / [BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/) Guard 수준의 기본 대책으로 충분한지, 아니면 RSTP가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [백업 포트](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/261_rstp_backup_port_and_alternate_port/), 대체 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 추가와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 스위칭 효율 부족인지, 브로드캐스트 범위 악화인지 먼저 분리한다.
-2. RSTP가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [[396_validation|확인]]한다.
-3. 도입 후에는 인접 기술인 [[261_rstp_backup_port_and_alternate_port|백업 포트]], 대체 [[446_port_and_bus|포트]] 추가와의 연계 방식을 함께 검증한다.
+2. RSTP가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+3. 도입 후에는 인접 기술인 [백업 포트](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/261_rstp_backup_port_and_alternate_port/), 대체 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 추가와의 연계 방식을 함께 검증한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - RSTP의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- [[259_portfast_and_bpdu_guard_cisco|포트 패스트]] / [[254_bpdu_bridge_protocol_data_unit|BPDU]] Guard와의 경계를 정리하지 않아 중복 투자나 [[164_policy|정책]] 충돌을 만드는 설계
+- [포트 패스트](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/259_portfast_and_bpdu_guard_cisco/) / [BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/) Guard와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: RSTP를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -113,7 +117,7 @@ RSTP를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 
 
 ## Ⅴ. 기대효과 및 결론
 
-RSTP는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 스위칭 효율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [[261_rstp_backup_port_and_alternate_port|백업 포트]], 대체 [[446_port_and_bus|포트]] 추가, 지능형 캠퍼스 패브릭, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 지능형 캠퍼스 패브릭 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+RSTP는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 스위칭 효율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [백업 포트](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/261_rstp_backup_port_and_alternate_port/), 대체 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 추가, 지능형 캠퍼스 패브릭, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 지능형 캠퍼스 패브릭 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: RSTP는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -123,10 +127,10 @@ RSTP는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 �
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[259_portfast_and_bpdu_guard_cisco|포트 패스트]] / [[254_bpdu_bridge_protocol_data_unit|BPDU]] Guard | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [[673_mac_message_authentication_code|MAC]] 주소 ([[121_transmission_media_guided_unguided|Media]] [[547_access_control_rwx|Access Control]] Address) | 2계층 전달 대상을 식별하는 기본 주소다. |
-| [[238_switch_operation_principles|스위치]] ([[238_switch_operation_principles|Switch]]) | 프레임을 적절한 [[446_port_and_bus|포트]]로 전달하는 핵심 장비다. |
-| [[261_rstp_backup_port_and_alternate_port|백업 포트]], 대체 [[446_port_and_bus|포트]] 추가 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [포트 패스트](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/259_portfast_and_bpdu_guard_cisco/) / [BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/) Guard | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 ([Media](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) [Access Control](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/) Address) | 2계층 전달 대상을 식별하는 기본 주소다. |
+| [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) ([Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)) | 프레임을 적절한 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 전달하는 핵심 장비다. |
+| [백업 포트](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/261_rstp_backup_port_and_alternate_port/), 대체 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 추가 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -140,12 +144,12 @@ RSTP는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 �
     └──▶ [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
-RSTP는 [[259_portfast_and_bpdu_guard_cisco|포트 패스트]] / [[254_bpdu_bridge_protocol_data_unit|BPDU]] Guard에서 출발해 현재 메커니즘을 정교화하고, 이후 [[261_rstp_backup_port_and_alternate_port|백업 포트]], 대체 [[446_port_and_bus|포트]] 추가와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+RSTP는 [포트 패스트](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/259_portfast_and_bpdu_guard_cisco/) / [BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/) Guard에서 출발해 현재 메커니즘을 정교화하고, 이후 [백업 포트](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/261_rstp_backup_port_and_alternate_port/), 대체 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 추가와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 학교 우편함에 이름표가 붙어 있어야 편지가 엉뚱한 곳에 가지 않아요.
-2. 이 개념은 어느 교실로 보내야 할지 알아보는 [[104_classification_analysis|분류]] 규칙과 같아요.
+2. 이 개념은 어느 교실로 보내야 할지 알아보는 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 규칙과 같아요.
 3. 그래서 같은 건물 안에서도 편지가 더 빠르고 질서 있게 움직여요.
 
 ---
@@ -154,7 +158,7 @@ RSTP는 [[259_portfast_and_bpdu_guard_cisco|포트 패스트]] / [[254_bpdu_brid
 
 **진행 상황**: 381 / 1120
 
-← **이전**: [[259_portfast_and_bpdu_guard_cisco|259. 포트 패스트 (PortFast) / BPDU Guard (Cisco 확장)]]
-**다음**: [[261_rstp_backup_port_and_alternate_port|261. 백업 포트 (Backup Port), 대체 포트 (Alternate Port) 추가]] →
+← **이전**: [259. 포트 패스트 (PortFast) / BPDU Guard (Cisco 확장)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/259_portfast_and_bpdu_guard_cisco/)
+**다음**: [261. 백업 포트 (Backup Port), 대체 포트 (Alternate Port) 추가](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/261_rstp_backup_port_and_alternate_port/) →
 
 ---

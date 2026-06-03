@@ -1,13 +1,17 @@
----
-title: 197. 버스트 에러 (Burst Error) 검출 능력 유지
-date: '2026-05-08'
-tags:
-- studynote-network
----
++++
+title = "197. 버스트 에러 (Burst Error) 검출 능력 유지"
+date = 2026-05-08
+
+[taxonomies]
+tags = ["studynote-network"]
+
+[extra]
+tags = ["studynote-network"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 버스트 에러 검출 능력 유지는 [[001_dikw_pyramid|데이터]] 링크 계층에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 1. **본질**: 버스트 에러 검출 능력 유지는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
 > 2. **가치**: 버스트 에러 검출 능력 유지를 이해하면 오류율과 재전송 비용 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
@@ -15,8 +19,8 @@ tags:
 
 ## Ⅰ. 개요 및 필요성
 
-- **단일 [[073_bit|비트]] 에러 (Single-bit Error)**: [[001_dikw_pyramid|데이터]]가 날아가다가 어쩌다 딱 1개의 0이 1로 뒤집힌 경우. (패리티 검사로도 쉽게 잡힘).
-- **버스트 에러 (Burst Error)**: 외부의 강력한 노이즈(스파크, 번개, 전파 간섭) 때문에 **2개 이상의 [[073_bit|비트]]가 연속적으로, 혹은 뭉텅이로 훼손되는 현상**입니다.
+- **단일 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 에러 (Single-bit Error)**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 날아가다가 어쩌다 딱 1개의 0이 1로 뒤집힌 경우. (패리티 검사로도 쉽게 잡힘).
+- **버스트 에러 (Burst Error)**: 외부의 강력한 노이즈(스파크, 번개, 전파 간섭) 때문에 **2개 이상의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 연속적으로, 혹은 뭉텅이로 훼손되는 현상**입니다.
   - 예: `[1] 0 0 1 1 [0]` ➔ 양 끝에 있는 `[1]`과 `[0]`이 깨지면, 그사이에 있는 멀쩡한 `0 0 1 1`까지 모두 묶어서 '총 6비트 길이의 버스트 에러'가 발생했다고 정의합니다.
 
 ```text
@@ -28,25 +32,25 @@ tags:
     └──▶ [해밍 코드]
 ```
 
-- **📢 섹션 요약 비유**: 버스트 에러 검출 능력 유지는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [[170_selectivity_cardinality_distribution_tuning|선택도]] 쉬워진다.
+- **📢 섹션 요약 비유**: 버스트 에러 검출 능력 유지는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-CRC가 [[230_ethernet_structure_and_principles_ieee_802_3|이더넷]]의 표준이 된 이유는 이 무더기 에러를 잡아내는 수학적 [[130_probability|확률]]이 압도적이기 때문입니다.
+CRC가 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)의 표준이 된 이유는 이 무더기 에러를 잡아내는 수학적 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 압도적이기 때문입니다.
 
-만약 우리가 32비트 꼬리표를 다는 **[[113_crc|CRC]]-32 ([[087_process_state_transition|생성]] 다항식의 차수 $r=32$)**를 사용한다고 가정해 봅시다.
+만약 우리가 32비트 꼬리표를 다는 **[CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-32 ([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 다항식의 차수 $r=32$)**를 사용한다고 가정해 봅시다.
 
 1. **길이가 32비트 이하인 버스트 에러가 났을 때**
-   - 벼락이 쳐서 32비트 이내의 [[001_dikw_pyramid|데이터]]가 통째로 박살 났습니다.
-   - **검출 [[130_probability|확률]]**: **100% 무조건 잡아냅니다.** 수학적으로 $r$차 다항식은 길이 $r$ 이하의 버스트 에러를 무조건 나눗셈(나머지 0이 안 나옴)에서 걸러냅니다.
+   - 벼락이 쳐서 32비트 이내의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 통째로 박살 났습니다.
+   - **검출 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)**: **100% 무조건 잡아냅니다.** 수학적으로 $r$차 다항식은 길이 $r$ 이하의 버스트 에러를 무조건 나눗셈(나머지 0이 안 나옴)에서 걸러냅니다.
 2. **길이가 33비트(r+1)인 버스트 에러가 났을 때**
-   - **검출 [[130_probability|확률]]**: **99.9999999%** (정확히는 $1 - (1/2)^{r-1}$ 의 [[130_probability|확률]])로 잡아냅니다.
+   - **검출 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)**: **99.9999999%** (정확히는 $1 - (1/2)^{r-1}$ 의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/))로 잡아냅니다.
 3. **길이가 34비트(r+2 이상)인 초거대 버스트 에러가 났을 때**
-   - **검출 [[130_probability|확률]]**: **99.99999997%** (정확히는 $1 - (1/2)^r$ 의 [[130_probability|확률]])로 잡아냅니다.
+   - **검출 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)**: **99.99999997%** (정확히는 $1 - (1/2)^r$ 의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/))로 잡아냅니다.
 
-즉, [[230_ethernet_structure_and_principles_ieee_802_3|이더넷]] 프레임을 보낼 때 [[113_crc|CRC]]-32를 쓰면, 아무리 벼락이 크게 쳐서 [[001_dikw_pyramid|데이터]]가 수백 [[073_bit|비트]] 연속으로 쓰레기가 되어도, 그 쓰레기를 제수로 나눴을 때 우연히 나머지가 '0'으로 딱 떨어져 버려서 컴퓨터가 정상으로 착각할 [[130_probability|확률]]은 약 **43억 분의 1**에 불과합니다.
+즉, [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임을 보낼 때 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-32를 쓰면, 아무리 벼락이 크게 쳐서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 수백 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 연속으로 쓰레기가 되어도, 그 쓰레기를 제수로 나눴을 때 우연히 나머지가 '0'으로 딱 떨어져 버려서 컴퓨터가 정상으로 착각할 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)은 약 **43억 분의 1**에 불과합니다.
 
 ```text
 [CRC-16, CRC-32, CRC-CCIT…]
@@ -57,19 +61,19 @@ CRC가 [[230_ethernet_structure_and_principles_ieee_802_3|이더넷]]의 표준�
     └──▶ [해밍 코드]
 ```
 
-- **📢 섹션 요약 비유**: ** 패리티 검사가 그물코가 너무 커서 멸치 떼(버스트 에러)가 한꺼번에 구멍으로 쑥 빠져나가 버리는 **'엉성한 뜰채'**라면, CRC는 멸치가 수천 마리 몰려와도 절대 빠져나가지 못하게 촘촘하게 엮어놓은 **'초정밀 나노 그물망'**입니다. 길이가 [[113_crc|CRC]] 꼬리 길이보다 짧은 물고기는 100% 그물에 걸리도록 수학적으로 설계되어 있습니다.
+- **📢 섹션 요약 비유**: ** 패리티 검사가 그물코가 너무 커서 멸치 떼(버스트 에러)가 한꺼번에 구멍으로 쑥 빠져나가 버리는 **'엉성한 뜰채'**라면, CRC는 멸치가 수천 마리 몰려와도 절대 빠져나가지 못하게 촘촘하게 엮어놓은 **'초정밀 나노 그물망'**입니다. 길이가 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) 꼬리 길이보다 짧은 물고기는 100% 그물에 걸리도록 수학적으로 설계되어 있습니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-버스트 에러 검출 능력 유지를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [[113_crc|CRC]]-16, [[113_crc|CRC]]-32, [[113_crc|CRC]]-CCIT…가 기반 조건을 만든다면, 버스트 에러 검출 능력 유지는 그 위에서 핵심 메커니즘을 구현하고, [[111_hamming_code|해밍 코드]]는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 오류율과 재전송 비용에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+버스트 에러 검출 능력 유지를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-16, [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-32, [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-CCIT…가 기반 조건을 만든다면, 버스트 에러 검출 능력 유지는 그 위에서 핵심 메커니즘을 구현하고, [해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 오류율과 재전송 비용에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [[113_crc|CRC]]-16, [[113_crc|CRC]]-32, [[113_crc|CRC]]-CCIT…의 기반 정리 | 버스트 에러 검출 능력 유지의 핵심 동작 | [[111_hamming_code|해밍 코드]]의 확장 적용 |
+| 초점 | [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-16, [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-32, [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-CCIT…의 기반 정리 | 버스트 에러 검출 능력 유지의 핵심 동작 | [해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/)의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 오류율 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: 버스트 에러 검출 능력 유지는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -77,18 +81,18 @@ CRC가 [[230_ethernet_structure_and_principles_ieee_802_3|이더넷]]의 표준�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 버스트 에러 검출 능력 유지를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [[113_crc|CRC]]-16, [[113_crc|CRC]]-32, [[113_crc|CRC]]-CCIT… 수준의 기본 대책으로 충분한지, 아니면 버스트 에러 검출 능력 유지가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [[111_hamming_code|해밍 코드]]와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 버스트 에러 검출 능력 유지를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-16, [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-32, [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-CCIT… 수준의 기본 대책으로 충분한지, 아니면 버스트 에러 검출 능력 유지가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/)와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [[435_checklist_based_testing|체크리스트]]
+### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 오류율 부족인지, 재전송 비용 악화인지 먼저 분리한다.
-2. 버스트 에러 검출 능력 유지가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [[396_validation|확인]]한다.
-3. 도입 후에는 인접 기술인 [[111_hamming_code|해밍 코드]]와의 연계 방식을 함께 검증한다.
+2. 버스트 에러 검출 능력 유지가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+3. 도입 후에는 인접 기술인 [해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/)와의 연계 방식을 함께 검증한다.
 
-### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 버스트 에러 검출 능력 유지의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- [[113_crc|CRC]]-16, [[113_crc|CRC]]-32, [[113_crc|CRC]]-CCIT…와의 경계를 정리하지 않아 중복 투자나 [[164_policy|정책]] 충돌을 만드는 설계
+- [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-16, [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-32, [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-CCIT…와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: 버스트 에러 검출 능력 유지를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -96,7 +100,7 @@ CRC가 [[230_ethernet_structure_and_principles_ieee_802_3|이더넷]]의 표준�
 
 ## Ⅴ. 기대효과 및 결론
 
-버스트 에러 검출 능력 유지는 [[001_dikw_pyramid|데이터]] 링크 계층을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 오류율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [[111_hamming_code|해밍 코드]], 고신뢰 저지연 링크 제어, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 고신뢰 저지연 링크 제어 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+버스트 에러 검출 능력 유지는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 오류율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/), 고신뢰 저지연 링크 제어, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 고신뢰 저지연 링크 제어 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 버스트 에러 검출 능력 유지는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -106,10 +110,10 @@ CRC가 [[230_ethernet_structure_and_principles_ieee_802_3|이더넷]]의 표준�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [[113_crc|CRC]]-16, [[113_crc|CRC]]-32, [[113_crc|CRC]]-CCIT… | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [[184_framing_mechanism|프레이밍]] ([[184_framing_mechanism|Framing]]) | [[073_bit|비트]]열을 의미 있는 전송 단위로 구분한다. |
-| [[188_error_control_overview|오류 제어]] ([[188_error_control_overview|Error Control]]) | 검출과 [[658_ir_recovery|복구]] [[164_policy|정책]]을 함께 설계해야 한다. |
-| [[111_hamming_code|해밍 코드]] | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-16, [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-32, [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-CCIT… | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [프레이밍](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/) ([Framing](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/)) | [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)열을 의미 있는 전송 단위로 구분한다. |
+| [오류 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/) ([Error Control](/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/)) | 검출과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 함께 설계해야 한다. |
+| [해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -123,11 +127,11 @@ CRC가 [[230_ethernet_structure_and_principles_ieee_802_3|이더넷]]의 표준�
     └──▶ [확장 B: 고신뢰 저지연 링크 제어]
 ```
 
-버스트 에러 검출 능력 유지는 [[113_crc|CRC]]-16, [[113_crc|CRC]]-32, [[113_crc|CRC]]-CCIT…에서 출발해 현재 메커니즘을 정교화하고, 이후 [[111_hamming_code|해밍 코드]]와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+버스트 에러 검출 능력 유지는 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-16, [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-32, [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-CCIT…에서 출발해 현재 메커니즘을 정교화하고, 이후 [해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/)와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 편지를 보낼 때 봉투를 제대로 닫고 틀린 글자가 없는지 [[396_validation|확인]]해야 해요.
+1. 편지를 보낼 때 봉투를 제대로 닫고 틀린 글자가 없는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 해요.
 2. 이 개념은 편지가 깨지거나 사라졌을 때 다시 보내는 규칙까지 정해줘요.
 3. 그래서 중간에 흔들려도 중요한 내용이 더 안전하게 도착해요.
 
@@ -137,7 +141,7 @@ CRC가 [[230_ethernet_structure_and_principles_ieee_802_3|이더넷]]의 표준�
 
 **진행 상황**: 318 / 1120
 
-← **이전**: [[196_crc_standards_16_32_ccitt|196. CRC-16, CRC-32 (Ethernet FCS), CRC-CCITT]]
-**다음**: [[198_hamming_code_fec|198. 해밍 코드 (Hamming Code)]] →
+← **이전**: [196. CRC-16, CRC-32 (Ethernet FCS), CRC-CCITT](/knowledge-base/studynote/03_network/04_data_link_layer_error/196_crc_standards_16_32_ccitt/)
+**다음**: [198. 해밍 코드 (Hamming Code)](/knowledge-base/studynote/03_network/04_data_link_layer_error/198_hamming_code_fec/) →
 
 ---

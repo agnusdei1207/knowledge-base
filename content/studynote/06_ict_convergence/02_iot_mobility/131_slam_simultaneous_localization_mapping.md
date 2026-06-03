@@ -1,14 +1,18 @@
----
-title: 131. SLAM (동시 위치 추정과 지도 작성) - XR/자율주행의 공간 인식 핵심
-date: '2026-04-19'
-tags:
-- studynote-ict-convergence
----
++++
+title = "131. SLAM (동시 위치 추정과 지도 작성) - XR/자율주행의 공간 인식 핵심"
+date = 2026-04-19
+
+[taxonomies]
+tags = ["studynote-ict-convergence"]
+
+[extra]
+tags = ["studynote-ict-convergence"]
++++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: SLAM(Simultaneous Localization and [[010_schema_mapping|Mapping]])은 **센서(카메라·[[140_lidar_light_detection_and_ranging_tof|LiDAR]])로 주변 환경의 지도를 작성하면서 동시에 자신의 위치를 추정**하는 알고리즘으로, 자율주행·XR·로봇의 핵심 기술이다.
+> 1. **본질**: SLAM(Simultaneous Localization and [Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))은 **센서(카메라·[LiDAR](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/))로 주변 환경의 지도를 작성하면서 동시에 자신의 위치를 추정**하는 알고리즘으로, 자율주행·XR·로봇의 핵심 기술이다.
 > 2. **가치**: GPS가 안 되는 실내·지하에서도 SLAM으로 **카메라만으로 위치를 파악**할 수 있으며, Vision Pro·Quest 등 XR 디바이스의 Inside-Out 트래킹이 SLAM 기반이다.
-> 3. **판단 포인트**: [[132_v_slam_visual_slam_camera|Visual SLAM]](카메라)·[[140_lidar_light_detection_and_ranging_tof|LiDAR]] SLAM(라이다)을 구분하고, ORB-SLAM·RTAB-MAP이 대표적 [[191_oss_license_compliance|오픈소스]] 구현이다.
+> 3. **판단 포인트**: [Visual SLAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/132_v_slam_visual_slam_camera/)(카메라)·[LiDAR](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/) SLAM(라이다)을 구분하고, ORB-SLAM·RTAB-MAP이 대표적 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 구현이다.
 
 ---
 
@@ -27,8 +31,8 @@ SLAM = 지도 작성(Mapping) + 위치 추정(Localization) 동시 수행
 
 | 유형 | 센서 | 특징 |
 |:---|:---|:---|
-| **[[132_v_slam_visual_slam_camera|Visual SLAM]]** | 카메라 | 저비용, XR 표준 |
-| **[[140_lidar_light_detection_and_ranging_tof|LiDAR]] SLAM** | [[140_lidar_light_detection_and_ranging_tof|LiDAR]] | 정밀, 자율주행 |
+| **[Visual SLAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/132_v_slam_visual_slam_camera/)** | 카메라 | 저비용, XR 표준 |
+| **[LiDAR](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/) SLAM** | [LiDAR](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/) | 정밀, 자율주행 |
 
 ---
 
@@ -43,10 +47,10 @@ SLAM은 **GPS 없는 환경에서 위치·공간을 인식하는 유일한 방�
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **SLAM** | 동시 위치+지도 |
-| **[[132_v_slam_visual_slam_camera|Visual SLAM]]** | 카메라 기반 (XR) |
-| **[[140_lidar_light_detection_and_ranging_tof|LiDAR]] SLAM** | 라이다 기반 (자율주행) |
+| **[Visual SLAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/132_v_slam_visual_slam_camera/)** | 카메라 기반 (XR) |
+| **[LiDAR](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/) SLAM** | 라이다 기반 (자율주행) |
 | **6DoF** | SLAM이 제공하는 추적 |
-| **ORB-SLAM** | 대표 [[191_oss_license_compliance|오픈소스]] |
+| **ORB-SLAM** | 대표 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -67,7 +71,7 @@ SLAM은 **GPS 없는 환경에서 위치·공간을 인식하는 유일한 방�
 
 **진행 상황**: 131 / 552
 
-← **이전**: [[130_6dof_tracking_pitch_yaw_roll|130. 6DoF 트래킹 (Pitch·Yaw·Roll) - XR/공간 컴퓨팅의 움직임 추적]]
-**다음**: [[132_v_slam_visual_slam_camera|132. Visual SLAM (V-SLAM) - 카메라 기반 동시 위치 추정과 지도 작성]] →
+← **이전**: [130. 6DoF 트래킹 (Pitch·Yaw·Roll) - XR/공간 컴퓨팅의 움직임 추적](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/130_6dof_tracking_pitch_yaw_roll/)
+**다음**: [132. Visual SLAM (V-SLAM) - 카메라 기반 동시 위치 추정과 지도 작성](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/132_v_slam_visual_slam_camera/) →
 
 ---

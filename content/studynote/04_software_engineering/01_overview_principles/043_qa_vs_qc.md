@@ -1,18 +1,22 @@
----
-title: 043. QA vs QC (품질 보증 vs 품질 통제)
-date: '2026-04-05'
-tags:
-- studynote-software-engineering
----
++++
+title = "043. QA vs QC (품질 보증 vs 품질 통제)"
+date = 2026-04-05
+
+[taxonomies]
+tags = ["studynote-software-engineering"]
+
+[extra]
+tags = ["studynote-software-engineering"]
++++
 
 > **핵심 인사이트**
 > 1. QA(Quality Assurance, 품질 보증)는 "올바른 프로세스를 따르고 있는가?"를 확인하는 예방적 활동이고, QC(Quality Control, 품질 통제)는 "산출물이 요구사항을 충족하는가?"를 검사하는 탐지적 활동 — 프로세스 중심 vs 제품 중심의 근본적 차이가 있다.
-> 2. 현대 [[339_software_quality_definition|소프트웨어 품질]] 관리는 단순 QC(테스팅 후 검사)를 넘어 QA(설계 단계부터 품질 내재화)로 진화했으며, DevOps의 [[242_shift_left_sdlc|Shift-Left]] 원칙은 이를 더 앞당겨 개발자가 직접 단위 테스트를 작성하는 패러다임 전환을 이끌었다.
+> 2. 현대 [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/) 관리는 단순 QC(테스팅 후 검사)를 넘어 QA(설계 단계부터 품질 내재화)로 진화했으며, DevOps의 [Shift-Left](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) 원칙은 이를 더 앞당겨 개발자가 직접 단위 테스트를 작성하는 패러다임 전환을 이끌었다.
 > 3. ISO 9001의 품질경영시스템, CMMI의 프로세스 성숙도 모델, IEEE 730 소프트웨어 QA 계획 표준은 모두 QA 관점에서 품질을 "검사해서 심는 것이 아니라 프로세스에 심는 것"이라는 철학을 공유한다.
 
 ---
 
-## Ⅰ. [[160_qa_vs_qc_quality_management|QA vs QC]] 개념 대비
+## Ⅰ. [QA vs QC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/160_qa_vs_qc_quality_management/) 개념 대비
 
 ```
 QA (Quality Assurance, 품질 보증):
@@ -137,7 +141,7 @@ CMMI (Capability Maturity Model Integration):
 
 ---
 
-## Ⅳ. Shift-Left와 [[652_devops_calms_culture|DevOps]] 품질
+## Ⅳ. Shift-Left와 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 품질
 
 ```
 Shift-Left 원칙:
@@ -287,7 +291,7 @@ AI 테스트 케이스 생성
 
 **진행 상황**: 43 / 973
 
-← **이전**: [[042_risk_response_strategies|042. 위험 대응 전략 — 회피·전가·완화·수용 (Risk Response)]]
-**다음**: [[044_software_cost_estimation_overview|044. 소프트웨어 비용 산정 개요]] →
+← **이전**: [042. 위험 대응 전략 — 회피·전가·완화·수용 (Risk Response)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/042_risk_response_strategies/)
+**다음**: [044. 소프트웨어 비용 산정 개요](/knowledge-base/studynote/04_software_engineering/01_overview_principles/044_software_cost_estimation_overview/) →
 
 ---
