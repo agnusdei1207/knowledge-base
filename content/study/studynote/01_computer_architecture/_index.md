@@ -1,7 +1,6 @@
 +++
 weight = 1
-title = "01: 컴퓨터 구조 (Computer Architecture)"
-render = true
+title = "🏛️ 01: 컴퓨터 구조 (Computer Architecture)"
 sort_by = "weight"
 insert_anchor_links = "right"
 [extra]

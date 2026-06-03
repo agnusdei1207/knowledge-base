@@ -1,6 +1,6 @@
 +++
 weight = 0
-title = "Study Note"
+title = "🏆 Study Note (기술사 16과목)"
 description = "PE 16과목 핵심 정리 — 정보통신기술사·컴퓨터응용시스템기술사"
 
 sort_by = "weight"
