@@ -23,10 +23,10 @@ tags = ["studynote-ai"]
 
 ```text
 ┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
+│ Background Problem → Need → Adoption Value │
 ├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
+│ Existing limitation │ Operational pressure │
+│ New requirement │ Design decision point │
 └──────────────────────────────────────────────┘
 ```
 
@@ -38,25 +38,25 @@ tags = ["studynote-ai"]
 
 ```
 ┌────────────────────────────────────────────────────────────┐
-│  병합적 계층 군집화 (Agglomerative Hierarchical Clustering) │
+│ 병합적 계층 군집화 (Agglomerative Hierarchical Clustering) │
 ├────────────────────────────────────────────────────────────┤
-│  데이터: {A, B, C, D, E}                                   │
-│                                                            │
-│  Step 1: 거리 행렬 계산 후 가장 가까운 쌍 병합             │
-│          {A,B} 병합 → 새 군집 AB                          │
-│  Step 2: AB와 다른 군집 거리 재계산 (Linkage 적용)        │
-│          {C,D} 병합                                        │
-│  Step 3: {AB,CD} 병합                                     │
-│  Step 4: {ABCD, E} 병합                                   │
-│                                                            │
-│  덴드로그램 (Dendrogram):                                  │
-│      E ──────────────────────┐                            │
-│      A ──┐                   │                            │
-│      B ──┘──────┐            │                            │
-│      C ──┐      ├────────────┘                            │
-│      D ──┘──────┘                                         │
-│  높이(거리)┌─────────────────────────                     │
-│  자르면 K개의 군집 선택 가능!                              │
+│ 데이터: {A, B, C, D, E} │
+│ │
+│ Step 1: 거리 행렬 계산 후 가장 가까운 쌍 병합 │
+│ {A,B} 병합 → 새 군집 AB │
+│ Step 2: AB와 다른 군집 거리 재계산 (Linkage 적용) │
+│ {C,D} 병합 │
+│ Step 3: {AB,CD} 병합 │
+│ Step 4: {ABCD, E} 병합 │
+│ │
+│ 덴드로그램 (Dendrogram): │
+│ E ──────────────────────┐ │
+│ A ──┐ │ │
+│ B ──┘──────┐ │ │
+│ C ──┐ ├────────────┘ │
+│ D ──┘──────┘ │
+│ 높이(거리)┌───────────────────────── │
+│ 자르면 K개의 군집 선택 가능! │
 └────────────────────────────────────────────────────────────┘
 ```
 
@@ -97,7 +97,7 @@ tags = ["studynote-ai"]
 
 계층적 [군집화](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 내재적 계층 구조를 시각적으로 탐색하는 데 탁월하다. 유전체학, 문서 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), 마케팅 고객 세분화에서 K개를 몰라도 전체 구조를 파악한 후 적절한 수준에서 자를 수 있다는 유연성이 핵심 강점이다. 기술사 시험에서 4가지 연결 기준의 수식과 장단점, 코팬틱 상관으로 품질 평가하는 방법을 함께 서술하면 완성도 높은 답안이 된다.
 
-- **📢 섹션 요약 비유**: 덴드로그램은 AI의 "진화 계통수"다. 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 조상부터 개별 후손까지 전체 연결 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 한 눈에 보인다. 어느 높이에서 자르느냐에 따라 "과(科)" 수준의 큰 그룹이 될 수도, "종(種)" 수준의 세밀한 그룹이 될 수도 있다.
+- **📢 섹션 요약 비유**: 덴드로그램은 AI의 "진화 계통수"다. 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 조상부터 개별 후손까지 전체 연결 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 한 눈에 보인다. 어느 높이에서 자르느냐에 따라 "과()" 수준의 큰 그룹이 될 수도, "종()" 수준의 세밀한 그룹이 될 수도 있다.
 
 ---
 

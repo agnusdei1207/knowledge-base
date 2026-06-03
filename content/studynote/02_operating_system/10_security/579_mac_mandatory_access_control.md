@@ -12,7 +12,7 @@ tags = ["studynote-operating-system"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: MAC은 시스템 관리자가 모든 **주체(프로세스)**와 **객체([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))**에 **보안 등급 라벨([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Label)**을 부여하고, 이 라벨 간 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 기반으로 접근을 **강제(Mandatory)**로 통제하는 방식이다.
-> 2. **가치**: 사용자가 `chmod 777`로 권한을 열어버려도, [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)에 의해 **최고 비밀 등급 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에는 접근이 차단**되어,万一(만약) 침해가 발생해도 손실 범위가 제한된다.
+> 2. **가치**: 사용자가 `chmod 777`로 권한을 열어버려도, [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)에 의해 **최고 비밀 등급 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에는 접근이 차단**되어,만일(만약) 침해가 발생해도 손실 범위가 제한된다.
 > 3. **한계**: [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 복잡하여 **관리 오버헤드**가 크고, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 오류 시 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애가 발생할 수 있다.
 
 ---
@@ -59,13 +59,13 @@ system_u:object_r:shadow_t:s0
 
 ```text
 [ 보안 등급 격자 ]
-        TOP SECRET
-       /        \
-   SECRET    CLASSIFIED
-       \        /
-     CONFIDENTIAL
-          |
-      UNCLASSIFIED
+TOP SECRET
+/ \
+SECRET CLASSIFIED
+\ /
+CONFIDENTIAL
+|
+UNCLASSIFIED
 ```
 
 ### 2.3 [Bell-LaPadula](/knowledge-base/studynote/02_operating_system/10_security/580_bell_lapadula_model/) 모델과의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
@@ -139,19 +139,19 @@ system_u:system_r:httpd_t:s0 httpd
 
 ```text
 [임의적 접근 제어 (DAC, Discretionary Access Control)]
-    │
-    ▼
+│
+▼
 [강제적 접근 제어 (MAC, Mandatory Access Control)]
-    │
-    ├──▶ [벨-라파둘라 모델 (Bell-LaPadula)]
-    └──▶ [비바 모델 (Biba Model)]
+│
+├──▶ [벨-라파둘라 모델 (Bell-LaPadula)]
+└──▶ [비바 모델 (Biba Model)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)**은 병원의 **"접종 증명 시스템"**과 같다. 어떤 환자가宣Drop(권한)이 있다고 주장해도, 시스템에 등록된 등급과 맞지 않으면 진찰을 받을 수 없다.
+1. **[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)**은 병원의 **"접종 증명 시스템"**과 같다. 어떤 환자가Drop(권한)이 있다고 주장해도, 시스템에 등록된 등급과 맞지 않으면 진찰을 받을 수 없다.
 
 2. **보안 라벨**은 놀이공원의 **"입장 등급표"**와 같다. Silver 등급은 Silver 놀이기구만, Gold 등급은 Gold 놀이기구만 탈 수 있다. 등급표가 없으면 아무 놀이기구도 탈 수 없다.
 

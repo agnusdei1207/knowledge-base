@@ -23,12 +23,12 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 은행 계좌나 쇼핑몰 장바구니처럼 "왜 이 상태가 되었는가?"에 대한 이력이 비즈니스적으로 매우 중요한 도메인에서는 단순 CRUD가 치명적인 한계를 갖는다. 별도의 이력 테이블(History Table)을 유지하려 해도 본진 테이블과 이력 테이블 간의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 불일치가 발생할 위험이 크다. 모든 변경을 '이벤트'라는 단일 진실의 원천(Source of Truth)으로 통합하면, [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 문제와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실을 원천적으로 차단할 수 있다.
 
-- **💡 비유**: 체스 게임을 할 때 '현재 체스판에 놓인 말들의 위치'만 사진으로 찍어두는 것이 CRUD 방식이라면, '백이 폰을 E4로 옮겼다', '흑이 나이트를 C6로 옮겼다'는 '기보(棋譜)'를 순서대로 모두 적어두는 것이 [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)이다. 기보만 있으면 언제든 빈 체스판에서부터 지금의 상태를 똑같이 재현할 수 있다.
+- **💡 비유**: 체스 게임을 할 때 '현재 체스판에 놓인 말들의 위치'만 사진으로 찍어두는 것이 CRUD 방식이라면, '백이 폰을 E4로 옮겼다', '흑이 나이트를 C6로 옮겼다'는 '기보()'를 순서대로 모두 적어두는 것이 [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)이다. 기보만 있으면 언제든 빈 체스판에서부터 지금의 상태를 똑같이 재현할 수 있다.
 
 - **등장 배경 및 발전 과정**:
-  1. **회계 장부 모델 (Ledger)**: [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)의 철학은 수백 년 전부터 쓰인 복식부기 회계 장부와 동일하다. 회계 장부는 한 번 적힌 기록을 지우개로 지우지 않고(No Delete), 취소할 때는 차감 내역을 새로 적어 넣는다(Append-only).
-  2. **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템과 MSA의 등장**: [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 간에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받을 때 상태값만 주고받으면 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 문제가 생긴다. "어떤 사건이 발생했는지([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Event)"를 전달하는 것이 훨씬 결합도를 낮춘다는 사실이 증명되면서 [이벤트 주도 아키텍처](/knowledge-base/studynote/11_design_supervision/06_exam_summary/367_architecture/)([EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/))가 부상했다.
-  3. **Event Store의 발전**: [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), EventStoreDB 등 Append-only에 최적화된 고성능 스토리지 기술이 성숙해지며 [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)을 엔터프라이즈 레벨에서 구현할 수 있는 토대가 마련되었다.
+1. **회계 장부 모델 (Ledger)**: [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)의 철학은 수백 년 전부터 쓰인 복식부기 회계 장부와 동일하다. 회계 장부는 한 번 적힌 기록을 지우개로 지우지 않고(No Delete), 취소할 때는 차감 내역을 새로 적어 넣는다(Append-only).
+2. **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템과 MSA의 등장**: [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 간에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받을 때 상태값만 주고받으면 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 문제가 생긴다. "어떤 사건이 발생했는지([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Event)"를 전달하는 것이 훨씬 결합도를 낮춘다는 사실이 증명되면서 [이벤트 주도 아키텍처](/knowledge-base/studynote/11_design_supervision/06_exam_summary/367_architecture/)([EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/))가 부상했다.
+3. **Event Store의 발전**: [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), EventStoreDB 등 Append-only에 최적화된 고성능 스토리지 기술이 성숙해지며 [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)을 엔터프라이즈 레벨에서 구현할 수 있는 토대가 마련되었다.
 
 - **📢 섹션 요약 비유**: 일기장에 "오늘은 슬프다"라고만 지우고 덧쓰는 것이 아니라, "아침에 비가 옴", "우산을 잃어버림", "넘어짐"이라는 사건들을 시간순으로 적어두면, 나중에 왜 슬퍼졌는지 완벽하게 추적하고 과거를 돌아볼 수 있는 것과 같습니다.
 
@@ -38,14 +38,14 @@ tags = ["studynote-software-engineering"]
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                  이벤트 소싱 상태 재생 가능성 보장                         │
+│ 이벤트 소싱 상태 재생 가능성 보장 │
 ├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
+│ │
+│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
+│ │ │ │ │
+│ ▼ ▼ ▼ │
+│ 요구 분석 설계·적용 품질 검증 │
+│ │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -146,17 +146,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+│
+▼
 이벤트 소싱 상태 재생 가능성 보장 개념 정립
-    │
-    ▼
+│
+▼
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+│
+▼
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+│
+▼
 지속적 개선 및 DevOps·MLOps 통합
 ```
 

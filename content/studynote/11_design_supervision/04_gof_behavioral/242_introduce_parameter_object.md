@@ -23,9 +23,9 @@ tags = ["studynote-design-supervision"]
 ```
 // 변환 전 — 긴 매개변수 목록
 public Report generate(
-    Date startDate, Date endDate,
-    String region, String category,
-    int minAmount, int maxAmount) { ... }
+Date startDate, Date endDate,
+String region, String category,
+int minAmount, int maxAmount) { ... }
 
 // 변환 후 — 파라미터 객체 사용
 public Report generate(ReportCriteria criteria) { ... }
@@ -36,9 +36,9 @@ public Report generate(ReportCriteria criteria) { ... }
 - **진화 용이성**: 새 조건 추가 시 메서드 시그니처 변경 없이 객체 필드만 추가하면 된다.
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
+┌──────────────┐ ┌──────────────┐ ┌──────────────┐
+│ Problem │──▶│ Core Idea │──▶│ Expected Gain │
+└──────────────┘ └──────────────┘ └──────────────┘
 ```
 
 - **📢 섹션 요약 비유**: 편의점 도시락을 낱개로 들고 다니는 대신, 쇼핑백 하나에 담아 한 번에 전달하는 것과 같다.
@@ -49,29 +49,29 @@ public Report generate(ReportCriteria criteria) { ... }
 ```
 [ 변환 전 구조 ]
 ┌────────────────────────────────────────────────────────┐
-│ searchOrders(Date from, Date to, String region,        │
-│              String status, int page, int size)        │
-│ exportOrders(Date from, Date to, String region,        │
-│              String status, String format)             │
-│ countOrders (Date from, Date to, String region,        │
-│              String status)                            │
+│ searchOrders(Date from, Date to, String region, │
+│ String status, int page, int size) │
+│ exportOrders(Date from, Date to, String region, │
+│ String status, String format) │
+│ countOrders (Date from, Date to, String region, │
+│ String status) │
 └────────────────────────────────────────────────────────┘
-           ↓  파라미터 객체화 (Introduce Parameter Object)
+↓ 파라미터 객체화 (Introduce Parameter Object)
 ┌──────────────────────────────────────────────────────┐
-│                   OrderQuery (Value Object)          │
-│  ┌────────────────────────────────────────────────┐  │
-│  │  dateRange  : DateRange  (from, to)            │  │
-│  │  region     : String                           │  │
-│  │  status     : OrderStatus                      │  │
-│  │  + isValid(): boolean                          │  │
-│  │  + overlaps(DateRange other): boolean          │  │
-│  └────────────────────────────────────────────────┘  │
+│ OrderQuery (Value Object) │
+│ ┌────────────────────────────────────────────────┐ │
+│ │ dateRange : DateRange (from, to) │ │
+│ │ region : String │ │
+│ │ status : OrderStatus │ │
+│ │ + isValid(): boolean │ │
+│ │ + overlaps(DateRange other): boolean │ │
+│ └────────────────────────────────────────────────┘ │
 └──────────────────────────────────────────────────────┘
-           ↓
+↓
 ┌──────────────────────────────────────────────────────┐
-│ searchOrders(OrderQuery q, Pageable p)               │
-│ exportOrders(OrderQuery q, String format)            │
-│ countOrders (OrderQuery q)                           │
+│ searchOrders(OrderQuery q, Pageable p) │
+│ exportOrders(OrderQuery q, String format) │
+│ countOrders (OrderQuery q) │
 └──────────────────────────────────────────────────────┘
 ```
 
@@ -98,7 +98,7 @@ public Report generate(ReportCriteria criteria) { ... }
 | 패턴 | 목적 | 적합 상황 | 장점 | 단점 |
 |:---|:---|:---|:---|:---|
 | 파라미터 객체화 (Introduce Parameter Object) | 묶음 단순화 | 3개+ 관련 매개변수 | 확장 용이, 유효성 통합 | 클래스 수 증가 |
-| [빌더 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/380_builder_pattern_summary/) ([Builder Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/148_builder_pattern/)) | 복잡 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 선택적 매개변수 多 | 순서 무관 명시적 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | 보일러플레이트 코드 |
+| [빌더 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/380_builder_pattern_summary/) ([Builder Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/148_builder_pattern/)) | 복잡 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 선택적 매개변수 | 순서 무관 명시적 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | 보일러플레이트 코드 |
 | 메서드 체이닝 (Method [Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/)) | 플루언트 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 계열 호출 | [가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/) 높음 | 디버깅 어려움 |
 | 가변 인수 (Varargs) | 동종 복수 전달 | 동일 타입 N개 | 유연한 개수 | 타입 안전성 저하 |
 
@@ -114,13 +114,13 @@ public Report generate(ReportCriteria criteria) { ... }
 ```java
 // Java Record — 불변 파라미터 객체
 public record DateRange(LocalDate from, LocalDate to) {
-    public DateRange {
-        if (from.isAfter(to))
-            throw new IllegalArgumentException("from > to");
-    }
-    public boolean contains(LocalDate date) {
-        return !date.isBefore(from) && !date.isAfter(to);
-    }
+public DateRange {
+if (from.isAfter(to))
+throw new IllegalArgumentException("from > to");
+}
+public boolean contains(LocalDate date) {
+return !date.isBefore(from) && !date.isAfter(to);
+}
 }
 ```
 

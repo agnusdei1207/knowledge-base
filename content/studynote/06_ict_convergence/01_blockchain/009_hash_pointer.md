@@ -11,8 +11,8 @@ tags = ["ict_convergence"]
 # 09. 해시 포인터 (Hash Pointer)
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 해시 포인터는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 저장된 위치(포인터)와 해당 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 해시값을 함께 결합한構造이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 물리적 위치를 참조할 뿐 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체의integrity([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))까지 함께 보장한다.
-> 2. **가치**: 해시 포인터를 사용하면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가改竄되었을 때瞬時に发觉할 수 있다. 어떤 블록이든 이전 블록의 해시값을 포함하므로, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변경 시连锁적으로 모든 후속 블록의 연결이 깨진다.
+> 1. **본질**: 해시 포인터는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 저장된 위치(포인터)와 해당 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 해시값을 함께 결합한구조이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 물리적 위치를 참조할 뿐 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체의integrity([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))까지 함께 보장한다.
+> 2. **가치**: 해시 포인터를 사용하면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가변조되었을 때에할 수 있다. 어떤 블록이든 이전 블록의 해시값을 포함하므로, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변경 시잠금적으로 모든 후속 블록의 연결이 깨진다.
 > 3. **융합**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 사슬 구조, [머클 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/),authenticated [data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) structures(인증된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조)에서 핵심 역할을 하며, [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)이 중요한 모든 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템의 기초 요소로 활용된다.
 
 ---
@@ -21,23 +21,23 @@ tags = ["ict_convergence"]
 
 ### 개념의 정의
 
-해시 포인터(Hash Pointer)는 일반 포인터(Pointer)와 달리, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 메모리 주소를参照する기능과 함께, 해당 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 해시값을함께保存하는 구조이다. 일반 포인터는 "이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어디에 있는가"(Where)를 指し示す만 하지만, 해시 포인터는 "이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어디에 있으며, 또 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 올바른가"(Where + Whether it's correct)를 동시에 알려준다. 만약 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가改竄되면, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 해시값이 달라지므로, 해시 포인터가 가리키는 해시값과 일치하지 않게 되어 조작事实을即座에发觉할 수 있다.
+해시 포인터(Hash Pointer)는 일반 포인터(Pointer)와 달리, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 메모리 주소를하다기능과 함께, 해당 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 해시값을함께저장하는 구조이다. 일반 포인터는 "이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어디에 있는가"(Where)를 만 하지만, 해시 포인터는 "이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어디에 있으며, 또 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 올바른가"(Where + Whether it's correct)를 동시에 알려준다. 만약 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가변조되면, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 해시값이 달라지므로, 해시 포인터가 가리키는 해시값과 일치하지 않게 되어 조작을즉시에할 수 있다.
 
 ### 탄생 배경과 필요성
 
-기존의 중앙화된 시스템에서는 중앙 서버가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을管理하였다. 그러나 중앙 서버가故障하거나悪意 의해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 조작되면, клиенты는 이를发觉할 방법이 제한적이었다. 해시 포인터는 이러한 중앙化管理의信頼性问题을 해결하기 위해 고안되었다. 각 클라이언트가 직접 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있게 하여, 중앙 서버에대한Absolute 신뢰를 가정하지 않아도 되게 하였다. 이것은区块链의 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 철학의 기술적 기반이 된다.
+기존의 중앙화된 시스템에서는 중앙 서버가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을관리하였다. 그러나 중앙 서버가하거나 의해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 조작되면, клиенты는 이를할 방법이 제한적이었다. 해시 포인터는 이러한 중앙관리의문제을 해결하기 위해 고안되었다. 각 클라이언트가 직접 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있게 하여, 중앙 서버에대한Absolute 신뢰를 가정하지 않아도 되게 하였다. 이것은블록체인의 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 철학의 기술적 기반이 된다.
 
 ### 💡 analogy
 
-해시 포인터는重要 문서의「위치 표시기」와「내용 요약서」를 함께 제공하는 사무 시스템과 같다. 예를 들어, 서울 강남구某eductible에 보관된的重要 문서에 대해, 단순히「서울 강남구 00번지」라고 알려주는 것(일반 포인터)뿐 아니라,「서울 강남구 00번지, 문서 해시: ABC123」이라고 알려주는 것이다. 누군가 중요 문서를 조작하면 문서의 해시가「DEF456」으로 달라지고, 因此「00번지에 있는 문서」가原대로 있는지即刻 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있다. 문서의 위치(포인터)와 내용 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)(해시)을 동시에 보장하는 것이다.
+해시 포인터는 문서의「위치 표시기」와「내용 요약서」를 함께 제공하는 사무 시스템과 같다. 예를 들어, 서울 강남구eductible에 보관된 문서에 대해, 단순히「서울 강남구 00번지」라고 알려주는 것(일반 포인터)뿐 아니라,「서울 강남구 00번지, 문서 해시: ABC123」이라고 알려주는 것이다. 누군가 중요 문서를 조작하면 문서의 해시가「DEF456」으로 달라지고, 「00번지에 있는 문서」가대로 있는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있다. 문서의 위치(포인터)와 내용 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)(해시)을 동시에 보장하는 것이다.
 
 ### 배경 설명
 
-해시 포인터의동작 원리를 단계별로 설명하면 다음과 같다. 数据가存在する位置의 메모리 주소(또는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 경로 등)를保存한다. 해당 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 SHA-256 해시값을計算하여 함께保存한다. 나중에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 때는, 저장된 메모리 주소에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽어들여, 계산된 해시값과 저장된 해시값을비교한다. 만약 두 값이 다르면, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 조작되었음을 의미한다. blockchain에서는 이전 블록의 해시값을 포인터처럼 사용하여 블록들을.chain처럼 연결한다. 따라서 특정 블록의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 변경하면, 그 블록의 해시값이 변하고, 이를 참조하는 이후 모든 블록의連鎖が崩れる.
+해시 포인터의동작 원리를 단계별로 설명하면 다음과 같다. 수가에서하다의 메모리 주소(또는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 경로 등)를저장한다. 해당 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 SHA-256 해시값을하여 함께저장한다. 나중에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 때는, 저장된 메모리 주소에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽어들여, 계산된 해시값과 저장된 해시값을비교한다. 만약 두 값이 다르면, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 조작되었음을 의미한다. blockchain에서는 이전 블록의 해시값을 포인터처럼 사용하여 블록들을.chain처럼 연결한다. 따라서 특정 블록의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 변경하면, 그 블록의 해시값이 변하고, 이를 참조하는 이후 모든 블록의이/가.
 
 ### 📢 비유 요약
 
-해시 포인터는교향악단의 partitura(파트itura)와 같다. 각 악기(주체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))는 파트가itar的部分(포인터)을 가지고 있으며, 또한 전체 합주 내용에 대한 해시 요약(整合性検証值)을 함께 참조한다. 만약 어떤 악기_PART만 조작하면, 그 조작 부분의 해시와 이전에記録된 합주 해시가 맞지 않아, 오케스트라 지휘자([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자)가即座에 어떤 부분이 잘못되었는지 파악할 수 있다.
+해시 포인터는교향악단의 partitura(파트itura)와 같다. 각 악기(주체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))는 파트가itar(포인터)을 가지고 있으며, 또한 전체 합주 내용에 대한 해시 요약()을 함께 참조한다. 만약 어떤 악기_PART만 조작하면, 그 조작 부분의 해시와 이전에된 합주 해시가 맞지 않아, 오케스트라 지휘자([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자)가즉시에 어떤 부분이 잘못되었는지 파악할 수 있다.
 
 ---
 
@@ -46,51 +46,51 @@ tags = ["ict_convergence"]
 ### 해시 포인터 vs 일반 포인터
 
 ```
-[일반 포인터 (Traditional Pointer)]        [해시 포인터 (Hash Pointer)]
+[일반 포인터 (Traditional Pointer)] [해시 포인터 (Hash Pointer)]
 
-┌─────────────────────┐                 ┌─────────────────────┐
-│ 데이터 위치 (Pointer) │                 │ 데이터 위치 (Pointer) │
-│ 0x7fff5fbff8c0       │                 │ 0x7fff5fbff8c0       │
-└─────────────────────┘                 └──────────┬──────────┘
-                                                   │
-                                                   ▼
-                    ┌─────────────────────┐
-                    │ 데이터의 해시값     │
-                    │ (Integrity Check)  │
-                    │ Hash = SHA256(data) │
-                    │ abc123...xyz        │
-                    └─────────────────────┘
+┌─────────────────────┐ ┌─────────────────────┐
+│ 데이터 위치 (Pointer) │ │ 데이터 위치 (Pointer) │
+│ 0x7fff5fbff8c0 │ │ 0x7fff5fbff8c0 │
+└─────────────────────┘ └──────────┬──────────┘
+│
+▼
+┌─────────────────────┐
+│ 데이터의 해시값 │
+│ (Integrity Check) │
+│ Hash = SHA256(data) │
+│ abc123...xyz │
+└─────────────────────┘
 ```
 
-일반 포인터는 단순히 메모리 주소를 保存하며, 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 유효한지 아닌지는알 수 없다. 반면 해시 포인터는 메모리 주소와 함께 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 해시값을保存하여, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽을 때마다integrity를自動 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있다. 이것은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 특히 중요한데, 어떤 노드로부터 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받을 때, 해당 노드를信頼하지 않더라도 해시 포인터만 있다면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있기 때문이다.
+일반 포인터는 단순히 메모리 주소를 저장하며, 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 유효한지 아닌지는알 수 없다. 반면 해시 포인터는 메모리 주소와 함께 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 해시값을저장하여, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽을 때마다integrity를자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있다. 이것은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 특히 중요한데, 어떤 노드로부터 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받을 때, 해당 노드를하지 않더라도 해시 포인터만 있다면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있기 때문이다.
 
 ### [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 해시 포인터 구조
 
 ```
-[블록 #N]                           [블록 #N+1]
-┌──────────────────────┐           ┌──────────────────────┐
-│ 이전 블록 해시        │ ───────► │ 이전 블록 해시        │
-│ (Hash of Block #N-1) │           │ (Hash of Block #N)  │ ◄── 현재 블록의 해시
-│                      │           │                      │     값이 다음 블록에
-│ ...                   │           │ ...                   │     저장됨
-│ (Block Header)        │           │ (Block Header)        │
-└──────────────────────┘           └──────────────────────┘
-        │                                    │
-        │                                    │
-        └────────────────────────────────────┘
-                    이 연결 자체가 해시 포인터
-                    (이전 블록의 위치 + 무결성)
+[블록 #N] [블록 #N+1]
+┌──────────────────────┐ ┌──────────────────────┐
+│ 이전 블록 해시 │ ───────► │ 이전 블록 해시 │
+│ (Hash of Block #N-1) │ │ (Hash of Block #N) │ ◄── 현재 블록의 해시
+│ │ │ │ 값이 다음 블록에
+│ ... │ │ ... │ 저장됨
+│ (Block Header) │ │ (Block Header) │
+└──────────────────────┘ └──────────────────────┘
+│ │
+│ │
+└────────────────────────────────────┘
+이 연결 자체가 해시 포인터
+(이전 블록의 위치 + 무결성)
 ```
 
-区块链에서 각 블록은 이전 블록의 해시값을.header에 保存한다. 이것은 전형적인 해시 포인터의 应用이다. 이전 블록의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를조작하면 이전 블록의 해시값이 변하고, 이후 모든 블록의「이전 블록 해시」값과 맞지 않게 되어 连okie的に無効化된다.
+블록체인에서 각 블록은 이전 블록의 해시값을.header에 저장한다. 이것은 전형적인 해시 포인터의 이다. 이전 블록의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를조작하면 이전 블록의 해시값이 변하고, 이후 모든 블록의「이전 블록 해시」값과 맞지 않게 되어 okie에된다.
 
 ### [머클 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/)에서의 해시 포인터
 
-[머클 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/)([Merkle Tree](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/))에서도 해시 포인터가활용된다. 각 叶노드와 부모 노드 간의 연결이 단순히「위치」를 가리키는 것에 그치지 않고, 해당 하위 노드의「해시값」을 含んでいるため, 부모 노드는 하위 노드의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 즉시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있다. 머클 루트에서 특정 叶노드까지의 경로를따라가며 각 단계에서兄弟 노드의 해시값을利用하여 최종적으로 루트 값을再計算하고, 이것이 실제 머클 루트와 일치하는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것이 가능해진다.
+[머클 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/)([Merkle Tree](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/))에서도 해시 포인터가활용된다. 각 노드와 부모 노드 간의 연결이 단순히「위치」를 가리키는 것에 그치지 않고, 해당 하위 노드의「해시값」을 에서있다, 부모 노드는 하위 노드의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 즉시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있다. 머클 루트에서 특정 노드까지의 경로를따라가며 각 단계에서형제 노드의 해시값을활용하여 최종적으로 루트 값을하고, 이것이 실제 머클 루트와 일치하는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것이 가능해진다.
 
 ### 📢 비유 요약
 
-[머클 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/)에서의 해시 포인터 활용은대형 기업의부서 간 연간보고서 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)システムと相似한다. 각 부서장은直属 부하들의周報内容에 대한 요약(해시)과 함께 상급자에게 보고한다. 상급자는部下的atches의 요약이 맞는지 직접計算하여 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있다. 만약 부하가 자신의周報内容을조작하면, 부장에게 보고된 요약(해시)과 맞지 않아即座에发觉된다. 이러한 检查 기능을 각 레벨에서自動으로 수행하여,企業 전체 보고 체계의整合性을 유지한다.
+[머클 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/)에서의 해시 포인터 활용은대형 기업의부서 간 연간보고서 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)시스템와/과한다. 각 부서장은 부하들의에 대한 요약(해시)과 함께 상급자에게 보고한다. 상급자는atches의 요약이 맞는지 직접하여 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있다. 만약 부하가 자신의을조작하면, 부장에게 보고된 요약(해시)과 맞지 않아즉시에된다. 이러한 검사 기능을 각 레벨에서자동으로 수행하여,기업 전체 보고 체계의을 유지한다.
 
 ---
 
@@ -98,19 +98,19 @@ tags = ["ict_convergence"]
 
 ### 비트코인의 해시 포인터 활용
 
-비트코인에서 해시 포인터는 blockchain의근간을이룬다. 각 블록의 헤더에는 이전 블록의 해시가 저장되어 있어, 모든 블록이 사슬처럼 연결된다. [Genesis Block](/knowledge-base/studynote/06_ict_convergence/01_blockchain/005_genesis_block/)(블록 #0)만 이전 블록 해시가 "0"으로固定되어 있어, 이것이 blockchain의起点이 된다. 비트코인 지갑 애플리케이션은 거래의 유효성을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 때, 해당 거래가 포함된 블록의 머클 증명(Merkle Proof)을 利用하는데, 이 머클 증명 자체가 [머클 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/) 내의 해시 포인터 경로이다.
+비트코인에서 해시 포인터는 blockchain의근간을이룬다. 각 블록의 헤더에는 이전 블록의 해시가 저장되어 있어, 모든 블록이 사슬처럼 연결된다. [Genesis Block](/knowledge-base/studynote/06_ict_convergence/01_blockchain/005_genesis_block/)(블록 #0)만 이전 블록 해시가 "0"으로되어 있어, 이것이 blockchain의이 된다. 비트코인 지갑 애플리케이션은 거래의 유효성을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 때, 해당 거래가 포함된 블록의 머클 증명(Merkle Proof)을 활용하는데, 이 머클 증명 자체가 [머클 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/) 내의 해시 포인터 경로이다.
 
 ### 이더리움의 상태 트리
 
-이더리움에서는 계정 상태를保存하기 위해 머클 패트리시아 트리(Merkle Patricia [Trie](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/066_trie/), MPT)를 使用한다. MPT의 각 노드는 자식 노드에 대한 해시 포인터를保存한다. 루트 노드의 해시값(상태 루트)은 전체 시스템 상태의-integrity를代表한다. 블록 헤더에는 상태 루트, 거래 루트, 영수증 루트가 포함되어 있어, 이 세 가지 값만으로 시스템 전체 상태의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있다.
+이더리움에서는 계정 상태를저장하기 위해 머클 패트리시아 트리(Merkle Patricia [Trie](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/066_trie/), MPT)를 사용한다. MPT의 각 노드는 자식 노드에 대한 해시 포인터를저장한다. 루트 노드의 해시값(상태 루트)은 전체 시스템 상태의-integrity를대표한다. 블록 헤더에는 상태 루트, 거래 루트, 영수증 루트가 포함되어 있어, 이 세 가지 값만으로 시스템 전체 상태의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있다.
 
 ### [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서의 활용
 
-해시 포인터는 [blockchain](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 외에도 다양한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에 활용된다. Git([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 시스템)에서는 각 커밋(commit)이 이전 커밋의 해시를 保存하여, 커밋 히스토리의-integrity를保障한다. [Certificate Transparency](/knowledge-base/studynote/09_security/04_endpoint_security/165_ct_certificate_transparency/)(인증서 투명성) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에서는 각 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 엔트리가 이전 엔트리의 해시를 保存하여, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)의改竄 불가능성을担保한다. Amazon S3의다중 parte上传에서도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록의 해시값을利用하여 전송 중 손상된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를发觉하고再送하는 기능을 지원한다.
+해시 포인터는 [blockchain](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 외에도 다양한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에 활용된다. Git([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 시스템)에서는 각 커밋(commit)이 이전 커밋의 해시를 저장하여, 커밋 히스토리의-integrity를보장한다. [Certificate Transparency](/knowledge-base/studynote/09_security/04_endpoint_security/165_ct_certificate_transparency/)(인증서 투명성) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에서는 각 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 엔트리가 이전 엔트리의 해시를 저장하여, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)의변조 불가능성을보장한다. Amazon S3의다중 parte에서도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록의 해시값을활용하여 전송 중 손상된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를하고하는 기능을 지원한다.
 
 ### 📢 비유 요약
 
-해시 포인터의 실무 활용은국제 특급 우편집중국 화물 추적 시스템과 같다. 각 컨테이너에는 화물 내용에 대한 해시값이 태그되어 있다. 만약 도시간 화물.transport 과정에서 컨테이너가 분리되거나內容이 교체되면, 최종 도착지에서 컨테이너의 해시값을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하여무결성을 즉시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있다. 전체 화물 내용을 직접 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것보다 훨씬 효율적이다.
+해시 포인터의 실무 활용은국제 특급 우편집중국 화물 추적 시스템과 같다. 각 컨테이너에는 화물 내용에 대한 해시값이 태그되어 있다. 만약 도시간 화물.transport 과정에서 컨테이너가 분리되거나이 교체되면, 최종 도착지에서 컨테이너의 해시값을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하여무결성을 즉시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있다. 전체 화물 내용을 직접 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것보다 훨씬 효율적이다.
 
 ---
 
@@ -118,19 +118,19 @@ tags = ["ict_convergence"]
 
 ### [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 테스트
 
-해시 포인터의品質管理에서 가장 기본적인测试는无결성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 功能의 정확성이다. 首先 유효한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 해당 해시 포인터를作成한다. 次に [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를변경(조작)하여 해시 포인터와 비교한다. 해시값이 달라져야 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 작동하는 것이다. 3番目に [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 변경되지 않은 경우를 测试하여, 해시 포인터가 유효함을確認한다. 4番目に 비트의 극히 일부만 변경된 경우(예: 1비트 플립)에도 해시값이 달라지는지를 测试한다(雪崩 효과验证).
+해시 포인터의품질관리에서 가장 기본적인테스트는결성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 의 정확성이다. 먼저 유효한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 해당 해시 포인터를한다. 에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를변경(조작)하여 해시 포인터와 비교한다. 해시값이 달라져야 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 작동하는 것이다. 3에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 변경되지 않은 경우를 테스트하여, 해시 포인터가 유효함을한다. 4에 비트의 극히 일부만 변경된 경우(예: 1비트 플립)에도 해시값이 달라지는지를 테스트한다( 효과).
 
 ### 경로 추적 테스트
 
-[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에서 특정 블록으로たど리오르는 해시 포인터 경로의 정확성을test해야 한다. 首先 genesis block부터 특정 블록까지 순차적으로 해시 포인터를따라가며 각 단계에서 이전 블록의 해시값이 일치하는지확인한다. 次に 중간에 하나의 블록이라도 조작된 경우, 이후 모든 해시 포인터가깨지는지를検証한다. 3番目に 정상적인chain과 조작된 chain을함께 제공하여, 올바르게 구분되는지도test한다.
+[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에서 특정 블록으로리오르는 해시 포인터 경로의 정확성을test해야 한다. 먼저 genesis block부터 특정 블록까지 순차적으로 해시 포인터를따라가며 각 단계에서 이전 블록의 해시값이 일치하는지확인한다. 에 중간에 하나의 블록이라도 조작된 경우, 이후 모든 해시 포인터가깨지는지를한다. 3에 정상적인chain과 조작된 chain을함께 제공하여, 올바르게 구분되는지도test한다.
 
 ### [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) 보안 테스트
 
-해시 포인터의安全性은 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)의역사적强성さに의존한다.因此 사용되는 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)의耐性性をtest해야 한다. 首先 第二原始像攻撃(Second Preimage Attack) 내성: 주어진 입력에 대한 해시와 동일한 해시값을내는 다른 입력을 찾는 것이 계산적으로 불가능해야 한다. 次に 誕生日 공격(Birthday Attack) 내성: n개의 输入에서 해시 충돌을 찾을 확률이 1/2이 되는 것은 약 √n개의 입력之后이어야 한다. 3番目に 길이 확장 공격(Length Extension Attack) 내성: SHA-256 등의 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)에서는 입력의 길이를 알면 해시값으로부터 추가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 해시를计算할 수 있는데, 이러한 공격에 안전한 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)를使用해야 한다.
+해시 포인터의보안은 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)의역사적성에의존한다. 사용되는 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)의을/를test해야 한다. 먼저 (Second Preimage Attack) 내성: 주어진 입력에 대한 해시와 동일한 해시값을내는 다른 입력을 찾는 것이 계산적으로 불가능해야 한다. 에 공격(Birthday Attack) 내성: n개의 에서 해시 충돌을 찾을 확률이 1/2이 되는 것은 약 √n개의 입력이어야 한다. 3에 길이 확장 공격(Length Extension Attack) 내성: SHA-256 등의 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)에서는 입력의 길이를 알면 해시값으로부터 추가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 해시를컴퓨팅할 수 있는데, 이러한 공격에 안전한 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)를사용해야 한다.
 
 ### 📢 비유 요약
 
-해시 포인터의品質test는은행의지문 인식 시스템のテスト와 같다. 진짜 지문을 넣으면「일치」라는 결과가 나와야 하고, 약간이라도다른 지문을 넣으면「불일치」라는 결과가 나와야 한다. 또한 한 문자만 다른 이름(조작된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))도「불일치」로判別해야 품질テスト合格이다.
+해시 포인터의품질test는은행의지문 인식 시스템의테스트와 같다. 진짜 지문을 넣으면「일치」라는 결과가 나와야 하고, 약간이라도다른 지문을 넣으면「불일치」라는 결과가 나와야 한다. 또한 한 문자만 다른 이름(조작된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))도「불일치」로해야 품질테스트이다.
 
 ---
 
@@ -138,19 +138,19 @@ tags = ["ict_convergence"]
 
 ### 해시 포인터의 진화: 위지럼 트리(Verkle Tree)
 
-[머클 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/)의 한계를 극복하기 위해 위지럼 트리(Verkle Tree)가 연구되고 있다. 위지럼 트리는 벡터 커밋먼트(Vector Commitment)를 利用하여 동일한 보안 수준을 유지하면서도Proof 크기를大幅으로 줄인다. 위지럼 트리에서도 해시 포인터와 유사한 结构인 Commitment 포인터를使用하여 노드 간 관계를 표현한다. 이더리움의今後の 레이트 클라이언트 개선에위지럼 트리 도입이検討되고 있다.
+[머클 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/)의 한계를 극복하기 위해 위지럼 트리(Verkle Tree)가 연구되고 있다. 위지럼 트리는 벡터 커밋먼트(Vector Commitment)를 활용하여 동일한 보안 수준을 유지하면서도Proof 크기를대폭으로 줄인다. 위지럼 트리에서도 해시 포인터와 유사한 인 Commitment 포인터를사용하여 노드 간 관계를 표현한다. 이더리움의의 레이트 클라이언트 개선에위지럼 트리 도입이되고 있다.
 
 ### [영지식 증명](/knowledge-base/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/)과 해시 포인터
 
-[영지식 증명](/knowledge-base/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/)([Zero-Knowledge Proof](/knowledge-base/studynote/06_ict_convergence/01_blockchain/037_zero_knowledge_proof_zkp/), [ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/))은 해시 포인터의 개념을 더욱 발전시킨다. 해시 포인터가「[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 위치와 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)」을증명するのに対し、ZKP는「[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 특정 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))을 알고 있음)을증명하되, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체는 공개하지 않는다는 점에서차별화된다. 예를 들어,「이 계정에 100BTC 이상이 있다」는 것을 계좌 잔액 자체를공개하지 않고도 증명할 수 있다. 해시 포인터가기본적인 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이라면, ZKP는より高度な情報非公開 하での検証技術이다.
+[영지식 증명](/knowledge-base/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/)([Zero-Knowledge Proof](/knowledge-base/studynote/06_ict_convergence/01_blockchain/037_zero_knowledge_proof_zkp/), [ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/))은 해시 포인터의 개념을 더욱 발전시킨다. 해시 포인터가「[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 위치와 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)」을증명하다의에、ZKP는「[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 특정 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))을 알고 있음)을증명하되, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체는 공개하지 않는다는 점에서차별화된다. 예를 들어,「이 계정에 100BTC 이상이 있다」는 것을 계좌 잔액 자체를공개하지 않고도 증명할 수 있다. 해시 포인터가기본적인 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이라면, ZKP는보다 하에서의이다.
 
 ### 📢 비유 요약
 
-해시 포인터의 발전은우체국追跡 시스템의进化과 같다.初期에는 소포가어디에 있는지만追踪할 수 있었다(일반 포인터). 이후には内容 요약도 함께 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있게 되었다(해시 포인터). 최신문에는 소포의 내용을열지 않고도(정보 공개 없이)「정품임을证明»받을 수 있다([영지식 증명](/knowledge-base/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/)). 정보의 위치 추적에서 내용 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)으로, further 나아가 정보 내용 자체는保密하면서 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)만 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 것으로 발전하고 있다.
+해시 포인터의 발전은우체국 시스템의과 같다.초기에는 소포가어디에 있는지만할 수 있었다(일반 포인터). 이후에는 요약도 함께 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있게 되었다(해시 포인터). 최신문에는 소포의 내용을열지 않고도(정보 공개 없이)「정품임을»받을 수 있다([영지식 증명](/knowledge-base/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/)). 정보의 위치 추적에서 내용 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)으로, further 나아가 정보 내용 자체는하면서 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)만 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 것으로 발전하고 있다.
 
 ### 결론
 
-해시 포인터는区块链技術의根基를이루는 핵심 개념이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 위치와 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 동시에 보장한다는 단순하지만 강력한 아이디어는, 중앙화된 관리자 없이도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 진위를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있는 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 시스템의 구현을 가능하게 하였다. [머클 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/), [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 사슬 구조, 인증된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조 등 해시 포인터의应用範囲은 매우 넓다. 향후 위지럼 트리, [영지식 증명](/knowledge-base/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/) 등장과 함께 해시 포인터의 기본 원칙은 계승되면서도 더욱 발전된 형태로 진화할 것이다.
+해시 포인터는블록체인의를이루는 핵심 개념이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 위치와 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 동시에 보장한다는 단순하지만 강력한 아이디어는, 중앙화된 관리자 없이도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 진위를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있는 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 시스템의 구현을 가능하게 하였다. [머클 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/), [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 사슬 구조, 인증된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조 등 해시 포인터의은 매우 넓다. 향후 위지럼 트리, [영지식 증명](/knowledge-base/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/) 등장과 함께 해시 포인터의 기본 원칙은 계승되면서도 더욱 발전된 형태로 진화할 것이다.
 
 ---
 
@@ -158,46 +158,46 @@ tags = ["ict_convergence"]
 
 ```
 +------------------------------------------------------------------+
-|                    해시 포인터 구조 및 동작 원리                    |
+| 해시 포인터 구조 및 동작 원리 |
 +------------------------------------------------------------------+
-|                                                                  |
-│  [일반 포인터]                                                    │
-│  ┌──────────────────┐                                            │
-│  │ 데이터 위치        │ ──────► [데이터]                          │
-│  │ (메모리 주소)     │                                            │
-│  └──────────────────┘                                            │
-│  문제: 데이터가 조작되었는지 알 수 없음                            │
-│                                                                  │
-│  [해시 포인터]                                                    │
-│  ┌──────────────────┐                                            │
-│  │ 데이터 위치        │ ──────► [데이터] ──► 데이터의 해시값      │
-│  │ (메모리 주소)     │             │              │              │
-│  └────────┬─────────┘             ▼              ▼              │
-│           │                ┌─────────────────┐  abc123...        │
-│           │                │ 무결성 검증:     │                   │
-│           │                │ Hash(data) ==? │                   │
-│           └──────────────► │Stored Hash     │                   │
-│                            └─────────────────┘                   │
-│                            ✅ 일치 → 데이터 무결                     │
-│                            ❌ 불일치 → 데이터 조작됨                 │
-│                                                                  │
+| |
+│ [일반 포인터] │
+│ ┌──────────────────┐ │
+│ │ 데이터 위치 │ ──────► [데이터] │
+│ │ (메모리 주소) │ │
+│ └──────────────────┘ │
+│ 문제: 데이터가 조작되었는지 알 수 없음 │
+│ │
+│ [해시 포인터] │
+│ ┌──────────────────┐ │
+│ │ 데이터 위치 │ ──────► [데이터] ──► 데이터의 해시값 │
+│ │ (메모리 주소) │ │ │ │
+│ └────────┬─────────┘ ▼ ▼ │
+│ │ ┌─────────────────┐ abc123... │
+│ │ │ 무결성 검증: │ │
+│ │ │ Hash(data) ==? │ │
+│ └──────────────► │Stored Hash │ │
+│ └─────────────────┘ │
+│ ✅ 일치 → 데이터 무결 │
+│ ❌ 불일치 → 데이터 조작됨 │
+│ │
 +------------------------------------------------------------------+
-|  블록체인에서의 해시 포인터:                                         │
-│                                                                  │
-│  [블록 N]     [블록 N+1]    [블록 N+2]                           │
-│  ┌─────────┐  ┌─────────┐  ┌─────────┐                          │
-│  │ Prev:   │  │ Prev:   │  │ Prev:   │                          │
-│  │ Hash(N-1)│◄─│ Hash(N) │◄─│Hash(N+1)│                         │
-│  └─────────┘  └─────────┘  └─────────┘                          │
-│       ▲             ▲                                            │
-│       │             │                                            │
-│  이것들이 해시 포인터!                                              │
-│  (이전 블록 위치 + 이전 블록 무결성)                                │
-│                                                                  │
-│  만약 블록 N의 데이터를 조작하면:                                   │
-│  → Hash(N)이 변함 → 블록 N+1의 Prev Hash와 불일치                  │
-│  → 블록 N+2도连锁적으로 무효화                                     │
-│  → 전체 체인의 조작发觉                                            │
+| 블록체인에서의 해시 포인터: │
+│ │
+│ [블록 N] [블록 N+1] [블록 N+2] │
+│ ┌─────────┐ ┌─────────┐ ┌─────────┐ │
+│ │ Prev: │ │ Prev: │ │ Prev: │ │
+│ │ Hash(N-1)│◄─│ Hash(N) │◄─│Hash(N+1)│ │
+│ └─────────┘ └─────────┘ └─────────┘ │
+│ ▲ ▲ │
+│ │ │ │
+│ 이것들이 해시 포인터! │
+│ (이전 블록 위치 + 이전 블록 무결성) │
+│ │
+│ 만약 블록 N의 데이터를 조작하면: │
+│ → Hash(N)이 변함 → 블록 N+1의 Prev Hash와 불일치 │
+│ → 블록 N+2도잠금적으로 무효화 │
+│ → 전체 체인의 조작 │
 +------------------------------------------------------------------+
 ```
 
@@ -215,17 +215,17 @@ tags = ["ict_convergence"]
 
 ```text
 [일반 포인터 (Pointer) — 위치 참조만]
-    │
-    ▼
+│
+▼
 [해시 함수 (SHA-256) — 데이터 지문 생성]
-    │
-    ▼
+│
+▼
 [해시 포인터 (Hash Pointer) — 위치 + 무결성 동시 보장]
-    │
-    ▼
+│
+▼
 [블록체인 해시 체인 — 연속 해시 포인터로 위·변조 방지]
-    │
-    ▼
+│
+▼
 [머클 트리 / 영지식 증명 — 효율적 부분 검증 및 프라이버시 보호]
 ```
 

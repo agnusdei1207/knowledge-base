@@ -25,7 +25,7 @@ tags = ["studynote-software-engineering"]
 
 - **💡 비유**: MTBF는 "자동차 무고장 주행 거리"에 비유할 수 있다. 자동차가 평균적으로 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000km마다 고장 나면 [MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) = [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000km이고, 이는 자동차의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)이 높다는 것을 의미한다.
 
-- **📢 섹션 요약 비유**: MTBF는 "건물 시설물의平均故障間隔"에 비유할 수 있다. 엘리베이터가 평균적으로 1년에 2번 고장 나면 (고장 간 평균 시간 = 6개월), [MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) = 6개월이고, 이는 시설물의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 평가에 활용된다.
+- **📢 섹션 요약 비유**: MTBF는 "건물 시설물의"에 비유할 수 있다. 엘리베이터가 평균적으로 1년에 2번 고장 나면 (고장 간 평균 시간 = 6개월), [MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) = 6개월이고, 이는 시설물의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 평가에 활용된다.
 
 ---
 
@@ -33,14 +33,14 @@ tags = ["studynote-software-engineering"]
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                  MTBF (Mean Time Betw                        │
+│ MTBF (Mean Time Betw │
 ├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
+│ │
+│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
+│ │ │ │ │
+│ ▼ ▼ ▼ │
+│ 요구 분석 설계·적용 품질 검증 │
+│ │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -141,17 +141,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+│
+▼
 MTBF (Mean Time Between Failures) 개념 정립
-    │
-    ▼
+│
+▼
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+│
+▼
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+│
+▼
 지속적 개선 및 DevOps·MLOps 통합
 ```
 

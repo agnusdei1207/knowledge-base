@@ -23,10 +23,10 @@ tags = ["studynote-security"]
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
-│ 왜 펌웨어 보안 UEFI Secure Boo가 필요한가                              │
+│ 왜 펌웨어 보안 UEFI Secure Boo가 필요한가 │
 ├──────────────────────────────────────────────────────────────┤
-│ 자산·서비스 운영 ─► 노출/불확실성 ─► 위험 확대              │
-│                     └──── 펌웨어 보안 UEFI Secure로 통제·판단 ────┘   │
+│ 자산·서비스 운영 ─► 노출/불확실성 ─► 위험 확대 │
+│ └──── 펌웨어 보안 UEFI Secure로 통제·판단 ────┘ │
 └──────────────────────────────────────────────────────────────┘
 ```
 
@@ -48,10 +48,10 @@ tags = ["studynote-security"]
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
-│ 운영 사이클                                                  │
+│ 운영 사이클 │
 ├──────────────────────────────────────────────────────────────┤
-│ 기준 수립 ─► 통제 적용 ─► 증적 수집 ─► 점검·개선            │
-│              └──────── 책임·보고 체계 ────────┘             │
+│ 기준 수립 ─► 통제 적용 ─► 증적 수집 ─► 점검·개선 │
+│ └──────── 책임·보고 체계 ────────┘ │
 └──────────────────────────────────────────────────────────────┘
 ```
 
@@ -114,12 +114,12 @@ tags = ["studynote-security"]
 
 ```text
 [규정·책임 요구]
-    │
-    ▼
+│
+▼
 [펌웨어 보안 UEFI Secure Boot (Firmware Security Uefi)]
-    │
-    ├──▶ [감사 자동화]
-    └──▶ [성숙도 향상]
+│
+├──▶ [감사 자동화]
+└──▶ [성숙도 향상]
 ```
 
 이 흐름도는 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 보안 [UEFI Secure Boot](/knowledge-base/studynote/09_security/04_endpoint_security/206_uefi_secure_boot_verification/) ([Firmware](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) [Uefi](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/))를 단일 용어가 아니라 선행 문제, 현재 해결 방식, 후속 확장 방향으로 기억하게 해 준다. 시험과 실무 모두에서 이 연결 구조를 함께 말할 수 있어야 개념이 살아난다.
@@ -136,7 +136,7 @@ tags = ["studynote-security"]
 
 **진행 상황**: 438 / 1108
 
-← **이전**: [383. CPU 취약점缓解 (Cpu Vuln Mitigation)](/knowledge-base/studynote/09_security/04_endpoint_security/383_cpu_vuln_mitigation/)
+← **이전**: [383. CPU 취약점완화 (Cpu Vuln Mitigation)](/knowledge-base/studynote/09_security/04_endpoint_security/383_cpu_vuln_mitigation/)
 **다음**: [385. Measured Boot (Measured Boot)](/knowledge-base/studynote/09_security/04_endpoint_security/385_measured_boot/) →
 
 ---

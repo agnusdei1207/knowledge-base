@@ -12,14 +12,14 @@ tags = ["studynote-operating-system"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/)는 **"정상 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 절차를 우회하는 숨겨진 접근 경로"**이고, 트랩도어는 **"개발자가 테스트 편의를 위해 의도적으로 삽입한 숨겨진 진입점"**이다. 둘 다 정상적인 접근 통로를 사용하지 않고 시스템에 접근할 수 있게 한다.
-> 2. **가치**: [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/)는 **침투 성공 후 지속적인 시스템 접근**을 유지하는 데 사용되며, 트랩도어는 **개발자가忘了(잊어버린) 설정이나 마스터 비밀번호**로 인해 발생할 수 있다.
+> 2. **가치**: [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/)는 **침투 성공 후 지속적인 시스템 접근**을 유지하는 데 사용되며, 트랩도어는 **개발자가(잊어버린) 설정이나 마스터 비밀번호**로 인해 발생할 수 있다.
 > 3. **한계**: [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/)는 **FIM([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) Monitoring)**이나 **[IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/)([침입 탐지 시스템](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/))**에 의해 탐지될 수 있으며, 강력한 보안 체계에서는 네트워크 트래픽 분석을 통해 발견될 수 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### 1.1 [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/)의概念
+### 1.1 [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/)의개념
 
 [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/)는 다음과 같이 정의된다:
 
@@ -37,13 +37,13 @@ tags = ["studynote-operating-system"]
 | **의도성** | 악의적 | 테스트/편의 목적 |
 | **발견 난이도** | 매우 어려움 | 비교적 쉬움 |
 
-### 1.3 트랩도어의著名 사례
+### 1.3 트랩도어의 사례
 
 ```c
 // 실제 사례: 개발 편의를 위한 백도어
 if (DEBUG_MODE && strcmp(password, "admin1234") == 0) {
-    // 디버그 모드에서만 작동하는 마스터 비밀번호
-    authenticate();
+// 디버그 모드에서만 작동하는 마스터 비밀번호
+authenticate();
 }
 ```
 
@@ -62,7 +62,7 @@ if (DEBUG_MODE && strcmp(password, "admin1234") == 0) {
 
 ### 2.2 [Rootkit](/knowledge-base/studynote/02_operating_system/10_security/603_rootkit_syscall_hooking/)
 
-Rootkit은 [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/)의一種(한 종류)로, **시스템 내부에 깊숙이 숨겨진 악성 코드 모음**:
+Rootkit은 [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/)의(한 종류)로, **시스템 내부에 깊숙이 숨겨진 악성 코드 모음**:
 
 ```text
 [ Rootkit의 특성 ]
@@ -127,7 +127,7 @@ Rootkit은 [백도어](/knowledge-base/studynote/03_network/14_network_security_
 ## Ⅴ. 기대효과 및 결론
 
 - **인식의 중요성**: [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/)와 트랩도어의 차이를 이해하고 탐지 능력 배양
-- **多层 방어**: 다양한 보안 기술을 조합하여 [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) 탐지 및 대응
+- ** 방어**: 다양한 보안 기술을 조합하여 [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) 탐지 및 대응
 - **[공급망 보안](/knowledge-base/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/)**: 개발 프로세스 전반에 대한 보안 검토 필요
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
@@ -147,21 +147,21 @@ Rootkit은 [백도어](/knowledge-base/studynote/03_network/14_network_security_
 
 ```text
 [트로이 목마 (Trojan Horse) / 래퍼 (Wrapper)]
-    │
-    ▼
+│
+▼
 [트랩 도어 (Trap Door / Backdoor)]
-    │
-    ├──▶ [로직 밤 (Logic Bomb) / 타이머 밤]
-    └──▶ [바이러스 (Virus)]
+│
+├──▶ [로직 밤 (Logic Bomb) / 타이머 밤]
+└──▶ [바이러스 (Virus)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **[백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/)**는 건물의 **"비밀 지하 통로"**와 같다. 정문에는 경비원이 있어 들어갈 수 없지만, 비밃道(길)를 통해시면 경비원 없이 건물에 출입할 수 있다.
+1. **[백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/)**는 건물의 **"비밀 지하 통로"**와 같다. 정문에는 경비원이 있어 들어갈 수 없지만, 비밃(길)를 통해시면 경비원 없이 건물에 출입할 수 있다.
 
-2. **트랩도어**는 건물을 지을 때建築家(건축가)가 **"디버깅 편의를 위해 만들어 둔 숨은 문"**과 같다. 건축가가忘了(잊어버린) 이 문이 있으면,外人(외인)이 그 문을 통해 건물에 출입할 수 있다.
+2. **트랩도어**는 건물을 지을 때(건축가)가 **"디버깅 편의를 위해 만들어 둔 숨은 문"**과 같다. 건축가가(잊어버린) 이 문이 있으면,(외인)이 그 문을 통해 건물에 출입할 수 있다.
 
 3. **[Rootkit](/knowledge-base/studynote/02_operating_system/10_security/603_rootkit_syscall_hooking/)**은 건물의 **"목적지까지 안내하는 은밀한 맵"**과 같다. 비밀 지하 통로를 아무리 찾아도, 그 끝에 어떻게 도달하는지는 알려지지 않는다. 이것이 Rootkit이 탐지하기 어려운 이유이다.
 

@@ -10,7 +10,7 @@ tags = ["studynote-security"]
 +++
 
 > **핵심 인사이트**
-> 1. 상속된 위험(Inherited [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))은 조직이 직접 통제할 수 없는 외부 요소([공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/), 클라우드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/), 인수합병된 기업)로부터 이전(移轉)되어 오는 위험으로, 현대 IT 환경에서 전체 위험의 상당 부분을 차지한다.
+> 1. 상속된 위험(Inherited [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))은 조직이 직접 통제할 수 없는 외부 요소([공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/), 클라우드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/), 인수합병된 기업)로부터 이전()되어 오는 위험으로, 현대 IT 환경에서 전체 위험의 상당 부분을 차지한다.
 > 2. 고유 위험(Inherent [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)) → 통제(Control) 적용 → 잔존 위험([Residual Risk](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/)) 체계에서, 상속된 위험은 통제 전 원시 위험 상태가 외부에서 유입되는 특수 형태이며, SolarWinds·[Log4Shell](/knowledge-base/studynote/09_security/05_web_app_security/452_log4shell/) 같은 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 공격이 대표적 사례다.
 > 3. 상속된 위험 관리의 핵심은 공급업체 위험 관리(Third-Party [Risk Management](/knowledge-base/studynote/09_security/17_framework_compliance/841_iso_27005_risk_management/), TPRM)와 [소프트웨어 자재 명세서](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/690_sbom_software_supply_chain_security/)([SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/), Software [Bill of Materials](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/))로, [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) 의무화는 미국 행정명령(EO 14028, [2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/))과 EU CRA(사이버복원력법)의 핵심 요구사항이 됐다.
 
@@ -22,26 +22,26 @@ tags = ["studynote-security"]
 위험 계층 (Risk Hierarchy):
 
 고유 위험 (Inherent Risk):
-  통제 없이 원천적으로 존재하는 위험 수준
-  "아무것도 안 했을 때의 위험"
+통제 없이 원천적으로 존재하는 위험 수준
+"아무것도 안 했을 때의 위험"
 
 상속된 위험 (Inherited Risk):
-  외부 주체(공급사, 파트너, 오픈소스)에서
-  우리 조직으로 이전되어 온 위험
-  "남이 만든 위험이 우리 것이 됨"
-  
+외부 주체(공급사, 파트너, 오픈소스)에서
+우리 조직으로 이전되어 온 위험
+"남이 만든 위험이 우리 것이 됨"
+
 잔존 위험 (Residual Risk):
-  통제 적용 후 남은 위험
-  허용 가능 위험 수준(Risk Appetite) 이하여야 함
+통제 적용 후 남은 위험
+허용 가능 위험 수준(Risk Appetite) 이하여야 함
 
 위험 이전 (Risk Transfer):
-  보험, 계약 조항으로 위험 재이전
+보험, 계약 조항으로 위험 재이전
 
 관계:
-  상속된 위험 -> 통제 적용 -> 잔존 위험
-     ^
-     |
-  공급망 / 클라우드 / 오픈소스
+상속된 위험 -> 통제 적용 -> 잔존 위험
+^
+|
+공급망 / 클라우드 / 오픈소스
 ```
 
 > 📢 **섹션 요약 비유**: 상속된 위험은 중고차 구입 — 이전 주인의 사고 이력이 고스란히 딸려오는 것처럼, 공급사의 보안 문제가 우리 위험이 된다.
@@ -54,24 +54,24 @@ tags = ["studynote-security"]
 유형별 사례:
 
 1. 공급망 위험 (Supply Chain Risk):
-   SolarWinds 해킹 (2020):
-     - IT 모니터링 소프트웨어 업데이트 패키지에 악성코드 삽입
-     - 18,000개 기관 감염 (미 정부, Fortune 500)
-     - 공급사 -> 고객 모두가 피해자
+SolarWinds 해킹 (2020):
+- IT 모니터링 소프트웨어 업데이트 패키지에 악성코드 삽입
+- 18,000개 기관 감염 (미 정부, Fortune 500)
+- 공급사 -> 고객 모두가 피해자
 
 2. 오픈소스 의존성 위험:
-   Log4Shell (CVE-2021-44228):
-     - Apache Log4j 라이브러리 RCE 취약점
-     - 전 세계 수백만 Java 애플리케이션 영향
-     - 직접 코드 없어도 의존성으로 위험 상속
+Log4Shell (CVE-2021-44228):
+- Apache Log4j 라이브러리 RCE 취약점
+- 전 세계 수백만 Java 애플리케이션 영향
+- 직접 코드 없어도 의존성으로 위험 상속
 
 3. 클라우드 서비스 위험:
-   AWS/Azure/GCP 장애 -> 서비스 중단
-   멀티 클라우드로 위험 분산 필요
+AWS/Azure/GCP 장애 -> 서비스 중단
+멀티 클라우드로 위험 분산 필요
 
 4. M&A (인수합병) 위험:
-   인수한 기업의 레거시 취약점 상속
-   통합 전 보안 실사(Due Diligence) 필수
+인수한 기업의 레거시 취약점 상속
+통합 전 보안 실사(Due Diligence) 필수
 ```
 
 > 📢 **섹션 요약 비유**: [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 의존성 위험은 식재료 공급업체 문제 — 내 식당이 아무 잘못 없어도 재료에 문제가 있으면 고객이 탈이 난다.
@@ -84,30 +84,30 @@ tags = ["studynote-security"]
 TPRM (Third-Party Risk Management):
 
 단계:
-  1. 식별 (Identification):
-     모든 공급업체/파트너/서비스 목록화
-     중요도(Criticality) 분류
+1. 식별 (Identification):
+모든 공급업체/파트너/서비스 목록화
+중요도(Criticality) 분류
 
-  2. 평가 (Assessment):
-     보안 설문지 (Security Questionnaire)
-     현장 감사 (On-site Audit)
-     취약점 스캔 결과 요청
+2. 평가 (Assessment):
+보안 설문지 (Security Questionnaire)
+현장 감사 (On-site Audit)
+취약점 스캔 결과 요청
 
-  3. 계약 통제 (Contractual Controls):
-     보안 요구사항 계약서 명시
-     위반 시 손해배상 조항
-     데이터 처리 계약 (DPA)
+3. 계약 통제 (Contractual Controls):
+보안 요구사항 계약서 명시
+위반 시 손해배상 조항
+데이터 처리 계약 (DPA)
 
-  4. 지속적 모니터링:
-     BitSight, SecurityScorecard 등 도구
-     외부에서 공급업체 보안 점수 지속 측정
+4. 지속적 모니터링:
+BitSight, SecurityScorecard 등 도구
+외부에서 공급업체 보안 점수 지속 측정
 
-  5. 종료 관리:
-     계약 종료 시 데이터 반환/삭제 확인
+5. 종료 관리:
+계약 종료 시 데이터 반환/삭제 확인
 
 표준:
-  ISO 27001 A.15 공급자 관계
-  NIST CSF, SOC 2 Type II
+ISO 27001 A.15 공급자 관계
+NIST CSF, SOC 2 Type II
 ```
 
 > 📢 **섹션 요약 비유**: TPRM은 납품 업체 품질 관리 — 최종 제품이 좋으려면 원재료 공급사부터 철저히 관리해야 한다.
@@ -120,29 +120,29 @@ TPRM (Third-Party Risk Management):
 SBOM (Software Bill of Materials):
 
 정의:
-  소프트웨어에 포함된 모든 구성요소
-  (오픈소스, 라이브러리, 의존성) 목록
+소프트웨어에 포함된 모든 구성요소
+(오픈소스, 라이브러리, 의존성) 목록
 
 필요성:
-  Log4Shell 같은 취약점 발생 시
-  SBOM 없으면: "우리 제품에 Log4j 있나?" 모름
-  SBOM 있으면: 즉시 영향 제품 확인 + 패치
+Log4Shell 같은 취약점 발생 시
+SBOM 없으면: "우리 제품에 Log4j 있나?" 모름
+SBOM 있으면: 즉시 영향 제품 확인 + 패치
 
 SBOM 포함 정보:
-  - 컴포넌트 이름, 버전
-  - 공급사 정보
-  - 라이선스 정보
-  - 의존 관계(Dependency Tree)
-  - 알려진 취약점 (CVE 참조)
+- 컴포넌트 이름, 버전
+- 공급사 정보
+- 라이선스 정보
+- 의존 관계(Dependency Tree)
+- 알려진 취약점 (CVE 참조)
 
 표준 형식:
-  SPDX (Linux Foundation)
-  CycloneDX (OWASP)
+SPDX (Linux Foundation)
+CycloneDX (OWASP)
 
 의무화 동향:
-  미국 EO 14028 (2021): 연방 소프트웨어 SBOM 의무
-  EU CRA (Cyber Resilience Act): 2024년 통과
-  국내: KISA 가이드라인 검토 중
+미국 EO 14028 (2021): 연방 소프트웨어 SBOM 의무
+EU CRA (Cyber Resilience Act): 2024년 통과
+국내: KISA 가이드라인 검토 중
 ```
 
 > 📢 **섹션 요약 비유**: SBOM은 식품 성분표 — 어떤 재료가 들어있는지 알아야 알레르기(취약점) 있는 재료를 발견하고 대응할 수 있다.
@@ -155,27 +155,27 @@ SBOM 포함 정보:
 금융기관 A사 공급망 보안 강화 사례:
 
 배경:
-  - 외주 개발사 통해 코어뱅킹 시스템 운영
-  - 공급사 내부 직원이 악성코드 삽입 시도 (내부자 위협)
+- 외주 개발사 통해 코어뱅킹 시스템 운영
+- 공급사 내부 직원이 악성코드 삽입 시도 (내부자 위협)
 
 위험 식별:
-  고유 위험: 금융 데이터 탈취 위험
-  상속된 위험: 외주 개발사 보안 수준 미흡
+고유 위험: 금융 데이터 탈취 위험
+상속된 위험: 외주 개발사 보안 수준 미흡
 
 통제 적용:
-  1. 소프트웨어 배포 전 SBOM 제출 의무화
-  2. 코드 서명 (Code Signing) 필수화
-  3. 개발 환경 접근 감사 로그 실시간 모니터링
-  4. 외주사 보안 인증 (ISO 27001) 계약 조건화
-  5. 핵심 시스템 소스코드 에스크로 (Escrow)
+1. 소프트웨어 배포 전 SBOM 제출 의무화
+2. 코드 서명 (Code Signing) 필수화
+3. 개발 환경 접근 감사 로그 실시간 모니터링
+4. 외주사 보안 인증 (ISO 27001) 계약 조건화
+5. 핵심 시스템 소스코드 에스크로 (Escrow)
 
 정기 평가:
-  분기별 외주사 보안 점수 측정
-  연간 현장 보안 감사 실시
+분기별 외주사 보안 점수 측정
+연간 현장 보안 감사 실시
 
 법규 준수:
-  금융보안원 전자금융거래법 가이드라인
-  공급망 보안 내부통제 기준 수립
+금융보안원 전자금융거래법 가이드라인
+공급망 보안 내부통제 기준 수립
 ```
 
 > 📢 **섹션 요약 비유**: 금융기관 [공급망 보안](/knowledge-base/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/)은 금고 열쇠를 외부 업체에 맡기는 것 — 업체 신뢰성을 계속 검증하고 계약서에 책임을 명시해야 한다.
@@ -187,19 +187,19 @@ SBOM 포함 정보:
 ```
 상속된 위험 (Inherited Risk)
 +-- 위험 계층
-|   +-- 고유 위험 -> 상속 위험 -> 잔존 위험
+| +-- 고유 위험 -> 상속 위험 -> 잔존 위험
 +-- 유형
-|   +-- 공급망 (SolarWinds)
-|   +-- 오픈소스 (Log4Shell)
-|   +-- 클라우드 서비스
-|   +-- M&A
+| +-- 공급망 (SolarWinds)
+| +-- 오픈소스 (Log4Shell)
+| +-- 클라우드 서비스
+| +-- M&A
 +-- 관리 방법
-|   +-- TPRM (제3자 위험 관리)
-|   +-- SBOM (소프트웨어 자재 명세서)
+| +-- TPRM (제3자 위험 관리)
+| +-- SBOM (소프트웨어 자재 명세서)
 +-- 법규/표준
-    +-- 미국 EO 14028
-    +-- EU CRA
-    +-- ISO 27001 A.15
++-- 미국 EO 14028
++-- EU CRA
++-- ISO 27001 A.15
 ```
 
 ---
@@ -209,28 +209,28 @@ SBOM 포함 정보:
 ```
 [전통적 경계 보안 (1990s)]
 방화벽, 내부 신뢰 가정
-      |
-      v
+|
+v
 [공급망 개방화 (2000s)]
 아웃소싱, SaaS, 오픈소스 확산
 공급망 위험 인식
-      |
-      v
+|
+v
 [SolarWinds 사태 (2020)]
 공급망 공격 현실화
 TPRM 중요성 급부상
-      |
-      v
+|
+v
 [Log4Shell (2021)]
 오픈소스 의존성 위험 재조명
 SBOM 의무화 논의 시작
-      |
-      v
+|
+v
 [EO 14028, EU CRA (2021~2024)]
 SBOM 법제화
 공급망 보안 국제 표준 강화
-      |
-      v
+|
+v
 [현재: Zero Trust + SBOM]
 모든 공급망을 불신 전제로 검증
 ```

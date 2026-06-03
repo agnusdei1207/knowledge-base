@@ -39,13 +39,13 @@ tags = ["studynote-ai"]
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────┐
-│                     특성 맵 생성 과정 (Feature Extraction)             │
+│ 특성 맵 생성 과정 (Feature Extraction) │
 ├────────────────────────────────────────────────────────────────────────┤
-│  [원본 이미지]   *   [다중 필터]   =  [선형 특성 맵]  ->  [액티베이션 맵]  │
-│  (H x W x 3)         (64 Filters)     (H' x W' x 64)      (ReLU 적용)  │
-│      │                   │                 │                   │       │
-│  복잡한 픽셀        가로선/세로선 등       필터 반응값        음수 제거(노이즈↓)│
-│                     패턴 탐지기        단순 집계 결과     핵심 특징만 강조  │
+│ [원본 이미지] * [다중 필터] = [선형 특성 맵] -> [액티베이션 맵] │
+│ (H x W x 3) (64 Filters) (H' x W' x 64) (ReLU 적용) │
+│ │ │ │ │ │
+│ 복잡한 픽셀 가로선/세로선 등 필터 반응값 음수 제거(노이즈↓)│
+│ 패턴 탐지기 단순 집계 결과 핵심 특징만 강조 │
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -90,7 +90,7 @@ tags = ["studynote-ai"]
 
 특성 맵은 시각 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 인간의 눈이 아닌 '기계의 뇌'에 최적화된 형태로 재가공하여, 이미지 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), [객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/), 세그먼테이션 등 현대 컴퓨터 비전 혁명의 기초 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조를 완성했다. 또한, [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 도구(Grad-CAM 등)를 통해 특정 특성 맵이 왜 활성화되었는지 역추적함으로써 AI의 판단 근거를 사람이 해석할 수 있는 [XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/)(설명 가능한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))의 핵심 단서로도 쓰인다.
 
-결론적으로 특성 맵은 단순한 행렬 곱셈의 결과가 아니라, "무엇을 버리고 무엇을 남길 것인가"라는 정보 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)과 의미 증폭의 정수(精髓)로 이해해야 한다.
+결론적으로 특성 맵은 단순한 행렬 곱셈의 결과가 아니라, "무엇을 버리고 무엇을 남길 것인가"라는 정보 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)과 의미 증폭의 정수()로 이해해야 한다.
 
 - **📢 섹션 요약 비유**: 특성 맵은 100만 평짜리 산을 다 파헤치는 대신, 금맥이 있는 줄기만 정확히 남겨둔 광산의 비밀 지형도이다.
 
@@ -109,17 +109,17 @@ tags = ["studynote-ai"]
 
 ```text
 원본 이미지 (Raw Image)
-    │
-    ▼
+│
+▼
 수동 필터 특징 추출 (Sobel, SIFT, HOG)
-    │
-    ▼
+│
+▼
 합성곱 연산 (Convolution Kernel) 기반 선형 특성 맵 (Raw Feature Map)
-    │
-    ▼
+│
+▼
 활성화 함수 (ReLU 등) 적용에 따른 액티베이션 맵 (Activation Map)
-    │
-    ▼
+│
+▼
 채널 최적화 (1x1 Conv, Depthwise Separable Conv) 및 시각화 (Grad-CAM)
 ```
 

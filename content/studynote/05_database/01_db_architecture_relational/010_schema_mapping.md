@@ -19,19 +19,19 @@ tags = ["database"]
 ---
 
 ### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
-[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 3단계 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)(외부, 개념, 내부)를 독립적으로 정의해 두더라도, 이들 간에 원활한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 교환이 일어나지 않는다면 아키텍처는 동작할 수 없습니다. [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 매핑([Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) Mapping), 우리말로는 '사상(寫像)'이라 불리는 이 기술은 서로 다른 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 수준을 가진 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 간의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조를 변환하고 대응시키는 규칙의 집합입니다. 
+[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 3단계 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)(외부, 개념, 내부)를 독립적으로 정의해 두더라도, 이들 간에 원활한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 교환이 일어나지 않는다면 아키텍처는 동작할 수 없습니다. [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 매핑([Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) Mapping), 우리말로는 '사상()'이라 불리는 이 기술은 서로 다른 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 수준을 가진 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 간의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조를 변환하고 대응시키는 규칙의 집합입니다.
 만약 매핑 계층이 없다면, 테이블에 컬럼이 하나 추가되거나 디스크의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 경로가 바뀌었을 때 응용 프로그램의 소스코드를 모두 뒤져서 수정해야 합니다. 매핑은 계층 간의 완충 지대(Buffer Zone)를 형성하여 하위 계층의 변경이 상위 계층으로 전파되는 것을 차단합니다. 현대 시스템에서 비즈니스 로직(응용 프로그램)과 스토리지(물리 DB)가 수명 주기를 달리하며 발전할 수 있는 이유는 전적으로 이 매핑 매커니즘 덕분입니다.
 
 다음 그림은 3단계 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 구조 사이에서 두 가지 매핑이 어떻게 [데이터 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/)을 형성하는지 보여줍니다.
 ```text
-[ 외부 스키마 ] (User View 1)      [ 외부 스키마 ] (User View 2)
-       │                                 │
-       └──> 외부/개념 매핑 (논리적 데이터 독립성 보장) <──┘
-                       │
+[ 외부 스키마 ] (User View 1) [ 외부 스키마 ] (User View 2)
+│ │
+└──> 외부/개념 매핑 (논리적 데이터 독립성 보장) <──┘
+│
 [ 개념 스키마 ] (Global Logical Structure)
-                       │
-           개념/내부 매핑 (물리적 데이터 독립성 보장)
-                       │
+│
+개념/내부 매핑 (물리적 데이터 독립성 보장)
+│
 [ 내부 스키마 ] (Physical Storage & Index)
 ```
 이 도식에서 핵심은 매핑이 단순한 선이 아니라, 변화를 흡수하는 '변환기(Translator)'라는 점입니다. [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [데이터 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/)은 위쪽 매핑을 통해 보장되고, 물리적 [데이터 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/)은 아래쪽 매핑을 통해 보장됩니다. 실무에서 시스템 유지보수 비용을 낮추는 핵심 비결은 바로 이 [매핑 규칙](/knowledge-base/studynote/05_database/02_modeling_normalization/116_mapping_rule_erd_to_relation/)을 [시스템 카탈로그](/knowledge-base/studynote/05_database/01_db_architecture_relational/011_system_catalog/) 내부에 안전하게 캡슐화해 두는 것입니다.
@@ -49,15 +49,15 @@ tags = ["database"]
 사용자의 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 두 단계의 매핑을 거쳐 물리적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 도달하는 심층 동작 흐름은 다음과 같습니다.
 ```text
 1. [User Query] SELECT name FROM Employee_View;
-        ↓
-2. [외부/개념 매핑 동작] 
-   - 딕셔너리 조회: Employee_View는 'EMP' 테이블의 'emp_name' 컬럼과 매핑됨.
-   - 쿼리 변환: SELECT emp_name FROM EMP;
-        ↓
-3. [개념/내부 매핑 동작] 
-   - 딕셔너리 조회: 'EMP' 테이블은 'DATA_TBS_01' 파일의 14번 블록에 있음.
-   - 접근 경로 산출: 'EMP_NAME_IDX' B-Tree 인덱스를 거쳐 Heap 데이터로 접근.
-        ↓
+↓
+2. [외부/개념 매핑 동작]
+- 딕셔너리 조회: Employee_View는 'EMP' 테이블의 'emp_name' 컬럼과 매핑됨.
+- 쿼리 변환: SELECT emp_name FROM EMP;
+↓
+3. [개념/내부 매핑 동작]
+- 딕셔너리 조회: 'EMP' 테이블은 'DATA_TBS_01' 파일의 14번 블록에 있음.
+- 접근 경로 산출: 'EMP_NAME_IDX' B-Tree 인덱스를 거쳐 Heap 데이터로 접근.
+↓
 4. [Storage Engine] 디스크 I/O 실행 및 역방향 매핑을 거쳐 결과 반환
 ```
 이 흐름의 핵심은 매핑이 런타임에 동적으로 일어난다는 점입니다. [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)([Optimizer](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_optimizer/))와 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 파서가 [시스템 카탈로그](/knowledge-base/studynote/05_database/01_db_architecture_relational/011_system_catalog/)([데이터 사전](/knowledge-base/studynote/05_database/07_exam_summary/393_data_dictionary/))에 저장된 [매핑 규칙](/knowledge-base/studynote/05_database/02_modeling_normalization/116_mapping_rule_erd_to_relation/)을 읽어와서 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 계속해서 재작성(Rewriting)합니다. 하지만 이 동적 변환 과정에는 CPU 연산 비용이 듭니다. 따라서 매핑이 너무 복잡해지면(예: 수십 개의 뷰 중첩), 매핑 해석에만 수 초가 걸리는 오버헤드가 발생할 수 있으므로 딕셔너리 캐시(Dictionary Cache)를 통해 [매핑 규칙](/knowledge-base/studynote/05_database/02_modeling_normalization/116_mapping_rule_erd_to_relation/)을 메모리에 올려두는 최적화가 필수적입니다.
@@ -82,26 +82,26 @@ tags = ["database"]
 실무 환경에서 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 매핑 원리를 활용하여 대규모 마이그레이션이나 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)의 위험을 회피할 수 있습니다.
 
 1. **테이블 분할 시나리오 (무중단 마이그레이션)**:
-   - 상황: 비대해진 `Order` 테이블을 `Order_Master`와 `Order_Detail`로 분할([정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))해야 함.
-   - [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/): 물리적 테이블은 2개로 분할하되, [외부 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/007_external_schema/)에 `Order`라는 이름의 뷰([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하고 두 테이블을 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))하여 매핑해 둠.
-   - 결과: 기존 레거시 앱은 여전히 `Order`라는 1개의 뷰를 찌르므로 앱 소스 코드는 한 줄도 수정할 필요가 없음. (외부/개념 매핑 활용)
+- 상황: 비대해진 `Order` 테이블을 `Order_Master`와 `Order_Detail`로 분할([정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))해야 함.
+- [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/): 물리적 테이블은 2개로 분할하되, [외부 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/007_external_schema/)에 `Order`라는 이름의 뷰([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하고 두 테이블을 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))하여 매핑해 둠.
+- 결과: 기존 레거시 앱은 여전히 `Order`라는 1개의 뷰를 찌르므로 앱 소스 코드는 한 줄도 수정할 필요가 없음. (외부/개념 매핑 활용)
 
 2. **물리 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) 적용 시나리오**:
-   - 상황: [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 테이블 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 너무 커져서 I/O 병목 발생.
-   - [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/): [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 테이블 구조는 그대로 둔 채, [내부 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/009_internal_schema/) 매핑만 변경하여 월별 [Range Partitioning](/knowledge-base/studynote/05_database/03_relational_model/180_range_partitioning/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 디스크를 분리.
-   - 결과: [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 응답 속도는 개선되지만, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 구조([개념 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/008_conceptual_schema/))는 동일하므로 상위의 모든 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)문은 유지됨. (개념/내부 매핑 활용)
+- 상황: [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 테이블 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 너무 커져서 I/O 병목 발생.
+- [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/): [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 테이블 구조는 그대로 둔 채, [내부 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/009_internal_schema/) 매핑만 변경하여 월별 [Range Partitioning](/knowledge-base/studynote/05_database/03_relational_model/180_range_partitioning/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 디스크를 분리.
+- 결과: [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 응답 속도는 개선되지만, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 구조([개념 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/008_conceptual_schema/))는 동일하므로 상위의 모든 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)문은 유지됨. (개념/내부 매핑 활용)
 
 다음은 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 구조 변경 시 매핑을 통해 장애를 격리하는 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)입니다.
 ```text
 [개념 스키마 변경 필요성 발생: 컬럼명 변경]
-   ↓
+↓
 [응용 프로그램 영향도 평가]
-   ├─> (직접 참조 중) ──> 매핑(View) 부재로 즉각 장애 발생 (안티패턴)
-   └─> (View를 통한 간접 참조 중)
-          ↓
+├─> (직접 참조 중) ──> 매핑(View) 부재로 즉각 장애 발생 (안티패턴)
+└─> (View를 통한 간접 참조 중)
+↓
 [외부/개념 매핑 규칙 수정]
-   => ALTER VIEW User_View AS SELECT new_col_name AS old_col_name FROM Table;
-          ↓
+=> ALTER VIEW User_View AS SELECT new_col_name AS old_col_name FROM Table;
+↓
 [격리 성공] 응용 프로그램은 과거 컬럼명으로 지속 접근 가능 (장애 제로)
 ```
 이 흐름의 핵심은 "인터페이스와 구현의 분리"라는 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 대원칙이 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 매핑 계층에도 정확히 적용된다는 점입니다. 실무에서는 이러한 매핑 기술 덕분에 24시간 365일 무중단 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 가능합니다.
@@ -132,20 +132,20 @@ tags = ["database"]
 
 ```text
 [개념적 스키마 (Conceptual Schema) — 비즈니스 엔티티·관계 모델링]
-    │
-    ▼
+│
+▼
 [논리적 스키마 (Logical Schema) — 관계형 테이블·키 정규화]
-    │
-    ▼
+│
+▼
 [물리적 스키마 (Physical Schema) — 저장 구조·인덱스·파티셔닝]
-    │
-    ▼
+│
+▼
 [스키마 매핑 (Schema Mapping) — 계층 간 변환 규칙 정의]
-    │
-    ▼
+│
+▼
 [ETL / 데이터 통합 — 이기종 스키마 간 데이터 이동]
-    │
-    ▼
+│
+▼
 [스키마 레지스트리 (Schema Registry) — 이벤트 기반 스키마 버전 관리]
 ```
 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 매핑은 추상적 개념 모델을 물리 저장소로 변환하는 다리 역할을 하며, ETL과 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)로 이어지는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합의 핵심 기반이다.

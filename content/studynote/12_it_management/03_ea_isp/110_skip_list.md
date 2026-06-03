@@ -24,9 +24,9 @@ tags = ["studynote-it-management"]
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
-│ Demand        Principle        Execution        Feedback     │
+│ Demand Principle Execution Feedback │
 ├──────────────────────────────────────────────────────────────┤
-│ Business need ──▶ control point ──▶ operation ──▶ improve    │
+│ Business need ──▶ control point ──▶ operation ──▶ improve │
 └──────────────────────────────────────────────────────────────┘
 ```
 
@@ -45,13 +45,13 @@ tags = ["studynote-it-management"]
 | [Enterprise Architecture](/knowledge-base/studynote/12_it_management/01_governance_strategy/010_ea_enterprise_architecture/) | 핵심 관리 축으로 작동하며 다른 요소를 연결한다. | 범위와 기준선이 흔들리면 후속 통제도 불안정해진다. |
 | 전사적 아키텍처 | 원칙과 구조를 구체화해 실행 가능한 형태로 바꾼다. | 책임 경계와 운영 절차가 연결돼야 재현성이 생긴다. |
 | 결과: 평균적으로 O(log n) 시간에 탐색이 가능하다 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다. | 측정 가능한 산출물과 증적이 있어야 설명 가능성이 높아진다. |
-| 판단: 확률적 자료구조이지만 실제 성능은 결정적 자료구조와匹敵한다 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다. | 변화·예외를 다시 체계에 반영해야 장기적으로 유지된다. |
+| 판단: 확률적 자료구조이지만 실제 성능은 결정적 자료구조와한다 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다. | 변화·예외를 다시 체계에 반영해야 장기적으로 유지된다. |
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
-│ Scope  ──▶  Role  ──▶  Process  ──▶  Measure  ──▶  Improve   │
+│ Scope ──▶ Role ──▶ Process ──▶ Measure ──▶ Improve │
 ├──────────────────────────────────────────────────────────────┤
-│ boundary    owner      control       evidence      feedback  │
+│ boundary owner control evidence feedback │
 └──────────────────────────────────────────────────────────────┘
 ```
 
@@ -86,7 +86,7 @@ tags = ["studynote-it-management"]
 1. 적용 범위와 제외 범위가 명확하며 [Enterprise Architecture](/knowledge-base/studynote/12_it_management/01_governance_strategy/010_ea_enterprise_architecture/) 관점의 경계가 실제 운영에 반영되어 있는가?
 2. 전사적 아키텍처와 관련된 책임자, 승인권자, 실행 주체가 충돌 없이 정의되어 있는가?
 3. 결과: 평균적으로 O(log n) 시간에 탐색이 가능하다 결과를 보여 주는 증적과 지표가 정기적으로 축적되는가?
-4. 판단: 확률적 자료구조이지만 실제 성능은 결정적 자료구조와匹敵한다 결과가 다음 변경·투자·교육 계획으로 환류되는가?
+4. 판단: 확률적 자료구조이지만 실제 성능은 결정적 자료구조와한다 결과가 다음 변경·투자·교육 계획으로 환류되는가?
 
 ### 자주 발생하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -114,17 +114,17 @@ tags = ["studynote-it-management"]
 | [Enterprise Architecture](/knowledge-base/studynote/12_it_management/01_governance_strategy/010_ea_enterprise_architecture/) | 핵심 관리 축으로 작동하며 다른 요소를 연결한다 |
 | 전사적 아키텍처 | 원칙과 구조를 구체화해 실행 가능한 형태로 바꾼다 |
 | 결과: 평균적으로 O(log n) 시간에 탐색이 가능하다 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다 |
-| 판단: 확률적 자료구조이지만 실제 성능은 결정적 자료구조와匹敵한다 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다 |
+| 판단: 확률적 자료구조이지만 실제 성능은 결정적 자료구조와한다 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
 [선행 요구 정렬]
-    │
-    ▼
+│
+▼
 [EA (Enterprise Architecture, 전사적 아키텍처)]
-    │
-    ├──▶ [전사적 아키텍처]
-    └──▶ [결과: 평균적으로 O(log n) 시간에 탐색이 가능하다]
+│
+├──▶ [전사적 아키텍처]
+└──▶ [결과: 평균적으로 O(log n) 시간에 탐색이 가능하다]
 ```
 
 이 흐름은 선행 요구를 기준으로 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) ([Enterprise Architecture](/knowledge-base/studynote/12_it_management/01_governance_strategy/010_ea_enterprise_architecture/), 전사적 아키텍처)를 정착시키고, 이후 전사적 아키텍처와 결과: 평균적으로 O(log n) 시간에 탐색이 가능하다 같은 확장 축으로 고도화하는 전개를 보여 준다.

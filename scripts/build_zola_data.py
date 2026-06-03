@@ -76,7 +76,15 @@ def insert_tree(root: dict[str, Any], segments: list[str], item: dict[str, Any])
           }
           children.append(found)
       node = found
-    node.setdefault("children", []).append(item)
+    
+    children = node.setdefault("children", [])
+    found = next((child for child in children if child.get("segment") == item["segment"]), None)
+    if found is not None:
+        for k, v in item.items():
+            if k != "children":
+                found[k] = v
+    else:
+        children.append(item)
 
 
 def sort_tree(node: dict[str, Any]) -> None:
@@ -178,10 +186,10 @@ def main() -> None:
     ][:900]
 
     (OUT / "site-index.json").write_text(json.dumps(tree, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
-    for path_key, entries in backlinks.items():
-        filename = quote(path_key, safe="") + ".json"
+    for doc in docs:
+        filename = quote(doc["path"], safe="") + ".json"
         (BACKLINKS_OUT / filename).write_text(
-            json.dumps(entries[:80], ensure_ascii=False, separators=(",", ":")),
+            json.dumps(backlinks.get(doc["path"], [])[:80], ensure_ascii=False, separators=(",", ":")),
             encoding="utf-8",
         )
     (OUT / "graph.json").write_text(json.dumps({"nodes": nodes, "links": graph_links}, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")

@@ -1,242 +1,106 @@
-# 🌌 통합 지식저장소 (Knowledgebase)
+# Knowledgebase
 
-개인 학습(기술사 스터디 노트) · 사내 업무 문서 · AI 에이전트 지식 검색을 **하나의 저장소**에서 관리하는 Quartz v5 기반 지식 허브입니다.
+개인 학습(기술사 스터디 노트), 업무 문서, AI 에이전트 지식 검색을 하나의 저장소에서 관리하는 Zola + Pagefind 기반 지식 허브입니다.
 
----
+## Architecture
 
-## 목차
-
-1. [전체 아키텍처](#1-전체-아키텍처)
-2. [콘텐츠 구조](#2-콘텐츠-구조)
-3. [GitHub Pages 배포](#3-github-pages-배포)
-4. [배포 트러블슈팅](#4-배포-트러블슈팅)
-5. [MCP 서버 (AI 에이전트 연동)](#5-mcp-서버-ai-에이전트-연동)
-6. [설정 파일 설명](#6-설정-파일-설명)
-
----
-
-## 1. 전체 아키텍처
-
-```
-          ┌────────────────────────────────────────────┐
-          │            GitHub Repository                │
-          │   (content/*.md + quartz.config.yaml)      │
-          └──────────────────┬─────────────────────────┘
-                             │ git push (main)
-                             ▼
-                 ┌───────────────────┐
-                 │  GitHub Actions   │
-                 │  (deploy.yml)     │
-                 │                   │
-                 │  Quartz v5 빌드   │
-                 │  → GitHub Pages   │
-                 └───────────────────┘
+```text
+content/*.md
+  -> scripts/build_zola_data.py
+  -> zola build
+  -> scripts/generate-llms-txt.sh
+  -> pagefind --site public --output-subdir _pagefind
+  -> GitHub Pages
 ```
 
----
+`../brainscience`는 Zola 설정, Pagefind 빌드 스크립트, GitHub Actions 배포 구조를 참고한 대상입니다. 현재 사이트의 HTML/CSS 디자인은 knowledgebase의 기존 Quartz UI/UX를 Zola Tera 템플릿과 로컬 CSS로 재구현합니다.
 
-## 2. 콘텐츠 구조
+## Content
 
-```
+```text
 content/
-├── index.md            ← 메인 허브 대시보드
-├── work/               ← 🏢 사내 업무 (비즈니스·개발·운영)
-│   ├── _index.md
-│   ├── business.md
-│   ├── development.md
-│   └── ...
-├── study/              ← 🎓 학습 & R&D
-│   ├── _index.md
-│   ├── r-and-d.md
-│   └── studynote/      ← 기술사 시험 16과목 스터디 노트 (9,597개)
-│       ├── 01_computer_architecture/
-│       ├── 02_operating_system/
-│       └── ...
-└── personal/           ← 🏠 개인 기록 (비공개 가능)
-    ├── _index.md
-    ├── journal.md
-    └── ...
+├── _index.md
+├── work/
+├── personal/
+├── study/
+├── studynote/
+└── r-and-d/
 ```
 
-> **분리 원칙**: `study/studynote/` 는 기술사 시험 전용 공간입니다. 업무 문서(`work/`)와 절대 혼재하지 않습니다.
-> **비공개 처리**: `private/` 폴더나 frontmatter에 `draft: true` 를 쓰면 빌드에서 제외됩니다.
+Zola 규칙에 따라 섹션 문서는 `_index.md`를 사용합니다. 일반 문서는 TOML frontmatter(`+++`)를 사용하며, 검색 인덱스는 Zola 내장 검색이 아니라 Pagefind가 생성합니다.
 
----
+## Local Build
 
-## 3. GitHub Pages 배포
-
-### 저장소 설정 (최초 1회)
-
-1. GitHub 저장소 → **Settings → Pages**
-2. Source: **GitHub Actions** 선택
-3. `main` 브랜치에 push하면 자동 배포됩니다.
-
-### 배포 URL
-
+```bash
+npm ci
+PATH=/tmp/zola-bin:$PATH npm run build
 ```
+
+로컬에 Zola가 없으면 GitHub Actions와 같은 버전을 설치합니다.
+
+```bash
+mkdir -p /tmp/zola-bin
+curl -sSL https://github.com/getzola/zola/releases/download/v0.19.2/zola-v0.19.2-x86_64-unknown-linux-gnu.tar.gz \
+  | tar xzf - -C /tmp/zola-bin
+```
+
+간단한 로컬 빌드는 다음 스크립트로 실행할 수 있습니다.
+
+```bash
+bash scripts/build-site.sh
+```
+
+## Deployment
+
+GitHub Pages 배포는 `.github/workflows/deploy.yml`에서 수행합니다.
+
+1. Node.js 24 설치
+2. `npm ci`
+3. Zola 0.19.2 설치
+4. `npm run build`
+5. `public/` 업로드
+6. `actions/deploy-pages`
+
+배포 URL:
+
+```text
 https://agnusdei1207.github.io/knowledge-base/
 ```
 
-### 배포 흐름
+## Runtime Assets
 
-```
-git push origin main
-        ↓
-GitHub Actions (deploy.yml)
-        ↓
-① Quartz v5 tarball 다운로드 (캐시 히트 시 스킵)
-② npm ci --prefer-offline (npm 캐시 활용)
-③ npx quartz plugin install
-④ npx quartz build → .quartz-build/public/
-⑤ actions/upload-pages-artifact
-⑥ actions/deploy-pages → GitHub Pages
-        ↓
-배포 완료 (캐시 히트 시 약 3~5분)
-```
+`scripts/build_zola_data.py`는 다음 정적 데이터를 생성합니다.
 
-### 캐시 전략
+| Path | Purpose |
+| --- | --- |
+| `static/assets/data/site-index.json` | Explorer 트리 |
+| `static/assets/data/backlinks/*.json` | 페이지별 백링크 |
+| `static/assets/data/graph.json` | 축약 그래프 뷰 |
 
-| 캐시 키 | 내용 | 무효화 조건 |
-|---------|------|------------|
-| `quartz-src-v5-{hash}` | Quartz v5 소스 tarball | `quartz.config.yaml` 변경 시 |
-| `quartz-npm-v5-{hash}` | node_modules | `package-lock.json` 변경 시 |
+이 파일들은 빌드 시 생성되므로 저장소에 커밋하지 않습니다.
 
----
+## Key Files
 
-## 4. 배포 트러블슈팅
-
-### ❌ 빌드가 30분 이상 걸린다
-
-**원인**: Quartz 소스 재다운로드 + npm 패키지 재설치 (캐시 미적중)
-
-**해결**:
-```bash
-# GitHub Actions에서 캐시를 강제 초기화하려면:
-# 저장소 → Actions → 사이드바 "Caches" → 해당 캐시 삭제
-# 또는 quartz.config.yaml 에 공백 한 줄 추가 후 push (캐시 키 변경)
-```
-
----
-
-### ❌ `Some specified paths were not resolved, unable to cache dependencies`
-
-**원인**: `actions/setup-node`의 `cache: 'npm'` 옵션은 프로젝트 루트의 `package-lock.json`을 찾는데,
-이 프로젝트는 Quartz를 임시 디렉토리에 다운로드해서 빌드하므로 루트에 `package-lock.json`이 없습니다.
-
-**해결**: 이미 수정됨. `setup-node`에서 `cache: 'npm'` 옵션을 제거하고 `actions/cache@v4`로 직접 캐시 경로를 지정했습니다.
-추가 작업 필요 없음.
-
----
-
-### ❌ `npx quartz plugin install` 실패
-
-**원인 1**: `quartz.config.yaml`에 존재하지 않는 플러그인 소스가 있을 때
-
-**확인**:
-```bash
-# 로컬에서 먼저 테스트
-bash scripts/build-quartz.sh /tmp/test-build
-```
-
-**원인 2**: GitHub API 레이트 리밋 (플러그인을 `github:quartz-community/...`에서 받아오는 경우)
-
-**해결**: 재시도하면 보통 해결됩니다. 반복적이면 Actions Secrets에 `GH_TOKEN`을 추가하세요.
-
----
-
----
-
-### ❌ GitHub Pages에 배포는 됐는데 CSS/이미지가 안 나온다
-
-**원인**: `quartz.config.yaml`의 `baseUrl`이 잘못 설정된 경우
-
-```yaml
-# quartz.config.yaml
-configuration:
-  baseUrl: agnusdei1207.github.io/knowledge-base  # ← 이 값 확인
-```
-
-> `https://` 프로토콜과 슬래시 없이 `도메인/경로` 형식으로 작성해야 합니다.
-
----
-
-### ❌ `content/private/` 파일이 공개된다
-
-**방법 1**: `quartz.config.yaml`의 `ignorePatterns` 확인
-
-```yaml
-configuration:
-  ignorePatterns:
-    - private        # ← 이 줄이 있어야 함
-    - templates
-    - .obsidian
-```
-
-**방법 2**: frontmatter에 `draft: true` 추가
-
-```markdown
----
-title: "비공개 문서"
-draft: true
----
-```
-
----
-
-### ❌ test (validate) 워크플로우가 실패한다
-
-**확인**:
-```bash
-# 필수 파일 존재 확인
-ls quartz.config.yaml \
-   scripts/build-quartz.sh \
-   content/index.md
-
-# YAML 문법 검사
-python3 -c "import yaml; yaml.safe_load(open('quartz.config.yaml'))" && echo OK
-
-# 셸 스크립트 문법 검사
-bash -n scripts/build-quartz.sh && echo OK
-```
-
----
-
-## 5. MCP 서버 (AI 에이전트 연동)
-
-### 연결 설정 예시 (Claude Desktop / Cursor 등)
-
-```json
-{
-  "mcpServers": {
-    "knowledgebase": {
-      "url": "http://localhost:8090/mcp"
-    }
-  }
-}
-```
-
-### 사용 가능한 도구
-
-| 도구 | 설명 | 예시 |
-|------|------|------|
-| `search_docs` | 키워드 전문 검색 | `search_docs("캐시 메모리")` |
-| `get_doc` | 파일 경로로 문서 조회 | `get_doc("study/studynote/01_computer_architecture/cache.md")` |
-| `list_docs` | 디렉토리 목록 조회 | `list_docs("work/")` |
-
-### 에이전트 사용 원칙 (AGENTS.md)
-
-- AI 에이전트는 기술 도메인 질문 시 `study/studynote/` 를 **우선** 참조합니다.
-- 업무 프로세스·정책은 `work/` 에서 검색합니다.
-- **쓰기 권한 없음** — MCP 서버는 읽기 전용(`ro` 마운트)입니다.
-
----
-
-## 6. 설정 파일 설명
-
-| 파일 | 역할 |
-|------|------|
-| `quartz.config.yaml` | Quartz v5 전체 설정 (테마, 플러그인, baseUrl) |
-| `scripts/build-quartz.sh` | CI/CD 및 로컬 정적 빌드 스크립트 |
-| `scripts/knowledgebase_mcp_server.py` | MCP HTTP 서버 (FastMCP/Starlette) |
+| File | Role |
+| --- | --- |
+| `config.toml` | Zola 설정 |
+| `templates/base.html` | Quartz형 레이아웃 재구현 |
+| `static/assets/css/style.css` | Quartz형 테마/레이아웃 스타일 |
+| `static/assets/js/site.js` | 검색 모달, 다크 모드, Explorer, graph/backlinks |
+| `scripts/build_zola_data.py` | Explorer/backlinks/graph 데이터 생성 |
+| `scripts/convert_frontmatter_to_zola.py` | YAML frontmatter를 TOML로 변환 |
+| `scripts/convert_wikilinks_for_zola.py` | 위키링크를 Zola가 렌더링 가능한 링크로 변환 |
+| `scripts/knowledgebase_mcp_server.py` | MCP HTTP 서버 |
 | `AGENTS.md` | AI 에이전트 행동 규칙 |
-| `.github/workflows/deploy.yml` | GitHub Pages 자동 배포 |
+
+## MCP Server
+
+AI 에이전트는 `knowledgebase` MCP 서버를 통해 문서를 검색하고 읽을 수 있습니다.
+
+주요 도구:
+
+| Tool | Description |
+| --- | --- |
+| `search_docs` | 키워드 검색 |
+| `get_doc` | 문서 조회 |
+| `list_docs` | 문서 목록 조회 |

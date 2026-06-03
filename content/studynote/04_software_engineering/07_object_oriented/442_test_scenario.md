@@ -19,18 +19,18 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 테스트 시나리오는 특정 소프트웨어 기능, [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/), 또는 사용자 여정(Journey)을 테스트하기 위해 작성되는 high-levelなテスト 목표 설명이다. 이는 "사용자가 로그인할 수 있어야 한다", "결제 시스템이 올바른 금액을 계산해야 한다"와 같이 간결하게 표현된다. 테스트 시나리오는通常 하나 이상의 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)를 포함하며, 각 시나리오는 특정 테스트 목적을服务한다.
+- **개념**: 테스트 시나리오는 특정 소프트웨어 기능, [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/), 또는 사용자 여정(Journey)을 테스트하기 위해 작성되는 high-level테스트 목표 설명이다. 이는 "사용자가 로그인할 수 있어야 한다", "결제 시스템이 올바른 금액을 계산해야 한다"와 같이 간결하게 표현된다. 테스트 시나리오는 하나 이상의 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)를 포함하며, 각 시나리오는 특정 테스트 목적을한다.
 
-- **필요성**: 대규모 시스템에서는 수백甚至 수천 개의 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)가 존재할 수 있다. 이러한 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)들을 개별적으로 관리하면テスト策划과進捗管理가 매우 복잡해진다. 테스트 시나리오는 이러한 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)들을 논리적 그룹으로 구성하여, 테스트 범위의 구조화를 가능하게 한다.
+- **필요성**: 대규모 시스템에서는 수백 수천 개의 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)가 존재할 수 있다. 이러한 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)들을 개별적으로 관리하면테스트과관리가 매우 복잡해진다. 테스트 시나리오는 이러한 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)들을 논리적 그룹으로 구성하여, 테스트 범위의 구조화를 가능하게 한다.
 
-- **💡 비유**: 테스트 시나리오는 **'음식점의 메뉴판'**과 같다. 메뉴판에는 "한정", "오늘의 추천", "베스트셀러" 등의 카테고리가 있고, 각 카테고리 아래에 개별 요리가 목록된다. 테스트 시나리오도 마찬가지로 "로그인 기능", "결제 기능" 등의 시나리오(카테고리) 아래에具体的な [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)(요리)가 구성된다.
+- **💡 비유**: 테스트 시나리오는 **'음식점의 메뉴판'**과 같다. 메뉴판에는 "한정", "오늘의 추천", "베스트셀러" 등의 카테고리가 있고, 각 카테고리 아래에 개별 요리가 목록된다. 테스트 시나리오도 마찬가지로 "로그인 기능", "결제 기능" 등의 시나리오(카테고리) 아래에 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)(요리)가 구성된다.
 
 - **등장 배경 및 발전 과정**:
-  1. **1990년대**: 요구사항 기반 테스트 기획에서 테스트 시나리오 개념 정립
-  2. **2000년대**: ISO/IEC 29119 (Software Testing) 표준에서 테스트 시나리오 정의
-  3. **2010년대 이후**: [BDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/), [ATDD](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/710_atdd_acceptance_test_driven_development/)(Acceptance [Test-Driven Development](/knowledge-base/studynote/11_design_supervision/06_exam_summary/411_process/))와의 융합으로 Given-When-Then 기반 시나리오로 발전
+1. **1990년대**: 요구사항 기반 테스트 기획에서 테스트 시나리오 개념 정립
+2. **2000년대**: ISO/IEC 29119 (Software Testing) 표준에서 테스트 시나리오 정의
+3. **2010년대 이후**: [BDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/), [ATDD](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/710_atdd_acceptance_test_driven_development/)(Acceptance [Test-Driven Development](/knowledge-base/studynote/11_design_supervision/06_exam_summary/411_process/))와의 융합으로 Given-When-Then 기반 시나리오로 발전
 
-- **📢 섹션 요약 비유**: 테스트 시나리오는 **'건축 检查清单'**과 같다. 건축 检查清单에는 "구조 안전성", "전기 배선", "급수 시스템" 등의 检查 항목(시나리오)이 있고, 각 항목 아래에 구체적인 检查 내용([테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/))이 나열된다. 시나리오가 없다면数千 개의 检查 내용을 한눈에 파악하고 관리하는 것이 불가능하듯이, 테스트 시나리오는テスト 케이스의 체계적 관리에 필수적이다.
+- **📢 섹션 요약 비유**: 테스트 시나리오는 **'건축 검사'**과 같다. 건축 검사에는 "구조 안전성", "전기 배선", "급수 시스템" 등의 검사 항목(시나리오)이 있고, 각 항목 아래에 구체적인 검사 내용([테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/))이 나열된다. 시나리오가 없다면수 개의 검사 내용을 한눈에 파악하고 관리하는 것이 불가능하듯이, 테스트 시나리오는테스트 케이스의 체계적 관리에 필수적이다.
 
 ---
 
@@ -38,14 +38,14 @@ tags = ["studynote-software-engineering"]
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                  테스트 시나리오 (Test Scena                        │
+│ 테스트 시나리오 (Test Scena │
 ├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
+│ │
+│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
+│ │ │ │ │
+│ ▼ ▼ ▼ │
+│ 요구 분석 설계·적용 품질 검증 │
+│ │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -146,17 +146,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+│
+▼
 테스트 시나리오 (Test Scenario) 개념 정립
-    │
-    ▼
+│
+▼
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+│
+▼
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+│
+▼
 지속적 개선 및 DevOps·MLOps 통합
 ```
 

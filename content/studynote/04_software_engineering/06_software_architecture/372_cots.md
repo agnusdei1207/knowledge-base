@@ -19,19 +19,19 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: COTS는 "상거래용-선반에서-취する(Commercial Off-The-Shelf)"의 약어로, 소프트웨어를 特注開發が不要で、市場에서 完成된 제품으로 구매하여 즉시使用する形態を表す。 이는 Sears에서 완제품 옷을 구매하는 것과類似しており, 맞춤옷(사내 개발)과比較하여製作時間과 비용이 절감되지만, 完全히 내 취향에 맞추기 어렵다는 점이 있다.
+- **개념**: COTS는 "상거래용-선반에서-취하다(Commercial Off-The-Shelf)"의 약어로, 소프트웨어를 이/가에서、에서 완료된 제품으로 구매하여 즉시사용하다을/를。 이는 Sears에서 완제품 옷을 구매하는 것과하여, 맞춤옷(사내 개발)과하여과 비용이 절감되지만, 완전히 내 취향에 맞추기 어렵다는 점이 있다.
 
-- **필요성**: 모든 소프트웨어를 사내에서 开发하면 많은 시간과 인력이 소요된다. 특히 업무처리([ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)), 고객관리([CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)),コンテンツ管理(CMS)처럼 대부분의 기업에서 공통적으로 필요한 기능은 COTS 도입이 효율적이며, 이를 통해 회사는 핵심業務에만 자원를 집중할 수 있다.
+- **필요성**: 모든 소프트웨어를 사내에서 개발하면 많은 시간과 인력이 소요된다. 특히 업무처리([ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)), 고객관리([CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)),관리(CMS)처럼 대부분의 기업에서 공통적으로 필요한 기능은 COTS 도입이 효율적이며, 이를 통해 회사는 핵심에만 자원를 집중할 수 있다.
 
-- **💡 비유**: COTS 도입은 **'직장인의通勤用 자동차 구매'**와 같다. 차를 처음부터設計부터 제작하면（사내 개발）수년이 걸리지만, dealership에서 완성된차를 구매하면（ COTS）당일부터 사용할 수 있다.그러나 차의仕様가 내 취향과 完全一致하지 않을 수 있고,維持補正を dealership에 의존해야 한다.
+- **💡 비유**: COTS 도입은 **'직장인의 자동차 구매'**와 같다. 차를 처음부터설계부터 제작하면（사내 개발）수년이 걸리지만, dealership에서 완성된차를 구매하면（ COTS）당일부터 사용할 수 있다.그러나 차의가 내 취향과 완전하지 않을 수 있고,유지을/를 dealership에 의존해야 한다.
 
 - **등장 배경 및 발전 과정**:
-  1. **1980년대**: 미국 정부의 FAA,军方 등이 COTS 도입을 장려하여 구매 비용 절감
-  2. **1990년대**: [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 솔루션(SAP, [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/)) 대중화, COTS 기반 시스템 구축 증가
-  3. **2000년대**: [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 운동과 함께 COTS의 대안으로 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 소프트웨어([OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)) 확산
-  4. **현재**: 클라우드 기반 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) (Software [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) 모델로 발전, 구독 기반 이용
+1. **1980년대**: 미국 정부의 FAA, 등이 COTS 도입을 장려하여 구매 비용 절감
+2. **1990년대**: [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 솔루션(SAP, [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/)) 대중화, COTS 기반 시스템 구축 증가
+3. **2000년대**: [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 운동과 함께 COTS의 대안으로 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 소프트웨어([OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)) 확산
+4. **현재**: 클라우드 기반 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) (Software [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) 모델로 발전, 구독 기반 이용
 
-- **📢 섹션 요약 비유**: COTS는 **'피트니스 센터의 利用권'**과 같다. 헬스장을 처음부터 设计하여 건설하면（사내 개발）数年이 걸리지만, 완성된 피트니스 센터에 利用권을 구매하면（即刻 利用）수업과 설비를즉시 활용할 수 있다. 그러나 利用권价格上涨하거나 피트니스 센터의方向が變更되면利用者に不利益が発生한다.
+- **📢 섹션 요약 비유**: COTS는 **'피트니스 센터의 활용권'**과 같다. 헬스장을 처음부터 하여 건설하면（사내 개발）수이 걸리지만, 완성된 피트니스 센터에 활용권을 구매하면（ 활용）수업과 설비를즉시 활용할 수 있다. 그러나 활용권하거나 피트니스 센터의이/가되면활용에이/가한다.
 
 ---
 
@@ -39,14 +39,14 @@ tags = ["studynote-software-engineering"]
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                  상용 소프트웨어 (COTS, Comm                        │
+│ 상용 소프트웨어 (COTS, Comm │
 ├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
+│ │
+│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
+│ │ │ │ │
+│ ▼ ▼ ▼ │
+│ 요구 분석 설계·적용 품질 검증 │
+│ │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -147,17 +147,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+│
+▼
 상용 소프트웨어 (COTS, Commercial Off-The-Shelf) 통합 및 품질 개념 정립
-    │
-    ▼
+│
+▼
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+│
+▼
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+│
+▼
 지속적 개선 및 DevOps·MLOps 통합
 ```
 

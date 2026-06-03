@@ -11,13 +11,13 @@ tags = ["algorithm_stats"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 재귀(Recursion)는 함수가 자기 자신을 다시 호출하여 문제를 더 작은 단위의 동일한 문제(하위 문제)로 분할하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 설계 기법으로, 기본 사례(Base Case)에 도달할 때까지 자신을 호출하는 구조이다.
 > 2. **가치**: 트리 순회, [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 탐색, 하노이 탑, 문자열 역순 등 계층적/자기 유사적 문제를 직관적이고 간결한 코드로 표현할 수 있게 해준다.
-> 3. **융합**: 재귀는 [분할 정복](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/), [동적 프로그래밍](/knowledge-base/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/), [백트래킹](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/) 등 모든 고급 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 패러다임의 Implementation基礎이며, 컴파일러의 구문 분석, [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 파싱, DOM 조작 등 프로그래밍 실무의 거의 모든 영역에서 활용된다.
+> 3. **융합**: 재귀는 [분할 정복](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/), [동적 프로그래밍](/knowledge-base/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/), [백트래킹](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/) 등 모든 고급 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 패러다임의 Implementation기초이며, 컴파일러의 구문 분석, [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 파싱, DOM 조작 등 프로그래밍 실무의 거의 모든 영역에서 활용된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-재귀(Recursion)는 라틴어 "recurrere(다시 흘러들어오다)"에서 유래했으며, 컴퓨터 과학에서는 함수가 자기 자신의 정의를 사용하여 문제를 해결하는 기법을 말한다. 재귀의 아이디어는 数学的 귀납법(Mathematical Induction)에서 출발했는데, 수학에서 "n=1일 때 성립하고, n=k에서 성립하면 n=k+1에서도 성립함을 보인다"는same 접근을 그대로 프로그램에 적용한 것이다.
+재귀(Recursion)는 라틴어 "recurrere(다시 흘러들어오다)"에서 유래했으며, 컴퓨터 과학에서는 함수가 자기 자신의 정의를 사용하여 문제를 해결하는 기법을 말한다. 재귀의 아이디어는 수 귀납법(Mathematical Induction)에서 출발했는데, 수학에서 "n=1일 때 성립하고, n=k에서 성립하면 n=k+1에서도 성립함을 보인다"는same 접근을 그대로 프로그램에 적용한 것이다.
 
 재귀가 필요한 이유는 계층적(Hierarchical) 구조나 자기 유사적(Self-Similar) 구조를 가진 문제를 매우 직관적으로 풀 수 있기 때문이다. 예를 들어, 디렉토리 구조를 탐색할 때 "이 디렉토리의 모든 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 출력하고, 하위 디렉토리가 있으면 거기서도 같은 작업을 한다"는 설명은 그대로 재귀 함수가 된다. 반복문으로 이런 구조를 표현하려면 명시적 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 관리해야 하지만, 재귀는 이 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 관리를 런타임에 자동으로 처리해 준다.
 
@@ -27,49 +27,49 @@ tags = ["algorithm_stats"]
 [재귀의 3단계 구조]
 
 ┌──────────────────────────────────────────────────────┐
-│                                                      │
-│  [재귀 함수의 3단계 구조]                             │
-│  ────────────────────────────────────                │
-│                                                      │
-│  function solve(problem):                            │
-│                                                      │
-│  1. BASE CASE (기본 사례)                           │
-│     if problem가 충분히 작다:                        │
-│         return problem의 직접적解答                  │
-│                                                      │
-│  2. DIVIDE (분할)                                   │
-│     sub_problems = 분할(problem)                     │
-│                                                      │
-│  3. RECURSE (재귀)                                  │
-│     for each sub_problem:                           │
-│         result = solve(sub_problem)                  │
-│                                                      │
-│  4. COMBINE (결합)                                  │
-│     return 결합(result들)                          │
-│                                                      │
-│  [하노이 탑으로 이해하기]                            │
-│  ────────────────────────────────────                │
-│  목표: N개의 원판을 A에서 C로 이동 (B 사용)         │
-│                                                      │
-│  Base Case: N=1 → 그냥 A→C 이동                     │
-│                                                      │
-│  Recursive Case: N>1일 때                           │
-│  Step 1: N-1개 원판을 A→B (C를 임시로 사용)         │
-│  Step 2: 가장 큰 원판을 A→C 이동                     │
-│  Step 3: N-1개 원판을 B→C (A를 임시로 사용)         │
-│                                                      │
-│  이동 횟수: T(N) = 2T(N-1) + 1                      │
-│           = 2^N - 1                                 │
-│                                                      │
+│ │
+│ [재귀 함수의 3단계 구조] │
+│ ──────────────────────────────────── │
+│ │
+│ function solve(problem): │
+│ │
+│ 1. BASE CASE (기본 사례) │
+│ if problem가 충분히 작다: │
+│ return problem의 직접적 │
+│ │
+│ 2. DIVIDE (분할) │
+│ sub_problems = 분할(problem) │
+│ │
+│ 3. RECURSE (재귀) │
+│ for each sub_problem: │
+│ result = solve(sub_problem) │
+│ │
+│ 4. COMBINE (결합) │
+│ return 결합(result들) │
+│ │
+│ [하노이 탑으로 이해하기] │
+│ ──────────────────────────────────── │
+│ 목표: N개의 원판을 A에서 C로 이동 (B 사용) │
+│ │
+│ Base Case: N=1 → 그냥 A→C 이동 │
+│ │
+│ Recursive Case: N>1일 때 │
+│ Step 1: N-1개 원판을 A→B (C를 임시로 사용) │
+│ Step 2: 가장 큰 원판을 A→C 이동 │
+│ Step 3: N-1개 원판을 B→C (A를 임시로 사용) │
+│ │
+│ 이동 횟수: T(N) = 2T(N-1) + 1 │
+│ = 2^N - 1 │
+│ │
 └──────────────────────────────────────────────────────┘
 ```
 
 - **관찰**: 재귀 함수의 핵심은 자기 자신을 호출할 때 입력 크기가 반드시 줄어들어야 한다는 것이다. 그렇지 않으면 무한 재귀에 빠진다.
 - **원인**: 기본 사례에 도달하지 못하면 함수가 종료되지 않고 계속 호출되어 콜 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 소진하기 때문이다.
-- **결과**: 이러한 구조는 [분할 정복](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)([Divide and Conquer](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)) 패러다임의 Implementation基礎가 된다.
+- **결과**: 이러한 구조는 [분할 정복](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)([Divide and Conquer](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)) 패러다임의 Implementation기초가 된다.
 - **판단**: 재귀 깊이가 시스템 콜 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 제한(보통 1,000~[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000 단계)을 초과하면 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)가 발생하므로, 최대 깊이를 예측할 수 있는 경우에만 재귀를 사용해야 한다.
 
-📢 **섹션 요약 비유**: 재귀는ロシア 민속 인형 마트료시카를 여는 것과 같습니다. 가장 작은 인형(기본 사례)에 도달하면 더 이상 열 수 없으므로 열기를 멈추고, 거슬러 올라가며 각 인형의蓋을 다시 닫는(결합) 것과 같습니다.
+📢 **섹션 요약 비유**: 재귀는 민속 인형 마트료시카를 여는 것과 같습니다. 가장 작은 인형(기본 사례)에 도달하면 더 이상 열 수 없으므로 열기를 멈추고, 거슬러 올라가며 각 인형의을 다시 닫는(결합) 것과 같습니다.
 
 ---
 
@@ -83,58 +83,58 @@ tags = ["algorithm_stats"]
 [콜 스택의 동작: 하노이 탑]
 
 ┌──────────────────────────────────────────────────────┐
-│                                                      │
-│  [hanoi(3, 'A', 'B', 'C') 호출 시 콜 스택]           │
-│  ────────────────────────────────────                │
-│                                                      │
-│  Push: hanoi(3, A, B, C)                           │
-│  ├─ Push: hanoi(2, A, C, B)                        │
-│  │  ├─ Push: hanoi(1, A, B, C)                    │
-│  │  │  ├─ Push: hanoi(0, A, C, B) → 바로 Return   │
-│  │  │  └─ Move: A→C                                 │
-│  │  └─ Move: A→B                                 │
-│  │  ├─ Push: hanoi(1, C, A, B)                    │
-│  │  │  └─ Move: C→B                                 │
-│  │  └─ Return                                      │
-│  ├─ Move: A→C (가장 큰 원반)                        │
-│  ├─ Push: hanoi(2, B, A, C)                        │
-│  │  ├─ Push: hanoi(1, B, C, A)                    │
-│  │  │  └─ Move: B→A                                 │
-│  │  ├─ Move: B→C                                 │
-│  │  ├─ Push: hanoi(1, A, B, C)                    │
-│  │  │  └─ Move: A→C                                 │
-│  │  └─ Return                                      │
-│  └─ Return                                          │
-│                                                      │
-│  총 함수 호출: 2³ - 1 = 7번                         │
-│  스택 깊이: 최대 3 (N과 동일)                        │
-│                                                      │
-│  [일반 재귀 vs 꼬리 재귀]                           │
-│  ────────────────────────────────────                │
-│                                                      │
-│  // 일반 재귀: 스택 프레임 누적                      │
-│  int factorial(int n) {                             │
-│      if (n <= 1) return 1;                         │
-│      return n * factorial(n - 1);                  │
-│      // ← 복귀 후 곱셈 연산 수행 → 스택 유지 필요    │
-│  }                                                  │
-│                                                      │
-│  // 꼬리 재귀: TCO 적용 가능                        │
-│  int factorial_tail(int n, int acc) {               │
-│      if (n <= 1) return acc;                       │
-│      return factorial_tail(n - 1, n * acc);         │
-│      // ← 마지막 연산이 재귀 호출 → 스택 재사용 가능  │
-│  }                                                  │
-│                                                      │
+│ │
+│ [hanoi(3, 'A', 'B', 'C') 호출 시 콜 스택] │
+│ ──────────────────────────────────── │
+│ │
+│ Push: hanoi(3, A, B, C) │
+│ ├─ Push: hanoi(2, A, C, B) │
+│ │ ├─ Push: hanoi(1, A, B, C) │
+│ │ │ ├─ Push: hanoi(0, A, C, B) → 바로 Return │
+│ │ │ └─ Move: A→C │
+│ │ └─ Move: A→B │
+│ │ ├─ Push: hanoi(1, C, A, B) │
+│ │ │ └─ Move: C→B │
+│ │ └─ Return │
+│ ├─ Move: A→C (가장 큰 원반) │
+│ ├─ Push: hanoi(2, B, A, C) │
+│ │ ├─ Push: hanoi(1, B, C, A) │
+│ │ │ └─ Move: B→A │
+│ │ ├─ Move: B→C │
+│ │ ├─ Push: hanoi(1, A, B, C) │
+│ │ │ └─ Move: A→C │
+│ │ └─ Return │
+│ └─ Return │
+│ │
+│ 총 함수 호출: 2³ - 1 = 7번 │
+│ 스택 깊이: 최대 3 (N과 동일) │
+│ │
+│ [일반 재귀 vs 꼬리 재귀] │
+│ ──────────────────────────────────── │
+│ │
+│ // 일반 재귀: 스택 프레임 누적 │
+│ int factorial(int n) { │
+│ if (n <= 1) return 1; │
+│ return n * factorial(n - 1); │
+│ // ← 복귀 후 곱셈 연산 수행 → 스택 유지 필요 │
+│ } │
+│ │
+│ // 꼬리 재귀: TCO 적용 가능 │
+│ int factorial_tail(int n, int acc) { │
+│ if (n <= 1) return acc; │
+│ return factorial_tail(n - 1, n * acc); │
+│ // ← 마지막 연산이 재귀 호출 → 스택 재사용 가능 │
+│ } │
+│ │
 └──────────────────────────────────────────────────────┘
 ```
 
 - **관찰**: 재귀 호출이 함수의 마지막 연산(tail position)일 때, 컴파일러는 현재 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 프레임을 덮어쓸 수 있어 공간을 절약할 수 있다.
-- **원인**: 재귀 호출 이후에 수행할 연산이 없으므로, 현재 함수의局部 변수들을保存할 필요가 없기 때문이다.
+- **원인**: 재귀 호출 이후에 수행할 연산이 없으므로, 현재 함수의 변수들을저장할 필요가 없기 때문이다.
 - **결과**: 꼬리 재귀 최적화가 적용되면 재귀의 [공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/)가 O(N)에서 O(1)로 줄어든다.
 - **판단**: Python, Java, JavaScript 등에서는 TCO를 지원하지 않으므로, 깊이가 깊은 재귀는 반드시 명시적 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)이나 반복문으로 변환해야 한다.
 
-📢 **섹션 요약 비유**: 재귀의 콜 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)은 空ycle의 待合실과 같습니다. 한 명씩 불러서 상담하고 돌아오면(반환), 다음 사람이 들어가고, 상담사(재귀 함수)는 상담 내용을 各사람마다 기록해 두어야 다음 사람을 상담할 수 있습니다. 待合실이 다 차면([스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)) 더 이상 상담을 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)할 수 없습니다.
+📢 **섹션 요약 비유**: 재귀의 콜 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)은 ycle의 실과 같습니다. 한 명씩 불러서 상담하고 돌아오면(반환), 다음 사람이 들어가고, 상담사(재귀 함수)는 상담 내용을 사람마다 기록해 두어야 다음 사람을 상담할 수 있습니다. 실이 다 차면([스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)) 더 이상 상담을 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)할 수 없습니다.
 
 ---
 
@@ -148,48 +148,48 @@ tags = ["algorithm_stats"]
 [실무 재귀: 이진 트리 중위 순회]
 
 ┌──────────────────────────────────────────────────────┐
-│                                                      │
-│  [이진 트리 중위 순회 (Inorder Traversal)]           │
-│  ────────────────────────────────────                │
-│                                                      │
-│  트리 구조:                                           │
-│              4                                       │
-│            /   \                                     │
-│           2     6                                    │
-│          / \   / \                                   │
-│         1   3 5   7                                 │
-│                                                      │
-│  중위 순회 결과: 1 → 2 → 3 → 4 → 5 → 6 → 7        │
-│  (왼쪽 → 현재 → 오른쪽)                              │
-│                                                      │
-│  [재귀적 구현]                                       │
-│  ────────────────────────────────────                │
-│  function inorder(node):                             │
-│      if node is null: return                        │
-│      inorder(node.left)                             │
-│      visit(node.value)                              │
-│      inorder(node.right)                            │
-│                                                      │
-│  [반복적 구현 (명시적 스택)]                         │
-│  ────────────────────────────────────                │
-│  function inorder_iterative(root):                   │
-│      stack = []                                      │
-│      current = root                                  │
-│                                                      │
-│      while current is not null or stack:            │
-│          while current is not null:                 │
-│              stack.push(current)                     │
-│              current = current.left                  │
-│          current = stack.pop()                       │
-│          visit(current.value)                        │
-│          current = current.right                     │
-│                                                      │
-│  → 스택 오버플로우 위험 없이 임의 깊이의 트리 처리 가능 │
-│                                                      │
+│ │
+│ [이진 트리 중위 순회 (Inorder Traversal)] │
+│ ──────────────────────────────────── │
+│ │
+│ 트리 구조: │
+│ 4 │
+│ / \ │
+│ 2 6 │
+│ / \ / \ │
+│ 1 3 5 7 │
+│ │
+│ 중위 순회 결과: 1 → 2 → 3 → 4 → 5 → 6 → 7 │
+│ (왼쪽 → 현재 → 오른쪽) │
+│ │
+│ [재귀적 구현] │
+│ ──────────────────────────────────── │
+│ function inorder(node): │
+│ if node is null: return │
+│ inorder(node.left) │
+│ visit(node.value) │
+│ inorder(node.right) │
+│ │
+│ [반복적 구현 (명시적 스택)] │
+│ ──────────────────────────────────── │
+│ function inorder_iterative(root): │
+│ stack = [] │
+│ current = root │
+│ │
+│ while current is not null or stack: │
+│ while current is not null: │
+│ stack.push(current) │
+│ current = current.left │
+│ current = stack.pop() │
+│ visit(current.value) │
+│ current = current.right │
+│ │
+│ → 스택 오버플로우 위험 없이 임의 깊이의 트리 처리 가능 │
+│ │
 └──────────────────────────────────────────────────────┘
 ```
 
-📢 **섹션 요약 비유**: 재귀는教堂의 종을 생각하면 됩니다. 1층 종을 치고(기본 사례), 다음 층의 종을 치고,顶层까지 도달하면(재귀 깊이) 더 이상 올라갈 수 없으므로 내려오면서 각 층의 종을 다시 치는(결합) 것과 같습니다.
+📢 **섹션 요약 비유**: 재귀는의 종을 생각하면 됩니다. 1층 종을 치고(기본 사례), 다음 층의 종을 치고,까지 도달하면(재귀 깊이) 더 이상 올라갈 수 없으므로 내려오면서 각 층의 종을 다시 치는(결합) 것과 같습니다.
 
 ---
 
@@ -197,19 +197,19 @@ tags = ["algorithm_stats"]
 
 재귀의 품질 관리에서 가장 중요한 것은 **기본 사례 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**, **종료 조건 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**, **[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 깊이 분석**이다. 특히 서로 다른 기본 사례를 가진 재귀(다중 기본 사례)에서는 모든 경로에서 기본 사례에 도달하는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다.
 
-**품질 관리 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)**는 다음과 같다. 모든 재귀 경로에 기본 사례(Base Case)가 존재하는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다. 재귀 깊이의 최악의 경우(시스템 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 제한 이하인지)를 분석해야 한다. TCO를 가정하고 작성한 재귀 코드가 실제运行环境에서 TCO를 지원하는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다. 재귀 호출로 인한 메모리使用량이 허용 범위內인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다.
+**품질 관리 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)**는 다음과 같다. 모든 재귀 경로에 기본 사례(Base Case)가 존재하는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다. 재귀 깊이의 최악의 경우(시스템 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 제한 이하인지)를 분석해야 한다. TCO를 가정하고 작성한 재귀 코드가 실제환경에서 TCO를 지원하는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다. 재귀 호출로 인한 메모리사용량이 허용 범위인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다.
 
-📢 **섹션 요약 비유**: 재귀의品質 관리는探险가가洞穴을 탐사할 때와 같습니다. "더 이상 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 불가한 곳(기본 사례)에 도달하면 반드시 돌아온다"는 규칙을 설정하지 않으면洞穴에 갇혀 영원히 나오지 못하는 것과 같이, 재귀에도 반드시 종료 조건이 필요합니다.
+📢 **섹션 요약 비유**: 재귀의품질 관리는가가을 탐사할 때와 같습니다. "더 이상 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 불가한 곳(기본 사례)에 도달하면 반드시 돌아온다"는 규칙을 설정하지 않으면에 갇혀 영원히 나오지 못하는 것과 같이, 재귀에도 반드시 종료 조건이 필요합니다.
 
 ---
 
 ## Ⅴ. 최신 트렌드 및 결론 (Trends & Conclusion)
 
-재귀의 최신 동향은 **함수형 프로그래밍의 부상**과 **[TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 지원 확대**이다. Haskell, Scala, Elixir 등 함수형 언어는 재귀를 주요 제어 구조로 사용하며, TCO를 표준으로 지원하여 재귀의 공간 문제을根本적으로 해결한다. 또한 **재귀적神经网络(Recursive Neural Network)**는 재귀 구조를 利用하여 자연어나 코드 등의階層적 데이터를 처리하는 데 활용되고 있다.
+재귀의 최신 동향은 **함수형 프로그래밍의 부상**과 **[TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 지원 확대**이다. Haskell, Scala, Elixir 등 함수형 언어는 재귀를 주요 제어 구조로 사용하며, TCO를 표준으로 지원하여 재귀의 공간 문제을근본적으로 해결한다. 또한 **재귀적네트워크(Recursive Neural Network)**는 재귀 구조를 활용하여 자연어나 코드 등의적 데이터를 처리하는 데 활용되고 있다.
 
-재귀는计算机科学의 가장 fundamental한 개념 중 하나이다. 트리, [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/), 문자열, 수학 문제 등 계층적 구조를 다루는 모든 문제의基礎이며, 고급 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 패러다임([분할 정복](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/), [동적 프로그래밍](/knowledge-base/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/), [백트래킹](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/))의 Implementation媒介이다. 기술사 시험에서는 재귀의 작동 원리, 콜 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 관리, 꼬리 재귀 최적화, 그리고 재귀 vs 반복의 트레이드오프를 설명할 수 있는 능력을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
+재귀는컴퓨팅의 가장 fundamental한 개념 중 하나이다. 트리, [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/), 문자열, 수학 문제 등 계층적 구조를 다루는 모든 문제의기초이며, 고급 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 패러다임([분할 정복](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/), [동적 프로그래밍](/knowledge-base/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/), [백트래킹](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/))의 Implementation이다. 기술사 시험에서는 재귀의 작동 원리, 콜 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 관리, 꼬리 재귀 최적화, 그리고 재귀 vs 반복의 트레이드오프를 설명할 수 있는 능력을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
 
-📢 **섹션 요약 비유**: 재귀는 거울을 맞대어 놓은 것과 같습니다. 두 개의 거울 사이에 영상이 무한히 반복되어 들어가듯이, 재귀도 자기 자신의 복사본을 계속 만들어내되, 무한히 반복되지 않게 가장 작은 자신의影像(기본 사례)에서 멈추는 것입니다.
+📢 **섹션 요약 비유**: 재귀는 거울을 맞대어 놓은 것과 같습니다. 두 개의 거울 사이에 영상이 무한히 반복되어 들어가듯이, 재귀도 자기 자신의 복사본을 계속 만들어내되, 무한히 반복되지 않게 가장 작은 자신의(기본 사례)에서 멈추는 것입니다.
 
 ---
 
@@ -218,37 +218,37 @@ tags = ["algorithm_stats"]
 ```text
 [재귀 (Recursion) 핵심 개념 맵]
 
-         ┌─────────────────────────────────┐
-         │         재귀 (Recursion)              │
-         └────────────────┬────────────────┘
-                          │
-      ┌───────────────────┼───────────────────┐
-      │                   │                    │
-      ▼                   ▼                    ▼
-┌──────────────┐  ┌──────────────┐  ┌──────────────┐
-│  3단계 구조    │  │   콜 스택     │  │   꼬리 재귀   │
-│  Structure   │  │  Call Stack  │  │  Tail Rec.  │
-├──────────────┤  ├──────────────┤  ├──────────────┤
-│ 1. Base Case │  │ 함수 호출마다 │  │ 마지막 연산이 │
-│ 2. Recursive  │  │ 프레임 Push  │  │ 재귀 호출    │
-│    Case       │  │ 반환 시 Pop  │  │ → TCO 적용  │
-│ 3. Combine    │  │ O(N) 공간    │  │ → O(1) 공간  │
-└──────────────┘  └──────────────┘  └──────────────┘
-      │                   │                    │
-      └───────────────────┴────────────────────┘
-                          │
-                          ▼
-         ┌─────────────────────────────────┐
-         │      재귀 vs 반복 (Iteration)         │
-         ├─────────────────────────────────┤
-         │ 재귀: 가독성 높음, 스택 오버플로우 위험   │
-         │ 반복: 메모리 안정적, 상태 관리 복잡      │
-         │                                      │
-         │ 선택 기준:                              │
-         │ - 문제의 자연스러운 기술이 재귀적?       │
-         │ - 재귀 깊이 예측 가능? (< 10,000)       │
-         │ - TCO 지원 언어?                       │
-         └─────────────────────────────────┘
+┌─────────────────────────────────┐
+│ 재귀 (Recursion) │
+└────────────────┬────────────────┘
+│
+┌───────────────────┼───────────────────┐
+│ │ │
+▼ ▼ ▼
+┌──────────────┐ ┌──────────────┐ ┌──────────────┐
+│ 3단계 구조 │ │ 콜 스택 │ │ 꼬리 재귀 │
+│ Structure │ │ Call Stack │ │ Tail Rec. │
+├──────────────┤ ├──────────────┤ ├──────────────┤
+│ 1. Base Case │ │ 함수 호출마다 │ │ 마지막 연산이 │
+│ 2. Recursive │ │ 프레임 Push │ │ 재귀 호출 │
+│ Case │ │ 반환 시 Pop │ │ → TCO 적용 │
+│ 3. Combine │ │ O(N) 공간 │ │ → O(1) 공간 │
+└──────────────┘ └──────────────┘ └──────────────┘
+│ │ │
+└───────────────────┴────────────────────┘
+│
+▼
+┌─────────────────────────────────┐
+│ 재귀 vs 반복 (Iteration) │
+├─────────────────────────────────┤
+│ 재귀: 가독성 높음, 스택 오버플로우 위험 │
+│ 반복: 메모리 안정적, 상태 관리 복잡 │
+│ │
+│ 선택 기준: │
+│ - 문제의 자연스러운 기술이 재귀적? │
+│ - 재귀 깊이 예측 가능? (< 10,000) │
+│ - TCO 지원 언어? │
+└─────────────────────────────────┘
 ```
 
 
@@ -265,17 +265,17 @@ tags = ["algorithm_stats"]
 
 ```text
 [재귀 기본 구조 — 기본 사례(Base Case) + 재귀 사례(Recursive Case)]
-    │
-    ▼
+│
+▼
 [콜 스택 (Call Stack) — 재귀 호출 시 LIFO 방식으로 프레임 Push/Pop]
-    │
-    ▼
+│
+▼
 [꼬리 재귀 최적화 (TCO, Tail Call Optimization) — O(N) 스택 → O(1) 공간]
-    │
-    ▼
+│
+▼
 [분할 정복 (Divide and Conquer) — 재귀로 구현하는 퀵·머지소트 핵심 패러다임]
-    │
-    ▼
+│
+▼
 [동적 프로그래밍 (DP) — 재귀 + 메모이제이션으로 중복 계산 완전 제거]
 ```
 

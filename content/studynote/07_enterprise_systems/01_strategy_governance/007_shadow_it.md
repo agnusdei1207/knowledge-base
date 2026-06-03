@@ -30,13 +30,13 @@ tags = ["enterprise_systems"]
 
 [공식 IT 거버넌스 경로]
 (현업 부서) ──요청──> [IT/보안 부서 검토] ──(수 주 소요)──> [승인된 기업용 사내망 시스템]
-                              │
-                    (병목 및 도입 지연 발생)
-                              │
-[섀도우 IT 발생 경로]         ▼ 우회
+│
+(병목 및 도입 지연 발생)
+│
+[섀도우 IT 발생 경로] ▼ 우회
 (현업 부서) ──법인카드 즉시 결제 ──> (방화벽 미통제) ──> [인가되지 않은 외부 SaaS]
-     │                                                     │
-     └──> 기업 내부 민감 데이터(고객정보, 소스코드) 업로드 ─┘ (데이터 유출/Shadow Data 발생)
+│ │
+└──> 기업 내부 민감 데이터(고객정보, 소스코드) 업로드 ─┘ (데이터 유출/Shadow Data 발생)
 ```
 
 이 흐름의 핵심은 섀도우 IT가 악의적인 의도보다는 '업무 생산성 향상'이라는 선의의 목적에서 출발하며, 중앙 IT 부서의 느린 조달 프로세스(병목 지점)가 그 근본 원인이라는 점이다. 이런 배치는 IT 부서가 통제하는 경계(Perimeter) 보안망 밖에서 자원이 소비됨을 의미한다. 따라서 기존의 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이나 VPN만으로는 클라우드로 직접 향하는 트래픽을 막거나 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링할 수 없다. 실무에서는 현업의 혁신 속도를 저해하지 않으면서도 보안 통제를 적용하는 브로커(Broker) 기술의 도입이 필수적이다.
@@ -62,23 +62,23 @@ CASB는 크게 트래픽을 실시간으로 가로채는 '[프록시](/knowledge
 ```text
 이 도식은 CASB를 기반으로 섀도우 IT를 탐지하고 관리형으로 전환하는 통합 보안 아키텍처(API + Proxy 하이브리드)를 보여준다.
 
-       [내부 사용자 / BYOD] 
-              │
-      (트래픽 및 로그인 요청)
-              │
-  ┌───────────▼─────────────────────────────────────┐
-  │         [CASB (Cloud Access Security Broker)]   │
-  │  1. Log Analyzer (방화벽 로그 연동 -> SaaS 탐지)│
-  │  2. Forward Proxy (실시간 데이터 유출 방지 DLP) │
-  │  3. API Scanner (비동기 데이터 스캔 및 격리)    │
-  └───────────┬───────────────────────────┬─────────┘
-              │(차단 및 제어)             │(API 연동)
-      ┌───────▼───────┐           ┌───────▼───────┐
-      │   비인가 SaaS │           │   인가된 SaaS │
-      │ (Shadow IT)   │           │(Sanctioned IT)│
-      │ 예: 개인 Drop │           │예: 기업용 M365│
-      └───────────────┘           └───────────────┘
-             차단됨                     통제 하에 사용
+[내부 사용자 / BYOD]
+│
+(트래픽 및 로그인 요청)
+│
+┌───────────▼─────────────────────────────────────┐
+│ [CASB (Cloud Access Security Broker)] │
+│ 1. Log Analyzer (방화벽 로그 연동 -> SaaS 탐지)│
+│ 2. Forward Proxy (실시간 데이터 유출 방지 DLP) │
+│ 3. API Scanner (비동기 데이터 스캔 및 격리) │
+└───────────┬───────────────────────────┬─────────┘
+│(차단 및 제어) │(API 연동)
+┌───────▼───────┐ ┌───────▼───────┐
+│ 비인가 SaaS │ │ 인가된 SaaS │
+│ (Shadow IT) │ │(Sanctioned IT)│
+│ 예: 개인 Drop │ │예: 기업용 M365│
+└───────────────┘ └───────────────┘
+차단됨 통제 하에 사용
 ```
 
 이 그림의 핵심은 CASB가 단순히 연결을 끊는 단편적 솔루션이 아니라, [로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/)(발견) -> 실시간 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 제어(예방) -> [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 스캔(사후 조치)을 아우르는 하이브리드 통제 계층이라는 점이다. 섀도우 IT는 네트워크 경계 밖에서 일어나기 때문에, 과거의 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 구조로는 탐지가 불가능하다. 따라서 사용자 기기와 타겟 클라우드 사이에 위치하는 [CASB](/knowledge-base/studynote/03_network/14_network_security_threats/741_casb_cloud_access_security_broker/) [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)와 API의 결합 배치는 필수적이다. 실무에서는 포워드 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)를 통해 비인가 클라우드로의 민감 문서 업로드([DLP](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/386_dlp/))를 막고, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 방식을 통해 이미 승인된 클라우드 내에 존재하는 공유 링크의 과도한 노출(Public Share)을 차단하여 내부자 위협을 완화해야 한다.
@@ -102,19 +102,19 @@ CASB는 크게 트래픽을 실시간으로 가로채는 '[프록시](/knowledge
 이 매트릭스는 섀도우 IT를 발견한 이후 IT 부서가 취해야 할 대응 전략을 '위험도'와 '비즈니스 가치'를 기준으로 분류한 포트폴리오(Action Matrix)이다.
 
 위험도 (Risk)
-  ▲
-  │ [즉시 차단 / 폐기]            │ [양성화 및 표준화]
+▲
+│ [즉시 차단 / 폐기] │ [양성화 및 표준화]
 높│ (개인용 메신저로 설계도 공유) │ (유용한 협업 SaaS, 보안 결여됨)
-  │ Action: 방화벽 블랙리스트 등록│ Action: 기업용 라이선스 일괄 구매 후 전환
-  ├───────────────────────────────┼────────────────────────────────────
-  │ [묵인 및 가이드라인 제시]     │ [공식 카탈로그 편입]
-낮│ (사내 식당 메뉴 크롤링 봇)    │ (오픈소스 시각화 도구, 데이터 유출 無)
-  │ Action: 망분리된 독립 환경 제공Action: 서비스 카탈로그에 등록하여 타 부서 전파
-  └───────────────────────────────┴────────────────────────────────────▶ 비즈니스 가치 (Value)
-                 낮음                                   높음
+│ Action: 방화벽 블랙리스트 등록│ Action: 기업용 라이선스 일괄 구매 후 전환
+├───────────────────────────────┼────────────────────────────────────
+│ [묵인 및 가이드라인 제시] │ [공식 카탈로그 편입]
+낮│ (사내 식당 메뉴 크롤링 봇) │ (오픈소스 시각화 도구, 데이터 유출 )
+│ Action: 망분리된 독립 환경 제공Action: 서비스 카탈로그에 등록하여 타 부서 전파
+└───────────────────────────────┴────────────────────────────────────▶ 비즈니스 가치 (Value)
+낮음 높음
 ```
 
-이 매트릭스의 핵심은 섀도우 IT가 발각되었다고 해서 무조건 차단하는 것은 가장 하책(下策)이라는 점이다. 비즈니스 가치가 높은(현업의 생산성을 극대화하는) 툴이라면, IT 부서가 이를 엔터프라이즈 라이선스로 업그레이드하여 보안 요건([SSO](/knowledge-base/studynote/09_security/11_iam_access_control/531_sso/) 연동, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 제공)을 맞춘 뒤 전사 표준 시스템으로 양성화(Sanction)해야 한다. 위험도가 높은 경우에만 즉시 차단을 수행해야 한다. 이런 선별적 접근을 통해서만 현업과 IT 부서 간의 적대적 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 해소하고, 섀도우 IT를 '사내 혁신의 테스트베드'로 활용할 수 있다.
+이 매트릭스의 핵심은 섀도우 IT가 발각되었다고 해서 무조건 차단하는 것은 가장 하책()이라는 점이다. 비즈니스 가치가 높은(현업의 생산성을 극대화하는) 툴이라면, IT 부서가 이를 엔터프라이즈 라이선스로 업그레이드하여 보안 요건([SSO](/knowledge-base/studynote/09_security/11_iam_access_control/531_sso/) 연동, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 제공)을 맞춘 뒤 전사 표준 시스템으로 양성화(Sanction)해야 한다. 위험도가 높은 경우에만 즉시 차단을 수행해야 한다. 이런 선별적 접근을 통해서만 현업과 IT 부서 간의 적대적 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 해소하고, 섀도우 IT를 '사내 혁신의 테스트베드'로 활용할 수 있다.
 
 📢 **섹션 요약 비유**: 잡초(섀도우 IT)가 자랐다고 무조건 제초제를 뿌리는 것이 아니라, 쓸만한 약초인지 잡초인지 성분을 분석한 뒤 약초라면 정식 화단에 옮겨 심어 가꾸는 것이 진정한 거버넌스입니다.
 
@@ -135,17 +135,17 @@ CASB는 크게 트래픽을 실시간으로 가로채는 '[프록시](/knowledge
 이 도식은 섀도우 IT 발견 시 IT 거버넌스 위원회가 수행해야 할 실무 운영 의사결정 트리(Decision Tree)를 보여준다.
 
 [신규 섀도우 IT (SaaS) 접속 로그 탐지]
-        │
-        ▼
+│
+▼
 <중복 시스템인가?> ──Yes──> [기존 공식 시스템(대체제) 사용 안내 및 포워딩]
-        │ No
-        ▼
+│ No
+▼
 <컴플라이언스(개인정보) 위반 위험인가?> ──Yes──> [즉각 차단 (Forward Proxy Drop)]
-        │ No
-        ▼
+│ No
+▼
 <비즈니스 생산성 향상 입증?> ──No──> [사용 자제 권고 및 모니터링 유지]
-        │ Yes
-        ▼
+│ Yes
+▼
 [공식 IT 카탈로그 편입 (Sanctioning)] ──> 보안 스펙 협상 -> 통합 결제 -> SSO 연동
 ```
 
@@ -181,17 +181,17 @@ CASB는 크게 트래픽을 실시간으로 가로채는 '[프록시](/knowledge
 
 ```text
 [공식 IT 거버넌스 (Official IT Governance)]
-    │
-    ▼
+│
+▼
 [사용자 주도 기술 도입 (User-driven Tech Adoption)]
-    │
-    ▼
+│
+▼
 [섀도 IT (Shadow IT)]
-    │
-    ▼
+│
+▼
 [IT 거버넌스 리스크 (IT Governance Risk)]
-    │
-    ▼
+│
+▼
 [합리적 IT 통제 (Rationalized IT Control)]
 ```
 

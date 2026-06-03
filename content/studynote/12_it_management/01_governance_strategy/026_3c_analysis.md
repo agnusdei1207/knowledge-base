@@ -10,7 +10,7 @@ tags = ["studynote-it-management"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 3C 분석은 [맥킨지](/knowledge-base/studynote/12_it_management/01_governance_strategy/027_seven_s_model/) 컨설턴트 오마에 겐이치(大前研一)가 제시한 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 분석 프레임워크로, [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)(고객·시장), Competitor(경쟁자), Company(자사)의 세 관점을 삼각 분석하여 경쟁 우위를 갖출 수 있는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 기회를 도출한다.
+> 1. **본질**: 3C 분석은 [맥킨지](/knowledge-base/studynote/12_it_management/01_governance_strategy/027_seven_s_model/) 컨설턴트 오마에 겐이치()가 제시한 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 분석 프레임워크로, [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)(고객·시장), Competitor(경쟁자), Company(자사)의 세 관점을 삼각 분석하여 경쟁 우위를 갖출 수 있는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 기회를 도출한다.
 > 2. **가치**: 3C 분석의 핵심 통찰은 "고객이 원하는 것(C1), 경쟁자가 제공하는 것([C2](/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/)), 자사가 잘하는 것(C3)의 삼각 교점(Strategic Sweet Spot)"을 찾는 것이다. 이 교점이 지속 가능한 경쟁 우위의 원천이 된다.
 > 3. **판단 포인트**: 3C 분석은 단독으로 사용하기보다 마케팅 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/) ([Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)·Targeting·Positioning), SWOT 분석과 연계하여 사용한다. [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) 분석은 PEST의 S(사회) 요소와 연결되고, Competitor 분석은 Porter's 5 Forces의 경쟁 강도와 연결된다.
 
@@ -20,18 +20,18 @@ tags = ["studynote-it-management"]
 
 ```text
 ┌─────────────────────────────────────────────────────────┐
-│               3C 분석 삼각 구도                           │
+│ 3C 분석 삼각 구도 │
 ├─────────────────────────────────────────────────────────┤
-│                                                         │
-│           [Customer (고객·시장)]                         │
-│            누가 무엇을 원하는가?                          │
-│                  /\                                      │
-│                 /  \                                     │
-│                /    \                                    │
-│       [Company]──────[Competitor]                       │
-│       (자사 강·약점)  (경쟁자 전략·강약점)                │
-│                                                         │
-│  전략 포인트: 고객이 원하지만 경쟁자가 못하는 것 + 자사 강점│
+│ │
+│ [Customer (고객·시장)] │
+│ 누가 무엇을 원하는가? │
+│ /\ │
+│ / \ │
+│ / \ │
+│ [Company]──────[Competitor] │
+│ (자사 강·약점) (경쟁자 전략·강약점) │
+│ │
+│ 전략 포인트: 고객이 원하지만 경쟁자가 못하는 것 + 자사 강점│
 └─────────────────────────────────────────────────────────┘
 ```
 
@@ -53,17 +53,17 @@ tags = ["studynote-it-management"]
 
 ```text
 Customer:
-  - 타깃: 중소기업 IT 담당자
-  - 니즈: 저비용, 쉬운 사용, 빠른 온보딩
-  - 변화: 원격 근무 증가 → 협업 툴 수요 급증
+- 타깃: 중소기업 IT 담당자
+- 니즈: 저비용, 쉬운 사용, 빠른 온보딩
+- 변화: 원격 근무 증가 → 협업 툴 수요 급증
 
 Competitor:
-  - Microsoft 365: 강(기업 신뢰도, 통합), 약(가격, 복잡성)
-  - Google Workspace: 강(사용성), 약(엔터프라이즈 기능)
+- Microsoft 365: 강(기업 신뢰도, 통합), 약(가격, 복잡성)
+- Google Workspace: 강(사용성), 약(엔터프라이즈 기능)
 
 Company:
-  - 강: 빠른 온보딩 (5분), 저가 구독 모델
-  - 약: 브랜드 인지도 낮음, 엔터프라이즈 기능 부족
+- 강: 빠른 온보딩 (5분), 저가 구독 모델
+- 약: 브랜드 인지도 낮음, 엔터프라이즈 기능 부족
 
 → 전략: 경쟁자가 놓친 "중소기업 특화 저가+쉬운 사용" 포지셔닝
 ```
@@ -127,17 +127,17 @@ Company:
 
 ```text
 [3C 분석 — 고객·경쟁자·자사 삼각 분석]
-    │
-    ▼
+│
+▼
 [STP 연계 — 고객 세분화·타기팅·포지셔닝]
-    │
-    ▼
+│
+▼
 [SWOT 통합 — 내외부 종합 전략 도출]
-    │
-    ▼
+│
+▼
 [데이터 기반 3C — 실시간 시장 인텔리전스]
-    │
-    ▼
+│
+▼
 [AI 전략 분석 — 동적 경쟁 환경 자동 감지]
 ```
 

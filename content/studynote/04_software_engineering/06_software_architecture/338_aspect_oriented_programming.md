@@ -19,15 +19,15 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: AOP는 소프트웨어 시스템을 주가 관심사 (Core Concern)와 횡단 관심사 (Cross-cutting Concern)로 분리하는 프로그래밍 패러다임이다. 주가 관심사는 비즈니스 핵심 로직(예: 주문 처리, 결제 처리)이고, 횡단 관심사는 여러 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)에 공통으로 적용되는 부가 기능(예: 로깅, 보안, [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/), 예외 처리)이다. 전통적인 절차적 프로그래밍에서 이러한 횡단 관심사는 각 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)에 중복해서 포함되어 코드 중복과 유지보수苦难을 야기한다. AOP는 이러한 횡단 관심사를 "관점(Aspect)"이라는 별도의 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)로 분리하여, 필요한 곳에 선언적으로 적용할 수 있게 한다.
+- **개념**: AOP는 소프트웨어 시스템을 주가 관심사 (Core Concern)와 횡단 관심사 (Cross-cutting Concern)로 분리하는 프로그래밍 패러다임이다. 주가 관심사는 비즈니스 핵심 로직(예: 주문 처리, 결제 처리)이고, 횡단 관심사는 여러 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)에 공통으로 적용되는 부가 기능(예: 로깅, 보안, [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/), 예외 처리)이다. 전통적인 절차적 프로그래밍에서 이러한 횡단 관심사는 각 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)에 중복해서 포함되어 코드 중복과 유지보수을 야기한다. AOP는 이러한 횡단 관심사를 "관점(Aspect)"이라는 별도의 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)로 분리하여, 필요한 곳에 선언적으로 적용할 수 있게 한다.
 
-- **필요성**: 기업용 애플리케이션에서는 거의 모든 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)에 동일하게 적용되어야 하는 공통 기능이 존재한다. 예를 들어, 모든 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 메서드의 실행 전後に 로깅을 수행해야 하고, 모든 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 접근 메서드에 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 처리가 필요하며, 모든 공개 메서드에 보안 검사가 필요하다. 이러한 기능을 각 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)에 직접 구현하면 코드 중복이 발생하고, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 변경 시 모든 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 수정해야 하는 문제가 생긴다. AOP는 이러한 문제를 해결한다.
+- **필요성**: 기업용 애플리케이션에서는 거의 모든 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)에 동일하게 적용되어야 하는 공통 기능이 존재한다. 예를 들어, 모든 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 메서드의 실행 전에 로깅을 수행해야 하고, 모든 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 접근 메서드에 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 처리가 필요하며, 모든 공개 메서드에 보안 검사가 필요하다. 이러한 기능을 각 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)에 직접 구현하면 코드 중복이 발생하고, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 변경 시 모든 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 수정해야 하는 문제가 생긴다. AOP는 이러한 문제를 해결한다.
 
-- **💡 비유**: AOP는 "호텔の客房清理"와 같다. 각 방(비즈니스 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))에 직접 들어이서清扫(공통 기능)을 수행하면効率的이지 않고, 清掃スタッフ(Aspect)가集中管理されたルートで各部屋を巡回清扫する方が効率的이다. 각 방은清掃요청方法を知らなくても, 공통적인 清掃[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 받을 수 있다.
+- **💡 비유**: AOP는 "호텔의"와 같다. 각 방(비즈니스 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))에 직접 들어이서(공통 기능)을 수행하면이지 않고, (Aspect)가관리에서을/를하다이/가이다. 각 방은요청방법을/를지 않고도, 공통적인 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 받을 수 있다.
 
-- **등장 배경**: AOP는 1997년 Gregor Kiczales이率领한 Xerox PARC 연구소에서 제안하였으며,AspectJ 언어(2001년 출시)를 통해 본격적인 구현이 이루어졌다. 이후 Java生态系统에서 Spring AOP가 등장하여 Enterprise Java 분야에서 널리 사용되게 되었다.
+- **등장 배경**: AOP는 1997년 Gregor Kiczales이한 Xerox PARC 연구소에서 제안하였으며,AspectJ 언어(2001년 출시)를 통해 본격적인 구현이 이루어졌다. 이후 Java시스템에서 Spring AOP가 등장하여 Enterprise Java 분야에서 널리 사용되게 되었다.
 
-- **📢 섹션 요약 비유**: AOP는 "은행のセキュリティシステム"와 같다. 금고(핵심 로직)에 직접セキュリティ機器を接続하지 않고, セキュリティ会社(Aspect)가集中的에監視하고, 万が一の時に만対応すればよい. 핵심 로직은 보안의 존재를 모르면서도 安全を享受できる.
+- **📢 섹션 요약 비유**: AOP는 "은행의보안시스템"와 같다. 금고(핵심 로직)에 직접보안을/를하지 않고, 보안(Aspect)가에하고, 이/가의에만. 핵심 로직은 보안의 존재를 모르면서도 보안을/를할 수 있다.
 
 ---
 
@@ -35,14 +35,14 @@ tags = ["studynote-software-engineering"]
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                  관점 지향 프로그래밍 (AOP, As                        │
+│ 관점 지향 프로그래밍 (AOP, As │
 ├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
+│ │
+│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
+│ │ │ │ │
+│ ▼ ▼ ▼ │
+│ 요구 분석 설계·적용 품질 검증 │
+│ │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -143,17 +143,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+│
+▼
 관점 지향 프로그래밍 (AOP, Aspect Oriented Programming) 개념 정립
-    │
-    ▼
+│
+▼
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+│
+▼
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+│
+▼
 지속적 개선 및 DevOps·MLOps 통합
 ```
 

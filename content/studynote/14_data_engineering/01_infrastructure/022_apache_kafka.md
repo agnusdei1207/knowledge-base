@@ -16,7 +16,7 @@ tags = ["studynote-data-engineering"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [아파치 카프카](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/)는 수평 확장 가능한 다수의 브로커(Broker) 클러스터 위에 토픽(Topic)이라는 메시지 카테고리를 두어, 발신자(Producer)가 메시지를 쓰면 컨슈머(Consumer)가 원하는 속도로 가져가는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)형 발행-구독(Pub/Sub) 메시지 큐이자 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 스토리지 시스템이다.
 > 2. **가치**: 기존 메시지 큐(RabbitMQ 등)와 달리, 메시지를 메모리에 버퍼링하지 않고 브로커의 로컬 디스크에 순차적으로 기록(Write-Ahead Log)하여 서버가 재시작되어도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 유실되지 않는 내구성([Durability](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/))과 무한한 메시지 보존을 동시에 제공한다.
-> 3. **융합**: [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 간 비동기 통신, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 집계, [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)([Change Data Capture](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)) 파이프라인 등 거의 모든 실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름의 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 역할을 하며, 스프링(Spring), 플링크(Flink), 스파크(Spark)와 긴밀히 융합되어 카파([Kappa](/knowledge-base/studynote/16_bigdata/12_trends/235_kappa/)) 아키텍처의基石를 구성한다.
+> 3. **융합**: [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 간 비동기 통신, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 집계, [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)([Change Data Capture](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)) 파이프라인 등 거의 모든 실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름의 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 역할을 하며, 스프링(Spring), 플링크(Flink), 스파크(Spark)와 긴밀히 융합되어 카파([Kappa](/knowledge-base/studynote/16_bigdata/12_trends/235_kappa/)) 아키텍처의를 구성한다.
 
 ---
 
@@ -28,7 +28,7 @@ tags = ["studynote-data-engineering"]
 - **대안**: 링크드인(LinkedIn)은 "메시지를 메모리에 버퍼링하지 말고, 온전히 디스크에 순차 기록(Append-only Log)하자!"는 파괴적 발상을 하였다. 디스크의 순차 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 속도는 SSDs에서 수십만 TPS에 달하며, [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 계수와 결합하면 메모리 버퍼링보다 더 강한 내구성을 제공한다.
 
 ### 2. [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)의 탄생 배경
-2011년 링크드인이 내부 모니터링 시스템 구축 중 기존 미들웨어의 한계를 느끼고 자체 개발하여 Apache에 기증한 것이 시초이다. 실시간 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/), 활동 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/), [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 집계 등几乎 모든 실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름의 기본 운송로를 제공하고 있다.
+2011년 링크드인이 내부 모니터링 시스템 구축 중 기존 미들웨어의 한계를 느끼고 자체 개발하여 Apache에 기증한 것이 시초이다. 실시간 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/), 활동 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/), [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 집계 등 모든 실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름의 기본 운송로를 제공하고 있다.
 
 - **📢 섹션 요약 비유**: [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)는 엄청나게 빠르고 끝없이 메시지를 보관하는 '우체국 시스템'과 같습니다. 옛날 우체국은 소포를 받는 순간 누군가 기다리지 않으면 분실했지만, [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 우체국은 받은 편지를 금고(디스크)에 영구 보관하여 받는 사람이 언제든 와서 편지를 찾아가도 존재를 보장하는 혁신적 시스템입니다.
 
@@ -41,15 +41,15 @@ tags = ["studynote-data-engineering"]
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│              [ Apache Kafka 클러스터 아키텍처 ]              │
-│                                                             │
-│  [Producer] ──> [Broker 1] ──> [Broker 2] ──> [Broker 3] │
-│    (발신자)        │ P0(리더)    │ P1(리더)    │ P0(리더)   │
-│                    │ P1(팔로워)  │ P0(팔로워)  │ P1(팔로워) │
-│                    └────────────────────────────────────────┘
-│                              ↑                              │
-│                              │ (컨슈머 그룹 병렬 소비)        │
-│                         [Consumer Group]                     │
+│ [ Apache Kafka 클러스터 아키텍처 ] │
+│ │
+│ [Producer] ──> [Broker 1] ──> [Broker 2] ──> [Broker 3] │
+│ (발신자) │ P0(리더) │ P1(리더) │ P0(리더) │
+│ │ P1(팔로워) │ P0(팔로워) │ P1(팔로워) │
+│ └────────────────────────────────────────┘
+│ ↑ │
+│ │ (컨슈머 그룹 병렬 소비) │
+│ [Consumer Group] │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -68,9 +68,9 @@ tags = ["studynote-data-engineering"]
 [ 토픽: user-events (파티션 3개) ]
 
 [Producer] --> [P0] --> [P1] --> [P2]
-                    ↑       ↑       ↑
-               [CG: stats-service]  [CG: fraud-detection]
-               (파티션 0,1 할당)     (파티션 2 할당)
+↑ ↑ ↑
+[CG: stats-service] [CG: fraud-detection]
+(파티션 0,1 할당) (파티션 2 할당)
 ```
 
 ### 3. 내구성([Durability](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/))과 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)([Replication](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/))
@@ -90,14 +90,14 @@ tags = ["studynote-data-engineering"]
 | **메시지 보존** | 제한 없음 (보존 기간 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)) | 컨슈머 ACK 후 삭제 | 최대 14일 |
 | **처리 모델** | Pull (컨슈머가 가져감) | Push (브로커가 밀어냄) | Pull |
 | **순서 보장** | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 내 순서 보장 |Exchange 타입에 따라 다름 | 일부 순서 보장 |
-| **[처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)** | 초당 수백만 MSG (超高性能) | 초당 수만 MSG | 초당 수천 MSG |
+| **[처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)** | 초당 수백만 MSG (성능) | 초당 수만 MSG | 초당 수천 MSG |
 | **활용** | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 파이프라인, 스트리밍 | 작업 큐, 비동기 [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/) | 완전 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 이벤트 |
 
 ### [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)의 Pull 모델이 효율적인 이유
 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)는 컨슈머가 스스로 처리 속도에 맞춰 메시지를 가져가는 Pull 방식으로 동작한다.
 - 컨슈머가 바쁘면 메시지가 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 누적되어 디스크에 버퍼링되므로 메모리 부하가 없다.
 - 반면 RabbitMQ의 Push 방식은 컨슈머 처리 속도를 무시하고 밀어붙여 컨슈머가 마비될 수 있다.
-- Pull 방식은 또한 [컨슈머 그룹](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/) 내에서 작업 분배를 자유자재로 제어할 수 있어 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리의粒度를 완벽히 관리할 수 있다.
+- Pull 방식은 또한 [컨슈머 그룹](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/) 내에서 작업 분배를 자유자재로 제어할 수 있어 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리의를 완벽히 관리할 수 있다.
 
 - **📢 섹션 요약 비유**: [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)의 Pull 모델은 '배달 주문 앱'과 같습니다. 손님(Consumer)이 직접 앱에서 주문을 클릭(Pull)하여 음식을 가져오므로, 손님이 바쁜 시간에는 음식이 식당(브로커 디스크)에 쌓여 있고 손님이 여유롭 해지면 자연스럽게 감소합니다. 반면 Push 모델은 웨이터가 음식을 억지로 밀어붙이는 방식으로, 손님이 바쁘면 접시까득 차는 문제가 발생합니다.
 
@@ -112,9 +112,9 @@ tags = ["studynote-data-engineering"]
 | **[처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)** | 일 10억 건 이상의 이벤트 스트림 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 조정으로 수평 확장 설계 |
 
 *(추가 실무 적용 가이드 - CDC와 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)의 결합)*
-- Debezium과 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)를 결합하면 RDBMS의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(Binlog)를 실시간으로 캡처하여 [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) 파이프라인을 구축할 수 있다. 운영 DB에丝毫한 부하를 주지 않고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변경분을 스트림으로 흘려보내 DW나 레이크에 실시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)한다.
+- Debezium과 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)를 결합하면 RDBMS의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(Binlog)를 실시간으로 캡처하여 [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) 파이프라인을 구축할 수 있다. 운영 DB에한 부하를 주지 않고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변경분을 스트림으로 흘려보내 DW나 레이크에 실시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)한다.
 
-- **📢 섹션 요약 비유**: 실무 적용은 '고속도로 톨게이트的建设'와 같습니다. 차道([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 진입할 때마다 요금闸선(브로커)이 차를 받아 기록하고,后面的 차(컨슈머)가 앞 차의 기록을 넘볼 필요 없이 순서대로 통행료를 내는 구조입니다.
+- **📢 섹션 요약 비유**: 실무 적용은 '고속도로 톨게이트'와 같습니다. 차([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 진입할 때마다 요금선(브로커)이 차를 받아 기록하고, 차(컨슈머)가 앞 차의 기록을 넘볼 필요 없이 순서대로 통행료를 내는 구조입니다.
 
 ---
 
@@ -130,18 +130,18 @@ tags = ["studynote-data-engineering"]
 
 ## 🧠 지식 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 
-*   **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 메시지 시스템 비교**
-    *   [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/): [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기반 Pub/Sub (이벤트 스트리밍)
-    *   RabbitMQ: [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 기반 작업 큐 (비동기 [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/))
-    *   Amazon SQS: 완전 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 큐 (이벤트 드리븐)
-*   **[카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 핵심 개념**
-    *   Topic / [Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) / Offset: 메시지 조직화의 基本 구조
-    *   Producer / Consumer / [Consumer Group](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/): 발신자-수신자 패턴
-    *   Leader / Follower / [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/): 내구성을 위한 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 메커니즘
-    *   acks=all:最高 내구성 모드 (모든 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본에 기록 완료 후 ACK)
-*   **실무 연계**
-    *   [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) ([Change Data Capture](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)): Debezium + Kafka로 운영 DB 실시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)
-    *   [Kappa Architecture](/knowledge-base/studynote/16_bigdata/04_streaming/096_kappa_architecture/): [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 단일 파이프라인으로 배치+스트리밍 통합
+* **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 메시지 시스템 비교**
+* [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/): [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기반 Pub/Sub (이벤트 스트리밍)
+* RabbitMQ: [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 기반 작업 큐 (비동기 [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/))
+* Amazon SQS: 완전 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 큐 (이벤트 드리븐)
+* **[카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 핵심 개념**
+* Topic / [Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) / Offset: 메시지 조직화의 구조
+* Producer / Consumer / [Consumer Group](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/): 발신자-수신자 패턴
+* Leader / Follower / [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/): 내구성을 위한 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 메커니즘
+* acks=all: 내구성 모드 (모든 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본에 기록 완료 후 ACK)
+* **실무 연계**
+* [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) ([Change Data Capture](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)): Debezium + Kafka로 운영 DB 실시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)
+* [Kappa Architecture](/knowledge-base/studynote/16_bigdata/04_streaming/096_kappa_architecture/): [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 단일 파이프라인으로 배치+스트리밍 통합
 
 ---
 
@@ -159,17 +159,17 @@ tags = ["studynote-data-engineering"]
 
 ```text
 [Producer (발신자) — 이벤트/메시지 생성]
-    │
-    ▼
+│
+▼
 [토픽 → 파티션 분산 저장 (Append-only Log)]
-    │
-    ▼
+│
+▼
 [Broker 클러스터 — 복제(Replication)로 내구성 보장]
-    │
-    ▼
+│
+▼
 [Consumer Group — 병렬 소비, 오프셋 관리]
-    │
-    ▼
+│
+▼
 [Flink / Spark Streaming + CDC → Kappa 아키텍처]
 ```
 Producer가 생성한 이벤트가 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저장으로 내구성을 확보하고, Consumer Group이 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 소비하며, Flink·Spark와 결합해 실시간 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)의 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 역할을 하는 흐름이다.

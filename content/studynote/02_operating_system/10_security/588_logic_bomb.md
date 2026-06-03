@@ -11,8 +11,8 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 로직 폭탄은 개발자나 침입자가 특정 조건이 충족되었을 때(날짜, 시간, 특정 사용자 로그인, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 삭제 등) 악의적인 코드 실행을 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)하는 악성 소프트웨어다. 이欺瞞(기만)적触发([트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)) 메커니즘으로, 정상 업무 중 몰래 침투하여 시스템에 [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/)를 설치하거나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 파괴하는 일종의 시한폭탄이다.
-> 2. **가치**: 이 기술은 내부자 위협(Insider Threat)과 [공급망 공격](/knowledge-base/studynote/09_security/15_malware_attack_vectors/764_supply_chain_attack/)([Supply Chain Attack](/knowledge-base/studynote/09_security/15_malware_attack_vectors/764_supply_chain_attack/))의 대표적인 수단으로, 외부 방화벽이나 IDS를 우회하여 조직 내부에서密かに(비밀스럽게) 작동하며, 사전에 설정된 조건이 충족되면 피해자에게 경고 없이即時(즉시) 피해를 준다.
+> 1. **본질**: 로직 폭탄은 개발자나 침입자가 특정 조건이 충족되었을 때(날짜, 시간, 특정 사용자 로그인, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 삭제 등) 악의적인 코드 실행을 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)하는 악성 소프트웨어다. 이(기만)적([트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)) 메커니즘으로, 정상 업무 중 몰래 침투하여 시스템에 [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/)를 설치하거나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 파괴하는 일종의 시한폭탄이다.
+> 2. **가치**: 이 기술은 내부자 위협(Insider Threat)과 [공급망 공격](/knowledge-base/studynote/09_security/15_malware_attack_vectors/764_supply_chain_attack/)([Supply Chain Attack](/knowledge-base/studynote/09_security/15_malware_attack_vectors/764_supply_chain_attack/))의 대표적인 수단으로, 외부 방화벽이나 IDS를 우회하여 조직 내부에서이나에(비밀스럽게) 작동하며, 사전에 설정된 조건이 충족되면 피해자에게 경고 없이즉시(즉시) 피해를 준다.
 > 3. **한계**: 시간bomb형(Time Bomb)은 지정된 시간이 경과하면 무조건 폭발하므로 탐지 가능성이 높고, современные(현대적인) [EDR](/knowledge-base/studynote/09_security/04_endpoint_security/325_edr/)(Endpoint [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/) and Response) 및 FIM([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) Monitoring) 시스템이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 변경을 실시간 모니터링하므로 사전에 탐지될 가능성이 높다.
 
 ---
@@ -25,22 +25,22 @@ tags = ["studynote-operating-system"]
 ```text
 [로직bomb 내부 구조]
 
-  조건 확인 (Trigger)
-       |
-       v
-  if (특정 조건 == TRUE) {
-      goto PAYLOAD;
-  }
-       |
-       v
-  정상 업무 코드...
-  document.save();
-  calculate_report();
+조건 확인 (Trigger)
+|
+v
+if (특정 조건 == TRUE) {
+goto PAYLOAD;
+}
+|
+v
+정상 업무 코드...
+document.save();
+calculate_report();
 
-  PAYLOAD 섹션 (악성 코드):
-  - OS 파일 시스템 파괴 (rm -rf)
-  - 백도어 개방 (nc -l -p 31337)
-  - 데이터 외부 유출
+PAYLOAD 섹션 (악성 코드):
+- OS 파일 시스템 파괴 (rm -rf)
+- 백도어 개방 (nc -l -p 31337)
+- 데이터 외부 유출
 ```
 
 **[핵심 포인트]** 로직bomb의 가장 큰 특징은 평소에는 정상 코드처럼 보이며, 해당 조건이 충족되지 않는 한 악성 코드가 실행되지 않는다는 점이다.
@@ -74,16 +74,16 @@ tags = ["studynote-operating-system"]
 ## Ⅲ. 비교 및 연결
 
 ### 사례 1: 금융권 로직bomb
-**상황**: SI 회사 개발자 A는 2년간 회사에 기여했다. 1년 연장 의사결정이迟迟(지체)되고, 성과급 지급이 계속延期(연기)되자, 보复仇(복수)심을 먹었다.
+**상황**: SI 회사 개발자 A는 2년간 회사에 기여했다. 1년 연장 의사결정이(지체)되고, 성과급 지급이 계속(연기)되자, 보(복수)심을 먹었다.
 
 **공격 과정**:
-1. A는 퇴사 1개월 전，趁(틈)을 타 업무 시스템의 로직bomb을仕組(심화)했다.
-2. 시스템에서 급여 처리Iterations(반복)回에 따라 25번째Processing(처리)에서 악성payload를 심화植入(이식)했다.
-3. 1개월 후 회사는 A를 계속 고용하지 않기로 결정했고, 퇴사 후 31번째 급여 처리 시 시스템 내 모든 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를Encrypt(암호화)하여 引導(유도)했다.
+1. A는 퇴사 1개월 전，(틈)을 타 업무 시스템의 로직bomb을(심화)했다.
+2. 시스템에서 급여 처리Iterations(반복)에 따라 25번째Processing(처리)에서 악성payload를 심화(이식)했다.
+3. 1개월 후 회사는 A를 계속 고용하지 않기로 결정했고, 퇴사 후 31번째 급여 처리 시 시스템 내 모든 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를Encrypt(암호화)하여 (유도)했다.
 
 **결과 및 [교훈](/knowledge-base/studynote/09_security/13_secops_ir_forensics/659_ir_lessons_learned/)**:
 - 회사 경영진은 "시스템 오류"로 오인하고, Ransom(몸값)을 요구하는 메세지를 받을 때까지 정체를 몰랐다.
-- 사고 해결 기간: 45~90일, 直接被害(직접피해) 수백억 원
+- 사고 해결 기간: 45~90일, 직접(직접피해) 수백억 원
 
 - **📢 섹션 요약 비유**: 비슷해 보이는 공구를 나란히 놓고 언제 망치를 쓰고 언제 드라이버를 써야 하는지 구분하는 것과 같다.
 
@@ -91,7 +91,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 防御(방어) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
+### (방어) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 1. **[Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 리뷰 및 [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/)**: 배포 전 모든 코드에 대한 심층적인 [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/)을 수행하여 숨겨진 패턴을 탐지
 2. **행위 기반 모니터링 ([EDR](/knowledge-base/studynote/09_security/04_endpoint_security/325_edr/))**: 프로세스 및 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 변경을 실시간으로 모니터링하고, 이상 행위를Flag([플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))할 수 있는 [EDR](/knowledge-base/studynote/09_security/04_endpoint_security/325_edr/) 솔루션 배포
 3. **[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 모니터링 (FIM)**: Tripwire 등을 활용하여 주요 시스템 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 SHA-256 해시를 정기적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)
@@ -101,7 +101,7 @@ tags = ["studynote-operating-system"]
 |---|---|---|
 | **행위 분석 (Behavioral Analysis)** | 비정상적인 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 접근/수정 패턴 탐지 | 높음 |
 | **[샌드박싱](/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/) ([Sandboxing](/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/))** | 의심스러운 코드를 격리된 환경에서 실행 | 중간 |
-| **[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 해시 비교** | 시스템 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)定期(정기) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 높음 |
+| **[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 해시 비교** | 시스템 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)(정기) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 높음 |
 
 - **📢 섹션 요약 비유**: 운전자가 도로 상황에 따라 기어와 브레이크를 다르게 선택하는 것처럼 조건별 판단이 중요하다.
 
@@ -109,7 +109,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅴ. 기대효과 및 결론
 
-로직bomb과 시간bomb은 외부 해킹보다 내부자 위협에 더有效性(효과적)이며, 단순한 방화벽이나 [AV](/knowledge-base/studynote/09_security/04_endpoint_security/323_antivirus/)(안티바이러스) 솔루션으로는 탐지하기 어렵다. 따라서 다음과 같은 다층 방어 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 필요하다:
+로직bomb과 시간bomb은 외부 해킹보다 내부자 위협에 더(효과적)이며, 단순한 방화벽이나 [AV](/knowledge-base/studynote/09_security/04_endpoint_security/323_antivirus/)(안티바이러스) 솔루션으로는 탐지하기 어렵다. 따라서 다음과 같은 다층 방어 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 필요하다:
 
 - **사전 예방**: 안전한 코딩 관행, [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 도구 활용
 - **실시간 탐지**: [EDR](/knowledge-base/studynote/09_security/04_endpoint_security/325_edr/), FIM, 행위 모니터링
@@ -132,12 +132,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [트랩 도어 (Trap Door / Backdoor)]
-    │
-    ▼
+│
+▼
 [로직 밤 (Logic Bomb) / 타이머 밤]
-    │
-    ├──▶ [바이러스 (Virus)]
-    └──▶ [웜 (Worm)]
+│
+├──▶ [바이러스 (Virus)]
+└──▶ [웜 (Worm)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.

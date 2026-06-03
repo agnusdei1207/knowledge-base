@@ -23,10 +23,10 @@ tags = ["studynote-security"]
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
-│ 왜 개인정보 파일 표준 protection 가 필요한가                              │
+│ 왜 개인정보 파일 표준 protection 가 필요한가 │
 ├──────────────────────────────────────────────────────────────┤
-│ 자산·서비스 운영 ─► 노출/불확실성 ─► 위험 확대              │
-│                     └──── 개인정보 파일 표준 protect로 통제·판단 ────┘   │
+│ 자산·서비스 운영 ─► 노출/불확실성 ─► 위험 확대 │
+│ └──── 개인정보 파일 표준 protect로 통제·판단 ────┘ │
 └──────────────────────────────────────────────────────────────┘
 ```
 
@@ -48,10 +48,10 @@ tags = ["studynote-security"]
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
-│ 운영 사이클                                                  │
+│ 운영 사이클 │
 ├──────────────────────────────────────────────────────────────┤
-│ 기준 수립 ─► 통제 적용 ─► 증적 수집 ─► 점검·개선            │
-│              └──────── 책임·보고 체계 ────────┘             │
+│ 기준 수립 ─► 통제 적용 ─► 증적 수집 ─► 점검·개선 │
+│ └──────── 책임·보고 체계 ────────┘ │
 └──────────────────────────────────────────────────────────────┘
 ```
 
@@ -114,12 +114,12 @@ tags = ["studynote-security"]
 
 ```text
 [규정·책임 요구]
-    │
-    ▼
+│
+▼
 [개인정보 파일 표준 protection 지침 (Standard Protection Guideline)]
-    │
-    ├──▶ [감사 자동화]
-    └──▶ [성숙도 향상]
+│
+├──▶ [감사 자동화]
+└──▶ [성숙도 향상]
 ```
 
 이 흐름도는 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 표준 [protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 지침 (Standard [Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) Guideline)를 단일 용어가 아니라 선행 문제, 현재 해결 방식, 후속 확장 방향으로 기억하게 해 준다. 시험과 실무 모두에서 이 연결 구조를 함께 말할 수 있어야 개념이 살아난다.
@@ -137,6 +137,6 @@ tags = ["studynote-security"]
 **진행 상황**: 860 / 1108
 
 ← **이전**: [785. 개인정보 영향평가 (PIA)](/knowledge-base/studynote/09_security/16_data_privacy/785_pia_process/)
-**다음**: [787. 정보보호 管理체계 (ISMS-P)](/knowledge-base/studynote/09_security/16_data_privacy/787_isms_p/) →
+**다음**: [787. 정보보호 관리체계 (ISMS-P)](/knowledge-base/studynote/09_security/16_data_privacy/787_isms_p/) →
 
 ---

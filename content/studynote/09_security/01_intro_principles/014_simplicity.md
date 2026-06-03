@@ -29,15 +29,15 @@ tags = ["security"]
 [시스템 복잡도와 보안 취약점의 상관관계 시각화]
 
 기능/복잡도 증가 ──▶
-      │
-   취 │      / (기하급수적 폭발)
-   약 │     /
-   점 │    /   <-- 코드간 상호작용(Interaction)의 복잡성은 O(N^2)로 증가
-      │   /        복잡한 보안 솔루션은 그 자체가 취약점이 됨.
-   증 │  /
-   가 │ /
-      │/____________________
-       (단순한 구조 유지 구간)
+│
+취 │ / (기하급수적 폭발)
+약 │ /
+점 │ / <-- 코드간 상호작용(Interaction)의 복잡성은 O(N^2)로 증가
+│ / 복잡한 보안 솔루션은 그 자체가 취약점이 됨.
+증 │ /
+가 │ /
+│/____________________
+(단순한 구조 유지 구간)
 ```
 
 이 그래프는 시스템에 기능이나 보안 룰이 덧붙여질수록 취약점의 수가 선형(Linear)이 아니라 기하급수적으로 폭발함을 보여준다. 새로운 보안 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 하나를 추가할 때마다 기존 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)들과의 예기치 않은 상태 충돌이 발생하기 때문이며, 따라서 시스템 전체의 신뢰성을 수학적으로 증명하거나 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))하는 것이 불가능해진다. 실무에서는 복잡한 모놀리식 방어벽 하나보다 단순하고 독립적인 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 방어 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 여러 개를 분리하는 것이 훨씬 안전하다.
@@ -62,18 +62,18 @@ tags = ["security"]
 
 (A) 복잡한 안티패턴: "Security by Complexity"
 [Client] ──> [App A (자체 인증)] ──> [DB A]
-   │          └─(예외처리)─> [App B] ──> [DB B]
-   │                           ▲
-   └────(레거시 우회)──────────┘ (누가 어디에 접근하는지 추적 불가, 취약점의 온상)
+│ └─(예외처리)─> [App B] ──> [DB B]
+│ ▲
+└────(레거시 우회)──────────┘ (누가 어디에 접근하는지 추적 불가, 취약점의 온상)
 
 (B) 단순화 아키텍처: "Economy of Mechanism"
 [Client] ──> [ API Gateway / Identity Provider ] (단일 통제점)
-                         │ (토큰 검증)
-             ┌───────────┴───────────┐
-             ▼                       ▼
-          [App A]                 [App B]
-             │                       │
-          [DB A]                  [DB B]
+│ (토큰 검증)
+┌───────────┴───────────┐
+▼ ▼
+[App A] [App B]
+│ │
+[DB A] [DB B]
 (인증 로직이 각 앱에서 사라지고, 구조가 단순화되어 감사가 100% 가능해짐)
 ```
 
@@ -100,16 +100,16 @@ tags = ["security"]
 [단순성과 심층 방어의 융합 곡선 (의사결정 모델)]
 
 보안 효과
-  │                         [ 최적 균형점 (Sweet Spot) ]
-  │                       /  * 단순한 통제 요소의 모듈화된 중첩
-  │                     /    * API G/W + EDR + 독립된 IAM 결합
-  │                   /
-  │                 /        [ 위험 구간 (복잡성 폭발) ]
-  │  (단일 방어)  /         * 기능 과부하, 룰셋 충돌, 방화벽 피로도
-  │    (취약)   /           * 오히려 보안성 하락 (운영자 실수 증가)
-  │           /               \
-  └─────────/───────────────────\───────────── 복잡성 / 방어 계층 수
-           (단순함)                      (복잡함)
+│ [ 최적 균형점 (Sweet Spot) ]
+│ / * 단순한 통제 요소의 모듈화된 중첩
+│ / * API G/W + EDR + 독립된 IAM 결합
+│ /
+│ / [ 위험 구간 (복잡성 폭발) ]
+│ (단일 방어) / * 기능 과부하, 룰셋 충돌, 방화벽 피로도
+│ (취약) / * 오히려 보안성 하락 (운영자 실수 증가)
+│ / \
+└─────────/───────────────────\───────────── 복잡성 / 방어 계층 수
+(단순함) (복잡함)
 ```
 
 이 모델은 보안 계층을 무작정 늘린다고 해서 보안성이 계속 증가하는 것이 아님을 시사한다. 임계점을 넘어서면(위험 구간), 보안 솔루션 간의 충돌과 오탐지(False Positive)로 인해 관리자가 알람을 끄거나 예외를 남발하게 되어 실제 보안성은 추락한다. 따라서 두 원칙을 융합하는 실무적 해법은, "방어 계층은 여러 개([DiD](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/))를 두되, 각 방어 계층 내부의 동작 논리와 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 극한으로 단순하게(Simplicity) 유지하는 것"이다.
@@ -135,15 +135,15 @@ tags = ["security"]
 [시큐어 코딩에서의 복잡도 축소(Refactoring) 플로우]
 
 [Legacy Code] : 중첩된 if문, 하드코딩된 암호 키, 산재된 권한 체크 (Cyclomatic Complexity > 20)
-     │
-     ▼
+│
+▼
 [단계 1: 분리] : 비즈니스 로직과 보안 로직(인증/인가)의 철저한 디커플링 (Filter/Interceptor 적용)
-     │
+│
 [단계 2: 표준화] : 자체 개발한 암호화 함수 삭제 ──> 표준 검증된 라이브러리(AES-GCM 등)로 교체
-     │
+│
 [단계 3: 검증] : SonarQube 등 정적 분석(SAST) 도구를 돌려 코드 복잡도 지수(Complexity Score) 측정
-     │
-     ▼
+│
+▼
 [Clean Code] : 하나의 함수는 하나의 명확한 보안 검증만 수행. 가독성과 감사 가능성 극대화.
 ```
 
@@ -182,17 +182,17 @@ tags = ["security"]
 
 ```text
 [보안 원칙 (Security Principles) — 최소 권한·심층 방어·분리 원칙 체계화]
-    │
-    ▼
+│
+▼
 [단순성 원칙 (Simplicity) — 불필요한 복잡성 제거로 공격 표면 최소화]
-    │
-    ▼
+│
+▼
 [제로 트러스트 (Zero Trust) — 복잡한 경계 보안 대신 ID 기반 단순 신뢰 모델]
-    │
-    ▼
+│
+▼
 [보안 설계 검토 (Security Design Review) — 단순성 기반 공격 표면 분석]
-    │
-    ▼
+│
+▼
 [DevSecOps — 코드 복잡도 측정 자동화, CI/CD 파이프라인 보안 내재화]
 ```
 
@@ -211,6 +211,6 @@ tags = ["security"]
 **진행 상황**: 14 / 1108
 
 ← **이전**: [13. 알 필요성 원칙 (Need-to-Know) — 정보 접근 제한](/knowledge-base/studynote/09_security/01_intro_principles/013_need_to_know/)
-**다음**: [15. 공개 설계 원칙 (Open Design) — 키 은닉，而非 算法 은닉](/knowledge-base/studynote/09_security/01_intro_principles/015_open_design/) →
+**다음**: [15. 공개 설계 원칙 (Open Design) — 키 은닉，가 아니라 알고리즘 은닉](/knowledge-base/studynote/09_security/01_intro_principles/015_open_design/) →
 
 ---

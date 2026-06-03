@@ -36,13 +36,13 @@ tags = ["studynote-ict-convergence"]
 **6R [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 전체 구조**:
 
 ```
-  빠른 이전                              최고 최적화
-  ←────────────────────────────────────────────────→
-  비용 低                                    비용 高
+빠른 이전 최고 최적화
+←────────────────────────────────────────────────→
+비용 비용
 
-  Rehost   Replatform  Repurchase  Refactor  Retire  Retain
-  (Lift    (Lift &     (Replace)   (Re-      (폐기)  (현행
-  & Shift)  Reshape)               architect)        유지)
+Rehost Replatform Repurchase Refactor Retire Retain
+(Lift (Lift & (Replace) (Re- (폐기) (현행
+& Shift) Reshape) architect) 유지)
 ```
 
 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 내용 | 이점 | 적합 사례 |

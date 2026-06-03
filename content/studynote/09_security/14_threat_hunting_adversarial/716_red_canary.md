@@ -19,14 +19,14 @@ tags = ["studynote-security"]
 
 ## Ⅰ. 개요 및 필요성
 
-Red Canary는 [위협 헌팅](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/689_threat_hunting/)·[적대적 시뮬레이션](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/685_adversarial_simulation/)에서 반복적으로 등장하는 문제를 일정한 원리로 다루기 위해 정리된 개념이다. 이 주제를 이해할 때는 단순 정의보다 "왜 지금 이 개념이 필요해졌는가"를 먼저 봐야 한다. Red Canary가 등장한 배경에는 자산 가치 상승, 공격 정교화, 운영 복잡도 증가가 동시에 작용한다. 대표 세부 포인트로는 [EDR](/knowledge-base/studynote/09_security/04_endpoint_security/325_edr/),威胁検出가 있다. 이 개념이 없거나 잘못 적용되면 보안 통제가 단편화되어 위험이 눈에 잘 보이지 않거나, 반대로 과도한 통제가 운영 비용을 키우는 문제가 생긴다.
+Red Canary는 [위협 헌팅](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/689_threat_hunting/)·[적대적 시뮬레이션](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/685_adversarial_simulation/)에서 반복적으로 등장하는 문제를 일정한 원리로 다루기 위해 정리된 개념이다. 이 주제를 이해할 때는 단순 정의보다 "왜 지금 이 개념이 필요해졌는가"를 먼저 봐야 한다. Red Canary가 등장한 배경에는 자산 가치 상승, 공격 정교화, 운영 복잡도 증가가 동시에 작용한다. 대표 세부 포인트로는 [EDR](/knowledge-base/studynote/09_security/04_endpoint_security/325_edr/),가 있다. 이 개념이 없거나 잘못 적용되면 보안 통제가 단편화되어 위험이 눈에 잘 보이지 않거나, 반대로 과도한 통제가 운영 비용을 키우는 문제가 생긴다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
-│ 왜 Red Canary가 필요한가                                          │
+│ 왜 Red Canary가 필요한가 │
 ├──────────────────────────────────────────────────────────────┤
-│ 자산·서비스 운영 ─► 노출/불확실성 ─► 위험 확대              │
-│                     └──── Red Canary로 통제·판단 ────┘           │
+│ 자산·서비스 운영 ─► 노출/불확실성 ─► 위험 확대 │
+│ └──── Red Canary로 통제·판단 ────┘ │
 └──────────────────────────────────────────────────────────────┘
 ```
 
@@ -38,20 +38,20 @@ Red Canary는 [위협 헌팅](/knowledge-base/studynote/09_security/14_threat_hu
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-Red Canary의 핵심은 입력·상태·[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)·결과를 한 흐름으로 묶어 보는 데 있다. Red Canary를 잘 적용하려면 구성 요소만 나열하는 것이 아니라, 어떤 조건에서 판단이 이뤄지고 실패 시 무엇이 남는지를 함께 봐야 한다. 대표 세부 포인트로는 [EDR](/knowledge-base/studynote/09_security/04_endpoint_security/325_edr/),威胁検出가 있다. 즉 Red Canary는 기술 한 점이 아니라 운영과 설계를 연결하는 작은 아키텍처로 이해해야 한다.
+Red Canary의 핵심은 입력·상태·[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)·결과를 한 흐름으로 묶어 보는 데 있다. Red Canary를 잘 적용하려면 구성 요소만 나열하는 것이 아니라, 어떤 조건에서 판단이 이뤄지고 실패 시 무엇이 남는지를 함께 봐야 한다. 대표 세부 포인트로는 [EDR](/knowledge-base/studynote/09_security/04_endpoint_security/325_edr/),가 있다. 즉 Red Canary는 기술 한 점이 아니라 운영과 설계를 연결하는 작은 아키텍처로 이해해야 한다.
 
 | 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
 | [EDR](/knowledge-base/studynote/09_security/04_endpoint_security/325_edr/) | Red Canary를 구성하거나 이해할 때 먼저 봐야 하는 핵심 축 | 단독 기능보다 상위 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 연결해야 한다. |
-| 威胁検出 | Red Canary가 실제로 값을 바꾸거나 결정을 내리는 단계 | 입력 조건과 실패 시 동작을 명확히 해야 한다. |
+| | Red Canary가 실제로 값을 바꾸거나 결정을 내리는 단계 | 입력 조건과 실패 시 동작을 명확히 해야 한다. |
 | 운영 포인트 | Red Canary를 장기 운영할 때 관리해야 할 관측·[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 요소 | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 자동화, 수명주기 관리가 품질을 좌우한다. |
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
-│ 핵심 동작 구조                                               │
+│ 핵심 동작 구조 │
 ├──────────────────────────────────────────────────────────────┤
-│ 입력/요청 ─► 검증·판단 ─► 적용·변환 ─► 기록·피드백          │
-│              └──────── 정책·키·상태 관리 ───────┘           │
+│ 입력/요청 ─► 검증·판단 ─► 적용·변환 ─► 기록·피드백 │
+│ └──────── 정책·키·상태 관리 ───────┘ │
 └──────────────────────────────────────────────────────────────┘
 ```
 
@@ -114,12 +114,12 @@ Red Canary를 제대로 이해하면 개념 하나를 외우는 데서 끝나지
 
 ```text
 [가시성·통제 필요]
-    │
-    ▼
+│
+▼
 [Red Canary]
-    │
-    ├──▶ [EDR]
-    └──▶ [威胁検出]
+│
+├──▶ [EDR]
+└──▶ []
 ```
 
 이 흐름도는 Red Canary를 단일 용어가 아니라 선행 문제, 현재 해결 방식, 후속 확장 방향으로 기억하게 해 준다. 시험과 실무 모두에서 이 연결 구조를 함께 말할 수 있어야 개념이 살아난다.

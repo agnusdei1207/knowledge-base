@@ -19,19 +19,19 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)의 [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/)는 함수의 인스턴스가存在하지 않는 상태에서 함수가 호출될 때,新的 인스턴스를生成하기까지의 대기 시간을 의미한다. 이는 핫 스타트(Hot Start - 이미warm한 인스턴스에서 호출)와 대비되는 개념으로,冷たい 인스턴스(cold instance)를 따뜻한(warm) 인스턴스로 만드는 과정이 필요하다.
+- **개념**: [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)의 [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/)는 함수의 인스턴스가에서하지 않는 상태에서 함수가 호출될 때, 인스턴스를생성하기까지의 대기 시간을 의미한다. 이는 핫 스타트(Hot Start - 이미warm한 인스턴스에서 호출)와 대비되는 개념으로, 인스턴스(cold instance)를 따뜻한(warm) 인스턴스로 만드는 과정이 필요하다.
 
-- **필요성**: 사용자가 웹 앱이나 API를 호출할 때, Backend 로직이 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 함수로 처리된다면, 함수의 [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/) 시간(보통 100ms~수초)만큼 응답이 지연된다. 만약 이 지연이 使用자 경험에 영향을 줄 정도라면, 이는ビジネス上の Losses로 이어질 수 있다. 따라서 [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/)의 원인을 분석하고 최적화하는 것이 服务器리스 운영의 핵심 과제이다.
+- **필요성**: 사용자가 웹 앱이나 API를 호출할 때, Backend 로직이 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 함수로 처리된다면, 함수의 [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/) 시간(보통 100ms~수초)만큼 응답이 지연된다. 만약 이 지연이 사용자 경험에 영향을 줄 정도라면, 이는의 Losses로 이어질 수 있다. 따라서 [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/)의 원인을 분석하고 최적화하는 것이 서버리스 운영의 핵심 과제이다.
 
-- **💡 비유**: [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/)는 **'자동차 시동'**과 같다. 시동이 꺼진 자동차(调用되지 않는 함수)를 다시 굴리려면(호출), 시동 모터를 돌리고 엔진이 접철해야 하는 긴 시간이 걸린다 ([콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/)). 그러나 한번 시동이 걸린 후에는 (워밍 상태), 바로 가속할 수 있다 (핫 스타트). 전화를 받을 때마다 시동을 끄고 다시 시동 거는 것은非効率적이다.
+- **💡 비유**: [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/)는 **'자동차 시동'**과 같다. 시동이 꺼진 자동차(되지 않는 함수)를 다시 굴리려면(호출), 시동 모터를 돌리고 엔진이 접철해야 하는 긴 시간이 걸린다 ([콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/)). 그러나 한번 시동이 걸린 후에는 (워밍 상태), 바로 가속할 수 있다 (핫 스타트). 전화를 받을 때마다 시동을 끄고 다시 시동 거는 것은적이다.
 
 - **등장 배경 및 발전 과정**:
-  1. **2014년**: AWS [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 출시, [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 시대幕開け
-  2. **2016~2018년**: Azure Functions, Google Cloud Functions 출시
-  3. **2019년 이후**: [Provisioned Concurrency](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/202_provisioned_concurrency_serverless_cold_start/), Graviton2 등 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 기술 도입
-  4. **현재**: 경량 런타임 ([Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) SnapStart 등), 대기 시간 최적화主流
+1. **2014년**: AWS [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 출시, [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 시대
+2. **2016~2018년**: Azure Functions, Google Cloud Functions 출시
+3. **2019년 이후**: [Provisioned Concurrency](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/202_provisioned_concurrency_serverless_cold_start/), Graviton2 등 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 기술 도입
+4. **현재**: 경량 런타임 ([Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) SnapStart 등), 대기 시간 최적화
 
-- **📢 섹션 요약 비유**: [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/)는 **'새벽에 학교 운동장에|first_start空调을 켜는 것'**과 같다. 여름철 새벽에 공기질을:first_time 위해 에어컨을 켜면, 냉방이 작동하는 데 시간이 걸린다. 이미 가동 중인 에어컨이라면 바로 냉방이 되지만, 꺼져 있던 것은 compressor가 작동하고 냉매가 순환하는 데数分かかる。 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 함수도 마찬가지로 처음 호출될 때 [cold start](/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/) 시간이 발생한다.
+- **📢 섹션 요약 비유**: [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/)는 **'새벽에 학교 운동장에|first_start을 켜는 것'**과 같다. 여름철 새벽에 공기질을:first_time 위해 에어컨을 켜면, 냉방이 작동하는 데 시간이 걸린다. 이미 가동 중인 에어컨이라면 바로 냉방이 되지만, 꺼져 있던 것은 compressor가 작동하고 냉매가 순환하는 데수이나이나。 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 함수도 마찬가지로 처음 호출될 때 [cold start](/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/) 시간이 발생한다.
 
 ---
 
@@ -39,14 +39,14 @@ tags = ["studynote-software-engineering"]
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                  서버리스 환경의 콜드 스타트(Cold                        │
+│ 서버리스 환경의 콜드 스타트(Cold │
 ├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
+│ │
+│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
+│ │ │ │ │
+│ ▼ ▼ ▼ │
+│ 요구 분석 설계·적용 품질 검증 │
+│ │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -147,17 +147,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+│
+▼
 서버리스 환경의 콜드 스타트(Cold Start) 모니터링 및 튜닝 개념 정립
-    │
-    ▼
+│
+▼
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+│
+▼
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+│
+▼
 지속적 개선 및 DevOps·MLOps 통합
 ```
 

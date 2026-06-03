@@ -18,6 +18,11 @@ taxonomies = [
   { name = "tags", feed = false },
 ]
 
+[slugify]
+paths = "off"
+taxonomies = "on"
+anchors = "on"
+
 [markdown]
 highlight_code = false
 render_emoji = false

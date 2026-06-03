@@ -19,14 +19,14 @@ tags = ["studynote-security"]
 
 ## Ⅰ. 개요 및 필요성
 
-[SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/) 구성 ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Information and [Event Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/074_event_management/))는 보안 운영·포렌식에서 반복적으로 등장하는 문제를 일정한 원리로 다루기 위해 정리된 개념이다. 이 주제를 이해할 때는 단순 정의보다 "왜 지금 이 개념이 필요해졌는가"를 먼저 봐야 한다. [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/) 구성 ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Information and [Event Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/074_event_management/))가 등장한 배경에는 자산 가치 상승, 공격 정교화, 운영 복잡도 증가가 동시에 작용한다. 대표 세부 포인트로는 수집(Curator)/저장(Repository)/분석(Analyzer)/可视化(Dashboard)가 있다. 이 개념이 없거나 잘못 적용되면 보안 통제가 단편화되어 위험이 눈에 잘 보이지 않거나, 반대로 과도한 통제가 운영 비용을 키우는 문제가 생긴다.
+[SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/) 구성 ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Information and [Event Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/074_event_management/))는 보안 운영·포렌식에서 반복적으로 등장하는 문제를 일정한 원리로 다루기 위해 정리된 개념이다. 이 주제를 이해할 때는 단순 정의보다 "왜 지금 이 개념이 필요해졌는가"를 먼저 봐야 한다. [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/) 구성 ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Information and [Event Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/074_event_management/))가 등장한 배경에는 자산 가치 상승, 공격 정교화, 운영 복잡도 증가가 동시에 작용한다. 대표 세부 포인트로는 수집(Curator)/저장(Repository)/분석(Analyzer)/(Dashboard)가 있다. 이 개념이 없거나 잘못 적용되면 보안 통제가 단편화되어 위험이 눈에 잘 보이지 않거나, 반대로 과도한 통제가 운영 비용을 키우는 문제가 생긴다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
-│ 왜 SIEM 구성가 필요한가                                             │
+│ 왜 SIEM 구성가 필요한가 │
 ├──────────────────────────────────────────────────────────────┤
-│ 자산·서비스 운영 ─► 노출/불확실성 ─► 위험 확대              │
-│                     └──── SIEM 구성로 통제·판단 ────┘              │
+│ 자산·서비스 운영 ─► 노출/불확실성 ─► 위험 확대 │
+│ └──── SIEM 구성로 통제·판단 ────┘ │
 └──────────────────────────────────────────────────────────────┘
 ```
 
@@ -38,7 +38,7 @@ tags = ["studynote-security"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/) 구성 ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Information and [Event Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/074_event_management/))의 핵심은 입력·상태·[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)·결과를 한 흐름으로 묶어 보는 데 있다. [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/) 구성 ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Information and [Event Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/074_event_management/))를 잘 적용하려면 구성 요소만 나열하는 것이 아니라, 어떤 조건에서 판단이 이뤄지고 실패 시 무엇이 남는지를 함께 봐야 한다. 대표 세부 포인트로는 수집(Curator)/저장(Repository)/분석(Analyzer)/可视化(Dashboard)가 있다. 즉 [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/) 구성 ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Information and [Event Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/074_event_management/))는 기술 한 점이 아니라 운영과 설계를 연결하는 작은 아키텍처로 이해해야 한다.
+[SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/) 구성 ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Information and [Event Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/074_event_management/))의 핵심은 입력·상태·[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)·결과를 한 흐름으로 묶어 보는 데 있다. [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/) 구성 ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Information and [Event Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/074_event_management/))를 잘 적용하려면 구성 요소만 나열하는 것이 아니라, 어떤 조건에서 판단이 이뤄지고 실패 시 무엇이 남는지를 함께 봐야 한다. 대표 세부 포인트로는 수집(Curator)/저장(Repository)/분석(Analyzer)/(Dashboard)가 있다. 즉 [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/) 구성 ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Information and [Event Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/074_event_management/))는 기술 한 점이 아니라 운영과 설계를 연결하는 작은 아키텍처로 이해해야 한다.
 
 | 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -48,10 +48,10 @@ tags = ["studynote-security"]
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
-│ 핵심 동작 구조                                               │
+│ 핵심 동작 구조 │
 ├──────────────────────────────────────────────────────────────┤
-│ 입력/요청 ─► 검증·판단 ─► 적용·변환 ─► 기록·피드백          │
-│              └──────── 정책·키·상태 관리 ───────┘           │
+│ 입력/요청 ─► 검증·판단 ─► 적용·변환 ─► 기록·피드백 │
+│ └──────── 정책·키·상태 관리 ───────┘ │
 └──────────────────────────────────────────────────────────────┘
 ```
 
@@ -114,12 +114,12 @@ tags = ["studynote-security"]
 
 ```text
 [가시성·통제 필요]
-    │
-    ▼
+│
+▼
 [SIEM 구성 (Security Information and Event Management)]
-    │
-    ├──▶ [수집 Curator]
-    └──▶ [저장 Repository]
+│
+├──▶ [수집 Curator]
+└──▶ [저장 Repository]
 ```
 
 이 흐름도는 [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/) 구성 ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Information and [Event Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/074_event_management/))를 단일 용어가 아니라 선행 문제, 현재 해결 방식, 후속 확장 방향으로 기억하게 해 준다. 시험과 실무 모두에서 이 연결 구조를 함께 말할 수 있어야 개념이 살아난다.

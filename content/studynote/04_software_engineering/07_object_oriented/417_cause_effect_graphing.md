@@ -21,16 +21,16 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: [원인-결과 그래프](/knowledge-base/studynote/04_software_engineering/11_testing_validation/419_cause_effect_graphing/)는 입력 조건(원인, Cause)과 그에 대응하는 출력 결과(결과, Effect) 사이의 관계를Directed [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/)(방향 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/))로 모델링하는 기법이다. [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 노드는 원인과 결과를 나타내고, 간선은 그들 사이의 논리적 관계를 나타낸다.
 
-- **필요성**: 복잡한 시스템에서는 입력 변수가 여러 개이고, 각 변수가取的할 수 있는 값이 여럿인 경우가 많다. 예를 들어 보험금 청구 시스템에서 "계약 상태", "청구 사유", "청구 금액" 등의 변수가 있을 때, 모든 가능한 조합을 테스트하는 것은 비효율적이다. [원인-결과 그래프](/knowledge-base/studynote/04_software_engineering/11_testing_validation/419_cause_effect_graphing/)를利用하면 효과적인 테스트 조건을 선별할 수 있다.
+- **필요성**: 복잡한 시스템에서는 입력 변수가 여러 개이고, 각 변수가할 수 있는 값이 여럿인 경우가 많다. 예를 들어 보험금 청구 시스템에서 "계약 상태", "청구 사유", "청구 금액" 등의 변수가 있을 때, 모든 가능한 조합을 테스트하는 것은 비효율적이다. [원인-결과 그래프](/knowledge-base/studynote/04_software_engineering/11_testing_validation/419_cause_effect_graphing/)를활용하면 효과적인 테스트 조건을 선별할 수 있다.
 
 - **유형**: 원인(Cause)은 시스템에 영향을 미치는 입력 조건이고, 결과(Effect)는 시스템의 출력이나 상태 변화를 나타낸다.
 
 - **비유**: [원인-결과 그래프](/knowledge-base/studynote/04_software_engineering/11_testing_validation/419_cause_effect_graphing/)는 **'교차로 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등 제어 로직'**과 같다. 교차로에는 여러 차선에서 오는 차량(원인)이 있고, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등의 색상(결과)이 결정된다. 모든 차선의 차량이 동시에 오는 상황을 테스트할 필요 없이, 핵심적인 조합만을 테스트하면 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 제어 시스템의 동작을 검증할 수 있다.
 
 - **등장 배경 및 발전 과정**:
-  1. **1970년대**: 이계원(Y.G. Kim)과其他人이 [원인-결과 그래프](/knowledge-base/studynote/04_software_engineering/11_testing_validation/419_cause_effect_graphing/)를 소프트웨어 테스팅에 적용
-  2. **1980년대**: NASA's 소프트웨어 엔지니어링에서 체계화
-  3. **현재**: ISTQB(International Software Testing Qualifications Board) 시험 과정에서 표준 주제로 포함
+1. **1970년대**: 이계원(Y.G. Kim)과이 [원인-결과 그래프](/knowledge-base/studynote/04_software_engineering/11_testing_validation/419_cause_effect_graphing/)를 소프트웨어 테스팅에 적용
+2. **1980년대**: NASA's 소프트웨어 엔지니어링에서 체계화
+3. **현재**: ISTQB(International Software Testing Qualifications Board) 시험 과정에서 표준 주제로 포함
 
 - **섹션 요약 비유**: [원인-결과 그래프](/knowledge-base/studynote/04_software_engineering/11_testing_validation/419_cause_effect_graphing/)는 **'요리 레시피'**와 같다. 요리에는 여러 재료(원인)가 있고, 조리 방법에 따라 최종 요리(결과)가 결정된다. 모든 재료 조합을 테스트할 필요 없이, 핵심 재료와 조리 방법의 조합만으로 다양한 요리를 테스트할 수 있다.
 
@@ -42,14 +42,14 @@ tags = ["studynote-software-engineering"]
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                  원인-결과 그래프 (Cause-Eff                        │
+│ 원인-결과 그래프 (Cause-Eff │
 ├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
+│ │
+│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
+│ │ │ │ │
+│ ▼ ▼ ▼ │
+│ 요구 분석 설계·적용 품질 검증 │
+│ │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -150,17 +150,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+│
+▼
 원인-결과 그래프 (Cause-Effect Graphing) 개념 정립
-    │
-    ▼
+│
+▼
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+│
+▼
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+│
+▼
 지속적 개선 및 DevOps·MLOps 통합
 ```
 

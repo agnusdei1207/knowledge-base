@@ -19,19 +19,19 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 소프트웨어 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)은 전통적 제조업의 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)과類似하여, 원재료([서드파티](/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) 코드, [OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)), 제조 장비(개발 도구, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인), 포장/유통(배포 환경, 클라우드 인프라) 등 다층적 요소로 구성된다. [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 보안은 이러한 각 단계에서 구성 요소의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하고, 악의적인 개입을 탐지/방어하는 것을 목표로 한다.
+- **개념**: 소프트웨어 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)은 전통적 제조업의 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)과하여, 원재료([서드파티](/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) 코드, [OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)), 제조 장비(개발 도구, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인), 포장/유통(배포 환경, 클라우드 인프라) 등 다층적 요소로 구성된다. [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 보안은 이러한 각 단계에서 구성 요소의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하고, 악의적인 개입을 탐지/방어하는 것을 목표로 한다.
 
-- **필요성**: 기업들은 자신들의 코드의 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~80% 이상이 [서드파티](/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) 코드([OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/), [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/), SDK)로 구성되어 있음을認識하고 있다. 이러한 외부 의존성을 하나하나 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하기 어려우며, 공격자들은 바로この弱点を 利用하여供应链에 악성 코드를 삽입하거나, 개발 도구를 타compromising하여 대규모 피해을 발생시킨다.
+- **필요성**: 기업들은 자신들의 코드의 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~80% 이상이 [서드파티](/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) 코드([OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/), [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/), SDK)로 구성되어 있음을하고 있다. 이러한 외부 의존성을 하나하나 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하기 어려우며, 공격자들은 바로의을/를 활용하여에 악성 코드를 삽입하거나, 개발 도구를 타compromising하여 대규모 피해을 발생시킨다.
 
-- **💡 비유**: 소프트웨어 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 보안은 **'식품 제조公司的 위생 관리 시스템'**과 같다. 식품 제조公司은原料供应商([OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 提供者), 제조 공장([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD), 포장재(배포 환경) 등 수많은 외부 협력사와의 관계를持ち、어느 한 处でも 위생 문제가 발생하면 최종 제품(사용자에게 배포되는 소프트웨어)에被害가 미친다. 따라서 전체 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)에 걸쳐 원료 검수, 제조 과정 감시, 포장 검사를 실시하여 불량품(악성 코드)가 소비자(사용자)에게 도달하는 것을防止한다.
+- **💡 비유**: 소프트웨어 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 보안은 **'식품 제조 위생 관리 시스템'**과 같다. 식품 제조은([OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 제공자), 제조 공장([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD), 포장재(배포 환경) 등 수많은 외부 협력사와의 관계를、어느 한 에서도 위생 문제가 발생하면 최종 제품(사용자에게 배포되는 소프트웨어)에가 미친다. 따라서 전체 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)에 걸쳐 원료 검수, 제조 과정 감시, 포장 검사를 실시하여 불량품(악성 코드)가 소비자(사용자)에게 도달하는 것을방지한다.
 
 - **등장 배경 및 발전 과정**:
-  1. **2014년 [Heartbleed](/knowledge-base/studynote/09_security/03_network_security/297_heartbleed/)**: OpenSSL 취약점으로 대규모 보안 사고 발생, [OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 보안 중요성 대두
-  2. **2020년 SolarWinds**: [서드파티](/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) 소프트웨어 업데이트Mechanism을 통해 악성코드 배포, [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 공격의恐怖 실증
-  3. **2021년 Log4j**: Java 기반 [OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 로깅 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)의 치명적 취약점, 세계적 피해
-  4. **현재**: 각국 정부와 기업에서 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 보안 규제 및 프레임워크 도입 가속
+1. **2014년 [Heartbleed](/knowledge-base/studynote/09_security/03_network_security/297_heartbleed/)**: OpenSSL 취약점으로 대규모 보안 사고 발생, [OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 보안 중요성 대두
+2. **2020년 SolarWinds**: [서드파티](/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) 소프트웨어 업데이트Mechanism을 통해 악성코드 배포, [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 공격의 실증
+3. **2021년 Log4j**: Java 기반 [OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 로깅 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)의 치명적 취약점, 세계적 피해
+4. **현재**: 각국 정부와 기업에서 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 보안 규제 및 프레임워크 도입 가속
 
-- **📢 섹션 요약 비유**: [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 보안은 **'국제 우울 분석aparentemente 무장 해적단을 예방하는 해군 활동'**과 같다. 해상 교역로(소프트웨어 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/))를 위협하는 해적(악의적 공격자)을事前に 탐지하고 차단하기 위해, 항구에서 입항하는 모든 선박(코드, [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))을 검사하고, 승무원을 확인하며([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)),密輸 물품(악성 코드)을 적발하여押収하는 것이다.
+- **📢 섹션 요약 비유**: [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 보안은 **'국제 우울 분석aparentemente 무장 해적단을 예방하는 해군 활동'**과 같다. 해상 교역로(소프트웨어 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/))를 위협하는 해적(악의적 공격자)을에 탐지하고 차단하기 위해, 항구에서 입항하는 모든 선박(코드, [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))을 검사하고, 승무원을 확인하며([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)), 물품(악성 코드)을 적발하여하는 것이다.
 
 ---
 
@@ -39,14 +39,14 @@ tags = ["studynote-software-engineering"]
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                  공급망 보안 (Supply Chain                        │
+│ 공급망 보안 (Supply Chain │
 ├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
+│ │
+│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
+│ │ │ │ │
+│ ▼ ▼ ▼ │
+│ 요구 분석 설계·적용 품질 검증 │
+│ │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -147,17 +147,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+│
+▼
 공급망 보안 (Supply Chain Security) 개념 정립
-    │
-    ▼
+│
+▼
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+│
+▼
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+│
+▼
 지속적 개선 및 DevOps·MLOps 통합
 ```
 

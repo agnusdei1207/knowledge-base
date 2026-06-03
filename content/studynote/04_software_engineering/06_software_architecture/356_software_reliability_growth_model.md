@@ -19,15 +19,15 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 성장 모델 (SRGM, Software [Reliability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/) Growth Model)은 소프트웨어 테스트 기간 동안 발견되는 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)의 수나 고장 간격을時間経過에 따라モデル化したものである。테스트가 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)될수록 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 발견되고 수정되면, 남아 있는 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 수가 줄어들어 시스템의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)이 성장한다고 가정한다. SRGM은 이 과정을 다양한 수학적 모델 (指數 Models, Logistic Models 등)로 표현하여 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 예측한다.
+- **개념**: [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 성장 모델 (SRGM, Software [Reliability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/) Growth Model)은 소프트웨어 테스트 기간 동안 발견되는 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)의 수나 고장 간격을에 따라했다도의이다。테스트가 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)될수록 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 발견되고 수정되면, 남아 있는 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 수가 줄어들어 시스템의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)이 성장한다고 가정한다. SRGM은 이 과정을 다양한 수학적 모델 ( Models, Logistic Models 등)로 표현하여 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 예측한다.
 
-- **필요성**: 소프트웨어 테스트는 무한히 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)될 수 없으므로, 어느 시점에서 테스트를 중단하고 배포할 것인지를決定해야 한다. SRGM을 사용하면 현재까지의 고장 데이터를 기반으로 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 목표 달성을 위한 시험 기간을 예측할 수 있다. 또한 테스트 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 상황을 객관적으로 파악하고, [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발견 추이가 계획에 부합하는지를 판단할 수 있다.
+- **필요성**: 소프트웨어 테스트는 무한히 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)될 수 없으므로, 어느 시점에서 테스트를 중단하고 배포할 것인지를해야 한다. SRGM을 사용하면 현재까지의 고장 데이터를 기반으로 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 목표 달성을 위한 시험 기간을 예측할 수 있다. 또한 테스트 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 상황을 객관적으로 파악하고, [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발견 추이가 계획에 부합하는지를 판단할 수 있다.
 
-- **💡 비유**: SRGM은 "물고기 잡는 과정"에 비유할 수 있다. 맨 처음에는 큰 물고기가 쉽게 잡히지만 ([결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 많이 발견), 점점 작은 물고기만 남게 되면 (남은 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 적음), 더 많은努力를 투입해도 잡는 물고기 수가 줄어든다. 어느 시점에서 경제적인 판단으로 물고기 잡는 것을 중단해야 한다.
+- **💡 비유**: SRGM은 "물고기 잡는 과정"에 비유할 수 있다. 맨 처음에는 큰 물고기가 쉽게 잡히지만 ([결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 많이 발견), 점점 작은 물고기만 남게 되면 (남은 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 적음), 더 많은노력를 투입해도 잡는 물고기 수가 줄어든다. 어느 시점에서 경제적인 판단으로 물고기 잡는 것을 중단해야 한다.
 
 - **등장 배경**: SRGM은 1970년대에 개발되어, 1979년 Jalowski의 연구와 1980년대 Musa, Goel-Okumoto 등의 모델로 발전하였다. 현재는 IEEE 표춘 (IEEE Std 982.1-1988)에서 소프트웨어 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 예측 방법론으로 공식화되었다.
 
-- **📢 섹션 요약 비유**: SRGM은 "교육 효과의 학습 곡선"에 비유할 수 있다. 학습初期에는 많은 오답([결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/))을 하지만, 교육이 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)될수록(수정) 오답이 줄어들어 정확한 답을 수행하게 된다. 어느 수준에 도달하면 추가 교육投入対효과가 감소한다.
+- **📢 섹션 요약 비유**: SRGM은 "교육 효과의 학습 곡선"에 비유할 수 있다. 학습초기에는 많은 오답([결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/))을 하지만, 교육이 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)될수록(수정) 오답이 줄어들어 정확한 답을 수행하게 된다. 어느 수준에 도달하면 추가 교육효과가 감소한다.
 
 ---
 
@@ -35,14 +35,14 @@ tags = ["studynote-software-engineering"]
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                  신뢰성 성장 모델 (SRGM, Sof                        │
+│ 신뢰성 성장 모델 (SRGM, Sof │
 ├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
+│ │
+│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
+│ │ │ │ │
+│ ▼ ▼ ▼ │
+│ 요구 분석 설계·적용 품질 검증 │
+│ │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -143,17 +143,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+│
+▼
 신뢰성 성장 모델 (SRGM, Software Reliability Growth Model) 개념 정립
-    │
-    ▼
+│
+▼
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+│
+▼
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+│
+▼
 지속적 개선 및 DevOps·MLOps 통합
 ```
 

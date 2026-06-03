@@ -27,13 +27,13 @@ tags = ["security"]
 이 도식은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 수집되어 폐기되기까지의 흐름 속에서, 전통적인 경계 기반 보안이 왜 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 유출을 막지 못하는지를 보여준다.
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                 Data Lifecycle in Cloud Era                 │
+│ Data Lifecycle in Cloud Era │
 ├─────────┬─────────┬─────────┬─────────┬─────────┬─────────┤
-│ 수집    │ 저장    │ 처리    │ 공유    │ 아카이빙│ 폐기    │
-│(Ingest) │(Store)  │(Process)│(Share)  │(Archive)│(Destroy)│
+│ 수집 │ 저장 │ 처리 │ 공유 │ 아카이빙│ 폐기 │
+│(Ingest) │(Store) │(Process)│(Share) │(Archive)│(Destroy)│
 ├─────────┴─────────┴─────────┴─────────┴─────────┴─────────┤
-│ ⚠️ 위험: 암호화 해제   ⚠️ 위험: 과도한 권한  ⚠️ 위험: 외부 유출 │
-│      (In-Memory)        (Privilege)       (Cross-Border)│
+│ ⚠️ 위험: 암호화 해제 ⚠️ 위험: 과도한 권한 ⚠️ 위험: 외부 유출 │
+│ (In-Memory) (Privilege) (Cross-Border)│
 └─────────────────────────────────────────────────────────────┘
 ```
 이 흐름의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 '저장' 상태일 때는 암호화로 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)되지만, '처리'나 '공유' 상태로 전환될 때 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 정보가 평문으로 노출된다는 점이다. 따라서 전통적인 [TDE](/knowledge-base/studynote/09_security/04_endpoint_security/403_tde_transparent_data_encryption/) ([Transparent Data Encryption](/knowledge-base/studynote/09_security/04_endpoint_security/403_tde_transparent_data_encryption/))만으로는 내부자에 의한 권한 남용이나 API를 통한 대량 유출을 막을 수 없다. 실무에서는 이러한 처리 단계의 취약점을 보완하기 위해 가명화, [토큰화](/knowledge-base/studynote/09_security/16_data_privacy/820_tokenization/), 또는 [TEE](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/)([Trusted Execution Environment](/knowledge-base/studynote/09_security/19_ai_advanced_security/972_tee_based_ml/))와 같은 실행 환경 격리가 반드시 동반되어야 한다.
@@ -58,18 +58,18 @@ tags = ["security"]
 이 흐름도는 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 비식별화 파이프라인을 거쳐 분석용 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 안전하게 변환되거나 토큰으로 치환되는 메커니즘을 명확하게 보여준다.
 ```text
 [Client/App] => (1. 원본 데이터 전송: 주민번호, 카드번호)
-     │
-     ▼
+│
+▼
 [ Tokenization Server / De-ID Engine ]
-     │
-     ├─ (2a. 결제/운영) => Vault에 원본 저장, Token 반환 (예: 4929-XXXX-XXXX-1234)
-     │
-     └─ (2b. 분석/AI) => [ K-익명성 검증기 ] -> 식별자 삭제, 속성 일반화
-                               │
-                               ▼
+│
+├─ (2a. 결제/운영) => Vault에 원본 저장, Token 반환 (예: 4929-XXXX-XXXX-1234)
+│
+└─ (2b. 분석/AI) => [ K-익명성 검증기 ] -> 식별자 삭제, 속성 일반화
+│
+▼
 [ Database / Data Lake ] <= (3. 안전한 데이터만 적재됨)
 ```
-이 흐름의 핵심은 민감 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 비즈니스 로직(App)이나 분석용 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 웨어하우스로 넘어가기 전, 전용 [토큰화](/knowledge-base/studynote/09_security/16_data_privacy/820_tokenization/)/비식별화 서버에서 '분리'된다는 점이다. 따라서 하위 시스템이 해킹당하더라도 공격자가 탈취하는 것은 역산 불가능한 토큰이나 통계적으로 뭉뚱그려진 가명 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)뿐이다. 이 때문에 분석가나 외부 파트너에게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 제공할 때 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 유용성을 유지하면서도 법적 책임을 최소화할 수 있다. 
+이 흐름의 핵심은 민감 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 비즈니스 로직(App)이나 분석용 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 웨어하우스로 넘어가기 전, 전용 [토큰화](/knowledge-base/studynote/09_security/16_data_privacy/820_tokenization/)/비식별화 서버에서 '분리'된다는 점이다. 따라서 하위 시스템이 해킹당하더라도 공격자가 탈취하는 것은 역산 불가능한 토큰이나 통계적으로 뭉뚱그려진 가명 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)뿐이다. 이 때문에 분석가나 외부 파트너에게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 제공할 때 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 유용성을 유지하면서도 법적 책임을 최소화할 수 있다.
 
 비식별화의 핵심 알고리즘은 다음과 같다.
 - **[k-익명성](/knowledge-base/studynote/14_data_engineering/04_mlops/185_k_anonymity_masking_data_pipeline/) ([k-Anonymity](/knowledge-base/studynote/14_data_engineering/04_mlops/185_k_anonymity_masking_data_pipeline/))**: 동일한 준식별자(나이, 성별, 지역 등)를 가진 레코드가 최소 k개 이상 존재하도록 일반화(Generalization)하여 특정 개인을 추론할 수 없게 한다.
@@ -95,12 +95,12 @@ tags = ["security"]
 이 다이어그램은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 위치(엔드포인트, 네트워크, 클라우드)에 따라 어떤 통제 기법이 필요한지를 입체적으로 보여준다.
 ```text
 ┌─────────────────┬───────────────────┬───────────────────┐
-│     영역        │  주요 위협 (위험) │  적용 보안 솔루션 │
+│ 영역 │ 주요 위협 (위험) │ 적용 보안 솔루션 │
 ├─────────────────┼───────────────────┼───────────────────┤
-│ Endpoint (PC)   │ USB 복사, 화면캡처│ Endpoint DLP, DRM │
-│ Network (망)    │ 이메일/웹 업로드  │ Network DLP, Proxy│
-│ Cloud (SaaS)    │ 과도한 공유 링크  │ CASB, API 모니터  │
-│ Database (DB)   │ SQL 인젝션, 덤프  │ TDE, Tokenization │
+│ Endpoint (PC) │ USB 복사, 화면캡처│ Endpoint DLP, DRM │
+│ Network (망) │ 이메일/웹 업로드 │ Network DLP, Proxy│
+│ Cloud (SaaS) │ 과도한 공유 링크 │ CASB, API 모니터 │
+│ Database (DB) │ SQL 인젝션, 덤프 │ TDE, Tokenization │
 └─────────────────┴───────────────────┴───────────────────┘
 ```
 이 구조의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 머무는 모든 단계에서 단일 솔루션으로는 완벽한 통제가 불가능하다는 점이다. 네트워크 DLP는 USB를 통한 물리적 유출을 잡지 못하며, 엔드포인트 DLP는 승인된 API를 통한 클라우드 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동을 인지하지 못한다. 반면 CASB는 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 워크플로우를 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하지만 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 장비 제어권이 없다. 실무에서는 이들을 통합하여 중앙 집중식 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)(Unified [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))으로 관리하는 것이 컴플라이언스 준수의 핵심이다.
@@ -114,19 +114,19 @@ tags = ["security"]
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)/[개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 솔루션 도입 시 가장 빈번하게 발생하는 장애 요소는 "오탐(False Positive)으로 인한 업무 마비"와 "컴플라이언스 요건 오해"이다.
 
 1. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 과잉 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) ([DLP](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/386_dlp/) [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/))**
-   - **상황**: 엔드포인트 [DLP](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/386_dlp/) 도입 후, 모든 주민등록번호 패턴(6자리-7자리)을 차단 모드로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/).
-   - **문제**: 송장 번호나 제품 시리얼 번호가 패턴에 걸려 전사적인 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 복사 및 메일 발송이 중단됨.
-   - **의사결정**: 처음 1~3개월은 **모니터링 모드([Logging](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/526_security_logging_and_monitoring_failures/) Only)**로 운영하여 예외 처리 패턴을 학습해야 한다. 이후 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 기반의 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)(문맥) 인식 기능을 활성화하여 오탐을 줄인 뒤 차단([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 모드로 전환한다.
+- **상황**: 엔드포인트 [DLP](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/386_dlp/) 도입 후, 모든 주민등록번호 패턴(6자리-7자리)을 차단 모드로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/).
+- **문제**: 송장 번호나 제품 시리얼 번호가 패턴에 걸려 전사적인 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 복사 및 메일 발송이 중단됨.
+- **의사결정**: 처음 1~3개월은 **모니터링 모드([Logging](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/526_security_logging_and_monitoring_failures/) Only)**로 운영하여 예외 처리 패턴을 학습해야 한다. 이후 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 기반의 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)(문맥) 인식 기능을 활성화하여 오탐을 줄인 뒤 차단([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 모드로 전환한다.
 
 2. **비식별화 수준 판단 오류 (가명정보 vs 익명정보)**
-   - **상황**: 마케팅 팀이 외부 업체와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 결합하기 위해 자체적으로 이름을 삭제하고 생년월일만 남겨서 전송함.
-   - **문제**: 생년월일, 성별, 우편번호만으로도 외부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 결합 시 특정 개인을 재식별할 수 있음(모자이크 효과).
-   - **의사결정**: [개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/)상 결합은 반드시 '국가 지정 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전문기관'을 통해서만 수행해야 하며, 내부 반출 전 반드시 [k-익명성](/knowledge-base/studynote/14_data_engineering/04_mlops/185_k_anonymity_masking_data_pipeline/)과 [l-다양성](/knowledge-base/studynote/09_security/16_data_privacy/815_l_diversity/) 지표를 정량적으로 평가하고 내부 위원회 승인을 거쳐야 한다.
+- **상황**: 마케팅 팀이 외부 업체와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 결합하기 위해 자체적으로 이름을 삭제하고 생년월일만 남겨서 전송함.
+- **문제**: 생년월일, 성별, 우편번호만으로도 외부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 결합 시 특정 개인을 재식별할 수 있음(모자이크 효과).
+- **의사결정**: [개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/)상 결합은 반드시 '국가 지정 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전문기관'을 통해서만 수행해야 하며, 내부 반출 전 반드시 [k-익명성](/knowledge-base/studynote/14_data_engineering/04_mlops/185_k_anonymity_masking_data_pipeline/)과 [l-다양성](/knowledge-base/studynote/09_security/16_data_privacy/815_l_diversity/) 지표를 정량적으로 평가하고 내부 위원회 승인을 거쳐야 한다.
 
 3. **클라우드 [데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/) ([Data Sovereignty](/knowledge-base/studynote/06_ict_convergence/05_data_science/410_ai_intellectual_property_data_sovereignty_data_act/))**
-   - **상황**: 글로벌 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 솔루션을 도입하여 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리하고자 함.
-   - **문제**: GDPR은 적절한 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 수준이 보장되지 않은 국가로의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 역외 이전을 엄격히 금지함([Cross-border data transfer](/knowledge-base/studynote/09_security/16_data_privacy/799_cross_border_data_transfer/)).
-   - **의사결정**: [SCC](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/040_scc/) (Standard Contractual Clauses) 체결을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 가능하면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 클라우드에 올리기 전 사내망에서 [토큰화](/knowledge-base/studynote/09_security/16_data_privacy/820_tokenization/)/마스킹 처리하여 원문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 물리적 국경을 넘지 않도록 아키텍처를 설계한다 ([BYOK](/knowledge-base/studynote/09_security/20_extra_exam_prep/1014_byok_bring_your_own_key/), Hold Your Own [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)).
+- **상황**: 글로벌 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 솔루션을 도입하여 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리하고자 함.
+- **문제**: GDPR은 적절한 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 수준이 보장되지 않은 국가로의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 역외 이전을 엄격히 금지함([Cross-border data transfer](/knowledge-base/studynote/09_security/16_data_privacy/799_cross_border_data_transfer/)).
+- **의사결정**: [SCC](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/040_scc/) (Standard Contractual Clauses) 체결을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 가능하면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 클라우드에 올리기 전 사내망에서 [토큰화](/knowledge-base/studynote/09_security/16_data_privacy/820_tokenization/)/마스킹 처리하여 원문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 물리적 국경을 넘지 않도록 아키텍처를 설계한다 ([BYOK](/knowledge-base/studynote/09_security/20_extra_exam_prep/1014_byok_bring_your_own_key/), Hold Your Own [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)).
 
 > 📢 **섹션 요약 비유**: 강력한 브레이크([보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/))를 처음부터 꽉 밟으면 자동차(비즈니스)가 전복될 수 있으므로, ABS(모니터링 및 문맥 인식)를 활용하여 속도를 부드럽게 제어하며 안전하게 목적지까지 도달하는 운전 기술이 필요합니다.
 
@@ -161,17 +161,17 @@ tags = ["security"]
 
 ```text
 [경계 보안 (Perimeter Security) — 방화벽 기반 외부 차단, 내부 평문 무방비]
-    │
-    ▼
+│
+▼
 [데이터 암호화 (TDE / 전송 암호화) — 저장·전송 중 데이터 보호, 처리 시 복호화 필요]
-    │
-    ▼
+│
+▼
 [비식별화 (k-익명성 / l-다양성) — 통계적 재식별 방지, 분석 목적 가명 정보 생성]
-    │
-    ▼
+│
+▼
 [토큰화 / DLP — 원본 데이터 격리 및 반출 차단, 컴플라이언스 아키텍처 표준화]
-    │
-    ▼
+│
+▼
 [PET (동형 암호 / 차분 프라이버시) — 암호화 상태 그대로 연산, AI 학습 시 개인 정보 수학적 보호]
 ```
 이 흐름은 외부 경계만 지키던 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 보안 관점에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체를 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하는 방향으로 진화하고, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시대의 대규모 학습 요건에 맞춰 복호화 없이 분석이 가능한 차세대 프라이버시 강화 기술로 수렴하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 패러다임의 발전을 보여준다.
@@ -188,7 +188,7 @@ tags = ["security"]
 
 **진행 상황**: 16 / 1108
 
-← **이전**: [15. 공개 설계 원칙 (Open Design) — 키 은닉，而非 算法 은닉](/knowledge-base/studynote/09_security/01_intro_principles/015_open_design/)
+← **이전**: [15. 공개 설계 원칙 (Open Design) — 키 은닉，가 아니라 알고리즘 은닉](/knowledge-base/studynote/09_security/01_intro_principles/015_open_design/)
 **다음**: [17. 보안 프레임워크 및 컴플라이언스 (Security Framework & Compliance)](/knowledge-base/studynote/09_security/01_intro_principles/017_security_framework_compliance/) →
 
 ---

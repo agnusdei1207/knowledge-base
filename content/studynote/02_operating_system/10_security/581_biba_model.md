@@ -19,7 +19,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-### 1.1 [벨-라파둘라 모델](/knowledge-base/studynote/02_operating_system/10_security/580_bell_lapadula_model/)과의關係
+### 1.1 [벨-라파둘라 모델](/knowledge-base/studynote/02_operating_system/10_security/580_bell_lapadula_model/)과의
 
 | 모델 | 목적 | 핵심 규칙 |
 |:---|:---|:---|
@@ -30,12 +30,12 @@ tags = ["studynote-operating-system"]
 
 ### 1.2 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)이란?
 
-**[무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)([Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))**이란 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 **"権限(권한) 없이 변조/조작되지 않은 상태"**를 의미한다:
+**[무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)([Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))**이란 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 **"(권한) 없이 변조/조작되지 않은 상태"**를 의미한다:
 
 ```text
 [ 예시: 은행 잔고 데이터 ]
 정밀 데이터: 계좌 잔고 = 1,000,000원
-변조 후:    계좌 잔고 = 1원 (악의적 조작)
+변조 후: 계좌 잔고 = 1원 (악의적 조작)
 ```
 
 - **📢 섹션 요약 비유**: 복잡한 창고에서 필요한 물건을 찾기 위해 먼저 구역과 표지판을 세우는 것과 같다.
@@ -54,7 +54,7 @@ tags = ["studynote-operating-system"]
 | **중간 등급** | 중간/높은 등급 | 낮은 등급 |
 | **낮은 등급** | 모든 등급 | - |
 
-**목적**: 낮은 등급의"不完整(불완전)" 또는 "悪意(악의적)" 정보를 높은 등급이 읽고 영향을 받는 것을 방지.
+**목적**: 낮은 등급의"(불완전)" 또는 "(악의적)" 정보를 높은 등급이 읽고 영향을 받는 것을 방지.
 
 ### 2.2 Integral [Axiom](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/702_axiom/) (No Write Up, NWU)
 
@@ -89,7 +89,7 @@ tags = ["studynote-operating-system"]
 ```text
 [ 병행 사용 ]
 벨-라파둘라: NRU + NWD (정보 유출 차단)
-비바:       NRD + NWU (정보 변조 차단)
+비바: NRD + NWU (정보 변조 차단)
 
 결과: 기밀성과 무결성이 모두 보호됨
 ```
@@ -108,7 +108,7 @@ tags = ["studynote-operating-system"]
 [ 문제 상황 ]
 부서A 팀장(중간 등급)과 부서B 팀장(중간 등급)이 같은 등급
 -> 서로의 문서를 자유롭게 읽고 쓸 수 있음 (NRD/NWU 위반 없음)
--> 동등한 위치에서 共謀(공모)하여 데이터 조작 가능
+-> 동등한 위치에서 (공모)하여 데이터 조작 가능
 ```
 
 ### 4.2 Clark-Wilson 모델
@@ -147,12 +147,12 @@ tags = ["studynote-operating-system"]
 
 ```text
 [벨-라파둘라 모델 (Bell-LaPadula)]
-    │
-    ▼
+│
+▼
 [비바 모델 (Biba Model)]
-    │
-    ├──▶ [리눅스 보안 모듈 (LSM, Linux Security Modules)]
-    └──▶ [SELinux]
+│
+├──▶ [리눅스 보안 모듈 (LSM, Linux Security Modules)]
+└──▶ [SELinux]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -161,11 +161,11 @@ tags = ["studynote-operating-system"]
 
 1. **비바 모델**은 놀이공원의 **"위생 등급 제도"**와 같다. 위생 등급이 높은 식당(높은 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))은 위생 등급이 낮은 식당(낮은 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))의 재료를 사용할 수 없고, 반대로 위생 등급이 낮은 식당은 높은 등급의 재료를 사용할 수 없다.
 
-2. **NRD (No Read Down)**는 **"청결 식당은 불결 식당의 음식을 읽지(檢収(검수)) 않는다"**는 규칙과 같다. 청결 식당이 불결 식단의 재료를 사용하면 자기 위생 등급이 떨어질 수 있다.
+2. **NRD (No Read Down)**는 **"청결 식당은 불결 식당의 음식을 읽지((검수)) 않는다"**는 규칙과 같다. 청결 식당이 불결 식단의 재료를 사용하면 자기 위생 등급이 떨어질 수 있다.
 
 3. **NWU (No Write Up)**는 **"불결 식당은 청결 식단에 재료를 쓸 수 없다"**는 규칙과 같다. 불결 식당이 청결 식단의 재료에 손을 대면, 청결 식단 전체의 위생 등급이 오염될 수 있다.
 
-4. **한계**는 같은 위생 등급 식당끼리는 재료를 자유롭게 주고받을 수 있어서, 둘이 共謀(공모)하면 위생 등급 전체를 깨뜨릴 수 있다는 점이다.
+4. **한계**는 같은 위생 등급 식당끼리는 재료를 자유롭게 주고받을 수 있어서, 둘이 (공모)하면 위생 등급 전체를 깨뜨릴 수 있다는 점이다.
 
 ---
 

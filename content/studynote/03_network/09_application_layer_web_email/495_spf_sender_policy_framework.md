@@ -26,34 +26,34 @@ tags = ["studynote-network"]
 - **💡 비유**: 당신 집으로 '경찰청장' 이름이 적힌 편지가 도착했습니다. 옛날엔 봉투 이름만 보고 믿었습니다(**[SMTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/488_smtp_simple_mail_transfer_protocol/)**). 그런데 **SPF** 시스템이 도입되자, 당신은 편지를 뜯기 전에 편지를 배달 온 '우체국 차의 번호판(IP 주소)'을 봅니다. 그리고 114 전화번호부(**[DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)**)를 펴서 '진짜 경찰청 소속 우체국 차 번호판 명단'을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)합니다. 명단에 없는 가짜 차가 배달을 왔다면, 그 편지는 경찰청장을 사칭한 사기꾼 편지이므로 즉시 쓰레기통(스팸함)에 버립니다.
 
 - **등장 배경**:
-  1. **스팸 및 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 메일의 폭발**: 2000년대 초반, [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/)([Botnet](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/))이 타인의 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 사칭해 하루에 수억 통의 스팸 메일을 쏘아대며 글로벌 이메일 인프라가 붕괴 직전에 몰렸다.
-  2. **기존 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 수정의 불가**: 수천만 대의 [SMTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/488_smtp_simple_mail_transfer_protocol/) 서버 코드를 뜯어고치는 건 불가능했기에, SMTP는 놔두고 전 세계 누구나 접근 가능한 기존 인프라망인 **[DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 네임 시스템)**에 텍스트 1줄을 추가하는 가벼운 우회 패치(Patch) 방식으로 등장했다.
+1. **스팸 및 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 메일의 폭발**: 2000년대 초반, [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/)([Botnet](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/))이 타인의 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 사칭해 하루에 수억 통의 스팸 메일을 쏘아대며 글로벌 이메일 인프라가 붕괴 직전에 몰렸다.
+2. **기존 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 수정의 불가**: 수천만 대의 [SMTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/488_smtp_simple_mail_transfer_protocol/) 서버 코드를 뜯어고치는 건 불가능했기에, SMTP는 놔두고 전 세계 누구나 접근 가능한 기존 인프라망인 **[DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 네임 시스템)**에 텍스트 1줄을 추가하는 가벼운 우회 패치(Patch) 방식으로 등장했다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│          SPF (Sender Policy Framework) 작동 아키텍처 (검문 과정)     │
+│ SPF (Sender Policy Framework) 작동 아키텍처 (검문 과정) │
 ├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ 👿 [ 해커의 PC (IP: 1.2.3.4) ]                              │
-│   "내가 네이버 CEO(ceo@naver.com)인 척 편지를 써야지!"            │
-│   ➔ 편지 발신자(Return-Path)를 @naver.com으로 위조해서 전송함.   │
-│               │                                             │
-│               ▼ (인터넷 망)                                  │
-│                                                             │
-│ 🏢 [ 수신자 메일 서버 (Gmail 등) ]                             │
-│   1️⃣ "어? 네이버(@naver.com)에서 편지가 왔네?"                 │
-│   2️⃣ "근데 이거 보낸 컴퓨터 IP가 1.2.3.4네? 진짜 네이버 맞어?"     │
-│               │                                             │
-│               ▼ (DNS 쿼리 발송)                               │
-│                                                             │
-│ 🌍 [ 전 세계 DNS 서버 (네이버의 전화번호부 관리자) ]               │
-│   3️⃣ 수신 서버 질의: "네이버의 공식 SPF 명단(TXT 레코드) 좀 줘봐!"   │
-│   4️⃣ DNS 응답: "네이버 메일은 IP 210.89.x.x 대역에서만 나갑니다."   │
-│                                                             │
-│ 🏢 [ 수신자 메일 서버의 판결 ]                                  │
-│   5️⃣ "뭐야? 공식 IP는 210.89.x.x 인데, 방금 온 놈은 1.2.3.4잖아?" │
-│   ➔ 💥 SPF FAIL 판정! (사기꾼 컷!)                            │
-│   ➔ 이 메일을 [스팸함]으로 직행시키거나, 수신 거부(Reject) 해버림.     │
+│ │
+│ 👿 [ 해커의 PC (IP: 1.2.3.4) ] │
+│ "내가 네이버 CEO(ceo@naver.com)인 척 편지를 써야지!" │
+│ ➔ 편지 발신자(Return-Path)를 @naver.com으로 위조해서 전송함. │
+│ │ │
+│ ▼ (인터넷 망) │
+│ │
+│ 🏢 [ 수신자 메일 서버 (Gmail 등) ] │
+│ 1️⃣ "어? 네이버(@naver.com)에서 편지가 왔네?" │
+│ 2️⃣ "근데 이거 보낸 컴퓨터 IP가 1.2.3.4네? 진짜 네이버 맞어?" │
+│ │ │
+│ ▼ (DNS 쿼리 발송) │
+│ │
+│ 🌍 [ 전 세계 DNS 서버 (네이버의 전화번호부 관리자) ] │
+│ 3️⃣ 수신 서버 질의: "네이버의 공식 SPF 명단(TXT 레코드) 좀 줘봐!" │
+│ 4️⃣ DNS 응답: "네이버 메일은 IP 210.89.x.x 대역에서만 나갑니다." │
+│ │
+│ 🏢 [ 수신자 메일 서버의 판결 ] │
+│ 5️⃣ "뭐야? 공식 IP는 210.89.x.x 인데, 방금 온 놈은 1.2.3.4잖아?" │
+│ ➔ 💥 SPF FAIL 판정! (사기꾼 컷!) │
+│ ➔ 이 메일을 [스팸함]으로 직행시키거나, 수신 거부(Reject) 해버림. │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -75,24 +75,24 @@ SPF를 세팅하려면 회사의 인프라 담당자가 사내 [DNS](/knowledge-
 - **`ip4:192.168.0.1`**: 우리 회사 사내망에 있는 메일 발송 서버의 IP를 허용해 줘.
 - **`include:_spf.google.com`**: (현업 꿀팁) 우리 회사가 구글 워크스페이스(G-Suite)를 돈 내고 쓴다면, 구글 서버가 우리 회사 이름으로 메일을 대신 쏴준다. 따라서 "구글의 SPF 명단에 있는 수천 대의 구글 IP들도 진짜 우리 우체부로 인정해 줘!"라며 권한을 통째로 위임([Include](/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/))하는 파워풀한 문법이다.
 - **`~all` ([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 지시자)**: 가장 무서운 마지막 통제 룰셋이다.
-  - `-all` (Fail / Hard Fail): 명단에 없는 IP가 오면 **가차 없이 찢어버려(수신 거부)!**
-  - `~all` (Soft Fail): 명단에 없으면 일단 스팸함에 넣어서 받기는 받아줘 (실무에서 가장 많이 씀).
-  - `?all` (Neutral): 난 몰라, 네가 알아서 해 (안 쓰는 것과 같음).
+- `-all` (Fail / Hard Fail): 명단에 없는 IP가 오면 **가차 없이 찢어버려(수신 거부)!**
+- `~all` (Soft Fail): 명단에 없으면 일단 스팸함에 넣어서 받기는 받아줘 (실무에서 가장 많이 씀).
+- `?all` (Neutral): 난 몰라, 네가 알아서 해 (안 쓰는 것과 같음).
 
 ### 2. SPF 10회 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 조회 횟수 제한 (The 10-Lookup Limit)
 
 클라우드 시대에 가장 많이 터지는 SPF 장애의 원인이다.
-- SPF 명단에 `include`를 쓰면, 수신 서버는 그 `include` [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)으로 꼬리를 물고 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 조회를 계속 타고 들어가야 한다. 
+- SPF 명단에 `include`를 쓰면, 수신 서버는 그 `include` [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)으로 꼬리를 물고 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 조회를 계속 타고 들어가야 한다.
 - 해커가 이걸 악용해서 `include`를 무한 루프로 엮어 수신 서버를 디도스(DDoS) 공격으로 뻗게 만드는 것을 막기 위해, 표준 규격 상 **SPF는 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 조회를 최대 10번까지만 허용**한다.
 - 회사가 이메일 마케팅 툴(Mailchimp), [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)(Salesforce), Zendesk 등을 잔뜩 사서 쓰면서 이들 전부를 SPF에 `include` 시키다가 10번 제한(Limit)을 뚫어버리는 순간, "SPF PermError"가 나며 회사의 공식 메일이 하루아침에 구글/네이버 스팸함으로 다 처박히는 대재앙이 터진다. (이를 해결하기 위한 매크로 `Flattening` 기법이 아키텍트의 튜닝 영역이다.)
 
 ```text
 [PGP]
-    │
-    ▼
+│
+▼
 [SPF]
-    │
-    └──▶ [DKIM]
+│
+└──▶ [DKIM]
 ```
 
 - **📢 섹션 요약 비유**: SPF 레코드 작성은 우리 회사 건물 경비실에 "출입 가능 차량 번호판 명부"를 붙여놓는 것입니다. `-all`은 명부에 없으면 바리케이드로 차를 부숴버리는 것이고, `~all`은 명부에 없으면 일단 들여는 보내되 방명록에 빨간 줄(스팸)을 긋는 것입니다.
@@ -114,9 +114,9 @@ SPF는 엄청난 약점을 가지고 있다. 그것은 이메일에 '주소'가 
 ### 과목 융합 관점
 
 - **이메일 보안 프레임워크 (DKIM과 DMARC의 등장)**: 앞서 말한 SPF의 '봉투와 편지지 불일치 우회'를 박살 내기 위해 거대한 보안 아키텍처의 융합이 일어났다.
-  - **SPF**: IP 기반 신원 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) (봉투 겉면 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))
-  - **[DKIM](/knowledge-base/studynote/03_network/09_application_layer_web_email/496_dkim_domainkeys_identified_mail/) ([DomainKeys Identified Mail](/knowledge-base/studynote/03_network/09_application_layer_web_email/496_dkim_domainkeys_identified_mail/))**: 편지 본문에 회사 '비밀키'로 전자서명을 쾅 찍어 보내고, 수신자가 DNS에 올라간 '공개키'로 도장을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)함. (편지 내용물 위조 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))
-  - **[DMARC](/knowledge-base/studynote/03_network/09_application_layer_web_email/497_dmarc_domain_based_message_authentication/) (Domain-based Message [Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/)...)**: 🌟 끝판왕 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 융합. SPF(봉투)와 [DKIM](/knowledge-base/studynote/03_network/09_application_layer_web_email/496_dkim_domainkeys_identified_mail/)(내용물) 두 가지를 다 검사한 뒤, **"겉봉투 주소와 내 눈에 보이는 편지지 주소(`Header From`)가 100% 똑같은지(Alignment)"** 교차 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 강제한다! 이 3대장(SPF+[DKIM](/knowledge-base/studynote/03_network/09_application_layer_web_email/496_dkim_domainkeys_identified_mail/)+[DMARC](/knowledge-base/studynote/03_network/09_application_layer_web_email/497_dmarc_domain_based_message_authentication/))이 세트로 묶여야만 사칭 메일을 100% 박살 내는 트라이포스(Tri-force)가 완성된다.
+- **SPF**: IP 기반 신원 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) (봉투 겉면 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))
+- **[DKIM](/knowledge-base/studynote/03_network/09_application_layer_web_email/496_dkim_domainkeys_identified_mail/) ([DomainKeys Identified Mail](/knowledge-base/studynote/03_network/09_application_layer_web_email/496_dkim_domainkeys_identified_mail/))**: 편지 본문에 회사 '비밀키'로 전자서명을 쾅 찍어 보내고, 수신자가 DNS에 올라간 '공개키'로 도장을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)함. (편지 내용물 위조 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))
+- **[DMARC](/knowledge-base/studynote/03_network/09_application_layer_web_email/497_dmarc_domain_based_message_authentication/) (Domain-based Message [Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/)...)**: 🌟 끝판왕 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 융합. SPF(봉투)와 [DKIM](/knowledge-base/studynote/03_network/09_application_layer_web_email/496_dkim_domainkeys_identified_mail/)(내용물) 두 가지를 다 검사한 뒤, **"겉봉투 주소와 내 눈에 보이는 편지지 주소(`Header From`)가 100% 똑같은지(Alignment)"** 교차 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 강제한다! 이 3대장(SPF+[DKIM](/knowledge-base/studynote/03_network/09_application_layer_web_email/496_dkim_domainkeys_identified_mail/)+[DMARC](/knowledge-base/studynote/03_network/09_application_layer_web_email/497_dmarc_domain_based_message_authentication/))이 세트로 묶여야만 사칭 메일을 100% 박살 내는 트라이포스(Tri-force)가 완성된다.
 
 SPF를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. PGP가 기반 조건을 만든다면, SPF는 그 위에서 핵심 메커니즘을 구현하고, DKIM는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)과 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -133,35 +133,35 @@ SPF를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 1. **시나리오 — 마케팅 대량 발송(EDM) 툴의 수신율 붕괴**: 스타트업에서 신제품 광고를 위해 `Mailgun`이나 `AWS SES` 같은 외부 클라우드 이메일 발송 서비스를 계약했다. 마케팅팀이 사장님 메일 주소(`help@startup.com`)로 광고 메일 10만 통을 쐈다. 그런데 다음 날, 발송된 메일의 95%가 고객들의 구글 Gmail 스팸함으로 처박혀 아무도 메일을 읽지 않은 참사가 터졌다.
-   - **판단**: 개발팀과 마케팅팀의 소통([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)) 단절로 인한 전형적인 SPF 붕괴다. `help@startup.com` 이라는 주소로 메일이 날아갔지만, 실제로 메일을 쏜 서버의 IP는 회사 사무실 컴퓨터가 아니라 저 멀리 있는 AWS 클라우드의 IP였다. Gmail 서버는 "스타트업 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)인데 웬 처음 보는 AWS 서버에서 발송됐네? 사칭 사기꾼 스팸 컷!"을 시전한 것이다. 실무 인프라 아키텍트는 [서드파티](/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) SaaS를 도입할 때 반드시 회사의 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 관리자에 들어가서 **`v=spf1 include:amazonses.com ~all`** 이라고 대리 발송자의 명단을 합법적으로 SPF 레코드에 쑤셔 넣어(White-listing) 주어야 메일 도달률(Deliverability)을 100%로 살려낼 수 있다.
+- **판단**: 개발팀과 마케팅팀의 소통([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)) 단절로 인한 전형적인 SPF 붕괴다. `help@startup.com` 이라는 주소로 메일이 날아갔지만, 실제로 메일을 쏜 서버의 IP는 회사 사무실 컴퓨터가 아니라 저 멀리 있는 AWS 클라우드의 IP였다. Gmail 서버는 "스타트업 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)인데 웬 처음 보는 AWS 서버에서 발송됐네? 사칭 사기꾼 스팸 컷!"을 시전한 것이다. 실무 인프라 아키텍트는 [서드파티](/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) SaaS를 도입할 때 반드시 회사의 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 관리자에 들어가서 **`v=spf1 include:amazonses.com ~all`** 이라고 대리 발송자의 명단을 합법적으로 SPF 레코드에 쑤셔 넣어(White-listing) 주어야 메일 도달률(Deliverability)을 100%로 살려낼 수 있다.
 
 2. **시나리오 — 이메일 자동 포워딩(Forwarding) 시 SPF의 파국**: 직원이 회사 메일(`@company.com`)로 오는 메일을 전부 자기 개인 Gmail(`@gmail.com`)로 자동 포워딩(전달)되게 세팅해 두었다. 거래처 A가 회사로 메일을 보냈다. 회사 서버가 이걸 받아서 구글로 토스([Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/))했다. 그런데 구글은 이 메일을 "스팸"으로 차단해 버려 직원이 메일을 못 받는 사고가 났다.
-   - **판단**: 이메일 포워딩 릴레이(Relay) 환경에서 SPF가 가진 태생적 모순이다. 거래처 A의 SPF 레코드에는 "A 회사 IP만 정상"이라고 적혀있다. 그런데 회사 서버가 메일을 튕겨서(포워딩) 구글로 쏠 때, 구글 입장에선 **"편지 봉투는 A 회사인데, 나한테 편지를 던진 IP는 당신 회사 서버(B)네? IP 불일치! 해커다!"**라고 SPF 룰을 정직하게 집행하여 차단해버린 것이다. 포워딩을 하면 발송 IP가 갈아치워 지기 때문에 벌어지는 비극이다. 이를 해결하기 위해 아키텍트는 포워딩할 때 겉봉투 주소를 내 서버 주소로 뜯어고쳐서 쏴주는 **SRS (Sender Rewriting Scheme)** 아키텍처를 메일 게이트웨이에 융합 세팅해야만 이 복잡한 릴레이 스팸 컷을 회피할 수 있다.
+- **판단**: 이메일 포워딩 릴레이(Relay) 환경에서 SPF가 가진 태생적 모순이다. 거래처 A의 SPF 레코드에는 "A 회사 IP만 정상"이라고 적혀있다. 그런데 회사 서버가 메일을 튕겨서(포워딩) 구글로 쏠 때, 구글 입장에선 **"편지 봉투는 A 회사인데, 나한테 편지를 던진 IP는 당신 회사 서버(B)네? IP 불일치! 해커다!"**라고 SPF 룰을 정직하게 집행하여 차단해버린 것이다. 포워딩을 하면 발송 IP가 갈아치워 지기 때문에 벌어지는 비극이다. 이를 해결하기 위해 아키텍트는 포워딩할 때 겉봉투 주소를 내 서버 주소로 뜯어고쳐서 쏴주는 **SRS (Sender Rewriting Scheme)** 아키텍처를 메일 게이트웨이에 융합 세팅해야만 이 복잡한 릴레이 스팸 컷을 회피할 수 있다.
 
 ```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │         실무 아키텍처: 메일 도달률 100%를 위한 이메일 3대 보안 융합 세팅   │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │ [ 회사의 DNS (전화번호부) 세팅창 ]                               │
-  │                                                             │
-  │ 1️⃣ SPF (송신 IP 깡패 잡기)                                     │
-  │   - 레코드: TXT @ "v=spf1 ip4:1.2.3.4 include:_spf.google.com -all" │
-  │   - 효과: 우리 회사 아이피(1.2.3.4)랑 구글 말고 딴 데서 보내면 다 찢어버려! │
-  │                                                             │
-  │ 2️⃣ DKIM (본문 조작 방지 암호화 도장)                             │
-  │   - 레코드: TXT selector1._domainkey "v=DKIM1; k=rsa; p=MIIBIjANBg..."│
-  │   - 효과: 편지 내용에 찍힌 우리 회사 암호 도장이 진짜인지 대조해 볼 공개키야! │
-  │                                                             │
-  │ 3️⃣ DMARC (수신 서버 행동 지침 & 리포트 수집) 🌟 대장                  │
-  │   - 레코드: TXT _dmarc "v=DMARC1; p=reject; rua=mailto:admin@.."  │
-  │   - 효과: 만약 1번(SPF)이나 2번(DKIM) 둘 중 하나라도 깨져서 겉봉투랑 속봉투가│
-  │          안 맞으면, 그 편지는 무조건 차단(reject)하고 보안팀(admin)한테 │
-  │          누가 사칭했는지 보고서(rua)를 쏴줘!                         │
-  │                                                             │
-  │ 🌟 아키텍트 판단: 2024년부터 구글(Gmail)과 야후는 대량 발송자들에게 이 3가지│
-  │    DNS 세팅이 1개라도 안 되어 있으면 메일 수신 자체를 거부하는 강경책을 꺼냈다.│
-  │    더 이상 SPF는 선택이 아니라 엔터프라이즈의 생존(Compliance) 인프라다! │
+┌─────────────────────────────────────────────────────────────┐
+│ 실무 아키텍처: 메일 도달률 100%를 위한 이메일 3대 보안 융합 세팅 │
+├─────────────────────────────────────────────────────────────┤
+│ │
+│ [ 회사의 DNS (전화번호부) 세팅창 ] │
+│ │
+│ 1️⃣ SPF (송신 IP 깡패 잡기) │
+│ - 레코드: TXT @ "v=spf1 ip4:1.2.3.4 include:_spf.google.com -all" │
+│ - 효과: 우리 회사 아이피(1.2.3.4)랑 구글 말고 딴 데서 보내면 다 찢어버려! │
+│ │
+│ 2️⃣ DKIM (본문 조작 방지 암호화 도장) │
+│ - 레코드: TXT selector1._domainkey "v=DKIM1; k=rsa; p=MIIBIjANBg..."│
+│ - 효과: 편지 내용에 찍힌 우리 회사 암호 도장이 진짜인지 대조해 볼 공개키야! │
+│ │
+│ 3️⃣ DMARC (수신 서버 행동 지침 & 리포트 수집) 🌟 대장 │
+│ - 레코드: TXT _dmarc "v=DMARC1; p=reject; rua=mailto:admin@.." │
+│ - 효과: 만약 1번(SPF)이나 2번(DKIM) 둘 중 하나라도 깨져서 겉봉투랑 속봉투가│
+│ 안 맞으면, 그 편지는 무조건 차단(reject)하고 보안팀(admin)한테 │
+│ 누가 사칭했는지 보고서(rua)를 쏴줘! │
+│ │
+│ 🌟 아키텍트 판단: 2024년부터 구글(Gmail)과 야후는 대량 발송자들에게 이 3가지│
+│ DNS 세팅이 1개라도 안 되어 있으면 메일 수신 자체를 거부하는 강경책을 꺼냈다.│
+│ 더 이상 SPF는 선택이 아니라 엔터프라이즈의 생존(Compliance) 인프라다! │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -194,7 +194,7 @@ SPF를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 - **RFC 7208**: Sender [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) Framework (SPF) for Authorizing Use of Domains in Email. (SPF의 원리, 10-lookup 제한, +all/-all의 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 규정한 글로벌 이메일 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 표준 헌법)
 - **RFC 7489**: Domain-based Message [Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/), Reporting, and Conformance ([DMARC](/knowledge-base/studynote/03_network/09_application_layer_web_email/497_dmarc_domain_based_message_authentication/)). (SPF와 DKIM을 묶어 봉투와 본문의 일치 여부를 판단하는 무결점 융합 규격)
 
-"인터넷의 선의(善意)가 부서진 시대, 신뢰는 더 이상 이름표에서 오지 않는다." 1980년대 컴퓨터 공학자들은 모두가 착할 줄 알고 보내는 사람 이름을 맘대로 적을 수 있는 자유([SMTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/488_smtp_simple_mail_transfer_protocol/))를 주었다. 그러나 그 자유는 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/)과 스팸이라는 끔찍한 흑마법으로 되돌아왔다. SPF는 이 성선설의 인터넷 세계에 처음으로 '신분증 검사'라는 차가운 잣대를 세운 역사적 이정표다. 껍데기 이름표(Header From)가 아니라, 그 편지를 쏘아낸 기계의 출신 성분(IP Address)을 DNS라는 전 세계 거대한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 장부에 대조하는 이 직관적이고 경이로운 아키텍처는, 무너져가던 이메일 생태계의 멱살을 잡고 21세기로 하드캐리 해낸 인터넷 공학의 가장 위대한 심폐소생술이다.
+"인터넷의 선의()가 부서진 시대, 신뢰는 더 이상 이름표에서 오지 않는다." 1980년대 컴퓨터 공학자들은 모두가 착할 줄 알고 보내는 사람 이름을 맘대로 적을 수 있는 자유([SMTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/488_smtp_simple_mail_transfer_protocol/))를 주었다. 그러나 그 자유는 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/)과 스팸이라는 끔찍한 흑마법으로 되돌아왔다. SPF는 이 성선설의 인터넷 세계에 처음으로 '신분증 검사'라는 차가운 잣대를 세운 역사적 이정표다. 껍데기 이름표(Header From)가 아니라, 그 편지를 쏘아낸 기계의 출신 성분(IP Address)을 DNS라는 전 세계 거대한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 장부에 대조하는 이 직관적이고 경이로운 아키텍처는, 무너져가던 이메일 생태계의 멱살을 잡고 21세기로 하드캐리 해낸 인터넷 공학의 가장 위대한 심폐소생술이다.
 
 - **📢 섹션 요약 비유**: 인터넷 초창기 메일은 누구나 "나 왕(King)이오!" 라고 이름표만 달면 왕 대접을 해주는 **가면 무도회**였습니다. SPF는 그 무도회 입구에 설치된 **'지문 인식 게이트'**입니다. 가면(이름표)이 아무리 똑같아도, 그 사람의 지문(출발지 IP)이 사전에 등록된 왕의 지문([DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/))과 1mm라도 다르면 입구에서 쫓아내 버리는, 가면을 꿰뚫어 보는 완벽한 신원 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 시스템입니다.
 
@@ -213,12 +213,12 @@ SPF를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 
 ```text
 [선행 개념: PGP]
-    │
-    ▼
+│
+▼
 [현재 개념: SPF]
-    │
-    ├──▶ [확장 A: DKIM]
-    └──▶ [확장 B: 지능형 애플리케이션 전달]
+│
+├──▶ [확장 A: DKIM]
+└──▶ [확장 B: 지능형 애플리케이션 전달]
 ```
 
 SPF는 PGP에서 출발해 현재 메커니즘을 정교화하고, 이후 DKIM와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.

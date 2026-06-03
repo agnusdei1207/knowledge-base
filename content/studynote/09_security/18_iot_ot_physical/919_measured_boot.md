@@ -23,10 +23,10 @@ Measured Boot ([TPM](/knowledge-base/studynote/01_computer_architecture/14_hardw
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
-│ 왜 Measured Boot가 필요한가                                       │
+│ 왜 Measured Boot가 필요한가 │
 ├──────────────────────────────────────────────────────────────┤
-│ 자산·서비스 운영 ─► 노출/불확실성 ─► 위험 확대              │
-│                     └──── Measured Boot로 통제·판단 ────┘        │
+│ 자산·서비스 운영 ─► 노출/불확실성 ─► 위험 확대 │
+│ └──── Measured Boot로 통제·판단 ────┘ │
 └──────────────────────────────────────────────────────────────┘
 ```
 
@@ -48,10 +48,10 @@ Measured Boot ([TPM](/knowledge-base/studynote/01_computer_architecture/14_hardw
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
-│ 핵심 동작 구조                                               │
+│ 핵심 동작 구조 │
 ├──────────────────────────────────────────────────────────────┤
-│ 입력/요청 ─► 검증·판단 ─► 적용·변환 ─► 기록·피드백          │
-│              └──────── 정책·키·상태 관리 ───────┘           │
+│ 입력/요청 ─► 검증·판단 ─► 적용·변환 ─► 기록·피드백 │
+│ └──────── 정책·키·상태 관리 ───────┘ │
 └──────────────────────────────────────────────────────────────┘
 ```
 
@@ -114,12 +114,12 @@ Measured Boot ([TPM](/knowledge-base/studynote/01_computer_architecture/14_hardw
 
 ```text
 [현장 자산 보호 요구]
-    │
-    ▼
+│
+▼
 [Measured Boot (TPM utilization)]
-    │
-    ├──▶ [분리 구간 강화]
-    └──▶ [원격 증명·무결성 검증]
+│
+├──▶ [분리 구간 강화]
+└──▶ [원격 증명·무결성 검증]
 ```
 
 이 흐름도는 Measured Boot ([TPM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/) utilization)를 단일 용어가 아니라 선행 문제, 현재 해결 방식, 후속 확장 방향으로 기억하게 해 준다. 시험과 실무 모두에서 이 연결 구조를 함께 말할 수 있어야 개념이 살아난다.
@@ -136,7 +136,7 @@ Measured Boot ([TPM](/knowledge-base/studynote/01_computer_architecture/14_hardw
 
 **진행 상황**: 1006 / 1108
 
-← **이전**: [918. RoT 구성要素 (Rot Components)](/knowledge-base/studynote/09_security/18_iot_ot_physical/918_rot_components/)
+← **이전**: [918. RoT 구성요소 (Rot Components)](/knowledge-base/studynote/09_security/18_iot_ot_physical/918_rot_components/)
 **다음**: [920. 펌웨어 업데이트 보안 (Firmware Update Security)](/knowledge-base/studynote/09_security/18_iot_ot_physical/920_firmware_update_security/) →
 
 ---

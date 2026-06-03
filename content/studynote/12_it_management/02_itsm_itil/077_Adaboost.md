@@ -1,6 +1,6 @@
 +++
 title = "77. AdaBoost (Adaptive Boosting)"
-description = "AdaBoost의 적응적 부스팅 원리,弱분류기 조합 메커니즘, 샘플 가중치 조정 알고리즘, 한계점 분석"
+description = "AdaBoost의 적응적 부스팅 원리,분류기 조합 메커니즘, 샘플 가중치 조정 알고리즘, 한계점 분석"
 date = 2026-04-05
 
 [taxonomies]
@@ -41,18 +41,18 @@ AdaBoost는 샘플 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_we
 
 ```text
 샘플 가중치 w1, w2, ... , wn
-         │
-         ▼
-    약한 분류기 h1
-         │
-  오분류 샘플 가중치 ↑
-         │
-         ▼
-    약한 분류기 h2
-         │
-  오분류 샘플 가중치 ↑
-         │
-         ▼
+│
+▼
+약한 분류기 h1
+│
+오분류 샘플 가중치 ↑
+│
+▼
+약한 분류기 h2
+│
+오분류 샘플 가중치 ↑
+│
+▼
 최종 결합 sign(Σ αt ht(x))
 ```
 
@@ -84,10 +84,10 @@ AdaBoost는 단순한 base learner와 잘 맞고, [분류](/knowledge-base/study
 - 채택: 약한 규칙을 여러 번 조합해 경계를 만들고 싶을 때
 - 회피: 노이즈가 많고 라벨 품질이 낮은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)
 - [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-  1. base learner를 너무 복잡하게 두지 않았는가?
-  2. 학습 반복 수가 과도하지 않은가?
-  3. 이상치가 모델을 끌고 다니지 않는가?
-  4. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상과 해석 가능성의 균형이 맞는가?
+1. base learner를 너무 복잡하게 두지 않았는가?
+2. 학습 반복 수가 과도하지 않은가?
+3. 이상치가 모델을 끌고 다니지 않는가?
+4. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상과 해석 가능성의 균형이 맞는가?
 
 AdaBoost는 단순하지만 강력하다. 다만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질이 나쁘면 강점보다 민감함이 더 크게 드러난다.
 
@@ -114,17 +114,17 @@ AdaBoost는 간단한 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/
 
 ```text
 약한 분류기
-    │
-    ▼
+│
+▼
 샘플 가중치 조정
-    │
-    ▼
+│
+▼
 오분류 샘플 집중
-    │
-    ▼
+│
+▼
 약한 분류기 반복 결합
-    │
-    ▼
+│
+▼
 강한 분류기 생성
 ```
 

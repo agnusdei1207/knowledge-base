@@ -24,9 +24,9 @@ tags = ["studynote-design-supervision"]
 
 ```
 동기 블로킹(Sync Blocking)
-  └→ 멀티스레드(Multi-Thread) 동기 — 스레드 폭발 문제
-       └→ 이벤트 루프 + Reactor — 준비 이벤트, 앱이 I/O 수행
-            └→ Proactor — 완료 이벤트, OS가 I/O 수행
+└→ 멀티스레드(Multi-Thread) 동기 — 스레드 폭발 문제
+└→ 이벤트 루프 + Reactor — 준비 이벤트, 앱이 I/O 수행
+└→ Proactor — 완료 이벤트, OS가 I/O 수행
 ```
 
 Proactor 패턴의 핵심 동기:
@@ -43,9 +43,9 @@ Proactor 패턴의 핵심 동기:
 | 복잡도 | 상대적으로 단순 | 비교적 복잡(버퍼 수명 관리) |
 
 ```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
+┌──────────────┐ ┌──────────────┐ ┌──────────────┐
+│ Problem │──▶│ Core Idea │──▶│ Expected Gain │
+└──────────────┘ └──────────────┘ └──────────────┘
 ```
 
 - **📢 섹션 요약 비유**: Reactor는 "손님이 도착하면 알려줘, 내가 문을 열게(readiness)" 이고 Proactor는 "손님을 안으로 모시고 자리까지 안내한 다음 나한테 알려줘(completion)" 다.
@@ -64,51 +64,51 @@ Proactor 패턴의 핵심 동기:
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
-│                        Proactor Pattern                      │
-│                                                              │
-│  ┌──────────────┐   1. 비동기 I/O 요청 + Handler 등록        │
-│  │  Initiator   │─────────────────────────────────────┐     │
-│  └──────────────┘                                     │     │
-│                                                       ▼     │
-│  ┌────────────────────────────────────────────────────────┐  │
-│  │              OS Kernel (비동기 오퍼레이션 프로세서)       │  │
-│  │   2. 실제 I/O 수행 (디스크 읽기, 네트워크 수신 등)        │  │
-│  └───────────────────────┬────────────────────────────────┘  │
-│                          │ 3. I/O 완료 → 결과를 큐에 삽입     │
-│                          ▼                                   │
-│  ┌─────────────────────────────────────────────────────────┐ │
-│  │          Completion Event Queue (완료 이벤트 큐)          │ │
-│  │   [결과 데이터 A] [결과 데이터 B] [결과 데이터 C] ...      │ │
-│  └───────────────────────┬─────────────────────────────────┘ │
-│                          │ 4. 이벤트 디큐(Dequeue)            │
-│                          ▼                                   │
-│  ┌──────────────┐   5. Handler 호출   ┌──────────────────┐   │
-│  │   Proactor   │────────────────────▶│ Completion       │   │
-│  │ (이벤트 루프) │                     │ Handler          │   │
-│  └──────────────┘                     │ (비즈니스 로직)   │   │
-│                                       └──────────────────┘   │
+│ Proactor Pattern │
+│ │
+│ ┌──────────────┐ 1. 비동기 I/O 요청 + Handler 등록 │
+│ │ Initiator │─────────────────────────────────────┐ │
+│ └──────────────┘ │ │
+│ ▼ │
+│ ┌────────────────────────────────────────────────────────┐ │
+│ │ OS Kernel (비동기 오퍼레이션 프로세서) │ │
+│ │ 2. 실제 I/O 수행 (디스크 읽기, 네트워크 수신 등) │ │
+│ └───────────────────────┬────────────────────────────────┘ │
+│ │ 3. I/O 완료 → 결과를 큐에 삽입 │
+│ ▼ │
+│ ┌─────────────────────────────────────────────────────────┐ │
+│ │ Completion Event Queue (완료 이벤트 큐) │ │
+│ │ [결과 데이터 A] [결과 데이터 B] [결과 데이터 C] ... │ │
+│ └───────────────────────┬─────────────────────────────────┘ │
+│ │ 4. 이벤트 디큐(Dequeue) │
+│ ▼ │
+│ ┌──────────────┐ 5. Handler 호출 ┌──────────────────┐ │
+│ │ Proactor │────────────────────▶│ Completion │ │
+│ │ (이벤트 루프) │ │ Handler │ │
+│ └──────────────┘ │ (비즈니스 로직) │ │
+│ └──────────────────┘ │
 └──────────────────────────────────────────────────────────────┘
 ```
 
 ```
-CreateIoCompletionPort()   ← IOCP 생성 및 소켓 연결
-       │
-WSARecv(overlapped)        ← 비동기 수신 시작 (버퍼를 OS에 미리 제공)
-       │
-       └→ [OS가 비동기로 TCP 수신 수행]
-              │
-       GetQueuedCompletionStatus()  ← 스레드 풀 워커가 완료 대기
-              │
-       완료 이벤트 수신 → 수신된 데이터로 비즈니스 로직 처리
+CreateIoCompletionPort() ← IOCP 생성 및 소켓 연결
+│
+WSARecv(overlapped) ← 비동기 수신 시작 (버퍼를 OS에 미리 제공)
+│
+└→ [OS가 비동기로 TCP 수신 수행]
+│
+GetQueuedCompletionStatus() ← 스레드 풀 워커가 완료 대기
+│
+완료 이벤트 수신 → 수신된 데이터로 비즈니스 로직 처리
 ```
 
 ```cpp
 // 비동기 읽기 시작 (Initiator 역할)
 socket.async_read_some(
-    asio::buffer(buf),
-    [](error_code ec, size_t bytes) {   // Completion Handler
-        if (!ec) process(buf, bytes);
-    }
+asio::buffer(buf),
+[](error_code ec, size_t bytes) { // Completion Handler
+if (!ec) process(buf, bytes);
+}
 );
 // io_context.run() → Proactor 역할 (완료 이벤트 디스패치)
 ```
@@ -122,7 +122,7 @@ socket.async_read_some(
 |:---|:---|:---|:---|:---|
 | [Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/) I/O | 블로킹 | 앱 | I/O 완료 후 | `read()`, `recv()` |
 | Non-[Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/) I/O | 논블로킹 | 앱 | 즉시 반환 (EAGAIN) | `fcntl(O_NONBLOCK)` |
-| I/O [Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) (Reactor) | 준(準)블로킹 | 앱 | I/O 준비 시 | `epoll`, `select` |
+| I/O [Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) (Reactor) | 준()블로킹 | 앱 | I/O 준비 시 | `epoll`, `select` |
 | Signal-Driven I/O | 논블로킹 | 앱 | I/O 준비 시 (시그널) | `SIGIO` |
 | **Async I/O (Proactor)** | **논블로킹** | **OS** | **I/O 완료 시** | **IOCP, `io_uring`** |
 

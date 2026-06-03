@@ -1,6 +1,6 @@
 +++
 title = "78. DataStream API / Table API & SQL — Flink 두 계층"
-description = "Naive Bayes 분류기의 확률적 원리, 조건부 독립 가정,贝叶斯定理 적용 방법, 텍스트 분류에서의 활용"
+description = "Naive Bayes 분류기의 확률적 원리, 조건부 독립 가정, 적용 방법, 텍스트 분류에서의 활용"
 date = 2026-04-05
 
 [taxonomies]
@@ -105,17 +105,17 @@ Naive Bayes는 복잡한 모델이 나오기 전에도 빠른 자동화를 가�
 
 ```text
 training data
-  │
-  ▼
+│
+▼
 count features by class
-  │
-  ▼
+│
+▼
 estimate prior / likelihood
-  │
-  ▼
+│
+▼
 compute posterior
-  │
-  ▼
+│
+▼
 route to class
 ```
 

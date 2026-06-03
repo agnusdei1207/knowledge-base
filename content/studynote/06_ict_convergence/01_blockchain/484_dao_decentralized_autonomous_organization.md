@@ -38,25 +38,25 @@ tags = ["studynote-ict-convergence"]
 
 ```
 ┌─────────────────────────────────────────────────────┐
-│            DAO 거버넌스 사이클                       │
-│                                                     │
-│  1. 제안(Proposal)                                  │
-│     토큰 홀더 → 스마트 컨트랙트에 제안 제출         │
-│     (최소 토큰 보유량 요건: Proposal Threshold)      │
-│                                                     │
-│  2. 투표(Voting Period, 예: 3일~7일)                 │
-│     홀더: 찬성(For) / 반대(Against) / 기권(Abstain) │
-│     위임(Delegation): 투표권 위임 가능               │
-│                                                     │
-│  3. 쿼럼(Quorum) 달성 확인                          │
-│     예: 전체 공급량의 4% 이상 참여 필요              │
-│                                                     │
-│  4. 타임락(Timelock, 예: 2일~7일)                   │
-│     승인된 제안 → 즉시 실행 아님 → 대기             │
-│     이 기간 긴급 철회(Guardian) 가능                │
-│                                                     │
-│  5. 실행(Execution)                                 │
-│     타임락 만료 → 스마트 컨트랙트 자동 실행          │
+│ DAO 거버넌스 사이클 │
+│ │
+│ 1. 제안(Proposal) │
+│ 토큰 홀더 → 스마트 컨트랙트에 제안 제출 │
+│ (최소 토큰 보유량 요건: Proposal Threshold) │
+│ │
+│ 2. 투표(Voting Period, 예: 3일~7일) │
+│ 홀더: 찬성(For) / 반대(Against) / 기권(Abstain) │
+│ 위임(Delegation): 투표권 위임 가능 │
+│ │
+│ 3. 쿼럼(Quorum) 달성 확인 │
+│ 예: 전체 공급량의 4% 이상 참여 필요 │
+│ │
+│ 4. 타임락(Timelock, 예: 2일~7일) │
+│ 승인된 제안 → 즉시 실행 아님 → 대기 │
+│ 이 기간 긴급 철회(Guardian) 가능 │
+│ │
+│ 5. 실행(Execution) │
+│ 타임락 만료 → 스마트 컨트랙트 자동 실행 │
 └─────────────────────────────────────────────────────┘
 ```
 
@@ -113,7 +113,7 @@ tags = ["studynote-ict-convergence"]
 - **프로그래밍 가능한 규칙의 한계**: 정성적 판단이 필요한 사안은 코드화 어려움
 - **멀티시그(Multi-Sig) 병용**: 긴급 대응을 위한 Gnosis [Safe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) 기반 관리자 키
 
-- **📢 섹션 요약 비유**: — "DAO의 이상(理想)은 완전 자율 조직이지만, 현실은 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)가 모든 경우를 처리 못하므로 '반자율' 수준에서 운영된다.
+- **📢 섹션 요약 비유**: — "DAO의 이상()은 완전 자율 조직이지만, 현실은 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)가 모든 경우를 처리 못하므로 '반자율' 수준에서 운영된다.
 
 ---
 

@@ -40,18 +40,18 @@ SMOTE는 다수 클래스는 건드리지 않고, 소수 클래스의 [데이터
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
-│                  SMOTE 데이터 합성 메커니즘                 │
+│ SMOTE 데이터 합성 메커니즘 │
 ├──────────────────────────────────────────────────────────────┤
-│               [다수 클래스 밀집 구역]                        │
-│                                                              │
-│       A (원본)                                              │
-│         ＼ (벡터 차이)                                       │
-│          ＼                                                  │
-│           ★ (새로 합성된 데이터: X_new)                     │
-│            ＼                                                │
-│              B (K-NN 이웃)                                   │
-│                                                              │
-│  ※ ★는 A와 B를 잇는 가상의 선분 위 어딘가에 무작위로 생성됨 │
+│ [다수 클래스 밀집 구역] │
+│ │
+│ A (원본) │
+│ ＼ (벡터 차이) │
+│ ＼ │
+│ ★ (새로 합성된 데이터: X_new) │
+│ ＼ │
+│ B (K-NN 이웃) │
+│ │
+│ ※ ★는 A와 B를 잇는 가상의 선분 위 어딘가에 무작위로 생성됨 │
 └──────────────────────────────────────────────────────────────┘
 ```
 
@@ -71,7 +71,7 @@ SMOTE는 다수 클래스는 건드리지 않고, 소수 클래스의 [데이터
 | **주요 장점** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 줄어 학습 속도 향상 | 정보 유실 방지 | 일반화 [성능 우수](/knowledge-base/studynote/05_database/07_exam_summary/484_elt_extract_load_transform/), 과적합 위험 낮음 |
 | **치명적 단점** | **정보 유실** (중요한 패턴이 지워짐) | **과적합** (같은 값만 맹목적 암기) | **노이즈 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)** (경계선 침범 가능성) |
 
-SMOTE는 다수 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 클래스의 정보 유실이 없고 과적합을 막는다는 점에서 뛰어나지만, 다수 클래스와 소수 클래스가 겹치는 경계선(Borderline) 지역에서 합성 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 만들 경우 오히려 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델을 헷갈리게 만드는 노이즈를 유발할 수 있다. 
+SMOTE는 다수 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 클래스의 정보 유실이 없고 과적합을 막는다는 점에서 뛰어나지만, 다수 클래스와 소수 클래스가 겹치는 경계선(Borderline) 지역에서 합성 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 만들 경우 오히려 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델을 헷갈리게 만드는 노이즈를 유발할 수 있다.
 
 - **📢 섹션 요약 비유**: 언더샘플링이 시끄러운 사람들을 내쫓아 조용히 만드는 것이고, 오버샘플링이 목소리 작은 사람에게 확성기를 주는 것이라면, SMOTE는 목소리 작은 사람들과 성향이 비슷한 지지자를 새로 모셔 오는 것이다.
 
@@ -82,13 +82,13 @@ SMOTE는 다수 [데이터](/knowledge-base/studynote/05_database/01_db_architec
 [SMOTE](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/231_smote_oversampling_class_imbalance_augmentation/) 적용 시 실무에서 가장 많이 실패하는 지점과 이를 해결하기 위한 기술적 판단 기준은 다음과 같다.
 
 1. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 누수 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Leakage) 차단**:
-   - ([안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)) 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 세트에 먼저 SMOTE를 돌린 뒤, Train과 Test를 8:2로 나눈다. 이렇게 되면 Train에 쓰인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 거의 똑같은 보간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 Test에 섞여 들어가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 100%에 가깝게 과대 포장된다.
-   - (정상패턴) 반드시 먼저 Train/Test를 분리하고, **Train [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에만 SMOTE를 적용**하여 학습시킨 뒤 오염되지 않은 원본 Test [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 평가해야 한다.
+- ([안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)) 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 세트에 먼저 SMOTE를 돌린 뒤, Train과 Test를 8:2로 나눈다. 이렇게 되면 Train에 쓰인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 거의 똑같은 보간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 Test에 섞여 들어가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 100%에 가깝게 과대 포장된다.
+- (정상패턴) 반드시 먼저 Train/Test를 분리하고, **Train [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에만 SMOTE를 적용**하여 학습시킨 뒤 오염되지 않은 원본 Test [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 평가해야 한다.
 2. **[SMOTE](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/231_smote_oversampling_class_imbalance_augmentation/)-Tomek 결합 (하이브리드 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))**:
-   - SMOTE가 다수 클래스 진영 깊숙한 곳에 노이즈를 만들 수 있다.
-   - 따라서 SMOTE로 우선 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 불린 다음, 다른 클래스끼리 너무 가까이 붙어있는 쌍(Tomek Links)을 찾아내 지워버리는 언더샘플링 기법을 혼합 적용하면 경계선이 아주 깨끗해진다.
+- SMOTE가 다수 클래스 진영 깊숙한 곳에 노이즈를 만들 수 있다.
+- 따라서 SMOTE로 우선 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 불린 다음, 다른 클래스끼리 너무 가까이 붙어있는 쌍(Tomek Links)을 찾아내 지워버리는 언더샘플링 기법을 혼합 적용하면 경계선이 아주 깨끗해진다.
 3. **변형 모델의 채택**:
-   - 경계 구분이 어려운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)라면 경계선 주변 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 증강하는 **Borderline-[SMOTE](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/231_smote_oversampling_class_imbalance_augmentation/)**를 적용하여 모델의 판별 능력을 집중적으로 높인다.
+- 경계 구분이 어려운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)라면 경계선 주변 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 증강하는 **Borderline-[SMOTE](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/231_smote_oversampling_class_imbalance_augmentation/)**를 적용하여 모델의 판별 능력을 집중적으로 높인다.
 
 - **📢 섹션 요약 비유**: 수능 모의고사(Train)는 변형 문제를 만들어 연습하더라도, 실제 수능 시험장(Test)에서는 절대 변형 문제를 유출해 풀게 해서는 안 되는 것과 같은 이치다.
 
@@ -117,17 +117,17 @@ SMOTE를 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architec
 
 ```text
 클래스 불균형 (Class Imbalance) 발생
-    │
-    ▼
+│
+▼
 단순 복사 (Random Over-sampling) 및 과적합 부작용
-    │
-    ▼
+│
+▼
 SMOTE (선형 보간을 통한 가상 데이터 합성)
-    │
-    ▼
+│
+▼
 Borderline-SMOTE / ADASYN (경계선 및 밀도 기반 개선)
-    │
-    ▼
+│
+▼
 SMOTE-Tomek (오버샘플링과 언더샘플링의 하이브리드 결합)
 ```
 
@@ -145,7 +145,7 @@ SMOTE-Tomek (오버샘플링과 언더샘플링의 하이브리드 결합)
 
 **진행 상황**: 96 / 258
 
-← **이전**: [#95 DataEng (데이터엔지니어링)概念](/knowledge-base/studynote/14_data_engineering/01_infrastructure/095_concept/)
+← **이전**: [#95 DataEng (데이터엔지니어링)개념](/knowledge-base/studynote/14_data_engineering/01_infrastructure/095_concept/)
 **다음**: [회귀 분석 지표 (Regression Metrics) - MSE, RMSE, MAE](/knowledge-base/studynote/14_data_engineering/02_math_mining/097_regression_metrics_mse_rmse_mae/) →
 
 ---

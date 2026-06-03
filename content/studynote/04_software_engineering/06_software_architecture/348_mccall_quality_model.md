@@ -23,11 +23,11 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/)은 다차원적인 개념으로, 단일한 기준으로 평가할 수 없다. 맥콜 모델은 이러한 다양한 품질 차원을 체계적으로 분류하여, 개발자와 품질 관리자가 소프트웨어의 Strengths and Weaknesses를 다각적으로 파악하고, 적절한 품질 개선 활동을 계획하는 데 도움이 된다.
 
-- **💡 비유**: 맥콜 품질 모델은 "자동차의 종합 검사"에 비유할 수 있다. 자동차를 단순히 "좋다/나쁘다"ではなく、走行動(제품 운영), 整備성(제품 수정), 変換 가능성(제품 전이)을 分别的に評価하여、その車がどのようなシーンに適しているかを判断する.
+- **💡 비유**: 맥콜 품질 모델은 "자동차의 종합 검사"에 비유할 수 있다. 자동차를 단순히 "좋다/나쁘다"에서는지 않고、(제품 운영), 성(제품 수정), 변환 가능성(제품 전이)을 에하여、의이/가과 같은에하여있다이나을/를판단하다.
 
 - **등장 배경**: 맥콜 품질 모델은 1970년대 미 공군의 [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/) 개선 프로젝트에서 탄생하였다. 이후 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 분야에서 널리 활용되며, ISO/IEC 9126, ISO/IEC 25010 등의 국제 표준에 영향을 주었다.
 
-- **📢 섹션 요약 비유**: 맥콜 품질 모델은 "건강검진項目"과 같다. 단순히 "건강하다/아프다"ではなく、血圧([신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/))、視力([사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/))、肺機能(효율性) 등을 分别적으로評価하여、人々の健康 상태を多方面から判断する。
+- **📢 섹션 요약 비유**: 맥콜 품질 모델은 "건강검진"과 같다. 단순히 "건강하다/아프다"에서는지 않고、([신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/))、([사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/))、(효율) 등을 적으로하여、々의건강 상태을/를부터판단하다。
 
 ---
 
@@ -35,14 +35,14 @@ tags = ["studynote-software-engineering"]
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                  맥콜(McCall)의 품질 모델                           │
+│ 맥콜(McCall)의 품질 모델 │
 ├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
+│ │
+│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
+│ │ │ │ │
+│ ▼ ▼ ▼ │
+│ 요구 분석 설계·적용 품질 검증 │
+│ │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -143,17 +143,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+│
+▼
 맥콜(McCall)의 품질 모델 개념 정립
-    │
-    ▼
+│
+▼
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+│
+▼
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+│
+▼
 지속적 개선 및 DevOps·MLOps 통합
 ```
 

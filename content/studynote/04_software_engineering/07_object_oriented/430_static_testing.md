@@ -19,23 +19,23 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 정적 테스팅은 소프트웨어를 실제로 실행하지 않고 분석하는 테스트 기법이다. 소스코드, 설계 문서, 요구사항 명세서 등을 검토하고, 도구를 활용하여 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을早期に発見する。동적 테스팅이 프로그램을 실행하여 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 찾는 것과 대비된다.
+- **개념**: 정적 테스팅은 소프트웨어를 실제로 실행하지 않고 분석하는 테스트 기법이다. 소스코드, 설계 문서, 요구사항 명세서 등을 검토하고, 도구를 활용하여 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을에하다。동적 테스팅이 프로그램을 실행하여 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 찾는 것과 대비된다.
 
-- **필요성**: 동적 테스팅은 프로그램이 실행된 후에야 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 발견할 수 있지만, 정적 테스팅은 开发 단계에서 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 발견하여修正 비용을 크게 줄일 수 있다. [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발견이 늦어질수록修正 비용이 기하급수적으로 증가하므로, 정적 테스팅의 역할이非常重要하다.
+- **필요성**: 동적 테스팅은 프로그램이 실행된 후에야 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 발견할 수 있지만, 정적 테스팅은 개발 단계에서 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 발견하여수정 비용을 크게 줄일 수 있다. [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발견이 늦어질수록수정 비용이 기하급수적으로 증가하므로, 정적 테스팅의 역할이하다.
 
 - **정적 테스팅 유형**:
-  - **[인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/)(Inspection)**: 공식적, 구조화된 검토 Meeting, [중재자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/)([Moderator](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/760_inspection_moderator_formal_review/))가 주도, [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 기반
-  - **워크쓰루(Walkthrough)**: 비공식적 검토, 저자가 주도, 지식 공유 위주
-  - **[정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/)([Static Analysis](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/))**: 도구를 활용하여 자동으로 코드 분석
+- **[인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/)(Inspection)**: 공식적, 구조화된 검토 Meeting, [중재자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/)([Moderator](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/760_inspection_moderator_formal_review/))가 주도, [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 기반
+- **워크쓰루(Walkthrough)**: 비공식적 검토, 저자가 주도, 지식 공유 위주
+- **[정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/)([Static Analysis](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/))**: 도구를 활용하여 자동으로 코드 분석
 
-- **비유**: 정적 테스팅은 **' 건축 설계도 사전 검토'**と 같다。건축物을実際に建築하기 전에 설계도(코드)를 검토하여 구조적 문제, 법규 위반, 비용 문제 등을 발견하는 것이다. 실제建築 후(동적 테스트)에 문제를 발견하면修正 비용이 엄청나게 들지만, 설계도 단계에서 발견하면低成本으로修正할 수 있다.
+- **비유**: 정적 테스팅은 **' 건축 설계도 사전 검토'**와/과 같다。건축을에하기 전에 설계도(코드)를 검토하여 구조적 문제, 법규 위반, 비용 문제 등을 발견하는 것이다. 실제 후(동적 테스트)에 문제를 발견하면수정 비용이 엄청나게 들지만, 설계도 단계에서 발견하면으로수정할 수 있다.
 
 - **등장 배경 및 발전 과정**:
-  1. **1970년대**: IBM에서 [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/) 프로세스 개발
-  2. **1990년대**: [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 도구 등장 (Lint, PC-Lint 등)
-  3. **현재**: [SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/), ESLint, Checkmarx 등 다양한 [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 도구, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 통합
+1. **1970년대**: IBM에서 [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/) 프로세스 개발
+2. **1990년대**: [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 도구 등장 (Lint, PC-Lint 등)
+3. **현재**: [SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/), ESLint, Checkmarx 등 다양한 [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 도구, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 통합
 
-- **섹션 요약 비유**: 정적 테스팅은 **'原稿의 맞춤법 검사'**と 같다。印刷所에서 실제 인쇄를 하기 전에 원고(코드)를 읽으며 맞춤법, 문법, 논리적 오류 등을检查する。인쇄 후(동적 테스트)에 오류를 발견하면 원고를 다시書き直し 비용이 발생하지만, 원고 단계에서 발견하면 간단히修正할 수 있다.
+- **섹션 요약 비유**: 정적 테스팅은 **'의 맞춤법 검사'**와/과 같다。에서 실제 인쇄를 하기 전에 원고(코드)를 읽으며 맞춤법, 문법, 논리적 오류 등을검사하다。인쇄 후(동적 테스트)에 오류를 발견하면 원고를 다시 비용이 발생하지만, 원고 단계에서 발견하면 간단히수정할 수 있다.
 
 ---
 
@@ -45,14 +45,14 @@ tags = ["studynote-software-engineering"]
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                  정적 테스팅 (Static Testi                        │
+│ 정적 테스팅 (Static Testi │
 ├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
+│ │
+│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
+│ │ │ │ │
+│ ▼ ▼ ▼ │
+│ 요구 분석 설계·적용 품질 검증 │
+│ │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -153,17 +153,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+│
+▼
 정적 테스팅 (Static Testing) 개념 정립
-    │
-    ▼
+│
+▼
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+│
+▼
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+│
+▼
 지속적 개선 및 DevOps·MLOps 통합
 ```
 

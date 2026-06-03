@@ -12,31 +12,31 @@ tags = ["studynote-operating-system"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Worm은 컴퓨터virus와 달리 별도의 숙주 프로그램 없이 독립적으로 실행되어 네트워크를 통해 빠른 속도로 자기복제를 확산하는 악성 소프트웨어다. 사용자의 개입 없이도 시스템에서 시스템으로 전파되어, 단기간 내에 대규모 감염을 야기할 수 있다.
-> 2. **가치**:worm의 가장 큰 특징은 1988년 Robert Morris가作成した(만든) Morris Worm에서 확인되듯, 인터넷 역사상 최초의大规模(대규모) 감염 사건을 일으켰으며, 감염 속도가 指數的(지수적)으로 증가하여 6,000대의 컴퓨터 중 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%인 600대가 피해를 입었다.
-> 3. **한계**:worm은 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 Consumption(소모)시키고, 취약점 패치로永恒(영구)적으로 차단될 수 있으며, 현대 Firewalls([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)), [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/)/[IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/), [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [네트워크 보안](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 기술의 발전으로 탐지 및 차단 능력이 크게 향상되었다.
+> 2. **가치**:worm의 가장 큰 특징은 1988년 Robert Morris가했다(만든) Morris Worm에서 확인되듯, 인터넷 역사상 최초의(대규모) 감염 사건을 일으켰으며, 감염 속도가 (지수적)으로 증가하여 6,000대의 컴퓨터 중 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%인 600대가 피해를 입었다.
+> 3. **한계**:worm은 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 Consumption(소모)시키고, 취약점 패치로영원한(영구)적으로 차단될 수 있으며, 현대 Firewalls([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)), [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/)/[IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/), [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [네트워크 보안](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 기술의 발전으로 탐지 및 차단 능력이 크게 향상되었다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 ### Morris Worm 사건 (1988)
-Robert Morris가仕組(심화)한Morris Worm은 인터넷 역사상 첫 번째 대규모worm 감염 사건이다. 1988년 11월 2일Unix 시스템의 finger 및 sendmail 취약점을 利用(약용)하여 6,000대의 컴퓨터 중 약 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%(600대)가 감염되어lehre(피해)를 입었다.
+Robert Morris가(심화)한Morris Worm은 인터넷 역사상 첫 번째 대규모worm 감염 사건이다. 1988년 11월 2일Unix 시스템의 finger 및 sendmail 취약점을 활용(약용)하여 6,000대의 컴퓨터 중 약 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%(600대)가 감염되어lehre(피해)를 입었다.
 
 ```text
 [Morris Worm 감염 메커니즘]
 
-  Patient Zero: 감염된 Unix 서버 1대
-      |
-      +--> 취약점 스캔 (IP 주소 브로드캐스트)
-      |
-      +--> 10개 취약점 발견
-           +--> 10개 서버 추가 감염 + 각 서버에서 병렬 스캔
-           |
-           +--> 10^2 --> 10^3 --> 10^4...
-               Exponential 확산!
+Patient Zero: 감염된 Unix 서버 1대
+|
++--> 취약점 스캔 (IP 주소 브로드캐스트)
+|
++--> 10개 취약점 발견
++--> 10개 서버 추가 감염 + 각 서버에서 병렬 스캔
+|
++--> 10^2 --> 10^3 --> 10^4...
+Exponential 확산!
 ```
 
-**[핵심 포인트]** worm의 가장 큰 특징은指數的(지수적) 감염 속도다. 각 감염主机(호스트)에서 스스로 스캔과 전파를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 수행하므로, 감염이 Exponential(기하급수적)으로扩散된다.
+**[핵심 포인트]** worm의 가장 큰 특징은(지수적) 감염 속도다. 각 감염(호스트)에서 스스로 스캔과 전파를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 수행하므로, 감염이 Exponential(기하급수적)으로된다.
 
 - **📢 섹션 요약 비유**: 복잡한 창고에서 필요한 물건을 찾기 위해 먼저 구역과 표지판을 세우는 것과 같다.
 
@@ -70,11 +70,11 @@ Robert Morris가仕組(심화)한Morris Worm은 인터넷 역사상 첫 번째 �
 |---|---|---|---|
 | 1988 | Morris Worm | Unix finger, sendmail | 6,000대 감염 |
 | 2001 | [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Red | IIS [Directory Traversal](/knowledge-base/studynote/09_security/05_web_app_security/420_directory_traversal/) | 359,000대 감염 |
-| 2003 | SQL Slammer | SQL Resolution [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | 75,000대 감염, 10분 이내全球(전세계) 확산 |
+| 2003 | SQL Slammer | SQL Resolution [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | 75,000대 감염, 10분 이내(전세계) 확산 |
 | 2008 | Conficker | Windows SMBv2 | 900만~1,500만 대 감염 |
-| 2010 | Stuxnet | Windows LNK, [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) | イ란(이란) 핵시설 타겟 |
+| 2010 | Stuxnet | Windows LNK, [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) | 란(이란) 핵시설 타겟 |
 | 2017 | [WannaCry](/knowledge-base/studynote/09_security/15_malware_attack_vectors/732_wannacry/) | ETERNALBLUE (SMBv1 RCE) | 150개국 20만 대 이상 감염 |
-| 2017 | [NotPetya](/knowledge-base/studynote/09_security/15_malware_attack_vectors/733_notpetya/) | ETERNALBLUE + [Mimikatz](/knowledge-base/studynote/09_security/12_identity_threat_advanced/602_mimikatz/) | 우크라이나 중심 + 全球(전세계) 확산 |
+| 2017 | [NotPetya](/knowledge-base/studynote/09_security/15_malware_attack_vectors/733_notpetya/) | ETERNALBLUE + [Mimikatz](/knowledge-base/studynote/09_security/12_identity_threat_advanced/602_mimikatz/) | 우크라이나 중심 + (전세계) 확산 |
 
 ---
 
@@ -84,14 +84,14 @@ Robert Morris가仕組(심화)한Morris Worm은 인터넷 역사상 첫 번째 �
 | **감염 경로** | 네트워크 | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) | 수동 |
 | **확산 속도** | **매우 빠름** | 중간 | 느림 |
 | **숙주 필요** | 아니오 | 예 | 아니오 |
-| **[대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 영향** | **甚大(심대)** | 미미 | 미미 |
+| **[대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 영향** | **(심대)** | 미미 | 미미 |
 
 ```text
 [확산 속도 비교]
 
-  Worm:     1 --> 10 --> 100 --> 1,000 --> 10,000 (수시간)
-  Virus:    1 --> 10 --> 100 --> 1,000 (수일~수주)
-  Trojan:   1 --> 10 (사용자 배포에 의존)
+Worm: 1 --> 10 --> 100 --> 1,000 --> 10,000 (수시간)
+Virus: 1 --> 10 --> 100 --> 1,000 (수일~수주)
+Trojan: 1 --> 10 (사용자 배포에 의존)
 ```
 
 - **📢 섹션 요약 비유**: 비슷해 보이는 공구를 나란히 놓고 언제 망치를 쓰고 언제 드라이버를 써야 하는지 구분하는 것과 같다.
@@ -114,7 +114,7 @@ Robert Morris가仕組(심화)한Morris Worm은 인터넷 역사상 첫 번째 �
 ## Ⅴ. 기대효과 및 결론
 
 ### 기술적 대응
-| 구분 | 전통 대비 | 현대 대응 |効果(효과) |
+| 구분 | 전통 대비 | 현대 대응 |(효과) |
 |---|---|---|---|
 | **네트워크 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)** | [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/), [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) | [Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) Network Access | Lateral Movement 차단 |
 | **[패치 관리](/knowledge-base/studynote/09_security/04_endpoint_security/406_patch_management/)** | 수동 패치 | WSUS, SCCM, Qualys | 취약점 사전 차단 |
@@ -123,7 +123,7 @@ Robert Morris가仕組(심화)한Morris Worm은 인터넷 역사상 첫 번째 �
 
 ### 경영진 의사결정
 - **[RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) ([복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 목표)**: 4시간 이내 목표
-- **[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**: Isolated NetworkSegment(격리 네트워크 분절) 구성, 사전演练(연습)된 [Incident Response](/knowledge-base/studynote/09_security/16_data_privacy/806_incident_response/) 계획 실행
+- **[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**: Isolated NetworkSegment(격리 네트워크 분절) 구성, 사전(연습)된 [Incident Response](/knowledge-base/studynote/09_security/16_data_privacy/806_incident_response/) 계획 실행
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -142,21 +142,21 @@ Robert Morris가仕組(심화)한Morris Worm은 인터넷 역사상 첫 번째 �
 
 ```text
 [바이러스 (Virus)]
-    │
-    ▼
+│
+▼
 [웜 (Worm)]
-    │
-    ├──▶ [버퍼 오버플로우 (Buffer Overflow) 원리]
-    └──▶ [셸코드 (Shellcode) 인젝션]
+│
+├──▶ [버퍼 오버플로우 (Buffer Overflow) 원리]
+└──▶ [셸코드 (Shellcode) 인젝션]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. Worm은virus와 달리 사람 도움 없이도勝手(胜手)에隣집(이웃집)으로 옮겨가는-spreading(확산) 벌레와 같다. 한 집에 들어가면 그 집에서도胜手에 다른 집으로 옮겨가는 것이worm의 가장 큰 특징이다.
-2.worm은 한번 터지면internet를 타고短短(짧은) 시간에全世界(전세계)로扩散될 수 있어서, 정말，怕(무서운) 컴퓨터 해킹 기술이다.
-3. 그래서 우리는 항상 컴퓨터 프로그램을最新(최신)으로 업데이트 하고, 이상한メール(메일)을 열지 않는 것이worm을 예방하는 가장 좋은 방법이다.
+1. Worm은virus와 달리 사람 도움 없이도()에집(이웃집)으로 옮겨가는-spreading(확산) 벌레와 같다. 한 집에 들어가면 그 집에서도에 다른 집으로 옮겨가는 것이worm의 가장 큰 특징이다.
+2.worm은 한번 터지면internet를 타고(짧은) 시간에(전세계)로될 수 있어서, 정말，(무서운) 컴퓨터 해킹 기술이다.
+3. 그래서 우리는 항상 컴퓨터 프로그램을(최신)으로 업데이트 하고, 이상한(메일)을 열지 않는 것이worm을 예방하는 가장 좋은 방법이다.
 
 ---
 

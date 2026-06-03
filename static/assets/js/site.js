@@ -2,6 +2,16 @@
   const root = document.documentElement
   const savedTheme = localStorage.getItem("saved-theme") || "light"
   root.setAttribute("saved-theme", savedTheme)
+  const basePath = (() => {
+    const raw = document.body?.dataset.basepath || ""
+    try {
+      return new URL(raw).pathname.replace(/\/$/, "")
+    } catch {
+      return raw.replace(/\/$/, "")
+    }
+  })()
+  const assetUrl = (path) => `${basePath}${path.startsWith("/") ? path : `/${path}`}`
+  const mobileQuery = window.matchMedia("(max-width: 800px)")
 
   const themeButton = document.querySelector("[data-theme-toggle]")
   themeButton?.addEventListener("click", () => {
@@ -50,8 +60,27 @@
   })
 
   const explorer = document.querySelector(".explorer")
-  document.querySelector("[data-mobile-explorer]")?.addEventListener("click", () => {
+  const mobileExplorerButton = document.querySelector("[data-mobile-explorer]")
+  const desktopExplorerButton = document.querySelector(".desktop-explorer")
+  const explorerContent = document.querySelector(".explorer-content")
+  let explorerLoaded = false
+
+  mobileExplorerButton?.addEventListener("click", () => {
     explorer?.classList.toggle("open")
+    loadExplorer()
+  })
+  desktopExplorerButton?.addEventListener("click", () => {
+    explorer?.classList.toggle("collapsed")
+    const expanded = !explorer?.classList.contains("collapsed")
+    desktopExplorerButton.setAttribute("aria-expanded", String(expanded))
+    explorerContent?.setAttribute("aria-expanded", String(expanded))
+  })
+
+  const toc = document.querySelector(".toc")
+  const tocButton = document.querySelector(".toc-header")
+  tocButton?.addEventListener("click", () => {
+    toc?.classList.toggle("collapsed")
+    tocButton.setAttribute("aria-expanded", String(!toc?.classList.contains("collapsed")))
   })
 
   function makeNode(item) {
@@ -98,49 +127,70 @@
     return li
   }
 
-  fetch(window.__SITE_BASE__ || "/knowledge-base/assets/data/site-index.json")
-    .catch(() => fetch("/knowledge-base/assets/data/site-index.json"))
-    .then((response) => response.ok ? response.json() : Promise.reject(response))
-    .then((tree) => {
-      const target = document.querySelector("#explorer-tree")
-      if (!target) return
-      tree.children.forEach((child) => target.appendChild(makeNode(child)))
-      document.querySelector(".mobile-explorer")?.classList.remove("hide-until-loaded")
-    })
-    .catch(() => {
-      document.querySelector(".mobile-explorer")?.classList.remove("hide-until-loaded")
-    })
+  function loadExplorer() {
+    if (explorerLoaded) return
+    explorerLoaded = true
+    fetch(assetUrl("/assets/data/site-index.json"))
+      .then((response) => response.ok ? response.json() : Promise.reject(response))
+      .then((tree) => {
+        const target = document.querySelector("#explorer-tree")
+        if (!target) return
+        tree.children.forEach((child) => target.appendChild(makeNode(child)))
+        mobileExplorerButton?.classList.remove("hide-until-loaded")
+      })
+      .catch(() => {
+        mobileExplorerButton?.classList.remove("hide-until-loaded")
+      })
+  }
+
+  if (!mobileQuery.matches) {
+    loadExplorer()
+  } else {
+    mobileExplorerButton?.classList.remove("hide-until-loaded")
+  }
 
   const currentPath = document.querySelector("#backlinks-list")?.dataset.currentPath
   const backlinkKey = currentPath ? encodeURIComponent(currentPath) : ""
-  fetch(`/knowledge-base/assets/data/backlinks/${backlinkKey}.json`)
-    .then((response) => response.ok ? response.json() : Promise.reject(response))
-    .then((links) => {
-      const list = document.querySelector("#backlinks-list")
-      if (!list || !currentPath) return
-      if (!links.length) {
-        const li = document.createElement("li")
-        li.className = "meta"
-        li.textContent = "백링크 없음"
-        list.appendChild(li)
-        return
-      }
-      links.slice(0, 30).forEach((link) => {
-        const li = document.createElement("li")
-        const a = document.createElement("a")
-        a.className = "internal"
-        a.href = link.url
-        a.textContent = link.title
-        li.appendChild(a)
-        list.appendChild(li)
-      })
-    })
-    .catch(() => {})
+  const runWhenIdle = (fn) => {
+    if ("requestIdleCallback" in window) {
+      window.requestIdleCallback(fn, { timeout: 1500 })
+    } else {
+      setTimeout(fn, 250)
+    }
+  }
 
-  fetch("/knowledge-base/assets/data/graph.json")
-    .then((response) => response.ok ? response.json() : Promise.reject(response))
-    .then(drawGraph)
-    .catch(() => {})
+  if (currentPath) {
+    runWhenIdle(() => fetch(assetUrl(`/assets/data/backlinks/${backlinkKey}.json`))
+      .then((response) => response.ok ? response.json() : Promise.reject(response))
+      .then((links) => {
+        const list = document.querySelector("#backlinks-list")
+        if (!list) return
+        if (!links.length) {
+          const li = document.createElement("li")
+          li.className = "meta"
+          li.textContent = "백링크 없음"
+          list.appendChild(li)
+          return
+        }
+        links.slice(0, 30).forEach((link) => {
+          const li = document.createElement("li")
+          const a = document.createElement("a")
+          a.className = "internal"
+          a.href = link.url
+          a.textContent = link.title
+          li.appendChild(a)
+          list.appendChild(li)
+        })
+      })
+      .catch(() => {}))
+  }
+
+  runWhenIdle(() => {
+    fetch(assetUrl("/assets/data/graph.json"))
+      .then((response) => response.ok ? response.json() : Promise.reject(response))
+      .then(drawGraph)
+      .catch(() => {})
+  })
 
   function drawGraph(data) {
     const canvas = document.querySelector("#global-graph")
@@ -179,6 +229,48 @@
       ctx.beginPath()
       ctx.arc(node.x, node.y, node.section ? 3.2 : 2.2, 0, Math.PI * 2)
       ctx.fill()
+    })
+    const tooltip = document.createElement("div")
+    tooltip.className = "graph-tooltip"
+    tooltip.hidden = true
+    document.body.appendChild(tooltip)
+
+    function nearestNode(event) {
+      const box = canvas.getBoundingClientRect()
+      const x = event.clientX - box.left
+      const y = event.clientY - box.top
+      let nearest = null
+      let distance = 16
+      for (const node of nodes) {
+        const current = Math.hypot(node.x - x, node.y - y)
+        if (current < distance) {
+          nearest = node
+          distance = current
+        }
+      }
+      return nearest
+    }
+
+    canvas.addEventListener("mousemove", (event) => {
+      const node = nearestNode(event)
+      if (!node) {
+        tooltip.hidden = true
+        canvas.style.cursor = "default"
+        return
+      }
+      tooltip.hidden = false
+      tooltip.textContent = node.title
+      tooltip.style.left = `${event.clientX + 12}px`
+      tooltip.style.top = `${event.clientY + 12}px`
+      canvas.style.cursor = "pointer"
+    })
+    canvas.addEventListener("mouseleave", () => {
+      tooltip.hidden = true
+      canvas.style.cursor = "default"
+    })
+    canvas.addEventListener("click", (event) => {
+      const node = nearestNode(event)
+      if (node?.url) window.location.href = node.url
     })
   }
 

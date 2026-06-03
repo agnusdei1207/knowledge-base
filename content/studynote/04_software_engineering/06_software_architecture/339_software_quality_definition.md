@@ -19,15 +19,15 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 소프트웨어 품질 (Software Quality)은 소프트웨어가 명시적 요구사항 (명시적으로 정의된 기능, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 보안 등)과 묵시적 요구사항 (사용자가 당연하다고 기대하는 품질 특성인 [사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/), [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 등)을 얼마나 충족하는지의 정도를 나타내는 포괄적인 개념이다. IEEE는 소프트웨어 품질을 "특정 상황에서 특정 사용자가 특정 목표를 달성하기 위해 소프트웨어를 사용하는的能力を備えた特性의 총합"으로 정의한다.
+- **개념**: 소프트웨어 품질 (Software Quality)은 소프트웨어가 명시적 요구사항 (명시적으로 정의된 기능, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 보안 등)과 묵시적 요구사항 (사용자가 당연하다고 기대하는 품질 특성인 [사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/), [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 등)을 얼마나 충족하는지의 정도를 나타내는 포괄적인 개념이다. IEEE는 소프트웨어 품질을 "특정 상황에서 특정 사용자가 특정 목표를 달성하기 위해 소프트웨어를 사용하는을/를의 총합"으로 정의한다.
 
-- **필요성**: 소프트웨어 품질이 낮으면 버그, 보안 취약점, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하, 유지보수 어려움 등의 문제가 발생하여 사용자 불만족, 유지보수 비용 증가, 프로젝트 실패 등의 결과를 초래할 수 있다. 특히 현대 사회에서 소프트웨어는 금융, 의료, 항공 등 생명과 직결되는 분야에渗透되어 있어, 소프트웨어 품질 관리의 중요성이 더욱 커지고 있다.
+- **필요성**: 소프트웨어 품질이 낮으면 버그, 보안 취약점, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하, 유지보수 어려움 등의 문제가 발생하여 사용자 불만족, 유지보수 비용 증가, 프로젝트 실패 등의 결과를 초래할 수 있다. 특히 현대 사회에서 소프트웨어는 금융, 의료, 항공 등 생명과 직결되는 분야에되어 있어, 소프트웨어 품질 관리의 중요성이 더욱 커지고 있다.
 
-- **💡 비유**: 소프트웨어 품질은 "음식점의 등급"과 같다. 맛(명시적 요구사항: 功能이 작동하는지)뿐 아니라 위생(묵시적 요구사항: 使用하기 편리한지, 유지보수가 쉬운지)까지 含めて全体的评价となる. 맛만 좋지만 위생이 나쁜 식당은 오래가지 못하고, 위생만 좋지만 맛이 없는 식당도 오래가지 못한다.
+- **💡 비유**: 소프트웨어 품질은 "음식점의 등급"과 같다. 맛(명시적 요구사항: 이 작동하는지)뿐 아니라 위생(묵시적 요구사항: 사용하기 편리한지, 유지보수가 쉬운지)까지 와/과된다. 맛만 좋지만 위생이 나쁜 식당은 오래가지 못하고, 위생만 좋지만 맛이 없는 식당도 오래가지 못한다.
 
 - **등장 배경**: 소프트웨어 품질에 대한 관심은 1960년대 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) ([Software Crisis](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/)) 이후 본격화되었다. 1970년대 Frederick Brooks의 "The Mythical Man-Month", 1980년대 Watts Humphrey의 [TSP](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/)/[PSP](/knowledge-base/studynote/04_software_engineering/01_overview_principles/018_psp_tsp/), 1990년대 [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 등의 발전을 통해 소프트웨어 품질 관리 방법론이 체계화되었고, 2000년대 이후 ISO/IEC 9126, ISO/IEC 25010 등의 국제 표준으로 quality model이 정규화되었다.
 
-- **📢 섹션 요약 비유**: 소프트웨어 품질은 "자동차の品質"과 같다. 엔진이 잘 돌아가는 것(명시적 요구사항: 功能動作)固然 중요하지만, 연비가 좋은지([성능 효율성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/343_performance_efficiency/)),安全性が確保されているか([신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)), 유지보수가 쉬운지([유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/))까지全体考慮해야 完成度の高い車と言える.
+- **📢 섹션 요약 비유**: 소프트웨어 품질은 "자동차의품질"과 같다. 엔진이 잘 돌아가는 것(명시적 요구사항: ) 중요하지만, 연비가 좋은지([성능 효율성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/343_performance_efficiency/)),보안이/가고 있다이나([신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)), 유지보수가 쉬운지([유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/))까지해야 완료의와/과.
 
 ---
 
@@ -35,14 +35,14 @@ tags = ["studynote-software-engineering"]
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                  소프트웨어 품질 (Software Q                        │
+│ 소프트웨어 품질 (Software Q │
 ├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
+│ │
+│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
+│ │ │ │ │
+│ ▼ ▼ ▼ │
+│ 요구 분석 설계·적용 품질 검증 │
+│ │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -143,17 +143,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+│
+▼
 소프트웨어 품질 (Software Quality)의 정의 (명시적, 묵시적 요구사항 충족) 개념 정립
-    │
-    ▼
+│
+▼
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+│
+▼
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+│
+▼
 지속적 개선 및 DevOps·MLOps 통합
 ```
 

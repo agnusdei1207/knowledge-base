@@ -19,18 +19,18 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 코드 스멜은 "コード는 컴파일러가 요구하는 文法は正しいが, 設計가 나쁘거나, 가독성이 낮거나, 保守性が低い" 상태를 표현하는 은유이다. 스멜(냄새)는 직접적으로 有害하지만은 않지만,放置하면 周囲に悪影響를 미치는 것과 같이, 문제 있는 코드도 시스템 전체에 악영향을 줄 수 있다.
+- **개념**: 코드 스멜은 "는 컴파일러가 요구하는 은/는이/가, 설계가 나쁘거나, 가독성이 낮거나, 이/가" 상태를 표현하는 은유이다. 스멜(냄새)는 직접적으로 하지만은 않지만,하면 에를 미치는 것과 같이, 문제 있는 코드도 시스템 전체에 악영향을 줄 수 있다.
 
-- **필요성**: 버그는 代码実行時に 明らかな 에러를 내지만, 코드 스멜은 "아직 에러는 없지만, 시간이 지나면 분명히 문제가 될 部分"이다. 따라서 코드 스멜을 사전에感知하여 리팩토링함으로써,未来的な 버그 발생 가능성을事前防止할 수 있다.
+- **필요성**: 버그는 코드실행에 이나 에러를 내지만, 코드 스멜은 "아직 에러는 없지만, 시간이 지나면 분명히 문제가 될 "이다. 따라서 코드 스멜을 사전에하여 리팩토링함으로써, 버그 발생 가능성을방지할 수 있다.
 
-- **💡 비유**: 코드 스멜은 **'아파트墙壁のクラック(균열)'**와 같다. 현재는墙壁이 서 있지만, 균열이 있으면 시간이 지나면そこから水が渗み、構造적 문제가 발생할 수 있다. 균열을보고 "지금은塌れない니 가만히 있자"라고 하면, later了大規模修缮비가 들지만,初期に処理하면簡単な修补로 해결할 수 있다.
+- **💡 비유**: 코드 스멜은 **'아파트의(균열)'**와 같다. 현재는이 서 있지만, 균열이 있으면 시간이 지나면부터이/가、구조적 문제가 발생할 수 있다. 균열을보고 "지금은지 않다니 가만히 있자"라고 하면, later비가 들지만,초기에처리하면로 해결할 수 있다.
 
 - **등장 배경 및 발전 과정**:
-  1. **1999년 마틴 파울러**: 저서 "[Refactoring](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/078_refactoring_code_smells/): Improving the Design of Existing [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)"에서 코드 스멜 개념 체계화
-  2. **2000년대 [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 도구**: [SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/) 등이 코드 스멜을 자동検出하는 기능 도입
-  3. **현재**: [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 개발에서 代码レビュー Mandatory 요소로 자리잡음
+1. **1999년 마틴 파울러**: 저서 "[Refactoring](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/078_refactoring_code_smells/): Improving the Design of Existing [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)"에서 코드 스멜 개념 체계화
+2. **2000년대 [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 도구**: [SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/) 등이 코드 스멜을 자동하는 기능 도입
+3. **현재**: [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 개발에서 코드 Mandatory 요소로 자리잡음
 
-- **📢 섹션 요약 비유**: 코드 스멜은 **'음식물 쓰레기 통의 слабый 냄새'**와 같다. 쓰레기통이 바로 무너지는 것은 아니지만, 냄새가 나기 시작하면곧蒼蠅가 날아오고, 더放置하면蛆가 발생한다.コード에서도 스멜을放置하면バグが発生し、最終的에는大規模重构가 필요해진다.
+- **📢 섹션 요약 비유**: 코드 스멜은 **'음식물 쓰레기 통의 слабый 냄새'**와 같다. 쓰레기통이 바로 무너지는 것은 아니지만, 냄새가 나기 시작하면곧가 날아오고, 더하면가 발생한다.에서도 스멜을하면버그이/가、에는리팩터링가 필요해진다.
 
 ---
 
@@ -38,14 +38,14 @@ tags = ["studynote-software-engineering"]
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                  코드 스멜 (Code Smell)                          │
+│ 코드 스멜 (Code Smell) │
 ├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
+│ │
+│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
+│ │ │ │ │
+│ ▼ ▼ ▼ │
+│ 요구 분석 설계·적용 품질 검증 │
+│ │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -146,17 +146,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+│
+▼
 코드 스멜 (Code Smell) 개념 정립
-    │
-    ▼
+│
+▼
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+│
+▼
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+│
+▼
 지속적 개선 및 DevOps·MLOps 통합
 ```
 

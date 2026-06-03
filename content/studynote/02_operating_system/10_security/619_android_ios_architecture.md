@@ -27,31 +27,31 @@ tags = ["studynote-operating-system"]
 
 ```text
 ┌──────────────────────────────────────────────────────────────────┐
-│           Android vs iOS 아키텍처 계층 비교                       │
+│ Android vs iOS 아키텍처 계층 비교 │
 ├──────────────────────┬───────────────────────────────────────────┤
-│      Android         │              iOS                          │
+│ Android │ iOS │
 ├──────────────────────┼───────────────────────────────────────────┤
-│                      │                                           │
-│  [Java/Kotlin App]   │  [Swift/Obj-C App]                        │
-│        ↓             │        ↓                                  │
-│  [Android Framework] │  [Cocoa Touch / SwiftUI]                  │
-│        ↓             │        ↓                                  │
-│  [ART / Dalvik VM]   │  [Native Runtime (LLVM)]                  │
-│        ↓             │        ↓                                  │
-│  [Native Libraries]  │  [Frameworks (Core ML, Metal)]            │
-│        ↓             │        ↓                                  │
-│  [HAL]               │  [libSystem / Darwin]                     │
-│        ↓             │        ↓                                  │
-│  [Linux Kernel]      │  [XNU Kernel (Mach + BSD + IOKit)]       │
-│   (커스터마이징)      │   (독자 커널)                              │
-│        ↓             │        ↓                                  │
-│  [OEM 하드웨어]       │  [Apple Silicon (A/M 시리즈)]             │
+│ │ │
+│ [Java/Kotlin App] │ [Swift/Obj-C App] │
+│ ↓ │ ↓ │
+│ [Android Framework] │ [Cocoa Touch / SwiftUI] │
+│ ↓ │ ↓ │
+│ [ART / Dalvik VM] │ [Native Runtime (LLVM)] │
+│ ↓ │ ↓ │
+│ [Native Libraries] │ [Frameworks (Core ML, Metal)] │
+│ ↓ │ ↓ │
+│ [HAL] │ [libSystem / Darwin] │
+│ ↓ │ ↓ │
+│ [Linux Kernel] │ [XNU Kernel (Mach + BSD + IOKit)] │
+│ (커스터마이징) │ (독자 커널) │
+│ ↓ │ ↓ │
+│ [OEM 하드웨어] │ [Apple Silicon (A/M 시리즈)] │
 └──────────────────────┴───────────────────────────────────────────┘
 ```
 
 **[다이어그램 해설]** 이 계층 비교도에서 가장 눈에 띄는 차이는 Android의 중간 계층에 **[ART](/knowledge-base/studynote/02_operating_system/10_security/621_art_android_runtime/) ([Android Runtime](/knowledge-base/studynote/02_operating_system/10_security/621_art_android_runtime/)) 가상머신**이 존재한다는 점과 iOS가 **XNU [하이브리드 커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/025_hybrid_kernel/)**을 사용한다는 점이다. Android는 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 위에 [HAL](/knowledge-base/studynote/02_operating_system/01_overview_architecture/070_hal/) (Hardware [Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) Layer)과 ART를 올려 다양한 하드웨어에서 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)을 확보하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이며, iOS는 Apple이 직접 칩과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 설계하여 하드웨어-소프트웨어 간 불필요한 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층을 최소화하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다. 이 차이는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 보안, 전력 효율, 그리고 앱 개발 방식 전반에 깊은 영향을 미친다.
 
-- **📢 섹션 요약 비유**: Android와 iOS의 차이는 **'공용 아파트'와 '단독 주택'** 의 차이와 같습니다. 공용 아파트(Android)는 다양한 건설사(OEM)가 지은 건물에 누구나 이사入住할 수 있도록 표준 규격([ART](/knowledge-base/studynote/02_operating_system/10_security/621_art_android_runtime/), [HAL](/knowledge-base/studynote/02_operating_system/01_overview_architecture/070_hal/))을 갖추고 있지만, 그만큼 벽이 두껍고([추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층) 관리비(오버헤드)가 더 듭니다. 반면 단독 주택(iOS)은 설계자(Apple)가 뼈대부터 인테리어까지 직접 설계하여 효율은 높지만, 다른 가구가 임의로 개조할 수 없는 폐쇄적 구조입니다.
+- **📢 섹션 요약 비유**: Android와 iOS의 차이는 **'공용 아파트'와 '단독 주택'** 의 차이와 같습니다. 공용 아파트(Android)는 다양한 건설사(OEM)가 지은 건물에 누구나 이사할 수 있도록 표준 규격([ART](/knowledge-base/studynote/02_operating_system/10_security/621_art_android_runtime/), [HAL](/knowledge-base/studynote/02_operating_system/01_overview_architecture/070_hal/))을 갖추고 있지만, 그만큼 벽이 두껍고([추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층) 관리비(오버헤드)가 더 듭니다. 반면 단독 주택(iOS)은 설계자(Apple)가 뼈대부터 인테리어까지 직접 설계하여 효율은 높지만, 다른 가구가 임의로 개조할 수 없는 폐쇄적 구조입니다.
 
 ---
 
@@ -84,32 +84,32 @@ XNU (X is Not Unix)는 Apple의 독자 [커널](/knowledge-base/studynote/02_ope
 
 ```text
 ┌──────────────────────────────────────────────────────────────────┐
-│           프로세스 생명주기 비교 (Process Lifecycle)              │
+│ 프로세스 생명주기 비교 (Process Lifecycle) │
 ├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  [Android Process Lifecycle]                                     │
-│                                                                  │
-│  Foreground → Visible → Service → Background → Cached → Killed │
-│      │           │          │          │          │              │
-│   OOM_ADJ=0   ADJ=100    ADJ=500    ADJ=700   ADJ=900         │
-│   (최고 우선)                                                      │
-│                                                                  │
-│  메모리 부족 시 → lmkd (Low Memory Killer Daemon)이              │
-│                    ADJ값이 높은 순서대로 프로세스를 종료           │
-│                                                                  │
-│  ─────────────────────────────────────────────────────────────  │
-│                                                                  │
-│  [iOS Process Lifecycle]                                         │
-│                                                                  │
-│  Foreground → Inactive → Background → Suspended → Terminated   │
-│      │           │           │           │                       │
-│   (실행 중)   (전화 등)   (제한 실행)  (메모리만 점유)           │
-│                                                                  │
-│  Jetsam 이벤트 → 커널이 메모리 압박 시                           │
-│                   suspended 프로세스를 우선 종료                  │
-│                                                                  │
-│  ※ 핵심 차이: Android는 서비스(Service)가 백그라운드에서         │
-│     지속 실행 가능하지만, iOS는 백그라운드 실행이 엄격 제한됨     │
+│ │
+│ [Android Process Lifecycle] │
+│ │
+│ Foreground → Visible → Service → Background → Cached → Killed │
+│ │ │ │ │ │ │
+│ OOM_ADJ=0 ADJ=100 ADJ=500 ADJ=700 ADJ=900 │
+│ (최고 우선) │
+│ │
+│ 메모리 부족 시 → lmkd (Low Memory Killer Daemon)이 │
+│ ADJ값이 높은 순서대로 프로세스를 종료 │
+│ │
+│ ───────────────────────────────────────────────────────────── │
+│ │
+│ [iOS Process Lifecycle] │
+│ │
+│ Foreground → Inactive → Background → Suspended → Terminated │
+│ │ │ │ │ │
+│ (실행 중) (전화 등) (제한 실행) (메모리만 점유) │
+│ │
+│ Jetsam 이벤트 → 커널이 메모리 압박 시 │
+│ suspended 프로세스를 우선 종료 │
+│ │
+│ ※ 핵심 차이: Android는 서비스(Service)가 백그라운드에서 │
+│ 지속 실행 가능하지만, iOS는 백그라운드 실행이 엄격 제한됨 │
 └──────────────────────────────────────────────────────────────────┘
 ```
 
@@ -145,27 +145,27 @@ XNU (X is Not Unix)는 Apple의 독자 [커널](/knowledge-base/studynote/02_ope
 
 ```text
 ┌──────────────────────────────────────────────────────────────────┐
-│        보안 아키텍처 계층 비교 (Security Stack Comparison)        │
+│ 보안 아키텍처 계층 비교 (Security Stack Comparison) │
 ├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  Android                          iOS                            │
-│  ─────────                        ─────────                      │
-│  [Google Play Protect]            [App Store Review]             │
-│       ↓                                ↓                         │
-│  [App Sandbox (UID)]              [Sandbox (Entitlements)]       │
-│       ↓                                ↓                         │
-│  [SELinux Policy]                 [XNU Sandbox MAC]             │
-│       ↓                                ↓                         │
-│  [seccomp-bpf]                    [KPP/Secure Enclave]          │
-│       ↓                                ↓                         │
-│  [Linux Kernel]                   [XNU Kernel]                  │
-│       ↓                                ↓                         │
-│  [TEE (TrustZone)]                [Secure Enclave Coprocessor]  │
-│       ↓                                ↓                         │
-│  [OEM 하드웨어]                    [Apple Silicon]               │
-│                                                                  │
-│  ※ 핵심 차이: Android는 보안 계층이 OEM마다 다를 수 있지만,     │
-│     iOS는 Apple이 전체 스택을 통제하여 일관된 보안 보장           │
+│ │
+│ Android iOS │
+│ ───────── ───────── │
+│ [Google Play Protect] [App Store Review] │
+│ ↓ ↓ │
+│ [App Sandbox (UID)] [Sandbox (Entitlements)] │
+│ ↓ ↓ │
+│ [SELinux Policy] [XNU Sandbox MAC] │
+│ ↓ ↓ │
+│ [seccomp-bpf] [KPP/Secure Enclave] │
+│ ↓ ↓ │
+│ [Linux Kernel] [XNU Kernel] │
+│ ↓ ↓ │
+│ [TEE (TrustZone)] [Secure Enclave Coprocessor] │
+│ ↓ ↓ │
+│ [OEM 하드웨어] [Apple Silicon] │
+│ │
+│ ※ 핵심 차이: Android는 보안 계층이 OEM마다 다를 수 있지만, │
+│ iOS는 Apple이 전체 스택을 통제하여 일관된 보안 보장 │
 └──────────────────────────────────────────────────────────────────┘
 ```
 
@@ -206,18 +206,18 @@ XNU (X is Not Unix)는 Apple의 독자 [커널](/knowledge-base/studynote/02_ope
 
 ```text
 ┌──────────────────────────────────────────────────────────────────┐
-│        모바일 OS 선택 의사결정 매트릭스                           │
+│ 모바일 OS 선택 의사결정 매트릭스 │
 ├───────────────┬──────────────┬──────────────┬───────────────────┤
-│  평가 기준    │ Android      │ iOS          │ 판단 포인트       │
+│ 평가 기준 │ Android │ iOS │ 판단 포인트 │
 ├───────────────┼──────────────┼──────────────┼───────────────────┤
-│ 보안 일관성   │ 중간 (OEM별) │ 높음 (통합)  │ 규제 산업은 iOS   │
-│ 하드웨어 다양 │ 높음         │ 낮음 (Apple) │ BYOD 환경은 Android│
-│ 앱 성능       │ 중간~높음    │ 높음         │ 실시간 처리는 iOS │
-│ 전력 효율     │ 중간         │ 높음         │ 배터리 중시는 iOS │
-│ 커스터마이징  │ 높음         │ 낮음         │ 임베디드는 Android│
-│ 업데이트 속도 │ 느림 (OEM)   │ 빠름 (직접)  │ 패치 긴급성은 iOS │
-│ 개발 비용     │ 높음 (파편화)│ 중간         │ 테스트 비용 고려  │
-│ 라이선스      │ AOSP 무료   │ Apple 유료   │ 대량 배포는 Android│
+│ 보안 일관성 │ 중간 (OEM별) │ 높음 (통합) │ 규제 산업은 iOS │
+│ 하드웨어 다양 │ 높음 │ 낮음 (Apple) │ BYOD 환경은 Android│
+│ 앱 성능 │ 중간~높음 │ 높음 │ 실시간 처리는 iOS │
+│ 전력 효율 │ 중간 │ 높음 │ 배터리 중시는 iOS │
+│ 커스터마이징 │ 높음 │ 낮음 │ 임베디드는 Android│
+│ 업데이트 속도 │ 느림 (OEM) │ 빠름 (직접) │ 패치 긴급성은 iOS │
+│ 개발 비용 │ 높음 (파편화)│ 중간 │ 테스트 비용 고려 │
+│ 라이선스 │ AOSP 무료 │ Apple 유료 │ 대량 배포는 Android│
 └───────────────┴──────────────┴──────────────┴───────────────────┘
 ```
 
@@ -266,12 +266,12 @@ XNU (X is Not Unix)는 Apple의 독자 [커널](/knowledge-base/studynote/02_ope
 
 ```text
 [캐시 미스 오버헤드 측정 분석망 구조 적용]
-    │
-    ▼
+│
+▼
 [모바일 OS 특징 (Android vs iOS 아키텍처 비교)]
-    │
-    ├──▶ [안드로이드 리눅스 커널 커스터마이징 (Wakelock 전력 통제 모듈)]
-    └──▶ [ART (Android Runtime) AOT/JIT 컴파일러 혼합 실행 환경]
+│
+├──▶ [안드로이드 리눅스 커널 커스터마이징 (Wakelock 전력 통제 모듈)]
+└──▶ [ART (Android Runtime) AOT/JIT 컴파일러 혼합 실행 환경]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.

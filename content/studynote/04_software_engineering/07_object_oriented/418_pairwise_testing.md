@@ -21,19 +21,19 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: [페어와이즈](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) 테스팅은 모든 가능한 변수 값 조합 중에서, 각 변수의 값 쌍을 최소 한 번씩 포함하도록 테스트 케이스를 선택하는 기법이다. 예를 들어 3개의 변수 A, B, C가 있고, 각각 3개의 값을 갖는다면 전체 조합은 3×3×3=27개이지만, [페어와이즈](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) 테스팅을 적용하면 훨씬 적은 테스트 케이스로 모든 이변량 쌍을 테스트할 수 있다.
 
-- **필요성**: 소프트웨어 시스템은 대부분 여러 변수(파라미터)의 조합으로 동작한다. 모든 조합을 테스트하는 것은理想적이지만, 변수 수와 값이 증가함에 따라 조합 수가 폭발적으로 증가하여 실제적으로 불가능하다. [페어와이즈](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) 테스팅은 조합 폭발 문제를 해결하면서도 대부분의 결함을 효과적으로 발견할 수 있는 실용적인 접근법이다.
+- **필요성**: 소프트웨어 시스템은 대부분 여러 변수(파라미터)의 조합으로 동작한다. 모든 조합을 테스트하는 것은적이지만, 변수 수와 값이 증가함에 따라 조합 수가 폭발적으로 증가하여 실제적으로 불가능하다. [페어와이즈](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) 테스팅은 조합 폭발 문제를 해결하면서도 대부분의 결함을 효과적으로 발견할 수 있는 실용적인 접근법이다.
 
 - **배경 이론**: 소프트웨어 결함의 상당 부분이 단일 변수 결함이거나 두 변수 간의 상호작용(2-way interaction)에서 발생한다는 경험적 관찰에 기반한다. 세 변수 이상의 고차 상호작용(3-way, 4-way...)에서 발생하는 결함은 상대적으로 드물다.
 
-- **비유**: [페어와이즈](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) 테스팅은 **'춤 춰马达（マーダ）】
-'와 같다. 스쿠버 다이버 Revels에서 만나는 모든 사람과 짝을 지어 추는 것은 시간과 에너지가 많이 든다. Revels에서 각 사람이 특정 의상(변수 1)과 신발(변수 2)을 신고 Revels에 참여하고,Revels는 두 사람 간의 호환성을 테스트한다. [페어와이즈](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) 테스팅은 Revels에서 각 사람을 다른 모든 사람과 한 번씩 추게 하는 것처럼, 각 변수 값의 조합을漏らさずテストする。
+- **비유**: [페어와이즈](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) 테스팅은 **'춤 춰（）】
+'와 같다. 스쿠버 다이버 Revels에서 만나는 모든 사람과 짝을 지어 추는 것은 시간과 에너지가 많이 든다. Revels에서 각 사람이 특정 의상(변수 1)과 신발(변수 2)을 신고 Revels에 참여하고,Revels는 두 사람 간의 호환성을 테스트한다. [페어와이즈](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) 테스팅은 Revels에서 각 사람을 다른 모든 사람과 한 번씩 추게 하는 것처럼, 각 변수 값의 조합을테스트하다。
 
 - **등장 배경 및 발전 과정**:
-  1. **1990년대초**: Bell Labs에서 전화 교환 시스템 테스트를 위한 조합 테스트 기법으로 개발
-  2. **2000년대**:Orthogonal Array-based Testing (直交表)에 기반한 도구들 등장
-  3. **현재**: Allpairs, PICT 등 무료 도구와 상용 도구를 통해 폭넓게 활용
+1. **1990년대초**: Bell Labs에서 전화 교환 시스템 테스트를 위한 조합 테스트 기법으로 개발
+2. **2000년대**:Orthogonal Array-based Testing ()에 기반한 도구들 등장
+3. **현재**: Allpairs, PICT 등 무료 도구와 상용 도구를 통해 폭넓게 활용
 
-- **섹션 요약 비유**: [페어와이즈](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) 테스팅은 **'배달 음식을 맛보는方法'**과 같다. 여러 식당(변수 1)의 여러 메뉴(변수 2)를 모두 맛보려면 엄청난 시간이 든다. 그러나 각 식당의 代表 메뉴와 각 메뉴의 代表 음식을 짝지어 맛보면, 전체 조합을テスト하지 않더라도 대부분의 맛 조합을 체험할 수 있다. [페어와이즈](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) 테스팅도 마찬가지로 "대표 조합"을 통해 효과적으로 테스트하는 것이다.
+- **섹션 요약 비유**: [페어와이즈](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) 테스팅은 **'배달 음식을 맛보는방법'**과 같다. 여러 식당(변수 1)의 여러 메뉴(변수 2)를 모두 맛보려면 엄청난 시간이 든다. 그러나 각 식당의 대표 메뉴와 각 메뉴의 대표 음식을 짝지어 맛보면, 전체 조합을테스트하지 않더라도 대부분의 맛 조합을 체험할 수 있다. [페어와이즈](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) 테스팅도 마찬가지로 "대표 조합"을 통해 효과적으로 테스트하는 것이다.
 
 ---
 
@@ -43,14 +43,14 @@ tags = ["studynote-software-engineering"]
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                  페어와이즈 테스팅 (Pairwise                         │
+│ 페어와이즈 테스팅 (Pairwise │
 ├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
+│ │
+│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
+│ │ │ │ │
+│ ▼ ▼ ▼ │
+│ 요구 분석 설계·적용 품질 검증 │
+│ │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -151,17 +151,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+│
+▼
 페어와이즈 테스팅 (Pairwise Testing) 개념 정립
-    │
-    ▼
+│
+▼
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+│
+▼
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+│
+▼
 지속적 개선 및 DevOps·MLOps 통합
 ```
 

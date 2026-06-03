@@ -25,7 +25,7 @@ tags = ["studynote-software-engineering"]
 
 - **💡 비유**: 호환성은 "악기의 호환성"과 같다. 피아노(소프트웨어)가 다른 피아노(다른 시스템)와 같은 악보([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포맷)을 사용할 수 있어야 하고, 오르간(다른 시스템)과 연결([상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/))할 수 있어야 한다. [사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/)은 "리모컨의 [사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/)"과 같다. 버튼이 직관적으로 배열되어 있고(운용성), 설명서 없이도 사용 방법을 알 수 있고(학습성), 실수로 버튼을 눌러도 중요한 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 변경되지 않아야(사용자 오류 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)) 한다.
 
-- **등장 배경**: 호환성은 ISO/IEC 9126에서는 명시적으로 정의되지 않았으나, ISO/IEC 25010으로 개정되면서 독립적인 품질 특성으로 추가되었다. 이는 현대 소프트웨어가 다양한 시스템과 네트워크로 연결되어 동작하는 경우가大增했기 때문이다. [사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/)은 ISO/IEC 9126부터 중요하게 다뤄졌으며, ISO/IEC 25010에서도 유지되었다.
+- **등장 배경**: 호환성은 ISO/IEC 9126에서는 명시적으로 정의되지 않았으나, ISO/IEC 25010으로 개정되면서 독립적인 품질 특성으로 추가되었다. 이는 현대 소프트웨어가 다양한 시스템과 네트워크로 연결되어 동작하는 경우가했기 때문이다. [사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/)은 ISO/IEC 9126부터 중요하게 다뤄졌으며, ISO/IEC 25010에서도 유지되었다.
 
 - **📢 섹션 요약 비유**: 호환성과 [사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/)은 "스마트폰과 앱"의 관계와 같다. 스마트폰(플랫폼)이 다양한 앱(제품)과 공존하고(호환성), 각 앱이 직관적인 인터페이스로 쉽게 사용할 수 있어야([사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/)) 사용자 경험이 향상된다.
 
@@ -35,14 +35,14 @@ tags = ["studynote-software-engineering"]
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                  호환성 (Compatibility)                         │
+│ 호환성 (Compatibility) │
 ├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
+│ │
+│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
+│ │ │ │ │
+│ ▼ ▼ ▼ │
+│ 요구 분석 설계·적용 품질 검증 │
+│ │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -143,17 +143,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+│
+▼
 호환성 (Compatibility) / 사용성 (Usability) 개념 정립
-    │
-    ▼
+│
+▼
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+│
+▼
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+│
+▼
 지속적 개선 및 DevOps·MLOps 통합
 ```
 

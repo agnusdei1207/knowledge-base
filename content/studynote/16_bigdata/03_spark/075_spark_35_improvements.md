@@ -22,14 +22,14 @@ tags = ["studynote-bigdata"]
 
 ```text
 ┌──────────────────────────────────────────────────────────┐
-│          Spark 3.5 핵심 개선 영역                          │
+│ Spark 3.5 핵심 개선 영역 │
 ├──────────────────────────────────────────────────────────┤
-│  1. Spark Connect — 경량 원격 클라이언트 연결               │
-│  2. Python UDTF — 테이블 반환 Python 함수                  │
-│  3. ANSI SQL 강화 — 표준 SQL 호환성 확대                   │
-│  4. Structured Streaming — 상태 관리 고도화                │
-│  5. PySpark + PyArrow — 데이터 교환 성능 향상              │
-│  6. Spark SQL 함수 확장 — 300+ 신규 함수 추가              │
+│ 1. Spark Connect — 경량 원격 클라이언트 연결 │
+│ 2. Python UDTF — 테이블 반환 Python 함수 │
+│ 3. ANSI SQL 강화 — 표준 SQL 호환성 확대 │
+│ 4. Structured Streaming — 상태 관리 고도화 │
+│ 5. PySpark + PyArrow — 데이터 교환 성능 향상 │
+│ 6. Spark SQL 함수 확장 — 300+ 신규 함수 추가 │
 └──────────────────────────────────────────────────────────┘
 ```
 
@@ -43,11 +43,11 @@ tags = ["studynote-bigdata"]
 
 ```text
 [로컬 Python/Notebook 클라이언트]
-         │ gRPC 연결 (Protocol Buffers)
-         ▼
+│ gRPC 연결 (Protocol Buffers)
+▼
 [Spark Connect Server (클러스터)]
-         │
-         ▼
+│
+▼
 [Spark 드라이버 → 익스큐터]
 ```
 
@@ -62,9 +62,9 @@ from pyspark.sql.functions import udtf
 
 @udtf(returnType="num: int, squared: int")
 class SquaredNumbers:
-    def eval(self, n: int):
-        for i in range(n):
-            yield i, i ** 2
+def eval(self, n: int):
+for i in range(n):
+yield i, i ** 2
 
 spark.udtf.register("squared", SquaredNumbers)
 spark.sql("SELECT * FROM squared(5)").show()
@@ -136,17 +136,17 @@ Spark 4.0은 Python-first 설계로 Scala API와 동등한 Python API를 목표�
 
 ```text
 [Spark 2.x — DataFrame API, SparkSQL 기반 확립]
-    │
-    ▼
+│
+▼
 [Spark 3.0 — AQE, 동적 파티션 프루닝 도입]
-    │
-    ▼
+│
+▼
 [Spark 3.4 — Spark Connect 프리뷰, ANSI 강화]
-    │
-    ▼
+│
+▼
 [Spark 3.5 — Spark Connect GA, Python UDTF, Streaming↑]
-    │
-    ▼
+│
+▼
 [Spark 4.0 — Python-first, Lakehouse 통합 강화]
 ```
 
@@ -163,6 +163,6 @@ Spark 4.0은 Python-first 설계로 Scala API와 동등한 Python API를 목표�
 **진행 상황**: 75 / 262
 
 ← **이전**: [23. Photon Engine (Databricks) — 네이티브 벡터화 실행 엔진](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/)
-**다음**: [01. Apache Flink - 상태 기반 스트리밍処理의 完成形](/knowledge-base/studynote/16_bigdata/04_streaming/076_apache_flink/) →
+**다음**: [01. Apache Flink - 상태 기반 스트리밍처리의 완료](/knowledge-base/studynote/16_bigdata/04_streaming/076_apache_flink/) →
 
 ---

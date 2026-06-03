@@ -20,14 +20,14 @@ tags = ["studynote-bigdata"]
 
 ```text
 ┌────────────────────────────────────────────────────────┐
-│     JSON vs. Avro vs. Protobuf 비교                    │
+│ JSON vs. Avro vs. Protobuf 비교 │
 ├─────────────────┬──────────────────────────────────────┤
-│ 형식            │ 특징                                  │
+│ 형식 │ 특징 │
 ├─────────────────┼──────────────────────────────────────┤
-│ JSON            │ 사람이 읽기 쉬움, 크기 큼, 파싱 느림 │
-│ Avro            │ 바이너리, 스키마 분리, Hadoop 친화    │
-│ Protobuf        │ 바이너리, 스키마 필드 번호 기반, gRPC │
-│ Thrift          │ 바이너리, RPC 통합, Meta 오리지널     │
+│ JSON │ 사람이 읽기 쉬움, 크기 큼, 파싱 느림 │
+│ Avro │ 바이너리, 스키마 분리, Hadoop 친화 │
+│ Protobuf │ 바이너리, 스키마 필드 번호 기반, gRPC │
+│ Thrift │ 바이너리, RPC 통합, Meta 오리지널 │
 └─────────────────┴──────────────────────────────────────┘
 ```
 
@@ -41,32 +41,32 @@ tags = ["studynote-bigdata"]
 
 ```text
 Avro:
-  - 스키마를 .avsc 파일(JSON)로 별도 정의
-  - 데이터에 스키마 없음 → Schema Registry에서 참조
-  - 스키마 진화: 필드 추가/제거 + default값으로 backward/forward 호환
+- 스키마를 .avsc 파일(JSON)로 별도 정의
+- 데이터에 스키마 없음 → Schema Registry에서 참조
+- 스키마 진화: 필드 추가/제거 + default값으로 backward/forward 호환
 
 Protobuf:
-  - .proto 파일에 스키마 정의
-  - 각 필드에 고유 번호 (field=1, field=2...)
-  - 번호 기반 인코딩 → 필드명 변경해도 호환 유지
+- .proto 파일에 스키마 정의
+- 각 필드에 고유 번호 (field=1, field=2...)
+- 번호 기반 인코딩 → 필드명 변경해도 호환 유지
 
 Thrift:
-  - .thrift 파일에 데이터 + 서비스(RPC) 정의
-  - 직렬화 + RPC 프레임워크 통합
-  - Meta(Facebook) 오리지널
+- .thrift 파일에 데이터 + 서비스(RPC) 정의
+- 직렬화 + RPC 프레임워크 통합
+- Meta(Facebook) 오리지널
 ```
 
 ### Avro [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 예시
 
 ```json
 {
-  "type": "record",
-  "name": "User",
-  "fields": [
-    {"name": "id", "type": "int"},
-    {"name": "name", "type": "string"},
-    {"name": "email", "type": ["null", "string"], "default": null}
-  ]
+"type": "record",
+"name": "User",
+"fields": [
+{"name": "id", "type": "int"},
+{"name": "name", "type": "string"},
+{"name": "email", "type": ["null", "string"], "default": null}
+]
 }
 ```
 
@@ -95,9 +95,9 @@ Thrift:
 
 ```text
 Producer → [Avro 직렬화] → Kafka 토픽
-              ↑ 스키마 등록/조회
-           Schema Registry
-              ↓ 스키마 조회/역직렬화
+↑ 스키마 등록/조회
+Schema Registry
+↓ 스키마 조회/역직렬화
 Consumer ← [Avro 역직렬화] ← Kafka 토픽
 ```
 
@@ -106,7 +106,7 @@ Consumer ← [Avro 역직렬화] ← Kafka 토픽
 - .proto → 각 언어 클라이언트 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/).
 - 스트리밍 지원: [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/)·양방향 스트리밍.
 
-- **📢 섹션 요약 비유**: [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/)+Protobuf는 국제 은행 간 SWIFT 전문(電文) 시스템이다. 표준화된 형식(Protobuf)으로 빠르고 정확하게 정보를 전달하고, 수신 측은 자동으로 해석(역직렬화)한다.
+- **📢 섹션 요약 비유**: [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/)+Protobuf는 국제 은행 간 SWIFT 전문() 시스템이다. 표준화된 형식(Protobuf)으로 빠르고 정확하게 정보를 전달하고, 수신 측은 자동으로 해석(역직렬화)한다.
 
 ---
 
@@ -138,17 +138,17 @@ Consumer ← [Avro 역직렬화] ← Kafka 토픽
 
 ```text
 [JSON/XML — 텍스트 직렬화, 사람 가독성, 크기 비효율]
-    │
-    ▼
+│
+▼
 [Avro/Protobuf/Thrift — 바이너리 직렬화, 효율성]
-    │
-    ▼
+│
+▼
 [Schema Registry — 스키마 버전 중앙 관리]
-    │
-    ▼
+│
+▼
 [gRPC + Protobuf — 마이크로서비스 표준 RPC]
-    │
-    ▼
+│
+▼
 [Apache Arrow — 컬럼형 인메모리 분석 직렬화]
 ```
 

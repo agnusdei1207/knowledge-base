@@ -7,15 +7,10 @@ Thumbs.db
 *~
 *.log
 
-# Node / Quartz build
+# Node / Zola build
 node_modules/
 public/
 static/assets/data/
-.quartz-build/
-.quartz-src/
 .cache/
 __pycache__/
 *.pyc
-
-# Quartz plugin cache
-.quartz/

@@ -21,17 +21,17 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: SPI는 "더 나은 소프트웨어를 더 빠르게, 더 적은 비용으로 만들기 위해 개발 프로세스를 지속적으로 개선하는 것"이다. 이는 한번의 개선으로 끝나는 것이 아니라, [Plan-Do-Check-Act](/knowledge-base/studynote/09_security/17_framework_compliance/838_pdca_model/) ([PDCA](/knowledge-base/studynote/09_security/17_framework_compliance/838_pdca_model/)) 사이클처럼 지속적으로 순환하는 장기적 활동이다.
 
-- **필요성**: [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/)([Software Crisis](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/))의 핵심 원인 중 하나가 부적절한 개발 프로세스였다. [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 연구에 따르면, 프로세스成熟度가 단계 1([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계)인 조직 대비 단계 5(최적화)인 조직은 프로젝트 성공률이 2배 이상 높고, 비용 초과가 30% 이상 낮은 것으로 나타났다.
+- **필요성**: [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/)([Software Crisis](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/))의 핵심 원인 중 하나가 부적절한 개발 프로세스였다. [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 연구에 따르면, 프로세스가 단계 1([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계)인 조직 대비 단계 5(최적화)인 조직은 프로젝트 성공률이 2배 이상 높고, 비용 초과가 30% 이상 낮은 것으로 나타났다.
 
 - **💡 비유**: SPI는 **'개인 성장의 [PDCA](/knowledge-base/studynote/09_security/17_framework_compliance/838_pdca_model/) 사이클'**과 같다. 어떤 스킬(프로세스)을 배우든, 먼저 현재 자신의 수준을 Self-Assess하고(I), 개선 목표를 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하고(D), 해당 방법으로 실천하고(E), 그 결과를 분석하며(A), 다시 더 높은 수준으로 발전하는 순환적 자기계발 과정이다.
 
 - **등장 배경 및 발전 과정**:
-  1. **1980년대: 품질 혁명**: 日本 제조업의 TQC (Total Quality Control) 성공에 영향받아 소프트웨어業界에도品質管理 도입
-  2. **1991년: CMM 등장**: SEI가 능력 성숙도 모델(CMM) Version 1 도입
-  3. **2000년대: [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 통합**: 여러 CMM 모델을 통합한 [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 도입
-  4. **현재: [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/)**: 전통적 SPI와 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 방법론의 结合으로 경량화된 [SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) 접근법 확산
+1. **1980년대: 품질 혁명**: 제조업의 TQC (Total Quality Control) 성공에 영향받아 소프트웨어에도품질관리 도입
+2. **1991년: CMM 등장**: SEI가 능력 성숙도 모델(CMM) Version 1 도입
+3. **2000년대: [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 통합**: 여러 CMM 모델을 통합한 [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 도입
+4. **현재: [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/)**: 전통적 SPI와 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 방법론의 으로 경량화된 [SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) 접근법 확산
 
-- **📢 섹션 요약 비유**: SPI는 **'마라톤 훈련 프로그램'**과 같다. 처음부터 42.195km를 완주할 수 없듯이, 소프트웨어 조직도 한 번의 개선으로 최고 수준의 프로세스를 갖추지 못한다. 그러나段階적으로 훈련強度を 늘려가며([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)→관리→정의→정량관리→최적화), 결국世界大会 수준의 선수(最高 품질 소프트웨어開発組織)로 성장한다.
+- **📢 섹션 요약 비유**: SPI는 **'마라톤 훈련 프로그램'**과 같다. 처음부터 42.195km를 완주할 수 없듯이, 소프트웨어 조직도 한 번의 개선으로 최고 수준의 프로세스를 갖추지 못한다. 그러나적으로 훈련을/를 늘려가며([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)→관리→정의→정량관리→최적화), 결국 수준의 선수( 품질 소프트웨어조직)로 성장한다.
 
 ---
 
@@ -39,14 +39,14 @@ tags = ["studynote-software-engineering"]
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                  소프트웨어 프로세스 개선 (SPI)                         │
+│ 소프트웨어 프로세스 개선 (SPI) │
 ├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
+│ │
+│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
+│ │ │ │ │
+│ ▼ ▼ ▼ │
+│ 요구 분석 설계·적용 품질 검증 │
+│ │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -147,17 +147,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+│
+▼
 소프트웨어 프로세스 개선 (SPI) 프레임워크 개념 정립
-    │
-    ▼
+│
+▼
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+│
+▼
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+│
+▼
 지속적 개선 및 DevOps·MLOps 통합
 ```
 

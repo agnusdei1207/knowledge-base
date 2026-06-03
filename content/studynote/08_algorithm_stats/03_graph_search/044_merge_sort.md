@@ -11,7 +11,7 @@ tags = ["algorithm_stats"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 합병 정렬(Merge Sort)은 [분할 정복](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)([Divide and Conquer](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)) 패러다임을 따르는 안정 정렬로, [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 반으로 나눈 뒤 각 절반을 재귀적으로 정렬하고, 마지막에 두 정렬된 절반을 합병(Merge)하여 전체를 정렬하는 O(N log N) 알고리즘이다.
 > 2. **가치**: 최악의 경우에도 O(N log N)을 보장하며, 안정 정렬이므로 동일 값 사이의 순서가 보존된다. 그러나 O(N)의 추가 공간이 필요하다는 단점이 있다.
-> 3. **융합**: 합병 정렬은 [외부 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/023_external_sort/)([External Sort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/023_external_sort/)), [Timsort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/019_timsort/), [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 합병 정렬, 그리고链表([Linked List](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)) 정렬에 특히 효과적이며, 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리와 안정성이 중요한 정렬에서 필수적으로 활용된다.
+> 3. **융합**: 합병 정렬은 [외부 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/023_external_sort/)([External Sort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/023_external_sort/)), [Timsort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/019_timsort/), [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 합병 정렬, 그리고([Linked List](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)) 정렬에 특히 효과적이며, 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리와 안정성이 중요한 정렬에서 필수적으로 활용된다.
 
 ---
 
@@ -27,33 +27,33 @@ tags = ["algorithm_stats"]
 [합병 정렬: 분할 정복 과정]
 
 ┌──────────────────────────────────────────────────────┐
-│                                                      │
-│  [분할 (Divide)]                                    │
-│  ────────────────────────────────────                │
-│                                                      │
-│      [38, 27, 43, 3, 9, 82, 10]                   │
-│                  ↓ 반으로 분할                        │
-│      [38, 27, 43, 3]  |  [9, 82, 10]              │
-│              ↓ 반으로 분할     ↓ 반으로 분할            │
-│      [38, 27]  |  [43, 3]  |  [9, 82]  |  [10]   │
-│          ↓ 분할     ↓ 분할        ↓ 분할     ↓ 분할  │
-│         [38] [27] [43] [3]  [9] [82] [10]         │
-│         (기저 사례: 더 이상 분할 불가)                │
-│                                                      │
-│  [정복 (Conquer) + 결합 (Combine)]                  │
-│  ────────────────────────────────────                │
-│         [38] [27] → Merge → [27, 38]               │
-│         [43] [3]  → Merge → [3, 43]                │
-│         [9] [82]  → Merge → [9, 82]                │
-│              [10] → 그대로 [10]                      │
-│                                                      │
-│    [27, 38]  [3, 43] → Merge → [3, 27, 38, 43]   │
-│         [9, 82]  [10]     → Merge → [9, 10, 82]   │
-│                                                      │
-│    [3, 27, 38, 43]  [9, 10, 82]                  │
-│              ↓ 최종 Merge                             │
-│         [3, 9, 10, 27, 38, 43, 82]               │
-│                                                      │
+│ │
+│ [분할 (Divide)] │
+│ ──────────────────────────────────── │
+│ │
+│ [38, 27, 43, 3, 9, 82, 10] │
+│ ↓ 반으로 분할 │
+│ [38, 27, 43, 3] | [9, 82, 10] │
+│ ↓ 반으로 분할 ↓ 반으로 분할 │
+│ [38, 27] | [43, 3] | [9, 82] | [10] │
+│ ↓ 분할 ↓ 분할 ↓ 분할 ↓ 분할 │
+│ [38] [27] [43] [3] [9] [82] [10] │
+│ (기저 사례: 더 이상 분할 불가) │
+│ │
+│ [정복 (Conquer) + 결합 (Combine)] │
+│ ──────────────────────────────────── │
+│ [38] [27] → Merge → [27, 38] │
+│ [43] [3] → Merge → [3, 43] │
+│ [9] [82] → Merge → [9, 82] │
+│ [10] → 그대로 [10] │
+│ │
+│ [27, 38] [3, 43] → Merge → [3, 27, 38, 43] │
+│ [9, 82] [10] → Merge → [9, 10, 82] │
+│ │
+│ [3, 27, 38, 43] [9, 10, 82] │
+│ ↓ 최종 Merge │
+│ [3, 9, 10, 27, 38, 43, 82] │
+│ │
 └──────────────────────────────────────────────────────┘
 ```
 
@@ -62,7 +62,7 @@ tags = ["algorithm_stats"]
 - **결과**: 이 특성 덕분에 재귀적 분할 후 결합만 하면 전체가 정렬된다.
 - **판단**: O(N) 추가 공간이 필요하므로 메모리 제약이 있는 환경에서는 주의해야 하지만, 안정성이 중요하거나 대용량 [외부 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/023_external_sort/)에서는 필수적으로 사용된다.
 
-📢 **섹션 요약 비유**: 합병 정렬은 그림のパズル完成と 같습니다. 먼저 퍼즐 조각을 반반 나누고(분할), 각 조각을 완성하고(재귀적 정렬), 마지막으로 두 완성된 그림을 맞춰붙이면(합병) 전체 그림이 완성됩니다.
+📢 **섹션 요약 비유**: 합병 정렬은 그림의완료와/과 같습니다. 먼저 퍼즐 조각을 반반 나누고(분할), 각 조각을 완성하고(재귀적 정렬), 마지막으로 두 완성된 그림을 맞춰붙이면(합병) 전체 그림이 완성됩니다.
 
 ---
 
@@ -76,30 +76,30 @@ tags = ["algorithm_stats"]
 [합병 (Merge) 과정 상세]
 
 ┌──────────────────────────────────────────────────────┐
-│                                                      │
-│  [두 정렬된 배열의 합병]                              │
-│  ────────────────────────────────────                │
-│                                                      │
-│  Left:  [3, 27, 38, 43]                            │
-│  Right: [9, 10, 82]                                │
-│                                                      │
-│  비교 과정:                                           │
-│  Step 1: 3 vs 9 → 3 선택 (Left 포인터 +1)          │
-│  Step 2: 27 vs 9 → 9 선택 (Right 포인터 +1)        │
-│  Step 3: 27 vs 10 → 10 선택 (Right 포인터 +1)       │
-│  Step 4: 27 vs 82 → 27 선택 (Left 포인터 +1)        │
-│  Step 5: 38 vs 82 → 38 선택 (Left 포인터 +1)       │
-│  Step 6: 43 vs 82 → 43 선택 (Left 포인터 +1)       │
-│  Left 소진 → 나머지 Right 원소 일괄 추가: 82         │
-│                                                      │
-│  결과: [3, 9, 10, 27, 38, 43, 82]                 │
-│                                                      │
-│  [시간 복잡도: T(N) = 2T(N/2) + O(N)]             │
-│  ────────────────────────────────────                │
-│  마스터 정리: a=2, b=2, f(N)=N                      │
-│  N^{log_b a} = N^{log_2 2} = N                    │
-│  f(N) = Θ(N^{log_b a}) → T(N) = Θ(N log N)      │
-│                                                      │
+│ │
+│ [두 정렬된 배열의 합병] │
+│ ──────────────────────────────────── │
+│ │
+│ Left: [3, 27, 38, 43] │
+│ Right: [9, 10, 82] │
+│ │
+│ 비교 과정: │
+│ Step 1: 3 vs 9 → 3 선택 (Left 포인터 +1) │
+│ Step 2: 27 vs 9 → 9 선택 (Right 포인터 +1) │
+│ Step 3: 27 vs 10 → 10 선택 (Right 포인터 +1) │
+│ Step 4: 27 vs 82 → 27 선택 (Left 포인터 +1) │
+│ Step 5: 38 vs 82 → 38 선택 (Left 포인터 +1) │
+│ Step 6: 43 vs 82 → 43 선택 (Left 포인터 +1) │
+│ Left 소진 → 나머지 Right 원소 일괄 추가: 82 │
+│ │
+│ 결과: [3, 9, 10, 27, 38, 43, 82] │
+│ │
+│ [시간 복잡도: T(N) = 2T(N/2) + O(N)] │
+│ ──────────────────────────────────── │
+│ 마스터 정리: a=2, b=2, f(N)=N │
+│ N^{log_b a} = N^{log_2 2} = N │
+│ f(N) = Θ(N^{log_b a}) → T(N) = Θ(N log N) │
+│ │
 └──────────────────────────────────────────────────────┘
 ```
 
@@ -108,51 +108,51 @@ tags = ["algorithm_stats"]
 - **결과**: 최악의 경우에도 O(N log N)이 보장되어 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)과 달리 예측 가능한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 제공한다.
 - **판단**: 안정성이 중요하거나 최악 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 보장이 필요한 경우에는 합병 정렬이 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)보다 선호된다.
 
-📢 **섹션 요약 비유**: 합병 정렬의合병 과정은 두 줄을 세운 学生会 합과 같습니다. 두 줄 맨 앞에서 더 작은 학생을 새로운 줄에 세우고, 한 줄이 모두 소진되면 나머지 줄의 학생들을 모두 새 줄에 이어서 세우면, 자연스럽게 전체가 정렬됩니다.
+📢 **섹션 요약 비유**: 합병 정렬의병 과정은 두 줄을 세운 합과 같습니다. 두 줄 맨 앞에서 더 작은 학생을 새로운 줄에 세우고, 한 줄이 모두 소진되면 나머지 줄의 학생들을 모두 새 줄에 이어서 세우면, 자연스럽게 전체가 정렬됩니다.
 
 ---
 
 ## Ⅲ. 구현 및 실무 응용 (Implementation & Practice)
 
-합병 정렬의 실무 적용은 광범위하다. **안정 정렬이 필수인 경우**: 다중 키 정렬, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) ORDER BY에서 안정성이 보장되어야 하므로 필수적으로 사용된다. **대용량 [외부 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/023_external_sort/)([External Sort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/023_external_sort/))**: 디스크에 저장된 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정렬할 때 메모리에 맞게 chunk로 나누어 정렬한 후合병한다. **[연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) 정렬**: [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)에서 합병 정렬은 O(N log N) 시간에 O(1) 추가 공간으로 구현할 수 있다. **[Timsort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/019_timsort/)**: Python과 Java의 표준 정렬로, 합병 정렬과 삽입 정렬의 hybrid이다.
+합병 정렬의 실무 적용은 광범위하다. **안정 정렬이 필수인 경우**: 다중 키 정렬, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) ORDER BY에서 안정성이 보장되어야 하므로 필수적으로 사용된다. **대용량 [외부 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/023_external_sort/)([External Sort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/023_external_sort/))**: 디스크에 저장된 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정렬할 때 메모리에 맞게 chunk로 나누어 정렬한 후병한다. **[연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) 정렬**: [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)에서 합병 정렬은 O(N log N) 시간에 O(1) 추가 공간으로 구현할 수 있다. **[Timsort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/019_timsort/)**: Python과 Java의 표준 정렬로, 합병 정렬과 삽입 정렬의 hybrid이다.
 
 ```text
 [합병 정렬 의사코드]
 
 ┌──────────────────────────────────────────────────────┐
-│                                                      │
-│  function merge_sort(A):                             │
-│      if length(A) <= 1:                            │
-│          return A                                    │
-│                                                      │
-│      mid = length(A) // 2                           │
-│      left = merge_sort(A[0:mid])                   │
-│      right = merge_sort(A[mid:])                    │
-│                                                      │
-│      return merge(left, right)                      │
-│                                                      │
-│  function merge(L, R):                              │
-│      result = []                                    │
-│      i = j = 0                                      │
-│                                                      │
-│      while i < len(L) and j < len(R):             │
-│          if L[i] <= R[j]:                          │
-│              result.append(L[i])                    │
-│              i += 1                                 │
-│          else:                                      │
-│              result.append(R[j])                    │
-│              j += 1                                 │
-│                                                      │
-│      result.extend(L[i:])  // 나머지 일괄 추가       │
-│      result.extend(R[j:])                          │
-│      return result                                   │
-│                                                      │
-│  [공간 복잡도: O(N) 추가 공간 필요]                  │
-│                                                      │
+│ │
+│ function merge_sort(A): │
+│ if length(A) <= 1: │
+│ return A │
+│ │
+│ mid = length(A) // 2 │
+│ left = merge_sort(A[0:mid]) │
+│ right = merge_sort(A[mid:]) │
+│ │
+│ return merge(left, right) │
+│ │
+│ function merge(L, R): │
+│ result = [] │
+│ i = j = 0 │
+│ │
+│ while i < len(L) and j < len(R): │
+│ if L[i] <= R[j]: │
+│ result.append(L[i]) │
+│ i += 1 │
+│ else: │
+│ result.append(R[j]) │
+│ j += 1 │
+│ │
+│ result.extend(L[i:]) // 나머지 일괄 추가 │
+│ result.extend(R[j:]) │
+│ return result │
+│ │
+│ [공간 복잡도: O(N) 추가 공간 필요] │
+│ │
 └──────────────────────────────────────────────────────┘
 ```
 
-📢 **섹션 요약 비유**: 합병 정렬은大型プロジェクトの問題解決と 같습니다. 큰 문제를 작게 나누어(분할) 각 팀이 해결하고(정복), 각 팀의 해결책을 통합하면(合병) 전체 문제가解決됩니다.
+📢 **섹션 요약 비유**: 합병 정렬은대형의문제와/과 같습니다. 큰 문제를 작게 나누어(분할) 각 팀이 해결하고(정복), 각 팀의 해결책을 통합하면(병) 전체 문제가됩니다.
 
 ---
 
@@ -160,19 +160,19 @@ tags = ["algorithm_stats"]
 
 합병 정렬의 품질 관리에서 가장 중요한 것은 **안정성 확보**와 **추가 공간 관리**이다.
 
-**품질 관리 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)**: 안정 정렬이므로 동일 값 사이의 순서가 보장된다. O(N) 추가 공간이 필요하므로 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서는外部정렬([External Sort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/023_external_sort/)) 전략을 고려해야 한다.
+**품질 관리 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)**: 안정 정렬이므로 동일 값 사이의 순서가 보장된다. O(N) 추가 공간이 필요하므로 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서는정렬([External Sort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/023_external_sort/)) 전략을 고려해야 한다.
 
-📢 **섹션 요약 비유**: 합병 정렬의品質 管理는 合葬過程의 품질管理と 같습니다. 두 묶음의 꽃을 합병할 때花の順序を 保存하면(안정성) 전체 꽃다발의미적感觸が損なわれません.
+📢 **섹션 요약 비유**: 합병 정렬의품질 관리는 의 품질관리와/과 같습니다. 두 묶음의 꽃을 합병할 때의을/를 저장하면(안정성) 전체 꽃다발의미적이/가하지 않습니다.
 
 ---
 
 ## Ⅴ. 최신 트렌드 및 결론 (Trends & Conclusion)
 
-합병 정렬의 최신 동향은 **[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 합병 정렬**과 **Timsort의 발전**이다. 멀티코어 CPU를 활용하면 합병 단계를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화하여 O(N log N) 시간에 O(N/P) 공간으로 구현할 수 있다. Timsort는 Python과 Java에서 표준 정렬로 채택되어, 실제 세계의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서卓越한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보인다.
+합병 정렬의 최신 동향은 **[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 합병 정렬**과 **Timsort의 발전**이다. 멀티코어 CPU를 활용하면 합병 단계를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화하여 O(N log N) 시간에 O(N/P) 공간으로 구현할 수 있다. Timsort는 Python과 Java에서 표준 정렬로 채택되어, 실제 세계의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보인다.
 
 합병 정렬은 안정 정렬과 최악 O(N log N) 보장이라는 두 가지 핵심 특성으로 인해, 실무에서 필수적인 정렬 알고리즘이다.
 
-📢 **섹션 요약 비유**: 합병 정렬は偉大なる建築家の設計圖と 같습니다. 전체를 먼저体系적으로分割하고, 각 부분을 독립적으로 완성한 후, 이를整合하면完璧な建物가 됩니다.
+📢 **섹션 요약 비유**: 합병 정렬은/는된다의설계와/과 같습니다. 전체를 먼저적으로하고, 각 부분을 독립적으로 완성한 후, 이를하면가 됩니다.
 
 ---
 
@@ -189,14 +189,14 @@ tags = ["algorithm_stats"]
 
 ```text
 [삽입 정렬 (Insertion Sort) — O(N²), 소규모에 유리]
-    │
-    ▼
+│
+▼
 [합병 정렬 (Merge Sort) — O(N log N) 보장, 안정, O(N) 추가 공간]
-    │
-    ▼
+│
+▼
 [Timsort — Merge + Insertion 혼합, Python/Java 표준]
-    │
-    ▼
+│
+▼
 [병렬 합병 정렬 (Parallel Merge Sort) — 멀티코어 분산 정렬]
 ```
 합병 정렬은 최악에도 O(N log N)을 보장하는 안정 정렬로, Timsort의 기반이 되고 [외부 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/023_external_sort/)과 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리로 진화했다.

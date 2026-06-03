@@ -71,7 +71,7 @@ tags = ["studynote-operating-system"]
 | 구분 | 전통 리눅스 | Android |
 |:---|:---|:---|
 | **[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 단위** | 사용자(UID) 단위 | 애플리케이션 단위 |
-| **격리 수준** |粗糙 (조잡) | **앱마다 고유 UID + 샌드박스** |
+| **격리 수준** | (조잡) | **앱마다 고유 UID + 샌드박스** |
 
 ### 3.2 Android 앱 [샌드박싱](/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/)의 원리
 
@@ -90,7 +90,7 @@ Android는 Linux [커널](/knowledge-base/studynote/02_operating_system/01_overv
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- **[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 체계**는 프로세스별로 권한을 분리하여,万一(만약) 프로세스가 해킹당해도 영향 범위를 해당 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 내로 제한한다.
+- **[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 체계**는 프로세스별로 권한을 분리하여,만일(만약) 프로세스가 해킹당해도 영향 범위를 해당 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 내로 제한한다.
 - **[최소 권한 원칙](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/)([Least Privilege](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/))**을 구현하는 핵심 기법으로, [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 격리 등 현대 시스템에서도 활용된다.
 - **[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 전환([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Switching)**은 기능성과 보안 사이의 트레이드오프를 수반하며, [SetUID](/knowledge-base/studynote/02_operating_system/09_file_system/548_special_permissions_setuid/) 메커니즘은 보안 취약점의 원인이 된다.
 
@@ -119,12 +119,12 @@ Android는 Linux [커널](/knowledge-base/studynote/02_operating_system/01_overv
 
 ```text
 [보호 (Protection) vs 보안 (Security)의 개념 차이]
-    │
-    ▼
+│
+▼
 [보호 도메인 (Protection Domain)]
-    │
-    ├──▶ [접근 제어 행렬 (Access Matrix)]
-    └──▶ [전역 테이블 (Global Table) 방식 구현 (행렬 희소성 문제)]
+│
+├──▶ [접근 제어 행렬 (Access Matrix)]
+└──▶ [전역 테이블 (Global Table) 방식 구현 (행렬 희소성 문제)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -133,7 +133,7 @@ Android는 Linux [커널](/knowledge-base/studynote/02_operating_system/01_overv
 
 1. **[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)**은 놀이공원의 **"입장 팔찌"**와 같다. 어떤 색 팔찌를 받았느냐에 따라 탈 수 있는 놀이기구가 결정된다.
 
-2. **[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 전환**은 놀이공원에서 **"직급증가표"**를 받는 것과 같다. 일반 손님(일반 사용자)이的员工(일반 프로세스)이고, 점장(관리자)이의 표를 받으면 더 많은 놀이기구를 탈 수 있다.
+2. **[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 전환**은 놀이공원에서 **"직급증가표"**를 받는 것과 같다. 일반 손님(일반 사용자)이(일반 프로세스)이고, 점장(관리자)이의 표를 받으면 더 많은 놀이기구를 탈 수 있다.
 
 3. **[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 격리**는 놀이기구 관리자가 **"내 영역 외에는 출입 금지"**인 것과 같다. 다른 색 팔찌를 가진 사람이 관리자의 놀이기구에 가려 하면, 문지기가 "여기는 출입 불가"라며 막는다.
 

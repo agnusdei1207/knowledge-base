@@ -19,20 +19,20 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 리버스 엔지니어링은 원래的产品나 시스템의 동작을 분석하여 그 산출물을 다시 만드는 것이 아니라,分析与理解하여同等한 기능을实现하거나 개선하는 기법이다. 소프트웨어에서는 크게 두 가지 방향으로 활용된다. 첫째, **[호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 목적**: 다른 플랫폼이나 시스템에서 동작하는 호환 소프트웨어 개발(예: Linux에서 Windows 전용 애플리케이션 실행). 둘째, **분석 목적**: Malware 분석, 보안 취약점 탐지, 레거시 시스템 이해 등이다.
+- **개념**: 리버스 엔지니어링은 원래나 시스템의 동작을 분석하여 그 산출물을 다시 만드는 것이 아니라,분석하여한 기능을구현하거나 개선하는 기법이다. 소프트웨어에서는 크게 두 가지 방향으로 활용된다. 첫째, **[호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 목적**: 다른 플랫폼이나 시스템에서 동작하는 호환 소프트웨어 개발(예: Linux에서 Windows 전용 애플리케이션 실행). 둘째, **분석 목적**: Malware 분석, 보안 취약점 탐지, 레거시 시스템 이해 등이다.
 
-- **필요성**: 다음과 같은 상황에서 리버스 엔지니어링이 필요하다. 첫째, **소스코드 부재**: 벤더가 문서化を拒否하거나 폐업한 경우. 둘째, **[호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 필요**: 특정 플랫폼에서만 동작하는 소프트웨어를 다른 환경에서 사용해야 하는 경우. 셋째, **[보안 감사](/knowledge-base/studynote/04_software_engineering/11_testing_validation/527_security_audit_trail/)**: 내부적으로 동작하는 로직을 파악하여 보안 취약점을 탐지해야 하는 경우. 넷째, **레거시 현대화**: 오래된 시스템의 기능을 새로운 플랫폼으로 이전해야 하는 경우이다.
+- **필요성**: 다음과 같은 상황에서 리버스 엔지니어링이 필요하다. 첫째, **소스코드 부재**: 벤더가 문서을/를하거나 폐업한 경우. 둘째, **[호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 필요**: 특정 플랫폼에서만 동작하는 소프트웨어를 다른 환경에서 사용해야 하는 경우. 셋째, **[보안 감사](/knowledge-base/studynote/04_software_engineering/11_testing_validation/527_security_audit_trail/)**: 내부적으로 동작하는 로직을 파악하여 보안 취약점을 탐지해야 하는 경우. 넷째, **레거시 현대화**: 오래된 시스템의 기능을 새로운 플랫폼으로 이전해야 하는 경우이다.
 
-- **💡 비유**: 리버스 엔지니어링은 **'자동차 분해 분석'**과 같다. 경쟁사 자동차를 세세하게 분해하여 엔진 구조, 섀시 구성, 전자 제어 장치 등을 분석하고, 이를 참고하여 자신만의 자동차를設計한다. 물론patent [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 범위 내의 행위인지 legal 검토가 필요하지만, 基本設計原理를 분석하는 것은 합법적이다. 소프트웨어에서도 바이너리를 분해하여 동작 원리를 이해하고, 이를 참고하여兼容性产品나 개선된 제품을 개발할 수 있다.
+- **💡 비유**: 리버스 엔지니어링은 **'자동차 분해 분석'**과 같다. 경쟁사 자동차를 세세하게 분해하여 엔진 구조, 섀시 구성, 전자 제어 장치 등을 분석하고, 이를 참고하여 자신만의 자동차를설계한다. 물론patent [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 범위 내의 행위인지 legal 검토가 필요하지만, 설계를 분석하는 것은 합법적이다. 소프트웨어에서도 바이너리를 분해하여 동작 원리를 이해하고, 이를 참고하여나 개선된 제품을 개발할 수 있다.
 
 - **등장 배경 및 발전 과정**:
-  1. **1960년대**: 하드웨어 분야에서 시작, 군사/항공 분야에서敌方 무기分析에 활용
-  2. **1980년대**: 소프트웨어 분야로 확대, [DOS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/),Windows 애플리케이션 분석
-  3. **1990년대**: 리버스 엔지니어링 도구(IDA Pro, OllyDbg 등) 발전
-  4. **2000년대**: Malware 분석, Exploit 개발等领域에서 필수 기술로 자리잡음
-  5. **현재**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 리버스 엔지니어링 도구, 자동화된 디컴파일링 연구 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)
+1. **1960년대**: 하드웨어 분야에서 시작, 군사/항공 분야에서 무기분석에 활용
+2. **1980년대**: 소프트웨어 분야로 확대, [DOS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/),Windows 애플리케이션 분석
+3. **1990년대**: 리버스 엔지니어링 도구(IDA Pro, OllyDbg 등) 발전
+4. **2000년대**: Malware 분석, Exploit 개발에서 필수 기술로 자리잡음
+5. **현재**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 리버스 엔지니어링 도구, 자동화된 디컴파일링 연구 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)
 
-- **📢 섹션 요약 비유**: 리버스 엔지니어링은 **'요리사의 레시피 분석'**과 같다. 유명한 레스토랑의 요리를 먹고 재료를分析和정리하여 동일한 요리를 만들거나, 자신만의 스타일로改良한다. 요리사는 "이 요리의 비결은 37도에서 3분간低速調理이다"라는 것을 발견하고, 이를 적용하여 새로운 요리를 창작한다. 소프트웨어에서도 프로그램의 동작을 분석하여 설계思想을 이해하고, 이를 활용하여兼容产品나 개선된 제품을开发한다.
+- **📢 섹션 요약 비유**: 리버스 엔지니어링은 **'요리사의 레시피 분석'**과 같다. 유명한 레스토랑의 요리를 먹고 재료를분석정리하여 동일한 요리를 만들거나, 자신만의 스타일로한다. 요리사는 "이 요리의 비결은 37도에서 3분간이다"라는 것을 발견하고, 이를 적용하여 새로운 요리를 창작한다. 소프트웨어에서도 프로그램의 동작을 분석하여 설계을 이해하고, 이를 활용하여나 개선된 제품을개발한다.
 
 ---
 
@@ -40,14 +40,14 @@ tags = ["studynote-software-engineering"]
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                  리버스 엔지니어링 (Reverse E                        │
+│ 리버스 엔지니어링 (Reverse E │
 ├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
+│ │
+│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
+│ │ │ │ │
+│ ▼ ▼ ▼ │
+│ 요구 분석 설계·적용 품질 검증 │
+│ │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -148,17 +148,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+│
+▼
 리버스 엔지니어링 (Reverse Engineering) 툴을 통한 난독화 코드 분석 개념 정립
-    │
-    ▼
+│
+▼
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+│
+▼
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+│
+▼
 지속적 개선 및 DevOps·MLOps 통합
 ```
 

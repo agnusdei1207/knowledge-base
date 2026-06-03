@@ -19,19 +19,19 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: SBOM은 전통적 제조업의 [BOM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/) ([Bill of Materials](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/))에서 유래했다. 자동차 제조사가 차량에 사용되는 모든 부품(本土生産、国外導入)을 목록화하여管理するように, 소프트웨어에서도 모든 구성 요소([라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/), 프레임워크, SDK 등)를 목록화하여管理해야 한다. 이를 통해 구성 요소의 출처, 라이선스, 보안 취약점 등을 투명하게 파악할 수 있다.
+- **개념**: SBOM은 전통적 제조업의 [BOM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/) ([Bill of Materials](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/))에서 유래했다. 자동차 제조사가 차량에 사용되는 모든 부품(、)을 목록화하여관리하다처럼, 소프트웨어에서도 모든 구성 요소([라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/), 프레임워크, SDK 등)를 목록화하여관리해야 한다. 이를 통해 구성 요소의 출처, 라이선스, 보안 취약점 등을 투명하게 파악할 수 있다.
 
-- **필요성**: 현대 소프트웨어는 평균적으로 代码의 70~80%가 [서드파티](/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) 구성 요소로 이루어져 있다. 그러나 이러한 구성 요소에 대해"무엇이 포함되어 있고, 어디서 왔으며, 어떤 취약점이 있는가?"라는 질문에即座에 답할 수 있는 기업은 매우 드물다. SBOM은 이러한"알파지"를 해소하고, 보안 사고 시 신속한 대응을 가능하게 한다.
+- **필요성**: 현대 소프트웨어는 평균적으로 코드의 70~80%가 [서드파티](/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) 구성 요소로 이루어져 있다. 그러나 이러한 구성 요소에 대해"무엇이 포함되어 있고, 어디서 왔으며, 어떤 취약점이 있는가?"라는 질문에즉시에 답할 수 있는 기업은 매우 드물다. SBOM은 이러한"알파지"를 해소하고, 보안 사고 시 신속한 대응을 가능하게 한다.
 
-- **💡 비유**: SBOM은 **'음식물 원재료 이력 관리 시스템'**과 같다.盒便当当製作者가 사용하는 모든 材料(鸡蛋, 밥, 고등어 등)의 원산지([OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 출처), 유통 경로([버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)), 유효 기간(지원 기간)을全都記載하여管理한다.万一 食品中毒 사고(보안 사고)가 발생하면, 即座에 문제가 된 材料를 추적하여迅速하게市場 회수하고환자를 치료할 수 있다.
+- **💡 비유**: SBOM은 **'음식물 원재료 이력 관리 시스템'**과 같다.가 사용하는 모든 (, 밥, 고등어 등)의 원산지([OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 출처), 유통 경로([버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)), 유효 기간(지원 기간)을하여관리한다.만일 사고(보안 사고)가 발생하면, 즉시에 문제가 된 를 추적하여하게 회수하고환자를 치료할 수 있다.
 
 - **등장 배경 및 발전 과정**:
-  1. **2000년대 초**: 금융권에서 운용risk 관리를 위해 소프트웨어 구성 요소 목록化管理 시도
-  2. **2018년**: NTIA (National Telecommunications and Information Administration)에서 SBOM의 최소 요소 정의
-  3. **2021년**: 미국 대통령 행정 명령에 따라 [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) 의무화, 글로벌 확산
-  4. **현재**: SPDX (ISO/IEC 5962), CycloneDX 등 표준화된 [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) 포맷 확산
+1. **2000년대 초**: 금융권에서 운용risk 관리를 위해 소프트웨어 구성 요소 목록관리 시도
+2. **2018년**: NTIA (National Telecommunications and Information Administration)에서 SBOM의 최소 요소 정의
+3. **2021년**: 미국 대통령 행정 명령에 따라 [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) 의무화, 글로벌 확산
+4. **현재**: SPDX (ISO/IEC 5962), CycloneDX 등 표준화된 [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) 포맷 확산
 
-- **📢 섹션 요약 비유**: SBOM은 **'여권으로 보는 입국 기록'**과 같다. 여권에는過去에 방문한 국가들의 입出境 기록이记载되듯이, SBOM에는ソフトウェアが過去に組み合わせたOSS/[라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)들의情報が記載된다. 이를 통해万一 문제 국가(취약한 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))를 방문(사용)했는지 여부를即座에 확인할 수 있다.
+- **📢 섹션 요약 비유**: SBOM은 **'여권으로 보는 입국 기록'**과 같다. 여권에는에 방문한 국가들의 입 기록이되듯이, SBOM에는이/가에OSS/[라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)들의이/가된다. 이를 통해만일 문제 국가(취약한 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))를 방문(사용)했는지 여부를즉시에 확인할 수 있다.
 
 ---
 
@@ -39,14 +39,14 @@ tags = ["studynote-software-engineering"]
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                  SBOM (Software Bill                         │
+│ SBOM (Software Bill │
 ├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
+│ │
+│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
+│ │ │ │ │
+│ ▼ ▼ ▼ │
+│ 요구 분석 설계·적용 품질 검증 │
+│ │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -147,17 +147,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+│
+▼
 SBOM (Software Bill of Materials) 개념 정립
-    │
-    ▼
+│
+▼
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+│
+▼
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+│
+▼
 지속적 개선 및 DevOps·MLOps 통합
 ```
 

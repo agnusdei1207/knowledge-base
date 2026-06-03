@@ -21,13 +21,13 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 밀도 ([Defect](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) Density)는 소프트웨어 제품의 품질을 평가하는 대표적인 지표로, 코드 규모 (KLOC, Kilo Lines of [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))당 발생한 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 수로 정의된다. 일반적으로 "[결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 수 / KLOC"로 산출되며, 값이 높을수록 품질 문제가 있고, 낮을수록 품질이 양호한 것을 의미한다. 그러나 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 밀도는 코드 규모에 대한 상대적 지표이므로, 프로젝트 규모, 복잡도, 적용 분야 등이 다르면 직접적인 비교가 어렵다는 한계가 있다.
 
-- **필요성**: [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 밀도는 [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/)을 객관적으로 측정하고 비교할 수 있는 지표이다.项目经理는 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 밀도를 통해 현재 프로젝트의 품질 수준을 파악하고, 품질 목표 대비 달성 여부를 판단하며, 테스트 리소스를 적절히 배분할 수 있다. 또한 과거 프로젝트의 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 밀도와 비교하여 품질趋向을分析하거나,業界 平均과 비교하여자사 제품의競争力을評価할 수 있다.
+- **필요성**: [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 밀도는 [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/)을 객관적으로 측정하고 비교할 수 있는 지표이다.프로젝트는 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 밀도를 통해 현재 프로젝트의 품질 수준을 파악하고, 품질 목표 대비 달성 여부를 판단하며, 테스트 리소스를 적절히 배분할 수 있다. 또한 과거 프로젝트의 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 밀도와 비교하여 품질을분석하거나, 과 비교하여자사 제품의을할 수 있다.
 
-- **💡 비유**: [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 밀도는 "인구 밀도"에 비유할 수 있다. 인구 밀도가 높으면 그 지역이 복잡하고管理하기 어렵듯이, [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 밀도가 높으면 코드 품질 문제가あり、品詞igramの開発現場는より多くのリソースと注意を払う必要がある。
+- **💡 비유**: [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 밀도는 "인구 밀도"에 비유할 수 있다. 인구 밀도가 높으면 그 지역이 복잡하고관리하기 어렵듯이, [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 밀도가 높으면 코드 품질 문제가、igram의는보다의와/과을/를이/가。
 
-- **등장 배경**: [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 밀도는 [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/) 관리의歴史와 함께 발전해 왔다. 1970년대 Fredrick Brooks의 "The Mythical Man-Month"에서 언급된 이후 널리 사용되어 왔으며, 현재는 [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/), ISO/IEC 25010 등의 국제 표준에서도 활용되는標準化的された品質指標である。
+- **등장 배경**: [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 밀도는 [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/) 관리의와 함께 발전해 왔다. 1970년대 Fredrick Brooks의 "The Mythical Man-Month"에서 언급된 이후 널리 사용되어 왔으며, 현재는 [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/), ISO/IEC 25010 등의 국제 표준에서도 활용되는품질지표이다。
 
-- **📢 섹션 요약 비유**: [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 밀도는 "땅의 비옥도"에 비유할 수 있다.土地の肥沃度が高すぎても低すぎても作物에 문제가 있듯이, [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 밀도도 적정 수준을 유지하는 것이 중요하다.
+- **📢 섹션 요약 비유**: [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 밀도는 "땅의 비옥도"에 비유할 수 있다.의이/가도도에 문제가 있듯이, [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 밀도도 적정 수준을 유지하는 것이 중요하다.
 
 ---
 
@@ -35,14 +35,14 @@ tags = ["studynote-software-engineering"]
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                  결함 밀도 (Defect Densit                        │
+│ 결함 밀도 (Defect Densit │
 ├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
+│ │
+│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
+│ │ │ │ │
+│ ▼ ▼ ▼ │
+│ 요구 분석 설계·적용 품질 검증 │
+│ │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -143,17 +143,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+│
+▼
 결함 밀도 (Defect Density) 개념 정립
-    │
-    ▼
+│
+▼
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+│
+▼
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+│
+▼
 지속적 개선 및 DevOps·MLOps 통합
 ```
 

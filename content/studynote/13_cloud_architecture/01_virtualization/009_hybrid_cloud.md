@@ -20,7 +20,7 @@ tags = ["cloud_architecture"]
 ### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
 **양극단의 딜레마와 하이브리드의 탄생 배경**
-엔터프라이즈 기업이 클라우드 도입을 검토할 때 항상 두 가지 극단적인 한계에 부딪힌다. 
+엔터프라이즈 기업이 클라우드 도입을 검토할 때 항상 두 가지 극단적인 한계에 부딪힌다.
 [퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/)는 무한한 확장성과 최신 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기술을 제공하지만, 각국의 엄격한 [데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/) 법안(금융 보안 규제 등)과 기존 레거시 시스템과의 심각한 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 문제로 인해 핵심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스를 넘기기 두렵다. 반면, 자체 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)([프라이빗 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/008_private_cloud/))는 보안 통제권은 완벽하지만 블프(Black Friday)나 수강 신청처럼 1년에 한두 번 발생하는 슈퍼 트래픽 [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)를 막아내려면 막대한 장비를 사서 1년 내내 놀려야 하는 자원 낭비의 덫에 빠진다.
 하이브리드 클라우드 (Hybrid Cloud)는 이 두 세계를 강력한 보안 네트워크 튜브로 연결하여, "중요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 내 집에 숨겨두고, 힘든 계산이나 넘치는 손님 처리는 바깥의 거대한 공장(퍼블릭)에 맡긴다"는 가장 현실적이고 효율적인 타협점을 완성해 냈다.
 
@@ -31,12 +31,12 @@ tags = ["cloud_architecture"]
 [요구사항 충돌의 딜레마와 하이브리드 분리 배치]
 
 요구 A: 트래픽 확장성 필요 (웹 서버 폭주 대기) ──┐
-요구 B: 최신 AI/ML 분석 엔진 사용 원함          │ ──► [퍼블릭 클라우드 배치 유리]
-                                                │
+요구 B: 최신 AI/ML 분석 엔진 사용 원함 │ ──► [퍼블릭 클라우드 배치 유리]
+│
 ======================== (보안/망연계 하이브리드 통로) ========================
-                                                │
-요구 C: 고객 민감 개인정보 외부 유출 절대 불가  │ ──► [프라이빗 클라우드 유지 유리]
-요구 D: 이미 수백억 투자된 메인프레임과 연동    ──┘
+│
+요구 C: 고객 민감 개인정보 외부 유출 절대 불가 │ ──► [프라이빗 클라우드 유지 유리]
+요구 D: 이미 수백억 투자된 메인프레임과 연동 ──┘
 ```
 이 도식의 핵심은 기업의 IT 시스템이 단일한 덩어리가 아니라는 점을 인식하는 것이다. 프론트엔드(Web/App)나 분석 엔진 등 '컴퓨팅 집약적'이고 확장성이 절실한 계층은 퍼블릭으로 과감히 올리고, 원장 DB나 주민번호 등 '보안 집약적'인 계층은 프라이빗에 남겨둔 채 두 환경을 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)으로 연결해 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 없이 통신하게 만드는 것이 하이브리드 아키텍처의 근본 목적이다.
 
@@ -58,29 +58,29 @@ tags = ["cloud_architecture"]
 이 구조도는 [프라이빗 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/008_private_cloud/)([온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/))의 핵심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스와 [퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/)의 오토 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 웹 서버가 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)([Direct Connect](/knowledge-base/studynote/03_network/16_data_center_cloud/838_direct_connect_expressroute_cloud_leased_line/))을 통해 어떻게 안전하게 통신하는지 보여주는 핵심 아키텍처이다.
 ```text
 ┌───────────────── 퍼블릭 클라우드 (AWS / Azure) ─────────────────┐
-│                                                                 │
-│ ┌───── 가상 사설망 (VPC) ──────┐                              │
-│ │  [Auto Scaling Web/WAS Group]│                              │
-│ │  [VM 1] [VM 2] [VM 3] [VM 4] │  ◀─(트래픽 폭주 시 자동 확장)│
-│ └───────┬──────────────────────┘                              │
-│         │ (Private IP 통신)                                     │
-│ ┌───────▼────────────────┐      BGP 라우팅 프로토콜 동기화    │
-│ │ Virtual Private Gateway│◀────────────────┐                  │
+│ │
+│ ┌───── 가상 사설망 (VPC) ──────┐ │
+│ │ [Auto Scaling Web/WAS Group]│ │
+│ │ [VM 1] [VM 2] [VM 3] [VM 4] │ ◀─(트래픽 폭주 시 자동 확장)│
+│ └───────┬──────────────────────┘ │
+│ │ (Private IP 통신) │
+│ ┌───────▼────────────────┐ BGP 라우팅 프로토콜 동기화 │
+│ │ Virtual Private Gateway│◀────────────────┐ │
 └─┴────────────────────────┴─────────────────┼──────────────────┘
-                                             │
-      =============================================================
-         전용선 (Direct Connect / ExpressRoute) - 암호화된 터널망
-      =============================================================
-                                             │
+│
+=============================================================
+전용선 (Direct Connect / ExpressRoute) - 암호화된 터널망
+=============================================================
+│
 ┌────────────────── 프라이빗 데이터센터 (On-Premise) ───────────────┐
-│ ┌───────▼────────────────┐                                      │
-│ │ Customer Gateway (라우터)│                                      │
-│ └───────┬────────────────┘                                      │
-│         │ (SQL Query / Data Sync)                               │
-│ ┌───────▼──────────────────────┐                                │
-│ │  [ 핵심 코어 Database ]          │◀─(외부망 노출 절대 차단)    │
-│ │  (고객 원장, 결제 정보 저장소)   │                              │
-│ └────────────────────────────────┘                                │
+│ ┌───────▼────────────────┐ │
+│ │ Customer Gateway (라우터)│ │
+│ └───────┬────────────────┘ │
+│ │ (SQL Query / Data Sync) │
+│ ┌───────▼──────────────────────┐ │
+│ │ [ 핵심 코어 Database ] │◀─(외부망 노출 절대 차단) │
+│ │ (고객 원장, 결제 정보 저장소) │ │
+│ └────────────────────────────────┘ │
 └───────────────────────────────────────────────────────────────────┘
 ```
 이 아키텍처의 가장 치명적인 병목 지점([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))은 한가운데 위치한 '[전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)'의 대역폭과 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이다. 퍼블릭의 WAS가 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)의 DB를 조회할 때, 평소 같은 로컬망에서는 0.1ms 걸리던 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)을 타면서 2~5ms로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 늘어난다. 만약 애플리케이션 코드가 한 번의 요청 처리 중 DB를 100번 반복 호출(N+1 문제)하는 낡은 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 구조를 가졌다면, 하이브리드 환경에서는 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)이 누적되어 시스템 전체가 마비되는 참사가 벌어진다. 실무에서는 아키텍트가 반드시 네트워크 단절과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 오버헤드를 계산하여 코드를 리팩토링해야 한다.
@@ -102,22 +102,22 @@ tags = ["cloud_architecture"]
 
 이 도식은 트래픽 폭주 시 인프라를 구원하는 **클라우드 버스팅 (Cloud Bursting)**의 트래픽 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 흐름을 보여준다.
 ```text
-[사용자 트래픽 증가 곡선]  ---> 100% ---> 150% (위기) ---> 200% (위기 폭발)
+[사용자 트래픽 증가 곡선] ---> 100% ---> 150% (위기) ---> 200% (위기 폭발)
 
-1. [글로벌 로드밸런서 (L4/L7)]  === 감시 ===> (현재 온프레미스 CPU 임계치 90% 도달 감지!)
-           │
-           ├─ (100% 트래픽)
-           ▼
+1. [글로벌 로드밸런서 (L4/L7)] === 감시 ===> (현재 온프레미스 CPU 임계치 90% 도달 감지!)
+│
+├─ (100% 트래픽)
+▼
 2. [온프레미스 데이터센터] (평상시 운영) ──┐ (데이터 비동기 복제)
-   - 웹 서버 가동률 100% (포화 상태)     │
-                                         ▼
-   (임계치 초과 시 추가 라우팅 개방!)  3. [퍼블릭 클라우드] (유휴 상태 대기 중)
-           │                             - Auto Scaling 작동 시작
-           └─ (넘치는 50% 추가 트래픽) ─► - 스파이크 트래픽 흡수 처리
+- 웹 서버 가동률 100% (포화 상태) │
+▼
+(임계치 초과 시 추가 라우팅 개방!) 3. [퍼블릭 클라우드] (유휴 상태 대기 중)
+│ - Auto Scaling 작동 시작
+└─ (넘치는 50% 추가 트래픽) ─► - 스파이크 트래픽 흡수 처리
 ```
 클라우드 버스팅 도식의 핵심은 무조건 퍼블릭으로 넘어가는 것이 아니라 평상시 비용 최적화를 위해 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 자원을 끝까지 짜내어 쓴 뒤, 한계선(Threshold)을 넘는 잉여 트래픽만 일시적으로 비싼 퍼블릭을 빌려 흡수한다는 경제적 원리에 있다. 이를 통해 기업은 1년 중 단 며칠을 위해 수십 대의 서버를 구매하는 악성 재무 구조에서 벗어날 수 있다.
 
-**📢 섹션 요약 비유**: 댐([온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/))에 물이 가득 차서 위험 수위에 도달하면, 비상 수문(로드밸런서)을 열어 넘치는 물만 옆 동네의 거대한 비상 저수지([퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/))로 흘려보내 댐의 붕괴를 막는 치수(治水) 공학이다.
+**📢 섹션 요약 비유**: 댐([온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/))에 물이 가득 차서 위험 수위에 도달하면, 비상 수문(로드밸런서)을 열어 넘치는 물만 옆 동네의 거대한 비상 저수지([퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/))로 흘려보내 댐의 붕괴를 막는 치수() 공학이다.
 
 ---
 
@@ -166,17 +166,17 @@ tags = ["cloud_architecture"]
 
 ```text
 [온프레미스]
-    │
-    ▼
+│
+▼
 [프라이빗 클라우드]
-    │
-    ▼
+│
+▼
 [퍼블릭 클라우드]
-    │
-    ▼
+│
+▼
 [하이브리드 클라우드(연결·통합)]
-    │
-    ▼
+│
+▼
 [멀티 클라우드 전략]
 ```
 

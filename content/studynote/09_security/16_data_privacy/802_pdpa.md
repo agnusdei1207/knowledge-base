@@ -23,10 +23,10 @@ PDPA (Personal [Data](/knowledge-base/studynote/05_database/01_db_architecture_r
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
-│ 왜 PDPA가 필요한가                                                │
+│ 왜 PDPA가 필요한가 │
 ├──────────────────────────────────────────────────────────────┤
-│ 자산·서비스 운영 ─► 노출/불확실성 ─► 위험 확대              │
-│                     └──── PDPA로 통제·판단 ────┘                 │
+│ 자산·서비스 운영 ─► 노출/불확실성 ─► 위험 확대 │
+│ └──── PDPA로 통제·판단 ────┘ │
 └──────────────────────────────────────────────────────────────┘
 ```
 
@@ -48,10 +48,10 @@ PDPA (Personal [Data](/knowledge-base/studynote/05_database/01_db_architecture_r
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
-│ 운영 사이클                                                  │
+│ 운영 사이클 │
 ├──────────────────────────────────────────────────────────────┤
-│ 기준 수립 ─► 통제 적용 ─► 증적 수집 ─► 점검·개선            │
-│              └──────── 책임·보고 체계 ────────┘             │
+│ 기준 수립 ─► 통제 적용 ─► 증적 수집 ─► 점검·개선 │
+│ └──────── 책임·보고 체계 ────────┘ │
 └──────────────────────────────────────────────────────────────┘
 ```
 
@@ -114,12 +114,12 @@ PDPA (Personal [Data](/knowledge-base/studynote/05_database/01_db_architecture_r
 
 ```text
 [식별 가능 데이터 처리]
-    │
-    ▼
+│
+▼
 [PDPA (Personal Data Protection Act)]
-    │
-    ├──▶ [가명화·익명화]
-    └──▶ [유출 대응 체계]
+│
+├──▶ [가명화·익명화]
+└──▶ [유출 대응 체계]
 ```
 
 이 흐름도는 PDPA (Personal [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) Act)를 단일 용어가 아니라 선행 문제, 현재 해결 방식, 후속 확장 방향으로 기억하게 해 준다. 시험과 실무 모두에서 이 연결 구조를 함께 말할 수 있어야 개념이 살아난다.
@@ -137,6 +137,6 @@ PDPA (Personal [Data](/knowledge-base/studynote/05_database/01_db_architecture_r
 **진행 상황**: 876 / 1108
 
 ← **이전**: [801. CPRA (California Privacy Rights Act)](/knowledge-base/studynote/09_security/16_data_privacy/801_cpra/)
-**다음**: [803. 개인정보보호 法律体系 (Privacy Law Comparison)](/knowledge-base/studynote/09_security/16_data_privacy/803_privacy_law_comparison/) →
+**다음**: [803. 개인정보보호 법률 체계 (Privacy Law Comparison)](/knowledge-base/studynote/09_security/16_data_privacy/803_privacy_law_comparison/) →
 
 ---

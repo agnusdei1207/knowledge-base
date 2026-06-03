@@ -28,9 +28,9 @@ tags = ["studynote-operating-system"]
 | **실행 방식** | 숙주 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 실행 시 | 자율적 실행 | 사용자가 직접 실행 |
 | **확산 속도** | 중간 | 매우 빠름 | 느림 (사용자 의존) |
 
-### 1.2 트로이 목마의命名由来
+### 1.2 트로이 목마의
 
-> 고대 그리스的故事(이야기)에서, 그리스軍(군)이 特洛伊(트로이) 성에gift(선물)로 목마를 바쳤다. 성内部(안)에서 숨겨 있던 그리스軍이 밤에 나와 성을陥落(함락)시켰다. 이것과 비슷하게, 트로이 목마도 정상 프로그램에 숨겨져 사용자의 시스템에 침투한다.
+> 고대 그리스(이야기)에서, 그리스(군)이 (트로이) 성에gift(선물)로 목마를 바쳤다. 성(안)에서 숨겨 있던 그리스이 밤에 나와 성을(함락)시켰다. 이것과 비슷하게, 트로이 목마도 정상 프로그램에 숨겨져 사용자의 시스템에 침투한다.
 
 - **📢 섹션 요약 비유**: 복잡한 창고에서 필요한 물건을 찾기 위해 먼저 구역과 표지판을 세우는 것과 같다.
 
@@ -45,7 +45,7 @@ tags = ["studynote-operating-system"]
 1. 【유포】 악성 코드 + 정상 프로그램 → 래퍼로 포장 → 배포
 2. 【유도】 사용자가 정상 프로그램으로 오인하여 실행
 3. 【활성화】 악성 코드 부분이 실행
-4. 【潜伏】 백그라운드에서 악의적 작업 수행
+4. 【】 백그라운드에서 악의적 작업 수행
 ```
 
 ### 2.2 주요 유형
@@ -54,7 +54,7 @@ tags = ["studynote-operating-system"]
 |:---|:---|:---|
 | **Remote Access Trojan (RAT)** | 원격에서 시스템 제어 | njRAT, DarkComet |
 | **[Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Stealing Trojan** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 탈취 | 비밀번호 훔치기, [키로거](/knowledge-base/studynote/09_security/15_malware_attack_vectors/740_keylogger/) |
-| **Destructive Trojan** | 시스템 파괴 | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 삭제,硬盘(하드) 포맷 |
+| **Destructive Trojan** | 시스템 파괴 | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 삭제,(하드) 포맷 |
 
 - **📢 섹션 요약 비유**: 공장 컨베이어벨트가 어떤 순서로 부품을 받아 가공하고 내보내는지 설계도를 펼쳐 보는 것과 같다.
 
@@ -112,9 +112,9 @@ malware.exe + game.exe → wrapper.exe (정상 게임으로 위장)
 
 ## Ⅴ. 기대효과 및 결론
 
-- **위협 인식**: 트로이 목마의 특성과 동작 원리를 이해하여初期([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)) 탐지 가능
-- **多层 방어**: 기술적 대응과 사용자 인식을 결합한 방어 체계 구축
-- **지속적警惕**: 새로운 변종이 지속적으로 등장하므로 지속적인 보안 업데이트 필요
+- **위협 인식**: 트로이 목마의 특성과 동작 원리를 이해하여초기([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)) 탐지 가능
+- ** 방어**: 기술적 대응과 사용자 인식을 결합한 방어 체계 구축
+- **지속적**: 새로운 변종이 지속적으로 등장하므로 지속적인 보안 업데이트 필요
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -133,12 +133,12 @@ malware.exe + game.exe → wrapper.exe (정상 게임으로 위장)
 
 ```text
 [시스템 보안 위협 유형]
-    │
-    ▼
+│
+▼
 [트로이 목마 (Trojan Horse) / 래퍼 (Wrapper)]
-    │
-    ├──▶ [트랩 도어 (Trap Door / Backdoor)]
-    └──▶ [로직 밤 (Logic Bomb) / 타이머 밤]
+│
+├──▶ [트랩 도어 (Trap Door / Backdoor)]
+└──▶ [로직 밤 (Logic Bomb) / 타이머 밤]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
@@ -149,7 +149,7 @@ malware.exe + game.exe → wrapper.exe (정상 게임으로 위장)
 
 2. **래퍼**는 **"정상 포장지에 악성 선물을 싸는 것"**과 같다. 정상 게임 программы(프로그램) 안에 악성 코드를 숨겨, 아이들이 게임이라 생각하고 실행하게 만든다.
 
-3. **폴리모픽 기법**은 **"매번 다른 모양의 포장紙(종이)로 선물을 싸는 것"**과 같다. 매번 모습이 다르므로, 어떤 포장지를 막아야 하는지 알기 어렵다.
+3. **폴리모픽 기법**은 **"매번 다른 모양의 포장(종이)로 선물을 싸는 것"**과 같다. 매번 모습이 다르므로, 어떤 포장지를 막아야 하는지 알기 어렵다.
 
 ---
 

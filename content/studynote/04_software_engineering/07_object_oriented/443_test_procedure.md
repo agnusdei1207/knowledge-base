@@ -19,17 +19,17 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 테스트 절차(Test Procedure)는 특정 테스트 케이스를 실행하기 위해 필요한 단계별 지침을 상세히 기술한 문서이다. 각 단계는 명확한 작업(입력, 클릭, [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 등)과 예상되는 중간 결과를 포함한다. 테스트 스크립트(Test Script)는 이러한 절차를 프로그래밍 가능한 형태로 작성한 것으로, 도구를利用하여 자동으로 실행될 수 있다.
+- **개념**: 테스트 절차(Test Procedure)는 특정 테스트 케이스를 실행하기 위해 필요한 단계별 지침을 상세히 기술한 문서이다. 각 단계는 명확한 작업(입력, 클릭, [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 등)과 예상되는 중간 결과를 포함한다. 테스트 스크립트(Test Script)는 이러한 절차를 프로그래밍 가능한 형태로 작성한 것으로, 도구를활용하여 자동으로 실행될 수 있다.
 
-- **필요성**:测试用例が抽象적 실행 지침만 제공하는 경우, 실제 실행할 때 실행자마다 접근 방식이 다를 수 있다. 테스트 절차는 이러한 variability를 방지하여 동일한 결과를 재현할 수 있게 한다. 특히 규제的行业(항공, 의료, 금융)에서는 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능한 테스트 절차 문서가 필수적이다.
+- **필요성**:테스트이/가적 실행 지침만 제공하는 경우, 실제 실행할 때 실행자마다 접근 방식이 다를 수 있다. 테스트 절차는 이러한 variability를 방지하여 동일한 결과를 재현할 수 있게 한다. 특히 규제(항공, 의료, 금융)에서는 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능한 테스트 절차 문서가 필수적이다.
 
-- **💡 비유**: 테스트 절차는 **'医療机械设备 操作手册'**과 같다. MRI 操作手册에는 "1. 환자를 스캔台에 눕힌다", "2. 스캔部位를 레이저로 맞춤다", "3. 스캔 시작 버튼을 누른다" 등詳細な 순차적 지침이 포함된다. 소프트웨어 테스트 절차도 마찬가지로, 각 단계가 순서대로 명확히 기록되어 있어,操作자 누구든 동일한 결과를 얻을 수 있다.
+- **💡 비유**: 테스트 절차는 **' '**과 같다. MRI 에는 "1. 환자를 스캔에 눕힌다", "2. 스캔를 레이저로 맞춤다", "3. 스캔 시작 버튼을 누른다" 등 순차적 지침이 포함된다. 소프트웨어 테스트 절차도 마찬가지로, 각 단계가 순서대로 명확히 기록되어 있어,자 누구든 동일한 결과를 얻을 수 있다.
 
 - **등장 배경 및 발전 과정**:
-  1. **1980년대**: 공식 테스트 문서화 표준( military, aerospace)에서 테스트 절차 개념 정립
-  2. **1990년대**: WinRunner, QuickTest Professional 등의 상용 테스트 자동화 도구 등장
-  3. **2000년대**: [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 자동화 프레임워크(Selenium, JUnit) 대중화
-  4. **현재**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD, [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서 테스트 자동화가 표준으로 정착
+1. **1980년대**: 공식 테스트 문서화 표준( military, aerospace)에서 테스트 절차 개념 정립
+2. **1990년대**: WinRunner, QuickTest Professional 등의 상용 테스트 자동화 도구 등장
+3. **2000년대**: [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 자동화 프레임워크(Selenium, JUnit) 대중화
+4. **현재**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD, [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서 테스트 자동화가 표준으로 정착
 
 - **📢 섹션 요약 비유**: 테스트 절차는 **'평행우는길 찾기 내비게이션'**과 같다. 내비게이션은 "500m 직진 → 신호가 있는 교차로에서 우회전 → 1km 후 좌회전"처럼 단계별로 정확한 길을 안내한다. 소프트웨어 테스트 절차도 마찬가지로 "①로그인 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 접속 → ②사용자명 입력 → ③비밀번호 입력 → ④로그인 버튼 클릭"과 같이 정확한 단계별 지침을 제공하여, 사용자(테스터)들이 동일한 목적지(테스트 결과)에 도달할 수 있게 한다.
 
@@ -39,14 +39,14 @@ tags = ["studynote-software-engineering"]
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                  테스트 절차 (Test Procedu                        │
+│ 테스트 절차 (Test Procedu │
 ├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
+│ │
+│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
+│ │ │ │ │
+│ ▼ ▼ ▼ │
+│ 요구 분석 설계·적용 품질 검증 │
+│ │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -147,17 +147,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+│
+▼
 테스트 절차 (Test Procedure) / 테스트 스크립트 (Test Script) 개념 정립
-    │
-    ▼
+│
+▼
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+│
+▼
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+│
+▼
 지속적 개선 및 DevOps·MLOps 통합
 ```
 

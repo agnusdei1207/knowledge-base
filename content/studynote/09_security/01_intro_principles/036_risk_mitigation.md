@@ -24,11 +24,11 @@ tags = ["studynote-security"]
 위험 경감 접근:
 +-- 확률 경감: 취약점 패치, 인증 강화 -> 위협 실현 가능성 감소
 +-- 영향 경감: 백업, 격리, 암호화 -> 피해 규모 감소
-+-- 둘 다:    심층 방어 (Defense-in-Depth)
++-- 둘 다: 심층 방어 (Defense-in-Depth)
 
 잔여 위험 (Residual Risk):
-  경감 후에도 남는 위험
-  -> 수용(Accept) 또는 추가 경감 결정 필요
+경감 후에도 남는 위험
+-> 수용(Accept) 또는 추가 경감 결정 필요
 ```
 
 > 📢 **섹션 요약 비유**: 차 사고 위험 경감 = 안전벨트(영향 감소) + 방어 운전([확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 감소) + 에어백(영향 감소) — 위험이 0이 되지는 않는다.
@@ -39,25 +39,25 @@ tags = ["studynote-security"]
 
 ```
 예방적 통제 (Preventive Controls):
-  위협 발생 전 차단
-  +-- MFA (다중 인증)
-  +-- 방화벽, WAF
-  +-- 접근 통제 (ACL, RBAC)
-  +-- 암호화
+위협 발생 전 차단
++-- MFA (다중 인증)
++-- 방화벽, WAF
++-- 접근 통제 (ACL, RBAC)
++-- 암호화
 
 탐지적 통제 (Detective Controls):
-  발생 후 탐지
-  +-- IDS/IPS (침입 탐지/방지)
-  +-- SIEM (보안 이벤트 통합 관리)
-  +-- 감사 로그 (Audit Log)
-  +-- 이상 행동 탐지 (UEBA)
+발생 후 탐지
++-- IDS/IPS (침입 탐지/방지)
++-- SIEM (보안 이벤트 통합 관리)
++-- 감사 로그 (Audit Log)
++-- 이상 행동 탐지 (UEBA)
 
 교정적 통제 (Corrective Controls):
-  피해 발생 후 복구
-  +-- 백업/복원
-  +-- 인시던트 대응 계획 (IRP)
-  +-- 패치 관리
-  +-- 격리 (Quarantine)
+피해 발생 후 복구
++-- 백업/복원
++-- 인시던트 대응 계획 (IRP)
++-- 패치 관리
++-- 격리 (Quarantine)
 ```
 
 > 📢 **섹션 요약 비유**: 예방=잠금장치, 탐지=[CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/)·경보, 교정=보험+수리 — 세 가지 모두 있어야 완전한 보안이다.
@@ -74,19 +74,19 @@ ARO (Annualized Rate of Occurrence) = 연간 발생 횟수 예상
 ALE (Annualized Loss Expectancy) = SLE × ARO
 
 통제 적용 결정:
-  if (통제 비용 < ALE_before - ALE_after):
-    통제 적용 (경제적 합리성 있음)
-  else:
-    수용 또는 다른 전략 고려
+if (통제 비용 < ALE_before - ALE_after):
+통제 적용 (경제적 합리성 있음)
+else:
+수용 또는 다른 전략 고려
 
 예시:
-  서버 자산 가치: 1억원
-  랜섬웨어 EF: 80% (8천만원 손실)
-  SLE = 8,000만원
-  ARO = 0.5 (2년에 한 번)
-  ALE = 4,000만원
-  EDR 솔루션 비용: 500만원/년
-  -> 경제적으로 합리적 (500만 < 4,000만)
+서버 자산 가치: 1억원
+랜섬웨어 EF: 80% (8천만원 손실)
+SLE = 8,000만원
+ARO = 0.5 (2년에 한 번)
+ALE = 4,000만원
+EDR 솔루션 비용: 500만원/년
+-> 경제적으로 합리적 (500만 < 4,000만)
 ```
 
 > 📢 **섹션 요약 비유**: 화재보험 연간 보험료 vs 화재로 인한 연간 예상 손실 — 보험료가 더 낮으면 가입이 합리적이다.
@@ -97,36 +97,36 @@ ALE (Annualized Loss Expectancy) = SLE × ARO
 
 ```
 네트워크 경계
-      |
-[방화벽 / DMZ]  <- 예방적
-      |
-[IDS/IPS]  <- 탐지적
-      |
-[웹 서버 (WAF)]  <- 예방+탐지
-      |
-[애플리케이션]  <- SAST/DAST
-      |
-[데이터베이스]  <- 암호화, 접근 통제
-      |
-[백업 / DR]  <- 교정적
-      |
-[사용자 교육]  <- 예방적 (인간 요소)
+|
+[방화벽 / DMZ] <- 예방적
+|
+[IDS/IPS] <- 탐지적
+|
+[웹 서버 (WAF)] <- 예방+탐지
+|
+[애플리케이션] <- SAST/DAST
+|
+[데이터베이스] <- 암호화, 접근 통제
+|
+[백업 / DR] <- 교정적
+|
+[사용자 교육] <- 예방적 (인간 요소)
 ```
 
-> 📢 **섹션 요약 비유**: 성(城)의 해자·성벽·내성·병력·경보 — 한 겹이 뚫려도 다음 방어선이 있다.
+> 📢 **섹션 요약 비유**: 성()의 해자·성벽·내성·병력·경보 — 한 겹이 뚫려도 다음 방어선이 있다.
 
 ---
 
 ## V. 실무 시나리오 — [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 경감 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
-| 통제 유형    | 구체적 통제                       | 목적                   |
+| 통제 유형 | 구체적 통제 | 목적 |
 |-----------|----------------------------------|------------------------|
-| 예방       | [MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/), [최소 권한 원칙](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/) (PoLP)        | 계정 탈취 방지          |
-| 예방       | [EDR](/knowledge-base/studynote/09_security/04_endpoint_security/325_edr/) (Endpoint [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/) & Response)| 악성코드 실행 차단      |
-| 예방       | 이메일 필터링 ([SPF](/knowledge-base/studynote/03_network/09_application_layer_web_email/495_spf_sender_policy_framework/), [DKIM](/knowledge-base/studynote/03_network/09_application_layer_web_email/496_dkim_domainkeys_identified_mail/), [DMARC](/knowledge-base/studynote/03_network/09_application_layer_web_email/497_dmarc_domain_based_message_authentication/))  | [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 메일 차단          |
-| 탐지       | [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/) + [SOAR](/knowledge-base/studynote/03_network/14_network_security_threats/745_soar_security_orchestration_automation_response/) (자동 대응)           | 이상 징후 조기 탐지     |
-| 교정       | 3-2-1 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) (3개 복사, 2매체, 1오프사이트)| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 보장     |
-| 교정       | IRP ([인시던트 대응](/knowledge-base/studynote/09_security/13_secops_ir_forensics/652_incident_response_nist_800_61/) 계획)          | 신속한 피해 최소화      |
+| 예방 | [MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/), [최소 권한 원칙](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/) (PoLP) | 계정 탈취 방지 |
+| 예방 | [EDR](/knowledge-base/studynote/09_security/04_endpoint_security/325_edr/) (Endpoint [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/) & Response)| 악성코드 실행 차단 |
+| 예방 | 이메일 필터링 ([SPF](/knowledge-base/studynote/03_network/09_application_layer_web_email/495_spf_sender_policy_framework/), [DKIM](/knowledge-base/studynote/03_network/09_application_layer_web_email/496_dkim_domainkeys_identified_mail/), [DMARC](/knowledge-base/studynote/03_network/09_application_layer_web_email/497_dmarc_domain_based_message_authentication/)) | [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 메일 차단 |
+| 탐지 | [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/) + [SOAR](/knowledge-base/studynote/03_network/14_network_security_threats/745_soar_security_orchestration_automation_response/) (자동 대응) | 이상 징후 조기 탐지 |
+| 교정 | 3-2-1 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) (3개 복사, 2매체, 1오프사이트)| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 보장 |
+| 교정 | IRP ([인시던트 대응](/knowledge-base/studynote/09_security/13_secops_ir_forensics/652_incident_response_nist_800_61/) 계획) | 신속한 피해 최소화 |
 
 > 📢 **섹션 요약 비유**: [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 방어는 여러 겹의 보호막 — 하나가 뚫려도 다른 층이 막아주고, 만약 암호화되어도 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)으로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)한다.
 
@@ -138,16 +138,16 @@ ALE (Annualized Loss Expectancy) = SLE × ARO
 위험 경감 (Risk Mitigation)
 +-- 대상: 발생 확률 / 영향도 감소
 +-- 통제 유형
-|   +-- 예방적: MFA, 방화벽, 암호화
-|   +-- 탐지적: IDS, SIEM, 감사 로그
-|   +-- 교정적: 백업, IRP, 패치
+| +-- 예방적: MFA, 방화벽, 암호화
+| +-- 탐지적: IDS, SIEM, 감사 로그
+| +-- 교정적: 백업, IRP, 패치
 +-- 경제성
-|   +-- ALE (연간 기대 손실)
-|   +-- 통제 비용 vs ALE 절감액
+| +-- ALE (연간 기대 손실)
+| +-- 통제 비용 vs ALE 절감액
 +-- 전략
-    +-- 심층 방어 (Defense-in-Depth)
-    +-- 잔여 위험 관리
-    +-- NIST CSF, ISO 27001 연계
++-- 심층 방어 (Defense-in-Depth)
++-- 잔여 위험 관리
++-- NIST CSF, ISO 27001 연계
 ```
 
 ---
@@ -158,20 +158,20 @@ ALE (Annualized Loss Expectancy) = SLE × ARO
 [전통 보안]
 경계 기반 방어 (Perimeter Defense)
 방화벽 = 모든 것
-      |
-      v
+|
+v
 [심층 방어 개념 (NSA, 1990s)]
 단일 통제 실패 가정 -> 다층 방어
-      |
-      v
+|
+v
 [ALE 기반 경제성 분석 (CISSP 표준)]
 보안 투자의 경제적 합리성 계량화
-      |
-      v
+|
+v
 [NIST CSF / ISO 27001]
 예방-탐지-대응-복구 프레임워크
-      |
-      v
+|
+v
 [현재: Zero Trust + AI 탐지]
 암묵적 신뢰 제거 + AI 이상 행동 탐지
 경감 통제의 지능화

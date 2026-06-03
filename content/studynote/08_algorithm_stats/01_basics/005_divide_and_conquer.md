@@ -19,9 +19,9 @@ tags = ["algorithm_stats"]
 
 ## Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-분할 정복(Divide and Conquer)은 计算机科学의 가장 오래되고 강력한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 설계 패러다임 중 하나이다. 기원전 200년경 알렉산드리아의 수학자 유클리드가 제시한 유클리드 호제법([GCD](/knowledge-base/studynote/02_operating_system/10_security/663_macos_ios_gcd_grand_central_dispatch/) 계산)이 이 패러다임의 가장 오래된实例으로 알려져 있다. 현대적 의미의 분할 정복은 1945년경 John von Neumann이 [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)([Merge Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/))을 설계할 때 처음으로 체계적으로 적용되었으며, 이후 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)([Quick Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)), [고속 푸리에 변환](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/)(Fast Fourier Transform), 행렬 곱셈(Strassen [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) 등 수많은 효율적 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 theoretical 기반이 되었다.
+분할 정복(Divide and Conquer)은 컴퓨팅의 가장 오래되고 강력한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 설계 패러다임 중 하나이다. 기원전 200년경 알렉산드리아의 수학자 유클리드가 제시한 유클리드 호제법([GCD](/knowledge-base/studynote/02_operating_system/10_security/663_macos_ios_gcd_grand_central_dispatch/) 계산)이 이 패러다임의 가장 오래된으로 알려져 있다. 현대적 의미의 분할 정복은 1945년경 John von Neumann이 [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)([Merge Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/))을 설계할 때 처음으로 체계적으로 적용되었으며, 이후 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)([Quick Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)), [고속 푸리에 변환](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/)(Fast Fourier Transform), 행렬 곱셈(Strassen [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) 등 수많은 효율적 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 theoretical 기반이 되었다.
 
-분할 정복이 유용한 이유는 거대한 문제를 직접 풀면 복잡도가爆炸적으로 증가하지만, 동일한 성격의 더 작은 문제 여러 개로 분할하면 개별 문제의 복잡도가 줄어들기 때문이다. 그리고 这些하위 문제들의 결과를 조합하면 전체 문제의 해를 얻을 수 있다. 만약 하위 문제가 서로 독립이라면, 여러 프로세서에서 동시에 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리할 수 있어 시간적 효율성을 추가로 확보할 수 있다.
+분할 정복이 유용한 이유는 거대한 문제를 직접 풀면 복잡도가적으로 증가하지만, 동일한 성격의 더 작은 문제 여러 개로 분할하면 개별 문제의 복잡도가 줄어들기 때문이다. 그리고 하위 문제들의 결과를 조합하면 전체 문제의 해를 얻을 수 있다. 만약 하위 문제가 서로 독립이라면, 여러 프로세서에서 동시에 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리할 수 있어 시간적 효율성을 추가로 확보할 수 있다.
 
 > 이 도식은 분할 정복의 3단계 절차를 보여준다.
 
@@ -29,50 +29,50 @@ tags = ["algorithm_stats"]
 [분할 정복 (Divide and Conquer) 3단계]
 
 ┌──────────────────────────────────────────────────────┐
-│                                                      │
-│    ┌─────────────────────────────────────────┐      │
-│    │           분할 정복 3단계                  │      │
-│    └─────────────────────────────────────────┘      │
-│                                                      │
-│    ┌───────────────┐                                 │
-│    │  1. DIVIDE    │ ← 큰 문제를 작게 분할           │
-│    │     분할       │   (입력을 같은 크기의            │
-│    └───────┬───────┘    부분문제로 분할)             │
-│            │                                        │
-│            ▼                                        │
-│    ┌───────────────┐                                 │
-│    │  2. CONQUER    │ ← 각 부분문제를 재귀적 해결     │
-│    │     정복       │   (부분문제 충분히 작으면       │
-│    └───────┬───────┘    직접 해결 = 기저사례)         │
-│            │                                        │
-│            ▼                                        │
-│    ┌───────────────┐                                 │
-│    │  3. COMBINE   │ ← 하위 문제의 해를 결합         │
-│    │     결합       │   (부분해들을 통합하여          │
-│    └───────────────┘    전체 해 구성)                 │
-│                                                      │
-│  [합병 정렬로 이해하기]                                │
-│  ────────────────────                                │
-│  Divide: [5, 2, 8, 1, 9] → [5, 2, 8] + [1, 9]       │
-│           더 작게 분할 → [5, 2] + [8] + [1] + [9]    │
-│                    → [5] + [2] + [8] + [1] + [9]    │
-│                                                      │
-│  Conquer: 각 조각을 정렬                               │
-│           [2, 5] + [1, 8] + [9]                     │
-│           → [1, 2, 5, 8, 9] (합병)                  │
-│                                                      │
-│  Combine: [2, 5] + [1, 8] 합병 → [1, 2, 5, 8]       │
-│           [1, 2, 5, 8] + [9] 합병 → [1, 2, 5, 8, 9] │
-│                                                      │
+│ │
+│ ┌─────────────────────────────────────────┐ │
+│ │ 분할 정복 3단계 │ │
+│ └─────────────────────────────────────────┘ │
+│ │
+│ ┌───────────────┐ │
+│ │ 1. DIVIDE │ ← 큰 문제를 작게 분할 │
+│ │ 분할 │ (입력을 같은 크기의 │
+│ └───────┬───────┘ 부분문제로 분할) │
+│ │ │
+│ ▼ │
+│ ┌───────────────┐ │
+│ │ 2. CONQUER │ ← 각 부분문제를 재귀적 해결 │
+│ │ 정복 │ (부분문제 충분히 작으면 │
+│ └───────┬───────┘ 직접 해결 = 기저사례) │
+│ │ │
+│ ▼ │
+│ ┌───────────────┐ │
+│ │ 3. COMBINE │ ← 하위 문제의 해를 결합 │
+│ │ 결합 │ (부분해들을 통합하여 │
+│ └───────────────┘ 전체 해 구성) │
+│ │
+│ [합병 정렬로 이해하기] │
+│ ──────────────────── │
+│ Divide: [5, 2, 8, 1, 9] → [5, 2, 8] + [1, 9] │
+│ 더 작게 분할 → [5, 2] + [8] + [1] + [9] │
+│ → [5] + [2] + [8] + [1] + [9] │
+│ │
+│ Conquer: 각 조각을 정렬 │
+│ [2, 5] + [1, 8] + [9] │
+│ → [1, 2, 5, 8, 9] (합병) │
+│ │
+│ Combine: [2, 5] + [1, 8] 합병 → [1, 2, 5, 8] │
+│ [1, 2, 5, 8] + [9] 합병 → [1, 2, 5, 8, 9] │
+│ │
 └──────────────────────────────────────────────────────┘
 ```
 
 - **관찰**: 분할 정복의 핵심은 하위 문제들이 서로 독립적(Independent)이라는 것이다. 서로Overlap되면 비효율적이거나 중복 계산이 발생한다.
-- **원인**: 독립적인 하위 문제들은 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)적으로 풀어도 서로干扰하지 않아 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화도 가능하다.
+- **원인**: 독립적인 하위 문제들은 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)적으로 풀어도 서로하지 않아 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화도 가능하다.
 - **결과**: 이 속성은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 컴퓨팅 환경에서 분할 정복이 특히 효과적인 이유이다.
 - **판단**: 하위 문제 간Overlap이 존재하면 [메모이제이션](/knowledge-base/studynote/08_algorithm_stats/01_basics/008_memoization/)([Memoization](/knowledge-base/studynote/08_algorithm_stats/01_basics/008_memoization/))을 적용하거나 [동적 프로그래밍](/knowledge-base/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/)으로 전환하는 것이 더 효율적이다.
 
-📢 **섹션 요약 비유**: 분할 정복은-large 피자를 나눌 때와 같습니다. 한 명이whole 피자를 먹으려 하면 굉장히费力ですが、피자를 8조각으로 나누면(분할) 각 조각을 쉽게 먹을 수 있고(정복), 다 먹은 후에는whole 피자를 다 먹은 것과同じ効果(결합)가 됩니다.
+📢 **섹션 요약 비유**: 분할 정복은-large 피자를 나눌 때와 같습니다. 한 명이whole 피자를 먹으려 하면 굉장히입니다이/가、피자를 8조각으로 나누면(분할) 각 조각을 쉽게 먹을 수 있고(정복), 다 먹은 후에는whole 피자를 다 먹은 것과(결합)가 됩니다.
 
 ---
 
@@ -86,34 +86,34 @@ tags = ["algorithm_stats"]
 [마스터 정리 (Master Theorem) 적용]
 
 ┌──────────────────────────────────────────────────────┐
-│                                                      │
-│  재귀 관계: T(N) = aT(N/b) + f(N)                    │
-│                                                      │
-│  ├── f(N) = O(N^{log_b a - ε})  → T(N) = Θ(N^{log_b a})
-│  ├── f(N) = Θ(N^{log_b a})       → T(N) = Θ(N^{log_b a} log N)
-│  └── f(N) = Ω(N^{log_b a + ε})   → T(N) = Θ(f(N))  │
-│       (증명 조건 필요)                                 │
-│                                                      │
-│  [합병 정렬 적용]                                    │
-│  ────────────────────                                │
-│  T(N) = 2T(N/2) + N                                  │
-│                                                      │
-│  a = 2, b = 2, f(N) = N                             │
-│  N^{log_b a} = N^{log_2 2} = N^1 = N                │
-│                                                      │
-│  f(N) = Θ(N^{log_b a}) = Θ(N)                      │
-│  → T(N) = Θ(N^{log_b a} log N) = Θ(N log N)        │
-│                                                      │
-│  [퀵 정렬 (평균) 적용]                                │
-│  ────────────────────                                │
-│  T(N) = 2T(N/2) + N  (피벗이 항상 중앙에 위치)        │
-│  → Θ(N log N) (합병 정렬과 동일)                      │
-│                                                      │
-│  [퀵 정렬 (최악) 적용]                                │
-│  ────────────────────                                │
-│  T(N) = T(N-1) + N  (피벗이 항상 최솟값/최댓값)       │
-│  → Θ(N²)                                            │
-│                                                      │
+│ │
+│ 재귀 관계: T(N) = aT(N/b) + f(N) │
+│ │
+│ ├── f(N) = O(N^{log_b a - ε}) → T(N) = Θ(N^{log_b a})
+│ ├── f(N) = Θ(N^{log_b a}) → T(N) = Θ(N^{log_b a} log N)
+│ └── f(N) = Ω(N^{log_b a + ε}) → T(N) = Θ(f(N)) │
+│ (증명 조건 필요) │
+│ │
+│ [합병 정렬 적용] │
+│ ──────────────────── │
+│ T(N) = 2T(N/2) + N │
+│ │
+│ a = 2, b = 2, f(N) = N │
+│ N^{log_b a} = N^{log_2 2} = N^1 = N │
+│ │
+│ f(N) = Θ(N^{log_b a}) = Θ(N) │
+│ → T(N) = Θ(N^{log_b a} log N) = Θ(N log N) │
+│ │
+│ [퀵 정렬 (평균) 적용] │
+│ ──────────────────── │
+│ T(N) = 2T(N/2) + N (피벗이 항상 중앙에 위치) │
+│ → Θ(N log N) (합병 정렬과 동일) │
+│ │
+│ [퀵 정렬 (최악) 적용] │
+│ ──────────────────── │
+│ T(N) = T(N-1) + N (피벗이 항상 최솟값/최댓값) │
+│ → Θ(N²) │
+│ │
 └──────────────────────────────────────────────────────┘
 ```
 
@@ -122,7 +122,7 @@ tags = ["algorithm_stats"]
 - **결과**: 따라서 분할 정복 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 구현의 세밀함에 크게 좌우된다.
 - **판단**: [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)에서 중앙값 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)(Median-of-Three)이나 3-way 파티셔닝을 사용하는 것이 이러한 이유 때문이다.
 
-📢 **섹션 요약 비유**: 분할 정복의 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 5살 아이에게 큰 수 10개를 설명할 때, "5와 5로分成하면" 것과 같습니다. "5는 3과 2로分成"하는 식으로 问题를 자연스러운 깊이까지 나누다 보면, 整合할 때 자연스럽게 답에 도달합니다.
+📢 **섹션 요약 비유**: 분할 정복의 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 5살 아이에게 큰 수 10개를 설명할 때, "5와 5로하면" 것과 같습니다. "5는 3과 2로"하는 식으로 문제를 자연스러운 깊이까지 나누다 보면, 할 때 자연스럽게 답에 도달합니다.
 
 ---
 
@@ -130,40 +130,40 @@ tags = ["algorithm_stats"]
 
 분할 정복의 대표적 사례는 [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/), [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/), [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/), [고속 푸리에 변환](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/)([FFT](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/)), Strassen 행렬 곱셈이다. **[이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/)**은 분할 정복의 가장 단순한 형태로, 정렬된 배열에서 목표 값을 찾을 때 중앙을 기준으로 반을 버리고 나머지 반에서만 계속 탐색한다.
 
-**실무 구현 시 주의사항**은 다음과 같다. 기저 사례(Base Case)를 빠뜨리면 무한 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)에 빠지므로 반드시 처리해야 한다. 분할이 균등하지 않으면 최악의 복잡도가 발생할 수 있다. [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 호출로 인한 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 오버플로우에 주의해야 한다. 결합(Combine) 단계의 비용을過小評価하지 말아야 한다.
+**실무 구현 시 주의사항**은 다음과 같다. 기저 사례(Base Case)를 빠뜨리면 무한 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)에 빠지므로 반드시 처리해야 한다. 분할이 균등하지 않으면 최악의 복잡도가 발생할 수 있다. [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 호출로 인한 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 오버플로우에 주의해야 한다. 결합(Combine) 단계의 비용을하지 말아야 한다.
 
 ```text
 [분할 정복 구현 패턴]
 
 ┌──────────────────────────────────────────────────────┐
-│                                                      │
-│  [전형적 분할 정복 의사코드]                           │
-│  ────────────────────                                │
-│  function DAC(input, left, right):                  │
-│      if left >= right:      // 기저 사례: 원소 1개   │
-│          return                                     │
-│                                                      │
-│      mid = (left + right) // 2    // 분할           │
-│                                                      │
-│      DAC(input, left, mid)         // 정복: 좌측      │
-│      DAC(input, mid+1, right)     // 정복: 우측      │
-│                                                      │
-│      combine(input, left, mid, right) // 결합        │
-│                                                      │
-│  [고속 푸리에 변환 (FFT) - O(N log N)]               │
-│  ────────────────────                                │
-│  A(x) = A_even(x²) + x · A_odd(x²)                  │
-│  A_even: 짝수次數 계수, A_odd: 홀수次數 계수         │
-│                                                      │
-│  F(A) = F(A_even) ∪ F(A_odd)로 분할 후 결합          │
-│  → O(N log N)에 多項式乘法 가능                       │
-│                                                      │
-│  [Strassen 행렬 곱셈 - O(N^2.81)]                   │
-│  ────────────────────                                │
-│  일반: 8번의递归 + 4번의 결합 = O(N³)               │
-│  Strassen: 7번의递归 (특별한 곱셈) + 결합 = O(N^2.81)│
-│  → 상수 계수 개선 (8→7) but 복잡한 구현               │
-│                                                      │
+│ │
+│ [전형적 분할 정복 의사코드] │
+│ ──────────────────── │
+│ function DAC(input, left, right): │
+│ if left >= right: // 기저 사례: 원소 1개 │
+│ return │
+│ │
+│ mid = (left + right) // 2 // 분할 │
+│ │
+│ DAC(input, left, mid) // 정복: 좌측 │
+│ DAC(input, mid+1, right) // 정복: 우측 │
+│ │
+│ combine(input, left, mid, right) // 결합 │
+│ │
+│ [고속 푸리에 변환 (FFT) - O(N log N)] │
+│ ──────────────────── │
+│ A(x) = A_even(x²) + x · A_odd(x²) │
+│ A_even: 짝수 계수, A_odd: 홀수 계수 │
+│ │
+│ F(A) = F(A_even) ∪ F(A_odd)로 분할 후 결합 │
+│ → O(N log N)에 가능 │
+│ │
+│ [Strassen 행렬 곱셈 - O(N^2.81)] │
+│ ──────────────────── │
+│ 일반: 8번의 + 4번의 결합 = O(N³) │
+│ Strassen: 7번의 (특별한 곱셈) + 결합 = O(N^2.81)│
+│ → 상수 계수 개선 (8→7) but 복잡한 구현 │
+│ │
 └──────────────────────────────────────────────────────┘
 ```
 
@@ -177,7 +177,7 @@ tags = ["algorithm_stats"]
 
 **품질 관리 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)**는 다음과 같다. 기저 사례(Base Case)가 모든 가능한 입력 경로에서 도달 가능한지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다. 분할이 균형(Balanced)된 경우와 불균형(Unbalanced)된 경우를 모두 테스트해야 한다. 결합(Combine) 로직이 정확한지 수학적 불변량(Invariant)을 통해 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다.
 
-📢 **섹션 요약 비유**: 분할 정복의 품질 관리는 대형 building 시공監理와 같습니다. 기초(기저 사례)가 부실하면 building 전체가 흔들리고, 공사 팀(하위 문제) 간 조율(결합)이 없으면building이傾斜합니다.
+📢 **섹션 요약 비유**: 분할 정복의 품질 관리는 대형 building 시공와 같습니다. 기초(기저 사례)가 부실하면 building 전체가 흔들리고, 공사 팀(하위 문제) 간 조율(결합)이 없으면building이합니다.
 
 ---
 
@@ -185,9 +185,9 @@ tags = ["algorithm_stats"]
 
 분할 정복의 최신 동향은 **[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 분할 정복(Parallel Divide and Conquer)**와 **[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 가속 분할 정복**이다. 멀티코어 CPU와 GPU의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산 능력을 활용하면, 분할된 하위 문제들을 동시에 처리하여 이론적 시간 복잡도보다 훨씬 빠르게 실행할 수 있다. 또한 **Akka, Spark** 같은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 컴퓨팅 프레임워크에서 [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 패러다임의 기반이 되는 것이 바로 분할 정복 아이디어이다.
 
-분할 정복은 计算机科学의 가장 기초적인 설계 패러다임 중 하나이다. 이 패러다임을 이해하면 [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/), [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/), [FFT](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/), Strassen 등 주요 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 설계 원리를 직관적으로 이해할 수 있게 된다. 기술사 시험에서도 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 도출, 마스터 정리 적용, 분할 정복 vs [동적 프로그래밍](/knowledge-base/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/) 구분 등이 빈번하게 출제된다.
+분할 정복은 컴퓨팅의 가장 기초적인 설계 패러다임 중 하나이다. 이 패러다임을 이해하면 [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/), [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/), [FFT](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/), Strassen 등 주요 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 설계 원리를 직관적으로 이해할 수 있게 된다. 기술사 시험에서도 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 도출, 마스터 정리 적용, 분할 정복 vs [동적 프로그래밍](/knowledge-base/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/) 구분 등이 빈번하게 출제된다.
 
-📢 **섹션 요약 비유**: 분할 정복은 宇宙探查의 전략과 같습니다. 한 번에 달까지 가려하면 엄청난 연료(시간)가 필요하지만, 로켓을段階별로 분리(분할)하면 각 단계에서 연료를 절감하고, 마지막 단계만 달까지 도달하면 됩니다.
+📢 **섹션 요약 비유**: 분할 정복은 의 전략과 같습니다. 한 번에 달까지 가려하면 엄청난 연료(시간)가 필요하지만, 로켓을별로 분리(분할)하면 각 단계에서 연료를 절감하고, 마지막 단계만 달까지 도달하면 됩니다.
 
 ---
 
@@ -196,39 +196,39 @@ tags = ["algorithm_stats"]
 ```text
 [분할 정복 (Divide and Conquer) 핵심 개념 맵]
 
-         ┌─────────────────────────────────┐
-         │      분할 정복 (Divide and Conquer) │
-         └────────────────┬────────────────┘
-                          │
-      ┌───────────────────┼───────────────────┐
-      │                   │                    │
-      ▼                   ▼                    ▼
-┌──────────────┐  ┌──────────────┐  ┌──────────────┐
-│  1. DIVIDE   │  │  2. CONQUER  │  │  3. COMBINE  │
-│     분할       │  │     정복       │  │     결합       │
-├──────────────┤  ├──────────────┤  ├──────────────┤
-│ 입력 분할     │  │ 재귀적 해결   │  │ 부분해 통합   │
-│ 입력 크기 N   │  │ T(N)=aT(N/b) │  │ f(N) 비용    │
-│ N/b sized × a│  │ 기저 사례     │  │              │
-└──────────────┘  └──────────────┘  └──────────────┘
-      │                   │                    │
-      └───────────────────┴────────────────────┘
-                          │
-                          ▼
-         ┌─────────────────────────────────┐
-         │      대표 알고리즘 (Representatives) │
-         ├─────────────────────────────────┤
-         │ 합병 정렬: T(N)=2T(N/2)+O(N)    │
-         │ 퀵 정렬: T(N)=2T(N/2)+O(N)      │
-         │ FFT: T(N)=2T(N/2)+O(N)          │
-         │ 이진 탐색: T(N)=T(N/2)+O(1)     │
-         │ Strassen: O(N^2.81)             │
-         └─────────────────────────────────┘
+┌─────────────────────────────────┐
+│ 분할 정복 (Divide and Conquer) │
+└────────────────┬────────────────┘
+│
+┌───────────────────┼───────────────────┐
+│ │ │
+▼ ▼ ▼
+┌──────────────┐ ┌──────────────┐ ┌──────────────┐
+│ 1. DIVIDE │ │ 2. CONQUER │ │ 3. COMBINE │
+│ 분할 │ │ 정복 │ │ 결합 │
+├──────────────┤ ├──────────────┤ ├──────────────┤
+│ 입력 분할 │ │ 재귀적 해결 │ │ 부분해 통합 │
+│ 입력 크기 N │ │ T(N)=aT(N/b) │ │ f(N) 비용 │
+│ N/b sized × a│ │ 기저 사례 │ │ │
+└──────────────┘ └──────────────┘ └──────────────┘
+│ │ │
+└───────────────────┴────────────────────┘
+│
+▼
+┌─────────────────────────────────┐
+│ 대표 알고리즘 (Representatives) │
+├─────────────────────────────────┤
+│ 합병 정렬: T(N)=2T(N/2)+O(N) │
+│ 퀵 정렬: T(N)=2T(N/2)+O(N) │
+│ FFT: T(N)=2T(N/2)+O(N) │
+│ 이진 탐색: T(N)=T(N/2)+O(1) │
+│ Strassen: O(N^2.81) │
+└─────────────────────────────────┘
 
 [분할 정복 vs 동적 프로그래밍]
 - 공통점: 하위 문제 분할 + 재귀
 - 차이점: DP는 하위 문제 중복(OVERLAP) → 메모이제이션
-          DC는 하위 문제 독립(INDEPENDENT) → 중복 없음
+DC는 하위 문제 독립(INDEPENDENT) → 중복 없음
 ```
 
 
@@ -244,17 +244,17 @@ tags = ["algorithm_stats"]
 
 ```text
 [분할 정복 (Divide and Conquer)]
-    │
-    ▼
+│
+▼
 [합병 정렬 (Merge Sort)]
-    │
-    ▼
+│
+▼
 [퀵 정렬 (Quick Sort)]
-    │
-    ▼
+│
+▼
 [이진 탐색 (Binary Search)]
-    │
-    ▼
+│
+▼
 [점화식 (Recurrence Relation)]
 ```
 

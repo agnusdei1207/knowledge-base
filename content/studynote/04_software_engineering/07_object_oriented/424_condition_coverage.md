@@ -21,18 +21,18 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 조건 커버리지는 분기문의 복합 조건을 구성하는 각 개별 조건식이 독립적으로 참(True)/거짓(False) 값을 갖는지를 측정하는 지표이다. 예를 들어 "if (A > 0 and B > 0)"이라는 복합 조건에서 A > 0과 B > 0이 각각 독립적으로 참/거짓을 한 번씩 가져야 한다.
 
-- **필요성**: [결정 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/)는 복합 조건 전체의 결과(참/거짓)만 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하지만, 개별 조건의独立적인 영향은 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하지 않는다. 예를 들어 A > 0 and B > 0에서 A만 false이고 B는 true인 경우, 전체 조건은 false가 되지만, A > 0 조건 자체가 false일 때의 동작은 이미 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 것이다. 조건 커버리지를 통해 각 개별 조건의 참/거짓을 모두 테스트할 수 있다.
+- **필요성**: [결정 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/)는 복합 조건 전체의 결과(참/거짓)만 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하지만, 개별 조건의적인 영향은 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하지 않는다. 예를 들어 A > 0 and B > 0에서 A만 false이고 B는 true인 경우, 전체 조건은 false가 되지만, A > 0 조건 자체가 false일 때의 동작은 이미 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 것이다. 조건 커버리지를 통해 각 개별 조건의 참/거짓을 모두 테스트할 수 있다.
 
 - **조건(Condition)과 결정(Decision)의 구분**:
-  - **조건(Condition)**: 더 이상 분할할 수 없는 단일 부울 식 (예: A > 0, B == 0)
-  - **결정(Decision)**: 하나 이상의 조건을 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산자로 결합한 것 (예: A > 0 and B == 0)
+- **조건(Condition)**: 더 이상 분할할 수 없는 단일 부울 식 (예: A > 0, B == 0)
+- **결정(Decision)**: 하나 이상의 조건을 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산자로 결합한 것 (예: A > 0 and B == 0)
 
 - **비유**: 조건 커버리지는 **'화합물 각 성분 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)'**과 같다. 화합물이 성분 A, B, C로 구성되어 있을 때, 전체 화합물의 특성(결정)을 보는 것([결정 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/))뿐만 아니라 각 성분 A, B, C가 단독으로 어떠한 특성을 갖는지(조건 커버리지)도 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다.
 
 - **등장 배경 및 발전 과정**:
-  1. **1980년대**: 소프트웨어 테스트 학계에서 조건 커버리지 개념 체계화
-  2. **1990년대**: DO-178B에서 항공기 소프트웨어 커버리지 수준 정의
-  3. **현재**: 자동차(ISO 26262), 의료기기(IEC 62304) 등 안전 표준에서 활용
+1. **1980년대**: 소프트웨어 테스트 학계에서 조건 커버리지 개념 체계화
+2. **1990년대**: DO-178B에서 항공기 소프트웨어 커버리지 수준 정의
+3. **현재**: 자동차(ISO 26262), 의료기기(IEC 62304) 등 안전 표준에서 활용
 
 - **섹션 요약 비유**: 조건 커버리지는 **'레시피 각 재료별 특성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)'**과 같다. 요리에서 "양파 + 당근 + 감자"를 넣는 레시피가 있을 때, 전체 맛(결정)만 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것이 아니라 양파만의 맛, 당근만의 맛, 감자만의 맛(각 조건)을 각각 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것이다. 이것이 조건 커버리지이다.
 
@@ -44,14 +44,14 @@ tags = ["studynote-software-engineering"]
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                  조건 커버리지 (Condition C                        │
+│ 조건 커버리지 (Condition C │
 ├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
+│ │
+│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
+│ │ │ │ │
+│ ▼ ▼ ▼ │
+│ 요구 분석 설계·적용 품질 검증 │
+│ │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -152,17 +152,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+│
+▼
 조건 커버리지 (Condition Coverage) 개념 정립
-    │
-    ▼
+│
+▼
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+│
+▼
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+│
+▼
 지속적 개선 및 DevOps·MLOps 통합
 ```
 

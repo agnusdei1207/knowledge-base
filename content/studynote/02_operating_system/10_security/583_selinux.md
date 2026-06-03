@@ -26,7 +26,7 @@ tags = ["studynote-operating-system"]
 NSA는 리눅스에 **"유형(Type)"** 기반 보안 모델을 도입했다. 프로세스의 유형(`httpd_t`)과 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 유형(`httpd_sys_content_t`)이 명시적으로 매핑되어야 접근이 허용된다. 이는 다음과 같은 원리다:
 
 ```
-[ 전통 DAC ]   : root가 모든 파일 접근 가능 -> 위험!
+[ 전통 DAC ] : root가 모든 파일 접근 가능 -> 위험!
 [ SELinux MAC ]: "httpd_t 프로세스는 shadow_t 파일에 접근 불가!" -> O(1) 차단
 ```
 
@@ -39,16 +39,16 @@ SELinux는 모든 주체(프로세스)와 객체([파일](/knowledge-base/studyn
 
 [ 보안 컨텍스트의 4가지 구성 요소 ]
 
-   system_u    :  object_r    :    shadow_t     :     s0
-  (1. User)      (2. Role)        (3. Type)   (4. Level/Category)
+system_u : object_r : shadow_t : s0
+(1. User) (2. Role) (3. Type) (4. Level/Category)
 
-  [ SELinux 유형 강제(Type Enforcement) ]
-    => 웹 서버(Apache) 프로세스 유형: `system_u:system_r:httpd_t:s0`
-    => 비밀 번호 파일 유형: `system_u:object_r:shadow_t:s0`
+[ SELinux 유형 강제(Type Enforcement) ]
+=> 웹 서버(Apache) 프로세스 유형: `system_u:system_r:httpd_t:s0`
+=> 비밀 번호 파일 유형: `system_u:object_r:shadow_t:s0`
 
-  [ 결론 ]
-    OS 심판: "httpd_t(웹 서버 유형)가 shadow_t(비밀번호 유형)에 접근?
-    내 정책(Policy)에 없어! 거부(Denied)!!"
+[ 결론 ]
+OS 심판: "httpd_t(웹 서버 유형)가 shadow_t(비밀번호 유형)에 접근?
+내 정책(Policy)에 없어! 거부(Denied)!!"
 ```
 
 **[핵심 포인트]** SELinux 접근 제어에서 가장 중요한 요소는 **`3. Type(유형)`** 이다. 일반적인 User, Role 등은 SELinux [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)에서 보조적 역할을 하며, `httpd_t`와 같이 `_t` 접미사를 가진 유형이 핵심 접근 결정 기준이 된다.
@@ -138,23 +138,23 @@ SELinux은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overv
 
 ```text
 [리눅스 보안 모듈 (LSM, Linux Security Modules)]
-    │
-    ▼
+│
+▼
 [SELinux]
-    │
-    ├──▶ [AppArmor]
-    └──▶ [시스템 보안 위협 유형]
+│
+├──▶ [AppArmor]
+└──▶ [시스템 보안 위협 유형]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **SELinux는 박물관 경비 시스템**과 같다. 구경꾼(일반 사용자)은 일반 전시실만 돌아다닐 수 있고, 학예사(웹 서버)도 별도의 경비증을 받아야 특정 금고(비밀 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))에 접근할 수 있다. **경비원이 경비증을 확인하지 않으면 아무도 들어갈 수 없게**锁(쇠창)를 채우는 것과 같다.
+1. **SELinux는 박물관 경비 시스템**과 같다. 구경꾼(일반 사용자)은 일반 전시실만 돌아다닐 수 있고, 학예사(웹 서버)도 별도의 경비증을 받아야 특정 금고(비밀 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))에 접근할 수 있다. **경비원이 경비증을 확인하지 않으면 아무도 들어갈 수 없게**잠금(쇠창)를 채우는 것과 같다.
 
-2. **SELinux는 "보안 라벨"을 이용해 접근을 제어**한다. 웹 서버에는 `httpd_t`(웹 유형)라는 라벨이 붙어있고, 비밀 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에는 `shadow_t`(비밀 유형)라는 라벨이 붙어있다. 웹 서버가 비밀 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 접근하려고 하면, **"네 라벨은 웹服务器인데, 여기 들어갈 수 있어?"라는 질문에 "안 돼!"** 하고 쫓겨난다.
+2. **SELinux는 "보안 라벨"을 이용해 접근을 제어**한다. 웹 서버에는 `httpd_t`(웹 유형)라는 라벨이 붙어있고, 비밀 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에는 `shadow_t`(비밀 유형)라는 라벨이 붙어있다. 웹 서버가 비밀 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 접근하려고 하면, **"네 라벨은 웹서버인데, 여기 들어갈 수 있어?"라는 질문에 "안 돼!"** 하고 쫓겨난다.
 
-3. **SELinux의 어려운 점**은 **[설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에서 `SELINUX=disabled`로 끌 수 있다는 것**이다. 마치 "火灾(화재) 경보기 때문에 귀찮다"고 Alarm(경보)을 꺼버리면, 정말로 火事(화재)가 났을 때 알림을 받을 수 없는 것과 같다. 이것이 SELinux를 해제하면 안 되는 이유다.
+3. **SELinux의 어려운 점**은 **[설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에서 `SELINUX=disabled`로 끌 수 있다는 것**이다. 마치 "(화재) 경보기 때문에 귀찮다"고 Alarm(경보)을 꺼버리면, 정말로 (화재)가 났을 때 알림을 받을 수 없는 것과 같다. 이것이 SELinux를 해제하면 안 되는 이유다.
 
 ---
 

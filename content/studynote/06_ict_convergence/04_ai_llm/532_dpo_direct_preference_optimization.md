@@ -40,22 +40,22 @@ RLHF 3단계:
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│              RLHF vs DPO 비교                            │
-│                                                         │
-│  RLHF                          DPO                      │
-│  ┌─────────┐                   ┌─────────────────────┐  │
-│  │선호 데이터│                   │선호 데이터            │  │
-│  └────┬────┘                   │(chosen, rejected)   │  │
-│       │                        └──────────┬──────────┘  │
-│  ┌────▼────┐                              │             │
-│  │보상 모델 │                   ┌──────────▼──────────┐  │
-│  │(별도훈련)│                   │DPO 손실 함수         │  │
-│  └────┬────┘                   │(Bradley-Terry 내재화)│  │
-│       │                        └──────────┬──────────┘  │
-│  ┌────▼────┐                              │             │
-│  │PPO 강화 │                   ┌──────────▼──────────┐  │
-│  │학습     │                   │LLM 직접 업데이트     │  │
-│  └─────────┘                   └─────────────────────┘  │
+│ RLHF vs DPO 비교 │
+│ │
+│ RLHF DPO │
+│ ┌─────────┐ ┌─────────────────────┐ │
+│ │선호 데이터│ │선호 데이터 │ │
+│ └────┬────┘ │(chosen, rejected) │ │
+│ │ └──────────┬──────────┘ │
+│ ┌────▼────┐ │ │
+│ │보상 모델 │ ┌──────────▼──────────┐ │
+│ │(별도훈련)│ │DPO 손실 함수 │ │
+│ └────┬────┘ │(Bradley-Terry 내재화)│ │
+│ │ └──────────┬──────────┘ │
+│ ┌────▼────┐ │ │
+│ │PPO 강화 │ ┌──────────▼──────────┐ │
+│ │학습 │ │LLM 직접 업데이트 │ │
+│ └─────────┘ └─────────────────────┘ │
 └─────────────────────────────────────────────────────────┘
 ```
 
@@ -117,7 +117,7 @@ $$\mathcal{L}_{[DPO](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_
 
 **학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 확보 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**
 
-1. **크라우드소싱**: Prolific/MTurk로 선호 쌍 수집 (비용 高)
+1. **크라우드소싱**: Prolific/MTurk로 선호 쌍 수집 (비용 )
 2. **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 피드백([RLAIF](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/269_vector_database/))**: GPT-4로 선호 레이블 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) — [Constitutional AI](/knowledge-base/studynote/09_security/19_ai_advanced_security/966_constitutional_ai/)
 3. **Reject [Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/)**: SFT 모델로 다수 응답 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → 자동 선별
 

@@ -21,11 +21,11 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 심각도 (Severity)는 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 시스템의 기능, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), [사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/), [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 등에 미치는 영향의 정도를 나타낸다. 심각도는 주로 테스트팀이나 품질 관리팀에서 평가하며, 기술적 관점에서 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)의 영향도를 평가한다. [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 우선순위 (Priority)는 해당 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 얼마나 빨리 수정해야 하는지를 나타낸다. 우선순위는 비즈니스 관점에서 조사의욕, 출시 일정, 고객 영향도 등을 고려하여 결정한다.
 
-- **필요성**: 심각도와 우선순위를 혼동하면 리소스가 잘못 배분되어 중요한 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 제때 수정되지 않거나, 긴급하지 않은 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)에 리소스가 과다投入될 수 있다. 예를 들어, 단순한 UI [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 우선순위 High로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)되면 (심각도 Low) 개발 리소스가 잘못 배분될 수 있다.
+- **필요성**: 심각도와 우선순위를 혼동하면 리소스가 잘못 배분되어 중요한 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 제때 수정되지 않거나, 긴급하지 않은 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)에 리소스가 과다될 수 있다. 예를 들어, 단순한 UI [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 우선순위 High로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)되면 (심각도 Low) 개발 리소스가 잘못 배분될 수 있다.
 
-- **💡 비유**: 심각도와 우선순위의 차이는 "지진의震度と被害規模"에 비유할 수 있다.震度(심각도)는地震の規模를 나타내고,被害規模(우선순위)는경제적/사회적 영향을 나타낸다. 대지진(심각도 High)이라도 인구稀疏 지역(우선순위 Low)일 수 있고,中小地震(심각도 Medium)이라도大都市(우선순위 High)일 수 있다.
+- **💡 비유**: 심각도와 우선순위의 차이는 "지진의와/과"에 비유할 수 있다.(심각도)는의를 나타내고,(우선순위)는경제적/사회적 영향을 나타낸다. 대지진(심각도 High)이라도 인구 지역(우선순위 Low)일 수 있고,(심각도 Medium)이라도(우선순위 High)일 수 있다.
 
-- **📢 섹션 요약 비유**: 심각도와 우선순위의 차이는 "사고の重症度と紧急度"에 비유할 수 있다. 重症度(심각도)는患者の状態の深刻さを意味하고、紧急度(우선순위)는응급실 도착 순서를 결정하는 것이다. 重症でも意識が清明なら(심각도 High + 우선순위 Low)後回しにされる可能性がある。
+- **📢 섹션 요약 비유**: 심각도와 우선순위의 차이는 "사고의와/과"에 비유할 수 있다. (심각도)는의상태의을/를하고、(우선순위)는응급실 도착 순서를 결정하는 것이다. 에서도이/가(심각도 High + 우선순위 Low)에된다이/가。
 
 ---
 
@@ -33,14 +33,14 @@ tags = ["studynote-software-engineering"]
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                  결함 심각도 (Severity) vs                        │
+│ 결함 심각도 (Severity) vs │
 ├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
+│ │
+│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
+│ │ │ │ │
+│ ▼ ▼ ▼ │
+│ 요구 분석 설계·적용 품질 검증 │
+│ │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -141,17 +141,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+│
+▼
 결함 심각도 (Severity) vs 결함 우선순위 (Priority) 개념 정립
-    │
-    ▼
+│
+▼
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+│
+▼
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+│
+▼
 지속적 개선 및 DevOps·MLOps 통합
 ```
 

@@ -1,6 +1,6 @@
 +++
 title = "9. PI (Process Innovation) - 점진적이고 지속적인 프로세스 혁신"
-description = "정보기술을 활용하여 업무 프로세스의 본질적创新을 통해 기업 경쟁력을 높이는 기법"
+description = "정보기술을 활용하여 업무 프로세스의 본질적을 통해 기업 경쟁력을 높이는 기법"
 date = 2026-04-05
 
 [taxonomies]
@@ -13,45 +13,45 @@ tags = ["it_management"]
 # PI (프로세스 혁신: [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Innovation)
 
 #### 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 프로세스 혁신(PI)은 정보기술의 발전을 활용하여 업무 프로세스의 수행 방식、構造、체계를본질적으로 혁신함으로써 기업 경쟁력을 높이는経営技法이다.
-> 2. **가치**: 기존 프로세스의 효율성を追及するTQM이나 Kaizen과 달리, Technology-Driven 변화를 통해 새로운 가치 창조와商业模式 혁신을 추구한다.
-> 3. **방향**: IT의 영향을 받아 변화하는 업무 환경과 고객 기대에 부합하는 프로세스를 설계하고, 지속적인 학습과適応力を確保한다.
+> 1. **본질**: 프로세스 혁신(PI)은 정보기술의 발전을 활용하여 업무 프로세스의 수행 방식、구조、체계를본질적으로 혁신함으로써 기업 경쟁력을 높이는이다.
+> 2. **가치**: 기존 프로세스의 효율성을/를하다TQM이나 Kaizen과 달리, Technology-Driven 변화를 통해 새로운 가치 창조와 혁신을 추구한다.
+> 3. **방향**: IT의 영향을 받아 변화하는 업무 환경과 고객 기대에 부합하는 프로세스를 설계하고, 지속적인 학습과을/를한다.
 
 ---
 
 ### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-프로세스 혁신(PI)은 1990년대 이후 정보기술의 급속한 발전과 글로벌 경쟁 심화에 따라 기업들이 주목한 경영혁신 기법이다. 특히 인터넷의 보급과 [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)의加速에 따라, 기존 프로세스의 효율성을 개선하는 것을 넘어 프로세스 그 자체를 혁신적으로再設計하는 것이 중요해졌다.
+프로세스 혁신(PI)은 1990년대 이후 정보기술의 급속한 발전과 글로벌 경쟁 심화에 따라 기업들이 주목한 경영혁신 기법이다. 특히 인터넷의 보급과 [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)의에 따라, 기존 프로세스의 효율성을 개선하는 것을 넘어 프로세스 그 자체를 혁신적으로설계하는 것이 중요해졌다.
 
-PI가 필요한 이유는 다음과 같다. 첫째, 디지털 시대의 고객 기대 변화이다. 오늘날 고객은 24시간 언제 어디서나即時 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 기대하며, 이러한 기대에 부합하려면 기존 프로세스의根本적 변화가 필요하다. 둘째, 경쟁 환경의 변화이다. 인터넷 기반의 새로운 경쟁자들이 전통적인 비즈니스 모델을颠覆하고 있으며, 기존 기업들은 프로세스 혁신을 통해 대응해야 한다. 셋째, 규제 환경의 변화이다. 금융, 의료, 제조 등 다양한 산업에서 디지털 규제(Digital Regulation)가 확대되고 있어, 이에 부합하는 프로세스 혁신이 필수적이다.
+PI가 필요한 이유는 다음과 같다. 첫째, 디지털 시대의 고객 기대 변화이다. 오늘날 고객은 24시간 언제 어디서나즉시 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 기대하며, 이러한 기대에 부합하려면 기존 프로세스의근본적 변화가 필요하다. 둘째, 경쟁 환경의 변화이다. 인터넷 기반의 새로운 경쟁자들이 전통적인 비즈니스 모델을하고 있으며, 기존 기업들은 프로세스 혁신을 통해 대응해야 한다. 셋째, 규제 환경의 변화이다. 금융, 의료, 제조 등 다양한 산업에서 디지털 규제(Digital Regulation)가 확대되고 있어, 이에 부합하는 프로세스 혁신이 필수적이다.
 
-PI는 단순히 "컴퓨터를 도입하는 것"이 아니라, 정보기술이 업무 수행 방식에 미치는 영향을深く 이해하고, 이를 활용하여 프로세스를再설계하는 것을 의미한다. 여기서 핵심은 "기술이 먼저이며, 프로세스가 따라간다(Tech-first, [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/)-follows)"는 것이 아니라 "비즈니스 필요에 따라 프로세스가 먼저設計되고, 이를 지원하는 기술이 선택된다([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/)-first, Tech-enables)"는 원칙이다.
+PI는 단순히 "컴퓨터를 도입하는 것"이 아니라, 정보기술이 업무 수행 방식에 미치는 영향을 이해하고, 이를 활용하여 프로세스를설계하는 것을 의미한다. 여기서 핵심은 "기술이 먼저이며, 프로세스가 따라간다(Tech-first, [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/)-follows)"는 것이 아니라 "비즈니스 필요에 따라 프로세스가 먼저설계되고, 이를 지원하는 기술이 선택된다([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/)-first, Tech-enables)"는 원칙이다.
 
 ```text
 이 도식은 PI와 BPR의 차이점을 보여준다.
 
 [BPR: Business Process Reengineering]
-업무 프로세스 재설계가 먼저 ──> 이를 支持하는 IT 선택
-        │
-        │ "기존 프로세스를 완전히 탈피하여 근본적再설계"
-        ▼
+업무 프로세스 재설계가 먼저 ──> 이를 하는 IT 선택
+│
+│ "기존 프로세스를 완전히 탈피하여 근본적설계"
+▼
 
 [PI: Process Innovation]
-IT 기술 발전이 먼저 ──> 이에 부합하는 프로세스 再설계
-        │
-        │ "IT 기술의 발전이 가져올 수 있는 새로운 가능성에 주목"
-        ▼
+IT 기술 발전이 먼저 ──> 이에 부합하는 프로세스 설계
+│
+│ "IT 기술의 발전이 가져올 수 있는 새로운 가능성에 주목"
+▼
 ```
 
-PI와 BPR의根本적 차이는 "무엇이 先이고 무엇이 뒤인가"에 있다. BPR이 비즈니스 필요에 따라 프로세스를 먼저再설계한다면, PI는 IT 기술의 발전 가능성에 주목하여 이를 활용한 프로세스 혁신을 추구한다. 그러나 실제로는 둘 다 상호 보완적으로 활용된다.
+PI와 BPR의근본적 차이는 "무엇이 이고 무엇이 뒤인가"에 있다. BPR이 비즈니스 필요에 따라 프로세스를 먼저설계한다면, PI는 IT 기술의 발전 가능성에 주목하여 이를 활용한 프로세스 혁신을 추구한다. 그러나 실제로는 둘 다 상호 보완적으로 활용된다.
 
-📢 **섹션 요약 비유**: PI는 '새로운 놀라운 도구를 먼저手に入れて, 이 도구로 무엇을 할 수 있을까 brainstorm하는 것'과 같습니다. 먼저 전동 공구를 손에 쥐면, 이제槌로nail을 박던 것을钉打法이 아니라 새로운 작업 방식(프로세스 혁신)을 생각하게 됩니다.
+📢 **섹션 요약 비유**: PI는 '새로운 놀라운 도구를 먼저에, 이 도구로 무엇을 할 수 있을까 brainstorm하는 것'과 같습니다. 먼저 전동 공구를 손에 쥐면, 이제로nail을 박던 것을이 아니라 새로운 작업 방식(프로세스 혁신)을 생각하게 됩니다.
 
 ---
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-PI는 체계적인段階를 통해実行되며, 각 단계에서 다양한 분석 도구와技法が活用される。
+PI는 체계적인를 통해실행되며, 각 단계에서 다양한 분석 도구와이/가활용된다。
 
 #### PI 실행 단계
 
@@ -59,8 +59,8 @@ PI는 체계적인段階를 통해実行되며, 각 단계에서 다양한 분�
 |:---|:---|:---|:---|
 | **1단계: [환경 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/102_environmental_analysis_pest_5forces_value_chain/)** | 산업 동향, 기술 발전, 경쟁 [환경 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/102_environmental_analysis_pest_5forces_value_chain/) | "어떤 기술적 변화가 가능한가?" | 기술 트렌드 보고서 |
 | **2단계: 기회 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)** | 새로운 기술로 인한 비즈니스 기회 발견 | "어떤 기회를 활용할 수 있는가?" | 기회 분석서 |
-| **3단계: 프로세스 설계** | 혁신적 프로세스 설계 및 시뮬레이션 | "새로운 프로세스는怎样的[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)?" | To-Be 모델 |
-| **4단계: 구현** | 파일럿 运行, 점진적 확대 | "어떻게 확대 적용하는가?" | 파일럿 결과, 확대 계획 |
+| **3단계: 프로세스 설계** | 혁신적 프로세스 설계 및 시뮬레이션 | "새로운 프로세스는[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)?" | To-Be 모델 |
+| **4단계: 구현** | 파일럿 , 점진적 확대 | "어떻게 확대 적용하는가?" | 파일럿 결과, 확대 계획 |
 | **5단계: 학습 및 적응** | 성과 측정, 환경 변화에 따른 조정 | "어떻게 지속적으로 적응하는가?" | 성과 보고서, 개선 방향 |
 
 #### IT 기반 프로세스 혁신의 주요 영역
@@ -79,71 +79,71 @@ PI는 체계적인段階를 통해実行되며, 각 단계에서 다양한 분�
 
 [1단계: Automation]
 엑셀 도입으로 수작업 계산 자동화
-        │
-        ▼
+│
+▼
 [2단계: Integration]
 ERP 도입으로 부서 간 데이터 공유
-        │
-        ▼
+│
+▼
 [3단계: Digital Transformation]
 클라우드, 모바일, 소셜 미디어 활용
-        │
-        ▼
+│
+▼
 [4단계: 지능형 자동화]
 AI/ML 기반 예측 및 의사결정 자동화
 ```
 
-PI는 시간에 따라 진화해 왔다. 1단계는 단순한自动化(Automation)이며, 2단계는 시스템間の連携(Integration)이다. 3단계는 디지털 기술 전반을活用한 변환([Digital Transformation](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/))이고, 4단계는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/ML을活用한 지능형 자동화(Intelligent Automation)이다. 각 단계는 이전 단계를 기반으로 구축되며, 조직은 현재 자신이 어느 단계에 있는지認識하고 다음 단계로의 발전을 계획해야 한다.
+PI는 시간에 따라 진화해 왔다. 1단계는 단순한(Automation)이며, 2단계는 시스템의(Integration)이다. 3단계는 디지털 기술 전반을활용한 변환([Digital Transformation](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/))이고, 4단계는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/ML을활용한 지능형 자동화(Intelligent Automation)이다. 각 단계는 이전 단계를 기반으로 구축되며, 조직은 현재 자신이 어느 단계에 있는지하고 다음 단계로의 발전을 계획해야 한다.
 
-📢 **섹션 요약 비유**: PI의 진화 단계는 '通信手段의 발전'과 같습니다. 처음엔手紙(1단계 Automation),次に電話(2단계 Integration), 그次에 이메일/문자(3단계 [Digital Transformation](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)), 마지막으로 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 비서(4단계 지능형 자동화)와 같이 발전해 왔습니다. 각 단계는 이전 단계를 기반으로 새로운 가능성을 열었습니다.
+📢 **섹션 요약 비유**: PI의 진화 단계는 '의 발전'과 같습니다. 처음엔(1단계 Automation),에(2단계 Integration), 그에 이메일/문자(3단계 [Digital Transformation](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)), 마지막으로 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 비서(4단계 지능형 자동화)와 같이 발전해 왔습니다. 각 단계는 이전 단계를 기반으로 새로운 가능성을 열었습니다.
 
 ---
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
-PI와 다른 경영혁신技法과의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)와 차이점을 분석한다.
+PI와 다른 경영혁신과의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)와 차이점을 분석한다.
 
 #### PI vs [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/) vs Continuous Improvement 비교
 
-| 구분 | PI (프로세스 혁신) | [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/) (업무 프로세스 재설계) | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) (持续적 개선) |
+| 구분 | PI (프로세스 혁신) | [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/) (업무 프로세스 재설계) | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) (지속적적 개선) |
 |:---|:---|:---|:---|
 | **초점** | IT 기반 혁신 | 프로세스 자체 혁신 | 기존 프로세스 개선 |
 | **방향** | Technology-Push | Business-Need-Pull | [Bottom-up](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/403_bottom_up_integration/) 개선 |
 | **변화 규모** | 중간 (Medium) | 큼 (Large) | 작음 (Small) |
 | **[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)** | 중간 | 높음 | 낮음 |
 | **주기** | 불연속적 (Discontinuous) | 일회성 | 지속적 |
-| **주도** | IT部门+경영진 | 경영진 | 실무진 |
+| **주도** | IT+경영진 | 경영진 | 실무진 |
 
 #### PI와 [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
-[디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)([Digital Transformation](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/))은 PI의 가장 최근 진화 형태로, 기업 전체의 비즈니스 모델과 프로세스를 디지털 기반으로再설계하는 것을 의미한다.
+[디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)([Digital Transformation](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/))은 PI의 가장 최근 진화 형태로, 기업 전체의 비즈니스 모델과 프로세스를 디지털 기반으로설계하는 것을 의미한다.
 
 ```text
 이 도식은 PI가 디지털 전환으로 이어지는 과정을 보여준다.
 
 [기존 비즈니스 모델]
- 产品中心 + 传统渠道 + 物理设施
-        │
-        │ PI 적용
-        ▼
++ +
+│
+│ PI 적용
+▼
 [디지털 전환]
- ┌──────────────────────────────────────────────────────┐
- │                                                      │
- │  [디지털 제품/서비스] ◄──► [디지털 채널]            │
- │           │                        │                  │
- │           └────────┬───────────────┘                  │
- │                    ▼                                   │
- │         [데이터 기반 의사결정]                         │
- │                    │                                   │
- │                    ▼                                   │
- │         [고객 경험 혁신]                              │
- │                                                      │
- └──────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────┐
+│ │
+│ [디지털 제품/서비스] ◄──► [디지털 채널] │
+│ │ │ │
+│ └────────┬───────────────┘ │
+│ ▼ │
+│ [데이터 기반 의사결정] │
+│ │ │
+│ ▼ │
+│ [고객 경험 혁신] │
+│ │
+└──────────────────────────────────────────────────────┘
 ```
 
-[디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)은 제품/[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), 채널, 의사결정 방식, 고객 경험 전반을包含하는 포괄적 변화이다. PI는 이러한 [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)을实现하기 위한 핵심 엔진 역할을 한다.
+[디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)은 제품/[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), 채널, 의사결정 방식, 고객 경험 전반을하는 포괄적 변화이다. PI는 이러한 [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)을구현하기 위한 핵심 엔진 역할을 한다.
 
-📢 **섹션 요약 비유**: PI와 [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 '개별乐器의 업그레이드'와 '오케스트라 전체의 지휘 체계 변경'의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)와 같습니다. PI는 개별 악기(프로세스)를 전자기타(디지털 기술)로 바꾸는 것이라면, [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)은 지휘자(경영진)의 새로운 해석에 맞춰 전체 오케스트라(기업 전체)의 연주 방식을根本적으로 변화시키는 것입니다.
+📢 **섹션 요약 비유**: PI와 [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 '개별의 업그레이드'와 '오케스트라 전체의 지휘 체계 변경'의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)와 같습니다. PI는 개별 악기(프로세스)를 전자기타(디지털 기술)로 바꾸는 것이라면, [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)은 지휘자(경영진)의 새로운 해석에 맞춰 전체 오케스트라(기업 전체)의 연주 방식을근본적으로 변화시키는 것입니다.
 
 ---
 
@@ -159,13 +159,13 @@ PI에서 기술 선정은 성공의 핵심이다. 조직의 현재 상태와 목
 | 고려사항 | 설명 | 평가 기준 |
 |:---|:---|:---|
 | **비즈니스 적합성** | 해당 기술이 비즈니스 목표 달성에 얼마나 기여하는가? | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 정렬도 |
-| **기술 성숙도** | 해당 기술이 충분히 안정적이고成熟했는가? | Gartner Hype Cycle 위치 |
+| **기술 성숙도** | 해당 기술이 충분히 안정적이고했는가? | Gartner Hype Cycle 위치 |
 | **통합 용이성** | 기존 시스템과의 통합이 용이한가? | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 지원, [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) |
 | **확장성** | 미래 비즈니스의 성장을 지원할 수 있는가? | [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 능력 |
 | **비용 효과** | 도입 및 운영 비용 대비 효과가 충분한가? | [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/), [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) |
 
 **2. [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/)의 중요성**
-PI는 기술 도입과 함께 조직 구성원의 업무 방식과 문화의 변화를 수반한다. 이를 효과적으로管理하기 위해 체계적인 [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/)([Change Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/027_change_management/))가 필요하다.
+PI는 기술 도입과 함께 조직 구성원의 업무 방식과 문화의 변화를 수반한다. 이를 효과적으로관리하기 위해 체계적인 [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/)([Change Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/027_change_management/))가 필요하다.
 
 ```text
 이 도식은 PI 실행 시 변경 관리 프레임워크를 보여준다.
@@ -173,31 +173,31 @@ PI는 기술 도입과 함께 조직 구성원의 업무 방식과 문화의 변
 [변경 관리 3단계]
 
 [Phase 1: 인식]
- - 변화의 필요성 인식시킴
- - 경영진의 비전 공유
-        │
-        ▼
+- 변화의 필요성 인식시킴
+- 경영진의 비전 공유
+│
+▼
 [Phase 2: 준비]
- - 영향을 받는 구성원 파악
- - 교육 및 역량 강화 프로그램
- - 자원 배분
-        │
-        ▼
+- 영향을 받는 구성원 파악
+- 교육 및 역량 강화 프로그램
+- 자원 배분
+│
+▼
 [Phase 3: 실행]
- - 파일럿 运行
- - 점진적 확대
- - 성과 측정 및 조정
+- 파일럿
+- 점진적 확대
+- 성과 측정 및 조정
 ```
 
-[변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/)의 핵심은 "사람"이다. 가장優れた 기술도 이를 使用하는 구성원이 저항하면 실패한다. 따라서 기술 도입 이전에 구성원의 인식 전환과 역량 강화가 선행되어야 한다.
+[변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/)의 핵심은 "사람"이다. 가장 기술도 이를 사용하는 구성원이 저항하면 실패한다. 따라서 기술 도입 이전에 구성원의 인식 전환과 역량 강화가 선행되어야 한다.
 
-📢 **섹션 요약 비유**: PI의 [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/)는 '정부의 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 변화'와 같습니다. 새 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 발표하고(Phase 1: 인식)国民に説明하고 교육하는 과정(Phase 2: 준비)이 없으면, 어떤 좋은 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)도 현장에서 제대로 시행되지 않습니다.
+📢 **섹션 요약 비유**: PI의 [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/)는 '정부의 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 변화'와 같습니다. 새 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 발표하고(Phase 1: 인식)에하고 교육하는 과정(Phase 2: 준비)이 없으면, 어떤 좋은 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)도 현장에서 제대로 시행되지 않습니다.
 
 ---
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 
-PI를 성공적으로実行하면 다음과 같은 효과를 기대할 수 있다.
+PI를 성공적으로실행하면 다음과 같은 효과를 기대할 수 있다.
 
 #### 정량적/정성적 기대효과
 
@@ -208,36 +208,36 @@ PI를 성공적으로実行하면 다음과 같은 효과를 기대할 수 있�
 
 #### 미래 전망
 
-* **지능형 자동화의 확산**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/ML 기술의 발전으로 더욱高度な自动化가 가능해짐
-* **No-Code/Low-Code平台的 확산**: 비기술 직원도 자체적으로 프로세스를 개발/개선할 수 있는 환경 조성이 중요해짐
+* **지능형 자동화의 확산**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/ML 기술의 발전으로 더욱가 가능해짐
+* **No-Code/Low-Code플랫폼 확산**: 비기술 직원도 자체적으로 프로세스를 개발/개선할 수 있는 환경 조성이 중요해짐
 * **지속적 혁신 문화**: 일회성 혁신이 아닌 지속적인 혁신을 추구하는 조직 문화의 중요성 증가
 
-📢 **섹션 요약 비유**: PI의 미래는 '집단 지성의 놀이터'와 같습니다. 누구나(Non-technical 직원) 쉽고 저렴하게(No-Code) 새로운 아이디어를 놀보([Prototype](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/))로 만들고, 성공하면大规模로推广하는(확대 적용) 선순환 구조가 정착될 것입니다.
+📢 **섹션 요약 비유**: PI의 미래는 '집단 지성의 놀이터'와 같습니다. 누구나(Non-technical 직원) 쉽고 저렴하게(No-Code) 새로운 아이디어를 놀보([Prototype](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/))로 만들고, 성공하면로하는(확대 적용) 선순환 구조가 정착될 것입니다.
 
 ---
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-* [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/) (업무 프로세스 재설계) | 프로세스의根本적再설계에 초점을 맞춘 경영혁신技法.
-* [Digital Transformation](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) ([디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)) | 기업 전체의 비즈니스 모델과 프로세스를 디지털 기반으로再설계하는 것.
-* [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) (로봇 과정 자동화) | 반복적 업무를 소프트웨어机器人으로 자동화하는 기술.
-* [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/ML ([인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)/[머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 의사결정 및 예측分析을 자동화하는 기술.
-* [Change Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/027_change_management/) ([변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/)) | 조직 변화 과정에서 구성원의 저항을 관리하고 변화를成功적으로 이끄는技法.
+* [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/) (업무 프로세스 재설계) | 프로세스의근본적설계에 초점을 맞춘 경영혁신.
+* [Digital Transformation](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) ([디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)) | 기업 전체의 비즈니스 모델과 프로세스를 디지털 기반으로설계하는 것.
+* [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) (로봇 과정 자동화) | 반복적 업무를 소프트웨어으로 자동화하는 기술.
+* [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/ML ([인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)/[머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 의사결정 및 예측분석을 자동화하는 기술.
+* [Change Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/027_change_management/) ([변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/)) | 조직 변화 과정에서 구성원의 저항을 관리하고 변화를적으로 이끄는.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
 [AS-IS 프로세스 분석]
-    │
-    ▼
+│
+▼
 [BPR(업무 프로세스 재설계)]
-    │
-    ▼
+│
+▼
 [ERP/워크플로우 시스템]
-    │
-    ▼
+│
+▼
 [RPA 자동화]
-    │
-    ▼
+│
+▼
 [지속적 개선(BPI/Kaizen)]
 ```
 

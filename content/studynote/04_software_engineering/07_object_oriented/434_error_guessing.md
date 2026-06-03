@@ -19,23 +19,23 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 오류 추정은 테스터가既往の 경험, 類似 시스템에서의 문제 발생 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 直感등을 활용하여 "여기서 문제가 발생할 것 같다"라는 예상으로 테스트 케이스를 설계하는 기법이다. 이는명세서나 코드 분석이 아닌, 테스터의 주관적判断에 의존한다.
+- **개념**: 오류 추정은 테스터가의 경험, 시스템에서의 문제 발생 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 등을 활용하여 "여기서 문제가 발생할 것 같다"라는 예상으로 테스트 케이스를 설계하는 기법이다. 이는명세서나 코드 분석이 아닌, 테스터의 주관적판단에 의존한다.
 
-- **필요성**: 체계적인 테스트 기법([동등 분할](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/), [경계값 분석](/knowledge-base/studynote/04_software_engineering/11_testing_validation/414_boundary_value_analysis/), [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 등)은事前に定義된 규칙에 따라 테스트 케이스를 도출하지만, 이러한 규칙으로捕捉되지 않는 예외적인 상황이 있을 수 있다. 오류 추정은 이러한 사각지대를補完하여 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발견 효과를 향상시킨다.
+- **필요성**: 체계적인 테스트 기법([동등 분할](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/), [경계값 분석](/knowledge-base/studynote/04_software_engineering/11_testing_validation/414_boundary_value_analysis/), [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 등)은에정의된 규칙에 따라 테스트 케이스를 도출하지만, 이러한 규칙으로되지 않는 예외적인 상황이 있을 수 있다. 오류 추정은 이러한 사각지대를하여 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발견 효과를 향상시킨다.
 
-- **오류 추정과 관련된概念**:
-  - **경험 기반 테스트**: 테스터의 경험을 기반으로 테스트
-  - **[Heuristic](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/)**: 경험적法則으로 테스트 추측의根拠를 提供
-  - **直感**: 특별한 근거 없이問題발생을 예감
+- **오류 추정과 관련된개념**:
+- **경험 기반 테스트**: 테스터의 경험을 기반으로 테스트
+- **[Heuristic](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/)**: 경험적으로 테스트 추측의를 제공
+- ****: 특별한 근거 없이문제발생을 예감
 
-- **비유**: 오류 추정은 **'의사의임상적 판단'**と 같다. 의사는 Patients의症状,既往症, 검사 결과 등의データ(체계적 테스트)에基づいて진찰하지만,長年の 경험에서 나오는 "이 환자는何か있다"는直感적判断(오류 추정)도 중요하다. Softwareでも 마찬가지로 테스터의 경험에서 나오는 "여기 문제있을 것"이라는 예감이 중요한 발견으로 이어질 수 있다.
+- **비유**: 오류 추정은 **'의사의임상적 판단'**와/과 같다. 의사는 Patients의,, 검사 결과 등의데이터(체계적 테스트)에진찰하지만,의 경험에서 나오는 "이 환자는이나있다"는적판단(오류 추정)도 중요하다. Software에서도 마찬가지로 테스터의 경험에서 나오는 "여기 문제있을 것"이라는 예감이 중요한 발견으로 이어질 수 있다.
 
 - **등장 배경 및 발전 과정**:
-  1. **1980년대**: Glenford Myers가 오류 추정을 체계적テスト技法として소개
-  2. **1990년대**: IEEE에서オーラル 프로토콜과 결합하여 활용
-  3. **현재**: 探索적テスティング의 중요한组成部分으로 활용
+1. **1980년대**: Glenford Myers가 오류 추정을 체계적테스트로서소개
+2. **1990년대**: IEEE에서 프로토콜과 결합하여 활용
+3. **현재**: 적의 중요한으로 활용
 
-- **섹션 요약 비유**: 오류 추정은 **'숙련 된 미식가食あたり 예지'**と 같다. 미식가가 여러 식당을 다녀본 경험(테스트 경험)에서, 특정 식당이나 요리에서 문제가 발생할 것 같다는예감을 가지고 먹는다. 문제는 발견되지 않았지만直感이 정확한 경우도 있고, 때로는 예상치 못한食あたり를 발견하기도 한다.
+- **섹션 요약 비유**: 오류 추정은 **'숙련 된 미식가 예지'**와/과 같다. 미식가가 여러 식당을 다녀본 경험(테스트 경험)에서, 특정 식당이나 요리에서 문제가 발생할 것 같다는예감을 가지고 먹는다. 문제는 발견되지 않았지만이 정확한 경우도 있고, 때로는 예상치 못한를 발견하기도 한다.
 
 ---
 
@@ -45,14 +45,14 @@ tags = ["studynote-software-engineering"]
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                  오류 추정 (Error Guessin                        │
+│ 오류 추정 (Error Guessin │
 ├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
+│ │
+│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
+│ │ │ │ │
+│ ▼ ▼ ▼ │
+│ 요구 분석 설계·적용 품질 검증 │
+│ │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -153,17 +153,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+│
+▼
 오류 추정 (Error Guessing) 개념 정립
-    │
-    ▼
+│
+▼
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+│
+▼
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+│
+▼
 지속적 개선 및 DevOps·MLOps 통합
 ```
 

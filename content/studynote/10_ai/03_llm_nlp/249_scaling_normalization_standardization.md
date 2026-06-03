@@ -24,7 +24,7 @@ tags = ["studynote-ai"]
 
 | [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) | 범위 | 스케일링 전 영향 |
 |:---|:---|:---|
-| 나이 | 0 ~ 100 | 작은 값, 모델 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 영향 小 |
+| 나이 | 0 ~ 100 | 작은 값, 모델 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 영향 |
 | 연봉 | 2000만 ~ 1억 | 큰 값, 모델 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 지배 |
 | BMI | [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) ~ 40 | 중간 값 |
 
@@ -44,10 +44,10 @@ tags = ["studynote-ai"]
 
 ```text
 ┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
+│ Background Problem → Need → Adoption Value │
 ├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
+│ Existing limitation │ Operational pressure │
+│ New requirement │ Design decision point │
 └──────────────────────────────────────────────┘
 ```
 
@@ -61,23 +61,23 @@ tags = ["studynote-ai"]
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│              스케일링 기법 비교                            │
-│                                                         │
-│  원본 데이터 분포:                                         │
-│  ──────[min]─────────────────────[max]──────             │
-│   이상치◀                                    ▶이상치      │
-│                                                         │
-│  1. 정규화 (Min-Max): [0, 1] 범위로 압축                  │
-│  ──[0]────────────────────────────────[1]──             │
-│    (이상치에 의해 전체 분포가 압축될 수 있음)                │
-│                                                         │
-│  2. 표준화 (Z-Score): 평균=0, 표준편차=1                  │
-│  ────────[-3]──[-2]──[-1]──[0]──[1]──[2]──[3]──         │
-│    (이상치도 수치 변환되나 분포 형태는 유지)                 │
-│                                                         │
-│  3. 로버스트 스케일링: 중앙값, IQR 기준                     │
-│  ──────[Q1]───────[중앙값]───────[Q3]──────             │
-│    (이상치에 강건, 중앙 분포 집중)                          │
+│ 스케일링 기법 비교 │
+│ │
+│ 원본 데이터 분포: │
+│ ──────[min]─────────────────────[max]────── │
+│ 이상치◀ ▶이상치 │
+│ │
+│ 1. 정규화 (Min-Max): [0, 1] 범위로 압축 │
+│ ──[0]────────────────────────────────[1]── │
+│ (이상치에 의해 전체 분포가 압축될 수 있음) │
+│ │
+│ 2. 표준화 (Z-Score): 평균=0, 표준편차=1 │
+│ ────────[-3]──[-2]──[-1]──[0]──[1]──[2]──[3]── │
+│ (이상치도 수치 변환되나 분포 형태는 유지) │
+│ │
+│ 3. 로버스트 스케일링: 중앙값, IQR 기준 │
+│ ──────[Q1]───────[중앙값]───────[Q3]────── │
+│ (이상치에 강건, 중앙 분포 집중) │
 └─────────────────────────────────────────────────────────┘
 ```
 
@@ -135,8 +135,8 @@ x' = (x - 중앙값(Median)) / IQR(사분위 범위)
 ✅ 올바른 방법: train 데이터에만 fit → train/test 모두 transform
 
 이유: 테스트 데이터는 미래 데이터를 대표해야 하므로
-      테스트 데이터의 통계(min, max, μ, σ)가 스케일링에 반영되면
-      현실적이지 않은 스케일러가 만들어짐
+테스트 데이터의 통계(min, max, μ, σ)가 스케일링에 반영되면
+현실적이지 않은 스케일러가 만들어짐
 ```
 
 ### 3.3 [배치 정규화](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/) ([Batch Normalization](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/), BN)
@@ -155,14 +155,14 @@ x' = (x - 중앙값(Median)) / IQR(사분위 범위)
 
 **[KNN](/knowledge-base/studynote/10_ai/03_llm_nlp/262_knn/) ([K-Nearest Neighbors](/knowledge-base/studynote/10_ai/03_llm_nlp/262_knn/), K-최근접 이웃) 예시:**
 ```
-피처 A: 나이 (20~60)   피처 B: 연봉 (2000만~1억)
+피처 A: 나이 (20~60) 피처 B: 연봉 (2000만~1억)
 
 샘플 X: (30세, 5000만원)
 샘플 Y: (35세, 5100만원)
 샘플 Z: (31세, 8000만원)
 
 스케일링 없는 유클리드 거리:
-d(X,Y) = √((5)² + (100만)²) ≈ 100만   ← 나이 차이는 무의미
+d(X,Y) = √((5)² + (100만)²) ≈ 100만 ← 나이 차이는 무의미
 d(X,Z) = √((1)² + (3000만)²) ≈ 3000만
 
 스케일링 후: 나이와 연봉이 동등하게 기여 → 정확한 이웃 탐색
@@ -172,15 +172,15 @@ d(X,Z) = √((1)² + (3000만)²) ≈ 3000만
 
 ```
 [원시 데이터]
-     ↓
+↓
 [결측치 처리]
-     ↓
+↓
 [이상치 탐지 및 처리]
-     ↓
-[스케일링 기법 선택]  ← 이상치 여부, 알고리즘 유형 판단
-     ↓
+↓
+[스케일링 기법 선택] ← 이상치 여부, 알고리즘 유형 판단
+↓
 [train.fit → train/test.transform]
-     ↓
+↓
 [모델 학습/예측]
 ```
 

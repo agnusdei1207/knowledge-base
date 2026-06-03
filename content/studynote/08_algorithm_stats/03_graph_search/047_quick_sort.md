@@ -27,32 +27,32 @@ tags = ["algorithm_stats"]
 [퀵 정렬: Hoare 파티셔닝 과정]
 
 ┌──────────────────────────────────────────────────────┐
-│                                                      │
-│  배열: [5, 3, 8, 4, 9, 1, 6]  (Pivot = 5)      │
-│         L                                R          │
-│                                                      │
-│  Step 1: L은 5보다 큰 '8'에서 멈춤                │
-│           R은 5보다 작은 '1'에서 멈춤                │
-│           → Swap(8, 1)                             │
-│                                                      │
-│  Step 2: [5, 3, 1, 4, 9, 8, 6]                  │
-│                    L        R                        │
-│           L은 5보다 큰 '9'에서 멈춤                │
-│           R은 5보다 작은 '4'에서 멈춤                │
-│           → Swap(9, 4)                             │
-│                                                      │
-│  Step 3: [5, 3, 1, 4, 9, 8, 6]                  │
-│                         R  L  (교차!)              │
-│                                                      │
-│  Step 4: Swap(Pivot, R) → [4, 3, 1, (5), 9, 8, 6]│
-│           피벗 5는 이제 영원히 자기 자리에 고정!        │
-│                                                      │
+│ │
+│ 배열: [5, 3, 8, 4, 9, 1, 6] (Pivot = 5) │
+│ L R │
+│ │
+│ Step 1: L은 5보다 큰 '8'에서 멈춤 │
+│ R은 5보다 작은 '1'에서 멈춤 │
+│ → Swap(8, 1) │
+│ │
+│ Step 2: [5, 3, 1, 4, 9, 8, 6] │
+│ L R │
+│ L은 5보다 큰 '9'에서 멈춤 │
+│ R은 5보다 작은 '4'에서 멈춤 │
+│ → Swap(9, 4) │
+│ │
+│ Step 3: [5, 3, 1, 4, 9, 8, 6] │
+│ R L (교차!) │
+│ │
+│ Step 4: Swap(Pivot, R) → [4, 3, 1, (5), 9, 8, 6]│
+│ 피벗 5는 이제 영원히 자기 자리에 고정! │
+│ │
 └──────────────────────────────────────────────────────┘
 ```
 
 - **관찰**: 퀵 정렬의 핵심은 추가 메모리 없이(제자리) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 두 그룹으로 완벽히 분할한다는 것이다.
 - **원인**: 포인터가 교차하면 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)보다 작은 값과 큰 값들이 자연스럽게 양분되기 때문이다.
-- **결과**: [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)은 영원히 그 자리에 고정되며,左右两部分은 독립적으로 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)한다.
+- **결과**: [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)은 영원히 그 자리에 고정되며,은 독립적으로 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)한다.
 - **판단**: 실무에서 원시 타입(int, float) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 정렬 시 퀵 정렬(또는 그 변형)이 표준으로 채택된다.
 
 📢 **섹션 요약 비유**: 퀵 정렬은 반장이 "나보다 작은 사람은 왼쪽, 큰 사람은 오른쪽으로 가!"라고 소리치면, 양쪽 끝에서 출발한 두 학생이 솎아 중간에서 자리를 바꾸는 효율적인 반 나누기 방법과 같습니다.
@@ -73,27 +73,27 @@ tags = ["algorithm_stats"]
 [퀵 정렬 시간 복잡도 분석]
 
 ┌──────────────────────────────────────────────────────┐
-│                                                      │
-│  [평균적 경우: 균형 분할]                              │
-│  ────────────────────────────────────                │
-│  T(N) = 2T(N/2) + O(N) (파티셔닝)                 │
-│  → O(N log N)                                       │
-│                                                      │
-│  [최악의 경우: 극단적 편향 분할]                      │
-│  ────────────────────────────────────                │
-│  T(N) = T(N-1) + T(0) + O(N)                      │
-│  → O(N²)                                            │
-│                                                      │
-│  [적대적 입력 예: 이미 정렬된 배열 + 첫 원소 피벗]     │
-│  ────────────────────────────────────                │
-│  → 매번 1:N-1 분할 → 깊이 N의 재귀 트리             │
-│  → O(N²) 복잡도                                     │
-│                                                      │
-│  [방어 기법: Median-of-3 피벗 선택]                 │
-│  ────────────────────────────────────                │
-│  arr[low], arr[mid], arr[high] 중 중앙값을 피벗으로  │
-│  → 극단적 편향 분할 확률을 크게 줄임                  │
-│                                                      │
+│ │
+│ [평균적 경우: 균형 분할] │
+│ ──────────────────────────────────── │
+│ T(N) = 2T(N/2) + O(N) (파티셔닝) │
+│ → O(N log N) │
+│ │
+│ [최악의 경우: 극단적 편향 분할] │
+│ ──────────────────────────────────── │
+│ T(N) = T(N-1) + T(0) + O(N) │
+│ → O(N²) │
+│ │
+│ [적대적 입력 예: 이미 정렬된 배열 + 첫 원소 피벗] │
+│ ──────────────────────────────────── │
+│ → 매번 1:N-1 분할 → 깊이 N의 재귀 트리 │
+│ → O(N²) 복잡도 │
+│ │
+│ [방어 기법: Median-of-3 피벗 선택] │
+│ ──────────────────────────────────── │
+│ arr[low], arr[mid], arr[high] 중 중앙값을 피벗으로 │
+│ → 극단적 편향 분할 확률을 크게 줄임 │
+│ │
 └──────────────────────────────────────────────────────┘
 ```
 
@@ -102,7 +102,7 @@ tags = ["algorithm_stats"]
 - **결과**: 랜덤 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)이나 중앙값 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)을 사용하면 최악에 도달할 확률이 극히 낮아진다.
 - **판단**: 실무에서는 항상 중앙값 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)이나 랜덤 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)을 사용해야 한다.
 
-📢 **섹션 요약 비유**: 퀵 정렬의 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 선택は 반장의비서에 비유할 수 있습니다. 반장이 자기보다 작고 큰 사람들을 구분하도록하지만, 비서([피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/))를 잘못 선택하면(항상 첫 번째 값) 한 사람만 남고 나머지는全部한 줄에 몰리는 불균형 상황이 발생합니다.
+📢 **섹션 요약 비유**: 퀵 정렬의 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 선택은/는 반장의비서에 비유할 수 있습니다. 반장이 자기보다 작고 큰 사람들을 구분하도록하지만, 비서([피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/))를 잘못 선택하면(항상 첫 번째 값) 한 사람만 남고 나머지는한 줄에 몰리는 불균형 상황이 발생합니다.
 
 ---
 
@@ -116,27 +116,27 @@ tags = ["algorithm_stats"]
 [퀵 정렬 의사코드]
 
 ┌──────────────────────────────────────────────────────┐
-│                                                      │
-│  function quick_sort(A, low, high):                  │
-│      if low < high:                                  │
-│          pivot_index = partition(A, low, high)        │
-│          quick_sort(A, low, pivot_index - 1)          │
-│          quick_sort(A, pivot_index + 1, high)         │
-│                                                      │
-│  function partition(A, low, high):                    │
-│      pivot = A[high]  // Lomuto 방식: 마지막 원소를 피벗│
-│      i = low - 1                                    │
-│      for j = low to high - 1:                       │
-│          if A[j] <= pivot:                          │
-│              i = i + 1                              │
-│              swap(A[i], A[j])                        │
-│      swap(A[i+1], A[high])                           │
-│      return i + 1                                    │
-│                                                      │
+│ │
+│ function quick_sort(A, low, high): │
+│ if low < high: │
+│ pivot_index = partition(A, low, high) │
+│ quick_sort(A, low, pivot_index - 1) │
+│ quick_sort(A, pivot_index + 1, high) │
+│ │
+│ function partition(A, low, high): │
+│ pivot = A[high] // Lomuto 방식: 마지막 원소를 피벗│
+│ i = low - 1 │
+│ for j = low to high - 1: │
+│ if A[j] <= pivot: │
+│ i = i + 1 │
+│ swap(A[i], A[j]) │
+│ swap(A[i+1], A[high]) │
+│ return i + 1 │
+│ │
 └──────────────────────────────────────────────────────┘
 ```
 
-📢 **섹션 요약 비유**: 퀵 정렬은整理されたダンスと 같습니다. 指導者が「自分は左端、右端から開始」という位置づけをして、被験者を配置していく动的 방법은、配置后就各々の站位が確定ので、递归的に细分しても心配する必要がありません.
+📢 **섹션 요약 비유**: 퀵 정렬은와/과 같습니다. 이/가「은/는、부터」와/과을/를하여、을/를설정하여 방법은、설정々의이/가의에서、에하여도하다이/가하지 않습니다.
 
 ---
 
@@ -144,9 +144,9 @@ tags = ["algorithm_stats"]
 
 퀵 정렬의 품질 관리에서 가장 중요한 것은 **[피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 선택 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**과 **[재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 깊이 관리**이다.
 
-**품질 관리 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)**: 중앙값 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)(Median-of-3) 또는 랜덤 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)을 사용해야 한다. [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 깊이가 제한范围内인지 확인해야 한다. 중복 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 대한 처리(3-way [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/))를 고려해야 한다.
+**품질 관리 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)**: 중앙값 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)(Median-of-3) 또는 랜덤 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)을 사용해야 한다. [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 깊이가 제한인지 확인해야 한다. 중복 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 대한 처리(3-way [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/))를 고려해야 한다.
 
-📢 **섹션 요약 비유**: 퀵 정렬의品質 管理는 舞台의演出감독의注意깊게 설정하는 것과 같습니다.演出감독([피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/))을 잘못 설정하면、セクションのバランスが崩れて最悪の結果になります.
+📢 **섹션 요약 비유**: 퀵 정렬의품질 관리는 의감독의깊게 설정하는 것과 같습니다.감독([피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/))을 잘못 설정하면、의이/가의에되어합니다.
 
 ---
 
@@ -156,7 +156,7 @@ tags = ["algorithm_stats"]
 
 퀵 정렬은 "완벽한 균형보다, 확률적 불균형을 감수하더라도 상수를 줄이는 것이 현실 세계에서 더 빠르다"는 실용주의적 엔지니어링 철학을 증명한 역사적 상징이다.
 
-📢 **섹션 요약 비유**: 퀵 정렬은時折 실수もするが、압도적인 피지컬(캐시 효율)과天才的な設計(분할 속도)으로 모든 단점을 덮고도 남는, 영원한 스타と 같습니다.
+📢 **섹션 요약 비유**: 퀵 정렬은 실수도하다이/가、압도적인 피지컬(캐시 효율)과설계(분할 속도)으로 모든 단점을 덮고도 남는, 영원한 스타와/과 같습니다.
 
 ---
 
@@ -175,17 +175,17 @@ tags = ["algorithm_stats"]
 
 ```text
 [비교 기반 정렬 (Comparison Sort) — O(N log N) 하한 이론]
-    │
-    ▼
+│
+▼
 [퀵 정렬 (Quick Sort) — 피벗 기반 분할 정복, 평균 O(N log N)]
-    │
-    ▼
+│
+▼
 [파티셔닝 전략 — Hoare / Lomuto / Median-of-3 피벗 선택]
-    │
-    ▼
+│
+▼
 [Dual-Pivot Quicksort — Java 7+ 표준, 3구역 분할로 캐시 효율 극대화]
-    │
-    ▼
+│
+▼
 [Introsort — C++ STL 표준, 퀵+힙+삽입 Hybrid로 최악 O(N²) 방어]
 ```
 퀵 정렬은 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 선택 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 발전을 통해 최악 케이스를 방어하고, 현대 표준 라이브러리에서는 Dual-[Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 및 [Introsort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/020_introsort/) 형태로 진화했다.

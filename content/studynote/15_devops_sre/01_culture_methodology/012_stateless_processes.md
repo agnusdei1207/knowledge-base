@@ -11,7 +11,7 @@ tags = ["devops_sre"]
 
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 무상태 프로세스 원칙은 애플리케이션이 각 요청/응답 사이클 간에 상태를 저장하지 않고 실행되며, 필요한 상태는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)나 캐시 같은 외부 자원에 저장해야 한다는 12팩터 앱의 제6원칙이다.
-> 2. **가치**: 무상태로 설계된 애플리케이션은 수평적 확장이 용이하고, 인스턴스 장애 시에도 다른 인스턴스가即時に 작업을引き継ぐことがあり, 배포 및 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)이 단순화된다.
+> 2. **가치**: 무상태로 설계된 애플리케이션은 수평적 확장이 용이하고, 인스턴스 장애 시에도 다른 인스턴스가즉시에 작업을와/과이/가, 배포 및 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)이 단순화된다.
 > 3. **융합**: 무상태 원칙은 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/), [쿠버네티스 오토스케일링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/206_kubernetes_autoscaling_hpa_vpa_ca/), [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 클러스터링, 그리고 MSA의 상태 관리 패턴과 긴밀하게 연결되어 있다.
 
 ---
@@ -35,38 +35,38 @@ tags = ["devops_sre"]
 
 ❌ 상태 저장 (Stateful) - 문제 있는 설계
 ┌─────────────────────────────────────────────────────────────┐
-│                                                             │
-│  사용자 A ──┐                                                │
-│  사용자 B ──┼───▶ 로드밸런서 ──▶ [인스턴스 1] ← 메모리에 세션 저장  │
-│  사용자 C ──┘                        [인스턴스 2] ← 다른 세션 저장   │
-│                                    [인스턴스 3] ← 또 다른 세션 저장 │
-│                                                             │
-│  문제:                                                     │
-│  1. 사용자 A가 인스턴스 1에 연결되어 있으면,                 │
-│     인스턴스 1이 장애 시 세션 손실 → 사용자 불만             │
-│  2. 트래픽 증가로 인스턴스 4 추가해도,                       │
-│     기존 사용자는 여전히 기존 인스턴스로 라우팅 → 확장이 의미 없음│
-│  3. 인스턴스 배포 시 해당 인스턴스의 세션 처리 필요         │
+│ │
+│ 사용자 A ──┐ │
+│ 사용자 B ──┼───▶ 로드밸런서 ──▶ [인스턴스 1] ← 메모리에 세션 저장 │
+│ 사용자 C ──┘ [인스턴스 2] ← 다른 세션 저장 │
+│ [인스턴스 3] ← 또 다른 세션 저장 │
+│ │
+│ 문제: │
+│ 1. 사용자 A가 인스턴스 1에 연결되어 있으면, │
+│ 인스턴스 1이 장애 시 세션 손실 → 사용자 불만 │
+│ 2. 트래픽 증가로 인스턴스 4 추가해도, │
+│ 기존 사용자는 여전히 기존 인스턴스로 라우팅 → 확장이 의미 없음│
+│ 3. 인스턴스 배포 시 해당 인스턴스의 세션 처리 필요 │
 └─────────────────────────────────────────────────────────────┘
 
 ✓ 무상태 (Stateless) - 12팩터 원칙 준수
 ┌─────────────────────────────────────────────────────────────┐
-│                                                             │
-│  사용자 A ──┐                                                │
-│  사용자 B ──┼───▶ 로드밸런서 ──▶ [인스턴스 1] ─┐             │
-│  사용자 C ──┘                        [인스턴스 2] ─┼─▶ Redis (세션)│
-│                                    [인스턴스 3] ─┘   │
-│                                    [인스턴스 N] ──▶        │
-│                                                             │
-│  장점:                                                     │
-│  1. 모든 인스턴스가 동일하게 동작 → 어느 인스턴스로든 라우팅 OK│
-│  2. 특정 인스턴스 장애 → 다른 인스턴스가即時に 작업을引き継ぐ│
-│  3. 인스턴스 배포/스케일링이 단순 → 상태 걱정 불필요         │
-│  4. 상태는 외부에 저장 → 영속성 보장                        │
+│ │
+│ 사용자 A ──┐ │
+│ 사용자 B ──┼───▶ 로드밸런서 ──▶ [인스턴스 1] ─┐ │
+│ 사용자 C ──┘ [인스턴스 2] ─┼─▶ Redis (세션)│
+│ [인스턴스 3] ─┘ │
+│ [인스턴스 N] ──▶ │
+│ │
+│ 장점: │
+│ 1. 모든 인스턴스가 동일하게 동작 → 어느 인스턴스로든 라우팅 OK│
+│ 2. 특정 인스턴스 장애 → 다른 인스턴스가즉시에 작업을│
+│ 3. 인스턴스 배포/스케일링이 단순 → 상태 걱정 불필요 │
+│ 4. 상태는 외부에 저장 → 영속성 보장 │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-> 📢 **섹션 요약 비유**: 무상태 원칙은"호텔의 짐寄存サービス"와 같다. 지갑과 카드키를 호텔 짐寄存소에預けて（外部 상태 저장）바다 입실하면(무상태 요청 처리), 어느柜台(인스턴스)에서 체크인해도 동일한 절차를 따른다. 만약 한柜台(인스턴스)가故障되어关闭해도(장애) 다른柜台(인스턴스)에서 즉시 업무를 continuity할 수 있다.
+> 📢 **섹션 요약 비유**: 무상태 원칙은"호텔의 짐서비스"와 같다. 지갑과 카드키를 호텔 짐소에（ 상태 저장）바다 입실하면(무상태 요청 처리), 어느(인스턴스)에서 체크인해도 동일한 절차를 따른다. 만약 한(인스턴스)가되어해도(장애) 다른(인스턴스)에서 즉시 업무를 continuity할 수 있다.
 
 ---
 
@@ -89,44 +89,44 @@ tags = ["devops_sre"]
 
 1. 요청 수신 (Request)
 ┌─────────────────────────────────────────────────────────────┐
-│  사용자 요청                                                    │
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │  HTTP GET /api/user/profile                         │   │
-│  │  Header: Authorization: Bearer <token>              │   │
-│  │  Cookie: session_id=abc123                          │   │
-│  └─────────────────────────────────────────────────────┘   │
+│ 사용자 요청 │
+│ ┌─────────────────────────────────────────────────────┐ │
+│ │ HTTP GET /api/user/profile │ │
+│ │ Header: Authorization: Bearer <token> │ │
+│ │ Cookie: session_id=abc123 │ │
+│ └─────────────────────────────────────────────────────┘ │
 └─────────────────────────────────────────────────────────────┘
 
 2. 세션 조회 (Stateless - 상태는 외부에)
 ┌─────────────────────────────────────────────────────────────┐
-│  애플리케이션 (무상태)                                        │
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │  1. 세션 ID 추출 (session_id)                        │   │
-│  │  2. Redis에서 세션 데이터 조회                        │   │
-│  │     session = redis.get(f"session:{session_id}")    │   │
-│  │  3. 세션 기반 요청 처리                                │   │
-│  │     user = db.get_user(session['user_id'])          │   │
-│  │  4. 응답 반환                                        │   │
-│  │     return {"user": user.name, ...}                │   │
-│  └─────────────────────────────────────────────────────┘   │
-│                                                             │
-│  ※ 애플리케이션 메모리에 상태 저장 ❌ (무상태 원칙 위반)       │
-│  ※ 모든 인스턴스에서 동일한 동작 ✅ (무상태 원칙 준수)        │
+│ 애플리케이션 (무상태) │
+│ ┌─────────────────────────────────────────────────────┐ │
+│ │ 1. 세션 ID 추출 (session_id) │ │
+│ │ 2. Redis에서 세션 데이터 조회 │ │
+│ │ session = redis.get(f"session:{session_id}") │ │
+│ │ 3. 세션 기반 요청 처리 │ │
+│ │ user = db.get_user(session['user_id']) │ │
+│ │ 4. 응답 반환 │ │
+│ │ return {"user": user.name, ...} │ │
+│ └─────────────────────────────────────────────────────┘ │
+│ │
+│ ※ 애플리케이션 메모리에 상태 저장 ❌ (무상태 원칙 위반) │
+│ ※ 모든 인스턴스에서 동일한 동작 ✅ (무상태 원칙 준수) │
 └─────────────────────────────────────────────────────────────┘
 
 3. 외부 상태 저장소 (Redis)
 ┌─────────────────────────────────────────────────────────────┐
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │  Key: session:abc123                                │   │
-│  │  Value: {                                          │   │
-│  │    "user_id": "u12345",                           │   │
-│  │    "login_at": "2024-04-05T10:30:00Z",            │   │
-│  │    "preferences": {"theme": "dark"}               │   │
-│  │  }                                                  │   │
-│  └─────────────────────────────────────────────────────┘   │
-│                                                             │
-│  ※ 세션 데이터는 중앙化管理 + 영속성 보장                     │
-│  ※ TTL 설정으로 자동 만료 (보안)                            │
+│ ┌─────────────────────────────────────────────────────┐ │
+│ │ Key: session:abc123 │ │
+│ │ Value: { │ │
+│ │ "user_id": "u12345", │ │
+│ │ "login_at": "2024-04-05T10:30:00Z", │ │
+│ │ "preferences": {"theme": "dark"} │ │
+│ │ } │ │
+│ └─────────────────────────────────────────────────────┘ │
+│ │
+│ ※ 세션 데이터는 중앙관리 + 영속성 보장 │
+│ ※ TTL 설정으로 자동 만료 (보안) │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -146,51 +146,51 @@ tags = ["devops_sre"]
 | **[세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 클러스터링** | Redis를 사용한 중앙화 [세션 관리](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/507_session_management_security/) | Tomcat/Jetty 등의 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 클러스터링 대체 |
 | **[마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)** | MSA에서는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 상태 공유 불허 | 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 stateless하게 설계 필수 |
 
-특히 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 환경에서는 무상태 여부가直接적으로 확장성과 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)에 영향을 미친다. [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 요청에 따라 Pod를 동적으로 확장/축소하고, 문제가 있는 Pod는自動的に終了させて新しいものに置き換える。
+특히 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 환경에서는 무상태 여부가직접적으로 확장성과 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)에 영향을 미친다. [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 요청에 따라 Pod를 동적으로 확장/축소하고, 문제가 있는 Pod는자동에도의에。
 
 ```text
 [쿠버네티스에서 무상태 원칙의중요성]
 
 쿠버네티스 오토스케일링 이벤트:
 ┌─────────────────────────────────────────────────────────────┐
-│                                                             │
-│  1. 스케일 아웃 (Scale Out)                                  │
-│     ┌──────────────────────────────────────────────┐        │
-│     │ 기존 Pod 1개 → 새 Pod 3개로 확장              │        │
-│     │                                               │        │
-│     │  [Pod 1]        [Pod 2]      [Pod 3]         │        │
-│     │  (기존)         (新增)        (新增)          │        │
-│     │                                               │        │
-│     │  ※ 3개 모두 동일한 코드/설정                  │        │
-│     │  ※ 어떤 Pod로 요청이 가도 동일한 결과        │        │
-│     │  ※ 세션/상태는 Redis에서 공유               │        │
-│     └──────────────────────────────────────────────┘        │
-│                                                             │
-│  2. Rolling Update                                           │
-│     ┌──────────────────────────────────────────────┐        │
-│     │  [Pod v1.0] [Pod v1.0] → [Pod v1.1] [Pod v1.1]│        │
-│     │   (구버전)   (구버전)     (신버전)   (신버전)   │        │
-│     │                                               │        │
-│     │  ※ 새 버전 Pod逐渐增加, 구버전 점진적 제거      │        │
-│     │  ※ 요청 중단 없이 무빙 업데이트 가능            │        │
-│     │  ※ 상태는 외부 저장소에서管理되므로影響 없음   │        │
-│     └──────────────────────────────────────────────┘        │
-│                                                             │
-│  3. Pod 장애/재시작                                         │
-│     ┌──────────────────────────────────────────────┐        │
-│     │  [Pod 1] ❌ (장애)                           │        │
-│     │       │                                       │        │
-│     │       ▼ (쿠버네티스가 자동 교체)               │        │
-│     │  [Pod 1'] ✅ (새 Pod)                        │        │
-│     │                                               │        │
-│     │  ※ 새 Pod는 동일한 코드로 기동               │        │
-│     │  ※ Redis에 세션이保存되어 있어 영향 없음      │        │
-│     │  ※ 사용자는 다른 Pod로 라우팅되어 continuity │        │
-│     └──────────────────────────────────────────────┘        │
+│ │
+│ 1. 스케일 아웃 (Scale Out) │
+│ ┌──────────────────────────────────────────────┐ │
+│ │ 기존 Pod 1개 → 새 Pod 3개로 확장 │ │
+│ │ │ │
+│ │ [Pod 1] [Pod 2] [Pod 3] │ │
+│ │ (기존) () () │ │
+│ │ │ │
+│ │ ※ 3개 모두 동일한 코드/설정 │ │
+│ │ ※ 어떤 Pod로 요청이 가도 동일한 결과 │ │
+│ │ ※ 세션/상태는 Redis에서 공유 │ │
+│ └──────────────────────────────────────────────┘ │
+│ │
+│ 2. Rolling Update │
+│ ┌──────────────────────────────────────────────┐ │
+│ │ [Pod v1.0] [Pod v1.0] → [Pod v1.1] [Pod v1.1]│ │
+│ │ (구버전) (구버전) (신버전) (신버전) │ │
+│ │ │ │
+│ │ ※ 새 버전 Pod, 구버전 점진적 제거 │ │
+│ │ ※ 요청 중단 없이 무빙 업데이트 가능 │ │
+│ │ ※ 상태는 외부 저장소에서관리되므로 없음 │ │
+│ └──────────────────────────────────────────────┘ │
+│ │
+│ 3. Pod 장애/재시작 │
+│ ┌──────────────────────────────────────────────┐ │
+│ │ [Pod 1] ❌ (장애) │ │
+│ │ │ │ │
+│ │ ▼ (쿠버네티스가 자동 교체) │ │
+│ │ [Pod 1'] ✅ (새 Pod) │ │
+│ │ │ │
+│ │ ※ 새 Pod는 동일한 코드로 기동 │ │
+│ │ ※ Redis에 세션이저장되어 있어 영향 없음 │ │
+│ │ ※ 사용자는 다른 Pod로 라우팅되어 continuity │ │
+│ └──────────────────────────────────────────────┘ │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-> 📢 **섹션 요약 비유**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)의 무상태 원칙 적용은"호텔 방 청소 시스템"과 같다. 하루가 끝나면(일정 주기) 하녀([쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/))가 각 방([파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/))을 청소하는데, 만약 손님 물건(상태)이 방 안 어딘가에 있을 때(로컬 상태) 문제가 발생한다. 그러나 손님이 짐을 짐寄存소(외부 저장소)에預けて 있으면, 하녀는 어떤 방이든 빠르게 정리하고 다음 손님을 맞을 수 있다.
+> 📢 **섹션 요약 비유**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)의 무상태 원칙 적용은"호텔 방 청소 시스템"과 같다. 하루가 끝나면(일정 주기) 하녀([쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/))가 각 방([파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/))을 청소하는데, 만약 손님 물건(상태)이 방 안 어딘가에 있을 때(로컬 상태) 문제가 발생한다. 그러나 손님이 짐을 짐소(외부 저장소)에 있으면, 하녀는 어떤 방이든 빠르게 정리하고 다음 손님을 맞을 수 있다.
 
 ---
 
@@ -200,30 +200,30 @@ tags = ["devops_sre"]
 
 **1. 실무 의사결정 시나리오**
 - **시나리오 A: 레거시 앱이 로컬 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템에 큰 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 캐시를 저장하고 있는데 이를 무상태로 전환해야 할 때**
-  - **상황**: 기존 앱이 사용자가 업로드한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 로컬 디스크에缓存하고 있어, MSA로 전환 시 문제가 될 것으로 예상됨.
-  - **판단**: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 캐시는 S3나 GCS 같은 객체 스토리지로 마이그레이션해야 한다. 앱에서는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)할 때 로컬 경로가 아닌 S3 URL을 사용하며, CDN과 결합하면 더 빠른 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전송이 가능하다.
+- **상황**: 기존 앱이 사용자가 업로드한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 로컬 디스크에하고 있어, MSA로 전환 시 문제가 될 것으로 예상됨.
+- **판단**: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 캐시는 S3나 GCS 같은 객체 스토리지로 마이그레이션해야 한다. 앱에서는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)할 때 로컬 경로가 아닌 S3 URL을 사용하며, CDN과 결합하면 더 빠른 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전송이 가능하다.
 
-- **시나리오 B: 스프링 부트의 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 Redis로迁移해야 할 때**
-  - **상황**: 현재 스프링 부트 앱이 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 JVM 메모리에 저장하고 있는데, [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 환경으로 이전하려고 함.
-  - **판단**: 스프링 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 Redis로 저장하도록 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하면 된다. `spring-session-data-redis` 의존성을追加하고 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)만 하면, 기존 코드 변경 없이 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 외부 Redis에 저장할 수 있다.
+- **시나리오 B: 스프링 부트의 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 Redis로해야 할 때**
+- **상황**: 현재 스프링 부트 앱이 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 JVM 메모리에 저장하고 있는데, [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 환경으로 이전하려고 함.
+- **판단**: 스프링 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 Redis로 저장하도록 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하면 된다. `spring-session-data-redis` 의존성을추가하고 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)만 하면, 기존 코드 변경 없이 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 외부 Redis에 저장할 수 있다.
 
 ```text
 [무상태 전환 체크리스트]
 
 □ 세션 관리
-  □ 세션은 Redis/Memcached에 저장
-  □ Sticky Session 사용 안 함
-  □ 세션에 민감 정보는暗号화
+□ 세션은 Redis/Memcached에 저장
+□ Sticky Session 사용 안 함
+□ 세션에 민감 정보는화
 
 □ 파일 저장
-  □ 사용자가 생성한 파일은 로컬 FS에 저장하지 않음
-  □ S3/GCS/Azure Blob 등 객체 스토리지 활용
-  □ 임시 파일은ephemeral 볼륨에 저장 후 삭제
+□ 사용자가 생성한 파일은 로컬 FS에 저장하지 않음
+□ S3/GCS/Azure Blob 등 객체 스토리지 활용
+□ 임시 파일은ephemeral 볼륨에 저장 후 삭제
 
 □ 캐시 데이터
-  □ 장기간 저장할 캐시는 DB/Redis에
-  □ 짧은 TTL로 설정하여 정합성 유지
-  □ 중요한 데이터는 캐시에만保存하지 않음
+□ 장기간 저장할 캐시는 DB/Redis에
+□ 짧은 TTL로 설정하여 정합성 유지
+□ 중요한 데이터는 캐시에만저장하지 않음
 ```
 
 > 📢 **섹션 요약 비유**: 무상태 원칙의 부재는"여권에 사진을 붙여두는 것"과 같다. 만약 출입국 심사대에서 여권 사진이 떨어져 나오면(인스턴스 장애) 그 사람은 누구인지 증명할 수 없다. 그러나 출입국관리 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(외부 상태 저장소)에 사진이 있고([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/)), 여권에는 그를 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)할 수 있는 여권 번호만 있으면([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ID), 어느 심사대(인스턴스)를 가든 동일한 심사를 받을 수 있다.
@@ -237,15 +237,15 @@ tags = ["devops_sre"]
 | 관점 | 상태 저장 설계 ([AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)) | 무상태 설계 (TO-BE) | [핵심 성과 지표](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) |
 |:---|:---|:---|:---|
 | **확장성** | Sticky Session으로 확장 제한 | 모든 인스턴스 동일, 무제한 확장 가능 | [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 단축 |
-| **[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)** | 인스턴스 장애 시 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실 | 인스턴스 장애 시即時 [failover](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/) | 장애에 따른 영향 최소화 |
+| **[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)** | 인스턴스 장애 시 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실 | 인스턴스 장애 시즉시 [failover](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/) | 장애에 따른 영향 최소화 |
 | **배포 민첩성** | 인스턴스별 상태 처리 필요 | 상태 걱정 없이 언제든 배포/교체 가능 | 배포 시간 단축 |
-| **테스트 용이성** | 특정 인스턴스에서만再現 가능 | 모든 인스턴스에서 동일 동작 | 디버깅/테스트 용이 |
+| **테스트 용이성** | 특정 인스턴스에서만재현 가능 | 모든 인스턴스에서 동일 동작 | 디버깅/테스트 용이 |
 | **[쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 적합성** | [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 교체 시 상태 손실 위험 | [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) lifecycle와 무관하게 상태 유지 | [Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/) 완전 지원 |
 
 **미래 전망 및 결론**:
-무상태 원칙은 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/), [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/), [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 등 현대적 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 플랫폼의 기본 전제 조건이다. 특히 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)(AWS [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/), Azure Functions)에서는 애플리케이션이 상태를保存할 수 없으며, 모든 상태는 외부 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 저장해야 한다. 따라서 무상태 설계는"선택이 아닌 필수"가 되었다.
+무상태 원칙은 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/), [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/), [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 등 현대적 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 플랫폼의 기본 전제 조건이다. 특히 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)(AWS [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/), Azure Functions)에서는 애플리케이션이 상태를저장할 수 없으며, 모든 상태는 외부 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 저장해야 한다. 따라서 무상태 설계는"선택이 아닌 필수"가 되었다.
 
-결론적으로, 무상태 원칙은 12팩터 앱의 제6원칙으로, 현대적 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에서 시스템의 확장성, [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), 그리고 민첩성을担保하는 기본적인 설계 원칙이다. 모든 새로운 시스템은 무상태로 설계해야 하며, 기존 상태 저장 시스템도 점진적으로 무상태로 전환하는 것이 권장된다.
+결론적으로, 무상태 원칙은 12팩터 앱의 제6원칙으로, 현대적 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에서 시스템의 확장성, [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), 그리고 민첩성을보장하는 기본적인 설계 원칙이다. 모든 새로운 시스템은 무상태로 설계해야 하며, 기존 상태 저장 시스템도 점진적으로 무상태로 전환하는 것이 권장된다.
 
 > 📢 **섹션 요약 비유**: 무상태 원칙은"스마트폰의 연락처 앱"과 같다. 과거에는 전화기에 직접 연락처를 저장했지만(상태 저장), 이제는 Gmail/icloud 연락처(외부 상태 저장소)에 저장한다. 이렇게 하면 핸드폰을 바꿔도(인스턴스 교체) 같은 계정으로 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인하면 모든 연락처가 그대로이고, 어떤 기기에서든 연락처를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있다.
 
@@ -263,17 +263,17 @@ tags = ["devops_sre"]
 
 ```text
 [12팩터 앱 (12-Factor App) — 원칙 기반 앱 설계]
-    │
-    ▼
+│
+▼
 [무상태 프로세스 (Stateless Process) — 로컬 상태 금지]
-    │
-    ▼
+│
+▼
 [외부 상태 저장소 (External State Store) — Redis/DB 활용]
-    │
-    ▼
+│
+▼
 [수평 확장 (Horizontal Scaling) — 인스턴스 복제]
-    │
-    ▼
+│
+▼
 [컨테이너 오케스트레이션 (Container Orchestration) — Kubernetes 자동 배치]
 ```
 

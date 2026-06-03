@@ -23,10 +23,10 @@ tags = ["studynote-security"]
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
-│ 왜 DLP 정책가 필요한가                                              │
+│ 왜 DLP 정책가 필요한가 │
 ├──────────────────────────────────────────────────────────────┤
-│ 자산·서비스 운영 ─► 노출/불확실성 ─► 위험 확대              │
-│                     └──── DLP 정책로 통제·판단 ────┘               │
+│ 자산·서비스 운영 ─► 노출/불확실성 ─► 위험 확대 │
+│ └──── DLP 정책로 통제·판단 ────┘ │
 └──────────────────────────────────────────────────────────────┘
 ```
 
@@ -48,10 +48,10 @@ tags = ["studynote-security"]
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
-│ 운영 사이클                                                  │
+│ 운영 사이클 │
 ├──────────────────────────────────────────────────────────────┤
-│ 기준 수립 ─► 통제 적용 ─► 증적 수집 ─► 점검·개선            │
-│              └──────── 책임·보고 체계 ────────┘             │
+│ 기준 수립 ─► 통제 적용 ─► 증적 수집 ─► 점검·개선 │
+│ └──────── 책임·보고 체계 ────────┘ │
 └──────────────────────────────────────────────────────────────┘
 ```
 
@@ -114,12 +114,12 @@ tags = ["studynote-security"]
 
 ```text
 [식별 가능 데이터 처리]
-    │
-    ▼
+│
+▼
 [DLP 정책 (Data Loss Prevention)]
-    │
-    ├──▶ [콘텐츠 검사]
-    └──▶ [컨텍스트 기반]
+│
+├──▶ [콘텐츠 검사]
+└──▶ [컨텍스트 기반]
 ```
 
 이 흐름도는 [DLP](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/386_dlp/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) ([Data Loss Prevention](/knowledge-base/studynote/09_security/16_data_privacy/823_dlp/))를 단일 용어가 아니라 선행 문제, 현재 해결 방식, 후속 확장 방향으로 기억하게 해 준다. 시험과 실무 모두에서 이 연결 구조를 함께 말할 수 있어야 개념이 살아난다.
@@ -136,7 +136,7 @@ tags = ["studynote-security"]
 
 **진행 상황**: 899 / 1108
 
-← **이전**: [824. DLP 구성要素 (Data Loss Prevention)](/knowledge-base/studynote/09_security/16_data_privacy/824_dlp_components/)
+← **이전**: [824. DLP 구성요소 (Data Loss Prevention)](/knowledge-base/studynote/09_security/16_data_privacy/824_dlp_components/)
 **다음**: [826. 네트워크 DLP (Network DLP)](/knowledge-base/studynote/09_security/16_data_privacy/826_network_dlp/) →
 
 ---

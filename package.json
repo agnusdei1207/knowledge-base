@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build:data": "python3 scripts/build_zola_data.py",
-    "build": "npm run build:data && zola build && npx pagefind --site public --glob \"**/*.html\" --force-language ko --output-subdir _pagefind",
+    "build": "npm run build:data && zola build && bash scripts/generate-llms-txt.sh && npx pagefind --site public --glob \"**/*.html\" --force-language ko --output-subdir _pagefind",
     "serve": "npm run build:data && zola serve",
     "migrate:frontmatter": "python3 scripts/convert_frontmatter_to_zola.py",
     "migrate:wikilinks": "python3 scripts/convert_wikilinks_for_zola.py",

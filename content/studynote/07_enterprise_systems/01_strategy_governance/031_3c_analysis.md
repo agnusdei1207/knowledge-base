@@ -10,7 +10,7 @@ tags = ["studynote-enterprise-systems"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 3C 분석([3C Analysis](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_3c_analysis/))은 [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)(고객)·Competitor(경쟁자)·Company(자사)의 세 관점을 통합하여 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 포지셔닝을 도출하는 프레임워크다. 오마에 겐이치(大前研一)가 제시한 경영 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 기법이다.
+> 1. **본질**: 3C 분석([3C Analysis](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_3c_analysis/))은 [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)(고객)·Competitor(경쟁자)·Company(자사)의 세 관점을 통합하여 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 포지셔닝을 도출하는 프레임워크다. 오마에 겐이치()가 제시한 경영 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 기법이다.
 > 2. **가치**: 3C의 핵심은 교차점이다. 고객 니즈를 충족하면서([Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)), 경쟁자가 제공 못 하는 것을(Competitor), 자사가 잘할 수 있는 것(Company)으로 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 포지션을 찾는 것이 목표다.
 > 3. **판단 포인트**: 3C는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 방향 수립의 출발점이지, 완결된 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 아니다. SWOT 분석의 내부 요인(S·W = Company), 외부 요인(O·T ⊃ Competitor·Market)과 연계하여 더 입체적인 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 수립한다.
 
@@ -21,14 +21,14 @@ tags = ["studynote-enterprise-systems"]
 ```text
 3C 분석 삼각형:
 
-           고객(Customer)
-              /             /              /               / 전략            / 포지셔닝          /____________    경쟁자         자사
-  (Competitor)  (Company)
+고객(Customer)
+/ / / / 전략 / 포지셔닝 /____________ 경쟁자 자사
+(Competitor) (Company)
 
 교차 포인트 질문:
-  - 고객×경쟁자: 경쟁자 대비 고객 불만족은?
-  - 고객×자사:   자사가 잘 충족하는 고객 니즈는?
-  - 경쟁자×자사: 경쟁자 대비 자사 차별점은?
+- 고객×경쟁자: 경쟁자 대비 고객 불만족은?
+- 고객×자사: 자사가 잘 충족하는 고객 니즈는?
+- 경쟁자×자사: 경쟁자 대비 자사 차별점은?
 ```
 
 - **📢 섹션 요약 비유**: 3C 분석은 삼각 측량이다. 세 기준점(고객·경쟁자·자사)에서 각도를 측정해 정확한 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 위치(포지셔닝)를 찾는 것처럼, 세 관점을 통합해 최적 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 방향을 도출한다.
@@ -51,19 +51,19 @@ tags = ["studynote-enterprise-systems"]
 시나리오: B2B SaaS 스타트업 신규 시장 진출
 
 Customer:
-  - 중소기업이 ERP 복잡성에 불만
-  - 가격 민감, 빠른 도입 원함
+- 중소기업이 ERP 복잡성에 불만
+- 가격 민감, 빠른 도입 원함
 
 Competitor:
-  - SAP/Oracle: 기능 강력하나 고가·복잡
-  - 스타트업 경쟁사: UI 좋으나 기능 부족
+- SAP/Oracle: 기능 강력하나 고가·복잡
+- 스타트업 경쟁사: UI 좋으나 기능 부족
 
 Company:
-  - AI 기반 자동화 기술 보유
-  - 빠른 구현 경험
+- AI 기반 자동화 기술 보유
+- 빠른 구현 경험
 
 → 전략: 중소기업 특화 경량 AI-ERP
-         (저가+빠른 도입+AI 자동화 차별화)
+(저가+빠른 도입+AI 자동화 차별화)
 ```
 
 - **📢 섹션 요약 비유**: 3C [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 도출은 식당 틈새 시장 찾기다. 손님(고객) 원하는 것, 주변 식당(경쟁자) 메뉴 분석, 내 요리 실력(자사) 파악으로 아직 없는 메뉴 틈새([전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 포지션)를 찾는다.
@@ -91,20 +91,20 @@ Company:
 IT 서비스/제품 기획 3C 체크리스트:
 
 Customer:
-  □ 타깃 사용자 페르소나 정의
-  □ 페인포인트 인터뷰 (10명 이상)
-  □ 현재 솔루션 불만족 요인
-  □ 지불 의사(WTP) 조사
+□ 타깃 사용자 페르소나 정의
+□ 페인포인트 인터뷰 (10명 이상)
+□ 현재 솔루션 불만족 요인
+□ 지불 의사(WTP) 조사
 
 Competitor:
-  □ 직접 경쟁사 3~5개 기능 비교
-  □ 간접 경쟁(대체재) 파악
-  □ 경쟁사 리뷰·불만 분석 (G2, Capterra)
+□ 직접 경쟁사 3~5개 기능 비교
+□ 간접 경쟁(대체재) 파악
+□ 경쟁사 리뷰·불만 분석 (G2, Capterra)
 
 Company:
-  □ 핵심 기술 차별점 정의
-  □ 개발 팀 역량 평가
-  □ 자금·시간 제약 파악
+□ 핵심 기술 차별점 정의
+□ 개발 팀 역량 평가
+□ 자금·시간 제약 파악
 ```
 
 - **📢 섹션 요약 비유**: IT 기획 3C [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)는 스타트업 PMF [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이다. 고객 인터뷰([Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)), 경쟁사 분석(Competitor), 팀 역량 평가(Company)가 Product-Market Fit 달성의 3대 점검 항목이다.
@@ -139,17 +139,17 @@ Company:
 
 ```text
 [3C 분석 — 고객·경쟁자·자사 전략 삼각형]
-    │
-    ▼
+│
+▼
 [SWOT 연계 — 내외부 요인 통합 분석]
-    │
-    ▼
+│
+▼
 [STP — 세분화·타깃팅·포지셔닝 전략 수립]
-    │
-    ▼
+│
+▼
 [4P (마케팅 믹스) — 제품·가격·유통·촉진 실행]
-    │
-    ▼
+│
+▼
 [4C 확장 — 커뮤니티·채널 디지털 시대 진화]
 ```
 

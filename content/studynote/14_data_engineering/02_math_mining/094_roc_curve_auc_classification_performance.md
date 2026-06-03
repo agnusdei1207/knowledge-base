@@ -40,20 +40,20 @@ ROC 곡선은 모델의 예측 확률값에 따라 FPR(가짜를 진짜로 오�
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
-│                  ROC Curve & AUC Score                     │
+│ ROC Curve & AUC Score │
 ├──────────────────────────────────────────────────────────────┤
-│ TPR (Recall) ^   [ AUC = 1.0 : 완벽한 모델 ]               │
-│      1.0 ────┼───────────────▶                             │
-│          │   │ ┌─────────                              │
-│          │   │ │      [ AUC = 0.8 : 우수한 모델 ]          │
-│          │   │.                                        │
-│          │   . │                                       │
-│          │   │                                         │
-│      0.5 ────┼── . ── ─ ─ ─ ─[ AUC = 0.5 : 무작위 찍기 ] │
-│          │   │        .                                │
-│          │   │            .                            │
-│      0.0 ────┼───────────────▶ FPR (False Positive Rate)│
-│              0.0    0.5    1.0                         │
+│ TPR (Recall) ^ [ AUC = 1.0 : 완벽한 모델 ] │
+│ 1.0 ────┼───────────────▶ │
+│ │ │ ┌───────── │
+│ │ │ │ [ AUC = 0.8 : 우수한 모델 ] │
+│ │ │. │
+│ │ . │ │
+│ │ │ │
+│ 0.5 ────┼── . ── ─ ─ ─ ─[ AUC = 0.5 : 무작위 찍기 ] │
+│ │ │ . │
+│ │ │ . │
+│ 0.0 ────┼───────────────▶ FPR (False Positive Rate)│
+│ 0.0 0.5 1.0 │
 └──────────────────────────────────────────────────────────────┘
 ```
 
@@ -83,7 +83,7 @@ ROC 곡선은 모델의 예측 확률값에 따라 FPR(가짜를 진짜로 오�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 ROC-AUC는 모델을 개발하고 튜닝하는 사이클의 가장 중요한 의사결정 나침반으로 사용된다. 
+실무에서 ROC-AUC는 모델을 개발하고 튜닝하는 사이클의 가장 중요한 의사결정 나침반으로 사용된다.
 
 ### 실무 활용 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 1. **챔피언 모델 선별**: 수십 개의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/), XGBoost 등)을 돌렸을 때, "정확도 95% 모델"보다 "AUC 0.90 모델"을 다음 스테이지로 올리는 것이 안전하다. AUC가 높은 모델은 임계값 튜닝을 통해 비즈니스 요구에 맞게 조율할 여력이 크기 때문이다.
@@ -122,17 +122,17 @@ ROC-AUC 지표를 표준으로 삼으면 비즈니스 환경이 급변하여 커
 
 ```text
 Confusion Matrix (단일 임계값 평가)
-    │
-    ▼
+│
+▼
 FPR / TPR 계산 · Threshold 이동
-    │
-    ▼
+│
+▼
 ROC Curve 도출 (연속적 성능 궤적)
-    │
-    ▼
+│
+▼
 AUC (Area Under Curve) 면적 정량화
-    │
-    ▼
+│
+▼
 PR Curve 병행 분석 (클래스 불균형 극복)
 ```
 
@@ -151,6 +151,6 @@ PR Curve 병행 분석 (클래스 불균형 극복)
 **진행 상황**: 94 / 258
 
 ← **이전**: [F1-Score: 정밀도와 재현율의 균형 잡힌 심판](/knowledge-base/studynote/14_data_engineering/02_math_mining/093_f1_score_harmonic_mean/)
-**다음**: [#95 DataEng (데이터엔지니어링)概念](/knowledge-base/studynote/14_data_engineering/01_infrastructure/095_concept/) →
+**다음**: [#95 DataEng (데이터엔지니어링)개념](/knowledge-base/studynote/14_data_engineering/01_infrastructure/095_concept/) →
 
 ---

@@ -19,15 +19,15 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) (Reliability)은 ISO/IEC 25010에서 정의한 8대 품질 특성의 하나로, "명시된 조건에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 수준을 유지하는 능력"을 의미한다. 소프트웨어가 고장 없이 일관되게 동작하여 사용자가 기대하는 기능을 지속적으로 제공할 수 있는 능력을 평가한다. 하위 특성으로는 성숙성(Maturity), 고장容忍度([Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/)), 회복성(Recoverability)이 있다. [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))도 8대 품질 특성 하나로, "정보와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보호하는 능력"을 의미한다. 하위 특성으로는 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)([Confidentiality](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)), [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)([Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)), 부인 방지(Non-repudiation), 책임 추적성(Accountability), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([Authenticity](/knowledge-base/studynote/09_security/01_intro_principles/005_authenticity/))이 있다.
+- **개념**: [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) (Reliability)은 ISO/IEC 25010에서 정의한 8대 품질 특성의 하나로, "명시된 조건에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 수준을 유지하는 능력"을 의미한다. 소프트웨어가 고장 없이 일관되게 동작하여 사용자가 기대하는 기능을 지속적으로 제공할 수 있는 능력을 평가한다. 하위 특성으로는 성숙성(Maturity), 고장([Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/)), 회복성(Recoverability)이 있다. [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))도 8대 품질 특성 하나로, "정보와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보호하는 능력"을 의미한다. 하위 특성으로는 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)([Confidentiality](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)), [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)([Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)), 부인 방지(Non-repudiation), 책임 추적성(Accountability), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([Authenticity](/knowledge-base/studynote/09_security/01_intro_principles/005_authenticity/))이 있다.
 
-- **필요성**: [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)이 낮은 소프트웨어는 잦은 고장으로 인해 업무 연속성이 저해되고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실이나 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단으로 인한经济损失와 평판 손실이 발생할 수 있다. 특히 금융, 의료, 항공 등-critical한 분야에서는 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)이 사업 연속성의 근본적인 전제 조건이 된다. [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)이 낮으면 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 유출, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위변조, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단 등의 보안 사고가 발생하여 법적 제재, 고객 신뢰 상실, 영업 손실 등의严重影响을 초래할 수 있다.
+- **필요성**: [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)이 낮은 소프트웨어는 잦은 고장으로 인해 업무 연속성이 저해되고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실이나 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단으로 인한와 평판 손실이 발생할 수 있다. 특히 금융, 의료, 항공 등-critical한 분야에서는 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)이 사업 연속성의 근본적인 전제 조건이 된다. [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)이 낮으면 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 유출, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위변조, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단 등의 보안 사고가 발생하여 법적 제재, 고객 신뢰 상실, 영업 손실 등의을 초래할 수 있다.
 
-- **💡 비유**: [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)은 "신용도에 비유"할 수 있다. 약속을 항상 지키는 사람([신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 높음)은 그 사람의 말을 믿고 거래할 수 있지만, 자꾸 약속을 어기는 사람([신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 낮음)은 거래하기 어렵다. [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)은 "금고의 안전성"에 비유할 수 있다. 금고가 튼튼해야([보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) 높음) 안에 있는贵重品([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이安全を保てる.
+- **💡 비유**: [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)은 "신용도에 비유"할 수 있다. 약속을 항상 지키는 사람([신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 높음)은 그 사람의 말을 믿고 거래할 수 있지만, 자꾸 약속을 어기는 사람([신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 낮음)은 거래하기 어렵다. [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)은 "금고의 안전성"에 비유할 수 있다. 금고가 튼튼해야([보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) 높음) 안에 있는([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이보안을/를.
 
-- **등장 배경**: [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 개념은 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)初期부터 중요하게 다루어졌으며, 1960년대 NASA의Apollo 프로그램에서 소프트웨어 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)이 중요한 화두로 떠올랐다. [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)은 전통적으로 정보보호 분야에서 중요하게 다뤄졌으나, ISO/IEC 9126에서는 기능성의 하위 특성에 불과했다. ISO/IEC 25010로 개정되면서 [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)이 독립적인 품질 특성으로 격상되었다.
+- **등장 배경**: [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 개념은 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)초기부터 중요하게 다루어졌으며, 1960년대 NASA의Apollo 프로그램에서 소프트웨어 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)이 중요한 화두로 떠올랐다. [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)은 전통적으로 정보보호 분야에서 중요하게 다뤄졌으나, ISO/IEC 9126에서는 기능성의 하위 특성에 불과했다. ISO/IEC 25010로 개정되면서 [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)이 독립적인 품질 특성으로 격상되었다.
 
-- **📢 섹션 요약 비유**: [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)은 "항공사 안전記録"에 비유할 수 있다. 사고가 적고 정시 운항률 높은 항공사([신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 높음)는乗客의信頼을 얻고, [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)은 "여권 보안을 통해乗客의신원을確認하는 것"과 같다.
+- **📢 섹션 요약 비유**: [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)은 "항공사 안전"에 비유할 수 있다. 사고가 적고 정시 운항률 높은 항공사([신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 높음)는승객의을 얻고, [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)은 "여권 보안을 통해승객의신원을하는 것"과 같다.
 
 ---
 
@@ -35,14 +35,14 @@ tags = ["studynote-software-engineering"]
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                  신뢰성 (Reliability) /                         │
+│ 신뢰성 (Reliability) / │
 ├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
+│ │
+│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
+│ │ │ │ │
+│ ▼ ▼ ▼ │
+│ 요구 분석 설계·적용 품질 검증 │
+│ │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -143,17 +143,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+│
+▼
 신뢰성 (Reliability) / 보안성 (Security) 개념 정립
-    │
-    ▼
+│
+▼
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+│
+▼
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+│
+▼
 지속적 개선 및 DevOps·MLOps 통합
 ```
 

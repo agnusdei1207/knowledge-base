@@ -20,33 +20,33 @@ tags = ["studynote-operating-system"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 정수형 변수 S가 0부터 N까지의 값을 가지며, P 연산 (wait)과 V 연산 ([signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))에 의해 원자적으로 증감하는 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)다. S가 1인 바이너리 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)와 달리, 카운팅 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 N개의 동시 진입을 허용한다.
-- **필요성**: 자원이 단 1개가 아니라 여러 개 (프린터 3대, DB 커넥션 50개, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 좌석 40개)일 때, 단순 mutex로 "1명만 들어가고 나머지는 대기"시키면 자원의 Utilization (활용률)이 3% (1/50)로 곤두박질인다. "3명까지는 들어가고, 4번째부터 대기하라"는 정교한人数 제어 메커니즘이 필요하다.
+- **필요성**: 자원이 단 1개가 아니라 여러 개 (프린터 3대, DB 커넥션 50개, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 좌석 40개)일 때, 단순 mutex로 "1명만 들어가고 나머지는 대기"시키면 자원의 Utilization (활용률)이 3% (1/50)로 곤두박질인다. "3명까지는 들어가고, 4번째부터 대기하라"는 정교한수 제어 메커니즘이 필요하다.
 
 - **등장 배경**: 1965년 데이크스트라가 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)를 발표할 때, [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) ([상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/), [Mutual Exclusion](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)) 용도만 제안한 것은 아니었다. 오히려 그 핵심 목표는 "복수 인스턴스 자원 ([Multiple Instance Resource](/knowledge-base/studynote/02_operating_system/05_deadlock/289_multiple_instance_resource/))"을 제어하는 것이었다.
 
 ```text
-  [카운팅 세마포어의 자원 풀 (Pool) 관리 예시]
+[카운팅 세마포어의 자원 풀 (Pool) 관리 예시]
 
-  [ 자원 상황: DB Connection Pool 크기 = 3개 (Semaphore S = 3) ]
+[ 자원 상황: DB Connection Pool 크기 = 3개 (Semaphore S = 3) ]
 
-   스레드 1: wait() 호출  → (S = 2) [DB 커넥션 1개 사용]
-   스레드 2: wait() 호출  → (S = 1) [DB 커넥션 2개 사용]
-   스레드 3: wait() 호출  → (S = 0) [DB 커넥션 3개 사용]
+스레드 1: wait() 호출 → (S = 2) [DB 커넥션 1개 사용]
+스레드 2: wait() 호출 → (S = 1) [DB 커넥션 2개 사용]
+스레드 3: wait() 호출 → (S = 0) [DB 커넥션 3개 사용]
 
-   풀 고갈 (Pool Exhausted)
+풀 고갈 (Pool Exhausted)
 
-   스레드 4: wait() 호출  → (S < 0이므로 현재 스레드를 Sleep)
-   스레드 5: wait() 호출  → (S < 0이므로 현재 스레드를 Sleep)
+스레드 4: wait() 호출 → (S < 0이므로 현재 스레드를 Sleep)
+스레드 5: wait() 호출 → (S < 0이므로 현재 스레드를 Sleep)
 
-   [ 자원 반환 ]
-    스레드 2가 DB사용을 끝내고 signal() 호출!
-      - S가 1만큼 증가하고, 대기 중인 스레드 중 하나를 Wakeup
-      - 스레드 4가 깨어나 DB 커넥션 2번을 할당받는다.
+[ 자원 반환 ]
+스레드 2가 DB사용을 끝내고 signal() 호출!
+- S가 1만큼 증가하고, 대기 중인 스레드 중 하나를 Wakeup
+- 스레드 4가 깨어나 DB 커넥션 2번을 할당받는다.
 ```
 
-**[다이어그램 해설]** 카운팅 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)의 핵심은 "0 이하로 감소하면 수면"이라는 정책이다. S가 0일 때 P(wait) 연산을 수행하는 프로세스는 OS에 의해 대기 큐에投入され (수면), 다른 프로세스가 V([signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))을 호출해 S를 늘릴 때까지 영원히 깨어나지 않는다. 이 자동睡신/ Wakeup 메커니즘이 자원 풀의uma 管理를 Os가 자동으로 해주는 장치다.
+**[다이어그램 해설]** 카운팅 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)의 핵심은 "0 이하로 감소하면 수면"이라는 정책이다. S가 0일 때 P(wait) 연산을 수행하는 프로세스는 OS에 의해 대기 큐에 (수면), 다른 프로세스가 V([signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))을 호출해 S를 늘릴 때까지 영원히 깨어나지 않는다. 이 자동신/ Wakeup 메커니즘이 자원 풀의uma 관리를 Os가 자동으로 해주는 장치다.
 
-- **📢 섹션 요약 비유**: 놀이공원 입장에 바쁜 날 30개의 사물함 ([세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) S=30)만 열려 있다. 손님이 올 때마다 키를 하나씩 받아가고 (wait), 나올 때 반납하고 ([signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)). 열쇠가 다 나가면 (S=0) 다음 손님은 현관 앞 벤치에서 1시간을 기다린다. 사물함 1개가 비는 순간 ([signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)) 대기자 중 한 명이入園한다.
+- **📢 섹션 요약 비유**: 놀이공원 입장에 바쁜 날 30개의 사물함 ([세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) S=30)만 열려 있다. 손님이 올 때마다 키를 하나씩 받아가고 (wait), 나올 때 반납하고 ([signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)). 열쇠가 다 나가면 (S=0) 다음 손님은 현관 앞 벤치에서 1시간을 기다린다. 사물함 1개가 비는 순간 ([signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)) 대기자 중 한 명이한다.
 
 ---
 
@@ -54,32 +54,32 @@ tags = ["studynote-operating-system"]
 
 ### 내부 자료구조와 wait/[signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 의 상세 구현
 
-카운팅 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)의 내부는 매우 간단하지만, 그 단순함이 응용 영역의廣大さを可能にしている.
+카운팅 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)의 내부는 매우 간단하지만, 그 단순함이 응용 영역의을/를에하여있다.
 
 ```c
 typedef struct {
-    int value;              // 현재 카운터 (사용 가능 자원 수)
-    Queue waiting_queue;     // 대기 중인 프로세스/스레드 큐
+int value; // 현재 카운터 (사용 가능 자원 수)
+Queue waiting_queue; // 대기 중인 프로세스/스레드 큐
 } semaphore;
 
 // P 연산 (Wait, Proberen)
 void wait(semaphore *S) {
-    S->value--;             // 자원을 사용하겠다고 1 감소
-    if (S->value < 0) {     // 자원이 없으면
-        // 이 스레드를 대기 큐에 넣고 수면
-        add_to_queue(&S->waiting_queue, current_thread);
-        sleep();             // CPU 양보 (OS가 문맥 교환)
-    }
+S->value--; // 자원을 사용하겠다고 1 감소
+if (S->value < 0) { // 자원이 없으면
+// 이 스레드를 대기 큐에 넣고 수면
+add_to_queue(&S->waiting_queue, current_thread);
+sleep(); // CPU 양보 (OS가 문맥 교환)
+}
 }
 
 // V 연산 (Signal, Verhogen)
 void signal(semaphore *S) {
-    S->value++;             // 자원 사용 완료, 1 증가
-    if (S->value <= 0) {    // 대기자가 있으면
-        // 대기 큐에서 한 스레드를 꺼내서 깨움
-        Thread *t = remove_from_queue(&S->waiting_queue);
-        wakeup(t);           // 해당 스레드를 Ready 큐로 이동
-    }
+S->value++; // 자원 사용 완료, 1 증가
+if (S->value <= 0) { // 대기자가 있으면
+// 대기 큐에서 한 스레드를 꺼내서 깨움
+Thread *t = remove_from_queue(&S->waiting_queue);
+wakeup(t); // 해당 스레드를 Ready 큐로 이동
+}
 }
 ```
 
@@ -93,7 +93,7 @@ void signal(semaphore *S) {
 | **재귀적 잠금** | 불가 | 가능 (재귀적 [mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/)) |
 | **[priority inheritance](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/206_priority_inheritance/)** | OS가 자동 적용 어려움 | OS가 자동 적용 가능 |
 
-- **📢 섹션 요약 비유**: 뮤텍스는 "내 집 자물쇠"라서 내가 잠그고 내가 열어야 합니다. 카운팅 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 "공동 놀이터 entry권"으로, 30장이 있는 entry권을 그냥 반납하면 아무나 다시 집어들어 갈 수 있는 구조입니다. 엄격한 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)보다는 유연한 人員 관리가 필요할 때 씁니다.
+- **📢 섹션 요약 비유**: 뮤텍스는 "내 집 자물쇠"라서 내가 잠그고 내가 열어야 합니다. 카운팅 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 "공동 놀이터 entry권"으로, 30장이 있는 entry권을 그냥 반납하면 아무나 다시 집어들어 갈 수 있는 구조입니다. 엄격한 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)보다는 유연한 관리가 필요할 때 씁니다.
 
 ---
 
@@ -102,29 +102,29 @@ void signal(semaphore *S) {
 ### 카운팅 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)의 대표적 활용: Bounded Buffer (생산자-소비자)
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────────┐
-  │     3개의 세마포어로 구현하는 생산자-소비자 (유한 버퍼) 패턴          │
-  ├──────────────────────────────────────────────────────────────────────┤
-  │                                                                      │
-  │  버퍼 크기 N = 5                                                     │
-  │                                                                      │
-  │  semaphore mutex = 1;        // 버퍼 자체의 상호 배제용               │
-  │  semaphore empty = N;         // 빈 공간 카운트 (초기: 5)            │
-  │  semaphore full = 0;          // 채워진 공간 카운트 (초기: 0)        │
-  │                                                                      │
-  │  [생산자 (Producer)]                [소비자 (Consumer)]               │
-  │                                                                      │
-  │  wait(empty);                      wait(full);                       │
-  │  wait(mutex);                     wait(mutex);                      │
-  │  // 버퍼에 데이터 삽입                  // 버퍼에서 데이터 꺼냄      │
-  │  signal(mutex);                   signal(mutex);                    │
-  │  signal(full);                    signal(empty);                    │
-  │                                                                      │
-  │  핵심 원리:                                                          │
-  │  - empty는 "버퍼에 빈자리가 있나?"를 카운트 → 생산자가 wait (남은 빈칸 줄음) │
-  │  - full은 "버퍼에 데이터가 있나?"를 카운트 → 소비자가 wait (남은 데이터 줄음) │
-  │  - mutex는 버퍼 데이터 자체의 충돌 방지만 담당                        │
-  └──────────────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────────┐
+│ 3개의 세마포어로 구현하는 생산자-소비자 (유한 버퍼) 패턴 │
+├──────────────────────────────────────────────────────────────────────┤
+│ │
+│ 버퍼 크기 N = 5 │
+│ │
+│ semaphore mutex = 1; // 버퍼 자체의 상호 배제용 │
+│ semaphore empty = N; // 빈 공간 카운트 (초기: 5) │
+│ semaphore full = 0; // 채워진 공간 카운트 (초기: 0) │
+│ │
+│ [생산자 (Producer)] [소비자 (Consumer)] │
+│ │
+│ wait(empty); wait(full); │
+│ wait(mutex); wait(mutex); │
+│ // 버퍼에 데이터 삽입 // 버퍼에서 데이터 꺼냄 │
+│ signal(mutex); signal(mutex); │
+│ signal(full); signal(empty); │
+│ │
+│ 핵심 원리: │
+│ - empty는 "버퍼에 빈자리가 있나?"를 카운트 → 생산자가 wait (남은 빈칸 줄음) │
+│ - full은 "버퍼에 데이터가 있나?"를 카운트 → 소비자가 wait (남은 데이터 줄음) │
+│ - mutex는 버퍼 데이터 자체의 충돌 방지만 담당 │
+└──────────────────────────────────────────────────────────────────────┘
 ```
 
 **[다이어그램 해설]** 이 패턴의 아름다움은 3-way 카운팅에 있다. empty=N, full=0으로 시작하면, 생산자는 빈자리가 생길 때까지 (empty--) 대기하고, 소비자는 데이터가 채워질 때까지 (full--) 대기한다. 5개의 버퍼가 모두 채워지면 empty가 0이 되어 생산자가 blocks, 소비자가 하나씩 빼먹으면 empty가 증가하여 생산자가 깨어난다. 이 피드백 루프가 별도의 명시적Synchronization 없이 자동으로 생산자와 소비자의 속도를 맞추어 준다.
@@ -134,27 +134,27 @@ void signal(semaphore *S) {
 카운팅 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 읽기-쓰기 문제에서도 활용된다.
 
 ```c
-semaphore mutex = 1;      // read_count 접근용 상호 배제
-semaphore db = 1;          // 실제 DB 자체의 배타적 잠금
-int read_count = 0;        // 현재 읽기 중인 리더 수
+semaphore mutex = 1; // read_count 접근용 상호 배제
+semaphore db = 1; // 실제 DB 자체의 배타적 잠금
+int read_count = 0; // 현재 읽기 중인 리더 수
 
 // Reader
 wait(mutex);
-    read_count++;
-    if (read_count == 1)   // 첫 번째 Reader면
-        wait(db);          // DB를 잠근다 (Writer 배제)
+read_count++;
+if (read_count == 1) // 첫 번째 Reader면
+wait(db); // DB를 잠근다 (Writer 배제)
 signal(mutex);
 
 // ... 읽기 작업 ...
 
 wait(mutex);
-    read_count--;
-    if (read_count == 0)   // 마지막 Reader면
-        signal(db);        // DB를解锁한다
+read_count--;
+if (read_count == 0) // 마지막 Reader면
+signal(db); // DB를잠금한다
 signal(mutex);
 ```
 
-- **📢 섹션 요약 비유**: Reader-Writer_lock에서 카운팅 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 "독서실의占有人数 세는 사람"과 같다. 첫 번째 들어온 친구([mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))가 占有人数를 세고 占有人数가 1이면 불을 켜고( DB 잠금), 마지막 친구가 나가면 불을 끈다( DB解锁). reading는 占有人数가 한 명이어도 할 수 있지만, writing은 혼자만 占有人数가 가능해야 한다.
+- **📢 섹션 요약 비유**: Reader-Writer_lock에서 카운팅 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 "독서실의수 세는 사람"과 같다. 첫 번째 들어온 친구([mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))가 수를 세고 수가 1이면 불을 켜고( DB 잠금), 마지막 친구가 나가면 불을 끈다( DB잠금). reading는 수가 한 명이어도 할 수 있지만, writing은 혼자만 수가 가능해야 한다.
 
 ---
 
@@ -167,27 +167,27 @@ signal(mutex);
 ```java
 // HikariCP의 내부 메커니즘 (개념적)
 public class HikariPool {
-    private final Semaphore pooledConnections;
+private final Semaphore pooledConnections;
 
-    public HikariPool(int maximumPoolSize) {
-        this.pooledConnections = new Semaphore(maximumPoolSize);
-    }
+public HikariPool(int maximumPoolSize) {
+this.pooledConnections = new Semaphore(maximumPoolSize);
+}
 
-    public Connection getConnection(long timeoutMs) throws SQLException {
-        // 세마포어로 커넥션 획득 시도
-        if (!pooledConnections.tryAcquire(timeoutMs, TimeUnit.MILLISECONDS)) {
-            throw new SQLException("커넥션 획득超时");  // 타임아웃
-        }
+public Connection getConnection(long timeoutMs) throws SQLException {
+// 세마포어로 커넥션 획득 시도
+if (!pooledConnections.tryAcquire(timeoutMs, TimeUnit.MILLISECONDS)) {
+throw new SQLException("커넥션 획득"); // 타임아웃
+}
 
-        Connection conn = null;
-        try {
-            conn = getPooledConnection();  // 실제 커넥션 획득
-            return conn;
-        } catch (Exception e) {
-            pooledConnections.release();     // 실패 시 카운트 즉시 반환
-            throw e;
-        }
-    }
+Connection conn = null;
+try {
+conn = getPooledConnection(); // 실제 커넥션 획득
+return conn;
+} catch (Exception e) {
+pooledConnections.release(); // 실패 시 카운트 즉시 반환
+throw e;
+}
+}
 }
 ```
 
@@ -197,40 +197,40 @@ public class HikariPool {
 
 ```c
 // ❌ 버그: 이중 wait - 이미 획득한 세마포어를 또 기다림
-wait(pool);        // 커넥션 획득
-query(pool);       // 커넥션 반납 없이 또 wait() 시도
-    wait(pool);    // 🚨 두 번째 wait에서 무한 대기! (이미 획득한 상태에서 대기)
-    do_work();
+wait(pool); // 커넥션 획득
+query(pool); // 커넥션 반납 없이 또 wait() 시도
+wait(pool); // 🚨 두 번째 wait에서 무한 대기! (이미 획득한 상태에서 대기)
+do_work();
 
 // ❌ 버그: signal 누락 - 리턴 전에 예외가 발생하면 semaphore가 영원히 잠김
 sem_wait(&pool);
 if (do_work() == ERROR) {
-    return;        // 🚨 signal() 호출 없이 함수 종료! 다른 스레드가永久 대기
+return; // 🚨 signal() 호출 없이 함수 종료! 다른 스레드가 대기
 }
 sem_post(&pool);
 
 // ✅ 올바른 패턴: try-finally로 반드시 signal 보장
 sem_wait(&pool);
 try {
-    do_work();
+do_work();
 } finally {
-    sem_post(&pool);   // 예외가 터지든 말든 반드시 호출
+sem_post(&pool); // 예외가 터지든 말든 반드시 호출
 }
 ```
 
-- **📢 섹션 요약 비유**: [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 도어스코드입니다. 들어갈 때 (wait) 도어스를 받고, 나올 때 ([signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)) 도어스를 해제해야 합니다. 도어스를 안 열고 나가버리면 ([signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 누락) 다음 사람은永久 대기하게 됩니다. finally문은 "반드시 도어스를 解鎖하라는 것"입니다.
+- **📢 섹션 요약 비유**: [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 도어스코드입니다. 들어갈 때 (wait) 도어스를 받고, 나올 때 ([signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)) 도어스를 해제해야 합니다. 도어스를 안 열고 나가버리면 ([signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 누락) 다음 사람은 대기하게 됩니다. finally문은 "반드시 도어스를 하라는 것"입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
 ### 기대효과
-카운팅 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)를 사용하면 한정된 자원을 합리적으로分配하여 Utilization을 극대화하면서도, 초과 요청에 대해서는명시적睡신/ wakeup을 통해 불필요한 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)([polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))이나 busy-wait를 제거할 수 있다. 특히 I/O-bound 시스템에서 concurrent request 수를 자동으로 제어하는 효과를낸다.
+카운팅 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)를 사용하면 한정된 자원을 합리적으로하여 Utilization을 극대화하면서도, 초과 요청에 대해서는명시적신/ wakeup을 통해 불필요한 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)([polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))이나 busy-wait를 제거할 수 있다. 특히 I/O-bound 시스템에서 concurrent request 수를 자동으로 제어하는 효과를낸다.
 
 ### 결론 및 미래 전망
-카운팅 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 60년 역사의 классический [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) primitive이지만, 현대 소프트웨어 엔지니어링에서는 고수준 concurrent [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(java.util.concurrent, std::counting_semaphore 등) 뒤에 숨겨져 직접 코딩하는 경우가 줄었다. 그러나 그 핵심 개념인 "有限 자원 N개에 대한atomic 카운팅 + 대기열 管理"는 DB 풀, [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/), I/O 리밋 등 실무 엔지니어링의 모든 곳에서 생존하며, 오히려 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서의 [Rate Limiting](/knowledge-base/studynote/09_security/05_web_app_security/520_rate_limiting/) (예: 토큰 버킷,Leaky Bucket)으로 그 패러다임을 확장하고 있다.
+카운팅 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 60년 역사의 классический [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) primitive이지만, 현대 소프트웨어 엔지니어링에서는 고수준 concurrent [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(java.util.concurrent, std::counting_semaphore 등) 뒤에 숨겨져 직접 코딩하는 경우가 줄었다. 그러나 그 핵심 개념인 " 자원 N개에 대한atomic 카운팅 + 대기열 관리"는 DB 풀, [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/), I/O 리밋 등 실무 엔지니어링의 모든 곳에서 생존하며, 오히려 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서의 [Rate Limiting](/knowledge-base/studynote/09_security/05_web_app_security/520_rate_limiting/) (예: 토큰 버킷,Leaky Bucket)으로 그 패러다임을 확장하고 있다.
 
-- **📢 섹션 요약 비유**: 카운팅 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 놀이공원의エントリーチケット입니다. 30张三的酒-keyframes 있으면 30명만入園시키고, 31번째는必ず 기다리게 합니다.遊園地内の全てのアミューズメントが平等に资源配置されるのが美しく、ITインフラでも同じ原理が通用します.
+- **📢 섹션 요약 비유**: 카운팅 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 놀이공원의입니다. 30-keyframes 있으면 30명만시키고, 31번째는 기다리게 합니다.의의이/가에리소스설정된다의이/가、IT에서도이/가합니다.
 
 ---
 
@@ -247,12 +247,12 @@ try {
 
 ```text
 [피터슨의 해결책 (Peterson's Algorithm)]
-    │
-    ▼
+│
+▼
 [카운팅 세마포어 (Counting Semaphore)]
-    │
-    ├──▶ [하드웨어 명령어 기반 동기화]
-    └──▶ [Test-and-Set 명령어]
+│
+├──▶ [하드웨어 명령어 기반 동기화]
+└──▶ [Test-and-Set 명령어]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.

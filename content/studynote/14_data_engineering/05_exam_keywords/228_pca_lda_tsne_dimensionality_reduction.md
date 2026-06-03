@@ -23,12 +23,12 @@ tags = ["studynote-data-engineering"]
 차원이 증가할수록 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포인트 간 거리가 모두 비슷해지고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 희소해져 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 역설적으로 저하된다.
 
 ```
-차원 수  │  단위 정육면체에서 전체 부피의 1% 커버하는 변 길이
+차원 수 │ 단위 정육면체에서 전체 부피의 1% 커버하는 변 길이
 ─────────┼────────────────────────────────────────────────
-    2    │   0.10  (10%)
-   10    │   0.63  (63%)
-  100    │   0.955 (95.5%)
- 1000    │   0.995 (99.5%)
+2 │ 0.10 (10%)
+10 │ 0.63 (63%)
+100 │ 0.955 (95.5%)
+1000 │ 0.995 (99.5%)
 ```
 
 → 고차원에서는 "근접 이웃"의 의미가 약해지고, [KNN](/knowledge-base/studynote/10_ai/03_llm_nlp/262_knn/)·클러스터링·회귀 모두 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하
@@ -47,29 +47,29 @@ PCA는 비지도(Unsupervised) 선형 [차원 축소](/knowledge-base/studynote/
 PCA 알고리즘 흐름:
 ────────────────────────────────────────────────────────
 ① 데이터 중심화 (평균 빼기, Mean Centering)
-        ↓
+↓
 ② 공분산 행렬 계산 (Covariance Matrix)
-        ↓
+↓
 ③ 고유값 분해 (Eigenvalue Decomposition) 또는 SVD
-        ↓
+↓
 ④ 고유벡터(Eigenvector) = 주성분 방향 축
-   고유값(Eigenvalue)    = 해당 축의 설명 분산량
-        ↓
+고유값(Eigenvalue) = 해당 축의 설명 분산량
+↓
 ⑤ 설명 분산 누적 비율 확인 (Explained Variance Ratio)
-   보통 PC들이 95% 이상 설명하는 수까지 선택
-        ↓
+보통 PC들이 95% 이상 설명하는 수까지 선택
+↓
 ⑥ 원본 데이터를 선택된 PC 공간으로 투영
 ────────────────────────────────────────────────────────
 
 Scree Plot (스크리 플롯):
-  설명 분산
-    │
- 80%│ ●
-    │  ●
- 40%│    ●
-    │      ●──●──●──●
-    └──────────────────
-      PC1 PC2 PC3 PC4  (엘보우 이후 완만 → 거기서 자름)
+설명 분산
+│
+80%│ ●
+│ ●
+40%│ ●
+│ ●──●──●──●
+└──────────────────
+PC1 PC2 PC3 PC4 (엘보우 이후 완만 → 거기서 자름)
 ```
 
 ### 2-2. LDA (Linear Discriminant Analysis, [선형 판별 분석](/knowledge-base/studynote/14_data_engineering/02_math_mining/082_lda_linear_discriminant_analysis_classification/))
@@ -78,14 +78,14 @@ LDA는 지도(Supervised) 선형 [차원 축소](/knowledge-base/studynote/14_da
 
 ```
 LDA 목표:
-         클래스 간 분산 (SB)
+클래스 간 분산 (SB)
 최대화: ─────────────────────
-         클래스 내 분산 (SW)
+클래스 내 분산 (SW)
 
 PCA와의 차이:
 ┌─────────────────────────────────────────────────────┐
-│ PCA: 레이블 무관, 전체 분산 최대화 (비지도)          │
-│ LDA: 레이블 사용, 클래스 분리 최대화 (지도)          │
+│ PCA: 레이블 무관, 전체 분산 최대화 (비지도) │
+│ LDA: 레이블 사용, 클래스 분리 최대화 (지도) │
 └─────────────────────────────────────────────────────┘
 
 최대 축 수: min(클래스 수 - 1, 특성 수)
@@ -116,7 +116,7 @@ t-분포의 긴 꼬리(Heavy Tail)가 완화한다.
 | 유형 | 비지도·선형 | 지도·선형 | 비지도·비선형 | 비지도·비선형 |
 | 목적 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 최대화 | 클래스 분리 | 군집 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) | 구조 보존 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) |
 | 출력 차원 | 자유 | 클래스수-1 | 2D/3D 주로 | 자유 |
-| 신규 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 변환 가능 | 변환 가능 | 불가 | 가능 (近似) |
+| 신규 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 변환 가능 | 변환 가능 | 불가 | 가능 () |
 | 계산 복잡도 | O(min(n,d)³) | O(nd²) | O(n²) | O(n log n) |
 | 해석 가능성 | 중간 | 높음 | 낮음 | 낮음 |
 
@@ -131,17 +131,17 @@ t-분포의 긴 꼬리(Heavy Tail)가 완화한다.
 ```
 목적별 선택 기준
 ────────────────────────────────────────────────────────
-고차원 전처리 → 모델 성능 개선    : PCA
-  (선형 관계 가정, 빠른 변환 필요)
+고차원 전처리 → 모델 성능 개선 : PCA
+(선형 관계 가정, 빠른 변환 필요)
 
-분류 전 특성 변환                 : LDA
-  (클래스 레이블 있고 선형 분리 가정)
+분류 전 특성 변환 : LDA
+(클래스 레이블 있고 선형 분리 가정)
 
-데이터 탐색·시각화                : t-SNE 또는 UMAP
-  (군집 구조 발견, 이상점 탐지)
+데이터 탐색·시각화 : t-SNE 또는 UMAP
+(군집 구조 발견, 이상점 탐지)
 
-대용량 데이터 + 빠른 속도         : UMAP
-  (t-SNE보다 10~100× 빠름, 전역 구조 보존)
+대용량 데이터 + 빠른 속도 : UMAP
+(t-SNE보다 10~100× 빠름, 전역 구조 보존)
 ────────────────────────────────────────────────────────
 ```
 
@@ -200,11 +200,11 @@ PCA 주성분 = V의 열벡터
 
 [결과]
 2D 산점도에서 5개 군집 발견:
-  ● 충성 고객 군집
-  ● 가격 민감 군집
-  ● 휴면 고객 군집
-  ● 신규 고객 군집
-  ● 고가치 VIP 군집
+● 충성 고객 군집
+● 가격 민감 군집
+● 휴면 고객 군집
+● 신규 고객 군집
+● 고가치 VIP 군집
 
 → 각 군집에 맞는 맞춤형 마케팅 전략 수립
 ```
@@ -258,14 +258,14 @@ PCA 주성분 = V의 열벡터
 
 ```text
 고차원 데이터 (차원의 저주)
-    │
-    ▼
+│
+▼
 차원 축소
-    ├─► PCA: 분산 최대화 선형 투영 (비지도)
-    ├─► LDA: 클래스 분리 최대화 투영 (지도)
-    └─► t-SNE / UMAP: 비선형 시각화 (2D/3D)
-    │
-    ▼
+├─► PCA: 분산 최대화 선형 투영 (비지도)
+├─► LDA: 클래스 분리 최대화 투영 (지도)
+└─► t-SNE / UMAP: 비선형 시각화 (2D/3D)
+│
+▼
 응용: 시각화 · 노이즈 제거 · 피처 압축
 ```
 2. LDA는 "고양이와 개를 가장 잘 구분하는 방향으로 그림자를 만드는 것"으로, 처음부터 어떤 동물인지 알고 시작한다.

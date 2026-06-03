@@ -8,7 +8,9 @@ tags = ["studynote-computer-architecture"]
 > 🧸 **어린이를 위한 비유**
 > 컴퓨터라는 아주 복잡하고 거대한 성을 짓는 '설계도'를 배우는 곳이에요. 전기가 어떻게 숫자가 되는지, 두뇌인 CPU가 어떻게 명령을 내리는지 탐험하게 될 거예요!
 
----# 도메인 01: 컴퓨터 구조 (Computer Architecture)
+---
+
+# 도메인 01: 컴퓨터 구조 (Computer Architecture)
 
 ## ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 하드웨어와 소프트웨어의 경계인 ISA(Instruction Set Architecture)를 중심으로, 연산(Datapath)과 제어(Control)의 최적화를 통해 시스템의 절대적 성능을 극대화하는 물리적/논리적 결착점.

@@ -19,19 +19,19 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 빌드 및 배포 자동화는 "代码가 저장소에 commit되는 순간부터最终製品が고객에게 전달되는 순간까지"의全과정을 자동화된 파이프라인으로 처리하는 것을 의미한다. 이는 전통적 수동 방식(개발자가 수동으로 빌드하고,运维エンジニア가 수동으로 배포)이 가진 속도 느림, 오류 발생 가능성 높음, 반복 업무 부담 등의 문제点を 해결한다.
+- **개념**: 빌드 및 배포 자동화는 "코드가 저장소에 commit되는 순간부터이/가고객에게 전달되는 순간까지"의과정을 자동화된 파이프라인으로 처리하는 것을 의미한다. 이는 전통적 수동 방식(개발자가 수동으로 빌드하고,가 수동으로 배포)이 가진 속도 느림, 오류 발생 가능성 높음, 반복 업무 부담 등의 문제을/를 해결한다.
 
-- **필요성**:手動部署過程では、深夜のオペレーターによる操作ミスが原因で障害が発生することが多い。 또한 시장 경쟁이 심화됨에 따라 새로운 기능을 최대한 빨리 출시해야 하는 압박이 증가하고 있다. 수동 배포로는 이러한 요구에 대응할 수 없으며, 자동화된 배포 파이프라인이 필수적입니다.
+- **필요성**:수동배포에서는、의에 의한이/가에서이/가하다와/과이/가。 또한 시장 경쟁이 심화됨에 따라 새로운 기능을 최대한 빨리 출시해야 하는 압박이 증가하고 있다. 수동 배포로는 이러한 요구에 대응할 수 없으며, 자동화된 배포 파이프라인이 필수적입니다.
 
-- **💡 비유**: 빌드 및 배포 자동화는 **'고속철도 물류 시스템'**과 같다. 화물 열차가 각 역마다 화물을 내리고 다시 실는 작업을 수동으로 하면 엄청난 시간이 걸리지만,自动化된 물류基地에서는 화물 열차가 들어오는 순간부터 자동 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), 자동 적재, 자동 출하까지 تمام이自动化되어 있다. Likewise, 소프트웨어도自动化된 빌드/배포 파이프라인을 통해 代码가 들어오는 순간부터 고객에게 전달될 때까지人流없이高速으로 처리된다.
+- **💡 비유**: 빌드 및 배포 자동화는 **'고속철도 물류 시스템'**과 같다. 화물 열차가 각 역마다 화물을 내리고 다시 실는 작업을 수동으로 하면 엄청난 시간이 걸리지만,된 물류에서는 화물 열차가 들어오는 순간부터 자동 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), 자동 적재, 자동 출하까지 تمام이되어 있다. Likewise, 소프트웨어도된 빌드/배포 파이프라인을 통해 코드가 들어오는 순간부터 고객에게 전달될 때까지없이으로 처리된다.
 
 - **등장 배경 및 발전 과정**:
-  1. **2000년대 초**: CruiseControl, Hudson 등 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 도구 등장
-  2. **2010년대**: Jenkins가主流 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 도구로 자리잡음, Docker의 등장으로 배포 환경 표준화
-  3. **2015년 이후**: [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 대중화, [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 개념 확산
-  4. **현재**: Cloud-Native, [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/), Progressive Delivery 등 첨단 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 등장
+1. **2000년대 초**: CruiseControl, Hudson 등 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 도구 등장
+2. **2010년대**: Jenkins가 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 도구로 자리잡음, Docker의 등장으로 배포 환경 표준화
+3. **2015년 이후**: [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 대중화, [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 개념 확산
+4. **현재**: Cloud-Native, [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/), Progressive Delivery 등 첨단 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 등장
 
-- **📢 섹션 요약 비유**: 빌드 및 배포 자동화는 **'피자 배달의 全自动化'**와 같다. 손님이 주문을 넣으면(코드 commit), 주방에서 자동으로 반죽을 치고(빌드), 토핑을 올리고(패키지), 오븐에 넣고(테스트), 배달摩托车에 실어 보내며(배포), 손님에게 도착한다. 만약 全過程이 수동이면, 피자가 식어가면서 delivering되고, 손님은 불쾌한 경험을 하게 된다.
+- **📢 섹션 요약 비유**: 빌드 및 배포 자동화는 **'피자 배달의 '**와 같다. 손님이 주문을 넣으면(코드 commit), 주방에서 자동으로 반죽을 치고(빌드), 토핑을 올리고(패키지), 오븐에 넣고(테스트), 배달에 실어 보내며(배포), 손님에게 도착한다. 만약 이 수동이면, 피자가 식어가면서 delivering되고, 손님은 불쾌한 경험을 하게 된다.
 
 ---
 
@@ -39,14 +39,14 @@ tags = ["studynote-software-engineering"]
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                  소프트웨어 빌드 및 배포 자동화의 품                        │
+│ 소프트웨어 빌드 및 배포 자동화의 품 │
 ├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
+│ │
+│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
+│ │ │ │ │
+│ ▼ ▼ ▼ │
+│ 요구 분석 설계·적용 품질 검증 │
+│ │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -147,17 +147,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+│
+▼
 소프트웨어 빌드 및 배포 자동화의 품질 검증 단계 개념 정립
-    │
-    ▼
+│
+▼
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+│
+▼
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+│
+▼
 지속적 개선 및 DevOps·MLOps 통합
 ```
 

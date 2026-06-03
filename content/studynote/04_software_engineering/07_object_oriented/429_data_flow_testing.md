@@ -24,18 +24,18 @@ tags = ["studynote-software-engineering"]
 - **필요성**: 전통적인 제어 흐름 기반 테스트(구문, 분기, [조건 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/424_condition_coverage/) 등)는 프로그램의 제어 흐름만 검증하지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 테스팅은 변수의 값이 프로그램 내에서 어떻게 흐르고 변화하는지를 검증한다. 예를 들어, 변수 x가 정의된 후 변경되지 않고 사용되어야 하는 상황에서, 중간에 다른 값으로 덮어씌워지면 이는 제어 흐름 테스트로는 발견하기 어려운 결함이다.
 
 - **핵심 개념**:
-  - **정의(Define)**: 변수에 값을 할당하는 지점 (예: x = 5)
-  - **사용(Use)**: 변수의 값을 참조하는 지점 (예: y = x + 1)
-  - **DU 경로**: 정의에서 사용까지의 경로
+- **정의(Define)**: 변수에 값을 할당하는 지점 (예: x = 5)
+- **사용(Use)**: 변수의 값을 참조하는 지점 (예: y = x + 1)
+- **DU 경로**: 정의에서 사용까지의 경로
 
-- **비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 테스팅은 **'상수관 물 흐름 추적'**과 같다. 상수관에서 물이 들어오는 위치(정의), 중간에_VALVE_로 방향이 바뀌는 지점(재정의), 그리고 나오는 위치(사용)를 추적하여 물이 올바르게 흐르는지 확인하는 것이다. 만약 물이 나오는 위치에서 기대한 것과 다른 압력이나 온도이면,途中どこかで問題が発生した dapat 파악할 수 있다.
+- **비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 테스팅은 **'상수관 물 흐름 추적'**과 같다. 상수관에서 물이 들어오는 위치(정의), 중간에_VALVE_로 방향이 바뀌는 지점(재정의), 그리고 나오는 위치(사용)를 추적하여 물이 올바르게 흐르는지 확인하는 것이다. 만약 물이 나오는 위치에서 기대한 것과 다른 압력이나 온도이면,이나에서문제이/가했다 dapat 파악할 수 있다.
 
 - **등장 배경 및 발전 과정**:
-  1. **1970년대**: 소프트웨어 테스트 학계에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 기반 테스트 기법 연구 시작
-  2. **1980년대**: DU-경로, def-use chain 등의 개념 체계화
-  3. **현재**: [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 도구(예: [SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/))에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 분석 기능 제공
+1. **1970년대**: 소프트웨어 테스트 학계에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 기반 테스트 기법 연구 시작
+2. **1980년대**: DU-경로, def-use chain 등의 개념 체계화
+3. **현재**: [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 도구(예: [SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/))에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 분석 기능 제공
 
-- **섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 테스팅은 **'혈액 검사'**と 같다。혈액검사에서 혈액(변수)이 체내에서 어떻게 흐르고, 각 장기(코드 블록)에서 무엇을 하고, 최종적으로什么问题가 있는지 파악하는 것이다. 소프트웨어에서도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(혈액)가 프로그램(Body)을 흐르며 문제가 발생하는지를 테스트한다.
+- **섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 테스팅은 **'혈액 검사'**와/과 같다。혈액검사에서 혈액(변수)이 체내에서 어떻게 흐르고, 각 장기(코드 블록)에서 무엇을 하고, 최종적으로문제가 있는지 파악하는 것이다. 소프트웨어에서도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(혈액)가 프로그램(Body)을 흐르며 문제가 발생하는지를 테스트한다.
 
 ---
 
@@ -45,14 +45,14 @@ tags = ["studynote-software-engineering"]
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                  데이터 흐름 테스팅 (Data Flo                        │
+│ 데이터 흐름 테스팅 (Data Flo │
 ├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
+│ │
+│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
+│ │ │ │ │
+│ ▼ ▼ ▼ │
+│ 요구 분석 설계·적용 품질 검증 │
+│ │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -153,17 +153,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+│
+▼
 데이터 흐름 테스팅 (Data Flow Testing) 개념 정립
-    │
-    ▼
+│
+▼
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+│
+▼
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+│
+▼
 지속적 개선 및 DevOps·MLOps 통합
 ```
 

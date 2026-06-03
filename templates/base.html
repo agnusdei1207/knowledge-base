@@ -18,7 +18,7 @@
   <div id="quartz-root" class="page" data-frame="default">
     <div id="quartz-body">
       <aside class="left sidebar">
-        <h2 class="page-title"><a href="{{ config.base_url | safe }}">{{ config.title }}</a></h2>
+        <h2 class="page-title"><a href="{{ config.base_url | safe }}"><span style="font-weight: 800;">Knowledge</span> <span style="font-weight: 300; color: var(--gray);">Base</span></a></h2>
         <div class="mobile-spacer"></div>
         <div class="toolbar">
           <div class="search">
@@ -39,7 +39,7 @@
           <button type="button" class="title-button explorer-toggle desktop-explorer" aria-expanded="true">
             <h2>Explorer</h2>
           </button>
-          <div id="explorer-1" class="explorer-content" aria-expanded="false" role="group">
+          <div id="explorer-1" class="explorer-content" aria-expanded="true" role="group">
             <ul class="explorer-ul overflow" id="explorer-tree"></ul>
           </div>
         </nav>
@@ -97,7 +97,7 @@
         </div>
         <div class="backlinks">
           <h3>백링크</h3>
-          <ul id="backlinks-list" class="overflow" data-current-path="{% if page %}{{ page.path }}{% elif section %}{{ section.path }}{% endif %}"></ul>
+          <ul id="backlinks-list" class="overflow" data-current-path="{% if page %}{{ page.path | safe }}{% elif section %}{{ section.path | safe }}{% endif %}"></ul>
         </div>
       </aside>
 

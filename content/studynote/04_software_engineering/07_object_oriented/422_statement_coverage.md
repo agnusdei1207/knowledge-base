@@ -21,18 +21,18 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 구문 커버리지는 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 실행 결과로 코드 내 모든 문장이 최소 한 번 이상 실행되었는지 측정하는 지표이다. 구문 커버리지율(%)은 "실행된 문장 수 / 전체 문장 수 × 100"으로 계산한다.
 
-- **필요성**: [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)를 작성할 때, 일부 코드만 테스트하고 나머지는 테스트하지 않는情况이 발생할 수 있다. 구문 커버리지 100%를 목표로 하면 테스트되지 않은 코드를 파악하고, 누락된 테스트를 보완할 수 있다. 그러나 구문 커버리지 100%라도 모든 결함을 발견할 수 없다는 점에 유의해야 한다.
+- **필요성**: [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)를 작성할 때, 일부 코드만 테스트하고 나머지는 테스트하지 않는상황이 발생할 수 있다. 구문 커버리지 100%를 목표로 하면 테스트되지 않은 코드를 파악하고, 누락된 테스트를 보완할 수 있다. 그러나 구문 커버리지 100%라도 모든 결함을 발견할 수 없다는 점에 유의해야 한다.
 
-- **문장(Statement)의 정의**: 프로그래밍 언어에서 하나의 문장은 일반적으로 하나의 실행 가능한 코드 라인에 해당한다. 대입문, [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/), 조건문, 순환문 등이 모두 문장에 해당한다. 반면,宣言문(변수 선언 등)은 실행 가능한 문장이 아니므로 구문 커버리지 대상이 아니다.
+- **문장(Statement)의 정의**: 프로그래밍 언어에서 하나의 문장은 일반적으로 하나의 실행 가능한 코드 라인에 해당한다. 대입문, [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/), 조건문, 순환문 등이 모두 문장에 해당한다. 반면,문(변수 선언 등)은 실행 가능한 문장이 아니므로 구문 커버리지 대상이 아니다.
 
-- **비유**: 구문 커버리지는 **'教場 всех教室 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)'**과 같다. 교장先生が 각 교실(코드)을 방문하여 수업(실행)이 이루어지고 있는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것. 모든 교실에서 수업을 했는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하지만(구문 커버리지), 수업 내용([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/))이 올바른지는 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하지 않는다.
+- **비유**: 구문 커버리지는 **' всех [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)'**과 같다. 교장이/가 각 교실(코드)을 방문하여 수업(실행)이 이루어지고 있는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것. 모든 교실에서 수업을 했는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하지만(구문 커버리지), 수업 내용([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/))이 올바른지는 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하지 않는다.
 
 - **등장 배경 및 발전 과정**:
-  1. **1970년대**: 구조적 테스트(Structured Testing)의 일환으로 구문 커버리지 개념 도입
-  2. **1990년대**:JUnit 등 테스트 프레임워크의 보급과 함께 구문 커버리지 도구 대중화
-  3. **현재**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인에서 자동으로 구문 커버리지를 측정하고 품질 기준达标 여부를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
+1. **1970년대**: 구조적 테스트(Structured Testing)의 일환으로 구문 커버리지 개념 도입
+2. **1990년대**:JUnit 등 테스트 프레임워크의 보급과 함께 구문 커버리지 도구 대중화
+3. **현재**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인에서 자동으로 구문 커버리지를 측정하고 품질 기준 여부를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
 
-- **섹션 요약 비유**: 구문 커버리지는 **'旅行代理店の 핫크룩스巡回'**과 같다.旅行社店長がすべての支店に立ち寄って店舗が営業しているかを確認する。すべての店舗に訪問すれば巡回覆盖率100%이지만、それぞれの店舗の经营理念([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/))이 정확한지는確認できない。店舗が閉鎖したままなのに巡回したことに하면(커버리지 100%) 문제가 된다.
+- **섹션 요약 비유**: 구문 커버리지는 **'의 핫크룩스'**과 같다.이/가모두의에이/가하여있다이나을/를하다。모두의에100%이지만、의의([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/))이 정확한지는에서지 않다。이/가했다의에했다와/과에하면(커버리지 100%) 문제가 된다.
 
 ---
 
@@ -42,14 +42,14 @@ tags = ["studynote-software-engineering"]
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                  구문 커버리지 (Statement C                        │
+│ 구문 커버리지 (Statement C │
 ├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
+│ │
+│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
+│ │ │ │ │
+│ ▼ ▼ ▼ │
+│ 요구 분석 설계·적용 품질 검증 │
+│ │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -150,17 +150,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+│
+▼
 구문 커버리지 (Statement Coverage) 개념 정립
-    │
-    ▼
+│
+▼
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+│
+▼
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+│
+▼
 지속적 개선 및 DevOps·MLOps 통합
 ```
 

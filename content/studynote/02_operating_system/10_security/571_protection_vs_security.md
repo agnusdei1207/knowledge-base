@@ -42,7 +42,7 @@ tags = ["studynote-operating-system"]
 |:---|:---|:---|
 | **역할** | "어떻게(How) 막을 것인가?" | "무엇을(What/Who) 막을 것인가?" |
 | **변경 빈도** | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 재부팅 없이는 변경 불가 | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 유동적 변경 가능 |
-| **예시** | `rwx` [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 해석 및 차단 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드 |人事팀 폴더에 대해 인사팀 그룹만 읽기 권한 부여 |
+| **예시** | `rwx` [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 해석 및 차단 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드 |팀 폴더에 대해 인사팀 그룹만 읽기 권한 부여 |
 
 ### 2.2 분리 실패 사례: MS-DOS
 
@@ -71,7 +71,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- **보호(Protection) 체계**는 내부 프로세스 간 접근을 제어하여,万一(만약) 악성 코드가 시스템에 감염되어도 영향 범위를 제한한다.
+- **보호(Protection) 체계**는 내부 프로세스 간 접근을 제어하여,만일(만약) 악성 코드가 시스템에 감염되어도 영향 범위를 제한한다.
 - **보안([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) 체계**는 외부 침입을 차단하여, 내부 보호 체계가 무력화되는 것을 방지한다.
 - 두 체계의 **분리 설계(Mechanism vs [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))**는 1970년대 이래로 유닉스 시스템의 핵심 설계 원칙으로 이어져 왔다.
 
@@ -100,23 +100,23 @@ tags = ["studynote-operating-system"]
 
 ```text
 [리눅스 inotify 시스템]
-    │
-    ▼
+│
+▼
 [보호 (Protection) vs 보안 (Security)의 개념 차이]
-    │
-    ├──▶ [보호 도메인 (Protection Domain)]
-    └──▶ [접근 제어 행렬 (Access Matrix)]
+│
+├──▶ [보호 도메인 (Protection Domain)]
+└──▶ [접근 제어 행렬 (Access Matrix)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **보호(Protection)**는 아파트 건물 내부의 **방문록 시스템**과 같다. 入주민(거주자)끼리 서로의 집에勝手(마음대로) 들어가지 못하게 각 문에 자물쇠를 채워두는 것과 같다.
+1. **보호(Protection)**는 아파트 건물 내부의 **방문록 시스템**과 같다. 주민(거주자)끼리 서로의 집에(마음대로) 들어가지 못하게 각 문에 자물쇠를 채워두는 것과 같다.
 
 2. **보안([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))**는 건물의 **정문 경비 시스템**과 같다.택배 기사로 위장한 도둑이 건물에 들어오지 못하게 1층에서 확인하고 쫓아내는 것과 같다.
 
-3. **둘 다 중요한 이유**: 정문 경비(보안)가 도둑을 막아도,万一(만약) 도둑이 거주자로 위장하여 들어왔다면, 각 집의 자물쇠(보호)가 없으면 금고 속 보석을 털어갈 수 있다. 그래서 **두 가지 시스템이 모두 필요**하다.
+3. **둘 다 중요한 이유**: 정문 경비(보안)가 도둑을 막아도,만일(만약) 도둑이 거주자로 위장하여 들어왔다면, 각 집의 자물쇠(보호)가 없으면 금고 속 보석을 털어갈 수 있다. 그래서 **두 가지 시스템이 모두 필요**하다.
 
 ---
 

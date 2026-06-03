@@ -15,7 +15,7 @@ tags = ["studynote-software-engineering"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 사고 대응은 보안 사고의 영향을 최소화하기 위해 사고 탐지, 분석, 봉쇄, [근절](/knowledge-base/studynote/09_security/13_secops_ir_forensics/657_ir_eradication/), [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 사후 분석의 단계를 체계적으로 수행하는 프로세스다. NIST [SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) 800-61은 사고 대응 라이프사이클을 4단계로 정의한다.
 > 2. **가치**: 체계적인 사고 대응 체계는 평균 대응 시간 (MTTD)과 평균 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 ([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/))을 단축하여 사고가 비즈니스가치지 미치는 영향을 최소화한다. 또한 사고 분석을 통해 향후 방어 체계를 강화할 수 있다.
-> 3. **융합**: 사고 대응은 CSIRT (Computer [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) [Incident Response](/knowledge-base/studynote/09_security/16_data_privacy/806_incident_response/) Team), [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/) ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Information and [Event Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/074_event_management/)), [SOAR](/knowledge-base/studynote/03_network/14_network_security_threats/745_soar_security_orchestration_automation_response/) ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) [Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/), Automation and Response) 등과紧密结合되어 운영된다.
+> 3. **융합**: 사고 대응은 CSIRT (Computer [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) [Incident Response](/knowledge-base/studynote/09_security/16_data_privacy/806_incident_response/) Team), [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/) ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Information and [Event Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/074_event_management/)), [SOAR](/knowledge-base/studynote/03_network/14_network_security_threats/745_soar_security_orchestration_automation_response/) ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) [Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/), Automation and Response) 등과되어 운영된다.
 
 ---
 
@@ -23,59 +23,59 @@ tags = ["studynote-software-engineering"]
 
 ### 개념 정의
 
-보안 사고 ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Incident)란 정보시스템이나 네트워크에 대한Unauthorized 접근, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유출, [서비스 거부](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/), 악성코드 감염 등 조직의 보안 정책을 위반하거나 보안에 영향을 미치는 event를 말한다. 사고 대응은 이러한 보안 사고가 발생했을 때その影響を最小限に抑えるため、 체계적이고 조직적인 대응活动的总称이다.
+보안 사고 ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Incident)란 정보시스템이나 네트워크에 대한Unauthorized 접근, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유출, [서비스 거부](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/), 악성코드 감염 등 조직의 보안 정책을 위반하거나 보안에 영향을 미치는 event를 말한다. 사고 대응은 이러한 보안 사고가 발생했을 때의을/를에、 체계적이고 조직적인 대응이다.
 
 사고 대응의 핵심 원칙은 **신속성**, **[정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)**, **계속성**이다. 사고 발생 후 신속하게 대응할수록 피해 확산을 막을 수 있고, 정확한 분석을 통해 올바른 대응 전략을 세울 수 있으며, 대응 후에도 지속적인 모니터링과 개선이 필요하다.
 
 ### 필요성
 
-보안 사고는 "발생할 것인가"가 아닌 "언제 발생할 것인가"의 문제로 간주해야 한다. 적절한 사고 대응 체계가 없으면, 사고 발생 시混沌状态에 빠져 대응이 지연되고, 피해가 확대되어 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 비용이 급증한다. 또한 사고 분석 없이 근본 원인을 파악하지 못하면 동일한 사고가 반복될 수 있다.
+보안 사고는 "발생할 것인가"가 아닌 "언제 발생할 것인가"의 문제로 간주해야 한다. 적절한 사고 대응 체계가 없으면, 사고 발생 시에 빠져 대응이 지연되고, 피해가 확대되어 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 비용이 급증한다. 또한 사고 분석 없이 근본 원인을 파악하지 못하면 동일한 사고가 반복될 수 있다.
 
 ### 비유
 
-사고 대응은**소방 대응 체계**와 같다. 화재 (보안 사고) 발생 시 연기와 열을 감지하고 (탐지),初期灭火를 시도하며 (봉쇄), 불이 붙은 곳을확인하고 (분석), 불을 끄고 ([근절](/knowledge-base/studynote/09_security/13_secops_ir_forensics/657_ir_eradication/)), 건물 구조를 점검한 후복구 ([복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))하고, 화재 원인 조사 및 예방 대책 수립 (사후 분석)하는 전체 과정이消防체계다. 소방관없이는 화재 진압이 불가능하듯이, 전문 사고 대응팀 없이는 보안 사고를 효과적으로管理할 수 없다.
+사고 대응은**소방 대응 체계**와 같다. 화재 (보안 사고) 발생 시 연기와 열을 감지하고 (탐지),초기를 시도하며 (봉쇄), 불이 붙은 곳을확인하고 (분석), 불을 끄고 ([근절](/knowledge-base/studynote/09_security/13_secops_ir_forensics/657_ir_eradication/)), 건물 구조를 점검한 후복구 ([복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))하고, 화재 원인 조사 및 예방 대책 수립 (사후 분석)하는 전체 과정이체계다. 소방관없이는 화재 진압이 불가능하듯이, 전문 사고 대응팀 없이는 보안 사고를 효과적으로관리할 수 없다.
 
 ### 등장 배경
 
-[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 사고 대응이 각 조직의 자체적活动中에 그쳤으나, 1990년대 인터넷 보급과 함께 대규모 보안 사고가 사회적 문제가 되면서 표준화된 사고 대응 체계의 필요성이 대두되었다. Carnegie Mellon University의 SEI ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) Institute)는 1998년 CERT/CC를 통해 사고 대응 표준을 제시했고, NIST는 NIST [SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) 800-61로 사고 대응 가이드를发布了。 오늘날에는 대부분의 기업이 CSIRT를 구성하고 사고 대응 계획을문서화하여 운용하고 있다.
+[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 사고 대응이 각 조직의 자체적에 그쳤으나, 1990년대 인터넷 보급과 함께 대규모 보안 사고가 사회적 문제가 되면서 표준화된 사고 대응 체계의 필요성이 대두되었다. Carnegie Mellon University의 SEI ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) Institute)는 1998년 CERT/CC를 통해 사고 대응 표준을 제시했고, NIST는 NIST [SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) 800-61로 사고 대응 가이드를릴리스。 오늘날에는 대부분의 기업이 CSIRT를 구성하고 사고 대응 계획을문서화하여 운용하고 있다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────┐
-  │              NIST 사고 대응 라이프사이클                       │
-  ├──────────────────────────────────────────────────────────────┤
-  │                                                              │
-  │  ┌──────────────────────────────────────────────────────────┐│
-  │  │                                                          ││
-  │  │   ┌─────────┐                                            ││
-  │  │   │ 준비   │◀──────────────────────────┐                ││
-  │  │   │(Prepare)│                            │                ││
-  │  │   └────┬────┘                            │                ││
-  │  │        │                                 │                ││
-  │  │        ▼                                 │                ││
-  │  │   ┌─────────┐     ┌─────────┐            │                ││
-  │  │   │탐지 및  │────▶│ 분석   │            │                ││
-  │  │   │분석     │     │        │            │                ││
-  │  │   │(Detect) │     │(Analyze)│            │                ││
-  │  │   └─────────┘     └────┬────┘            │                ││
-  │  │                        │                 │                ││
-  │  │                        ▼                 │                ││
-  │  │   ┌─────────┐     ┌─────────┐            │                ││
-  │  │   │ 봉쇄 및 │────▶│ 근절   │            │                ││
-  │  │   │ 억제    │     │(Eradic) │            │                ││
-  │  │   │(Contain)│     └────┬────┘            │                ││
-  │  │   └─────────┘          │                 │                ││
-  │  │                        │                 │                ││
-  │  │                        ▼                 │                ││
-  │  │   ┌─────────┐     ┌─────────┐            │                ││
-  │  │   │ 복구   │◀────│ 사후   │──────────────┘                ││
-  │  │   │(Recover)│     │ 분석   │                              ││
-  │  │   └─────────┘     │(Post   │                              ││
-  │  │                   │ Act)  │                              ││
-  │  └───────────────────┴────────┘                              ││
-  └──────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────┐
+│ NIST 사고 대응 라이프사이클 │
+├──────────────────────────────────────────────────────────────┤
+│ │
+│ ┌──────────────────────────────────────────────────────────┐│
+│ │ ││
+│ │ ┌─────────┐ ││
+│ │ │ 준비 │◀──────────────────────────┐ ││
+│ │ │(Prepare)│ │ ││
+│ │ └────┬────┘ │ ││
+│ │ │ │ ││
+│ │ ▼ │ ││
+│ │ ┌─────────┐ ┌─────────┐ │ ││
+│ │ │탐지 및 │────▶│ 분석 │ │ ││
+│ │ │분석 │ │ │ │ ││
+│ │ │(Detect) │ │(Analyze)│ │ ││
+│ │ └─────────┘ └────┬────┘ │ ││
+│ │ │ │ ││
+│ │ ▼ │ ││
+│ │ ┌─────────┐ ┌─────────┐ │ ││
+│ │ │ 봉쇄 및 │────▶│ 근절 │ │ ││
+│ │ │ 억제 │ │(Eradic) │ │ ││
+│ │ │(Contain)│ └────┬────┘ │ ││
+│ │ └─────────┘ │ │ ││
+│ │ │ │ ││
+│ │ ▼ │ ││
+│ │ ┌─────────┐ ┌─────────┐ │ ││
+│ │ │ 복구 │◀────│ 사후 │──────────────┘ ││
+│ │ │(Recover)│ │ 분석 │ ││
+│ │ └─────────┘ │(Post │ ││
+│ │ │ Act) │ ││
+│ └───────────────────┴────────┘ ││
+└──────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** NIST 사고 대응 라이프사이클은 준비 → 탐지/분석 → 봉쇄/[근절](/knowledge-base/studynote/09_security/13_secops_ir_forensics/657_ir_eradication/) → [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) → 사후 분석의 순환 구조다. 중요한 것은 이것이 선형적流程가 아니라 연속적 사이클이라는 점이다. 사후 분석 결과는 다시 준비 단계에 반영되어 향후 대응 능력을 향상시키는 개선 사이클을 形成한다. 각 단계에는 적절한 활동과 산출물이 있으며, 이를 문서화하고 표준화해야 일관된 대응이 가능하다.
+**[다이어그램 해설]** NIST 사고 대응 라이프사이클은 준비 → 탐지/분석 → 봉쇄/[근절](/knowledge-base/studynote/09_security/13_secops_ir_forensics/657_ir_eradication/) → [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) → 사후 분석의 순환 구조다. 중요한 것은 이것이 선형적프로세스가 아니라 연속적 사이클이라는 점이다. 사후 분석 결과는 다시 준비 단계에 반영되어 향후 대응 능력을 향상시키는 개선 사이클을 형성한다. 각 단계에는 적절한 활동과 산출물이 있으며, 이를 문서화하고 표준화해야 일관된 대응이 가능하다.
 
 ---
 
@@ -83,7 +83,7 @@ tags = ["studynote-software-engineering"]
 
 ### 사고 대응팀 (CSIRT) 구성
 
-CSIRT (Computer [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) [Incident Response](/knowledge-base/studynote/09_security/16_data_privacy/806_incident_response/) Team)는 조직 내 보안 사고 대응을 전담하는 전문팀이다. 팀 구성에는**기술 분석관** (Malware 분석, 네트워크 forensics, 시스템 분석), **사고 대응 매니저** (대응 조정, 의사결정), **보안 운영 analysts** ([SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/), [IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/)/[IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 모니터링), **법률/홍보 담당** (법적 조언, 외부 소통), **경영진联络窓口** 등이 포함될 수 있다.
+CSIRT (Computer [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) [Incident Response](/knowledge-base/studynote/09_security/16_data_privacy/806_incident_response/) Team)는 조직 내 보안 사고 대응을 전담하는 전문팀이다. 팀 구성에는**기술 분석관** (Malware 분석, 네트워크 forensics, 시스템 분석), **사고 대응 매니저** (대응 조정, 의사결정), **보안 운영 analysts** ([SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/), [IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/)/[IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 모니터링), **법률/홍보 담당** (법적 조언, 외부 소통), **경영진** 등이 포함될 수 있다.
 
 | 역할 | 책임 | 필요 역량 |
 |:---|:---|:---|
@@ -91,46 +91,46 @@ CSIRT (Computer [Security](/knowledge-base/studynote/04_software_engineering/05_
 | **기술 분석관** | Malware 분석, Forensics | 기술적 심층 분석 능력 |
 | **보안 운영 analyst** | 탐지, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 분석 | [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/), [IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/)/[IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/), [로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/) |
 | **법률 담당** | 법적 자문, 규제 대응 | 사이버법률 지식 |
-| **IT 운영联动** | 시스템 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 인프라 지원 | 시스템/네트워크 운영 |
+| **IT 운영** | 시스템 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 인프라 지원 | 시스템/네트워크 운영 |
 
 ### 사고 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 및 심각도 수준
 
 사고 대응 전에 적절한 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계가 있어야 자원 배분과 우선순위 결정이 가능하다. 사고는**영향 범위**,**유형**,**심각도**에 따라 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)된다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────┐
-  │              보안 사고 분류 및 심각도 매트릭스                    │
-  ├──────────────────────────────────────────────────────────────┤
-  │                                                              │
-  │  사고 유형 분류:                                               │
-  │  ├─ 랜섬웨어/악성코드 감염                                   │
-  │  ├─ 네트워크 침입 (Unauthorized 접근)                        │
-  │  ├─ 데이터 유출/유실                                         │
-  │  ├─ 서비스 거부 (DoS/DDoS) 공격                             │
-  │  ├─ 내부자 위협                                              │
-  │  └─ 제로데이 취약점 노출                                     │
-  │                                                              │
-  │  심각도 수준 (CVSS 또는 자체 기준):                           │
-  │  ┌──────────────────────────────────────────────────────────┐│
-  │  │                                                          ││
-  │  │  Kritik (C)  │ 업무 완전 중단, 대규모 데이터 유출         ││
-  │  │               │ → 즉시 대응팀 구성, 경영진 보고           ││
-  │  │  ─────────────────────────────────────────────────────  ││
-  │  │  높음 (H)    │ 주요 업무 영향, 제한적 데이터 노출         ││
-  │  │               │ → 4시간 내 대응 시작                      ││
-  │  │  ─────────────────────────────────────────────────────  ││
-  │  │  중간 (M)    │ 일부 업무 영향, 즉각적 위험 없음          ││
-  │  │               │ → 24시간 내 대응 시작                     ││
-  │  │  ─────────────────────────────────────────────────────  ││
-  │  │  낮음 (L)    │ 미미한 영향, 탐지된 후 즉시 차단          ││
-  │  │               │ → 일반 운영 절차로 대응                   ││
-  │  └──────────────────────────────────────────────────────────┘│
-  │                                                              │
-  │  복합 평점 = (기밀성 impact + 무결성 impact + 가용성 impact) / 3│
-  └──────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────┐
+│ 보안 사고 분류 및 심각도 매트릭스 │
+├──────────────────────────────────────────────────────────────┤
+│ │
+│ 사고 유형 분류: │
+│ ├─ 랜섬웨어/악성코드 감염 │
+│ ├─ 네트워크 침입 (Unauthorized 접근) │
+│ ├─ 데이터 유출/유실 │
+│ ├─ 서비스 거부 (DoS/DDoS) 공격 │
+│ ├─ 내부자 위협 │
+│ └─ 제로데이 취약점 노출 │
+│ │
+│ 심각도 수준 (CVSS 또는 자체 기준): │
+│ ┌──────────────────────────────────────────────────────────┐│
+│ │ ││
+│ │ Kritik (C) │ 업무 완전 중단, 대규모 데이터 유출 ││
+│ │ │ → 즉시 대응팀 구성, 경영진 보고 ││
+│ │ ───────────────────────────────────────────────────── ││
+│ │ 높음 (H) │ 주요 업무 영향, 제한적 데이터 노출 ││
+│ │ │ → 4시간 내 대응 시작 ││
+│ │ ───────────────────────────────────────────────────── ││
+│ │ 중간 (M) │ 일부 업무 영향, 즉각적 위험 없음 ││
+│ │ │ → 24시간 내 대응 시작 ││
+│ │ ───────────────────────────────────────────────────── ││
+│ │ 낮음 (L) │ 미미한 영향, 탐지된 후 즉시 차단 ││
+│ │ │ → 일반 운영 절차로 대응 ││
+│ └──────────────────────────────────────────────────────────┘│
+│ │
+│ 복합 평점 = (기밀성 impact + 무결성 impact + 가용성 impact) / 3│
+└──────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 사고 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 정확한 대응을 위한 필수 선행 활동이다. 단순히 "해킹 사고"가 아니라 어떤 유형의 사고이고, 어느 수준의 심각도인지를 빠르게 판단해야 적절한 대응 수준의 자원을 투입할 수 있다. 경영진 보고 기준은 사전에 명확히 규정되어 있어야 하며, 중대한 사고 (Critical) 발생 시에는 이사회까지 escalation되는 절차를 미리定義해두어야混乱을 방지할 수 있다.
+**[다이어그램 해설]** 사고 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 정확한 대응을 위한 필수 선행 활동이다. 단순히 "해킹 사고"가 아니라 어떤 유형의 사고이고, 어느 수준의 심각도인지를 빠르게 판단해야 적절한 대응 수준의 자원을 투입할 수 있다. 경영진 보고 기준은 사전에 명확히 규정되어 있어야 하며, 중대한 사고 (Critical) 발생 시에는 이사회까지 escalation되는 절차를 미리정의해두어야을 방지할 수 있다.
 
 ---
 
@@ -156,57 +156,57 @@ NIST [CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017
 
 ### 사고 대응 [플레이북](/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/)
 
-특정 사고 유형에 대한 대응 절차를_playbookとして문서화하여, 사고 발생 시 즉시参照할 수 있도록 해야 한다. 각 단계별 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)와 의사결정 트리를 포함해야 한다.
+특정 사고 유형에 대한 대응 절차를_playbook로서문서화하여, 사고 발생 시 즉시할 수 있도록 해야 한다. 각 단계별 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)와 의사결정 트리를 포함해야 한다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────┐
-  │              랜섬웨어 사고 대응 플레이북 개요                    │
-  ├──────────────────────────────────────────────────────────────┤
-  │                                                              │
-  │  [Phase 1: 초기 탐지 및 확인]                                 │
-  │  ├─ 의심征兆 확인 (파일 암호화 징후, Ransom 메시지)             │
-  │  ├─ 영향 범위 초기 파악 (감염 호스트 수)                      │
-  │  ├─ CSIRT 리더에게 보고                                       │
-  │  └─ 사고 Ticket 생성 및 기록 시작                             │
-  │                                                              │
-  │  [Phase 2: 초기 봉쇄]                                         │
-  │  ├─ 감염 호스트 네트워크 격리                                  │
-  │  ├─ 공유 네트워크 드라이브 접근 차단                           │
-  │  ├─ VPN 등 원격 접속 일시 중단                               │
-  │  └─ 백업 시스템 무결성 확인                                   │
-  │                                                              │
-  │  [Phase 3: 분석 및 조사]                                       │
-  │  ├─ Ransomware variant 식별                                  │
-  │  ├─ 침입 경로 파악 (피싱, 취약점, RDP 등)                    │
-  │  ├─ 데이터 유출 여부 확인                                     │
-  │  └─ 외부 forensics 전문가 필요 시 파트너사 접촉              │
-  │                                                              │
-  │  [Phase 4: 근절 및 복구]                                       │
-  │  ├─ 악성코드 완전 제거                                        │
-  │  ├─ 패치 적용 및 취약점 해소                                  │
-  │  ├─ 백업 데이터로부터 복구                                   │
-  │  └─ 단계적 서비스 재개                                        │
-  │                                                              │
-  │  [Phase 5: 사후 분석]                                          │
-  │  ├─ 사고 원인 및 과정 상세 분석                              │
-  │  ├─ 방어 체계 개선 사항 도출                                  │
-  │  ├─ 직원 대상 보안 인식 재교육                               │
-  │  └─ 사고 보고서 작성 및 경영진 보고                          │
-  └──────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────┐
+│ 랜섬웨어 사고 대응 플레이북 개요 │
+├──────────────────────────────────────────────────────────────┤
+│ │
+│ [Phase 1: 초기 탐지 및 확인] │
+│ ├─ 의심 확인 (파일 암호화 징후, Ransom 메시지) │
+│ ├─ 영향 범위 초기 파악 (감염 호스트 수) │
+│ ├─ CSIRT 리더에게 보고 │
+│ └─ 사고 Ticket 생성 및 기록 시작 │
+│ │
+│ [Phase 2: 초기 봉쇄] │
+│ ├─ 감염 호스트 네트워크 격리 │
+│ ├─ 공유 네트워크 드라이브 접근 차단 │
+│ ├─ VPN 등 원격 접속 일시 중단 │
+│ └─ 백업 시스템 무결성 확인 │
+│ │
+│ [Phase 3: 분석 및 조사] │
+│ ├─ Ransomware variant 식별 │
+│ ├─ 침입 경로 파악 (피싱, 취약점, RDP 등) │
+│ ├─ 데이터 유출 여부 확인 │
+│ └─ 외부 forensics 전문가 필요 시 파트너사 접촉 │
+│ │
+│ [Phase 4: 근절 및 복구] │
+│ ├─ 악성코드 완전 제거 │
+│ ├─ 패치 적용 및 취약점 해소 │
+│ ├─ 백업 데이터로부터 복구 │
+│ └─ 단계적 서비스 재개 │
+│ │
+│ [Phase 5: 사후 분석] │
+│ ├─ 사고 원인 및 과정 상세 분석 │
+│ ├─ 방어 체계 개선 사항 도출 │
+│ ├─ 직원 대상 보안 인식 재교육 │
+│ └─ 사고 보고서 작성 및 경영진 보고 │
+└──────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 대응에서 가장 중요한 것은**InitialContainment ([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 봉쇄)**다. Ransom 요구가 보여지고文件이 암호화되고 있어도, 모든 호스트가 감염된 것이 아닐 수 있다. 네트워크를 빠르게 격리하여 아직 감염되지 않은 시스템으로의 확산을 막아야 한다. 이때 모든 시스템을 동시에 shutdown하면 Ransom 要求文中指出的 Bitcoin 지갑 주소 등이 사라질 수 있으므로 주의해야 한다. [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 시스템이 암호화되지 않았는지, Ransom犯에게 Bitcoin을 치ル렀을 때 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 가능한지 여부도 중요한 판단 요소다.
+**[다이어그램 해설]** [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 대응에서 가장 중요한 것은**InitialContainment ([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 봉쇄)**다. Ransom 요구가 보여지고이 암호화되고 있어도, 모든 호스트가 감염된 것이 아닐 수 있다. 네트워크를 빠르게 격리하여 아직 감염되지 않은 시스템으로의 확산을 막아야 한다. 이때 모든 시스템을 동시에 shutdown하면 Ransom 요구 Bitcoin 지갑 주소 등이 사라질 수 있으므로 주의해야 한다. [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 시스템이 암호화되지 않았는지, Ransom에게 Bitcoin을 치렀을 때 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 가능한지 여부도 중요한 판단 요소다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 - **기술적**: 사고 대응 [플레이북](/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/)이 주요 사고 유형에 대해 문서화되어 있는가? 사고 대응에 필요한 도구 (forensics, Malware 분석 등)가 갖추어져 있는가?
-- **운영·보안적**: 정기적인 사고 대응 훈련 ([Tabletop Exercise](/knowledge-base/studynote/09_security/13_secops_ir_forensics/660_tabletop_exercise/))이 실시되고 있는가? 사고 보고 체계가 모든 구성원에게周知되고 있는가?
+- **운영·보안적**: 정기적인 사고 대응 훈련 ([Tabletop Exercise](/knowledge-base/studynote/09_security/13_secops_ir_forensics/660_tabletop_exercise/))이 실시되고 있는가? 사고 보고 체계가 모든 구성원에게되고 있는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- **무計画적 대응**: 사전 대응 계획을 세우지 않고 사고 시その때그때 판단하는 것. 이는 대응 지연과 잘못된 의사결정을 초래한다.
+- **무적 대응**: 사전 대응 계획을 세우지 않고 사고 시의때그때 판단하는 것. 이는 대응 지연과 잘못된 의사결정을 초래한다.
 - **증거 파괴**: 사고 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 후 시스템 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)나 증거를 삭제하거나 시스템을 재부팅하여 증거를 파괴하는 것. Forensics 분석이 불가능해진다.
-- **내부隐瞒**: 사고를 외부에 숨기거나 신고를 기피하는 것. 이는 Regulatory 요건 위반과 더 큰 법적 문제를 야기할 수 있다.
+- **내부**: 사고를 외부에 숨기거나 신고를 기피하는 것. 이는 Regulatory 요건 위반과 더 큰 법적 문제를 야기할 수 있다.
 
 ---
 
@@ -223,7 +223,7 @@ NIST [CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017
 ### 미래 전망
 
 - **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/ML 기반 사고 탐지 및 대응**: AI가 네트워크 트래픽과 시스템 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에서 비정상 패턴을 자동 탐지하고, 미리 정의된 [플레이북](/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/)에 따라 대응을 자동화하는 [SOAR](/knowledge-base/studynote/03_network/14_network_security_threats/745_soar_security_orchestration_automation_response/) ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) [Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/), Automation and Response) 기술이 발전하고 있다.
-- **사이버 보험과의 연계**: 사이버 보험이 사고 대응 비용 (forensics, 법률 비용, 영업 손실 등)을 보상하는 商品として普及しており, 사고 대응 체계의整備が보험 가입 요건으로 작용하기도 한다.
+- **사이버 보험과의 연계**: 사이버 보험이 사고 대응 비용 (forensics, 법률 비용, 영업 손실 등)을 보상하는 로서하여, 사고 대응 체계의이/가보험 가입 요건으로 작용하기도 한다.
 
 ---
 
@@ -231,8 +231,8 @@ NIST [CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017
 
 | 개념 명칭 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 및 시너지 설명 |
 |:---|:---|
-| **CSIRT** | 조직 내 보안 사고 대응을 전담하는 전문팀으로, 사고 대응 체계의核心이다. |
-| **NIST [SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) 800-61** | NIST의 사고 대응 가이드로, 사고 대응 라이프사이클의標準을 제공한다. |
+| **CSIRT** | 조직 내 보안 사고 대응을 전담하는 전문팀으로, 사고 대응 체계의핵심이다. |
+| **NIST [SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) 800-61** | NIST의 사고 대응 가이드로, 사고 대응 라이프사이클의을 제공한다. |
 | **[SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/)** | 보안 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 수집·분석하여 사고를 탐지하고, 사고 분석에 필요한 근거를 제공하는 핵심 인프라다. |
 | **[SOAR](/knowledge-base/studynote/03_network/14_network_security_threats/745_soar_security_orchestration_automation_response/)** | 사고 대응 프로세스를 자동화하고 [플레이북](/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/)을 실행하여 대응 속도와 일관성을 향상시킨다. |
 | ** forensics** | 보안 사고의 증거를 수집·분석하여 사고 원인을 규명하는 기술 분야다. |
@@ -244,17 +244,17 @@ NIST [CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017
 
 ```text
 [보안 사고 탐지]
-    │
-    ▼
+│
+▼
 [대응 계획(IRP) 수립]
-    │
-    ▼
+│
+▼
 [사고 대응 단계(준비-탐지-억제-복구)]
-    │
-    ▼
+│
+▼
 [포렌식 분석]
-    │
-    ▼
+│
+▼
 [SIEM/SOAR 자동화]
 ```
 
@@ -262,9 +262,9 @@ NIST [CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 사고 대응은**급식 먹고 배탈이 났을 때의 대처 방법**과 같아. 배탈이 났다는 것을 알고 (탐지),母子에게 알려서 조리를 멈추고 (봉쇄), 병원에 가서 약을 먹고 ([근절](/knowledge-base/studynote/09_security/13_secops_ir_forensics/657_ir_eradication/)), 건강을 회복하면 ([복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)), 앞으로 어떻게 하면 또 배탈 안 낫을지 생각하는 거야.
-2. 중요한 것은 이러한 방법을**미리 알아두고** 있어야 한다는 거야. 급식 당시에 아무也不知道면大混乱이 되겠지. 학교에서는 이러한 비상 대피 계획을 세워두고 정기적으로演练을 하는 것과 같다.
-3.保安사고 대응도 마찬가지야. 평소에 대응 방법을 숙지하고 있어야 실제 사고가 났을 때慌てず 적절히 대처할 수 있어. 그래서 우리도 학교 대피演练처럼_security演练_을 하는 거야!
+1. 사고 대응은**급식 먹고 배탈이 났을 때의 대처 방법**과 같아. 배탈이 났다는 것을 알고 (탐지),에게 알려서 조리를 멈추고 (봉쇄), 병원에 가서 약을 먹고 ([근절](/knowledge-base/studynote/09_security/13_secops_ir_forensics/657_ir_eradication/)), 건강을 회복하면 ([복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)), 앞으로 어떻게 하면 또 배탈 안 낫을지 생각하는 거야.
+2. 중요한 것은 이러한 방법을**미리 알아두고** 있어야 한다는 거야. 급식 당시에 아무면이 되겠지. 학교에서는 이러한 비상 대피 계획을 세워두고 정기적으로을 하는 것과 같다.
+3.사고 대응도 마찬가지야. 평소에 대응 방법을 숙지하고 있어야 실제 사고가 났을 때 적절히 대처할 수 있어. 그래서 우리도 학교 대피처럼_security_을 하는 거야!
 
 ---
 

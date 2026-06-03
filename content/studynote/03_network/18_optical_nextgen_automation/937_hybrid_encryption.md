@@ -23,32 +23,32 @@ tags = ["studynote-network"]
 - **필요성**: 인터넷 환경에서 두 주체가 안전하게 통신하려면 암호화가 필수적이다. 그러나 대칭키 방식은 속도가 빠르지만 "비밀키를 어떻게 안전하게 상대방에게 전달할 것인가?"라는 근본적인 키 배포 문제([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Distribution Problem)에 부딪힌다. 반대로 비대칭키 방식은 누구나 아는 공개키로 암호화하므로 키 배포 문제는 없지만, 복잡한 수학적 연산(소인수분해, 이산대수 등)으로 인해 수 메가바이트의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 암호화하기에는 속도가 치명적으로 느리다. 이를 타개하기 위해 서로의 장점만 취합한 하이브리드 구조가 필연적으로 등장했다.
 - **💡 비유**: 매우 무겁고 귀중한 금괴(대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 안전하고 빠르게 배송하기 위해 튼튼한 자물쇠가 달린 철제 금고([대칭키 암호화](/knowledge-base/studynote/03_network/13_network_security_basics/653_symmetric_key_cryptography_fast_speed/))에 넣습니다. 그리고 그 금고를 열 수 있는 '단 하나의 열쇠(대칭키)'만 작고 가벼운 우체통(공개키 암호화)에 넣어 상대방에게 따로 안전하게 배달하는 방식과 같습니다.
 - **등장 배경 및 발전 과정**:
-  1. **단일 암호 체계의 한계 노출**: 1970년대 [DES](/knowledge-base/studynote/09_security/02_crypto/086_des_data_encryption_standard/) ([Data Encryption Standard](/knowledge-base/studynote/09_security/02_crypto/086_des_data_encryption_standard/)) 같은 대칭키가 널리 쓰였으나, 통신 참여자가 N명일 때 N(N-1)/2개의 키를 안전하게 공유해야 하는 물리적 관리 한계가 폭발했다.
-  2. **비대칭키(공개키)의 혁명적 등장**: 1976년 디피-헬만(Diffie-Hellman) 키 교환과 1977년 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) ([Rivest-Shamir-Adleman](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 발명되면서 키 분배의 수학적 해결책이 제시되었다. 하지만 RSA의 복잡한 연산은 CPU 리소스를 과도하게 소모하여 대용량 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전송에는 부적합했다.
-  3. **디지털 봉투 (Digital Envelope)의 고안**: 1990년대 [PGP](/knowledge-base/studynote/03_network/09_application_layer_web_email/494_pgp_pretty_good_privacy_web_of_trust/) ([Pretty Good Privacy](/knowledge-base/studynote/03_network/09_application_layer_web_email/494_pgp_pretty_good_privacy_web_of_trust/)) 및 Netscape의 SSL (Secure Sockets Layer) 설계자들은 빠르고 일회성인 '세션키([Session Key](/knowledge-base/studynote/09_security/03_network_security/140_session_key/))' 개념을 도입했다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 세션키로 잠그고, 세션키만 RSA로 잠그는 '디지털 봉투' 구조를 고안함으로써 현대 인터넷 암호 통신의 표준(Hybrid) 모델이 정립되었다.
+1. **단일 암호 체계의 한계 노출**: 1970년대 [DES](/knowledge-base/studynote/09_security/02_crypto/086_des_data_encryption_standard/) ([Data Encryption Standard](/knowledge-base/studynote/09_security/02_crypto/086_des_data_encryption_standard/)) 같은 대칭키가 널리 쓰였으나, 통신 참여자가 N명일 때 N(N-1)/2개의 키를 안전하게 공유해야 하는 물리적 관리 한계가 폭발했다.
+2. **비대칭키(공개키)의 혁명적 등장**: 1976년 디피-헬만(Diffie-Hellman) 키 교환과 1977년 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) ([Rivest-Shamir-Adleman](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 발명되면서 키 분배의 수학적 해결책이 제시되었다. 하지만 RSA의 복잡한 연산은 CPU 리소스를 과도하게 소모하여 대용량 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전송에는 부적합했다.
+3. **디지털 봉투 (Digital Envelope)의 고안**: 1990년대 [PGP](/knowledge-base/studynote/03_network/09_application_layer_web_email/494_pgp_pretty_good_privacy_web_of_trust/) ([Pretty Good Privacy](/knowledge-base/studynote/03_network/09_application_layer_web_email/494_pgp_pretty_good_privacy_web_of_trust/)) 및 Netscape의 SSL (Secure Sockets Layer) 설계자들은 빠르고 일회성인 '세션키([Session Key](/knowledge-base/studynote/09_security/03_network_security/140_session_key/))' 개념을 도입했다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 세션키로 잠그고, 세션키만 RSA로 잠그는 '디지털 봉투' 구조를 고안함으로써 현대 인터넷 암호 통신의 표준(Hybrid) 모델이 정립되었다.
 
 단일 방식의 한계와 하이브리드 결합에 의한 해결 구조를 도식화하면 두 방식이 어떻게 상호보완적인지 명확해진다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────┐
-  │         암호 방식별 한계와 하이브리드 시스템의 융합 구조 결론           │
-  ├──────────────────────────────────────────────────────────────────┤
-  │                                                                  │
-  │  [대칭키 암호 방식 (AES)]          [비대칭키 암호 방식 (RSA)]            │
-  │  + 처리 속도 매우 빠름 (HW가속)       + 키 배포 안전 (공개키 노출 무관)   │
-  │  - 사전에 키를 어떻게 공유하지? 딜레마  - 처리 속도 매우 느림 (수천 배 지연)  │
-  │                │                               │                  │
-  │                └───────────┬───────────────┘                  │
-  │                              │                                    │
-  │                              ▼                                    │
-  │              [하이브리드 암호 시스템 (Hybrid Cryptosystem)]            │
-  │     ┌────────────────────────────────────────────────────┐       │
-  │     │ 1. 데이터 암호화 : 대칭키 (세션키) 이용 → '고속 전송 보장'  │       │
-  │     │ 2. 세션키 암호화 : 비대칭키 (공개키) 이용 → '키 분배 해결'  │       │
-  │     └────────────────────────────────────────────────────┘       │
-  │                                                                  │
-  │  결과: 대용량 데이터를 지연 없이 암호화하면서도, 통신 전 키 사전 교환이 불필요함.│
-  └──────────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────┐
+│ 암호 방식별 한계와 하이브리드 시스템의 융합 구조 결론 │
+├──────────────────────────────────────────────────────────────────┤
+│ │
+│ [대칭키 암호 방식 (AES)] [비대칭키 암호 방식 (RSA)] │
+│ + 처리 속도 매우 빠름 (HW가속) + 키 배포 안전 (공개키 노출 무관) │
+│ - 사전에 키를 어떻게 공유하지? 딜레마 - 처리 속도 매우 느림 (수천 배 지연) │
+│ │ │ │
+│ └───────────┬───────────────┘ │
+│ │ │
+│ ▼ │
+│ [하이브리드 암호 시스템 (Hybrid Cryptosystem)] │
+│ ┌────────────────────────────────────────────────────┐ │
+│ │ 1. 데이터 암호화 : 대칭키 (세션키) 이용 → '고속 전송 보장' │ │
+│ │ 2. 세션키 암호화 : 비대칭키 (공개키) 이용 → '키 분배 해결' │ │
+│ └────────────────────────────────────────────────────┘ │
+│ │
+│ 결과: 대용량 데이터를 지연 없이 암호화하면서도, 통신 전 키 사전 교환이 불필요함.│
+└──────────────────────────────────────────────────────────────────┘
 ```
 
 **[다이어그램 해설]** 이 도식은 암호학의 두 기둥이 가진 본질적 트레이드오프(Trade-off)를 보여준다. 대칭키([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))는 속도가 비대칭키 대비 수백에서 수천 배 빠르지만, 인터넷 같은 공개망에서 비밀키를 상대에게 안전하게 넘겨줄 수단이 없어 확장이 불가능하다 (사전 오프라인 전달 필요). 비대칭키([RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/))는 누구나 공개키를 볼 수 있어 키 교환이 안전하지만 수학적 연산이 무거워 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직접 암호화하면 서버가 다운된다. 하이브리드 시스템은 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전체"를 암호화하는 무거운 작업은 대칭키에게 맡기고, 오직 "256비트짜리 작은 대칭키(세션키)" 하나만을 안전하게 상대에게 전달하는 가벼운 작업에 비대칭키를 사용한다. 이 절묘한 역할 분담이 현대 SSL/[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 수천만 명의 동시 접속을 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 없이 처리하게 만드는 마법의 본질이다.
@@ -74,39 +74,39 @@ tags = ["studynote-network"]
 송신자(Alice)가 수신자(Bob)에게 대용량 문서를 하이브리드 방식으로 안전하게 전송하는 전체 암호화 및 복호화 과정을 순차 흐름도로 살펴보자. ([기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)에 초점을 맞춘 모델)
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────────┐
-  │            하이브리드 암호 시스템 데이터 전송 흐름 (디지털 봉투)              │
-  ├───────────────────────────────────────────────────────────────────────┤
-  │                                                                       │
-  │  [송신자 Alice 측 (암호화 과정)]                                              │
-  │                                                                       │
-  │  원본 데이터 ──────(대칭키 암호화 알고리즘)──────▶ 암호화된 데이터 (A)         │
-  │     │                       ▲                                         │
-  │     │                       │ 1. 사용                                 │
-  │     ▼                       │                                         │
-  │  PRNG (난수발생기) ──▶ [일회용 세션키]                                     │
-  │                             │                                         │
-  │                             │ 2. 암호화                               │
-  │                             ▼                                         │
-  │  Bob의 공개키 ───(비대칭키 암호화 알고리즘)───▶ 암호화된 세션키 (B)          │
-  │  (사전 획득)                                       [디지털 봉투]         │
-  │                                                                       │
-  │         3. 전송망 (Internet) ──▶ [ (A) 암호화 데이터 + (B) 디지털 봉투 ] ─┐ │
-  │                                                                       │
-  │ ───────────────────────────────────────────────────────────────────── │
-  │                                                                       │
-  │  [수신자 Bob 측 (복호화 과정)]                                                │
-  │                                                                       │
-  │ ┌─ [ (A) 암호화 데이터 + (B) 디지털 봉투 ] ◀─── 수신 완료                  │
-  │ │                                                                     │
-  │ │  암호화된 세션키 (B) ──(비대칭키 복호화)──▶ [일회용 세션키] 복구 ─┐          │
-  │ │                            ▲                                   │     │
-  │ │                            │ 1. 사용                             │     │
-  │ │                     Bob의 개인키 (비밀 보관)                     │     │
-  │ │                                                                │     │
-  │ │                                                                ▼     │
-  │ └─ 암호화된 데이터 (A) ──────────(대칭키 복호화)──────────▶ 원본 데이터 복원 │
-  └───────────────────────────────────────────────────────────────────────┘
+┌───────────────────────────────────────────────────────────────────────┐
+│ 하이브리드 암호 시스템 데이터 전송 흐름 (디지털 봉투) │
+├───────────────────────────────────────────────────────────────────────┤
+│ │
+│ [송신자 Alice 측 (암호화 과정)] │
+│ │
+│ 원본 데이터 ──────(대칭키 암호화 알고리즘)──────▶ 암호화된 데이터 (A) │
+│ │ ▲ │
+│ │ │ 1. 사용 │
+│ ▼ │ │
+│ PRNG (난수발생기) ──▶ [일회용 세션키] │
+│ │ │
+│ │ 2. 암호화 │
+│ ▼ │
+│ Bob의 공개키 ───(비대칭키 암호화 알고리즘)───▶ 암호화된 세션키 (B) │
+│ (사전 획득) [디지털 봉투] │
+│ │
+│ 3. 전송망 (Internet) ──▶ [ (A) 암호화 데이터 + (B) 디지털 봉투 ] ─┐ │
+│ │
+│ ───────────────────────────────────────────────────────────────────── │
+│ │
+│ [수신자 Bob 측 (복호화 과정)] │
+│ │
+│ ┌─ [ (A) 암호화 데이터 + (B) 디지털 봉투 ] ◀─── 수신 완료 │
+│ │ │
+│ │ 암호화된 세션키 (B) ──(비대칭키 복호화)──▶ [일회용 세션키] 복구 ─┐ │
+│ │ ▲ │ │
+│ │ │ 1. 사용 │ │
+│ │ Bob의 개인키 (비밀 보관) │ │
+│ │ │ │
+│ │ ▼ │
+│ └─ 암호화된 데이터 (A) ──────────(대칭키 복호화)──────────▶ 원본 데이터 복원 │
+└───────────────────────────────────────────────────────────────────────┘
 ```
 
 **[다이어그램 해설]** 송신자(Alice)는 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기에 상관없이 엄청나게 빠른 속도로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 암호화하기 위해 먼저 '일회용 세션키([Symmetric Key](/knowledge-base/studynote/03_network/13_network_security_basics/653_symmetric_key_cryptography_fast_speed/))'를 즉석에서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다. 이 세션키로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 암호화하여 결과물(A)을 만든다. 이어서, 가장 중요한 '세션키 자체'를 수신자(Bob)에게 안전하게 전달하기 위해, Bob이 미리 세상에 공개해 둔 'Bob의 공개키'를 가져와 세션키를 비대칭키 방식으로 암호화한다. 이를 '디지털 봉투(B)'라 부른다. 인터넷을 통해 (A)와 (B)가 함께 전송된다. 해커가 이 패킷을 가로채도 Bob의 '개인키'가 없으면 디지털 봉투(B)를 열 수 없어 세션키를 얻지 못하고, 세션키가 없으니 암호화된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(A)도 풀 수 없다. 정당한 수신자인 Bob은 오직 자신만 가진 '개인키'로 봉투(B)를 열어 세션키를 얻어낸 뒤, 그 세션키로 무거운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(A)를 한 번에 고속 복호화한다. 이 메커니즘 덕분에 키 분배의 안전성과 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 속도라는 두 마리 토끼를 모두 잡게 된다.
@@ -132,25 +132,25 @@ tags = ["studynote-network"]
 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)(누가 볼 수 없게)만으로는 "누가 보냈는지([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))"와 "위조되지 않았는지([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))"를 알 수 없다. 하이브리드 시스템에 송신자의 [전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/)(해시+송신자 개인키)을 융합하면 정보보호의 핵심 3요소를 완벽히 충족하는 캡슐 아키텍처가 완성된다. [PGP](/knowledge-base/studynote/03_network/09_application_layer_web_email/494_pgp_pretty_good_privacy_web_of_trust/) ([Pretty Good Privacy](/knowledge-base/studynote/03_network/09_application_layer_web_email/494_pgp_pretty_good_privacy_web_of_trust/)) 이메일 보안이 이 구조를 사용한다.
 
 ```text
-  ┌────────────────────────────────────────────────────────────────────┐
-  │        하이브리드 기밀성 + 전자 서명 융합 캡슐 아키텍처 (PGP)         │
-  ├────────────────────────────────────────────────────────────────────┤
-  │                                                                    │
-  │ [Alice(송신자) 측 보안 패키징 로직]                                        │
-  │                                                                    │
-  │  1. 무결성/부인방지 (전자서명 생성)                                        │
-  │     원본 메시지 ──(해시함수)──▶ 다이제스트 ──(Alice 개인키 암호화)──▶ [서명] │
-  │                                                                    │
-  │  2. 압축 및 결합                                                       │
-  │     ( 원본 메시지 + [서명] ) ──(ZIP 압축)──▶ [압축 페이로드]                │
-  │                                                                    │
-  │  3. 기밀성 (하이브리드 암호화)                                             │
-  │     [압축 페이로드] ──(일회용 세션키 대칭키 암호화)──▶ [암호화된 데이터]        │
-  │                                      ▲                             │
-  │     일회용 세션키 ──(Bob의 공개키 비대칭 암호화)────▶ [디지털 봉투]          │
-  │                                                                    │
-  │  ▶ 최종 인터넷 전송물 = [ 암호화된 데이터 ] + [ 디지털 봉투 ]                 │
-  └────────────────────────────────────────────────────────────────────┘
+┌────────────────────────────────────────────────────────────────────┐
+│ 하이브리드 기밀성 + 전자 서명 융합 캡슐 아키텍처 (PGP) │
+├────────────────────────────────────────────────────────────────────┤
+│ │
+│ [Alice(송신자) 측 보안 패키징 로직] │
+│ │
+│ 1. 무결성/부인방지 (전자서명 생성) │
+│ 원본 메시지 ──(해시함수)──▶ 다이제스트 ──(Alice 개인키 암호화)──▶ [서명] │
+│ │
+│ 2. 압축 및 결합 │
+│ ( 원본 메시지 + [서명] ) ──(ZIP 압축)──▶ [압축 페이로드] │
+│ │
+│ 3. 기밀성 (하이브리드 암호화) │
+│ [압축 페이로드] ──(일회용 세션키 대칭키 암호화)──▶ [암호화된 데이터] │
+│ ▲ │
+│ 일회용 세션키 ──(Bob의 공개키 비대칭 암호화)────▶ [디지털 봉투] │
+│ │
+│ ▶ 최종 인터넷 전송물 = [ 암호화된 데이터 ] + [ 디지털 봉투 ] │
+└────────────────────────────────────────────────────────────────────┘
 ```
 
 **[다이어그램 해설]** 이 복합 아키텍처는 현대 암호학의 결정체다. 먼저 Alice는 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 지문(해시 다이제스트)을 떠서 자신의 '개인키'로 잠근다([전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/)). 이 서명은 오직 Alice의 공개키로만 열리므로, Bob은 나중에 "이 메시지는 무조건 Alice가 보냈고 위조되지 않았다"는 부인방지(Non-repudiation)와 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 보장받는다. 그 다음 Alice는 (원본+서명) 덩어리를 압축한 뒤, 앞서 살펴본 하이브리드 암호화(세션키로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 암호화, Bob의 공개키로 세션키 캡슐화)를 수행한다. 따라서 전송 중인 패킷은 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)이 완벽히 보장되고, 최종 수신자 Bob은 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) 해제(Bob의 개인키 사용) 후 서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(Alice의 공개키 사용)이라는 이중 자물쇠를 풀게 된다. 이 설계는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 없이 최고 수준의 보안 관문을 통과하게 만든다.
@@ -168,25 +168,25 @@ tags = ["studynote-network"]
 엔벨로프 암호화([Envelope Encryption](/knowledge-base/studynote/09_security/20_extra_exam_prep/1011_envelope_encryption/)) 아키텍처를 클라우드 저장소 시나리오로 시각화하면, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 키 보안의 트레이드오프가 어떻게 분리되는지 확인할 수 있다.
 
 ```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │         클라우드 KMS 기반 엔벨로프 암호화 (Envelope Encryption)         │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [애플리케이션(App)]                          [KMS (보안 모듈)]       │
-  │                                                                   │
-  │  1. 데이터 암호화 요청 시 ──────────────────▶ 데이터 암호화키(DEK) 발급 요청 │
-  │                                            │  (Master Key 보관) │
-  │  2. 응답: [평문 DEK] + [마스터키로 암호화된 DEK] ◀── DEK를 내부 마스터키(CMK)로│
-  │                                            │  암호화(캡슐화)하여 반환 │
-  │  3. App의 고속 암호화 처리                                            │
-  │     원본 파일 ──(평문 DEK로 암호화)──▶ [암호화된 파일]                    │
-  │                                                                   │
-  │  4. 스토리지 저장 (평문 DEK는 즉시 RAM에서 삭제!)                          │
-  │     DB/S3 저장 ──▶ { [암호화된 파일] + [마스터키로 암호화된 DEK] }        │
-  │                                                                   │
-  │  * 복호화 시: 저장소에서 패키지를 꺼내, KMS에 [암호화된 DEK]를 보내어        │
-  │               [평문 DEK]를 받아온 뒤 파일 복호화에 사용함.               │
-  └───────────────────────────────────────────────────────────────────┘
+┌───────────────────────────────────────────────────────────────────┐
+│ 클라우드 KMS 기반 엔벨로프 암호화 (Envelope Encryption) │
+├───────────────────────────────────────────────────────────────────┤
+│ │
+│ [애플리케이션(App)] [KMS (보안 모듈)] │
+│ │
+│ 1. 데이터 암호화 요청 시 ──────────────────▶ 데이터 암호화키(DEK) 발급 요청 │
+│ │ (Master Key 보관) │
+│ 2. 응답: [평문 DEK] + [마스터키로 암호화된 DEK] ◀── DEK를 내부 마스터키(CMK)로│
+│ │ 암호화(캡슐화)하여 반환 │
+│ 3. App의 고속 암호화 처리 │
+│ 원본 파일 ──(평문 DEK로 암호화)──▶ [암호화된 파일] │
+│ │
+│ 4. 스토리지 저장 (평문 DEK는 즉시 RAM에서 삭제!) │
+│ DB/S3 저장 ──▶ { [암호화된 파일] + [마스터키로 암호화된 DEK] } │
+│ │
+│ * 복호화 시: 저장소에서 패키지를 꺼내, KMS에 [암호화된 DEK]를 보내어 │
+│ [평문 DEK]를 받아온 뒤 파일 복호화에 사용함. │
+└───────────────────────────────────────────────────────────────────┘
 ```
 
 **[다이어그램 해설]** 이 구조는 하이브리드 암호 시스템의 개념을 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 저장 시스템에 완벽히 이식한 것이다. 엄청난 양의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 암호화하기 위한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 암호화 키 (DEK, [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Encryption [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) - 대칭키 역할)를 애플리케이션 단에서 고속으로 사용한다. 하지만 이 DEK를 평문으로 디스크에 두면 해커가 가져갈 수 있다. 그래서 중앙의 [KMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/) ([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))가 가진 절대 털리지 않는 마스터 키 (CMK, [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) Master [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) - 비대칭키 또는 하드웨어 보호키 역할)로 DEK 자체를 암호화하여 '디지털 봉투' 상태로 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 함께 저장한다. [KMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/) 밖으로는 마스터 키가 절대 유출되지 않으며, App은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 복호화 권한이 필요할 때마다 KMS에 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 거쳐 봉투를 열어 DEK를 획득한다. 수십 TB의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)도 KMS의 부하 없이 안전하게 암호화되는 최상의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 암호 아키텍처다.
@@ -223,25 +223,25 @@ tags = ["studynote-network"]
 하이브리드 암호 시스템은 속도(실용성)와 보안성이라는 상충하는 두 가치를 타협 없이 모두 이뤄낸 인류 컴퓨터 공학 역사상 가장 성공적인 설계 패턴 중 하나다. 기술사적 관점에서 하이브리드 시스템을 설계할 때는 단순한 암호 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 나열이 아니라, "암호화 키의 생명주기(발급, 사용, 보관, 폐기)" 전체를 어떻게 이원화하여 관리할 것인가에 대한 통찰이 요구된다. 대량의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane)은 대칭키로 빠르게 밀어내고, 보안 제어 평면(Control Plane)은 비대칭키와 PKI를 통해 정밀하게 통제하는 아키텍처적 사고가 필수적이다.
 
 ```text
-  ┌──────────────────────────────────────────────────────────────────┐
-  │         현대 암호화 프로토콜의 하이브리드 패러다임 진화 로드맵          │
-  ├──────────────────────────────────────────────────────────────────┤
-  │                                                                  │
-  │  [과거: 기밀성 결합 중심]        [현재: PFS/인증 결합 중심]            │
-  │     SSL 3.0 / TLS 1.0          TLS 1.2 / TLS 1.3                 │
-  │   - 정적 RSA로 세션키 교환        - ECDHE를 통한 완벽한 전방향 무결성(PFS)│
-  │   - MAC-then-Encrypt 취약     - Encrypt-then-MAC (AEAD GCM) 적용 │
-  │             │                          │                         │
-  │             ▼                          ▼                         │
-  │ ──────────────────────────────────────────────────────────────── │
-  │                                        ▼                         │
-  │  [미래: 양자 내성 (Post-Quantum) 하이브리드 중심 (2030+)]          │
-  │     NIST PQC Standards (Kyber, Dilithium) + AES-256              │
-  │   - 양자 컴퓨팅의 RSA/ECC 소인수분해 파괴 위협에 대비                │
-  │   - 격자(Lattice) 기반 비대칭키 캡슐화(KEM)를 적용한 新 하이브리드 등장 │
-  │                                                                  │
-  │  결론: 핵심 구조(대칭+비대칭 결합)는 유지되나, 엔진 알고리즘만 교체되는 중 │
-  └──────────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────┐
+│ 현대 암호화 프로토콜의 하이브리드 패러다임 진화 로드맵 │
+├──────────────────────────────────────────────────────────────────┤
+│ │
+│ [과거: 기밀성 결합 중심] [현재: PFS/인증 결합 중심] │
+│ SSL 3.0 / TLS 1.0 TLS 1.2 / TLS 1.3 │
+│ - 정적 RSA로 세션키 교환 - ECDHE를 통한 완벽한 전방향 무결성(PFS)│
+│ - MAC-then-Encrypt 취약 - Encrypt-then-MAC (AEAD GCM) 적용 │
+│ │ │ │
+│ ▼ ▼ │
+│ ──────────────────────────────────────────────────────────────── │
+│ ▼ │
+│ [미래: 양자 내성 (Post-Quantum) 하이브리드 중심 (2030+)] │
+│ NIST PQC Standards (Kyber, Dilithium) + AES-256 │
+│ - 양자 컴퓨팅의 RSA/ECC 소인수분해 파괴 위협에 대비 │
+│ - 격자(Lattice) 기반 비대칭키 캡슐화(KEM)를 적용한 하이브리드 등장 │
+│ │
+│ 결론: 핵심 구조(대칭+비대칭 결합)는 유지되나, 엔진 알고리즘만 교체되는 중 │
+└──────────────────────────────────────────────────────────────────┘
 ```
 
 **[다이어그램 해설]** 수십 년간 진화해온 암호 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 역사 속에서도 "대칭키([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) + 비대칭키(키교환)"라는 하이브리드 구조 자체는 단 한 번도 버려진 적이 없다. 다만 내부의 엔진([알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))들이 시대의 보안 위협에 맞춰 교체되어 왔다. 과거에는 단순 RSA를 캡슐화에 썼지만 서버 키 유출 시 과거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 풀리는 문제 때문에, 현재는 매번 키를 새로 협상하는 일회성 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([ECDHE](/knowledge-base/studynote/09_security/03_network_security/131_ecdhe_ephemeral_ecdh/)) 기반으로 진화했다. 그리고 곧 닥칠 [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)의 위협 앞에서도 하이브리드 아키텍처는 폐기되지 않고, 양자 내성을 가진 새로운 비대칭키 수학([KEM](/knowledge-base/studynote/09_security/03_network_security/134_kem_key_encapsulation/), [Key Encapsulation Mechanism](/knowledge-base/studynote/09_security/03_network_security/134_kem_key_encapsulation/)) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 갈아 끼우는 형태로 그 영속적인 구조적 우월성을 증명하고 있다.
@@ -263,12 +263,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: DNS 싱크홀]
-    │
-    ▼
+│
+▼
 [현재 개념: 하이브리드 암호 시스템]
-    │
-    ├──▶ [확장 A: 파일 카빙]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
+│
+├──▶ [확장 A: 파일 카빙]
+└──▶ [확장 B: 의미 기반 통신 최적화]
 ```
 
 하이브리드 암호 시스템는 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 싱크홀에서 출발해 현재 메커니즘을 정교화하고, 이후 [파일 카빙](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/938_file_carving/)와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.

@@ -27,10 +27,10 @@ DB_HOST = "localhost"
 DB_PASSWORD = "admin123"
 API_KEY = "sk_live_abcdef123456"
 ```
-이렇게 하면 모든 환경에서 동일한 [코드베이스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/007_codebase/)를 사용할 수 없고, 프로덕션용 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 키가 코드에 노출되는 보안 문제가 발생한다. 또한 설정을 변경할 때마다 코드를 修改해야 하므로 배포 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 복잡해진다.
+이렇게 하면 모든 환경에서 동일한 [코드베이스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/007_codebase/)를 사용할 수 없고, 프로덕션용 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 키가 코드에 노출되는 보안 문제가 발생한다. 또한 설정을 변경할 때마다 코드를 해야 하므로 배포 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 복잡해진다.
 
-12팩터 앱의 설정 원칙은 이 문제를根本적으로 해결한다. 설정을 코드와 완전히 분리하여 [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/)에 저장하면:
-- **코드 자체는 환경에 구애받지 않는다**: 동일한 코드를任何 환경에 배포해도 동작한다.
+12팩터 앱의 설정 원칙은 이 문제를근본적으로 해결한다. 설정을 코드와 완전히 분리하여 [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/)에 저장하면:
+- **코드 자체는 환경에 구애받지 않는다**: 동일한 코드를 환경에 배포해도 동작한다.
 - **보안 강화**: 비밀번호나 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 키가 코드에 없으므로 Git 등에 노출되지 않는다.
 - **배포 유연성**: 설정 변경 시 코드 배포 없이 [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/)만 변경하면 된다.
 
@@ -41,50 +41,50 @@ API_KEY = "sk_live_abcdef123456"
 
 ❌ 하드코딩된 설정 (환경마다 다른 코드 필요)
 ┌─────────────────────────────────────────────────────────────┐
-│  Development 코드              │  Production 코드             │
-│  ┌─────────────────────┐    │  ┌─────────────────────┐    │
-│  │ DB_HOST = "localhost"│    │  │ DB_HOST = "prod.db"│    │
-│  │ DB_PASS = "dev123"  │    │  │ DB_PASS = "安全密码"│    │
-│  │ API_KEY = "test_key" │    │  │ API_KEY = "sk_live_"│    │
-│  └─────────────────────┘    │  └─────────────────────┘    │
-│           문제:                  │ 문제:                      │
-│           - 코드 복사/수정 필요    │ - 민감 정보가 코드에 포함    │
-│           - 버전 관리 곤란        │ - 배포 실수 위험            │
+│ Development 코드 │ Production 코드 │
+│ ┌─────────────────────┐ │ ┌─────────────────────┐ │
+│ │ DB_HOST = "localhost"│ │ │ DB_HOST = "prod.db"│ │
+│ │ DB_PASS = "dev123" │ │ │ DB_PASS = "보안"│ │
+│ │ API_KEY = "test_key" │ │ │ API_KEY = "sk_live_"│ │
+│ └─────────────────────┘ │ └─────────────────────┘ │
+│ 문제: │ 문제: │
+│ - 코드 복사/수정 필요 │ - 민감 정보가 코드에 포함 │
+│ - 버전 관리 곤란 │ - 배포 실수 위험 │
 └─────────────────────────────────────────────────────────────┘
 
 ✓ 환경 변수 기반 설정 (환경마다 같은 코드)
 ┌─────────────────────────────────────────────────────────────┐
-│  코드 (모든 환경 동일)                                       │
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │ import os                                          │   │
-│  │                                                   │   │
-│  │ DB_HOST = os.environ.get("DB_HOST")               │   │ ← 코드 수정 불필요
-│  │ DB_PASS = os.environ.get("DB_PASSWORD")           │   │
-│  │ API_KEY = os.environ.get("API_KEY")               │   │
-│  └─────────────────────────────────────────────────────┘   │
-│                                                             │
-│  환경 변수 (환경마다 다른 값)                                 │
-│  ┌───────────────┬───────────────┬───────────────┐        │
-│  │  Development   │   Staging     │   Production  │        │
-│  │  ───────────  │   ──────────  │  ───────────  │        │
-│  │  DB_HOST=     │  DB_HOST=     │  DB_HOST=     │        │
-│  │    localhost  │    stag.db    │    prod.db    │        │
-│  │  DB_PASS=     │  DB_PASS=     │  DB_PASS=     │        │
-│  │    dev123     │    stag_pass  │    ********** │        │
-│  │  API_KEY=     │  API_KEY=     │  API_KEY=     │        │
-│  │    test_key   │    stag_key   │    sk_live_***│        │
-│  └───────────────┴───────────────┴───────────────┘        │
-│                                                             │
-│  장점:                                                      │
-│  ✓ 동일한 코드베이스 → 버전 관리 용이                       │
-│  ✓ 민감 정보 분리 → 보안 강화                              │
-│  ✓ 설정 변경 시 코드 배포 불필요 → 민첩성 향상              │
+│ 코드 (모든 환경 동일) │
+│ ┌─────────────────────────────────────────────────────┐ │
+│ │ import os │ │
+│ │ │ │
+│ │ DB_HOST = os.environ.get("DB_HOST") │ │ ← 코드 수정 불필요
+│ │ DB_PASS = os.environ.get("DB_PASSWORD") │ │
+│ │ API_KEY = os.environ.get("API_KEY") │ │
+│ └─────────────────────────────────────────────────────┘ │
+│ │
+│ 환경 변수 (환경마다 다른 값) │
+│ ┌───────────────┬───────────────┬───────────────┐ │
+│ │ Development │ Staging │ Production │ │
+│ │ ─────────── │ ────────── │ ─────────── │ │
+│ │ DB_HOST= │ DB_HOST= │ DB_HOST= │ │
+│ │ localhost │ stag.db │ prod.db │ │
+│ │ DB_PASS= │ DB_PASS= │ DB_PASS= │ │
+│ │ dev123 │ stag_pass │ ********** │ │
+│ │ API_KEY= │ API_KEY= │ API_KEY= │ │
+│ │ test_key │ stag_key │ sk_live_***│ │
+│ └───────────────┴───────────────┴───────────────┘ │
+│ │
+│ 장점: │
+│ ✓ 동일한 코드베이스 → 버전 관리 용이 │
+│ ✓ 민감 정보 분리 → 보안 강화 │
+│ ✓ 설정 변경 시 코드 배포 불필요 → 민첩성 향상 │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-이 그림의 핵심은 설정이 코드에서 분리되면, 동일한 [코드베이스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/007_codebase/)가 환경에 따라 다른 동작을 한다는 점이다. 이것은 물리적으로同一のコード але в зависимости от окружения выполняет разные действия, because settings are injected externally through [environment variables](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/). 개발 환경에서는 테스트용 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)에 연결하고, 프로덕션에서는 본래 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)에 연결하는 것이 가능하다.
+이 그림의 핵심은 설정이 코드에서 분리되면, 동일한 [코드베이스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/007_codebase/)가 환경에 따라 다른 동작을 한다는 점이다. 이것은 물리적으로동일의 але в зависимости от окружения выполняет разные действия, because settings are injected externally through [environment variables](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/). 개발 환경에서는 테스트용 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)에 연결하고, 프로덕션에서는 본래 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)에 연결하는 것이 가능하다.
 
-> 📢 **섹션 요약 비유**: [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/) 기반 설정은"호텔 방 키 카드 시스템"과 같다. 같은 방(코드)에 체크인하지만, 키 카드([환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/))에 따라 방 번호(설정)가 다르다. 만약 방 키 카드 없이 문을 열어야 하면(하드코딩) 모든 게스트에게 각자의 방 번호에 맞는 열쇠를 줘야 하고(코드 배포麻烦了), 방 번호가泄漏될 위험이 있다(보안 문제).
+> 📢 **섹션 요약 비유**: [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/) 기반 설정은"호텔 방 키 카드 시스템"과 같다. 같은 방(코드)에 체크인하지만, 키 카드([환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/))에 따라 방 번호(설정)가 다르다. 만약 방 키 카드 없이 문을 열어야 하면(하드코딩) 모든 게스트에게 각자의 방 번호에 맞는 열쇠를 줘야 하고(코드 배포), 방 번호가될 위험이 있다(보안 문제).
 
 ---
 
@@ -106,54 +106,54 @@ API_KEY = "sk_live_abcdef123456"
 
 1. 개발 환경 (.env 파일)
 ┌──────────────────────────────────────┐
-│  .env                                │
-│  ┌────────────────────────────────┐  │
-│  │ DATABASE_URL=postgres://local  │  │
-│  │ API_KEY=dev_secret_123         │  │
-│  │ LOG_LEVEL=debug                │  │
-│  └────────────────────────────────┘  │
-│              │ dotenv 라이브러리 로드 │
-│              ▼                       │
-│  애플리케이션이 환경 변수 접근        │
+│ .env │
+│ ┌────────────────────────────────┐ │
+│ │ DATABASE_URL=postgres://local │ │
+│ │ API_KEY=dev_secret_123 │ │
+│ │ LOG_LEVEL=debug │ │
+│ └────────────────────────────────┘ │
+│ │ dotenv 라이브러리 로드 │
+│ ▼ │
+│ 애플리케이션이 환경 변수 접근 │
 └──────────────────────────────────────┘
 
 2. CI/CD 환경 (파이프라인 secrets)
 ┌──────────────────────────────────────┐
-│  GitHub Actions Secrets / Variables │
-│  ┌────────────────────────────────┐  │
-│  │ DB_PASSWORD: ************      │  │
-│  │ API_KEY: sk_live_********     │  │
-│  └────────────────────────────────┘  │
-│              │ 파이프라인 실행 시 주입  │
-│              ▼                       │
-│  docker build --build-arg /          │
-│  docker run -e                       │
+│ GitHub Actions Secrets / Variables │
+│ ┌────────────────────────────────┐ │
+│ │ DB_PASSWORD: ************ │ │
+│ │ API_KEY: sk_live_******** │ │
+│ └────────────────────────────────┘ │
+│ │ 파이프라인 실행 시 주입 │
+│ ▼ │
+│ docker build --build-arg / │
+│ docker run -e │
 └──────────────────────────────────────┘
 
 3. 쿠버네티스 환경 (ConfigMap + Secret)
 ┌──────────────────────────────────────┐
-│  ConfigMap (일반 설정)               │
-│  ┌────────────────────────────────┐  │
-│  │ apiVersion: v1                 │  │
-│  │ kind: ConfigMap                │  │
-│  │ data:                          │  │
-│  │   DATABASE_URL: "postgres://..."│ │
-│  │   LOG_LEVEL: "info"            │  │
-│  └────────────────────────────────┘  │
-│                                         │
-│  Secret (민감 정보 - Base64 인코딩)    │
-│  ┌────────────────────────────────┐  │
-│  │ apiVersion: v1                 │  │
-│  │ kind: Secret                   │  │
-│  │ type: Opaque                   │  │
-│  │ data:                          │  │
-│  │   DB_PASSWORD: bXktcGFzc3dvcmQ=││
-│  │   API_KEY: c2tfbGl2ZV8xMjM0NQ== ││
-│  └────────────────────────────────┘  │
+│ ConfigMap (일반 설정) │
+│ ┌────────────────────────────────┐ │
+│ │ apiVersion: v1 │ │
+│ │ kind: ConfigMap │ │
+│ │ data: │ │
+│ │ DATABASE_URL: "postgres://..."│ │
+│ │ LOG_LEVEL: "info" │ │
+│ └────────────────────────────────┘ │
+│ │
+│ Secret (민감 정보 - Base64 인코딩) │
+│ ┌────────────────────────────────┐ │
+│ │ apiVersion: v1 │ │
+│ │ kind: Secret │ │
+│ │ type: Opaque │ │
+│ │ data: │ │
+│ │ DB_PASSWORD: bXktcGFzc3dvcmQ=││
+│ │ API_KEY: c2tfbGl2ZV8xMjM0NQ== ││
+│ └────────────────────────────────┘ │
 └──────────────────────────────────────┘
 ```
 
-> 📢 **섹션 요약 비유**: [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/) 기반 설정은"영화 촬영의 장면 설정"과 같다. 같은 영화(코드)라도 장면 번호(환경)에 따라 조명(설정)이 다르고, 소품([시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) 정보)이 다르다. 조명师傅(개발자)가 조명값(일반 설정)을 알고 소품 담당(운영자)이 비밀 소품箱([시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/))의暗証番号만 알고 있으면, 영화는滑らかに撮影된다. 만약 모든 설정이 스크립트(코드)에 written 있으면(하드코딩) 촬영 중 조명값을 변경하려면脚本全体を変更해야 하며, 비밀 소품 정보가누출될 위험이 있다.
+> 📢 **섹션 요약 비유**: [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/) 기반 설정은"영화 촬영의 장면 설정"과 같다. 같은 영화(코드)라도 장면 번호(환경)에 따라 조명(설정)이 다르고, 소품([시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) 정보)이 다르다. 조명(개발자)가 조명값(일반 설정)을 알고 소품 담당(운영자)이 비밀 소품([시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/))의만 알고 있으면, 영화는이나에된다. 만약 모든 설정이 스크립트(코드)에 written 있으면(하드코딩) 촬영 중 조명값을 변경하려면을/를해야 하며, 비밀 소품 정보가누출될 위험이 있다.
 
 ---
 
@@ -169,81 +169,81 @@ API_KEY = "sk_live_abcdef123456"
 | **[컨테이너 오케스트레이션](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)** | K8s [ConfigMap](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/102_configmap_secret_kubernetes_12_factor_app/)/Secret을 Pod에 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) | 애플리케이션 설정을 런타임에 주입 |
 | **[Helm](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/)** | values.yaml로 차트별 설정 템플릿화 | 차트 재사용성 향상 |
 
-특히 [시크릿 매니저](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/095_secret_manager_hashicorp_vault_aws/)와의 결합은 중요한 보안 관행이다. [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/)에 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)을直接書き込めば, 해당 [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/)가 프로세스의 메모리에 평문으로 존재하게 되므로 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)이나 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에서 누출될 수 있다. 반면 [시크릿 매니저](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/095_secret_manager_hashicorp_vault_aws/)를 사용하면 애플리케이션이 런타임에 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)을 요청하고, [시크릿 매니저](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/095_secret_manager_hashicorp_vault_aws/)가 지원하는 임시 자격증명(动态 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/))을 발급받아 사용하게 된다.
+특히 [시크릿 매니저](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/095_secret_manager_hashicorp_vault_aws/)와의 결합은 중요한 보안 관행이다. [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/)에 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)을직접, 해당 [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/)가 프로세스의 메모리에 평문으로 존재하게 되므로 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)이나 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에서 누출될 수 있다. 반면 [시크릿 매니저](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/095_secret_manager_hashicorp_vault_aws/)를 사용하면 애플리케이션이 런타임에 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)을 요청하고, [시크릿 매니저](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/095_secret_manager_hashicorp_vault_aws/)가 지원하는 임시 자격증명( [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/))을 발급받아 사용하게 된다.
 
 ```text
-[시크릿 관리演进: 환경 변수 → 시크릿 매니저]
+[시크릿 관리: 환경 변수 → 시크릿 매니저]
 
 전: 환경 변수 직접 사용 (보안 취약)
 ┌──────────────────────────────────────┐
-│  .env 파일 (Git에 포함 ❌)            │
-│  DB_PASSWORD=admin123                │
-│              │                       │
-│              ▼                       │
-│  애플리케이션 메모리에 평문 저장        │
-│  → 로그, 코어 덤프에서 누출 가능      │
+│ .env 파일 (Git에 포함 ❌) │
+│ DB_PASSWORD=admin123 │
+│ │ │
+│ ▼ │
+│ 애플리케이션 메모리에 평문 저장 │
+│ → 로그, 코어 덤프에서 누출 가능 │
 └──────────────────────────────────────┘
 
 후: 시크릿 매니저 사용 (보안 강화)
 ┌──────────────────────────────────────┐
-│  시크릿 매니저 (Vault, AWS Secrets)  │
-│  ┌────────────────────────────────┐  │
-│  │ DB_PASSWORD: admin123 (암호화)  │  │
-│  │ TTL: 1시간 (임시 자격증명)       │  │
-│  └────────────────────────────────┘  │
-│              │ 런타임 요청             │
-│              ▼                       │
-│  애플리케이션: 시크릿을動的に取得      │
-│  → 메모리에만 존재, TTL 후 만료       │
+│ 시크릿 매니저 (Vault, AWS Secrets) │
+│ ┌────────────────────────────────┐ │
+│ │ DB_PASSWORD: admin123 (암호화) │ │
+│ │ TTL: 1시간 (임시 자격증명) │ │
+│ └────────────────────────────────┘ │
+│ │ 런타임 요청 │
+│ ▼ │
+│ 애플리케이션: 시크릿을에 │
+│ → 메모리에만 존재, TTL 후 만료 │
 └──────────────────────────────────────┘
 ```
 
-> 📢 **섹션 요약 비유**: [시크릿 관리](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/177_secrets_management_vault_kubernetes/)는"호텔 카드 키 시스템"과 같다. 옛날 방식([환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/) 직접 사용)은 체크인할 때마다 master 키를 받아 방 키를 직접 만들며(평문 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)), 만약 그 키를 잃어버리면(정보 누출) 큰問題가 발생한다. 반면 현대식 방식([시크릿 매니저](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/095_secret_manager_hashicorp_vault_aws/))은 체크인할 때 카드키를 받아 문 앞에 가면 그때마다 새로운 임시 키를 발급받고(동적 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)), 일정 시간이 지나면 자동으로 만료되는([TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/))高度보안 시스템이다.
+> 📢 **섹션 요약 비유**: [시크릿 관리](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/177_secrets_management_vault_kubernetes/)는"호텔 카드 키 시스템"과 같다. 옛날 방식([환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/) 직접 사용)은 체크인할 때마다 master 키를 받아 방 키를 직접 만들며(평문 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)), 만약 그 키를 잃어버리면(정보 누출) 큰문제가 발생한다. 반면 현대식 방식([시크릿 매니저](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/095_secret_manager_hashicorp_vault_aws/))은 체크인할 때 카드키를 받아 문 앞에 가면 그때마다 새로운 임시 키를 발급받고(동적 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)), 일정 시간이 지나면 자동으로 만료되는([TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/))보안 시스템이다.
 
 ---
 
 ### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 
-실무에서 설정 원칙을 적용할 때 흔히 발생하는 문제와 해결 방안을 分析한다.
+실무에서 설정 원칙을 적용할 때 흔히 발생하는 문제와 해결 방안을 분석한다.
 
 **1. 실무 의사결정 시나리오**
-- **시나리오 A: 수백 개의 설정이 있는데 환경마다 어떤 것이 다른지把握不能**
-  - **상황**: 레거시 앱에 설정이 수백 개 흩어져 있어, 어떤 설정이 환경별로 다른 값を持つか管理不能.
-  - **판단**: 먼저 설정의 分類から始め, 일반 설정(환경별 다른 값)과固定 설정(모든 환경 공통)을 구분한다. 그 후 일반 설정을集中管理하기 위해 설정 문서화 도구(ConfigEye, etc.)를 활용하거나, 환경별 설정 차이를 테스트하는 스크립트를 작성하여可视化한다.
+- **시나리오 A: 수백 개의 설정이 있는데 환경마다 어떤 것이 다른지**
+- **상황**: 레거시 앱에 설정이 수백 개 흩어져 있어, 어떤 설정이 환경별로 다른 값을/를이나관리.
+- **판단**: 먼저 설정의 부터, 일반 설정(환경별 다른 값)과 설정(모든 환경 공통)을 구분한다. 그 후 일반 설정을관리하기 위해 설정 문서화 도구(ConfigEye, etc.)를 활용하거나, 환경별 설정 차이를 테스트하는 스크립트를 작성하여한다.
 
-- **시나리오 B: 민감 정보가 [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) Secret에 Base64로 저장되어 있는데 이것도安全[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)?**
-  - **판단**: K8s Secret의 Base64 인코딩은 가변이 아니라加密이다. 누군가 YAML을 볼 수 있으면 easily 디코딩할 수 있다. 따라서 K8s Secret는 반드시 RBAC으로 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하고, 더 강한 보안을 위해 외부 [시크릿 매니저](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/095_secret_manager_hashicorp_vault_aws/)([Vault](/knowledge-base/studynote/09_security/11_iam_access_control/567_vault/), AWS Secrets Manager)와의 연동을 통해 동적 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)을 활용하는 것이 좋다.
+- **시나리오 B: 민감 정보가 [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) Secret에 Base64로 저장되어 있는데 이것도보안[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)?**
+- **판단**: K8s Secret의 Base64 인코딩은 가변이 아니라암호화이다. 누군가 YAML을 볼 수 있으면 easily 디코딩할 수 있다. 따라서 K8s Secret는 반드시 RBAC으로 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하고, 더 강한 보안을 위해 외부 [시크릿 매니저](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/095_secret_manager_hashicorp_vault_aws/)([Vault](/knowledge-base/studynote/09_security/11_iam_access_control/567_vault/), AWS Secrets Manager)와의 연동을 통해 동적 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)을 활용하는 것이 좋다.
 
 ```text
-[설정 관리成熟度 모델]
+[설정 관리 모델]
 
 Level 1: 하드코딩
-  - 설정이 코드에直接記載
-  - 환경마다 코드 복사/수정
-  → 보안 위험 + 관리 곤란
+- 설정이 코드에직접
+- 환경마다 코드 복사/수정
+→ 보안 위험 + 관리 곤란
 
 Level 2: 환경 변수 도입
-  - 설정 → 환경 변수로 분리
-  - .env 파일로 관리
-  → 기본적인 설정 분리 달성
+- 설정 → 환경 변수로 분리
+- .env 파일로 관리
+→ 기본적인 설정 분리 달성
 
 Level 3: 시크릿 분리
-  - 민감 정보는 시크릿 매니저로 분리
-  - 일반 설정은 ConfigMap/환경 변수
-  → 보안 강화
+- 민감 정보는 시크릿 매니저로 분리
+- 일반 설정은 ConfigMap/환경 변수
+→ 보안 강화
 
 Level 4: 동적 설정
-  - 런타임에 설정을動的に取得
-  - 시크릿은 동적 자격증명 활용
-  →的最高 보안 + 유연성
+- 런타임에 설정을에
+- 시크릿은 동적 자격증명 활용
+→ 보안 + 유연성
 
 Level 5: 설정 sebagai 코드
-  - 설정도 Git에서 버전 관리
-  - 변경은 PR로 처리
-  → Audit trail + reproducibility
+- 설정도 Git에서 버전 관리
+- 변경은 PR로 처리
+→ Audit trail + reproducibility
 ```
 
-> 📢 **섹션 요약 비유**: 설정 관리成熟度는"집 열쇠 관리"와 같다. Level 1은 열쇠를 집 바닥에埋めておく(하드코딩) 것으로,家主는 찾기가 어렵고 도둑에게 쉽게 발견된다. Level 2는 열쇠를 자물쇠 BOX([환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/))에 넣어 문 옆에掛けて두는 것이며, Level 3은 열쇠를 은행 금고([시크릿 매니저](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/095_secret_manager_hashicorp_vault_aws/))에 넣어두고 필요할 때만 출납 증명서를받고 가는 방식이다. Level 4는生物 인식으로 매번 새로운 임시 접근 권한을 받는 것이며, Level 5는 열쇠 사용 내역을全都記録하는 것이다.
+> 📢 **섹션 요약 비유**: 설정 관리는"집 열쇠 관리"와 같다. Level 1은 열쇠를 집 바닥에(하드코딩) 것으로,는 찾기가 어렵고 도둑에게 쉽게 발견된다. Level 2는 열쇠를 자물쇠 BOX([환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/))에 넣어 문 옆에두는 것이며, Level 3은 열쇠를 은행 금고([시크릿 매니저](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/095_secret_manager_hashicorp_vault_aws/))에 넣어두고 필요할 때만 출납 증명서를받고 가는 방식이다. Level 4는 인식으로 매번 새로운 임시 접근 권한을 받는 것이며, Level 5는 열쇠 사용 내역을하는 것이다.
 
 ---
 
@@ -260,29 +260,29 @@ Level 5: 설정 sebagai 코드
 | **규정 준수** | [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 시 문제 소지 | 모든 설정 변경이 추적 가능 | 컴플라이언스 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 통과 용이 |
 
 **미래 전망 및 결론**:
-설정 관리의 미래는"설정不久的的未来에는"动态化"と"智能化"로 진화하고 있다.従来는 배포 시점에 설정이決定되었지만, 이제는 런타임에 환경 조건(지역, 사용자 특성, 트래픽 상태 등)에 따라動的に 설정이 변경되는 방식이 등장하고 있다.
+설정 관리의 미래는"설정에는""와/과""로 진화하고 있다.는 배포 시점에 설정이되었지만, 이제는 런타임에 환경 조건(지역, 사용자 특성, 트래픽 상태 등)에 따라에 설정이 변경되는 방식이 등장하고 있다.
 
-또한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 설정 관리 도구가 등장하여,過去の設定変更 패턴을 分析하여 최적의 설정을 추천하거나, 이상 징후를 자동으로 탐지하여設定を修正하는功能도 도입되고 있다.
+또한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 설정 관리 도구가 등장하여,의 패턴을 분석하여 최적의 설정을 추천하거나, 이상 징후를 자동으로 탐지하여을/를수정하는도 도입되고 있다.
 
-결론적으로, 설정 원칙은 12팩터 앱의 제3원칙으로 단순해 보이지만, 실무에서 이를 올바르게 적용하면 보안 강화, 배포 민첩성 향상, 운영 효율성 개선이라는 多방면의 효과를 누릴 수 있다. 모든 조직은 민감 정보를 [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/) 또는 [시크릿 매니저](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/095_secret_manager_hashicorp_vault_aws/)로 분리하고, 설정 변경을 추적 가능한 형태로 관리하며, 가능하다면 Git에서 설정도 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리하는 것이 좋다.
+결론적으로, 설정 원칙은 12팩터 앱의 제3원칙으로 단순해 보이지만, 실무에서 이를 올바르게 적용하면 보안 강화, 배포 민첩성 향상, 운영 효율성 개선이라는 방면의 효과를 누릴 수 있다. 모든 조직은 민감 정보를 [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/) 또는 [시크릿 매니저](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/095_secret_manager_hashicorp_vault_aws/)로 분리하고, 설정 변경을 추적 가능한 형태로 관리하며, 가능하다면 Git에서 설정도 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리하는 것이 좋다.
 
-> 📢 **섹션 요약 비유**: 설정 관리는"영화의 장면 연출 지시서"와 같다. 같은 영화를 만들더라도 나라(환경)마다 장면 번호(설정)를 다르게 부착하면([환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/)), 같은 줄거리(코드)로도 각국의观众에게맞는 영화를 만들 수 있다. 만약 줄거리를 바꿀 필요 없이(코드 배포 불필요) 장면 번호만 변경하면(설정 변경) 새로운 시장에 대응할 수 있어, 영화 제작자는より从容하게 전 세계 시장을 공략할 수 있다.
+> 📢 **섹션 요약 비유**: 설정 관리는"영화의 장면 연출 지시서"와 같다. 같은 영화를 만들더라도 나라(환경)마다 장면 번호(설정)를 다르게 부착하면([환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/)), 같은 줄거리(코드)로도 각국의에게맞는 영화를 만들 수 있다. 만약 줄거리를 바꿀 필요 없이(코드 배포 불필요) 장면 번호만 변경하면(설정 변경) 새로운 시장에 대응할 수 있어, 영화 제작자는보다하게 전 세계 시장을 공략할 수 있다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
 [수동 서버 설정]
-    │
-    ▼
+│
+▼
 [형상 관리 도구(Ansible/Chef)]
-    │
-    ▼
+│
+▼
 [IaC(Infrastructure as Code)]
-    │
-    ▼
+│
+▼
 [GitOps]
-    │
-    ▼
+│
+▼
 [드리프트 감지/자동 복구]
 ```
 

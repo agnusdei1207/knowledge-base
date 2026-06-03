@@ -19,16 +19,16 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **주파수 자원 고갈 (Spectrum Crunch)**: 세상의 모든 스마트폰과 IoT가 2.4GHz/5GHz 허공 전파를 쓰다 보니, 보이지 않는 무선 고속도로가 꽉 차서 핑이 튀고 속도가 느려지는 포화 상태에 도달했습니다. 
+- **주파수 자원 고갈 (Spectrum Crunch)**: 세상의 모든 스마트폰과 IoT가 2.4GHz/5GHz 허공 전파를 쓰다 보니, 보이지 않는 무선 고속도로가 꽉 차서 핑이 튀고 속도가 느려지는 포화 상태에 도달했습니다.
 - **전자파 인체 유해 논란**: 병원 수술실이나 비행기 조종석에서는 강한 Wi-Fi 전파가 정밀 기기를 오작동시킬 위험(EMI)이 있어 전파를 아예 쏠 수가 없었습니다.
 
 ```text
 [테라헤르츠 대역]
-    │
-    ▼
+│
+▼
 [자유 공간 광통신]
-    │
-    └──▶ [가시광 통신 라이파이]
+│
+└──▶ [가시광 통신 라이파이]
 ```
 
 - **📢 섹션 요약 비유**: 자유 공간 광통신은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
@@ -44,11 +44,11 @@ tags = ["studynote-network"]
 
 ```text
 [테라헤르츠 대역]
-    │
-    ▼
+│
+▼
 [자유 공간 광통신]
-    │
-    └──▶ [가시광 통신 라이파이]
+│
+└──▶ [가시광 통신 라이파이]
 ```
 
 - **📢 섹션 요약 비유**: 자유 공간 광통신의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -93,7 +93,7 @@ Wi-Fi의 뚫을 수 없는 벽입니다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 **와이파이(Wi-Fi 전파)**는 아파트 전체가 울리도록 **'벽을 뚫고 나가는 거대한 꽹과리 소리'**입니다. 소리가 너무 커서 옆집 사람(해커)이 귀를 대면 다 엿들을 수 있고, 윗집 아랫집이 동시에 꽹과리를 치면 소리가 뭉개져 노래(속도)가 느려집니다. **라이파이(Li-Fi [가시광 통신](/knowledge-base/studynote/03_network/03_physical_layer_media/158_vlc_lifi_visible_light/))**는 방 천장에 달린 전구 불빛을 이용한 **'빛의 모스 부호 통신'**입니다. 소음이 0%입니다. 방 안에 있는 사람만 전등빛을 보고 1초 만에 영화를 다운로드 받습니다. 방문을 닫고 커튼을 치는 순간 불빛([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 절대 밖으로 새어 나가지 않아 옆집 해커는 내가 무슨 영화를 받는지 100% 도청할 수 없는 극강의 보안 밀실이 됩니다. 단, 내 폰과 전구 사이에 파리가 지나가서 찰나의 그림자가 지거나 불을 꺼버리면 그 즉시 통신이 100% 단절되는 극단적인 '빛 依存' 융합 통신망입니다.
+- **📢 섹션 요약 비유**: 기존 **와이파이(Wi-Fi 전파)**는 아파트 전체가 울리도록 **'벽을 뚫고 나가는 거대한 꽹과리 소리'**입니다. 소리가 너무 커서 옆집 사람(해커)이 귀를 대면 다 엿들을 수 있고, 윗집 아랫집이 동시에 꽹과리를 치면 소리가 뭉개져 노래(속도)가 느려집니다. **라이파이(Li-Fi [가시광 통신](/knowledge-base/studynote/03_network/03_physical_layer_media/158_vlc_lifi_visible_light/))**는 방 천장에 달린 전구 불빛을 이용한 **'빛의 모스 부호 통신'**입니다. 소음이 0%입니다. 방 안에 있는 사람만 전등빛을 보고 1초 만에 영화를 다운로드 받습니다. 방문을 닫고 커튼을 치는 순간 불빛([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 절대 밖으로 새어 나가지 않아 옆집 해커는 내가 무슨 영화를 받는지 100% 도청할 수 없는 극강의 보안 밀실이 됩니다. 단, 내 폰과 전구 사이에 파리가 지나가서 찰나의 그림자가 지거나 불을 꺼버리면 그 즉시 통신이 100% 단절되는 극단적인 '빛 ' 융합 통신망입니다.
 
 ---
 
@@ -118,12 +118,12 @@ Wi-Fi의 뚫을 수 없는 벽입니다.
 
 ```text
 [선행 개념: 테라헤르츠 대역]
-    │
-    ▼
+│
+▼
 [현재 개념: 자유 공간 광통신]
-    │
-    ├──▶ [확장 A: 가시광 통신 라이파이]
-    └──▶ [확장 B: AI 기반 성능 예측]
+│
+├──▶ [확장 A: 가시광 통신 라이파이]
+└──▶ [확장 B: AI 기반 성능 예측]
 ```
 
 자유 공간 광통신는 [테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) 대역에서 출발해 현재 메커니즘을 정교화하고, 이후 [가시광 통신](/knowledge-base/studynote/03_network/03_physical_layer_media/158_vlc_lifi_visible_light/) 라이파이와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.

@@ -30,16 +30,16 @@ tags = ["database"]
 ```text
 [그림 1: 계층형 데이터 모델의 트리 아키텍처 (1:N 부모-자식 관계)]
 
-                   [부서] (Root Node) - 부모 개체
-                     │
-         ┌───────────┴───────────┐ (1:N 관계)
-         ▼                       ▼
-    [사원_A] (Child)         [사원_B] (Child)
-         │                       │
-     ┌───┴───┐               ┌───┴───┐ (1:N 관계)
-     ▼       ▼               ▼       ▼
- [프로젝트1] [프로젝트2]    [프로젝트1] [프로젝트3]
-  (Leaf)      (Leaf)       (중복 발생) (Leaf)
+[부서] (Root Node) - 부모 개체
+│
+┌───────────┴───────────┐ (1:N 관계)
+▼ ▼
+[사원_A] (Child) [사원_B] (Child)
+│ │
+┌───┴───┐ ┌───┴───┐ (1:N 관계)
+▼ ▼ ▼ ▼
+[프로젝트1] [프로젝트2] [프로젝트1] [프로젝트3]
+(Leaf) (Leaf) (중복 발생) (Leaf)
 ```
 
 이 도식은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 상단 루트에서 하위 리프 노드로 뻗어나가는 계층 모델의 본질을 보여준다. 부서 하위에 사원이 종속되고, 사원 하위에 프로젝트가 종속된다. 여기서 핵심적인 문제는 구조의 경직성이다. 만약 다수의 사원이 동일한 [프로젝트1]을 수행할 경우, 계층 구조에서는 해당 프로젝트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 사원 A 밑에도, 사원 B 밑에도 각각 중복 저장되어야만 하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 위협과 공간 낭비 병목이 드러난다.
@@ -66,12 +66,12 @@ tags = ["database"]
 [메모리 상의 포인터 연결]
 
 [부서 레코드: 영업부] ──(Child Pointer)──┐
-                                         ▼
-                                  [사원 레코드: 김영업] ──(Sibling Pointer)──> [사원 레코드: 이영업]
-                                         │                                            │
-                             (Child Pointer)                              (Child Pointer)
-                                         ▼                                            ▼
-                               [매출 레코드: 1월 100만]                    [매출 레코드: 1월 50만]
+▼
+[사원 레코드: 김영업] ──(Sibling Pointer)──> [사원 레코드: 이영업]
+│ │
+(Child Pointer) (Child Pointer)
+▼ ▼
+[매출 레코드: 1월 100만] [매출 레코드: 1월 50만]
 
 * 개발자 질의(Code) : "GET 영업부" -> "GET FIRST 사원 UNDER 영업부" -> "GET NEXT 사원" ...
 ```
@@ -100,10 +100,10 @@ tags = ["database"]
 상황: 신입사원 '최신입'이 아직 어떤 부서에도 배치되지 않음.
 
 [계층형 모델 DB]
-  [루트 부서] ──> (없음: NULL)
-       │ (자식 연결 불가!)
-       ▼
-   [신입사원] (오류! 부모 레코드가 없으면 자식 노드를 시스템에 입력조차 할 수 없음)
+[루트 부서] ──> (없음: NULL)
+│ (자식 연결 불가!)
+▼
+[신입사원] (오류! 부모 레코드가 없으면 자식 노드를 시스템에 입력조차 할 수 없음)
 
 => 해결책 억지 구현: 가상의 더미 부서(Dummy Dept)를 만들어 강제로 연결해야 하는 쓰레기 데이터 양산 문제 발생.
 ```
@@ -128,17 +128,17 @@ tags = ["database"]
 [그림 4: 현대 시스템에 계승된 계층형 구조의 실무 적용 흐름도]
 
 [비즈니스 데이터 요건 분석]
-            │
-            ▼
+│
+▼
 [다대다(N:M) 관계인가? 상태 변경(Update)이 잦은가?]
-     ├─ 예 ──> [관계형 RDBMS 또는 Graph DB 도입] (정규화, 테이블 조인)
-     │
-     └─ 아니오 (1:N 종속성 명확, 읽기 위주의 하향 탐색)
-            ▼
+├─ 예 ──> [관계형 RDBMS 또는 Graph DB 도입] (정규화, 테이블 조인)
+│
+└─ 아니오 (1:N 종속성 명확, 읽기 위주의 하향 탐색)
+▼
 [어떤 계층형 파생 기술을 도입할 것인가?]
-     ├─ 설정/인증 정보 ──> [LDAP / Registry] (트리 구조의 빠른 경로 검색)
-     ├─ 문서/API 교환 ──> [JSON / XML] (중첩된 노드 직렬화/파싱 최적화)
-     └─ NoSQL 데이터 ──> [MongoDB 중첩 모델] (부모 도큐먼트 내 자식 배열 포함)
+├─ 설정/인증 정보 ──> [LDAP / Registry] (트리 구조의 빠른 경로 검색)
+├─ 문서/API 교환 ──> [JSON / XML] (중첩된 노드 직렬화/파싱 최적화)
+└─ NoSQL 데이터 ──> [MongoDB 중첩 모델] (부모 도큐먼트 내 자식 배열 포함)
 ```
 
 이 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)는 계층형 모델의 한계 때문에 RDB가 표준이 되었지만, 특정 조건(1:N 종속, 하향 탐색, 읽기 집중)이 완벽히 맞아떨어질 때는 트리형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 중첩, [LDAP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/543_ldap_lightweight_directory_access_protocol/) 등)를 부분적으로 혼용하는 것이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)상 유리하다는 아키텍처 판단 기준을 제시한다.
@@ -149,7 +149,7 @@ tags = ["database"]
 
 [데이터 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/)의 부재, [다대다](/knowledge-base/studynote/02_operating_system/02_process_thread/100_many_to_many_model/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 표현의 불가, 프로그래밍의 복잡성이라는 세 가지 치명적 단점으로 인해, 범용 DBMS로서의 계층형 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/) 시대는 1980년대 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 모델의 등장과 함께 종말을 고했다.
 
-하지만 컴퓨터 과학의 역사에서 사라진 기술은 없다. 계층형 모델이 제시했던 "부모로부터 자식으로 이어지는 물리적 인접 배치([Clustering](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/))"와 "루트-리프를 잇는 고속 경로 탐색(Navigation)" 철학은, 오늘날 NoSQL의 도큐먼트 지향 모델과 객체 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 스토리지(S3 등)의 폴더-[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 구조에 그대로 계승되어 살아 숨 쉬고 있다. 기술사적 관점에서 우리는 과거 실패한 모델을 무조건 배척할 것이 아니라, 그 아키텍처가 어떤 환경적 요건([초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 하향 탐색)에서 빛을 발하는지 이해하고 현대 시스템 설계의 '무기' 중 하나로 다용(多用)할 줄 알아야 한다.
+하지만 컴퓨터 과학의 역사에서 사라진 기술은 없다. 계층형 모델이 제시했던 "부모로부터 자식으로 이어지는 물리적 인접 배치([Clustering](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/))"와 "루트-리프를 잇는 고속 경로 탐색(Navigation)" 철학은, 오늘날 NoSQL의 도큐먼트 지향 모델과 객체 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 스토리지(S3 등)의 폴더-[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 구조에 그대로 계승되어 살아 숨 쉬고 있다. 기술사적 관점에서 우리는 과거 실패한 모델을 무조건 배척할 것이 아니라, 그 아키텍처가 어떤 환경적 요건([초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 하향 탐색)에서 빛을 발하는지 이해하고 현대 시스템 설계의 '무기' 중 하나로 다용()할 줄 알아야 한다.
 
 📢 **섹션 요약 비유**: 구형 진공관 라디오(계층형 [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/))는 스마트폰(RDBMS)에 밀려 사라졌지만, 그 속에 쓰이던 증폭 기술(트리 탐색)의 원리는 오늘날 최고급 하이엔드 오디오([LDAP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/543_ldap_lightweight_directory_access_protocol/), [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/))의 핵심 부품으로 화려하게 부활한 것과 같습니다.
 
@@ -166,17 +166,17 @@ tags = ["database"]
 
 ```text
 [계층형 데이터 모델 (Hierarchical Model) — 트리 구조, 1:N 관계, 포인터 탐색]
-    │
-    ▼
+│
+▼
 [망형 데이터 모델 (Network Model) — 다중 부모 허용, N:M 지원, CODASYL 표준]
-    │
-    ▼
+│
+▼
 [관계형 데이터 모델 (Relational Model) — 테이블+SQL+정규화, 데이터 독립성 확보]
-    │
-    ▼
+│
+▼
 [객체 관계형 DB (ORDB) — 관계형에 객체·상속·메서드 결합]
-    │
-    ▼
+│
+▼
 [NoSQL 도큐먼트 DB (MongoDB) — 임베디드 문서로 계층 구조를 재현, 수평 확장]
 ```
 

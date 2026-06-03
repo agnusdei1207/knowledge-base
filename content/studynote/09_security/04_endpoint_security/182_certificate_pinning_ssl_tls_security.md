@@ -1,5 +1,5 @@
 +++
-title = "182. 인증서 핀닝 (Certificate Pinning) — 已知 인증서 목록 하드코딩"
+title = "182. 인증서 핀닝 (Certificate Pinning) — 인증서 목록 하드코딩"
 date = 2026-05-06
 
 [taxonomies]
@@ -43,24 +43,24 @@ tags = ["studynote-security"]
 
 ```text
 ┌──────────────────────────────────────────────────────────────────────┐
-│ TLS session with certificate pinning                                │
+│ TLS session with certificate pinning │
 ├──────────────────────────────────────────────────────────────────────┤
-│ Client App                                                          │
-│   │ ClientHello / ServerHello                                       │
-│   ▼                                                                 │
-│ Server certificate chain                                            │
-│   │                                                                 │
-│   ├─ 1) OS / library validation                                     │
-│   │      - trusted CA chain                                         │
-│   │      - validity period                                          │
-│   │      - hostname match                                           │
-│   │                                                                 │
-│   └─ 2) App pin validation                                          │
-│          - leaf cert hash or SPKI hash                              │
-│          - compare with primary / backup pins                       │
-│                │                                                    │
-│         match ─┴─ allow secure session                              │
-│      mismatch ─── reject connection and raise alert                 │
+│ Client App │
+│ │ ClientHello / ServerHello │
+│ ▼ │
+│ Server certificate chain │
+│ │ │
+│ ├─ 1) OS / library validation │
+│ │ - trusted CA chain │
+│ │ - validity period │
+│ │ - hostname match │
+│ │ │
+│ └─ 2) App pin validation │
+│ - leaf cert hash or SPKI hash │
+│ - compare with primary / backup pins │
+│ │ │
+│ match ─┴─ allow secure session │
+│ mismatch ─── reject connection and raise alert │
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -148,22 +148,22 @@ tags = ["studynote-security"]
 
 ```text
 공개 CA 신뢰 기반 TLS
-    │
-    ▼
+│
+▼
 운영체제 체인 검증
-    │
-    ├─ 악성 Root CA 설치
-    ├─ 오발급 인증서
-    └─ 프록시형 MITM 위험
-    │
-    ▼
+│
+├─ 악성 Root CA 설치
+├─ 오발급 인증서
+└─ 프록시형 MITM 위험
+│
+▼
 Pinset(인증서 / SPKI / backup key) 추가 검증
-    │
-    ├─ mismatch -> 연결 차단
-    ├─ key rotation -> backup pin 필요
-    └─ app hardening -> 우회 저항성 강화
-    │
-    ▼
+│
+├─ mismatch -> 연결 차단
+├─ key rotation -> backup pin 필요
+└─ app hardening -> 우회 저항성 강화
+│
+▼
 모바일 고신뢰 채널 설계
 ```
 

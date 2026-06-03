@@ -19,17 +19,17 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 기술적 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)는 "조직 내에서 다양한 기술이碎片처럼 쪼개져 있어統一적이지 않은 상태"를 표현한다. 마치破局的了一块大理石を多数小块に切断した場合、各小块だけをを見ても全体像がわからないようなものである.
+- **개념**: 기술적 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)는 "조직 내에서 다양한 기술이처럼 쪼개져 있어적이지 않은 상태"를 표현한다. 마치을/를수에했다、만을/를을/를도이/가부터지 않다도의이다.
 
-- **필요성**: 기술적 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)가 심화되면, 새로운 기능 개발보다 기존 시스템들을 통합하고 유지보수하는 데 인력과 시간이 더 많이 소요된다. 특히 보안 패치 적용 시, 동일한 취약점이 여러 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 중복해서存在하며, 각기 다른 방식으로 패치를 적용해야 하는 "패치 피로"가 발생한다.
+- **필요성**: 기술적 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)가 심화되면, 새로운 기능 개발보다 기존 시스템들을 통합하고 유지보수하는 데 인력과 시간이 더 많이 소요된다. 특히 보안 패치 적용 시, 동일한 취약점이 여러 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 중복해서에서하며, 각기 다른 방식으로 패치를 적용해야 하는 "패치 피로"가 발생한다.
 
-- **💡 비유**: 기술적 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)는 **'국제 개발도상국 건설 현장'**과 같다. 한국의 施工팀,日本的 설계사, 중국의 자재 공급업체, 그리고沙特의 인력이 각각 다른 언어로, 다른 방식으로, 다른 도구로项目建设하면, 의사소통 오해, 자재 규격 불일치, 施工標準 차이等 수많은 문제가 발생한다. 모두가 함께 일하지만 통일성이 없어서 하나를 변화시키면 다른 것에 미치는 영향을 파악하기 어렵다.
+- **💡 비유**: 기술적 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)는 **'국제 개발도상국 건설 현장'**과 같다. 한국의 시공팀, 설계사, 중국의 자재 공급업체, 그리고의 인력이 각각 다른 언어로, 다른 방식으로, 다른 도구로프로젝트하면, 의사소통 오해, 자재 규격 불일치, 시공 차이 수많은 문제가 발생한다. 모두가 함께 일하지만 통일성이 없어서 하나를 변화시키면 다른 것에 미치는 영향을 파악하기 어렵다.
 
 - **등장 배경 및 발전 과정**:
-  1. **1990년대까지**: 상대적으로 통일된 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) (COBOL, C, [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/))
-  2. **2000년대 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 확산**: 다양한 프레임워크와 라이브러리가 등장하여 기술 선택의 자유 증가
-  3. **2010년대 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 대중화**: 독립적 서비스별 다른 기술 선택 가능해져 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 심화
-  4. **현재**: polyglot 프로그래밍, 멀티클라우드 등으로 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 가속
+1. **1990년대까지**: 상대적으로 통일된 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) (COBOL, C, [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/))
+2. **2000년대 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 확산**: 다양한 프레임워크와 라이브러리가 등장하여 기술 선택의 자유 증가
+3. **2010년대 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 대중화**: 독립적 서비스별 다른 기술 선택 가능해져 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 심화
+4. **현재**: polyglot 프로그래밍, 멀티클라우드 등으로 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 가속
 
 - **📢 섹션 요약 비유**: 기술적 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)는 **'여러 개의 다른 종류의 레고 블록을 섞어놓은 상자'**와 같다. 빨간 레고, 파란 레고, 초록 레고가 모두 섞여 있으면, 어떤 블록이 어디에 속하는지, 어떻게 연결해야 하는지 파악하기 어렵다. 소프트웨어에서도 여러 기술이 뒤섞여 있으면, 전체 시스템을 이해하고 유지보수하기가 극히 어려워진다.
 
@@ -39,14 +39,14 @@ tags = ["studynote-software-engineering"]
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                  기술적 단편화 (Technical F                        │
+│ 기술적 단편화 (Technical F │
 ├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
+│ │
+│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
+│ │ │ │ │
+│ ▼ ▼ ▼ │
+│ 요구 분석 설계·적용 품질 검증 │
+│ │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -147,17 +147,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+│
+▼
 기술적 단편화 (Technical Fragmentation) 문제 개념 정립
-    │
-    ▼
+│
+▼
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+│
+▼
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+│
+▼
 지속적 개선 및 DevOps·MLOps 통합
 ```
 

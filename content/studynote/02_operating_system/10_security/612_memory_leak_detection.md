@@ -13,7 +13,7 @@ tags = ["studynote-operating-system"]
 
 > 1. **본질**: 메모리 누수(Memory Leak)는 동적 할당된 메모리(malloc/[new](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/))가 더 이상 참조되지 않음에도 해제(free/delete)되지 않아 프로세스의 RSS(Resident Set Size)가 지속적으로 증가하는 결함으로, 장기간 실행 서버에서 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)([Out-Of-Memory](/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/)) Kill을 유발하는 치명적 버그다.
 > 2. **가치**: Valgrind Memcheck, AddressSanitizer(ASan), LeakSanitizer(LSan) 등은 각각 시뮬레이션 기반·컴파일러 계측 기반으로 동작하여, 힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 할당-해제 불일치, [use-after-free](/knowledge-base/studynote/09_security/04_endpoint_security/351_use_after_free/), double-free 등을 정적·동적으로 탐지한다.
-> 3. **융합**: [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) (#615) 기반 memleak 도구는 프로덕션 환경에서 오버헤드 <5%로 실시간 메모리 누수 탐지가 가능하여, 개발 단계(Valgrind)와 운영 단계([eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/))의互补적(complementary) 메모리 안전망을 구성한다.
+> 3. **융합**: [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) (#615) 기반 memleak 도구는 프로덕션 환경에서 오버헤드 <5%로 실시간 메모리 누수 탐지가 가능하여, 개발 단계(Valgrind)와 운영 단계([eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/))의적(complementary) 메모리 안전망을 구성한다.
 
 ---
 
@@ -34,20 +34,20 @@ tags = ["studynote-operating-system"]
 
 ```text
 ┌───────────── 메모리 누수 진행 과정 ─────────────┐
-│                                                  │
-│  시간 T0: 프로세스 시작, RSS = 100MB             │
-│     ↓                                            │
-│  시간 T1: 매 요청마다 1KB 누수                    │
-│     ↓                                            │
-│  시간 T2: 100만 요청 후, RSS = 100MB + 1GB       │
-│     ↓                                            │
-│  시간 T3: OOM Killer 동작!                       │
-│     → dmesg: "Out of memory: Killed process"     │
-│     → 서비스 다운타임 발생                        │
-│                                                  │
-│  ──────────────────────────────────               │
-│  Valgrind/ASan → 개발 단계에서 조기 발견          │
-│  eBPF memleak → 운영 중 실시간 탐지               │
+│ │
+│ 시간 T0: 프로세스 시작, RSS = 100MB │
+│ ↓ │
+│ 시간 T1: 매 요청마다 1KB 누수 │
+│ ↓ │
+│ 시간 T2: 100만 요청 후, RSS = 100MB + 1GB │
+│ ↓ │
+│ 시간 T3: OOM Killer 동작! │
+│ → dmesg: "Out of memory: Killed process" │
+│ → 서비스 다운타임 발생 │
+│ │
+│ ────────────────────────────────── │
+│ Valgrind/ASan → 개발 단계에서 조기 발견 │
+│ eBPF memleak → 운영 중 실시간 탐지 │
 └──────────────────────────────────────────────────┘
 ```
 
@@ -73,33 +73,33 @@ tags = ["studynote-operating-system"]
 
 ```text
 ┌─────────────── Valgrind 구조 ───────────────────┐
-│                                                  │
-│  ┌──────────────┐                               │
-│  │ 응용 프로그램  │                               │
-│  │ (바이너리 코드) │                               │
-│  └──────┬───────┘                               │
-│         │                                        │
-│  ┌──────▼───────────────────────┐               │
-│  │   Valgrind 핵심 (VEX/IR)     │               │
-│  │  바이너리 → 중간 표현(IR)     │               │
-│  │  → 계측 코드 삽입             │               │
-│  │  → 시뮬레이션 실행            │               │
-│  └──────┬───────────────────────┘               │
-│         │                                        │
-│  ┌──────▼──────┐  ┌──────────────┐              │
-│  │ Memcheck    │  │ Shadow Memory│              │
-│  │ (툴)        │  │ (V/A 비트)   │              │
-│  │             │  │              │              │
-│  │ malloc 추적 │  │ 할당된 주소   │              │
-│  │ free 검증   │  │ 해제된 주소   │              │
-│  │ 접근 검사   │  │ 초기화 상태   │              │
-│  └─────────────┘  └──────────────┘              │
-│                                                  │
-│  출력: LEAK SUMMARY                              │
-│  definitely lost: 1,024 bytes in 1 blocks        │
-│  indirectly lost: 512 bytes in 2 blocks          │
-│  possibly lost: 0 bytes in 0 blocks              │
-│  still reachable: 4,096 bytes in 3 blocks        │
+│ │
+│ ┌──────────────┐ │
+│ │ 응용 프로그램 │ │
+│ │ (바이너리 코드) │ │
+│ └──────┬───────┘ │
+│ │ │
+│ ┌──────▼───────────────────────┐ │
+│ │ Valgrind 핵심 (VEX/IR) │ │
+│ │ 바이너리 → 중간 표현(IR) │ │
+│ │ → 계측 코드 삽입 │ │
+│ │ → 시뮬레이션 실행 │ │
+│ └──────┬───────────────────────┘ │
+│ │ │
+│ ┌──────▼──────┐ ┌──────────────┐ │
+│ │ Memcheck │ │ Shadow Memory│ │
+│ │ (툴) │ │ (V/A 비트) │ │
+│ │ │ │ │ │
+│ │ malloc 추적 │ │ 할당된 주소 │ │
+│ │ free 검증 │ │ 해제된 주소 │ │
+│ │ 접근 검사 │ │ 초기화 상태 │ │
+│ └─────────────┘ └──────────────┘ │
+│ │
+│ 출력: LEAK SUMMARY │
+│ definitely lost: 1,024 bytes in 1 blocks │
+│ indirectly lost: 512 bytes in 2 blocks │
+│ possibly lost: 0 bytes in 0 blocks │
+│ still reachable: 4,096 bytes in 3 blocks │
 └──────────────────────────────────────────────────┘
 ```
 
@@ -109,23 +109,23 @@ tags = ["studynote-operating-system"]
 
 ```text
 ┌─────────── ASan 메모리 레이아웃 ──────────┐
-│                                           │
-│  [할당 영역] [Red Zone] [할당 영역]       │
-│   64 bytes    32 bytes    64 bytes        │
-│       ↑                        ↑          │
-│       │  할당 추적용             │         │
-│       │  Shadow Memory에 기록     │        │
-│                                           │
-│  Shadow Memory:                           │
-│  0 = 접근 가능                            │
-│  음수 = Red Zone (접근 시 에러)            │
-│  양수 = 부분 할당 영역 경계                 │
-│                                           │
-│  접근 패턴:                               │
-│  char *p = malloc(64);                    │
-│  p[64] = 'x';  → Red Zone 접근! 에러!     │
-│  free(p);                                 │
-│  p[0] = 'y';  → use-after-free! 에러!     │
+│ │
+│ [할당 영역] [Red Zone] [할당 영역] │
+│ 64 bytes 32 bytes 64 bytes │
+│ ↑ ↑ │
+│ │ 할당 추적용 │ │
+│ │ Shadow Memory에 기록 │ │
+│ │
+│ Shadow Memory: │
+│ 0 = 접근 가능 │
+│ 음수 = Red Zone (접근 시 에러) │
+│ 양수 = 부분 할당 영역 경계 │
+│ │
+│ 접근 패턴: │
+│ char *p = malloc(64); │
+│ p[64] = 'x'; → Red Zone 접근! 에러! │
+│ free(p); │
+│ p[0] = 'y'; → use-after-free! 에러! │
 └───────────────────────────────────────────┘
 ```
 
@@ -208,12 +208,12 @@ bpftrace -e 'uprobe:/path/bin:malloc { @alloc[arg0] = arg1 }'
 
 ```text
 [CPU 유휴 (Idle) 대기 루프 최적화]
-    │
-    ▼
+│
+▼
 [메모리 누수 (Memory Leak) 탐지 도구 구조 (Valgrind 등)]
-    │
-    ├──▶ [프로파일링 (Profiling) 도구 Gprof 커널 후킹 작동 원리]
-    └──▶ [시스템 DTrace 선언적 동적 트레이싱 엔진 메커니즘]
+│
+├──▶ [프로파일링 (Profiling) 도구 Gprof 커널 후킹 작동 원리]
+└──▶ [시스템 DTrace 선언적 동적 트레이싱 엔진 메커니즘]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.

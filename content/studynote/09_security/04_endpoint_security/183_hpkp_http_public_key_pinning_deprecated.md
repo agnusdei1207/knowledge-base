@@ -44,22 +44,22 @@ HPKP의 동작은 간단하지만 운영상 매우 위험했다. 서버는 정�
 
 ```text
 ┌──────────────────────────────────────────────────────────────────────┐
-│ HPKP runtime flow                                                   │
+│ HPKP runtime flow │
 ├──────────────────────────────────────────────────────────────────────┤
-│ 1) First valid HTTPS response                                       │
-│    Server -> Public-Key-Pins(primary pin + backup pin + max-age)    │
-│    Browser caches pinset for the host                               │
-│                                                                     │
-│ 2) Later connection                                                 │
-│    Presented cert chain -> extract SPKI hash                        │
-│              │                                                      │
-│              ├─ hash matches cached pinset -> allow                 │
-│              └─ hash mismatch               -> hard fail            │
-│                                                                     │
-│ 3) Operational failure cases                                        │
-│    - both pinned keys lost or rotated incorrectly                   │
-│    - attacker injects malicious long-lived pins                     │
-│    - cert/CDN change occurs before cache expiry                     │
+│ 1) First valid HTTPS response │
+│ Server -> Public-Key-Pins(primary pin + backup pin + max-age) │
+│ Browser caches pinset for the host │
+│ │
+│ 2) Later connection │
+│ Presented cert chain -> extract SPKI hash │
+│ │ │
+│ ├─ hash matches cached pinset -> allow │
+│ └─ hash mismatch -> hard fail │
+│ │
+│ 3) Operational failure cases │
+│ - both pinned keys lost or rotated incorrectly │
+│ - attacker injects malicious long-lived pins │
+│ - cert/CDN change occurs before cache expiry │
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -149,20 +149,20 @@ HPKP가 남긴 가장 큰 유산은 "보안을 더 세게 걸면 무조건 좋�
 
 ```text
 공개 PKI 신뢰 모델
-    │
-    ▼
+│
+▼
 CA 오발급 · 악성 Root CA 우려
-    │
-    ├─ 통제 가능한 클라이언트 -> 정적 인증서 핀닝
-    └─ 공개 웹 브라우저      -> HPKP 동적 핀닝 시도
-    │
-    ▼
+│
+├─ 통제 가능한 클라이언트 -> 정적 인증서 핀닝
+└─ 공개 웹 브라우저 -> HPKP 동적 핀닝 시도
+│
+▼
 TOFU · 자살 핀닝 · Ransom Pinning
-    │
-    ▼
+│
+▼
 브라우저 지원 중단
-    │
-    ▼
+│
+▼
 CT 모니터링 + CAA + HSTS + 자동 인증서 운영
 ```
 
@@ -180,7 +180,7 @@ CT 모니터링 + CAA + HSTS + 자동 인증서 운영
 
 **진행 상황**: 236 / 1108
 
-← **이전**: [182. 인증서 핀닝 (Certificate Pinning) — 已知 인증서 목록 하드코딩](/knowledge-base/studynote/09_security/04_endpoint_security/182_certificate_pinning_ssl_tls_security/)
+← **이전**: [182. 인증서 핀닝 (Certificate Pinning) — 인증서 목록 하드코딩](/knowledge-base/studynote/09_security/04_endpoint_security/182_certificate_pinning_ssl_tls_security/)
 **다음**: [184. Certificate Patrol / Security Telemetry — Firefox 브라우저 핀닝](/knowledge-base/studynote/09_security/04_endpoint_security/184_certificate_patrol_telemetry_firefox_pinning/) →
 
 ---

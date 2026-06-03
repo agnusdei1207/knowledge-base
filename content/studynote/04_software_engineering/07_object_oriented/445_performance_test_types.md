@@ -21,17 +21,17 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 테스트는 "시스템의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 관련 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)([응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), 자원 사용률 등)을 측정하고 평가하는 테스트"이다. ISO/IEC 25010 품질 모델에서는 [성능 효율성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/343_performance_efficiency/)([Performance Efficiency](/knowledge-base/studynote/04_software_engineering/06_software_architecture/343_performance_efficiency/))을 "주어진 조건에서 적절한 양의 자원을 사용하여 얼마나 빠르게 동작하는가"로 정의한다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 테스트는 이러한 [성능 효율성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/343_performance_efficiency/)이 요구사항을 충족하는지를 검증한다.
 
-- **필요성**: 시스템이 功能적으로는 완벽하게 동작하더라도, [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)이 너무 오래 걸리거나 동시 사용자가 많을 때 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 급격히 저하되면 사용자의 불만이 발생한다. 대표적인 예로, 전자상거래 사이트가 블랙프라이데이 같은 대규모 할인 행사 때 트래픽 증가로 인해 접속 불가가 되면 막대한 매출 손실과 평판 손상이 발생한다. 이러한 문제를 사전에 발견하고 조치하기 위해 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 테스트가 필요하다.
+- **필요성**: 시스템이 적으로는 완벽하게 동작하더라도, [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)이 너무 오래 걸리거나 동시 사용자가 많을 때 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 급격히 저하되면 사용자의 불만이 발생한다. 대표적인 예로, 전자상거래 사이트가 블랙프라이데이 같은 대규모 할인 행사 때 트래픽 증가로 인해 접속 불가가 되면 막대한 매출 손실과 평판 손상이 발생한다. 이러한 문제를 사전에 발견하고 조치하기 위해 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 테스트가 필요하다.
 
-- **💡 비유**: [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 테스트는 **'자동차廠의耐久試験'**과 같다. 자동차廠에서는 새로운 차종의 엔진 내구성을 검증하기 위해 고속도로走行試験, 악천후 환경 주행 시험, 장시간 연속 주행 시험 등을 수행한다. 이러한 시험을 통해 예상치 않은 엔진 고장, 연비 저하, 부품 마모 등의 문제를 사전에 발견하고 개선할 수 있다. 소프트웨어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 테스트도 마찬가지로, 시스템에 다양한 부하와 조건을 가하여 사전에 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 관련 문제를 발견하고 개선하는 역할을 한다.
+- **💡 비유**: [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 테스트는 **'자동차의'**과 같다. 자동차에서는 새로운 차종의 엔진 내구성을 검증하기 위해 고속도로, 악천후 환경 주행 시험, 장시간 연속 주행 시험 등을 수행한다. 이러한 시험을 통해 예상치 않은 엔진 고장, 연비 저하, 부품 마모 등의 문제를 사전에 발견하고 개선할 수 있다. 소프트웨어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 테스트도 마찬가지로, 시스템에 다양한 부하와 조건을 가하여 사전에 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 관련 문제를 발견하고 개선하는 역할을 한다.
 
 - **등장 배경 및 발전 과정**:
-  1. **1990년대**: 웹 애플리케이션의 등장으로 서버 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 테스트 중요성 부각
-  2. **2000년대**: JMeter, LoadRunner 등 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 테스트 도구의 대중화
-  3. **2010년대**: 클라우드 기반의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 테스트 복잡성 증가
-  4. **현재**: [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/), [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 환경에서의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 테스트, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화
+1. **1990년대**: 웹 애플리케이션의 등장으로 서버 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 테스트 중요성 부각
+2. **2000년대**: JMeter, LoadRunner 등 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 테스트 도구의 대중화
+3. **2010년대**: 클라우드 기반의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 테스트 복잡성 증가
+4. **현재**: [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/), [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 환경에서의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 테스트, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화
 
-- **📢 섹션 요약 비유**: [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 테스트는 **'체력 검사'**와 같다. 체력 검사에서 달리기, 윗몸 일으키기, 악력 등 여러 종목을 통해 신체能力的 한계를測정한다. 자동차의性能도 "最高 속도", "가속력", "연비", "탑재량" 등 여러 지표로 평가하듯이, 소프트웨어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)도 "응답 속도", "동시 사용자 수", "[처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)", "자원 효율성" 등 다양한 관점에서 평가해야 한다. 체력검사에서 일부 종목을 빼먹으면 전체적 건강状態を正しく평가할 수 없는 것처럼,性能 테스트도 여러 유형을 종합적으로 수행해야 시스템의真实한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 파악할 수 있다.
+- **📢 섹션 요약 비유**: [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 테스트는 **'체력 검사'**와 같다. 체력 검사에서 달리기, 윗몸 일으키기, 악력 등 여러 종목을 통해 신체 한계를정한다. 자동차의성능도 " 속도", "가속력", "연비", "탑재량" 등 여러 지표로 평가하듯이, 소프트웨어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)도 "응답 속도", "동시 사용자 수", "[처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)", "자원 효율성" 등 다양한 관점에서 평가해야 한다. 체력검사에서 일부 종목을 빼먹으면 전체적 건강상태을/를평가할 수 없는 것처럼,성능 테스트도 여러 유형을 종합적으로 수행해야 시스템의한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 파악할 수 있다.
 
 ---
 
@@ -39,14 +39,14 @@ tags = ["studynote-software-engineering"]
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                  성능 테스트 (Performance                         │
+│ 성능 테스트 (Performance │
 ├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
+│ │
+│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
+│ │ │ │ │
+│ ▼ ▼ ▼ │
+│ 요구 분석 설계·적용 품질 검증 │
+│ │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -147,17 +147,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+│
+▼
 성능 테스트 (Performance Test) 4가지 유형 개념 정립
-    │
-    ▼
+│
+▼
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+│
+▼
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+│
+▼
 지속적 개선 및 DevOps·MLOps 통합
 ```
 

@@ -273,6 +273,13 @@ footer {
   color: var(--secondary);
 }
 
+.explorer-link.active {
+  background: var(--highlight);
+  color: var(--secondary);
+  font-weight: 600;
+  border-left: 3px solid var(--secondary);
+}
+
 .folder-button::before {
   content: "▾";
   display: inline-block;
@@ -488,12 +495,33 @@ footer {
   border-radius: 5px;
   background: var(--highlight);
   height: 220px;
+  position: relative;
 }
 
 #global-graph {
   width: 100%;
   height: 220px;
   display: block;
+  cursor: default;
+}
+
+.graph-tooltip {
+  position: fixed;
+  z-index: 20;
+  max-width: 240px;
+  padding: 0.25rem 0.45rem;
+  border: 1px solid var(--lightgray);
+  border-radius: 5px;
+  background: var(--light);
+  color: var(--darkgray);
+  font-size: 0.82rem;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.16);
+  pointer-events: none;
+}
+
+.toc.collapsed .toc-content,
+.explorer.collapsed .explorer-content {
+  display: none;
 }
 
 .section-list li {
@@ -694,6 +722,19 @@ footer {
   }
 
   .right.sidebar {
+    display: flex;
+    position: initial;
+    height: auto;
+    width: 100%;
+    flex-direction: column;
+    padding: 1rem 0 0;
+  }
+
+  .right.sidebar > * {
+    max-height: none;
+  }
+
+  .right.sidebar > .toc {
     display: none;
   }
 }

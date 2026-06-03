@@ -12,20 +12,20 @@ tags = ["studynote-operating-system"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DAC은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 **소유자(Owner)**가 자기 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 대한 접근 권한을 **자유재량(Discretionary)**에 따라 타인에게 부여하거나 회수할 수 있는 방식이다. Unix/Linux의 `chmod` 명령어가 대표적이다.
-> 2. **가치**: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 공유 시 관리자의 개입 없이 **소유자가 직접 권한을 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**하므로, 소규모 환경에서는 유연하고迅速(신속)한 협업이 가능하다.
+> 2. **가치**: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 공유 시 관리자의 개입 없이 **소유자가 직접 권한을 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**하므로, 소규모 환경에서는 유연하고(신속)한 협업이 가능하다.
 > 3. **한계**: [Trojan Horse](/knowledge-base/studynote/02_operating_system/10_security/586_trojan_horse_wrapper/)([트로이 목마](/knowledge-base/studynote/02_operating_system/10_security/586_trojan_horse_wrapper/))와 같은 악성코드가 DAC 권한을 악용하면, 시스템 전체가 침해될 수 있다. 따라서 **[강제적 접근 제어](/knowledge-base/studynote/02_operating_system/10_security/579_mac_mandatory_access_control/)([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))와의 이중 구조**가 권장된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### 1.1 DAC의原理
+### 1.1 DAC의
 
 DAC의 핵심 원칙은 **"자신이 소유한 객체에 대한 권한은 자발적으로 부여/회수 가능"**이다:
 
 ```bash
 # Alice가 소유한 파일
--rw-r--r--  alice  alice  /home/alice/document.txt
+-rw-r--r-- alice alice /home/alice/document.txt
 
 # Alice가 Bob에게 읽기 권한 부여
 $ chmod 744 /home/alice/document.txt
@@ -36,8 +36,8 @@ $ chmod 744 /home/alice/document.txt
 
 ```text
 [ 9비트 구조 ]
-所有者(Owner)  Group   Others
-   rwx          r-x     r--
+모든(Owner) Group Others
+rwx r-x r--
 
 [ 예시: chmod 750 ]
 rwx r-x --- : Owner는 읽기/쓰기/실행, Group은 읽기/실행, Others는 접근 불가
@@ -49,7 +49,7 @@ rwx r-x --- : Owner는 읽기/쓰기/실행, Group은 읽기/실행, Others는 �
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 2.1 Trojan Horse의動作
+### 2.1 Trojan Horse의
 
 1. 사용자가 악성 프로그램을 실행
 2. 프로그램이 사용자의 **DAC 권한을 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)**받음
@@ -73,7 +73,7 @@ rwx r-x --- : Owner는 읽기/쓰기/실행, Group은 읽기/실행, Others는 �
 
 | 구분 | DAC (임의적) | [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) (강제적) |
 |:---|:---|:---|
-| **권한 결정** | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 소유자가自行(자신) 결정 | 시스템 정책이強制(강제) 결정 |
+| **권한 결정** | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 소유자가(자신) 결정 | 시스템 정책이(강제) 결정 |
 | **대표 예시** | Unix `chmod`, Windows [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) | [SELinux](/knowledge-base/studynote/02_operating_system/10_security/583_selinux/), [AppArmor](/knowledge-base/studynote/02_operating_system/10_security/584_apparmor/) |
 | **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 관리** | 용이 (소유자 직접 관리) | 어려움 (중앙 관리자 필요) |
 | **보안 수준** | 상대적 낮음 | 높음 |
@@ -114,23 +114,23 @@ rwx r-x --- : Owner는 읽기/쓰기/실행, Group은 읽기/실행, Others는 �
 
 ```text
 [롤 기반 접근 제어 (RBAC, Role-Based Access Control)]
-    │
-    ▼
+│
+▼
 [임의적 접근 제어 (DAC, Discretionary Access Control)]
-    │
-    ├──▶ [강제적 접근 제어 (MAC, Mandatory Access Control)]
-    └──▶ [벨-라파둘라 모델 (Bell-LaPadula)]
+│
+├──▶ [강제적 접근 제어 (MAC, Mandatory Access Control)]
+└──▶ [벨-라파둘라 모델 (Bell-LaPadula)]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **DAC**는 아파트의 **"자가 관리 시스템"**과 같다. 각 세대의 소유자가 열쇠를 가지고 있고, 원하는 사람에게 열쇠를複製([복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/))하여 줄 수 있다.
+1. **DAC**는 아파트의 **"자가 관리 시스템"**과 같다. 각 세대의 소유자가 열쇠를 가지고 있고, 원하는 사람에게 열쇠를([복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/))하여 줄 수 있다.
 
-2. **보안 문제**는 악의 있는 세입자가 **"집 주인에게 받은 열쇠"**를 악용하여 금고에 침입하는 것과 같다. 열쇠를 받은 입幌(사람)이 악용하면 시스템이 이를 차단할 수 없다.
+2. **보안 문제**는 악의 있는 세입자가 **"집 주인에게 받은 열쇠"**를 악용하여 금고에 침입하는 것과 같다. 열쇠를 받은 입(사람)이 악용하면 시스템이 이를 차단할 수 없다.
 
-3. **DAC와 MAC의二重(이중) 방어**는 **"자가 관리 + 건물 전체 경비 시스템"**과 같다. 세대 주인이 열쇠를 줘도, 경비원이 "이 사람은 금고 출입이 불가하다"고 차단할 수 있다.
+3. **DAC와 MAC의(이중) 방어**는 **"자가 관리 + 건물 전체 경비 시스템"**과 같다. 세대 주인이 열쇠를 줘도, 경비원이 "이 사람은 금고 출입이 불가하다"고 차단할 수 있다.
 
 ---
 

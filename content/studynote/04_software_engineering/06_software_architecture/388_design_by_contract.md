@@ -26,12 +26,12 @@ tags = ["studynote-software-engineering"]
 - **💡 비유**: 디자인 바이 컨트랙트는 **'법적 계약서'**와 같다. 부동산 매매 계약에는 "판매자는 등기부등본상 소유권 이전이 가능한 상태여야 하고(불변조건), 구매자는 대금 지급 시 소유권을 이전받는다(사후조건), 계약 체결 시 구매자는 일정 금액을 계약금으로 지급해야 한다(사전조건)". 소프트웨어의 메서드 계약도 마찬가지로, 호출자와 피호출자 간의 의무와 결과를 명시적으로 정의한다.
 
 - **등장 배경 및 발전 과정**:
-  1. **1988년**: 베르트랑 메이어(Bertrand Meyer)가 Eiffel 언어设计中率先采用
-  2. **1990년대**: Design by Contract 개념이 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)에서 널리 논의
-  3. **2000년대**: Java(Bean [Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)), .NET([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Contract), Python(prophecy) 등 언어별 구현 확산
-  4. **현재**: Runtime Assertion Checking, Formally Verified Software에서 지속 활용
+1. **1988년**: 베르트랑 메이어(Bertrand Meyer)가 Eiffel 언어솔선하여
+2. **1990년대**: Design by Contract 개념이 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)에서 널리 논의
+3. **2000년대**: Java(Bean [Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)), .NET([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Contract), Python(prophecy) 등 언어별 구현 확산
+4. **현재**: Runtime Assertion Checking, Formally Verified Software에서 지속 활용
 
-- **📢 섹션 요약 비유**: 디자인 바이 컨트랙트는 **'승객과 항공사의 계약'**과 같다. 항공사는 "귀하의 수하물은 23kg 이내여야 합니다(사전조건), 당사는 목적지까지 안전하게 도착시켜 드립니다(사후조건), 좌석은 이코노미 클래스가 기본입니다(불변조건)". 소프트웨어에서도 메서드가 기대하는 입력과 약속하는 출력을 계약으로 명확히 함으로써,。双方의 기대 불일치로 인한 분쟁(버그)을 사전에防止할 수 있다.
+- **📢 섹션 요약 비유**: 디자인 바이 컨트랙트는 **'승객과 항공사의 계약'**과 같다. 항공사는 "귀하의 수하물은 23kg 이내여야 합니다(사전조건), 당사는 목적지까지 안전하게 도착시켜 드립니다(사후조건), 좌석은 이코노미 클래스가 기본입니다(불변조건)". 소프트웨어에서도 메서드가 기대하는 입력과 약속하는 출력을 계약으로 명확히 함으로써,。의 기대 불일치로 인한 분쟁(버그)을 사전에방지할 수 있다.
 
 ---
 
@@ -39,14 +39,14 @@ tags = ["studynote-software-engineering"]
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                  디자인 바이 컨트랙트 (Design                         │
+│ 디자인 바이 컨트랙트 (Design │
 ├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
+│ │
+│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
+│ │ │ │ │
+│ ▼ ▼ ▼ │
+│ 요구 분석 설계·적용 품질 검증 │
+│ │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -147,17 +147,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+│
+▼
 디자인 바이 컨트랙트 (Design by Contract) 개념 정립
-    │
-    ▼
+│
+▼
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+│
+▼
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+│
+▼
 지속적 개선 및 DevOps·MLOps 통합
 ```
 

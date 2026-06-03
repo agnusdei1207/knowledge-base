@@ -8,6 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CONTENT = ROOT / "content"
 BASE = "/knowledge-base"
 WIKILINK_RE = re.compile(r"\[\[([^\]|#]+)(#[^\]|]+)?(?:\|([^\]]+))?\]\]")
+MARKDOWN_INTERNAL_RE = re.compile(r"\]\((/knowledge-base/[^)#]+/?)(#[^)]+)?\)")
 
 
 def url_for(path: Path) -> str:
@@ -20,21 +21,37 @@ def url_for(path: Path) -> str:
     return f"{BASE}/{suffix}" if suffix else f"{BASE}/"
 
 
+def hyphen_url_for(path: Path) -> str:
+    rel = path.relative_to(CONTENT)
+    if rel.name == "_index.md":
+        parent = rel.parent.as_posix()
+        suffix = "" if parent == "." else parent.strip("/") + "/"
+    else:
+        slug = rel.stem.replace("_", "-")
+        parent = rel.parent.as_posix()
+        suffix = f"{parent}/{slug}".strip("./") + "/" if parent != "." else f"{slug}/"
+    return f"{BASE}/{suffix}" if suffix else f"{BASE}/"
+
+
 def markdown_escape_label(text: str) -> str:
     return text.replace("[", "\\[").replace("]", "\\]")
 
 
-def build_lookup() -> dict[str, str]:
+def build_lookup() -> tuple[dict[str, str], dict[str, str]]:
     lookup: dict[str, str] = {}
+    legacy: dict[str, str] = {}
     for path in CONTENT.rglob("*.md"):
+        current_url = url_for(path)
+        hyphen_url = hyphen_url_for(path)
         if path.name == "_index.md":
-            lookup.setdefault(path.parent.name, url_for(path))
+            lookup.setdefault(path.parent.name, current_url)
         else:
-            lookup.setdefault(path.stem, url_for(path))
-    return lookup
+            lookup.setdefault(path.stem, current_url)
+        legacy[hyphen_url] = current_url
+    return lookup, legacy
 
 
-def convert_line(line: str, lookup: dict[str, str]) -> str:
+def convert_line(line: str, lookup: dict[str, str], legacy: dict[str, str]) -> str:
     def replace(match: re.Match[str]) -> str:
         raw_target = match.group(1).strip()
         anchor = match.group(2) or ""
@@ -46,11 +63,18 @@ def convert_line(line: str, lookup: dict[str, str]) -> str:
             return label
         return f"[{label}]({url}{anchor})"
 
-    return WIKILINK_RE.sub(replace, line)
+    line = WIKILINK_RE.sub(replace, line)
+
+    def replace_legacy(match: re.Match[str]) -> str:
+        url = match.group(1)
+        anchor = match.group(2) or ""
+        return f"]({legacy.get(url, url)}{anchor})"
+
+    return MARKDOWN_INTERNAL_RE.sub(replace_legacy, line)
 
 
 def main() -> None:
-    lookup = build_lookup()
+    lookup, legacy = build_lookup()
     changed = 0
     for path in sorted(CONTENT.rglob("*.md")):
         lines = path.read_text(encoding="utf-8").splitlines(keepends=True)
@@ -62,7 +86,7 @@ def main() -> None:
                 in_fence = not in_fence
                 out.append(line)
                 continue
-            out.append(line if in_fence else convert_line(line, lookup))
+            out.append(line if in_fence else convert_line(line, lookup, legacy))
         new_text = "".join(out)
         old_text = "".join(lines)
         if new_text != old_text:

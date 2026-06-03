@@ -27,27 +27,27 @@ tags = ["studynote-operating-system"]
 
 ```text
 ┌────────────────────────────────────────────────────────────────┐
-│   성능 병목의 연쇄 효과 (Cascading Bottleneck Effect)          │
+│ 성능 병목의 연쇄 효과 (Cascading Bottleneck Effect) │
 ├────────────────────────────────────────────────────────────────┤
-│                                                                │
-│  [정상 상태: Latency Chain]                                    │
-│  Client → Web Server → API Server → DB Server                 │
-│     5ms  +    10ms    +    20ms    +    5ms    = 40ms          │
-│     ✅          ✅          ✅          ✅                      │
-│                                                                │
-│  [DB I/O 병목 발생 시: 연쇄 지연]                             │
-│  Client → Web Server → API Server → DB Server                 │
-│     5ms  +    10ms    +   200ms⬆  +  100ms⬆  = 315ms         │
-│     ✅          ✅        ⚠️경고       ❌병목                  │
-│                                                                │
-│  [연쇄 효과 확산]                                              │
-│  DB 지연 → API 스레드 풀 고갈 → Web 서버 연결 대기 증가       │
-│         → Client 타임아웃 → 서비스 장애!                       │
-│                                                                │
-│  [성능 모니터링으로 사전 감지]                                 │
-│  모니터링: "DB 응답 시간이 5ms→50ms로 점진 증가 중"           │
-│  → 알림: "디스크 I/O 대기 시간(iowait) 임계치 초과"            │
-│  → 조치: 디스크 교체 또는 캐시 증설 → 장애 사전 예방!         │
+│ │
+│ [정상 상태: Latency Chain] │
+│ Client → Web Server → API Server → DB Server │
+│ 5ms + 10ms + 20ms + 5ms = 40ms │
+│ ✅ ✅ ✅ ✅ │
+│ │
+│ [DB I/O 병목 발생 시: 연쇄 지연] │
+│ Client → Web Server → API Server → DB Server │
+│ 5ms + 10ms + 200ms⬆ + 100ms⬆ = 315ms │
+│ ✅ ✅ ⚠️경고 ❌병목 │
+│ │
+│ [연쇄 효과 확산] │
+│ DB 지연 → API 스레드 풀 고갈 → Web 서버 연결 대기 증가 │
+│ → Client 타임아웃 → 서비스 장애! │
+│ │
+│ [성능 모니터링으로 사전 감지] │
+│ 모니터링: "DB 응답 시간이 5ms→50ms로 점진 증가 중" │
+│ → 알림: "디스크 I/O 대기 시간(iowait) 임계치 초과" │
+│ → 조치: 디스크 교체 또는 캐시 증설 → 장애 사전 예방! │
 └────────────────────────────────────────────────────────────────┘
 ```
 
@@ -79,31 +79,31 @@ Brendan Gregg가 제안한 USE 방법론은 모든 자원 유형에 대해 세 �
 
 ```text
 ┌────────────────────────────────────────────────────────────────┐
-│     USE 방법론 적용: 리소스별 분석 매트릭스                    │
+│ USE 방법론 적용: 리소스별 분석 매트릭스 │
 ├────────────────────────────────────────────────────────────────┤
-│                                                                │
-│  자원(Resource) │ Utilization     │ Saturation   │ Errors      │
-│  ─────────────┼────────────────┼─────────────┼──────────── │
-│  CPU           │ %CPU 사용률     │ Run Queue    │ 스케줄러    │
-│                │ (user+system)   │ 길이 (load   │ 오류,       │
-│                │                │ average)     │ 온도 셧다운 │
-│  ─────────────┼────────────────┼─────────────┼──────────── │
-│  메모리        │ 사용률(%)       │ Swap 사용량  │ OOM Kill    │
-│                │                │ Page Fault   │ 횟수        │
-│                │                │ Rate         │             │
-│  ─────────────┼────────────────┼─────────────┼──────────── │
-│  디스크 I/O   │ %util (iostat)  │ await(ms)    │ I/O Error,  │
-│                │                │ Queue Depth  │ Read/Write  │
-│                │                │              │ Error       │
-│  ─────────────┼────────────────┼─────────────┼──────────── │
-│  네트워크     │ 대역폭 사용률(%)│ 송수신 큐    │ Packet Drop │
-│                │                │ 길이         │ Retransmit  │
-│                                                                │
-│  [분석 흐름]                                                   │
-│  ① Utilization > 70%? → YES: Saturation 확인                  │
-│  ② Saturation > 임계값? → YES: 해당 자원이 병목!             │
-│  ③ Errors > 0? → YES: 오류 원인 조사 (최우선)                │
-│  ④ 모두 정상? → 다음 자원 유형으로 이동                       │
+│ │
+│ 자원(Resource) │ Utilization │ Saturation │ Errors │
+│ ─────────────┼────────────────┼─────────────┼──────────── │
+│ CPU │ %CPU 사용률 │ Run Queue │ 스케줄러 │
+│ │ (user+system) │ 길이 (load │ 오류, │
+│ │ │ average) │ 온도 셧다운 │
+│ ─────────────┼────────────────┼─────────────┼──────────── │
+│ 메모리 │ 사용률(%) │ Swap 사용량 │ OOM Kill │
+│ │ │ Page Fault │ 횟수 │
+│ │ │ Rate │ │
+│ ─────────────┼────────────────┼─────────────┼──────────── │
+│ 디스크 I/O │ %util (iostat) │ await(ms) │ I/O Error, │
+│ │ │ Queue Depth │ Read/Write │
+│ │ │ │ Error │
+│ ─────────────┼────────────────┼─────────────┼──────────── │
+│ 네트워크 │ 대역폭 사용률(%)│ 송수신 큐 │ Packet Drop │
+│ │ │ 길이 │ Retransmit │
+│ │
+│ [분석 흐름] │
+│ ① Utilization > 70%? → YES: Saturation 확인 │
+│ ② Saturation > 임계값? → YES: 해당 자원이 병목! │
+│ ③ Errors > 0? → YES: 오류 원인 조사 (최우선) │
+│ ④ 모두 정상? → 다음 자원 유형으로 이동 │
 └────────────────────────────────────────────────────────────────┘
 ```
 
@@ -113,32 +113,32 @@ Brendan Gregg가 제안한 USE 방법론은 모든 자원 유형에 대해 세 �
 
 ```text
 ┌────────────────────────────────────────────────────────────────┐
-│     Linux 성능 모니터링 도구 계층도                             │
+│ Linux 성능 모니터링 도구 계층도 │
 ├────────────────────────────────────────────────────────────────┤
-│                                                                │
-│  [Layer 5: 가시성 플랫폼]                                     │
-│  Prometheus + Grafana │ Datadog │ New Relic │ ELK Stack       │
-│       │ 시계열 데이터 수집, 대시보드, 알림                     │
-│       ▼                                                        │
-│  [Layer 4: APM / 분산 추적]                                   │
-│  OpenTelemetry │ Jaeger │ Zipkin │ SkyWalking                 │
-│       │ 요청 단위 추적, 서비스맵, 병목 구간 시각화             │
-│       ▼                                                        │
-│  [Layer 3: 고급 분석 도구]                                    │
-│  perf │ eBPF(bcc) │ SystemTap │ bpftrace                      │
-│       │ 커널 함수 추적,火焰图(Flame Graph), 온-CPU/오프-CPU   │
-│       ▼                                                        │
-│  [Layer 2: 시스템 통계 도구]                                  │
-│  vmstat │ iostat │ mpstat │ sar │ pidstat                      │
-│       │ CPU, 메모리, I/O, 네트워크 통계 수집                   │
-│       ▼                                                        │
-│  [Layer 1: 실시간 뷰어]                                       │
-│  top │ htop │ iotop │ nethogs │ btm                            │
-│       │ 실시간 프로세스/자원 상태 표시                         │
-│       ▼                                                        │
-│  [Layer 0: 데이터 소스]                                       │
-│  /proc/* │ /sys/* │ perf_events │ PMU (Hardware Counters)      │
-│       │ 커널이 제공하는 원시 성능 데이터                       │
+│ │
+│ [Layer 5: 가시성 플랫폼] │
+│ Prometheus + Grafana │ Datadog │ New Relic │ ELK Stack │
+│ │ 시계열 데이터 수집, 대시보드, 알림 │
+│ ▼ │
+│ [Layer 4: APM / 분산 추적] │
+│ OpenTelemetry │ Jaeger │ Zipkin │ SkyWalking │
+│ │ 요청 단위 추적, 서비스맵, 병목 구간 시각화 │
+│ ▼ │
+│ [Layer 3: 고급 분석 도구] │
+│ perf │ eBPF(bcc) │ SystemTap │ bpftrace │
+│ │ 커널 함수 추적,(Flame Graph), 온-CPU/오프-CPU │
+│ ▼ │
+│ [Layer 2: 시스템 통계 도구] │
+│ vmstat │ iostat │ mpstat │ sar │ pidstat │
+│ │ CPU, 메모리, I/O, 네트워크 통계 수집 │
+│ ▼ │
+│ [Layer 1: 실시간 뷰어] │
+│ top │ htop │ iotop │ nethogs │ btm │
+│ │ 실시간 프로세스/자원 상태 표시 │
+│ ▼ │
+│ [Layer 0: 데이터 소스] │
+│ /proc/* │ /sys/* │ perf_events │ PMU (Hardware Counters) │
+│ │ 커널이 제공하는 원시 성능 데이터 │
 └────────────────────────────────────────────────────────────────┘
 ```
 
@@ -164,31 +164,31 @@ Brendan Gregg가 제안한 USE 방법론은 모든 자원 유형에 대해 세 �
 
 ```text
 ┌────────────────────────────────────────────────────────────────┐
-│     Linux 커널 성능 튜닝 핵심 매개변수                        │
+│ Linux 커널 성능 튜닝 핵심 매개변수 │
 ├────────────────────────────────────────────────────────────────┤
-│                                                                │
-│  [CPU 튜닝]                                                    │
-│  /proc/sys/kernel/sched_min_granularity_ns                     │
-│  → 스케줄러 최소 실행 단위 (낮추면 응답성 향상, 높이면       │
-│    처리량 향상)                                                │
-│                                                                │
-│  [메모리 튜닝]                                                 │
-│  /proc/sys/vm/swappiness (0~100)                               │
-│  → 스왑 적극성 (낮출수록 메모리 우선 사용, SSD에서는 10 추천)│
-│  /proc/sys/vm/dirty_ratio / dirty_background_ratio             │
-│  → 디스크 쓰기 버퍼 비율 (DB 서버는 낮춤, 파일 서버는 높임) │
-│                                                                │
-│  [네트워크 튜닝]                                               │
-│  /proc/sys/net/core/somaxconn                                  │
-│  → TCP 백로그 큐 최대 길이 (고부하 웹서버: 65535 설정)       │
-│  /proc/sys/net/ipv4/tcp_tw_reuse                               │
-│  → TIME_WAIT 소켓 재사용 (높은 동시 연결 환경에서 1 설정)    │
-│                                                                │
-│  [I/O 튜닝]                                                    │
-│  /sys/block/sda/queue/scheduler                                │
-│  → I/O 스케줄러 선택 (SSD: none/mq-deadline, HDD: bfq)       │
-│  /proc/sys/fs/file-max                                         │
-│  → 시스템 전체 파일 디스크립터 최대 수                        │
+│ │
+│ [CPU 튜닝] │
+│ /proc/sys/kernel/sched_min_granularity_ns │
+│ → 스케줄러 최소 실행 단위 (낮추면 응답성 향상, 높이면 │
+│ 처리량 향상) │
+│ │
+│ [메모리 튜닝] │
+│ /proc/sys/vm/swappiness (0~100) │
+│ → 스왑 적극성 (낮출수록 메모리 우선 사용, SSD에서는 10 추천)│
+│ /proc/sys/vm/dirty_ratio / dirty_background_ratio │
+│ → 디스크 쓰기 버퍼 비율 (DB 서버는 낮춤, 파일 서버는 높임) │
+│ │
+│ [네트워크 튜닝] │
+│ /proc/sys/net/core/somaxconn │
+│ → TCP 백로그 큐 최대 길이 (고부하 웹서버: 65535 설정) │
+│ /proc/sys/net/ipv4/tcp_tw_reuse │
+│ → TIME_WAIT 소켓 재사용 (높은 동시 연결 환경에서 1 설정) │
+│ │
+│ [I/O 튜닝] │
+│ /sys/block/sda/queue/scheduler │
+│ → I/O 스케줄러 선택 (SSD: none/mq-deadline, HDD: bfq) │
+│ /proc/sys/fs/file-max │
+│ → 시스템 전체 파일 디스크립터 최대 수 │
 └────────────────────────────────────────────────────────────────┘
 ```
 
@@ -222,30 +222,30 @@ Brendan Gregg가 제안한 USE 방법론은 모든 자원 유형에 대해 세 �
 
 ```text
 ┌────────────────────────────────────────────────────────────────┐
-│     성능 튜닝 의사결정 흐름 (USE + 성능 카운터 기반)          │
+│ 성능 튜닝 의사결정 흐름 (USE + 성능 카운터 기반) │
 ├────────────────────────────────────────────────────────────────┤
-│                                                                │
-│  [성능 이슈 발생]                                              │
-│     │                                                          │
-│     ▼                                                          │
-│  Layer 1: top/htop으로 전체 상태 파악                         │
-│     │                                                          │
-│     ├── CPU 사용률 높음 → perf로 핫스팟 분석                  │
-│     │                         → 코드 최적화 또는 스케일 아웃   │
-│     │                                                          │
-│     ├── 메모리 부족 → /proc/meminfo 분석                      │
-│     │                  → 캐시 튜닝, 메모리 누수 탐지(612번)   │
-│     │                                                          │
-│     ├── I/O 대기 높음 → iostat으로 디스크 병목 확인           │
-│     │                    → I/O 스케줄러 튜닝, 캐시/SSD 증설   │
-│     │                                                          │
-│     └── 네트워크 지연 → tcpdump/sar로 패킷 분석              │
-│                          → TCP 파라미터 튜닝, 대역폭 증설     │
-│                                                                │
-│  [튜닝 후 반드시 검증]                                        │
-│  ① 변경 전/후 벤치마크 비교 (ab, wrk, sysbench)               │
-│  ② USE 지표 재측정 → 개선 효과 정량 확인                     │
-│  ③ 24시간 이상 안정성 관측 → 회귀(Regression) 여부 확인      │
+│ │
+│ [성능 이슈 발생] │
+│ │ │
+│ ▼ │
+│ Layer 1: top/htop으로 전체 상태 파악 │
+│ │ │
+│ ├── CPU 사용률 높음 → perf로 핫스팟 분석 │
+│ │ → 코드 최적화 또는 스케일 아웃 │
+│ │ │
+│ ├── 메모리 부족 → /proc/meminfo 분석 │
+│ │ → 캐시 튜닝, 메모리 누수 탐지(612번) │
+│ │ │
+│ ├── I/O 대기 높음 → iostat으로 디스크 병목 확인 │
+│ │ → I/O 스케줄러 튜닝, 캐시/SSD 증설 │
+│ │ │
+│ └── 네트워크 지연 → tcpdump/sar로 패킷 분석 │
+│ → TCP 파라미터 튜닝, 대역폭 증설 │
+│ │
+│ [튜닝 후 반드시 검증] │
+│ ① 변경 전/후 벤치마크 비교 (ab, wrk, sysbench) │
+│ ② USE 지표 재측정 → 개선 효과 정량 확인 │
+│ ③ 24시간 이상 안정성 관측 → 회귀(Regression) 여부 확인 │
 └────────────────────────────────────────────────────────────────┘
 ```
 
@@ -284,12 +284,12 @@ Linux의 풍부한 모니터링 도구 생태계(/proc, perf, [eBPF](/knowledge-
 
 ```text
 [보안 부팅 (Secure Boot) 인증서 체인 로딩 검증]
-    │
-    ▼
+│
+▼
 [성능 모니터링 (Performance Monitoring) 및 튜닝 방법론]
-    │
-    ├──▶ [리틀의 법칙 (Little's Law)]
-    └──▶ [CPU 유휴 (Idle) 대기 루프 최적화]
+│
+├──▶ [리틀의 법칙 (Little's Law)]
+└──▶ [CPU 유휴 (Idle) 대기 루프 최적화]
 ```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.

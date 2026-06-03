@@ -21,15 +21,15 @@ tags = ["studynote-ai"]
 
 딥러닝은 눈(이미지 [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/))과 입(텍스트 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))의 진화 속도에 비해 귀(오디오)의 진화가 가장 늦게 터진 학문이다. 이유가 있었다. 컴퓨터에게 사진은 3x3 픽셀이라는 예쁜 멈춰있는 바둑판 숫자(행렬)로 들어오지만, 마이크로 들어오는 사람의 목소리는 1초에 16,000번(16kHz)이나 미친 듯이 위아래로 요동치는 불규칙한 1차원 뱀장어(파동, Waveform) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)였기 때문이다. 이 뱀장어를 10초만 딥러닝에 집어넣어도 숫자가 16만 개가 되어 뇌([RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/))가 터져버렸다.
 
-학자들은 고민했다. **"우리 몸의 달팽이관과 뇌는 이 미친 16만 번의 파동을 어떻게 실시간으로 알아듣는 거지? 아! 달팽이관은 뱀장어를 보는 게 아니라, 그 안에 어떤 주파수(도레미파솔)가 얼마나 섞여 있는지 화음의 진동을 분석하는구나!"** 
+학자들은 고민했다. **"우리 몸의 달팽이관과 뇌는 이 미친 16만 번의 파동을 어떻게 실시간으로 알아듣는 거지? 아! 달팽이관은 뱀장어를 보는 게 아니라, 그 안에 어떤 주파수(도레미파솔)가 얼마나 섞여 있는지 화음의 진동을 분석하는구나!"**
 이 생물학적 발견에 착안해, 1차원 뱀장어 파동을 수학의 마법(푸리에 변환, STFT)으로 쪼개어 "가로축은 시간, 세로축은 주파수(음높이), 색깔은 소리 크기"를 나타내는 **아름다운 2차원 그림(멜 스펙트로그램)**으로 만들어냈다. 소리가 눈에 보이는 '사진(Image)'으로 변하는 순간, 그동안 우주 최강으로 발전해 둔 이미지 처리 딥러닝([CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/), ViT) 렌즈들이 우르르 달려들어 음성 인식을 100점 만점으로 정복해 버렸다.
 
 ```text
 ┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
+│ Background Problem → Need → Adoption Value │
 ├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
+│ Existing limitation │ Operational pressure │
+│ New requirement │ Design decision point │
 └──────────────────────────────────────────────┘
 ```
 
@@ -43,29 +43,29 @@ tags = ["studynote-ai"]
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
-│           오디오 음파를 그림으로! 멜 스펙트로그램 변환 아키텍처 도해       │
+│ 오디오 음파를 그림으로! 멜 스펙트로그램 변환 아키텍처 도해 │
 ├──────────────────────────────────────────────────────────────┤
-│  [1. STFT (단시간 푸리에 변환) - 시간을 조각조각 썰기]              │
-│   * 10초짜리 긴 뱀장어(파동)를 0.02초짜리 깍두기 조각(Window) 500개로 텅텅 썸.│
-│   * 조각마다 푸리에 변환을 쏨 ─▶ "이 0.02초 조각 안에 '도, 미, 솔' 주파수가 │
-│     얼마나 강하게(진폭) 섞여 있는지 분해해 내라!"                    │
-│   * 결과: 일반 스펙트로그램 사진 완성 (근데 이건 컴퓨터만 보기 좋고 인간하곤 다름)│
-│                                                              │
-│  [2. 멜 필터 뱅크 (Mel Filter Bank) - 인간의 꼼수 귀 필터 씌우기]      │
-│   * 인간의 달팽이관 비밀: 저음(100Hz 차이)은 엄청 민감하게 칼같이 구별하지만, │
-│                        고음(10000Hz 차이)은 대충 뭉뚱그려서 비슷하게 들음. │
-│   * 마법: 스펙트로그램의 고음역 사진 부분은 필터를 듬성듬성 넓게 씌워서 확 뭉개버리고,│
-│           저음역 부분은 촘촘하게 쪼개서 집중시킴! (데이터 압축률 10배 폭발) │
-│                                                              │
-│  [3. 멜 스펙트로그램 (Mel-Spectrogram) 최종 이미지 탄생]           │
-│   * ─▶ 사람 목소리의 특성(음성 인식)을 100% 반영한 압도적으로 예쁘고 가벼운 │
-│         2D 열화상 사진 완성. 이제 이걸 CNN이나 Whisper(트랜스포머) 뇌에 쑤셔 넣음!│
+│ [1. STFT (단시간 푸리에 변환) - 시간을 조각조각 썰기] │
+│ * 10초짜리 긴 뱀장어(파동)를 0.02초짜리 깍두기 조각(Window) 500개로 텅텅 썸.│
+│ * 조각마다 푸리에 변환을 쏨 ─▶ "이 0.02초 조각 안에 '도, 미, 솔' 주파수가 │
+│ 얼마나 강하게(진폭) 섞여 있는지 분해해 내라!" │
+│ * 결과: 일반 스펙트로그램 사진 완성 (근데 이건 컴퓨터만 보기 좋고 인간하곤 다름)│
+│ │
+│ [2. 멜 필터 뱅크 (Mel Filter Bank) - 인간의 꼼수 귀 필터 씌우기] │
+│ * 인간의 달팽이관 비밀: 저음(100Hz 차이)은 엄청 민감하게 칼같이 구별하지만, │
+│ 고음(10000Hz 차이)은 대충 뭉뚱그려서 비슷하게 들음. │
+│ * 마법: 스펙트로그램의 고음역 사진 부분은 필터를 듬성듬성 넓게 씌워서 확 뭉개버리고,│
+│ 저음역 부분은 촘촘하게 쪼개서 집중시킴! (데이터 압축률 10배 폭발) │
+│ │
+│ [3. 멜 스펙트로그램 (Mel-Spectrogram) 최종 이미지 탄생] │
+│ * ─▶ 사람 목소리의 특성(음성 인식)을 100% 반영한 압도적으로 예쁘고 가벼운 │
+│ 2D 열화상 사진 완성. 이제 이걸 CNN이나 Whisper(트랜스포머) 뇌에 쑤셔 넣음!│
 └──────────────────────────────────────────────────────────────┘
 ```
 
 **핵심 원리 (푸리에 변환과 멜 스케일)**:
-오디오 딥러닝의 절대 헌법은 **"시간 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 주파수 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)으로 찢어라"**다. 아무리 복잡하게 꼬인 지저분한 음파도 수학(푸리에 변환)을 쓰면 완벽하게 깨끗한 몇 개의 사인파(Sine [Wave](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/), 도레미파솔) 진동으로 100% 분해된다. 
-여기에 얹혀진 **멜 스케일(Mel Scale)**은 인류 생물학의 승리다. 딥러닝은 무작정 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 많다고 좋은 게 아니다. 15,000Hz 이상의 초고주파 소리는 인간의 목소리(단어)를 구분하는 데 쓰레기 노이즈(바람 소리 등)에 가깝다. 멜 필터 뱅크는 이 쓸데없는 고주파수 정보들을 과감히 뭉개버리고 쳐내어 텐서(Tensor)의 용량을 극단적으로 가볍게 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하면서, 오히려 딥러닝 모델이 인간의 발음 뉘앙스(저주파)에만 200% 집중하게 만드는 전처리 최적화의 극의(極意)다.
+오디오 딥러닝의 절대 헌법은 **"시간 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 주파수 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)으로 찢어라"**다. 아무리 복잡하게 꼬인 지저분한 음파도 수학(푸리에 변환)을 쓰면 완벽하게 깨끗한 몇 개의 사인파(Sine [Wave](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/), 도레미파솔) 진동으로 100% 분해된다.
+여기에 얹혀진 **멜 스케일(Mel Scale)**은 인류 생물학의 승리다. 딥러닝은 무작정 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 많다고 좋은 게 아니다. 15,000Hz 이상의 초고주파 소리는 인간의 목소리(단어)를 구분하는 데 쓰레기 노이즈(바람 소리 등)에 가깝다. 멜 필터 뱅크는 이 쓸데없는 고주파수 정보들을 과감히 뭉개버리고 쳐내어 텐서(Tensor)의 용량을 극단적으로 가볍게 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하면서, 오히려 딥러닝 모델이 인간의 발음 뉘앙스(저주파)에만 200% 집중하게 만드는 전처리 최적화의 극의()다.
 
 | 요소 | 역할 |
 |:---|:---|
@@ -111,7 +111,7 @@ tags = ["studynote-ai"]
 
 ## Ⅴ. 기대효과 및 결론
 
-멜 스펙트로그램(Mel-Spectrogram)으로 오디오를 '시각적 이미지'로 치환한 아이디어는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 역사상 가장 우아하고 실용적인 **'[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변이([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Transformation)의 연금술'**이다. 
+멜 스펙트로그램(Mel-Spectrogram)으로 오디오를 '시각적 이미지'로 치환한 아이디어는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 역사상 가장 우아하고 실용적인 **'[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변이([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Transformation)의 연금술'**이다.
 
 시간의 축을 가로로, 주파수의 축을 세로로 찢어놓은 이 그림 장치 덕분에, 컴퓨터 비전([CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)) 쪽에 쏟아부었던 수십 년간의 엄청난 눈(Vision) 기술력이 고스란히 귀(Audio)의 영역으로 무혈입성하게 되었다. 마이크로소프트와 오픈AI가 만든 **Whisper (위스퍼)** 모델은 이 멜 스펙트로그램 그림을 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)([Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)) 뇌에 쑤셔 넣어 99개 국가의 언어를 완벽하게 받아쓰기하고 번역해 내는 기적을 쓰며 텍스트/음성 변환([STT](/knowledge-base/studynote/03_network/16_data_center_cloud/819_stt_stateless_transport_tunneling_offload/)) 시장을 완전히 종식시켰다.
 

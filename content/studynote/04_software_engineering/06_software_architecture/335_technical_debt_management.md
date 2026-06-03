@@ -21,11 +21,11 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)는 금융의 부채 (Debt)와 비유적으로 같다. 집을 현금으로 사려면 오래 모아야 하므로 mortgage (부채)를 내지만, 매달 이자를 갚아야 한다. 마찬가지로 코딩에서도 "지금 당장 완성하려면" 기술적으로 완벽하지 않지만 동작하는 코드를 작성하면 (Quick & Dirty), 이후 해당 코드를 이해하고 수정하는 데 추가 비용이 발생한다. 이것이 "이자"다. 이자를 갚지 않으면 부채가 불어나 새로운 기능을 개발할 수 없는 지경에 이른다.
 
-- **필요성**: [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)는 모든 소프트웨어 프로젝트에서不可避免적이다. 프로젝트には常に不完全な情報と限りある 시간이 있으며, 완벽한 코드를追求하면 제품 출하가 늦어진다. 따라서 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)는때로는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적으로 활용될 수 있지만, 반드시 관리되어야 한다. 관리가 부재하면 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)가 Snowball처럼불어나 조직의開発能力をマヒ시킬 수 있다.
+- **필요성**: [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)는 모든 소프트웨어 프로젝트에서적이다. 프로젝트에는에완전와/과 시간이 있으며, 완벽한 코드를하면 제품 출하가 늦어진다. 따라서 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)는때로는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적으로 활용될 수 있지만, 반드시 관리되어야 한다. 관리가 부재하면 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)가 Snowball처럼불어나 조직의을/를시킬 수 있다.
 
-- **💡 비유**: [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)는 "사용한 카트리지의 배터리"와 같다. 완전 방전된 배터리는 아무리 좋은 장난감이라도 작동하지 않듯이, [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)가 누적된 코드는 아무리 뛰어난 개발자도手を付けられなくなる.
+- **💡 비유**: [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)는 "사용한 카트리지의 배터리"와 같다. 완전 방전된 배터리는 아무리 좋은 장난감이라도 작동하지 않듯이, [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)가 누적된 코드는 아무리 뛰어난 개발자도을/를지 않고된다.
 
-- **등장 배경**: 1992년 Ward Cunningham (Smalltalk, Wiki 창시자)이 "技报"라는 용어를 사용하여 처음 사용했으며, 이후 Steve McConnell, Martin Fowler 등에 의해 개념이 확산되었다. Martin Fowler는 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)를 Strategic vs Reckless, Deliberate vs Inadvertent의 2×2 매트릭스로 분류하였다.
+- **등장 배경**: 1992년 Ward Cunningham (Smalltalk, Wiki 창시자)이 ""라는 용어를 사용하여 처음 사용했으며, 이후 Steve McConnell, Martin Fowler 등에 의해 개념이 확산되었다. Martin Fowler는 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)를 Strategic vs Reckless, Deliberate vs Inadvertent의 2×2 매트릭스로 분류하였다.
 
 - **📢 섹션 요약 비유**: [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 관리는 "적금Periodic 적금"과 같다. 조금씩이라도 꾸준히 갚아야 원금이 불어나지 않고, 방치하면 복리 효과로 상환 금액이 snowball처럼 불어난다.
 
@@ -35,14 +35,14 @@ tags = ["studynote-software-engineering"]
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                  기술 부채 (Technical Deb                        │
+│ 기술 부채 (Technical Deb │
 ├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
+│ │
+│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
+│ │ │ │ │
+│ ▼ ▼ ▼ │
+│ 요구 분석 설계·적용 품질 검증 │
+│ │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -143,17 +143,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+│
+▼
 기술 부채 (Technical Debt)의 관리 및 상환 전략 개념 정립
-    │
-    ▼
+│
+▼
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+│
+▼
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+│
+▼
 지속적 개선 및 DevOps·MLOps 통합
 ```
 

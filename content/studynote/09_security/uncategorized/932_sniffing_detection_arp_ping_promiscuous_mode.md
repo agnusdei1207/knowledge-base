@@ -23,10 +23,10 @@ tags = ["studynote-security"]
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
-│ 왜 물리적 보안 3대 요소가 필요한가                                        │
+│ 왜 물리적 보안 3대 요소가 필요한가 │
 ├──────────────────────────────────────────────────────────────┤
-│ 자산·서비스 운영 ─► 노출/불확실성 ─► 위험 확대              │
-│                     └──── 물리적 보안 3대 요소로 통제·판단 ────┘         │
+│ 자산·서비스 운영 ─► 노출/불확실성 ─► 위험 확대 │
+│ └──── 물리적 보안 3대 요소로 통제·판단 ────┘ │
 └──────────────────────────────────────────────────────────────┘
 ```
 
@@ -48,10 +48,10 @@ tags = ["studynote-security"]
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
-│ 핵심 동작 구조                                               │
+│ 핵심 동작 구조 │
 ├──────────────────────────────────────────────────────────────┤
-│ 입력/요청 ─► 검증·판단 ─► 적용·변환 ─► 기록·피드백          │
-│              └──────── 정책·키·상태 관리 ───────┘           │
+│ 입력/요청 ─► 검증·판단 ─► 적용·변환 ─► 기록·피드백 │
+│ └──────── 정책·키·상태 관리 ───────┘ │
 └──────────────────────────────────────────────────────────────┘
 ```
 
@@ -114,12 +114,12 @@ tags = ["studynote-security"]
 
 ```text
 [현장 자산 보호 요구]
-    │
-    ▼
+│
+▼
 [물리적 보안 3대 요소 (Sniffing Detection Arp Ping Promiscuous Mode)]
-    │
-    ├──▶ [분리 구간 강화]
-    └──▶ [원격 증명·무결성 검증]
+│
+├──▶ [분리 구간 강화]
+└──▶ [원격 증명·무결성 검증]
 ```
 
 이 흐름도는 물리적 보안 3대 요소 (Sniffing [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/) [Arp](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) Ping Promiscuous Mode)를 단일 용어가 아니라 선행 문제, 현재 해결 방식, 후속 확장 방향으로 기억하게 해 준다. 시험과 실무 모두에서 이 연결 구조를 함께 말할 수 있어야 개념이 살아난다.
@@ -137,6 +137,6 @@ tags = ["studynote-security"]
 **진행 상황**: 1021 / 1108
 
 ← **이전**: [932. 물리적 보안 3대 요소 (Deterrence, Delay, Detection)](/knowledge-base/studynote/09_security/18_iot_ot_physical/932_physical_security_elements/)
-**다음**: [933. CCTV (閉路テレビ)](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) →
+**다음**: [933. CCTV (CCTV)](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) →
 
 ---

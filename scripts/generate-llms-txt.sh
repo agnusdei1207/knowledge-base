@@ -10,7 +10,7 @@
 #
 # 표준 참조: https://llmstxt.org/
 #
-# 실행 시점: Quartz 빌드(npx quartz build) 완료 후
+# 실행 시점: Zola 빌드(zola build) 완료 후
 # 출력 위치: public/llms.txt
 # ============================================================
 set -euo pipefail
@@ -31,7 +31,7 @@ echo "📝 Generating llms.txt..."
 cat > "$OUTPUT" << 'HEADER'
 # Knowledge Base
 
-> 개인 학습(기술사 스터디 노트) · 사내 업무 문서 · AI 에이전트 지식 검색을 위한 Quartz v5 기반 지식 허브입니다.
+> 개인 학습(기술사 스터디 노트) · 사내 업무 문서 · AI 에이전트 지식 검색을 위한 Zola 기반 지식 허브입니다.
 
 ## 사이트 정보
 
@@ -50,12 +50,12 @@ cd "$CONTENT_DIR"
 # 최상위 섹션
 for section_dir in $(find . -maxdepth 1 -type d | sort | tail -n +2); do
     section_name=$(basename "$section_dir")
-    # _index.md에서 제목 추출 시도
+    # _index.md에서 TOML 제목 추출 시도
     title=""
     if [ -f "${section_dir}/_index.md" ] || [ -f "${section_dir}/index.md" ]; then
         idx_file="${section_dir}/_index.md"
         [ ! -f "$idx_file" ] && idx_file="${section_dir}/index.md"
-        title=$(grep -m1 "^title:" "$idx_file" 2>/dev/null | sed 's/^title:\s*//' | sed 's/^["'"'"']//;s/["'"'"']$//' || true)
+        title=$(grep -m1 "^title = " "$idx_file" 2>/dev/null | sed 's/^title =[[:space:]]*//' | sed 's/^["'"'"']//;s/["'"'"']$//' || true)
     fi
     [ -z "$title" ] && title="$section_name"
 
@@ -71,7 +71,7 @@ for section_dir in $(find . -maxdepth 1 -type d | sort | tail -n +2); do
         if [ -f "${sub_dir}/_index.md" ] || [ -f "${sub_dir}/index.md" ]; then
             sub_idx="${sub_dir}/_index.md"
             [ ! -f "$sub_idx" ] && sub_idx="${sub_dir}/index.md"
-            sub_title=$(grep -m1 "^title:" "$sub_idx" 2>/dev/null | sed 's/^title:\s*//' | sed 's/^["'"'"']//;s/["'"'"']$//' || true)
+            sub_title=$(grep -m1 "^title = " "$sub_idx" 2>/dev/null | sed 's/^title =[[:space:]]*//' | sed 's/^["'"'"']//;s/["'"'"']$//' || true)
         fi
         [ -z "$sub_title" ] && sub_title="$sub_name"
 
@@ -87,7 +87,7 @@ cat >> "$OUTPUT" << 'FOOTER'
 
 - 웹 UI: https://agnusdei1207.github.io/knowledge-base/
 - MCP 서버: `search_docs`, `get_doc`, `list_docs` 도구 제공
-- 각 문서는 표준 Markdown + YAML frontmatter 형식
+- 각 문서는 표준 Markdown + TOML frontmatter 형식
 
 ## 라이선스
 

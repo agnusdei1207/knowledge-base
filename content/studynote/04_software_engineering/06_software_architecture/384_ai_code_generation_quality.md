@@ -19,19 +19,19 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 도구는 인간 개발자의-natural Language 설명이나 코드 일부를 입력으로 받아, 학습된 [대규모 언어 모델](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/582_llm_based_code_generation_tools/)([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))을 통해 해당 기능을 수행하는 코드를自動的に生成한다. 그러나 LLM은"통계적으로 그럴듯한 코드"를 生成할 뿐, 生成된 코드가 실제로 올바른지, 보안상 안전한지, 효율적인지를保証하지 않는다.
+- **개념**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 도구는 인간 개발자의-natural Language 설명이나 코드 일부를 입력으로 받아, 학습된 [대규모 언어 모델](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/582_llm_based_code_generation_tools/)([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))을 통해 해당 기능을 수행하는 코드를자동에생성한다. 그러나 LLM은"통계적으로 그럴듯한 코드"를 생성할 뿐, 생성된 코드가 실제로 올바른지, 보안상 안전한지, 효율적인지를하지 않는다.
 
-- **필요성**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 도구는 개발 생산성을 30~50% 향상시킬 수 있다는 연구 결과가 있지만, 동시에 AI가 生成한 코드에는 다음과 같은 잠재적 문제가 있다: (1) 사실이 아닌 내용을 사실처럼 生成하는 "[환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)([Hallucination](/knowledge-base/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/))", (2) SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/), [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) 등 보안 취약점 포함 가능성, (3) 명세 불일치, (4) 비효율적 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 사용 등.这些问题을 발견하지 못하면 대규모障害로 이어질 수 있다.
+- **필요성**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 도구는 개발 생산성을 30~50% 향상시킬 수 있다는 연구 결과가 있지만, 동시에 AI가 생성한 코드에는 다음과 같은 잠재적 문제가 있다: (1) 사실이 아닌 내용을 사실처럼 생성하는 "[환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)([Hallucination](/knowledge-base/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/))", (2) SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/), [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) 등 보안 취약점 포함 가능성, (3) 명세 불일치, (4) 비효율적 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 사용 등.문제을 발견하지 못하면 대규모로 이어질 수 있다.
 
-- **💡 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)은 **'[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 요리사'**와 같다. [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 요리사는레시피를 보고それに近い 요리를 만들 수 있지만, 그 요리가 실제로 맛있는지, 위생적인지, 재료가 신선한지를完璧하게 보장하지는 않는다. 같은道理로 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)기도代码를 만들 수 있지만, 그 코드가 올바른지, 안전한지를 humaine 개발자가 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다.
+- **💡 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)은 **'[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 요리사'**와 같다. [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 요리사는레시피를 보고에 요리를 만들 수 있지만, 그 요리가 실제로 맛있는지, 위생적인지, 재료가 신선한지를하게 보장하지는 않는다. 같은로 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)기도코드를 만들 수 있지만, 그 코드가 올바른지, 안전한지를 humaine 개발자가 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다.
 
 - **등장 배경 및 발전 과정**:
-  1. **2020년**: OpenAI Codex (GitHub Copilot 전신) 등장
-  2. **2021년**: GitHub Copilot 공식 출시, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 대중화
-  3. **2023년**: Claude, GPT-4 등 대용량 모델 기반 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 도구 확산
-  4. **현재**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) + [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 도구 (Cursor, Copilot Workspace 등) 통합 환경 발전
+1. **2020년**: OpenAI Codex (GitHub Copilot 전신) 등장
+2. **2021년**: GitHub Copilot 공식 출시, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 대중화
+3. **2023년**: Claude, GPT-4 등 대용량 모델 기반 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 도구 확산
+4. **현재**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) + [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 도구 (Cursor, Copilot Workspace 등) 통합 환경 발전
 
-- **📢 섹션 요약 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 품질 평가는 **'AItrasfondo外科手术 로봇의 결과물 검사'**와 같다. [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 로봇이 수술을 해도, 그 결과물(수술部位)을经验 있는 의사가 반드시 检查하여問題가 없음을 확인해야 한다. [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 코드도 마찬가지로 生成 후에는 반드시 humano 개발자가品質을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다.
+- **📢 섹션 요약 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 품질 평가는 **'AItrasfondo 로봇의 결과물 검사'**와 같다. [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 로봇이 수술을 해도, 그 결과물(수술)을 있는 의사가 반드시 검사하여문제가 없음을 확인해야 한다. [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 코드도 마찬가지로 생성 후에는 반드시 humano 개발자가품질을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다.
 
 ---
 
@@ -39,14 +39,14 @@ tags = ["studynote-software-engineering"]
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                  AI 기반 코드 생성기(Copilot                        │
+│ AI 기반 코드 생성기(Copilot │
 ├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
+│ │
+│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
+│ │ │ │ │
+│ ▼ ▼ ▼ │
+│ 요구 분석 설계·적용 품질 검증 │
+│ │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -147,17 +147,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+│
+▼
 AI 기반 코드 생성기(Copilot 등) 산출물의 품질 평가 한계 개념 정립
-    │
-    ▼
+│
+▼
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+│
+▼
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+│
+▼
 지속적 개선 및 DevOps·MLOps 통합
 ```
 

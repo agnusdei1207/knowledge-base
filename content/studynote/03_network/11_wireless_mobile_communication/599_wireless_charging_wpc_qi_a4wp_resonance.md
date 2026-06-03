@@ -25,22 +25,22 @@ tags = ["studynote-network"]
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│             무선 충전의 두 가지 종교전쟁: 자기 유도 vs 자기 공명 시각화 │
+│ 무선 충전의 두 가지 종교전쟁: 자기 유도 vs 자기 공명 시각화 │
 ├─────────────────────────────────────────────────────────────┤
-│   [승리자: 자기 유도 (WPC Qi) - "코일 찰싹 붙이기 뽀뽀"]               │
-│                                                             │
-│   (송신 코일 🌀) ======(보이지 않는 자기장 1cm)======▶ (수신 코일 📱) │
-│   => 조건: 코일 2개가 거의 완벽히 1자로 마주 보고, 간격이 1cm 이내로 바짝   │
-│            붙어야만 전기가 넘어감. 1cm만 엇나가도 충전 뚝 끊김! (까탈스러움)│
-│   => 장점: 새는 전기가 없어서 전력 효율이 90% 급으로 최고. 폰이 안 뜨거워짐! │
-│                                                             │
-│   [도전자: 자기 공명 (A4WP Rezence) - "주파수 똑같은 소리 굽쇠 울림"]  │
-│                                                             │
-│   (송신 코일 🌀) ==========================▶ (수신 1📱)(수신 2⌚️) │
-│                (특정 주파수의 자기장 파동 1미터 광역 발사!)            │
-│   => 조건: 거리가 1미터 떨어져도, 송신기랑 '똑같은 주파수'를 가진 기기들만   │
-│            공진(Resonance)하여 전기를 흡수함. 책상 위에 폰 3개 대충 던져도 됨!│
-│   => 단점: 허공으로 전기가 다 새어나가서 효율이 쓰레기(발열 쩔음, 폰 터질 뻔). │
+│ [승리자: 자기 유도 (WPC Qi) - "코일 찰싹 붙이기 뽀뽀"] │
+│ │
+│ (송신 코일 🌀) ======(보이지 않는 자기장 1cm)======▶ (수신 코일 📱) │
+│ => 조건: 코일 2개가 거의 완벽히 1자로 마주 보고, 간격이 1cm 이내로 바짝 │
+│ 붙어야만 전기가 넘어감. 1cm만 엇나가도 충전 뚝 끊김! (까탈스러움)│
+│ => 장점: 새는 전기가 없어서 전력 효율이 90% 급으로 최고. 폰이 안 뜨거워짐! │
+│ │
+│ [도전자: 자기 공명 (A4WP Rezence) - "주파수 똑같은 소리 굽쇠 울림"] │
+│ │
+│ (송신 코일 🌀) ==========================▶ (수신 1📱)(수신 2⌚️) │
+│ (특정 주파수의 자기장 파동 1미터 광역 발사!) │
+│ => 조건: 거리가 1미터 떨어져도, 송신기랑 '똑같은 주파수'를 가진 기기들만 │
+│ 공진(Resonance)하여 전기를 흡수함. 책상 위에 폰 3개 대충 던져도 됨!│
+│ => 단점: 허공으로 전기가 다 새어나가서 효율이 쓰레기(발열 쩔음, 폰 터질 뻔). │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -68,11 +68,11 @@ tags = ["studynote-network"]
 
 ```text
 [UWB]
-    │
-    ▼
+│
+▼
 [무선 충전 전송 원리]
-    │
-    └──▶ [RFID / NFC 프로토콜 기본 구상]
+│
+└──▶ [RFID / NFC 프로토콜 기본 구상]
 ```
 
 - **📢 섹션 요약 비유**: 무선 충전 전송 원리의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
@@ -87,7 +87,7 @@ tags = ["studynote-network"]
 
 | 비교 진영 | **WPC (Wireless [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Consortium)** | **AirFuel Alliance** (구 PMA + A4WP 합병) |
 |:---|:---|:---|
-| **핵심 표준 이름** | **Qi (치, 기氣)** | AirFuel Inductive / Resonant |
+| **핵심 표준 이름** | **Qi (치, 기)** | AirFuel Inductive / Resonant |
 | **적용 아키텍처** | **자기 유도 방식 (찰싹 붙이기)** | **자기 공명 방식 (떨어져도 충전됨)** |
 | **충전 거리 및 자유도** | 오차 **1cm 이내**. 정중앙에 안 올리면 충전 끊김(빡침). | 수십 cm 허용. **한 패드 위에 폰 3개 대충 놔도 충전됨.** |
 | **통신 제어 방식** | 밥 주는 코일 자체 전력을 미세하게 떨어서 패킷을 전송 (In-band 통신). | 밥 주는 코일과 별개로, 폰과 패드가 **[블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)([BLE](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/))**로 몰래 뒤에서 톡을 하며 전압을 조절 (Out-of-band). |
@@ -95,25 +95,25 @@ tags = ["studynote-network"]
 
 ```text
 ┌───────────────────────────────────────────────────────────────┐
-│               애플 MagSafe와 Qi2 표준의 하드웨어 융합 대통합 시각화     │
+│ 애플 MagSafe와 Qi2 표준의 하드웨어 융합 대통합 시각화 │
 ├───────────────────────────────────────────────────────────────┤
-│   [과거: 자기 유도(Qi) 충전기의 지독한 '정중앙 맞추기' 빡침]               │
-│   (자기 전력 빔 ⚡️)             (폰 코일 위치)                    │
-│        ↑                      [    📱 (살짝 빗나감) ]              │
-│   [ 충전기 송신 코일 ]                                            │
-│   => 결과: 밤에 불 끄고 폰을 툭 던져놨는데, 코일 위치가 1cm 어긋나는 바람에  │
-│            아침에 일어났더니 배터리 0% 방전되는 딥빡침 현상 일상화!          │
-│                                                               │
-│   [혁신 융합: Apple MagSafe와 이를 베낀 WPC 'Qi2' (MPP) 표준]        │
-│   (자석 찰칵! 🧲)              (강제 정중앙 100% 정렬 완료!)         │
-│   [ N극 자석 링 ] =======착!====== [ S극 자석 링 내장 📱 ]           │
-│   [ 충전기 코일 ] =======⚡️====== [ 폰 수신 코일 100% 일치 ]         │
-│                                                               │
-│   => 결과: 충전 코일 테두리에 강력한 '네오디뮴 자석'을 동그랗게 박아버림.     │
-│            폰을 근처에 대충 던져도 자석의 물리적 힘으로 코일이 0.1mm 오차    │
-│            없이 완벽하게 중앙으로 찰칵!! 강제 정렬됨 (Magnetic Power Profile).│
-│            충전 누락 0%, 전력 효율 극대화, 그리고 폰을 충전기에 대롱대롱 매달아  │
-│            거치대(스탠드) 기능까지 완수하는 물리/전파 공학의 궁극적 하이브리드! │
+│ [과거: 자기 유도(Qi) 충전기의 지독한 '정중앙 맞추기' 빡침] │
+│ (자기 전력 빔 ⚡️) (폰 코일 위치) │
+│ ↑ [ 📱 (살짝 빗나감) ] │
+│ [ 충전기 송신 코일 ] │
+│ => 결과: 밤에 불 끄고 폰을 툭 던져놨는데, 코일 위치가 1cm 어긋나는 바람에 │
+│ 아침에 일어났더니 배터리 0% 방전되는 딥빡침 현상 일상화! │
+│ │
+│ [혁신 융합: Apple MagSafe와 이를 베낀 WPC 'Qi2' (MPP) 표준] │
+│ (자석 찰칵! 🧲) (강제 정중앙 100% 정렬 완료!) │
+│ [ N극 자석 링 ] =======착!====== [ S극 자석 링 내장 📱 ] │
+│ [ 충전기 코일 ] =======⚡️====== [ 폰 수신 코일 100% 일치 ] │
+│ │
+│ => 결과: 충전 코일 테두리에 강력한 '네오디뮴 자석'을 동그랗게 박아버림. │
+│ 폰을 근처에 대충 던져도 자석의 물리적 힘으로 코일이 0.1mm 오차 │
+│ 없이 완벽하게 중앙으로 찰칵!! 강제 정렬됨 (Magnetic Power Profile).│
+│ 충전 누락 0%, 전력 효율 극대화, 그리고 폰을 충전기에 대롱대롱 매달아 │
+│ 거치대(스탠드) 기능까지 완수하는 물리/전파 공학의 궁극적 하이브리드! │
 └───────────────────────────────────────────────────────────────┘
 ```
 
@@ -128,10 +128,10 @@ tags = ["studynote-network"]
 1. **상황**: 회사원이 책상 위 15W 고속 무선 충전 패드 위에 스마트폰을 올려두었다. 그런데 폰과 패드 사이에 실수로 쇠로 된 100원짜리 동전과 철제 클립이 끼여 들어갔다. 충전 패드가 폰인 줄 알고 15W의 거대한 교류 자기장 빔을 계속 쏘아댄다.
 2. **원인 (인덕션 히터 원리 노출)**: 무선 충전 패드의 자기장 파동을 '수신 코일'이 아닌 일반 쇳덩이(동전)가 맞으면 재앙이 발생한다. 쇳덩이 내부에 와전류(Eddy [Current](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/))가 미친 듯이 소용돌이치며 전기가 열 에너지로 바뀌는 인덕션 가스레인지 원리가 발동된다. 동전의 온도가 5분 만에 200도까지 치솟아 스마트폰 뒷판이 녹아내리고 책상에 불이 붙는다.
 3. **의사결정 및 아키텍처 조치 (FOD, Foreign [Object Detection](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/) 필수 강제)**:
-   - WPC 국제 기구는 Qi 표준 설계 시 **FOD (이물질 감지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))**를 가장 0순위의 강제 필수 하드웨어 아키텍처로 못 박았다.
-   - **에너지 핑퐁 검사 로직**: 충전 패드는 내가 폰으로 쏜 전기량(TX [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) = 15W)과, 폰이 "나 지금 패드한테서 14.5W 받았어!"라고 무선으로 보고해 준 수신량(RX [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/))을 1초마다 실시간으로 뺀다(Loss = TX - RX).
-   - **결과**: "어? 내가 15W를 쐈는데 폰은 10W밖에 못 받았다고? 그럼 중간 허공에서 5W의 전기가 샜다는 뜻인데? 쇳덩이(동전)가 그 전기를 처먹고 달궈지고 있구나!!" 
-   - 패드는 0.1초 만에 경고 빨간 불을 띄우고 충전 전류를 0으로 차단(Shutdown)하여 화재를 100% 원천 방어하는 철벽 안전망을 완성했다.
+- WPC 국제 기구는 Qi 표준 설계 시 **FOD (이물질 감지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))**를 가장 0순위의 강제 필수 하드웨어 아키텍처로 못 박았다.
+- **에너지 핑퐁 검사 로직**: 충전 패드는 내가 폰으로 쏜 전기량(TX [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) = 15W)과, 폰이 "나 지금 패드한테서 14.5W 받았어!"라고 무선으로 보고해 준 수신량(RX [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/))을 1초마다 실시간으로 뺀다(Loss = TX - RX).
+- **결과**: "어? 내가 15W를 쐈는데 폰은 10W밖에 못 받았다고? 그럼 중간 허공에서 5W의 전기가 샜다는 뜻인데? 쇳덩이(동전)가 그 전기를 처먹고 달궈지고 있구나!!"
+- 패드는 0.1초 만에 경고 빨간 불을 띄우고 충전 전류를 0으로 차단(Shutdown)하여 화재를 100% 원천 방어하는 철벽 안전망을 완성했다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - **차량 내장 무선 충전기의 위치와 NFC 칩 파괴 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**: 최신 신차를 사면 센터페시아 아래에 무선 충전기가 매립되어 있다. 자동차 설계자가 멋 부린다고 무선 충전 패드 바로 옆이나 바로 위에 NFC(디지털 차 키) 리더기 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 바짝 붙여 설계하는 경우([안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)). 무선 충전기가 뿜어내는 15W짜리 거대한 110kHz~205kHz 주파수 자기장 폭풍이, 바로 옆의 조그마한 13.56MHz NFC [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 회로를 박살 내거나 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(SN비)를 덮어버린다. 주인이 폰으로 무선 충전을 하면서 동시에 폰을 NFC에 대어 차 문을 열거나 시동을 걸려 할 때 디지털 키가 먹통이 되는 간섭 재앙(Co-existence 붕괴)이 벌어지므로, 이 두 코일은 물리적으로 격리 이격 설계가 필수다.
@@ -176,12 +176,12 @@ tags = ["studynote-network"]
 
 ```text
 [선행 개념: UWB]
-    │
-    ▼
+│
+▼
 [현재 개념: 무선 충전 전송 원리]
-    │
-    ├──▶ [확장 A: RFID / NFC 프로토콜 기본 구상]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
+│
+├──▶ [확장 A: RFID / NFC 프로토콜 기본 구상]
+└──▶ [확장 B: 지능형 무선 자원 제어]
 ```
 
 무선 충전 전송 원리는 UWB에서 출발해 현재 메커니즘을 정교화하고, 이후 RFID / NFC [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 기본 구상와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.

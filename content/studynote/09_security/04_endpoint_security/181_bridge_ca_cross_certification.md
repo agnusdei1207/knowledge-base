@@ -46,23 +46,23 @@ tags = ["studynote-security"]
 
 ```text
 ┌──────────────────────────────────────────────────────────────────────┐
-│ Bridge CA federation model                                          │
+│ Bridge CA federation model │
 ├──────────────────────────────────────────────────────────────────────┤
-│ Domain A PKI         Domain B PKI         Domain C PKI              │
-│   Root / PCA           Root / PCA           Root / PCA              │
-│       │                    │                    │                   │
-│       └────── cross-cert ──┼── cross-cert ─────┘                   │
-│                            │                                        │
-│                        Bridge CA                                    │
-│                            │                                        │
-│ Validation on relying party                                         │
-│   leaf cert -> local CA chain -> bridge path -> trusted anchor      │
-│                            │                                        │
-│ Governance checks                                                    │
-│   - certificate policy OID mapping                                  │
-│   - CRL / OCSP reachability                                          │
-│   - name constraints / path constraints                              │
-│   - cross-certificate validity                                       │
+│ Domain A PKI Domain B PKI Domain C PKI │
+│ Root / PCA Root / PCA Root / PCA │
+│ │ │ │ │
+│ └────── cross-cert ──┼── cross-cert ─────┘ │
+│ │ │
+│ Bridge CA │
+│ │ │
+│ Validation on relying party │
+│ leaf cert -> local CA chain -> bridge path -> trusted anchor │
+│ │ │
+│ Governance checks │
+│ - certificate policy OID mapping │
+│ - CRL / OCSP reachability │
+│ - name constraints / path constraints │
+│ - cross-certificate validity │
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -153,20 +153,20 @@ tags = ["studynote-security"]
 
 ```text
 독립 PKI 도메인
-    │
-    ▼
+│
+▼
 직접 교차 인증
-    │
-    └─ 참여 기관 증가 -> 관계 폭증
-    │
-    ▼
+│
+└─ 참여 기관 증가 -> 관계 폭증
+│
+▼
 Bridge CA 허브 연결
-    │
-    ├─ certificate policy mapping
-    ├─ path discovery / validation
-    └─ CRL / OCSP federation
-    │
-    ▼
+│
+├─ certificate policy mapping
+├─ path discovery / validation
+└─ CRL / OCSP federation
+│
+▼
 다기관 신뢰 연합과 상호 운용 PKI
 ```
 
@@ -185,6 +185,6 @@ Bridge CA 허브 연결
 **진행 상황**: 234 / 1108
 
 ← **이전**: [180. 인증서 체인 검증 (Certificate Chain of Trust)](/knowledge-base/studynote/09_security/04_endpoint_security/180_certificate_chain_of_trust/)
-**다음**: [182. 인증서 핀닝 (Certificate Pinning) — 已知 인증서 목록 하드코딩](/knowledge-base/studynote/09_security/04_endpoint_security/182_certificate_pinning_ssl_tls_security/) →
+**다음**: [182. 인증서 핀닝 (Certificate Pinning) — 인증서 목록 하드코딩](/knowledge-base/studynote/09_security/04_endpoint_security/182_certificate_pinning_ssl_tls_security/) →
 
 ---

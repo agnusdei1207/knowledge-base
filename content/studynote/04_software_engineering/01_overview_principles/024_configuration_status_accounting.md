@@ -22,19 +22,19 @@ tags = ["studynote-software-engineering"]
 
 ```text
 ┌───────────────────────────────────────────────────────┐
-│              SCM 4대 활동과 CSA의 위치                  │
+│ SCM 4대 활동과 CSA의 위치 │
 ├───────────────────────────────────────────────────────┤
-│                                                       │
-│  1. CI 식별 (Configuration Identification)            │
-│           ↓                                           │
-│  2. 형상 통제 (Configuration Control) — CCB 승인       │
-│           ↓                                           │
-│  3. ★ 형상 상태 기록 (CSA) ← 지금 여기                │
-│     ├─ 변경 이력 DB 기록                               │
-│     ├─ 상태 보고서(CSR) 생성                           │
-│     └─ 이해관계자 배포                                 │
-│           ↓                                           │
-│  4. 형상 감사 (Configuration Audit) — 검증             │
+│ │
+│ 1. CI 식별 (Configuration Identification) │
+│ ↓ │
+│ 2. 형상 통제 (Configuration Control) — CCB 승인 │
+│ ↓ │
+│ 3. ★ 형상 상태 기록 (CSA) ← 지금 여기 │
+│ ├─ 변경 이력 DB 기록 │
+│ ├─ 상태 보고서(CSR) 생성 │
+│ └─ 이해관계자 배포 │
+│ ↓ │
+│ 4. 형상 감사 (Configuration Audit) — 검증 │
 └───────────────────────────────────────────────────────┘
 ```
 
@@ -58,12 +58,12 @@ tags = ["studynote-software-engineering"]
 ### 형상 상태 보고서([CSR](/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/)) 예시
 
 ```text
-프로젝트: 결제시스템 v3.2   기준일: 2026-04-29
+프로젝트: 결제시스템 v3.2 기준일: 2026-04-29
 ─────────────────────────────────────────────
-CI             버전    상태    CR 번호   완료일
-PaymentAPI     3.2.1   ✅완료  CR-2041  04-25
-OrderService   3.1.9   🔄진행  CR-2055  미정
-DBSchema       3.2.0   ✅완료  CR-2038  04-20
+CI 버전 상태 CR 번호 완료일
+PaymentAPI 3.2.1 ✅완료 CR-2041 04-25
+OrderService 3.1.9 🔄진행 CR-2055 미정
+DBSchema 3.2.0 ✅완료 CR-2038 04-20
 ─────────────────────────────────────────────
 미해결 CR: 1개 (CR-2055), 완료율 66.7%
 ```
@@ -114,7 +114,7 @@ DO-178C [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_
 
 CSA는 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서 [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) + JIRA 자동화로 실시간 [CSR](/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·대시보드화되는 방향으로 발전하고 있으며, 소프트웨어 [BOM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/) (Software [Bill of Materials](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/), [소프트웨어 자재 명세서](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/690_sbom_software_supply_chain_security/))과 결합하여 [공급망 보안](/knowledge-base/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/)([Supply Chain Security](/knowledge-base/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/)) [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)의 핵심 도구로 확장되고 있다.
 
-- **📢 섹션 요약 비유**: CSA는 시스템의 호적(戶籍)이다. 어떤 컴포넌트가 언제 태어나([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)), 누구 허락으로 변했는지(승인), 지금 어디 있는지([버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/))가 모두 기록된 공식 문서다.
+- **📢 섹션 요약 비유**: CSA는 시스템의 호적()이다. 어떤 컴포넌트가 언제 태어나([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)), 누구 허락으로 변했는지(승인), 지금 어디 있는지([버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/))가 모두 기록된 공식 문서다.
 
 ---
 
@@ -132,17 +132,17 @@ CSA는 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/
 
 ```text
 [SCM 형상 식별 — CI 정의 및 기준선 설정]
-    │
-    ▼
+│
+▼
 [형상 통제 — CCB 변경 승인 프로세스]
-    │
-    ▼
+│
+▼
 [CSA — 변경 이력 기록, CSR 생성 (★ 지금 여기)]
-    │
-    ▼
+│
+▼
 [형상 감사 — 기준선 일치 검증, 인증 증적]
-    │
-    ▼
+│
+▼
 [SW BOM + GitOps — 자동화 CSA, 공급망 보안]
 ```
 

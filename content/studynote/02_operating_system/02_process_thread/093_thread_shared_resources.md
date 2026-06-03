@@ -32,27 +32,27 @@ tags = ["studynote-operating-system"]
 
 ```text
 ┌─────────────────────────────────────────────────────────────────────────┐
-│               프로세스 내 스레드 간 자원 공유 아키텍처                  │
+│ 프로세스 내 스레드 간 자원 공유 아키텍처 │
 ├─────────────────────────────────────────────────────────────────────────┤
-│  [ 운영체제가 할당한 단일 프로세스 (Process) 가상 주소 공간 ]             │
-│                                                                         │
-│  ┌─────────────────────────────────────────────────────────┐            │
-│  │  Code (Text)  : 프로그램 명령어 (읽기 전용, 100% 공유)       │            │
-│  ├─────────────────────────────────────────────────────────┤            │
-│  │  Data (BSS/Init): 전역 변수, 정적 변수 (읽기/쓰기 공유)        │            │
-│  ├─────────────────────────────────────────────────────────┤            │
-│  │  Heap         : 동적 할당 메모리 공간 (객체 포인터 공유)      │            │
-│  ├─────────────────────────────────────────────────────────┤            │
-│  │  [공유 시스템 자원] 열린 파일 목록 (FD Table), 시그널 정보      │            │
-│  ├─────────────────────────────────────────────────────────┤            │
-│  │  ↓ (Heap은 아래로 확장)                           (Stack은 ↑) │            │
-│  │                                                         │            │
-│  │ ┌──────────────┐  ┌──────────────┐  ┌──────────────┐    │            │
-│  │ │  Thread 1    │  │  Thread 2    │  │  Thread 3    │    │            │
-│  │ │   Stack      │  │   Stack      │  │   Stack      │    │            │
-│  │ │  (독립 할당)   │  │  (독립 할당)   │  │  (독립 할당)   │    │            │
-│  │ └──────────────┘  └──────────────┘  └──────────────┘    │            │
-│  └─────────────────────────────────────────────────────────┘            │
+│ [ 운영체제가 할당한 단일 프로세스 (Process) 가상 주소 공간 ] │
+│ │
+│ ┌─────────────────────────────────────────────────────────┐ │
+│ │ Code (Text) : 프로그램 명령어 (읽기 전용, 100% 공유) │ │
+│ ├─────────────────────────────────────────────────────────┤ │
+│ │ Data (BSS/Init): 전역 변수, 정적 변수 (읽기/쓰기 공유) │ │
+│ ├─────────────────────────────────────────────────────────┤ │
+│ │ Heap : 동적 할당 메모리 공간 (객체 포인터 공유) │ │
+│ ├─────────────────────────────────────────────────────────┤ │
+│ │ [공유 시스템 자원] 열린 파일 목록 (FD Table), 시그널 정보 │ │
+│ ├─────────────────────────────────────────────────────────┤ │
+│ │ ↓ (Heap은 아래로 확장) (Stack은 ↑) │ │
+│ │ │ │
+│ │ ┌──────────────┐ ┌──────────────┐ ┌──────────────┐ │ │
+│ │ │ Thread 1 │ │ Thread 2 │ │ Thread 3 │ │ │
+│ │ │ Stack │ │ Stack │ │ Stack │ │ │
+│ │ │ (독립 할당) │ │ (독립 할당) │ │ (독립 할당) │ │ │
+│ │ └──────────────┘ └──────────────┘ └──────────────┘ │ │
+│ └─────────────────────────────────────────────────────────┘ │
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -74,7 +74,7 @@ tags = ["studynote-operating-system"]
 | **[결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 격리 ([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))**| **한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 오류(Segfault) 시 전체 사망** | 한 프로세스가 죽어도 타 프로세스 생존 | **안정성 및 장애 전파 ([Reliability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/))** |
 | **개발 복잡도** | **[Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/), [Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 방어 필수 (높음)** | OS가 통제를 대행하므로 상대적으로 낮음 | **[동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) ([Synchronization](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)) 난이도** |
 
-[다중 스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/) 환경에서는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 Heap의 변수를 업데이트하면 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) B는 일반 메모리 로드 명령 한 줄로 그 값을 즉각 인식한다. 하지만 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)의 치명적인 약점은 생사(生死)를 함께한다는 점이다. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 하나가 잘못된 포인터를 건드려 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) 폴트 ([Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) Fault)를 일으키면, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 해당 주소 공간 전체를 회수하므로 프로세스 내부의 무고한 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)까지 몰살당한다.
+[다중 스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/) 환경에서는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 Heap의 변수를 업데이트하면 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) B는 일반 메모리 로드 명령 한 줄로 그 값을 즉각 인식한다. 하지만 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)의 치명적인 약점은 생사()를 함께한다는 점이다. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 하나가 잘못된 포인터를 건드려 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) 폴트 ([Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) Fault)를 일으키면, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 해당 주소 공간 전체를 회수하므로 프로세스 내부의 무고한 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)까지 몰살당한다.
 
 - **📢 섹션 요약 비유**: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 자원 공유는 **'옆자리에 앉은 동료에게 문서를 직접 건네주는 것'**처럼 빠르지만, 만약 그 동료가 실수로 책상에 커피를 엎지르면 내 서류까지 몽땅 젖어버리는([결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 격리 실패) 치명적 위험을 내포한다. 프로세스의 IPC는 우체국을 통해 등기 우편을 보내는 것처럼 느리지만 확실히 안전하다.
 
@@ -84,10 +84,10 @@ tags = ["studynote-operating-system"]
 
 무분별한 자원 공유는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 전체를 예측 불가능한 버그의 늪으로 몰아넣는다. 실무에서는 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 통제가 핵심이다.
 
-1. **경쟁 상태 ([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)) 방어 설계**  
-   여러 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 영역의 전역 변수(예: 조회수 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))를 동시에 증가시킬 때, 메모리 로드(Load)-연산(Add)-저장(Store)의 비원자성 때문에 카운트가 누락되는 현상이 잦다. 실무 엔지니어는 공유 자원 접근 구간인 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) ([Critical Section](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/))을 식별하고, 반드시 뮤텍스 ([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))나 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/) ([Spinlock](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/))을 걸어 배타적 접근을 보장하거나, 하드웨어 단의 [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) ([Compare-And-Swap](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/415_compare_and_swap/)) 명령을 사용하는 원자적 (Atomic) 자료구조를 도입해야 한다.
-2. **[OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 방어 및 열린 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 한계 튜닝**  
-   웹 서버(Nginx, Tomcat)에서 수만 개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 띄울 때, 모든 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 열린 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 목록을 공유하므로 OS의 `ulimit` ([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터 최대 한계) 설정치를 초과해 "Too many open files" 에러가 발생하기 쉽다. 또한 [Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/) 영역의 메모리 릭 ([Memory Leak](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/))은 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 실수가 프로세스 전체의 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) ([Out Of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) 킬러 호출로 이어지므로 엄격한 할당 해제 검증이 필수다.
+1. **경쟁 상태 ([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)) 방어 설계**
+여러 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 영역의 전역 변수(예: 조회수 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))를 동시에 증가시킬 때, 메모리 로드(Load)-연산(Add)-저장(Store)의 비원자성 때문에 카운트가 누락되는 현상이 잦다. 실무 엔지니어는 공유 자원 접근 구간인 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) ([Critical Section](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/))을 식별하고, 반드시 뮤텍스 ([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))나 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/) ([Spinlock](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/))을 걸어 배타적 접근을 보장하거나, 하드웨어 단의 [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) ([Compare-And-Swap](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/415_compare_and_swap/)) 명령을 사용하는 원자적 (Atomic) 자료구조를 도입해야 한다.
+2. **[OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 방어 및 열린 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 한계 튜닝**
+웹 서버(Nginx, Tomcat)에서 수만 개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 띄울 때, 모든 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 열린 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 목록을 공유하므로 OS의 `ulimit` ([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터 최대 한계) 설정치를 초과해 "Too many open files" 에러가 발생하기 쉽다. 또한 [Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/) 영역의 메모리 릭 ([Memory Leak](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/))은 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 실수가 프로세스 전체의 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) ([Out Of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) 킬러 호출로 이어지므로 엄격한 할당 해제 검증이 필수다.
 
 - **📢 섹션 요약 비유**: 공유 도로([공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/))에서는 모든 차들이 장애물 없이 쌩쌩 달릴 수 있어 빠르지만, 교차로 한가운데에 정확한 신호등([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 설치해 주지 않으면 결국 대형 교통사고([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 훼손)가 나고 모든 도로가 마비되는 결과를 낳는다.
 
@@ -115,17 +115,17 @@ tags = ["studynote-operating-system"]
 
 ```text
 다중 프로세스의 메모리 낭비 및 무거운 IPC 병목
-    │
-    ▼
+│
+▼
 스레드 (Thread) 등장 · 주소 공간 (Code/Data/Heap) 공유 메커니즘
-    │
-    ▼
+│
+▼
 경쟁 상태 (Race Condition) 발생 · 결함 격리 실패
-    │
-    ▼
+│
+▼
 뮤텍스 (Mutex), 세마포어 (Semaphore)를 통한 동기화 제어
-    │
-    ▼
+│
+▼
 락 프리 (Lock-free) 자료구조 및 TLS (Thread Local Storage) 도입 (현대적 최적화)
 ```
 

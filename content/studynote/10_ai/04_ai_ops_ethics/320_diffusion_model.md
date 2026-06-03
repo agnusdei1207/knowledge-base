@@ -25,10 +25,10 @@ tags = ["studynote-ai"]
 
 ```text
 ┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
+│ Background Problem → Need → Adoption Value │
 ├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
+│ Existing limitation │ Operational pressure │
+│ New requirement │ Design decision point │
 └──────────────────────────────────────────────┘
 ```
 
@@ -40,29 +40,29 @@ tags = ["studynote-ai"]
 
 ```text
 ┌──────────────────────────────────────────────────────────────────┐
-│         디퓨전 모델 순방향/역방향 과정 및 학습 구조                    │
+│ 디퓨전 모델 순방향/역방향 과정 및 학습 구조 │
 ├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  순방향 과정 (Forward Diffusion, q):                               │
-│  x_0(원본) → x_1 → x_2 → ... → x_T(순수 노이즈)                  │
-│  q(x_t | x_{t-1}) = N(x_t; √(1-β_t)·x_{t-1}, β_t·I)           │
-│  β_t: 노이즈 스케줄 (0.0001~0.02, 점점 증가)                      │
-│                                                                  │
-│  x_t 직접 계산 (닫힌 형식):                                         │
-│  x_t = √ᾱ_t·x_0 + √(1-ᾱ_t)·ε   (ε ~ N(0, I))                  │
-│                                                                  │
-│  역방향 과정 (Reverse Diffusion, p_θ):                            │
-│  x_T → x_{T-1} → ... → x_0 (신경망 ε_θ로 노이즈 예측 후 제거)    │
-│                                                                  │
-│  학습 목표:  ||ε - ε_θ(x_t, t, c)||²  (노이즈 예측 MSE 손실)       │
-│  c: 조건 (텍스트 임베딩 등), t: 타임스텝                             │
-│                                                                  │
-│  Latent Diffusion Model (LDM, Stable Diffusion):                │
-│  픽셀 공간 대신 VAE 잠재 공간에서 디퓨전 수행 → 100배 빠름           │
-│  ┌──────────────────────────────────────────────────────┐       │
-│  │  텍스트 프롬프트 → CLIP 텍스트 인코더 → 조건 벡터 c       │       │
-│  │  잠재 노이즈 z_T → U-Net(노이즈 예측) → z_0 → VAE 디코딩 → 이미지│       │
-│  └──────────────────────────────────────────────────────┘       │
+│ │
+│ 순방향 과정 (Forward Diffusion, q): │
+│ x_0(원본) → x_1 → x_2 → ... → x_T(순수 노이즈) │
+│ q(x_t | x_{t-1}) = N(x_t; √(1-β_t)·x_{t-1}, β_t·I) │
+│ β_t: 노이즈 스케줄 (0.0001~0.02, 점점 증가) │
+│ │
+│ x_t 직접 계산 (닫힌 형식): │
+│ x_t = √ᾱ_t·x_0 + √(1-ᾱ_t)·ε (ε ~ N(0, I)) │
+│ │
+│ 역방향 과정 (Reverse Diffusion, p_θ): │
+│ x_T → x_{T-1} → ... → x_0 (신경망 ε_θ로 노이즈 예측 후 제거) │
+│ │
+│ 학습 목표: ||ε - ε_θ(x_t, t, c)||² (노이즈 예측 MSE 손실) │
+│ c: 조건 (텍스트 임베딩 등), t: 타임스텝 │
+│ │
+│ Latent Diffusion Model (LDM, Stable Diffusion): │
+│ 픽셀 공간 대신 VAE 잠재 공간에서 디퓨전 수행 → 100배 빠름 │
+│ ┌──────────────────────────────────────────────────────┐ │
+│ │ 텍스트 프롬프트 → CLIP 텍스트 인코더 → 조건 벡터 c │ │
+│ │ 잠재 노이즈 z_T → U-Net(노이즈 예측) → z_0 → VAE 디코딩 → 이미지│ │
+│ └──────────────────────────────────────────────────────┘ │
 └──────────────────────────────────────────────────────────────────┘
 ```
 
@@ -100,7 +100,7 @@ tags = ["studynote-ai"]
 - **[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 이미지 탐지**: [C2PA](/knowledge-base/studynote/09_security/19_ai_advanced_security/962_c2pa/) (Content Credentials), [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 이미지 탐지 AI로 출처 투명성 확보
 
 **이미지 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 품질 평가 지표**:
-- FID (Fréchet Inception Distance): 실제/[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 이미지 분포 간 거리 → 낮을수록 품질 高
+- FID (Fréchet Inception Distance): 실제/[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 이미지 분포 간 거리 → 낮을수록 품질
 - [CLIP](/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/) Score: 텍스트 프롬프트와 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 이미지의 의미적 일치도
 - IS (Inception Score): [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 이미지의 다양성과 선명도
 

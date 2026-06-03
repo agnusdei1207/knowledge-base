@@ -19,13 +19,13 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) ([Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))은 시스템이 정상 동작하는 시간을 전체 운영 시간 대비 비율로 나타낸ものであり、"運用開始後にシステムが正常使用できる状態にある概率"を示す。計算式은 가동률 또는 가용률이라고도 하며, "[MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) / ([MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) + [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/))"으로 표기된다. 여기서 MTBF는 평균 고장 간 시간 (Mean Time Between Failures), MTTR은 평균 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 (Mean Time To Repair)이다.
+- **개념**: [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) ([Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))은 시스템이 정상 동작하는 시간을 전체 운영 시간 대비 비율로 나타낸도의이며、"에시스템이/가사용할 수 있다상태에"을/를。은 가동률 또는 가용률이라고도 하며, "[MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) / ([MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) + [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/))"으로 표기된다. 여기서 MTBF는 평균 고장 간 시간 (Mean Time Between Failures), MTTR은 평균 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 (Mean Time To Repair)이다.
 
 - **필요성**: 시스템의 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)은 비즈니스의 연속성에 직접적인 영향을 미친다. [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)이 낮으면 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단이 잦아지고, 고객 불만이 발생하며, 매출 손실과 평판 손실로 이어질 수 있다. 특히 금융, 전자상거래, 의료 등 연속성이 중요한 분야에서 목표 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 달성은 핵심 과제이다.
 
-- **💡 비유**: [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)은 "항공사 운항률"에 비유할 수 있다. 항공사에서 비행기가 운항하는 시간(正常运行时间)과 정비 시간(고장/수리 시간)의 비율이 운항률이고, 이것이 높으면利用客는 더 편리하게利用할 수 있다.
+- **💡 비유**: [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)은 "항공사 운항률"에 비유할 수 있다. 항공사에서 비행기가 운항하는 시간()과 정비 시간(고장/수리 시간)의 비율이 운항률이고, 이것이 높으면활용는 더 편리하게활용할 수 있다.
 
-- **📢 섹션 요약 비유**: [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)은 "병원 의사의 진료 가능 시간"에 비유할 수 있다. 의사가 환자를 진료하는 시간(정상 동작 시간)과 다른 업무(수리 시간)로 인해 진료를 할 수 없는時間の比率が Availabilityである。
+- **📢 섹션 요약 비유**: [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)은 "병원 의사의 진료 가능 시간"에 비유할 수 있다. 의사가 환자를 진료하는 시간(정상 동작 시간)과 다른 업무(수리 시간)로 인해 진료를 할 수 없는의이/가 Availability이다。
 
 ---
 
@@ -33,14 +33,14 @@ tags = ["studynote-software-engineering"]
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                  가용성 (Availability) 계                        │
+│ 가용성 (Availability) 계 │
 ├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
+│ │
+│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
+│ │ │ │ │
+│ ▼ ▼ ▼ │
+│ 요구 분석 설계·적용 품질 검증 │
+│ │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -141,17 +141,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+│
+▼
 가용성 (Availability) 계산 = MTBF / (MTBF + MTTR) 개념 정립
-    │
-    ▼
+│
+▼
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+│
+▼
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+│
+▼
 지속적 개선 및 DevOps·MLOps 통합
 ```
 

@@ -1,6 +1,6 @@
 +++
 title = "75. 현대 암호학 기본 가정 — computationally infeasible"
-description = "현대 암호算法的安全性的数学基础：计算上不可能"
+description = "현대 암호알고리즘보안수：컴퓨팅"
 date = 2026-03-26
 
 [taxonomies]
@@ -26,8 +26,8 @@ tags = ["studynote-software-engineering"]
 
 ```text
 secret -> algorithm -> attacker search cost -> infeasible -> security
-                   │
-                   └─ 2^n growth
+│
+└─ 2^n growth
 ```
 
 핵심은 공격자가 포기하는 것이 아니라, 끝내지 못하게 만드는 데 있다.
@@ -108,17 +108,17 @@ computational infeasibility는 암호학의 현실주의를 보여 준다. 보�
 
 ```text
 secret
-  │
-  ▼
+│
+▼
 algorithm
-  │
-  ▼
+│
+▼
 search cost
-  │
-  ▼
+│
+▼
 infeasible
-  │
-  ▼
+│
+▼
 security
 ```
 

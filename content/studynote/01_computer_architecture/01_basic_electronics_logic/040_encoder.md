@@ -10,7 +10,7 @@ tags = ["studynote-computer-architecture"]
 +++
 
 > **핵심 인사이트**
-> 1. 인코더(Encoder)는 2ⁿ개의 입력선 중 정확히 하나가 활성화될 때 n비트 이진 코드를 출력하는 조합 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로로, [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)([Decoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/))의 역(逆) 기능을 수행하며 키보드·우선순위 제어·주소 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 등에 핵심적으로 활용된다.
+> 1. 인코더(Encoder)는 2ⁿ개의 입력선 중 정확히 하나가 활성화될 때 n비트 이진 코드를 출력하는 조합 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로로, [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)([Decoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/))의 역() 기능을 수행하며 키보드·우선순위 제어·주소 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 등에 핵심적으로 활용된다.
 > 2. 우선순위 인코더(Priority Encoder)는 여러 입력이 동시에 활성화될 때 가장 높은 우선순위 입력만 처리하는 실용적 확장으로, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 컨트롤러([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Controller) 구현의 기반이 된다.
 > 3. [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)와 인코더의 조합은 [멀티플렉서](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/041_multiplexer/)([MUX](/knowledge-base/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/))·[디멀티플렉서](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/042_demultiplexer/)(DEMUX)와 함께 디지털 시스템에서 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 선택·변환·압축의 4대 핵심 회로를 구성한다.
 
@@ -22,24 +22,24 @@ tags = ["studynote-computer-architecture"]
 2ⁿ → n 인코더 (2⁴ = 16 → 4):
 
 입력 (16개 중 1개 활성) → 출력 (4비트)
-  0000 0000 0001 → 0000
-  0000 0000 0010 → 0001
-  0000 0000 0100 → 0010
-  ...
-  1000 0000 0000 0000 → 1111
+0000 0000 0001 → 0000
+0000 0000 0010 → 0001
+0000 0000 0100 → 0010
+...
+1000 0000 0000 0000 → 1111
 
 8 → 3 인코더 진리표 예시:
-  I7 I6 I5 I4 I3 I2 I1 I0 | Y2 Y1 Y0
-   0  0  0  0  0  0  0  1 |  0  0  0
-   0  0  0  0  0  0  1  0 |  0  0  1
-   0  0  0  0  0  1  0  0 |  0  1  0
-   ...
-   1  0  0  0  0  0  0  0 |  1  1  1
+I7 I6 I5 I4 I3 I2 I1 I0 | Y2 Y1 Y0
+0 0 0 0 0 0 0 1 | 0 0 0
+0 0 0 0 0 0 1 0 | 0 0 1
+0 0 0 0 0 1 0 0 | 0 1 0
+...
+1 0 0 0 0 0 0 0 | 1 1 1
 
 불 식:
-  Y0 = I1 + I3 + I5 + I7
-  Y1 = I2 + I3 + I6 + I7
-  Y2 = I4 + I5 + I6 + I7
+Y0 = I1 + I3 + I5 + I7
+Y1 = I2 + I3 + I6 + I7
+Y2 = I4 + I5 + I6 + I7
 ```
 
 > 📢 **섹션 요약 비유**: 인코더는 여러 층 건물에서 어느 층 버튼을 눌렀는지 엘리베이터 제어기에 이진수로 알려주는 층수 변환기.
@@ -50,20 +50,20 @@ tags = ["studynote-computer-architecture"]
 
 ```
 Priority Encoder:
-  여러 입력 동시 활성 시 최고 우선순위만 처리
+여러 입력 동시 활성 시 최고 우선순위만 처리
 
 74LS148 (8→3 우선순위 인코더) 동작:
 
-  입력 I7=1, I3=1 동시 활성:
-    -> I7 우선 처리 -> 출력 = 111
+입력 I7=1, I3=1 동시 활성:
+-> I7 우선 처리 -> 출력 = 111
 
 우선순위 인코더 진리표:
-  I7 I6 I5 I4 I3 I2 I1 I0 | Y2 Y1 Y0 | GS
-   X  X  X  X  X  X  X  0 |  X  X  X |  0  (유효 입력 없음)
-   0  0  0  0  0  0  0  1 |  0  0  0 |  1
-   0  0  0  0  0  0  1  X |  0  0  1 |  1
-   0  0  0  0  0  1  X  X |  0  1  0 |  1
-   1  X  X  X  X  X  X  X |  1  1  1 |  1
+I7 I6 I5 I4 I3 I2 I1 I0 | Y2 Y1 Y0 | GS
+X X X X X X X 0 | X X X | 0 (유효 입력 없음)
+0 0 0 0 0 0 0 1 | 0 0 0 | 1
+0 0 0 0 0 0 1 X | 0 0 1 | 1
+0 0 0 0 0 1 X X | 0 1 0 | 1
+1 X X X X X X X | 1 1 1 | 1
 
 GS (Group Select): 유효 입력 존재 표시
 ```
@@ -76,19 +76,19 @@ GS (Group Select): 유효 입력 존재 표시
 
 ```
 비교:
-  구분         인코더(Encoder)        디코더(Decoder)
-  방향         n → 2ⁿ 비트 입력      n비트 → 2ⁿ 출력
-  입력 수      2ⁿ개 입력선           n비트 코드
-  출력 수      n비트 코드            2ⁿ개 출력선
-  활성 입력    1개만                 n비트 코드 (전체)
-  역기능       상호 역(逆) 관계
-  
-  응용 비교:
-  인코더: 키보드 입력, IRQ 우선순위, A/D 변환
-  디코더: 메모리 주소 선택, 7세그먼트 표시, 명령어 해독
+구분 인코더(Encoder) 디코더(Decoder)
+방향 n → 2ⁿ 비트 입력 n비트 → 2ⁿ 출력
+입력 수 2ⁿ개 입력선 n비트 코드
+출력 수 n비트 코드 2ⁿ개 출력선
+활성 입력 1개만 n비트 코드 (전체)
+역기능 상호 역() 관계
+
+응용 비교:
+인코더: 키보드 입력, IRQ 우선순위, A/D 변환
+디코더: 메모리 주소 선택, 7세그먼트 표시, 명령어 해독
 
 조합:
-  키보드 --[인코더]--> 이진 코드 --[디코더]--> LED 표시
+키보드 --[인코더]--> 이진 코드 --[디코더]--> LED 표시
 ```
 
 > 📢 **섹션 요약 비유**: 인코더는 한국어→영어 번역기, [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)는 영어→한국어 번역기 — 서로 반대 방향 변환기.
@@ -100,21 +100,21 @@ GS (Group Select): 유효 입력 존재 표시
 ```
 CPU 인터럽트 처리 (8259A PIC 구조):
 
-  장치들         우선순위 인코더      CPU
-  IRQ0 (타이머)  ─────────────────>
-  IRQ1 (키보드)  ──> 8259A PIC ──>  INT 신호
-  IRQ2 (계단식)       (우선순위       INTA 응답
-  ...                 인코더 내장)
-  IRQ7
+장치들 우선순위 인코더 CPU
+IRQ0 (타이머) ─────────────────>
+IRQ1 (키보드) ──> 8259A PIC ──> INT 신호
+IRQ2 (계단식) (우선순위 INTA 응답
+... 인코더 내장)
+IRQ7
 
 동작:
-  1. 여러 IRQ 동시 발생
-  2. PIC가 우선순위 인코더로 최고 우선순위 결정
-  3. CPU에 INT 신호 전송 + 벡터 번호 제공
-  4. CPU는 IDT에서 핸들러 주소 찾아 점프
+1. 여러 IRQ 동시 발생
+2. PIC가 우선순위 인코더로 최고 우선순위 결정
+3. CPU에 INT 신호 전송 + 벡터 번호 제공
+4. CPU는 IDT에서 핸들러 주소 찾아 점프
 
 우선순위:
-  IRQ0 (최고) > IRQ1 > ... > IRQ7 (최저)
+IRQ0 (최고) > IRQ1 > ... > IRQ7 (최저)
 ```
 
 > 📢 **섹션 요약 비유**: [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 컨트롤러는 응급실 트리아지 — 여러 환자 동시 도착 시 위급도(우선순위) 따라 순서 결정.
@@ -126,17 +126,17 @@ CPU 인터럽트 처리 (8259A PIC 구조):
 ```
 아날로그 센서 데이터 디지털화:
 
-  센서 출력    비교기(Comparator)   우선순위 인코더   MCU
-  0.0~0.5V  -> C0 활성화 ──────────────────────> 000
-  0.5~1.0V  -> C1 활성화 ──> 8→3 인코더 ──────> 001
-  ...              (Flash ADC 구조)               ...
-  3.5~4.0V  -> C7 활성화 ──────────────────────> 111
+센서 출력 비교기(Comparator) 우선순위 인코더 MCU
+0.0~0.5V -> C0 활성화 ──────────────────────> 000
+0.5~1.0V -> C1 활성화 ──> 8→3 인코더 ──────> 001
+... (Flash ADC 구조) ...
+3.5~4.0V -> C7 활성화 ──────────────────────> 111
 
 Flash ADC 특징:
-  - 2ⁿ-1개 비교기 사용
-  - 단일 클럭 사이클로 변환 (초고속)
-  - 8비트: 255개 비교기 + 8→256 디코더 + 우선순위 인코더
-  - 단점: 하드웨어 비용 매우 높음
+- 2ⁿ-1개 비교기 사용
+- 단일 클럭 사이클로 변환 (초고속)
+- 8비트: 255개 비교기 + 8→256 디코더 + 우선순위 인코더
+- 단점: 하드웨어 비용 매우 높음
 
 활용: 오실로스코프, 레이더, 고속 통신 수신기
 ```
@@ -150,17 +150,17 @@ Flash ADC 특징:
 ```
 인코더 (Encoder)
 +-- 기본 유형
-|   +-- 일반 인코더 (2ⁿ → n)
-|   +-- 우선순위 인코더 (Priority Encoder)
+| +-- 일반 인코더 (2ⁿ → n)
+| +-- 우선순위 인코더 (Priority Encoder)
 +-- 역관계
-|   +-- 디코더 (Decoder, n → 2ⁿ)
+| +-- 디코더 (Decoder, n → 2ⁿ)
 +-- 응용
-|   +-- 인터럽트 컨트롤러 (8259A PIC)
-|   +-- Flash ADC (고속 A/D 변환)
-|   +-- 키보드 스캔 회로
+| +-- 인터럽트 컨트롤러 (8259A PIC)
+| +-- Flash ADC (고속 A/D 변환)
+| +-- 키보드 스캔 회로
 +-- 관련 조합 논리 회로
-    +-- MUX (멀티플렉서)
-    +-- DEMUX (디멀티플렉서)
++-- MUX (멀티플렉서)
++-- DEMUX (디멀티플렉서)
 ```
 
 ---
@@ -170,21 +170,21 @@ Flash ADC 특징:
 ```
 [기초 논리 게이트 (1950s)]
 OR/AND 게이트 조합
-      |
-      v
+|
+v
 [인코더/디코더 IC (1960~70s)]
 74 시리즈 표준 논리 IC
-      |
-      v
+|
+v
 [우선순위 인코더 (1970s)]
 8259A PIC (Intel 1976)
 인터럽트 우선순위 관리
-      |
-      v
+|
+v
 [Flash ADC 응용 (1980s)]
 고속 아날로그-디지털 변환
-      |
-      v
+|
+v
 [현재: FPGA/ASIC 내장]
 SoC 내부 우선순위 회로
 IoT 센서 인터페이스

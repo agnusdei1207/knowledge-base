@@ -19,19 +19,19 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중심 아키텍처는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 시스템 설계의 핵심으로位置指定하는 설계 패러다임이다. 전통적인 애플리케이션 중심(Application-Centric) 설계에서는 "무엇을 하는가(기능)"가 초점이었던 반면, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중심 설계에서는 "어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다루는가(정보)"와 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어떻게 관리하고 품질을 유지하는가"가 핵심이다.
+- **개념**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중심 아키텍처는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 시스템 설계의 핵심으로하는 설계 패러다임이다. 전통적인 애플리케이션 중심(Application-Centric) 설계에서는 "무엇을 하는가(기능)"가 초점이었던 반면, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중심 설계에서는 "어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다루는가(정보)"와 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어떻게 관리하고 품질을 유지하는가"가 핵심이다.
 
 - **필요성**: 많은 기업이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 활용하려고 노력하지만, 실제로는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/))가 존재하고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질이 낮으며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 출처를 몰라 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 문제 등이 발생한다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중심 아키텍처는 이러한 문제를 해결하고 조직 전체에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가치 있게 활용할 수 있게 한다.
 
-- **💡 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중심 아키텍처는 **'도시의 상하수도 시스템'**과 같다. 도시에 물을 공급하고汚水を處理하는 것은 개별 가정의 문제가 아니라central한 상하수도 시스템이 담당한다. 물([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 시민 모두의生活에 필수이며, 수질([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질)을統一적으로 관리하고, 어디서든 깨끗한 물을 받을 수 있어야 한다. 상하수도 시스템이 부실하면 모든 가정에 영향이 미치듯이, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 아키텍처가 부실하면 모든 애플리케이션과 의사결정에悪影響가 간다.
+- **💡 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중심 아키텍처는 **'도시의 상하수도 시스템'**과 같다. 도시에 물을 공급하고을/를하는 것은 개별 가정의 문제가 아니라central한 상하수도 시스템이 담당한다. 물([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 시민 모두의에 필수이며, 수질([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질)을적으로 관리하고, 어디서든 깨끗한 물을 받을 수 있어야 한다. 상하수도 시스템이 부실하면 모든 가정에 영향이 미치듯이, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 아키텍처가 부실하면 모든 애플리케이션과 의사결정에가 간다.
 
 - **등장 배경 및 발전 과정**:
-  1. **1990년대**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)웨어하우스([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)), [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/) 등 기업 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 개념 발전
-  2. **2010년대**: 빅데이터, [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 생태계, [Data Lake](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) 개념 등장
-  3. **2020년대**: [Data Mesh](/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/) (도메인별 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유), [Data Fabric](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/) ([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합) 확산
-  4. **현재**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/ML, 실시간 분석 요구 증가로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중심 아키텍처 재조명
+1. **1990년대**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)웨어하우스([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)), [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/) 등 기업 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 개념 발전
+2. **2010년대**: 빅데이터, [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 생태계, [Data Lake](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) 개념 등장
+3. **2020년대**: [Data Mesh](/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/) (도메인별 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유), [Data Fabric](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/) ([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합) 확산
+4. **현재**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/ML, 실시간 분석 요구 증가로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중심 아키텍처 재조명
 
-- **📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중심 아키텍처는 **'음식물원산지 이력 시스템'**과 같다. 식품의原料原産地 이력을管理하면万一 Food Poisoning 사고時に即座에 문제의原料를 추적할 수 있다./software에서도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 출처,변환 과정, 품질属性을管理하면、[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 관한 모든 것을把握할 수 있고, 문제 발생 시 원인 파악과 대응이迅速해진다.
+- **📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중심 아키텍처는 **'음식물원산지 이력 시스템'**과 같다. 식품의 이력을관리하면만일 Food Poisoning 사고에즉시에 문제의를 추적할 수 있다./software에서도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 출처,변환 과정, 품질을관리하면、[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 관한 모든 것을할 수 있고, 문제 발생 시 원인 파악과 대응이해진다.
 
 ---
 
@@ -39,14 +39,14 @@ tags = ["studynote-software-engineering"]
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                  데이터 중심(Data-Centric)                        │
+│ 데이터 중심(Data-Centric) │
 ├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
+│ │
+│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
+│ │ │ │ │
+│ ▼ ▼ ▼ │
+│ 요구 분석 설계·적용 품질 검증 │
+│ │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -147,17 +147,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+│
+▼
 데이터 중심(Data-Centric) 아키텍처의 품질 보증 개념 정립
-    │
-    ▼
+│
+▼
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+│
+▼
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+│
+▼
 지속적 개선 및 DevOps·MLOps 통합
 ```
 

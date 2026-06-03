@@ -23,11 +23,11 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 전통적인 프로그래밍에서는 필요한 객체를 직접 생성하여 사용하였다. 예를 들어, `UserService`가 `UserRepository`에 의존할 때, `UserService` 내부에서 `new JdbcUserRepository()`를 직접 생성하였다. 이 방식의 문제점은 `UserRepository`의 구현체를 `JpaUserRepository`로 교체할 때 `UserService`의 코드도 수정해야 한다는 것이다. DI를 적용하면 이러한 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)가 제거되어, 구현체 교체 시 Caller 코드의 수정이 필요 없어진다.
 
-- **💡 비유**: DI는 "호텔의 룸서비스"와 같다. 손님(개발자 코드)이 식사(의존 객체)가 필요할 때, 직접厨房(구현체)에서 요리를 만들지 않고,フロント(IContainer)에 주문하면服务员(프레임워크)가 적절한 요리를 방으로 가져다준다. 손님은 요리의 종류(구현체)를 몰라도 항상 식사를받을 수 있다.
+- **💡 비유**: DI는 "호텔의 룸서비스"와 같다. 손님(개발자 코드)이 식사(의존 객체)가 필요할 때, 직접(구현체)에서 요리를 만들지 않고,(IContainer)에 주문하면(프레임워크)가 적절한 요리를 방으로 가져다준다. 손님은 요리의 종류(구현체)를 몰라도 항상 식사를받을 수 있다.
 
 - **등장 배경**: [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) 패턴은 1994년 마틴 파울러 (Martin Fowler)가 "Inversion of Control"이라는 이름으로 소개하였고, 이후 2004년 봄싹(Rod Johnson)이Expert One-on-One J2EE Design and Development에서 [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) 개념을 구체화하였으며, 2006년 Spring Framework 2.0에서 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)/[schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) 기반의 [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) 기능이 대중화되었다.
 
-- **📢 섹션 요약 비유**: DI는 "우체통比喻"과 같다. 각 집(객체)은 우체통(인터페이스)만 가지고 있으며, 우체국이 어떤 배달원(구현체)을 보낼지는 집에서 결정하지 않는다. 배달원이 바뀌어도(구현체 교체) 우체통은 그대로 사용할 수 있다.
+- **📢 섹션 요약 비유**: DI는 "우체통"과 같다. 각 집(객체)은 우체통(인터페이스)만 가지고 있으며, 우체국이 어떤 배달원(구현체)을 보낼지는 집에서 결정하지 않는다. 배달원이 바뀌어도(구현체 교체) 우체통은 그대로 사용할 수 있다.
 
 ---
 
@@ -35,14 +35,14 @@ tags = ["studynote-software-engineering"]
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                  의존성 주입 (DI, Dependen                        │
+│ 의존성 주입 (DI, Dependen │
 ├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
+│ │
+│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
+│ │ │ │ │
+│ ▼ ▼ ▼ │
+│ 요구 분석 설계·적용 품질 검증 │
+│ │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -143,17 +143,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+│
+▼
 의존성 주입 (DI, Dependency Injection) 개념 정립
-    │
-    ▼
+│
+▼
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+│
+▼
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+│
+▼
 지속적 개선 및 DevOps·MLOps 통합
 ```
 

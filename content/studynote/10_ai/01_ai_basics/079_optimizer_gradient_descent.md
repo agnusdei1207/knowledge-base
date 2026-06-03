@@ -18,7 +18,7 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-딥러닝 신경망을 처음 만들면 각 뉴런(노드)을 연결하는 선들의 굵기([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/), [Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))는 완전히 랜덤이다. 고양이 사진을 넣어도 '개'라고 오답을 뱉는다. 여기서 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습([Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/))의 목적은 이 수백만 개의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 다이얼을 돌려 오차(Loss)를 '0'에 가깝게 만드는 것이다. 
+딥러닝 신경망을 처음 만들면 각 뉴런(노드)을 연결하는 선들의 굵기([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/), [Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))는 완전히 랜덤이다. 고양이 사진을 넣어도 '개'라고 오답을 뱉는다. 여기서 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습([Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/))의 목적은 이 수백만 개의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 다이얼을 돌려 오차(Loss)를 '0'에 가깝게 만드는 것이다.
 
 하지만 수백만 개의 다이얼을 한 번에 다 맞춰볼 수는 없다(경우의 수가 우주 원자보다 많음). 수학자들은 미분(Differentiation)이라는 칼을 빼들었다. 오차(Loss)라는 거대한 산맥 한가운데 뚝 떨어진 맹인(모델)에게, **"지금 발바닥의 기울기(미분)를 느껴보고, 가장 가파르게 내리막길로 향하는 방향으로 딱 한 발짝([학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/), [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Rate)만 걸어라"**라고 명령하는 것이다. 이것이 손실의 바닥을 찾아 하산하는 위대한 여정, [경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/)([Gradient Descent](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/))의 시작이다.
 
@@ -33,23 +33,23 @@ tags = ["studynote-ai"]
 
 ```text
 ┌────────────────────────────────────────────────────────┐
-│           경사 하강법 (Gradient Descent) 가중치 업데이트 메커니즘 │
+│ 경사 하강법 (Gradient Descent) 가중치 업데이트 메커니즘 │
 ├────────────────────────────────────────────────────────┤
-│   [ 공식 ]                                             │
-│   새로운 가중치 = 현재 가중치 - (학습률 × 손실 함수의 기울기)      │
-│   W_new  =  W_old - ( α × ∂L / ∂W )                    │
-│                                                        │
-│   [ 하산(학습)의 과정 ]                                    │
-│    (오차 山 꼭대기)                                       │
-│       🔴 (초기 W) 기울기가 크다! ──▶ 보폭을 크게 성큼성큼 이동  │
-│         ↘                                             │
-│           ↘  (중간 W) 기울기가 줄어든다 ──▶ 보폭을 점점 줄임 │
-│             ↘                                         │
-│               🔴 (바닥 도달, 최적 해) 기울기가 0! ──▶ 스톱(Stop)│
-│                                                        │
+│ [ 공식 ] │
+│ 새로운 가중치 = 현재 가중치 - (학습률 × 손실 함수의 기울기) │
+│ W_new = W_old - ( α × ∂L / ∂W ) │
+│ │
+│ [ 하산(학습)의 과정 ] │
+│ (오차 꼭대기) │
+│ 🔴 (초기 W) 기울기가 크다! ──▶ 보폭을 크게 성큼성큼 이동 │
+│ ↘ │
+│ ↘ (중간 W) 기울기가 줄어든다 ──▶ 보폭을 점점 줄임 │
+│ ↘ │
+│ 🔴 (바닥 도달, 최적 해) 기울기가 0! ──▶ 스톱(Stop)│
+│ │
 │ * 핵심 논리: 알파(α, Learning Rate)가 너무 크면 맹인이 성큼 걷다가│
-│   반대편 산등성이로 튕겨 올라가는 발산(Overshooting) 재앙이 터지고,│
-│   너무 작으면 평생 산을 다 못 내려오고 늙어 죽는다(학습 지연).   │
+│ 반대편 산등성이로 튕겨 올라가는 발산(Overshooting) 재앙이 터지고,│
+│ 너무 작으면 평생 산을 다 못 내려오고 늙어 죽는다(학습 지연). │
 └────────────────────────────────────────────────────────┘
 ```
 
@@ -113,17 +113,17 @@ tags = ["studynote-ai"]
 
 ```text
 신경망의 가중치 최적화를 위한 해석적 수학 공식 부재 (연산량 폭발)
-    │
-    ▼
+│
+▼
 수치적 최적화 ──▶ 미분을 활용한 오리지널 경사 하강법 (Gradient Descent) 도입
-    │
-    ▼
+│
+▼
 연산 지연 및 웅덩이(Local Minimum) 갇힘 현상 ──▶ 미니배치(Mini-batch) 및 관성(Momentum) 추가
-    │
-    ▼
+│
+▼
 파라미터별 학습률 조절 필요성 ──▶ AdaGrad, RMSProp 등장
-    │
-    ▼
+│
+▼
 현존 최고 스펙의 융합 엔진 ──▶ Adam (Adaptive Moment Estimation) 옵티마이저로 생태계 통일
 ```
 

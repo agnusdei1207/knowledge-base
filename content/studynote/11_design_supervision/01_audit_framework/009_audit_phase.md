@@ -13,137 +13,137 @@ tags = ["design_supervision"]
 # 09. 감리 단계
 
 #### 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 감리 단계([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/) Phase)는 정보시스템의生命周历程(Requirements Definition → Design → Implementation)에 대응하여 配置된 要求정의 감리, 설계 감리, 종료 감리의 3단계를 의미한다.
-> 2. **가치**: 각 단계에서 발견된 문제는 다음 단계로 전파되어 증폭되는 특성이 있으므로,初期 단계에서의发现问题 및 조치야 말로 프로젝트 성공을 위한 가장 비용 효과적인 전략이다.
-> 3. **융합**: 각 감리 단계는 서로 다른檢查項目과 방법론을 要求하며, 前단계 감리 결과를 次단계 감리의.inputs으로 활용하는 연속적 피드백 구조를 형성한다.
+> 1. **본질**: 감리 단계([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/) Phase)는 정보시스템의(Requirements Definition → Design → Implementation)에 대응하여 설정된 요구정의 감리, 설계 감리, 종료 감리의 3단계를 의미한다.
+> 2. **가치**: 각 단계에서 발견된 문제는 다음 단계로 전파되어 증폭되는 특성이 있으므로,초기 단계에서의문제 및 조치야 말로 프로젝트 성공을 위한 가장 비용 효과적인 전략이다.
+> 3. **융합**: 각 감리 단계는 서로 다른과 방법론을 요구하며, 단계 감리 결과를 단계 감리의.inputs으로 활용하는 연속적 피드백 구조를 형성한다.
 
 ---
 
 ### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-[정보시스템 감리](/knowledge-base/studynote/12_it_management/05_security_compliance/187_information_system_audit/) 단계는 정보시스템이 만들어지는 물리적 과정에 대응하여 배치된 시간적框架이다. 정보시스템은まず要求을 정의하고(Requirements), 次いでそれを実装하기 위한 설계(Design)를 수행하며, 마지막으로 실제 구현(Implementation)을 통해 완성된다. 감리 단계는 이 세 가지 시점에 각각Corresponding하게 配置되어, 각 시점에서 적절한 점검을 수행하도록 설계되었다.
+[정보시스템 감리](/knowledge-base/studynote/12_it_management/05_security_compliance/187_information_system_audit/) 단계는 정보시스템이 만들어지는 물리적 과정에 대응하여 배치된 시간적프레임워크이다. 정보시스템은요구을 정의하고(Requirements), 에서을/를하기 위한 설계(Design)를 수행하며, 마지막으로 실제 구현(Implementation)을 통해 완성된다. 감리 단계는 이 세 가지 시점에 각각Corresponding하게 설정되어, 각 시점에서 적절한 점검을 수행하도록 설계되었다.
 
-이 세 단계가 중요한 이유는 各 단계에서 발생하는 문제가 subsequent 단계로 전파되어 증폭된다는 점이다. 예컨대, 要求정의 단계에서 요구사항 중복이나 누락이 발생하면, 설계 단계에서는 중복된 要求을 重複数 설계하게 되고, 구현 단계에서는 그 설계 그대로 实现되어 재작업과 일정 지연이 발생한다. 이러한 연쇄적 影响를 방지하기 위해서는 各 단계에서 체계적으로 문제를 발견하고 조치하는 선제적 대응이 필수적이다.
+이 세 단계가 중요한 이유는 단계에서 발생하는 문제가 subsequent 단계로 전파되어 증폭된다는 점이다. 예컨대, 요구정의 단계에서 요구사항 중복이나 누락이 발생하면, 설계 단계에서는 중복된 요구을 수 설계하게 되고, 구현 단계에서는 그 설계 그대로 구현되어 재작업과 일정 지연이 발생한다. 이러한 연쇄적 를 방지하기 위해서는 단계에서 체계적으로 문제를 발견하고 조치하는 선제적 대응이 필수적이다.
 
-또한 감리 단계를 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하는もう一つの 중요한 이유는 책임 소재의明確化이다. 要求정의 단계 감리에서 지적된事项은 要求정의 담당자의責任이고, 설계 단계 감리에서 발견된 문제는 설계 담당자의責任이다. 만약 단계별 감리가 없었다면, 프로젝트가 완성된 후多種多样的 문제의責任所在를 찾기 어려울 것이다.
+또한 감리 단계를 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하는도의 중요한 이유는 책임 소재의이다. 요구정의 단계 감리에서 지적된은 요구정의 담당자의이고, 설계 단계 감리에서 발견된 문제는 설계 담당자의이다. 만약 단계별 감리가 없었다면, 프로젝트가 완성된 후 문제의에서를 찾기 어려울 것이다.
 
-다음 다이어그램은 [3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/)의 구조와 各 단계의 주요 업무 내용을 보여준다.
+다음 다이어그램은 [3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/)의 구조와 단계의 주요 업무 내용을 보여준다.
 
 ```text
 ┌─────────────────────────────────────────────────────────┐
-│              [3단계 감리 체계 도식]                     │
-│                                                         │
-│  [사업 Lifecycle]                                       │
-│  ┌─────────┐    ┌─────────┐    ┌─────────┐    ┌───┐  │
-│  │ 요구정의 │───▶│  설계   │───▶│  종료   │───▶│운영│  │
-│  └────┬────┘    └────┬────┘    └────┬────┘    └───┘  │
-│       │              │              │                   │
-│       ▼              ▼              ▼                   │
-│  ┌─────────┐    ┌─────────┐    ┌─────────┐            │
-│  │요구정의  │    │ 설계    │    │ 종료    │            │
-│  │ 감리    │    │ 감리    │    │ 감리    │            │
-│  └────┬────┘    └────┬────┘    └────┬────┘            │
-│       │              │              │                   │
-│       │  前단계     │  前단계     │                     │
-│       └──────┬──────┴──────┬──────┘                   │
-│              │     Feed-Forward & Feedback             │
-│              ▼                                      │
-│       [최종 시스템 품질 확보]                          │
+│ [3단계 감리 체계 도식] │
+│ │
+│ [사업 Lifecycle] │
+│ ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌───┐ │
+│ │ 요구정의 │───▶│ 설계 │───▶│ 종료 │───▶│운영│ │
+│ └────┬────┘ └────┬────┘ └────┬────┘ └───┘ │
+│ │ │ │ │
+│ ▼ ▼ ▼ │
+│ ┌─────────┐ ┌─────────┐ ┌─────────┐ │
+│ │요구정의 │ │ 설계 │ │ 종료 │ │
+│ │ 감리 │ │ 감리 │ │ 감리 │ │
+│ └────┬────┘ └────┬────┘ └────┬────┘ │
+│ │ │ │ │
+│ │ 단계 │ 단계 │ │
+│ └──────┬──────┴──────┬──────┘ │
+│ │ Feed-Forward & Feedback │
+│ ▼ │
+│ [최종 시스템 품질 확보] │
 └─────────────────────────────────────────────────────────┘
 ```
 
-이 도식의 핵심은 各 단계 감리가 독립적으로 존재하는 것이 아니라, 前단계 감리의 결과가 次단계에 Feed-Forward(전진 전달)되고, 次단계에서 발견된 문제가 前단계로 Feedback(피드백)되는 연속적 피드백 구조를形成한다는 점이다. 이 구조를 통해 문제의 조기 발견과 재발 방지가 가능해진다.
+이 도식의 핵심은 단계 감리가 독립적으로 존재하는 것이 아니라, 단계 감리의 결과가 단계에 Feed-Forward(전진 전달)되고, 단계에서 발견된 문제가 단계로 Feedback(피드백)되는 연속적 피드백 구조를형성한다는 점이다. 이 구조를 통해 문제의 조기 발견과 재발 방지가 가능해진다.
 
-📢 **섹션 요약 비유**: [3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/) 체제는 **'건물 건축의 3단계 검사'**와 같습니다. 기초 때cement 강도와 철근 배치를 확인하고(要求정의 감리), 벽체와 골조 시공 시 공법과 자재를 확인하며(설계 감리), 준공 시 전체 안전성과 기능을 점검하는(종료 감리) 것처럼, 각 단계에서 해당 시점의 적절한 검증을 실시하여 完成 후 문제発生을 방지합니다.
+📢 **섹션 요약 비유**: [3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/) 체제는 **'건물 건축의 3단계 검사'**와 같습니다. 기초 때cement 강도와 철근 배치를 확인하고(요구정의 감리), 벽체와 골조 시공 시 공법과 자재를 확인하며(설계 감리), 준공 시 전체 안전성과 기능을 점검하는(종료 감리) 것처럼, 각 단계에서 해당 시점의 적절한 검증을 실시하여 완료 후 문제을 방지합니다.
 
 ---
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-[3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/)各自的 주요 업무内容, 检查 항목, 그리고 注意점을 表로 정리하면 다음과 같다.
+[3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/) 주요 업무, 검사 항목, 그리고 점을 로 정리하면 다음과 같다.
 
-**[3단계 감리별 주요 업무 및 检查 항목]**
+**[3단계 감리별 주요 업무 및 검사 항목]**
 
-| 단계 | 시기 | 주요 업무 | 핵심 检查 항목 | 지적 유형 |
+| 단계 | 시기 | 주요 업무 | 핵심 검사 항목 | 지적 유형 |
 |:---|:---|:---|:---|:---|
-| **要求정의 감리** | 사업 추진 기본方向 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 시 | 요구사항 분석 적절성, 과업대비표 충실성, 사업 범위 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 적절성 | 요구사항 누락/중복, 과업대비표 미흡, 법령 요건 충족 여부 | Major (방향성 문제) |
+| **요구정의 감리** | 사업 추진 기본 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 시 | 요구사항 분석 적절성, 과업대비표 충실성, 사업 범위 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 적절성 | 요구사항 누락/중복, 과업대비표 미흡, 법령 요건 충족 여부 | Major (방향성 문제) |
 | **설계 감리** | 상세 설계 완료 후 | 아키텍처 적절성, 산출물 완결성, 테스트 계획 적절성 | 아키텍처 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/), 화면/DB 설계 미흡, [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/) 미준수 | Major ~ Minor |
 | **종료 감리** | 사업 완료 직전 | 최종 산출물 적합성, 시스템 통합/인수, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이행/[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | 구현 미흡, 테스트 부실, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 미달, 보안 취약 | 상황 따라 다양 |
 
-감리 단계별 发现問題가 subsequent 단계에 미치는 영향도를 분석한 도식이다.
+감리 단계별 문제가 subsequent 단계에 미치는 영향도를 분석한 도식이다.
 
 ```text
 [단계별 문제 전파 영향도 분석]
 
-■ 要求정의 단계 문제 (예: 핵심 요구사항 누락)
-   │
-   ├─► 설계 단계: 해당 요구사항을 설계하지 않음
-   │    └─► 구현 단계: 기능 자체가不存在
-   │         └─► 종료 감리: 대规模 재작업 필요 or 감리 불합격
-   │
-   [영향 범위: 전체 시스템]
-   [수정 비용: 10x (가장 高)]
+■ 요구정의 단계 문제 (예: 핵심 요구사항 누락)
+│
+├─► 설계 단계: 해당 요구사항을 설계하지 않음
+│ └─► 구현 단계: 기능 자체가에서
+│ └─► 종료 감리: 대 재작업 필요 or 감리 불합격
+│
+[영향 범위: 전체 시스템]
+[수정 비용: 10x (가장 )]
 
 
 ■ 설계 단계 문제 (예: 비효율적 DB 구조)
-   │
-   ├─► 구현 단계: 비효율적 구조로 구현
-   │    └─► 종료 감리: 성능 저하, 재설계 필요
-   │
-   [영향 범위: 해당 모듈 + 연관 시스템]
-   [수정 비용: 5x (中等)]
+│
+├─► 구현 단계: 비효율적 구조로 구현
+│ └─► 종료 감리: 성능 저하, 재설계 필요
+│
+[영향 범위: 해당 모듈 + 연관 시스템]
+[수정 비용: 5x ()]
 
 
 ■ 종료 단계 문제 (예: 화면 UI 불일치)
-   │
-   └─► 운영 단계: 사용 불편, 수정 요청
-        └─► 유지보수 비용 발생
-   │
-   [영향 범위: 해당 화면 only]
-   [수정 비용: 1x (가장 低)]
+│
+└─► 운영 단계: 사용 불편, 수정 요청
+└─► 유지보수 비용 발생
+│
+[영향 범위: 해당 화면 only]
+[수정 비용: 1x (가장 )]
 ```
 
-이 分析의 핵심은 上流 단계에서 발견된 문제일수록 영향 범위가広範囲이고 수정 비용이 큼다는 점이다. 要求정의 단계의 작은 누락이 종료 단계에서는 엄청난 수정 비용으로 이어질 수 있으므로, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계 감리의重要性が極めて高い.
+이 분석의 핵심은 단계에서 발견된 문제일수록 영향 범위가이고 수정 비용이 큼다는 점이다. 요구정의 단계의 작은 누락이 종료 단계에서는 엄청난 수정 비용으로 이어질 수 있으므로, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계 감리의이/가.
 
-📢 **섹션 요약 비유**: 단계별 문제의 증폭 효과는 **'종이접기 실수'**와 같습니다. 첫 번째 접을 잘못 접으면 그 오차가 열 번 접었을 때 엄청나게커지고,最後에는成品이 완전히 망가집니다. 가장 작은 실수를 earliest 단계에서 잡아내는 것이 핵심입니다.
+📢 **섹션 요약 비유**: 단계별 문제의 증폭 효과는 **'종이접기 실수'**와 같습니다. 첫 번째 접을 잘못 접으면 그 오차가 열 번 접었을 때 엄청나게커지고,에는이 완전히 망가집니다. 가장 작은 실수를 earliest 단계에서 잡아내는 것이 핵심입니다.
 
 ---
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
-[3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/) 체계와 다른 형태의 감리([애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 감리, 상주 감리 등)와의 관계를 分析해보자.
+[3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/) 체계와 다른 형태의 감리([애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 감리, 상주 감리 등)와의 관계를 분석해보자.
 
 **[3단계 감리 vs [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)/상주 감리 비교]**
 
 | 구분 | [3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/) (전통적) | [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 감리 ([애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) | 상주 감리 |
 |:---|:---|:---|:---|
 | **적용 대상** | 폭포수(Waterfall) 모델 | [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 모델 | 대규모/복잡 사업 |
-| **감리 시점** | 요구정의/설계/종료 3회 | 각 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 종료 시 (수십 회) | 全기간 상시 |
-| **检查 깊이** | 각 단계 심층 점검 | [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 결과물 즉석 점검 | 점진적 깊이 있는 점검 |
-| **장점** | 체계적, 단계별問題 집중 발견 | 빠른 피드백, 변화 대응 용이 | 문제 조기 발견, 即時 해결 |
-| **단점** | 피드백 느림, 변경 대응 어려움 | 체계성 부족, 종합적 평가 어려움 | 비용 高, 감리 인력 소진 |
+| **감리 시점** | 요구정의/설계/종료 3회 | 각 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 종료 시 (수십 회) | 기간 상시 |
+| **검사 깊이** | 각 단계 심층 점검 | [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 결과물 즉석 점검 | 점진적 깊이 있는 점검 |
+| **장점** | 체계적, 단계별문제 집중 발견 | 빠른 피드백, 변화 대응 용이 | 문제 조기 발견, 즉시 해결 |
+| **단점** | 피드백 느림, 변경 대응 어려움 | 체계성 부족, 종합적 평가 어려움 | 비용 , 감리 인력 소진 |
 
-이러한 다양한 감리 주기를 상호 보완적으로 활용하는 模型을 살펴보면 다음과 같다.
+이러한 다양한 감리 주기를 상호 보완적으로 활용하는 을 살펴보면 다음과 같다.
 
 ```text
 [Hybrid 감리 모델: 3단계 + 스프린트 감리 융합]
 
-  [프로젝트 전체 Timeline]
+[프로젝트 전체 Timeline]
 
-  │─ 要求정의 ─│─── 설계 ───┤────── 구현 ───────┤── 종료
-  │    │         │          │           │        │
-  │    ▼         ▼          │           │        ▼
-  │ [요구정의] [설계감리]    │     [스프린트 감리] [종료감리]
-  │  심층점검   심층점검     │    각 스프린트 후  전체 종합
-  │    │         │          │        │          │
-  └────┼─────────┼──────────┴────────┼──────────┴──────
-       │         │                  │          │
-       └─────────┴── 피드백 채널 ───┴──────────┘
+│─ 요구정의 ─│─── 설계 ───┤────── 구현 ───────┤── 종료
+│ │ │ │ │ │
+│ ▼ ▼ │ │ ▼
+│ [요구정의] [설계감리] │ [스프린트 감리] [종료감리]
+│ 심층점검 심층점검 │ 각 스프린트 후 전체 종합
+│ │ │ │ │ │
+└────┼─────────┼──────────┴────────┼──────────┴──────
+│ │ │ │
+└─────────┴── 피드백 채널 ───┴──────────┘
 ```
 
-이 Hybrid 모델의 핵심은 [3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/)의 체계성과 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 감리의敏捷성을 모두 확보하는 것이다. 대규모 要求정의와 설계에는 충분한 시간과 인력을 투입하여 심층 감리를 실시하고, 实现 단계에서는 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 단위로 잦은 감리를 통해 문제을 即時 발견하고 조치한다.
+이 Hybrid 모델의 핵심은 [3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/)의 체계성과 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 감리의성을 모두 확보하는 것이다. 대규모 요구정의와 설계에는 충분한 시간과 인력을 투입하여 심층 감리를 실시하고, 구현 단계에서는 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 단위로 잦은 감리를 통해 문제을 즉시 발견하고 조치한다.
 
-📢 **섹션 요약 비유**: Hybrid 감리 모델은 **'자동차 제조의 품질 관리'**와 같습니다. 엔진 개발 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 설계도를 철저히 검토하고(3단계), 양산 라인에서는 매 차체마다迅速하게检查하고([스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 감리), 完成 차는 완전 검사장에서 종합 점검하는(종료 감리) 것처럼, 各 단계에 적절한 검증을 적용합니다.
+📢 **섹션 요약 비유**: Hybrid 감리 모델은 **'자동차 제조의 품질 관리'**와 같습니다. 엔진 개발 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 설계도를 철저히 검토하고(3단계), 양산 라인에서는 매 차체마다하게검사하고([스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 감리), 완료 차는 완전 검사장에서 종합 점검하는(종료 감리) 것처럼, 단계에 적절한 검증을 적용합니다.
 
 ---
 
@@ -151,33 +151,33 @@ tags = ["design_supervision"]
 
 실제 감리 현장에서 [3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/)를 적용할 때의 판단 사례를 살펴보자.
 
-**1. 단계 건너뛰기 판단: "일정이 빠듯해서 要求정의 감리를 건너뛰어도 될까요?"**
-*   **상황**: 사업자가 "이미 충분한 사전调研를 거쳤고, 要求사항이 명확하다"고 주장하며 要求정의 감리를 생략하자고 한다.
-*   **기술사적 판단**: 要求정의 감리의 생략은 바람직하지 않다. 要求정의 감리에서 발견되는 문제(요구사항 누락, 중복, 모호함 등)는 이후 모든 단계에 전파되어 프로젝트 전체의失敗 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 높인다. 특히 계약 체결 전인 要求정의 단계에서 문제를 발견하면 사업자에게修正을 요구할 수 있지만,一旦 계약이 체결된 후에는 변경 비용이 발생한다. 因此, 要求정의 감리는 프로젝트가 본격화되기 전에 필수적으로 수행되어야 하며, 이를 생략하면 프로젝트overall의 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 크게 증가한다.
+**1. 단계 건너뛰기 판단: "일정이 빠듯해서 요구정의 감리를 건너뛰어도 될까요?"**
+* **상황**: 사업자가 "이미 충분한 사전를 거쳤고, 요구사항이 명확하다"고 주장하며 요구정의 감리를 생략하자고 한다.
+* **기술사적 판단**: 요구정의 감리의 생략은 바람직하지 않다. 요구정의 감리에서 발견되는 문제(요구사항 누락, 중복, 모호함 등)는 이후 모든 단계에 전파되어 프로젝트 전체의 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 높인다. 특히 계약 체결 전인 요구정의 단계에서 문제를 발견하면 사업자에게수정을 요구할 수 있지만, 계약이 체결된 후에는 변경 비용이 발생한다. , 요구정의 감리는 프로젝트가 본격화되기 전에 필수적으로 수행되어야 하며, 이를 생략하면 프로젝트overall의 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 크게 증가한다.
 
-**2. 단계별 지적等级 판단: "같은 종류의 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 여러 단계에서 반복됩니다"**
-*   **상황**: 要求정의 단계에서 "요구사항 추적 미흡"을 지적받았는데, 설계 감리에서도 같은 항목을 다시 지적받았다.
-*   **기술사적 판단**: 이것은 前단계 감리 지적 사항이 제대로 조치되지 않았음을示す。감리인은 2단계 감리에서 前단계 지적 사항의 조치 여부를 반드시 확인해야 한다. 如果 前단계 지적이 제대로 조치되지 않았다면, 그것 자체가 Major 지적 대상이 된다. 또한 동일한 문제가 여러 단계에서 반복되는 것은 해당 사업자의 프로세스 자체에 체계적問題가 있을 가능성이 높으므로, 제도적 개선을 권고해야 한다.
+**2. 단계별 지적 판단: "같은 종류의 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 여러 단계에서 반복됩니다"**
+* **상황**: 요구정의 단계에서 "요구사항 추적 미흡"을 지적받았는데, 설계 감리에서도 같은 항목을 다시 지적받았다.
+* **기술사적 판단**: 이것은 단계 감리 지적 사항이 제대로 조치되지 않았음을。감리인은 2단계 감리에서 단계 지적 사항의 조치 여부를 반드시 확인해야 한다. 단계 지적이 제대로 조치되지 않았다면, 그것 자체가 Major 지적 대상이 된다. 또한 동일한 문제가 여러 단계에서 반복되는 것은 해당 사업자의 프로세스 자체에 체계적문제가 있을 가능성이 높으므로, 제도적 개선을 권고해야 한다.
 
-**3. 最终 감리 선행 판단: "종료 감리 전에 자체 테스트를 더 하고 싶습니다"**
-*   **상황**: 피감리인이 "테스트가 완전히 끝나지 않았으니 종료 감리를 조금 늦춰달라"고 요청한다.
-*   **기술사적 판단**: 감리 단계는 프로젝트里程碑와 연동되므로,安易한 일정 변경은プロジェクト全体에영향을 미친다. 그러나 测试의완결성은 종료 감리의 핵심 선행 조건이므로, 충분한 논의가 필요하다. 감리인은 "종료 감리의 전제 조건으로서 테스트 완결성이 어느 정도 수준이어야 하는지"를 명확히 하고, 만약 그 수준에 미치지 못한다면 종료 감리 연기보다는 테스트완결을 위한 가이드를 제공하는 것이 더 적절한 대응이다.
+**3. 감리 선행 판단: "종료 감리 전에 자체 테스트를 더 하고 싶습니다"**
+* **상황**: 피감리인이 "테스트가 완전히 끝나지 않았으니 종료 감리를 조금 늦춰달라"고 요청한다.
+* **기술사적 판단**: 감리 단계는 프로젝트와 연동되므로,한 일정 변경은에영향을 미친다. 그러나 테스트의완결성은 종료 감리의 핵심 선행 조건이므로, 충분한 논의가 필요하다. 감리인은 "종료 감리의 전제 조건으로서 테스트 완결성이 어느 정도 수준이어야 하는지"를 명확히 하고, 만약 그 수준에 미치지 못한다면 종료 감리 연기보다는 테스트완결을 위한 가이드를 제공하는 것이 더 적절한 대응이다.
 
 ```text
-[종료 감리 선행 조건 확인 チェックリスト]
- 1. 단위 테스트 완료율 100% ?
- 2. 통합 테스트 완료 ?
- 3. 시스템 테스트 완료 ?
- 4. 성능 테스트 (TPS, 응답시간) 목표 달성 ?
- 5. 보안 취약점 조치 완료 ?
- 6. 데이터 마이그레이션 검증 완료 ?
-  → 전부 Yes: 종료 감리 실시
-  → 일부 No: 미완료 항목에 따라 연기 or 조건부 감리 결정
+[종료 감리 선행 조건 확인 ]
+1. 단위 테스트 완료율 100% ?
+2. 통합 테스트 완료 ?
+3. 시스템 테스트 완료 ?
+4. 성능 테스트 (TPS, 응답시간) 목표 달성 ?
+5. 보안 취약점 조치 완료 ?
+6. 데이터 마이그레이션 검증 완료 ?
+→ 전부 Yes: 종료 감리 실시
+→ 일부 No: 미완료 항목에 따라 연기 or 조건부 감리 결정
 ```
 
-이 判断 플로우의 핵심은 종료 감리의 선행 조건이明確に 정의되어 있어야 한다는 점이다. 조건 미달 시安易한 연기가 아닌, 구체적인 개선 방안을 제시하는 것이 감리인의 역할이다.
+이 판단 플로우의 핵심은 종료 감리의 선행 조건이에 정의되어 있어야 한다는 점이다. 조건 미달 시한 연기가 아닌, 구체적인 개선 방안을 제시하는 것이 감리인의 역할이다.
 
-📢 **섹션 요약 비유**: 단계별 지적의重复 확인은 **'교사의 학습지도'**와 같습니다. 1학기 중간고사에서 "역사 인물 연표 암기 부족"을 지적받고, 기말고사에서도 같은 항목을 다시 지적받았다면, 그 학생은 공부 방법 자체에문제가 있는 것입니다. 교사는 단순히 채점하는 것이 아니라, 학습 方法을 지도해야 하듯이, 감리인도 재발 방지를 위한 프로세스 개선을Guidance해야 합니다.
+📢 **섹션 요약 비유**: 단계별 지적의 확인은 **'교사의 학습지도'**와 같습니다. 1학기 중간고사에서 "역사 인물 연표 암기 부족"을 지적받고, 기말고사에서도 같은 항목을 다시 지적받았다면, 그 학생은 공부 방법 자체에문제가 있는 것입니다. 교사는 단순히 채점하는 것이 아니라, 학습 방법을 지도해야 하듯이, 감리인도 재발 방지를 위한 프로세스 개선을Guidance해야 합니다.
 
 ---
 
@@ -187,49 +187,49 @@ tags = ["design_supervision"]
 
 | 기대 효과 | 세부 내용 | 측정 지표 |
 |:---|:---|:---|
-| **단계별問題 조기 발견** |上流 단계에서 문제를 발견하여 증폭防止 | 要求정의 단계 발견率 30% 이상 |
+| **단계별문제 조기 발견** | 단계에서 문제를 발견하여 증폭방지 | 요구정의 단계 발견 30% 이상 |
 | **프로젝트 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 감소** | 단계별 감리로 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 누적되기 전에 조치 | 프로젝트 실패율 20% 이상 감소 |
 | **책임 소재 명확화** | 단계별 감리로 문제 책임시기/담당자 명확 | 분쟁 건수 40% 이상 감소 |
 | **프로젝트 성숙도 향상** | 단계별 피드백으로 사업자 프로세스 개선 | 사업자 자체 품질 관리 수준 향상 |
 
 **미래 전망:**
-미래에는 [3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/) 체계가 더욱 유연하게 진화할 전망이다. [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 방법론의 확산에 따라 3단계(要求정의/설계/종료)의 区切り이 희석되고, [Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)/[Continuous Deployment](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/165_continuous_deployment/) ([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)에 기반한持续적 감리(Continuous [Auditing](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/))로의 전환이加速되고 있다. 그러나 여전히 要求정의와 설계의 기본框架는 유지되므로, [3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/)의核心精神(단계별 평가, 피드백循环)은在未来에도유지될 것으로 예상된다.
+미래에는 [3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/) 체계가 더욱 유연하게 진화할 전망이다. [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 방법론의 확산에 따라 3단계(요구정의/설계/종료)의 이 희석되고, [Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)/[Continuous Deployment](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/165_continuous_deployment/) ([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)에 기반한지속적적 감리(Continuous [Auditing](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/))로의 전환이되고 있다. 그러나 여전히 요구정의와 설계의 기본프레임워크는 유지되므로, [3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/)의핵심(단계별 평가, 피드백)은에서에도유지될 것으로 예상된다.
 
-📢 **섹션 요약 비유**: 미래의 감리 단계 진화는 **'음식 조리법의 변화'**와 같습니다. 예전에는 recipe대로 재료를 준비하고(要求정의), 소스을 만들고(설계), finally 요리를 완성하는(종료) 3단계로 명확했으나, 이제는 조리過程에서随时 재료를追加하고([스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 감리), Oven의sensor가 자동으로 완성도를 판단하는([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 감리) 것처럼, 基本精神은 유지하되 방법이高度화될 것입니다.
+📢 **섹션 요약 비유**: 미래의 감리 단계 진화는 **'음식 조리법의 변화'**와 같습니다. 예전에는 recipe대로 재료를 준비하고(요구정의), 소스을 만들고(설계), finally 요리를 완성하는(종료) 3단계로 명확했으나, 이제는 조리에서 재료를추가하고([스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 감리), Oven의sensor가 자동으로 완성도를 판단하는([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 감리) 것처럼, 은 유지하되 방법이화될 것입니다.
 
 ---
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-*   要求정의 감리 (Requirements Definition [Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) | 사업의 基本方向과 要求사항의 적절성을 점검하는 初期 감리
-*   설계 감리 (Design [Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) | 아키텍처 및 상세 설계의 적절성을 점검하는 中間 감리
-*   종료 감리 (Final [Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) | 최종 산출물과 시스템 전체의 적합성을 점검하는 完成 후 감리
-*   Feed-Forward | 前단계 감리 결과를 次단계에 전달하여問題事前防止하는 방식
-*   Feedback | 次단계에서 발견된 문제를 前단계에 반영하여プロセス改善に繋げる 방식
+* 요구정의 감리 (Requirements Definition [Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) | 사업의 과 요구사항의 적절성을 점검하는 초기 감리
+* 설계 감리 (Design [Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) | 아키텍처 및 상세 설계의 적절성을 점검하는 감리
+* 종료 감리 (Final [Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) | 최종 산출물과 시스템 전체의 적합성을 점검하는 완료 후 감리
+* Feed-Forward | 단계 감리 결과를 단계에 전달하여문제방지하는 방식
+* Feedback | 단계에서 발견된 문제를 단계에 반영하여프로세스개선에 방식
 
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
 [감리 계획 수립]
-    │
-    ▼
+│
+▼
 [착수 단계]
-    │
-    ▼
+│
+▼
 [중간 단계(진도·품질 점검)]
-    │
-    ▼
+│
+▼
 [종료 단계]
-    │
-    ▼
+│
+▼
 [감리 보고서 및 사후 관리]
 ```
 
 감리 단계는 계획에서 착수·중간·종료·사후 관리로 이어지는 품질 점검 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. **개념**: 감리 3단계는 우리 반 친구들과 레고 작품 compet到的 것과 같아요. 먼저 "무엇을 만들지" خطة을 세우고(要求정의), 次いで "어떻게 만들지" 그림을 그리고(설계), 마지막으로 실제 레고를 组み上げる(종료) 거예요.
-2. **원리**: 각 단계 끝에서 선생님(감리인)이 잘하고 있는지 점검해요. 그림纸上 잘못된 부분이 있으면 바로 고치고, 완성 후发现问题을 수정하는 것보다 훨씬 쉬우며, 비용도 적게 들어요.
-3. **효과**: 각 단계에서コツまめに检查하면 最后에 完成된 레고 작품이 튼튼하고 예쁘게 만들어지며,重新 만들거나 修改해야 하는 상황이 줄어들어요!
+1. **개념**: 감리 3단계는 우리 반 친구들과 레고 작품 compet 것과 같아요. 먼저 "무엇을 만들지" خطة을 세우고(요구정의), 에서 "어떻게 만들지" 그림을 그리고(설계), 마지막으로 실제 레고를 (종료) 거예요.
+2. **원리**: 각 단계 끝에서 선생님(감리인)이 잘하고 있는지 점검해요. 그림 잘못된 부분이 있으면 바로 고치고, 완성 후문제을 수정하는 것보다 훨씬 쉬우며, 비용도 적게 들어요.
+3. **효과**: 각 단계에서에검사하면 에 완료된 레고 작품이 튼튼하고 예쁘게 만들어지며, 만들거나 해야 하는 상황이 줄어들어요!
 
 ---
 

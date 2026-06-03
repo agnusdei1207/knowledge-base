@@ -19,19 +19,19 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 데이터나 소프트웨어가 생성된 후, 전달/보관 과정에서任何人에 의해 변경되지 않았음을数学적으로 보장하는 메커니즘이다.チェックサムはデータの"指纹"を提供し、디지털 서명은 데이터의 출처까지保証한다.
+- **개념**: [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 데이터나 소프트웨어가 생성된 후, 전달/보관 과정에서에 의해 변경되지 않았음을수적으로 보장하는 메커니즘이다.은/는데이터의""을/를제공、디지털 서명은 데이터의 출처까지한다.
 
-- **필요성**: 인터넷에서 소프트웨어를 다운로드하거나, 빌드 산출물을 배포할 때, 공격자가Middleware에 침투하여 악성 코드를 삽입할 수 있다. 사용자가 이를 감지하지 못하고 설치하면, 시스템이 Compromised된다. [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)과 서명은 이러한Man-in-the-Middle 공격이나 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 침입으로 인한 변조를検出할 수 있게 해준다.
+- **필요성**: 인터넷에서 소프트웨어를 다운로드하거나, 빌드 산출물을 배포할 때, 공격자가Middleware에 침투하여 악성 코드를 삽입할 수 있다. 사용자가 이를 감지하지 못하고 설치하면, 시스템이 Compromised된다. [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)과 서명은 이러한Man-in-the-Middle 공격이나 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 침입으로 인한 변조를할 수 있게 해준다.
 
-- **💡 비유**: [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 **'국제 특급 우편의 안전 봉투'**와 같다. 중요한 문서를 보낼 때, 봉투에 热膨胀箔を張り付けて 내용을密封하고, 수신인이箔の完整性을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하여 문서가 도중에開かれ거나 변조되지 않았음을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다. 만약箔가 찢어져 있으면 누군가 내용을 열었다는 것을 알 수 있어, 수신인은 해당 배송을 거부하거나 추가 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 절차를 밟는다.
+- **💡 비유**: [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 **'국제 특급 우편의 안전 봉투'**와 같다. 중요한 문서를 보낼 때, 봉투에 을/를 내용을하고, 수신인이의을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하여 문서가 도중에이나거나 변조되지 않았음을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다. 만약가 찢어져 있으면 누군가 내용을 열었다는 것을 알 수 있어, 수신인은 해당 배송을 거부하거나 추가 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 절차를 밟는다.
 
 - **등장 배경 및 발전 과정**:
-  1. **1990년대**:初期 인터넷에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)을 위해 [MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/), SHA-1 활용
-  2. **2000년대**: [코드 서명](/knowledge-base/studynote/09_security/04_endpoint_security/188_code_signing_software_authentication/)(Codesigning) 기술 성숙
-  3. **2010년대**: [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 프로젝트의 릴리스에 GPG 서명 일반화
-  4. **2021년 이후**: SolarWinds, Codecov 공격을 계기로 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 보안의 핵심 요소로 부각
+1. **1990년대**:초기 인터넷에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)을 위해 [MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/), SHA-1 활용
+2. **2000년대**: [코드 서명](/knowledge-base/studynote/09_security/04_endpoint_security/188_code_signing_software_authentication/)(Codesigning) 기술 성숙
+3. **2010년대**: [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 프로젝트의 릴리스에 GPG 서명 일반화
+4. **2021년 이후**: SolarWinds, Codecov 공격을 계기로 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 보안의 핵심 요소로 부각
 
-- **📢 섹션 요약 비유**: [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)과 서명은 **'여권脸上的 政府発行 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 필적'**과 같다. 여권에는 政府가発行자임을証明하는 특수 필적(디지털 서명)이 있어, 여권의 内容이 Government発而不是其他人가 위조했음을保証한다. 마찬가지로 소프트웨어도 개발자/공급업체가 서명한 것임을 cryptographic하게検証할 수 있다.
+- **📢 섹션 요약 비유**: [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)과 서명은 **'여권 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 필적'**과 같다. 여권에는 가자임을하는 특수 필적(디지털 서명)이 있어, 여권의 이 Government가 위조했음을한다. 마찬가지로 소프트웨어도 개발자/공급업체가 서명한 것임을 cryptographic하게할 수 있다.
 
 ---
 
@@ -39,14 +39,14 @@ tags = ["studynote-software-engineering"]
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                  체크섬(Checksum), 서명(Si                        │
+│ 체크섬(Checksum), 서명(Si │
 ├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
+│ │
+│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
+│ │ │ │ │
+│ ▼ ▼ ▼ │
+│ 요구 분석 설계·적용 품질 검증 │
+│ │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -147,17 +147,17 @@ tags = ["studynote-software-engineering"]
 
 ```text
 소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
+│
+▼
 체크섬(Checksum), 서명(Signature)을 통한 무결성(Integrity) 검증 개념 정립
-    │
-    ▼
+│
+▼
 표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
+│
+▼
 클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
+│
+▼
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
