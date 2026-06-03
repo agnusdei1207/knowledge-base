@@ -199,7 +199,18 @@ plugins:
         GitHub: https://github.com/jackyzha0/quartz
         Discord Community: https://discord.gg/cRFFHYye7t
   - source: github:quartz-community/recent-notes
-    enabled: false
+    enabled: true
+    options:
+      title: "최신 업데이트 문서"
+      limit: 5
+      linkToMore: false
+      showTags: true
+      hideTagPages: true
+      hideFolderPages: true
+    layout:
+      position: right
+      priority: 40
+      condition: all
   - source: github:quartz-community/spacer
     enabled: true
     options: {}

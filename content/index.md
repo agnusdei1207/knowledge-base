@@ -49,20 +49,20 @@ graph TD
 
 ## ⚡ 4대 영역 바로가기
 
-### 🏢 **[[work/_index|Work (기업 업무 허브)]]**
+### 🏢 **[[work/index|Work (기업 업무 허브)]]**
 *   **목적:** 회사 비즈니스, 프로젝트 관리, 개발 스택 및 시스템 인프라 아키이빙.
 *   **주요 문서:** `[[business|사업기획]]`, `[[projects|프로젝트현황]]`, `[[development|기술개발]]`, `[[operations|운영관리]]`, `[[sales|영업자료]]`.
 *   **시스템 관리:** `[[claude-code-mcp|AI Ops]]`, `[[knowledge-pipeline|검색 파이프라인]]`, `[[decap-cms|CMS 가이드]]`.
 
-### 🏠 **[[personal/_index|Personal (개인 서재 & 로그)]]**
+### 🏠 **[[personal/index|Personal (개인 서재 & 로그)]]**
 *   **목적:** 지극히 개인적인 일상, 성장 기록, 취미, 재정 계획을 관리하는 안식처.
 *   **주요 문서:** `[[journal|데일리저널]]`, `[[life-goals|인생목표]]`, `[[finances|자산플래너]]`, `[[hobby|취미&독서]]`.
 
-### 🎓 **[[study/_index|Study (학습 허브)]]**
+### 🎓 **[[study/index|Study (학습 허브)]]**
 *   **목적:** 방대한 스터디 노트를 마스터하는 **읽기 중심** 공간.
-*   **주요 문서:** `[[study/_index]]`.
+*   **주요 문서:** `[[study/index]]`.
 
-### 🔬 **[[r-and-d/_index|R&D (연구 개발 허브)]]**
+### 🔬 **[[r-and-d/index|R&D (연구 개발 허브)]]**
 *   **목적:** 검색, RAG, 문서 자동화, 에이전트 협업 등 **연구개발 가설과 실험**을 다루는 **쓰기 중심** 공간.
 *   **주요 문서:** `[[r-and-d|R&D 가설 허브]]`, `[[r-and-d-roadmap|R&D 로드맵]]`, `[[n-gram-linker|N-gram 링커]]`, `[[graph-databases|Graph DB 비교]]`.
 

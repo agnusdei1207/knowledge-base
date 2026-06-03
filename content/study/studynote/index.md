@@ -6,7 +6,7 @@ tags:
 ---
 # 🏆 Study Note
 
-[ 🌌 [[index|종합 지식 포털]] ] > [ 🎓 [[study/_index|Study 허브]] ] > **🏆 Study Note**
+[ 🌌 [[index|종합 지식 포털]] ] > [ 🎓 [[study/index|Study 허브]] ] > **🏆 Study Note**
 
 ---
 
