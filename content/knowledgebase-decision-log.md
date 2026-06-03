@@ -7,6 +7,10 @@
 - [[quartz-deployment]]
 - [[business]]
 - [[r-and-d]]
+- [[hermes-architecture]]
+- [[hermes-agent]]
+- [[hermes-pipeline]]
+- [[decap-cms]]
 
 ---
 
@@ -97,7 +101,7 @@
 
 - 작성 원본: Markdown
 - 작성 공간: `content/`
-- 링크 방식: Foam/위키링크(`[[문서명]]`)
+- 링크 방식: 위키링크(`[[문서명]]`)
 - 형상관리: GitHub
 - 웹 퍼블리싱: Quartz
 - 자동 배포: GitHub Actions
@@ -237,3 +241,22 @@ AI 에이전트는 Quartz 엔진을 수정하는 존재가 아닙니다.
 - 기술적 유연성을 잃지 않는다
 
 이게 현재 시점에서 가장 실용적인 선택이었습니다.
+
+---
+
+## 8. 다음 단계에서 무엇을 붙일 것인가
+
+현재 구조는 "원본 Markdown + Git + Quartz"까지만 확정되어 있습니다.
+
+하지만 직원 수가 늘고, 비개발자 편집 비중이 높아지고, 에이전트 접속 방식까지 표준화하려면 다음 계층이 추가로 필요합니다.
+
+- 웹 편집 계층: [[decap-cms]]
+- 에이전트 접속 계층: [[hermes-architecture]]
+- Hermes Agent 런타임: [[hermes-agent]]
+- 검색/인덱싱 파생 계층: [[hermes-pipeline]]
+
+중요한 원칙은 하나입니다.
+
+**원본은 계속 Markdown과 Git에 두고, 검색 인덱스와 AI 연결 계층은 모두 파생 계층으로 붙인다.**
+
+이 원칙을 지키면 기능을 고도화해도 원본 자산과 운영 복잡도를 방어할 수 있습니다.

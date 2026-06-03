@@ -24,3 +24,13 @@
 
 *   **Claude API (Anthropic):** 고도의 비즈니스 로직 분석 및 코드 생성을 위한 사내 공식 LLM 파트너.
 *   **LangChain / LlamaIndex:** AI 에이전트 워크플로우를 빌드하기 위한 오케스트레이션 프레임워크.
+*   **Model Context Protocol (MCP):** 에이전트가 CLI나 특정 IDE에 종속되지 않고 외부 시스템과 연결되도록 만드는 표준 인터페이스.
+*   **Claude Code:** 코드와 문서를 직접 읽고 수정하며, MCP를 통해 공용 지식 툴을 호출할 수 있는 작업형 AI 클라이언트.
+
+---
+
+## 📚 지식 포털 & 편집 계층 (Knowledge UX)
+
+*   **Quartz:** Markdown 원본을 정적 웹 포털과 그래프 뷰로 렌더링하는 조회 계층.
+*   **Decap CMS:** Git 저장소를 백엔드로 사용하는 웹 편집 UI. 비개발자도 브라우저에서 Markdown을 수정하고 PR 흐름으로 올릴 수 있게 해주는 계층.
+*   **GitHub / Forgejo / Gitea:** 문서 원본, 권한, 이력, PR 승인을 담당하는 Git 포지 계층.

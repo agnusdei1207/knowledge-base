@@ -17,3 +17,19 @@ services:
       - /bin/sh
       - /workspace/scripts/serve-quartz.sh
     restart: unless-stopped
+
+  knowledgebase-mcp:
+    build:
+      context: .
+      dockerfile: docker/knowledgebase-mcp.Dockerfile
+    container_name: knowledgebase-mcp
+    ports:
+      - "8090:8090"
+    volumes:
+      - ./:/workspace:ro
+    environment:
+      - CONTENT_DIR=/workspace/content
+      - MCP_HOST=0.0.0.0
+      - MCP_PORT=8090
+      - KB_BASE_URL=http://localhost:8080
+    restart: unless-stopped

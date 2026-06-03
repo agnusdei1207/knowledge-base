@@ -7,6 +7,11 @@
 - [[r-and-d]]
 - [[operations]]
 - [[projects]]
+- [[hermes-architecture]]
+- [[hermes-agent]]
+- [[hermes-pipeline]]
+- [[claude-code-mcp]]
+- [[mcp-client-setup]]
 
 ---
 
@@ -35,6 +40,8 @@
 - 문서 chunking 기준
 - 링크 기반 탐색성
 - 검색 결과 재정렬 전략
+- 원본 Git 문서와 파생 검색 인덱스의 역할 분리
+- MCP를 통한 에이전트 공통 접속 계층 설계
 
 ### C. 배포와 운영 단순화
 
@@ -49,3 +56,8 @@
 - 기반 기술: [[tech-stack]]
 - 실험과 검증: [[r-and-d]]
 - 운영 기준: [[operations]]
+- 헤르메스 구조: [[hermes-architecture]]
+- Hermes Agent 런타임: [[hermes-agent]]
+- 데이터 흐름: [[hermes-pipeline]]
+- Claude Code + MCP: [[claude-code-mcp]]
+- 클라이언트 규격: [[mcp-client-setup]]

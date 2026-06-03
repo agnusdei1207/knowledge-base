@@ -7,6 +7,11 @@
 - [[development]]
 - [[sales]]
 - [[knowledgebase-decision-log]]
+- [[hermes-agent]]
+- [[hermes-pipeline]]
+- [[decap-cms]]
+- [[claude-code-mcp]]
+- [[mcp-client-setup]]
 
 ---
 
@@ -37,6 +42,8 @@
 - 개인 작업본에서 수정하는가
 - 수정 후 바로 commit / push 하는가
 - 공용 PC 단일 작업본 운영을 피하고 있는가
+- 웹 편집 사용자는 승인 흐름(PR/리뷰)을 따르는가
+- 검색 인덱스 장애가 나도 원본 Markdown은 안전하게 남는가
 
 ---
 
@@ -45,3 +52,8 @@
 - 배포 가이드: [[quartz-deployment]]
 - 구현 관점: [[development]]
 - 고객 대응과 전달 포인트: [[sales]]
+- Hermes Agent 운영: [[hermes-agent]]
+- 검색/적재 흐름: [[hermes-pipeline]]
+- 웹 편집 계층: [[decap-cms]]
+- Claude Code 운영안: [[claude-code-mcp]]
+- MCP 클라이언트 표준: [[mcp-client-setup]]

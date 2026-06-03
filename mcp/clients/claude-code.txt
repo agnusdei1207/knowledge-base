@@ -1,0 +1,2 @@
+claude mcp add --transport http --scope user knowledgebase http://127.0.0.1:8090/mcp
+claude mcp list
